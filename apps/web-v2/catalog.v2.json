@@ -4,7 +4,7 @@
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
   "source_index_commit_sha": "f73d047cb66648fd0ebca27209743604a4af7496",
-  "source_index_revision": "sha256:efdef36a6bf1981ce0acd101a2515831623435473bcd52c5c49f8479dbd906cc",
+  "source_index_revision": "sha256:8f63b74595fcfb2f178b6d36522ad3a98a0675fc2c4de01e26798f14774f005d",
   "source_pins": {
     "jp-002-P01": {
       "source_commit_sha": "34cb70f39f8d959e9b68cfa3a6768a74cb29de99",
@@ -253,10 +253,10 @@
       "revision": 2
     },
     "tw-001-P02": {
-      "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
+      "source_commit_sha": "c90f56712550ae46824e30684442bbc44855c9b5",
       "source_path": "data/v2/opportunities/tw-001-P02.json",
-      "source_blob_sha": "de69305a2a413208d9eb19da0d22bfc2b5638633",
-      "revision": 4
+      "source_blob_sha": "4c25ab20a6a575970fd98a4d9bc4d309454abf62",
+      "revision": 5
     },
     "tw-001-P03": {
       "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
@@ -487,10 +487,10 @@
       "revision": 1
     },
     "tw-019-P04": {
-      "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
+      "source_commit_sha": "c90f56712550ae46824e30684442bbc44855c9b5",
       "source_path": "data/v2/opportunities/tw-019-P04.json",
-      "source_blob_sha": "a1143f1507c26797888fe269022216d4397bd2e2",
-      "revision": 4
+      "source_blob_sha": "6840d8c40ac1a4c2eb274cd247d68ba82f1b4e0f",
+      "revision": 5
     },
     "tw-019-P05": {
       "source_commit_sha": "b97f7bb87a46db4a3e21922d7f6058b8b64a6385",
@@ -589,10 +589,10 @@
       "revision": 1
     },
     "tw-024-P02": {
-      "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
+      "source_commit_sha": "c90f56712550ae46824e30684442bbc44855c9b5",
       "source_path": "data/v2/opportunities/tw-024-P02.json",
-      "source_blob_sha": "15573346695a264558ee9e3a013a5351e0ef46ea",
-      "revision": 3
+      "source_blob_sha": "23b56a7d3c7b22b21fe06d85ca41f84aa909ff90",
+      "revision": 4
     },
     "tw-024-P03": {
       "source_commit_sha": "d57d40f8966631783f1385908659bd8c1b82adbd",
@@ -877,10 +877,10 @@
       "revision": 2
     },
     "tw-040-P04": {
-      "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
+      "source_commit_sha": "c90f56712550ae46824e30684442bbc44855c9b5",
       "source_path": "data/v2/opportunities/tw-040-P04.json",
-      "source_blob_sha": "6402a9248c8cd485e0cf462c6d3bd0ccf0baa5fd",
-      "revision": 4
+      "source_blob_sha": "bcbd1f6441346ce44c2a712ebca7ef39fb6dc740",
+      "revision": 5
     },
     "tw-040-P05": {
       "source_commit_sha": "d57d40f8966631783f1385908659bd8c1b82adbd",
@@ -17555,7 +17555,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-001-P02",
       "place_id": "tw-001",
-      "revision": 4,
+      "revision": 5,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "大屯山台北盆地下方雲海",
@@ -17598,7 +17598,7 @@
             "en": "Follow on-site safety guidance.",
             "ja": "現地の安全指示に従ってください。"
           },
-          "altitude_m": 1082
+          "altitude_m": 1092
         }
       ],
       "targets": [
@@ -17723,7 +17723,7 @@
             "capability": "CONDITIONS",
             "metric": "lcl_height_m_agl",
             "operator": "lt",
-            "threshold": 882,
+            "threshold": 892,
             "unit": "m",
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
@@ -17735,14 +17735,14 @@
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "雲底須低於視線（觀點 1,082 m − 200 m ＝ 882 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
-              "en": "The cloud base must sit below the sightline (viewpoint 1,082 m minus a 200 m margin = 882 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
-              "ja": "雲底が視線より低いこと（視点1,082mから200mの余裕＝882m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
+              "zh-TW": "雲底須低於視線（觀點 1,092 m − 200 m ＝ 892 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
+              "en": "The cloud base must sit below the sightline (viewpoint 1,092 m minus a 200 m margin = 892 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
+              "ja": "雲底が視線より低いこと（視点1,092mから200mの余裕＝892m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：camera_contexts.altitude_m 補 1,082 m（DEM 溯源：V1 天氣快照 tw_weather.json api_elevation，Open-Meteo Elevation API 值）；門檻 882 m ＝ 1,082 − 200（owner 公式），可複算。",
-              "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): camera_contexts.altitude_m filled with 1,082 m (DEM provenance: V1 weather snapshot tw_weather.json api_elevation, an Open-Meteo Elevation API value); threshold 882 m = 1,082 − 200 (owner formula), reproducible.",
-              "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：camera_contexts.altitude_m に1,082mを補記（DEM出所：V1気象スナップショット tw_weather.json の api_elevation、Open-Meteo Elevation API 値）；閾値882m＝1,082−200（オーナー式）で再計算可能。"
+              "zh-TW": "2026-11-06 CL-DATA-15（公開權威值校正）：大屯山主峰海拔 1,092 m（zh.wikipedia 大屯山），取代 CL-DATA-14 之 DEM 估計值 1,082 m；門檻 892 m ＝ 1,092 − 200（owner 公式），camera_contexts.altitude_m 已同步 1092。",
+              "en": "2026-11-06 CL-DATA-15 (public authoritative value correction): Mt. Datun main-peak elevation 1,092 m (zh.wikipedia Datun), replacing the CL-DATA-14 DEM estimate of 1,082 m; threshold 892 m = 1,092 - 200 (owner formula); camera_contexts.altitude_m synced to 1092.",
+              "ja": "2026-11-06 CL-DATA-15（公開権威値による校正）：大屯山主峰の標高 1,092 m（zh.wikipedia 大屯山、CL-DATA-14 の DEM 推定値 1,082 m を差し替え）；閾値 892 m ＝ 1,092 − 200（オーナー式）、camera_contexts.altitude_m は 1092 に同期。"
             }
           },
           {
@@ -28532,7 +28532,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-019-P04",
       "place_id": "tw-019",
-      "revision": 4,
+      "revision": 5,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "合歡主峰下方雲海與露出群峰",
@@ -28720,9 +28720,9 @@
               "ja": "雲底が視線より低いこと（視点3,417mから200mの余裕＝3,217m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：camera_contexts.altitude_m 補 3,417 m（DEM 溯源：V1 天氣快照 tw_weather.json elevation/api_elevation，Open-Meteo Elevation API 值）；門檻 3,217 m ＝ 3,417 − 200（owner 公式），可複算。",
-              "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): camera_contexts.altitude_m filled with 3,417 m (DEM provenance: V1 weather snapshot tw_weather.json elevation/api_elevation, an Open-Meteo Elevation API value); threshold 3,217 m = 3,417 − 200 (owner formula), reproducible.",
-              "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：camera_contexts.altitude_m に3,417mを補記（DEM出所：V1気象スナップショット tw_weather.json の elevation/api_elevation、Open-Meteo Elevation API 値）；閾値3,217m＝3,417−200（オーナー式）。"
+              "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：camera_contexts.altitude_m 補 3,417 m（DEM 溯源：V1 天氣快照 tw_weather.json elevation/api_elevation，Open-Meteo Elevation API 值）；門檻 3,217 m ＝ 3,417 − 200（owner 公式），可複算。｜CL-DATA-15 查證：合歡主峰 3,417 m 與公開權威值一致（交通部觀光署 合歡山國家森林遊樂區資料 3,417 m），維持不變。",
+              "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): camera_contexts.altitude_m filled with 3,417 m (DEM provenance: V1 weather snapshot tw_weather.json elevation/api_elevation, an Open-Meteo Elevation API value); threshold 3,217 m = 3,417 − 200 (owner formula), reproducible. | CL-DATA-15 verification: Hehuan main peak 3,417 m matches the public authoritative value (Taiwan Tourism Administration Hehuanshan National Forest Recreation Area data, 3,417 m); unchanged.",
+              "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：camera_contexts.altitude_m に3,417mを補記（DEM出所：V1気象スナップショット tw_weather.json の elevation/api_elevation、Open-Meteo Elevation API 値）；閾値3,217m＝3,417−200（オーナー式）。｜CL-DATA-15 照合：合歓主峰 3,417 m は公開権威値（台湾交通部観光署・合歓山国家森林遊楽区資料 3,417 m）と一致、変更なし。"
             }
           },
           {
@@ -34021,7 +34021,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-024-P02",
       "place_id": "tw-024",
-      "revision": 3,
+      "revision": 4,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "祝山日出雲海",
@@ -34064,7 +34064,7 @@
             "en": "Follow on-site safety guidance.",
             "ja": "現地の安全指示に従ってください。"
           },
-          "altitude_m": 2450
+          "altitude_m": 2451
         }
       ],
       "targets": [
@@ -34213,14 +34213,14 @@
             "condition_tier": "MAIN",
             "threshold_source": "formula_derived",
             "rationale_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔約 2450 m − 200 m=lt 2250 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform ~2450 m DEM - 200 m = lt 2250 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高約 2450 m − 200 m＝lt 2250 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔 2451 m − 200 m=lt 2251 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform 2451 m - 200 m = lt 2251 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高 2451 m − 200 m＝lt 2251 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔約 2450 m − 200 m=lt 2250 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform ~2450 m DEM - 200 m = lt 2250 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高約 2450 m − 200 m＝lt 2250 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔 2451 m − 200 m=lt 2251 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform 2451 m - 200 m = lt 2251 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高 2451 m − 200 m＝lt 2251 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
             }
           },
           {
@@ -34242,14 +34242,14 @@
             "condition_tier": "MAIN",
             "threshold_source": "formula_derived",
             "rationale_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔約 2450 m − 200 m=lt 2250 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform ~2450 m DEM - 200 m = lt 2250 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高約 2450 m − 200 m＝lt 2250 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔 2451 m − 200 m=lt 2251 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform 2451 m - 200 m = lt 2251 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高 2451 m − 200 m＝lt 2251 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔約 2450 m − 200 m=lt 2250 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform ~2450 m DEM - 200 m = lt 2250 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高約 2450 m − 200 m＝lt 2250 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔 2451 m − 200 m=lt 2251 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform 2451 m - 200 m = lt 2251 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高 2451 m − 200 m＝lt 2251 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
             }
           },
           {
@@ -34260,7 +34260,7 @@
             "capability": "CONDITIONS",
             "metric": "lcl_height_m_agl",
             "operator": "lt",
-            "threshold": 2250,
+            "threshold": 2251,
             "unit": "m",
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
@@ -34271,14 +34271,14 @@
             "condition_tier": "MAIN",
             "threshold_source": "computed",
             "rationale_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔約 2450 m − 200 m=lt 2250 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform ~2450 m DEM - 200 m = lt 2250 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高約 2450 m − 200 m＝lt 2250 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔 2451 m − 200 m=lt 2251 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform 2451 m - 200 m = lt 2251 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高 2451 m − 200 m＝lt 2251 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔約 2450 m − 200 m=lt 2250 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。｜CL-DATA-14 補記：camera_contexts.altitude_m 補 2,450 m（祝山觀日平台，依本條 CL-DATA-12 註記之海拔），門檻 2,250 m 可複算（DEM−200 owner 公式）。",
-              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform ~2450 m DEM - 200 m = lt 2250 m (owner formula). Semantic correction; layering parity gate exempt, documented here. | CL-DATA-14 addition: camera_contexts.altitude_m filled with 2,450 m (Zhushan sunrise platform, per this condition's CL-DATA-12 note); threshold 2,250 m reproducible (DEM-200 owner formula).",
-              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高約 2450 m − 200 m＝lt 2250 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。｜CL-DATA-14 追記：camera_contexts.altitude_m に2,450mを補記（祝山観日プラットフォーム、本条件のCL-DATA-12注記による）；閾値2,250mは再計算可能（DEM−200オーナー式）。"
+              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔 2451 m − 200 m=lt 2251 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。｜CL-DATA-14 補記：camera_contexts.altitude_m 補 2,451 m（祝山觀日平台），門檻 2,251 m 可複算（DEM−200 owner 公式）。｜CL-DATA-15 查證：祝山海拔以 owner 查證之公開權威值為準 2,451 m（阿里山林業鐵路及文化資產管理處 祝山車站海拔 2,451 m，觀日平台設於車站旁；取代 DEM 估計值 2,450 m），門檻同步 2,251 m。",
+              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform 2451 m - 200 m = lt 2251 m (owner formula). Semantic correction; layering parity gate exempt, documented here. | CL-DATA-14 addition: camera_contexts.altitude_m filled with 2,451 m (Zhushan sunrise platform); threshold 2,251 m reproducible (DEM-200 owner formula). | CL-DATA-15 verification: Zhushan elevation set to the owner-verified public authoritative value 2,451 m (Alishan Forest Railway & Cultural Heritage Office: Zhushan Station 2,451 m, sunrise platform adjacent to the station; replaces the DEM estimate 2,450 m); threshold synced to 2,251 m.",
+              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高 2451 m − 200 m＝lt 2251 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。｜CL-DATA-14 追記：camera_contexts.altitude_m に2,451mを補記（祝山観日プラットフォーム）；閾値2,251mは再計算可能（DEM−200オーナー式）。｜CL-DATA-15 照合：祝山の標高はオーナー確認済みの公開権威値 2,451 m（阿里山林業鉄路及文化資産管理処・祝山駅の標高 2,451 m、観日プラットフォームは駅の傍；DEM 推定値 2,450 m を差し替え）、閾値は 2,251 m に同期。"
             }
           },
           {
@@ -34300,14 +34300,14 @@
             "condition_tier": "MAIN",
             "threshold_source": "formula_derived",
             "rationale_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔約 2450 m − 200 m=lt 2250 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform ~2450 m DEM - 200 m = lt 2250 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高約 2450 m − 200 m＝lt 2250 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔 2451 m − 200 m=lt 2251 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform 2451 m - 200 m = lt 2251 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高 2451 m − 200 m＝lt 2251 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔約 2450 m − 200 m=lt 2250 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform ~2450 m DEM - 200 m = lt 2250 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高約 2450 m − 200 m＝lt 2250 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海語義改用雲海模板判據：RH925 ≥85%（濕層）、低雲 ≥60%（雲面低於觀點）、降水量低；中高雲不設上限。雲海層照 tw-082-P09／tw-001-P02 慣例擴充；LCL 門檻=祝山觀日平台海拔 2451 m − 200 m=lt 2251 m（owner 公式）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-06 CL-DATA-12 full audit (batch d): Cloud-sea semantics remapped to the cloud-sea template suite: RH925 >=85% (moist layer), low cloud >=60% (deck below the viewpoint), low precipitation; mid/high cloud uncapped. LCL threshold = Zhushan platform 2451 m - 200 m = lt 2251 m (owner formula). Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：雲海の意味を雲海テンプレート判定へ変更：RH925 >=85%（湿潤層）、下層雲 >=60%（雲面が展望点より低い）、降水少。中上層雲に上限なし。 LCL 閾値＝祝山展望台の標高 2451 m − 200 m＝lt 2251 m（オーナー公式）。 意味修正のため layering parity ゲートは免除。"
             }
           },
           {
@@ -47735,7 +47735,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-040-P04",
       "place_id": "tw-040",
-      "revision": 4,
+      "revision": 5,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "排雲山莊下方雲海與山稜",
@@ -47778,7 +47778,7 @@
             "en": "Follow on-site safety guidance.",
             "ja": "現地の安全指示に従ってください。"
           },
-          "altitude_m": 3468
+          "altitude_m": 3402
         }
       ],
       "targets": [
@@ -47906,7 +47906,7 @@
             "capability": "CONDITIONS",
             "metric": "lcl_height_m_agl",
             "operator": "lt",
-            "threshold": 3268,
+            "threshold": 3202,
             "unit": "m",
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
@@ -47918,14 +47918,14 @@
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "雲底須低於視線（排雲山莊觀點約 3,468 m − 200 m ＝ 約 3,268 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
-              "en": "The cloud base must sit below the sightline (Paiyun Lodge viewpoint approx. 3,468 m minus a 200 m margin = approx. 3,268 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
-              "ja": "雲底が視線より低いこと（排雲山荘の視点約3,468mから200mの余裕＝約3,268m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
+              "zh-TW": "雲底須低於視線（排雲山莊觀點 3,402 m − 200 m ＝ 3,202 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
+              "en": "The cloud base must sit below the sightline (Paiyun Lodge viewpoint 3,402 m minus a 200 m margin = 3,202 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
+              "ja": "雲底が視線より低いこと（排雲山荘の視点3,402mから200mの余裕＝3,202m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：原門檻 3,752 m 誤用玉山主峰高度（3,952 m）扣 200 m；本機會觀點為排雲山莊，高度約 3,468 m（稽查報告 photo_brief_pilot_20261106 之估計值，建議 owner 以實測高度複核），門檻修正為約 3,268 m。camera_contexts.altitude_m 已補 3468 以供複算（DEM−200 owner 公式）。",
-              "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): Previous threshold 3,752 m wrongly used the Yushan main-peak elevation (3,952 m); this opportunity's viewpoint is Paiyun Lodge at approx. 3,468 m (estimate from audit photo_brief_pilot_20261106; owner should re-verify with a measured elevation). Threshold corrected to approx. 3,268 m. camera_contexts.altitude_m is now filled with 3468 for reproducibility (DEM-200 owner formula).",
-              "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：旧閾値3,752mは玉山主峰高度（3,952m）の誤用。本機会の視点は排雲山荘（約3,468m、監査 photo_brief_pilot_20261106 の推定値、実測での再確認を推奨）。閾値を約3,268mに修正。camera_contexts.altitude_m に3468を補記（DEM−200オーナー式）。"
+              "zh-TW": "2026-11-06 CL-DATA-15（owner 查證校正）：排雲山莊海拔以 owner 查證之公開權威值為準 3,402 m（zh.wikipedia 排雲山莊／台灣登山申請一站式服務網；取代 CL-DATA-14 稽查估計值 3,468 m）；LCL 門檻 ＝ 3,402 − 200 ＝ 3,202 m（owner 公式），camera_contexts.altitude_m 已同步 3402。",
+              "en": "2026-11-06 CL-DATA-15 (owner-verified correction): Paiyun Lodge elevation set to the owner-verified public authoritative value 3,402 m (zh.wikipedia Paiyun Lodge / Taiwan Mountain Application one-stop service site; replaces the CL-DATA-14 audit estimate of 3,468 m); LCL threshold = 3,402 - 200 = 3,202 m (owner formula); camera_contexts.altitude_m synced to 3402.",
+              "ja": "2026-11-06 CL-DATA-15（オーナー確認による校正）：排雲山荘の標高はオーナー確認済みの公開権威値 3,402 m（zh.wikipedia 排雲山荘／台湾登山申請ワンストップサービス網、CL-DATA-14 の推定値 3,468 m を差し替え）；LCL 閾値 ＝ 3,402 − 200 ＝ 3,202 m（オーナー式）、camera_contexts.altitude_m は 3402 に同期。"
             }
           },
           {

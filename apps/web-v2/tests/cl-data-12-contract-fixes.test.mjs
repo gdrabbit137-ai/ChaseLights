@@ -86,7 +86,7 @@ test('CL-DATA-12 D: 祝山日出雲海 is cloud_sea behind a REQUIRED sunrise wi
   assert.equal(sr.role, 'REQUIRED');
   assert.equal(sr.condition_tier, 'MAIN');
   const cs = conds('tw-024-P02');
-  assert.equal(cs.find(c => c.metric === 'lcl_height_m_agl').threshold, 2250);
+  assert.equal(cs.find(c => c.metric === 'lcl_height_m_agl').threshold, 2251); // CL-DATA-15: Zhushan 2,451 m (owner-verified) - 200
   assert.equal(cs.find(c => c.metric === 'cloud_cover_low').operator, 'gte');
   assert.ok(cs.some(c => c.metric === 'light_window'), 'cloud sea carries light_window');
 });

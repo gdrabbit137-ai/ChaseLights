@@ -1,8 +1,9 @@
 // CL-DATA-14: 委託書稽查數值修正 (CL-PHOTO-02 photo_brief_pilot_20261106 findings).
 //
 // Pins:
-// 1. tw-040-P04 排雲山莊 LCL threshold 3268 (viewpoint altitude 3468 - 200;
-//    the old 3752 wrongly used the Yushan main-peak elevation);
+// 1. tw-040-P04 排雲山莊 LCL threshold 3202 (viewpoint altitude 3402 - 200;
+//    owner-verified public authoritative value; the old 3752 wrongly used the
+//    Yushan main-peak elevation);
 // 2. all four LCL cloud-sea opportunities carry camera_contexts.altitude_m
 //    (DEM provenance: V1 snapshot api_elevation, DEM-200 owner formula);
 // 3. tw-086-P03 AOD binding is cams_global (GFS has no measured AOD field);
@@ -27,16 +28,16 @@ function conds(oid) {
   return loadContract(oid).condition_contract.conditions;
 }
 
-test('CL-DATA-14: tw-040-P04 LCL threshold is the Paiyun Lodge DEM-200 value (3268)', () => {
+test('CL-DATA-14: tw-040-P04 LCL threshold is the Paiyun Lodge DEM-200 value (3202, owner-verified 3402)', () => {
   const doc = loadContract('tw-040-P04');
   const c = doc.condition_contract.conditions.find(x => x.metric === 'lcl_height_m_agl');
   assert.ok(c, 'LCL condition present');
-  assert.equal(c.threshold, 3268);
+  assert.equal(c.threshold, 3202);
   assert.equal(c.threshold_source, 'computed');
-  assert.equal(doc.camera_contexts[0].altitude_m, 3468);
+  assert.equal(doc.camera_contexts[0].altitude_m, 3402);
   const note = c.notes_i18n?.['zh-TW'] || '';
   assert.ok(note.includes('CL-DATA-14'), 'revision note cites CL-DATA-14');
-  assert.ok(note.includes('3,468') && note.includes('DEM'), 'note carries DEM provenance');
+  assert.ok(note.includes('CL-DATA-15') && note.includes('3,402'), 'note carries owner-verified elevation provenance');
   for (const lang of ['zh-TW', 'en', 'ja']) {
     assert.ok(c.rationale_i18n?.[lang], `rationale ${lang}`);
     assert.ok(c.notes_i18n?.[lang], `note ${lang}`);
@@ -44,8 +45,8 @@ test('CL-DATA-14: tw-040-P04 LCL threshold is the Paiyun Lodge DEM-200 value (32
 });
 
 test('CL-DATA-14: the four LCL opportunities carry camera_contexts.altitude_m', () => {
-  for (const [oid, alt] of [['tw-001-P02', 1082], ['tw-019-P04', 3417],
-                            ['tw-024-P02', 2450], ['tw-040-P04', 3468]]) {
+  for (const [oid, alt] of [['tw-001-P02', 1092], ['tw-019-P04', 3417],
+                            ['tw-024-P02', 2451], ['tw-040-P04', 3402]]) {
     const doc = loadContract(oid);
     assert.equal(doc.camera_contexts[0].altitude_m, alt, `${oid} altitude_m`);
     const lcl = doc.condition_contract.conditions.find(x => x.metric === 'lcl_height_m_agl');
