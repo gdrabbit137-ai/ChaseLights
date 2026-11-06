@@ -59,6 +59,12 @@ def resolve_pointer(document, pointer):
 
 def expected_paths(document):
     paths = dict(BASE_PATHS)
+    # CL-DATA-18: gap rows follow the record's actual gaps (GEOMETRY_GAP was
+    # resolved for tw-026-P01/P02, so a second gap row no longer exists).
+    for key in [k for k in paths if k.startswith("research-gap-")]:
+        index = int(key.rsplit("-", 1)[1]) - 1  # research-gap-N -> gaps[N-1]
+        if index >= len(document["readiness"]["gaps"]):
+            del paths[key]
     for number, _ in enumerate(document["condition_contract"]["conditions"], start=1):
         root = f"/condition_contract/conditions/{number - 1}"
         paths[f"condition-{number}"] = root
@@ -191,7 +197,11 @@ class CrosswalkGate(unittest.TestCase):
                 self.assertEqual(oid, doc["opportunity_id"])
                 self.assertEqual("2.1.0", doc["schema_version"])
                 self.assertEqual("R1", doc["readiness"]["research_level"])
-                self.assertEqual(["GEOMETRY_GAP", "RESEARCH_GAP"], doc["readiness"]["gaps"])
+                # CL-DATA-18 re-anchor: tw-026-P01/P02 GEOMETRY_GAP resolved by
+                # AI-verified fills; tw-016-P01 keeps the honest geometry gap.
+                expected_gaps = (["RESEARCH_GAP"] if oid != "tw-016-P01"
+                                 else ["GEOMETRY_GAP", "RESEARCH_GAP"])
+                self.assertEqual(expected_gaps, doc["readiness"]["gaps"])
                 self.assertNotIn("runtime_availability", doc["readiness"])
                 self.assertNotEqual("approved", doc["lifecycle_status"])
                 claims = {c["claim_id"] for c in doc["evidence_claims"]}
@@ -220,11 +230,28 @@ class CrosswalkGate(unittest.TestCase):
                     self.assertTrue(set(cam["evidence_refs"]) <= self.evidence_ids)
                     if cam["geometry"]["status"] == "unknown":
                         self.assertIsNone(cam["geometry"].get("geojson"))
+                    if cam["geometry"]["status"] == "derived":
+                        # CL-DATA-18 reform: AI-verified fill must carry complete
+                        # provenance (sibling ref + source URL + date in
+                        # derivation_method); gate stays as admission control.
+                        self.assertIsNotNone(cam["geometry"].get("geojson"))
+                        dm = cam["geometry"].get("derivation_method") or ""
+                        self.assertIn("CL-DATA-18", dm)
+                        self.assertIn("2026-11-06", dm)
+                        self.assertIn("https://", dm)
+                        self.assertEqual("representative", cam["verification_status"])
                 for nav in doc["navigation_targets"]:
                     self.assertTrue(set(nav["evidence_refs"]) <= self.evidence_ids)
                     if nav["status"] == "needs_review":
-                        self.assertIsNone(nav.get("lat"))
-                        self.assertIsNone(nav.get("lon"))
+                        # CL-DATA-18: coordinates of the viewpoint itself may be
+                        # AI-verified (provenance in evidence_refs); 'verified'
+                        # status still requires review — never shipped.
+                        if nav.get("lat") is not None or nav.get("lon") is not None:
+                            self.assertEqual("low", nav.get("confidence"))
+                            self.assertTrue(nav.get("evidence_refs"))
+                            self.assertIn("AI-verification", doc["provenance"]["reviewed_by"])
+                    if nav["status"] == "verified":
+                        raise AssertionError("needs_review was promoted: " + oid)
                 for condition in doc["condition_contract"]["conditions"]:
                     self.assertIn(condition["role"], ("REQUIRED", "BLOCKER", "QUALITY"))
                     self.assertIn(condition["evaluation_mode"], ("AUTO", "GUIDANCE", "VERIFY"))

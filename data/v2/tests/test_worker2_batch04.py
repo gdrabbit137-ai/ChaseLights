@@ -2,7 +2,15 @@
 
 All five new legacy IDs are tested for actual Draft2020-12 schema validity,
 same-text Crosswalk, scoped source evidence and explicit non-live unknowns.
-This does NOT confer human review, site permission, GPS or live forecastability.
+
+CL-DATA-18 human-review gate reform (owner ruling 2026-11-06): the former
+human-review precondition is REPLACED by AI verification — a change to a
+human-review/byte-pinned geometry or light-window field is admitted when its
+provenance is complete (authoritative source URL + verification date +
+derivation_method marker, recorded in provenance.reviewed_by). The gate itself
+is RETAINED as a provenance admission control: fills without complete
+provenance are rejected (see data/v2/tests/test_cl_data_18_ai_verification_gate.py
+and the re-anchored assertions below). Validation/calibration stays provisional.
 """
 import json
 from pathlib import Path
@@ -12,6 +20,9 @@ from jsonschema import Draft202012Validator, FormatChecker
 ROOT = Path(__file__).resolve().parents[3]
 DATA = ROOT / "data/v2"
 IDS = ("tw-082-P01", "tw-036-P01", "tw-034-P02", "jp-010-P01", "us-071-P01")
+# CL-DATA-18: these five had their geometry gap filled by AI verification with
+# authoritative source URL + date (owner ruling 2026-11-06 gate reform).
+AI_VERIFIED_GEOMETRY = set(IDS)
 LANGS = ("zh-TW", "en", "ja")
 EXPECTED = {
     # 2026-11-02 owner ruling: the four xlsx-rebuilt subjects (tw-082/tw-034/
@@ -92,8 +103,14 @@ class Batch04Gate(unittest.TestCase):
 
     def test_02_sources_and_all_references_are_declared_with_narrow_scope(self):
         sources = {s["id"]: s for s in self.audit["source_records"]}
-        self.assertEqual(9, len(sources))
+        # CL-DATA-18: +5 AI-verified coordinate sources (URL + date required).
+        self.assertEqual(14, len(sources))
         self.assertEqual(set(IDS), set(self.audit["canonical_opportunity_ids"]))
+        for sid in ("b04c-tw034", "b04c-tw036", "b04c-tw082", "b04c-jp010", "b04c-us071"):
+            src = sources[sid]
+            self.assertTrue(src["url"].startswith("https://"), sid)
+            self.assertTrue(src["date"], sid)
+            self.assertTrue(src["limits"], sid)
         for id_, doc in self.docs.items():
             with self.subTest(id=id_):
                 claims = {c["claim_id"]: c for c in doc["evidence_claims"]}
@@ -102,7 +119,9 @@ class Batch04Gate(unittest.TestCase):
                 for claim in claims.values():
                     self.assertTrue(set(claim["evidence_refs"]).issubset(sources))
                 self.assertEqual("OK", claims[f"{id_}-existence"]["audit_status"])
-                self.assertEqual("PARTIAL", claims[f"{id_}-camera"]["audit_status"])
+                # CL-DATA-18 re-anchor: camera claim is AI-verified OK.
+                self.assertEqual("OK", claims[f"{id_}-camera"]["audit_status"])
+                self.assertIn("AI-verified 2026-11-06", claims[f"{id_}-camera"]["scope_note"])
                 self.assertEqual("UNKNOWN", claims[f"{id_}-navigation"]["audit_status"])
                 for name in ("camera_contexts", "targets", "observation_relations", "navigation_targets"):
                     for item in doc[name]:
@@ -117,20 +136,41 @@ class Batch04Gate(unittest.TestCase):
         for id_, doc in self.docs.items():
             with self.subTest(id=id_):
                 self.assertEqual("R1", doc["readiness"]["research_level"])
-                self.assertEqual(["GEOMETRY_GAP", "RESEARCH_GAP"], doc["readiness"]["gaps"])
+                # CL-DATA-18 re-anchor: GEOMETRY_GAP resolved by AI-verified fills.
+                self.assertEqual(["RESEARCH_GAP"], doc["readiness"]["gaps"])
                 self.assertEqual("evidence_review", doc["lifecycle_status"])
-                self.assertEqual("pending", doc["provenance"]["review_status"])
+                self.assertEqual("reviewed", doc["provenance"]["review_status"])
+                self.assertIn("AI-verification 2026-11-06", doc["provenance"]["reviewed_by"])
                 for camera in doc["camera_contexts"]:
-                    self.assertEqual("unknown", camera["geometry"]["status"])
-                    self.assertIsNone(camera["geometry"]["geojson"])
-                    self.assertNotEqual("verified", camera["verification_status"])
+                    if id_ in AI_VERIFIED_GEOMETRY:
+                        # CL-DATA-18 reform: AI-verified fill with complete
+                        # provenance (source URL + date in derivation_method).
+                        self.assertEqual("derived", camera["geometry"]["status"])
+                        self.assertEqual("Point", camera["geometry"]["geojson"]["type"])
+                        dm = camera["geometry"]["derivation_method"]
+                        self.assertIn("CL-DATA-18", dm)
+                        self.assertIn("2026-11-06", dm)
+                        self.assertIn("https://", dm)
+                        self.assertEqual("representative", camera["verification_status"])
+                    else:
+                        self.assertEqual("unknown", camera["geometry"]["status"])
+                        self.assertIsNone(camera["geometry"]["geojson"])
+                        self.assertNotEqual("verified", camera["verification_status"])
                     for lang in LANGS:
                         self.assertTrue(camera["access_notes_i18n"][lang].strip())
                         self.assertTrue(camera["safety_notes_i18n"][lang].strip())
                 for nav in doc["navigation_targets"]:
                     self.assertEqual("needs_review", nav["status"])
-                    self.assertIsNone(nav["lat"])
-                    self.assertIsNone(nav["lon"])
+                    if id_ in AI_VERIFIED_GEOMETRY:
+                        # Coordinates of the viewpoint itself are AI-verified;
+                        # arrival-route semantics stay needs_review.
+                        self.assertIsNotNone(nav["lat"])
+                        self.assertIsNotNone(nav["lon"])
+                        self.assertTrue(nav["evidence_refs"])
+                        self.assertEqual("low", nav["confidence"])
+                    else:
+                        self.assertIsNone(nav["lat"])
+                        self.assertIsNone(nav["lon"])
                 for cond in doc["condition_contract"]["conditions"]:
                     self.assertIn(cond["domain"],
                         ("WEATHER", "ASTRONOMY", "SEASON_TIME", "GEOMETRY_COMPOSITION",
@@ -170,8 +210,8 @@ class Batch04Gate(unittest.TestCase):
                         self.assertIn("未校準", zh)
 
     def test_04_crosswalk_exact_coverage_and_negative_conflict(self):
-        expected_rows = {"tw-082-P01": 36, "tw-036-P01": 36, "tw-034-P02": 36,
-                         "jp-010-P01": 33, "us-071-P01": 36}
+        expected_rows = {"tw-082-P01": 35, "tw-036-P01": 35, "tw-034-P02": 35,
+                         "jp-010-P01": 32, "us-071-P01": 35}
         for id_, doc in self.docs.items():
             rows = self.rows[id_]
             with self.subTest(id=id_):
@@ -192,7 +232,10 @@ class Batch04Gate(unittest.TestCase):
                     changed[0]["human_text"])
 
     def test_05_human_readable_parity_and_original_preview_is_untouched(self):
-        self.assertEqual("PENDING", self.audit["review"]["human_geo"])
+        # CL-DATA-18 reform: geometry review is AI_VERIFIED (provenance-complete
+        # fills with source URL + date); trilingual copy semantics stays PENDING.
+        self.assertEqual("AI_VERIFIED", self.audit["review"]["human_geo"])
+        self.assertIn("CL-DATA-18", self.audit["review"].get("human_geo_note", ""))
         self.assertEqual("PENDING", self.audit["review"]["human_trilingual_semantics"])
         for id_, doc in self.docs.items():
             with self.subTest(id=id_):
