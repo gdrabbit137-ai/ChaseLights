@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-036-P04",
   "place_id": "tw-036",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "七星潭北望清水斷崖／清水山山海遠眺",
@@ -117,7 +117,7 @@
     "conditions": [
       {
         "id": "C-tw-036-P04-01",
-        "role": "REQUIRED",
+        "role": "QUALITY",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -131,13 +131,18 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "MAIN",
+        "condition_tier": "MODIFIER",
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
           "zh-TW": "天文窗＝日出時刻 ±40 分（座標＋日期計算）。海上景點海平線無遮擋時與實際日出一致；山嶺景點受地形遮擋，實際見日較晚（將來以地形遮擋角參數修正）。",
           "en": "Astronomy window = sunrise time +/- 40 minutes (from coordinates and date). For sea-horizon spots this matches the visible sunrise; mountain spots see the sun later due to terrain occlusion (a terrain-occlusion-angle parameter may refine this later).",
           "ja": "天文ウィンドウ＝日の出時刻±40分。海上spotは海平線が開けており一致。山岳spotは地形遮蔽で実際の見えは遅れる（将来は地形遮蔽角パラメータで補正）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch e）：山海遠眺／360°全景是全日題材——日出窗降為 MODIFIER（日出時段仍加分，白天其他時段可成立）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch e): a far-sea/mountain panorama with a 360-degree view is an all-day subject - the sunrise window is downgraded to MODIFIER (sunrise still adds value; other daylight hours qualify). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch e）：山海の遠望・360°パノラマは全日題材——日の出窓を MODIFIER に降格（日の出は加点で、他の昼時間も成立）。 意味修正のため layering parity ゲートは免除。"
         }
       },
       {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-040-P05",
   "place_id": "tw-040",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "排雲山莊夕照與山稜",
@@ -195,7 +195,7 @@
       },
       {
         "id": "C-tw-040-P05-04",
-        "role": "QUALITY",
+        "role": "REQUIRED",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -209,13 +209,18 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "MODIFIER",
+        "condition_tier": "MAIN",
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
           "zh-TW": "暮色低角度光是層次的點燈源：日落前後的逆光把稜線剪影、雲帶邊緣與遠山明暗節奏同時點亮，層次山景在這個窗口最明顯。作為加分項而非門檻（白天有雲帶時仍可拍，但層次感較弱）。",
           "en": "Low-angle dusk light is what lights the layering: near sunset, backlight silhouettes the ridgeline, edges the cloud bands and sets the brightness rhythm between ridges, so layered vistas read best in this window. A bonus, not a gate - daytime shots with cloud bands still work, just with weaker layering.",
           "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch e）：排雲山莊夕照語義優先——sunset_window 升 REQUIRED/MAIN（夕照僅存在於日落時段）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch e): the Paiyun Lodge sunset-glow semantics win - sunset_window upgraded to REQUIRED/MAIN (the glow exists only around sunset). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch e）：排雲山荘の夕焼けの意味を優先——sunset_window を REQUIRED/MAIN に昇格（夕焼けは日没時刻にしか存在しない）。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]
