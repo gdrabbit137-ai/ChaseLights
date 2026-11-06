@@ -75,6 +75,10 @@ class AiVerificationAdmissionGate(unittest.TestCase):
         broken["camera_contexts"][0]["geometry"]["geojson"] = {
             "type": "Point", "coordinates": [121.0, 24.0]}
         broken["camera_contexts"][0]["geometry"]["status"] = "derived"
+        # CL-INT-83 merge note: CL-DATA-16 put an elevation provenance
+        # derivation_method on this camera's geometry; a fill WITHOUT
+        # provenance must also clear it to exercise the admission rule.
+        broken["camera_contexts"][0]["geometry"]["derivation_method"] = None
         self.assertTrue(any("derivation_method" in v for v in admission_violations(broken)))
 
     def test_honest_unknowns_are_preserved(self):

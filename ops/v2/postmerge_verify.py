@@ -377,8 +377,8 @@ def main():
                 "packages/core-v2/adapters/threshold_observations.py"],
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
-                "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 459, False, True),
+                "--test-reporter=tap", *[str(p.relative_to(root)) for p in sorted(
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 467, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
@@ -431,11 +431,17 @@ def main():
         # 900+7+5=912 (w4-node unchanged at 459; measured on the ticket branch,
         # node v26.7.0 --test-isolation=none; w3 wall_clock_deadline skips on
         # Windows and passes on CI).
-        if (report["counts"]["tests"] != 912 or
+        # 2026-11-06 CL-INT-83 merge (task/CL-DATA-18 re-based onto
+        # CL-INT-77/81 main): re-MEASURED on the merged tree — w4-node 467
+        # (browse pins re-anchored; node v26.7.0 --test-isolation=none),
+        # w3=187, w2=71; exact total = 913 (all count-bearing groups measured
+        # green on the merged tree; w3 wall_clock_deadline skips on Windows
+        # and passes on CI).
+        if (report["counts"]["tests"] != 913 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 912):
-            raise ValueError("Post-merge exact 912-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 913):
+            raise ValueError("Post-merge exact 913-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
