@@ -82,12 +82,19 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-09: tw-027-P02 re-pinned to the task-branch commit adding
             # the contract-level city_night_window condition (civil darkness
             # <= -6 deg; TIME_SPECIALIZATION §3 misplacement, owner ruling
-            # 2026-11-05, CL-UI-25 same-source definition).
-            'd4ec134b373d93fbc80955822d7508547ad6497d',
+            # 2026-11-05, CL-UI-25 same-source definition). CL-DATA-12 later
+            # re-pinned those records (batch e moon-triple removal, civil
+            # twilight only) to d57d40f89 — see below.
             # CL-UI-36: rationale_i18n review-note strip re-pinned the affected
             # canonical records to the task-branch commit holding the new bytes.
             'dce2f6ed0812ad418fc6d87cb358c9162aa2c255',
             '4e51267ba7b7130d28efa41e50d2ef3d36de81a8',
+            # CL-DATA-12: wave-1 semantic corrections (batches A–O) re-pinned
+            # the touched records to the contract commits, and the three
+            # migration-skeleton tidal records were restored to their
+            # reviewed-main bytes (commit 86cc3d9bd).
+            'd57d40f8966631783f1385908659bd8c1b82adbd',
+            '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])

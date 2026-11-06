@@ -53,6 +53,27 @@ EVAL_METRICS = [
 # hours never qualify regardless of the moon, no moon metric is consulted).
 # Per-place wording, mountain/valley/lake/fog contexts.
 _LIGHT_WINDOW_CL = {
+    # CL-DATA-12 batch d/l/m: newly added light windows.
+    # 祝山日出雲海 — viewed from the Zhushan sunrise platform.
+    "tw-024-P02": ("已過民用光線，祝山平台下的雲海看不到",
+                   "Outside civil light — the cloud sea below the Zhushan platform is invisible",
+                   "市民光を過ぎて、祝山展望台下の雲海が見えません"),
+    # 花東縱谷雲海 (tw-035-P06) — the East Rift valley floor.
+    "tw-035-P06": ("已過民用光線，縱谷裡的雲海看不到",
+                   "Outside civil light — the rift-valley cloud sea is invisible",
+                   "市民光を過ぎて、縦谷の雲海が見えません"),
+    # tw-047-P01 喜多麗雲海.
+    "tw-047-P01": ("已過民用光線，山腳下的雲海看不到",
+                   "Outside civil light — the cloud sea below the mountain is invisible",
+                   "市民光を過ぎて、山裾の雲海が見えません"),
+    # tw-049-P03 桃山雲海 — seen from the Taoshan summit.
+    "tw-049-P03": ("已過民用光線，桃山望向的雲海一片黑",
+                   "Outside civil light — the cloud sea from Taoshan is pitch dark",
+                   "市民光を過ぎて、桃山から望む雲海は真っ暗です"),
+    # tw-074-P01 野柳女王頭 — park daylight hours; unlit night is out of hours.
+    "tw-074-P01": ("天色已暗，野柳女王頭在黑暗中看不到",
+                   "After dark — the Queen's Head is invisible in darkness",
+                   "日が落ちて、女王頭は闇の中で見えません"),
     "tw-001-P02": ("已過民用光線，盆地裡的雲海看不見",
                    "Outside civil light — the basin cloud sea is invisible",
                    "市民光を過ぎて、盆地の雲海が見えません"),
@@ -628,6 +649,9 @@ A["default"]["landform_present"] = ("地形條件不符",
 # Window metrics shared by every archetype (one natural line, genre-neutral
 # archetype overrides above take precedence when defined).
 WINDOW_SHARED = {
+    "light_window": ("已過民用光線，天色太暗看不到",
+                     "Outside civil light — too dark to see anything",
+                     "市民光を過ぎて、暗すぎて見えません"),
     "sunset_window": ("現在不在日落時段，晚霞時間不對",
                       "Outside the sunset window — the glow hour is not now",
                       "日の入りの時間帯ではなく、夕焼けの時間ではありません"),
