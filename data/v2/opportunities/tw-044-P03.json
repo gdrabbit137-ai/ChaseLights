@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-044-P03",
   "place_id": "tw-044",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "南湖圈谷霧淞／雪景",
@@ -216,6 +216,36 @@
           "zh-TW": "暮色低角度光是層次的點燈源：日落前後的逆光把稜線剪影、雲帶邊緣與遠山明暗節奏同時點亮，層次山景在這個窗口最明顯。作為加分項而非門檻（白天有雲帶時仍可拍，但層次感較弱）。",
           "en": "Low-angle dusk light is what lights the layering: near sunset, backlight silhouettes the ridgeline, edges the cloud bands and sets the brightness rhythm between ridges, so layered vistas read best in this window. A bonus, not a gate - daytime shots with cloud bands still work, just with weaker layering.",
           "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
+        }
+      },
+      {
+        "id": "C-tw-044-P03-LW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-044-P03-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
         }
       }
     ]
