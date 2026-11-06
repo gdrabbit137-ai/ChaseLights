@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-034-P02",
   "place_id": "tw-034",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "evidence_review",
   "name_i18n": {
     "zh-TW": "崇德清水斷崖山海遠眺",
@@ -20,16 +20,23 @@
       "kind": "area",
       "geometry": {
         "kind": "area",
-        "status": "unknown",
-        "geojson": null,
+        "status": "derived",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.661332,
+            24.191966
+          ]
+        },
         "uncertainty_m": null,
-        "derivation_method": null,
+        "derivation_method": "CL-DATA-18 AI-verification gap-fill 2026-11-06, owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review): coordinates carried from sibling camera context data/v2/opportunities/tw-034-P01.json (same place), re-verified against https://yingtingshih.com/2021-12-21-4272/ — Chongde Recreation Area viewpoint 24°11'31.2\"N 121°39'40.8\"E (= 24.1920,121.6613, ShihTrip field photo log)",
         "source_geometry_revision": null,
-        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+        "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "representative",
       "evidence_refs": [
         "b04-tw034-a",
+        "b04c-tw034",
         "b04-tw034-b"
       ],
       "access_notes_i18n": {
@@ -94,15 +101,17 @@
       "id": "NAV-tw-034-P02-01",
       "status": "needs_review",
       "target_type": "other",
-      "lat": null,
-      "lon": null,
+      "lat": 24.191966,
+      "lon": 121.661332,
       "label_i18n": {
         "zh-TW": "尚未核實合法實際抵達點",
         "en": "Lawful practical arrival point not verified",
         "ja": "合法的な到着地点は未確認"
       },
-      "evidence_refs": [],
-      "confidence": "unknown"
+      "evidence_refs": [
+        "b04c-tw034"
+      ],
+      "confidence": "low"
     }
   ],
   "condition_contract": {
@@ -252,8 +261,8 @@
         "b04-tw034-a",
         "b04-tw034-b"
       ],
-      "audit_status": "PARTIAL",
-      "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+      "audit_status": "OK",
+      "scope_note": "AI-verified 2026-11-06 (CL-DATA-18, owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review)): camera anchor coordinates carried from sibling tw-034-P01.json and re-verified against https://yingtingshih.com/2021-12-21-4272/; legal photography boundary still unverified."
     },
     {
       "claim_id": "tw-034-P02-navigation",
@@ -286,7 +295,6 @@
   "readiness": {
     "research_level": "R1",
     "gaps": [
-      "GEOMETRY_GAP",
       "RESEARCH_GAP"
     ]
   },
@@ -294,7 +302,7 @@
     "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
     "source_revision": "v2-w2-batch04-20261013",
     "imported_at": "2026-10-13T15:36:00Z",
-    "review_status": "pending",
-    "reviewed_by": null
+    "review_status": "reviewed",
+    "reviewed_by": "AI-verification 2026-11-06 — owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review); coordinate sources: https://yingtingshih.com/2021-12-21-4272/ + sibling tw-034-P01.json"
   }
 }

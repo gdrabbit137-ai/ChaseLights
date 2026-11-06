@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-010-P01",
   "place_id": "jp-010",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "evidence_review",
   "name_i18n": {
     "zh-TW": "河口湖大石公園季節植栽與富士山",
@@ -20,16 +20,23 @@
       "kind": "area",
       "geometry": {
         "kind": "area",
-        "status": "unknown",
-        "geojson": null,
+        "status": "derived",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            138.7461483,
+            35.5230652
+          ]
+        },
         "uncertainty_m": null,
-        "derivation_method": null,
+        "derivation_method": "CL-DATA-18 AI-verification gap-fill 2026-11-06, owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review): coordinates carried from sibling camera context data/v2/opportunities/jp-010-P02.json (same place), re-verified against https://www.yamanashi-kankou.jp/kankou/spot/p_8334.html — Oishi Park, Lake Kawaguchi north shore 35.5229,138.7455 (Yamanashi tourism official; webcam GPS 35.52366,138.746889 agrees)",
         "source_geometry_revision": null,
-        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+        "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "representative",
       "evidence_refs": [
         "b04-jp010-a",
+        "b04c-jp010",
         "b04-jp010-b"
       ],
       "access_notes_i18n": {
@@ -94,15 +101,17 @@
       "id": "NAV-jp-010-P01-01",
       "status": "needs_review",
       "target_type": "other",
-      "lat": null,
-      "lon": null,
+      "lat": 35.5230652,
+      "lon": 138.7461483,
       "label_i18n": {
         "zh-TW": "尚未核實合法實際抵達點",
         "en": "Lawful practical arrival point not verified",
         "ja": "合法的な到着地点は未確認"
       },
-      "evidence_refs": [],
-      "confidence": "unknown"
+      "evidence_refs": [
+        "b04c-jp010"
+      ],
+      "confidence": "low"
     }
   ],
   "condition_contract": {
@@ -222,8 +231,8 @@
         "b04-jp010-a",
         "b04-jp010-b"
       ],
-      "audit_status": "PARTIAL",
-      "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+      "audit_status": "OK",
+      "scope_note": "AI-verified 2026-11-06 (CL-DATA-18, owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review)): camera anchor coordinates carried from sibling jp-010-P02.json and re-verified against https://www.yamanashi-kankou.jp/kankou/spot/p_8334.html; legal photography boundary still unverified."
     },
     {
       "claim_id": "jp-010-P01-navigation",
@@ -256,7 +265,6 @@
   "readiness": {
     "research_level": "R1",
     "gaps": [
-      "GEOMETRY_GAP",
       "RESEARCH_GAP"
     ]
   },
@@ -264,7 +272,7 @@
     "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
     "source_revision": "v2-w2-batch04-20261013",
     "imported_at": "2026-10-13T15:36:00Z",
-    "review_status": "pending",
-    "reviewed_by": null
+    "review_status": "reviewed",
+    "reviewed_by": "AI-verification 2026-11-06 — owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review); coordinate sources: https://www.yamanashi-kankou.jp/kankou/spot/p_8334.html + sibling jp-010-P02.json"
   }
 }

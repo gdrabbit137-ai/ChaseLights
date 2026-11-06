@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-057-P01",
   "place_id": "us-057",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Arctic Circle Wayside・北極圈標誌地標照",
@@ -203,6 +203,36 @@
           "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
           "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
           "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+        }
+      },
+      {
+        "id": "C-us-057-P01-LW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-057-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-18：高緯度（66.56°N，北極圈上）全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義）——極夜/白夜時全日題材需有光才可拍。人審閘門改制（owner 裁決 2026-11-06：AI 查證取代人審）後由 AI 直接補入，語意修正理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-18: high-latitude (66.56N, above the Arctic Circle) all-day subject gains a civil light_window (sun elevation > -6 deg, same-source definition as CL-DATA-11) — polar night/midnight-sun semantics: an all-day subject needs light to be shootable. Added directly by AI verification after the human-review gate reform (owner ruling 2026-11-06: AI fact-check with source URL+date replaces human review).",
+          "ja": "2026-11-06 CL-DATA-18：高緯度（66.56°N、北極圏上）の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義）——極夜・白夜緯度での全日題材に光があることを担保する語義修正。人審ゲート改制（2026-11-06 オーナー裁定：AI 查証が人審に代わる）により AI が直接追加。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-18：高緯度（66.56°N，北極圈上）全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義）——極夜/白夜時全日題材需有光才可拍。人審閘門改制（owner 裁決 2026-11-06：AI 查證取代人審）後由 AI 直接補入，語意修正理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-18: high-latitude (66.56N, above the Arctic Circle) all-day subject gains a civil light_window (sun elevation > -6 deg, same-source definition as CL-DATA-11) — polar night/midnight-sun semantics: an all-day subject needs light to be shootable. Added directly by AI verification after the human-review gate reform (owner ruling 2026-11-06: AI fact-check with source URL+date replaces human review).",
+          "ja": "2026-11-06 CL-DATA-18：高緯度（66.56°N、北極圏上）の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義）——極夜・白夜緯度での全日題材に光があることを担保する語義修正。人審ゲート改制（2026-11-06 オーナー裁定：AI 查証が人審に代わる）により AI が直接追加。"
         }
       },
       {

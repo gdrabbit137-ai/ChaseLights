@@ -98,11 +98,57 @@
       "evidence_grade": "A",
       "supports": "Kerry Park city/Elliott Bay/Space Needle view, occasional Rainier, sunset and city lights, 6am–10pm",
       "limits": "Posted park hours may change; no surveyed lawful camera location or weather thresholds"
+    },
+    {
+      "id": "b04c-tw034",
+      "url": "https://yingtingshih.com/2021-12-21-4272/",
+      "authority": "ShihTrip field photo log (Google Plus Code 5MR6+QGW Xiulin, Hualien = 24.1920,121.6613)",
+      "date": "2026-11-06",
+      "evidence_grade": "B",
+      "supports": "CL-DATA-18 AI coordinate verification: Chongde Recreation Area / Qingshui Cliff viewpoint == sibling tw-034-P01 camera anchor",
+      "limits": "Third-party blog coordinate; verified against sibling camera context, not a surveyed monument"
+    },
+    {
+      "id": "b04c-tw036",
+      "url": "https://en.wikipedia.org/wiki/Qixingtan_Beach",
+      "authority": "Wikipedia: Qixingtan Beach 24°01'58.4\"N 121°37'40.6\"E (= 24.03289,121.62794)",
+      "date": "2026-11-06",
+      "evidence_grade": "A",
+      "supports": "CL-DATA-18 AI coordinate verification: Qixingtan crescent shore == sibling tw-036-P02 camera anchor (~0.16 km)",
+      "limits": "Encyclopedia point on the beach, not the exact camera tripod spot"
+    },
+    {
+      "id": "b04c-tw082",
+      "url": "https://media.taiwan.net.tw/en-us/portal/travel/details/attraction_a15010300h_000001",
+      "authority": "Tourism Administration, M.O.T.C. (East Rift Valley NSA): Liyu Lake 23.93501,121.50778",
+      "date": "2026-11-06",
+      "evidence_grade": "A",
+      "supports": "CL-DATA-18 AI coordinate verification: Liyu Lake == sibling tw-082-P02 camera anchor (~0.09 km)",
+      "limits": "Official lake coordinates, not a surveyed shoreline polygon"
+    },
+    {
+      "id": "b04c-jp010",
+      "url": "https://www.yamanashi-kankou.jp/kankou/spot/p_8334.html",
+      "authority": "Yamanashi Prefecture tourism official: Oishi Park, Lake Kawaguchi north shore 35.5229,138.7455",
+      "date": "2026-11-06",
+      "evidence_grade": "A",
+      "supports": "CL-DATA-18 AI coordinate verification: Oishi Park == sibling jp-010-P02 camera anchor (webcam GPS 35.52366,138.746889 agrees)",
+      "limits": "Park point; Fuji-view tripod spot not surveyed"
+    },
+    {
+      "id": "b04c-us071",
+      "url": "https://en.wikipedia.org/wiki/Kerry_Park_(Seattle)",
+      "authority": "Wikipedia: Kerry Park (Seattle) 47°37'46\"N 122°21'36\"W (= 47.62944,-122.36000)",
+      "date": "2026-11-06",
+      "evidence_grade": "A",
+      "supports": "CL-DATA-18 AI coordinate verification: Kerry Park viewpoint == sibling us-071-P02 camera anchor",
+      "limits": "Viewpoint point; skyline tripod positions vary along Highland Drive"
     }
   ],
   "review": {
     "schema": "pending GitHub Actions exact-head validation",
-    "human_geo": "PENDING",
+    "human_geo": "AI_VERIFIED",
+    "human_geo_note": "2026-11-06 CL-DATA-18 human-review gate reform: CL-DATA-18 owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review) — geometry gap-fills carry source URL+date provenance; gates re-anchored to the AI-verified state.",
     "human_trilingual_semantics": "PENDING",
     "permission_geometry": "unknown",
     "navigation": "needs_review",

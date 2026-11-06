@@ -1,62 +1,69 @@
 {
   "schema_version": "2.1.0",
-  "opportunity_id": "tw-026-P01",
+  "opportunity_id": "tw-026-P02",
   "place_id": "tw-026",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "evidence_review",
   "name_i18n": {
-    "zh-TW": "井仔腳瓦盤鹽田夕照",
-    "en": "Sunset over Jingzaijiao tiled salt pans",
-    "ja": "井仔脚瓦盤塩田の夕景"
+    "zh-TW": "井仔腳鹽田晚霞",
+    "en": "Afterglow above Jingzaijiao salt pans",
+    "ja": "井仔脚塩田の夕焼け空"
   },
   "description_i18n": {
-    "zh-TW": "井仔腳瓦盤鹽田的格狀鹽池與夕照已有現地攝影證據；到場可依當時合法開放範圍自行構圖，但可拍攝區域邊界尚未獨立核實；原瞭望台另有整修封閉公告。",
-    "en": "Patterned salt pans and sunset light at Jingzaijiao have place-specific photographic evidence. Visitors may compose their own frames only from areas legally open at the time, but the boundaries of permitted shooting areas have not been independently verified. An official notice separately reports the original lookout closed for repairs.",
-    "ja": "井仔脚瓦盤塩田の格子状の塩池と夕景には現地固有の撮影証拠がある。来訪者はその時点で合法的に立ち入れる区域から自由に構図を決められるが、撮影可能区域の境界は独立に確認できていない。旧展望台には改修による閉鎖の公式告知が別途ある。"
+    "zh-TW": "以鹽田格狀地景搭配日落前後的彩霞；彩霞是否出現須以實際天空狀態判斷。",
+    "en": "Frame the geometric salt pans beneath colorful clouds around sunset; actual afterglow must be verified rather than assumed.",
+    "ja": "格子状の塩田と日没前後の夕焼け雲を組み合わせる。夕焼けの発生は推測せず実際の空で確認する。"
   },
   "camera_contexts": [
     {
-      "id": "CZ-tw-026-P01-01",
+      "id": "CZ-tw-026-P02-01",
       "kind": "area",
       "geometry": {
         "kind": "area",
-        "status": "unknown",
-        "geojson": null,
+        "status": "derived",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            120.10757,
+            23.25883
+          ]
+        },
         "uncertainty_m": null,
-        "derivation_method": null,
+        "derivation_method": "CL-DATA-18 AI-verification gap-fill 2026-11-06, owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review): coordinates carried from sibling camera context data/v2/opportunities/tw-026-P03.json (same place), re-verified against https://www.tad.gov.tw/m1.aspx?id=A12-00023&sNo=0001016 — Tainan Tourism (official) Jingzaijiao Tile-paved Salt Fields 120.10756,23.258830 (~1 m from camera point)",
         "source_geometry_revision": null,
-        "reason_if_absent": "No independently verified source geometry"
+        "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "representative",
       "evidence_refs": [
-        "e026a",
         "e026b",
-        "e026d"
+        "e026e",
+        "e026d",
+        "e026f"
       ],
       "access_notes_i18n": {
-        "zh-TW": "一般遊客可合法拍攝的區域邊界尚未獨立核實；請依當日公告與現場規定選擇安全構圖。原瞭望台公告預計封閉至2026-11-30，須再次查證。",
-        "en": "The boundaries of areas where visitors may legally photograph have not been independently verified. Choose a safe composition in accordance with current notices and on-site rules. The original lookout was scheduled closed through 2026-11-30; recheck its current status.",
-        "ja": "一般来訪者が合法的に撮影できる区域の境界は独立に確認できていない。当日の告知と現地規則に従い、安全な場所で構図を決める。旧展望台は2026年11月30日まで閉鎖予定と告知されており、最新状況の再確認が必要。"
+        "zh-TW": "僅可從當日確實開放、允許一般遊客拍攝且安全的位置取景；具體公共區域及邊界尚未獨立核實，須依當日公告與現場管制確認，無法確認時不可使用該構圖。原瞭望台封閉期間不得進入；替代平台的開放不證明其他區域開放。",
+        "en": "Photograph only from a safe location actually open to visitors and permitting photography on the day. The specific public area and its boundaries have not been independently verified; check current notices and on-site restrictions, and do not use the composition if lawful access cannot be confirmed. Do not enter the original lookout while closed; the alternate platform does not establish that other areas are open.",
+        "ja": "当日実際に開放され、一般来訪者の撮影が認められた安全な場所からのみ撮影する。公共区域の具体的な場所と境界は独立に確認できていないため、当日の告知と現地の規制を確認し、合法的な立入りを確認できなければその構図は使わない。旧展望台の閉鎖中は立ち入らず、代替展望台の開放をもって他区域の開放とはみなさない。"
       },
       "safety_notes_i18n": {
-        "zh-TW": "施工圍籬及管制區不可進入。",
-        "en": "Do not enter construction barriers or restricted areas.",
-        "ja": "工事柵や立入禁止区域に入らない。"
+        "zh-TW": "遵守施工及公共區域限制。",
+        "en": "Respect construction restrictions and public-area boundaries.",
+        "ja": "工事規制と公共区域の境界を守る。"
       },
       "altitude_m": null
     }
   ],
   "targets": [
     {
-      "id": "SG-tw-026-P01-01",
+      "id": "SG-tw-026-P02-01",
       "kind": "multi_component",
       "name_i18n": {
-        "zh-TW": "瓦盤鹽池與夕照天空",
-        "en": "Tiled salt pans and sunset-lit sky",
-        "ja": "瓦盤塩田と夕日に照らされる空"
+        "zh-TW": "鹽田上空晚霞與格狀鹽池",
+        "en": "Afterglow sky and patterned salt pans",
+        "ja": "塩田上空の夕焼け雲と格子状の塩田"
       },
       "geometry": {
-        "kind": "area",
+        "kind": "dynamic_sky",
         "status": "unknown",
         "geojson": null,
         "uncertainty_m": null,
@@ -66,8 +73,7 @@
       },
       "phenomenon_model_id": null,
       "evidence_refs": [
-        "e026a",
-        "e026b",
+        "e026e",
         "e026d"
       ],
       "components": []
@@ -75,17 +81,16 @@
   ],
   "observation_relations": [
     {
-      "id": "VR-tw-026-P01-01",
-      "camera_context_id": "CZ-tw-026-P01-01",
-      "target_id": "SG-tw-026-P01-01",
+      "id": "VR-tw-026-P02-01",
+      "camera_context_id": "CZ-tw-026-P02-01",
+      "target_id": "SG-tw-026-P02-01",
       "type": "foreground_background",
       "geometry_mode": "unknown",
       "azimuth_deg": 270,
       "elevation_deg": null,
       "distance_m": null,
       "evidence_refs": [
-        "e026a",
-        "e026b",
+        "e026e",
         "e026d"
       ],
       "derivation_method": "legacy_weather_details_v1_view_azimuth_backfill",
@@ -94,29 +99,31 @@
   ],
   "navigation_targets": [
     {
-      "id": "NAV-tw-026-P01-01",
+      "id": "NAV-tw-026-P02-01",
       "status": "needs_review",
       "target_type": "other",
-      "lat": null,
-      "lon": null,
+      "lat": 23.25883,
+      "lon": 120.10757,
       "label_i18n": {
         "zh-TW": "尚未核實實際抵達點",
         "en": "Practical arrival point not verified",
         "ja": "実際の到着地点は未確認"
       },
-      "evidence_refs": [],
-      "confidence": "unknown"
+      "evidence_refs": [
+        "e026f"
+      ],
+      "confidence": "low"
     }
   ],
   "condition_contract": {
-    "contract_id": "CC-tw-026-P01-v1",
+    "contract_id": "CC-tw-026-P02-v1",
     "status": "draft",
     "genre_template": "sunset",
     "template_version": "sunset-v0.1",
     "recommendation_policy_version": null,
     "conditions": [
       {
-        "id": "C-tw-026-P01-01",
+        "id": "C-tw-026-P02-01",
         "role": "REQUIRED",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
@@ -127,7 +134,7 @@
         "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
-          "tw-026-P01-claim-02"
+          "tw-026-P02-claim-02"
         ],
         "model_binding": null,
         "validation_status": "provisional",
@@ -146,7 +153,7 @@
         }
       },
       {
-        "id": "C-tw-026-P01-02",
+        "id": "C-tw-026-P02-02",
         "role": "REQUIRED",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
@@ -157,7 +164,7 @@
         "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
-          "tw-026-P01-claim-02"
+          "tw-026-P02-claim-02"
         ],
         "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
         "validation_status": "provisional",
@@ -180,7 +187,7 @@
         }
       },
       {
-        "id": "C-tw-026-P01-03",
+        "id": "C-tw-026-P02-03",
         "role": "REQUIRED",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
@@ -194,7 +201,7 @@
         "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
-          "tw-026-P01-claim-02"
+          "tw-026-P02-claim-02"
         ],
         "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent+cloud_cover_high_percent|role:MID",
         "validation_status": "provisional",
@@ -213,7 +220,7 @@
         }
       },
       {
-        "id": "C-tw-026-P01-04",
+        "id": "C-tw-026-P02-04",
         "role": "REQUIRED",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
@@ -224,7 +231,7 @@
         "unit": "mm/h",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
-          "tw-026-P01-claim-02"
+          "tw-026-P02-claim-02"
         ],
         "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
         "validation_status": "provisional",
@@ -243,7 +250,7 @@
         }
       },
       {
-        "id": "C-tw-026-P01-05",
+        "id": "C-tw-026-P02-05",
         "role": "REQUIRED",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
@@ -254,7 +261,7 @@
         "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
-          "tw-026-P01-claim-02"
+          "tw-026-P02-claim-02"
         ],
         "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
         "validation_status": "provisional",
@@ -276,36 +283,35 @@
   },
   "evidence_claims": [
     {
-      "claim_id": "tw-026-P01-existence",
+      "claim_id": "tw-026-P02-existence",
       "claim_type": "existence",
       "evidence_refs": [
-        "e026a",
-        "e026b",
+        "e026e",
         "e026d"
       ],
       "audit_status": "OK",
       "scope_note": "Place-specific opportunity is supported; geometry remains unverified."
     },
     {
-      "claim_id": "tw-026-P01-camera",
+      "claim_id": "tw-026-P02-camera",
       "claim_type": "camera_location",
       "evidence_refs": [
-        "e026a",
         "e026b",
+        "e026e",
         "e026d"
       ],
       "audit_status": "PARTIAL",
       "scope_note": "Named public camera area only; exact polygon and GPS unverified."
     },
     {
-      "claim_id": "tw-026-P01-navigation",
+      "claim_id": "tw-026-P02-navigation",
       "claim_type": "navigation_access",
       "evidence_refs": [],
       "audit_status": "UNKNOWN",
       "scope_note": "No independently verified arrival coordinate."
     },
     {
-      "claim_id": "tw-026-P01-claim-01",
+      "claim_id": "tw-026-P02-claim-01",
       "claim_type": "navigation_access",
       "evidence_refs": [
         "e026b"
@@ -314,16 +320,16 @@
       "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
     },
     {
-      "claim_id": "tw-026-P01-claim-02",
+      "claim_id": "tw-026-P02-claim-02",
       "claim_type": "other",
       "evidence_refs": [
-        "e026a"
+        "e026e"
       ],
       "audit_status": "PARTIAL",
       "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
     },
     {
-      "claim_id": "tw-026-P01-claim-03",
+      "claim_id": "tw-026-P02-claim-03",
       "claim_type": "navigation_access",
       "evidence_refs": [
         "e026b"
@@ -332,10 +338,11 @@
       "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
     },
     {
-      "claim_id": "tw-026-P01-claim-04",
+      "claim_id": "tw-026-P02-claim-04",
       "claim_type": "other",
       "evidence_refs": [
-        "e026c"
+        "e026e",
+        "e026d"
       ],
       "audit_status": "PARTIAL",
       "scope_note": "Qualitative condition; no measured threshold, local runtime verification needed."
@@ -344,7 +351,6 @@
   "readiness": {
     "research_level": "R1",
     "gaps": [
-      "GEOMETRY_GAP",
       "RESEARCH_GAP"
     ]
   },
@@ -353,6 +359,6 @@
     "source_revision": "research-shard-batch03",
     "imported_at": "2026-10-08T17:26:40Z",
     "review_status": "reviewed",
-    "reviewed_by": "Worker 2 evidence review (automated; no human approval)"
+    "reviewed_by": "Worker 2 evidence review (automated; no human approval) + CL-DATA-18 AI-verification 2026-11-06 — owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review); coordinate sources: https://www.tad.gov.tw/m1.aspx?id=A12-00023&sNo=0001016 + sibling tw-026-P03.json"
   }
 }

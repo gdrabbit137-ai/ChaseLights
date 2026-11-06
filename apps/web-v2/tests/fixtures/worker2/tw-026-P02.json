@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-026-P02",
   "place_id": "tw-026",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "evidence_review",
   "name_i18n": {
     "zh-TW": "井仔腳鹽田晚霞",
@@ -20,18 +20,25 @@
       "kind": "area",
       "geometry": {
         "kind": "area",
-        "status": "unknown",
-        "geojson": null,
+        "status": "derived",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            120.10757,
+            23.25883
+          ]
+        },
         "uncertainty_m": null,
-        "derivation_method": null,
+        "derivation_method": "CL-DATA-18 AI-verification gap-fill 2026-11-06, owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review): coordinates carried from sibling camera context data/v2/opportunities/tw-026-P03.json (same place), re-verified against https://www.tad.gov.tw/m1.aspx?id=A12-00023&sNo=0001016 — Tainan Tourism (official) Jingzaijiao Tile-paved Salt Fields 120.10756,23.258830 (~1 m from camera point)",
         "source_geometry_revision": null,
-        "reason_if_absent": "No independently verified source geometry"
+        "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "representative",
       "evidence_refs": [
         "e026b",
         "e026e",
-        "e026d"
+        "e026d",
+        "e026f"
       ],
       "access_notes_i18n": {
         "zh-TW": "僅可從當日確實開放、允許一般遊客拍攝且安全的位置取景；具體公共區域及邊界尚未獨立核實，須依當日公告與現場管制確認，無法確認時不可使用該構圖。原瞭望台封閉期間不得進入；替代平台的開放不證明其他區域開放。",
@@ -95,15 +102,17 @@
       "id": "NAV-tw-026-P02-01",
       "status": "needs_review",
       "target_type": "other",
-      "lat": null,
-      "lon": null,
+      "lat": 23.25883,
+      "lon": 120.10757,
       "label_i18n": {
         "zh-TW": "尚未核實實際抵達點",
         "en": "Practical arrival point not verified",
         "ja": "実際の到着地点は未確認"
       },
-      "evidence_refs": [],
-      "confidence": "unknown"
+      "evidence_refs": [
+        "e026f"
+      ],
+      "confidence": "low"
     }
   ],
   "condition_contract": {
@@ -342,7 +351,6 @@
   "readiness": {
     "research_level": "R1",
     "gaps": [
-      "GEOMETRY_GAP",
       "RESEARCH_GAP"
     ]
   },
@@ -351,6 +359,6 @@
     "source_revision": "research-shard-batch03",
     "imported_at": "2026-10-08T17:26:40Z",
     "review_status": "reviewed",
-    "reviewed_by": "Worker 2 evidence review (automated; no human approval)"
+    "reviewed_by": "Worker 2 evidence review (automated; no human approval) + CL-DATA-18 AI-verification 2026-11-06 — owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review); coordinate sources: https://www.tad.gov.tw/m1.aspx?id=A12-00023&sNo=0001016 + sibling tw-026-P03.json"
   }
 }

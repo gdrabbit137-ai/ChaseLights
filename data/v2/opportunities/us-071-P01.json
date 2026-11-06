@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-071-P01",
   "place_id": "us-071",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "evidence_review",
   "name_i18n": {
     "zh-TW": "Kerry Park 西雅圖天際線暮色",
@@ -20,16 +20,23 @@
       "kind": "area",
       "geometry": {
         "kind": "area",
-        "status": "unknown",
-        "geojson": null,
+        "status": "derived",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            -122.35993,
+            47.62941
+          ]
+        },
         "uncertainty_m": null,
-        "derivation_method": null,
+        "derivation_method": "CL-DATA-18 AI-verification gap-fill 2026-11-06, owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review): coordinates carried from sibling camera context data/v2/opportunities/us-071-P02.json (same place), re-verified against https://en.wikipedia.org/wiki/Kerry_Park_(Seattle) — Kerry Park viewpoint 47°37'46\"N 122°21'36\"W (= 47.62944,-122.36000)",
         "source_geometry_revision": null,
-        "reason_if_absent": "No independently verified place-specific camera/subject geometry."
+        "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "representative",
       "evidence_refs": [
-        "b04-us071-a"
+        "b04-us071-a",
+        "b04c-us071"
       ],
       "access_notes_i18n": {
         "zh-TW": "官方目前列開園 06:00–22:00；臨時管制與活動規定依當日公告，開放時間不屬攝影評分條件。",
@@ -91,15 +98,17 @@
       "id": "NAV-us-071-P01-01",
       "status": "needs_review",
       "target_type": "other",
-      "lat": null,
-      "lon": null,
+      "lat": 47.62941,
+      "lon": -122.35993,
       "label_i18n": {
         "zh-TW": "尚未核實合法實際抵達點",
         "en": "Lawful practical arrival point not verified",
         "ja": "合法的な到着地点は未確認"
       },
-      "evidence_refs": [],
-      "confidence": "unknown"
+      "evidence_refs": [
+        "b04c-us071"
+      ],
+      "confidence": "low"
     }
   ],
   "condition_contract": {
@@ -247,8 +256,8 @@
       "evidence_refs": [
         "b04-us071-a"
       ],
-      "audit_status": "PARTIAL",
-      "scope_note": "Public site documented; legal photography boundary and exact tripod position remain unverified."
+      "audit_status": "OK",
+      "scope_note": "AI-verified 2026-11-06 (CL-DATA-18, owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review)): camera anchor coordinates carried from sibling us-071-P02.json and re-verified against https://en.wikipedia.org/wiki/Kerry_Park_(Seattle); legal photography boundary still unverified."
     },
     {
       "claim_id": "us-071-P01-navigation",
@@ -279,7 +288,6 @@
   "readiness": {
     "research_level": "R1",
     "gaps": [
-      "GEOMETRY_GAP",
       "RESEARCH_GAP"
     ]
   },
@@ -287,7 +295,7 @@
     "source_catalog": "ChaseLights legacy R4.2 opportunity inventory + official source recheck",
     "source_revision": "v2-w2-batch04-20261013",
     "imported_at": "2026-10-13T15:36:00Z",
-    "review_status": "pending",
-    "reviewed_by": null
+    "review_status": "reviewed",
+    "reviewed_by": "AI-verification 2026-11-06 — owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review); coordinate sources: https://en.wikipedia.org/wiki/Kerry_Park_(Seattle) + sibling us-071-P02.json"
   }
 }
