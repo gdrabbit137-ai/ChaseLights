@@ -8,6 +8,7 @@ from pathlib import Path
 
 from weathergrid_coverage import (
     apply_registry_entry,
+    computed_environment_geometries,
     index_catalog_opportunities,
     plan_opportunity_coverage,
 )
@@ -65,6 +66,14 @@ def build_coverage_browser_payload(catalog: dict, registry: dict) -> dict:
             continue
         merged = apply_registry_entry(base, entry)
         coverage = merged["weather_coverage"]
+        # CL-WG-30 batch 2: when a registry entry carries Subject geometry
+        # but no Environment geometry, the compiler computes the family
+        # default ENV from the FAMILY_ENV_RULES table (computed +
+        # provenance). Researched entries are never touched.
+        if not coverage.get("environment_geometries"):
+            computed = computed_environment_geometries(base, coverage)
+            if computed:
+                coverage["environment_geometries"] = computed
         plan = plan_opportunity_coverage(merged)
         spot_id = base.get("spot_id")
         spot = spots.get(spot_id, {})
