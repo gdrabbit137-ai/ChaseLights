@@ -69,8 +69,22 @@ body{padding:18px}
 .basemap-status.fallback{border-color:#a16207;color:#fde68a;background:rgba(66,32,6,.88)}
 .legend{position:absolute;z-index:6;left:12px;bottom:12px;min-width:190px;background:rgba(2,6,23,.88);
   border:1px solid #334155;border-radius:8px;padding:8px 9px;font-size:.72rem;backdrop-filter:blur(6px)}
-.legend-bar{height:10px;border-radius:4px;margin:6px 0 4px;border:1px solid rgba(255,255,255,.18)}
+.legend-bar{height:8px;border-radius:4px;margin:6px 0 4px;border:1px solid rgba(255,255,255,.18)}
 .legend-row{display:flex;justify-content:space-between;color:#cbd5e1}
+/* CL-WG-28: slim compact legend — the bar row is a real button (click/tap or
+   500ms long-press expands the full tick panel); only first/last labels show
+   in the compact state. */
+.legend-toggle{display:block;width:100%;background:none;border:0;padding:0;margin:6px 0 2px;
+  cursor:pointer;text-align:left;color:inherit;font:inherit}
+.legend-toggle .legend-bar{margin:0}
+.legend-compact-labels{display:flex;justify-content:space-between;color:#cbd5e1;
+  font-size:.59rem;line-height:1;margin-top:3px}
+.legend-expanded{margin-top:5px}
+.legend-expanded[hidden]{display:none}
+/* CL-WG-28: cursor value readout — the primary value-query channel. */
+.cursor-readout{position:absolute;z-index:7;left:0;top:0;pointer-events:none;
+  background:rgba(2,6,23,.92);border:1px solid #334155;border-radius:6px;color:#e2e8f0;
+  font-size:.68rem;font-weight:700;padding:3px 7px;white-space:nowrap}
 .legend-bar.cloud-percent{position:relative}
 .cloud-midline{position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:rgba(254,240,138,.9);
   box-shadow:0 0 0 1px rgba(15,23,42,.45)}
