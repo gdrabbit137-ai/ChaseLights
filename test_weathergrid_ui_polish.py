@@ -255,7 +255,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
 
         # CL-UI-37: explicit stamp pin for the weather-map.js language-carry
         # change (bumped bclwg27 -> bclwg28 in the same commit).
-        self.assertIn("assets/weather-map.js?v=bclwg28", self.html)
+        self.assertIn("assets/weather-map.js?v=bclwg29", self.html)
         for asset in ("weather-map.css", "weather-map.js", "weather-map-regions.js"):
             found = stamps(asset)
             self.assertTrue(

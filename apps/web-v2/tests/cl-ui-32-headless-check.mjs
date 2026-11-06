@@ -64,7 +64,7 @@ assert.ok(stamp.includes('?v=probe') || stamp.startsWith(base), 'served via loca
 
 // Rebuild the mapping from the SERVED app.js bytes, then render into DOM.
 const rendered = await evaljs(`(async () => {
-  const src = await fetch('./assets/app.js?v=clui41-check').then(r=>r.text());
+  const src = await fetch('./assets/app.js?v=clui42-check').then(r=>r.text());
   const i = src.indexOf('const V2_FAIL_PRIORITY');
   const code = src.slice(i, src.indexOf('// CL-UI-12: day0 (today) qualifying hours', i));
   const lowCloudDay = {state:'UNFAVORABLE', conditions:[{metric:'cloud_cover_low', day_verdict:'FAIL'}]};

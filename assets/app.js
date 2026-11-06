@@ -244,8 +244,12 @@
     // region param already has); the resolved value is written back so the
     // stored preference stays in sync with the URL.
     const urlLang=new URLSearchParams(location.search).get('lang');
+    // CL-UI-38: ?date= joins ?lang= with URL-wins precedence (invalid values
+    // fail closed to the stored preference). The value space is the day-tab
+    // key list (today/tomorrow/after_tomorrow/day3..day6), i.e. DAY_KEYS.
+    const urlDate=new URLSearchParams(location.search).get('date');
     let currentLang=VALID_LANGS.includes(urlLang)?(localStorage.setItem('chaselights_lang',urlLang),urlLang):(VALID_LANGS.includes(localStorage.getItem('chaselights_lang'))?localStorage.getItem('chaselights_lang'):'zh-TW');
-    let currentDayFilter=VALID_DAYS.includes(localStorage.getItem('chaselights_day'))?localStorage.getItem('chaselights_day'):'today';
+    let currentDayFilter=VALID_DAYS.includes(urlDate)?(localStorage.setItem('chaselights_day',urlDate),urlDate):(VALID_DAYS.includes(localStorage.getItem('chaselights_day'))?localStorage.getItem('chaselights_day'):'today');
     // CL-UI-16: late-night rescue state. When "today" has no viable card, the
     // main grid switches to tomorrow's suggestions (same verdict source, day
     // offset 1). dayOffsetOverride scopes that temporary evaluation to the
@@ -918,18 +922,24 @@
         }
       });
     }
-    function switchDay(k){currentDayFilter=k;localStorage.setItem('chaselights_day',k);if(k!=='today')lateNightRescueDismissed=false;syncDayButtons();updateDiscoveryText();filterAndRender();}
+    function switchDay(k){currentDayFilter=k;localStorage.setItem('chaselights_day',k);if(k!=='today')lateNightRescueDismissed=false;syncDayButtons();updateDiscoveryText();filterAndRender();syncContextUrl();}
+    // CL-UI-38: region/date/lang context mirrors into the URL on every switch
+    // (history.replaceState — never pushes a history entry), extending the
+    // CL-UI-35 ?lang= pattern so a shared link carries the full page context.
+    function syncContextUrl(){
+      try{const u=new URL(location.href);u.searchParams.set('lang',currentLang);u.searchParams.set('region',currentRegion);u.searchParams.set('date',currentDayFilter);history.replaceState(null,'',u);}catch{}
+    }
     function switchLanguage(k){
       if(!VALID_LANGS.includes(k))return;
       currentLang=k;localStorage.setItem('chaselights_lang',k);
-      // CL-UI-35: keep the URL's lang param in sync with the active language.
-      try{const u=new URL(location.href);u.searchParams.set('lang',k);history.replaceState(null,'',u);}catch{}
+      // CL-UI-35/38: keep the URL context params in sync with the active state.
+      syncContextUrl();
       applyStaticI18n();renderSubNav();syncDayButtons();updateHeader();filterAndRender();
       if(activePlaceSpot&&document.getElementById('place-modal-overlay').style.display==='flex')openPlaceModal(activePlaceSpot,activePlaceSummary);
       if(activeModalSpot&&document.getElementById('modal-overlay').style.display==='flex')renderWeatherModal(activeModalSpot,activeModalSummary);
     }
     function switchTempUnit(k){if(!['C','F'].includes(k))return;currentTempUnit=k;localStorage.setItem('chaselights_temp_unit',k);document.getElementById('temp-unit-select').value=k;filterAndRender();if(activeModalSpot&&document.getElementById('modal-overlay').style.display==='flex')renderWeatherModal(activeModalSpot,activeModalSummary);}
-    function switchRegion(k){if(!VALID_REGIONS.includes(k))k='tw';currentRegion=k;localStorage.setItem('chaselights_region',k);currentCategoryKey=localStorage.getItem(`chaselights_category_${k}`)||'__all__';currentAdminAreas=loadAdminAreas(k);showEmptyAdminAreas=false;document.getElementById('country-select').value=k;loadData(k);updateNavRegionLinks();}
+    function switchRegion(k){if(!VALID_REGIONS.includes(k))k='tw';currentRegion=k;localStorage.setItem('chaselights_region',k);currentCategoryKey=localStorage.getItem(`chaselights_category_${k}`)||'__all__';currentAdminAreas=loadAdminAreas(k);showEmptyAdminAreas=false;document.getElementById('country-select').value=k;loadData(k);updateNavRegionLinks();syncContextUrl();}
     // CL-UI-28 (blueprint §7.2): cross-page region carry. The cards page keeps
     // its region links (nav 天氣圖 item + the legacy header WeatherGrid link)
     // pointed at weather-map.html?region=<current region> so a card-page jump
@@ -2292,6 +2302,10 @@
       }else{
         loadData(currentRegion);
       }
+      // CL-UI-38: mirror the resolved context into the URL on first load too —
+      // illegal params are dropped, missing ones are added (replaceState only,
+      // never pushes a history entry).
+      syncContextUrl();
       // CL-UI-14/U4: an always-reachable close button pinned to the bottom of
       // the weather modal on small screens (the header close button sits at the
       // far end of a long scroll). Created once; hidden on desktop via CSS.

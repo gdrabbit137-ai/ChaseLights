@@ -335,7 +335,7 @@ def main():
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
-            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 180, True, False),
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 187, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False,
                 {"timeout": 300}),
@@ -353,9 +353,10 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 440, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 453, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
-                "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
+                "ops/v2/tests/public-source-contract.test.mjs",
+                "ops/v2/tests/cl-int-76-provenance.test.mjs"], 9, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
                 None, False, False),
             # Owner direction 2026-10-22: the playwright-era suites are replaced by
@@ -393,11 +394,17 @@ def main():
         # pins + boundary-hide tests), exact total 870→881.
         # 2026-11-06 CL-INT-72: w3 suite re-measured at 180 (grew from stale pin 174 on main), exact total=870 (non-candidate groups measured 864 on merged tree + candidate-build-browser 6, CI playwright env)
         # (node v26.7.0, --test-isolation=none).
-        if (report["counts"]["tests"] != 881 or
+        # 2026-11-06 CL-INT-77 integration (CL-UI-37/38 + smoke provenance fix):
+        # w3 re-measured 180->187 (CL-DATA-15-era additions), w4-node 440->453
+        # (language-carry/nav/context-url tests), w5-public-source-contract 6->9
+        # (+ cl-int-76-provenance), exact total 881->904. Measured on merged tree
+        # with node v26.7.0 --test-isolation=none; browse-source pins advanced to
+        # merge head 1f28d085d (CL-DATA-15 index rebuild).
+        if (report["counts"]["tests"] != 904 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 881):
-            raise ValueError("Post-merge exact 881-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 904):
+            raise ValueError("Post-merge exact 904-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

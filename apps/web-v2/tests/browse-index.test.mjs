@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'1505c8421ae867b8fc145e48b36d46a9d08d4fb74178105c4296ea2ad5393b15'); // CL-DATA-15 re-anchor: research index rebuilt after owner-verified elevation corrections (Paiyun 3,402 / Datun 1,092 / Zhushan 2,451; 4 records re-pinned)
-  assert.equal(sha256(rawCatalog),'929dedd7eebb1b698b1e19171b0b6e250e588516b446b5f8b33476d91d6841ae'); // CL-DATA-15 re-anchor: catalog regenerated after owner-verified elevation corrections
+  assert.equal(sha256(rawIndex),'867e3e87e04962eea5161e5a532ffe009d6341ba7ac2e6fc38ffce28561add6e'); // CL-INT-77 re-anchor: browse source pin advanced to merge head 1f28d085d (CL-DATA-15 index rebuild integration); sha re-measured on merged tree
+  assert.equal(sha256(rawCatalog),'847d7a4186233c8233baab2d78ffcc8cd964d82e5ee1aa54ada13dc54d039626'); // CL-DATA-15 re-anchor: catalog regenerated after owner-verified elevation corrections
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
