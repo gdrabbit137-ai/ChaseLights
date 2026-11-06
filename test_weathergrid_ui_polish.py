@@ -121,7 +121,9 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn(".timeline span:nth-child(2),.timeline span:nth-child(4){display:none}", self.css)
 
     def test_mobile_map_gets_more_vertical_space_and_compact_legend(self):
-        self.assertIn(".map-wrap{aspect-ratio:1.12/1", self.css)
+        # CL-WG-27: mobile map follows the region Mercator aspect via the
+        # same CSS variable as desktop (tw 1.033 default fallback).
+        self.assertIn(".map-wrap{aspect-ratio:var(--wg-map-aspect", self.css)
         self.assertIn("min-width:132px;max-width:44%", self.css)
         self.assertIn(".coverage-outline-key{display:none}", self.css)
 
