@@ -228,7 +228,7 @@ test('CL-WG-19 (20): entry application runs only on the initial load path', () =
 
 test('CL-WG-19 (21): weather-map.html loads the deeplink module with a cache-bust stamp', () => {
   assert.match(htmlSource, /assets\/weather-map-deeplink\.js\?v=bclwg\d+/);
-  assert.match(htmlSource, /assets\/weather-map\.js\?v=bclwg27/);
+  assert.match(htmlSource, /assets\/weather-map\.js\?v=bclwg28/);
   // Per-file stamp consistency: every reference of each stamped asset uses
   // one stamp (same contract as test_weathergrid_ui_polish.py).
   const stamps = a => [...htmlSource.matchAll(new RegExp(`assets/${a}\\?v=(bclwg\\d+)`, 'g'))].map(m => m[1]);
