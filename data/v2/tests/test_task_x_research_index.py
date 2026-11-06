@@ -125,10 +125,11 @@ class ResearchIndexTests(unittest.TestCase):
             # same-source definition); canonical records re-pinned to the
             # contract commit holding the new bytes.
             'e261cc9817e720d852bd5aee9b1b555edd253d8c',
-            # CL-INT-78 merge (7a290aa08): the CL-DATA-17 US coordinate/
-            # elevation records re-pointed to the merge commit carrying the
-            # merged verified bytes (union with CL-DATA-19 re-pins).
-            '7a290aa086aa3dc048b6a7f57c22bd5327fbcc1c',
+            # CL-INT-78 merge (7a290aa08 -> re-pointed at the CL-INT-86
+            # re-merge db04b94f3): the CL-DATA-17 US coordinate/elevation
+            # records re-pointed to the merge commit carrying the merged
+            # verified bytes (union with CL-DATA-19 re-pins).
+            'db04b94f3a0a6e78bff000e3c97ffb80fee2daf5',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])
