@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-013-P02",
   "place_id": "us-013",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Watchman Peak・Crater Lake日落360度展望",
@@ -20,21 +20,23 @@
       "kind": "area",
       "geometry": {
         "kind": "point",
-        "status": "provisional",
+        "status": "verified",
         "geojson": {
           "type": "Point",
           "coordinates": [
-            -122.146719,
-            42.911253
+            -122.1711,
+            42.9421
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-17 coordinate corrected 2026-11-06; source: Watchman Peak summit 42.94210,-122.17106（SummitPost；Crater Lake Institute trailhead 42.94476,-122.17052 adjacent）；replaced the Rim Village camera point 2026-11-06",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
-      "evidence_refs": [],
+      "verification_status": "verified",
+      "evidence_refs": [
+        "CL-DATA-17:coordinate:us-013-P02:https://www.summitpost.org/the-watchman/157164 + https://www.craterlakeinstitute.com/what-to-do/planning-your-visit/hiking/trails-index/watchman-peak-trail"
+      ],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
         "en": "Access information not yet verified; follow on-site notices and rules.",
@@ -63,8 +65,8 @@
         "geojson": {
           "type": "Point",
           "coordinates": [
-            -122.146719,
-            42.911253
+            -122.1711,
+            42.9421
           ]
         },
         "uncertainty_m": null,
@@ -97,15 +99,15 @@
       "id": "NAV-us-013-P02-01",
       "status": "needs_review",
       "target_type": "other",
-      "lat": 42.911253,
-      "lon": -122.146719,
+      "lat": 42.9421,
+      "lon": -122.1711,
       "label_i18n": {
         "zh-TW": "火山口湖國家公園",
         "en": "Crater Lake National Park",
         "ja": "クレーターレイク国立公園"
       },
       "evidence_refs": [],
-      "confidence": "low"
+      "confidence": "high"
     }
   ],
   "condition_contract": {
@@ -251,9 +253,11 @@
     {
       "claim_id": "us-013-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
-      "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "evidence_refs": [
+        "CL-DATA-17:coordinate:us-013-P02:https://www.summitpost.org/the-watchman/157164 + https://www.craterlakeinstitute.com/what-to-do/planning-your-visit/hiking/trails-index/watchman-peak-trail"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Skeleton import from V1 catalog; CL-DATA-17 2026-11-06 camera coordinate/elevation re-verified against authoritative web sources (refs attached)."
     }
   ],
   "readiness": {
