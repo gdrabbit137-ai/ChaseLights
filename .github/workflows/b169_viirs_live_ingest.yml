@@ -1,14 +1,14 @@
-name: B169 VIIRS Live WeatherGrid Ingest
+name: B169 VIIRS Live WeatherGrid Ingest (GIBS daily DNB)
 
 on:
   workflow_dispatch:
     inputs:
-      year:
-        description: "VNP46A4 composite year"
-        required: true
-        default: "2025"
+      date:
+        description: "Observation date (YYYY-MM-DD); empty = yesterday UTC"
+        required: false
+        default: ""
       region:
-        description: "Region to ingest (tw | us)"
+        description: "Region to ingest (tw | jp | us | ak | hi)"
         required: true
         default: "tw"
       bbox:
@@ -22,72 +22,59 @@ permissions:
 jobs:
   live-ingest:
     runs-on: ubuntu-latest
-    # CL-DATA-07: the us window pulls ~18 VNP46A4 tiles (~1 GB+); 30 minutes
-    # let a slow LAADS transfer cancel the whole ingest silently.
+    # CL-CI-20: GIBS public WMTS needs no credentials; the us bbox still pulls
+    # ~90 tiles at level 6, so keep a generous timeout.
     timeout-minutes: 60
-    env:
-      EARTHDATA_TOKEN: ${{ secrets.EARTHDATA_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
-      - name: Require Earthdata token secret
-        run: |
-          if [ -z "$EARTHDATA_TOKEN" ]; then
-            echo "::error::Configure repository secret EARTHDATA_TOKEN before running live VIIRS ingest."
-            exit 1
-          fi
-      - name: Install HDF5 reader
-        run: python -m pip install --disable-pip-version-check h5py
       - name: Resolve region parameters
         id: region
         run: |
-          # CL-DATA-07: the ingest is region-parameterized. us uses the us
-          # region bbox (125-70.5°W / 25-49.5°N, the GFS us convention);
-          # tw keeps its historical default. Outputs follow
+          # CL-CI-20: region-parameterized GIBS daily DNB ingest. Outputs follow
           # viirs_nightlights_<region>_browser.json, matching
           # assets/weather-map.js REGION_SOURCE_CATALOG.viirs.file().
-          if [ "${{ inputs.region }}" = "us" ]; then
-            default_bbox="125,25,-70.5,49.5"
-            browser="viirs_nightlights_us_browser.json"
-            qc="viirs_nightlights_us_qc.json"
-            label="US"
-          else
-            default_bbox="119.5,21.5,122.5,25.5"
-            browser="viirs_nightlights_tw_browser.json"
-            qc="viirs_nightlights_tw_qc.json"
-            label="Taiwan"
-          fi
+          case "${{ inputs.region }}" in
+            jp)
+              default_bbox="122,24,146,46";;
+            us)
+              default_bbox="-125,25,-70.5,49.5";;
+            ak)
+              default_bbox="-158,55,-132,69.5";;
+            hi)
+              default_bbox="-160.3,18.8,-154.8,22.4";;
+            *)
+              default_bbox="119.5,21.5,122.5,25.5";;
+          esac
           if [ -n "${{ inputs.bbox }}" ]; then
             echo "bbox=${{ inputs.bbox }}" >> "$GITHUB_OUTPUT"
           else
             echo "bbox=$default_bbox" >> "$GITHUB_OUTPUT"
           fi
-          echo "browser=$browser" >> "$GITHUB_OUTPUT"
-          echo "qc=$qc" >> "$GITHUB_OUTPUT"
-          echo "label=$label" >> "$GITHUB_OUTPUT"
-      - name: Discover and download VNP46A4
+          echo "browser=viirs_nightlights_${{ inputs.region }}_browser.json" >> "$GITHUB_OUTPUT"
+          echo "qc=viirs_nightlights_${{ inputs.region }}_qc.json" >> "$GITHUB_OUTPUT"
+      - name: Resolve observation date
+        id: date
         run: |
-          python viirs_lads_download.py \
-            --year "${{ inputs.year }}" \
-            --bbox "${{ steps.region.outputs.bbox }}" \
-            --output-dir .cache/viirs
-      - name: Build WeatherGrid mosaic
-        shell: bash
-        run: |
-          mapfile -t files < <(find .cache/viirs -maxdepth 1 -name 'VNP46A4*.h5' -type f | sort)
-          if [ "${#files[@]}" -lt 1 ]; then
-            echo "::error::No VNP46A4 source tiles were downloaded for the requested ${{ steps.region.outputs.label }} bbox."
-            exit 1
+          if [ -n "${{ inputs.date }}" ]; then
+            date="${{ inputs.date }}"
+          else
+            date="$(date -u -d yesterday +%F)"
           fi
-          args=()
-          for file in "${files[@]}"; do
-            args+=(--input-h5 "$file")
-          done
+          echo "date=$date" >> "$GITHUB_OUTPUT"
+      - name: Download GIBS NOAA-20 DNB tiles (fail-closed)
+        run: |
+          python viirs_gibs_download.py \
+            --date "${{ steps.date.outputs.date }}" \
+            --region "${{ inputs.region }}" \
+            --bbox "${{ steps.region.outputs.bbox }}" \
+            --output-dir .cache/viirs_gibs
+      - name: Build WeatherGrid mosaic
+        run: |
           python viirs_nightlights_ingest.py \
-            "${args[@]}" \
-            --year "${{ inputs.year }}" \
+            --tiles-manifest .cache/viirs_gibs/manifest.json \
             --bbox "${{ steps.region.outputs.bbox }}" \
             --output "weathergrid/${{ steps.region.outputs.browser }}" \
             --qc-output "weathergrid/${{ steps.region.outputs.qc }}"
@@ -99,12 +86,17 @@ jobs:
           browser = "${{ steps.region.outputs.browser }}"
           data=json.loads(Path(f"weathergrid/{browser}").read_text())
           qcj=json.loads(Path("weathergrid/${{ steps.region.outputs.qc }}").read_text())
-          assert data["source"]=="nasa_black_marble_vnp46a4"
+          assert data["source"]=="nasa_gibs_viirs_noaa20_dnb"
           assert "nighttime_lights_radiance_nw_cm2_sr" in data["fields"]
-          assert data["provenance"]["doi"]=="10.5067/VIIRS/VNP46A4.002"
-          assert "not Bortle class" in data["provenance"]["semantics"]
+          prov=data["provenance"]
+          assert prov["source_layer"]=="VIIRS_NOAA20_DayNightBand_At_Sensor_Radiance"
+          assert prov["distribution"].startswith("NASA EOSDIS GIBS public WMTS")
+          assert "cloud contamination" in prov["cloud_caveat"]
+          assert "not Bortle class" in prov["semantics"]
+          assert "dead end" in prov["laads_dead_end"]
+          assert "cloud contamination" in qcj["limitations"][0]
           assert not qcj["flags"], qcj
-          print({"browser":browser,"rows":data["grid"]["rows"],"cols":data["grid"]["cols"],"qc":qcj["quality_counts"]})
+          print({"browser":browser,"rows":data["grid"]["rows"],"cols":data["grid"]["cols"],"radiance":qcj["radiance"]})
           PY
       - name: Publish QC-passing VIIRS snapshot
         run: |
@@ -114,20 +106,13 @@ jobs:
           if git diff --cached --quiet; then
             echo "VIIRS snapshot unchanged."
           else
-            git commit -m "Auto-update VIIRS nighttime-light snapshot [skip ci]"
+            git commit -m "Auto-update GIBS VIIRS nighttime-light snapshot [skip ci]"
             for i in {1..5}; do
               if git pull --rebase origin main && git push origin HEAD:main; then
                 exit 0
               fi
-              sleep 5
+              sleep 20
             done
-            echo "Failed to publish VIIRS snapshot after retries."
+            echo "::error::Failed to publish VIIRS snapshot after retries."
             exit 1
           fi
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: viirs-nightlights-${{ inputs.region }}-${{ inputs.year }}
-          path: |
-            weathergrid/${{ steps.region.outputs.browser }}
-            weathergrid/${{ steps.region.outputs.qc }}

@@ -154,7 +154,7 @@
 ,
     'CAMS Global · 霧霾':'CAMS Global · Haze'
 ,
-    'NASA Black Marble · 夜間燈光':'NASA Black Marble · Night lights'
+    'NASA GIBS · 每日夜間燈光':'NASA GIBS · Night lights (daily DNB)'
 ,
     '自動':'Auto'
 ,
@@ -292,7 +292,7 @@
 ,
     '觀測時間 · {t} TST':'Observation time · {t} TST'
 ,
-    '年度合成 · {y}':'Annual composite · {y}'
+    '夜間燈光觀測日期 · {d}':'Night-lights observation date · {d}'
 ,
     'CAMS 預報時間 · {t} TST':'CAMS forecast time · {t} TST'
 ,
@@ -326,7 +326,7 @@
 ,
     'CAMS Global 原生約 {r} km · {h} h · 0.4° 取樣顯示格':'CAMS Global native ≈ {r} km · {h} h · 0.4° sampling display grid'
 ,
-    '年度夜間燈光合成':'annual night-lights composite'
+    '每日夜間燈光（原始 DNB）':'daily night lights (raw DNB)'
 ,
     '原生 ':'Native '
 ,
@@ -360,7 +360,7 @@
 ,
     '霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>':'Haze data: Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>'
 ,
-    '夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 衛星輻亮度；QA 0 good / 1 poor / 2 gap-filled；不等同 Bortle 或天空亮度':'Night lights: NASA Black Marble VNP46A4 Collection 2 · satellite radiance; QA 0 good / 1 poor / 2 gap-filled; not equivalent to Bortle or sky brightness'
+    '夜間燈光：NASA GIBS VIIRS DNB（NOAA-20）· 每日原始夜間輻亮度；含雲污染、非無雲合成；不等同 Bortle 或天空亮度':'Night lights: NASA GIBS VIIRS DNB (NOAA-20) · daily raw nighttime radiance; cloud-affected, not a cloud-free composite; not equivalent to Bortle or sky brightness'
 ,
     '畫面資料範圍：—':'Displayed data range: —'
 ,
@@ -368,7 +368,7 @@
 ,
     'Himawari-9 AHI · 觀測':'Himawari-9 AHI · observation'
 ,
-    'NASA Black Marble VNP46A4 · 年度環境背景':'NASA Black Marble VNP46A4 · annual environment background'
+    'NASA GIBS VIIRS DNB（NOAA-20）· 每日夜間燈光':'NASA GIBS VIIRS DNB (NOAA-20) · daily night lights'
 ,
     '空白區＝目前 {p} 無資料，不代表晴朗；切換雲層時自動預報可能改用不同模型。':'Blank area = no data from the current {p}; not clear sky. Auto forecast may switch models when changing cloud layers.'
 ,
@@ -380,7 +380,7 @@
 ,
     '單張最新觀測':'single latest observation'
 ,
-    '靜態年度背景，不隨氣象預報時間軸變化':'static annual background, not on the forecast timeline'
+    '靜態環境背景，不隨氣象預報時間軸變化':'static environment background, not on the forecast timeline'
 ,
     '各模型保留自己的範圍／解析度／時間軸':'each model keeps its own coverage/resolution/timeline'
 ,
@@ -396,19 +396,19 @@
 ,
     '衛星 presentation grid 最近鄰取樣（觀測／反演資料不做雙線性混合）':'Nearest-neighbor sampling on the satellite presentation grid (observation/retrieval data is never bilinearly blended)'
 ,
-    '年度夜間燈光顯示可內插；品質旗標以最近原始顯示格判讀':'Annual night-lights display may interpolate; quality flags are read from the nearest native cell'
+    '每日夜間燈光為 WMTS 顯示取樣；原始 DNB 含雲污染':'Daily night-lights display is WMTS display sampling; raw DNB is cloud-affected'
 ,
     '瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）':'Browser bilinear interpolation (wind direction via cyclic u/v vectors; no extrapolation beyond data coverage)'
 ,
-    'good（原始年度合成）':'good (native annual composite)'
+    '每日原始 DNB：含雲污染，非無雲合成；無逐格品質旗標':'Daily raw DNB: cloud-affected, not a cloud-free composite; no per-cell quality flags'
 ,
-    'poor（品質較低）':'poor (lower quality)'
+    '觀測日期 {d}':'Observation date {d}'
 ,
-    'gap-filled（缺口填補）':'gap-filled (gaps filled)'
+
 ,
-    '未知／缺值':'Unknown / missing'
+
 ,
-    'VNP46A4 QA：':'VNP46A4 QA: '
+
 ,
     '取樣：':'Sampling: '
 ,
@@ -529,7 +529,7 @@
 ,
     'CAMS Global · 霧霾':'CAMS Global · ヘイズ'
 ,
-    'NASA Black Marble · 夜間燈光':'NASA Black Marble · 夜間ライト'
+    'NASA GIBS · 每日夜間燈光':'NASA GIBS · 日次夜間ライト'
 ,
     '自動':'自動'
 ,
@@ -667,7 +667,7 @@
 ,
     '觀測時間 · {t} TST':'観測時刻 · {t} TST'
 ,
-    '年度合成 · {y}':'年次合成 · {y}'
+    '夜間燈光觀測日期 · {d}':'夜間ライト観測日 · {d}'
 ,
     'CAMS 預報時間 · {t} TST':'CAMS 予報時刻 · {t} TST'
 ,
@@ -701,7 +701,7 @@
 ,
     'CAMS Global 原生約 {r} km · {h} h · 0.4° 取樣顯示格':'CAMS Global ネイティブ約 {r} km · {h} h · 0.4° サンプリング表示グリッド'
 ,
-    '年度夜間燈光合成':'年次夜間ライト合成'
+    '每日夜間燈光（原始 DNB）':'日次夜間ライト（生 DNB）'
 ,
     '原生 ':'ネイティブ '
 ,
@@ -735,7 +735,7 @@
 ,
     '霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>':'ヘイズデータ：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>'
 ,
-    '夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 衛星輻亮度；QA 0 good / 1 poor / 2 gap-filled；不等同 Bortle 或天空亮度':'夜間ライト：NASA Black Marble VNP46A4 Collection 2 · 衛星放射輝度。QA 0 good / 1 poor / 2 gap-filled。Bortle や天空亮度と同一ではありません'
+    '夜間燈光：NASA GIBS VIIRS DNB（NOAA-20）· 每日原始夜間輻亮度；含雲污染、非無雲合成；不等同 Bortle 或天空亮度':'夜間ライト：NASA GIBS VIIRS DNB（NOAA-20）· 衛星の夜間放射輝度（毎日）。雲の影響を含み、雲なし合成ではありません。Bortle や天空亮度と同一ではありません'
 ,
     '畫面資料範圍：—':'表示データ範囲: —'
 ,
@@ -743,7 +743,7 @@
 ,
     'Himawari-9 AHI · 觀測':'Himawari-9 AHI · 観測'
 ,
-    'NASA Black Marble VNP46A4 · 年度環境背景':'NASA Black Marble VNP46A4 · 年次環境背景'
+    'NASA GIBS VIIRS DNB（NOAA-20）· 每日夜間燈光':'NASA GIBS VIIRS DNB（NOAA-20）· 日次夜間ライト'
 ,
     '空白區＝目前 {p} 無資料，不代表晴朗；切換雲層時自動預報可能改用不同模型。':'空白部＝現在の {p} にはデータがなく、晴れを意味しません。雲レイヤー切替時に自動予報は別のモデルを使う場合があります。'
 ,
@@ -755,7 +755,7 @@
 ,
     '單張最新觀測':'単一の最新観測'
 ,
-    '靜態年度背景，不隨氣象預報時間軸變化':'静的な年次背景。気象予報タイムラインには追従しません'
+    '靜態環境背景，不隨氣象預報時間軸變化':'静的な環境背景。気象予報タイムラインには追従しません'
 ,
     '各模型保留自己的範圍／解析度／時間軸':'各モデルは独自の範囲／解像度／タイムラインを保持します'
 ,
@@ -771,19 +771,19 @@
 ,
     '衛星 presentation grid 最近鄰取樣（觀測／反演資料不做雙線性混合）':'衛星表示グリッドの最近隣サンプリング（観測／反演データは双線形混合しません）'
 ,
-    '年度夜間燈光顯示可內插；品質旗標以最近原始顯示格判讀':'年次夜間ライトの表示は補間できます。品質フラグは最近傍のネイティブセルで判断します'
+    '每日夜間燈光為 WMTS 顯示取樣；原始 DNB 含雲污染':'日次夜間ライトは WMTS 表示サンプリングです。生 DNB には雲の影響が含まれます'
 ,
     '瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）':'ブラウザー双線形補間（風向は u/v ベクトル循環補間。データ範囲外は外挿しません）'
 ,
-    'good（原始年度合成）':'good（元の年次合成）'
+    '每日原始 DNB：含雲污染，非無雲合成；無逐格品質旗標':'毎日の生 DNB：雲の影響を含み、雲なし合成ではありません。セルごとの品質フラグはありません'
 ,
-    'poor（品質較低）':'poor（品質低め）'
+
 ,
-    'gap-filled（缺口填補）':'gap-filled（欠損補完）'
+
 ,
-    '未知／缺值':'不明／欠損'
+    '觀測日期 {d}':'観測日 {d}'
 ,
-    'VNP46A4 QA：':'VNP46A4 QA：'
+
 ,
     '取樣：':'サンプリング: '
 ,
@@ -994,7 +994,7 @@
       qcFile: region => region === 'tw' ? 'cams_global_tw_aod_qc.json' : `cams_global_${region}_aod_qc.json`
     },
     viirs: {
-      label: 'NASA Black Marble · 夜間燈光',
+      label: 'NASA GIBS · 每日夜間燈光',
       field: 'viirsData',
       layers: ['nighttime_lights_radiance_nw_cm2_sr'],
       coverage: {
@@ -2261,7 +2261,7 @@
     if(entry.id === 'viirs'){
       const qcFlags = Array.isArray(qc?.flags) ? qc.flags : ['qc_missing'];
       const viirsData = data;
-      const validContract = viirsData?.source==='nasa_black_marble_vnp46a4' &&
+      const validContract = viirsData?.source==='nasa_gibs_viirs_noaa20_dnb' &&
         Boolean(viirsData?.fields?.nighttime_lights_radiance_nw_cm2_sr) &&
         qcFlags.length===0;
       if(!validContract) throw new Error('VIIRS nighttime-light artifact failed contract/QC gate');
@@ -2715,7 +2715,7 @@
     if(mode==='icon') return 'ICON Global';
     if(mode==='gfs') return 'GFS 0.25°';
     if(mode==='cams') return wmT('CAMS Global · 霧霾');
-    if(mode==='viirs') return wmT('NASA Black Marble · 夜間燈光');
+    if(mode==='viirs') return wmT('NASA GIBS · 每日夜間燈光');
     return wmT('自動');
   }
 
@@ -2841,7 +2841,7 @@
     if(state.viirsData && !viirsOption){
       viirsOption=document.createElement('option');
       viirsOption.value='viirs';
-      viirsOption.textContent=wmT('NASA Black Marble · 夜間燈光');
+      viirsOption.textContent=wmT('NASA GIBS · 每日夜間燈光');
       modelSelect.appendChild(viirsOption);
     }else if(!state.viirsData && viirsOption){
       viirsOption.remove();
@@ -4884,7 +4884,7 @@
       : (usingHimawari
       ? wmT('觀測時間 · {t} TST',{t:formatTaipeiTime(f.valid_time_utc)})
       : (usingViirs
-        ? wmT('年度合成 · {y}',{y:f.composite_year || data.provenance?.composite_year || new Date(f.valid_time_utc).getUTCFullYear()})
+        ? wmT('夜間燈光觀測日期 · {d}',{d:f.observation_date || data.provenance?.observation_date || f.valid_time_utc.slice(0,10)})
         : (usingCams
           ? wmT('CAMS 預報時間 · {t} TST',{t:formatTaipeiTime(f.valid_time_utc)})
           : wmT('預報時間 · {t} · +{h}h{ref}',{t:formatTaipeiTime(f.valid_time_utc),h:forecastHour,ref:forecastHour > 48 ? '（參考）' : ''}))));
@@ -4941,12 +4941,12 @@
       resolution=wmT('CAMS Global 原生約 {r} km · {h} h · 0.4° 取樣顯示格',{r:p.native_resolution_km || 45,h:p.native_time_interval_hours || 3});
     }else if(usingViirs){
       const p=data.provenance || {};
-      resolution=`NASA Black Marble · ${p.native_resolution || '15 arc-second'} · ${wmT('年度夜間燈光合成')}`;
+      resolution=`NASA GIBS · ${p.native_resolution || '500 m'} · ${wmT('每日夜間燈光（原始 DNB）')}`;
     }else{
       resolution=`${wmT('原生 ')}0.25° · ${interpolationLabel}`;
     }
     const cycleText=usingViirs
-      ? String(f.composite_year || new Date(f.valid_time_utc).getUTCFullYear())
+      ? wmT('觀測日期 {d}',{d:f.observation_date || data.provenance?.observation_date || f.valid_time_utc.slice(0,10)})
       : (usingCams
         ? (data.cycle?.retrieved_at_utc || data.cycle?.label || '—')
         : (data.cycle?.cycle_time_utc || data.cycle?.label || '—'));
@@ -5003,7 +5003,7 @@
     }else if(usingCams){
       attributionHost.innerHTML=wmT('霧霾資料：Copernicus CAMS Global · API: <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo</a>');
     }else if(usingViirs){
-      attributionHost.textContent=wmT('夜間燈光：NASA Black Marble VNP46A4 Collection 2 · 衛星輻亮度；QA 0 good / 1 poor / 2 gap-filled；不等同 Bortle 或天空亮度');
+      attributionHost.textContent=wmT('夜間燈光：NASA GIBS VIIRS DNB（NOAA-20）· 每日原始夜間輻亮度；含雲污染、非無雲合成；不等同 Bortle 或天空亮度');
     }else{
       attributionHost.innerHTML='';
     }
@@ -5020,9 +5020,9 @@
     else if(usingCwa) providerRole='CWA WRF 3 km';
     else if(usingIcon) providerRole=state.modelMode==='auto'?'ICON Global · auto':'ICON Global';
     else if(usingCams) providerRole=state.layer==='pm2_5_ug_m3'?'CAMS Global · PM2.5':'CAMS Global · AOD 550 nm';
-    else if(usingViirs) providerRole=wmT('NASA Black Marble VNP46A4 · 年度環境背景');
+    else if(usingViirs) providerRole=wmT('NASA GIBS VIIRS DNB（NOAA-20）· 每日夜間燈光');
     else if(state.modelMode==='auto' && cloudLayers.has(state.layer)) providerRole='GFS fallback';
-    const coverageProvider=usingHimawari?'Himawari-9':(usingJma?'JMA MSM 5 km':(usingCwa?'CWA WRF 3 km':(usingIcon?'ICON Global':(usingCams?'CAMS Global':(usingViirs?'NASA Black Marble':'GFS 0.25°')))));
+    const coverageProvider=usingHimawari?'Himawari-9':(usingJma?'JMA MSM 5 km':(usingCwa?'CWA WRF 3 km':(usingIcon?'ICON Global':(usingCams?'CAMS Global':(usingViirs?'NASA GIBS':'GFS 0.25°')))));
     const coverageNote=$('provider-coverage-note');
     if(coverageNote){
       const showCoverageNote=cloudLayers.has(state.layer);
@@ -5039,7 +5039,7 @@
     $('layer-unit').textContent=usingHimawari
       ? `${providerRole} · ${unitText} · ${wmT('單張最新觀測')}`
       : (usingViirs
-        ? `${providerRole} · ${unitText} · ${wmT('靜態年度背景，不隨氣象預報時間軸變化')}`
+        ? `${providerRole} · ${unitText} · ${wmT('靜態環境背景，不隨氣象預報時間軸變化')}`
         : `${providerRole} · ${unitText} · ${wmT('各模型保留自己的範圍／解析度／時間軸')}`);
     const vertical=data.fields[state.layer]?.vertical_definition || null;
     const verticalHost=$('layer-vertical');
@@ -5087,17 +5087,11 @@
     const sampleMethod=isObservationMode()
       ? wmT('衛星 presentation grid 最近鄰取樣（觀測／反演資料不做雙線性混合）')
       : (usingViirs
-        ? wmT('年度夜間燈光顯示可內插；品質旗標以最近原始顯示格判讀')
+        ? wmT('每日夜間燈光為 WMTS 顯示取樣；原始 DNB 含雲污染')
         : wmT('瀏覽器雙線性插值（風向以 u/v 向量循環插值；超出資料範圍不外推）'));
     let viirsQualityHtml='';
     if(usingViirs && point){
-      const q=sampleDatasetNearest(
-        point,data,'nighttime_lights_quality_flag',f.valid_time_utc
-      );
-      const qualityLabel=q===0?wmT('good（原始年度合成）')
-        :(q===1?wmT('poor（品質較低）')
-          :(q===2?wmT('gap-filled（缺口填補）'):wmT('未知／缺值')));
-      viirsQualityHtml=`<div>${wmT('VNP46A4 QA：')}${escapeHtml(qualityLabel)}</div>`;
+      viirsQualityHtml=`<div>${wmT('每日原始 DNB：含雲污染，非無雲合成；無逐格品質旗標')}</div>`;
     }
     $('spot-details').innerHTML=point
       ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>${wmT('取樣：')}${sampleMethod}</div>${viirsQualityHtml}`

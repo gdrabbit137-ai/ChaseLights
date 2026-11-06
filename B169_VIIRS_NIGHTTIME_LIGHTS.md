@@ -2,6 +2,35 @@
 
 Date: 2026-10-01
 
+## CL-CI-20 UPDATE (2026-11-07): LAADS VNP46A4 is a DEAD END — pipeline moved to NASA GIBS
+
+The annual-composite source below is retired as a live pipeline:
+
+- Suomi NPP data supply was TERMINATED 2026-11-01 (owner ruling + LAADS evidence).
+- VNP46A4 is an Suomi NPP (SNPP) product, so the annual cloud-free composite can
+  no longer be sourced — the product lifecycle has ended. The LAADS download
+  path is marked DEAD END (`viirs_lads_download.py` fails closed).
+
+Replacement live pipeline (primary source per owner ruling: NOAA-20):
+
+- NASA GIBS public WMTS layer `VIIRS_NOAA20_DayNightBand_At_Sensor_Radiance`
+  (EPSG:4326 "500m" tile matrix, levels 0-7; daily PNG tiles, no authentication).
+- Time range served by GIBS: 2024-03-25 onward, updated daily.
+- Suomi NPP DNB GIBS layers (`VIIRS_SNPP_DayNightBand_At_Sensor_Radiance`,
+  `VIIRS_SNPP_DayNightBand_ENCC`) survive only as a HISTORICAL archive with
+  gaps; they are not used as a live source.
+- Daily raw DNB is CLOUD-AFFECTED: this is NOT a cloud-free composite and the
+  rendered GIBS layer carries no per-pixel quality flags. This limitation is
+  stated in every bundle's provenance/QC and in the UI.
+- Radiance values are recovered by inverting the published GIBS colormap
+  (bin midpoints, nW/(cm²·sr)) — colormap-bin-quantized approximations, not raw
+  HDF5 radiance.
+- Ingest: `viirs_gibs_download.py` (tiles, fail-closed on missing days) +
+  `viirs_nightlights_ingest.py` (mosaic + bundle). Region bboxes: tw/jp/us/ak/hi.
+
+The historical VNP46A4 contract below is kept for provenance of previously
+published artifacts; new snapshots come from the GIBS pipeline.
+
 ## Source decision
 
 Primary source: NASA Black Marble VNP46A4 Collection 2 yearly nighttime-lights composite.

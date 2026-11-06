@@ -1,108 +1,91 @@
+"""CL-CI-20: daily GIBS bundle contract (schema, provenance, honest quality)."""
 import unittest
 
 from viirs_nightlights_weathergrid import (
-    ENCODING_SCALE,
-    FIELD_QUALITY,
     FIELD_RADIANCE,
-    MAX_BROWSER_CELLS,
+    LAADS_DEAD_END,
+    SOURCE,
+    SOURCE_LAYER,
     build_bundle,
     sample_bundle_at_location,
 )
 
 
-class ViirsNightLightsWeatherGridTest(unittest.TestCase):
-    def test_contract_preserves_radiance_semantics(self):
-        bundle, qc = build_bundle(
-            [25.0, 24.5],
-            [121.0, 121.5],
-            [0.2, 1.5, 8.4, 42.0],
-            [0, 0, 1, 2],
-            2025,
-        )
-        self.assertEqual(bundle["source"], "nasa_black_marble_vnp46a4")
-        self.assertEqual(bundle["fields"][FIELD_RADIANCE]["unit"], "nW/(cm²·sr)")
-        self.assertEqual(bundle["fields"][FIELD_RADIANCE]["scale"], ENCODING_SCALE)
-        self.assertIn("not Bortle class", bundle["provenance"]["semantics"])
-        self.assertEqual(bundle["frames"][0]["values"][FIELD_RADIANCE], [2, 15, 84, 420])
-        self.assertEqual(qc["quality_counts"]["poor"], 1)
-        self.assertEqual(qc["quality_counts"]["gap_filled"], 1)
+def make_inputs():
+    lats = [2.0, 1.0]
+    lons = [0.0, 1.0]
+    radiance = [0.25, 0.0, None, 3.7]
+    return lats, lons, radiance
 
-    def test_fill_and_invalid_radiance_remain_missing(self):
-        bundle, qc = build_bundle(
-            [25.0, 24.5],
-            [121.0, 121.5],
-            [0.2, -999.9, None, 4.0],
-            [0, 255, 0, 255],
-            2025,
-        )
+
+class BundleSchemaTest(unittest.TestCase):
+    def test_bundle_is_daily_gibs_noaa20(self):
+        bundle, qc = build_bundle(*make_inputs(), observation_date="2026-11-04")
+        self.assertEqual(bundle["source"], SOURCE)
+        self.assertEqual(bundle["time_semantics"], "daily_raw_dnb_cloud_affected_environment_baseline")
+        self.assertEqual(bundle["frames"][0]["observation_date"], "2026-11-04")
+        self.assertEqual(bundle["frames"][0]["valid_time_utc"], "2026-11-04T00:00:00+00:00")
+        self.assertIn(FIELD_RADIANCE, bundle["fields"])
+        self.assertNotIn("nighttime_lights_quality_flag", bundle["fields"])
+
+    def test_encoding_roundtrip(self):
+        bundle, _ = build_bundle(*make_inputs(), observation_date="2026-11-04")
         values = bundle["frames"][0]["values"][FIELD_RADIANCE]
-        quality = bundle["frames"][0]["values"][FIELD_QUALITY]
-        self.assertEqual(values, [2, None, None, None])
-        self.assertEqual(quality, [0, None, 0, None])
-        self.assertEqual(qc["radiance"]["missing"], 3)
+        self.assertEqual(values[0], 25)  # 0.25 / 0.01
+        self.assertEqual(values[1], 0)
+        self.assertIsNone(values[2])
+        self.assertEqual(values[3], 370)  # 3.7 / 0.01
 
-    def test_bad_grid_shape_fails_closed(self):
-        with self.assertRaises(ValueError):
-            build_bundle([25.0], [121.0, 121.5], [1, 2], [0, 0], 2025)
+    def test_provenance_documents_cloud_caveat_and_dead_end(self):
+        bundle, qc = build_bundle(*make_inputs(), observation_date="2026-11-04")
+        prov = bundle["provenance"]
+        self.assertEqual(prov["source_layer"], SOURCE_LAYER)
+        self.assertIn("NASA EOSDIS GIBS", prov["distribution"])
+        self.assertIn("cloud contamination", prov["cloud_caveat"])
+        self.assertIn("NOT a cloud-free composite", prov["cloud_caveat"])
+        self.assertIn("not Bortle class", prov["semantics"])
+        self.assertIn("dead end", prov["laads_dead_end"])
+        self.assertIn("terminated 2026-11-01", prov["laads_dead_end"])
+        self.assertEqual(prov["colormap_version"], "v1.3")
+        self.assertIn("colormaps/v1.3", prov["colormap_url"])
+        self.assertIn("cloud contamination", qc["limitations"][0])
 
+    def test_qc_fail_closed_flags(self):
+        lats, lons = [2.0, 1.0], [0.0, 1.0]
+        bundle, qc = build_bundle(lats, lons, [None, None, None, None], "2026-11-04")
+        self.assertEqual(qc["flags"], ["all_missing"])
+        bundle, qc = build_bundle(lats, lons, [0.1, 0.2, 0.3, 0.4], "2026-11-04")
+        self.assertEqual(qc["flags"], [])
 
-    def test_large_native_grid_is_sampled_to_browser_budget(self):
-        rows, cols = 100, 100
-        lats = [25.0 - i * 0.01 for i in range(rows)]
-        lons = [120.0 + i * 0.01 for i in range(cols)]
-        radiance = [1.0] * (rows * cols)
-        quality = [0] * (rows * cols)
-        bundle, qc = build_bundle(
-            lats, lons, radiance, quality, 2025, max_browser_cells=2500
-        )
-        self.assertLessEqual(bundle["grid"]["rows"] * bundle["grid"]["cols"], 2500)
-        self.assertEqual(bundle["provenance"]["native_resolution"], "15 arc-second")
-        self.assertGreater(bundle["provenance"]["browser_sampling_stride"], 1)
-        self.assertEqual(qc["source_cell_count"], 10000)
-        self.assertEqual(qc["browser_budget_cells"], 2500)
-
-    def test_default_browser_budget_is_explicit(self):
-        self.assertEqual(MAX_BROWSER_CELLS, 250_000)
-
-    def test_tiny_browser_budget_fails_closed(self):
-        with self.assertRaises(ValueError):
-            build_bundle(
-                [25.0, 24.5],
-                [121.0, 121.5],
-                [1, 2, 3, 4],
-                [0, 0, 0, 0],
-                2025,
-                max_browser_cells=3,
-            )
+    def test_downsampling_budget(self):
+        lats = [10.0 - i * 0.1 for i in range(600)]
+        lons = [100.0 + i * 0.1 for i in range(600)]
+        values = [0.5] * (600 * 600)
+        bundle, qc = build_bundle(lats, lons, values, "2026-11-04")
+        self.assertLessEqual(bundle["grid"]["rows"] * bundle["grid"]["cols"], 250_000)
+        self.assertGreater(qc["browser_sampling_stride"], 1)
 
 
-    def test_point_sampler_preserves_quality_and_sampling_provenance(self):
-        bundle, qc = build_bundle(
-            [25.0, 24.5],
-            [121.0, 121.5],
-            [0.2, 1.5, 8.4, 42.0],
-            [0, 1, 2, 0],
-            2025,
-        )
-        sample = sample_bundle_at_location(bundle, 24.96, 121.04, qc=qc)
-        self.assertAlmostEqual(sample[FIELD_RADIANCE], 0.2)
-        self.assertEqual(sample[FIELD_QUALITY], 0)
-        self.assertEqual(sample["viirs_sample"]["composite_year"], 2025)
-        self.assertEqual(sample["viirs_sample"]["browser_sampling_stride"], 1)
-        self.assertIn("not native-resolution", sample["viirs_sample"]["sampling_semantics"])
+class SampleTest(unittest.TestCase):
+    def test_sample_returns_radiance_and_quality_is_honestly_unknown(self):
+        bundle, qc = build_bundle(*make_inputs(), observation_date="2026-11-04")
+        sample = sample_bundle_at_location(bundle, 1.0, 1.0, qc=qc)
+        self.assertIsNotNone(sample)
+        self.assertAlmostEqual(sample[FIELD_RADIANCE], 3.7, places=6)
+        self.assertIsNone(sample["viirs_sample"]["quality_flag"])
+        self.assertIn("cloud", sample["viirs_sample"]["quality_note"])
+        self.assertEqual(sample["viirs_sample"]["source_layer"], SOURCE_LAYER)
 
-    def test_point_sampler_fails_closed_outside_bbox_or_bad_qc(self):
-        bundle, qc = build_bundle(
-            [25.0, 24.5],
-            [121.0, 121.5],
-            [1, 2, 3, 4],
-            [0, 0, 0, 0],
-            2025,
-        )
-        self.assertIsNone(sample_bundle_at_location(bundle, 26.0, 121.0, qc=qc))
-        bad_qc = dict(qc)
-        bad_qc["flags"] = ["all_missing"]
-        self.assertIsNone(sample_bundle_at_location(bundle, 25.0, 121.0, qc=bad_qc))
+    def test_sample_rejects_foreign_source_and_flagged_qc(self):
+        bundle, qc = build_bundle(*make_inputs(), observation_date="2026-11-04")
+        foreign = dict(bundle)
+        foreign["source"] = "nasa_black_marble_vnp46a4"
+        self.assertIsNone(sample_bundle_at_location(foreign, 1.0, 1.0))
+        self.assertIsNone(sample_bundle_at_location(bundle, 1.0, 1.0, qc={"source": "x"}))
+
+    def test_sample_outside_bbox_is_none(self):
+        bundle, _ = build_bundle(*make_inputs(), observation_date="2026-11-04")
+        self.assertIsNone(sample_bundle_at_location(bundle, 50.0, 1.0))
 
 
 if __name__ == "__main__":

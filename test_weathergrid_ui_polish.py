@@ -208,7 +208,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("LIVE_VIIRS_DATA", self.js)
         self.assertIn("LIVE_VIIRS_QC", self.js)
         self.assertIn("qcFlags.length===0", self.js)
-        self.assertIn("viirsData?.source==='nasa_black_marble_vnp46a4'", self.js)
+        self.assertIn("viirsData?.source==='nasa_gibs_viirs_noaa20_dnb'", self.js)
         self.assertIn("if(state.viirsData && !viirsOption)", self.js)
         self.assertIn("else if(!state.viirsData && viirsOption)", self.js)
         self.assertNotIn('<option value="viirs">', self.html)
@@ -218,7 +218,7 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("label:'夜間燈光'", self.js)
         self.assertIn("palette:'nightlights'", self.palette)
         self.assertIn("function isStaticEnvironmentMode()", self.js)
-        self.assertIn("靜態年度背景，不隨氣象預報時間軸變化", self.js)
+        self.assertIn("靜態環境背景，不隨氣象預報時間軸變化", self.js)
         self.assertIn("不等同 Bortle 或天空亮度", self.js)
 
     def test_b169h_renderer_culls_to_visible_grid_slice(self):
@@ -229,13 +229,14 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("const maxRow=Math.min(rows-2,row1)", self.js)
         self.assertIn("const maxCol=Math.min(cols-2,col1)", self.js)
 
-    def test_b169i_viirs_inspector_exposes_quality_semantics(self):
-        self.assertIn("nighttime_lights_quality_flag", self.js)
-        self.assertIn("VNP46A4 QA：", self.js)
-        self.assertIn("good（原始年度合成）", self.js)
-        self.assertIn("poor（品質較低）", self.js)
-        self.assertIn("gap-filled（缺口填補）", self.js)
-        self.assertIn("品質旗標以最近原始顯示格判讀", self.js)
+    def test_b169i_viirs_inspector_exposes_daily_cloud_caveat(self):
+        # CL-CI-20: GIBS daily DNB carries no per-cell quality flags; the
+        # inspector states the cloud contamination honestly instead.
+        self.assertIn("每日原始 DNB：含雲污染，非無雲合成；無逐格品質旗標", self.js)
+        self.assertIn("每日夜間燈光為 WMTS 顯示取樣；原始 DNB 含雲污染", self.js)
+        self.assertIn("夜間燈光觀測日期 · {d}", self.js)
+        self.assertNotIn("nighttime_lights_quality_flag", self.js)
+        self.assertNotIn("VNP46A4 QA：", self.js)
 
     def test_b169i_nightlights_legend_uses_piecewise_radiance_ticks(self):
         self.assertIn("else if(cfg.scale==='nightlights')", self.js)
