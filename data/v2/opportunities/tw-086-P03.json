@@ -2,17 +2,17 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-086-P03",
   "place_id": "tw-086",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
-    "zh-TW": "八里崁頭里・淡水大橋觀景點：淡水大橋火燒雲（日落）",
-    "en": "Bali Kantou Guandu Bridge Viewpoint - blazing sunset clouds over Guandu Bridge",
-    "ja": "八里崁頭・淡水大橋展望地：焼け雲の夕景（日没）"
+    "zh-TW": "八里崁頭里・淡江大橋觀景點：淡江大橋火燒雲（日落）",
+    "en": "Bali Kantou Danjiang Bridge Viewpoint - blazing sunset clouds over Danjiang Bridge",
+    "ja": "八里崁頭・淡江大橋展望地：焼け雲の夕景（日没）"
   },
   "description_i18n": {
-    "zh-TW": "日落時段從八里山側眺望點拍攝淡水大橋上空的火燒雲：低角度逆光把中高雲染成紅橙，橋樑剪影成為前景。「火燒雲」對應日落彩霞語義。座標與方位語義同 P01，與 legacy「關渡大橋」不得合併。",
-    "en": "At sunset the Bali hillside viewpoint frames blazing clouds above the Guandu Bridge: low-angle backlight dyes mid/high cloud red-orange with the bridge as silhouette. \"Blazing clouds\" means the sunset-glow semantics. Same owner-provided coordinate and facing as P01; adjacent to, but distinct from, the legacy Guandu Bridge subject.",
-    "ja": "日没時に八里の山側展望地から淡水大橋の空に焼け雲を撮る。低角度の逆光が中・高層雲を赤橙に染め、橋がシルエットの前景になる。「焼け雲」は日没彩霞の意味。座標と向きは P01 と同じ。legacyの「関渡大橋」とは別地点。"
+    "zh-TW": "日落時段從八里山側眺望點拍攝淡江大橋上空的火燒雲：低角度逆光把中高雲染成紅橙，橋樑剪影成為前景。「火燒雲」對應日落彩霞語義。座標與方位語義同 P01，與 legacy「關渡大橋」不得合併。",
+    "en": "At sunset the Bali hillside viewpoint frames blazing clouds above the Danjiang Bridge: low-angle backlight dyes mid/high cloud red-orange with the bridge as silhouette. \"Blazing clouds\" means the sunset-glow semantics. Same owner-provided coordinate and facing as P01; adjacent to, but distinct from, the legacy Danjiang Bridge subject.",
+    "ja": "日没時に八里の山側展望地から淡江大橋の空に焼け雲を撮る。低角度の逆光が中・高層雲を赤橙に染め、橋がシルエットの前景になる。「焼け雲」は日没彩霞の意味。座標と向きは P01 と同じ。legacyの「関渡大橋」とは別地点。"
   },
   "camera_contexts": [
     {
@@ -29,7 +29,7 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "owner_provided_google_maps_2026-11-02; https://maps.app.goo.gl/FVGstdckGqjZrvgp7 resolved to @25.140639,121.420333",
+        "derivation_method": "owner_provided_google_maps_2026-11-02; https://maps.app.goo.gl/FVGstdckGqjZrvgp7 resolved to @25.140639,121.420333; CL-DATA-16 name correction 2026-11-06: official bridge name is 淡江大橋/Danjiang Bridge (owner-provided colloquial 淡水大橋 corrected per official naming); source: https://www.cna.com.tw/news/ahel/202605120103.aspx (2026-05-12 通車, 官方名稱淡江大橋)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
@@ -53,9 +53,9 @@
       "id": "SG-tw-086-P03-01",
       "kind": "dynamic_sky",
       "name_i18n": {
-        "zh-TW": "八里崁頭里・淡水大橋觀景點淡水大橋火燒雲（日落）",
-        "en": "Bali Kantou Guandu Bridge Viewpointblazing sunset clouds over Guandu Bridge",
-        "ja": "八里崁頭・淡水大橋展望地焼け雲の夕景（日没）"
+        "zh-TW": "八里崁頭里・淡江大橋觀景點淡江大橋火燒雲（日落）",
+        "en": "Bali Kantou Danjiang Bridge Viewpointblazing sunset clouds over Danjiang Bridge",
+        "ja": "八里崁頭・淡江大橋展望地焼け雲の夕景（日没）"
       },
       "geometry": {
         "kind": "point",
@@ -89,7 +89,7 @@
       "distance_m": null,
       "evidence_refs": [],
       "derivation_method": null,
-      "uncertainty_note": "Owner states the viewpoint faces the Tamsui River and Guandu Bridge; no verified azimuth, distance or corridor numbers yet."
+      "uncertainty_note": "Owner states the viewpoint faces the Tamsui River and Danjiang Bridge; no verified azimuth, distance or corridor numbers yet."
     }
   ],
   "navigation_targets": [
@@ -276,7 +276,7 @@
       "claim_type": "existence",
       "evidence_refs": [],
       "audit_status": "PARTIAL",
-      "scope_note": "Owner-declared place and subject definition (Richard, 2026-11-02) with an owner-provided Google Maps link (https://maps.app.goo.gl/FVGstdckGqjZrvgp7, resolved to @25.140639,121.420333); no independently published source audit yet. Deliberately distinct from the legacy Guandu Bridge on-the-bridge subject: this is the Bali hillside viewpoint looking at the bridge, not a bridge-crossing subject."
+      "scope_note": "Owner-declared place and subject definition (Richard, 2026-11-02) with an owner-provided Google Maps link (https://maps.app.goo.gl/FVGstdckGqjZrvgp7, resolved to @25.140639,121.420333); no independently published source audit yet. Deliberately distinct from the legacy Danjiang Bridge on-the-bridge subject: this is the Bali hillside viewpoint looking at the bridge, not a bridge-crossing subject."
     },
     {
       "claim_id": "tw-086-P03-camera",
