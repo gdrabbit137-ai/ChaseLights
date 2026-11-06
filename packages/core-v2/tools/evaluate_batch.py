@@ -172,6 +172,11 @@ def condition_verdict(condition, values, astro_row, month=None):
         required_phase = condition.get("phase")
         if required_phase:
             astro_phase = astro_row.get("phase")
+            if astro_phase is None:
+                # honesty contract: no events (polar day/night) means the
+                # phase cannot be verified — propagate UNKNOWN, never a
+                # fabricated FAIL either way.
+                return "UNKNOWN", "ASTRO_PHASE_UNAVAILABLE"
             if astro_phase != required_phase:
                 return "FAIL", "ASTRO_PHASE_MISMATCH"
         value = astro_row.get(metric)

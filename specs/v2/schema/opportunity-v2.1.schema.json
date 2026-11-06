@@ -938,6 +938,13 @@
           "type": "string",
           "minLength": 1,
           "description": "Genre-scope qualifier for legacy/ad-hoc conditions (e.g. primary vs secondary genre)."
+        },
+        "phase": {
+          "enum": [
+            "dawn",
+            "dusk"
+          ],
+          "description": "CL-DATA-24: optional phase constraint on a symmetric window metric (blue_hour_window / golden_hour_window). The window is elevation-symmetric and holds on both sides of the day; the phase pins it to the side the subject name names (dawn = morning side, dusk = evening side). The evaluator FAILs any hour whose sun phase differs."
         }
       },
       "additionalProperties": false,

@@ -167,7 +167,7 @@
       },
       {
         "id": "C-tw-027-P03-03",
-        "role": "QUALITY",
+        "role": "REQUIRED",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -181,7 +181,7 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "BONUS",
+        "condition_tier": "MAIN",
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
@@ -189,7 +189,12 @@
           "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
           "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
         },
-        "phase": "dusk"
+        "phase": "dusk",
+        "notes_i18n": {
+          "zh-TW": "CL-DATA-24：主題名「月世界夕照地貌」以夕照為題材本體，低角度光非加分項。升級 REQUIRED/MAIN 並加 phase:dusk——symmetric golden_hour_window 對稱成立於黎明與黃昏，不設相位會把黎明小時誤判為夕照符合時段。",
+          "en": "CL-DATA-24: the subject is named by the sunset light itself, so the low-angle window is the subject identity, not a bonus. Promoted REQUIRED/MAIN with phase:dusk - the symmetric golden_hour_window also matches dawn, which would wrongly mark morning hours as sunset-qualified.",
+          "ja": "CL-DATA-24: 題材名の「夕照」が撮影対象そのものであるため、低角度光はボーナスではなく必須条件。REQUIRED/MAIN に昇格し phase:dusk を付与——対称な golden_hour_window は夜明け側でも成立するため、相位制約がないと朝の時間帯が誤って合格してしまう。"
+        }
       },
       {
         "id": "C-tw-027-P03-04",
