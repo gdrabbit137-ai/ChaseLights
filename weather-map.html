@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<!-- CL-CI-09: this page does NOT support a ?lang=en/ja URL parameter.
-     Language derives solely from the document lang attribute (zh-TW);
-     regional notes in weather-map.js follow documentElement.lang. Nothing
-     in the repo links to weather-map.html?lang=*, so no wiring was added
-     (and no path to remove) — the ambiguous URL form is unsupported. -->
+<!-- CL-UI-37: this page carries the language context across pages. The
+     document lang and every dictionary-rendered string follow ?lang= (URL
+     wins, same precedence as assets/app.js CL-UI-35) or the shared
+     'chaselights_lang' localStorage key; the resolved value is written back
+     so index <-> weather-map round trips keep the language. This supersedes
+     the CL-CI-09 "no ?lang wiring" note. -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -36,15 +37,15 @@
       <div class="header-title-line">
         <h1>🗺️ WeatherGrid Preview</h1>
       </div>
-      <p class="subtitle">可切換 Himawari-9 衛星觀測、JMA MSM / CWA WRF / ICON / GFS 預報，以及 CAMS 攝影環境圖層 · 各來源保留自己的語意、範圍與時間</p>
+      <p class="subtitle" data-i18n="wm_subtitle">可切換 Himawari-9 衛星觀測、JMA MSM / CWA WRF / ICON / GFS 預報，以及 CAMS 攝影環境圖層 · 各來源保留自己的語意、範圍與時間</p>
     </div>
     <div class="source-meta">
-      <div id="source-state" class="source-pill">載入中…</div>
-      <div id="source-mobile-summary" class="source-mobile-summary">資料載入中…</div>
+      <div id="source-state" class="source-pill" data-i18n="wm_source_loading">載入中…</div>
+      <div id="source-mobile-summary" class="source-mobile-summary" data-i18n="wm_source_mobile_loading">資料載入中…</div>
       <div id="cycle-label" class="source-detail"></div>
       <div id="source-attribution" class="source-attribution"></div>
       <button id="data-info-open" class="data-info-button" type="button">
-        ⓘ <span class="info-label-long">資料說明</span><span class="info-label-short">資料</span>
+        ⓘ <span class="info-label-long" data-i18n="wm_info_long">資料說明</span><span class="info-label-short" data-i18n="wm_info_short">資料</span>
       </button>
     </div>
   </header>
@@ -54,35 +55,35 @@
       <div class="control-bar">
         <div id="region-switch" class="region-switch" role="tablist" aria-label="地區切換"></div>
         <label class="model-control advanced-control">
-          <span>進階 · 資料來源</span>
+          <span data-i18n="wm_model_caption">進階 · 資料來源</span>
           <select id="model-select">
-            <option value="auto">自動預報</option>
-            <option value="himawari">觀測 · Himawari-9 2 km</option>
+            <option value="auto" data-i18n="wm_model_auto">自動預報</option>
+            <option value="himawari" data-i18n="wm_model_himawari">觀測 · Himawari-9 2 km</option>
             <option value="jma">JMA MSM 5 km</option>
             <option value="cwa">CWA WRF 3 km</option>
             <option value="icon">ICON Global</option>
             <option value="gfs">GFS 0.25°</option>
-            <option value="cams">CAMS Global · 霧霾</option>
+            <option value="cams" data-i18n="wm_model_cams">CAMS Global · 霧霾</option>
           </select>
         </label>
         <label class="layer-control primary-control">
-          <span>攝影圖層</span>
+          <span data-i18n="wm_layer_caption">攝影圖層</span>
           <select id="layer-select"></select>
         </label>
         <label class="opacity-control">
-          <span class="opacity-caption"><span id="opacity-title">圖層顯示強度</span> · <strong id="opacity-label">62%</strong></span>
+          <span class="opacity-caption"><span id="opacity-title" data-i18n="wm_opacity_caption">圖層顯示強度</span> · <strong id="opacity-label">62%</strong></span>
           <input id="opacity-slider" type="range" min="0" max="100" value="62" step="1" aria-label="圖層顯示強度">
         </label>
         <label class="spot-control">
-          <span>景點</span>
+          <span data-i18n="wm_spot_caption">景點</span>
           <select id="spot-select">
-            <option value="">全部景點</option>
+            <option value="" data-i18n="wm_spot_all">全部景點</option>
           </select>
         </label>
         <label id="opportunity-control" class="opportunity-control">
-          <span>題材</span>
+          <span data-i18n="wm_opp_caption">題材</span>
           <select id="opportunity-select" disabled>
-            <option value="">先選景點</option>
+            <option value="" data-i18n="wm_opp_placeholder">先選景點</option>
           </select>
         </label>
       </div>
@@ -90,20 +91,20 @@
       <div class="map-wrap">
         <div id="weather-basemap" aria-label="WeatherGrid cartographic basemap"></div>
         <canvas id="weather-canvas" width="1200" height="820" aria-label="WeatherGrid weather overlay"></canvas>
-        <div id="basemap-status" class="basemap-status loading">底圖載入中…</div>
-        <button id="reset-view" class="map-reset-button" type="button" aria-label="回到目前資料來源範圍">↺ <span>模型範圍</span></button>
+        <div id="basemap-status" class="basemap-status loading" data-i18n="wm_basemap_loading">底圖載入中…</div>
+        <button id="reset-view" class="map-reset-button" type="button" aria-label="回到目前資料來源範圍" data-i18n-aria="wm_reset_aria">↺ <span data-i18n="wm_reset_text">模型範圍</span></button>
         <div id="legend" class="legend"></div>
       </div>
 
       <div class="time-navigator" aria-label="資料時間控制">
         <button id="time-prev" type="button" aria-label="前一個預報時間">◀</button>
         <div class="time-range">
-          <div id="time-label" class="time-label">預報時間</div>
+          <div id="time-label" class="time-label" data-i18n="wm_time_label">預報時間</div>
           <input id="time-slider" type="range" min="0" max="0" value="0" step="1" aria-label="預報時間">
           <div class="timeline" id="timeline" aria-hidden="true"></div>
         </div>
         <button id="time-next" type="button" aria-label="下一個預報時間">▶</button>
-        <button id="time-play" type="button" aria-pressed="false">播放</button>
+        <button id="time-play" type="button" aria-pressed="false" data-i18n="wm_time_play">播放</button>
       </div>
     </section>
 
@@ -111,49 +112,49 @@
       <section id="layer-panel" class="panel layer-panel">
         <div class="layer-panel-head">
           <div>
-            <h2>目前圖層</h2>
+            <h2 data-i18n="wm_layer_panel">目前圖層</h2>
             <div id="layer-summary" class="metric-big">—</div>
           </div>
           <button id="layer-details-toggle" class="layer-details-toggle" type="button"
-            aria-expanded="false" aria-controls="layer-details">詳細</button>
+            aria-expanded="false" aria-controls="layer-details" data-i18n="wm_details">詳細</button>
         </div>
         <div id="layer-range" class="layer-range">—</div>
         <div id="provider-coverage-note" class="provider-coverage-note" hidden></div>
-        <div id="qc-summary" class="qc-summary pending">資料品質 · 等待</div>
+        <div id="qc-summary" class="qc-summary pending" data-i18n="wm_qc_pending">資料品質 · 等待</div>
         <div id="layer-details" class="layer-details mobile-collapsed">
           <div id="layer-unit" class="muted"></div>
           <div id="layer-vertical" class="muted cloud-vertical-note"></div>
           <label class="wind-vector-toggle">
             <input id="wind-vector-toggle" type="checkbox">
-            <span>在其他圖層疊加 10 m 風向箭頭</span>
+            <span data-i18n="wm_wv_toggle">在其他圖層疊加 10 m 風向箭頭</span>
           </label>
-          <div class="muted wind-vector-note">「10 m 風場」會固定同時顯示風速色階與風向箭頭；箭頭指向風的移動方向，風向數值仍採氣象「來向」。此開關只控制是否在其他圖層額外疊加風向箭頭。</div>
+          <div class="muted wind-vector-note" data-i18n="wm_wv_note">「10 m 風場」會固定同時顯示風速色階與風向箭頭；箭頭指向風的移動方向，風向數值仍採氣象「來向」。此開關只控制是否在其他圖層額外疊加風向箭頭。</div>
           <label id="wind-particle-toggle-label" class="wind-particle-toggle" hidden>
             <input id="wind-particle-toggle" type="checkbox">
-            <span>風向粒子流線動畫</span>
+            <span data-i18n="wm_wp_toggle">風向粒子流線動畫</span>
           </label>
-          <div id="wind-particle-note" class="muted wind-particle-note" hidden>以單一來源 u/v 風向量場驅動粒子沿風移動並留下淡色拖尾（實驗功能）。u/v 風場 sidecar 僅在開啟粒子時另行下載；載入失敗時誠實退回無粒子層。僅在風向圖層上可開啟；離開圖層或切換來源時動畫自動停止以節省電力。預設關閉，手機自動降低密度。</div>
+          <div id="wind-particle-note" class="muted wind-particle-note" hidden data-i18n="wm_wp_note">以單一來源 u/v 風向量場驅動粒子沿風移動並留下淡色拖尾（實驗功能）。u/v 風場 sidecar 僅在開啟粒子時另行下載；載入失敗時誠實退回無粒子層。僅在風向圖層上可開啟；離開圖層或切換來源時動畫自動停止以節省電力。預設關閉，手機自動降低密度。</div>
           <div class="layer-qc">
-            <div class="layer-qc-label">資料品質詳細資訊</div>
+            <div class="layer-qc-label" data-i18n="wm_qc_label">資料品質詳細資訊</div>
             <div id="qc-status" class="detail-list">
-              <div>等待 QC 資料…</div>
+              <div data-i18n="wm_qc_waiting">等待 QC 資料…</div>
             </div>
           </div>
         </div>
       </section>
 
       <section id="spot-panel" class="panel" hidden>
-        <h2>選取景點</h2>
-        <div id="spot-name" class="spot-name">尚未選取</div>
+        <h2 data-i18n="wm_spot_panel">選取景點</h2>
+        <div id="spot-name" class="spot-name" data-i18n="wm_spot_none">尚未選取</div>
         <div id="spot-value" class="metric-big">—</div>
         <div id="spot-details" class="detail-list"></div>
         <div id="spot-environment" class="detail-list environment-diagnostic" hidden></div>
       </section>
 
       <section id="coverage-panel" class="panel" hidden>
-        <h2>題材範圍</h2>
+        <h2 data-i18n="wm_coverage_panel">題材範圍</h2>
         <div id="coverage-status" class="detail-list">
-          <div>先選景點與題材。</div>
+          <div data-i18n="wm_coverage_placeholder">先選景點與題材。</div>
         </div>
       </section>
 
@@ -165,18 +166,18 @@
       <div class="data-info-head">
         <div>
           <div class="data-info-kicker">WeatherGrid</div>
-          <h2 id="data-info-title">資料與模型說明</h2>
+          <h2 id="data-info-title" data-i18n="wm_dialog_title">資料與模型說明</h2>
         </div>
-        <button id="data-info-close" type="button" aria-label="關閉資料說明">✕</button>
+        <button id="data-info-close" type="button" aria-label="關閉資料說明" data-i18n-aria="wm_dialog_close">✕</button>
       </div>
       <div class="data-info-body">
-        <p>目前已加入 Himawari-9 衛星觀測，以及 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS 預報。「自動預報」採攝影優先、依圖層與有效時間選擇可用來源：優先使用可提供該圖層的區域模型，再以全球模型備援；Himawari-9 不會被自動混入預報模式。CWA M-A0064 實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。</p>
-        <p>CAMS Global 提供 AOD 550 nm 與 PM2.5 攝影環境圖層，資料經 Open-Meteo Air Quality API 取得。CAMS Global 原生約 45 km / 3 小時、約每 12 小時更新；WeatherGrid 的 0.4° 顯示格是取樣／呈現網格，不代表提高原生解析度。AOD 是整層大氣的氣膠光學厚度；PM2.5 是近地面細懸浮微粒質量濃度，兩者物理意義不同，也不會單獨被當成霧。</p>
-        <p>Himawari-9 提供衛星雲遮罩與雲頂高度實況。這些是觀測／反演資料，不會標示成預報低／中／高雲百分比；雲頂高度缺值也不會被當成 0 m。</p>
-        <p>JMA MSM 官方原生範圍從 22.4°N、120°E 起；目前 HTTP transport 為避開邊界座標拒絕，瀏覽資料從 22.45°N、120.0625°E 起。台灣最南端及西側離島因此不在目前 JMA 瀏覽圖層內；切換模型時地圖會使用 JMA 自己的實際資料邊界。</p>
-        <p>台灣地區的顯示範圍對齊中央氣象署官方衛星雲圖（約 105–145°E、5–40°N，西太平洋）。GFS 0.25° 為主源時整個範圍用同一份預報全幅渲染，不會出現接合縫；ICON 與 CAMS 亦提供同範圍的全幅選項。切到區域高解析模型（CWA WRF 3 km、JMA MSM、Himawari-9）時，只在該模型自己的涵蓋範圍內繪製，範圍外誠實留白，不代表晴朗。</p>
-        <p>每個來源使用自己的資料邊界、網格解析度與時間語意；Himawari-9 為單張最新觀測，其餘模型為預報時間軸。衛星觀測採最近鄰呈現；預報的畫面內插只改善顯示連續性，不增加原始資料的真實解析度。</p>
-        <p>底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。</p>
+        <p data-i18n="wm_dialog_p1">目前已加入 Himawari-9 衛星觀測，以及 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS 預報。「自動預報」採攝影優先、依圖層與有效時間選擇可用來源：優先使用可提供該圖層的區域模型，再以全球模型備援；Himawari-9 不會被自動混入預報模式。CWA M-A0064 實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。</p>
+        <p data-i18n="wm_dialog_p2">CAMS Global 提供 AOD 550 nm 與 PM2.5 攝影環境圖層，資料經 Open-Meteo Air Quality API 取得。CAMS Global 原生約 45 km / 3 小時、約每 12 小時更新；WeatherGrid 的 0.4° 顯示格是取樣／呈現網格，不代表提高原生解析度。AOD 是整層大氣的氣膠光學厚度；PM2.5 是近地面細懸浮微粒質量濃度，兩者物理意義不同，也不會單獨被當成霧。</p>
+        <p data-i18n="wm_dialog_p3">Himawari-9 提供衛星雲遮罩與雲頂高度實況。這些是觀測／反演資料，不會標示成預報低／中／高雲百分比；雲頂高度缺值也不會被當成 0 m。</p>
+        <p data-i18n="wm_dialog_p4">JMA MSM 官方原生範圍從 22.4°N、120°E 起；目前 HTTP transport 為避開邊界座標拒絕，瀏覽資料從 22.45°N、120.0625°E 起。台灣最南端及西側離島因此不在目前 JMA 瀏覽圖層內；切換模型時地圖會使用 JMA 自己的實際資料邊界。</p>
+        <p data-i18n="wm_dialog_p5">台灣地區的顯示範圍對齊中央氣象署官方衛星雲圖（約 105–145°E、5–40°N，西太平洋）。GFS 0.25° 為主源時整個範圍用同一份預報全幅渲染，不會出現接合縫；ICON 與 CAMS 亦提供同範圍的全幅選項。切到區域高解析模型（CWA WRF 3 km、JMA MSM、Himawari-9）時，只在該模型自己的涵蓋範圍內繪製，範圍外誠實留白，不代表晴朗。</p>
+        <p data-i18n="wm_dialog_p6">每個來源使用自己的資料邊界、網格解析度與時間語意；Himawari-9 為單張最新觀測，其餘模型為預報時間軸。衛星觀測採最近鄰呈現；預報的畫面內插只改善顯示連續性，不增加原始資料的真實解析度。</p>
+        <p data-i18n="wm_dialog_p7">底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。</p>
       </div>
     </div>
   </dialog>
