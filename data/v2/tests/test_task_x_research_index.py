@@ -88,6 +88,11 @@ class ResearchIndexTests(unittest.TestCase):
             # canonical records to the task-branch commit holding the new bytes.
             'dce2f6ed0812ad418fc6d87cb358c9162aa2c255',
             '4e51267ba7b7130d28efa41e50d2ef3d36de81a8',
+            # CL-DATA-11: cloud-sea light_window + sunset/golden window semantic
+            # corrections (jp-003-P01 / tw-072-P02 / us-013-P02 / us-023-P01)
+            # re-pinned to the contracts commits carrying the corrected bytes.
+            'b3eb04ad1c21dd06885c3894df8d4747a2f79e86',
+            'ef0394e01c948aa12dd5db00308ac971bba45a45',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])
