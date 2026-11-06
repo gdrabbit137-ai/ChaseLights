@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "2134634030541bc0194609fb7378ba864afda42c",
-  "source_index_revision": "sha256:eb347e073d3ca4c126edf79c8dd7a4a61ab1dfcf52a423b8d772322a9cb3451f",
+  "source_index_commit_sha": "eede162bddc1e040b0522095f6ee17992330ea5b",
+  "source_index_revision": "sha256:c1a4bd935b8b746f5a66551e1d9b27a7b580b9fd0c3ad6c254af395ae494ccc1",
   "source_pins": {
     "jp-002-P01": {
       "source_commit_sha": "2134634030541bc0194609fb7378ba864afda42c",
@@ -321,13 +321,13 @@
     "tw-005-P01": {
       "source_commit_sha": "2134634030541bc0194609fb7378ba864afda42c",
       "source_path": "data/v2/opportunities/tw-005-P01.json",
-      "source_blob_sha": "1bf5e69230313f152a3b0afd26be14d39386a617",
+      "source_blob_sha": "9ffca07ede7dc61a135f73178d2b89f5658e8263",
       "revision": 3
     },
     "tw-005-P02": {
       "source_commit_sha": "2134634030541bc0194609fb7378ba864afda42c",
       "source_path": "data/v2/opportunities/tw-005-P02.json",
-      "source_blob_sha": "e94064a681f8532ef4ea306a6914cf9cc297181e",
+      "source_blob_sha": "fa94e996decb6bc382e21e0edb5844e25538fd39",
       "revision": 2
     },
     "tw-006-P01": {
@@ -627,7 +627,7 @@
     "tw-024-P03": {
       "source_commit_sha": "2134634030541bc0194609fb7378ba864afda42c",
       "source_path": "data/v2/opportunities/tw-024-P03.json",
-      "source_blob_sha": "0316f8ad8e02c748c2ab6526fba0e075644d4c52",
+      "source_blob_sha": "9f8c442796f692b1ccb1fc75e80395609f7841ea",
       "revision": 3
     },
     "tw-024-P04": {
@@ -879,7 +879,7 @@
     "tw-036-P04": {
       "source_commit_sha": "2134634030541bc0194609fb7378ba864afda42c",
       "source_path": "data/v2/opportunities/tw-036-P04.json",
-      "source_blob_sha": "5378b1d790549ec1c7c1830054efaa2c4e9d2f2c",
+      "source_blob_sha": "a428e4cc15f1a7688ef3bf2885bd385dd778ce0d",
       "revision": 3
     },
     "tw-037-P01": {
@@ -1101,7 +1101,7 @@
     "tw-049-P01": {
       "source_commit_sha": "2134634030541bc0194609fb7378ba864afda42c",
       "source_path": "data/v2/opportunities/tw-049-P01.json",
-      "source_blob_sha": "b5b08d2dcd1c7d9abd82b805e501c496c91ed993",
+      "source_blob_sha": "505d18dfa310719407658577935ebfc87fc678da",
       "revision": 3
     },
     "tw-049-P02": {
@@ -1323,7 +1323,7 @@
     "tw-072-P02": {
       "source_commit_sha": "2134634030541bc0194609fb7378ba864afda42c",
       "source_path": "data/v2/opportunities/tw-072-P02.json",
-      "source_blob_sha": "b610a03620d42e82583b53edee7309619d63a784",
+      "source_blob_sha": "1f5bb6e8260544b6192f4a6368052453da5eb45d",
       "revision": 3
     },
     "tw-073-P01": {
@@ -1653,7 +1653,7 @@
     "us-014-P01": {
       "source_commit_sha": "2134634030541bc0194609fb7378ba864afda42c",
       "source_path": "data/v2/opportunities/us-014-P01.json",
-      "source_blob_sha": "5259d3261e74f00c09df6dc07fc0921686bd239a",
+      "source_blob_sha": "385d43e3fc25066a79aa34826f6b7bdf171f64b8",
       "revision": 3
     },
     "us-014-P02": {
@@ -21991,7 +21991,7 @@
             "unit": null,
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
-              null
+              "tw-005-P01-claim-01"
             ],
             "model_binding": null,
             "validation_status": "provisional",
@@ -22032,15 +22032,7 @@
         "source_revision": "v1-spot-tw-005",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null,
-        "history": [
-          {
-            "2026-11-06": {
-              "source": "CL-DATA-23",
-              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
-            }
-          }
-        ]
+        "reviewed_by": null
       }
     },
     {
@@ -22272,7 +22264,7 @@
             "unit": null,
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
-              null
+              "tw-005-P02-claim-01"
             ],
             "model_binding": null,
             "validation_status": "provisional",
@@ -22313,15 +22305,7 @@
         "source_revision": "v1-spot-tw-005",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null,
-        "history": [
-          {
-            "2026-11-06": {
-              "source": "CL-DATA-23",
-              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
-            }
-          }
-        ]
+        "reviewed_by": null
       }
     },
     {
@@ -37388,7 +37372,7 @@
             "unit": null,
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
-              null
+              "tw-024-P03-claim-01"
             ],
             "model_binding": null,
             "validation_status": "provisional",
@@ -37429,15 +37413,7 @@
         "source_revision": "v1-spot-tw-024",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null,
-        "history": [
-          {
-            "2026-11-06": {
-              "source": "CL-DATA-23",
-              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
-            }
-          }
-        ]
+        "reviewed_by": null
       }
     },
     {
@@ -49796,7 +49772,7 @@
             "unit": null,
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
-              null
+              "tw-036-P04-claim-01"
             ],
             "model_binding": null,
             "validation_status": "provisional",
@@ -49837,15 +49813,7 @@
         "source_revision": "v1-spot-tw-036",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null,
-        "history": [
-          {
-            "2026-11-06": {
-              "source": "CL-DATA-23",
-              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
-            }
-          }
-        ]
+        "reviewed_by": null
       }
     },
     {
@@ -60484,7 +60452,7 @@
             "unit": null,
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
-              null
+              "tw-049-P01-claim-01"
             ],
             "model_binding": null,
             "validation_status": "provisional",
@@ -60525,15 +60493,7 @@
         "source_revision": "v1-spot-tw-049",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null,
-        "history": [
-          {
-            "2026-11-06": {
-              "source": "CL-DATA-23",
-              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
-            }
-          }
-        ]
+        "reviewed_by": null
       }
     },
     {
@@ -70440,7 +70400,7 @@
             "unit": null,
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
-              null
+              "tw-072-P02-claim-01"
             ],
             "model_binding": null,
             "validation_status": "provisional",
@@ -70481,15 +70441,7 @@
         "source_revision": "v1-spot-tw-072",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null,
-        "history": [
-          {
-            "2026-11-06": {
-              "source": "CL-DATA-23",
-              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
-            }
-          }
-        ]
+        "reviewed_by": null
       }
     },
     {
@@ -85886,7 +85838,7 @@
             "unit": null,
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
-              null
+              "us-014-P01-claim-01"
             ],
             "model_binding": null,
             "validation_status": "provisional",
@@ -85927,15 +85879,7 @@
         "source_revision": "v1-spot-us-014",
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
-        "reviewed_by": null,
-        "history": [
-          {
-            "2026-11-06": {
-              "source": "CL-DATA-23",
-              "note": "2026-11-06 CL-DATA-23 修復稽查：非夜景題材（可見光）補 light_window（civil，太陽仰角 > −6°，CL-DATA-11/19 同源定義；夜間一律不符合），修復 good_hours 仍含 22:00–06:00 的違規。語意修正，layering parity gate 豁免，理由記於本註記。"
-            }
-          }
-        ]
+        "reviewed_by": null
       }
     },
     {
