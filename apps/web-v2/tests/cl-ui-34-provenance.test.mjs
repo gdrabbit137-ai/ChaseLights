@@ -111,7 +111,7 @@ test('CL-UI-34 (5): index.html carries the collapsed panel, cards untouched, sta
   assert.ok(modalStart>0&&panelAt>modalStart&&panelAt<modalEnd);
   assert.doesNotMatch(htmlSource.slice(0,modalStart),/modal-provenance/);
   assert.ok(!htmlSource.includes('?v=clui39'),'stamp must be bumped');
-  assert.equal((htmlSource.match(/\?v=clui41/g)||[]).length,2,'site-nav stamps at clui41';
+  assert.equal((htmlSource.match(/\?v=clui41/g)||[]).length,2,'site-nav stamps at clui41');
   assert.equal((htmlSource.match(/\?v=clui42/g)||[]).length,2,'app.js/app.css stamps at clui42'));
   // Render path and styles exist in app.js / app.css.
   assert.match(appSource,/function renderModalProvenance\(/);
