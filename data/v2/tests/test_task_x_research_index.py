@@ -108,8 +108,9 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-15: owner-verified elevation corrections (Paiyun Lodge
             # 3,402 m / Datun 1,092 m / Zhushan 2,451 m; Hehuan 3,417 m
             # confirmed) — the 4 LCL cloud-sea records byte-changed and were
-            # re-pinned to the task-branch commit carrying the corrections.
-            'c90f56712550ae46824e30684442bbc44855c9b5',
+            # re-pinned to the task-branch commit carrying the corrections;
+            # CL-INT-78 re-pointed those same records (plus main's later TW
+            # corrections) to the merge commit above, superseding c90f5671.
             # CL-INT-78 merge (4407fbfcd): main's TW canonical corrections
             # (tw-001-P02/tw-019-P04/tw-024-P02/tw-040-P04) and CL-DATA-17's
             # US coordinate/elevation records re-pointed to the merge commit

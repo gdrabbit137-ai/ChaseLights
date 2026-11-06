@@ -338,7 +338,7 @@ def main():
             ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 187, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False,
-                {"timeout": 300}),
+                {"timeout": 420}),  # CL-INT-78: 420s covers the Windows-local suite duration (378s measured); CI ubuntu is well under
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
