@@ -6,7 +6,7 @@
 //     and the spot-local time-zone convention via GMT±n.
 // (3) provStampText derives cycle/observation stamps from WeatherGrid QC data.
 // (4) index.html carries the collapsed <details> panel inside the modal,
-//     stamps bumped to clui43 in the SAME commit; app.js/app.css carry the
+//     stamps bumped to clui44 in the SAME commit; app.js/app.css carry the
 //     render path and styles.
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -112,7 +112,7 @@ test('CL-UI-34 (5): index.html carries the collapsed panel, cards untouched, sta
   assert.doesNotMatch(htmlSource.slice(0,modalStart),/modal-provenance/);
   assert.ok(!htmlSource.includes('?v=clui39'),'stamp must be bumped');
   assert.equal((htmlSource.match(/\?v=clui41/g)||[]).length,2,'site-nav stamps at clui41');
-  assert.equal((htmlSource.match(/\?v=clui43/g)||[]).length,2,'all app asset stamps bumped to clui43');
+  assert.equal((htmlSource.match(/\?v=clui44/g)||[]).length,2,'all app asset stamps bumped to clui44');
   // Render path and styles exist in app.js / app.css.
   assert.match(appSource,/function renderModalProvenance\(/);
   assert.match(appSource,/renderModalProvenance\(summarySpot\);/);
