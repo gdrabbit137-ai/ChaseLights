@@ -400,13 +400,13 @@ def main():
         # CL-INT-80 sequential merge (WG-27 + WG-28R, stamps re-anchored
         # bclwg29->bclwg30): w4-node RE-MEASURED on the merged tree = 459
         # (node v26.7.0, --test-isolation=none) -> exact total 886+14=900; CL-INT-81/77 combined integration re-measures on the union tree (CL-UI-38 +8 node, w5-public +3) -> w4-node 467, exact total 911 (re-measured on union tree; candidate-build-browser +6 in CI env).
-        # 2026-11-06 CL-UI-39: fixed cl-ui-34 syntax error (restored its 8
-        
-        if (report["counts"]["tests"] != 911 or
+        # 2026-11-06 CL-INT-82: merged CL-UI-41 (+7 node) + CL-WG-30 (+5 node)
+        # -> w4-node re-measured on the merged tree = 479 -> exact total 923.
+        if (report["counts"]["tests"] != 923 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 911):
-            raise ValueError("Post-merge exact 911-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 923):
+            raise ValueError("Post-merge exact 923-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
