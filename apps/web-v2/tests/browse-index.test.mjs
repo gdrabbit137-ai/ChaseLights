@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'b7d10e5504159130dc4e6713bbbe91f09bbecddb371d393ebaf430e31c3e84e8'); // CL-INT-66 re-anchor: merged tree (CL-DATA-12 A-O + CL-INT-65 rebuilds) regenerated (A–O) regenerated the research index
-  assert.equal(sha256(rawCatalog),'309cf016e99d243c5a2b5b1a0df7c122fde6d737fe9c93db0e73cb0ebde59d29'); // CL-INT-66 re-anchor: catalog regenerated from the merged tree records
+  assert.equal(sha256(rawIndex),'3b93a7aad3702fa16f9b7905871db0be56ba4d4209ace7b604d8d1e507e6d4f7'); // CL-DATA-13 re-anchor: view_azimuth backfill (19 places) + light_direction pilot contracts (tw-003-P01/tw-001-P01) regenerated the research index
+  assert.equal(sha256(rawCatalog),'4755372e45aa6fd651ef63ce732b58eff441c481fb81fadd81c718548d8aabaa'); // CL-DATA-13 re-anchor: catalog regenerated from the merged tree records
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];

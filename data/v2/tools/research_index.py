@@ -18,7 +18,7 @@ INDEX = DATA / 'indexes/research'
 LANGS = ('zh-TW', 'en', 'ja')
 KINDS = ('place-index', 'date-query', 'topic-index', 'local-preferences',
          'browse-query', 'sort-capabilities')
-W1_COMMIT = '6875de4a567891e6ff861aac4f39cc8ca98e9711'
+W1_COMMIT = 'b56632b090aa79c28806f30b10aed79cbb0cfb31'
 
 
 def read(path):

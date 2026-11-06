@@ -95,10 +95,15 @@ class ResearchIndexTests(unittest.TestCase):
             # reviewed-main bytes (commit 86cc3d9bd).
             'd57d40f8966631783f1385908659bd8c1b82adbd',
             '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
+            # CL-DATA-13: the touched records' bytes changed (view_azimuth
+            # backfill + light_direction pilot contracts) and their blob pins
+            # were re-anchored below, but the W2 provenance commit_sha of each
+            # record is preserved (bytes live at the recorded provenance
+            # commits' successors; the blob pins carry the new state).
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])
-        self.assertEqual('1544edabdddc133a740bab4f0acb4186f7bd370e',p01['blob_sha'])
+        self.assertEqual('ac8d51d1eb4e234a94503ecfc37681d6e86b3aa7',p01['blob_sha'])
 
     def test_all_place_names_exact_source_spans_without_new_translation(self):
         count=0
