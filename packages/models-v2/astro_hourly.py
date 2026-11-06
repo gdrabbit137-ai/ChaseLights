@@ -64,6 +64,15 @@ CITY_NIGHT_MAX_DEG = -6.0
 # moon data is consulted.
 CIVIL_LIGHT_MIN_DEG = -6.0
 
+# CL-DATA-24: the sun's phase for an hour bucket — "dawn" (morning side of
+# the day, nearest horizon crossing is a sunrise) or "dusk" (evening side,
+# nearest crossing is a sunset). blue_hour_window / golden_hour_window are
+# symmetric by elevation alone, so a dusk-named subject evaluated without a
+# phase constraint matched 05:00 morning twilight hours as well; the phase
+# scalar lets window conditions declare `phase: dusk|dawn` and the evaluator
+# keeps only the phase the subject name names.
+SUN_PHASE = ("dawn", "dusk")
+
 # CL-UI-08: window metrics are evaluated by SUB-HOUR INTERVAL SAMPLING, not by
 # the single grid instant. Narrow windows (blue hour 20-50 min, sunrise/sunset
 # ±40 min, golden hour) can fall entirely between two whole-hour grid points;
@@ -87,6 +96,21 @@ ASTRO_SAMPLING_PROVENANCE = {
 
 def _sun_altitude(dt_utc, lat, lon):
     return _solar_altitude_deg(dt_utc.astimezone(timezone.utc), lat, lon)
+
+
+def _sun_phase(altitudes):
+    """CL-DATA-24: the hour bucket's phase, from the sun's rise/set direction
+    — the altitude curve ascends on the dawn side of the day (midnight to
+    solar noon) and descends on the dusk side (solar noon to midnight). The
+    first vs last sub-hour sample sign splits the symmetric elevation windows
+    (blue/golden hour) into their morning vs evening half: rising -> "dawn",
+    falling -> "dusk". A bucket straddling the noon/midnight turning point
+    defaults to "dusk"; no twilight window is active there anyway. Derived
+    from the already-sampled altitudes, so no extra events list is needed and
+    the result is exact at every span edge (no truncated-events bias)."""
+    if len(altitudes) < 2:
+        return None
+    return "dawn" if altitudes[-1] > altitudes[0] else "dusk"
 
 
 def _sun_azimuth(dt_utc, lat, lon):
@@ -147,6 +171,7 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
     # granularity as the altitude scalar (windows sample; scalars don't).
     out = {
         "sun_azimuth_deg": _sun_azimuth(dt_utc, lat, lon),
+        "phase": _sun_phase(altitudes),
         "astronomical_darkness": any(a <= DARKNESS_MAX_DEG for a in altitudes),
         "city_night_window": all(a <= CITY_NIGHT_MAX_DEG for a in altitudes),
         "golden_hour_window": any(GOLDEN_LOW_DEG <= a <= GOLDEN_HIGH_DEG

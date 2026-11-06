@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 374 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'6efe5b9094b5144b43ebe714b0727fab0df030d4e8adbf9b3ddd135501668408'); // CL-INT-86 re-anchor: postmerge regenerated index (374 opportunities / 197 places, CL-DATA-19+20 union)
-  assert.equal(sha256(rawCatalog),'0e0637d02bf5c1d798173077df51ea064956ec79fdd69a950dc7e3c68321a100'); // CL-DATA-23 re-anchor: 9 visible-light contracts gain the civil light_window
+  assert.equal(sha256(rawIndex),'c9f8298e95f452fe7bfcb0a8efb34581c5a79d0643fe56fe991204ba9e10bb36'); // CL-DATA-24 re-anchor: 12 dusk-named contracts repinned (phase:dusk)
+  assert.equal(sha256(rawCatalog),'ac9a812455110493e7782cae4ff4cf8db27e639dd8f25b831825b39855291f90'); // CL-DATA-24 re-anchor: 12 dusk-named contracts gain the phase:dusk constraint
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,374);assert.equal(source.places.length,197);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];

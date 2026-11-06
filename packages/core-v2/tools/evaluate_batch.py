@@ -165,6 +165,20 @@ def condition_verdict(condition, values, astro_row, month=None):
         return ("PASS" if diff <= float(sector["arc_half_width_deg"])
                 else "FAIL"), detail
     if metric in ASTRO_METRICS:
+        # CL-DATA-24: an optional per-condition `phase` constraint ("dawn" or
+        # "dusk") keeps a symmetric window metric (blue/golden hour) on the
+        # side of the day the subject name names. Mismatch = FAIL for the
+        # hour; the window itself can stay true, the phase is what gates.
+        required_phase = condition.get("phase")
+        if required_phase:
+            astro_phase = astro_row.get("phase")
+            if astro_phase is None:
+                # honesty contract: no events (polar day/night) means the
+                # phase cannot be verified — propagate UNKNOWN, never a
+                # fabricated FAIL either way.
+                return "UNKNOWN", "ASTRO_PHASE_UNAVAILABLE"
+            if astro_phase != required_phase:
+                return "FAIL", "ASTRO_PHASE_MISMATCH"
         value = astro_row.get(metric)
         if value is None:
             return "UNKNOWN", "ASTRO_UNAVAILABLE_AT_INSTANT"
