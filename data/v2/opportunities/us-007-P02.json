@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-007-P02",
   "place_id": "us-007",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Pa’rus Trail・Watchman 夕照金色山壁",
@@ -167,7 +167,7 @@
       },
       {
         "id": "C-us-007-P02-03",
-        "role": "QUALITY",
+        "role": "REQUIRED",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -181,13 +181,18 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "BONUS",
+        "condition_tier": "MAIN",
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
           "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。",
           "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
           "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch j）：Watchman 夕照語義優先——golden_hour_window 升 QUALITY→REQUIRED/MAIN（夕照只在黃金時段成立）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch j): the Watchman sunset-glow semantics win - golden_hour_window upgraded QUALITY -> REQUIRED/MAIN (the glow exists only in the golden hour). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch j）：Watchman の夕照の語義を優先——golden_hour_window を QUALITY→REQUIRED/MAIN に昇格（夕照はゴールデンアワーにのみ成立）。 意味修正のため layering parity ゲートは免除。"
         }
       },
       {

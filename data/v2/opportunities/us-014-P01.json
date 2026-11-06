@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-014-P01",
   "place_id": "us-014",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Zabriskie Point・日出badlands與Manly Beacon",
@@ -213,6 +213,35 @@
           "zh-TW": "遠眺型地景（峽谷對岸、山層間）需要高透明度；AOD ≤0.4 為加分參考（沿用已審門檻）。近景地景不受此影響。",
           "en": "Distant landform views (across canyon, between ridges) need high transparency; AOD <= 0.4 is a bonus reference (carried-over threshold). Close-up subjects unaffected.",
           "ja": "遠景型地景（峡谷対岸、尾根越し）は透明度が要。AOD<=0.4を参考加点。近景地形は影響なし。"
+        }
+      },
+      {
+        "id": "C-us-014-P01-SRW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "sunrise_time_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-014-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch j）：Zabriskie 日出語義——補 sunrise_time_window REQUIRED（現僅 golden_hour_window QUALITY/BONUS）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch j): the Zabriskie sunrise semantics - adds sunrise_time_window REQUIRED (only a golden_hour_window QUALITY/BONUS existed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch j）：Zabriskie の日の出の語義——sunrise_time_window REQUIRED を追加（現状は golden_hour_window QUALITY/BONUS のみ）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch j）：Zabriskie 日出語義——補 sunrise_time_window REQUIRED（現僅 golden_hour_window QUALITY/BONUS）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch j): the Zabriskie sunrise semantics - adds sunrise_time_window REQUIRED (only a golden_hour_window QUALITY/BONUS existed). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch j）：Zabriskie の日の出の語義——sunrise_time_window REQUIRED を追加（現状は golden_hour_window QUALITY/BONUS のみ）。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-012-P02",
   "place_id": "us-012",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Tipsoo Lake・Mount Rainier日出暖光與湖面倒影",
@@ -188,6 +188,35 @@
           "zh-TW": "風 <5 m/s：花穗搖曳是構圖元素、強風破壞拍攝（金針花特寫/芒草逆光都禁強風）。5 為 provisional，可依主題差異化（芒草或許更寬）。",
           "en": "Wind < 5 m/s: sway is compositional up to a point, gale ruins the shot (daylily close-ups and backlit silvergrass both need calm). 5 is provisional and may be differentiated per plant (silvergrass might tolerate more).",
           "ja": "風<5m/s。揺れは構図要素だが強風は撮影不能。5は暫定値で植物ごとの差別化も可。"
+        }
+      },
+      {
+        "id": "C-us-012-P02-SR1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "sunrise_time_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-012-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "rationale_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch j）：Tipsoo 日出暖光語義——補 sunrise_time_window REQUIRED（名稱時間語義落實）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch j): the Tipsoo sunrise-warm-light semantics - adds sunrise_time_window REQUIRED (the name's time semantics made machine-readable). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch j）：Tipsoo の日の出の暖かい光の語義——sunrise_time_window REQUIRED を追加（名称の時間語義を機械可読化）。 意味修正のため layering parity ゲートは免除。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch j）：Tipsoo 日出暖光語義——補 sunrise_time_window REQUIRED（名稱時間語義落實）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch j): the Tipsoo sunrise-warm-light semantics - adds sunrise_time_window REQUIRED (the name's time semantics made machine-readable). Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch j）：Tipsoo の日の出の暖かい光の語義——sunrise_time_window REQUIRED を追加（名称の時間語義を機械可読化）。 意味修正のため layering parity ゲートは免除。"
         }
       }
     ]
