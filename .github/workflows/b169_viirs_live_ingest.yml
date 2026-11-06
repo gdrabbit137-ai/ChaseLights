@@ -67,15 +67,15 @@ jobs:
       - name: Download GIBS NOAA-20 DNB tiles (fail-closed)
         run: |
           python viirs_gibs_download.py \
-            --date "${{ steps.date.outputs.date }}" \
-            --region "${{ inputs.region }}" \
-            --bbox "${{ steps.region.outputs.bbox }}" \
+            --date="${{ steps.date.outputs.date }}" \
+            --region="${{ inputs.region }}" \
+            --bbox="${{ steps.region.outputs.bbox }}" \
             --output-dir .cache/viirs_gibs
       - name: Build WeatherGrid mosaic
         run: |
           python viirs_nightlights_ingest.py \
             --tiles-manifest .cache/viirs_gibs/manifest.json \
-            --bbox "${{ steps.region.outputs.bbox }}" \
+            --bbox="${{ steps.region.outputs.bbox }}" \
             --output "weathergrid/${{ steps.region.outputs.browser }}" \
             --qc-output "weathergrid/${{ steps.region.outputs.qc }}"
       - name: Validate artifact semantics
