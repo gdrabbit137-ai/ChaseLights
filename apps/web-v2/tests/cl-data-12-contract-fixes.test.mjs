@@ -102,10 +102,17 @@ test('CL-DATA-12 F: AK polar-night all-day subjects need the civil light_window'
   assert.ok((w.rationale_i18n?.['en'] || '').includes('-6'));
 });
 
-test('CL-DATA-12 us-057-P01 human-review contract is untouched', () => {
+test('CL-DATA-18: us-057-P01 carries the AI-verified civil light_window', () => {
   const doc = loadContract('us-057-P01');
-  assert.ok(!doc.condition_contract.conditions.some(c => c.metric === 'light_window'),
-    'us-057-P01 gains no light_window (owner calibration pending)');
+  const lw = doc.condition_contract.conditions.filter(c => c.metric === 'light_window');
+  assert.equal(lw.length, 1, 'us-057-P01 (66.56N Arctic Circle) has exactly one light_window');
+  assert.equal(lw[0].role, 'REQUIRED');
+  assert.equal(lw[0].condition_tier, 'MAIN');
+  assert.equal(lw[0].threshold_source, 'computed');
+  const zh = lw[0].notes_i18n?.['zh-TW'] || '';
+  assert.ok(zh.includes('CL-DATA-18'), 'notes cite CL-DATA-18 (AI-verification reform)');
+  assert.ok(zh.includes('2026-11-06'), 'notes carry the verification date');
+  assert.ok(zh.includes('−6'), 'civil threshold sun elevation > -6 deg');
   assert.ok(!readFileSync(path.join(oppDir, 'us-057-P01.json'), 'utf8').includes('CL-DATA-12'));
 });
 

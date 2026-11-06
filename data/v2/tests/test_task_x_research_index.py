@@ -110,11 +110,18 @@ class ResearchIndexTests(unittest.TestCase):
             # confirmed) — the 4 LCL cloud-sea records byte-changed and were
             # re-pinned to the task-branch commit carrying the corrections.
             'c90f56712550ae46824e30684442bbc44855c9b5',
+            # CL-DATA-18: AI-verified geometry/light-window records
+            # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
+            # tw-026-P01/tw-026-P02/us-057-P01) re-pinned to the task-branch
+            # commit carrying the AI-verified fills (owner ruling 2026-11-06:
+            # AI fact-check with source URL+date replaces human review;
+            # original human-review bytes at 3682e14ec).
+            '2af08fb9eec9994ab5862197c4a0d8a45587e440',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
-        self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])
-        # CL-DATA-14: bytes unchanged by the merge (provenance commit_sha re-pointed only)
-        self.assertEqual('c74a75dcedbc6ebc56993477e7aea6bb9a1d013f',p01['blob_sha'])
+        self.assertEqual('2af08fb9eec9994ab5862197c4a0d8a45587e440',p01['commit_sha'])
+        # CL-DATA-18: bytes changed by the AI-verified geometry fill
+        self.assertEqual('87d380a1025bb6ec710bed8f2f95a93871dda477',p01['blob_sha'])
 
     def test_all_place_names_exact_source_spans_without_new_translation(self):
         count=0
