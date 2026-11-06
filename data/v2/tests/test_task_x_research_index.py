@@ -88,7 +88,9 @@ class ResearchIndexTests(unittest.TestCase):
             # twilight only) to d57d40f89 — see below.
             # CL-UI-36: rationale_i18n review-note strip re-pinned the affected
             # canonical records to the task-branch commit holding the new bytes.
-            'dce2f6ed0812ad418fc6d87cb358c9162aa2c255',
+            # (dce2f6ed0812... retired by CL-DATA-19: its last six records
+            # jp-007-P01/tw-045-P02/tw-054-P01/tw-056-P02/tw-082-P02/us-069-P01
+            # gained the civil light_window and were re-pinned to e261cc9817e.)
             '4e51267ba7b7130d28efa41e50d2ef3d36de81a8',
             # CL-DATA-12: wave-1 semantic corrections (batches A–O) re-pinned
             # the touched records to the contract commits, and the three
@@ -118,6 +120,11 @@ class ResearchIndexTests(unittest.TestCase):
             # (tw-059-P01/tw-078-P01 tidal genre, tw-016-P01 summit geometry)
             # pinned to the data commit.
             'a4f803a7106816773ef5a2f659271c656b873bd7',
+            # CL-DATA-19: 126 mid-latitude all-day contracts gained a civil
+            # light_window (REQUIRED/MAIN, sun elevation > -6 deg, CL-DATA-11
+            # same-source definition); canonical records re-pinned to the
+            # contract commit holding the new bytes.
+            'e261cc9817e720d852bd5aee9b1b555edd253d8c',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])
