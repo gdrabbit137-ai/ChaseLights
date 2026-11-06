@@ -1921,6 +1921,23 @@
 .terminal-table tr.past-row td:first-child{background:#080808}
 .terminal-table tr.best-row td:first-child{background:#12304a}
 #modal-close-mobile{display:none}
+/* CL-UI-34: collapsed data-source panel at the modal bottom (deep layer). */
+.modal-provenance{border:1px solid #1e293b;border-radius:9px;margin-top:12px;background:rgba(15,23,42,.45);font-size:.76rem}
+.modal-provenance summary{padding:9px 11px;color:#94a3b8;font-weight:700;cursor:pointer;min-height:38px;display:flex;align-items:center;list-style:none}
+.modal-provenance summary::-webkit-details-marker{display:none}
+.modal-provenance summary::before{content:'▸';margin-right:7px;color:#64748b;transition:transform .15s ease}
+.modal-provenance[open] summary::before{transform:rotate(90deg)}
+.modal-provenance[open] summary{color:#cbd5e1;border-bottom:1px solid #1e293b}
+.modal-provenance-body{padding:8px 11px 10px;display:flex;flex-direction:column;gap:7px;color:#94a3b8;line-height:1.55}
+.prov-row{display:flex;gap:8px;align-items:baseline}
+.prov-row .prov-k{flex:0 0 auto;color:#cbd5e1;font-weight:700;white-space:nowrap}
+.prov-row .prov-v{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.prov-layers-note .prov-k{color:#64748b;font-weight:700}
+@media (max-width:640px){
+  .modal-provenance summary{padding:10px 11px}
+  .prov-row{flex-direction:column;gap:2px}
+  .prov-row .prov-k{white-space:normal}
+}
 .modal-close-mobile-btn{width:100%;min-height:46px;border-radius:10px;border:1px solid #334155;background:#111827;color:#e2e8f0;font-size:1rem;font-weight:800;cursor:pointer}
 @media (max-width:640px){
   .modal-headline{font-size:.9rem}
