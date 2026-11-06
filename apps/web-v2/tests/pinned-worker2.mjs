@@ -4,7 +4,11 @@ import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
-export const W2_SHA = "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98";
+// CL-DATA-18: the W2 canonical content commit now carries the AI-verified
+// geometry/light-window records (owner ruling 2026-11-06: AI fact-check with
+// source URL+date replaces human review). Original human-review bytes:
+// 3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98 (git history).
+export const W2_SHA = "2af08fb9eec9994ab5862197c4a0d8a45587e440";
 export const fixtureDirectory = fileURLToPath(new URL('./fixtures/worker2/', import.meta.url));
 export const manifest = JSON.parse(readFileSync(resolve(fixtureDirectory, 'manifest.json'), 'utf8'));
 export function gitBlob(buffer) {

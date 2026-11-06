@@ -9,11 +9,14 @@ ROOT = Path(__file__).resolve().parent
 # The fixture filename is historical. Its bytes are the canonical record at
 # the CL-DATA-02 owner-ruling W2 rebuild (2026-11-02), not the earlier W2
 # revision named in that filename.
-W2_SOURCE_COMMIT = "f73d047cb66648fd0ebca27209743604a4af7496"
+W2_SOURCE_COMMIT = "2af08fb9eec9994ab5862197c4a0d8a45587e440"
 FIXTURE = ROOT / "fixtures" / "tw-026-P01.w2-fe52720.json"
 # CL-DATA-14 merge re-anchor: fixture re-synced to the merged-tree canonical
 # bytes (CL-DATA-13 view_azimuth backfill semantics), blob re-measured.
-BLOB_SHA = "c74a75dcedbc6ebc56993477e7aea6bb9a1d013f"
+# CL-DATA-18 re-anchor: AI-verified geometry/nav fill bytes
+# (owner ruling 2026-11-06: AI fact-check with source URL+date replaces
+# human review); fail-closed evaluation semantics unchanged.
+BLOB_SHA = "87d380a1025bb6ec710bed8f2f95a93871dda477"
 AT = "2026-10-09T12:00:00+00:00"
 spec = importlib.util.spec_from_file_location("core_v2_evaluator", ROOT.parent / "evaluator.py")
 evaluator = importlib.util.module_from_spec(spec)

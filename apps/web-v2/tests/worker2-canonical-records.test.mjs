@@ -33,7 +33,7 @@ test('original Worker 2 canonical records preserve research-only semantics', () 
   assert.equal(catalog.access_advisories.length, 0);
   assert.ok(catalog.conditions.every(c => c.domain !== "ACCESS_SAFETY"));
   assert.equal(catalog.evidence.length, 21);
-  assert.equal(catalog.unknowns.length, 6);
+  assert.equal(catalog.unknowns.length, 4);
   assert.deepEqual(catalog.evaluations, []);
   assert.equal(catalog.generated_at, null);
   for (const o of catalog.opportunities) {

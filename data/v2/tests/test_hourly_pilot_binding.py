@@ -51,8 +51,17 @@ class HourlyPilotBinding(unittest.TestCase):
 
     def test_sidecar_does_not_promote_existing_index_or_geometry(self):
         c=json.loads((ROOT/self.binding['canonical_binding']['path']).read_text())
-        self.assertTrue(all(x['geometry']['geojson'] is None for x in c['camera_contexts']))
-        self.assertTrue(all(x['lat'] is None and x['lon'] is None and x['status']!='verified' for x in c['navigation_targets']))
+        # CL-DATA-18 re-anchor: tw-036-P01 camera geometry was AI-verified
+        # (derived + provenance-complete derivation_method) under the owner
+        # ruling 2026-11-06; 'verified' status stays blocked, and navigation
+        # coordinates must carry provenance refs with low confidence.
+        self.assertTrue(all(
+            x['geometry']['geojson'] is None or
+            (x['geometry']['status']=='derived' and x['geometry']['derivation_method'] and 'CL-DATA-18' in x['geometry']['derivation_method'])
+            for x in c['camera_contexts']))
+        self.assertTrue(all(
+            (x['lat'] is None and x['lon'] is None or x['evidence_refs']) and x['status']!='verified'
+            for x in c['navigation_targets']))
         idx=json.loads((ROOT/'data/v2/indexes/research/place-index.json').read_text())
         place=next(x for x in idx['places'] if x['place_id']=='tw-036')
         self.assertEqual(place['time_zone']['status'],'UNKNOWN')
