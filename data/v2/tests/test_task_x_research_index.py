@@ -67,7 +67,12 @@ class ResearchIndexTests(unittest.TestCase):
             '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
             '06b51d046fd391ab44708535464e7478cfc13ee4',
             '3eb466432807185bc8b9271d006666b72d1fa406',
-            '76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',
+            # CL-INT-83: the 8 CL-DATA-18 AI-verified fill records
+            # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
+            # tw-026-P01/tw-026-P02/us-057-P01) re-pinned to the second-merge
+            # commit carrying the union bytes (CL-INT-82/85 main + CL-DATA-18
+            # fills); 76e926d16 left the set for those records.
+            '1767b1bb116fd50b42a0d93c60c81fadd6694e8c',
             # CL-DATA-04: three new owner-defined records pinned to the
             # owner-definition data commit. (tw-086-P02 — the last holder of
             # cebb9689 — was byte-changed and re-pinned by CL-DATA-16, so the
@@ -127,9 +132,11 @@ class ResearchIndexTests(unittest.TestCase):
             'e261cc9817e720d852bd5aee9b1b555edd253d8c',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
-        self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])
-        # CL-DATA-14: bytes unchanged by the merge (provenance commit_sha re-pointed only)
-        self.assertEqual('c74a75dcedbc6ebc56993477e7aea6bb9a1d013f',p01['blob_sha'])
+        # CL-INT-83: tw-026-P01 re-pinned to the second-merge commit carrying
+        # the CL-DATA-18 AI-verified fill bytes (union with CL-INT-82/85).
+        self.assertEqual('1767b1bb116fd50b42a0d93c60c81fadd6694e8c',p01['commit_sha'])
+        # CL-DATA-18: bytes = the AI-verified geometry/light-window fill state
+        self.assertEqual('87d380a1025bb6ec710bed8f2f95a93871dda477',p01['blob_sha'])
 
     def test_all_place_names_exact_source_spans_without_new_translation(self):
         count=0
