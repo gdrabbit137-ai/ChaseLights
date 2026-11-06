@@ -227,6 +227,7 @@
     view:null,
     weatherOpacity:0.62,
     windVectors:false,
+    legendExpanded:false,
     windVectorTouched:false,
     lastWindVectorCount:0,
     // CL-WG-20: particle-flow animation (Windy-style), default OFF for
@@ -842,6 +843,62 @@
     return {width:rect.width,height:rect.height};
   }
 
+  // CL-WG-28: cursor value readout. Maps the pointer position back to
+  // lat/lon (MapLibre unproject when the basemap is live, view-bbox math in
+  // the Canvas fallback), then samples the SAME cell the spot inspector uses
+  // (samplePointValue) so the readout can never disagree with the inspector.
+  // Hidden honestly when the pointer is outside the data bbox or the cell has
+  // no value. Touch: dragging a finger over the map shows the readout too.
+  function wireCursorReadout(){
+    const host=$('weather-basemap');
+    if(!host || host.dataset.cursorReadoutWired==='1') return;
+    host.dataset.cursorReadoutWired='1';
+    host.addEventListener('pointermove',updateCursorReadout);
+    host.addEventListener('pointerdown',updateCursorReadout);
+    host.addEventListener('pointerleave',hideCursorReadout);
+  }
+  function hideCursorReadout(){
+    const el=$('cursor-readout');
+    if(el) el.hidden=true;
+  }
+  function cursorLatLon(clientX,clientY){
+    const host=$('weather-basemap');
+    const rect=host.getBoundingClientRect();
+    const px=clientX-rect.left, py=clientY-rect.top;
+    if(state.mapReady && state.map){
+      const ll=state.map.unproject([px,py]);
+      return {lon:ll.lng,lat:ll.lat,px,py,rect};
+    }
+    const v=state.view;
+    return {
+      lon:v.leftlon+px/rect.width*(v.rightlon-v.leftlon),
+      lat:v.toplat-py/rect.height*(v.toplat-v.bottomlat),
+      px,py,rect
+    };
+  }
+  function updateCursorReadout(ev){
+    const el=$('cursor-readout');
+    if(!el) return;
+    if(!activeFrame(state.layer)){ el.hidden=true; return; }
+    const data=activeDataset(state.layer);
+    const bbox=normalizeViewBbox(data?.bbox || state.view);
+    const p=cursorLatLon(ev.clientX,ev.clientY);
+    if(!bbox || p.lon<bbox.leftlon || p.lon>bbox.rightlon || p.lat<bbox.bottomlat || p.lat>bbox.toplat){
+      el.hidden=true;
+      return;
+    }
+    const value=samplePointValue({lon:p.lon,lat:p.lat},state.layer);
+    if(!Number.isFinite(value)){
+      el.hidden=true;
+      return;
+    }
+    const cfg=layerConfig[state.layer];
+    el.textContent=`${cfg?cfg.label:state.layer}：${formatValue(value,state.layer)}（游標查值）`;
+    el.style.left=`${Math.max(4,Math.min(p.px+12,p.rect.width-el.offsetWidth-4))}px`;
+    el.style.top=`${Math.max(4,p.py-34)}px`;
+    el.hidden=false;
+  }
+
   function pickSpotAtPoint(px,py){
     let best=null;
     const targets=state.spotHitTargets || [];
@@ -935,6 +992,10 @@
         draw();
       });
       map.on('click',ev=>pickSpotAtPoint(ev.point.x,ev.point.y));
+      // CL-WG-28: cursor value readout — the PRIMARY value-query channel
+      // (the legend is an aid). Wires the pointermove/pointerleave handlers
+      // on the basemap container; see updateCursorReadout below.
+      wireCursorReadout();
       map.on('error',ev=>console.warn('WeatherGrid basemap error',ev?.error || ev));
     }catch(err){
       console.warn('WeatherGrid basemap unavailable; using Canvas fallback',err);
@@ -4182,7 +4243,21 @@
     host.replaceWith(wrap.firstElementChild);
   }
 
+  // CL-WG-28: redesigned legend (owner ruling — Windy has no legend and that
+  // is a long-running user complaint there, so OUR legend is a differentiator,
+  // but it must stay restrained). Compact state = one slim gradient bar +
+  // ONLY the first/last value labels; click/tap (or a 500ms long-press on
+  // touch) expands the full tick detail. Every gradient/tick below is derived
+  // from assets/weather-map-palette.js (LAYER_RENDER_CONFIG / bands /
+  // colorFor) — the single source shared with the PNG prerender generator;
+  // never hand-copy palette values here. The cursor readout (see
+  // updateCursorReadout) remains the PRIMARY value-query channel; the legend
+  // is an aid. The legend only renders while the active layer actually has
+  // decodable data.
   function updateLegend(cfg){
+    const hasData=decodedArray(state.layer).some(Number.isFinite);
+    $('legend').hidden=!hasData;
+    if(!hasData) return;
     const min=cfg.domain[0], max=cfg.domain[1], mid=(min+max)/2;
     let stopValues=[min,min+(max-min)*.25,mid,min+(max-min)*.75,max];
     let labels=[formatValue(min,state.layer),formatValue(mid,state.layer),formatValue(max,state.layer)];
@@ -4203,21 +4278,20 @@
       labels=['0','1','5','10','50+'];
     }
 
-    let barHtml;
-    let labelsHtml;
-    let thresholdKey='';
-    if(cfg.palette==='cloud'||cfg.palette==='cloudLow'){
+    const isCloud=cfg.palette==='cloud'||cfg.palette==='cloudLow';
+    let barGradient;
+    if(isCloud){
       const bands=cfg.palette==='cloudLow'?LOW_CLOUD_PERCENT_BANDS:CLOUD_PERCENT_BANDS;
-      barHtml=`<div class="legend-bar cloud-percent" style="background:linear-gradient(90deg,${cloudLegendGradient(bands)})"><span class="cloud-midline" aria-hidden="true"></span></div>`;
-      labelsHtml=`<div class="cloud-legend-labels">${cloudLegendLabels()}</div>`;
-      thresholdKey=cloudThresholdKeyHtml(activeDataset(state.layer)).html;
+      barGradient=`linear-gradient(90deg,${cloudLegendGradient(bands)})`;
     }else{
-      const stops=stopValues.map(v=>colorFor(v,cfg));
-      const labelHtml=labels.map(v=>`<span>${escapeHtml(v)}</span>`).join('');
-      barHtml=`<div class="legend-bar" style="background:linear-gradient(90deg,${stops.join(',')})"></div>`;
-      labelsHtml=`<div class="legend-row">${labelHtml}</div>`;
+      barGradient=`linear-gradient(90deg,${stopValues.map(v=>colorFor(v,cfg)).join(',')})`;
     }
-
+    // CL-WG-28: the 50% cloud hinge keeps its one-line key (PM ruling item 3);
+    // everything else collapse-worthy lives in the expanded panel.
+    const thresholdKey=isCloud?cloudThresholdKeyHtml(activeDataset(state.layer)).html:'';
+    const expandedLabels=isCloud
+      ? `<div class="cloud-legend-labels">${cloudLegendLabels()}</div>`
+      : `<div class="legend-row">${labels.map(v=>`<span>${escapeHtml(v)}</span>`).join('')}</div>`;
     const windKey=(state.windVectors || isWindLayer() || isWindDirectionLayer()) ? `
       <div class="wind-key"><span class="wind-arrow-icon">→</span> 箭頭＝風去向</div>` : '';
     const coverageKey=state.spotId ? `
@@ -4228,12 +4302,47 @@
       </div>` : '';
     $('legend').innerHTML=`
       <strong>${cfg.label}</strong>
-      ${barHtml}
-      ${labelsHtml}
-      ${thresholdKey}
+      <button type="button" class="legend-toggle" aria-expanded="${state.legendExpanded?'true':'false'}" aria-label="展開／收合完整圖例刻度">
+        <span class="legend-bar${isCloud?' cloud-percent':''}" style="background:${barGradient}">${isCloud?'<span class="cloud-midline" aria-hidden="true"></span>':''}</span>
+        <span class="legend-compact-labels"><span>${escapeHtml(labels[0])}</span><span>${escapeHtml(labels[labels.length-1])}</span></span>
+      </button>
+      <div class="legend-expanded"${state.legendExpanded?'':' hidden'}>${expandedLabels}
+        ${thresholdKey}
+      </div>
       <div class="coverage-outline-key">虛線＝目前資料來源範圍</div>
       ${windKey}
       ${coverageKey}`;
+    const toggle=$('legend').querySelector('.legend-toggle');
+    // Click handling lives in attachLegendLongPress (single listener — a
+    // duplicate here would double-toggle and cancel every click out).
+    attachLegendLongPress(toggle);
+  }
+  function toggleLegendExpanded(btn){
+    state.legendExpanded=!state.legendExpanded;
+    btn.setAttribute('aria-expanded',state.legendExpanded?'true':'false');
+    const panel=$('legend').querySelector('.legend-expanded');
+    if(panel) panel.hidden=!state.legendExpanded;
+  }
+  // CL-WG-28: touch users get a 500ms long-press instead of a stray tap; the
+  // long-press suppresses the click that fires on pointerup so the panel
+  // toggles exactly once per gesture.
+  function attachLegendLongPress(btn){
+    let timer=null;
+    let longPressed=false;
+    const start=e=>{
+      if(e.pointerType==='mouse') return;
+      longPressed=false;
+      timer=window.setTimeout(()=>{timer=null;longPressed=true;toggleLegendExpanded(btn);},500);
+    };
+    const cancel=()=>{ if(timer){window.clearTimeout(timer);timer=null;} };
+    btn.addEventListener('pointerdown',start);
+    btn.addEventListener('pointerup',cancel);
+    btn.addEventListener('pointercancel',cancel);
+    btn.addEventListener('pointerleave',cancel);
+    btn.addEventListener('click',()=>{
+      if(longPressed){ longPressed=false; return; }
+      toggleLegendExpanded(btn);
+    });
   }
 
   function updateTimeline(){

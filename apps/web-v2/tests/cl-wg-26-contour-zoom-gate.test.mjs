@@ -75,8 +75,8 @@ test('zoom changes flip the legend key in real time (draw() wiring)', () => {
     'live gate hook for headless verification (same spirit as __weatherGridCamera)');
 });
 
-test('cache-bust stamps bumped in the same ticket (?v=bclwg29)', () => {
-  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg29/);
-  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg29/);
+test('cache-bust stamps bumped in the same ticket (?v=bclwg30)', () => {
+  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg30/);
+  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg30/);
   assert.doesNotMatch(HTML, /weather-map\.js\?v=bclwg28/);
 });
