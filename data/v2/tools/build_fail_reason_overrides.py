@@ -38,7 +38,7 @@ EVAL_METRICS = [
     "relative_humidity_700hpa", "relative_humidity_600hpa",
     "relative_humidity_850hpa", "galactic_core_altitude",
     "sunrise_time_window", "sunset_window", "golden_hour_window",
-    "blue_hour_window", "city_night_window", "astronomical_darkness",
+    "blue_hour_window", "city_night_window", "light_window", "astronomical_darkness",
     "moon_illumination_fraction", "moon_illuminance_proxy", "moon_altitude",
     "moon_target_separation_deg", "wind_speed_850hpa", "wind_speed_600hpa",
     "temperature_delta_850_925_c", "temperature_delta_700_600_c",
@@ -46,7 +46,60 @@ EVAL_METRICS = [
     "landform_present",
 ]
 
+
 # ---------------------------------------------------------------- bespoke ---
+# CL-DATA-11: cloud-sea light window (owner ruling + clarification 2026-11-05:
+# the cloud sea is visible ONLY in civil light — sun elevation > -6 deg; night
+# hours never qualify regardless of the moon, no moon metric is consulted).
+# Per-place wording, mountain/valley/lake/fog contexts.
+_LIGHT_WINDOW_CL = {
+    "tw-001-P02": ("已過民用光線，盆地裡的雲海看不見",
+                   "Outside civil light — the basin cloud sea is invisible",
+                   "市民光を過ぎて、盆地の雲海が見えません"),
+    "tw-004-P03": ("已過民用光線，山谷雲海一片漆黑看不到",
+                   "Outside civil light — the valley cloud sea is pitch dark",
+                   "市民光を過ぎて、谷の雲海は真っ暗で見えません"),
+    "tw-008-P03": ("已過民用光線，看不到山谷裡的雲海",
+                   "Outside civil light — no cloud sea over the valley",
+                   "市民光を過ぎて、谷間の雲海が見えません"),
+    "tw-014-P02": ("已過民用光線，雲瀑只剩黑漆漆一片",
+                   "Outside civil light — the cloud waterfall is only darkness",
+                   "市民光を過ぎて、雲の滝は真っ暗です"),
+    "tw-019-P04": ("已過民用光線，群峰下的雲海看不見",
+                   "Outside civil light — the cloud sea below the peaks is invisible",
+                   "市民光を過ぎて、山々の下の雲海が見えません"),
+    "tw-020-P02": ("已過民用光線，山谷雲海在黑暗中看不到",
+                   "Outside civil light — the valley cloud sea disappears into darkness",
+                   "市民光を過ぎて、谷の雲海は闇の中です"),
+    "tw-021-P02": ("已過民用光線，山谷裡的雲海看不見",
+                   "Outside civil light — the valley cloud sea is invisible",
+                   "市民光を過ぎて、谷の雲海が見えません"),
+    "tw-022-P02": ("已過民用光線，雲海與茶園山稜都看不見",
+                   "Outside civil light — neither the cloud sea nor the tea ridges show",
+                   "市民光を過ぎて、雲海も茶園の尾根も見えません"),
+    "tw-023-P02": ("已過民用光線，山凹裡的雲海看不見",
+                   "Outside civil light — the cloud sea in the hollow is invisible",
+                   "市民光を過ぎて、くぼみの雲海が見えません"),
+    "tw-032-P02": ("已過民用光線，露出山稜與雲海都看不到",
+                   "Outside civil light — neither the emergent ridge nor the cloud sea shows",
+                   "市民光を過ぎて、突き出た尾根も雲海も見えません"),
+    "tw-040-P04": ("已過民用光線，山莊下方的雲海看不見",
+                   "Outside civil light — the cloud sea below the hut is invisible",
+                   "市民光を過ぎて、山小屋の下の雲海が見えません"),
+    "tw-043-P03": ("已過民用光線，主稜下的雲海一片黑看不到",
+                   "Outside civil light — the cloud sea under the main ridge is pitch dark",
+                   "市民光を過ぎて、主稜下の雲海は真っ暗です"),
+    "tw-082-P09": ("已過民用光線，湖面的低雲氛圍看不到",
+                   "Outside civil light — the low-cloud mood over the lake is invisible",
+                   "市民光を過ぎて、湖面の低雲の雰囲気が見えません"),
+    "tw-086-P01": ("已過民用光線，霧中的橋影看不到",
+                   "Outside civil light — the bridge in the fog is invisible",
+                   "市民光を過ぎて、霧の中の橋は見えません"),
+    # us-020-P02: redwood fog forest — the fog is only visible where light falls.
+    "us-020-P02": ("已過民用光線，霧中的紅木森林看不到",
+                   "Outside civil light — the fogged redwoods are invisible",
+                   "市民光を過ぎて、霧のかかるレッドウッドの森は見えません"),
+}
 # Hand-written entries: opportunity_id -> metric -> {zh-TW, en, ja}.
 BESPOKE = {
     # 淡水漁人碼頭 — harbor pier, no peaks: the low cloud reads as one grey mass.
@@ -688,6 +741,13 @@ def build(regions):
     json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False,
               indent=1, sort_keys=True)
     return out, stats, unauthored
+
+
+# CL-DATA-11: per-place light-window wording merges into BESPOKE before build.
+for _oid, (_zh, _en, _ja) in _LIGHT_WINDOW_CL.items():
+    BESPOKE.setdefault(_oid, {})["light_window"] = {
+        "zh-TW": _zh, "en": _en, "ja": _ja,
+    }
 
 
 def main():

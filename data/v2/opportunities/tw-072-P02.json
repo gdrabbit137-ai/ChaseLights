@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-072-P02",
   "place_id": "tw-072",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "南雅奇岩夕照雲霞",
@@ -111,8 +111,8 @@
   "condition_contract": {
     "contract_id": "CC-tw-072-P02-v1",
     "status": "draft",
-    "genre_template": "geological_landform",
-    "template_version": "geological_landform-v0.1",
+    "genre_template": "golden_hour",
+    "template_version": "golden_hour-v0.1",
     "recommendation_policy_version": null,
     "conditions": [
       {
@@ -167,7 +167,7 @@
       },
       {
         "id": "C-tw-072-P02-03",
-        "role": "QUALITY",
+        "role": "REQUIRED",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -181,13 +181,18 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "BONUS",
+        "condition_tier": "MAIN",
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。",
-          "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
-          "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
+          "zh-TW": "時間窗＝黃金時段（太陽仰角 −6°～+6° 的低角度暖光）。本題主體是「夕照雲霞」——只有夕照時刻才成立；原本此窗只是加分項，導致白天時段（如 10:00–16:00）被判為最佳拍攝時段（CL-DATA-11 語意修正紅線）。",
+          "en": "Time window = the golden hour (low-angle warm light with sun elevation between -6 deg and +6 deg). The subject IS the sunset glow clouds - the subject only exists at sunset; the window was previously only a bonus, so midday hours (e.g. 10:00-16:00) were rendered as the best shooting window (CL-DATA-11 semantic-correction red line).",
+          "ja": "時間窓＝ゴールデンアワー（太陽高度 -6°〜+6° の低角度の暖かい光）。本テーマは「夕焼けの霞」そのもの——夕焼けの時間帯でなければ成立しない。従来この窓は加点項に過ぎず、昼間（10:00-16:00 など）が最適撮影時間帯と判定される事故が起きていた（CL-DATA-11 意味修正のレッドライン）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-05 語意修正（CL-DATA-11）：模板錯置（geological_landform × spec:day）→ golden_hour × spec:golden，照 TIME_SPECIALIZATION_PROPOSAL §3/§4 慣例；layering parity gate 豁免，理由記於本 revision note。實證：南雅奇岩「夕照雲霞」最佳時段為夕照，10:00–16:00 為夕照語義錯。",
+          "en": "2026-11-05 semantic correction (CL-DATA-11): template misplacement (geological_landform x spec:day) corrected to golden_hour x spec:golden per TIME_SPECIALIZATION_PROPOSAL §3/§4 conventions; the layering parity gate is exempt for this record and the change is documented in this revision note. Evidence: Nanya Rock \"sunset glow clouds\" belongs to the sunset window; the previous 10:00-16:00 window inverted the sunset semantics.",
+          "ja": "2026-11-05 意味修正（CL-DATA-11）：テンプレートの誤配置（geological_landform × spec:day）を golden_hour × spec:golden へ修正（TIME_SPECIALIZATION_PROPOSAL §3/§4 の慣例に従う）。layering parity ゲートは本レコードを免除し、変更はこのリビジョンノートに記録。実証：南雅奇岩「夕焼けの霞」は夕照の時間帯が最適で、10:00-16:00 は夕照の意味を逆転していた。"
         }
       },
       {

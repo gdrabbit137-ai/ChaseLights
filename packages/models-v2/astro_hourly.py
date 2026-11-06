@@ -13,6 +13,9 @@ GENRE_CONDITION_TEMPLATES.md:
 - city_night_window: EVERY sampled instant in the hour bucket has sun
   elevation <= -6° (civil darkness) — CL-UI-23 evaluation-layer gate for
   city_night contracts that carry no contract-level time window yet
+- light_window: EVERY sampled instant in the hour bucket has sun elevation
+  > -6° (civil light) — CL-DATA-11 cloud-sea visibility window; night hours
+  never qualify regardless of the moon (owner clarification 2026-11-05)
 - moon_illuminance_proxy: illumination_fraction × sin(moon_altitude), 0 below horizon
 - galactic_core_altitude: lunar_ephemeris galactic-core contract
 
@@ -51,6 +54,16 @@ DARKNESS_MAX_DEG = -18.0
 # weather conditions alone would pass.
 CITY_NIGHT_MAX_DEG = -6.0
 
+# CL-DATA-11: cloud-sea light window (owner ruling 2026-11-05, clarified same
+# day: 夜間一律不符合 — a sea of clouds is visible ONLY in civil light; the
+# earlier "moonlit night" reading was an owner rhetorical question, not a
+# ruling, and the moonlight exception is withdrawn). The hour bucket qualifies
+# only when EVERY sampled instant inside it has sun elevation > -6 deg (civil
+# light). A dark hour (e.g. 23:00 local) can never qualify regardless of the
+# moon, even when the weather conditions all pass. Pure solar geometry: no
+# moon data is consulted.
+CIVIL_LIGHT_MIN_DEG = -6.0
+
 # CL-UI-08: window metrics are evaluated by SUB-HOUR INTERVAL SAMPLING, not by
 # the single grid instant. Narrow windows (blue hour 20-50 min, sunrise/sunset
 # ±40 min, golden hour) can fall entirely between two whole-hour grid points;
@@ -66,7 +79,8 @@ ASTRO_SAMPLING_PROVENANCE = {
     "samples_per_hour": len(WINDOW_SAMPLE_OFFSETS),
     "sample_offsets_minutes": WINDOW_SAMPLE_OFFSETS,
     "metrics": ["astronomical_darkness", "city_night_window", "golden_hour_window",
-                "blue_hour_window", "sunrise_time_window", "sunset_window"],
+                "blue_hour_window", "sunrise_time_window", "sunset_window",
+                "light_window"],
     "bucket": "[hour_start, hour_start+60min)",
 }
 
@@ -123,6 +137,8 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
                                   for a in altitudes),
         "blue_hour_window": any(BLUE_LOW_DEG <= a <= BLUE_HIGH_DEG
                                 for a in altitudes),
+        # CL-DATA-11: cloud-sea light window — pure civil-light geometry.
+        "light_window": all(a > CIVIL_LIGHT_MIN_DEG for a in altitudes),
     }
     for key, kind, half in (("sunrise_time_window", "sunrise", SUNRISE_HALF_WIDTH_MIN * 60),
                             ("sunset_window", "sunset", SUNSET_HALF_WIDTH_MIN * 60)):

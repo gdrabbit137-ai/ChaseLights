@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-003-P01",
   "place_id": "jp-003",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "細岡展望台釧路川濕原夕景",
@@ -213,6 +213,36 @@
           "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審門檻）。",
           "en": "Precipitation < 0.2 mm/h: shooting unaffected (approved threshold carried over).",
           "ja": "降水<0.2mm/h。撮影への影響なし。"
+        }
+      },
+      {
+        "id": "C-jp-003-P01-SW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "sunset_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-003-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "時間窗＝日落時段（sunset ±40 分，子小時取樣）。題名為「夕照／日落」，時間敏感題材必須帶時間窗必要條件；缺窗會把白天時段判為最佳拍攝時段。",
+          "en": "Time window = the sunset window (sunset ±40 min, sub-hour sampling). The subject name says sunset/evening glow: a time-sensitive subject must carry a time-window necessary condition, or daytime hours render as the best shooting window.",
+          "ja": "時間窓＝日の入り時間帯（日の入り ±40 分、時間内サンプリング）。題名が「夕景／夕焼け」のため、時間依存の主題には時間窓の必要条件が必須。窓がないと昼間が最適撮影時間帯と判定されてしまう。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-05 語意修正（CL-DATA-11）：夕照／日落命名題材缺時間窗——補入 sunset_window 必要條件（時間敏感題材紅線，PRODUCT_BLUEPRINT §3.1）；layering parity gate 豁免，理由記於本 revision note。",
+          "en": "2026-11-05 semantic correction (CL-DATA-11): a sunset-named subject with no time window - the REQUIRED sunset_window condition is added (time-sensitive red line, PRODUCT_BLUEPRINT §3.1); the layering parity gate is exempt for this record and the change is documented in this revision note.",
+          "ja": "2026-11-05 意味修正（CL-DATA-11）：夕景・日落名称の主題に時間窓がなかった——sunset_window 必要条件を追加（時間依存主題のレッドライン、PRODUCT_BLUEPRINT §3.1）。layering parity ゲートは本レコードを免除し、変更はこのリビジョンノートに記録。"
         }
       }
     ]

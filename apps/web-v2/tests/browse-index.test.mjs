@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'56dea03b2f83d21996cb5d790903ba784279f509d6e4bc3778d4a36983a0d868'); // CL-UI-36 re-anchor: internal review notes stripped from rationale_i18n across canonical records
-  assert.equal(sha256(rawCatalog),'4a65960151d59af774cadebd9f7cc800714fe952ec6df85fe648d3214d176362'); // CL-UI-36 re-anchor: catalog regenerated from the note-stripped records
+  assert.equal(sha256(rawIndex),'7772e3bb0375e1fa4f05311a6d97de7a9fa500f76d7fd8287c4fe037062d5cd7'); // CL-DATA-11 re-anchor: light_window cloud-sea window + sunset/golden semantic corrections regenerated the research index
+  assert.equal(sha256(rawCatalog),'21ef19c5a499c1e46e6b9760d80e3c59619f791fd9aa08ba2e0d12c51c602857'); // CL-DATA-11 re-anchor: catalog regenerated from the corrected records
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
