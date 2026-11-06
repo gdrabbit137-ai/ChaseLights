@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'3b93a7aad3702fa16f9b7905871db0be56ba4d4209ace7b604d8d1e507e6d4f7'); // CL-DATA-13 re-anchor: view_azimuth backfill (19 places) + light_direction pilot contracts (tw-003-P01/tw-001-P01) regenerated the research index
-  assert.equal(sha256(rawCatalog),'4755372e45aa6fd651ef63ce732b58eff441c481fb81fadd81c718548d8aabaa'); // CL-DATA-13 re-anchor: catalog regenerated from the merged tree records
+  assert.equal(sha256(rawIndex),'44f03000d2a42a3a42ae7bc71082b4b82f2956dcf2e2cb8ef36eacf64af2da8f'); // CL-CI-14 re-anchor: source_blob_sha pins re-measured against the CL-DATA-13 view_azimuth-backfilled opportunity files (37 records)
+  assert.equal(sha256(rawCatalog),'ba98c5161e0def229bef7548ed6d4dca7dc7f570b8c9032100cf076dd9cda183'); // CL-CI-14 re-anchor: source_pins blob shas re-measured against the backfilled opportunity files
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
