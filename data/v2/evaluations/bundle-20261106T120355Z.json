@@ -1,0 +1,174 @@
+{
+ "evaluation_bundle_version": "0.1.0",
+ "generated_at": "2026-11-06T12:03:55Z",
+ "forecast_hours": 72,
+ "guidance_only": true,
+ "live_recommendation": false,
+ "calibration_status": "PROVISIONAL_THRESHOLDS",
+ "provider": {
+  "name": "Open-Meteo",
+  "licence": "CC BY 4.0",
+  "urls": {
+   "terms": "https://open-meteo.com/en/terms",
+   "licence": "https://open-meteo.com/en/licence"
+  }
+ },
+ "limitations_i18n": {
+  "zh-TW": "評估結果為 GUIDANCE 参考：門檻為 provisional/approved 題材模板值，未經實拍校準，永不構成 FAVORABLE 保證。湖面狀態與花季窗口暫無即時觀測來源（標記 UNKNOWN）。天氣為網格預報，不代表拍攝點實況。",
+  "en": "Results are GUIDANCE only: thresholds are provisional/approved genre-template values, not calibrated against real shoots, and never constitute a FAVORABLE guarantee. Water-surface state and seasonal windows have no live observation source (UNKNOWN). Weather is grid forecast data, not on-site conditions.",
+  "ja": "評価結果はGUIDANCE参考値です: 閾値は暫定/承認済みテンプレート値で、実写検証されておらず、FAVORABLE保証にはなりません。水面状態と開花窗口は観測ソースがなくUNKNOWN。天気はグリッド予報であり現地実況ではありません。"
+ },
+ "place_count": 1,
+ "opportunity_count": 1,
+ "fetch_failures": [],
+ "skipped": [],
+ "provider_runs_count": 1,
+ "places": [
+  {
+   "place_id": "tw-059",
+   "coordinate": [
+    23.59968,
+    119.67137
+   ],
+   "coordinate_source": "camera_context_provisional",
+   "timezone_display": {
+    "iana": "Asia/Taipei",
+    "utc_offset_hours": 8,
+    "status": "DISPLAY_APPROXIMATION"
+   },
+   "provider_run": {
+    "run_id": "om-23.5997-119.6714-2026-11-06T12:03:55Z",
+    "provider": "open-meteo",
+    "source": "https://api.open-meteo.com/v1/forecast?latitude=23.599680&longitude=119.671370&forecast_hours=72&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
+    "issued_at": "2026-11-06T12:03:55Z",
+    "valid_at": "2026-11-06T12:00:00Z",
+    "freshness": "FRESH",
+    "grid": {
+     "latitude": 23.585236,
+     "longitude": 119.683876,
+     "elevation_m": 29.0
+    }
+   },
+   "opportunities": [
+    {
+     "opportunity_id": "tw-059-P01",
+     "name_i18n": {
+      "zh-TW": "奎壁山摩西分海",
+      "en": "奎壁山摩西分海",
+      "ja": "奎壁山摩西分海"
+     },
+     "genre_template": "tidal",
+     "condition_contract_id": "CC-tw-059-P01-v1",
+     "condition_contract_sha256": "e7990755e504cbe02e6c467d6b6ccd90dbf0adbea5e3468138dc4c5d59605e66",
+     "days": [
+      {
+       "local_date": "2026-11-06",
+       "state": "NOT_EVALUABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 0,
+        "NOT_EVALUABLE": 4
+       },
+       "conditions": [
+        {
+         "id": "C-tw-059-P01-01",
+         "metric": "legacy_long_exposure",
+         "tier": null,
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-07",
+       "state": "NOT_EVALUABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 0,
+        "NOT_EVALUABLE": 24
+       },
+       "conditions": [
+        {
+         "id": "C-tw-059-P01-01",
+         "metric": "legacy_long_exposure",
+         "tier": null,
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-08",
+       "state": "NOT_EVALUABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 0,
+        "NOT_EVALUABLE": 24
+       },
+       "conditions": [
+        {
+         "id": "C-tw-059-P01-01",
+         "metric": "legacy_long_exposure",
+         "tier": null,
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-09",
+       "state": "NOT_EVALUABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 0,
+        "NOT_EVALUABLE": 20
+       },
+       "conditions": [
+        {
+         "id": "C-tw-059-P01-01",
+         "metric": "legacy_long_exposure",
+         "tier": null,
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        }
+       ]
+      }
+     ],
+     "live": {
+      "now": {
+       "utc": "2026-11-06T13:00:00Z",
+       "local": "2026-11-06 21:00",
+       "status": "NOT_EVALUABLE",
+       "conditions": [
+        {
+         "id": "C-tw-059-P01-01",
+         "metric": "legacy_long_exposure",
+         "tier": null,
+         "role": "REQUIRED",
+         "operator": "none",
+         "threshold": null,
+         "value": null,
+         "verdict": "UNKNOWN"
+        }
+       ]
+      },
+      "next_good": null
+     }
+    }
+   ],
+   "name_i18n": {
+    "zh-TW": "奎壁山",
+    "en": "Kuibishan Moses Sea Parting",
+    "ja": "奎壁山モーゼの海割り"
+   }
+  }
+ ]
+}

@@ -20,14 +20,20 @@
       "kind": "area",
       "geometry": {
         "kind": "area",
-        "status": "unknown",
-        "geojson": null,
+        "status": "verified",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            120.954972,
+            24.241083
+          ]
+        },
         "uncertainty_m": null,
-        "derivation_method": "CL-DATA-16 elevation 2180 m verified 2026-11-06; source: https://recreation.forest.gov.tw/Trail/RT?tr_id=060（鳶嘴-稍來步道 2180 m）",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 2180 m verified 2026-11-06; source: https://recreation.forest.gov.tw/Trail/RT?tr_id=060（鳶嘴-稍來步道 2180 m）; CL-DATA-20 summit-point verification 2026-11-06: zh.wikipedia 鳶嘴山 places the summit at 24.241083N 120.954972E, elevation 2,191.1 m (https://zh.wikipedia.org/wiki/鳶嘴山); the rocky-ridge climbing section near the summit is documented by 林業及自然保育署 trail page (https://recreation.forest.gov.tw/Trail/RT?tr_id=060, 鳶嘴-稍來步道) and independent trip logs. Camera geojson filled with the verified summit point; altitude_m keeps the official trail-page value 2180 m.",
         "source_geometry_revision": null,
         "reason_if_absent": "No independently verified source geometry"
       },
-      "verification_status": "provisional",
+      "verification_status": "verified",
       "evidence_refs": [
         "e016a",
         "e016b"
