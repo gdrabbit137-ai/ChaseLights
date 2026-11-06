@@ -353,7 +353,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 445, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 459, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
@@ -396,13 +396,14 @@ def main():
         # 2026-11-06 CL-INT-72: w3 suite re-measured at 180 (grew from stale pin 174 on main), exact total=870 (non-candidate groups measured 864 on merged tree + candidate-build-browser 6, CI playwright env)
         # (node v26.7.0, --test-isolation=none).
         # 2026-11-06 CL-WG-26: +5 contour zoom gate tests -> w4-node=445, exact total 886.
-        # CL-INT-80 sequential merge (WG-27 + WG-28R): final count RE-MEASURED on
-        # the merged tree, pins below updated to the observed value — see count.
-        if (report["counts"]["tests"] != 886 or
+        # CL-INT-80 sequential merge (WG-27 + WG-28R, stamps re-anchored
+        # bclwg29->bclwg30): w4-node RE-MEASURED on the merged tree = 459
+        # (node v26.7.0, --test-isolation=none) -> exact total 886+14=900.
+        if (report["counts"]["tests"] != 900 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 886):
-            raise ValueError("Post-merge exact total-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 900):
+            raise ValueError("Post-merge exact 900-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

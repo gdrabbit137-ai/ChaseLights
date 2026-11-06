@@ -55,8 +55,8 @@ test('legend: trilingual 50% key with zoom hint below the gate', () => {
   // No simplified han in the ja copy.
   const jaHint = JS.match(/'ja':'拡大してご覧ください'/);
   assert.ok(jaHint, 'ja hint present');
-  assert.match(JS, /thresholdKey=cloudThresholdKeyHtml\(activeDataset\(state\.layer\)\)\.html;/,
-    'updateLegend renders the gated trilingual key');
+  assert.match(JS, /const thresholdKey=isCloud\?cloudThresholdKeyHtml\(activeDataset\(state\.layer\)\)\.html:'';/,
+    'updateLegend renders the gated trilingual key (CL-INT-80: inside the CL-WG-28 legend-expanded panel)');
   assert.match(JS, /data-zoom-gated="\$\{gated\}"/);
   assert.match(CSS, /\.cloud-threshold-hint\{color:#cbd5e1/);
 });
