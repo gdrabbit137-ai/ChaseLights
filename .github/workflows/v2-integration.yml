@@ -197,6 +197,22 @@ jobs:
                   faillog = faillog.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
                   print(f"::error::FAILLOG {faillog_name} {faillog}")
 
+                  # CL-CI-17d: for any FAIL group with fail>0, emit the failing
+                  # test names ('not ok' TAP lines) and cl-data-12 grep hits.
+                  try:
+                      fail_count = int((group.get('counts') or {}).get('fail') or 0)
+                  except (TypeError, ValueError):
+                      fail_count = 0
+                  if fail_count > 0 and log_path.exists():
+                      dlog_lines = log_path.read_text(errors='replace').splitlines()
+                      notok = [ln[:180] for ln in dlog_lines if ln.startswith('not ok')][:8]
+                      notok = [ln.replace('%', '%25').replace('\r', '%0D') for ln in notok]
+                      print(f"::error::FAILNOTOK {faillog_name} " + '%0A'.join(notok))
+                      cl12 = [ln[:150] for ln in dlog_lines if 'cl-data-12' in ln.lower()][:2]
+                      cl12_count = sum(1 for ln in dlog_lines if 'cl-data-12' in ln.lower())
+                      cl12 = [ln.replace('%', '%25').replace('\r', '%0D') for ln in cl12]
+                      print(f"::error::CL12GREP count={cl12_count} " + '%0A'.join(cl12))
+
                   if faillog_name == 'w4-node':
                       # CL-CI-17c: w4-node pin diagnostics — how many *.test.mjs
                       # files CI globs (postmerge_verify globs apps/web-v2/tests)
