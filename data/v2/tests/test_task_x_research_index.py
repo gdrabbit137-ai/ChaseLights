@@ -95,6 +95,11 @@ class ResearchIndexTests(unittest.TestCase):
             # reviewed-main bytes (commit 86cc3d9bd).
             'd57d40f8966631783f1385908659bd8c1b82adbd',
             '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
+            # CL-DATA-14: 10 records re-pinned to the task-branch commit
+            # carrying the CL-PHOTO-02 audit corrections (Paiyun LCL 3268,
+            # LCL altitude_m DEM provenance, AOD cams_global binding,
+            # snow/silver-grass seasonal proxies, crepuscular-ray layering).
+            'a346581dd94b3b2d5873decb937a562251136911',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])
