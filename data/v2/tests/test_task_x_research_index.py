@@ -106,11 +106,14 @@ class ResearchIndexTests(unittest.TestCase):
             # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
             # re-pointed to the merge commit carrying the verified bytes.
             '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
-            # CL-DATA-16: fact-check wave 1 (elevations/LCL recompute, coordinate
-            # corrections us-065/tw-052/tw-062, tw-086 rename, tw-016-P01
-            # altitude_m) re-pinned the touched canonical records to the data
-            # commit carrying the corrected bytes.
             'b801dd4eba545a76879828b25e869f3c45df33ac',
+            # CL-DATA-15 (merged side): owner-verified elevation corrections
+            # (Paiyun Lodge 3,402 m / Datun 1,092 m / Zhushan 2,451 m;
+            # Hehuan 3,417 m confirmed) — tw-001-P02/tw-019-P04/tw-024-P02/
+            # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
+            # remain re-pinned to the task-branch commit carrying those
+            # corrections (union merge, CL-INT-81).
+            'c90f56712550ae46824e30684442bbc44855c9b5',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])
