@@ -203,12 +203,42 @@
 
   const CAMERA_MAX_ZOOM = 13;
 
+  /**
+   * CL-WG-27: the .map-wrap container's aspect-ratio is derived from the
+   * region bbox's real VISUAL proportion in Web Mercator:
+   *   aspect = (dlon in radians) / (Mercator y span in radians)
+   * so fitBounds fills the container with (almost) no letterbox - the
+   * CL-WG-25 diagnosis showed a fixed 1.46:1 container exposed ~22 deg of
+   * extra ocean on the sides for tw (Mercator aspect 1.033). Pure function:
+   * tests pin the values and the weather-map.js runtime sets
+   * --wg-map-aspect from it on every region switch / initial load.
+   */
+  function bboxMercatorAspect(bbox) {
+    const r = normalizeBbox(bbox);
+    if (!r) return null;
+    const dLon = (r.rightlon - r.leftlon) * Math.PI / 180;
+    const mercY = (lat) => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360));
+    const ySpan = mercY(r.toplat) - mercY(r.bottomlat);
+    if (!(ySpan > 0)) return null;
+    return dLon / ySpan;
+  }
+
+  function regionMercatorAspect(regionId) {
+    return bboxMercatorAspect(REGION_BBOXES[regionId]);
+  }
+
+  // Convenience export for the runtime/tests: {<regionId>: aspect}
+  const REGION_MERCATOR_ASPECTS = Object.fromEntries(
+    Object.entries(REGION_BBOXES).map(([id, bbox]) => [id, bboxMercatorAspect(bbox)])
+  );
+
   const api = {
     REGION_ORDER, REGION_BBOXES, REGION_LABELS, REGION_CARD_META, PLACE_EXTREMES,
     REGIONAL_MODEL_SOURCES,
     normalizeBbox, sourceCoversRegion, regionContainsPoint,
     regionContainsAllPlaces, regionForPoint, sourcesForRegion, maskLayersForRegion,
-    cameraBounds, cameraMinZoom, CAMERA_MAX_ZOOM
+    cameraBounds, cameraMinZoom, CAMERA_MAX_ZOOM,
+    bboxMercatorAspect, regionMercatorAspect, REGION_MERCATOR_ASPECTS
   };
 
   if (typeof window !== 'undefined') {

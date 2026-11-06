@@ -140,6 +140,21 @@
     return window.WeatherMapRegions.REGION_BBOXES[state.region];
   }
 
+  // CL-WG-27: container aspect-ratio hugs the region bbox's Web Mercator
+  // visual proportion (CL-WG-25: fixed 1.46:1 letterboxed tw, ~22 deg of
+  // surplus ocean horizontally). Pure per-region value from
+  // WeatherMapRegions.regionMercatorAspect; set as a CSS variable on the
+  // .map-wrap container so desktop and mobile both follow the active region
+  // (tw 1.033 / jp 0.883 / us 1.741 / ak 0.816 / hi 1.431). Called from
+  // activateRegion, so every entry path (initial load, region switch) lands.
+  function applyRegionAspect(regionId){
+    const aspect = window.WeatherMapRegions.regionMercatorAspect(regionId);
+    if(!Number.isFinite(aspect) || aspect <= 0) return;
+    document.querySelectorAll('.map-wrap').forEach(el => {
+      el.style.setProperty('--wg-map-aspect', String(aspect));
+    });
+  }
+
   // CL-WG-16: color/opacity rendering lives in assets/weather-map-palette.js —
   // the single source shared with the CI-side PNG prerender generator, so the
   // pre-rendered frames use exactly the same配色函式 as live rendering.
@@ -1357,6 +1372,7 @@
 
   async function activateRegion(regionId, {initial=false}={}){
     state.region = regionId;
+    applyRegionAspect(regionId);
     stopTimelinePlayback();
     unloadAllSources();
     state.pngManifest = null;
