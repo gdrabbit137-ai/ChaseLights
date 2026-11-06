@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-034-P02",
   "place_id": "tw-034",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "evidence_review",
   "name_i18n": {
     "zh-TW": "崇德清水斷崖山海遠眺",
@@ -20,22 +20,17 @@
       "kind": "area",
       "geometry": {
         "kind": "area",
-        "status": "derived",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            121.661332,
-            24.191966
-          ]
-        },
+        "status": "unknown",
+        "geojson": null,
         "uncertainty_m": null,
-        "derivation_method": "CL-DATA-16 gap-fill 2026-11-06: coordinates carried from sibling camera context data/v2/opportunities/tw-034-P01.json (same place, verified camera point)",
+        "derivation_method": null,
         "source_geometry_revision": null,
         "reason_if_absent": "No independently verified place-specific camera/subject geometry."
       },
-      "verification_status": "representative",
+      "verification_status": "provisional",
       "evidence_refs": [
-        "CL-DATA-16:coordinate-gap:tw-034-P02:sibling=data/v2/opportunities/tw-034-P01.json"
+        "b04-tw034-a",
+        "b04-tw034-b"
       ],
       "access_notes_i18n": {
         "zh-TW": "太魯閣官方 FAQ 說崇德步道目前僅開放至第一觀景平台；後段不可當作開放。道路與平台狀態仍須於出發當日核對官方公告，勿靠近崖緣。",

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-082-P01",
   "place_id": "tw-082",
-  "revision": 2,
+  "revision": 1,
   "lifecycle_status": "evidence_review",
   "name_i18n": {
     "zh-TW": "鯉魚潭湖光與水面倒影",
@@ -20,22 +20,17 @@
       "kind": "area",
       "geometry": {
         "kind": "area",
-        "status": "derived",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            121.50803,
-            23.93493
-          ]
-        },
+        "status": "unknown",
+        "geojson": null,
         "uncertainty_m": null,
-        "derivation_method": "CL-DATA-16 gap-fill 2026-11-06: coordinates carried from sibling camera context data/v2/opportunities/tw-082-P02.json (same place, verified camera point)",
+        "derivation_method": null,
         "source_geometry_revision": null,
         "reason_if_absent": "No independently verified place-specific camera/subject geometry."
       },
-      "verification_status": "representative",
+      "verification_status": "provisional",
       "evidence_refs": [
-        "CL-DATA-16:coordinate-gap:tw-082-P01:sibling=data/v2/opportunities/tw-082-P02.json"
+        "b04-tw082-a",
+        "b04-tw082-b"
       ],
       "access_notes_i18n": {
         "zh-TW": "湖岸、碼頭及步道的實際開放範圍須依當日公告；官方視角不證明所有岸線可進入。",
