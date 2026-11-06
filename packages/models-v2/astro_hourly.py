@@ -35,7 +35,7 @@ for entry in (str(_REPO / "packages" / "models-v2"), str(_REPO)):
     if entry not in sys.path:
         sys.path.insert(0, entry)
 
-from solar_window import _solar_altitude_deg  # noqa: E402
+from solar_window import _solar_altitude_deg, _solar_azimuth_deg  # noqa: E402
 from lunar_ephemeris import (  # noqa: E402
     GALACTIC_CORE_DEC_DEG, GALACTIC_CORE_RA_DEG, lunar_ephemeris_for_galactic_core,
 )
@@ -89,6 +89,19 @@ def _sun_altitude(dt_utc, lat, lon):
     return _solar_altitude_deg(dt_utc.astimezone(timezone.utc), lat, lon)
 
 
+def _sun_azimuth(dt_utc, lat, lon):
+    """CL-DATA-13: solar azimuth (0-360, north=0) from the same NOAA/Meeus
+    chain as the altitude — same source, same sampling granularity (the grid
+    instant). Out-of-range outputs (impossible by construction, guarded
+    anyway) degrade honestly to None so QC failures propagate as unknown
+    instead of a wrong direction."""
+    try:
+        value = _solar_azimuth_deg(dt_utc.astimezone(timezone.utc), lat, lon)
+    except Exception:
+        return None
+    return value if 0.0 <= value <= 360.0 else None
+
+
 def sun_events_span(lat, lon, start_epoch, end_epoch, step_s=600):
     """All sunrise/sunset crossings in [start, end] at step resolution,
     linearly interpolated to the crossing second. Compute once per place/span;
@@ -130,7 +143,10 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
     samples = [epoch + off * 60.0 for off in WINDOW_SAMPLE_OFFSETS]
     altitudes = [_sun_altitude(datetime.fromtimestamp(t, timezone.utc), lat, lon)
                  for t in samples]
+    # CL-DATA-13: azimuth at the grid instant — same chain and same sampling
+    # granularity as the altitude scalar (windows sample; scalars don't).
     out = {
+        "sun_azimuth_deg": _sun_azimuth(dt_utc, lat, lon),
         "astronomical_darkness": any(a <= DARKNESS_MAX_DEG for a in altitudes),
         "city_night_window": all(a <= CITY_NIGHT_MAX_DEG for a in altitudes),
         "golden_hour_window": any(GOLDEN_LOW_DEG <= a <= GOLDEN_HIGH_DEG

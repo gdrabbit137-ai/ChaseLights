@@ -246,6 +246,81 @@
           "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
           "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
         }
+      },
+      {
+        "id": "C-tw-001-P01-LD",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_direction",
+        "operator": "none",
+        "threshold": null,
+        "unit": "deg",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-001-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "sectors": [
+          {
+            "arc_center_deg": 246.6,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 256.0,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 267.7,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 280.9,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 291.0,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 295.9,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 293.9,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 285.5,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 273.3,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 260.5,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 249.4,
+            "arc_half_width_deg": 27.5
+          },
+          {
+            "arc_center_deg": 244.1,
+            "arc_half_width_deg": 27.5
+          }
+        ],
+        "rationale_i18n": {
+          "zh-TW": "光向判據（CL-DATA-13 試行）：太陽方位角須落在當月受光扇形內。日落方位隨季節擺動約 51°（淡水冬 ~244°、夏 ~296°，CL-PHOTO-02 實證），故弧心逐月儲存、評估器依當月選取，不用全年單一弧。半寬 27.5°＝legacy view_tolerance 55° 之半（未校準，provisional）。",
+          "en": "Light-direction criterion (CL-DATA-13 pilot): the sun azimuth must fall inside the current month's light arc. The sunset azimuth swings ~51 deg across the year (Tamsui winter ~244, summer ~296; CL-PHOTO-02 evidence), so arc centers are stored per month and the evaluator picks the current one — never a single year-round arc. Half width 27.5 deg = half of the legacy view_tolerance 55 (provisional, uncalibrated).",
+          "ja": "光方向の判準（CL-DATA-13 試行）：太陽方位角が当月の受光扇形内にあること。日の入り方位は年間で約51°振れる（淡水・冬 ~244°、夏 ~296°、CL-PHOTO-02 の実証）ため、弧の中心を月別に保持し、評価器は当月のものを選ぶ。半幅27.5°はlegacy view_tolerance 55°の半分（暫定・未校正）。"
+        }
       }
     ]
   },

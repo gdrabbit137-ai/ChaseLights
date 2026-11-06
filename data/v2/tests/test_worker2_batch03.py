@@ -207,8 +207,15 @@ class CrosswalkGate(unittest.TestCase):
                     self.assertIn(rel["target_id"], targets)
                     self.assertTrue(set(rel["evidence_refs"]) <= self.evidence_ids)
                     if rel["geometry_mode"] == "unknown":
-                        for key in ("distance_m", "azimuth_deg", "elevation_deg"):
+                        # CL-DATA-13: geometry_mode stays "unknown"; azimuth_deg
+                        # may carry a legacy V1 view_azimuth backfill (always
+                        # flagged by derivation_method) — never fabricated.
+                        for key in ("distance_m", "elevation_deg"):
                             self.assertIsNone(rel.get(key))
+                        if rel.get("azimuth_deg") is not None:
+                            self.assertEqual(
+                                rel.get("derivation_method"),
+                                "legacy_weather_details_v1_view_azimuth_backfill")
                 for cam in doc["camera_contexts"]:
                     self.assertTrue(set(cam["evidence_refs"]) <= self.evidence_ids)
                     if cam["geometry"]["status"] == "unknown":

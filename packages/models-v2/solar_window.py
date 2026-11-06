@@ -61,6 +61,43 @@ def _solar_altitude_deg(dt_utc: datetime, latitude: float, longitude: float) -> 
     return 90 - math.degrees(math.acos(max(-1.0, min(1.0, cos_zenith))))
 
 
+def _solar_azimuth_deg(dt_utc: datetime, latitude: float, longitude: float) -> float:
+    """Solar azimuth in degrees, north = 0, clockwise eastward; UTC-aware only.
+
+    Same NOAA/Meeus chain as _solar_altitude_deg (identical declination,
+    equation-of-time and hour angle); the standard azimuth half-angle
+    atan2(sin H, cos H sin phi - tan delta cos phi) measures from due south,
+    so +180 normalizes to north = 0. CL-DATA-13.
+    """
+    jd = dt_utc.timestamp() / 86400.0 + 2440587.5
+    t = (jd - 2451545.0) / 36525.0
+    r = math.radians
+    l0 = (280.46646 + t * (36000.76983 + 0.0003032 * t)) % 360.0
+    m = (357.52911 + t * (35999.05029 - 0.0001537 * t)) % 360.0
+    e = 0.016708634 - t * (0.000042037 + 0.0000001267 * t)
+    c = (math.sin(r(m)) * (1.914602 - t * (0.004817 + 0.000014 * t))
+         + math.sin(r(2 * m)) * (0.019993 - 0.000101 * t)
+         + math.sin(r(3 * m)) * 0.000289)
+    omega = 125.04 - 1934.136 * t
+    lam = l0 + c - 0.00569 - 0.00478 * math.sin(r(omega))
+    eps0 = 23.0 + (26.0 + (21.448 - t * (46.815 + t * (0.00059 - t * 0.001813))) / 60.0) / 60.0
+    eps = eps0 + 0.00256 * math.cos(r(omega))
+    declination = math.asin(math.sin(r(eps)) * math.sin(r(lam)))
+    y = math.tan(r(eps) / 2) ** 2
+    eq_minutes = 4 * math.degrees(
+        y * math.sin(2 * r(l0)) - 2 * e * math.sin(r(m))
+        + 4 * e * y * math.sin(r(m)) * math.cos(2 * r(l0))
+        - 0.5 * y * y * math.sin(4 * r(l0)) - 1.25 * e * e * math.sin(2 * r(m)))
+    utc = dt_utc.astimezone(timezone.utc)
+    minutes = utc.hour * 60 + utc.minute + utc.second / 60 + utc.microsecond / 60000000
+    hour_angle = math.radians(((minutes + eq_minutes + 4 * longitude) % 1440) / 4 - 180)
+    azimuth = math.degrees(math.atan2(
+        math.sin(hour_angle),
+        math.cos(hour_angle) * math.sin(r(latitude)) - math.tan(declination) * math.cos(r(latitude)),
+    )) + 180.0
+    return azimuth % 360.0
+
+
 def _search_events(local_date: date, zone: ZoneInfo, lat: float, lon: float):
     start = datetime.combine(local_date, time.min, tzinfo=zone).astimezone(timezone.utc)
     stop = datetime.combine(local_date + timedelta(days=1), time.min, tzinfo=zone).astimezone(timezone.utc)

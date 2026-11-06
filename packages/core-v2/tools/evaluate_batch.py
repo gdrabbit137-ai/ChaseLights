@@ -42,7 +42,7 @@ from astro_hourly import (  # noqa: E402
     ASTRO_SAMPLING_PROVENANCE, hour_observations, sun_events_span)
 
 BUNDLE_VERSION = "0.1.0"
-ASTRO_METRICS = {"sunrise_time_window", "sunset_window", "blue_hour_window",
+ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blue_hour_window",
                  "golden_hour_window", "astronomical_darkness",
                  "moon_illumination_fraction", "moon_altitude",
                  "moon_target_separation_deg", "moon_illuminance_proxy",
@@ -126,7 +126,7 @@ def static_timezone(lat, lon):
     return None, 0
 
 
-def condition_verdict(condition, values, astro_row):
+def condition_verdict(condition, values, astro_row, month=None):
     """Return (verdict, detail) with verdict in PASS/FAIL/UNKNOWN."""
     metric = condition["metric"]
     operator = condition.get("operator")
@@ -135,6 +135,35 @@ def condition_verdict(condition, values, astro_row):
         return "UNKNOWN", "NO_LIVE_OBSERVATION_SOURCE"
     if metric in DECLARED_PASS_METRICS:
         return "PASS", "OWNER_DECLARED_PRESENCE"
+    if metric == "light_direction":
+        # CL-DATA-13: month-calibrated light-direction arc. The contract
+        # declares `sectors` — 12 monthly {arc_center_deg, arc_half_width_deg}
+        # entries — because the solar azimuth at the relevant light event
+        # swings ~51 deg across the year (CL-PHOTO-02 evidence: Tamsui winter
+        # ~244 vs summer ~296); a single fixed arc aims at the wrong
+        # direction for half of the year. The evaluator selects the current
+        # month's sector and checks the sun azimuth against it. The view
+        # azimuth (resolved from the opportunity's observation_relations by
+        # the batch runner) is the precondition: an unknown view direction
+        # means the sector claim itself is unverified, so the verdict
+        # propagates UNKNOWN (never a fabricated direction).
+        view_az = condition.get("view_azimuth_deg")
+        if view_az is None:
+            return "UNKNOWN", "VIEW_AZIMUTH_UNKNOWN"
+        sectors = condition.get("sectors")
+        if (not isinstance(sectors, list) or len(sectors) != 12
+                or month is None or not isinstance(month, int) or not 1 <= month <= 12):
+            return "UNKNOWN", "SECTORS_UNAVAILABLE"
+        sector = sectors[month - 1]
+        az = astro_row.get("sun_azimuth_deg")
+        if not isinstance(az, (int, float)):
+            return "UNKNOWN", "ASTRO_UNAVAILABLE_AT_INSTANT"
+        diff = abs(float(az) - float(sector["arc_center_deg"])) % 360.0
+        diff = min(diff, 360.0 - diff)
+        detail = (f"LIGHT_DIRECTION_ARC({month}: {sector['arc_center_deg']}±"
+                  f"{sector['arc_half_width_deg']}deg, diff={round(diff, 1)})")
+        return ("PASS" if diff <= float(sector["arc_half_width_deg"])
+                else "FAIL"), detail
     if metric in ASTRO_METRICS:
         value = astro_row.get(metric)
         if value is None:
@@ -198,6 +227,9 @@ def condition_value(condition, values, astro_row):
         return None
     if metric in DECLARED_PASS_METRICS:
         return "declared"
+    if metric == "light_direction":
+        # display the observation the arc was judged on
+        return astro_row.get("sun_azimuth_deg")
     if metric in ASTRO_METRICS:
         return boolean_value_label(astro_row.get(metric))
     cell = values.get(metric)
@@ -377,6 +409,15 @@ def main():
                 json.dumps(contract, sort_keys=True, separators=(",", ":"))
                 .encode("utf-8")).hexdigest()
             conditions_eval = eval_conditions_for(contract)
+            # CL-DATA-13: resolve the view azimuth from the opportunity's
+            # observation relations (backfilled from legacy where known) and
+            # bind it onto every light_direction condition.
+            view_az_deg = next(
+                (r["azimuth_deg"] for r in doc.get("observation_relations", [])
+                 if r.get("azimuth_deg") is not None), None)
+            for _cond in conditions_eval:
+                if _cond.get("metric") == "light_direction":
+                    _cond["view_azimuth_deg"] = view_az_deg
             days = {}
             hour_ctxs = []
             for hour_row in hours:
@@ -387,7 +428,8 @@ def main():
                 roles = {}
                 for condition in conditions_eval:
                     states[condition["id"]] = condition_verdict(
-                        condition, hour_row["values"], astro_row)[0]
+                        condition, hour_row["values"], astro_row,
+                        month=at.month)[0]
                     roles[condition["id"]] = condition.get("role")
                 status, fails, unknowns = hour_status(roles, states)
                 local_stamp = at + timedelta(hours=offset)

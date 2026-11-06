@@ -47,8 +47,12 @@ test('original Worker 2 canonical records preserve research-only semantics', () 
   }
   for (const relation of catalog.view_relations) {
     assert.equal(relation.distance, null);
-    assert.equal(relation.azimuth, null);
     assert.equal(relation.elevation_angle, null);
+    // CL-DATA-13: azimuth is either null (honest unknown) or a legacy V1
+    // view_azimuth backfill — never a fabricated angle. The backfill is
+    // flagged on the source record's derivation_method.
+    assert.ok(relation.azimuth === null || typeof relation.azimuth === 'number',
+      `azimuth must be null or a legacy-backfilled number: ${relation.view_relation_id}`);
   }
   assert.ok(catalog.evidence.every(e => Array.isArray(e.evidence_refs)));
   assert.ok(catalog.evidence.every(e => e.source == null && e.source_status === 'unresolved_reference'),

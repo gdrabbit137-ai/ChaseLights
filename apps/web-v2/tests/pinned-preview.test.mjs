@@ -36,8 +36,14 @@ test('all real canonical records retain provisional non-AUTO conditions and unkn
     for (const relation of original.observation_relations) {
       assert.equal(relation.geometry_mode, 'unknown');
       assert.equal(relation.distance_m, null);
-      assert.equal(relation.azimuth_deg, null);
       assert.equal(relation.elevation_deg, null);
+      // CL-DATA-13: azimuth_deg is either null (honest unknown) or a legacy
+      // V1 view_azimuth backfill — never a fabricated angle. The backfill is
+      // always flagged by derivation_method.
+      assert.ok(relation.azimuth_deg === null ||
+        (typeof relation.azimuth_deg === 'number' &&
+         relation.derivation_method === 'legacy_weather_details_v1_view_azimuth_backfill'),
+        `azimuth_deg provenance: ${relation.derivation_method}`);
     }
     assert.ok(original.navigation_targets.every(nav => navigationAction(nav) === null));
   }
