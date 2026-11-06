@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-040-P04",
   "place_id": "tw-040",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "排雲山莊下方雲海與山稜",
@@ -333,6 +333,36 @@
         "modifier_activation": {
           "when_condition": "C-tw-040-P04-07",
           "mode": "when_not_met"
+        }
+      },
+      {
+        "id": "C-tw-040-P04-LW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-040-P04-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "光線窗（必要條件）：整小時每一時點都必須有光——太陽仰角 > −6°（民用光線），或月亮在地平線上且月照照亮率 ≥ 50%（沿用既有 moon_illumination_fraction 語義）。夜間雲海除非有月光否則看不到；白天小時只靠日照分支即成立。",
+          "en": "Light window (necessary condition): EVERY instant of the hour bucket must be lit - either civil daylight (sun elevation > -6 deg) or moonlight (moon above the horizon AND moon illumination fraction >= 0.5, reusing the existing moon_illumination_fraction semantics). A sea of clouds is invisible at night without moonlight; a fully sunlit hour passes on the solar branch alone.",
+          "ja": "光の窓（必要条件）：時間バケット内の全時点で光があること——太陽高度 > -6°（市民光）、または月が地平線上にあり月照率 >= 50%（既存の moon_illumination_fraction の語義を流用）。月光のない夜の雲海は見えない。日照だけで十分な昼の時間帯は太陽分岐のみで成立する。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-05 owner 裁定（CL-DATA-11）：「雲海晚上除非有月光否則看不到」——為缺光線窗的雲海契約補入 light_window（threshold_source=computed；月照閾值沿用既有月照 metric 語義）。本筆為語意修正，layering parity gate 豁免，理由記於 revision note。",
+          "en": "2026-11-05 owner ruling (CL-DATA-11): \"a cloud sea is invisible at night unless there is moonlight\" - the light_window condition (threshold_source=computed; moon threshold reuses the existing moon-illumination metric semantics) is added to cloud-sea contracts that had no light window. Semantic correction: the layering parity gate is exempt for this record; the change is documented in this revision note.",
+          "ja": "2026-11-05 オーナー裁定（CL-DATA-11）：「月光のない夜、雲海は見えない」——光線窓のなかった雲海契約に light_window を追加（threshold_source=computed、月の閾値は既存の月照指標の語義を流用）。意味修正のため layering parity ゲートは本レコードを免除し、変更はこのリビジョンノートに記録。"
         }
       }
     ]
