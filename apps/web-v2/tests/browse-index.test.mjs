@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'2a41716243a56513f7ef4cc9bcaa866a2080ca27c79df7ba9fe3bc7bf017069c'); // CL-INT-83 re-anchor: rebuilt on merged tree (CL-DATA-18 AI-verified records + main fact-check wave union), source_commit=4c3ed9eb8
-  assert.equal(sha256(rawCatalog),'cfe3111f38c395d9a4d7bddf4c9bbaa1e9099b2bf1c991386950ab1af330f349'); // CL-INT-83 re-anchor: catalog regenerated on merged tree, source_commit=4c3ed9eb8
+test('W2 index and 374 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
+  assert.equal(sha256(rawIndex),'8243094024669d1dac22f6557298ee7018267e2d011a38b2a8af2e5f444d6e4d'); // CL-INT-85 re-anchor: postmerge regenerated index (374 opportunities / 197 places, CL-DATA-19+20 union)
+  assert.equal(sha256(rawCatalog),'cf876a4bfda0608a90c90c5439f73767e9354754001ffb652fe92c62dcef3a83'); // CL-INT-85 re-anchor: catalog regenerated on the merged tree
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
+  assert.equal(source.opportunities.length,374);assert.equal(source.places.length,197);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
@@ -41,9 +41,9 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,190);
+  assert.equal(browse(index,catalog,{search:'  '}).length,197);
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
-  assert.deepEqual(both.map(x=>x.place.place_id),['tw-026']);
+  assert.deepEqual(both.map(x=>x.place.place_id),['tw-026','tw-006']); // tw-006-P02 sunset joins tw-026 (CL-DATA-20)
   assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['tw-026-P01','tw-026-P02']);
   assert.deepEqual(browse(index,catalog,{topicIds:['topic:sunset']})[0].opportunities.map(x=>x.opportunity_id),['tw-026-P01']);
   assert.equal(browse(index,catalog,{search:'Oishi',topicIds:['topic:sunset']}).length,0);

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-059-P01",
   "place_id": "tw-059",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "奎壁山摩西分海",
@@ -128,14 +128,16 @@
         ],
         "model_binding": null,
         "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+          "zh-TW": "CL-DATA-20（2026-11-06）：本筆標記為潮汐主導題材（genre_template=tidal）。支配條件是潮汐（摩西分海／退潮石板道），非天氣；系統現無潮汐資料源，誠實 not_evaluatable 待潮汐模組實作後再建契約，不提供天氣契約以免誤導（2026-11-01 既定語意）。",
+          "en": "CL-DATA-20 (2026-11-06): this subject is tidal-governed (genre_template=tidal). The governing condition is the tide (Moses sea-parting / exposed flagstone causeway), not weather; the system has no tidal data source, so it is honestly not_evaluatable until a tidal module is implemented - no weather contract is offered to avoid misleading (established 2026-11-01 semantics).",
+          "ja": "CL-DATA-20（2026-11-06）：本件は潮汐支配の題材（genre_template=tidal）。支配的条件は潮汐（モーゼの海割り／干潮で石畳道が露出）であり天気ではない。潮汐データソースが現状ないため、潮汐モジュール実装までは誠実に not_evaluatable。誤解を避けるため気象契約は提供しない（2026-11-01の既定語義）。"
         },
         "validation_status": "provisional"
       }
     ],
-    "recommendation_policy_version": null
+    "recommendation_policy_version": null,
+    "genre_template": "tidal",
+    "template_version": "tidal-v0.1"
   },
   "evidence_claims": [
     {

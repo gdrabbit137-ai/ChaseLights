@@ -54,7 +54,7 @@ test('CL-UI-10 (b): gate semantics unchanged — fail-closed conservative copy w
   const createSpotCardBlock = block('function createSpotCard', 'function distanceToSpotKm');
   assert.match(createSpotCardBlock, /const v2Evaluated=!!v2Best;/);
   assert.match(createSpotCardBlock,
-    /v2Evaluated\?opportunityDisplayName\(spot,metric\.opportunity_id,theme,metric\.opportunity_name\):d\(\)\.research_pending_card/);
+    /v2Evaluated\?opportunityDisplayName\(spot,metric\.opportunity_id,theme,metric\.opportunity_name\):v2NoEvalReasonText\(spot\)/);
   // applyData must not render before the bundle promise settles.
   assert.ok(applyDataBlock.indexOf('filterAndRender') > applyDataBlock.indexOf('ensureV2EvalBundle'),
     'render is scheduled only via the bundle promise');

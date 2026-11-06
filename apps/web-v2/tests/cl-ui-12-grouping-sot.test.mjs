@@ -48,8 +48,10 @@ test('CL-UI-12 (b): one data state, one card copy (research_pending_card)',()=>{
   // The dual copy is gone: no_viable_card is no longer defined or selected.
   assert.equal(/no_viable_card:'/.test(appSource),false,'no_viable_card key must be removed');
   assert.equal(/noViable\?d\(\)\.no_viable_card/.test(appSource),false,'no_viable_card branch must be removed');
+  // CL-UI-41: one data state, one copy path — the named-reason lookup with
+  // research_pending_card as the unknown-reason fallback.
   assert.match(createSpotCardBlock,
-    /const opportunityName=v2Evaluated\?opportunityDisplayName\(spot,metric\.opportunity_id,theme,metric\.opportunity_name\):d\(\)\.research_pending_card;/);
+    /const opportunityName=v2Evaluated\?opportunityDisplayName\(spot,metric\.opportunity_id,theme,metric\.opportunity_name\):v2NoEvalReasonText\(spot\);/);
   // The unified fallback copy is present in all three locales.
   const pending=[...i18nBlock.matchAll(/research_pending_card:'([^']*)'/g)].map(m=>m[1]);
   assert.equal(pending.length,3);

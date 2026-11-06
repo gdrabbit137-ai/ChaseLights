@@ -92,7 +92,7 @@ assert.deepEqual(catalog.evaluations, []);
 // 7-place preview to the admitted 189-place / 353-opportunity catalog. The
 // byte-exactness guarantee is the per-file digest verification against the
 // pinned manifest; these counts are the breadth sanity assertions.
-assert.equal(catalog.opportunities.length, HOME?356:1);
+assert.equal(catalog.opportunities.length, HOME?374:1);
 if(HOME){
   assert.equal(catalog.places.length,190);
   verifyPublicIndex(expectedManifest,catalog,JSON.parse((await fetchPublic('browse-index.v2.json')).body));

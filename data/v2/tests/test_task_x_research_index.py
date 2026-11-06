@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((190,356),(len(actual),len(ids)))
+        self.assertEqual((197,374),(len(actual),len(ids)))
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -62,13 +62,12 @@ class ResearchIndexTests(unittest.TestCase):
                              (d['opportunity_id'],d['place_id'],d['revision']))
         self.assertEqual({
             # CL-DATA-02 owner ruling 2026-11-02: the six review-gated records
-            # (rollback pointer for the original human-review contracts:
-            # 34cb70f39 and earlier). 76e926d16 left the set in CL-INT-83:
-            # its records were byte-changed on main by later AI-verified
-            # fact-check waves and re-pinned to the merge commit (below).
+            # re-pinned to the ruling data commit 76e926d16 (rollback pointer
+            # for the original human-review contracts: 34cb70f39 and earlier).
             '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
             '06b51d046fd391ab44708535464e7478cfc13ee4',
             '3eb466432807185bc8b9271d006666b72d1fa406',
+            '76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',
             # CL-DATA-04: three new owner-defined records pinned to the
             # owner-definition data commit. (tw-086-P02 — the last holder of
             # cebb9689 — was byte-changed and re-pinned by CL-DATA-16, so the
@@ -89,7 +88,9 @@ class ResearchIndexTests(unittest.TestCase):
             # twilight only) to d57d40f89 — see below.
             # CL-UI-36: rationale_i18n review-note strip re-pinned the affected
             # canonical records to the task-branch commit holding the new bytes.
-            'dce2f6ed0812ad418fc6d87cb358c9162aa2c255',
+            # (dce2f6ed0812... retired by CL-DATA-19: its last six records
+            # jp-007-P01/tw-045-P02/tw-054-P01/tw-056-P02/tw-082-P02/us-069-P01
+            # gained the civil light_window and were re-pinned to e261cc9817e.)
             '4e51267ba7b7130d28efa41e50d2ef3d36de81a8',
             # CL-DATA-12: wave-1 semantic corrections (batches A–O) re-pinned
             # the touched records to the contract commits, and the three
@@ -107,32 +108,28 @@ class ResearchIndexTests(unittest.TestCase):
             # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
             # re-pointed to the merge commit carrying the verified bytes.
             '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
+            'b801dd4eba545a76879828b25e869f3c45df33ac',
             # CL-DATA-15 (merged side): owner-verified elevation corrections
             # (Paiyun Lodge 3,402 m / Datun 1,092 m / Zhushan 2,451 m;
             # Hehuan 3,417 m confirmed) — tw-001-P02/tw-019-P04/tw-024-P02/
             # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
             # remain re-pinned to the task-branch commit carrying those
-            # corrections (union merge, CL-INT-81). b801dd4eb (CL-DATA-16
-            # fact-check wave 1) left the set in CL-INT-83: its 25 records
-            # were re-pinned to the CL-INT-83 merge commit carrying the union
-            # bytes (CL-DATA-16 elevations + CL-DATA-18 AI-verified fills).
+            # corrections (union merge, CL-INT-81).
             'c90f56712550ae46824e30684442bbc44855c9b5',
-            # CL-DATA-18: AI-verified geometry/light-window records
-            # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
-            # tw-026-P01/tw-026-P02/us-057-P01) re-pinned to the task-branch
-            # commit carrying the AI-verified fills (owner ruling 2026-11-06:
-            # AI fact-check with source URL+date replaces human review;
-            # original human-review bytes at 3682e14ec).
-            '2af08fb9eec9994ab5862197c4a0d8a45587e440',
-            # CL-INT-83 merge (f360266ed): 25 canonical records byte-changed
-            # on main since the branch base (CL-DATA-16/17 fact-check waves)
-            # re-pinned to the merge commit carrying the union bytes.
-            'f360266ed8e9bf79ec651715da60e08c340f3917',
+            # CL-DATA-20: 18 tailored contracts + 3 byte-changed records
+            # (tw-059-P01/tw-078-P01 tidal genre, tw-016-P01 summit geometry)
+            # pinned to the data commit.
+            'a4f803a7106816773ef5a2f659271c656b873bd7',
+            # CL-DATA-19: 126 mid-latitude all-day contracts gained a civil
+            # light_window (REQUIRED/MAIN, sun elevation > -6 deg, CL-DATA-11
+            # same-source definition); canonical records re-pinned to the
+            # contract commit holding the new bytes.
+            'e261cc9817e720d852bd5aee9b1b555edd253d8c',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
-        self.assertEqual('2af08fb9eec9994ab5862197c4a0d8a45587e440',p01['commit_sha'])
-        # CL-DATA-18: bytes changed by the AI-verified geometry fill
-        self.assertEqual('87d380a1025bb6ec710bed8f2f95a93871dda477',p01['blob_sha'])
+        self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])
+        # CL-DATA-14: bytes unchanged by the merge (provenance commit_sha re-pointed only)
+        self.assertEqual('c74a75dcedbc6ebc56993477e7aea6bb9a1d013f',p01['blob_sha'])
 
     def test_all_place_names_exact_source_spans_without_new_translation(self):
         count=0
@@ -153,7 +150,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(570,count)  # 190 places x 3 (evidence-D removal 2026-10-31)
+        self.assertEqual(591,count)  # 197 places x 3 (evidence-D removal 2026-10-31)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
@@ -222,7 +219,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(10,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
+        self.assertEqual(23,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])

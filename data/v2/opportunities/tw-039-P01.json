@@ -1,0 +1,273 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-039-P01",
+  "place_id": "tw-039",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "伯朗大道稻田與中央山脈遠山",
+    "en": "Mr. Brown Avenue paddies with the Central Range beyond",
+    "ja": "ブラウンロードの田んぼと遠くの中央山脈"
+  },
+  "description_i18n": {
+    "zh-TW": "筆直無電線桿的田間道路與兩側稻作、遠處中央山脈同框：大氣透視分出遠山層次，全日可拍、晨昏柔和光線較佳。",
+    "en": "The straight pole-free farm lane framed by paddies and the Central Range beyond: aerial perspective separates the far ridges; shootable all day, softer light around dawn and dusk.",
+    "ja": "電柱のない一直線の田園道路と両側の水田、遠くの中央山脈を一画面に。大気遠近法で遠山が層になり、終日撮影可能だが朝夕の柔光が良い。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-039-P01-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.2126,
+            23.09878
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_curated_camera_point; CL-DATA-20 AI web verification 2026-11-06: 交通部觀光署內容（travelguidetaiwan.com.tw/zh-tw/cycling/chishang）記載伯朗大道（錦新三號道路）全長約 2.2 km、無電線桿、海拔 262–286 m、非農用汽機車全年禁行；金黃稻浪例年 5 月下旬–6 月與 10 月下旬–12 月；清晨太陽未過海岸山脈前為柔和晨光",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "全天開放道路（田區私人農地）；汽機車全年禁行，步行或自行車進入。",
+        "en": "Open road all day (surrounding paddies are private farmland); motor vehicles are banned year-round — enter on foot or by bicycle.",
+        "ja": "終日開放の道路（周囲の田んぼは私有農地）。農用以外の汽車・バイクは終年進入禁止で、徒歩か自転車で入る。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "請勿踩進稻田（農民生計），路邊停車不擋車道；正午無遮蔭，夏季注意防曬補水。",
+        "en": "Never step into the paddies (farmers' livelihood); park off the lane without blocking it; no shade at midday — sun protection and water in summer.",
+        "ja": "田んぼに踏み込まない（農家の生計）。路側駐車は車道を塞がない。正午は日陰がなく、夏季は日焼け対策と水分補給を。"
+      },
+      "altitude_m": 267.0
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-039-P01-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "伯朗大道稻田與中央山脈遠山",
+        "en": "Mr. Brown Avenue paddies with the Central Range beyond",
+        "ja": "ブラウンロードの田んぼと遠くの中央山脈"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.2126,
+            23.09878
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference; terrain and shooting points web-verified 2026-11-06 (see camera derivation_method)",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-039-P01-01",
+      "camera_context_id": "CZ-tw-039-P01-01",
+      "target_id": "SG-tw-039-P01-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-039-P01-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 23.09878,
+      "lon": 121.2126,
+      "label_i18n": {
+        "zh-TW": "池上伯朗大道",
+        "en": "Chishang Mr. Brown Avenue",
+        "ja": "池上ブラウンロード"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-039-P01-v1",
+    "status": "draft",
+    "genre_template": "mountain_view",
+    "template_version": "mountain_view-v0.1",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-tw-039-P01-01",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "aod_550nm",
+        "operator": "lte",
+        "threshold": 0.6,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-039-P01-claim-01"
+        ],
+        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "層次山景的「層」來自大氣透視：遠山隔著適度霧霾才會一層比一層淡、分出層次；完全乾淨的空氣反而讓輪廓銳利、畫面變平。因此只設上限：霧霾厚到遠山整個消失（AOD>0.6）才否決，中等霧霾是這個題材的正常狀態。",
+          "en": "The layers in a layered mountain vista come from aerial perspective: distant ridges fade step by step through moderate haze; perfectly clean air makes edges harsh and the composition flat. So only an upper bound applies - veto only when haze is thick enough to swallow the far ridges (AOD > 0.6); moderate haze is this genre's normal state.",
+          "ja": "層になる山並みの「層」は大気遠近法が作る。適度なヘイズを挟むことで遠い稜線ほど淡く重なる。空気が澄みすぎると輪郭がきつくなり画面が平坦になる。ゆえに上限のみ設定し、ヘイズが遠山を飲み込むほど濃い場合（AOD>0.6）だけ否決する。"
+        }
+      },
+      {
+        "id": "C-tw-039-P01-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_mid",
+        "operator": "between",
+        "threshold": [
+          30,
+          60
+        ],
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-039-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "完全無雲＝沒有層次；山腰雲帶（中雲 30–60%）形成層疊分明的畫面。",
+          "en": "A cloudless sky has no layering; mid-level cloud bands on the mountainsides (30-60%) build the stacked composition.",
+          "ja": "雲がなければ層はない。山腹の雲帯（中層雲30-60%）が重なりのある構図を作る。"
+        }
+      },
+      {
+        "id": "C-tw-039-P01-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-039-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "拍攝受影響下限。",
+          "en": "Minimum before the shoot is impaired.",
+          "ja": "撮影に支障が出る前の下限。"
+        }
+      },
+      {
+        "id": "C-tw-039-P01-04",
+        "role": "QUALITY",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "sunset_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-039-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "暮色低角度光是層次的點燈源：日落前後的逆光把稜線剪影、雲帶邊緣與遠山明暗節奏同時點亮，層次山景在這個窗口最明顯。作為加分項而非門檻（白天有雲帶時仍可拍，但層次感較弱）。",
+          "en": "Low-angle dusk light is what lights the layering: near sunset, backlight silhouettes the ridgeline, edges the cloud bands and sets the brightness rhythm between ridges, so layered vistas read best in this window. A bonus, not a gate - daytime shots with cloud bands still work, just with weaker layering.",
+          "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
+        }
+      },
+      {
+        "id": "C-tw-039-P01-LW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-039-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。本契約建置時即納入（CL-DATA-19 全面稽查語意）。",
+          "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Built in at contract creation (CL-DATA-19 audit semantics).",
+          "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。契約作成時に組み込み（CL-DATA-19 監査の語義）。"
+        }
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-039-P01-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "e-d20-g"
+      ],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Subject existence per V1 catalog; terrain/shooting-point facts web-verified 2026-11-06 (sources in camera derivation_method). Thresholds provisional pending real-shoot calibration."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-tw-039",
+    "imported_at": "2026-11-06T00:00:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

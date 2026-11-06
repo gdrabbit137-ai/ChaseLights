@@ -3,6 +3,8 @@ import unittest
 from pathlib import Path
 
 from weathergrid_coverage import (
+    apply_registry_entry,
+    computed_environment_geometries,
     bbox_contains_bbox,
     bbox_contains_point,
     camera_zone_points,
@@ -194,11 +196,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 43)
+        self.assertEqual(audit["counts"]["entries"], 50)
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 43)
+        self.assertEqual(audit["counts"]["provisional"], 50)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 43)
+        self.assertEqual(audit["counts"]["complete"], 50)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -482,6 +484,225 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertGreater(deyue["north"], 24.40971)
         self.assertLess(deyue["east"] - deyue["west"], 0.10)
         self.assertLess(deyue["north"] - deyue["south"], 0.10)
+
+    def test_computed_family_env_rules(self):
+        # CL-WG-30 batch 2: FAMILY_ENV_RULES computes a default ENV with
+        # provenance when a registry entry carries Subject but no ENV.
+        def cov(theme, subject_geometry):
+            return (
+                {
+                    "legacy_theme": theme,
+                    "opportunity_id": "tw-test-P01",
+                    "viewpoints": [
+                        {"viewpoint_id": "tw-test-VP01", "lat": 24.0, "lon": 121.0}
+                    ],
+                },
+                {"subject_geometries": [{
+                    "subject_id": "S1", "role": "primary_subject",
+                    "geometry": subject_geometry, "browser_exposure": "public",
+                }], "camera_zone_refs": ["tw-test-VP01"]},
+            )
+
+        op, c = cov("mountain_view", {
+            "type": "sector", "origin_viewpoint_id": "tw-test-VP01",
+            "azimuth_start_deg": 350, "azimuth_end_deg": 20,
+            "min_range_km": 8, "max_range_km": 22,
+        })
+        envs = computed_environment_geometries(op, c)
+        self.assertEqual(len(envs), 1)
+        self.assertTrue(envs[0]["computed"])
+        self.assertEqual(envs[0]["provenance"]["rule_id"], "family_env_rules.mountain_view")
+        self.assertEqual(envs[0]["provenance"]["source"], "family_env_rules")
+        self.assertEqual(envs[0]["geometry"]["max_range_km"], 26.4)
+
+        op, c = cov("city_night", {
+            "type": "sector", "origin_viewpoint_id": "tw-test-VP01",
+            "azimuth_start_deg": 294.9, "azimuth_end_deg": 314.9,
+            "min_range_km": 0.5, "max_range_km": 1.2,
+        })
+        envs = computed_environment_geometries(op, c)
+        self.assertEqual(envs[0]["geometry"]["max_range_km"], 15.0)
+
+        op, c = cov("milky_way", {
+            "type": "sector", "origin_viewpoint_id": "tw-test-VP01",
+            "azimuth_start_deg": 60, "azimuth_end_deg": 120,
+            "min_range_km": 0, "max_range_km": 10,
+        })
+        envs = computed_environment_geometries(op, c)
+        self.assertEqual(envs[0]["geometry"]["azimuth_start_deg"], 0)
+        self.assertEqual(envs[0]["geometry"]["azimuth_end_deg"], 360)
+        self.assertEqual(envs[0]["geometry"]["max_range_km"], 20.0)
+
+        # fog_mist: directional proxy band 2.5-5 km on the subject arc.
+        op, c = cov("fog_mist", {
+            "type": "sector", "origin_viewpoint_id": "tw-test-VP01",
+            "azimuth_start_deg": 330, "azimuth_end_deg": 30,
+            "min_range_km": 0, "max_range_km": 5,
+        })
+        envs = computed_environment_geometries(op, c)
+        self.assertEqual(envs[0]["geometry"]["min_range_km"], 2.5)
+        self.assertEqual(envs[0]["geometry"]["max_range_km"], 5.0)
+
+        # Guard (CL-WG-29 section 4.2): an omni SUBJECT yields no computed
+        # ENV for families outside cloud-sea/celestial semantics.
+        op, c = cov("mountain_view", {
+            "type": "sector", "origin_viewpoint_id": "tw-test-VP01",
+            "azimuth_start_deg": 0, "azimuth_end_deg": 360,
+            "min_range_km": 0, "max_range_km": 8,
+        })
+        self.assertEqual(computed_environment_geometries(op, c), [])
+
+        # cloud_sea computes the 0-8 km below-camera ring; monthly sectors
+        # (tw-003 style) propagate into arc families.
+        op, c = cov("cloud_sea", {
+            "type": "sector", "origin_viewpoint_id": "tw-test-VP01",
+            "azimuth_start_deg": 0, "azimuth_end_deg": 360,
+            "min_range_km": 0, "max_range_km": 8,
+        })
+        envs = computed_environment_geometries(op, c)
+        self.assertEqual(envs[0]["geometry"]["max_range_km"], 8.0)
+
+        op, c = cov("sunset", {
+            "type": "sector", "origin_viewpoint_id": "tw-test-VP01",
+            "min_range_km": 0, "max_range_km": 20,
+            "sectors_monthly": [
+                {"arc_center_deg": 246.6, "arc_half_width_deg": 27.5}
+            ] * 12,
+            "sector_resolution": "monthly",
+        })
+        envs = computed_environment_geometries(op, c)
+        self.assertIn("sectors_monthly", envs[0]["geometry"])
+
+    def test_computed_env_does_not_override_researched_entries(self):
+        op = {
+            "legacy_theme": "mountain_view",
+            "opportunity_id": "tw-test-P01",
+            "viewpoints": [
+                {"viewpoint_id": "tw-test-VP01", "lat": 24.0, "lon": 121.0}
+            ],
+        }
+        c = {
+            "subject_geometries": [{
+                "subject_id": "S1", "role": "primary_subject",
+                "geometry": {
+                    "type": "sector", "origin_viewpoint_id": "tw-test-VP01",
+                    "azimuth_start_deg": 0, "azimuth_end_deg": 360,
+                    "min_range_km": 0, "max_range_km": 8,
+                },
+                "browser_exposure": "public",
+            }],
+            "environment_geometries": [{
+                "environment_id": "E1", "role": "researched",
+                "geometry": {
+                    "type": "sector", "origin_viewpoint_id": "tw-test-VP01",
+                    "azimuth_start_deg": 60, "azimuth_end_deg": 120,
+                    "min_range_km": 0, "max_range_km": 15,
+                },
+                "browser_exposure": "public",
+            }],
+            "camera_zone_refs": ["tw-test-VP01"],
+        }
+        self.assertEqual(computed_environment_geometries(op, c), [])
+
+    def test_cl_wg30_pilot_wedge_pins(self):
+        """CL-WG-30 pilot acceptance: the seven commissioned pilot wedges
+        match the CL-WG-29 design doc section 3 commissioning sheet."""
+        registry = json.loads(
+            (Path(__file__).resolve().parent / "weathergrid_coverage_registry_r4_2.json")
+            .read_text(encoding="utf-8")
+        )
+        by_id = {e["opportunity_id"]: e for e in registry["entries"]}
+        cov = lambda oid: by_id[oid]["weather_coverage"]
+        geom = lambda geoms: geoms[0]["geometry"]
+
+        # tw-002-P01: static_derived az 304.9/911m -> 294.9-314.9 deg, 0.5-1.2 km.
+        g = geom(cov("tw-002-P01")["subject_geometries"])
+        self.assertEqual((g["azimuth_start_deg"], g["azimuth_end_deg"]), (294.9, 314.9))
+        self.assertEqual((g["min_range_km"], g["max_range_km"]), (0.5, 1.2))
+        g = geom(cov("tw-002-P01")["environment_geometries"])
+        self.assertEqual(g["max_range_km"], 15)
+
+        # tw-003-P01: monthly sectors, Jan-Dec order, Tamsui sunset 246.6-295.9.
+        g = geom(cov("tw-003-P01")["subject_geometries"])
+        self.assertEqual(g.get("sector_resolution"), "monthly")
+        m = g["sectors_monthly"]
+        self.assertEqual(len(m), 12)
+        self.assertEqual(m[0]["arc_center_deg"], 246.6)
+        self.assertEqual(m[5]["arc_center_deg"], 295.9)
+        self.assertEqual(m[11]["arc_center_deg"], 244.1)
+        self.assertEqual(
+            g["sectors_monthly"],
+            cov("tw-003-P01")["environment_geometries"][0]["geometry"]["sectors_monthly"],
+        )
+
+        # tw-001-P02 cloud-sea family ENV ring.
+        g = geom(cov("tw-001-P02")["environment_geometries"])
+        self.assertEqual((g["azimuth_start_deg"], g["azimuth_end_deg"]), (0, 360))
+        self.assertEqual(g["max_range_km"], 8)
+
+        # tw-027-P01 panoramic near ring with explicit omni semantics.
+        g = geom(cov("tw-027-P01")["subject_geometries"])
+        self.assertEqual(g["max_range_km"], 1)
+        self.assertEqual(g["omni_semantics"], "panoramic_terrain_ring")
+
+        # tw-072-P01 foreground ring 0-0.3 km + eastern dawn sector 60-120/0-15.
+        g = geom(cov("tw-072-P01")["subject_geometries"])
+        self.assertEqual(g["max_range_km"], 0.3)
+        self.assertEqual(g["omni_semantics"], "panoramic_terrain_ring")
+        g = geom(cov("tw-072-P01")["environment_geometries"])
+        self.assertEqual((g["azimuth_start_deg"], g["azimuth_end_deg"]), (60, 120))
+        self.assertEqual(g["max_range_km"], 15)
+
+        # tw-076-P01 eastern arc 50-130 + ENV 20km; P02 celestial envelope only.
+        g = geom(cov("tw-076-P01")["subject_geometries"])
+        self.assertEqual((g["azimuth_start_deg"], g["azimuth_end_deg"]), (50, 130))
+        g = geom(cov("tw-076-P01")["environment_geometries"])
+        self.assertEqual(g["max_range_km"], 20)
+        self.assertEqual(cov("tw-076-P02")["subject_geometries"], [])
+        g = geom(cov("tw-076-P02")["environment_geometries"])
+        self.assertEqual(g["omni_semantics"], "celestial_envelope")
+
+        # Honest camera-only pending: no registry entries for these.
+        for oid in ("tw-001-P01", "tw-001-P03", "tw-002-P02", "tw-002-P03",
+                    "tw-003-P02", "tw-003-P03", "tw-004-P01", "tw-004-P04",
+                    "tw-019-P01", "tw-019-P02", "tw-019-P03", "tw-019-P05",
+                    "tw-019-P06", "tw-027-P02", "tw-027-P03", "tw-072-P02",
+                    "us-015-P01", "us-015-P02"):
+            self.assertNotIn(oid, by_id)
+
+    def test_cl_wg30_pilot_wedges_renderable(self):
+        """Every pilot wedge geometry expands to valid points and its
+        coverage bbox contains the camera origin."""
+        catalog = json.loads(
+            (Path(__file__).resolve().parent / "runtime_catalog_v004_r4_2.json")
+            .read_text(encoding="utf-8")
+        )
+        registry = json.loads(
+            (Path(__file__).resolve().parent / "weathergrid_coverage_registry_r4_2.json")
+            .read_text(encoding="utf-8")
+        )
+        pilot = (
+            "tw-002-P01", "tw-003-P01", "tw-001-P02", "tw-027-P01",
+            "tw-072-P01", "tw-076-P01", "tw-076-P02",
+        )
+        by_oid = {}
+        for spot in catalog["spots"]:
+            for op in spot.get("opportunities", []):
+                by_oid[op["opportunity_id"]] = op
+        for oid in pilot:
+            entry = next(e for e in registry["entries"] if e["opportunity_id"] == oid)
+            merged = apply_registry_entry(by_oid[oid], entry)
+            plan = plan_opportunity_coverage(merged)
+            self.assertTrue(plan.complete, (oid, plan.errors))
+            viewpoints = {v["viewpoint_id"]: v for v in by_oid[oid]["viewpoints"]}
+            for item in (
+                merged["weather_coverage"].get("subject_geometries", [])
+                + merged["weather_coverage"].get("environment_geometries", [])
+            ):
+                pts = geometry_points(item["geometry"], viewpoint_lookup=viewpoints)
+                self.assertGreater(len(pts), 1, oid)
+                for lat, lon in pts:
+                    self.assertTrue(bbox_contains_point(plan.coverage_bbox, lat, lon), oid)
 
     def test_needs_research_stays_incomplete_even_with_geometry(self):
         op = _opportunity(
