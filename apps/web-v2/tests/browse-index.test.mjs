@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'9283fc62bdb11f6a4fe73743f5a9a9383498511a536ca616a482a000f3b2ab1a'); // CL-DATA-14 merge re-anchor: research index rebuilt on merged tree (seasonal_state/light_direction unions, 47 commit_sha provenance repoints)
-  assert.equal(sha256(rawCatalog),'63092fbfcfde779ed0b6b3f77c1d087e2138c5d1feea60fdf4b0b4c07084dac5'); // CL-DATA-14 merge re-anchor: catalog regenerated on merged tree
+  assert.equal(sha256(rawIndex),'533bcb2ebfbabb97b5ad2456a24cd691b87e901aa92a8dc80b159d78817fe810'); // CL-DATA-17 re-anchor: browse-index regenerated (US coordinate/elevation fixes us-001/us-005/us-008/us-011/us-013)
+  assert.equal(sha256(rawCatalog),'ce444ccdd0f923ee93fa3baef0a4e0252edb64cfb7adedd3869e2a1e52769433'); // CL-DATA-17 re-anchor: catalog regenerated via build_web_catalog on the fixed canonical bytes
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
