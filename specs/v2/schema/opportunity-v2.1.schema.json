@@ -899,6 +899,31 @@
           },
           "description": "MODIFIER-tier only: the modifier engages only in the stated relation to the referenced MAIN condition, and never vetoes alone."
         },
+        "sectors": {
+          "type": "array",
+          "minItems": 12,
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["arc_center_deg", "arc_half_width_deg"],
+            "properties": {
+              "arc_center_deg": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 360,
+                "description": "Monthly light-direction arc center, degrees, north=0 clockwise."
+              },
+              "arc_half_width_deg": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 180,
+                "description": "Monthly arc half width in degrees around arc_center_deg."
+              }
+            }
+          },
+          "description": "CL-DATA-13 light_direction only: month-calibrated light-direction arcs (index 0 = January). The solar azimuth at the relevant light event swings ~51 deg across the year (CL-PHOTO-02 evidence: Tamsui winter ~244, summer ~296), so a single fixed arc would aim at the wrong direction for half of the year; the evaluator selects the current month's sector."
+        },
         "genre_template": {
           "type": "string",
           "minLength": 1,
