@@ -51,8 +51,8 @@ test('CL-UI-35: invalid URL lang fails closed to the stored language', () => {
 
 test('CL-UI-35: switchLanguage syncs the URL lang param via replaceState', () => {
   const slice = grab('function switchLanguage', 'function switchTempUnit');
-  assert.match(slice, /history\.replaceState/);
-  assert.match(slice, /searchParams\.set\('lang'/);
+  // CL-UI-38 moved the URL context write into the shared syncContextUrl helper.
+  assert.match(slice, /syncContextUrl\(\)/);
 });
 
 test('CL-UI-35: homepage cache-bust stamp bumped to clui41', () => {
