@@ -399,10 +399,12 @@ def main():
         # CL-INT-80 sequential merge (WG-27 + WG-28R, stamps re-anchored
         # bclwg29->bclwg30): w4-node RE-MEASURED on the merged tree = 459
         # (node v26.7.0, --test-isolation=none) -> exact total 886+14=900.
-        if (report["counts"]["tests"] != 900 or
+        # 2026-11-06 CL-WG-30: +5 pilot wedge pins (data/compilers/presentation)
+        # -> w4-node RE-MEASURED on the merged tree = 464 -> exact total 905.
+        if (report["counts"]["tests"] != 905 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 900):
+                report["counts"]["pass"] + report["counts"]["skip"] != 905):
             raise ValueError("Post-merge exact 900-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")

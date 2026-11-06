@@ -36,3 +36,20 @@
 
 - `sectors_monthly`：type=sector 幾何的新欄位，12 筆 {arc_center_deg, arc_half_width_deg}，1=一月（與 evaluate_batch sectors[month-1] 一致）。編譯端以 12 個月弧的聯集規劃 bbox；渲染端依當月（Asia/Taipei）選弧心畫單月扇。
 - `omni_semantics`：全向幾何的語義標記，允許值 `panoramic_terrain_ring`（主體＝機位四周地形）／`celestial_envelope`（天體大氣環）；批次 2 的編譯器防呆以此＋legacy_theme 家族判准。
+
+## 批次 4（試點驗收實況，2026-11-06）
+
+- 編譯 bundle（B121.18，weathergrid/weathergrid_coverage_browser.json）：34 spots／50 opportunities。
+- 已建 13 個 pilot 題材逐筆驗證：complete=true、errors=[]，SUB/ENV 數量與委託書一致
+  （tw-036-P01/P03/P04 SUB 1；P02/ENV-only 天體；tw-002-P01 SUB 294.9–314.9/0.5–1.2 + ENV 15 km；
+  tw-003-P01 月別化 SUB/ENV；tw-027-P01 近環 1 km；tw-072-P01 近環 0.3 km＋晨曦 60–120/15 km；
+  tw-076-P01 50–130/0–10＋ENV 20 km；tw-076-P02 天體 envelope）。
+- 月別化渲染實測（11 月，Asia/Taipei）：tw-003-P01 當月弧 221.9°–276.9°（弧心 249.4°±27.5°，十一月）。
+- 誠實 pending（無 entry、僅機位）13 個題材全部確認未建扇：tw-001-P01/P03、tw-002-P02/P03、
+  tw-003-P02/P03、tw-004-P01/P04、tw-019-P01（P02/P03/P05/P06 同前未動）、tw-027-P02/P03、
+  tw-072-P02、us-015-P01（P02 同）。
+- 測試：python test_weathergrid_coverage 13 OK（含 tw-002/tw-003/001/027/072/076 幾何釘值＋
+  renderable 展開測試）；node --test（--test-isolation=none，hermes node-26）464/464 PASS、0 fail。
+- postmerge exact 釘值依實測重錨：w4-node 459→464、exact 總數 900→905（ops/v2/postmerge_verify.py）。
+- pristine origin/main 已知既有失敗：test_weathergrid_refresh_workflow 2 項釘值漂移（與本票無關，
+  未動該 workflow）。
