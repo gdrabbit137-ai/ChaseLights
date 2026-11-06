@@ -102,11 +102,15 @@ test('CL-DATA-12 F: AK polar-night all-day subjects need the civil light_window'
   assert.ok((w.rationale_i18n?.['en'] || '').includes('-6'));
 });
 
-test('CL-DATA-12 us-057-P01 human-review contract is untouched', () => {
+test('CL-DATA-12 us-057-P01 gains the CL-DATA-23 civil light_window', () => {
+  // CL-DATA-23 (2026-11-06): owner mandate extends the civil light window to
+  // visible-light subjects; the CL-DATA-12 calibration hold is superseded.
   const doc = loadContract('us-057-P01');
-  assert.ok(!doc.condition_contract.conditions.some(c => c.metric === 'light_window'),
-    'us-057-P01 gains no light_window (owner calibration pending)');
-  assert.ok(!readFileSync(path.join(oppDir, 'us-057-P01.json'), 'utf8').includes('CL-DATA-12'));
+  const w = doc.condition_contract.conditions.find(c => c.metric === 'light_window');
+  assert.ok(w, 'us-057-P01 carries light_window');
+  assert.equal(w.threshold_source, 'computed');
+  assert.ok((w.rationale_i18n?.['zh-TW'] || '').includes('CL-DATA-23'));
+  assert.ok(readFileSync(path.join(oppDir, 'us-057-P01.json'), 'utf8').includes('CL-DATA-23'));
 });
 
 test('CL-DATA-12 H/I/J: window-role semantics pinned', () => {
