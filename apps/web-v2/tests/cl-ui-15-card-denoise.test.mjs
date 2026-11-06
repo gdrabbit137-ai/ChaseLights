@@ -54,5 +54,5 @@ test('CL-UI-15 (3): forecast-status row omitted on GUIDANCE_SATISFIED cards',()=
     /\$\{v2Best&&v2Best\.state!=='GUIDANCE_SATISFIED'\?`<div class="info-row forecast-status-row card-meta-row">/);
   // Grouping (CL-UI-12) and fail-closed (CL-UI-14) semantics are untouched.
   assert.match(appSource,/const v2Evaluated=!!v2Best;/);
-  assert.match(createSpotCardBlock,/d\(\)\.research_pending_card/);
+  assert.match(createSpotCardBlock,/v2NoEvalReasonText\(spot\)/);
 });

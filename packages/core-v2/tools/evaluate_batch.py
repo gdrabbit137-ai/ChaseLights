@@ -266,6 +266,14 @@ def load_contracted():
     return opportunities
 
 
+def load_opportunity_docs():
+    """All opportunity docs regardless of template ladder (CL-UI-41)."""
+    docs = []
+    for path in sorted((ROOT / "data/v2/opportunities").glob("*.json")):
+        docs.append(json.loads(path.read_text(encoding="utf-8")))
+    return docs
+
+
 OWNER_RULING_COORDINATE_SUBJECTS = {
     # Owner ruling 2026-11-02: the six previously review-gated subjects adopt
     # the review-revised conditions and are evaluated from their place-level
@@ -342,12 +350,44 @@ def main():
         coord = coordinate_of(doc)
         if coord is None:
             skipped.append({"opportunity_id": doc["opportunity_id"],
+                            "place_id": doc["place_id"],
                             "reason": "NO_VERIFIED_GEOMETRY"})
             continue
         lat, lon, source = coord
         by_coordinate.setdefault((round(lat, 4), round(lon, 4)),
                                  {"lat": lat, "lon": lon, "source": source,
                                   "opportunities": []})["opportunities"].append(doc)
+
+    # CL-UI-41: the no-evaluation card group must name WHY a place carries no
+    # V2 evaluation. Emit every non-evaluated legacy-catalog place in the
+    # bundle's skip list with a machine-derived reason:
+    #   NO_GENRE_TEMPLATE       — contract exists, genre_template not defined
+    #                             (previously dropped silently by load_contracted)
+    #   NO_VERIFIED_GEOMETRY    — contract exists, camera geometry unverified
+    #   NO_OPPORTUNITY_CONTRACT — no condition contract at all for the place
+    evaluated_place_ids = {doc["place_id"] for coord in by_coordinate.values()
+                           for doc in coord["opportunities"]}
+    skipped_place_ids = {s.get("place_id") for s in skipped}
+    if arguments.only_place_id:
+        # Targeted regeneration: only classify this place's own subjects.
+        candidate_docs = [doc for doc in load_opportunity_docs()
+                          if doc["place_id"] == arguments.only_place_id]
+        v1_ids = {arguments.only_place_id}
+    else:
+        candidate_docs = load_opportunity_docs()
+        v1_ids = set(v1_place_coordinates())
+    for doc in candidate_docs:
+        contract = doc.get("condition_contract") or {}
+        if doc["place_id"] in evaluated_place_ids \
+                or doc["place_id"] in skipped_place_ids:
+            continue
+        if not contract.get("genre_template"):
+            skipped.append({"opportunity_id": doc["opportunity_id"],
+                            "place_id": doc["place_id"],
+                            "reason": "NO_GENRE_TEMPLATE"})
+            skipped_place_ids.add(doc["place_id"])
+    for pid in sorted(v1_ids - evaluated_place_ids - skipped_place_ids):
+        skipped.append({"place_id": pid, "reason": "NO_OPPORTUNITY_CONTRACT"})
 
     generated_at = datetime.now(timezone.utc)
     generated_iso = generated_at.isoformat(timespec="seconds").replace("+00:00", "Z")
