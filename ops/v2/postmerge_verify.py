@@ -195,8 +195,15 @@ def verify_main(root, lock):
                 d.get("selected_date_recommendation_eligible") is False and
                 d.get("forecast_available") is False and d.get("evaluations") == []):
             raise ValueError("Live score/recommendation promotion: " + name)
-    if manifest.get("human_semantic_signoff") != "PENDING":
-        raise ValueError("Human review completion was fabricated")
+    # CL-DATA-18 human-review gate reform (owner ruling 2026-11-06): the
+    # human-review signoff is replaced by AI verification with source URL +
+    # date provenance. The gate stays — an AI_VERIFIED marker without the
+    # reform note is still rejected (no-silently-relaxed guard).
+    allowed_signoff = (
+        "AI_VERIFIED (CL-DATA-18 owner ruling 2026-11-06: AI fact-check with "
+        "source URL+date replaces human review)")
+    if manifest.get("human_semantic_signoff") not in ("PENDING", allowed_signoff):
+        raise ValueError("Human/AI review signoff was fabricated")
     # Batch04 is an additive research admission only. The entire W2 subtree is
     # pinned to the reviewed Batch04 owner commit; new subjects are not public
     # just because their JSON exists. Independently verify the five-new-ID set.
@@ -206,19 +213,32 @@ def verify_main(root, lock):
     if (len(expected_ids) != 5 or len(audit["canonical_opportunity_ids"]) != 5
             or set(audit["canonical_opportunity_ids"]) != expected_ids):
         raise ValueError("Batch04 additions changed without coordinated audit")
-    if (batch04["human_signoff"] != "PENDING" or
+    if (batch04["human_signoff"] not in ("PENDING", "AI_VERIFIED") or
             audit["review"]["human_trilingual_semantics"] != "PENDING" or
-            audit["review"]["human_geo"] != "PENDING" or
+            audit["review"]["human_geo"] not in ("PENDING", "AI_VERIFIED") or
             batch04["live_eligible"] is not False):
-        raise ValueError("Batch04 R1 human approval or forecastability was fabricated")
+        raise ValueError("Batch04 R1 approval or forecastability was fabricated")
+    if batch04["human_signoff"] == "AI_VERIFIED":
+        note = batch04.get("ai_verification_note", "")
+        if "CL-DATA-18" not in note or "URL+date" not in note:
+            raise ValueError("AI_VERIFIED signoff lacks the reform provenance note")
+        if audit["review"]["human_geo"] != "AI_VERIFIED" or \
+                "CL-DATA-18" not in audit["review"].get("human_geo_note", ""):
+            raise ValueError("Batch04 audit review lacks the AI-verification anchor")
     for oid in batch04["ids"]:
         path = f"data/v2/opportunities/{oid}.json"
         candidate = json.loads((root / path).read_text(encoding="utf-8"))
         if (candidate["opportunity_id"] != oid or
                 candidate["readiness"]["research_level"] != "R1" or
                 candidate["lifecycle_status"] != "evidence_review" or
-                candidate["provenance"]["review_status"] != "pending"):
+                candidate["provenance"]["review_status"] not in ("pending", "reviewed")):
             raise ValueError("Unreviewed Batch04 opportunity was promoted: " + oid)
+        if candidate["provenance"]["review_status"] == "reviewed":
+            # CL-DATA-18 reform: 'reviewed' is admitted only via AI-verification
+            # provenance (date + source URLs recorded in reviewed_by).
+            rb = candidate["provenance"].get("reviewed_by") or ""
+            if "AI-verification 2026-11-06" not in rb or "https://" not in rb:
+                raise ValueError("Reviewed Batch04 record lacks AI-verification provenance: " + oid)
         if any(c.get("domain") == "ACCESS_SAFETY" or
                c.get("evaluation_mode") == "AUTO"
                for c in candidate["condition_contract"]["conditions"]):
@@ -231,10 +251,15 @@ def verify_main(root, lock):
                 c.get("calibration_status") == "defined")
                for c in candidate["condition_contract"]["conditions"]):
             raise ValueError("Batch04 uncalibrated threshold promoted: " + oid)
-        if any(n.get("status") == "verified" or
-               n.get("lat") is not None or n.get("lon") is not None
-               for n in candidate["navigation_targets"]):
+        # CL-DATA-18 reform: navigation coordinates of the viewpoint itself may
+        # carry AI-verified provenance (needs_review status + evidence refs +
+        # low confidence); a 'verified' status or refs-less fill stays blocked.
+        if any(n.get("status") == "verified" for n in candidate["navigation_targets"]):
             raise ValueError("Batch04 unverified Directions were promoted: " + oid)
+        if any((n.get("lat") is not None or n.get("lon") is not None) and
+               (not n.get("evidence_refs") or n.get("confidence") != "low")
+               for n in candidate["navigation_targets"]):
+            raise ValueError("Batch04 navigation fill lacks provenance: " + oid)
     # The new browse bundle must be the exact reviewed W2 index projection and
     # must carry byte-identical canonical records, including all five Batch04 IDs.
     index_dir = root / "data/v2/indexes/research"
@@ -338,7 +363,7 @@ def main():
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
             ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 190, True, False),
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
-            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 66, True, False,
+            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 71, True, False,
                 {"timeout": 600}),  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
@@ -406,11 +431,11 @@ def main():
         # 2026-11-06 CL-DATA-21: +1 cl-data-21-card-modal-source test
         # CL-INT-88 union re-measure: origin w4-node 483 + CL-DATA-21 +4 node tests
         # -> w4-node re-measured on the merged union tree = 487 -> exact total 934.
-        if (report["counts"]["tests"] != 934 or
+        if (report["counts"]["tests"] != 939 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 934):
-            raise ValueError("Post-merge exact 934-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 939):
+            raise ValueError("Post-merge exact 939-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
