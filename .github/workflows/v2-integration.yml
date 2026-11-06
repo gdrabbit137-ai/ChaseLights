@@ -183,6 +183,28 @@ jobs:
                   gate = (group.get('gate_error') or 'no gate_error captured').replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
                   print(f"::error::group={group.get('name')} gate_error={gate}")
 
+                  # CL-CI-17c: surface the tail of each FAIL group's TAP log as an
+                  # annotation, since check-run annotations are the only output
+                  # readable without repository/CI-log access.
+                  faillog_name = group.get('name') or 'unknown'
+                  log_path = logs / f"{faillog_name}.log"
+                  faillog = ''
+                  if log_path.exists():
+                      faillog = '\n'.join(
+                          log_path.read_text(errors='replace').splitlines()[-6:])
+                  if len(faillog) > 900:
+                      faillog = faillog[:899] + '\u2026'
+                  faillog = faillog.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+                  print(f"::error::FAILLOG {faillog_name} {faillog}")
+
+                  if faillog_name == 'w4-node':
+                      # CL-CI-17c: w4-node pin diagnostics — how many *.test.mjs
+                      # files CI globs (postmerge_verify globs apps/web-v2/tests)
+                      # and whether the CL-DATA-12 contract-fixes test is present.
+                      w4_files = sorted((pathlib.Path.cwd() / 'apps/web-v2/tests').glob('*.test.mjs'))
+                      has_cl_data_12 = any(p.name == 'cl-data-12-contract-fixes.test.mjs' for p in w4_files)
+                      print(f"::error::W4FILES count={len(w4_files)} has_cl_data_12={has_cl_data_12}")
+
                   # CL-CI-17b: per-FAIL-group diagnostics — log head/tail into the
                   # step summary (collapsed) and the tail into the step log.
                   name = group.get('name')
