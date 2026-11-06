@@ -489,7 +489,7 @@ def main():
                     "status": status,
                     "conditions": [
                         {"id": c["id"], "metric": c["metric"],
-                         "tier": c.get("condition_tier"), "role": c.get("role"),
+                         "tier": c.get("condition_tier") or "MAIN", "role": c.get("role"),
                          "operator": c.get("operator") or "none",
                          "threshold": c.get("threshold"),
                          "value": condition_value(c, hour_row["values"], astro_row),
@@ -528,7 +528,7 @@ def main():
                         verdict = "PARTIAL"
                     conditions_day.append({
                         "id": cid, "metric": cond["metric"],
-                        "tier": cond.get("condition_tier"),
+                        "tier": cond.get("condition_tier") or "MAIN",
                         "role": cond.get("role"),
                         "day_verdict": verdict,
                         "pass_hours": pass_n,
@@ -551,7 +551,7 @@ def main():
                     "status": snap_status,
                     "conditions": [
                         {"id": c["id"], "metric": c["metric"],
-                         "tier": c.get("condition_tier"), "role": c.get("role"),
+                         "tier": c.get("condition_tier") or "MAIN", "role": c.get("role"),
                          "operator": c.get("operator") or "none",
                          "threshold": c.get("threshold"),
                          "value": condition_value(c, snap_row["values"], snap_astro),

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-008-P01",
   "place_id": "us-008",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Sentinel Bridge・Half Dome夕照與Merced River前景",
@@ -20,21 +20,24 @@
       "kind": "area",
       "geometry": {
         "kind": "point",
-        "status": "provisional",
+        "status": "verified",
         "geojson": {
           "type": "Point",
           "coordinates": [
-            -119.573,
-            37.730806
+            -119.5897,
+            37.7434
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-17 coordinate corrected 2026-11-06; source: Sentinel Bridge, OSM 37.74343,-119.58967, elev 3,963 ft = 1,208 m（NPS place page + OSM/mapcarta）；replaced the Glacier Point / Half Dome viewpoint coordinate 2026-11-06",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
-      "evidence_refs": [],
+      "verification_status": "verified",
+      "evidence_refs": [
+        "CL-DATA-17:coordinate:us-008-P01:https://www.nps.gov/places/000/sentinel-bridge.htm + https://mapcarta.com/23134462",
+        "CL-DATA-17:elevation:us-008-P01:https://www.nps.gov/places/000/sentinel-bridge.htm + https://mapcarta.com/23134462（1208 m）"
+      ],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
         "en": "Access information not yet verified; follow on-site notices and rules.",
@@ -45,7 +48,7 @@
         "en": "Follow on-site safety guidance.",
         "ja": "現地の安全指示に従ってください。"
       },
-      "altitude_m": null
+      "altitude_m": 1208.0
     }
   ],
   "targets": [
@@ -63,8 +66,8 @@
         "geojson": {
           "type": "Point",
           "coordinates": [
-            -119.573,
-            37.730806
+            -119.5897,
+            37.7434
           ]
         },
         "uncertainty_m": null,
@@ -97,15 +100,15 @@
       "id": "NAV-us-008-P01-01",
       "status": "needs_review",
       "target_type": "other",
-      "lat": 37.730806,
-      "lon": -119.573,
+      "lat": 37.7434,
+      "lon": -119.5897,
       "label_i18n": {
         "zh-TW": "優勝美地半圓頂",
         "en": "Yosemite Half Dome",
         "ja": "ヨセミテ ハーフドーム"
       },
       "evidence_refs": [],
-      "confidence": "low"
+      "confidence": "high"
     }
   ],
   "condition_contract": {
@@ -253,9 +256,12 @@
     {
       "claim_id": "us-008-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
-      "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "evidence_refs": [
+        "CL-DATA-17:coordinate:us-008-P01:https://www.nps.gov/places/000/sentinel-bridge.htm + https://mapcarta.com/23134462",
+        "CL-DATA-17:elevation:us-008-P01:https://www.nps.gov/places/000/sentinel-bridge.htm + https://mapcarta.com/23134462（1208 m）"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Skeleton import from V1 catalog; CL-DATA-17 2026-11-06 camera coordinate/elevation re-verified against authoritative web sources (refs attached)."
     }
   ],
   "readiness": {

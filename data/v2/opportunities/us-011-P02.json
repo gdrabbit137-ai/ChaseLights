@@ -20,21 +20,23 @@
       "kind": "area",
       "geometry": {
         "kind": "point",
-        "status": "provisional",
+        "status": "verified",
         "geojson": {
           "type": "Point",
           "coordinates": [
-            -110.67076,
-            43.7115
+            -110.60817,
+            43.75171
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-17 coordinate corrected 2026-11-06; source: NPS Snake River Overlook ceremony location parking GPS 43.75171,-110.60817；replaced the Schwabacher Landing V1 coordinate 2026-11-06",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
-      "evidence_refs": [],
+      "verification_status": "verified",
+      "evidence_refs": [
+        "CL-DATA-17:coordinate:us-011-P02:https://www.nps.gov/grte/planyourvisit/sroverlookcl.htm"
+      ],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
         "en": "Access information not yet verified; follow on-site notices and rules.",
@@ -63,8 +65,8 @@
         "geojson": {
           "type": "Point",
           "coordinates": [
-            -110.67076,
-            43.7115
+            -110.60817,
+            43.75171
           ]
         },
         "uncertainty_m": null,
@@ -97,15 +99,15 @@
       "id": "NAV-us-011-P02-01",
       "status": "needs_review",
       "target_type": "other",
-      "lat": 43.7115,
-      "lon": -110.67076,
+      "lat": 43.75171,
+      "lon": -110.60817,
       "label_i18n": {
         "zh-TW": "大提頓國家公園",
         "en": "Grand Teton National Park",
         "ja": "グランドティトン国立公園"
       },
       "evidence_refs": [],
-      "confidence": "low"
+      "confidence": "high"
     }
   ],
   "condition_contract": {
@@ -251,9 +253,11 @@
     {
       "claim_id": "us-011-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
-      "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "evidence_refs": [
+        "CL-DATA-17:coordinate:us-011-P02:https://www.nps.gov/grte/planyourvisit/sroverlookcl.htm"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Skeleton import from V1 catalog; CL-DATA-17 2026-11-06 camera coordinate/elevation re-verified against authoritative web sources (refs attached)."
     }
   ],
   "readiness": {
