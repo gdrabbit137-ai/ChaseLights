@@ -17,7 +17,7 @@
       "file_count": 96
     },
     "w2": {
-      "sha": "b4e701e0600e98a7d9c351e28d85a730dd5f6ccc",
+      "sha": "3f564bc5737909d6f06a0a7c5c9db4a55e2c0c79",
       "canonical_content_sha": "76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d",
       "branch": "codex/w1-w2-hourly-pilot-gate-20261019",
       "pr": 521,
@@ -34,7 +34,7 @@
         "human_signoff": "PENDING",
         "live_eligible": false
       },
-      "tree_sha": "9f0127ae386d277d24e55d66be2e32c88a60d8e1",
+      "tree_sha": "2f330f59dd65ea693b57a19e54f3c2f3956a5aa0",
       "reviewed_corrections": {
         "source_prs": [
           493,
@@ -45,9 +45,9 @@
         "publication": "RESEARCH_ONLY"
       },
       "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
-      "browse_index_source_sha": "ca1d52df5eb2a9329da62f271b87c53bba08d54b",
-      "previous_sha": "0eed237954a9881a777ca6ee972c3194cd7a9792",
-      "previous_tree_sha": "cc4430cac91b45366f57821a0e690aa8c6810659",
+      "browse_index_source_sha": "3f564bc5737909d6f06a0a7c5c9db4a55e2c0c79",
+      "previous_sha": "b4e701e0600e98a7d9c351e28d85a730dd5f6ccc",
+      "previous_tree_sha": "2f330f59dd65ea693b57a19e54f3c2f3956a5aa0",
       "previous_file_count": 1745,
       "file_count": 1746,
       "accepted_file_count_decrease": {
@@ -60,7 +60,10 @@
           "data/v2/evaluations/bundle-20261102T171832Z.json",
           "data/v2/evaluations/bundle-20261102T182223Z.json"
         ]
-      }
+      },
+      "source_upgrade_notes": [
+        "CL-DATA-14: W2 source re-pinned to task branch head a346581dd (research index rebuild + canonical corrections, CL-PHOTO-02 audit); browse_index_source_sha -> ca1d52df5 (ancestor)"
+      ]
     },
     "w3": {
       "sha": "fddaeb9a1b2d2d6dde79f9b37342cf63e4bdaecb",
@@ -89,12 +92,12 @@
       "historical_tree_sha": "a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e",
       "obsolete_sha": "ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f",
       "obsolete_pr": 448,
-      "tree_sha": "62bdcd12fa0dc1c2e19a52595c4d769f1f0e6bb5",
-      "file_count": 358,
+      "tree_sha": "c905fadf37b63b4a4f1568dea7c912d6f7614e64",
+      "file_count": 359,
       "previous_sha": "f48f357e2f58f825e74617e4fd1dfbc64784e4a8",
-      "previous_tree_sha": "ac3b4801e0f99c37a48c65de3c1b1b5ed9cc293d",
+      "previous_tree_sha": "62bdcd12fa0dc1c2e19a52595c4d769f1f0e6bb5",
       "source_upgrade": "Photography subjects and special conditions: 56 Node + 88 Chromium, Research-only",
-      "previous_file_count": 357
+      "previous_file_count": 358
     }
   },
   "reviewed_blobs": {
