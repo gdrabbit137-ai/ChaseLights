@@ -17,7 +17,7 @@
       "file_count": 96
     },
     "w2": {
-      "sha": "fc97a7a4e5bb02dc17b3b85701f1b607b80e6a4a",
+      "sha": "9fa5f01979f598bea9a5e7e52591ce3b56e291e4",
       "canonical_content_sha": "2af08fb9eec9994ab5862197c4a0d8a45587e440",
       "branch": "codex/w1-w2-hourly-pilot-gate-20261019",
       "pr": 521,
@@ -35,7 +35,7 @@
         "live_eligible": false,
         "ai_verification_note": "CL-DATA-18 owner ruling 2026-11-06: AI fact-check with source URL+date replaces human review; geometry gap-fills carry provenance-complete sources (b04c-*); gates re-anchored to the AI-verified state."
       },
-      "tree_sha": "a7ffe646a3eba7eff3d97f580215c5616a81bf85",
+      "tree_sha": "6440c11ddcd502eaf70017e0db383e5fed4d7e08",
       "reviewed_corrections": {
         "source_prs": [
           493,
@@ -46,10 +46,10 @@
         "publication": "RESEARCH_ONLY"
       },
       "source_upgrade": "Open-Meteo Qixingtan hourly RAW_ONLY pilot",
-      "browse_index_source_sha": "bfe5a3b7d46a95962e0dda91af8709d76f584c2f",
-      "previous_sha": "f73d047cb66648fd0ebca27209743604a4af7496",
-      "previous_tree_sha": "ddd50d8a0ee26e5d06916eb8bb7b4b9c4df2b903",
-      "previous_file_count": 1753,
+      "browse_index_source_sha": "4c3ed9eb879094ded22e393ff0b66aa899fc6f3d",
+      "previous_sha": "fc97a7a4e5bb02dc17b3b85701f1b607b80e6a4a",
+      "previous_tree_sha": "cb22aafdde199d38e6f618ce65b079f9d0cd66e0",
+      "previous_file_count": 1754,
       "file_count": 1754,
       "accepted_file_count_decrease": {
         "previous_file_count": 1746,
@@ -61,7 +61,8 @@
           "data/v2/evaluations/bundle-20261102T171832Z.json",
           "data/v2/evaluations/bundle-20261102T182223Z.json"
         ]
-      }
+      },
+      "cl_int_83_note": "CL-INT-83 merge of task/CL-DATA-18: 25 canonical records byte-changed on main since branch base (CL-DATA-16/17 waves) re-pinned to merge-commit union bytes (f360266ed); w2 source pin repointed to the re-anchor commit carrying the union state; canonical_content_sha unchanged (2af08fb9e — tw-026-P01 bytes identical on both sides); browse_index_source_sha = browse bundle regeneration commit."
     },
     "w3": {
       "sha": "fddaeb9a1b2d2d6dde79f9b37342cf63e4bdaecb",
@@ -90,10 +91,10 @@
       "historical_tree_sha": "a0438fb0f372b0e0e124b5ec3385d5184d9fbb2e",
       "obsolete_sha": "ddf9f2c4bd2eeb556bf0aa3b244f01de3256b05f",
       "obsolete_pr": 448,
-      "tree_sha": "8958c3bc94607c6da9b680378e3deaeca993a39f",
+      "tree_sha": "0f25bd844761a416d9406e170b9837abc16a6a7b",
       "file_count": 366,
       "previous_sha": "f48f357e2f58f825e74617e4fd1dfbc64784e4a8",
-      "previous_tree_sha": "8cbe786a76877d7c906bbdd6e0e46ca84b3fb2c6",
+      "previous_tree_sha": "f1dddc5d5fd08116b495751b1665659530a9acb0",
       "source_upgrade": "Photography subjects and special conditions: 56 Node + 88 Chromium, Research-only",
       "previous_file_count": 365
     }
