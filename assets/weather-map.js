@@ -763,6 +763,33 @@
     map.setMaxZoom(window.WeatherMapRegions.CAMERA_MAX_ZOOM);
   }
 
+  // CL-WG-25: 底圖行政邊界線隱藏。OpenFreeMap liberty 樣式的 boundary_2 /
+  // boundary_3 / boundary_disputed 圖層（source-layer "boundary"）會在海面上
+  // 畫出黃色虛線（含 EEZ/離島段），與雲量配色場撞色、被誤讀成資料等值線。
+  // 樣式載入後把這些線圖層整層設 visibility:none；地形、地名標籤、道路、
+  // 水系一概保留。未知樣式形狀 fail-open（不動任何圖層、不阻塞地圖）。
+  function hideBoundaryLineLayers(map){
+    try{
+      const style=map.getStyle();
+      if(!style || !Array.isArray(style.layers)) return 0;
+      let hidden=0;
+      for(const layer of style.layers){
+        if(!layer || layer.type!=='line') continue;
+        const id=String(layer.id||'');
+        const isBoundary=/^boundary/.test(id)
+          || /boundary|disputed/.test(id)
+          || layer['source-layer']==='boundary';
+        if(!isBoundary) continue;
+        map.setLayoutProperty(id,'visibility','none');
+        hidden++;
+      }
+      return hidden;
+    }catch(err){
+      console.warn('WeatherGrid boundary-line hide unavailable',err);
+      return 0;
+    }
+  }
+
   function renderViewBbox(){
     let v;
     if(state.mapReady && state.map){
@@ -875,6 +902,7 @@
         // limits (maxBounds/minZoom) still derive from the region fit, so
         // CL-WG-06/07/10 region confinement is unchanged.
         applyCameraLimits({preserveCamera:true});
+        hideBoundaryLineLayers(map);
         renderAll();
       });
       map.on('move',()=>{
