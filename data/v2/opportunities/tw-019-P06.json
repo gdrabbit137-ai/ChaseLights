@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-019-P06",
   "place_id": "tw-019",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "合歡主峰雪覆山稜",
@@ -216,6 +216,36 @@
           "zh-TW": "暮色低角度光是層次的點燈源：日落前後的逆光把稜線剪影、雲帶邊緣與遠山明暗節奏同時點亮，層次山景在這個窗口最明顯。作為加分項而非門檻（白天有雲帶時仍可拍，但層次感較弱）。",
           "en": "Low-angle dusk light is what lights the layering: near sunset, backlight silhouettes the ridgeline, edges the cloud bands and sets the brightness rhythm between ridges, so layered vistas read best in this window. A bonus, not a gate - daytime shots with cloud bands still work, just with weaker layering.",
           "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
+        }
+      },
+      {
+        "id": "C-tw-019-P06-05",
+        "role": "REQUIRED",
+        "domain": "SEASON_TIME",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "seasonal_state",
+        "operator": "eq",
+        "threshold": "window_open",
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-019-P06-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "雪覆山稜需山頭積雪：合歡山雪期約 11–4 月，季節窗外無雪可拍，本主體不成立（群峰全景請改評非雪主體）。",
+          "en": "Snow-covered ridgeline requires summit snowpack: the Hehuan snow season runs approx. November–April; outside the window there is no snow and this subject does not hold (general panorama is judged by the non-snow subject).",
+          "ja": "雪の覆われた稜線には山頂の積雪が必要：合歓山の雪期は概ね11〜4月；窓外では雪がなく本題材は不成立。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-06 CL-DATA-14（CL-PHOTO-02 委託書稽查修正）：季節窗值由 seasonal-calendar 對拍原則得出（evaluation 取值 window_open/window_closed；無實況來源時誠實 propagate_unknown）。主體「雪覆山稜」補 REQUIRED/MAIN seasonal_state 雪期窗（11–4 月，provisional，未校準待 owner 複核）；此為雪況代理第一層，機械溫度/雪深代理待 vocabulary 擴充後再議。",
+          "en": "2026-11-06 CL-DATA-14 (CL-PHOTO-02 photographer-brief audit correction): Seasonal-window value follows the seasonal-calendar matching convention (evaluation value window_open/window_closed; with no live source it propagates unknown honestly). 主體「雪覆山稜」補 REQUIRED/MAIN seasonal_state 雪期窗（11–4 月，provisional，未校準待 owner 複核）；此為雪況代理第一層，機械溫度/雪深代理待 vocabulary 擴充後再議。",
+          "ja": "2026-11-06 CL-DATA-14（CL-PHOTO-02 撮影依頼書監査修正）：季節窓値は seasonal-calendar 突合せ規約に従う（評価値 window_open/window_closed；実況ソース欠落時は誠実に unknown 伝播）。主體「雪覆山稜」補 REQUIRED/MAIN seasonal_state 雪期窗（11–4 月，provisional，未校準待 owner 複核）；此為雪況代理第一層，機械溫度/雪深代理待 vocabulary 擴充後再議。"
         }
       }
     ]
