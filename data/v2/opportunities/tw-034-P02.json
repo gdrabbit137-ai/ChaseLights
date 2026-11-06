@@ -78,15 +78,15 @@
       "target_id": "SG-tw-034-P02-01",
       "type": "line_of_sight",
       "geometry_mode": "unknown",
-      "azimuth_deg": null,
+      "azimuth_deg": 155,
       "elevation_deg": null,
       "distance_m": null,
       "evidence_refs": [
         "b04-tw034-a",
         "b04-tw034-b"
       ],
-      "derivation_method": null,
-      "uncertainty_note": "Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
+      "derivation_method": "legacy_weather_details_v1_view_azimuth_backfill",
+      "uncertainty_note": "CL-DATA-13 backfill: legacy V1 weather_details view_azimuth 155 (north=0, clockwise); view_tolerance 70.0 (legacy spot-level, camera-pan width, not a hard arc). Original note: Azimuth, distance and exact legal photographic position not independently verified; celestial components have no fake ground coordinates."
     }
   ],
   "navigation_targets": [
@@ -295,6 +295,12 @@
     "source_revision": "v2-w2-batch04-20261013",
     "imported_at": "2026-10-13T15:36:00Z",
     "review_status": "pending",
-    "reviewed_by": null
+    "reviewed_by": null,
+    "view_azimuth_backfill": {
+      "source": "legacy weather_details spot view_azimuth (V1 catalog)",
+      "date": "2026-11-06",
+      "ticket": "CL-DATA-13",
+      "convention": "degrees, north=0, clockwise"
+    }
   }
 }

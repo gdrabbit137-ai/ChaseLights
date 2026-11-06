@@ -84,12 +84,12 @@
       "target_id": "SG-tw-030-P01-01",
       "type": "foreground_background",
       "geometry_mode": "unknown",
-      "azimuth_deg": null,
+      "azimuth_deg": 270,
       "elevation_deg": null,
       "distance_m": null,
       "evidence_refs": [],
-      "derivation_method": null,
-      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+      "derivation_method": "legacy_weather_details_v1_view_azimuth_backfill",
+      "uncertainty_note": "CL-DATA-13 backfill: legacy V1 weather_details view_azimuth 270 (north=0, clockwise); view_tolerance 55.0 (legacy spot-level, camera-pan width, not a hard arc). Original note: Imported V1 reference; angles and distance unknown."
     }
   ],
   "navigation_targets": [
@@ -270,6 +270,12 @@
     "source_revision": "v1-spot-tw-030",
     "imported_at": "2026-10-21T20:51:45Z",
     "review_status": "pending",
-    "reviewed_by": null
+    "reviewed_by": null,
+    "view_azimuth_backfill": {
+      "source": "legacy weather_details spot view_azimuth (V1 catalog)",
+      "date": "2026-11-06",
+      "ticket": "CL-DATA-13",
+      "convention": "degrees, north=0, clockwise"
+    }
   }
 }
