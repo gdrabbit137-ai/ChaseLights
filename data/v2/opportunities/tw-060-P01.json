@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-060-P01",
   "place_id": "tw-060",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "雙心石滬完整形態",
@@ -128,9 +128,9 @@
         ],
         "model_binding": null,
         "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。 2026-11-06 CL-DATA-12 全面稽查（batch n）：潮汐題材（摩西分海／雙心石滬／退潮石板道）誠實處置：潮位資料未接入，本契約不虛構氣象門檻放行——保留 legacy 佔位條件，評估層將其判為 UNKNOWN（fail-closed，not_evaluatable）；待 tidal module 接入觀測源後重新訂約。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "Provisional condition mapped from the V1 theme; thresholds pending research. 2026-11-06 CL-DATA-12 full audit (batch n): honest handling for tide subjects (Moses-parting sea / twin-heart weir / reef causeway): no tidal data is wired in, so no fabricated weather thresholds - the legacy placeholder condition stays and the evaluator reports UNKNOWN (fail-closed, not_evaluatable) until a tidal module with a real observation source re-contracts this record. Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。 2026-11-06 CL-DATA-12 全面監査（batch n）：潮汐題材（モーゼの海／双心石滬／干潮の石畳道）の誠実な扱い：潮位データ未接続のため気象象閾値を偽装しない——legacy プレースホルダ条件を残し、評価層は UNKNOWN（fail-closed、not_evaluatable）。潮汐モジュール接続後に再契約。 意味修正のため layering parity ゲートは免除。"
         },
         "validation_status": "provisional"
       }
