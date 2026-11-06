@@ -183,6 +183,42 @@ jobs:
                   gate = (group.get('gate_error') or 'no gate_error captured').replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
                   print(f"::error::group={group.get('name')} gate_error={gate}")
 
+                  # CL-CI-17b: per-FAIL-group diagnostics — log head/tail into the
+                  # step summary (collapsed) and the tail into the step log.
+                  name = group.get('name')
+                  log_path = logs / (str(name) + '.log')
+                  first_line = ''
+                  tail_lines = []
+                  if log_path.exists():
+                      lines = log_path.read_text(errors='replace').splitlines()
+                      if lines:
+                          first_line = lines[0]
+                      tail_lines = lines[-40:]
+                  else:
+                      tail_lines = ['(log file missing: ' + str(log_path) + ')']
+                  summary_lines.append('')
+                  summary_lines.append('<details>')
+                  summary_lines.append('<summary>FAIL group ' + str(name) + ' log (first line + last 40 lines)</summary>')
+                  summary_lines.append('')
+                  summary_lines.append('```')
+                  summary_lines.append('first line: ' + first_line)
+                  for tail_line in tail_lines:
+                      summary_lines.append(tail_line)
+                  summary_lines.append('```')
+                  summary_lines.append('</details>')
+                  if name == 'w4-node':
+                      import glob
+                      test_files = sorted(glob.glob('apps/web-v2/tests/*.test.mjs'))
+                      summary_lines.append('')
+                      summary_lines.append('w4-node apps/web-v2/tests/*.test.mjs file count: ' + str(len(test_files)))
+                      summary_lines.append('')
+                      summary_lines.append('```')
+                      for test_file in test_files:
+                          summary_lines.append(test_file)
+                      summary_lines.append('```')
+                  for tail_line in tail_lines:
+                      print('FAILLOG[' + str(name) + '] ' + tail_line)
+
               step_summary.write_text('\n'.join(summary_lines) + '\n')
           PY
       - name: Preserve real git-source provenance and full test results
