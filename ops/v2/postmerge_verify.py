@@ -259,13 +259,14 @@ def verify_main(root, lock):
         if bundle.get(field) != json.loads(raw):
             raise ValueError("W4 browse index differs from W2: " + name)
     # No-review gate decision (2026-10-22): the admitted breadth catalog is
-    # 190 Places / 356 Opportunities (aurora-only opportunities removed
-    # 2026-10-26; tw-100/353->190/356 growth re-pinned CL-CI-01), all
+    # 197 Places / 374 Opportunities (aurora-only opportunities removed
+    # 2026-10-26; tw-100/353->190/356 growth re-pinned CL-CI-01; 7
+    # no-contract spots ->197/374 re-pinned CL-DATA-20), all
     # byte-pinned to their W2 sources.
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
-            len(catalog.get("places", [])) != 190
-            or len(catalog.get("opportunities", [])) != 356):
+            len(catalog.get("places", [])) != 197
+            or len(catalog.get("opportunities", [])) != 374):
         raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]

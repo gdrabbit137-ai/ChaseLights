@@ -1,0 +1,274 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-007-P02",
+  "place_id": "tw-007",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "碧潭吊橋夜間光雕水面倒影",
+    "en": "Bitan suspension bridge night illumination and water reflection",
+    "ja": "碧潭吊橋の夜間ライトアップと水面の反射"
+  },
+  "description_i18n": {
+    "zh-TW": "夜間拍攝碧潭吊橋光雕水面倒影：低風讓新店溪潭面成鏡，橋體彩光與倒影對稱構圖；需民用暮光後的黑暗天空，日間時段不成立。",
+    "en": "Shoot the Bitan bridge night illumination reflected in the Xindian River: low wind turns the pool into a mirror for a symmetric composition of lit bridge and reflection; requires civil darkness, daytime hours never qualify.",
+    "ja": "夜間に碧潭吊橋のライトアップを新店渓の水面に映して撮る。低風で潭面が鏡になり、彩光と反射の対称構図が立つ。市民薄明後の暗空が必要で、昼間は成立しない。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-007-P02-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.5365,
+            24.95599
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_tourism_poi; CL-DATA-20 AI web verification 2026-11-06: New Taipei City Government tourism pages confirm 碧潭吊橋（1937 年建成）夜間光雕與新店溪水面倒影（https://newtaipei.travel/zh-tw/news/detail/1573，2022）；光雕展演時段以現場公告為準",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "碧潭風景區開放空間；吊橋人行通行，東岸廣場與灣潭步道為主要拍攝點。",
+        "en": "Open public scenic area; the suspension bridge is walkable; the east-bank plaza and Wantan trail are the main shooting points.",
+        "ja": "碧潭風景区は開放空間。吊橋は歩行可能で、東岸広場と灣潭歩道が主な撮影点。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "夜間河岸濕滑、光雕時段人潮多，注意腳架與行人動線；水邊拍攝勿越過護欄。",
+        "en": "Wet riverbank at night and heavy crowds during light-show hours — mind tripod placement and pedestrians; do not cross railings at the water edge.",
+        "ja": "夜間の河岸は滑りやすく、光の演出時間帯は人出が多い。三脚と通行人の動線に注意し、水際の柵を越えない。"
+      },
+      "altitude_m": 9.0
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-007-P02-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "碧潭吊橋夜間光雕水面倒影",
+        "en": "Bitan suspension bridge night illumination and water reflection",
+        "ja": "碧潭吊橋の夜間ライトアップと水面の反射"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.5365,
+            24.95599
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference; terrain and shooting points web-verified 2026-11-06 (see camera derivation_method)",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-007-P02-01",
+      "camera_context_id": "CZ-tw-007-P02-01",
+      "target_id": "SG-tw-007-P02-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-007-P02-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 24.95599,
+      "lon": 121.5365,
+      "label_i18n": {
+        "zh-TW": "碧潭",
+        "en": "Bitan Scenic Area",
+        "ja": "碧潭"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-007-P02-v1",
+    "status": "draft",
+    "genre_template": "reflection",
+    "template_version": "reflection-v0.1",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-tw-007-P02-01",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_speed_10m",
+        "operator": "lte",
+        "threshold": 2,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-007-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "風速 ≤2 m/s：風生毛細波是倒影破碎的直接物理原因；2 m/s 約為鏡面與微漣的分界（實拍校準點）。",
+          "en": "Wind <= 2 m/s: wind-generated capillary waves are the direct physical cause of broken reflections; ~2 m/s is the mirror-vs-ripple boundary (calibration point).",
+          "ja": "風速≤2m/s。風による毛細波は反射を壊す直接の物理原因。約2m/sが鏡面とさざ波の境界（較正点）。"
+        }
+      },
+      {
+        "id": "C-tw-007-P02-02",
+        "role": "REQUIRED",
+        "domain": "HYDROLOGY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "water_surface_state",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-007-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "水面存續（不結冰、未乾涸）：季節性水體的存續由警語/公告層維護，屬純提示、不否決；缺公告時誠實 propagate unknown。",
+          "en": "Water presence (not frozen, not dried): seasonal-water existence is maintained in the advisory layer - pure notice, never a veto; propagates unknown when no advisory exists.",
+          "ja": "水面の存続（凍結・干上がりなし）。季節性水域の存続は警報層で管理。純粋な注意表示で否決しない。情報なければunknownを伝播。"
+        }
+      },
+      {
+        "id": "C-tw-007-P02-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-007-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降雨同時打碎水面與妨礙拍攝；0.2 mm/h 以下不受影響。",
+          "en": "Rain both breaks the water surface and hampers shooting; below 0.2 mm/h is fine.",
+          "ja": "雨は水面を壊し撮影も妨げる。0.2mm/h未満なら影響なし。"
+        }
+      },
+      {
+        "id": "C-tw-007-P02-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_total",
+        "operator": "between",
+        "threshold": [
+          20,
+          60
+        ],
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-007-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MODIFIER",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "總雲量 20–60%：雲與彩霞在鏡面裡的對稱構圖是倒影的加分主體；全晴只有山形、全陰無色彩。",
+          "en": "Total cloud 20-60%: clouds and glow mirrored in the water are the bonus subject of reflections; clear sky gives only the landform, overcast gives no colour.",
+          "ja": "全雲量20〜60%。水面に映る雲や彩が反射の加算対象。快晴は山容のみ、全層雲は色彩なし。"
+        }
+      },
+      {
+        "id": "C-tw-007-P02-LW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "city_night_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-007-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "時間窗＝整小時太陽仰角 ≤ −6°（民用暮光後）。夜間光雕主體需要黑暗天空；白天時段即使天氣全過也不成立。",
+          "en": "Time window = the whole hour bucket with sun elevation <= -6 deg (after civil dusk). A night-illumination subject needs a dark sky; a daytime hour cannot qualify even if every weather condition passes.",
+          "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。夜間ライトアップの主題には暗い空が必要で、昼間は気象条件が全て通過しても成立しない。"
+        }
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-007-P02-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "e-d20-c",
+        "e-d20-d"
+      ],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Subject existence per V1 catalog; terrain/shooting-point facts web-verified 2026-11-06 (sources in camera derivation_method). Thresholds provisional pending real-shoot calibration."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-tw-007",
+    "imported_at": "2026-11-06T00:00:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}

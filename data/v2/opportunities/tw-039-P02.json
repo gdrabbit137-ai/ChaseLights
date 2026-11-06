@@ -1,0 +1,246 @@
+{
+  "schema_version": "2.1.0",
+  "opportunity_id": "tw-039-P02",
+  "place_id": "tw-039",
+  "revision": 1,
+  "lifecycle_status": "draft",
+  "name_i18n": {
+    "zh-TW": "伯朗大道金黃稻浪",
+    "en": "Mr. Brown Avenue golden rice waves",
+    "ja": "ブラウンロードの黄金の稲波"
+  },
+  "description_i18n": {
+    "zh-TW": "結穗轉金黃的稻浪題材：例年 5 月下旬–6 月與 10 月下旬–12 月（收割前 1–2 週最金黃），以 seasonal-calendar 對拍為準；收割後田面裸土不成立。",
+    "en": "Golden ripe rice waves: typically late May-June and late October-December (most golden 1-2 weeks before harvest), judged against the seasonal calendar; bare post-harvest fields do not qualify.",
+    "ja": "実って黄金に色づく稲波。例年5月下旬〜6月と10月下旬〜12月（収穫前1〜2週間が最も黄金）。季節カレンダーとの照合で判定し、収穫後の裸田は成立しない。"
+  },
+  "camera_contexts": [
+    {
+      "id": "CZ-tw-039-P02-01",
+      "kind": "area",
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.2126,
+            23.09878
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_curated_camera_point; CL-DATA-20 AI web verification 2026-11-06: 交通部觀光署內容（travelguidetaiwan.com.tw/zh-tw/cycling/chishang）記載伯朗大道（錦新三號道路）全長約 2.2 km、無電線桿、海拔 262–286 m、非農用汽機車全年禁行；金黃稻浪例年 5 月下旬–6 月與 10 月下旬–12 月；清晨太陽未過海岸山脈前為柔和晨光",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "verification_status": "provisional",
+      "evidence_refs": [],
+      "access_notes_i18n": {
+        "zh-TW": "全天開放道路（田區私人農地）；汽機車全年禁行，步行或自行車進入。",
+        "en": "Open road all day (surrounding paddies are private farmland); motor vehicles are banned year-round — enter on foot or by bicycle.",
+        "ja": "終日開放の道路（周囲の田んぼは私有農地）。農用以外の汽車・バイクは終年進入禁止で、徒歩か自転車で入る。"
+      },
+      "safety_notes_i18n": {
+        "zh-TW": "請勿踩進稻田（農民生計），路邊停車不擋車道；正午無遮蔭，夏季注意防曬補水。",
+        "en": "Never step into the paddies (farmers' livelihood); park off the lane without blocking it; no shade at midday — sun protection and water in summer.",
+        "ja": "田んぼに踏み込まない（農家の生計）。路側駐車は車道を塞がない。正午は日陰がなく、夏季は日焼け対策と水分補給を。"
+      },
+      "altitude_m": 267.0
+    }
+  ],
+  "targets": [
+    {
+      "id": "SG-tw-039-P02-01",
+      "kind": "multi_component",
+      "name_i18n": {
+        "zh-TW": "伯朗大道金黃稻浪",
+        "en": "Mr. Brown Avenue golden rice waves",
+        "ja": "ブラウンロードの黄金の稲波"
+      },
+      "geometry": {
+        "kind": "point",
+        "status": "provisional",
+        "geojson": {
+          "type": "Point",
+          "coordinates": [
+            121.2126,
+            23.09878
+          ]
+        },
+        "uncertainty_m": null,
+        "derivation_method": "imported_from_v1_viewpoint_reference; terrain and shooting points web-verified 2026-11-06 (see camera derivation_method)",
+        "source_geometry_revision": null,
+        "reason_if_absent": null
+      },
+      "phenomenon_model_id": null,
+      "evidence_refs": [],
+      "components": []
+    }
+  ],
+  "observation_relations": [
+    {
+      "id": "VR-tw-039-P02-01",
+      "camera_context_id": "CZ-tw-039-P02-01",
+      "target_id": "SG-tw-039-P02-01",
+      "type": "foreground_background",
+      "geometry_mode": "unknown",
+      "azimuth_deg": null,
+      "elevation_deg": null,
+      "distance_m": null,
+      "evidence_refs": [],
+      "derivation_method": null,
+      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+    }
+  ],
+  "navigation_targets": [
+    {
+      "id": "NAV-tw-039-P02-01",
+      "status": "needs_review",
+      "target_type": "other",
+      "lat": 23.09878,
+      "lon": 121.2126,
+      "label_i18n": {
+        "zh-TW": "池上伯朗大道",
+        "en": "Chishang Mr. Brown Avenue",
+        "ja": "池上ブラウンロード"
+      },
+      "evidence_refs": [],
+      "confidence": "low"
+    }
+  ],
+  "condition_contract": {
+    "contract_id": "CC-tw-039-P02-v1",
+    "status": "draft",
+    "genre_template": "seasonal_plant",
+    "template_version": "seasonal_plant-v0.1",
+    "recommendation_policy_version": null,
+    "conditions": [
+      {
+        "id": "C-tw-039-P02-01",
+        "role": "REQUIRED",
+        "domain": "SEASON_TIME",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "seasonal_state",
+        "operator": "eq",
+        "threshold": "window_open",
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-039-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "季節窗判定：evaluation 取值為 window_open / window_closed（由 seasonal-calendar.json 的例年窗與今年實況窗對拍日曆得出；實況優先，兩者皆缺時誠實 not_evaluatable）。",
+          "en": "Seasonal-window verdict: the evaluation value is window_open / window_closed (resolved by matching the calendar date against typical and current-season windows in seasonal-calendar.json; observed takes precedence, and with neither present the genre is honestly not_evaluatable).",
+          "ja": "季節窓判定：評価値は window_open/window_closed（seasonal-calendar.json の例年窓・当年窓と日付の突き合わせで決定。実況優先、どちらも欠ければ誠実に not_evaluatable）。"
+        }
+      },
+      {
+        "id": "C-tw-039-P02-02",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-039-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降雨 <0.2 mm/h：花田步道基本可拍（沿用已審門檻）；微雨對花景反而有水珠加分效果，不設下限。",
+          "en": "Precipitation < 0.2 mm/h: basic shootability of flower fields and trails (approved threshold carried over); light drizzle adds droplet charm, so no lower bound is imposed.",
+          "ja": "降水<0.2mm/h。花畑・遊歩道の基本撮影可否。小雨は水滴として好条件のため下限は設けない。"
+        }
+      },
+      {
+        "id": "C-tw-039-P02-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "wind_speed_10m",
+        "operator": "lt",
+        "threshold": 5,
+        "unit": "m/s",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-039-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "風 <5 m/s：花穗搖曳是構圖元素、強風破壞拍攝（金針花特寫/芒草逆光都禁強風）。5 為 provisional，可依主題差異化（芒草或許更寬）。",
+          "en": "Wind < 5 m/s: sway is compositional up to a point, gale ruins the shot (daylily close-ups and backlit silvergrass both need calm). 5 is provisional and may be differentiated per plant (silvergrass might tolerate more).",
+          "ja": "風<5m/s。揺れは構図要素だが強風は撮影不能。5は暫定値で植物ごとの差別化も可。"
+        }
+      },
+      {
+        "id": "C-tw-039-P02-LW1",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-039-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。本契約建置時即納入（CL-DATA-19 全面稽查語意）。",
+          "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Built in at contract creation (CL-DATA-19 audit semantics).",
+          "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。契約作成時に組み込み（CL-DATA-19 監査の語義）。"
+        }
+      }
+    ]
+  },
+  "evidence_claims": [
+    {
+      "claim_id": "tw-039-P02-claim-01",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "e-d20-g",
+        "e-d20-h"
+      ],
+      "audit_status": "UNKNOWN",
+      "scope_note": "Subject existence per V1 catalog; terrain/shooting-point facts web-verified 2026-11-06 (sources in camera derivation_method). Thresholds provisional pending real-shoot calibration."
+    }
+  ],
+  "readiness": {
+    "research_level": "R1",
+    "gaps": [
+      "GEOMETRY_GAP",
+      "RESEARCH_GAP"
+    ]
+  },
+  "provenance": {
+    "source_catalog": "runtime_catalog_v004_r4_2.json",
+    "source_revision": "v1-spot-tw-039",
+    "imported_at": "2026-11-06T00:00:00Z",
+    "review_status": "pending",
+    "reviewed_by": null
+  }
+}
