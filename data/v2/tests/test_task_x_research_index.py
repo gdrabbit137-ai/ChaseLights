@@ -103,7 +103,8 @@ class ResearchIndexTests(unittest.TestCase):
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('76e926d16f3cfd6f2983ec2c0f6fe6ac7004104d',p01['commit_sha'])
-        self.assertEqual('ac8d51d1eb4e234a94503ecfc37681d6e86b3aa7',p01['blob_sha'])
+        # CL-CI-14: blob pin re-anchored to the CL-DATA-13 view_azimuth-backfilled bytes (derivation_method-gated)
+        self.assertEqual('c74a75dcedbc6ebc56993477e7aea6bb9a1d013f',p01['blob_sha'])
 
     def test_all_place_names_exact_source_spans_without_new_translation(self):
         count=0
