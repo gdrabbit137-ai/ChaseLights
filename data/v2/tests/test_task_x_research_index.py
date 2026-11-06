@@ -112,8 +112,11 @@ class ResearchIndexTests(unittest.TestCase):
             # Hehuan 3,417 m confirmed) — tw-001-P02/tw-019-P04/tw-024-P02/
             # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
             # remain re-pinned to the task-branch commit carrying those
-            # corrections (union merge, CL-INT-81).
-            'c90f56712550ae46824e30684442bbc44855c9b5',
+            # corrections (union merge, CL-INT-81); CL-INT-78 re-pointed
+            # those records plus the CL-DATA-17 US records to the merge
+            # commit carrying the merged verified bytes, superseding
+            # c90f5671.
+            '4407fbfcd13394b2537a4c890de2b7546a34144d',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])
