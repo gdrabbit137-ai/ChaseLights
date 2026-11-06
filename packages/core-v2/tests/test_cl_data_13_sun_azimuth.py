@@ -66,7 +66,7 @@ class SunAzimuthPinTests(unittest.TestCase):
             az = sw._solar_azimuth_deg(at, *TW003)
             alt = sw._solar_altitude_deg(at, *TW003)
             self.assertTrue(0.0 <= az <= 360.0)
-            if alt > -10.0:
+            if alt > -10.0 and h < 23:
                 nxt = _utc(2026, 11, 5, h + 1, 0)
                 if nxt.day == 5:  # keep the same local day
                     az2 = sw._solar_azimuth_deg(nxt, *TW003)
