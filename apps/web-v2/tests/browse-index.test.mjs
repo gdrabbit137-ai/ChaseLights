@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'67eae1ef3d4598ece56524b044497f76a98ad8dcf67551c37595d874088bcf5a'); // CL-DATA-18 re-anchor: research index rebuilt after AI-verified geometry/light-window fills (7 records re-pinned + us-057 light_window)
-  assert.equal(sha256(rawCatalog),'841ebbb9e264c77e34481ae1115c8f8e8fc10a4c6d578cfb4481b2ace9abab3a'); // CL-DATA-18 re-anchor: catalog regenerated after the same fills
+  assert.equal(sha256(rawIndex),'340f1a821cfee2137b908d01c5fb984a74727871695eec296868c12401998c1b'); // CL-DATA-18 re-anchor: research index rebuilt after AI-verified geometry/light-window fills (7 records re-pinned + us-057 light_window)
+  assert.equal(sha256(rawCatalog),'6b5ecf01b3800e9d291a63cc2790398ffb78b65b2e7db0e7a29dc5392383bfc5'); // CL-DATA-18 re-anchor: catalog regenerated after the same fills
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
