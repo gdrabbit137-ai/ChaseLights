@@ -95,3 +95,37 @@ class SunAzimuthPinTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SunAzimuthDataLayerTests(unittest.TestCase):
+    """Step 2: the hourly astro metric must be routable by the evaluator and
+    QC-checked in range (bundle regeneration is the scheduled pipeline's job:
+    update_evaluations.yml every 6h; a scoped --only-place-id run on
+    2026-11-06 verified live output with 0 fetch failures)."""
+
+    def test_evaluator_routes_sun_azimuth(self):
+        eb_spec = importlib.util.spec_from_file_location(
+            "evaluate_batch", ROOT / "packages/core-v2/tools/evaluate_batch.py")
+        eb = importlib.util.module_from_spec(eb_spec)
+        sys.modules["evaluate_batch"] = eb
+        eb_spec.loader.exec_module(eb)
+        self.assertIn("sun_azimuth_deg", eb.ASTRO_METRICS)
+        verdict = eb.condition_verdict(
+            {"id": "C-az", "metric": "sun_azimuth_deg", "operator": "gte",
+             "threshold": 180, "role": "QUALITY"},
+            {}, {"sun_azimuth_deg": 246.6})
+        self.assertEqual(verdict[0], "PASS")
+        missing = eb.condition_verdict(
+            {"id": "C-az", "metric": "sun_azimuth_deg", "operator": "gte",
+             "threshold": 180, "role": "QUALITY"},
+            {}, {"sun_azimuth_deg": None})
+        self.assertEqual(missing[0], "UNKNOWN")
+
+    def test_hour_observations_azimuth_in_range(self):
+        for lat, lon in ((25.18339, 121.41147), (43.1939, 141.0), (36.1, -111.8)):
+            for month in (1, 4, 7, 10):
+                row = ah.hour_observations(
+                    datetime(2026, month, 15, 12, 0, tzinfo=timezone.utc), lat, lon)
+                az = row["sun_azimuth_deg"]
+                self.assertIsNotNone(az)
+                self.assertTrue(0.0 <= az <= 360.0)

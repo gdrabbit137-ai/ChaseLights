@@ -42,7 +42,7 @@ from astro_hourly import (  # noqa: E402
     ASTRO_SAMPLING_PROVENANCE, hour_observations, sun_events_span)
 
 BUNDLE_VERSION = "0.1.0"
-ASTRO_METRICS = {"sunrise_time_window", "sunset_window", "blue_hour_window",
+ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blue_hour_window",
                  "golden_hour_window", "astronomical_darkness",
                  "moon_illumination_fraction", "moon_altitude",
                  "moon_target_separation_deg", "moon_illuminance_proxy",
