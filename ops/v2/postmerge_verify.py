@@ -353,7 +353,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 421, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 429, False, True),
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs"], 6, False, True),
             ("local-isolation", [sys.executable, "ops/v2/integration_gate.py", "--root", str(root)],
@@ -388,11 +388,14 @@ def main():
         # 2026-11-06 CL-INT-66: CL-DATA-12 wave-1 node additions +9 (A–O
         # contract-fixes tests) -> w4-node=421, exact total=849, measured on
         # the merged tree (node v26.7.0, --test-isolation=none).
-        if (report["counts"]["tests"] != 849 or
+        # 2026-11-06 CL-DATA-14: +8 cl-data-14 data-correction pins ->
+        # w4-node=429, exact total=857, measured on the task tree
+        # (node v26.7.0, --test-isolation=none).
+        if (report["counts"]["tests"] != 857 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 849):
-            raise ValueError("Post-merge exact 849-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 857):
+            raise ValueError("Post-merge exact 857-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
