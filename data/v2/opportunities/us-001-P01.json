@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-001-P01",
   "place_id": "us-001",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "大峽谷南緣・Mather Point 日出峽谷層次",
@@ -20,21 +20,24 @@
       "kind": "area",
       "geometry": {
         "kind": "point",
-        "status": "provisional",
+        "status": "verified",
         "geojson": {
           "type": "Point",
           "coordinates": [
-            -112.116306,
-            36.065194
+            -112.108,
+            36.0616
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-17 coordinate corrected 2026-11-06; source: USGS GNIS Mather Point（36.0616497,-112.1079463；elev 7,119 ft / 2,170 m）；coordinate & elevation corrected 2026-11-06",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
-      "evidence_refs": [],
+      "verification_status": "verified",
+      "evidence_refs": [
+        "CL-DATA-17:coordinate:us-001-P01:https://en.wikipedia.org/wiki/Mather_Point + https://www.topozone.com/arizona/coconino-az/cliff/mather-point/",
+        "CL-DATA-17:elevation:us-001-P01:https://en.wikipedia.org/wiki/Mather_Point + https://www.topozone.com/arizona/coconino-az/cliff/mather-point/（2170 m）"
+      ],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
         "en": "Access information not yet verified; follow on-site notices and rules.",
@@ -45,7 +48,7 @@
         "en": "Follow on-site safety guidance.",
         "ja": "現地の安全指示に従ってください。"
       },
-      "altitude_m": null
+      "altitude_m": 2170.0
     }
   ],
   "targets": [
@@ -63,8 +66,8 @@
         "geojson": {
           "type": "Point",
           "coordinates": [
-            -112.116306,
-            36.065194
+            -112.108,
+            36.0616
           ]
         },
         "uncertainty_m": null,
@@ -97,15 +100,15 @@
       "id": "NAV-us-001-P01-01",
       "status": "needs_review",
       "target_type": "other",
-      "lat": 36.065194,
-      "lon": -112.116306,
+      "lat": 36.0616,
+      "lon": -112.108,
       "label_i18n": {
         "zh-TW": "大峽谷國家公園",
         "en": "Grand Canyon National Park",
         "ja": "グランド・キャニオン国立公園"
       },
       "evidence_refs": [],
-      "confidence": "low"
+      "confidence": "high"
     }
   ],
   "condition_contract": {
@@ -250,9 +253,12 @@
     {
       "claim_id": "us-001-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
-      "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "evidence_refs": [
+        "CL-DATA-17:coordinate:us-001-P01:https://en.wikipedia.org/wiki/Mather_Point + https://www.topozone.com/arizona/coconino-az/cliff/mather-point/",
+        "CL-DATA-17:elevation:us-001-P01:https://en.wikipedia.org/wiki/Mather_Point + https://www.topozone.com/arizona/coconino-az/cliff/mather-point/（2170 m）"
+      ],
+      "audit_status": "OK",
+      "scope_note": "Skeleton import from V1 catalog; CL-DATA-17 2026-11-06 camera coordinate/elevation re-verified against authoritative web sources (refs attached)."
     }
   ],
   "readiness": {
