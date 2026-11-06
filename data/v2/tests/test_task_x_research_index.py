@@ -110,6 +110,11 @@ class ResearchIndexTests(unittest.TestCase):
             # confirmed) — the 4 LCL cloud-sea records byte-changed and were
             # re-pinned to the task-branch commit carrying the corrections.
             'c90f56712550ae46824e30684442bbc44855c9b5',
+            # CL-INT-78 merge (4407fbfcd): main's TW canonical corrections
+            # (tw-001-P02/tw-019-P04/tw-024-P02/tw-040-P04) and CL-DATA-17's
+            # US coordinate/elevation records re-pointed to the merge commit
+            # carrying the merged verified bytes (blob pins carry the state).
+            '4407fbfcd13394b2537a4c890de2b7546a34144d',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         self.assertEqual('3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',p01['commit_sha'])
