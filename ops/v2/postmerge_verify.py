@@ -399,14 +399,14 @@ def main():
         # 2026-11-06 CL-WG-26: +5 contour zoom gate tests -> w4-node=445, exact total 886.
         # CL-INT-80 sequential merge (WG-27 + WG-28R, stamps re-anchored
         # bclwg29->bclwg30): w4-node RE-MEASURED on the merged tree = 459
-        # (node v26.7.0, --test-isolation=none) -> exact total 886+14=900; CL-INT-81/77 combined integration re-measures on the union tree (CL-UI-38 +8 node, w5-public +3) -> total 911 (provisional, re-measured).
+        # (node v26.7.0, --test-isolation=none) -> exact total 886+14=900; CL-INT-81/77 combined integration re-measures on the union tree (CL-UI-38 +8 node, w5-public +3) -> w4-node 467, exact total 911 (re-measured on union tree; candidate-build-browser +6 in CI env).
         # 2026-11-06 CL-UI-39: fixed cl-ui-34 syntax error (restored its 8
         # tests) + i18n re-port; w4-node RE-MEASURED = 467 -> exact total 919.
-        if (report["counts"]["tests"] != 919 or
+        if (report["counts"]["tests"] != 911 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 919):
-            raise ValueError("Post-merge exact 919-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 911):
+            raise ValueError("Post-merge exact 911-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 356 canonical sources remain source pinned (aurora removed 2026-10-26; us-022/tw-082-P06 removed 2026-10-31)',()=>{
-  assert.equal(sha256(rawIndex),'09fc59323bc8235a4b64c0385082f07616f2c97454044e72114a5a8b98230246'); // CL-INT-81 re-anchor: regenerated on merged tree (union source-lock + main-side elevation pins)
-  assert.equal(sha256(rawCatalog),'50cff4dd545368b62952867681c54bfbcf3cdd58c478d4aeda4ef5123c174f4d'); // CL-INT-81 re-anchor: catalog regenerated on merged tree
+  assert.equal(sha256(rawIndex),'a15deae4d5d27f3c643c437aa29ca32d5f91dee1190cdf403b6ef379e3e46af4'); // CL-INT-81 re-anchor: regenerated on merged tree (union source-lock + main-side elevation pins)
+  assert.equal(sha256(rawCatalog),'fd65e4bbe2de39a551c48adf2386bcf510432747d194f0a38cc3389ec690982b'); // CL-INT-81 re-anchor: catalog regenerated on merged tree
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,356);assert.equal(source.places.length,190);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
