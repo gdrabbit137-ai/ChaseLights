@@ -125,13 +125,21 @@ def download_file(filename, token, destination, opener=None, reference=None):
             "curl",
             "--fail",
             "--show-error",
-            "--location",
+            "--location-trusted",
             "--cookie",
             str(cookie_file),
             "--dump-header",
             str(destination) + ".headers",
             "--write-out",
             "LAADS_HTTP_DIAGNOSTIC status=%{http_code} content_type=%{content_type} url_effective=%{url_effective} redirects=%{num_redirects}\\n",
+            # The real token must be sent: an earlier version redacted this to
+            # the literal "Bearer ***", so LAADS never saw credentials and
+            # redirected every request into the EDL OAuth HTML page. curl does
+            # not forward Authorization across cross-host redirects; NASA's
+            # EDL scripting guidance (LAADS redirect chain: ladsweb -> URS
+            # /oauth/authorize?state=... -> LAADS callback) requires carrying
+            # the Bearer token to urs.earthdata.nasa.gov, hence
+            # --location-trusted.
             "--header",
             f"Authorization: Bearer {token}",
             "--output",

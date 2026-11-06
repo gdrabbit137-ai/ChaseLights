@@ -88,9 +88,10 @@ class ViirsLadsDownloadTest(unittest.TestCase):
         download_file(filename, "secret-value", destination, reference=discovery_reference)
         command = run.call_args.args[0]
         self.assertEqual(command[0], "curl")
-        self.assertIn("--location", command)
+        self.assertIn("--location-trusted", command)
         self.assertIn("--cookie", command)
         self.assertIn("Authorization: Bearer secret-value", command)
+        self.assertNotIn("Bearer ***", " ".join(command))
         self.assertIn(str(destination), command)
         self.assertIn(archive_url(filename), command)
         self.assertNotIn(discovery_reference, command)
