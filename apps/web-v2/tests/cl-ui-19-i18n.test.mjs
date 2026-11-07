@@ -53,7 +53,7 @@ test('CL-UI-19 B1: v2_best_subject carries per-language punctuation, template ad
   assert.ok(appSource.includes("v2_best_subject:'本日最佳題材：'"));
   assert.ok(appSource.includes("v2_best_subject:'Best subject today: '"));
   assert.ok(!appSource.includes('}：${esc(stripSpotNamePrefix(v2Best.name,spot))}'),'the template must not hardcode a full-width colon');
-  assert.ok(appSource.includes('${esc(d()[v2BestSubjectKey()])}${esc(stripSpotNamePrefix(v2Best.name,spot))}'));
+  assert.ok(appSource.includes('${esc(d()[v2BestSubjectKey()])}${esc(stripSpotNamePrefix(v2Best.name,spot,v2PlaceData?[v2PlaceData]:[]))}'));
 });
 
 test('CL-UI-19 B2: ja copy is natural Japanese with zero simplified 题',()=>{

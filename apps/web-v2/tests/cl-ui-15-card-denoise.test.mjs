@@ -33,8 +33,29 @@ test('CL-UI-15 (1): summary line strips a leading spot-name prefix (display-leve
   assert.equal(stripSpotNamePrefix('合歡山',spot),'合歡山');
   // No prefix at all: unchanged.
   assert.equal(stripSpotNamePrefix('雲海',spot),'雲海');
-  // Render path consumes the helper.
-  assert.match(createSpotCardBlock,/esc\(stripSpotNamePrefix\(v2Best\.name,spot\)\)/);
+  // Render path consumes the helper, passing the V2 evaluation-bundle place
+  // object as an extra alias source (CL-UI-47).
+  assert.match(createSpotCardBlock,/esc\(stripSpotNamePrefix\(v2Best\.name,spot,v2PlaceData\?\[v2PlaceData\]:\[\]\)\)/);
+});
+
+test('CL-UI-47: alias place name from the V2 bundle strips a name-variant prefix',()=>{
+  // tw-086 regression: the legacy spot name uses 淡水大橋 while the V2
+  // research/contract subject uses the variant 淡江大橋; the alias source
+  // must let the strip remove the full place-name echo. True-prefix and
+  // longest-first semantics are unchanged.
+  const spot={name_i18n:{'zh-TW':'八里崁頭里・淡水大橋觀景點'},name_local:'八里崁頭里・淡水大橋觀景點'};
+  const v2Place={name_i18n:{'zh-TW':'八里崁頭里・淡江大橋觀景點'}};
+  assert.equal(
+    stripSpotNamePrefix('八里崁頭里・淡江大橋觀景點：淡江大橋日景通透（白天通透）',spot,[v2Place]),
+    '淡江大橋日景通透（白天通透）');
+  // Without the alias source the variant prefix is left untouched (no fuzzy match).
+  assert.equal(
+    stripSpotNamePrefix('八里崁頭里・淡江大橋觀景點：淡江大橋日景通透（白天通透）',spot),
+    '八里崁頭里・淡江大橋觀景點：淡江大橋日景通透（白天通透）');
+  // Alias still honours true full-name match: a mere near-match must not strip.
+  assert.equal(
+    stripSpotNamePrefix('合歡山北峰：日出',spot,[{name_i18n:{'zh-TW':'合歡山主峰'}}]),
+    '合歡山北峰：日出');
 });
 
 test('CL-UI-15 (2): per-card timezone row is removed from the card list',()=>{
