@@ -75,24 +75,25 @@ def main():
     for pid, entry in prog["stage_photos"].items():
         for ph in entry.get("photos", []):
             key = ph.get("title") or ph.get("url") or ""
-            if key and key.startswith("File:") and key not in stage and ph.get("thumb"):
+            if key and key.startswith("File:") and (key not in stage or stage[key].get("pv_unknown") or not stage[key].get("cats_fetched")) and ph.get("thumb"):
                 todo.append((pid, key, ph))
     print(f"todo photos={len(todo)}", flush=True)
     # badges in bulk
     all_titles = sorted({k for _, k, _ in todo if k.startswith("File:")})
     cats = categories_for(all_titles)
+    d_ok = bool(cats)  # categories lookup succeeded at all?
     for i, (pid, key, ph) in enumerate(todo):
         cl = cats.get(key, []) or cats.get(key.replace(" ", "_"), []) or cats.get(key.replace("_", " "), [])
         badges = [name for name, pat in BADGE_PATTERNS if any(pat.search(c or "") for c in cl)]
         pv = pageviews_for(key) if key.startswith("File:") else None
-        stage[key] = {"badges": badges, "pv12mo": pv, "pv_unknown": pv is None, "cats": cl[:8]}
+        stage[key] = {"badges": badges, "cats_fetched": d_ok, "pv12mo": pv, "pv_unknown": pv is None, "cats": cl[:8]}
         if i % 20 == 0:
             prog["updated"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
             tmp = OUT.with_suffix(".json.tmp")
             tmp.write_text(json.dumps(prog, ensure_ascii=False, indent=1), encoding="utf-8")
             tmp.replace(OUT)
             print(f"[{i}/{len(todo)}] {key[:50]} badges={badges} pv={pv}", flush=True)
-        time.sleep(0.12)
+        time.sleep(0.4)
     prog["updated"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     tmp = OUT.with_suffix(".json.tmp")
     tmp.write_text(json.dumps(prog, ensure_ascii=False, indent=1), encoding="utf-8")
