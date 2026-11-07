@@ -1,0 +1,244 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-047-P01",
+ "place_id": "jp-047",
+ "revision": 2,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "八甲田樹氷",
+  "en": "Hakkoda snow monsters",
+  "ja": "八甲田の樹氷"
+ },
+ "description_i18n": {
+  "zh-TW": "日本三大樹氷（青森）；山頂 1,324 m ホワイトアウト天候險惡；12–2月營業 9:00–15:40、風速 25 m/s 以上運休。",
+  "en": "One of Japan's three great snow-monster sites (Aomori); the 1,324 m summit is whiteout-prone; ropeway winter hours 09:00-15:40 (Dec-Feb), suspended over ~25 m/s winds.",
+  "ja": "日本三大樹氷（青森）。山頂1,324mはホワイトアウト注意。12〜2月は9:00〜15:40運行、風速25m/s超で運休。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-047-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      140.8317,
+      40.6808
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-25 admission web verification 2026-11-07 (ja.wikipedia 八甲田ロープウェー (40.6808,140.8317, dim~1km 山頂公園駅周辺); elevation 1,324 m 山頂公園駅 official hakkoda-ropeway.jp; source URLs: https://ja.wikipedia.org/wiki/八甲田ロープウェー ; https://hakkoda-ropeway.jp/). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "日本三大樹氷（青森）；山頂 1,324 m ホワイトアウト天候險惡；12–2月營業 9:00–15:40、風速 25 m/s 以上運休。（開放/營運狀態以現場公告為準。）",
+    "en": "One of Japan's three great snow-monster sites (Aomori); the 1,324 m summit is whiteout-prone; ropeway winter hours 09:00-15:40 (Dec-Feb), suspended over ~25 m/s winds. (Opening/operating status follows on-site notices.)",
+    "ja": "日本三大樹氷（青森）。山頂1,324mはホワイトアウト注意。12〜2月は9:00〜15:40運行、風速25m/s超で運休。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 1324.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-047-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "八甲田樹氷",
+    "en": "Hakkoda snow monsters",
+    "ja": "八甲田の樹氷"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      140.8317,
+      40.6808
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-25 admission web verification 2026-11-07 (ja.wikipedia 八甲田ロープウェー (40.6808,140.8317, dim~1km 山頂公園駅周辺); elevation 1,324 m 山頂公園駅 official hakkoda-ropeway.jp; source URLs: https://ja.wikipedia.org/wiki/八甲田ロープウェー ; https://hakkoda-ropeway.jp/). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-047-P01-01",
+   "camera_context_id": "CZ-jp-047-P01-01",
+   "target_id": "SG-jp-047-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-25 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-047-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 40.6808,
+   "lon": 140.8317,
+   "label_i18n": {
+    "zh-TW": "八甲田ロープウェー 山頂公園駅",
+    "en": "Hakkoda Snow Monsters (Hakkoda Ropeway)",
+    "ja": "八甲田ロープウェー 山頂公園駅"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-047-P01-v1",
+  "status": "draft",
+  "genre_template": "snow_ice",
+  "template_version": "snow_ice-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-047-P01-S1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-047-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（window_open/window_closed，例年窗 01-15–02-25 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：本題材受營運期/季節窗硬性約束（CL-DATA-25 建置時即帶窗）。",
+     "en": "Seasonal-window verdict (window_open/window_closed; typical window 01-15-02-25 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): this subject is hard-gated by an operating/season window (built in at CL-DATA-25 admission).",
+     "ja": "季節窓判定（window_open/window_closed。例年窓 01-15〜02-25 は seasonal-calendar.json から、実況優先、両方欠ければ誠実に not_evaluatable）。本題材は営業期・季節窓でハード制約（CL-DATA-25 作成時に組み込み）。"
+    }
+   },
+   {
+    "id": "C-jp-047-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 3.0,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-047-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥3 km：樹氷拍攝的否決條件是暴雪/白牆（ホワイトアウト）；降雪本身不否決（飄雪中的樹氷反而是加分）。",
+     "en": "Visibility >= 3 km: the veto condition is blizzard/whiteout; falling snow itself is not a veto (snow monsters in falling snow are a bonus).",
+     "ja": "視程≥3km。否決条件は吹雪・ホワイトアウト。降雪自体は否決しない（降雪中の樹氷はむしろ好条件）。"
+    }
+   },
+   {
+    "id": "C-jp-047-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "wind_speed_10m",
+    "operator": "lt",
+    "threshold": 15.0,
+    "unit": "m/s",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-047-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "風 <15 m/s：山頂強風下拍攝與纜車/步行安全界線（八甲田公式 25 m/s 運休的保守折半值；安全為先，成立值可再校準）。",
+     "en": "Wind < 15 m/s: summit-wind safety boundary between shooting and ropeway/walking risk (a conservative half of Hakkoda's official 25 m/s suspension threshold; calibrated down for safety first).",
+     "ja": "風<15m/s。山頂の強風での撮影とロープウェイ・歩行の安全境界（八甲田公式25m/s運休基準の保守的半分。安全優先で較正）。"
+    }
+   },
+   {
+    "id": "C-jp-047-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-047-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "時間窗（必要條件）：日間樹氷只在民用光（太陽仰角 > −6°）內成立",
+     "en": "Time window (necessary condition): daytime juhyo qualifies only in civil light (sun elevation > -6 deg)",
+     "ja": "時間窓（必要条件）。日中の樹氷は市民光（太陽高度>−6°）内でのみ成立"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-047-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d25-web-hakkoda-juhyo"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-25 discovery admission (rubric >=3.8, owner ruling 2026-11-07); coordinates/elevation web-verified 2026-11-07 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-23 discovery shortlist (CL-DATA-25 admission)",
+  "source_revision": "cl-data-23:jp-north-hakkoda-juhyo",
+  "imported_at": "2026-11-07T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

@@ -2,34 +2,34 @@
   "schema_version": "r4.2-b42-catalog-manifest-1",
   "purpose": "Central expected-state manifest for the effective curated Opportunity catalog. Runtime code computes actual counts and validates them against this snapshot.",
   "totals": {
-    "spots": 217,
-    "opportunities": 431,
-    "condition_variants": 446,
-    "profile_viewpoint_relations": 437
+    "spots": 242,
+    "opportunities": 468,
+    "condition_variants": 483,
+    "profile_viewpoint_relations": 474
   },
   "regions": {
     "tw": {
       "numeric_id_start": 1,
-      "numeric_id_end": 86,
+      "numeric_id_end": 97,
       "retired_spot_ids": [
         "tw-063"
       ],
       "counts": {
-        "spots": 85,
-        "opportunities": 225,
-        "condition_variants": 235,
-        "profile_viewpoint_relations": 230
+        "spots": 96,
+        "opportunities": 242,
+        "condition_variants": 252,
+        "profile_viewpoint_relations": 247
       }
     },
     "jp": {
       "numeric_id_start": 1,
-      "numeric_id_end": 36,
+      "numeric_id_end": 50,
       "retired_spot_ids": [],
       "counts": {
-        "spots": 36,
-        "opportunities": 56,
-        "condition_variants": 61,
-        "profile_viewpoint_relations": 57
+        "spots": 50,
+        "opportunities": 76,
+        "condition_variants": 81,
+        "profile_viewpoint_relations": 77
       }
     },
     "us": {
@@ -45,12 +45,12 @@
     }
   },
   "runtime_policy_counts": {
-    "module_pending": 126,
-    "preview_module_available": 165,
-    "minimum_sufficient_available": 134,
+    "preview_module_available": 184,
     "prototype_pending_certification": 2,
-    "hold": 2,
-    "data_insufficient": 2
+    "minimum_sufficient_available": 134,
+    "module_pending": 144,
+    "data_insufficient": 2,
+    "hold": 2
   },
   "exact_geometry_opportunity_ids": [
     "tw-017-P01",
