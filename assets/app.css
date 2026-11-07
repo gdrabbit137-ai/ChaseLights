@@ -93,13 +93,13 @@
     .control-dropdown:hover { border-color: #38bdf8; }
     .lang-dropdown { background: #0f172a; color: #cbd5e1; }
     .country-dropdown { background: #1e293b; color: #38bdf8; border-color: #0284c7; }
-    .sub-nav-bar, .tag-nav-bar, .day-nav-bar {
+    .sub-nav-bar, .tag-nav-bar {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       margin-bottom: 10px;
     }
-    .sub-btn, .tag-btn, .day-btn {
+    .sub-btn, .tag-btn {
       background: #334155;
       color: var(--text);
       border: 1px solid #475569;
@@ -111,68 +111,126 @@
     }
     .sub-btn { font-size: 0.82rem; padding: 4px 10px; background: #1e293b; }
     .tag-btn { font-size: 0.78rem; padding: 3px 8px; background: #0f172a; border-color: #334155; border-radius: 12px; }
-    .day-btn { font-size: 0.82rem; padding: 4px 12px; background: #1e293b; border-color: #0284c7; color: #38bdf8; }
 
-    /* CL-DATA-06: the day strip holds 7 tabs; on narrow viewports it scrolls
-       horizontally instead of wrapping so 390px stays one clean row. */
-    .day-nav-strip { flex-wrap: nowrap; }
-    .day-nav-strip { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-    .day-nav-strip::-webkit-scrollbar { display: none; }
-    .day-nav-strip .day-btn { flex: 0 0 auto; white-space: nowrap; }
-    .day-btn-far { border-color: #334155; color: #7dd3fc; }
-    .day-btn-far.active { border-color: #38bdf8; }
+    /* CL-UI-46: the homepage date switch is a picker control in the same
+       form-control family as 「全部地區」/「排序」 — same tokens as .sort-select
+       (radius 6px, #1e293b surface, #cbd5e1 text, hover #38bdf8). Mobile
+       (≤640px) opens a bottom sheet; desktop opens a dropdown panel. The
+       CL-UI-45 horizontal strip is gone (「同功能不重複呈現」). */
+    .day-picker-wrap { position: relative; flex: 0 0 auto; margin: 0; }
+    .day-picker-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: auto;
+      max-width: 190px;
+      min-height: 30px;
+      padding: 4px 12px;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      background: #1e293b;
+      color: #cbd5e1;
+      font-size: .8rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+    }
+    .day-picker-trigger:hover,
+    .day-picker-trigger:focus-visible { border-color: #38bdf8; }
+    .day-picker-trigger[aria-expanded="true"] { border-color: #38bdf8; }
+    .day-picker-caret { color: #94a3b8; font-size: .9rem; flex: 0 0 auto; }
+    .day-picker-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: rgba(2, 6, 23, 0.55);
+      border: 0;
+      padding: 0;
+      cursor: default;
+    }
+    /* Desktop closes on outside mousedown; the dim overlay is a mobile-only
+       bottom-sheet affordance. */
+    @media (min-width: 641px) {
+      .day-picker-overlay { display: none; }
+    }
+    .day-picker-panel {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      width: max-content;
+      min-width: 100%;
+      z-index: 81;
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      padding: 4px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    .day-option {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      width: 100%;
+      min-height: 44px;
+      padding: 7px 10px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #e2e8f0;
+      font-size: .8rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+    }
+    .day-option .day-option-label { display: flex; align-items: center; gap: 6px; }
+    .day-option .day-option-meta { font-size: .7rem; font-weight: 400; color: #94a3b8; line-height: 1.3; }
+    .day-option:focus-visible { outline: 1px solid #38bdf8; }
+    .day-option.active {
+      background: #0284c7;
+      color: #fff;
+      font-weight: bold;
+    }
+    .day-option.active .day-option-meta { color: #bae6fd; }
+    .day-option .day-option-check { color: #38bdf8; font-weight: bold; }
 
     @media (max-width: 640px) {
-      .day-nav-bar {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0;
-        flex-wrap: nowrap;
-        border: 1px solid #0284c7;
-        border-radius: 8px;
-        overflow: hidden;
-      }
-      /* CL-UI-45 root cause: this strip shares .day-nav-bar with the day-nav
-         element, and the later `.day-nav-strip { overflow: hidden }` here
-         silently re-applied clipping — at 390px the 7 chips overflowed past
-         one row with no scrollbar and no way to reach the far tabs. Restore a
-         horizontal scroll strip and add an edge fade hint + arrow buttons. */
-      .day-nav-wrap { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
-      .day-nav-arrow {
-        display: flex; flex: 0 0 auto; align-items: center; justify-content: center;
-        width: 32px; height: 32px; border-radius: 50%;
-        border: 1px solid #0284c7; background: #1e293b; color: #38bdf8;
-        font-size: 1.15rem; line-height: 1; cursor: pointer; padding: 0;
-      }
-      .day-nav-arrow:disabled { opacity: 0.3; cursor: default; }
-      .day-nav-strip {
-        display: flex;
-        flex: 1 1 auto;
-        min-width: 0;
-        border: 0;
-        border-radius: 0;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 18px), transparent 100%);
-        mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 18px), transparent 100%);
-      }
-      .day-nav-strip .day-btn { border: 1px solid #0284c7; border-radius: 6px; padding: 7px 10px; width: auto; flex: 0 0 auto; white-space: nowrap; }
-      .day-nav-bar .day-btn {
+      /* CL-UI-46: mobile date switch — the trigger spans the toolbar's
+         full-width row slot (same slot as the CL-UI-45 strip, ≥44px tap
+         target) and opens a bottom sheet from the bottom edge. */
+      .day-picker-wrap { margin-bottom: 7px; }
+      .day-picker-trigger {
         width: 100%;
-        min-width: 0;
-        border: 0;
-        border-right: 1px solid #0284c7;
-        border-radius: 0;
-        padding: 7px 6px;
-        white-space: nowrap;
-        text-align: center;
+        max-width: none;
+        min-height: 44px;
+        font-size: .84rem;
+        padding: 8px 12px;
       }
-      .day-nav-bar .day-btn:last-child { border-right: 0; }
-      /* CL-UI-45: the shared grid rule above sets width:100% — on the scroll
-         strip that would inflate every chip to one row-width (the 390px
-         symptom) and overflow each tab off-screen. Chips size to content. */
-      .day-nav-strip .day-btn { width: auto; min-width: 0; flex: 0 0 auto; white-space: nowrap; }
+      .day-picker-overlay { display: block; }
+      .day-picker-panel {
+        position: fixed;
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        min-width: 0;
+        max-width: none;
+        max-height: 70vh;
+        border-radius: 14px 14px 0 0;
+        border-bottom: 0;
+        border-color: #0284c7;
+        padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 0px));
+        transform: translateY(100%);
+        transition: transform 0.22s ease;
+      }
+      .day-picker-panel.open { transform: translateY(0); }
+      .day-option { min-height: 44px; padding: 9px 12px; font-size: .84rem; }
 
       .sub-nav-bar {
         flex-wrap: nowrap;
@@ -196,7 +254,7 @@
     .tag-btn[aria-pressed="true"] { background: #38bdf8; color: #0f172a; border-color: #38bdf8; font-weight: bold; }
     .tag-btn:focus { outline: 1px solid #475569; outline-offset: 1px; }
     .tag-btn.active:focus { outline-color: #38bdf8; }
-    .day-btn.active { background: #0284c7; color: #fff; font-weight: bold; }
+    .day-option.active { background: #0284c7; color: #fff; font-weight: bold; }
     .tag-count { margin-left: 4px; color: #94a3b8; font-size: .72em; font-weight: 600; }
     .tag-btn.active .tag-count, .tag-btn[aria-pressed="true"] .tag-count { color: #0f172a; }
     .advanced-filter { margin: 2px 0 10px; }
@@ -830,7 +888,7 @@
   gap: 14px;
   margin-top: 8px;
 }
-.filter-toolbar-secondary .day-nav-bar {
+.filter-toolbar-secondary .day-picker-wrap {
   flex: 0 0 auto;
   margin: 0;
 }
@@ -983,7 +1041,7 @@
     display: block;
     margin-top: 0;
   }
-  .filter-toolbar-secondary .day-nav-bar {
+  .filter-toolbar-secondary .day-picker-wrap {
     margin-bottom: 7px;
   }
   .filter-toolbar-secondary .discovery-row {

@@ -54,33 +54,29 @@ test('CL-DATA-06 B3: far-day subject/header keys are wired',()=>{
 // Part C: syncDayButtons — seven tabs, data-day matching, far-tab date labels
 // plus the confidence note in title/aria (day 4 onward).
 // --------------------------------------------------------------------------
-test('CL-DATA-06 C1: the strip labels far tabs with MM/DD and a confidence note',()=>{
-  const sync=grab('function syncDayButtons','function switchDay');
-  assert.ok(sync.includes("b.classList.toggle('active',b.dataset.day===currentDayFilter)"));
-  assert.ok(sync.includes("off>=4?d().day_conf_note:''"));
-  assert.ok(sync.includes("shortDateStamp(localDateString(null,off))"));
-  assert.ok(sync.includes("b.setAttribute('aria-label'"));
+test('CL-DATA-06 C1: the picker labels far days with MM/DD and a confidence note',()=>{
+  const sync=grab('function dayPickerOption','function renderDayPicker');
+  assert.ok(sync.includes("shortDateStamp(localDateString(null,i))"));
+  assert.ok(sync.includes("i>=4?d().day_conf_note:''"));
 });
 
 // --------------------------------------------------------------------------
 // Part D: homepage markup — seven buttons with data-day keys in a
 // scrollable strip container.
 // --------------------------------------------------------------------------
-test('CL-DATA-06 D1: index.html carries seven day buttons on the strip',()=>{
-  const navStart=htmlSource.indexOf('id="day-nav"');
-  const navEnd=htmlSource.indexOf('</div>',navStart);
-  const nav=htmlSource.slice(navStart,navEnd);
-  assert.equal((nav.match(/data-day="/g)||[]).length,7);
+test('CL-DATA-06 D1: the picker offers all seven day keys (CL-UI-46 rendering)',()=>{
+  const render=grab('function renderDayPicker','function syncDayButtons');
   for(const k of ['today','tomorrow','after_tomorrow','day3','day4','day5','day6']){
-    assert.ok(nav.includes(`data-day="${k}"`),k);
+    assert.ok(render.includes(`data-day="${k}"`)||appSource.includes(`'${k}'`),k);
   }
-  assert.ok(htmlSource.includes('day-nav-strip'));
+  assert.ok(render.includes('DAY_KEYS.map'));
+  assert.ok(htmlSource.includes('id="day-picker-trigger"'));
+  assert.ok(htmlSource.includes('id="day-picker-panel"'));
 });
 
-test('CL-DATA-06 D2: the strip scrolls instead of wrapping (390px rule)',()=>{
-  assert.ok(cssSource.includes('.day-nav-strip { flex-wrap: nowrap; }'));
-  assert.ok(cssSource.includes('.day-nav-strip { overflow-x: auto;'));
-  assert.ok(cssSource.includes('.day-nav-strip .day-btn { flex: 0 0 auto;'));
+test('CL-DATA-06 D2: the strip is replaced by the picker (CL-UI-46)',()=>{
+  assert.ok(cssSource.includes('.day-picker-trigger'));
+  assert.ok(!cssSource.includes('.day-nav-strip'));
 });
 
 // --------------------------------------------------------------------------

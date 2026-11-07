@@ -102,14 +102,14 @@ const diag = await evaljs(`(() => ({
   groups: [...document.querySelectorAll('.deferred-group')].map(d=>d.className+' | '+d.querySelector('summary').textContent),
   bundlePlaces: (window.v2EvalBundle&&window.v2EvalBundle.places)?window.v2EvalBundle.places.length:('no-var:'+typeof v2EvalBundle),
   skipped: (window.v2EvalBundle&&window.v2EvalBundle.skipped)?window.v2EvalBundle.skipped.length:0,
-  dayBtns: [...document.querySelectorAll('.day-btn')].map(b=>b.dataset.day),
+  dayPicker: !!document.getElementById('day-picker-trigger'),
 }))()`);
 console.log('diag:', JSON.stringify(diag));
-const zh = await (async()=>{ const b=[...await evaljs(`[...document.querySelectorAll(".day-btn")]`)] ; return null;})();
-await evaljs(`(()=>{const b=[...document.querySelectorAll('.day-btn')].find(x=>x.dataset.day==='tomorrow');if(b)b.click();})()`);
+const zh = await (async()=>{ const b=[...await evaljs(`[...document.querySelectorAll(".day-option")]`)] ; return null;})();
+await evaljs(`(()=>{document.getElementById('day-picker-trigger').click();const b=[...document.querySelectorAll('.day-option')].find(x=>x.dataset.day==='tomorrow');if(b)b.click();})()`);
 await new Promise(r=>setTimeout(r,6000));
 const diag2 = await evaljs(`(() => ({
-  active: (document.querySelector('.day-btn.active')||{}).dataset ? document.querySelector('.day-btn.active').dataset.day : null,
+  active: (document.querySelector('#day-picker-trigger')||{}).dataset ? document.getElementById('day-picker-trigger').dataset.day : null,
   groups: [...document.querySelectorAll('.deferred-group')].map(d=>d.className+' | '+(d.querySelector('summary')?d.querySelector('summary').textContent:'?')),
 }))()`);
 console.log('diag2:', JSON.stringify(diag2));
