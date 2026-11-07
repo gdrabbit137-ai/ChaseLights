@@ -3,28 +3,27 @@
 - region: tw | slug: `tw-fushoushan-farm`
 - 座標：24.23, 121.318（海拔 2600 m）
 - 擬設 subjects：mountain, cloud_sea, starlight
-- 差異化（機械計算）：最近既有景點 福壽山農場觀景點，距離 0.0 km
-- **rubric 加權總分：3.55 / 5**
+- 差異化剔除檢查（機械）：最近既有景點 福壽山農場觀景點，距離 0.0 km
+- **rubric v3 景色優美單維度：2.0 / 5（納入線 ≥ 3.8）**
+- 合成式：視覺2.38＋認證校正-0.38＋社群0｜認證：tier 2（福壽山農場＝官方農場（非景觀級認證，大農大富同例））｜社群：0（無社群信號資料）
 
-## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
+## 照片 provenance（v3 視覺評分依據）
 
-| 項目 | 分數 |
-|---|---|
-| subject_strength | 4 |
-| weather_light_dependency | 5 |
-| verifiability | 4 |
-| differentiation | 1 |
-| scenic_beauty | 3 |
-
-> v1（CL-DATA-23 含 safe_access）加權總分對照：3.55 / 5
-> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
+| 標籤 | 代表照片 | 來源 | 子分(色彩/構圖/光影/獨特性) | 有效 |
+|---|---|---|---|---|
+| A | File:Fushoushan Farm 福壽山農場 - panoramio.jpg | commons-search | [5, 5, 4, 5] | ✓ |
+| B | File:Remote view of the Fushoushan Farm with Xueshan Range in the background.jpg | commons-search | [7, 6, 5, 7] | ✓ |
+| C | File:福壽山農場露營區 Fushoushan Farm campground (01).jpg | commons-search | [5, 5, 4, 5] | ✓ |
+| D | File:福壽山農場露營區 Fushoushan Farm campground (02).jpg | commons-search | [5, 5, 4, 5] | ✓ |
+| E | File:福壽山農場露營區 Fushoushan Farm campground (03).jpg | commons-search | [5, 5, 4, 5] | ✓ |
+| F | File:福壽山農場露營區 Fushoushan Farm campground (04).jpg | commons-search | [6, 6, 5, 6] | ✓ |
 
 ## Web 證據
 
 - [https://www.fushoushan.com.tw/Outer/FarmOverview](https://www.fushoushan.com.tw/Outer/FarmOverview) — 農場官方網站（海拔／位置）
 - [https://iii.tw/fss](https://iii.tw/fss) — 農場官方即時影像（可證雲海可視性）
 
-## scenic_beauty 證據（v2 機械化分級依據）
+## v2 機械化證據（已退役，僅歷史參考）
 
 - s1=0；s2=0；s3=1：農場官方＋旅遊媒體清單（≥2）→ 2+1=3
 

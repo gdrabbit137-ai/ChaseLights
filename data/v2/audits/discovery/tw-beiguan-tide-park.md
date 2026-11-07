@@ -3,28 +3,15 @@
 - region: tw | slug: `tw-beiguan-tide-park`
 - 座標：24.793, 121.875（海拔 15 m）
 - 擬設 subjects：coast, mountain
-- 差異化（機械計算）：最近既有景點 北關海潮公園，距離 0.0 km
-- **rubric 加權總分：3.15 / 5**
-
-## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
-
-| 項目 | 分數 |
-|---|---|
-| subject_strength | 4 |
-| weather_light_dependency | 3 |
-| verifiability | 4 |
-| differentiation | 1 |
-| scenic_beauty | 3 |
-
-> v1（CL-DATA-23 含 safe_access）加權總分對照：3.55 / 5
-> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
+- 差異化剔除檢查（機械）：最近既有景點 北關海潮公園，距離 0.0 km
+- **rubric v3 景色優美單維度：unscored（須補評） / 5（納入線 ≥ 3.8）**
 
 ## Web 證據
 
 - [https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=274](https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=274) — 東北角風管處官方頁
 - [https://jatraveling.tw/blog/post/35028](https://jatraveling.tw/blog/post/35028) — IG拍攝角度攻略：一線天眺望龜山島
 
-## scenic_beauty 證據（v2 機械化分級依據）
+## v2 機械化證據（已退役，僅歷史參考）
 
 - s1=0；s2=0（東北角管理處場域頁非景觀分類）；s3=1：管理處介紹＋旅遊部落格攻略（≥2）→ 2+1=3
 

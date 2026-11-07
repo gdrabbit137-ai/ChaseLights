@@ -3,21 +3,20 @@
 - region: tw | slug: `tw-cuifeng-lake`
 - 座標：24.5146, 121.6069（海拔 1840 m）
 - 擬設 subjects：lake, forest, cloud_sea
-- 差異化（機械計算）：最近既有景點 翠峰湖環山步道觀景點，距離 0.0 km
-- **rubric 加權總分：3.8 / 5**
+- 差異化剔除檢查（機械）：最近既有景點 翠峰湖環山步道觀景點，距離 0.0 km
+- **rubric v3 景色優美單維度：3.62 / 5（納入線 ≥ 3.8）**
+- 合成式：視覺2.62＋認證校正1＋社群0｜認證：tier 4（太平山國家森林遊樂區（翠峰湖環山步道））｜社群：0（無標章、瀏覽量普通或資料不完整（不負向校正））
 
-## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
+## 照片 provenance（v3 視覺評分依據）
 
-| 項目 | 分數 |
-|---|---|
-| subject_strength | 5 |
-| weather_light_dependency | 4 |
-| verifiability | 5 |
-| differentiation | 1 |
-| scenic_beauty | 3 |
-
-> v1（CL-DATA-23 含 safe_access）加權總分對照：4.0 / 5
-> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
+| 標籤 | 代表照片 | 來源 | 子分(色彩/構圖/光影/獨特性) | 有效 |
+|---|---|---|---|---|
+| A | File:2019 Cueifong Lake Circle Trail b.jpg | commons-search | [5, 5, 5, 6] | ✓ |
+| B | File:2019 Cueifong Lake Circle Trail c.jpg | commons-search | [4, 4, 3, 5] | ✓ |
+| C | File:2019 Cueifong Lake Circle Trail f.jpg | commons-search | [5, 5, 4, 6] | ✓ |
+| D | File:2019 Cueifong Lake Circle Trail e.jpg | commons-search | [5, 5, 5, 6] | ✓ |
+| E | File:2019 Cueifong Lake Circle Trail Qingfeng Explanation Station b.jpg | commons-search | [5, 5, 5, 6] | ✓ |
+| F | File:2019 Cueifong Lake Circle Trail i.jpg | commons-search | — | ✗ |
 
 ## Web 證據
 
@@ -25,7 +24,7 @@
 - [https://travel.yilan.gov.tw/zh-tw/attraction/381/](https://travel.yilan.gov.tw/zh-tw/attraction/381/) — 宜蘭縣政府官方旅遊網
 - [https://www.tps.ilantravel.tw/lake.php](https://www.tps.ilantravel.tw/lake.php) — 太平山森林遊樂區旅遊網：全省最大高山湖泊 海拔1,840m
 
-## scenic_beauty 證據（v2 機械化分級依據）
+## v2 機械化證據（已退役，僅歷史參考）
 
 - s1=0；s2 官方分類=0（宜蘭縣旅遊網/林管處頁為場域介紹，非景觀分類）；s3=1：宜蘭縣政府旅遊網＋太平山管理處＋媒體旅遊清單（≥2 獨立清單）→ 2+1=3
 

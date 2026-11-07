@@ -3,28 +3,15 @@
 - region: tw | slug: `tw-wangyou-forest`
 - 座標：23.6513, 120.794（海拔 1770 m）
 - 擬設 subjects：forest, starlight
-- 差異化（機械計算）：最近既有景點 杉林溪，距離 2.2 km
-- **rubric 加權總分：3.55 / 5**
-
-## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
-
-| 項目 | 分數 |
-|---|---|
-| subject_strength | 4 |
-| weather_light_dependency | 4 |
-| verifiability | 5 |
-| differentiation | 1 |
-| scenic_beauty | 3 |
-
-> v1（CL-DATA-23 含 safe_access）加權總分對照：3.55 / 5
-> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
+- 差異化剔除檢查（機械）：最近既有景點 杉林溪，距離 2.2 km
+- **rubric v3 景色優美單維度：unscored（須補評） / 5（納入線 ≥ 3.8）**
 
 ## Web 證據
 
 - [https://www.taiwan66.com.tw/panoramas/detail/659](https://www.taiwan66.com.tw/panoramas/detail/659) — 臺灣蹓蹓：座標 23.651305,120.794012
 - [https://drphototw.blogspot.com/2016/04/blog-post_20.html](https://drphototw.blogspot.com/2016/04/blog-post_20.html) — 水漾森林／杉林溪一帶夜間星空拍攝記錄
 
-## scenic_beauty 證據（v2 機械化分級依據）
+## v2 機械化證據（已退役，僅歷史參考）
 
 - s1=0；s2=0；s3=1：溪頭/杉林溪周邊旅遊清單與媒體介紹（≥2）→ 2+1=3（本候選已因 5km 差異化剔除，僅供對照）
 

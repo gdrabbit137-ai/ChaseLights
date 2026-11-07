@@ -3,28 +3,27 @@
 - region: tw | slug: `tw-guanwu-zhenshan`
 - 座標：24.507, 121.087（海拔 2100 m）
 - 擬設 subjects：mountain, cloud_sea, forest
-- 差異化（機械計算）：最近既有景點 觀霧榛山步道觀景點，距離 2.7 km
-- **rubric 加權總分：3.6 / 5**
+- 差異化剔除檢查（機械）：最近既有景點 觀霧榛山步道觀景點，距離 2.7 km
+- **rubric v3 景色優美單維度：3.0 / 5（納入線 ≥ 3.8）**
+- 合成式：視覺2.0＋認證校正1＋社群0｜認證：tier 4（雪霸國家公園觀霧遊憩區（榛山步道））｜社群：0（無標章、瀏覽量普通或資料不完整（不負向校正））
 
-## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
+## 照片 provenance（v3 視覺評分依據）
 
-| 項目 | 分數 |
-|---|---|
-| subject_strength | 5 |
-| weather_light_dependency | 5 |
-| verifiability | 3 |
-| differentiation | 1 |
-| scenic_beauty | 3 |
-
-> v1（CL-DATA-23 含 safe_access）加權總分對照：3.8 / 5
-> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
+| 標籤 | 代表照片 | 來源 | 子分(色彩/構圖/光影/獨特性) | 有效 |
+|---|---|---|---|---|
+| A | File:變雅堂遺集(七).djvu | commons-search | — | ✗ |
+| B | File:觀霧 Guanwu - panoramio.jpg | commons-search | — | ✗ |
+| C | File:Guanwu 觀霧 - panoramio.jpg | commons-search | [4, 4, 3, 5] | ✓ |
+| D | File:Guanwu 觀霧 - panoramio (1).jpg | commons-search | [5, 5, 5, 6] | ✓ |
+| E | File:觀霧 Guanwu - panoramio (1).jpg | commons-search | [4, 4, 3, 5] | ✓ |
+| F | File:Guanwu 觀霧 - panoramio (3).jpg | commons-search | [4, 4, 3, 5] | ✓ |
 
 ## Web 證據
 
 - [https://hiking.biji.co/index.php?act=info&q=review&review_id=28950](https://hiking.biji.co/index.php?act=info&q=review&review_id=28950) — 健行筆記：「雲海的故鄉，觀霧榛山步道」
 - [https://recreation.forest.gov.tw/Forest/RA?typ_id=0200004](https://recreation.forest.gov.tw/Forest/RA?typ_id=0200004) — 台灣山林悠遊網官方：聖稜線英姿、霧林帶
 
-## scenic_beauty 證據（v2 機械化分級依據）
+## v2 機械化證據（已退役，僅歷史參考）
 
 - s1=0；s2=0（雪霸園區步道頁非景觀分類）；s3=1：健行筆記攻略＋林務局遊樂區頁（≥2）→ 2+1=3
 

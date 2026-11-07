@@ -3,21 +3,20 @@
 - region: tw | slug: `tw-tatajia-couple-trees`
 - 座標：23.478, 120.886（海拔 2610 m）
 - 擬設 subjects：mountain, starlight, cloud_sea
-- 差異化（機械計算）：最近既有景點 塔塔加夫妻樹／鹿林山觀景點，距離 1.2 km
-- **rubric 加權總分：3.6 / 5**
+- 差異化剔除檢查（機械）：最近既有景點 塔塔加夫妻樹／鹿林山觀景點，距離 1.2 km
+- **rubric v3 景色優美單維度：4.0 / 5（納入線 ≥ 3.8）**
+- 合成式：視覺3.25＋認證校正0.75＋社群0｜認證：tier 4（玉山國家公園塔塔加遊憩區（夫妻樹/鹿林山））｜社群：0（無標章、瀏覽量普通或資料不完整（不負向校正））
 
-## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
+## 照片 provenance（v3 視覺評分依據）
 
-| 項目 | 分數 |
-|---|---|
-| subject_strength | 5 |
-| weather_light_dependency | 5 |
-| verifiability | 3 |
-| differentiation | 1 |
-| scenic_beauty | 3 |
-
-> v1（CL-DATA-23 含 safe_access）加權總分對照：3.6 / 5
-> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
+| 標籤 | 代表照片 | 來源 | 子分(色彩/構圖/光影/獨特性) | 有效 |
+|---|---|---|---|---|
+| A | File:Couple Tree in Yushan National Park.jpg | commons-search | [7, 6, 6, 7] | ✓ |
+| B | File:Couple Tree near Tataka.jpg | commons-search | [7, 6, 6, 7] | ✓ |
+| C | File:塔塔加夫妻神木 - Tataka Couple Trees - 2012.02 - panoramio.jpg | commons-search | [7, 6, 6, 7] | ✓ |
+| D | File:夫妻樹 Couple Trees - panoramio.jpg | commons-search | [6, 6, 5, 6] | ✓ |
+| E | File:The Husband of Couple Trees 老公樹 - panoramio.jpg | commons-search | [6, 6, 5, 6] | ✓ |
+| F | File:鹤岡鰜鲽老樹 Hegang Old Couple Trees - panoramio.jpg | commons-search | — | ✗ |
 
 ## Web 證據
 
@@ -25,7 +24,7 @@
 - [https://vanishworld.pixnet.net/blog/posts/3034486945](https://vanishworld.pixnet.net/blog/posts/3034486945) — 夫妻樹星軌拍攝
 - [https://www.eprice.com.tw/mobile/talk/4543/5716064/1/m/5719017/](https://www.eprice.com.tw/mobile/talk/4543/5716064/1/m/5719017/) — 夫妻樹拍攝實記（前景構圖證據）
 
-## scenic_beauty 證據（v2 機械化分級依據）
+## v2 機械化證據（已退役，僅歷史參考）
 
 - s1=0；s2=0；s3=1：UDN 旅記＋pixnet 攝影記錄＋媒體討論串（≥2 獨立清單/記錄文）→ 2+1=3
 
