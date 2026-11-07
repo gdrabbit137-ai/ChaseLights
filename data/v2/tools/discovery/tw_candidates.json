@@ -1,0 +1,677 @@
+{
+  "schema_version": 1,
+  "region": "tw",
+  "rubric_weights": {
+    "subject_strength": 0.3,
+    "weather_dependency": 0.25,
+    "data_availability": 0.15,
+    "differentiation": 0.15,
+    "accessibility_safety": 0.15
+  },
+  "candidates": [
+    {
+      "slug": "dashan-43k-cloudsea",
+      "name_zh": "大雪山森林遊樂區43K觀景台",
+      "name_en": "Daxueshan 43K Cloud-sea Viewpoint",
+      "lat": 24.1833,
+      "lon": 121.0167,
+      "elev_m": 2450,
+      "tags": [
+        "mountain",
+        "cloud_sea",
+        "forest"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.forest.gov.tw/news/0070337",
+          "note": "林業署官方：大雪山壯闊雲海、絢爛晚霞"
+        },
+        {
+          "url": "https://recreation.forest.gov.tw/Forest/RA?typ_id=0300003",
+          "note": "台灣山林悠遊網官方園區頁"
+        },
+        {
+          "url": "https://photoexp.com.tw/topics/4548/glazelight/",
+          "note": "PHOTOEXP 全台雲海琉璃光攝影攻略地圖41處"
+        }
+      ],
+      "subject_draft": "cloud_sea / 晚霞琉璃光（夜間人造光弱，主題以雲海為主）",
+      "condition_draft": "LCL = DEM(2450m) − 200m；雲量/低雲高、夜間晴朗輻射冷卻；季節秋末至春",
+      "notes": "林道直達停車場短步道，安全可達性高；園區開放時間需納入窗口判定",
+      "scores": {
+        "subject_strength": 5,
+        "weather_dependency": 5,
+        "data_availability": 4,
+        "accessibility_safety": 5
+      },
+      "name_ja": "大雪山43K展望台",
+      "access_note": "林道直達觀景台停車場，短步道；園區開放時間內",
+      "safety_note": "官方園區設施完整，夜間低溫留意",
+      "differentiation_note": "現有 tw 雲海景點集中西部（雲洞山/二延平/阿里山），中海拔雪山山脈東側雲海互補",
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3,
+          4
+        ],
+        "note": "雲海/輻射霧季約10月–隔年4月；園區夜間封閉需入園規則確認"
+      }
+    },
+    {
+      "slug": "cuifeng-lake",
+      "name_zh": "翠峰湖環山步道觀景點",
+      "name_en": "Cuifeng Lake Viewpoints",
+      "lat": 24.5146,
+      "lon": 121.6069,
+      "elev_m": 1840,
+      "tags": [
+        "lake",
+        "forest",
+        "cloud_sea"
+      ],
+      "source_refs": [
+        {
+          "url": "https://zh.wikipedia.org/zh-tw/%E7%BF%A0%E5%B3%B0%E6%B9%96",
+          "note": "維基百科座標 24.514583,121.606889、海拔1840m"
+        },
+        {
+          "url": "https://travel.yilan.gov.tw/zh-tw/attraction/381/",
+          "note": "宜蘭縣政府官方旅遊網"
+        },
+        {
+          "url": "https://www.tps.ilantravel.tw/lake.php",
+          "note": "太平山森林遊樂區旅遊網：全省最大高山湖泊 海拔1,840m"
+        }
+      ],
+      "subject_draft": "mountain_view / reflection（晨霧湖面）+ cloud_sea 潛力",
+      "condition_draft": "晨間低溫高濕→湖面霧；靜風；sun elevation > −6° 光窗；太平山開放時段",
+      "notes": "座標/海拔雙源查證；官方園區，步道棧道安全",
+      "scores": {
+        "subject_strength": 5,
+        "weather_dependency": 4,
+        "data_availability": 5,
+        "accessibility_safety": 4
+      },
+      "name_ja": "翠峰湖",
+      "access_note": "環山步道約2.6km棧道；園區接駁",
+      "safety_note": "棧道安全；園區時段內活動",
+      "differentiation_note": "高山湖泊晨霧題材，與既有湖泊（嘉明湖高山/松蘿湖）不同——太平山近山型湖泊",
+      "seasonal_window": {
+        "months": [
+          9,
+          10,
+          11,
+          3,
+          4
+        ],
+        "note": "晨霧湖面秋冬最盛；太平山開放時段（平日/假日不同）"
+      }
+    },
+    {
+      "slug": "weishui-hill",
+      "name_zh": "渭水之丘／櫻花陵園",
+      "name_en": "Weishui Hill, Jiaoxi",
+      "lat": 24.636,
+      "lon": 121.64,
+      "elev_m": 800,
+      "tags": [
+        "mountain",
+        "cloud_sea",
+        "city"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.liviatravel.com/2018/04/cherryorchardcemetery.html",
+          "note": "懸空俯瞰蘭陽平原拍攝點記錄"
+        },
+        {
+          "url": "https://www.ta-mag.net/ta/News.php?id=1408",
+          "note": "台灣建築報導雜誌（田中央作品，地點存在性權威）"
+        },
+        {
+          "url": "https://travel.ettoday.net/article/880376.htm",
+          "note": "禁攀爬規定（安全欄位依據）"
+        }
+      ],
+      "subject_draft": "cloud_sea（蘭陽平原晨霧琉璃光）+ city_night",
+      "condition_draft": "輻射霧：夜間晴朗無風高濕；平原低霧至山緣；sun elevation > −6°",
+      "notes": "座標為近似值（未找到權威座標頁），入選後需 Maps 定位驗證；禁攀爬石台需寫入安全提示",
+      "scores": {
+        "subject_strength": 4,
+        "weather_dependency": 5,
+        "data_availability": 3,
+        "accessibility_safety": 4
+      },
+      "name_ja": "渭水の丘",
+      "access_note": "車達步道約5分鐘；禁止攀爬懸空石台（ETtoday報導）",
+      "safety_note": "懸空石台禁爬（官方規定）；晨霧時路面滑",
+      "differentiation_note": "蘭陽平原琉璃光拍點，現有 catalog 宜蘭無此題材",
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "蘭陽平原輻射霧季秋末至春"
+      }
+    },
+    {
+      "slug": "smangus",
+      "name_zh": "司馬庫斯部落觀景點",
+      "name_en": "Smangus, Jianshi",
+      "lat": 24.5976,
+      "lon": 121.3246,
+      "elev_m": 1600,
+      "tags": [
+        "mountain",
+        "forest",
+        "cloud_sea",
+        "starlight"
+      ],
+      "source_refs": [
+        {
+          "url": "https://digiphoto.techbang.com/posts/531-division-forward-marcus-below",
+          "note": "DIGIPHOTO 攝影專題：前進高山聚落司馬庫斯"
+        },
+        {
+          "url": "https://mpgt365.pixnet.net/blog/posts/12039918642",
+          "note": "攝影旅遊記錄：司馬庫斯雲海群山"
+        }
+      ],
+      "subject_draft": "cloud_sea（山谷雲瀑）+ starlight（暗空）",
+      "condition_draft": "LCL = DEM(1600m) − 200m；夜間天文暗度；山路夜行安全為不利條件",
+      "notes": "座標近似；最後20km產業道路，夜間車行安全分數降低",
+      "scores": {
+        "subject_strength": 5,
+        "weather_dependency": 5,
+        "data_availability": 3,
+        "accessibility_safety": 2
+      },
+      "name_ja": "スマングス部落",
+      "access_note": "最後20km產業道路陡峭，夜行風險高",
+      "safety_note": "夜行山路：不建議單獨夜間往返",
+      "differentiation_note": "深山部落雲海+暗空，北部無對應",
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "雲海季秋末至春；最後20km產業道路夜行限制"
+      }
+    },
+    {
+      "slug": "jialulan-coast",
+      "name_zh": "加路蘭海岸遊憩區",
+      "name_en": "Jialulan Recreation Area",
+      "lat": 22.7864,
+      "lon": 121.1839,
+      "elev_m": 30,
+      "tags": [
+        "coast",
+        "starlight"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.eastcoast-nsa.gov.tw/zh-tw/Attractions/Detail/28",
+          "note": "東部海岸國家風景區官方頁"
+        },
+        {
+          "url": "https://www.eastcoast-nsa.gov.tw/zh-tw/travel/sunrise/",
+          "note": "官方日出月升盤點TOP5"
+        }
+      ],
+      "subject_draft": "sunrise（海平面日出）+ starlight（東海岸暗空）",
+      "condition_draft": "日出光窗（sun elevation −6°→+6°）；海面雲量；天文暗度門檻",
+      "notes": "官方園區免費開放24h；座標來自官方POI，可信度高",
+      "scores": {
+        "subject_strength": 3,
+        "weather_dependency": 4,
+        "data_availability": 5,
+        "accessibility_safety": 5
+      },
+      "name_ja": "加路蘭遊憩区",
+      "access_note": "台11線旁免費園區24h開放",
+      "safety_note": "海岸平台安全；冬季東北風強",
+      "differentiation_note": "東海岸海平面日出+暗空，與三仙台/七星潭互補（南段缺）",
+      "seasonal_window": {
+        "months": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "note": "銀河核心夏季朝南；日出全年但海面雲量冬季多"
+      }
+    },
+    {
+      "slug": "tatajia-couple-trees",
+      "name_zh": "塔塔加夫妻樹／鹿林山觀景點",
+      "name_en": "Tataka Couple Trees & Lulinshan",
+      "lat": 23.478,
+      "lon": 120.886,
+      "elev_m": 2610,
+      "tags": [
+        "mountain",
+        "starlight",
+        "cloud_sea"
+      ],
+      "source_refs": [
+        {
+          "url": "https://blog.udn.com/tj28wang/6248570",
+          "note": "塔塔加星空拍攝記錄"
+        },
+        {
+          "url": "https://vanishworld.pixnet.net/blog/posts/3034486945",
+          "note": "夫妻樹星軌拍攝"
+        },
+        {
+          "url": "https://www.eprice.com.tw/mobile/talk/4543/5716064/1/m/5719017/",
+          "note": "夫妻樹拍攝實記（前景構圖證據）"
+        }
+      ],
+      "subject_draft": "starlight/milky_way（夫妻樹前景）+ mountain_view（玉山群峰）",
+      "condition_draft": "天文暗度（Bortle ~2）；雲量；冬季夜間低溫安全欄位",
+      "notes": "台18線直達；高海拔夜間安全提示；座標近似（園區 POI 可再驗）",
+      "scores": {
+        "subject_strength": 5,
+        "weather_dependency": 5,
+        "data_availability": 3,
+        "accessibility_safety": 3
+      },
+      "name_ja": "塔塔加夫妻樹",
+      "access_note": "台18/台21線直達，高海拔夜間低溫與停車安全",
+      "safety_note": "高海拔夜間低溫；野生動物（水鹿）出沒",
+      "differentiation_note": "玉山國家公園西側入口的銀河+山景，現有玉山主峰為登頂型題材",
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3,
+          4
+        ],
+        "note": "銀河全年可拍但冬季夜長；台18線夜間結霜"
+      }
+    },
+    {
+      "slug": "beiguan-tide-park",
+      "name_zh": "北關海潮公園",
+      "name_en": "Beiguan Tide Park",
+      "lat": 24.793,
+      "lon": 121.875,
+      "elev_m": 15,
+      "tags": [
+        "coast",
+        "mountain"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=274",
+          "note": "東北角風管處官方頁"
+        },
+        {
+          "url": "https://jatraveling.tw/blog/post/35028",
+          "note": "IG拍攝角度攻略：一線天眺望龜山島"
+        }
+      ],
+      "subject_draft": "geological_landform（單面山／一線天）+ sunrise（龜山島朝日）",
+      "condition_draft": "日出光窗；海面能見度（龜山島 ~10km 可見度判決）；湧浪安全條件",
+      "notes": "官方園區；座標近似（官方頁可再驗）；漲潮封閉警示",
+      "scores": {
+        "subject_strength": 4,
+        "weather_dependency": 3,
+        "data_availability": 4,
+        "accessibility_safety": 5
+      },
+      "name_ja": "北関海潮公園",
+      "access_note": "步道短，漲潮封閉警示；礁岩區注意湧浪",
+      "safety_note": "漲潮封閉、湧浪勿近礁緣",
+      "differentiation_note": "龜山島朝日地質公園，宜蘭頭城段缺口",
+      "seasonal_window": {
+        "months": [
+          6,
+          7,
+          8,
+          9
+        ],
+        "note": "龜山島朝日夏季日出方位最佳；漲潮時段部分步道封閉"
+      }
+    },
+    {
+      "slug": "fushoushan-farm",
+      "name_zh": "福壽山農場觀景點",
+      "name_en": "Fushoushan Farm",
+      "lat": 24.23,
+      "lon": 121.318,
+      "elev_m": 2600,
+      "tags": [
+        "mountain",
+        "cloud_sea",
+        "starlight"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.fushoushan.com.tw/Outer/FarmOverview",
+          "note": "農場官方網站（海拔／位置）"
+        },
+        {
+          "url": "https://iii.tw/fss",
+          "note": "農場官方即時影像（可證雲海可視性）"
+        }
+      ],
+      "subject_draft": "cloud_sea（梨山谷地雲海）+ starlight（高海拔暗空）",
+      "condition_draft": "LCL = DEM(2600m) − 200m；輻射冷卻夜間晴朗；農場夜間封閉→窗口需入園規則",
+      "notes": "座標近似（官方頁可再驗）；農場夜間管制是主題成立條件之一",
+      "scores": {
+        "subject_strength": 4,
+        "weather_dependency": 5,
+        "data_availability": 4,
+        "accessibility_safety": 3
+      },
+      "name_ja": "福寿山農場",
+      "access_note": "台7甲線直達；農場門票與夜間管制",
+      "safety_note": "夜間管制區域請勿逗留",
+      "differentiation_note": "中橫梨山谷地雲海，環山/思源埡口方向無對應",
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "梨山谷地雲海秋冬；農場夜間管制"
+      }
+    },
+    {
+      "slug": "qingtiangang",
+      "name_zh": "擎天崗草原",
+      "name_en": "Qingtiangang Grassland",
+      "lat": 25.1169,
+      "lon": 121.5549,
+      "elev_m": 800,
+      "tags": [
+        "mountain",
+        "starlight",
+        "cloud_sea"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.threads.com/@meta.ai/post/DdGbOwmgmpb/",
+          "note": "台北拍銀河最方便地點社群整理（弱源，需官源補強）"
+        },
+        {
+          "url": "https://www.yangmingshanshui.com/website/news/yangmingshan-travel-itinerary/enjoying-the-moon-and-night-scene-location",
+          "note": "陽明山無光害夜空地點整理"
+        }
+      ],
+      "subject_draft": "starlight（北方銀河拱橋）+ cloud_sea（低雲翻越山頭）",
+      "condition_draft": "天文暗度（光害中低於市區但非暗空，銀河窗口夏季）；逆溫層雲海",
+      "notes": "陽管處24h開放；光害使銀河題材評分打折——但「近郊銀河」仍是明確需求",
+      "scores": {
+        "subject_strength": 3,
+        "weather_dependency": 4,
+        "data_availability": 4,
+        "accessibility_safety": 5
+      },
+      "name_ja": "擎天崗草原",
+      "access_note": "陽明山園區24h開放，夜間無照明",
+      "safety_note": "夜間無照明、野牛群保持距離",
+      "differentiation_note": "大台北近郊銀河（光害打折）＋擎天崗雲海，與大屯山（5km外）題材錯位",
+      "seasonal_window": {
+        "months": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "note": "銀河核心季4–9月；冬季東北風強且多雲"
+      }
+    },
+    {
+      "slug": "dongju-lighthouse",
+      "name_zh": "東莒燈塔（東犬燈塔）",
+      "name_en": "Dongju (Dongquan) Lighthouse",
+      "lat": 25.9672,
+      "lon": 119.9856,
+      "elev_m": 64,
+      "tags": [
+        "coast",
+        "starlight"
+      ],
+      "source_refs": [
+        {
+          "url": "https://zh.wikipedia.org/zh-hant/%E6%9D%B1%E8%8E%92%E5%B3%B6%E7%87%88%E5%A1%94",
+          "note": "維基百科座標 25°58′02″N 119°59′08″E、國定古蹟"
+        },
+        {
+          "url": "https://matsucc.gov.tw/museum/%E6%9D%B1%E8%8E%92%E5%B3%B6%E7%87%88%E5%A1%94%E6%9D%B1%E7%8A%AC%E7%87%88%E5%A1%94/",
+          "note": "連江縣文化局官方頁"
+        },
+        {
+          "url": "https://smiletaiwan.cw.com.tw/article/8070",
+          "note": "馬祖藍眼淚報導"
+        }
+      ],
+      "subject_draft": "starlight（藍眼淚季節性光）+ coast（白色燈塔晨昏）",
+      "condition_draft": "藍眼淚為季節曆題材（4–8月）；夜間暗度；燈塔園區開放時間限制",
+      "notes": "座標權威（維基）；藍眼淚需诚实標示為季節性研究線索；交通（跳島）可達性低",
+      "scores": {
+        "subject_strength": 4,
+        "weather_dependency": 4,
+        "data_availability": 5,
+        "accessibility_safety": 2
+      },
+      "name_ja": "東莒島灯塔（東犬灯塔）",
+      "access_note": "需跳島交通（南竿/北竿轉莒光），可達性最低",
+      "safety_note": "跳島航班受風浪影響，留備案",
+      "differentiation_note": "離島燈塔+藍眼淚季節題材，馬祖僅東引/南竿",
+      "seasonal_window": {
+        "months": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "note": "藍眼淚季4–8月；燈塔園區開放時間限制"
+      }
+    },
+    {
+      "slug": "guanwu-zhenshan",
+      "name_zh": "觀霧榛山步道觀景點",
+      "name_en": "Guanwu Zhenshan Trail Viewpoint",
+      "lat": 24.507,
+      "lon": 121.087,
+      "elev_m": 2100,
+      "tags": [
+        "mountain",
+        "cloud_sea",
+        "forest"
+      ],
+      "source_refs": [
+        {
+          "url": "https://hiking.biji.co/index.php?act=info&q=review&review_id=28950",
+          "note": "健行筆記：「雲海的故鄉，觀霧榛山步道」"
+        },
+        {
+          "url": "https://recreation.forest.gov.tw/Forest/RA?typ_id=0200004",
+          "note": "台灣山林悠遊網官方：聖稜線英姿、霧林帶"
+        }
+      ],
+      "subject_draft": "cloud_sea（聖稜線雲海）+ mountain_view（大霸尖山群峰）",
+      "condition_draft": "LCL = DEM(2100m) − 200m；上午側光打聖稜線；秋末冬初雲海季",
+      "notes": "座標近似（榛山登山口）；雪霸園區步道，健行時間 ~2h，安全可達性中高",
+      "scores": {
+        "subject_strength": 5,
+        "weather_dependency": 5,
+        "data_availability": 3,
+        "accessibility_safety": 4
+      },
+      "name_ja": "観霧榛山步道",
+      "access_note": "榛山步道來回約2小時，雪霸園區步道",
+      "safety_note": "冬季結冰路段；園區內無照明",
+      "differentiation_note": "聖稜線雲海（大霸尖山為登頂型題材，無雲海拍點）",
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "雲海的故鄉——秋末至春雲海季；冬季步道結冰"
+      }
+    },
+    {
+      "slug": "haowanjiao",
+      "name_zh": "半天寮好望角",
+      "name_en": "Haowanjiao Cape, Houlong",
+      "lat": 24.603,
+      "lon": 120.745,
+      "elev_m": 98,
+      "tags": [
+        "coast",
+        "city"
+      ],
+      "source_refs": [
+        {
+          "url": "https://hiking.biji.co/index.php?q=review&act=info&review_id=34746",
+          "note": "健行筆記：崎頂山（半天寮山）標高98m、好望角位置"
+        },
+        {
+          "url": "https://www.cw.com.tw/article/5122510",
+          "note": "天下雜誌：在地攝影玩家6個苗栗絕美秘境"
+        },
+        {
+          "url": "https://miaolitravel.net/Article.aspx?lang=1&sNo=04007314",
+          "note": "苗栗縣官方觀光網：海線夕陽"
+        }
+      ],
+      "subject_draft": "sunset（台灣海峽日落）+ coast（風車／鐵道海線）",
+      "condition_draft": "夕照光窗（sun elevation −6°→+4°）；海面雲量；能見度（對岸海平線）",
+      "notes": "座標近似（半天寮山頂）；低海拔易達，步道短",
+      "scores": {
+        "subject_strength": 3,
+        "weather_dependency": 3,
+        "data_availability": 4,
+        "accessibility_safety": 5
+      },
+      "name_ja": "半天寮好望角",
+      "access_note": "公路直達短步道，低海拔易達",
+      "safety_note": "好望角步道短且安全；風車區注意強風",
+      "differentiation_note": "苗栗海線日落缺口（高美以北無海線拍點）",
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2
+        ],
+        "note": "海峽夕照全年，秋冬大氣通透度最佳"
+      }
+    },
+    {
+      "slug": "wangyou-forest",
+      "name_zh": "忘憂森林",
+      "name_en": "Wangyou Forest, Zhushan",
+      "lat": 23.6513,
+      "lon": 120.794,
+      "elev_m": 1770,
+      "tags": [
+        "forest",
+        "starlight"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.taiwan66.com.tw/panoramas/detail/659",
+          "note": "臺灣蹓蹓：座標 23.651305,120.794012"
+        },
+        {
+          "url": "https://drphototw.blogspot.com/2016/04/blog-post_20.html",
+          "note": "水漾森林／杉林溪一帶夜間星空拍攝記錄"
+        }
+      ],
+      "subject_draft": "reflection（枯木水塘倒影）+ 霧景（研究線索）",
+      "condition_draft": "靜風晨霧；倒影需無風；光窗 civil light",
+      "notes": "預期被差異化剔除（杉林溪 tw-053 ~2km 內），保留為管線剔除機制的示範案例",
+      "scores": {
+        "subject_strength": 4,
+        "weather_dependency": 4,
+        "data_availability": 5,
+        "accessibility_safety": 3
+      },
+      "name_ja": "忘憂森林",
+      "access_note": "陡坡產業道路，步行入林",
+      "safety_note": "陡坡土路濕滑",
+      "differentiation_note": "（預期剔除）與杉林溪 2km 內重疊"
+    },
+    {
+      "slug": "qingjing-farm",
+      "name_zh": "清境農場霧上觀景帶",
+      "name_en": "Qingjing Farm Mist Ridge",
+      "lat": 24.053,
+      "lon": 121.159,
+      "elev_m": 1750,
+      "tags": [
+        "mountain",
+        "cloud_sea"
+      ],
+      "source_refs": [
+        {
+          "url": "https://www.luckvilla.com.tw/news-detail/Landscape-Cafe/",
+          "note": "清境景觀咖啡廳雲海山景（民間源）"
+        },
+        {
+          "url": "https://weichusmile.pixnet.net/blog/posts/16030812275",
+          "note": "奇萊南華金色奇萊（鄰近山域證據）"
+        }
+      ],
+      "subject_draft": "cloud_sea（奇萊連峰晨霧）+ mountain_view",
+      "condition_draft": "LCL = DEM(1750m) − 200m；晨間輻射霧；sun elevation > −6°",
+      "notes": "座標近似；民宿帶觀景點多、無單一標誌性主體→題材強度打折",
+      "scores": {
+        "subject_strength": 2,
+        "weather_dependency": 5,
+        "data_availability": 3,
+        "accessibility_safety": 4
+      },
+      "name_ja": "清境農場",
+      "access_note": "台14甲線，民宿帶觀景點分散",
+      "safety_note": "一般道路，無特殊風險",
+      "differentiation_note": "清境帶題材分散無標誌性主體",
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "奇萊連峰晨霧秋冬季"
+      }
+    }
+  ]
+}

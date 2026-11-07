@@ -1,0 +1,632 @@
+{
+  "schema_version": "cl-data-23-discovery-1",
+  "ticket": "CL-DATA-23",
+  "region": "tw",
+  "region_scope": "台灣本島＋離島",
+  "generated_at": "2026-11-07",
+  "generated_by": "chaselights_rd (AI discovery round, owner arbiter on catalog membership)",
+  "rubric": {
+    "dimensions": [
+      {
+        "key": "subject_strength",
+        "weight": 25,
+        "description": "題材本身的攝影知名度與畫面張力（全國級=5，地方級=3）"
+      },
+      {
+        "key": "weather_light_dependency",
+        "weight": 20,
+        "description": "成片品質對特定天氣/光影條件的依賴程度（幾乎全天可拍=1，雲海/銀河/季節=5）"
+      },
+      {
+        "key": "verifiability",
+        "weight": 20,
+        "description": "官方/權威來源對座標、季節窗、交通與閉鎖資訊的可查證程度"
+      },
+      {
+        "key": "differentiation",
+        "weight": 15,
+        "description": "與既有 catalog 地理 5km＋題材重複之差異化（機械計算）"
+      },
+      {
+        "key": "safe_access",
+        "weight": 20,
+        "description": "夜間/季節可達性與安全風險"
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "id": "tw-dashan-43k-cloudsea",
+      "name_i18n": {
+        "zh-TW": "大雪山森林遊樂區43K觀景台",
+        "en": "Daxueshan 43K Cloud-sea Viewpoint",
+        "ja": "大雪山43K展望台"
+      },
+      "prefecture": "Daxueshan 43K Cloud-sea Viewpoint",
+      "subjects": [
+        "mountain",
+        "cloud_sea",
+        "forest"
+      ],
+      "rubric": {
+        "subject_strength": 5,
+        "weather_light_dependency": 5,
+        "verifiability": 4,
+        "safe_access": 5,
+        "differentiation": 4
+      },
+      "weighted_total": 4.65,
+      "sources": [
+        "https://www.forest.gov.tw/news/0070337",
+        "https://recreation.forest.gov.tw/Forest/RA?typ_id=0300003",
+        "https://photoexp.com.tw/topics/4548/glazelight/"
+      ],
+      "coords_approx": {
+        "lat": 24.1833,
+        "lon": 121.0167
+      },
+      "elev_m": 2450,
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3,
+          4
+        ],
+        "note": "雲海/輻射霧季約10月–隔年4月；園區夜間封閉需入園規則確認"
+      },
+      "access_note": "林道直達觀景台停車場，短步道；園區開放時間內",
+      "safety_note": "官方園區設施完整，夜間低溫留意",
+      "differentiation_note": "現有 tw 雲海景點集中西部（雲洞山/二延平/阿里山），中海拔雪山山脈東側雲海互補"
+    },
+    {
+      "id": "tw-cuifeng-lake",
+      "name_i18n": {
+        "zh-TW": "翠峰湖環山步道觀景點",
+        "en": "Cuifeng Lake Viewpoints",
+        "ja": "翠峰湖"
+      },
+      "prefecture": "Cuifeng Lake Viewpoints",
+      "subjects": [
+        "lake",
+        "forest",
+        "cloud_sea"
+      ],
+      "rubric": {
+        "subject_strength": 5,
+        "weather_light_dependency": 4,
+        "verifiability": 5,
+        "safe_access": 4,
+        "differentiation": 4
+      },
+      "weighted_total": 4.45,
+      "sources": [
+        "https://zh.wikipedia.org/zh-tw/%E7%BF%A0%E5%B3%B0%E6%B9%96",
+        "https://travel.yilan.gov.tw/zh-tw/attraction/381/",
+        "https://www.tps.ilantravel.tw/lake.php"
+      ],
+      "coords_approx": {
+        "lat": 24.5146,
+        "lon": 121.6069
+      },
+      "elev_m": 1840,
+      "seasonal_window": {
+        "months": [
+          9,
+          10,
+          11,
+          3,
+          4
+        ],
+        "note": "晨霧湖面秋冬最盛；太平山開放時段（平日/假日不同）"
+      },
+      "access_note": "環山步道約2.6km棧道；園區接駁",
+      "safety_note": "棧道安全；園區時段內活動",
+      "differentiation_note": "高山湖泊晨霧題材，與既有湖泊（嘉明湖高山/松蘿湖）不同——太平山近山型湖泊"
+    },
+    {
+      "id": "tw-guanwu-zhenshan",
+      "name_i18n": {
+        "zh-TW": "觀霧榛山步道觀景點",
+        "en": "Guanwu Zhenshan Trail Viewpoint",
+        "ja": "観霧榛山步道"
+      },
+      "prefecture": "Guanwu Zhenshan Trail Viewpoint",
+      "subjects": [
+        "mountain",
+        "cloud_sea",
+        "forest"
+      ],
+      "rubric": {
+        "subject_strength": 5,
+        "weather_light_dependency": 5,
+        "verifiability": 3,
+        "safe_access": 4,
+        "differentiation": 5
+      },
+      "weighted_total": 4.4,
+      "sources": [
+        "https://hiking.biji.co/index.php?act=info&q=review&review_id=28950",
+        "https://recreation.forest.gov.tw/Forest/RA?typ_id=0200004"
+      ],
+      "coords_approx": {
+        "lat": 24.507,
+        "lon": 121.087
+      },
+      "elev_m": 2100,
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "雲海的故鄉——秋末至春雲海季；冬季步道結冰"
+      },
+      "access_note": "榛山步道來回約2小時，雪霸園區步道",
+      "safety_note": "冬季結冰路段；園區內無照明",
+      "differentiation_note": "聖稜線雲海（大霸尖山為登頂型題材，無雲海拍點）"
+    },
+    {
+      "id": "tw-jialulan-coast",
+      "name_i18n": {
+        "zh-TW": "加路蘭海岸遊憩區",
+        "en": "Jialulan Recreation Area",
+        "ja": "加路蘭遊憩区"
+      },
+      "prefecture": "Jialulan Recreation Area",
+      "subjects": [
+        "coast",
+        "starlight"
+      ],
+      "rubric": {
+        "subject_strength": 3,
+        "weather_light_dependency": 4,
+        "verifiability": 5,
+        "safe_access": 5,
+        "differentiation": 5
+      },
+      "weighted_total": 4.3,
+      "sources": [
+        "https://www.eastcoast-nsa.gov.tw/zh-tw/Attractions/Detail/28",
+        "https://www.eastcoast-nsa.gov.tw/zh-tw/travel/sunrise/"
+      ],
+      "coords_approx": {
+        "lat": 22.7864,
+        "lon": 121.1839
+      },
+      "elev_m": 30,
+      "seasonal_window": {
+        "months": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "note": "銀河核心夏季朝南；日出全年但海面雲量冬季多"
+      },
+      "access_note": "台11線旁免費園區24h開放",
+      "safety_note": "海岸平台安全；冬季東北風強",
+      "differentiation_note": "東海岸海平面日出+暗空，與三仙台/七星潭互補（南段缺）"
+    },
+    {
+      "id": "tw-weishui-hill",
+      "name_i18n": {
+        "zh-TW": "渭水之丘／櫻花陵園",
+        "en": "Weishui Hill, Jiaoxi",
+        "ja": "渭水の丘"
+      },
+      "prefecture": "Weishui Hill, Jiaoxi",
+      "subjects": [
+        "mountain",
+        "cloud_sea",
+        "city"
+      ],
+      "rubric": {
+        "subject_strength": 4,
+        "weather_light_dependency": 5,
+        "verifiability": 3,
+        "safe_access": 4,
+        "differentiation": 4
+      },
+      "weighted_total": 4.0,
+      "sources": [
+        "https://www.liviatravel.com/2018/04/cherryorchardcemetery.html",
+        "https://www.ta-mag.net/ta/News.php?id=1408",
+        "https://travel.ettoday.net/article/880376.htm"
+      ],
+      "coords_approx": {
+        "lat": 24.636,
+        "lon": 121.64
+      },
+      "elev_m": 800,
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "蘭陽平原輻射霧季秋末至春"
+      },
+      "access_note": "車達步道約5分鐘；禁止攀爬懸空石台（ETtoday報導）",
+      "safety_note": "懸空石台禁爬（官方規定）；晨霧時路面滑",
+      "differentiation_note": "蘭陽平原琉璃光拍點，現有 catalog 宜蘭無此題材"
+    },
+    {
+      "id": "tw-smangus",
+      "name_i18n": {
+        "zh-TW": "司馬庫斯部落觀景點",
+        "en": "Smangus, Jianshi",
+        "ja": "スマングス部落"
+      },
+      "prefecture": "Smangus, Jianshi",
+      "subjects": [
+        "mountain",
+        "forest",
+        "cloud_sea",
+        "starlight"
+      ],
+      "rubric": {
+        "subject_strength": 5,
+        "weather_light_dependency": 5,
+        "verifiability": 3,
+        "safe_access": 2,
+        "differentiation": 5
+      },
+      "weighted_total": 4.0,
+      "sources": [
+        "https://digiphoto.techbang.com/posts/531-division-forward-marcus-below",
+        "https://mpgt365.pixnet.net/blog/posts/12039918642"
+      ],
+      "coords_approx": {
+        "lat": 24.5976,
+        "lon": 121.3246
+      },
+      "elev_m": 1600,
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "雲海季秋末至春；最後20km產業道路夜行限制"
+      },
+      "access_note": "最後20km產業道路陡峭，夜行風險高",
+      "safety_note": "夜行山路：不建議單獨夜間往返",
+      "differentiation_note": "深山部落雲海+暗空，北部無對應"
+    },
+    {
+      "id": "tw-beiguan-tide-park",
+      "name_i18n": {
+        "zh-TW": "北關海潮公園",
+        "en": "Beiguan Tide Park",
+        "ja": "北関海潮公園"
+      },
+      "prefecture": "Beiguan Tide Park",
+      "subjects": [
+        "coast",
+        "mountain"
+      ],
+      "rubric": {
+        "subject_strength": 4,
+        "weather_light_dependency": 3,
+        "verifiability": 4,
+        "safe_access": 5,
+        "differentiation": 4
+      },
+      "weighted_total": 4.0,
+      "sources": [
+        "https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=274",
+        "https://jatraveling.tw/blog/post/35028"
+      ],
+      "coords_approx": {
+        "lat": 24.793,
+        "lon": 121.875
+      },
+      "elev_m": 15,
+      "seasonal_window": {
+        "months": [
+          6,
+          7,
+          8,
+          9
+        ],
+        "note": "龜山島朝日夏季日出方位最佳；漲潮時段部分步道封閉"
+      },
+      "access_note": "步道短，漲潮封閉警示；礁岩區注意湧浪",
+      "safety_note": "漲潮封閉、湧浪勿近礁緣",
+      "differentiation_note": "龜山島朝日地質公園，宜蘭頭城段缺口"
+    },
+    {
+      "id": "tw-fushoushan-farm",
+      "name_i18n": {
+        "zh-TW": "福壽山農場觀景點",
+        "en": "Fushoushan Farm",
+        "ja": "福寿山農場"
+      },
+      "prefecture": "Fushoushan Farm",
+      "subjects": [
+        "mountain",
+        "cloud_sea",
+        "starlight"
+      ],
+      "rubric": {
+        "subject_strength": 4,
+        "weather_light_dependency": 5,
+        "verifiability": 4,
+        "safe_access": 3,
+        "differentiation": 4
+      },
+      "weighted_total": 4.0,
+      "sources": [
+        "https://www.fushoushan.com.tw/Outer/FarmOverview",
+        "https://iii.tw/fss"
+      ],
+      "coords_approx": {
+        "lat": 24.23,
+        "lon": 121.318
+      },
+      "elev_m": 2600,
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "梨山谷地雲海秋冬；農場夜間管制"
+      },
+      "access_note": "台7甲線直達；農場門票與夜間管制",
+      "safety_note": "夜間管制區域請勿逗留",
+      "differentiation_note": "中橫梨山谷地雲海，環山/思源埡口方向無對應"
+    },
+    {
+      "id": "tw-dongju-lighthouse",
+      "name_i18n": {
+        "zh-TW": "東莒燈塔（東犬燈塔）",
+        "en": "Dongju (Dongquan) Lighthouse",
+        "ja": "東莒島灯塔（東犬灯塔）"
+      },
+      "prefecture": "Dongju (Dongquan) Lighthouse",
+      "subjects": [
+        "coast",
+        "starlight"
+      ],
+      "rubric": {
+        "subject_strength": 4,
+        "weather_light_dependency": 4,
+        "verifiability": 5,
+        "safe_access": 2,
+        "differentiation": 5
+      },
+      "weighted_total": 3.95,
+      "sources": [
+        "https://zh.wikipedia.org/zh-hant/%E6%9D%B1%E8%8E%92%E5%B3%B6%E7%87%88%E5%A1%94",
+        "https://matsucc.gov.tw/museum/%E6%9D%B1%E8%8E%92%E5%B3%B6%E7%87%88%E5%A1%94%E6%9D%B1%E7%8A%AC%E7%87%88%E5%A1%94/",
+        "https://smiletaiwan.cw.com.tw/article/8070"
+      ],
+      "coords_approx": {
+        "lat": 25.9672,
+        "lon": 119.9856
+      },
+      "elev_m": 64,
+      "seasonal_window": {
+        "months": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "note": "藍眼淚季4–8月；燈塔園區開放時間限制"
+      },
+      "access_note": "需跳島交通（南竿/北竿轉莒光），可達性最低",
+      "safety_note": "跳島航班受風浪影響，留備案",
+      "differentiation_note": "離島燈塔+藍眼淚季節題材，馬祖僅東引/南竿"
+    },
+    {
+      "id": "tw-tatajia-couple-trees",
+      "name_i18n": {
+        "zh-TW": "塔塔加夫妻樹／鹿林山觀景點",
+        "en": "Tataka Couple Trees & Lulinshan",
+        "ja": "塔塔加夫妻樹"
+      },
+      "prefecture": "Tataka Couple Trees & Lulinshan",
+      "subjects": [
+        "mountain",
+        "starlight",
+        "cloud_sea"
+      ],
+      "rubric": {
+        "subject_strength": 5,
+        "weather_light_dependency": 5,
+        "verifiability": 3,
+        "safe_access": 3,
+        "differentiation": 3
+      },
+      "weighted_total": 3.9,
+      "sources": [
+        "https://blog.udn.com/tj28wang/6248570",
+        "https://vanishworld.pixnet.net/blog/posts/3034486945",
+        "https://www.eprice.com.tw/mobile/talk/4543/5716064/1/m/5719017/"
+      ],
+      "coords_approx": {
+        "lat": 23.478,
+        "lon": 120.886
+      },
+      "elev_m": 2610,
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3,
+          4
+        ],
+        "note": "銀河全年可拍但冬季夜長；台18線夜間結霜"
+      },
+      "access_note": "台18/台21線直達，高海拔夜間低溫與停車安全",
+      "safety_note": "高海拔夜間低溫；野生動物（水鹿）出沒",
+      "differentiation_note": "玉山國家公園西側入口的銀河+山景，現有玉山主峰為登頂型題材"
+    },
+    {
+      "id": "tw-haowanjiao",
+      "name_i18n": {
+        "zh-TW": "半天寮好望角",
+        "en": "Haowanjiao Cape, Houlong",
+        "ja": "半天寮好望角"
+      },
+      "prefecture": "Haowanjiao Cape, Houlong",
+      "subjects": [
+        "coast",
+        "city"
+      ],
+      "rubric": {
+        "subject_strength": 3,
+        "weather_light_dependency": 3,
+        "verifiability": 4,
+        "safe_access": 5,
+        "differentiation": 5
+      },
+      "weighted_total": 3.9,
+      "sources": [
+        "https://hiking.biji.co/index.php?q=review&act=info&review_id=34746",
+        "https://www.cw.com.tw/article/5122510",
+        "https://miaolitravel.net/Article.aspx?lang=1&sNo=04007314"
+      ],
+      "coords_approx": {
+        "lat": 24.603,
+        "lon": 120.745
+      },
+      "elev_m": 98,
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2
+        ],
+        "note": "海峽夕照全年，秋冬大氣通透度最佳"
+      },
+      "access_note": "公路直達短步道，低海拔易達",
+      "safety_note": "好望角步道短且安全；風車區注意強風",
+      "differentiation_note": "苗栗海線日落缺口（高美以北無海線拍點）"
+    },
+    {
+      "id": "tw-qingtiangang",
+      "name_i18n": {
+        "zh-TW": "擎天崗草原",
+        "en": "Qingtiangang Grassland",
+        "ja": "擎天崗草原"
+      },
+      "prefecture": "Qingtiangang Grassland",
+      "subjects": [
+        "mountain",
+        "starlight",
+        "cloud_sea"
+      ],
+      "rubric": {
+        "subject_strength": 3,
+        "weather_light_dependency": 4,
+        "verifiability": 4,
+        "safe_access": 5,
+        "differentiation": 3
+      },
+      "weighted_total": 3.8,
+      "sources": [
+        "https://www.threads.com/@meta.ai/post/DdGbOwmgmpb/",
+        "https://www.yangmingshanshui.com/website/news/yangmingshan-travel-itinerary/enjoying-the-moon-and-night-scene-location"
+      ],
+      "coords_approx": {
+        "lat": 25.1169,
+        "lon": 121.5549
+      },
+      "elev_m": 800,
+      "seasonal_window": {
+        "months": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "note": "銀河核心季4–9月；冬季東北風強且多雲"
+      },
+      "access_note": "陽明山園區24h開放，夜間無照明",
+      "safety_note": "夜間無照明、野牛群保持距離",
+      "differentiation_note": "大台北近郊銀河（光害打折）＋擎天崗雲海，與大屯山（5km外）題材錯位"
+    },
+    {
+      "id": "tw-qingjing-farm",
+      "name_i18n": {
+        "zh-TW": "清境農場霧上觀景帶",
+        "en": "Qingjing Farm Mist Ridge",
+        "ja": "清境農場"
+      },
+      "prefecture": "Qingjing Farm Mist Ridge",
+      "subjects": [
+        "mountain",
+        "cloud_sea"
+      ],
+      "rubric": {
+        "subject_strength": 2,
+        "weather_light_dependency": 5,
+        "verifiability": 3,
+        "safe_access": 4,
+        "differentiation": 5
+      },
+      "weighted_total": 3.65,
+      "sources": [
+        "https://www.luckvilla.com.tw/news-detail/Landscape-Cafe/",
+        "https://weichusmile.pixnet.net/blog/posts/16030812275"
+      ],
+      "coords_approx": {
+        "lat": 24.053,
+        "lon": 121.159
+      },
+      "elev_m": 1750,
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "奇萊連峰晨霧秋冬季"
+      },
+      "access_note": "台14甲線，民宿帶觀景點分散",
+      "safety_note": "一般道路，無特殊風險",
+      "differentiation_note": "清境帶題材分散無標誌性主體"
+    }
+  ],
+  "culled_candidates": [
+    {
+      "id": "tw-wangyou-forest",
+      "zh": "忘憂森林",
+      "reason": "geographic conflict: 杉林溪 at 2.2 km (<= 5.0 km), tag overlap ['forest', 'starlight']"
+    }
+  ],
+  "source_sweep": "data/v2/audits/discovery/_source_sweep_raw.json"
+}
