@@ -30,30 +30,41 @@ def clip(x, lo, hi):
     return max(lo, min(hi, x))
 
 def community_adj(photos, comm):
-    best = 0
-    any_badge, any_highpv, all_lowpv, has = False, False, True, False
+    """Owner correction (CL-DATA-29 validation): badges only on representative-passing
+    photos; negative correction ONLY when the place has a COMPLETE badge inventory
+    (every valid photo formally checked against Quality/Featured/Popular/PotD cats)
+    AND every pageview payload present; magnitude ±0.25."""
+    any_badge, any_highpv, has = False, False, False
+    inv_complete, payload_missing, all_lowpv = True, False, True
     for p in photos:
         if not p.get("_valid"):
             continue
         c = comm.get(p["key"])
         if not c:
+            inv_complete = False  # valid photo not inventoried -> no negative branch
             continue
         has = True
-        if c["badges"]:
+        if "badges" not in c:
+            inv_complete = False
+        elif c["badges"]:
             any_badge = True
-        if (c.get("pv90d") or 0) >= 5000:
-            any_highpv = True
-        if (c.get("pv90d") or 0) >= 50:
-            all_lowpv = False
+        pv = c.get("pv12mo")
+        if pv is None:
+            payload_missing = True  # unknown, never counted as 0
+        else:
+            if pv >= 5000:
+                any_highpv = True
+            if pv >= 50:
+                all_lowpv = False
     if not has:
         return 0, "無社群信號資料"
     if any_badge:
-        return 0.5, "Commons 社群標章（Featured/Quality/Valued）"
+        return 0.5, "Commons 社群標章（Featured/Quality/Valued/Popular/PotD，代表性篩選通過照片）"
     if any_highpv:
-        return 0.25, "檔案頁90天瀏覽≥5000"
-    if all_lowpv:
-        return -0.25, "無標章且檔案頁90天瀏覽<50（社群關注低）"
-    return 0, "無標章、瀏覽量普通"
+        return 0.25, "檔案頁12個月瀏覽≥5000"
+    if inv_complete and not payload_missing and all_lowpv:
+        return -0.25, "完整標章盤點無標章且12個月瀏覽均<50（社群關注低）"
+    return 0, "無標章、瀏覽量普通或資料不完整（不負向校正）"
 
 def main():
     prog = json.loads(PROG.read_text(encoding="utf-8"))
@@ -147,6 +158,45 @@ def main():
     print("TOP10:", [(r["place_id"], r["name_zh"], r["composite_v3"]) for r in summary["top10"]])
     print("BOTTOM10:", [(r["place_id"], r["name_zh"], r["composite_v3"]) for r in summary["bottom10"]])
     print("UNKNOWN:", [r["place_id"] for r in unknown])
+    write_md(out, summary, results, unknown)
+
+def write_md(out, summary, results, unknown):
+    L = ["# CL-DATA-30 景色優美評分 v3 全庫報告（218 景點）", "",
+         "Owner 裁決「直接跑全庫」。方法沿用 CL-DATA-27/28/29：",
+         "- 多源抓照（Wikimedia Commons 搜尋＋Wikipedia 語言連結＋Openverse，每點目標 3–6 張）",
+         "- 代表性篩選（標題黑名單前置＋視覺複核 INVALID 標註，n≥2 取中位數、n=1 取均值）",
+         "- 視覺評分四子項 1–10：地貌獨特性／構圖層次／光影天氣戲劇性／色彩，÷2 換算 0–5",
+         "- 社群信號（修正版）：標章僅採計通過代表性篩選照片（+0.5）；檔案頁 12 個月瀏覽 ≥5000（+0.25）；負向 −0.25 僅在逐景點完成完整標章盤點（Quality/Featured/Popular/PotD 類別正式交集）且瀏覽 payload 完整時才可扣；缺 payload 一律 unknown 不計 0",
+         "- 認證階梯 ±1（5=UNESCO/國際、4=國家級官方、3=多攻略共識、2=一般）",
+         "- 合成分 = 視覺0–5 ＋ clamp(認證−視覺, ±1) ＋ 社群，clip 0–5；無有效照片 → 誠實 unknown",
+         "",
+         f"統計：{summary['n_scored']}/{summary['n_total']} 已評分，均分 {summary['mean']}，中位數 {summary['median']}，unknown {summary['n_unknown']}。", "",
+         "## Top 10", "", "| 名次 | id | 景點 | v3 | v2 | 視覺 | 認證 | 社群 |", "|---|---|---|---|---|---|---|---|"]
+    for i, r in enumerate(summary["top10"], 1):
+        L.append(f"| {i} | {r['place_id']} | {r['name_zh']} | **{r['composite_v3']}** | {r['v2_weighted_total'] or '—'} | {r['visual_0_5']} | {r['cert_tier']} | {'+' if r['community_adj']>0 else ''}{r['community_adj']} |")
+    L += ["", "## Bottom 10", "", "| 名次 | id | 景點 | v3 | v2 | 視覺 | 認證 | 社群 |", "|---|---|---|---|---|---|---|---|"]
+    for i, r in enumerate(summary["bottom10"], 1):
+        L.append(f"| {i} | {r['place_id']} | {r['name_zh']} | **{r['composite_v3']}** | {r['v2_weighted_total'] or '—'} | {r['visual_0_5']} | {r['cert_tier']} | {'+' if r['community_adj']>0 else ''}{r['community_adj']} |")
+    if unknown:
+        L += ["", f"## Unknown（{len(unknown)} 點，誠實標註）", "", "| id | 景點 | 抓到照片 | 有效照片 | 認證 |", "|---|---|---|---|---|"]
+        for r in unknown:
+            L.append(f"| {r['place_id']} | {r['name_zh']} | {r['n_photos_fetched']} | {r['n_valid']} | {r['cert_tier'] or 'unknown'} |")
+    L += ["", "## 逐景點明細", ""]
+    for r in results:
+        L.append(f"### {r['place_id']} {r['name_zh']} — v3 **{r['composite_v3'] if r['composite_v3'] is not None else 'unknown'}**（v2: {r['v2_weighted_total'] or 'new'}，視覺 {r['visual_0_5']}，認證 {r['cert_tier']}，社群 {r['community_adj']:+}）")
+        L.append(f"- 認證依據：{r['cert_evidence']}")
+        L.append(f"- 合成：{r['composite_formula']}；社群：{r['community_evidence']}")
+        L.append(f"- 照片來源：{', '.join(r['sources'] or [])}；抓到 {r['n_photos_fetched']} 張，有效 {r['n_valid']} 張")
+        for i, ph in enumerate(r["photos"]):
+            lab = chr(65 + i)
+            if ph.get("_valid"):
+                L.append(f"- {lab}：子項 {ph.get('_subs')} 均分 {ph.get('_photo_mean')} — {ph.get('title')}（{ph.get('source')}）{('〈' + ph['_note'] + '〉') if ph.get('_note') else ''}")
+            else:
+                reason = ph.get("_reason") or "非風景代表照"
+                L.append(f"- {lab}：INVALID（{reason}）— {ph.get('title')}")
+        L.append("")
+    (REPO / "data/v2/audits/discovery/scenic-v3-full.md").write_text("\n".join(L), encoding="utf-8")
+    print("md written", len(L), "lines")
 
 if __name__ == "__main__":
     main()

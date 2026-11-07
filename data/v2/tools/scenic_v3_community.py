@@ -4,9 +4,11 @@
 Per valid-eligible photo:
   * quality badges: Commons categories (Featured pictures / Quality images /
     Valued images / Picture of the day)
-  * 90-day Commons File page view counts (Wikimedia REST pageviews)
+  * 12-month Commons File page view counts (Wikimedia REST pageviews; missing
+    payload = unknown, never 0)
 Signals are attached per photo title in progress JSON `stage_community`;
-finalize applies the +/-0.5 composite rule on VALID photos only.
+finalize applies the owner-corrected composite rule (negative only after
+complete badge inventory, ±0.25) on VALID photos only.
 """
 from __future__ import annotations
 import json, re, time, urllib.error, urllib.parse, urllib.request
@@ -15,13 +17,14 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[3]
 OUT = REPO / "data/v2/audits/discovery/scenic-v3-full-progress.json"
 UA = {"User-Agent": "ChaseLights-scenic-v3/1.0 (repo data research; read-only fetch)"}
-PV_START, PV_END = "20260810", "20261108"  # last 90 days
+PV_START, PV_END = "20251109", "20261108"  # 12-month window (owner correction: 60d median too low-res)
 
 BADGE_PATTERNS = [
     ("featured", re.compile(r"Featured[_ ]pictures[_ ]on[_ ]Wikimedia[_ ]Commons", re.I)),
     ("quality", re.compile(r"Quality[_ ]images", re.I)),
     ("valued", re.compile(r"Valued[_ ]images", re.I)),
     ("potd", re.compile(r"Picture[_ ]of[_ ]the[_ ]day", re.I)),
+    ("popular", re.compile(r"Popular[_ ]images", re.I)),
 ]
 
 def _get(url, timeout=25):
@@ -55,12 +58,15 @@ def categories_for(titles):
     return out
 
 def pageviews_for(title):
-    """title: File:X -> 90-day view sum for the commons file description page"""
+    """title: File:X -> 12-month view sum; None when payload missing (unknown, never 0)"""
     t = title.replace("File:", "").replace(" ", "_")
     u = (f"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/commons.wikimedia/"
          f"all-access/user/{urllib.parse.quote(t)}/monthly/{PV_START}/{PV_END}")
     d = _get(u)
-    return sum(int(item.get("views", 0)) for item in d.get("items", []) or [])
+    items = d.get("items")
+    if not items:
+        return None  # payload missing -> unknown (owner correction)
+    return sum(int(item.get("views", 0)) for item in items)
 
 def main():
     prog = json.loads(OUT.read_text(encoding="utf-8"))
@@ -78,8 +84,8 @@ def main():
     for i, (pid, key, ph) in enumerate(todo):
         cl = cats.get(key, []) or cats.get(key.replace(" ", "_"), []) or cats.get(key.replace("_", " "), [])
         badges = [name for name, pat in BADGE_PATTERNS if any(pat.search(c or "") for c in cl)]
-        pv = pageviews_for(key) if key.startswith("File:") else 0
-        stage[key] = {"badges": badges, "pv90d": pv, "cats": cl[:8]}
+        pv = pageviews_for(key) if key.startswith("File:") else None
+        stage[key] = {"badges": badges, "pv12mo": pv, "pv_unknown": pv is None, "cats": cl[:8]}
         if i % 20 == 0:
             prog["updated"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
             tmp = OUT.with_suffix(".json.tmp")

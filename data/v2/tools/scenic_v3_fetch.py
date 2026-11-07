@@ -169,22 +169,35 @@ def main():
                 s = re.sub(r"[（(].*?[）)]", "", q).strip()
                 if s and s != q:
                     _add(s)
+                if re.match(r"^[\u4e00-\u9fff\u3040-\u30ff]", s or ""):
+                    short = s[:2]
+                    if len(s) > 2 and short not in qs:
+                        _add(short)
+                else:
+                    short = " ".join(s.split()[:2])
+                    if short and short != s and short not in qs:
+                        _add(short)
             cands = []
-            for q in qs[:5]:
-                cands += commons_search(q, 8)
-                time.sleep(0.35)
+            # parallel query batch (3 workers) with per-query spacing to stay API-polite
+            import concurrent.futures as _cf
+            with _cf.ThreadPoolExecutor(3) as ex:
+                futs = [ex.submit(lambda q=q: (commons_search(q, 8), time.sleep(1.2))) for q in qs[:7]]
+                for f in futs:
+                    cands += f.result()[0]
             got_commons = len([c for c in dedupe_filter(cands) if not c.get("filtered_out")])
             if got_commons < 5:  # skip wiki-langlinks when Commons search is already rich
+                wq = []
                 for lang, q in (("zh", r.get("name_zh")), ("en", r.get("name_en")), ("ja", r.get("name_ja"))):
                     if q:
-                        cands += wiki_images(lang, q, 10)
                         s2 = re.sub(r"[（(].*?[）)]", "", q).strip()
-                        if s2 and s2 != q:
-                            cands += wiki_images(lang, s2, 10)
-                        time.sleep(0.35)
+                        wq += [(lang, q)] + ([(lang, s2)] if s2 and s2 != q else [])
+                with _cf.ThreadPoolExecutor(3) as ex:
+                    futs = [ex.submit(lambda q=q: (wiki_images(q[0], q[1], 10), time.sleep(1.2))) for q in wq]
+                    for f in futs:
+                        cands += f.result()[0]
             if len([c for c in dedupe_filter(cands) if not c.get("filtered_out")]) < 6 and r.get("name_en"):
                 cands += openverse(r["name_en"])
-                time.sleep(0.35)
+                time.sleep(0.5)
             cands = dedupe_filter(cands)
             good = [c for c in cands if not c.get("filtered_out")]
             dropped = [c.get("title") for c in cands if c.get("filtered_out")]
