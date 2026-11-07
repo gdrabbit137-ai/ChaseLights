@@ -1,0 +1,38 @@
+{
+  "rubric_version": "jp-north-1.0",
+  "ticket": "CL-DATA-23",
+  "criteria": [
+    {
+      "id": "subject_strength",
+      "zh": "題材強度",
+      "weight": 0.25,
+      "desc": "題材對風景攝影者的吸引力與稀有度（0–5）"
+    },
+    {
+      "id": "weather_light_dependency",
+      "zh": "天氣光影依賴度",
+      "weight": 0.25,
+      "desc": "成敗由天氣/光影決定的程度——ChaseLights 氣象模型能決勝負的優先（0–5）"
+    },
+    {
+      "id": "verifiability",
+      "zh": "資料可查證性",
+      "weight": 0.2,
+      "desc": "日文官方源可查證座標/海拔/方位/季節窗的程度（0–5）"
+    },
+    {
+      "id": "differentiation",
+      "zh": "差異化",
+      "weight": 0.15,
+      "desc": "與現有 catalog 景點 ≥5km 且題材不重複（0–5）"
+    },
+    {
+      "id": "accessibility",
+      "zh": "安全可達性",
+      "weight": 0.15,
+      "desc": "含冬季封閉期語義——北海道/東北特有，契約需季節窗（0–5）"
+    }
+  ],
+  "composite": "weighted_sum",
+  "dedup_rule": "與 jp-001..jp-009（美瑛青池/旭岳/釧路濕原/函館山/小樽運河/摩周湖/十和田湖/松島/磐梯山）任一座標 <5km 或題材重複者剔除"
+}
