@@ -393,7 +393,7 @@ def build_contract(p, subj):
         },
         "evidence_claims": [{
             "claim_id": f"{oid}-claim-01", "claim_type": "existence",
-            "evidence_refs": ["e-d25-web-01"], "audit_status": "UNKNOWN",
+            "evidence_refs": [f"e-d25-web-{p['slug']}"], "audit_status": "UNKNOWN",
             "scope_note": "CL-DATA-25 discovery admission (rubric >=3.8, owner ruling 2026-11-07); coordinates/elevation web-verified 2026-11-07 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration.",
         }],
         "readiness": {"research_level": "R1", "gaps": ["RESEARCH_GAP"]},
@@ -674,6 +674,15 @@ def main():
         })
     ev["excel_side"] = CAND["excel_side"]
     ev["excluded"] = CAND["excluded"]
+    # evidence registry rows consumed by research_index (pinned audits/* evidence)
+    ev["evidence"] = [{
+        "id": f"e-d25-web-{p['slug']}", "grade": "A" if p["coord_conf"] == "high" else "B",
+        "kind": "official_or_wikipedia_text",
+        "url": next(u for u in p["coord_sources"] if u.startswith("https://")),
+        "supports": p["coord_source"],
+        "retrieved_at": "2026-11-07",
+        "limitation": "Coordinate verified against official/Wikipedia source; exact tripod position, bearing and access not field-surveyed.",
+    } for p in places]
     wbytes(ROOT / "data/v2/audits/cl-data-25_web_evidence.json", jdump(ev))
     print("evidence json written")
 
