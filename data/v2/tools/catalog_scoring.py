@@ -2,11 +2,15 @@
 """CL-DATA-24 — full-catalog mechanical scoring of every existing place/opportunity.
 
 Reverse sweep of the CL-DATA-23 discovery rubric over the EXISTING catalog:
-197 places x 374 opportunity contracts, five rubric dimensions
+All catalog places x opportunity contracts, five rubric v2 dimensions
 (weights: subject 25 / weather_light 20 / verifiability 20 / differentiation 15 /
-safe_access 20), scored MECHANICALLY from in-repo data only (contracts,
-place-index, source-lock, seasonal-calendar). READ-ONLY: this tool never modifies
-any catalog/contract data; it only writes the audit report pair.
+scenic_beauty 20 — rubric v2 per CL-DATA-26 owner ruling 2026-11-07 which removed
+safe_access), scored MECHANICALLY from in-repo data only (contracts,
+place-index, source-lock, seasonal-calendar, evidence registry/audits).
+READ-ONLY: this tool never modifies any catalog/contract data; it only writes the
+audit report pair. scenic_beauty is judged from in-catalog classification/scoring
+evidence (CL-DATA-26 s1/s2/s3 classes); places without evidence are honestly
+marked "unknown" (never fabricated).
 
 Dimension definitions (deterministic, no manual input):
   subject_strength          — condition richness of the contract: distinct metrics,
@@ -20,8 +24,10 @@ Dimension definitions (deterministic, no manual input):
                               access/safety notes, navigation confidence.
   differentiation           — MECHANICAL 5 km nearest-neighbour between places
                               (haversine over canonical coordinates), CL-DATA-23 bands.
-  safe_access               — seasonal-window presence + access/safety note specificity
-                              + geometry/altitude/navigation completeness.
+  scenic_beauty             — rubric v2 (CL-DATA-26): base 2 + s1 photo-community
+                              (+1) + s2 official A-class/UNESCO/Three-X classification
+                              (+1, +1 top-tier bonus) + s3 guide-list frequency >=2
+                              independent sources (+1), cap 5; no evidence -> "unknown"
 
 Usage:
   python data/v2/tools/catalog_scoring.py \
@@ -38,6 +44,9 @@ import statistics
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from scenic_beauty_v2 import score_scenic_beauty, _load_audit_rows
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 OPP_DIR = REPO_ROOT / "data/v2/opportunities"
 PLACE_INDEX = REPO_ROOT / "data/v2/indexes/research/place-index.json"
@@ -48,7 +57,7 @@ WEIGHTS = {
     "weather_light_dependency": 20,
     "verifiability": 20,
     "differentiation": 15,
-    "safe_access": 20,
+    "scenic_beauty": 20,  # rubric v2 (CL-DATA-26, owner ruling 2026-11-07): safe_access removed
 }
 
 LIGHT_WINDOW_METRICS = {
@@ -232,6 +241,8 @@ def build_report():
     source_lock = json.loads(SOURCE_LOCK.read_text(encoding="utf-8"))
     locked = verify_canonical(source_lock)
     names = {p["place_id"]: p["name_i18n"]["zh-TW"] for p in place_index["places"]}
+    names_i18n = {p["place_id"]: p["name_i18n"] for p in place_index["places"]}
+    evidence_rows = _load_audit_rows()
 
     per_opp = {}
     coords = {}
@@ -287,11 +298,20 @@ def build_report():
     for pid in place_ids:
         oids = sorted(o for o, v in per_opp.items() if v["place_id"] == pid)
         dims = {k: round(statistics.mean(per_opp[o]["scores"][k] for o in oids), 2)
-                for k in WEIGHTS if k != "differentiation"}
+                for k in WEIGHTS if k != "differentiation" and k != "scenic_beauty"}
         km = nearest[pid][1] if nearest[pid] else None
         dims["differentiation"] = score_differentiation(km)
-        weighted = round(sum(dims[k] * w for k, w in WEIGHTS.items())
-                         / sum(WEIGHTS.values()), 2)
+        sb, sb_detail = score_scenic_beauty(pid, names_i18n.get(pid, {}), opps, evidence_rows)
+        if sb is None:
+            dims["scenic_beauty"] = "unknown"
+        else:
+            dims["scenic_beauty"] = sb
+        if sb is None:
+            weighted = None  # honest: no scenic_beauty evidence -> no fabricated total
+        else:
+            weighted = round(sum((dims[k] if isinstance(dims[k], (int, float)) else 0)
+                                 * w for k, w in WEIGHTS.items())
+                             / sum(WEIGHTS.values()), 2)
         places.append({
             "place_id": pid,
             "name_zh": names.get(pid, pid),
@@ -299,14 +319,16 @@ def build_report():
             "n_opportunities": len(oids),
             "opportunity_ids": oids,
             "rubric": dims,
+            "scenic_beauty_evidence": sb_detail,
             "weighted_total": weighted,
             "nearest_place": nearest[pid][0] if nearest[pid] else None,
             "nearest_km": round(km, 2) if km is not None else None,
             "coords": coords.get(pid),
         })
 
-    ranked = sorted(places, key=lambda p: (-p["weighted_total"], p["place_id"]))
-    totals = [p["weighted_total"] for p in ranked]
+    ranked = sorted(places, key=lambda p: (-(p["weighted_total"] if p["weighted_total"] is not None else -1),
+                                           p["place_id"]))
+    totals = [p["weighted_total"] for p in ranked if p["weighted_total"] is not None]
     by_region = {}
     for p in ranked:
         by_region.setdefault(p["region"], []).append(p)
@@ -361,16 +383,19 @@ def build_report():
     h.update(SOURCE_LOCK.read_bytes())
 
     return {
-        "schema_version": "cl-data-24-catalog-scoring-1",
-        "ticket": "CL-DATA-24",
+        "schema_version": "cl-data-24-catalog-scoring-2",
+        "ticket": "CL-DATA-24 (re-run CL-DATA-25R, rubric v2)",
+        "rubric_version": "v2 (CL-DATA-26 owner ruling 2026-11-07: safe_access removed, scenic_beauty 20; honest unknown when no evidence)",
         "rubric_weights": WEIGHTS,
         "inputs_fingerprint_sha256": h.hexdigest(),
         "summary": {
             "places": len(places),
             "opportunities": len(opps_out),
             "canonical_locked_opportunities": sum(1 for o in opps_out if o["canonical_locked"]),
-            "mean_weighted_total": round(statistics.mean(totals), 2),
-            "median_weighted_total": round(statistics.median(totals), 2),
+            "places_with_unknown_scenic_beauty": sum(1 for p in places if p["rubric"]["scenic_beauty"] == "unknown"),
+            "mean_weighted_total": round(statistics.mean(totals), 2) if totals else None,
+            "median_weighted_total": round(statistics.median(totals), 2) if totals else None,
+            "mean_basis": "places with evidenced scenic_beauty only (rubric v2 honest-unknown rule)",
             "region_counts": {r: len(v) for r, v in sorted(by_region.items())},
             "weakness_counts": {
                 "low_weather_light_opportunities": len(low_wl),
@@ -405,10 +430,11 @@ def render_md(rep):
         "# CL-DATA-24 全庫景點機械評分（catalog scoring）",
         "",
         f"評分範圍：{s['places']} places × {s['opportunities']} opportunities（全數來自庫內契約；唯讀分析）。",
-        f"Rubric 權重：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / safe_access 20（沿用 CL-DATA-23）。",
+        f"Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。",
         f"輸入指紋：`{rep['inputs_fingerprint_sha256'][:16]}…`（重跑可驗證確定性）。",
         "",
-        f"- 全庫加權均分：**{s['mean_weighted_total']} / 5**；中位數：**{s['median_weighted_total']} / 5**（健康度基準）。",
+        f"- 全庫加權均分：**{s['mean_weighted_total']} / 5**；中位數：**{s['median_weighted_total']} / 5**（僅計 scenic_beauty 有庫內證據的景點；"
+        f"scenic_beauty 無證據者誠實標 unknown＝**{s['places_with_unknown_scenic_beauty']}** 個，不虛構分數）。",
         f"- 區域分布：{', '.join(f'{r}={n}' for r, n in s['region_counts'].items())}",
         f"- 弱點清單筆數：低 weather_light **{s['weakness_counts']['low_weather_light_opportunities']}**、"
         f"低 verifiability **{s['weakness_counts']['low_verifiability_opportunities']}**、"
@@ -422,7 +448,7 @@ def render_md(rep):
         "| weather_light | 光線/時間窗（light/sunset/sunrise/golden/blue/夜間窗）＝5；深夜天文組＝5；季節窗＝5；雲海 LCL 組 REQUIRED＝4；雲量主導＝3；僅靜態地景條件＝1–2 |",
         "| verifiability | provenance 完整度：geometry verified/derived、targets evidence_refs、claim_refs+threshold_source、access/safety 非佔位、navigation confidence |",
         "| differentiation | 機械 5km 最近鄰（>15→5、>8→4、>5→3、≤5→1） |",
-        "| safe_access | 季節窗(+2)、access/safety 具體(+1/+1)、geometry verified(+1)、altitude(+0.5)、nav high(+0.5) |",
+        "| scenic_beauty (v2) | 庫內分類/評分證據機械判定：base 2 + s1 攝影社群(+1) + s2 官方A級/UNESCO/三大類分類(+1，頂級＋1) + s3 攻略清單頻率≥2獨立來源(+1)，上限 5；無證據＝unknown（不虛構） |",
         "",
         "## 排名（前 20 / 後 20）",
         "",
@@ -437,7 +463,7 @@ def render_md(rep):
             f"| {i} | `{p['place_id']}` | {p['name_zh']} | {p['region']} | "
             f"{p['n_opportunities']} | **{p['weighted_total']}** | "
             f"{r['subject_strength']}/{r['weather_light_dependency']}/"
-            f"{r['verifiability']}/{r['differentiation']}/{r['safe_access']} |")
+            f"{r['verifiability']}/{r['differentiation']}/{r['scenic_beauty']} |")
     lines += ["", "### Bottom 20", "",
               "| 排名 | place | 名稱 | 區域 | 題材數 | 加權總分 | 五維 | 最近景點 (km) |",
               "|---|---|---|---|---|---|---|---|"]
@@ -447,7 +473,7 @@ def render_md(rep):
             f"| {i} | `{p['place_id']}` | {p['name_zh']} | {p['region']} | "
             f"{p['n_opportunities']} | **{p['weighted_total']}** | "
             f"{r['subject_strength']}/{r['weather_light_dependency']}/"
-            f"{r['verifiability']}/{r['differentiation']}/{r['safe_access']} | "
+            f"{r['verifiability']}/{r['differentiation']}/{r['scenic_beauty']} | "
             f"{p['nearest_place']} ({p['nearest_km']}) |")
 
     wl = rep["weakness_lists"]
@@ -466,6 +492,8 @@ def render_md(rep):
                        for m in c["members"])
         lines.append(f"- {ms}")
     lines += ["",
+              "> Rubric v2（CL-DATA-25R 重跑）：safe_access 權重移除、scenic_beauty 權重 20，由庫內證據機械判定；"
+              "scenic_beauty 無證據的景點誠實標 unknown，其加權總分留空（不虛構）。季節窗/封閉期資訊仍保留於 dossier 與契約。\n"
               "> 本報告為唯讀分析：不改任何 catalog/契約資料；弱點處置（改題材/補資料/裁撤）"
               "為建議，決策權在 PM/owner。機器可讀版本：catalog-scoring.json。"]
     return "\n".join(lines) + "\n"

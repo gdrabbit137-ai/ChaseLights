@@ -14,10 +14,10 @@
   "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
  ],
  "counts": {
-  "spots": 242,
-  "opportunities": 468,
-  "condition_variants": 483,
-  "profile_viewpoint_relations": 474
+  "spots": 238,
+  "opportunities": 463,
+  "condition_variants": 478,
+  "profile_viewpoint_relations": 469
  },
  "spots": [
   {
@@ -23904,95 +23904,6 @@
    ]
   },
   {
-   "spot_id": "jp-050",
-   "canonical_name": "安比ゴンドラ UNKAIデッキ",
-   "product_status": "KEEP",
-   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
-   "research_sources": [
-    {
-     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
-     "url": "https://ja.wikipedia.org/wiki/安比高原スキー場",
-     "verified_on": "2026-11-07",
-     "supports": "ja.wikipedia 安比高原スキー場 (39.9944,140.9642 resort area; UNKAIデッキ山頂 1,304 m official appi.co.jp APPI1304); verifiability lowest of the admitted set (official press fragment only). Verified on 2026-11-07; exact tripod position and access not field-surveyed."
-    }
-   ],
-   "opportunities": [
-    {
-     "opportunity_id": "jp-050-P01",
-     "spot_id": "jp-050",
-     "name_zh": "安比高原雲海",
-     "legacy_theme": "cloud_sea",
-     "mode": "area_opportunity",
-     "sampling_topology": "local_area",
-     "geometry_required": false,
-     "opportunity_confidence": "medium",
-     "formula_status": "needs_spatial_weather_module",
-     "formula_version": "v0.04-cl-data-25-appi-unkai-P01",
-     "formula_confidence": 50,
-     "best_time": "安比高原雲海",
-     "best_season": "季節窗 06-01–10-31（seasonal-calendar）",
-     "best_season_i18n": {
-      "zh-TW": "季節窗 06-01–10-31（seasonal-calendar）",
-      "en": "Seasonal window 06-01-10-31 (seasonal-calendar)",
-      "ja": "季節窓 06-01〜10-31（seasonal-calendar）"
-     },
-     "condition_variants": [
-      {
-       "variant_id": "VAR-363",
-       "variant_name": "安比高原雲海",
-       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
-       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
-       "boosters": "北緯40度・山頂1,304 m 的 UNKAI デッキ；八幡平高原冷夜放射冷卻雲海；緑期ゴンドラ営業（公式確認）但年度期間/時刻未取得一手明細 → 季節窗暫定 ",
-       "penalties": "惡劣天候、能見度差、營運/季節窗外",
-       "formula_status": "needs_spatial_weather_module",
-       "variant_name_i18n": {
-        "zh-TW": "安比高原雲海",
-        "en": "Appi highland cloud sea",
-        "ja": "安比高原の雲海"
-       },
-       "required_conditions_i18n": {
-        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
-        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
-        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
-       },
-       "boosters_i18n": {
-        "zh-TW": "北緯40度・山頂1,304 m 的 UNKAI デッキ；八幡平高原冷夜放射冷卻雲海；緑期ゴンドラ営業（公式確認）但年度期間/時刻未取得一手明細 → 季節窗暫定 [6–10月]、營業細節待再查證。",
-        "en": "The UNKAI deck at 1,304 m on the 40th parallel; radiation-cooled highland cloud sea; green-season gondola operating daily (officially confirmed) but exact yearly dates/hours not yet sourced - seasonal window provisional [Jun-Oct], operating details pending re-verification.",
-        "ja": "北緯40度・標高1,304mのUNKAIデッキ。八幡平高原の放射冷却による雲海。緑期ゴンドラ毎日営業（公式確認）だが年度日程・時刻の一次資料未取得のため季節窓は暫定（6〜10月）。"
-       },
-       "penalties_i18n": {
-        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
-        "en": "Severe weather, poor visibility, outside operating/season window.",
-        "ja": "悪天候、視程不良、営業・季節窓外。"
-       }
-      }
-     ],
-     "viewpoints": [
-      {
-       "viewpoint_id": "jp-050-VP01",
-       "relation_role": "reference",
-       "sort_order": 1,
-       "name": "安比ゴンドラ UNKAIデッキ",
-       "name_i18n": {
-        "zh-TW": "安比ゴンドラ UNKAIデッキ",
-        "en": "Appi Unkai (Sea of Clouds) Gondola",
-        "ja": "安比ゴンドラ UNKAIデッキ"
-       },
-       "lat": 39.9944,
-       "lon": 140.9642,
-       "coord_confidence": "medium",
-       "elevation_m": 1304.0,
-       "coordinate_source": "ja.wikipedia 安比高原スキー場 (39.9944,140.9642 resort area; UNKAIデッキ山頂 1,304 m official appi.co.jp APPI1304); verifiability lowest of the admitted set (official press fragment only)",
-       "verification_status": "cl_data_25_web_verified_2026_11_07",
-       "geometry_type": "area",
-       "geometry_extent_m": 300,
-       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
-      }
-     ]
-    }
-   ]
-  },
-  {
    "spot_id": "tw-087",
    "canonical_name": "大雪山國家森林遊樂區 43K 遊客中心",
    "product_status": "KEEP",
@@ -24333,168 +24244,6 @@
    ]
   },
   {
-   "spot_id": "tw-090",
-   "canonical_name": "加路蘭遊憩區",
-   "product_status": "KEEP",
-   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
-   "research_sources": [
-    {
-     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
-     "url": "https://www.eastcoast-nsa.gov.tw/zh-tw/Attractions/Detail/28",
-     "verified_on": "2026-11-07",
-     "supports": "東部海岸國家風景區管理處官網（台11線155K 加路蘭遊憩區）＋dossier座標 22.7864,121.1839；2027(民115)2/23起園區整修全年不開放 — 需在 access note 標示. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
-    }
-   ],
-   "opportunities": [
-    {
-     "opportunity_id": "tw-090-P01",
-     "spot_id": "tw-090",
-     "name_zh": "加路蘭星空",
-     "legacy_theme": "milky_way",
-     "mode": "area_opportunity",
-     "sampling_topology": "local_area",
-     "geometry_required": false,
-     "opportunity_confidence": "medium",
-     "formula_status": "needs_astronomy_ephemeris_module",
-     "formula_version": "v0.04-cl-data-25-jialulan-coast-P01",
-     "formula_confidence": 50,
-     "best_time": "加路蘭星空",
-     "best_season": "全年候選，實際成立與否以當日資料為準",
-     "best_season_i18n": {
-      "zh-TW": "全年候選，實際成立與否以當日資料為準",
-      "en": "Year-round candidate; actual validity follows the day's data.",
-      "ja": "通年候補。成立は当日データ次第。"
-     },
-     "condition_variants": [
-      {
-       "variant_id": "VAR-368",
-       "variant_name": "加路蘭星空",
-       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
-       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
-       "boosters": "台11線旁免費園區24h開放（整修期除外）；東海岸暗空；銀河核心季 3–9月朝南。",
-       "penalties": "惡劣天候、能見度差、營運/季節窗外",
-       "formula_status": "needs_astronomy_ephemeris_module",
-       "variant_name_i18n": {
-        "zh-TW": "加路蘭星空",
-        "en": "Jialulan starry sky",
-        "ja": "加路蘭の星空"
-       },
-       "required_conditions_i18n": {
-        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
-        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
-        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
-       },
-       "boosters_i18n": {
-        "zh-TW": "台11線旁免費園區24h開放（整修期除外）；東海岸暗空；銀河核心季 3–9月朝南。",
-        "en": "Free 24h park beside Highway 11 (except renovation closure); East-coast dark sky; galactic core season Mar-Sep toward the south.",
-        "ja": "台11線沿いの無料園区、24時間開放（整備期間を除く）。東海岸の暗空。銀河中心は3〜9月に南へ。"
-       },
-       "penalties_i18n": {
-        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
-        "en": "Severe weather, poor visibility, outside operating/season window.",
-        "ja": "悪天候、視程不良、営業・季節窓外。"
-       }
-      }
-     ],
-     "viewpoints": [
-      {
-       "viewpoint_id": "tw-090-VP01",
-       "relation_role": "reference",
-       "sort_order": 1,
-       "name": "加路蘭遊憩區",
-       "name_i18n": {
-        "zh-TW": "加路蘭遊憩區",
-        "en": "Jialulan Recreation Area",
-        "ja": "加路蘭遊憩區"
-       },
-       "lat": 22.7864,
-       "lon": 121.1839,
-       "coord_confidence": "medium_high",
-       "elevation_m": 30.0,
-       "coordinate_source": "東部海岸國家風景區管理處官網（台11線155K 加路蘭遊憩區）＋dossier座標 22.7864,121.1839；2027(民115)2/23起園區整修全年不開放 — 需在 access note 標示",
-       "verification_status": "cl_data_25_web_verified_2026_11_07",
-       "geometry_type": "area",
-       "geometry_extent_m": 300,
-       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
-      }
-     ]
-    },
-    {
-     "opportunity_id": "tw-090-P02",
-     "spot_id": "tw-090",
-     "name_zh": "加路蘭朝陽",
-     "legacy_theme": "sunrise",
-     "mode": "area_opportunity",
-     "sampling_topology": "local_area",
-     "geometry_required": false,
-     "opportunity_confidence": "medium",
-     "formula_status": "needs_marine_directional_horizon_module",
-     "formula_version": "v0.04-cl-data-25-jialulan-coast-P02",
-     "formula_confidence": 50,
-     "best_time": "加路蘭朝陽",
-     "best_season": "全年候選，實際成立與否以當日資料為準",
-     "best_season_i18n": {
-      "zh-TW": "全年候選，實際成立與否以當日資料為準",
-      "en": "Year-round candidate; actual validity follows the day's data.",
-      "ja": "通年候補。成立は当日データ次第。"
-     },
-     "condition_variants": [
-      {
-       "variant_id": "VAR-369",
-       "variant_name": "加路蘭朝陽",
-       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
-       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
-       "boosters": "海平面日出全年；冬季海面雲量多、夏季較穩定。",
-       "penalties": "惡劣天候、能見度差、營運/季節窗外",
-       "formula_status": "needs_marine_directional_horizon_module",
-       "variant_name_i18n": {
-        "zh-TW": "加路蘭朝陽",
-        "en": "Jialulan sunrise",
-        "ja": "加路蘭の朝陽"
-       },
-       "required_conditions_i18n": {
-        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
-        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
-        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
-       },
-       "boosters_i18n": {
-        "zh-TW": "海平面日出全年；冬季海面雲量多、夏季較穩定。",
-        "en": "Sea-horizon sunrise all year; winter cloud over the sea is commoner, summer steadier.",
-        "ja": "海平線からの日の出は通年。冬は海上の雲が多く夏が安定。"
-       },
-       "penalties_i18n": {
-        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
-        "en": "Severe weather, poor visibility, outside operating/season window.",
-        "ja": "悪天候、視程不良、営業・季節窓外。"
-       }
-      }
-     ],
-     "viewpoints": [
-      {
-       "viewpoint_id": "tw-090-VP01",
-       "relation_role": "reference",
-       "sort_order": 1,
-       "name": "加路蘭遊憩區",
-       "name_i18n": {
-        "zh-TW": "加路蘭遊憩區",
-        "en": "Jialulan Recreation Area",
-        "ja": "加路蘭遊憩區"
-       },
-       "lat": 22.7864,
-       "lon": 121.1839,
-       "coord_confidence": "medium_high",
-       "elevation_m": 30.0,
-       "coordinate_source": "東部海岸國家風景區管理處官網（台11線155K 加路蘭遊憩區）＋dossier座標 22.7864,121.1839；2027(民115)2/23起園區整修全年不開放 — 需在 access note 標示",
-       "verification_status": "cl_data_25_web_verified_2026_11_07",
-       "geometry_type": "area",
-       "geometry_extent_m": 300,
-       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
-      }
-     ]
-    }
-   ]
-  },
-  {
    "spot_id": "tw-091",
    "canonical_name": "司馬庫斯部落",
    "product_status": "KEEP",
@@ -24647,95 +24396,6 @@
        "coord_confidence": "medium",
        "elevation_m": 1600.0,
        "coordinate_source": "CL-DATA-23 dossier approx (司馬庫斯部落, 海拔約1,500–1,600 m zh.wikipedia); 部落代表點座標未一手核實 → approx + medium",
-       "verification_status": "cl_data_25_web_verified_2026_11_07",
-       "geometry_type": "area",
-       "geometry_extent_m": 300,
-       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "spot_id": "tw-092",
-   "canonical_name": "北關海潮公園",
-   "product_status": "KEEP",
-   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
-   "research_sources": [
-    {
-     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
-     "url": "https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=274",
-     "verified_on": "2026-11-07",
-     "supports": "東北角及宜蘭海岸國家風景區官網（頭城鎮更新里, 台2線129.9K）＋dossier座標 24.793,121.875；龜山島朝日夏季方位. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
-    }
-   ],
-   "opportunities": [
-    {
-     "opportunity_id": "tw-092-P01",
-     "spot_id": "tw-092",
-     "name_zh": "龜山島朝日（北關）",
-     "legacy_theme": "sunrise",
-     "mode": "area_opportunity",
-     "sampling_topology": "local_area",
-     "geometry_required": false,
-     "opportunity_confidence": "medium",
-     "formula_status": "needs_directional_horizon_visibility_module",
-     "formula_version": "v0.04-cl-data-25-beiguan-tide-park-P01",
-     "formula_confidence": 50,
-     "best_time": "龜山島朝日（北關）",
-     "best_season": "季節窗 06-01–09-30（seasonal-calendar）",
-     "best_season_i18n": {
-      "zh-TW": "季節窗 06-01–09-30（seasonal-calendar）",
-      "en": "Seasonal window 06-01-09-30 (seasonal-calendar)",
-      "ja": "季節窓 06-01〜09-30（seasonal-calendar）"
-     },
-     "condition_variants": [
-      {
-       "variant_id": "VAR-372",
-       "variant_name": "龜山島朝日（北關）",
-       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
-       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
-       "boosters": "龜山島朝日夏季日出方位最佳（6–9月）；漲潮時段部分步道封閉；礁岩區注意湧浪。",
-       "penalties": "惡劣天候、能見度差、營運/季節窗外",
-       "formula_status": "needs_directional_horizon_visibility_module",
-       "variant_name_i18n": {
-        "zh-TW": "龜山島朝日（北關）",
-        "en": "Gueishan Island sunrise (Beiguan)",
-        "ja": "亀山島の朝日（北関）"
-       },
-       "required_conditions_i18n": {
-        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
-        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
-        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
-       },
-       "boosters_i18n": {
-        "zh-TW": "龜山島朝日夏季日出方位最佳（6–9月）；漲潮時段部分步道封閉；礁岩區注意湧浪。",
-        "en": "Gueishan sunrise aligns best in the summer months (Jun-Sep); part of the shore path closes at high tide; beware surge on the reef rocks.",
-        "ja": "亀山島の朝日は夏（6〜9月）の方位が最良。満潮時は歩道の一部が閉鎖。礁岩の湧浪に注意。"
-       },
-       "penalties_i18n": {
-        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
-        "en": "Severe weather, poor visibility, outside operating/season window.",
-        "ja": "悪天候、視程不良、営業・季節窓外。"
-       }
-      }
-     ],
-     "viewpoints": [
-      {
-       "viewpoint_id": "tw-092-VP01",
-       "relation_role": "reference",
-       "sort_order": 1,
-       "name": "北關海潮公園",
-       "name_i18n": {
-        "zh-TW": "北關海潮公園",
-        "en": "Beiguan Tide Park",
-        "ja": "北關海潮公園"
-       },
-       "lat": 24.793,
-       "lon": 121.875,
-       "coord_confidence": "medium_high",
-       "elevation_m": 15.0,
-       "coordinate_source": "東北角及宜蘭海岸國家風景區官網（頭城鎮更新里, 台2線129.9K）＋dossier座標 24.793,121.875；龜山島朝日夏季方位",
        "verification_status": "cl_data_25_web_verified_2026_11_07",
        "geometry_type": "area",
        "geometry_extent_m": 300,
@@ -25159,51 +24819,51 @@
    ]
   },
   {
-   "spot_id": "tw-096",
-   "canonical_name": "半天寮好望角",
+   "spot_id": "tw-098",
+   "canonical_name": "渭水之丘",
    "product_status": "KEEP",
    "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
    "research_sources": [
     {
      "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
-     "url": "https://miaolitravel.net/Article.aspx?lang=1&sNo=04007314",
+     "url": "https://zh.wikipedia.org/wiki/%E6%AB%BB%E8%8A%B1%E9%99%B5%E5%9C%92",
      "verified_on": "2026-11-07",
-     "supports": "苗栗縣政府旅遊網（後龍鎮半天寮好望角）＋dossier座標 24.603,120.745；海線日落缺口. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+     "supports": "zh.wikipedia 櫻花陵園 (24°49′23″N 121°42′9″E = 24.8231,121.7025；渭水之丘在園區最高丘地) — CL-DATA-23 dossier approx 24.636,121.64 與實際位置偏差大，依 web 證據修正；海拔約750–800 m（zh.wikipedia：海拔約750至800公尺，取 dossier 800）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
     }
    ],
    "opportunities": [
     {
-     "opportunity_id": "tw-096-P01",
-     "spot_id": "tw-096",
-     "name_zh": "海峽夕照",
-     "legacy_theme": "sunset",
+     "opportunity_id": "tw-098-P01",
+     "spot_id": "tw-098",
+     "name_zh": "渭水之丘晨霧琉璃光",
+     "legacy_theme": "cloud_sea",
      "mode": "area_opportunity",
      "sampling_topology": "local_area",
      "geometry_required": false,
      "opportunity_confidence": "medium",
-     "formula_status": "needs_directional_horizon_visibility_module",
-     "formula_version": "v0.04-cl-data-25-haowanjiao-P01",
+     "formula_status": "needs_spatial_weather_module",
+     "formula_version": "v0.04-cl-data-25-weishui-hill-P01",
      "formula_confidence": 50,
-     "best_time": "海峽夕照",
-     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_time": "渭水之丘晨霧琉璃光",
+     "best_season": "季節窗 10-01–03-31（seasonal-calendar）",
      "best_season_i18n": {
-      "zh-TW": "全年候選，實際成立與否以當日資料為準",
-      "en": "Year-round candidate; actual validity follows the day's data.",
-      "ja": "通年候補。成立は当日データ次第。"
+      "zh-TW": "季節窗 10-01–03-31（seasonal-calendar）",
+      "en": "Seasonal window 10-01-03-31 (seasonal-calendar)",
+      "ja": "季節窓 10-01〜03-31（seasonal-calendar）"
      },
      "condition_variants": [
       {
-       "variant_id": "VAR-378",
-       "variant_name": "海峽夕照",
+       "variant_id": "VAR-388",
+       "variant_name": "渭水之丘晨霧琉璃光",
        "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
        "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
-       "boosters": "苗栗海線日落缺口（高美以北無海線拍點）；海峽夕照全年、秋冬大氣通透度最佳；風車區注意強風。",
+       "boosters": "懸空平台俯瞰蘭陽平原輻射霧／低雲覆平原的琉璃光（10–3月霧季晨前）；與 tw-031 抹茶山（3.28km，登山步道山景題材）題材錯位——本點為平原霧海俯視點",
        "penalties": "惡劣天候、能見度差、營運/季節窗外",
-       "formula_status": "needs_directional_horizon_visibility_module",
+       "formula_status": "needs_spatial_weather_module",
        "variant_name_i18n": {
-        "zh-TW": "海峽夕照",
-        "en": "Strait sunset",
-        "ja": "海峡の夕照"
+        "zh-TW": "渭水之丘晨霧琉璃光",
+        "en": "Weishui Hill morning mist glow",
+        "ja": "渭水の丘の朝霧"
        },
        "required_conditions_i18n": {
         "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
@@ -25211,9 +24871,9 @@
         "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
        },
        "boosters_i18n": {
-        "zh-TW": "苗栗海線日落缺口（高美以北無海線拍點）；海峽夕照全年、秋冬大氣通透度最佳；風車區注意強風。",
-        "en": "Fills the Miaoli coast sunset gap (no sea-line sunset point north of Gaomei); strait sunsets all year with best transparency in autumn-winter; mind the strong winds by the wind turbines.",
-        "ja": "高美以北に海線の日没点がなく本点が補う。海峡の夕照は通年、秋冬は大気透明度が最良。風車区の強風に注意。"
+        "zh-TW": "懸空平台俯瞰蘭陽平原輻射霧／低雲覆平原的琉璃光（10–3月霧季晨前）；與 tw-031 抹茶山（3.28km，登山步道山景題材）題材錯位——本點為平原霧海俯視點。",
+        "en": "Overlook-plane radiation fog / low cloud over the Lanyang Plain at dawn (Oct-Mar mist season); subject-disjoint from tw-031 Matcha Mountain 3.28 km away (hiking-trail mountain scenery) - this place is a plain-fog-sea overlook.",
+        "ja": "蘭陽平原の放射霧・低雲を丘上から一望（10〜3月の霧季、夜明け前）。3.28km先の抹茶山（tw-031、登山道の山景）とは題材が別。"
        },
        "penalties_i18n": {
         "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
@@ -25224,109 +24884,20 @@
      ],
      "viewpoints": [
       {
-       "viewpoint_id": "tw-096-VP01",
+       "viewpoint_id": "tw-098-VP01",
        "relation_role": "reference",
        "sort_order": 1,
-       "name": "半天寮好望角",
+       "name": "渭水之丘",
        "name_i18n": {
-        "zh-TW": "半天寮好望角",
-        "en": "Haowanjiao Cape, Houlong",
-        "ja": "半天寮好望角"
+        "zh-TW": "渭水之丘",
+        "en": "Weishui Hill, Jiaoxi",
+        "ja": "渭水之丘"
        },
-       "lat": 24.603,
-       "lon": 120.745,
+       "lat": 24.823055,
+       "lon": 121.7025,
        "coord_confidence": "medium_high",
-       "elevation_m": 98.0,
-       "coordinate_source": "苗栗縣政府旅遊網（後龍鎮半天寮好望角）＋dossier座標 24.603,120.745；海線日落缺口",
-       "verification_status": "cl_data_25_web_verified_2026_11_07",
-       "geometry_type": "area",
-       "geometry_extent_m": 300,
-       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "spot_id": "tw-097",
-   "canonical_name": "擎天崗",
-   "product_status": "KEEP",
-   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
-   "research_sources": [
-    {
-     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
-     "url": "https://zh.wikipedia.org/wiki/%E6%93%8E%E5%A4%A9%E5%B4%97",
-     "verified_on": "2026-11-07",
-     "supports": "zh.wikipedia 擎天崗 (25°09′59″N 121°34′27″E = 25.1664,121.5743) — shortlist值 25.1169,121.5549 偏差約6km 已修正. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
-    }
-   ],
-   "opportunities": [
-    {
-     "opportunity_id": "tw-097-P01",
-     "spot_id": "tw-097",
-     "name_zh": "擎天崗星空",
-     "legacy_theme": "milky_way",
-     "mode": "area_opportunity",
-     "sampling_topology": "local_area",
-     "geometry_required": false,
-     "opportunity_confidence": "medium",
-     "formula_status": "needs_astronomy_ephemeris_module",
-     "formula_version": "v0.04-cl-data-25-qingtiangang-P01",
-     "formula_confidence": 50,
-     "best_time": "擎天崗星空",
-     "best_season": "全年候選，實際成立與否以當日資料為準",
-     "best_season_i18n": {
-      "zh-TW": "全年候選，實際成立與否以當日資料為準",
-      "en": "Year-round candidate; actual validity follows the day's data.",
-      "ja": "通年候補。成立は当日データ次第。"
-     },
-     "condition_variants": [
-      {
-       "variant_id": "VAR-379",
-       "variant_name": "擎天崗星空",
-       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
-       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
-       "boosters": "大台北近郊銀河（光害打折——Bortle 較高、誠實標註）；園區24h開放夜間無照明、野牛群保持距離。",
-       "penalties": "惡劣天候、能見度差、營運/季節窗外",
-       "formula_status": "needs_astronomy_ephemeris_module",
-       "variant_name_i18n": {
-        "zh-TW": "擎天崗星空",
-        "en": "Qingtiangang night sky",
-        "ja": "擎天崗の星空"
-       },
-       "required_conditions_i18n": {
-        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
-        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
-        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
-       },
-       "boosters_i18n": {
-        "zh-TW": "大台北近郊銀河（光害打折——Bortle 較高、誠實標註）；園區24h開放夜間無照明、野牛群保持距離。",
-        "en": "Suburban Taipei night sky with honest light-pollution discount (higher Bortle class); park open 24h with no lighting at night - keep distance from the feral cattle.",
-        "ja": "台北近郊の星空（光害割引を誠実に表示）。24時間開放、夜間照明なし。野牛とは距離を取る。"
-       },
-       "penalties_i18n": {
-        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
-        "en": "Severe weather, poor visibility, outside operating/season window.",
-        "ja": "悪天候、視程不良、営業・季節窓外。"
-       }
-      }
-     ],
-     "viewpoints": [
-      {
-       "viewpoint_id": "tw-097-VP01",
-       "relation_role": "reference",
-       "sort_order": 1,
-       "name": "擎天崗",
-       "name_i18n": {
-        "zh-TW": "擎天崗",
-        "en": "Qingtiangang Grassland",
-        "ja": "擎天崗"
-       },
-       "lat": 25.1664,
-       "lon": 121.5743,
-       "coord_confidence": "high",
        "elevation_m": 800.0,
-       "coordinate_source": "zh.wikipedia 擎天崗 (25°09′59″N 121°34′27″E = 25.1664,121.5743) — shortlist值 25.1169,121.5549 偏差約6km 已修正",
+       "coordinate_source": "zh.wikipedia 櫻花陵園 (24°49′23″N 121°42′9″E = 24.8231,121.7025；渭水之丘在園區最高丘地) — CL-DATA-23 dossier approx 24.636,121.64 與實際位置偏差大，依 web 證據修正；海拔約750–800 m（zh.wikipedia：海拔約750至800公尺，取 dossier 800）",
        "verification_status": "cl_data_25_web_verified_2026_11_07",
        "geometry_type": "area",
        "geometry_extent_m": 300,
@@ -25335,37 +24906,37 @@
      ]
     },
     {
-     "opportunity_id": "tw-097-P02",
-     "spot_id": "tw-097",
-     "name_zh": "擎天崗草原雲霧",
-     "legacy_theme": "cloud_sea",
+     "opportunity_id": "tw-098-P02",
+     "spot_id": "tw-098",
+     "name_zh": "渭水之丘夜景",
+     "legacy_theme": "city_night",
      "mode": "area_opportunity",
      "sampling_topology": "local_area",
      "geometry_required": false,
      "opportunity_confidence": "medium",
-     "formula_status": "needs_spatial_weather_module",
-     "formula_version": "v0.04-cl-data-25-qingtiangang-P02",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-weishui-hill-P02",
      "formula_confidence": 50,
-     "best_time": "擎天崗草原雲霧",
-     "best_season": "季節窗 04-01–09-30（seasonal-calendar）",
+     "best_time": "渭水之丘夜景",
+     "best_season": "全年候選，實際成立與否以當日資料為準",
      "best_season_i18n": {
-      "zh-TW": "季節窗 04-01–09-30（seasonal-calendar）",
-      "en": "Seasonal window 04-01-09-30 (seasonal-calendar)",
-      "ja": "季節窓 04-01〜09-30（seasonal-calendar）"
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
      },
      "condition_variants": [
       {
-       "variant_id": "VAR-380",
-       "variant_name": "擎天崗草原雲霧",
+       "variant_id": "VAR-389",
+       "variant_name": "渭水之丘夜景",
        "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
        "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
-       "boosters": "大屯火山群熔岩階地草原的晨霧/低雲（4–9月）；與大屯山（5km外）題材錯位。",
+       "boosters": "蘭陽平原夜間燈海全景（宜蘭/羅東市街光點）＋龜山島方向海平線；與既有 tw-029 鳶山等夜景題材地理錯位。",
        "penalties": "惡劣天候、能見度差、營運/季節窗外",
-       "formula_status": "needs_spatial_weather_module",
+       "formula_status": "needs_visibility_module",
        "variant_name_i18n": {
-        "zh-TW": "擎天崗草原雲霧",
-        "en": "Qingtiangang grassland cloud mist",
-        "ja": "擎天崗の雲霧"
+        "zh-TW": "渭水之丘夜景",
+        "en": "Weishui Hill night view",
+        "ja": "渭水の丘の夜景"
        },
        "required_conditions_i18n": {
         "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
@@ -25373,9 +24944,9 @@
         "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
        },
        "boosters_i18n": {
-        "zh-TW": "大屯火山群熔岩階地草原的晨霧/低雲（4–9月）；與大屯山（5km外）題材錯位。",
-        "en": "Morning mist and low cloud over the lava-terrace grassland (Apr-Sep); subject-wise disjoint from Mt Datun (~5 km away).",
-        "ja": "大屯火山の溶岩台地草原に朝霧・低雲（4〜9月）。大屯山（5km超）とは題材が別。"
+        "zh-TW": "蘭陽平原夜間燈海全景（宜蘭/羅東市街光點）＋龜山島方向海平線；與既有 tw-029 鳶山等夜景題材地理錯位。",
+        "en": "Night-time sea of lights across the Lanyang Plain (Yilan/Luodong) with Guishan Island on the horizon; geographically disjoint from existing night-view places.",
+        "ja": "蘭陽平原の夜景（宜蘭・羅東の灯りの海）と亀山島の水平線。既存夜景地とは地理的に別。"
        },
        "penalties_i18n": {
         "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
@@ -25386,20 +24957,20 @@
      ],
      "viewpoints": [
       {
-       "viewpoint_id": "tw-097-VP01",
+       "viewpoint_id": "tw-098-VP01",
        "relation_role": "reference",
        "sort_order": 1,
-       "name": "擎天崗",
+       "name": "渭水之丘",
        "name_i18n": {
-        "zh-TW": "擎天崗",
-        "en": "Qingtiangang Grassland",
-        "ja": "擎天崗"
+        "zh-TW": "渭水之丘",
+        "en": "Weishui Hill, Jiaoxi",
+        "ja": "渭水之丘"
        },
-       "lat": 25.1664,
-       "lon": 121.5743,
-       "coord_confidence": "high",
+       "lat": 24.823055,
+       "lon": 121.7025,
+       "coord_confidence": "medium_high",
        "elevation_m": 800.0,
-       "coordinate_source": "zh.wikipedia 擎天崗 (25°09′59″N 121°34′27″E = 25.1664,121.5743) — shortlist值 25.1169,121.5549 偏差約6km 已修正",
+       "coordinate_source": "zh.wikipedia 櫻花陵園 (24°49′23″N 121°42′9″E = 24.8231,121.7025；渭水之丘在園區最高丘地) — CL-DATA-23 dossier approx 24.636,121.64 與實際位置偏差大，依 web 證據修正；海拔約750–800 m（zh.wikipedia：海拔約750至800公尺，取 dossier 800）",
        "verification_status": "cl_data_25_web_verified_2026_11_07",
        "geometry_type": "area",
        "geometry_extent_m": 300,

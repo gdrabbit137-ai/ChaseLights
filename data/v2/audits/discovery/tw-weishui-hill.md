@@ -1,9 +1,9 @@
 # 候選景點 dossier：渭水之丘／櫻花陵園（Weishui Hill, Jiaoxi）
 
 - region: tw | slug: `tw-weishui-hill`
-- 座標：24.636, 121.64（海拔 800 m）
+- 座標：24.823055, 121.7025（海拔 800 m；CL-DATA-25R 依 zh.wikipedia 櫻花陵園 infobox 24°49′23″N 121°42′9″E 修正——dossier 初版 24.636,121.64 與實際位置偏差大）
 - 擬設 subjects：mountain, cloud_sea, city
-- 差異化（機械計算）：最近既有景點 松蘿湖，距離 12.4 km
+- 差異化（機械計算，CL-DATA-25R 修正座標後重跑）：最近既有景點 tw-031 抹茶山，距離 3.281 km（<5km）——**題材錯位**：本點為平原霧海俯視點（cloud_sea 琉璃光）＋平原夜間燈海（city_night），tw-031 為登山步道山景題材（sunrise/mountain），觀景軸線與契約題材不同，差異化成立；次近 tw-055 五峰旗瀑布 4.527 km（瀑布題材）
 - **rubric 加權總分：3.8 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）

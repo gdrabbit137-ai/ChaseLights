@@ -127,6 +127,7 @@ TW_ADMIN_AREAS = {
     "tw-093": ["台中市"],
     "tw-094": ["連江縣"],
     "tw-095": ["南投縣"],
+    "tw-098": ["宜蘭縣"],
     "tw-096": ["苗栗縣"],
     "tw-097": ["台北市"],
 }
@@ -392,6 +393,7 @@ REGIONS = {
             (23.475, 120.875, "塔塔加夫妻樹／鹿林山觀景點", "Tataka Couple Trees & Lulinshan", "塔塔加夫妻樹", "塔塔加夫妻樹", "本島", ["mountain", "starlight"]),
             (24.603, 120.745, "半天寮好望角", "Haowanjiao Cape, Houlong", "半天寮好望角", "半天寮好望角", "本島", ["coast", "city"]),
             (25.1664, 121.5743, "擎天崗草原", "Qingtiangang Grassland", "擎天崗草原", "擎天崗", "本島", ["mountain", "starlight"]),
+            (24.823055, 121.7025, "渭水之丘／櫻花陵園", "Weishui Hill, Jiaoxi", "渭水の丘", "渭水之丘", "本島", ["mountain", "city"]),
         ],
     },
     "jp": {
@@ -611,6 +613,7 @@ ELEVATION_OVERRIDES = {
     "福壽山農場觀景點": 2600,
     "東莒燈塔（東犬燈塔）": 64,
     "塔塔加夫妻樹／鹿林山觀景點": 2478,
+    "渭水之丘／櫻花陵園": 800,
     "半天寮好望角": 98,
     "擎天崗草原": 800,
 }
@@ -1031,6 +1034,11 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+ "渭水之丘／櫻花陵園": {"lat": 24.823055,
+           "lon": 121.7025,
+           "map_query": "渭水之丘",
+           "coordinate_source": "CL-DATA-25R admission web verification 2026-11-07: zh.wikipedia 櫻花陵園 (24°49′23″N 121°42′9″E = 24.8231,121.7025；渭水之丘在園區最高丘地) — CL-DATA-23 dossier approx 24.636,121.64 與實際位置偏差大，依 web 證據修正；海拔約750–800 m（zh.wikipedia：海拔約750至800公尺，取 dossier 800）",
+           "coordinate_confidence": "medium_high"},
  # CL-DATA-25 discovery admission (web-verified 2026-11-07)
  "雲海テラス（トマム）": {"lat": 43.0617,
            "lon": 142.6228,

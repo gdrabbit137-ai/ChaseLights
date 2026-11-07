@@ -855,12 +855,10 @@ ASTRONOMY_EPHEMERIS_PROFILES = {
     "us-018-P02": {"mode": "milky_way_or_star_field"},
     # CL-DATA-25 discovery admission (2026-11-07): dark-sky star subjects
     "jp-042-P02": {"mode": "milky_way_or_star_field"},
-    "tw-090-P01": {"mode": "milky_way_or_star_field"},
     "tw-091-P02": {"mode": "milky_way_or_star_field"},
     "tw-093-P02": {"mode": "milky_way_or_star_field"},
     "tw-094-P01": {"mode": "milky_way_or_star_field"},
     "tw-095-P01": {"mode": "milky_way_or_star_field"},
-    "tw-097-P01": {"mode": "milky_way_or_star_field"},
 }
 
 

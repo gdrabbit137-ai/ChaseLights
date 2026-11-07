@@ -475,13 +475,6 @@
       "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
     },
     {
-      "opportunity_id": "jp-050-P01",
-      "path": "data/v2/opportunities/jp-050-P01.json",
-      "blob_sha": "d1599afb7d83eb1b50ad35b45530ee212cd1bcdf",
-      "sha256": "daf17ed433757a1f241078f463370b01f61ff73a78894f92f174fd35420006fd",
-      "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
-    },
-    {
       "opportunity_id": "tw-001-P01",
       "path": "data/v2/opportunities/tw-001-P01.json",
       "blob_sha": "2ff2b4cc3ae8b584f3cac56db7bfe1d1feb899b9",
@@ -1994,20 +1987,6 @@
       "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
     },
     {
-      "opportunity_id": "tw-090-P01",
-      "path": "data/v2/opportunities/tw-090-P01.json",
-      "blob_sha": "aad3854dcc318e5b2bf32b59d51f336f459aec72",
-      "sha256": "215a9b9cb241e2562d6d7f780e75cb99cd72170e7da0e2977c586aa52f0a9dd1",
-      "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
-    },
-    {
-      "opportunity_id": "tw-090-P02",
-      "path": "data/v2/opportunities/tw-090-P02.json",
-      "blob_sha": "de28e96552488edf5a14ce55088981686bfaa4eb",
-      "sha256": "f75bf83f73057ffb1813eabe3ccdc54a15a722f210e71119c47834d7e0c75b04",
-      "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
-    },
-    {
       "opportunity_id": "tw-091-P01",
       "path": "data/v2/opportunities/tw-091-P01.json",
       "blob_sha": "0b101b962eb2587985594867bb8cb55339f412ee",
@@ -2019,13 +1998,6 @@
       "path": "data/v2/opportunities/tw-091-P02.json",
       "blob_sha": "a7e589092d88a90f067b98664b627eceaa7c7585",
       "sha256": "14e9a59e8e1a0d100db413adc0664ed76fc537df7642c0422f5895b020011333",
-      "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
-    },
-    {
-      "opportunity_id": "tw-092-P01",
-      "path": "data/v2/opportunities/tw-092-P01.json",
-      "blob_sha": "7b4df4a0f39c0fa937dbd39372a32c35fd300203",
-      "sha256": "c839c72891e5a4919b6a99e39cd8b5f2a41d2a6f38649791be7934c7593fe144",
       "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
     },
     {
@@ -2061,27 +2033,6 @@
       "path": "data/v2/opportunities/tw-095-P02.json",
       "blob_sha": "9f0a7ed91652e34ac4dfbb61deb5e1e6f48bc117",
       "sha256": "431da22e7aa4c2e28977132cadd323c7bee1c795239c74368951bb28acb61c80",
-      "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
-    },
-    {
-      "opportunity_id": "tw-096-P01",
-      "path": "data/v2/opportunities/tw-096-P01.json",
-      "blob_sha": "7fe2849e053cdf4267ee82d85a3fb2598ae299dd",
-      "sha256": "2d8a9c67a5c92c27fd6cbed668fba4dc7910615960e368a8194c895387e16994",
-      "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
-    },
-    {
-      "opportunity_id": "tw-097-P01",
-      "path": "data/v2/opportunities/tw-097-P01.json",
-      "blob_sha": "6b271f70ac9ff7314e803eef83857408dbd050a5",
-      "sha256": "b7a01cb0102ee12366c61f0e23ada8ebc723ee1de95a330426bcd3951235523e",
-      "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
-    },
-    {
-      "opportunity_id": "tw-097-P02",
-      "path": "data/v2/opportunities/tw-097-P02.json",
-      "blob_sha": "117fa877088f1ab16f00c6934bb03e6e5af646f3",
-      "sha256": "4aa80c6ea3827aaafbecf71899662fab3feb5dffa0ff359cae19e57bdccebf09",
       "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
     },
     {
@@ -3521,5 +3472,6 @@
   "repin_note_cl_data_12_20261106": "CL-DATA-12 契約語義修正第一波（全面稽查 A–O）：threshold=null 修復（tw/jp/us overlook cloud_cover_low 30/lte）、琉璃光改雲海式低雲代理、倒影補風速、模板錯置重映射（祝山日出雲海/縱谷雲海/逆さ富士/大稻埕夕照/喜多麗/桃山/崗山之眼/Kerry Park/Brooks Falls/Reflection Lakes/Space Needle/Pike Place/Grand Prismatic/得月樓）、時間窗語義（全日題材窗降 MODIFIER、夕照/日出題材窗升 REQUIRED、月世界移除天文黑暗＋月光三項留 city_night_window）、高緯（>55°N）全日題材補 civil light_window（CL-DATA-11 同源定義；us-057-P01 人審契約未動，待 owner 校準）、潮汐題材誠實 not_evaluatable（tidal module 未接入，fail-closed）。每筆為語意修正，layering parity gate 豁免，revision note 記於各 condition notes_i18n（CL-DATA-12 標記）。",
   "repin_note_cl_data_14_20261106": "CL-DATA-14 merge (3682e14ec): 10 canonical records byte-changed by ticket corrections; 37 records (CL-CI-14 set) had correct sha256/blob pins but stale commit_sha (latent --git-provenance failure on main) — all 47 commit_sha repointed to the merge commit; bytes verified in merged checkout.",
   "repin_note_cl_data_20_20261106": "CL-DATA-20: 18 tailored contracts admitted for the 7 no-opportunity spots and pinned to the data commit a4f803a7106816773ef5a2f659271c656b873bd7; tw-059-P01/tw-078-P01 (tidal genre marking) and tw-016-P01 (web-verified summit geometry) byte-changed and re-pinned to the same commit; cl-data-20_web_evidence.json added as a supporting audit source (AI web verification, human-review gate retired by owner ruling).",
-  "repin_note_cl_data_19_20261106": "CL-DATA-19 中緯度全日題材補 civil light_window（太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）：124 筆契約重釘 canonical_records 至本票 commit（overlook 21 / mountain_view 39 / reflection 20 / overcast_soft 17 / geological_landform 15 / seasonal_plant 12）。得月樓（tw-062-P01）抽查實證夜間誤判可拍，故補必要光線窗。每筆為語意修正，layering parity gate 豁免，revision note 記於各 condition 的 rationale/notes_i18n。人審釘選（task-s fixtures：jp-010-P01/tw-034-P02/tw-082-P01；worker2 fixture：tw-016-P01；owner 校準待人審契約 us-057-P01）與 legacy stub（tw-059-P01/tw-060-P01/tw-078-P01/jp-030-P01）未動。"
+  "repin_note_cl_data_19_20261106": "CL-DATA-19 中緯度全日題材補 civil light_window（太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）：124 筆契約重釘 canonical_records 至本票 commit（overlook 21 / mountain_view 39 / reflection 20 / overcast_soft 17 / geological_landform 15 / seasonal_plant 12）。得月樓（tw-062-P01）抽查實證夜間誤判可拍，故補必要光線窗。每筆為語意修正，layering parity gate 豁免，revision note 記於各 condition 的 rationale/notes_i18n。人審釘選（task-s fixtures：jp-010-P01/tw-034-P02/tw-082-P01；worker2 fixture：tw-016-P01；owner 校準待人審契約 us-057-P01）與 legacy stub（tw-059-P01/tw-060-P01/tw-078-P01/jp-030-P01）未動。",
+  "rollback_note_cl_data_25r_20261107": "CL-DATA-25R (2026-11-07): rubric-v2 alignment — owner ruling: weighted_total_v2 >= 3.8 admits directly; below 3.8 goes to the Excel side list only. Rolled back the full legacy+V2+runtime catalog entries of the 5 v1-built but v2-rejected places (jp-050 安比雲海 3.30, tw-090 加路蘭 3.70, tw-092 北關海潮 3.60, tw-096 好望角 3.70, tw-097 擎天崗 3.20); their canonical_records are removed and their dossiers remain under data/v2/audits/discovery/ for the Excel side list. jp-041 流氷 is kept (v2 4.8 passes the line; drift_ice stays not_evaluatable)."
 }
