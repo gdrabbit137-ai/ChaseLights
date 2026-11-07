@@ -187,7 +187,9 @@ test('CL-UI-14 U2: status legend + plain-language tooltips above the table',()=>
   const modalBlock=block('function renderWeatherModal','function closeModal');
   assert.match(modalBlock,/timeline-legend/);
   assert.match(modalBlock,/legend-ok/);
-  assert.match(modalBlock,/legend-chance/);
+  // CL-UI-43: the hourly statuses are V2-owned (✅/⚠️/資料不足); the legacy
+  // 🟡/🕒 legend families no longer appear in this table.
+  assert.ok(!modalBlock.includes('legend-chance'));
   assert.match(modalBlock,/legend-bad/);
   // Professional values stay; tooltips add the plain-language meaning.
   for(const key of ['tip_cloud_base','tip_low_cloud','tip_wind','tip_vis']){

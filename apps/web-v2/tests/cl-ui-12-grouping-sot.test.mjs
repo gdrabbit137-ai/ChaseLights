@@ -102,7 +102,7 @@ test('CL-UI-12 (c): day0 qualifying hours count only the remaining part of the d
   // The modal day row also counts remaining hours for today and annotates
   // excluded past hours; the full-day detail is preserved.
   const v2DayHtmlBlock=block('function v2DayHtml','let v2Details={}');
-  assert.match(v2DayHtmlBlock,/const hoursList=v2IsToday\(day,tz\)\?v2RemainingHoursList\(allHours,localNowMinutes\(tz\)\):allHours;/);
+  assert.match(v2DayHtmlBlock,/const hoursList=v2EffectiveHours\(day,tz\);/);
   assert.match(v2DayHtmlBlock,/v2-past-note/);
   assert.match(appSource,/v2DayHtml\(day,labels\[i\]\|\|day\.local_date,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id\)/);
   // The modal's "current-conditions" reference hour never resolves to a
