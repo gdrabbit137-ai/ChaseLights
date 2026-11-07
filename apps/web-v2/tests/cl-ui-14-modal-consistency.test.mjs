@@ -130,7 +130,7 @@ test('CL-UI-42 F5: a MM/DD day label never repeats the date in the window segmen
 test('CL-UI-14 F3: missing astronomy gets an honest per-hour reason, never a bare dash',()=>{
   assert.equal(esc('x<'),'x&lt;');
   const rowBlock=grab('(spot.hourly_forecast||[])','decorateWeatherTimeline(spot');
-  assert.match(rowBlock,/\$\{astro\|\|astroMissingHtml\(\)\}/);
+  assert.match(rowBlock,/\$\{astro\|\|astroMissingHtml\(item,true\)\}/);
   assert.match(rowBlock,/timeline-mobile-astro astro-missing/);
   for(const lang of ['zh-TW','en','ja']){
     assert.ok(new RegExp(`astro_missing:'`).test(appSource));
