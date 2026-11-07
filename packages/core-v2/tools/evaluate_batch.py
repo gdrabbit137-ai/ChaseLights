@@ -39,7 +39,8 @@ for entry in (str(ROOT / "packages/core-v2"), str(ROOT / "packages/models-v2"), 
 from adapters import open_meteo_batch as adapter  # noqa: E402
 from adapters.threshold_observations import METRIC_FIELDS, compare  # noqa: E402
 from astro_hourly import (  # noqa: E402
-    ASTRO_SAMPLING_PROVENANCE, hour_observations, sun_events_span)
+    ASTRO_SAMPLING_PROVENANCE, WINDOW_SAMPLE_OFFSETS, hour_observations,
+    sun_events_span, window_pass_profiles)
 
 BUNDLE_VERSION = "0.1.0"
 ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blue_hour_window",
@@ -507,9 +508,33 @@ def main():
                 local_stamp = at + timedelta(hours=offset)
                 day_key = local_stamp.date().isoformat()
                 entry = days.setdefault(day_key, {"local_date": day_key, "hours": []})
+                # CL-DATA-31: a qualifying hour bucket is stamped at its
+                # EARLIEST passing sub-hour sample, never at the bucket start —
+                # any()-aggregated narrow windows (sunrise/sunset ±40 min,
+                # blue/golden hour) can sit entirely inside the second half of
+                # the bucket, so a bucket-start label led the real window by
+                # up to ~55 minutes (challenger audit 2026-11-08: sunrise
+                # cards showed 05:00 for an ~06:05 sunrise whose window opens
+                # ~05:25, while the sun was still below −10° at 05:00).
+                # Weather conditions stay bucket-level (hourly grid data), so
+                # the label is precise for the astro window within the bucket.
+                precise_local = None
+                if status == "GUIDANCE_SATISFIED":
+                    window_metrics = [c["metric"] for c in conditions_eval
+                                      if c["metric"] in TIME_WINDOW_METRICS]
+                    if window_metrics:
+                        profiles = window_pass_profiles(at, lat, lon,
+                                                        events=events)
+                        for i, off in enumerate(WINDOW_SAMPLE_OFFSETS):
+                            if all(profiles[m][i] for m in window_metrics):
+                                precise_local = (local_stamp
+                                                 + timedelta(minutes=off)
+                                                 ).strftime("%H:%M")
+                                break
                 entry["hours"].append({
                     "utc": hour_row["valid_at_utc"],
                     "local": local_stamp.strftime("%H:%M"),
+                    "local_precise": precise_local,
                     "status": status,
                     "failed": fails,
                     "unknown": unknowns,
@@ -568,7 +593,11 @@ def main():
                 day_out.append({
                     "local_date": day_key,
                     "state": state,
-                    "good_hours": [h["local"] for h in hours_out
+                    # CL-DATA-31: good_hours carry the EARLIEST passing
+                    # sub-hour instant (local_precise) when one was computed —
+                    # never a bucket-start stamp earlier than the light window.
+                    "good_hours": [h.get("local_precise") or h["local"]
+                                   for h in hours_out
                                    if h["status"] == "GUIDANCE_SATISFIED"],
                     "hour_counts": counts,
                     "conditions": conditions_day,

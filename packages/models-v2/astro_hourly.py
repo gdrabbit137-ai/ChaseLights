@@ -148,6 +148,62 @@ def sun_events_span(lat, lon, start_epoch, end_epoch, step_s=600):
     return events
 
 
+def _bucket_altitudes(dt_utc, lat, lon, events=None):
+    """The WINDOW_SAMPLE_OFFSETS grid instants and their sun altitudes for one
+    hour bucket — the shared sample base of hour_observations and
+    window_pass_profiles. `events` is computed here when omitted (same
+    convention as hour_observations)."""
+    if events is None:
+        epoch0 = dt_utc.timestamp()
+        events = sun_events_span(lat, lon, epoch0 - 86400, epoch0 + 86400)
+    epoch = dt_utc.timestamp()
+    samples = [epoch + off * 60.0 for off in WINDOW_SAMPLE_OFFSETS]
+    altitudes = [_sun_altitude(datetime.fromtimestamp(t, timezone.utc), lat, lon)
+                 for t in samples]
+    return samples, altitudes, events
+
+
+def window_pass_profiles(dt_utc, lat, lon, events=None):
+    """CL-DATA-31: per-sample pass booleans for every sub-hour window metric,
+    over the SAME [dt, dt+60min) bucket and WINDOW_SAMPLE_OFFSETS grid that
+    hour_observations aggregates with any()/all(). A bucket qualifies when ANY
+    sample sits inside a narrow window (e.g. sunrise ±40 min), so a
+    bucket-start stamp can LEAD the actual window by up to ~55 minutes — a
+    06:05 sunrise marks the 05:00 bucket qualifying even though its window
+    only opens 05:25 (sun still below −10° at 05:00; challenger audit
+    2026-11-08). The evaluator uses the profiles to stamp a qualifying bucket
+    at its EARLIEST passing sample instead of the bucket start, so a
+    qualifying-hour label never claims light earlier than the window provides."""
+    if events is None:
+        epoch0 = dt_utc.timestamp()
+        events = sun_events_span(lat, lon, epoch0 - 86400, epoch0 + 86400)
+    samples, altitudes, events = _bucket_altitudes(dt_utc, lat, lon, events)
+    profiles = {
+        "astronomical_darkness": [a <= DARKNESS_MAX_DEG for a in altitudes],
+        "city_night_window": [a <= CITY_NIGHT_MAX_DEG for a in altitudes],
+        "golden_hour_window": [GOLDEN_LOW_DEG <= a <= GOLDEN_HIGH_DEG
+                               for a in altitudes],
+        "blue_hour_window": [BLUE_LOW_DEG <= a <= BLUE_HIGH_DEG
+                             for a in altitudes],
+        "light_window": [a > CIVIL_LIGHT_MIN_DEG for a in altitudes],
+        "sunrise_time_window": [False] * len(samples),
+        "sunset_window": [False] * len(samples),
+    }
+    for key, kind, half in (("sunrise_time_window", "sunrise",
+                             SUNRISE_HALF_WIDTH_MIN * 60),
+                            ("sunset_window", "sunset",
+                             SUNSET_HALF_WIDTH_MIN * 60)):
+        for i, t in enumerate(samples):
+            best = None
+            for event_t, event_kind in events:
+                if event_kind == kind:
+                    delta = abs(event_t - t)
+                    if best is None or delta < best:
+                        best = delta
+            profiles[key][i] = best is not None and best <= half
+    return profiles
+
+
 def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
     """Astronomy metric values for one hour bucket. `events` is the precomputed
     sun_events_span list for this coordinate (computed once per place when
@@ -163,34 +219,28 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
     if events is None:
         epoch0 = dt_utc.timestamp()
         events = sun_events_span(lat, lon, epoch0 - 86400, epoch0 + 86400)
-    epoch = dt_utc.timestamp()
-    samples = [epoch + off * 60.0 for off in WINDOW_SAMPLE_OFFSETS]
-    altitudes = [_sun_altitude(datetime.fromtimestamp(t, timezone.utc), lat, lon)
-                 for t in samples]
+    # CL-DATA-31: hour_observations is exactly the any()/all() aggregation of
+    # the per-sample window profiles over the same bucket and sampling grid,
+    # so both functions share one code path and can never drift.
+    profiles = window_pass_profiles(dt_utc, lat, lon, events=events)
     # CL-DATA-13: azimuth at the grid instant — same chain and same sampling
     # granularity as the altitude scalar (windows sample; scalars don't).
     out = {
         "sun_azimuth_deg": _sun_azimuth(dt_utc, lat, lon),
-        "phase": _sun_phase(altitudes),
-        "astronomical_darkness": any(a <= DARKNESS_MAX_DEG for a in altitudes),
-        "city_night_window": all(a <= CITY_NIGHT_MAX_DEG for a in altitudes),
-        "golden_hour_window": any(GOLDEN_LOW_DEG <= a <= GOLDEN_HIGH_DEG
-                                  for a in altitudes),
-        "blue_hour_window": any(BLUE_LOW_DEG <= a <= BLUE_HIGH_DEG
-                                for a in altitudes),
+        "phase": _sun_phase(_bucket_altitudes(dt_utc, lat, lon, events)[1]),
+        "astronomical_darkness": any(profiles["astronomical_darkness"]),
+        "city_night_window": all(profiles["city_night_window"]),
+        "golden_hour_window": any(profiles["golden_hour_window"]),
+        "blue_hour_window": any(profiles["blue_hour_window"]),
         # CL-DATA-11: cloud-sea light window — pure civil-light geometry.
-        "light_window": all(a > CIVIL_LIGHT_MIN_DEG for a in altitudes),
+        "light_window": all(profiles["light_window"]),
     }
-    for key, kind, half in (("sunrise_time_window", "sunrise", SUNRISE_HALF_WIDTH_MIN * 60),
-                            ("sunset_window", "sunset", SUNSET_HALF_WIDTH_MIN * 60)):
-        best = None
-        for t in samples:
-            for event_t, event_kind in events:
-                if event_kind == kind:
-                    delta = abs(event_t - t)
-                    if best is None or delta < best:
-                        best = delta
-        out[key] = None if best is None else best <= half
+    # No crossing of that kind within the events span (polar day/night):
+    # propagate UNKNOWN honestly (None), never a False FAIL.
+    for key, kind in (("sunrise_time_window", "sunrise"),
+                      ("sunset_window", "sunset")):
+        out[key] = (any(profiles[key]) if any(e_kind == kind
+                                              for _, e_kind in events) else None)
     if need_moon:
         out.update(moon_observation(dt_utc, lat, lon))
     return out
