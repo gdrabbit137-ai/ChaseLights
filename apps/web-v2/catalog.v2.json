@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "dc07bb0b9d576ec2ed4808bf6e0202cd064408da",
-  "source_index_revision": "sha256:0b830cd5a303ac95ddf2d66d147af41d322465e789f59f871c9af6d1bdf4df21",
+  "source_index_commit_sha": "c97d4ab2f3a326e6dbb7f9400312ac5925eeeae1",
+  "source_index_revision": "sha256:fd8367c5d9812032ae745e1b24887cfe506669aa5ea3d5069d7185024c3a75aa",
   "source_pins": {
     "jp-002-P01": {
       "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
@@ -385,9 +385,9 @@
       "revision": 1
     },
     "tw-010-P01": {
-      "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
+      "source_commit_sha": "09e7536464cfe5071a8c7dbe2ac934000532dc98",
       "source_path": "data/v2/opportunities/tw-010-P01.json",
-      "source_blob_sha": "f1cf06d8e054e3ab46bd21490eed367bfbdaf5e6",
+      "source_blob_sha": "aaf9215a32f93eed143c3d2c698b9c7f332e83a7",
       "revision": 2
     },
     "tw-010-P02": {
@@ -25062,13 +25062,13 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "BONUS",
+            "condition_tier": "MODIFIER",
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。",
-              "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
-              "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
+              "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。CL-DATA-26 校準步驟（2026-11-07）：「日出」命名題材原以 golden_hour_window 為 BONUS，任意白天時段可當最佳；先校準為 MODIFIER tier（評估確認不誤殺全日合格時段），下一 commit 升 REQUIRED。",
+              "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required. CL-DATA-26 calibration step (2026-11-07): a subject named 'sunrise' previously treated golden_hour_window as BONUS, letting any daytime hour rank as best; first calibrated to MODIFIER tier (evaluation confirms no all-day qualified hours are wrongly killed), upgraded to REQUIRED in the next commit.",
+              "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。CL-DATA-26 校準ステップ（2026-11-07）：「日の出」と名付けた題材が golden_hour_window を BONUS として扱い、昼間の任意の時刻が最良になり得た;まず MODIFIER ティーに校準（全日成立時刻を誤って排除しないことを評価で確認）し、次のコミットで REQUIRED に昇格。"
             }
           },
           {
