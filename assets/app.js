@@ -459,10 +459,17 @@
     // card title. Data is untouched — only the rendered string is cleaned —
     // and the match is safe-prefix (strip only on a true prefix, and keep the
     // original when nothing would remain after the separator).
-    function stripSpotNamePrefix(subject,spot){
+    // CL-UI-47: the V2 research/contract place name can differ from the legacy
+    // spot name by a name variant (e.g. 八里崁頭里・淡水大橋觀景點 vs
+    // 八里崁頭里・淡江大橋觀景點), so the caller may pass the V2 evaluation
+    // bundle's place object as an extra alias source. Match semantics stay
+    // owner-ruled: longest-name-first, true full-name prefix only.
+    function stripSpotNamePrefix(subject,spot,altPlaces){
       const s=String(subject||'').trim();
       if(!s)return subject;
-      const names=[spotName(spot),spot.name_local].filter(Boolean).filter((n,i,a)=>a.indexOf(n)===i)
+      const names=[spotName(spot),spot.name_local]
+        .concat((altPlaces||[]).flatMap(p=>p?[spotName(p),p.name_local]:[]))
+        .filter(Boolean).filter((n,i,a)=>a.indexOf(n)===i)
         .sort((a,b)=>b.length-a.length);
       for(const n of names){
         if(s.startsWith(n)){
@@ -1387,7 +1394,7 @@
       const v2StateLabel=v2Evaluated?v2CardStateLabel(v2Best.state):'';
       const indicator=(!researchPending&&!noViable&&v2Evaluated&&v2Best.state==='GUIDANCE_SATISFIED')?trMessage(metric.indicator_key):'';
       const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=localeText(spot.access_note_i18n);const showIndicator=!!indicator;const factors=(researchPending||noViable)?[]:(metric.factors||[]);const factorHtml=factors.map(f=>{const text=trFactor(f);return text?`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${text}</span>`:'';}).filter(Boolean).join('');const factorMore=factors.length>2?`<span class="factor-pill factor-more">+${factors.length-2}</span>`:'';
-      const v2Summary=v2Best&&v2Best.hours?`<div class="theme-winner">📷 ${esc(d()[v2BestSubjectKey()])}${esc(stripSpotNamePrefix(v2Best.name,spot))} <span class="v2-chip-ok">${esc(d().eval2_hours)} ${v2Best.hours}</span></div><div class="best-window-row">${esc(d().best_window)}<b>${esc(formatHourSegments(v2Best.hoursList))}</b></div>`:(v2Best?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}</div>`:'');
+      const v2Summary=v2Best&&v2Best.hours?`<div class="theme-winner">📷 ${esc(d()[v2BestSubjectKey()])}${esc(stripSpotNamePrefix(v2Best.name,spot,v2PlaceData?[v2PlaceData]:[]))} <span class="v2-chip-ok">${esc(d().eval2_hours)} ${v2Best.hours}</span></div><div class="best-window-row">${esc(d().best_window)}<b>${esc(formatHourSegments(v2Best.hoursList))}</b></div>`:(v2Best?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}</div>`:'');
       const reasonHtml=(researchPending||noViable||v2Summary)?'':`${showIndicator?`<div><span class="indicator-pill">${indicator}</span></div>`:''}${factorHtml?`<div class="factor-row card-factor-row">${factorHtml}${factorMore}</div>`:''}`;
       const distance=distanceToSpotKm(spot);const distanceChip=currentSortMode.startsWith('distance_')&&distance!==null?`<span class="metric-chip">📍 ${distance<10?distance.toFixed(1):Math.round(distance)} km</span>`:'';
       const compactMetrics=(researchPending||noViable)?(formatTemp(metric.temp)==='—'?'':tempChipHtml(metric.temp)):(()=>{
