@@ -9,7 +9,7 @@ const before=JSON.stringify(source);
 for(const locale of ['zh-TW','en','ja']){
   test(`${locale}: all eight real subjects preserve descriptions, targets and independent role/mode`,()=>{
     const catalog=importV21Catalog(source);
-    assert.equal(catalog.places.length,197);
+    assert.equal(catalog.places.length,222);
     assert.equal(catalog.opportunities.length,374);
     for(const original of source.opportunities){
       const opp=catalog.opportunities.find(row=>row.opportunity_id===original.opportunity_id);

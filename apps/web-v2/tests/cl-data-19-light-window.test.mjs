@@ -21,7 +21,7 @@ const repo = path.resolve(here, '..', '..', '..');
 const oppDir = path.join(repo, 'data', 'v2', 'opportunities');
 
 const IDS = {
-  overlook: 21, mountain_view: 39, reflection: 20,
+  overlook: 23, mountain_view: 39, reflection: 23, // re-anchored CL-DATA-25: reflection/overlook clones inherit the exemplar window note
   overcast_soft: 17, geological_landform: 15, seasonal_plant: 12,
 };
 
@@ -45,7 +45,7 @@ test('CL-DATA-19: 得月樓 (tw-062-P01) carries a REQUIRED civil light_window',
   assert.ok(doc.revision >= 4, 'revision bumped');
 });
 
-test('CL-DATA-19: exactly 126 contracts gained the window, by genre', () => {
+test('CL-DATA-19: exactly 129 windowed contracts cite the marker, by genre', () => {
   const counts = {};
   let total = 0;
   for (const f of ['tw-062-P01', 'us-026-P02', 'jp-007-P01']) {
@@ -89,7 +89,7 @@ test('CL-DATA-19: exactly 126 contracts gained the window, by genre', () => {
     const w = doc.condition_contract?.conditions?.find(c => c.metric === 'light_window');
     return w && (w.notes_i18n?.['zh-TW'] || '').includes('CL-DATA-19');
   });
-  assert.equal(cl19.length, 124);
+  assert.equal(cl19.length, 129);
   const byGenre = {};
   for (const r of cl19) {
     const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));
