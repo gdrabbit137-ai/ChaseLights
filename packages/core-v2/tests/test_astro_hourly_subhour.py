@@ -49,6 +49,60 @@ def _fake_alt_factory(points):
     return _fake_alt
 
 
+class WindowProfileTests(unittest.TestCase):
+    """CL-DATA-31: per-sample window profiles — a qualifying bucket's earliest
+    passing sample must not lead the actual window (sunrise ±40 min labels)."""
+
+    LAT, LON = NOON_TPEI
+
+    def _profiles(self, points, dt_utc):
+        with patch.object(ah, "_sun_altitude", _fake_alt_factory(points)):
+            return ah.window_pass_profiles(dt_utc, self.LAT, self.LON)
+
+    def test_sunrise_profile_first_pass_lags_bucket_start(self):
+        # Sun crosses the horizon 65 min AFTER the bucket start: the bucket
+        # qualifies (a sample sits inside sunrise±40) but its earliest passing
+        # sample is minute 25, not the bucket start.
+        t0 = _epoch(0)
+        pts = [(t0, -6.5), (t0 + 60 * 60, -0.5), (t0 + 70 * 60, 0.5),
+               (t0 + 180 * 60, 5.0)]
+        profiles = self._profiles(pts, datetime(2026, 11, 1, 0, 0, tzinfo=timezone.utc))
+        self.assertFalse(profiles["sunrise_time_window"][0])
+        self.assertTrue(any(profiles["sunrise_time_window"]))
+        first = ah.WINDOW_SAMPLE_OFFSETS[
+            profiles["sunrise_time_window"].index(True)]
+        self.assertEqual(first, 25)
+
+    def test_all_metrics_profiles_agree_with_hour_observations(self):
+        t0 = _epoch(12)
+        pts = [(t0 - 3600, -8.0), (t0, 4.0), (t0 + 1800, -2.0),
+               (t0 + 3600, -8.0), (t0 + 5400, -20.0), (t0 + 9000, -25.0)]
+        dt = datetime.fromtimestamp(t0, timezone.utc)
+        with patch.object(ah, "_sun_altitude", _fake_alt_factory(pts)):
+            obs = ah.hour_observations(dt, self.LAT, self.LON)
+            profiles = ah.window_pass_profiles(dt, self.LAT, self.LON)
+        for metric, aggregate in (("astronomical_darkness", any),
+                                  ("city_night_window", all),
+                                  ("golden_hour_window", any),
+                                  ("blue_hour_window", any),
+                                  ("light_window", all),
+                                  ("sunrise_time_window", any),
+                                  ("sunset_window", any)):
+            self.assertEqual(obs[metric], aggregate(profiles[metric]),
+                             metric)
+
+    def test_no_crossing_propagates_unknown_not_false(self):
+        # Polar day: no sunrise/sunset crossing in the ±24h span — the window
+        # metric stays None (UNKNOWN), never a fabricated False FAIL.
+        t0 = _epoch(0)
+        pts = [(t0 - 90000, 15.0), (t0, 15.0), (t0 + 90000, 15.0)]
+        with patch.object(ah, "_sun_altitude", _fake_alt_factory(pts)):
+            obs = ah.hour_observations(datetime.fromtimestamp(t0, timezone.utc),
+                                       self.LAT, self.LON)
+        self.assertIsNone(obs["sunrise_time_window"])
+        self.assertIsNone(obs["sunset_window"])
+
+
 class SubHourSamplingTests(unittest.TestCase):
     LAT, LON = NOON_TPEI
 
