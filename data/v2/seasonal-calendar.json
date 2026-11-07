@@ -1,203 +1,755 @@
 {
-  "_meta": {
-    "file": "data/v2/seasonal-calendar.json",
-    "purpose": "Owner-maintained seasonal window calendar for the seasonal_plant genre. AI harvest may ONLY write entries' current_season (and only with a source_url). Pages display source links from current_season.source_url.",
-    "schema": {
-      "entry": {
-        "plant_id": "stable id (e.g. red_maple, daylily)",
-        "spots": [
-          "opportunity_ids carrying this plant"
-        ],
-        "name_i18n": {
-          "zh-TW": "...",
-          "en": "...",
-          "ja": "..."
-        },
-        "typical_window": {
-          "start": "MM-DD",
-          "end": "MM-DD"
-        },
-        "current_season": {
-          "start": "YYYY-MM-DD",
-          "end": "YYYY-MM-DD",
-          "source_url": "required if current_season present",
-          "retrieved_at": "YYYY-MM-DD",
-          "source_kind": "official_forecast | live_report"
-        },
-        "sources": [
-          {
-            "url": "...",
-            "kind": "...",
-            "note_i18n": "..."
-          }
-        ]
-      }
+ "_meta": {
+  "file": "data/v2/seasonal-calendar.json",
+  "purpose": "Owner-maintained seasonal window calendar for the seasonal_plant genre. AI harvest may ONLY write entries' current_season (and only with a source_url). Pages display source links from current_season.source_url.",
+  "schema": {
+   "entry": {
+    "plant_id": "stable id (e.g. red_maple, daylily)",
+    "spots": [
+     "opportunity_ids carrying this plant"
+    ],
+    "name_i18n": {
+     "zh-TW": "...",
+     "en": "...",
+     "ja": "..."
     },
-    "fail_closed": "No current_season entry may exist without source_url+retrieved_at. Display without current_season = climatological typical window only, labeled 'typical'."
+    "typical_window": {
+     "start": "MM-DD",
+     "end": "MM-DD"
+    },
+    "current_season": {
+     "start": "YYYY-MM-DD",
+     "end": "YYYY-MM-DD",
+     "source_url": "required if current_season present",
+     "retrieved_at": "YYYY-MM-DD",
+     "source_kind": "official_forecast | live_report"
+    },
+    "sources": [
+     {
+      "url": "...",
+      "kind": "...",
+      "note_i18n": "..."
+     }
+    ]
+   }
   },
-  "entries": [
+  "fail_closed": "No current_season entry may exist without source_url+retrieved_at. Display without current_season = climatological typical window only, labeled 'typical'."
+ },
+ "entries": [
+  {
+   "plant_id": "daylily",
+   "spots": [
+    "tw-035-P08",
+    "tw-035-P10"
+   ],
+   "name_i18n": {
+    "zh-TW": "金針花",
+    "en": "Daylily",
+    "ja": "カンゾウ（金針花）"
+   },
+   "typical_window": {
+    "start": "08-25",
+    "end": "09-30"
+   },
+   "sources": [
     {
-      "plant_id": "daylily",
-      "spots": [
-        "tw-035-P08",
-        "tw-035-P10"
-      ],
-      "name_i18n": {
-        "zh-TW": "金針花",
-        "en": "Daylily",
-        "ja": "カンゾウ（金針花）"
-      },
-      "typical_window": {
-        "start": "08-25",
-        "end": "09-30"
-      },
-      "sources": [
-        {
-          "url": "https://www.forest.gov.tw/",
-          "kind": "official",
-          "note_i18n": {
-            "zh-TW": "林業保育署花況公告（每年更新）",
-            "en": "Forestry Bureau bloom bulletins (annual)",
-            "ja": "林業保育署の開花情報"
-          }
-        }
-      ]
-    },
-    {
-      "plant_id": "red_maple",
-      "spots": [
-        "jp-028-P02"
-      ],
-      "name_i18n": {
-        "zh-TW": "紅葉",
-        "en": "Autumn maple",
-        "ja": "紅葉"
-      },
-      "typical_window": {
-        "start": "10-20",
-        "end": "11-10"
-      },
-      "sources": [
-        {
-          "url": "https://www.weathernews.jp/koyo/",
-          "kind": "live_report",
-          "note_i18n": {
-            "zh-TW": "ウェザーニュース紅葉リポート（點位實況）",
-            "en": "Weathernews koyo live reports (spot-level)",
-            "ja": "ウェザーニュース紅葉リポート"
-          }
-        }
-      ],
-      "current_season": {
-        "start": "2026-11-04",
-        "end": "2026-11-15",
-        "source_url": "https://weathernews.jp/koyo/spot/26503/",
-        "retrieved_at": "2026-10-26",
-        "source_kind": "live_report"
-      }
-    },
-    {
-      "plant_id": "bald_cypress",
-      "spots": [
-        "tw-083-P02"
-      ],
-      "name_i18n": {
-        "zh-TW": "落羽松",
-        "en": "Bald cypress",
-        "ja": "ラクウショウ"
-      },
-      "typical_window": {
-        "start": "12-05",
-        "end": "01-15"
-      },
-      "sources": []
-    },
-    {
-      "plant_id": "iris",
-      "spots": [
-        "tw-083-P03"
-      ],
-      "name_i18n": {
-        "zh-TW": "鳶尾花",
-        "en": "Iris",
-        "ja": "アヤメ（ Iris ）"
-      },
-      "typical_window": {
-        "start": "03-15",
-        "end": "04-20"
-      },
-      "sources": []
-    },
-    {
-      "plant_id": "flame_goldenrain",
-      "spots": [
-        "tw-084-P02"
-      ],
-      "name_i18n": {
-        "zh-TW": "台灣欒樹",
-        "en": "Flame golden-rain tree",
-        "ja": "タイワンフウ（台湾栾樹）"
-      },
-      "typical_window": {
-        "start": "09-10",
-        "end": "10-31"
-      },
-      "sources": []
-    },
-    {
-      "plant_id": "autumn_foliage_mixed",
-      "spots": [
-        "tw-084-P03"
-      ],
-      "name_i18n": {
-        "zh-TW": "秋冬彩葉",
-        "en": "Autumn foliage (mixed)",
-        "ja": "秋冬の紅葉"
-      },
-      "typical_window": {
-        "start": "11-20",
-        "end": "01-15"
-      },
-      "sources": []
-    },
-    {
-      "plant_id": "spring_flower_fields",
-      "spots": [
-        "tw-084-P04"
-      ],
-      "name_i18n": {
-        "zh-TW": "春節花海",
-        "en": "Spring flower fields",
-        "ja": "春の花畑"
-      },
-      "typical_window": {
-        "start": "01-15",
-        "end": "03-15"
-      },
-      "sources": []
-    },
-    {
-      "plant_id": "silvergrass",
-      "spots": [
-        "tw-085-P03"
-      ],
-      "name_i18n": {
-        "zh-TW": "芒草",
-        "en": "Silvergrass",
-        "ja": "ススキ"
-      },
-      "typical_window": {
-        "start": "10-01",
-        "end": "12-15"
-      },
-      "sources": [],
-      "current_season": {
-        "start": "2026-11-14",
-        "end": "2026-12-13",
-        "source_url": "https://events.necoast-nsa.gov.tw/flower26/",
-        "retrieved_at": "2026-11-02",
-        "source_kind": "official_forecast"
-      }
+     "url": "https://www.forest.gov.tw/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "林業保育署花況公告（每年更新）",
+      "en": "Forestry Bureau bloom bulletins (annual)",
+      "ja": "林業保育署の開花情報"
+     }
     }
-  ]
+   ]
+  },
+  {
+   "plant_id": "red_maple",
+   "spots": [
+    "jp-028-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "紅葉",
+    "en": "Autumn maple",
+    "ja": "紅葉"
+   },
+   "typical_window": {
+    "start": "10-20",
+    "end": "11-10"
+   },
+   "sources": [
+    {
+     "url": "https://www.weathernews.jp/koyo/",
+     "kind": "live_report",
+     "note_i18n": {
+      "zh-TW": "ウェザーニュース紅葉リポート（點位實況）",
+      "en": "Weathernews koyo live reports (spot-level)",
+      "ja": "ウェザーニュース紅葉リポート"
+     }
+    }
+   ],
+   "current_season": {
+    "start": "2026-11-04",
+    "end": "2026-11-15",
+    "source_url": "https://weathernews.jp/koyo/spot/26503/",
+    "retrieved_at": "2026-10-26",
+    "source_kind": "live_report"
+   }
+  },
+  {
+   "plant_id": "bald_cypress",
+   "spots": [
+    "tw-083-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "落羽松",
+    "en": "Bald cypress",
+    "ja": "ラクウショウ"
+   },
+   "typical_window": {
+    "start": "12-05",
+    "end": "01-15"
+   },
+   "sources": []
+  },
+  {
+   "plant_id": "iris",
+   "spots": [
+    "tw-083-P03"
+   ],
+   "name_i18n": {
+    "zh-TW": "鳶尾花",
+    "en": "Iris",
+    "ja": "アヤメ（ Iris ）"
+   },
+   "typical_window": {
+    "start": "03-15",
+    "end": "04-20"
+   },
+   "sources": []
+  },
+  {
+   "plant_id": "flame_goldenrain",
+   "spots": [
+    "tw-084-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "台灣欒樹",
+    "en": "Flame golden-rain tree",
+    "ja": "タイワンフウ（台湾栾樹）"
+   },
+   "typical_window": {
+    "start": "09-10",
+    "end": "10-31"
+   },
+   "sources": []
+  },
+  {
+   "plant_id": "autumn_foliage_mixed",
+   "spots": [
+    "tw-084-P03"
+   ],
+   "name_i18n": {
+    "zh-TW": "秋冬彩葉",
+    "en": "Autumn foliage (mixed)",
+    "ja": "秋冬の紅葉"
+   },
+   "typical_window": {
+    "start": "11-20",
+    "end": "01-15"
+   },
+   "sources": []
+  },
+  {
+   "plant_id": "spring_flower_fields",
+   "spots": [
+    "tw-084-P04"
+   ],
+   "name_i18n": {
+    "zh-TW": "春節花海",
+    "en": "Spring flower fields",
+    "ja": "春の花畑"
+   },
+   "typical_window": {
+    "start": "01-15",
+    "end": "03-15"
+   },
+   "sources": []
+  },
+  {
+   "plant_id": "silvergrass",
+   "spots": [
+    "tw-085-P03"
+   ],
+   "name_i18n": {
+    "zh-TW": "芒草",
+    "en": "Silvergrass",
+    "ja": "ススキ"
+   },
+   "typical_window": {
+    "start": "10-01",
+    "end": "12-15"
+   },
+   "sources": [],
+   "current_season": {
+    "start": "2026-11-14",
+    "end": "2026-12-13",
+    "source_url": "https://events.necoast-nsa.gov.tw/flower26/",
+    "retrieved_at": "2026-11-02",
+    "source_kind": "official_forecast"
+   }
+  },
+  {
+   "plant_id": "unkai_tomamu",
+   "spots": [
+    "jp-037-P01",
+    "jp-037-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "雲海ゴンドラ夏季運行期",
+    "en": "Unkai gondola summer season",
+    "ja": "雲海ゴンドラ夏季運行期間"
+   },
+   "typical_window": {
+    "start": "05-13",
+    "end": "10-13"
+   },
+   "sources": [
+    {
+     "url": "https://www.snowtomamu.jp/summer/unkai/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "2026 season gondola 5/13-10/13, 4:30-8:00",
+      "en": "2026 season gondola 5/13-10/13, 4:30-8:00",
+      "ja": "2026 season gondola 5/13-10/13, 4:30-8:00"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "juhyo_zao",
+   "spots": [
+    "jp-038-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "蔵王樹氷期",
+    "en": "Zao juhyo season",
+    "ja": "蔵王の樹氷期"
+   },
+   "typical_window": {
+    "start": "12-20",
+    "end": "03-10"
+   },
+   "sources": [
+    {
+     "url": "https://zaoropeway.co.jp/winter/juhyo/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "official juhyo calendar: late Dec-early Mar, peak late Jan-late Feb",
+      "en": "official juhyo calendar: late Dec-early Mar, peak late Jan-late Feb",
+      "ja": "official juhyo calendar: late Dec-early Mar, peak late Jan-late Feb"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "juhyo_zao_lightup",
+   "spots": [
+    "jp-038-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "蔵王樹氷ライトアップ期",
+    "en": "Zao juhyo illumination season",
+    "ja": "蔵王の樹氷ライトアップ期間"
+   },
+   "typical_window": {
+    "start": "12-25",
+    "end": "02-25"
+   },
+   "sources": [
+    {
+     "url": "https://zaoropeway.co.jp/winter/juhyo/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "night illumination announced yearly, approx late Dec-late Feb",
+      "en": "night illumination announced yearly, approx late Dec-late Feb",
+      "ja": "night illumination announced yearly, approx late Dec-late Feb"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "unkai_kussharo",
+   "spots": [
+    "jp-039-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "屈斜路湖雲海季",
+    "en": "Kussharo cloud-sea season",
+    "ja": "屈斜路湖の雲海シーズン"
+   },
+   "typical_window": {
+    "start": "06-01",
+    "end": "10-31"
+   },
+   "sources": [
+    {
+     "url": "https://www.masyuko.or.jp/enjoy/unkai/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "cloud sea Jun-Oct early morning; road 588 closed Nov-May",
+      "en": "cloud sea Jun-Oct early morning; road 588 closed Nov-May",
+      "ja": "cloud sea Jun-Oct early morning; road 588 closed Nov-May"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "unkai_bihoro",
+   "spots": [
+    "jp-040-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "美幌峠雲海季",
+    "en": "Bihoro cloud-sea season",
+    "ja": "美幌峠の雲海シーズン"
+   },
+   "typical_window": {
+    "start": "04-01",
+    "end": "10-31"
+   },
+   "sources": [
+    {
+     "url": "https://www.town.bihoro.hokkaido.jp/site/kanko/1604.html",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "spring/autumn pre-dawn cloud sea; winter closures",
+      "en": "spring/autumn pre-dawn cloud sea; winter closures",
+      "ja": "spring/autumn pre-dawn cloud sea; winter closures"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "ryuhyo_utoro",
+   "spots": [
+    "jp-041-P01",
+    "jp-041-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "知床流氷接岸期",
+    "en": "Shiretoko drift-ice season",
+    "ja": "知床の流氷接岸期"
+   },
+   "typical_window": {
+    "start": "01-20",
+    "end": "03-31"
+   },
+   "sources": [
+    {
+     "url": "https://www.sno.co.jp/seaice",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "drift ice onshore late Jan-Mar, February peak",
+      "en": "drift ice onshore late Jan-Mar, February peak",
+      "ja": "drift ice onshore late Jan-Mar, February peak"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "juhyo_moriyoshi",
+   "spots": [
+    "jp-042-P01",
+    "jp-042-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "森吉山樹氷観賞期",
+    "en": "Moriyoshi juhyo viewing period",
+    "ja": "森吉山の樹氷観賞期間"
+   },
+   "typical_window": {
+    "start": "01-07",
+    "end": "03-05"
+   },
+   "sources": [
+    {
+     "url": "https://www.aniski.jp/mtmoriyoshi/juhyo/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "viewing period Jan 7 - Mar 5 (2025 example)",
+      "en": "viewing period Jan 7 - Mar 5 (2025 example)",
+      "ja": "viewing period Jan 7 - Mar 5 (2025 example)"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "lavender",
+   "spots": [
+    "jp-043-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "薰衣草開花期",
+    "en": "Lavender bloom",
+    "ja": "ラベンダー開花"
+   },
+   "typical_window": {
+    "start": "06-20",
+    "end": "07-20"
+   },
+   "sources": [
+    {
+     "url": "https://www.farm-tomita.co.jp/east/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "open approx 6/20-7/20 (2026); bloom temperature-driven",
+      "en": "open approx 6/20-7/20 (2026); bloom temperature-driven",
+      "ja": "open approx 6/20-7/20 (2026); bloom temperature-driven"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "aoike_season",
+   "spots": [
+    "jp-044-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "十二湖青池開放期",
+    "en": "Aoike open season",
+    "ja": "十二湖・青池の開放期"
+   },
+   "typical_window": {
+    "start": "04-01",
+    "end": "11-30"
+   },
+   "sources": [
+    {
+     "url": "https://www.tohokukanko.jp/attractions/detail_1007187.html",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "trail open Apr-Nov",
+      "en": "trail open Apr-Nov",
+      "ja": "trail open Apr-Nov"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "nukabira_bridge",
+   "spots": [
+    "jp-046-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "糠平湖橋梁可見期",
+    "en": "Nukabira bridge visible period",
+    "ja": "糠平湖の橋梁可視期間"
+   },
+   "typical_window": {
+    "start": "01-01",
+    "end": "05-15"
+   },
+   "sources": [
+    {
+     "url": "https://www.taushubetsu-journal.com/data/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "lake-level log: visible Jan (frozen lake) to mid-May",
+      "en": "lake-level log: visible Jan (frozen lake) to mid-May",
+      "ja": "lake-level log: visible Jan (frozen lake) to mid-May"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "juhyo_hakkoda",
+   "spots": [
+    "jp-047-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "八甲田樹氷期",
+    "en": "Hakkoda juhyo season",
+    "ja": "八甲田の樹氷期"
+   },
+   "typical_window": {
+    "start": "01-15",
+    "end": "02-25"
+   },
+   "sources": [
+    {
+     "url": "https://hakkoda-ropeway.jp/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "peak mid Jan-late Feb; winter hours 9:00-15:40",
+      "en": "peak mid Jan-late Feb; winter hours 9:00-15:40",
+      "ja": "peak mid Jan-late Feb; winter hours 9:00-15:40"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "kitayamazaki_season",
+   "spots": [
+    "jp-048-P01",
+    "jp-048-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "北山崎展望期",
+    "en": "Kitayamazaki viewing season",
+    "ja": "北山崎の展望期"
+   },
+   "typical_window": {
+    "start": "04-01",
+    "end": "11-30"
+   },
+   "sources": [
+    {
+     "url": "https://www.vill.tanohata.iwate.jp/kankou/see/kitayamazaki.html",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "decks accessible Apr-Nov",
+      "en": "decks accessible Apr-Nov",
+      "ja": "decks accessible Apr-Nov"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "zao_okama_season",
+   "spots": [
+    "jp-049-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "蔵王御釜通行期",
+    "en": "Okama access season",
+    "ja": "蔵王・御釜の通行期間"
+   },
+   "typical_window": {
+    "start": "04-20",
+    "end": "11-05"
+   },
+   "sources": [
+    {
+     "url": "https://www.zao-machi.com/sightseeing_spot/1.html",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "eco/hyline roads open late Apr-early Nov",
+      "en": "eco/hyline roads open late Apr-early Nov",
+      "ja": "eco/hyline roads open late Apr-early Nov"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "unkai_appi",
+   "spots": [
+    "jp-050-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "安比雲海季（暫定）",
+    "en": "Appi cloud-sea season (provisional)",
+    "ja": "安比の雲海シーズン（暫定）"
+   },
+   "typical_window": {
+    "start": "06-01",
+    "end": "10-31"
+   },
+   "sources": [
+    {
+     "url": "https://www.appi.co.jp/snow-mountain-resort/1304",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "green-season gondola daily; dates provisional Jun-Oct",
+      "en": "green-season gondola daily; dates provisional Jun-Oct",
+      "ja": "green-season gondola daily; dates provisional Jun-Oct"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "unkai_daxueshan",
+   "spots": [
+    "tw-087-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "大雪山雲海霧季",
+    "en": "Daxueshan cloud-sea/fog season",
+    "ja": "大雪山の雲海・霧季"
+   },
+   "typical_window": {
+    "start": "10-01",
+    "end": "04-30"
+   },
+   "sources": [
+    {
+     "url": "https://www.forest.gov.tw/news/0070337",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "cloud-sea/radiation-fog season approx Oct-Apr",
+      "en": "cloud-sea/radiation-fog season approx Oct-Apr",
+      "ja": "cloud-sea/radiation-fog season approx Oct-Apr"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "cuifeng_mist",
+   "spots": [
+    "tw-088-P01",
+    "tw-088-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "翠峰湖晨霧季",
+    "en": "Cuifeng morning-mist season",
+    "ja": "翠峰湖の朝霧シーズン"
+   },
+   "typical_window": {
+    "start": "09-01",
+    "end": "04-30"
+   },
+   "sources": [
+    {
+     "url": "https://travel.yilan.gov.tw/zh-tw/attraction/381/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "morning mist strongest autumn-winter; park hours apply",
+      "en": "morning mist strongest autumn-winter; park hours apply",
+      "ja": "morning mist strongest autumn-winter; park hours apply"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "guanwu_unkai",
+   "spots": [
+    "tw-089-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "觀霧雲海季",
+    "en": "Guanwu cloud-sea season",
+    "ja": "観霧の雲海シーズン"
+   },
+   "typical_window": {
+    "start": "10-01",
+    "end": "03-31"
+   },
+   "sources": [
+    {
+     "url": "https://recreation.forest.gov.tw/Forest/RA?typ_id=0200004",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "cloud-sea home; late autumn-spring",
+      "en": "cloud-sea home; late autumn-spring",
+      "ja": "cloud-sea home; late autumn-spring"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "smangus_unkai",
+   "spots": [
+    "tw-091-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "司馬庫斯雲海季",
+    "en": "Smangus cloud-sea season",
+    "ja": "スマングスの雲海シーズン"
+   },
+   "typical_window": {
+    "start": "10-01",
+    "end": "03-31"
+   },
+   "sources": [
+    {
+     "url": "https://digiphoto.techbang.com/posts/531-division-forward-marcus-below",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "tribal cloud sea late autumn-spring",
+      "en": "tribal cloud sea late autumn-spring",
+      "ja": "tribal cloud sea late autumn-spring"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "guishan_sunrise",
+   "spots": [
+    "tw-092-P01"
+   ],
+   "name_i18n": {
+    "zh-TW": "龜山島朝日方位季",
+    "en": "Gueishan sunrise alignment season",
+    "ja": "亀山島の朝日方位季"
+   },
+   "typical_window": {
+    "start": "06-01",
+    "end": "09-30"
+   },
+   "sources": [
+    {
+     "url": "https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=274",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "Gueishan sunrise best Jun-Sep",
+      "en": "Gueishan sunrise best Jun-Sep",
+      "ja": "Gueishan sunrise best Jun-Sep"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "fushoushan_unkai",
+   "spots": [
+    "tw-093-P01",
+    "tw-093-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "福壽山雲海季",
+    "en": "Fushoushan cloud-sea season",
+    "ja": "福寿山の雲海シーズン"
+   },
+   "typical_window": {
+    "start": "10-01",
+    "end": "03-31"
+   },
+   "sources": [
+    {
+     "url": "https://www.fushoushan.com.tw/Outer/FarmOverview",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "Lishan valley cloud sea autumn-winter; night controls",
+      "en": "Lishan valley cloud sea autumn-winter; night controls",
+      "ja": "Lishan valley cloud sea autumn-winter; night controls"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "qingtiangang_grass_season",
+   "spots": [
+    "tw-097-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "擎天崗草原雲霧季",
+    "en": "Qingtiangang grass mist season",
+    "ja": "擎天崗の雲霧シーズン"
+   },
+   "typical_window": {
+    "start": "04-01",
+    "end": "09-30"
+   },
+   "sources": [
+    {
+     "url": "https://www.yangmingshan.gov.tw/",
+     "kind": "official",
+     "note_i18n": {
+      "zh-TW": "grassland mist/low cloud Apr-Sep",
+      "en": "grassland mist/low cloud Apr-Sep",
+      "ja": "grassland mist/low cloud Apr-Sep"
+     }
+    }
+   ]
+  }
+ ]
 }
