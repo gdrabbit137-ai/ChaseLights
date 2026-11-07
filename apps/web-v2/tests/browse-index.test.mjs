@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 406 canonical sources remain source pinned (re-anchored CL-DATA-25R: rubric-v2 alignment 2026-11-07 — 5 v2-rejected v1 builds rolled back, tw-098 渭水之丘 admitted)',()=>{
-  assert.equal(sha256(rawIndex),'81447b1e5effa362bc2d1c188c6ffa8a13c9f3ce98229943d0a4883f7de30beb'); // CL-CI-22 re-anchor: merged-tree regeneration (CL-DATA-25/26)
-  assert.equal(sha256(rawCatalog),'e702fb3d0af30cc0df59c35cf74d04342cebfe33fe2bb1a987014f8796f5eb51'); // CL-CI-22 re-anchor: merged-tree regeneration (CL-DATA-25/26)
+  assert.equal(sha256(rawIndex),'3543992af9f664b96ad8210b74e6376a655f0548feeb058a1d352f9f9b17e31a'); // CL-DATA-28 re-anchor: contract fix regen (tw-008-P01/tw-010-P02 window semantics + name_i18n)
+  assert.equal(sha256(rawCatalog),'8fe8d51ae4239d124415661351aa547a6a5177c4315c52fae4a76311a1c00432'); // CL-DATA-28 re-anchor: contract fix regen (tw-008-P01/tw-010-P02 window semantics + name_i18n)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,406);assert.equal(source.places.length,218);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
