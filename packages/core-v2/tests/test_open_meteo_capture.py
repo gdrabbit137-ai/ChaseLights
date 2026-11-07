@@ -103,9 +103,19 @@ class ManualCapture(unittest.TestCase):
             tool._write(path,{"source_unit":"\ud800"})
             self.assertEqual(json.loads(path.read_text())["source_unit"],"\ud800")
 
-    @unittest.skipUnless(hasattr(signal, "SIGALRM") and hasattr(signal, "setitimer"),
-                         "POSIX wall-clock deadline is unavailable on this platform")
     def test_wall_clock_deadline_restores_signal_handler(self):
+        if not (hasattr(signal, "SIGALRM") and hasattr(signal, "setitimer")):
+            # CL-CI-22: on platforms without the POSIX real-time timer the
+            # deadline degrades to the socket timeout (documented in
+            # network_deadline); assert that fallback branch honestly instead
+            # of skipping — the context manager must yield cleanly and leave
+            # no timer state behind.
+            previous = signal.getsignal(signal.SIGALRM) if hasattr(signal, "SIGALRM") else None
+            with tool.network_deadline(0.01):
+                pass
+            if previous is not None:
+                self.assertEqual(signal.getsignal(signal.SIGALRM), previous)
+            return
         previous = signal.getsignal(signal.SIGALRM)
         with self.assertRaises(TimeoutError):
             with tool.network_deadline(0.01): time.sleep(0.1)

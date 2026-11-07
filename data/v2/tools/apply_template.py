@@ -295,6 +295,8 @@ def expand(template_id: str, opportunity_id: str, skeleton_path: Path,
         }
         if c.get('fetch'):
             cond['binding'] = c['fetch']
+        if c.get('phase'):
+            cond['phase'] = c['phase']  # CL-DATA-24 light-window phase (dusk/dawn) parity
         if c.get('genre_scope'):
             cond['genre_scope'] = c['genre_scope']
         if c.get('activate_when'):
