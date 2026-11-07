@@ -58,16 +58,17 @@ def main():
     prog = json.loads(OUT.read_text(encoding="utf-8"))
     photos_stage = prog["stage_photos"]
     for pid, e in photos_stage.items():
-        if e.get("pilot_seed") and not e.get("_montaged"):
-            e["_montaged"] = True  # pilot places reuse CL-DATA-27 scores, no montage needed
+        if e.get("pilot_seed"):
             print("skip pilot", pid)
-    todo = [pid for pid in photos_stage if not photos_stage[pid].get("_montaged") and len(photos_stage[pid].get("photos") or []) >= 1]
+    mf = MDIR / "mapping.json"
+    mapping = json.loads(mf.read_text(encoding="utf-8")) if mf.exists() else {}
+    done_set = {pid for m in mapping.values() for pid in m["places"] if pid}
+    todo = [pid for pid in photos_stage
+            if not photos_stage[pid].get("pilot_seed")
+            and pid not in done_set
+            and len(photos_stage[pid].get("photos") or []) >= 3]
     PER = 4
     groups = [todo[i:i + PER] for i in range(0, len(todo), PER)]
-    mapping = {}
-    mf = MDIR / "mapping.json"
-    if mf.exists():
-        mapping = json.loads(mf.read_text(encoding="utf-8"))
     print(f"todo={len(todo)} montages={len(groups)}", flush=True)
     for k, grp in enumerate(groups):
         mid = f"g{grp[0]}"
