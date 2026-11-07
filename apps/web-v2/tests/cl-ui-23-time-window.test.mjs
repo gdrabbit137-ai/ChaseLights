@@ -49,9 +49,13 @@ function hoursIndex(detail, oppId) {
 }
 
 function nightWindowCond(hour) {
+  // CL-DATA-28 merge re-anchor: 暮色 city_night contracts may declare a
+  // contract-level blue_hour_window (dusk semantics, tw-001-P03/tw-007-P01
+  // precedent) instead of city_night_window — any contract-level (C-*) or
+  // eval-layer gate window condition with verdict PASS counts.
   return hour.conditions.find((c) =>
     c.metric === 'city_night_window' ||
-    WINDOW_METRICS.has(c.metric) && c.id === GATE_ID);
+    WINDOW_METRICS.has(c.metric) && (c.id === GATE_ID || c.id.startsWith('C-')));
 }
 
 test('city_night good_hours carry the evaluation-layer night gate (card side)', () => {
