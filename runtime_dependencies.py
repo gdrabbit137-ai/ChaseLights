@@ -138,21 +138,10 @@ OPPORTUNITY_DEPENDENCY_OVERRIDES = {
 # intentionally has no configured runtime profile yet. Adapter tests assert
 # registered profiles + these gaps exactly cover canonical dependencies.
 RUNTIME_PROFILE_GAPS = {
-    "astronomy_ephemeris": frozenset({
-        "jp-042-P02",
-        "tw-090-P01",
-        "tw-091-P02",
-        "tw-093-P02",
-        "tw-094-P01",
-        "tw-095-P01",
-        "tw-097-P01",
-        "jp-042-P02",
-        "tw-090-P01",
-        "tw-091-P02",
-        "tw-093-P02",
-        "tw-094-P01",
-        "tw-095-P01",
-        "tw-097-P01",
+    # CL-DATA-25 admission: marine sunrise viewpoints (viewing bearing unverified)
+    "marine_state": frozenset({
+        "jp-041-P02",
+        "tw-090-P02",
     }),
     "seasonal_foreground": frozenset({
         "jp-043-P01",

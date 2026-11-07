@@ -610,23 +610,13 @@ def main():
     mf["regions"]["tw"]["counts"] = region_counts(tw_spots)
     mf["regions"]["jp"]["counts"] = region_counts(jp_spots)
     mf["totals"] = dict(cat["counts"])
-    policy_counts = {}
-    # recompute policy counts the way opportunities.py does (all needs_* = module_pending here)
+    import collections
+    import opportunities as _O
+    pol = collections.Counter()
     for s in cat["spots"]:
         for o in s["opportunities"]:
-            st = o.get("formula_status", "")
-            if st.startswith("access_hold_") or st.endswith("_hold") or "_hold_" in st:
-                k = "hold"
-            elif st.startswith("data_insufficient_"):
-                k = "data_insufficient"
-            elif st == "prototype_formula_available":
-                k = "prototype_pending_certification"
-            elif st.startswith("needs_"):
-                k = "module_pending"
-            else:
-                k = "minimum_sufficient_available" if st == "minimum_sufficient_local_scene" else "preview_module_available"
-            policy_counts[k] = policy_counts.get(k, 0) + 1
-    mf["runtime_policy_counts"] = policy_counts
+            pol[_O.runtime_policy(o)] += 1
+    mf["runtime_policy_counts"] = dict(pol)
     wbytes(mf_path, jdump(mf))
     print("manifest updated:", mf["regions"]["tw"]["counts"], mf["regions"]["jp"]["counts"])
 

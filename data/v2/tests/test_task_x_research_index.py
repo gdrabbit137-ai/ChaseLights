@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((197,374),(len(actual),len(ids)))
+        self.assertEqual((222,411),(len(actual),len(ids)))  # re-anchored CL-DATA-25
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -143,6 +143,9 @@ class ResearchIndexTests(unittest.TestCase):
             # records re-pointed to the merge commit carrying the merged
             # verified bytes (union with CL-DATA-19 re-pins).
             'db04b94f3a0a6e78bff000e3c97ffb80fee2daf5',
+            # CL-DATA-25: 37 admitted discovery contracts (25 places) pinned
+            # to the admission commit carrying the evidence-ref + renumber bytes.
+            'a34cd15819a1b01702d6d38408524e444ca84906',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -170,7 +173,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(591,count)  # 197 places x 3 (evidence-D removal 2026-10-31)
+        self.assertEqual(666,count)  # 222 places x 3 (re-anchored CL-DATA-25: 25 places admitted 2026-11-07)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')

@@ -11,9 +11,9 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and 374 canonical sources remain source pinned (re-anchored CL-DATA-25: 25 places / 37 opportunities admitted 2026-11-07)',()=>{
-  assert.equal(sha256(rawIndex),'e87c4cdf0ff95634c82007cb24e7fd6ac95967c6e95556e0a5623590fe21f447'); // CL-CI-22 re-anchor: merged-tree regeneration (CL-DATA-25/26)
-  assert.equal(sha256(rawCatalog),'cf565993208e03c3b7ff7ed1cd0dad4c070713e1055ce9b023c5b3100fabafaf'); // CL-CI-22 re-anchor: merged-tree regeneration (CL-DATA-25/26)
+test('W2 index and 411 canonical sources remain source pinned (re-anchored CL-DATA-25: 25 places / 37 opportunities admitted 2026-11-07)',()=>{
+  assert.equal(sha256(rawIndex),'5a018310b6e0d79ef38ad6128eae248332c0bf646fbdf10906f9a5c3c15a1a0c'); // CL-CI-22 re-anchor: merged-tree regeneration (CL-DATA-25/26)
+  assert.equal(sha256(rawCatalog),'6c3bb54d5a69c4441ffecc9c1f7de8a883d55d9fb535ebda12a86927b18093e1'); // CL-CI-22 re-anchor: merged-tree regeneration (CL-DATA-25/26)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,411);assert.equal(source.places.length,222);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];

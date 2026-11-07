@@ -189,8 +189,8 @@ def test_adapter_integrity():
     )
 
     tw = get_spots("tw")
-    assert len(tw) == 86
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 87)]
+    assert len(tw) == 97
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 98)]
     assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
@@ -1877,7 +1877,7 @@ def test_adapter_integrity():
     water_surface_profiles = [
         o for o in all_opportunities if o["formula_status"] == "needs_water_surface_module"
     ]
-    assert len(water_surface_profiles) == 4
+    assert len(water_surface_profiles) == 6  # re-anchored CL-DATA-25: +jp-044-P01 +jp-046-P01 reflection
     assert all(runtime_policy(o) == "preview_module_available" for o in water_surface_profiles)
 
     calm = evaluate_water_surface({"wind": 1.4, "precipitation": 0.0, "pop": 15})
@@ -1923,7 +1923,9 @@ def test_adapter_integrity():
         o for o in all_opportunities if o["formula_status"] == "needs_snow_state_module"
     ]
     assert {o["opportunity_id"] for o in snow_profiles} == {
-        "tw-019-P06", "tw-040-P03", "tw-041-P05", "tw-044-P03"
+        "tw-019-P06", "tw-040-P03", "tw-041-P05", "tw-044-P03",
+        # re-anchored CL-DATA-25: juhyo / drift-ice admissions
+        "jp-038-P01", "jp-038-P02", "jp-041-P01", "jp-042-P01", "jp-047-P01",
     }
     assert all(runtime_policy(o) == "preview_module_available" for o in snow_profiles)
 
@@ -2896,8 +2898,8 @@ def test_adapter_integrity():
 
     # B174 extends the fully curated Japan production set through jp-036.
     jp = get_spots("jp")
-    assert len(jp) == 36
-    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 37))
+    assert len(jp) == 50
+    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 51))
 
     nanzilin = next(s for s in tw if s["spot_id"] == "tw-085")
     assert nanzilin["navigation_target"]["status"] == "verified"
@@ -4611,7 +4613,7 @@ def test_active_catalog_weather_generation_guard():
     # B51 completes Japan migration: every production Japan Place is researched.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 37)}
+    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 51)}  # re-anchored CL-DATA-25: jp-037..jp-050 admitted
     assert all(spot.get("opportunities") for spot in jp_spots)
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
