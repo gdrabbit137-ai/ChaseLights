@@ -40,8 +40,8 @@ test('CL-CI-13 A2: modal_subtitle is a {p}/{f} template — the stale 72h copy i
   }
 });
 
-test('CL-CI-13 A3: index.html bumps the app.js cache-bust stamp to clui45',()=>{
-  assert.match(indexSource,/assets\/app\.js\?v=clui45/);
+test('CL-CI-13 A3: index.html bumps the app.js cache-bust stamp to clui47',()=>{
+  assert.match(indexSource,/assets\/app\.js\?v=clui47/);
   assert.ok(!indexSource.includes('assets/app.js?v=clui33'));
 });
 

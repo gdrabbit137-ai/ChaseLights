@@ -250,7 +250,7 @@ test('CL-UI-18 C5: navigation tool unified; bare-coords destination carries the 
 
 test('CL-UI-18 C6: astro missing is a compact marker + one legend note; badge column widened',()=>{
   const rowBlock=grab('(spot.hourly_forecast||[])','decorateWeatherTimeline(spot');
-  assert.match(rowBlock,/\$\{astro\|\|astroMissingHtml\(\)\}/);
+  assert.match(rowBlock,/\$\{astro\|\|astroMissingHtml\(item,true\)\}/);
   assert.match(rowBlock,/astroMissingRows\+\+/);
   assert.match(rowBlock,/timeline-legend/);
   assert.match(cssSource,/terminal-table td:first-child \{ min-width: 96px; \}/);
