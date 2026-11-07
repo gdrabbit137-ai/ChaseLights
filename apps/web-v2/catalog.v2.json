@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "69b832accfc8c0438a50e51689c4e7c40765e9f4",
-  "source_index_revision": "sha256:392bb2a37e7ce7058e8fe829f01f60641aa45a8040473fe46708b1f00c5b535e",
+  "source_index_commit_sha": "2313442fb692e0af521e9d87d76707dcac05defd",
+  "source_index_revision": "sha256:cc42fcec8b3de36cad312a14af25d739d012a03f20e5eebe4d177cea783ab30b",
   "source_pins": {
     "jp-002-P01": {
       "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
@@ -385,9 +385,9 @@
       "revision": 1
     },
     "tw-010-P01": {
-      "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
+      "source_commit_sha": "91afa28ef43a699e5a98e14074a66baac684a43b",
       "source_path": "data/v2/opportunities/tw-010-P01.json",
-      "source_blob_sha": "f1cf06d8e054e3ab46bd21490eed367bfbdaf5e6",
+      "source_blob_sha": "2d078ef1208724981dac3d6d75879ab795ca1192",
       "revision": 2
     },
     "tw-010-P02": {
@@ -481,9 +481,9 @@
       "revision": 1
     },
     "tw-017-P03": {
-      "source_commit_sha": "69b832accfc8c0438a50e51689c4e7c40765e9f4",
+      "source_commit_sha": "64685ff7df762f588bd1f276a56f7c007c07b8c2",
       "source_path": "data/v2/opportunities/tw-017-P03.json",
-      "source_blob_sha": "68531e8f50817e2fab7fc43def0dd21255ad4fa9",
+      "source_blob_sha": "a81c7f236765e838c041818c823b013e612307e3",
       "revision": 1
     },
     "tw-018-P02": {
@@ -25048,7 +25048,7 @@
           },
           {
             "id": "C-tw-010-P01-03",
-            "role": "QUALITY",
+            "role": "REQUIRED",
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
@@ -25062,13 +25062,13 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "BONUS",
+            "condition_tier": "MAIN",
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。",
-              "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
-              "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
+              "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。CL-DATA-26 校準步驟（2026-11-07）：「日出」命名題材原以 golden_hour_window 為 BONUS，任意白天時段可當最佳；先校準為 MODIFIER tier（評估確認不誤殺全日合格時段），下一 commit 升 REQUIRED。CL-DATA-26 升級（2026-11-07）：「日出」題材的最佳時段必須落在 golden/sunrise 窗內——role 升 REQUIRED、tier 升 MAIN；校準評估已確認此升級不會把全日窗內時段誤殺，僅排除窗外白天時段。",
+              "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required. CL-DATA-26 calibration step (2026-11-07): a subject named 'sunrise' previously treated golden_hour_window as BONUS, letting any daytime hour rank as best; first calibrated to MODIFIER tier (evaluation confirms no all-day qualified hours are wrongly killed), upgraded to REQUIRED in the next commit. CL-DATA-26 upgrade (2026-11-07): a 'sunrise' subject's best hours must fall inside the golden/sunrise window — role upgraded to REQUIRED, tier to MAIN; the calibration evaluation confirmed the upgrade only excludes out-of-window daytime hours.",
+              "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。CL-DATA-26 校準ステップ（2026-11-07）：「日の出」と名付けた題材が golden_hour_window を BONUS として扱い、昼間の任意の時刻が最良になり得た;まず MODIFIER ティーに校準（全日成立時刻を誤って排除しないことを評価で確認）し、次のコミットで REQUIRED に昇格。CL-DATA-26 昇格（2026-11-07）：「日の出」題材の最良時刻は golden/sunrise 窓内になければならない——role を REQUIRED、ティアを MAIN に昇格;校準評価で、この昇格が窓内の時刻を誤って排除しないこと（窗外の昼間時刻のみ排除）を確認済み。"
             }
           },
           {
@@ -29724,9 +29724,9 @@
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "藍調定義式窗口：日落后太陽高度 −4°～−8°（日落後約 20–50 分），由座標＋日期計算。",
-              "en": "Definitional blue-hour window: sun elevation -4 to -8 degrees after sunset (roughly 20-50 minutes), computed from coordinates and date.",
-              "ja": "ブルーアワーの定義的ウィンドウ：日没後に太陽高度が-4〜-8度（およそ日没後20-50分）。座標と日付から計算。"
+              "zh-TW": "藍調定義式窗口：日落后太陽高度 −4°～−8°（日落後約 20–50 分），由座標＋日期計算。CL-DATA-25（2026-11-07）複核：藍調窗口對稱含晨間藍調，但本題材命名為「暮色／夜燈」——以 phase=dusk 限定傍晚側，排除晨側；評估曾因對稱窗在 05:00 誤判 ✅，緣由記錄於此。",
+              "en": "Definitional blue-hour window: sun elevation -4 to -8 degrees after sunset (roughly 20-50 minutes), computed from coordinates and date. CL-DATA-25 (2026-11-07) review: the blue-hour window is elevation-symmetric and also matches the dawn side, but this subject is named for dusk/night lights — phase=dusk pins it to the evening side; evaluations previously mis-qualified 05:00 via the symmetric window, reason recorded here.",
+              "ja": "ブルーアワーの定義的ウィンドウ：日没後に太陽高度が-4〜-8度（およそ日没後20-50分）。座標と日付から計算。CL-DATA-25（2026-11-07）再確認：ブルーアワー窓は高度対称で夜明け側にも一致するが、本題材は夕暮れ／夜の灯りが主題——phase=dusk で夕方側に限定し、夜明け側を除外。対称窓により 05:00 が誤判定された経緯をここに記録。"
             },
             "phase": "dusk"
           },

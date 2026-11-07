@@ -135,9 +135,9 @@
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "藍調定義式窗口：日落后太陽高度 −4°～−8°（日落後約 20–50 分），由座標＋日期計算。",
-          "en": "Definitional blue-hour window: sun elevation -4 to -8 degrees after sunset (roughly 20-50 minutes), computed from coordinates and date.",
-          "ja": "ブルーアワーの定義的ウィンドウ：日没後に太陽高度が-4〜-8度（およそ日没後20-50分）。座標と日付から計算。"
+          "zh-TW": "藍調定義式窗口：日落后太陽高度 −4°～−8°（日落後約 20–50 分），由座標＋日期計算。CL-DATA-25（2026-11-07）複核：藍調窗口對稱含晨間藍調，但本題材命名為「暮色／夜燈」——以 phase=dusk 限定傍晚側，排除晨側；評估曾因對稱窗在 05:00 誤判 ✅，緣由記錄於此。",
+          "en": "Definitional blue-hour window: sun elevation -4 to -8 degrees after sunset (roughly 20-50 minutes), computed from coordinates and date. CL-DATA-25 (2026-11-07) review: the blue-hour window is elevation-symmetric and also matches the dawn side, but this subject is named for dusk/night lights — phase=dusk pins it to the evening side; evaluations previously mis-qualified 05:00 via the symmetric window, reason recorded here.",
+          "ja": "ブルーアワーの定義的ウィンドウ：日没後に太陽高度が-4〜-8度（およそ日没後20-50分）。座標と日付から計算。CL-DATA-25（2026-11-07）再確認：ブルーアワー窓は高度対称で夜明け側にも一致するが、本題材は夕暮れ／夜の灯りが主題——phase=dusk で夕方側に限定し、夜明け側を除外。対称窓により 05:00 が誤判定された経緯をここに記録。"
         },
         "phase": "dusk"
       },
