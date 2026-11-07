@@ -149,6 +149,12 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-25R: tw-098 渭水之丘／櫻花陵園 (rubric v2 3.8) admitted;
             # its two canonical records pinned to the 25R stage-1 data commit.
             'd587d0d8c31dee9853e53207a00e9cbd7a1940e7',
+            # CL-DATA-28: subject-name vs qualifying-hours fixes — tw-008-P01
+            # (city_night_window -> blue_hour_window phase=dusk, Mt. Guanyin/
+            # Bitan precedent) and tw-010-P02 (golden_hour_window -> REQUIRED/
+            # MAIN dawn/dusk window, tw-010-P01 CL-DATA-26 precedent) re-pinned
+            # to the contract commit carrying the new bytes.
+            '2d9af4d86856301e22df74153d9ff67d1500bc42',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
