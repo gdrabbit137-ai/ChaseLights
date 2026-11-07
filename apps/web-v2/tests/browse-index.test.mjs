@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 406 canonical sources remain source pinned (re-anchored CL-DATA-25R: rubric-v2 alignment 2026-11-07 — 5 v2-rejected v1 builds rolled back, tw-098 渭水之丘 admitted)',()=>{
-  assert.equal(sha256(rawIndex),'3543992af9f664b96ad8210b74e6376a655f0548feeb058a1d352f9f9b17e31a'); // CL-DATA-28 re-anchor: contract fix regen (tw-008-P01/tw-010-P02 window semantics + name_i18n)
-  assert.equal(sha256(rawCatalog),'8fe8d51ae4239d124415661351aa547a6a5177c4315c52fae4a76311a1c00432'); // CL-DATA-28 re-anchor: contract fix regen (tw-008-P01/tw-010-P02 window semantics + name_i18n)
+  assert.equal(sha256(rawIndex),'e8d9a817aa238bb80ddd65a28ef970d8c1b30057c671d547df75456b23f28636'); // CL-DATA-28 merge re-anchor: contract fix regen (tw-008-P01/tw-010-P02) + merge-chain regen (research_index/build_web_catalog on merged tree)
+  assert.equal(sha256(rawCatalog),'ac1cc7aad9e97e4964afa859c0328cad750d997f85c8ecfff5bd77712e29170a'); // CL-DATA-28 merge re-anchor: same
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,406);assert.equal(source.places.length,218);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
