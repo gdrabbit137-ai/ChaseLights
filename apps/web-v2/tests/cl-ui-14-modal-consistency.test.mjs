@@ -113,6 +113,20 @@ test('CL-UI-14 F1/U1: headline answers "should I go today, and when"',()=>{
   assert.match(modalHeadline(null),/目前無法提供拍攝建議摘要/);
 });
 
+test('CL-UI-42 F5: a MM/DD day label never repeats the date in the window segment',()=>{
+  // Day 3+ labels fall back to the spot-local MM/DD stamp (v2DayLabel); the
+  // dated window segment would then print 「11/10 11/10 16:00–17:00」.
+  const data={labels:['11/10','11/11','11/12'],dayInfos:[
+    {hours:1,list:['16:00'],state:'GUIDANCE_SATISFIED',date:'2026-11-10'},
+    {hours:2,list:['05:00','06:00'],state:'GUIDANCE_SATISFIED',date:'2026-11-11'},
+    {hours:0,list:[],state:'UNFAVORABLE',date:'2026-11-12'}
+  ]};
+  const headline=modalHeadline(data);
+  assert.doesNotMatch(headline,/11\/10 11\/10/);
+  assert.match(headline,/11\/10 16:00 起還有 1 小時適合拍攝/);
+  assert.match(headline,/；11\/11 05:00–06:00 條件更好（2 小時）/);
+});
+
 test('CL-UI-14 F3: missing astronomy gets an honest per-hour reason, never a bare dash',()=>{
   assert.equal(esc('x<'),'x&lt;');
   const rowBlock=grab('(spot.hourly_forecast||[])','decorateWeatherTimeline(spot');

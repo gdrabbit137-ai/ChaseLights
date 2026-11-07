@@ -13,6 +13,9 @@
 //    aria-label), so a language switch retranslates it.
 // 5. The best-subject line follows the selected day tab (today/tomorrow/
 //    day after) via v2BestSubjectKey(), in all three dictionaries.
+// 6. CL-UI-42: the language dropdown options follow the page language
+//    (data-i18n lang_opt_* in all three dicts), and the modal headline never
+//    repeats the date when the day label is itself a MM/DD stamp.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -87,6 +90,27 @@ test('CL-UI-20 B5: the mobile modal close button is keyed to i18n',()=>{
   assert.ok(init.includes(`btn.setAttribute('data-i18n-aria-label','close_weather')`));
   assert.ok(init.includes(`<span data-i18n="close_weather"></span>`));
   assert.ok(!init.includes('<span data-i18n>'),'a keyless data-i18n span freezes the creation-time language');
+});
+
+// ---------------------------------------------------------------------------
+// Part B6 (CL-UI-42): the language dropdown follows the page language.
+// ---------------------------------------------------------------------------
+test('CL-UI-42 B6: lang dropdown options carry data-i18n keys in all three dicts',()=>{
+  const pairs=[
+    ['zh-TW',["lang_opt_zh:'🌐 繁體中文'","lang_opt_en:'🌐 English'","lang_opt_ja:'🌐 日語'"]],
+    ['en',["lang_opt_zh:'🌐 Traditional Chinese'","lang_opt_en:'🌐 English'","lang_opt_ja:'🌐 Japanese'"]],
+    ['ja',["lang_opt_zh:'🌐 中国語（繁体字）'","lang_opt_en:'🌐 英語'","lang_opt_ja:'🌐 日本語'"]],
+  ];
+  const lines=appSource.split('\n');
+  for(const [lang,keys] of pairs){
+    const start=lines.findIndex(l=>l.includes(`'${lang}': {`));
+    const line=lines.slice(start,start+8).find(l=>l.includes('country_label:'));
+    for(const key of keys)assert.ok(line.includes(key),`${lang} missing ${key}`);
+  }
+  const indexSource=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
+  for(const [value,key] of [['zh-TW','lang_opt_zh'],['en','lang_opt_en'],['ja','lang_opt_ja']]){
+    assert.match(indexSource,new RegExp(`<option value="${value}"[^>]*data-i18n="${key}"`));
+  }
 });
 
 // ---------------------------------------------------------------------------
