@@ -3,8 +3,8 @@
 - region: tw | slug: `tw-fushoushan-farm`
 - 座標：24.23, 121.318（海拔 2600 m）
 - 擬設 subjects：mountain, cloud_sea, starlight
-- 差異化（機械計算）：最近既有景點 合歡山主峰，距離 10.8 km
-- **rubric 加權總分：4.0 / 5**
+- 差異化（機械計算）：最近既有景點 福壽山農場觀景點，距離 0.0 km
+- **rubric 加權總分：3.55 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
@@ -13,10 +13,10 @@
 | subject_strength | 4 |
 | weather_light_dependency | 5 |
 | verifiability | 4 |
-| differentiation | 4 |
+| differentiation | 1 |
 | scenic_beauty | 3 |
 
-> v1（CL-DATA-23 含 safe_access）加權總分對照：4.0 / 5
+> v1（CL-DATA-23 含 safe_access）加權總分對照：3.55 / 5
 > v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
@@ -36,5 +36,9 @@
 - 可達性：台7甲線直達；農場門票與夜間管制
 - 安全：夜間管制區域請勿逗留
 - 差異化說明：中橫梨山谷地雲海，環山/思源埡口方向無對應
+
+## ⛔ 差異化剔除（不進短名單）
+
+- geographic conflict: 福壽山農場觀景點 at 0.0 km (<= 5.0 km), tag overlap ['cloud_sea', 'starlight']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

@@ -3,8 +3,8 @@
 - region: tw | slug: `tw-dashan-43k-cloudsea`
 - 座標：24.1833, 121.0167（海拔 2450 m）
 - 擬設 subjects：mountain, cloud_sea, forest
-- 差異化（機械計算）：最近既有景點 鳶嘴山，距離 9.0 km
-- **rubric 加權總分：4.25 / 5**
+- 差異化（機械計算）：最近既有景點 大雪山森林遊樂區43K觀景台，距離 0.0 km
+- **rubric 加權總分：3.8 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
@@ -13,10 +13,10 @@
 | subject_strength | 5 |
 | weather_light_dependency | 5 |
 | verifiability | 4 |
-| differentiation | 4 |
+| differentiation | 1 |
 | scenic_beauty | 3 |
 
-> v1（CL-DATA-23 含 safe_access）加權總分對照：4.65 / 5
+> v1（CL-DATA-23 含 safe_access）加權總分對照：4.2 / 5
 > v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
@@ -37,5 +37,9 @@
 - 可達性：林道直達觀景台停車場，短步道；園區開放時間內
 - 安全：官方園區設施完整，夜間低溫留意
 - 差異化說明：現有 tw 雲海景點集中西部（雲洞山/二延平/阿里山），中海拔雪山山脈東側雲海互補
+
+## ⛔ 差異化剔除（不進短名單）
+
+- geographic conflict: 大雪山森林遊樂區43K觀景台 at 0.0 km (<= 5.0 km), tag overlap ['cloud_sea', 'mountain']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

@@ -189,15 +189,18 @@ def test_adapter_integrity():
     )
 
     tw = get_spots("tw")
-    assert len(tw) == 97
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 98)]
-    assert PRODUCT_STATUS_BY_SPOT == {"tw-063": "retired"}
+    assert len(tw) == 98
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 99)]
+    assert PRODUCT_STATUS_BY_SPOT["tw-063"] == "retired"
+    # CL-DATA-25R: v1-built but v2-rejected places (<3.8) retired, ids reserved
+    assert set(PRODUCT_STATUS_BY_SPOT) == {
+        "tw-063", "jp-050", "tw-090", "tw-092", "tw-096", "tw-097"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
     assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == CATALOG_MANIFEST["regions"]["tw"]["counts"]["spots"]
     assert all(
         product_status(s["spot_id"]) == "keep"
-        for s in tw if s["spot_id"] != "tw-063"
+        for s in tw if s["spot_id"] not in PRODUCT_STATUS_BY_SPOT
     )
 
     curated = {s["spot_id"]: s for s in tw if s.get("opportunities")}
@@ -2899,7 +2902,7 @@ def test_adapter_integrity():
     # B174 extends the fully curated Japan production set through jp-036.
     jp = get_spots("jp")
     assert len(jp) == 50
-    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 51))
+    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 50))  # CL-DATA-25R: jp-050 retired
 
     nanzilin = next(s for s in tw if s["spot_id"] == "tw-085")
     assert nanzilin["navigation_target"]["status"] == "verified"
@@ -4613,8 +4616,8 @@ def test_active_catalog_weather_generation_guard():
     # B51 completes Japan migration: every production Japan Place is researched.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 51)}  # re-anchored CL-DATA-25: jp-037..jp-050 admitted
-    assert all(spot.get("opportunities") for spot in jp_spots)
+    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 50)}  # re-anchored CL-DATA-25R: jp-037..jp-049 admitted, jp-050 retired (v2 3.30 < 3.8)
+    assert all(spot.get("opportunities") for spot in jp_spots if active_in_catalog(spot["spot_id"]))  # retired jp-050 stays unresearched by design
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
     assert abs(blue_pond["lon"] - 142.614167) < 1e-9

@@ -253,7 +253,6 @@ def build_report():
             "subject_strength": score_subject(opp),
             "weather_light_dependency": score_weather_light(opp),
             "verifiability": score_verifiability(opp),
-            "safe_access": score_safe_access(opp),
         }
         if pid not in coords:
             c = place_coords(opp)

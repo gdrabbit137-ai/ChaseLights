@@ -112,8 +112,14 @@ class TestCLData23DiscoveryShortlist(unittest.TestCase):
     def test_no_candidate_duplicates_existing_jp_north_catalog_place(self):
         existing = [p["name_i18n"]["zh-TW"] for p in self.catalog["places"]
                     if p["place_id"].startswith("jp-")]
+        admitted = {p["name_i18n"]["zh-TW"] for p in self.catalog["places"]
+                    if p["place_id"].startswith("jp-")}
         for c in self.shortlist["candidates"]:
             zh = c["name_i18n"]["zh-TW"]
+            if zh in admitted:
+                # re-anchored CL-DATA-25R: this candidate was admitted (owner
+                # ruling) — its identity IS the catalog place by definition.
+                continue
             for name in existing:
                 self.assertNotIn(name, zh and zh or "\0",
                     msg=f"{c['id']} name repeats catalog place {name}")

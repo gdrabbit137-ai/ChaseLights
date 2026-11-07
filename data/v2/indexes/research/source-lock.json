@@ -2888,6 +2888,20 @@
       "blob_sha": "75d8d8ff2e2c3234ff4da501061542e14227decf",
       "sha256": "49831819c71de31781f54b5aa76340b34a750150fa6e41d2b4705f9d172b3161",
       "commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c"
+    },
+    {
+      "opportunity_id": "tw-098-P01",
+      "path": "data/v2/opportunities/tw-098-P01.json",
+      "blob_sha": "433c4669033bf4d9cc93f3bbc8ef7b23746444d9",
+      "sha256": "d9de66070a8c0d24a90fda85dceb35b6f1d779961ff3d412c1fc54d9ebac1e55",
+      "commit_sha": "d587d0d8c31dee9853e53207a00e9cbd7a1940e7"
+    },
+    {
+      "opportunity_id": "tw-098-P02",
+      "path": "data/v2/opportunities/tw-098-P02.json",
+      "blob_sha": "09cf8088ee053253792ae4a8961833bfe0dcc8f1",
+      "sha256": "3e7aa44a8f0fa7b4d9f57c74c8670e52b6a6928c6efc19c49a60957dce26dbe6",
+      "commit_sha": "d587d0d8c31dee9853e53207a00e9cbd7a1940e7"
     }
   ],
   "supporting_sources": [
@@ -2983,9 +2997,9 @@
     },
     {
       "path": "tw_weather.json",
-      "blob_sha": "0415d4bf6efef2c8bdee7e96d69fd077b3aa6b62",
-      "sha256": "d25ca998982ad676cc5c143478209249735af1f9c7b9da9cc7a34292d5691888",
-      "commit_sha": "95c757bda35bbec4dddd39fc009f2eafb55fae16"
+      "blob_sha": "5f656cf8245b620570c23c2ed82436f7ca91bb8c",
+      "sha256": "7ce04225c1483611502ab870dfa09b78e15629ab1c36d71dafbdbc6ed60eb326",
+      "commit_sha": "d587d0d8c31dee9853e53207a00e9cbd7a1940e7"
     },
     {
       "path": "jp_weather.json",
@@ -3473,5 +3487,6 @@
   "repin_note_cl_data_14_20261106": "CL-DATA-14 merge (3682e14ec): 10 canonical records byte-changed by ticket corrections; 37 records (CL-CI-14 set) had correct sha256/blob pins but stale commit_sha (latent --git-provenance failure on main) — all 47 commit_sha repointed to the merge commit; bytes verified in merged checkout.",
   "repin_note_cl_data_20_20261106": "CL-DATA-20: 18 tailored contracts admitted for the 7 no-opportunity spots and pinned to the data commit a4f803a7106816773ef5a2f659271c656b873bd7; tw-059-P01/tw-078-P01 (tidal genre marking) and tw-016-P01 (web-verified summit geometry) byte-changed and re-pinned to the same commit; cl-data-20_web_evidence.json added as a supporting audit source (AI web verification, human-review gate retired by owner ruling).",
   "repin_note_cl_data_19_20261106": "CL-DATA-19 中緯度全日題材補 civil light_window（太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）：124 筆契約重釘 canonical_records 至本票 commit（overlook 21 / mountain_view 39 / reflection 20 / overcast_soft 17 / geological_landform 15 / seasonal_plant 12）。得月樓（tw-062-P01）抽查實證夜間誤判可拍，故補必要光線窗。每筆為語意修正，layering parity gate 豁免，revision note 記於各 condition 的 rationale/notes_i18n。人審釘選（task-s fixtures：jp-010-P01/tw-034-P02/tw-082-P01；worker2 fixture：tw-016-P01；owner 校準待人審契約 us-057-P01）與 legacy stub（tw-059-P01/tw-060-P01/tw-078-P01/jp-030-P01）未動。",
-  "rollback_note_cl_data_25r_20261107": "CL-DATA-25R (2026-11-07): rubric-v2 alignment — owner ruling: weighted_total_v2 >= 3.8 admits directly; below 3.8 goes to the Excel side list only. Rolled back the full legacy+V2+runtime catalog entries of the 5 v1-built but v2-rejected places (jp-050 安比雲海 3.30, tw-090 加路蘭 3.70, tw-092 北關海潮 3.60, tw-096 好望角 3.70, tw-097 擎天崗 3.20); their canonical_records are removed and their dossiers remain under data/v2/audits/discovery/ for the Excel side list. jp-041 流氷 is kept (v2 4.8 passes the line; drift_ice stays not_evaluatable)."
+  "rollback_note_cl_data_25r_20261107": "CL-DATA-25R (2026-11-07): rubric-v2 alignment — owner ruling: weighted_total_v2 >= 3.8 admits directly; below 3.8 goes to the Excel side list only. Rolled back the full legacy+V2+runtime catalog entries of the 5 v1-built but v2-rejected places (jp-050 安比雲海 3.30, tw-090 加路蘭 3.70, tw-092 北關海潮 3.60, tw-096 好望角 3.70, tw-097 擎天崗 3.20); their canonical_records are removed and their dossiers remain under data/v2/audits/discovery/ for the Excel side list. jp-041 流氷 is kept (v2 4.8 passes the line; drift_ice stays not_evaluatable).",
+  "admission_note_cl_data_25r_20261107": "CL-DATA-25R admission: tw-098 渭水之丘／櫻花陵園 (rubric v2 3.8 >= 3.8 direct-admission line, owner ruling 2026-11-07) admitted with canonical records pinned at the CL-DATA-25R stage-1 commit; tw_weather.json supporting pin re-anchored to the same commit for its direct V1 name source."
 }

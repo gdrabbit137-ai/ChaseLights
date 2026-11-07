@@ -4341,6 +4341,26 @@
         "spot_id": "tw-095",
         "pointer": "/name_i18n/ja"
       }
+    },
+    "tw-098": {
+      "zh-TW": {
+        "direct_source": true,
+        "source_path": "tw_weather.json",
+        "spot_id": "tw-098",
+        "pointer": "/name_i18n/zh-TW"
+      },
+      "en": {
+        "direct_source": true,
+        "source_path": "tw_weather.json",
+        "spot_id": "tw-098",
+        "pointer": "/name_i18n/en"
+      },
+      "ja": {
+        "direct_source": true,
+        "source_path": "tw_weather.json",
+        "spot_id": "tw-098",
+        "pointer": "/name_i18n/ja"
+      }
     }
   },
   "topic_definitions": {
@@ -9089,6 +9109,26 @@
       "evidence_claim_id": "tw-095-P02-claim-01",
       "evidence_refs": [],
       "classification_basis": "legacy_theme=mountain_view"
+    },
+    "tw-098-P01": {
+      "topic_ids": [],
+      "canonical_pointers": [
+        "/targets/0/name_i18n",
+        "/description_i18n"
+      ],
+      "evidence_claim_id": "tw-098-P01-claim-01",
+      "evidence_refs": [],
+      "classification_basis": "legacy_theme=cloud_sea"
+    },
+    "tw-098-P02": {
+      "topic_ids": [],
+      "canonical_pointers": [
+        "/targets/0/name_i18n",
+        "/description_i18n"
+      ],
+      "evidence_claim_id": "tw-098-P02-claim-01",
+      "evidence_refs": [],
+      "classification_basis": "legacy_theme=city_night"
     }
   },
   "classification_method": "DETERMINISTIC_LEGACY_THEME_FORMULA_UNEVIDENCED_STAY_UNCLASSIFIED",

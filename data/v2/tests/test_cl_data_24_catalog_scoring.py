@@ -35,32 +35,41 @@ class TestClData24CatalogScoring(unittest.TestCase):
         assert OUT_MD.read_bytes() == first_md, "catalog-scoring.md not deterministic"
 
         rep = json.loads(first_json.decode("utf-8"))
-        # schema + full coverage
-        assert rep["schema_version"] == "cl-data-24-catalog-scoring-1"
+        # schema + full coverage (re-anchored CL-DATA-25R: rubric v2, honest unknown)
+        assert rep["schema_version"] == "cl-data-24-catalog-scoring-2"
+        assert "safe_access" not in rep["rubric_weights"]
+        assert rep["rubric_weights"]["scenic_beauty"] == 20
         s = rep["summary"]
-        assert s["places"] == 197, f"expected 197 places, got {s['places']}"
-        assert s["opportunities"] == 374, f"expected 374 opportunities, got {s['opportunities']}"
-        assert s["canonical_locked_opportunities"] == 374
-        assert len(rep["ranking"]) == 197
-        assert len(rep["opportunity_scores"]) == 374
-        # weighted totals in valid range, ranking strictly ordered by (total, id)
-        totals = [p["weighted_total"] for p in rep["ranking"]]
+        assert s["places"] == 218, f"expected 218 places, got {s['places']}"
+        assert s["opportunities"] == 406, f"expected 406 opportunities, got {s['opportunities']}"
+        assert s["canonical_locked_opportunities"] == 406
+        assert len(rep["ranking"]) == 218
+        assert len(rep["opportunity_scores"]) == 406
+        assert s["places_with_unknown_scenic_beauty"] == sum(
+            1 for p in rep["ranking"] if p["rubric"]["scenic_beauty"] == "unknown")
+        # weighted totals in valid range (None = honest unknown), ranking ordered by (total, id)
+        totals = [p["weighted_total"] for p in rep["ranking"] if p["weighted_total"] is not None]
         assert all(1.0 <= t <= 5.0 for t in totals)
         assert totals == sorted(totals, reverse=True)
         for a, b in zip(rep["ranking"], rep["ranking"][1:]):
             if a["weighted_total"] == b["weighted_total"]:
                 assert a["place_id"] < b["place_id"]
+        ranked_unknown = [p for p in rep["ranking"] if p["weighted_total"] is None]
+        assert rep["ranking"][-len(ranked_unknown):] == ranked_unknown
         # rubric dimensions complete and in range for every place
         for p in rep["ranking"]:
             assert set(p["rubric"]) == {"subject_strength", "weather_light_dependency",
-                                        "verifiability", "differentiation", "safe_access"}
-            assert all(1 <= v <= 5 for v in p["rubric"].values())
+                                        "verifiability", "differentiation", "scenic_beauty"}
+            known = [v for v in p["rubric"].values() if v != "unknown"]
+            assert all(1 <= v <= 5 for v in known)
+            if p["rubric"]["scenic_beauty"] != "unknown":
+                assert p["weighted_total"] is not None
         # weakness lists consistent with opportunity scores
         low_wl = {o["opportunity_id"] for o in rep["weakness_lists"]["low_weather_light"]}
         low_vf = {o["opportunity_id"] for o in rep["weakness_lists"]["low_verifiability"]}
         for o in rep["opportunity_scores"]:
             assert set(o["scores"]) == {"subject_strength", "weather_light_dependency",
-                                        "verifiability", "safe_access"}
+                                        "verifiability"}
             if o["scores"]["weather_light_dependency"] <= 2:
                 assert o["opportunity_id"] in low_wl
             else:
