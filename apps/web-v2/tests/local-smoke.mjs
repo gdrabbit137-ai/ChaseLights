@@ -57,7 +57,14 @@ try{
   });
   let id=0; const pending=new Map();
 // Attach to the page target: browser-level sockets reject Page.* commands.
-const targets = await (await fetch(`http://${wsUrl.match(/ws:\/\/([^/]+)/)[1]}/json/list`)).json();
+// Under load the page target can register a beat after the DevTools line
+// appears — poll /json/list briefly instead of failing on the first empty list.
+let targets = [];
+for (let i = 0; i < 40; i++) {
+  targets = await (await fetch(`http://${wsUrl.match(/ws:\/\/([^/]+)/)[1]}/json/list`)).json();
+  if (targets.find(t=>t.type==='page')) break;
+  await new Promise(r=>setTimeout(r,250));
+}
 const pageWs = targets.find(t=>t.type==='page').webSocketDebuggerUrl;
 const ws = new WebSocket(pageWs);
 await new Promise((r,j)=>{ws.onopen=r;ws.onerror=j;});
