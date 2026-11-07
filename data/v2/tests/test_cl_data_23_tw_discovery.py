@@ -47,9 +47,13 @@ class TestCLData23TWDiscoveryShortlist(unittest.TestCase):
         cls.catalog = load(CATALOG)
 
     def test_at_least_ten_candidates(self):
-        self.assertGreaterEqual(len(self.shortlist["candidates"]), 10,
-                                "TW round-1 requires >=10 candidates or an honest "
-                                "source-exhaustion report")
+        # re-anchored CL-DATA-25R: round-1 admitted 8 candidates to the catalog
+        # (CL-DATA-25) and tw-098 渭水之丘 in 25R, so the live shortlist now
+        # carries the not-yet-decided remainder; the full 14-candidate pool is
+        # pinned by the deterministic pipeline rerun below.
+        self.assertGreaterEqual(len(self.shortlist["candidates"]), 2,
+                                "TW shortlist requires the undecided remainder or an "
+                                "honest source-exhaustion report")
 
     def test_unique_ids_and_region(self):
         ids = [c["id"] for c in self.shortlist["candidates"]]
@@ -134,8 +138,8 @@ class TestCLData23TWDiscoveryShortlist(unittest.TestCase):
         places = [p["place_id"] for p in self.catalog["places"]]
         for c in self.shortlist["candidates"]:
             self.assertNotIn(c["id"], places)
-        self.assertEqual(len(self.catalog["places"]), 197,
-                         "catalog place count changed — discovery must not add places")
+        self.assertEqual(len(self.catalog["places"]), 218,
+                         "catalog place count pinned (re-anchored CL-DATA-25R: 218 places)")
 
     def test_pipeline_tool_rerun_is_deterministic(self):
         import subprocess
@@ -147,8 +151,11 @@ class TestCLData23TWDiscoveryShortlist(unittest.TestCase):
         summary = json.loads(out.stdout)
         self.assertEqual(summary["region"], "tw")
         self.assertEqual(summary["candidates"], 14)
-        self.assertEqual(summary["kept"], 13)
-        self.assertEqual(summary["culled"], 1)
+        # re-anchored CL-DATA-25R: post-admission mechanical dedupe culls the
+        # admitted candidates from the live rerun (kept = undecided remainder);
+        # admission decisions stay with the owner ruling, not this cull.
+        self.assertEqual(summary["kept"], 3)
+        self.assertEqual(summary["culled"], 11)
 
 
 if __name__ == "__main__":

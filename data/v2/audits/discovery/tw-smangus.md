@@ -3,8 +3,8 @@
 - region: tw | slug: `tw-smangus`
 - 座標：24.5976, 121.3246（海拔 1600 m）
 - 擬設 subjects：mountain, forest, cloud_sea, starlight
-- 差異化（機械計算）：最近既有景點 加羅湖，距離 16.5 km
-- **rubric 加權總分：4.4 / 5**
+- 差異化（機械計算）：最近既有景點 司馬庫斯部落觀景點，距離 0.0 km
+- **rubric 加權總分：3.8 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
@@ -13,10 +13,10 @@
 | subject_strength | 5 |
 | weather_light_dependency | 5 |
 | verifiability | 3 |
-| differentiation | 5 |
+| differentiation | 1 |
 | scenic_beauty | 4 |
 
-> v1（CL-DATA-23 含 safe_access）加權總分對照：4.0 / 5
+> v1（CL-DATA-23 含 safe_access）加權總分對照：3.4 / 5
 > v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
@@ -36,5 +36,9 @@
 - 可達性：最後20km產業道路陡峭，夜行風險高
 - 安全：夜行山路：不建議單獨夜間往返
 - 差異化說明：深山部落雲海+暗空，北部無對應
+
+## ⛔ 差異化剔除（不進短名單）
+
+- geographic conflict: 司馬庫斯部落觀景點 at 0.0 km (<= 5.0 km), tag overlap ['mountain', 'starlight']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

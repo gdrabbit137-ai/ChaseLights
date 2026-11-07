@@ -3,8 +3,8 @@
 - region: tw | slug: `tw-beiguan-tide-park`
 - 座標：24.793, 121.875（海拔 15 m）
 - 擬設 subjects：coast, mountain
-- 差異化（機械計算）：最近既有景點 外澳沙灘／龜山朝日，距離 9.7 km
-- **rubric 加權總分：3.6 / 5**
+- 差異化（機械計算）：最近既有景點 北關海潮公園，距離 0.0 km
+- **rubric 加權總分：3.15 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
@@ -13,10 +13,10 @@
 | subject_strength | 4 |
 | weather_light_dependency | 3 |
 | verifiability | 4 |
-| differentiation | 4 |
+| differentiation | 1 |
 | scenic_beauty | 3 |
 
-> v1（CL-DATA-23 含 safe_access）加權總分對照：4.0 / 5
+> v1（CL-DATA-23 含 safe_access）加權總分對照：3.55 / 5
 > v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
@@ -36,5 +36,9 @@
 - 可達性：步道短，漲潮封閉警示；礁岩區注意湧浪
 - 安全：漲潮封閉、湧浪勿近礁緣
 - 差異化說明：龜山島朝日地質公園，宜蘭頭城段缺口
+
+## ⛔ 差異化剔除（不進短名單）
+
+- geographic conflict: 北關海潮公園 at 0.0 km (<= 5.0 km), tag overlap ['coast', 'mountain']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

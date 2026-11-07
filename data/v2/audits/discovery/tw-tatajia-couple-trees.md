@@ -3,8 +3,8 @@
 - region: tw | slug: `tw-tatajia-couple-trees`
 - 座標：23.478, 120.886（海拔 2610 m）
 - 擬設 subjects：mountain, starlight, cloud_sea
-- 差異化（機械計算）：最近既有景點 玉山主峰，距離 7.3 km
-- **rubric 加權總分：3.9 / 5**
+- 差異化（機械計算）：最近既有景點 塔塔加夫妻樹／鹿林山觀景點，距離 1.2 km
+- **rubric 加權總分：3.6 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
@@ -13,10 +13,10 @@
 | subject_strength | 5 |
 | weather_light_dependency | 5 |
 | verifiability | 3 |
-| differentiation | 3 |
+| differentiation | 1 |
 | scenic_beauty | 3 |
 
-> v1（CL-DATA-23 含 safe_access）加權總分對照：3.9 / 5
+> v1（CL-DATA-23 含 safe_access）加權總分對照：3.6 / 5
 > v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
@@ -37,5 +37,9 @@
 - 可達性：台18/台21線直達，高海拔夜間低溫與停車安全
 - 安全：高海拔夜間低溫；野生動物（水鹿）出沒
 - 差異化說明：玉山國家公園西側入口的銀河+山景，現有玉山主峰為登頂型題材
+
+## ⛔ 差異化剔除（不進短名單）
+
+- geographic conflict: 塔塔加夫妻樹／鹿林山觀景點 at 1.2 km (<= 5.0 km), tag overlap ['mountain', 'starlight']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

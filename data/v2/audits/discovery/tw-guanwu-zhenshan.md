@@ -3,8 +3,8 @@
 - region: tw | slug: `tw-guanwu-zhenshan`
 - 座標：24.507, 121.087（海拔 2100 m）
 - 擬設 subjects：mountain, cloud_sea, forest
-- 差異化（機械計算）：最近既有景點 大霸尖山，距離 18.2 km
-- **rubric 加權總分：4.2 / 5**
+- 差異化（機械計算）：最近既有景點 觀霧榛山步道觀景點，距離 2.7 km
+- **rubric 加權總分：3.6 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
@@ -13,10 +13,10 @@
 | subject_strength | 5 |
 | weather_light_dependency | 5 |
 | verifiability | 3 |
-| differentiation | 5 |
+| differentiation | 1 |
 | scenic_beauty | 3 |
 
-> v1（CL-DATA-23 含 safe_access）加權總分對照：4.4 / 5
+> v1（CL-DATA-23 含 safe_access）加權總分對照：3.8 / 5
 > v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
@@ -36,5 +36,9 @@
 - 可達性：榛山步道來回約2小時，雪霸園區步道
 - 安全：冬季結冰路段；園區內無照明
 - 差異化說明：聖稜線雲海（大霸尖山為登頂型題材，無雲海拍點）
+
+## ⛔ 差異化剔除（不進短名單）
+
+- geographic conflict: 觀霧榛山步道觀景點 at 2.7 km (<= 5.0 km), tag overlap ['cloud_sea', 'mountain']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

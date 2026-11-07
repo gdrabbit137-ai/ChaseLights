@@ -3,7 +3,7 @@
 - region: tw | slug: `tw-qingtiangang`
 - 座標：25.1169, 121.5549（海拔 800 m）
 - 擬設 subjects：mountain, starlight, cloud_sea
-- 差異化（機械計算）：最近既有景點 大屯山助航站，距離 7.4 km
+- 差異化（機械計算）：最近既有景點 擎天崗草原，距離 5.8 km
 - **rubric 加權總分：3.2 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）

@@ -3,8 +3,8 @@
 - region: tw | slug: `tw-haowanjiao`
 - 座標：24.603, 120.745（海拔 98 m）
 - 擬設 subjects：coast, city
-- 差異化（機械計算）：最近既有景點 雲洞山莊，距離 25.1 km
-- **rubric 加權總分：3.7 / 5**
+- 差異化（機械計算）：最近既有景點 半天寮好望角，距離 0.0 km
+- **rubric 加權總分：3.1 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
@@ -13,10 +13,10 @@
 | subject_strength | 3 |
 | weather_light_dependency | 3 |
 | verifiability | 4 |
-| differentiation | 5 |
+| differentiation | 1 |
 | scenic_beauty | 4 |
 
-> v1（CL-DATA-23 含 safe_access）加權總分對照：3.9 / 5
+> v1（CL-DATA-23 含 safe_access）加權總分對照：3.3 / 5
 > v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
@@ -37,5 +37,9 @@
 - 可達性：公路直達短步道，低海拔易達
 - 安全：好望角步道短且安全；風車區注意強風
 - 差異化說明：苗栗海線日落缺口（高美以北無海線拍點）
+
+## ⛔ 差異化剔除（不進短名單）
+
+- geographic conflict: 半天寮好望角 at 0.0 km (<= 5.0 km), tag overlap ['city', 'coast']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

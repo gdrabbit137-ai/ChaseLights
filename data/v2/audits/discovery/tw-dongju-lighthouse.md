@@ -3,8 +3,8 @@
 - region: tw | slug: `tw-dongju-lighthouse`
 - 座標：25.9672, 119.9856（海拔 64 m）
 - 擬設 subjects：coast, starlight
-- 差異化（機械計算）：最近既有景點 南竿鐵堡／海防礁岩，距離 20.5 km
-- **rubric 加權總分：4.15 / 5**
+- 差異化（機械計算）：最近既有景點 東莒燈塔（東犬燈塔），距離 0.0 km
+- **rubric 加權總分：3.55 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
@@ -13,10 +13,10 @@
 | subject_strength | 4 |
 | weather_light_dependency | 4 |
 | verifiability | 5 |
-| differentiation | 5 |
+| differentiation | 1 |
 | scenic_beauty | 3 |
 
-> v1（CL-DATA-23 含 safe_access）加權總分對照：3.95 / 5
+> v1（CL-DATA-23 含 safe_access）加權總分對照：3.35 / 5
 > v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
@@ -37,5 +37,9 @@
 - 可達性：需跳島交通（南竿/北竿轉莒光），可達性最低
 - 安全：跳島航班受風浪影響，留備案
 - 差異化說明：離島燈塔+藍眼淚季節題材，馬祖僅東引/南竿
+
+## ⛔ 差異化剔除（不進短名單）
+
+- geographic conflict: 東莒燈塔（東犬燈塔） at 0.0 km (<= 5.0 km), tag overlap ['coast', 'starlight']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

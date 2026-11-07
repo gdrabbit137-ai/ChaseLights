@@ -47,7 +47,17 @@ LEGACY_THEME_POLICY = {
     "aurora": "phenomenon",
 }
 
-PRODUCT_STATUS_BY_SPOT = {"tw-063": "retired"}
+PRODUCT_STATUS_BY_SPOT = {
+    "tw-063": "retired",
+    # CL-DATA-25R (2026-11-07, rubric v2 alignment): v1-built but v2-rejected places
+    # (<3.8) retired from the product catalog; ids stay reserved (positional spot_id
+    # stability), dossiers move to the Excel side list.
+    "jp-050": "retired",   # 安比高原雲海ゴンドラ (v2 3.30)
+    "tw-090": "retired",   # 加路蘭海岸遊憩區 (v2 3.70)
+    "tw-092": "retired",   # 北關海潮公園 (v2 3.60)
+    "tw-096": "retired",   # 半天寮好望角 (v2 3.70)
+    "tw-097": "retired",   # 擎天崗草原 (v2 3.20)
+}
 
 
 def product_status(spot_id):

@@ -3,8 +3,8 @@
 - region: tw | slug: `tw-jialulan-coast`
 - 座標：22.7864, 121.1839（海拔 30 m）
 - 擬設 subjects：coast, starlight
-- 差異化（機械計算）：最近既有景點 池上伯朗大道，距離 34.9 km
-- **rubric 加權總分：3.7 / 5**
+- 差異化（機械計算）：最近既有景點 加路蘭海岸遊憩區，距離 0.0 km
+- **rubric 加權總分：3.1 / 5**
 
 ## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
@@ -13,10 +13,10 @@
 | subject_strength | 3 |
 | weather_light_dependency | 4 |
 | verifiability | 5 |
-| differentiation | 5 |
+| differentiation | 1 |
 | scenic_beauty | 2 |
 
-> v1（CL-DATA-23 含 safe_access）加權總分對照：4.3 / 5
+> v1（CL-DATA-23 含 safe_access）加權總分對照：3.7 / 5
 > v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
@@ -36,5 +36,9 @@
 - 可達性：台11線旁免費園區24h開放
 - 安全：海岸平台安全；冬季東北風強
 - 差異化說明：東海岸海平面日出+暗空，與三仙台/七星潭互補（南段缺）
+
+## ⛔ 差異化剔除（不進短名單）
+
+- geographic conflict: 加路蘭海岸遊憩區 at 0.0 km (<= 5.0 km), tag overlap ['coast', 'starlight']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

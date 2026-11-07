@@ -1,0 +1,166 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-041-P01",
+ "place_id": "jp-041",
+ "revision": 2,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "知床流氷接岸（プユニ岬）",
+  "en": "Shiretoko drift ice onshore (Puyuni Cape)",
+  "ja": "知床の流氷接岸（プユニ岬）"
+ },
+ "description_i18n": {
+  "zh-TW": "北半球最低緯度流氷觀察地（世界自然遺産）；プユニ岬為接岸晨光經典機位。接岸與否取決於風向/海況，系統現無海冰資料源 → 本題材誠實 not_evaluatable（fail-closed），僅季節窗（1月下旬–3月）供參考。",
+  "en": "Lowest-latitude drift-ice viewpoint in the northern hemisphere (World Heritage); Puyuni Cape is the classic dawn vantage. Ice onshore depends on wind/sea state and no sea-ice data source exists in the system, so this subject is honestly not_evaluatable (fail-closed); the seasonal window (late Jan-Mar) is reference only.",
+  "ja": "北半球最低緯度の流氷観察地（世界自然遺産）。プユニ岬は接岸朝景の定番機位。接岸の有無は風向・海況次第で、現システムに海氷データソースがないため本題材は誠実に not_evaluatable（fail-closed）。季節窓（1月下旬〜3月）は参考値。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-041-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      145.0093,
+      44.0958
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-25 admission web verification 2026-11-07 (mapion プユニ岬 (44.0958,145.0093); cape max elevation ~125 m 北海道の岬カタログ（国土地理院標高データ）; source URLs: https://www.mapion.co.jp/m2/44.09579822,145.00933597,16/poi=L0634319 ; https://hokkaidodo.jp/capes/shari-5/). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "北半球最低緯度流氷觀察地（世界自然遺産）；プユニ岬為接岸晨光經典機位。接岸與否取決於風向/海況，系統現無海冰資料源 → 本題材誠實 not_evaluatable（fail-closed），僅季節窗（1月下旬–3月）供參考。（開放/營運狀態以現場公告為準。）",
+    "en": "Lowest-latitude drift-ice viewpoint in the northern hemisphere (World Heritage); Puyuni Cape is the classic dawn vantage. Ice onshore depends on wind/sea state and no sea-ice data source exists in the system, so this subject is honestly not_evaluatable (fail-closed); the seasonal window (late Jan-Mar) is reference only. (Opening/operating status follows on-site notices.)",
+    "ja": "北半球最低緯度の流氷観察地（世界自然遺産）。プユニ岬は接岸朝景の定番機位。接岸の有無は風向・海況次第で、現システムに海氷データソースがないため本題材は誠実に not_evaluatable（fail-closed）。季節窓（1月下旬〜3月）は参考値。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 125.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-041-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "知床流氷接岸（プユニ岬）",
+    "en": "Shiretoko drift ice onshore (Puyuni Cape)",
+    "ja": "知床の流氷接岸（プユニ岬）"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      145.0093,
+      44.0958
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-25 admission web verification 2026-11-07 (mapion プユニ岬 (44.0958,145.0093); cape max elevation ~125 m 北海道の岬カタログ（国土地理院標高データ）; source URLs: https://www.mapion.co.jp/m2/44.09579822,145.00933597,16/poi=L0634319 ; https://hokkaidodo.jp/capes/shari-5/). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-041-P01-01",
+   "camera_context_id": "CZ-jp-041-P01-01",
+   "target_id": "SG-jp-041-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-25 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-041-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 44.0958,
+   "lon": 145.0093,
+   "label_i18n": {
+    "zh-TW": "プユニ岬",
+    "en": "Drift Ice at Utoro (Puyuni Cape), Shiretoko",
+    "ja": "プユニ岬"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-041-P01-v1",
+  "status": "draft",
+  "genre_template": "drift_ice",
+  "template_version": "drift_ice-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-041-P01-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "legacy_drift_ice",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-041-P01-claim-01"
+    ],
+    "model_binding": null,
+    "notes_i18n": {
+     "zh-TW": "CL-DATA-25（2026-11-07）：本筆標記為流氷主導題材（genre_template=drift_ice）。支配條件是海冰接岸與否（風向/海況/海冰分佈），非天氣；系統現無海冰資料源，誠實 not_evaluatable（fail-closed）待海冰模組實作後再建契約，不提供天氣契約以免誤導（同 CL-DATA-20 潮汐語意）。季節窗（1月下旬–3月）已在 seasonal-calendar 供參考。",
+     "en": "CL-DATA-25 (2026-11-07): drift-ice-governed subject (genre_template=drift_ice). The governing condition is whether sea ice is onshore (wind/sea state/ice distribution), not weather; the system has no sea-ice data source, so it is honestly not_evaluatable (fail-closed) until a sea-ice module exists - no weather contract is offered to avoid misleading (same semantics as the CL-DATA-20 tidal pattern). The seasonal window (late Jan-Mar) is in seasonal-calendar for reference.",
+     "ja": "CL-DATA-25（2026-11-07）：流氷支配の題材（genre_template=drift_ice）。支配的条件は海氷の接岸有無（風向・海況・海氷分布）で天気ではない。海氷データソースが現状ないため誠実に not_evaluatable（fail-closed）。潮汐型（CL-DATA-20）と同じ語義。気象契約は誤解を避けるため提供しない。季節窓（1月下旬〜3月）は seasonal-calendar 参照。"
+    },
+    "validation_status": "provisional"
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-041-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d25-web-shiretoko-utoro-ryuhyo"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-25 discovery admission (rubric >=3.8, owner ruling 2026-11-07); coordinates/elevation web-verified 2026-11-07 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-23 discovery shortlist (CL-DATA-25 admission)",
+  "source_revision": "cl-data-23:jp-north-shiretoko-utoro-ryuhyo",
+  "imported_at": "2026-11-07T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}
