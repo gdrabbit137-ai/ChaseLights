@@ -346,8 +346,26 @@ def main():
     # clobbers the full published artifacts.
     parser.add_argument("--only-place-id", default=None,
                         help="evaluate only the coordinate groups of this place_id")
-    parser.add_argument("--forecast-hours", type=int, default=72)
+    # CL-CI-21 fail-closed: --forecast-hours has NO silent default. The Python
+    # default of 72 was silently reregressing the published bundle to the old
+    # 72h horizon whenever a scoped regen (CL-DATA-25/26) omitted the flag —
+    # the scheduled 168h semantics were lost in the artifact without any error.
+    parser.add_argument("--forecast-hours", type=int, default=None)
     arguments = parser.parse_args()
+    PUBLISHED_HORIZON_HOURS = 168  # CL-DATA-06: 7-day semantics (CAMS ceiling)
+    if arguments.forecast_hours is None:
+        parser.error(
+            "--forecast-hours is required (published semantics: 168 = 7 days; "
+            "a missing flag must fail closed, not silently fall back to 72)")
+    if arguments.forecast_hours < 1 or arguments.forecast_hours > 384:
+        parser.error(f"--forecast-hours {arguments.forecast_hours} outside 1..384")
+    if (Path(arguments.out) == ROOT / "apps/web-v2/evaluations-latest.json"
+            and arguments.forecast_hours != PUBLISHED_HORIZON_HOURS):
+        parser.error(
+            f"refusing to write the PUBLISHED bundle with forecast_hours="
+            f"{arguments.forecast_hours}: published horizon semantics is "
+            f"{PUBLISHED_HORIZON_HOURS}h (7 days). Pass --forecast-hours 168, "
+            "or redirect --out/--archive/--details-dir for experimental runs.")
 
     opportunities = load_contracted()
     places_index = json.loads((ROOT / "data/v2/indexes/research/place-index.json")
