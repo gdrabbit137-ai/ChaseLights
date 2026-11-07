@@ -4,9 +4,9 @@
 - 座標：25.1169, 121.5549（海拔 800 m）
 - 擬設 subjects：mountain, starlight, cloud_sea
 - 差異化（機械計算）：最近既有景點 大屯山助航站，距離 7.4 km
-- **rubric 加權總分：3.8 / 5**
+- **rubric 加權總分：3.2 / 5**
 
-## Rubric 評分（1–5，權重 25/20/20/15/20）
+## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
 | 項目 | 分數 |
 |---|---|
@@ -14,12 +14,19 @@
 | weather_light_dependency | 4 |
 | verifiability | 4 |
 | differentiation | 3 |
-| safe_access | 5 |
+| scenic_beauty | 2 |
+
+> v1（CL-DATA-23 含 safe_access）加權總分對照：3.8 / 5
+> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
 
 - [https://www.threads.com/@meta.ai/post/DdGbOwmgmpb/](https://www.threads.com/@meta.ai/post/DdGbOwmgmpb/) — 台北拍銀河最方便地點社群整理（弱源，需官源補強）
 - [https://www.yangmingshanshui.com/website/news/yangmingshan-travel-itinerary/enjoying-the-moon-and-night-scene-location](https://www.yangmingshanshui.com/website/news/yangmingshan-travel-itinerary/enjoying-the-moon-and-night-scene-location) — 陽明山無光害夜空地點整理
+
+## scenic_beauty 證據（v2 機械化分級依據）
+
+- s1=0；s2=0；s3=0：僅 threads（AI 生成帖，弱源）＋單篇陽明山部落格清單——攻略清單文出現頻率不足（dossier 已標註需官源補強）→ 2+0=2
 
 ## 擬設題材與條件草案
 

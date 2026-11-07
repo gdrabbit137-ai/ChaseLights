@@ -4,9 +4,9 @@
 - 座標：25.9672, 119.9856（海拔 64 m）
 - 擬設 subjects：coast, starlight
 - 差異化（機械計算）：最近既有景點 南竿鐵堡／海防礁岩，距離 20.5 km
-- **rubric 加權總分：3.95 / 5**
+- **rubric 加權總分：4.15 / 5**
 
-## Rubric 評分（1–5，權重 25/20/20/15/20）
+## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
 | 項目 | 分數 |
 |---|---|
@@ -14,13 +14,20 @@
 | weather_light_dependency | 4 |
 | verifiability | 5 |
 | differentiation | 5 |
-| safe_access | 2 |
+| scenic_beauty | 3 |
+
+> v1（CL-DATA-23 含 safe_access）加權總分對照：3.95 / 5
+> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
 
 - [https://zh.wikipedia.org/zh-hant/%E6%9D%B1%E8%8E%92%E5%B3%B6%E7%87%88%E5%A1%94](https://zh.wikipedia.org/zh-hant/%E6%9D%B1%E8%8E%92%E5%B3%B6%E7%87%88%E5%A1%94) — 維基百科座標 25°58′02″N 119°59′08″E、國定古蹟
 - [https://matsucc.gov.tw/museum/%E6%9D%B1%E8%8E%92%E5%B3%B6%E7%87%88%E5%A1%94%E6%9D%B1%E7%8A%AC%E7%87%88%E5%A1%94/](https://matsucc.gov.tw/museum/%E6%9D%B1%E8%8E%92%E5%B3%B6%E7%87%88%E5%A1%94%E6%9D%B1%E7%8A%AC%E7%87%88%E5%A1%94/) — 連江縣文化局官方頁
 - [https://smiletaiwan.cw.com.tw/article/8070](https://smiletaiwan.cw.com.tw/article/8070) — 馬祖藍眼淚報導
+
+## scenic_beauty 證據（v2 機械化分級依據）
+
+- s1=0；s2=0（國定古蹟為歷史分類，非本維度景觀分類）；s3=1：微笑台灣專題＋維基＋交通部觀光署場域頁（≥2 清單/權威介紹）→ 2+1=3
 
 ## 擬設題材與條件草案
 

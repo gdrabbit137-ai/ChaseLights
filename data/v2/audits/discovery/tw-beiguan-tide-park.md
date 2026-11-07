@@ -4,9 +4,9 @@
 - 座標：24.793, 121.875（海拔 15 m）
 - 擬設 subjects：coast, mountain
 - 差異化（機械計算）：最近既有景點 外澳沙灘／龜山朝日，距離 9.7 km
-- **rubric 加權總分：4.0 / 5**
+- **rubric 加權總分：3.6 / 5**
 
-## Rubric 評分（1–5，權重 25/20/20/15/20）
+## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
 | 項目 | 分數 |
 |---|---|
@@ -14,12 +14,19 @@
 | weather_light_dependency | 3 |
 | verifiability | 4 |
 | differentiation | 4 |
-| safe_access | 5 |
+| scenic_beauty | 3 |
+
+> v1（CL-DATA-23 含 safe_access）加權總分對照：4.0 / 5
+> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
 
 - [https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=274](https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=274) — 東北角風管處官方頁
 - [https://jatraveling.tw/blog/post/35028](https://jatraveling.tw/blog/post/35028) — IG拍攝角度攻略：一線天眺望龜山島
+
+## scenic_beauty 證據（v2 機械化分級依據）
+
+- s1=0；s2=0（東北角管理處場域頁非景觀分類）；s3=1：管理處介紹＋旅遊部落格攻略（≥2）→ 2+1=3
 
 ## 擬設題材與條件草案
 

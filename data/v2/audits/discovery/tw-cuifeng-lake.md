@@ -4,9 +4,9 @@
 - 座標：24.5146, 121.6069（海拔 1840 m）
 - 擬設 subjects：lake, forest, cloud_sea
 - 差異化（機械計算）：最近既有景點 見晴懷古步道，距離 8.3 km
-- **rubric 加權總分：4.45 / 5**
+- **rubric 加權總分：4.25 / 5**
 
-## Rubric 評分（1–5，權重 25/20/20/15/20）
+## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
 | 項目 | 分數 |
 |---|---|
@@ -14,13 +14,20 @@
 | weather_light_dependency | 4 |
 | verifiability | 5 |
 | differentiation | 4 |
-| safe_access | 4 |
+| scenic_beauty | 3 |
+
+> v1（CL-DATA-23 含 safe_access）加權總分對照：4.45 / 5
+> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
 
 - [https://zh.wikipedia.org/zh-tw/%E7%BF%A0%E5%B3%B0%E6%B9%96](https://zh.wikipedia.org/zh-tw/%E7%BF%A0%E5%B3%B0%E6%B9%96) — 維基百科座標 24.514583,121.606889、海拔1840m
 - [https://travel.yilan.gov.tw/zh-tw/attraction/381/](https://travel.yilan.gov.tw/zh-tw/attraction/381/) — 宜蘭縣政府官方旅遊網
 - [https://www.tps.ilantravel.tw/lake.php](https://www.tps.ilantravel.tw/lake.php) — 太平山森林遊樂區旅遊網：全省最大高山湖泊 海拔1,840m
+
+## scenic_beauty 證據（v2 機械化分級依據）
+
+- s1=0；s2 官方分類=0（宜蘭縣旅遊網/林管處頁為場域介紹，非景觀分類）；s3=1：宜蘭縣政府旅遊網＋太平山管理處＋媒體旅遊清單（≥2 獨立清單）→ 2+1=3
 
 ## 擬設題材與條件草案
 
