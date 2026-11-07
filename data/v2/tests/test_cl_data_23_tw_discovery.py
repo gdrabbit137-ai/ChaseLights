@@ -1,15 +1,16 @@
-"""CL-DATA-23 discovery shortlist contract tests (tw round-1).
+"""CL-DATA-31 discovery shortlist contract tests (tw round, rubric v3).
 
 The discovery round is a LIST, not a catalog change: membership decisions stay
 with the owner. These tests validate the machine-readable rubric artifact at
-data/v2/audits/discovery/tw-shortlist.json — schema, rubric arithmetic, seasonal
-window presence for seasonal subjects, 5 km differentiation against BOTH the
-shortlist's own candidates (pairwise) and the live tw catalog (regions.py),
-provenance (>=1 source URL per candidate), and that the live catalog was not
-touched by this ticket.
+data/v2/audits/discovery/tw-shortlist.json under RUBRIC V3 (CL-DATA-31 owner
+ruling): a single admission dimension — 景色優美程度 (scenic v3 composite,
+0–5, admission line >= 3.8). The v2 five-dimension weighted rubric is retired.
+Also validates: seasonal-window presence for seasonal subjects, 5 km
+differentiation against BOTH the shortlist's own candidates (pairwise) and the
+live tw catalog (regions.py), provenance (>=1 source URL per candidate), photo
+provenance for scored candidates, and that the live catalog was not touched.
 """
 import json
-import math
 import sys
 import unittest
 from math import atan2, cos, radians, sin, sqrt
@@ -20,9 +21,6 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 SHORTLIST = ROOT / "data/v2/audits/discovery/tw-shortlist.json"
 CATALOG = ROOT / "apps/web-v2/catalog.v2.json"
-
-RUBRIC_KEYS = ["subject_strength", "weather_light_dependency",
-               "verifiability", "differentiation", "scenic_beauty"]
 
 # Subjects whose photographic window is seasonal by nature — the candidate MUST
 # carry an explicit seasonal_window (cloud-sea season / milky-way season / etc.)
@@ -47,47 +45,57 @@ class TestCLData23TWDiscoveryShortlist(unittest.TestCase):
         cls.catalog = load(CATALOG)
 
     def test_at_least_ten_candidates(self):
-        # re-anchored CL-DATA-25R: round-1 admitted 8 candidates to the catalog
-        # (CL-DATA-25) and tw-098 渭水之丘 in 25R, so the live shortlist now
-        # carries the not-yet-decided remainder; the full 14-candidate pool is
-        # pinned by the deterministic pipeline rerun below.
-        self.assertGreaterEqual(len(self.shortlist["candidates"]), 2,
-                                "TW shortlist requires the undecided remainder or an "
-                                "honest source-exhaustion report")
+        # v3 rerun lists every non-culled candidate (kept + below-line +
+        # unscored); the full 14-candidate pool is pinned by the deterministic
+        # pipeline rerun below.
+        self.assertGreaterEqual(len(self.shortlist["candidates"]), 2)
 
     def test_unique_ids_and_region(self):
         ids = [c["id"] for c in self.shortlist["candidates"]]
         self.assertEqual(len(ids), len(set(ids)), "duplicate candidate id")
         self.assertTrue(all(i.startswith("tw-") for i in ids))
         self.assertEqual(self.shortlist["region"], "tw")
-        self.assertEqual(self.shortlist["schema_version"], "cl-data-23-discovery-1")
+        self.assertEqual(self.shortlist["schema_version"], "cl-data-31-rubric-v3-1")
 
-    def test_rubric_scores_in_range_and_total_consistent(self):
-        dims = self.shortlist["rubric"]["dimensions"]
-        weights = {d["key"]: d["weight"] for d in dims}
-        self.assertEqual(sorted(weights), sorted(RUBRIC_KEYS))
-        self.assertEqual(sum(weights.values()), 100, "rubric weights must sum to 100")
-        self.assertNotIn("safe_access", weights,
-                         "CL-DATA-26: safe_access removed from scoring")
+    def test_rubric_v3_single_dimension(self):
+        rubric = self.shortlist["rubric"]
+        self.assertEqual(rubric["version"], "v3")
+        self.assertEqual(rubric["admission_line"], 3.8)
+        self.assertEqual(len(rubric["dimension"]), 1, "v3 is single-dimension")
+        self.assertEqual(rubric["dimension"][0]["key"], "scenic_beauty_v3")
+        retired_keys = rubric["retired"][0]["keys"]
         self.assertEqual(
-            {r["key"] for r in self.shortlist["rubric"]["scoring_removed"]},
-            {"safe_access"}, "scoring_removed must record the safe_access removal")
+            set(retired_keys),
+            {"subject_strength", "weather_dependency", "data_availability",
+             "scenic_beauty"},
+            "all v2 dimensions must be recorded as retired")
+
+    def test_scenic_v3_scores_consistent(self):
         for c in self.shortlist["candidates"]:
-            for key in RUBRIC_KEYS:
-                self.assertIn(c["rubric"][key], range(1, 6), f"{c['id']} {key}")
-            expected = round(
-                sum(c["rubric"][k] * weights[k] for k in RUBRIC_KEYS)
-                / sum(weights.values()), 2)
-            self.assertAlmostEqual(c["weighted_total"], expected,
-                                   msg=f"{c['id']} weighted_total mismatch")
-            self.assertIsNotNone(c.get("weighted_total_v1"),
-                                 f"{c['id']} missing v1 comparison score")
-            self.assertTrue(c.get("scenic_beauty_evidence"),
-                            f"{c['id']} missing scenic_beauty evidence")
+            s = c["rubric_v3"]
+            comp = s.get("composite_v3")
+            if comp is None:
+                self.assertIn("unscored", s["status"], f"{c['id']} must be honest")
+                continue
+            self.assertTrue(0 <= comp <= 5, f"{c['id']} composite out of range")
+            self.assertTrue(s.get("composite_formula"), f"{c['id']} missing formula")
+            self.assertTrue(s.get("photos"), f"{c['id']} missing photo provenance")
+
+    def test_kept_candidates_meet_line(self):
+        line = self.shortlist["rubric"]["admission_line"]
+        for c in self.shortlist["candidates"]:
+            if c["admits"]:
+                self.assertGreaterEqual(c["rubric_v3"]["composite_v3"], line, c["id"])
+
+    def test_below_line_list_consistent(self):
+        line = self.shortlist["rubric"]["admission_line"]
+        for c in self.shortlist["below_line_candidates"]:
+            self.assertIsNotNone(c["v3"], "below-line entries must be scored")
+            self.assertLess(c["v3"], line, c["id"])
 
     def test_safe_access_info_still_required(self):
-        # CL-DATA-26: safe_access no longer SCORES, but its seasonal-window /
-        # closure semantics must stay in the dossier/contract fields.
+        # CL-DATA-26/31: no longer SCORED, but seasonal-window / closure
+        # semantics must stay in the dossier/contract fields.
         for c in self.shortlist["candidates"]:
             self.assertIn("seasonal_window", c,
                           f"{c['id']} lost seasonal_window (safe_access info must remain)")
@@ -151,10 +159,10 @@ class TestCLData23TWDiscoveryShortlist(unittest.TestCase):
         summary = json.loads(out.stdout)
         self.assertEqual(summary["region"], "tw")
         self.assertEqual(summary["candidates"], 14)
-        # re-anchored CL-DATA-25R: post-admission mechanical dedupe culls the
-        # admitted candidates from the live rerun (kept = undecided remainder);
-        # admission decisions stay with the owner ruling, not this cull.
-        self.assertEqual(summary["kept"], 3)
+        # rubric v3 rerun: the three kept-tw candidates now score below the
+        # 3.8 line on scenic v3; the mechanical dedupe cull is unchanged.
+        self.assertEqual(summary["kept"], 0)
+        self.assertEqual(summary["below_line"], 3)
         self.assertEqual(summary["culled"], 11)
 
 

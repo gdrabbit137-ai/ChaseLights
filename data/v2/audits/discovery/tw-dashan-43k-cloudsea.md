@@ -3,21 +3,17 @@
 - region: tw | slug: `tw-dashan-43k-cloudsea`
 - 座標：24.1833, 121.0167（海拔 2450 m）
 - 擬設 subjects：mountain, cloud_sea, forest
-- 差異化（機械計算）：最近既有景點 大雪山森林遊樂區43K觀景台，距離 0.0 km
-- **rubric 加權總分：3.8 / 5**
+- 差異化剔除檢查（機械）：最近既有景點 大雪山森林遊樂區43K觀景台，距離 0.0 km
+- **rubric v3 景色優美單維度：2.62 / 5（納入線 ≥ 3.8）**
+- 合成式：視覺1.62＋認證校正1＋社群0｜認證：tier 4（雪霸國家公園域內大雪山國家森林遊樂區（林業署官方園區））｜社群：0（無標章、瀏覽量普通或資料不完整（不負向校正））
 
-## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
+## 照片 provenance（v3 視覺評分依據）
 
-| 項目 | 分數 |
-|---|---|
-| subject_strength | 5 |
-| weather_light_dependency | 5 |
-| verifiability | 4 |
-| differentiation | 1 |
-| scenic_beauty | 3 |
-
-> v1（CL-DATA-23 含 safe_access）加權總分對照：4.2 / 5
-> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
+| 標籤 | 代表照片 | 來源 | 子分(色彩/構圖/光影/獨特性) | 有效 |
+|---|---|---|---|---|
+| A | File:Entrance stations in Dasyueshan National Forest Recreation Area 20241012.jpg |  | [3, 3, 3, 4] | ✓ |
+| B | File:Looking back at the entrance to Dasyueshan National Forest Recreation Area.jpg |  | [3, 3, 3, 4] | ✓ |
+| C | File:20190408大雪山遊樂區界碑.jpg |  | — | ✗ |
 
 ## Web 證據
 
@@ -25,7 +21,7 @@
 - [https://recreation.forest.gov.tw/Forest/RA?typ_id=0300003](https://recreation.forest.gov.tw/Forest/RA?typ_id=0300003) — 台灣山林悠遊網官方園區頁
 - [https://photoexp.com.tw/topics/4548/glazelight/](https://photoexp.com.tw/topics/4548/glazelight/) — PHOTOEXP 全台雲海琉璃光攝影攻略地圖41處
 
-## scenic_beauty 證據（v2 機械化分級依據）
+## v2 機械化證據（已退役，僅歷史參考）
 
 - s1 攝影社群熱度=1：PHOTOEXP 攝影探索「全台雲海琉璃光攻略地圖41處」收錄＋攝影師授權作品專題；s2 官方分類=0（林務局遊樂區場域頁，非景觀分類）；s3 攻略清單頻率=0（僅 1 篇攻略清單文）→ 2+1=3
 

@@ -1,44 +1,33 @@
 #!/usr/bin/env python3
-"""CL-DATA-23 — candidate spot discovery & evaluation pipeline (machine-runnable).
+"""CL-DATA-31 — candidate spot discovery & evaluation pipeline (rubric v3).
 
 Reads a per-region candidate JSON (data/v2/tools/discovery/<region>_candidates.json),
-computes the mechanical rubric dimension (differentiation: >5 km from every existing
-catalog spot, via regions.py), validates the manual rubric dimensions, and writes:
+computes the mechanical differentiation cull (>5 km + tag overlap from every
+existing catalog spot, via regions.py), and scores admission with RUBRIC V3
+(owner ruling, CL-DATA-31):
 
-  - data/v2/audits/discovery/<region>-shortlist.json   machine-readable shortlist
-      (schema "cl-data-23-discovery-1", same convention as jp-north)
-  - data/v2/audits/discovery/<region>-<slug>.md        per-candidate dossier
-  - data/v2/audits/discovery/<region>-shortlist.md     human-readable Top-N summary
+  評分＝景色優美程度（單一維度 0–5），來源＝scenic v3 合成分
+    composite_v3 = visual_0_5（多源照片視覺主，1–10 四子項中位數÷2）
+                 + clamp(cert_tier − visual, −1, +1)   （認證階梯校正）
+                 + community ±0.5                        （Commons 標章/瀏覽量）
+  三重信號：視覺主＋認證（官方層級）＋社群校正。
 
-This tool NEVER modifies the catalog: shortlist membership is a PM/owner product
-decision. It only produces dossiers + a ranked shortlist.
+  - 既有 catalog 景點之分數取自 data/v2/audits/discovery/scenic-v3-full.json
+  - 新候選走同一管線：data/v2/tools/scenic_v3_candidates.py 產出
+    data/v2/audits/discovery/scenic-v3-candidates.json；分數缺漏者標
+    「unscored（須補評）」，永不虛構分數。
+  - 納入線：composite_v3 >= 3.8（與 CL-DATA-25R/26 同線）。
+  - v2 五維加權 rubric（subject/weather/verifiability/differentiation/scenic
+    三信號機械化版）RETIRED：不再影響納入；dossier 仍保留其歷史證據文字。
+  - 照片 provenance：v3 評分所用的每張代表照片（label/url/source/子分）原樣
+    進入 shortlist 與 dossier，可回溯視覺評分依據。
 
-Rubric v2 (CL-DATA-26 owner ruling 2026-11-07; 1–5, weights sum 100:
-subject 25 / weather-light 20 / verifiability 20 / differentiation 15 /
-scenic_beauty 20):
-  a) subject_strength          — iconic subject present (manual, audited)
-  b) weather_light_dependency  — how decisive our weather/light model is
-                                 (cloud sea / glow / milky way / seasonal → high;
-                                  indoor or weather-free → low) (manual)
-  c) verifiability             — coordinates/elevation verifiable from web
-                                 evidence (manual)
-  d) differentiation           — MECHANICAL: culled if within 5 km of any existing
-                                 catalog spot with tag overlap; otherwise scored by
-                                 nearest-distance band
-  e) scenic_beauty             — MECHANICAL from dossier evidence, three 0/1
-                                 signals (base 2, +1 each, +1 top-tier bonus):
-                                   s1 photo-community prominence (攝影社群/攝影
-                                      平台專題收錄)
-                                   s2 official classification (官方 A 級・全国観光
-                                      資源評価特A級・世界遺産・日本三大〜・八景/
-                                      百選類)
-                                   s3 guide-list frequency (≥2 獨立攻略清單文
-                                      收錄)
-                                 top-tier bonus (+1, cap 5): 世界遺産 / 特A級 /
-                                 三大之首 / 観光資源台帳 A級・日本一級超級位階
-  safe_access REMOVED from scoring (CL-DATA-26): its seasonal-window/closure
-  information is still REQUIRED in dossiers and contracts (seasonal_window,
-  access_note, safety_note) — it just no longer influences admission scoring.
+differentiation 仍是 MECHANICAL cull（5 km＋tag 重疊剔除），但不計入分數；
+safe_access / subject 等 v2 維度不再計分，其季節窗/可達性資訊仍必須留在
+dossier 與契約欄位。
+
+This tool NEVER modifies the catalog: shortlist membership is a PM/owner
+product decision. It only produces dossiers + a ranked shortlist.
 
 Usage:
   python discover_spots.py --region tw [--top 10] [--outdir data/v2/audits/discovery]
@@ -59,25 +48,14 @@ if str(REPO_ROOT) not in sys.path:
 DEDUP_RADIUS_KM = 5.0
 DIFFERENTIATION_TAG_OVERLAP_LIMIT = 1  # overlapping spot tags allowed before cull
 
-# rubric v2 key in candidates JSON -> shortlist key (weight); weights sum to 100
-RUBRIC_MAP = {
-    "subject_strength":     ("subject_strength", 25),
-    "weather_dependency":   ("weather_light_dependency", 20),
-    "data_availability":    ("verifiability", 20),
-    "differentiation":      ("differentiation", 15),
-    "scenic_beauty":        ("scenic_beauty", 20),
-}
-MANUAL_KEYS = [k for k in RUBRIC_MAP if k != "differentiation"]
+LINE = 3.8  # 納入線（CL-DATA-25R/26 同線；rubric v3）
 
-# v1 rubric (CL-DATA-23) kept ONLY for score comparison — safe_access no longer
-# scores; its seasonal-window/closure info stays in dossier/contract fields.
-V1_RUBRIC_MAP = {
-    "subject_strength":     ("subject_strength", 25),
-    "weather_dependency":   ("weather_light_dependency", 20),
-    "data_availability":    ("verifiability", 20),
-    "differentiation":      ("differentiation", 15),
-    "accessibility_safety": ("safe_access", 20),
-}
+V3_FULL = REPO_ROOT / "data/v2/audits/discovery/scenic-v3-full.json"
+V3_CAND = REPO_ROOT / "data/v2/audits/discovery/scenic-v3-candidates.json"
+
+# retired v2 dimensions — kept only as evidence fields in dossiers
+V2_RETIRED_KEYS = ["subject_strength", "weather_dependency", "data_availability",
+                   "scenic_beauty"]
 
 
 def haversine_km(lat1, lon1, lat2, lon2):
@@ -90,14 +68,15 @@ def haversine_km(lat1, lon1, lat2, lon2):
 
 
 def load_existing_spots(region="tw"):
-    """Existing catalog spots (regions.py) for dedup."""
+    """Existing catalog spots (regions.py) for the differentiation cull."""
     import regions
     spots = regions.get_spots(region)
     return [(s["name_i18n"]["zh-TW"], s["lat"], s["lon"], s["tags"]) for s in spots]
 
 
 def check_differentiation(cand, existing, radius_km=DEDUP_RADIUS_KM):
-    """Mechanical rubric item (d). Returns (score, geo, culled, reasons)."""
+    """Mechanical cull (not a scored dimension under v3).
+    Returns (culled, geo, reasons)."""
     reasons = []
     nearest_name, nearest_km = None, None
     worst_overlap = None
@@ -115,46 +94,61 @@ def check_differentiation(cand, existing, radius_km=DEDUP_RADIUS_KM):
     geo = {"nearest": nearest_name,
            "km": round((nearest_km if nearest_km is not None else 0.0), 1)}
     if worst_overlap is not None:
-        return (1, geo, True, reasons)
-    if nearest_km is None:
-        return (3, geo, False, reasons)
-    if nearest_km > 15:
-        score = 5
-    elif nearest_km > 8:
-        score = 4
+        return True, geo, reasons
+    return False, geo, reasons
+
+
+def load_v3_scores():
+    """scenic-v3 composite by 景點中文名 — catalog + candidate supplements."""
+    scores = {}
+    if V3_FULL.exists():
+        d = json.loads(V3_FULL.read_text(encoding="utf-8"))
+        for p in d["places"]:
+            scores.setdefault(p["name_zh"], {
+                "composite_v3": p["composite_v3"], "visual_0_5": p["visual_0_5"],
+                "cert_tier": p["cert_tier"], "cert_evidence": p["cert_evidence"],
+                "community_adj": p["community_adj"],
+                "community_evidence": p["community_evidence"],
+                "composite_formula": p["composite_formula"],
+                "photos": p["photos"], "place_id": p["place_id"],
+                "source": "catalog(scenic-v3-full)"})
+    if V3_CAND.exists():
+        d = json.loads(V3_CAND.read_text(encoding="utf-8"))
+        for c in d["candidates"]:
+            if c.get("composite_v3") is None:
+                continue
+            scores.setdefault(c["name_zh"], {
+                "composite_v3": c["composite_v3"], "visual_0_5": c["visual_0_5"],
+                "cert_tier": c["cert_tier"], "cert_evidence": c["cert_evidence"],
+                "community_adj": c["community_adj"],
+                "community_evidence": c["community_evidence"],
+                "composite_formula": c["composite_formula"],
+                "photos": c["photos"], "place_id": None,
+                "source": "candidate-supplementary"})
+    return scores
+
+
+def evaluate(cand, existing, v3):
+    culled, geo, cull_reasons = check_differentiation(cand, existing)
+    s = v3.get(cand["name_zh"])
+    if s is None:
+        scenic = {"composite_v3": None, "status": "unscored（須補評：走 "
+                                                     "scenic_v3_candidates.py 同管線）"}
+        admits = False
     else:
-        score = 3
-    return (score, geo, False, reasons)
-
-
-def evaluate(cand, existing):
-    missing = [k for k in MANUAL_KEYS if k not in cand.get("scores", {})]
-    if missing:
-        raise SystemExit(f"{cand['slug']}: missing manual rubric scores {missing}")
-    diff_score, geo, culled, cull_reasons = check_differentiation(cand, existing)
-    rubric = {RUBRIC_MAP[k][0]: int(cand["scores"][k]) for k in MANUAL_KEYS}
-    rubric["differentiation"] = diff_score
-    total_w = sum(w for _, w in RUBRIC_MAP.values())
-    weighted = round(sum(rubric[key] * w for key, w in RUBRIC_MAP.values())
-                     / total_w, 2)
-    # v1 comparison score (CL-DATA-23 rubric incl. safe_access) when the old
-    # score key is still carried — informational only, never gates admission.
-    weighted_v1 = None
-    if "accessibility_safety" in cand.get("scores", {}):
-        v1rubric = {V1_RUBRIC_MAP[k][0]: int(cand["scores"][k])
-                    for k in V1_RUBRIC_MAP if k != "differentiation"}
-        v1rubric["differentiation"] = diff_score
-        weighted_v1 = round(
-            sum(v1rubric[key] * w for key, w in V1_RUBRIC_MAP.values()) / 100, 2)
+        scenic = dict(s)
+        scenic["status"] = "scored"
+        admits = scenic["composite_v3"] is not None and scenic["composite_v3"] >= LINE
     return {
         "id": f"{cand.get('region', 'tw')}-{cand['slug']}",
         "name_i18n": {"zh-TW": cand["name_zh"], "en": cand["name_en"],
                       "ja": cand["name_ja"]},
         "prefecture": cand.get("pref", cand["name_en"]),
         "subjects": list(cand["tags"]),
-        "rubric": rubric,
-        "weighted_total": weighted,
-        "weighted_total_v1": weighted_v1,
+        "rubric_v3": scenic,
+        "admits": admits and not culled,
+        # informational only — v2 five-dimension weighted total is retired
+        "weighted_total_v2_retired": cand.get("scores", {}).get("scenic_beauty"),
         "scenic_beauty_evidence": cand.get("scenic_beauty_evidence", ""),
         "sources": [r["url"] for r in cand["source_refs"]],
         "coords_approx": {"lat": cand["lat"], "lon": cand["lon"]},
@@ -169,30 +163,39 @@ def evaluate(cand, existing):
 
 def render_dossier(ev):
     cand = ev["_cand"]
+    s = ev["rubric_v3"]
+    comp = s.get("composite_v3")
     lines = [
         f"# 候選景點 dossier：{cand['name_zh']}（{cand['name_en']}）",
         "",
         f"- region: {cand.get('region', 'tw')} | slug: `{ev['id']}`",
         f"- 座標：{cand['lat']}, {cand['lon']}（海拔 {cand['elev_m']} m）",
         f"- 擬設 subjects：{', '.join(cand['tags'])}",
-        f"- 差異化（機械計算）：最近既有景點 {ev['_geo']['nearest']}，距離 {ev['_geo']['km']} km",
-        f"- **rubric 加權總分：{ev['weighted_total']} / 5**",
-        "",
-        "## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）",
-        "",
-        "| 項目 | 分數 |",
-        "|---|---|",
+        f"- 差異化剔除檢查（機械）：最近既有景點 {ev['_geo']['nearest']}，距離 {ev['_geo']['km']} km",
+        f"- **rubric v3 景色優美單維度：{comp if comp is not None else 'unscored（須補評）'} / 5"
+        f"（納入線 ≥ {LINE}）**",
     ]
-    for key, _ in RUBRIC_MAP.values():
-        lines.append(f"| {key} | {ev['rubric'][key]} |")
-    if ev.get("weighted_total_v1") is not None:
-        lines += ["", f"> v1（CL-DATA-23 含 safe_access）加權總分對照：{ev['weighted_total_v1']} / 5",
-                  "> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。"]
+    if comp is not None:
+        lines.append(f"- 合成式：{s.get('composite_formula')}｜認證：tier "
+                     f"{s.get('cert_tier')}（{s.get('cert_evidence')}）｜"
+                     f"社群：{s.get('community_adj')}（{s.get('community_evidence')}）")
+        photos = s.get("photos") or []
+        if photos:
+            lines += ["", "## 照片 provenance（v3 視覺評分依據）", "",
+                      "| 標籤 | 代表照片 | 來源 | 子分(色彩/構圖/光影/獨特性) | 有效 |",
+                      "|---|---|---|---|---|"]
+            for ph in photos:
+                subs = ph.get("_subs") or ph.get("sub_scores")
+                valid = ph.get("_valid", ph.get("valid", False))
+                lines.append(
+                    f"| {ph.get('label', '')} | {ph.get('title') or ph.get('url', '')} "
+                    f"| {ph.get('source', '')} | {subs if subs else '—'} "
+                    f"| {'✓' if valid else '✗'} |")
     lines += ["", "## Web 證據", ""]
     for ref in cand["source_refs"]:
         lines.append(f"- [{ref['url']}]({ref['url']}) — {ref['note']}")
     if cand.get("scenic_beauty_evidence"):
-        lines += ["", "## scenic_beauty 證據（v2 機械化分級依據）", "",
+        lines += ["", "## v2 機械化證據（已退役，僅歷史參考）", "",
                   f"- {cand['scenic_beauty_evidence']}"]
     lines += ["", "## 擬設題材與條件草案", "",
               f"- 題材：{cand['subject_draft']}",
@@ -210,29 +213,38 @@ def render_dossier(ev):
         for r in ev["_cull_reasons"]:
             lines.append(f"- {r}")
         lines.append("")
+    if comp is not None and comp < LINE and not ev["_culled"]:
+        lines.append(f"> v3 分數低於納入線 {LINE}：列 Excel 側／掉線清單，交 PM → owner。")
     lines.append("> 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。")
     return "\n".join(lines)
 
 
 def render_shortlist_md(region, ranked, kept, culled, top_n):
     lines = [
-        f"# {region.upper()} 候選景點短名單（CL-DATA-23 首輪）",
+        f"# {region.upper()} 候選景點短名單（rubric v3：景色優美單維度）",
         "",
-        f"候選 {len(ranked)} 個｜進短名單 {len(kept)}｜差異化剔除 {len(culled)}｜Top N = {top_n}",
+        f"候選 {len(ranked)} 個｜達納入線（v3 ≥ {LINE}）且未剔除 {len(kept)}｜"
+        f"差異化剔除 {len(culled)}｜Top N = {top_n}",
         "",
-        "| 排名 | 景點 | 加權總分 | 擬設題材 | 最近既有景點 (km) |",
-        "|---|---|---|---|---|",
+        "| 排名 | 景點 | v3 景色優美 | 視覺 | 認證 | 擬設題材 | 最近既有景點 (km) |",
+        "|---|---|---|---|---|---|---|",
     ]
     for i, ev in enumerate(kept[:top_n], 1):
-        lines.append(f"| {i} | {ev['name_i18n']['zh-TW']} | {ev['weighted_total']} | "
-                     f"{', '.join(ev['subjects'])} | "
-                     f"{ev['_geo']['nearest']} ({ev['_geo']['km']}) |")
+        s = ev["rubric_v3"]
+        comp = s.get("composite_v3")
+        lines.append(
+            f"| {i} | {ev['name_i18n']['zh-TW']} | "
+            f"{comp if comp is not None else 'unscored'} | "
+            f"{s.get('visual_0_5', '—')} | {s.get('cert_tier', '—')} | "
+            f"{', '.join(ev['subjects'])} | "
+            f"{ev['_geo']['nearest']} ({ev['_geo']['km']}) |")
     if culled:
-        lines += ["", "## 已剔除", ""]
+        lines += ["", "## 已剔除（差異化）", ""]
         for ev in culled:
             lines.append(f"- {ev['name_i18n']['zh-TW']} — {'; '.join(ev['_cull_reasons'])}")
     lines += ["",
-              "> 僅供 PM 短名單決策；本管線不直接加入任何景點。"
+              f"> 納入線 v3 ≥ {LINE}（景色優美單維度；v2 五維 rubric 已退役）。"
+              "僅供 PM 短名單決策；本管線不直接加入任何景點。"
               "源頭掃描原始紀錄：_source_sweep_raw.json（web 搜尋快取）。"]
     return "\n".join(lines)
 
@@ -249,44 +261,58 @@ def main(argv=None):
         data = json.load(f)
 
     existing = load_existing_spots(args.region)
+    v3 = load_v3_scores()
     outdir = REPO_ROOT / args.outdir
     outdir.mkdir(parents=True, exist_ok=True)
 
-    evals = [evaluate(c, existing) for c in data["candidates"]]
+    evals = [evaluate(c, existing, v3) for c in data["candidates"]]
     for ev in evals:
         (outdir / f"{ev['id']}.md").write_text(render_dossier(ev), encoding="utf-8")
 
-    kept = sorted([e for e in evals if not e["_culled"]],
-                  key=lambda e: -e["weighted_total"])
+    kept = sorted([e for e in evals if not e["_culled"] and e["admits"]],
+                  key=lambda e: -(e["rubric_v3"]["composite_v3"] or 0))
+    unscored = [e for e in evals if not e["_culled"] and not e["admits"]
+                and e["rubric_v3"]["composite_v3"] is None]
+    below_line = [e for e in evals if not e["_culled"] and not e["admits"]
+                  and e["rubric_v3"]["composite_v3"] is not None]
     culled = [e for e in evals if e["_culled"]]
 
     shortlist = {
-        "schema_version": "cl-data-23-discovery-1",
-        "ticket": "CL-DATA-23 + CL-DATA-26 (rubric v2)",
+        "schema_version": "cl-data-31-rubric-v3-1",
+        "ticket": "CL-DATA-31 (rubric v3 景色優美單維度)",
         "region": args.region,
         "region_scope": "台灣本島＋離島",
         "generated_at": date.today().isoformat(),
         "generated_by": "chaselights_rd (AI discovery round, owner arbiter on catalog membership)",
         "rubric": {
-            "dimensions": [
-                {"key": "subject_strength", "weight": 25,
-                 "description": "題材本身的攝影知名度與畫面張力（全國級=5，地方級=3）"},
-                {"key": "weather_light_dependency", "weight": 20,
-                 "description": "成片品質對特定天氣/光影條件的依賴程度（幾乎全天可拍=1，雲海/銀河/季節=5）"},
-                {"key": "verifiability", "weight": 20,
-                 "description": "官方/權威來源對座標、季節窗、交通與閉鎖資訊的可查證程度"},
-                {"key": "differentiation", "weight": 15,
-                 "description": "與既有 catalog 地理 5km＋題材重複之差異化（機械計算）"},
-                {"key": "scenic_beauty", "weight": 20,
-                 "description": "景觀美譽（CL-DATA-26 v2 機械化）：攝影社群熱度 s1、官方分類（A級/世界遺產/三大類/八景百選）s2、攻略清單文出現頻率（≥2獨立清單）s3 — 各 0/1，分數 = 2 + s1+s2+s3，世界遺產/特A級/三大之首/台帳A級加 +1（上限5），dossier 證據為準"},
-            ],
-            "scoring_removed": [
-                {"key": "safe_access",
-                 "reason": "CL-DATA-26 owner ruling 2026-11-07: 移除 safe_access（20 分權重改給 scenic_beauty）；其季節窗/封閉期資訊仍必須留在 dossier 與契約（seasonal_window/access_note/safety_note），只是不再影響評分"},
+            "version": "v3",
+            "admission_line": LINE,
+            "dimension": [{
+                "key": "scenic_beauty_v3",
+                "scale": "0–5",
+                "description": "景色優美程度（單一維度）：scenic v3 合成分 = "
+                               "視覺主（多源照片四子項中位數÷2）+ 認證階梯校正 ±1 "
+                               "+ 社群校正 ±0.5；缺分者標 unscored（須補評），永不虛構",
+            }],
+            "retired": [
+                {"version": "v2 (CL-DATA-26)", "keys": V2_RETIRED_KEYS,
+                 "note": "五維加權 rubric 退役，不再影響納入；dossier 保留證據文字。"
+                         "differentiation 改為純機械剔除（不計分）。"},
+                {"version": "v1/v2 safe_access",
+                 "note": "季節窗/封閉期資訊仍必須留在 dossier 與契約，只是從不計分。"},
             ],
         },
         "candidates": [
-            {k: v for k, v in e.items() if not k.startswith("_")} for e in kept
+            {k: v for k, v in e.items() if not k.startswith("_")}
+            for e in kept + unscored + below_line
+        ],
+        "below_line_candidates": [
+            {"id": e["id"], "zh": e["name_i18n"]["zh-TW"],
+             "v3": e["rubric_v3"]["composite_v3"]}
+            for e in below_line
+        ],
+        "unscored_candidates": [
+            {"id": e["id"], "zh": e["name_i18n"]["zh-TW"]} for e in unscored
         ],
         "culled_candidates": [
             {"id": e["id"], "zh": e["name_i18n"]["zh-TW"],
@@ -301,8 +327,10 @@ def main(argv=None):
         encoding="utf-8")
 
     print(json.dumps({"region": args.region, "candidates": len(evals),
-                      "kept": len(kept), "culled": len(culled),
-                      "top5": [f"{e['name_i18n']['zh-TW']} {e['weighted_total']}" for e in kept[:5]]},
+                      "kept": len(kept), "unscored": len(unscored),
+                      "below_line": len(below_line), "culled": len(culled),
+                      "top5": [f"{e['name_i18n']['zh-TW']} "
+                               f"{e['rubric_v3']['composite_v3']}" for e in kept[:5]]},
                      ensure_ascii=False, indent=1))
 
 

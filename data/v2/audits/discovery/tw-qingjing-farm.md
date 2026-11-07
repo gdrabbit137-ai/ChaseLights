@@ -3,28 +3,27 @@
 - region: tw | slug: `tw-qingjing-farm`
 - 座標：24.053, 121.159（海拔 1750 m）
 - 擬設 subjects：mountain, cloud_sea
-- 差異化（機械計算）：最近既有景點 合歡山主峰，距離 15.1 km
-- **rubric 加權總分：3.45 / 5**
+- 差異化剔除檢查（機械）：最近既有景點 合歡山主峰，距離 15.1 km
+- **rubric v3 景色優美單維度：3.0 / 5（納入線 ≥ 3.8）**
+- 合成式：視覺3.38＋認證校正-0.38＋社群0｜認證：tier 3（民宿帶觀景媒體與攝影部落格多方共識，無官方景觀分類）｜社群：0（無標章、瀏覽量普通或資料不完整（不負向校正））
 
-## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
+## 照片 provenance（v3 視覺評分依據）
 
-| 項目 | 分數 |
-|---|---|
-| subject_strength | 2 |
-| weather_light_dependency | 5 |
-| verifiability | 3 |
-| differentiation | 5 |
-| scenic_beauty | 3 |
-
-> v1（CL-DATA-23 含 safe_access）加權總分對照：3.65 / 5
-> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
+| 標籤 | 代表照片 | 來源 | 子分(色彩/構圖/光影/獨特性) | 有效 |
+|---|---|---|---|---|
+| A | File:Hi-Life Nantou Qingjing Store 2003-10 night.jpg | commons-search | — | ✗ |
+| B | File:Qingjing Guest House 20150729.jpg | commons-search | [7, 7, 7, 6] | ✓ |
+| C | File:Mountains near Qingjing Farm 02.jpg | commons-search | — | ✗ |
+| D | File:Car park of Qingjing Guest House.jpg | commons-search | — | ✗ |
+| E | File:In Qingjing Farm 04.jpg | commons-search | — | ✗ |
+| F | File:In Qingjing Farm 06.jpg | commons-search | — | ✗ |
 
 ## Web 證據
 
 - [https://www.luckvilla.com.tw/news-detail/Landscape-Cafe/](https://www.luckvilla.com.tw/news-detail/Landscape-Cafe/) — 清境景觀咖啡廳雲海山景（民間源）
 - [https://weichusmile.pixnet.net/blog/posts/16030812275](https://weichusmile.pixnet.net/blog/posts/16030812275) — 奇萊南華金色奇萊（鄰近山域證據）
 
-## scenic_beauty 證據（v2 機械化分級依據）
+## v2 機械化證據（已退役，僅歷史參考）
 
 - s1=0；s2=0；s3=1：民宿帶觀景媒體介紹＋攝影部落格（≥2）→ 2+1=3
 
@@ -37,4 +36,5 @@
 - 安全：一般道路，無特殊風險
 - 差異化說明：清境帶題材分散無標誌性主體
 
+> v3 分數低於納入線 3.8：列 Excel 側／掉線清單，交 PM → owner。
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

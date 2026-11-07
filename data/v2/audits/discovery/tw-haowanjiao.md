@@ -3,21 +3,8 @@
 - region: tw | slug: `tw-haowanjiao`
 - 座標：24.603, 120.745（海拔 98 m）
 - 擬設 subjects：coast, city
-- 差異化（機械計算）：最近既有景點 半天寮好望角，距離 0.0 km
-- **rubric 加權總分：3.1 / 5**
-
-## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
-
-| 項目 | 分數 |
-|---|---|
-| subject_strength | 3 |
-| weather_light_dependency | 3 |
-| verifiability | 4 |
-| differentiation | 1 |
-| scenic_beauty | 4 |
-
-> v1（CL-DATA-23 含 safe_access）加權總分對照：3.3 / 5
-> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
+- 差異化剔除檢查（機械）：最近既有景點 半天寮好望角，距離 0.0 km
+- **rubric v3 景色優美單維度：unscored（須補評） / 5（納入線 ≥ 3.8）**
 
 ## Web 證據
 
@@ -25,7 +12,7 @@
 - [https://www.cw.com.tw/article/5122510](https://www.cw.com.tw/article/5122510) — 天下雜誌：在地攝影玩家6個苗栗絕美秘境
 - [https://miaolitravel.net/Article.aspx?lang=1&sNo=04007314](https://miaolitravel.net/Article.aspx?lang=1&sNo=04007314) — 苗栗縣官方觀光網：海線夕陽
 
-## scenic_beauty 證據（v2 機械化分級依據）
+## v2 機械化證據（已退役，僅歷史參考）
 
 - s1=1：天下雜誌「在地攝影玩家6個苗栗絕美秘境」攝影玩家清單收錄；s2=0；s3=1：健行筆記攻略＋苗栗縣旅遊網（≥2 獨立清單）→ 2+2=4
 

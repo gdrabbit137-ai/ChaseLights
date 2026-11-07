@@ -1,42 +1,34 @@
 {
-  "schema_version": "cl-data-23-discovery-1",
-  "ticket": "CL-DATA-23 + CL-DATA-26 (rubric v2)",
+  "schema_version": "cl-data-31-rubric-v3-1",
+  "ticket": "CL-DATA-31 (rubric v3 景色優美單維度)",
   "region": "tw",
   "region_scope": "台灣本島＋離島",
-  "generated_at": "2026-11-07",
+  "generated_at": "2026-11-08",
   "generated_by": "chaselights_rd (AI discovery round, owner arbiter on catalog membership)",
   "rubric": {
-    "dimensions": [
+    "version": "v3",
+    "admission_line": 3.8,
+    "dimension": [
       {
-        "key": "subject_strength",
-        "weight": 25,
-        "description": "題材本身的攝影知名度與畫面張力（全國級=5，地方級=3）"
-      },
-      {
-        "key": "weather_light_dependency",
-        "weight": 20,
-        "description": "成片品質對特定天氣/光影條件的依賴程度（幾乎全天可拍=1，雲海/銀河/季節=5）"
-      },
-      {
-        "key": "verifiability",
-        "weight": 20,
-        "description": "官方/權威來源對座標、季節窗、交通與閉鎖資訊的可查證程度"
-      },
-      {
-        "key": "differentiation",
-        "weight": 15,
-        "description": "與既有 catalog 地理 5km＋題材重複之差異化（機械計算）"
-      },
-      {
-        "key": "scenic_beauty",
-        "weight": 20,
-        "description": "景觀美譽（CL-DATA-26 v2 機械化）：攝影社群熱度 s1、官方分類（A級/世界遺產/三大類/八景百選）s2、攻略清單文出現頻率（≥2獨立清單）s3 — 各 0/1，分數 = 2 + s1+s2+s3，世界遺產/特A級/三大之首/台帳A級加 +1（上限5），dossier 證據為準"
+        "key": "scenic_beauty_v3",
+        "scale": "0–5",
+        "description": "景色優美程度（單一維度）：scenic v3 合成分 = 視覺主（多源照片四子項中位數÷2）+ 認證階梯校正 ±1 + 社群校正 ±0.5；缺分者標 unscored（須補評），永不虛構"
       }
     ],
-    "scoring_removed": [
+    "retired": [
       {
-        "key": "safe_access",
-        "reason": "CL-DATA-26 owner ruling 2026-11-07: 移除 safe_access（20 分權重改給 scenic_beauty）；其季節窗/封閉期資訊仍必須留在 dossier 與契約（seasonal_window/access_note/safety_note），只是不再影響評分"
+        "version": "v2 (CL-DATA-26)",
+        "keys": [
+          "subject_strength",
+          "weather_dependency",
+          "data_availability",
+          "scenic_beauty"
+        ],
+        "note": "五維加權 rubric 退役，不再影響納入；dossier 保留證據文字。differentiation 改為純機械剔除（不計分）。"
+      },
+      {
+        "version": "v1/v2 safe_access",
+        "note": "季節窗/封閉期資訊仍必須留在 dossier 與契約，只是從不計分。"
       }
     ]
   },
@@ -54,15 +46,144 @@
         "cloud_sea",
         "city"
       ],
-      "rubric": {
-        "subject_strength": 4,
-        "weather_light_dependency": 5,
-        "verifiability": 3,
-        "scenic_beauty": 3,
-        "differentiation": 4
+      "rubric_v3": {
+        "composite_v3": 3.0,
+        "visual_0_5": 2.69,
+        "cert_tier": 3,
+        "cert_evidence": "渭水之丘——攝影攻略一致推薦（俯瞰蘭陽平原），無官方認證",
+        "community_adj": 0,
+        "community_evidence": "無標章、瀏覽量普通或資料不完整（不負向校正）",
+        "composite_formula": "視覺2.69＋認證校正0.31＋社群0",
+        "photos": [
+          {
+            "title": "File:櫻花陵園（渭水之丘）.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/%E6%AB%BB%E8%8A%B1%E9%99%B5%E5%9C%92%EF%BC%88%E6%B8%AD%E6%B0%B4%E4%B9%8B%E4%B8%98%EF%BC%89.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/%E6%AB%BB%E8%8A%B1%E9%99%B5%E5%9C%92%EF%BC%88%E6%B8%AD%E6%B0%B4%E4%B9%8B%E4%B8%98%EF%BC%89.jpg/960px-%E6%AB%BB%E8%8A%B1%E9%99%B5%E5%9C%92%EF%BC%88%E6%B8%AD%E6%B0%B4%E4%B9%8B%E4%B8%98%EF%BC%89.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 4592,
+            "h": 3448,
+            "source": "commons-search",
+            "query": "渭水之丘／櫻花陵園",
+            "desc": "​櫻花陵園（宜蘭縣立殯葬管理所，匏杓崙庄蛇子崙），臺北市大同區建成次分區建泰里（大稻埕詔安厝）",
+            "key": "File:櫻花陵園（渭水之丘）.jpg",
+            "label": "A",
+            "_valid": false,
+            "_subs": null,
+            "_note": "",
+            "_reason": "陵園模型",
+            "_photo_mean": null
+          },
+          {
+            "title": "File:Weishui.png",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Weishui.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Weishui.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+            "w": 718,
+            "h": 656,
+            "source": "commons-search",
+            "query": "渭水",
+            "desc": "The map shows the <a href=\"//commons.wikimedia.org/w/index.php?title=Wei_River&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"Wei River (page does not exist)\">Wei River</a> in <a href=\"//commons.wi",
+            "key": "File:Weishui.png",
+            "label": "B",
+            "_valid": false,
+            "_subs": null,
+            "_note": "",
+            "_reason": "地圖",
+            "_photo_mean": null
+          },
+          {
+            "title": "File:Wei River,Ning Xiang county 02.JPG",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Wei_River%2CNing_Xiang_county_02.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Wei_River%2CNing_Xiang_county_02.JPG/960px-Wei_River%2CNing_Xiang_county_02.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 2592,
+            "h": 1944,
+            "source": "commons-search",
+            "query": "渭水",
+            "desc": "Wei River,Ning Xiang county",
+            "key": "File:Wei River,Ning Xiang county 02.JPG",
+            "label": "C",
+            "_valid": true,
+            "_subs": [
+              6,
+              6,
+              5,
+              6
+            ],
+            "_note": "蘭陽溪口視野",
+            "_reason": "",
+            "_photo_mean": 5.75
+          },
+          {
+            "title": "File:7001在过渭河 10.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/e/ed/7001%E5%9C%A8%E8%BF%87%E6%B8%AD%E6%B2%B3_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/7001%E5%9C%A8%E8%BF%87%E6%B8%AD%E6%B2%B3_10.jpg/960px-7001%E5%9C%A8%E8%BF%87%E6%B8%AD%E6%B2%B3_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 4016,
+            "h": 3008,
+            "source": "commons-search",
+            "query": "渭水",
+            "desc": "​7001在过陇海铁路渭河桥",
+            "key": "File:7001在过渭河 10.jpg",
+            "label": "D",
+            "_valid": true,
+            "_subs": [
+              5,
+              5,
+              4,
+              5
+            ],
+            "_note": "都市河景",
+            "_reason": "",
+            "_photo_mean": 4.75
+          },
+          {
+            "title": "File:Wei River, 4 April 2021D.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Wei_River%2C_4_April_2021D.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Wei_River%2C_4_April_2021D.jpg/960px-Wei_River%2C_4_April_2021D.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 3968,
+            "h": 2976,
+            "source": "commons-search",
+            "query": "渭水",
+            "desc": "Wei River flows through the town of Xiangzikou.",
+            "key": "File:Wei River, 4 April 2021D.jpg",
+            "label": "E",
+            "_valid": true,
+            "_subs": [
+              5,
+              5,
+              4,
+              6
+            ],
+            "_note": "溪綠濕地",
+            "_reason": "",
+            "_photo_mean": 5.0
+          },
+          {
+            "title": "File:Wei River, 4 April 2021G.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Wei_River%2C_4_April_2021G.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Wei_River%2C_4_April_2021G.jpg/960px-Wei_River%2C_4_April_2021G.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 3968,
+            "h": 2976,
+            "source": "commons-search",
+            "query": "渭水",
+            "desc": "Wei River flows through the town of Xiangzikou.",
+            "key": "File:Wei River, 4 April 2021G.jpg",
+            "label": "F",
+            "_valid": true,
+            "_subs": [
+              6,
+              6,
+              5,
+              6
+            ],
+            "_note": "蜿蜒濕原",
+            "_reason": "",
+            "_photo_mean": 5.75
+          }
+        ],
+        "place_id": "tw-098",
+        "source": "catalog(scenic-v3-full)",
+        "status": "scored"
       },
-      "weighted_total": 3.8,
-      "weighted_total_v1": 4.0,
+      "admits": false,
+      "weighted_total_v2_retired": 3,
       "scenic_beauty_evidence": "s1=0；s2=0；s3=1：LiviaTravel 拍攝點記錄＋ETtoday 旅遊清單＋TA 建築雜誌（≥2 獨立清單文）→ 2+1=3",
       "sources": [
         "https://www.liviatravel.com/2018/04/cherryorchardcemetery.html",
@@ -90,52 +211,6 @@
       "differentiation_note": "蘭陽平原琉璃光拍點，現有 catalog 宜蘭無此題材"
     },
     {
-      "id": "tw-qingjing-farm",
-      "name_i18n": {
-        "zh-TW": "清境農場霧上觀景帶",
-        "en": "Qingjing Farm Mist Ridge",
-        "ja": "清境農場"
-      },
-      "prefecture": "Qingjing Farm Mist Ridge",
-      "subjects": [
-        "mountain",
-        "cloud_sea"
-      ],
-      "rubric": {
-        "subject_strength": 2,
-        "weather_light_dependency": 5,
-        "verifiability": 3,
-        "scenic_beauty": 3,
-        "differentiation": 5
-      },
-      "weighted_total": 3.45,
-      "weighted_total_v1": 3.65,
-      "scenic_beauty_evidence": "s1=0；s2=0；s3=1：民宿帶觀景媒體介紹＋攝影部落格（≥2）→ 2+1=3",
-      "sources": [
-        "https://www.luckvilla.com.tw/news-detail/Landscape-Cafe/",
-        "https://weichusmile.pixnet.net/blog/posts/16030812275"
-      ],
-      "coords_approx": {
-        "lat": 24.053,
-        "lon": 121.159
-      },
-      "elev_m": 1750,
-      "seasonal_window": {
-        "months": [
-          10,
-          11,
-          12,
-          1,
-          2,
-          3
-        ],
-        "note": "奇萊連峰晨霧秋冬季"
-      },
-      "access_note": "台14甲線，民宿帶觀景點分散",
-      "safety_note": "一般道路，無特殊風險",
-      "differentiation_note": "清境帶題材分散無標誌性主體"
-    },
-    {
       "id": "tw-qingtiangang",
       "name_i18n": {
         "zh-TW": "擎天崗草原",
@@ -148,15 +223,144 @@
         "starlight",
         "cloud_sea"
       ],
-      "rubric": {
-        "subject_strength": 3,
-        "weather_light_dependency": 4,
-        "verifiability": 4,
-        "scenic_beauty": 2,
-        "differentiation": 3
+      "rubric_v3": {
+        "composite_v3": 2.0,
+        "visual_0_5": 2.75,
+        "cert_tier": 2,
+        "cert_evidence": "國家公園內遊憩區但無景觀級認證、攻略清單頻率不足",
+        "community_adj": 0,
+        "community_evidence": "無標章、瀏覽量普通或資料不完整（不負向校正）",
+        "composite_formula": "視覺2.75＋認證校正-0.75＋社群0",
+        "photos": [
+          {
+            "title": "File:擎天崗.JPG",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/%E6%93%8E%E5%A4%A9%E5%B4%97.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/%E6%93%8E%E5%A4%A9%E5%B4%97.JPG/960px-%E6%93%8E%E5%A4%A9%E5%B4%97.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 2048,
+            "h": 1536,
+            "source": "commons-search",
+            "query": "擎天崗草原",
+            "desc": "Cingtiangang Grassland in Yangmingshan, Taiwan",
+            "key": "File:擎天崗.JPG",
+            "label": "A",
+            "_valid": true,
+            "_subs": [
+              6,
+              6,
+              7,
+              5
+            ],
+            "_note": "草原步道",
+            "_reason": "",
+            "_photo_mean": 6.0
+          },
+          {
+            "title": "File:擎天崗2.JPG",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/%E6%93%8E%E5%A4%A9%E5%B4%972.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://upload.wikimedia.org/wikipedia/commons/2/2f/%E6%93%8E%E5%A4%A9%E5%B4%972.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+            "w": 720,
+            "h": 502,
+            "source": "commons-search",
+            "query": "擎天崗草原",
+            "desc": "Qingtiangang Grassland after heavy rain.",
+            "key": "File:擎天崗2.JPG",
+            "label": "B",
+            "_valid": true,
+            "_subs": [
+              6,
+              6,
+              6,
+              5
+            ],
+            "_note": "草坡遊客",
+            "_reason": "",
+            "_photo_mean": 5.75
+          },
+          {
+            "title": "File:擎天崗及大草原（陽明山牧場）.JPG",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/%E6%93%8E%E5%A4%A9%E5%B4%97%E5%8F%8A%E5%A4%A7%E8%8D%89%E5%8E%9F%EF%BC%88%E9%99%BD%E6%98%8E%E5%B1%B1%E7%89%A7%E5%A0%B4%EF%BC%89.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/%E6%93%8E%E5%A4%A9%E5%B4%97%E5%8F%8A%E5%A4%A7%E8%8D%89%E5%8E%9F%EF%BC%88%E9%99%BD%E6%98%8E%E5%B1%B1%E7%89%A7%E5%A0%B4%EF%BC%89.JPG/960px-%E6%93%8E%E5%A4%A9%E5%B4%97%E5%8F%8A%E5%A4%A7%E8%8D%89%E5%8E%9F%EF%BC%88%E9%99%BD%E6%98%8E%E5%B1%B1%E7%89%A7%E5%A0%B4%EF%BC%89.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 2048,
+            "h": 1536,
+            "source": "commons-search",
+            "query": "擎天崗草原",
+            "desc": "​擎天崗草原（陽明山牧場）及後方的擎天崗。",
+            "key": "File:擎天崗及大草原（陽明山牧場）.JPG",
+            "label": "C",
+            "_valid": true,
+            "_subs": [
+              4,
+              5,
+              4,
+              5
+            ],
+            "_note": "嵐霾山影",
+            "_reason": "",
+            "_photo_mean": 4.5
+          },
+          {
+            "title": "File:擎天崗大草原.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg/960px-%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 4160,
+            "h": 3120,
+            "source": "commons-search",
+            "query": "擎天崗草原",
+            "desc": "​擎天崗大草原一角。",
+            "key": "File:擎天崗大草原.jpg",
+            "label": "D",
+            "_valid": true,
+            "_subs": [
+              5,
+              6,
+              5,
+              5
+            ],
+            "_note": "石階草甸",
+            "_reason": "",
+            "_photo_mean": 5.25
+          },
+          {
+            "title": "File:陽明山國家公園的擎天崗大草原.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/b/b4/%E9%99%BD%E6%98%8E%E5%B1%B1%E5%9C%8B%E5%AE%B6%E5%85%AC%E5%9C%92%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/%E9%99%BD%E6%98%8E%E5%B1%B1%E5%9C%8B%E5%AE%B6%E5%85%AC%E5%9C%92%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg/960px-%E9%99%BD%E6%98%8E%E5%B1%B1%E5%9C%8B%E5%AE%B6%E5%85%AC%E5%9C%92%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 4032,
+            "h": 3024,
+            "source": "commons-search",
+            "query": "擎天崗草原",
+            "desc": "​悠閒的牛牛們",
+            "key": "File:陽明山國家公園的擎天崗大草原.jpg",
+            "label": "E",
+            "_valid": false,
+            "_subs": null,
+            "_note": "",
+            "_reason": "牛隻特寫",
+            "_photo_mean": null
+          },
+          {
+            "title": "File:202506 早晨起霧的擎天崗草原 01.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/3/3e/202506_%E6%97%A9%E6%99%A8%E8%B5%B7%E9%9C%A7%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E8%8D%89%E5%8E%9F_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/202506_%E6%97%A9%E6%99%A8%E8%B5%B7%E9%9C%A7%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E8%8D%89%E5%8E%9F_01.jpg/960px-202506_%E6%97%A9%E6%99%A8%E8%B5%B7%E9%9C%A7%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E8%8D%89%E5%8E%9F_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 6192,
+            "h": 3870,
+            "source": "commons-search",
+            "query": "擎天崗草原",
+            "desc": "Qingtiangang grassland was appear convective fog in the morning in early summer",
+            "key": "File:202506 早晨起霧的擎天崗草原 01.jpg",
+            "label": "F",
+            "_valid": false,
+            "_subs": null,
+            "_note": "",
+            "_reason": "濃霧無景",
+            "_photo_mean": null
+          }
+        ],
+        "place_id": null,
+        "source": "candidate-supplementary",
+        "status": "scored"
       },
-      "weighted_total": 3.2,
-      "weighted_total_v1": 3.8,
+      "admits": false,
+      "weighted_total_v2_retired": 2,
       "scenic_beauty_evidence": "s1=0；s2=0；s3=0：僅 threads（AI 生成帖，弱源）＋單篇陽明山部落格清單——攻略清單文出現頻率不足（dossier 已標註需官源補強）→ 2+0=2",
       "sources": [
         "https://www.threads.com/@meta.ai/post/DdGbOwmgmpb/",
@@ -181,8 +385,186 @@
       "access_note": "陽明山園區24h開放，夜間無照明",
       "safety_note": "夜間無照明、野牛群保持距離",
       "differentiation_note": "大台北近郊銀河（光害打折）＋擎天崗雲海，與大屯山（5km外）題材錯位"
+    },
+    {
+      "id": "tw-qingjing-farm",
+      "name_i18n": {
+        "zh-TW": "清境農場霧上觀景帶",
+        "en": "Qingjing Farm Mist Ridge",
+        "ja": "清境農場"
+      },
+      "prefecture": "Qingjing Farm Mist Ridge",
+      "subjects": [
+        "mountain",
+        "cloud_sea"
+      ],
+      "rubric_v3": {
+        "composite_v3": 3.0,
+        "visual_0_5": 3.38,
+        "cert_tier": 3,
+        "cert_evidence": "民宿帶觀景媒體與攝影部落格多方共識，無官方景觀分類",
+        "community_adj": 0,
+        "community_evidence": "無標章、瀏覽量普通或資料不完整（不負向校正）",
+        "composite_formula": "視覺3.38＋認證校正-0.38＋社群0",
+        "photos": [
+          {
+            "title": "File:Hi-Life Nantou Qingjing Store 2003-10 night.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Hi-Life_Nantou_Qingjing_Store_2003-10_night.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Hi-Life_Nantou_Qingjing_Store_2003-10_night.jpg/960px-Hi-Life_Nantou_Qingjing_Store_2003-10_night.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 1445,
+            "h": 1081,
+            "source": "commons-search",
+            "query": "Qingjing Farm Nantou",
+            "desc": "Hi-Life Nantou Qingjing Store was a convenience store in Qingjing Farm, and was closed in 2008.",
+            "key": "File:Hi-Life Nantou Qingjing Store 2003-10 night.jpg",
+            "label": "A",
+            "_valid": false,
+            "_subs": null,
+            "_note": "",
+            "_reason": "便利商店夜照（人文設施）",
+            "_photo_mean": null
+          },
+          {
+            "title": "File:Qingjing Guest House 20150729.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Qingjing_Guest_House_20150729.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Qingjing_Guest_House_20150729.jpg/960px-Qingjing_Guest_House_20150729.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 6000,
+            "h": 4000,
+            "source": "commons-search",
+            "query": "Qingjing Farm Nantou",
+            "desc": "Qingjing Guest House, Qingjing Farm.",
+            "key": "File:Qingjing Guest House 20150729.jpg",
+            "label": "B",
+            "_valid": true,
+            "_subs": [
+              7,
+              7,
+              7,
+              6
+            ],
+            "_note": "茶園山巒",
+            "_reason": "",
+            "_photo_mean": 6.75
+          },
+          {
+            "title": "File:Mountains near Qingjing Farm 02.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Mountains_near_Qingjing_Farm_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Mountains_near_Qingjing_Farm_02.jpg/960px-Mountains_near_Qingjing_Farm_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 2816,
+            "h": 2112,
+            "source": "commons-search",
+            "query": "Qingjing Farm Nantou",
+            "desc": "as shown.",
+            "key": "File:Mountains near Qingjing Farm 02.jpg",
+            "label": "C",
+            "_valid": false,
+            "_subs": null,
+            "_note": "",
+            "_reason": "濃霧無景",
+            "_photo_mean": null
+          },
+          {
+            "title": "File:Car park of Qingjing Guest House.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/7/75/Car_park_of_Qingjing_Guest_House.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/Car_park_of_Qingjing_Guest_House.jpg/960px-Car_park_of_Qingjing_Guest_House.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 2816,
+            "h": 2112,
+            "source": "commons-search",
+            "query": "Qingjing Farm Nantou",
+            "desc": "Outdoor car park of the Qingjing Guest House.",
+            "key": "File:Car park of Qingjing Guest House.jpg",
+            "label": "D",
+            "_valid": false,
+            "_subs": null,
+            "_note": "",
+            "_reason": "民宿入口招牌",
+            "_photo_mean": null
+          },
+          {
+            "title": "File:In Qingjing Farm 04.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/In_Qingjing_Farm_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/In_Qingjing_Farm_04.jpg/960px-In_Qingjing_Farm_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 1920,
+            "h": 1080,
+            "source": "commons-search",
+            "query": "Qingjing Farm Nantou",
+            "desc": "​南投清境農場內。",
+            "key": "File:In Qingjing Farm 04.jpg",
+            "label": "E",
+            "_valid": false,
+            "_subs": null,
+            "_note": "",
+            "_reason": "牛隻特寫",
+            "_photo_mean": null
+          },
+          {
+            "title": "File:In Qingjing Farm 06.jpg",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/In_Qingjing_Farm_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/In_Qingjing_Farm_06.jpg/960px-In_Qingjing_Farm_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+            "w": 1920,
+            "h": 1080,
+            "source": "commons-search",
+            "query": "Qingjing Farm Nantou",
+            "desc": "​南投清境農場景觀。",
+            "key": "File:In Qingjing Farm 06.jpg",
+            "label": "F",
+            "_valid": false,
+            "_subs": null,
+            "_note": "",
+            "_reason": "人群為主",
+            "_photo_mean": null
+          }
+        ],
+        "place_id": null,
+        "source": "candidate-supplementary",
+        "status": "scored"
+      },
+      "admits": false,
+      "weighted_total_v2_retired": 3,
+      "scenic_beauty_evidence": "s1=0；s2=0；s3=1：民宿帶觀景媒體介紹＋攝影部落格（≥2）→ 2+1=3",
+      "sources": [
+        "https://www.luckvilla.com.tw/news-detail/Landscape-Cafe/",
+        "https://weichusmile.pixnet.net/blog/posts/16030812275"
+      ],
+      "coords_approx": {
+        "lat": 24.053,
+        "lon": 121.159
+      },
+      "elev_m": 1750,
+      "seasonal_window": {
+        "months": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ],
+        "note": "奇萊連峰晨霧秋冬季"
+      },
+      "access_note": "台14甲線，民宿帶觀景點分散",
+      "safety_note": "一般道路，無特殊風險",
+      "differentiation_note": "清境帶題材分散無標誌性主體"
     }
   ],
+  "below_line_candidates": [
+    {
+      "id": "tw-weishui-hill",
+      "zh": "渭水之丘／櫻花陵園",
+      "v3": 3.0
+    },
+    {
+      "id": "tw-qingtiangang",
+      "zh": "擎天崗草原",
+      "v3": 2.0
+    },
+    {
+      "id": "tw-qingjing-farm",
+      "zh": "清境農場霧上觀景帶",
+      "v3": 3.0
+    }
+  ],
+  "unscored_candidates": [],
   "culled_candidates": [
     {
       "id": "tw-dashan-43k-cloudsea",
