@@ -1,0 +1,5 @@
+a = open('D:/tmp/cat_before.json', 'rb').read()
+b = open('runtime_catalog_v004_r4_2.json', 'rb').read()
+print('a CRLF:', a.count(b'\r\n'), 'LF:', a.count(b'\n'))
+print('b CRLF:', b.count(b'\r\n'), 'LF:', b.count(b'\n'))
+print('len', len(a), len(b))
