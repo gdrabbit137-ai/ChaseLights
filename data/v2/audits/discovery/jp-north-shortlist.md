@@ -36,3 +36,16 @@
 
 ## 去重聲明
 全部 12 候選與 jp-001..jp-009 現有點座標距離 >5km（最近：パッチワークの路↔美瑛青池 ~11km；奥入瀬渓流↔十和田湖子ノ口 緊鄰但題材家族不同，dossier 內註記）。
+
+---
+
+## CL-DATA-26 — rubric v2 重評（2026-11-07 owner 裁決：移除 safe_access，20 分權重改給 scenic_beauty）
+
+上表為 v1（CL-DATA-23 首輪試跑 12 候選，rubric jp-north-1.0）之歷史紀錄，保留不動。
+機器可讀短名單 `jp-north-shortlist.json`（16 候選）已全數以 v2 重評：
+rubric v2 = subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / **scenic_beauty 20**（權重和=100）；
+scenic_beauty 機械化：s1 攝影社群熱度、s2 官方 A 級/世界遺產/三大某某分類、s3 攻略清單文出現頻率（各 0/1，2+sum，
+世界遺産/特A級/三大之首/台帳A級 +1 上限 5），證據逐筆存 `scenic_beauty_evidence`；safe_access 移出評分，
+季節窗/封閉期欄位（seasonal_window/access_note/safety_note）原樣保留於 dossier 與契約要求。
+v2 3.8 線結果：納入 14、移出 2（毛無山展望所 4.17→3.55、安比高原 4.00→3.30）；詳見
+`data/v2/audits/discovery/CL-DATA-26-v2-reeval.md`。

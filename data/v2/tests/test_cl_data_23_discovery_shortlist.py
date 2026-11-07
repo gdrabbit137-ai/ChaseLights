@@ -19,7 +19,7 @@ DOSSIERS = [ROOT / "data/v2/audits/discovery/jp-north-hokkaido.md",
             ROOT / "data/v2/audits/discovery/jp-north-tohoku.md"]
 
 RUBRIC_KEYS = ["subject_strength", "weather_light_dependency",
-               "verifiability", "differentiation", "safe_access"]
+               "verifiability", "differentiation", "scenic_beauty"]
 
 # Subjects whose photographic window is seasonal by nature — the candidate MUST
 # carry an explicit seasonal_window (winter closures / bloom / drift-ice).
@@ -53,8 +53,15 @@ class TestCLData23DiscoveryShortlist(unittest.TestCase):
         self.assertEqual(self.shortlist["region"], "jp-north")
 
     def test_rubric_scores_in_range_and_total_consistent(self):
-        weights = {d["key"]: d["weight"] for d in self.shortlist["rubric"]["dimensions"]}
+        dims = self.shortlist["rubric"]["dimensions"]
+        weights = {d["key"]: d["weight"] for d in dims}
         self.assertEqual(sorted(weights), sorted(RUBRIC_KEYS))
+        self.assertEqual(sum(weights.values()), 100, "rubric weights must sum to 100")
+        self.assertNotIn("safe_access", weights,
+                         "CL-DATA-26: safe_access removed from scoring")
+        self.assertEqual(
+            {r["key"] for r in self.shortlist["rubric"]["scoring_removed"]},
+            {"safe_access"}, "scoring_removed must record the safe_access removal")
         for c in self.shortlist["candidates"]:
             for key in RUBRIC_KEYS:
                 self.assertIn(c["rubric"][key], range(1, 6), f"{c['id']} {key}")
@@ -63,6 +70,19 @@ class TestCLData23DiscoveryShortlist(unittest.TestCase):
                 / sum(weights.values()), 2)
             self.assertAlmostEqual(c["weighted_total"], expected,
                                    msg=f"{c['id']} weighted_total mismatch")
+            self.assertIn("weighted_total_v1", c,
+                          f"{c['id']} missing v1 comparison score")
+            self.assertIn("scenic_beauty_evidence", c,
+                          f"{c['id']} missing scenic_beauty evidence")
+            self.assertTrue(c["scenic_beauty_evidence"],
+                            f"{c['id']} scenic_beauty_evidence empty")
+
+    def test_safe_access_info_still_required(self):
+        # CL-DATA-26: safe_access no longer SCORES, but its seasonal-window /
+        # closure semantics must stay in the dossier/contract fields.
+        for c in self.shortlist["candidates"]:
+            self.assertIn("seasonal_window", c,
+                          f"{c['id']} lost seasonal_window (safe_access info must remain)")
 
     def test_every_candidate_has_sources_and_trilingual_names(self):
         for c in self.shortlist["candidates"]:

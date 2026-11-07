@@ -4,9 +4,9 @@
 - 座標：24.507, 121.087（海拔 2100 m）
 - 擬設 subjects：mountain, cloud_sea, forest
 - 差異化（機械計算）：最近既有景點 大霸尖山，距離 18.2 km
-- **rubric 加權總分：4.4 / 5**
+- **rubric 加權總分：4.2 / 5**
 
-## Rubric 評分（1–5，權重 25/20/20/15/20）
+## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
 | 項目 | 分數 |
 |---|---|
@@ -14,12 +14,19 @@
 | weather_light_dependency | 5 |
 | verifiability | 3 |
 | differentiation | 5 |
-| safe_access | 4 |
+| scenic_beauty | 3 |
+
+> v1（CL-DATA-23 含 safe_access）加權總分對照：4.4 / 5
+> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
 
 - [https://hiking.biji.co/index.php?act=info&q=review&review_id=28950](https://hiking.biji.co/index.php?act=info&q=review&review_id=28950) — 健行筆記：「雲海的故鄉，觀霧榛山步道」
 - [https://recreation.forest.gov.tw/Forest/RA?typ_id=0200004](https://recreation.forest.gov.tw/Forest/RA?typ_id=0200004) — 台灣山林悠遊網官方：聖稜線英姿、霧林帶
+
+## scenic_beauty 證據（v2 機械化分級依據）
+
+- s1=0；s2=0（雪霸園區步道頁非景觀分類）；s3=1：健行筆記攻略＋林務局遊樂區頁（≥2）→ 2+1=3
 
 ## 擬設題材與條件草案
 

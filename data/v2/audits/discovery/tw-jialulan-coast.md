@@ -4,9 +4,9 @@
 - 座標：22.7864, 121.1839（海拔 30 m）
 - 擬設 subjects：coast, starlight
 - 差異化（機械計算）：最近既有景點 池上伯朗大道，距離 34.9 km
-- **rubric 加權總分：4.3 / 5**
+- **rubric 加權總分：3.7 / 5**
 
-## Rubric 評分（1–5，權重 25/20/20/15/20）
+## Rubric 評分（v2，1–5，權重 25/20/20/15/20＝100）
 
 | 項目 | 分數 |
 |---|---|
@@ -14,12 +14,19 @@
 | weather_light_dependency | 4 |
 | verifiability | 5 |
 | differentiation | 5 |
-| safe_access | 5 |
+| scenic_beauty | 2 |
+
+> v1（CL-DATA-23 含 safe_access）加權總分對照：4.3 / 5
+> v2 移除 safe_access 評分（其季節窗/封閉期資訊仍保留於本 dossier 與契約）。
 
 ## Web 證據
 
 - [https://www.eastcoast-nsa.gov.tw/zh-tw/Attractions/Detail/28](https://www.eastcoast-nsa.gov.tw/zh-tw/Attractions/Detail/28) — 東部海岸國家風景區官方頁
 - [https://www.eastcoast-nsa.gov.tw/zh-tw/travel/sunrise/](https://www.eastcoast-nsa.gov.tw/zh-tw/travel/sunrise/) — 官方日出月升盤點TOP5
+
+## scenic_beauty 證據（v2 機械化分級依據）
+
+- s1=0；s2=0（東管處場域頁為場域介紹非景觀分類）；s3=0：僅東管處官方日出清單 1 處提及（同屬東管處、非≥2獨立來源）→ 2+0=2
 
 ## 擬設題材與條件草案
 
