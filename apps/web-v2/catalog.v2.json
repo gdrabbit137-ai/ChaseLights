@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "d587d0d8c31dee9853e53207a00e9cbd7a1940e7",
-  "source_index_revision": "sha256:8321f660411b9c0c3aded9b0e08bcb84b9bad89e060a0bb1949e8d46de273e30",
+  "source_index_commit_sha": "c9636412c6908590131f078f7e8be35b6caa252b",
+  "source_index_revision": "sha256:e6cd827aa523b75aa42b1adbdf9edba2b6ecc4ce421da36204845550cf3a7a9a",
   "source_pins": {
     "jp-002-P01": {
       "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
@@ -475,9 +475,9 @@
       "revision": 1
     },
     "tw-008-P01": {
-      "source_commit_sha": "b801dd4eba545a76879828b25e869f3c45df33ac",
+      "source_commit_sha": "2d9af4d86856301e22df74153d9ff67d1500bc42",
       "source_path": "data/v2/opportunities/tw-008-P01.json",
-      "source_blob_sha": "682ada5ebf321167482b8e0837d135036eaf5f1c",
+      "source_blob_sha": "945d664c9e217c87261e9ebda44fdffb643463c4",
       "revision": 2
     },
     "tw-008-P02": {
@@ -505,9 +505,9 @@
       "revision": 2
     },
     "tw-010-P02": {
-      "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
+      "source_commit_sha": "2d9af4d86856301e22df74153d9ff67d1500bc42",
       "source_path": "data/v2/opportunities/tw-010-P02.json",
-      "source_blob_sha": "b72b4bbd8e62694a6de988c5f821a63d384868b7",
+      "source_blob_sha": "ce9f5a9d33e40531d630d4f61b480571c51311eb",
       "revision": 2
     },
     "tw-010-P03": {
@@ -30029,8 +30029,8 @@
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "硬漢嶺大台北暮色／夜景全景",
-        "en": "硬漢嶺大台北暮色／夜景全景",
-        "ja": "硬漢嶺大台北暮色／夜景全景"
+        "en": "Yinghan Peak (Mt. Guanyin) twilight and night panorama over Greater Taipei",
+        "ja": "硬漢嶺（観音山）から望む大台北の夕暮れと夜景のパノラマ"
       },
       "description_i18n": {
         "zh-TW": "硬漢嶺大台北暮色／夜景全景（V1 最佳時段：藍調/夜間；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
@@ -30077,8 +30077,8 @@
           "kind": "multi_component",
           "name_i18n": {
             "zh-TW": "硬漢嶺大台北暮色／夜景全景",
-            "en": "硬漢嶺大台北暮色／夜景全景",
-            "ja": "硬漢嶺大台北暮色／夜景全景"
+            "en": "Yinghan Peak (Mt. Guanyin) twilight and night panorama over Greater Taipei",
+            "ja": "硬漢嶺（観音山）から望む大台北の夕暮れと夜景のパノラマ"
           },
           "geometry": {
             "kind": "point",
@@ -30244,7 +30244,7 @@
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
-            "metric": "city_night_window",
+            "metric": "blue_hour_window",
             "operator": "none",
             "threshold": null,
             "unit": null,
@@ -30257,15 +30257,16 @@
             "condition_tier": "MAIN",
             "threshold_source": "computed",
             "calibration_status": "provisional",
+            "phase": "dusk",
             "rationale_i18n": {
-              "zh-TW": "時間窗＝整小時太陽仰角 ≤ −6°（民用暮光後）。夜景主體需要黑暗天空；白天時段即使天氣全過也不成立。",
-              "en": "Time window = the whole hour bucket with sun elevation <= -6 deg (after civil dusk). A night-lights subject needs a dark sky; a daytime hour cannot qualify even if every weather condition passes.",
-              "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。夜景の主題には暗い空が必要で、昼間は天候条件が全て通過しても成立しない。"
+              "zh-TW": "CL-DATA-28 語意修正（2026-11-07）：「暮色／夜景」原只掛 city_night_window，暮色成分在 00:00–04:00 黎明前黑暗通過、17:00 暮色時反而無槽——時間語意倒置（template mislabel 類）。暮色成分比照大屯山（tw-001-P03）/碧潭（tw-007-P01）已審先例改掛 blue_hour_window：日落後太陽仰角 −4°～−8°（日落後約 20–50 分），phase=dusk 鎖定黃昏側，絕不落入黎明前黑暗。評估器對 REQUIRED 條件取 AND，藍調窗與整夜窗無交集（tw-005-P02 雙窗並存導致全日 0 小時的實證），故夜窗無法並存，依大屯山同名（暮色／夜景）先例以暮色窗為本題材時間窗。",
+              "en": "CL-DATA-28 semantic fix (2026-11-07): this dusk/night-named subject carried only city_night_window, so its dusk component passed in the pre-dawn dark (00:00-04:00) while the actual 17:00 dusk hour had no slot — an inverted time semantics (template-mislabel class). The dusk component is remapped onto blue_hour_window, following the reviewed Mt. Guanyin (tw-001-P03) and Bitan (tw-007-P01) precedents: sun elevation -4 to -8 deg after sunset (roughly 20-50 minutes after), phase=dusk locking the evening side so pre-dawn darkness can never qualify. The evaluator ANDs REQUIRED conditions and the blue-hour window and the all-night window have no intersection (tw-005-P02 shipped both windows and evaluates to zero hours), so the night window cannot coexist; per the identically-named Mt. Guanyin precedent the dusk window is this subject's time gate.",
+              "ja": "CL-DATA-28 意味修正（2026-11-07）：「夕暮れ／夜景」の題材は city_night_window のみを持っており、夕暮れ成分が夜明け前の暗闇（00:00-04:00）で成立し、本来の 17:00 の夕暮れ時には槽がなかった——時間語義の転倒（テンプレート誤配置類）。夕暮れ成分は、既審の大屯山（tw-001-P03）・碧潭（tw-007-P01）の先例に従い blue_hour_window に付け替え：日没後に太陽高度 -4〜-8°（日没後およそ 20-50 分）、phase=dusk で夕方側に固定し、夜明け前の暗闇は絶対に成立しない。評価器は REQUIRED 条件を AND で結合し、ブルーアワー窓と終夜窓は交差しないため（tw-005-P02 が両窓を併記して全日 0 時間になった実証）、夜窓は併存できず、同名の大屯山先例に従い夕暮れ窓を本題材の時間窓とする。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-05 自動化補充（CL-UI-25）：依 CL-UI-23 評估層閘門（EVALGATE-city_night-window）語義補入契約層時間窗；閘門在契約已含時間窗時自動退位。",
-              "en": "2026-11-05 automated supplement (CL-UI-25): contract-level time window added to mirror the CL-UI-23 evaluation-layer gate (EVALGATE-city_night-window) semantics; the evaluation-layer gate stands down automatically once the contract declares a window.",
-              "ja": "2026-11-05 自動補完（CL-UI-25）：CL-UI-23 の評価層ゲート（EVALGATE-city_night-window）の語義に合わせて契約層の時間窓を追加。契約が時間窓を持つ場合、評価層ゲートは自動的に解除される。"
+              "zh-TW": "2026-11-05 自動化補充（CL-UI-25）：原掛 city_night_window（CL-UI-23 評估層閘門語義）。2026-11-07 CL-DATA-28 改掛 blue_hour_window（phase=dusk）：暮色成分不可在黎明前黑暗通過，比照大屯山／碧潭先例。",
+              "en": "2026-11-05 automated supplement (CL-UI-25): originally carried city_night_window (CL-UI-23 evaluation-layer gate semantics). 2026-11-07 CL-DATA-28 remapped to blue_hour_window (phase=dusk): the dusk component must never qualify in pre-dawn darkness, following the Mt. Guanyin / Bitan precedents.",
+              "ja": "2026-11-05 自動補完（CL-UI-25）：当初は city_night_window（CL-UI-23 評価層ゲート語義）。2026-11-07 CL-DATA-28 で blue_hour_window（phase=dusk）に付け替え：夕暮れ成分は夜明け前の暗闇では成立しない。大屯山・碧潭の先例に従う。"
             }
           }
         ]
@@ -31524,8 +31525,8 @@
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "和平島奇岩海蝕地景晨昏",
-        "en": "和平島奇岩海蝕地景晨昏",
-        "ja": "和平島奇岩海蝕地景晨昏"
+        "en": "Heping Island sea-eroded rock landforms at dawn and dusk",
+        "ja": "和平島の奇岩と海蝕地形（朝と夕）"
       },
       "description_i18n": {
         "zh-TW": "和平島奇岩海蝕地景晨昏（V1 最佳時段：晨昏；V1 季節：全年，受營業時間限制。V1 遷移骨架；內容待第二輪研究完善。）",
@@ -31572,8 +31573,8 @@
           "kind": "multi_component",
           "name_i18n": {
             "zh-TW": "和平島奇岩海蝕地景晨昏",
-            "en": "和平島奇岩海蝕地景晨昏",
-            "ja": "和平島奇岩海蝕地景晨昏"
+            "en": "Heping Island sea-eroded rock landforms at dawn and dusk",
+            "ja": "和平島の奇岩と海蝕地形（朝と夕）"
           },
           "geometry": {
             "kind": "point",
@@ -31685,7 +31686,7 @@
           },
           {
             "id": "C-tw-010-P02-03",
-            "role": "QUALITY",
+            "role": "REQUIRED",
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
@@ -31699,13 +31700,13 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "BONUS",
+            "condition_tier": "MAIN",
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。",
-              "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
-              "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
+              "zh-TW": "CL-DATA-28 語意修正（2026-11-07）：「晨昏」命名題材原以 golden_hour_window 為 BONUS，任意白天時段（06:00–16:00）皆可當最佳——與名稱矛盾（template mislabel 類）。role 升 REQUIRED、tier 升 MAIN：最佳時段必須落在 golden 窗（太陽仰角 −6°～+6°，sub-hour 取樣）內。「晨昏」雙語意（清晨與黃昏皆為成立時段）故不設單一 phase 限制，同 tw-010-P01（阿拉寶灣日出，CL-DATA-26）已審先例；與 light_window（civil >−6°）共同構成時間閘門，窗外白天與夜間一律不符合。",
+              "en": "CL-DATA-28 semantic fix (2026-11-07): this dawn/dusk-named subject carried golden_hour_window only as a BONUS, so any daylight hour (06:00-16:00) could rank as best — contradicting the name (template-mislabel class). Promoted to REQUIRED/MAIN: the best hours must sit inside the golden window (sun elevation -6 to +6 deg, sub-hour sampling). Because the name names BOTH dawn and dusk, no single phase constraint is set (both morning and evening halves qualify), following the reviewed tw-010-P01 (Alabao Bay sunrise, CL-DATA-26) precedent; together with light_window (civil > -6 deg) this forms the time gate — out-of-window daylight and night never qualify.",
+              "ja": "CL-DATA-28 意味修正（2026-11-07）：「朝夕」の題材は golden_hour_window を加点扱いにしており、昼間の任意の時間（06:00-16:00）が最高時段になり得た——名称と矛盾（テンプレート誤配置類）。role を REQUIRED、tier を MAIN に昇格：最良の時間はゴールデン窓（太陽高度 -6〜+6°、サブアワー採樣）内になければならない。「朝夕」は両方の時間帯が成立するため単一 phase 制約は設けず、tw-010-P01（阿拉寶灣の日出、CL-DATA-26）の既審先例に従う。light_window（市民光 >-6°）と合わせて時間ゲートを構成し、窓外の昼と夜は一律に不成立。"
             }
           },
           {

@@ -610,9 +610,9 @@
     {
       "opportunity_id": "tw-008-P01",
       "path": "data/v2/opportunities/tw-008-P01.json",
-      "blob_sha": "682ada5ebf321167482b8e0837d135036eaf5f1c",
-      "sha256": "d5290876e48ea571e2e2996fa449b73c960149f5c0fb2b68373c15438aabcf78",
-      "commit_sha": "b801dd4eba545a76879828b25e869f3c45df33ac"
+      "blob_sha": "945d664c9e217c87261e9ebda44fdffb643463c4",
+      "sha256": "6a90461a0094d0b53eaf7f81fc3cf3ea600bf81ad7e0d53695ca07fd577ed50d",
+      "commit_sha": "2d9af4d86856301e22df74153d9ff67d1500bc42"
     },
     {
       "opportunity_id": "tw-008-P02",
@@ -645,9 +645,9 @@
     {
       "opportunity_id": "tw-010-P02",
       "path": "data/v2/opportunities/tw-010-P02.json",
-      "blob_sha": "b72b4bbd8e62694a6de988c5f821a63d384868b7",
-      "sha256": "fb13853864f664bc87eeabb43b999331b5511ff8cec1a7dcc52ce952fdecd558",
-      "commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c"
+      "blob_sha": "ce9f5a9d33e40531d630d4f61b480571c51311eb",
+      "sha256": "68991704aa2dba63611dbfe0f94cec7af7892dde4a061c8124766e50eaff1664",
+      "commit_sha": "2d9af4d86856301e22df74153d9ff67d1500bc42"
     },
     {
       "opportunity_id": "tw-010-P03",
@@ -3488,5 +3488,6 @@
   "repin_note_cl_data_20_20261106": "CL-DATA-20: 18 tailored contracts admitted for the 7 no-opportunity spots and pinned to the data commit a4f803a7106816773ef5a2f659271c656b873bd7; tw-059-P01/tw-078-P01 (tidal genre marking) and tw-016-P01 (web-verified summit geometry) byte-changed and re-pinned to the same commit; cl-data-20_web_evidence.json added as a supporting audit source (AI web verification, human-review gate retired by owner ruling).",
   "repin_note_cl_data_19_20261106": "CL-DATA-19 中緯度全日題材補 civil light_window（太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）：124 筆契約重釘 canonical_records 至本票 commit（overlook 21 / mountain_view 39 / reflection 20 / overcast_soft 17 / geological_landform 15 / seasonal_plant 12）。得月樓（tw-062-P01）抽查實證夜間誤判可拍，故補必要光線窗。每筆為語意修正，layering parity gate 豁免，revision note 記於各 condition 的 rationale/notes_i18n。人審釘選（task-s fixtures：jp-010-P01/tw-034-P02/tw-082-P01；worker2 fixture：tw-016-P01；owner 校準待人審契約 us-057-P01）與 legacy stub（tw-059-P01/tw-060-P01/tw-078-P01/jp-030-P01）未動。",
   "rollback_note_cl_data_25r_20261107": "CL-DATA-25R (2026-11-07): rubric-v2 alignment — owner ruling: weighted_total_v2 >= 3.8 admits directly; below 3.8 goes to the Excel side list only. Rolled back the full legacy+V2+runtime catalog entries of the 5 v1-built but v2-rejected places (jp-050 安比雲海 3.30, tw-090 加路蘭 3.70, tw-092 北關海潮 3.60, tw-096 好望角 3.70, tw-097 擎天崗 3.20); their canonical_records are removed and their dossiers remain under data/v2/audits/discovery/ for the Excel side list. jp-041 流氷 is kept (v2 4.8 passes the line; drift_ice stays not_evaluatable).",
-  "admission_note_cl_data_25r_20261107": "CL-DATA-25R admission: tw-098 渭水之丘／櫻花陵園 (rubric v2 3.8 >= 3.8 direct-admission line, owner ruling 2026-11-07) admitted with canonical records pinned at the CL-DATA-25R stage-1 commit; tw_weather.json supporting pin re-anchored to the same commit for its direct V1 name source."
+  "admission_note_cl_data_25r_20261107": "CL-DATA-25R admission: tw-098 渭水之丘／櫻花陵園 (rubric v2 3.8 >= 3.8 direct-admission line, owner ruling 2026-11-07) admitted with canonical records pinned at the CL-DATA-25R stage-1 commit; tw_weather.json supporting pin re-anchored to the same commit for its direct V1 name source.",
+  "repin_note_cl_data_28_20261107": "CL-DATA-28: tw-008-P01 (city_night_window -> blue_hour_window phase=dusk, dusk/night name-vs-hours fix) and tw-010-P02 (golden_hour_window QUALITY/BONUS -> REQUIRED/MAIN, dawn/dusk name-vs-hours fix) re-pinned to the contract commit 2d9af4d86856301e22df74153d9ff67d1500bc42 carrying the new bytes."
 }
