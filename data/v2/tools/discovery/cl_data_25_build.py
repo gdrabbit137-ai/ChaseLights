@@ -452,6 +452,16 @@ def build_legacy_spot(p, next_var_id):
         subjects.append({
             "opportunity_id": oid, "spot_id": p["place_id"],
             "name_zh": subj["zh"], "legacy_theme": theme,
+            # CL-INT-90: op-level locale parity — name_i18n mirrors the admitted
+            # subject names; best_time stays honest (no invented time window)
+            # and carries trilingual copy instead of the name-as-placeholder bug.
+            "name_i18n": {"zh-TW": subj["zh"], "en": subj["en"], "ja": subj["ja"]},
+            "best_time": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+            "best_time_i18n": {
+                "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+                "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+                "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。",
+            },
             "mode": "area_opportunity", "sampling_topology": "local_area",
             "geometry_required": False, "opportunity_confidence": "medium",
             "formula_status": status,
