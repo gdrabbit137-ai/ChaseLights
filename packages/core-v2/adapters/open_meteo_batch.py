@@ -111,7 +111,11 @@ def _lcl_height_m(t_c, td_c):
     return 125.0 * spread
 
 
-def fetch_place(lat, lon, forecast_hours=72):
+# CL-CI-21 fail-closed: no horizon default — every caller states the horizon
+# explicitly; a missing argument raises instead of silently regressing to 72h.
+def fetch_place(lat, lon, forecast_hours):
+    if not isinstance(forecast_hours, int) or forecast_hours < 1:
+        raise ValueError(f"fetch_place requires an explicit positive forecast_hours, got {forecast_hours!r}")
     """Return a normalized RAW_ONLY artifact for one coordinate."""
     retrieved_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
     forecast_params = {
