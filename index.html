@@ -7,7 +7,7 @@
   <link rel="icon" href="./assets/favicon.ico" sizes="32x32">
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui41">
-  <link rel="stylesheet" href="./assets/app.css?v=clui44">
+  <link rel="stylesheet" href="./assets/app.css?v=clui48">
 
 </head>
 <body>
@@ -55,7 +55,9 @@
       </div>
 
       <div class="filter-toolbar-secondary">
-        <div class="day-nav-bar day-nav-strip" id="day-nav">
+        <div class="day-nav-wrap">
+          <button type="button" class="day-nav-arrow" id="day-nav-prev" data-i18n-aria-label="day_nav_prev" onclick="scrollDayNav(-1)">‹</button>
+          <div class="day-nav-bar day-nav-strip" id="day-nav">
           <button class="day-btn active" onclick="switchDay('today', this)" data-day="today" data-i18n="btn_today">📅 今天</button>
           <button class="day-btn" onclick="switchDay('tomorrow', this)" data-day="tomorrow" data-i18n="btn_tomorrow">📅 明天</button>
           <button class="day-btn" onclick="switchDay('after_tomorrow', this)" data-day="after_tomorrow" data-i18n="btn_after_tomorrow">📅 後天</button>
@@ -63,6 +65,8 @@
           <button class="day-btn day-btn-far" onclick="switchDay('day4', this)" data-day="day4" data-day-offset="4" title="">4</button>
           <button class="day-btn day-btn-far" onclick="switchDay('day5', this)" data-day="day5" data-day-offset="5" title="">5</button>
           <button class="day-btn day-btn-far" onclick="switchDay('day6', this)" data-day="day6" data-day-offset="6" title="">6</button>
+          </div>
+          <button type="button" class="day-nav-arrow" id="day-nav-next" data-i18n-aria-label="day_nav_next" onclick="scrollDayNav(1)">›</button>
         </div>
         <div id="admin-filter" class="admin-filter-host" hidden></div>
         <div class="sort-control">
@@ -125,6 +129,6 @@
   </div>
 
   <script src="./assets/site-nav.js?v=clui41"></script>
-  <script src="./assets/app.js?v=clui47"></script>
+  <script src="./assets/app.js?v=clui48"></script>
 </body>
 </html>
