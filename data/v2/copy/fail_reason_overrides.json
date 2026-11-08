@@ -1474,30 +1474,35 @@
     }
   },
   "tw-010-P01": {
-    "aod_550nm": {
-      "en": "Hazy air — the horizon is not readable",
-      "ja": "大気が霞み、水平線がはっきりしません",
-      "zh-TW": "空氣混濁，海平線看不清"
-    },
-    "golden_hour_window": {
-      "en": "Outside the golden hour — the light is wrong",
-      "ja": "ゴールデンアワーではなく、光が合いません",
-      "zh-TW": "現在不在黃金時段，光線不對"
-    },
-    "landform_present": {
-      "en": "The landform conditions are not met",
-      "ja": "地形の条件を満たしていません",
-      "zh-TW": "地形條件不符"
-    },
-    "precipitation": {
-      "en": "Heavy rain blurs the whole coastline",
-      "ja": "雨が強く、海岸の視界がぼやけます",
-      "zh-TW": "雨太大，海邊視線一片模糊"
+    "sunrise_time_window": {
+      "zh-TW": "現在不是日出時段，曙光只在清晨短暫出現",
+      "en": "Outside the sunrise window — first light is a brief early-morning moment",
+      "ja": "日の出の時間帯ではありません。朝焼けは早朝の短いひとときしかありません"
     },
     "light_window": {
-      "en": "Outside civil light — the landform shapes vanish into darkness",
-      "ja": "市民光を過ぎて、地形の輪郭は闇に消えます",
-      "zh-TW": "已過民用光線，地景輪廓隱入黑暗"
+      "zh-TW": "已過民用光線，奇岩輪廓隱入黑暗",
+      "en": "Outside civil light — the rock formations vanish into darkness",
+      "ja": "市民光を過ぎて、奇岩の輪郭は闇に消えます"
+    },
+    "golden_hour_window": {
+      "zh-TW": "不在低角度斜射光時段，岩層紋理平淡",
+      "en": "Outside the low-sun window — rock layering looks flat",
+      "ja": "低角度の斜光の時間帯ではないため、地層の質感が平たんに見えます"
+    },
+    "landform_present": {
+      "zh-TW": "潮間帶地形條件不符",
+      "en": "The tidal landform conditions are not met",
+      "ja": "潮間帯の地形条件を満たしていません"
+    },
+    "precipitation": {
+      "zh-TW": "雨太大，海邊視線一片模糊",
+      "en": "Heavy rain blurs the whole coastline",
+      "ja": "雨が強く、海岸の視界がぼやけます"
+    },
+    "aod_550nm": {
+      "zh-TW": "空氣混濁，海平線看不清",
+      "en": "Hazy air — the horizon is not readable",
+      "ja": "大気が霞み、水平線がはっきりしません"
     }
   },
   "tw-010-P02": {
@@ -5720,25 +5725,30 @@
     }
   },
   "tw-073-P01": {
-    "cloud_cover_low": {
-      "en": "Thick low cloud turns the sea into flat grey",
-      "ja": "低層雲が厚く、海面が灰色に沈みます",
-      "zh-TW": "低雲太厚，海面整片灰白"
-    },
-    "cloud_cover_mid_and_high": {
-      "en": "Mid and high cloud flatten the sky over the coast",
-      "ja": "中・上層雲が厚く、海岸の空が灰色一色です",
-      "zh-TW": "中高雲太厚，海岸上空一片灰白"
-    },
-    "precipitation": {
-      "en": "Heavy rain blurs the whole coastline",
-      "ja": "雨が強く、海岸の視界がぼやけます",
-      "zh-TW": "雨太大，海邊視線一片模糊"
+    "seasonal_state": {
+      "zh-TW": "綠石槽季節未到（約3–5月綠藻季），此刻礁石上沒有綠藻",
+      "en": "Green-algae season has not arrived (roughly Mar–May) — the reef wears no green algae now",
+      "ja": "緑藻の季節（およそ3〜5月）ではないため、現在岩礁に緑藻はありません"
     },
     "sunrise_time_window": {
-      "en": "Outside the sunrise window — the first light has not hit the water",
-      "ja": "日の出の時間帯ではなく、海に最初の光が届きません",
-      "zh-TW": "現在不在日出時段，等不到曙光打上海面"
+      "zh-TW": "現在不是日出時段，晨光只出現在清晨",
+      "en": "Outside the sunrise window — the morning light comes only at dawn",
+      "ja": "日の出の時間帯ではありません。朝の光は明け方だけです"
+    },
+    "cloud_cover_low": {
+      "zh-TW": "低雲太厚，晨光透不進來",
+      "en": "Low cloud is too thick — the morning light cannot break through",
+      "ja": "下層雲が厚く、朝の光が差し込みません"
+    },
+    "cloud_cover_mid_and_high": {
+      "zh-TW": "雲層分佈不對，晨光色調平淡",
+      "en": "Cloud distribution is wrong — the morning light looks flat",
+      "ja": "雲の分布が良くなく、朝の光の色調が平凡です"
+    },
+    "precipitation": {
+      "zh-TW": "雨太大，海邊視線一片模糊",
+      "en": "Heavy rain blurs the whole coastline",
+      "ja": "雨が強く、海岸の視界がぼやけます"
     }
   },
   "tw-074-P01": {
