@@ -187,6 +187,8 @@ SPOTS = {
                 "zh": "大阪城公園", "en": "Osaka Castle Park", "ja": "大阪城公園"},
 }
 
+SP3 = {pid: {"zh-TW": v["zh"], "en": v["en"], "ja": v["ja"]} for pid, v in SPOTS.items()}
+
 CONTRACTS = []  # filled by build functions below
 EVID_REFS = {'jp-001-P01': ['e-d34-a','e-d34-b'], 'jp-001-P02': ['e-d34-c'], 'jp-012-P01': ['e-d34-d','e-d34-f'], 'jp-012-P02': ['e-d34-e'], 'jp-014-P01': ['e-d34-g'], 'jp-014-P02': ['e-d34-g','e-d34-h'], 'jp-015-P01': ['e-d34-i'], 'jp-015-P02': ['e-d34-i'], 'jp-017-P01': ['e-d34-j','e-d34-k'], 'jp-017-P02': ['e-d34-j'], 'jp-018-P01': ['e-d34-m'], 'jp-018-P02': ['e-d34-l'], 'jp-024-P01': ['e-d34-n','e-d34-o'], 'jp-024-P02': ['e-d34-o']}
 
@@ -213,7 +215,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "03", "REQUIRED", "precipitation", "lt", 0.2, "mm", gfs("precipitation_rate_mm_h", "MID"), "MAIN", "formula_derived", REFLECTION_RAT["prec"]),
      cond(oid, "04", "QUALITY", "cloud_cover_total", "between", [20, 60], "%", gfs("cloud_cover_total_percent", "MID"), "MODIFIER", "formula_derived", REFLECTION_RAT["cloud"]),
      light_window(oid)],
-    500, SPOTS["jp-001"],
+    500, SP3["jp-001"],
     "Subject existence per V1 catalog; pond geometry, ~500 m elevation and subject facts web-verified 2026-11-08 (sources e-d34-a/b/c in cl-data-34_web_evidence.json). Thresholds provisional pending real-shoot calibration."))
 
 foliage_rat_aoiike = {"zh-TW": "季節窗判定（例年窗 10-05–10-31）：青池秋色是短暫的一檔——白樺與落羽松轉黃、與鈷藍水面對比最強的兩至三週（HOKKAIDO LOVE! 官方僅稱「秋の紅葉とのコントラスト」，未給日期；例年窗為氣候學估計）。實況窗優先，兩者皆缺時誠實 not_evaluatable。",
@@ -235,7 +237,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "02", "REQUIRED", "precipitation", "lt", 0.2, "mm", gfs("precipitation_rate_mm_h", "MID"), "MAIN", "formula_derived", SEASON_RAT["prec"]),
      cond(oid, "03", "REQUIRED", "wind_speed_10m", "lt", 5.0, "m/s", gfs("wind_speed_10m_m_s", "MID"), "MAIN", "formula_derived", SEASON_RAT["wind"]),
      light_window(oid)],
-    500, SPOTS["jp-001"],
+    500, SP3["jp-001"],
     "Subject existence web-verified 2026-11-08 (e-d34-c official autumn foliage; window climatological). Thresholds provisional."))
 
 # ---------------- jp-012 ----------------
@@ -258,7 +260,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "03", "REQUIRED", "precipitation", "lt", 0.2, "mm", gfs("precipitation_rate_mm_h", "MID"), "MAIN", "formula_derived", GOLD_RAT["prec"]),
      cond(oid, "04", "QUALITY", "golden_hour_window", "none", None, None, None, "MODIFIER", "computed", GOLD_RAT["gold"]),
      light_window(oid)],
-    None, SPOTS["jp-012"],
+    None, SP3["jp-012"],
     "Subject existence per V1 catalog; opening hours web-verified 2026-11-08 (e-d34-d official; e-d34-f). Thresholds provisional."))
 koto_fol_rat = {"zh-TW": "季節窗判定（例年窗 11-20–12-10）：高德院境內銀杏與楓葉見頃為 11 月下旬–12 月上旬（享東京（enjoytokyo）刊載且經大佛殿高德院寺務所確認；大佛後方坡面的紅葉是代表取景點）。實況窗優先，兩者皆缺時誠實 not_evaluatable。",
                  "en": "Seasonal-window verdict (typical window 11-20 to 12-10): the ginkgo and maple in the Kotoku-in grounds peak from late November to early December (published with confirmation by the Kotoku-in temple office; the maple slope behind the Great Buddha is the representative vantage). Observed window takes precedence; with neither present, honestly not_evaluatable.",
@@ -270,15 +272,15 @@ CONTRACTS.append(make_contract(
     {"zh-TW": "11 月下旬至 12 月上旬，大佛背後坡面的楓葉與銀杏把青銅坐像襯出年度最出名的組合；從境內後方取景大佛與色葉同框。",
      "en": "From late November into early December, the maple and ginkgo behind the Great Buddha set the bronze seated figure in its most famous seasonal frame; shoot statue and foliage together from the rear of the grounds.",
      "ja": "11月下旬から12月上旬、大仏の後ろの斜面のカエデとイチョウが青銅坐像を最も有名な季節の構図で飾る。境内後方から大仏と色づいた葉を一枚に収める。"},
-    (35.31685, 139.53572), "verified", DAIBUTSU_GEOM, DAIBUTSU_ACCESS,
-    {"zh-TW": "紅葉期人潮集中後方小丘，留意動線與腳架。", "en": "Foliage crowds concentrate on the small rise behind the statue - mind the paths and tripods.", "ja": "紅葉期は後方の小高い丘に人が集中する。動線と三脚に注意。"},
+    (35.31685, 139.53572), "verified", DAIBUTSU_GEOM,
+    {"zh-TW": "高德院全年無休 8:00–17:30（10–3 月至 17:00）；紅葉期人潮集中後方小丘，留意動線與腳架。", "en": "Kotoku-in is open year-round 8:00-17:30 (until 17:00 Oct-Mar); foliage crowds concentrate on the small rise behind the statue - mind the paths and tripods.", "ja": "高徳院は年中無休で8:00〜17:30（10〜3月は17:00）。紅葉期は後方の小高い丘に人が集中する。動線と三脚に注意。"},
     {"zh-TW": "同 jp-012-P01。", "en": "Same as jp-012-P01.", "ja": "jp-012-P01 に同じ。"},
     "seasonal_plant", "seasonal_plant-v0.1",
     [cond(oid, "S1", "REQUIRED", "seasonal_state", "eq", "window_open", None, None, "MAIN", "computed", koto_fol_rat),
      cond(oid, "02", "REQUIRED", "precipitation", "lt", 0.2, "mm", gfs("precipitation_rate_mm_h", "MID"), "MAIN", "formula_derived", SEASON_RAT["prec"]),
      cond(oid, "03", "REQUIRED", "wind_speed_10m", "lt", 5.0, "m/s", gfs("wind_speed_10m_m_s", "MID"), "MAIN", "formula_derived", SEASON_RAT["wind"]),
      light_window(oid)],
-    None, SPOTS["jp-012"],
+    None, SP3["jp-012"],
     "Subject existence web-verified 2026-11-08 (e-d34-e, temple-office confirmed window). Thresholds provisional."))
 
 # ---------------- jp-014 ----------------
@@ -303,7 +305,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "03", "QUALITY", "wind_speed_10m", "lt", 5.0, "m/s", gfs("wind_speed_10m_m_s", "MID"), "MODIFIER", "formula_derived",
           {"zh-TW": "無風讓樹枝倒影與水流細節更完整，作為加分項。", "en": "Calm air keeps branch reflections and stream detail intact - a bonus.", "ja": "無風だと枝の映り込みと水流の細部が整う。加点項目。"}),
      light_window(oid)],
-    None, SPOTS["jp-014"],
+    None, SP3["jp-014"],
     "Subject existence web-verified 2026-11-08 (e-d34-g official). Thresholds provisional."))
 todoroki_fol_rat = {"zh-TW": "季節窗判定（例年窗 11-20–12-05）：等々力溪谷秋葉見頃為東京都心的 11 月下旬–12 月上旬（世田谷區官方稱「秋の紅葉」未給日期，例年窗為氣候學估計）。實況窗優先，兩者皆缺時誠實 not_evaluatable。",
                      "en": "Seasonal-window verdict (typical window 11-20 to 12-05): Todoroki's foliage peaks in central Tokyo in late November to early December (Setagaya City official names the autumn color without dates; the typical window is climatological). Observed window takes precedence; with neither present, honestly not_evaluatable.",
@@ -323,7 +325,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "02", "REQUIRED", "precipitation", "lt", 0.2, "mm", gfs("precipitation_rate_mm_h", "MID"), "MAIN", "formula_derived", SEASON_RAT["prec"]),
      cond(oid, "03", "REQUIRED", "wind_speed_10m", "lt", 5.0, "m/s", gfs("wind_speed_10m_m_s", "MID"), "MAIN", "formula_derived", SEASON_RAT["wind"]),
      light_window(oid)],
-    None, SPOTS["jp-014"],
+    None, SP3["jp-014"],
     "Subject existence web-verified 2026-11-08 (e-d34-g official gorge; e-d34-h foliage). Thresholds provisional."))
 
 # ---------------- jp-015 ----------------
@@ -347,7 +349,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "03", "REQUIRED", "precipitation", "lt", 0.2, "mm", gfs("precipitation_rate_mm_h", "MID"), "MAIN", "formula_derived", REFLECTION_RAT["prec"]),
      cond(oid, "04", "QUALITY", "cloud_cover_total", "between", [20, 60], "%", gfs("cloud_cover_total_percent", "MID"), "MODIFIER", "formula_derived", REFLECTION_RAT["cloud"]),
      light_window(oid)],
-    None, SPOTS["jp-015"],
+    None, SP3["jp-015"],
     "Subject existence per V1 catalog; viewpoint and access facts web-verified 2026-11-08 (e-d34-i). Thresholds provisional."))
 
 pan15_rat = {"zh-TW": "皇居廣場的黑松與白石礫廣場在晨昏低角度光下立體感最強；東京的霧霾對 10 km 能見度門檻是實際約束。",
@@ -370,7 +372,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "03", "REQUIRED", "precipitation", "lt", 0.2, "mm", gfs("precipitation_rate_mm_h", "MID"), "MAIN", "formula_derived", GOLD_RAT["prec"]),
      cond(oid, "04", "QUALITY", "sunrise_time_window", "none", None, None, None, "MODIFIER", "computed", PAN_RAT["sunrise"]),
      light_window(oid)],
-    None, SPOTS["jp-015"],
+    None, SP3["jp-015"],
     "Subject existence per V1 catalog; plaza access web-verified 2026-11-08 (e-d34-i). Thresholds provisional."))
 
 # ---------------- jp-017 ----------------
@@ -398,7 +400,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "03", "REQUIRED", "wind_speed_10m", "lte", 15.0, "m/s", gfs("wind_speed_10m_m_s", "MID"), "MAIN", "formula_derived",
           {"zh-TW": "暴風雪否決（繩索積雪被吹落且無法拍攝）。", "en": "Blizzard conditions veto (snow is blown off the ropes and shooting becomes impossible).", "ja": "吹雪は否決（紐の雪が飛ばされ撮影不可能）。"}),
      light_window(oid)],
-    None, SPOTS["jp-017"],
+    None, SP3["jp-017"],
     "Subject existence web-verified 2026-11-08 (e-d34-j/e-d34-k). Thresholds provisional."))
 
 oid = "jp-017-P02"
@@ -408,8 +410,8 @@ CONTRACTS.append(make_contract(
     {"zh-TW": "霞池與徽軫燈籠的水面倒影：早朝開園（11/1–2 月底 6:00–7:45 免費）時段水靜人稀，是園內倒影最乾淨的窗口；無早朝開園的季節以開園後清晨為主。",
      "en": "The water mirror of Kasumiga-ike and the Kotoji lantern: during the early-morning opening (6:00-7:45 free, Nov 1-end of Feb) the pond is still and empty - the garden's cleanest reflection window; outside that season, right after the regular opening.",
      "ja": "霞ヶ池と徽軫灯籠の水鏡。早朝開園（11月1日〜2月末の6:00〜7:45、無料）の時間帯は水面が静かで人が少なく、園内で最も澄んだ反射の窓。それ以外の季節は通常開園直後が狙い目。"},
-    (36.563367, 136.662817), "verified", KEN_GEOM, KEN_ACCESS,
-    {"zh-TW": "早朝開園僅蓮池門口與隨身坂口入園。", "en": "The early-morning opening admits through the Hasuike-mon and Zuishigasaki gates only.", "ja": "早朝開園は蓮池門と随身坂口のみの入園。"},
+    (36.563367, 136.662817), "verified", KEN_GEOM,
+    {"zh-TW": "冬季（10/16–2 月底）8:00–17:00，最後入園 16:30；早朝開園僅蓮池門口與隨身坂口入園。", "en": "Winter hours (Oct 16-end of Feb) 8:00-17:00, last entry 16:30; the early-morning opening admits through the Hasuike-mon and Zuishigasaki gates only.", "ja": "冬季（10月16日〜2月末）は8:00〜17:00、最終入園16:30。早朝開園は蓮池門と随身坂口のみの入園。"},
     {"zh-TW": "池畔石板濕滑，晨霜期注意腳下。", "en": "The pond-side stones are slippery - mind morning frost.", "ja": "池畔の石畳は滑りやすい。朝霜に注意。"},
     "reflection", "reflection-v0.1",
     [cond(oid, "01", "REQUIRED", "wind_speed_10m", "lte", 2.0, "m/s", gfs("wind_speed_10m_m_s", "MID"), "MAIN", "formula_derived", REFLECTION_RAT["wind"]),
@@ -417,7 +419,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "03", "REQUIRED", "precipitation", "lt", 0.2, "mm", gfs("precipitation_rate_mm_h", "MID"), "MAIN", "formula_derived", REFLECTION_RAT["prec"]),
      cond(oid, "04", "QUALITY", "cloud_cover_total", "between", [20, 60], "%", gfs("cloud_cover_total_percent", "MID"), "MODIFIER", "formula_derived", REFLECTION_RAT["cloud"]),
      light_window(oid)],
-    None, SPOTS["jp-017"],
+    None, SP3["jp-017"],
     "Subject existence web-verified 2026-11-08 (e-d34-j early-morning opening). Thresholds provisional."))
 
 # ---------------- jp-018 ----------------
@@ -441,7 +443,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "03", "REQUIRED", "precipitation", "lt", 0.2, "mm", gfs("precipitation_rate_mm_h", "MID"), "MAIN", "formula_derived", GOLD_RAT["prec"]),
      cond(oid, "04", "QUALITY", "golden_hour_window", "none", None, None, None, "MODIFIER", "computed", GOLD_RAT["gold"]),
      light_window(oid)],
-    None, SPOTS["jp-018"],
+    None, SP3["jp-018"],
     "Subject existence per V1 catalog; hours web-verified 2026-11-08 (e-d34-m official). Thresholds provisional."))
 
 oid = "jp-018-P02"
@@ -462,7 +464,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "05", "REQUIRED", "city_night_window", "none", None, None, None, "MAIN", "computed",
           {"zh-TW": "夜間窗判定：官方 FAQ 載明天守外觀每日日没點燈至 23:00（每月 8 日 21:30），評估以民用黑暗（太陽仰角 ≤ −6°）的整點桶判定，與官方點燈時段重疊。", "en": "Night-window verdict: the official FAQ states the keep exterior is lit daily from sunset to 23:00 (21:30 on the 8th of each month); the evaluation gates on whole-hour buckets in civil darkness (sun elevation <= -6 deg), which overlap the official illumination hours.", "ja": "夜間窓判定：公式FAQによると天守外観は毎日日没から23:00まで点灯（毎月8日は21:30）。評価は市民的暗闇（太陽高度-6°以下）の単位時間で判定し、公式の点灯時間帯と重なる。"}),
      ],
-    None, SPOTS["jp-018"],
+    None, SP3["jp-018"],
     "Subject existence web-verified 2026-11-08 (e-d34-l official FAQ; e-d34-m grounds hours). Thresholds provisional."))
 
 # ---------------- jp-024 ----------------
@@ -488,7 +490,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "05", "REQUIRED", "city_night_window", "none", None, None, None, "MAIN", "computed",
           {"zh-TW": "夜間窗判定：官方 FAQ 載明天守每日日没點燈至 24:30（日没後約 1 小時漸亮），評估以民用黑暗整點桶判定，與官方點燈時段重疊。", "en": "Night-window verdict: the official FAQ states the keep is lit daily from sunset to 24:30 (ramping up over ~1 h after sunset); the evaluation gates on whole-hour buckets in civil darkness, which overlap the official illumination hours.", "ja": "夜間窓判定：公式FAQによると天守は毎日日没から24:30まで点灯（日没後約1時間かけて漸次点灯）。評価は市民的暗闇の単位時間で判定し、公式の点灯時間帯と重なる。"}),
      ],
-    None, SPOTS["jp-024"],
+    None, SP3["jp-024"],
     "Subject existence web-verified 2026-11-08 (e-d34-n official FAQ; e-d34-o park/viewpoints). Thresholds provisional."))
 
 oid = "jp-024-P02"
@@ -507,7 +509,7 @@ CONTRACTS.append(make_contract(
      cond(oid, "03", "REQUIRED", "precipitation", "lt", 0.2, "mm", gfs("precipitation_rate_mm_h", "MID"), "MAIN", "formula_derived", REFLECTION_RAT["prec"]),
      cond(oid, "04", "QUALITY", "cloud_cover_total", "between", [20, 60], "%", gfs("cloud_cover_total_percent", "MID"), "MODIFIER", "formula_derived", REFLECTION_RAT["cloud"]),
      light_window(oid)],
-    None, SPOTS["jp-024"],
+    None, SP3["jp-024"],
     "Subject existence per V1 catalog; park/moat facts web-verified 2026-11-08 (e-d34-o). Thresholds provisional."))
 
 # ---------------- write ----------------
