@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "a3bbcbd464e158983f991793e575947b6e19995e",
-  "source_index_revision": "sha256:3172bc24dbf56a29d0a93f63c1e8d7f61bf4a3d3f69ffa373dad3c6a3fcee61b",
+  "source_index_commit_sha": "c7b41c7c99e6a7cf73f1e90363a1fcfbe51fbed9",
+  "source_index_revision": "sha256:c852d57630cccc9bd9c5fa059959ae979af1be55f9bafc3bc0ae1f3f1ab71915",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
@@ -1897,10 +1897,10 @@
       "revision": 2
     },
     "us-002-P01": {
-      "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
+      "source_commit_sha": "c0c6114b0bfbae0afc28b1b5c0f128d3aa41b982",
       "source_path": "data/v2/opportunities/us-002-P01.json",
-      "source_blob_sha": "cd65ccd029f35b3f4627f53a35e448129e45d405",
-      "revision": 2
+      "source_blob_sha": "3a9df23c38eb79693efc19c9e76fa99fecf5fa7c",
+      "revision": 3
     },
     "us-003-P01": {
       "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
@@ -2575,9 +2575,9 @@
       "revision": 3
     },
     "us-091-P01": {
-      "source_commit_sha": "7a77bea62a609a861b725288f53036e10b750ac9",
+      "source_commit_sha": "c7b41c7c99e6a7cf73f1e90363a1fcfbe51fbed9",
       "source_path": "data/v2/opportunities/us-091-P01.json",
-      "source_blob_sha": "01b2791eeca263625b5e3bd282939a4734755342",
+      "source_blob_sha": "024e624ba1cb45c2d68a79c4b17a4e55f03e4ba3",
       "revision": 5
     },
     "us-092-P01": {
@@ -101526,7 +101526,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "us-002-P01",
       "place_id": "us-002",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "馬蹄灣・科羅拉多河大彎俯瞰",
@@ -101767,6 +101767,36 @@
               "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
               "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
               "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
+            }
+          },
+          {
+            "id": "C-us-002-P01-LW2",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "daylight_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-002-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "CL-DATA-40（2026-11-09）：NPS 明確規定馬蹄灣步道與觀景台僅日出至日落開放，日落後不得進入（https://www.nps.gov/thingstodo/take-a-stroll-to-horseshoe-bend-overlook.htm，查證 2026-11-09）。藍調時段（日落後民用昏影）雖有光線語意，但地點已關閉——可用時段須整桶為太陽在地平線上（仰角 > 0°）的真正日光，civil light window（> −6°）單獨允許的日落後時段被本條收緊。threshold_source=computed：純太陽幾何。",
+              "en": "CL-DATA-40 (2026-11-09): NPS states the Horseshoe Bend trail and overlook are open sunrise to sunset only; entry after sunset is prohibited (https://www.nps.gov/thingstodo/take-a-stroll-to-horseshoe-bend-overlook.htm, verified 2026-11-09). Blue-hour (post-sunset civil darkness) has photographic light but the site is closed — qualifying hours must lie entirely in proper daylight (every sampled instant sun elevation > 0 deg); the post-sunset hours the civil light window (> -6 deg) alone allows are tightened away by this condition. threshold_source=computed: pure solar geometry.",
+              "ja": "CL-DATA-40（2026-11-09）：NPS はホースシュー・ベンドの遊歩道と展望台が日の出から日没までのみ開放と明記しており、日没後の立入りは禁止（https://www.nps.gov/thingstodo/take-a-stroll-to-horseshoe-bend-overlook.htm、2026-11-09 確認）。ブルーアワー（日没後の市民薄明）には撮影光があるが現地は閉鎖——適合時間帯は太陽が地平線上にある完全な日光の時間（全サンプルで太陽高度 > 0°）に限る。civil light window（> −6°）が単独で許す日没後の時間帯を本条件が締める。threshold_source=computed：純粋な太陽幾何。"
+            },
+            "notes_i18n": {
+              "zh-TW": "來源：NPS Horseshoe Bend Overlook 頁面（日出至日落開放）；查證日期 2026-11-09；CL-DATA-40。",
+              "en": "Source: NPS Horseshoe Bend Overlook page (open sunrise to sunset); verified 2026-11-09; CL-DATA-40.",
+              "ja": "出典：NPS Horseshoe Bend Overlook ページ（日の出から日没まで開放）；確認日 2026-11-09；CL-DATA-40。"
             }
           }
         ]
@@ -134176,9 +134206,9 @@
         "ja": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松"
       },
       "description_i18n": {
-        "zh-TW": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松（V1 最佳時段：白天至黃昏；依題材與季節條件；V1 季節：全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate。V1 遷移骨架；內容待第二輪研究完善。）",
-        "en": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松 (V1 best time: 白天至黃昏；依題材與季節條件; V1 season: 全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate V1 migration skeleton; content to be refined in round 2.)",
-        "ja": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松（V1ベスト時間帯: 白天至黃昏；依題材與季節條件；V1季節: 全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+        "zh-TW": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松（V1 最佳時段：白天至黃昏；依題材與季節條件；V1 季節：約 6 月中–10 月中（SR-20 冬季雪崩季封閉，依 WSDOT 當期公告；落葉松金黃窗約 9 月底–10 月中）；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate。V1 遷移骨架；內容待第二輪研究完善。）",
+        "en": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松 (V1 best time: 白天至黃昏；依題材與季節條件; V1 season: mid-June to mid-October (SR-20 closed in the winter avalanche season per the current WSDOT advisory; golden larch window late September to mid-October)；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate V1 migration skeleton; content to be refined in round 2.)",
+        "ja": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松（V1ベスト時間帯: 白天至黃昏；依題材與季節條件；V1季節: 6月中旬〜10月中旬（SR-20 冬季雪崩季閉鎖、WSDOT の最新発表に従う；カラマツ黄金窓 9月末〜10月中旬）；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
       },
       "camera_contexts": [
         {
@@ -134409,14 +134439,14 @@
             "condition_tier": "MAIN",
             "threshold_source": "evidence_review",
             "rationale_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：補 seasonal_state window_open REQUIRED/MAIN（9 月底–10 月落葉松轉色）——比照 seasonal 類模板（無即時季節源→propagate_unknown 誠實未知）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-12 full audit (batch h): adds seasonal_state window_open REQUIRED/MAIN (the late-Sep-to-Oct larch turn) - seasonal-template convention (no real-time seasonal source -> propagate_unknown honest unknown). Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：seasonal_state window_open REQUIRED/MAIN を追加（9月末-10月のカラマツの黄葉）——seasonal 型テンプレートに準拠（即時季節源なし→propagate_unknown の誠実な未知）。 意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：補 seasonal_state window_open REQUIRED/MAIN（9 月底–10 月落葉松轉色）——比照 seasonal 類模板（無即時季節源→propagate_unknown 誠實未知）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。 2026-11-09 CL-DATA-41：WSDOT 資料——SR-20 北喀斯開公路每年約 11 月至 4/5 月雪崩季封閉(2025-12-04 封閉、2026-06-14 重開)。實際可達季節約 6 月中–10 月中，依 WSDOT 當期公告；秋季落葉松金黃窗約 9 月底–10 月中。來源：https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory)，查證 2026-11-09。",
+              "en": "2026-11-06 CL-DATA-12 full audit (batch h): adds seasonal_state window_open REQUIRED/MAIN (the late-Sep-to-Oct larch turn) - seasonal-template convention (no real-time seasonal source -> propagate_unknown honest unknown). Semantic correction; layering parity gate exempt, documented here. 2026-11-09 CL-DATA-41: WSDOT - SR-20 North Cascades Highway closes each winter for the avalanche season (roughly November to April/May; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory). Practical access season mid-June to mid-October; golden larch window late September to mid-October. Source: https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory), verified 2026-11-09.",
+              "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：seasonal_state window_open REQUIRED/MAIN を追加（9月末-10月のカラマツの黄葉）——seasonal 型テンプレートに準拠（即時季節源なし→propagate_unknown の誠実な未知）。 意味修正のため layering parity ゲートは免除。 2026-11-09 CL-DATA-41: WSDOT 情報——SR-20 ノースカスケード・ハイウェイは毎年約11月〜4/5月の雪崩シーズンに閉鎖（2025-12-04 閉鎖、2026-06-14 再開；WSDOT の最新発表に従う）。実質アクセス季節は6月中旬〜10月中旬；秋のカラマツ黄金窓は9月末〜10月中旬。出典：https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory)、確認日 2026-11-09。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：補 seasonal_state window_open REQUIRED/MAIN（9 月底–10 月落葉松轉色）——比照 seasonal 類模板（無即時季節源→propagate_unknown 誠實未知）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-12 full audit (batch h): adds seasonal_state window_open REQUIRED/MAIN (the late-Sep-to-Oct larch turn) - seasonal-template convention (no real-time seasonal source -> propagate_unknown honest unknown). Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：seasonal_state window_open REQUIRED/MAIN を追加（9月末-10月のカラマツの黄葉）——seasonal 型テンプレートに準拠（即時季節源なし→propagate_unknown の誠実な未知）。 意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-09 CL-DATA-41：WSDOT 資料——SR-20 北喀斯開公路每年約 11 月至 4/5 月雪崩季封閉(2025-12-04 封閉、2026-06-14 重開)。實際可達季節約 6 月中–10 月中，依 WSDOT 當期公告；秋季落葉松金黃窗約 9 月底–10 月中。來源：https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory)，查證 2026-11-09。",
+              "en": "2026-11-09 CL-DATA-41: WSDOT - SR-20 North Cascades Highway closes each winter for the avalanche season (roughly November to April/May; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory). Practical access season mid-June to mid-October; golden larch window late September to mid-October. Source: https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory), verified 2026-11-09.",
+              "ja": "2026-11-09 CL-DATA-41: WSDOT 情報——SR-20 ノースカスケード・ハイウェイは毎年約11月〜4/5月の雪崩シーズンに閉鎖（2025-12-04 閉鎖、2026-06-14 再開；WSDOT の最新発表に従う）。実質アクセス季節は6月中旬〜10月中旬；秋のカラマツ黄金窓は9月末〜10月中旬。出典：https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory)、確認日 2026-11-09。"
             }
           },
           {
