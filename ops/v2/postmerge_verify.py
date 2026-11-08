@@ -82,6 +82,25 @@ def verify_main(root, lock):
                     "explicit --accept-decrease re-pin"
                 )
             out.setdefault("owner_file_counts", {})[paths[0]] = current_count
+    # CL-CI-32: the shipped opportunity-contracts.json bundle must never lag
+    # the canonical tree. Its count — and its entry set — must exactly equal
+    # the number of opportunity contract files under data/v2/opportunities;
+    # a merge that adds files without re-running
+    # data/v2/tools/make_display_contracts.py fails here instead of shipping
+    # a stale V1-facing bundle.
+    bundle = json.loads((root / "apps/web-v2/opportunity-contracts.json").read_text())
+    opp_files = len(git(root, "ls-tree", "-r", "--name-only", "HEAD",
+                        "data/v2/opportunities").splitlines())
+    opp_ids = bundle.get("opportunities")
+    if (not isinstance(opp_ids, dict)
+            or bundle.get("count") != opp_files
+            or len(opp_ids) != opp_files):
+        raise ValueError(
+            "opportunity-contracts.json lag: bundle count="
+            f"{bundle.get('count')} != data/v2/opportunities files={opp_files}; "
+            "re-run data/v2/tools/make_display_contracts.py"
+        )
+    out["opportunity_contracts_count"] = bundle["count"]
     for p, expected in lock.get("effective_reviewed_blobs", {}).items():
         if git(root, "rev-parse", "HEAD:" + p) != expected:
             raise ValueError("Effective latest-main specification drift: " + p)
