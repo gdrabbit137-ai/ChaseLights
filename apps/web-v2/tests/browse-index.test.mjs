@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 420 canonical sources remain source pinned (CL-DATA-32 southern-Japan discovery admission: jp-051..jp-064, PM judgment 2026-11-08)',()=>{
-  assert.equal(sha256(rawIndex),'eccd10a2b38fc442edc2b964acc24fac30b0f38eb51e2ce13ece461d392b5bb0'); // CL-INT-103: re-measured on union tree after tw-034-P02 repin
-  assert.equal(sha256(rawCatalog),'e3011e8a7e6c4f47ba6ef5210ab980e01a00639f24d02ae765a5fa6b82202309'); // CL-INT-103: re-measured on union tree after tw-034-P02 repin
+  assert.equal(sha256(rawIndex),'4d5533d193607ab3d41f0c881d251cba89e2a5193eaf1223033ecdbaf2a9db41'); // CL-INT-103: re-measured on union tree after tw-034-P02 repin
+  assert.equal(sha256(rawCatalog),'a960e40c51aa76942b9b08f55a799f6ff492509e4e34399422e0abf62857f92b'); // CL-INT-103: re-measured on union tree after tw-034-P02 repin
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,420);assert.equal(source.places.length,232);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
