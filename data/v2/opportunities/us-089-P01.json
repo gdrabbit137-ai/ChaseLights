@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-089-P01",
   "place_id": "us-089",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Palouse Falls・瀑布＋玄武岩峽谷",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-palouse-falls-sp"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Palouse Falls State Park Heritage Site（94 英畝日間公園，Palouse Falls Road, LaCrosse）為華州官方瀑布：官方時制夏季 06:30–dusk、冬季 08:00–dusk。峽谷邊緣無護欄、玄武岩地面濕滑與鬆散，切勿越過欄杆或靠近邊緣；日出光線投在峽谷東面最為理想。車輛需 Discover Pass（以 parks.wa.gov 最新公告為準）。",
+        "en": "Palouse Falls State Park Heritage Site (94-acre day-use park, Palouse Falls Road, LaCrosse) is Washington's official state waterfall: official hours are summer 6:30 a.m.–dusk and winter 8 a.m.–dusk. The canyon rim is unrailed in places with slick, crumbling basalt — never go past fences or approach edges; sunrise light on the east-facing canyon wall is ideal. A Discover Pass is required for vehicles (per current parks.wa.gov rules).",
+        "ja": "パルース・フォールズ州立公園遺産地（94エーカーのデイユース公園、Palouse Falls Road, LaCrosse）はワシントン州公式の州の滝：公式営業時間は夏6時30分〜日没、冬8時〜日没。峡谷の縁には手すりのない所があり玄武岩は滑りやすく崩れやすい。柵を越えたり縁に近づいたりしないこと。日の出の光が東向きの峡谷壁に当たるのが理想。車両にはDiscover Passが必要（最新のparks.wa.gov規則による）。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-palouse-falls-sp"
+      ],
       "components": []
     }
   ],
@@ -271,9 +275,11 @@
     {
       "claim_id": "us-089-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-palouse-falls-sp"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://parks.wa.gov/find-parks/state-parks/palouse-falls-state-park-heritage-site | https://parks.wa.gov/sites/default/files/2025-08/Palouse%20Falls%20Park%20Brochure.pdf); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-057-P01",
   "place_id": "us-057",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Arctic Circle Wayside・北極圈標誌地標照",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — catalog point 66.55601,-150.8107 lies on the Dalton Highway at approximately milepost 115, matching the BLM Arctic Circle Wayside description (east side of the highway)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-arctic-circle-wayside"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "BLM Arctic Circle Wayside 位於 Dalton Highway milepost 115 東側，設北極圈標誌、觀景台與解說牌（南北向取景最常用），現場禁止露營；BLM Arctic Circle Campground 在往東約 0.7 哩上坡處（含 pull-through 與帳位、無水）。冬季為拍極光名點但路面極冷、風雪不斷，請準備備援車輛通信與保暖；通行與露營規定以 BLM 公告為準。",
+        "en": "The BLM Arctic Circle Wayside sits on the EAST side of the Dalton Highway at milepost 115, with the Arctic Circle sign, an observation deck and interpretive panels (the classic photo). Camping is not allowed at the wayside; the BLM Arctic Circle Campground is 0.7 miles uphill to the east (pull-through and tent sites, no water). It is a celebrated aurora spot in winter, but conditions are extreme — carry warm gear and emergency communications. Access and camping rules follow BLM postings.",
+        "ja": "BLM Arctic Circle Waysideはダルトン・ハイウェイmilepost 115の東側にあり、北極圏標識、展望デッキ、解説パネルがある（定番の記念撮影地）。サイト内でのキャンプは禁止。BLM Arctic Circle Campgroundは東へ0.7マイル上り（通過型とテントサイト、水なし）。冬はオーロラの名所だが気象は極めて厳しく、防寒と緊急通信手段を携行すること。通行とキャンプ規則はBLMの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-arctic-circle-wayside"
+      ],
       "components": []
     }
   ],
@@ -271,9 +275,11 @@
     {
       "claim_id": "us-057-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-arctic-circle-wayside"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.blm.gov/visit/arctic-circle-wayside | https://www.blm.gov/sites/default/files/docs/2024-03/BLM-AK-2024_DaltonHwy_VisitorGuide_508_reduced.pdf); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

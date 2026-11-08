@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-047-P01",
   "place_id": "us-047",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Matanuska Glacier SRS・冰河＋Matanuska Valley／Chugach Mountains",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-matanuska-glacier-srs"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Matanuska Glacier State Recreation Site 位於 Glenn Highway Mile 101，由 Long Rifle Lodge 經營管理，Alaska DNR 明示：本區提供冰河觀景台（Edge Nature Trail 約20分鐘至觀景平台），但自園區無法下到冰河；日間使用收費，6 個營地先到先得。冬季視積雪關閉。實際踏冰需另經私人 Matanuska Glacier 入口（視冰況收費），安全與開放狀態以現場公告為準。",
+        "en": "Matanuska Glacier State Recreation Site is at Mile 101 of the Glenn Highway, managed by Long Rifle Lodge. Per Alaska DNR, the site offers glacier viewing platforms (the Edge Nature Trail, ~20 minutes to the platforms) but there is NO access to the glacier itself from the recreation site; day use is charged and the six campsites are first-come, first-served. The site closes when winter snow/ice conditions dictate. Walking on the ice requires the separate private Matanuska Glacier entrance (fee, conditions permitting) — safety and status follow on-site notices.",
+        "ja": "Matanuska Glacier State Recreation SiteはGlenn Highway101マイルにあり、Long Rifle Lodgeが管理する。Alaska DNRによれば、園内は氷河展望台（Edge Nature Trail、展望台まで約20分）を提供するが、この遊園から氷河へ下りることはできない。日帰り利用は有料、6サイトのキャンプは先着順。冬は積雪状況で閉鎖。氷上歩行には別の私有Matanuska Glacier入口（状況次第で有料）が必要で、安全と開放状況は現地の掲示に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-matanuska-glacier-srs"
+      ],
       "components": []
     }
   ],
@@ -273,9 +277,11 @@
     {
       "claim_id": "us-047-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-matanuska-glacier-srs"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://dnr.alaska.gov/parks/aspunits/matsu/matsuglsrs.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

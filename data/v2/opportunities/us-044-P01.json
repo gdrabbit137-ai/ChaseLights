@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-044-P01",
   "place_id": "us-044",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Point Woronzof・Cook Inlet／Alaska Range日落",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-point-woronzof-anchorage"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Point Woronzof Park 位於安克拉治 9700 Point Woronzof Road，濱 Cook Inlet，晴日可見 Alaska Range 與 Denali；市營公園營業時間約 06:00–23:00。Tony Knowles Coastal Trail 穿園而過（3–4哩標間），有專用停車場。西向日落光線投在上方山脈最為出色；注意潮間帶泥灘與融冰泥滑，勿走近 Beluga 觀察時的易碎堤岸，時間與規定以安克拉治市政府公告為準。",
+        "en": "Point Woronzof Park is a municipal park at 9700 Point Woronzof Road, Anchorage, on Cook Inlet with Alaska Range and Denali views on clear days; listed hours are about 6 a.m.–11 p.m. The Tony Knowles Coastal Trail passes through (mileposts 3–4) and there is dedicated parking. Westward sunset light over the range is best; the intertidal mudflats are treacherous — do not approach fragile banks when belugas are visible. Hours and rules follow City of Anchorage postings.",
+        "ja": "Point Woronzof Parkはアンカレジ9700 Point Woronzof Roadの市営公園で、Cook Inletに面し晴天時はアラスカ山脈とデナリが望める。営業は概ね6時〜23時。Tony Knowles Coastal Trailが園内を通り（3〜4マイル標）、専用駐車場あり。西向きの夕日が山脈に当たる光景が最も美しい。干潟は危険で、ベルーガ観察時も脆弱な堤防には近づかないこと。時間と規則はアンカレジ市の告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-point-woronzof-anchorage"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "us-044-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-point-woronzof-anchorage"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.anchorageactivities.com/listing/point-woronzof-park/ | https://parkmagnet.com/united-states/alaska/anchorage/point-woronzof-park); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

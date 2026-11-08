@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-063-P01",
   "place_id": "us-063",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Talkeetna Riverfront Park・Susitna River＋Denali／Alaska Range",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — catalog point 62.322846,-150.121177 exactly matches the Talkeetna Riverfront Park coordinates (confluence of Susitna/Chulitna/Talkeetna rivers)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-talkeetna-riverfront-park"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Talkeetna Riverfront Park 位於 Talkeetna 主街尾端（座標 62.3228, -150.1212），Susitna／Chulitna／Talkeetna 三河匯流處的砂礫灘上，可直面 Denali（McKinley）與 Alaska Range；清晨與傍晚山體 alpenglow 最為出色，水流湍急勿下水；Matanuska-Susitna Borough 管理無門票，公園規則與季節性淹水以現場公告為準。",
+        "en": "Talkeetna Riverfront Park is at the end of Talkeetna's Main Street (62.3228, -150.1212) — gravel bars at the confluence of the Susitna, Chulitna and Talkeetna rivers face Denali (McKinley) and the Alaska Range. Alpenglow is best at dawn and dusk; the currents are swift, never enter the water. Managed by the Matanuska-Susitna Borough with no entry fee — rules and seasonal flooding follow on-site postings.",
+        "ja": "タルキートナ・リバーフロント公園はメインストリートの突き当たり（62.3228, -150.1212）にあり、Susitna・Chulitna・タルキートナの3河川合流点の砂礫州からデナリ（マッキンリー）とアラスカ山脈を正面に望む。朝夕の山影の紅光が最も美しい。流れは急で決して入水しないこと。Matanuska-Susitna Borough管理で入場料なし。規則と季節的洪水は現地の掲示に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-talkeetna-riverfront-park"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "us-063-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-talkeetna-riverfront-park"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://matsu.gov/communities/talkeetna | https://www.alaska.org/detail/talkeetna-riverfront-park); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

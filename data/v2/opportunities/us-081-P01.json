@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-081-P01",
   "place_id": "us-081",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Paradise・Mount Rainier＋高山草甸／野花",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-mount-rainier-paradise"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Paradise（Mount Rainier 國家公園，海拔 5,400 呎）夏季主要遊客中心 Henry M. Jackson Memorial Visitor Center 每日開放（約5月至10月初），10月中至4月僅週末與假日開放；園區入場收費。夏季野花與霧草甸為 7–8 月亮點，冬季雪原；高山天氣多變，請自備保暖與防滑（冰雪時建議攜雪鏈／雪鞋），Wilderness 與步道規定以 NPS 公告為準。",
+        "en": "Paradise (Mount Rainier NP, 5,400 ft): the main Henry M. Jackson Memorial Visitor Center is open daily in summer (about May–early October) and weekends/holidays from mid-October through April; park entry is charged. Wildflower meadows peak July–August; winter is snowfield — mountain weather changes fast, bring warm layers and traction (carry chains/snowshoes when icy). Trail and wilderness rules follow NPS postings.",
+        "ja": "パラダイス（マウント・レーニア国立公園、標高5,400フィート）：本館のHenry M. Jackson Memorial Visitor Centerは夏期（約5月〜10月上旬）毎日開放、10月中旬〜4月は週末と祝日のみ。入園は有料。夏は7〜8月に野花の草地、冬は雪原。山の天候は変わりやすく防寒と滑り止め（凍結時はチェーン/スノーシュー携行）を持参すること。遊歩道と wilderness の規則はNPSの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-mount-rainier-paradise"
+      ],
       "components": []
     }
   ],
@@ -310,9 +314,11 @@
     {
       "claim_id": "us-081-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-mount-rainier-paradise"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/mora/planyourvisit/paradise.htm | https://www.nps.gov/mora/planyourvisit/park-brochure.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {
