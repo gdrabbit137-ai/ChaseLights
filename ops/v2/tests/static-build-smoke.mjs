@@ -25,8 +25,8 @@ before(async()=>{
   catalog=JSON.parse(await readFile(resolve(root,'apps/web-v2/catalog.v2.json'),'utf8'));
   assert.equal(catalog.research_only,true);assert.equal(catalog.forecast_available,false);
   assert.equal(catalog.selected_date_recommendation_eligible,false);assert.deepEqual(catalog.evaluations,[]);
-  assert.equal(catalog.opportunities.length,420); // 232 places / 420 opportunities (CL-DATA-25..28 regen waves; re-anchored CL-CI-22; CL-INT-101 on CL-DATA-32 merged tree 2026-11-08)
-  assert.equal(catalog.places.length,232);
+  assert.equal(catalog.opportunities.length,434); // 239 places / 434 opportunities (CL-DATA-25..28 regen waves; re-anchored CL-CI-22; CL-INT-101 CL-DATA-32 232/420; +7 jp places & 14 legacy supplement contracts via CL-DATA-34)
+  assert.equal(catalog.places.length,239);
   opportunity=catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01');
   assert.ok(opportunity,'The canonical P01 record must be in the packaged bundle');
   server=createServer(async(request,response)=>{

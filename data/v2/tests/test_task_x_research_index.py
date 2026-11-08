@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((232,420),(len(actual),len(ids)))  # re-anchored CL-DATA-32 (14 southern-Japan additions)
+        self.assertEqual((239,434),(len(actual),len(ids)))  # re-anchored CL-INT-105 (CL-DATA-34 jp supplement: 239 places / 434 opportunities)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -163,6 +163,9 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-INT-103 union: tw-034-P02 re-pinned to the CL-DATA-33 light_window
             # revision commit (git-show verifiable at the merged tree HEAD).
             '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
+            # CL-INT-105: CL-DATA-34 supplement contracts re-pinned to the
+            # merged-tree regen commit carrying the 434-opportunity canonical bytes.
+            '23f1bb6c0a90964067d885c3783c99c87a902b86',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -190,7 +193,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(696,count)  # 232 places x 3 (re-anchored CL-DATA-32: 14 southern-Japan additions)
+        self.assertEqual(717,count)  # 239 places x 3 (re-anchored CL-INT-105: CL-DATA-34 jp supplement)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
