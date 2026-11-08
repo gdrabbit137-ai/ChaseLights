@@ -71,6 +71,10 @@ jobs:
             /opportunities.py
             /taxonomy_v004.py
             /runtime_catalog_v004_r4_2.json
+            # CL-CI-25: opportunities.py imports this manifest at module load
+            # (regions.py -> opportunities -> _load_catalog_manifest); missing
+            # here reproduces the CI-only test_cl_data_23 ERROR/FAIL pair.
+            /runtime_catalog_manifest_r4_2.json
             # CL-CI-11: opportunity_runtime._load_event_calendar reads this root
             # data file at import time; a missing file truncates the
             # lunar_ephemeris -> fetch_data -> opportunity_runtime chain and
