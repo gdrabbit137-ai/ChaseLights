@@ -1880,7 +1880,7 @@ def test_adapter_integrity():
     water_surface_profiles = [
         o for o in all_opportunities if o["formula_status"] == "needs_water_surface_module"
     ]
-    assert len(water_surface_profiles) == 6  # re-anchored CL-DATA-25: +jp-044-P01 +jp-046-P01 reflection
+    assert len(water_surface_profiles) == 9  # re-anchored CL-DATA-32: +jp-051-P01 +jp-054-P01 +jp-061-P01 (9 measured on the merged 477-opp catalog)
     assert all(runtime_policy(o) == "preview_module_available" for o in water_surface_profiles)
 
     calm = evaluate_water_surface({"wind": 1.4, "precipitation": 0.0, "pop": 15})
@@ -2901,8 +2901,8 @@ def test_adapter_integrity():
 
     # B174 extends the fully curated Japan production set through jp-036.
     jp = get_spots("jp")
-    assert len(jp) == 50
-    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 50))  # CL-DATA-25R: jp-050 retired
+    assert len(jp) == 64  # re-anchored CL-DATA-32: jp-051..jp-064 admitted
+    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 65) if i != 50)  # CL-DATA-25R: jp-050 retired
 
     nanzilin = next(s for s in tw if s["spot_id"] == "tw-085")
     assert nanzilin["navigation_target"]["status"] == "verified"
@@ -4616,7 +4616,7 @@ def test_active_catalog_weather_generation_guard():
     # B51 completes Japan migration: every production Japan Place is researched.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 50)}  # re-anchored CL-DATA-25R: jp-037..jp-049 admitted, jp-050 retired (v2 3.30 < 3.8)
+    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 65) if i != 50}  # re-anchored CL-DATA-25R/32: jp-037..jp-049, jp-051..064 admitted, jp-050 retired (v2 3.30 < 3.8)
     assert all(spot.get("opportunities") for spot in jp_spots if active_in_catalog(spot["spot_id"]))  # retired jp-050 stays unresearched by design
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
