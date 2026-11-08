@@ -440,13 +440,16 @@ def main():
         # (all measured on this tree; w4-node measured under node v22.22.3
         # without --test-isolation=none, which node 22 rejects — CI runs node
         # 26 with the flag and sees the same test count), exact total
-        # 962 -> 1019. Catalog gate re-anchored 197/374 -> 218/406 and
-        # browse_index_source_sha -> d8bc99ea (CL-DATA-28 regen chain).
-        if (report["counts"]["tests"] != 1019 or
+        # 962 -> 1019; CL-INT-101 union (CL-DATA-32 + CL-UI-47) re-measured
+        # on the merged tree (node v26.7.0, --test-isolation=none) = 1024.
+        # Catalog gate re-anchored 197/374 -> 218/406 and
+        # browse_index_source_sha -> d8bc99ea (CL-DATA-28 regen chain);
+        # CL-INT-101: 218/406 -> 232/420 on the CL-DATA-32 merged tree.
+        if (report["counts"]["tests"] != 1024 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1019):
-            raise ValueError("Post-merge exact 1019-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1024):
+            raise ValueError("Post-merge exact 1024-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
