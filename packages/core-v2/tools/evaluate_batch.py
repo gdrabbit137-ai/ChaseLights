@@ -270,6 +270,45 @@ def hour_status(roles, verdicts):
     return "GUIDANCE_SATISFIED", fails, unknowns
 
 
+def detail_hour_rows(hour_row, local_stamp, status, conditions_eval,
+                     astro_row, states, precise_local, precise_off):
+    """CL-INT-91: details rows for one hour bucket.
+
+    Every good_hour stamp the summary emits must key a details row (the
+    cl-ui-23 contract). CL-DATA-31 stamps qualifying buckets at their
+    earliest passing sub-hour sample (local_precise), so a qualifying
+    bucket emits an ADDITIONAL sub-hour row keyed at that precise local
+    stamp. Weather condition VALUES stay bucket-level (hourly grid
+    data); the astro window metrics pass at the precise instant by
+    construction — it is the same window_pass_profiles computation that
+    stamped local_precise.
+    """
+    conditions = [
+        {"id": c["id"], "metric": c["metric"],
+         "tier": c.get("condition_tier") or "MAIN", "role": c.get("role"),
+         "operator": c.get("operator") or "none",
+         "threshold": c.get("threshold"),
+         "value": condition_value(c, hour_row["values"], astro_row),
+         "verdict": states[c["id"]]}
+        for c in conditions_eval]
+    rows = [{
+        "utc": hour_row["valid_at_utc"],
+        "local": local_stamp.strftime("%H:%M"),
+        "status": status,
+        "conditions": conditions,
+    }]
+    if precise_local is not None:
+        rows.append({
+            "utc": hour_row["valid_at_utc"],
+            "local": precise_local,
+            "sub_hour_of_bucket": local_stamp.strftime("%H:%M"),
+            "sample_offset_min": precise_off,
+            "status": status,
+            "conditions": conditions,
+        })
+    return rows
+
+
 def load_contracted():
     opportunities = []
     for path in sorted((ROOT / "data/v2/opportunities").glob("*.json")):
@@ -519,6 +558,7 @@ def main():
                 # Weather conditions stay bucket-level (hourly grid data), so
                 # the label is precise for the astro window within the bucket.
                 precise_local = None
+                precise_off = None
                 if status == "GUIDANCE_SATISFIED":
                     window_metrics = [c["metric"] for c in conditions_eval
                                       if c["metric"] in TIME_WINDOW_METRICS]
@@ -527,6 +567,7 @@ def main():
                                                         events=events)
                         for i, off in enumerate(WINDOW_SAMPLE_OFFSETS):
                             if all(profiles[m][i] for m in window_metrics):
+                                precise_off = off
                                 precise_local = (local_stamp
                                                  + timedelta(minutes=off)
                                                  ).strftime("%H:%M")
@@ -540,19 +581,10 @@ def main():
                     "unknown": unknowns,
                 })
                 hour_ctxs.append((at, hour_row, astro_row, states, status))
-                entry.setdefault("detail_hours", []).append({
-                    "utc": hour_row["valid_at_utc"],
-                    "local": local_stamp.strftime("%H:%M"),
-                    "status": status,
-                    "conditions": [
-                        {"id": c["id"], "metric": c["metric"],
-                         "tier": c.get("condition_tier") or "MAIN", "role": c.get("role"),
-                         "operator": c.get("operator") or "none",
-                         "threshold": c.get("threshold"),
-                         "value": condition_value(c, hour_row["values"], astro_row),
-                         "verdict": states[c["id"]]}
-                        for c in conditions_eval],
-                })
+                for row in detail_hour_rows(
+                        hour_row, local_stamp, status, conditions_eval,
+                        astro_row, states, precise_local, precise_off):
+                    entry.setdefault("detail_hours", []).append(row)
             day_out = []
             condition_by_id = {c["id"]: c for c in conditions_eval}
             for day_key in sorted(days):
