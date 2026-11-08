@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-010-P01",
   "place_id": "tw-010",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "阿拉寶灣奇岩海岸日出",
@@ -167,7 +167,7 @@
       },
       {
         "id": "C-tw-010-P01-03",
-        "role": "REQUIRED",
+        "role": "QUALITY",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -181,13 +181,13 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "MAIN",
+        "condition_tier": "MODIFIER",
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。CL-DATA-26 校準步驟（2026-11-07）：「日出」命名題材原以 golden_hour_window 為 BONUS，任意白天時段可當最佳；先校準為 MODIFIER tier（評估確認不誤殺全日合格時段），下一 commit 升 REQUIRED。CL-DATA-26 升級（2026-11-07）：「日出」題材的最佳時段必須落在 golden/sunrise 窗內——role 升 REQUIRED、tier 升 MAIN；校準評估已確認此升級不會把全日窗內時段誤殺，僅排除窗外白天時段。",
-          "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required. CL-DATA-26 calibration step (2026-11-07): a subject named 'sunrise' previously treated golden_hour_window as BONUS, letting any daytime hour rank as best; first calibrated to MODIFIER tier (evaluation confirms no all-day qualified hours are wrongly killed), upgraded to REQUIRED in the next commit. CL-DATA-26 upgrade (2026-11-07): a 'sunrise' subject's best hours must fall inside the golden/sunrise window — role upgraded to REQUIRED, tier to MAIN; the calibration evaluation confirmed the upgrade only excludes out-of-window daytime hours.",
-          "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。CL-DATA-26 校準ステップ（2026-11-07）：「日の出」と名付けた題材が golden_hour_window を BONUS として扱い、昼間の任意の時刻が最良になり得た;まず MODIFIER ティーに校準（全日成立時刻を誤って排除しないことを評価で確認）し、次のコミットで REQUIRED に昇格。CL-DATA-26 昇格（2026-11-07）：「日の出」題材の最良時刻は golden/sunrise 窓内になければならない——role を REQUIRED、ティアを MAIN に昇格;校準評価で、この昇格が窓内の時刻を誤って排除しないこと（窗外の昼間時刻のみ排除）を確認済み。"
+          "zh-TW": "低角度直射光強化岩層紋理與色彩。CL-DATA-32（2026-11-08）：golden_hour_window 含日落黃金時段，作 MAIN REQUIRED 時會讓「日出」題材在傍晚（如 16:00）取得 good——語意錯置。晨間必要條件改由 sunrise_time_window 承擔（見 C-tw-010-P01-05），本條降回 QUALITY/MODIFIER（加分項）。",
+          "en": "Low-angle direct light strengthens rock texture and color. CL-DATA-32 (2026-11-08): golden_hour_window also covers the evening golden hour, so as MAIN REQUIRED it let a 'sunrise' subject qualify in the late afternoon (e.g. 16:00) — a semantic mislabel. The morning requirement is now carried by sunrise_time_window (C-tw-010-P01-05); this condition is demoted back to QUALITY/MODIFIER (bonus).",
+          "ja": "低角度の直射光は岩の質感と色を強調する。CL-DATA-32（2026-11-08）：golden_hour_window は夕方のゴールデンアワーも含むため、MAIN REQUIRED のままでは「日の出」題材が夕方（例：16時）に合格してしまった——語義の誤り。朝の必須条件は sunrise_time_window（C-tw-010-P01-05）が担い、本条件は QUALITY/MODIFIER（加点）に降格。"
         }
       },
       {
@@ -243,6 +243,31 @@
           "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
           "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
           "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
+        }
+      },
+      {
+        "id": "C-tw-010-P01-05",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "sunrise_time_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-010-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "CL-DATA-32（2026-11-08）：本題材命名為「日出」，最佳時段必須落在晨間窗口——天文窗＝日出時刻 ±40 分（座標＋日期計算，沿用 tw-073-P01 同一 computed 語義；民用光窗太陽仰角 > −6° 的晨間扇形即涵蓋此窗）。原契約僅有通用 light_window + golden_hour_window，後者含傍晚黃金時段，導致日出題材在 16:00 取得 good——已修正：晨間資格由本條承擔，golden_hour 降為 MODIFIER，light_window 保留。",
+          "en": "CL-DATA-32 (2026-11-08): the subject is named 'sunrise', so its best hours must fall in the morning window — astronomy window = sunrise time +/- 40 minutes (from coordinates and date; same computed semantics as tw-073-P01; the morning civil-light sector, sun elevation > -6 deg, covers this window). The previous contract had only a generic light_window + golden_hour_window, and the latter includes the evening golden hour, letting a sunrise subject score good at 16:00 — fixed: morning qualification is carried by this condition, golden_hour demoted to MODIFIER, light_window kept.",
+          "ja": "CL-DATA-32（2026-11-08）：題材名は「日の出」であり、最良時刻は朝の窓内でなければならない——天文窓＝日の出時刻±40分（座標と日付から計算。tw-073-P01 と同じ computed 意味論；太陽高度 > -6° の市民光の朝のセクターがこの窓を覆う）。旧契約は汎用 light_window + golden_hour_window のみで、後者は夕方のゴールデンアワーを含むため、日の出題材が16時に合格する誤りがあった——修正：朝の適格は本条件が担い、golden_hour は MODIFIER に降格、light_window は維持。"
         }
       }
     ]

@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "d8bc99ea92b40fa56525d7dbd4a1ae3e92f45878",
-  "source_index_revision": "sha256:e6cd827aa523b75aa42b1adbdf9edba2b6ecc4ce421da36204845550cf3a7a9a",
+  "source_index_commit_sha": "6478991c1ab32813bef52132e26dd5b0840aa05f",
+  "source_index_revision": "sha256:8a92c150bdfbdb9c715592273423d23e59ffc6adb883f430bec7c9e4db89c922",
   "source_pins": {
     "jp-002-P01": {
       "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
@@ -499,10 +499,10 @@
       "revision": 1
     },
     "tw-010-P01": {
-      "source_commit_sha": "91afa28ef43a699e5a98e14074a66baac684a43b",
+      "source_commit_sha": "008ab85ff19794c3aa2ffc1173afa30212aa426e",
       "source_path": "data/v2/opportunities/tw-010-P01.json",
-      "source_blob_sha": "2d078ef1208724981dac3d6d75879ab795ca1192",
-      "revision": 2
+      "source_blob_sha": "7d04759643dc1110e3e08e99b0dd92f346184408",
+      "revision": 3
     },
     "tw-010-P02": {
       "source_commit_sha": "2d9af4d86856301e22df74153d9ff67d1500bc42",
@@ -1441,10 +1441,10 @@
       "revision": 3
     },
     "tw-073-P01": {
-      "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
+      "source_commit_sha": "008ab85ff19794c3aa2ffc1173afa30212aa426e",
       "source_path": "data/v2/opportunities/tw-073-P01.json",
-      "source_blob_sha": "b920f4aa6c1eaf924d270fa223bce78e6e2be47f",
-      "revision": 1
+      "source_blob_sha": "a141961e533fc5a3db357bb52669c9b8ebe9bb89",
+      "revision": 2
     },
     "tw-074-P01": {
       "source_commit_sha": "d57d40f8966631783f1385908659bd8c1b82adbd",
@@ -31248,7 +31248,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-010-P01",
       "place_id": "tw-010",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "阿拉寶灣奇岩海岸日出",
@@ -31413,7 +31413,7 @@
           },
           {
             "id": "C-tw-010-P01-03",
-            "role": "REQUIRED",
+            "role": "QUALITY",
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
@@ -31427,13 +31427,13 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "MAIN",
+            "condition_tier": "MODIFIER",
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。CL-DATA-26 校準步驟（2026-11-07）：「日出」命名題材原以 golden_hour_window 為 BONUS，任意白天時段可當最佳；先校準為 MODIFIER tier（評估確認不誤殺全日合格時段），下一 commit 升 REQUIRED。CL-DATA-26 升級（2026-11-07）：「日出」題材的最佳時段必須落在 golden/sunrise 窗內——role 升 REQUIRED、tier 升 MAIN；校準評估已確認此升級不會把全日窗內時段誤殺，僅排除窗外白天時段。",
-              "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required. CL-DATA-26 calibration step (2026-11-07): a subject named 'sunrise' previously treated golden_hour_window as BONUS, letting any daytime hour rank as best; first calibrated to MODIFIER tier (evaluation confirms no all-day qualified hours are wrongly killed), upgraded to REQUIRED in the next commit. CL-DATA-26 upgrade (2026-11-07): a 'sunrise' subject's best hours must fall inside the golden/sunrise window — role upgraded to REQUIRED, tier to MAIN; the calibration evaluation confirmed the upgrade only excludes out-of-window daytime hours.",
-              "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。CL-DATA-26 校準ステップ（2026-11-07）：「日の出」と名付けた題材が golden_hour_window を BONUS として扱い、昼間の任意の時刻が最良になり得た;まず MODIFIER ティーに校準（全日成立時刻を誤って排除しないことを評価で確認）し、次のコミットで REQUIRED に昇格。CL-DATA-26 昇格（2026-11-07）：「日の出」題材の最良時刻は golden/sunrise 窓内になければならない——role を REQUIRED、ティアを MAIN に昇格;校準評価で、この昇格が窓内の時刻を誤って排除しないこと（窗外の昼間時刻のみ排除）を確認済み。"
+              "zh-TW": "低角度直射光強化岩層紋理與色彩。CL-DATA-32（2026-11-08）：golden_hour_window 含日落黃金時段，作 MAIN REQUIRED 時會讓「日出」題材在傍晚（如 16:00）取得 good——語意錯置。晨間必要條件改由 sunrise_time_window 承擔（見 C-tw-010-P01-05），本條降回 QUALITY/MODIFIER（加分項）。",
+              "en": "Low-angle direct light strengthens rock texture and color. CL-DATA-32 (2026-11-08): golden_hour_window also covers the evening golden hour, so as MAIN REQUIRED it let a 'sunrise' subject qualify in the late afternoon (e.g. 16:00) — a semantic mislabel. The morning requirement is now carried by sunrise_time_window (C-tw-010-P01-05); this condition is demoted back to QUALITY/MODIFIER (bonus).",
+              "ja": "低角度の直射光は岩の質感と色を強調する。CL-DATA-32（2026-11-08）：golden_hour_window は夕方のゴールデンアワーも含むため、MAIN REQUIRED のままでは「日の出」題材が夕方（例：16時）に合格してしまった——語義の誤り。朝の必須条件は sunrise_time_window（C-tw-010-P01-05）が担い、本条件は QUALITY/MODIFIER（加点）に降格。"
             }
           },
           {
@@ -31489,6 +31489,31 @@
               "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
               "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
               "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
+            }
+          },
+          {
+            "id": "C-tw-010-P01-05",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "sunrise_time_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-010-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "CL-DATA-32（2026-11-08）：本題材命名為「日出」，最佳時段必須落在晨間窗口——天文窗＝日出時刻 ±40 分（座標＋日期計算，沿用 tw-073-P01 同一 computed 語義；民用光窗太陽仰角 > −6° 的晨間扇形即涵蓋此窗）。原契約僅有通用 light_window + golden_hour_window，後者含傍晚黃金時段，導致日出題材在 16:00 取得 good——已修正：晨間資格由本條承擔，golden_hour 降為 MODIFIER，light_window 保留。",
+              "en": "CL-DATA-32 (2026-11-08): the subject is named 'sunrise', so its best hours must fall in the morning window — astronomy window = sunrise time +/- 40 minutes (from coordinates and date; same computed semantics as tw-073-P01; the morning civil-light sector, sun elevation > -6 deg, covers this window). The previous contract had only a generic light_window + golden_hour_window, and the latter includes the evening golden hour, letting a sunrise subject score good at 16:00 — fixed: morning qualification is carried by this condition, golden_hour demoted to MODIFIER, light_window kept.",
+              "ja": "CL-DATA-32（2026-11-08）：題材名は「日の出」であり、最良時刻は朝の窓内でなければならない——天文窓＝日の出時刻±40分（座標と日付から計算。tw-073-P01 と同じ computed 意味論；太陽高度 > -6° の市民光の朝のセクターがこの窓を覆う）。旧契約は汎用 light_window + golden_hour_window のみで、後者は夕方のゴールデンアワーを含むため、日の出題材が16時に合格する誤りがあった——修正：朝の適格は本条件が担い、golden_hour は MODIFIER に降格、light_window は維持。"
             }
           }
         ]
@@ -76828,7 +76853,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-073-P01",
       "place_id": "tw-073",
-      "revision": 1,
+      "revision": 2,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "老梅春季綠石槽晨光",
@@ -77046,6 +77071,31 @@
               "zh-TW": "雨量極低即可；海景微雨不影響拍攝。",
               "en": "Precipitation just needs to stay very low; light rain does not affect a seascape shoot.",
               "ja": "降水量は十分に低ければよい。海景では小雨でも撮影に支障はない。"
+            }
+          },
+          {
+            "id": "C-tw-073-P01-05",
+            "role": "REQUIRED",
+            "domain": "SEASON_TIME",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "seasonal_state",
+            "operator": "eq",
+            "threshold": "window_open",
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-073-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "CL-DATA-32（2026-11-08）：老梅綠石槽是春季限定景觀——石蓴每年約 3 月至 5 月大量生長覆蓋海蝕溝槽，夏季白化消失（北海岸及觀音山國家風景區管理處官方說明：每年約3月至5月，最佳 4–5 月）。來源：https://www.northguan-nsa.gov.tw/user/article.aspx?Lang=1&sno=04008584 ；https://www.rti.org.tw/programnews?uid=4&pid=99014 。季節窗語義沿用既有 seasonal_state 模式（window_open/window_closed）；季節窗目前無即時觀測來源，誠實 propagate_unknown——11 月等窗外月份一律不會被判為符合（UNKNOWN → NOT_EVALUABLE，永不 FAVORABLE）。seasonal-calendar.json 為 owner 維護檔，AI 不新增條目，僅在本註記記錄例年窗與來源。",
+              "en": "CL-DATA-32 (2026-11-08): Laomei green algae reef is a spring-limited subject — the sea lettuce (Ulva) grows over the wave-cut grooves roughly every March to May and bleaches away in summer (official North Coast & Guanyinshan National Scenic Area Administration note: every year about March-May, best April-May). Sources: https://www.northguan-nsa.gov.tw/user/article.aspx?Lang=1&sno=04008584 ; https://www.rti.org.tw/programnews?uid=4&pid=99014 . Season semantics follow the established seasonal_state pattern (window_open/window_closed); no live observation source exists yet, so this honestly propagates unknown — out-of-season months such as November can never qualify (UNKNOWN -> NOT_EVALUABLE, never FAVORABLE). seasonal-calendar.json is owner-maintained; AI does not add entries — the typical window and sources are recorded here.",
+              "ja": "CL-DATA-32（2026-11-08）：老梅緑石槽は春限定の題材——アオサは毎年およそ3月〜5月に海食溝を覆うように大量に生え、夏には白化して消える（北海岸及び観音山国家風景区管理処の公式説明：毎年約3〜5月、最良は4〜5月）。出典：https://www.northguan-nsa.gov.tw/user/article.aspx?Lang=1&sno=04008584 ；https://www.rti.org.tw/programnews?uid=4&pid=99014 。季節窓の意味論は既存の seasonal_state パターン（window_open/window_closed）に従う；即時観測ソースが現状なく、誠実に unknown を伝播する——11月などの季節外の月は決して合格しない（UNKNOWN → NOT_EVALUABLE、FAVORABLE にはならない）。seasonal-calendar.json はオーナー管理ファイルのため AI は項目を追加せず、例年窓と出典は本註記に記録。"
             }
           }
         ]
