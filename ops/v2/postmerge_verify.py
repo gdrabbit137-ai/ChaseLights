@@ -452,6 +452,12 @@ def main():
         # light_window role checks in w2), all suites re-measured green with
         # candidate-build-browser=6 -> exact total 1029 (node v26.7.0,
         # --test-isolation=none; measured, 0 fail).
+        # 2026-11-08 CL-CI-28: CL-UI-50's +4 node tests raised the measured
+        # exact total to 1033 (w4-node 523 + candidate-build-browser 6 + the
+        # 504 counted on this tree; measured locally with node v26.7.0
+        # --test-isolation=none, 523 pass / 0 fail and 6 pass / 0 fail) — the
+        # CL-UI-50 commit updated the w4-node group pin but left the exact
+        # total at 1029, reding every postmerge push with no FAIL group.
         if (report["counts"]["tests"] != 1033 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or

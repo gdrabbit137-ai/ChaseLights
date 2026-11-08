@@ -1412,9 +1412,9 @@
       // day's conditions are all UNKNOWN, else a real sibling fail reason,
       // else nothing.
       const v2NotEvalReason=v2Evaluated&&v2Best.state==='NOT_EVALUABLE'?v2NotEvaluatableReasonKey(v2Best.day):null;
+      const v2StateLabel=v2Evaluated?v2CardStateLabel(v2Best.state):'';
       const v2StatusRow=v2Evaluated&&v2Best.state!=='GUIDANCE_SATISFIED'?(v2Best.state==='NOT_EVALUABLE'?(v2NotEvalReason?esc(d()[v2NotEvalReason]):esc(v2FailReasonSuffix(v2Best,spot))):esc(v2StateLabel)+esc(v2FailReasonSuffix(v2Best,spot))):'';
       const opportunityName=v2Evaluated?opportunityDisplayName(spot,metric.opportunity_id,theme,metric.opportunity_name):v2NoEvalReasonText(spot);
-      const v2StateLabel=v2Evaluated?v2CardStateLabel(v2Best.state):'';
       const indicator=(!researchPending&&!noViable&&v2Evaluated&&v2Best.state==='GUIDANCE_SATISFIED')?trMessage(metric.indicator_key):'';
       const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=localeText(spot.access_note_i18n);const showIndicator=!!indicator;const factors=(researchPending||noViable)?[]:(metric.factors||[]);const factorHtml=factors.map(f=>{const text=trFactor(f);return text?`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${text}</span>`:'';}).filter(Boolean).join('');const factorMore=factors.length>2?`<span class="factor-pill factor-more">+${factors.length-2}</span>`:'';
       const v2Summary=v2Best&&v2Best.hours?`<div class="theme-winner">📷 ${esc(d()[v2BestSubjectKey()])}${esc(stripSpotNamePrefix(v2Best.name,spot,v2PlaceData?[v2PlaceData]:[]))} <span class="v2-chip-ok">${esc(d().eval2_hours)} ${v2Best.hours}</span></div><div class="best-window-row">${esc(d().best_window)}<b>${esc(formatHourSegments(v2Best.hoursList))}</b></div>`:(v2Best?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}</div>`:'');
