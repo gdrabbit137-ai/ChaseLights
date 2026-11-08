@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and 406 canonical sources remain source pinned (re-anchored CL-DATA-25R: rubric-v2 alignment 2026-11-07 — 5 v2-rejected v1 builds rolled back, tw-098 渭水之丘 admitted)',()=>{
-  assert.equal(sha256(rawIndex),'b40717bf792244f9c8b101124939254815153a6e6a394327e2f16fe1289a3704'); // CL-INT-91/DATA-32 round-4 merge re-anchor: contract fix regen (tw-008-P01/tw-010-P02) + merge-chain regen (research_index/build_web_catalog on merged tree)
-  assert.equal(sha256(rawCatalog),'68bf4f1f200c9afd4a5568969b7482ec773519fe2940dc55d1f0540da19d1c65'); // CL-INT-91/DATA-32 round-4 merge re-anchor: same
+test('W2 index and 420 canonical sources remain source pinned (CL-DATA-32 southern-Japan discovery admission: jp-051..jp-064, PM judgment 2026-11-08)',()=>{
+  assert.equal(sha256(rawIndex),'e47a37501af947115670e082466b3919079c5147ceec14d273c79ec26bae9a11'); // CL-DATA-32: research_index + build_web_catalog on task branch (14 new places)
+  assert.equal(sha256(rawCatalog),'44bb99403e1282e246d42cc45a2abbd3088f3fa595d2d9e01becc44dfffcf94f'); // CL-DATA-32: same regen
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,406);assert.equal(source.places.length,218);
+  assert.equal(source.opportunities.length,420);assert.equal(source.places.length,232);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
@@ -41,7 +41,7 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,218);
+  assert.equal(browse(index,catalog,{search:'  '}).length,232);
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
   assert.deepEqual(both.map(x=>x.place.place_id),['tw-026','tw-006']); // tw-006-P02 sunset joins tw-026 (CL-DATA-20)
   assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['tw-026-P01','tw-026-P02']);

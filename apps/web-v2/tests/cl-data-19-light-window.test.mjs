@@ -21,7 +21,7 @@ const repo = path.resolve(here, '..', '..', '..');
 const oppDir = path.join(repo, 'data', 'v2', 'opportunities');
 
 const IDS = {
-  overlook: 23, mountain_view: 39, reflection: 23, // re-anchored CL-DATA-25: reflection/overlook clones inherit the exemplar window note
+  overlook: 28, mountain_view: 39, reflection: 26, // re-anchored CL-DATA-32: overlook/reflection clones inherit the exemplar window note (5 overlook + 3 reflection new places)
   overcast_soft: 17, geological_landform: 15, seasonal_plant: 12,
 };
 
@@ -89,7 +89,7 @@ test('CL-DATA-19: exactly 129 windowed contracts cite the marker, by genre', () 
     const w = doc.condition_contract?.conditions?.find(c => c.metric === 'light_window');
     return w && (w.notes_i18n?.['zh-TW'] || '').includes('CL-DATA-19');
   });
-  assert.equal(cl19.length, 129);
+  assert.equal(cl19.length, 137); // CL-DATA-32 re-anchor: 8 new overlook/reflection places inherit the exemplar marker
   const byGenre = {};
   for (const r of cl19) {
     const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));

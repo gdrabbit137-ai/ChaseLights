@@ -1,0 +1,267 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-059-P01",
+ "place_id": "jp-059",
+ "revision": 2,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "阿蘇草千里草原・火山群像",
+  "en": "Aso Kusasenri grassland with volcanic skyline",
+  "ja": "草千里ヶ浜と阿蘇の火山群"
+ },
+ "description_i18n": {
+  "zh-TW": "世界級雙層火山口內的草原（約25 km²）：草千里放馬與中岳噴煙同框；火口封閉／荒天時望向草原仍成立。",
+  "en": "Grassland (about 25 km2) on the double caldera: grazing horses against the steaming Nakadake crater; when the crater road is closed, the grassland view still stands.",
+  "ja": "阿蘇カルデラ内の広大な草原（約25km²）。草千里の放馬と中岳の噴煙。火口規制時も草原の眺めは成立。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-059-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      131.10389,
+      32.88417
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-32 admission web verification 2026-11-08 (ja.wikipedia 阿蘇山 (article coordinate 32.88417,131.10389); grassland anchor within the caldera; source URLs: https://ja.wikipedia.org/wiki/阿蘇山). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "世界級雙層火山口內的草原（約25 km²）：草千里放馬與中岳噴煙同框；火口封閉／荒天時望向草原仍成立。（開放/營運狀態以現場公告為準。）",
+    "en": "Grassland (about 25 km2) on the double caldera: grazing horses against the steaming Nakadake crater; when the crater road is closed, the grassland view still stands. (Opening/operating status follows on-site notices.)",
+    "ja": "阿蘇カルデラ内の広大な草原（約25km²）。草千里の放馬と中岳の噴煙。火口規制時も草原の眺めは成立。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-059-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "阿蘇草千里草原・火山群像",
+    "en": "Aso Kusasenri grassland with volcanic skyline",
+    "ja": "草千里ヶ浜と阿蘇の火山群"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      131.10389,
+      32.88417
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-32 admission web verification 2026-11-08 (ja.wikipedia 阿蘇山 (article coordinate 32.88417,131.10389); grassland anchor within the caldera; source URLs: https://ja.wikipedia.org/wiki/阿蘇山). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-059-P01-01",
+   "camera_context_id": "CZ-jp-059-P01-01",
+   "target_id": "SG-jp-059-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-32 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-059-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 32.88417,
+   "lon": 131.10389,
+   "label_i18n": {
+    "zh-TW": "草千里ヶ浜",
+    "en": "Aso Kusasenri-ga-hama",
+    "ja": "草千里ヶ浜"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-059-P01-v1",
+  "status": "draft",
+  "genre_template": "mountain_view",
+  "template_version": "mountain_view-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-059-P01-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.6,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-059-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "層次山景的「層」來自大氣透視：遠山隔著適度霧霾才會一層比一層淡、分出層次；完全乾淨的空氣反而讓輪廓銳利、畫面變平。因此只設上限：霧霾厚到遠山整個消失（AOD>0.6）才否決，中等霧霾是這個題材的正常狀態。",
+     "en": "The layers in a layered mountain vista come from aerial perspective: distant ridges fade step by step through moderate haze; perfectly clean air makes edges harsh and the composition flat. So only an upper bound applies - veto only when haze is thick enough to swallow the far ridges (AOD > 0.6); moderate haze is this genre's normal state.",
+     "ja": "層になる山並みの「層」は大気遠近法が作る。適度なヘイズを挟むことで遠い稜線ほど淡く重なる。空気が澄みすぎると輪郭がきつくなり画面が平坦になる。ゆえに上限のみ設定し、ヘイズが遠山を飲み込むほど濃い場合（AOD>0.6）だけ否決する。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-jp-059-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_mid",
+    "operator": "between",
+    "threshold": [
+     30,
+     60
+    ],
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-059-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "完全無雲＝沒有層次；山腰雲帶（中雲 30–60%）形成層疊分明的畫面。",
+     "en": "A cloudless sky has no layering; mid-level cloud bands on the mountainsides (30-60%) build the stacked composition.",
+     "ja": "雲がなければ層はない。山腹の雲帯（中層雲30-60%）が重なりのある構図を作る。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-jp-059-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-059-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "拍攝受影響下限。",
+     "en": "Minimum before the shoot is impaired.",
+     "ja": "撮影に支障が出る前の下限。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-jp-059-P01-LW1",
+    "role": "QUALITY",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "sunset_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-059-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "暮色低角度光是層次的點燈源：日落前後的逆光把稜線剪影、雲帶邊緣與遠山明暗節奏同時點亮，層次山景在這個窗口最明顯。作為加分項而非門檻（白天有雲帶時仍可拍，但層次感較弱）。",
+     "en": "Low-angle dusk light is what lights the layering: near sunset, backlight silhouettes the ridgeline, edges the cloud bands and sets the brightness rhythm between ridges, so layered vistas read best in this window. A bonus, not a gate - daytime shots with cloud bands still work, just with weaker layering.",
+     "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-059-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d32-web-aso-kusasenri"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-32 discovery admission (PM-judgment, owner ruling 2026-11-08 「你找到覺得好的就直接加入」; scoring suspended 2026-11-08); coordinates/elevation web-verified 2026-11-08 (sources in camera derivation_method and data/v2/audits/cl-data-32_web_evidence.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-32 southern-Japan discovery (PM-judgment admission)",
+  "source_revision": "cl-data-32:jp-south-aso-kusasenri",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

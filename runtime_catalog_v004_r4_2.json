@@ -14,10 +14,10 @@
   "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
  ],
  "counts": {
-  "spots": 238,
-  "opportunities": 463,
-  "condition_variants": 478,
-  "profile_viewpoint_relations": 469
+  "spots": 252,
+  "opportunities": 477,
+  "condition_variants": 492,
+  "profile_viewpoint_relations": 483
  },
  "spots": [
   {
@@ -25297,6 +25297,1392 @@
       "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
       "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
      }
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-051",
+   "canonical_name": "厳島神社 大鳥居",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/厳島神社",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia 厳島神社 (article coordinate 34.29602,132.31989); UNESCO World Heritage shrine area. Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-051-P01",
+     "spot_id": "jp-051",
+     "name_zh": "嚴島神社大鳥居・海中倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "嚴島神社大鳥居・海中倒影",
+      "en": "Itsukushima torii in the sea (high tide)",
+      "ja": "厳島神社大鳥居（満潮の海中）"
+     },
+     "best_time": "嚴島神社大鳥居・海中倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-itsukushima-torii-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-390",
+       "variant_name": "嚴島神社大鳥居・海中倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "海上大鳥居：滿潮時鳥居立於海中，低潮可近攝柱基；社殿與海面倒影全年成立，潮位以現場公告為準。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "嚴島神社大鳥居・海中倒影",
+        "en": "Itsukushima torii in the sea (high tide)",
+        "ja": "厳島神社大鳥居（満潮の海中）"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "海上大鳥居：滿潮時鳥居立於海中，低潮可近攝柱基；社殿與海面倒影全年成立，潮位以現場公告為準。",
+        "en": "The famous torii stands in the sea at high tide; at low tide the base can be approached. Shrine buildings and sea reflections work year-round.",
+        "ja": "満潮時には海中に立つ大鳥居。干潮時は柱礎に近づける。社殿と海面の反射は通年成立。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-051-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "厳島神社 大鳥居",
+       "name_i18n": {
+        "zh-TW": "厳島神社 大鳥居",
+        "en": "Itsukushima Shrine Great Torii (Miyajima)",
+        "ja": "厳島神社 大鳥居"
+       },
+       "lat": 34.29602,
+       "lon": 132.31989,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 厳島神社 (article coordinate 34.29602,132.31989); UNESCO World Heritage shrine area",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-052",
+   "canonical_name": "備中松山城雲海展望台",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/備中松山城",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia 備中松山城 (article coordinate 34.80909,133.62233); elevation 430 m 高梁市公式雲海展望台ページ. Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-052-P01",
+     "spot_id": "jp-052",
+     "name_zh": "備中松山城雲海（天空の城）",
+     "legacy_theme": "cloud_sea",
+     "name_i18n": {
+      "zh-TW": "備中松山城雲海（天空の城）",
+      "en": "Bitchu Matsuyama Castle in a sea of clouds",
+      "ja": "備中松山城の雲海（天空の城）"
+     },
+     "best_time": "備中松山城雲海（天空の城）",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_spatial_weather_module",
+     "formula_version": "v0.04-cl-data-25-bitchu-matsuyama-unkai-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 09-25–04-10（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 09-25–04-10（seasonal-calendar）",
+      "en": "Seasonal window 09-25-04-10 (seasonal-calendar)",
+      "ja": "季節窓 09-25〜04-10（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-391",
+       "variant_name": "備中松山城雲海（天空の城）",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "日本三大山城、現存12天守唯一山城：雲海展望台望向臥牛山天守，9月下旬–4月上旬早朝（明け方–8時頃）成立，10月下旬–12月上旬最易。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_spatial_weather_module",
+       "variant_name_i18n": {
+        "zh-TW": "備中松山城雲海（天空の城）",
+        "en": "Bitchu Matsuyama Castle in a sea of clouds",
+        "ja": "備中松山城の雲海（天空の城）"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "日本三大山城、現存12天守唯一山城：雲海展望台望向臥牛山天守，9月下旬–4月上旬早朝（明け方–8時頃）成立，10月下旬–12月上旬最易。",
+        "en": "Japan's only surviving castle keep on a mountain: the cloud-sea lookout frames the tenshu over ridgelines, dawn only, late Sep-early Apr (strongest late Oct-early Dec, per Takahashi City).",
+        "ja": "雲海展望台から天守と雲海を望む。発生期は9月下旬〜4月上旬の早朝（明け方〜8時頃）、特に10月下旬〜12月上旬が有望（高梁市公式）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-052-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "備中松山城雲海展望台",
+       "name_i18n": {
+        "zh-TW": "備中松山城雲海展望台",
+        "en": "Bitchu Matsuyama Castle cloud sea (castle in the sky)",
+        "ja": "備中松山城雲海展望台"
+       },
+       "lat": 34.80909,
+       "lon": 133.62233,
+       "coord_confidence": "high",
+       "elevation_m": 430.0,
+       "coordinate_source": "ja.wikipedia 備中松山城 (article coordinate 34.80909,133.62233); elevation 430 m 高梁市公式雲海展望台ページ",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-053",
+   "canonical_name": "天橋立",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/天橋立",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia 天橋立 (article coordinate 35.56936,135.19153); sandbar anchor. Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-053-P01",
+     "spot_id": "jp-053",
+     "name_zh": "天橋立一斉展望（日本三景）",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "天橋立一斉展望（日本三景）",
+      "en": "Amanohashidate panoramic view (Nihon Sankei)",
+      "ja": "天橋立の一斉展望（日本三景）"
+     },
+     "best_time": "天橋立一斉展望（日本三景）",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-amanohashidate-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-392",
+       "variant_name": "天橋立一斉展望（日本三景）",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "日本三景：傘松公園／天橋立ビューランド等展望台俯瞰砂洲松林與宮津灣；能見度佳時對岸山嶺可辨。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "天橋立一斉展望（日本三景）",
+        "en": "Amanohashidate panoramic view (Nihon Sankei)",
+        "ja": "天橋立の一斉展望（日本三景）"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "日本三景：傘松公園／天橋立ビューランド等展望台俯瞰砂洲松林與宮津灣；能見度佳時對岸山嶺可辨。",
+        "en": "One of Japan's three famous views: the pine-lined sandbar seen from the overlooks (Kasamatsu Park / Amanohashidate View Land) across Miyazu Bay.",
+        "ja": "日本三景。傘松公園・天橋立ビューランドなど展望台から砂州の松並木を俯瞰する。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-053-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "天橋立",
+       "name_i18n": {
+        "zh-TW": "天橋立",
+        "en": "Amanohashidate",
+        "ja": "天橋立"
+       },
+       "lat": 35.56936,
+       "lon": 135.19153,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 天橋立 (article coordinate 35.56936,135.19153); sandbar anchor",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-054",
+   "canonical_name": "伊根の舟屋",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/伊根の舟屋",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia 伊根の舟屋 (article coordinate 35.67572,135.28744). Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-054-P01",
+     "spot_id": "jp-054",
+     "name_zh": "伊根灣舟屋群・海面倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "伊根灣舟屋群・海面倒影",
+      "en": "Ine Bay funaya skyline on calm water",
+      "ja": "伊根湾の舟屋群と海面の反射"
+     },
+     "best_time": "伊根灣舟屋群・海面倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-ine-funaya-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-393",
+       "variant_name": "伊根灣舟屋群・海面倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "伊根灣230棟舟屋臨水排列，晨靜時船屋與海面倒影同框；漁港晨霧是加分題材。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "伊根灣舟屋群・海面倒影",
+        "en": "Ine Bay funaya skyline on calm water",
+        "ja": "伊根湾の舟屋群と海面の反射"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "伊根灣230棟舟屋臨水排列，晨靜時船屋與海面倒影同框；漁港晨霧是加分題材。",
+        "en": "230 boathouses line the bay; at calm mornings the waterfront skyline reflects on the sea, sometimes with harbour mist.",
+        "ja": "伊根湾に約230棟の舟屋が臨水で並ぶ。穏やかな朝は水面に舟屋が映り、港の朝霧も加点要素。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-054-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "伊根の舟屋",
+       "name_i18n": {
+        "zh-TW": "伊根の舟屋",
+        "en": "Ine no Funaya boathouses",
+        "ja": "伊根の舟屋"
+       },
+       "lat": 35.67572,
+       "lon": 135.28744,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 伊根の舟屋 (article coordinate 35.67572,135.28744)",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-055",
+   "canonical_name": "鳥取砂丘",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/鳥取砂丘",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia 鳥取砂丘 (article coordinate 35.5425,134.23028). Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-055-P01",
+     "spot_id": "jp-055",
+     "name_zh": "鳥取砂丘・風紋夕景",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "鳥取砂丘・風紋夕景",
+      "en": "Tottori dunes wind-rippled sunset",
+      "ja": "鳥取砂丘の風紋と夕景"
+     },
+     "best_time": "鳥取砂丘・風紋夕景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-tottori-sakyu-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-394",
+       "variant_name": "鳥取砂丘・風紋夕景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "東亞最大級海岸砂丘：夕陽低角光令風紋與沙丘陰影立體化；雨後除塵後的清晰風紋是關鍵條件。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "鳥取砂丘・風紋夕景",
+        "en": "Tottori dunes wind-rippled sunset",
+        "ja": "鳥取砂丘の風紋と夕景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "東亞最大級海岸砂丘：夕陽低角光令風紋與沙丘陰影立體化；雨後除塵後的清晰風紋是關鍵條件。",
+        "en": "Japan's largest coastal dunes: low-angle evening light sculpts wind ripples and dune shadows; clear ripples after wind-blown dusting are the key.",
+        "ja": "低い夕日が風紋と砂丘の陰影を立体的に浮かび上がらせる。風紋の鮮明度が鍵。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-055-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "鳥取砂丘",
+       "name_i18n": {
+        "zh-TW": "鳥取砂丘",
+        "en": "Tottori Sand Dunes",
+        "ja": "鳥取砂丘"
+       },
+       "lat": 35.5425,
+       "lon": 134.23028,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 鳥取砂丘 (article coordinate 35.5425,134.23028)",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-056",
+   "canonical_name": "大山・剣ヶ峰",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/大山_(鳥取県)",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia 大山 (鳥取県) (article coordinate 35.3711,133.5464); elevation 1729 m (剣ヶ峰, 中国地方最高峰). Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-056-P01",
+     "spot_id": "jp-056",
+     "name_zh": "大山山頂・日本海大山眺望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "大山山頂・日本海大山眺望",
+      "en": "Daisen summit view over the Sea of Japan",
+      "ja": "大山山頂と日本海の眺望"
+     },
+     "best_time": "大山山頂・日本海大山眺望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-daisen-kengamine-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-395",
+       "variant_name": "大山山頂・日本海大山眺望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "中國地方最高峰（1,729 m）：山頂經中腹與日本海連通視野；冬季積雪期登山道封閉或需雪季裝備。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "大山山頂・日本海大山眺望",
+        "en": "Daisen summit view over the Sea of Japan",
+        "ja": "大山山頂と日本海の眺望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "中國地方最高峰（1,729 m）：山頂經中腹與日本海連通視野；冬季積雪期登山道封閉或需雪季裝備。",
+        "en": "Highest peak of the Chugoku region (1,729 m): the summit looks over the forested slopes to the Sea of Japan; winter snow closes or hardens the trail.",
+        "ja": "中国地方最高峰（1,729m）。山頂から中腹の原生林越しに日本海を望む。冬季は積雪により通行困難。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-056-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "大山・剣ヶ峰",
+       "name_i18n": {
+        "zh-TW": "大山・剣ヶ峰",
+        "en": "Mt. Daisen (Kengamine)",
+        "ja": "大山・剣ヶ峰"
+       },
+       "lat": 35.3711,
+       "lon": 133.5464,
+       "coord_confidence": "high",
+       "elevation_m": 1729.0,
+       "coordinate_source": "ja.wikipedia 大山 (鳥取県) (article coordinate 35.3711,133.5464); elevation 1729 m (剣ヶ峰, 中国地方最高峰)",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-057",
+   "canonical_name": "稲佐山展望台",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/稲佐山",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia 稲佐山 (article coordinate 32.75336,129.84933); elevation 333 m. Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-057-P01",
+     "spot_id": "jp-057",
+     "name_zh": "稻佐山・長崎千萬夜景",
+     "legacy_theme": "city_night",
+     "name_i18n": {
+      "zh-TW": "稻佐山・長崎千萬夜景",
+      "en": "Nagasaki's ten-million-dollar night view from Mt. Inasa",
+      "ja": "稲佐山からの長崎の夜景"
+     },
+     "best_time": "稻佐山・長崎千萬夜景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-inasa-yama-night-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-396",
+       "variant_name": "稻佐山・長崎千萬夜景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "日本三大夜景：稻佐山展望台（333 m）俯瞰長崎港與市區燈火；纜車營運時間以現場公告為準。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "稻佐山・長崎千萬夜景",
+        "en": "Nagasaki's ten-million-dollar night view from Mt. Inasa",
+        "ja": "稲佐山からの長崎の夜景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "日本三大夜景：稻佐山展望台（333 m）俯瞰長崎港與市區燈火；纜車營運時間以現場公告為準。",
+        "en": "One of Japan's three great night views: the 333 m summit observatory over Nagasaki harbour and the hillside city lights.",
+        "ja": "日本三大夜景の一つ。稲佐山展望台（標高333m）から長崎港と坂の街の灯りを俯瞰する。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-057-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "稲佐山展望台",
+       "name_i18n": {
+        "zh-TW": "稲佐山展望台",
+        "en": "Mt. Inasa night view",
+        "ja": "稲佐山展望台"
+       },
+       "lat": 32.75336,
+       "lon": 129.84933,
+       "coord_confidence": "high",
+       "elevation_m": 333.0,
+       "coordinate_source": "ja.wikipedia 稲佐山 (article coordinate 32.75336,129.84933); elevation 333 m",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-058",
+   "canonical_name": "湯之平展望所",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://www.wikidata.org/wiki/Q110582222",
+     "verified_on": "2026-11-08",
+     "supports": "Wikidata Q110582222 (Yunohira Observatory 31.5915,130.6299). Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-058-P01",
+     "spot_id": "jp-058",
+     "name_zh": "櫻島活火山・南岳火口眺望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "櫻島活火山・南岳火口眺望",
+      "en": "Active Sakurajima: Minami-dake crater view",
+      "ja": "桜島の南岳火口を望む"
+     },
+     "best_time": "櫻島活火山・南岳火口眺望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-sakurajima-yunohira-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-397",
+       "variant_name": "櫻島活火山・南岳火口眺望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "湯之平展望所（約373 m，最接近活火口的公開展望台）望南岳噴煙與錦江灣；噴煙量／荒天時噴火警戒等級以氣象廳公告為準。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "櫻島活火山・南岳火口眺望",
+        "en": "Active Sakurajima: Minami-dake crater view",
+        "ja": "桜島の南岳火口を望む"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "湯之平展望所（約373 m，最接近活火口的公開展望台）望南岳噴煙與錦江灣；噴煙量／荒天時噴火警戒等級以氣象廳公告為準。",
+        "en": "From the Yunohira observatory (~373 m, closest public viewpoint to the active crater): Minami-dake plumes over Kinko Bay; alert levels follow JMA notices.",
+        "ja": "湯之平展望所（約373m、火口に最も近い公開展望台）から南岳の噴煙と錦江湾を望む。噴火警戒レベルは気象庁の発表に従う。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-058-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "湯之平展望所",
+       "name_i18n": {
+        "zh-TW": "湯之平展望所",
+        "en": "Sakurajima Yunohira Observatory",
+        "ja": "湯之平展望所"
+       },
+       "lat": 31.5915,
+       "lon": 130.6299,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "Wikidata Q110582222 (Yunohira Observatory 31.5915,130.6299)",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-059",
+   "canonical_name": "草千里ヶ浜",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/阿蘇山",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia 阿蘇山 (article coordinate 32.88417,131.10389); grassland anchor within the caldera. Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-059-P01",
+     "spot_id": "jp-059",
+     "name_zh": "阿蘇草千里草原・火山群像",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "阿蘇草千里草原・火山群像",
+      "en": "Aso Kusasenri grassland with volcanic skyline",
+      "ja": "草千里ヶ浜と阿蘇の火山群"
+     },
+     "best_time": "阿蘇草千里草原・火山群像",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-aso-kusasenri-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-398",
+       "variant_name": "阿蘇草千里草原・火山群像",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "世界級雙層火山口內的草原（約25 km²）：草千里放馬與中岳噴煙同框；火口封閉／荒天時望向草原仍成立。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "阿蘇草千里草原・火山群像",
+        "en": "Aso Kusasenri grassland with volcanic skyline",
+        "ja": "草千里ヶ浜と阿蘇の火山群"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "世界級雙層火山口內的草原（約25 km²）：草千里放馬與中岳噴煙同框；火口封閉／荒天時望向草原仍成立。",
+        "en": "Grassland (about 25 km2) on the double caldera: grazing horses against the steaming Nakadake crater; when the crater road is closed, the grassland view still stands.",
+        "ja": "阿蘇カルデラ内の広大な草原（約25km²）。草千里の放馬と中岳の噴煙。火口規制時も草原の眺めは成立。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-059-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "草千里ヶ浜",
+       "name_i18n": {
+        "zh-TW": "草千里ヶ浜",
+        "en": "Aso Kusasenri-ga-hama",
+        "ja": "草千里ヶ浜"
+       },
+       "lat": 32.88417,
+       "lon": 131.10389,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 阿蘇山 (article coordinate 32.88417,131.10389); grassland anchor within the caldera",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-060",
+   "canonical_name": "角島大橋",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/角島大橋",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia 角島大橋 (article coordinate 34.35277,130.88616). Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-060-P01",
+     "spot_id": "jp-060",
+     "name_zh": "角島大橋・海士ヶ瀬戶弧線",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "角島大橋・海士ヶ瀬戶弧線",
+      "en": "Tsunoshima Bridge arc over Amase-seto",
+      "ja": "角島大橋の弧線（海士ヶ瀬戸）"
+     },
+     "best_time": "角島大橋・海士ヶ瀬戶弧線",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-tsunoshima-ohashi-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-399",
+       "variant_name": "角島大橋・海士ヶ瀬戶弧線",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "北長門海岸國定公園：1,780 m 直島架橋在海士ヶ瀬戶畫出弧線，翡翠色海水；強風時橋面禁行以現場公告為準。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "角島大橋・海士ヶ瀬戶弧線",
+        "en": "Tsunoshima Bridge arc over Amase-seto",
+        "ja": "角島大橋の弧線（海士ヶ瀬戸）"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "北長門海岸國定公園：1,780 m 直島架橋在海士ヶ瀬戶畫出弧線，翡翠色海水；強風時橋面禁行以現場公告為準。",
+        "en": "The 1,780 m island bridge curves across the emerald Amase-seto channel inside Kita-Nagato Kaigan Quasi-National Park.",
+        "ja": "北長門海岸国定公園。全長1,780mの離島架橋が海士ヶ瀬戸に弧を描く。強風時の通行止めは現地案内に従う。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-060-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "角島大橋",
+       "name_i18n": {
+        "zh-TW": "角島大橋",
+        "en": "Tsunoshima Ohashi Bridge",
+        "ja": "角島大橋"
+       },
+       "lat": 34.35277,
+       "lon": 130.88616,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 角島大橋 (article coordinate 34.35277,130.88616)",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-061",
+   "canonical_name": "錦帯橋",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://www.wikidata.org/wiki/Q1196460",
+     "verified_on": "2026-11-08",
+     "supports": "Wikidata Q1196460 (Kintai Bridge 34.16760,132.17837). Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-061-P01",
+     "spot_id": "jp-061",
+     "name_zh": "錦帯橋五連拱・錦川倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "錦帯橋五連拱・錦川倒影",
+      "en": "Kintaikyo's five wooden arches on the Nishiki River",
+      "ja": "錦帯橋の五連アーチと錦川"
+     },
+     "best_time": "錦帯橋五連拱・錦川倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-kintaikyo-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-400",
+       "variant_name": "錦帯橋五連拱・錦川倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "五連木造拱橋（1673年初建，3年一替木工再架）：錦川靜水面倒影，秋紅與初夏新綠最上鏡。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "錦帯橋五連拱・錦川倒影",
+        "en": "Kintaikyo's five wooden arches on the Nishiki River",
+        "ja": "錦帯橋の五連アーチと錦川"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "五連木造拱橋（1673年初建，3年一替木工再架）：錦川靜水面倒影，秋紅與初夏新綠最上鏡。",
+        "en": "Five wooden arches (rebuilt by craft every 3 years since 1673) mirrored in the Nishiki River, best with autumn colour or early-summer green.",
+        "ja": "五連の木造アーチ橋（1673年創建、3年毎の架け替え）。錦川の静水に映り、紅葉と新緑が最良。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-061-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "錦帯橋",
+       "name_i18n": {
+        "zh-TW": "錦帯橋",
+        "en": "Kintaikyo Bridge",
+        "ja": "錦帯橋"
+       },
+       "lat": 34.1676,
+       "lon": 132.17837,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "Wikidata Q1196460 (Kintai Bridge 34.16760,132.17837)",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-062",
+   "canonical_name": "祖谷のかずら橋",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/かずら橋",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia かずら橋 (article coordinate 33.87528,133.83528). Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-062-P01",
+     "spot_id": "jp-062",
+     "name_zh": "祖谷藤橋・深谷秘境",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "祖谷藤橋・深谷秘境",
+      "en": "Vine bridge over the deep Iya gorge",
+      "ja": "祖谷のかずら橋と渓谷"
+     },
+     "best_time": "祖谷藤橋・深谷秘境",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-iya-kazurabashi-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-401",
+       "variant_name": "祖谷藤橋・深谷秘境",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "日本三大奇橋（重要有形民俗文化財）：45 m 藤橋懸在祖谷川 V 形深谷上，渡橋時間 8:00–18:00（冬季雪期可能臨時封閉）；每晚 19:00–21:30",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "祖谷藤橋・深谷秘境",
+        "en": "Vine bridge over the deep Iya gorge",
+        "ja": "祖谷のかずら橋と渓谷"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "日本三大奇橋（重要有形民俗文化財）：45 m 藤橋懸在祖谷川 V 形深谷上，渡橋時間 8:00–18:00（冬季雪期可能臨時封閉）；每晚 19:00–21:30 有燈火（不開放渡橋）。",
+        "en": "One of Japan's three odd bridges (folk-art monument): a 45 m vine bridge over the V-shaped Iya gorge; crossing 08:00-18:00, occasional winter-snow closures; nightly illumination 19:00-21:30 (no crossing).",
+        "ja": "日本三奇橋（重要有形民俗文化財）。祖谷川のV字谷に架かる45mの蔓橋。渡橋8:00〜18:00、降雪時は臨時閉鎖あり。19:00〜21:30はライトアップ（渡橋不可）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-062-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "祖谷のかずら橋",
+       "name_i18n": {
+        "zh-TW": "祖谷のかずら橋",
+        "en": "Iya Kazurabashi vine bridge",
+        "ja": "祖谷のかずら橋"
+       },
+       "lat": 33.87528,
+       "lon": 133.83528,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia かずら橋 (article coordinate 33.87528,133.83528)",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-063",
+   "canonical_name": "松山城",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://www.wikidata.org/wiki/Q981357",
+     "verified_on": "2026-11-08",
+     "supports": "Wikidata Q981357 (Matsuyama Castle 33.84554,132.76572). Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-063-P01",
+     "spot_id": "jp-063",
+     "name_zh": "勝山松山城・瀬戶內海展望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "勝山松山城・瀬戶內海展望",
+      "en": "Matsuyama Castle keep and Inland Sea view",
+      "ja": "勝山松山城と瀬戸内海の眺め"
+     },
+     "best_time": "勝山松山城・瀬戶內海展望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-matsuyama-iyo-castle-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-402",
+       "variant_name": "勝山松山城・瀬戶內海展望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "勝山山頂現存12天守（1608年初築）：天守與石垣俯瞰松山市街與瀬戶內海；纜車營運時間以現場公告為準。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "勝山松山城・瀬戶內海展望",
+        "en": "Matsuyama Castle keep and Inland Sea view",
+        "ja": "勝山松山城と瀬戸内海の眺め"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "勝山山頂現存12天守（1608年初築）：天守與石垣俯瞰松山市街與瀬戶內海；纜車營運時間以現場公告為準。",
+        "en": "The surviving keep on Katsuyama hill (first built 1608) looks over Matsuyama city and the Seto Inland Sea; ropeway hours follow on-site notices.",
+        "ja": "勝山山頂の現存12天守（1608年築）。天守と石垣から松山市街と瀬戸内海を望む。ロープウェイは現地案内に従う。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-063-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "松山城",
+       "name_i18n": {
+        "zh-TW": "松山城",
+        "en": "Matsuyama Castle (Iyo)",
+        "ja": "松山城"
+       },
+       "lat": 33.84554,
+       "lon": 132.76572,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "Wikidata Q981357 (Matsuyama Castle 33.84554,132.76572)",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-064",
+   "canonical_name": "元乃隅稲成神社",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-32 web verification (AI, owner ruling 2026-11-08 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/元乃隅神社",
+     "verified_on": "2026-11-08",
+     "supports": "ja.wikipedia 元乃隅神社 (article coordinate 34.41972,131.06278). Verified on 2026-11-08; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-064-P01",
+     "spot_id": "jp-064",
+     "name_zh": "元乃隅123座鳥居・崖上朱紅",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "元乃隅123座鳥居・崖上朱紅",
+      "en": "Motonosumi's 123 vermilion torii on the sea cliff",
+      "ja": "元乃隅稲成神社の123基の鳥居"
+     },
+     "best_time": "元乃隅123座鳥居・崖上朱紅",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-motonosumi-inari-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-403",
+       "variant_name": "元乃隅123座鳥居・崖上朱紅",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "123座朱紅鳥居沿海崖連成隧道狀延伸至日本海；朱紅與海崖對比是主體，順逆光皆成立。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "元乃隅123座鳥居・崖上朱紅",
+        "en": "Motonosumi's 123 vermilion torii on the sea cliff",
+        "ja": "元乃隅稲成神社の123基の鳥居"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "123座朱紅鳥居沿海崖連成隧道狀延伸至日本海；朱紅與海崖對比是主體，順逆光皆成立。",
+        "en": "123 vermilion torii climb the sea cliff toward the Sea of Japan; the red line against blue water is the subject in any light.",
+        "ja": "123基の朱色の鳥居が海崖に沿って日本海へ。朱と海の対比が主題。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-064-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "元乃隅稲成神社",
+       "name_i18n": {
+        "zh-TW": "元乃隅稲成神社",
+        "en": "Motonosumi Inari Shrine",
+        "ja": "元乃隅稲成神社"
+       },
+       "lat": 34.41972,
+       "lon": 131.06278,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 元乃隅神社 (article coordinate 34.41972,131.06278)",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
     }
    ]
   }
