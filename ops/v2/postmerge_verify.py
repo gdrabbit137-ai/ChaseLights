@@ -381,7 +381,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 523, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 524, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
         # 2026-11-08 CL-CI-26: CL-UI-47 +5 real-hit-target tests -> w4-node=514 (CI-observed on merged tree 313feebe4, node v26 --test-isolation=none, 514 pass / 0 fail)
         # 2026-11-08 CL-INT-92: +3 hour-list-cap regression tests -> w4-node=516 on this base (measured locally: 516 pass / 3 pre-existing failures identical to pristine origin/main baseline: CL-COPY-01 coverage, CL-DATA-19 x2)
         # 2026-11-08 CL-CI-27: the 3 'pre-existing failures' were NOT pre-existing —
@@ -448,12 +448,12 @@ def main():
         # 962 -> 1019. Catalog gate re-anchored 197/374 -> 218/406 and
         # browse_index_source_sha -> d8bc99ea (CL-DATA-28 regen chain).
         # 2026-11-08 CL-CI-28: CL-UI-50's +4 node tests raised the measured
-        # exact total to 1033 (w4-node 523 + candidate-build-browser 6 + the
+        # exact total to 1034 (CL-CI-29 +1 node test; w4-node 524 + candidate-build-browser 6 + the
         # 504 counted on this tree; measured locally with node v26.7.0
         # --test-isolation=none, 523 pass / 0 fail and 6 pass / 0 fail) — the
         # CL-UI-50 commit updated the w4-node group pin but left the exact
         # total at 1029, reding every postmerge push with no FAIL group.
-        if (report["counts"]["tests"] != 1033 or
+        if (report["counts"]["tests"] != 1034 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
                 report["counts"]["pass"] + report["counts"]["skip"] != 1033):
