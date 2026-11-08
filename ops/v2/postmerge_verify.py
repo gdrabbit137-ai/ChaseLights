@@ -300,8 +300,8 @@ def verify_main(root, lock):
     # byte-pinned to their W2 sources.
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
-            len(catalog.get("places", [])) != 232
-            or len(catalog.get("opportunities", [])) != 420):  # CL-INT-101 re-anchor 218/406 -> 232/420 (CL-DATA-32 jp-051..064)
+            len(catalog.get("places", [])) != 239
+            or len(catalog.get("opportunities", [])) != 434):  # CL-INT-110 re-anchor 232/420 -> 239/434 (DATA-34 seven-place chain, measured on merged tree)
         raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]
