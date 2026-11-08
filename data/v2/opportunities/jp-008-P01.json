@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-008-P01",
   "place_id": "jp-008",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "双観山・松島灣群島朝日",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-sokanzan-matsushima"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於宮城縣松島町（松島町官方網站收錄）。依官方資料：双観山自松島海岸站步行約15分，位於國道45號沿線的「町道松島パノラマ線」入口附近；山頂展望台為公園整備、免費、全天可達；官方並明示「島々の間から昇る朝日」為著名拍攝題材。",
+        "en": "In Matsushima Town, Miyagi (listed on the town's official site). Official info: Sakan-yama (Sokanzan) is ~15 min walk from Matsushima-Kaigan Station, near the entrance of the Matsushima Panorama Line off Route 45; the hilltop viewing platform is a maintained park, free and accessible at all hours. The town's official page explicitly notes the sunrise between the islands as a famous subject.",
+        "ja": "宮城県松島町（松島町公式サイト掲載）。公式資料：双観山は松島海岸駅から徒歩約15分、国道45号沿いの「町道松島パノラマ線」入口付近。山頂展望台は公園として整備され、無料・終日アクセス可。公式ページでは「島々の間から昇る朝日」が名物と明記されている。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-sokanzan-matsushima"
+      ],
       "components": []
     }
   ],
@@ -228,9 +232,11 @@
     {
       "claim_id": "jp-008-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-sokanzan-matsushima"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

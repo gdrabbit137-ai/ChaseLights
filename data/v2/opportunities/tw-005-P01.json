@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-005-P01",
   "place_id": "tw-005",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "大稻埕淡水河夕照",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-dadaocheng-wharf"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於台北市大同區大稻埕碼頭（淡水河岸，24小時開放；交通部觀光署官方即時影像頁收錄）。機車/汽車可停碼頭停車場，捷運大橋頭站或雙連站步行約15分。河濱園區無門禁，夜間照明僅步道基本燈光，器材照明自備。",
+        "en": "At Dadaocheng Wharf on the Tamsui riverfront, Datong District, Taipei (open 24 hours; listed on the Tourism Administration's official live-camera page). Wharf parking available; MRT Daqiaotou or Shuanglian then ~15 min walk. The riverside park has no gate; lighting at night is limited to basic path lamps — bring your own gear light.",
+        "ja": "台北市大同区の大稲埕埠頭（淡水河岸、24時間開放、交通部観光署のライブカメラ公式ページ掲載）。埠頭駐車場利用可、捷運大橋頭駅または双連駅から徒歩約15分。河浜園区はゲートなし、夜間は歩道の基本照明のみで機材用照明は自前。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-dadaocheng-wharf"
+      ],
       "components": []
     }
   ],
@@ -257,9 +261,11 @@
     {
       "claim_id": "tw-005-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-dadaocheng-wharf"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

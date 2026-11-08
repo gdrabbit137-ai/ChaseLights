@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-017-P03",
   "place_id": "tw-017",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "芳苑燈塔＋王功漁港暮色／夜燈",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-wanggong-fangyuan"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於彰化縣芳苑鄉王功漁港（彰化縣政府旅遊網官方景點）。港區與漁港路沿線24小時可達、免費停車；芳苑燈塔為交通部航港局管轄之國際燈塔（1978年建，黑白直條紋，燈高35.7公尺，每10秒明暗），塔區並未對外開放登塔，從堤岸外側與生態景觀橋拍攝。潮汐潮差大，夕照潮溝構圖隨潮汐變化。",
+        "en": "At Wanggong Fishing Harbor, Fangyuan, Changhua (official county tourism page). Harbor and Yugang Rd are reachable 24h with free parking; Fangyuan Lighthouse is an international light under the Maritime and Port Bureau (built 1978, black-white stripes, light height 35.7 m, 10-second cycle) — the tower itself is not open for climbing; shoot from the embankment and the eco-bridge. Large tidal range changes the tidal-channel compositions through the day.",
+        "ja": "彰化県芳苑郷の王功漁港（県公式観光ページ）。港区と漁港路は24時間アクセス可、無料駐車あり。芳苑灯台は交通部航港局管轄の国際灯台（1978年建、白黒縞模様、灯高35.7 m、10秒周期）で塔内への登塔は不可、堤防外側と生態景観橋から撮影。潮差が大きく、干潟構図は潮位で変化する。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-wanggong-fangyuan"
+      ],
       "components": []
     }
   ],
@@ -222,9 +226,11 @@
     {
       "claim_id": "tw-017-P03-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-wanggong-fangyuan"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

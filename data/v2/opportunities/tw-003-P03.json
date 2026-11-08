@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-003-P03",
   "place_id": "tw-003",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "情人橋夜景＋水面倒影",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-tamsui-fishermans-wharf"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於新北市淡水漁人碼頭（24小時開放）。情人橋已由新北市政府正式開放通行（官方公告），木棧道全線自由進出；碼頭附設停車場與公車（捷運淡水站轉乘接駁公車）為主要交通方式。颱風或風浪大時安全管制依現場公告。",
+        "en": "At Tamsui Fisherman's Wharf, New Taipei (open 24 hours). The Lover's Bridge has been officially opened to pedestrians by the New Taipei City Government (official notice); the boardwalk is freely accessible. Parking at the wharf and buses connecting from MRT Tamsui Station are the main access. Safety closures during typhoons or heavy seas follow on-site notices.",
+        "ja": "新北市淡水漁人碼頭（24時間開放）。恋人橋は新北市政府の公式告知により通行開放済みで、木製遊歩道は自由に通行可。港内駐車場と捷運淡水駅からの連絡バスが主なアクセス。台風・高波時の安全規制は現地案内に従う。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-tamsui-fishermans-wharf"
+      ],
       "components": []
     }
   ],
@@ -280,9 +284,11 @@
     {
       "claim_id": "tw-003-P03-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-tamsui-fishermans-wharf"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

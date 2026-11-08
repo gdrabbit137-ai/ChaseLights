@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-014-P02",
   "place_id": "tw-014",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "雲洞山莊山谷雲海／雲瀑",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-yundong-guesthouse"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "雲洞山莊為私有景觀民宿（苗栗縣政府客家景點資料收錄）：其觀景台屬民宿營業設施，非公共開放空間——白天及夜間使用宜事先聯繫或住宿確認開放與收費方式，勿在未獲同意下進入。通聯道路沿山區產業道路，夜間無照明、會車困難。",
+        "en": "Yundong Shanzhuang is a private scenic guesthouse (listed in Miaoli County's Hakka attraction records). Its viewing deck is part of the guesthouse operation, not public space — arrange access (day or night) in advance by contacting/staying; do not enter without consent. Access roads are narrow mountain farm roads, unlit at night with limited passing space.",
+        "ja": "雲洞山荘は私有の景観民宿（苗栗県政府の客家景点資料に収録）。展望台は営業設備で公共空間ではないため、昼・夜とも事前に連絡または宿泊して利用可否・料金を確認し、同意なく入ることはしない。アクセスは山間の農道で夜間照明はなく、すれ違いも困難。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-yundong-guesthouse"
+      ],
       "components": []
     }
   ],
@@ -371,9 +375,11 @@
     {
       "claim_id": "tw-014-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-yundong-guesthouse"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

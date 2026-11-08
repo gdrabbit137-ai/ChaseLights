@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-004-P01",
   "place_id": "jp-004",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "函館山暮色至夜間雙灣城市景觀",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hakodateyama-hakobura"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "函館山夜景：依函館山官方（函obura）公告，2026-10-20～11-08 為纜車法定整備運休期，期間山頂展望台開館 10:00–21:00，函館站始發登山巴士 13:30–19:30（山頂回程至20:10）；私家用車通行受限（9/30前 17:00–22:00、10/1起 16:00–21:00 禁行），11/9 起進入冬季通行管制。一般期山頂展望台由函館山ロープウェイ營運，夜間開放至約21:00，營業時間與運休資訊以官方公告為準。",
+        "en": "Mt Hakodate night view: per the official Mt Hakodate site (hakobura), 2026-10-20 to 11-08 is the annual statutory ropeway maintenance closure; during that period the summit observatory is open 10:00-21:00, the shuttle bus leaves Hakodate Station 13:30-19:30 (return to 20:10). Private cars are restricted (no-entry 17:00-22:00 until 9/30, 16:00-21:00 from 10/1), and winter closure begins 11/9. In normal periods the summit observatory is run by the Hakodateyama Ropeway with night operation to about 21:00; hours/closures follow the official notices.",
+        "ja": "函館山夜景：公式サイト（hakobura）告知により、2026-10-20〜11-08はロープウェイ法定点検運休。期間中は山頂展望台 10:00〜21:00、函館駅発登山バス 13:30〜19:30（山頂発20:10まで）。自家用車は通行制限（9/30まで17:00〜22:00、10/1から16:00〜21:00の通行止め）、11/9から冬季通行止め。通常期は函館山ロープウェイが山頂展望台を運営し夜間は21時頃まで、時間・運休は公式告知による。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hakodateyama-hakobura"
+      ],
       "components": []
     }
   ],
@@ -251,9 +255,11 @@
     {
       "claim_id": "jp-004-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hakodateyama-hakobura"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-015-P01",
   "place_id": "tw-015",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "高美濕地夕照＋風機走廊",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-gaomei-wetland-taichung"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "高美濕地位於台中市清水區（台中市府列管自然保護區，遊憩票志工管理依市府公告）。堤岸周邊環境24小時可達；木棧道依市府公告實施維護封閉制度與潮汐管制（滿潮時封閉不得進入），2026年木棧道檢修已於10月完工全線開放（官方市政新聞）；清水高美大道旁設有大型停車場。進入濕地僅限木棧道，勿踏出棧道範圍（保育管制）。",
+        "en": "Gaomei Wetland, Qingshui, Taichung (managed by the city as a protected nature area). The embankment surroundings are reachable 24h; the boardwalk is subject to city-announced maintenance closures and tidal controls (closed at high tide). Official city news confirms the 2026 boardwalk maintenance finished in October with the full line reopened. A large public parking lot sits along Gaomei Road. Stay on the boardwalk — leaving it onto the wetland is prohibited (conservation rules).",
+        "ja": "台中市清水区の高美湿地（市が自然保護区域として管理）。堤防周辺は24時間アクセス可。木製遊歩道は市公告による保守閉鎖と潮汐規制（満潮時は立入不可）あり。市公式報道により2026年の点検補修は10月に完了し全線開放済み。高美大道沿いに大型公共駐車場あり。遊歩道外の湿地へ踏み出すことは禁止（保育規制）。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-gaomei-wetland-taichung"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "tw-015-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-gaomei-wetland-taichung"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

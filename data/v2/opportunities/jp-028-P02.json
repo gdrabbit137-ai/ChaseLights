@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-028-P02",
   "place_id": "jp-028",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "高野山壇上伽藍蛇腹路・紅葉與伽藍",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-danjo-garan-koyasan"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於和歌山縣高野山（世界遺產）。壇上伽藍院區為自由參拜（免費、戶外），依高野山真言宗總本山金剛峯寺官方公告：金堂等個別內陣參拜另有制度與臨時拝観休止公告（例2026-09-14金堂終日拝観休止），夜間伽藍院區照明有限，蛇腹路／根本大塔周邊為最受歡迎的紅葉機位；拍攝請保持參拜禮節、不使用閃光燈於參拜者通道。",
+        "en": "Mt Koya (Koyasan), Wakayama (World Heritage). The Danjo Garan grounds are freely viewable (free, outdoors). Per the official Kongobuji (Koyasan Shingon Shu) notices: individual inner-sanctum worship (Kondo etc.) has its own system and temporary closure notices (e.g. Kondo closed all day 2026-09-14). Grounds lighting is limited at night; the Serpent-path area near the Konpon Daito is the most popular autumn-leaf spot. Keep worship etiquette — no flash toward visitors.",
+        "ja": "和歌山県・高野山（世界遺産）。壇上伽藍の院区は自由参拝（無料・屋外）。高野山真言宗総本山金剛峯寺の公式告知によると、金堂など個別の内陣参拝は別制度と臨時の拝観休止公告（例：2026-09-14は金堂終日拝観休止）がある。夜間の伽藍内は照明が限られ、蛇腹路・根本大塔周辺が紅葉の定番ポイント。参拝者の通路ではフラッシュを使用せず礼節を守る。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-danjo-garan-koyasan"
+      ],
       "components": []
     }
   ],
@@ -241,9 +245,11 @@
     {
       "claim_id": "jp-028-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-danjo-garan-koyasan"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

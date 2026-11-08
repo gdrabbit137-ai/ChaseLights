@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-018-P02",
   "place_id": "tw-018",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "水社壩湖面＋群山倒影",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-shuishe-dam-sml"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於日月潭國家風景區（交通部觀光署）。水社壩一帶（含湖景步道）24小時自由進出、免門票；水社壩旁及水社遊客中心沿線有付費停車場與公車停靠（台灣好行日月潭線水社站）。拍攝「看見拉魯平台」等步道設施時請依風景區告示，環湖公路夜間車流注意。",
+        "en": "Within Sun Moon Lake National Scenic Area (Tourism Administration). The Shuishe Dam lakeside trail is open 24h free of charge; paid parking at Shuishe Dam and along the visitor center, with Sun Moon Lake Taiwan Tourist Shuttle stopping at Shuishe. Follow scenic-area signs on the lakeside platforms (incl. the Lalu-viewing platform) and watch traffic on the lake loop road at night.",
+        "ja": "日月潭国家風景区内（交通部観光署）。水社壩の湖畔歩道は24時間自由進出・入場無料。水社壩付近と遊客中心沿線に有料駐車場があり、台湾好行日月潭線が水社駅に停車。ラルー島展望台などの湖畔設備は風景区の案内表示に従い、環湖道路の夜間走行に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-shuishe-dam-sml"
+      ],
       "components": []
     }
   ],
@@ -274,9 +278,11 @@
     {
       "claim_id": "tw-018-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-shuishe-dam-sml"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {
