@@ -45,7 +45,7 @@ test('CL-UI-27 (1): none-copy and next window render as ONE merged line', () => 
 
 test('CL-UI-27 (2a): the card status row drops the 「預報狀態：」 prefix', () => {
   const card = grab('function createSpotCard', 'function distanceToSpotKm');
-  assert.match(card, /forecast-status-row card-meta-row">\$\{esc\(v2StateLabel\)\}\$\{esc\(v2FailReasonSuffix\(v2Best,spot\)\)\}/);
+  assert.match(card, /forecast-status-row card-meta-row">\$\{v2StatusRow\}/);
   assert.ok(!card.includes('forecast_status'), 'createSpotCard must not render d().forecast_status');
 });
 
@@ -96,7 +96,7 @@ test('CL-UI-27 (4): the metric-chip row is all-or-nothing', () => {
 });
 
 test('CL-UI-27 (5): index.html cache-bust stamp bumped to clui41', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui54/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui55/);
   assert.match(indexSource, /assets\/app\.css\?v=clui53/);
   assert.ok(!indexSource.includes('clui27'));
 });

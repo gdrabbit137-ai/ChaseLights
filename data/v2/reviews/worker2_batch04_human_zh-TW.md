@@ -112,6 +112,7 @@ Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 
 - 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.4；GUIDANCE）
 - 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。 2026-11-06 CL-DATA-12 全面稽查（batch a）：低雲門檻原為機讀 null（owner 2026-10-26 已裁定修正值 30、lte，僅未落入本欄位）——補上 threshold=30、operator=lte。稽查來源：CL-DATA-12 契約語義修正第一波全面稽查。本筆為語意修正，layering parity gate 豁免，理由記於本註記。（threshold 30；GUIDANCE）
 - 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.2；GUIDANCE）
+- 2026-11-08 CL-DATA-33：本契約為 CL-DATA-19 全日題材 light_window 掃描的遺漏案例——崇德清水斷崖山海遠眺（overlook/遠眺題材）在無光線窗時，夜間 21:00–22:00 曾通過天氣門檻；補上 civil light_window（太陽仰角 > −6°，CL-DATA-11 同源定義），修正 CL-DATA-19 掃描遺漏。本筆為語意修正，layering parity gate 豁免，理由記於本註記。（threshold none；GUIDANCE）
 
 
 - 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。2026-11-08 CL-DATA-33：本契約為 CL-DATA-19 全日題材 light_window 掃描的遺漏案例——崇德清水斷崖山海遠眺（overlook/遠眺題材）在無光線窗時，夜間 21:00–22:00 曾通過天氣門檻；補上 civil light_window（太陽仰角 > −6°，CL-DATA-11 同源定義），修正 CL-DATA-19 掃描遺漏。本筆為語意修正，layering parity gate 豁免，理由記於本註記。
