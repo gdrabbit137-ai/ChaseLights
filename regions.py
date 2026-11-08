@@ -506,7 +506,7 @@ REGIONS = {
         "categories": ["全部", "美西", "美中", "美東", "阿拉斯加"],
         "spots": [
             (36.1070, -112.1130, "大峽谷國家公園", "Grand Canyon National Park", "グランド・キャニオン国立公園", "Grand Canyon NP", "美西", ["mountain", "starlight"]),
-            (36.8790, -111.5100, "馬蹄灣", "Horseshoe Bend", "ホースシュー・ベンド", "Horseshoe Bend", "美西", ["mountain", "coast"]),
+            (36.8790, -111.5100, "馬蹄灣", "Horseshoe Bend", "ホースシュー・ベンド", "Horseshoe Bend", "美西", ["mountain"]),
             (36.8620, -111.3740, "羚羊峽谷", "Antelope Canyon", "アンテロープ・キャニオン", "Antelope Canyon", "美西", ["mountain"]),
             (36.9830, -110.1130, "紀念碑谷", "Monument Valley", "モニュメント・バレー", "Monument Valley", "美西", ["mountain", "starlight"]),
             (38.7330, -109.5920, "拱門國家公園", "Arches National Park", "アーチズ国立公園", "Arches NP", "美西", ["mountain", "starlight"]),
