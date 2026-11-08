@@ -447,11 +447,15 @@ def main():
         # Catalog gate re-anchored 197/374 -> 218/406 and
         # browse_index_source_sha -> d8bc99ea (CL-DATA-28 regen chain);
         # CL-INT-101: 218/406 -> 232/420 on the CL-DATA-32 merged tree.
-        if (report["counts"]["tests"] != 1024 or
+        # 2026-11-08 CL-INT-103 final: on the CL-INT-103 union tree (+5 batch04
+        # light_window role checks in w2), all suites re-measured green with
+        # candidate-build-browser=6 -> exact total 1029 (node v26.7.0,
+        # --test-isolation=none; measured, 0 fail).
+        if (report["counts"]["tests"] != 1029 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1024):
-            raise ValueError("Post-merge exact 1024-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1029):
+            raise ValueError("Post-merge exact 1029-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
