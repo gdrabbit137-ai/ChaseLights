@@ -76,12 +76,25 @@ class GeneratorIdempotence(unittest.TestCase):
             for k, v in before_entries.items():
                 self.assertIn(k, after_entries, f"entry lost on run {run}: {k}")
                 self.assertEqual(v, after_entries[k], f"entry rewritten on run {run}: {k}")
-            run1 = (before_bytes == data)
-            if run == 1 and not run1:
+            run1_changed_bytes = (before_bytes != data)
+            # Line-ending normalization is NOT a content change: the generator
+            # (json.dump through a text-mode file) writes os.linesep on each
+            # platform — CRLF on Windows, LF on Linux/CI — while the committed
+            # file may carry the other convention. Normalize EOLs before
+            # classifying the first run's byte drift.
+            eol_norm = lambda b: b.replace(b"\r\n", b"\n")
+            run1_content_changed = (eol_norm(before_bytes) != eol_norm(data))
+            if run == 1 and run1_content_changed:
                 # first run may legitimately APPEND missing contract coverage;
                 # entries must still all be preserved (checked above) and the
-                # file must only ever GROW.
+                # file must only ever GROW — a byte-only EOL rewrite is not a
+                # content change.
                 self.assertGreater(len(after_entries), len(before_entries))
+            if run == 2 and run1_changed_bytes and not run1_content_changed:
+                # run 2 must match run 1 byte-for-byte (both LF after the first
+                # rewrite), so an EOL-only drift between before and run1 must
+                # be settled by run2 — anything else is non-idempotence.
+                self.assertEqual(hashes[0], hashlib.sha256(data).hexdigest())
         self.assertEqual(hashes[0], hashes[1],
                          "generator is not idempotent — rerun changed the bytes")
 
