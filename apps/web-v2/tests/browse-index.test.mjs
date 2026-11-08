@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 434 canonical sources remain source pinned (CL-DATA-32 jp-051..jp-064 + CL-DATA-34 jp legacy supplement contracts)',()=>{
-  assert.equal(sha256(rawIndex),'bc956450fa31a34caae577a2ee8796a34fb1168607f2860f9cfb758a7447e656'); // CL-DATA-34: re-measured on merged tree after regen with source_commit 118804179
-  assert.equal(sha256(rawCatalog),'640d384d865cf06b1b7e9ccce9a13ce820708db58b09b90a6b59789e7bf1a17f'); // CL-DATA-34: re-measured on merged tree after regen with source_commit 118804179
+  assert.equal(sha256(rawIndex),'47b0c41c8d5b3586584b69f83d9155547f02bd5ea21421a23703867d2466f959'); // CL-DATA-34: re-measured on merged tree after regen with source_commit 2c2ebd4c2
+  assert.equal(sha256(rawCatalog),'bb33c159229528d4686707260af763a3f91602f44b6b81056aa42a2cc1522380'); // CL-DATA-34: re-measured on merged tree after regen with source_commit 2c2ebd4c2
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,434);assert.equal(source.places.length,239);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
