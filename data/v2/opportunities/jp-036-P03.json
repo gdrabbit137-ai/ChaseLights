@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-036-P03",
   "place_id": "jp-036",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "高千穗峽・划船視角真名井瀑布",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-takachiho-gorge"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於宮崎縣高千穗町（高千穗町觀光協會官方）。官方資訊：峽谷有真名井瀑布、柱狀節理與划船等多重機位；高千穗峽遊覽船（官方 boat 頁）為營運時間內收費租船（一般遊船50分/分鐘制），划船視角自真名井瀑布下方水域拍攝；周邊有第一、第二等多處免費停車場（連假易滿），峽谷步道免費、無時限，但部分路段因石落與保育管理會臨時封閉（依現場告示）。自駕沿國道218轉縣道，宮崎或熊本方向約1.5–2小時。",
+        "en": "Takachiho, Miyazaki (official Takachiho Tourism Association). Official info: the gorge offers Manai Falls, columnar basalt and boat viewpoints; the Takachiho Gorge rental boats (official boat page) run within operating hours for a fee, with the rowing view from the water below Manai Falls; several free parking lots (first/second etc.) fill up on holidays; the gorge walking path is free and unlimited-hours, but some sections close temporarily for rockfall/conservation management (on-site signs). Drive via Route 218 to the prefectural road, ~1.5-2 h from Miyazaki or Kumamoto directions.",
+        "ja": "宮崎県高千穂町（高千穂町観光協会公式）。公式情報：峡谷には真名井の滝・柱状節理・貸しボートなど複数の撮影拠点がある。高千穂峡遊覧船（公式boatページ）は営業時間内の有料貸船で、真名井の滝下部の水上からの視点が得られる。第1・第2など複数の無料駐車場があり連休は満車になりやすい。峡谷遊歩道は無料・時間制限なしだが、落石や保護管理で一部区間が臨時閉鎖の場合あり（現地案内に従う）。国道218号から県道へ、宮崎または熊本側から約1.5〜2時間。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-takachiho-gorge"
+      ],
       "components": []
     }
   ],
@@ -241,9 +245,11 @@
     {
       "claim_id": "jp-036-P03-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-takachiho-gorge"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

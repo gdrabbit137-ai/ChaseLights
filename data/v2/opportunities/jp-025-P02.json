@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-025-P02",
   "place_id": "jp-025",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "2026 萩・竹灯路物語・菊屋橫町竹燈夜景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hagi-chikutoro"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "限定活動題材：依山口縣官方旅遊網（おいでませ山口へ）2026 年公告，「萩・竹灯路物語」於 2026-10-09～10-11 每晚 18:00–21:00 於萩城下町周邊舉行（免費，雨天中止）；期間約 2,000 支竹灯籠照亮菊屋橫町等歷史街區，交通：JR 新山口站巴士約60分或小郡萩道路絵堂 IC 自駕約20分；一般車輛可停萩博物館前駐車場（一般93台、一次310日元、大型8台1,050日元）。活動期外的菊屋橫町僅有街燈，不成立本題材。",
+        "en": "Event-only subject: per the official Yamaguchi tourism site (2026), 'Hagi Chiku-toro Monogatari' runs 2026-10-09 to 10-11, 18:00-21:00 nightly around the Hagi castle town (free; cancelled in rain); about 2,000 bamboo lanterns light Kikuya Yokomachi and the historic streets. Access: ~60 min bus from JR Shin-Yamaguchi or ~20 min drive from Oido IC on the Shimonoseki–Hagi road; general parking at the Hagi Museum lot (93 cars, 310 yen per entry; 8 buses 1,050 yen). Outside the event dates the lane has only ordinary street lights — the subject does not hold.",
+        "ja": "期間限定題材：山口県公式観光サイト（おいでませ山口へ）2026年告知によると、「萩・竹灯路物語」は2026-10-09〜10-11、毎晩18:00〜21:00に萩城下町周辺で開催（無料、雨天中止）。約2,000本の竹灯籠が菊屋横丁など歴史街並みを照らす。アクセス：JR新山口駅からバス約60分、または小郡萩道路絵堂ICから車約20分。萩博物館前駐車場（一般93台・1回310円、大型8台1,050円）を利用。期間外の菊屋横丁は普通の街灯のみで本題材は不成立。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hagi-chikutoro"
+      ],
       "components": []
     }
   ],
@@ -211,9 +215,11 @@
     {
       "claim_id": "jp-025-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hagi-chikutoro"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

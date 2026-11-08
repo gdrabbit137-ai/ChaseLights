@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-007-P01",
   "place_id": "jp-007",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "休屋湖畔・十和田湖湖景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-towada-yasumiya"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於青森縣十和田湖畔休屋地區。交通依青森縣官方觀音：JR八戶站轉乘十和田湖方向的巴士至休屋；休屋停靠的十和田湖遊覽船由十和田觀光電鐵營運（2026年時刻表已公開，休屋售票處遷至「十和田湖観光交流センター ぷらと」內，9:00起營業）。湖畔步道自由散步，冬季大雪與結冰期部分道路封閉，出發前查詢官方即時資訊。",
+        "en": "On the Yasumiya shore of Lake Towada, Aomori. Official Aomori tourism info: buses from JR Hachinohe Station head to Yasumiya; the Lake Towada sightseeing boat is operated by Towada Kanko Dentetsu (2026 timetable published; the Yasumiya ticket office has moved into the Towada-ko Kanko Koryu Center 'Puratto', opening at 9:00). The lakeshore trail is free to walk; heavy snow and ice close parts of the road in winter — check official live info before setting out.",
+        "ja": "青森県十和田湖畔・休屋地区。青森県公式観光情報：JR八戸駅から十和田湖方面のバスで休屋へ。休屋発着の十和田湖遊覧船は十和田観光電鉄が運営（2026年時刻表公開；休屋発売所は「十和田湖観光交流センターぷらっと」内に移転、9時開始）。湖畔の遊歩道は自由散策可。冬期は大雪・凍結で一部道路が閉鎖となるため、出発前に公式の最新情報を確認。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-towada-yasumiya"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "jp-007-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-towada-yasumiya"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-001-P01",
   "place_id": "tw-001",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "大屯山夕照山稜＋秋芒",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-datunshan-ymsnp"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於陽明山國家公園（全年開放）。依陽明山管理處公告，大屯山車道自2020-08-10起全日禁止汽機車進入（公務及緊急車輛除外），須將車輛停放鄰近停車場後步行上主峰；建議搭乘捷運劍潭站轉紅5、台北站轉260/1717或北投站轉230/小9至陽明山，再轉108公車至二子坪站。山頂助航站及三角點位置非開放區域（軍事管制），觀景以助航站前平台為主。夜間拍攝請攜照明並依園區安全指示。",
+        "en": "In Yangmingshan National Park (open year-round). Per park HQ notice, the Datun Mountain roadway has been closed to private motor vehicles 24h since 2020-08-10 (official/emergency vehicles excepted); park nearby and walk up. Bus routes: MRT Jiantan + Red5, Taipei Station + 260/1717, or Beitou + 230/Xiao9 to Yangmingshan, then bus 108 to Erziping stop. The summit navigation-aid station and triangulation point are a restricted military area; shooting is done from the platform in front. Bring lights for night sessions and follow park safety guidance.",
+        "ja": "陽明山国家公園内（通年開放）。同公園の告知により、大屯山車道は2020-08-10から終日自家用車・二輪の進入禁止（公務・緊急車両を除く）。近隣駐車場に停車し徒歩で登る。捷運剣潭駅からバス紅5、台北駅から260/1717、北投駅から230/小9で陽明山へ、108番バスで二子坪下車。山頂の助航站（航空支援施設）と三角点は軍事管理のため立入不可で、手前の展望プラットフォームから撮影。夜間は照明を携行し園区の安全指示に従う。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-datunshan-ymsnp"
+      ],
       "components": []
     }
   ],
@@ -358,9 +362,11 @@
     {
       "claim_id": "tw-001-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-datunshan-ymsnp"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

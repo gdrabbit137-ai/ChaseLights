@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-010-P03",
   "place_id": "tw-010",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "和平島奇岩海岸夕照",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-heping-island-park"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "和平島公園為收費園區。依官方FAQ：5/1–10/31 開放 08:00–19:00（18:00停止兌票）、11/1–4/30 開放 08:00–18:00（17:00停止兌票）；自駕國道1號基隆端下接中正高架道路→正濱路→和一路→平一路，園區小客車停車134席（收費，平日50元/次、假日30元/時）。阿拉寶灣（岩石管制區）不含於門票，須另行預約園區導覽且依當日海象氣候開放——無導覽或海象不佳時不得進入，日出題材請先向園區確認導覽時段。",
+        "en": "Heping Island Park is a ticketed park. Official FAQ: 5/1-10/31 open 08:00-19:00 (ticket sales stop 18:00); 11/1-4/30 open 08:00-18:00 (17:00). Drive: Freeway 1 Keelung exit -> Zhongzheng elevated road -> Zhengbin Rd -> Heyi Rd -> Pingyi Rd; on-site parking 134 car spaces (fees: weekdays NT$50/entry, weekends NT$30/hr). Alabowan (the rock-restricted zone) is NOT included in the ticket: access only on official guided tours subject to daily sea/weather conditions — without a tour or in rough seas entry is prohibited. Sunrise subjects must first confirm the guided-tour slot with the park.",
+        "ja": "和平島公園は有料園区。公式FAQ：5/1〜10/31 08:00〜19:00（18:00チケット発行終了）、11/1〜4/30 08:00〜18:00（17:00）。車は国道1号基隆端→中正高架道路→正浜路→和平一路→平一路。園内駐車134台分（平日50元/回、休日30元/時）。阿拉宝湾（岩石管制区域）は入園券に含まれず、公式ガイドツアーのみ・当日の海象により開放。ガイドなしや海象不良時は立入不可のため、日の出題材は事前にツアー枠を確認。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-heping-island-park"
+      ],
       "components": []
     }
   ],
@@ -278,9 +282,11 @@
     {
       "claim_id": "tw-010-P03-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-heping-island-park"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

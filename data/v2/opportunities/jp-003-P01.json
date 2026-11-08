@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-003-P01",
   "place_id": "jp-003",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "細岡展望台釧路川濕原夕景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hosooka-observatory"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於釧路濕原國立公園（國土交通省多言語解說資料庫收錄官方位置：北海道釧路郡釧路町達古武22-9）。展望台免費、全天可達，設有木棧展望平台與階梯；自釧路市方向經國道274/北海道立釧路線前往，設有免費停車場。冬季路面易凍，春季融雪前展望台部分封閉情況依管理公告。",
+        "en": "Within Kushiro Shitsugen National Park (official location in the MLIT multilingual database: Hokkaido, Kushiro-gun, Kushiro-cho, Takkobu 22-9). The observatory is free and reachable at all hours, with a wooden deck platform and stairs; access from Kushiro city via Route 274/local roads, with a free parking lot. Winter roads are icy, and part of the deck may close before the spring thaw per management notices.",
+        "ja": "釧路湿原国立公園内（国土交通省多言語解説DBの公式位置：北海道釧路郡釧路町達古武22-9）。展望台は無料で終日アクセス可、木製デッキと階段あり。釧路市側から国道274号・道道でアクセスし無料駐車場あり。冬季は路面凍結しやすく、春の融雪前は一部閉鎖の場合あり（管理公告に従う）。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hosooka-observatory"
+      ],
       "components": []
     }
   ],
@@ -256,9 +260,11 @@
     {
       "claim_id": "jp-003-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hosooka-observatory"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

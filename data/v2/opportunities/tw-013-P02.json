@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-013-P02",
   "place_id": "tw-013",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "外部遠眺火炎山夕照紅壁",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 602 m verified 2026-11-06; source: https://www.forest.gov.tw/0007960（火炎山 602 m，林業及自然保育署官方；報告區間 596–614 內取官方值）",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 602 m verified 2026-11-06; source: https://www.forest.gov.tw/0007960（火炎山 602 m，林業及自然保育署官方；報告區間 596–614 內取官方值） CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "verified",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-huoyanshan-reserve"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "火炎山位於苗栗三義（海拔602公尺），南北坡面主體屬「三義火炎山自然保留區」（林業及自然保育署劃設，礫岩惡地地形保護對象）。北側遠眺點（台13線／中安段）可自公路遠觀山壁，夕照題材成立；進入保留區步道須依主管機關當期規定申請或依公告辦理，切勿自行離開既設步道攀爬惡地坡面（坍方風險與法規管制）。本票以外部遠眺為主，不涉及保留區內拍攝。",
+        "en": "Houyan Mountain, Sanyi, Miaoli (602 m). The main slopes lie inside the Sanyi Houyan Mountain Nature Reserve (designated by the Forestry and Nature Conservation Agency for its gravel badlands). External viewpoints along the Tai-13 line allow the red-wall sunset view from public roadside; entering the reserve's trail is subject to the current application/notice rules of the managing agency — never leave the established trail to climb the badlands (rockfall/legal restrictions). This subject is the external view only and does not require reserve entry.",
+        "ja": "苗栗三義の火炎山（標高602 m）。主な斜面は「三義火炎山自然保留区」（林業及び自然保育署指定、礫岩の悪地地形保護）内。台13線沿いの外部展望から赤い山肌の夕景を撮る本題材には保留区の立入は不要。保留区歩道への入場は主管機関の当該時期規定・公告に従い、既設歩道を外れて悪地斜面を登ることはしないこと（崩落リスクと法規制）。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-huoyanshan-reserve"
+      ],
       "components": []
     }
   ],
@@ -278,9 +282,11 @@
     {
       "claim_id": "tw-013-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-huoyanshan-reserve"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

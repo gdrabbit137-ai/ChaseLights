@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-019-P02",
   "place_id": "tw-019",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "合歡主峰西向夕照與群山",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hehuan-taroko"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於太魯閣國家公園合歡山區（台14甲線）。依內政部國家公園署及太魯閣管理處公告：合歡主峰步道為自由進入的高山步道（免入園申請之遊憩區型步道），由主峰登山口步行約1.5–2公里登頂；日出前後及夜間拍攝常見，山區路肩停車位有限、假期實施交通管制（依國家公園署假日疏運公告），冬季道路可能封閉結冰管制，出發前查詢公路與園區即時公告。高山夜間氣溫低，注意保暖與高山症風險。",
+        "en": "In Taroko National Park's Hehuanshan area (Tai-14A road). Per the National Parks HQ and Taroko HQ notices, the Hehuan Main Peak trail is a freely accessible high-mountain trail (no park-entry permit needed for this recreation-type trail), about 1.5-2 km from the trailhead to the summit; night and pre-sunrise shooting are common. Roadside parking is limited and holiday traffic controls apply (per NPS holiday-management notices); winter road closures for ice are possible — check live road/park notices before setting out. Cold mountain nights; mind warmth and altitude effects.",
+        "ja": "太魯閣国家公園の合歓山区（台14甲線）。国家公園署および太魯閣管理处の告知により、合歓主峰歩道は自由入場の高山歩道（遊憩区型で入山許可不要）、登山口から山頂まで約1.5〜2 km。日の出前や夜間撮影も一般的。路肩駐車は限られ、連休は交通規制（国家公園署の休日整理告知）。冬は凍結による通行止めがあり得るため、出発前に道路・園区の最新公告を確認。夜間の低温と高山反応に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hehuan-taroko"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "tw-019-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-hehuan-taroko"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 3 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

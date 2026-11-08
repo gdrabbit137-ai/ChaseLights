@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-006-P01",
   "place_id": "jp-006",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "摩周湖第一展望台・摩周藍湖景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-mashu-first-observatory"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於北海道弟子屈町（北海道官方旅遊HOKKAIDO LOVE! 收錄）。摩周湖第一展望台：設施「摩周湖 Kamuy Terrace」室內 8:30–17:00（年末年始休）；屋頂露台與展望平台可夜間/星空拍攝（官方明示屋頂露台夜晚依然開放）；停車場125輛（11月–4月免費），JR川湯溫泉站自駕約20分、女滿別機場約80分。冬季路面結冰與湖面霧氣頻繁，前往前查閱官方最新營運資訊。",
+        "en": "Teshikaga, Hokkaido (official HOKKAIDO LOVE! page). Mashu First Observatory: the indoor Kamuy Terrace runs 8:30-17:00 (closed New Year period); the rooftop terrace and deck are open at night for star/moonlight shooting (official text states the rooftop stays open after dark). Parking for 125 cars (free Nov-Apr), ~20 min by car from JR Kawayu-Onsen, ~80 min from Memanbetsu Airport. Icy roads and lake fog are frequent in winter — check the official page before visiting.",
+        "ja": "北海道弟子屈町（北海道公式観音 HOKKAIDO LOVE! 掲載）。摩周湖第一展望台：屋内「摩周湖カムイテラス」は8:30〜17:00（年末年始休）、屋上テラスと展望デッキは夜間も開放で星空撮影可（公式文に夜間開放を明記）。駐車125台分（11〜4月は無料）、JR川湯温泉駅から車約20分、女満別空港から約80分。冬季は凍結と湖霧が多く、来訪前は公式最新情報を確認。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-mashu-first-observatory"
+      ],
       "components": []
     }
   ],
@@ -256,9 +260,11 @@
     {
       "claim_id": "jp-006-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-mashu-first-observatory"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

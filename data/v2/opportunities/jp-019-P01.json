@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-019-P01",
   "place_id": "jp-019",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "弁天島海浜公園・濱名湖夕景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-bentenjima-hamamatsu"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於靜岡縣濱松市濱名湖畔（濱松市官方「弁天島海浜公園再整備事業」頁收錄）。公園為免費、戶外、24小時可達（濱名湖湖岸）；交通以 JR 弁天島站步行或自駕為主，園區周邊有市營收費停車場；湖岸淺灘拍攝留意潮位與風（漲潮時部分步道濕滑），再整備工程期間部分區域依施工告示管制。",
+        "en": "On the Hamanako lakeshore in Hamamatsu, Shizuoka (listed on the city's official Bentenjima Kaihin Park redevelopment page). Free outdoor lakeside park, reachable 24h; access mainly on foot from JR Bentenjima Station or by car, with city paid parking nearby. Mind tide levels and wind on the shallow lakeshore (some paths are slippery at high tide); during redevelopment works some areas follow construction notices.",
+        "ja": "静岡県浜松市の浜名湖畔（浜松市公式「弁天島海浜公園再整備事業」ページ掲載）。無料・屋外・24時間アクセス可の湖岸公園。JR弁天島駅から徒歩または自家用車が主で、近隣に市営有料駐車場あり。湖岸の浅場では潮位と風に注意（満潮時は一部歩道が滑る）。再整備工事中は工事告示に従い一部区域が規制される。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-bentenjima-hamamatsu"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "jp-019-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-bentenjima-hamamatsu"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {
