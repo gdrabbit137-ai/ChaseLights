@@ -368,7 +368,7 @@ def build_contract(p, subj):
         "schema_version": "2.1.0",
         "opportunity_id": oid,
         "place_id": p["place_id"],
-        "revision": 1,
+        "revision": 2,  # CL-DATA-32 rev2: exemplar-cloned conditions may carry inherited CL-DATA-19 window notes
         "lifecycle_status": "draft",
         "name_i18n": {"zh-TW": subj["zh"], "en": subj["en"], "ja": subj["ja"]},
         "description_i18n": {"zh-TW": subj["desc_zh"], "en": subj["desc_en"], "ja": subj["desc_ja"]},
