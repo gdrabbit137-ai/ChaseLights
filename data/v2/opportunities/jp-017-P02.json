@@ -1,0 +1,276 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-017-P02",
+ "place_id": "jp-017",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "霞池晨光倒影",
+  "en": "Kasumiga-ike morning reflection",
+  "ja": "霞ヶ池の朝の反射"
+ },
+ "description_i18n": {
+  "zh-TW": "霞池與徽軫燈籠的水面倒影：早朝開園（11/1–2 月底 6:00–7:45 免費）時段水靜人稀，是園內倒影最乾淨的窗口；無早朝開園的季節以開園後清晨為主。",
+  "en": "The water mirror of Kasumiga-ike and the Kotoji lantern: during the early-morning opening (6:00-7:45 free, Nov 1-end of Feb) the pond is still and empty - the garden's cleanest reflection window; outside that season, right after the regular opening.",
+  "ja": "霞ヶ池と徽軫灯籠の水鏡。早朝開園（11月1日〜2月末の6:00〜7:45、無料）の時間帯は水面が静かで人が少なく、園内で最も澄んだ反射の窓。それ以外の季節は通常開園直後が狙い目。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-017-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      136.662817,
+      36.563367
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-34 AI web verification 2026-11-08: Kenrokuen winter hours 10-16..2-end 8:00-17:00 (last entry 16:30), yukitsuri hung from 11-01 and complete by mid-December (e-d34-j, e-d34-k quoting Ishikawa Prefecture); V1 point matches the garden center at 36.563N 136.663E",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "冬季（10/16–2 月底）8:00–17:00，最後入園 16:30；另有 11/1–2 月底 6:00–7:45 的早朝開園（免費，蓮池門口/隨身坂口），是清晨拍霞池的唯一時段。",
+    "en": "Winter hours (Oct 16-end of Feb) 8:00-17:00, last entry 16:30; an early-morning opening 6:00-7:45 runs Nov 1-end of Feb (free, Hasuike-mon / Zuishigasaki gates only) - the only way to shoot Kasumiga-ike at dawn.",
+    "ja": "冬季（10月16日〜2月末）は8:00〜17:00、最終入園16:30。別に11月1日〜2月末は6:00〜7:45の早朝開園（無料、蓮池門と随身坂口のみ）があり、朝の霞ヶ池撮影はこの時間だけ可能。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "早朝開園僅蓮池門口與隨身坂口入園。",
+    "en": "The early-morning opening admits through the Hasuike-mon and Zuishigasaki gates only.",
+    "ja": "早朝開園は蓮池門と随身坂口のみの入園。"
+   },
+   "altitude_m": [
+    {
+     "id": "C-jp-017-P02-01",
+     "role": "REQUIRED",
+     "domain": "WEATHER",
+     "evaluation_mode": "GUIDANCE",
+     "capability": "CONDITIONS",
+     "metric": "wind_speed_10m",
+     "operator": "lte",
+     "threshold": 2.0,
+     "unit": "m/s",
+     "unknown_policy": "propagate_unknown",
+     "claim_refs": [
+      "jp-017-P02-claim-01"
+     ],
+     "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+     "validation_status": "provisional",
+     "condition_tier": "MAIN",
+     "threshold_source": "formula_derived",
+     "calibration_status": "provisional",
+     "rationale_i18n": {
+      "zh-TW": "倒影題材的命門是風：水面風速 >2 m/s 就起漣漪，立枯的鏡像破碎；2 m/s 以下才能拿到乾淨的鏡面反射。",
+      "en": "Wind is the make-or-break for reflections: above 2 m/s the water ripples and the mirror of the drowned larches breaks; only under 2 m/s gives a clean mirror.",
+      "ja": "反射撮影の要は風：水面風速2m/sを超えると漣が立ち、枯れ木の鏡像が崩れる。2m/s未満で初めて鏡面が得られる。"
+     }
+    },
+    {
+     "id": "C-jp-017-P02-02",
+     "role": "REQUIRED",
+     "domain": "SEASON_TIME",
+     "evaluation_mode": "GUIDANCE",
+     "capability": "CONDITIONS",
+     "metric": "water_surface_state",
+     "operator": "none",
+     "threshold": null,
+     "unit": null,
+     "unknown_policy": "propagate_unknown",
+     "claim_refs": [
+      "jp-017-P02-claim-01"
+     ],
+     "model_binding": null,
+     "validation_status": "provisional",
+     "condition_tier": "MAIN",
+     "threshold_source": "computed",
+     "calibration_status": "provisional",
+     "rationale_i18n": {
+      "zh-TW": "水面狀態（結冰/水位）無即時觀測源，誠實回報 UNKNOWN，不猜測：冬期結冰時倒影不成立，請依現場狀況判斷。",
+      "en": "Water-surface state (ice/level) has no live observation source - honestly UNKNOWN, never guessed: in winter freeze the reflection fails, judge on site.",
+      "ja": "水面状態（結氷・水位）は即時観測源がなく、誠実にUNKNOWNを返す（推測しない）。冬季の凍結時は反射が成立しない。現地で判断すること。"
+     }
+    },
+    {
+     "id": "C-jp-017-P02-03",
+     "role": "REQUIRED",
+     "domain": "WEATHER",
+     "evaluation_mode": "GUIDANCE",
+     "capability": "CONDITIONS",
+     "metric": "precipitation",
+     "operator": "lt",
+     "threshold": 0.2,
+     "unit": "mm",
+     "unknown_policy": "propagate_unknown",
+     "claim_refs": [
+      "jp-017-P02-claim-01"
+     ],
+     "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+     "validation_status": "provisional",
+     "condition_tier": "MAIN",
+     "threshold_source": "formula_derived",
+     "calibration_status": "provisional",
+     "rationale_i18n": {
+      "zh-TW": "雨點直接打在水面就沒有鏡面，降水 >0.2 mm/h 否決。",
+      "en": "Raindrops breaking the water surface kill the mirror; reject above 0.2 mm/h.",
+      "ja": "雨粒が水面を叩くと鏡面は成立しない。降水0.2mm/h超は否決。"
+     }
+    },
+    {
+     "id": "C-jp-017-P02-04",
+     "role": "QUALITY",
+     "domain": "WEATHER",
+     "evaluation_mode": "GUIDANCE",
+     "capability": "CONDITIONS",
+     "metric": "cloud_cover_total",
+     "operator": "between",
+     "threshold": [
+      20,
+      60
+     ],
+     "unit": "%",
+     "unknown_policy": "propagate_unknown",
+     "claim_refs": [
+      "jp-017-P02-claim-01"
+     ],
+     "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+     "validation_status": "provisional",
+     "condition_tier": "MODIFIER",
+     "threshold_source": "formula_derived",
+     "calibration_status": "provisional",
+     "rationale_i18n": {
+      "zh-TW": "帶點雲的藍天（總雲量 20–60%）讓倒影有色階而不是一片死藍；純藍天太單調，全陰太暗。",
+      "en": "Broken blue sky (total cloud 20-60%) gives the reflection tonal bands instead of a flat blue; pure blue is monotonous, full overcast too dark.",
+      "ja": "適度な雲（全雲量20〜60%）があると反射に階調が出る。快晴だと単調、全曇では暗すぎる。"
+     }
+    },
+    {
+     "id": "C-jp-017-P02-LW1",
+     "role": "REQUIRED",
+     "domain": "ASTRONOMY",
+     "evaluation_mode": "GUIDANCE",
+     "capability": "CONDITIONS",
+     "metric": "light_window",
+     "operator": "none",
+     "threshold": null,
+     "unit": null,
+     "unknown_policy": "propagate_unknown",
+     "claim_refs": [
+      "jp-017-P02-claim-01"
+     ],
+     "model_binding": null,
+     "validation_status": "provisional",
+     "condition_tier": "MAIN",
+     "threshold_source": "computed",
+     "calibration_status": "provisional",
+     "rationale_i18n": {
+      "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+      "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+      "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
+     }
+    }
+   ]
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-017-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "霞池晨光倒影",
+    "en": "Kasumiga-ike morning reflection",
+    "ja": "霞ヶ池の朝の反射"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      136.662817,
+      36.563367
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; terrain/shooting-point facts web-verified (see camera derivation_method)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-017-P02-01",
+   "camera_context_id": "CZ-jp-017-P02-01",
+   "target_id": "SG-jp-017-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-017-P02-01",
+   "status": "Subject existence web-verified 2026-11-08 (e-d34-j early-morning opening). Thresholds provisional.",
+   "target_type": "other",
+   "lat": 36.563367,
+   "lon": 136.662817,
+   "label_i18n": null,
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-017-P02-v1",
+  "status": "draft",
+  "genre_template": {
+   "zh-TW": "池畔石板濕滑，晨霜期注意腳下。",
+   "en": "The pond-side stones are slippery - mind morning frost.",
+   "ja": "池畔の石畳は滑りやすい。朝霜に注意。"
+  },
+  "template_version": "reflection",
+  "recommendation_policy_version": null,
+  "conditions": "reflection-v0.1"
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-017-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [],
+   "audit_status": "UNKNOWN",
+   "scope_note": {
+    "lat": 36.563367,
+    "lon": 136.662817,
+    "zh": "金澤兼六園",
+    "en": "Kenrokuen Garden",
+    "ja": "兼六園"
+   }
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-017",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

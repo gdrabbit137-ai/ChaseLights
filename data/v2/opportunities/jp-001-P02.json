@@ -1,0 +1,244 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-001-P02",
+ "place_id": "jp-001",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "青池秋色",
+  "en": "Blue Pond autumn foliage",
+  "ja": "青い池の紅葉"
+ },
+ "description_i18n": {
+  "zh-TW": "白樺與落羽松轉黃的兩三週裡，金黃枝葉與鈷藍水面形成年度最強對比；沿池步道取景立枯與色葉同框。",
+  "en": "In the two or three weeks when the birches and larches turn gold, the foliage against the cobalt water is the pond's strongest annual contrast; frame the drowned larches together with the colored leaves from the boardwalk.",
+  "ja": "白樺とカラマツが黄金色に染まる2〜3週間、金の枝葉とコバルトブルーの水面が年で最も強いコントラストを見せる。遊歩道から立ち枯れと色づいた葉を一枚に収める。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-001-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      142.614167,
+      43.493611
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-34 AI web verification 2026-11-08: same coordinate verification as jp-001-P01 (e-d34-a); autumn foliage named by official HOKKAIDO LOVE! page (e-d34-c)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "同 jp-001-P01；紅葉期常伴晨霜，步道濕滑。",
+    "en": "Same as jp-001-P01; frost accompanies the foliage mornings and the boardwalk is slippery.",
+    "ja": "jp-001-P01 と同じ。紅葉期は朝霜が多く遊歩道が滑りやすい。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "同 jp-001-P01。",
+    "en": "Same as jp-001-P01.",
+    "ja": "jp-001-P01 に同じ。"
+   },
+   "altitude_m": 500
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-001-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "青池秋色",
+    "en": "Blue Pond autumn foliage",
+    "ja": "青い池の紅葉"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      142.614167,
+      43.493611
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; terrain/shooting-point facts web-verified (see camera derivation_method)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-001-P02-01",
+   "camera_context_id": "CZ-jp-001-P02-01",
+   "target_id": "SG-jp-001-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-001-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 43.493611,
+   "lon": 142.614167,
+   "label_i18n": {
+    "lat": 43.493611,
+    "lon": 142.614167,
+    "zh": "美瑛青池",
+    "en": "Shirogane Blue Pond",
+    "ja": "美瑛青い池"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-001-P02-v1",
+  "status": "draft",
+  "genre_template": "seasonal_plant",
+  "template_version": "seasonal_plant-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-001-P02-S1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-001-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（例年窗 10-05–10-31）：青池秋色是短暫的一檔——白樺與落羽松轉黃、與鈷藍水面對比最強的兩至三週（HOKKAIDO LOVE! 官方僅稱「秋の紅葉とのコントラスト」，未給日期；例年窗為氣候學估計）。實況窗優先，兩者皆缺時誠實 not_evaluatable。",
+     "en": "Seasonal-window verdict (typical window 10-05 to 10-31): the Blue Pond autumn look is a short, sharp window - birches and larches turn gold against the cobalt water for two to three weeks (HOKKAIDO LOVE! official names the autumn contrast but gives no dates; the typical window is climatological). Observed window takes precedence; with neither present, honestly not_evaluatable.",
+     "ja": "季節窓判定（例年窓10-05〜10-31）：青い池の秋色は短い一途——白樺とカラマツが黄金色に染まりコバルトブルーの水面と最も強く対比する2〜3週間（HOKKAIDO LOVE!公式は秋の紅葉とのコントラストに言及するが日程は不明、例年窓は気候学的推定）。実況窓を優先し、両方なければ誠実にnot_evaluatable。"
+    }
+   },
+   {
+    "id": "C-jp-001-P02-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-001-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降水 >0.2 mm/h 時葉面打濕、色彩變鈍，否決。",
+     "en": "Above 0.2 mm/h the wet foliage dulls and colors wash out; reject.",
+     "ja": "降水0.2mm/h超では葉が濡れて色彩が鈍るため否決。"
+    }
+   },
+   {
+    "id": "C-jp-001-P02-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "wind_speed_10m",
+    "operator": "lt",
+    "threshold": 5.0,
+    "unit": "m/s",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-001-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "風速 >5 m/s 吹動枝葉、長曝糊掉，否決。",
+     "en": "Wind above 5 m/s shakes the branches and smears long exposures; reject.",
+     "ja": "風速5m/s超では枝葉が揺れて長時間露出がぼやけるため否決。"
+    }
+   },
+   {
+    "id": "C-jp-001-P02-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-001-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+     "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+     "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-001-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Subject existence web-verified 2026-11-08 (e-d34-c official autumn foliage; window climatological). Thresholds provisional."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-001",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

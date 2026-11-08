@@ -1,0 +1,244 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-017-P01",
+ "place_id": "jp-017",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "兼六園雪吊冬景",
+  "en": "Kenrokuen yukitsuri snow scene",
+  "ja": "兼六園の雪吊り冬景"
+ },
+ "description_i18n": {
+  "zh-TW": "12 月中旬到 2 月下旬，唐崎松雪吊與徽軫燈籠的冬景是兼六園的招牌；積雪日整座園化為雪白世界，霞池倒影最上相。",
+  "en": "From mid-December to late February, the yukitsuri ropes over the Karasaki pine and the Kotoji lantern are Kenrokuen's signature winter scene; on snowy days the whole garden turns white and the Kasumiga-ike reflection is at its best.",
+  "ja": "12月中旬から2月下旬、唐崎松の雪吊りと徽軫灯籠の冬景色が兼六園の看板。雪の日には園全体が雪景色となり、霞ヶ池の反射が最も美しい。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-017-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      136.662817,
+      36.563367
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-34 AI web verification 2026-11-08: Kenrokuen winter hours 10-16..2-end 8:00-17:00 (last entry 16:30), yukitsuri hung from 11-01 and complete by mid-December (e-d34-j, e-d34-k quoting Ishikawa Prefecture); V1 point matches the garden center at 36.563N 136.663E",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "冬季（10/16–2 月底）8:00–17:00，最後入園 16:30；另有 11/1–2 月底 6:00–7:45 的早朝開園（免費，蓮池門口/隨身坂口），是清晨拍霞池的唯一時段。",
+    "en": "Winter hours (Oct 16-end of Feb) 8:00-17:00, last entry 16:30; an early-morning opening 6:00-7:45 runs Nov 1-end of Feb (free, Hasuike-mon / Zuishigasaki gates only) - the only way to shoot Kasumiga-ike at dawn.",
+    "ja": "冬季（10月16日〜2月末）は8:00〜17:00、最終入園16:30。別に11月1日〜2月末は6:00〜7:45の早朝開園（無料、蓮池門と随身坂口のみ）があり、朝の霞ヶ池撮影はこの時間だけ可能。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "園內石板路雪凍濕滑，务必穿防滑鞋；腳架依園方規定。",
+    "en": "The stone paths freeze and get slippery - wear grippy soles; follow the garden's tripod rules.",
+    "ja": "園内の石畳は凍結して滑りやすい。滑り止めの靴を履き、三脚は園の規定に従う。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-017-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "兼六園雪吊冬景",
+    "en": "Kenrokuen yukitsuri snow scene",
+    "ja": "兼六園の雪吊り冬景"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      136.662817,
+      36.563367
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; terrain/shooting-point facts web-verified (see camera derivation_method)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-017-P01-01",
+   "camera_context_id": "CZ-jp-017-P01-01",
+   "target_id": "SG-jp-017-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-017-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 36.563367,
+   "lon": 136.662817,
+   "label_i18n": {
+    "lat": 36.563367,
+    "lon": 136.662817,
+    "zh": "金澤兼六園",
+    "en": "Kenrokuen Garden",
+    "ja": "兼六園"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-017-P01-v1",
+  "status": "draft",
+  "genre_template": "snow_ice",
+  "template_version": "snow_ice-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-017-P01-S1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-017-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（例年窗 12-15–02-25）：雪吊り 11 月初動工、12 月中旬全園掛完，雪景看積雪——例年 12 月中旬–2 月下旬（tripuuu/watabi 引石川縣官方）。實況窗優先，兩者皆缺時誠實 not_evaluatable。",
+     "en": "Seasonal-window verdict (typical window 12-15 to 02-25): yukitsuri work starts early November and the whole garden is hung by mid-December; the snow scene needs actual snowfall - typical view mid-December to late February (sources quoting Ishikawa Prefecture). Observed window takes precedence; with neither present, honestly not_evaluatable.",
+     "ja": "季節窓判定（例年窓12-15〜02-25）：雪吊りは11月初めに着手され12月中旬に全園で完成、雪景色は積雪次第——例年12月中旬〜2月下旬（石川県公式を引用する二次資料）。実況窓を優先し、両方なければ誠実にnot_evaluatable。"
+    }
+   },
+   {
+    "id": "C-jp-017-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 3.0,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-017-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "雪吊線條是主體，大雪片/濃霧會把繩索細節完全吃掉（≥3 km 才保得住線條）。",
+     "en": "The yukitsuri rope lines are the subject - heavy snowflakes or fog swallow their detail entirely (≥3 km keeps the lines readable).",
+     "ja": "雪吊りの紐の線が主題。雪片や濃霧はその細部を完全に飲み込む（3km以上で線が読める）。"
+    }
+   },
+   {
+    "id": "C-jp-017-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "wind_speed_10m",
+    "operator": "lte",
+    "threshold": 15.0,
+    "unit": "m/s",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-017-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "暴風雪否決（繩索積雪被吹落且無法拍攝）。",
+     "en": "Blizzard conditions veto (snow is blown off the ropes and shooting becomes impossible).",
+     "ja": "吹雪は否決（紐の雪が飛ばされ撮影不可能）。"
+    }
+   },
+   {
+    "id": "C-jp-017-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-017-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+     "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+     "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-017-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Subject existence web-verified 2026-11-08 (e-d34-j/e-d34-k). Thresholds provisional."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-017",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}
