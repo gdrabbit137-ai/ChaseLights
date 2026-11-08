@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-028-P01",
   "place_id": "us-028",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Griffith Observatory terraces・Los Angeles與Hollywood Sign全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-griffith-observatory"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "格里斐斯天文台（洛杉磯市營）週二至五12:00–22:00、週六日10:00–22:00開放，週一閉館；園區與露臺一般每日開放。天文台附近停車有限且收費（Pay & Display，晚間／週末／夏季最擠），交通擁塞時道路可能封閉。替代方案：自Vermont/Sunset地鐵B線站搭DASH Observatory公車（每日10:00–22:00）、希臘劇場周邊免費停車加約1英里上坡步行（演唱會日晚間1時後不可）、或共乘落客。公共望遠鏡免費開放至約21:30；好萊塢標誌與市中心景自前草坪拍攝。",
+        "en": "Griffith Observatory (Los Angeles, city-run) is open Tuesday–Friday 12 noon–10 p.m., Saturday–Sunday 10 a.m.–10 p.m., closed Mondays; grounds and terraces are generally open daily. Parking near the Observatory is limited and paid (pay-and-display; busiest evenings/weekends/summer); road closures are likely when traffic congests. Alternatives: DASH Observatory bus from the Vermont/Sunset Metro B Line station (10 a.m.–10 p.m. daily), free parking around the Greek Theatre with a ~1-mile uphill walk (not on concert evenings after 1 p.m.), or rideshare drop-off. Free public telescopes run until ~9:30 p.m.; the Hollywood Sign and downtown views are from the front lawn.",
+        "ja": "グリフィス天文台（ロサンゼルス市営）は火〜金12〜22時、土日10〜22時開放、月曜休館；敷地とテラスは毎日開放が基本。天文台周辺の駐車は限られ有料（ペイ＆ディスプレイ、夜・週末・夏は最混雑）、交通混雑時は通行規制の可能性あり。代替：Vermont/SunsetメトロB線駅からDASH Observatoryバス（毎日10〜22時）、ギリシャ劇場周辺の無料駐車＋約1マイルの上り歩き（コンサート日は13時以降不可）、またはライドシェア。無料公開望遠鏡は21時半頃まで；ハリウッドサインとダウンタウンは前芝生から撮影。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-griffith-observatory"
+      ],
       "components": []
     }
   ],
@@ -221,9 +225,11 @@
     {
       "claim_id": "us-028-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-griffith-observatory"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://griffithobservatory.lacity.gov/visit/getting-here/ | https://griffithobservatory.lacity.gov/explore/); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-009-P01",
   "place_id": "us-009",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Tunnel View・Yosemite Valley經典全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-tunnel-view-yose"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "隧道觀景臺（Tunnel View）位於加州優勝美地國家公園41號公路Wawona隧道東口，全年開車可達，設有含無障礙車位的專用停車場與短距離鋪面步道至觀景平臺。旺季上午9時後谷地停車通常滿位，建議提早。冬季谷區以上道路可能需雪鏈。夜間拍攝請使用專用停車場而非路肩，拍攝El Capitan、Bridalveil Fall與Half Dome時避免燈光影響車道。",
+        "en": "Tunnel View sits at the east end of the Wawona Tunnel on Highway 41, Yosemite National Park — reachable by vehicle year-round, with designated parking including accessible spaces and a short paved walk to the viewing plaza. Yosemite Valley parking is usually full after 9 a.m. in busy months; arrive early. Trails and roads above the valley may require tire chains in winter. Night: the overlook is roadside with its own lot — use it rather than stopping on the highway shoulder, and keep lights off the roadway while shooting El Capitan, Bridalveil Fall and Half Dome.",
+        "ja": "トンネルビューはヨセミテ国立公園のハイウェイ41、Wawonaトンネル東端に位置し、通年車でアクセス可能。バリアフリー枠を含む専用駐車場と短い舗装歩道が展望プラザへ続く。繁忙期は9時以降、ヨセミテバレーの駐車は満車になりがちなので早めの到着を。冬季は渓谷より高地の道路でタイヤチェーンが必要な場合がある。夜間は路肩ではなく専用駐車場を利用し、El Capitan・Bridalveil Fall・Half Dome撮影時は車道に光を漏らさないこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-tunnel-view-yose"
+      ],
       "components": []
     }
   ],
@@ -251,9 +255,11 @@
     {
       "claim_id": "us-009-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-tunnel-view-yose"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/places/000/tunnel-view.htm | https://www.nps.gov/yose/planyourvisit/viewpoints.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-036-P01",
   "place_id": "us-036",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Gantry Plaza・Midtown Manhattan skyline＋East River",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — catalog point 40.74637,-73.9577 is the Queens-side East River waterfront (Gantry Plaza State Park area, parks.ny.gov lists 40.743858,-73.959335), the standard midtown-Manhattan-skyline vantage — name refers to the skyline SUBJECT viewed from here, not a Manhattan-side street point; documented in batch4-progress.json",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-gantry-plaza-lic"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "本點位於紐約皇后區長島市河岸、Gantry Plaza州立公園（4-44 47th Road）一帶，為紐約州立公園，官方說明可欣賞中城曼哈頓天際線（含帝國大廈與聯合國）。官方開放時間：每日黎明至黃昏（NYS Parks）——拍攝請安排於此時段內；鄰接的市管河岸段時段可能不同。交通：7號線Vernon Blvd–Jackson Ave站或東河渡輪。中城側替代點如42街Tudor City陸橋為公共人行道、全時開放（Manhattanhenge傍晚需提早）。品名所指為自此河岸視角拍攝的天際線主題；未發現通行衝突。",
+        "en": "The catalog point sits on the Long Island City (Queens) waterfront at/near Gantry Plaza State Park (4-44 47th Road), a New York State park that boasts 'spectacular views of the midtown Manhattan skyline' including the Empire State Building and the United Nations. Official hours: open daily, dawn to dusk (NYS Parks) — plan shoots within those hours; NYC Parks' adjacent waterfront segments may differ. Reached via the 7 train (Vernon Blvd–Jackson Ave) or East River Ferry. Midtown-side alternatives such as the Tudor City Overpass over 42nd Street are public sidewalks open at all hours (arrive early on Manhattanhenge evenings). Note the catalog name refers to the skyline subject viewed from this Queens-side vantage; no access conflicts found.",
+        "ja": "本地点はニューヨーク・クイーンズ区ロングアイランドシティの河岸、 gantry plaza州立公園（4-44 47th Road）一帯。ニューヨーク州立公園で、公式には「ミッドタウン・マンハッタンのスカイライン（エンパイアステートビルや国連を含む）の壮大な眺め」。公式開放時間：毎日黎明から黄昏まで（NYS Parks）—撮影はこの時間内に計画；隣接する市管理の河岸区間は時間が異なる場合あり。交通：7号線Vernon Blvd–Jackson Ave駅かイーストリバー・フェリー。ミッドタウン側の代替地（42丁目のTudor City陸橋）は公共歩道で終日開放（Manhattanhengeの夕は早めに）。名称はこのクイーンズ側視点から見るスカイライン主題を指し、通行上の支障は確認されなかった。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-gantry-plaza-lic"
+      ],
       "components": []
     }
   ],
@@ -221,9 +225,11 @@
     {
       "claim_id": "us-036-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-gantry-plaza-lic"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://parks.ny.gov/parks/149/fees-rates.aspx | https://parks.ny.gov/visit/state-parks/gantry-plaza-state-park); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

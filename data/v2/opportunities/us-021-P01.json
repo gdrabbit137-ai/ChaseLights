@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-021-P01",
   "place_id": "us-021",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Mesa Arch・日出拱門框景與La Sal Mountains",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-canyonlands-its"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "梅薩拱門位於猶他州峽谷地國家公園天空之島區：自Moab沿US191北行10英里轉UT313西南行22英里。園區24小時開放（Island in the Sky遊客中心09:00–16:00、夏季延長、初冬週三四休）。Mesa Arch步道往返0.6英里，以日出聞名——旺季天亮前停車場即滿，請提早；留在步道內、勿攀爬拱門。夜間此區暗空條件極佳，自備紅光手電並遠離峽谷崖邊。",
+        "en": "Mesa Arch is in the Island in the Sky district of Canyonlands National Park, Utah: from Moab drive north 10 miles on US 191, then UT 313 southwest 22 miles. The park is open 24 hours (typical district hours; Island in the Sky visitor center 9 a.m.–4 p.m., extended in summer, closed Wed–Thu in early winter). Mesa Arch is a 0.6-mile round-trip easy trail famous at sunrise — the lot fills before dawn in peak season, so arrive early; stay on the trail and do not climb on the arch. Night: the district has excellent dark skies; bring red light and stay well back from the canyon rim.",
+        "ja": "メサ・アーチはユタ州キャニオンランズ国立公園アイランド・イン・ザ・スカイ地区：MoabからUS191を北へ10マイル、UT313を南西へ22マイル。園内は24時間開放（ビジターセンターは9〜16時、夏季延長、初冬は水・木休）。メサ・アーチへは往復0.6マイルの易しいトレイルで日の出が有名—繁忙期は明け方前に満車のため早めに；トレイル外に出ず、アーチに登らない。夜はダークスカイに優れ、赤色ライトを携行し峡谷の縁から離れること。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-canyonlands-its"
+      ],
       "components": []
     }
   ],
@@ -228,9 +232,11 @@
     {
       "claim_id": "us-021-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-canyonlands-its"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/cany/planyourvisit/islandinthesky.htm | https://www.nps.gov/cany/planyourvisit/upload/IslandRoadsandTrailsUpdated24-508forweb.pdf); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-075-P01",
   "place_id": "tw-075",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "外澳龜山朝日",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-waiao-beach"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於宜蘭縣頭城鎮濱海路二段6號，正對龜山島。沙灘與海堤步道全天開放；外澳服務區（九號咖啡外澳館）營業約09:00–17:20，依現場公告為主。大眾運輸：台灣好行宜蘭東北角海岸線綠19至外澳服務區站，或台鐵外澳站步行可達。沙灘為衝浪熱點，晨昏光落海面時可同框龜山島剪影；夜間拍攝請利用服務區旁停車場，注意沙灘浪況與東北季風，勿夜間下水，並遵守水域安全標示。",
+        "en": "At 6, Binhai Rd Sec 2, Toucheng Township, Yilan — facing Guishan Island. The beach and seawall promenade are open 24 hours; the Waiao Service Area (No.9 Coffee) runs about 09:00–17:20, per on-site notice. Transit: Taiwan Tourist Shuttle Green 19 (Yilan NE-Coast line) to Waiao Service Area stop, or TRA Waiao station within walking distance. The beach is a surf hotspot; at dawn/dusk the sun lines up with Guishan Island. For night shoots use the service-area parking, watch surf conditions and the NE monsoon, never enter the water at night, and obey water-safety signs.",
+        "ja": "宜蘭県頭城鎮浜海路二段6号、亀山島を正面に望む。砂浜と海堤歩道は終日開放；外澳サービスエリア（九號咖啡外澳館）は概ね09:00〜17:20営業（現地掲示为准）。交通：台湾好行宜蘭東北角海岸線緑19で外澳服務區下車、または台鉄外澳駅から徒歩可。砂浜はサーフィンの人気スポットで、朝夕は亀山島と日の出入りが同框になる。夜間撮影はサービスエリア横の駐車場を利用し、波況と東北季風に注意し、夜間の入水はしない。水域安全標示に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-waiao-beach"
+      ],
       "components": []
     }
   ],
@@ -228,9 +232,11 @@
     {
       "claim_id": "tw-075-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-waiao-beach"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=277&l=1 | https://www.necoast-nsa.gov.tw/Area-Content.aspx?a=160&l=1); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

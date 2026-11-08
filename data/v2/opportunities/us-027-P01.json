@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-027-P01",
   "place_id": "us-027",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Redfish Lake北岸・Sawtooth山峰與湖景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-sawtooth-redfish"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "鋸齒山脈Redfish Lake一帶（愛達荷州）屬USFS鋸齒國家遊憩區：Redfish Lake遊客中心6月中至9月中開放（由鋸齒解說與歷史協會經營）；營地5月至9月15日（recreation.gov或877-444-6777預約）。由75號公路進入；小紅魚湖禁動力船。拍攝以清晨無風水面與鋸齒荒野步道口為主；日間停車在旅舍與北岸區。夜間暗空但寒冷——荒野規定適用（荒野內禁動力車／單車），出發前查林務局警示（計畫燒除）。",
+        "en": "The Sawtooth Range's Redfish Lake area (Idaho) sits in the Sawtooth National Recreation Area (US Forest Service): Redfish Lake Visitor Center is open mid-June through mid-September, run by the Sawtooth Interpretive & Historical Association; campgrounds run May–Sept 15 (reservations via recreation.gov or 877-444-6777). Access is via Highway 75; motorboats are banned on Little Redfish Lake. For photography, morning calm water at Little Redfish and the Sawtooth Wilderness trailheads are the draws; day-use parking is at the lodge/North Shore areas. Nights are dark but cold — wilderness rules apply (no motors/bikes in wilderness), and check forest alerts (prescribed burns) before traveling.",
+        "ja": "ソートゥース山脈のRedfish Lake一帯（アイダホ州）はUSFSソートゥース国立レクリエーション地域：Redfish Lakeビジターセンターは6月中旬〜9月中旬営業（ソートゥース解説歴史協会運営）；キャンプ場は5月〜9月15日（recreation.govまたは877-444-6777で予約）。ハイウェイ75からアクセス；小Redfish湖は動力船禁止。撮影は早朝の無風水面とソートゥース荒野トレイルヘッドが中心；日中の駐車はロッジと北岸エリア。夜はダークだが寒冷—荒野規定適用（荒野内は動力車・自転車不可）、出発前に森林警報（計画焼却）を確認。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-sawtooth-redfish"
+      ],
       "components": []
     }
   ],
@@ -338,9 +342,11 @@
     {
       "claim_id": "us-027-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-sawtooth-redfish"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.fs.usda.gov/r04/sawtooth/recreation/redfish-lake-recreation-complex | https://www.fs.usda.gov/r04/sawtooth/recreation/redfish-lake-visitor-center); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

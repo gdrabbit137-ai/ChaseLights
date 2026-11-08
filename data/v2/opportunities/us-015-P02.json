@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-015-P02",
   "place_id": "us-015",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Battery Spencer・金門大橋與舊金山市景全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-golden-gate-bridge"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "金門大橋Welcome Center每日09:00–18:00開放。東南側訪客停車場每小時5美元、上限3小時、每日07:00–21:00，僅37席，極為有限。2026年5月25日至10月12日週末與假日11:00–17:00停車場關閉（含北端Vista Point），建議搭乘GGT公車101/130/150、共乘或單車前往；北端Vista Point平日免費停車4小時上限。橋上人行／自行車道日間開放；晨昏拍攝走東側人行道並提早抵達。",
+        "en": "Golden Gate Bridge Welcome Center (San Francisco side) is open daily 9 a.m.–6 p.m. Parking at the southeast visitor lot: $5/hour, 3-hour maximum, 7 a.m.–9 p.m. daily, only 37 spaces — extremely limited. In 2026, parking lots (Welcome Center/Merchant Rd, and Caltrans Vista Point at the north end) close 11 a.m.–5 p.m. on weekends and holidays through October 12 — transit, rideshare or bike are recommended; Golden Gate Transit buses 101/130/150 serve the bridge from San Francisco. Marin-side Vista Point has free 4-hour parking. Bridge walkways are open to pedestrians/cyclists during daylight; for dawn shoots use the east sidewalk and arrive before weekend lot closures.",
+        "ja": "ゴールデンゲートブリッジのWelcome Centerは毎日9〜18時営業。南東側ビジター駐車場は1時間5ドル・最長3時間・毎日7〜21時でわずか37台と極めて限られる。2026年5月25日〜10月12日の週末・祝日は11〜17時に駐車場閉鎖（北端Vista Point含む）—GGTバス101/130/150、ライドシェアまたは自転車を推奨；北端Vista Pointは平日4時間まで無料。橋上の歩道・自転車道は日中開放；朝夕撮影は東側歩道を利用し早めに到着を。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-golden-gate-bridge"
+      ],
       "components": []
     }
   ],
@@ -251,9 +255,11 @@
     {
       "claim_id": "us-015-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-golden-gate-bridge"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.goldengate.org/bridge/visiting-the-bridge/directions-parking/ | https://www.goldengate.org/bridge/visiting-the-bridge/public-transit/); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

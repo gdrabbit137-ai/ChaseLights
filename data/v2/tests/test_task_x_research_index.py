@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((239,434),(len(actual),len(ids)))  # re-anchored CL-INT-105 (CL-DATA-34 jp supplement: 239 places / 434 opportunities)
+        self.assertEqual((232,420),(len(actual),len(ids)))  # re-anchored CL-DATA-32 (14 southern-Japan additions)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -65,7 +65,7 @@ class ResearchIndexTests(unittest.TestCase):
             # re-pinned to the ruling data commit 76e926d16 (rollback pointer
             # for the original human-review contracts: 34cb70f39 and earlier).
             '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
-            # ('06b51d046f' retired by CL-INT-112: 06b51d04 (CL-INT-105 batch1 pin) — record re-pinned by CL-DATA-36 batch2 — bytes now pinned at 21198c9c.)
+            '1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad',  # CL-DATA-35 batch1: 60 access-verified records re-pinned to the batch commit
             '3eb466432807185bc8b9271d006666b72d1fa406',
             # CL-INT-83: the 8 CL-DATA-18 AI-verified fill records
             # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
@@ -102,10 +102,7 @@ class ResearchIndexTests(unittest.TestCase):
             # migration-skeleton tidal records were restored to their
             # reviewed-main bytes (commit 86cc3d9bd).
             'd57d40f8966631783f1385908659bd8c1b82adbd',
-            # ('86cc3d9bd' retired by CL-DATA-37: its last canonical record
-            # was re-pinned to the batch3 access-verification commit 1bf8e398e
-            # below.)
-            '1bf8e398e20ebbc76be1157d98bd8dc188216746',
+            '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
             # CL-DATA-13: the touched records' bytes changed (view_azimuth
             # backfill + light_direction pilot contracts) and their blob pins
             # were re-anchored below, but the W2 provenance commit_sha of each
@@ -122,8 +119,10 @@ class ResearchIndexTests(unittest.TestCase):
             # restore). CL-DATA-32 later re-pinned tw-010-P01 (008ab85ff) when
             # the golden-window upgrade gave way to sunrise_time_window MAIN.
             '69b832accfc8c0438a50e51689c4e7c40765e9f4',
-            # ('64685ff7df' retired by CL-INT-112: 64685ff7 (jp-029-P02 https pin) — record re-pinned by CL-DATA-36 batch2 — bytes now pinned at 21198c9c.)
-            '008ab85ff19794c3aa2ffc1173afa30212aa426e',
+            '90838a69af97cab0aafbfb89c3e984bd0f004f9b',  # CL-DATA-35 stage 2c: jp-029-P02 https-source refinement
+            # 008ab85ff (CL-DATA-32) left the set: its last holder tw-073-P01
+            # was byte-changed and re-pinned to the CL-DATA-38 batch4 commit
+            # (verified trilingual access bytes; batch4-progress.json).
             '2cd38d860868d63b7a214434d74f2db6ad153506',
             'b801dd4eba545a76879828b25e869f3c45df33ac',
             # CL-DATA-15 (merged side): owner-verified elevation corrections
@@ -132,7 +131,7 @@ class ResearchIndexTests(unittest.TestCase):
             # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
             # remain re-pinned to the task-branch commit carrying those
             # corrections (union merge, CL-INT-81).
-            # ('c90f567125' retired by CL-INT-112: c90f567125 — record re-pinned by CL-DATA-36 batch2 — bytes now pinned at 21198c9c.)
+            'c90f56712550ae46824e30684442bbc44855c9b5',
             # CL-DATA-20: 18 tailored contracts + 3 byte-changed records
             # (tw-059-P01/tw-078-P01 tidal genre, tw-016-P01 summit geometry)
             # pinned to the data commit.
@@ -158,7 +157,7 @@ class ResearchIndexTests(unittest.TestCase):
             # Bitan precedent) and tw-010-P02 (golden_hour_window -> REQUIRED/
             # MAIN dawn/dusk window, tw-010-P01 CL-DATA-26 precedent) re-pinned
             # to the contract commit carrying the new bytes.
-            # ('2d9af4d868' retired by CL-INT-112: 2d9af4d8 — record re-pinned by CL-DATA-36 batch2 — bytes now pinned at 21198c9c.)
+            
             # CL-DATA-32: 14 southern-Japan admitted discovery contracts
             # (jp-051..jp-064, PM-judgment admission) pinned to the admission
             # commit carrying the evidence-ref + revision-2 bytes.
@@ -166,12 +165,10 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-INT-103 union: tw-034-P02 re-pinned to the CL-DATA-33 light_window
             # revision commit (git-show verifiable at the merged tree HEAD).
             '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
-            # CL-INT-105: CL-DATA-34 supplement contracts re-pinned to the
-            # merged-tree regen commit carrying the 434-opportunity canonical bytes.
-            '23f1bb6c0a90964067d885c3783c99c87a902b86',
-            # CL-DATA-36: 60 batch2 access-verified records re-pinned to the
-            # stage-1 commit carrying the e-d36 evidence-ref + revision-2 bytes.
-            '21198c9cc91e00cdd3df8daea76aac46bf9fb45b',
+            # CL-DATA-38: batch4 access verification — the 60 records were
+            # re-pinned to the batch4 commit carrying the verified trilingual
+            # access bytes (batch4-progress.json).
+            'acd1b0ca4990e1f0e418b071deff2d018d9bdb45',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -199,7 +196,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(717,count)  # 239 places x 3 (re-anchored CL-INT-105: CL-DATA-34 jp supplement)
+        self.assertEqual(696,count)  # 232 places x 3 (re-anchored CL-DATA-32: 14 southern-Japan additions)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
