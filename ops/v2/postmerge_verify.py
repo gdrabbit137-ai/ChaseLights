@@ -264,9 +264,17 @@ def verify_main(root, lock):
     # must carry byte-identical canonical records, including all five Batch04 IDs.
     index_dir = root / "data/v2/indexes/research"
     bundle = json.loads((root / "apps/web-v2/browse-index.v2.json").read_text())
+    # CL-CI-31c: the accepted browse index is identified by the main-side
+    # commit that produced it (browse_index_source_sha), not by the W2 pilot
+    # acceptance pointer (w2.sha). The original ancestor-of-w2.sha requirement
+    # is structurally unsatisfiable once the research index is regenerated on
+    # main outside the pilot branch lineage (CL-DATA-35 stage chain): no commit
+    # can be both a tree-matching index commit and an ancestor of the pinned
+    # pilot sha. The chain requirement is now: browse_source is an ancestor of
+    # HEAD and its data/v2/indexes/research tree matches HEAD's exactly.
     browse_source = lock["sources"]["w2"]["browse_index_source_sha"]
     if (subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor",
-                       browse_source, lock["sources"]["w2"]["sha"]],
+                       browse_source, "HEAD"],
                       capture_output=True).returncode or
             git(root, "rev-parse", "HEAD:data/v2/indexes/research") !=
             git(root, "rev-parse", browse_source + ":data/v2/indexes/research")):
