@@ -33,13 +33,13 @@ class MigrationSkeletonTests(unittest.TestCase):
         spots = self.catalog["spots"]
         opps = sum(len(s["opportunities"]) for s in spots)
         admitted = set(self.inventory["first_pass"]["admitted_canonical"])
-        # re-anchored CL-DATA-25R: runtime catalog now 238 spots / 463 opportunities
+        # re-anchored CL-DATA-32: runtime catalog now 252 spots / 477 opportunities
         # (CL-DATA-25 batch admitted 25 places, 25R retired the 5 v2-rejected
         # builds and admitted tw-098); the first-pass inventory is the R0-era
         # snapshot and stays pinned at 217 covered places / 28 evolved docs.
-        self.assertEqual((238, 463), (len(spots), opps))
+        self.assertEqual((252, 477), (len(spots), opps))
         canonical = sorted((ROOT / "data/v2/opportunities").glob("*.json"))
-        self.assertEqual(406, len(canonical))
+        self.assertEqual(420, len(canonical))
         self.assertEqual(len(admitted), 28)
         # R0 inventory is a frozen snapshot (live catalog grew with CL-DATA-25/25R admissions)
         self.assertEqual(self.inventory["first_pass"]["places_first_pass_covered"], 217)
