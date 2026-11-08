@@ -80,7 +80,7 @@ test('CL-DATA-14: glacier subject keeps permanent-ice semantics (seasonal BONUS 
   assert.ok(c, 'seasonal_state present');
   assert.equal(c.role, 'QUALITY');
   assert.equal(c.condition_tier, 'BONUS');
-  assert.equal(loadContract('us-083-P01').revision, 4);
+  assert.equal(loadContract('us-083-P01').revision, 5);
 });
 
 test('CL-DATA-14: tw-001-P01 秋芒 carries the 10-11 month seasonal window', () => {

@@ -1,12 +1,12 @@
 # CL-DATA-24 全庫景點機械評分（catalog scoring）
 
-評分範圍：232 places × 420 opportunities（全數來自庫內契約；唯讀分析）。
+評分範圍：239 places × 434 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`10e04cfe7fb0caee…`（重跑可驗證確定性）。
+輸入指紋：`a2df4da9a7d84e26…`（重跑可驗證確定性）。
 
-- 全庫加權均分：**3.86 / 5**；中位數：**3.88 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**159** 個，不虛構分數）。
-- 區域分布：jp=56, tw=93, us=83
-- 弱點清單筆數：低 weather_light **6**、低 verifiability **248**、5km 群聚 **17**。
+- 全庫加權均分：**3.9 / 5**；中位數：**3.9 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**160** 個，不虛構分數）。
+- 區域分布：jp=63, tw=93, us=83
+- 弱點清單筆數：低 weather_light **6**、低 verifiability **180**、5km 群聚 **18**。
 
 ## 五維判定規則（機械、可重跑）
 
@@ -26,49 +26,49 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 |---|---|---|---|---|---|---|
 | 1 | `jp-044` | 十二湖・青池 | jp | 1 | **4.6** | 5/5/3.0/5/5 |
 | 2 | `jp-051` | 嚴島神社・宮島大鳥居 | jp | 1 | **4.4** | 5/5/3.0/5/4 |
-| 3 | `jp-048` | 北山崎（三陸断崖） | jp | 2 | **4.38** | 4.5/5/2.5/5/5 |
-| 4 | `tw-026` | 井仔腳瓦盤鹽田 | tw | 3 | **4.33** | 5/5/3.67/5/3 |
-| 5 | `jp-002` | 旭岳 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
-| 6 | `jp-009` | 磐梯山 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
-| 7 | `jp-052` | 備中松山城・雲海（天空の城） | jp | 1 | **4.3** | 5/5/2.5/5/4 |
-| 8 | `jp-028` | 高野山 | jp | 1 | **4.25** | 4/5/3.5/5/4 |
-| 9 | `tw-084` | 大農大富平地森林園區 | tw | 3 | **4.23** | 4.33/5/4.0/5/3 |
-| 10 | `jp-046` | タウシュベツ川橋梁（幻の橋） | jp | 1 | **4.2** | 5/5/3.0/5/3 |
-| 11 | `jp-045` | 地球岬展望台 | jp | 2 | **4.17** | 4.5/5/2.5/5/4 |
-| 12 | `us-011` | 大提頓國家公園 | us | 2 | **4.17** | 4.5/5/3.5/5/3 |
-| 13 | `us-001` | 大峽谷國家公園 | us | 3 | **4.13** | 4.33/5/3.5/5/3 |
-| 14 | `jp-037` | 雲海テラス（トマム） | jp | 2 | **4.1** | 5/5/2.5/5/3 |
-| 15 | `tw-089` | 觀霧榛山步道觀景點 | tw | 1 | **4.1** | 5/5/2.5/5/3 |
-| 16 | `tw-001` | 大屯山助航站 | tw | 3 | **4.07** | 4.67/5/3.5/4/3 |
-| 17 | `jp-003` | 釧路濕原 | jp | 1 | **4.05** | 4/5/3.5/5/3 |
-| 18 | `jp-042` | 森吉山樹氷平（阿仁スキー場） | jp | 2 | **4.05** | 4/5/2.5/5/4 |
-| 19 | `jp-047` | 八甲田山樹氷（八甲田ロープウェー） | jp | 1 | **4.05** | 4/5/2.5/5/4 |
-| 20 | `tw-034` | 崇德 | tw | 3 | **4.02** | 4.67/5/2.5/5/3 |
+| 3 | `us-055` | 威朗格利-聖埃利亞斯國家公園 | us | 2 | **4.4** | 5/5/4.0/5/3 |
+| 4 | `us-069` | 克拉克湖國家公園 | us | 1 | **4.4** | 5/5/4.0/5/3 |
+| 5 | `us-086` | 里亞爾托海灘／牆中洞 | us | 1 | **4.4** | 5/5/4.0/5/3 |
+| 6 | `jp-048` | 北山崎（三陸断崖） | jp | 2 | **4.38** | 4.5/5/2.5/5/5 |
+| 7 | `us-059` | 卡特邁國家公園 | us | 2 | **4.35** | 5/5/3.75/5/3 |
+| 8 | `tw-026` | 井仔腳瓦盤鹽田 | tw | 3 | **4.33** | 5/5/3.67/5/3 |
+| 9 | `jp-002` | 旭岳 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
+| 10 | `jp-009` | 磐梯山 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
+| 11 | `jp-052` | 備中松山城・雲海（天空の城） | jp | 1 | **4.3** | 5/5/2.5/5/4 |
+| 12 | `us-060` | 冰河灣國家公園 | us | 2 | **4.3** | 5/5/3.5/5/3 |
+| 13 | `us-087` | 颶風嶺 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 14 | `us-088` | 霍雨林 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 15 | `jp-028` | 高野山 | jp | 1 | **4.25** | 4/5/3.5/5/4 |
+| 16 | `tw-084` | 大農大富平地森林園區 | tw | 3 | **4.23** | 4.33/5/4.0/5/3 |
+| 17 | `jp-046` | タウシュベツ川橋梁（幻の橋） | jp | 1 | **4.2** | 5/5/3.0/5/3 |
+| 18 | `jp-045` | 地球岬展望台 | jp | 2 | **4.17** | 4.5/5/2.5/5/4 |
+| 19 | `us-011` | 大提頓國家公園 | us | 2 | **4.17** | 4.5/5/3.5/5/3 |
+| 20 | `us-001` | 大峽谷國家公園 | us | 3 | **4.13** | 4.33/5/3.5/5/3 |
 
 ### Bottom 20
 
 | 排名 | place | 名稱 | 區域 | 題材數 | 加權總分 | 五維 | 最近景點 (km) |
 |---|---|---|---|---|---|---|---|
-| 213 | `us-077` | 何塞・黎剎博士公園 | us | 2 | **None** | 4/5/1.5/1/unknown | us-026 (2.61) |
-| 214 | `us-078` | 默特爾・愛德華茲公園 | us | 1 | **None** | 4/5/1.5/1/unknown | us-024 (0.88) |
-| 215 | `us-079` | 斯諾夸爾米瀑布 | us | 1 | **None** | 5/5/1.5/5/unknown | us-077 (36.48) |
-| 216 | `us-080` | 欺騙海峽州立公園 | us | 2 | **None** | 4.5/5/1.5/5/unknown | us-087 (79.74) |
-| 217 | `us-081` | 雷尼爾山・天堂區 | us | 2 | **None** | 5/5/1.5/1/unknown | us-082 (2.02) |
-| 218 | `us-082` | 雷尼爾山・倒影湖 | us | 1 | **None** | 5/5/2.0/1/unknown | us-012 (0.08) |
-| 219 | `us-083` | 雷尼爾山・日出區 | us | 2 | **None** | 4.5/5/1.5/4/unknown | us-084 (10.7) |
-| 220 | `us-084` | 雷尼爾山・蒂普蘇湖 | us | 1 | **None** | 5/5/1.5/4/unknown | us-083 (10.7) |
-| 221 | `us-085` | 紅寶石海灘 | us | 1 | **None** | 5/5/1.5/1/unknown | us-019 (0.05) |
-| 222 | `us-086` | 里亞爾托海灘／牆中洞 | us | 1 | **None** | 5/5/2.0/5/unknown | us-019 (28.31) |
-| 223 | `us-087` | 颶風嶺 | us | 1 | **None** | 5/5/1.5/5/unknown | us-088 (34.65) |
-| 224 | `us-088` | 霍雨林 | us | 1 | **None** | 5/5/1.5/5/unknown | us-087 (34.65) |
-| 225 | `us-089` | 帕盧斯瀑布 | us | 1 | **None** | 5/5/2.0/5/unknown | us-094 (81.67) |
-| 226 | `us-090` | 迪亞布羅湖 | us | 1 | **None** | 5/5/2.0/5/unknown | us-091 (39.5) |
-| 227 | `us-091` | 華盛頓山口觀景點 | us | 1 | **None** | 4/5/2.0/5/unknown | us-090 (39.5) |
-| 228 | `us-092` | 藝術家角 | us | 1 | **None** | 5/5/1.5/1/unknown | us-093 (2.65) |
-| 229 | `us-093` | 畫湖 | us | 1 | **None** | 5/5/2.0/1/unknown | us-092 (2.65) |
-| 230 | `us-094` | 斯特普托山丘 | us | 1 | **None** | 4/5/1.5/5/unknown | us-089 (81.67) |
-| 231 | `us-095` | 失望角州立公園 | us | 1 | **None** | 5/5/1.5/5/unknown | us-017 (141.15) |
-| 232 | `us-096` | 乾瀑布 | us | 1 | **None** | 5/5/2.0/5/unknown | us-089 (135.64) |
+| 220 | `us-071` | Kerry Park | us | 3 | **None** | 4.33/5/3.83/1/unknown | us-078 (1.1) |
+| 221 | `us-072` | 金色花園公園 | us | 2 | **None** | 5/5/3.5/1/unknown | us-075 (4.06) |
+| 222 | `us-073` | 阿爾基海灘公園 | us | 2 | **None** | 4.5/5/3.5/1/unknown | us-076 (2.04) |
+| 223 | `us-074` | 煤氣廠公園 | us | 2 | **None** | 4/5/3.5/1/unknown | us-071 (2.6) |
+| 224 | `us-075` | 探索公園 | us | 2 | **None** | 4.5/5/3.5/1/unknown | us-072 (4.06) |
+| 225 | `us-076` | 漢密爾頓觀景公園 | us | 2 | **None** | 4/5/3.5/1/unknown | us-073 (2.04) |
+| 226 | `us-077` | 何塞・黎剎博士公園 | us | 2 | **None** | 4/5/3.5/1/unknown | us-026 (2.61) |
+| 227 | `us-078` | 默特爾・愛德華茲公園 | us | 1 | **None** | 4/5/3.5/1/unknown | us-024 (0.88) |
+| 228 | `us-079` | 斯諾夸爾米瀑布 | us | 1 | **None** | 5/5/3.5/5/unknown | us-077 (36.48) |
+| 229 | `us-080` | 欺騙海峽州立公園 | us | 2 | **None** | 4.5/5/3.5/5/unknown | us-087 (79.74) |
+| 230 | `us-083` | 雷尼爾山・日出區 | us | 2 | **None** | 4.5/5/3.5/4/unknown | us-084 (10.7) |
+| 231 | `us-084` | 雷尼爾山・蒂普蘇湖 | us | 1 | **None** | 5/5/3.5/4/unknown | us-083 (10.7) |
+| 232 | `us-089` | 帕盧斯瀑布 | us | 1 | **None** | 5/5/4.0/5/unknown | us-094 (81.67) |
+| 233 | `us-090` | 迪亞布羅湖 | us | 1 | **None** | 5/5/4.0/5/unknown | us-091 (39.5) |
+| 234 | `us-091` | 華盛頓山口觀景點 | us | 1 | **None** | 4/5/4.0/5/unknown | us-090 (39.5) |
+| 235 | `us-092` | 藝術家角 | us | 1 | **None** | 5/5/3.5/1/unknown | us-093 (2.65) |
+| 236 | `us-093` | 畫湖 | us | 1 | **None** | 5/5/4.0/1/unknown | us-092 (2.65) |
+| 237 | `us-094` | 斯特普托山丘 | us | 1 | **None** | 4/5/3.5/5/unknown | us-089 (81.67) |
+| 238 | `us-095` | 失望角州立公園 | us | 1 | **None** | 5/5/3.5/5/unknown | us-017 (141.15) |
+| 239 | `us-096` | 乾瀑布 | us | 1 | **None** | 5/5/4.0/5/unknown | us-089 (135.64) |
 
 ## 弱點清單 A：低 weather_light（模型幫不上忙的景點 → 建議改題材）
 
@@ -265,77 +265,10 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | `us-033-P01` | us-033 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `us-035-P02` | us-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `us-036-P01` | us-036 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-037-P02` | us-037 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-038-P01` | us-038 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-039-P01` | us-039 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-039-P02` | us-039 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-040-P01` | us-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-041-P01` | us-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-044-P01` | us-044 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-045-P01` | us-045 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-046-P01` | us-046 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-047-P01` | us-047 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-048-P01` | us-048 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-048-P02` | us-048 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-050-P01` | us-050 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-050-P02` | us-050 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-051-P01` | us-051 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-051-P02` | us-051 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-052-P01` | us-052 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-052-P02` | us-052 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-055-P01` | us-055 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-055-P02` | us-055 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-056-P01` | us-056 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-057-P01` | us-057 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-059-P01` | us-059 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-059-P02` | us-059 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-060-P01` | us-060 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-060-P02` | us-060 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-061-P01` | us-061 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-061-P02` | us-061 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-062-P01` | us-062 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-063-P01` | us-063 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-064-P01` | us-064 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-069-P01` | us-069 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-071-P02` | us-071 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-071-P03` | us-071 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-072-P01` | us-072 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-072-P02` | us-072 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-073-P01` | us-073 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-073-P02` | us-073 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-074-P01` | us-074 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-074-P02` | us-074 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-075-P01` | us-075 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-075-P02` | us-075 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-076-P01` | us-076 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-076-P02` | us-076 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-077-P01` | us-077 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-077-P02` | us-077 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-078-P03` | us-078 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-079-P01` | us-079 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-080-P01` | us-080 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-080-P02` | us-080 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-081-P01` | us-081 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-081-P02` | us-081 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-082-P01` | us-082 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-083-P01` | us-083 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-083-P02` | us-083 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-084-P01` | us-084 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-085-P01` | us-085 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-086-P01` | us-086 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-087-P01` | us-087 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-088-P01` | us-088 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-089-P01` | us-089 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-090-P01` | us-090 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-091-P01` | us-091 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-092-P01` | us-092 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-093-P01` | us-093 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-094-P01` | us-094 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-095-P01` | us-095 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-096-P01` | us-096 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 
 ## 弱點清單 C：高重叠區（5km 群聚 → 檢討差異化/候選裁撤，僅建議）
 
+- 東京鐵塔（jp-011，最近 2.37 km）、皇居外苑二重橋（jp-015，最近 2.37 km）
 - 橫濱山下公園（jp-016，最近 0.36 km）、橫濱港未來21（jp-020，最近 0.36 km）
 - 福岡城跡（jp-032，最近 3.09 km）、福岡塔（jp-035，最近 3.09 km）
 - 長崎哥拉巴園（jp-034，最近 2.8 km）、稻佐山夜景（jp-057，最近 2.8 km）
