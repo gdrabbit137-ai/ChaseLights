@@ -1,8 +1,8 @@
 {
-  "status": "FAIL",
-  "root_head": "508c88c99535c0aa14228b182fbf65a3fd7b2489",
+  "status": "PASS",
+  "root_head": "efd310aa03e4f103ae0df6efae8068aaad0ab470",
   "tested_parents": [
-    "cf5a37428268020ce4035b78c3b3adfa59b15a0d"
+    "fff7f968bee86bc130b79bbf7dacc8f0bd2eb5a7"
   ],
   "checks": [],
   "groups": [
@@ -263,19 +263,19 @@
     },
     {
       "name": "w2-crosswalk-schema-index-and-hourly-binding",
-      "exit_code": 1,
+      "exit_code": 0,
       "counts": {
         "tests": 109,
-        "fail": 4,
+        "fail": 0,
         "error": 0,
         "skip": 0,
         "expected_failure": 0,
         "unexpected_success": 0,
-        "pass": 105
+        "pass": 109
       },
-      "status": "FAIL",
+      "status": "PASS",
       "timed_out": false,
-      "gate_error": "Zero tests or unsuccessful test cases",
+      "gate_error": null,
       "log": "w2-crosswalk-schema-index-and-hourly-binding.log"
     },
     {
@@ -307,11 +307,16 @@
     },
     {
       "name": "w4-node",
-      "exit_code": 9,
-      "counts": {},
-      "status": "FAIL",
+      "exit_code": 0,
+      "counts": {
+        "tests": 519,
+        "pass": 519,
+        "fail": 0,
+        "skip": 0
+      },
+      "status": "PASS",
       "timed_out": false,
-      "gate_error": "Missing/ambiguous Node test count: tests",
+      "gate_error": null,
       "log": "w4-node.log"
     },
     {
@@ -362,18 +367,23 @@
     },
     {
       "name": "candidate-build-browser",
-      "exit_code": 9,
-      "counts": {},
-      "status": "FAIL",
+      "exit_code": 0,
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "skip": 0
+      },
+      "status": "PASS",
       "timed_out": false,
-      "gate_error": "Missing/ambiguous Node test count: tests",
+      "gate_error": null,
       "log": "candidate-build-browser.log"
     }
   ],
   "pin_sync": {},
   "reviewed_main_sha": "c743dfd6469937f715529014dcb781f7771db776",
   "actual_base_sha": "c743dfd6469937f715529014dcb781f7771db776",
-  "candidate_sha": "508c88c99535c0aa14228b182fbf65a3fd7b2489",
+  "candidate_sha": "efd310aa03e4f103ae0df6efae8068aaad0ab470",
   "source_shas": {
     "w1": "9a84eee3c938af68c531005e42f98bd3ea18d272",
     "w2": "12da7e917eaf8191eefaa2379af77a11fc7aaeda",
@@ -381,13 +391,13 @@
     "w4": "9e590f78578c642aacda4369332b6f01f075e5d2"
   },
   "source_provenance": {
-    "repository_head": "508c88c99535c0aa14228b182fbf65a3fd7b2489",
+    "repository_head": "efd310aa03e4f103ae0df6efae8068aaad0ab470",
     "owner_trees": {
       "specs/v2": "db2c670e56c94c86e866d4b6f0b978b9d03bac98",
-      "data/v2": "c69dd6d4cf0cf458cf9a804fe14287be8317b6f8",
-      "packages/core-v2": "9d92fac8c71e65682193bd0d2c544e44dd9383c8",
+      "data/v2": "ce3508f4c0d37e94438720341e17f861b227b4d1",
+      "packages/core-v2": "09b51a4ca4f9ab4e12958d66eaef99e96b935ee3",
       "packages/models-v2": "dfa14641312b83c61b97f3ac14c8127de795137e",
-      "apps/web-v2": "986ddaf15e0df13b5e95d75a763672b94b338a94"
+      "apps/web-v2": "b8ffafd2550c76901bad652e10bbe5c23c93d057"
     },
     "owner_file_counts": {
       "specs/v2": 96,
@@ -426,11 +436,10 @@
     "research_only": true
   },
   "counts": {
-    "tests": 504,
-    "pass": 500,
-    "fail": 4,
+    "tests": 1029,
+    "pass": 1029,
+    "fail": 0,
     "error": 0,
     "skip": 0
-  },
-  "error": "ValueError: Post-merge exact 1022-case requirement failed"
+  }
 }

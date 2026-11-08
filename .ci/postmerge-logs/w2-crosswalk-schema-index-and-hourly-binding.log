@@ -47,24 +47,24 @@ ok
 test_invalid_strings_fail_closed (test_genre_templates.BindingGrammarTests.test_invalid_strings_fail_closed) ... ok
 test_valid_strings (test_genre_templates.BindingGrammarTests.test_valid_strings) ... ok
 test_draft_expansion_refused (test_genre_templates.ExpansionTests.test_draft_expansion_refused) ... ok
-test_expanded_model_binding_strings_lint (test_genre_templates.ExpansionTests.test_expanded_model_binding_strings_lint) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpngr4qj4g\tw-001-P02.json
+test_expanded_model_binding_strings_lint (test_genre_templates.ExpansionTests.test_expanded_model_binding_strings_lint) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp0dzoatfg\tw-001-P02.json
 ok
-test_expansion_never_touches_canonical (test_genre_templates.ExpansionTests.test_expansion_never_touches_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp4ayzhq2n\tw-001-P02.json
+test_expansion_never_touches_canonical (test_genre_templates.ExpansionTests.test_expansion_never_touches_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmphvd8jabv\tw-001-P02.json
 ok
-test_round_trip_matches_reviewed_canonical (test_genre_templates.ExpansionTests.test_round_trip_matches_reviewed_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpfigdk6nu\tw-001-P02.json
-expanded sunrise-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp2zyoov43\tw-036-P01.json
-expanded blue_hour_city-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp1yhl40mg\tw-002-P01.json
-expanded mountain_view-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmppmtghvgv\tw-016-P01.json
+test_round_trip_matches_reviewed_canonical (test_genre_templates.ExpansionTests.test_round_trip_matches_reviewed_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpg_nnzb1k\tw-001-P02.json
+expanded sunrise-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpk35fujwo\tw-036-P01.json
+expanded blue_hour_city-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp1lj25gwl\tw-002-P01.json
+expanded mountain_view-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpv8k1rosn\tw-016-P01.json
 ok
 test_undeclared_param_refused (test_genre_templates.ExpansionTests.test_undeclared_param_refused) ... ok
 test_arithmetic (test_genre_templates.ExpressionTests.test_arithmetic) ... ok
 test_disallowed_syntax_fails (test_genre_templates.ExpressionTests.test_disallowed_syntax_fails) ... ok
 test_undeclared_param_fails (test_genre_templates.ExpressionTests.test_undeclared_param_fails) ... ok
-test_merge_exact_duplicate_skipped (test_genre_templates.MergeTests.test_merge_exact_duplicate_skipped) ... merged cloud_sea-v0.1 -> 9 offered, 1 duplicate skipped, 9 total -> C:\Users\Dick_\AppData\Local\Temp\tmpluf_h1j4\out.json
+test_merge_exact_duplicate_skipped (test_genre_templates.MergeTests.test_merge_exact_duplicate_skipped) ... merged cloud_sea-v0.1 -> 9 offered, 1 duplicate skipped, 9 total -> C:\Users\Dick_\AppData\Local\Temp\tmpgr0t7izp\out.json
 ok
 test_merge_point_conflict_refused (test_genre_templates.MergeTests.test_merge_point_conflict_refused) ... ok
 test_merge_requires_existing_contract (test_genre_templates.MergeTests.test_merge_requires_existing_contract) ... ok
-test_merge_scoped_overlap_is_allowed (test_genre_templates.MergeTests.test_merge_scoped_overlap_is_allowed) ... merged cloud_sea-v0.1 -> 9 offered, 0 duplicate skipped, 10 total -> C:\Users\Dick_\AppData\Local\Temp\tmp1grwx_43\out.json
+test_merge_scoped_overlap_is_allowed (test_genre_templates.MergeTests.test_merge_scoped_overlap_is_allowed) ... merged cloud_sea-v0.1 -> 9 offered, 0 duplicate skipped, 10 total -> C:\Users\Dick_\AppData\Local\Temp\tmpcannnsa4\out.json
 ok
 test_draft_templates_are_complete_but_refused (test_genre_templates.RegistryTests.test_draft_templates_are_complete_but_refused) ... ok
 test_every_metric_in_templates_is_in_vocabulary (test_genre_templates.RegistryTests.test_every_metric_in_templates_is_in_vocabulary) ... ok
@@ -269,7 +269,7 @@ warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 ok
 test_query_preferences_capabilities_are_test_only_and_no_favorable (test_task_x_research_index.ResearchIndexTests.test_query_preferences_capabilities_are_test_only_and_no_favorable) ... ok
-test_real_canonical_blob_sha256_identity_and_revision (test_task_x_research_index.ResearchIndexTests.test_real_canonical_blob_sha256_identity_and_revision) ... FAIL
+test_real_canonical_blob_sha256_identity_and_revision (test_task_x_research_index.ResearchIndexTests.test_real_canonical_blob_sha256_identity_and_revision) ... ok
 test_research_only_cannot_forge_publication_or_coordinates (test_task_x_research_index.ResearchIndexTests.test_research_only_cannot_forge_publication_or_coordinates) ... ok
 test_source_whitespace_tamper_is_not_trusted_json_equivalence (test_task_x_research_index.ResearchIndexTests.test_source_whitespace_tamper_is_not_trusted_json_equivalence) ... ok
 test_topic_associations_only_existing_existence_evidence (test_task_x_research_index.ResearchIndexTests.test_topic_associations_only_existing_existence_evidence) ... ok
@@ -285,74 +285,14 @@ test_negative_duplicate_and_mismatch_fail (test_worker2_batch03.CrosswalkGate.te
 test_p02_access_uncertainty_survives_all_locales_and_crosswalk (test_worker2_batch03.CrosswalkGate.test_p02_access_uncertainty_survives_all_locales_and_crosswalk) ... ok
 test_preview_is_exact_research_only_canonical_projection (test_worker2_batch03.CrosswalkGate.test_preview_is_exact_research_only_canonical_projection) ... ok
 test_worker1_v21_schema (test_worker2_batch03.SchemaGate.test_worker1_v21_schema) ... ok
-test_01_records_match_schema_and_canonical_legacy_ids (test_worker2_batch04.Batch04Gate.test_01_records_match_schema_and_canonical_legacy_ids) ... 
-  test_01_records_match_schema_and_canonical_legacy_ids (test_worker2_batch04.Batch04Gate.test_01_records_match_schema_and_canonical_legacy_ids) (id='tw-034-P02') ... FAIL
+test_01_records_match_schema_and_canonical_legacy_ids (test_worker2_batch04.Batch04Gate.test_01_records_match_schema_and_canonical_legacy_ids) ... ok
 test_02_sources_and_all_references_are_declared_with_narrow_scope (test_worker2_batch04.Batch04Gate.test_02_sources_and_all_references_are_declared_with_narrow_scope) ... ok
-test_03_research_only_no_misleading_live_navigation_or_access_score (test_worker2_batch04.Batch04Gate.test_03_research_only_no_misleading_live_navigation_or_access_score) ... 
-  test_03_research_only_no_misleading_live_navigation_or_access_score (test_worker2_batch04.Batch04Gate.test_03_research_only_no_misleading_live_navigation_or_access_score) (id='tw-034-P02') ... FAIL
+test_03_research_only_no_misleading_live_navigation_or_access_score (test_worker2_batch04.Batch04Gate.test_03_research_only_no_misleading_live_navigation_or_access_score) ... ok
 test_04_crosswalk_exact_coverage_and_negative_conflict (test_worker2_batch04.Batch04Gate.test_04_crosswalk_exact_coverage_and_negative_conflict) ... ok
-test_05_human_readable_parity_and_original_preview_is_untouched (test_worker2_batch04.Batch04Gate.test_05_human_readable_parity_and_original_preview_is_untouched) ... 
-  test_05_human_readable_parity_and_original_preview_is_untouched (test_worker2_batch04.Batch04Gate.test_05_human_readable_parity_and_original_preview_is_untouched) (id='tw-034-P02') ... FAIL
-
-======================================================================
-FAIL: test_real_canonical_blob_sha256_identity_and_revision (test_task_x_research_index.ResearchIndexTests.test_real_canonical_blob_sha256_identity_and_revision)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "D:\tmp\clci27\data\v2\tests\test_task_x_research_index.py", line 63, in test_real_canonical_blob_sha256_identity_and_revision
-    self.assertEqual({
-    ~~~~~~~~~~~~~~~~^^
-        # CL-DATA-02 owner ruling 2026-11-02: the six review-gated records
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<93 lines>...
-        '2d9af4d86856301e22df74153d9ff67d1500bc42',
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    }, {p['commit_sha'] for p in self.lock['canonical_records']})
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: Items in the second set but not the first:
-'f550046ebd19dc6126fcb5c8e0c1931fe7ac42c8'
-
-======================================================================
-FAIL: test_01_records_match_schema_and_canonical_legacy_ids (test_worker2_batch04.Batch04Gate.test_01_records_match_schema_and_canonical_legacy_ids) (id='tw-034-P02')
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "D:\tmp\clci27\data\v2\tests\test_worker2_batch04.py", line 98, in test_01_records_match_schema_and_canonical_legacy_ids
-    self.assertEqual(EXPECTED_ROLES[id_],
-    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-                     tuple(c["role"] for c in
-                     ^^^^^^^^^^^^^^^^^^^^^^^^
-                           doc["condition_contract"]["conditions"]))
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: Tuples differ: ('REQUIRED', 'REQUIRED', 'REQUIRED', 'REQUIRED') != ('REQUIRED', 'REQUIRED', 'REQUIRED', 'REQUIRED', 'REQUIRED')
-
-Second tuple contains 1 additional elements.
-First extra element 4:
-'REQUIRED'
-
-- ('REQUIRED', 'REQUIRED', 'REQUIRED', 'REQUIRED')
-+ ('REQUIRED', 'REQUIRED', 'REQUIRED', 'REQUIRED', 'REQUIRED')
-?                                      ++++++++++++
-
-
-======================================================================
-FAIL: test_03_research_only_no_misleading_live_navigation_or_access_score (test_worker2_batch04.Batch04Gate.test_03_research_only_no_misleading_live_navigation_or_access_score) (id='tw-034-P02')
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "D:\tmp\clci27\data\v2\tests\test_worker2_batch04.py", line 208, in test_03_research_only_no_misleading_live_navigation_or_access_score
-    self.assertIn("2026-11-02 owner（Richard）裁決", zh)
-    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: '2026-11-02 owner（Richard）裁決' not found in '2026-11-08 CL-DATA-33：本契約為 CL-DATA-19 全日題材 light_window 掃描的遺漏案例——崇德清水斷崖山海遠眺（overlook/遠眺題材）在無光線窗時，夜間 21:00–22:00 曾通過天氣門檻；補上 civil light_window（太陽仰角 > −6°，CL-DATA-11 同源定義），修正 CL-DATA-19 掃描遺漏。本筆為語意修正，layering parity gate 豁免，理由記於本註記。'
-
-======================================================================
-FAIL: test_05_human_readable_parity_and_original_preview_is_untouched (test_worker2_batch04.Batch04Gate.test_05_human_readable_parity_and_original_preview_is_untouched) (id='tw-034-P02')
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "D:\tmp\clci27\data\v2\tests\test_worker2_batch04.py", line 248, in test_05_human_readable_parity_and_original_preview_is_untouched
-    self.assertIn(cond["notes_i18n"]["zh-TW"], section)
-    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: '2026-11-08 CL-DATA-33：本契約為 CL-DATA-19 全日題材 light_window 掃描的遺漏案例——崇德清水斷崖山海遠眺（overlook/遠眺題材）在無光線窗時，夜間 21:00–22:00 曾通過天氣門檻；補上 civil light_window（太陽仰角 > −6°，CL-DATA-11 同源定義），修正 CL-DATA-19 掃描遺漏。本筆為語意修正，layering parity gate 豁免，理由記於本註記。' not found in '崇德清水斷崖山海遠眺\n\n太魯閣國家公園記述崇德步道觀景平台能北望清水斷崖與太平洋海天；觀景台現況與當日遠山能見度須另查證。\n\nCamera：太魯閣官方 FAQ 說崇德步道目前僅開放至第一觀景平台；後段不可當作開放。道路與平台狀態仍須於出發當日核對官方公告，勿靠近崖緣。\n\n安全：遵守護欄和步道封閉標示，不靠近落石或不穩定邊坡。\n\nSubject：清水斷崖岩壁、山海與太平洋（fixed_geographic；geometry unknown）\n\nView relation：line_of_sight；distance/azimuth/elevation unknown。\n\nNavigation：needs_review；實際抵達 GPS 未經驗證。\n\nReadiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 分數、FAVORABLE、Directions。\n\n\n\n### REQUIRED\n\n- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 15；GUIDANCE）\n- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.4；GUIDANCE）\n- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。 2026-11-06 CL-DATA-12 全面稽查（batch a）：低雲門檻原為機讀 null（owner 2026-10-26 已裁定修正值 30、lte，僅未落入本欄位）——補上 threshold=30、operator=lte。稽查來源：CL-DATA-12 契約語義修正第一波全面稽查。本筆為語意修正，layering parity gate 豁免，理由記於本註記。（threshold 30；GUIDANCE）\n- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.2；GUIDANCE）\n\n\n### Evidence（source claims only）\n\n- b04-tw034-a：https://www.taroko.gov.tw/ch/trailsAttractions/trail-list/40\n- b04-tw034-b：https://www.taroko.gov.tw/ch/listicle/faq/404\n\n### Access Advisory（不影響攝影適合度）\n\n- 太魯閣官方 FAQ 說崇德步道目前僅開放至第一觀景平台；後段不可當作開放。道路與平台狀態仍須於出發當日核對官方公告，勿靠近崖緣。\n\n---\n'
+test_05_human_readable_parity_and_original_preview_is_untouched (test_worker2_batch04.Batch04Gate.test_05_human_readable_parity_and_original_preview_is_untouched) ... ok
 
 ----------------------------------------------------------------------
-Ran 109 tests in 339.316s
+Ran 109 tests in 347.669s
 
-FAILED (failures=4)
-{"tests": 109, "fail": 4, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 105}
+OK
+{"tests": 109, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 109}
