@@ -160,6 +160,9 @@ class ResearchIndexTests(unittest.TestCase):
             # (jp-051..jp-064, PM-judgment admission) pinned to the admission
             # commit carrying the evidence-ref + revision-2 bytes.
             'dda29699705dcdf9ced993bca06316e1085a15e9',
+            # CL-INT-103 union: tw-034-P02 re-pinned to the CL-DATA-33 light_window
+            # revision commit (git-show verifiable at the merged tree HEAD).
+            '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
