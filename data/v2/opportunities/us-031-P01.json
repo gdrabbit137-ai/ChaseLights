@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-031-P01",
   "place_id": "us-031",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Sprague Lake・Continental Divide山景與湖面",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-rocky-mountain-np"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "落磯山國家公園（科羅拉多州）全年24小時開放。2026年5月22日至10月12日期間，每日09:00–14:00進入全園皆需時段預約（Bear Lake道路走廊為05:00–18:00）；無預約請於09:00前或14:00後入園——這正是日出拍攝的天然窗口。Trail Ridge路況專線970-586-1222。旺季步道口停車清晨即滿；高山遊客中心為最高鋪面站（海拔3,658公尺），午後雷陣雨頻繁，高山拍攝宜排晴天早晨並備保暖衣物。",
+        "en": "Rocky Mountain National Park (Colorado) is open year-round, 24 hours a day. From Friday, May 22 through Monday, October 12, 2026, a timed-entry reservation is required to enter ALL areas between 9 a.m. and 2 p.m. daily (Bear Lake Road corridor 5 a.m.–6 p.m.); without one, enter before 9 a.m. or after 2 p.m. — the natural window for sunrise shoots. Trail Ridge Road status line: 970-586-1222. Parking at trailheads fills by early morning in season; Alpine Visitor Center is the highest paved stop (12,005 ft), and afternoon thunderstorms are routine above treeline — plan high-country shoots for clear mornings and carry layers.",
+        "ja": "ロッキーマウンテン国立公園（コロラド州）は通年24時間開放。2026年5月22日〜10月12日は毎日9〜14時に全エリア入園に時間指定予約が必要（Bear Lake Road回廊は5〜18時）；予約なしは9時前か14時以降に入園—日の出撮影の自然な時間帯。Trail Ridge道路状況ラインは970-586-1222。繁忙期はトレイルヘッドの駐車が早朝に満車；高山ビジターセンターは最も高い舗装地点（標高約3,658m）で、午後の雷雨が常態—高地撮影は晴れた朝に計画し防寒着を持参。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-rocky-mountain-np"
+      ],
       "components": []
     }
   ],
@@ -338,9 +342,11 @@
     {
       "claim_id": "us-031-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-rocky-mountain-np"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/romo/planyourvisit/timed-entry-permit-system.htm | https://home.nps.gov/romo/learn/news/rocky-mountain-national-park-announces-2026-timed-entry-reservation-system.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

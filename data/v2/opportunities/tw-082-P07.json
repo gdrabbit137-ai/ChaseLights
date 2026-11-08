@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-082-P07",
   "place_id": "tw-082",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "鯉魚潭環潭步道與森林步道環境攝影",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-liyu-lake"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於花蓮縣壽豐鄉池南村環潭北路100號（台9丙線約16K東轉入），全天開放；潭北遊客中心08:30–17:30。環潭自行車道約5公里，潭北與潭南均有停車場。大眾運輸：台灣好行縱谷花蓮線303（或303B/C）至鯉魚潭潭北遊客中心站，或花蓮客運1139。晚春螢火蟲季有夜間賞螢活動與專車（依縱管處公告），一般夜間湖畔無照明，沿環潭道路拍攝請穿反光衣物並靠邊行走；湖面晨霧與鯉魚山倒影以清晨光線最佳。",
+        "en": "At 100, Huantan North Rd, Chinan Village, Shoufeng Township, Hualien (turn east at ~16K on Hwy 9-C); open 24 h. Tanbei Visitor Center: 08:30–17:30. The ~5 km lakeside bike loop has parking at both the north and south ends. Transit: Taiwan Tourist Shuttle Valley-Hualien line 303 (or 303B/C) to Liyu Lake Tanbei Visitor Center stop, or Hualien Bus 1139. In late spring there are firefly-viewing nights and shuttle buses (per the East Rift Valley NSA notices); at other times the lakeshore is unlit — walk at the road edge in reflective clothing when shooting at night. Morning mist on the lake and the Carp Mountain reflection are best in early light.",
+        "ja": "花蓮県寿豊郷池南村環潭北路100号（台9丙線約16Kから東へ）。終日開放。潭北ビジターセンターは08:30〜17:30。約5kmの環湖自転車道があり、潭北・潭南双方に駐車場。交通：台湾好行縦谷花蓮線303（303B/Cも）で鯉魚潭潭北遊客中心下車、または花蓮客運1139。晩春の蛍シーズンは夜間鑑賞イベントと専用バスあり（縦谷風管処の発表による）。通常の夜間は湖畔に照明がないため、反射材を着けて道路端を歩くこと。湖面の朝霧と鯉魚山の倒影は早朝の光が最適。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-liyu-lake"
+      ],
       "components": []
     }
   ],
@@ -241,9 +245,11 @@
     {
       "claim_id": "tw-082-P07-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-liyu-lake"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://tour-hualien.hl.gov.tw/TourContent.aspx?n=44&s=1463 | https://www.taiwan.net.tw/m1.aspx?sno=0001124&id=3); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

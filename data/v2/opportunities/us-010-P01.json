@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-010-P01",
   "place_id": "us-010",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Grand Prismatic Overlook・彩色地熱池高處俯瞰",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-grand-prismatic-yell"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "大稜鏡溫泉位於黃石國家公園中途間歇泉盆地（Old Faithful岔口以北8.9公里）。合法取景點有二：盆地內地面木棧道（有無障礙停車與廁所），以及自Fairy Falls登山口停車場（盆地以南1英里，車位極少）步行0.6英里、爬升105英尺的制高展望點。停車非常有限，尤其10:00–18:00。棧道以外禁止行走（含泉邊山坡），地面地熱不穩定務必留在棧道上。清晨與傍晚人少；夜間道路注意野牛。",
+        "en": "Grand Prismatic Spring is in Midway Geyser Basin, Yellowstone National Park (8.9 km north of the Old Faithful junction). Two legal viewpoints exist: (1) the ground-level boardwalk through Midway Geyser Basin — accessible parking and vault toilets available; (2) the elevated Grand Prismatic Overlook, a 0.6-mile trail climbing 105 ft from the Fairy Falls trailhead lot (1 mile south of Midway; parking is very limited). Parking is scarce, especially 10 a.m.–6 p.m. Off-trail travel is prohibited even on the hills overlooking the spring; stay on boardwalks — ground is thermally unstable. Pre-dawn/late-evening visits reduce crowding; watch for bison on the road at night.",
+        "ja": "グランド・プリズマティック・スプリングはイエローストーン国立公園のミッドウェイ・ガイザーベースン（オールド・フェイスフル分岐から北へ8.9km）。合法的な撮影地点は2つ：(1)ベースン内の地上レベルの木道（アクセシブル駐車・トイレあり）、(2)Fairy Falls登山口駐車場（ミッドウェイの南1マイル、駐車は極めて少ない）から0.6マイル・標高差105フィートを登る高い見晴らし地点。駐車は特に10時〜18時に極めて限られる。木道外は（泉を望む丘も含め）立入禁止；熱水地帯のため木道上を移動すること。早朝・夕方は混雑が少ない；夜間は道路にバイソン注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-grand-prismatic-yell"
+      ],
       "components": []
     }
   ],
@@ -256,9 +260,11 @@
     {
       "claim_id": "us-010-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-grand-prismatic-yell"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/thingstodo/yell-trail-grand-prismatic-overlook.htm | https://www.nps.gov/places/000/grand-prismatic-spring.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

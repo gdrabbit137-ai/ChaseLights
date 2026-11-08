@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-018-P01",
   "place_id": "us-018",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Lake McDonald・Apgar湖岸日落與山稜剪影",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-glacier-np"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "冰川國家公園（蒙大拿州）全年開放；Going-to-the-Sun Road於2026年6月22日全線開放，其餘季節僅部分通行。2026年不需車輛預約，但7月1日起Logan Pass停車限3小時、登山客接駁車需購票——請提早抵達（停車上午即滿）。高山段限速25英里，夜間不建議行車（野生動物、能見度低）。Logan Pass或Wild Goose觀景點日出拍攝即使在七月也寒冷；清晨出發前查園區路況頁。",
+        "en": "Glacier National Park (Montana) is open year-round; Going-to-the-Sun Road is fully open in summer (opened June 22, 2026) and only partially open the rest of the year. No vehicle reservations are required in 2026, but from July 1 Logan Pass parking is limited to 3 hours and the hiker shuttle is ticketed — arrive early (parking fills by mid-morning). Alpine section speed limit 25 mph; night driving is discouraged (wildlife, low visibility). For sunrise shoots at Logan Pass or Wild Goose Junction viewpoints, expect cold wind even in July; check the park road-status page before any pre-dawn drive.",
+        "ja": "グレイシャー国立公園（モンタナ州）は通年開放；Going-to-the-Sun Roadは2026年6月22日に全線開放、その他の季節は部分開放。2026年は車両予約不要だが、7月1日からLogan Passの駐車は3時間制限、ハイカーシャトルはチケット制—午前中に満車になるため早めに。高山部の速度制限は25マイル、夜間の運転は推奨されない（野生動物・視界不良）。Logan PassやWild Goose展望地の日の出撮影は7月でも冷え込む；早朝ドライブ前に園内道路状況ページを確認。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-glacier-np"
+      ],
       "components": []
     }
   ],
@@ -278,9 +282,11 @@
     {
       "claim_id": "us-018-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-glacier-np"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/glac/learn/news/going-to-the-sun-road-projected-to-open-monday-june-22.htm | https://www.nps.gov/glac/planyourvisit/goingtothesunroad.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-020-P01",
   "place_id": "us-020",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Lady Bird Johnson Grove・巨木紅木森林與步道縱深",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-redwood-nsp"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "紅木國家與州立公園（加州）無收費站、全天開放，景點多沿101號公路與Newton B. Drury景觀大道。景觀道路免費（少數州立公園日間使用區收費，如Gold Bluffs Beach/Fern Canyon 12美元且5月15日–9月6日需免費預約）。每年10月至5月每月第一個週六景觀大道禁止汽車（單車／步行日）；冬季因倒木可能連日封路。霧常見，紅木與麋鹿拍攝宜柔光；晨昏行車注意野生動物、減速慢行。",
+        "en": "Redwood National and State Parks (California) have no entrance stations and are open at all hours; most attractions lie along Highway 101 and the Newton B. Drury Scenic Parkway. No entrance fee for the scenic roads (state-park day-use fees apply in a few areas, e.g. Gold Bluffs Beach/Fern Canyon $12 with free reservations required May 15–Sep 6). From October to May the parkway closes to motor vehicles on the first Saturday of each month (bike/hike day); winter storms can close it for days due to fallen trees. Fog is frequent — redwood and elk photography is best in soft light; drive wildlife roads slowly at dawn/dusk.",
+        "ja": "レッドウッド国立・州立公園（カリフォルニア）には入口ゲートがなく終日開放；見どころの多くはハイウェイ101とNewton B. Druryシーニックパークウェイ沿い。景観道路は無料（一部の州立公園日帰り区域は有料、例：Gold Bluffs Beach/Fern Canyonは12ドル、5月15日〜9月6日は無料予約が必要）。10月〜5月は毎月第1土曜日、パークウェイは自動車進入禁止（自転車・徒歩デー）；冬季は倒木で数日間閉鎖されることがある。霧が多く、セコイアとヘラジカ撮影は柔光が最適；朝夕は野生動物に注意し減速運転。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-redwood-nsp"
+      ],
       "components": []
     }
   ],
@@ -241,9 +245,11 @@
     {
       "claim_id": "us-020-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-redwood-nsp"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/redw/faqs.htm | https://home.nps.gov/thingstodo/drivenbdparkway.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

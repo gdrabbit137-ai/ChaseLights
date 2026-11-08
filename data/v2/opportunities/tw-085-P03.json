@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-085-P03",
   "place_id": "tw-085",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "南子吝・秋冬芒草與山海景觀",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-nanzijin-trail"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於新北市瑞芳區台2線約81.25K、南雅聚落旁，屬東北角及宜蘭海岸國家風景區。步道全長約990公尺、步程約1小時，全年開放免費，途中有觀景涼亭可眺望南雅漁港、鼻頭角與基隆嶼。大眾運輸與南雅奇岩相同：856/791/886至南雅南新宮站。夜間與晨昏無照明，登頂前一段為土石與階梯路面，請自備燈具；崖邊與芒草區注意風勢，冬季東北季風強勁時不宜登頂久留，以現場告示與步道設施為準。",
+        "en": "At ~81.25K on Hwy 2 beside Nanya Village, Ruifang, New Taipei — inside the Northeast & Yilan Coast National Scenic Area. The trail is ~990 m, about a 1-hour round walk, open year-round, free; a mid-way pavilion looks over Nanya harbour, Bitou Cape and Keelung Islet. Same transit as Nanya Rock: 856/791/886 to Nanya Nanxinguang. There is no lighting at night or at dawn/dusk; the upper section is dirt and steps — bring your own light. Mind the wind near the cliff edge and grass slopes; in the strong NE monsoon (winter) do not linger on the summit — follow on-site notices and trail facilities.",
+        "ja": "新北市瑞芳区台2線約81.25K、南雅集落のそば。東北角及び宜蘭海岸国家風景区内。全長約990m、往復約1時間、年中無休・無料。途中の展望涼亭から南雅漁港・鼻頭角・基隆嶼を望める。交通は南雅奇岩と同じく856/791/886で南雅南新宮下車。夜間・早朝は照明がなく、上部は土と階段の路面—灯具持参。崖際とススキ地帯は風に注意し、冬季の東北季風が強い時は山頂に長居せず、現地の掲示と歩道設備に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-nanzijin-trail"
+      ],
       "components": []
     }
   ],
@@ -241,9 +245,11 @@
     {
       "claim_id": "tw-085-P03-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-nanzijin-trail"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=180&l=1 | https://media.taiwan.net.tw/zh-tw/portal/travel/details/trail_a15011300h_000100); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-072-P02",
   "place_id": "tw-072",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "南雅奇岩夕照雲霞",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-nanya-rock"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於新北市瑞芳區台2線約81.9K東北角海岸，全年開放、免費參觀。大眾運輸可搭台灣好行黃金福隆線856或基隆客運791/886於南雅南新宮站下車，或新北市新巴士F805至南雅里站。自行開車走國道1號八堵交流道接台62線（萬瑞快速道路）轉台2線；路邊停車空間有限。拍日出／夜間題材時海岸無護欄，冬季（9月至翌年3月）東北季風強勁、風浪大，切勿越過消波塊下到潮間帶，岩面濕滑宜穿止滑鞋，一切以現場告示為準。",
+        "en": "On Provincial Hwy 2 (~81.9K) at Nanya, Ruifang, New Taipei — open year-round, free. Buses: Taiwan Tourist Shuttle 856 (Golden Fulong Line) or Keelung Bus 791/886 to Nanya Nanxinguang stop; New Taipei F805 to Nanya Village. By car: Hwy 1 to Bada Interchange, Hwy 62 (Wanrui Expressway) then Hwy 2; roadside parking is limited. For sunrise/night shoots the coast has no guardrails; the NE monsoon (Sep–Mar) brings strong wind and waves — do not go past the wave-dissipating blocks onto the intertidal zone, wear grip soles on wet rock, and follow on-site notices.",
+        "ja": "新北市瑞芳の台2線約81.9K地点（東北角海岸）。年中無休・入場無料。バスは台湾好行黄金福隆線856か基隆客運791/886で「南雅南新宮」下車、新北市新巴士F805でも可。車は国道1号八堵交流道から台62線（萬瑞快速道路）経由で台2線。駐車は路側のみで場所が限られる。日の出・夜景撮影時、海岸に柵はなく、冬（9月〜翌3月）は東北季風が強く波が高い。消波塊を越えて潮間帯へ降りず、濡れた岩場には滑り止め靴で、現地の掲示に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-nanya-rock"
+      ],
       "components": []
     }
   ],
@@ -257,9 +261,11 @@
     {
       "claim_id": "tw-072-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-nanya-rock"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=179&l=1 | https://www.ruifang.ntpc.gov.tw/home.jsp?id=e0f628ad936f6de3); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

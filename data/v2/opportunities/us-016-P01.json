@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-016-P01",
   "place_id": "us-016",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Las Vegas Strip・霓虹與LED夜間城市街景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-las-vegas-strip"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "拉斯維加斯大道人行道全年開放。Bellagio音樂噴泉（官方頁）：週一至五15:00–19:30每30分鐘一場、20:00–午夜每15分鐘一場；週六日與假日自12:00起每30分鐘、20:00起每15分鐘至午夜，強風可能取消。觀賞與拍攝均在Bellagio前Las Vegas Blvd人行道，人潮密集注意腳架安全；市區光害高，真正暗空拍攝需離市（日間可至Red Rock Canyon）。",
+        "en": "The Las Vegas Strip sidewalks are public and open at all hours. The free Fountains of Bellagio shows (per MGM Resorts' official page): Monday–Friday every 30 minutes 3 p.m.–7:30 p.m. and every 15 minutes 8 p.m.–midnight; Saturday, Sunday and holidays every 30 minutes from noon to 7:30 p.m. and every 15 minutes 8 p.m.–midnight — weather (wind) can cancel displays. Viewing is from the public sidewalk along Las Vegas Boulevard in front of Bellagio; shoot long exposures from the railing, mind heavy pedestrian traffic, and note the Strip's lights mean true dark-sky astro work belongs outside the city (e.g. Red Rock Canyon by day).",
+        "ja": "ラスベガス・ストリップの歩道は終日開放。無料のベラージオ噴水ショー（MGMリゾート公式）：月〜金は15時〜19時半に30分毎、20時〜深夜0時に15分毎；土日祝は正午から30分毎、20時から15分毎。強風時は中止あり。観覧・撮影はベラージオ前のラスベガス・ブルバード歩道から；人混みが激しく三脚は注意。市街は光害が強く、本格的な星空撮影は市外（日中はRed Rock Canyon等）へ。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-las-vegas-strip"
+      ],
       "components": []
     }
   ],
@@ -251,9 +255,11 @@
     {
       "claim_id": "us-016-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-las-vegas-strip"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://bellagio.mgmresorts.com/en/entertainment/fountains-of-bellagio.html); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

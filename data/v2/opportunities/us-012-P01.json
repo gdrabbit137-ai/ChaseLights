@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-012-P01",
   "place_id": "us-012",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Reflection Lakes・Mount Rainier清晨鏡面倒影",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-mount-rainier-np"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "雷尼爾山國家公園（華盛頓州）全年24小時開放，2026年不需時段預約。全年車行入口為Nisqually入口（SR706），經Longmire往Paradise。夏季週末Nisqually與White River入口等候可超過1小時，建議10:00前或14:30後入園；Paradise停車有限（上層停車場僅限日間）。冬季Longmire–Paradise道路夜間封閉且全車需雪鏈，翌日開放視除雪而定。野花與星空拍攝以夏季為主，任何清晨出發前先查路況。",
+        "en": "Mount Rainier National Park (Washington) is open all year, 24 hours a day; no timed-entry reservations in 2026. Year-round vehicle access is via the Nisqually Entrance (SR 706) toward Longmire/Paradise. Summer: Nisqually and White River entrance waits can exceed an hour on peak weekends — enter before 10 a.m. or after 2:30 p.m.; Paradise parking is limited (upper lot day-use only). Winter: the Longmire–Paradise road closes nightly and requires tire chains for all vehicles; road reopening depends on snow removal. Wildflower and star shoots at Paradise fit the summer window; check road status before any pre-dawn drive.",
+        "ja": "マウント・レーニア国立公園（ワシントン州）は通年24時間開放、2026年は時間指定予約不要。通年車両アクセスはNisqually入口（SR706）からLongmire経由でParadiseへ。夏の週末はNisqually・White River入口で1時間以上待つことがあり、10時前か14時半以降の入園が推奨。Paradiseの駐車は限られ（上段は日帰り専用）。冬季はLongmire〜Paradise道路が夜間閉鎖で全車チェーン必須、再開放は除雪次第。花と星空撮影は夏が中心で、早朝ドライブ前に必ず道路状況を確認。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-mount-rainier-np"
+      ],
       "components": []
     }
   ],
@@ -233,9 +237,11 @@
     {
       "claim_id": "us-012-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-mount-rainier-np"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://home.nps.gov/mora/planyourvisit/hours.htm | https://home.nps.gov/mora/planyourvisit/fees.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {
