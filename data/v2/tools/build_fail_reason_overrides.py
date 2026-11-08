@@ -732,6 +732,48 @@ def phrase(arch, metric):
     return {"zh-TW": tri[0], "en": tri[1], "ja": tri[2]}
 
 
+def load_existing():
+    """CL-CI-31: the JSON on disk is the SOURCE OF TRUTH for authored copy.
+
+    The script's BESPOKE tables lag behind hand-edits made directly in the
+    JSON (CL-DATA-14/CL-DATA-19 waves), so a full rewrite clobbers bespoke
+    trilingual entries with stale template text. Load the existing file and
+    PRESERVE every entry verbatim; the generator only APPENDS new
+    opportunity/metric entries that are not already present."""
+    if os.path.exists(OUT):
+        try:
+            with open(OUT, encoding="utf-8") as fh:
+                return json.load(fh)
+        except (ValueError, OSError):
+            pass
+    return {}
+
+
+def merge_preserve(existing, generated):
+    """Union merge: existing entries win verbatim; only missing
+    opportunity/metric slots are appended from the generated map."""
+    merged = {}
+    for oid in sorted(set(existing) | set(generated)):
+        ex = existing.get(oid) or {}
+        gen = generated.get(oid) or {}
+        merged[oid] = dict(ex)  # existing metrics preserved verbatim
+        for m in sorted(set(gen) - set(ex)):
+            merged[oid][m] = gen[m]
+    return merged
+
+
+def _detect_indent():
+    """Match the on-disk serialization so a no-op rerun is byte-identical."""
+    try:
+        with open(OUT, encoding="utf-8", newline="") as fh:
+            for line in fh:
+                if line.startswith(" ") and line.strip():
+                    return len(line) - len(line.lstrip(" "))
+    except OSError:
+        pass
+    return 1
+
+
 def build(regions):
     out = {}
     stats = collections.defaultdict(lambda: {"opps": 0, "covered": 0, "entries": 0})
@@ -762,8 +804,10 @@ def build(regions):
             out[oid] = per
             st["covered"] += 1
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False,
-              indent=1, sort_keys=True)
+    # CL-CI-31: preserve-bespoke (default ON) — existing JSON wins, append-only.
+    merged = merge_preserve(load_existing(), out)
+    json.dump(merged, open(OUT, "w", encoding="utf-8"), ensure_ascii=False,
+              indent=_detect_indent(), sort_keys=True)
     return out, stats, unauthored
 
 
@@ -785,7 +829,10 @@ def main():
     if unauthored:
         for m, ids in sorted(unauthored.items()):
             print("UNAUTHORED", m, len(ids), ids[:5])
-    print("WROTE", OUT, os.path.getsize(OUT), "bytes,", len(out), "opportunities")
+    merged = json.load(open(OUT, encoding="utf-8"))
+    print("WROTE", OUT, os.path.getsize(OUT), "bytes,", len(merged),
+          "opportunities (preserve-bespoke merge:", len(merged) - len(out),
+          "existing-only opportunities retained)")
 
 
 if __name__ == "__main__":

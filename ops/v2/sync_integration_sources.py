@@ -112,6 +112,56 @@ def current_trees(root):
     return out
 
 
+def reanchor_browse_index_source(root, lock, changes):
+    """CL-CI-31: keep w2.browse_index_source_sha on the index-creating commit.
+
+    postmerge_verify requires browse_index_source_sha's
+    data/v2/indexes/research tree to EXACTLY match HEAD's. That invariant is
+    NOT the w2 acceptance pointer (w2.sha): w2.sha advances with
+    contract/evaluation work whose tree generally differs from the accepted
+    browse index, so pointing this key at w2.sha (or re-anchoring it together
+    with w2.sha during a merge) reds V2 Integration with "W2 pilot changed
+    the accepted browse index" on the next push. Auto-sync therefore never
+    derives this key from w2.sha: it re-anchors to the newest commit that
+    (a) actually touched data/v2/indexes/research and (b) is an ancestor of
+    w2.sha with a matching index tree — i.e. the browse-index-creating commit.
+    """
+    pin = lock["sources"]["w2"]
+    w2_sha = pin.get("sha")
+    if not w2_sha:
+        return None
+    index_tree = git(root, "rev-parse", "HEAD:data/v2/indexes/research")
+    current = pin.get("browse_index_source_sha")
+    if current:
+        try:
+            if git(root, "rev-parse", current + ":data/v2/indexes/research") == index_tree:
+                return None
+        except subprocess.CalledProcessError:
+            pass  # current value unresolvable; fall through to re-anchor
+    # git log newest-first; pick the first commit whose index subtree tree
+    # matches HEAD's and which is an ancestor of the accepted w2 pointer.
+    commits = git(root, "log", "--format=%H", "-n", "40", "HEAD", "--",
+                  "data/v2/indexes/research").split()
+    for commit in commits:
+        try:
+            if git(root, "rev-parse", commit + ":data/v2/indexes/research") != index_tree:
+                continue
+        except subprocess.CalledProcessError:
+            continue
+        if subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor",
+                           commit, w2_sha], capture_output=True).returncode:
+            continue
+        if commit != current:
+            pin["previous_browse_index_source_sha"] = current
+            pin["browse_index_source_sha"] = commit
+            changes.setdefault("w2", {})["browse_index_source_sha"] = {
+                "previous": current, "current": commit}
+        return commit
+    # No matching commit found: leave the pin untouched and let
+    # postmerge_verify report the drift honestly rather than guessing.
+    return None
+
+
 def sync(root, accept_decrease=False):
     lock_path = root / "ops/v2/integration-sources.json"
     lock = json.loads(lock_path.read_text(encoding="utf-8"))
@@ -168,6 +218,7 @@ def sync(root, accept_decrease=False):
                     "previous": old_count, "current": info["file_count"]}
     if refusals:
         raise ValueError("Refusing to lower pinned file_count: " + "; ".join(refusals))
+    reanchor_browse_index_source(root, lock, changes)
     if changes:
         lock_path.write_text(json.dumps(lock, indent=2, ensure_ascii=False) + "\n",
                              encoding="utf-8")

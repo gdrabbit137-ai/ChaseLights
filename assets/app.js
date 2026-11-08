@@ -1676,7 +1676,10 @@
         const v2c=v2Contract(op.opportunity_id);
         const v2Groups=v2c?{required:[],booster:[],penalty:[]}:{};
         if(v2c)(v2c.conditions||[]).forEach(c=>{
-          const item=`<div class="v2-cond" data-metric="${esc(c.metric)}"><b>${esc(v2MetricName(c.metric))}</b> <span class="v2-th">${esc(v2ContractThreshold(c))}${c.unit?' '+esc(c.unit):''}</span><div class="v2-why">${esc(localeText(c.rationale_i18n))}</div></div>`;
+          // CL-UI-51: rationale passes the internal-copy filter; a withheld
+          // rationale renders no line at all rather than an empty one.
+          const why=v2PublicRationale(c.rationale_i18n);
+          const item=`<div class="v2-cond" data-metric="${esc(c.metric)}"><b>${esc(v2MetricName(c.metric))}</b> <span class="v2-th">${esc(v2ContractThreshold(c))}${c.unit?' '+esc(c.unit):''}</span>${why?`<div class="v2-why">${esc(why)}</div>`:''}</div>`;
           if(c.role==='REQUIRED')v2Groups.required.push(item);
           else if(c.role==='BLOCKER')v2Groups.penalty.push(item);
           else v2Groups.booster.push(item);
@@ -1980,9 +1983,9 @@
 
     // ---- V2 evaluation integration (GUIDANCE-only; consumes precomputed bundle) ----
     const V2_EVAL_METRICS = {
-      'zh-TW': { cloud_cover_low:'低雲', cloud_cover_mid:'中雲', cloud_cover_high:'高雲', cloud_cover_mid_and_high:'中高雲', cloud_cover_total:'總雲量', wind_speed_10m:'風速', wind_speed_850hpa:'850hPa風速', precipitation:'降水', aod_550nm:'氣膠光學厚度', visibility:'能見度', relative_humidity_2m:'相對濕度', relative_humidity_700hpa:'相對濕度700hPa', relative_humidity_600hpa:'相對濕度600hPa', wind_speed_700hpa:'700hPa風速', wind_speed_600hpa:'600hPa風速', temperature_delta_850_700_c:'T850−T700溫差', temperature_delta_700_600_c:'T700−T600溫差', relative_humidity_925hpa:'相對濕度（925 hPa）', relative_humidity_850hpa:'相對濕度（850 hPa）', lcl_height_m_agl:'抬升凝結高度', temperature_delta_850_925_c:'T850−T925溫差', sunrise_time_window:'日出時段', sunset_window:'日落時段', golden_hour_window:'黃金時段', blue_hour_window:'藍調時段', astronomical_darkness:'天文黑暗', moon_illumination_fraction:'月照亮百分比', moon_altitude:'月亮高度', moon_target_separation_deg:'月目標角距', moon_illuminance_proxy:'月光照度代理', galactic_core_altitude:'銀河核心高度', water_surface_state:'水面狀態', seasonal_state:'季節狀態', landform_present:'地形地貌存在', river_flow_state:'河川流量狀態' },
-      en: { cloud_cover_low:'Low cloud', cloud_cover_mid:'Mid cloud', cloud_cover_high:'High cloud', cloud_cover_mid_and_high:'Mid & high cloud', cloud_cover_total:'Total cloud', wind_speed_10m:'Wind', wind_speed_850hpa:'Wind 850hPa', precipitation:'Precipitation', aod_550nm:'AOD 550nm', visibility:'Visibility', relative_humidity_2m:'Rel. humidity', relative_humidity_700hpa:'RH 700hPa', relative_humidity_600hpa:'RH 600hPa', wind_speed_700hpa:'Wind 700hPa', wind_speed_600hpa:'Wind 600hPa', temperature_delta_850_700_c:'T850−T700 delta', temperature_delta_700_600_c:'T700−T600 delta', relative_humidity_925hpa:'RH (925 hPa)', relative_humidity_850hpa:'RH (850 hPa)', lcl_height_m_agl:'LCL height', temperature_delta_850_925_c:'T850−T925 delta', sunrise_time_window:'Sunrise window', sunset_window:'Sunset window', golden_hour_window:'Golden hour', blue_hour_window:'Blue hour', astronomical_darkness:'Astronomical darkness', moon_illumination_fraction:'Moon illumination', moon_altitude:'Moon altitude', moon_target_separation_deg:'Moon separation', moon_illuminance_proxy:'Moon illuminance proxy', galactic_core_altitude:'Galactic core altitude', water_surface_state:'Water surface state', seasonal_state:'Seasonal state', landform_present:'Landform presence', river_flow_state:'River flow state' },
-      ja: { cloud_cover_low:'下層雲', cloud_cover_mid:'中層雲', cloud_cover_high:'上層雲', cloud_cover_mid_and_high:'中上層雲', cloud_cover_total:'全雲量', wind_speed_10m:'風速', wind_speed_850hpa:'850hPa風速', precipitation:'降水', aod_550nm:'エアロゾル光学的厚さ', visibility:'視程', relative_humidity_2m:'相対湿度', relative_humidity_700hpa:'相対湿度700hPa', relative_humidity_600hpa:'相対湿度600hPa', wind_speed_700hpa:'700hPa風速', wind_speed_600hpa:'600hPa風速', temperature_delta_850_700_c:'T850−T700温度差', temperature_delta_700_600_c:'T700−T600温度差', relative_humidity_925hpa:'相対湿度（925 hPa）', relative_humidity_850hpa:'相対湿度（850 hPa）', lcl_height_m_agl:'LCL高度', temperature_delta_850_925_c:'T850−T925温度差', sunrise_time_window:'日の出時間帯', sunset_window:'日の入り時間帯', golden_hour_window:'ゴールデンアワー', blue_hour_window:'ブルーアワー', astronomical_darkness:'天文学的薄明', moon_illumination_fraction:'月照亮率', moon_altitude:'月高度', moon_target_separation_deg:'月角距離', moon_illuminance_proxy:'月光照度プロキシ', galactic_core_altitude:'銀河中心高度', water_surface_state:'水面状態', seasonal_state:'季節状態', landform_present:'地形の存在', river_flow_state:'河川流量状態' }
+      'zh-TW': { cloud_cover_low:'低雲', cloud_cover_mid:'中雲', cloud_cover_high:'高雲', cloud_cover_mid_and_high:'中高雲', cloud_cover_total:'總雲量', wind_speed_10m:'風速', wind_speed_850hpa:'850hPa風速', precipitation:'降水', aod_550nm:'氣膠光學厚度', visibility:'能見度', relative_humidity_2m:'相對濕度', relative_humidity_700hpa:'相對濕度700hPa', relative_humidity_600hpa:'相對濕度600hPa', wind_speed_700hpa:'700hPa風速', wind_speed_600hpa:'600hPa風速', temperature_delta_850_700_c:'T850−T700溫差', temperature_delta_700_600_c:'T700−T600溫差', relative_humidity_925hpa:'相對濕度（925 hPa）', relative_humidity_850hpa:'相對濕度（850 hPa）', lcl_height_m_agl:'抬升凝結高度', temperature_delta_850_925_c:'T850−T925溫差', sunrise_time_window:'日出時段', sunset_window:'日落時段', golden_hour_window:'黃金時段', blue_hour_window:'藍調時段', astronomical_darkness:'天文黑暗', moon_illumination_fraction:'月照亮百分比', moon_altitude:'月亮高度', moon_target_separation_deg:'月目標角距', moon_illuminance_proxy:'月光照度代理', galactic_core_altitude:'銀河核心高度', water_surface_state:'水面狀態', seasonal_state:'季節狀態', landform_present:'地形地貌存在', river_flow_state:'河川流量狀態', legacy_long_exposure:'長曝條件' },
+      en: { cloud_cover_low:'Low cloud', cloud_cover_mid:'Mid cloud', cloud_cover_high:'High cloud', cloud_cover_mid_and_high:'Mid & high cloud', cloud_cover_total:'Total cloud', wind_speed_10m:'Wind', wind_speed_850hpa:'Wind 850hPa', precipitation:'Precipitation', aod_550nm:'AOD 550nm', visibility:'Visibility', relative_humidity_2m:'Rel. humidity', relative_humidity_700hpa:'RH 700hPa', relative_humidity_600hpa:'RH 600hPa', wind_speed_700hpa:'Wind 700hPa', wind_speed_600hpa:'Wind 600hPa', temperature_delta_850_700_c:'T850−T700 delta', temperature_delta_700_600_c:'T700−T600 delta', relative_humidity_925hpa:'RH (925 hPa)', relative_humidity_850hpa:'RH (850 hPa)', lcl_height_m_agl:'LCL height', temperature_delta_850_925_c:'T850−T925 delta', sunrise_time_window:'Sunrise window', sunset_window:'Sunset window', golden_hour_window:'Golden hour', blue_hour_window:'Blue hour', astronomical_darkness:'Astronomical darkness', moon_illumination_fraction:'Moon illumination', moon_altitude:'Moon altitude', moon_target_separation_deg:'Moon separation', moon_illuminance_proxy:'Moon illuminance proxy', galactic_core_altitude:'Galactic core altitude', water_surface_state:'Water surface state', seasonal_state:'Seasonal state', landform_present:'Landform presence', river_flow_state:'River flow state', legacy_long_exposure:'Long-exposure condition' },
+      ja: { cloud_cover_low:'下層雲', cloud_cover_mid:'中層雲', cloud_cover_high:'上層雲', cloud_cover_mid_and_high:'中上層雲', cloud_cover_total:'全雲量', wind_speed_10m:'風速', wind_speed_850hpa:'850hPa風速', precipitation:'降水', aod_550nm:'エアロゾル光学的厚さ', visibility:'視程', relative_humidity_2m:'相対湿度', relative_humidity_700hpa:'相対湿度700hPa', relative_humidity_600hpa:'相対湿度600hPa', wind_speed_700hpa:'700hPa風速', wind_speed_600hpa:'600hPa風速', temperature_delta_850_700_c:'T850−T700温度差', temperature_delta_700_600_c:'T700−T600温度差', relative_humidity_925hpa:'相対湿度（925 hPa）', relative_humidity_850hpa:'相対湿度（850 hPa）', lcl_height_m_agl:'LCL高度', temperature_delta_850_925_c:'T850−T925温度差', sunrise_time_window:'日の出時間帯', sunset_window:'日の入り時間帯', golden_hour_window:'ゴールデンアワー', blue_hour_window:'ブルーアワー', astronomical_darkness:'天文学的薄明', moon_illumination_fraction:'月照亮率', moon_altitude:'月高度', moon_target_separation_deg:'月角距離', moon_illuminance_proxy:'月光照度プロキシ', galactic_core_altitude:'銀河中心高度', water_surface_state:'水面状態', seasonal_state:'季節状態', landform_present:'地形の存在', river_flow_state:'河川流量状態', legacy_long_exposure:'長時間露光の条件' }
     };
     let v2EvalBundle=null, v2EvalBundlePromise=null;
     let v2FailOverrides=null, v2FailOverridesPromise=null;
@@ -2198,13 +2201,34 @@
       if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return null;
       return {date,minutes:mins};
     }
+    // CL-UI-51: the contracts carry engineering provenance in some rationale
+    // text (ticket ids, audit-log narrative, gate/evaluator terminology).
+    // Photographers must never see internal ids or audit wording: a rationale
+    // that contains an internal marker is withheld entirely (no rewriting, no
+    // invented copy); a parenthetical that only cross-references another
+    // spot's internal id is dropped and the rest of the sentence is kept.
+    const V2_INTERNAL_COPY_RE=/(?:\bCL-[A-Za-z]+-\d+|\b(?:tw|jp|us)-\d{3}(?:-P\d+)?\b|layering parity|parity gate|propagate_unknown|legacy_long_exposure|全面稽查|全面監査|稽查|監査|\baudit\b)/i;
+    function v2PublicRationale(i18n){
+      const raw=localeText(i18n);
+      if(!raw)return '';
+      const scrubbed=raw.replace(/（[^（）]*）|\([^()]*\)/g,seg=>V2_INTERNAL_COPY_RE.test(seg)?'':seg).replace(/\s+([。．，、；：,.!?！？])/g,'$1');
+      return V2_INTERNAL_COPY_RE.test(scrubbed)?'':scrubbed.trim();
+    }
     function v2NextWindowLocal(oppDays,now,fallback){
       if(!now)return '';
       const fb=v2ParseLocalStamp(fallback);
-      // The bundle value is shown as-is only when it is still in the future
-      // in the spot's own timezone.
-      if(fb&&(fb.date>now.date||(fb.date===now.date&&fb.minutes>=now.minutes)))return fallback;
       const hoursOf=day=>(day.good_hours||[]).filter(t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(String(t||'')));
+      // CL-UI-51 (芹壁): the bundle's live.next_good can come from a different
+      // refresh than the day rows and then disagree with them (16:00 advertised
+      // as the next window while the same day's qualifying hours start 16:30).
+      // The fallback is only trusted when the opportunity's own day rows
+      // corroborate it as a qualifying hour; otherwise the day-scan below —
+      // the same source the qualifying-times line reads — decides.
+      const fbTime=fb?`${String(Math.floor(fb.minutes/60)).padStart(2,'0')}:${String(fb.minutes%60).padStart(2,'0')}`:'';
+      const fbQualifies=fb&&(oppDays||[]).some(day=>day&&day.local_date===fb.date&&hoursOf(day).includes(fbTime));
+      // The bundle value is shown as-is only when it is still in the future
+      // in the spot's own timezone AND the day rows list that hour.
+      if(fb&&fbQualifies&&(fb.date>now.date||(fb.date===now.date&&fb.minutes>=now.minutes)))return fallback;
       for(const day of (oppDays||[])){
         if(!day||!/^\d{4}-\d{2}-\d{2}$/.test(String(day.local_date||'')))continue;
         if(day.local_date<now.date)continue; // a past day row is never a window

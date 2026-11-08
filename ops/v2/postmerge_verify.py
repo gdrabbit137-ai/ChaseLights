@@ -363,7 +363,7 @@ def main():
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
-            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 210, True, False),  # CL-CI-22 re-anchor 201->204; CL-INT-91 +6 -> 210
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 214, True, False),  # CL-CI-22 re-anchor 201->204; CL-INT-91 +6 -> 210; CL-INT-108 merge re-anchor 210->214 (CL-CI-31 +4, measured on merged tree 48fb766ab)
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 109, True, False,  # CL-CI-22 re-anchor 71->109 (CL-DATA-25..28 discovery/regen suites)
                 {"timeout": 600}),  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under
@@ -381,7 +381,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 524, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 532, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally); CL-INT-108 merge re-anchor 524->532 (CL-UI-51 +8, node v26.7.0 --test-isolation=none, measured on merged tree 48fb766ab)
         # 2026-11-08 CL-CI-26: CL-UI-47 +5 real-hit-target tests -> w4-node=514 (CI-observed on merged tree 313feebe4, node v26 --test-isolation=none, 514 pass / 0 fail)
         # 2026-11-08 CL-INT-92: +3 hour-list-cap regression tests -> w4-node=516 on this base (measured locally: 516 pass / 3 pre-existing failures identical to pristine origin/main baseline: CL-COPY-01 coverage, CL-DATA-19 x2)
         # 2026-11-08 CL-CI-27: the 3 'pre-existing failures' were NOT pre-existing —
@@ -448,16 +448,17 @@ def main():
         # 962 -> 1019. Catalog gate re-anchored 197/374 -> 218/406 and
         # browse_index_source_sha -> d8bc99ea (CL-DATA-28 regen chain).
         # 2026-11-08 CL-CI-28: CL-UI-50's +4 node tests raised the measured
+        # 2026-11-08 CL-INT-108 merge re-anchor: exact total 1034->1046 (w3 210->214 CL-CI-31, w4-node 524->532 CL-UI-51) — measured on merged tree 48fb766ab: 1046 pass / 0 fail / 0 skip locally (candidate-build-browser +6 in CI/playwright env).
         # exact total to 1034 (CL-CI-29 +1 node test; w4-node 524 + candidate-build-browser 6 + the
         # 504 counted on this tree; measured locally with node v26.7.0
         # --test-isolation=none, 523 pass / 0 fail and 6 pass / 0 fail) — the
         # CL-UI-50 commit updated the w4-node group pin but left the exact
         # total at 1029, reding every postmerge push with no FAIL group.
-        if (report["counts"]["tests"] != 1034 or
+        if (report["counts"]["tests"] != 1046 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1034):
-            raise ValueError("Post-merge exact 1033-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1046):
+            raise ValueError("Post-merge exact 1046-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
