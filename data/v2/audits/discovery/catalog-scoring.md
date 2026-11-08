@@ -2,11 +2,11 @@
 
 評分範圍：232 places × 420 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`4c60f13fe14acf92…`（重跑可驗證確定性）。
+輸入指紋：`d5f621513ebb73ea…`（重跑可驗證確定性）。
 
-- 全庫加權均分：**3.82 / 5**；中位數：**3.85 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**164** 個，不虛構分數）。
+- 全庫加權均分：**3.88 / 5**；中位數：**3.9 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**162** 個，不虛構分數）。
 - 區域分布：jp=56, tw=93, us=83
-- 弱點清單筆數：低 weather_light **6**、低 verifiability **308**、5km 群聚 **17**。
+- 弱點清單筆數：低 weather_light **6**、低 verifiability **248**、5km 群聚 **17**。
 
 ## 五維判定規則（機械、可重跑）
 
@@ -25,25 +25,25 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | 排名 | place | 名稱 | 區域 | 題材數 | 加權總分 | 五維 |
 |---|---|---|---|---|---|---|
 | 1 | `jp-044` | 十二湖・青池 | jp | 1 | **4.6** | 5/5/3.0/5/5 |
-| 2 | `jp-051` | 嚴島神社・宮島大鳥居 | jp | 1 | **4.4** | 5/5/3.0/5/4 |
-| 3 | `jp-048` | 北山崎（三陸断崖） | jp | 2 | **4.38** | 4.5/5/2.5/5/5 |
-| 4 | `tw-026` | 井仔腳瓦盤鹽田 | tw | 3 | **4.33** | 5/5/3.67/5/3 |
+| 2 | `tw-026` | 井仔腳瓦盤鹽田 | tw | 3 | **4.47** | 5/5/4.33/5/3 |
+| 3 | `jp-051` | 嚴島神社・宮島大鳥居 | jp | 1 | **4.4** | 5/5/3.0/5/4 |
+| 4 | `jp-048` | 北山崎（三陸断崖） | jp | 2 | **4.38** | 4.5/5/2.5/5/5 |
 | 5 | `jp-052` | 備中松山城・雲海（天空の城） | jp | 1 | **4.3** | 5/5/2.5/5/4 |
-| 6 | `tw-084` | 大農大富平地森林園區 | tw | 3 | **4.23** | 4.33/5/4.0/5/3 |
-| 7 | `jp-046` | タウシュベツ川橋梁（幻の橋） | jp | 1 | **4.2** | 5/5/3.0/5/3 |
-| 8 | `jp-045` | 地球岬展望台 | jp | 2 | **4.17** | 4.5/5/2.5/5/4 |
-| 9 | `us-011` | 大提頓國家公園 | us | 2 | **4.17** | 4.5/5/3.5/5/3 |
-| 10 | `us-001` | 大峽谷國家公園 | us | 3 | **4.13** | 4.33/5/3.5/5/3 |
-| 11 | `jp-037` | 雲海テラス（トマム） | jp | 2 | **4.1** | 5/5/2.5/5/3 |
-| 12 | `tw-089` | 觀霧榛山步道觀景點 | tw | 1 | **4.1** | 5/5/2.5/5/3 |
-| 13 | `jp-042` | 森吉山樹氷平（阿仁スキー場） | jp | 2 | **4.05** | 4/5/2.5/5/4 |
-| 14 | `jp-047` | 八甲田山樹氷（八甲田ロープウェー） | jp | 1 | **4.05** | 4/5/2.5/5/4 |
-| 15 | `tw-034` | 崇德 | tw | 3 | **4.02** | 4.67/5/2.5/5/3 |
-| 16 | `tw-088` | 翠峰湖環山步道觀景點 | tw | 2 | **4.0** | 5/5/2.75/4/3 |
-| 17 | `us-031` | 落磯山國家公園 | us | 1 | **4.0** | 5/5/2.0/5/3 |
-| 18 | `us-055` | 威朗格利-聖埃利亞斯國家公園 | us | 2 | **4.0** | 5/5/2.0/5/3 |
-| 19 | `us-069` | 克拉克湖國家公園 | us | 1 | **4.0** | 5/5/2.0/5/3 |
-| 20 | `tw-036` | 七星潭 | tw | 4 | **3.99** | 4.75/5/2.25/5/3 |
+| 6 | `tw-036` | 七星潭 | tw | 4 | **4.29** | 4.75/5/3.75/5/3 |
+| 7 | `tw-034` | 崇德 | tw | 3 | **4.28** | 4.67/5/3.83/5/3 |
+| 8 | `tw-084` | 大農大富平地森林園區 | tw | 3 | **4.23** | 4.33/5/4.0/5/3 |
+| 9 | `jp-046` | タウシュベツ川橋梁（幻の橋） | jp | 1 | **4.2** | 5/5/3.0/5/3 |
+| 10 | `jp-045` | 地球岬展望台 | jp | 2 | **4.17** | 4.5/5/2.5/5/4 |
+| 11 | `us-011` | 大提頓國家公園 | us | 2 | **4.17** | 4.5/5/3.5/5/3 |
+| 12 | `tw-025` | 二寮觀日亭 | tw | 2 | **4.15** | 5/5/3.5/4/3 |
+| 13 | `tw-030` | 屏東關山 | tw | 2 | **4.15** | 5/5/3.5/4/3 |
+| 14 | `us-001` | 大峽谷國家公園 | us | 3 | **4.13** | 4.33/5/3.5/5/3 |
+| 15 | `jp-037` | 雲海テラス（トマム） | jp | 2 | **4.1** | 5/5/2.5/5/3 |
+| 16 | `tw-089` | 觀霧榛山步道觀景點 | tw | 1 | **4.1** | 5/5/2.5/5/3 |
+| 17 | `tw-038` | 三仙台 | tw | 2 | **4.08** | 4.5/5/3.75/4/3 |
+| 18 | `jp-042` | 森吉山樹氷平（阿仁スキー場） | jp | 2 | **4.05** | 4/5/2.5/5/4 |
+| 19 | `jp-047` | 八甲田山樹氷（八甲田ロープウェー） | jp | 1 | **4.05** | 4/5/2.5/5/4 |
+| 20 | `tw-035` | 六十石山 | tw | 10 | **4.05** | 4.6/5/3.5/4/3 |
 
 ### Bottom 20
 
@@ -145,66 +145,6 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | `tw-018-P03` | tw-018 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-019-P01` | tw-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-019-P02` | tw-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-019-P03` | tw-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-019-P04` | tw-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-019-P05` | tw-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-019-P06` | tw-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-020-P01` | tw-020 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-020-P02` | tw-020 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-020-P03` | tw-020 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-020-P04` | tw-020 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-021-P01` | tw-021 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-021-P02` | tw-021 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-022-P01` | tw-022 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-022-P02` | tw-022 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-022-P03` | tw-022 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-022-P04` | tw-022 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-023-P01` | tw-023 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-023-P02` | tw-023 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-023-P03` | tw-023 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-024-P01` | tw-024 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-024-P02` | tw-024 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-024-P03` | tw-024 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-024-P04` | tw-024 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-024-P05` | tw-024 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-025-P01` | tw-025 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-025-P02` | tw-025 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-026-P03` | tw-026 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-027-P01` | tw-027 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-027-P02` | tw-027 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-027-P03` | tw-027 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-028-P01` | tw-028 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-028-P02` | tw-028 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-028-P03` | tw-028 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-028-P04` | tw-028 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-030-P01` | tw-030 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-030-P02` | tw-030 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-031-P01` | tw-031 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-031-P02` | tw-031 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-032-P01` | tw-032 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-032-P02` | tw-032 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-032-P03` | tw-032 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-033-P01` | tw-033 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-033-P02` | tw-033 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-034-P01` | tw-034 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-034-P03` | tw-034 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P01` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P02` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P03` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P04` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P05` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P06` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P07` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P08` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P09` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P10` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-036-P02` | tw-036 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-036-P03` | tw-036 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-036-P04` | tw-036 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-037-P01` | tw-037 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-038-P01` | tw-038 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-038-P02` | tw-038 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P01` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-040-P02` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-040-P03` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-040-P04` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
