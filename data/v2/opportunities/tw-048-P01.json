@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-048-P01",
   "place_id": "tw-048",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "池有名樹與岩稜群山",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-chihyoushan"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於雪霸國家公園生態保護區（武陵四秀之一，武陵農場起迄）。依雪管處規定：四秀線須事先辦理入園證及入山證（一站式服務網）；櫻花季期間由武陵農場進出之單日往返隊伍不發車輛通行證，須搭乘大眾運輸，多日隊伍需於入園日3天前申請通行證。夜間攝影僅於核准宿營行程（如新達山屋）內進行。",
+        "en": "In Shei-Pa National Park's ecological protection area (one of the four Wuling peaks, start/end at Wuling Farm). Per park HQ: the Si-siou line requires advance park-entry and mountain-entry permits (one-stop system); during the cherry-blossom season single-day parties entering via Wuling Farm get no vehicle pass and must use public transport, while multi-day parties apply for a pass 3 days before entry. Night photography only within the approved lodging itinerary (e.g. Xinta Lodge).",
+        "ja": "雪覇国家公園生態保護区（武陵四秀の一つ、武陵農場起点）。管理処規定：四秀線は一括サービス網で入園証・入山証を事前申請。桜シーズン中、武陵農場経由の日帰り隊は車両通行証が発行されず公共交通利用、複数日隊は入園3日前までに通行証申請。夜間撮影は承認宿営行程（新達山屋など）内のみ。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-chihyoushan"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "tw-048-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-chihyoushan"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

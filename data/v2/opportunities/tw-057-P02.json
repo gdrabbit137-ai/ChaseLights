@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-057-P02",
   "place_id": "tw-057",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "加羅湖平靜湖面倒影",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-jialuo-lake"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於宜蘭縣大同鄉太平山山系（林業保育署宜蘭分署轄管山地管制區）。依一站式服務網路線開放清單：加羅湖列入宜蘭縣大同鄉入山申請地點，須依法向警政署申請入山許可證；行程多自100林道或平元林道進入。山徑潮濕泥濘、夜間無照明，湖區宿營請依規定並留意天候與低温。",
+        "en": "In Datong Township, Yilan, within the Taipingshan range (a controlled mountain area under the Forestry Agency's Yilan Branch). Per the one-stop system's route list, Jialuo Lake is among the Datong, Yilan permit points — apply for a National Police Agency mountain-entry permit; approaches typically use the No. 100 and Pingyuan forest roads. The trail is wet and muddy, unlit at night; camp per regulations and watch weather and low temperatures.",
+        "ja": "宜蘭県大同郷の太平山山系（林業保育署宜蘭分署管轄の入山管制区）。一括サービス網の路線リストで加羅湖は宜蘭県大同郷の入山申請地に含まれ、警政署の入山許可証申請が必要。通常100林道または平元林道から進入。山径は湿潤・泥濘で夜間無照明。湖畔宿営は規定に従い、天候と低温に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-jialuo-lake"
+      ],
       "components": []
     }
   ],
@@ -274,9 +278,11 @@
     {
       "claim_id": "tw-057-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-jialuo-lake"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

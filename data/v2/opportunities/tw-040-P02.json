@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-040-P02",
   "place_id": "tw-040",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "玉山主峰四方群峰全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — named-feature summit coordinate widely published; no conflicting authoritative coordinate found in this pass",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-yushan-main-peak"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於玉山國家公園生態保護區（塔塔加登山口進入）。依玉管處登山須知：入園證與入山證經「臺灣登山申請一站式服務網」線上申請，預定入園日前5天至前2個月提出；主（西）峰單日往返每日原則60人並辦理公開抽籤，隊員須具備海拔3,000公尺以上登山經驗、年滿18歲（未滿18歲需家長同意）。入園時間原則05:00後、17:00前出園，10:00前未抵排雲山莊一律折返；排雲山莊每人每宿480元；每年1–3月雪季暫停主（西）峰單日往返。夜拍須注意高山環境與申請行程之時間限制。",
+        "en": "Inside Yushan National Park's ecological protection area (trailhead at Tataka). Per park HQ rules: entry permit and mountain-entry permit via the Taiwan Hiking One-Stop system, filed 5 days to 2 months before entry; day-trip to Main (or West) Peak capped at ~60/day with public lottery and requires members with 3,000 m+ experience, age 18+ (minors need guardian consent). Entry from 05:00, exit by 17:00 — parties not reaching Paiyun Lodge by 10:00 must turn back; Paiyun Lodge NT$480/person/night; 1–3月 snow season suspends the day-trip route. Night sessions must fit the permit's schedule and itinerary.",
+        "ja": "玉山国家公園の生態保護区内（塔塔加登山口から）。管理処の登山規定により、入園証・入山証は「台湾登山申請一括サービス網」で入園日の5日前〜2ヶ月前に申請。主峰（西峰）日帰りは原則毎日60人・抽選で、隊員は標高3,000m以上の経験と18歳以上が必要（18歳未満は保護者同意）。入園は05:00以降、17:00までに下山、10:00までに排雲山荘へ着かない場合は引き返し。排雲山荘は1泊480元。1〜3月の雪期は日帰りルート休止。夜間撮影は申請行程の時間制限内で行うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-yushan-main-peak"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "tw-040-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-yushan-main-peak"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

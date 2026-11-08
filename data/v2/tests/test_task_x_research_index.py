@@ -102,7 +102,10 @@ class ResearchIndexTests(unittest.TestCase):
             # migration-skeleton tidal records were restored to their
             # reviewed-main bytes (commit 86cc3d9bd).
             'd57d40f8966631783f1385908659bd8c1b82adbd',
-            '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
+            # ('86cc3d9bd' retired by CL-DATA-37: its last canonical record
+            # was re-pinned to the batch3 access-verification commit 1bf8e398e
+            # below.)
+            '1bf8e398e20ebbc76be1157d98bd8dc188216746',
             # CL-DATA-13: the touched records' bytes changed (view_azimuth
             # backfill + light_direction pilot contracts) and their blob pins
             # were re-anchored below, but the W2 provenance commit_sha of each

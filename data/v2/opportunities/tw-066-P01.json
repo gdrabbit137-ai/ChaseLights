@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-066-P01",
   "place_id": "tw-066",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "東湧燈塔海岬建築景觀",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry verified — official MOTCMPB coordinate 26°21'56.8\"N 120°30.633'E matches the record's point within tolerance",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-dongyin-lighthouse"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於連江縣東引島東坡（交通部航港局轄管燈塔，國定古蹟）。依航港局燈塔資訊：開放參觀，夏令時間（4/1–10/31）09:00–18:00，冬令（11/1–3/31）09:00–17:00，每週一內部整理不對外開放（遇國定假日或連假調整為收假次日）；燈塔地理座標官方公布為北緯26°21'56.8\"、東經120°30.633'。夜間不開放塔區內部，外圍拍攝請依現場指示。",
+        "en": "On Dongyin Island's east slope, Lienchiang County (a lighthouse run by the Maritime and Port Bureau; national monument). Per the bureau's lighthouse info: open to visitors 09:00–18:00 in summer (Apr 1–Oct 31) and 09:00–17:00 in winter (Nov 1–Mar 31), closed on Mondays for internal upkeep (shifted to the day after a holiday if Monday is one); official coordinates 26°21'56.8\"N, 120°30.633\"E. The tower interior is not open at night — exterior shots follow on-site instructions.",
+        "ja": "連江県東引島東坡（交通部航港局管轄の灯台、国定古蹟）。航港局の灯台情報：見学可。夏時間（4/1〜10/31）は09:00〜18:00、冬時間（11/1〜3/31）は09:00〜17:00、月曜は内部整理のため休館（祝日と連休の場合は明け翌日に変更）。公式座標は北緯26°21'56.8\"、東経120°30.633\"。夜間は塔内非公開——外部撮影は現場の案内に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-dongyin-lighthouse"
+      ],
       "components": []
     }
   ],
@@ -271,9 +275,11 @@
     {
       "claim_id": "tw-066-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-dongyin-lighthouse"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

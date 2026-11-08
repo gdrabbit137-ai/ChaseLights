@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-047-P03",
   "place_id": "tw-047",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "北大武主峰高山全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-beidawushan"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於屏東泰武鄉北大武山國家步道（雙鬼湖野生動物重要棲息環境範圍）。依林業保育署屏東分署公告：檜谷山莊床位/營位經一站式服務網申請、行程前30日系統自動抽籤（結果當日15:30公布、5日內轉帳繳款），假日每人300元、平日250元；入山許可向警政 e 網通或內埔分局泰武派出所申請；檜谷山莊至三角點為屏東縣登山管理自治條例管制山域；入住13:00起、退住12:00前；海上颱風警報或24小時雨量達200mm時步道與山屋暫停開放。",
+        "en": "On the Beidawushan National Trail, Taitung–Pingtung border area (inside the Shuanggui Lake wildlife important habitat). Per the Forestry Agency Pingtung Branch: Hsigu Lodge beds/campsites apply via the one-stop system with automatic lottery 30 days before the trip (results 15:30 same day, bank-transfer within 5 days), NT$300/weekend and 250/weekday; mountain-entry permit via the police e-system or the Taiwu police station; the Lodge-to-summit section is a controlled area under Pingtung's mountain-activity ordinance; check-in 13:00, check-out by 12:00; the trail and lodge close on typhoon warnings or 200 mm/24 h rainfall.",
+        "ja": "屏東県泰武郷の北大武山国家歩道（双鬼湖野生動物重要生息環境内）。林業保育署屏東分署公告：檜谷山荘のベッド/キャンプ枠は一括サービス網で申請し、行程30日前にシステム自動抽選（結果は当日15:30発表、5日以内に振込）、休日300元・平日250元。入山許可は警政e網通または内埔分局泰武派出所で。檜谷山荘〜三角点は屏東県登山活動管理自治条例の管制山域。チェックイン13:00〜チェックアウト12:00。台風警報や24時間200mm降雨で歩道・山荘は閉鎖。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-beidawushan"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "tw-047-P03-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-beidawushan"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {
