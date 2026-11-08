@@ -156,6 +156,9 @@ class ResearchIndexTests(unittest.TestCase):
             # MAIN dawn/dusk window, tw-010-P01 CL-DATA-26 precedent) re-pinned
             # to the contract commit carrying the new bytes.
             '2d9af4d86856301e22df74153d9ff67d1500bc42',
+            # CL-CI-27: tw-034-P02 re-pinned to the CL-DATA-33 contract commit
+            # adding the missing civil light_window (CL-DATA-19 sweep miss).
+            'f550046ebd19dc6126fcb5c8e0c1931fe7ac42c8',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying

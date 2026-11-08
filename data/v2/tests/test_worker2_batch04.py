@@ -30,14 +30,14 @@ EXPECTED = {
     # keeps its 2026-11-01 manager-reviewed sunrise contract.
     "tw-082-P01": ("WEATHER", "HYDROLOGY", "WEATHER", "WEATHER"),
     "tw-036-P01": ("ASTRONOMY", "WEATHER", "WEATHER", "WEATHER"),
-    "tw-034-P02": ("WEATHER", "WEATHER", "WEATHER", "WEATHER"),
+    "tw-034-P02": ("WEATHER", "WEATHER", "WEATHER", "WEATHER", "ASTRONOMY"),  # +light_window CL-CI-27 (CL-DATA-33 f550046eb)
     "jp-010-P01": ("SEASON_TIME", "WEATHER", "WEATHER"),
     "us-071-P01": ("ASTRONOMY", "WEATHER", "WEATHER", "WEATHER"),
 }
 EXPECTED_ROLES = {
     "tw-082-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "QUALITY"),
     "tw-036-P01": ("REQUIRED", "REQUIRED", "QUALITY", "REQUIRED"),
-    "tw-034-P02": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),
+    "tw-034-P02": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),  # +light_window CL-CI-27 (CL-DATA-33 f550046eb)
     "jp-010-P01": ("REQUIRED", "REQUIRED", "REQUIRED"),
     "us-071-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),
 }
@@ -205,6 +205,11 @@ class Batch04Gate(unittest.TestCase):
                         self.assertTrue(cond["notes_i18n"][lang].strip())
                     if id_ in OWNER_RULED:
                         zh = cond["notes_i18n"]["zh-TW"]
+                        # CL-CI-27 2026-11-08: the CL-DATA-33 gap-fill condition
+                        # (light_window) carries its own dated CL-DATA-33 note and
+                        # is outside the 2026-11-02 owner-ruling provenance.
+                        if "2026-11-08 CL-DATA-33" in zh:
+                            continue
                         self.assertIn("2026-11-02 owner（Richard）裁決", zh)
                         self.assertIn("34cb70f39", zh)
                         self.assertIn("未校準", zh)
