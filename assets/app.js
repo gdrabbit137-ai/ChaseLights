@@ -2262,7 +2262,11 @@
       // its full-day list as if it were still actionable.
       const hoursList=v2EffectiveHours(day,tz);
       const hours=hoursList.length;
-      const goodList=hoursList.slice(0,4).join(listSep());
+      // CL-INT-92: the stamp list must cover ALL qualifying hours — a
+      // 4-stamp truncation made the row contradict its own count
+      // (象山: count 6, only 4 stamps listed). Consecutive runs compress to a
+      // segment (formatHourSegments), keeping the line compact while complete.
+      const goodList=hoursList.length?formatHourSegments(hoursList):'';
       const pastNote=(v2DayRel(day.local_date,tz)==='past')?`<div class="v2-past-note">${esc(d().eval2_day_past)}</div>`
         :(v2IsToday(day,tz)&&allHours.length>hoursList.length)?`<div class="v2-past-note">${esc(d().eval2_past_hours)}</div>`:'';
       // CL-UI-26: the day row names the DOMINANT plain-language failure

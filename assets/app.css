@@ -1382,7 +1382,10 @@
     display: block;
     position: fixed;
     inset: 0;
-    z-index: 210;
+    /* CL-UI-49: the mobile .site-nav bar is position:fixed; z-index:400 —
+       the open picker sheet must render ABOVE it or the fixed nav swallows
+       clicks on the Done button (bottom of the sheet). */
+    z-index: 410;
     background: rgba(2, 6, 23, .68);
     backdrop-filter: blur(2px);
   }
@@ -1392,7 +1395,8 @@
     right: 0;
     bottom: 0;
     top: auto;
-    z-index: 220;
+    /* CL-UI-49: above .site-nav (400) and .site-nav-menu (401). */
+    z-index: 420;
     width: 100%;
     height: min(72dvh, 680px);
     max-height: 82dvh;
