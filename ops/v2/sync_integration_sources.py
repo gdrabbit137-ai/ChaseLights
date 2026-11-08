@@ -113,33 +113,38 @@ def current_trees(root):
 
 
 def reanchor_browse_index_source(root, lock, changes):
-    """CL-CI-31: keep w2.browse_index_source_sha on the index-creating commit.
+    """CL-CI-31/31c: keep w2.browse_index_source_sha on the index-creating commit.
 
-    postmerge_verify requires browse_index_source_sha's
-    data/v2/indexes/research tree to EXACTLY match HEAD's. That invariant is
-    NOT the w2 acceptance pointer (w2.sha): w2.sha advances with
-    contract/evaluation work whose tree generally differs from the accepted
-    browse index, so pointing this key at w2.sha (or re-anchoring it together
-    with w2.sha during a merge) reds V2 Integration with "W2 pilot changed
-    the accepted browse index" on the next push. Auto-sync therefore never
-    derives this key from w2.sha: it re-anchors to the newest commit that
-    (a) actually touched data/v2/indexes/research and (b) is an ancestor of
-    w2.sha with a matching index tree — i.e. the browse-index-creating commit.
+    postmerge_verify requires browse_index_source_sha's data/v2/indexes/research
+    tree to EXACTLY match HEAD's and (CL-CI-31c) the anchor to be an ancestor of
+    HEAD. That invariant is NOT the w2 acceptance pointer (w2.sha), and it is
+    NOT derived from w2.sha either: the ancestor-of-w2.sha requirement was
+    structurally unsatisfiable for the regenerated-index flow — index regens
+    land on main (e.g. the CL-DATA-35 stage chain) outside the W2 pilot branch
+    lineage, so no commit can be both a tree-matching index commit and an
+    ancestor of the pinned pilot sha, and the old rule silently left a broken
+    anchor in place while reporting IN_SYNC. browse_index_source_sha therefore
+    identifies the newest main (HEAD) ancestor commit whose research-index tree
+    matches HEAD's — i.e. the commit that produced the accepted index.
     """
     pin = lock["sources"]["w2"]
-    w2_sha = pin.get("sha")
-    if not w2_sha:
+    if not pin.get("sha"):
         return None
     index_tree = git(root, "rev-parse", "HEAD:data/v2/indexes/research")
     current = pin.get("browse_index_source_sha")
     if current:
         try:
-            if git(root, "rev-parse", current + ":data/v2/indexes/research") == index_tree:
-                return None
+            current_tree = git(root, "rev-parse", current + ":data/v2/indexes/research")
         except subprocess.CalledProcessError:
-            pass  # current value unresolvable; fall through to re-anchor
-    # git log newest-first; pick the first commit whose index subtree tree
-    # matches HEAD's and which is an ancestor of the accepted w2 pointer.
+            current_tree = None  # unresolvable; fall through to re-anchor
+        if (current_tree == index_tree and
+                subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor",
+                                current, "HEAD"], capture_output=True).returncode == 0):
+            verify_browse_chain(root, pin)
+            return None
+    # git log newest-first; pick the newest HEAD-ancestor commit whose index
+    # subtree tree matches HEAD's (the index-creating commit). Every commit in
+    # this walk is an ancestor of HEAD by construction.
     commits = git(root, "log", "--format=%H", "-n", "40", "HEAD", "--",
                   "data/v2/indexes/research").split()
     for commit in commits:
@@ -148,18 +153,47 @@ def reanchor_browse_index_source(root, lock, changes):
                 continue
         except subprocess.CalledProcessError:
             continue
-        if subprocess.run(["git", "-C", str(root), "merge-base", "--is-ancestor",
-                           commit, w2_sha], capture_output=True).returncode:
-            continue
         if commit != current:
             pin["previous_browse_index_source_sha"] = current
             pin["browse_index_source_sha"] = commit
             changes.setdefault("w2", {})["browse_index_source_sha"] = {
                 "previous": current, "current": commit}
+        verify_browse_chain(root, pin)
         return commit
-    # No matching commit found: leave the pin untouched and let
-    # postmerge_verify report the drift honestly rather than guessing.
-    return None
+    # No tree-matching commit reachable from HEAD: the accepted index tree no
+    # longer exists in main's history (index regenerated but never committed,
+    # or HEAD:data/v2/indexes/research was hand-edited). Fail loudly instead of
+    # silently reporting IN_SYNC against an inconsistent lock (CL-CI-31c).
+    raise ValueError(
+        "browse_index_source_sha unresolvable: no HEAD ancestor commit has "
+        "HEAD's data/v2/indexes/research tree (" + index_tree + ") — the "
+        "research index must be regenerated through the merge-regen chain")
+
+
+def verify_browse_chain(root, pin):
+    """CL-CI-31c: sync verifies the full precheck chain, not just its own diff.
+
+    The auto-sync bot previously committed a lock whose browse anchor was fine
+    while apps/web-v2/browse-index.v2.json / catalog.v2.json still named an
+    older source commit — sync reported IN_SYNC and postmerge red-lit with
+    'Browse index does not identify the accepted W2 source'. Both downstream
+    source pointers must name the same commit the lock anchors."""
+    browse = pin.get("browse_index_source_sha")
+    bundle = json.loads((root / "apps/web-v2/browse-index.v2.json")
+                        .read_text(encoding="utf-8"))
+    if bundle.get("source_commit_sha") != browse:
+        raise ValueError(
+            "browse-index.v2.json source_commit_sha (" +
+            str(bundle.get("source_commit_sha")) + ") != browse_index_source_sha (" +
+            str(browse) + ") — regenerate browse-index.v2.json via the "
+            "research-index/build_web_catalog merge-regen chain")
+    catalog = json.loads((root / "apps/web-v2/catalog.v2.json")
+                         .read_text(encoding="utf-8"))
+    if catalog.get("source_index_commit_sha") != browse:
+        raise ValueError(
+            "catalog.v2.json source_index_commit_sha (" +
+            str(catalog.get("source_index_commit_sha")) + ") != browse_index_source_sha (" +
+            str(browse) + ") — regenerate catalog.v2.json via build_web_catalog")
 
 
 def sync(root, accept_decrease=False):
@@ -220,8 +254,12 @@ def sync(root, accept_decrease=False):
         raise ValueError("Refusing to lower pinned file_count: " + "; ".join(refusals))
     reanchor_browse_index_source(root, lock, changes)
     if changes:
-        lock_path.write_text(json.dumps(lock, indent=2, ensure_ascii=False) + "\n",
-                             encoding="utf-8")
+        # CL-CI-31c: write LF bytes explicitly — a Windows text-mode write
+        # would translate every \n to \r\n and rewrite the whole lock file
+        # (repo convention is LF; whole-file EOL churn also breaks the
+        # pin-sync bot's small-diff pushes).
+        lock_path.write_bytes(
+            (json.dumps(lock, indent=2, ensure_ascii=False) + "\n").encode("utf-8"))
     return changes
 
 
