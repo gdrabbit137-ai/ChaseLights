@@ -253,9 +253,9 @@
     {
       "opportunity_id": "jp-029-P02",
       "path": "data/v2/opportunities/jp-029-P02.json",
-      "blob_sha": "7b12c00a6923a650c5fe0e64e43635c1f99dec0a",
-      "sha256": "bb5c2af85633ad2646f7750c922aafbd79d271cdfb0eb13580fb94818915e62f",
-      "commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad"
+      "blob_sha": "5d92752b497434508888e08170313b3fe2ba9645",
+      "sha256": "2e068a5443d8bef1f1d1c20319310b66aa965fe7125910c8b403977071660ce5",
+      "commit_sha": "90838a69af97cab0aafbfb89c3e984bd0f004f9b"
     },
     {
       "opportunity_id": "jp-030-P01",
@@ -3138,9 +3138,9 @@
     {
       "path": "data/v2/audits/cl-data-35_access_evidence.json",
       "pinned": true,
-      "blob_sha": "08852abb59b2b81b1009d888d56f2f00a1c9c7bb",
-      "sha256": "35ab9238f1a155686d187e504d42c7763552fd532d1c14ca8ee95031802f92ee",
-      "commit_sha": "c0223682f7aeb175f6d7f3294de58d9268e1b1ef"
+      "blob_sha": "bc1aee3f12fe9fb63efa6147daa927a798fa7ffc",
+      "sha256": "dd973035d2d41037b2c4eab3d7bb082f69cc7d092c2daaf5eee4180cbd77c32e",
+      "commit_sha": "90838a69af97cab0aafbfb89c3e984bd0f004f9b"
     }
   ],
   "admission_basis": "GOVERNANCE_DECISION_NO_REVIEW_GATE_20261022",
@@ -3601,5 +3601,5 @@
   "rollback_note_cl_data_25r_20261107": "CL-DATA-25R (2026-11-07): rubric-v2 alignment — owner ruling: weighted_total_v2 >= 3.8 admits directly; below 3.8 goes to the Excel side list only. Rolled back the full legacy+V2+runtime catalog entries of the 5 v1-built but v2-rejected places (jp-050 安比雲海 3.30, tw-090 加路蘭 3.70, tw-092 北關海潮 3.60, tw-096 好望角 3.70, tw-097 擎天崗 3.20); their canonical_records are removed and their dossiers remain under data/v2/audits/discovery/ for the Excel side list. jp-041 流氷 is kept (v2 4.8 passes the line; drift_ice stays not_evaluatable).",
   "admission_note_cl_data_25r_20261107": "CL-DATA-25R admission: tw-098 渭水之丘／櫻花陵園 (rubric v2 3.8 >= 3.8 direct-admission line, owner ruling 2026-11-07) admitted with canonical records pinned at the CL-DATA-25R stage-1 commit; tw_weather.json supporting pin re-anchored to the same commit for its direct V1 name source.",
   "repin_note_cl_data_28_20261107": "CL-DATA-28: tw-008-P01 (city_night_window -> blue_hour_window phase=dusk, dusk/night name-vs-hours fix) and tw-010-P02 (golden_hour_window QUALITY/BONUS -> REQUIRED/MAIN, dawn/dusk name-vs-hours fix) re-pinned to the contract commit 2d9af4d86856301e22df74153d9ff67d1500bc42 carrying the new bytes.",
-  "repin_note_cl_data_35_20261108": "CL-DATA-35 batch1 (2026-11-08): re-pinned 60 opportunities (37 places) after access-info verification wave — access_notes_i18n filled from official sources, evidence_refs attached (e-d35-access-*), geometry re-check documented, revision bumped; conditions untouched (legacy fail-closed conditions intentionally carry no threshold_source). Commit 1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad. Added supporting source data/v2/audits/cl-data-35_access_evidence.json (evidence registry for e-d35-access-*)."
+  "repin_note_cl_data_35_20261108": "CL-DATA-35 batch1 (2026-11-08): re-pinned 60 opportunities (37 places) after access-info verification wave — access_notes_i18n filled from official sources, evidence_refs attached (e-d35-access-*), geometry re-check documented, revision bumped; conditions untouched (legacy fail-closed conditions intentionally carry no threshold_source). Commit 1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad. Added supporting source data/v2/audits/cl-data-35_access_evidence.json (evidence registry for e-d35-access-*). Stage 2c: jp-029 access note refined to https city source (http castle site kept as secondary); evidence registry URL fixed."
 }
