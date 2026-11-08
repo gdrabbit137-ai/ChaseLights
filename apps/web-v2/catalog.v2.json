@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "3e2dbf950cba11747e3614513e5f576695ebfbff",
-  "source_index_revision": "sha256:794ceecb96a2be579218e1b2eb9825f963e040b952841ed49cf20f209e9561f9",
+  "source_index_commit_sha": "53acad0f1188656517bd01981717cda8354d0238",
+  "source_index_revision": "sha256:76f118bdff56b74b38da0b51ed53a7415838bf20d0376e30ce74103e97e240e5",
   "source_pins": {
     "jp-002-P01": {
       "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
@@ -55,7 +55,7 @@
       "revision": 2
     },
     "jp-010-P01": {
-      "source_commit_sha": "2af08fb9eec9994ab5862197c4a0d8a45587e440",
+      "source_commit_sha": "0a026adf94eac693adc6d0590038f5a420fdb6ef",
       "source_path": "data/v2/opportunities/jp-010-P01.json",
       "source_blob_sha": "551b9a484665309326abb2fdcf0256622b5b85a9",
       "revision": 2
@@ -853,13 +853,13 @@
       "revision": 3
     },
     "tw-026-P01": {
-      "source_commit_sha": "2af08fb9eec9994ab5862197c4a0d8a45587e440",
+      "source_commit_sha": "0a026adf94eac693adc6d0590038f5a420fdb6ef",
       "source_path": "data/v2/opportunities/tw-026-P01.json",
       "source_blob_sha": "87d380a1025bb6ec710bed8f2f95a93871dda477",
       "revision": 2
     },
     "tw-026-P02": {
-      "source_commit_sha": "2af08fb9eec9994ab5862197c4a0d8a45587e440",
+      "source_commit_sha": "0a026adf94eac693adc6d0590038f5a420fdb6ef",
       "source_path": "data/v2/opportunities/tw-026-P02.json",
       "source_blob_sha": "a4eead2379cad0e84766ede186c1e39de78ce0b4",
       "revision": 2
@@ -985,10 +985,10 @@
       "revision": 1
     },
     "tw-034-P02": {
-      "source_commit_sha": "2af08fb9eec9994ab5862197c4a0d8a45587e440",
+      "source_commit_sha": "0a026adf94eac693adc6d0590038f5a420fdb6ef",
       "source_path": "data/v2/opportunities/tw-034-P02.json",
-      "source_blob_sha": "23a954d8fe9b91187d4de65b448991003d75d6f9",
-      "revision": 3
+      "source_blob_sha": "3cb02ea58bb96df0d87ed1c8c4a39bb43b93d150",
+      "revision": 4
     },
     "tw-034-P03": {
       "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
@@ -1057,7 +1057,7 @@
       "revision": 2
     },
     "tw-036-P01": {
-      "source_commit_sha": "2af08fb9eec9994ab5862197c4a0d8a45587e440",
+      "source_commit_sha": "0a026adf94eac693adc6d0590038f5a420fdb6ef",
       "source_path": "data/v2/opportunities/tw-036-P01.json",
       "source_blob_sha": "13f61e1ea99e6a9ee96f5725c5c7bd1e5bbc91ca",
       "revision": 2
@@ -1597,7 +1597,7 @@
       "revision": 2
     },
     "tw-082-P01": {
-      "source_commit_sha": "2af08fb9eec9994ab5862197c4a0d8a45587e440",
+      "source_commit_sha": "0a026adf94eac693adc6d0590038f5a420fdb6ef",
       "source_path": "data/v2/opportunities/tw-082-P01.json",
       "source_blob_sha": "720cf847af381405be92ef5fa2a90df8d7dde324",
       "revision": 2
@@ -2233,7 +2233,7 @@
       "revision": 2
     },
     "us-057-P01": {
-      "source_commit_sha": "2af08fb9eec9994ab5862197c4a0d8a45587e440",
+      "source_commit_sha": "0a026adf94eac693adc6d0590038f5a420fdb6ef",
       "source_path": "data/v2/opportunities/us-057-P01.json",
       "source_blob_sha": "fd86a540484e2cf16599aa33b16f4906701ceb5f",
       "revision": 2
@@ -55833,7 +55833,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-034-P02",
       "place_id": "tw-034",
-      "revision": 3,
+      "revision": 4,
       "lifecycle_status": "evidence_review",
       "name_i18n": {
         "zh-TW": "崇德清水斷崖山海遠眺",
@@ -56070,6 +56070,36 @@
               "zh-TW": "2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。",
               "en": "On 2026-11-02 the owner (Richard) ruled to override the worker2 human-review gate and adopt the review-revised conditions (provisional, not calibrated); the original human-review research contract is preserved in git history at/before 34cb70f39.",
               "ja": "2026-11-02、オーナー（Richard）の裁定によりworker2の人間レビューゲートを覆し、審査改訂条件を採用（暫定・未校正）。元の人間レビュー研究契約はgit履歴の34cb70f39以前のバージョンに保存されている。"
+            }
+          },
+          {
+            "id": "C-tw-034-P02-LW1",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-034-P02-condition-1"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-08 CL-DATA-33：本契約為 CL-DATA-19 全日題材 light_window 掃描的遺漏案例——崇德清水斷崖山海遠眺（overlook/遠眺題材）在無光線窗時，夜間 21:00–22:00 曾通過天氣門檻；補上 civil light_window（太陽仰角 > −6°，CL-DATA-11 同源定義），修正 CL-DATA-19 掃描遺漏。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-08 CL-DATA-33: this contract was missed by the CL-DATA-19 all-day-subject light_window sweep - the Chongde Qingshui Cliff panorama (overlook) passed the weather gates at 21:00-22:00 at night with no light; a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition) is added, fixing the CL-DATA-19 sweep miss. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-08 CL-DATA-33：本契約は CL-DATA-19 全日題材 light_window 走査の遗漏事例——崇徳清水断崖の眺望（overlook）は光の窓がなく夜間 21:00-22:00 に気象ゲートを通過していた；市民光 light_window（太陽高度 > -6°）を追加し、CL-DATA-19 走査の遗漏を修正する。意味修正のため layering parity ゲートは免除。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-08 CL-DATA-33：本契約為 CL-DATA-19 全日題材 light_window 掃描的遺漏案例——崇德清水斷崖山海遠眺（overlook/遠眺題材）在無光線窗時，夜間 21:00–22:00 曾通過天氣門檻；補上 civil light_window（太陽仰角 > −6°，CL-DATA-11 同源定義），修正 CL-DATA-19 掃描遺漏。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-08 CL-DATA-33: this contract was missed by the CL-DATA-19 all-day-subject light_window sweep - the Chongde Qingshui Cliff panorama (overlook) passed the weather gates at 21:00-22:00 at night with no light; a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition) is added, fixing the CL-DATA-19 sweep miss. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-08 CL-DATA-33：本契約は CL-DATA-19 全日題材 light_window 走査の遗漏事例——崇徳清水断崖の眺望（overlook）は光の窓がなく夜間 21:00-22:00 に気象ゲートを通過していた；市民光 light_window（太陽高度 > -6°）を追加し、CL-DATA-19 走査の遗漏を修正する。意味修正のため layering parity ゲートは免除。"
             }
           }
         ]
