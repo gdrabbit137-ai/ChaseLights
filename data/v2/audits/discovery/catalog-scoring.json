@@ -9,14 +9,14 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "724f497c0aaf7ef45b82cbf9ebf0e6642be669354ab0b0e0853bf6d64cc61f12",
+ "inputs_fingerprint_sha256": "2783d7ce1bf34b59c37a5e71c40dc54afb23c71148f84b914db05966183ad6f0",
  "summary": {
   "places": 232,
   "opportunities": 420,
   "canonical_locked_opportunities": 420,
   "places_with_unknown_scenic_beauty": 164,
   "mean_weighted_total": 3.82,
-  "median_weighted_total": 3.84,
+  "median_weighted_total": 3.85,
   "mean_basis": "places with evidenced scenic_beauty only (rubric v2 honest-unknown rule)",
   "region_counts": {
    "jp": 56,
@@ -488,6 +488,38 @@
    "coords": [
     40.6808,
     140.8317
+   ]
+  },
+  {
+   "place_id": "tw-034",
+   "name_zh": "崇德",
+   "region": "tw",
+   "n_opportunities": 3,
+   "opportunity_ids": [
+    "tw-034-P01",
+    "tw-034-P02",
+    "tw-034-P03"
+   ],
+   "rubric": {
+    "subject_strength": 4.67,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.02,
+   "nearest_place": "tw-036",
+   "nearest_km": 18.18,
+   "coords": [
+    24.191966,
+    121.661332
    ]
   },
   {
@@ -1188,38 +1220,6 @@
    "coords": [
     23.827018,
     121.51548
-   ]
-  },
-  {
-   "place_id": "tw-034",
-   "name_zh": "崇德",
-   "region": "tw",
-   "n_opportunities": 3,
-   "opportunity_ids": [
-    "tw-034-P01",
-    "tw-034-P02",
-    "tw-034-P03"
-   ],
-   "rubric": {
-    "subject_strength": 4.33,
-    "weather_light_dependency": 4.33,
-    "verifiability": 2.5,
-    "differentiation": 5,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 3.8,
-   "nearest_place": "tw-036",
-   "nearest_km": 18.18,
-   "coords": [
-    24.191966,
-    121.661332
    ]
   },
   {
@@ -9971,8 +9971,8 @@
    "opportunity_id": "tw-034-P02",
    "place_id": "tw-034",
    "scores": {
-    "subject_strength": 3,
-    "weather_light_dependency": 3,
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
     "verifiability": 4.5
    },
    "verif_gaps": [],

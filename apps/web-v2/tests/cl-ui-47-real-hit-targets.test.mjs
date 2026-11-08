@@ -172,7 +172,7 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true}, {name: '
     const probe = await cardCenterProbe();
     assert.equal(probe.display, 'none', 'closed day-picker overlay must not render');
     assert.equal(probe.overlayHidden, true, 'overlay element carries [hidden]');
-    assert.equal(probe.adminMenuDisplay, 'none', 'closed admin-filter-menu must not render');
+    assert.ok(['none', 'absent'].includes(probe.adminMenuDisplay), 'closed admin-filter-menu must not render'); // CL-INT-103: CL-UI-49 merged admin picker renders conditionally (absent) or display:none — both honest
     assert.ok(probe.hit, 'elementFromPoint must hit something');
     assert.ok(probe.hit.inside, `card center must hit the card or a descendant, hit ${probe.hit.tag}.${probe.hit.cls}`);
     assert.equal(probe.modalOpen, false);
