@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-025-P01",
   "place_id": "tw-025",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "二寮白堊丘陵層巒日出",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 185 m verified 2026-11-06; source: https://www.siraya-nsa.gov.tw/zh-tw/attractions/detail/30 + https://www.taiwanviptravel.com/articles/erliao-sunrise（二寮觀日平台約 185 m）",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 185 m verified 2026-11-06; source: https://www.siraya-nsa.gov.tw/zh-tw/attractions/detail/30 + https://www.taiwanviptravel.com/articles/erliao-sunrise（二寮觀日平台約 185 m） CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "verified",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-erliao-sunrise"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於台南市左鎮區二寮里，依西拉雅國家風景區管理處官網全天開放、免門票。新建觀景平台旁設有停車場與公廁；管理處並提供二寮觀日平台即時影像。日出以6至9月為佳，雨後隔日最易出現雲海大景；清晨路面與觀景台易結露濕滑，請注意腳下。",
+        "en": "In Erliao Village, Zuozhen District, Tainan; per the Siraya National Scenic Area HQ site it is open around the clock with no admission fee. The new viewing platform has a parking lot and public toilets beside it, and the HQ runs a live camera of the platform. June–September is the best season for sunrise, with big cloud-sea scenes most likely the morning after rain. The pre-dawn pavement and platform are dew-slick — mind your footing.",
+        "ja": "台南市左鎮区二寮里。西拉雅国家風景区管理処の公式サイトによると終日開放・入場無料。新設の展望台の脇に駐車場とトイレがあり、管理処は展望台のライブカメラも提供している。日の出は6〜9月が狙い目で、雨上がりの翌朝に雲海が最も出やすい。早朝の路面と展望台は露で滑りやすいので足元に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-erliao-sunrise"
+      ],
       "components": []
     }
   ],
@@ -248,9 +252,11 @@
     {
       "claim_id": "tw-025-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-erliao-sunrise"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-036-P03",
   "place_id": "tw-036",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "七星潭北望清水山／清水斷崖＋貼山雲帶",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-qixingtan-hualien"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於花蓮縣新城鄉（花蓮縣政府官方旅遊網收錄，全天開放、免費入園）。景區南北側與遊客中心旁設有免費停車場；大眾運輸可自花蓮火車站轉台灣好行310太魯閣線或308市區公車至七星潭站。縣府旅遊網明示嚴禁下水（離岸急深、瘋狗浪）、礫石請勿撿拾，夜間適合賞日出與觀星請自備照明。",
+        "en": "In Xincheng Township, Hualien County (official Hualien tourism site; open around the clock, free entry). Free parking sits at the north and south ends of the scenic area and beside the visitor center; by public transport, transfer at Hualien Station to the Taiwan Trip 310 Taroko line or the 308 city bus to Qixingtan stop. The county site bans swimming (steep offshore drop, rogue waves), asks visitors not to take pebbles, and recommends lights for the stargazing/sunrise hours.",
+        "ja": "花蓮県新城郷（花蓮県公式観光サイト掲載、終日開放・入園無料）。景勝区の南北両端とビジターセンター脇に無料駐車場あり。公共交通は花蓮駅から「台湾好行」310太魯閣線か308市街バスで七星潭下車。海への飛び込みは厳禁（沖は急に深く、荒波）。礫の持ち出しは禁止。日の出・星空観賞には自前のライトが必要。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-qixingtan-hualien"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "tw-036-P03-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-qixingtan-hualien"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

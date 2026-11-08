@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-035-P04",
   "place_id": "tw-035",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "六十石山黃昏彩霞＋丘陵／縱谷",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-liushishishan-fuli"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於花蓮縣富里鄉，海拔約800公尺。依花蓮縣政府官方旅遊網，山區產業道路狹窄陡峭、午後常有濃霧或雷陣雨，花季（8–9月）期間縣府辦理道路交通管制並禁行甲、乙類大客車，非花季通行仍請小心會車。園區涼亭（忘憂亭等）24小時開放；夜間無照明、早晚溫差大，請攜燈與保暖。",
+        "en": "In Fuli Township, Hualien County, at about 800 m elevation. Per the official Hualien tourism site, the mountain farm road is narrow and steep with frequent afternoon fog or thunderstorms; during the daylily season (Aug–Sep) the county runs road traffic controls and bans large tour buses, and oncoming traffic needs care off-season too. The pavilions (including Wangyou Pavilion) are open 24 hours. Unlit at night with a big day-night temperature swing — bring lights and warm clothing.",
+        "ja": "花蓮県富里郷、標高約800m。花蓮県公式観光サイトによると山間の産業道路は狭く急で、午後は濃霧や雷雨が多い。花の季節（8–9月）には県が道路の交通規制を実施し大型観光バスが通行禁止となるが、通常期もすれ違いに注意。忘憂亭などの亭は24時間開放。夜間は無照明で寒暖差が大きいため、ライトと防寒を携行すること。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-liushishishan-fuli"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "tw-035-P04-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-liushishishan-fuli"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

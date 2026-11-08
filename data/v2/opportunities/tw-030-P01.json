@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-030-P01",
   "place_id": "tw-030",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "關山夕照",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 152 m verified 2026-11-06; source: https://www.dbnsa.gov.tw/attraction/AttractionPage?a=191（關山約 152 m，大鵬灣風管處官方）",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 152 m verified 2026-11-06; source: https://www.dbnsa.gov.tw/attraction/AttractionPage?a=191（關山約 152 m，大鵬灣風管處官方） CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "verified",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-guanshan-kenting"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於屏東縣恆春鎮關山（又名高山巖），依墾丁國家公園官方主題網，海拔約152公尺，是園區內極佳的眺望與賞夕陽地點；山頂有以珊瑚礁岩建造的福德宮與飛來石。車行至關山高山巖福德宮旁即可步上觀景處，台灣西南海岸線與貓鼻頭方向夕照著名；廟宇與平台設施依現場公告使用。",
+        "en": "Guanshan (also called Gaoshanyan) in Hengchun Township, Pingtung County. Per the official Taiwan National Parks portal it rises about 152 m and is the park's premier lookout for the west-coast sunset; on the summit are the coral-rock Fude Temple and the Feilaishi rock. Drive up to the Gaoshanyan Fude Temple at Guanshan and the viewpoint is right there — the sunset over the southwestern coast toward Maobitou is the famous shot. Temple and platform use follows on-site notices.",
+        "ja": "屏東県恒春鎮の関山（別名・高山巖）。公式の台湾国家公園ポータルによると標高約152mで、園内でも夕日を望む最高の展望地。山頂にはサンゴ礁岩で建てられた福德宮と「飛来石」がある。車で関山の高山巖福德宮まで上がれば展望処に直結。台湾南西部の海岸線・猫鼻頭方面に沈む夕景が有名。宮と展望施設の利用は現地公告に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-guanshan-kenting"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "tw-030-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-guanshan-kenting"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-020-P03",
   "place_id": "tw-020",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "金龍山盆地低雲琉璃光",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 820 m verified 2026-11-06; source: https://media.taiwan.net.tw/zh-tw/portal/travel Attraction_A15010600H_000094（金龍山約 820 m，日月潭風管處）",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 820 m verified 2026-11-06; source: https://media.taiwan.net.tw/zh-tw/portal/travel Attraction_A15010600H_000094（金龍山約 820 m，日月潭風管處） CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "verified",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-jinlongshan-yuchi"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於南投縣魚池鄉大雁村。依日月潭國家風景區管理處官網，金龍山24小時全年開放，僅於颱風等天然災害或整修工程時暫時封閉；步道全長約1.5公里，一、二、三亭各自設有停車場，可依體力選擇落點。夜間為無照明山道，請攜燈並注意濕滑。",
+        "en": "In Dayan Village, Yuchi Township, Nantou. Per the Sun Moon Lake National Scenic Area HQ site, Jinlongshan is open 24 hours year-round and closes only during typhoons, other natural disasters or maintenance works. The trail is about 1.5 km with parking lots by each of the three pavilions (Yi/Ert/San Ting) so you can pick your start. The trail is unlit at night — bring lights and watch for wet surfaces.",
+        "ja": "南投県魚池郷大雁村内。日月潭国家風景区管理処の公式サイトによると、金龍山は24時間・通年開放で、台風などの自然災害や改修工事のときのみ一時閉鎖。全長約1.5kmの歩道には一・二・三の展望亭それぞれに駐車場があり、体力に応じて出発点を選べる。夜間は照明のない山道のため、ライト携行と足元の湿りに注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-jinlongshan-yuchi"
+      ],
       "components": []
     }
   ],
@@ -312,9 +316,11 @@
     {
       "claim_id": "tw-020-P03-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-jinlongshan-yuchi"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

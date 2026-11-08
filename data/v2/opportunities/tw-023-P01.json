@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-023-P01",
   "place_id": "tw-023",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "頂石棹茶園梯田＋山谷夕照",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-shizhuo-trails"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於嘉義縣石棹附近（阿里山國家風景區管理處官網收錄），步道群由霧、茶、雲、霞、櫻、愛之道六條步道組成，全天開放。霧之道入口自台18線63.4K轉產業道路進入；客運可搭嘉義聯營客運或台灣好行阿里山線至石棹站，步行約1公里。茶園間路徑晨間易滑，夜間無照明請攜燈。",
+        "en": "Near Shizhuo, Chiayi County (listed on the Ali Mountain National Scenic Area HQ site). The trail group comprises six paths — Wu (mist), Cha (tea), Yun (cloud), Xia (glow), Ying (cherry) and Ai (love) — open around the clock. The Wu-trail entrance leaves Highway 18 at 63.4K onto a farm road. By bus, take the Chiayi joint-service bus or the Taiwan Trip Ali Mountain line to Shizhuo stop, then about 1 km on foot. Paths between tea fields are slippery in the morning dew and unlit at night — bring lights.",
+        "ja": "嘉義県石棹付近（阿里山国家風景区管理処公式サイト掲載）。霧・茶・雲・霞・桜・愛の六つの歩道群で、終日開放。霧の道の入口は台18線63.4Kから産業道路へ入る。バスは嘉義共同運行バスか「台湾好行」阿里山線で石棹駅下車、徒歩約1km。茶畑間の径は朝露で滑りやすく、夜間は照明がないためライト携行が必要。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-shizhuo-trails"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "tw-023-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-shizhuo-trails"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

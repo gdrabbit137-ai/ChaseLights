@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-028-P01",
   "place_id": "tw-028",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "大港橋港灣夕照",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-pier2-kaohsiung"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於高雄市鹽埕區大勇路1號（高雄市政府文化局駁二藝術特區官方網站）。戶外園區開放空間自由進出，展館開放時間為週一至週四10:00–18:00、週五至週日及國定假日10:00–20:00，除夕休館。夜間拍攝以園區外圍與倉庫外牆光影為主，公共空間依規定使用，請勿影響活動進行。",
+        "en": "At No.1 Dayong Road, Yancheng District, Kaohsiung (Pier-2 Art Center official site, run by the Kaohsiung City Bureau of Cultural Affairs). The outdoor grounds are freely accessible; exhibition halls open Mon–Thu 10:00–18:00 and Fri–Sun plus national holidays 10:00–20:00, closed on Lunar New Year's Eve. Night photography is mainly around the perimeter and warehouse facades — use public spaces per the rules and do not obstruct events.",
+        "ja": "高雄市塩埕区大勇路1号（高雄市政府文化局が運営する駁二芸術特区の公式サイト）。屋外エリアは自由に出入り可。展示館は月〜木10:00–18:00、金〜日と祝日10:00–20:00、旧暦大晦日は休館。夜間の撮影は周辺部と倉庫外壁の光と影が中心。公共空間は規則に従って利用し、催事の進行を妨げないこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-pier2-kaohsiung"
+      ],
       "components": []
     }
   ],
@@ -278,9 +282,11 @@
     {
       "claim_id": "tw-028-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-pier2-kaohsiung"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

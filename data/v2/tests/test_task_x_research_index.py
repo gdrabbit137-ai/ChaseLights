@@ -166,6 +166,9 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-INT-105: CL-DATA-34 supplement contracts re-pinned to the
             # merged-tree regen commit carrying the 434-opportunity canonical bytes.
             '23f1bb6c0a90964067d885c3783c99c87a902b86',
+            # CL-DATA-36: 60 batch2 access-verified records re-pinned to the
+            # stage-1 commit carrying the e-d36 evidence-ref + revision-2 bytes.
+            '21198c9cc91e00cdd3df8daea76aac46bf9fb45b',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
