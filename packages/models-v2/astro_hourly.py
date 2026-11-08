@@ -186,6 +186,12 @@ def window_pass_profiles(dt_utc, lat, lon, events=None):
         "blue_hour_window": [BLUE_LOW_DEG <= a <= BLUE_HIGH_DEG
                              for a in altitudes],
         "light_window": [a > CIVIL_LIGHT_MIN_DEG for a in altitudes],
+        # CL-DATA-40: daylight window — every sampled instant has the sun above
+        # the horizon (proper daylight, before sunset). Access-constrained
+        # subjects (sites closed at sunset, e.g. NPS Horseshoe Bend) bind their
+        # usable hours to this window; post-sunset civil darkness (blue hour)
+        # must never qualify.
+        "daylight_window": [a > 0.0 for a in altitudes],
         "sunrise_time_window": [False] * len(samples),
         "sunset_window": [False] * len(samples),
     }
@@ -234,6 +240,10 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
         "blue_hour_window": any(profiles["blue_hour_window"]),
         # CL-DATA-11: cloud-sea light window — pure civil-light geometry.
         "light_window": all(profiles["light_window"]),
+        # CL-DATA-40: access-closing window — a subject whose site closes at
+        # sunset qualifies only in hours entirely in proper daylight
+        # (every sampled instant sun elevation > 0 deg).
+        "daylight_window": all(profiles["daylight_window"]),
     }
     # No crossing of that kind within the events span (polar day/night):
     # propagate UNKNOWN honestly (None), never a False FAIL.

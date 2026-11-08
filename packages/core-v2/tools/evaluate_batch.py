@@ -48,7 +48,7 @@ ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blu
                  "moon_illumination_fraction", "moon_altitude",
                  "moon_target_separation_deg", "moon_illuminance_proxy",
                  "galactic_core_altitude", "city_night_window",
-                 "light_window"}
+                 "light_window", "daylight_window"}
 
 # CL-UI-23: metrics that ARE a time window (window membership). A contract that
 # already declares one of these is time-window aware; the evaluation layer does
@@ -56,7 +56,7 @@ ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blu
 TIME_WINDOW_METRICS = {"sunrise_time_window", "sunset_window",
                        "blue_hour_window", "golden_hour_window",
                        "astronomical_darkness", "city_night_window",
-                       "light_window"}
+                       "light_window", "daylight_window"}
 # CL-UI-23: genre templates whose subject semantics require a night hours
 # window but whose current owner contracts carry no time-window condition
 # (data-layer gap, owner gate pending). The evaluation layer enforces the
