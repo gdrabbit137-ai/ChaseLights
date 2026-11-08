@@ -284,14 +284,16 @@ def verify_main(root, lock):
         if bundle.get(field) != json.loads(raw):
             raise ValueError("W4 browse index differs from W2: " + name)
     # No-review gate decision (2026-10-22): the admitted breadth catalog is
-    # 197 Places / 374 Opportunities (aurora-only opportunities removed
-    # 2026-10-26; tw-100/353->190/356 growth re-pinned CL-CI-01; 7
-    # no-contract spots ->197/374 re-pinned CL-DATA-20), all
+    # re-anchored to the CL-DATA-25..28 catalog regen waves (measured on the
+    # merged tree at CL-CI-22, 2026-11-08):
+    # 218 Places / 406 Opportunities (aurora-only opportunities removed
+    # 2026-10-26; 197/374 re-pinned CL-DATA-20; CL-DATA-25..28 growth
+    # 197/374 ->218/406 re-pinned CL-CI-22), all
     # byte-pinned to their W2 sources.
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
-            len(catalog.get("places", [])) != 197
-            or len(catalog.get("opportunities", [])) != 374):
+            len(catalog.get("places", [])) != 218
+            or len(catalog.get("opportunities", [])) != 406):
         raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]
@@ -361,9 +363,9 @@ def main():
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
-            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 201, True, False),
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 204, True, False),  # CL-CI-22 re-anchor 201->204 (CL-DATA-28/30/31 additions)
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
-            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 71, True, False,
+            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 109, True, False,  # CL-CI-22 re-anchor 71->109 (CL-DATA-25..28 discovery/regen suites)
                 {"timeout": 600}),  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
@@ -379,7 +381,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 499, False, True),
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 508, False, True),  # CL-CI-22 re-anchor 499->508 (CL-DATA-25..31 node additions; measured node v22.22.3, no --test-isolation locally)
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs",
                 "ops/v2/tests/cl-int-76-provenance.test.mjs"], 9, False, True),
@@ -431,11 +433,18 @@ def main():
         # 2026-11-06 CL-DATA-21: +1 cl-data-21-card-modal-source test
         # CL-INT-88 union re-measure: origin w4-node 483 + CL-DATA-21 +4 node tests
         # -> w4-node re-measured on the merged union tree = 487 -> exact total 934.
-        if (report["counts"]["tests"] != 962 or
+        # 2026-11-08 CL-CI-22: postmerge gate re-anchored on the CL-DATA-25..31
+        # merged tree — w3-evaluator 201->204, w2 71->109, w4-node 499->508
+        # (all measured on this tree; w4-node measured under node v22.22.3
+        # without --test-isolation=none, which node 22 rejects — CI runs node
+        # 26 with the flag and sees the same test count), exact total
+        # 962 -> 1012. Catalog gate re-anchored 197/374 -> 218/406 and
+        # browse_index_source_sha -> d8bc99ea (CL-DATA-28 regen chain).
+        if (report["counts"]["tests"] != 1012 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 962):
-            raise ValueError("Post-merge exact 962-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1012):
+            raise ValueError("Post-merge exact 1012-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
