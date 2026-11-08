@@ -46,5 +46,19 @@ jobs:
           else
             git add ops/v2/integration-sources.json
             git commit -m "chore(ci): auto-sync V2 owner tree pins [skip ci]"
-            git push origin HEAD:main
+            # CL-CI-22: the blind push raced a concurrent push on 4e4ab3e and
+            # failed the job. Retry the push with fetch+rebase so the sync
+            # commit lands on top of whatever main moved to meanwhile.
+            for attempt in 1 2 3; do
+              if git fetch origin main && git rebase origin/main; then
+                if git push origin HEAD:main; then
+                  echo "Pin-sync push landed on attempt $attempt"
+                  exit 0
+                fi
+              fi
+              echo "Push attempt $attempt failed (concurrent push race); retrying after rebase"
+              sleep $((attempt * 5))
+            done
+            echo "Pin-sync push failed after 3 fetch+rebase attempts"
+            exit 1
           fi
