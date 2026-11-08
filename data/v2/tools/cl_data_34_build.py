@@ -130,7 +130,7 @@ def make_contract(oid, place, names, desc, cam_geo, geo_status, geo_deriv, acces
             "contract_id": f"CC-{oid}-v1", "status": "draft", "genre_template": genre,
             "template_version": tv, "recommendation_policy_version": None, "conditions": conditions},
         "evidence_claims": [{
-            "claim_id": f"{oid}-claim-01", "claim_type": "existence", "evidence_refs": [],
+            "claim_id": f"{oid}-claim-01", "claim_type": "existence", "evidence_refs": EVID_REFS.get(oid, []),
             "audit_status": "UNKNOWN",
             "scope_note": claim_note}],
         "readiness": {"research_level": "R1", "gaps": ["RESEARCH_GAP"]},
@@ -188,6 +188,7 @@ SPOTS = {
 }
 
 CONTRACTS = []  # filled by build functions below
+EVID_REFS = {'jp-001-P01': ['e-d34-a','e-d34-b'], 'jp-001-P02': ['e-d34-c'], 'jp-012-P01': ['e-d34-d','e-d34-f'], 'jp-012-P02': ['e-d34-e'], 'jp-014-P01': ['e-d34-g'], 'jp-014-P02': ['e-d34-g','e-d34-h'], 'jp-015-P01': ['e-d34-i'], 'jp-015-P02': ['e-d34-i'], 'jp-017-P01': ['e-d34-j','e-d34-k'], 'jp-017-P02': ['e-d34-j'], 'jp-018-P01': ['e-d34-m'], 'jp-018-P02': ['e-d34-l'], 'jp-024-P01': ['e-d34-n','e-d34-o'], 'jp-024-P02': ['e-d34-o']}
 
 
 def a_(d):
