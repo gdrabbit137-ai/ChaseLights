@@ -382,7 +382,8 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 509, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 514, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
+        # 2026-11-08 CL-CI-26: CL-UI-47 +5 real-hit-target tests -> w4-node=514 (CI-observed on merged tree 313feebe4, node v26 --test-isolation=none, 514 pass / 0 fail)
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs",
                 "ops/v2/tests/cl-int-76-provenance.test.mjs"], 9, False, True),

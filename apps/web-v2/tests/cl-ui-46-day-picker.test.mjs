@@ -56,7 +56,8 @@ test('CL-UI-46 (3): mobile bottom sheet + desktop dropdown, one data model',()=>
   assert.match(sheet,/\.day-picker-panel\s*\{[^}]*position:\s*fixed;/,'panel is a bottom sheet on mobile');
   assert.match(sheet,/\.day-picker-panel\s*\{[^}]*bottom:\s*0;/);
   assert.match(sheet,/\.day-picker-panel\s*\{[^}]*transform:\s*translateY\(100%\);/,'slides up from the bottom edge');
-  assert.match(sheet,/\.day-picker-overlay\s*\{\s*display:\s*block;/,'semi-transparent overlay is mobile-only');
+  assert.match(sheet,/\.day-picker-overlay:not\(\[hidden\]\)\s*\{\s*display:\s*block;/,'semi-transparent overlay is mobile-only (and hidden state still wins — CL-UI-47)');
+  assert.match(sheet,/\.day-picker-overlay\[hidden\]\s*\{\s*display:\s*none;/,'CL-UI-47: closed-state overlay can never defeat the [hidden] rule');
   assert.match(cssSource,/rgba\(2,\s*6,\s*23,\s*0\.55\)/,'overlay is semi-transparent');
   // Desktop: the base panel is a dropdown anchored under the trigger.
   const base=cssSource.slice(cssSource.indexOf('.day-picker-panel {'),cssSource.indexOf('.day-option {'));
@@ -123,7 +124,7 @@ test('CL-UI-46 (7): new i18n keys exist in all three dictionaries',()=>{
   assert.match([...i18nBlock.matchAll(/day_summary_viable:'([^']*)'/g)].map(m=>m[1]).join(' '),/\{n\}/,'summary template carries {n}');
 });
 
-test('CL-UI-46 (8): index.html cache-bust stamps bumped to clui49 in the same commit',()=>{
+test('CL-UI-46 (8): index.html cache-bust stamps tracked (app.css bumped to clui52 by CL-UI-47)',()=>{
   assert.match(htmlSource,/assets\/app\.js\?v=clui51/);
-  assert.match(htmlSource,/assets\/app\.css\?v=clui49/);
+  assert.match(htmlSource,/assets\/app\.css\?v=clui52/);
 });

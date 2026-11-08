@@ -83,5 +83,5 @@ test('CL-UI-33 (4): mechanical mapping only — no per-card hand copy',()=>{
   // The i18n cache-bust stamp rides the same commit.
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
   assert.match(index,/assets\/app\.js\?v=clui51/);
-  assert.match(index,/assets\/app\.css\?v=clui49/);
+  assert.match(index,/assets\/app\.css\?v=clui52/);
 });

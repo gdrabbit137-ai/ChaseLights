@@ -211,7 +211,11 @@
         font-size: .84rem;
         padding: 8px 12px;
       }
-      .day-picker-overlay { display: block; }
+      /* CL-UI-47: scope to the open state — an author display rule would
+         otherwise override the UA [hidden] rule and the overlay would cover
+         the page while the sheet is closed, swallowing all real clicks. */
+      .day-picker-overlay:not([hidden]) { display: block; }
+      .day-picker-overlay[hidden] { display: none; }
       .day-picker-panel {
         position: fixed;
         top: auto;
@@ -1235,6 +1239,15 @@
 .admin-mobile-handle,
 .admin-picker-backdrop {
   display: none;
+}
+/* CL-UI-47: same class of bug as the day-picker overlay — the mobile media
+   query sets display:flex/block on the menu and backdrop, which overrides
+   the closed-<details> UA hiding and floats the menu over the page while
+   the filter is closed. Guard both against any closed state. */
+.admin-filter:not([open]) .admin-filter-menu,
+.admin-filter:not([open]) .admin-picker-backdrop,
+.admin-filter:not([open]) .admin-mobile-handle {
+  display: none !important;
 }
 .admin-close-btn {
   display: inline-flex;

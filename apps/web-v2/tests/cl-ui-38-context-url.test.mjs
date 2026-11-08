@@ -72,7 +72,7 @@ test('CL-UI-38: first load mirrors the resolved context into the URL', () => {
 
 test('CL-UI-38: homepage cache-bust stamp bumped to clui41', () => {
   assert.match(indexSource, /assets\/app\.js\?v=clui51/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui49/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui52/);
 });
 
 test('CL-UI-38: narrow-viewport rule keeps the bottom-bar labels visible', () => {
