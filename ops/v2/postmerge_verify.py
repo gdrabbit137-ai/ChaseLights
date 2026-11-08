@@ -286,14 +286,15 @@ def verify_main(root, lock):
     # No-review gate decision (2026-10-22): the admitted breadth catalog is
     # re-anchored to the CL-DATA-25..28 catalog regen waves (measured on the
     # merged tree at CL-CI-22, 2026-11-08):
-    # 218 Places / 406 Opportunities (aurora-only opportunities removed
+    # 232 Places / 420 Opportunities (aurora-only opportunities removed
     # 2026-10-26; 197/374 re-pinned CL-DATA-20; CL-DATA-25..28 growth
-    # 197/374 ->218/406 re-pinned CL-CI-22), all
+    # 197/374 ->218/406 re-pinned CL-CI-22; 218/406 ->232/420 re-anchored
+    # CL-INT-101 on the CL-DATA-32 merged tree, 2026-11-08), all
     # byte-pinned to their W2 sources.
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
-            len(catalog.get("places", [])) != 218
-            or len(catalog.get("opportunities", [])) != 406):
+            len(catalog.get("places", [])) != 232
+            or len(catalog.get("opportunities", [])) != 420):  # CL-INT-101 re-anchor 218/406 -> 232/420
         raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]
