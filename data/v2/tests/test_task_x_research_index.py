@@ -115,11 +115,12 @@ class ResearchIndexTests(unittest.TestCase):
             '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
             # CL-CI-22 merged-tree re-anchor: per-record pins from the merged
             # CL-DATA-24/25/26 branches (69b832acc dusk-phase repin,
-            # 64685ff7d tw-017-P03 blue-hour note, 91afa28ef tw-010-P01
-            # golden-window upgrade, 2cd38d860 CL-INT-89 pin restore).
+            # 64685ff7d tw-017-P03 blue-hour note, 2cd38d860 CL-INT-89 pin
+            # restore). CL-DATA-32 later re-pinned tw-010-P01 (008ab85ff) when
+            # the golden-window upgrade gave way to sunrise_time_window MAIN.
             '69b832accfc8c0438a50e51689c4e7c40765e9f4',
             '64685ff7df762f588bd1f276a56f7c007c07b8c2',
-            '91afa28ef43a699e5a98e14074a66baac684a43b',
+            '008ab85ff19794c3aa2ffc1173afa30212aa426e',
             '2cd38d860868d63b7a214434d74f2db6ad153506',
             'b801dd4eba545a76879828b25e869f3c45df33ac',
             # CL-DATA-15 (merged side): owner-verified elevation corrections
