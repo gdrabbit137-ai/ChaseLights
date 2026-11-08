@@ -92,7 +92,13 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-UI-25: 22 city_night contracts re-pinned to the task-branch
             # commit adding the contract-level city_night_window condition
             # (mirrors the CL-UI-23 evaluation-layer gate semantics).
+            # CL-INT-116: the four non-batch5 holders of 6a420db5 stay;
+            # the 68 batch5 records were restored to main-side bytes
+            # (CL-DATA-39 kept, not reverted) and re-pinned to 7a77bea62.
             '6a420db5100bb184f655b4b765d29fdf3494588d',
+            # CL-INT-116 merged tree: batch5 (CL-DATA-39) records kept at the
+            # main-side regen commit — evidence_refs intact, bytes verified.
+            '7a77bea62a609a861b725288f53036e10b750ac9',
             # CL-DATA-09: tw-027-P02 re-pinned to the task-branch commit adding
             # the contract-level city_night_window condition (civil darkness
             # <= -6 deg; TIME_SPECIALIZATION §3 misplacement, owner ruling
