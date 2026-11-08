@@ -1,0 +1,269 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-057-P01",
+ "place_id": "jp-057",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "稻佐山・長崎千萬夜景",
+  "en": "Nagasaki's ten-million-dollar night view from Mt. Inasa",
+  "ja": "稲佐山からの長崎の夜景"
+ },
+ "description_i18n": {
+  "zh-TW": "日本三大夜景：稻佐山展望台（333 m）俯瞰長崎港與市區燈火；纜車營運時間以現場公告為準。",
+  "en": "One of Japan's three great night views: the 333 m summit observatory over Nagasaki harbour and the hillside city lights.",
+  "ja": "日本三大夜景の一つ。稲佐山展望台（標高333m）から長崎港と坂の街の灯りを俯瞰する。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-057-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      129.84933,
+      32.75336
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-32 admission web verification 2026-11-08 (ja.wikipedia 稲佐山 (article coordinate 32.75336,129.84933); elevation 333 m; source URLs: https://ja.wikipedia.org/wiki/稲佐山). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "日本三大夜景：稻佐山展望台（333 m）俯瞰長崎港與市區燈火；纜車營運時間以現場公告為準。（開放/營運狀態以現場公告為準。）",
+    "en": "One of Japan's three great night views: the 333 m summit observatory over Nagasaki harbour and the hillside city lights. (Opening/operating status follows on-site notices.)",
+    "ja": "日本三大夜景の一つ。稲佐山展望台（標高333m）から長崎港と坂の街の灯りを俯瞰する。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 333.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-057-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "稻佐山・長崎千萬夜景",
+    "en": "Nagasaki's ten-million-dollar night view from Mt. Inasa",
+    "ja": "稲佐山からの長崎の夜景"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      129.84933,
+      32.75336
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-32 admission web verification 2026-11-08 (ja.wikipedia 稲佐山 (article coordinate 32.75336,129.84933); elevation 333 m; source URLs: https://ja.wikipedia.org/wiki/稲佐山). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-057-P01-01",
+   "camera_context_id": "CZ-jp-057-P01-01",
+   "target_id": "SG-jp-057-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-32 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-057-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 32.75336,
+   "lon": 129.84933,
+   "label_i18n": {
+    "zh-TW": "稲佐山展望台",
+    "en": "Mt. Inasa night view",
+    "ja": "稲佐山展望台"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-057-P01-v1",
+  "status": "draft",
+  "genre_template": "city_night",
+  "template_version": "city_night-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-057-P01-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 30,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-057-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "夜景主體是城市燈火：總雲量 ≤30% 保證天際線與燈火可見；薄雲會吃掉遠處燈海層次。",
+     "en": "The subject is city lights: total cloud <= 30% keeps the skyline and light field visible; thin veils wash out the distant light layers.",
+     "ja": "主題は都市の灯り。全雲量≤30%でスカイラインと灯りの層が見える。薄い雲でも遠方の灯りが消える。"
+    }
+   },
+   {
+    "id": "C-jp-057-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 10,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-057-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥10 km：夜間霧霾讓遠處燈火糊化，能見度是夜景清晰度的主要代理（夜間無 AOD 觀測，以能見度為主判據）。",
+     "en": "Visibility >= 10 km: night haze smears distant lights, so visibility is the main proxy for night clarity (no nighttime AOD observation; visibility is the primary criterion).",
+     "ja": "視程≥10km。夜間の煙霾は遠方の灯りをぼかす。夜間AOD観測がないため視程を主判準とする。"
+    }
+   },
+   {
+    "id": "C-jp-057-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-057-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降雨受影響；0.2 mm/h 以下不受影響（與 tw-002-P01 相同門檻）。",
+     "en": "Rain interferes; below 0.2 mm/h is fine (same as tw-002-P01).",
+     "ja": "雨は影響。0.2mm/h未満なら問題なし（tw-002-P01と同じ）。"
+    }
+   },
+   {
+    "id": "C-jp-057-P01-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-057-P01-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD ≤0.5 為加分項：白天溶膠厚度指示夜間煙霾殘留程度；僅為傾向指標，不否決（夜間對應性未校準）。",
+     "en": "AOD <= 0.5 is a bonus: daytime aerosol thickness hints at residual night haze; a tendency indicator only, never a veto (night correspondence uncalibrated).",
+     "ja": "AOD≤0.5は加点。昼間のエアロゾル厚は夜間煙霾の残存の目安。傾向指標のみで否決しない（夜間対応は未較正）。"
+    }
+   },
+   {
+    "id": "C-jp-057-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "city_night_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-057-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "時間窗＝整小時太陽仰角 ≤ −6°（民用暮光後）。夜間光雕主體需要黑暗天空；白天時段即使天氣全過也不成立。",
+     "en": "Time window = the whole hour bucket with sun elevation <= -6 deg (after civil dusk). A night-illumination subject needs a dark sky; a daytime hour cannot qualify even if every weather condition passes.",
+     "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。夜間ライトアップの主題には暗い空が必要で、昼間は気象条件が全て通過しても成立しない。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-057-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d32-web-inasa-yama-night"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-32 discovery admission (rubric >=3.8, owner ruling 2026-11-08); coordinates/elevation web-verified 2026-11-08 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-32 southern-Japan discovery (PM-judgment admission)",
+  "source_revision": "cl-data-32:jp-south-inasa-yama",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}
