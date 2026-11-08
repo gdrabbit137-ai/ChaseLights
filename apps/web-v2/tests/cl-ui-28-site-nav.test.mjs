@@ -122,7 +122,7 @@ test('CL-UI-28 (9): index.html stamp bumped clui33 → clui41', () => {
   assert.match(indexHtml, /assets\/site-nav\.css\?v=clui41/);
   assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
   assert.match(indexHtml, /assets\/app\.js\?v=clui51/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui52/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui53/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });
 
