@@ -381,13 +381,14 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 519, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 523, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
         # 2026-11-08 CL-CI-26: CL-UI-47 +5 real-hit-target tests -> w4-node=514 (CI-observed on merged tree 313feebe4, node v26 --test-isolation=none, 514 pass / 0 fail)
         # 2026-11-08 CL-INT-92: +3 hour-list-cap regression tests -> w4-node=516 on this base (measured locally: 516 pass / 3 pre-existing failures identical to pristine origin/main baseline: CL-COPY-01 coverage, CL-DATA-19 x2)
         # 2026-11-08 CL-CI-27: the 3 'pre-existing failures' were NOT pre-existing —
         # CL-DATA-33 (f550046eb) added light_window to tw-034-P02 and CL-COPY-01/CL-DATA-19
         # pins were stale; re-anchored in CL-CI-27 commit b6775d1ed, full suite now
         # 519 pass / 0 fail on the merged tree (node v26.7.0, --test-isolation=none) -> w4-node=519, exact total 1019->1029 (full postmerge run measured on this tree: all group pins green, counted sum 1029).
+        # 2026-11-08 CL-UI-50: +4 no-black-box regression tests -> w4-node=523 (measured locally on task/CL-UI-50 358c1f662: node v22.22.3, no --test-isolation locally, 523 pass / 0 fail).
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs",
                 "ops/v2/tests/cl-int-76-provenance.test.mjs"], 9, False, True),
