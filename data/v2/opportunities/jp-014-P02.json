@@ -1,0 +1,245 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-014-P02",
+ "place_id": "jp-014",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "等々力溪谷紅葉",
+  "en": "Todoroki Valley autumn foliage",
+  "ja": "等々力渓谷の紅葉"
+ },
+ "description_i18n": {
+  "zh-TW": "約 600 m 溪谷步道兩側山壁染紅，紅葉順著清流落入谷澤川；是東京 23 區內唯一的渓谷紅葉。",
+  "en": "Both gorge walls along the ~600 m boardwalk turn red and the leaves ride the stream down the Yazawa - the only gorge foliage inside Tokyo's 23 wards.",
+  "ja": "約600mの渓谷遊歩道の両側が紅に染まり、紅葉が谷沢川に流れる。東京23区唯一の渓谷紅葉。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-014-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      139.646545,
+      35.607857
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-34 AI web verification 2026-11-08: ~1 km Yazawa River gorge, the only valley in Tokyo 23 wards, per Setagaya City official (e-d34-g); V1 point sits on the valley boardwalk at 35.6079N 139.6465E",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "紅葉期週末人多，早朝前往最穩。",
+    "en": "Foliage weekends are busy - go early.",
+    "ja": "紅葉期の週末は混む。早朝が狙い目。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "同 jp-014-P01。",
+    "en": "Same as jp-014-P01.",
+    "ja": "jp-014-P01 に同じ。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-014-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "等々力溪谷紅葉",
+    "en": "Todoroki Valley autumn foliage",
+    "ja": "等々力渓谷の紅葉"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      139.646545,
+      35.607857
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; terrain/shooting-point facts web-verified (see camera derivation_method)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-014-P02-01",
+   "camera_context_id": "CZ-jp-014-P02-01",
+   "target_id": "SG-jp-014-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-014-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 35.607857,
+   "lon": 139.646545,
+   "label_i18n": {
+    "zh-TW": "等等力溪谷",
+    "en": "Todoroki Valley",
+    "ja": "等々力渓谷"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-014-P02-v1",
+  "status": "draft",
+  "genre_template": "seasonal_plant",
+  "template_version": "seasonal_plant-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-014-P02-S1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-014-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（例年窗 11-20–12-05）：等々力溪谷秋葉見頃為東京都心的 11 月下旬–12 月上旬（世田谷區官方稱「秋の紅葉」未給日期，例年窗為氣候學估計）。實況窗優先，兩者皆缺時誠實 not_evaluatable。",
+     "en": "Seasonal-window verdict (typical window 11-20 to 12-05): Todoroki's foliage peaks in central Tokyo in late November to early December (Setagaya City official names the autumn color without dates; the typical window is climatological). Observed window takes precedence; with neither present, honestly not_evaluatable.",
+     "ja": "季節窓判定（例年窓11-20〜12-05）：等々力渓谷の紅葉見頃は都心部の11月下旬〜12月上旬（世田谷区公式は「秋の紅葉」と述べるが日程は不明、例年窓は気候学的推定）。実況窓を優先し、両方なければ誠実にnot_evaluatable。"
+    }
+   },
+   {
+    "id": "C-jp-014-P02-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-014-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降水 >0.2 mm/h 時葉面打濕、色彩變鈍，否決。",
+     "en": "Above 0.2 mm/h the wet foliage dulls and colors wash out; reject.",
+     "ja": "降水0.2mm/h超では葉が濡れて色彩が鈍るため否決。"
+    }
+   },
+   {
+    "id": "C-jp-014-P02-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "wind_speed_10m",
+    "operator": "lt",
+    "threshold": 5.0,
+    "unit": "m/s",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-014-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "風速 >5 m/s 吹動枝葉、長曝糊掉，否決。",
+     "en": "Wind above 5 m/s shakes the branches and smears long exposures; reject.",
+     "ja": "風速5m/s超では枝葉が揺れて長時間露出がぼやけるため否決。"
+    }
+   },
+   {
+    "id": "C-jp-014-P02-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-014-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+     "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+     "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-014-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d34-g",
+    "e-d34-h"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Subject existence web-verified 2026-11-08 (e-d34-g official gorge; e-d34-h foliage). Thresholds provisional."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-014",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

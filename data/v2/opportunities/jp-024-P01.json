@@ -1,0 +1,270 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-024-P01",
+ "place_id": "jp-024",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "大阪城天守夜間點燈",
+  "en": "Osaka Castle keep night illumination",
+  "ja": "大阪城天守の夜間ライトアップ"
+ },
+ "description_i18n": {
+  "zh-TW": "大阪城天守每日日没後點燈至 24:30（官方 FAQ，年僅一日檢修），從公園內極樂橋與內堀周邊可見金色天守；公園 24 小時可入園。",
+  "en": "The Osaka Castle keep is lit every night from sunset until 24:30 (official FAQ; one annual inspection night is dark) and the golden keep reads from Gokuraku-bashi and around the inner moat inside the 24-hour park.",
+  "ja": "大阪城天守は毎日日没から24:30までライトアップ（公式FAQ、年1回の点検日のみ消灯）。公園は24時間入園でき、極楽橋と内堀周辺から金の天守が見える。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-024-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      135.52675,
+      34.6892
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-34 AI web verification 2026-11-08: Osaka Castle keep illumination daily sunset-24:30 per Osaka Castle official FAQ (e-d34-n); park free and effectively open at all times with the illuminated keep viewed from around Gokuraku-bashi / inner moat (e-d34-o); V1 point matches the park at 34.689N 135.527E",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "公園全日開放（天守閣等收費設施另計）；夜間步道照明有限，走亮處。",
+    "en": "The park is open at all hours (paid facilities like the keep museum are separate); night paths are dimly lit - keep to the lit routes.",
+    "ja": "公園は終日入園可（天守閣などの有料施設は別）。夜間の園路は暗いので明るい道を選ぶ。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "夜間園內人少，留意隨身財物與腳下。",
+    "en": "The park is quiet at night - mind your belongings and footing.",
+    "ja": "夜間は園内が静か。所持品と足元に注意。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-024-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "大阪城天守夜間點燈",
+    "en": "Osaka Castle keep night illumination",
+    "ja": "大阪城天守の夜間ライトアップ"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      135.52675,
+      34.6892
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; terrain/shooting-point facts web-verified (see camera derivation_method)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-024-P01-01",
+   "camera_context_id": "CZ-jp-024-P01-01",
+   "target_id": "SG-jp-024-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-024-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 34.6892,
+   "lon": 135.52675,
+   "label_i18n": {
+    "zh-TW": "大阪城公園",
+    "en": "Osaka Castle Park",
+    "ja": "大阪城公園"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-024-P01-v1",
+  "status": "draft",
+  "genre_template": "city_night",
+  "template_version": "city_night-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-024-P01-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 30,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-024-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "夜間點燈主體是建物照明，但天空乾淨（總雲量 ≤30%）才有星空層次與清晰的燈光邊緣。",
+     "en": "The subject is the illuminated building, but a clean sky (total cloud ≤30%) keeps the light edges crisp and leaves room for stars.",
+     "ja": "主題は夜間照明の建物だが、空が澄んでいる（全雲量30%以下）と光の縁がくっきりし星空も残る。"
+    }
+   },
+   {
+    "id": "C-jp-024-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 10.0,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-024-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥10 km 才能把燈光顏色拍準；霧霾會把照明染成土黃。",
+     "en": "Visibility ≥10 km keeps the lighting colors true; haze stains the illumination muddy.",
+     "ja": "視程10km以上で照明の色が正確に写る。ヘイズでは照明明色が濁る。"
+    }
+   },
+   {
+    "id": "C-jp-024-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-024-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降水 >0.2 mm/h 鏡頭進水、燈光暈開，否決。",
+     "en": "Above 0.2 mm/h water hits the lens and the lights smear; reject.",
+     "ja": "降水0.2mm/h超ではレンズに水滴が付き灯光がにじむため否決。"
+    }
+   },
+   {
+    "id": "C-jp-024-P01-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-024-P01-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD >0.5 的霧霾夜會把整座照明糊成一團光暈，否決；乾淨夜空才見得到金鯱的輪廓。",
+     "en": "On hazy nights (AOD >0.5) the whole illumination smears into a halo blob; reject - a clean night sky is what keeps the golden details readable.",
+     "ja": "AOD0.5超のヘイズの夜は照明全体が光暈に溶けるため否決。澄んだ夜空でこそ金の細部が読める。"
+    }
+   },
+   {
+    "id": "C-jp-024-P01-05",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "city_night_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-024-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "夜間窗判定：官方 FAQ 載明天守每日日没點燈至 24:30（日没後約 1 小時漸亮），評估以民用黑暗整點桶判定，與官方點燈時段重疊。",
+     "en": "Night-window verdict: the official FAQ states the keep is lit daily from sunset to 24:30 (ramping up over ~1 h after sunset); the evaluation gates on whole-hour buckets in civil darkness, which overlap the official illumination hours.",
+     "ja": "夜間窓判定：公式FAQによると天守は毎日日没から24:30まで点灯（日没後約1時間かけて漸次点灯）。評価は市民的暗闇の単位時間で判定し、公式の点灯時間帯と重なる。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-024-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d34-n",
+    "e-d34-o"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Subject existence web-verified 2026-11-08 (e-d34-n official FAQ; e-d34-o park/viewpoints). Thresholds provisional."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-024",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

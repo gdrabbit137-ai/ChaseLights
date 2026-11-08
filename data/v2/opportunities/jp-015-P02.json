@@ -1,0 +1,272 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-015-P02",
+ "place_id": "jp-015",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "皇居廣場全景",
+  "en": "Kokyo Gaien plaza panorama",
+  "ja": "皇居前広場の全景"
+ },
+ "description_i18n": {
+  "zh-TW": "從皇居前廣場中央拍白石礫廣場、黑松與遠處伏見櫓天際線；帶碎雲的晴天給全景最好的明暗節奏。",
+  "en": "From the center of the Kokyo Gaien plaza, frame the white gravel field, black pines and the Fushimi-yagura skyline beyond; broken cloud on a fair day gives the panorama its best rhythm.",
+  "ja": "皇居前広場の中央から、白い砂利の広場、黒松、遠くの伏見櫓のスカイラインを撮る。晴天空雲の日に全景の明暗リズムが最も良い。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-015-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      139.754897,
+      35.678475
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-34 AI web verification 2026-11-08: Kokyo Gaien plaza area open at all times, free, no regular holidays, and the classic Nijubashi viewpoint is the Seimon Stone Bridge view across the moat (j-eps, e-d34-i); V1 point matches the Nijubashi viewing position at 35.678N 139.755E",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "同 jp-015-P01。",
+    "en": "Same as jp-015-P01.",
+    "ja": "jp-015-P01 に同じ。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "同 jp-015-P01。",
+    "en": "Same as jp-015-P01.",
+    "ja": "jp-015-P01 に同じ。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-015-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "皇居廣場全景",
+    "en": "Kokyo Gaien plaza panorama",
+    "ja": "皇居前広場の全景"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      139.754897,
+      35.678475
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; terrain/shooting-point facts web-verified (see camera derivation_method)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-015-P02-01",
+   "camera_context_id": "CZ-jp-015-P02-01",
+   "target_id": "SG-jp-015-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-015-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 35.678475,
+   "lon": 139.754897,
+   "label_i18n": {
+    "zh-TW": "皇居外苑二重橋",
+    "en": "Nijubashi, Imperial Palace Outer Garden",
+    "ja": "皇居外苑・二重橋"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-015-P02-v1",
+  "status": "draft",
+  "genre_template": "mountain_view",
+  "template_version": "mountain_view-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-015-P02-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_mid",
+    "operator": "between",
+    "threshold": [
+     30,
+     60
+    ],
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-015-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "全景的「層」來自中雲帶：30–60% 的中層雲讓廣場—石垣—櫓的分層有明暗對比。",
+     "en": "A vista's layering comes from mid-cloud bands: 30-60% mid-level cloud gives the plaza-stonework-turret stack its contrast.",
+     "ja": "眺望の「層」は中層雲が作る：全雲量30〜60%の中層雲が広場・石垣・櫓の重なりに明暗の対比を与える。"
+    }
+   },
+   {
+    "id": "C-jp-015-P02-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 10.0,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-015-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥10 km：全景價值就在看得遠，霧霾直接否決。",
+     "en": "Visibility ≥10 km: the whole point of a vista is distance; haze vetoes it.",
+     "ja": "視程10km以上：眺望の価値は遠くまで見えることにあり、ヘイズは直接否決。"
+    }
+   },
+   {
+    "id": "C-jp-015-P02-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-015-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降水 >0.2 mm/h 時拍攝與器材都受影響，否決。",
+     "en": "Above 0.2 mm/h shooting and gear suffer; reject.",
+     "ja": "降水0.2mm/h超は撮影も機材も難航するため否決。"
+    }
+   },
+   {
+    "id": "C-jp-015-P02-04",
+    "role": "QUALITY",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "sunrise_time_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-015-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "晨昏低角度光是廣場全景最上相的窗口（順光點亮主體、逆光剪影），作為加分項。",
+     "en": "Low-angle dawn/dusk light is the vista's best window (front light warms the subject, backlight silhouettes it) - a bonus, not a gate.",
+     "ja": "朝夕の低角度光が眺望の最良窓（順光で対象を暖め、逆光でシルエットにする）。門檻ではなく加点。"
+    }
+   },
+   {
+    "id": "C-jp-015-P02-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-015-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+     "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+     "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-015-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d34-i"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Subject existence per V1 catalog; plaza access web-verified 2026-11-08 (e-d34-i). Thresholds provisional."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-015",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

@@ -9,24 +9,24 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "10e04cfe7fb0caee27494be1dbf22153ba1a08fbd408af97efc00b3507cc1bf3",
+ "inputs_fingerprint_sha256": "2ceb6737090fd95844eb105aa737ea67abd41bd1d1b3b61e02dc4093ec17b2ce",
  "summary": {
-  "places": 232,
-  "opportunities": 420,
-  "canonical_locked_opportunities": 420,
-  "places_with_unknown_scenic_beauty": 159,
-  "mean_weighted_total": 3.86,
-  "median_weighted_total": 3.88,
+  "places": 239,
+  "opportunities": 434,
+  "canonical_locked_opportunities": 434,
+  "places_with_unknown_scenic_beauty": 171,
+  "mean_weighted_total": 3.82,
+  "median_weighted_total": 3.85,
   "mean_basis": "places with evidenced scenic_beauty only (rubric v2 honest-unknown rule)",
   "region_counts": {
-   "jp": 56,
+   "jp": 63,
    "tw": 93,
    "us": 83
   },
   "weakness_counts": {
    "low_weather_light_opportunities": 6,
-   "low_verifiability_opportunities": 248,
-   "clusters_within_5km": 17
+   "low_verifiability_opportunities": 308,
+   "clusters_within_5km": 18
   }
  },
  "ranking": [
@@ -162,66 +162,6 @@
    ]
   },
   {
-   "place_id": "jp-002",
-   "name_zh": "旭岳",
-   "region": "jp",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "jp-002-P01"
-   ],
-   "rubric": {
-    "subject_strength": 5,
-    "weather_light_dependency": 5,
-    "verifiability": 3.5,
-    "differentiation": 5,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 4.3,
-   "nearest_place": "jp-046",
-   "nearest_km": 40.15,
-   "coords": [
-    43.6620489,
-    142.8250911
-   ]
-  },
-  {
-   "place_id": "jp-009",
-   "name_zh": "磐梯山",
-   "region": "jp",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "jp-009-P01"
-   ],
-   "rubric": {
-    "subject_strength": 5,
-    "weather_light_dependency": 5,
-    "verifiability": 3.5,
-    "differentiation": 5,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 4.3,
-   "nearest_place": "jp-049",
-   "nearest_km": 61.41,
-   "coords": [
-    37.6727759,
-    140.0689901
-   ]
-  },
-  {
    "place_id": "jp-052",
    "name_zh": "備中松山城・雲海（天空の城）",
    "region": "jp",
@@ -252,36 +192,6 @@
    "coords": [
     34.80909,
     133.62233
-   ]
-  },
-  {
-   "place_id": "jp-028",
-   "name_zh": "高野山",
-   "region": "jp",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "jp-028-P02"
-   ],
-   "rubric": {
-    "subject_strength": 4,
-    "weather_light_dependency": 5,
-    "verifiability": 3.5,
-    "differentiation": 5,
-    "scenic_beauty": 4
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 1,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 4.25,
-   "nearest_place": "jp-027",
-   "nearest_km": 67.64,
-   "coords": [
-    34.213056,
-    135.579583
    ]
   },
   {
@@ -511,68 +421,6 @@
    "coords": [
     24.506139,
     121.113833
-   ]
-  },
-  {
-   "place_id": "tw-001",
-   "name_zh": "大屯山助航站",
-   "region": "tw",
-   "n_opportunities": 3,
-   "opportunity_ids": [
-    "tw-001-P01",
-    "tw-001-P02",
-    "tw-001-P03"
-   ],
-   "rubric": {
-    "subject_strength": 4.67,
-    "weather_light_dependency": 5,
-    "verifiability": 3.5,
-    "differentiation": 4,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 4.07,
-   "nearest_place": "tw-006",
-   "nearest_km": 8.63,
-   "coords": [
-    25.17614,
-    121.52244
-   ]
-  },
-  {
-   "place_id": "jp-003",
-   "name_zh": "釧路濕原",
-   "region": "jp",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "jp-003-P01"
-   ],
-   "rubric": {
-    "subject_strength": 4,
-    "weather_light_dependency": 5,
-    "verifiability": 3.5,
-    "differentiation": 5,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 4.05,
-   "nearest_place": "jp-006",
-   "nearest_km": 51.24,
-   "coords": [
-    43.0980769,
-    144.4492556
    ]
   },
   {
@@ -1028,37 +876,6 @@
    ]
   },
   {
-   "place_id": "tw-018",
-   "name_zh": "日月潭・水社壩湖景步道",
-   "region": "tw",
-   "n_opportunities": 2,
-   "opportunity_ids": [
-    "tw-018-P02",
-    "tw-018-P03"
-   ],
-   "rubric": {
-    "subject_strength": 4.5,
-    "weather_light_dependency": 5,
-    "verifiability": 3.75,
-    "differentiation": 3,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 3.92,
-   "nearest_place": "tw-020",
-   "nearest_km": 5.05,
-   "coords": [
-    23.85495,
-    120.90546
-   ]
-  },
-  {
    "place_id": "tw-044",
    "name_zh": "南湖大山",
    "region": "tw",
@@ -1239,8 +1056,8 @@
     ]
    },
    "weighted_total": 3.85,
-   "nearest_place": "jp-002",
-   "nearest_km": 41.98,
+   "nearest_place": "jp-001",
+   "nearest_km": 17.27,
    "coords": [
     43.4189,
     142.4266
@@ -1340,41 +1157,6 @@
    "coords": [
     42.911253,
     -122.146719
-   ]
-  },
-  {
-   "place_id": "tw-019",
-   "name_zh": "合歡山主峰",
-   "region": "tw",
-   "n_opportunities": 6,
-   "opportunity_ids": [
-    "tw-019-P01",
-    "tw-019-P02",
-    "tw-019-P03",
-    "tw-019-P04",
-    "tw-019-P05",
-    "tw-019-P06"
-   ],
-   "rubric": {
-    "subject_strength": 4.83,
-    "weather_light_dependency": 5,
-    "verifiability": 2.17,
-    "differentiation": 4,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 3.84,
-   "nearest_place": "tw-043",
-   "nearest_km": 8.2,
-   "coords": [
-    24.1426,
-    121.2712
    ]
   },
   {
@@ -1566,20 +1348,23 @@
    ]
   },
   {
-   "place_id": "tw-008",
-   "name_zh": "觀音山硬漢嶺",
+   "place_id": "tw-019",
+   "name_zh": "合歡山主峰",
    "region": "tw",
-   "n_opportunities": 3,
+   "n_opportunities": 6,
    "opportunity_ids": [
-    "tw-008-P01",
-    "tw-008-P02",
-    "tw-008-P03"
+    "tw-019-P01",
+    "tw-019-P02",
+    "tw-019-P03",
+    "tw-019-P04",
+    "tw-019-P05",
+    "tw-019-P06"
    ],
    "rubric": {
-    "subject_strength": 5,
+    "subject_strength": 4.83,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
-    "differentiation": 1,
+    "verifiability": 1.5,
+    "differentiation": 4,
     "scenic_beauty": 3
    },
    "scenic_beauty_evidence": {
@@ -1589,12 +1374,44 @@
     "top": 0,
     "distinct_evidence_hosts": []
    },
-   "weighted_total": 3.7,
-   "nearest_place": "tw-086",
-   "nearest_km": 1.42,
+   "weighted_total": 3.71,
+   "nearest_place": "tw-043",
+   "nearest_km": 8.2,
    "coords": [
-    25.128356,
-    121.42433
+    24.1426,
+    121.2712
+   ]
+  },
+  {
+   "place_id": "tw-001",
+   "name_zh": "大屯山助航站",
+   "region": "tw",
+   "n_opportunities": 3,
+   "opportunity_ids": [
+    "tw-001-P01",
+    "tw-001-P02",
+    "tw-001-P03"
+   ],
+   "rubric": {
+    "subject_strength": 4.67,
+    "weather_light_dependency": 5,
+    "verifiability": 1.5,
+    "differentiation": 4,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.67,
+   "nearest_place": "tw-006",
+   "nearest_km": 8.63,
+   "coords": [
+    25.17614,
+    121.52244
    ]
   },
   {
@@ -1990,40 +1807,6 @@
    ]
   },
   {
-   "place_id": "jp-041",
-   "name_zh": "知床ウトロ流氷（プユニ岬）",
-   "region": "jp",
-   "n_opportunities": 2,
-   "opportunity_ids": [
-    "jp-041-P01",
-    "jp-041-P02"
-   ],
-   "rubric": {
-    "subject_strength": 3,
-    "weather_light_dependency": 3,
-    "verifiability": 2.5,
-    "differentiation": 5,
-    "scenic_beauty": 5
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 1,
-    "top": 1,
-    "distinct_evidence_hosts": [
-     "hokkaidodo.jp",
-     "www.mapion.co.jp"
-    ]
-   },
-   "weighted_total": 3.6,
-   "nearest_place": "jp-006",
-   "nearest_km": 72.19,
-   "coords": [
-    44.0958,
-    145.0093
-   ]
-  },
-  {
    "place_id": "tw-020",
    "name_zh": "金龍山",
    "region": "tw",
@@ -2087,6 +1870,71 @@
    "coords": [
     23.422951,
     120.651379
+   ]
+  },
+  {
+   "place_id": "tw-018",
+   "name_zh": "日月潭・水社壩湖景步道",
+   "region": "tw",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "tw-018-P02",
+    "tw-018-P03"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 1.75,
+    "differentiation": 3,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.52,
+   "nearest_place": "tw-020",
+   "nearest_km": 5.05,
+   "coords": [
+    23.85495,
+    120.90546
+   ]
+  },
+  {
+   "place_id": "jp-041",
+   "name_zh": "知床ウトロ流氷（プユニ岬）",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-041-P01",
+    "jp-041-P02"
+   ],
+   "rubric": {
+    "subject_strength": 3,
+    "weather_light_dependency": 3,
+    "verifiability": 2.0,
+    "differentiation": 5,
+    "scenic_beauty": 5
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 1,
+    "top": 1,
+    "distinct_evidence_hosts": [
+     "hokkaidodo.jp",
+     "www.mapion.co.jp"
+    ]
+   },
+   "weighted_total": 3.5,
+   "nearest_place": "jp-006",
+   "nearest_km": 72.19,
+   "coords": [
+    44.0958,
+    145.0093
    ]
   },
   {
@@ -2383,6 +2231,100 @@
    ]
   },
   {
+   "place_id": "jp-001",
+   "name_zh": "美瑛青池",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-001-P01",
+    "jp-001-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-043",
+   "nearest_km": 17.27,
+   "coords": [
+    43.493611,
+    142.614167
+   ]
+  },
+  {
+   "place_id": "jp-002",
+   "name_zh": "旭岳",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-002-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 1.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-001",
+   "nearest_km": 25.29,
+   "coords": [
+    43.6620489,
+    142.8250911
+   ]
+  },
+  {
+   "place_id": "jp-003",
+   "name_zh": "釧路濕原",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-003-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 1.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-006",
+   "nearest_km": 51.24,
+   "coords": [
+    43.0980769,
+    144.4492556
+   ]
+  },
+  {
    "place_id": "jp-004",
    "name_zh": "函館山夜景",
    "region": "jp",
@@ -2393,7 +2335,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2424,7 +2366,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2455,7 +2397,7 @@
    "rubric": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2486,7 +2428,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 4.0,
+    "verifiability": 2.0,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2517,7 +2459,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2538,18 +2480,17 @@
    ]
   },
   {
-   "place_id": "jp-010",
-   "name_zh": "大石公園",
+   "place_id": "jp-009",
+   "name_zh": "磐梯山",
    "region": "jp",
-   "n_opportunities": 2,
+   "n_opportunities": 1,
    "opportunity_ids": [
-    "jp-010-P01",
-    "jp-010-P02"
+    "jp-009-P01"
    ],
    "rubric": {
-    "subject_strength": 3.5,
+    "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 4.25,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2562,8 +2503,40 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "jp-013",
-   "nearest_km": 81.48,
+   "nearest_place": "jp-049",
+   "nearest_km": 61.41,
+   "coords": [
+    37.6727759,
+    140.0689901
+   ]
+  },
+  {
+   "place_id": "jp-010",
+   "name_zh": "大石公園",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-010-P01",
+    "jp-010-P02"
+   ],
+   "rubric": {
+    "subject_strength": 3.5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.25,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-012",
+   "nearest_km": 75.13,
    "coords": [
     35.5230652,
     138.7461483
@@ -2582,6 +2555,38 @@
     "subject_strength": 4.5,
     "weather_light_dependency": 5,
     "verifiability": 2.5,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-015",
+   "nearest_km": 2.37,
+   "coords": [
+    35.658656,
+    139.745364
+   ]
+  },
+  {
+   "place_id": "jp-012",
+   "name_zh": "鎌倉大佛",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-012-P01",
+    "jp-012-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2594,11 +2599,11 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "jp-020",
-   "nearest_km": 24.76,
+   "nearest_place": "jp-016",
+   "nearest_km": 17.7,
    "coords": [
-    35.658656,
-    139.745364
+    35.31685,
+    139.53572
    ]
   },
   {
@@ -2612,7 +2617,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2633,6 +2638,70 @@
    ]
   },
   {
+   "place_id": "jp-014",
+   "name_zh": "等等力溪谷",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-014-P01",
+    "jp-014-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 4,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-011",
+   "nearest_km": 10.57,
+   "coords": [
+    35.607857,
+    139.646545
+   ]
+  },
+  {
+   "place_id": "jp-015",
+   "name_zh": "皇居外苑二重橋",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-015-P01",
+    "jp-015-P02"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-011",
+   "nearest_km": 2.37,
+   "coords": [
+    35.678475,
+    139.754897
+   ]
+  },
+  {
    "place_id": "jp-016",
    "name_zh": "橫濱山下公園",
    "region": "jp",
@@ -2643,7 +2712,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -2664,17 +2733,50 @@
    ]
   },
   {
-   "place_id": "jp-019",
-   "name_zh": "濱名湖",
+   "place_id": "jp-017",
+   "name_zh": "金澤兼六園",
    "region": "jp",
-   "n_opportunities": 1,
+   "n_opportunities": 2,
    "opportunity_ids": [
-    "jp-019-P01"
+    "jp-017-P01",
+    "jp-017-P02"
    ],
    "rubric": {
-    "subject_strength": 5,
+    "subject_strength": 4.5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-021",
+   "nearest_km": 90.18,
+   "coords": [
+    36.563367,
+    136.662817
+   ]
+  },
+  {
+   "place_id": "jp-018",
+   "name_zh": "名古屋城",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-018-P01",
+    "jp-018-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2688,7 +2790,38 @@
    },
    "weighted_total": null,
    "nearest_place": "jp-029",
-   "nearest_km": 135.24,
+   "nearest_km": 84.08,
+   "coords": [
+    35.185181,
+    136.89865
+   ]
+  },
+  {
+   "place_id": "jp-019",
+   "name_zh": "濱名湖",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-019-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 1.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-018",
+   "nearest_km": 84.75,
    "coords": [
     34.688461,
     137.603753
@@ -2705,7 +2838,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -2822,6 +2955,38 @@
    ]
   },
   {
+   "place_id": "jp-024",
+   "name_zh": "大阪城公園",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-024-P01",
+    "jp-024-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-027",
+   "nearest_km": 27.35,
+   "coords": [
+    34.6892,
+    135.52675
+   ]
+  },
+  {
    "place_id": "jp-025",
    "name_zh": "萩城下町・菊屋橫町",
    "region": "jp",
@@ -2832,7 +2997,7 @@
    "rubric": {
     "subject_strength": 3,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2908,11 +3073,42 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "jp-023",
-   "nearest_km": 56.81,
+   "nearest_place": "jp-024",
+   "nearest_km": 27.35,
    "coords": [
     34.752011,
     135.237428
+   ]
+  },
+  {
+   "place_id": "jp-028",
+   "name_zh": "高野山",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-028-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 1.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-024",
+   "nearest_km": 53.17,
+   "coords": [
+    34.213056,
+    135.579583
    ]
   },
   {
@@ -2926,7 +3122,7 @@
    "rubric": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2957,7 +3153,7 @@
    "rubric": {
     "subject_strength": 2,
     "weather_light_dependency": 1,
-    "verifiability": 2.5,
+    "verifiability": 1.0,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -2988,7 +3184,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -3019,7 +3215,7 @@
    "rubric": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -3148,7 +3344,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -3511,7 +3707,7 @@
    "rubric": {
     "subject_strength": 4.33,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 3,
     "scenic_beauty": "unknown"
    },
@@ -3544,7 +3740,7 @@
    "rubric": {
     "subject_strength": 4.67,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -3577,7 +3773,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 3,
     "scenic_beauty": "unknown"
    },
@@ -3609,7 +3805,7 @@
    "rubric": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 3,
     "scenic_beauty": "unknown"
    },
@@ -3695,6 +3891,39 @@
    ]
   },
   {
+   "place_id": "tw-008",
+   "name_zh": "觀音山硬漢嶺",
+   "region": "tw",
+   "n_opportunities": 3,
+   "opportunity_ids": [
+    "tw-008-P01",
+    "tw-008-P02",
+    "tw-008-P03"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 1.5,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "tw-086",
+   "nearest_km": 1.42,
+   "coords": [
+    25.128356,
+    121.42433
+   ]
+  },
+  {
    "place_id": "tw-009",
    "name_zh": "望幽谷",
    "region": "tw",
@@ -3705,7 +3934,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -3738,7 +3967,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.83,
+    "verifiability": 1.83,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -3770,7 +3999,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -3802,7 +4031,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.75,
+    "verifiability": 1.75,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -3834,7 +4063,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 4,
     "scenic_beauty": "unknown"
    },
@@ -3866,7 +4095,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 4,
     "scenic_beauty": "unknown"
    },
@@ -3898,7 +4127,7 @@
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.75,
+    "verifiability": 1.75,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -3962,7 +4191,7 @@
    "rubric": {
     "subject_strength": 4.67,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -7432,15 +7661,45 @@
  ],
  "opportunity_scores": [
   {
+   "opportunity_id": "jp-001-P01",
+   "place_id": "jp-001",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-001-P02",
+   "place_id": "jp-001",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
    "opportunity_id": "jp-002-P01",
    "place_id": "jp-002",
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7451,10 +7710,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7465,10 +7726,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7479,10 +7742,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7493,10 +7758,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7507,10 +7774,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 4.0
+    "verifiability": 2.0
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7521,10 +7790,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7535,10 +7806,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7561,10 +7834,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 4.0
+    "verifiability": 2.0
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7600,15 +7875,101 @@
    "lifecycle_status": "draft"
   },
   {
+   "opportunity_id": "jp-012-P01",
+   "place_id": "jp-012",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-012-P02",
+   "place_id": "jp-012",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
    "opportunity_id": "jp-013-P01",
    "place_id": "jp-013",
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-014-P01",
+   "place_id": "jp-014",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-014-P02",
+   "place_id": "jp-014",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-015-P01",
+   "place_id": "jp-015",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-015-P02",
+   "place_id": "jp-015",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7619,10 +7980,68 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-017-P01",
+   "place_id": "jp-017",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-017-P02",
+   "place_id": "jp-017",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-018-P01",
+   "place_id": "jp-018",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-018-P02",
+   "place_id": "jp-018",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7633,10 +8052,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7647,10 +8068,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7746,15 +8169,45 @@
    "lifecycle_status": "draft"
   },
   {
+   "opportunity_id": "jp-024-P01",
+   "place_id": "jp-024",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-024-P02",
+   "place_id": "jp-024",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
    "opportunity_id": "jp-025-P02",
    "place_id": "jp-025",
    "scores": {
     "subject_strength": 3,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7810,10 +8263,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7824,10 +8279,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7838,11 +8295,13 @@
    "scores": {
     "subject_strength": 2,
     "weather_light_dependency": 1,
-    "verifiability": 2.5
+    "verifiability": 1.0
    },
    "verif_gaps": [
     "geometry_not_verified",
-    "conditions_missing_claim_or_threshold_source"
+    "targets_missing_evidence_refs",
+    "conditions_missing_claim_or_threshold_source",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7853,10 +8312,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7867,10 +8328,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -7986,10 +8449,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8000,10 +8465,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8104,10 +8571,11 @@
    "scores": {
     "subject_strength": 1,
     "weather_light_dependency": 1,
-    "verifiability": 2.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
     "geometry_not_verified",
+    "targets_missing_evidence_refs",
     "conditions_missing_claim_or_threshold_source"
    ],
    "canonical_locked": true,
@@ -8509,10 +8977,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8523,10 +8993,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8537,10 +9009,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8551,10 +9025,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8565,10 +9041,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8579,10 +9057,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8593,10 +9073,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8607,10 +9089,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8621,10 +9105,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8635,10 +9121,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8649,10 +9137,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8663,10 +9153,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8677,10 +9169,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8691,10 +9185,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8777,10 +9273,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8791,10 +9289,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8805,10 +9305,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8819,10 +9321,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8833,10 +9337,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 4.0
+    "verifiability": 2.0
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8847,10 +9353,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 4.0
+    "verifiability": 2.0
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8861,10 +9369,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8875,10 +9385,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8889,10 +9401,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8903,10 +9417,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8917,10 +9433,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 4.0
+    "verifiability": 2.0
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8931,10 +9449,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8945,10 +9465,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8959,10 +9481,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8973,10 +9497,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -8987,10 +9513,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -9001,10 +9529,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 4.0
+    "verifiability": 2.0
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -9027,10 +9557,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -9041,10 +9573,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -9055,10 +9589,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -9069,10 +9605,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 4.0
+    "verifiability": 2.0
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -9083,10 +9621,12 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -9097,10 +9637,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -9111,10 +9653,12 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -13934,6 +14478,667 @@
   ],
   "low_verifiability": [
    {
+    "opportunity_id": "jp-002-P01",
+    "place_id": "jp-002",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-003-P01",
+    "place_id": "jp-003",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-004-P01",
+    "place_id": "jp-004",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-005-P02",
+    "place_id": "jp-005",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-006-P01",
+    "place_id": "jp-006",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-007-P01",
+    "place_id": "jp-007",
+    "score": 2.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-008-P01",
+    "place_id": "jp-008",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-009-P01",
+    "place_id": "jp-009",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-010-P02",
+    "place_id": "jp-010",
+    "score": 2.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-013-P01",
+    "place_id": "jp-013",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-016-P02",
+    "place_id": "jp-016",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-019-P01",
+    "place_id": "jp-019",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-020-P01",
+    "place_id": "jp-020",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-025-P02",
+    "place_id": "jp-025",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-028-P02",
+    "place_id": "jp-028",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-029-P02",
+    "place_id": "jp-029",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-030-P01",
+    "place_id": "jp-030",
+    "score": 1.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "conditions_missing_claim_or_threshold_source",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-031-P02",
+    "place_id": "jp-031",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-032-P02",
+    "place_id": "jp-032",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-036-P01",
+    "place_id": "jp-036",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-036-P03",
+    "place_id": "jp-036",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "jp-041-P01",
+    "place_id": "jp-041",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "conditions_missing_claim_or_threshold_source"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-001-P01",
+    "place_id": "tw-001",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-001-P02",
+    "place_id": "tw-001",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-001-P03",
+    "place_id": "tw-001",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-002-P01",
+    "place_id": "tw-002",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-002-P02",
+    "place_id": "tw-002",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-002-P03",
+    "place_id": "tw-002",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-003-P01",
+    "place_id": "tw-003",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-003-P02",
+    "place_id": "tw-003",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-003-P03",
+    "place_id": "tw-003",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-004-P01",
+    "place_id": "tw-004",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-004-P03",
+    "place_id": "tw-004",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-004-P04",
+    "place_id": "tw-004",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-005-P01",
+    "place_id": "tw-005",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-005-P02",
+    "place_id": "tw-005",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-008-P01",
+    "place_id": "tw-008",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-008-P02",
+    "place_id": "tw-008",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-008-P03",
+    "place_id": "tw-008",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-009-P02",
+    "place_id": "tw-009",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-010-P01",
+    "place_id": "tw-010",
+    "score": 2.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-010-P02",
+    "place_id": "tw-010",
+    "score": 2.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-010-P03",
+    "place_id": "tw-010",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-011-P01",
+    "place_id": "tw-011",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-011-P02",
+    "place_id": "tw-011",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-012-P01",
+    "place_id": "tw-012",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-012-P02",
+    "place_id": "tw-012",
+    "score": 2.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-013-P01",
+    "place_id": "tw-013",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-013-P02",
+    "place_id": "tw-013",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-014-P01",
+    "place_id": "tw-014",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-014-P02",
+    "place_id": "tw-014",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-015-P01",
+    "place_id": "tw-015",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-015-P02",
+    "place_id": "tw-015",
+    "score": 2.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-017-P01",
+    "place_id": "tw-017",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-017-P02",
+    "place_id": "tw-017",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-017-P03",
+    "place_id": "tw-017",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-018-P02",
+    "place_id": "tw-018",
+    "score": 2.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-018-P03",
+    "place_id": "tw-018",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-019-P01",
+    "place_id": "tw-019",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-019-P02",
+    "place_id": "tw-019",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
     "opportunity_id": "tw-019-P03",
     "place_id": "tw-019",
     "score": 1.5,
@@ -16666,6 +17871,21 @@
    }
   ],
   "clusters_within_5km": [
+   {
+    "members": [
+     {
+      "place_id": "jp-011",
+      "name_zh": "東京鐵塔",
+      "nearest_km": 2.37
+     },
+     {
+      "place_id": "jp-015",
+      "name_zh": "皇居外苑二重橋",
+      "nearest_km": 2.37
+     }
+    ],
+    "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
+   },
    {
     "members": [
      {

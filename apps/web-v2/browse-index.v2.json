@@ -1,19 +1,19 @@
 {
-  "source_commit_sha": "fe494ca133a98fd54d0a6368257e217101654de5",
+  "source_commit_sha": "2c2ebd4c2f6220721ad57c8a6c1edf04e37f24c3",
   "manifest": {
     "format_version": "0.1.0",
     "mode": "RESEARCH_ONLY",
-    "index_revision": "sha256:4a7186fdcbd2b7f91f26ff0603085eda3230fb49dde1340168634c011da5be84",
+    "index_revision": "sha256:561f4ba47f0ccc7559b407c2c70bb38ed33843c11ff9250eb2c63acf8b46a481",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "w1_contract_commit_sha": "b56632b090aa79c28806f30b10aed79cbb0cfb31",
     "canonical_source_lock": "source-lock.json",
-    "source_lock_sha256": "183528f674cec1ed6c1b2ba67947a7e83f56993a063890726025dbeed4ce1fe3",
-    "curation_sha256": "9bf239095e1c3c1270f397e4cd7f34904ffd759e13d8c21fae8f07ddfde90e5d",
+    "source_lock_sha256": "42c1702141359608d231bb984685cc2910cc14b4ae32d9b2af1d12fac5bc83df",
+    "curation_sha256": "fb53b2ccb1a9b1bbb4c73c447d4451cf33d3110c10928d010d12e15a07808c6d",
     "files": {
-      "place-index.json": "13dcd4bd094409ffcbf8ff2ab076dccb8a04c1e6bd107adac691e048bbbdfe0f",
-      "topic-index.json": "943e2d416432fdacbad5043c6827af8acd31f59b352cb8e7e2719e54c4efcd34",
-      "field-provenance.json": "ef8646a78354e9369088dbfe85a2cb45c758be5b4432ed1bd1241ca96645adc2",
-      "index-status.json": "c1a111c643ef9f97c0984b6d7421be98f0fa5bf3913a592dd49e71c1e049419b"
+      "place-index.json": "0db77aa7b9bd3fc9b927b6b519fb04430cd747f436c474776b1c65c12fdbbc11",
+      "topic-index.json": "e10796177f6ef10203b507fc8818745e31bf7507d624ea068d96e299413c7cbd",
+      "field-provenance.json": "7a045f8bad8b2241e6c719362461ba68eb59fc5884c0256f5595576fe0f475ad",
+      "index-status.json": "0c46263b8c6b5aef4bd58d0137a645457f7d0031ba1b2ddb8d2ac55ba0837daa"
     }
   },
   "place_index": {
@@ -21,11 +21,11 @@
     "regions": [],
     "places": [
       {
-        "place_id": "jp-002",
+        "place_id": "jp-001",
         "name_i18n": {
-          "zh-TW": "旭岳",
-          "en": "Mt. Asahi",
-          "ja": "旭岳"
+          "zh-TW": "美瑛青池",
+          "en": "Shirogane Blue Pond",
+          "ja": "美瑛青い池"
         },
         "aliases_i18n": {
           "zh-TW": [],
@@ -38,8 +38,34 @@
         "region_ids": [],
         "admin_status": "UNKNOWN",
         "evidence_refs": [
-          "e-d35-access-asahidake-ropeway"
+          "e-d34-a",
+          "e-d34-b",
+          "e-d34-c"
         ],
+        "time_zone": {
+          "status": "UNKNOWN",
+          "iana_id": null,
+          "evidence_ref": null
+        }
+      },
+      {
+        "place_id": "jp-002",
+        "name_i18n": {
+          "zh-TW": "旭岳",
+          "en": "Mt. Asahi",
+          "ja": "旭岳"
+        },
+        "aliases_i18n": {
+          "zh-TW": [],
+          "en": [],
+          "ja": []
+        },
+        "metadata_status": "PARTIAL",
+        "semantic_review": "PENDING",
+        "country_codes": [],
+        "region_ids": [],
+        "admin_status": "UNKNOWN",
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -58,14 +84,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-hosooka-observatory"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -84,14 +108,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-hakodateyama-hakobura"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -110,14 +132,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-otaru-canal-city"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -136,14 +156,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-mashu-first-observatory"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -162,14 +180,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-towada-yasumiya"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -188,14 +204,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-sokanzan-matsushima"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -214,14 +228,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-nakanozawa-bandai"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -247,8 +259,7 @@
         "admin_status": "UNKNOWN",
         "evidence_refs": [
           "b04-jp010-a",
-          "b04-jp010-b",
-          "e-d35-access-oishi-park-fujikawaguchiko"
+          "b04-jp010-b"
         ],
         "time_zone": {
           "status": "UNKNOWN",
@@ -281,11 +292,11 @@
         }
       },
       {
-        "place_id": "jp-013",
+        "place_id": "jp-012",
         "name_i18n": {
-          "zh-TW": "諏訪湖",
-          "en": "Lake Suwa",
-          "ja": "諏訪湖"
+          "zh-TW": "鎌倉大佛",
+          "en": "Kamakura Great Buddha",
+          "ja": "鎌倉大仏"
         },
         "aliases_i18n": {
           "zh-TW": [],
@@ -298,7 +309,86 @@
         "region_ids": [],
         "admin_status": "UNKNOWN",
         "evidence_refs": [
-          "e-d35-access-tateishi-park-suwa"
+          "e-d34-d",
+          "e-d34-e",
+          "e-d34-f"
+        ],
+        "time_zone": {
+          "status": "UNKNOWN",
+          "iana_id": null,
+          "evidence_ref": null
+        }
+      },
+      {
+        "place_id": "jp-013",
+        "name_i18n": {
+          "zh-TW": "諏訪湖",
+          "en": "Lake Suwa",
+          "ja": "諏訪湖"
+        },
+        "aliases_i18n": {
+          "zh-TW": [],
+          "en": [],
+          "ja": []
+        },
+        "metadata_status": "PARTIAL",
+        "semantic_review": "PENDING",
+        "country_codes": [],
+        "region_ids": [],
+        "admin_status": "UNKNOWN",
+        "evidence_refs": [],
+        "time_zone": {
+          "status": "UNKNOWN",
+          "iana_id": null,
+          "evidence_ref": null
+        }
+      },
+      {
+        "place_id": "jp-014",
+        "name_i18n": {
+          "zh-TW": "等等力溪谷",
+          "en": "Todoroki Valley",
+          "ja": "等々力渓谷"
+        },
+        "aliases_i18n": {
+          "zh-TW": [],
+          "en": [],
+          "ja": []
+        },
+        "metadata_status": "COMPLETE",
+        "semantic_review": "PENDING",
+        "country_codes": [],
+        "region_ids": [],
+        "admin_status": "UNKNOWN",
+        "evidence_refs": [
+          "e-d34-g",
+          "e-d34-h"
+        ],
+        "time_zone": {
+          "status": "UNKNOWN",
+          "iana_id": null,
+          "evidence_ref": null
+        }
+      },
+      {
+        "place_id": "jp-015",
+        "name_i18n": {
+          "zh-TW": "皇居外苑二重橋",
+          "en": "Nijubashi, Kokyo Gaien",
+          "ja": "皇居外苑 二重橋"
+        },
+        "aliases_i18n": {
+          "zh-TW": [],
+          "en": [],
+          "ja": []
+        },
+        "metadata_status": "COMPLETE",
+        "semantic_review": "PENDING",
+        "country_codes": [],
+        "region_ids": [],
+        "admin_status": "UNKNOWN",
+        "evidence_refs": [
+          "e-d34-i"
         ],
         "time_zone": {
           "status": "UNKNOWN",
@@ -318,13 +408,65 @@
           "en": [],
           "ja": []
         },
+        "metadata_status": "PARTIAL",
+        "semantic_review": "PENDING",
+        "country_codes": [],
+        "region_ids": [],
+        "admin_status": "UNKNOWN",
+        "evidence_refs": [],
+        "time_zone": {
+          "status": "UNKNOWN",
+          "iana_id": null,
+          "evidence_ref": null
+        }
+      },
+      {
+        "place_id": "jp-017",
+        "name_i18n": {
+          "zh-TW": "金澤兼六園",
+          "en": "Kanazawa Kenroku-en",
+          "ja": "兼六園"
+        },
+        "aliases_i18n": {
+          "zh-TW": [],
+          "en": [],
+          "ja": []
+        },
         "metadata_status": "COMPLETE",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
         "evidence_refs": [
-          "e-d35-access-yamashita-park-yokohama"
+          "e-d34-j",
+          "e-d34-k"
+        ],
+        "time_zone": {
+          "status": "UNKNOWN",
+          "iana_id": null,
+          "evidence_ref": null
+        }
+      },
+      {
+        "place_id": "jp-018",
+        "name_i18n": {
+          "zh-TW": "名古屋城",
+          "en": "Nagoya Castle",
+          "ja": "名古屋城"
+        },
+        "aliases_i18n": {
+          "zh-TW": [],
+          "en": [],
+          "ja": []
+        },
+        "metadata_status": "COMPLETE",
+        "semantic_review": "PENDING",
+        "country_codes": [],
+        "region_ids": [],
+        "admin_status": "UNKNOWN",
+        "evidence_refs": [
+          "e-d34-l",
+          "e-d34-m"
         ],
         "time_zone": {
           "status": "UNKNOWN",
@@ -344,14 +486,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-bentenjima-hamamatsu"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -370,14 +510,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-osanbashi-rooftop"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -457,11 +595,11 @@
         }
       },
       {
-        "place_id": "jp-025",
+        "place_id": "jp-024",
         "name_i18n": {
-          "zh-TW": "萩城下町・菊屋橫町",
-          "en": "Hagi Castle Town · Kikuya Yokocho",
-          "ja": "萩城下町・菊屋横町"
+          "zh-TW": "大阪城公園",
+          "en": "Osaka Castle Park",
+          "ja": "大阪城公園"
         },
         "aliases_i18n": {
           "zh-TW": [],
@@ -474,8 +612,33 @@
         "region_ids": [],
         "admin_status": "UNKNOWN",
         "evidence_refs": [
-          "e-d35-access-hagi-chikutoro"
+          "e-d34-n",
+          "e-d34-o"
         ],
+        "time_zone": {
+          "status": "UNKNOWN",
+          "iana_id": null,
+          "evidence_ref": null
+        }
+      },
+      {
+        "place_id": "jp-025",
+        "name_i18n": {
+          "zh-TW": "萩城下町・菊屋橫町",
+          "en": "Hagi Castle Town · Kikuya Yokocho",
+          "ja": "萩城下町・菊屋横町"
+        },
+        "aliases_i18n": {
+          "zh-TW": [],
+          "en": [],
+          "ja": []
+        },
+        "metadata_status": "PARTIAL",
+        "semantic_review": "PENDING",
+        "country_codes": [],
+        "region_ids": [],
+        "admin_status": "UNKNOWN",
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -542,14 +705,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-danjo-garan-koyasan"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -568,14 +729,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-iga-ueno-castle"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -594,14 +753,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-uzunomichi-tokushima"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -620,14 +777,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-bikan-kurashiki"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -646,14 +801,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-fukuoka-castle-tenshudai"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -744,14 +897,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-takachiho-gorge"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -880,8 +1031,7 @@
         "region_ids": [],
         "admin_status": "UNKNOWN",
         "evidence_refs": [
-          "e-d25-web-shiretoko-utoro-ryuhyo",
-          "e-d35-access-puyuni-cl-d32"
+          "e-d25-web-shiretoko-utoro-ryuhyo"
         ],
         "time_zone": {
           "status": "UNKNOWN",
@@ -1473,14 +1623,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-datunshan-ymsnp"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1499,14 +1647,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-xiangshan-taipei"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1525,14 +1671,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-tamsui-fishermans-wharf"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1551,14 +1695,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-buyanting-newtaipei"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1577,14 +1719,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-dadaocheng-wharf"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1657,14 +1797,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-yinghanyan-northguan"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1683,14 +1821,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-wangyougu-keelung"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1709,14 +1845,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-heping-island-park"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1735,14 +1869,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-yongan-fishing-harbor"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1761,14 +1893,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-xiangshan-wetland-hccg"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1787,14 +1917,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-huoyanshan-reserve"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1813,14 +1941,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-yundong-guesthouse"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1839,14 +1965,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-gaomei-wetland-taichung"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1892,14 +2016,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-wanggong-fangyuan"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1918,14 +2040,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-shuishe-dam-sml"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -1944,14 +2064,12 @@
           "en": [],
           "ja": []
         },
-        "metadata_status": "COMPLETE",
+        "metadata_status": "PARTIAL",
         "semantic_review": "PENDING",
         "country_codes": [],
         "region_ids": [],
         "admin_status": "UNKNOWN",
-        "evidence_refs": [
-          "e-d35-access-hehuan-taroko"
-        ],
+        "evidence_refs": [],
         "time_zone": {
           "status": "UNKNOWN",
           "iana_id": null,
@@ -5792,12 +5910,40 @@
     ],
     "opportunities": [
       {
+        "opportunity_id": "jp-001-P01",
+        "place_id": "jp-001",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-001-P01.json",
+        "source_blob_sha": "a5353296d6a4c18d1a15e5dc1c3472124e70f9e8",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-001-P02",
+        "place_id": "jp-001",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-001-P02.json",
+        "source_blob_sha": "88b29643c843ab0eec1f8e0130277aaed2c1090d",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
         "opportunity_id": "jp-002-P01",
         "place_id": "jp-002",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/jp-002-P01.json",
-        "source_blob_sha": "6d5ffacb64fb97eb11173fc1195cd571a9151d11",
+        "source_blob_sha": "7f6b4f9eeca00a0c4ef1dbd9e53d21d83b018138",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5808,10 +5954,10 @@
       {
         "opportunity_id": "jp-003-P01",
         "place_id": "jp-003",
-        "revision": 4,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 3,
+        "source_commit_sha": "d57d40f8966631783f1385908659bd8c1b82adbd",
         "source_path": "data/v2/opportunities/jp-003-P01.json",
-        "source_blob_sha": "7ce46e16ed6717c6dabc9115933df7717a73e386",
+        "source_blob_sha": "bd1eafe6f5ad3056cf8d110b9ace6437ff793fec",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5822,10 +5968,10 @@
       {
         "opportunity_id": "jp-004-P01",
         "place_id": "jp-004",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "6a420db5100bb184f655b4b765d29fdf3494588d",
         "source_path": "data/v2/opportunities/jp-004-P01.json",
-        "source_blob_sha": "ae7c5e0b2c248faae2ee7ca00e0b07390ae1a209",
+        "source_blob_sha": "a4692991a62802e517bc86b390beac9d32451bb6",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5836,10 +5982,10 @@
       {
         "opportunity_id": "jp-005-P02",
         "place_id": "jp-005",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
         "source_path": "data/v2/opportunities/jp-005-P02.json",
-        "source_blob_sha": "d374be14a161a6245b9eb7cd6f5535e41a3fb32b",
+        "source_blob_sha": "0a7a05c2898b71d5069fa907dd6e77949bd14d35",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5850,10 +5996,10 @@
       {
         "opportunity_id": "jp-006-P01",
         "place_id": "jp-006",
-        "revision": 4,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 3,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/jp-006-P01.json",
-        "source_blob_sha": "2a8fcec6d399f55990e15ce5967f7c72b86f77f5",
+        "source_blob_sha": "168a572d8af45e00a12775de50539416f5ae28ba",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5864,10 +6010,10 @@
       {
         "opportunity_id": "jp-007-P01",
         "place_id": "jp-007",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/jp-007-P01.json",
-        "source_blob_sha": "dd8a767f94e6bc79dec00f07de70f63387057406",
+        "source_blob_sha": "cbdd307e0798fe5ae9220a6afcbb0010aa76dbbc",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5878,10 +6024,10 @@
       {
         "opportunity_id": "jp-008-P01",
         "place_id": "jp-008",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
         "source_path": "data/v2/opportunities/jp-008-P01.json",
-        "source_blob_sha": "a7bd9389a4b33089b8ccd7c443fe493d5c5c2741",
+        "source_blob_sha": "9c98c475a3023aa107a52ad4b84d3d4375fc00e2",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5892,10 +6038,10 @@
       {
         "opportunity_id": "jp-009-P01",
         "place_id": "jp-009",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/jp-009-P01.json",
-        "source_blob_sha": "82f5ccf6c429f741be4cd551652c809494d6b2d3",
+        "source_blob_sha": "ada757a06e92eff9fdab44fd4247685c192f5616",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5920,10 +6066,10 @@
       {
         "opportunity_id": "jp-010-P02",
         "place_id": "jp-010",
-        "revision": 4,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 3,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/jp-010-P02.json",
-        "source_blob_sha": "8744329455be62583ac117c92b8e07df4c6782d4",
+        "source_blob_sha": "245ade54e2c1d537b6fa48a7b316c0aaa535ec37",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5960,12 +6106,96 @@
         "publication_approval_ref": null
       },
       {
+        "opportunity_id": "jp-012-P01",
+        "place_id": "jp-012",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-012-P01.json",
+        "source_blob_sha": "79b7af8693dfc6a0c523b0d3658edabae2b84b62",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-012-P02",
+        "place_id": "jp-012",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-012-P02.json",
+        "source_blob_sha": "1a05647bb1ad2d16b5c30e28ade6c2cef024b07a",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
         "opportunity_id": "jp-013-P01",
         "place_id": "jp-013",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
         "source_path": "data/v2/opportunities/jp-013-P01.json",
-        "source_blob_sha": "68861324ec07b23bab9fb996d15aa7c78db28288",
+        "source_blob_sha": "b5d9ed6d0c0e1cc4bd33f736c580b295fba0bc17",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-014-P01",
+        "place_id": "jp-014",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-014-P01.json",
+        "source_blob_sha": "3e7715ac37766e4695acc99e6824e551234cb972",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-014-P02",
+        "place_id": "jp-014",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-014-P02.json",
+        "source_blob_sha": "1504e5129929d9bc4c53e6a524a89cc776655d97",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-015-P01",
+        "place_id": "jp-015",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-015-P01.json",
+        "source_blob_sha": "150e4a39e9c28a3d65eea6c660e16c630105665e",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-015-P02",
+        "place_id": "jp-015",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-015-P02.json",
+        "source_blob_sha": "feed8ea9e0e5b7d550433fb8a768670aa72fbd01",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5976,10 +6206,66 @@
       {
         "opportunity_id": "jp-016-P02",
         "place_id": "jp-016",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "d57d40f8966631783f1385908659bd8c1b82adbd",
         "source_path": "data/v2/opportunities/jp-016-P02.json",
-        "source_blob_sha": "cb7f4b57ae5d2e1d67adbaa92cab928919175890",
+        "source_blob_sha": "6b6ab68c093631d98e2430e03b2a92a5d1330b4a",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-017-P01",
+        "place_id": "jp-017",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-017-P01.json",
+        "source_blob_sha": "2aacdc5fe5e6e8da325c6070f83a5708f4d24e84",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-017-P02",
+        "place_id": "jp-017",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-017-P02.json",
+        "source_blob_sha": "66ff3b5313cf6f192a0c56c29cbc1bdfc023dd3d",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-018-P01",
+        "place_id": "jp-018",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-018-P01.json",
+        "source_blob_sha": "41fa1232e48786d39a216b49445639b48d43dab5",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-018-P02",
+        "place_id": "jp-018",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-018-P02.json",
+        "source_blob_sha": "eac330dd7c805497fae89b4e3742a635d81631e6",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -5990,10 +6276,10 @@
       {
         "opportunity_id": "jp-019-P01",
         "place_id": "jp-019",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
         "source_path": "data/v2/opportunities/jp-019-P01.json",
-        "source_blob_sha": "3cfa6905646bedabc22697c353f2eb2e31454760",
+        "source_blob_sha": "37ece41f1cfeabb286038718addba3eeb7140017",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6004,10 +6290,10 @@
       {
         "opportunity_id": "jp-020-P01",
         "place_id": "jp-020",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "6a420db5100bb184f655b4b765d29fdf3494588d",
         "source_path": "data/v2/opportunities/jp-020-P01.json",
-        "source_blob_sha": "40a4f0e090b8889b5ee08f47ca9a74cc14970e55",
+        "source_blob_sha": "88c9d5f577d595aca85cbfbb0903a6d210724470",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6100,12 +6386,40 @@
         "publication_approval_ref": null
       },
       {
+        "opportunity_id": "jp-024-P01",
+        "place_id": "jp-024",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-024-P01.json",
+        "source_blob_sha": "c7ba6927ec19341e10d923dbb226e3543f000150",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
+        "opportunity_id": "jp-024-P02",
+        "place_id": "jp-024",
+        "revision": 1,
+        "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
+        "source_path": "data/v2/opportunities/jp-024-P02.json",
+        "source_blob_sha": "7c523f52df82adca1906423aebdc2bb853d44db5",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
         "opportunity_id": "jp-025-P02",
         "place_id": "jp-025",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "4e51267ba7b7130d28efa41e50d2ef3d36de81a8",
         "source_path": "data/v2/opportunities/jp-025-P02.json",
-        "source_blob_sha": "4e3bbdf6b999dce28368a604b08d66599af944bb",
+        "source_blob_sha": "b1fb74adb170003a581d92b25d48f1e9e610f4e9",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6158,10 +6472,10 @@
       {
         "opportunity_id": "jp-028-P02",
         "place_id": "jp-028",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/jp-028-P02.json",
-        "source_blob_sha": "3f37cad5dd56dd3feb929990d8d3deaa09306803",
+        "source_blob_sha": "092d1d4ec021ab04299ef937f1df790a576df405",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6172,10 +6486,10 @@
       {
         "opportunity_id": "jp-029-P02",
         "place_id": "jp-029",
-        "revision": 4,
-        "source_commit_sha": "90838a69af97cab0aafbfb89c3e984bd0f004f9b",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/jp-029-P02.json",
-        "source_blob_sha": "5d92752b497434508888e08170313b3fe2ba9645",
+        "source_blob_sha": "1e5c7bfc242d6fd0cc8a27400b589fe67ca6c801",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6186,10 +6500,10 @@
       {
         "opportunity_id": "jp-030-P01",
         "place_id": "jp-030",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "06b51d046fd391ab44708535464e7478cfc13ee4",
         "source_path": "data/v2/opportunities/jp-030-P01.json",
-        "source_blob_sha": "c5d8279b05b5506f1e293054cece493978532de5",
+        "source_blob_sha": "6373dcae7ae5bbe8a75925a2c26da35e51be9889",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6200,10 +6514,10 @@
       {
         "opportunity_id": "jp-031-P02",
         "place_id": "jp-031",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "d57d40f8966631783f1385908659bd8c1b82adbd",
         "source_path": "data/v2/opportunities/jp-031-P02.json",
-        "source_blob_sha": "7715a3c1b9fb7ed69dc1f363eac688319f903361",
+        "source_blob_sha": "8d373273663d94328e35e0e93b717d4078e99b06",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6214,10 +6528,10 @@
       {
         "opportunity_id": "jp-032-P02",
         "place_id": "jp-032",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/jp-032-P02.json",
-        "source_blob_sha": "4286afe8ccf975b4957434bd5a0af383bdf9377f",
+        "source_blob_sha": "be01111e98ed5390a229464c39ff949e2689102d",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6326,10 +6640,10 @@
       {
         "opportunity_id": "jp-036-P01",
         "place_id": "jp-036",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/jp-036-P01.json",
-        "source_blob_sha": "42163fed64a57c035ca4c747331f219315731575",
+        "source_blob_sha": "4189a69c60e3c728c3a3b1193c1ec1d0135ff079",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6340,10 +6654,10 @@
       {
         "opportunity_id": "jp-036-P03",
         "place_id": "jp-036",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/jp-036-P03.json",
-        "source_blob_sha": "1904e775466ce118e5e7a5998393a84df8682fac",
+        "source_blob_sha": "c2ebc580ffc3fab6d25b035cf00c6e7be018d165",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6438,10 +6752,10 @@
       {
         "opportunity_id": "jp-041-P01",
         "place_id": "jp-041",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906",
         "source_path": "data/v2/opportunities/jp-041-P01.json",
-        "source_blob_sha": "c6e940c6dd9aa281ea7315cccc806858636a0153",
+        "source_blob_sha": "7389595b8a007ad0d99ca674df01efdfe4dded40",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6816,10 +7130,10 @@
       {
         "opportunity_id": "tw-001-P01",
         "place_id": "tw-001",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
         "source_path": "data/v2/opportunities/tw-001-P01.json",
-        "source_blob_sha": "ad2ee7ca74b9cc1fce926a91af14c30b00f5e401",
+        "source_blob_sha": "2ff2b4cc3ae8b584f3cac56db7bfe1d1feb899b9",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6830,10 +7144,10 @@
       {
         "opportunity_id": "tw-001-P02",
         "place_id": "tw-001",
-        "revision": 6,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 5,
+        "source_commit_sha": "c90f56712550ae46824e30684442bbc44855c9b5",
         "source_path": "data/v2/opportunities/tw-001-P02.json",
-        "source_blob_sha": "54bb020ce0f8af7e4ae8839a82a7d800875826ab",
+        "source_blob_sha": "4c25ab20a6a575970fd98a4d9bc4d309454abf62",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6844,10 +7158,10 @@
       {
         "opportunity_id": "tw-001-P03",
         "place_id": "tw-001",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "69b832accfc8c0438a50e51689c4e7c40765e9f4",
         "source_path": "data/v2/opportunities/tw-001-P03.json",
-        "source_blob_sha": "d4893a34d58f463b991768aa304be9b83c64ade4",
+        "source_blob_sha": "acf921dee14da1364a5287429caa27f3bf4592bc",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6858,10 +7172,10 @@
       {
         "opportunity_id": "tw-002-P01",
         "place_id": "tw-002",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "69b832accfc8c0438a50e51689c4e7c40765e9f4",
         "source_path": "data/v2/opportunities/tw-002-P01.json",
-        "source_blob_sha": "05f49312aa53f08c1de4643460e5c73564bc577b",
+        "source_blob_sha": "9a313d98442c911b3a8d305cd2bf2af17a235ddf",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6872,10 +7186,10 @@
       {
         "opportunity_id": "tw-002-P02",
         "place_id": "tw-002",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "6a420db5100bb184f655b4b765d29fdf3494588d",
         "source_path": "data/v2/opportunities/tw-002-P02.json",
-        "source_blob_sha": "fd85ece5fb51cfdd30eab6e2b2d8da0996082f7c",
+        "source_blob_sha": "93c44c7cacad9499bd87294cb3ee969bdd4ce6c6",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6886,10 +7200,10 @@
       {
         "opportunity_id": "tw-002-P03",
         "place_id": "tw-002",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "4e51267ba7b7130d28efa41e50d2ef3d36de81a8",
         "source_path": "data/v2/opportunities/tw-002-P03.json",
-        "source_blob_sha": "f6599914caa21dcd3448c54c0741a613bdcbb0c0",
+        "source_blob_sha": "d69c59afd47a666341ffa2250e149285917a4d33",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6900,10 +7214,10 @@
       {
         "opportunity_id": "tw-003-P01",
         "place_id": "tw-003",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
         "source_path": "data/v2/opportunities/tw-003-P01.json",
-        "source_blob_sha": "d00d120007882e19c8e6326124480f398f66e0ed",
+        "source_blob_sha": "f7974d1de2e99a643e978345ee6d4d3009604b61",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6914,10 +7228,10 @@
       {
         "opportunity_id": "tw-003-P02",
         "place_id": "tw-003",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "69b832accfc8c0438a50e51689c4e7c40765e9f4",
         "source_path": "data/v2/opportunities/tw-003-P02.json",
-        "source_blob_sha": "25f60e6eaede98d134ff15fff2db3ac7dc3ac3f7",
+        "source_blob_sha": "6e845db1c9f16f49cbdabc335693c472cf4549b4",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6928,10 +7242,10 @@
       {
         "opportunity_id": "tw-003-P03",
         "place_id": "tw-003",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
         "source_path": "data/v2/opportunities/tw-003-P03.json",
-        "source_blob_sha": "9cad581a9adddb7ccbc2cb032cdfc053d01ce948",
+        "source_blob_sha": "412222f3215b224fd1f7e55a0fc2ad99ed2beacf",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6942,10 +7256,10 @@
       {
         "opportunity_id": "tw-004-P01",
         "place_id": "tw-004",
-        "revision": 4,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 3,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/tw-004-P01.json",
-        "source_blob_sha": "8e2923280d5539f93588541fd461f3db1db0e404",
+        "source_blob_sha": "928522dc2b6e0ddadc4bf73d624af06986ddcb75",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6956,10 +7270,10 @@
       {
         "opportunity_id": "tw-004-P03",
         "place_id": "tw-004",
-        "revision": 5,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 4,
+        "source_commit_sha": "b801dd4eba545a76879828b25e869f3c45df33ac",
         "source_path": "data/v2/opportunities/tw-004-P03.json",
-        "source_blob_sha": "2062f2cacbbd8d85aaff5e240c1d03621e0991a2",
+        "source_blob_sha": "99285276641a50c41ecfc4fec0ab80229e3528cb",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6970,10 +7284,10 @@
       {
         "opportunity_id": "tw-004-P04",
         "place_id": "tw-004",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "b801dd4eba545a76879828b25e869f3c45df33ac",
         "source_path": "data/v2/opportunities/tw-004-P04.json",
-        "source_blob_sha": "aa6063a95664c018d92790b606cba26f7387f33e",
+        "source_blob_sha": "e65140bbd226b4e99d41c8fffe52a82391820a4b",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6984,10 +7298,10 @@
       {
         "opportunity_id": "tw-005-P01",
         "place_id": "tw-005",
-        "revision": 4,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 3,
+        "source_commit_sha": "69b832accfc8c0438a50e51689c4e7c40765e9f4",
         "source_path": "data/v2/opportunities/tw-005-P01.json",
-        "source_blob_sha": "84e538bf4a659cf93d92121117e8ad1396b6438f",
+        "source_blob_sha": "919c28598621cdd72ccd537eea2648fe9285b8a5",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -6998,10 +7312,10 @@
       {
         "opportunity_id": "tw-005-P02",
         "place_id": "tw-005",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "69b832accfc8c0438a50e51689c4e7c40765e9f4",
         "source_path": "data/v2/opportunities/tw-005-P02.json",
-        "source_blob_sha": "36380d8c2237af0cb574df1c4ee66412bb4a9321",
+        "source_blob_sha": "7499a857508391ff43d6b9e7a2c8d8a140e7e48e",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7082,10 +7396,10 @@
       {
         "opportunity_id": "tw-008-P01",
         "place_id": "tw-008",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "2d9af4d86856301e22df74153d9ff67d1500bc42",
         "source_path": "data/v2/opportunities/tw-008-P01.json",
-        "source_blob_sha": "389f70ef81d7fa16e038a7d677f73f5f2f33c108",
+        "source_blob_sha": "945d664c9e217c87261e9ebda44fdffb643463c4",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7096,10 +7410,10 @@
       {
         "opportunity_id": "tw-008-P02",
         "place_id": "tw-008",
-        "revision": 4,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 3,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/tw-008-P02.json",
-        "source_blob_sha": "38c0436693d32038be01ab606397a216f6f6ea35",
+        "source_blob_sha": "9cf7c31d0162592e06f95e1aa0ed60389740b1fa",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7110,10 +7424,10 @@
       {
         "opportunity_id": "tw-008-P03",
         "place_id": "tw-008",
-        "revision": 5,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 4,
+        "source_commit_sha": "b801dd4eba545a76879828b25e869f3c45df33ac",
         "source_path": "data/v2/opportunities/tw-008-P03.json",
-        "source_blob_sha": "8a6a99e5ffd94cb98005586baa19d3bfd2dc47a1",
+        "source_blob_sha": "ee0d56c3d0aa2cb3167d12cd761dca8964d73ff5",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7124,10 +7438,10 @@
       {
         "opportunity_id": "tw-009-P02",
         "place_id": "tw-009",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
         "source_path": "data/v2/opportunities/tw-009-P02.json",
-        "source_blob_sha": "48721838de098e6779f873db9dfc005a96bb3815",
+        "source_blob_sha": "a6a625224dec5d4f2a79ef4770717a451f696a21",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7138,10 +7452,10 @@
       {
         "opportunity_id": "tw-010-P01",
         "place_id": "tw-010",
-        "revision": 4,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 3,
+        "source_commit_sha": "008ab85ff19794c3aa2ffc1173afa30212aa426e",
         "source_path": "data/v2/opportunities/tw-010-P01.json",
-        "source_blob_sha": "cd12c066f9311bd58cb49e4cd34a9ed9a57f544f",
+        "source_blob_sha": "7d04759643dc1110e3e08e99b0dd92f346184408",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7152,10 +7466,10 @@
       {
         "opportunity_id": "tw-010-P02",
         "place_id": "tw-010",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "2d9af4d86856301e22df74153d9ff67d1500bc42",
         "source_path": "data/v2/opportunities/tw-010-P02.json",
-        "source_blob_sha": "c7eb17af569ec8cd50bc7878a9277e01767cc2ce",
+        "source_blob_sha": "ce9f5a9d33e40531d630d4f61b480571c51311eb",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7166,10 +7480,10 @@
       {
         "opportunity_id": "tw-010-P03",
         "place_id": "tw-010",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "34cb70f39f8d959e9b68cfa3a6768a74cb29de99",
         "source_path": "data/v2/opportunities/tw-010-P03.json",
-        "source_blob_sha": "668f06fd86f1a66fdce6d095e3df9730d25beb5d",
+        "source_blob_sha": "9946ddfcedbc86fab401eb869691adcb8a02701c",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7180,10 +7494,10 @@
       {
         "opportunity_id": "tw-011-P01",
         "place_id": "tw-011",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "3eb466432807185bc8b9271d006666b72d1fa406",
         "source_path": "data/v2/opportunities/tw-011-P01.json",
-        "source_blob_sha": "73fd6d47604b64481f8673ad7afae6d60078f6fb",
+        "source_blob_sha": "eaf80a94addc1261b569ac6c7bf3cf5056c9e9e5",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7194,10 +7508,10 @@
       {
         "opportunity_id": "tw-011-P02",
         "place_id": "tw-011",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "d57d40f8966631783f1385908659bd8c1b82adbd",
         "source_path": "data/v2/opportunities/tw-011-P02.json",
-        "source_blob_sha": "a0caf0cd517b2a0792c4efc291c779307e80ede2",
+        "source_blob_sha": "c497a7a2c0f17bdca58cc85e06e5f41358539da2",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7208,10 +7522,10 @@
       {
         "opportunity_id": "tw-012-P01",
         "place_id": "tw-012",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "34cb70f39f8d959e9b68cfa3a6768a74cb29de99",
         "source_path": "data/v2/opportunities/tw-012-P01.json",
-        "source_blob_sha": "401cca63857a49508230c3f670e8ee89e6b3a1ea",
+        "source_blob_sha": "ae3dceb92351427e68006b20ad1d3d3bbe0c1b9c",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7222,10 +7536,10 @@
       {
         "opportunity_id": "tw-012-P02",
         "place_id": "tw-012",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/tw-012-P02.json",
-        "source_blob_sha": "542d68ea53d8515113d8bea717e43809e3f156fe",
+        "source_blob_sha": "81dc938dd69f21e46d90294fe33d105130590707",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7236,10 +7550,10 @@
       {
         "opportunity_id": "tw-013-P01",
         "place_id": "tw-013",
-        "revision": 4,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 3,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/tw-013-P01.json",
-        "source_blob_sha": "35487b649c45156a008e05c4b019df366a82e01b",
+        "source_blob_sha": "84010ef1ad32186bb12dd39c302f6bf449b1e8af",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7250,10 +7564,10 @@
       {
         "opportunity_id": "tw-013-P02",
         "place_id": "tw-013",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "b801dd4eba545a76879828b25e869f3c45df33ac",
         "source_path": "data/v2/opportunities/tw-013-P02.json",
-        "source_blob_sha": "3e82bcd8d878800f21a5d8571ae203f0ca541ca2",
+        "source_blob_sha": "499a0af423e022d66d5b27d057e168adcafcb288",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7264,10 +7578,10 @@
       {
         "opportunity_id": "tw-014-P01",
         "place_id": "tw-014",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/tw-014-P01.json",
-        "source_blob_sha": "8b2d5941e070de39a30cb7a5fb60359576b84fa8",
+        "source_blob_sha": "2e01bacb7131d8afe91ece70696168b1c42213f9",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7278,10 +7592,10 @@
       {
         "opportunity_id": "tw-014-P02",
         "place_id": "tw-014",
-        "revision": 4,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 3,
+        "source_commit_sha": "d57d40f8966631783f1385908659bd8c1b82adbd",
         "source_path": "data/v2/opportunities/tw-014-P02.json",
-        "source_blob_sha": "324a1e5c4117d7fe84bfd2d93f08c90e2dbeee62",
+        "source_blob_sha": "f3bb2d1ab849a1dcc232f65806fee6a050888530",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7292,10 +7606,10 @@
       {
         "opportunity_id": "tw-015-P01",
         "place_id": "tw-015",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
         "source_path": "data/v2/opportunities/tw-015-P01.json",
-        "source_blob_sha": "46e55b08b846fd73007579aaf864cfd17cd152a9",
+        "source_blob_sha": "8915b4e93ea844efb7b8942bb1011cee5909780e",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7306,10 +7620,10 @@
       {
         "opportunity_id": "tw-015-P02",
         "place_id": "tw-015",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/tw-015-P02.json",
-        "source_blob_sha": "2843860829e5cb8d05b6b3ef66512ad65bd68433",
+        "source_blob_sha": "b425aa46a05d1e756cd7b2a255cdaefb59658c6b",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7334,10 +7648,10 @@
       {
         "opportunity_id": "tw-017-P01",
         "place_id": "tw-017",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
         "source_path": "data/v2/opportunities/tw-017-P01.json",
-        "source_blob_sha": "7c9ab021c73a865f7eb48f782f8bd1dcf5fd0390",
+        "source_blob_sha": "19727fb14f4a3bf464b03a1a134f31ac1dff630c",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7348,10 +7662,10 @@
       {
         "opportunity_id": "tw-017-P02",
         "place_id": "tw-017",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98",
         "source_path": "data/v2/opportunities/tw-017-P02.json",
-        "source_blob_sha": "00186f80e3c9f1a0b3d4429e3fa3c175afb6e80f",
+        "source_blob_sha": "15d7027bdc4f1ca06400797d133eec1ce68917e4",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7362,10 +7676,10 @@
       {
         "opportunity_id": "tw-017-P03",
         "place_id": "tw-017",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "64685ff7df762f588bd1f276a56f7c007c07b8c2",
         "source_path": "data/v2/opportunities/tw-017-P03.json",
-        "source_blob_sha": "7af30bfd44c5f17bc0f78eb3d6bcf25cede1a988",
+        "source_blob_sha": "a81c7f236765e838c041818c823b013e612307e3",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7376,10 +7690,10 @@
       {
         "opportunity_id": "tw-018-P02",
         "place_id": "tw-018",
-        "revision": 3,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 2,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/tw-018-P02.json",
-        "source_blob_sha": "60fd5b43965df78b8e9f7afdf25b68e2cb9b2c72",
+        "source_blob_sha": "a3fdd683e36784d21b1830156568ce7a7d487c00",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7390,10 +7704,10 @@
       {
         "opportunity_id": "tw-018-P03",
         "place_id": "tw-018",
-        "revision": 4,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 3,
+        "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
         "source_path": "data/v2/opportunities/tw-018-P03.json",
-        "source_blob_sha": "ecf912c81fc90563fc1d844a714ab20b5c5347d7",
+        "source_blob_sha": "f0f502230cd8a6834c1aa1b168e2df1d6a39d53a",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7404,10 +7718,10 @@
       {
         "opportunity_id": "tw-019-P01",
         "place_id": "tw-019",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "b97f7bb87a46db4a3e21922d7f6058b8b64a6385",
         "source_path": "data/v2/opportunities/tw-019-P01.json",
-        "source_blob_sha": "78e84634e3ac40bcd1c79bed5d7b6b750670a77e",
+        "source_blob_sha": "e36164b0b58110e981cce368a06a167499cac5b6",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -7418,10 +7732,10 @@
       {
         "opportunity_id": "tw-019-P02",
         "place_id": "tw-019",
-        "revision": 2,
-        "source_commit_sha": "1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad",
+        "revision": 1,
+        "source_commit_sha": "b97f7bb87a46db4a3e21922d7f6058b8b64a6385",
         "source_path": "data/v2/opportunities/tw-019-P02.json",
-        "source_blob_sha": "6f8cb059f3205e6abd7063e5678609adb18cf7ff",
+        "source_blob_sha": "5483ab27b3d316bfbf527545f8d8fceb64467c60",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -11672,11 +11986,11 @@
         "publication_approval_ref": null
       }
     ],
-    "index_revision": "sha256:4a7186fdcbd2b7f91f26ff0603085eda3230fb49dde1340168634c011da5be84"
+    "index_revision": "sha256:561f4ba47f0ccc7559b407c2c70bb38ed33843c11ff9250eb2c63acf8b46a481"
   },
   "topic_index": {
     "schema_version": "0.1.0",
-    "index_revision": "sha256:4a7186fdcbd2b7f91f26ff0603085eda3230fb49dde1340168634c011da5be84",
+    "index_revision": "sha256:561f4ba47f0ccc7559b407c2c70bb38ed33843c11ff9250eb2c63acf8b46a481",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "topics": [
       {
@@ -12015,6 +12329,35 @@
     "name_method": "V1_PINNED_SOURCE_VERBATIM_NO_NEW_TRANSLATION",
     "human_review": "PENDING",
     "names": {
+      "jp-001": {
+        "zh-TW": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-001",
+          "pointer": "/name_i18n/zh-TW",
+          "value": "美瑛青池",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "en": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-001",
+          "pointer": "/name_i18n/en",
+          "value": "Shirogane Blue Pond",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "ja": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-001",
+          "pointer": "/name_i18n/ja",
+          "value": "美瑛青い池",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        }
+      },
       "jp-002": {
         "zh-TW": {
           "direct_source": true,
@@ -12305,6 +12648,35 @@
           "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
         }
       },
+      "jp-012": {
+        "zh-TW": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-012",
+          "pointer": "/name_i18n/zh-TW",
+          "value": "鎌倉大佛",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "en": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-012",
+          "pointer": "/name_i18n/en",
+          "value": "Kamakura Great Buddha",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "ja": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-012",
+          "pointer": "/name_i18n/ja",
+          "value": "鎌倉大仏",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        }
+      },
       "jp-013": {
         "zh-TW": {
           "direct_source": true,
@@ -12334,6 +12706,64 @@
           "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
         }
       },
+      "jp-014": {
+        "zh-TW": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-014",
+          "pointer": "/name_i18n/zh-TW",
+          "value": "等等力溪谷",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "en": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-014",
+          "pointer": "/name_i18n/en",
+          "value": "Todoroki Valley",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "ja": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-014",
+          "pointer": "/name_i18n/ja",
+          "value": "等々力渓谷",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        }
+      },
+      "jp-015": {
+        "zh-TW": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-015",
+          "pointer": "/name_i18n/zh-TW",
+          "value": "皇居外苑二重橋",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "en": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-015",
+          "pointer": "/name_i18n/en",
+          "value": "Nijubashi, Kokyo Gaien",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "ja": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-015",
+          "pointer": "/name_i18n/ja",
+          "value": "皇居外苑 二重橋",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        }
+      },
       "jp-016": {
         "zh-TW": {
           "direct_source": true,
@@ -12359,6 +12789,64 @@
           "spot_id": "jp-016",
           "pointer": "/name_i18n/ja",
           "value": "横浜山下公園",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        }
+      },
+      "jp-017": {
+        "zh-TW": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-017",
+          "pointer": "/name_i18n/zh-TW",
+          "value": "金澤兼六園",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "en": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-017",
+          "pointer": "/name_i18n/en",
+          "value": "Kanazawa Kenroku-en",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "ja": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-017",
+          "pointer": "/name_i18n/ja",
+          "value": "兼六園",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        }
+      },
+      "jp-018": {
+        "zh-TW": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-018",
+          "pointer": "/name_i18n/zh-TW",
+          "value": "名古屋城",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "en": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-018",
+          "pointer": "/name_i18n/en",
+          "value": "Nagoya Castle",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "ja": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-018",
+          "pointer": "/name_i18n/ja",
+          "value": "名古屋城",
           "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
           "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
         }
@@ -12504,6 +12992,35 @@
           "spot_id": "jp-023",
           "pointer": "/name_i18n/ja",
           "value": "清水寺",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        }
+      },
+      "jp-024": {
+        "zh-TW": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-024",
+          "pointer": "/name_i18n/zh-TW",
+          "value": "大阪城公園",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "en": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-024",
+          "pointer": "/name_i18n/en",
+          "value": "Osaka Castle Park",
+          "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
+          "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
+        },
+        "ja": {
+          "direct_source": true,
+          "source_path": "jp_weather.json",
+          "spot_id": "jp-024",
+          "pointer": "/name_i18n/ja",
+          "value": "大阪城公園",
           "source_commit_sha": "45914bd084a52d3d897ef175d2ee51fce8b6ae46",
           "source_blob_sha": "acba2f32fa5604723115a9647f023fa904decfb7"
         }
@@ -18745,6 +19262,77 @@
       }
     },
     "opportunities": {
+      "jp-001-P01": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-001-P01-claim-01",
+          "evidence_refs": [
+            "e-d34-a",
+            "e-d34-b"
+          ],
+          "classification_basis": "legacy_theme=reflection"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "青池立枯倒影",
+            "en": "Blue Pond drowned-larch reflection",
+            "ja": "青い池の立ち枯れと水面反射"
+          },
+          "/description_i18n": {
+            "zh-TW": "在池畔步道與橋上拍立枯落羽松與青色水面的鏡像：風靜水貼如鏡時，白樺與枯木完整倒映；晨間水氣未起前最穩。",
+            "en": "Shoot the drowned larches mirroring in the cobalt water from the pond boardwalk and the bridge: on calm mornings before the wind picks up, the dead trees and birches reflect whole.",
+            "ja": "池畔の遊歩道と橋から、立ち枯れのカラマツと青い水面の鏡像を撮る。風の朝早い時間帯、水面が鏡のようになったとき枯れ木が完全に映り込む。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-001-P01.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-001-P01.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-001-P01.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-001-P01.json#/navigation_targets"
+      },
+      "jp-001-P02": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-001-P02-claim-01",
+          "evidence_refs": [
+            "e-d34-c"
+          ],
+          "classification_basis": "cl_data_34_tailored_subject=seasonal_plant"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "青池秋色",
+            "en": "Blue Pond autumn foliage",
+            "ja": "青い池の紅葉"
+          },
+          "/description_i18n": {
+            "zh-TW": "白樺與落羽松轉黃的兩三週裡，金黃枝葉與鈷藍水面形成年度最強對比；沿池步道取景立枯與色葉同框。",
+            "en": "In the two or three weeks when the birches and larches turn gold, the foliage against the cobalt water is the pond's strongest annual contrast; frame the drowned larches together with the colored leaves from the boardwalk.",
+            "ja": "白樺とカラマツが黄金色に染まる2〜3週間、金の枝葉とコバルトブルーの水面が年で最も強いコントラストを見せる。遊歩道から立ち枯れと色づいた葉を一枚に収める。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-001-P02.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-001-P02.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-001-P02.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-001-P02.json#/navigation_targets"
+      },
       "jp-002-P01": {
         "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
         "classification": {
@@ -19166,6 +19754,77 @@
         ],
         "navigation_ref": "data/v2/opportunities/jp-011-P02.json#/navigation_targets"
       },
+      "jp-012-P01": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-012-P01-claim-01",
+          "evidence_refs": [
+            "e-d34-d",
+            "e-d34-f"
+          ],
+          "classification_basis": "cl_data_34_tailored_subject=golden_hour"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "鎌倉大佛青銅全景",
+            "en": "Kamakura Great Buddha bronze panorama",
+            "ja": "鎌倉大仏の青銅全景"
+          },
+          "/description_i18n": {
+            "zh-TW": "在山門內廣場拍鎌倉大佛青銅坐像全景：開門後的低角度斜光最能把 13.35 m 青銅面的立體感拍出來；全日可拍，避開正午頂光。",
+            "en": "Shoot the full bronze seated figure from the courtyard inside the main gate: low-angle raking light just after opening brings out the relief of the 13.35 m bronze surface; shootable all day, avoid high noon.",
+            "ja": "山門内の広場から、鎌倉大仏の青銅坐像の全景を撮る。開門直後の低角度の斜光が高さ13.35mの青銅面の立体感を最も引き出す。終日撮影可、真昼の頂光は避ける。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-012-P01.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-012-P01.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-012-P01.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-012-P01.json#/navigation_targets"
+      },
+      "jp-012-P02": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-012-P02-claim-01",
+          "evidence_refs": [
+            "e-d34-e"
+          ],
+          "classification_basis": "cl_data_34_tailored_subject=seasonal_plant"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "大佛秋楓",
+            "en": "Great Buddha autumn foliage",
+            "ja": "大仏と紅葉"
+          },
+          "/description_i18n": {
+            "zh-TW": "11 月下旬至 12 月上旬，大佛背後坡面的楓葉與銀杏把青銅坐像襯出年度最出名的組合；從境內後方取景大佛與色葉同框。",
+            "en": "From late November into early December, the maple and ginkgo behind the Great Buddha set the bronze seated figure in its most famous seasonal frame; shoot statue and foliage together from the rear of the grounds.",
+            "ja": "11月下旬から12月上旬、大仏の後ろの斜面のカエデとイチョウが青銅坐像を最も有名な季節の構図で飾る。境内後方から大仏と色づいた葉を一枚に収める。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-012-P02.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-012-P02.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-012-P02.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-012-P02.json#/navigation_targets"
+      },
       "jp-013-P01": {
         "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
         "classification": {
@@ -19201,6 +19860,147 @@
         ],
         "navigation_ref": "data/v2/opportunities/jp-013-P01.json#/navigation_targets"
       },
+      "jp-014-P01": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-014-P01-claim-01",
+          "evidence_refs": [
+            "e-d34-g"
+          ],
+          "classification_basis": "cl_data_34_tailored_subject=overcast_soft"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "等々力溪谷清流",
+            "en": "Todoroki Valley stream in soft light",
+            "ja": "等々力渓谷の清流"
+          },
+          "/description_i18n": {
+            "zh-TW": "在谷澤川沿線步道拍溪流與綠蔭：溪谷底光線柔和，全雲天（總雲量 ≥70%）的漫射光讓流水絲絹化、綠色層次最豐。",
+            "en": "Shoot the Yazawa stream and its green walls from the valley boardwalk: the gorge bottom wants soft light - full overcast (total cloud ≥70%) gives silky water and the richest greens.",
+            "ja": "谷沢川沿いの遊歩道から渓流と緑の谷壁を撮る。谷底は柔らかい光が適し、全曇（全雲量70%以上）の拡散光が絹のような水流と最も豊かな緑を生む。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-014-P01.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-014-P01.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-014-P01.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-014-P01.json#/navigation_targets"
+      },
+      "jp-014-P02": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-014-P02-claim-01",
+          "evidence_refs": [
+            "e-d34-g",
+            "e-d34-h"
+          ],
+          "classification_basis": "cl_data_34_tailored_subject=seasonal_plant"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "等々力溪谷紅葉",
+            "en": "Todoroki Valley autumn foliage",
+            "ja": "等々力渓谷の紅葉"
+          },
+          "/description_i18n": {
+            "zh-TW": "約 600 m 溪谷步道兩側山壁染紅，紅葉順著清流落入谷澤川；是東京 23 區內唯一的渓谷紅葉。",
+            "en": "Both gorge walls along the ~600 m boardwalk turn red and the leaves ride the stream down the Yazawa - the only gorge foliage inside Tokyo's 23 wards.",
+            "ja": "約600mの渓谷遊歩道の両側が紅に染まり、紅葉が谷沢川に流れる。東京23区唯一の渓谷紅葉。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-014-P02.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-014-P02.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-014-P02.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-014-P02.json#/navigation_targets"
+      },
+      "jp-015-P01": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-015-P01-claim-01",
+          "evidence_refs": [
+            "e-d34-i"
+          ],
+          "classification_basis": "legacy_theme=reflection"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "二重橋倒影",
+            "en": "Nijubashi moat reflection",
+            "ja": "二重橋と水面反射"
+          },
+          "/description_i18n": {
+            "zh-TW": "從皇居前廣場正門石橋前拍二重橋（石橋＋鐵橋＋伏見櫓）與內堀水面倒影：無風清晨水鏡最完整，石垣與雙橋一併入鏡。",
+            "en": "From the Kokyo Gaien plaza in front of the Seimon Stone Bridge, frame the double bridge (stone bridge, iron bridge, Fushimi-yagura) with its mirror in the inner moat: a windless early morning gives the complete reflection of stonework and both bridges.",
+            "ja": "皇居前広場の正門石橋前から、二重橋（石橋・鉄橋・伏見櫓）と内堀の水面反射を撮る。無風の早朝が水鏡が最も完全で、石垣と二つの橋が一緒に写る。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-015-P01.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-015-P01.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-015-P01.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-015-P01.json#/navigation_targets"
+      },
+      "jp-015-P02": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-015-P02-claim-01",
+          "evidence_refs": [
+            "e-d34-i"
+          ],
+          "classification_basis": "legacy_theme=mountain_view"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "皇居廣場全景",
+            "en": "Kokyo Gaien plaza panorama",
+            "ja": "皇居前広場の全景"
+          },
+          "/description_i18n": {
+            "zh-TW": "從皇居前廣場中央拍白石礫廣場、黑松與遠處伏見櫓天際線；帶碎雲的晴天給全景最好的明暗節奏。",
+            "en": "From the center of the Kokyo Gaien plaza, frame the white gravel field, black pines and the Fushimi-yagura skyline beyond; broken cloud on a fair day gives the panorama its best rhythm.",
+            "ja": "皇居前広場の中央から、白い砂利の広場、黒松、遠くの伏見櫓のスカイラインを撮る。晴天空雲の日に全景の明暗リズムが最も良い。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-015-P02.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-015-P02.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-015-P02.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-015-P02.json#/navigation_targets"
+      },
       "jp-016-P02": {
         "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
         "classification": {
@@ -19235,6 +20035,147 @@
           "data/v2/opportunities/jp-016-P02.json#/camera_contexts/0/safety_notes_i18n"
         ],
         "navigation_ref": "data/v2/opportunities/jp-016-P02.json#/navigation_targets"
+      },
+      "jp-017-P01": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-017-P01-claim-01",
+          "evidence_refs": [
+            "e-d34-j",
+            "e-d34-k"
+          ],
+          "classification_basis": "legacy_theme=snow_scene"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "兼六園雪吊冬景",
+            "en": "Kenrokuen yukitsuri snow scene",
+            "ja": "兼六園の雪吊り冬景"
+          },
+          "/description_i18n": {
+            "zh-TW": "12 月中旬到 2 月下旬，唐崎松雪吊與徽軫燈籠的冬景是兼六園的招牌；積雪日整座園化為雪白世界，霞池倒影最上相。",
+            "en": "From mid-December to late February, the yukitsuri ropes over the Karasaki pine and the Kotoji lantern are Kenrokuen's signature winter scene; on snowy days the whole garden turns white and the Kasumiga-ike reflection is at its best.",
+            "ja": "12月中旬から2月下旬、唐崎松の雪吊りと徽軫灯籠の冬景色が兼六園の看板。雪の日には園全体が雪景色となり、霞ヶ池の反射が最も美しい。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-017-P01.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-017-P01.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-017-P01.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-017-P01.json#/navigation_targets"
+      },
+      "jp-017-P02": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-017-P02-claim-01",
+          "evidence_refs": [
+            "e-d34-j"
+          ],
+          "classification_basis": "legacy_theme=reflection"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "霞池晨光倒影",
+            "en": "Kasumiga-ike morning reflection",
+            "ja": "霞ヶ池の朝の反射"
+          },
+          "/description_i18n": {
+            "zh-TW": "霞池與徽軫燈籠的水面倒影：早朝開園（11/1–2 月底 6:00–7:45 免費）時段水靜人稀，是園內倒影最乾淨的窗口；無早朝開園的季節以開園後清晨為主。",
+            "en": "The water mirror of Kasumiga-ike and the Kotoji lantern: during the early-morning opening (6:00-7:45 free, Nov 1-end of Feb) the pond is still and empty - the garden's cleanest reflection window; outside that season, right after the regular opening.",
+            "ja": "霞ヶ池と徽軫灯籠の水鏡。早朝開園（11月1日〜2月末の6:00〜7:45、無料）の時間帯は水面が静かで人が少なく、園内で最も澄んだ反射の窓。それ以外の季節は通常開園直後が狙い目。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-017-P02.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-017-P02.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-017-P02.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-017-P02.json#/navigation_targets"
+      },
+      "jp-018-P01": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-018-P01-claim-01",
+          "evidence_refs": [
+            "e-d34-m"
+          ],
+          "classification_basis": "cl_data_34_tailored_subject=golden_hour"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "名古屋城天守全景",
+            "en": "Nagoya Castle keep panorama",
+            "ja": "名古屋城天守の全景"
+          },
+          "/description_i18n": {
+            "zh-TW": "從本丸廣場拍名古屋城大天守（5 層 5 階、頂高 55.6 m）與金鯱：全日可拍，避開正午頂光，晨昏斜光最能把石垣與白壁拍出立體感。",
+            "en": "From the Honmaru plaza, frame the Nagoya Castle great keep (5 stories, roof top 55.6 m) with its golden shachihoko: shootable all day but avoid high noon - raking dawn/dusk light gives the stone base and white walls their relief.",
+            "ja": "本丸広場から名古屋城の大天守（5重5階、屋頂高さ55.6m）と金の鯱を撮る。終日撮影可だが真昼の頂光は避け、朝夕の斜光が石垣と白壁の立体感を最も引き出す。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-018-P01.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-018-P01.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-018-P01.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-018-P01.json#/navigation_targets"
+      },
+      "jp-018-P02": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-018-P02-claim-01",
+          "evidence_refs": [
+            "e-d34-l"
+          ],
+          "classification_basis": "legacy_theme=city_night"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "名古屋城夜間點燈",
+            "en": "Nagoya Castle night illumination",
+            "ja": "名古屋城の夜間ライトアップ"
+          },
+          "/description_i18n": {
+            "zh-TW": "名古屋城天守外觀每日日没後點燈至 23:00（官方 FAQ），從城外周邊可見金色天守夜空剪影；本契約以夜間窗判定，園內夜間不開放、請在園外取景。",
+            "en": "The Nagoya Castle keep exterior is lit every night from sunset until 23:00 (official FAQ) and the golden keep reads against the night sky from around the closed grounds; this contract judges by the night window - the grounds themselves are not open at night, so shoot from outside.",
+            "ja": "名古屋城の天守外観は毎日日没から23:00までライトアップされる（公式FAQ）。城外周辺から金の天守が夜空に浮かぶ。本契約は夜間窓で判定し、城内は夜間不开放のため城外から撮る。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-018-P02.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-018-P02.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-018-P02.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-018-P02.json#/navigation_targets"
       },
       "jp-019-P01": {
         "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
@@ -19513,6 +20454,77 @@
           "data/v2/opportunities/jp-023-P01.json#/camera_contexts/0/safety_notes_i18n"
         ],
         "navigation_ref": "data/v2/opportunities/jp-023-P01.json#/navigation_targets"
+      },
+      "jp-024-P01": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-024-P01-claim-01",
+          "evidence_refs": [
+            "e-d34-n",
+            "e-d34-o"
+          ],
+          "classification_basis": "legacy_theme=city_night"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "大阪城天守夜間點燈",
+            "en": "Osaka Castle keep night illumination",
+            "ja": "大阪城天守の夜間ライトアップ"
+          },
+          "/description_i18n": {
+            "zh-TW": "大阪城天守每日日没後點燈至 24:30（官方 FAQ，年僅一日檢修），從公園內極樂橋與內堀周邊可見金色天守；公園 24 小時可入園。",
+            "en": "The Osaka Castle keep is lit every night from sunset until 24:30 (official FAQ; one annual inspection night is dark) and the golden keep reads from Gokuraku-bashi and around the inner moat inside the 24-hour park.",
+            "ja": "大阪城天守は毎日日没から24:30までライトアップ（公式FAQ、年1回の点検日のみ消灯）。公園は24時間入園でき、極楽橋と内堀周辺から金の天守が見える。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-024-P01.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-024-P01.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-024-P01.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-024-P01.json#/navigation_targets"
+      },
+      "jp-024-P02": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-024-P02-claim-01",
+          "evidence_refs": [
+            "e-d34-o"
+          ],
+          "classification_basis": "legacy_theme=reflection"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "大阪城天守倒影",
+            "en": "Osaka Castle keep moat reflection",
+            "ja": "大阪城天守の堀の反射"
+          },
+          "/description_i18n": {
+            "zh-TW": "從內堀岸邊拍天守與水面倒影：晨間水面最靜，石垣與白壁連同倒影完整入鏡；夕刻順光位在公園西側。",
+            "en": "From the inner-moat bank, frame the keep with its mirror in the water: early morning has the calmest surface and the stonework plus white walls reflect whole; the evening front-light position is on the park's west side.",
+            "ja": "内堀の岸から天守と水面反射を撮る。早朝の水面が最も静かで、石垣と白壁が完全に映り込む。夕暮れの順光位は公園西側。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-024-P02.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-024-P02.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-024-P02.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-024-P02.json#/navigation_targets"
       },
       "jp-025-P02": {
         "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
@@ -33356,7 +34368,7 @@
   "index_status": {
     "format_version": "0.1.0",
     "mode": "RESEARCH_ONLY",
-    "index_revision": "sha256:4a7186fdcbd2b7f91f26ff0603085eda3230fb49dde1340168634c011da5be84",
+    "index_revision": "sha256:561f4ba47f0ccc7559b407c2c70bb38ed33843c11ff9250eb2c63acf8b46a481",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "selected_date_recommendation_eligible": false,
     "forecast_available": false,
@@ -33371,8 +34383,8 @@
     "human_release_approval": "PENDING",
     "taxonomy_semantic_review": "PENDING",
     "counts": {
-      "places": 232,
-      "opportunities": 420,
+      "places": 239,
+      "opportunities": 434,
       "topic_ids": 8,
       "opportunity_topic_links": 23,
       "regions": 0,
@@ -33380,6 +34392,11 @@
       "guide_eligible": 0
     },
     "per_place_missing_fields": {
+      "jp-001": [
+        "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
+        "PLACE_TIMEZONE_EVIDENCE_ABSENT",
+        "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
+      ],
       "jp-002": [
         "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
         "PLACE_TIMEZONE_EVIDENCE_ABSENT",
@@ -33430,12 +34447,37 @@
         "PLACE_TIMEZONE_EVIDENCE_ABSENT",
         "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
       ],
+      "jp-012": [
+        "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
+        "PLACE_TIMEZONE_EVIDENCE_ABSENT",
+        "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
+      ],
       "jp-013": [
         "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
         "PLACE_TIMEZONE_EVIDENCE_ABSENT",
         "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
       ],
+      "jp-014": [
+        "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
+        "PLACE_TIMEZONE_EVIDENCE_ABSENT",
+        "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
+      ],
+      "jp-015": [
+        "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
+        "PLACE_TIMEZONE_EVIDENCE_ABSENT",
+        "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
+      ],
       "jp-016": [
+        "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
+        "PLACE_TIMEZONE_EVIDENCE_ABSENT",
+        "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
+      ],
+      "jp-017": [
+        "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
+        "PLACE_TIMEZONE_EVIDENCE_ABSENT",
+        "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
+      ],
+      "jp-018": [
         "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
         "PLACE_TIMEZONE_EVIDENCE_ABSENT",
         "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
@@ -33461,6 +34503,11 @@
         "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
       ],
       "jp-023": [
+        "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
+        "PLACE_TIMEZONE_EVIDENCE_ABSENT",
+        "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
+      ],
+      "jp-024": [
         "VERIFIED_COUNTRY_ADMIN_CODES_ABSENT",
         "PLACE_TIMEZONE_EVIDENCE_ABSENT",
         "HUMAN_NAME_SEMANTIC_REVIEW_PENDING"
@@ -34543,6 +35590,8 @@
       ]
     },
     "unclassified_opportunity_ids": [
+      "jp-001-P01",
+      "jp-001-P02",
       "jp-002-P01",
       "jp-003-P01",
       "jp-004-P01",
@@ -34554,8 +35603,18 @@
       "jp-010-P02",
       "jp-011-P01",
       "jp-011-P02",
+      "jp-012-P01",
+      "jp-012-P02",
       "jp-013-P01",
+      "jp-014-P01",
+      "jp-014-P02",
+      "jp-015-P01",
+      "jp-015-P02",
       "jp-016-P02",
+      "jp-017-P01",
+      "jp-017-P02",
+      "jp-018-P01",
+      "jp-018-P02",
       "jp-019-P01",
       "jp-020-P01",
       "jp-021-P01",
@@ -34564,6 +35623,8 @@
       "jp-022-P02",
       "jp-022-P03",
       "jp-023-P01",
+      "jp-024-P01",
+      "jp-024-P02",
       "jp-025-P02",
       "jp-026-P01",
       "jp-027-P01",

@@ -1,0 +1,1220 @@
+{
+ "evaluation_bundle_version": "0.1.0",
+ "generated_at": "2026-11-08T07:59:44Z",
+ "forecast_hours": 168,
+ "guidance_only": true,
+ "live_recommendation": false,
+ "calibration_status": "PROVISIONAL_THRESHOLDS",
+ "provider": {
+  "name": "Open-Meteo",
+  "licence": "CC BY 4.0",
+  "urls": {
+   "terms": "https://open-meteo.com/en/terms",
+   "licence": "https://open-meteo.com/en/licence"
+  }
+ },
+ "limitations_i18n": {
+  "zh-TW": "評估結果為 GUIDANCE 参考：門檻為 provisional/approved 題材模板值，未經實拍校準，永不構成 FAVORABLE 保證。湖面狀態與花季窗口暫無即時觀測來源（標記 UNKNOWN）。天氣為網格預報，不代表拍攝點實況。",
+  "en": "Results are GUIDANCE only: thresholds are provisional/approved genre-template values, not calibrated against real shoots, and never constitute a FAVORABLE guarantee. Water-surface state and seasonal windows have no live observation source (UNKNOWN). Weather is grid forecast data, not on-site conditions.",
+  "ja": "評価結果はGUIDANCE参考値です: 閾値は暫定/承認済みテンプレート値で、実写検証されておらず、FAVORABLE保証にはなりません。水面状態と開花窗口は観測ソースがなくUNKNOWN。天気はグリッド予報であり現地実況ではありません。"
+ },
+ "place_count": 1,
+ "opportunity_count": 2,
+ "fetch_failures": [],
+ "skipped": [],
+ "provider_runs_count": 1,
+ "places": [
+  {
+   "place_id": "jp-018",
+   "coordinate": [
+    35.185181,
+    136.89865
+   ],
+   "coordinate_source": "camera_context_provisional",
+   "timezone_display": {
+    "iana": "Asia/Tokyo",
+    "utc_offset_hours": 9,
+    "status": "DISPLAY_APPROXIMATION"
+   },
+   "provider_run": {
+    "run_id": "om-35.1852-136.8987-2026-11-08T07:59:44Z",
+    "provider": "open-meteo",
+    "source": "https://api.open-meteo.com/v1/forecast?latitude=35.185181&longitude=136.898650&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
+    "issued_at": "2026-11-08T07:59:44Z",
+    "valid_at": "2026-11-08T07:00:00Z",
+    "freshness": "FRESH",
+    "grid": {
+     "latitude": 35.2,
+     "longitude": 136.875,
+     "elevation_m": 14.0
+    }
+   },
+   "opportunities": [
+    {
+     "opportunity_id": "jp-018-P01",
+     "name_i18n": {
+      "zh-TW": "名古屋城天守全景",
+      "en": "Nagoya Castle keep panorama",
+      "ja": "名古屋城天守の全景"
+     },
+     "genre_template": "golden_hour",
+     "condition_contract_id": "CC-jp-018-P01-v1",
+     "condition_contract_sha256": "032913a7ab1b77c39a3dd58df08f4c52a48c087b040cdc1f876be220ed9f1596",
+     "days": [
+      {
+       "local_date": "2026-11-08",
+       "state": "GUIDANCE_SATISFIED",
+       "good_hours": [
+        "16:20"
+       ],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 1,
+        "UNFAVORABLE": 7,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P01-01",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 8
+        },
+        {
+         "id": "C-jp-018-P01-02",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 8
+        },
+        {
+         "id": "C-jp-018-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 8
+        },
+        {
+         "id": "C-jp-018-P01-04",
+         "metric": "golden_hour_window",
+         "tier": "MODIFIER",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 8
+        },
+        {
+         "id": "C-jp-018-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 1
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-09",
+       "state": "GUIDANCE_SATISFIED",
+       "good_hours": [
+        "06:00",
+        "07:00",
+        "10:00",
+        "11:00",
+        "12:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:15"
+       ],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 9,
+        "UNFAVORABLE": 15,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P01-01",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 22
+        },
+        {
+         "id": "C-jp-018-P01-02",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 23
+        },
+        {
+         "id": "C-jp-018-P01-04",
+         "metric": "golden_hour_window",
+         "tier": "MODIFIER",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 11
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-10",
+       "state": "GUIDANCE_SATISFIED",
+       "good_hours": [
+        "06:00",
+        "07:00",
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
+        "12:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:15"
+       ],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 11,
+        "UNFAVORABLE": 13,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P01-01",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-02",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-04",
+         "metric": "golden_hour_window",
+         "tier": "MODIFIER",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 11
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-11",
+       "state": "GUIDANCE_SATISFIED",
+       "good_hours": [
+        "06:00",
+        "07:00",
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
+        "12:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:15"
+       ],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 11,
+        "UNFAVORABLE": 13,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P01-01",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-02",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-04",
+         "metric": "golden_hour_window",
+         "tier": "MODIFIER",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 11
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-12",
+       "state": "GUIDANCE_SATISFIED",
+       "good_hours": [
+        "06:00",
+        "07:00",
+        "08:00",
+        "09:00",
+        "10:00",
+        "11:00",
+        "12:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:15"
+       ],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 11,
+        "UNFAVORABLE": 13,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P01-01",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-02",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 22
+        },
+        {
+         "id": "C-jp-018-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-04",
+         "metric": "golden_hour_window",
+         "tier": "MODIFIER",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 11
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-13",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 13,
+        "NOT_EVALUABLE": 11
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P01-01",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-02",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-jp-018-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-04",
+         "metric": "golden_hour_window",
+         "tier": "MODIFIER",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 11
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-14",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 13,
+        "NOT_EVALUABLE": 11
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P01-01",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-02",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-jp-018-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 22
+        },
+        {
+         "id": "C-jp-018-P01-04",
+         "metric": "golden_hour_window",
+         "tier": "MODIFIER",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 11
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-15",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 16,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P01-01",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 3
+        },
+        {
+         "id": "C-jp-018-P01-02",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-jp-018-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "FAIL",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-jp-018-P01-04",
+         "metric": "golden_hour_window",
+         "tier": "MODIFIER",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 16
+        },
+        {
+         "id": "C-jp-018-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 10
+        }
+       ]
+      }
+     ],
+     "live": {
+      "now": {
+       "utc": "2026-11-08T08:00:00Z",
+       "local": "2026-11-08 17:00",
+       "status": "UNFAVORABLE",
+       "conditions": [
+        {
+         "id": "C-jp-018-P01-01",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "gte",
+         "threshold": 8.0,
+         "value": 42.88,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P01-02",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lte",
+         "threshold": 0.5,
+         "value": 0.14,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lt",
+         "threshold": 0.2,
+         "value": 0.0,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P01-04",
+         "metric": "golden_hour_window",
+         "tier": "MODIFIER",
+         "role": "QUALITY",
+         "operator": "none",
+         "threshold": null,
+         "value": "satisfied",
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "none",
+         "threshold": null,
+         "value": "unsatisfied",
+         "verdict": "FAIL"
+        }
+       ]
+      },
+      "next_good": {
+       "utc": "2026-11-08T07:00:00Z",
+       "local": "2026-11-08 16:00",
+       "status": "GUIDANCE_SATISFIED",
+       "conditions": [
+        {
+         "id": "C-jp-018-P01-01",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "gte",
+         "threshold": 8.0,
+         "value": 47.0,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P01-02",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lte",
+         "threshold": 0.5,
+         "value": 0.13,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lt",
+         "threshold": 0.2,
+         "value": 0.0,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P01-04",
+         "metric": "golden_hour_window",
+         "tier": "MODIFIER",
+         "role": "QUALITY",
+         "operator": "none",
+         "threshold": null,
+         "value": "satisfied",
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "none",
+         "threshold": null,
+         "value": "satisfied",
+         "verdict": "PASS"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "opportunity_id": "jp-018-P02",
+     "name_i18n": {
+      "zh-TW": "名古屋城夜間點燈",
+      "en": "Nagoya Castle night illumination",
+      "ja": "名古屋城の夜間ライトアップ"
+     },
+     "genre_template": "city_night",
+     "condition_contract_id": "CC-jp-018-P02-v1",
+     "condition_contract_sha256": "fb3d585f7d0bc0764f6b539722f732ae2dc5b1e89c001c107c2c3f02297030c4",
+     "days": [
+      {
+       "local_date": "2026-11-08",
+       "state": "GUIDANCE_SATISFIED",
+       "good_hours": [
+        "18:00",
+        "20:00",
+        "21:00"
+       ],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 3,
+        "UNFAVORABLE": 5,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P02-01",
+         "metric": "cloud_cover_total",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 4
+        },
+        {
+         "id": "C-jp-018-P02-02",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 8
+        },
+        {
+         "id": "C-jp-018-P02-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 8
+        },
+        {
+         "id": "C-jp-018-P02-04",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 8
+        },
+        {
+         "id": "C-jp-018-P02-05",
+         "metric": "city_night_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 6
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-09",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 24,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P02-01",
+         "metric": "cloud_cover_total",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 1
+        },
+        {
+         "id": "C-jp-018-P02-02",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 22
+        },
+        {
+         "id": "C-jp-018-P02-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 23
+        },
+        {
+         "id": "C-jp-018-P02-04",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-05",
+         "metric": "city_night_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 11
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-10",
+       "state": "GUIDANCE_SATISFIED",
+       "good_hours": [
+        "18:00",
+        "19:00",
+        "20:00",
+        "21:00",
+        "22:00",
+        "23:00"
+       ],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 6,
+        "UNFAVORABLE": 18,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P02-01",
+         "metric": "cloud_cover_total",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 14
+        },
+        {
+         "id": "C-jp-018-P02-02",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-04",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-05",
+         "metric": "city_night_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 12
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-11",
+       "state": "GUIDANCE_SATISFIED",
+       "good_hours": [
+        "00:00",
+        "01:00",
+        "02:00",
+        "03:00",
+        "04:00",
+        "05:00",
+        "18:00",
+        "19:00",
+        "20:00"
+       ],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 9,
+        "UNFAVORABLE": 15,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P02-01",
+         "metric": "cloud_cover_total",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 21
+        },
+        {
+         "id": "C-jp-018-P02-02",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-04",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-05",
+         "metric": "city_night_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 12
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-12",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 24,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P02-01",
+         "metric": "cloud_cover_total",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "FAIL",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-jp-018-P02-02",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-04",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 22
+        },
+        {
+         "id": "C-jp-018-P02-05",
+         "metric": "city_night_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 12
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-13",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 23,
+        "NOT_EVALUABLE": 1
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P02-01",
+         "metric": "cloud_cover_total",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 5
+        },
+        {
+         "id": "C-jp-018-P02-02",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-04",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-jp-018-P02-05",
+         "metric": "city_night_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 12
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-14",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 21,
+        "NOT_EVALUABLE": 3
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P02-01",
+         "metric": "cloud_cover_total",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 8
+        },
+        {
+         "id": "C-jp-018-P02-02",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-jp-018-P02-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 22
+        },
+        {
+         "id": "C-jp-018-P02-04",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-jp-018-P02-05",
+         "metric": "city_night_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 12
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-15",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 16,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-jp-018-P02-01",
+         "metric": "cloud_cover_total",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "FAIL",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-jp-018-P02-02",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 2
+        },
+        {
+         "id": "C-jp-018-P02-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "FAIL",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-jp-018-P02-04",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-jp-018-P02-05",
+         "metric": "city_night_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 6
+        }
+       ]
+      }
+     ],
+     "live": {
+      "now": {
+       "utc": "2026-11-08T08:00:00Z",
+       "local": "2026-11-08 17:00",
+       "status": "UNFAVORABLE",
+       "conditions": [
+        {
+         "id": "C-jp-018-P02-01",
+         "metric": "cloud_cover_total",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lte",
+         "threshold": 30,
+         "value": 57.0,
+         "verdict": "FAIL"
+        },
+        {
+         "id": "C-jp-018-P02-02",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "gte",
+         "threshold": 10.0,
+         "value": 42.88,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P02-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lt",
+         "threshold": 0.2,
+         "value": 0.0,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P02-04",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lte",
+         "threshold": 0.5,
+         "value": 0.14,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P02-05",
+         "metric": "city_night_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "none",
+         "threshold": null,
+         "value": "unsatisfied",
+         "verdict": "FAIL"
+        }
+       ]
+      },
+      "next_good": {
+       "utc": "2026-11-08T09:00:00Z",
+       "local": "2026-11-08 18:00",
+       "status": "GUIDANCE_SATISFIED",
+       "conditions": [
+        {
+         "id": "C-jp-018-P02-01",
+         "metric": "cloud_cover_total",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lte",
+         "threshold": 30,
+         "value": 26.0,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P02-02",
+         "metric": "visibility",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "gte",
+         "threshold": 10.0,
+         "value": 39.9,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P02-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lt",
+         "threshold": 0.2,
+         "value": 0.0,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P02-04",
+         "metric": "aod_550nm",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lte",
+         "threshold": 0.5,
+         "value": 0.14,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-jp-018-P02-05",
+         "metric": "city_night_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "none",
+         "threshold": null,
+         "value": "satisfied",
+         "verdict": "PASS"
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "name_i18n": {
+    "zh-TW": "名古屋城",
+    "en": "Nagoya Castle",
+    "ja": "名古屋城"
+   }
+  }
+ ]
+}

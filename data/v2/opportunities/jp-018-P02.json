@@ -1,0 +1,269 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-018-P02",
+ "place_id": "jp-018",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "名古屋城夜間點燈",
+  "en": "Nagoya Castle night illumination",
+  "ja": "名古屋城の夜間ライトアップ"
+ },
+ "description_i18n": {
+  "zh-TW": "名古屋城天守外觀每日日没後點燈至 23:00（官方 FAQ），從城外周邊可見金色天守夜空剪影；本契約以夜間窗判定，園內夜間不開放、請在園外取景。",
+  "en": "The Nagoya Castle keep exterior is lit every night from sunset until 23:00 (official FAQ) and the golden keep reads against the night sky from around the closed grounds; this contract judges by the night window - the grounds themselves are not open at night, so shoot from outside.",
+  "ja": "名古屋城の天守外観は毎日日没から23:00までライトアップされる（公式FAQ）。城外周辺から金の天守が夜空に浮かぶ。本契約は夜間窓で判定し、城内は夜間不开放のため城外から撮る。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-018-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      136.89865,
+      35.185181
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-34 AI web verification 2026-11-08: Nagoya Castle grounds 9:00-16:30 (closed 17:00) per Nagoya City official tourism (e-d34-m); keep exterior illuminated every day sunset-23:00 per Nagoya Castle official FAQ (e-d34-l); V1 point matches the castle grounds at 35.185N 136.899E",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "夜間城區不開放；從外堀外側與周邊道路取景，遵守夜間規定。",
+    "en": "The grounds are closed at night; shoot from outside the outer moat and nearby streets, following nighttime rules.",
+    "ja": "夜間は城内不开放。外堀の外側と周辺道路から撮り、夜間のルールを守ること。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "夜間周邊道路車流多，勿站車道拍攝。",
+    "en": "Nighttime traffic around the castle is heavy - never shoot from the roadway.",
+    "ja": "夜間は周辺道路の車流が多い。車道に立って撮影しないこと。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-018-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "名古屋城夜間點燈",
+    "en": "Nagoya Castle night illumination",
+    "ja": "名古屋城の夜間ライトアップ"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      136.89865,
+      35.185181
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; terrain/shooting-point facts web-verified (see camera derivation_method)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-018-P02-01",
+   "camera_context_id": "CZ-jp-018-P02-01",
+   "target_id": "SG-jp-018-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-018-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 35.185181,
+   "lon": 136.89865,
+   "label_i18n": {
+    "zh-TW": "名古屋城",
+    "en": "Nagoya Castle",
+    "ja": "名古屋城"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-018-P02-v1",
+  "status": "draft",
+  "genre_template": "city_night",
+  "template_version": "city_night-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-018-P02-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 30,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-018-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "夜間點燈主體是建物照明，但天空乾淨（總雲量 ≤30%）才有星空層次與清晰的燈光邊緣。",
+     "en": "The subject is the illuminated building, but a clean sky (total cloud ≤30%) keeps the light edges crisp and leaves room for stars.",
+     "ja": "主題は夜間照明の建物だが、空が澄んでいる（全雲量30%以下）と光の縁がくっきりし星空も残る。"
+    }
+   },
+   {
+    "id": "C-jp-018-P02-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 10.0,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-018-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥10 km 才能把燈光顏色拍準；霧霾會把照明染成土黃。",
+     "en": "Visibility ≥10 km keeps the lighting colors true; haze stains the illumination muddy.",
+     "ja": "視程10km以上で照明の色が正確に写る。ヘイズでは照明明色が濁る。"
+    }
+   },
+   {
+    "id": "C-jp-018-P02-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-018-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降水 >0.2 mm/h 鏡頭進水、燈光暈開，否決。",
+     "en": "Above 0.2 mm/h water hits the lens and the lights smear; reject.",
+     "ja": "降水0.2mm/h超ではレンズに水滴が付き灯光がにじむため否決。"
+    }
+   },
+   {
+    "id": "C-jp-018-P02-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-018-P02-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD >0.5 的霧霾夜會把整座照明糊成一團光暈，否決；乾淨夜空才見得到金鯱的輪廓。",
+     "en": "On hazy nights (AOD >0.5) the whole illumination smears into a halo blob; reject - a clean night sky is what keeps the golden details readable.",
+     "ja": "AOD0.5超のヘイズの夜は照明全体が光暈に溶けるため否決。澄んだ夜空でこそ金の細部が読める。"
+    }
+   },
+   {
+    "id": "C-jp-018-P02-05",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "city_night_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-018-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "夜間窗判定：官方 FAQ 載明天守外觀每日日没點燈至 23:00（每月 8 日 21:30），評估以民用黑暗（太陽仰角 ≤ −6°）的整點桶判定，與官方點燈時段重疊。",
+     "en": "Night-window verdict: the official FAQ states the keep exterior is lit daily from sunset to 23:00 (21:30 on the 8th of each month); the evaluation gates on whole-hour buckets in civil darkness (sun elevation <= -6 deg), which overlap the official illumination hours.",
+     "ja": "夜間窓判定：公式FAQによると天守外観は毎日日没から23:00まで点灯（毎月8日は21:30）。評価は市民的暗闇（太陽高度-6°以下）の単位時間で判定し、公式の点灯時間帯と重なる。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-018-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d34-l"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Subject existence web-verified 2026-11-08 (e-d34-l official FAQ; e-d34-m grounds hours). Thresholds provisional."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-018",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

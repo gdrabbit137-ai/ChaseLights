@@ -1,0 +1,269 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-018-P01",
+ "place_id": "jp-018",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "名古屋城天守全景",
+  "en": "Nagoya Castle keep panorama",
+  "ja": "名古屋城天守の全景"
+ },
+ "description_i18n": {
+  "zh-TW": "從本丸廣場拍名古屋城大天守（5 層 5 階、頂高 55.6 m）與金鯱：全日可拍，避開正午頂光，晨昏斜光最能把石垣與白壁拍出立體感。",
+  "en": "From the Honmaru plaza, frame the Nagoya Castle great keep (5 stories, roof top 55.6 m) with its golden shachihoko: shootable all day but avoid high noon - raking dawn/dusk light gives the stone base and white walls their relief.",
+  "ja": "本丸広場から名古屋城の大天守（5重5階、屋頂高さ55.6m）と金の鯱を撮る。終日撮影可だが真昼の頂光は避け、朝夕の斜光が石垣と白壁の立体感を最も引き出す。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-018-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      136.89865,
+      35.185181
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-34 AI web verification 2026-11-08: Nagoya Castle grounds 9:00-16:30 (closed 17:00) per Nagoya City official tourism (e-d34-m); keep exterior illuminated every day sunset-23:00 per Nagoya Castle official FAQ (e-d34-l); V1 point matches the castle grounds at 35.185N 136.899E",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "城區開放 9:00–16:30（閉門 17:00），天守閣現階段內部不開放；夜間點燈在園外周邊可見（見 jp-018-P02）。",
+    "en": "The grounds open 9:00-16:30 (close 17:00) and the keep interior is currently closed; the nightly illumination is visible from around the closed grounds (see jp-018-P02).",
+    "ja": "城内は9:00〜16:30（閂門17:00）で、天守閣内部は現在不公開。夜間の照明は城外周辺から見える（jp-018-P02 を参照）。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "廣場遊客多，腳架禮讓。",
+    "en": "Busy plaza - keep tripods clear of foot traffic.",
+    "ja": "広場は人が多い。三脚は人流に配慮。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-018-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "名古屋城天守全景",
+    "en": "Nagoya Castle keep panorama",
+    "ja": "名古屋城天守の全景"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      136.89865,
+      35.185181
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; terrain/shooting-point facts web-verified (see camera derivation_method)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-018-P01-01",
+   "camera_context_id": "CZ-jp-018-P01-01",
+   "target_id": "SG-jp-018-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-018-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 35.185181,
+   "lon": 136.89865,
+   "label_i18n": {
+    "zh-TW": "名古屋城",
+    "en": "Nagoya Castle",
+    "ja": "名古屋城"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-018-P01-v1",
+  "status": "draft",
+  "genre_template": "golden_hour",
+  "template_version": "golden_hour-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-018-P01-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 8.0,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-018-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥8 km（市區空氣常帶霾，設 10 km 太苛）：遠景與主體輪廓都要看得清楚。",
+     "en": "Visibility ≥8 km (city air carries haze; 10 km would be too strict): both the subject and the background need readable edges.",
+     "ja": "視程8km以上（都市の空気はヘイズを帯びるため10kmは過酷）：対象と背景の輪郭がはっきり読める必要がある。"
+    }
+   },
+   {
+    "id": "C-jp-018-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-018-P01-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD >0.5 霧霾會讓主體輪廓發灰，否決。",
+     "en": "AOD >0.5 haze greys out the subject's edges; reject.",
+     "ja": "AOD0.5超のヘイズは対象の輪郭を灰色にするため否決。"
+    }
+   },
+   {
+    "id": "C-jp-018-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-018-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降水 >0.2 mm/h 時拍攝與器材都受影響，否決。",
+     "en": "Above 0.2 mm/h shooting and gear suffer; reject.",
+     "ja": "降水0.2mm/h超は撮影も機材も難航するため否決。"
+    }
+   },
+   {
+    "id": "C-jp-018-P01-04",
+    "role": "QUALITY",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "golden_hour_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-018-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "低角度金光作為加分項：斜光把青銅面/石垣的立體感拍出來；白天平光仍可拍，只是較平。",
+     "en": "Low-angle golden light is a bonus: raking light brings out the relief of bronze surfaces and stonework; flat midday light still shoots, just flatter.",
+     "ja": "低角度のゴールデン光は加点：斜光が青銅面や石垣の立体感を引き出す。昼間の平光でも撮れるが、平坦になる。"
+    }
+   },
+   {
+    "id": "C-jp-018-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-018-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+     "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+     "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-018-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d34-m"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Subject existence per V1 catalog; hours web-verified 2026-11-08 (e-d34-m official). Thresholds provisional."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-018",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

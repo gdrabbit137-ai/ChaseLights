@@ -1,0 +1,272 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-015-P01",
+ "place_id": "jp-015",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "二重橋倒影",
+  "en": "Nijubashi moat reflection",
+  "ja": "二重橋と水面反射"
+ },
+ "description_i18n": {
+  "zh-TW": "從皇居前廣場正門石橋前拍二重橋（石橋＋鐵橋＋伏見櫓）與內堀水面倒影：無風清晨水鏡最完整，石垣與雙橋一併入鏡。",
+  "en": "From the Kokyo Gaien plaza in front of the Seimon Stone Bridge, frame the double bridge (stone bridge, iron bridge, Fushimi-yagura) with its mirror in the inner moat: a windless early morning gives the complete reflection of stonework and both bridges.",
+  "ja": "皇居前広場の正門石橋前から、二重橋（石橋・鉄橋・伏見櫓）と内堀の水面反射を撮る。無風の早朝が水鏡が最も完全で、石垣と二つの橋が一緒に写る。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-015-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      139.754897,
+      35.678475
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-34 AI web verification 2026-11-08: Kokyo Gaien plaza area open at all times, free, no regular holidays, and the classic Nijubashi viewpoint is the Seimon Stone Bridge view across the moat (j-eps, e-d34-i); V1 point matches the Nijubashi viewing position at 35.678N 139.755E",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "皇居前廣場常時開放、免費、原則無休（國家行事/臨時管制除外）；晨間光線最順。",
+    "en": "The Kokyo Gaien plaza is open at all times, free, and without regular holidays (except state events/temporary controls); morning gives the best light angle.",
+    "ja": "皇居前広場は常時開放・無料・原則無休（国の行事・臨時規制を除く）。朝の光の角度が最も良い。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "廣場碎石地面放穩腳架；護城河岸不得跨越。",
+    "en": "The plaza gravel needs firm tripod footing; do not cross the moat edge.",
+    "ja": "広場の砂利道では三脚を安定させ、堀の縁を越えないこと。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-015-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "二重橋倒影",
+    "en": "Nijubashi moat reflection",
+    "ja": "二重橋と水面反射"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      139.754897,
+      35.678475
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; terrain/shooting-point facts web-verified (see camera derivation_method)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-015-P01-01",
+   "camera_context_id": "CZ-jp-015-P01-01",
+   "target_id": "SG-jp-015-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-015-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 35.678475,
+   "lon": 139.754897,
+   "label_i18n": {
+    "zh-TW": "皇居外苑二重橋",
+    "en": "Nijubashi, Imperial Palace Outer Garden",
+    "ja": "皇居外苑・二重橋"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-015-P01-v1",
+  "status": "draft",
+  "genre_template": "reflection",
+  "template_version": "reflection-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-015-P01-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "wind_speed_10m",
+    "operator": "lte",
+    "threshold": 2.0,
+    "unit": "m/s",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-015-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "倒影題材的命門是風：水面風速 >2 m/s 就起漣漪，立枯的鏡像破碎；2 m/s 以下才能拿到乾淨的鏡面反射。",
+     "en": "Wind is the make-or-break for reflections: above 2 m/s the water ripples and the mirror of the drowned larches breaks; only under 2 m/s gives a clean mirror.",
+     "ja": "反射撮影の要は風：水面風速2m/sを超えると漣が立ち、枯れ木の鏡像が崩れる。2m/s未満で初めて鏡面が得られる。"
+    }
+   },
+   {
+    "id": "C-jp-015-P01-02",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "water_surface_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-015-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "水面狀態（結冰/水位）無即時觀測源，誠實回報 UNKNOWN，不猜測：冬期結冰時倒影不成立，請依現場狀況判斷。",
+     "en": "Water-surface state (ice/level) has no live observation source - honestly UNKNOWN, never guessed: in winter freeze the reflection fails, judge on site.",
+     "ja": "水面状態（結氷・水位）は即時観測源がなく、誠実にUNKNOWNを返す（推測しない）。冬季の凍結時は反射が成立しない。現地で判断すること。"
+    }
+   },
+   {
+    "id": "C-jp-015-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-015-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "雨點直接打在水面就沒有鏡面，降水 >0.2 mm/h 否決。",
+     "en": "Raindrops breaking the water surface kill the mirror; reject above 0.2 mm/h.",
+     "ja": "雨粒が水面を叩くと鏡面は成立しない。降水0.2mm/h超は否決。"
+    }
+   },
+   {
+    "id": "C-jp-015-P01-04",
+    "role": "QUALITY",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "between",
+    "threshold": [
+     20,
+     60
+    ],
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-015-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "帶點雲的藍天（總雲量 20–60%）讓倒影有色階而不是一片死藍；純藍天太單調，全陰太暗。",
+     "en": "Broken blue sky (total cloud 20-60%) gives the reflection tonal bands instead of a flat blue; pure blue is monotonous, full overcast too dark.",
+     "ja": "適度な雲（全雲量20〜60%）があると反射に階調が出る。快晴だと単調、全曇では暗すぎる。"
+    }
+   },
+   {
+    "id": "C-jp-015-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-015-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+     "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+     "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-015-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d34-i"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Subject existence per V1 catalog; viewpoint and access facts web-verified 2026-11-08 (e-d34-i). Thresholds provisional."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-015",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

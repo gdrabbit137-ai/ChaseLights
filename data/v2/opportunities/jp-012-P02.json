@@ -1,0 +1,244 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-012-P02",
+ "place_id": "jp-012",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "大佛秋楓",
+  "en": "Great Buddha autumn foliage",
+  "ja": "大仏と紅葉"
+ },
+ "description_i18n": {
+  "zh-TW": "11 月下旬至 12 月上旬，大佛背後坡面的楓葉與銀杏把青銅坐像襯出年度最出名的組合；從境內後方取景大佛與色葉同框。",
+  "en": "From late November into early December, the maple and ginkgo behind the Great Buddha set the bronze seated figure in its most famous seasonal frame; shoot statue and foliage together from the rear of the grounds.",
+  "ja": "11月下旬から12月上旬、大仏の後ろの斜面のカエデとイチョウが青銅坐像を最も有名な季節の構図で飾る。境内後方から大仏と色づいた葉を一枚に収める。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-012-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      139.53572,
+      35.31685
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-34 AI web verification 2026-11-08: Kotoku-in hours 8:00-17:30 (Apr-Sep) / 8:00-17:00 (Oct-Mar) per Kanagawa Prefecture official (e-d34-d); V1 point matches the Kotoku-in grounds at 35.317N 139.536E",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "高德院全年無休 8:00–17:30（10–3 月至 17:00）；紅葉期人潮集中後方小丘，留意動線與腳架。",
+    "en": "Kotoku-in is open year-round 8:00-17:30 (until 17:00 Oct-Mar); foliage crowds concentrate on the small rise behind the statue - mind the paths and tripods.",
+    "ja": "高徳院は年中無休で8:00〜17:30（10〜3月は17:00）。紅葉期は後方の小高い丘に人が集中する。動線と三脚に注意。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "同 jp-012-P01。",
+    "en": "Same as jp-012-P01.",
+    "ja": "jp-012-P01 に同じ。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-012-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "大佛秋楓",
+    "en": "Great Buddha autumn foliage",
+    "ja": "大仏と紅葉"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      139.53572,
+      35.31685
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference; terrain/shooting-point facts web-verified (see camera derivation_method)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-012-P02-01",
+   "camera_context_id": "CZ-jp-012-P02-01",
+   "target_id": "SG-jp-012-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-012-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 35.31685,
+   "lon": 139.53572,
+   "label_i18n": {
+    "zh-TW": "鎌倉大佛",
+    "en": "Kamakura Great Buddha",
+    "ja": "鎌倉大仏"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-012-P02-v1",
+  "status": "draft",
+  "genre_template": "seasonal_plant",
+  "template_version": "seasonal_plant-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-012-P02-S1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-012-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（例年窗 11-20–12-10）：高德院境內銀杏與楓葉見頃為 11 月下旬–12 月上旬（享東京（enjoytokyo）刊載且經大佛殿高德院寺務所確認；大佛後方坡面的紅葉是代表取景點）。實況窗優先，兩者皆缺時誠實 not_evaluatable。",
+     "en": "Seasonal-window verdict (typical window 11-20 to 12-10): the ginkgo and maple in the Kotoku-in grounds peak from late November to early December (published with confirmation by the Kotoku-in temple office; the maple slope behind the Great Buddha is the representative vantage). Observed window takes precedence; with neither present, honestly not_evaluatable.",
+     "ja": "季節窓判定（例年窓11-20〜12-10）：高徳院境内のイチョウとカエデの見頃は11月下旬〜12月上旬（大仏殿高徳院寺務所確認済みの情報。大仏裏の紅葉の斜面が代表撮影点）。実況窓を優先し、両方なければ誠実にnot_evaluatable。"
+    }
+   },
+   {
+    "id": "C-jp-012-P02-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-012-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降水 >0.2 mm/h 時葉面打濕、色彩變鈍，否決。",
+     "en": "Above 0.2 mm/h the wet foliage dulls and colors wash out; reject.",
+     "ja": "降水0.2mm/h超では葉が濡れて色彩が鈍るため否決。"
+    }
+   },
+   {
+    "id": "C-jp-012-P02-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "wind_speed_10m",
+    "operator": "lt",
+    "threshold": 5.0,
+    "unit": "m/s",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-012-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "風速 >5 m/s 吹動枝葉、長曝糊掉，否決。",
+     "en": "Wind above 5 m/s shakes the branches and smears long exposures; reject.",
+     "ja": "風速5m/s超では枝葉が揺れて長時間露出がぼやけるため否決。"
+    }
+   },
+   {
+    "id": "C-jp-012-P02-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-012-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+     "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+     "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-012-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d34-e"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Subject existence web-verified 2026-11-08 (e-d34-e, temple-office confirmed window). Thresholds provisional."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-012",
+  "imported_at": "2026-11-08T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}
