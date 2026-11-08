@@ -21,7 +21,7 @@ const repo = path.resolve(here, '..', '..', '..');
 const oppDir = path.join(repo, 'data', 'v2', 'opportunities');
 
 const IDS = {
-  overlook: 23, mountain_view: 39, reflection: 23, // re-anchored CL-DATA-25: reflection/overlook clones inherit the exemplar window note
+  overlook: 24, mountain_view: 39, reflection: 23, // re-anchored CL-DATA-25: reflection/overlook clones inherit the exemplar window note; overlook 23→24 CL-CI-27 (CL-DATA-33 added tw-034-P02)
   overcast_soft: 17, geological_landform: 15, seasonal_plant: 12,
 };
 
@@ -45,7 +45,7 @@ test('CL-DATA-19: 得月樓 (tw-062-P01) carries a REQUIRED civil light_window',
   assert.ok(doc.revision >= 4, 'revision bumped');
 });
 
-test('CL-DATA-19: exactly 129 windowed contracts cite the marker, by genre', () => {
+test('CL-DATA-19: exactly 130 windowed contracts cite the marker, by genre', () => {
   const counts = {};
   let total = 0;
   for (const f of ['tw-062-P01', 'us-026-P02', 'jp-007-P01']) {
@@ -89,7 +89,9 @@ test('CL-DATA-19: exactly 129 windowed contracts cite the marker, by genre', () 
     const w = doc.condition_contract?.conditions?.find(c => c.metric === 'light_window');
     return w && (w.notes_i18n?.['zh-TW'] || '').includes('CL-DATA-19');
   });
-  assert.equal(cl19.length, 129);
+  // CL-CI-27 2026-11-08: 129→130 — CL-DATA-33 (f550046eb) added the missing
+  // light_window to tw-034-P02 (a CL-DATA-19 sweep miss); overlook 23→24.
+  assert.equal(cl19.length, 130);
   const byGenre = {};
   for (const r of cl19) {
     const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));
@@ -118,7 +120,10 @@ test('CL-DATA-19: night genres and already-windowed contracts untouched', () => 
 });
 
 test('CL-DATA-19: review-gated fixtures and legacy stubs stay byte-identical', () => {
-  for (const oid of ['jp-010-P01', 'tw-034-P02', 'tw-082-P01']) {
+  // CL-CI-27 2026-11-08: tw-034-P02 removed from this list — CL-DATA-33 (f550046eb)
+  // legitimately added its missing civil light_window (CL-DATA-19 sweep miss,
+  // owner-ruled AI-verified gap-fill, see contract rationale_i18n).
+  for (const oid of ['jp-010-P01', 'tw-082-P01']) {
     const doc = loadContract(oid);
     assert.ok(!doc.condition_contract.conditions.some(c => c.metric === 'light_window'),
       `${oid} (task-s review-gated) untouched`);
