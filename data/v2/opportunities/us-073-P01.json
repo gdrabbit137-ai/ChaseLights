@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-073-P01",
   "place_id": "us-073",
-  "revision": 2,
+  "revision": 1,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Alki Beach・Puget Sound＋Olympic Mountains＋船景",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-alki-beach-seattle"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Alki Beach Park 位於西西雅圖 Alki 海岸，與 Golden Gardens 相同之季節時制（夏季 04:00–22:30、其他 04:00–23:30）；沙灘、步道與碼頭可拍 Puget Sound＋Olympic Mountains＋渡輪剪影、以及海灘日落。海風與潮間濕滑注意，夜間部分照明有限；救生站與寵物規定以 Seattle Parks 公告為準。",
-        "en": "Alki Beach Park is on the West Seattle waterfront with the same seasonal hours as Golden Gardens (summer 4 a.m.–10:30 p.m., otherwise 4 a.m.–11:30 p.m.). Sand, promenade and the pier frame Puget Sound, the Olympic Mountains and ferry silhouettes, plus beach sunsets. Watch wind and slick intertidal surfaces; night lighting is partial. Lifeguard and pet rules follow Seattle Parks postings.",
-        "ja": "アルキ・ビーチ・パークはウェスト・シアトルの海浜にあり、ゴールデン・ガーデンズと同じ季節時間制（夏4時〜22時30分、その他4時〜23時30分）。砂浜、遊歩道、桟橋からピュージェット湾、オリンピック山脈、フェリーのシルエットとビーチの夕日が撮れる。風と干潮時の滑りに注意、夜間照明は部分的。ライフガードとペット規則はSeattle Parksの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-alki-beach-seattle"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -245,11 +241,9 @@
     {
       "claim_id": "us-073-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-alki-beach-seattle"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.seattle.gov/parks/parks/golden-gardens-park | https://parkways.seattle.gov/2026/04/13/seattle-parks-and-recreation-2026-summer-hours-for-alki-beach-and-golden-gardens/); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

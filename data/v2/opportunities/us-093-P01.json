@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-093-P01",
   "place_id": "us-093",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Picture Lake・Mount Shuksan 湖面倒影",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-picture-lake-heather-meadows"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Picture Lake 位於 Heather Meadows 休憩區（SR 542 上、Artist Point 之前）：美國林務署 Mt. Baker Highway 頁介紹 Heather Meadows 提供多處賞景點，Picture Lake 的 Mt. Shuksan 倒影為其代表；與 Artist Point 相同的季節性（約 7–10 月車輛可達，冬季道路不除雪），無門票。湖畔步道短、濕滑，三腳架位置有限，規定以 USFS／WSDOT 公告為準。",
-        "en": "Picture Lake is in the Heather Meadows Recreation Area (on SR 542, before Artist Point): the USFS Mt. Baker Highway page describes Heather Meadows as offering multiple scenic vantage points — Picture Lake's Mt. Shuksan reflection is the classic one. Same seasonal access as Artist Point (vehicles roughly July–October; no winter plowing), no fee. The lakeside path is short but slick and tripod spots are limited. Rules follow USFS/WSDOT postings.",
-        "ja": "ピクチャー・レイクはヒーザー・メドーズ保養地（SR 542上、アーティスト・ポイント手前）：USFSのMt. Baker Highwayページはヒーザー・メドーズに複数の展望地があると説明し、ピクチャー・レイクのMt. Shuksanの反射がその代表。アーティスト・ポイントと同じ季節性（車両は約7〜10月、冬は排雪なし）、料金なし。湖畔の道は短いが滑りやすく三脚の設置場所は限られる。規則はUSFS/WSDOTの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-picture-lake-heather-meadows"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -342,11 +338,9 @@
     {
       "claim_id": "us-093-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-picture-lake-heather-meadows"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.fs.usda.gov/r06/mbs/recreation/mt-baker-highway-sr-542 | https://www.fs.usda.gov/r06/mbs/recreation/artist-point-trailhead); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

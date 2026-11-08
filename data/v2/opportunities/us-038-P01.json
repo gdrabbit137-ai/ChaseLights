@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-038-P01",
   "place_id": "us-038",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Newfound Gap Overlook・Smokies層疊山稜",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-newfound-gap-overlook"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Newfound Gap Overlook 位於大煙山國家公園 Newfound Gap Road（US 441）上，停車場與季節性廁所設於眺望點。園區規定停車超過15分鐘必須持有 Smokies 停車標籤（parking tag），Newfound Gap Overlook 設有24小時自動售票機，另可線上購買。US 441 冬季可能因雪封路，行前務必查 NPS 路況；日出日落拍攝預留往返 Gatlinburg／Cherokee 的車程。",
-        "en": "Newfound Gap Overlook sits on Newfound Gap Road (US 441) in Great Smoky Mountains NP, with parking and seasonal restrooms at the overlook. A Smokies parking tag is required for any stay over 15 minutes — the overlook has a 24-hour tag machine, and tags are also sold online. US 441 can close for snow in winter; check NPS road conditions before heading out and allow extra drive time from Gatlinburg/Cherokee for dawn or dusk shoots.",
-        "ja": "Newfound Gap Overlookはグレート・スモーキー山脈国立公園のNewfound Gap Road（US 441）沿いにあり、眺望点に駐車場と季節限定トイレがある。15分を超える駐車にはSmokiesパーキングタグが必須で、展望点には24時間自販機あり（オンライン購入も可）。US 441は冬に雪で閉鎖されることがあるため、出発前にNPSの道路状況を確認し、ガトリンバーグ/チェロキーからの車時間を見込むこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-newfound-gap-overlook"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -255,11 +251,9 @@
     {
       "claim_id": "us-038-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-newfound-gap-overlook"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/places/newfound-gap-overlook.htm | https://www.nps.gov/grsm/planyourvisit/fees.htm); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

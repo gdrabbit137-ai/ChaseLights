@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-088-P01",
   "place_id": "us-088",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Hoh Rain Forest・苔蘚雨林＋薄霧／漫射光",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-hoh-rain-forest-olympic"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Hoh Rain Forest 位於 Olympic 國家公園西側（Upper Hoh Road 終點）：官方說明 Mini Trail（0.1 哩）、Hall of Mosses（0.8 哩）與 Spruce Nature Trail（1.2 哩）為雨林苔蘚／薄霧／漫射光經典路線，Visitor Center 與設施為季節性；公園 24 小時開放但道路可能因天候封閉。請勿踐踏苔蘚與溪畔植物，步道與停車位有限，規定以 NPS 公告為準。",
-        "en": "The Hoh Rain Forest is on Olympic NP's west side (end of Upper Hoh Road): officially, the Mini Trail (0.1 mi), Hall of Mosses (0.8 mi) and Spruce Nature Trail (1.2 mi) are the classic moss, mist and diffused-light loops; the Visitor Center and facilities run seasonally. The park is open 24 hours but the road can close for weather. Do not trample mosses or streamside plants; trails and parking are limited. Rules follow NPS postings.",
-        "ja": "ホー雨林はオリンピック国立公園の西側（Upper Hoh Road終点）：公式のMini Trail（0.1マイル）、Hall of Mosses（0.8マイル）、Spruce Nature Trail（1.2マイル）が苔・霧・拡散光の定番ルートで、ビジターセンターと設備は季節運営。公園は年中24時間だが道路は天候により通行止めになることがある。苔や渓畔の植物を踏まず、遊歩道と駐車は限られる。規則はNPSの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-hoh-rain-forest-olympic"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -245,11 +241,9 @@
     {
       "claim_id": "us-088-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-hoh-rain-forest-olympic"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/olym/planyourvisit/day-hiking-at-olympic.htm | https://www.nps.gov/olym/planyourvisit/hours.htm); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

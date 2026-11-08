@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-059-P02",
   "place_id": "us-059",
-  "revision": 4,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Brooks Falls・棕熊捕鮭",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-brooks-falls-katmai"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Brooks Falls Platform 位於 Katmai 國家公園 Brooks Camp；進園必須先在 Brooks Camp Visitor Center 聽熊類安全簡報。雙層瀑布平台最多 40 人，滿員時需在候補名單並每次讓位 30 分鐘（旺季7月等待可超過1.5小時）；6/15–8/15 平台禁止大型三腳架（可折疊單腳使用）且 22:00–07:00 關閉（常延至9月底）。步道來回（單程1.2哩）只有開始處才有廁所。7 月中旬前後熊最多但人潮最滿，行前請確認 floatplane 與住宿。熊不會防禦地躲避相機，平台禮儀與禁令以 NPS 現場公告為準。",
-        "en": "Brooks Falls Platform is at Brooks Camp, Katmai NP: attend the mandatory bear-safety orientation at the Brooks Camp Visitor Center first. The two-tier Falls Platform holds 40 people max — when full, join the waiting list and yield after 30 minutes (July waits can exceed 1.5 hours). June 15–August 15: large tripods are banned (collapsed monopod OK) and the platforms close 10 p.m.–7 a.m. (often extended through September 30). The 1.2-mile one-way trail has the nearest restroom at its start. July has the most bears AND the most crowds — book floatplane and lodging early. Platform etiquette and bans follow NPS on-site postings.",
-        "ja": "Brooks Falls Platformはカトマイ国立公園Brooks Camp内。まずBrooks Campビジターセンターで必須の熊安全オリエンテーションを受けること。二層の滝プラットフォームは定員40名で満員時は順番待ちリストに参加し30分で交代（7月の待ち時間は1.5時間超も可）。6/15〜8/15は大型三脚禁止（折りたたみモノポッド可）で22時〜7時は閉鎖（9月末まで延長されることが多い）。片道1.2マイルの遊歩道のトイレは起点のみ。7月は熊も人も最多で、水上機と宿は早めに確保。マナーと禁止事項はNPS現地告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-brooks-falls-katmai"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -286,11 +282,9 @@
     {
       "claim_id": "us-059-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-brooks-falls-katmai"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/places/brooks-falls-platform.htm | https://www.nps.gov/katm/planyourvisit/bear-safety-brooks-camp.htm); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

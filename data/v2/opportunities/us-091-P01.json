@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-091-P01",
   "place_id": "us-091",
-  "revision": 5,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-washington-pass-overlook"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Washington Pass Overlook 位於 State Route 20 東段（海拔 5,477 呎）：0.3 哩鋪面步道直達俯瞰 Liberty Bell Mountain 與 Early Winters Spires 的平台，免費、可牽繩狗。秋季（約 10 月）落葉松轉金黃最為搶眼；NPS 明示 SR 20 通常 11 月底／12 月初至 4 月／5 月初雪封（此前亦可能有野火封路），行前查 WSDOT；平台無護欄段勿靠近邊緣，規定以 WSDOT／USFS 公告為準。",
-        "en": "The Washington Pass Overlook is on the east section of State Route 20 (5,477 ft): a 0.3-mile paved path reaches the platform facing Liberty Bell Mountain and the Early Winters Spires; free, leashed dogs OK. Larches turn gold in October; the NPS notes SR 20 normally closes late November/early December to April/early May (wildfire closures can come earlier). Check WSDOT before driving; stay off unrailed edges. Rules follow WSDOT/USFS postings.",
-        "ja": "ワシントン・パス展望台はState Route 20の東区間（標高5,477フィート）：0.3マイルの舗装遊歩道でLiberty Bell MountainとEarly Winters Spiresを望む展望台へ。無料でリード付き犬可。10月頃にカラマツが黄金色に変わる。NPSによればSR 20は通常11月末/12月初から4月/5月初まで雪で閉鎖（山火事による閉鎖もある）。出発前にWSDOTを確認し、手すりのない縁には近づかないこと。規則はWSDOT/USFSの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-washington-pass-overlook"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -289,11 +285,9 @@
     {
       "claim_id": "us-091-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-washington-pass-overlook"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/noca/planyourvisit/road-conditions.htm | https://hikingwashington.com/larch-hikes-washington/); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

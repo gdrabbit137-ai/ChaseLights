@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-039-P01",
   "place_id": "us-039",
-  "revision": 2,
+  "revision": 1,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "South Pointe Beach／Beachwalk・Atlantic日出",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-south-pointe-miami-beach"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "South Pointe Park／Beachwalk 位於邁阿密海灘最南端（1 Washington Avenue），公園開放時間為日出至日落，付費停車。Beachwalk 禁止電動滑板車／電子自行車等動力載具。海灣側可拍 PortMiami 郵輪與 Downtown Miami 天際線，大西洋側為沙灘日出；午後常有雲，最佳光線多在清晨。遵守海流與救生員告示，以現場公告為準。",
-        "en": "South Pointe Park/Beachwalk occupies the southern tip of Miami Beach (1 Washington Avenue); the park is open sunrise to sunset with paid parking. Motorized devices (e-scooters, e-bikes) are banned on the Beachwalk. The bay side frames PortMiami cruise ships and the Downtown Miami skyline; the ocean side gives Atlantic sunrise. Clouds often build in the afternoon — early morning light is usually best. Observe beach safety flags; follow on-site notices.",
-        "ja": "South Pointe Park/Beachwalkはマイアミビーチ最南端（1 Washington Avenue）にあり、公園は日の出〜日の入り開放、駐車は有料。Beachwalkでは電動キックボード/電動自転車など動力乗り物は禁止。湾側からはPortMiamiの客船とダウンタウン・マイアミのスカイライン、大西洋側からは日の出が撮れる。午後は雲が発生しやすく、撮影は早朝が最適。海の安全フラグに従い、現地の掲示に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-south-pointe-miami-beach"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -252,11 +248,9 @@
     {
       "claim_id": "us-039-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-south-pointe-miami-beach"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.miamibeachfl.gov/city-hall/parks-and-recreation/parks-facilities-directory/south-pointe-park/ | https://www.miamibeachfl.gov/city-hall/parking/parking-meter-rates/); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-087-P01",
   "place_id": "us-087",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Hurricane Ridge・Olympic Mountains 山岳層次／雲海",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-hurricane-ridge-olympic"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Hurricane Ridge 位於 Olympic 國家公園北側（海拔約 5,200 呎）：公園 24 小時開放但 Hurricane Ridge Road 感謝節與聖誕節封閉、且依天候與工程隨時封路（路面結冰／積雪時需雪鏈），官方建議撥打 360-565-3131 路況熱線。高處可拍 Olympic 山層次與雲海，冬季為滑雪場；風大且溫差大，三腳架需穩固，規定以 NPS 公告為準。",
-        "en": "Hurricane Ridge is on Olympic NP's north side (~5,200 ft): the park is open 24 hours, but Hurricane Ridge Road closes Thanksgiving and Christmas and can close any time for weather or construction (chains required when iced) — call the road line 360-565-3131. From the top, layered Olympic ranges and cloud seas frame out; it is also a ski area in winter. Wind is strong and temperatures swing; use stable tripod setups. Rules follow NPS postings.",
-        "ja": "ハリケーン・リッジはオリンピック国立公園の北側（標高約5,200フィート）：公園は年中24時間開放だが、Hurricane Ridge Roadは感謝祭とクリスマスは閉鎖し、天候や工事でいつでも通行止めになり得る（凍結時はチェーン必須）。公式の道路情報 360-565-3131 を利用。高台からオリンピック山脈の層と雲海が撮れ、冬はスキー場にもなる。風が強く気温差が大きいため三脚は安定させ、規則はNPSの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-hurricane-ridge-olympic"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -258,11 +254,9 @@
     {
       "claim_id": "us-087-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-hurricane-ridge-olympic"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/olym/planyourvisit/hours.htm); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {
