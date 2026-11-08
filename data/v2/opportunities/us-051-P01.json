@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-051-P01",
   "place_id": "us-051",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Photo Point・Mendenhall Glacier＋Mendenhall Lake",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-mendenhall-glacier"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Mendenhall Glacier Visitor Center（6000 Glacier Spur Rd）夏季（5–9 月）每日 09:00–18:00 開放、圍繞步道與停車場外圍 06:00–24:00 全年開放；Nugget Falls、Photo Point 等步道免費不需門票（展示館成人收費，15 歲以下免費）。冬季館舍 2026–27 冬為整建關閉（僅餘部份週末開放，11–3 月原 10:00–16:00 週五六）。步道常見黑熊；近冰緣與瀑布側濕滑，冰上禁止，開放狀態以 US Forest Service 公告為準。",
+        "en": "Mendenhall Glacier Visitor Center (6000 Glacier Spur Rd) runs summer hours (May–Sep) 9 a.m.–6 p.m. daily; the grounds are open 6 a.m.–midnight year-round. Nugget Falls, Photo Point and the other trails are FREE — no entry fee (the exhibits are charged, under-15 free). In winter 2026–27 the center itself is closed for construction (normally Nov–Mar Fri/Sat 10 a.m.–4 p.m.). Black bears are common on trails; the glacier edge and falls spray are slick and walking on the ice is prohibited — status follows US Forest Service postings.",
+        "ja": "Mendenhall Glacierビジターセンター（6000 Glacier Spur Rd）は夏期（5〜9月）毎日9時〜18時、周辺敷地は年中6時〜24時開放。Nugget Falls、Photo Pointなどの遊歩道は無料（展示館は有料、15歳以下無料）。2026〜27冬はセンター自体が改修のため閉鎖（通常11〜3月は金土10時〜16時）。遊歩道ではツキノワグマに出会うことが多く、氷河縁や滝の水煙は滑りやすく氷上は立ち入り禁止。状況はUS Forest Serviceの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-mendenhall-glacier"
+      ],
       "components": []
     }
   ],
@@ -274,9 +278,11 @@
     {
       "claim_id": "us-051-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-mendenhall-glacier"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.fs.usda.gov/r10/tongass/recreation/mendenhall-glacier-interpretive-visitor-center | https://www.fs.usda.gov/r10/tongass/offices/mendenhall-glacier-visitor-center); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

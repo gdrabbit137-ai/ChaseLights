@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-095-P01",
   "place_id": "us-095",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Cape Disappointment・燈塔＋太平洋峭壁／風暴海景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-cape-disappointment-sp"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Cape Disappointment State Park（Ilwaco）位於 Columbia 河口北側：官方時制 06:30–dusk 全年；Lewis & Clark Interpretive Center（244 Robert Gray Drive）夏季（4/1–10/31）每日 10:00–17:00、冬季（11/1–3/31）週三至週日 10:00–17:00，特定假日休館。岬角燈塔、海蝕峭壁與風暴海景最為出名；峭壁無護欄段與巨浪，風暴期請遠離棧道邊緣，規定以 Washington State Parks 公告為準。",
+        "en": "Cape Disappointment State Park (Ilwaco) sits on the north side of the Columbia River mouth: official hours are 6:30 a.m.–dusk year-round. The Lewis & Clark Interpretive Center (244 Robert Gray Drive) opens daily 10 a.m.–5 p.m. in summer (April 1–October 31) and Wed–Sun 10 a.m.–5 p.m. in winter (November 1–March 31), closed certain holidays. The headland lighthouse, sea cliffs and storm seas are the signature — unrailed cliff edges and heavy surf: keep away from the edges in storms. Rules follow Washington State Parks postings.",
+        "ja": "ケープ・ディサポイントメント州立公園（イルワコ）はコロンビア川河口の北側：公式営業は年中6時30分〜日没。Lewis & Clark Interpretive Center（244 Robert Gray Drive）は夏（4/1〜10/31）毎日10時〜17時、冬（11/1〜3/31）は水〜日10時〜17時、特定祝日は休館。岬の灯台、海食崖、嵐の海が名物。手すりのない崖端と大波に注意し、嵐の時期は縁から離れること。規則はWashington State Parksの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-cape-disappointment-sp"
+      ],
       "components": []
     }
   ],
@@ -278,9 +282,11 @@
     {
       "claim_id": "us-095-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-cape-disappointment-sp"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://parks.wa.gov/find-parks/state-parks/cape-disappointment-state-park | https://parks.wa.gov/find-parks/state-parks/cape-disappointment-state-park/lewis-clark-interpretive-center); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-085-P01",
   "place_id": "us-085",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Ruby Beach・Sea Stacks＋漂流木＋太平洋日落",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-ruby-beach-olympic"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Ruby Beach 位於 Olympic 國家公園太平洋海岸（Kalaloch／Ruby Beach 區）：官方說明由 US 101 停車場經約 0.2 呎步道下到海岸，是園內可及的 sea stacks 與漂流木景點（目前僅該觀景點開放）。公園全年 24 小時開放但設施季節性調整；海灘木頭濕滑、巨浪無預警，請勿背海久站或夜間越過漂流木堆，潮汐與安全以 NPS 公告為準。",
+        "en": "Ruby Beach is on Olympic NP's Pacific coast (Kalaloch/Ruby Beach area): officially reached by a short ~0.2-mile trail from the US 101 parking to the coast — the accessible sea-stack and driftwood viewpoint (only that viewpoint currently accessible). The park is open 24 hours year-round with seasonal facilities. Driftwood is slick and rogue waves strike without warning — do not stand with your back to the sea or cross driftwood piles at night. Tides and safety follow NPS postings.",
+        "ja": "ルビー・ビーチはオリンピック国立公園の太平洋岸（カラロック/ルビー・ビーチ地区）：公式にはUS 101駐車場から約0.2マイルの遊歩道で海岸へ降りる。シースタックと流木の名所として利用可能（現在アクセス可能な展望点のみ）。公園は年中24時間開放だが設備は季節で変わる。流木は滑りやすく、異常な大波が突然来るため海に背を向けたまま立ったり、夜に流木を越えたりしないこと。潮汐と安全はNPSの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-ruby-beach-olympic"
+      ],
       "components": []
     }
   ],
@@ -278,9 +282,11 @@
     {
       "claim_id": "us-085-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-ruby-beach-olympic"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/olym/planyourvisit/day-hiking-at-olympic.htm | https://www.nps.gov/olym/planyourvisit/hours.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-092-P01",
   "place_id": "us-092",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Artist Point・Mount Shuksan／Mount Baker 高山雪景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — catalog point 48.8465,-121.6927 matches the US Forest Service coordinates for the Artist Point trailhead (48.84637222,-121.6919444) — same feature",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-artist-point-baker"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Artist Point 位於 Mount Baker Scenic Byway（SR 542）終點：USFS 明示道路冬季不除雪、無固定開放／封閉日期——首次大雪（9 月底–11 月初）後封閉，通常 7 月初開通；7–10 月為車輛可達，冬季僅非動力雪上活動（需雪崩評估）。11/1–4 月法律要求隨車雪鏈。48.8464, -121.6919 的停車場可拍 Mt. Shuksan／Mt. Baker；無自來水，高山天氣多變，通行與安全以 USFS／WSDOT 公告為準。",
+        "en": "Artist Point is at the end of the Mount Baker Scenic Byway (SR 542): per the USFS the road is NOT plowed in winter with no fixed closure date — it closes after the first significant snowfall (late September–early November) and typically reopens by early July; vehicles can reach it July–October, and winter access is non-motorized only (avalanche assessment needed). Chains are legally required on the vehicle November 1–April. The parking area at 48.8464, -121.6919 frames Mt. Shuksan and Mt. Baker; there is no potable water and mountain weather changes fast. Access and safety follow USFS/WSDOT postings.",
+        "ja": "アーティスト・ポイントはマウント・ベイカー・シーニック・バイウェイ（SR 542）の終点：USFSによれば冬は排雪されず、決まった開放/閉鎖日もない。最初の大雪（9月末〜11月初）で閉鎖し通常は7月初めに開通、車両は7〜10月に到達可能、冬は非動力の雪上のみ（雪崩評価必須）。11/1〜4月は車にチェーン積載が法的義務。48.8464, -121.6919の駐車場からMt. ShuksanとMt. Bakerを撮れる。飲料水はなく山の天候は変わりやすい。通行と安全はUSFS/WSDOTの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-artist-point-baker"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "us-092-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-artist-point-baker"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.fs.usda.gov/r06/mbs/recreation/artist-point-trailhead | https://www.fs.usda.gov/r06/mbs/recreation/mt-baker-highway-sr-542); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

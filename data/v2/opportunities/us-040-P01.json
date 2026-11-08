@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-040-P01",
   "place_id": "us-040",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Piers Park・Boston skyline＋Harbor全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-piers-park-east-boston"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Piers Park 位於東波士頓 95 Marginal Street，由 Massport 管理的濱水公園，600 呎 promenade 正對 Boston Harbor 與 downtown 天際線，設亭子、遊具與觀景台；拍攝不需費用。園內 sailing center 營業 11:00–日落。夜間拍攝注意：公園夜間照明有限，沿岸步道無護欄段請遠離水緣；詳細時間與活動公告以現場與 Massport 為準。",
+        "en": "Piers Park is a waterfront park at 95 Marginal Street, East Boston, managed by Massport: a 600-ft promenade faces Boston Harbor and the downtown skyline, with pavilions, a playground and viewing platforms; shooting is free. The on-site sailing center operates 11 a.m.–sunset. Night shoots: lighting in the park is limited, keep away from the unprotected water's edge along the promenade; hours and event postings follow the park and Massport notices.",
+        "ja": "Piers Parkは東ボストン95 Marginal StreetのMassport管理のウォーターフロント公園。600フィートの遊歩道がボストン・ハーバーとダウンタウンのスカイラインを正面に望み、パビリオン・遊具・展望台がある。撮影無料。園内のセーリングセンターは11時〜日没営業。夜間撮影は園内照明が限られ、遊歩道の水際から距離を取ること。時間と催しは現地とMassportの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-piers-park-east-boston"
+      ],
       "components": []
     }
   ],
@@ -221,9 +225,11 @@
     {
       "claim_id": "us-040-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-piers-park-east-boston"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://piersparksailing.org/about-us/piers-park | https://piersparksailing.org/); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

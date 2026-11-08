@@ -2,11 +2,11 @@
 
 評分範圍：239 places × 434 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`a2df4da9a7d84e26…`（重跑可驗證確定性）。
+輸入指紋：`ce808874f06b2f9d…`（重跑可驗證確定性）。
 
-- 全庫加權均分：**3.9 / 5**；中位數：**3.9 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**160** 個，不虛構分數）。
+- 全庫加權均分：**4.02 / 5**；中位數：**4.05 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**145** 個，不虛構分數）。
 - 區域分布：jp=63, tw=93, us=83
-- 弱點清單筆數：低 weather_light **6**、低 verifiability **180**、5km 群聚 **18**。
+- 弱點清單筆數：低 weather_light **6**、低 verifiability **3**、5km 群聚 **18**。
 
 ## 五維判定規則（機械、可重跑）
 
@@ -25,25 +25,25 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | 排名 | place | 名稱 | 區域 | 題材數 | 加權總分 | 五維 |
 |---|---|---|---|---|---|---|
 | 1 | `jp-044` | 十二湖・青池 | jp | 1 | **4.6** | 5/5/3.0/5/5 |
-| 2 | `jp-051` | 嚴島神社・宮島大鳥居 | jp | 1 | **4.4** | 5/5/3.0/5/4 |
-| 3 | `us-055` | 威朗格利-聖埃利亞斯國家公園 | us | 2 | **4.4** | 5/5/4.0/5/3 |
-| 4 | `us-069` | 克拉克湖國家公園 | us | 1 | **4.4** | 5/5/4.0/5/3 |
-| 5 | `us-086` | 里亞爾托海灘／牆中洞 | us | 1 | **4.4** | 5/5/4.0/5/3 |
-| 6 | `jp-048` | 北山崎（三陸断崖） | jp | 2 | **4.38** | 4.5/5/2.5/5/5 |
-| 7 | `us-059` | 卡特邁國家公園 | us | 2 | **4.35** | 5/5/3.75/5/3 |
-| 8 | `tw-026` | 井仔腳瓦盤鹽田 | tw | 3 | **4.33** | 5/5/3.67/5/3 |
-| 9 | `jp-002` | 旭岳 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
-| 10 | `jp-009` | 磐梯山 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
-| 11 | `jp-052` | 備中松山城・雲海（天空の城） | jp | 1 | **4.3** | 5/5/2.5/5/4 |
-| 12 | `us-060` | 冰河灣國家公園 | us | 2 | **4.3** | 5/5/3.5/5/3 |
-| 13 | `us-087` | 颶風嶺 | us | 1 | **4.3** | 5/5/3.5/5/3 |
-| 14 | `us-088` | 霍雨林 | us | 1 | **4.3** | 5/5/3.5/5/3 |
-| 15 | `jp-028` | 高野山 | jp | 1 | **4.25** | 4/5/3.5/5/4 |
-| 16 | `tw-084` | 大農大富平地森林園區 | tw | 3 | **4.23** | 4.33/5/4.0/5/3 |
-| 17 | `jp-046` | タウシュベツ川橋梁（幻の橋） | jp | 1 | **4.2** | 5/5/3.0/5/3 |
-| 18 | `jp-045` | 地球岬展望台 | jp | 2 | **4.17** | 4.5/5/2.5/5/4 |
-| 19 | `us-011` | 大提頓國家公園 | us | 2 | **4.17** | 4.5/5/3.5/5/3 |
-| 20 | `us-001` | 大峽谷國家公園 | us | 3 | **4.13** | 4.33/5/3.5/5/3 |
+| 2 | `tw-026` | 井仔腳瓦盤鹽田 | tw | 3 | **4.47** | 5/5/4.33/5/3 |
+| 3 | `jp-051` | 嚴島神社・宮島大鳥居 | jp | 1 | **4.4** | 5/5/3.0/5/4 |
+| 4 | `us-031` | 落磯山國家公園 | us | 1 | **4.4** | 5/5/4.0/5/3 |
+| 5 | `us-055` | 威朗格利-聖埃利亞斯國家公園 | us | 2 | **4.4** | 5/5/4.0/5/3 |
+| 6 | `us-069` | 克拉克湖國家公園 | us | 1 | **4.4** | 5/5/4.0/5/3 |
+| 7 | `us-086` | 里亞爾托海灘／牆中洞 | us | 1 | **4.4** | 5/5/4.0/5/3 |
+| 8 | `jp-048` | 北山崎（三陸断崖） | jp | 2 | **4.38** | 4.5/5/2.5/5/5 |
+| 9 | `us-059` | 卡特邁國家公園 | us | 2 | **4.35** | 5/5/3.75/5/3 |
+| 10 | `jp-002` | 旭岳 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
+| 11 | `jp-009` | 磐梯山 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
+| 12 | `jp-052` | 備中松山城・雲海（天空の城） | jp | 1 | **4.3** | 5/5/2.5/5/4 |
+| 13 | `tw-044` | 南湖大山 | tw | 3 | **4.3** | 5/5/3.5/5/3 |
+| 14 | `tw-071` | 小琉球花瓶岩 | tw | 2 | **4.3** | 5/5/3.5/5/3 |
+| 15 | `us-021` | 峽谷地國家公園 梅薩拱門 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 16 | `us-029` | 白沙國家公園 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 17 | `us-060` | 冰河灣國家公園 | us | 2 | **4.3** | 5/5/3.5/5/3 |
+| 18 | `us-087` | 颶風嶺 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 19 | `us-088` | 霍雨林 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 20 | `tw-036` | 七星潭 | tw | 4 | **4.29** | 4.75/5/3.75/5/3 |
 
 ### Bottom 20
 
@@ -85,186 +85,9 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 
 | opportunity | place | 分數 | 缺口 |
 |---|---|---|---|
-| `tw-019-P03` | tw-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-019-P04` | tw-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-019-P05` | tw-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-019-P06` | tw-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-020-P01` | tw-020 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-020-P02` | tw-020 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-020-P03` | tw-020 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-020-P04` | tw-020 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-021-P01` | tw-021 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-021-P02` | tw-021 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-022-P01` | tw-022 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-022-P02` | tw-022 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-022-P03` | tw-022 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-022-P04` | tw-022 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-023-P01` | tw-023 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-023-P02` | tw-023 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-023-P03` | tw-023 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-024-P01` | tw-024 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-024-P02` | tw-024 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-024-P03` | tw-024 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-024-P04` | tw-024 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-024-P05` | tw-024 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-025-P01` | tw-025 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-025-P02` | tw-025 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-026-P03` | tw-026 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-027-P01` | tw-027 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-027-P02` | tw-027 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-027-P03` | tw-027 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-028-P01` | tw-028 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-028-P02` | tw-028 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-028-P03` | tw-028 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-028-P04` | tw-028 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-030-P01` | tw-030 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-030-P02` | tw-030 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-031-P01` | tw-031 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-031-P02` | tw-031 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-032-P01` | tw-032 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-032-P02` | tw-032 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-032-P03` | tw-032 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-033-P01` | tw-033 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-033-P02` | tw-033 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-034-P01` | tw-034 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-034-P03` | tw-034 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P01` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P02` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P03` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P04` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P05` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P06` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P07` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P08` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P09` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-035-P10` | tw-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-036-P02` | tw-036 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-036-P03` | tw-036 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-036-P04` | tw-036 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-037-P01` | tw-037 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-038-P01` | tw-038 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-038-P02` | tw-038 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P01` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P02` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P03` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P04` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P05` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P06` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-041-P01` | tw-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-041-P02` | tw-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-041-P03` | tw-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-041-P04` | tw-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-041-P05` | tw-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-042-P01` | tw-042 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-043-P01` | tw-043 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-043-P02` | tw-043 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-043-P03` | tw-043 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-043-P04` | tw-043 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-044-P01` | tw-044 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-044-P02` | tw-044 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-044-P03` | tw-044 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-045-P01` | tw-045 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-045-P02` | tw-045 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-045-P03` | tw-045 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-045-P04` | tw-045 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-045-P05` | tw-045 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-046-P01` | tw-046 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-046-P02` | tw-046 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-047-P01` | tw-047 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-047-P02` | tw-047 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-047-P03` | tw-047 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-048-P01` | tw-048 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-049-P01` | tw-049 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-049-P02` | tw-049 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-049-P03` | tw-049 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-050-P01` | tw-050 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-051-P01` | tw-051 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-051-P02` | tw-051 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-053-P01` | tw-053 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-053-P02` | tw-053 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-054-P01` | tw-054 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-054-P02` | tw-054 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-055-P01` | tw-055 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-056-P01` | tw-056 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-056-P02` | tw-056 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-057-P01` | tw-057 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-057-P02` | tw-057 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-059-P01` | tw-059 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
 | `tw-060-P01` | tw-060 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
-| `tw-060-P02` | tw-060 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-060-P03` | tw-060 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-061-P01` | tw-061 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-061-P02` | tw-061 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-064-P01` | tw-064 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-064-P02` | tw-064 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-065-P01` | tw-065 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-066-P01` | tw-066 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-067-P01` | tw-067 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-069-P01` | tw-069 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-070-P01` | tw-070 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-070-P02` | tw-070 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-071-P01` | tw-071 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-071-P02` | tw-071 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-072-P01` | tw-072 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-072-P02` | tw-072 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-073-P01` | tw-073 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-075-P01` | tw-075 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-076-P01` | tw-076 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-076-P02` | tw-076 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-077-P01` | tw-077 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-078-P01` | tw-078 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
-| `tw-079-P01` | tw-079 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-080-P01` | tw-080 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-080-P02` | tw-080 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-082-P02` | tw-082 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-082-P03` | tw-082 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-082-P04` | tw-082 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-082-P05` | tw-082 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-082-P07` | tw-082 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-082-P08` | tw-082 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-082-P09` | tw-082 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-085-P01` | tw-085 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-085-P02` | tw-085 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-085-P03` | tw-085 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-086-P01` | tw-086 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-086-P02` | tw-086 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-086-P03` | tw-086 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-005-P01` | us-005 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-006-P01` | us-006 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-006-P02` | us-006 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-007-P01` | us-007 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-007-P02` | us-007 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-009-P01` | us-009 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-010-P01` | us-010 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-012-P01` | us-012 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-012-P02` | us-012 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-013-P01` | us-013 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-014-P01` | us-014 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-014-P02` | us-014 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-014-P03` | us-014 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-015-P01` | us-015 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-015-P02` | us-015 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-016-P01` | us-016 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-016-P02` | us-016 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-017-P01` | us-017 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-018-P01` | us-018 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-018-P02` | us-018 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-019-P01` | us-019 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-019-P02` | us-019 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-020-P01` | us-020 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-020-P02` | us-020 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-021-P01` | us-021 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-023-P01` | us-023 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-025-P01` | us-025 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-025-P02` | us-025 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-027-P01` | us-027 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-028-P01` | us-028 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-029-P01` | us-029 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-030-P01` | us-030 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-031-P01` | us-031 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-033-P01` | us-033 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-035-P02` | us-035 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `us-036-P01` | us-036 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 
 ## 弱點清單 C：高重叠區（5km 群聚 → 檢討差異化/候選裁撤，僅建議）
 

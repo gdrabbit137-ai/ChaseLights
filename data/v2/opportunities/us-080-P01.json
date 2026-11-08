@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-080-P01",
   "place_id": "us-080",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Deception Pass・海峽＋橋梁＋峭壁全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-deception-pass-sp"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Deception Pass State Park（41229 State Route 20, Oak Harbor）為華州最熱門州立公園之一：官方時制夏季（4–9月）06:30–dusk、冬季（10–3月）08:00–dusk，車輛需 Discover Pass。Deception Pass Bridge 人行步道可拍海峽潮流＋橋體＋Fidalgo／Whidbey 島剪影，西向日落最佳；橋上風大、欄杆低，請勿倚靠。停車與露營規定以 Washington State Parks 公告為準。",
+        "en": "Deception Pass State Park (41229 State Route 20, Oak Harbor) is one of Washington's most-visited state parks: official hours are summer (April–September) 6:30 a.m.–dusk and winter (October–March) 8 a.m.–dusk; a Discover Pass is required for vehicles. The pedestrian walkway on Deception Pass Bridge frames the tidal channel, the bridge structure and Whidbey/Fidalgo silhouettes — sunsets fall best to the west. The bridge deck is windy with low rails — do not lean on them. Parking and camping rules follow Washington State Parks postings.",
+        "ja": "デセプション・パス州立公園（41229 State Route 20, Oak Harbor）はワシントン州で最も人気の州立公園の一つ：公式営業時間は夏（4〜9月）6時30分〜日没、冬（10〜3月）8時〜日没、車両にはDiscover Passが必要。デセプション・パス橋の歩道からは潮流、橋、ウィッドビー/ファイダルゴ島のシルエットが撮れ、日没は西向きが最適。橋上は風が強く手すりが低いのでもたれないこと。駐車とキャンプ規則はWashington State Parksの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-deception-pass-sp"
+      ],
       "components": []
     }
   ],
@@ -271,9 +275,11 @@
     {
       "claim_id": "us-080-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-deception-pass-sp"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://parks.wa.gov/find-parks/state-parks/deception-pass-state-park | https://parks.wa.gov/sites/default/files/2024-05/Deception%20Pass%20Park%20Brochure.pdf); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {
