@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-030-P01",
   "place_id": "jp-030",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "鳴門渦之道・鳴門海峽漩渦",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-uzunomichi-tokushima"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於德島縣鳴門市（德島縣立「渦の道」官方頁）。官方資訊：營業時間 夏季（3–9月）09:00–18:00（最終入場17:30）、冬季（10–2月）09:00–17:00（16:30）、GW/暑假期間 08:00–19:00；休館日為 6、9、12、3月第2個星期一（7/20–8/31無休）；票價大人510日元、中小生410/250日元；自駕由鳴門北 IC 5分，停車場小客車200台（1日420日元）、巴士20台；JR鳴門站轉市營巴士約20分。漩渦屬潮汐現象，最盛期依潮汐表為主（官方頁同時提供大鳴門橋展望台與觀潮船資訊）。",
+        "en": "Naruto, Tokushima (official Tokushima Prefecture Uzunomichi page). Official info: summer (Mar-Sep) 09:00-18:00 (entry till 17:30), winter (Oct-Feb) 09:00-17:00 (16:30), GW/summer holidays 08:00-19:00; closed the 2nd Monday of Jun/Sep/Dec/Mar (no closure 7/20-8/31). Fees: adults 510 yen, junior/senior-high 410, elementary 250. Access: 5 min from Naruto-Kita IC, parking 200 cars (420 yen/day) and 20 buses; ~20 min city bus from JR Naruto Station. The whirlpools are tidal phenomena — best timing follows the tide table (official page also lists Onaruto Bridge observatory and cruise-boat info).",
+        "ja": "徳島県鳴門市（徳島県立「渦の道」公式ページ）。公式情報：夏季（3〜9月）09:00〜18:00（入場17:30まで）、冬季（10〜2月）09:00〜17:00（16:30）、GWと夏休みは08:00〜19:00。休館日は6・9・12・3月の第2月曜（7/20〜8/31は無休）。料金：大人510円、中高生410円、小学生250円。アクセスは鳴門北ICから5分、駐車場は乗用車200台（1日420円）・バス20台。JR鳴門駅から市営バス約20分。渦潮は潮汐現象のためベストタイミングは潮見表による（公式ページに展望台・観潮船情報もあり）。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-uzunomichi-tokushima"
+      ],
       "components": []
     }
   ],
@@ -141,9 +145,11 @@
     {
       "claim_id": "jp-030-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-uzunomichi-tokushima"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {
