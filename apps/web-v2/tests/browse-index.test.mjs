@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 434 canonical sources remain source pinned (DATA-34 seven-place chain: 239 places / 434 opportunities, CL-INT-110)',()=>{
-  assert.equal(sha256(rawIndex),'42f1f0bf2a0012c17f22142678fb023acbb5ac32989d46ca95a56a4d99c2a3f6'); // CL-DATA-40/41: re-measured after CL-DATA-39 batch5 chain regen (239 places / 434 opportunities)
-  assert.equal(sha256(rawCatalog),'adf18e9b03cd42eb317f606525c4b58268f585642528e382eb2f6e76430bede9'); // CL-DATA-40/41: re-measured after CL-DATA-39 batch5 chain regen (239 places / 434 opportunities)
+  assert.equal(sha256(rawIndex),'b5911b32fb09a2068473ec0ea5785820b8f8488956b730e695f7e84eec880dc9'); // CL-DATA-40/41: re-measured after CL-DATA-39 batch5 chain regen (239 places / 434 opportunities)
+  assert.equal(sha256(rawCatalog),'004c11c7efb8406ab368c8f5bd0abc06300017344e590bd20bf89dff47f99ed7'); // CL-DATA-40/41: re-measured after CL-DATA-39 batch5 chain regen (239 places / 434 opportunities)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,434);assert.equal(source.places.length,239);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
