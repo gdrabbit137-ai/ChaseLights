@@ -8,7 +8,7 @@
 //    instead of a fabricated full-ring Subject sector.
 // 4. sectors_monthly geometries are resolved to the current Asia/Taipei
 //    month at draw time (CL-DATA-13 mechanism, sectors[month-1] semantics).
-// 5. Cache-bust stamp moved to bclwg31 in the same ticket.
+// 5. Cache-bust stamp moved to bclwg34 in the same ticket.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -58,7 +58,7 @@ test('CL-WG-30: sectors_monthly wedges resolve the current month', () => {
   assert.equal(uses.length, 2, 'drawGeometry and the envelope sampler both resolve monthly arcs');
 });
 
-test('CL-WG-30: cache-bust stamp bumped to bclwg31 in the same ticket', () => {
-  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg33/);
-  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg33/);
+test('CL-WG-30: cache-bust stamp bumped to bclwg34 in the same ticket', () => {
+  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg34/);
+  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg34/);
 });

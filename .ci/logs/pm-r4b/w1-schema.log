@@ -1,0 +1,26 @@
+$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\d\tmp\r4merge\ops\v2\run_unittest.py specs/v2/tests test_schema_smoke.py D:\d\tmp\r4merge\.ci\logs\pm-r4b\w1-schema.json
+test_access_closure_cannot_be_photography_condition (test_schema_smoke.ContractSmokeTests.test_access_closure_cannot_be_photography_condition)
+Access restrictions are warnings, never scoring gates. ... ok
+test_canonical_runtime_availability_rejected (test_schema_smoke.ContractSmokeTests.test_canonical_runtime_availability_rejected)
+Run the real schema + reference validator; runtime state is not canonical. ... ok
+test_closed_site_warning_does_not_invalidate_weather_contract (test_schema_smoke.ContractSmokeTests.test_closed_site_warning_does_not_invalidate_weather_contract) ... ok
+test_condition_claim_reference_integrity (test_schema_smoke.ContractSmokeTests.test_condition_claim_reference_integrity) ... ok
+test_duplicate_camera_ids_rejected (test_schema_smoke.ContractSmokeTests.test_duplicate_camera_ids_rejected) ... ok
+test_duplicate_claim_ids_rejected (test_schema_smoke.ContractSmokeTests.test_duplicate_claim_ids_rejected) ... ok
+test_duplicate_relation_ids_rejected (test_schema_smoke.ContractSmokeTests.test_duplicate_relation_ids_rejected) ... ok
+test_dynamic_aurora_without_observation_relations_is_valid (test_schema_smoke.ContractSmokeTests.test_dynamic_aurora_without_observation_relations_is_valid) ... ok
+test_evidence_reference_integrity (test_schema_smoke.ContractSmokeTests.test_evidence_reference_integrity) ... ok
+test_locale_ja_required (test_schema_smoke.ContractSmokeTests.test_locale_ja_required) ... ok
+test_missing_required (test_schema_smoke.ContractSmokeTests.test_missing_required) ... ok
+test_relation_reference_integrity (test_schema_smoke.ContractSmokeTests.test_relation_reference_integrity) ... ok
+test_target_reference_integrity (test_schema_smoke.ContractSmokeTests.test_target_reference_integrity) ... ok
+test_target_undeclared_evidence_rejected (test_schema_smoke.ContractSmokeTests.test_target_undeclared_evidence_rejected) ... ok
+test_unknown_policy_must_propagate (test_schema_smoke.ContractSmokeTests.test_unknown_policy_must_propagate) ... ok
+test_valid_aurora (test_schema_smoke.ContractSmokeTests.test_valid_aurora) ... ok
+test_valid_declared_evidence_and_claim_reference (test_schema_smoke.ContractSmokeTests.test_valid_declared_evidence_and_claim_reference) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.039s
+
+OK
+{"tests": 17, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 17}
