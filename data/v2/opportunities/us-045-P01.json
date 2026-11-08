@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-045-P01",
   "place_id": "us-045",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Seward Waterfront・Resurrection Bay＋Mt. Alice山海景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — catalog point 60.103141,-149.434574 is on the Resurrection Bay shoreline between the small boat harbor and the SeaLife Center, matching the Seward Waterfront Park location (60.104788,-149.43355 listed for the park) — same feature",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-seward-waterfront-park"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Seward Waterfront Park 為西沃德市管理的濱海公園，沿 Resurrection Bay 從小型船港延伸至 Alaska SeaLife Center，步道串聯歷史地標（Iditarod Trail Mile 0 等），海灘開放日間遊憩，露營另收費（約 $20–65）。拍 Mt. Alice 山景與日出時留意灣區強風與潮汐；夜間海灘無照明，公園規定以市政府現場公告為準。",
+        "en": "Seward Waterfront Park is a city-run shoreline park along Resurrection Bay, stretching from the small boat harbor to the Alaska SeaLife Center; the trail links historical landmarks (Iditarod Trail Mile 0 and more). Beach access is open for day use, camping is charged (about $20–65). Watch strong bay winds and tides when shooting Mt. Alice and sunrise; the beach has no night lighting — park rules follow City of Seward on-site postings.",
+        "ja": "Seward Waterfront Parkはスワード市管理の海浜公園で、Resurrection Bay沿いに小型船港からアラスカ・シーライフセンターまで続く。遊歩道には歴史的ランドマーク（Iditarod Trail Mile 0など）が並ぶ。ビールの利用は日中、キャンプは有料（約$20〜65）。Mt. Aliceと日の出撮影時は湾の強風と潮汐に注意。夜間のビールに照明はなく、規則はスワード市の現地掲示に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-seward-waterfront-park"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "us-045-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-seward-waterfront-park"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.seward.com/community-resources/hometown-guide/parks-and-recreation/ | https://www.alaska.org/detail/seward-waterfront-park); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-069-P01",
   "place_id": "us-069",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Port Alsworth／Lake Clark・湖景＋環湖山脈",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-port-alsworth-lake-clark"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Port Alsworth 為 Lake Clark 國家公園飛行進入門戶：NPS 明示無公路系統、鎮上無超市，需飛機（輪式或水上）抵達，中心有 NPS Visitor Center（僅夏季開放）與 Tanalian Trails 起點。湖景與環湖山脈可步行 Tanalian Falls／Kontrashibuna Lake 路線到達；訂票需直接聯繫持照 air taxi。降雪後步道結冰滑，飛機起降注意跑道，規則以 NPS 公告為準。",
+        "en": "Port Alsworth is the fly-in gateway to Lake Clark NP & Preserve: per the NPS there is no road system and NO grocery store — visitors arrive by small plane (wheels or floats), with the park Visitor Center open summer only and the Tanalian Trails starting in town. The lake-and-range panorama can be framed on the Tanalian Falls/Kontrashibuna Lake routes. Book directly with an authorized air taxi. Trails ice over after snow and aircraft use the active runways — rules follow NPS postings.",
+        "ja": "ポート・アルズワースはレイククラーク国立公園の飛行機での玄関口：NPSによれば道路網がなく町に食料品店もない。小型機（車輪/フロート）で到着し、ビジターセンターは夏期のみ営業、Tanalian Trailsは町から出発する。湖と周囲の山並みはTanalian Falls/Kontrashibuna Lakeルートで撮れる。予約は認可されたエアタクシーに直接連絡。雪後は遊歩道が凍結し、滑走路は稼働中で横断に注意。規則はNPSの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-port-alsworth-lake-clark"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "us-069-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-port-alsworth-lake-clark"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/lacl/planyourvisit/port-alsworth.htm | https://www.nps.gov/lacl/contacts.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

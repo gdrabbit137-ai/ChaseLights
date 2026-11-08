@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-046-P01",
   "place_id": "us-046",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Summit Lake・Hatcher Pass高山湖與Talkeetna Mountains全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-hatcher-pass-summit-lake"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Summit Lake State Recreation Site 位於 Hatcher Pass Road（Hatcher Pass State Recreation Area 內），Alaska DNR 明示道路通車僅限夏季（約7月至9月下旬），山口積雪後封閉。湖畔有觀景與野餐設施；山口天候多變，即使盛夏也可能降雪，日出／夜拍請備保暖與頭燈，通行與關閉以 Alaska DNR 與 Matanuska-Susitna Borough 公告為準。",
+        "en": "Summit Lake State Recreation Site is on Hatcher Pass Road inside the Hatcher Pass State Recreation Area. Alaska DNR states the road is open to vehicles only in summer — usually July through late September — closing when snow builds at the pass. Lakeside viewing and picnic facilities are provided; pass weather changes fast and snow can fall even in midsummer. Bring insulation and a headlamp for dawn/night shoots; road status follows Alaska DNR and Matanuska-Susitna Borough postings.",
+        "ja": "Summit Lake State Recreation SiteはHatcher Pass Road沿い（Hatcher Pass State Recreation Area内）にあり、Alaska DNRは道路の通行を夏期限定（概ね7月〜9月下旬）としている。積雪で峠は閉鎖される。湖畔に展望・ピクニック設備があるが、峠の天候は変わりやすく真夏でも雪が降り得る。夜明け/夜撮影は防寒とヘッドライトを携行し、通行状況はAlaska DNRとMatanuska-Susitna Boroughの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-hatcher-pass-summit-lake"
+      ],
       "components": []
     }
   ],
@@ -250,9 +254,11 @@
     {
       "claim_id": "us-046-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-hatcher-pass-summit-lake"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://dnr.alaska.gov/parks/aspunits/matsu/summitlksrs.htm | https://matsu.gov/trails/hatcher-pass-state-recreation-area); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

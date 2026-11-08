@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-064-P01",
   "place_id": "us-064",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Alyeska Mountain Station・Turnagain Arm／懸冰河／Chugach全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — catalog point 60.96154,-149.07937 is on the Mt. Alyeska massif above Girdwood near the upper aerial-tram terminal area (resort maps); exact viewpoint not field-surveyed — no conflicting authoritative coordinate found in this pass",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-alyeska-mountain-station"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Alyeska Aerial Tram（Girdwood）連接度假村與 Mt. Alyeska 山頂的 Mountain Station（高程約 2,300 呎），從山頂可拍 Turnagain Arm、懸掛冰河與 Chugach 山景。官方公告：每年4月底–5月下旬年度檢修停駛，夏季約5月中–10月中每日運行、10–11月停駛、12–4月冬季每日運行；票價與時刻依季節（夏季約 10:00–19:00，視營運公告）而異。山頂溫度低且風大，藍調時段拍攝請確認末班車時間，運行與安全以 Alyeska Resort 公告為準。",
+        "en": "The Alyeska Aerial Tram (Girdwood) connects the resort to the Mountain Station on Mt. Alyeska (~2,300 ft), framing Turnagain Arm, hanging glaciers and the Chugach range. Per the resort: annual maintenance closes the tram late April–late May; summer runs daily from mid-May to early/mid-October, October–November is closed, and winter (December–April) runs daily. Times and fares vary by season (summer about 10 a.m.–7 p.m., check the tram status page). The top is cold and windy — confirm last tram time for blue-hour shoots; operations and safety follow Alyeska Resort postings.",
+        "ja": "アライエスカ・エアリアル・トラム（ガードウッド）はリゾートとMt. Alyeska山頂のMountain Station（標高約2,300フィート）を結び、Turnagain Arm、つる氷河、チュガチ山地を望む。リゾート公式：年次点検のため4月末〜5月下旬は運休、夏は5月中旬〜10月上・中旬まで毎日運行、10〜11月は閉鎖、冬（12〜4月）は毎日運行。時刻と運賃は季節で変動（夏は概ね10時〜19時、トラム状況ページを確認）。山頂は冷風強く、ブルーアワー撮影は最終便を確認すること。運行と安全はAlyeska Resortの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-alyeska-mountain-station"
+      ],
       "components": []
     }
   ],
@@ -255,9 +259,11 @@
     {
       "claim_id": "us-064-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-alyeska-mountain-station"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.alyeskaresort.com/aerial-tram-summer/ | https://www.alyeskaresort.com/event/tram-opening-day-summer-2026/); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

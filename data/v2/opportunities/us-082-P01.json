@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-082-P01",
   "place_id": "us-082",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Reflection Lakes・Mount Rainier 湖面倒影",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-reflection-lakes-mora"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Reflection Lakes 位於 Mount Rainier 國家公園東南（Mather Memorial Parkway / SR 706 以東），海拔約 4,900 呎；官方公園手冊介紹其為拍攝 Rainier 倒影的名點。路側停車有限、無設施，清晨無風時倒影最佳；路肩狹窄且車流快，請務必停在鋪裝區外；秋季夜間結冰，冬季積雪封路（SR 123/SR 706 視季節），通行與安全以 NPS 公告為準。",
+        "en": "Reflection Lakes lie on Mount Rainier NP's southern approach — the park brochure features them as THE Rainier-reflection spot. Roadside parking is limited with no facilities; reflections are best on windless mornings. The shoulder is narrow and traffic fast — park fully off the pavement; night frosts in autumn and winter snow close the roads seasonally. Access and safety follow NPS postings.",
+        "ja": "Reflection Lakesはマウント・レーニア国立公園の南側から入る道沿いにあり、公式パークパンフレットがレーニアの鏡面反射スポットとして紹介する。路側駐車は限られ設備なし。逆さ映りは無風の早朝が最適。路肩は狭く車の流れが速いため舗装外に完全停車すること。秋の夜は霜、冬は積雪で道路は季節閉鎖。通行と安全はNPSの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-reflection-lakes-mora"
+      ],
       "components": []
     }
   ],
@@ -338,9 +342,11 @@
     {
       "claim_id": "us-082-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-reflection-lakes-mora"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/mora/planyourvisit/park-brochure.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-056-P01",
   "place_id": "us-056",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Atigun Pass・Brooks Range高山峽谷全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-atigun-pass"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Atigun Pass 為 Dalton Highway 最高點（BLM 標示 milepost 244、高程約 4,739 呎），免費通行。BLM 提醒：6–7 月也可能降雪暴，達爾頓公路屬偏遠粗礦路，野生動物頻繁；停車務必完全退出鋪面外。自 Fairbanks 車程約 8 小時，油料與補給須自帶；冬季與夜拍須辦理 511.alaska.gov 路況查詢，越過分水嶺後北側即為無樹凍原。安全與通行以 BLM 與 Alaska DOT&PF 公告為準。",
+        "en": "Atigun Pass is the highest point of the Dalton Highway (BLM: milepost 244, about 4,739 ft); access is free. BLM warns that snowstorms can hit even in June–July; the Dalton is a rough, remote gravel road with frequent wildlife — pull completely off the pavement when stopping. It is about 8 hours' drive from Fairbanks with no services en route; before winter or night shoots check 511.alaska.gov. North of the divide the tundra is treeless. Safety and access follow BLM and Alaska DOT&PF postings.",
+        "ja": "Atigun Passはダルトン・ハイウェイの最高地点（BLM: milepost 244、標高約4,739フィート）で通行無料。BLMは6〜7月でも吹雪になり得ると注意喚起。ダルトンは荒れた未舗装路で野生動物が多く、停車時は完全に路面外へ。フェアバンクスから車で約8時間、途中サービスなし。冬や夜撮影前は511.alaska.govで路況確認。分水嶺以北は樹木のないツンドラ。安全と通行はBLMとAlaska DOT&PFの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-atigun-pass"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "us-056-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-atigun-pass"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.blm.gov/visit/atigun-pass | https://www.blm.gov/learn/interpretive-centers/arctic-interagency-visitor-center/frequently-asked-questions); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

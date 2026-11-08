@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-072-P01",
   "place_id": "us-072",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Golden Gardens・Puget Sound＋Olympic Mountains 海岸遠景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-golden-gardens-seattle"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Golden Gardens Park（8498 Seaview Pl. NW）濱 Puget Sound，夏季（5/1–9/30）04:00–22:30、其餘季節 04:00–23:30，停車場閘門 07:00 起（場外 Seaview Ave 路邊停車可提早）。沙灘西向可拍 Olympic Mountains＋日落＋篝火（fire pits 2026/5/22–9/7 開放除非禁火令）；細沙、水鳥與帆船同框。水上活動與寵物規定以 Seattle Parks 公告為準。",
+        "en": "Golden Gardens Park (8498 Seaview Pl. NW) fronts Puget Sound: summer hours (May 1–Sept 30) 4 a.m.–10:30 p.m., otherwise 4 a.m.–11:30 p.m.; the parking-lot gates open at 7 a.m. (street parking on Seaview Ave NW allows earlier access). The west-facing beach frames the Olympic Mountains, sunset and beach fires (fire pits open May 22–Sept 7, 2026, unless a burn ban) with sand, shorebirds and sailboats in the frame. Water-safety and pet rules follow Seattle Parks postings.",
+        "ja": "ゴールデン・ガーデンズ・パーク（8498 Seaview Pl. NW）はピュージェット湾に面する。夏季（5/1〜9/30）は4時〜22時30分、それ以外は4時〜23時30分。駐車場の門は7時開門（Seaview Ave NWの路上ならもっと早く）。西向きのビールからオリンピック山脈、日没、ビーチファイア（2026年は5/22〜9/7、焚火禁止令がない限り）を撮れる。水の安全とペット規則はSeattle Parksの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-golden-gardens-seattle"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "us-072-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-golden-gardens-seattle"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.seattle.gov/parks/parks/golden-gardens-park | https://parkways.seattle.gov/2026/04/13/seattle-parks-and-recreation-2026-summer-hours-for-alki-beach-and-golden-gardens/); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {
