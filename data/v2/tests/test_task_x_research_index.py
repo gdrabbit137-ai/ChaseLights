@@ -120,7 +120,9 @@ class ResearchIndexTests(unittest.TestCase):
             # the golden-window upgrade gave way to sunrise_time_window MAIN.
             '69b832accfc8c0438a50e51689c4e7c40765e9f4',
             '90838a69af97cab0aafbfb89c3e984bd0f004f9b',  # CL-DATA-35 stage 2c: jp-029-P02 https-source refinement
-            '008ab85ff19794c3aa2ffc1173afa30212aa426e',
+            # 008ab85ff (CL-DATA-32) left the set: its last holder tw-073-P01
+            # was byte-changed and re-pinned to the CL-DATA-38 batch4 commit
+            # (verified trilingual access bytes; batch4-progress.json).
             '2cd38d860868d63b7a214434d74f2db6ad153506',
             'b801dd4eba545a76879828b25e869f3c45df33ac',
             # CL-DATA-15 (merged side): owner-verified elevation corrections
