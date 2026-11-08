@@ -62,6 +62,14 @@ jobs:
             /field-intake.html
             # Root modules imported by packages/core-v2 tests via sys.path[ROOT]
             /lunar_ephemeris.py
+            # CL-CI-25: test_cl_data_23 lazily does `import regions` (5km
+            # differentiation vs the live tw catalog) and discover_spots.py
+            # rerun does the same inside its subprocess — regions ->
+            # opportunities -> opportunity_runtime / taxonomy_v004 must all be
+            # in the sparse tree or only these two tests go red in CI.
+            /regions.py
+            /opportunities.py
+            /taxonomy_v004.py
             /runtime_catalog_v004_r4_2.json
             # CL-CI-11: opportunity_runtime._load_event_calendar reads this root
             # data file at import time; a missing file truncates the
