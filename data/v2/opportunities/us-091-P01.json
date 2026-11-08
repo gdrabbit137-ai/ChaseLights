@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-091-P01",
   "place_id": "us-091",
-  "revision": 4,
+  "revision": 5,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松",
@@ -10,9 +10,9 @@
     "ja": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松"
   },
   "description_i18n": {
-    "zh-TW": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松（V1 最佳時段：白天至黃昏；依題材與季節條件；V1 季節：全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate。V1 遷移骨架；內容待第二輪研究完善。）",
-    "en": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松 (V1 best time: 白天至黃昏；依題材與季節條件; V1 season: 全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate V1 migration skeleton; content to be refined in round 2.)",
-    "ja": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松（V1ベスト時間帯: 白天至黃昏；依題材與季節條件；V1季節: 全年；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+    "zh-TW": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松（V1 最佳時段：白天至黃昏；依題材與季節條件；V1 季節：約 6 月中–10 月中（SR-20 冬季雪崩季封閉，依 WSDOT 當期公告；落葉松金黃窗約 9 月底–10 月中）；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate。V1 遷移骨架；內容待第二輪研究完善。）",
+    "en": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松 (V1 best time: 白天至黃昏；依題材與季節條件; V1 season: mid-June to mid-October (SR-20 closed in the winter avalanche season per the current WSDOT advisory; golden larch window late September to mid-October)；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate V1 migration skeleton; content to be refined in round 2.)",
+    "ja": "Washington Pass・Liberty Bell＋Early Winters Spires／秋季落葉松（V1ベスト時間帯: 白天至黃昏；依題材與季節條件；V1季節: 6月中旬〜10月中旬（SR-20 冬季雪崩季閉鎖、WSDOT の最新発表に従う；カラマツ黄金窓 9月末〜10月中旬）；季節道路、潮汐、雪況或現場封閉依官方狀態作 hard gate。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
   },
   "camera_contexts": [
     {
@@ -239,14 +239,14 @@
         "condition_tier": "MAIN",
         "threshold_source": "evidence_review",
         "rationale_i18n": {
-          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：補 seasonal_state window_open REQUIRED/MAIN（9 月底–10 月落葉松轉色）——比照 seasonal 類模板（無即時季節源→propagate_unknown 誠實未知）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-          "en": "2026-11-06 CL-DATA-12 full audit (batch h): adds seasonal_state window_open REQUIRED/MAIN (the late-Sep-to-Oct larch turn) - seasonal-template convention (no real-time seasonal source -> propagate_unknown honest unknown). Semantic correction; layering parity gate exempt, documented here.",
-          "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：seasonal_state window_open REQUIRED/MAIN を追加（9月末-10月のカラマツの黄葉）——seasonal 型テンプレートに準拠（即時季節源なし→propagate_unknown の誠実な未知）。 意味修正のため layering parity ゲートは免除。"
+          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：補 seasonal_state window_open REQUIRED/MAIN（9 月底–10 月落葉松轉色）——比照 seasonal 類模板（無即時季節源→propagate_unknown 誠實未知）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。 2026-11-09 CL-DATA-41：WSDOT 資料——SR-20 北喀斯開公路每年約 11 月至 4/5 月雪崩季封閉(2025-12-04 封閉、2026-06-14 重開)。實際可達季節約 6 月中–10 月中，依 WSDOT 當期公告；秋季落葉松金黃窗約 9 月底–10 月中。來源：https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory)，查證 2026-11-09。",
+          "en": "2026-11-06 CL-DATA-12 full audit (batch h): adds seasonal_state window_open REQUIRED/MAIN (the late-Sep-to-Oct larch turn) - seasonal-template convention (no real-time seasonal source -> propagate_unknown honest unknown). Semantic correction; layering parity gate exempt, documented here. 2026-11-09 CL-DATA-41: WSDOT - SR-20 North Cascades Highway closes each winter for the avalanche season (roughly November to April/May; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory). Practical access season mid-June to mid-October; golden larch window late September to mid-October. Source: https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory), verified 2026-11-09.",
+          "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：seasonal_state window_open REQUIRED/MAIN を追加（9月末-10月のカラマツの黄葉）——seasonal 型テンプレートに準拠（即時季節源なし→propagate_unknown の誠実な未知）。 意味修正のため layering parity ゲートは免除。 2026-11-09 CL-DATA-41: WSDOT 情報——SR-20 ノースカスケード・ハイウェイは毎年約11月〜4/5月の雪崩シーズンに閉鎖（2025-12-04 閉鎖、2026-06-14 再開；WSDOT の最新発表に従う）。実質アクセス季節は6月中旬〜10月中旬；秋のカラマツ黄金窓は9月末〜10月中旬。出典：https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory)、確認日 2026-11-09。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch h）：補 seasonal_state window_open REQUIRED/MAIN（9 月底–10 月落葉松轉色）——比照 seasonal 類模板（無即時季節源→propagate_unknown 誠實未知）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-          "en": "2026-11-06 CL-DATA-12 full audit (batch h): adds seasonal_state window_open REQUIRED/MAIN (the late-Sep-to-Oct larch turn) - seasonal-template convention (no real-time seasonal source -> propagate_unknown honest unknown). Semantic correction; layering parity gate exempt, documented here.",
-          "ja": "2026-11-06 CL-DATA-12 全面監査（batch h）：seasonal_state window_open REQUIRED/MAIN を追加（9月末-10月のカラマツの黄葉）——seasonal 型テンプレートに準拠（即時季節源なし→propagate_unknown の誠実な未知）。 意味修正のため layering parity ゲートは免除。"
+          "zh-TW": "2026-11-09 CL-DATA-41：WSDOT 資料——SR-20 北喀斯開公路每年約 11 月至 4/5 月雪崩季封閉(2025-12-04 封閉、2026-06-14 重開)。實際可達季節約 6 月中–10 月中，依 WSDOT 當期公告；秋季落葉松金黃窗約 9 月底–10 月中。來源：https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory)，查證 2026-11-09。",
+          "en": "2026-11-09 CL-DATA-41: WSDOT - SR-20 North Cascades Highway closes each winter for the avalanche season (roughly November to April/May; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory). Practical access season mid-June to mid-October; golden larch window late September to mid-October. Source: https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory), verified 2026-11-09.",
+          "ja": "2026-11-09 CL-DATA-41: WSDOT 情報——SR-20 ノースカスケード・ハイウェイは毎年約11月〜4/5月の雪崩シーズンに閉鎖（2025-12-04 閉鎖、2026-06-14 再開；WSDOT の最新発表に従う）。実質アクセス季節は6月中旬〜10月中旬；秋のカラマツ黄金窓は9月末〜10月中旬。出典：https://wsdot.com/travel/real-time/map - SR-20 North Cascades Highway seasonal closure (closed each winter ~Nov-Apr/May for avalanche control; closed 2025-12-04, reopened 2026-06-14; follow the current WSDOT advisory)、確認日 2026-11-09。"
         }
       },
       {
