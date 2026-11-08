@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-059-P01",
   "place_id": "tw-059",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "奎壁山摩西分海",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d37-access-kuibishan"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "位於澎湖縣湖西鄉（澎湖國家風景區管理處轄管遊憩區）。依澎管處與縣府公告：奎壁山—赤嶼間約500公尺玄武岩礫石步道每日實施開放管制，通行時段為08:00–17:30（旺季特定日延長06:00–18:30），安全通行約在滿潮後3小時至乾潮後2小時之間，實際以現場旗幟與管制人員指示為準；漲潮時赤嶼兩側形成激流，曾發生罹難事故，務必算準潮汐並勿在管制時段外逗留步道。",
-        "en": "In Huxi Township, Penghu (a recreation area run by the Penghu National Scenic Area HQ). Per official notices: the ~500 m basalt gravel causeway between Kuibishan and Chihsu is under daily access control, 08:00–17:30 (extended 06:00–18:30 on announced peak days); the safe window runs roughly from 3 h after high tide to 2 h after low tide — follow on-site flags and staff. Crosscurrents form on both sides of Chihsu at flood tide and fatalities have occurred: calculate the tide and never remain on the causeway outside the controlled window.",
-        "ja": "澎湖県湖西郷（澎湖国家風景区管理処管轄の遊憩区）。公式告知：奎壁山〜赤嶼間の約500mの玄武岩礫石歩道は毎日通行管制あり（08:00〜17:30、旺季特定日は06:00〜18:30に延長）。安全通行は概ね満潮後3時間〜干潮後2時間で、実際は現場の旗と係員の指示に従うこと。満潮時は赤嶼の両側で激流が発生し犠牲事故もあるため、潮汐を確認し管制時間外に歩道に残らないこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d37-access-kuibishan"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -147,11 +143,9 @@
     {
       "claim_id": "tw-059-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d37-access-kuibishan"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

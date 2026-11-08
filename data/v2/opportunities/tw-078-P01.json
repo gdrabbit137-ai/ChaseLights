@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-078-P01",
   "place_id": "tw-078",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "建功嶼退潮石板道景觀",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d38-access-jiangong-yu"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "位於金門縣金城鎮浯江溪口，為潮汐限定景點：連接陸島的約500公尺石板道僅在乾潮時段露出，金門縣觀光處每日公布「建議上島時段」（如乾潮前後約1小時），登島前務必查閱金門觀光旅遊網建功嶼潮汐頁與現場即時影像。漲潮會迅速淹沒石板道，縣府曾救援受困遊客——請遵守現場公告與管制，勿目測判斷安全。島上有鄭成功雕像，面向西方，傍晚退潮時段可拍夕陽與潮間帶；夜間無照明，需自備燈具並結伴前往。",
-        "en": "At the Wujiang Creek mouth, Jincheng Township, Kinmen — a tide-dependent site: the ~500 m stone causeway to Jiangong Islet is exposed only around low tide. Kinmen County's tourism office publishes daily 'recommended crossing windows' (about ±1 h around low water); before going, check the Jiangong Yu tide page on the Kinmen travel site and the live camera. The rising tide floods the causeway quickly and rescues have occurred — obey on-site notices and barriers; do not judge safety by eye. The statue of Koxinga faces west; evening low tide gives sunset over the flats. There is no lighting at night — bring your own lights and go with company.",
-        "ja": "金門県金城鎮の浯江溪河口。潮汐限定スポット：島と本土を結ぶ約500mの石板道は干潮時のみ現れる。金門県観光処が毎日「上島推奨時刻」（乾潮前後約1時間）を公表しており、訪問前に金門観光サイトの建功嶼潮汐ページとライブカメラで必ず確認。満潮時は石板道が急速に沈み、これまで救助事例がある—現地の掲示と規制に従い、目測で安全を判断しない。島内の鄭成功像は西向きで、夕方の干潮時に夕日と潮間帯を撮れる。夜間は照明がないため、灯具持参で複数人で行くこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d38-access-jiangong-yu"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -147,11 +143,9 @@
     {
       "claim_id": "tw-078-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d38-access-jiangong-yu"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | https://kinmen.travel/zh-tw/live-camera/1); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {
