@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-060-P02",
   "place_id": "us-060",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Glacier Bay Day Tour・潮水冰河正面／山海景觀",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-glacier-bay-bartlett-cove"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Glacier Bay National Park 的 Bartlett Cove 為唯一公路可達區：Public Dock 沿碼頭可拍 Gustavus／Glacier Bay 山海全景，無入場費但遊艇碼頭禮儀與貨物搬運注意。Glacier Bay Day Tour（Glacier Bay Lodge 運營）夏季每日早晨自 Bartlett Cove 出發整天巡灣，途經潮水冰河，受天候與浮冰影響路線；建議前一晚宿 Gustavus／Glacier Bay Lodge。實際班期與價格以 NPS 與特許商公告為準。",
-        "en": "In Glacier Bay NP, Bartlett Cove is the only road-accessible area: the Public Dock frames Glacier Bay's mountains-and-water panorama (no entry fee, but observe marina etiquette). The Glacier Bay Day Tour, run by Glacier Bay Lodge, departs Bartlett Cove each summer morning for a full day among the tidewater glaciers — the route shifts with weather and floating ice. Plan to overnight in Gustavus or at Glacier Bay Lodge the night before. Schedules and prices follow NPS and the concessioner's postings.",
-        "ja": "グレイシャーベイ国立公園で道路で行けるのはBartlett Coveのみ：Public Dockからは公園の山海のパノラマが撮れる（入場無料だがマリナのマナーを守る）。Glacier Bay Lodge運営のGlacier Bay Day Tourは夏季毎朝Bartlett Coveを出発し、潮氷河を巡る一日ツアーで、路線は天候と流氷で変わる。前夜はGustavusかGlacier Bay Lodge泊を推奨。運航と価格はNPSとコンセッション事業者の告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-glacier-bay-bartlett-cove"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -257,11 +253,9 @@
     {
       "claim_id": "us-060-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-glacier-bay-bartlett-cove"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/glba/planyourvisit/tour.htm | https://www.nps.gov/glba/planyourvisit/typical-route-of-the-glacier-bay-day-tour.htm); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-044-P01",
   "place_id": "tw-044",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "南湖主峰高山全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-nanhu-main-peak"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於太魯閣國家公園生態保護區（南湖大山山區）。依太管處規定：南湖大山線須於一站式服務網申請生態保護區入園許可（入園前7天至30天內、每隊最多12人），取得許可後另向警政署申請入山證；路線開放現況以一站式服務網為準。山區屬高山縱走與長距離宿營路線，夜間攝影僅於核准行程內進行，高海拔天候變化劇烈。",
+        "en": "In Taroko National Park's ecological protection area (Nanhu massif). Per park HQ: the Nanhu route requires an online ecological-area permit via the one-stop system (7–30 days ahead, max 12/party), then a National Police Agency mountain-entry permit; route status per the one-stop page. A high-altitude traverse with long lodging legs — night photography only inside the approved itinerary; weather changes rapidly.",
+        "ja": "太魯閣国家公園生態保護区（南湖大山）。管理処規定：南湖大山線は一括サービス網で入園許可を7〜30日前に申請（1隊12人まで）、許可後に警政署の入山証を取得。開放状況は一括サービス網による。高山縦走・長距離宿営路線のため、夜間撮影は承認行程内に限り、高山帯の急変する天候に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-nanhu-main-peak"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "tw-044-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-nanhu-main-peak"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

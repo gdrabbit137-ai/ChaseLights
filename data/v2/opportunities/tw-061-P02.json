@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-061-P02",
   "place_id": "tw-061",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "西瀛虹橋藍調夜景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-penghu-guanyinting"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於澎湖縣馬公市區海濱（澎湖國家風景區管理處旅遊資訊收錄）。觀音亭親水遊憩區為開放式海濱公園、免費入場，西側海岸面向台灣海峽，為官方推薦的黃昏談心賞景地點；堤岸與沙灘夜間僅基本照明，攝影請自備補光並注意漲潮與東北季風時段。",
+        "en": "On the Magong city waterfront, Penghu (listed in Penghu National Scenic Area HQ travel info). The Guanyinting waterfront park is an open seaside area, free to enter; its west-facing shore looks over the Taiwan Strait and is the official recommended spot for dusk strolls and scenery. Lighting at night is basic — bring fill lights and mind high tide and the northeast monsoon.",
+        "ja": "澎湖県馬公市街地の海浜（澎湖国家風景区管理処の観光情報掲載）。観音亭親水遊憩区は開放型の海浜公園で入場無料。西側の海岸は台湾海峡に面し、公式に夕暮れの散策・観景スポットとして推薦されている。夜間は基本照明のみ——ライトを携行し、満潮と東北季風に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-penghu-guanyinting"
+      ],
       "components": []
     }
   ],
@@ -221,9 +225,11 @@
     {
       "claim_id": "tw-061-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-penghu-guanyinting"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

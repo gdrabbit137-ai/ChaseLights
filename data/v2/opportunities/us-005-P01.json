@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-005-P01",
   "place_id": "us-005",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Delicate Arch・夕照紅岩拱門",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-arches-np"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "拱門國家公園（猶他州 Moab）全年24小時開放，2026年不需預約入園。3–10月入口車龍可超過一小時，官方建議08:00前或15:00後入園；Delicate Arch、Devils Garden、The Windows 等停車場夏季早晨即滿，滿場時公園可能暫停入園3–5小時。園內無加油站，請備足水（每人每日約4公升）並遠離拱門與結殼土壤。夜拍前先查入口網路攝影機與路況。",
+        "en": "Arches National Park (Moab, Utah) is normally open 24 hours a day year-round; no timed-entry reservation is required in 2026. Between March and October entrance lines can exceed 60 minutes — NPS recommends entering before 8 a.m. or after 3 p.m. Popular trailhead lots (Delicate Arch, Devils Garden, The Windows) fill by 7:30–8 a.m. in summer and the park may temporarily restrict entry for 3–5 hours when full. There is no gas inside the park; carry water (plan ~1 gallon/person/day) — the park is desert. Stay off arches and features, keep to trails over cryptobiotic soil, and check the entrance webcam/UDOT traffic before driving out for a night shoot.",
+        "ja": "アーチーズ国立公園（ユタ州Moab）は年中無休・24時間開放、2026年の時間指定入園予約は不要。3〜10月は入口の行列が1時間超えることもあり、NPSは8時前または15時以降の入園を推奨。Delicate Arch・Devils Garden・The Windowsなどの駐車場は夏の朝早くに満車となり、満車時は3〜5時間入園制限の可能性あり。園内にガソリンスタンドはなく、水は1人1日約4Lを目安に持参。夜撮影前に入口ライブカメラとUDOT交通情報を確認すること。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-arches-np"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "us-005-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-arches-np"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/arch/planyourvisit/hours.htm | https://www.nps.gov/arch/planyourvisit/traffic.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

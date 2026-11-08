@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-023-P01",
   "place_id": "us-023",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Cactus Forest Loop・巨人柱森林夕照",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-saguaro-np"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "巨人柱國家公園（亞利桑那州圖森）除緊急狀況外終日開放，步行／單車可24小時進入。車輛門票25美元（7日、兩區通用）。西區（Tucson Mountain District，巨人柱林觀景點所在）的Bajada環線（Golden Gate與Hohokam路）僅日間（日出至日落）開放車輛，拍日落須預留離場時間；東區Cactus Forest環線05:00–20:30。遊客中心10–5月09:00–17:00、6–9月08:00–16:00。入口不收現金。沙漠夜間轉冷，溫暖月份注意響尾蛇並備水。",
+        "en": "Saguaro National Park (Tucson, Arizona) is always open except in emergencies — walk/bike entry is possible 24 hours. Vehicle fee $25 (7 days, both districts). In the Tucson Mountain District (West, where the saguaro forest viewpoints sit), the Bajada Loop Drive (Golden Gate & Hohokam Roads) is open to vehicles only during daylight hours (dawn to dusk) — plan sunset exits; the Cactus Forest Loop in the East district is open 5 a.m.–8:30 p.m. Visitor centers: 9–5 Oct–May, 8–4 Jun–Sep. No cash at entrance. Desert nights are cold even after hot days; watch for rattlesnakes in warm months and carry water.",
+        "ja": "サグアロ国立公園（アリゾナ州ツーソン）は緊急時を除き終日開放、徒歩・自転車は24時間入場可。車両料金25ドル（7日間、両地区共通）。西地区（Tucson Mountain District、サグアロ林の展望地）のBajadaループ（Golden Gate・Hohokam道路）は車両は日中のみ（日の出〜日没）通行可—日没撮影は退出時間を確保；東地区Cactus Forestループは5〜20時半。ビジターセンターは10〜5月9〜17時、6〜9月8〜16時。入口は現金不可。砂漠の夜は冷え、温暖期はガラガラヘビに注意し水を持参。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-saguaro-np"
+      ],
       "components": []
     }
   ],
@@ -226,9 +230,11 @@
     {
       "claim_id": "us-023-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-saguaro-np"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/sagu/planyourvisit/fees.htm | https://www.nps.gov/sagu/structured_data_sagu.json); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

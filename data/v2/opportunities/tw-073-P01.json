@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-073-P01",
   "place_id": "tw-073",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "老梅春季綠石槽晨光",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-laomei-green-algae"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於新北市石門區老梅海岸（台2線約26.3K），全年可達，但綠石槽為季節限定：每年約2月至5月石蓴附著在海蝕溝槽上，清明後至端午前最盛。必須先查中央氣象署石門潮汐預報，於乾潮前後1–2小時前往才能看到露出的石槽。北觀處明文呼籲勿踩踏石槽（濕滑易摔且破壞石蓴生長），建議穿止滑鞋、於沙灘側欣賞。大眾運輸：淡水或基隆客運862/863、台灣好行皇冠北海岸線於「老梅」站下車步行5–10分鐘；老梅停車位有限，假日建議提早。",
+        "en": "Laomei Beach, Shimen District, New Taipei (Hwy 2 ~26.3K). Reachable all year, but the green algae reef is seasonal: roughly February–May, when sea lettuce coats the eroded grooves, peaking between Qingming and Dragon Boat Festival. Check the Central Weather Administration tide forecast for Shimen first — go within 1–2 hours of low tide to see the exposed grooves. The North Coast Administration explicitly asks visitors NOT to walk on the stone grooves (slippery, and it damages the algae); wear grip shoes and view from the sand side. Transit: Tamshui/Keelung buses 862/863 or Taiwan Tourist Shuttle Crown Northern Coastline to 'Laomei', then a 5–10 min walk; parking is limited, arrive early on weekends.",
+        "ja": "新北市石門区の老梅海岸（台2線約26.3K）。通年アクセス可能だが、緑石槽は季節限定：概ね2〜5月に石蓴が海食溝に付着し、清明節後〜端午節前が見頃。中央気象署の石門潮汐予報を必ず確認し、干潮前後1〜2時間に訪れること。北観処は石槽の踏み切りを明確に禁止（滑りやすい上、石蓴の生育を壊す）—滑り止め靴で砂浜側から鑑賞する。交通：淡水/基隆客運862・863か台湾好行皇冠北海岸線で「老梅」下車、徒歩5〜10分。駐車は限られるため週末は早めに。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-laomei-green-algae"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "tw-073-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-laomei-green-algae"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.northguan-nsa.gov.tw/user/article.aspx?Lang=1&sno=04008584 | https://www.northguan-nsa.gov.tw/user/Article.aspx?Lang=1&SNo=04002497); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-014-P03",
   "place_id": "us-014",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Mesquite Flat Sand Dunes・暗夜星空／銀河與沙丘前景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-death-valley-np"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "死亡谷國家公園（加州／內華達州）全年24小時開放。夏季極端高溫（Furnace Creek曾達56.7°C），官方不建議夏季在低海拔健行；留在鋪裝道路與車輛附近，每人每日至少飲水4公升。園區為國際暗空公園（金級），Furnace Creek與Stovepipe Wells光害極低，夜間拍攝條件絕佳，但請備水、紙本地圖（行動網路不可靠），偏遠登山口勿單獨依賴車輛。Furnace Creek遊客中心每日開放（冬季08:00–17:00）；天氣不佳時部分區域封閉。",
+        "en": "Death Valley National Park (California/Nevada) is open year-round, 24 hours a day. Summer heat is extreme (record 134°F at Furnace Creek): NPS does not recommend hiking at low elevations then; stay on paved roads, close to your vehicle, and drink at least a gallon of water per day. The park is an International Dark Sky Park (Gold Tier) with minimal light pollution at Furnace Creek and Stovepipe Wells — night shoots are excellent but carry water, a paper map (cell service is unreliable) and never rely on the car alone at remote trailheads. Furnace Creek Visitor Center is open daily (winter 8 a.m.–5 p.m.); some areas close in unsafe weather.",
+        "ja": "デスバレー国立公園（カリフォルニア/ネバダ州）は通年24時間開放。夏は極端な暑さ（Furnace Creekで56.7°Cの記録）：低地のハイキングは推奨されず、舗装道路と車の近くに留まり、1日少なくとも4Lの水を持参。国際ダークスカイパーク（ゴールド級）で、Furnace CreekとStovepipe Wellsは光害が極めて少なく夜撮影に最適だが、水・紙地図（携帯回線は不安定）を携行し、遠隔トレイルヘッドでは車のみに頼らない。Furnace Creekビジターセンターは毎日営業（冬季8〜17時）；気象条件により一部閉鎖あり。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-death-valley-np"
+      ],
       "components": []
     }
   ],
@@ -337,9 +341,11 @@
     {
       "claim_id": "us-014-P03-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-death-valley-np"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/deva/planyourvisit/hours.htm | https://home.nps.gov/deva/planyourvisit/summer.htm); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

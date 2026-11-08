@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-083-P01",
   "place_id": "us-083",
-  "revision": 5,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Sunrise・日出光照 Mount Rainier＋Emmons Glacier",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-mount-rainier-sunrise"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Sunrise（Mount Rainier 東北側，海拔 6,400 呎）為園內最高可達觀景區：官方手冊明示 Sunrise Visitor Center 與 Day Lodge 每年僅 7 月至 9 月下旬開放，Sunrise Point 附近有近 360° 山景；入園收費。高海拔夜間寒冷，秋季可能初雪，日出前車程較長請提早出發；道路與服務開放以 NPS 公告為準。",
-        "en": "Sunrise (northeast Mount Rainier, 6,400 ft) is the highest drive-in viewpoint in the park: the official brochure states the Sunrise Visitor Center and Day Lodge open only July through late September, with near-360° mountain views around Sunrise Point; entry is charged. Nights are cold at altitude and early snow can fall in autumn — leave early for dawn shoots. Road and service openings follow NPS postings.",
-        "ja": "サンライズ（マウント・レーニア北東部、標高6,400フィート）は園内で最も高い車で行ける展望地：公式パンフレットではSunriseビジターセンターとデイ・ロッジは毎年7月〜9月下旬のみ開放で、Sunrise Point周辺はほぼ360°の山の見晴らし。入園は有料。高所の夜は冷え、秋には初雪もあるため日の出撮影は早めに出発すること。道路とサービスの開放はNPSの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-mount-rainier-sunrise"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -289,11 +285,9 @@
     {
       "claim_id": "us-083-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-mount-rainier-sunrise"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/mora/planyourvisit/park-brochure.htm | https://www.nps.gov/mora/planyourvisit/paradise.htm); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

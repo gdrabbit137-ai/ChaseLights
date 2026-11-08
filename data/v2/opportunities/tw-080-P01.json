@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-080-P01",
   "place_id": "tw-080",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "帆船鼻草原海岬日出",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — catalog point 22.63366,121.5069 is on Green Island (Lüdao) and matches the official 帆船鼻大草原 site (溫泉路167號, 朝日溫泉旁) — correct feature, not the similarly-named Kenting coast wording",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-fansfan-prairie"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於臺東縣綠島鄉溫泉路167號朝日溫泉旁，從售票口邊小徑沿步道而上即達帆船鼻大草原（「綠島地毯」），全天開放、免費。綠島需搭船或飛機抵達，島上以機車代步為主；步道夜間無照明，日出／星空拍攝需自備燈具。草原臨海側為海崖，強風時勿接近邊緣；鄰近朝日溫泉營業時段可供夜拍後休整（依現場公告）。留意鹿群夜間活動於路面，騎車夜間移動請減速。",
+        "en": "Next to Zhaori Hot Springs at 167, Wenquan Rd, Lüdao (Green Island) Township, Taitung — a short path from the ticket kiosk leads up to the Fansfan (Sail Nose) prairie, the 'Green Island carpet'. Open 24 h, free. Green Island requires ferry or air access; scooters are the main transport on island. The trail has no lighting — bring your own for sunrise/astro shoots. The seaward side is a sea cliff; keep away from the edge in strong wind. The adjacent Zhaori Hot Springs' operating hours (per on-site notice) are handy for warming up after a night shoot. Watch for deer on roads at night — slow down when riding after dark.",
+        "ja": "台東県緑島郷温泉路167号の朝日温泉脇。売り場横の小道から歩道を上ると帆船鼻大草原（「緑島のカーペット」）。終日開放・無料。緑島へは船か飛行機で渡り、島内はスクーターが主な移動手段。歩道に照明はなく、日の出・星空撮影は灯具持参。海側は海食崖で、強風時は縁に近づかない。隣接する朝日温泉の営業時間（現地掲示）は夜撮影後の休整に便利。夜間は鹿が道路上に出るため、乗車時は減速を。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-fansfan-prairie"
+      ],
       "components": []
     }
   ],
@@ -248,9 +252,11 @@
     {
       "claim_id": "tw-080-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-fansfan-prairie"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.eastcoast-nsa.gov.tw/greenisland/zh-tw/attractions/detail/73 | https://www.eastcoast-nsa.gov.tw/zh-tw/attractions/detail/73/); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

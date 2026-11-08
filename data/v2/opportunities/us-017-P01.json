@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-017-P01",
   "place_id": "us-017",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Johnston Ridge・聖海倫斯火山口與爆發地景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-mount-st-helens"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "聖海倫斯火山西線目前受限：2023年5月山崩後SR504於里程45.2英里設閘門，經典火山口觀景點Johnston Ridge Observatory無法到達，林務局估視修復進度2027年才可能重開。SR504仍可達：Coldwater科學學習中心（2026年11月16日前週末10:00–16:00，之後歇至2027年春）、Coldwater Lake與Hummocks步道（每車每日5美元）。火山口全景可改由東線（林道25/99，Windy Ridge）。封閉解除前勿規劃Johnston Ridge拍攝；出發前查fs.usda.gov警示。",
+        "en": "Mount St. Helens west-side access is currently LIMITED: following the May 2023 landslide, State Route 504 is gated at milepost 45.2 and the Johnston Ridge Observatory (the classic crater viewpoint) is unreachable — the Forest Service estimates reopening in 2027 depending on WSDOT repairs. Open alternatives on SR 504: the Mount St. Helens Science & Learning Center at Coldwater (weekends 10 a.m.–4 p.m. through 16 Nov 2026, then closed to spring 2027), Coldwater Lake and the Hummocks Trail ($5/vehicle/day). Interior views remain via the east side (Forest Roads 25/99, Windy Ridge). Do not plan any shoot around Johnston Ridge until the closure is lifted; check fs.usda.gov alerts before travel.",
+        "ja": "セント・ヘレンズ山の西側アクセスは現在制限中：2023年5月の土石流後、SR504はマイルポスト45.2でゲート閉鎖され、象徴的な火口展望地Johnston Ridge Observatoryへは到達不可—林務局はWSDOTの復旧次第で2027年再開を想定。SR504側で利用可能：Coldwater科学学習センター（2026年11月16日まで週末10〜16時、以後2027年春まで閉鎖）、Coldwater湖、Hummocksトレイル（1台1日5ドル）。火口の全景は東側（林道25/99、Windy Ridge）から。閉鎖解除までJohnston Ridgeでの撮影は計画せず、出発前にfs.usda.govの警報を確認。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-mount-st-helens"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "us-017-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-mount-st-helens"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.fs.usda.gov/r06/giffordpinchot/recreation/johnston-ridge-observatory | https://www.fs.usda.gov/r06/giffordpinchot/recreation/mount-st-helens-west-state-highway-504); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

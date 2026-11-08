@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-061-P02",
   "place_id": "us-061",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Fort Abercrombie・WWII碉堡／海岸歷史景觀",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-fort-abercrombie-kodiak"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Fort Abercrombie State Historical Park 位於 Kodiak 島 1400 Abercrombie Drive（機場方向 West Rezanof Drive 轉入），Alaska DNR 管理：包括 WWII 海岸防禦遺跡（National Historic Landmark）、海蝕峭壁、雲杉林與 Lake Gertrude；有步道、8 個營位與 5 個 RV 位（限長 20 呎內，先到先得）。峭壁無護欄段請保持距離，風雨天拍照不佳，冬季可能結冰濕滑；營運時間與費用以 Alaska State Parks 公告為準。",
-        "en": "Fort Abercrombie State Historical Park is at 1400 Abercrombie Drive, Kodiak (from the airport take West Rezanof Drive). Managed by Alaska DNR, it combines WWII coastal-defense ruins (a National Historic Landmark), surf-hewn cliffs, spruce forest and Lake Gertrude; there are trails, 8 tent sites and 5 RV sites (max 20 ft, first-come first-served). Keep clear of unrailed cliff edges — storm photography is poor and winter surfaces ice over. Hours and fees follow Alaska State Parks postings.",
-        "ja": "フォート・アバクロンビー州立歴史公園はコディアック島1400 Abercrombie Driveにあり（空港からはWest Rezanof Drive経由）。Alaska DNR管理で、第二次大戦の沿岸防衛遺跡（国定歴史ランドマーク）、荒波の海食崖、スプリュース林とLake Gertrudeを一域に含む。遊歩道、テント8サイト、RV5サイト（20フィート以下、先着順）。手すりのない崖端には近づかず、嵐の撮影は不向きで冬季は凍結滑落に注意。営業と料金はAlaska State Parksの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-fort-abercrombie-kodiak"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -274,11 +270,9 @@
     {
       "claim_id": "us-061-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-fort-abercrombie-kodiak"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://dnr.alaska.gov/parks/aspunits/kodiak/fortabercrombieshp.htm | https://dnr.alaska.gov/parks/aspunits/kodiak/kodiakindex.htm); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

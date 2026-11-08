@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-050-P02",
   "place_id": "us-050",
-  "revision": 4,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Goldbelt Tram・Juneau／Stephens Passage／Chilkat Mountains高處全景",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-juneau-waterfront-tram"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "朱諾市中心濱海 Marine Park 目前因重建工程暫時封閉（CBJ 公告施工自 2026 年 3 月起、預計 2027 年 4 月完工），步道繞行指示請依現場；Gastineau Channel 城市海景可改由 Seawalk 與感潮碼頭側取景。Goldbelt Tram（490 S. Franklin St）5–9 月運行、單日票可自由上下山，營運時刻每日變動且視山區天候調整；山頂可拍 Juneau／Stephens Passage／Chilkat Mountains 全景，清晨與藍調時段需先確認首末班纜車時間，資訊以官方公告為準。",
-        "en": "Downtown Juneau's waterfront Marine Park is TEMPORARILY CLOSED for rebuild construction (CBJ notices: construction from March 2026, completion expected April 2027) — follow pedestrian detour signs; Gastineau Channel city views can still be framed from the Seawalk and tideflats side. The Goldbelt Tram (490 S. Franklin St) runs May–September on an all-day pass, with hours that change daily and shut down for mountain weather; the top frames Juneau, Stephens Passage and the Chilkat Mountains. For blue-hour shoots confirm first/last tram times; info follows official postings.",
-        "ja": "ジュノー市中心の海浜Marine Parkは現在再建工事のため一時閉鎖中（市公告：2026年3月着工、2027年4月完成予定）。歩行者迂回路の標示に従うこと。Gastineau Channelの眺めはSeawalk側から撮れる。Goldbelt Tram（490 S. Franklin St）は5〜9月運行で1日パス、営業時刻は日替わりで山の天候により変更。山頂からジュノー、Stephens Passage、Chilkat山脈を望める。撮影前に最初/最終のケーブルカー時刻を確認し、情報は公式告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-juneau-waterfront-tram"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -259,11 +255,9 @@
     {
       "claim_id": "us-050-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-juneau-waterfront-tram"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://juneau.org/parks-recreation/marine-park | https://www.goldbelttram.com/about/); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

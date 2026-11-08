@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-079-P01",
   "place_id": "us-079",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Snoqualmie Falls・瀑布全景＋水霧",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-snoqualmie-falls"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Snoqualmie Falls 為 268 呎瀑布，園區由 Puget Sound Energy 擁有與營運：每日 24 小時免費參觀（官網 FAQ：sunup–sundown 開放），上層停車場免費（跨天空步道進入）、下層停車 $7，Salish Lodge 客人另有專屬停車。多層觀景台無障礙；秋冬高水量時霧氣大，步道與欄杆濕滑，請勿越過欄杆；營運與規則以 PSE 與 City of Snoqualmie 公告為準。",
-        "en": "Snoqualmie Falls is a 268-ft waterfall owned and operated by Puget Sound Energy: free daily admission (FAQ: open sunup–sundown), free upper parking lot (sky-bridge access), $7 lower lot, with separate valet for Salish Lodge guests. Multiple ADA viewing decks; in high-water seasons spray is heavy and railings and paths are slick — stay behind the rails. Operations and rules follow PSE and City of Snoqualmie postings.",
-        "ja": "スノコルミー滝は高さ268フィート、Puget Sound Energyが所有・運営：毎日無料公開（FAQ：日の出〜日の入り）、上段駐車場は無料（スカイブリッジ経由）、下段は$7、Salish Lodge宿泊者には専用バレあり。複数の展望台はバリアフリー。増水期は水煙が激しく手すりや通路が滑りやすいため柵の内側にとどまること。運営と規則はPSEとスノコルミー市の告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-snoqualmie-falls"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -245,11 +241,9 @@
     {
       "claim_id": "us-079-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-snoqualmie-falls"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.snoqualmiewa.gov/378/Snoqualmie-Falls | https://www.snoqualmiefalls.com/faq/); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-086-P01",
   "place_id": "tw-086",
-  "revision": 4,
+  "revision": 5,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "八里崁頭里・淡江大橋觀景點：霧中淡江大橋（霧景）",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "owner_provided_google_maps_2026-11-02; https://maps.app.goo.gl/FVGstdckGqjZrvgp7 resolved to @25.140639,121.420333; CL-DATA-16 name correction 2026-11-06: official bridge name is 淡江大橋/Danjiang Bridge (owner-provided colloquial 淡水大橋 corrected per official naming); source: https://www.cna.com.tw/news/ahel/202605120103.aspx (2026-05-12 通車, 官方名稱淡江大橋)",
+        "derivation_method": "owner_provided_google_maps_2026-11-02; https://maps.app.goo.gl/FVGstdckGqjZrvgp7 resolved to @25.140639,121.420333; CL-DATA-16 name correction 2026-11-06: official bridge name is 淡江大橋/Danjiang Bridge (owner-provided colloquial 淡水大橋 corrected per official naming); source: https://www.cna.com.tw/news/ahel/202605120103.aspx (2026-05-12 通車, 官方名稱淡江大橋) CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-bali-kantou-view"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "位於八里山側眺望點；實際抵達路線與停車資訊尚未核實，請依現場公告與規定。",
-        "en": "Bali hillside viewpoint; practical arrival route and parking not yet verified - follow on-site notices and rules.",
-        "ja": "八里の山側展望地。実際の到着経路と駐車情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於新北市八里區崁頭里一帶、淡水河出海口的觀景點，可遠眺2026年5月12日通車的淡江大橋與淡水夕照。依新北市政府交通局觀景指南：搭682、704、878、963、紅13或紅22至「渡船頭」站，可於八里左岸公園近距離觀橋；搭紅13至十三行文化公園，步行至滑草區高點可遠眺全景。河畔夜間有照明與左岸自行車道，但橋上人行道開放時段依新北市政府公告為準；夜拍請注意河堤風勢與單車動線，設施與管制以現場公告為準。",
+        "en": "A viewpoint in Kantou Village, Bali District, New Taipei, at the Tamsui River mouth — overlooking the Tamsui–Bali (Danjiang) Bridge, opened 12 May 2026, and the Tamsui sunset. Per the NTPC Transportation Bureau viewing guide: buses 682, 704, 878, 963, Red 13 or Red 22 to 'Duchuantou' for a close view from Bali Left Bank Park; or Red 13 to Shihsanhang Museum of Archaeology park, then walk up to the grass-slope high point for the full panorama. The riverside is lit at night with the Left Bank bikeway; the bridge footpath's opening hours follow NTPC notices. Mind the wind on the embankment and cyclist traffic when shooting at night — facilities and controls per on-site notices.",
+        "ja": "新北市八里区崁頭里一帯、淡水河河口の展望地点。2026年5月12日開通の淡江大橋と淡水夕焼けを遠望できる。新北市政府交通局の観景ガイドによると、バス682・704・878・963・紅13・紅22で「渡船頭」下車、八里左岸公園から近距離で橋を観覧；紅13で十三行文化公園へ、滑草区の高台まで歩くと全景を遠望可。河畔は夜間も照明と左岸自転車道があるが、橋上歩道の開放時間は新北市政府の公告による。夜撮影時は堤防の風と自転車の動線に注意。設備・規制は現地掲示による。"
       },
       "safety_notes_i18n": {
         "zh-TW": "夜間與霧中山側道路濕滑視線差；請注意交通與落腳處，勿站上車道取景。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-bali-kantou-view"
+      ],
       "components": []
     }
   ],
@@ -271,30 +275,38 @@
     {
       "claim_id": "tw-086-P01-existence",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-bali-kantou-view"
+      ],
       "audit_status": "PARTIAL",
-      "scope_note": "Owner-declared place and subject definition (Richard, 2026-11-02) with an owner-provided Google Maps link (https://maps.app.goo.gl/FVGstdckGqjZrvgp7, resolved to @25.140639,121.420333); no independently published source audit yet. Deliberately distinct from the legacy Danjiang Bridge on-the-bridge subject: this is the Bali hillside viewpoint looking at the bridge, not a bridge-crossing subject."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.traffic.ntpc.gov.tw/home.jsp?id=54fa46e9e522dde4&act=be4f48068b2b0031&dataserno=afd6aa98963b6e3b8ba53417d46cf161&mserno=39e5192ff77 | https://newtaipei.travel/zh-tw/attractions/detail/403794); unverifiable on-site details left to on-site notices (honest unknown)"
     },
     {
       "claim_id": "tw-086-P01-camera",
       "claim_type": "camera_location",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-bali-kantou-view"
+      ],
       "audit_status": "PARTIAL",
-      "scope_note": "Owner-provided viewpoint coordinate (2026-11-02, owner Google Maps); exact tripod position, azimuth number and legal-access boundary unverified."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.traffic.ntpc.gov.tw/home.jsp?id=54fa46e9e522dde4&act=be4f48068b2b0031&dataserno=afd6aa98963b6e3b8ba53417d46cf161&mserno=39e5192ff77 | https://newtaipei.travel/zh-tw/attractions/detail/403794); unverifiable on-site details left to on-site notices (honest unknown)"
     },
     {
       "claim_id": "tw-086-P01-navigation",
       "claim_type": "navigation_access",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-bali-kantou-view"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "No independently verified practical arrival point; Directions stay disabled."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.traffic.ntpc.gov.tw/home.jsp?id=54fa46e9e522dde4&act=be4f48068b2b0031&dataserno=afd6aa98963b6e3b8ba53417d46cf161&mserno=39e5192ff77 | https://newtaipei.travel/zh-tw/attractions/detail/403794); unverifiable on-site details left to on-site notices (honest unknown)"
     },
     {
       "claim_id": "tw-086-P01-claim-01",
       "claim_type": "other",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-bali-kantou-view"
+      ],
       "audit_status": "PARTIAL",
-      "scope_note": "Owner-stated condition set (2026-11-02) following already-reviewed genre-template values; thresholds provisional/uncalibrated, no live provider binding beyond template intent."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.traffic.ntpc.gov.tw/home.jsp?id=54fa46e9e522dde4&act=be4f48068b2b0031&dataserno=afd6aa98963b6e3b8ba53417d46cf161&mserno=39e5192ff77 | https://newtaipei.travel/zh-tw/attractions/detail/403794); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-037-P02",
   "place_id": "us-037",
-  "revision": 2,
+  "revision": 1,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Niagara Falls・夜間瀑布illumination",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-niagara-falls-illumination"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "位於紐約州尼加拉瀑布州立公園（Niagara Falls State Park），全年開放，園區免費進入（停車另收費）。瀑布每晚從 dusk 起點亮 LED 照明，11–12 月時段為 16:30–02:00，時間為概估值、依天候調整；特別點燈與煙火另排。拍夜景照明時留在 Goat Island／觀景台等指定區域，冬季步道結冰與瀑布霧氣易造成濕滑，以現場告示與當日照明時刻表為準。",
-        "en": "In Niagara Falls State Park, NY — open year-round with free park entry (parking is charged). The Falls are LED-illuminated nightly from dusk; November–December runs 4:30 p.m.–2 a.m., times approximate and weather-dependent, with special illuminations and fireworks scheduled separately. For night shoots stay in designated areas (Goat Island, viewing decks); winter ice and Falls spray make surfaces slick — follow on-site notices and the daily illumination schedule.",
-        "ja": "ニューヨーク州ナイアガラフォールズ州立公園内。年中無休・入園無料（駐車は有料）。滝は毎晩夕暮れからLED照明が点灯し、11〜12月は16:30〜02:00の予定（概ね・天候により変動）。特別点灯や花火は別日程。夜景撮影はGoat Islandや展望デッキなどの指定エリアに留まり、冬季は凍結と水煙で滑りやすいため、現地の掲示と当日の照明スケジュールに従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-niagara-falls-illumination"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -275,11 +271,9 @@
     {
       "claim_id": "us-037-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-niagara-falls-illumination"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://parks.ny.gov/visit/state-parks/niagara-falls-state-park | https://www.niagarafallsstatepark.com/tours-events/illuminations/); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

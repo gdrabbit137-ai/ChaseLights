@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-030-P01",
   "place_id": "us-030",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Adler Planetarium湖岸・Chicago Skyline全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-chicago-adler"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "芝加哥天際線的經典取景點在博物館校園湖畔、Adler天文台（1300 S DuSable Lake Shore Drive）一帶，屬芝加哥公園區土地：Adler停車場、Soldier Field北車庫與Solidarity Drive路邊停車均可使用，費率由公園區／管理商訂定，賽事與演唱會日會調升或封閉。Adler建築營業時間多變（一般9–16時，週三晚間至22時）；湖畔步道與公園為公共開放。芝加哥冬夜強風寒冷；留意Solidarity Drive活動封路。",
+        "en": "The classic Chicago skyline photograph is shot from the Museum Campus lakefront around the Adler Planetarium (1300 S DuSable Lake Shore Drive), which is on Chicago Park District land: the Adler parking lot, Soldier Field North Garage and street parking on Solidarity Drive serve the area, with rates managed by the Park District/Standard Parking and subject to event surges (Bears games, Northerly Island concerts). The Adler building's own hours vary (typically 9–4, Wednesday nights to 10 p.m.); the lakefront path and parks are public. Chicago's winters are windy and cold for night shoots; watch for event closures of Solidarity Drive.",
+        "ja": "シカゴ・スカイラインの定番撮影地はミュージアム・キャンパスの湖畔、アドラー・プラネタリウム（1300 S DuSable Lake Shore Drive）周辺で、シカゴ公園区の土地：アドラー駐車場、ソルジャー・フィールド北ガレージ、Solidarity Driveの路上駐車が利用可能で、料金は公園区／管理会社が設定し、イベント（ベアーズ戦、ノーザリー島コンサート）で変動・閉鎖あり。アドラー建物の営業時間は変動（概ね9〜16時、水曜夜は22時まで）；湖畔の道と公園は公開。シカゴの冬の夜は強風で寒冷；Solidarity Driveのイベント閉鎖に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-chicago-adler"
+      ],
       "components": []
     }
   ],
@@ -221,9 +225,11 @@
     {
       "claim_id": "us-030-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-chicago-adler"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.adlerplanetarium.org/plan-your-visit/directions-parking/ | https://www.adlerplanetarium.org/plan-your-visit/); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

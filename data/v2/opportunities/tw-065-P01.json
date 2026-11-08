@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-065-P01",
   "place_id": "tw-065",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "津沙聚落海灣夕照",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-nangan"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於連江縣南竿鄉（馬祖國家風景區管理處轄管，管理範圍含南竿、北竿、莒光、東引四鄉及周岸0.5海浬）。官方資訊：南竿為馬祖政經中心，景點多為開放空間（雲台山、北海坑道、鐵堡等），坑道與營點開放時段依馬管處與現場公告；環島以機車或公車為主。夜間無光害區域多，攝影請自備照明並注意海岸堤防與軍事設施周邊規定。",
+        "en": "In Nangan Township, Lienchiang County (within the Matsu National Scenic Area, which covers Nangan, Beigan, Juguang and Dongyin plus 0.5 nmi of coastal waters). Official info: Nangan is the political-economic center of Matsu with mostly open-air sights (Yuntai Mountain, Beihai Tunnel, Tiebao, etc.); tunnel and site hours follow the scenic-area HQ and on-site notices; getting around is mainly by scooter or bus. Many light-free zones at night — bring lighting and mind coastal defenses and military-site rules.",
+        "ja": "連江県南竿郷（馬祖国家風景区管理処の管轄、南竿・北竿・莒光・東引の四郷と周辺0.5海里を含む）。公式情報：南竿は馬祖の政治・経済中心で、景観の多くは開放空間（雲台山、北海坑道、鉄堡など）。坑道や営区の開放時間は馬管処と現地公告に従う。島内はオートバイや路線バスが主体。夜間は光害のない区域が多く、照明自備と海岸堤防・軍事施設周辺の規定に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-nangan"
+      ],
       "components": []
     }
   ],
@@ -278,9 +282,11 @@
     {
       "claim_id": "tw-065-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-nangan"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

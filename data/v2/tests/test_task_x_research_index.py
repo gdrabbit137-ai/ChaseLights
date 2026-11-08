@@ -65,7 +65,16 @@ class ResearchIndexTests(unittest.TestCase):
             # re-pinned to the ruling data commit 76e926d16 (rollback pointer
             # for the original human-review contracts: 34cb70f39 and earlier).
             '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
-            '1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad',  # CL-DATA-35 batch1: 60 access-verified records re-pinned to the batch commit
+            # CL-INT-114 re-anchor (batches 2/3/4 chain integrated): batch1's
+            # 1abb6b0e records were re-pinned by CL-DATA-36 batch2 (21198c9c)
+            # and CL-DATA-37 batch3 (1bf8e398); the CL-UI-20 b97f7bb8,
+            # CL-DATA-15 c90f5671 and CL-INT-89 2cd38d86 holders were
+            # re-pinned by the batch chain (the 1718a575/95fcf956/008ab85f
+            # lineage SHAs remain pinned for their untouched records).
+            'a38356bd36eacbd7f81fa962e251aa21fb48a6fa',  # CL-INT-114 merged-tree regen
+            '21198c9cc91e00cdd3df8daea76aac46bf9fb45b',  # CL-DATA-36 batch2
+            '1bf8e398e20ebbc76be1157d98bd8dc188216746',  # CL-DATA-37 batch3
+            '23f1bb6c0a90964067d885c3783c99c87a902b86',  # southern-Japan jp records (CL-INT-112 merged-tree state)
             '3eb466432807185bc8b9271d006666b72d1fa406',
             # CL-INT-83: the 8 CL-DATA-18 AI-verified fill records
             # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
@@ -80,7 +89,6 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-UI-20 round-2: 63 high-exposure subject records re-pinned to
             # the task-branch commit carrying verified en/ja subject names
             # (tw-036-P01 / tw-082-P01 keep their review-gated round-1 pins).
-            'b97f7bb87a46db4a3e21922d7f6058b8b64a6385',
             # CL-UI-25: 22 city_night contracts re-pinned to the task-branch
             # commit adding the contract-level city_night_window condition
             # (mirrors the CL-UI-23 evaluation-layer gate semantics).
@@ -119,10 +127,6 @@ class ResearchIndexTests(unittest.TestCase):
             # restore). CL-DATA-32 later re-pinned tw-010-P01 (008ab85ff) when
             # the golden-window upgrade gave way to sunrise_time_window MAIN.
             '69b832accfc8c0438a50e51689c4e7c40765e9f4',
-            '1718a5752f2e0c63cd5220767510b49375627927',  # CL-INT-110: access evidence registry re-pinned to the merge HEAD (byte-identical successor of 90838a69af97)
-            '95fcf956d382754ed0c11ea407a682945d1eaf5d',  # CL-INT-110: DATA-34 legacy supplement contracts pinned to the chain commit
-            '008ab85ff19794c3aa2ffc1173afa30212aa426e',
-            '2cd38d860868d63b7a214434d74f2db6ad153506',
             'b801dd4eba545a76879828b25e869f3c45df33ac',
             # CL-DATA-15 (merged side): owner-verified elevation corrections
             # (Paiyun Lodge 3,402 m / Datun 1,092 m / Zhushan 2,451 m;
@@ -130,7 +134,6 @@ class ResearchIndexTests(unittest.TestCase):
             # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
             # remain re-pinned to the task-branch commit carrying those
             # corrections (union merge, CL-INT-81).
-            'c90f56712550ae46824e30684442bbc44855c9b5',
             # CL-DATA-20: 18 tailored contracts + 3 byte-changed records
             # (tw-059-P01/tw-078-P01 tidal genre, tw-016-P01 summit geometry)
             # pinned to the data commit.

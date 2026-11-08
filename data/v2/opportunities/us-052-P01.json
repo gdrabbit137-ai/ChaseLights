@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-052-P01",
   "place_id": "us-052",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Homer Spit・Kachemak Bay＋山脈／冰河全景",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-homer-spit"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Homer Spit 屬 City of Homer：Mariner Park（Spit 基部，111 英畝）有沙灘、34 個營位（4/1–10/31，每晚 $30，先到先得），Fishing Hole Campground 與 Tent Camp West 同期開放；Pay kiosk 或 text-to-pay 註冊。Spit 步行／騎車可達港灣與海濱店舖街；Kachemak Bay 潮差大，碼頭步道濕滑；日落到海灣西側為最佳方向。夜間無照明，營運與收費以市府公告為準。",
-        "en": "The Homer Spit is City of Homer property: Mariner Park (111 acres at the base of the Spit) has beach access and 34 campsites (April 1–October 31, $30/night, first-come first-served), with the Fishing Hole Campground and Tent Camp West open the same season; register at pay kiosks or by text-to-pay. The Spit's harbor and waterfront shops are walkable/bikeable; Kachemak Bay tides are large and dock surfaces are slick; sunsets fall over the western bay. There is no night lighting — operations and fees follow City of Homer postings.",
-        "ja": "Homer SpitはHomer市所有：Spit基部のMariner Park（111エーカー）にはビールと34のキャンプサイト（4/1〜10/31、1泊$30、先着順）があり、Fishing Hole CampgroundとTent Camp Westも同シーズン営業。精算はペイキオスクまたはtext-to-pay。Spit内の港と海浜店舖は徒歩/自転車で回れる。カチェマック湾の潮差は大きく波止場は滑りやすい。日没は湾の西側へ。夜間照明はなく、運営と料金は市の告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-homer-spit"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -257,11 +253,9 @@
     {
       "claim_id": "us-052-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-homer-spit"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.cityofhomer-ak.gov/port/city-campgrounds | https://www.cityofhomer-ak.gov/port/mariner-park); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

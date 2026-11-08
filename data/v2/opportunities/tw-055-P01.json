@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-055-P01",
   "place_id": "tw-055",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "五峰旗中層瀑布＋山谷",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-wufengqi"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於宜蘭縣礁溪鄉五峰路（宜蘭縣政府旅遊網收錄）。風景區全天開放、無門票；步道通往三層瀑布（頂層全長約100公尺），各層設觀景平台。瀑區濕滑、長期水氣重，夜間無照明，攝影請備防滑鞋與燈光；颱風大雨後瀑布水量與步道狀況依現場公告。",
+        "en": "On Wufeng Rd, Jiaoxi, Yilan (listed on the county tourism site). The scenic area is open 24 hours with no ticket; a trail reaches the three-tier falls (the top tier is about 100 m total drop) with viewing platforms at each tier. The falls area is wet and humid, unlit at night — wear grippy shoes and bring lights; after storms follow on-site notices for flow and trail conditions.",
+        "ja": "宜蘭県礁溪郷五峰路（県観光サイト掲載）。風景区は24時間開放・無料。遊歩道は三段の滝（最上段は全長約100m）に通じ、各段に展望所がある。滝周辺は湿潤で夜間照明なし——滑りにくい靴とライトを携行。台風・大雨後の水量と歩道状況は現地案内に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-wufengqi"
+      ],
       "components": []
     }
   ],
@@ -241,9 +245,11 @@
     {
       "claim_id": "tw-055-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-wufengqi"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

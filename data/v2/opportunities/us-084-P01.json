@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-084-P01",
   "place_id": "us-084",
-  "revision": 2,
+  "revision": 1,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Tipsoo Lake・高山湖＋野花／秋色＋Mount Rainier",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-tipsoo-lake-mora"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Tipsoo Lake 位於 Chinook Pass 東側入口（SR 410 路旁、海拔 5,432 呎），官方手冊列出野餐區與廁所，是 Rainier 東面倒影與野花／秋色名點；夏末至 9 月初山區花海最盛、10 月起可能降雪，SR 410 高海拔段冬季封閉。路旁停車位有限，日出光線最佳；通行與安全以 NPS 公告為準。",
-        "en": "Tipsoo Lake sits by the eastern entrance at Chinook Pass (on SR 410, 5,432 ft); the official brochure lists a picnic area and restroom, and it is the classic Rainier east-side reflection with wildflowers and fall color. Meadows peak late summer to early September; snow can fall from October and the high section of SR 410 closes in winter. Roadside parking is limited — dawn light is best. Access and safety follow NPS postings.",
-        "ja": "チプソー湖はチヌーク・パスの東入口沿い（SR 410、標高5,432フィート）にあり、公式パンフレットはピクニック場とトイレを掲載。レーニア東側の反射と野花・紅葉の名所。花盛りは夏末〜9月上旬、10月からは雪が降り始めSR 410の高標高区間は冬に閉鎖。路側駐車は限られ、日の出の光が最適。通行と安全はNPSの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-tipsoo-lake-mora"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -232,11 +228,9 @@
     {
       "claim_id": "us-084-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-tipsoo-lake-mora"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/mora/planyourvisit/park-brochure.htm); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

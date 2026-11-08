@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-086-P01",
   "place_id": "us-086",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Rialto Beach・Hole-in-the-Wall 海蝕拱門＋Sea Stacks",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-rialto-beach-olympic"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Rialto Beach 屬 Olympic 國家公園 Mora 區：官方說明沿海灘 1.5 哩即可達 Hole-in-the-Wall 海蝕拱門與潮池（僅低潮時露出），拱門通過需知潮汐與安全，必須事先查 NPS 潮汐表。公園全年 24 小時開放；海灘多漂流木與巨浪、西向日落最佳；拱門附近退潮路線會被海切斷，請預留返程時間，安全以 NPS 公告為準。",
-        "en": "Rialto Beach is in Olympic NP's Mora area: officially, a 1.5-mile beach walk reaches Hole-in-the-Wall, the sea arch and tidepools (exposed at low tide only) — crossing requires tide knowledge; check the NPS tide tables first. The park is open 24 hours year-round. The beach carries driftwood and heavy surf and sunsets fall to the west; the low-tide route past the arch gets cut off by the sea — budget return time. Safety follows NPS postings.",
-        "ja": "リアルト・ビーチはオリンピック国立公園のモーラ地区：公式には1.5マイルのビーチウォークでHole-in-the-Wall（海食アーチ）とタイドプールに到着（干潮時のみ現れる）—通過には潮の知識が必要で、事前にNPS潮汐表を確認。公園は年中24時間開放。流木と高波があり、日没は西向き。アーチ付近の干潮ルートは海で途切れるため帰路の時間を確保すること。安全はNPSの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-rialto-beach-olympic"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -275,11 +271,9 @@
     {
       "claim_id": "us-086-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-rialto-beach-olympic"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/olym/planyourvisit/day-hiking-at-olympic.htm | https://www.nps.gov/olym/planyourvisit/hours.htm); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

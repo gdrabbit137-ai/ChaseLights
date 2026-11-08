@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-055-P01",
   "place_id": "us-055",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Kennecott Mines・紅色礦場建築＋Wrangell山地／冰河",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — catalog point 61.481048,-142.885231 is the Kennecott Mill Town (5 mi north of McCarthy), consistent with the NPS Kennecott Visitor Center location",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-kennecott-mines-nhl"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Kennecott Mines National Historic Landmark 位於 Wrangell-St. Elias 國家公園內，Kennecott Mill Town 距 McCarthy 北 5 哩；夏季（約5月底–9月中）Kennecott Visitor Center（Blackburn School）開放，時間請先電話 (907) 205-7106 確認。自用車不可進入 Kennecott，需私人 Shuttle／步行／自行車。冬季唯一通道是從 McCarthy 徒步／滑雪 5 哩。Root Glacier 步道自 Kennecott 出發，冰上活動建議導覽；建築區受 NPS 保護，請勿進入未開放建築，開放與安全以 NPS 公告為準。",
-        "en": "Kennecott Mines National Historic Landmark sits inside Wrangell-St. Elias NP; the Kennecott Mill Town is 5 miles north of McCarthy. The Kennecott Visitor Center (in the historic Blackburn School) opens in summer (late May–mid-September) — call (907) 205-7106 for hours. Private vehicles cannot enter Kennecott: use the private shuttle, or walk/bike. In winter the ONLY access is the 5-mile walk/ski from McCarthy. The Root Glacier trail leaves from Kennecott; guided travel is advised on the ice. Buildings are NPS-protected — stay out of non-open structures; access and safety follow NPS postings.",
-        "ja": "Kennecott Mines National Historic Landmarkはランゲル・セントイライアス国立公園内、Kennecott Mill Townはマッカーシー北5マイル。Kennecottビジターセンター（Blackburn School）は夏期（5月末〜9月中旬）営業、時間は(907) 205-7106に確認。自家用車はKennecottへ入れず、民間シャトル/徒歩/自転車を利用。冬はマッカーシーからの5マイル徒歩/スキーのみ。Root Glacier遊歩道はKennecottから出発し、氷上はガイド推奨。建物はNPS保護対象で未公開建物には入れない。開放と安全はNPSの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-kennecott-mines-nhl"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -274,11 +270,9 @@
     {
       "claim_id": "us-055-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-kennecott-mines-nhl"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/wrst/planyourvisit/kennecott-visitor-center.htm | https://www.nps.gov/tours/view.htm?id=C536F765-A295-C373-4643532A3E62B312); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

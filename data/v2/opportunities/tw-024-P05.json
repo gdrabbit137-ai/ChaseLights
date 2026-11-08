@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-024-P05",
   "place_id": "tw-024",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "小笠原山群星夜空",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-zhushan-sunrise"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於阿里山國家森林遊樂區內。依林業及自然保育署阿里山林業鐵路及文化資產管理處官網，祝山車站自2023年11月21日重新啟用，觀日列車開車時間於乘車前1日下午4時30分在林鐵官網首頁、阿里山車站2樓、遊樂區大門口及旅客中心公告；建議預先在林鐵網路訂票系統或各站購票。祝山線僅由阿里山站發車，請依公告時刻前往。",
+        "en": "Inside the Ali Mountain National Forest Recreation Area. Per the Forestry and Nature Conservation Agency's Ali Mountain Forest Railway & Cultural Heritage Management Office site, Zhushan Station reopened on 2023-11-21; the sunrise-train departure time is announced at 16:30 on the day before travel on the railway's website home page, at Ali Station 2F, at the recreation-area main gate and at the visitor center. Advance tickets via the railway's online booking system or station counters are recommended. The Zhushan line departs only from Ali Station — follow the announced times.",
+        "ja": "阿里山国家森林遊楽区内。林業及び自然保育署阿里山林業鉄路・文化資産管理処の公式サイトによると、祝山駅は2023年11月21日に再開業。観日列車の発車時刻は乗車前日の午後4時30分に、林鉄公式サイトのトップページ・阿里山駅2階・遊楽区ゲート・ビジターセンターで発表される。林鉄のネット予約システムか各駅の窓口での事前購入を推奨。祝山線は阿里山駅のみの発車で、発表の時刻に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-zhushan-sunrise"
+      ],
       "components": []
     }
   ],
@@ -337,9 +341,11 @@
     {
       "claim_id": "tw-024-P05-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-zhushan-sunrise"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

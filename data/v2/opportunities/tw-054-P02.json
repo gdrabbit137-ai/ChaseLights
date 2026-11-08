@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-054-P02",
   "place_id": "tw-054",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "正濱漁港藍調夜景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-zhengbin-harbor"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於基隆市中正區正濱路（基隆市政府觀光景點頁收錄）。港區彩色街屋為開放式水岸，戶外自由參觀、免費；彩色建築多為咖啡廳與餐廳，營業時段各異依店家公告。堤岸拍照請注意漁港車輛與潮濕地面；夜間街屋照明有限，攝影請自備補光。",
+        "en": "On Zhengbin Rd, Zhongzheng District, Keelung (listed on the city government's attractions page). The colorful harbor houses face an open waterfront — outdoor access is free around the clock; many houses host cafés and restaurants with their own hours. Watch harbor traffic and wet surfaces on the pier; lighting is limited at night — bring fill lights.",
+        "ja": "基隆市中正区正濱路（市観光景点ページ掲載）。港のカラフルな建屋は開放型の水辺で、屋外は24時間自由・無料。多くはカフェやレストランで営業時間は各店に従う。堤防では漁港の車両と湿った足元に注意。夜間は照明が限られるためライトが必要。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-zhengbin-harbor"
+      ],
       "components": []
     }
   ],
@@ -241,9 +245,11 @@
     {
       "claim_id": "tw-054-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-zhengbin-harbor"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

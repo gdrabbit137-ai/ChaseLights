@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-079-P01",
   "place_id": "tw-079",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "池西柱狀玄武岩夕照",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-chixi-basalt"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於澎湖縣西嶼鄉西海岸中段（池西），屬澎湖國家風景區。柱狀玄武岩海崖與九孔池同為潮汐限定：漲潮時只見玄武岩柱，乾潮後九孔池才完全露出並可步行至石滬；溼滑路面與風化崩落是已知風險，請沿海邊產業道路小心行走、勿攀爬岩壁。馬公出發沿澎203縣道接澎8、澎5鄉道約50分鐘車程，無正式停車場，僅路邊停放。拍攝以夕陽與退潮時段最佳；風浪大時勿靠近海崖邊，一切以現場安全考量為準。",
+        "en": "On the mid-west coast of Xiyu Township, Penghu (Chixi), within the Penghu National Scenic Area. Both the columnar basalt sea cliff and the nine abalone ponds are tide-dependent: at high tide only the basalt columns show; after the tide drops the ponds emerge and you can walk out on the stone weir. Slippery surfaces and weathering collapses are known hazards — follow the coastal farm road carefully, never climb the rock face. From Magong take County Rd 203 then township roads Peng 8/Peng 5, ~50 min by car; there is no formal parking, roadside only. Best light is sunset around low tide; in heavy swell stay away from the cliff edge — safety first, per on-site conditions.",
+        "ja": "澎湖県西嶼郷西海岸中段（池西）。澎湖国家風景区内。柱状玄武岩の海食崖も九孔池も潮汐限定：満潮時は玄武岩柱のみが見え、干潮後に九孔池が現れ石滬まで歩ける。滑りやすい路面と風化崩落が既知の危険—海岸の産業道路を慎重に歩き、岩壁には登らない。馬公から県道203経由で澎8・澎5郷道、車で約50分。正式な駐車場はなく路側のみ。撮影は夕陽と干潮時刻が最適。高波時は海崖際に近づかず、現地の安全判断を優先。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-chixi-basalt"
+      ],
       "components": []
     }
   ],
@@ -278,9 +282,11 @@
     {
       "claim_id": "tw-079-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d38-access-chixi-basalt"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.penghu-nsa.gov.tw/TravelInformationSceneryDetailC001200.aspx?Cond=d694d7b4-180d-44a5-806b-aee5ed8f3127&SortType=1&SearchAdvanced=False&Language=1028 | https://penghutravel.com/TravelInformationSceneryDetailC000000.aspx?Cond=9cc25bd2-7b7f-4cee-b410-9c34b4ef090a&Keyword=%E8%A7%80%E9%9F%B3%E4%BA%AD&SortType=1&SearchAdvanced=False&Language=1028); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

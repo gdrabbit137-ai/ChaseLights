@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-048-P02",
   "place_id": "us-048",
-  "revision": 3,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Portage Glacier・MV Ptarmigan船上冰河正面",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — catalog point 60.78452,-148.842 matches the US Forest Service coordinates for the Begich, Boggs Visitor Center (60.78394846,-148.8420394) at the north end of Portage Lake — correct feature",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-portage-valley-begich-boggs"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Portage Valley 屬 Chugach National Forest：Begich, Boggs Visitor Center 位於 Portage Lake 北端（60.784, -148.842），夏季 Memorial Day–Labor Day 週四至週日 09:00–17:00 開放（成人 $5），展示與影片服務；Portage 冰河本體已從館內視野外退。2026年8月起北側停車場因天然氣管線施工封閉，請使用南側停車場。Portage Lake 灣畔步道與 Byron Glacier 步道免費；湖水冰冷、岸邊濕滑，且該區鄰近 Portage Lake 潛在滑坡帶，大雨後應保持警覺，安全資訊以 US Forest Service 公告為準。",
-        "en": "Portage Valley lies in Chugach National Forest: the Begich, Boggs Visitor Center is at the north end of Portage Lake (60.784, -148.842), open summer (Memorial Day–Labor Day) Thursday–Sunday 9 a.m.–5 p.m. ($5 adults), with exhibits and the park film; the Portage Glacier itself has receded out of view of the center. From August 2026 the north parking lot is closed for a natural-gas pipeline repair — use the south lot. The Portage Lake shoreline and Byron Glacier trails are free; the water is icy and banks are slick, and the area sits near a potential Portage Lake landslide zone — stay alert after heavy rain. Safety info follows US Forest Service postings.",
-        "ja": "Portage Valleyはチュガチ国有林内。Begich, BoggsビジターセンターはPortage Lake北端（60.784, -148.842）にあり、夏（メモリアルデー〜レイバーデー）は木〜日9時〜17時営業（大人$5）、展示と映像あり。Portage氷河自体はセンターからは視界外に後退済み。2026年8月以降は北駐車場がガス配管工事のため閉鎖中で、南駐車場を利用。Portage Lake湖畔とByron Glacier遊歩道は無料。湖水は氷河で岸は滑りやすく、この地域はPortage Lake潜在地すべり帯の近くにあり大雨後は警戒を。安全情報はUS Forest Serviceの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-portage-valley-begich-boggs"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -277,11 +273,9 @@
     {
       "claim_id": "us-048-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-portage-valley-begich-boggs"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.fs.usda.gov/r10/chugach/recreation/begich-boggs-visitor-center | https://www.fs.usda.gov/r10/chugach/offices/begich-boggs-visitor-center); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {
