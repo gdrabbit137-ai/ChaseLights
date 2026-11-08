@@ -208,6 +208,10 @@ jobs:
                   if fail_count > 0 and log_path.exists():
                       dlog_lines = log_path.read_text(errors='replace').splitlines()
                       notok = [ln[:180] for ln in dlog_lines if ln.startswith('not ok')][:8]
+                      # Python unittest groups log 'FAIL: test_x' / 'ERROR: test_x'
+                      # lines instead of TAP 'not ok' — include them (CL-CI-22).
+                      notok += [ln[:180] for ln in dlog_lines
+                                if ln.startswith('FAIL: ') or ln.startswith('ERROR: ')][:8]
                       notok = [ln.replace('%', '%25').replace('\r', '%0D') for ln in notok]
                       print(f"::error::FAILNOTOK {faillog_name} " + '%0A'.join(notok))
                       cl12 = [ln[:150] for ln in dlog_lines if 'cl-data-12' in ln.lower()][:2]
