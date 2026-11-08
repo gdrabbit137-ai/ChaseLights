@@ -9,14 +9,14 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "3518b34bf8e52537d7ade1ed881206ff03390b078a35f12735f5546d861f9045",
+ "inputs_fingerprint_sha256": "6442b377722189e63054b2d8b165789f9768bd521dd643b24ac4fb244c41eaff",
  "summary": {
   "places": 239,
   "opportunities": 434,
   "canonical_locked_opportunities": 434,
-  "places_with_unknown_scenic_beauty": 150,
-  "mean_weighted_total": 3.97,
-  "median_weighted_total": 4.0,
+  "places_with_unknown_scenic_beauty": 151,
+  "mean_weighted_total": 3.99,
+  "median_weighted_total": 4.03,
   "mean_basis": "places with evidenced scenic_beauty only (rubric v2 honest-unknown rule)",
   "region_counts": {
    "jp": 63,
@@ -25,7 +25,7 @@
   },
   "weakness_counts": {
    "low_weather_light_opportunities": 6,
-   "low_verifiability_opportunities": 68,
+   "low_verifiability_opportunities": 71,
    "clusters_within_5km": 18
   }
  },
@@ -2176,38 +2176,6 @@
    ]
   },
   {
-   "place_id": "tw-060",
-   "name_zh": "七美雙心石滬",
-   "region": "tw",
-   "n_opportunities": 3,
-   "opportunity_ids": [
-    "tw-060-P01",
-    "tw-060-P02",
-    "tw-060-P03"
-   ],
-   "rubric": {
-    "subject_strength": 4,
-    "weather_light_dependency": 3.67,
-    "verifiability": 3.17,
-    "differentiation": 5,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 3.72,
-   "nearest_place": "tw-061",
-   "nearest_km": 40.5,
-   "coords": [
-    23.22022,
-    119.44697
-   ]
-  },
-  {
    "place_id": "tw-008",
    "name_zh": "觀音山硬漢嶺",
    "region": "tw",
@@ -2585,6 +2553,38 @@
    ]
   },
   {
+   "place_id": "tw-060",
+   "name_zh": "七美雙心石滬",
+   "region": "tw",
+   "n_opportunities": 3,
+   "opportunity_ids": [
+    "tw-060-P01",
+    "tw-060-P02",
+    "tw-060-P03"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 3.67,
+    "verifiability": 2.67,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.62,
+   "nearest_place": "tw-061",
+   "nearest_km": 40.5,
+   "coords": [
+    23.22022,
+    119.44697
+   ]
+  },
+  {
    "place_id": "tw-085",
    "name_zh": "南子吝步道",
    "region": "tw",
@@ -2841,36 +2841,6 @@
    "coords": [
     21.929,
     120.848
-   ]
-  },
-  {
-   "place_id": "tw-059",
-   "name_zh": "奎壁山",
-   "region": "tw",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "tw-059-P01"
-   ],
-   "rubric": {
-    "subject_strength": 2,
-    "weather_light_dependency": 1,
-    "verifiability": 2.5,
-    "differentiation": 4,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 2.4,
-   "nearest_place": "tw-061",
-   "nearest_km": 11.63,
-   "coords": [
-    23.59968,
-    119.67137
    ]
   },
   {
@@ -5312,6 +5282,37 @@
    ]
   },
   {
+   "place_id": "tw-059",
+   "name_zh": "奎壁山",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-059-P01"
+   ],
+   "rubric": {
+    "subject_strength": 2,
+    "weather_light_dependency": 1,
+    "verifiability": 1.0,
+    "differentiation": 4,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "tw-061",
+   "nearest_km": 11.63,
+   "coords": [
+    23.59968,
+    119.67137
+   ]
+  },
+  {
    "place_id": "tw-062",
    "name_zh": "金門得月樓",
    "region": "tw",
@@ -5604,7 +5605,7 @@
    "rubric": {
     "subject_strength": 2,
     "weather_light_dependency": 1,
-    "verifiability": 2.5,
+    "verifiability": 1.0,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -11151,11 +11152,13 @@
    "scores": {
     "subject_strength": 2,
     "weather_light_dependency": 1,
-    "verifiability": 2.5
+    "verifiability": 1.0
    },
    "verif_gaps": [
     "geometry_not_verified",
-    "conditions_missing_claim_or_threshold_source"
+    "targets_missing_evidence_refs",
+    "conditions_missing_claim_or_threshold_source",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -11166,11 +11169,13 @@
    "scores": {
     "subject_strength": 2,
     "weather_light_dependency": 1,
-    "verifiability": 2.5
+    "verifiability": 1.0
    },
    "verif_gaps": [
     "geometry_not_verified",
-    "conditions_missing_claim_or_threshold_source"
+    "targets_missing_evidence_refs",
+    "conditions_missing_claim_or_threshold_source",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -11535,11 +11540,13 @@
    "scores": {
     "subject_strength": 2,
     "weather_light_dependency": 1,
-    "verifiability": 2.5
+    "verifiability": 1.0
    },
    "verif_gaps": [
     "geometry_not_verified",
-    "conditions_missing_claim_or_threshold_source"
+    "targets_missing_evidence_refs",
+    "conditions_missing_claim_or_threshold_source",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -13977,6 +13984,42 @@
    }
   ],
   "low_verifiability": [
+   {
+    "opportunity_id": "tw-059-P01",
+    "place_id": "tw-059",
+    "score": 1.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "conditions_missing_claim_or_threshold_source",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-060-P01",
+    "place_id": "tw-060",
+    "score": 1.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "conditions_missing_claim_or_threshold_source",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "tw-078-P01",
+    "place_id": "tw-078",
+    "score": 1.0,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "conditions_missing_claim_or_threshold_source",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
    {
     "opportunity_id": "us-037-P02",
     "place_id": "us-037",

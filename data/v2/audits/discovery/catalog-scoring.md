@@ -2,11 +2,11 @@
 
 評分範圍：239 places × 434 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`3518b34bf8e52537…`（重跑可驗證確定性）。
+輸入指紋：`6442b377722189e6…`（重跑可驗證確定性）。
 
-- 全庫加權均分：**3.97 / 5**；中位數：**4.0 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**150** 個，不虛構分數）。
+- 全庫加權均分：**3.99 / 5**；中位數：**4.03 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**151** 個，不虛構分數）。
 - 區域分布：jp=63, tw=93, us=83
-- 弱點清單筆數：低 weather_light **6**、低 verifiability **68**、5km 群聚 **18**。
+- 弱點清單筆數：低 weather_light **6**、低 verifiability **71**、5km 群聚 **18**。
 
 ## 五維判定規則（機械、可重跑）
 
@@ -85,6 +85,9 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 
 | opportunity | place | 分數 | 缺口 |
 |---|---|---|---|
+| `tw-059-P01` | tw-059 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
+| `tw-060-P01` | tw-060 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
+| `tw-078-P01` | tw-078 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
 | `us-037-P02` | us-037 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `us-038-P01` | us-038 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `us-039-P01` | us-039 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |

@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "00ae17f05befd65abcd617b91edbd7dbf0024af0",
-  "source_index_revision": "sha256:51772d7988a2b4cdab7d54c2ba10628ad32bb277b76ecbdccb2ac5176fa31ea6",
+  "source_index_commit_sha": "a323978008f4e717289177a5d746bfde53c6cb3e",
+  "source_index_revision": "sha256:4afe32cd1686f9ec6d5dc3c3aaf1805172106cf2ef829f8bba187678456d3c07",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
@@ -1489,16 +1489,16 @@
       "revision": 1
     },
     "tw-059-P01": {
-      "source_commit_sha": "1bf8e398e20ebbc76be1157d98bd8dc188216746",
+      "source_commit_sha": "a323978008f4e717289177a5d746bfde53c6cb3e",
       "source_path": "data/v2/opportunities/tw-059-P01.json",
-      "source_blob_sha": "fb9538cd2533dcfa54a16de823a26c19d4997698",
-      "revision": 3
+      "source_blob_sha": "b44613dfb1460bdd3aa9b823d738e69b70b86013",
+      "revision": 2
     },
     "tw-060-P01": {
-      "source_commit_sha": "1bf8e398e20ebbc76be1157d98bd8dc188216746",
+      "source_commit_sha": "a323978008f4e717289177a5d746bfde53c6cb3e",
       "source_path": "data/v2/opportunities/tw-060-P01.json",
-      "source_blob_sha": "ba0454ea6a901b3b60c54da6c74bc771ef5e7f9f",
-      "revision": 2
+      "source_blob_sha": "094c6ad8ad467698d973466158e06862d6ca818d",
+      "revision": 1
     },
     "tw-060-P02": {
       "source_commit_sha": "1bf8e398e20ebbc76be1157d98bd8dc188216746",
@@ -1651,10 +1651,10 @@
       "revision": 2
     },
     "tw-078-P01": {
-      "source_commit_sha": "a38356bd36eacbd7f81fa962e251aa21fb48a6fa",
+      "source_commit_sha": "a323978008f4e717289177a5d746bfde53c6cb3e",
       "source_path": "data/v2/opportunities/tw-078-P01.json",
-      "source_blob_sha": "b89c00580731e8ad70f8518c403cb7d2cf369953",
-      "revision": 3
+      "source_blob_sha": "58e42477f77d4ef2c09374ce9e50fec749122d11",
+      "revision": 2
     },
     "tw-079-P01": {
       "source_commit_sha": "a38356bd36eacbd7f81fa962e251aa21fb48a6fa",
@@ -5777,14 +5777,12 @@
         "en": [],
         "ja": []
       },
-      "metadata_status": "COMPLETE",
+      "metadata_status": "PARTIAL",
       "semantic_review": "PENDING",
       "country_codes": [],
       "region_ids": [],
       "admin_status": "UNKNOWN",
-      "evidence_refs": [
-        "e-d37-access-kuibishan"
-      ],
+      "evidence_refs": [],
       "time_zone": {
         "status": "UNKNOWN",
         "iana_id": null,
@@ -6239,14 +6237,12 @@
         "en": [],
         "ja": []
       },
-      "metadata_status": "COMPLETE",
+      "metadata_status": "PARTIAL",
       "semantic_review": "PENDING",
       "country_codes": [],
       "region_ids": [],
       "admin_status": "UNKNOWN",
-      "evidence_refs": [
-        "e-d38-access-jiangong-yu"
-      ],
+      "evidence_refs": [],
       "time_zone": {
         "status": "UNKNOWN",
         "iana_id": null,
@@ -81189,7 +81185,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-059-P01",
       "place_id": "tw-059",
-      "revision": 3,
+      "revision": 2,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "奎壁山摩西分海",
@@ -81216,18 +81212,16 @@
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
+            "derivation_method": "imported_from_v1_viewpoint_reference",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
           "verification_status": "provisional",
-          "evidence_refs": [
-            "e-d37-access-kuibishan"
-          ],
+          "evidence_refs": [],
           "access_notes_i18n": {
-            "zh-TW": "位於澎湖縣湖西鄉（澎湖國家風景區管理處轄管遊憩區）。依澎管處與縣府公告：奎壁山—赤嶼間約500公尺玄武岩礫石步道每日實施開放管制，通行時段為08:00–17:30（旺季特定日延長06:00–18:30），安全通行約在滿潮後3小時至乾潮後2小時之間，實際以現場旗幟與管制人員指示為準；漲潮時赤嶼兩側形成激流，曾發生罹難事故，務必算準潮汐並勿在管制時段外逗留步道。",
-            "en": "In Huxi Township, Penghu (a recreation area run by the Penghu National Scenic Area HQ). Per official notices: the ~500 m basalt gravel causeway between Kuibishan and Chihsu is under daily access control, 08:00–17:30 (extended 06:00–18:30 on announced peak days); the safe window runs roughly from 3 h after high tide to 2 h after low tide — follow on-site flags and staff. Crosscurrents form on both sides of Chihsu at flood tide and fatalities have occurred: calculate the tide and never remain on the causeway outside the controlled window.",
-            "ja": "澎湖県湖西郷（澎湖国家風景区管理処管轄の遊憩区）。公式告知：奎壁山〜赤嶼間の約500mの玄武岩礫石歩道は毎日通行管制あり（08:00〜17:30、旺季特定日は06:00〜18:30に延長）。安全通行は概ね満潮後3時間〜干潮後2時間で、実際は現場の旗と係員の指示に従うこと。満潮時は赤嶼の両側で激流が発生し犠牲事故もあるため、潮汐を確認し管制時間外に歩道に残らないこと。"
+            "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+            "en": "Access information not yet verified; follow on-site notices and rules.",
+            "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
           },
           "safety_notes_i18n": {
             "zh-TW": "請依現場安全指示行動。",
@@ -81262,9 +81256,7 @@
             "reason_if_absent": null
           },
           "phenomenon_model_id": null,
-          "evidence_refs": [
-            "e-d37-access-kuibishan"
-          ],
+          "evidence_refs": [],
           "components": []
         }
       ],
@@ -81334,11 +81326,9 @@
         {
           "claim_id": "tw-059-P01-claim-01",
           "claim_type": "existence",
-          "evidence_refs": [
-            "e-d37-access-kuibishan"
-          ],
+          "evidence_refs": [],
           "audit_status": "UNKNOWN",
-          "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+          "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
         }
       ],
       "readiness": {
@@ -81360,7 +81350,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-060-P01",
       "place_id": "tw-060",
-      "revision": 2,
+      "revision": 1,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "雙心石滬完整形態",
@@ -81387,18 +81377,16 @@
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
+            "derivation_method": "imported_from_v1_viewpoint_reference",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
           "verification_status": "provisional",
-          "evidence_refs": [
-            "e-d37-access-qimei-twin-hearts"
-          ],
+          "evidence_refs": [],
           "access_notes_i18n": {
-            "zh-TW": "位於澎湖縣七美鄉東湖村頂隙（澎湖國家風景區管理處景點）。官方資料：雙心石滬為24小時開放、免費參觀，係玄武岩與珊瑚礁砌築之傳統捕魚石滬；官方提醒觀看完整雙心造型須先確認每日退潮時間，退潮前後光線與構圖最佳；海崖下地形濕滑，攝影請注意風浪與通行安全。",
-            "en": "At Dingxi, Donghu Village, Qimei Township, Penghu (a Penghu National Scenic Area HQ site). Official info: the Twin-Heart stone weir is open 24 hours and free — a traditional fish weir built of basalt and coral; officials advise checking the daily low tide to see the full twin-heart shape, with the best light and composition around the ebb. The cliffs below are wet and slippery — mind wind, waves and footing.",
-            "ja": "澎湖県七美郷東湖村頂隙（澎湖国家風景区管理処の景点）。公式情報：双心石滬は24時間開放・無料で、玄武岩と珊瑚で築かれた伝統的な漁獲用石滬。完全な双心の形を見るには毎日の干潮時間を確認する必要があり、引き潮前後が光線・構図ともベスト。海崖下は湿って滑りやすいため、風浪と足元に注意。"
+            "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+            "en": "Access information not yet verified; follow on-site notices and rules.",
+            "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
           },
           "safety_notes_i18n": {
             "zh-TW": "請依現場安全指示行動。",
@@ -81433,9 +81421,7 @@
             "reason_if_absent": null
           },
           "phenomenon_model_id": null,
-          "evidence_refs": [
-            "e-d37-access-qimei-twin-hearts"
-          ],
+          "evidence_refs": [],
           "components": []
         }
       ],
@@ -81503,11 +81489,9 @@
         {
           "claim_id": "tw-060-P01-claim-01",
           "claim_type": "existence",
-          "evidence_refs": [
-            "e-d37-access-qimei-twin-hearts"
-          ],
+          "evidence_refs": [],
           "audit_status": "UNKNOWN",
-          "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+          "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
         }
       ],
       "readiness": {
@@ -88594,7 +88578,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-078-P01",
       "place_id": "tw-078",
-      "revision": 3,
+      "revision": 2,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "建功嶼退潮石板道景觀",
@@ -88621,18 +88605,16 @@
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
+            "derivation_method": "imported_from_v1_viewpoint_reference",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
           "verification_status": "provisional",
-          "evidence_refs": [
-            "e-d38-access-jiangong-yu"
-          ],
+          "evidence_refs": [],
           "access_notes_i18n": {
-            "zh-TW": "位於金門縣金城鎮浯江溪口，為潮汐限定景點：連接陸島的約500公尺石板道僅在乾潮時段露出，金門縣觀光處每日公布「建議上島時段」（如乾潮前後約1小時），登島前務必查閱金門觀光旅遊網建功嶼潮汐頁與現場即時影像。漲潮會迅速淹沒石板道，縣府曾救援受困遊客——請遵守現場公告與管制，勿目測判斷安全。島上有鄭成功雕像，面向西方，傍晚退潮時段可拍夕陽與潮間帶；夜間無照明，需自備燈具並結伴前往。",
-            "en": "At the Wujiang Creek mouth, Jincheng Township, Kinmen — a tide-dependent site: the ~500 m stone causeway to Jiangong Islet is exposed only around low tide. Kinmen County's tourism office publishes daily 'recommended crossing windows' (about ±1 h around low water); before going, check the Jiangong Yu tide page on the Kinmen travel site and the live camera. The rising tide floods the causeway quickly and rescues have occurred — obey on-site notices and barriers; do not judge safety by eye. The statue of Koxinga faces west; evening low tide gives sunset over the flats. There is no lighting at night — bring your own lights and go with company.",
-            "ja": "金門県金城鎮の浯江溪河口。潮汐限定スポット：島と本土を結ぶ約500mの石板道は干潮時のみ現れる。金門県観光処が毎日「上島推奨時刻」（乾潮前後約1時間）を公表しており、訪問前に金門観光サイトの建功嶼潮汐ページとライブカメラで必ず確認。満潮時は石板道が急速に沈み、これまで救助事例がある—現地の掲示と規制に従い、目測で安全を判断しない。島内の鄭成功像は西向きで、夕方の干潮時に夕日と潮間帯を撮れる。夜間は照明がないため、灯具持参で複数人で行くこと。"
+            "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+            "en": "Access information not yet verified; follow on-site notices and rules.",
+            "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
           },
           "safety_notes_i18n": {
             "zh-TW": "請依現場安全指示行動。",
@@ -88667,9 +88649,7 @@
             "reason_if_absent": null
           },
           "phenomenon_model_id": null,
-          "evidence_refs": [
-            "e-d38-access-jiangong-yu"
-          ],
+          "evidence_refs": [],
           "components": []
         }
       ],
@@ -88739,11 +88719,9 @@
         {
           "claim_id": "tw-078-P01-claim-01",
           "claim_type": "existence",
-          "evidence_refs": [
-            "e-d38-access-jiangong-yu"
-          ],
+          "evidence_refs": [],
           "audit_status": "UNKNOWN",
-          "scope_note": "CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | https://kinmen.travel/zh-tw/live-camera/1); unverifiable on-site details left to on-site notices (honest unknown)"
+          "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
         }
       ],
       "readiness": {
