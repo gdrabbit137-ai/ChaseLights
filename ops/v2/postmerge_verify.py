@@ -382,10 +382,11 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 519, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 523, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
         # 2026-11-08 CL-CI-26: CL-UI-47 +5 real-hit-target tests -> w4-node=514 (CI-observed on merged tree 313feebe4, node v26 --test-isolation=none, 514 pass / 0 fail)
         # 2026-11-08 CL-INT-92: +3 hour-list-cap regression tests -> w4-node=516 on this base (measured locally: 516 pass / 3 pre-existing failures identical to pristine origin/main baseline: CL-COPY-01 coverage, CL-DATA-19 x2)
         # 2026-11-08 CL-INT-103 union re-measure (node v26.7.0 --test-isolation=none, 519 pass / 0 fail): CL-UI-49 admin picker +1, union fixture re-anchors make the CL-COPY-01/CL-DATA-19 baselines GREEN — no pre-existing failures remain.
+        # 2026-11-08 CL-INT-103 final merged-tree re-measure (node v26.7.0 --test-isolation=none, 523 pass / 0 fail): CL-UI-50 +4 no-black-box tests merged from origin/main.
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs",
                 "ops/v2/tests/cl-int-76-provenance.test.mjs"], 9, False, True),
@@ -451,11 +452,11 @@ def main():
         # light_window role checks in w2), all suites re-measured green with
         # candidate-build-browser=6 -> exact total 1029 (node v26.7.0,
         # --test-isolation=none; measured, 0 fail).
-        if (report["counts"]["tests"] != 1029 or
+        if (report["counts"]["tests"] != 1033 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1029):
-            raise ValueError("Post-merge exact 1029-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1033):
+            raise ValueError("Post-merge exact 1033-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
