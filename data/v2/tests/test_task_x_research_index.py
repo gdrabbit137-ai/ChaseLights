@@ -65,7 +65,7 @@ class ResearchIndexTests(unittest.TestCase):
             # re-pinned to the ruling data commit 76e926d16 (rollback pointer
             # for the original human-review contracts: 34cb70f39 and earlier).
             '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
-            '06b51d046fd391ab44708535464e7478cfc13ee4',
+            # ('06b51d046f' retired by CL-INT-112: 06b51d04 (CL-INT-105 batch1 pin) — record re-pinned by CL-DATA-36 batch2 — bytes now pinned at 21198c9c.)
             '3eb466432807185bc8b9271d006666b72d1fa406',
             # CL-INT-83: the 8 CL-DATA-18 AI-verified fill records
             # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
@@ -122,7 +122,7 @@ class ResearchIndexTests(unittest.TestCase):
             # restore). CL-DATA-32 later re-pinned tw-010-P01 (008ab85ff) when
             # the golden-window upgrade gave way to sunrise_time_window MAIN.
             '69b832accfc8c0438a50e51689c4e7c40765e9f4',
-            '64685ff7df762f588bd1f276a56f7c007c07b8c2',
+            # ('64685ff7df' retired by CL-INT-112: 64685ff7 (jp-029-P02 https pin) — record re-pinned by CL-DATA-36 batch2 — bytes now pinned at 21198c9c.)
             '008ab85ff19794c3aa2ffc1173afa30212aa426e',
             '2cd38d860868d63b7a214434d74f2db6ad153506',
             'b801dd4eba545a76879828b25e869f3c45df33ac',
@@ -132,7 +132,7 @@ class ResearchIndexTests(unittest.TestCase):
             # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
             # remain re-pinned to the task-branch commit carrying those
             # corrections (union merge, CL-INT-81).
-            'c90f56712550ae46824e30684442bbc44855c9b5',
+            # ('c90f567125' retired by CL-INT-112: c90f567125 — record re-pinned by CL-DATA-36 batch2 — bytes now pinned at 21198c9c.)
             # CL-DATA-20: 18 tailored contracts + 3 byte-changed records
             # (tw-059-P01/tw-078-P01 tidal genre, tw-016-P01 summit geometry)
             # pinned to the data commit.
@@ -158,7 +158,7 @@ class ResearchIndexTests(unittest.TestCase):
             # Bitan precedent) and tw-010-P02 (golden_hour_window -> REQUIRED/
             # MAIN dawn/dusk window, tw-010-P01 CL-DATA-26 precedent) re-pinned
             # to the contract commit carrying the new bytes.
-            '2d9af4d86856301e22df74153d9ff67d1500bc42',
+            # ('2d9af4d868' retired by CL-INT-112: 2d9af4d8 — record re-pinned by CL-DATA-36 batch2 — bytes now pinned at 21198c9c.)
             # CL-DATA-32: 14 southern-Japan admitted discovery contracts
             # (jp-051..jp-064, PM-judgment admission) pinned to the admission
             # commit carrying the evidence-ref + revision-2 bytes.
