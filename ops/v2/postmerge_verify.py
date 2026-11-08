@@ -447,11 +447,17 @@ def main():
         # 26 with the flag and sees the same test count), exact total
         # 962 -> 1019. Catalog gate re-anchored 197/374 -> 218/406 and
         # browse_index_source_sha -> d8bc99ea (CL-DATA-28 regen chain).
-        if (report["counts"]["tests"] != 1029 or
+        # 2026-11-08 CL-CI-28: CL-UI-50's +4 node tests raised the measured
+        # exact total to 1033 (w4-node 523 + candidate-build-browser 6 + the
+        # 504 counted on this tree; measured locally with node v26.7.0
+        # --test-isolation=none, 523 pass / 0 fail and 6 pass / 0 fail) — the
+        # CL-UI-50 commit updated the w4-node group pin but left the exact
+        # total at 1029, reding every postmerge push with no FAIL group.
+        if (report["counts"]["tests"] != 1033 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1029):
-            raise ValueError("Post-merge exact 1029-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1033):
+            raise ValueError("Post-merge exact 1033-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
