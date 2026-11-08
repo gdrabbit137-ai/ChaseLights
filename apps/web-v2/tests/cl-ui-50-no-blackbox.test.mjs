@@ -59,3 +59,15 @@ test('CL-UI-50: the unavailable-card line is not the bare generic sentence', () 
   const zh = '所選日期目前無法提供可靠的拍攝建議 · 評估條件尚未查證，無法判定';
   assert.ok((zh.match(/資料不足/g) || []).length <= 1, 'label appears at most once');
 });
+
+test('CL-CI-29: v2StateLabel is declared before its first use in the card template', () => {
+  // B149 production smoke: the served card render threw a TDZ
+  // ReferenceError (Cannot access 'v2StateLabel' before initialization)
+  // because the declaration sat BELOW the v2StatusRow expression that
+  // consumes it. The declaration must precede every reference.
+  const use = appSource.indexOf('esc(v2StateLabel)');
+  const decl = appSource.indexOf('const v2StateLabel=');
+  assert.ok(decl >= 0, 'v2StateLabel declaration exists');
+  assert.ok(use >= 0, 'v2StateLabel is referenced');
+  assert.ok(decl < use, 'declaration must come before its first reference');
+});
