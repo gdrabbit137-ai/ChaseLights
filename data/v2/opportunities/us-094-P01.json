@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-094-P01",
   "place_id": "us-094",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Steptoe Butte・Palouse 丘陵農田光影",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-steptoe-butte-sp"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Steptoe Butte State Park Heritage Site 位於 Palouse 丘陵（Whitman 郡）：官方頁面明示全年 08:00–dusk 開放。但頂部 3,612 呎的環景道路俯瞰 Palouse 農田光影，日出與日落最為經典；山路為螺旋鋪面上坡、夜間無照明，注意會車與風；發燒時段停車位有限。車輛與規定以 Washington State Parks 公告為準。",
+        "en": "Steptoe Butte State Park Heritage Site rises above the Palouse hills (Whitman County): the official page states year-round hours 8 a.m.–dusk. The summit road (3,612 ft) gives a 360° panorama of Palouse farmland light and shadow — dawn and dusk are classic. The spiraling paved road is steep with no night lighting — watch passing traffic and wind; parking is limited at peak times. Vehicles and rules follow Washington State Parks postings.",
+        "ja": "ステプトー・ビュート州立公園遺産地はパルースの丘陵（ホワイトマン郡）にそびえ、公式ページでは年中8時〜日没開放。標高3,612フィートの山頂道路からパルース農地の光と影の360°パノラマが望め、日の出と日の入りが定番。螺旋状の舗装道は急で夜間照明はなく、対向車と風に注意。人気時間帯の駐車は限られる。車両と規則はWashington State Parksの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-steptoe-butte-sp"
+      ],
       "components": []
     }
   ],
@@ -229,9 +233,11 @@
     {
       "claim_id": "us-094-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-steptoe-butte-sp"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://parks.wa.gov/find-parks/state-parks/steptoe-butte-state-park-heritage-site); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {

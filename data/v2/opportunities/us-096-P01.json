@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-096-P01",
   "place_id": "us-096",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Dry Falls・冰河洪水巨型乾瀑／Channeled Scabland",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-dry-falls-visitor-center"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "Dry Falls 解說點位於 Channeled Scabland（35661 Hwy 17 North, Coulee City）：Sun Lakes-Dry Falls State Park 官方時制夏季 06:30–dusk、冬季 08:00–dusk。官方公告：Dry Falls Visitor Center 2026 年全年整修關閉（含廁所與停車場），此地停車不需 Discover Pass。冰河洪水巨型乾瀑峭壁可自觀景平台拍攝；地面崎嶇與夏季高溫，請備水與防曬，規定以 Washington State Parks 公告為準。",
+        "en": "The Dry Falls interpretive point is in the Channeled Scabland (35661 Hwy 17 North, Coulee City): Sun Lakes-Dry Falls State Park's official hours are summer 6:30 a.m.–dusk and winter 8 a.m.–dusk. OFFICIAL NOTICE: the Dry Falls Visitor Center is closed for renovation through the end of 2026 (including restrooms and parking lot); no Discover Pass is required to park here. The giant dry-falls cliff can be framed from the viewing platform; the ground is rugged and summers are hot — carry water and sun protection. Rules follow Washington State Parks postings.",
+        "ja": "ドライ・フォールズの解説地はチャネールド・スキャブラッド（35661 Hwy 17 North, Coulee City）：Sun Lakes-Dry Falls州立公園の公式営業は夏6時30分〜日没、冬8時〜日没。公式告知：Dry Fallsビジターセンターは2026年末まで改修のため閉鎖（トイレと駐車場を含む）。ここでの駐車にDiscover Passは不要。巨大な乾瀑の崖は展望台から撮れ、足場は荒く夏は高温のため水と日焼け対策を携行すること。規則はWashington State Parksの告知に従うこと。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-dry-falls-visitor-center"
+      ],
       "components": []
     }
   ],
@@ -271,9 +275,11 @@
     {
       "claim_id": "us-096-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d39-access-dry-falls-visitor-center"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://parks.wa.gov/find-parks/state-parks/sun-lakes-dry-falls-state-park | https://parks.wa.gov/dry-falls-visitor-center); unverifiable on-site details left to on-site notices (honest unknown)"
     }
   ],
   "readiness": {
