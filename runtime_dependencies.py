@@ -148,10 +148,6 @@ RUNTIME_PROFILE_GAPS = {
     }),
     "spatial_weather_vertical_cloud": frozenset({
         "jp-052-P01",
-        "jp-052-P01",
-        "jp-052-P01",
-        "jp-052-P01",
-        "jp-052-P01",
         "tw-098-P01",
         "jp-037-P01",
         "jp-039-P01",
@@ -176,10 +172,6 @@ RUNTIME_PROFILE_GAPS = {
         "tw-032-P03",
     }),
     "directional_horizon": frozenset({
-        "jp-055-P01",
-        "jp-055-P01",
-        "jp-055-P01",
-        "jp-055-P01",
         "jp-055-P01",
         "jp-037-P02",
         "jp-041-P02",

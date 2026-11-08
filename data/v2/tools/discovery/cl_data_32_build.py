@@ -679,8 +679,10 @@ def main():
                 rd = rd[:insert_at] + block + rd[insert_at:]
             continue
         i = rd.index(anchor) + len(anchor)
-        insert = "".join(f'        "{oid}",\n' for oid in sorted(ids))
-        rd = rd[:i] + insert + rd[i:]
+        j = rd.index('    }),\n', i)
+        block = rd[i:j]
+        insert = "".join(f'        "{oid}",\n' for oid in sorted(ids) if f'"{oid}"' not in block)
+        rd = rd[:j] + insert + rd[j:]
     wbytes(rd_path, rd)
     print("runtime_dependencies gaps:", {k: len(v) for k, v in gaps.items()})
 
