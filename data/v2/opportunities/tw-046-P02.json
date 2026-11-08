@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-046-P02",
   "place_id": "tw-046",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "霸基近距離大霸峰體",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-dabajianshan"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於雪霸國家公園生態保護區（大霸尖山，觀霧登山口進入）。依雪管處規定：大霸線等登山路線須事先辦理入園證及入山證（一站式服務網），登山口查驗後進入；雪季（1–3月）另有雪攀裝備自我檢查表要求。大霸線為多日縱走路線，夜間攝影僅於核准宿營行程內進行，須留意九九山莊至霸基段之斷崖地形與天候。",
+        "en": "In Shei-Pa National Park's ecological protection area (Dabajianshan, via the Guanwu trailhead). Per park HQ: the Daba route requires advance park-entry and mountain-entry permits (one-stop system), checked at the trailhead; snow season (Jan–Mar) adds the ice-equipment self-check. Multi-day traverse — night photography only within the approved lodging itinerary; note the cliff terrain between Jiujiu Lodge and the peak's base and weather.",
+        "ja": "雪覇国家公園生態保護区（大霸尖山、観霧登山口から）。管理処規定：大霸線などは一括サービス網で入園証・入山証を事前取得し登山口で確認。雪期（1〜3月）は雪面部装備セルフチェックが追加。複数日縦走路線のため夜間撮影は承認宿営行程内のみ。九九山荘〜霸基間の断崖地形と天候に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-dabajianshan"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "tw-046-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-dabajianshan"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

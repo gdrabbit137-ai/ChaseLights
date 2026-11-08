@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-069-P01",
   "place_id": "tw-069",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "東清灣海灣晨曦／拼板舟文化景觀",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-lanyu-dongqing"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於台東縣蘭嶼鄉東清村（台東縣政府官方旅遊網收錄）。官方資訊：東清灣水質清澈，是蘭嶼最適合划拼板舟的港灣，體驗活動由當地合法業者帶領並須尊重雅美（達悟）部落規範；交通由台東航空站搭機（約20分）或富岡碼頭搭客輪（2–3小時）抵蘭嶼，島內以機車及環島公車代步。夜間海灣無照明，攝影請自備燈光；拍攝拼板舟與祭典須事先徵得部落同意。",
+        "en": "In Dongqing Village, Lanyu (Orchid Island), Taitung County (listed on the county government's official tourism site). Official info: Dongqing Bay's clear water makes it Lanyu's best harbor for paddling the traditional tatala canoe — experiences are led by licensed local operators and must respect Yami (Tao) community rules; reach Lanyu by air from Taitung (~20 min) or ferry from Fukang Harbor (2–3 h), then by scooter or island bus. The bay is unlit at night — bring lights; photographing canoes and ceremonies requires the community's prior consent.",
+        "ja": "台東県蘭嶼郷東清村（台東県政府公式観光サイト掲載）。公式情報：東清湾は水質が澄み、蘭嶼で最も伝統的なタタラ舟を漕ぐのに適した港湾。体験は地元の正規業者が案内し、ヤミ（タオ）族の部落規範を尊重すること。アクセスは台東空港から飛行機（約20分）か富岡埠頭からフェリー（2〜3時間）、島内はオートバイ・環島バス。夜間の湾は無照明のためライト携行。舟や祭事の撮影は部落の事前同意が必要。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-lanyu-dongqing"
+      ],
       "components": []
     }
   ],
@@ -248,9 +252,11 @@
     {
       "claim_id": "tw-069-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-lanyu-dongqing"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {
