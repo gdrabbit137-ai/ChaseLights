@@ -297,7 +297,10 @@ def detail_hour_rows(hour_row, local_stamp, status, conditions_eval,
         "status": status,
         "conditions": conditions,
     }]
-    if precise_local is not None:
+    if precise_local is not None and precise_off:
+        # off == 0 means the window already passes at the bucket start, so
+        # the precise stamp IS the bucket stamp — the hourly row above
+        # already keys it; no duplicate row.
         rows.append({
             "utc": hour_row["valid_at_utc"],
             "local": precise_local,

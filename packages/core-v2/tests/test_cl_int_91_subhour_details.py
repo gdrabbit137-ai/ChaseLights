@@ -62,6 +62,15 @@ class SubHourDetailsRowTests(unittest.TestCase):
         self.assertEqual(rows[0]["status"], "GUIDANCE_SATISFIED")
         self.assertIn("conditions", rows[0])
 
+    def test_zero_offset_does_not_duplicate_the_bucket_row(self):
+        # off == 0: the precise stamp IS the bucket stamp — the hourly row
+        # already keys it; no duplicate sub-hour row.
+        at, hour_row, conds, astro, states = _bucket()
+        rows = eb.detail_hour_rows(
+            hour_row, at, "GUIDANCE_SATISFIED", conds, astro, states,
+            precise_local="17:00", precise_off=0)
+        self.assertEqual([r["local"] for r in rows], ["17:00"])
+
     def test_non_qualifying_bucket_never_emits_sub_hour_row(self):
         at, hour_row, conds, astro, states = _bucket()
         rows = eb.detail_hour_rows(
