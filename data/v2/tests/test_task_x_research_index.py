@@ -163,6 +163,10 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-INT-103 union: tw-034-P02 re-pinned to the CL-DATA-33 light_window
             # revision commit (git-show verifiable at the merged tree HEAD).
             '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
+            # CL-DATA-37: batch3 access verification — the record last pinned
+            # to 86cc3d9bd was re-pinned to the batch3 commit carrying the
+            # verified trilingual access bytes (batch3-progress.json).
+            '1bf8e398e20ebbc76be1157d98bd8dc188216746',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
