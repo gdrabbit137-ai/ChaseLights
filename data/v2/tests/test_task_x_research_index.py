@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((232,420),(len(actual),len(ids)))  # re-anchored CL-DATA-32 (14 southern-Japan additions)
+        self.assertEqual((239,434),(len(actual),len(ids)))  # re-anchored CL-INT-110 (DATA-34 seven-place chain: 14 legacy supplement contracts)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -119,7 +119,8 @@ class ResearchIndexTests(unittest.TestCase):
             # restore). CL-DATA-32 later re-pinned tw-010-P01 (008ab85ff) when
             # the golden-window upgrade gave way to sunrise_time_window MAIN.
             '69b832accfc8c0438a50e51689c4e7c40765e9f4',
-            '90838a69af97cab0aafbfb89c3e984bd0f004f9b',  # CL-DATA-35 stage 2c: jp-029-P02 https-source refinement
+            '1718a5752f2e0c63cd5220767510b49375627927',  # CL-INT-110: access evidence registry re-pinned to the merge HEAD (byte-identical successor of 90838a69af97)
+            '95fcf956d382754ed0c11ea407a682945d1eaf5d',  # CL-INT-110: DATA-34 legacy supplement contracts pinned to the chain commit
             '008ab85ff19794c3aa2ffc1173afa30212aa426e',
             '2cd38d860868d63b7a214434d74f2db6ad153506',
             'b801dd4eba545a76879828b25e869f3c45df33ac',
@@ -190,7 +191,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(696,count)  # 232 places x 3 (re-anchored CL-DATA-32: 14 southern-Japan additions)
+        self.assertEqual(717,count)  # 239 places x 3 (re-anchored CL-INT-110: DATA-34 chain)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
