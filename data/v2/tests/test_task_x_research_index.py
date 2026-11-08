@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((232,420),(len(actual),len(ids)))  # re-anchored CL-DATA-32 (14 southern-Japan additions)
+        self.assertEqual((239,434),(len(actual),len(ids)))  # re-anchored CL-INT-110 (DATA-34 seven-place chain: 14 legacy supplement contracts)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -65,7 +65,16 @@ class ResearchIndexTests(unittest.TestCase):
             # re-pinned to the ruling data commit 76e926d16 (rollback pointer
             # for the original human-review contracts: 34cb70f39 and earlier).
             '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
-            '1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad',  # CL-DATA-35 batch1: 60 access-verified records re-pinned to the batch commit
+            # CL-INT-114 re-anchor (batches 2/3/4 chain integrated): batch1's
+            # 1abb6b0e records were re-pinned by CL-DATA-36 batch2 (21198c9c)
+            # and CL-DATA-37 batch3 (1bf8e398); the CL-UI-20 b97f7bb8,
+            # CL-DATA-15 c90f5671 and CL-INT-89 2cd38d86 holders were
+            # re-pinned by the batch chain (the 1718a575/95fcf956/008ab85f
+            # lineage SHAs remain pinned for their untouched records).
+            'a38356bd36eacbd7f81fa962e251aa21fb48a6fa',  # CL-INT-114 merged-tree regen
+            '21198c9cc91e00cdd3df8daea76aac46bf9fb45b',  # CL-DATA-36 batch2
+            '1bf8e398e20ebbc76be1157d98bd8dc188216746',  # CL-DATA-37 batch3
+            '23f1bb6c0a90964067d885c3783c99c87a902b86',  # southern-Japan jp records (CL-INT-112 merged-tree state)
             '3eb466432807185bc8b9271d006666b72d1fa406',
             # CL-INT-83: the 8 CL-DATA-18 AI-verified fill records
             # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
@@ -80,7 +89,6 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-UI-20 round-2: 63 high-exposure subject records re-pinned to
             # the task-branch commit carrying verified en/ja subject names
             # (tw-036-P01 / tw-082-P01 keep their review-gated round-1 pins).
-            'b97f7bb87a46db4a3e21922d7f6058b8b64a6385',
             # CL-UI-25: 22 city_night contracts re-pinned to the task-branch
             # commit adding the contract-level city_night_window condition
             # (mirrors the CL-UI-23 evaluation-layer gate semantics).
@@ -119,11 +127,6 @@ class ResearchIndexTests(unittest.TestCase):
             # restore). CL-DATA-32 later re-pinned tw-010-P01 (008ab85ff) when
             # the golden-window upgrade gave way to sunrise_time_window MAIN.
             '69b832accfc8c0438a50e51689c4e7c40765e9f4',
-            '90838a69af97cab0aafbfb89c3e984bd0f004f9b',  # CL-DATA-35 stage 2c: jp-029-P02 https-source refinement
-            # 008ab85ff (CL-DATA-32) left the set: its last holder tw-073-P01
-            # was byte-changed and re-pinned to the CL-DATA-38 batch4 commit
-            # (verified trilingual access bytes; batch4-progress.json).
-            '2cd38d860868d63b7a214434d74f2db6ad153506',
             'b801dd4eba545a76879828b25e869f3c45df33ac',
             # CL-DATA-15 (merged side): owner-verified elevation corrections
             # (Paiyun Lodge 3,402 m / Datun 1,092 m / Zhushan 2,451 m;
@@ -131,7 +134,6 @@ class ResearchIndexTests(unittest.TestCase):
             # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
             # remain re-pinned to the task-branch commit carrying those
             # corrections (union merge, CL-INT-81).
-            'c90f56712550ae46824e30684442bbc44855c9b5',
             # CL-DATA-20: 18 tailored contracts + 3 byte-changed records
             # (tw-059-P01/tw-078-P01 tidal genre, tw-016-P01 summit geometry)
             # pinned to the data commit.
@@ -165,10 +167,6 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-INT-103 union: tw-034-P02 re-pinned to the CL-DATA-33 light_window
             # revision commit (git-show verifiable at the merged tree HEAD).
             '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
-            # CL-DATA-38: batch4 access verification — the 60 records were
-            # re-pinned to the batch4 commit carrying the verified trilingual
-            # access bytes (batch4-progress.json).
-            'acd1b0ca4990e1f0e418b071deff2d018d9bdb45',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -196,7 +194,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(696,count)  # 232 places x 3 (re-anchored CL-DATA-32: 14 southern-Japan additions)
+        self.assertEqual(717,count)  # 239 places x 3 (re-anchored CL-INT-110: DATA-34 chain)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
