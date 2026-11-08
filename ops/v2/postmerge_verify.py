@@ -286,15 +286,14 @@ def verify_main(root, lock):
     # No-review gate decision (2026-10-22): the admitted breadth catalog is
     # re-anchored to the CL-DATA-25..28 catalog regen waves (measured on the
     # merged tree at CL-CI-22, 2026-11-08):
-    # 232 Places / 420 Opportunities (aurora-only opportunities removed
+    # 232 Places / 420 Opportunities (aurora-only opportunities removed (218/406 pre-CL-DATA-32; re-anchored 218/406 -> 232/420 CL-INT-101 on the CL-DATA-32 merged tree)
     # 2026-10-26; 197/374 re-pinned CL-DATA-20; CL-DATA-25..28 growth
-    # 197/374 ->218/406 re-pinned CL-CI-22; 218/406 ->232/420 re-anchored
-    # CL-INT-101 on the CL-DATA-32 merged tree, 2026-11-08), all
+    # 197/374 ->218/406 re-pinned CL-CI-22), all
     # byte-pinned to their W2 sources.
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
             len(catalog.get("places", [])) != 232
-            or len(catalog.get("opportunities", [])) != 420):  # CL-INT-101 re-anchor 218/406 -> 232/420
+            or len(catalog.get("opportunities", [])) != 420):  # CL-INT-101 re-anchor 218/406 -> 232/420 (CL-DATA-32 jp-051..064)
         raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]
@@ -382,11 +381,14 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 523, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 524, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509 (measured node v22, no --test-isolation locally)
         # 2026-11-08 CL-CI-26: CL-UI-47 +5 real-hit-target tests -> w4-node=514 (CI-observed on merged tree 313feebe4, node v26 --test-isolation=none, 514 pass / 0 fail)
         # 2026-11-08 CL-INT-92: +3 hour-list-cap regression tests -> w4-node=516 on this base (measured locally: 516 pass / 3 pre-existing failures identical to pristine origin/main baseline: CL-COPY-01 coverage, CL-DATA-19 x2)
-        # 2026-11-08 CL-INT-103 union re-measure (node v26.7.0 --test-isolation=none, 519 pass / 0 fail): CL-UI-49 admin picker +1, union fixture re-anchors make the CL-COPY-01/CL-DATA-19 baselines GREEN — no pre-existing failures remain.
-        # 2026-11-08 CL-INT-103 final merged-tree re-measure (node v26.7.0 --test-isolation=none, 523 pass / 0 fail): CL-UI-50 +4 no-black-box tests merged from origin/main.
+        # 2026-11-08 CL-CI-27: the 3 'pre-existing failures' were NOT pre-existing —
+        # CL-DATA-33 (f550046eb) added light_window to tw-034-P02 and CL-COPY-01/CL-DATA-19
+        # pins were stale; re-anchored in CL-CI-27 commit b6775d1ed, full suite now
+        # 519 pass / 0 fail on the merged tree (node v26.7.0, --test-isolation=none) -> w4-node=519, exact total 1019->1029 (full postmerge run measured on this tree: all group pins green, counted sum 1029).
+        # 2026-11-08 CL-UI-50: +4 no-black-box regression tests -> w4-node=523 (measured locally on task/CL-UI-50 358c1f662: node v22.22.3, no --test-isolation locally, 523 pass / 0 fail).
             ("w5-public-source-contract", ["node", "--test", "--test-reporter=tap",
                 "ops/v2/tests/public-source-contract.test.mjs",
                 "ops/v2/tests/cl-int-76-provenance.test.mjs"], 9, False, True),
@@ -443,22 +445,15 @@ def main():
         # (all measured on this tree; w4-node measured under node v22.22.3
         # without --test-isolation=none, which node 22 rejects — CI runs node
         # 26 with the flag and sees the same test count), exact total
-        # 962 -> 1019; CL-INT-101 union (CL-DATA-32 + CL-UI-47) re-measured
-        # on the merged tree (node v26.7.0, --test-isolation=none) = 1024.
-        # Catalog gate re-anchored 197/374 -> 218/406 and
-        # browse_index_source_sha -> d8bc99ea (CL-DATA-28 regen chain);
-        # CL-INT-101: 218/406 -> 232/420 on the CL-DATA-32 merged tree.
-        # 2026-11-08 CL-INT-103 final: on the CL-INT-103 union tree (+5 batch04
-        # light_window role checks in w2), all suites re-measured green with
-        # candidate-build-browser=6 -> exact total 1029 (node v26.7.0,
-        # --test-isolation=none; measured, 0 fail).
+        # 962 -> 1019. Catalog gate re-anchored 197/374 -> 218/406 and
+        # browse_index_source_sha -> d8bc99ea (CL-DATA-28 regen chain).
         # 2026-11-08 CL-CI-28: CL-UI-50's +4 node tests raised the measured
-        # exact total to 1033 (w4-node 523 + candidate-build-browser 6 + the
+        # exact total to 1034 (CL-CI-29 +1 node test; w4-node 524 + candidate-build-browser 6 + the
         # 504 counted on this tree; measured locally with node v26.7.0
         # --test-isolation=none, 523 pass / 0 fail and 6 pass / 0 fail) — the
         # CL-UI-50 commit updated the w4-node group pin but left the exact
         # total at 1029, reding every postmerge push with no FAIL group.
-        if (report["counts"]["tests"] != 1033 or
+        if (report["counts"]["tests"] != 1034 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
                 report["counts"]["pass"] + report["counts"]["skip"] != 1033):
