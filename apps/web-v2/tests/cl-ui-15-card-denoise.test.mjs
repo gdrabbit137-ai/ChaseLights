@@ -38,6 +38,28 @@ test('CL-UI-15 (1): summary line strips a leading spot-name prefix (display-leve
   assert.match(createSpotCardBlock,/esc\(stripSpotNamePrefix\(v2Best\.name,spot,v2PlaceData\?\[v2PlaceData\]:\[\]\)\)/);
 });
 
+test('CL-UI-48: ja strip drops the dangling leading particle (grammar-safe)',()=>{
+  // ja copy is grammar-bound to the name: 「関渡大橋の夜間ライトアップと光跡」
+  // strips to 「の夜間…」 unless the particle goes too. zh/en must be untouched.
+  const stripFnJa=grab('function stripSpotNamePrefix','// CL-UI-05: single V2 day-state label mapping');
+  const stripJa=new Function(`${spotNameConst}\nlet currentLang='ja';\n${stripFnJa}\nreturn stripSpotNamePrefix;`)();
+  const spot={name_i18n:{ja:'関渡大橋'},name_local:'關渡大橋'};
+  assert.equal(stripJa('関渡大橋の夜間ライトアップと光跡',spot),'夜間ライトアップと光跡');
+  // Each listed particle is dropped in ja.
+  for(const p of ['は','が','を','に','へ','と','で','や','も','から','まで']){
+    assert.equal(stripJa('関渡大橋'+p+'夜景',spot),'夜景',`particle ${p}`);
+  }
+  // Only ONE leading particle goes; the rest of the copy is intact.
+  assert.equal(stripJa('関渡大橋ののっぽの塔',spot),'のっぽの塔');
+  // Separators still strip first, then no particle remains.
+  assert.equal(stripJa('関渡大橋：夜景',spot),'夜景');
+  // zh-TW is unchanged: no particle logic runs outside ja.
+  assert.equal(stripSpotNamePrefix('合歡山：雲海',{name_i18n:{'zh-TW':'合歡山'},name_local:'Hehuan Mountain'}),'雲海');
+  // The remainder check: if stripping would not leave a CJK char or letter
+  // (e.g. the subject is the name plus a particle only), keep the full string.
+  assert.equal(stripJa('関渡大橋の',spot),'関渡大橋の');
+});
+
 test('CL-UI-47: alias place name from the V2 bundle strips a name-variant prefix',()=>{
   // tw-086 regression: the legacy spot name uses 淡水大橋 while the V2
   // research/contract subject uses the variant 淡江大橋; the alias source
