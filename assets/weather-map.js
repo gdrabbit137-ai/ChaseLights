@@ -2352,6 +2352,13 @@
             if(state.region !== regionId) return;
             assignSourceBundle(baseline, bundle);
             window.__weatherGridBaselineBundleReadyAt = performance.now();
+            // CL-WG-32: the PNG-stub first paint carries no spots, and the
+            // only refreshSpotOptions() call in activateRegion's tail ran
+            // against the stub — after the full bundle replaces state.data
+            // the #spot-select stayed at the placeholder forever. Rebuild
+            // the option list (and the deep-link spot entry, which needs
+            // the refreshed options to land on a real spot) here.
+            refreshSpotOptions();
           }catch(err){
             if(state.region !== regionId || !state.data?.png_prerendered) return;
             console.warn(`WeatherGrid baseline bundle unavailable for ${regionId}`, err);
