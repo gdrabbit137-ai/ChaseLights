@@ -9,3 +9,6 @@ data/v2/staging/genre_review/sheets/
 data/v2/staging/genre_review/archive/
 exports/
 __pycache__/
+
+# CL-CI-31: build outputs are never committed (build_static refuses a non-empty output dir)
+.ci/v2-public-candidate/
