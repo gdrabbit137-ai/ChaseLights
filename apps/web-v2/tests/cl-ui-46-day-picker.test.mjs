@@ -124,6 +124,6 @@ test('CL-UI-46 (7): new i18n keys exist in all three dictionaries',()=>{
 });
 
 test('CL-UI-46 (8): index.html cache-bust stamps bumped to clui49 in the same commit',()=>{
-  assert.match(htmlSource,/assets\/app\.js\?v=clui50/);
+  assert.match(htmlSource,/assets\/app\.js\?v=clui51/);
   assert.match(htmlSource,/assets\/app\.css\?v=clui49/);
 });

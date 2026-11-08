@@ -464,6 +464,10 @@
     // 八里崁頭里・淡江大橋觀景點), so the caller may pass the V2 evaluation
     // bundle's place object as an extra alias source. Match semantics stay
     // owner-ruled: longest-name-first, true full-name prefix only.
+    // CL-UI-48: ja copy is grammar-bound to the name — 「関渡大橋の夜間ライト
+    // アップと光跡」 strips to a dangling particle. After a strip, ja drops a
+    // leading particle (の/は/が/…), and any language keeps the full string
+    // unless the remainder still reads as a subject (CJK char or letter).
     function stripSpotNamePrefix(subject,spot,altPlaces){
       const s=String(subject||'').trim();
       if(!s)return subject;
@@ -475,8 +479,11 @@
         if(s.startsWith(n)){
           // Longest name wins, so a longer name that merely begins with a
           // shorter one (合歡山 vs 合歡山主峰) is never partially stripped.
-          const rest=s.slice(n.length).replace(/^[\s：:·・\-–—]+/,'');
-          if(rest)return rest;
+          let rest=s.slice(n.length).replace(/^[\s：:·・\-–—]+/,'');
+          if(currentLang==='ja'){
+            rest=rest.replace(/^(の|は|が|を|に|へ|と|で|や|も|から|まで)/,'');
+          }
+          if(rest&&/^[A-Za-z0-9\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff]/.test(rest))return rest;
         }
       }
       return subject;
