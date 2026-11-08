@@ -45,7 +45,7 @@ for pid in places:
     slug = PLACE_SLUG[pid]
     urls = PLACE_SOURCES[pid]
     eid = f"{PLACE_EVID}-{slug}"
-    evidence["places"].append(pid)
+    evidence["places"].append({"place_id": pid, "slug": None})
     evidence["evidence"].append({
         "id": eid,
         "grade": "A",
