@@ -9,12 +9,12 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "451c8ad74bffde2bede705714cb1a164027076eef1bf67e72837ebdb9ae65489",
+ "inputs_fingerprint_sha256": "87190ef68cf0b734d32c5c54a5e61004163e721eca4fbf0232b8ecb0f618c4d8",
  "summary": {
   "places": 218,
   "opportunities": 406,
   "canonical_locked_opportunities": 406,
-  "places_with_unknown_scenic_beauty": 155,
+  "places_with_unknown_scenic_beauty": 154,
   "mean_weighted_total": 3.81,
   "median_weighted_total": 3.83,
   "mean_basis": "places with evidenced scenic_beauty only (rubric v2 honest-unknown rule)",
@@ -1218,6 +1218,36 @@
    "coords": [
     24.086,
     121.323
+   ]
+  },
+  {
+   "place_id": "tw-073",
+   "name_zh": "老梅綠石槽",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-073-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 1.5,
+    "differentiation": 4,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.75,
+   "nearest_place": "tw-001",
+   "nearest_km": 13.12,
+   "coords": [
+    25.29242,
+    121.54446
    ]
   },
   {
@@ -4710,37 +4740,6 @@
    "coords": [
     25.11982,
     121.89314
-   ]
-  },
-  {
-   "place_id": "tw-073",
-   "name_zh": "老梅綠石槽",
-   "region": "tw",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "tw-073-P01"
-   ],
-   "rubric": {
-    "subject_strength": 5,
-    "weather_light_dependency": 5,
-    "verifiability": 1.5,
-    "differentiation": 4,
-    "scenic_beauty": "unknown"
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 0,
-    "s3": 0,
-    "top": 0,
-    "note": "no in-repo scenic-classification evidence — honest unknown",
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": null,
-   "nearest_place": "tw-001",
-   "nearest_km": 13.12,
-   "coords": [
-    25.29242,
-    121.54446
    ]
   },
   {
