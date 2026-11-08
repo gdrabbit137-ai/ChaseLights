@@ -406,7 +406,7 @@ def build_contract(p, subj):
         "evidence_claims": [{
             "claim_id": f"{oid}-claim-01", "claim_type": "existence",
             "evidence_refs": [f"e-d32-web-{p['slug']}"], "audit_status": "UNKNOWN",
-            "scope_note": "CL-DATA-32 discovery admission (rubric >=3.8, owner ruling 2026-11-08); coordinates/elevation web-verified 2026-11-08 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration.",
+            "scope_note": "CL-DATA-32 discovery admission (PM-judgment, owner ruling 2026-11-08 「你找到覺得好的就直接加入」; scoring suspended 2026-11-08); coordinates/elevation web-verified 2026-11-08 (sources in camera derivation_method and data/v2/audits/cl-data-32_web_evidence.json); thresholds provisional pending real-shoot calibration.",
         }],
         "readiness": {"research_level": "R1", "gaps": ["RESEARCH_GAP"]},
         "provenance": {
@@ -704,7 +704,7 @@ def main():
         "retrieved_at": "2026-11-08",
         "limitation": "Coordinate verified against official/Wikipedia source; exact tripod position, bearing and access not field-surveyed.",
     } for p in places]
-    wbytes(ROOT / "data/v2/audits/cl-data-25_web_evidence.json", jdump(ev))
+    wbytes(ROOT / "data/v2/audits/cl-data-32_web_evidence.json", jdump(ev))
     print("evidence json written")
 
 if __name__ == "__main__":
