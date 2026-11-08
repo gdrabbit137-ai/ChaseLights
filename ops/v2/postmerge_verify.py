@@ -456,7 +456,7 @@ def main():
         if (report["counts"]["tests"] != 1034 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1033):
+                report["counts"]["pass"] + report["counts"]["skip"] != 1034):
             raise ValueError("Post-merge exact 1033-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
