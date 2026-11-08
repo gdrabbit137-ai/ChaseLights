@@ -37,7 +37,7 @@ EXPECTED = {
 EXPECTED_ROLES = {
     "tw-082-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "QUALITY"),
     "tw-036-P01": ("REQUIRED", "REQUIRED", "QUALITY", "REQUIRED"),
-    "tw-034-P02": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),
+    "tw-034-P02": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),  # CL-INT-103: +1 civil light_window (CL-DATA-33 owner-approved union revision)
     "jp-010-P01": ("REQUIRED", "REQUIRED", "REQUIRED"),
     "us-071-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),
 }
