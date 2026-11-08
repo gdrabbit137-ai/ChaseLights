@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-029-P02",
   "place_id": "jp-029",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "伊賀上野城・白鳳城與櫻花",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-iga-ueno-castle"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於三重縣伊賀市上野（伊賀上野城，官方管理單位伊賀文化產業協會）。官方「ご利用案内」頁公布參觀制度與票價；石牆與外觀公園為常時可拍（戶外），天守閣入館（收費）依官方時間制度；拍攝櫻花題材時上野公園為市立公園（24小時可達），觀音門周邊留意參觀人潮與禁入區。",
+        "en": "Ueno, Iga, Mie (Iga-Ueno Castle; managed by the Iga Cultural Property Association). The official usage-guide page lists visiting rules and fees; the stone walls and outer castle grounds are viewable at all times (outdoor) and the donjon interior is ticketed with official hours. For the cherry-blossom subject, Ueno Park is a public city park (open 24h); mind crowds and restricted areas around the castle.",
+        "ja": "三重県伊賀市上野（伊賀上野城、管理は伊賀文化産業協会）。公式ご利用案内ページに見学制度・料金を掲載。石垣と外郭の公園は常時見学可（屋外）、天守閣内部は有料で公式時間制度に従う。桜題材は上野公園が市立公園（24時間アクセス可）で、城周辺の混雑と立入禁止区域に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-iga-ueno-castle"
+      ],
       "components": []
     }
   ],
@@ -226,9 +230,11 @@
     {
       "claim_id": "jp-029-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-iga-ueno-castle"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

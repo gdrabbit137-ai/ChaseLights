@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-004-P04",
   "place_id": "tw-004",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "不厭亭夕照山稜＋瑞雙公路",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 531 m verified 2026-11-06; source: https://smiletaiwan.cw.com.tw/article/1216 + https://myjourney.tw/buyen-pavilion（不厭亭 531 m）",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 531 m verified 2026-11-06; source: https://smiletaiwan.cw.com.tw/article/1216 + https://myjourney.tw/buyen-pavilion（不厭亭 531 m） CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "verified",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-buyanting-newtaipei"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於新北市102號縣道（瑞雙公路）上、雙溪與九份交界山脊（新北市官方觀光網收錄景點）。車輛沿台102線自撰天?上山或自九份方向抵達，涼亭旁路肩可短暫停車，無專用大型停車場，連假易壅塞；夜間無照明，往返請備燈並注意公路車流。",
+        "en": "On Provincial Highway 102 (Rui-Shuang Road) on the ridge between Shuangxi and Jiufen, New Taipei (listed on the official New Taipei tourism site). Approach by road either from Ruifang side or Jiufen side; the paved shoulder by the pavilion allows short stops — there is no dedicated large parking lot and holiday congestion is common. The site is unlit at night; bring lights and watch traffic.",
+        "ja": "新北市道102号（瑞双公路）上、双渓と九份の境界尾根にある（新北市公式観光サイト掲載）。瑞芳側または九份側から車で到達。あずまや脇の路肩に短時間駐車可だが専用大型駐車場はなく、連休は混雑しやすい。夜間は照明がなく、ライト携行と交通への注意が必要。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-buyanting-newtaipei"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "tw-004-P04-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-buyanting-newtaipei"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

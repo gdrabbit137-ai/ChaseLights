@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-013-P01",
   "place_id": "jp-013",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "立石公園・諏訪湖夕景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-tateishi-park-suwa"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於長野縣諏訪市（諏訪市官方公園頁）。依官方交通資訊：JR上諏訪站步行約30分或計程車約15分（另有 AI 交通「チョイソコ」立石町站步行10分）；公園駐車場僅23台（含2台無障礙）、摩托8台，大型巴士不可停，路邊停車嚴禁；假期或平日16時後常壅塞（官方建議先看官方 Live camera 確認停車情況）；公園免費、無時限（戶外）。",
+        "en": "In Suwa, Nagano (official city park page). Official access: ~30 min walk or ~15 min taxi from JR Kamisuwa Station (also the AI on-demand 'Choisoko' stop Tateishi-cho, 10 min walk). Parking only 23 cars (2 accessible) plus 8 bikes; no large-bus parking, roadside stopping strictly prohibited; congestion typical on holidays and after 16:00 even on weekdays (official advice: check the official live camera before coming). Park is free, outdoor, unlimited hours.",
+        "ja": "長野県諏訪市（諏訪市公式公園ページ）。公式アクセス：JR上諏訪駅から徒歩約30分またはタクシー約15分（AI交通「チョイソコ」立石町停留所から徒歩約10分）。駐車場は23台分（内2台は障害者用）とバイク8台のみで大型バスは不可、路上駐車は厳禁。祝日や平日でも16時以降は渋滞しやすく、公式ライブカメラで駐車状況を確認してから訪問推奨。公園は無料・屋外・時間制限なし。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-tateishi-park-suwa"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "jp-013-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d35-access-tateishi-park-suwa"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {
