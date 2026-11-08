@@ -64,6 +64,7 @@ jobs:
         env:
           FORECAST_HOURS: ${{ inputs.forecast_hours || '12' }}
         run: |
+          set -o pipefail
           rm -rf weathergrid/v2/jma/current
           python weathergrid_v2_publish.py             --region tw             --forecast-hours "$FORECAST_HOURS"             --output-root weathergrid/v2             | tee /tmp/weathergrid-v2-jma-summary.json
 
