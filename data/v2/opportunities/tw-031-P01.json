@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-031-P01",
   "place_id": "tw-031",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "抹茶山清晰層巒遠眺",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-shengmu-trail"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於宜蘭縣礁溪鄉五峰旗瀑布風景區上方。依林業及自然保育署宜蘭分署官網，聖母登山步道全長約1.6公里（海拔400–950公尺），無入山管制，步道入口為聖母山莊（海拔900公尺）與通天橋產業道路（海拔410公尺）兩處，小型車可達；前往山莊須自五峰旗風景區沿溪上溯。稜線風大、箭竹草原泥滑，請結伴並備防滑與保暖。",
+        "en": "Above the Wufengqi waterfall scenic area, Jiaoxi Township, Yilan. Per the Yilan Branch of the Forestry and Nature Conservation Agency, the Shengmu (Sacred Mother) trail is about 1.6 km long (400–950 m elevation) with no entry permit required; its two entrances are Shengmu Villa (900 m) and the Tongtianqiao farm road (410 m), both reachable by small vehicles. Reaching the villa from Wufengqi involves a riverside climb. The ridge is windy and the bamboo-grass slope slippery — go with company and bring grip and warm layers.",
+        "ja": "宜蘭県礁溪郷の五峰旗瀑布風景区の上方。林業及び自然保育署宜蘭分署の公式サイトによると、聖母登山歩道は全長約1.6km（標高400–950m）で入山管制はない。入口は聖母山荘（標高900m）と通天橋産業道路（410m）の2か所で小型車が到達可。山荘へは五峰旗風景区から渓沿いに登る。稜線は風が強く、笹原はぬかるむため、複数人での入山に滑り止めと防寒を携行すること。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-shengmu-trail"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "tw-031-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-shengmu-trail"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

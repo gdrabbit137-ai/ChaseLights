@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-019-P06",
   "place_id": "tw-019",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "合歡主峰雪覆山稜",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-hehuanshan-main-peak"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於太魯閣國家公園合歡山遊憩區。合歡主峰步道曾因鋪面改善工程封閉，2025年10月起隨園區部分開放公告恢復通行，惟觀景平台整建中暫不開放；實際開放期程依太管處官網公告。車行台14甲線至登山口（無大眾運輸直達），高海拔夜間易結霜，請備保暖衣物與照明。",
+        "en": "In the Hehuan Mountain recreation area of Taroko National Park. The Hehuan Main Peak trail was closed for pavement improvement and reopened from October 2025 under the park's partial-reopening notice; the viewing platform remains closed during reconstruction. Check the Taroko HQ site for the current status. Access is by car along Provincial Highway 14A to the trailhead (no direct public transport). Frost forms at night at this altitude — bring warm layers and lights.",
+        "ja": "太魯閣国家公園合歓山遊憩区域内。合歓主峰歩道は舗装改善工事のため閉鎖されていたが、2025年10月の園区部分開放公告により通行再開。ただし展望台は改築中のため引き続き閉鎖。実際の開放状況は太魯閣管理処の公式サイトで確認すること。登山口へは台14甲線を車で向かう（公共交通の直達なし）。この標高では夜間に霜が降りるため、防寒具とライトを携行すること。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-hehuanshan-main-peak"
+      ],
       "components": []
     }
   ],
@@ -284,9 +288,11 @@
     {
       "claim_id": "tw-019-P06-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-hehuanshan-main-peak"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

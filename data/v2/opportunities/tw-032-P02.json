@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-032-P02",
   "place_id": "tw-032",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "見晴午後雲海＋露出山稜",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-jianqing-trail"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於宜蘭縣大同鄉太平山國家森林遊樂區內。依林業及自然保育署宜蘭分署官網，見晴懷古步道無入山管制；太平山園區須購票入園（門票與開放依林業及自然保育署公告），自羅東沿台7線經宜專1公路上山，園區內設有停車場。步道沿舊鐵道林間，晨間常有雲霧，木棧道濕滑請注意。",
+        "en": "Inside Taiping Mountain National Forest Recreation Area, Datong Township, Yilan. Per the Yilan Branch of the Forestry and Nature Conservation Agency, the Jianqing Old Trail needs no entry permit; the recreation area itself requires an admission ticket (fees and hours per the agency's notices) and is reached from Luodong via Highway 7 onto the Yi-zhuan-1 road, with parking inside the area. The trail follows an old forest railway through mossy woods — the boardwalk is slick with morning fog and dew.",
+        "ja": "宜蘭県大同郷の太平山国家森林遊楽区内。林業及び自然保育署宜蘭分署の公式サイトによると、見晴懐古歩道に入山管制はないが、遊楽区自体は入園券が必要（料金・開放状況は同署の公告による）。羅東から台7線・宜専1公路で上山し、園区内に駐車場がある。歩道は旧森林鉄道沿いの苔むした林道で、朝霧と露で木道が滑りやすい。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-jianqing-trail"
+      ],
       "components": []
     }
   ],
@@ -407,9 +411,11 @@
     {
       "claim_id": "tw-032-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-jianqing-trail"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

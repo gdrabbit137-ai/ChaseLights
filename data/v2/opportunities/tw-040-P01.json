@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-040-P01",
   "place_id": "tw-040",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "玉山主峰日出與高山群峰",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-yushan-main-peak"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於南投縣及高雄市境（玉山國家公園），依玉山國家公園管理處官網登山路線現況為開放，惟入園與入山均須提前申請（臺灣國家公園入園入山線上申請服務網），主峰線沿塔塔加—排雲路線往返，住宿為排雲山莊（需依管理處規定登記）。高山天候變化劇烈、冬季積雪結霜，夜間山徑依規定使用頭燈與留守制度。",
+        "en": "Straddling Nantou and Kaohsiung within Yushan National Park. Per the Yushan HQ site the climbing routes are open, but BOTH park-entry and mountain-entry permits must be applied for in advance (Taiwan National Parks online permit service); the main-peak route goes from Tataka via Paiyun, with lodging at Paiyun Mountain Hut (booked per HQ rules). Weather swings hard at altitude with winter snow and frost — headlamps and a buddy/watch system are required on night sections.",
+        "ja": "南投県と高雄市にまたがる玉山国家公園内。玉山管理処の公式サイトでは登山路線は開放状態だが、入園・入山とも事前申請が必須（台湾国家公園入園入山オンライン申請サービス網）。主峰ルートは塔塔加から排雲経由の往復で、宿泊は排雲山荘（管理処の規定による登録が必要）。高所の天候は激変し冬季は積雪・霜。夜間区間ではヘッドライトと留守番制度が必須。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-yushan-main-peak"
+      ],
       "components": []
     }
   ],
@@ -253,9 +257,11 @@
     {
       "claim_id": "tw-040-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-yushan-main-peak"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {
