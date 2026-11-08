@@ -89,12 +89,13 @@ assert.equal(catalog.selected_date_recommendation_eligible, false);
 assert.equal(catalog.forecast_available, false);
 assert.deepEqual(catalog.evaluations, []);
 // Full breadth migration is published (PR #533): the live pilot grew from the
-// 7-place preview to the admitted 189-place / 353-opportunity catalog. The
-// byte-exactness guarantee is the per-file digest verification against the
-// pinned manifest; these counts are the breadth sanity assertions.
-assert.equal(catalog.opportunities.length, HOME?374:1);
+// 7-place preview to the admitted catalog. The byte-exactness guarantee is the
+// per-file digest verification against the pinned manifest; these counts are
+// breadth sanity assertions re-anchored (CL-CI-24) to the repo's own
+// catalog.v2.json so they track admissions instead of drifting stale.
+assert.equal(catalog.opportunities.length, HOME?repoCatalog.opportunities.length:1);
 if(HOME){
-  assert.equal(catalog.places.length,190);
+  assert.equal(catalog.places.length,repoCatalog.places.length);
   verifyPublicIndex(expectedManifest,catalog,JSON.parse((await fetchPublic('browse-index.v2.json')).body));
   // Same-origin pin check: the live candidate catalog must declare exactly the
   // source pins the repo's own build artifact declares (structural comparison;
