@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-033-P02",
   "place_id": "tw-033",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "愛情鎖海灘礁岩日出",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-fendiaolin-nanao"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於宜蘭縣南澳鄉東澳灣最南端（宜蘭縣政府官方旅遊網收錄，全天開放）。主要拍攝點集中在粉鳥林漁港堤防與海岸步道；縣府旅遊網提醒礫灘地滑、不宜靠近崩塌岩壁。車行沿台9線轉東澳路抵漁港停車場，港區作業與海況變動請依現場指示，夜間無照明請攜燈。",
+        "en": "At the southern end of Dong'ao Bay, Nan'ao Township, Yilan (listed on the official Yilan tourism site; open around the clock). The main shooting points are the Fendiaolin fishing-harbor breakwater and the coastal path; the county tourism site warns that the pebble beach is slippery and collapsed rock faces must be avoided. Drive Highway 9 onto Dong'ao Road to the harbor parking. Harbor operations and sea conditions vary — follow on-site signs, and bring lights since the area is unlit at night.",
+        "ja": "宜蘭県南澳郷の東澳湾最南端（宜蘭県公式観光サイト掲載、終日開放）。主な撮影点は粉鳥林漁港の防波堤と海岸の遊歩道。県観光サイトは礫浜が滑りやすく、崩壊した岩壁には近づかないよう注意を呼びかけている。台9線から東澳路へ入り漁港の駐車場へ。港湾作業と海況で状況が変わるため現地案内に従い、夜間は無照明のためライトを携行すること。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-fendiaolin-nanao"
+      ],
       "components": []
     }
   ],
@@ -228,9 +232,11 @@
     {
       "claim_id": "tw-033-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-fendiaolin-nanao"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

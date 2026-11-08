@@ -2,11 +2,11 @@
 
 評分範圍：232 places × 420 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`10e04cfe7fb0caee…`（重跑可驗證確定性）。
+輸入指紋：`037d2903bb66d701…`（重跑可驗證確定性）。
 
-- 全庫加權均分：**3.86 / 5**；中位數：**3.88 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**159** 個，不虛構分數）。
+- 全庫加權均分：**3.86 / 5**；中位數：**3.87 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**148** 個，不虛構分數）。
 - 區域分布：jp=56, tw=93, us=83
-- 弱點清單筆數：低 weather_light **6**、低 verifiability **248**、5km 群聚 **17**。
+- 弱點清單筆數：低 weather_light **6**、低 verifiability **188**、5km 群聚 **17**。
 
 ## 五維判定規則（機械、可重跑）
 
@@ -31,19 +31,19 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | 5 | `jp-002` | 旭岳 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
 | 6 | `jp-009` | 磐梯山 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
 | 7 | `jp-052` | 備中松山城・雲海（天空の城） | jp | 1 | **4.3** | 5/5/2.5/5/4 |
-| 8 | `jp-028` | 高野山 | jp | 1 | **4.25** | 4/5/3.5/5/4 |
-| 9 | `tw-084` | 大農大富平地森林園區 | tw | 3 | **4.23** | 4.33/5/4.0/5/3 |
-| 10 | `jp-046` | タウシュベツ川橋梁（幻の橋） | jp | 1 | **4.2** | 5/5/3.0/5/3 |
-| 11 | `jp-045` | 地球岬展望台 | jp | 2 | **4.17** | 4.5/5/2.5/5/4 |
-| 12 | `us-011` | 大提頓國家公園 | us | 2 | **4.17** | 4.5/5/3.5/5/3 |
-| 13 | `us-001` | 大峽谷國家公園 | us | 3 | **4.13** | 4.33/5/3.5/5/3 |
-| 14 | `jp-037` | 雲海テラス（トマム） | jp | 2 | **4.1** | 5/5/2.5/5/3 |
-| 15 | `tw-089` | 觀霧榛山步道觀景點 | tw | 1 | **4.1** | 5/5/2.5/5/3 |
-| 16 | `tw-001` | 大屯山助航站 | tw | 3 | **4.07** | 4.67/5/3.5/4/3 |
-| 17 | `jp-003` | 釧路濕原 | jp | 1 | **4.05** | 4/5/3.5/5/3 |
-| 18 | `jp-042` | 森吉山樹氷平（阿仁スキー場） | jp | 2 | **4.05** | 4/5/2.5/5/4 |
-| 19 | `jp-047` | 八甲田山樹氷（八甲田ロープウェー） | jp | 1 | **4.05** | 4/5/2.5/5/4 |
-| 20 | `tw-034` | 崇德 | tw | 3 | **4.02** | 4.67/5/2.5/5/3 |
+| 8 | `tw-044` | 南湖大山 | tw | 3 | **4.3** | 5/5/3.5/5/3 |
+| 9 | `tw-071` | 小琉球花瓶岩 | tw | 2 | **4.3** | 5/5/3.5/5/3 |
+| 10 | `jp-028` | 高野山 | jp | 1 | **4.25** | 4/5/3.5/5/4 |
+| 11 | `tw-084` | 大農大富平地森林園區 | tw | 3 | **4.23** | 4.33/5/4.0/5/3 |
+| 12 | `jp-046` | タウシュベツ川橋梁（幻の橋） | jp | 1 | **4.2** | 5/5/3.0/5/3 |
+| 13 | `jp-045` | 地球岬展望台 | jp | 2 | **4.17** | 4.5/5/2.5/5/4 |
+| 14 | `us-011` | 大提頓國家公園 | us | 2 | **4.17** | 4.5/5/3.5/5/3 |
+| 15 | `tw-043` | 奇萊主峰 | tw | 4 | **4.15** | 5/5/3.5/4/3 |
+| 16 | `tw-067` | 北竿芹壁 | tw | 1 | **4.15** | 5/5/3.5/4/3 |
+| 17 | `us-001` | 大峽谷國家公園 | us | 3 | **4.13** | 4.33/5/3.5/5/3 |
+| 18 | `jp-037` | 雲海テラス（トマム） | jp | 2 | **4.1** | 5/5/2.5/5/3 |
+| 19 | `tw-089` | 觀霧榛山步道觀景點 | tw | 1 | **4.1** | 5/5/2.5/5/3 |
+| 20 | `tw-001` | 大屯山助航站 | tw | 3 | **4.07** | 4.67/5/3.5/4/3 |
 
 ### Bottom 20
 
@@ -145,66 +145,6 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | `tw-038-P01` | tw-038 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-038-P02` | tw-038 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-040-P01` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P02` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P03` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P04` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P05` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-040-P06` | tw-040 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-041-P01` | tw-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-041-P02` | tw-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-041-P03` | tw-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-041-P04` | tw-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-041-P05` | tw-041 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-042-P01` | tw-042 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-043-P01` | tw-043 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-043-P02` | tw-043 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-043-P03` | tw-043 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-043-P04` | tw-043 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-044-P01` | tw-044 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-044-P02` | tw-044 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-044-P03` | tw-044 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-045-P01` | tw-045 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-045-P02` | tw-045 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-045-P03` | tw-045 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-045-P04` | tw-045 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-045-P05` | tw-045 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-046-P01` | tw-046 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-046-P02` | tw-046 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-047-P01` | tw-047 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-047-P02` | tw-047 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-047-P03` | tw-047 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-048-P01` | tw-048 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-049-P01` | tw-049 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-049-P02` | tw-049 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-049-P03` | tw-049 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-050-P01` | tw-050 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-051-P01` | tw-051 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-051-P02` | tw-051 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-053-P01` | tw-053 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-053-P02` | tw-053 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-054-P01` | tw-054 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-054-P02` | tw-054 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-055-P01` | tw-055 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-056-P01` | tw-056 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-056-P02` | tw-056 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-057-P01` | tw-057 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-057-P02` | tw-057 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-059-P01` | tw-059 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
-| `tw-060-P01` | tw-060 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
-| `tw-060-P02` | tw-060 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-060-P03` | tw-060 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-061-P01` | tw-061 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-061-P02` | tw-061 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-064-P01` | tw-064 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-064-P02` | tw-064 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-065-P01` | tw-065 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-066-P01` | tw-066 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-067-P01` | tw-067 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-069-P01` | tw-069 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-070-P01` | tw-070 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-070-P02` | tw-070 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-071-P01` | tw-071 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-071-P02` | tw-071 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-072-P01` | tw-072 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-072-P02` | tw-072 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-073-P01` | tw-073 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-056-P02",
   "place_id": "tw-056",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "松蘿湖平靜湖面倒影",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-songluo-lake"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於宜蘭縣大同鄉（林業保育署宜蘭分署管理）。依宜蘭分署公告：松蘿湖山徑屬山地經常管制區，須依法申請入山——網路經內政部警政署「入山案件申辦系統」搜尋「松蘿湖（宜蘭縣-大同鄉）」辦理；現場申請至三星分局大同分駐所（大同鄉崙埤村朝陽39號）。山徑泥濘濕滑、夜間無照明，湖畔紮營請依規定並注意野生動物與低溫。",
+        "en": "In Datong Township, Yilan (managed by the Forestry Agency's Yilan Branch). Per branch notices: the Songluo Lake trail lies in a permanently controlled mountain area — apply for the mountain-entry permit online via the National Police Agency system (search \"Songluo Lake, Yilan-Datong\") or in person at the Santong sub-precinct, Datong station (No. 39 Chaoyang, Lunpi Village). The trail is muddy and unlit at night; camp by the lake per regulations and watch for wildlife and low temperatures.",
+        "ja": "宜蘭県大同郷（林業保育署宜蘭分署管理）。分署公告：松羅湖山径は常時入山管制区——入山許可は警政署「入山案件申弁システム」でオンライン申請（検索「松蘿湖（宜蘭県-大同郷）」）、または三星分局大同分分局大同分駐所（崙埤村朝陽39号）で現地申請。山径は泥濘で夜間無照明。湖畔のテント設営は規定に従い、野生動物と低温に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-songluo-lake"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "tw-056-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-songluo-lake"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

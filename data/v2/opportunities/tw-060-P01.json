@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-060-P01",
   "place_id": "tw-060",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "雙心石滬完整形態",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-qimei-twin-hearts"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於澎湖縣七美鄉東湖村頂隙（澎湖國家風景區管理處景點）。官方資料：雙心石滬為24小時開放、免費參觀，係玄武岩與珊瑚礁砌築之傳統捕魚石滬；官方提醒觀看完整雙心造型須先確認每日退潮時間，退潮前後光線與構圖最佳；海崖下地形濕滑，攝影請注意風浪與通行安全。",
+        "en": "At Dingxi, Donghu Village, Qimei Township, Penghu (a Penghu National Scenic Area HQ site). Official info: the Twin-Heart stone weir is open 24 hours and free — a traditional fish weir built of basalt and coral; officials advise checking the daily low tide to see the full twin-heart shape, with the best light and composition around the ebb. The cliffs below are wet and slippery — mind wind, waves and footing.",
+        "ja": "澎湖県七美郷東湖村頂隙（澎湖国家風景区管理処の景点）。公式情報：双心石滬は24時間開放・無料で、玄武岩と珊瑚で築かれた伝統的な漁獲用石滬。完全な双心の形を見るには毎日の干潮時間を確認する必要があり、引き潮前後が光線・構図ともベスト。海崖下は湿って滑りやすいため、風浪と足元に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-qimei-twin-hearts"
+      ],
       "components": []
     }
   ],
@@ -141,9 +145,11 @@
     {
       "claim_id": "tw-060-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-qimei-twin-hearts"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

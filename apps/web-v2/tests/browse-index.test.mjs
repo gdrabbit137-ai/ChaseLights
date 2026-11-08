@@ -11,9 +11,9 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and 434 canonical sources remain source pinned (DATA-34 seven-place chain: 239 places / 434 opportunities, CL-INT-110)',()=>{
-  assert.equal(sha256(rawIndex),'9659bc06e40393415709509578890c05acaa0b12b65aa968208f726d6a1a8d35'); // CL-INT-110: re-measured after DATA-34 seven-place chain regen (239 places / 434 opportunities)
-  assert.equal(sha256(rawCatalog),'349181c029e9608e1f1e6d46950af560e7de96764cb5e3551d024fe3c4d9820f'); // CL-INT-110: re-measured after DATA-34 seven-place chain regen (239 places / 434 opportunities)
+test('W2 index and 420 canonical sources remain source pinned (CL-DATA-32 southern-Japan discovery admission: jp-051..jp-064, PM judgment 2026-11-08)',()=>{
+  assert.equal(sha256(rawIndex),'0f344d860e6ca577b142b85da811dfc2c06815196b5f2f7153af9a25d54e85b4'); // CL-INT-112: re-measured on merged tree (239 places / 434 opportunities)
+  assert.equal(sha256(rawCatalog),'948645b542d019d93d755cfd54b72a191853839eff559fe56d048d408d2305ee'); // CL-INT-112: re-measured on merged tree (239 places / 434 opportunities)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,434);assert.equal(source.places.length,239);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];

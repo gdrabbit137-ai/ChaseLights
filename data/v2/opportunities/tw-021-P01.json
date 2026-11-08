@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-021-P01",
   "place_id": "tw-021",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "武界高山茶園日出＋群山",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 800 m verified 2026-11-06; source: https://gofunit.com/南投武界 + http://www.chang-you.com.tw/EW/GO/MGroupDetail.asp?prodCd=9PEH0201（武界部落 760–820 m，通行引用約 800 m）",
+        "derivation_method": "imported_from_v1_viewpoint_reference; CL-DATA-16 elevation 800 m verified 2026-11-06; source: https://gofunit.com/南投武界 + http://www.chang-you.com.tw/EW/GO/MGroupDetail.asp?prodCd=9PEH0201（武界部落 760–820 m，通行引用約 800 m） CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "verified",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-wujie-nantou"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於南投縣仁愛鄉武界部落（南投縣政府官方旅遊網收錄，全天開放）。自部落步行約一小時可達摩摩納爾瀑布與武界壩，一線天位於濁水溪河道沿線，須自武界吊橋旁小路下切河床，地形與溪水狀態變動大，請結伴並依現場指示。部落道路無照明，夜間移動請自備燈。",
+        "en": "In Wujie Village, Ren'ai Township, Nantou (listed on the official Nantou tourism site; open around the clock). Momonael Falls and the Wujie Dam are about a one-hour walk from the village; the Yixiantian (One-Line-Sky) gorge is along the Zhuoshui riverbed and reached via the small path beside the Wujie suspension bridge — conditions change with the river, so go in company and follow on-site signs. Village roads are unlit; carry your own lights at night.",
+        "ja": "南投県仁愛郷の武界部落（南投県公式観光サイト掲載、終日開放）。部落から徒歩約1時間で摩摩納爾瀑布と武界壩に到達。一線天は濁水渓の河川敷沿いにあり、武界吊り橋の脇の小道から川原へ降りる必要がある。川の状態で状況が変わるため、必ず複数人で移動し現地案内に従うこと。部落内の道路は無照明のため、夜間は自前のライトが必要。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-wujie-nantou"
+      ],
       "components": []
     }
   ],
@@ -248,9 +252,11 @@
     {
       "claim_id": "tw-021-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d36-access-wujie-nantou"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

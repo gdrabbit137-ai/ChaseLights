@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-053-P02",
   "place_id": "tw-053",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "青龍瀑布＋森林水景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-shanzhengxi"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於南投縣竹山鎮大鞍里（民營杉林溪森林生態渡假園區）。依園區官方公告：開放時間07:00–21:00，登山遊客需於05:00按門鈴並事先電話預約（049-2611217#714收費站），5:00後不再受理須等07:00開園；入園門票全票350元（原價400元，優惠與縣民票依現場公告）；遊園車目前暫停行駛，園區同步進行道路安全及設施增設工程。園區高海拔氣候涼爽，夜間攝影請自備照明並注意動線。",
+        "en": "In Da'an, Zhushan, Nantou (privately run Sun-Link-Sea forest resort). Per official notices: open 07:00–21:00; hikers may ring the gate bell at 05:00 with advance phone booking (049-2611217 ext 714, toll station) — after 05:00 wait for the 07:00 opening; full ticket NT$350 (list price 400; concessions per on-site notice); the park shuttle is currently suspended while road-safety and facility works proceed. High-altitude cool climate; bring your own lighting for night sessions and mind the works routes.",
+        "ja": "南投県竹山鎮大鞍里（民営の杉林溪森林生態渡假園区）。公式告知：開園07:00〜21:00。登山客は05:00に門鈴を押せますが事前電話予約（049-2611217#714）が必要で、それ以降は07:00の開園まで待つこと。入園券は全票350元（定価400元、割引は現地公告基準）。園内バスは現在運休で、道路安全と施設工事を実施中。高標高で冷涼のため、夜間撮影は照明自備し工事区間に注意。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-shanzhengxi"
+      ],
       "components": []
     }
   ],
@@ -241,9 +245,11 @@
     {
       "claim_id": "tw-053-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-shanzhengxi"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

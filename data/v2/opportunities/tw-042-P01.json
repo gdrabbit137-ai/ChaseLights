@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-042-P01",
   "place_id": "tw-042",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "雪山北峰四向聖稜全景",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-xueshan-north-peak"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於雪霸國家公園生態保護區，屬聖稜線路段（雪山北峰）。入園證及入山證依一站式服務網事前申請；116年雪季（1–3月）申請聖稜線隊伍建議3人以上，並須檢附「登山安全管理評估表」備查，雪季另有雪攀裝備自我檢查表要求。行程屬高海拔縱走路線，夜間僅於申請宿營行程內進行，須留意積雪結冰路段與天候現況。",
+        "en": "Inside Shei-Pa National Park's ecological protection area on the Sacred Ridge line (Xueshan North Peak). Park-entry and mountain-entry permits via the one-stop system; in the snow season (Jan–Mar) Sacred Ridge parties are advised to be 3+ people and file a mountain-safety self-assessment, plus the ice-equipment self-check. High-altitude traverse: night work only within the approved lodging itinerary, watching icy/snow sections and current conditions.",
+        "ja": "雪覇国家公園生態保護区、聖稜線区間（雪山北峰）。入園証・入山証は一括サービス網で事前申請。雪期（1〜3月）の聖稜線は3人以上を推奨し「登山安全管理評価表」の提出が必要で、雪面部装備セルフチェックも要求される。高所縦走路線のため夜間撮影は申請済み宿営行程内に限り、雪氷区間・気象状況に注意すること。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-xueshan-north-peak"
+      ],
       "components": []
     }
   ],
@@ -254,9 +258,11 @@
     {
       "claim_id": "tw-042-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-xueshan-north-peak"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {

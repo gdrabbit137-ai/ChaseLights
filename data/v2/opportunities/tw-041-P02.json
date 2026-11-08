@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-041-P02",
   "place_id": "tw-041",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "雪山主峰日出",
@@ -29,16 +29,18 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-37 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch3-progress.json)",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-xueshan-main-peak"
+      ],
       "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+        "zh-TW": "位於雪霸國家公園生態保護區（武陵登山口進入）。依雪管處規定：雪東線等登山路線須事先辦理入園證及入山證（一站式服務網），登山口查驗後進入；雪山登山口至七卡山莊單日健行每日09:00–16:30開放登記（14:30後不再登記，每日限額80人，現場隨到隨辦）。116年雪季（1–3月）進入生態保護區須檢附雪攀裝備及技術自我檢查表。夜間攝影行程一律為申請行程之一部分，以主峰往復或多日行程辦理。",
+        "en": "In Shei-Pa National Park's ecological protection area (Wuling trailhead). Per park HQ: routes such as the Xue east line require advance park-entry and mountain-entry permits (one-stop system) checked at the trailhead; day hiking from the trailhead to Qika Lodge is registered 09:00–16:30 daily (no registrations after 14:30, cap 80/day, walk-in). In the snow season (Jan–Mar) an ice-equipment/technique self-check sheet must accompany ecological-area applications. Night photography must be part of an approved multi-day or summit itinerary.",
+        "ja": "雪覇国家公園の生態保護区内（武陵登山口から）。管理処規定：雪東線など登山路線は事前に入園証・入山証（一括サービス網）を取得し、登山口で確認。登山口〜七卡山荘の日帰りハイキングは毎日09:00〜16:30に登記受付（14:30以降不可、1日80人、随時受付）。雪期（1〜3月）は雪面部装備・技術セルフチェック表の添付が必要。夜間撮影は必ず承認済みの複数日行程または登頂行程の一部として行う。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -73,7 +75,9 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-xueshan-main-peak"
+      ],
       "components": []
     }
   ],
@@ -228,9 +232,11 @@
     {
       "claim_id": "tw-041-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [],
+      "evidence_refs": [
+        "e-d37-access-xueshan-main-peak"
+      ],
       "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+      "scope_note": "CL-DATA-37 batch3 access verification 2026-11-09: transport/parking/hours/closures/permits verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch3-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
     }
   ],
   "readiness": {
