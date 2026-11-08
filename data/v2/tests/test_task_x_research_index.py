@@ -173,6 +173,13 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-INT-103 union: tw-034-P02 re-pinned to the CL-DATA-33 light_window
             # revision commit (git-show verifiable at the merged tree HEAD).
             '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
+            # CL-INT-116 merged tree: us-091-P01 carries CL-DATA-41 WSDOT edits
+            # unioned with CL-DATA-39 batch5 evidence (new bytes exist only at
+            # the merge commit, tree-verifiable at HEAD).
+            'c7b41c7c99e6a7cf73f1e90363a1fcfbe51fbed9',
+            # CL-DATA-40: us-002-P01 daylight_window access-time condition
+            # (merged from origin/main, bytes at the CL-DATA-40 data commit).
+            'c0c6114b0bfbae0afc28b1b5c0f128d3aa41b982',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
