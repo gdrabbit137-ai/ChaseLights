@@ -9,19 +9,19 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "092e3bbf32c175db0519e7cd7a25e9d564b9542abb4d850b61b0298b59aa91e1",
+ "inputs_fingerprint_sha256": "4b0aa57dd6f3a4f2ecb4a8b78cfd570caf4e7b047ceb70e4db0dd1abced642cf",
  "summary": {
-  "places": 239,
-  "opportunities": 434,
-  "canonical_locked_opportunities": 434,
+  "places": 249,
+  "opportunities": 448,
+  "canonical_locked_opportunities": 448,
   "places_with_unknown_scenic_beauty": 145,
-  "mean_weighted_total": 4.02,
-  "median_weighted_total": 4.05,
+  "mean_weighted_total": 4.04,
+  "median_weighted_total": 4.06,
   "mean_basis": "places with evidenced scenic_beauty only (rubric v2 honest-unknown rule)",
   "region_counts": {
    "jp": 63,
    "tw": 93,
-   "us": 83
+   "us": 93
   },
   "weakness_counts": {
    "low_weather_light_opportunities": 6,
@@ -61,6 +61,36 @@
    "coords": [
     40.5603,
     139.9844
+   ]
+  },
+  {
+   "place_id": "us-102",
+   "name_zh": "摩特諾瑪瀑布",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-102-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.5,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.5,
+   "nearest_place": "us-017",
+   "nearest_km": 78.16,
+   "coords": [
+    45.57595,
+    -122.11536
    ]
   },
   {
@@ -246,6 +276,66 @@
    "coords": [
     47.917,
     -124.638
+   ]
+  },
+  {
+   "place_id": "us-101",
+   "name_zh": "雷神之井",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-101-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.4,
+   "nearest_place": "us-103",
+   "nearest_km": 178.95,
+   "coords": [
+    44.278421,
+    -124.113499
+   ]
+  },
+  {
+   "place_id": "us-103",
+   "name_zh": "干草堆岩・坎農海灘",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-103-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.4,
+   "nearest_place": "us-095",
+   "nearest_km": 44.81,
+   "coords": [
+    45.88444,
+    -123.96806
    ]
   },
   {
@@ -718,6 +808,130 @@
    ]
   },
   {
+   "place_id": "us-097",
+   "name_zh": "大惡地國家公園・大惡地觀景點",
+   "region": "us",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "us-097-P01",
+    "us-097-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.28,
+   "nearest_place": "us-031",
+   "nearest_km": 491.77,
+   "coords": [
+    43.78477,
+    -101.89985
+   ]
+  },
+  {
+   "place_id": "us-098",
+   "name_zh": "阿卡迪亞國家公園・卡迪山",
+   "region": "us",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "us-098-P01",
+    "us-098-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.28,
+   "nearest_place": "us-104",
+   "nearest_km": 276.89,
+   "coords": [
+    44.3526,
+    -68.226
+   ]
+  },
+  {
+   "place_id": "us-100",
+   "name_zh": "莫諾湖・南方石灰華區",
+   "region": "us",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "us-100-P01",
+    "us-100-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.28,
+   "nearest_place": "us-008",
+   "nearest_km": 53.96,
+   "coords": [
+    37.940344,
+    -119.028063
+   ]
+  },
+  {
+   "place_id": "us-106",
+   "name_zh": "大彎國家公園・聖埃倫娜峽谷",
+   "region": "us",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "us-106-P01",
+    "us-106-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.28,
+   "nearest_place": "us-029",
+   "nearest_km": 477.61,
+   "coords": [
+    29.1679,
+    -103.6106
+   ]
+  },
+  {
    "place_id": "jp-028",
    "name_zh": "高野山",
    "region": "jp",
@@ -1123,6 +1337,96 @@
    "coords": [
     25.29242,
     121.54446
+   ]
+  },
+  {
+   "place_id": "us-099",
+   "name_zh": "謝南多厄國家公園・老鷹角",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-099-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.15,
+   "nearest_place": "us-036",
+   "nearest_km": 451.23,
+   "coords": [
+    38.555,
+    -78.395
+   ]
+  },
+  {
+   "place_id": "us-104",
+   "name_zh": "畫家堡・法蘭科尼亞峽",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-104-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.15,
+   "nearest_place": "us-040",
+   "nearest_km": 208.84,
+   "coords": [
+    44.180566,
+    -71.695286
+   ]
+  },
+  {
+   "place_id": "us-105",
+   "name_zh": "畫岩國家湖岸・礦工堡",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-105-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.15,
+   "nearest_place": "us-030",
+   "nearest_km": 521.55,
+   "coords": [
+    46.4955,
+    -86.5518
    ]
   },
   {
@@ -1578,8 +1882,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": 4.05,
-   "nearest_place": "us-020",
-   "nearest_km": 236.15,
+   "nearest_place": "us-101",
+   "nearest_km": 219.53,
    "coords": [
     42.911253,
     -122.146719
@@ -1669,8 +1973,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": 4.05,
-   "nearest_place": "us-030",
-   "nearest_km": 784.17,
+   "nearest_place": "us-099",
+   "nearest_km": 553.25,
    "coords": [
     35.611092,
     -83.425007
@@ -6338,8 +6642,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "us-037",
-   "nearest_km": 712.34,
+   "nearest_place": "us-105",
+   "nearest_km": 521.55,
    "coords": [
     41.86636,
     -87.60663
@@ -6400,8 +6704,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "us-029",
-   "nearest_km": 833.32,
+   "nearest_place": "us-106",
+   "nearest_km": 720.01,
    "coords": [
     32.78933,
     -97.34672
@@ -6525,8 +6829,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "us-036",
-   "nearest_km": 302.35,
+   "nearest_place": "us-104",
+   "nearest_km": 208.84,
    "coords": [
     42.36459,
     -71.0372
@@ -7594,8 +7898,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "us-017",
-   "nearest_km": 141.15,
+   "nearest_place": "us-103",
+   "nearest_km": 44.81,
    "coords": [
     46.283,
     -124.054
@@ -13797,6 +14101,202 @@
    },
    "verif_gaps": [
     "geometry_not_verified"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-097-P01",
+   "place_id": "us-097",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-097-P02",
+   "place_id": "us-097",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-098-P01",
+   "place_id": "us-098",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-098-P02",
+   "place_id": "us-098",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-099-P01",
+   "place_id": "us-099",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-100-P01",
+   "place_id": "us-100",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-100-P02",
+   "place_id": "us-100",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-101-P01",
+   "place_id": "us-101",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-102-P01",
+   "place_id": "us-102",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.5
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-103-P01",
+   "place_id": "us-103",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-104-P01",
+   "place_id": "us-104",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-105-P01",
+   "place_id": "us-105",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-106-P01",
+   "place_id": "us-106",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-106-P02",
+   "place_id": "us-106",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
