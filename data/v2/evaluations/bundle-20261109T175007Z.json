@@ -1,0 +1,35 @@
+{
+ "evaluation_bundle_version": "0.1.0",
+ "generated_at": "2026-11-09T17:50:07Z",
+ "forecast_hours": 168,
+ "guidance_only": true,
+ "live_recommendation": false,
+ "calibration_status": "PROVISIONAL_THRESHOLDS",
+ "provider": {
+  "name": "Open-Meteo",
+  "licence": "CC BY 4.0",
+  "urls": {
+   "terms": "https://open-meteo.com/en/terms",
+   "licence": "https://open-meteo.com/en/licence"
+  }
+ },
+ "limitations_i18n": {
+  "zh-TW": "評估結果為 GUIDANCE 参考：門檻為 provisional/approved 題材模板值，未經實拍校準，永不構成 FAVORABLE 保證。湖面狀態與花季窗口暫無即時觀測來源（標記 UNKNOWN）。天氣為網格預報，不代表拍攝點實況。",
+  "en": "Results are GUIDANCE only: thresholds are provisional/approved genre-template values, not calibrated against real shoots, and never constitute a FAVORABLE guarantee. Water-surface state and seasonal windows have no live observation source (UNKNOWN). Weather is grid forecast data, not on-site conditions.",
+  "ja": "評価結果はGUIDANCE参考値です: 閾値は暫定/承認済みテンプレート値で、実写検証されておらず、FAVORABLE保証にはなりません。水面状態と開花窗口は観測ソースがなくUNKNOWN。天気はグリッド予報であり現地実況ではありません。"
+ },
+ "place_count": 0,
+ "opportunity_count": 0,
+ "fetch_failures": [
+  {
+   "coordinate": [
+    38.3767,
+    -110.9003
+   ],
+   "error": "TRANSPORT_HTTPError"
+  }
+ ],
+ "skipped": [],
+ "provider_runs_count": 0,
+ "places": []
+}
