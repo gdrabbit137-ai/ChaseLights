@@ -1,0 +1,20 @@
+name = "chaselights-api"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+
+routes = [
+  { pattern = "chaselights.app/api/v1/*", zone_name = "chaselights.app" }
+]
+
+[[kv_namespaces]]
+binding = "EVALS"
+id = "330ba59f50bc47e7b5aef11d7da059c6"
+preview_id = "590d7aaed2d6480a9c16b2ea3c877cfc"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "chaselights-db"
+database_id = "05ef33f5-b833-4418-9b0d-ceca81db4f86"
+
+[observability]
+enabled = true
