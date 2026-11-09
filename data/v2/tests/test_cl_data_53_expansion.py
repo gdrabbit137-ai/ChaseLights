@@ -32,7 +32,7 @@ sys.path.insert(0, os.path.join(REPO, "specs", "v2", "tests"))
 import regions  # noqa: E402
 
 NEW_IDS = [f"us-{n}" for n in range(119, 159)]
-NEW_CONTRACTS = [f"us-{n}-P01" for n in range(119, 159)] + ["us-152-P02"]
+NEW_CONTRACTS = [f"us-{n}-P01" for n in range(119, 159)]  # us-152-P02 removed (CL-DATA-54 ghost-opportunity deletion)
 ALL_DAY_GENRES = {"overlook", "reflection", "mountain_view", "cloud_sea",
                   "geological_landform", "waterfall", "blue_hour_city"}
 NIGHT_GENRES = {"night_sky", "city_night"}
@@ -192,7 +192,7 @@ class TestRuntime(unittest.TestCase):
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
         self.assertEqual(ev["place_count"], 350)
-        self.assertEqual(ev["opportunity_count"], 546)
+        self.assertEqual(ev["opportunity_count"], 545)
         self.assertEqual(ev["forecast_hours"], 168)
 
 

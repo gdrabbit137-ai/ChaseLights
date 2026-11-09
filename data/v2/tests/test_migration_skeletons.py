@@ -39,7 +39,7 @@ class MigrationSkeletonTests(unittest.TestCase):
         # snapshot and stays pinned at 217 covered places / 28 evolved docs.
         self.assertEqual((363, 595), (len(spots), opps))  # re-anchored CL-DATA-53
         canonical = sorted((ROOT / "data/v2/opportunities").glob("*.json"))
-        self.assertEqual(553, len(canonical))  # re-anchored CL-DATA-53
+        self.assertEqual(552, len(canonical))  # re-anchored CL-DATA-53
         self.assertEqual(len(admitted), 28)
         # R0 inventory is a frozen snapshot (live catalog grew with CL-DATA-25/25R admissions)
         self.assertEqual(self.inventory["first_pass"]["places_first_pass_covered"], 217)
