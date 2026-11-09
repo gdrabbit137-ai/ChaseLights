@@ -10,7 +10,7 @@ function makeEnv() {
   const db = {
     prepare(sql) {
       return {
-        bind: (...args) => ({ run: async () => { sqlLog.push([sql, args]); }, first: async () => (rows.first = { id: "u1" }), all: async () => ({ results: [{ place_id: "tw-001", created_at: "2026-11-10 00:00:00" }] }) }),
+        bind: (...args) => ({ run: async () => { sqlLog.push([sql, args]); }, first: async () => (rows.first = { device_id: "u1" }), all: async () => ({ results: [{ place_id: "tw-001", created_at: "2026-11-10 00:00:00" }] }) }),
       };
     },
   };

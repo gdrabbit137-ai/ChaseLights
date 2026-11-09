@@ -33,8 +33,8 @@ async function getUser(env, userId) {
   if (!userId) return null;
   await env.DB.prepare("INSERT INTO users (device_id) VALUES (?1) ON CONFLICT(device_id) DO NOTHING")
     .bind(userId).run();
-  const row = await env.DB.prepare("SELECT id FROM users WHERE device_id = ?1").bind(userId).first();
-  return row ? row.id : null;
+  const row = await env.DB.prepare("SELECT device_id FROM users WHERE device_id = ?1").bind(userId).first();
+  return row ? row.device_id : null;
 }
 
 async function handleFavorites(req, env, url) {

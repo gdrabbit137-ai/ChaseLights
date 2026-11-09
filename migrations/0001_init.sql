@@ -3,7 +3,7 @@
 -- Threshold/condition formula values are NEVER stored here — API returns results only.
 
 CREATE TABLE IF NOT EXISTS users (
-  id            TEXT PRIMARY KEY,
+  id            TEXT PRIMARY KEY NOT NULL DEFAULT (lower(hex(randomblob(16)))),
   device_id     TEXT UNIQUE NOT NULL,
   created_at    TEXT NOT NULL DEFAULT (datetime('now'))
 );
