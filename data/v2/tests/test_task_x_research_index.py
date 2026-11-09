@@ -188,6 +188,10 @@ class ResearchIndexTests(unittest.TestCase):
             # (us-107..us-118, PM-judgment admission, GROWTH-ONLY) pinned to
             # the stage-1c admission commit carrying the new bytes.
             'c832d9112e8ba813b65c184a2fafb17a7f5b3643',
+            # CL-DATA-50: 7 contract-fix records (jp-056/058/059 light_window;
+            # us-040/046/055/057 threshold+copy fixes) pinned to the scoped-regen
+            # commit carrying the new bytes (2026-11-09, blob+sha256 verified).
+            'd3e019433a7516773f39c764ab09fe70810dec25',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying

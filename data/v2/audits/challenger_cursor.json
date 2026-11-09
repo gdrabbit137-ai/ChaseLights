@@ -1,199 +1,224 @@
 {
-  "last_round": 7,
-  "date": "2026-11-09",
-  "covered_spots": [
-    "三仙台",
-    "崇德清水斷崖",
-    "七星潭月牙灣",
-    "石梯坪",
-    "鵝鑾鼻燈塔",
-    "龍磐公園",
-    "嘉明湖",
-    "北大武山",
-    "六十石山",
-    "us-002",
-    "us-005",
-    "us-021",
-    "us-003",
-    "us-041",
-    "us-056",
-    "us-059",
-    "us-048",
-    "us-037",
-    "us-091"
-  ],
-  "round1_covered": [
-    "大屯山助航站",
-    "大稻埕碼頭",
-    "關渡大橋",
-    "八里崁頭里・淡水大橋觀景點",
-    "不厭亭",
-    "淡水漁人碼頭",
-    "野柳地質公園",
-    "碧潭"
-  ],
-  "next_start_hint": "round8已覆蓋us-015/017/018/019/021/023/029/031/037/039；下一輪可續us-041以後或jp區；us-037座標落Horseshoe Falls河道(加美邊界)待資料面確認",
-  "round4_covered": [
-    "合歡山主峰",
-    "塔塔加夫妻樹/鹿林山",
-    "奇萊主峰",
-    "玉山主峰",
-    "武界部落",
-    "金龍山",
-    "大雪山43K觀景台",
-    "福壽山農場觀景點",
-    "和平島(阿拉寶灣)",
-    "老梅綠石槽"
-  ],
-  "round4_valid_objections": 10,
-  "round5_covered": [
-    "三仙台",
-    "崇德清水斷崖",
-    "七星潭月牙灣",
-    "石梯坪",
-    "鵝鑾鼻燈塔",
-    "龍磐公園",
-    "嘉明湖",
-    "北大武山",
-    "六十石山"
-  ],
-  "round5_valid_objections": 7,
-  "round6_covered": [
-    "綠島朝日溫泉",
-    "蘭嶼東清灣",
-    "蘭嶼青青草原",
-    "七美雙心石滬",
-    "池西柱狀玄武岩",
-    "奎壁山",
-    "澎湖跨海大橋",
-    "澎湖觀音亭",
-    "北竿芹壁",
-    "東引燈塔"
-  ],
-  "round6_valid_objections": 27,
-  "round7_covered": [
-    "us-002",
-    "us-005",
-    "us-021",
-    "us-003",
-    "us-041",
-    "us-056",
-    "us-059",
-    "us-048",
-    "us-037",
-    "us-091"
-  ],
-  "round7_valid_objections": 4,
-  "round7_note": "Round7: 美國區(us)10景點，browse-index 404，改用線上 opportunity-contracts.json + weather_details 顯示面。成立質疑4項(us-002 x2, us-091 x2)。",
-  "round8_covered": [
-    "us-015",
-    "us-017",
-    "us-018",
-    "us-019",
-    "us-021",
-    "us-023",
-    "us-029",
-    "us-031",
-    "us-037",
-    "us-039"
-  ],
-  "round8_valid_objections": [
-    {
-      "id": "us-015-P02",
-      "objection": "說明寫「最佳時段：白天至暮色前後」，但判據 C-us-015-P02-05 city_night_window 為必要條件、定義太陽仰角 ≤ −6°（民用暮光之後）：文案與判據時段互相矛盾，白天時段必然不通過。",
-      "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-017-P01",
-      "objection": "Johnston Ridge Observatory 自2023-05-14 South Coldwater slide 起 SR-504 於 MP45.2–51 封閉，觀景台不可開車抵達、遊客中心關閉，FS明載2026-01仍UNREACHABLE、預計2027才可能重開（WSDOT重建2026秋完工後仍須USFS修復）。機會雖掛「路線恢復且官方允許時」警語，但2026年實際上不可行，屬 access 與題材長期矛盾。",
-      "evidence_url": "https://www.fs.usda.gov/r06/giffordpinchot/recreation/johnston-ridge-observatory",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-018-P02",
-      "objection": "galactic_core_altitude 判據理由寫「台灣 11–2 月夜間銀河不成立」——地點是美國蒙大拿 Glacier NP(48.5°N)，文案是台灣緯度殘留；且11月至隔年1月中緯度銀河核心確實不在夜間地平線上（核心與太陽同向）。",
-      "evidence_url": "https://milkywayforecast.com/guides/best-time-to-see-milky-way",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-018-P02",
-      "objection": "C-us-018-P02-04 將 aod_550nm ≤0.3 設為 REQUIRED/MAIN 夜間條件，但同批 us-015-P02 的理由自述「夜間無 AOD 觀測」而僅列 MODIFIER：同一系統對夜間 AOD 可用性自相矛盾。",
-      "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-018-P02",
-      "objection": "三個月判據 M2/M3/M5 的理由文字自承「全部 provisional、校準第一優先」，卻全部掛 REQUIRED role：自我宣告未校準的判據仍做否決用。",
-      "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-019-P01",
-      "objection": "US101 Hoh River bridge 工程：2026年10月多日全封、之後單線25mph持續到2028年，Ruby Beach/Kalaloch 對外交通受工程干擾；access note 只提潮汐與漂流木，未反映道路工程對「全年可拍」的實質限制。",
-      "evidence_url": "https://hikingwashington.com/hikes/ruby-beach/",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-019-P02",
-      "objection": "判據只有 sunset_window ±40 分，無潮汐條件；Ruby Beach 需低潮（約 <2ft）才能走近海蝕柱/潮池，高潮時海灘被淹、往返路可能被斷——日落窗可能正落在無法接近主體的潮位。",
-      "evidence_url": "https://www.thetripverdict.com/ruby-beach-washington",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-021-P01",
-      "objection": "降水判據理由寫「海景微雨不影響拍攝」——Mesa Arch 是沙漠峽谷高地景點，模板文案未換場景（地理殘留）。",
-      "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-023-P01",
-      "objection": "genre=seasonal_plant 且 seasonal_state=window_open 為 REQUIRED，但題材是「巨人柱森林夕照」；NPS 明載巨人柱開花窗為4–6月、秋季無花——季節窗若掛花季將否決全年成立的夕照題材，與說明「V1 季節：全年」矛盾。",
-      "evidence_url": "https://home.nps.gov/sagu/learn/nature/flowers.htm",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-023-P01",
-      "objection": "風速 <5 m/s 的理由寫「花穗搖曳…金針花特寫/芒草逆光都禁強風」——台灣花海題材文案殘留，與巨人柱夕照無關。",
-      "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-029-P01",
-      "objection": "NPS 官方結構化資料：White Sands 標準營業時間為當地日落后30分鐘關門（gate 約日後1小時鎖）；sunset_window ±40 分必要窗的後段（日後30–40分）位於閉園之後，窗與 access 期程不重合。",
-      "evidence_url": "https://www.nps.gov/whsa/structured_data_whsa.json",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-031-P01",
-      "objection": "Sprague Lake 標高約2,890 m，11月夜間已穩定結冰，湖面鏡像季節性死亡；判據僅以 water_surface_state propagate unknown，評估面冬季會對實際結冰的湖面照常輸出倒影建議。",
-      "evidence_url": "https://www.nps.gov/romo/planyourvisit/weather.htm",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-031-P01",
-      "objection": "倒影最關鍵的平靜水面與山景照度在清晨（風靜+Continental Divide 受光），判據卻只掛 sunset_window 為 MODIFIER、無日出/清晨窗：清晨最佳狀態不被評估。",
-      "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-037-P02",
-      "objection": "座標 43.08008,-79.07443 落在 Horseshoe Falls 正上方河道（加美邊界河面），非任何美國側展望點：主瀑布與最佳夜景展望(Queen Victoria Park/Table Rock)在加拿大側——「us-」美國景點的座標與 city_night 天際線模板和實際可拍點皆不符。",
-      "evidence_url": "https://nominatim.openstreetmap.org/reverse?lat=43.08008&lon=-79.07443&format=json&zoom=14",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-037-P02",
-      "objection": "總雲量 ≤30% 沿用城市燈火天際線判據，但主體是被泛光燈主動打亮的瀑布：低雲反而吃燈光反射製造氛圍，30% 硬門檻對此題材過嚴、模板誤植。",
-      "evidence_url": "https://www.niagarafallsusa.com/niagara-falls-state-park/illumination-fireworks/",
-      "verdict": "成立"
-    },
-    {
-      "id": "us-039-P02",
-      "objection": "說明寫「最佳時段：白天至暮色」，但唯一時間判據 blue_hour_window 是日落后 −4°~−8°（約20–50分）：文案時段與判據不重合，白天時段必被否決——與 us-015-P02 同構的說明/判據矛盾。",
-      "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
-      "verdict": "成立"
-    }
-  ],
-  "round8_note": "Round8: 知識隔離挑戰，取線上 https://chaselights.app/apps/web-v2/opportunity-contracts.json 與 evaluations-latest.json（題目給的 /assets/web-v2/ 與 weather_details/us/<id>.json 皆404，實際路徑為 /apps/web-v2/）。每景點≥3候選質疑，經太陽仰角/方位(2026-11-09實算：日落az~286-295°/民用暮光)、潮汐、季節、開放時間與官方網站佐證後成立16項；其餘候選（Mesa Arch日出±40分涵蓋峽谷遮擋、Saguaro關門警語、White Sands飛彈關閉警語、Battery Spencer實可見SF天際線、Ruby Beach確有海蝕拱）驗證為不成立或已被警語覆蓋。"
+ "last_round": 9,
+ "date": "2026-11-09",
+ "covered_spots": [
+  "三仙台",
+  "崇德清水斷崖",
+  "七星潭月牙灣",
+  "石梯坪",
+  "鵝鑾鼻燈塔",
+  "龍磐公園",
+  "嘉明湖",
+  "北大武山",
+  "六十石山",
+  "us-002",
+  "us-005",
+  "us-021",
+  "us-003",
+  "us-041",
+  "us-056",
+  "us-059",
+  "us-048",
+  "us-037",
+  "us-091"
+ ],
+ "round1_covered": [
+  "大屯山助航站",
+  "大稻埕碼頭",
+  "關渡大橋",
+  "八里崁頭里・淡水大橋觀景點",
+  "不厭亭",
+  "淡水漁人碼頭",
+  "野柳地質公園",
+  "碧潭"
+ ],
+ "next_start_hint": "round9覆蓋us-040..057（15題材8成立質疑，已開CL-DATA-50修復）；下一輪續jp區或us-058以後",
+ "round4_covered": [
+  "合歡山主峰",
+  "塔塔加夫妻樹/鹿林山",
+  "奇萊主峰",
+  "玉山主峰",
+  "武界部落",
+  "金龍山",
+  "大雪山43K觀景台",
+  "福壽山農場觀景點",
+  "和平島(阿拉寶灣)",
+  "老梅綠石槽"
+ ],
+ "round4_valid_objections": 10,
+ "round5_covered": [
+  "三仙台",
+  "崇德清水斷崖",
+  "七星潭月牙灣",
+  "石梯坪",
+  "鵝鑾鼻燈塔",
+  "龍磐公園",
+  "嘉明湖",
+  "北大武山",
+  "六十石山"
+ ],
+ "round5_valid_objections": 7,
+ "round6_covered": [
+  "綠島朝日溫泉",
+  "蘭嶼東清灣",
+  "蘭嶼青青草原",
+  "七美雙心石滬",
+  "池西柱狀玄武岩",
+  "奎壁山",
+  "澎湖跨海大橋",
+  "澎湖觀音亭",
+  "北竿芹壁",
+  "東引燈塔"
+ ],
+ "round6_valid_objections": 27,
+ "round7_covered": [
+  "us-002",
+  "us-005",
+  "us-021",
+  "us-003",
+  "us-041",
+  "us-056",
+  "us-059",
+  "us-048",
+  "us-037",
+  "us-091"
+ ],
+ "round7_valid_objections": 4,
+ "round7_note": "Round7: 美國區(us)10景點，browse-index 404，改用線上 opportunity-contracts.json + weather_details 顯示面。成立質疑4項(us-002 x2, us-091 x2)。",
+ "round8_covered": [
+  "us-015",
+  "us-017",
+  "us-018",
+  "us-019",
+  "us-021",
+  "us-023",
+  "us-029",
+  "us-031",
+  "us-037",
+  "us-039"
+ ],
+ "round8_valid_objections": [
+  {
+   "id": "us-015-P02",
+   "objection": "說明寫「最佳時段：白天至暮色前後」，但判據 C-us-015-P02-05 city_night_window 為必要條件、定義太陽仰角 ≤ −6°（民用暮光之後）：文案與判據時段互相矛盾，白天時段必然不通過。",
+   "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-017-P01",
+   "objection": "Johnston Ridge Observatory 自2023-05-14 South Coldwater slide 起 SR-504 於 MP45.2–51 封閉，觀景台不可開車抵達、遊客中心關閉，FS明載2026-01仍UNREACHABLE、預計2027才可能重開（WSDOT重建2026秋完工後仍須USFS修復）。機會雖掛「路線恢復且官方允許時」警語，但2026年實際上不可行，屬 access 與題材長期矛盾。",
+   "evidence_url": "https://www.fs.usda.gov/r06/giffordpinchot/recreation/johnston-ridge-observatory",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-018-P02",
+   "objection": "galactic_core_altitude 判據理由寫「台灣 11–2 月夜間銀河不成立」——地點是美國蒙大拿 Glacier NP(48.5°N)，文案是台灣緯度殘留；且11月至隔年1月中緯度銀河核心確實不在夜間地平線上（核心與太陽同向）。",
+   "evidence_url": "https://milkywayforecast.com/guides/best-time-to-see-milky-way",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-018-P02",
+   "objection": "C-us-018-P02-04 將 aod_550nm ≤0.3 設為 REQUIRED/MAIN 夜間條件，但同批 us-015-P02 的理由自述「夜間無 AOD 觀測」而僅列 MODIFIER：同一系統對夜間 AOD 可用性自相矛盾。",
+   "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-018-P02",
+   "objection": "三個月判據 M2/M3/M5 的理由文字自承「全部 provisional、校準第一優先」，卻全部掛 REQUIRED role：自我宣告未校準的判據仍做否決用。",
+   "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-019-P01",
+   "objection": "US101 Hoh River bridge 工程：2026年10月多日全封、之後單線25mph持續到2028年，Ruby Beach/Kalaloch 對外交通受工程干擾；access note 只提潮汐與漂流木，未反映道路工程對「全年可拍」的實質限制。",
+   "evidence_url": "https://hikingwashington.com/hikes/ruby-beach/",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-019-P02",
+   "objection": "判據只有 sunset_window ±40 分，無潮汐條件；Ruby Beach 需低潮（約 <2ft）才能走近海蝕柱/潮池，高潮時海灘被淹、往返路可能被斷——日落窗可能正落在無法接近主體的潮位。",
+   "evidence_url": "https://www.thetripverdict.com/ruby-beach-washington",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-021-P01",
+   "objection": "降水判據理由寫「海景微雨不影響拍攝」——Mesa Arch 是沙漠峽谷高地景點，模板文案未換場景（地理殘留）。",
+   "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-023-P01",
+   "objection": "genre=seasonal_plant 且 seasonal_state=window_open 為 REQUIRED，但題材是「巨人柱森林夕照」；NPS 明載巨人柱開花窗為4–6月、秋季無花——季節窗若掛花季將否決全年成立的夕照題材，與說明「V1 季節：全年」矛盾。",
+   "evidence_url": "https://home.nps.gov/sagu/learn/nature/flowers.htm",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-023-P01",
+   "objection": "風速 <5 m/s 的理由寫「花穗搖曳…金針花特寫/芒草逆光都禁強風」——台灣花海題材文案殘留，與巨人柱夕照無關。",
+   "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-029-P01",
+   "objection": "NPS 官方結構化資料：White Sands 標準營業時間為當地日落后30分鐘關門（gate 約日後1小時鎖）；sunset_window ±40 分必要窗的後段（日後30–40分）位於閉園之後，窗與 access 期程不重合。",
+   "evidence_url": "https://www.nps.gov/whsa/structured_data_whsa.json",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-031-P01",
+   "objection": "Sprague Lake 標高約2,890 m，11月夜間已穩定結冰，湖面鏡像季節性死亡；判據僅以 water_surface_state propagate unknown，評估面冬季會對實際結冰的湖面照常輸出倒影建議。",
+   "evidence_url": "https://www.nps.gov/romo/planyourvisit/weather.htm",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-031-P01",
+   "objection": "倒影最關鍵的平靜水面與山景照度在清晨（風靜+Continental Divide 受光），判據卻只掛 sunset_window 為 MODIFIER、無日出/清晨窗：清晨最佳狀態不被評估。",
+   "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-037-P02",
+   "objection": "座標 43.08008,-79.07443 落在 Horseshoe Falls 正上方河道（加美邊界河面），非任何美國側展望點：主瀑布與最佳夜景展望(Queen Victoria Park/Table Rock)在加拿大側——「us-」美國景點的座標與 city_night 天際線模板和實際可拍點皆不符。",
+   "evidence_url": "https://nominatim.openstreetmap.org/reverse?lat=43.08008&lon=-79.07443&format=json&zoom=14",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-037-P02",
+   "objection": "總雲量 ≤30% 沿用城市燈火天際線判據，但主體是被泛光燈主動打亮的瀑布：低雲反而吃燈光反射製造氛圍，30% 硬門檻對此題材過嚴、模板誤植。",
+   "evidence_url": "https://www.niagarafallsusa.com/niagara-falls-state-park/illumination-fireworks/",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-039-P02",
+   "objection": "說明寫「最佳時段：白天至暮色」，但唯一時間判據 blue_hour_window 是日落后 −4°~−8°（約20–50分）：文案時段與判據不重合，白天時段必被否決——與 us-015-P02 同構的說明/判據矛盾。",
+   "evidence_url": "https://chaselights.app/apps/web-v2/opportunity-contracts.json",
+   "verdict": "成立"
+  }
+ ],
+ "round8_note": "Round8: 知識隔離挑戰，取線上 https://chaselights.app/apps/web-v2/opportunity-contracts.json 與 evaluations-latest.json（題目給的 /assets/web-v2/ 與 weather_details/us/<id>.json 皆404，實際路徑為 /apps/web-v2/）。每景點≥3候選質疑，經太陽仰角/方位(2026-11-09實算：日落az~286-295°/民用暮光)、潮汐、季節、開放時間與官方網站佐證後成立16項；其餘候選（Mesa Arch日出±40分涵蓋峽谷遮擋、Saguaro關門警語、White Sands飛彈關閉警語、Battery Spencer實可見SF天際線、Ruby Beach確有海蝕拱）驗證為不成立或已被警語覆蓋。",
+ "round8live_covered": [
+  "名古屋城",
+  "函館山夜景",
+  "彌彥山頂公園・Panorama Tower",
+  "濱名湖",
+  "津別峠展望台（屈斜路湖雲海）",
+  "摩周湖",
+  "東京鐵塔",
+  "橫濱港未來21",
+  "神戶六甲山",
+  "鳴門海峽漩渦"
+ ],
+ "round8live_note": "Round8 live audit (2026-11-09, reviewer)：挑戰者第9輪素材改取 jp 區線上卡片原文（zh-TW），見 data/v2/audits/round8-live-audit-20261109.md 之 CHALLENGER_INPUT 區；次輪可續 jp 剩餘景點。",
+ "round9_covered": [
+  "us-040-P01",
+  "us-044",
+  "us-045",
+  "us-046",
+  "us-047",
+  "us-050",
+  "us-051",
+  "us-052",
+  "us-055",
+  "us-057"
+ ]
 }
