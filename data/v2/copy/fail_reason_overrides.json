@@ -12146,5 +12146,802 @@
    "ja": "雨が強く、水しぶきと雨で主体がよく見えません",
    "zh-TW": "雨太大，水花與雨幕讓主體看不清"
   }
+ },
+ "us-097-P01": {
+  "cloud_cover_low": {
+   "en": "Thick low cloud flattens the rock texture",
+   "ja": "低層雲が厚く、岩面の立体感が出ません",
+   "zh-TW": "低雲太厚，岩面紋理看不出立體感"
+  },
+  "cloud_cover_mid_and_high": {
+   "en": "Mid and high cloud flatten the sky to grey",
+   "ja": "中・上層雲が厚く、空が灰色一色です",
+   "zh-TW": "中高雲太厚，天空一片灰白"
+  },
+  "precipitation": {
+   "en": "Rain slicks the rock and veils the landform detail",
+   "ja": "雨で岩面が濡れ、地形の細部が雨に隠れます",
+   "zh-TW": "雨中岩面濕滑，地貌細節全被雨幕蓋住"
+  },
+  "sunrise_time_window": {
+   "en": "Outside the sunrise window",
+   "ja": "日の出の時間帯ではありません",
+   "zh-TW": "現在不在日出時段"
+  }
+ },
+ "us-097-P02": {
+  "aod_550nm": {
+   "en": "Hazy air blurs the distant view into a wash",
+   "ja": "大気が霞み、遠景がぼやけます",
+   "zh-TW": "空氣混濁，遠景糊成一片"
+  },
+  "astronomical_darkness": {
+   "en": "Not fully dark yet (or already dawn) — the stars are gone",
+   "ja": "完全に暗くなっていない（または夜明け）ため、星空が見えません",
+   "zh-TW": "天還沒全暗（或已經天亮），星空不見了"
+  },
+  "cloud_cover_total": {
+   "en": "Thick cloud makes the light flat and lifeless",
+   "ja": "雲が厚く、光に表情が出ません",
+   "zh-TW": "雲層太厚，光線平淡沒有層次"
+  },
+  "galactic_core_altitude": {
+   "en": "The galactic core is still below the horizon — no Milky Way band to shoot",
+   "ja": "銀河の中心はまだ地平線下で、天の川の帯が撮れません",
+   "zh-TW": "銀河核心還在地平線下，拍不到銀河帶"
+  },
+  "moon_altitude": {
+   "en": "The moon is not in the right position",
+   "ja": "月の位置が良くありません",
+   "zh-TW": "月亮位置不理想"
+  },
+  "moon_illuminance_proxy": {
+   "en": "Moonlight too bright for the stars",
+   "ja": "月光が強く、星空が見えません",
+   "zh-TW": "月光太亮，星空不明顯"
+  },
+  "moon_illumination_fraction": {
+   "en": "Moonlight too bright for the stars",
+   "ja": "月光が強く、星空が見えません",
+   "zh-TW": "月光太亮，星空不明顯"
+  },
+  "moon_target_separation_deg": {
+   "en": "The moon sits too close to the shooting direction",
+   "ja": "月が撮影方向に近すぎます",
+   "zh-TW": "月亮離拍攝方向太近，月光干擾"
+  }
+ },
+ "us-098-P01": {
+  "cloud_cover_low": {
+   "en": "Thick low cloud swallows the peaks",
+   "ja": "低層雲が厚く、山頂が雲に埋もれます",
+   "zh-TW": "低雲太厚，山頭沒入雲中"
+  },
+  "cloud_cover_mid_and_high": {
+   "en": "Mid and high cloud cover the peaks in flat grey",
+   "ja": "中・上層雲が厚く、山の上空が灰色一色です",
+   "zh-TW": "中高雲太厚，山頭上空一片灰白"
+  },
+  "precipitation": {
+   "en": "Rain and mist wrap the ridge — nothing shows through",
+   "ja": "雨と霧で稜線がすっぽり包まれ、よく見えません",
+   "zh-TW": "山區下雨起霧，稜線整個被雨幕蓋住"
+  },
+  "sunrise_time_window": {
+   "en": "Outside the sunrise window — the first light has not reached the peaks",
+   "ja": "日の出の時間帯ではないため、山頂に最初の光が届きません",
+   "zh-TW": "現在不在日出時段，等不到第一道曙光打上山頭"
+  }
+ },
+ "us-098-P02": {
+  "aod_550nm": {
+   "en": "Hazy air — the horizon is not readable",
+   "ja": "大気が霞み、水平線がはっきりしません",
+   "zh-TW": "空氣混濁，海平線看不清"
+  },
+  "cloud_cover_low": {
+   "en": "Thick low cloud turns the sea into flat grey",
+   "ja": "低層雲が厚く、海面が灰色に沈みます",
+   "zh-TW": "低雲太厚，海面整片灰白"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Heavy rain blurs the whole coastline",
+   "ja": "雨が強く、海岸の視界がぼやけます",
+   "zh-TW": "雨太大，海邊視線一片模糊"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window — no burning sky over the sea now",
+   "ja": "日の入りの時間帯ではなく、海に夕焼けが広がりません",
+   "zh-TW": "現在不在日落時段，海面上的火燒雲看不到"
+  },
+  "visibility": {
+   "en": "Sea fog is heavy — the horizon is a wall of white",
+   "ja": "海霧が濃く、水平線が真っ白です",
+   "zh-TW": "海霧太重，遠處海平線整片白"
+  }
+ },
+ "us-099-P01": {
+  "aod_550nm": {
+   "en": "Haze is heavy — the canyon loses all its layers",
+   "ja": "霞がひどく、峡谷の重なりがぼやけます",
+   "zh-TW": "霾太重，峽谷層次全部糊掉"
+  },
+  "cloud_cover_low": {
+   "en": "Thick low cloud pools as a grey layer in the gorge",
+   "ja": "低層雲が厚く、谷に灰色の層が溜まります",
+   "zh-TW": "低雲太厚，谷裡積著一層灰白"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Heavy rain veils the whole canyon",
+   "ja": "雨が強く、峡谷が雨に隠れます",
+   "zh-TW": "雨太大，峽谷整個被雨幕蓋住"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window",
+   "ja": "日の入りの時間帯ではありません",
+   "zh-TW": "現在不在日落時段"
+  },
+  "visibility": {
+   "en": "Fog pours into the canyon — the gorge floor is gone",
+   "ja": "霧が峡谷に流れ込み、谷底が見えません",
+   "zh-TW": "大霧灌進峽谷，谷底看不見"
+  }
+ },
+ "us-100-P01": {
+  "cloud_cover_total": {
+   "en": "Thick cloud greys out the reflections on the lake",
+   "ja": "雲が厚く、湖面の反射の色が濁ります",
+   "zh-TW": "雲層太厚，湖面倒影色調灰掉"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Steady rain blurs the lake surface and its reflections",
+   "ja": "雨が降り続き、湖面も反射もぼやけます",
+   "zh-TW": "雨落個不停，湖面與倒影都糊掉"
+  },
+  "water_surface_state": {
+   "en": "The water surface is wrong — no reflections to shoot",
+   "ja": "水面の状態が良くなく、反射が撮れません",
+   "zh-TW": "水面狀態不佳，倒影拍不成"
+  },
+  "wind_speed_10m": {
+   "en": "Too windy — the lake surface ripples and will not mirror",
+   "ja": "風が強すぎて湖面がざわつき、反射が写りません",
+   "zh-TW": "風太大，湖面不平，倒影拍不成"
+  }
+ },
+ "us-100-P02": {
+  "aod_550nm": {
+   "en": "Hazy air greys out the far view and the lake reflections",
+   "ja": "大気が霞み、遠景も湖面の反射も灰色です",
+   "zh-TW": "空氣混濁，遠景與湖面倒影都灰掉"
+  },
+  "astronomical_darkness": {
+   "en": "Not fully dark yet (or already dawn) — the mirrored stars are gone",
+   "ja": "完全に暗くなっていない（または夜明け）ため、映り込む星空が見えません",
+   "zh-TW": "天還沒全暗（或已經天亮），星空倒影不見了"
+  },
+  "cloud_cover_total": {
+   "en": "Thick cloud greys out the reflections on the lake",
+   "ja": "雲が厚く、湖面の反射の色が濁ります",
+   "zh-TW": "雲層太厚，湖面倒影色調灰掉"
+  },
+  "galactic_core_altitude": {
+   "en": "The galactic core is still below the horizon — no Milky Way to mirror",
+   "ja": "銀河の中心はまだ地平線下で、湖に映る天の川が撮れません",
+   "zh-TW": "銀河核心還在地平線下，拍不到銀河倒影"
+  },
+  "moon_altitude": {
+   "en": "The moon is poorly placed — its light interferes with the frame",
+   "ja": "月の位置が良くなく、月光が写り込みます",
+   "zh-TW": "月亮位置不理想，月光干擾畫面"
+  },
+  "moon_illuminance_proxy": {
+   "en": "Moonlight too bright — it washes out the stars and their reflection",
+   "ja": "月光が強く、星空も湖面に映る星も消えます",
+   "zh-TW": "月光太亮，星空與倒影都被洗掉"
+  },
+  "moon_illumination_fraction": {
+   "en": "Moonlight too bright — it washes out the stars and their reflection",
+   "ja": "月光が強く、星空も湖面に映る星も消えます",
+   "zh-TW": "月光太亮，星空與倒影都被洗掉"
+  },
+  "moon_target_separation_deg": {
+   "en": "The moon sits too close to the shooting direction — moonlight overpowers the stars",
+   "ja": "月が撮影方向に近すぎて、月光が星空を押さえます",
+   "zh-TW": "月亮離拍攝方向太近，月光壓過星空"
+  }
+ },
+ "us-101-P01": {
+  "aod_550nm": {
+   "en": "Hazy air — the horizon is not readable",
+   "ja": "大気が霞み、水平線がはっきりしません",
+   "zh-TW": "空氣混濁，海平線看不清"
+  },
+  "cloud_cover_low": {
+   "en": "Thick low cloud turns the sea into flat grey",
+   "ja": "低層雲が厚く、海面が灰色に沈みます",
+   "zh-TW": "低雲太厚，海面整片灰白"
+  },
+  "cloud_cover_mid_and_high": {
+   "en": "Mid and high cloud flatten the sky over the coast",
+   "ja": "中・上層雲が厚く、海岸の空が灰色一色です",
+   "zh-TW": "中高雲太厚，海岸上空一片灰白"
+  },
+  "precipitation": {
+   "en": "Heavy rain blurs the whole coastline",
+   "ja": "雨が強く、海岸の視界がぼやけます",
+   "zh-TW": "雨太大，海邊視線一片模糊"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window — no burning sky over the sea now",
+   "ja": "日の入りの時間帯ではなく、海に夕焼けが広がりません",
+   "zh-TW": "現在不在日落時段，海面上的火燒雲看不到"
+  }
+ },
+ "us-102-P01": {
+  "aod_550nm": {
+   "en": "Hazy air blurs the distant view into a wash",
+   "ja": "大気が霞み、遠景がぼやけます",
+   "zh-TW": "空氣混濁，遠景糊成一片"
+  },
+  "cloud_cover_mid": {
+   "en": "Mid and high cloud flatten the sky to grey",
+   "ja": "中・上層雲が厚く、空が灰色一色です",
+   "zh-TW": "中高雲太厚，天空一片灰白"
+  },
+  "cloud_cover_total": {
+   "en": "Thick cloud makes the light flat and lifeless",
+   "ja": "雲が厚く、光に表情が出ません",
+   "zh-TW": "雲層太厚，光線平淡沒有層次"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Heavy rain — spray and rain veils swallow the subject",
+   "ja": "雨が強く、水しぶきと雨で主体がよく見えません",
+   "zh-TW": "雨太大，水花與雨幕讓主體看不清"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window",
+   "ja": "日の入りの時間帯ではありません",
+   "zh-TW": "現在不在日落時段"
+  },
+  "water_surface_state": {
+   "en": "The water surface is not right",
+   "ja": "水面の状態が良くありません",
+   "zh-TW": "水面狀態不佳"
+  },
+  "wind_speed_10m": {
+   "en": "Too windy — long exposures shake",
+   "ja": "風が強すぎて、長時間露光でぶれます",
+   "zh-TW": "風太大，長曝容易晃"
+  }
+ },
+ "us-103-P01": {
+  "aod_550nm": {
+   "en": "Hazy air lays a grey film over the landform detail",
+   "ja": "大気が霞み、地形の細部が灰色ににじみます",
+   "zh-TW": "空氣混濁，地貌細節像蒙上一層灰"
+  },
+  "cloud_cover_low": {
+   "en": "Thick low cloud flattens the rock texture",
+   "ja": "低層雲が厚く、岩面の立体感が出ません",
+   "zh-TW": "低雲太厚，岩面紋理看不出立體感"
+  },
+  "cloud_cover_mid_and_high": {
+   "en": "Mid and high cloud flatten the sky to grey",
+   "ja": "中・上層雲が厚く、空が灰色一色です",
+   "zh-TW": "中高雲太厚，天空一片灰白"
+  },
+  "precipitation": {
+   "en": "Rain slicks the rock and veils the landform detail",
+   "ja": "雨で岩面が濡れ、地形の細部が雨に隠れます",
+   "zh-TW": "雨中岩面濕滑，地貌細節全被雨幕蓋住"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window",
+   "ja": "日の入りの時間帯ではありません",
+   "zh-TW": "現在不在日落時段"
+  }
+ },
+ "us-104-P01": {
+  "aod_550nm": {
+   "en": "Haze is heavy — the far ridgelines lose all their layers",
+   "ja": "霞がひどく、遠くの山の重なりがぼやけます",
+   "zh-TW": "霾太重，遠山層次全部糊掉"
+  },
+  "cloud_cover_low": {
+   "en": "Thick low cloud swallows the peaks",
+   "ja": "低層雲が厚く、山頂が雲に埋もれます",
+   "zh-TW": "低雲太厚，山頭沒入雲中"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Rain and mist wrap the ridge — nothing shows through",
+   "ja": "雨と霧で稜線がすっぽり包まれ、よく見えません",
+   "zh-TW": "山區下雨起霧，稜線整個被雨幕蓋住"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window — no warm light on the ridgeline now",
+   "ja": "日の入りの時間帯ではないため、稜線に暖かい光が当たりません",
+   "zh-TW": "現在不在日落時段，山稜上的暖光已經（或還沒）出現"
+  },
+  "visibility": {
+   "en": "Dense fog swallows the whole ridge — nothing is visible",
+   "ja": "濃霧が山全体を覆い、何も見えません",
+   "zh-TW": "大霧罩住整片山頭，什麼都看不見"
+  }
+ },
+ "us-105-P01": {
+  "aod_550nm": {
+   "en": "Hazy air greys out the far view and the lake reflections",
+   "ja": "大気が霞み、遠景も湖面の反射も灰色です",
+   "zh-TW": "空氣混濁，遠景與湖面倒影都灰掉"
+  },
+  "cloud_cover_low": {
+   "en": "Thick low cloud leaves the lake reflecting bare grey",
+   "ja": "低層雲が厚く、湖面は灰色だけを映します",
+   "zh-TW": "低雲太厚，湖面只映到一片灰"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Steady rain blurs the lake surface and its reflections",
+   "ja": "雨が降り続き、湖面も反射もぼやけます",
+   "zh-TW": "雨落個不停，湖面與倒影都糊掉"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window — the lake is not catching color now",
+   "ja": "日の入りの時間帯ではなく、湖面が色づきません",
+   "zh-TW": "現在不在日落時段，湖面染色的時刻不對"
+  },
+  "visibility": {
+   "en": "Dense fog buries the lake — the far shore is gone",
+   "ja": "濃霧が湖面を覆い、対岸が見えません",
+   "zh-TW": "大霧蓋住湖面，對岸看不見"
+  }
+ },
+ "us-106-P01": {
+  "aod_550nm": {
+   "en": "Haze is heavy — the canyon loses all its layers",
+   "ja": "霞がひどく、峡谷の重なりがぼやけます",
+   "zh-TW": "霾太重，峽谷層次全部糊掉"
+  },
+  "cloud_cover_mid": {
+   "en": "Mid and high cloud dull the canyon light",
+   "ja": "中・上層雲が厚く、峡谷の光がくすみます",
+   "zh-TW": "中高雲太厚，峽谷光線灰暗"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Heavy rain veils the whole canyon",
+   "ja": "雨が強く、峡谷が雨に隠れます",
+   "zh-TW": "雨太大，峽谷整個被雨幕蓋住"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window",
+   "ja": "日の入りの時間帯ではありません",
+   "zh-TW": "現在不在日落時段"
+  }
+ },
+ "us-106-P02": {
+  "aod_550nm": {
+   "en": "Hazy air blurs the distant view into a wash",
+   "ja": "大気が霞み、遠景がぼやけます",
+   "zh-TW": "空氣混濁，遠景糊成一片"
+  },
+  "astronomical_darkness": {
+   "en": "Not fully dark yet (or already dawn) — the stars are gone",
+   "ja": "完全に暗くなっていない（または夜明け）ため、星空が見えません",
+   "zh-TW": "天還沒全暗（或已經天亮），星空不見了"
+  },
+  "cloud_cover_total": {
+   "en": "Thick cloud makes the light flat and lifeless",
+   "ja": "雲が厚く、光に表情が出ません",
+   "zh-TW": "雲層太厚，光線平淡沒有層次"
+  },
+  "galactic_core_altitude": {
+   "en": "The galactic core is still below the horizon — no Milky Way band to shoot",
+   "ja": "銀河の中心はまだ地平線下で、天の川の帯が撮れません",
+   "zh-TW": "銀河核心還在地平線下，拍不到銀河帶"
+  },
+  "moon_altitude": {
+   "en": "The moon is not in the right position",
+   "ja": "月の位置が良くありません",
+   "zh-TW": "月亮位置不理想"
+  },
+  "moon_illuminance_proxy": {
+   "en": "Moonlight too bright for the stars",
+   "ja": "月光が強く、星空が見えません",
+   "zh-TW": "月光太亮，星空不明顯"
+  },
+  "moon_illumination_fraction": {
+   "en": "Moonlight too bright for the stars",
+   "ja": "月光が強く、星空が見えません",
+   "zh-TW": "月光太亮，星空不明顯"
+  },
+  "moon_target_separation_deg": {
+   "en": "The moon sits too close to the shooting direction",
+   "ja": "月が撮影方向に近すぎます",
+   "zh-TW": "月亮離拍攝方向太近，月光干擾"
+  }
+ },
+ "us-107-P01": {
+  "aod_550nm": {
+   "en": "Hazy air blurs the distant view into a wash",
+   "ja": "大気が霞み、遠景がぼやけます",
+   "zh-TW": "空氣混濁，遠景糊成一片"
+  },
+  "cloud_cover_mid": {
+   "en": "Mid and high cloud flatten the sky to grey",
+   "ja": "中・上層雲が厚く、空が灰色一色です",
+   "zh-TW": "中高雲太厚，天空一片灰白"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Heavy rain — spray and rain veils swallow the subject",
+   "ja": "雨が強く、水しぶきと雨で主体がよく見えません",
+   "zh-TW": "雨太大，水花與雨幕讓主體看不清"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window",
+   "ja": "日の入りの時間帯ではありません",
+   "zh-TW": "現在不在日落時段"
+  }
+ },
+ "us-108-P01": {
+  "aod_550nm": {
+   "en": "Hazy air — the horizon is not readable",
+   "ja": "大気が霞み、水平線がはっきりしません",
+   "zh-TW": "空氣混濁，海平線看不清"
+  },
+  "astronomical_darkness": {
+   "en": "Not fully dark yet (or already dawn) — the stars are gone",
+   "ja": "完全に暗くなっていない（または夜明け）ため、星空が見えません",
+   "zh-TW": "天還沒全暗（或已經天亮），星空不見了"
+  },
+  "cloud_cover_total": {
+   "en": "Thick cloud flattens the whole seascape to grey",
+   "ja": "雲が厚く、海景色が灰色に潰れます",
+   "zh-TW": "雲層太厚，海景被蓋成一片灰"
+  },
+  "galactic_core_altitude": {
+   "en": "The galactic core is still below the horizon — no Milky Way band over the sea",
+   "ja": "銀河の中心はまだ地平線下で、海の上の天の川が撮れません",
+   "zh-TW": "銀河核心還在地平線下，拍不到銀河帶"
+  },
+  "moon_altitude": {
+   "en": "The moon is poorly placed — its light interferes with the frame",
+   "ja": "月の位置が良くなく、月光が写り込みます",
+   "zh-TW": "月亮位置不理想，月光干擾畫面"
+  },
+  "moon_illuminance_proxy": {
+   "en": "Moonlight too bright — it washes out the coastal night sky",
+   "ja": "月光が強く、海辺の星空が消えてしまいます",
+   "zh-TW": "月光太亮，海邊星空被洗掉"
+  },
+  "moon_illumination_fraction": {
+   "en": "Moonlight too bright — it washes out the coastal night sky",
+   "ja": "月光が強く、海辺の星空が消えてしまいます",
+   "zh-TW": "月光太亮，海邊星空被洗掉"
+  },
+  "moon_target_separation_deg": {
+   "en": "The moon sits too close to the shooting direction — moonlight overpowers the stars",
+   "ja": "月が撮影方向に近すぎて、月光が星空を押さえます",
+   "zh-TW": "月亮離拍攝方向太近，月光壓過星空"
+  }
+ },
+ "us-109-P01": {
+  "aod_550nm": {
+   "en": "Hazy air — the horizon is not readable",
+   "ja": "大気が霞み、水平線がはっきりしません",
+   "zh-TW": "空氣混濁，海平線看不清"
+  },
+  "cloud_cover_low": {
+   "en": "Thick low cloud turns the sea into flat grey",
+   "ja": "低層雲が厚く、海面が灰色に沈みます",
+   "zh-TW": "低雲太厚，海面整片灰白"
+  },
+  "cloud_cover_mid_and_high": {
+   "en": "Mid and high cloud flatten the sky over the coast",
+   "ja": "中・上層雲が厚く、海岸の空が灰色一色です",
+   "zh-TW": "中高雲太厚，海岸上空一片灰白"
+  },
+  "precipitation": {
+   "en": "Heavy rain blurs the whole coastline",
+   "ja": "雨が強く、海岸の視界がぼやけます",
+   "zh-TW": "雨太大，海邊視線一片模糊"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window — no burning sky over the sea now",
+   "ja": "日の入りの時間帯ではなく、海に夕焼けが広がりません",
+   "zh-TW": "現在不在日落時段，海面上的火燒雲看不到"
+  }
+ },
+ "us-110-P01": {
+  "aod_550nm": {
+   "en": "Haze is heavy — the canyon loses all its layers",
+   "ja": "霞がひどく、峡谷の重なりがぼやけます",
+   "zh-TW": "霾太重，峽谷層次全部糊掉"
+  },
+  "cloud_cover_mid": {
+   "en": "Mid and high cloud dull the canyon light",
+   "ja": "中・上層雲が厚く、峡谷の光がくすみます",
+   "zh-TW": "中高雲太厚，峽谷光線灰暗"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Heavy rain veils the whole canyon",
+   "ja": "雨が強く、峡谷が雨に隠れます",
+   "zh-TW": "雨太大，峽谷整個被雨幕蓋住"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window",
+   "ja": "日の入りの時間帯ではありません",
+   "zh-TW": "現在不在日落時段"
+  }
+ },
+ "us-111-P01": {
+  "golden_hour_window": {
+   "en": "Outside the golden hour — the light is wrong",
+   "ja": "ゴールデンアワーではなく、光が合いません",
+   "zh-TW": "現在不在黃金時段，光線不對"
+  },
+  "precipitation": {
+   "en": "Heavy rain — spray and rain veils swallow the subject",
+   "ja": "雨が強く、水しぶきと雨で主体がよく見えません",
+   "zh-TW": "雨太大，水花與雨幕讓主體看不清"
+  },
+  "river_flow_state": {
+   "en": "The river level is wrong for the shot",
+   "ja": "河川の水量が合わず、狙いの流れになりません",
+   "zh-TW": "河川水量不對，水流樣子不合拍攝條件"
+  }
+ },
+ "us-112-P01": {
+  "aod_550nm": {
+   "en": "Haze is heavy — the far ridgelines lose all their layers",
+   "ja": "霞がひどく、遠くの山の重なりがぼやけます",
+   "zh-TW": "霾太重，遠山層次全部糊掉"
+  },
+  "astronomical_darkness": {
+   "en": "Not fully dark yet (or already dawn) — the stars are gone",
+   "ja": "完全に暗くなっていない（または夜明け）ため、星空が見えません",
+   "zh-TW": "天還沒全暗（或已經天亮），星空不見了"
+  },
+  "cloud_cover_total": {
+   "en": "Thick cloud flattens the whole mountain view to grey",
+   "ja": "雲が厚く、山景色が灰色に潰れます",
+   "zh-TW": "雲層太厚，整個山景被蓋成灰白"
+  },
+  "galactic_core_altitude": {
+   "en": "The galactic core is still below the horizon — no Milky Way band to shoot",
+   "ja": "銀河の中心はまだ地平線下で、天の川の帯が撮れません",
+   "zh-TW": "銀河核心還在地平線下，拍不到銀河帶"
+  },
+  "moon_altitude": {
+   "en": "The moon is poorly placed — its light interferes with the frame",
+   "ja": "月の位置が良くなく、月光が写り込みます",
+   "zh-TW": "月亮位置不理想，月光干擾畫面"
+  },
+  "moon_illuminance_proxy": {
+   "en": "Moonlight too bright — it washes out the stars",
+   "ja": "月光が強く、星空が消えてしまいます",
+   "zh-TW": "月光太亮，星空被洗掉"
+  },
+  "moon_illumination_fraction": {
+   "en": "Moonlight too bright — it washes out the stars",
+   "ja": "月光が強く、星空が消えてしまいます",
+   "zh-TW": "月光太亮，星空被洗掉"
+  },
+  "moon_target_separation_deg": {
+   "en": "The moon sits too close to the shooting direction — moonlight overpowers the stars",
+   "ja": "月が撮影方向に近すぎて、月光が星空を押さえます",
+   "zh-TW": "月亮離拍攝方向太近，月光壓過星空"
+  }
+ },
+ "us-113-P01": {
+  "cloud_cover_low": {
+   "en": "Low cloud piled too high buries the would-be sea of clouds",
+   "ja": "低層雲が高く積もり、雲海を白く覆ってしまいます",
+   "zh-TW": "低雲淹得太高，把該有的雲海蓋成一片白"
+  },
+  "cloud_cover_mid_and_high": {
+   "en": "Mid and high cloud flatten the sky to grey",
+   "ja": "中・上層雲が厚く、空が灰色一色です",
+   "zh-TW": "中高雲太厚，天空一片灰白"
+  },
+  "precipitation": {
+   "en": "Rain in the mountains wrecks the cloud-sea setup",
+   "ja": "山の雨で雲海の条件が崩れています",
+   "zh-TW": "山區降雨，雲海條件整個亂掉"
+  },
+  "sunrise_time_window": {
+   "en": "Outside the sunrise window — the cloud sea is not catching color now",
+   "ja": "日の出の時間帯ではなく、雲海が色づく時間ではありません",
+   "zh-TW": "現在不在日出時段，雲海沒有染色的時刻"
+  }
+ },
+ "us-114-P01": {
+  "aod_550nm": {
+   "en": "Haze is heavy — the canyon loses all its layers",
+   "ja": "霞がひどく、峡谷の重なりがぼやけます",
+   "zh-TW": "霾太重，峽谷層次全部糊掉"
+  },
+  "cloud_cover_low": {
+   "en": "Thick low cloud pools as a grey layer in the gorge",
+   "ja": "低層雲が厚く、谷に灰色の層が溜まります",
+   "zh-TW": "低雲太厚，谷裡積著一層灰白"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Heavy rain veils the whole canyon",
+   "ja": "雨が強く、峡谷が雨に隠れます",
+   "zh-TW": "雨太大，峽谷整個被雨幕蓋住"
+  },
+  "visibility": {
+   "en": "Fog pours into the canyon — the gorge floor is gone",
+   "ja": "霧が峡谷に流れ込み、谷底が見えません",
+   "zh-TW": "大霧灌進峽谷，谷底看不見"
+  }
+ },
+ "us-115-P01": {
+  "aod_550nm": {
+   "en": "Hazy air blurs the distant view into a wash",
+   "ja": "大気が霞み、遠景がぼやけます",
+   "zh-TW": "空氣混濁，遠景糊成一片"
+  },
+  "astronomical_darkness": {
+   "en": "Not fully dark yet (or already dawn) — the stars are gone",
+   "ja": "完全に暗くなっていない（または夜明け）ため、星空が見えません",
+   "zh-TW": "天還沒全暗（或已經天亮），星空不見了"
+  },
+  "cloud_cover_total": {
+   "en": "Thick cloud makes the light flat and lifeless",
+   "ja": "雲が厚く、光に表情が出ません",
+   "zh-TW": "雲層太厚，光線平淡沒有層次"
+  },
+  "galactic_core_altitude": {
+   "en": "The galactic core is still below the horizon — no Milky Way band to shoot",
+   "ja": "銀河の中心はまだ地平線下で、天の川の帯が撮れません",
+   "zh-TW": "銀河核心還在地平線下，拍不到銀河帶"
+  },
+  "moon_altitude": {
+   "en": "The moon is not in the right position",
+   "ja": "月の位置が良くありません",
+   "zh-TW": "月亮位置不理想"
+  },
+  "moon_illuminance_proxy": {
+   "en": "Moonlight too bright for the stars",
+   "ja": "月光が強く、星空が見えません",
+   "zh-TW": "月光太亮，星空不明顯"
+  },
+  "moon_illumination_fraction": {
+   "en": "Moonlight too bright for the stars",
+   "ja": "月光が強く、星空が見えません",
+   "zh-TW": "月光太亮，星空不明顯"
+  },
+  "moon_target_separation_deg": {
+   "en": "The moon sits too close to the shooting direction",
+   "ja": "月が撮影方向に近すぎます",
+   "zh-TW": "月亮離拍攝方向太近，月光干擾"
+  }
+ },
+ "us-116-P01": {
+  "aod_550nm": {
+   "en": "Haze is heavy — the canyon loses all its layers",
+   "ja": "霞がひどく、峡谷の重なりがぼやけます",
+   "zh-TW": "霾太重，峽谷層次全部糊掉"
+  },
+  "cloud_cover_low": {
+   "en": "Thick low cloud pools as a grey layer in the gorge",
+   "ja": "低層雲が厚く、谷に灰色の層が溜まります",
+   "zh-TW": "低雲太厚，谷裡積著一層灰白"
+  },
+  "light_window": {
+   "en": "Outside civil light — too dark to see anything",
+   "ja": "市民光を過ぎて、暗すぎて見えません",
+   "zh-TW": "已過民用光線，天色太暗看不到"
+  },
+  "precipitation": {
+   "en": "Heavy rain veils the whole canyon",
+   "ja": "雨が強く、峡谷が雨に隠れます",
+   "zh-TW": "雨太大，峽谷整個被雨幕蓋住"
+  },
+  "visibility": {
+   "en": "Fog pours into the canyon — the gorge floor is gone",
+   "ja": "霧が峡谷に流れ込み、谷底が見えません",
+   "zh-TW": "大霧灌進峽谷，谷底看不見"
+  }
+ },
+ "us-117-P01": {
+  "cloud_cover_low": {
+   "en": "Thick low cloud turns the sea into flat grey",
+   "ja": "低層雲が厚く、海面が灰色に沈みます",
+   "zh-TW": "低雲太厚，海面整片灰白"
+  },
+  "cloud_cover_mid_and_high": {
+   "en": "Mid and high cloud flatten the sky over the coast",
+   "ja": "中・上層雲が厚く、海岸の空が灰色一色です",
+   "zh-TW": "中高雲太厚，海岸上空一片灰白"
+  },
+  "precipitation": {
+   "en": "Heavy rain blurs the whole coastline",
+   "ja": "雨が強く、海岸の視界がぼやけます",
+   "zh-TW": "雨太大，海邊視線一片模糊"
+  },
+  "sunrise_time_window": {
+   "en": "Outside the sunrise window — the first light has not hit the water",
+   "ja": "日の出の時間帯ではなく、海に最初の光が届きません",
+   "zh-TW": "現在不在日出時段，等不到曙光打上海面"
+  }
+ },
+ "us-118-P01": {
+  "aod_550nm": {
+   "en": "Hazy air — the horizon is not readable",
+   "ja": "大気が霞み、水平線がはっきりしません",
+   "zh-TW": "空氣混濁，海平線看不清"
+  },
+  "cloud_cover_low": {
+   "en": "Thick low cloud turns the sea into flat grey",
+   "ja": "低層雲が厚く、海面が灰色に沈みます",
+   "zh-TW": "低雲太厚，海面整片灰白"
+  },
+  "cloud_cover_mid_and_high": {
+   "en": "Mid and high cloud flatten the sky over the coast",
+   "ja": "中・上層雲が厚く、海岸の空が灰色一色です",
+   "zh-TW": "中高雲太厚，海岸上空一片灰白"
+  },
+  "precipitation": {
+   "en": "Heavy rain blurs the whole coastline",
+   "ja": "雨が強く、海岸の視界がぼやけます",
+   "zh-TW": "雨太大，海邊視線一片模糊"
+  },
+  "sunset_window": {
+   "en": "Outside the sunset window — no burning sky over the sea now",
+   "ja": "日の入りの時間帯ではなく、海に夕焼けが広がりません",
+   "zh-TW": "現在不在日落時段，海面上的火燒雲看不到"
+  }
  }
 }
