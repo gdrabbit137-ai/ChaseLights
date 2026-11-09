@@ -502,7 +502,6 @@ def main():
             if q is p: continue
             d2 = hav(p["lat"], p["lon"], q["lat"], q["lon"])/1000
             assert d2 >= 5.0, f"internal dedupe: {p['place_id']} vs {q['place_id']} {d2:.2f}km"
-        dedupe[p["place_id"]] = {"nearest_existing": nearest[1], "name": nearest[2], "km": round(nearest[0], 2)}
     (ROOT / "data/v2/audits/discovery/cl-data-51-dedupe.json").write_bytes(dump(dedupe).encode('utf-8'))
     print("dedupe OK", {k: v["km"] for k, v in dedupe.items()})
 
