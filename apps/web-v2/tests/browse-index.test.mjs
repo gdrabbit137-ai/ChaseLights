@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and canonical sources remain source pinned (CL-DATA-53: 350 places / 552 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'d51a6802949f21da6b6b1e8dbbc91c45319e8f1a80a7b5284fa313428dd12dc6'); // CL-INT-125: re-measured on the merged tree after regen (350 places / 552 opportunities)
-  assert.equal(sha256(rawCatalog),'b914079c7b04ac251debdbde24106f6ad7999b2638932159890aac572b2aac15'); // CL-INT-125: re-measured on the merged tree after regen (350 places / 552 opportunities)
+  assert.equal(sha256(rawIndex),'990e63f3a3f884c120a0ff7a49b4b6115aea7c0a28d17df7d1cbf132d9294530'); // CL-CI-33: re-measured on the merged tree a7b75259b after browse-index/catalog regen (350 places / 552 opportunities)
+  assert.equal(sha256(rawCatalog),'396802069e7545767526dadddd11fde747648d8eb550b59048218993c44f8048'); // CL-CI-33: re-measured on the merged tree a7b75259b after browse-index/catalog regen (350 places / 552 opportunities)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,552);assert.equal(source.places.length,350);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
