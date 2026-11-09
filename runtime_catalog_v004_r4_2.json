@@ -14,10 +14,10 @@
   "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
  ],
  "counts": {
-  "spots": 252,
-  "opportunities": 477,
-  "condition_variants": 492,
-  "profile_viewpoint_relations": 483
+  "spots": 274,
+  "opportunities": 499,
+  "condition_variants": 514,
+  "profile_viewpoint_relations": 505
  },
  "spots": [
   {
@@ -21953,7 +21953,13 @@
    "canonical_name": "Washington Pass Observation Site",
    "product_status": "KEEP",
    "product_review_stage": "R4_2_WASHINGTON_SCENIC_EXPANSION_2",
-   "research_sources": [{"authority": "WSDOT — SR-20 North Cascades Highway", "url": "https://wsdot.com/travel/real-time/map", "verified_on": "2026-11-09", "supports": "SR-20 seasonal closure window (winter avalanche closure; reopened 2026-06-14); practical access season and larch golden window"}, 
+   "research_sources": [
+    {
+     "authority": "WSDOT — SR-20 North Cascades Highway",
+     "url": "https://wsdot.com/travel/real-time/map",
+     "verified_on": "2026-11-09",
+     "supports": "SR-20 seasonal closure window (winter avalanche closure; reopened 2026-06-14); practical access season and larch golden window"
+    },
     {
      "authority": "NPS — Washington Pass Overlook",
      "url": "https://home.nps.gov/noca/planyourvisit/accessibility-at-washington-pass-overlook.htm",
@@ -26681,6 +26687,2184 @@
        "geometry_type": "area",
        "geometry_extent_m": 300,
        "geometry_note": "CL-DATA-32 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-099",
+   "canonical_name": "桃源谷",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/wiki/%E7%81%A3%E5%9D%91%E9%A0%AD%E5%B1%B1",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 灣坑頭山（桃源谷所在，24°58′28.4″N 121°54′37.6″E，山頂觀景平台）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-099-P01",
+     "spot_id": "tw-099",
+     "name_zh": "桃源谷草原海景",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "桃源谷草原海景",
+      "en": "Taoyuan Valley grassland sea view",
+      "ja": "桃源谷の草原と海景"
+     },
+     "best_time": "桃源谷草原海景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-taoyuan-valley-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-404",
+       "variant_name": "桃源谷草原海景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "綿延約3公里的矮草山脊俯瞰龜山島海域（東北角風管處）；與 tw-099 草嶺埡口（7.1km，古道埡口芒花）同為東北稜線但草原連綿題材不同；與 tw-075 外",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "桃源谷草原海景",
+        "en": "Taoyuan Valley grassland sea view",
+        "ja": "桃源谷の草原と海景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "綿延約3公里的矮草山脊俯瞰龜山島海域（東北角風管處）；與 tw-099 草嶺埡口（7.1km，古道埡口芒花）同為東北稜線但草原連綿題材不同；與 tw-075 外澳（12km，沙灘）錯位。",
+        "en": "A ~3 km rolling grass ridge above the Guishan Island sea (Northeast Coast NSC); distinct from tw-099 Caoling saddle 7.1 km (historic-trail silvergrass) and the tw-075 beach 12 km.",
+        "ja": "約3km続く草原の尾根から亀山島の海を望む（東北角風管処）。7.1km先の草嶺古道埡口（古道の芒）とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-099-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "桃源谷",
+       "name_i18n": {
+        "zh-TW": "桃源谷",
+        "en": "Taoyuan Valley Grassland",
+        "ja": "桃源谷"
+       },
+       "lat": 24.974556,
+       "lon": 121.910444,
+       "coord_confidence": "high",
+       "elevation_m": 616.0,
+       "coordinate_source": "zh.wikipedia 灣坑頭山（桃源谷所在，24°58′28.4″N 121°54′37.6″E，山頂觀景平台）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-100",
+   "canonical_name": "石碇千島湖",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://newtaipei.travel/zh-tw/Attractions/Detail/403133",
+     "verified_on": "2026-11-07",
+     "supports": "新北市觀光旅遊網官方（石碇永安里，翡翠水庫上游北勢溪集水區；鱷魚島/土虱頭觀景台）；海拔推定約500 m（北宜公路沿線山頭），座標 medium. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-100-P01",
+     "spot_id": "tw-100",
+     "name_zh": "石碇千島湖晨霧",
+     "legacy_theme": "cloud_sea",
+     "name_i18n": {
+      "zh-TW": "石碇千島湖晨霧",
+      "en": "Shiding Qiandao Lake morning mist",
+      "ja": "石碇千島湖の朝霧"
+     },
+     "best_time": "石碇千島湖晨霧",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_spatial_weather_module",
+     "formula_version": "v0.04-cl-data-25-shiding-qiandao-lake-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 10-01–04-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 10-01–04-30（seasonal-calendar）",
+      "en": "Seasonal window 10-01-04-30 (seasonal-calendar)",
+      "ja": "季節窓 10-01〜04-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-405",
+       "variant_name": "石碇千島湖晨霧",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "翡翠水庫上游北勢溪彎曲湖面群島與晨霧（秋冬晨前，官方）；與 tw-018 日月潭水社壩（大湖定番）與 tw-098 渭水之丘（平原霧）題材錯位——本點為水庫灣澳",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_spatial_weather_module",
+       "variant_name_i18n": {
+        "zh-TW": "石碇千島湖晨霧",
+        "en": "Shiding Qiandao Lake morning mist",
+        "ja": "石碇千島湖の朝霧"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "翡翠水庫上游北勢溪彎曲湖面群島與晨霧（秋冬晨前，官方）；與 tw-018 日月潭水社壩（大湖定番）與 tw-098 渭水之丘（平原霧）題材錯位——本點為水庫灣澳群島型。",
+        "en": "Bent emerald reservoir arms and islets under morning mist (autumn-winter pre-dawn, official New Taipei tourism); disjoint from tw-018 Sun Moon Lake (grand-lake classic) and tw-098 plain-fog overlook.",
+        "ja": "翡翠水庫上流の北勢溪、入り組む湖面と島々に朝霧（秋〜冬の明け前、新北市観光公式）。日月潭や渭水の丘とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-100-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "石碇千島湖",
+       "name_i18n": {
+        "zh-TW": "石碇千島湖",
+        "en": "Shiding Qiandao Lake / Crocodile Islet",
+        "ja": "石碇千島湖"
+       },
+       "lat": 24.9326,
+       "lon": 121.666,
+       "coord_confidence": "medium",
+       "elevation_m": 500.0,
+       "coordinate_source": "新北市觀光旅遊網官方（石碇永安里，翡翠水庫上游北勢溪集水區；鱷魚島/土虱頭觀景台）；海拔推定約500 m（北宜公路沿線山頭），座標 medium",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-101",
+   "canonical_name": "林口水牛坑",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/wiki/%E6%9E%97%E5%8F%A3%E5%A4%A7%E5%B3%BD%E8%B0%B7",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 林口大峽谷（座標 25°07′11″N 121°19′07″E）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-101-P01",
+     "spot_id": "tw-101",
+     "name_zh": "林口水牛坑惡地",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "林口水牛坑惡地",
+      "en": "Linkou Shuiniukeng badlands",
+      "ja": "林口水牛坑の悪地"
+     },
+     "best_time": "林口水牛坑惡地",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-linkou-shuiniukeng-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-406",
+       "variant_name": "林口水牛坑惡地",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "紅惡地沖蝕溝直接臨海（zh.wikipedia）；與 tw-027 田寮月世界（內陸惡地，27.6km）同屬惡地但臨海光線與海平線構圖為本點唯一；與 tw-00",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "林口水牛坑惡地",
+        "en": "Linkou Shuiniukeng badlands",
+        "ja": "林口水牛坑の悪地"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "紅惡地沖蝕溝直接臨海（zh.wikipedia）；與 tw-027 田寮月世界（內陸惡地，27.6km）同屬惡地但臨海光線與海平線構圖為本點唯一；與 tw-008 觀音山（8.8km，火山口遠眺）錯位。",
+        "en": "Eroded red badlands running straight to the sea (zh.wikipedia); unlike inland badlands tw-027 Tianliao 27.6 km, here badlands meet the horizon line; disjoint from tw-008 Guanyinshan 8.8 km.",
+        "ja": "海に直接続く紅色の悪地（zh.wikipedia）。内陸の月世界（tw-027、27.6km）と異なり海平線と組める点が本点独自。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-101-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "林口水牛坑",
+       "name_i18n": {
+        "zh-TW": "林口水牛坑",
+        "en": "Linkou Shuiniukeng Badlands",
+        "ja": "林口水牛坑"
+       },
+       "lat": 25.119684,
+       "lon": 121.318558,
+       "coord_confidence": "high",
+       "elevation_m": 50.0,
+       "coordinate_source": "zh.wikipedia 林口大峽谷（座標 25°07′11″N 121°19′07″E）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-102",
+   "canonical_name": "三貂角燈塔",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/wiki/%E4%B8%89%E8%B2%82%E8%A7%92%E7%87%88%E5%A1%94",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 三貂角燈塔（25°00′25″N 122°00′04″E）＋交通部航港局（1935年啟用，台灣本島最東燈塔）；海拔無權威單一值——誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-102-P01",
+     "spot_id": "tw-102",
+     "name_zh": "三貂角極東日出",
+     "legacy_theme": "sunrise",
+     "name_i18n": {
+      "zh-TW": "三貂角極東日出",
+      "en": "Sandiaojiao easternmost sunrise",
+      "ja": "三貂角の極東の日の出"
+     },
+     "best_time": "三貂角極東日出",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-sandiaojiao-lighthouse-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-407",
+       "variant_name": "三貂角極東日出",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "台灣本島最東點迎接第一道日出（航港局官方）；與 tw-034 崇德清水斷崖（花蓮，斷崖日出）與 tw-069 蘭嶼東清灣（離島日出）地理錯位。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "三貂角極東日出",
+        "en": "Sandiaojiao easternmost sunrise",
+        "ja": "三貂角の極東の日の出"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "台灣本島最東點迎接第一道日出（航港局官方）；與 tw-034 崇德清水斷崖（花蓮，斷崖日出）與 tw-069 蘭嶼東清灣（離島日出）地理錯位。",
+        "en": "First sunrise on Taiwan's easternmost cape (Maritime and Transport Bureau); geographically disjoint from tw-034 Qingshui Cliff and tw-069 Lanyu sunrises.",
+        "ja": "台湾本島最東端で最初の日の出を迎える（航港局公式）。崇德清水断崖や蘭嶼とは地理的に別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-102-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "三貂角燈塔",
+       "name_i18n": {
+        "zh-TW": "三貂角燈塔",
+        "en": "Sandiaojiao Lighthouse",
+        "ja": "三貂角燈塔"
+       },
+       "lat": 25.007,
+       "lon": 122.001,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "zh.wikipedia 三貂角燈塔（25°00′25″N 122°00′04″E）＋交通部航港局（1935年啟用，台灣本島最東燈塔）；海拔無權威單一值——誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-103",
+   "canonical_name": "清境農場",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/zh-tw/%E6%B8%85%E5%A2%83%E8%BE%B2%E5%A0%B4",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 清境農場（24°03′31″N 121°09′50″E；海拔約1,700–2,000m）＋南投縣旅遊網官方（1,748m）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-103-P01",
+     "spot_id": "tw-103",
+     "name_zh": "清境霧上雲海",
+     "legacy_theme": "cloud_sea",
+     "name_i18n": {
+      "zh-TW": "清境霧上雲海",
+      "en": "Qingjing cloud sea above the mist",
+      "ja": "清境の霧上の雲海"
+     },
+     "best_time": "清境霧上雲海",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_spatial_weather_module",
+     "formula_version": "v0.04-cl-data-25-qingjing-farm-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 10-01–03-31（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 10-01–03-31（seasonal-calendar）",
+      "en": "Seasonal window 10-01-03-31 (seasonal-calendar)",
+      "ja": "季節窓 10-01〜03-31（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-408",
+       "variant_name": "清境霧上雲海",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "1,748m 高山草原帶眺合歡群峰雲海翻湧（南投縣旅遊網官方：奇萊山日出、霧上桃源）；與 tw-019 合歡山主峰（15.3km，登頂題材）與 tw-043 奇",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_spatial_weather_module",
+       "variant_name_i18n": {
+        "zh-TW": "清境霧上雲海",
+        "en": "Qingjing cloud sea above the mist",
+        "ja": "清境の霧上の雲海"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "1,748m 高山草原帶眺合歡群峰雲海翻湧（南投縣旅遊網官方：奇萊山日出、霧上桃源）；與 tw-019 合歡山主峰（15.3km，登頂題材）與 tw-043 奇萊主峰（山岳題材）題材錯位——本點為牧場帶高度雲海平台。",
+        "en": "Pasture-belt viewpoint at 1,748 m over the Hehuan range cloud sea (Nantou county official); subject-disjoint from summit-climb tw-019 Hehuan 15.3 km and tw-043 Qilai peaks.",
+        "ja": "標高1,748mの牧場地帯から合歓連峰の雲海を望む（南投県観光公式）。山頂対象の合歓山（15.3km先）とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-103-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "清境農場",
+       "name_i18n": {
+        "zh-TW": "清境農場",
+        "en": "Qingjing Farm",
+        "ja": "清境農場"
+       },
+       "lat": 24.0586,
+       "lon": 121.1639,
+       "coord_confidence": "high",
+       "elevation_m": 1748.0,
+       "coordinate_source": "zh.wikipedia 清境農場（24°03′31″N 121°09′50″E；海拔約1,700–2,000m）＋南投縣旅遊網官方（1,748m）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-104",
+   "canonical_name": "忘憂森林",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.taiwan66.com.tw/panoramas/detail/659",
+     "verified_on": "2026-11-07",
+     "supports": "臺灣蹓蹓 VR 實景（座標 23.651305, 120.794012；南投縣竹山鎮）；海拔無權威值（921地震堰塞沼澤，各源 1,500–2,000m 說法分歧）——誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-104-P01",
+     "spot_id": "tw-104",
+     "name_zh": "忘憂森林水杉倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "忘憂森林水杉倒影",
+      "en": "Wangyou Forest drowned-cedar reflection",
+      "ja": "忘憂の森の水杉の倒影"
+     },
+     "best_time": "忘憂森林水杉倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-wangyou-forest-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-409",
+       "variant_name": "忘憂森林水杉倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "921地震後淹水杉林筆直枯木與水面倒影（竹山鎮）；與 tw-053 杉林溪（4.3km，瀑布溪谷森林）與 tw-088 翠峰湖（高山湖泊）題材錯位——本點為沼澤",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "忘憂森林水杉倒影",
+        "en": "Wangyou Forest drowned-cedar reflection",
+        "ja": "忘憂の森の水杉の倒影"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "921地震後淹水杉林筆直枯木與水面倒影（竹山鎮）；與 tw-053 杉林溪（4.3km，瀑布溪谷森林）與 tw-088 翠峰湖（高山湖泊）題材錯位——本點為沼澤杉林倒影。",
+        "en": "Drowned cedar snags and water reflections formed after the 1999 earthquake (Zhushan); distinct from tw-053 Sun Link Sea streams 4.3 km and the alpine-lake tw-088 Cuifeng.",
+        "ja": "921地震後の湛水で立ち枯れた杉と水面の倒影（竹山鎮）。4.3km先の杉林溪や高山湖の翠峰湖とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-104-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "忘憂森林",
+       "name_i18n": {
+        "zh-TW": "忘憂森林",
+        "en": "Wangyou Forest",
+        "ja": "忘憂森林"
+       },
+       "lat": 23.651305,
+       "lon": 120.794012,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "臺灣蹓蹓 VR 實景（座標 23.651305, 120.794012；南投縣竹山鎮）；海拔無權威值（921地震堰塞沼澤，各源 1,500–2,000m 說法分歧）——誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-105",
+   "canonical_name": "太平雲梯",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/wiki/%E5%A4%AA%E5%B9%B3%E9%9B%B2%E6%A2%AF",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 太平雲梯（23°33′36″N 120°35′52″E；全長281m；海拔約1,000m，台灣海拔最高景觀吊橋）＋阿里山國家風景區管理處官方. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-105-P01",
+     "spot_id": "tw-105",
+     "name_zh": "太平雲梯雲海夕照",
+     "legacy_theme": "cloud_sea",
+     "name_i18n": {
+      "zh-TW": "太平雲梯雲海夕照",
+      "en": "Taiping Bridge cloud sea at dusk",
+      "ja": "太平雲梯の雲海と夕景"
+     },
+     "best_time": "太平雲梯雲海夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_spatial_weather_module",
+     "formula_version": "v0.04-cl-data-25-taiping-bridge-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 10-01–03-31（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 10-01–03-31（seasonal-calendar）",
+      "en": "Seasonal window 10-01-03-31 (seasonal-calendar)",
+      "ja": "季節窓 10-01〜03-31（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-410",
+       "variant_name": "太平雲梯雲海夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "海拔約1,000m吊橋俯瞰嘉南平原與梅山36彎，雲海／夕陽／晚霞（阿里山風管處官方）；與 tw-022 二延平（17.3km，隙頂茶園霧帶）與 tw-023 頂",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_spatial_weather_module",
+       "variant_name_i18n": {
+        "zh-TW": "太平雲梯雲海夕照",
+        "en": "Taiping Bridge cloud sea at dusk",
+        "ja": "太平雲梯の雲海と夕景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "海拔約1,000m吊橋俯瞰嘉南平原與梅山36彎，雲海／夕陽／晚霞（阿里山風管處官方）；與 tw-022 二延平（17.3km，隙頂茶園霧帶）與 tw-023 頂石棹題材近緣但本點為吊橋結構＋36彎公路全景。",
+        "en": "A 1,000 m skywalk over the Jiannan plain and the 36-bend road (Alishan NSC official); related-but-distinct from tw-022 Er Yanping tea-terrace mist 17.3 km — here the bridge structure and the full bend panorama dominate.",
+        "ja": "標高約1,000mの吊り橋から嘉南平原と梅山36彎を望む（阿里山風管処公式）。17.3km先の二延平（茶園霧）とは近縁ながら吊橋構造と36彎全景が本点の題材。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-105-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "太平雲梯",
+       "name_i18n": {
+        "zh-TW": "太平雲梯",
+        "en": "Taiping Suspension Bridge / Meishan 36 Bends",
+        "ja": "太平雲梯"
+       },
+       "lat": 23.5599,
+       "lon": 120.5978,
+       "coord_confidence": "high",
+       "elevation_m": 1000.0,
+       "coordinate_source": "zh.wikipedia 太平雲梯（23°33′36″N 120°35′52″E；全長281m；海拔約1,000m，台灣海拔最高景觀吊橋）＋阿里山國家風景區管理處官方",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-106",
+   "canonical_name": "萬年峽谷",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://wanniancanyon.com/",
+     "verified_on": "2026-11-07",
+     "supports": "wanniancanyon.com 官方導覽站（座標 23.6024363, 120.6679；雲林縣古坑鄉草嶺，149甲縣道）；海拔無權威單一值——誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-106-P01",
+     "spot_id": "tw-106",
+     "name_zh": "萬年峽谷水蝕岩紋",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "萬年峽谷水蝕岩紋",
+      "en": "Wannian Canyon water-cut marble",
+      "ja": "万年峡谷の水蝕岩紋"
+     },
+     "best_time": "萬年峽谷水蝕岩紋",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-wannian-canyon-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-411",
+       "variant_name": "萬年峽谷水蝕岩紋",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "清水溪支流急蝕而成的峽谷水蝕岩紋與層狀彎曲岩壁（官方導覽站）；與 tw-034 崇德清水斷崖（斷崖海景）與 tw-107 萬年—本點為溪谷型地景，全台少見水蝕大",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "萬年峽谷水蝕岩紋",
+        "en": "Wannian Canyon water-cut marble",
+        "ja": "万年峡谷の水蝕岩紋"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "清水溪支流急蝕而成的峽谷水蝕岩紋與層狀彎曲岩壁（官方導覽站）；與 tw-034 崇德清水斷崖（斷崖海景）與 tw-107 萬年—本點為溪谷型地景，全台少見水蝕大理岩紋。",
+        "en": "A rapidly incised tributary gorge with water-cut banded rock walls (official canyon guide site); a stream-cut landform unlike the coastal cliff tw-034.",
+        "ja": "急流が削った支流峡谷、水蝕の縞模様岩壁（公式ガイド）。海食断崖の崇德清水断崖とは別類の渓谷地形。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-106-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "萬年峽谷",
+       "name_i18n": {
+        "zh-TW": "萬年峽谷",
+        "en": "Wannian Canyon",
+        "ja": "萬年峽谷"
+       },
+       "lat": 23.6024363,
+       "lon": 120.6679,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "wanniancanyon.com 官方導覽站（座標 23.6024363, 120.6679；雲林縣古坑鄉草嶺，149甲縣道）；海拔無權威單一值——誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-107",
+   "canonical_name": "佳樂水",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/zh-tw/%E4%BD%B3%E6%A8%82%E6%B0%B4",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 佳樂水（座標 22°00′10″N 120°52′25″E）＋大鵬灣國家風景區管理處官方（台26線盡頭，滿州鄉）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-107-P01",
+     "spot_id": "tw-107",
+     "name_zh": "佳樂水風化石床",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "佳樂水風化石床",
+      "en": "Jialeshui weathered sandstone coast",
+      "ja": "佳楽水の風化岩海岸"
+     },
+     "best_time": "佳樂水風化石床",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-jialeshui-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-412",
+       "variant_name": "佳樂水風化石床",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "砂岩海蝕平台風化奇岩連綿（大鵬灣風管處官方）；與 tw-029 鵝鑾鼻（6.5km近域內唯一石灰岩燈塔海岸對比）與 tw-074 野柳（北海岸蕈狀岩）題材錯位—",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "佳樂水風化石床",
+        "en": "Jialeshui weathered sandstone coast",
+        "ja": "佳楽水の風化岩海岸"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "砂岩海蝕平台風化奇岩連綿（大鵬灣風管處官方）；與 tw-029 鵝鑾鼻（6.5km近域內唯一石灰岩燈塔海岸對比）與 tw-074 野柳（北海岸蕈狀岩）題材錯位——本點為東海岸風化石床。",
+        "en": "Weathered sandstone shore platforms with sculpted rocks (Dapeng Bay NSC official); distinct from the coral-limestone lighthouse cape tw-029 and the Yehliu hoodoos tw-074.",
+        "ja": "砂岩の海食台と風化奇岩が続く（大鵬湾風管処公式）。鵝鑾鼻灯台や野柳の奇岩とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-107-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "佳樂水",
+       "name_i18n": {
+        "zh-TW": "佳樂水",
+        "en": "Jialeshui Scenic Area",
+        "ja": "佳樂水"
+       },
+       "lat": 22.0028186,
+       "lon": 120.873576,
+       "coord_confidence": "high",
+       "elevation_m": 10.0,
+       "coordinate_source": "zh.wikipedia 佳樂水（座標 22°00′10″N 120°52′25″E）＋大鵬灣國家風景區管理處官方（台26線盡頭，滿州鄉）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-108",
+   "canonical_name": "龍頭山",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.maolin-nsa.gov.tw/zh-tw/attraction/62/",
+     "verified_on": "2026-11-07",
+     "supports": "茂林國家風景區管理處官方（龍頭山遊憩區，高132線12K附近，約22公頃環流丘地形，三面環山溪流蜿蜒）；座標 medium（高132線12K推定）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-108-P01",
+     "spot_id": "tw-108",
+     "name_zh": "龍頭山環流丘曲流",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "龍頭山環流丘曲流",
+      "en": "Longtoushan incised meander loop",
+      "ja": "龍頭山の環流丘と曲流"
+     },
+     "best_time": "龍頭山環流丘曲流",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-longtoushan-meander-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-413",
+       "variant_name": "龍頭山環流丘曲流",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "濁口溪環流丘地形：三面環山的曲流丘與溪谷環抱（茂林風管處官方）；與 tw-027 月世界（惡地）與 tw-108 佳樂水（海蝕）題材錯位——本點為環流丘曲流。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "龍頭山環流丘曲流",
+        "en": "Longtoushan incised meander loop",
+        "ja": "龍頭山の環流丘と曲流"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "濁口溪環流丘地形：三面環山的曲流丘與溪谷環抱（茂林風管處官方）；與 tw-027 月世界（惡地）與 tw-108 佳樂水（海蝕）題材錯位——本點為環流丘曲流。",
+        "en": "An incised meander hill ringed on three sides by the Zhuokou River bend (Maolin NSC official); a river-meander landform distinct from badlands tw-027 and sea-cut tw-108.",
+        "ja": "濁口渓の環流丘、三方を山に囲まれた曲流の丘（茂林風管処公式）。月世界の悪地や佳楽水の海食とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-108-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "龍頭山",
+       "name_i18n": {
+        "zh-TW": "龍頭山",
+        "en": "Longtoushan Incised Meander",
+        "ja": "龍頭山"
+       },
+       "lat": 22.882,
+       "lon": 120.659,
+       "coord_confidence": "medium",
+       "elevation_m": 300.0,
+       "coordinate_source": "茂林國家風景區管理處官方（龍頭山遊憩區，高132線12K附近，約22公頃環流丘地形，三面環山溪流蜿蜒）；座標 medium（高132線12K推定）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-109",
+   "canonical_name": "七股鹽山",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/wiki/%E4%B8%83%E8%82%A1%E9%B9%BD%E5%B1%B1",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 七股鹽山（座標 23°09′19″N 120°06′19″E）＋雲嘉南濱海國家風景區管理處官方. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-109-P01",
+     "spot_id": "tw-109",
+     "name_zh": "七股潟湖夕照鹽山",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "七股潟湖夕照鹽山",
+      "en": "Qigu lagoon sunset with salt mountain",
+      "ja": "七股潟湖の夕景と塩山"
+     },
+     "best_time": "七股潟湖夕照鹽山",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-qigu-salt-lagoon-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-414",
+       "variant_name": "七股潟湖夕照鹽山",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "潟湖蚵架水面映夕陽、皚皚鹽山為前景（雲嘉南風管處官方）；與 tw-026 井仔腳瓦盤鹽田（13.4km，鹽田格池）題材近緣但本點為鹽山體量＋潟湖水面。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "七股潟湖夕照鹽山",
+        "en": "Qigu lagoon sunset with salt mountain",
+        "ja": "七股潟湖の夕景と塩山"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "潟湖蚵架水面映夕陽、皚皚鹽山為前景（雲嘉南風管處官方）；與 tw-026 井仔腳瓦盤鹽田（13.4km，鹽田格池）題材近緣但本點為鹽山體量＋潟湖水面。",
+        "en": "Oyster-rack lagoon water under sunset with the white salt mountain as foreground (Southwest Coast NSC); kin to tw-026 tile-pan salt fields 13.4 km but carries the salt-mound mass and lagoon water.",
+        "ja": "潟湖の蚵棚に沈む夕日と白い塩山（雲嘉南風管処公式）。13.4km先の井仔脚瓦盤塩田（塩田格子）と題材が近縁ながら塩山と潟湖が本点の主題。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-109-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "七股鹽山",
+       "name_i18n": {
+        "zh-TW": "七股鹽山",
+        "en": "Qigu Salt Mountain & Lagoon",
+        "ja": "七股鹽山"
+       },
+       "lat": 23.155276,
+       "lon": 120.10535,
+       "coord_confidence": "high",
+       "elevation_m": 5.0,
+       "coordinate_source": "zh.wikipedia 七股鹽山（座標 23°09′19″N 120°06′19″E）＋雲嘉南濱海國家風景區管理處官方",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-110",
+   "canonical_name": "四草綠色隧道",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.taiwan.net.tw/m1.aspx?sno=0001016&id=A12-00487",
+     "verified_on": "2026-11-07",
+     "supports": "交通部觀光署官方（經度/緯度 120.13633/23.019590；臺南市安南區大眾路360號）＋雲嘉南風管處. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-110-P01",
+     "spot_id": "tw-110",
+     "name_zh": "四草紅樹林綠色隧道",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "四草紅樹林綠色隧道",
+      "en": "Sicao mangrove green tunnel",
+      "ja": "四草のマングローブの緑のトンネル"
+     },
+     "best_time": "四草紅樹林綠色隧道",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-sicao-green-tunnel-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-415",
+       "variant_name": "四草紅樹林綠色隧道",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "大眾廟後水道兩側逾50年原生紅樹林拱成水上綠色隧道（雲嘉南風管處官方，乘船）；與 tw-111 大農大富平地森林（11km內無重疊、林道題材）與 tw-105 ",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "四草紅樹林綠色隧道",
+        "en": "Sicao mangrove green tunnel",
+        "ja": "四草のマングローブの緑のトンネル"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "大眾廟後水道兩側逾50年原生紅樹林拱成水上綠色隧道（雲嘉南風管處官方，乘船）；與 tw-111 大農大富平地森林（11km內無重疊、林道題材）與 tw-105 忘憂森林（沼澤倒影）題材錯位。",
+        "en": "A 50-year native mangrove tunnel over the drainage channel behind Dazhong Temple (SW Coast NSC, by boat); distinct from forest-trail tw-084 Danongdafu and swamp-reflection tw-105 Wangyou.",
+        "ja": "大衆廟裏の水路、50年以上の原生マングローブが水上の緑のトンネルを作る（雲嘉南風管処公式、遊覧船）。林道の大農大富や湿地の忘憂の森とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-110-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "四草綠色隧道",
+       "name_i18n": {
+        "zh-TW": "四草綠色隧道",
+        "en": "Sicao Green Tunnel",
+        "ja": "四草綠色隧道"
+       },
+       "lat": 23.01959,
+       "lon": 120.13633,
+       "coord_confidence": "high",
+       "elevation_m": 2.0,
+       "coordinate_source": "交通部觀光署官方（經度/緯度 120.13633/23.019590；臺南市安南區大眾路360號）＋雲嘉南風管處",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-111",
+   "canonical_name": "蓮池潭龍虎塔",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.taiwan.net.tw/m1.aspx?sNo=0001121%E3%80%80&id=2149",
+     "verified_on": "2026-11-07",
+     "supports": "交通部觀光署官方（經度/緯度 120.29691/22.678695；高雄市左營區蓮潭路）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-111-P01",
+     "spot_id": "tw-111",
+     "name_zh": "蓮池潭龍虎塔藍調",
+     "legacy_theme": "blue_hour",
+     "name_i18n": {
+      "zh-TW": "蓮池潭龍虎塔藍調",
+      "en": "Lotus Pond pagodas at blue hour",
+      "ja": "蓮池潭龍虎塔のブルーアワー"
+     },
+     "best_time": "蓮池潭龍虎塔藍調",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_lighting_state_module",
+     "formula_version": "v0.04-cl-data-25-lotus-pond-pagodas-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-416",
+       "variant_name": "蓮池潭龍虎塔藍調",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "龍虎雙塔入潭與春秋閣倒影於暮色湖面（觀光署官方）；與 tw-028 駁二（6.9km，港區貨櫃夜景）與 tw-003 漁人碼頭（淡水）藍調題材地理錯位。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_lighting_state_module",
+       "variant_name_i18n": {
+        "zh-TW": "蓮池潭龍虎塔藍調",
+        "en": "Lotus Pond pagodas at blue hour",
+        "ja": "蓮池潭龍虎塔のブルーアワー"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "龍虎雙塔入潭與春秋閣倒影於暮色湖面（觀光署官方）；與 tw-028 駁二（6.9km，港區貨櫃夜景）與 tw-003 漁人碼頭（淡水）藍調題材地理錯位。",
+        "en": "The Dragon-Tiger pagodas and Spring-Autumn pavilions reflected in the lotus pond at dusk (Tourism Bureau official); disjoint from harbor-container tw-028 Pier-2 6.9 km and Tamsui tw-003.",
+        "ja": "龍虎塔と春秋閣が蓮池潭の水面に映る夕暮れ（観光署公式）。6.9km先の駁二（港湾夜景）や淡水漁人碼頭とは地理的に別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-111-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "蓮池潭龍虎塔",
+       "name_i18n": {
+        "zh-TW": "蓮池潭龍虎塔",
+        "en": "Lotus Pond Dragon-Tiger Pagodas",
+        "ja": "蓮池潭龍虎塔"
+       },
+       "lat": 22.678695,
+       "lon": 120.29691,
+       "coord_confidence": "high",
+       "elevation_m": 5.0,
+       "coordinate_source": "交通部觀光署官方（經度/緯度 120.29691/22.678695；高雄市左營區蓮潭路）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-112",
+   "canonical_name": "太魯閣燕子口",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.taroko.gov.tw/ch/trailsAttractions/attractions/22",
+     "verified_on": "2026-11-07",
+     "supports": "太魯閣國家公園管理處官方（燕子口步道至靳珩橋大理石峽谷段、九曲洞步道）；海拔無單一權威值——誠實留空；座標 medium（燕子口靳珩橋段推定）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-112-P01",
+     "spot_id": "tw-112",
+     "name_zh": "太魯閣大理石峽谷",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "太魯閣大理石峽谷",
+      "en": "Taroko marble gorge",
+      "ja": "太魯閣の大理石峡谷"
+     },
+     "best_time": "太魯閣大理石峽谷",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-taroko-gorge-tunnel-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-417",
+       "variant_name": "太魯閣大理石峽谷",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "立霧溪切穿大理岩的最窄峽谷段（太管處官方；燕子口步道開放狀態依公園處當期公告）；與 tw-034 崇德清水斷崖（同園區、斷崖海景 8.6km）題材錯位——本點為",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "太魯閣大理石峽谷",
+        "en": "Taroko marble gorge",
+        "ja": "太魯閣の大理石峡谷"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "立霧溪切穿大理岩的最窄峽谷段（太管處官方；燕子口步道開放狀態依公園處當期公告）；與 tw-034 崇德清水斷崖（同園區、斷崖海景 8.6km）題材錯位——本點為峽谷谷底仰視。",
+        "en": "The narrowest marble gorge cut by the Liwu River (Taroko NP HQ official; trail openings follow current park notices); a canyon-floor view disjoint from sea-cliff tw-034 Qingshui 8.6 km in the same park.",
+        "ja": "立霧渓が大理岩を削った最狭部の峡谷（太魯閣国家公园処公式；歩道の開放は同管理処の公告による）。同公園内の清水断崖（8.6km）とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-112-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "太魯閣燕子口",
+       "name_i18n": {
+        "zh-TW": "太魯閣燕子口",
+        "en": "Taroko Swallow Grotto & Jiuqudong",
+        "ja": "太魯閣燕子口"
+       },
+       "lat": 24.1717,
+       "lon": 121.5767,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "太魯閣國家公園管理處官方（燕子口步道至靳珩橋大理石峽谷段、九曲洞步道）；海拔無單一權威值——誠實留空；座標 medium（燕子口靳珩橋段推定）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-113",
+   "canonical_name": "白楊瀑布",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/zh-tw/%E7%99%BD%E6%A5%8A%E7%80%91%E5%B8%83",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 白楊瀑布（座標 24°10′27.35″N 121°28′27.90″E，太魯閣族語『達歐拉斯＝斷崖瀑布』）；海拔推定約480m（白楊步道沿線）medium. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-113-P01",
+     "spot_id": "tw-113",
+     "name_zh": "白楊水簾雙瀑",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "白楊水簾雙瀑",
+      "en": "Baiyang twin falls and water curtain",
+      "ja": "白楊の二段滝と水簾"
+     },
+     "best_time": "白楊水簾雙瀑",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-baiyang-waterfall-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-418",
+       "variant_name": "白楊水簾雙瀑",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "白楊步道終點水簾洞與雙段瀑布（zh.wikipedia）；與 tw-055 五峰旗（宜蘭，三層瀑布）與 tw-016 鳶嘴山題材錯位——本點為隧道步道＋斷崖雙瀑",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "白楊水簾雙瀑",
+        "en": "Baiyang twin falls and water curtain",
+        "ja": "白楊の二段滝と水簾"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "白楊步道終點水簾洞與雙段瀑布（zh.wikipedia）；與 tw-055 五峰旗（宜蘭，三層瀑布）與 tw-016 鳶嘴山題材錯位——本點為隧道步道＋斷崖雙瀑。",
+        "en": "Twin falls and the water-curtain tunnel at the Baiyang trail end (zh.wikipedia); distinct from three-tiered tw-055 Wufengqi and the ridge tw-016.",
+        "ja": "白楊歩道終点の水簾洞と二段滝（zh.wikipedia）。三層の五峰旗滝や鳶嘴山とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-113-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "白楊瀑布",
+       "name_i18n": {
+        "zh-TW": "白楊瀑布",
+        "en": "Baiyang Waterfall",
+        "ja": "白楊瀑布"
+       },
+       "lat": 24.1742639,
+       "lon": 121.4744167,
+       "coord_confidence": "medium",
+       "elevation_m": 480.0,
+       "coordinate_source": "zh.wikipedia 白楊瀑布（座標 24°10′27.35″N 121°28′27.90″E，太魯閣族語『達歐拉斯＝斷崖瀑布』）；海拔推定約480m（白楊步道沿線）medium",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-114",
+   "canonical_name": "赤科山",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/wiki/%E8%B5%A4%E7%A7%91%E5%B1%B1",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 赤科山（花蓮縣玉里鎮，海拔約900m）；座標 medium（玉里鎮竹田村山區推定）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-114-P01",
+     "spot_id": "tw-114",
+     "name_zh": "赤科山金針花海",
+     "legacy_theme": "seasonal_foreground",
+     "name_i18n": {
+      "zh-TW": "赤科山金針花海",
+      "en": "Chike Mountain daylily bloom",
+      "ja": "赤科山の金針花の海"
+     },
+     "best_time": "赤科山金針花海",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_seasonal_foreground_module",
+     "formula_version": "v0.04-cl-data-25-chike-daylily-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 08-01–10-15（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 08-01–10-15（seasonal-calendar）",
+      "en": "Seasonal window 08-01-10-15 (seasonal-calendar)",
+      "ja": "季節窓 08-01〜10-15（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-419",
+       "variant_name": "赤科山金針花海",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "海拔約900m山頭金針花海與農舍錯落（zh.wikipedia：8–10月）；與 tw-035 六十石山（同一花季、富里鄉，6.9km）姊妹點但山頭視角與千歲農",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_seasonal_foreground_module",
+       "variant_name_i18n": {
+        "zh-TW": "赤科山金針花海",
+        "en": "Chike Mountain daylily bloom",
+        "ja": "赤科山の金針花の海"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "海拔約900m山頭金針花海與農舍錯落（zh.wikipedia：8–10月）；與 tw-035 六十石山（同一花季、富里鄉，6.9km）姊妹點但山頭視角與千歲農舍地標不同——題材近緣、地理有距。",
+        "en": "Daylily seas over ~900 m farmstead ridges (zh.wikipedia: Aug-Oct); a sister to tw-035 Liushishi 6.9 km in the same bloom but with a different ridge viewpoint and the heritage farmstead landmarks.",
+        "ja": "標高約900mの山頭に広がる金針花の海と農家（zh.wikipedia：8〜10月）。同花季の六十石山（6.9km）と姉妹点だが尾根の視角と農舎ランドマークが異なる。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-114-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "赤科山",
+       "name_i18n": {
+        "zh-TW": "赤科山",
+        "en": "Chike Mountain Daylily Sea",
+        "ja": "赤科山"
+       },
+       "lat": 23.4433,
+       "lon": 121.4587,
+       "coord_confidence": "medium",
+       "elevation_m": 900.0,
+       "coordinate_source": "zh.wikipedia 赤科山（花蓮縣玉里鎮，海拔約900m）；座標 medium（玉里鎮竹田村山區推定）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-115",
+   "canonical_name": "鹿野高台",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Luye_Highlands",
+     "verified_on": "2026-11-07",
+     "supports": "en.wikipedia Luye Highlands（Elevation 350 m; Coordinates 22°54′48.2″N 121°07′10.6″E）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-115-P01",
+     "spot_id": "tw-115",
+     "name_zh": "鹿野高台熱氣球季",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "鹿野高台熱氣球季",
+      "en": "Luye Highlands balloon season",
+      "ja": "鹿野高台の気球シーズン"
+     },
+     "best_time": "鹿野高台熱氣球季",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-luye-highlands-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 07-01–08-31（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 07-01–08-31（seasonal-calendar）",
+      "en": "Seasonal window 07-01-08-31 (seasonal-calendar)",
+      "ja": "季節窓 07-01〜08-31（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-420",
+       "variant_name": "鹿野高台熱氣球季",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "350m台地俯瞰花東縱谷，7–8月熱氣球繫留升空（每年夏季）；與 tw-039 伯朗大道（8km，田間直線道）與 tw-037 多良（海線車站）題材錯位。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "鹿野高台熱氣球季",
+        "en": "Luye Highlands balloon season",
+        "ja": "鹿野高台の気球シーズン"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "350m台地俯瞰花東縱谷，7–8月熱氣球繫留升空（每年夏季）；與 tw-039 伯朗大道（8km，田間直線道）與 tw-037 多良（海線車站）題材錯位。",
+        "en": "A 350 m terrace over the Huadong Valley with tethered balloons each July-August; disjoint from tw-039 Brown Avenue fields 8 km and the coastal tw-037 station.",
+        "ja": "標高350mの台地から花東縦谷を望み、毎年7〜8月は熱気球が上がる。8km先の伯朗大道や海線の多良駅とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-115-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "鹿野高台",
+       "name_i18n": {
+        "zh-TW": "鹿野高台",
+        "en": "Luye Highlands",
+        "ja": "鹿野高台"
+       },
+       "lat": 22.913389,
+       "lon": 121.119611,
+       "coord_confidence": "high",
+       "elevation_m": 350.0,
+       "coordinate_source": "en.wikipedia Luye Highlands（Elevation 350 m; Coordinates 22°54′48.2″N 121°07′10.6″E）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-116",
+   "canonical_name": "太麻里金針山",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.taimali.gov.tw/home/index.php/2020-04-23-04-32-60.html",
+     "verified_on": "2026-11-07",
+     "supports": "太麻里鄉公所官方（金針山休閒農業區，462公頃）＋太麻里山小百岳1,340m（samejantravel）；座標 low_medium（雙乳峰一帶推定）——誠實標註. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-116-P01",
+     "spot_id": "tw-116",
+     "name_zh": "太麻里金針花海日出",
+     "legacy_theme": "seasonal_foreground",
+     "name_i18n": {
+      "zh-TW": "太麻里金針花海日出",
+      "en": "Taimali daylily sea at sunrise",
+      "ja": "太麻里金針山の金針花と日の出"
+     },
+     "best_time": "太麻里金針花海日出",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_seasonal_foreground_module",
+     "formula_version": "v0.04-cl-data-25-taimali-daylily-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 08-01–09-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 08-01–09-30（seasonal-calendar）",
+      "en": "Seasonal window 08-01-09-30 (seasonal-calendar)",
+      "ja": "季節窓 08-01〜09-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-421",
+       "variant_name": "太麻里金針花海日出",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "約110公頃金針花海面向太平洋日出（鄉公所官方；花季約8–9月）；與 tw-115 赤科山（同花季、花蓮縱谷內陸側）題材近緣但本點迎東海岸日出；與 tw-037",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_seasonal_foreground_module",
+       "variant_name_i18n": {
+        "zh-TW": "太麻里金針花海日出",
+        "en": "Taimali daylily sea at sunrise",
+        "ja": "太麻里金針山の金針花と日の出"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "約110公頃金針花海面向太平洋日出（鄉公所官方；花季約8–9月）；與 tw-115 赤科山（同花季、花蓮縱谷內陸側）題材近緣但本點迎東海岸日出；與 tw-037 多良（11.3km，海線）錯位。",
+        "en": "~110 ha of daylilies facing a Pacific sunrise (Taimali Township official; bloom ~Aug-Sep); kin to tw-115 Chike (same bloom, inland valley) but this cape faces the east coast sunrise; disjoint from tw-037 11.3 km.",
+        "ja": "約110haの金針花が太平洋に沈む日の出を迎える（太麻里郷公式；花季は約8〜9月）。同花季の赤科山（内陸側）と近縁ながら本点は東海岸の日の出。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-116-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "太麻里金針山",
+       "name_i18n": {
+        "zh-TW": "太麻里金針山",
+        "en": "Taimali Golden-Needle Mountain",
+        "ja": "太麻里金針山"
+       },
+       "lat": 22.6113,
+       "lon": 120.9959,
+       "coord_confidence": "medium",
+       "elevation_m": 1340.0,
+       "coordinate_source": "太麻里鄉公所官方（金針山休閒農業區，462公頃）＋太麻里山小百岳1,340m（samejantravel）；座標 low_medium（雙乳峰一帶推定）——誠實標註",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-117",
+   "canonical_name": "桶盤嶼",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/zh-tw/%E6%A1%B6%E7%9B%A4%E5%B6%BC",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 桶盤嶼（座標 23°30′40.41″N 119°31′06.70″E）＋澎湖國家風景區管理處官方（桶盤地質公園，柱狀節理澎湖之最）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-117-P01",
+     "spot_id": "tw-117",
+     "name_zh": "桶盤玄武岩柱環壁",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "桶盤玄武岩柱環壁",
+      "en": "Tongpan basalt column ring",
+      "ja": "桶盤嶼の玄武岩柱の環壁"
+     },
+     "best_time": "桶盤玄武岩柱環壁",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-tongpan-basalt-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-422",
+       "variant_name": "桶盤玄武岩柱環壁",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "全島由柱狀節理石柱羅列環繞，『澎湖黃石公園』（澎湖風管處官方）；與 tw-079 池西岩瀑（6.2km，本島單面岩瀑）題材近緣但本點為環島柱壁＋蓮花座平台。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "桶盤玄武岩柱環壁",
+        "en": "Tongpan basalt column ring",
+        "ja": "桶盤嶼の玄武岩柱の環壁"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "全島由柱狀節理石柱羅列環繞，『澎湖黃石公園』（澎湖風管處官方）；與 tw-079 池西岩瀑（6.2km，本島單面岩瀑）題材近緣但本點為環島柱壁＋蓮花座平台。",
+        "en": "The whole island is ringed by columnar basalt — 'Penghu's Yellowstone' (Penghu NSC official); kin to tw-079 Chixi falls 6.2 km (single-face columns) but here a full ring plus the lotus-seat platform.",
+        "ja": "島全体を柱状節理の石柱が囲む『澎湖のイエローストーン』（澎湖風管処公式）。6.2km先の池西岩瀑（単面）と近縁ながら環状の柱壁と蓮花座が本点。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-117-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "桶盤嶼",
+       "name_i18n": {
+        "zh-TW": "桶盤嶼",
+        "en": "Tongpan Island Basalt Columns",
+        "ja": "桶盤嶼"
+       },
+       "lat": 23.511225,
+       "lon": 119.5185278,
+       "coord_confidence": "high",
+       "elevation_m": 20.0,
+       "coordinate_source": "zh.wikipedia 桶盤嶼（座標 23°30′40.41″N 119°31′06.70″E）＋澎湖國家風景區管理處官方（桶盤地質公園，柱狀節理澎湖之最）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-118",
+   "canonical_name": "栗松溫泉",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/zh-tw/%E6%A0%97%E6%9D%BE%E6%BA%AB%E6%B3%89",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 栗松溫泉（座標 23°11′52″N 121°02′14″E；台東縣海端鄉新武呂溪支流峽谷，海拔1,075m）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-118-P01",
+     "spot_id": "tw-118",
+     "name_zh": "栗松翡翠野溪湯",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "栗松翡翠野溪湯",
+      "en": "Lisong emerald wild-spring pools",
+      "ja": "栗松温泉の翡翠の湯"
+     },
+     "best_time": "栗松翡翠野溪湯",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-lisong-hot-spring-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 10-01–04-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 10-01–04-30（seasonal-calendar）",
+      "en": "Seasonal window 10-01-04-30 (seasonal-calendar)",
+      "ja": "季節窓 10-01〜04-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-423",
+       "variant_name": "栗松翡翠野溪湯",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "新武呂溪支流峽谷中的翡翠色野溪溫泉湯池與mineral白岩（zh.wikipedia；海拔1,075m）；與 tw-068 綠島朝日溫泉（海底溫泉）與 tw-1",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "栗松翡翠野溪湯",
+        "en": "Lisong emerald wild-spring pools",
+        "ja": "栗松温泉の翡翠の湯"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "新武呂溪支流峽谷中的翡翠色野溪溫泉湯池與mineral白岩（zh.wikipedia；海拔1,075m）；與 tw-068 綠島朝日溫泉（海底溫泉）與 tw-109 龍頭山題材錯位——本點為野溪湯池。",
+        "en": "Emerald wild-spring pools against mineral-white rock in the Xinwulu tributary gorge (zh.wikipedia; 1,075 m); distinct from undersea tw-068 Zhaori and meander tw-109.",
+        "ja": "新武呂渓支流の峡谷、翡翠色の野溪湯と白い岩肌（zh.wikipedia；標高1,075m）。海底温泉の緑島や龍頭山とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-118-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "栗松溫泉",
+       "name_i18n": {
+        "zh-TW": "栗松溫泉",
+        "en": "Lisong Hot Spring Canyon",
+        "ja": "栗松溫泉"
+       },
+       "lat": 23.1979087,
+       "lon": 121.0371977,
+       "coord_confidence": "high",
+       "elevation_m": 1075.0,
+       "coordinate_source": "zh.wikipedia 栗松溫泉（座標 23°11′52″N 121°02′14″E；台東縣海端鄉新武呂溪支流峽谷，海拔1,075m）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-119",
+   "canonical_name": "加里山",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/zh-tw/%E5%8A%A0%E9%87%8C%E5%B1%B1",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 加里山（標高2,220m，台灣小百岳，苗栗縣山）＋林務局步道官方（recreation.forest.gov.tw）＋萌芽三角點庫（一等三角點 2220m）；座標 medium（一等三角點山頂推定）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-119-P01",
+     "spot_id": "tw-119",
+     "name_zh": "加里山雲海聖稜遠眺",
+     "legacy_theme": "cloud_sea",
+     "name_i18n": {
+      "zh-TW": "加里山雲海聖稜遠眺",
+      "en": "Jiali Mountain cloud sea and far ranges",
+      "ja": "加里山の雲海と遠稜線"
+     },
+     "best_time": "加里山雲海聖稜遠眺",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_spatial_weather_module",
+     "formula_version": "v0.04-cl-data-25-jiali-mountain-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-424",
+       "variant_name": "加里山雲海聖稜遠眺",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "一等三角點山頂展望：好天氣可遠眺樂山雷達站稜線與西部海岸線（林務局步道官方）；與 tw-089 觀霧榛山（15.4km，雲霧步道）與 tw-016 鳶嘴（中部）",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_spatial_weather_module",
+       "variant_name_i18n": {
+        "zh-TW": "加里山雲海聖稜遠眺",
+        "en": "Jiali Mountain cloud sea and far ranges",
+        "ja": "加里山の雲海と遠稜線"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "一等三角點山頂展望：好天氣可遠眺樂山雷達站稜線與西部海岸線（林務局步道官方）；與 tw-089 觀霧榛山（15.4km，雲霧步道）與 tw-016 鳶嘴（中部）題材錯位——苗栗最高展望雲海點。",
+        "en": "A first-order triangulation summit with views to the Leshan radar ridgeline and the west coast in clear weather (Forestry Bureau trail official); disjoint from tw-089 Guanwu 15.4 km and central tw-016.",
+        "ja": "一等三角点の山頂から楽山の稜線と西海岸まで見渡す（林務局歩道公式）。15.4km先の観霧や中部の鳶嘴とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-119-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "加里山",
+       "name_i18n": {
+        "zh-TW": "加里山",
+        "en": "Jiali Mountain",
+        "ja": "加里山"
+       },
+       "lat": 24.5375,
+       "lon": 120.9907,
+       "coord_confidence": "medium",
+       "elevation_m": 2220.0,
+       "coordinate_source": "zh.wikipedia 加里山（標高2,220m，台灣小百岳，苗栗縣山）＋林務局步道官方（recreation.forest.gov.tw）＋萌芽三角點庫（一等三角點 2220m）；座標 medium（一等三角點山頂推定）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-120",
+   "canonical_name": "武陵農場",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/zh-tw/%E6%AD%A6%E9%99%B5%E8%BE%B2%E5%A0%B4",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 武陵農場（座標 24°21′52.6″N 121°18′37.26″E）＋交通部觀光署櫻花季頁（海拔1,740–2,200m，1993年起種櫻）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-120-P01",
+     "spot_id": "tw-120",
+     "name_zh": "武陵櫻花季雪峰",
+     "legacy_theme": "seasonal_foreground",
+     "name_i18n": {
+      "zh-TW": "武陵櫻花季雪峰",
+      "en": "Wuling cherry blossom season",
+      "ja": "武陵農場の桜と雪峰"
+     },
+     "best_time": "武陵櫻花季雪峰",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_seasonal_foreground_module",
+     "formula_version": "v0.04-cl-data-25-wuling-farm-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 02-01–02-28（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 02-01–02-28（seasonal-calendar）",
+      "en": "Seasonal window 02-01-02-28 (seasonal-calendar)",
+      "ja": "季節窓 02-01〜02-28（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-425",
+       "variant_name": "武陵櫻花季雪峰",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "1,740–2,200m 高山農場櫻花道與雪山圈谷背景（觀光署櫻花季官方，每年2月管制入園）；與 tw-093 福壽山（3km內無、梨山系但10km級，雲海題材",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_seasonal_foreground_module",
+       "variant_name_i18n": {
+        "zh-TW": "武陵櫻花季雪峰",
+        "en": "Wuling cherry blossom season",
+        "ja": "武陵農場の桜と雪峰"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "1,740–2,200m 高山農場櫻花道與雪山圈谷背景（觀光署櫻花季官方，每年2月管制入園）；與 tw-093 福壽山（3km內無、梨山系但10km級，雲海題材）與 tw-041 雪山主峰（登山題材）錯位——本點為花與農場帶。",
+        "en": "Cherry-lined farm roads at 1,740-2,200 m with the Xueshan cirque behind (Tourism Bureau blossom-season official; Feb access controlled); disjoint from cloud-sea tw-093 Fushoushan and summit-climb tw-041.",
+        "ja": "標高1,740〜2,200mの桜並木と雪山圏谷の背景（観光署桜季公式、2月は入園制限）。雲海の福寿山や登山対象の雪山主峰とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-120-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "武陵農場",
+       "name_i18n": {
+        "zh-TW": "武陵農場",
+        "en": "Wuling Farm",
+        "ja": "武陵農場"
+       },
+       "lat": 24.364611,
+       "lon": 121.31035,
+       "coord_confidence": "high",
+       "elevation_m": 1900.0,
+       "coordinate_source": "zh.wikipedia 武陵農場（座標 24°21′52.6″N 121°18′37.26″E）＋交通部觀光署櫻花季頁（海拔1,740–2,200m，1993年起種櫻）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
       }
      ]
     }
