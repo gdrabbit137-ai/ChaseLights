@@ -177,7 +177,7 @@
         "capability": "CONDITIONS",
         "metric": "cloud_cover_low",
         "operator": "lte",
-        "threshold": null,
+        "threshold": 30,
         "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
@@ -186,12 +186,17 @@
         "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
         "validation_status": "provisional",
         "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
+        "threshold_source": "evidence_review",
         "calibration_status": "provisional",
         "rationale_i18n": {
           "zh-TW": "低雲量 ≤30%（2026-10-26 owner 修正，取代原總雲 70%）：俯瞰的主體在地面，真正擋住目標的是雲底低於視線路徑的低雲/霧層；高卷雲飄在天空是構圖元素、不該否決。總雲判據物理上分不開這兩種情況（65% 全低雲幕全景已毀、85% 全高雲全景很好），故改以 cloud_cover_low 為主判據，中高雲退出否決鏈。30% 語意：目標區上空基本淨空、允許零星雲影。provisional，與 AOD 0.4 並列校準第一優先。",
           "en": "Low cloud <= 30% (owner correction 2026-10-26, replacing the original 70% total-cloud gate): the subject of an overlook lies on the ground, and what actually blocks it is low cloud/fog with a base below the sightline; high cirrus floats in the sky as a compositional element and must not veto. A total-cloud threshold cannot separate the two cases (65% all-low deck ruins the panorama, 85% all-high cloud leaves it fine), so cloud_cover_low becomes the main criterion and mid/high clouds leave the veto chain. 30% reads as 'target area essentially clear, scattered cloud shadows allowed'. Provisional, top calibration priority alongside AOD 0.4.",
           "ja": "下層雲≤30%（2026-10-26 オーナー修正、従来の全雲量70%に代わる）。俯瞰の主題は地面にあり、邪魔するのは視線より低い雲底の下層雲/霧。高層雲は構図要素で否決しない。全雲量では両者を区別できないため cloud_cover_low を主判断とし、中上層雲は否決チェーンから外す。30%は「対象域ほぼ晴透、点在する雲影は許容」。暫定値。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-09 CL-DATA-50：補回 2026-10-26 owner 修正明載於理由文字的 verified threshold（≤30%）——threshold 由 null 修正為 30，threshold_source 由 formula_derived（null 無從推導）改為 evidence_review（owner 修正註記）。判據語意不變。",
+          "en": "2026-11-09 CL-DATA-50: fills the verified threshold (<=30%) that the 2026-10-26 owner correction already states in the rationale - threshold corrected from null to 30, threshold_source from formula_derived (a null cannot be derived) to evidence_review (owner-correction note). Criterion semantics unchanged.",
+          "ja": "2026-11-09 CL-DATA-50：理由文に明記された 2026-10-26 オーナー修正の検証済み閾値（≤30%）を補完——threshold を null から 30 に、threshold_source を formula_derived（nullは導出不能）から evidence_review（オーナー修正注記）に修正。判定内容は不変。"
         }
       },
       {
