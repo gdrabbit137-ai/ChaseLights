@@ -1,6 +1,6 @@
 {
  "schema": "agli-final/v2",
- "ticket": "CL-DATA-50",
+ "ticket": "CL-DATA-51",
  "generated": "2026-11-09",
  "method_doc": "data/v2/audits/agli/agli-method.md (v2)",
  "rulings": [
@@ -9,26 +9,27 @@
   "AGLI-P=成品高度60+畫面美感40"
  ],
  "summary": {
-  "n": 261,
-  "mean_l": 57.6,
-  "mean_p": 59.1,
+  "n": 283,
+  "mean_l": 57.9,
+  "mean_p": 59.2,
   "recheck_flagged": 0,
   "diversity": {
-   "n": 261,
-   "mean": 45.6,
+   "n": 283,
+   "mean": 44.6,
    "dist": {
     "20": 1,
-    "30": 129,
-    "40": 23,
-    "50": 69,
+    "30": 144,
+    "40": 7,
+    "45": 23,
+    "55": 69,
     "60": 1,
     "70": 11,
     "80": 15,
-    "90": 12
+    "95": 12
    }
   },
   "certainty": {
-   "mean": 44.2
+   "mean": 43.3
   },
   "top5_l": [
    {
@@ -82,6 +83,62 @@
     "place_id": "us-008",
     "name_zh": "優勝美地半圓頂",
     "agli_p": 85.0
+   }
+  ],
+  "new_in_51": [
+   "tw-099",
+   "tw-100",
+   "tw-101",
+   "tw-102",
+   "tw-103",
+   "tw-104",
+   "tw-105",
+   "tw-106",
+   "tw-107",
+   "tw-108",
+   "tw-109",
+   "tw-110",
+   "tw-111",
+   "tw-112",
+   "tw-113",
+   "tw-114",
+   "tw-115",
+   "tw-116",
+   "tw-117",
+   "tw-118",
+   "tw-119",
+   "tw-120"
+  ],
+  "new_51_top5_l": [
+   {
+    "place_id": "tw-112",
+    "name_zh": "太魯閣燕子口／九曲洞",
+    "agli_l": 70.0,
+    "agli_p": 72.3
+   },
+   {
+    "place_id": "tw-117",
+    "name_zh": "桶盤嶼柱狀玄武岩",
+    "agli_l": 65.5,
+    "agli_p": 66.1
+   },
+   {
+    "place_id": "tw-118",
+    "name_zh": "栗松溫泉野溪峽谷",
+    "agli_l": 65.4,
+    "agli_p": 65.8
+   },
+   {
+    "place_id": "tw-105",
+    "name_zh": "太平雲梯／梅山36彎",
+    "agli_l": 64.3,
+    "agli_p": 63.2
+   },
+   {
+    "place_id": "tw-120",
+    "name_zh": "武陵農場",
+    "agli_l": 63.1,
+    "agli_p": 63.4
    }
   ]
  },
@@ -2173,7 +2230,7 @@
     ]
    },
    "rank_l": 42,
-   "rank_p": 61
+   "rank_p": 62
   },
   {
    "place_id": "us-031",
@@ -2370,8 +2427,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 46,
-   "rank_p": 57
+   "rank_l": 47,
+   "rank_p": 58
   },
   {
    "place_id": "jp-058",
@@ -2419,8 +2476,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 47,
-   "rank_p": 46
+   "rank_l": 48,
+   "rank_p": 47
   },
   {
    "place_id": "tw-048",
@@ -2468,8 +2525,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 48,
-   "rank_p": 48
+   "rank_l": 49,
+   "rank_p": 49
   },
   {
    "place_id": "us-020",
@@ -2518,8 +2575,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 49,
-   "rank_p": 68
+   "rank_l": 50,
+   "rank_p": 69
   },
   {
    "place_id": "tw-079",
@@ -2567,8 +2624,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 50,
-   "rank_p": 79
+   "rank_l": 51,
+   "rank_p": 80
   },
   {
    "place_id": "us-015",
@@ -2617,8 +2674,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 51,
-   "rank_p": 51
+   "rank_l": 52,
+   "rank_p": 52
   },
   {
    "place_id": "jp-055",
@@ -2666,8 +2723,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 52,
-   "rank_p": 47
+   "rank_l": 53,
+   "rank_p": 48
   },
   {
    "place_id": "us-002",
@@ -2715,8 +2772,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 53,
-   "rank_p": 53
+   "rank_l": 54,
+   "rank_p": 54
   },
   {
    "place_id": "us-082",
@@ -2764,8 +2821,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 54,
-   "rank_p": 45
+   "rank_l": 55,
+   "rank_p": 46
   },
   {
    "place_id": "us-017",
@@ -2813,8 +2870,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 55,
-   "rank_p": 59
+   "rank_l": 56,
+   "rank_p": 60
   },
   {
    "place_id": "tw-047",
@@ -2864,8 +2921,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 56,
-   "rank_p": 63
+   "rank_l": 57,
+   "rank_p": 64
   },
   {
    "place_id": "jp-002",
@@ -2913,8 +2970,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 57,
-   "rank_p": 52
+   "rank_l": 58,
+   "rank_p": 53
   },
   {
    "place_id": "tw-042",
@@ -2962,8 +3019,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 58,
-   "rank_p": 55
+   "rank_l": 59,
+   "rank_p": 56
   },
   {
    "place_id": "jp-048",
@@ -3012,8 +3069,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 59,
-   "rank_p": 56
+   "rank_l": 60,
+   "rank_p": 57
   },
   {
    "place_id": "jp-003",
@@ -3061,8 +3118,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 60,
-   "rank_p": 85
+   "rank_l": 61,
+   "rank_p": 86
   },
   {
    "place_id": "us-027",
@@ -3110,8 +3167,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 61,
-   "rank_p": 54
+   "rank_l": 62,
+   "rank_p": 55
   },
   {
    "place_id": "jp-023",
@@ -3159,8 +3216,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 62,
-   "rank_p": 77
+   "rank_l": 63,
+   "rank_p": 78
   },
   {
    "place_id": "us-100",
@@ -3209,8 +3266,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 63,
-   "rank_p": 65
+   "rank_l": 64,
+   "rank_p": 66
   },
   {
    "place_id": "us-112",
@@ -3258,8 +3315,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 64,
-   "rank_p": 71
+   "rank_l": 65,
+   "rank_p": 72
   },
   {
    "place_id": "us-083",
@@ -3307,8 +3364,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 65,
-   "rank_p": 64
+   "rank_l": 66,
+   "rank_p": 65
   },
   {
    "place_id": "tw-077",
@@ -3356,8 +3413,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 66,
-   "rank_p": 92
+   "rank_l": 67,
+   "rank_p": 95
   },
   {
    "place_id": "jp-006",
@@ -3405,8 +3462,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 67,
-   "rank_p": 50
+   "rank_l": 68,
+   "rank_p": 51
   },
   {
    "place_id": "us-111",
@@ -3454,8 +3511,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 68,
-   "rank_p": 67
+   "rank_l": 69,
+   "rank_p": 68
   },
   {
    "place_id": "jp-049",
@@ -3503,8 +3560,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 69,
-   "rank_p": 49
+   "rank_l": 70,
+   "rank_p": 50
   },
   {
    "place_id": "us-059",
@@ -3552,8 +3609,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 70,
-   "rank_p": 70
+   "rank_l": 71,
+   "rank_p": 71
   },
   {
    "place_id": "us-038",
@@ -3601,8 +3658,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 71,
-   "rank_p": 72
+   "rank_l": 72,
+   "rank_p": 73
   },
   {
    "place_id": "jp-046",
@@ -3650,8 +3707,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 72,
-   "rank_p": 58
+   "rank_l": 73,
+   "rank_p": 59
   },
   {
    "place_id": "jp-064",
@@ -3699,8 +3756,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 73,
-   "rank_p": 62
+   "rank_l": 74,
+   "rank_p": 63
   },
   {
    "place_id": "jp-062",
@@ -3748,8 +3805,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 74,
-   "rank_p": 75
+   "rank_l": 75,
+   "rank_p": 76
   },
   {
    "place_id": "jp-039",
@@ -3797,8 +3854,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 75,
-   "rank_p": 60
+   "rank_l": 76,
+   "rank_p": 61
   },
   {
    "place_id": "jp-044",
@@ -3846,8 +3903,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 76,
-   "rank_p": 66
+   "rank_l": 78,
+   "rank_p": 67
   },
   {
    "place_id": "us-092",
@@ -3895,8 +3952,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 77,
-   "rank_p": 76
+   "rank_l": 80,
+   "rank_p": 77
   },
   {
    "place_id": "tw-049",
@@ -3945,8 +4002,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 78,
-   "rank_p": 81
+   "rank_l": 81,
+   "rank_p": 82
   },
   {
    "place_id": "jp-045",
@@ -3995,8 +4052,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 79,
-   "rank_p": 84
+   "rank_l": 82,
+   "rank_p": 85
   },
   {
    "place_id": "us-087",
@@ -4044,8 +4101,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 80,
-   "rank_p": 83
+   "rank_l": 83,
+   "rank_p": 84
   },
   {
    "place_id": "us-105",
@@ -4093,8 +4150,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 81,
-   "rank_p": 73
+   "rank_l": 84,
+   "rank_p": 74
   },
   {
    "place_id": "us-106",
@@ -4143,8 +4200,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 82,
-   "rank_p": 80
+   "rank_l": 85,
+   "rank_p": 81
   },
   {
    "place_id": "jp-052",
@@ -4192,8 +4249,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 83,
-   "rank_p": 69
+   "rank_l": 86,
+   "rank_p": 70
   },
   {
    "place_id": "tw-070",
@@ -4242,8 +4299,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 84,
-   "rank_p": 98
+   "rank_l": 87,
+   "rank_p": 101
   },
   {
    "place_id": "jp-001",
@@ -4292,8 +4349,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 85,
-   "rank_p": 74
+   "rank_l": 88,
+   "rank_p": 75
   },
   {
    "place_id": "tw-056",
@@ -4341,8 +4398,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 86,
-   "rank_p": 89
+   "rank_l": 90,
+   "rank_p": 92
   },
   {
    "place_id": "jp-040",
@@ -4390,8 +4447,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 87,
-   "rank_p": 78
+   "rank_l": 91,
+   "rank_p": 79
   },
   {
    "place_id": "jp-030",
@@ -4437,8 +4494,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 88,
-   "rank_p": 97
+   "rank_l": 92,
+   "rank_p": 100
   },
   {
    "place_id": "us-088",
@@ -4486,8 +4543,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 89,
-   "rank_p": 93
+   "rank_l": 93,
+   "rank_p": 96
   },
   {
    "place_id": "us-116",
@@ -4535,8 +4592,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 90,
-   "rank_p": 87
+   "rank_l": 94,
+   "rank_p": 90
   },
   {
    "place_id": "jp-007",
@@ -4584,8 +4641,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 91,
-   "rank_p": 90
+   "rank_l": 95,
+   "rank_p": 93
   },
   {
    "place_id": "jp-056",
@@ -4633,8 +4690,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 92,
-   "rank_p": 82
+   "rank_l": 97,
+   "rank_p": 83
   },
   {
    "place_id": "us-023",
@@ -4682,8 +4739,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 93,
-   "rank_p": 101
+   "rank_l": 98,
+   "rank_p": 104
   },
   {
    "place_id": "tw-057",
@@ -4731,8 +4788,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 94,
-   "rank_p": 96
+   "rank_l": 99,
+   "rank_p": 99
   },
   {
    "place_id": "us-036",
@@ -4780,8 +4837,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 95,
-   "rank_p": 107
+   "rank_l": 100,
+   "rank_p": 113
   },
   {
    "place_id": "us-103",
@@ -4829,8 +4886,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 96,
-   "rank_p": 95
+   "rank_l": 101,
+   "rank_p": 98
   },
   {
    "place_id": "us-056",
@@ -4878,8 +4935,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 97,
-   "rank_p": 91
+   "rank_l": 102,
+   "rank_p": 94
   },
   {
    "place_id": "jp-061",
@@ -4927,8 +4984,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 98,
-   "rank_p": 102
+   "rank_l": 103,
+   "rank_p": 105
   },
   {
    "place_id": "us-069",
@@ -4976,8 +5033,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 99,
-   "rank_p": 88
+   "rank_l": 104,
+   "rank_p": 91
   },
   {
    "place_id": "us-091",
@@ -5025,8 +5082,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 100,
-   "rank_p": 94
+   "rank_l": 106,
+   "rank_p": 97
   },
   {
    "place_id": "tw-080",
@@ -5075,8 +5132,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 101,
-   "rank_p": 114
+   "rank_l": 109,
+   "rank_p": 123
   },
   {
    "place_id": "tw-066",
@@ -5124,8 +5181,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 102,
-   "rank_p": 110
+   "rank_l": 111,
+   "rank_p": 118
   },
   {
    "place_id": "tw-088",
@@ -5174,8 +5231,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 103,
-   "rank_p": 105
+   "rank_l": 114,
+   "rank_p": 110
   },
   {
    "place_id": "jp-009",
@@ -5223,8 +5280,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 104,
-   "rank_p": 103
+   "rank_l": 115,
+   "rank_p": 106
   },
   {
    "place_id": "tw-015",
@@ -5273,8 +5330,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 105,
-   "rank_p": 86
+   "rank_l": 116,
+   "rank_p": 88
   },
   {
    "place_id": "us-097",
@@ -5323,8 +5380,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 106,
-   "rank_p": 106
+   "rank_l": 117,
+   "rank_p": 112
   },
   {
    "place_id": "tw-095",
@@ -5373,8 +5430,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 107,
-   "rank_p": 104
+   "rank_l": 118,
+   "rank_p": 108
   },
   {
    "place_id": "jp-042",
@@ -5423,8 +5480,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 108,
-   "rank_p": 99
+   "rank_l": 119,
+   "rank_p": 102
   },
   {
    "place_id": "us-090",
@@ -5472,8 +5529,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 109,
-   "rank_p": 100
+   "rank_l": 120,
+   "rank_p": 103
   },
   {
    "place_id": "jp-028",
@@ -5521,8 +5578,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 110,
-   "rank_p": 122
+   "rank_l": 121,
+   "rank_p": 133
   },
   {
    "place_id": "jp-008",
@@ -5570,8 +5627,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 111,
-   "rank_p": 111
+   "rank_l": 123,
+   "rank_p": 119
   },
   {
    "place_id": "tw-071",
@@ -5620,8 +5677,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 112,
-   "rank_p": 132
+   "rank_l": 125,
+   "rank_p": 148
   },
   {
    "place_id": "tw-068",
@@ -5669,8 +5726,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 113,
-   "rank_p": 131
+   "rank_l": 126,
+   "rank_p": 146
   },
   {
    "place_id": "tw-013",
@@ -5719,8 +5776,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 114,
-   "rank_p": 125
+   "rank_l": 127,
+   "rank_p": 139
   },
   {
    "place_id": "tw-076",
@@ -5769,8 +5826,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 115,
-   "rank_p": 118
+   "rank_l": 128,
+   "rank_p": 127
   },
   {
    "place_id": "jp-004",
@@ -5818,8 +5875,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 116,
-   "rank_p": 109
+   "rank_l": 129,
+   "rank_p": 117
   },
   {
    "place_id": "us-093",
@@ -5867,8 +5924,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 117,
-   "rank_p": 112
+   "rank_l": 130,
+   "rank_p": 120
   },
   {
    "place_id": "tw-065",
@@ -5916,8 +5973,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 118,
-   "rank_p": 134
+   "rank_l": 132,
+   "rank_p": 151
   },
   {
    "place_id": "us-102",
@@ -5965,8 +6022,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 119,
-   "rank_p": 119
+   "rank_l": 133,
+   "rank_p": 128
   },
   {
    "place_id": "us-047",
@@ -6014,8 +6071,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 120,
-   "rank_p": 113
+   "rank_l": 134,
+   "rank_p": 122
   },
   {
    "place_id": "jp-010",
@@ -6064,8 +6121,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 121,
-   "rank_p": 108
+   "rank_l": 136,
+   "rank_p": 114
   },
   {
    "place_id": "us-098",
@@ -6114,8 +6171,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 122,
-   "rank_p": 121
+   "rank_l": 137,
+   "rank_p": 132
   },
   {
    "place_id": "jp-047",
@@ -6163,8 +6220,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 123,
-   "rank_p": 116
+   "rank_l": 140,
+   "rank_p": 125
   },
   {
    "place_id": "jp-054",
@@ -6212,8 +6269,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 124,
-   "rank_p": 124
+   "rank_l": 141,
+   "rank_p": 135
   },
   {
    "place_id": "tw-027",
@@ -6262,8 +6319,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 125,
-   "rank_p": 142
+   "rank_l": 142,
+   "rank_p": 160
   },
   {
    "place_id": "us-065",
@@ -6311,8 +6368,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 126,
-   "rank_p": 120
+   "rank_l": 143,
+   "rank_p": 131
   },
   {
    "place_id": "tw-038",
@@ -6361,8 +6418,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 127,
-   "rank_p": 127
+   "rank_l": 144,
+   "rank_p": 141
   },
   {
    "place_id": "jp-057",
@@ -6410,8 +6467,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 128,
-   "rank_p": 115
+   "rank_l": 145,
+   "rank_p": 124
   },
   {
    "place_id": "us-086",
@@ -6459,8 +6516,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 129,
-   "rank_p": 129
+   "rank_l": 146,
+   "rank_p": 143
   },
   {
    "place_id": "tw-059",
@@ -6508,8 +6565,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 130,
-   "rank_p": 161
+   "rank_l": 148,
+   "rank_p": 181
   },
   {
    "place_id": "us-104",
@@ -6557,8 +6614,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 131,
-   "rank_p": 128
+   "rank_l": 149,
+   "rank_p": 142
   },
   {
    "place_id": "jp-037",
@@ -6607,8 +6664,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 132,
-   "rank_p": 117
+   "rank_l": 150,
+   "rank_p": 126
   },
   {
    "place_id": "us-030",
@@ -6656,8 +6713,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 133,
-   "rank_p": 136
+   "rank_l": 151,
+   "rank_p": 153
   },
   {
    "place_id": "us-051",
@@ -6706,8 +6763,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 134,
-   "rank_p": 130
+   "rank_l": 152,
+   "rank_p": 144
   },
   {
    "place_id": "tw-053",
@@ -6755,8 +6812,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 135,
-   "rank_p": 144
+   "rank_l": 153,
+   "rank_p": 162
   },
   {
    "place_id": "tw-062",
@@ -6804,8 +6861,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 136,
-   "rank_p": 172
+   "rank_l": 155,
+   "rank_p": 193
   },
   {
    "place_id": "tw-029",
@@ -6854,8 +6911,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 137,
-   "rank_p": 154
+   "rank_l": 156,
+   "rank_p": 173
   },
   {
    "place_id": "jp-060",
@@ -6903,8 +6960,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 138,
-   "rank_p": 123
+   "rank_l": 157,
+   "rank_p": 134
   },
   {
    "place_id": "us-099",
@@ -6952,8 +7009,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 139,
-   "rank_p": 135
+   "rank_l": 158,
+   "rank_p": 152
   },
   {
    "place_id": "us-046",
@@ -7001,8 +7058,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 140,
-   "rank_p": 133
+   "rank_l": 159,
+   "rank_p": 150
   },
   {
    "place_id": "us-084",
@@ -7050,8 +7107,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 141,
-   "rank_p": 137
+   "rank_l": 160,
+   "rank_p": 154
   },
   {
    "place_id": "jp-063",
@@ -7099,8 +7156,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 142,
-   "rank_p": 139
+   "rank_l": 161,
+   "rank_p": 156
   },
   {
    "place_id": "tw-060",
@@ -7149,8 +7206,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 143,
-   "rank_p": 155
+   "rank_l": 162,
+   "rank_p": 174
   },
   {
    "place_id": "tw-078",
@@ -7198,8 +7255,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 144,
-   "rank_p": 164
+   "rank_l": 163,
+   "rank_p": 184
   },
   {
    "place_id": "us-089",
@@ -7247,8 +7304,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 145,
-   "rank_p": 140
+   "rank_l": 164,
+   "rank_p": 158
   },
   {
    "place_id": "tw-064",
@@ -7297,8 +7354,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 146,
-   "rank_p": 173
+   "rank_l": 165,
+   "rank_p": 194
   },
   {
    "place_id": "us-085",
@@ -7346,8 +7403,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 147,
-   "rank_p": 143
+   "rank_l": 166,
+   "rank_p": 161
   },
   {
    "place_id": "us-064",
@@ -7395,8 +7452,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 148,
-   "rank_p": 138
+   "rank_l": 167,
+   "rank_p": 155
   },
   {
    "place_id": "jp-026",
@@ -7444,8 +7501,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 149,
-   "rank_p": 146
+   "rank_l": 168,
+   "rank_p": 164
   },
   {
    "place_id": "us-080",
@@ -7494,8 +7551,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 150,
-   "rank_p": 148
+   "rank_l": 169,
+   "rank_p": 167
   },
   {
    "place_id": "tw-093",
@@ -7544,8 +7601,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 151,
-   "rank_p": 162
+   "rank_l": 170,
+   "rank_p": 182
   },
   {
    "place_id": "us-101",
@@ -7593,8 +7650,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 152,
-   "rank_p": 141
+   "rank_l": 171,
+   "rank_p": 159
   },
   {
    "place_id": "tw-055",
@@ -7642,8 +7699,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 153,
-   "rank_p": 158
+   "rank_l": 172,
+   "rank_p": 177
   },
   {
    "place_id": "us-028",
@@ -7691,8 +7748,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 154,
-   "rank_p": 147
+   "rank_l": 173,
+   "rank_p": 165
   },
   {
    "place_id": "us-096",
@@ -7740,8 +7797,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 155,
-   "rank_p": 159
+   "rank_l": 174,
+   "rank_p": 178
   },
   {
    "place_id": "jp-043",
@@ -7789,8 +7846,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 156,
-   "rank_p": 126
+   "rank_l": 176,
+   "rank_p": 140
   },
   {
    "place_id": "tw-010",
@@ -7839,8 +7896,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 157,
-   "rank_p": 152
+   "rank_l": 177,
+   "rank_p": 171
   },
   {
    "place_id": "tw-075",
@@ -7888,8 +7945,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 158,
-   "rank_p": 168
+   "rank_l": 178,
+   "rank_p": 188
   },
   {
    "place_id": "us-118",
@@ -7937,8 +7994,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 159,
-   "rank_p": 153
+   "rank_l": 179,
+   "rank_p": 172
   },
   {
    "place_id": "tw-081",
@@ -7986,8 +8043,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 160,
-   "rank_p": 188
+   "rank_l": 180,
+   "rank_p": 210
   },
   {
    "place_id": "tw-018",
@@ -8036,8 +8093,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 161,
-   "rank_p": 165
+   "rank_l": 181,
+   "rank_p": 185
   },
   {
    "place_id": "us-052",
@@ -8085,8 +8142,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 162,
-   "rank_p": 149
+   "rank_l": 182,
+   "rank_p": 168
   },
   {
    "place_id": "us-107",
@@ -8134,8 +8191,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 163,
-   "rank_p": 150
+   "rank_l": 183,
+   "rank_p": 169
   },
   {
    "place_id": "tw-035",
@@ -8187,8 +8244,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 164,
-   "rank_p": 145
+   "rank_l": 184,
+   "rank_p": 163
   },
   {
    "place_id": "tw-091",
@@ -8237,8 +8294,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 165,
-   "rank_p": 178
+   "rank_l": 185,
+   "rank_p": 199
   },
   {
    "place_id": "tw-094",
@@ -8286,8 +8343,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 166,
-   "rank_p": 157
+   "rank_l": 186,
+   "rank_p": 176
   },
   {
    "place_id": "tw-039",
@@ -8337,8 +8394,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 167,
-   "rank_p": 151
+   "rank_l": 187,
+   "rank_p": 170
   },
   {
    "place_id": "tw-054",
@@ -8387,8 +8444,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 168,
-   "rank_p": 174
+   "rank_l": 188,
+   "rank_p": 195
   },
   {
    "place_id": "us-117",
@@ -8436,8 +8493,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 169,
-   "rank_p": 163
+   "rank_l": 190,
+   "rank_p": 183
   },
   {
    "place_id": "jp-022",
@@ -8487,8 +8544,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 170,
-   "rank_p": 166
+   "rank_l": 191,
+   "rank_p": 186
   },
   {
    "place_id": "tw-024",
@@ -8539,8 +8596,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 171,
-   "rank_p": 156
+   "rank_l": 192,
+   "rank_p": 175
   },
   {
    "place_id": "tw-073",
@@ -8588,8 +8645,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 172,
-   "rank_p": 160
+   "rank_l": 193,
+   "rank_p": 179
   },
   {
    "place_id": "jp-013",
@@ -8637,8 +8694,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 173,
-   "rank_p": 169
+   "rank_l": 194,
+   "rank_p": 189
   },
   {
    "place_id": "tw-016",
@@ -8686,8 +8743,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 174,
-   "rank_p": 170
+   "rank_l": 195,
+   "rank_p": 190
   },
   {
    "place_id": "jp-017",
@@ -8736,8 +8793,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 175,
-   "rank_p": 179
+   "rank_l": 196,
+   "rank_p": 200
   },
   {
    "place_id": "tw-089",
@@ -8785,8 +8842,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 176,
-   "rank_p": 171
+   "rank_l": 197,
+   "rank_p": 191
   },
   {
    "place_id": "jp-027",
@@ -8835,8 +8892,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 177,
-   "rank_p": 167
+   "rank_l": 198,
+   "rank_p": 187
   },
   {
    "place_id": "us-063",
@@ -8884,8 +8941,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 178,
-   "rank_p": 175
+   "rank_l": 199,
+   "rank_p": 196
   },
   {
    "place_id": "tw-085",
@@ -8935,8 +8992,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 179,
-   "rank_p": 191
+   "rank_l": 200,
+   "rank_p": 213
   },
   {
    "place_id": "us-048",
@@ -8984,8 +9041,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 180,
-   "rank_p": 176
+   "rank_l": 201,
+   "rank_p": 197
   },
   {
    "place_id": "tw-036",
@@ -9035,8 +9092,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 181,
-   "rank_p": 181
+   "rank_l": 202,
+   "rank_p": 202
   },
   {
    "place_id": "jp-031",
@@ -9084,8 +9141,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 182,
-   "rank_p": 183
+   "rank_l": 203,
+   "rank_p": 204
   },
   {
    "place_id": "tw-087",
@@ -9133,8 +9190,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 183,
-   "rank_p": 177
+   "rank_l": 204,
+   "rank_p": 198
   },
   {
    "place_id": "tw-033",
@@ -9182,8 +9239,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 184,
-   "rank_p": 185
+   "rank_l": 206,
+   "rank_p": 206
   },
   {
    "place_id": "us-110",
@@ -9231,8 +9288,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 185,
-   "rank_p": 180
+   "rank_l": 207,
+   "rank_p": 201
   },
   {
    "place_id": "tw-022",
@@ -9283,8 +9340,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 186,
-   "rank_p": 182
+   "rank_l": 208,
+   "rank_p": 203
   },
   {
    "place_id": "us-094",
@@ -9332,8 +9389,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 187,
-   "rank_p": 186
+   "rank_l": 209,
+   "rank_p": 207
   },
   {
    "place_id": "tw-004",
@@ -9383,8 +9440,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 188,
-   "rank_p": 184
+   "rank_l": 210,
+   "rank_p": 205
   },
   {
    "place_id": "tw-026",
@@ -9433,8 +9490,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 189,
-   "rank_p": 189
+   "rank_l": 211,
+   "rank_p": 211
   },
   {
    "place_id": "tw-061",
@@ -9483,8 +9540,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 190,
-   "rank_p": 197
+   "rank_l": 212,
+   "rank_p": 219
   },
   {
    "place_id": "us-079",
@@ -9532,8 +9589,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 191,
-   "rank_p": 190
+   "rank_l": 213,
+   "rank_p": 212
   },
   {
    "place_id": "tw-031",
@@ -9581,8 +9638,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 192,
-   "rank_p": 187
+   "rank_l": 214,
+   "rank_p": 208
   },
   {
    "place_id": "jp-025",
@@ -9630,8 +9687,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 193,
-   "rank_p": 195
+   "rank_l": 215,
+   "rank_p": 217
   },
   {
    "place_id": "us-024",
@@ -9680,8 +9737,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 194,
-   "rank_p": 201
+   "rank_l": 216,
+   "rank_p": 223
   },
   {
    "place_id": "us-040",
@@ -9729,8 +9786,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 195,
-   "rank_p": 204
+   "rank_l": 217,
+   "rank_p": 226
   },
   {
    "place_id": "us-061",
@@ -9778,8 +9835,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 196,
-   "rank_p": 196
+   "rank_l": 218,
+   "rank_p": 218
   },
   {
    "place_id": "us-045",
@@ -9827,8 +9884,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 197,
-   "rank_p": 194
+   "rank_l": 219,
+   "rank_p": 216
   },
   {
    "place_id": "tw-025",
@@ -9877,8 +9934,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 198,
-   "rank_p": 193
+   "rank_l": 220,
+   "rank_p": 215
   },
   {
    "place_id": "us-062",
@@ -9926,8 +9983,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 199,
-   "rank_p": 192
+   "rank_l": 221,
+   "rank_p": 214
   },
   {
    "place_id": "us-095",
@@ -9975,8 +10032,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 200,
-   "rank_p": 203
+   "rank_l": 222,
+   "rank_p": 225
   },
   {
    "place_id": "us-016",
@@ -10024,8 +10081,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 201,
-   "rank_p": 206
+   "rank_l": 223,
+   "rank_p": 228
   },
   {
    "place_id": "tw-058",
@@ -10074,8 +10131,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 202,
-   "rank_p": 217
+   "rank_l": 224,
+   "rank_p": 239
   },
   {
    "place_id": "tw-098",
@@ -10124,8 +10181,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 203,
-   "rank_p": 202
+   "rank_l": 225,
+   "rank_p": 224
   },
   {
    "place_id": "jp-033",
@@ -10173,8 +10230,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 204,
-   "rank_p": 198
+   "rank_l": 226,
+   "rank_p": 220
   },
   {
    "place_id": "tw-030",
@@ -10222,8 +10279,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 205,
-   "rank_p": 199
+   "rank_l": 227,
+   "rank_p": 221
   },
   {
    "place_id": "tw-007",
@@ -10272,8 +10329,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 206,
-   "rank_p": 210
+   "rank_l": 228,
+   "rank_p": 232
   },
   {
    "place_id": "jp-011",
@@ -10322,8 +10379,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 207,
-   "rank_p": 200
+   "rank_l": 229,
+   "rank_p": 222
   },
   {
    "place_id": "tw-021",
@@ -10372,8 +10429,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 208,
-   "rank_p": 207
+   "rank_l": 230,
+   "rank_p": 229
   },
   {
    "place_id": "us-033",
@@ -10421,8 +10478,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 209,
-   "rank_p": 216
+   "rank_l": 231,
+   "rank_p": 238
   },
   {
    "place_id": "tw-032",
@@ -10472,8 +10529,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 210,
-   "rank_p": 212
+   "rank_l": 232,
+   "rank_p": 234
   },
   {
    "place_id": "tw-037",
@@ -10521,8 +10578,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 211,
-   "rank_p": 208
+   "rank_l": 233,
+   "rank_p": 230
   },
   {
    "place_id": "tw-002",
@@ -10571,8 +10628,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 212,
-   "rank_p": 205
+   "rank_l": 234,
+   "rank_p": 227
   },
   {
    "place_id": "jp-012",
@@ -10621,8 +10678,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 213,
-   "rank_p": 213
+   "rank_l": 235,
+   "rank_p": 235
   },
   {
    "place_id": "us-025",
@@ -10671,8 +10728,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 214,
-   "rank_p": 219
+   "rank_l": 236,
+   "rank_p": 241
   },
   {
    "place_id": "jp-034",
@@ -10721,8 +10778,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 215,
-   "rank_p": 214
+   "rank_l": 237,
+   "rank_p": 236
   },
   {
    "place_id": "us-109",
@@ -10770,8 +10827,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 216,
-   "rank_p": 211
+   "rank_l": 238,
+   "rank_p": 233
   },
   {
    "place_id": "us-039",
@@ -10820,8 +10877,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 217,
-   "rank_p": 225
+   "rank_l": 239,
+   "rank_p": 247
   },
   {
    "place_id": "tw-028",
@@ -10871,8 +10928,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 218,
-   "rank_p": 236
+   "rank_l": 240,
+   "rank_p": 258
   },
   {
    "place_id": "tw-009",
@@ -10920,8 +10977,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 219,
-   "rank_p": 218
+   "rank_l": 241,
+   "rank_p": 240
   },
   {
    "place_id": "jp-019",
@@ -10969,8 +11026,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 220,
-   "rank_p": 215
+   "rank_l": 242,
+   "rank_p": 237
   },
   {
    "place_id": "tw-003",
@@ -11020,8 +11077,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 221,
-   "rank_p": 220
+   "rank_l": 243,
+   "rank_p": 242
   },
   {
    "place_id": "jp-020",
@@ -11069,8 +11126,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 222,
-   "rank_p": 209
+   "rank_l": 244,
+   "rank_p": 231
   },
   {
    "place_id": "jp-029",
@@ -11118,8 +11175,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 223,
-   "rank_p": 226
+   "rank_l": 245,
+   "rank_p": 248
   },
   {
    "place_id": "tw-023",
@@ -11169,8 +11226,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 224,
-   "rank_p": 221
+   "rank_l": 246,
+   "rank_p": 243
   },
   {
    "place_id": "jp-032",
@@ -11218,8 +11275,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 225,
-   "rank_p": 227
+   "rank_l": 247,
+   "rank_p": 249
   },
   {
    "place_id": "tw-082",
@@ -11271,8 +11328,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 226,
-   "rank_p": 223
+   "rank_l": 248,
+   "rank_p": 245
   },
   {
    "place_id": "jp-015",
@@ -11321,8 +11378,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 227,
-   "rank_p": 230
+   "rank_l": 249,
+   "rank_p": 252
   },
   {
    "place_id": "us-026",
@@ -11371,8 +11428,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 228,
-   "rank_p": 241
+   "rank_l": 250,
+   "rank_p": 263
   },
   {
    "place_id": "us-050",
@@ -11420,8 +11477,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 229,
-   "rank_p": 228
+   "rank_l": 251,
+   "rank_p": 250
   },
   {
    "place_id": "us-071",
@@ -11470,8 +11527,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 230,
-   "rank_p": 231
+   "rank_l": 252,
+   "rank_p": 253
   },
   {
    "place_id": "us-057",
@@ -11519,8 +11576,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 231,
-   "rank_p": 235
+   "rank_l": 253,
+   "rank_p": 257
   },
   {
    "place_id": "us-074",
@@ -11568,8 +11625,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 232,
-   "rank_p": 240
+   "rank_l": 254,
+   "rank_p": 262
   },
   {
    "place_id": "jp-024",
@@ -11618,8 +11675,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 233,
-   "rank_p": 233
+   "rank_l": 255,
+   "rank_p": 255
   },
   {
    "place_id": "tw-005",
@@ -11668,8 +11725,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 234,
-   "rank_p": 232
+   "rank_l": 256,
+   "rank_p": 254
   },
   {
    "place_id": "tw-012",
@@ -11718,8 +11775,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 235,
-   "rank_p": 238
+   "rank_l": 257,
+   "rank_p": 260
   },
   {
    "place_id": "us-075",
@@ -11768,8 +11825,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 236,
-   "rank_p": 242
+   "rank_l": 258,
+   "rank_p": 264
   },
   {
    "place_id": "tw-051",
@@ -11818,8 +11875,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 237,
-   "rank_p": 246
+   "rank_l": 259,
+   "rank_p": 268
   },
   {
    "place_id": "jp-005",
@@ -11867,8 +11924,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 238,
-   "rank_p": 222
+   "rank_l": 260,
+   "rank_p": 244
   },
   {
    "place_id": "tw-083",
@@ -11917,8 +11974,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 239,
-   "rank_p": 234
+   "rank_l": 261,
+   "rank_p": 256
   },
   {
    "place_id": "jp-016",
@@ -11966,8 +12023,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 240,
-   "rank_p": 224
+   "rank_l": 262,
+   "rank_p": 246
   },
   {
    "place_id": "tw-008",
@@ -12017,8 +12074,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 241,
-   "rank_p": 229
+   "rank_l": 263,
+   "rank_p": 251
   },
   {
    "place_id": "tw-020",
@@ -12069,8 +12126,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 242,
-   "rank_p": 237
+   "rank_l": 264,
+   "rank_p": 259
   },
   {
    "place_id": "us-108",
@@ -12118,8 +12175,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 243,
-   "rank_p": 239
+   "rank_l": 265,
+   "rank_p": 261
   },
   {
    "place_id": "tw-017",
@@ -12168,8 +12225,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 244,
-   "rank_p": 244
+   "rank_l": 266,
+   "rank_p": 266
   },
   {
    "place_id": "us-035",
@@ -12217,8 +12274,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 245,
-   "rank_p": 250
+   "rank_l": 267,
+   "rank_p": 272
   },
   {
    "place_id": "jp-018",
@@ -12267,8 +12324,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 246,
-   "rank_p": 243
+   "rank_l": 268,
+   "rank_p": 265
   },
   {
    "place_id": "us-044",
@@ -12316,8 +12373,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 247,
-   "rank_p": 245
+   "rank_l": 269,
+   "rank_p": 267
   },
   {
    "place_id": "tw-014",
@@ -12366,8 +12423,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 248,
-   "rank_p": 247
+   "rank_l": 270,
+   "rank_p": 269
   },
   {
    "place_id": "us-076",
@@ -12415,8 +12472,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 249,
-   "rank_p": 251
+   "rank_l": 271,
+   "rank_p": 273
   },
   {
    "place_id": "tw-052",
@@ -12464,8 +12521,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 250,
-   "rank_p": 248
+   "rank_l": 272,
+   "rank_p": 270
   },
   {
    "place_id": "jp-035",
@@ -12515,8 +12572,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 251,
-   "rank_p": 249
+   "rank_l": 273,
+   "rank_p": 271
   },
   {
    "place_id": "us-077",
@@ -12564,8 +12621,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 252,
-   "rank_p": 253
+   "rank_l": 274,
+   "rank_p": 275
   },
   {
    "place_id": "us-072",
@@ -12613,8 +12670,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 253,
-   "rank_p": 255
+   "rank_l": 275,
+   "rank_p": 277
   },
   {
    "place_id": "jp-014",
@@ -12663,8 +12720,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 254,
-   "rank_p": 252
+   "rank_l": 276,
+   "rank_p": 274
   },
   {
    "place_id": "us-078",
@@ -12712,8 +12769,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 255,
-   "rank_p": 256
+   "rank_l": 277,
+   "rank_p": 278
   },
   {
    "place_id": "us-073",
@@ -12762,8 +12819,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 256,
-   "rank_p": 258
+   "rank_l": 278,
+   "rank_p": 280
   },
   {
    "place_id": "tw-001",
@@ -12813,8 +12870,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 257,
-   "rank_p": 257
+   "rank_l": 279,
+   "rank_p": 279
   },
   {
    "place_id": "tw-006",
@@ -12864,8 +12921,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 258,
-   "rank_p": 254
+   "rank_l": 280,
+   "rank_p": 276
   },
   {
    "place_id": "tw-086",
@@ -12915,8 +12972,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 259,
-   "rank_p": 259
+   "rank_l": 281,
+   "rank_p": 281
   },
   {
    "place_id": "tw-084",
@@ -12965,8 +13022,8 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 260,
-   "rank_p": 261
+   "rank_l": 282,
+   "rank_p": 283
   },
   {
    "place_id": "tw-011",
@@ -13015,8 +13072,998 @@
      "CL-DATA-50"
     ]
    },
-   "rank_l": 261,
-   "rank_p": 260
+   "rank_l": 283,
+   "rank_p": 282
+  },
+  {
+   "place_id": "tw-099",
+   "name_zh": "桃源谷（灣坑頭山草原）",
+   "region": "tw",
+   "l1": "A1",
+   "l1_name": "北海岸／東北角海岸線",
+   "agli_l": 57.6,
+   "agli_p": 57.3,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 55.5,
+    "p_aesthetics": 60,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "overlook"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 147,
+   "rank_p": 157
+  },
+  {
+   "place_id": "tw-100",
+   "name_zh": "石碇千島湖／鱷魚潭",
+   "region": "tw",
+   "l1": "A2",
+   "l1_name": "大台北都會河港帶（含桃園平原）",
+   "agli_l": 61.7,
+   "agli_p": 60.9,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 58.2,
+    "p_aesthetics": 65,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 28,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "cloud_sea"
+    ],
+    "penalty": 28
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 113,
+   "rank_p": 129
+  },
+  {
+   "place_id": "tw-101",
+   "name_zh": "林口水牛坑（林口大峽谷）",
+   "region": "tw",
+   "l1": "A3",
+   "l1_name": "桃竹苗丘陵海岸",
+   "agli_l": 59.1,
+   "agli_p": 58.3,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 57.2,
+    "p_aesthetics": 60,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 40,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "geological_landform"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 135,
+   "rank_p": 149
+  },
+  {
+   "place_id": "tw-102",
+   "name_zh": "三貂角燈塔",
+   "region": "tw",
+   "l1": "A1",
+   "l1_name": "北海岸／東北角海岸線",
+   "agli_l": 53.2,
+   "agli_p": 53.7,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 49.5,
+    "p_aesthetics": 60,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "sunrise"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 189,
+   "rank_p": 192
+  },
+  {
+   "place_id": "tw-103",
+   "name_zh": "清境農場",
+   "region": "tw",
+   "l1": "C3",
+   "l1_name": "合歡山塊與濁水溪源",
+   "agli_l": 62.1,
+   "agli_p": 63.7,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 59.5,
+    "p_aesthetics": 70,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 28,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "cloud_sea"
+    ],
+    "penalty": 28
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 107,
+   "rank_p": 109
+  },
+  {
+   "place_id": "tw-104",
+   "name_zh": "忘憂森林",
+   "region": "tw",
+   "l1": "C5",
+   "l1_name": "阿里山／中海拔森林帶",
+   "agli_l": 60.9,
+   "agli_p": 59.9,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 56.5,
+    "p_aesthetics": 65,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "reflection"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 122,
+   "rank_p": 138
+  },
+  {
+   "place_id": "tw-105",
+   "name_zh": "太平雲梯／梅山36彎",
+   "region": "tw",
+   "l1": "C5",
+   "l1_name": "阿里山／中海拔森林帶",
+   "agli_l": 64.3,
+   "agli_p": 63.2,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 62.0,
+    "p_aesthetics": 65,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 28,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "cloud_sea"
+    ],
+    "penalty": 28
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 89,
+   "rank_p": 115
+  },
+  {
+   "place_id": "tw-106",
+   "name_zh": "萬年峽谷",
+   "region": "tw",
+   "l1": "B5",
+   "l1_name": "雲嘉南濱海與丘陵",
+   "agli_l": 62.5,
+   "agli_p": 63.1,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 61.8,
+    "p_aesthetics": 65,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 40,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "geological_landform"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 105,
+   "rank_p": 116
+  },
+  {
+   "place_id": "tw-107",
+   "name_zh": "佳樂水",
+   "region": "tw",
+   "l1": "B4",
+   "l1_name": "墾丁／恆春半島",
+   "agli_l": 59.4,
+   "agli_p": 60.2,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 57.0,
+    "p_aesthetics": 65,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 40,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "geological_landform"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 131,
+   "rank_p": 136
+  },
+  {
+   "place_id": "tw-108",
+   "name_zh": "龍頭山／多納環流丘",
+   "region": "tw",
+   "l1": "B1",
+   "l1_name": "高屏平原／港區／惡地",
+   "agli_l": 62.1,
+   "agli_p": 62.0,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 60.0,
+    "p_aesthetics": 65,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 40,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "geological_landform"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 108,
+   "rank_p": 121
+  },
+  {
+   "place_id": "tw-109",
+   "name_zh": "七股鹽山／潟湖",
+   "region": "tw",
+   "l1": "B2",
+   "l1_name": "西海岸濕地帶",
+   "agli_l": 54.6,
+   "agli_p": 54.7,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 51.2,
+    "p_aesthetics": 60,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "sunset"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 175,
+   "rank_p": 180
+  },
+  {
+   "place_id": "tw-110",
+   "name_zh": "四草綠色隧道",
+   "region": "tw",
+   "l1": "B2",
+   "l1_name": "西海岸濕地帶",
+   "agli_l": 56.8,
+   "agli_p": 55.9,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 53.2,
+    "p_aesthetics": 60,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "reflection"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 154,
+   "rank_p": 166
+  },
+  {
+   "place_id": "tw-111",
+   "name_zh": "蓮池潭龍虎塔",
+   "region": "tw",
+   "l1": "B1",
+   "l1_name": "高屏平原／港區／惡地",
+   "agli_l": 50.5,
+   "agli_p": 50.8,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 48.0,
+    "p_aesthetics": 55,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "blue_hour_city"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 205,
+   "rank_p": 209
+  },
+  {
+   "place_id": "tw-112",
+   "name_zh": "太魯閣燕子口／九曲洞",
+   "region": "tw",
+   "l1": "C1",
+   "l1_name": "中央山脈北段（太魯閣／奇萊／南湖）",
+   "agli_l": 70.0,
+   "agli_p": 72.3,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 70.5,
+    "p_aesthetics": 75,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 40,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "geological_landform"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 46,
+   "rank_p": 45
+  },
+  {
+   "place_id": "tw-113",
+   "name_zh": "白楊瀑布",
+   "region": "tw",
+   "l1": "C1",
+   "l1_name": "中央山脈北段（太魯閣／奇萊／南湖）",
+   "agli_l": 58.8,
+   "agli_p": 60.2,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 57.0,
+    "p_aesthetics": 65,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "waterfall"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 138,
+   "rank_p": 137
+  },
+  {
+   "place_id": "tw-114",
+   "name_zh": "赤科山金針花海",
+   "region": "tw",
+   "l1": "D2",
+   "l1_name": "花東縱谷",
+   "agli_l": 62.0,
+   "agli_p": 60.9,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 54.8,
+    "p_aesthetics": 70,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 28,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "seasonal_plant"
+    ],
+    "penalty": 28
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 110,
+   "rank_p": 130
+  },
+  {
+   "place_id": "tw-115",
+   "name_zh": "鹿野高台",
+   "region": "tw",
+   "l1": "D2",
+   "l1_name": "花東縱谷",
+   "agli_l": 58.7,
+   "agli_p": 59.0,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 55.0,
+    "p_aesthetics": 65,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "overlook"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 139,
+   "rank_p": 145
+  },
+  {
+   "place_id": "tw-116",
+   "name_zh": "太麻里金針山",
+   "region": "tw",
+   "l1": "E2",
+   "l1_name": "台東海岸",
+   "agli_l": 60.4,
+   "agli_p": 58.9,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 54.8,
+    "p_aesthetics": 65,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 28,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "seasonal_plant"
+    ],
+    "penalty": 28
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 124,
+   "rank_p": 147
+  },
+  {
+   "place_id": "tw-117",
+   "name_zh": "桶盤嶼柱狀玄武岩",
+   "region": "tw",
+   "l1": "F1",
+   "l1_name": "澎湖群島",
+   "agli_l": 65.5,
+   "agli_p": 66.1,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 63.5,
+    "p_aesthetics": 70,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 40,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "geological_landform"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 77,
+   "rank_p": 87
+  },
+  {
+   "place_id": "tw-118",
+   "name_zh": "栗松溫泉野溪峽谷",
+   "region": "tw",
+   "l1": "B3",
+   "l1_name": "南橫／嘉明湖山塊",
+   "agli_l": 65.4,
+   "agli_p": 65.8,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 63.0,
+    "p_aesthetics": 70,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 40,
+   "certainty": 34,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "geological_landform"
+    ],
+    "penalty": 34
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 79,
+   "rank_p": 89
+  },
+  {
+   "place_id": "tw-119",
+   "name_zh": "加里山",
+   "region": "tw",
+   "l1": "A3",
+   "l1_name": "桃竹苗丘陵海岸",
+   "agli_l": 61.8,
+   "agli_p": 63.9,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 59.8,
+    "p_aesthetics": 70,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 28,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "cloud_sea"
+    ],
+    "penalty": 28
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 112,
+   "rank_p": 107
+  },
+  {
+   "place_id": "tw-120",
+   "name_zh": "武陵農場",
+   "region": "tw",
+   "l1": "C3",
+   "l1_name": "合歡山塊與濁水溪源",
+   "agli_l": 63.1,
+   "agli_p": 63.4,
+   "components": {
+    "L_weights": {
+     "grandeur": 0.28,
+     "uniqueness": 0.28,
+     "visual": 0.22,
+     "richness": 0.12,
+     "season": 0.1
+    },
+    "p_height": 59.0,
+    "p_aesthetics": 70,
+    "height_formula": "0.45G+0.35U+0.20Ri"
+   },
+   "diversity": 30,
+   "certainty": 28,
+   "certainty_inputs": {
+    "n_opp": 1,
+    "genres": [
+     "seasonal_plant"
+    ],
+    "penalty": 28
+   },
+   "confidence": "medium",
+   "recheck_flag": false,
+   "recheck_flags": [],
+   "derivation_basis": "CL-DATA-51 新點直評（非 remap）：L 五權重（G/U/V/Ri/S）；P=成品高度(0-60)+畫面美感(0-40)；光窗價值不入分",
+   "provenance": {
+    "source_files": [
+     "cl-data-51-admitted.json"
+    ],
+    "method": "CL-DATA-51 direct dual-board scoring on admission (anchor discipline)",
+    "tickets": [
+     "CL-DATA-51"
+    ]
+   },
+   "rank_l": 96,
+   "rank_p": 111
   }
  ]
 }
