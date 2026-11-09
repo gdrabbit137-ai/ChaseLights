@@ -29,7 +29,7 @@
      ]
     },
     "uncertainty_m": null,
-    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 父母ヶ浜（香川県三豊市仁尾町；海濱岸線）; source URLs: https://ja.wikipedia.org/wiki/%E7%88%B6%E6%AF%8D%E3%83%B6%E6%B5%9C). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 父母ヶ浜（香川県三豊市仁尾町；海濱岸線）; source URLs: https://ja.wikipedia.org/wiki/%E7%88%B6%E6%AF%8D%E3%83%B6%E6%B5%9C).",
     "source_geometry_revision": null,
     "reason_if_absent": null
    },
@@ -68,7 +68,7 @@
      ]
     },
     "uncertainty_m": null,
-    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 父母ヶ浜（香川県三豊市仁尾町；海濱岸線）; source URLs: https://ja.wikipedia.org/wiki/%E7%88%B6%E6%AF%8D%E3%83%B6%E6%B5%9C). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 父母ヶ浜（香川県三豊市仁尾町；海濱岸線）; source URLs: https://ja.wikipedia.org/wiki/%E7%88%B6%E6%AF%8D%E3%83%B6%E6%B5%9C).",
     "source_geometry_revision": null,
     "reason_if_absent": null
    },
@@ -89,7 +89,7 @@
    "distance_m": null,
    "evidence_refs": [],
    "derivation_method": null,
-   "uncertainty_note": "CL-DATA-25 admission reference; angles and distance unknown pending field survey."
+   "uncertainty_note": "CL-DATA-52 admission reference; angles and distance unknown pending field survey."
   }
  ],
  "navigation_targets": [
@@ -115,6 +115,31 @@
   "template_version": "reflection-v0.1",
   "recommendation_policy_version": null,
   "conditions": [
+   {
+    "id": "C-jp-078-P01-T1",
+    "role": "REQUIRED",
+    "domain": "OCEAN",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "legacy_tide",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-078-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "潮汐主導（必要條件）：鏡面只在退潮後殘水+無風時成立；系統現無潮汐資料源，誠實 not_evaluatable（fail-closed），同 CL-DATA-20 潮汐語義，不提供天氣契約以免誤導。",
+     "en": "Tide-governed (necessary condition): the mirror only forms over residual water after low tide plus calm; the system has no tide data source, so it is honestly not_evaluatable (fail-closed), same semantics as CL-DATA-20 - no weather contract is offered to avoid misleading.",
+     "ja": "潮汐主導（必要条件）：鏡面は干潮後の残水と無風でのみ成立。潮汐データソースが現状ないため誠実に not_evaluatable（fail-closed）、CL-DATA-20潮汐語義と同じ。気象契約は誤解を避けるため提供しない。"
+    }
+   },
    {
     "id": "C-jp-078-P01-01",
     "role": "REQUIRED",
@@ -258,7 +283,7 @@
     "e-d52-web-fumotohama"
    ],
    "audit_status": "UNKNOWN",
-   "scope_note": "CL-DATA-52 admission (PM-judgment GROWTH-ONLY, 5km dedupe, owner intake 2026-11-09); coordinates/elevation web-verified 2026-11-07 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration."
+   "scope_note": "CL-DATA-52 admission (PM-judgment GROWTH-ONLY 2026-11-09, 5km dedupe, owner Gemini JP list); coordinates/elevation web-verified 2026-11-09 (sources in camera derivation_method and data/v2/audits/cl-data-52_web_evidence.json); thresholds provisional pending real-shoot calibration."
   }
  ],
  "readiness": {
@@ -268,9 +293,9 @@
   ]
  },
  "provenance": {
-  "source_catalog": "CL-DATA-23 discovery shortlist (CL-DATA-25 admission)",
-  "source_revision": "cl-data-23:cl-data-52:fumotohama",
-  "imported_at": "2026-11-07T00:00:00Z",
+  "source_catalog": "CL-DATA-52 Gemini JP photography list intake (owner directive 2026-11-09)",
+  "source_revision": "cl-data-52:fumotohama",
+  "imported_at": "2026-11-09T00:00:00Z",
   "review_status": "pending",
   "reviewed_by": null
  }

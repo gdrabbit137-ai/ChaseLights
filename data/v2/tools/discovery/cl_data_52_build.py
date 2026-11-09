@@ -280,7 +280,7 @@ PLACES = [
   coord_sources=["https://ja.wikipedia.org/wiki/%E7%88%B6%E6%AF%8D%E3%83%B6%E6%B5%9C"],
   admin="香川県", category="關西/中四國",
     tags=["coast"],
-  subjects=[dict(suffix="P01", template="reflection", seasonal=None,
+  subjects=[dict(suffix="P01", template="reflection", seasonal=None, tide=True,
     zh="父母之濱鏡面海灘", en="Fumotohama mirror beach", ja="父母ヶ浜の鏡面ビーチ",
     desc_zh="退潮後殘水鏡面映夕陽——支配條件是潮汐（大潮前後的干潮帯+無風），系統現無潮汐資料源，誠實 not_evaluatable（fail-closed，同 CL-DATA-20 潮汐語義）；資訊性季節備註3–11月大潮晴傍晚。",
     desc_en="The governing condition is the tide (spring-tide low-water + calm), not weather; the system has no tide data source, so the contract is honestly not_evaluatable (fail-closed, CL-DATA-20 tidal semantics); informational note Mar-Nov spring-tide clear evenings.",
@@ -462,7 +462,7 @@ def wb(p, text): (ROOT / p).write_bytes(text.replace('\r\n', '\n').encode('utf-8
 def tide_condition(oid):
     """Fumo-hama: governing condition is the tide; no tide data source -> honest not_evaluatable."""
     return {
-        "id": f"C-{oid}-T1", "role": "REQUIRED", "domain": "OCEAN_STATE",
+        "id": f"C-{oid}-T1", "role": "REQUIRED", "domain": "OCEAN",
         "evaluation_mode": "GUIDANCE", "capability": "CONDITIONS",
         "metric": "legacy_tide", "operator": "none", "threshold": None, "unit": None,
         "unknown_policy": "propagate_unknown", "claim_refs": [f"{oid}-claim-01"],
