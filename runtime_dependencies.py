@@ -143,6 +143,8 @@ RUNTIME_PROFILE_GAPS = {
         "jp-041-P02",
     }),
     "seasonal_foreground": frozenset({
+        "jp-087-P01",
+        "jp-087-P02",
         "tw-114-P01",
         "tw-116-P01",
         "tw-120-P01",
@@ -150,6 +152,9 @@ RUNTIME_PROFILE_GAPS = {
         "tw-085-P03",
     }),
     "spatial_weather_vertical_cloud": frozenset({
+        "jp-073-P01",
+        "jp-074-P01",
+        "jp-075-P01",
         "tw-100-P01",
         "tw-103-P01",
         "tw-105-P01",
@@ -179,6 +184,14 @@ RUNTIME_PROFILE_GAPS = {
         "tw-032-P03",
     }),
     "directional_horizon": frozenset({
+        "jp-066-P01",
+        "jp-069-P01",
+        "jp-076-P01",
+        "jp-077-P01",
+        "jp-080-P01",
+        "jp-084-P01",
+        "jp-086-P01",
+        "jp-088-P01",
         "tw-099-P01",
         "tw-102-P01",
         "tw-109-P01",

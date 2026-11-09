@@ -14,10 +14,10 @@
   "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
  ],
  "counts": {
-  "spots": 274,
-  "opportunities": 499,
-  "condition_variants": 514,
-  "profile_viewpoint_relations": 505
+  "spots": 301,
+  "opportunities": 528,
+  "condition_variants": 543,
+  "profile_viewpoint_relations": 534
  },
  "spots": [
   {
@@ -28861,6 +28861,2845 @@
        "coord_confidence": "high",
        "elevation_m": 1900.0,
        "coordinate_source": "zh.wikipedia 武陵農場（座標 24°21′52.6″N 121°18′37.26″E）＋交通部觀光署櫻花季頁（海拔1,740–2,200m，1993年起種櫻）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-065",
+   "canonical_name": "富士山頂",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E5%AF%8C%E5%A3%AB%E5%B1%B1",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 富士山（山頂剣ヶ峰 35°21′38″N 138°43′39″E；標高3,776 m）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-065-P01",
+     "spot_id": "jp-065",
+     "name_zh": "富士山頂剣ヶ峰",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "富士山頂剣ヶ峰",
+      "en": "Mount Fuji summit at Kengamine",
+      "ja": "富士山頂の剣ヶ峰"
+     },
+     "best_time": "富士山頂剣ヶ峰",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-fuji-summit-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-426",
+       "variant_name": "富士山頂剣ヶ峰",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "日本最高峰剣ヶ峰山頂展望：雲海、御來光、影富士（zh.wikipedia；登山開放期夏季，氣象台公告開山）；與 jp-066 新倉山淺間公園（4.8km，五重塔",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "富士山頂剣ヶ峰",
+        "en": "Mount Fuji summit at Kengamine",
+        "ja": "富士山頂の剣ヶ峰"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "日本最高峰剣ヶ峰山頂展望：雲海、御來光、影富士（zh.wikipedia；登山開放期夏季，氣象台公告開山）；與 jp-066 新倉山淺間公園（4.8km，五重塔同框定番機位）題材錯位——本點為登頂級山體本身。",
+        "en": "From Japan's highest summit Kengamine: cloud sea, sunrise gonore, shadow Fuji (ja.wikipedia; open hiking season per official notices); subject-disjoint from jp-066 Chureito 4.8 km (hillside pagoda classic).",
+        "ja": "日本最高峰・剣ヶ峰からの雲海・御来光・影富士（ja.wikipedia；山開き期間は公式情報による）。4.8km先の新倉山（五重塔の定番）とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-065-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "富士山頂",
+       "name_i18n": {
+        "zh-TW": "富士山頂",
+        "en": "Mount Fuji Summit (Kengamine)",
+        "ja": "富士山頂"
+       },
+       "lat": 35.3606,
+       "lon": 138.7274,
+       "coord_confidence": "high",
+       "elevation_m": 3776.0,
+       "coordinate_source": "ja.wikipedia 富士山（山頂剣ヶ峰 35°21′38″N 138°43′39″E；標高3,776 m）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-066",
+   "canonical_name": "新倉山浅間公園",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E6%96%B0%E5%80%89%E5%B1%B1%E6%B5%85%E9%96%93%E5%85%AC%E5%9C%92",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 新倉山浅間公園（展望台・忠霊塔，山腹展望台約410 m；山梨県富士吉田市）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-066-P01",
+     "spot_id": "jp-066",
+     "name_zh": "新倉山五重塔與富士",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "新倉山五重塔與富士",
+      "en": "Chureito Pagoda with Mount Fuji",
+      "ja": "新倉山の五重塔と富士山"
+     },
+     "best_time": "新倉山五重塔與富士",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-arakurayama-sengen-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-427",
+       "variant_name": "新倉山五重塔與富士",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "忠靈塔五重塔與富士山同框的代表展望（zh.wikipedia；冬半年積雪期可賞雪化妝富士）；與 jp-065 富士山頂（4.8km，登頂題材）與既有 jp「富士",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "新倉山五重塔與富士",
+        "en": "Chureito Pagoda with Mount Fuji",
+        "ja": "新倉山の五重塔と富士山"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "忠靈塔五重塔與富士山同框的代表展望（zh.wikipedia；冬半年積雪期可賞雪化妝富士）；與 jp-065 富士山頂（4.8km，登頂題材）與既有 jp「富士山（河口湖）」（湖畔定番）題材錯位——本點為塔＋山同框。",
+        "en": "The classic pagoda-and-Fuji composition from the hillside deck (ja.wikipedia); disjoint from the jp-065 summit climb and the existing lakeside Fuji spot.",
+        "ja": "忠霊塔の五重塔と富士山を並べる定番の展望（ja.wikipedia）。山頂対象の富士山や河口湖畔の展望とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-066-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "新倉山浅間公園",
+       "name_i18n": {
+        "zh-TW": "新倉山浅間公園",
+        "en": "Arakurayama Sengen Park",
+        "ja": "新倉山浅間公園"
+       },
+       "lat": 35.3631,
+       "lon": 138.6692,
+       "coord_confidence": "high",
+       "elevation_m": 410.0,
+       "coordinate_source": "ja.wikipedia 新倉山浅間公園（展望台・忠霊塔，山腹展望台約410 m；山梨県富士吉田市）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-067",
+   "canonical_name": "上高地",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E5%A4%A7%E6%AD%A3%E6%B1%A0",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 大正池（36°14′16″N 137°37′10″E；1915年燒岳噴火形成，標高約1,510 m）＋上高地官方（河童橋）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-067-P01",
+     "spot_id": "jp-067",
+     "name_zh": "大正池燒岳倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "大正池燒岳倒影",
+      "en": "Taisho Pond Yakedake reflection",
+      "ja": "大正池の焼岳の倒影"
+     },
+     "best_time": "大正池燒岳倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-kamikochi-taisho-pond-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-428",
+       "variant_name": "大正池燒岳倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "1915年燒岳噴火形成的枯立木與水中倒影（zh.wikipedia）；與 3.8km 的新穗高・西穗高口展望台（纜車山頂全景）題材錯位——本點為池沼倒影+枯木前",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "大正池燒岳倒影",
+        "en": "Taisho Pond Yakedake reflection",
+        "ja": "大正池の焼岳の倒影"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "1915年燒岳噴火形成的枯立木與水中倒影（zh.wikipedia）；與 3.8km 的新穗高・西穗高口展望台（纜車山頂全景）題材錯位——本點為池沼倒影+枯木前景。",
+        "en": "Standing dead trees and mirrored Yakedake from the 1915 eruption-formed pond (ja.wikipedia); subject-disjoint from Shinhotaka ropeway summit 3.8 km (panorama) - reflection subject is not expressible by that neighbour's templates.",
+        "ja": "1915年焼岳噴火で生まれた池に立つ枯れ木と水中倒影（ja.wikipedia）。3.8km先の新穂高（ロープウェイ山頂展望）とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-067-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "上高地",
+       "name_i18n": {
+        "zh-TW": "上高地",
+        "en": "Kamikochi Taisho Pond & Kappa Bridge",
+        "ja": "上高地"
+       },
+       "lat": 36.2377,
+       "lon": 137.6194,
+       "coord_confidence": "high",
+       "elevation_m": 1510.0,
+       "coordinate_source": "ja.wikipedia 大正池（36°14′16″N 137°37′10″E；1915年燒岳噴火形成，標高約1,510 m）＋上高地官方（河童橋）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-068",
+   "canonical_name": "みくりが池",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E3%81%BF%E3%81%8F%E3%82%8A%E3%81%8C%E6%B1%A0",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia みくりが池（室堂平，標高約2,405–2,450 m 帯）＋立山黒部貫光官方（雪の大谷）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-068-P01",
+     "spot_id": "jp-068",
+     "name_zh": "みくりが池立山連峰倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "みくりが池立山連峰倒影",
+      "en": "Mikuri-ga-ike Tateyama range reflection",
+      "ja": "みくりが池の立山連峰の倒影"
+     },
+     "best_time": "みくりが池立山連峰倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-tateyama-mikurigaike-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 04-20–11-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 04-20–11-30（seasonal-calendar）",
+      "en": "Seasonal window 04-20-11-30 (seasonal-calendar)",
+      "ja": "季節窓 04-20〜11-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-429",
+       "variant_name": "みくりが池立山連峰倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "室堂平畔高地池塘映立山連峰（開山期限定，冬季雪閉）；與 jp-067 大正池（谷底枯木倒影）同屬倒影但海拔與主體不同。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "みくりが池立山連峰倒影",
+        "en": "Mikuri-ga-ike Tateyama range reflection",
+        "ja": "みくりが池の立山連峰の倒影"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "室堂平畔高地池塘映立山連峰（開山期限定，冬季雪閉）；與 jp-067 大正池（谷底枯木倒影）同屬倒影但海拔與主體不同。",
+        "en": "High-altitude pond mirroring the Tateyama range at Murodo (access-season only; winter closure); kin to jp-067 Taisho Pond but alpine lake vs valley dead-trees.",
+        "ja": "室堂平のみくりが池に映る立山連峰（開山期間限定、冬季は雪閉鎖）。大正池とは標高と主対象が異なる。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-068-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "みくりが池",
+       "name_i18n": {
+        "zh-TW": "みくりが池",
+        "en": "Mikuri-ga-ike & Yuki-no-Otani",
+        "ja": "みくりが池"
+       },
+       "lat": 36.5702,
+       "lon": 137.5964,
+       "coord_confidence": "medium",
+       "elevation_m": 2405.0,
+       "coordinate_source": "ja.wikipedia みくりが池（室堂平，標高約2,405–2,450 m 帯）＋立山黒部貫光官方（雪の大谷）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "jp-068-P02",
+     "spot_id": "jp-068",
+     "name_zh": "雪之大谷雪壁",
+     "legacy_theme": "snow_scene",
+     "name_i18n": {
+      "zh-TW": "雪之大谷雪壁",
+      "en": "Yuki-no-Otani snow corridor",
+      "ja": "雪の大谷の雪壁"
+     },
+     "best_time": "雪之大谷雪壁",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_snow_state_module",
+     "formula_version": "v0.04-cl-data-25-tateyama-mikurigaike-P02",
+     "formula_confidence": 50,
+     "best_season": "季節窗 04-20–05-31（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 04-20–05-31（seasonal-calendar）",
+      "en": "Seasonal window 04-20-05-31 (seasonal-calendar)",
+      "ja": "季節窓 04-20〜05-31（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-430",
+       "variant_name": "雪之大谷雪壁",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "室堂巴士站的高達16–20m雪壁（立山黒部貫光官方，4月開山後至5月末雪壁期）；契約沿用我們的雪況/能見度語義。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_snow_state_module",
+       "variant_name_i18n": {
+        "zh-TW": "雪之大谷雪壁",
+        "en": "Yuki-no-Otani snow corridor",
+        "ja": "雪の大谷の雪壁"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "室堂巴士站的高達16–20m雪壁（立山黒部貫光官方，4月開山後至5月末雪壁期）；契約沿用我們的雪況/能見度語義。",
+        "en": "Up to ~16-20 m snow walls by the Murodo bus stop (official Alpine Route; April opening to end-May); contract uses OUR snow-state/visibility semantics re-derived, not copied prose.",
+        "ja": "室堂バス停付近の高さ16〜20mの雪壁（立山黒部貫光公式；4月開山後〜5月末の雪壁期）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-068-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "みくりが池",
+       "name_i18n": {
+        "zh-TW": "みくりが池",
+        "en": "Mikuri-ga-ike & Yuki-no-Otani",
+        "ja": "みくりが池"
+       },
+       "lat": 36.5702,
+       "lon": 137.5964,
+       "coord_confidence": "medium",
+       "elevation_m": 2405.0,
+       "coordinate_source": "ja.wikipedia みくりが池（室堂平，標高約2,405–2,450 m 帯）＋立山黒部貫光官方（雪の大谷）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-069",
+   "canonical_name": "美瑛パッチワークの路",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E7%BE%8E%E7%91%9B",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 美瑛（パッチワークの路，ケンとメリーの木一帶丘陵）；座標 medium（名樹群中心推定）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-069-P01",
+     "spot_id": "jp-069",
+     "name_zh": "美瑛拼布丘陵名樹",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "美瑛拼布丘陵名樹",
+      "en": "Biei patchwork hills and famous trees",
+      "ja": "美瑛のパッチワーク丘陵と名木"
+     },
+     "best_time": "美瑛拼布丘陵名樹",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-biei-patchwork-road-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-431",
+       "variant_name": "美瑛拼布丘陵名樹",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "起伏農地拼布與ケンとメリーの木等孤樹（zh.wikipedia）；與 jp-001 美瑛青池（17.6km，藍水池塘）同町不同地景。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "美瑛拼布丘陵名樹",
+        "en": "Biei patchwork hills and famous trees",
+        "ja": "美瑛のパッチワーク丘陵と名木"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "起伏農地拼布與ケンとメリーの木等孤樹（zh.wikipedia）；與 jp-001 美瑛青池（17.6km，藍水池塘）同町不同地景。",
+        "en": "Rolling farmland patchwork with solitary trees such as the Ken & Mary tree (ja.wikipedia); disjoint landform from jp-001 Blue Pond 17.6 km.",
+        "ja": "うねる農地のパッチワークにケンとメリーの木などの孤立木（ja.wikipedia）。17.6km先の青い池（池沼の藍）とは地景が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-069-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "美瑛パッチワークの路",
+       "name_i18n": {
+        "zh-TW": "美瑛パッチワークの路",
+        "en": "Biei Patchwork Road",
+        "ja": "美瑛パッチワークの路"
+       },
+       "lat": 43.6486,
+       "lon": 142.5678,
+       "coord_confidence": "medium",
+       "elevation_m": 560.0,
+       "coordinate_source": "ja.wikipedia 美瑛（パッチワークの路，ケンとメリーの木一帶丘陵）；座標 medium（名樹群中心推定）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-070",
+   "canonical_name": "奥入瀬渓流",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E5%A5%A5%E5%85%A5%E7%80%AC%E6%B8%93%E6%B5%81",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 奥入瀬渓流（阿修羅の滝，十和田湖畔子ノ口至燒山）；座標 medium（渓流步道中段推定）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-070-P01",
+     "spot_id": "jp-070",
+     "name_zh": "奧入瀬溪流急流步道",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "奧入瀬溪流急流步道",
+      "en": "Oirase stream-walk cascade",
+      "ja": "奥入瀬渓流の急流と步道"
+     },
+     "best_time": "奧入瀬溪流急流步道",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-oirase-keiryu-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-432",
+       "variant_name": "奧入瀬溪流急流步道",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "十和田湖畔至燒山14km溪流步道與阿修羅之瀧（ja.wikipedia）；契約以我們的瀑布水量/水霧/能見度語義重推導。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "奧入瀬溪流急流步道",
+        "en": "Oirase stream-walk cascade",
+        "ja": "奥入瀬渓流の急流と步道"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "十和田湖畔至燒山14km溪流步道與阿修羅之瀧（ja.wikipedia）；契約以我們的瀑布水量/水霧/能見度語義重推導。",
+        "en": "A 14 km stream-walk with cascades including Ashura Falls (ja.wikipedia); conditions re-derived in our flow/mist/visibility semantics.",
+        "ja": "十和田湖畔から焼山までの14kmの渓流歩道と阿修羅の滝（ja.wikipedia）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-070-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "奥入瀬渓流",
+       "name_i18n": {
+        "zh-TW": "奥入瀬渓流",
+        "en": "Oirase Stream (Ashura Falls)",
+        "ja": "奥入瀬渓流"
+       },
+       "lat": 39.7221,
+       "lon": 141.0071,
+       "coord_confidence": "medium",
+       "elevation_m": 500.0,
+       "coordinate_source": "ja.wikipedia 奥入瀬渓流（阿修羅の滝，十和田湖畔子ノ口至燒山）；座標 medium（渓流步道中段推定）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-071",
+   "canonical_name": "蔦沼",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E8%94%A6%E4%B8%83%E6%B2%BC",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 蔦七沼（蔦沼，八戸_lp…）；座標 medium（蔦沼畔推定）；海拔無權威單一值——誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-071-P01",
+     "spot_id": "jp-071",
+     "name_zh": "蔦沼朝燒紅葉倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "蔦沼朝燒紅葉倒影",
+      "en": "Tsubo-numa dawn-glow reflection",
+      "ja": "蔦沼の朝焼けと紅葉の倒影"
+     },
+     "best_time": "蔦沼朝燒紅葉倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-tsubonuma-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 10-15–10-31（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 10-15–10-31（seasonal-calendar）",
+      "en": "Seasonal window 10-15-10-31 (seasonal-calendar)",
+      "ja": "季節窓 10-15〜10-31（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-433",
+       "variant_name": "蔦沼朝燒紅葉倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "池面映紅葉與朝燒——只有三條件同時成立才成：民用光（太陽仰角>−6°）+無風靜水+紅葉峰值（10月下旬短窗，local tourism source）；契約照我",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "蔦沼朝燒紅葉倒影",
+        "en": "Tsubo-numa dawn-glow reflection",
+        "ja": "蔦沼の朝焼けと紅葉の倒影"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "池面映紅葉與朝燒——只有三條件同時成立才成：民用光（太陽仰角>−6°）+無風靜水+紅葉峰值（10月下旬短窗，local tourism source）；契約照我們的度量語義重推導（倒影=無風水面、季節窗 10/15–10/31 為紅葉例年峰值期，非保證）。",
+        "en": "The pond fires only when three conditions coincide - civil light (sun elevation > -6 deg), windless still water, and peak foliage (short late-Oct window, local tourism source); re-derived in OUR semantics: reflection = still-water contract, calendar window 10/15-10/31 is the typical foliage peak, not a guarantee.",
+        "ja": "池面が焼けるのは三条件の重なりのみ - 市民光（太陽高度>−6°）、無風の静水、紅葉のピーク（10月下旬の短い窓、地元観光情報）。契約は当方の指標語義で再導出（倒影＝静水条件、季節窓10/15〜10/31は例年の紅葉ピークで保証ではない）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-071-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "蔦沼",
+       "name_i18n": {
+        "zh-TW": "蔦沼",
+        "en": "Tsubo-numa",
+        "ja": "蔦沼"
+       },
+       "lat": 39.8808,
+       "lon": 140.8748,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 蔦七沼（蔦沼，八戸_lp…）；座標 medium（蔦沼畔推定）；海拔無權威單一值——誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-072",
+   "canonical_name": "白川郷",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E7%99%BD%E5%B7%9D%E9%83%B7",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 白川郷（荻町 36°15′31″N 136°54′14″E；UNESCO世界遺產）；海拔無單一）；海拔無單一權威值——誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-072-P01",
+     "spot_id": "jp-072",
+     "name_zh": "合掌村冬季點燈",
+     "legacy_theme": "city_night",
+     "name_i18n": {
+      "zh-TW": "合掌村冬季點燈",
+      "en": "Gassho village winter light-up",
+      "ja": "合掌集落の冬のライトアップ"
+     },
+     "best_time": "合掌村冬季點燈",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-shirakawago-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 01-15–02-28（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 01-15–02-28（seasonal-calendar）",
+      "en": "Seasonal window 01-15-02-28 (seasonal-calendar)",
+      "ja": "季節窓 01-15〜02-28（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-434",
+       "variant_name": "合掌村冬季點燈",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "荻町集落合掌屋群冬季點燈（官方點燈頁面，每年1月中–2月末，日期年度公佈、需乘換巴士與事前申請）；人工光夜間題材——白天時段不成立。UNESCO 世界遺產。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "合掌村冬季點燈",
+        "en": "Gassho village winter light-up",
+        "ja": "合掌集落の冬のライトアップ"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "荻町集落合掌屋群冬季點燈（官方點燈頁面，每年1月中–2月末，日期年度公佈、需乘換巴士與事前申請）；人工光夜間題材——白天時段不成立。UNESCO 世界遺產。",
+        "en": "Winter illumination over the gassho farmhouses (official light-up page, yearly announced mid-Jan to late Feb, shuttle-only access); an artificial-light night subject - daytime hours never qualify. UNESCO World Heritage.",
+        "ja": "合掌造り家屋群の冬のライトアップ（公式ライトアップサイト、毎年1月中旬〜2月末、日付は年度公表・送迎バス必須）。人工光の夜間題材で昼間は成立しない。ユネスコ世界遺産。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-072-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "白川郷",
+       "name_i18n": {
+        "zh-TW": "白川郷",
+        "en": "Shirakawa-go Gassho Village",
+        "ja": "白川郷"
+       },
+       "lat": 36.2585,
+       "lon": 136.904,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 白川郷（荻町 36°15′31″N 136°54′14″E；UNESCO世界遺產）；海拔無單一）；海拔無單一權威值——誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-073",
+   "canonical_name": "SORA terrace",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.ryuo-terrace.com/",
+     "verified_on": "2026-11-07",
+     "supports": "候選清單提供座標（138.8837,36.7236）＋龍王纜車官方（SORA terrace 標高1,933 m）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-073-P01",
+     "spot_id": "jp-073",
+     "name_zh": "SORA terrace 山頂雲海",
+     "legacy_theme": "cloud_sea",
+     "name_i18n": {
+      "zh-TW": "SORA terrace 山頂雲海",
+      "en": "SORA terrace summit cloud sea",
+      "ja": "SORA terrace の雲海"
+     },
+     "best_time": "SORA terrace 山頂雲海",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_spatial_weather_module",
+     "formula_version": "v0.04-cl-data-25-soraterrace-ryuo-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 04-20–11-05（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 04-20–11-05（seasonal-calendar）",
+      "en": "Seasonal window 04-20-11-05 (seasonal-calendar)",
+      "ja": "季節窓 04-20〜11-05（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-435",
+       "variant_name": "SORA terrace 山頂雲海",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "龍王峰山頂 SORA terrace（1,933m）俯瞰信州盆地晨雲（官方；纜車營運季內、日出前後最盛）——雲海判準 LCL = DEM−200（1,733m）",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_spatial_weather_module",
+       "variant_name_i18n": {
+        "zh-TW": "SORA terrace 山頂雲海",
+        "en": "SORA terrace summit cloud sea",
+        "ja": "SORA terrace の雲海"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "龍王峰山頂 SORA terrace（1,933m）俯瞰信州盆地晨雲（官方；纜車營運季內、日出前後最盛）——雲海判準 LCL = DEM−200（1,733m），契公式為主，非宣傳語。",
+        "en": "SORA terrace at 1,933 m over Shinshu morning clouds (official; within the gondola season, best around sunrise) - cloud-sea verdict by the LCL = DEM-200 formula (1,733 m), not marketing prose.",
+        "ja": "龍王峰1,933mのSORA terraceから信州の朝雲を望む（公式；ゴンドラ営業期間内、日の出前後が最盛）。雲海判定はLCL=DEM−200の公式（1,733m）による。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-073-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "SORA terrace",
+       "name_i18n": {
+        "zh-TW": "SORA terrace",
+        "en": "SORA Terrace Ryuoo cloud sea",
+        "ja": "SORA terrace"
+       },
+       "lat": 36.7236,
+       "lon": 138.8837,
+       "coord_confidence": "high",
+       "elevation_m": 1933.0,
+       "coordinate_source": "候選清單提供座標（138.8837,36.7236）＋龍王纜車官方（SORA terrace 標高1,933 m）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-074",
+   "canonical_name": "竹田城跡",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E7%AB%B9%E7%94%B0%E5%9F%8E",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 竹田城（天守台標高353.6 m；兵庫県朝来市）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-074-P01",
+     "spot_id": "jp-074",
+     "name_zh": "竹田城跡雲海浮城",
+     "legacy_theme": "cloud_sea",
+     "name_i18n": {
+      "zh-TW": "竹田城跡雲海浮城",
+      "en": "Takeda Castle in the cloud sea",
+      "ja": "竹田城跡の雲海"
+     },
+     "best_time": "竹田城跡雲海浮城",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_spatial_weather_module",
+     "formula_version": "v0.04-cl-data-25-takeda-castle-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 11-01–12-15（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 11-01–12-15（seasonal-calendar）",
+      "en": "Seasonal window 11-01-12-15 (seasonal-calendar)",
+      "ja": "季節窓 11-01〜12-15（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-436",
+       "variant_name": "竹田城跡雲海浮城",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "深秋清晨雲霧填谷、山城如浮空（朝来市官方；雲海成因為輻射霧，成否看 LCL 公式——天守台353.6m→LCL 153.6m，需逆溫層極低雲頂）；非每日保證。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_spatial_weather_module",
+       "variant_name_i18n": {
+        "zh-TW": "竹田城跡雲海浮城",
+        "en": "Takeda Castle in the cloud sea",
+        "ja": "竹田城跡の雲海"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "深秋清晨雲霧填谷、山城如浮空（朝来市官方；雲海成因為輻射霧，成否看 LCL 公式——天守台353.6m→LCL 153.6m，需逆溫層極低雲頂）；非每日保證。",
+        "en": "Deep-autumn mornings when valley radiation fog fills the basin and the castle floats (Takeda city official); verdict follows the LCL formula - keep base 353.6 m gives LCL 153.6 m, requiring an extremely low inversion cloud top; never a daily guarantee.",
+        "ja": "晩秋の朝、放射霧が谷を満たし山城が浮遊する（朝来市公式）。成立はLCL公式（天守台353.6m→LCL 153.6m）による逆転層の極低い雲頂が必要で毎日ではない。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-074-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "竹田城跡",
+       "name_i18n": {
+        "zh-TW": "竹田城跡",
+        "en": "Takeda Castle Ruins",
+        "ja": "竹田城跡"
+       },
+       "lat": 35.2945,
+       "lon": 134.8392,
+       "coord_confidence": "high",
+       "elevation_m": 354.0,
+       "coordinate_source": "ja.wikipedia 竹田城（天守台標高353.6 m；兵庫県朝来市）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-075",
+   "canonical_name": "美の山公園",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E7%BE%8E%E3%81%AE%E5%B1%B1",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 美の山（みの山，約1,038 m；埼玉県秩父郡）；座標 medium（山頂展望台推定）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-075-P01",
+     "spot_id": "jp-075",
+     "name_zh": "秩父盆地霧海",
+     "legacy_theme": "cloud_sea",
+     "name_i18n": {
+      "zh-TW": "秩父盆地霧海",
+      "en": "Chichibu basin fog sea",
+      "ja": "秩父盆地の霧の海"
+     },
+     "best_time": "秩父盆地霧海",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_spatial_weather_module",
+     "formula_version": "v0.04-cl-data-25-chichibu-minamiyama-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 10-01–03-31（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 10-01–03-31（seasonal-calendar）",
+      "en": "Seasonal window 10-01-03-31 (seasonal-calendar)",
+      "ja": "季節窓 10-01〜03-31（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-437",
+       "variant_name": "秩父盆地霧海",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "山頂展望台俯瞰秩父盆地輻射霧如海（ja.wikipedia；秋冬晴天清晨）；與 jp-074 竹田城（城體主題）錯位——本點為純盆地霧海。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_spatial_weather_module",
+       "variant_name_i18n": {
+        "zh-TW": "秩父盆地霧海",
+        "en": "Chichibu basin fog sea",
+        "ja": "秩父盆地の霧の海"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "山頂展望台俯瞰秩父盆地輻射霧如海（ja.wikipedia；秋冬晴天清晨）；與 jp-074 竹田城（城體主題）錯位——本點為純盆地霧海。",
+        "en": "From the summit deck the basin's radiation fog becomes a sea on clear cold mornings (ja.wikipedia); disjoint from jp-074 Takeda (castle-body subject) - here the pure basin fog sea.",
+        "ja": "山頂展望台から秩父盆地の放射霧が海のように見える（ja.wikipedia；秋冬の晴天早朝）。城体が主題の竹田城とは異なる。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-075-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "美の山公園",
+       "name_i18n": {
+        "zh-TW": "美の山公園",
+        "en": "Chichibu Minoyama cloud sea",
+        "ja": "美の山公園"
+       },
+       "lat": 36.0288,
+       "lon": 138.9467,
+       "coord_confidence": "medium",
+       "elevation_m": 1038.0,
+       "coordinate_source": "ja.wikipedia 美の山（みの山，約1,038 m；埼玉県秩父郡）；座標 medium（山頂展望台推定）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-076",
+   "canonical_name": "大観峰",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E5%A4%A7%E8%A6%B3%E5%B3%B0",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 大観峰（北外輪山，標高913 m；熊本県阿蘇市）；座標 medium（展望台推定）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-076-P01",
+     "spot_id": "jp-076",
+     "name_zh": "大觀峰望阿蘇五嶽",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "大觀峰望阿蘇五嶽",
+      "en": "Daikanbo over the Aso five peaks",
+      "ja": "大観峰から阿蘇五岳"
+     },
+     "best_time": "大觀峰望阿蘇五嶽",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-daikanbo-aso-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-438",
+       "variant_name": "大觀峰望阿蘇五嶽",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "外輪山稜上俯瞰阿蘇五嶽與火之山下草原（ja.wikipedia）；與 3.6km 的阿蘇山・草千里ヶ浜（草地上野景）題材錯位——本點為稜線俯瞰全景。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "大觀峰望阿蘇五嶽",
+        "en": "Daikanbo over the Aso five peaks",
+        "ja": "大観峰から阿蘇五岳"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "外輪山稜上俯瞰阿蘇五嶽與火之山下草原（ja.wikipedia）；與 3.6km 的阿蘇山・草千里ヶ浜（草地上野景）題材錯位——本點為稜線俯瞰全景。",
+        "en": "From the outer-rim ridge the five caldera peaks and Kusasenri grassland unfold (ja.wikipedia); subject-disjoint from Mt Aso Kusasenri 3.6 km (grassland ground-level) - here the rim overlook.",
+        "ja": "外輪山の稜から阿蘇五岳と草原を一望（ja.wikipedia）。3.6km先の草千里ヶ浜（草原の地上景）とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-076-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "大観峰",
+       "name_i18n": {
+        "zh-TW": "大観峰",
+        "en": "Daikanbo (Aso Five Peaks)",
+        "ja": "大観峰"
+       },
+       "lat": 32.9056,
+       "lon": 131.0756,
+       "coord_confidence": "medium",
+       "elevation_m": 913.0,
+       "coordinate_source": "ja.wikipedia 大観峰（北外輪山，標高913 m；熊本県阿蘇市）；座標 medium（展望台推定）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-077",
+   "canonical_name": "白鬚神社",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E7%99%BD%E9%AC%9A%E7%A5%9E%E7%A4%BE",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 白鬚神社（湖中鳥居，琵琶湖西岸）；琵琶湖面標高約85 m. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-077-P01",
+     "spot_id": "jp-077",
+     "name_zh": "湖中鳥居夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "湖中鳥居夕照",
+      "en": "Lake torii at sunset",
+      "ja": "湖中鳥居と夕景"
+     },
+     "best_time": "湖中鳥居夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-shirahige-torii-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-439",
+       "variant_name": "湖中鳥居夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "琵琶湖面上鳥居與夕陽同框（ja.wikipedia；湖面反射晴日最佳）；與既有 jp 京都清水寺（39km+，寺院藍調）題材錯位。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "湖中鳥居夕照",
+        "en": "Lake torii at sunset",
+        "ja": "湖中鳥居と夕景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "琵琶湖面上鳥居與夕陽同框（ja.wikipedia；湖面反射晴日最佳）；與既有 jp 京都清水寺（39km+，寺院藍調）題材錯位。",
+        "en": "The torii standing in Lake Biwa with sunset behind (ja.wikipedia); disjoint from the existing Kyoto spots 39+ km.",
+        "ja": "琵琶湖に立つ鳥居と夕日（ja.wikipedia）。既存の京都寺院とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-077-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "白鬚神社",
+       "name_i18n": {
+        "zh-TW": "白鬚神社",
+        "en": "Shirahige Shrine Lake Torii",
+        "ja": "白鬚神社"
+       },
+       "lat": 35.4829,
+       "lon": 136.1229,
+       "coord_confidence": "high",
+       "elevation_m": 86.0,
+       "coordinate_source": "ja.wikipedia 白鬚神社（湖中鳥居，琵琶湖西岸）；琵琶湖面標高約85 m",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-078",
+   "canonical_name": "父母ヶ浜",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E7%88%B6%E6%AF%8D%E3%83%B6%E6%B5%9C",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 父母ヶ浜（香川県三豊市仁尾町；海濱岸線）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-078-P01",
+     "spot_id": "jp-078",
+     "name_zh": "父母之濱鏡面海灘",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "父母之濱鏡面海灘",
+      "en": "Fumotohama mirror beach",
+      "ja": "父母ヶ浜の鏡面ビーチ"
+     },
+     "best_time": "父母之濱鏡面海灘",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-fumotohama-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-440",
+       "variant_name": "父母之濱鏡面海灘",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "退潮後殘水鏡面映夕陽——支配條件是潮汐（大潮前後的干潮帯+無風），系統現無潮汐資料源，誠實 not_evaluatable（fail-closed，同 CL-D",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "父母之濱鏡面海灘",
+        "en": "Fumotohama mirror beach",
+        "ja": "父母ヶ浜の鏡面ビーチ"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "退潮後殘水鏡面映夕陽——支配條件是潮汐（大潮前後的干潮帯+無風），系統現無潮汐資料源，誠實 not_evaluatable（fail-closed，同 CL-DATA-20 潮汐語義）；資訊性季節備註3–11月大潮晴傍晚。",
+        "en": "The governing condition is the tide (spring-tide low-water + calm), not weather; the system has no tide data source, so the contract is honestly not_evaluatable (fail-closed, CL-DATA-20 tidal semantics); informational note Mar-Nov spring-tide clear evenings.",
+        "ja": "支配的条件は潮汐（大潮前後の干潮帯と無風）で気象ではない。潮汐データソースが現状ないため誠実に not_evaluatable（fail-closed、CL-DATA-20潮汐語義）。参考: 3〜11月の大潮晴天夕方。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-078-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "父母ヶ浜",
+       "name_i18n": {
+        "zh-TW": "父母ヶ浜",
+        "en": "Fumotohama Sky Mirror",
+        "ja": "父母ヶ浜"
+       },
+       "lat": 33.8072,
+       "lon": 133.2622,
+       "coord_confidence": "high",
+       "elevation_m": 2.0,
+       "coordinate_source": "ja.wikipedia 父母ヶ浜（香川県三豊市仁尾町；海濱岸線）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-079",
+   "canonical_name": "五色沼",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E4%BA%94%E8%89%B2%E6%B2%BC",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 五色沼（磐梯高原，毘沙門沼 37°45′20″N 140°06′10″E；標高約800 m帯）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-079-P01",
+     "spot_id": "jp-079",
+     "name_zh": "五色沼鈷藍水面",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "五色沼鈷藍水面",
+      "en": "Goshiki-numa cobalt water",
+      "ja": "五色沼のコバルトブルーの水面"
+     },
+     "best_time": "五色沼鈷藍水面",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-goshikinuma-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 04-01–11-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 04-01–11-30（seasonal-calendar）",
+      "en": "Seasonal window 04-01-11-30 (seasonal-calendar)",
+      "ja": "季節窓 04-01〜11-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-441",
+       "variant_name": "五色沼鈷藍水面",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "磐梯山噴火形成的沼群鈷藍–翡翠變色湖水（ja.wikipedia；冬季雪閉，開放期4–11月）；與 jp-071 蔦沼（朝燒倒影）錯位——本點為水色本身。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "五色沼鈷藍水面",
+        "en": "Goshiki-numa cobalt water",
+        "ja": "五色沼のコバルトブルーの水面"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "磐梯山噴火形成的沼群鈷藍–翡翠變色湖水（ja.wikipedia；冬季雪閉，開放期4–11月）；與 jp-071 蔦沼（朝燒倒影）錯位——本點為水色本身。",
+        "en": "Volcanic ponds whose water shifts cobalt-to-emerald with sky and depth (ja.wikipedia; winter closure, open Apr-Nov); disjoint from jp-071 Tsubo-numa (dawn-glow reflection) - here the water colour itself.",
+        "ja": "磐梯山の噴火でできた沼群、時間と角度で色を変える水面（ja.wikipedia；冬季は雪閉鎖、4〜11月）。朝焼け倒影の蔦沼とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-079-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "五色沼",
+       "name_i18n": {
+        "zh-TW": "五色沼",
+        "en": "Goshiki-numa (Bishamon Pond)",
+        "ja": "五色沼"
+       },
+       "lat": 37.7553,
+       "lon": 140.1032,
+       "coord_confidence": "medium",
+       "elevation_m": 805.0,
+       "coordinate_source": "ja.wikipedia 五色沼（磐梯高原，毘沙門沼 37°45′20″N 140°06′10″E；標高約800 m帯）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-080",
+   "canonical_name": "田貫湖",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E7%94%B0%E8%B2%AB%E6%B9%96",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 田貫湖（富士山麓堰止湖，標高約800 m；静岡県富士市）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-080-P01",
+     "spot_id": "jp-080",
+     "name_zh": "田貫湖鑽石富士日出",
+     "legacy_theme": "sunrise",
+     "name_i18n": {
+      "zh-TW": "田貫湖鑽石富士日出",
+      "en": "Diamond Fuji sunrise over Lake Tanuki",
+      "ja": "田貫湖のダイヤモンド富士"
+     },
+     "best_time": "田貫湖鑽石富士日出",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-tanuki-lake-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 04-10–04-25（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 04-10–04-25（seasonal-calendar）",
+      "en": "Seasonal window 04-10-04-25 (seasonal-calendar)",
+      "ja": "季節窓 04-10〜04-25（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-442",
+       "variant_name": "田貫湖鑽石富士日出",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "春分前後清晨太陽落於富士山頂、湖畔對望「鑽石富士」（富士市官方；春季窗 4/10–4/25，秋季 8 月下旬另有第二窗——契約以春季窗為主，秋季窗寫入 rati",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "田貫湖鑽石富士日出",
+        "en": "Diamond Fuji sunrise over Lake Tanuki",
+        "ja": "田貫湖のダイヤモンド富士"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "春分前後清晨太陽落於富士山頂、湖畔對望「鑽石富士」（富士市官方；春季窗 4/10–4/25，秋季 8 月下旬另有第二窗——契約以春季窗為主，秋季窗寫入 rationale）；湖面鏡射為加分非必要。",
+        "en": "On mid-April dawns the rising sun sits on Fuji's summit as seen from the lake - Diamond Fuji (Fuji city official; spring window 4/10-4/25, with a second late-August window noted in the rationale); the lake mirror is a bonus, not required.",
+        "ja": "4月中旬の明け方、富士山頂に朝日が乗る「ダイヤモンド富士」（富士市公式；春4/10〜4/25。8月下旬にも第2の窓があり rationale に記載）。湖面の鏡写しは加点で必須ではない。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-080-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "田貫湖",
+       "name_i18n": {
+        "zh-TW": "田貫湖",
+        "en": "Lake Tanuki (Diamond Fuji)",
+        "ja": "田貫湖"
+       },
+       "lat": 35.2192,
+       "lon": 138.5594,
+       "coord_confidence": "high",
+       "elevation_m": 800.0,
+       "coordinate_source": "ja.wikipedia 田貫湖（富士山麓堰止湖，標高約800 m；静岡県富士市）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-081",
+   "canonical_name": "鍋ヶ滝",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E9%8D%8B%E3%83%B6%E6%BB%9D",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 鍋ヶ滝（33°8′14.4″N 131°2′8.5″E；落差12m 幅20m；熊本県小国町）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-081-P01",
+     "spot_id": "jp-081",
+     "name_zh": "鍋瀑布水簾回廊",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "鍋瀑布水簾回廊",
+      "en": "Nabegataki behind-the-fall corridor",
+      "ja": "鍋ヶ滝の裏見"
+     },
+     "best_time": "鍋瀑布水簾回廊",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-nabegataki-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-443",
+       "variant_name": "鍋瀑布水簾回廊",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "代表「裏見の滝」：可走到瀑後以水簾為前景（ja.wikipedia；入園有料、9:00–17:00 依當期公告）；與大観峰（26km…3.6km 鄰點為草千里草",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "鍋瀑布水簾回廊",
+        "en": "Nabegataki behind-the-fall corridor",
+        "ja": "鍋ヶ滝の裏見"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "代表「裏見の滝」：可走到瀑後以水簾為前景（ja.wikipedia；入園有料、9:00–17:00 依當期公告）；與大観峰（26km…3.6km 鄰點為草千里草原景）題材錯位。",
+        "en": "The representative behind-the-fall viewpoint (ja.wikipedia; paid park entry 9:00-17:00 per current notices); disjoint from the rim-overlook Aso spots and the grassland.",
+        "ja": "裏側から眺められる「裏見の滝」の代表（ja.wikipedia；入園料あり9:00〜17:00、現地告知による）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-081-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "鍋ヶ滝",
+       "name_i18n": {
+        "zh-TW": "鍋ヶ滝",
+        "en": "Nabegataki Falls",
+        "ja": "鍋ヶ滝"
+       },
+       "lat": 33.1373,
+       "lon": 131.0357,
+       "coord_confidence": "high",
+       "elevation_m": 600.0,
+       "coordinate_source": "ja.wikipedia 鍋ヶ滝（33°8′14.4″N 131°2′8.5″E；落差12m 幅20m；熊本県小国町）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-082",
+   "canonical_name": "仁淀川",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E4%BB%81%E6%B7%80%E5%B7%9D",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 仁淀川（四国第二長河，上流域仁淀川町）；座標 low——「仁淀ブルー」最佳淵位無單一權威點，以村域錨點誠實標註，待 field survey 校正. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-082-P01",
+     "spot_id": "jp-082",
+     "name_zh": "仁淀藍清流倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "仁淀藍清流倒影",
+      "en": "Niyodo Blue water",
+      "ja": "仁淀ブルーの清流"
+     },
+     "best_time": "仁淀藍清流倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-niyodo-blue-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-444",
+       "variant_name": "仁淀藍清流倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "日本水質第一的仁淀川上流呈寶石藍（ja.wikipedia；「仁淀ブルー」非單一點位——本點為村域錨點）；與 jp-079 五色沼（火山湖水色）錯位——本點為溪",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "仁淀藍清流倒影",
+        "en": "Niyodo Blue water",
+        "ja": "仁淀ブルーの清流"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "日本水質第一的仁淀川上流呈寶石藍（ja.wikipedia；「仁淀ブルー」非單一點位——本點為村域錨點）；與 jp-079 五色沼（火山湖水色）錯位——本點為溪流水量與透明度。",
+        "en": "Japan's clearest river running gemstone blue in its upper reaches (ja.wikipedia; 'Niyodo Blue' has no single authoritative point - this is an honest village-anchor pending field survey); disjoint from volcanic-lake colour jp-079.",
+        "ja": "日本一の水質を誇る仁淀川上流の宝石ブルー（ja.wikipedia。「仁淀ブルー」に単一の権威点はなく村域アンカーで誠実に記載）。火山湖の五色沼とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-082-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "仁淀川",
+       "name_i18n": {
+        "zh-TW": "仁淀川",
+        "en": "Niyodo River (Niyodo Blue)",
+        "ja": "仁淀川"
+       },
+       "lat": 33.75,
+       "lon": 133.03,
+       "coord_confidence": "low",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 仁淀川（四国第二長河，上流域仁淀川町）；座標 low——「仁淀ブルー」最佳淵位無單一權威點，以村域錨點誠實標註，待 field survey 校正",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-083",
+   "canonical_name": "吹割の滝",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E5%90%B9%E5%89%B2%E3%81%AE%E6%BB%9D",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 吹割の滝（沼田市片品町，片品川30m落差如海割裂）；座標 medium（觀瀑台推定）；海拔無單一權威值——誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-083-P01",
+     "spot_id": "jp-083",
+     "name_zh": "吹割瀑布海割斷層",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "吹割瀑布海割斷層",
+      "en": "Fukiware Falls sea-splitting cascade",
+      "ja": "吹割の滝"
+     },
+     "best_time": "吹割瀑布海割斷層",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-fukiware-falls-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-445",
+       "variant_name": "吹割瀑布海割斷層",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "片品川在30m落差上「像海一樣割裂」的罕見分流水瀑（ja.wikipedia）；與 jp-070 奧入瀨（溪流步道群瀑）題材錯位——本點為單一大瀑布體。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "吹割瀑布海割斷層",
+        "en": "Fukiware Falls sea-splitting cascade",
+        "ja": "吹割の滝"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "片品川在30m落差上「像海一樣割裂」的罕見分流水瀑（ja.wikipedia）；與 jp-070 奧入瀨（溪流步道群瀑）題材錯位——本點為單一大瀑布體。",
+        "en": "The Tone tributary tears across a 30 m rock shelf 'like a sea split open' (ja.wikipedia); disjoint from jp-070 Oirase (multi-cascade stream-walk) - here one massive waterfall body.",
+        "ja": "片品川が30mの岩盤を「海を割ったように」分かつ珍しい瀑（ja.wikipedia）。渓流歩道の奥入瀬とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-083-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "吹割の滝",
+       "name_i18n": {
+        "zh-TW": "吹割の滝",
+        "en": "Fukiware Falls",
+        "ja": "吹割の滝"
+       },
+       "lat": 36.9146,
+       "lon": 139.2997,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 吹割の滝（沼田市片品町，片品川30m落差如海割裂）；座標 medium（觀瀑台推定）；海拔無單一權威值——誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-084",
+   "canonical_name": "蠟燭島",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.japan.travel/hk/spot/2312/",
+     "verified_on": "2026-11-07",
+     "supports": "日本國家旅遊局/島根觀光官方（蠟燭島，島後岸外約500m，高約20m，夕陽對準時如點燃蠟燭；觀光船 3/15–11/30 需預約）；座標 low——岸外岩礁無精確權威點，以岬角錨點推定. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-084-P01",
+     "spot_id": "jp-084",
+     "name_zh": "蠟燭島夕照點燈",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "蠟燭島夕照點燈",
+      "en": "Candle Rock sunset ignition",
+      "ja": "蠟燭島の夕焼け"
+     },
+     "best_time": "蠟燭島夕照點燈",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-rosokujima-okinoshima-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-446",
+       "variant_name": "蠟燭島夕照點燈",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "夕陽與20m尖岩頂對齊的一刻如點燃蠟燭（日本國家旅遊局官方；僅晴天無風、搭觀光船可賞——船班 3/15–11/30 需預約，契約以季節窗對拍營運期）；岸上尾白鼻",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "蠟燭島夕照點燈",
+        "en": "Candle Rock sunset ignition",
+        "ja": "蠟燭島の夕焼け"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "夕陽與20m尖岩頂對齊的一刻如點燃蠟燭（日本國家旅遊局官方；僅晴天無風、搭觀光船可賞——船班 3/15–11/30 需預約，契約以季節窗對拍營運期）；岸上尾白鼻公園展望台為替代機位。",
+        "en": "When the setting sun aligns on the 20 m rock's tip it looks lit like a candle (Japan NTO official; only calm clear days and by excursion boat - boats run 3/15-11/30 by reservation, the seasonal window tracks the operating period); the Ojirobana Park deck is the land fallback.",
+        "ja": "夕日が高さ20mの岩の頂に重なる瞬間、ろうそくのように灯る（日本政府観光局公式；晴天無風かつ観光船のみ—運航3/15〜11/30・予約制で季節窓は営業期間に対応）。陸上の尾白鼻公園展望台が代替。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-084-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "蠟燭島",
+       "name_i18n": {
+        "zh-TW": "蠟燭島",
+        "en": "Rosoku-jima (Candle Rock), Oki",
+        "ja": "蠟燭島"
+       },
+       "lat": 36.24,
+       "lon": 132.956,
+       "coord_confidence": "low",
+       "elevation_m": null,
+       "coordinate_source": "日本國家旅遊局/島根觀光官方（蠟燭島，島後岸外約500m，高約20m，夕陽對準時如點燃蠟燭；觀光船 3/15–11/30 需預約）；座標 low——岸外岩礁無精確權威點，以岬角錨點推定",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-085",
+   "canonical_name": "青島",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E9%9D%92%E5%B3%B6_(%E5%AE%AE%E5%B4%8E%E7%9C%8C)",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 青島 (宮崎県)（周囲約860m 小島與隆起海蝕波状岩帯）；座標 high（青島神社前灘）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-085-P01",
+     "spot_id": "jp-085",
+     "name_zh": "鬼之洗衣板波紋岩",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "鬼之洗衣板波紋岩",
+      "en": "Devil's Washboard strata",
+      "ja": "鬼の洗濯板"
+     },
+     "best_time": "鬼之洗衣板波紋岩",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_geology_light_visibility_module",
+     "formula_version": "v0.04-cl-data-25-aoshima-miyazaki-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-447",
+       "variant_name": "鬼之洗衣板波紋岩",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "環島灘面的隆起波状砂岩「鬼の洗濯板」（ja.wikipedia；退潮時紋理最明顯，無潮汐資料源——紋理可見度資訊性說明、契約不偽造反向閾值，照我們的地景語義重推",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_geology_light_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "鬼之洗衣板波紋岩",
+        "en": "Devil's Washboard strata",
+        "ja": "鬼の洗濯板"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "環島灘面的隆起波状砂岩「鬼の洗濯板」（ja.wikipedia；退潮時紋理最明顯，無潮汐資料源——紋理可見度資訊性說明、契約不偽造反向閾值，照我們的地景語義重推導）；與 jp-076 大観峰（內陸稜線）錯位。",
+        "en": "Recessional ripple-sandstone shelves ringing the islet (ja.wikipedia; best at low tide - no tide data source, so visibility is an informational note and the contract never fabricates a reverse threshold, re-derived in our landform semantics); disjoint from inland rim jp-076.",
+        "ja": "島を囲む隆起波状砂岩「鬼の洗濯板」（ja.wikipedia；干潮時に模様が際立つ。潮汐データソースなし——情報的な説明に留め契約で逆閾値を捏造しない）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-085-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "青島",
+       "name_i18n": {
+        "zh-TW": "青島",
+        "en": "Aoshima (Devil's Washboard)",
+        "ja": "青島"
+       },
+       "lat": 31.8106,
+       "lon": 131.4556,
+       "coord_confidence": "high",
+       "elevation_m": 5.0,
+       "coordinate_source": "ja.wikipedia 青島 (宮崎県)（周囲約860m 小島與隆起海蝕波状岩帯）；座標 high（青島神社前灘）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-086",
+   "canonical_name": "九十九島",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.kujukushima.net/",
+     "verified_on": "2026-11-07",
+     "supports": "佐世保觀光官方（九十九島，208島群，展海峰展望台）；座標 medium（展海峰推定）；海拔無單一權威值——誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-086-P01",
+     "spot_id": "jp-086",
+     "name_zh": "九十九島嶼海展開",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "九十九島嶼海展開",
+      "en": "Kujukushima islet seascape",
+      "ja": "九十九島の島々"
+     },
+     "best_time": "九十九島嶼海展開",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-kujukushima-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-448",
+       "variant_name": "九十九島嶼海展開",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "208島碎嶼入海的rias海岸全景（佐世保官方；展海峰/石岳展望台）；與 jp-084 蠟燭島（單一夕照岩）錯位——本點為群島拓撲。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "九十九島嶼海展開",
+        "en": "Kujukushima islet seascape",
+        "ja": "九十九島の島々"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "208島碎嶼入海的rias海岸全景（佐世保官方；展海峰/石岳展望台）；與 jp-084 蠟燭島（單一夕照岩）錯位——本點為群島拓撲。",
+        "en": "208 islets across a rias coast, seen from Tenkai-ho / Ishidake decks (Sasebo official); disjoint from single-rock sunset jp-084 - here the archipelago topology.",
+        "ja": "208の島々が入海に浮かぶリアス式海岸（佐世保公式；展海峰・石岳展望台）。単岩の夕景・蠟燭島とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-086-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "九十九島",
+       "name_i18n": {
+        "zh-TW": "九十九島",
+        "en": "Kujukushima Islands",
+        "ja": "九十九島"
+       },
+       "lat": 33.0324,
+       "lon": 129.5906,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "佐世保觀光官方（九十九島，208島群，展海峰展望台）；座標 medium（展海峰推定）；海拔無單一權威值——誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-087",
+   "canonical_name": "国営ひたち海浜公園",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E5%9B%BD%E5%96%B6%E3%81%B2%E3%81%9F%E3%81%A1%E6%B5%B7%E6%B5%9C%E5%85%AC%E5%9C%92",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 国営ひたち海浜公園（36°03′38″N 140°33′27″E；みはらしの丘粉蝶花/掃帚草）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-087-P01",
+     "spot_id": "jp-087",
+     "name_zh": "粉蝶花藍色海洋",
+     "legacy_theme": "seasonal_foreground",
+     "name_i18n": {
+      "zh-TW": "粉蝶花藍色海洋",
+      "en": "Nemophila blue sea",
+      "ja": "ネモフィラの青い海"
+     },
+     "best_time": "粉蝶花藍色海洋",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_seasonal_foreground_module",
+     "formula_version": "v0.04-cl-data-25-hitachi-seaside-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 04-20–05-15（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 04-20–05-15（seasonal-calendar）",
+      "en": "Seasonal window 04-20-05-15 (seasonal-calendar)",
+      "ja": "季節窓 04-20〜05-15（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-449",
+       "variant_name": "粉蝶花藍色海洋",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "みはらしの丘 450萬株粉蝶花與海同框（公園官方，4月下旬–5月上旬，花期年度公佈）；與 jp-069 美瑛（農地拼布）錯位。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_seasonal_foreground_module",
+       "variant_name_i18n": {
+        "zh-TW": "粉蝶花藍色海洋",
+        "en": "Nemophila blue sea",
+        "ja": "ネモフィラの青い海"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "みはらしの丘 450萬株粉蝶花與海同框（公園官方，4月下旬–5月上旬，花期年度公佈）；與 jp-069 美瑛（農地拼布）錯位。",
+        "en": "4.5 million nemophila over Miharashi hill beside the sea (park official, late Apr-mid May, dates yearly announced); disjoint from farm-patchwork jp-069.",
+        "ja": "みはらしの丘の約450万株のネモフィラと海（公園公式；4月下旬〜5月上旬、開花は年度公表）。美瑛の農地とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-087-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "国営ひたち海浜公園",
+       "name_i18n": {
+        "zh-TW": "国営ひたち海浜公園",
+        "en": "Hitachi Seaside Park",
+        "ja": "国営ひたち海浜公園"
+       },
+       "lat": 36.0608,
+       "lon": 140.5578,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 国営ひたち海浜公園（36°03′38″N 140°33′27″E；みはらしの丘粉蝶花/掃帚草）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "jp-087-P02",
+     "spot_id": "jp-087",
+     "name_zh": "掃帚草紅色圓叢",
+     "legacy_theme": "seasonal_foreground",
+     "name_i18n": {
+      "zh-TW": "掃帚草紅色圓叢",
+      "en": "Kochia crimson spheres",
+      "ja": "コキアの赤い株"
+     },
+     "best_time": "掃帚草紅色圓叢",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_seasonal_foreground_module",
+     "formula_version": "v0.04-cl-data-25-hitachi-seaside-P02",
+     "formula_confidence": 50,
+     "best_season": "季節窗 10-01–10-31（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 10-01–10-31（seasonal-calendar）",
+      "en": "Seasonal window 10-01-10-31 (seasonal-calendar)",
+      "ja": "季節窓 10-01〜10-31（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-450",
+       "variant_name": "掃帚草紅色圓叢",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "掃帚草（コキア）10月轉紅的圓叢海（公園官方）；與 P01 粉蝶花同園不同季。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_seasonal_foreground_module",
+       "variant_name_i18n": {
+        "zh-TW": "掃帚草紅色圓叢",
+        "en": "Kochia crimson spheres",
+        "ja": "コキアの赤い株"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "掃帚草（コキア）10月轉紅的圓叢海（公園官方）；與 P01 粉蝶花同園不同季。",
+        "en": "Kochia turn crimson through October (park official); same park as P01 but a different season.",
+        "ja": "コキアが10月に赤く染まる（公園公式）。同じ公園でネモフィラとは季節が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-087-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "国営ひたち海浜公園",
+       "name_i18n": {
+        "zh-TW": "国営ひたち海浜公園",
+        "en": "Hitachi Seaside Park",
+        "ja": "国営ひたち海浜公園"
+       },
+       "lat": 36.0608,
+       "lon": 140.5578,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 国営ひたち海浜公園（36°03′38″N 140°33′27″E；みはらしの丘粉蝶花/掃帚草）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-088",
+   "canonical_name": "大淵笹場",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.city.fuji.shizuoka.jp/1005330000/miryoku/p008190.html",
+     "verified_on": "2026-11-07",
+     "supports": "富士市官方（大淵笹場，富士市大淵1445，無電線茶園越し富士）；座標 medium（茶畑中心推定，地址對位）；海拔無單一權威值——誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-088-P01",
+     "spot_id": "jp-088",
+     "name_zh": "茶田富士全景",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "茶田富士全景",
+      "en": "Tea-terrace Fuji panorama",
+      "ja": "茶畑越しの富士山"
+     },
+     "best_time": "茶田富士全景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-obuchi-sasaba-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-451",
+       "variant_name": "茶田富士全景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "全國少數無電線遮擋的茶園越し富士定番（富士市官方；茶摘み 4–5月為新芽季但全年可攝——茶田主題非季節鎖定，寫成資訊性語義）；與 jp-080 田貫湖（鑽石富士",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "茶田富士全景",
+        "en": "Tea-terrace Fuji panorama",
+        "ja": "茶畑越しの富士山"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "全國少數無電線遮擋的茶園越し富士定番（富士市官方；茶摘み 4–5月為新芽季但全年可攝——茶田主題非季節鎖定，寫成資訊性語義）；與 jp-080 田貫湖（鑽石富士日出）錯位——本點為茶畑前景定番。",
+        "en": "One of the very few wire-free tea-field Fuji compositions (Fuji city official; tea-picking Apr-May is the fresh-bud season but the subject is shootable year-round - the season is informational, never a hard gate); disjoint from jp-080 Lake Tanuki (Diamond Fuji sunrise).",
+        "ja": "電線の入らない数少ない茶園越し富士（富士市公式；摘み取り期4〜5月は新芽だが題材は通年——季節は情報的でハードゲートにしない）。田貫湖（ダイヤモンド富士）とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-088-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "大淵笹場",
+       "name_i18n": {
+        "zh-TW": "大淵笹場",
+        "en": "Obuchi Sasaba (Tea Fields & Fuji)",
+        "ja": "大淵笹場"
+       },
+       "lat": 35.129,
+       "lon": 138.583,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "富士市官方（大淵笹場，富士市大淵1445，無電線茶園越し富士）；座標 medium（茶畑中心推定，地址對位）；海拔無單一權威值——誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-089",
+   "canonical_name": "阿智村",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E9%98%BF%E6%99%BA%E6%9D%91",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 阿智村（環境省「星のうみ」認定日本一星空，昼神溫泉一帶）；座標 medium（村域・晝神溫泉對位）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-089-P01",
+     "spot_id": "jp-089",
+     "name_zh": "阿智村夜空銀河",
+     "legacy_theme": "milky_way",
+     "name_i18n": {
+      "zh-TW": "阿智村夜空銀河",
+      "en": "Achi Village Milky Way night",
+      "ja": "阿智村の銀河の夜空"
+     },
+     "best_time": "阿智村夜空銀河",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_astronomy_ephemeris_module",
+     "formula_version": "v0.04-cl-data-25-aichi-village-stars-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-452",
+       "variant_name": "阿智村夜空銀河",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "環境省星空調查連續評定日本第一的村域夜空（ja.wikipedia；観光季 4–9月有「星空観光便」等營運企劃但星空契約本身全年成立）；與既有 jp 星空點（北",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_astronomy_ephemeris_module",
+       "variant_name_i18n": {
+        "zh-TW": "阿智村夜空銀河",
+        "en": "Achi Village Milky Way night",
+        "ja": "阿智村の銀河の夜空"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "環境省星空調查連續評定日本第一的村域夜空（ja.wikipedia；観光季 4–9月有「星空観光便」等營運企劃但星空契約本身全年成立）；與既有 jp 星空點（北海道/東北）地理錯位。",
+        "en": "Rated Japan's clearest skies by the MoE national survey (ja.wikipedia; the 4-9月 stargazing programmes are operating plans while the star-sky contract holds year-round); geographically disjoint from existing Hokkaido/Tohoku night-sky spots.",
+        "ja": "環境省の星空調査で日本一に輝く村域の夜空（ja.wikipedia；4〜9月の観光企画は運営情報で星空契約自体は通年）。既存の北海道・東北の星空点とは地理的に別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-089-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "阿智村",
+       "name_i18n": {
+        "zh-TW": "阿智村",
+        "en": "Achi Village (Japan's #1 Starry Sky)",
+        "ja": "阿智村"
+       },
+       "lat": 35.5066,
+       "lon": 137.8474,
+       "coord_confidence": "medium",
+       "elevation_m": 800.0,
+       "coordinate_source": "ja.wikipedia 阿智村（環境省「星のうみ」認定日本一星空，昼神溫泉一帶）；座標 medium（村域・晝神溫泉對位）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-090",
+   "canonical_name": "波照間島",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E6%B3%A2%E7%85%A7%E9%96%93%E5%B3%B6",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 波照間島（日本最南端有人島，高那崎）；座標 medium（高那崎對位）；日本唯一可見南十字星全貌. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-090-P01",
+     "spot_id": "jp-090",
+     "name_zh": "南十字星與夜海",
+     "legacy_theme": "milky_way",
+     "name_i18n": {
+      "zh-TW": "南十字星與夜海",
+      "en": "Southern Cross over the night sea",
+      "ja": "南十字星と夜の海"
+     },
+     "best_time": "南十字星與夜海",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_astronomy_ephemeris_module",
+     "formula_version": "v0.04-cl-data-25-hateruma-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-453",
+       "variant_name": "南十字星與夜海",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "日本唯一可見南十字星全貌的有人島（ja.wikipedia；3–6月為主觀測季——資訊性季節語義，天空條件契約全年成立）；日本最南端有人島礁海景。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_astronomy_ephemeris_module",
+       "variant_name_i18n": {
+        "zh-TW": "南十字星與夜海",
+        "en": "Southern Cross over the night sea",
+        "ja": "南十字星と夜の海"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "日本唯一可見南十字星全貌的有人島（ja.wikipedia；3–6月為主觀測季——資訊性季節語義，天空條件契約全年成立）；日本最南端有人島礁海景。",
+        "en": "The only inhabited Japanese island where the full Southern Cross is visible (ja.wikipedia; Mar-Jun is the main observation season - informational, the sky-condition contract holds year-round); Japan's southernmost inhabited island.",
+        "ja": "南十字星の全体が見られる唯一の有人島（ja.wikipedia；3〜6月が主な観測季——情報的な季節語義、空の条件契約は通年）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-090-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "波照間島",
+       "name_i18n": {
+        "zh-TW": "波照間島",
+        "en": "Hateruma Island (Southern Cross)",
+        "ja": "波照間島"
+       },
+       "lat": 24.2337,
+       "lon": 123.7583,
+       "coord_confidence": "medium",
+       "elevation_m": 5.0,
+       "coordinate_source": "ja.wikipedia 波照間島（日本最南端有人島，高那崎）；座標 medium（高那崎對位）；日本唯一可見南十字星全貌",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-091",
+   "canonical_name": "白谷雲水峡",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E7%99%BD%E8%B0%B7%E9%9B%B2%E6%B0%B4%E5%B3%A1",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 白谷雲水峡（屋久島安房川支流，入口標高約620 m；宮崎駿もののけ姫の森）；座標 medium（入口遊歩道對位）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-091-P01",
+     "spot_id": "jp-091",
+     "name_zh": "苔谷溪流水霧",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "苔谷溪流水霧",
+      "en": "Mossy ravine stream mist",
+      "ja": "苔むす渓谷と水霧"
+     },
+     "best_time": "苔谷溪流水霧",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-shiratani-unsuikyo-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-454",
+       "variant_name": "苔谷溪流水霧",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "花崗岩巨岩與深谷溪流、苔覆杉林的世界自然遺產溪谷（ja.wikipedia；「もののけ姫の森」）；與 jp-081 鍋瀑布（裏見水簾）錯位——本點為苔谷＋溪流霧",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "苔谷溪流水霧",
+        "en": "Mossy ravine stream mist",
+        "ja": "苔むす渓谷と水霧"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "花崗岩巨岩與深谷溪流、苔覆杉林的世界自然遺產溪谷（ja.wikipedia；「もののけ姫の森」）；與 jp-081 鍋瀑布（裏見水簾）錯位——本點為苔谷＋溪流霧氣氛。",
+        "en": "A granite-boulder ravine with moss-draped sugi forest on a World Natural Heritage island (ja.wikipedia; the 'Mononoke forest'); disjoint from jp-081 Nabegataki (behind-the-fall curtain) - here moss-gorge stream atmosphere.",
+        "ja": "花崗岩の巨岩と苔の覆う照葉樹林の渓谷（世界自然遺産の島、ja.wikipedia；「もののけの森」）。裏見の鍋ヶ滝とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-091-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "白谷雲水峡",
+       "name_i18n": {
+        "zh-TW": "白谷雲水峡",
+        "en": "Shiratani Unsuikyo Ravine",
+        "ja": "白谷雲水峡"
+       },
+       "lat": 30.3883,
+       "lon": 130.6064,
+       "coord_confidence": "medium",
+       "elevation_m": 620.0,
+       "coordinate_source": "ja.wikipedia 白谷雲水峡（屋久島安房川支流，入口標高約620 m；宮崎駿もののけ姫の森）；座標 medium（入口遊歩道對位）",
        "verification_status": "cl_data_25_web_verified_2026_11_07",
        "geometry_type": "area",
        "geometry_extent_m": 300,
