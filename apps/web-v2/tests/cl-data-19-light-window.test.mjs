@@ -89,11 +89,15 @@ test('CL-DATA-19: exactly 138 windowed contracts cite the marker, by genre', () 
     // window convention from authorship (single-wave revision 1) — they are
     // not part of the CL-DATA-19 revision-bump wave and stay out of this sweep.
     if (/^tw-(099|10[0-9]|11[0-9]|120)-P\d+$/.test(r.opportunity_id)) return false;
+    // CL-DATA-52 direct-build records (jp-065..jp-091) carry the CL-DATA-19
+    // window convention from authorship (single-wave revision 1) — not part of
+    // the CL-DATA-19 revision-bump wave, same rationale as the tw-099..120 exclusion.
+    if (/^jp-(0(6[5-9]|7\d|8\d|9[01]))-P\d+$/.test(r.opportunity_id)) return false;
     const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));
     const w = doc.condition_contract?.conditions?.find(c => c.metric === 'light_window');
     return w && (w.notes_i18n?.['zh-TW'] || '').includes('CL-DATA-19');
   });
-  assert.equal(cl19.length, 138); // CL-INT-103 re-anchor + CL-DATA-51 direct-build records excluded // CL-INT-103 re-anchor on union: +1 CL-DATA-33 tw-034-P02 light_window
+  assert.equal(cl19.length, 138); // CL-INT-125: CL-DATA-52 direct-build jp-065..091 records excluded (authored at revision 1 with the convention note)
   const byGenre = {};
   for (const r of cl19) {
     const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));

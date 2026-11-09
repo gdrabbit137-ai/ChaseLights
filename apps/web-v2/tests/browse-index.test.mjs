@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and canonical sources remain source pinned (CL-DATA-51: 283 places / 482 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'840e897a53f66b5e56a5411575ffea4dc1e7724bb7b01806e3186e0a10becc33'); // CL-INT-117: re-measured on the merged tree after regen (283 places / 482 opportunities)
-  assert.equal(sha256(rawCatalog),'0412fc6c04fe0fd29b9b8f2c978b02b3a901b15debb6de0d9d11934e90a46a42'); // CL-INT-117: re-measured on the merged tree after regen (283 places / 482 opportunities)
+test('W2 index and canonical sources remain source pinned (CL-DATA-52: 310 places / 511 opportunities)',()=>{
+  assert.equal(sha256(rawIndex),'6be51068d2df390ed20d40834e90a081eaac5a80ecde228c6faa22197331f5e6'); // CL-INT-125: re-measured on the merged tree after regen (310 places / 511 opportunities)
+  assert.equal(sha256(rawCatalog),'a7b2442d31b7ba69d3ac6d20eb216778887ce22c94ad71c12386d9b919f2ecc7'); // CL-INT-125: re-measured on the merged tree after regen (310 places / 511 opportunities)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,482);assert.equal(source.places.length,283);
+  assert.equal(source.opportunities.length,511);assert.equal(source.places.length,310);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
@@ -41,7 +41,7 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,283);
+  assert.equal(browse(index,catalog,{search:'  '}).length,310);
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
   assert.deepEqual(both.map(x=>x.place.place_id),['tw-026','tw-006']); // tw-006-P02 sunset joins tw-026 (CL-DATA-20)
   assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['tw-026-P01','tw-026-P02']);
