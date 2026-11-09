@@ -322,6 +322,19 @@ US_ADMIN_AREAS = {
     "us-104": ["New Hampshire"],  # CL-DATA-42 (44.180566,-71.695286, New Hampshire)
     "us-105": ["Michigan"],  # CL-DATA-42 (46.4955,-86.5518, Michigan)
     "us-106": ["Texas"],  # CL-DATA-42 (29.1679,-103.6106, Texas)
+    "us-107": ["Alaska"],  # CL-DATA-43 (60.1782633,-149.6494389, Alaska)
+    "us-108": ["Alaska"],  # CL-DATA-43 (64.9525,-148.3569444, Alaska)
+    "us-109": ["Alaska"],  # CL-DATA-43 (61.00527778,-149.69416667, Alaska)
+    "us-110": ["Alaska"],  # CL-DATA-43 (61.12861111,-145.72972222, Alaska)
+    "us-111": ["Alaska"],  # CL-DATA-43 (58.555,-155.7915, Alaska)
+    "us-112": ["Hawaii"],  # CL-DATA-43 (19.40527778,-155.28194444, Hawaii)
+    "us-113": ["Hawaii"],  # CL-DATA-43 (20.70972222,-156.25333333, Hawaii)
+    "us-114": ["Hawaii"],  # CL-DATA-43 (22.15055,-159.64505, Hawaii)
+    "us-115": ["Hawaii"],  # CL-DATA-43 (19.75917,-155.45611, Hawaii)
+    "us-116": ["Hawaii"],  # CL-DATA-43 (20.1177,-155.5836, Hawaii)
+    "us-117": ["Hawaii"],  # CL-DATA-43 (21.309889,-157.649748, Hawaii)
+    "us-118": ["Hawaii"],  # CL-DATA-43 (21.664,-158.054, Hawaii)
+
 }
 
 ADMIN_AREAS_BY_REGION = {
@@ -513,7 +526,7 @@ REGIONS = {
     "us": {
         "name_zh": "美國",
         "name_en": "United States",
-        "categories": ["全部", "美西", "美中", "美東", "阿拉斯加"],
+        "categories": ["全部", "美西", "美中", "美東", "阿拉斯加", "夏威夷"],
         "spots": [
             (36.1070, -112.1130, "大峽谷國家公園", "Grand Canyon National Park", "グランド・キャニオン国立公園", "Grand Canyon NP", "美西", ["mountain", "starlight"]),
             (36.8790, -111.5100, "馬蹄灣", "Horseshoe Bend", "ホースシュー・ベンド", "Horseshoe Bend", "美西", ["mountain"]),
@@ -630,6 +643,18 @@ REGIONS = {
             (46.4955, -86.5518, "畫岩國家湖岸・礦工堡", "Pictured Rocks NL – Miners Castle", "ピクチャード・ロックス マイナーズ・キャッスル", "Miners Castle", "美中", ["mountain"]),
 
             (29.1679, -103.6106, "大彎國家公園・聖埃倫娜峽谷", "Big Bend NP – Santa Elena Canyon", "ビッグベンド国立公園 サンタ・エレナ峡谷", "Santa Elena Canyon", "美中", ["mountain"]),
+            (60.1782633, -149.6494389, "出口冰河・冰河舌谷景", "Exit Glacier – Glacier Tongue Valley", "出口氷河・氷河舌の谷", "Exit Glacier", "阿拉斯加", ["mountain", "snow_ice"]),  # CL-DATA-43 (60.1782633,-149.6494389, Alaska)
+            (64.9525, -148.3569444, "墨菲穹丘極光", "Murphy Dome Aurora", "マーフィー・ドーム オーロラ", "Murphy Dome", "阿拉斯加", ["aurora", "starlight"]),  # CL-DATA-43 (64.9525,-148.3569444, Alaska)
+            (61.00527778, -149.69416667, "白鯨角・特納甘灣夕照", "Beluga Point – Turnagain Arm Sunset", "ベルーガ・ポイント タナゲイン・アームの夕景", "Beluga Point", "阿拉斯加", ["coast"]),  # CL-DATA-43 (61.00527778,-149.69416667, Alaska)
+            (61.12861111, -145.72972222, "湯普森山口雪牆", "Thompson Pass Snow Corridor", "トンプソン・パス 雪の回廊", "Thompson Pass", "阿拉斯加", ["mountain", "snow_ice"]),  # CL-DATA-43 (61.12861111,-145.72972222, Alaska)
+            (58.555, -155.7915, "布魯克斯瀑布・鮭魚道水景", "Brooks Falls – Falls and Brooks River", "ブルックス滝とブルックス川", "Brooks Falls", "阿拉斯加", ["waterfall", "forest"]),  # CL-DATA-43 (58.555,-155.7915, Alaska)
+            (19.40527778, -155.28194444, "哈雷茂茂火山口夜空", "Halemaʻumaʻu Crater Night Sky", "ハレマウマウ火口の夜空", "Halemaʻumaʻu", "夏威夷", ["geology", "starlight"]),  # CL-DATA-43 (19.40527778,-155.28194444, Hawaii)
+            (20.70972222, -156.25333333, "哈雷阿卡拉山頂雲海日出", "Haleakalā Summit Cloud-Sea Sunrise", "ハレアカラ山頂の雲海と日の出", "Haleakalā Summit", "夏威夷", ["mountain", "cloud_sea"]),  # CL-DATA-43 (20.70972222,-156.25333333, Hawaii)
+            (22.15055, -159.64505, "卡拉勞山谷雲霧眺望", "Kalalau Lookout – Nā Pali Valley", "カララウ展望台 ナーパリ渓谷", "Kalalau Lookout", "夏威夷", ["mountain", "coast"]),  # CL-DATA-43 (22.15055,-159.64505, Hawaii)
+            (19.75917, -155.45611, "冒納凱亞遊客站銀河", "Maunakea VIS Milky Way", "マウナケア VISの天の川", "Maunakea VIS", "夏威夷", ["starlight", "mountain"]),  # CL-DATA-43 (19.75917,-155.45611, Hawaii)
+            (20.1177, -155.5836, "威皮歐山谷晨光", "Waipiʻo Valley Lookout Morning Light", "ワイピオ渓谷の朝の光", "Waipiʻo Lookout", "夏威夷", ["mountain", "coast"]),  # CL-DATA-43 (20.1177,-155.5836, Hawaii)
+            (21.309889, -157.649748, "馬卡普燈塔日出", "Makapuʻu Point Lighthouse Sunrise", "マカプウ灯台の日の出", "Makapuʻu Point", "夏威夷", ["coast"]),  # CL-DATA-43 (21.309889,-157.649748, Hawaii)
+            (21.664, -158.054, "邦載管道夕照", "Banzai Pipeline Sunset", "バンザイ・パイプラインの夕景", "Banzai Pipeline", "夏威夷", ["coast"]),  # CL-DATA-43 (21.664,-158.054, Hawaii)
         ],
     },
 }
@@ -705,6 +730,10 @@ ELEVATION_OVERRIDES = {
     "備中松山城・雲海（天空の城）": 430,
     "大山（剣ヶ峰）": 1729,
     "稻佐山夜景": 333,
+    "哈雷阿卡拉山頂雲海日出": 3055,  # CL-DATA-43 (Hawaii)
+    "卡拉勞山谷雲霧眺望": 1219,  # CL-DATA-43 (Hawaii)
+    "冒納凱亞遊客站銀河": 2804,  # CL-DATA-43 (Hawaii)
+
 }
 
 # Approximate primary shooting direction (degrees clockwise from true north).
