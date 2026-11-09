@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((310,511),(len(actual),len(ids)))  # re-anchored CL-DATA-52 (JP intake jp-065..jp-091)
+        self.assertEqual((350,552),(len(actual),len(ids)))  # re-anchored CL-DATA-52 (JP intake jp-065..jp-091)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -205,6 +205,12 @@ class ResearchIndexTests(unittest.TestCase):
             'c507251b3e3fb09d6a5bd16abe04a8beb2aee7ed',
             # CL-DATA-52 repin: jp-078-P01 legacy_tide bytes tree-verified at 4d56532dd.
             '4d56532ddf843a345f28560f8ad85a461d51dc4f',
+            # CL-DATA-53: the 40 US intake wave repinned us contracts to ef5b1042a
+            # (stage-2 legacy regen commit, tree-verified).
+            'ef5b1042a5a86ea99e3bd6a477ed79ce5f62cf4e',
+            # CL-DATA-54: the 13 contract-fix wave records repinned to e6603751b
+            # (scoped evaluations regen commit; bytes unchanged since stage-4).
+            'e6603751b8571025b9db78d405dbdd65c55476ea',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -232,7 +238,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(930,count)  # 310 places x 3 (re-anchored CL-DATA-52)
+        self.assertEqual(1050,count)  # 350 places x 3 (re-anchored CL-DATA-54)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
@@ -301,7 +307,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(23,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
+        self.assertEqual(45,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])

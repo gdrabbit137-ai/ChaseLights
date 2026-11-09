@@ -189,6 +189,56 @@
      "en": "Golden-hour window is a bonus: low-angle direct light can make rainbows and glints on the spray, but is not required.",
      "ja": "ゴールデンアワー帯は加点項目：低角度直射光は水煙に虹や光斑を作るが必須ではない。"
     }
+   },
+   {
+    "id": "C-us-124-P01-LW2",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-124-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "必要光線窗：全日可見光題材（瀑布掛壁/峽谷景）只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；依 CL-DATA-19 全日題材補窗規則補上，夜間一律不符合）。",
+     "en": "Required light window: an all-day visible-light subject (gorge falls) only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; window added per the CL-DATA-19 all-day-subject rule; night hours never qualify).",
+     "ja": "必要な光の窓：全日型の可視光題材（峡谷の滝）は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、CL-DATA-19 全日題材窓規則により追加、夜間は一律不成立）。"
+    }
+   },
+   {
+    "id": "C-us-124-P01-S1",
+    "role": "QUALITY",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-124-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "evidence_review",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節形態窗（MODIFIER 校準）：冬季瀑布結冰成冰瀑（典型窗約 12-01–03-15，視年度氣候浮動；本窗標記冰瀑形態的加分期，MODIFIER 校準中，未建日曆時誠實 unknown，不否決）。",
+     "en": "Seasonal-form window (MODIFIER calibration): the falls freeze into icefalls in winter (typical window about 12-01 to 03-15, varying year to year; marks the icefall-form bonus period; MODIFIER only until calibrated - honest unknown when no calendar entry, never a veto).",
+     "ja": "季節形態窓（MODIFIER 較正）：冬季に滝が氷瀑化（典型窓約12-01〜03-15、年により変動。MODIFIER のみで較正中、暦未登録時は誠実に unknown、不成立にしない）。"
+    }
    }
   ]
  },

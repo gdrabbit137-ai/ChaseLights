@@ -10,9 +10,9 @@
   "ja": "ショショーニ滝の春の増水"
  },
  "description_i18n": {
-  "zh-TW": "比尼加拉更高（212 呎）的蛇河斷層瀑布，春季灌溉取水前水量最大（Twin Falls 市；夏季分流水量銳減——資訊性）；與 us-147/148 奧勒岡瀑布（苔谷/玄武岩）錯位——本點為巨型斷層瀑布。",
-  "en": "A 212-ft fault drop of the Snake River, higher than Niagara, at spring peak before irrigation diversions (City of Twin Falls; summer flows drop - informational); disjoint from the Oregon falls.",
-  "ja": "ナイアガラより高い212フィートの断層瀑（ツインフォールズ市；春の増水期）。オレゴンの滝群とは題材が別。"
+  "zh-TW": "比尼加拉更高（212 呎）的蛇河斷層瀑布，春季灌溉取水前水量最大（Twin Falls 市；夏季分流水量銳減——資訊性）；與 us-144/145 猶他瀑布（阿比奎玄武岩圓頂/普羅克斯苔谷雙瀑）錯位——本點為巨型斷層瀑布。",
+  "en": "A 212-ft fault drop of the Snake River, higher than Niagara, at spring peak before irrigation diversions (City of Twin Falls; summer flows drop - informational); disjoint from the Utah falls subjects (us-144/145).",
+  "ja": "ナイアガラより高い212フィートの断層瀑（ツインフォールズ市；春の増水期）。ユタの滝群（us-144/145）とは題材が別。"
  },
  "camera_contexts": [
   {
@@ -36,9 +36,9 @@
    "verification_status": "provisional",
    "evidence_refs": [],
    "access_notes_i18n": {
-    "zh-TW": "比尼加拉更高（212 呎）的蛇河斷層瀑布，春季灌溉取水前水量最大（Twin Falls 市；夏季分流水量銳減——資訊性）；與 us-147/148 奧勒岡瀑布（苔谷/玄武岩）錯位——本點為巨型斷層瀑布。（開放/營運狀態以現場公告為準。）",
-    "en": "A 212-ft fault drop of the Snake River, higher than Niagara, at spring peak before irrigation diversions (City of Twin Falls; summer flows drop - informational); disjoint from the Oregon falls. (Opening/operating status follows on-site notices.)",
-    "ja": "ナイアガラより高い212フィートの断層瀑（ツインフォールズ市；春の増水期）。オレゴンの滝群とは題材が別。（開放・営業状況は現地の案内に従う。）"
+    "zh-TW": "比尼加拉更高（212 呎）的蛇河斷層瀑布，春季灌溉取水前水量最大（Twin Falls 市；夏季分流水量銳減——資訊性）；與 us-144/145 猶他瀑布（阿比奎玄武岩圓頂/普羅克斯苔谷雙瀑）錯位——本點為巨型斷層瀑布。（開放/營運狀態以現場公告為準。）",
+    "en": "A 212-ft fault drop of the Snake River, higher than Niagara, at spring peak before irrigation diversions (City of Twin Falls; summer flows drop - informational); disjoint from the Utah falls subjects (us-144/145). (Opening/operating status follows on-site notices.)",
+    "ja": "ナイアガラより高い212フィートの断層瀑（ツインフォールズ市；春の増水期）。ユタの滝群（us-144/145）とは題材が別。（開放・営業状況は現地の案内に従う。）"
    },
    "safety_notes_i18n": {
     "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
@@ -188,6 +188,31 @@
      "zh-TW": "金色時刻窗為加分項：低角度直射光在瀑布水霧上會形成彩虹/光斑，非必要條件。",
      "en": "Golden-hour window is a bonus: low-angle direct light can make rainbows and glints on the spray, but is not required.",
      "ja": "ゴールデンアワー帯は加点項目：低角度直射光は水煙に虹や光斑を作るが必須ではない。"
+    }
+   },
+   {
+    "id": "C-us-154-P01-LW2",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-154-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "必要光線窗：全日可見光題材（瀑布掛壁/峽谷景）只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；依 CL-DATA-19 全日題材補窗規則補上，夜間一律不符合）。",
+     "en": "Required light window: an all-day visible-light subject (gorge falls) only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; window added per the CL-DATA-19 all-day-subject rule; night hours never qualify).",
+     "ja": "必要な光の窓：全日型の可視光題材（峡谷の滝）は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、CL-DATA-19 全日題材窓規則により追加、夜間は一律不成立）。"
     }
    }
   ]

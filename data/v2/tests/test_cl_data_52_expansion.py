@@ -186,7 +186,7 @@ class TestRuntime(unittest.TestCase):
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
         self.assertEqual(ev["place_count"], 350)  # re-anchored CL-DATA-53
-        self.assertEqual(ev["opportunity_count"], 546)
+        self.assertEqual(ev["opportunity_count"], 545)
 
 
 if __name__ == "__main__":
