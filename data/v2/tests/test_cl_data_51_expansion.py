@@ -137,8 +137,8 @@ class TestContracts(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 274)
-        self.assertEqual(cat["counts"]["opportunities"], 499)
+        self.assertEqual(cat["counts"]["spots"], 301)
+        self.assertEqual(cat["counts"]["opportunities"], 528)
         tw = [s for s in cat["spots"] if s["spot_id"].startswith("tw-")]
         self.assertEqual(len(tw), 115)
 

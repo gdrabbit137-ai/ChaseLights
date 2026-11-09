@@ -9,24 +9,24 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "3381514f060816f0d6fdf698bca2c542ff5c4313f240b4951415fec16b9b8892",
+ "inputs_fingerprint_sha256": "34601f94ecf4e3e6f8c516a0060bd2db62f84bbc4b155045ce000a0eb4345417",
  "summary": {
-  "places": 283,
-  "opportunities": 482,
-  "canonical_locked_opportunities": 482,
-  "places_with_unknown_scenic_beauty": 163,
+  "places": 310,
+  "opportunities": 511,
+  "canonical_locked_opportunities": 511,
+  "places_with_unknown_scenic_beauty": 185,
   "mean_weighted_total": 4.03,
   "median_weighted_total": 4.05,
   "mean_basis": "places with evidenced scenic_beauty only (rubric v2 honest-unknown rule)",
   "region_counts": {
-   "jp": 63,
+   "jp": 90,
    "tw": 115,
    "us": 105
   },
   "weakness_counts": {
-   "low_weather_light_opportunities": 7,
+   "low_weather_light_opportunities": 11,
    "low_verifiability_opportunities": 3,
-   "clusters_within_5km": 21
+   "clusters_within_5km": 23
   }
  },
  "ranking": [
@@ -363,8 +363,8 @@
     ]
    },
    "weighted_total": 4.38,
-   "nearest_place": "jp-007",
-   "nearest_km": 102.74,
+   "nearest_place": "jp-070",
+   "nearest_km": 85.66,
    "coords": [
     39.97934,
     141.953
@@ -455,41 +455,11 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": 4.3,
-   "nearest_place": "jp-001",
-   "nearest_km": 25.29,
+   "nearest_place": "jp-069",
+   "nearest_km": 20.75,
    "coords": [
     43.6620489,
     142.8250911
-   ]
-  },
-  {
-   "place_id": "jp-009",
-   "name_zh": "磐梯山",
-   "region": "jp",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "jp-009-P01"
-   ],
-   "rubric": {
-    "subject_strength": 5,
-    "weather_light_dependency": 5,
-    "verifiability": 3.5,
-    "differentiation": 5,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 4.3,
-   "nearest_place": "jp-049",
-   "nearest_km": 61.41,
-   "coords": [
-    37.6727759,
-    140.0689901
    ]
   },
   {
@@ -523,6 +493,38 @@
    "coords": [
     34.80909,
     133.62233
+   ]
+  },
+  {
+   "place_id": "jp-072",
+   "name_zh": "白川鄉合掌村",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-072-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": 4
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 1,
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": 4.3,
+   "nearest_place": "jp-017",
+   "nearest_km": 40.19,
+   "coords": [
+    36.2585,
+    136.904
    ]
   },
   {
@@ -1248,6 +1250,36 @@
    ]
   },
   {
+   "place_id": "jp-009",
+   "name_zh": "磐梯山",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-009-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.5,
+    "differentiation": 4,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.15,
+   "nearest_place": "jp-079",
+   "nearest_km": 9.66,
+   "coords": [
+    37.6727759,
+    140.0689901
+   ]
+  },
+  {
    "place_id": "tw-025",
    "name_zh": "二寮觀日亭",
    "region": "tw",
@@ -1724,6 +1756,72 @@
    ]
   },
   {
+   "place_id": "jp-073",
+   "name_zh": "SORA terrace 龍王雲海",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-073-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 1,
+    "top": 0,
+    "distinct_evidence_hosts": [
+     "www.ryuo-terrace.com",
+     "www.snowelanthrop.com"
+    ]
+   },
+   "weighted_total": 4.1,
+   "nearest_place": "jp-083",
+   "nearest_km": 42.69,
+   "coords": [
+    36.7236,
+    138.8837
+   ]
+  },
+  {
+   "place_id": "jp-084",
+   "name_zh": "隱岐蠟燭島",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-084-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 1,
+    "top": 0,
+    "distinct_evidence_hosts": [
+     "www.japan.travel",
+     "www.kankou-shimane.com"
+    ]
+   },
+   "weighted_total": 4.1,
+   "nearest_place": "jp-026",
+   "nearest_km": 96.31,
+   "coords": [
+    36.24,
+    132.956
+   ]
+  },
+  {
    "place_id": "tw-117",
    "name_zh": "桶盤嶼柱狀玄武岩",
    "region": "tw",
@@ -1911,8 +2009,8 @@
     ]
    },
    "weighted_total": 4.05,
-   "nearest_place": "jp-007",
-   "nearest_km": 62.59,
+   "nearest_place": "jp-071",
+   "nearest_km": 33.68,
    "coords": [
     39.955,
     140.4919
@@ -2233,6 +2331,40 @@
    "coords": [
     63.73209,
     -148.90273
+   ]
+  },
+  {
+   "place_id": "jp-068",
+   "name_zh": "立山みくりが池／雪之大谷",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-068-P01",
+    "jp-068-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.75,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 1,
+    "top": 0,
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org",
+     "www.alpen-route.co.jp"
+    ]
+   },
+   "weighted_total": 4.03,
+   "nearest_place": "jp-021",
+   "nearest_km": 33.57,
+   "coords": [
+    36.5702,
+    137.5964
    ]
   },
   {
@@ -2916,11 +3048,45 @@
     ]
    },
    "weighted_total": 3.85,
-   "nearest_place": "jp-031",
-   "nearest_km": 80.32,
+   "nearest_place": "jp-078",
+   "nearest_km": 53.47,
    "coords": [
     33.87528,
     133.83528
+   ]
+  },
+  {
+   "place_id": "jp-087",
+   "name_zh": "常陸海濱公園",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-087-P01",
+    "jp-087-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 1,
+    "top": 0,
+    "distinct_evidence_hosts": [
+     "hitachinaka-park.jp",
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": 3.85,
+   "nearest_place": "jp-015",
+   "nearest_km": 83.91,
+   "coords": [
+    36.0608,
+    140.5578
    ]
   },
   {
@@ -4057,8 +4223,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "jp-012",
-   "nearest_km": 75.13,
+   "nearest_place": "jp-065",
+   "nearest_km": 18.14,
    "coords": [
     35.5230652,
     138.7461483
@@ -4152,8 +4318,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "jp-021",
-   "nearest_km": 52.54,
+   "nearest_place": "jp-067",
+   "nearest_km": 49.63,
    "coords": [
     36.053326,
     138.122711
@@ -4279,8 +4445,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "jp-021",
-   "nearest_km": 90.18,
+   "nearest_place": "jp-072",
+   "nearest_km": 40.19,
    "coords": [
     36.563367,
     136.662817
@@ -4311,8 +4477,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "jp-029",
-   "nearest_km": 84.08,
+   "nearest_place": "jp-077",
+   "nearest_km": 77.77,
    "coords": [
     35.185181,
     136.89865
@@ -4393,7 +4559,7 @@
     "subject_strength": 4.5,
     "weather_light_dependency": 5,
     "verifiability": 2.5,
-    "differentiation": 5,
+    "differentiation": 1,
     "scenic_beauty": "unknown"
    },
    "scenic_beauty_evidence": {
@@ -4405,8 +4571,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "jp-013",
-   "nearest_km": 52.54,
+   "nearest_place": "jp-067",
+   "nearest_km": 3.76,
    "coords": [
     36.268335,
     137.60158
@@ -4438,8 +4604,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "jp-009",
-   "nearest_km": 110.86,
+   "nearest_place": "jp-083",
+   "nearest_km": 98.49,
    "coords": [
     37.710125,
     138.809994
@@ -4947,8 +5113,8 @@
     ]
    },
    "weighted_total": null,
-   "nearest_place": "jp-056",
-   "nearest_km": 64.81,
+   "nearest_place": "jp-074",
+   "nearest_km": 61.69,
    "coords": [
     35.5425,
     134.23028
@@ -5013,8 +5179,8 @@
     ]
    },
    "weighted_total": null,
-   "nearest_place": "jp-036",
-   "nearest_km": 138.65,
+   "nearest_place": "jp-085",
+   "nearest_km": 81.83,
    "coords": [
     31.5915,
     130.6299
@@ -5032,7 +5198,7 @@
     "subject_strength": 5,
     "weather_light_dependency": 5,
     "verifiability": 2.5,
-    "differentiation": 5,
+    "differentiation": 1,
     "scenic_beauty": "unknown"
    },
    "scenic_beauty_evidence": {
@@ -5046,8 +5212,8 @@
     ]
    },
    "weighted_total": null,
-   "nearest_place": "jp-036",
-   "nearest_km": 27.37,
+   "nearest_place": "jp-076",
+   "nearest_km": 3.56,
    "coords": [
     32.88417,
     131.10389
@@ -5145,8 +5311,8 @@
     ]
    },
    "weighted_total": null,
-   "nearest_place": "jp-051",
-   "nearest_km": 64.77,
+   "nearest_place": "jp-082",
+   "nearest_km": 26.63,
    "coords": [
     33.84554,
     132.76572
@@ -5183,6 +5349,732 @@
    "coords": [
     34.41972,
     131.06278
+   ]
+  },
+  {
+   "place_id": "jp-065",
+   "name_zh": "富士山頂（剣ヶ峰）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-065-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 3,
+    "verifiability": 2.5,
+    "differentiation": 3,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-066",
+   "nearest_km": 5.28,
+   "coords": [
+    35.3606,
+    138.7274
+   ]
+  },
+  {
+   "place_id": "jp-066",
+   "name_zh": "新倉山淺間公園",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-066-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 3,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-065",
+   "nearest_km": 5.28,
+   "coords": [
+    35.3631,
+    138.6692
+   ]
+  },
+  {
+   "place_id": "jp-067",
+   "name_zh": "上高地大正池／河童橋",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-067-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-021",
+   "nearest_km": 3.76,
+   "coords": [
+    36.2377,
+    137.6194
+   ]
+  },
+  {
+   "place_id": "jp-069",
+   "name_zh": "美瑛拼布之路（名樹群）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-069-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-001",
+   "nearest_km": 17.63,
+   "coords": [
+    43.6486,
+    142.5678
+   ]
+  },
+  {
+   "place_id": "jp-070",
+   "name_zh": "奧入瀨溪流（阿修羅之瀧）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-070-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 3.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-071",
+   "nearest_km": 20.96,
+   "coords": [
+    39.7221,
+    141.0071
+   ]
+  },
+  {
+   "place_id": "jp-071",
+   "name_zh": "蔦沼",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-071-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-070",
+   "nearest_km": 20.96,
+   "coords": [
+    39.8808,
+    140.8748
+   ]
+  },
+  {
+   "place_id": "jp-074",
+   "name_zh": "竹田城跡（天空之城）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-074-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-053",
+   "nearest_km": 44.19,
+   "coords": [
+    35.2945,
+    134.8392
+   ]
+  },
+  {
+   "place_id": "jp-075",
+   "name_zh": "秩父美之山公園雲海",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-075-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-010",
+   "nearest_km": 59.07,
+   "coords": [
+    36.0288,
+    138.9467
+   ]
+  },
+  {
+   "place_id": "jp-076",
+   "name_zh": "大觀峰（阿蘇五嶽）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-076-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-059",
+   "nearest_km": 3.56,
+   "coords": [
+    32.9056,
+    131.0756
+   ]
+  },
+  {
+   "place_id": "jp-077",
+   "name_zh": "白鬚神社海上鳥居",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-077-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-023",
+   "nearest_km": 62.36,
+   "coords": [
+    35.4829,
+    136.1229
+   ]
+  },
+  {
+   "place_id": "jp-078",
+   "name_zh": "父母之濱（天空之鏡）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-078-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-082",
+   "nearest_km": 22.38,
+   "coords": [
+    33.8072,
+    133.2622
+   ]
+  },
+  {
+   "place_id": "jp-079",
+   "name_zh": "五色沼（毘沙門沼）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-079-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 4,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-009",
+   "nearest_km": 9.66,
+   "coords": [
+    37.7553,
+    140.1032
+   ]
+  },
+  {
+   "place_id": "jp-080",
+   "name_zh": "田貫湖（鑽石富士）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-080-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 4,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-088",
+   "nearest_km": 10.26,
+   "coords": [
+    35.2192,
+    138.5594
+   ]
+  },
+  {
+   "place_id": "jp-081",
+   "name_zh": "鍋瀑布（水簾洞）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-081-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 3.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-076",
+   "nearest_km": 26.03,
+   "coords": [
+    33.1373,
+    131.0357
+   ]
+  },
+  {
+   "place_id": "jp-082",
+   "name_zh": "仁淀川（仁淀藍）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-082-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-078",
+   "nearest_km": 22.38,
+   "coords": [
+    33.75,
+    133.03
+   ]
+  },
+  {
+   "place_id": "jp-083",
+   "name_zh": "吹割瀑布",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-083-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 3.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-073",
+   "nearest_km": 42.69,
+   "coords": [
+    36.9146,
+    139.2997
+   ]
+  },
+  {
+   "place_id": "jp-085",
+   "name_zh": "青島（鬼之洗衣板）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-085-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-058",
+   "nearest_km": 81.83,
+   "coords": [
+    31.8106,
+    131.4556
+   ]
+  },
+  {
+   "place_id": "jp-086",
+   "name_zh": "九十九島群峰",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-086-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "www.kujukushima.net"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-057",
+   "nearest_km": 39.32,
+   "coords": [
+    33.0324,
+    129.5906
+   ]
+  },
+  {
+   "place_id": "jp-088",
+   "name_zh": "大淵笹場（茶田富士）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-088-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 4,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "www.city.fuji.shizuoka.jp"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-080",
+   "nearest_km": 10.26,
+   "coords": [
+    35.129,
+    138.583
+   ]
+  },
+  {
+   "place_id": "jp-089",
+   "name_zh": "阿智村（日本第一星空）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-089-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-013",
+   "nearest_km": 65.67,
+   "coords": [
+    35.5066,
+    137.8474
+   ]
+  },
+  {
+   "place_id": "jp-090",
+   "name_zh": "波照間島（南十字星）",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-090-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "tw-033",
+   "nearest_km": 196.24,
+   "coords": [
+    24.2337,
+    123.7583
+   ]
+  },
+  {
+   "place_id": "jp-091",
+   "name_zh": "屋久島白谷雲水峽",
+   "region": "jp",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "jp-091-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 3.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": [
+     "ja.wikipedia.org"
+    ]
+   },
+   "weighted_total": null,
+   "nearest_place": "jp-058",
+   "nearest_km": 133.81,
+   "coords": [
+    30.3883,
+    130.6064
    ]
   },
   {
@@ -10291,6 +11183,441 @@
     "subject_strength": 4,
     "weather_light_dependency": 5,
     "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-065-P01",
+   "place_id": "jp-065",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 3,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-066-P01",
+   "place_id": "jp-066",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-067-P01",
+   "place_id": "jp-067",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-068-P01",
+   "place_id": "jp-068",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-068-P02",
+   "place_id": "jp-068",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-069-P01",
+   "place_id": "jp-069",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-070-P01",
+   "place_id": "jp-070",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-071-P01",
+   "place_id": "jp-071",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-072-P01",
+   "place_id": "jp-072",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-073-P01",
+   "place_id": "jp-073",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-074-P01",
+   "place_id": "jp-074",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-075-P01",
+   "place_id": "jp-075",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-076-P01",
+   "place_id": "jp-076",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-077-P01",
+   "place_id": "jp-077",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-078-P01",
+   "place_id": "jp-078",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-079-P01",
+   "place_id": "jp-079",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-080-P01",
+   "place_id": "jp-080",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-081-P01",
+   "place_id": "jp-081",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-082-P01",
+   "place_id": "jp-082",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-083-P01",
+   "place_id": "jp-083",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-084-P01",
+   "place_id": "jp-084",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-085-P01",
+   "place_id": "jp-085",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-086-P01",
+   "place_id": "jp-086",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-087-P01",
+   "place_id": "jp-087",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-087-P02",
+   "place_id": "jp-087",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-088-P01",
+   "place_id": "jp-088",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-089-P01",
+   "place_id": "jp-089",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-090-P01",
+   "place_id": "jp-090",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-091-P01",
+   "place_id": "jp-091",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 3.0
    },
    "verif_gaps": [
     "geometry_not_verified",
@@ -15888,6 +17215,30 @@
     "recommendation": "改題材"
    },
    {
+    "opportunity_id": "jp-070-P01",
+    "place_id": "jp-070",
+    "score": 2,
+    "recommendation": "改題材"
+   },
+   {
+    "opportunity_id": "jp-081-P01",
+    "place_id": "jp-081",
+    "score": 2,
+    "recommendation": "改題材"
+   },
+   {
+    "opportunity_id": "jp-083-P01",
+    "place_id": "jp-083",
+    "score": 2,
+    "recommendation": "改題材"
+   },
+   {
+    "opportunity_id": "jp-091-P01",
+    "place_id": "jp-091",
+    "score": 2,
+    "recommendation": "改題材"
+   },
+   {
     "opportunity_id": "tw-059-P01",
     "place_id": "tw-059",
     "score": 1,
@@ -15990,6 +17341,21 @@
    {
     "members": [
      {
+      "place_id": "jp-021",
+      "name_zh": "新穗高・西穗高口展望台",
+      "nearest_km": 3.76
+     },
+     {
+      "place_id": "jp-067",
+      "name_zh": "上高地大正池／河童橋",
+      "nearest_km": 3.76
+     }
+    ],
+    "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
+   },
+   {
+    "members": [
+     {
       "place_id": "jp-032",
       "name_zh": "福岡城跡",
       "nearest_km": 3.09
@@ -16028,6 +17394,21 @@
       "place_id": "jp-049",
       "name_zh": "蔵王御釜（五色湖）",
       "nearest_km": 2.6
+     }
+    ],
+    "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
+   },
+   {
+    "members": [
+     {
+      "place_id": "jp-059",
+      "name_zh": "阿蘇山・草千里ヶ浜",
+      "nearest_km": 3.56
+     },
+     {
+      "place_id": "jp-076",
+      "name_zh": "大觀峰（阿蘇五嶽）",
+      "nearest_km": 3.56
      }
     ],
     "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
