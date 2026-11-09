@@ -1,4 +1,4 @@
-$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\tmp\clci27\ops\v2\run_unittest.py packages/core-v2/tests test_*.py D:\tmp\clci27\.ci\postmerge-logs\w3-evaluator-and-hourly-source.json
+$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\tmp\clci33-wt\ops\v2\run_unittest.py packages/core-v2/tests test_*.py D:\tmp\clci33-wt\.ci\postmerge-logs\w3-evaluator-and-hourly-source.json
 test_astronomical_darkness_between_grid_points (test_astro_hourly_subhour.SubHourSamplingTests.test_astronomical_darkness_between_grid_points) ... ok
 test_blue_hour_window_between_grid_points (test_astro_hourly_subhour.SubHourSamplingTests.test_blue_hour_window_between_grid_points) ... ok
 test_golden_hour_window_between_grid_points (test_astro_hourly_subhour.SubHourSamplingTests.test_golden_hour_window_between_grid_points) ... ok
@@ -8,6 +8,10 @@ test_sunset_window_interval_overlap (test_astro_hourly_subhour.SubHourSamplingTe
 test_all_metrics_profiles_agree_with_hour_observations (test_astro_hourly_subhour.WindowProfileTests.test_all_metrics_profiles_agree_with_hour_observations) ... ok
 test_no_crossing_propagates_unknown_not_false (test_astro_hourly_subhour.WindowProfileTests.test_no_crossing_propagates_unknown_not_false) ... ok
 test_sunrise_profile_first_pass_lags_bucket_start (test_astro_hourly_subhour.WindowProfileTests.test_sunrise_profile_first_pass_lags_bucket_start) ... ok
+test_rerun_is_byte_identical_and_preserves_entries (test_cl_ci_31_preserve_bespoke.GeneratorIdempotence.test_rerun_is_byte_identical_and_preserves_entries) ... ok
+test_existing_entry_wins (test_cl_ci_31_preserve_bespoke.MergePreserveUnit.test_existing_entry_wins) ... ok
+test_new_metric_appends (test_cl_ci_31_preserve_bespoke.MergePreserveUnit.test_new_metric_appends) ... ok
+test_new_opportunity_appends_and_lost_metrics_survive (test_cl_ci_31_preserve_bespoke.MergePreserveUnit.test_new_opportunity_appends_and_lost_metrics_survive) ... ok
 test_fully_sunlit_hour_passes (test_cl_data_11_light_window.LightWindowCivilLightTests.test_fully_sunlit_hour_passes) ... ok
 test_night_hour_fails_regardless_of_moon (test_cl_data_11_light_window.LightWindowCivilLightTests.test_night_hour_fails_regardless_of_moon) ... ok
 test_straddle_dusk_hour_fails (test_cl_data_11_light_window.LightWindowCivilLightTests.test_straddle_dusk_hour_fails) ... ok
@@ -78,6 +82,9 @@ test_blocker_pass_blocks (test_evaluate_batch.HourStatusTests.test_blocker_pass_
 test_quality_never_gates (test_evaluate_batch.HourStatusTests.test_quality_never_gates) ... ok
 test_required_fail_is_unfavorable (test_evaluate_batch.HourStatusTests.test_required_fail_is_unfavorable) ... ok
 test_required_unknown_not_evaluable (test_evaluate_batch.HourStatusTests.test_required_unknown_not_evaluable) ... ok
+test_chicago_box_covers_big_bend (test_evaluate_batch.StaticTimezoneTests.test_chicago_box_covers_big_bend) ... ok
+test_denyver_box_unchanged (test_evaluate_batch.StaticTimezoneTests.test_denyver_box_unchanged) ... ok
+test_fail_closed_unknown_still_misses (test_evaluate_batch.StaticTimezoneTests.test_fail_closed_unknown_still_misses) ... ok
 test_comparison_semantics (test_evaluate_condition_contract.BridgeTests.test_comparison_semantics) ... ok
 test_invalid_thresholds_fail_closed (test_evaluate_condition_contract.BridgeTests.test_invalid_thresholds_fail_closed) ... ok
 test_missing_or_invalid_cells_never_become_booleans (test_evaluate_condition_contract.BridgeTests.test_missing_or_invalid_cells_never_become_booleans) ... ok
@@ -220,7 +227,7 @@ test_real_research_contract_has_no_live_or_provenance (test_w2_p01_contract_fail
 test_w2_contract_has_only_photo_conditions (test_w2_p01_contract_failclosed.W2P01FailClosed.test_w2_contract_has_only_photo_conditions) ... ok
 
 ----------------------------------------------------------------------
-Ran 210 tests in 23.312s
+Ran 217 tests in 25.449s
 
 OK
-{"tests": 210, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 210}
+{"tests": 217, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 217}

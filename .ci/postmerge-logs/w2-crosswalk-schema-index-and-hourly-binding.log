@@ -1,4 +1,4 @@
-$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\tmp\clci27\ops\v2\run_unittest.py data/v2/tests test_*.py D:\tmp\clci27\.ci\postmerge-logs\w2-crosswalk-schema-index-and-hourly-binding.json
+$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\tmp\clci33-wt\ops\v2\run_unittest.py data/v2/tests test_*.py D:\tmp\clci33-wt\.ci\postmerge-logs\w2-crosswalk-schema-index-and-hourly-binding.json
 test_filled_records_carry_complete_provenance (test_cl_data_18_ai_verification_gate.AiVerificationAdmissionGate.test_filled_records_carry_complete_provenance) ... ok
 test_honest_unknowns_are_preserved (test_cl_data_18_ai_verification_gate.AiVerificationAdmissionGate.test_honest_unknowns_are_preserved) ... ok
 test_machine_readable_derivation_method_coverage (test_cl_data_18_ai_verification_gate.AiVerificationAdmissionGate.test_machine_readable_derivation_method_coverage) ... ok
@@ -42,29 +42,104 @@ test_single_dimension_admits_on_composite (test_cl_data_31_rubric_v3.TestRubricV
 test_unknown_composite_never_admits_and_is_never_fabricated (test_cl_data_31_rubric_v3.TestRubricV3Admission.test_unknown_composite_never_admits_and_is_never_fabricated) ... ok
 test_v2_weights_are_not_used (test_cl_data_31_rubric_v3.TestRubricV3Admission.test_v2_weights_are_not_used) ... ok
 test_community_adj_rules (test_cl_data_31_rubric_v3.TestScenicV3CandidateFinalize.test_community_adj_rules) ... ok
+test_all_batch_contracts_exist_and_validate (test_cl_data_42_us_expansion.TestContracts.test_all_batch_contracts_exist_and_validate) ... ok
+test_all_day_subjects_carry_light_window (test_cl_data_42_us_expansion.TestContracts.test_all_day_subjects_carry_light_window) ... ok
+test_night_subjects_have_no_light_window (test_cl_data_42_us_expansion.TestContracts.test_night_subjects_have_no_light_window) ... ok
+test_place_count_in_shortlist (test_cl_data_42_us_expansion.TestContracts.test_place_count_in_shortlist) ... ok
+test_no_new_point_within_5km (test_cl_data_42_us_expansion.TestDedupe.test_no_new_point_within_5km) ... ok
+test_elevation_overrides (test_cl_data_42_us_expansion.TestRegions.test_elevation_overrides) ... ok
+test_new_admin_areas (test_cl_data_42_us_expansion.TestRegions.test_new_admin_areas) ... ok
+test_us_catalog_grew_and_nothing_removed (test_cl_data_42_us_expansion.TestRegions.test_us_catalog_grew_and_nothing_removed) ... ok
+test_all_batch_contracts_exist_and_validate (test_cl_data_43_ak_hi_discovery.TestContracts.test_all_batch_contracts_exist_and_validate) ... ok
+test_all_day_subjects_carry_light_window (test_cl_data_43_ak_hi_discovery.TestContracts.test_all_day_subjects_carry_light_window) ... ok
+test_night_subjects_have_no_light_window (test_cl_data_43_ak_hi_discovery.TestContracts.test_night_subjects_have_no_light_window) ... ok
+test_place_count_in_manifest (test_cl_data_43_ak_hi_discovery.TestContracts.test_place_count_in_manifest) ... ok
+test_special_semantics_notes (test_cl_data_43_ak_hi_discovery.TestContracts.test_special_semantics_notes) ... ok
+test_no_new_point_within_5km (test_cl_data_43_ak_hi_discovery.TestDedupe.test_no_new_point_within_5km) ... ok
+test_elevation_overrides (test_cl_data_43_ak_hi_discovery.TestRegions.test_elevation_overrides) ... ok
+test_hi_category_is_first_time (test_cl_data_43_ak_hi_discovery.TestRegions.test_hi_category_is_first_time) ... ok
+test_new_admin_areas (test_cl_data_43_ak_hi_discovery.TestRegions.test_new_admin_areas) ... ok
+test_us_catalog_grew_and_nothing_removed (test_cl_data_43_ak_hi_discovery.TestRegions.test_us_catalog_grew_and_nothing_removed) ... ok
+test_coverage_tw_full (test_cl_data_47_agli_tw_full.TestCLData47AgliTwFull.test_coverage_tw_full) ... ok
+test_deterministic_weighted_synthesis (test_cl_data_47_agli_tw_full.TestCLData47AgliTwFull.test_deterministic_weighted_synthesis) ... ok
+test_dims_complete_and_in_range (test_cl_data_47_agli_tw_full.TestCLData47AgliTwFull.test_dims_complete_and_in_range) ... ok
+test_l1_region_rankings_complete (test_cl_data_47_agli_tw_full.TestCLData47AgliTwFull.test_l1_region_rankings_complete) ... ok
+test_no_90_plus_inflation (test_cl_data_47_agli_tw_full.TestCLData47AgliTwFull.test_no_90_plus_inflation) ... ok
+test_provenance_and_confidence_present (test_cl_data_47_agli_tw_full.TestCLData47AgliTwFull.test_provenance_and_confidence_present) ... ok
+test_summary_matches_records (test_cl_data_47_agli_tw_full.TestCLData47AgliTwFull.test_summary_matches_records) ... ok
+test_unique_ids_and_monotonic_order (test_cl_data_47_agli_tw_full.TestCLData47AgliTwFull.test_unique_ids_and_monotonic_order) ... ok
+test_all_batch_contracts_exist_and_validate (test_cl_data_51_expansion.TestContracts.test_all_batch_contracts_exist_and_validate) ... ok
+test_all_day_subjects_carry_civil_light_window (test_cl_data_51_expansion.TestContracts.test_all_day_subjects_carry_civil_light_window) ... ok
+test_batch_evidence_claim_refs (test_cl_data_51_expansion.TestContracts.test_batch_evidence_claim_refs) ... ok
+test_no_night_subjects_without_darkness_window (test_cl_data_51_expansion.TestContracts.test_no_night_subjects_without_darkness_window) ... ok
+test_seasonal_calendar_windows (test_cl_data_51_expansion.TestContracts.test_seasonal_calendar_windows) ... ok
+test_unique_condition_ids (test_cl_data_51_expansion.TestContracts.test_unique_condition_ids) ... ok
+test_dedupe_registry_and_distances (test_cl_data_51_expansion.TestDedupe.test_dedupe_registry_and_distances) ... ok
+test_coordinate_overrides_web_verified (test_cl_data_51_expansion.TestRegions.test_coordinate_overrides_web_verified) ... ok
+test_elevation_overrides_or_honest_unknown (test_cl_data_51_expansion.TestRegions.test_elevation_overrides_or_honest_unknown) ... ok
+test_new_admin_areas (test_cl_data_51_expansion.TestRegions.test_new_admin_areas) ... ok
+test_tw_catalog_grew_and_nothing_removed (test_cl_data_51_expansion.TestRegions.test_tw_catalog_grew_and_nothing_removed) ... ok
+test_manifest_tw_counts (test_cl_data_51_expansion.TestRuntime.test_manifest_tw_counts) ... ok
+test_runtime_catalog_counts (test_cl_data_51_expansion.TestRuntime.test_runtime_catalog_counts) ... ok
+test_runtime_dependencies_gaps (test_cl_data_51_expansion.TestRuntime.test_runtime_dependencies_gaps) ... ok
+test_dual_board_records (test_cl_data_52_expansion.TestAgli.test_dual_board_records) ... ok
+test_all_batch_contracts_exist_and_validate (test_cl_data_52_expansion.TestContracts.test_all_batch_contracts_exist_and_validate) ... ok
+test_all_day_subjects_carry_civil_light_window (test_cl_data_52_expansion.TestContracts.test_all_day_subjects_carry_civil_light_window) ... ok
+test_batch_evidence_claim_refs (test_cl_data_52_expansion.TestContracts.test_batch_evidence_claim_refs) ... ok
+test_no_night_subjects_without_darkness_window (test_cl_data_52_expansion.TestContracts.test_no_night_subjects_without_darkness_window) ... ok
+test_seasonal_calendar_windows (test_cl_data_52_expansion.TestContracts.test_seasonal_calendar_windows) ... ok
+test_tidal_subject_honest_gate (test_cl_data_52_expansion.TestContracts.test_tidal_subject_honest_gate) ... ok
+test_unique_condition_ids (test_cl_data_52_expansion.TestContracts.test_unique_condition_ids) ... ok
+test_dedupe_registry_and_distances (test_cl_data_52_expansion.TestDedupe.test_dedupe_registry_and_distances) ... ok
+test_coordinate_overrides_web_verified (test_cl_data_52_expansion.TestRegions.test_coordinate_overrides_web_verified) ... ok
+test_elevation_overrides_or_honest_unknown (test_cl_data_52_expansion.TestRegions.test_elevation_overrides_or_honest_unknown) ... ok
+test_jp_catalog_grew (test_cl_data_52_expansion.TestRegions.test_jp_catalog_grew) ... ok
+test_new_admin_areas (test_cl_data_52_expansion.TestRegions.test_new_admin_areas) ... ok
+test_evaluations_bundle_spliced (test_cl_data_52_expansion.TestRuntime.test_evaluations_bundle_spliced) ... ok
+test_manifest_jp_counts (test_cl_data_52_expansion.TestRuntime.test_manifest_jp_counts) ... ok
+test_runtime_catalog_counts (test_cl_data_52_expansion.TestRuntime.test_runtime_catalog_counts) ... ok
+test_runtime_dependencies_gaps (test_cl_data_52_expansion.TestRuntime.test_runtime_dependencies_gaps) ... ok
+test_access_not_scored (test_cl_data_53_expansion.TestAgli.test_access_not_scored) ... ok
+test_dual_board_records (test_cl_data_53_expansion.TestAgli.test_dual_board_records) ... ok
+test_access_restricted_places_labeled (test_cl_data_53_expansion.TestContracts.test_access_restricted_places_labeled) ... ok
+test_all_batch_contracts_exist_and_validate (test_cl_data_53_expansion.TestContracts.test_all_batch_contracts_exist_and_validate) ... ok
+test_all_day_subjects_carry_civil_light_window (test_cl_data_53_expansion.TestContracts.test_all_day_subjects_carry_civil_light_window) ... ok
+test_batch_evidence_claim_refs (test_cl_data_53_expansion.TestContracts.test_batch_evidence_claim_refs) ... ok
+test_night_subjects_carry_no_daylight_light_window (test_cl_data_53_expansion.TestContracts.test_night_subjects_carry_no_daylight_light_window) ... ok
+test_seasonal_calendar_windows (test_cl_data_53_expansion.TestContracts.test_seasonal_calendar_windows) ... ok
+test_unique_condition_ids (test_cl_data_53_expansion.TestContracts.test_unique_condition_ids) ... ok
+test_dedupe_registry_and_distances (test_cl_data_53_expansion.TestDedupe.test_dedupe_registry_and_distances) ... ok
+test_coordinate_overrides_web_verified (test_cl_data_53_expansion.TestRegions.test_coordinate_overrides_web_verified) ... ok
+test_new_admin_areas (test_cl_data_53_expansion.TestRegions.test_new_admin_areas) ... ok
+test_no_removals (test_cl_data_53_expansion.TestRegions.test_no_removals) ... ok
+test_us_catalog_grew (test_cl_data_53_expansion.TestRegions.test_us_catalog_grew) ... ok
+test_evaluations_bundle_spliced (test_cl_data_53_expansion.TestRuntime.test_evaluations_bundle_spliced) ... ok
+test_manifest_us_counts (test_cl_data_53_expansion.TestRuntime.test_manifest_us_counts) ... ok
+test_runtime_catalog_counts (test_cl_data_53_expansion.TestRuntime.test_runtime_catalog_counts) ... ok
+test_runtime_dependencies_gaps (test_cl_data_53_expansion.TestRuntime.test_runtime_dependencies_gaps) ... ok
 test_canonical_bindings_all_lint_clean (test_genre_templates.BindingGrammarTests.test_canonical_bindings_all_lint_clean) ... binding-lint: 0 violations across data/v2/opportunities
 ok
 test_invalid_strings_fail_closed (test_genre_templates.BindingGrammarTests.test_invalid_strings_fail_closed) ... ok
 test_valid_strings (test_genre_templates.BindingGrammarTests.test_valid_strings) ... ok
 test_draft_expansion_refused (test_genre_templates.ExpansionTests.test_draft_expansion_refused) ... ok
-test_expanded_model_binding_strings_lint (test_genre_templates.ExpansionTests.test_expanded_model_binding_strings_lint) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp_d9ffb7w\tw-001-P02.json
+test_expanded_model_binding_strings_lint (test_genre_templates.ExpansionTests.test_expanded_model_binding_strings_lint) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpcno36j45\tw-001-P02.json
 ok
-test_expansion_never_touches_canonical (test_genre_templates.ExpansionTests.test_expansion_never_touches_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpfdejn9r6\tw-001-P02.json
+test_expansion_never_touches_canonical (test_genre_templates.ExpansionTests.test_expansion_never_touches_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpm_as_isv\tw-001-P02.json
 ok
-test_round_trip_matches_reviewed_canonical (test_genre_templates.ExpansionTests.test_round_trip_matches_reviewed_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp9vqryx_q\tw-001-P02.json
-expanded sunrise-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpdjgsp87v\tw-036-P01.json
-expanded blue_hour_city-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpj2no3egw\tw-002-P01.json
-expanded mountain_view-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpcmh04xr0\tw-016-P01.json
+test_round_trip_matches_reviewed_canonical (test_genre_templates.ExpansionTests.test_round_trip_matches_reviewed_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp82b8be7e\tw-001-P02.json
+expanded sunrise-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpfie4wjvv\tw-036-P01.json
+expanded blue_hour_city-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmppfrud81w\tw-002-P01.json
+expanded mountain_view-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp2ut285aa\tw-016-P01.json
 ok
 test_undeclared_param_refused (test_genre_templates.ExpansionTests.test_undeclared_param_refused) ... ok
 test_arithmetic (test_genre_templates.ExpressionTests.test_arithmetic) ... ok
 test_disallowed_syntax_fails (test_genre_templates.ExpressionTests.test_disallowed_syntax_fails) ... ok
 test_undeclared_param_fails (test_genre_templates.ExpressionTests.test_undeclared_param_fails) ... ok
-test_merge_exact_duplicate_skipped (test_genre_templates.MergeTests.test_merge_exact_duplicate_skipped) ... merged cloud_sea-v0.1 -> 9 offered, 1 duplicate skipped, 9 total -> C:\Users\Dick_\AppData\Local\Temp\tmpsv7yv9x1\out.json
+test_merge_exact_duplicate_skipped (test_genre_templates.MergeTests.test_merge_exact_duplicate_skipped) ... merged cloud_sea-v0.1 -> 9 offered, 1 duplicate skipped, 9 total -> C:\Users\Dick_\AppData\Local\Temp\tmptvrhsdv5\out.json
 ok
 test_merge_point_conflict_refused (test_genre_templates.MergeTests.test_merge_point_conflict_refused) ... ok
 test_merge_requires_existing_contract (test_genre_templates.MergeTests.test_merge_requires_existing_contract) ... ok
-test_merge_scoped_overlap_is_allowed (test_genre_templates.MergeTests.test_merge_scoped_overlap_is_allowed) ... merged cloud_sea-v0.1 -> 9 offered, 0 duplicate skipped, 10 total -> C:\Users\Dick_\AppData\Local\Temp\tmpg9xx7wwm\out.json
+test_merge_scoped_overlap_is_allowed (test_genre_templates.MergeTests.test_merge_scoped_overlap_is_allowed) ... merged cloud_sea-v0.1 -> 9 offered, 0 duplicate skipped, 10 total -> C:\Users\Dick_\AppData\Local\Temp\tmpzp9vrimt\out.json
 ok
 test_draft_templates_are_complete_but_refused (test_genre_templates.RegistryTests.test_draft_templates_are_complete_but_refused) ... ok
 test_every_metric_in_templates_is_in_vocabulary (test_genre_templates.RegistryTests.test_every_metric_in_templates_is_in_vocabulary) ... ok
@@ -89,6 +164,19 @@ test_provisional_placeholders_present_in_all_three_locales (test_migration_skele
 CL-UI-07: no provisional/pending marker in any user-visible string. ... ok
 test_v1_access_notes_carry_verbatim_as_warnings (test_migration_skeletons.MigrationSkeletonTests.test_v1_access_notes_carry_verbatim_as_warnings)
 V1 access notices migrate verbatim (non-scoring warning), not dropped or invented. ... ok
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
@@ -154,6 +242,32 @@ warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 ok
 test_duplicate_ids_dangling_topics_and_wrong_canonical_revision (test_task_x_research_index.ResearchIndexTests.test_duplicate_ids_dangling_topics_and_wrong_canonical_revision) ... ok
 test_exact_unique_complete_place_and_opportunity_sets (test_task_x_research_index.ResearchIndexTests.test_exact_unique_complete_place_and_opportunity_sets) ... ok
@@ -178,8 +292,47 @@ warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 ok
 test_missing_name_locale_and_foreign_place_source_fail (test_task_x_research_index.ResearchIndexTests.test_missing_name_locale_and_foreign_place_source_fail) ... warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
@@ -267,6 +420,32 @@ warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 ok
 test_query_preferences_capabilities_are_test_only_and_no_favorable (test_task_x_research_index.ResearchIndexTests.test_query_preferences_capabilities_are_test_only_and_no_favorable) ... ok
 test_real_canonical_blob_sha256_identity_and_revision (test_task_x_research_index.ResearchIndexTests.test_real_canonical_blob_sha256_identity_and_revision) ... ok
@@ -292,7 +471,7 @@ test_04_crosswalk_exact_coverage_and_negative_conflict (test_worker2_batch04.Bat
 test_05_human_readable_parity_and_original_preview_is_untouched (test_worker2_batch04.Batch04Gate.test_05_human_readable_parity_and_original_preview_is_untouched) ... ok
 
 ----------------------------------------------------------------------
-Ran 109 tests in 352.070s
+Ran 184 tests in 598.942s
 
 OK
-{"tests": 109, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 109}
+{"tests": 184, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 184}
