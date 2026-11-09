@@ -160,5 +160,21 @@ class BundleShapeTests(unittest.TestCase):
         self.assertIs(bundle["live_recommendation"], False)
 
 
+class StaticTimezoneTests(unittest.TestCase):
+    def test_chicago_box_covers_big_bend(self):
+        # CL-CI-33: us-106 Big Bend (29.1679, -103.6106) sat between the
+        # Denver (lat>=30) and LA (lat>=32) boxes; must now resolve Central.
+        zone, offset = eb.static_timezone(29.1679, -103.6106)
+        self.assertEqual(zone, "America/Chicago")
+        self.assertIn(offset, (-6, -5))
+
+    def test_fail_closed_unknown_still_misses(self):
+        # CL-DATA-43 preserved: a truly out-of-box coordinate stays UNKNOWN.
+        self.assertEqual(eb.static_timezone(0.0, 0.0), (None, None))
+
+    def test_denyver_box_unchanged(self):
+        self.assertEqual(eb.static_timezone(39.7, -105.0), ("America/Denver", -7))
+
+
 if __name__ == "__main__":
     unittest.main()

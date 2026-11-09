@@ -114,6 +114,11 @@ TZ_DISPLAY = [
     ((54, 72, -170, -130), "America/Anchorage", -9),
     ((32, 55, -130, -114), "America/Los_Angeles", -8),
     ((30, 49, -114, -96), "America/Denver", -7),
+    # CL-CI-33: the Denver box required lat>=30, which left a gap covering
+    # Big Bend (us-106, 29.17/-103.61) and the rest of the southern US
+    # between the Rockies and the East box — those resolved UNKNOWN and the
+    # bundle failed schema validation against the old constant pin.
+    ((25, 49, -114, -92), "America/Chicago", -6),
     ((24, 50, -96, -66), "America/New_York", -5),
     # CL-DATA-43: Hawaii (us-112..118) was falling through to the iana=null /
     # offset=0 fallback, rendering sunrise/sunset good_hours in UTC — Makapuʻu
