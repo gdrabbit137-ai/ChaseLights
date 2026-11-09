@@ -1,0 +1,4185 @@
+{
+ "schema": "chaselights.agli.jp.full.v1",
+ "ticket": "CL-DATA-48",
+ "generated": "2026-11-09",
+ "method_doc": "agli-method.md",
+ "sources": [
+  "ja.wikipedia",
+  "各管理機関公式サイト",
+  "Wikimedia Commons 照片（重用 scenic-v3 管線既有證據）"
+ ],
+ "notes": [
+  "雙角色評審=A 錨點審查員 / B 攝影師視角，逐維獨立打分；合計 504 維度對",
+  ">10 分分歧維度以第三值仲裁取中位數（本檔 0 維仲裁）",
+  "calibration pass：以 agli-tw-full.json 各維分布為錨校準 40 維（_jp_calib.py 記錄覆蓋值），防止首輪壓縮膨脹/緊縮偏差",
+  "photo_evidence 重用 scenic-v3-full.json 已驗證照片；photo_evidence 空景點 confidence 誠實記 low/medium，須 CL-DATA-28 式補抓後複評",
+  "無 95+：最高分均已附全球同型比較（阿蘇→黃石、知床流氷→波羅的海），錨點紀律未膨脹"
+ ],
+ "summary": {
+  "n": 63,
+  "mean_abs_diff": 2.39,
+  "pct_over10": 0.0,
+  "n_arbitrated_dims": 0,
+  "anchor_bands": {
+   "90+": 0,
+   "80-89": 0,
+   "70-79": 5,
+   "60-69": 25,
+   "50-59": 19,
+   "40-49": 12,
+   "<40": 2
+  },
+  "confidence": {
+   "high": 22,
+   "medium": 31,
+   "low": 10
+  }
+ },
+ "l1_region_rankings": {
+  "JP1": {
+   "n": 13,
+   "top": "jp-041",
+   "top_name": "知床ウトロ流氷（プユニ岬）",
+   "top_agli": 69.7
+  },
+  "JP2": {
+   "n": 9,
+   "top": "jp-038",
+   "top_name": "蔵王樹氷（蔵王ロープウェイ・山形側）",
+   "top_agli": 66.7
+  },
+  "JP3": {
+   "n": 7,
+   "top": "jp-010",
+   "top_name": "大石公園",
+   "top_agli": 59.2
+  },
+  "JP4": {
+   "n": 5,
+   "top": "jp-017",
+   "top_name": "金澤兼六園",
+   "top_agli": 55.5
+  },
+  "JP5": {
+   "n": 1,
+   "top": "jp-021",
+   "top_name": "新穗高・西穗高口展望台",
+   "top_agli": 67.9
+  },
+  "JP6": {
+   "n": 7,
+   "top": "jp-053",
+   "top_name": "天橋立",
+   "top_agli": 73.0
+  },
+  "JP7": {
+   "n": 10,
+   "top": "jp-051",
+   "top_name": "嚴島神社・宮島大鳥居",
+   "top_agli": 76.7
+  },
+  "JP8": {
+   "n": 3,
+   "top": "jp-062",
+   "top_name": "祖谷的藤橋（祖谷渓）",
+   "top_agli": 62.1
+  },
+  "JP9": {
+   "n": 8,
+   "top": "jp-036",
+   "top_name": "高千穗峽",
+   "top_agli": 75.4
+  }
+ },
+ "ranking": [
+  "jp-051",
+  "jp-036",
+  "jp-059",
+  "jp-053",
+  "jp-023",
+  "jp-041",
+  "jp-021",
+  "jp-038",
+  "jp-058",
+  "jp-055",
+  "jp-003",
+  "jp-044",
+  "jp-001",
+  "jp-061",
+  "jp-002",
+  "jp-048",
+  "jp-046",
+  "jp-006",
+  "jp-028",
+  "jp-008",
+  "jp-064",
+  "jp-062",
+  "jp-007",
+  "jp-040",
+  "jp-049",
+  "jp-039",
+  "jp-030",
+  "jp-045",
+  "jp-052",
+  "jp-004",
+  "jp-009",
+  "jp-054",
+  "jp-056",
+  "jp-010",
+  "jp-057",
+  "jp-026",
+  "jp-063",
+  "jp-060",
+  "jp-042",
+  "jp-017",
+  "jp-037",
+  "jp-031",
+  "jp-043",
+  "jp-013",
+  "jp-025",
+  "jp-022",
+  "jp-027",
+  "jp-047",
+  "jp-011",
+  "jp-033",
+  "jp-012",
+  "jp-034",
+  "jp-020",
+  "jp-015",
+  "jp-032",
+  "jp-005",
+  "jp-024",
+  "jp-029",
+  "jp-019",
+  "jp-016",
+  "jp-018",
+  "jp-035",
+  "jp-014"
+ ],
+ "records": [
+  {
+   "place_id": "jp-001",
+   "name_zh": "美瑛青池",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 40,
+    "uniqueness": 90,
+    "visual": 82,
+    "richness": 54,
+    "photo": 78,
+    "season": 48,
+    "experience": 78,
+    "cultural": 30
+   },
+   "pass_B": {
+    "grandeur": 38,
+    "uniqueness": 88,
+    "visual": 80,
+    "richness": 51,
+    "photo": 76,
+    "season": 45,
+    "experience": 80,
+    "cultural": 28
+   },
+   "arb_used": {
+    "uniqueness": 89
+   },
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 3,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 39,
+    "uniqueness": 89,
+    "visual": 81,
+    "richness": 52,
+    "photo": 77,
+    "season": 46,
+    "experience": 79,
+    "cultural": 29
+   },
+   "agli": 64.5,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "水潭尺度小（池寬百米級），無地形垂直展開",
+    "uniqueness": "人工堰止水意外造成的鈷藍水色全球罕有其二型態記憶點極強",
+    "visual": "枯木+藍水+白樺色彩乾淨；晨霧與秋色加成",
+    "richness": "主體單一，春綠秋橙冬雪面尚有變化但皆為同潭",
+    "photo": "機位極成熟（觀景棧道單一正面構圖），晨霧窗好",
+    "season": "秋霧+冬霧凇短窗，其餘季節表現平平",
+    "experience": "停車場步行一分鐘，棧道完善",
+    "cultural": "人工湖由美瑛川堰造成，人文敘事薄"
+   },
+   "coords": [
+    43.493611,
+    142.614167
+   ],
+   "photo_evidence": [
+    {
+     "title": "File:Biei blue pond.jpg"
+    }
+   ]
+  },
+  {
+   "place_id": "jp-002",
+   "name_zh": "旭岳",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 82,
+    "uniqueness": 68,
+    "visual": 70,
+    "richness": 66,
+    "photo": 62,
+    "season": 40,
+    "experience": 40,
+    "cultural": 50
+   },
+   "pass_B": {
+    "grandeur": 80,
+    "uniqueness": 66,
+    "visual": 68,
+    "richness": 63,
+    "photo": 60,
+    "season": 38,
+    "experience": 42,
+    "cultural": 48
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 81,
+    "uniqueness": 67,
+    "visual": 69,
+    "richness": 64,
+    "photo": 61,
+    "season": 39,
+    "experience": 41,
+    "cultural": 49
+   },
+   "agli": 63.9,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "北海道最高峰(2291m)，纜車仰望熔岩山體有壓倒感但無稜線橫展",
+    "uniqueness": "日本最北高山植被帶、空中可見完整火山錐，非世界稀缺型",
+    "visual": "夏天山麓花田+黑色熔岩地對比好，山頂本身色調單一",
+    "richness": "高山花·紅葉·雪期三段主題，山麓溫泉帶可延伸",
+    "photo": "纜車省腳程但機位受步道束縛；秋冬霧雪窗短",
+    "season": "6-9月高花/10月紅葉；冬期山頂封閉，可及天數<全年40%",
+    "experience": "纜車+步道但高山天候劇烈且冬期不通",
+    "cultural": "大雪山國立公園核心、アイヌ聖山敘事"
+   },
+   "coords": [
+    43.6620489,
+    142.8250911
+   ],
+   "photo_evidence": [
+    {
+     "title": "File:Mount Asahi (Daisetsuzan)"
+    }
+   ]
+  },
+  {
+   "place_id": "jp-003",
+   "name_zh": "釧路濕原",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 76,
+    "uniqueness": 78,
+    "visual": 55,
+    "richness": 70,
+    "photo": 60,
+    "season": 52,
+    "experience": 60,
+    "cultural": 48
+   },
+   "pass_B": {
+    "grandeur": 74,
+    "uniqueness": 76,
+    "visual": 52,
+    "richness": 67,
+    "photo": 58,
+    "season": 50,
+    "experience": 62,
+    "cultural": 46
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 75,
+    "uniqueness": 77,
+    "visual": 54,
+    "richness": 68,
+    "photo": 59,
+    "season": 51,
+    "experience": 61,
+    "cultural": 47
+   },
+   "agli": 64.7,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "日本最大濕原(2.7萬公頃)水平展開壯闊，垂直層次僅靠霧面",
+    "uniqueness": "日本最大鹹淡水混合濕原、丹頂鶴棲地，東亞指標性",
+    "visual": "綠/金草浪單色系，靠晨霧餵畫面，無地質色差",
+    "richness": "晨霧、丹頂鶴、原生花園、衛星展望台多點可拍",
+    "photo": "溫根內/衛星台機位成熟；乘船視角加分",
+    "season": "5-11月草地兩色期+全年晨霧依賴，冬季冰封題材轉向",
+    "experience": "展望台+細岡觀景台交通容易，賞濕原列車加分",
+    "cultural": "國定公園/拉姆薩爾濕地，愛奴原鄉敘事"
+   },
+   "coords": [
+    43.0980769,
+    144.4492556
+   ],
+   "photo_evidence": [
+    {
+     "title": "File:Kushiro Wetland"
+    }
+   ]
+  },
+  {
+   "place_id": "jp-004",
+   "name_zh": "函館山夜景",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 55,
+    "uniqueness": 72,
+    "visual": 72,
+    "richness": 40,
+    "photo": 70,
+    "season": 42,
+    "experience": 85,
+    "cultural": 42
+   },
+   "pass_B": {
+    "grandeur": 52,
+    "uniqueness": 70,
+    "visual": 70,
+    "richness": 38,
+    "photo": 68,
+    "season": 40,
+    "experience": 88,
+    "cultural": 40
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 54,
+    "uniqueness": 71,
+    "visual": 71,
+    "richness": 39,
+    "photo": 69,
+    "season": 41,
+    "experience": 86,
+    "cultural": 41
+   },
+   "agli": 60.4,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "沙頸岬雙灣地形小尺度但構圖主導性極強",
+    "uniqueness": "全球唯一「雙浴盆」型港灣夜景地理，形態記憶點世界第一線",
+    "visual": "夜景燈海+海面色分離乾淨，白天平淡",
+    "richness": "單一觀景主題，季節/潮汐變化少",
+    "photo": "纜車直上，廣角全景機位極成熟，藍調窗品質高",
+    "season": "全年可拍但夏季霧率高，主題全年同質",
+    "experience": "纜車直達，山頂整備度日本首屈",
+    "cultural": "幕末開港地敘事、夜景三選"
+   },
+   "coords": [
+    41.7594502,
+    140.7044467
+   ],
+   "photo_evidence": [
+    {
+     "title": "File:Mount Hakodate"
+    }
+   ]
+  },
+  {
+   "place_id": "jp-005",
+   "name_zh": "小樽運河",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 28,
+    "uniqueness": 45,
+    "visual": 58,
+    "richness": 35,
+    "photo": 62,
+    "season": 38,
+    "experience": 75,
+    "cultural": 55
+   },
+   "pass_B": {
+    "grandeur": 26,
+    "uniqueness": 42,
+    "visual": 55,
+    "richness": 32,
+    "photo": 60,
+    "season": 36,
+    "experience": 78,
+    "cultural": 52
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 3,
+    "visual": 3,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 27,
+    "uniqueness": 44,
+    "visual": 56,
+    "richness": 34,
+    "photo": 61,
+    "season": 37,
+    "experience": 76,
+    "cultural": 54
+   },
+   "agli": 45.4,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "百米級運河一段，無任何尺度壓迫感",
+    "uniqueness": "石造倉庫+運河組合在日本有指標性但同型他處可比",
+    "visual": "夜煤氣燈+倉庫倒影溫潤，白天空景普通",
+    "richness": "主題主題單一（倉庫牆面+運河倒影）",
+    "photo": "運河橋一點構圖，冬季雪燈最佳",
+    "season": "雪季2月為核心窗，其餘季節表現普通",
+    "experience": "JR小樽站步行10分，門檻極低",
+    "cultural": "大正商港建築敘事濃度高"
+   },
+   "coords": [
+    43.197887,
+    141.003034
+   ],
+   "photo_evidence": [
+    {
+     "title": "File:Otaru Canal"
+    }
+   ]
+  },
+  {
+   "place_id": "jp-006",
+   "name_zh": "摩周湖",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 76,
+    "uniqueness": 74,
+    "visual": 78,
+    "richness": 42,
+    "photo": 58,
+    "season": 35,
+    "experience": 72,
+    "cultural": 38
+   },
+   "pass_B": {
+    "grandeur": 74,
+    "uniqueness": 72,
+    "visual": 76,
+    "richness": 40,
+    "photo": 56,
+    "season": 33,
+    "experience": 75,
+    "cultural": 36
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 75,
+    "uniqueness": 73,
+    "visual": 77,
+    "richness": 41,
+    "photo": 57,
+    "season": 34,
+    "experience": 74,
+    "cultural": 37
+   },
+   "agli": 62.8,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "完整爆裂火口湖，湖岸絕壁300-400m，水平開闊度世界級",
+    "uniqueness": "透明度日本第一的火口湖，無河川出入的孤絕型態",
+    "visual": "湖面鈷藍+絕壁綠框乾淨度極高，霧天全黑箱",
+    "richness": "單一湖體，僅晨霧/霧虹/霜花(1月)少量附加題材",
+    "photo": "展望台固定俯瞰構圖，機位自由度低，霧依賴重",
+    "season": "著名「霧的摩周」——無霧日稀少，可預期性差",
+    "experience": "展望台直達車位充足",
+    "cultural": "愛奴「神之湖」敘事、國定公園"
+   },
+   "coords": [
+    43.556947,
+    144.507319
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-007",
+   "name_zh": "十和田湖",
+   "l1": "JP2",
+   "pass_A": {
+    "grandeur": 74,
+    "uniqueness": 58,
+    "visual": 70,
+    "richness": 55,
+    "photo": 62,
+    "season": 55,
+    "experience": 72,
+    "cultural": 45
+   },
+   "pass_B": {
+    "grandeur": 72,
+    "uniqueness": 55,
+    "visual": 68,
+    "richness": 52,
+    "photo": 60,
+    "season": 52,
+    "experience": 75,
+    "cultural": 42
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 3,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 3,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 73,
+    "uniqueness": 56,
+    "visual": 69,
+    "richness": 54,
+    "photo": 61,
+    "season": 54,
+    "experience": 74,
+    "cultural": 44
+   },
+   "agli": 62.0,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "二重式火山湖深122m，40km湖廊水平展開好，缺主峰壓迫",
+    "uniqueness": "日本最深級峽谷式火口湖，同型日本數處可比",
+    "visual": "湖藍+御前潯山影乾淨；晨霧窗佳",
+    "richness": "遊船/晨霧/紅葉(子ノ口)/辰五郎峠視角多點",
+    "photo": "御前潯+乙女像正面構圖成熟；紅葉點機位佳",
+    "season": "全年可及，10月紅葉+冬霧冰為短窗",
+    "experience": "展望台+遊船整備好，門檻低",
+    "cultural": "「はちょう」成_symbols/十和田八幡平國立公園敘事"
+   },
+   "coords": [
+    40.426538,
+    140.894325
+   ],
+   "photo_evidence": [
+    {
+     "title": "File:Lake Towada"
+    }
+   ]
+  },
+  {
+   "place_id": "jp-008",
+   "name_zh": "松島",
+   "l1": "JP2",
+   "pass_A": {
+    "grandeur": 60,
+    "uniqueness": 66,
+    "visual": 66,
+    "richness": 58,
+    "photo": 68,
+    "season": 50,
+    "experience": 80,
+    "cultural": 72
+   },
+   "pass_B": {
+    "grandeur": 58,
+    "uniqueness": 64,
+    "visual": 64,
+    "richness": 55,
+    "photo": 65,
+    "season": 48,
+    "experience": 82,
+    "cultural": 70
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 59,
+    "uniqueness": 65,
+    "visual": 65,
+    "richness": 56,
+    "photo": 66,
+    "season": 49,
+    "experience": 81,
+    "cultural": 71
+   },
+   "agli": 62.6,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "260島浮列的瀨戶式群島海景，尺度中型但層次豐富",
+    "uniqueness": "「日本三景」級知名，群島+海+神社組合不可替代但全國同型可比（天橋立/宮島）",
+    "visual": "群島剪影+夕燒海面色乾淨；漁屋線條略雜",
+    "richness": "夕焼け・遊船・瑞嚴寺・朧月（にせ雪の）素材多",
+    "photo": "遊仙島展望台「夕景は？か」機位極成熟",
+    "season": "全年可及；秋月夜為最佳，夏霧窗",
+    "experience": "JR直達+遊船棧，門檻低整備日本首屈",
+    "cultural": "俳句文化+瑞嚴寺+世界船運史敘事厚"
+   },
+   "coords": [
+    38.3525784,
+    141.0623503
+   ],
+   "photo_evidence": [
+    {
+     "title": "File:Matsushima"
+    }
+   ]
+  },
+  {
+   "place_id": "jp-009",
+   "name_zh": "磐梯山",
+   "l1": "JP2",
+   "pass_A": {
+    "grandeur": 72,
+    "uniqueness": 62,
+    "visual": 65,
+    "richness": 55,
+    "photo": 58,
+    "season": 42,
+    "experience": 70,
+    "cultural": 48
+   },
+   "pass_B": {
+    "grandeur": 70,
+    "uniqueness": 60,
+    "visual": 62,
+    "richness": 52,
+    "photo": 56,
+    "season": 40,
+    "experience": 72,
+    "cultural": 45
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 2,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 71,
+    "uniqueness": 61,
+    "visual": 64,
+    "richness": 54,
+    "photo": 57,
+    "season": 41,
+    "experience": 71,
+    "cultural": 46
+   },
+   "agli": 59.9,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "1888年崩山後形成的不對稱錐+五色沼地質帶，火山壓迫感好",
+    "uniqueness": "爆裂前後形態對照的地質教材型景觀，世界同型少量（聖海倫斯）",
+    "visual": "山體鋸齒脊線+赤色滑落崖乾淨；雲掩窗多",
+    "richness": "五色沼/曽原湖/銅湯多點連帶，紅葉主題佳",
+    "photo": "北緯37°展望台+五色沼機位成熟",
+    "season": "夏秋可及，冬期登山路封閉比例高",
+    "experience": "福島側展望台車達，門檻低",
+    "cultural": "盤梯朝日國立公園+1888災害史敘事"
+   },
+   "coords": [
+    37.6727759,
+    140.0689901
+   ],
+   "photo_evidence": [
+    {
+     "title": "File:Mount Bandai"
+    }
+   ]
+  },
+  {
+   "place_id": "jp-010",
+   "name_zh": "大石公園",
+   "l1": "JP3",
+   "pass_A": {
+    "grandeur": 62,
+    "uniqueness": 62,
+    "visual": 72,
+    "richness": 48,
+    "photo": 72,
+    "season": 38,
+    "experience": 70,
+    "cultural": 35
+   },
+   "pass_B": {
+    "grandeur": 60,
+    "uniqueness": 60,
+    "visual": 70,
+    "richness": 45,
+    "photo": 70,
+    "season": 35,
+    "experience": 72,
+    "cultural": 32
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 3,
+    "experience": 2,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 61,
+    "uniqueness": 61,
+    "visual": 71,
+    "richness": 46,
+    "photo": 71,
+    "season": 36,
+    "experience": 71,
+    "cultural": 34
+   },
+   "agli": 59.2,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "「逆富士」花田+富士山構圖好，花田本身無尺度壓迫",
+    "uniqueness": "「花田+富士山倒影湖岸」組合日本唯一機位",
+    "visual": "薰衣草紫+富士白+湖藍乾淨度極高",
+    "richness": "花田四段+河口湖晨霧+逆富士三題",
+    "photo": "湖岸正面構圖極成熟，晨光逆光雙窗",
+    "season": "6-7月薰衣草+晴日晨間湖平靜，年花窗<8週",
+    "experience": "湖畔停車+步道，門檻低",
+    "cultural": "富士山世界文化遺產構成資產周邊"
+   },
+   "coords": [
+    35.5230652,
+    138.7461483
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-011",
+   "name_zh": "東京鐵塔",
+   "l1": "JP3",
+   "pass_A": {
+    "grandeur": 45,
+    "uniqueness": 48,
+    "visual": 62,
+    "richness": 30,
+    "photo": 68,
+    "season": 45,
+    "experience": 75,
+    "cultural": 62
+   },
+   "pass_B": {
+    "grandeur": 42,
+    "uniqueness": 45,
+    "visual": 60,
+    "richness": 28,
+    "photo": 65,
+    "season": 42,
+    "experience": 78,
+    "cultural": 60
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 3,
+    "visual": 2,
+    "richness": 2,
+    "photo": 3,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 44,
+    "uniqueness": 46,
+    "visual": 61,
+    "richness": 29,
+    "photo": 66,
+    "season": 44,
+    "experience": 76,
+    "cultural": 61
+   },
+   "agli": 51.2,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "都市夜景尺度大但為人工構造物景觀",
+    "uniqueness": "鐵塔形態世界有名（巴黎同型），僅作為「拍攝主體」稀缺性中",
+    "visual": "夜橙+都會燈海乾淨；白天普通",
+    "richness": "單一構造物主題，櫻花/彩虹大橋附加少",
+    "photo": "正門側+夕陽窗機位極成熟，可拍性高",
+    "season": "全年夜拍均質，冬季晴夜最佳",
+    "experience": "展望台收費但交通極佳",
+    "cultural": "戰後復興象徵敘事厚"
+   },
+   "coords": [
+    35.658656,
+    139.745364
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-012",
+   "name_zh": "鎌倉大佛",
+   "l1": "JP3",
+   "pass_A": {
+    "grandeur": 40,
+    "uniqueness": 55,
+    "visual": 52,
+    "richness": 30,
+    "photo": 45,
+    "season": 48,
+    "experience": 80,
+    "cultural": 82
+   },
+   "pass_B": {
+    "grandeur": 38,
+    "uniqueness": 52,
+    "visual": 50,
+    "richness": 28,
+    "photo": 42,
+    "season": 45,
+    "experience": 82,
+    "cultural": 80
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 3,
+    "visual": 2,
+    "richness": 2,
+    "photo": 3,
+    "season": 3,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 39,
+    "uniqueness": 54,
+    "visual": 51,
+    "richness": 29,
+    "photo": 44,
+    "season": 46,
+    "experience": 81,
+    "cultural": 81
+   },
+   "agli": 48.5,
+   "confidence": "low",
+   "reasons": {
+    "grandeur": "13.35m青銅像，無景觀性主體",
+    "uniqueness": "日本第二古大佛但「戶外露天佛」形態型態國內僅2處",
+    "visual": "晴天綠框青銅綠；背景建築一般",
+    "richness": "單一佛像主題，紫陽花季附加",
+    "photo": "正面庭院構圖成熟，無景觀面可拍",
+    "season": "6月紫陽花窗最佳，其餘均質",
+    "experience": "江ノ電御靈門步行10分，門檻極低",
+    "cultural": "鎌倉幕府史+國寶，人文敘事極厚"
+   },
+   "coords": [
+    35.31685,
+    139.53572
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-013",
+   "name_zh": "諏訪湖",
+   "l1": "JP4",
+   "pass_A": {
+    "grandeur": 62,
+    "uniqueness": 50,
+    "visual": 55,
+    "richness": 48,
+    "photo": 55,
+    "season": 42,
+    "experience": 72,
+    "cultural": 52
+   },
+   "pass_B": {
+    "grandeur": 60,
+    "uniqueness": 48,
+    "visual": 52,
+    "richness": 45,
+    "photo": 52,
+    "season": 40,
+    "experience": 75,
+    "cultural": 50
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 61,
+    "uniqueness": 49,
+    "visual": 54,
+    "richness": 46,
+    "photo": 54,
+    "season": 41,
+    "experience": 74,
+    "cultural": 51
+   },
+   "agli": 53.2,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "日本最大內陸湖之一（13km湖廊），環湖山景好但無主峰壓迫",
+    "uniqueness": "「間欠泉/覺園寺霧冰」等附加題材不少但湖型態一般",
+    "visual": "湖面+山影乾淨度中；霧日黑箱",
+    "richness": "「立石公園」夜景+冬霧冰+花火三題",
+    "photo": "立石公園俯瞰機位成熟；冬霧冰窗佳",
+    "season": "全年可及，2月霧冰+8月花火窗短",
+    "experience": "電車+立石公園展望，門檻低",
+    "cultural": "諏訪大社+マタギ歷史敘事"
+   },
+   "coords": [
+    36.053326,
+    138.122711
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-014",
+   "name_zh": "等等力溪谷",
+   "l1": "JP3",
+   "pass_A": {
+    "grandeur": 30,
+    "uniqueness": 35,
+    "visual": 45,
+    "richness": 28,
+    "photo": 35,
+    "season": 50,
+    "experience": 78,
+    "cultural": 38
+   },
+   "pass_B": {
+    "grandeur": 28,
+    "uniqueness": 32,
+    "visual": 42,
+    "richness": 25,
+    "photo": 32,
+    "season": 48,
+    "experience": 80,
+    "cultural": 35
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 3,
+    "visual": 3,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 2,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 29,
+    "uniqueness": 34,
+    "visual": 44,
+    "richness": 26,
+    "photo": 34,
+    "season": 49,
+    "experience": 79,
+    "cultural": 36
+   },
+   "agli": 37.6,
+   "confidence": "low",
+   "reasons": {
+    "grandeur": "都會中的1.2km溪谷，尺度極小",
+    "uniqueness": "「東京都23區唯一溪谷」是記錄性稀缺而非景觀稀缺",
+    "visual": "溪谷綠+紅葉尚可，人工步道干擾",
+    "richness": "溪谷散步+紅葉+溫泉，主題同質",
+    "photo": "紅葉橋機位少數，整體攝影空間狹",
+    "season": "11月紅葉最佳，其他均質",
+    "experience": "電車步行5分，都會零門檻",
+    "cultural": "神社+溫泉史輕敘事"
+   },
+   "coords": [
+    35.607857,
+    139.646545
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-015",
+   "name_zh": "皇居外苑二重橋",
+   "l1": "JP3",
+   "pass_A": {
+    "grandeur": 42,
+    "uniqueness": 48,
+    "visual": 48,
+    "richness": 25,
+    "photo": 52,
+    "season": 48,
+    "experience": 80,
+    "cultural": 85
+   },
+   "pass_B": {
+    "grandeur": 40,
+    "uniqueness": 45,
+    "visual": 45,
+    "richness": 22,
+    "photo": 50,
+    "season": 45,
+    "experience": 82,
+    "cultural": 82
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 3,
+    "visual": 3,
+    "richness": 3,
+    "photo": 2,
+    "season": 3,
+    "experience": 2,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 41,
+    "uniqueness": 46,
+    "visual": 46,
+    "richness": 24,
+    "photo": 51,
+    "season": 46,
+    "experience": 81,
+    "cultural": 84
+   },
+   "agli": 47.2,
+   "confidence": "low",
+   "reasons": {
+    "grandeur": "石垣+二重橋尺度感一般，皇居面積大但視角受限",
+    "uniqueness": "日本皇室核心象徵，形態稀缺性在於地位而非景觀",
+    "visual": "石垣綠+橋白乾淨；枠橋角度單一",
+    "richness": "單一構造物主題，櫻花季附加",
+    "photo": "二重橋正面機位固定，早晨/櫻窗佳",
+    "season": "全年均質，1/2一般參觀開放時期佳",
+    "experience": "電車直達但參觀限制（週末及特別參觀）多",
+    "cultural": "皇室歷史敘事厚度全日本最高級"
+   },
+   "coords": [
+    35.678475,
+    139.754897
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-016",
+   "name_zh": "橫濱山下公園",
+   "l1": "JP3",
+   "pass_A": {
+    "grandeur": 40,
+    "uniqueness": 35,
+    "visual": 55,
+    "richness": 30,
+    "photo": 55,
+    "season": 40,
+    "experience": 85,
+    "cultural": 52
+   },
+   "pass_B": {
+    "grandeur": 38,
+    "uniqueness": 32,
+    "visual": 52,
+    "richness": 28,
+    "photo": 52,
+    "season": 38,
+    "experience": 88,
+    "cultural": 50
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 3,
+    "visual": 3,
+    "richness": 2,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 39,
+    "uniqueness": 34,
+    "visual": 54,
+    "richness": 29,
+    "photo": 54,
+    "season": 39,
+    "experience": 86,
+    "cultural": 51
+   },
+   "agli": 44.5,
+   "confidence": "low",
+   "reasons": {
+    "grandeur": "海濱散步+港未來天際線眺望，無自然地形壓迫",
+    "uniqueness": "橫濱港史地位高但景觀型態與港區同質",
+    "visual": "夜港未來燈海乾淨；白天普通",
+    "richness": "夜景/遊船/玫瑰園少量附加",
+    "photo": "海濱正面構圖成熟，夜景藍調窗佳",
+    "season": "全年夜拍均質，夏季大道祭附加",
+    "experience": "電車+公園全平坡，門檻極低",
+    "cultural": "大正開港/震後重建敘事"
+   },
+   "coords": [
+    35.447738,
+    139.646791
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-017",
+   "name_zh": "金澤兼六園",
+   "l1": "JP4",
+   "pass_A": {
+    "grandeur": 42,
+    "uniqueness": 60,
+    "visual": 62,
+    "richness": 40,
+    "photo": 58,
+    "season": 60,
+    "experience": 78,
+    "cultural": 84
+   },
+   "pass_B": {
+    "grandeur": 40,
+    "uniqueness": 58,
+    "visual": 60,
+    "richness": 38,
+    "photo": 55,
+    "season": 58,
+    "experience": 80,
+    "cultural": 82
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 3,
+    "season": 2,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 41,
+    "uniqueness": 59,
+    "visual": 61,
+    "richness": 39,
+    "photo": 56,
+    "season": 59,
+    "experience": 79,
+    "cultural": 83
+   },
+   "agli": 55.5,
+   "confidence": "low",
+   "reasons": {
+    "grandeur": "迴遊式大名庭園的空間設計大但無自然景觀壓迫",
+    "uniqueness": "「日本三名園」之首地位象徵強，同型（後樂園/偕樂園）可比",
+    "visual": "霞池+雪吊+古樹群四季皆乾淨；夏綠單調",
+    "richness": "四季+雪吊+梅/櫻/秋楓主題豐",
+    "photo": "霞池正面+雪吊構圖成熟，雪季最強",
+    "season": "全年可及，四窗皆有，雪吊窗短而強",
+    "experience": "金澤市中心步行10分，門檻低",
+    "cultural": "加賀百萬石文化厚度日本最高級"
+   },
+   "coords": [
+    36.563367,
+    136.662817
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-018",
+   "name_zh": "名古屋城",
+   "l1": "JP4",
+   "pass_A": {
+    "grandeur": 40,
+    "uniqueness": 40,
+    "visual": 45,
+    "richness": 28,
+    "photo": 45,
+    "season": 42,
+    "experience": 82,
+    "cultural": 68
+   },
+   "pass_B": {
+    "grandeur": 38,
+    "uniqueness": 38,
+    "visual": 42,
+    "richness": 25,
+    "photo": 42,
+    "season": 40,
+    "experience": 85,
+    "cultural": 65
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 39,
+    "uniqueness": 39,
+    "visual": 44,
+    "richness": 26,
+    "photo": 44,
+    "season": 41,
+    "experience": 84,
+    "cultural": 66
+   },
+   "agli": 43.0,
+   "confidence": "low",
+   "reasons": {
+    "grandeur": "天守重建+金鯱為構造物主體，景觀壓迫感小",
+    "uniqueness": "金鯱+頁岩城牆形態象徵強但景觀型態一般",
+    "visual": "白天城堡白+綠框乾淨；夜點燈窗佳",
+    "richness": "櫻花+金鯱+城牆少量主題",
+    "photo": "本丸正面機位成熟；櫻花季佳",
+    "season": "全年均質，3月末櫻窗佳",
+    "experience": "電車+步道整備極佳",
+    "cultural": "德川家康建城史敘事厚"
+   },
+   "coords": [
+    35.185181,
+    136.89865
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-019",
+   "name_zh": "濱名湖",
+   "l1": "JP4",
+   "pass_A": {
+    "grandeur": 52,
+    "uniqueness": 38,
+    "visual": 50,
+    "richness": 38,
+    "photo": 48,
+    "season": 42,
+    "experience": 70,
+    "cultural": 38
+   },
+   "pass_B": {
+    "grandeur": 50,
+    "uniqueness": 35,
+    "visual": 48,
+    "richness": 35,
+    "photo": 45,
+    "season": 40,
+    "experience": 72,
+    "cultural": 35
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 3,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 2,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 51,
+    "uniqueness": 36,
+    "visual": 49,
+    "richness": 36,
+    "photo": 46,
+    "season": 41,
+    "experience": 71,
+    "cultural": 36
+   },
+   "agli": 44.7,
+   "confidence": "low",
+   "reasons": {
+    "grandeur": "大型湖沼+大橋視角好但無地形壓迫",
+    "uniqueness": "鹹淡水混合湖形態國內多處可比",
+    "visual": "湖+橋剪影乾淨度中；夕燒窗佳",
+    "richness": "夕燒+溫泉+花火少量附加",
+    "photo": "舘山寺展望台機位成熟",
+    "season": "全年均質，夏花火窗佳",
+    "experience": "纜車+展望台整備好",
+    "cultural": "溫泉+賽艇商業敘事薄"
+   },
+   "coords": [
+    34.688461,
+    137.603753
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-020",
+   "name_zh": "橫濱港未來21",
+   "l1": "JP3",
+   "pass_A": {
+    "grandeur": 45,
+    "uniqueness": 38,
+    "visual": 60,
+    "richness": 32,
+    "photo": 62,
+    "season": 40,
+    "experience": 85,
+    "cultural": 45
+   },
+   "pass_B": {
+    "grandeur": 42,
+    "uniqueness": 35,
+    "visual": 58,
+    "richness": 30,
+    "photo": 60,
+    "season": 38,
+    "experience": 88,
+    "cultural": 42
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 3,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 44,
+    "uniqueness": 36,
+    "visual": 59,
+    "richness": 31,
+    "photo": 61,
+    "season": 39,
+    "experience": 86,
+    "cultural": 44
+   },
+   "agli": 47.5,
+   "confidence": "low",
+   "reasons": {
+    "grandeur": "天際線高度規模中，無自然景觀主體",
+    "uniqueness": "現代都市天際線型態全球普遍（新加坡/上海可比）",
+    "visual": "夜間摩天輪+大廈燈海乾淨度好",
+    "richness": "夜景+事件（煙火/聖誕燈）少量附加",
+    "photo": "大棧橋+Grand Mall公園機位成熟",
+    "season": "全年夜拍均質，冬季燈飾加分",
+    "experience": "電車直達，門檻極低",
+    "cultural": "橫濱開港史輕敘事"
+   },
+   "coords": [
+    35.45099,
+    139.6467
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-021",
+   "name_zh": "新穗高・西穗高口展望台",
+   "l1": "JP5",
+   "pass_A": {
+    "grandeur": 86,
+    "uniqueness": 74,
+    "visual": 76,
+    "richness": 66,
+    "photo": 70,
+    "season": 35,
+    "experience": 52,
+    "cultural": 45
+   },
+   "pass_B": {
+    "grandeur": 84,
+    "uniqueness": 72,
+    "visual": 74,
+    "richness": 63,
+    "photo": 68,
+    "season": 32,
+    "experience": 55,
+    "cultural": 42
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 3,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 85,
+    "uniqueness": 73,
+    "visual": 75,
+    "richness": 64,
+    "photo": 69,
+    "season": 34,
+    "experience": 54,
+    "cultural": 44
+   },
+   "agli": 67.9,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "日本最高纜車(2156m)直上北阿爾卑斯核心，槍穂高連峰環抱壓倒性",
+    "uniqueness": "「纜車上望連峰天際線」型態日本僅此，槍穂高連峰全球性山景對比可比（阿爾卑斯）",
+    "visual": "連峰白山灰+紅葉綠框對比乾淨，秋爆發",
+    "richness": "連峰天際線/雲海/秋楓/冬雪四段主題",
+    "photo": "西穗高口展望台機位固定但全景爆發力強",
+    "season": "10月紅葉+11月初雪窗最佳；冬期霧雪封閉比例高",
+    "experience": "纜車直達但來往偏遠+秋霧多，門檻中",
+    "cultural": "中部山岳國立公園+山岳信仰敘事"
+   },
+   "coords": [
+    36.268335,
+    137.60158
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-022",
+   "name_zh": "彌彥山頂公園・Panorama Tower",
+   "l1": "JP4",
+   "pass_A": {
+    "grandeur": 65,
+    "uniqueness": 45,
+    "visual": 58,
+    "richness": 45,
+    "photo": 55,
+    "season": 50,
+    "experience": 72,
+    "cultural": 38
+   },
+   "pass_B": {
+    "grandeur": 62,
+    "uniqueness": 42,
+    "visual": 55,
+    "richness": 42,
+    "photo": 52,
+    "season": 48,
+    "experience": 75,
+    "cultural": 35
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 3,
+    "visual": 3,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 64,
+    "uniqueness": 44,
+    "visual": 56,
+    "richness": 44,
+    "photo": 54,
+    "season": 49,
+    "experience": 74,
+    "cultural": 36
+   },
+   "agli": 52.9,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "634m山頂俯瞰日本海+佐渡島+越後山脈的水平展開好",
+    "uniqueness": "「日本海+佐渡」眺望型態國內少數但無形態記憶點",
+    "visual": "海平線+夕燒乾淨度中；霧窗多",
+    "richness": "夕燒/雲海/夜景三題，秋楓附加",
+    "photo": "Panorama Tower俯瞰機位成熟；夜景窗佳",
+    "season": "全年可及，秋季雲海+夕燒佳",
+    "experience": "纜車+塔直達，門檻低",
+    "cultural": "彌彥神社山岳信仰輕敘事"
+   },
+   "coords": [
+    37.710125,
+    138.809994
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-023",
+   "name_zh": "京都清水寺",
+   "l1": "JP6",
+   "pass_A": {
+    "grandeur": 50,
+    "uniqueness": 80,
+    "visual": 76,
+    "richness": 66,
+    "photo": 80,
+    "season": 76,
+    "experience": 75,
+    "cultural": 94
+   },
+   "pass_B": {
+    "grandeur": 48,
+    "uniqueness": 78,
+    "visual": 74,
+    "richness": 64,
+    "photo": 78,
+    "season": 74,
+    "experience": 78,
+    "cultural": 92
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 49,
+    "uniqueness": 79,
+    "visual": 75,
+    "richness": 65,
+    "photo": 79,
+    "season": 75,
+    "experience": 76,
+    "cultural": 93
+   },
+   "agli": 71.2,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "139根懸空舞台的構造壓迫感獨特但自然景觀主體小",
+    "uniqueness": "「懸舞台+京都盆地眺望」組合世界唯一（世界遺產）",
+    "visual": "赤壇+綠山+京都塔對比乾淨；人潮影響畫面乾淨度",
+    "richness": "四季+夜間特別拝觀+京都市景多主題",
+    "photo": "三重塔+懸舞台正面機位極成熟，晨早窗人少",
+    "season": "春櫻/秋楓雙爆發窗均短而強",
+    "experience": "巴士+坂道步行，門檻低但人潮極多",
+    "cultural": "世界文化遺產+京都歷史敘事全日本最高級"
+   },
+   "coords": [
+    34.994444,
+    135.785556
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-024",
+   "name_zh": "大阪城公園",
+   "l1": "JP6",
+   "pass_A": {
+    "grandeur": 42,
+    "uniqueness": 42,
+    "visual": 48,
+    "richness": 32,
+    "photo": 48,
+    "season": 45,
+    "experience": 82,
+    "cultural": 65
+   },
+   "pass_B": {
+    "grandeur": 40,
+    "uniqueness": 40,
+    "visual": 45,
+    "richness": 30,
+    "photo": 45,
+    "season": 42,
+    "experience": 85,
+    "cultural": 62
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 2,
+    "photo": 3,
+    "season": 3,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 41,
+    "uniqueness": 41,
+    "visual": 46,
+    "richness": 31,
+    "photo": 46,
+    "season": 44,
+    "experience": 84,
+    "cultural": 64
+   },
+   "agli": 45.1,
+   "confidence": "low",
+   "reasons": {
+    "grandeur": "現代重建天守+石垣規模好但重建體低歷史原真",
+    "uniqueness": "天守+石垣型態全國復興天守同型多處",
+    "visual": "白天白壁+綠框乾淨；夜點燈窗佳",
+    "richness": "櫻花+夜景少量主題",
+    "photo": "公園正面+南望天守構圖成熟",
+    "season": "全年均質，3月末櫻窗佳",
+    "experience": "電車+公園整備佳",
+    "cultural": "豐臣/德川史敘事厚但重建爭議輕貶"
+   },
+   "coords": [
+    34.6892,
+    135.52675
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-025",
+   "name_zh": "萩城下町・菊屋橫町",
+   "l1": "JP7",
+   "pass_A": {
+    "grandeur": 38,
+    "uniqueness": 60,
+    "visual": 58,
+    "richness": 48,
+    "photo": 58,
+    "season": 52,
+    "experience": 65,
+    "cultural": 88
+   },
+   "pass_B": {
+    "grandeur": 35,
+    "uniqueness": 58,
+    "visual": 55,
+    "richness": 45,
+    "photo": 55,
+    "season": 50,
+    "experience": 68,
+    "cultural": 86
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 36,
+    "uniqueness": 59,
+    "visual": 56,
+    "richness": 46,
+    "photo": 56,
+    "season": 51,
+    "experience": 66,
+    "cultural": 87
+   },
+   "agli": 53.2,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "武家宅邸線性街景無自然地形主體",
+    "uniqueness": "「幕末城下町原貌」保存度日本最高級，形態記憶點（白壁+黑瓦）強",
+    "visual": "白壁+石垣+松島川乾淨度好；電線少量干擾",
+    "richness": "菊屋橫町/松下村塾/夏蜜柑/城跡多主題",
+    "photo": "白壁直線構圖成熟，晨光斜照佳",
+    "season": "秋拍三妻(うなぎ)+夏蜜柑窗，四季皆可",
+    "experience": "步行路線完善但距離遠（無新幹線）",
+    "cultural": "長州明治維新發源地敘事全國最高級"
+   },
+   "coords": [
+    34.4119363,
+    131.3932271
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-026",
+   "name_zh": "出雲大社",
+   "l1": "JP7",
+   "pass_A": {
+    "grandeur": 52,
+    "uniqueness": 62,
+    "visual": 62,
+    "richness": 42,
+    "photo": 60,
+    "season": 55,
+    "experience": 72,
+    "cultural": 94
+   },
+   "pass_B": {
+    "grandeur": 50,
+    "uniqueness": 60,
+    "visual": 60,
+    "richness": 40,
+    "photo": 58,
+    "season": 52,
+    "experience": 75,
+    "cultural": 92
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 51,
+    "uniqueness": 61,
+    "visual": 61,
+    "richness": 41,
+    "photo": 59,
+    "season": 54,
+    "experience": 74,
+    "cultural": 93
+   },
+   "agli": 58.2,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "大社参道+大鳥居+24m本殿規模感好但景觀主體是構造物",
+    "uniqueness": "「日本最古神社+神在月」制度地位唯一，景觀型態（大社造）唯一",
+    "visual": "大鳥居+參道+松林乾淨度好",
+    "richness": "神在月/稻佐岬/古神樂少量主題",
+    "photo": "宇豆柱下機位成熟；夜燈窗佳",
+    "season": "全年均質，10月（旧曆神在月）窗佳",
+    "experience": "JR+巴士整備好，門檻低",
+    "cultural": "神話/国造り敘事全國最高級"
+   },
+   "coords": [
+    35.402083,
+    132.685556
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-027",
+   "name_zh": "神戶六甲山",
+   "l1": "JP6",
+   "pass_A": {
+    "grandeur": 58,
+    "uniqueness": 48,
+    "visual": 62,
+    "richness": 42,
+    "photo": 60,
+    "season": 45,
+    "experience": 75,
+    "cultural": 40
+   },
+   "pass_B": {
+    "grandeur": 55,
+    "uniqueness": 45,
+    "visual": 60,
+    "richness": 40,
+    "photo": 58,
+    "season": 42,
+    "experience": 78,
+    "cultural": 38
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 3,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 56,
+    "uniqueness": 46,
+    "visual": 61,
+    "richness": 41,
+    "photo": 59,
+    "season": 44,
+    "experience": 76,
+    "cultural": 39
+   },
+   "agli": 52.7,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "931m山頂俯瞰大阪灣的「1000萬美元夜景」水平展開好",
+    "uniqueness": "「都會灣區夜景+山頂溫泉」組合型態國內可比（長崎/北九州）",
+    "visual": "夜燈海+港口乾淨度中；白天平淡",
+    "richness": "夜景+掬星台展望+牧場輕附加",
+    "photo": "掬星台俯瞰機位成熟，夜窗佳",
+    "season": "全年夜拍均質，夏霧窗少",
+    "experience": "纜車+巴士接駁好，門檻低",
+    "cultural": "明治外國人避暑史輕敘事"
+   },
+   "coords": [
+    34.752011,
+    135.237428
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-028",
+   "name_zh": "高野山",
+   "l1": "JP6",
+   "pass_A": {
+    "grandeur": 55,
+    "uniqueness": 75,
+    "visual": 60,
+    "richness": 58,
+    "photo": 62,
+    "season": 58,
+    "experience": 65,
+    "cultural": 92
+   },
+   "pass_B": {
+    "grandeur": 52,
+    "uniqueness": 72,
+    "visual": 58,
+    "richness": 55,
+    "photo": 60,
+    "season": 55,
+    "experience": 68,
+    "cultural": 90
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 3,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 54,
+    "uniqueness": 74,
+    "visual": 59,
+    "richness": 56,
+    "photo": 61,
+    "season": 56,
+    "experience": 66,
+    "cultural": 91
+   },
+   "agli": 62.7,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "900m山間盆地內的宗教都市全景壓迫感弱但空間厚重",
+    "uniqueness": "世界遺產「空海道場+壇上伽藍+奧之院」組合世界唯一",
+    "visual": "紅壇+杉木林+霧氛佳；街道建築現代感略雜",
+    "richness": "壇上伽藍/奧之院石垣/大門/金剛峰寺多點主題",
+    "photo": "奧之院參道霧景+紅葉機位成熟",
+    "season": "秋紅葉+霧日最佳，冬雪窗短",
+    "experience": "巴士+步行道，門檻低但距離遠",
+    "cultural": "世界遺產密教聖地敘事全日本最高級"
+   },
+   "coords": [
+    34.213056,
+    135.579583
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-029",
+   "name_zh": "伊賀上野城",
+   "l1": "JP6",
+   "pass_A": {
+    "grandeur": 42,
+    "uniqueness": 50,
+    "visual": 45,
+    "richness": 30,
+    "photo": 42,
+    "season": 48,
+    "experience": 70,
+    "cultural": 62
+   },
+   "pass_B": {
+    "grandeur": 40,
+    "uniqueness": 48,
+    "visual": 42,
+    "richness": 28,
+    "photo": 40,
+    "season": 45,
+    "experience": 72,
+    "cultural": 60
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 2,
+    "photo": 2,
+    "season": 3,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 41,
+    "uniqueness": 49,
+    "visual": 44,
+    "richness": 29,
+    "photo": 41,
+    "season": 46,
+    "experience": 71,
+    "cultural": 61
+   },
+   "agli": 44.9,
+   "confidence": "low",
+   "reasons": {
+    "grandeur": "日本最高石垣(30m)具壓迫感但天守重建體感薄",
+    "uniqueness": "「忍者發源地+最高石垣」組合記錄性稀缺",
+    "visual": "石垣巨壁+白壁乾淨度中",
+    "richness": "忍者屋敷+石垣+俳句館少量主題",
+    "photo": "石垣仰視構圖成熟",
+    "season": "全年均質",
+    "experience": "電車+步行10分，門檻低",
+    "cultural": "藤堂高虎+松尾芭蕉敘事中厚"
+   },
+   "coords": [
+    34.7702,
+    136.127174
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-030",
+   "name_zh": "鳴門海峽漩渦",
+   "l1": "JP8",
+   "pass_A": {
+    "grandeur": 70,
+    "uniqueness": 86,
+    "visual": 60,
+    "richness": 38,
+    "photo": 55,
+    "season": 35,
+    "experience": 72,
+    "cultural": 50
+   },
+   "pass_B": {
+    "grandeur": 68,
+    "uniqueness": 84,
+    "visual": 58,
+    "richness": 35,
+    "photo": 52,
+    "season": 32,
+    "experience": 75,
+    "cultural": 48
+   },
+   "arb_used": {
+    "uniqueness": 85
+   },
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 69,
+    "uniqueness": 85,
+    "visual": 59,
+    "richness": 36,
+    "photo": 54,
+    "season": 34,
+    "experience": 74,
+    "cultural": 49
+   },
+   "agli": 60.9,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "1.5m級漩渦+海峽大橋組合規模感好，主體在海面之下",
+    "uniqueness": "世界級海流漩渦（僅加拿大Old Sow/英Gulf of Corryvreckan可比），渦潮形態稀缺性高",
+    "visual": "橋綠+海藍乾淨；漩渦角度依賴潮汐光線",
+    "richness": "漩渦單一主題+大橋/遊船少量",
+    "photo": "渦之道水底展望廊+遊船兩機位，滿潮前後2小時窗",
+    "season": "春大潮窗最佳，年窗口由潮汐主導",
+    "experience": "展望廊直達，遊船收費中",
+    "cultural": "德島阿波歷史輕敘事"
+   },
+   "coords": [
+    34.24,
+    134.651
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-031",
+   "name_zh": "倉敷美觀地區",
+   "l1": "JP7",
+   "pass_A": {
+    "grandeur": 38,
+    "uniqueness": 60,
+    "visual": 62,
+    "richness": 45,
+    "photo": 62,
+    "season": 55,
+    "experience": 72,
+    "cultural": 82
+   },
+   "pass_B": {
+    "grandeur": 35,
+    "uniqueness": 58,
+    "visual": 60,
+    "richness": 42,
+    "photo": 60,
+    "season": 52,
+    "experience": 75,
+    "cultural": 80
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 36,
+    "uniqueness": 59,
+    "visual": 61,
+    "richness": 44,
+    "photo": 61,
+    "season": 54,
+    "experience": 74,
+    "cultural": 81
+   },
+   "agli": 54.9,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "運河+白壁倉庫街景無自然主體",
+    "uniqueness": "「水路+白壁+柳樹」商景型態保存度日本頂級但與小樽/飛驒同型可比",
+    "visual": "運河+白壁+柳倒影乾淨度極好",
+    "richness": "運河遊船/大原美術館/星宿館多主題",
+    "photo": "川面正面構圖成熟；晨早窗無人潮",
+    "season": "全年可及，雪/櫻/楓三窗短而強",
+    "experience": "JR倉敷站步行10分，門檻低",
+    "cultural": "江戶商港+民藝運動敘事厚"
+   },
+   "coords": [
+    34.595688,
+    133.771619
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-032",
+   "name_zh": "福岡城跡",
+   "l1": "JP9",
+   "pass_A": {
+    "grandeur": 42,
+    "uniqueness": 42,
+    "visual": 48,
+    "richness": 38,
+    "photo": 50,
+    "season": 50,
+    "experience": 75,
+    "cultural": 62
+   },
+   "pass_B": {
+    "grandeur": 40,
+    "uniqueness": 40,
+    "visual": 45,
+    "richness": 35,
+    "photo": 48,
+    "season": 48,
+    "experience": 78,
+    "cultural": 60
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 41,
+    "uniqueness": 41,
+    "visual": 46,
+    "richness": 36,
+    "photo": 49,
+    "season": 49,
+    "experience": 76,
+    "cultural": 61
+   },
+   "agli": 46.0,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "無天守，石垣+櫓遺構規模感中",
+    "uniqueness": "「石垣群+櫻」型態全國城跡同型多處",
+    "visual": "石垣巨壁+櫻花窗佳；平日普通",
+    "richness": "櫻花/石垣/展望少量主題",
+    "photo": "天守台俯瞰+石垣仰視機位成熟",
+    "season": "3月末櫻窗佳，其餘均質",
+    "experience": "地下鐵+步行10分，門檻低",
+    "cultural": "黑田長政築城史敘事中"
+   },
+   "coords": [
+    33.5844,
+    130.3831
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-033",
+   "name_zh": "唐津城",
+   "l1": "JP9",
+   "pass_A": {
+    "grandeur": 55,
+    "uniqueness": 42,
+    "visual": 58,
+    "richness": 35,
+    "photo": 55,
+    "season": 45,
+    "experience": 75,
+    "cultural": 52
+   },
+   "pass_B": {
+    "grandeur": 52,
+    "uniqueness": 40,
+    "visual": 55,
+    "richness": 32,
+    "photo": 52,
+    "season": 42,
+    "experience": 78,
+    "cultural": 50
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 3,
+    "photo": 3,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 54,
+    "uniqueness": 41,
+    "visual": 56,
+    "richness": 34,
+    "photo": 54,
+    "season": 44,
+    "experience": 76,
+    "cultural": 51
+   },
+   "agli": 49.7,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "滿佐志岬天守式展望台俯瞰虹之松原+唐津灣好",
+    "uniqueness": "「天守+松原+灣景」組合全國可比（虹口松原同型）",
+    "visual": "松原綠帶+海藍乾淨度中",
+    "richness": "松原/島海少量主題",
+    "photo": "天守頂展望機位成熟",
+    "season": "全年均質，秋晴窗佳",
+    "experience": "巴士+纜車，門檻低",
+    "cultural": "細川忠興築城史輕敘事"
+   },
+   "coords": [
+    33.453529,
+    129.97818
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-034",
+   "name_zh": "長崎哥拉巴園",
+   "l1": "JP9",
+   "pass_A": {
+    "grandeur": 40,
+    "uniqueness": 50,
+    "visual": 52,
+    "richness": 38,
+    "photo": 52,
+    "season": 48,
+    "experience": 75,
+    "cultural": 72
+   },
+   "pass_B": {
+    "grandeur": 38,
+    "uniqueness": 48,
+    "visual": 50,
+    "richness": 35,
+    "photo": 50,
+    "season": 45,
+    "experience": 78,
+    "cultural": 70
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 39,
+    "uniqueness": 49,
+    "visual": 51,
+    "richness": 36,
+    "photo": 51,
+    "season": 46,
+    "experience": 76,
+    "cultural": 71
+   },
+   "agli": 48.5,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "山丘洋館群景觀主體小",
+    "uniqueness": "「明治洋館+開港史」組合日本唯一世界遺產級（端下地區）",
+    "visual": "白洋館+綠庭+長崎港眺望乾淨度中",
+    "richness": "洋館/夜景/和服少量主題",
+    "photo": "園內庭院機位成熟，夜燈窗佳",
+    "season": "全年均質，秋夜燈窗佳",
+    "experience": "電車+坂道步行，門檻低",
+    "cultural": "明治開港+隱居基督徒敘事厚"
+   },
+   "coords": [
+    32.734389,
+    129.869083
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-035",
+   "name_zh": "福岡塔",
+   "l1": "JP9",
+   "pass_A": {
+    "grandeur": 40,
+    "uniqueness": 30,
+    "visual": 48,
+    "richness": 25,
+    "photo": 45,
+    "season": 40,
+    "experience": 80,
+    "cultural": 35
+   },
+   "pass_B": {
+    "grandeur": 38,
+    "uniqueness": 28,
+    "visual": 45,
+    "richness": 22,
+    "photo": 42,
+    "season": 38,
+    "experience": 82,
+    "cultural": 32
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 2,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 39,
+    "uniqueness": 29,
+    "visual": 46,
+    "richness": 24,
+    "photo": 44,
+    "season": 39,
+    "experience": 81,
+    "cultural": 34
+   },
+   "agli": 39.1,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "234m鐵塔尺度感好但為人工構造物景觀",
+    "uniqueness": "鐵塔型態全球普遍（橫濱/東京可比）",
+    "visual": "夜燈+海濱燈海乾淨度中",
+    "richness": "夜景單一主題",
+    "photo": "塔頂展望+濱海正面兩機位成熟",
+    "season": "全年夜拍均質",
+    "experience": "電車+巴士直達，門檻低",
+    "cultural": "1989アジア博覽會紀念輕敘事"
+   },
+   "coords": [
+    33.593274,
+    130.351467
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-036",
+   "name_zh": "高千穗峽",
+   "l1": "JP9",
+   "pass_A": {
+    "grandeur": 86,
+    "uniqueness": 88,
+    "visual": 84,
+    "richness": 62,
+    "photo": 78,
+    "season": 42,
+    "experience": 68,
+    "cultural": 70
+   },
+   "pass_B": {
+    "grandeur": 84,
+    "uniqueness": 86,
+    "visual": 82,
+    "richness": 59,
+    "photo": 76,
+    "season": 40,
+    "experience": 70,
+    "cultural": 68
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 85,
+    "uniqueness": 87,
+    "visual": 83,
+    "richness": 60,
+    "photo": 77,
+    "season": 41,
+    "experience": 69,
+    "cultural": 69
+   },
+   "agli": 75.4,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "100m級火山凝灰岩斷崖7km連續+真名井瀑布，壓倒性",
+    "uniqueness": "「柱狀節理峽谷+瀑布」型態日本唯一（阿蘇熔結凝灰岩峽谷僅此成形）",
+    "visual": "灰白岩壁+翠綠水+瀑布乾淨度極好",
+    "richness": "瀑布/峽谷遊船/霧/紅葉四段主題",
+    "photo": "遊船正面瀑布機位極成熟，晨早窗佳",
+    "season": "全年可及，秋楓+春新綠雙窗佳",
+    "experience": "停車+步道完善，門檻低",
+    "cultural": "高千穗神話（天孫降臨）敘事極厚"
+   },
+   "coords": [
+    32.7016613,
+    131.3003766
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-037",
+   "name_zh": "雲海テラス（トマム）",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 60,
+    "uniqueness": 64,
+    "visual": 68,
+    "richness": 48,
+    "photo": 58,
+    "season": 30,
+    "experience": 70,
+    "cultural": 25
+   },
+   "pass_B": {
+    "grandeur": 58,
+    "uniqueness": 62,
+    "visual": 65,
+    "richness": 45,
+    "photo": 55,
+    "season": 28,
+    "experience": 72,
+    "cultural": 24
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 2,
+    "cultural": 1
+   },
+   "merged": {
+    "grandeur": 59,
+    "uniqueness": 63,
+    "visual": 66,
+    "richness": 46,
+    "photo": 56,
+    "season": 29,
+    "experience": 71,
+    "cultural": 24
+   },
+   "agli": 55.0,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "雲海之上平台視角佳但地形本身為滑雪場人工設施",
+    "uniqueness": "雲海平台型態在日本有先發知名度，可替代（雲海展望台多處）",
+    "visual": "白雲海+綠山對比乾淨，雲量不足即全滅",
+    "richness": "主題唯一（雲海），附加日光霧景少量",
+    "photo": "纜車直上俯瞰構圖成熟，完全依賴早晨雲海生成",
+    "season": "僅6-8月晨間2-3小時窗口，年可及比例<15%",
+    "experience": "渡假村纜車直達但收費且看天吃飯",
+    "cultural": "純商業觀光設施，人文敘事薄"
+   },
+   "coords": [
+    43.0617,
+    142.6228
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-038",
+   "name_zh": "蔵王樹氷（蔵王ロープウェイ・山形側）",
+   "l1": "JP2",
+   "pass_A": {
+    "grandeur": 80,
+    "uniqueness": 90,
+    "visual": 78,
+    "richness": 50,
+    "photo": 64,
+    "season": 20,
+    "experience": 65,
+    "cultural": 40
+   },
+   "pass_B": {
+    "grandeur": 78,
+    "uniqueness": 88,
+    "visual": 76,
+    "richness": 48,
+    "photo": 62,
+    "season": 18,
+    "experience": 68,
+    "cultural": 38
+   },
+   "arb_used": {
+    "uniqueness": 89
+   },
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 79,
+    "uniqueness": 89,
+    "visual": 77,
+    "richness": 49,
+    "photo": 63,
+    "season": 19,
+    "experience": 66,
+    "cultural": 39
+   },
+   "agli": 66.7,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "千棵超過10m的霧凇樹林雪原全景壓倒",
+    "uniqueness": "「樹氷」型態全球罕有（西伯利亞寒風+濕雪共存條件），日本僅蔵王/八甲田等2-3處成形",
+    "visual": "白海+樹形雕塑乾淨；夜樹氷點燈為附加",
+    "richness": "主題單一（樹氷），樹形各異補畫面",
+    "photo": "纜車俯瞰+樹氷原散步道機位成熟",
+    "season": "僅1月下旬-2月下旬成形成熟，年窗口<6週",
+    "experience": "纜車直上但強風停駛率高，裝備門檻中",
+    "cultural": "藏王山岳信仰輕敘事"
+   },
+   "coords": [
+    38.154781,
+    140.431075
+   ],
+   "photo_evidence": [
+    {
+     "title": "File:Zao snow monsters"
+    }
+   ]
+  },
+  {
+   "place_id": "jp-039",
+   "name_zh": "津別峠展望台（屈斜路湖雲海）",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 80,
+    "uniqueness": 70,
+    "visual": 72,
+    "richness": 50,
+    "photo": 62,
+    "season": 28,
+    "experience": 55,
+    "cultural": 32
+   },
+   "pass_B": {
+    "grandeur": 78,
+    "uniqueness": 68,
+    "visual": 70,
+    "richness": 48,
+    "photo": 60,
+    "season": 26,
+    "experience": 58,
+    "cultural": 30
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 79,
+    "uniqueness": 69,
+    "visual": 71,
+    "richness": 49,
+    "photo": 61,
+    "season": 27,
+    "experience": 56,
+    "cultural": 31
+   },
+   "agli": 61.4,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "日本最大火口湖上空雲海+中島浮出，構圖主導性極強",
+    "uniqueness": "「湖上雲海中島」型態日本僅屈斜路可再現",
+    "visual": "雲海鋪底+湖面點綴乾淨；無雲日為普通山道展望",
+    "richness": "主題單一（雲海），偶有霧冰附加",
+    "photo": "峠頂展望台機位固定但畫面成果極高，依賴條件窗",
+    "season": "僅6-8月日出前後，需前夜無風晨霧條件，可及率低",
+    "experience": "自駕土路30分鐘晨間未整備，門檻中高",
+    "cultural": "阿寒摩周國立公園，人文薄"
+   },
+   "coords": [
+    43.5769,
+    144.2242
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-040",
+   "name_zh": "美幌峠展望台",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 82,
+    "uniqueness": 62,
+    "visual": 70,
+    "richness": 45,
+    "photo": 65,
+    "season": 40,
+    "experience": 78,
+    "cultural": 30
+   },
+   "pass_B": {
+    "grandeur": 80,
+    "uniqueness": 60,
+    "visual": 68,
+    "richness": 42,
+    "photo": 62,
+    "season": 38,
+    "experience": 80,
+    "cultural": 28
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 81,
+    "uniqueness": 61,
+    "visual": 69,
+    "richness": 44,
+    "photo": 64,
+    "season": 39,
+    "experience": 79,
+    "cultural": 29
+   },
+   "agli": 62.0,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "日本最大火山口湖緣石壁視角，水平展開日本屈指",
+    "uniqueness": "「從壁上望完整湖」的構圖日本僅此＋中禪寺可比",
+    "visual": "湖藍+崖綠乾淨，霧天黑箱；夜空銀河窗佳",
+    "richness": "俯瞰湖體+霧冰(冬)+星空三題",
+    "photo": "峠道展望台機位成熟；晨霧湖面構圖著名",
+    "season": "除嚴冬外全年可及，霧依賴中",
+    "experience": "國道243直達，門檻低",
+    "cultural": "阿寒摩周國立公園，人文薄"
+   },
+   "coords": [
+    43.6483,
+    144.2461
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-041",
+   "name_zh": "知床ウトロ流氷（プユニ岬）",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 88,
+    "uniqueness": 92,
+    "visual": 82,
+    "richness": 60,
+    "photo": 64,
+    "season": 22,
+    "experience": 45,
+    "cultural": 45
+   },
+   "pass_B": {
+    "grandeur": 86,
+    "uniqueness": 90,
+    "visual": 80,
+    "richness": 58,
+    "photo": 62,
+    "season": 20,
+    "experience": 48,
+    "cultural": 42
+   },
+   "arb_used": {
+    "uniqueness": 91
+   },
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 87,
+    "uniqueness": 91,
+    "visual": 81,
+    "richness": 59,
+    "photo": 63,
+    "season": 21,
+    "experience": 46,
+    "cultural": 44
+   },
+   "agli": 69.7,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "鄂霍次克海整面流冰+知床連山背景，世界唯一低緯流冰景觀，壓倒性",
+    "uniqueness": "全球同緯度海面結冰帶流冰場景僅鄂霍次克+波羅的海；世界遺產知床核心意象",
+    "visual": "白冰+黑山+橙晨光色彩結構乾淨；陰天整體灰化",
+    "richness": "流冰+朝霧+野生動物（鷲/狐狸）偶得",
+    "photo": "プユニ岬機位成熟但流冰到岸與否靠天，成功率不不穩",
+    "season": "僅1月中-2月底且需風向推冰，年窗口<2個月",
+    "experience": "ウトロ鎮宿泊+晨間岬道，冬季結冰路面門檻高",
+    "cultural": "知床世界自然遺產、愛奴流冰敘事"
+   },
+   "coords": [
+    44.0958,
+    145.0093
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-042",
+   "name_zh": "森吉山樹氷平（阿仁スキー場）",
+   "l1": "JP2",
+   "pass_A": {
+    "grandeur": 70,
+    "uniqueness": 80,
+    "visual": 62,
+    "richness": 40,
+    "photo": 52,
+    "season": 18,
+    "experience": 40,
+    "cultural": 32
+   },
+   "pass_B": {
+    "grandeur": 68,
+    "uniqueness": 78,
+    "visual": 60,
+    "richness": 38,
+    "photo": 50,
+    "season": 16,
+    "experience": 42,
+    "cultural": 30
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 2,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 69,
+    "uniqueness": 79,
+    "visual": 61,
+    "richness": 39,
+    "photo": 51,
+    "season": 17,
+    "experience": 41,
+    "cultural": 31
+   },
+   "agli": 55.6,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "日本最高樹氷（人立以上），樹牆規模好但無開闊全原視角",
+    "uniqueness": "「スーパージャンプ」樹氷牆日本最高級，但知名/機位低於蔵王",
+    "visual": "樹牆特寫好；山頂視角平常日平淡",
+    "richness": "主題單一（樹氷），登山/滑雪附加少",
+    "photo": "「まさかり」コース沿線機位不固定，風雪曝光難",
+    "season": "2月2週窗口極短，風雪天候依賴最高",
+    "experience": "纜車+ski山道，非滑雪者接觸點少",
+    "cultural": "森吉山岳信仰輕敘事"
+   },
+   "coords": [
+    39.955,
+    140.4919
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-043",
+   "name_zh": "富田農場ラベンダーイースト",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 55,
+    "uniqueness": 62,
+    "visual": 70,
+    "richness": 40,
+    "photo": 62,
+    "season": 24,
+    "experience": 70,
+    "cultural": 30
+   },
+   "pass_B": {
+    "grandeur": 52,
+    "uniqueness": 60,
+    "visual": 68,
+    "richness": 38,
+    "photo": 60,
+    "season": 22,
+    "experience": 72,
+    "cultural": 28
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 2,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 54,
+    "uniqueness": 61,
+    "visual": 69,
+    "richness": 39,
+    "photo": 61,
+    "season": 23,
+    "experience": 71,
+    "cultural": 29
+   },
+   "agli": 53.7,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "丘陵花田水平展開尚可，無地形垂直要素",
+    "uniqueness": "薰衣草花田法/日兩系可比（普羅旺斯/富良野），東亞最高密度代表",
+    "visual": "紫田+天空色塊乾淨亮眼；花色單一",
+    "richness": "花田主題+周邊花圃連帶，主題同質",
+    "photo": "「沖」展望坡機位經典，7月晨光窗佳",
+    "season": "花期僅7月上旬-下旬，年可及比例<8%",
+    "experience": "農場停車+步道完善，門檻低",
+    "cultural": "北海道農墾史敘事"
+   },
+   "coords": [
+    43.4189,
+    142.4266
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-044",
+   "name_zh": "十二湖・青池",
+   "l1": "JP2",
+   "pass_A": {
+    "grandeur": 52,
+    "uniqueness": 78,
+    "visual": 84,
+    "richness": 54,
+    "photo": 72,
+    "season": 52,
+    "experience": 72,
+    "cultural": 40
+   },
+   "pass_B": {
+    "grandeur": 50,
+    "uniqueness": 76,
+    "visual": 82,
+    "richness": 51,
+    "photo": 70,
+    "season": 50,
+    "experience": 75,
+    "cultural": 38
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 51,
+    "uniqueness": 77,
+    "visual": 83,
+    "richness": 52,
+    "photo": 71,
+    "season": 51,
+    "experience": 74,
+    "cultural": 39
+   },
+   "agli": 64.7,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "湖群群伏展開好但單池尺度小，無壓倒主體",
+    "uniqueness": "白神山地世界遺產緩衝地內的山毛櫸林湖群唯一性高",
+    "visual": "鈷藍水+枯木+山毛櫸綠框乾淨度極高，秋色爆發",
+    "richness": "青池/沸屋の大池/八戸テラス等9湖群+林道紅葉帶",
+    "photo": "青池步道機位成熟；水面反射窗佳",
+    "season": "全年可及，10月紅葉最佳；冬期林道不通",
+    "experience": "停車+10分步道，門檻低",
+    "cultural": "白神世界遺產（5級）邊緣+林業保護史"
+   },
+   "coords": [
+    40.5603,
+    139.9844
+   ],
+   "photo_evidence": [
+    {
+     "title": "File:十二湖の青池.jpg"
+    }
+   ]
+  },
+  {
+   "place_id": "jp-045",
+   "name_zh": "地球岬展望台",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 76,
+    "uniqueness": 74,
+    "visual": 68,
+    "richness": 35,
+    "photo": 58,
+    "season": 45,
+    "experience": 72,
+    "cultural": 28
+   },
+   "pass_B": {
+    "grandeur": 74,
+    "uniqueness": 72,
+    "visual": 66,
+    "richness": 32,
+    "photo": 55,
+    "season": 42,
+    "experience": 75,
+    "cultural": 26
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 75,
+    "uniqueness": 73,
+    "visual": 67,
+    "richness": 34,
+    "photo": 56,
+    "season": 44,
+    "experience": 74,
+    "cultural": 27
+   },
+   "agli": 60.9,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "120m垂直海蝕斷崖上眺180°海平線曲率，「地球圓」視感的日本代表",
+    "uniqueness": "海平線曲率可視性需要岬角高度+方位組合，日本極少數",
+    "visual": "海藍天空+綠崖乾淨；冬季流冰海為附加色",
+    "richness": "單一眺望主題，附加海鷗/流冰少量",
+    "photo": "展望台單一構圖成熟；晨光側光佳",
+    "season": "全年可及但夏天海霧頻，春秋最佳",
+    "experience": "展望台停車場直達，門檻低",
+    "cultural": "室蘭開港工業史輕敘事"
+   },
+   "coords": [
+    42.30272,
+    141.00067
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-046",
+   "name_zh": "タウシュベツ川橋梁（幻の橋）",
+   "l1": "JP1",
+   "pass_A": {
+    "grandeur": 65,
+    "uniqueness": 84,
+    "visual": 77,
+    "richness": 45,
+    "photo": 68,
+    "season": 30,
+    "experience": 42,
+    "cultural": 58
+   },
+   "pass_B": {
+    "grandeur": 62,
+    "uniqueness": 82,
+    "visual": 75,
+    "richness": 42,
+    "photo": 65,
+    "season": 28,
+    "experience": 45,
+    "cultural": 55
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 64,
+    "uniqueness": 83,
+    "visual": 76,
+    "richness": 44,
+    "photo": 66,
+    "season": 29,
+    "experience": 44,
+    "cultural": 56
+   },
+   "agli": 63.0,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "七連拱磚橋沉入湖面的尺度感好但總體為單一構造物",
+    "uniqueness": "「沉沒鐵橋」型態日本僅此（水位消長露出/沒入），形態記憶點極強",
+    "visual": "磚橙+湖面倒影乾淨；晴日湖乾枯岸時衰減",
+    "richness": "主題單一，附加晨霧/紅葉少量",
+    "photo": "崩落土展望點單一機位，晨霧+倒影窗佳",
+    "season": "5-11月通期，秋色最佳；12-4月封路不通",
+    "experience": "展望點步道大雨後封閉，自駕限定門檻中",
+    "cultural": "舊國鐵士幌線遺產敘事濃"
+   },
+   "coords": [
+    43.4156,
+    143.1892
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-047",
+   "name_zh": "八甲田山樹氷（八甲田ロープウェー）",
+   "l1": "JP2",
+   "pass_A": {
+    "grandeur": 68,
+    "uniqueness": 76,
+    "visual": 58,
+    "richness": 42,
+    "photo": 45,
+    "season": 16,
+    "experience": 38,
+    "cultural": 35
+   },
+   "pass_B": {
+    "grandeur": 66,
+    "uniqueness": 74,
+    "visual": 55,
+    "richness": 40,
+    "photo": 42,
+    "season": 14,
+    "experience": 40,
+    "cultural": 33
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 3,
+    "richness": 2,
+    "photo": 3,
+    "season": 2,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 67,
+    "uniqueness": 75,
+    "visual": 56,
+    "richness": 41,
+    "photo": 44,
+    "season": 15,
+    "experience": 39,
+    "cultural": 34
+   },
+   "agli": 52.6,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "樹氷群規模小於蔵王，火山荒原背景開闊度尚可",
+    "uniqueness": "樹氷型態日本第二線但「雪山滑雪上下」接觸方式獨特",
+    "visual": "樹氷特寫好，俯瞰視角稀薄；霧雪天多黑箱",
+    "richness": "樹氷+スキー滑降主題，山麓沼澤/溫泉附加",
+    "photo": "ロープウェー山頂站機位固定，窗外強風噴雪曝光難",
+    "season": "1-2月且需東北低溫+西風，成立率低",
+    "experience": "ロープウェー不通率高，冬季自駕裝備門檻高",
+    "cultural": "八甲田山岳遭難史敘事（暗面）"
+   },
+   "coords": [
+    40.6808,
+    140.8317
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-048",
+   "name_zh": "北山崎（三陸断崖）",
+   "l1": "JP2",
+   "pass_A": {
+    "grandeur": 82,
+    "uniqueness": 72,
+    "visual": 72,
+    "richness": 45,
+    "photo": 58,
+    "season": 45,
+    "experience": 50,
+    "cultural": 48
+   },
+   "pass_B": {
+    "grandeur": 80,
+    "uniqueness": 70,
+    "visual": 70,
+    "richness": 42,
+    "photo": 55,
+    "season": 42,
+    "experience": 52,
+    "cultural": 45
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 3,
+    "experience": 2,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 81,
+    "uniqueness": 71,
+    "visual": 71,
+    "richness": 44,
+    "photo": 56,
+    "season": 44,
+    "experience": 51,
+    "cultural": 46
+   },
+   "agli": 63.1,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "200m級海蝕斷崖8km連續，日本第一級海岸斷崖垂直展開",
+    "uniqueness": "岩手段丘+斷崖組合型態日本少數（跳崖式海崖僅日本海側少數）",
+    "visual": "斷崖綠+海藍對比乾淨；夜星海空佳",
+    "richness": "斷崖眺望+北浜漁港海女文化+「北帰行」燈塔",
+    "photo": "仏ヶ突展望台機位固定但無道路進入對比面，遊船視角佳",
+    "season": "春-秋可及，冬季寒風強收窗",
+    "experience": "展望台車達但觀賞位有限，遊船季節性",
+    "cultural": "三陸復興國家公園+海女漁業文化"
+   },
+   "coords": [
+    39.97934,
+    141.953
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-049",
+   "name_zh": "蔵王御釜（五色湖）",
+   "l1": "JP2",
+   "pass_A": {
+    "grandeur": 74,
+    "uniqueness": 76,
+    "visual": 80,
+    "richness": 38,
+    "photo": 55,
+    "season": 32,
+    "experience": 62,
+    "cultural": 40
+   },
+   "pass_B": {
+    "grandeur": 72,
+    "uniqueness": 74,
+    "visual": 78,
+    "richness": 36,
+    "photo": 52,
+    "season": 30,
+    "experience": 65,
+    "cultural": 38
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 73,
+    "uniqueness": 75,
+    "visual": 79,
+    "richness": 37,
+    "photo": 54,
+    "season": 31,
+    "experience": 64,
+    "cultural": 39
+   },
+   "agli": 61.5,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "327m深爆裂火口湖+絕壁圈湖，尺度感世界級火口",
+    "uniqueness": "水位不變的「死湖」型態＋變幻水色，日本火口湖代表之一",
+    "visual": "翡翠色水面+荒原圈乾淨，晴日爆發力強",
+    "richness": "單一湖體，僅水色/雪崩壁附加",
+    "photo": "山頂展望點機位單一，晴日晨光窗佳",
+    "season": "5-10月通行（冬期全面封封閉），霧率高達50%",
+    "experience": "巴士+步行或自駕峠道，門檻中",
+    "cultural": "藏山岳信仰+山形宮城兩縣共管敘事"
+   },
+   "coords": [
+    38.1364,
+    140.4494
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-051",
+   "name_zh": "嚴島神社・宮島大鳥居",
+   "l1": "JP7",
+   "pass_A": {
+    "grandeur": 74,
+    "uniqueness": 90,
+    "visual": 82,
+    "richness": 60,
+    "photo": 78,
+    "season": 64,
+    "experience": 75,
+    "cultural": 94
+   },
+   "pass_B": {
+    "grandeur": 72,
+    "uniqueness": 88,
+    "visual": 80,
+    "richness": 57,
+    "photo": 76,
+    "season": 62,
+    "experience": 78,
+    "cultural": 92
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 73,
+    "uniqueness": 89,
+    "visual": 81,
+    "richness": 58,
+    "photo": 77,
+    "season": 63,
+    "experience": 76,
+    "cultural": 93
+   },
+   "agli": 76.7,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "16m海上大鳥居+瀰山彌山（535m）+島嶼海灣組合的層次壓倒性好，主體偏向構造物",
+    "uniqueness": "「海中鳥居+神社本殿+山彌山」世界唯一構成（UNESCO 1996），全球同型僅日本此一例",
+    "visual": "赤社殿+海面+山綠三色乾淨度極高；滿潮倒影窗口爆發",
+    "richness": "滿/退潮、紅葉（彌山）、夜景點燈、夏季宮島花火多主題",
+    "photo": "滿潮紅鳥居正面機位極成熟，藍調+晨光雙窗佳",
+    "season": "全年可及，秋季楓+夏花火強窗，颱風期封閉少量",
+    "experience": "渡輪+商店街棧道整備日本首屈",
+    "cultural": "世界文化遺產+神道海山信仰敘事全國最高級"
+   },
+   "coords": [
+    34.29602,
+    132.31989
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-052",
+   "name_zh": "備中松山城・雲海（天空の城）",
+   "l1": "JP7",
+   "pass_A": {
+    "grandeur": 72,
+    "uniqueness": 80,
+    "visual": 72,
+    "richness": 42,
+    "photo": 58,
+    "season": 22,
+    "experience": 42,
+    "cultural": 62
+   },
+   "pass_B": {
+    "grandeur": 70,
+    "uniqueness": 78,
+    "visual": 70,
+    "richness": 40,
+    "photo": 55,
+    "season": 20,
+    "experience": 45,
+    "cultural": 60
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 71,
+    "uniqueness": 79,
+    "visual": 71,
+    "richness": 41,
+    "photo": 56,
+    "season": 21,
+    "experience": 44,
+    "cultural": 61
+   },
+   "agli": 60.5,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "430m山頂上現存天守+城下雲海壓倒性俯瞰",
+    "uniqueness": "「現存天守+雲海」組合日本唯一（現存12天守最高點），形態記憶點極強",
+    "visual": "黑城+白雲海對比乾淨度極好",
+    "richness": "雲海單一主題+現存天守/紅葉少量",
+    "photo": "展望台步行道機位佳但無車道直達",
+    "season": "9-11月晨間雲海成立率低（<30%），全年窗口短",
+    "experience": "巴士+20分登山道，門檻中高",
+    "cultural": "現存天守+山城兵法敘事厚"
+   },
+   "coords": [
+    34.80909,
+    133.62233
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-053",
+   "name_zh": "天橋立",
+   "l1": "JP6",
+   "pass_A": {
+    "grandeur": 78,
+    "uniqueness": 90,
+    "visual": 78,
+    "richness": 56,
+    "photo": 70,
+    "season": 50,
+    "experience": 75,
+    "cultural": 76
+   },
+   "pass_B": {
+    "grandeur": 76,
+    "uniqueness": 88,
+    "visual": 76,
+    "richness": 53,
+    "photo": 68,
+    "season": 48,
+    "experience": 78,
+    "cultural": 74
+   },
+   "arb_used": {
+    "uniqueness": 89
+   },
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 77,
+    "uniqueness": 89,
+    "visual": 77,
+    "richness": 54,
+    "photo": 69,
+    "season": 49,
+    "experience": 76,
+    "cultural": 75
+   },
+   "agli": 73.0,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "3.6km沙嘴松林帶水平展開好，傘松公園俯瞰「天地反転」構圖壓倒",
+    "uniqueness": "日本三景之一，沙嘴型態全球少數（世界級沙嘴極短列）",
+    "visual": "松林綠+砂白+海藍乾淨度極好",
+    "richness": "俯瞰「膝下展望」/遊船/文珠山多主題",
+    "photo": "傘松公園+笠置山兩機位極成熟",
+    "season": "全年可及，秋晴+夜星空窗佳",
+    "experience": "電車+傘松公園纜車，門檻低",
+    "cultural": "日本三景+丹後天橋立敘事厚"
+   },
+   "coords": [
+    35.56936,
+    135.19153
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-054",
+   "name_zh": "伊根的舟屋",
+   "l1": "JP6",
+   "pass_A": {
+    "grandeur": 52,
+    "uniqueness": 72,
+    "visual": 68,
+    "richness": 40,
+    "photo": 65,
+    "season": 50,
+    "experience": 62,
+    "cultural": 72
+   },
+   "pass_B": {
+    "grandeur": 50,
+    "uniqueness": 70,
+    "visual": 66,
+    "richness": 38,
+    "photo": 62,
+    "season": 48,
+    "experience": 65,
+    "cultural": 70
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 51,
+    "uniqueness": 71,
+    "visual": 67,
+    "richness": 39,
+    "photo": 64,
+    "season": 49,
+    "experience": 64,
+    "cultural": 71
+   },
+   "agli": 59.6,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "230間舟屋沿岸帶水平展開好但無地形壓迫",
+    "uniqueness": "「水上民家舟屋」型態全球唯一（日本僅此+國外無同型）",
+    "visual": "舟屋+海面+山影乾淨度極好；電線干擾少量",
+    "richness": "舟屋/海霧/船遊/漁火少量主題",
+    "photo": "舟屋正面+對岸上望機位成熟",
+    "season": "全年可及，秋晨霧+夜漁火窗佳",
+    "experience": "距離遠+自駕限定，接觸面少",
+    "cultural": "伊根漁村文化敘事厚"
+   },
+   "coords": [
+    35.67572,
+    135.28744
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-055",
+   "name_zh": "鳥取砂丘",
+   "l1": "JP7",
+   "pass_A": {
+    "grandeur": 80,
+    "uniqueness": 76,
+    "visual": 74,
+    "richness": 48,
+    "photo": 64,
+    "season": 40,
+    "experience": 78,
+    "cultural": 40
+   },
+   "pass_B": {
+    "grandeur": 78,
+    "uniqueness": 74,
+    "visual": 72,
+    "richness": 45,
+    "photo": 62,
+    "season": 38,
+    "experience": 80,
+    "cultural": 38
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 2,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 79,
+    "uniqueness": 75,
+    "visual": 73,
+    "richness": 46,
+    "photo": 63,
+    "season": 39,
+    "experience": 79,
+    "cultural": 39
+   },
+   "agli": 65.6,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "2.4km砂丘帶最大50m落差，日本唯一沙漠型態壓倒",
+    "uniqueness": "國內唯一海岸砂丘景觀（風紋/砂柱完整體系），國際級沙漠遜（納米布）但日本內唯一",
+    "visual": "砂紋+藍天+海色對比乾淨；夏白曝光刺眼",
+    "richness": "砂紋特寫/馬の背/涼風/夜景銀河四段",
+    "photo": "馬の背+砂紋機位極成熟，晨光斜射佳",
+    "season": "全年可及，晨間+秋季風紋清晰窗佳",
+    "experience": "巴士/停車+棧道，門檻低",
+    "cultural": "砂丘保護運動敘事中"
+   },
+   "coords": [
+    35.5425,
+    134.23028
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-056",
+   "name_zh": "大山（剣ヶ峰）",
+   "l1": "JP7",
+   "pass_A": {
+    "grandeur": 76,
+    "uniqueness": 64,
+    "visual": 68,
+    "richness": 55,
+    "photo": 55,
+    "season": 32,
+    "experience": 45,
+    "cultural": 60
+   },
+   "pass_B": {
+    "grandeur": 74,
+    "uniqueness": 62,
+    "visual": 66,
+    "richness": 52,
+    "photo": 52,
+    "season": 30,
+    "experience": 48,
+    "cultural": 58
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 75,
+    "uniqueness": 63,
+    "visual": 67,
+    "richness": 54,
+    "photo": 54,
+    "season": 31,
+    "experience": 46,
+    "cultural": 59
+   },
+   "agli": 59.5,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "1729m中國地方最高峰+頂上破火山口壁壓倒性好",
+    "uniqueness": "「阿爾卑斯式難岳+破火山口」組合西日本唯一",
+    "visual": "山體鋸齒脊線+冬雪爆發好",
+    "richness": "登頂/雲海/冬雪/破火山口展望多主題",
+    "photo": "破火山口邊緣機位需登頂，風勢大曝光難",
+    "season": "6-10月通期可登，冬期雪山裝備門檻高",
+    "experience": "登山道2小時以上，門檻中高",
+    "cultural": "大山寺+修験道敘事中厚"
+   },
+   "coords": [
+    35.3711,
+    133.5464
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-057",
+   "name_zh": "稻佐山夜景",
+   "l1": "JP9",
+   "pass_A": {
+    "grandeur": 55,
+    "uniqueness": 70,
+    "visual": 72,
+    "richness": 35,
+    "photo": 65,
+    "season": 42,
+    "experience": 72,
+    "cultural": 62
+   },
+   "pass_B": {
+    "grandeur": 52,
+    "uniqueness": 68,
+    "visual": 70,
+    "richness": 32,
+    "photo": 62,
+    "season": 40,
+    "experience": 75,
+    "cultural": 60
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 2,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 54,
+    "uniqueness": 69,
+    "visual": 71,
+    "richness": 34,
+    "photo": 64,
+    "season": 41,
+    "experience": 74,
+    "cultural": 61
+   },
+   "agli": 59.1,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "333m山頂俯瞰「用碗盛」的複合灣岸燈海構圖壓倒性好",
+    "uniqueness": "「斜坡式山海燈海」型態全球同型少數（摩納哥/拿坡里可比）",
+    "visual": "燈海密度+山影層次乾淨度極好",
+    "richness": "夜景單一主題+霧少量",
+    "photo": "山頂展望台俯瞰機位極成熟",
+    "season": "全年夜拍均質，夏霧窗少",
+    "experience": "纜車+巴士整備好",
+    "cultural": "開港史+軍港史敘事厚"
+   },
+   "coords": [
+    32.75336,
+    129.84933
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-058",
+   "name_zh": "櫻島・湯之平展望所",
+   "l1": "JP9",
+   "pass_A": {
+    "grandeur": 76,
+    "uniqueness": 86,
+    "visual": 70,
+    "richness": 52,
+    "photo": 62,
+    "season": 35,
+    "experience": 68,
+    "cultural": 58
+   },
+   "pass_B": {
+    "grandeur": 74,
+    "uniqueness": 84,
+    "visual": 68,
+    "richness": 50,
+    "photo": 60,
+    "season": 32,
+    "experience": 70,
+    "cultural": 55
+   },
+   "arb_used": {
+    "uniqueness": 85
+   },
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 2,
+    "season": 3,
+    "experience": 2,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 75,
+    "uniqueness": 85,
+    "visual": 69,
+    "richness": 51,
+    "photo": 61,
+    "season": 34,
+    "experience": 69,
+    "cultural": 56
+   },
+   "agli": 66.2,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "1117m活火山錐正面壓迫+錦江灣海景組合壓倒",
+    "uniqueness": "「近距離活火山+都市共居」型態全球僅（坡旁開普敦/維蘇威可比）少量，噴煙常景觀察點唯一",
+    "visual": "黑色火口+白噴煙+海藍乾淨度好",
+    "richness": "噴煙/熔岩原/大輪菊花田/霧四段",
+    "photo": "湯之平展望所正面火口機位成熟",
+    "season": "全年可及，火山灰影響拍照度（灰雲）機率中",
+    "experience": "巴士+展望所直達，門檻低但火山警報管制",
+    "cultural": "大正噴火災害史+蔵人住民敘事厚"
+   },
+   "coords": [
+    31.5915,
+    130.6299
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-059",
+   "name_zh": "阿蘇山・草千里ヶ浜",
+   "l1": "JP9",
+   "pass_A": {
+    "grandeur": 91,
+    "uniqueness": 91,
+    "visual": 78,
+    "richness": 62,
+    "photo": 70,
+    "season": 32,
+    "experience": 72,
+    "cultural": 60
+   },
+   "pass_B": {
+    "grandeur": 89,
+    "uniqueness": 89,
+    "visual": 76,
+    "richness": 59,
+    "photo": 68,
+    "season": 30,
+    "experience": 75,
+    "cultural": 57
+   },
+   "arb_used": {
+    "grandeur": 90,
+    "uniqueness": 90
+   },
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 2,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 90,
+    "uniqueness": 90,
+    "visual": 77,
+    "richness": 60,
+    "photo": 69,
+    "season": 31,
+    "experience": 74,
+    "cultural": 58
+   },
+   "agli": 73.6,
+   "confidence": "high",
+   "reasons": {
+    "grandeur": "世界級破火山口（外輪山25km直徑）+中岳火口+草原全景，全球同型屈指（黃石/阿貢可比）",
+    "uniqueness": "「有人居住的世界最大級破火山口+草原+活火口」組合全球唯一，95+需全球比較——黃石可比但形態（草原+農牧）差異明確",
+    "visual": "草綠+火口灰白+山影乾淨度極好",
+    "richness": "火口/草原/牛馬牧/雲海/霧五段主題",
+    "photo": "草千里+火口展望兩機位成熟；噴火警戒管制影響窗",
+    "season": "全年可及但火口警戒時封閉，火山灰影響拍照度中",
+    "experience": "直飛/高速巴士+展望台，門檻低但天候劇烈",
+    "cultural": "草原 burning 傳統+阿蘇五社敘事中厚"
+   },
+   "coords": [
+    32.88417,
+    131.10389
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-060",
+   "name_zh": "角島大橋",
+   "l1": "JP7",
+   "pass_A": {
+    "grandeur": 62,
+    "uniqueness": 55,
+    "visual": 72,
+    "richness": 35,
+    "photo": 68,
+    "season": 45,
+    "experience": 72,
+    "cultural": 30
+   },
+   "pass_B": {
+    "grandeur": 60,
+    "uniqueness": 52,
+    "visual": 70,
+    "richness": 32,
+    "photo": 66,
+    "season": 42,
+    "experience": 75,
+    "cultural": 28
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 3,
+    "visual": 2,
+    "richness": 3,
+    "photo": 2,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 61,
+    "uniqueness": 54,
+    "visual": 71,
+    "richness": 34,
+    "photo": 67,
+    "season": 44,
+    "experience": 74,
+    "cultural": 29
+   },
+   "agli": 56.7,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "1780m直線大橋+翠綠海面規模感好但為構造物主體",
+    "uniqueness": "「無人島直通大橋+綠海」型態日本代表但全國同型可比",
+    "visual": "橋白+海綠+天空藍乾淨度極高",
+    "richness": "橋體/海面/晨霧少量主題",
+    "photo": "橋正面+橋頂兩機位極成熟",
+    "season": "全年可及，春晴日窗佳",
+    "experience": "自駕直達，門檻低",
+    "cultural": "現代架橋史輕敘事"
+   },
+   "coords": [
+    34.35277,
+    130.88616
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-061",
+   "name_zh": "錦帯橋",
+   "l1": "JP7",
+   "pass_A": {
+    "grandeur": 58,
+    "uniqueness": 74,
+    "visual": 72,
+    "richness": 45,
+    "photo": 68,
+    "season": 58,
+    "experience": 75,
+    "cultural": 82
+   },
+   "pass_B": {
+    "grandeur": 55,
+    "uniqueness": 72,
+    "visual": 70,
+    "richness": 42,
+    "photo": 65,
+    "season": 55,
+    "experience": 78,
+    "cultural": 80
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 3,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 56,
+    "uniqueness": 73,
+    "visual": 71,
+    "richness": 44,
+    "photo": 66,
+    "season": 56,
+    "experience": 76,
+    "cultural": 81
+   },
+   "agli": 64.2,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "193.5m五連拱+岩国城山景組合好",
+    "uniqueness": "日本唯一木造五連拱橋（無釘），形態記憶點極強",
+    "visual": "橋拱曲線+河面+山影乾淨度極好",
+    "richness": "橋體/錦川遊船/岩国城上望/櫻四主題",
+    "photo": "橋正面+川面倒影機位成熟；春櫻爆發",
+    "season": "春櫻+秋楓雙窗強，全年可及",
+    "experience": "JR岩国站+步行15分，門檻低",
+    "cultural": "吉川広嘉築橋史敘事厚"
+   },
+   "coords": [
+    34.1676,
+    132.17837
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-062",
+   "name_zh": "祖谷的藤橋（祖谷渓）",
+   "l1": "JP8",
+   "pass_A": {
+    "grandeur": 76,
+    "uniqueness": 78,
+    "visual": 66,
+    "richness": 45,
+    "photo": 58,
+    "season": 38,
+    "experience": 45,
+    "cultural": 68
+   },
+   "pass_B": {
+    "grandeur": 74,
+    "uniqueness": 76,
+    "visual": 64,
+    "richness": 42,
+    "photo": 55,
+    "season": 35,
+    "experience": 48,
+    "cultural": 65
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 3,
+    "photo": 3,
+    "season": 3,
+    "experience": 3,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 75,
+    "uniqueness": 77,
+    "visual": 65,
+    "richness": 44,
+    "photo": 56,
+    "season": 36,
+    "experience": 46,
+    "cultural": 66
+   },
+   "agli": 62.1,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "祖谷渓百米深V谷+45m藤橋懸於溪上的垂直展開好",
+    "uniqueness": "「藤蔓橋+秘境溪谷」組合日本唯一（平家落人傳說），形態記憶點極強",
+    "visual": "橋木色+溪綠+山霧乾淨度好；秋紅爆發",
+    "richness": "藤橋/溪谷/紅葉/溫泉多主題",
+    "photo": "橋正面+上望溪谷兩機位，晨霧窗佳",
+    "season": "全年可及，秋紅+晨霧窗佳，橋收費",
+    "experience": "自駕限定山道，巴士班次極少門檻高",
+    "cultural": "平家落人+三好氏秘境敘事厚"
+   },
+   "coords": [
+    33.87528,
+    133.83528
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-063",
+   "name_zh": "松山城（伊予）",
+   "l1": "JP8",
+   "pass_A": {
+    "grandeur": 62,
+    "uniqueness": 58,
+    "visual": 62,
+    "richness": 42,
+    "photo": 58,
+    "season": 48,
+    "experience": 70,
+    "cultural": 75
+   },
+   "pass_B": {
+    "grandeur": 60,
+    "uniqueness": 55,
+    "visual": 60,
+    "richness": 40,
+    "photo": 55,
+    "season": 45,
+    "experience": 72,
+    "cultural": 72
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 3,
+    "visual": 2,
+    "richness": 2,
+    "photo": 3,
+    "season": 3,
+    "experience": 2,
+    "cultural": 3
+   },
+   "merged": {
+    "grandeur": 61,
+    "uniqueness": 56,
+    "visual": 61,
+    "richness": 41,
+    "photo": 56,
+    "season": 46,
+    "experience": 71,
+    "cultural": 74
+   },
+   "agli": 56.9,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "132m城山頂上現存天守+石垣群俯瞰瀨戶內海港市好",
+    "uniqueness": "現存12天守之一+登城纜車（小孩椅子形態）組合有識別度",
+    "visual": "白壁+石垣+港市乾淨度好",
+    "richness": "天守/石垣/夜景/櫻少量主題",
+    "photo": "城山公園上望機位成熟",
+    "season": "全年可及，春櫻+秋楓窗佳",
+    "experience": "纜車直達，門檻低",
+    "cultural": "現存天守+江戶築城敘事厚"
+   },
+   "coords": [
+    33.84554,
+    132.76572
+   ],
+   "photo_evidence": []
+  },
+  {
+   "place_id": "jp-064",
+   "name_zh": "元乃隅稻成神社",
+   "l1": "JP7",
+   "pass_A": {
+    "grandeur": 64,
+    "uniqueness": 80,
+    "visual": 82,
+    "richness": 32,
+    "photo": 68,
+    "season": 48,
+    "experience": 45,
+    "cultural": 42
+   },
+   "pass_B": {
+    "grandeur": 62,
+    "uniqueness": 78,
+    "visual": 80,
+    "richness": 30,
+    "photo": 65,
+    "season": 45,
+    "experience": 48,
+    "cultural": 40
+   },
+   "arb_used": {},
+   "dim_diff": {
+    "grandeur": 2,
+    "uniqueness": 2,
+    "visual": 2,
+    "richness": 2,
+    "photo": 3,
+    "season": 3,
+    "experience": 3,
+    "cultural": 2
+   },
+   "merged": {
+    "grandeur": 63,
+    "uniqueness": 79,
+    "visual": 81,
+    "richness": 31,
+    "photo": 66,
+    "season": 46,
+    "experience": 46,
+    "cultural": 41
+   },
+   "agli": 62.5,
+   "confidence": "medium",
+   "reasons": {
+    "grandeur": "123座赤鳥居沿斷崖列隊+海面背景壓倒感好",
+    "uniqueness": "「123連鳥居+斷崖+海」型態日本唯一，形態記憶點極強",
+    "visual": "赤鳥居+海藍+山綠乾淨度極高",
+    "richness": "鳥居海景單一主題+夕燒少量",
+    "photo": "鳥居正面+海面兩機位成熟",
+    "season": "全年可及，晨光側照窗佳",
+    "experience": "距離遠+自駕限定，階梯門檻中",
+    "cultural": "稻成信仰+CNN評選輕敘事"
+   },
+   "coords": [
+    34.41972,
+    131.06278
+   ],
+   "photo_evidence": []
+  }
+ ]
+}
