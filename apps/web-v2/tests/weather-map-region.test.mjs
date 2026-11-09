@@ -130,8 +130,8 @@ test('ak/hi route outlying US places out of the US Mainland frame', () => {
       if (routed === 'hi') hiPlaces.push(opp.place_id);
     }
   }
-  assert.equal(akPlaces.length, 25,
-    'exactly the 25 outlying Alaska places route to the ak frame (CL-DATA-43 +5)');
+  assert.equal(akPlaces.length, 27,
+    'exactly the 27 outlying Alaska places route to the ak frame (CL-DATA-43 +5, CL-DATA-53 +2: Keystone Canyon/Harding Icefield)');
   assert.equal(hiPlaces.length, 7,
     'exactly the 7 CL-DATA-43 Hawaii places route to the hi frame');
   assert.ok(akPlaces.includes('us-041') && akPlaces.includes('us-069'),

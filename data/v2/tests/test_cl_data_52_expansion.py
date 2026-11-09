@@ -160,8 +160,8 @@ class TestAgli(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 301)
-        self.assertEqual(cat["counts"]["opportunities"], 528)
+        self.assertEqual(cat["counts"]["spots"], 363)  # re-anchored CL-DATA-53
+        self.assertEqual(cat["counts"]["opportunities"], 595)
         jp = [s for s in cat["spots"] if s["spot_id"].startswith("jp-")]
         self.assertEqual(len(jp), 90)  # jp-050 retired
 
@@ -185,8 +185,8 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 309)
-        self.assertEqual(ev["opportunity_count"], 504)
+        self.assertEqual(ev["place_count"], 350)  # re-anchored CL-DATA-53
+        self.assertEqual(ev["opportunity_count"], 546)
 
 
 if __name__ == "__main__":

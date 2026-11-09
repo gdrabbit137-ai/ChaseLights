@@ -383,6 +383,46 @@ US_ADMIN_AREAS = {
     "us-116": ["Hawaii"],  # CL-DATA-43 (20.1177,-155.5836, Hawaii)
     "us-117": ["Hawaii"],  # CL-DATA-43 (21.309889,-157.649748, Hawaii)
     "us-118": ["Hawaii"],  # CL-DATA-43 (21.664,-158.054, Hawaii)
+    "us-119": ["Arizona"],  # CL-DATA-53
+    "us-120": ["Oregon"],  # CL-DATA-53
+    "us-121": ["California"],  # CL-DATA-53
+    "us-122": ["California"],  # CL-DATA-53
+    "us-123": ["Colorado"],  # CL-DATA-53
+    "us-124": ["Alaska"],  # CL-DATA-53
+    "us-125": ["New Hampshire"],  # CL-DATA-53
+    "us-126": ["North Carolina"],  # CL-DATA-53
+    "us-127": ["Arizona"],  # CL-DATA-53
+    "us-128": ["Utah"],  # CL-DATA-53
+    "us-129": ["Utah"],  # CL-DATA-53
+    "us-130": ["Arizona"],  # CL-DATA-53
+    "us-131": ["New Mexico"],  # CL-DATA-53
+    "us-132": ["Nevada"],  # CL-DATA-53
+    "us-133": ["California"],  # CL-DATA-53
+    "us-134": ["Wisconsin"],  # CL-DATA-53
+    "us-135": ["Texas"],  # CL-DATA-53
+    "us-136": ["Texas"],  # CL-DATA-53
+    "us-137": ["New York"],  # CL-DATA-53
+    "us-138": ["Tennessee"],  # CL-DATA-53
+    "us-139": ["Colorado"],  # CL-DATA-53
+    "us-140": ["Colorado"],  # CL-DATA-53
+    "us-141": ["Colorado"],  # CL-DATA-53
+    "us-142": ["Colorado"],  # CL-DATA-53
+    "us-143": ["Oregon"],  # CL-DATA-53
+    "us-144": ["Oregon"],  # CL-DATA-53
+    "us-145": ["Oregon"],  # CL-DATA-53
+    "us-146": ["Oregon"],  # CL-DATA-53
+    "us-147": ["Utah"],  # CL-DATA-53
+    "us-148": ["Utah"],  # CL-DATA-53
+    "us-149": ["California"],  # CL-DATA-53
+    "us-150": ["California"],  # CL-DATA-53
+    "us-151": ["California"],  # CL-DATA-53
+    "us-152": ["Idaho"],  # CL-DATA-53
+    "us-153": ["Idaho"],  # CL-DATA-53
+    "us-154": ["Idaho"],  # CL-DATA-53
+    "us-155": ["Florida"],  # CL-DATA-53
+    "us-156": ["North Carolina"],  # CL-DATA-53
+    "us-157": ["Virginia"],  # CL-DATA-53
+    "us-158": ["Alaska"],  # CL-DATA-53
 
 }
 
@@ -753,6 +793,46 @@ REGIONS = {
             (20.1177, -155.5836, "威皮歐山谷晨光", "Waipiʻo Valley Lookout Morning Light", "ワイピオ渓谷の朝の光", "Waipiʻo Lookout", "夏威夷", ["mountain", "coast"]),  # CL-DATA-43 (20.1177,-155.5836, Hawaii)
             (21.309889, -157.649748, "馬卡普燈塔日出", "Makapuʻu Point Lighthouse Sunrise", "マカプウ灯台の日の出", "Makapuʻu Point", "夏威夷", ["coast"]),  # CL-DATA-43 (21.309889,-157.649748, Hawaii)
             (21.664, -158.054, "邦載管道夕照", "Banzai Pipeline Sunset", "バンザイ・パイプラインの夕景", "Banzai Pipeline", "夏威夷", ["coast"]),  # CL-DATA-43 (21.664,-158.054, Hawaii)
+            (36.8617, -112.398, "波浪谷（The Wave）", "The Wave (Coyote Buttes North)", "ザ・ウェーブ", "The Wave", "美西", ["mountain"]),  # CL-DATA-53
+            (45.6686, -121.4357, "哥倫比亞河峽谷（羅威娜岬）", "Columbia River Gorge (Rowena Crest)", "コロンビア渓谷（ロウェナ・クレスト）", "Rowena Crest", "美西", ["mountain", "coast"]),  # CL-DATA-53
+            (36.0727, -121.9046, "比克斯比溪橋（大瑟爾）", "Bixby Creek Bridge (Big Sur)", "ビックスビー・ブリッジ（ビッグサー）", "Bixby Creek Bridge", "美西", ["coast"]),  # CL-DATA-53
+            (36.3586, -121.9762, "麥克威瀑布（朱莉婭·菲佛州立公園）", "McWay Falls (Julia Pfeiffer Burns SP)", "マクウェイ滝（ジュリア・ファイファー・バーンズ州立公園）", "McWay Falls", "美西", ["coast", "waterfall"]),  # CL-DATA-53
+            (39.0975, -106.9886, "褐鈴山（馬倫湖倒影）", "Maroon Bells (Maroon Lake mirror)", "マルーン・ベルズ", "Maroon Bells", "美西", ["mountain", "lake"]),  # CL-DATA-53
+            (61.0414, -146.2389, "瓦爾迪茲基石峽谷瀑布", "Valdez Keystone Canyon falls", "バルディーズ・キーストーン峡谷の滝", "Keystone Canyon", "阿拉斯加", ["waterfall", "mountain"]),  # CL-DATA-53
+            (44.0234, -71.365, "白山坎坎瑪格斯公路", "Kancamagus Highway (White Mountains)", "カンカマーガス・ハイウェイ（ホワイト山地）", "Kancamagus Highway", "美東", ["forest", "mountain"]),  # CL-DATA-53
+            (36.0897, -81.7994, "藍嶺公路林恩灣高架橋", "Linn Cove Viaduct (Blue Ridge Parkway)", "リン・コーブ・バイアダクト（ブルーリッジ・パークウェイ）", "Linn Cove Viaduct", "美東", ["mountain", "forest"]),  # CL-DATA-53
+            (36.9561, -111.9043, "白口袋（朱紅斷崖國家紀念地）", "White Pocket (Vermilion Cliffs NM)", "ホワイト・ポケット", "White Pocket", "美西", ["mountain"]),  # CL-DATA-53
+            (37.1746, -110.9038, "反射峽谷（鮑威爾湖）", "Reflection Canyon (Lake Powell)", "リフレクション・キャニオン（レイク・パウエル）", "Reflection Canyon", "美西", ["lake", "mountain"]),  # CL-DATA-53
+            (38.3767, -110.9003, "工廠台地（月球地貌）", "Factory Butte moonscape", "ファクトリー・ビュート", "Factory Butte", "美西", ["mountain"]),  # CL-DATA-53
+            (36.0053, -111.0486, "煤礦峽谷（納瓦霍保留區）", "Coal Mine Canyon (Navajo Nation)", "コール・マイン峡谷", "Coal Mine Canyon", "美西", ["mountain"]),  # CL-DATA-53
+            (36.0911, -108.2356, "比斯蒂/迪納津荒野", "Bisti/De-Na-Zin Wilderness", "ビスティ/デ・ナ・ジン荒野", "Bisti/De-Na-Zin", "美西", ["mountain"]),  # CL-DATA-53
+            (39.0744, -120.0394, "太浩湖盆景岩", "Bonsai Rock (Lake Tahoe)", "ボンサイ・ロック", "Bonsai Rock", "美西", ["lake"]),  # CL-DATA-53
+            (37.5917, -118.6111, "古狐尾松森林（舒爾曼林）", "Ancient Bristlecone Pine Forest (Schulman Grove)", "古いブリストルコーン松林（シュルマン・グローブ）", "Schulman Grove", "美西", ["forest", "mountain"]),  # CL-DATA-53
+            (46.7389, -90.9978, "使徒群島海蝕洞（冰洞）", "Apostle Islands sea caves (ice caves)", "アポストル群島の海食洞（氷洞）", "Meyers Beach ice caves", "美中", ["coast", "mountain"]),  # CL-DATA-53
+            (32.7236, -94.1531, "卡多湖（西班牙苔蘚）", "Caddo Lake (Spanish moss bayous)", "カドー湖", "Caddo Lake", "美中", ["lake", "forest"]),  # CL-DATA-53
+            (34.97, -101.68, "帕洛杜羅峽谷（燈塔岩）", "Palo Duro Canyon (Lighthouse)", "パロ・デュロ峡谷（ライトハウス）", "Palo Duro Canyon", "美中", ["mountain"]),  # CL-DATA-53
+            (42.3792, -76.7467, "沃特金斯格倫州立公園", "Watkins Glen State Park", "ワトキンス・グレン州立公園", "Watkins Glen", "美東", ["waterfall", "forest"]),  # CL-DATA-53
+            (35.6114, -83.8192, "斯帕克斯小巷（凱德斯谷）", "Sparks Lane (Cades Cove)", "スパークス・レーン（ケイズ・コーブ）", "Sparks Lane", "美東", ["forest", "mountain"]),  # CL-DATA-53
+            (39.05889, -107.10389, "水晶磨坊", "Crystal Mill", "クリスタル・ミル", "Crystal Mill", "美西", ["mountain", "forest"]),  # CL-DATA-53
+            (37.8114, -107.7899, "冰湖盆地", "Ice Lakes Basin", "アイス・レイク盆地", "Ice Lake", "美西", ["lake", "mountain"]),  # CL-DATA-53
+            (37.8836, -108.0053, "特柳賴德（Last Dollar Road）", "Telluride (Last Dollar Road)", "テリライド（Last Dollar Road）", "Last Dollar Road", "美西", ["mountain", "forest"]),  # CL-DATA-53
+            (37.781, -105.531, "大沙丘國家公園", "Great Sand Dunes NP", "グレート・サンド・デューンズ国立公園", "Great Sand Dunes", "美西", ["mountain"]),  # CL-DATA-53
+            (45.2617, -121.7417, "胡德山特里利姆湖", "Mount Hood (Trillium Lake)", "マウント・フッド（トリリウム湖）", "Trillium Lake", "美西", ["lake", "mountain"]),  # CL-DATA-53
+            (44.9528, -122.2131, "阿比奎瀑布", "Abiqua Falls", "アビカ滝", "Abiqua Falls", "美西", ["waterfall", "forest"]),  # CL-DATA-53
+            (44.1408, -122.2278, "普羅克斯瀑布", "Proxy Falls", "プロキシ滝", "Proxy Falls", "美西", ["waterfall", "forest"]),  # CL-DATA-53
+            (44.6597, -120.1111, "彩繪山（約翰戴化石床）", "Painted Hills (John Day Fossil Beds)", "ペインテッド・ヒルズ", "Painted Hills", "美西", ["mountain"]),  # CL-DATA-53
+            (37.661, -111.421, "斑馬狹縫峽谷", "Zebra Slot Canyon", "ゼブラ・スロット", "Zebra Slot", "美西", ["mountain"]),  # CL-DATA-53
+            (38.3611, -111.1278, "膨潤土丘陵（大教堂谷）", "Bentonite Hills (Cathedral Valley)", "ベントナイト・ヒルズ", "Bentonite Hills", "美西", ["mountain"]),  # CL-DATA-53
+            (33.8928, -116.1888, "約書亞樹國家公園（凱斯觀景台）", "Joshua Tree NP (Keys View)", "ジョシュアツリー国立公園（Keys View）", "Joshua Tree NP", "美西", ["mountain", "starlight"]),  # CL-DATA-53
+            (35.6611, -117.3453, "特羅納石塔", "Trona Pinnacles", "トロナ・ピナクルズ", "Trona Pinnacles", "美西", ["mountain"]),  # CL-DATA-53
+            (40.5264, -121.2722, "拉森火山（彩繪沙丘）", "Lassen Volcanic NP (Painted Dunes)", "ラッセン火山（ペインテッド・デューンズ）", "Painted Dunes", "美西", ["mountain"]),  # CL-DATA-53
+            (43.9391, -114.9437, "愛達荷暗夜保護區（愛麗絲湖）", "Idaho Dark Sky Reserve (Alice Lake)", "アイダホ暗空保護区（アリス湖）", "Alice Lake", "美西", ["lake", "mountain", "starlight"]),  # CL-DATA-53
+            (43.4169, -113.4977, "月球火山紀念地", "Craters of the Moon NM", "クレーターズ・オブ・ザ・ムーン", "Craters of the Moon", "美西", ["mountain", "starlight"]),  # CL-DATA-53
+            (42.7547, -114.4214, "肖肖尼瀑布（西尼加拉）", "Shoshone Falls (Niagara of the West)", "ショショーニ滝", "Shoshone Falls", "美西", ["waterfall"]),  # CL-DATA-53
+            (24.628, -82.8735, "乾龜國家公園（傑佛遜堡）", "Dry Tortugas NP (Fort Jefferson)", "ドライ・トルトゥガス国立公園", "Dry Tortugas", "美東", ["coast"]),  # CL-DATA-53
+            (35.2113, -75.5213, "哈特拉斯角燈塔", "Cape Hatteras Lighthouse", "ケープ・ハテラス灯台", "Cape Hatteras Lighthouse", "美東", ["coast"]),  # CL-DATA-53
+            (38.0111, -75.2814, "阿薩蒂格島野馬", "Assateague Island wild horses", "アサティーグ島の野生馬", "Assateague Island", "美東", ["coast"]),  # CL-DATA-53
+            (59.995, -149.69, "哈丁冰原（奇奈峽灣）", "Harding Icefield (Kenai Fjords)", "ハーディング氷原（ケナイフィヨルド）", "Harding Icefield", "阿拉斯加", ["mountain"]),  # CL-DATA-53
         ],
     },
 }
@@ -829,6 +909,47 @@ ELEVATION_OVERRIDES = {
     "大山（剣ヶ峰）": 1729,
     "稻佐山夜景": 333,
     "哈雷阿卡拉山頂雲海日出": 3055,  # CL-DATA-43 (Hawaii)
+    # CL-DATA-53 admission elevations (web-verified 2026-11-09; null elevations omitted honestly)
+    "The Wave": 1745,  # CL-DATA-53
+    "Rowena Crest": 250,  # CL-DATA-53
+    "Bixby Creek Bridge": 80,  # CL-DATA-53
+    "McWay Falls": 30,  # CL-DATA-53
+    "Maroon Bells": 2884,  # CL-DATA-53
+    "Keystone Canyon": 200,  # CL-DATA-53
+    "Kancamagus Highway": 926,  # CL-DATA-53
+    "Linn Cove Viaduct": 1250,  # CL-DATA-53
+    "White Pocket": 1860,  # CL-DATA-53
+    "Reflection Canyon": 1330,  # CL-DATA-53
+    "Factory Butte": 1480,  # CL-DATA-53
+    "Coal Mine Canyon": 1780,  # CL-DATA-53
+    "Bisti/De-Na-Zin": 1950,  # CL-DATA-53
+    "Bonsai Rock": 1897,  # CL-DATA-53
+    "Schulman Grove": 3000,  # CL-DATA-53
+    "Meyers Beach ice caves": 183,  # CL-DATA-53
+    "Caddo Lake": 52,  # CL-DATA-53
+    "Palo Duro Canyon": 900,  # CL-DATA-53
+    "Watkins Glen": 250,  # CL-DATA-53
+    "Sparks Lane": 500,  # CL-DATA-53
+    "Crystal Mill": 2710,  # CL-DATA-53
+    "Ice Lake": 3735,  # CL-DATA-53
+    "Last Dollar Road": 2650,  # CL-DATA-53
+    "Great Sand Dunes": 2560,  # CL-DATA-53
+    "Trillium Lake": 1160,  # CL-DATA-53
+    "Abiqua Falls": 450,  # CL-DATA-53
+    "Proxy Falls": 1220,  # CL-DATA-53
+    "Painted Hills": 700,  # CL-DATA-53
+    "Zebra Slot": 1590,  # CL-DATA-53
+    "Bentonite Hills": 1980,  # CL-DATA-53
+    "Joshua Tree NP": 1580,  # CL-DATA-53
+    "Trona Pinnacles": 750,  # CL-DATA-53
+    "Painted Dunes": 2400,  # CL-DATA-53
+    "Alice Lake": 2622,  # CL-DATA-53
+    "Craters of the Moon": 1850,  # CL-DATA-53
+    "Shoshone Falls": 900,  # CL-DATA-53
+    "Dry Tortugas": 3,  # CL-DATA-53
+    "Cape Hatteras Lighthouse": 15,  # CL-DATA-53
+    "Assateague Island": 2,  # CL-DATA-53
+    "Harding Icefield": 1200,  # CL-DATA-53
     # CL-DATA-52 admission elevations (web-verified 2026-11-09; null elevations omitted honestly)
     "富士山頂": 3776,
     "新倉山浅間公園": 410,
@@ -1289,6 +1410,207 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+    # CL-DATA-53 admission (web-verified 2026-11-09; keyed to full display names per get_spots contract)
+ "波浪谷（The Wave）": {"lat": 36.8617,
+           "lon": -112.398,
+           "map_query": "The Wave",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: BLM/recreation.gov Coyote Buttes North（The Wave，Vermilion Cliffs NM，亞利桑那側；Coyote Buttes 北區約5,700 ft 帶）；座標 medium（波浪窪地中心推定）",
+           "coordinate_confidence": "medium"},
+ "哥倫比亞河峽谷（羅威娜岬）": {"lat": 45.6686,
+           "lon": -121.4357,
+           "map_query": "Rowena Crest",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Friends of the Columbia Gorge / Wikipedia 哥倫比亞河峽谷（羅威娜岬觀景台， historic Columbia River Highway 對位）；座標 medium（觀景台推定）",
+           "coordinate_confidence": "medium"},
+ "比克斯比溪橋（大瑟爾）": {"lat": 36.0727,
+           "lon": -121.9046,
+           "map_query": "Bixby Creek Bridge",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Wikipedia Bixby Creek Bridge（36°04′22″N 121°54′17″W，1932年拱橋橋面高約85 m；加州 Big Sur 海岸）",
+           "coordinate_confidence": "high"},
+ "麥克威瀑布（朱莉婭·菲佛州立公園）": {"lat": 36.3586,
+           "lon": -121.9762,
+           "map_query": "McWay Falls",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: California State Parks / Wikipedia 麥克威瀑布（80呎（約24m）落於海灘；36°21′30″N 121°58′37″W 對位）",
+           "coordinate_confidence": "high"},
+ "褐鈴山（馬倫湖倒影）": {"lat": 39.0975,
+           "lon": -106.9886,
+           "map_query": "Maroon Bells",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: USGS/USFS White River NF（Maroon Lake 約2,884 m；北峰4,317 m/南峰4,270 m；39°05′51″N 106°59′15″W 對位）",
+           "coordinate_confidence": "high"},
+ "瓦爾迪茲基石峽谷瀑布": {"lat": 61.0414,
+           "lon": -146.2389,
+           "map_query": "Keystone Canyon",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Wikipedia Keystone Canyon（瓦爾迪茲公路沿理查森峽谷，Bridal Veil/Horsetail 瀑布；座標 medium（谷段對位））",
+           "coordinate_confidence": "medium"},
+ "白山坎坎瑪格斯公路": {"lat": 44.0234,
+           "lon": -71.365,
+           "map_query": "Kancamagus Highway",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: USFS White Mountain NF（Kancamagus Highway，NH 112；Kancamagus Pass 約3,037 ft 為公路最高點；座標 medium（Pass 對位））",
+           "coordinate_confidence": "medium"},
+ "藍嶺公路林恩灣高架橋": {"lat": 36.0897,
+           "lon": -81.7994,
+           "map_query": "Linn Cove Viaduct",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Blue Ridge Parkway / Wikipedia 林恩灣高架橋（1987年 S 形高架繞大霧山東緣格蘭德father山，橋面高約1,250 m 帶；座標 medium）",
+           "coordinate_confidence": "medium"},
+ "白口袋（朱紅斷崖國家紀念地）": {"lat": 36.9561,
+           "lon": -111.9043,
+           "map_query": "White Pocket",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: BLM White Pocket Trailhead（36.955011,-111.893296）+ Wikipedia White Pocket（36°27′28″N 111°42′15″W 中心帶，6,100 ft 帶）",
+           "coordinate_confidence": "medium"},
+ "反射峽谷（鮑威爾湖）": {"lat": 37.1746,
+           "lon": -110.9038,
+           "map_query": "Reflection Canyon",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Glen Canyon NRA 產業級徒步記錄（Reflection Canyon overlook，peak 約4,466 ft/1,361 m；座標 medium（展望台推定））",
+           "coordinate_confidence": "medium"},
+ "工廠台地（月球地貌）": {"lat": 38.3767,
+           "lon": -110.9003,
+           "map_query": "Factory Butte",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: recreation.gov Factory Butte Recreation Area（38.365881,-110.915269）+ Capitol Reef Country（staging area 38.376667,-110.900278）；Butte 峰 6,302 ft/1,921 m（Wikipedia）",
+           "coordinate_confidence": "high"},
+ "煤礦峽谷（納瓦霍保留區）": {"lat": 36.0053,
+           "lon": -111.0486,
+           "map_query": "Coal Mine Canyon",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: thewave.info Coal Mine Canyon guide（rim 5,800 ft/1,768 m，Tuba City 東南 15 mi；座標 medium（rim 對位））+ Wikipedia Coalmine Canyon",
+           "coordinate_confidence": "medium"},
+ "比斯蒂/迪納津荒野": {"lat": 36.0911,
+           "lon": -108.2356,
+           "map_query": "Bisti/De-Na-Zin",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Wikipedia Bisti/De-Na-Zin（36°05′N 108°14′W 帶；BLM 荒野，入口停車場與次級路對位）",
+           "coordinate_confidence": "medium"},
+ "太浩湖盆景岩": {"lat": 39.0744,
+           "lon": -120.0394,
+           "map_query": "Bonsai Rock",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Lake Tahoe shoreline 推定（盆景岩，東岸靜水區；座標 medium；湖面 1,897 m）",
+           "coordinate_confidence": "medium"},
+ "古狐尾松森林（舒爾曼林）": {"lat": 37.5917,
+           "lon": -118.6111,
+           "map_query": "Schulman Grove",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: USFS Inyo NF（Schulman Grove 約9,847 ft/3,001 m，白山白山公路盡頭；座標 high）",
+           "coordinate_confidence": "high"},
+ "使徒群島海蝕洞（冰洞）": {"lat": 46.7389,
+           "lon": -90.9978,
+           "map_query": "Meyers Beach ice caves",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Apostle Islands（Meyers Beach 冰洞路線，蘇必略湖面約183 m；座標 medium（岸線對位））",
+           "coordinate_confidence": "medium"},
+ "卡多湖（西班牙苔蘚）": {"lat": 32.7236,
+           "lon": -94.1531,
+           "map_query": "Caddo Lake",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Wikipedia Caddo Lake（32°43′N 94°09′W 帶；最大南方淡水湖，沼澤地與柏樹）",
+           "coordinate_confidence": "high"},
+ "帕洛杜羅峽谷（燈塔岩）": {"lat": 34.97,
+           "lon": -101.68,
+           "map_query": "Palo Duro Canyon",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Texas Parks & Wildlife / Wikipedia 帕洛杜羅峽谷（全美第二大峽谷；Lighthouse 岩區約34°58′N 101°41′W 帶；座標 medium）",
+           "coordinate_confidence": "medium"},
+ "沃特金斯格倫州立公園": {"lat": 42.3792,
+           "lon": -76.7467,
+           "map_query": "Watkins Glen",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Wikipedia/NY State Parks 沃特金斯格倫（Glen Creek 19 瀑與峽谷步道；42°22′N 76°45′W 帶）",
+           "coordinate_confidence": "high"},
+ "斯帕克斯小巷（凱德斯谷）": {"lat": 35.6114,
+           "lon": -83.8192,
+           "map_query": "Sparks Lane",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Great Smoky Mountains（Cades Cove Loop 環線，Sparks Lane 對位；座標 medium）",
+           "coordinate_confidence": "medium"},
+ "水晶磨坊": {"lat": 39.05889,
+           "lon": -107.10389,
+           "map_query": "Crystal Mill",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Wikipedia/NRHP Crystal Mill（1892年木造水力廠，39°03′32″N 107°06′14″W；NRHP 85001493）",
+           "coordinate_confidence": "high"},
+ "冰湖盆地": {"lat": 37.8114,
+           "lon": -107.7899,
+           "map_query": "Ice Lake",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: USFS/Colorado Lakes（Ice Lake 約12,260 ft/3,735 m；trailhead 37.8119,-107.7925；San Juan NF）",
+           "coordinate_confidence": "high"},
+ "特柳賴德（Last Dollar Road）": {"lat": 37.8836,
+           "lon": -108.0053,
+           "map_query": "Last Dollar Road",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Telluride tourism / San Miguel County（Last Dollar Road，特柳賴德西北；座標 medium（路脊推定））",
+           "coordinate_confidence": "medium"},
+ "大沙丘國家公園": {"lat": 37.781,
+           "lon": -105.531,
+           "map_query": "Great Sand Dunes",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Great Sand Dunes（全美最高沙丘；Sangre de Cristo 山腳，37°47′N 105°31′W 帶）",
+           "coordinate_confidence": "high"},
+ "胡德山特里利姆湖": {"lat": 45.2617,
+           "lon": -121.7417,
+           "map_query": "Trillium Lake",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: USFS Mt Hood NF / Wikipedia Trillium Lake（3,812 ft/1,162 m；胡德山南眺定番）",
+           "coordinate_confidence": "high"},
+ "阿比奎瀑布": {"lat": 44.9528,
+           "lon": -122.2131,
+           "map_query": "Abiqua Falls",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Marion County/Wikipedia 網摘（Abiqua Falls，哥倫比亞玄武岩圓頂兩側瀑布；座標 medium）",
+           "coordinate_confidence": "medium"},
+ "普羅克斯瀑布": {"lat": 44.1408,
+           "lon": -122.2278,
+           "map_query": "Proxy Falls",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: USFS McKenzie Ranger District（Proxy Falls，麥肯齊通道三姐妹荒野；座標 medium）",
+           "coordinate_confidence": "medium"},
+ "彩繪山（約翰戴化石床）": {"lat": 44.6597,
+           "lon": -120.1111,
+           "map_query": "Painted Hills",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS John Day Fossil Beds（Painted Hills unit，44°39′N 120°06′W 帶）",
+           "coordinate_confidence": "high"},
+ "斑馬狹縫峽谷": {"lat": 37.661,
+           "lon": -111.421,
+           "map_query": "Zebra Slot",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Hiking Project/REXBY（Zebra Slot，Hole-in-the-Rock Rd；slot 段約5,200 ft 帶；座標 medium）",
+           "coordinate_confidence": "medium"},
+ "膨潤土丘陵（大教堂谷）": {"lat": 38.3611,
+           "lon": -111.1278,
+           "map_query": "Bentonite Hills",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Bentonite Hills page（38°21′N 111°08′W 帶；Cathedral Valley Loop；Hartnet Rd 高底盤車）+ Wilderness Portal 座標 38.36109,-111.12776",
+           "coordinate_confidence": "medium"},
+ "約書亞樹國家公園（凱斯觀景台）": {"lat": 33.8928,
+           "lon": -116.1888,
+           "map_query": "Joshua Tree NP",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Joshua Tree（Keys View 5,185 ft/1,580 m；33°53′N 116°11′W 帶）",
+           "coordinate_confidence": "high"},
+ "特羅納石塔": {"lat": 35.6611,
+           "lon": -117.3453,
+           "map_query": "Trona Pinnacles",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: BLM Trona Pinnacles（tufa spires，National Natural Landmark；座標 medium（石塔群對位））",
+           "coordinate_confidence": "medium"},
+ "拉森火山（彩繪沙丘）": {"lat": 40.5264,
+           "lon": -121.2722,
+           "map_query": "Painted Dunes",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Lassen（Cinder Cone Painted Dunes，Butte Lake 區；座標 medium（沙丘對位））",
+           "coordinate_confidence": "medium"},
+ "愛達荷暗夜保護區（愛麗絲湖）": {"lat": 43.9391,
+           "lon": -114.9437,
+           "map_query": "Alice Lake",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: Wikipedia Alice Lake (Sawtooth Wilderness)（43°56′21″N 114°56′37″W；surface 8,602 ft/2,622 m）",
+           "coordinate_confidence": "high"},
+ "月球火山紀念地": {"lat": 43.4169,
+           "lon": -113.4977,
+           "map_query": "Craters of the Moon",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Craters of the Moon（43°25′N 113°30′W 帶；國際暗夜公園）",
+           "coordinate_confidence": "high"},
+ "肖肖尼瀑布（西尼加拉）": {"lat": 42.7547,
+           "lon": -114.4214,
+           "map_query": "Shoshone Falls",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: City of Twin Falls / Wikipedia Shoshone Falls（212 呎高、900 呎寬；42°45′N 114°25′W 帶）",
+           "coordinate_confidence": "high"},
+ "乾龜國家公園（傑佛遜堡）": {"lat": 24.628,
+           "lon": -82.8735,
+           "map_query": "Dry Tortugas",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Dry Tortugas（Garden Key Fort Jefferson；24°37′41″N 82°52′25″W 對位）",
+           "coordinate_confidence": "high"},
+ "哈特拉斯角燈塔": {"lat": 35.2113,
+           "lon": -75.5213,
+           "map_query": "Cape Hatteras Lighthouse",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Cape Hatteras（美國最高的磚砌燈塔 198 呎；35°12′41″N 75°31′17″W）",
+           "coordinate_confidence": "high"},
+ "阿薩蒂格島野馬": {"lat": 38.0111,
+           "lon": -75.2814,
+           "map_query": "Assateague Island",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Assateague Island NS（障壁島野馬；38°00′N 75°17′W 帶；座標 medium）",
+           "coordinate_confidence": "medium"},
+ "哈丁冰原（奇奈峽灣）": {"lat": 59.995,
+           "lon": -149.69,
+           "map_query": "Harding Icefield",
+           "coordinate_source": "CL-DATA-53 admission web verification 2026-11-09: NPS Kenai Fjords（Harding Icefield Trail，Exit Glacier 上方冰原展望；座標 medium（trail viewpoint 推定））",
+           "coordinate_confidence": "medium"},
     # CL-DATA-52 admission (web-verified 2026-11-09; keyed to full display names per get_spots contract)
  "富士山頂（剣ヶ峰）": {"lat": 35.3606,
            "lon": 138.7274,
