@@ -249,6 +249,31 @@
      "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
      "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
     }
+   },
+   {
+    "id": "C-us-133-P01-S1",
+    "role": "QUALITY",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-133-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "evidence_review",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節營運窗（MODIFIER 校準）：White Mountain Rd 冬季雪封，車行古木區典型窗約 05-20–11-15（USFS/森林局現場公告優先；本點暫以 MODIFIER 加權校準，日曆檔未建時誠實 unknown，不否決）。",
+     "en": "Seasonal operating window (MODIFIER calibration): White Mountain Rd closes in winter snow; typical drive-in window about 05-20 to 11-15 (USFS on-site notices take precedence; MODIFIER only until calibrated - honest unknown when no calendar entry, never a veto).",
+     "ja": "季節営業窓（MODIFIER 較正）：ホワイトマウンテン・ロードは冬季閉鎖、車行可能の典型窓は約05-20〜11-15（USFS の現地案内優先。MODIFIER のみで較正中、暦未登録時は誠実に unknown、不成立にしない）。"
+    }
    }
   ]
  },

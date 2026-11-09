@@ -189,6 +189,31 @@
      "en": "Required light window: an all-day visible-light subject (gorge falls) only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; window added per the CL-DATA-19 all-day-subject rule; night hours never qualify).",
      "ja": "必要な光の窓：全日型の可視光題材（峡谷の滝）は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、CL-DATA-19 全日題材窓規則により追加、夜間は一律不成立）。"
     }
+   },
+   {
+    "id": "C-us-137-P01-S1",
+    "role": "QUALITY",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-137-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "evidence_review",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節營運窗（MODIFIER 校準）：Gorge Trail 每年約 11 月中旬–4 月中旬關閉（NY State Parks 年度公告優先；典型可拍窗約 04-15–11-10；MODIFIER 校準中，日曆未建時誠實 unknown）。",
+     "en": "Seasonal operating window (MODIFIER calibration): the Gorge Trail closes roughly mid-November to mid-April (NY State Parks annual notice takes precedence; typical shootable window about 04-15 to 11-10; MODIFIER only until calibrated - honest unknown when no calendar entry).",
+     "ja": "季節営業窓（MODIFIER 較正）：ゴージ・トレイルは毎年約11月中旬〜4月中旬に閉鎖（NY State Parks の年度公告優先、典型窓約04-15〜11-10。MODIFIER のみで較正中、暦未登録時は誠実に unknown）。"
+    }
    }
   ]
  },
