@@ -1,4 +1,4 @@
-$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\tmp\clci27\ops\v2\run_unittest.py specs/v2/tests test_hourly_weather_pilot_contract.py D:\tmp\clci27\.ci\postmerge-logs\w1-hourly-pilot-contract.json
+$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\tmp\clci33-wt\ops\v2\run_unittest.py specs/v2/tests test_hourly_weather_pilot_contract.py D:\tmp\clci33-wt\.ci\postmerge-logs\w1-hourly-pilot-contract.json
 test_binding_place_sample_timezone_and_request_identity (test_hourly_weather_pilot_contract.HourlyWeatherPilotContract.test_binding_place_sample_timezone_and_request_identity) ... ok
 test_duplicate_gapped_descending_and_nonhourly_times_rejected (test_hourly_weather_pilot_contract.HourlyWeatherPilotContract.test_duplicate_gapped_descending_and_nonhourly_times_rejected) ... ok
 test_every_requested_field_is_required_but_nullable (test_hourly_weather_pilot_contract.HourlyWeatherPilotContract.test_every_requested_field_is_required_but_nullable) ... ok
@@ -13,7 +13,7 @@ test_taipei_midnight_has_next_local_date_and_previous_hour_support (test_hourly_
 test_unit_boolean_range_and_nonfinite_cannot_be_available (test_hourly_weather_pilot_contract.HourlyWeatherPilotContract.test_unit_boolean_range_and_nonfinite_cannot_be_available) ... ok
 
 ----------------------------------------------------------------------
-Ran 12 tests in 0.085s
+Ran 12 tests in 0.108s
 
 OK
 {"tests": 12, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 12}

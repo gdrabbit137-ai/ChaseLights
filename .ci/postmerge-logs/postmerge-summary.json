@@ -1,8 +1,8 @@
 {
   "status": "PASS",
-  "root_head": "21d6cac41d30da475313f475a6fd3115285ec54f",
+  "root_head": "b9e9bbf939cdccbacbfebac38a0f97253c73b4df",
   "tested_parents": [
-    "839e71e4275e575c636b3fcaf3d9678773da3f0e"
+    "09a6834daa470a8d35ac9f133f513089dd48dad2"
   ],
   "checks": [],
   "groups": [
@@ -231,13 +231,13 @@
       "name": "w3-evaluator-and-hourly-source",
       "exit_code": 0,
       "counts": {
-        "tests": 210,
+        "tests": 217,
         "fail": 0,
         "error": 0,
         "skip": 0,
         "expected_failure": 0,
         "unexpected_success": 0,
-        "pass": 210
+        "pass": 217
       },
       "status": "PASS",
       "timed_out": false,
@@ -265,13 +265,13 @@
       "name": "w2-crosswalk-schema-index-and-hourly-binding",
       "exit_code": 0,
       "counts": {
-        "tests": 109,
+        "tests": 184,
         "fail": 0,
         "error": 0,
         "skip": 0,
         "expected_failure": 0,
         "unexpected_success": 0,
-        "pass": 109
+        "pass": 184
       },
       "status": "PASS",
       "timed_out": false,
@@ -309,8 +309,8 @@
       "name": "w4-node",
       "exit_code": 0,
       "counts": {
-        "tests": 519,
-        "pass": 519,
+        "tests": 540,
+        "pass": 540,
         "fail": 0,
         "skip": 0
       },
@@ -383,28 +383,29 @@
   "pin_sync": {},
   "reviewed_main_sha": "c743dfd6469937f715529014dcb781f7771db776",
   "actual_base_sha": "c743dfd6469937f715529014dcb781f7771db776",
-  "candidate_sha": "21d6cac41d30da475313f475a6fd3115285ec54f",
+  "candidate_sha": "b9e9bbf939cdccbacbfebac38a0f97253c73b4df",
   "source_shas": {
     "w1": "9a84eee3c938af68c531005e42f98bd3ea18d272",
-    "w2": "12da7e917eaf8191eefaa2379af77a11fc7aaeda",
+    "w2": "083d6e519f62d0f5a14a1d34399b2e0e1a308566",
     "w3": "fddaeb9a1b2d2d6dde79f9b37342cf63e4bdaecb",
     "w4": "9e590f78578c642aacda4369332b6f01f075e5d2"
   },
   "source_provenance": {
-    "repository_head": "21d6cac41d30da475313f475a6fd3115285ec54f",
+    "repository_head": "b9e9bbf939cdccbacbfebac38a0f97253c73b4df",
     "owner_trees": {
-      "specs/v2": "db2c670e56c94c86e866d4b6f0b978b9d03bac98",
-      "data/v2": "885fb9d0692e7d771fd41dcac0043bfbf361ec12",
-      "packages/core-v2": "09b51a4ca4f9ab4e12958d66eaef99e96b935ee3",
-      "packages/models-v2": "dfa14641312b83c61b97f3ac14c8127de795137e",
-      "apps/web-v2": "4098f8d6253e8f54f710b6e6e4b0ccb448bd8891"
+      "specs/v2": "87b668dfb837f8584aa442f41d5d58f77f0f949e",
+      "data/v2": "d1753596b0749cddb66ee5dbb3bdedc3ccbc3f83",
+      "packages/core-v2": "9b8316cb62b1621c93397150ddbf417ed944c5a5",
+      "packages/models-v2": "9bcd8b09c45d648aae153b9be97e581610e7efd5",
+      "apps/web-v2": "82de3d42bfd2c2871e9f2fc7653e844d81065795"
     },
     "owner_file_counts": {
       "specs/v2": 96,
-      "data/v2": 1881,
-      "packages/core-v2": 96,
-      "apps/web-v2": 410
+      "data/v2": 2364,
+      "packages/core-v2": 97,
+      "apps/web-v2": 545
     },
+    "opportunity_contracts_count": 552,
     "hourly_pilot": {
       "provider_acceptance": "UNVERIFIED",
       "data_state": "RAW_ONLY",
@@ -436,8 +437,8 @@
     "research_only": true
   },
   "counts": {
-    "tests": 1029,
-    "pass": 1029,
+    "tests": 1132,
+    "pass": 1132,
     "fail": 0,
     "error": 0,
     "skip": 0
