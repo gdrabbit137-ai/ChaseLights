@@ -14,10 +14,10 @@
   "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
  ],
  "counts": {
-  "spots": 301,
-  "opportunities": 528,
-  "condition_variants": 543,
-  "profile_viewpoint_relations": 534
+  "spots": 341,
+  "opportunities": 569,
+  "condition_variants": 584,
+  "profile_viewpoint_relations": 575
  },
  "spots": [
   {
@@ -31700,6 +31700,4049 @@
        "coord_confidence": "medium",
        "elevation_m": 620.0,
        "coordinate_source": "ja.wikipedia 白谷雲水峡（屋久島安房川支流，入口標高約620 m；宮崎駿もののけ姫の森）；座標 medium（入口遊歩道對位）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-119",
+   "canonical_name": "The Wave",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.recreation.gov/permits/4251909",
+     "verified_on": "2026-11-07",
+     "supports": "BLM/recreation.gov Coyote Buttes North（The Wave，Vermilion Cliffs NM，亞利桑那側；Coyote Buttes 北區約5,700 ft 帶）；座標 medium（波浪窪地中心推定）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-119-P01",
+     "spot_id": "us-119",
+     "name_zh": "波浪谷砂岩浪湧",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "波浪谷砂岩浪湧",
+      "en": "Petrified dune waves of The Wave",
+      "ja": "ザ・ウェーブの砂岩の波"
+     },
+     "best_time": "波浪谷砂岩浪湧",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_geology_light_visibility_module",
+     "formula_version": "v0.04-cl-data-25-the-wave-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-455",
+       "variant_name": "波浪谷砂岩浪湧",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "兩億年沙丘石化層在 Coyote Buttes 北区被風蝕成涌浪狀條紋（BLM 官方許可區）；與既有 us 亞利桑那點（上/下羚羊谷、馬蹄灣）題材錯位——本點為",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_geology_light_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "波浪谷砂岩浪湧",
+        "en": "Petrified dune waves of The Wave",
+        "ja": "ザ・ウェーブの砂岩の波"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "兩億年沙丘石化層在 Coyote Buttes 北区被風蝕成涌浪狀條紋（BLM 官方許可區）；與既有 us 亞利桑那點（上/下羚羊谷、馬蹄灣）題材錯位——本點為石化沙丘波紋本身。",
+        "en": "200-million-year-old petrified dunes carved into swirling striations in Coyote Buttes North (BLM permitted area); disjoint from existing Arizona slots and Horseshoe Bend - here the petrified-dune waves.",
+        "ja": "コヨーテ・バッツ・ノースの石化した砂丘が波のように削られた縞模様（BLM許可区）。既存のアリゾナ渓谷や馬蹄湾とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-119-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "The Wave",
+       "name_i18n": {
+        "zh-TW": "The Wave",
+        "en": "The Wave (Coyote Buttes North)",
+        "ja": "The Wave"
+       },
+       "lat": 36.8617,
+       "lon": -112.398,
+       "coord_confidence": "medium",
+       "elevation_m": 1745.0,
+       "coordinate_source": "BLM/recreation.gov Coyote Buttes North（The Wave，Vermilion Cliffs NM，亞利桑那側；Coyote Buttes 北區約5,700 ft 帶）；座標 medium（波浪窪地中心推定）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-120",
+   "canonical_name": "Rowena Crest",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://gorgefriends.org/",
+     "verified_on": "2026-11-07",
+     "supports": "Friends of the Columbia Gorge / Wikipedia 哥倫比亞河峽谷（羅威娜岬觀景台， historic Columbia River Highway 對位）；座標 medium（觀景台推定）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-120-P01",
+     "spot_id": "us-120",
+     "name_zh": "羅威娜岬峽谷全景",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "羅威娜岬峽谷全景",
+      "en": "Rowena Crest gorge panorama",
+      "ja": "ロウェナ・クレストの渓谷展望"
+     },
+     "best_time": "羅威娜岬峽谷全景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-rowena-crest-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-456",
+       "variant_name": "羅威娜岬峽谷全景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "羅威娜岬俯瞰哥倫比亞河切穿喀斯開山脈的橫向峽谷（Friends of Gorge 官方；春末野花與層積雲著名）；與既有 us-081 雷尼爾山（30km+ 北側",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "羅威娜岬峽谷全景",
+        "en": "Rowena Crest gorge panorama",
+        "ja": "ロウェナ・クレストの渓谷展望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "羅威娜岬俯瞰哥倫比亞河切穿喀斯開山脈的橫向峽谷（Friends of Gorge 官方；春末野花與層積雲著名）；與既有 us-081 雷尼爾山（30km+ 北側）與波特蘭境內瀑布峽段（50km+）題材錯位——本點為乾田段峽谷全景。",
+        "en": "From Rowena Crest the Columbia tears west through the Cascades as a transverse gorge (Friends of the Columbia Gorge; spring wildflowers and famous cleared views); disjoint from existing Portland-area gorge falls and Mt Rainier spots.",
+        "ja": "ロウェナ・クレストからコロンビア川がカスケード山脈を横断する渓谷を望む（公式）。既存のポートランド側の滝群やレーニア山とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-120-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Rowena Crest",
+       "name_i18n": {
+        "zh-TW": "Rowena Crest",
+        "en": "Columbia River Gorge (Rowena Crest)",
+        "ja": "Rowena Crest"
+       },
+       "lat": 45.6686,
+       "lon": -121.4357,
+       "coord_confidence": "medium",
+       "elevation_m": 250.0,
+       "coordinate_source": "Friends of the Columbia Gorge / Wikipedia 哥倫比亞河峽谷（羅威娜岬觀景台， historic Columbia River Highway 對位）；座標 medium（觀景台推定）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-121",
+   "canonical_name": "Bixby Creek Bridge",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Bixby_Creek_Bridge",
+     "verified_on": "2026-11-07",
+     "supports": "Wikipedia Bixby Creek Bridge（36°04′22″N 121°54′17″W，1932年拱橋橋面高約85 m；加州 Big Sur 海岸）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-121-P01",
+     "spot_id": "us-121",
+     "name_zh": "比克斯比橋夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "比克斯比橋夕照",
+      "en": "Bixby Bridge at sunset",
+      "ja": "ビックスビー橋の夕景"
+     },
+     "best_time": "比克斯比橋夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-bixby-bridge-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-457",
+       "variant_name": "比克斯比橋夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "1932年開通的開拱橋橫跨峽谷崖岸，太平洋夕照為加州最著名公路定番之一（Wikipedia；橋面約85m）；與 us-122 麥克威瀑布（14km 南，瀑布體主",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "比克斯比橋夕照",
+        "en": "Bixby Bridge at sunset",
+        "ja": "ビックスビー橋の夕景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "1932年開通的開拱橋橫跨峽谷崖岸，太平洋夕照為加州最著名公路定番之一（Wikipedia；橋面約85m）；與 us-122 麥克威瀑布（14km 南，瀑布體主題）題材錯位——本點為橋＋海岸線。",
+        "en": "The 1932 open-spandrel arch spans a sheer coastal canyon into the Pacific sunset - one of California's classic road compositions (Wikipedia; ~85 m deck); disjoint from us-122 McWay Falls (waterfall subject) 14 km south.",
+        "ja": "1932年架設のアーチ橋が渓谷を跨ぎ太平洋の夕日と並ぶ（Wikipedia；橋面約85m）。14km南のマクウェイ滝（滝が主題）とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-121-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Bixby Creek Bridge",
+       "name_i18n": {
+        "zh-TW": "Bixby Creek Bridge",
+        "en": "Bixby Creek Bridge (Big Sur)",
+        "ja": "Bixby Creek Bridge"
+       },
+       "lat": 36.0727,
+       "lon": -121.9046,
+       "coord_confidence": "high",
+       "elevation_m": 80.0,
+       "coordinate_source": "Wikipedia Bixby Creek Bridge（36°04′22″N 121°54′17″W，1932年拱橋橋面高約85 m；加州 Big Sur 海岸）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-122",
+   "canonical_name": "McWay Falls",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.parks.ca.gov/",
+     "verified_on": "2026-11-07",
+     "supports": "California State Parks / Wikipedia 麥克威瀑布（80呎（約24m）落於海灘；36°21′30″N 121°58′37″W 對位）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-122-P01",
+     "spot_id": "us-122",
+     "name_zh": "麥克威瀑布入海",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "麥克威瀑布入海",
+      "en": "McWay Falls onto the beach",
+      "ja": "マクウェイ滝の海への落下"
+     },
+     "best_time": "麥克威瀑布入海",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-mcway-falls-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-458",
+       "variant_name": "麥克威瀑布入海",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "全美少數直接落沙灘入海的恆定瀑布（加州州立公園官方；展望台俯視、灘域禁入）；與 us-121 比克斯比橋（橋體主題）錯位——本點為瀑布入海。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "麥克威瀑布入海",
+        "en": "McWay Falls onto the beach",
+        "ja": "マクウェイ滝の海への落下"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "全美少數直接落沙灘入海的恆定瀑布（加州州立公園官方；展望台俯視、灘域禁入）；與 us-121 比克斯比橋（橋體主題）錯位——本點為瀑布入海。",
+        "en": "One of the few US waterfalls dropping directly onto a beach (California State Parks; overlook-only, beach closed); disjoint from the Bixby Bridge arch subject 14 km north.",
+        "ja": "直接ビーチに落ちる数少ない恒常的な滝（カリフォルニア州立公園公式；展望台のみ、ビーチ立入禁止）。14km北のビックスビー橋とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-122-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "McWay Falls",
+       "name_i18n": {
+        "zh-TW": "McWay Falls",
+        "en": "McWay Falls (Julia Pfeiffer Burns SP)",
+        "ja": "McWay Falls"
+       },
+       "lat": 36.3586,
+       "lon": -121.9762,
+       "coord_confidence": "high",
+       "elevation_m": 30.0,
+       "coordinate_source": "California State Parks / Wikipedia 麥克威瀑布（80呎（約24m）落於海灘；36°21′30″N 121°58′37″W 對位）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-123",
+   "canonical_name": "Maroon Bells",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.fs.usda.gov/whiteriver",
+     "verified_on": "2026-11-07",
+     "supports": "USGS/USFS White River NF（Maroon Lake 約2,884 m；北峰4,317 m/南峰4,270 m；39°05′51″N 106°59′15″W 對位）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-123-P01",
+     "spot_id": "us-123",
+     "name_zh": "褐鈴山湖鏡倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "褐鈴山湖鏡倒影",
+      "en": "Maroon Bells lake mirror",
+      "ja": "マルーン・ベルズの湖面鏡写"
+     },
+     "best_time": "褐鈴山湖鏡倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-maroon-bells-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-459",
+       "variant_name": "褐鈴山湖鏡倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "北美最常上鏡的山景之一：紅岩雙峰映平靜湖面（USFS；清晨無風才有鏡面）；與既有 us 科州點（丹佛都市、大沙丘）題材錯位——本點為雙峰湖鏡。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "褐鈴山湖鏡倒影",
+        "en": "Maroon Bells lake mirror",
+        "ja": "マルーン・ベルズの湖面鏡写"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "北美最常上鏡的山景之一：紅岩雙峰映平靜湖面（USFS；清晨無風才有鏡面）；與既有 us 科州點（丹佛都市、大沙丘）題材錯位——本點為雙峰湖鏡。",
+        "en": "One of the most photographed mountain scenes in North America: twin maroon peaks mirrored in Maroon Lake on windless mornings (USFS); disjoint from existing Colorado spots.",
+        "ja": "北米屈指の撮影スポット：無風の早朝、マルーン湖に双峰が映る（USFS）。既存のコロラドの点とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-123-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Maroon Bells",
+       "name_i18n": {
+        "zh-TW": "Maroon Bells",
+        "en": "Maroon Bells (Maroon Lake mirror)",
+        "ja": "Maroon Bells"
+       },
+       "lat": 39.0975,
+       "lon": -106.9886,
+       "coord_confidence": "high",
+       "elevation_m": 2884.0,
+       "coordinate_source": "USGS/USFS White River NF（Maroon Lake 約2,884 m；北峰4,317 m/南峰4,270 m；39°05′51″N 106°59′15″W 對位）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-124",
+   "canonical_name": "Keystone Canyon",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Keystone_Canyon",
+     "verified_on": "2026-11-07",
+     "supports": "Wikipedia Keystone Canyon（瓦爾迪茲公路沿理查森峽谷，Bridal Veil/Horsetail 瀑布；座標 medium（谷段對位））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-124-P01",
+     "spot_id": "us-124",
+     "name_zh": "基石峽谷雙瀑",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "基石峽谷雙瀑",
+      "en": "Keystone Canyon twin falls",
+      "ja": "キーストーン峡谷の滝"
+     },
+     "best_time": "基石峽谷雙瀑",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-keystone-canyon-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-460",
+       "variant_name": "基石峽谷雙瀑",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "瓦爾迪茲公路切行的理查森峽谷，婚紗瀑布與馬尾瀑布掛壁（Wikipedia；冬季結冰成冰瀑）；與既有 us-041 迪納利（90km+ 內陸山景）題材錯位——本點",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "基石峽谷雙瀑",
+        "en": "Keystone Canyon twin falls",
+        "ja": "キーストーン峡谷の滝"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "瓦爾迪茲公路切行的理查森峽谷，婚紗瀑布與馬尾瀑布掛壁（Wikipedia；冬季結冰成冰瀑）；與既有 us-041 迪納利（90km+ 內陸山景）題材錯位——本點為峽谷瀑布群。",
+        "en": "The Richardson-cut gorge near Valdez with Bridal Veil and Horsetail falls on the walls, frozen into icefalls in winter (Wikipedia); disjoint from inland Denali mountain scenery.",
+        "ja": "バルディーズ近郊の峡谷に架かるブライダルベールとホーステイルの滝（冬は氷瀑）（Wikipedia）。内陸のデナリとは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-124-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Keystone Canyon",
+       "name_i18n": {
+        "zh-TW": "Keystone Canyon",
+        "en": "Valdez Keystone Canyon falls",
+        "ja": "Keystone Canyon"
+       },
+       "lat": 61.0414,
+       "lon": -146.2389,
+       "coord_confidence": "medium",
+       "elevation_m": 200.0,
+       "coordinate_source": "Wikipedia Keystone Canyon（瓦爾迪茲公路沿理查森峽谷，Bridal Veil/Horsetail 瀑布；座標 medium（谷段對位））",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-125",
+   "canonical_name": "Kancamagus Highway",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.fs.usda.gov/whitemtn",
+     "verified_on": "2026-11-07",
+     "supports": "USFS White Mountain NF（Kancamagus Highway，NH 112；Kancamagus Pass 約3,037 ft 為公路最高點；座標 medium（Pass 對位））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-125-P01",
+     "spot_id": "us-125",
+     "name_zh": "坎坎瑪格斯楓紅公路",
+     "legacy_theme": "seasonal_foreground",
+     "name_i18n": {
+      "zh-TW": "坎坎瑪格斯楓紅公路",
+      "en": "Kancamagus foliage corridor",
+      "ja": "カンカマーガスの紅葉街道"
+     },
+     "best_time": "坎坎瑪格斯楓紅公路",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_seasonal_foreground_module",
+     "formula_version": "v0.04-cl-data-25-kancamagus-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 09-29–10-27（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 09-29–10-27（seasonal-calendar）",
+      "en": "Seasonal window 09-29-10-27 (seasonal-calendar)",
+      "ja": "季節窓 09-29〜10-27（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-461",
+       "variant_name": "坎坎瑪格斯楓紅公路",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "無人商店的國家森林景觀公路，秋季楓紅沿斯威夫特河鋪展（USFS；9月末至10月下旬典型峰值）；與既有 us-098 緬因州阿卡迪亞（20km+ 海岸）題材錯位—",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_seasonal_foreground_module",
+       "variant_name_i18n": {
+        "zh-TW": "坎坎瑪格斯楓紅公路",
+        "en": "Kancamagus foliage corridor",
+        "ja": "カンカマーガスの紅葉街道"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "無人商店的國家森林景觀公路，秋季楓紅沿斯威夫特河鋪展（USFS；9月末至10月下旬典型峰值）；與既有 us-098 緬因州阿卡迪亞（20km+ 海岸）題材錯位——本點為內陸楓紅走廊。",
+        "en": "A scenic national-forest highway without services, foliage blazing along the Swift River (USFS; typical peak late Sep-late Oct); disjoint from coastal Acadia, Maine.",
+        "ja": "サービス施設のない国有林のシーニック・ハイウェイ、スウィフト川沿いに紅葉（USFS；9月末〜10月下旬）。海岸のアカデミアとは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-125-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Kancamagus Highway",
+       "name_i18n": {
+        "zh-TW": "Kancamagus Highway",
+        "en": "Kancamagus Highway (White Mountains)",
+        "ja": "Kancamagus Highway"
+       },
+       "lat": 44.0234,
+       "lon": -71.365,
+       "coord_confidence": "medium",
+       "elevation_m": 926.0,
+       "coordinate_source": "USFS White Mountain NF（Kancamagus Highway，NH 112；Kancamagus Pass 約3,037 ft 為公路最高點；座標 medium（Pass 對位））",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-126",
+   "canonical_name": "Linn Cove Viaduct",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/blri/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Blue Ridge Parkway / Wikipedia 林恩灣高架橋（1987年 S 形高架繞大霧山東緣格蘭德father山，橋面高約1,250 m 帶；座標 medium）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-126-P01",
+     "spot_id": "us-126",
+     "name_zh": "林恩灣高架橋秋色",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "林恩灣高架橋秋色",
+      "en": "Linn Cove Viaduct in fall color",
+      "ja": "リン・コーブ高架橋と紅葉"
+     },
+     "best_time": "林恩灣高架橋秋色",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-linn-cove-viaduct-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 10-10–11-05（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 10-10–11-05（seasonal-calendar）",
+      "en": "Seasonal window 10-10-11-05 (seasonal-calendar)",
+      "ja": "季節窓 10-10〜11-05（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-462",
+       "variant_name": "林恩灣高架橋秋色",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "S 形鋼橋繞過 Grandfather 山稜線，秋季紅葉包圍（NPS；10月中至11月初典型峰值）；與既有 us 阿帕拉契點（70km+）題材錯位——本點為橋體",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "林恩灣高架橋秋色",
+        "en": "Linn Cove Viaduct in fall color",
+        "ja": "リン・コーブ高架橋と紅葉"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "S 形鋼橋繞過 Grandfather 山稜線，秋季紅葉包圍（NPS；10月中至11月初典型峰值）；與既有 us 阿帕拉契點（70km+）題材錯位——本點為橋體＋山脊。",
+        "en": "The S-shaped steel viaduct wraps the Grandfather Mountain ridgeline in autumn color (NPS; typical peak mid-Oct-early Nov); disjoint from other Appalachian points.",
+        "ja": "S字型の高架橋がグランドファーザー山の稜線を回り込み紅葉に包まれる（NPS）。既存のアパラチアの点とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-126-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Linn Cove Viaduct",
+       "name_i18n": {
+        "zh-TW": "Linn Cove Viaduct",
+        "en": "Linn Cove Viaduct (Blue Ridge Parkway)",
+        "ja": "Linn Cove Viaduct"
+       },
+       "lat": 36.0897,
+       "lon": -81.7994,
+       "coord_confidence": "medium",
+       "elevation_m": 1250.0,
+       "coordinate_source": "NPS Blue Ridge Parkway / Wikipedia 林恩灣高架橋（1987年 S 形高架繞大霧山東緣格蘭德father山，橋面高約1,250 m 帶；座標 medium）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-127",
+   "canonical_name": "White Pocket",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.blm.gov/",
+     "verified_on": "2026-11-07",
+     "supports": "BLM White Pocket Trailhead（36.955011,-111.893296）+ Wikipedia White Pocket（36°27′28″N 111°42′15″W 中心帶，6,100 ft 帶）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-127-P01",
+     "spot_id": "us-127",
+     "name_zh": "白口袋花椰岩紋",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "白口袋花椰岩紋",
+      "en": "White Pocket cauliflower rock",
+      "ja": "ホワイト・ポケットの岩模様"
+     },
+     "best_time": "白口袋花椰岩紋",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_geology_light_visibility_module",
+     "formula_version": "v0.04-cl-data-25-white-pocket-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-463",
+       "variant_name": "白口袋花椰岩紋",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "Na­vajo 砂岩扭皺的花椰菜狀紋理與白頂紅壁（BLM；無步道自由漫遊，深沙路需高底盤車——access 不計分）；與 us-119 波浪谷（12km，許可區",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_geology_light_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "白口袋花椰岩紋",
+        "en": "White Pocket cauliflower rock",
+        "ja": "ホワイト・ポケットの岩模様"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "Na­vajo 砂岩扭皺的花椰菜狀紋理與白頂紅壁（BLM；無步道自由漫遊，深沙路需高底盤車——access 不計分）；與 us-119 波浪谷（12km，許可區波紋）題材同源但形態不同且免抽籤——兩點並存。",
+        "en": "Swirled Navajo sandstone 'cauliflower' domes under white caps (BLM; no trails, free-roam, deep-sand 4WD access - access not scored); 12 km from the permitted Wave (us-119) but a different landform and no lottery.",
+        "ja": "ナバホ砂岩の花模様のドーム（BLM；遊歩道なし、深い砂地は4WD）。12km先の抽選制ザ・ウェーブとは地形も方式も別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-127-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "White Pocket",
+       "name_i18n": {
+        "zh-TW": "White Pocket",
+        "en": "White Pocket (Vermilion Cliffs NM)",
+        "ja": "White Pocket"
+       },
+       "lat": 36.9561,
+       "lon": -111.9043,
+       "coord_confidence": "medium",
+       "elevation_m": 1860.0,
+       "coordinate_source": "BLM White Pocket Trailhead（36.955011,-111.893296）+ Wikipedia White Pocket（36°27′28″N 111°42′15″W 中心帶，6,100 ft 帶）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-128",
+   "canonical_name": "Reflection Canyon",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/glca/",
+     "verified_on": "2026-11-07",
+     "supports": "Glen Canyon NRA 產業級徒步記錄（Reflection Canyon overlook，peak 約4,466 ft/1,361 m；座標 medium（展望台推定））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-128-P01",
+     "spot_id": "us-128",
+     "name_zh": "反射峽谷 S 形灣",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "反射峽谷 S 形灣",
+      "en": "Reflection Canyon S-bend",
+      "ja": "リフレクション峡谷のS字"
+     },
+     "best_time": "反射峽谷 S 形灣",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-reflection-canyon-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-464",
+       "variant_name": "反射峽谷 S 形灣",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "格蘭峽谷國家遊憩區內 Navajo 砂岩 S 形灣俯視鮑威爾湖（NPS；無步道、約16–18 英里越野徒步，座標為展望台推定——access 不計分，列入誠實標",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "反射峽谷 S 形灣",
+        "en": "Reflection Canyon S-bend",
+        "ja": "リフレクション峡谷のS字"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "格蘭峽谷國家遊憩區內 Navajo 砂岩 S 形灣俯視鮑威爾湖（NPS；無步道、約16–18 英里越野徒步，座標為展望台推定——access 不計分，列入誠實標註）；與既有 us 亞利桑那峽谷點題材錯位——本點為湖灣 S 形。",
+        "en": "The Navajo sandstone S-bend above Lake Powell in Glen Canyon NRA (NPS; route-finding over ~16-18 miles with no trail, coordinates are the overlook estimate - access not scored, honestly labeled); disjoint from existing Arizona canyon subjects.",
+        "ja": "グレンキャニオンNRA、ナバホ砂岩のS字湾（NPS；ルートファインディング16〜18マイル、展望台推定座標）。既存のアリゾナ峡谷とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-128-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Reflection Canyon",
+       "name_i18n": {
+        "zh-TW": "Reflection Canyon",
+        "en": "Reflection Canyon (Lake Powell)",
+        "ja": "Reflection Canyon"
+       },
+       "lat": 37.1746,
+       "lon": -110.9038,
+       "coord_confidence": "medium",
+       "elevation_m": 1330.0,
+       "coordinate_source": "Glen Canyon NRA 產業級徒步記錄（Reflection Canyon overlook，peak 約4,466 ft/1,361 m；座標 medium（展望台推定））",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-129",
+   "canonical_name": "Factory Butte",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.recreation.gov/gateways/16219",
+     "verified_on": "2026-11-07",
+     "supports": "recreation.gov Factory Butte Recreation Area（38.365881,-110.915269）+ Capitol Reef Country（staging area 38.376667,-110.900278）；Butte 峰 6,302 ft/1,921 m（Wikipedia）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-129-P01",
+     "spot_id": "us-129",
+     "name_zh": "工廠台地月球地貌",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "工廠台地月球地貌",
+      "en": "Factory Butte badland moonscape",
+      "ja": "ファクトリー・ビュートの月面風景"
+     },
+     "best_time": "工廠台地月球地貌",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_geology_light_visibility_module",
+     "formula_version": "v0.04-cl-data-25-factory-butte-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-465",
+       "variant_name": "工廠台地月球地貌",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "Entry 砂岩壞地被沖刷成銀灰色「月球表面」，孤台地聳立（Wikipedia/recreation.gov；Hanksville 西側 SR-24 沿線）；與",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_geology_light_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "工廠台地月球地貌",
+        "en": "Factory Butte badland moonscape",
+        "ja": "ファクトリー・ビュートの月面風景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "Entry 砂岩壞地被沖刷成銀灰色「月球表面」，孤台地聳立（Wikipedia/recreation.gov；Hanksville 西側 SR-24 沿線）；與 us-129 白口袋（彩色砂岩紋理）錯位——本點為灰壞地＋孤峰。",
+        "en": "Silver-gray Entrada badlands scoured into a lunar plain with the lone butte rising (Wikipedia/recreation.gov; SR-24 west of Hanksville); disjoint from White Pocket's colored swirls.",
+        "ja": "銀灰色のバッドランドにそびえる孤峰（Wikipedia/recreation.gov）。ホワイト・ポケットの彩色紋とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-129-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Factory Butte",
+       "name_i18n": {
+        "zh-TW": "Factory Butte",
+        "en": "Factory Butte moonscape",
+        "ja": "Factory Butte"
+       },
+       "lat": 38.3767,
+       "lon": -110.9003,
+       "coord_confidence": "high",
+       "elevation_m": 1480.0,
+       "coordinate_source": "recreation.gov Factory Butte Recreation Area（38.365881,-110.915269）+ Capitol Reef Country（staging area 38.376667,-110.900278）；Butte 峰 6,302 ft/1,921 m（Wikipedia）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-130",
+   "canonical_name": "Coal Mine Canyon",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.thewave.info/CoalMineCanyonCode/Map.html",
+     "verified_on": "2026-11-07",
+     "supports": "thewave.info Coal Mine Canyon guide（rim 5,800 ft/1,768 m，Tuba City 東南 15 mi；座標 medium（rim 對位））+ Wikipedia Coalmine Canyon. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-130-P01",
+     "spot_id": "us-130",
+     "name_zh": "煤礦峽谷紅白條紋",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "煤礦峽谷紅白條紋",
+      "en": "Coal Mine Canyon rim stripes",
+      "ja": "コール・マイン峡谷の縞"
+     },
+     "best_time": "煤礦峽谷紅白條紋",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-coal-mine-canyon-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-466",
+       "variant_name": "煤礦峽谷紅白條紋",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "紅白條紋的壞地峽谷自 rim 俯視（thewave.info；rim 在納瓦霍保留區需許可，內部屬 Hopi 需嚮導——access 不計分，誠實標註）；與 u",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "煤礦峽谷紅白條紋",
+        "en": "Coal Mine Canyon rim stripes",
+        "ja": "コール・マイン峡谷の縞"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "紅白條紋的壞地峽谷自 rim 俯視（thewave.info；rim 在納瓦霍保留區需許可，內部屬 Hopi 需嚮導——access 不計分，誠實標註）；與 us-119/us-129（砂岩波紋主題）錯位——本點為條紋壞地峽谷全景。",
+        "en": "Red-and-white striped badlands seen from the rim (thewave.info; the rim is Navajo Nation land requiring a permit and the interior is Hopi with guide-required access - access not scored, honestly labeled); disjoint from the petrified-dune subjects of us-119/129.",
+        "ja": "紅白の縞模様のバッドランドを縁から望む（thewave.info；縁はナバホ国の許可制、内部はホピ族でガイド必須）。砂岩波紋系の対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-130-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Coal Mine Canyon",
+       "name_i18n": {
+        "zh-TW": "Coal Mine Canyon",
+        "en": "Coal Mine Canyon (Navajo Nation)",
+        "ja": "Coal Mine Canyon"
+       },
+       "lat": 36.0053,
+       "lon": -111.0486,
+       "coord_confidence": "medium",
+       "elevation_m": 1780.0,
+       "coordinate_source": "thewave.info Coal Mine Canyon guide（rim 5,800 ft/1,768 m，Tuba City 東南 15 mi；座標 medium（rim 對位））+ Wikipedia Coalmine Canyon",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-131",
+   "canonical_name": "Bisti/De-Na-Zin",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Bisti/De-Na-Zin_Wilderness",
+     "verified_on": "2026-11-07",
+     "supports": "Wikipedia Bisti/De-Na-Zin（36°05′N 108°14′W 帶；BLM 荒野，入口停車場與次級路對位）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-131-P01",
+     "spot_id": "us-131",
+     "name_zh": "比斯蒂泥岩奇岩",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "比斯蒂泥岩奇岩",
+      "en": "Bisti hoodoos and petrified wood",
+      "ja": "ビスティの奇岩と化石木"
+     },
+     "best_time": "比斯蒂泥岩奇岩",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_geology_light_visibility_module",
+     "formula_version": "v0.04-cl-data-25-bisti-badlands-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-467",
+       "variant_name": "比斯蒂泥岩奇岩",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "泥岩/砂岩交層的蘑菇石、翅岩與化石木（BLM 荒野；無步道、路標稀少——access 不計分）；與 us-131 工廠台地（大面積銀灰壞地）錯位——本點為小尺度",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_geology_light_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "比斯蒂泥岩奇岩",
+        "en": "Bisti hoodoos and petrified wood",
+        "ja": "ビスティの奇岩と化石木"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "泥岩/砂岩交層的蘑菇石、翅岩與化石木（BLM 荒野；無步道、路標稀少——access 不計分）；與 us-131 工廠台地（大面積銀灰壞地）錯位——本點為小尺度奇岩群。",
+        "en": "Mushroom hoodoos, winged rocks and petrified wood in layered mudstone (BLM wilderness; no trails, sparse navigation - access not scored); disjoint from Factory Butte's broad gray plain.",
+        "ja": "泥岩の蘑菇石と化石木の群れ（BLM荒野；道なし）。広面積の灰色平原のファクトリー・ビュートとは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-131-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Bisti/De-Na-Zin",
+       "name_i18n": {
+        "zh-TW": "Bisti/De-Na-Zin",
+        "en": "Bisti/De-Na-Zin Wilderness",
+        "ja": "Bisti/De-Na-Zin"
+       },
+       "lat": 36.0911,
+       "lon": -108.2356,
+       "coord_confidence": "medium",
+       "elevation_m": 1950.0,
+       "coordinate_source": "Wikipedia Bisti/De-Na-Zin（36°05′N 108°14′W 帶；BLM 荒野，入口停車場與次級路對位）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-132",
+   "canonical_name": "Bonsai Rock",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Lake_Tahoe",
+     "verified_on": "2026-11-07",
+     "supports": "Lake Tahoe shoreline 推定（盆景岩，東岸靜水區；座標 medium；湖面 1,897 m）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-132-P01",
+     "spot_id": "us-132",
+     "name_zh": "盆景岩湖面倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "盆景岩湖面倒影",
+      "en": "Bonsai Rock over still water",
+      "ja": "ボンサイ・ロックの湖面"
+     },
+     "best_time": "盆景岩湖面倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-bonsai-rock-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-468",
+       "variant_name": "盆景岩湖面倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "花崗岩塔上松樹叢立如盆景，靜水鏡面（內華達州東岸；岸邊巨石下坡需小心——access 不計分）；與既有 us 加州湖泊點題材錯位——本點為湖中岩塔。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "盆景岩湖面倒影",
+        "en": "Bonsai Rock over still water",
+        "ja": "ボンサイ・ロックの湖面"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "花崗岩塔上松樹叢立如盆景，靜水鏡面（內華達州東岸；岸邊巨石下坡需小心——access 不計分）；與既有 us 加州湖泊點題材錯位——本點為湖中岩塔。",
+        "en": "A granite turret crowned with junipers 'bonsai', mirrored on calm water (Nevada east shore; steep boulder descent - access not scored); disjoint from existing California lake subjects.",
+        "ja": "花崗岩の塔に松が盆景のように生え、静水に映る（ネバダ東岸）。既存のカリフォルニア湖沼対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-132-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Bonsai Rock",
+       "name_i18n": {
+        "zh-TW": "Bonsai Rock",
+        "en": "Bonsai Rock (Lake Tahoe)",
+        "ja": "Bonsai Rock"
+       },
+       "lat": 39.0744,
+       "lon": -120.0394,
+       "coord_confidence": "medium",
+       "elevation_m": 1897.0,
+       "coordinate_source": "Lake Tahoe shoreline 推定（盆景岩，東岸靜水區；座標 medium；湖面 1,897 m）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-133",
+   "canonical_name": "Schulman Grove",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.fs.usda.gov/detail/inyo/",
+     "verified_on": "2026-11-07",
+     "supports": "USFS Inyo NF（Schulman Grove 約9,847 ft/3,001 m，白山白山公路盡頭；座標 high）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-133-P01",
+     "spot_id": "us-133",
+     "name_zh": "古狐尾松扭曲古木",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "古狐尾松扭曲古木",
+      "en": "Ancient bristlecone twisted trunks",
+      "ja": "ブリストルコーン松の古木"
+     },
+     "best_time": "古狐尾松扭曲古木",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-bristlecone-pines-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-469",
+       "variant_name": "古狐尾松扭曲古木",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "全球最老非克隆樹之一（近5,000年）的扭曲古木在3,000m白山迎日出（USFS；公路季節性冬季封閉——access 不計分）；與既有 us-100 白山點（",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "古狐尾松扭曲古木",
+        "en": "Ancient bristlecone twisted trunks",
+        "ja": "ブリストルコーン松の古木"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "全球最老非克隆樹之一（近5,000年）的扭曲古木在3,000m白山迎日出（USFS；公路季節性冬季封閉——access 不計分）；與既有 us-100 白山點（內華達山脈東麓Mono 湖）題材錯位——本點為古木本身。",
+        "en": "Twisted ancients near 5,000 years old on the White Mountains at 3,000 m (USFS; seasonal winter road closure - access not scored); disjoint from the Mono Lake east-slope spot us-100.",
+        "ja": "ほぼ5,000年の古木が白山3,000mに（USFS；冬季道路閉鎖）。モノ湖の対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-133-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Schulman Grove",
+       "name_i18n": {
+        "zh-TW": "Schulman Grove",
+        "en": "Ancient Bristlecone Pine Forest (Schulman Grove)",
+        "ja": "Schulman Grove"
+       },
+       "lat": 37.5917,
+       "lon": -118.6111,
+       "coord_confidence": "high",
+       "elevation_m": 3000.0,
+       "coordinate_source": "USFS Inyo NF（Schulman Grove 約9,847 ft/3,001 m，白山白山公路盡頭；座標 high）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-134",
+   "canonical_name": "Meyers Beach ice caves",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/apis/learn/nature/ice-caves.htm",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Apostle Islands（Meyers Beach 冰洞路線，蘇必略湖面約183 m；座標 medium（岸線對位））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-134-P01",
+     "spot_id": "us-134",
+     "name_zh": "使徒群島冰洞冰簾",
+     "legacy_theme": "snow_scene",
+     "name_i18n": {
+      "zh-TW": "使徒群島冰洞冰簾",
+      "en": "Apostle Islands icicle caves",
+      "ja": "アポストル群島の氷洞"
+     },
+     "best_time": "使徒群島冰洞冰簾",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_snow_state_module",
+     "formula_version": "v0.04-cl-data-25-apostle-ice-caves-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 01-01–03-15（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 01-01–03-15（seasonal-calendar）",
+      "en": "Seasonal window 01-01-03-15 (seasonal-calendar)",
+      "ja": "季節窓 01-01〜03-15（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-470",
+       "variant_name": "使徒群島冰洞冰簾",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "僅當蘇必略湖冰層足厚，NPS 才開放冰洞路線（通常1–3月，年度公佈）——季節窗追蹤官方案件而非保證；冰簾/冰錐洞穴景觀；與既有 us 五大湖點（尼加拉瀑布）題",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_snow_state_module",
+       "variant_name_i18n": {
+        "zh-TW": "使徒群島冰洞冰簾",
+        "en": "Apostle Islands icicle caves",
+        "ja": "アポストル群島の氷洞"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "僅當蘇必略湖冰層足厚，NPS 才開放冰洞路線（通常1–3月，年度公佈）——季節窗追蹤官方案件而非保證；冰簾/冰錐洞穴景觀；與既有 us 五大湖點（尼加拉瀑布）題材錯位——本點為湖冰洞。",
+        "en": "The ice-cave route opens only when Lake Superior ice is thick enough (typically Jan-Mar, dates yearly announced by NPS) - the window tracks the official opening, never a guarantee; disjoint from the Niagara subject.",
+        "ja": "スペリオル湖の氷が十分に厚い時のみNPSが氷洞路線を開放（例年1〜3月、年度公表）。氷瀑の洞窟景観。ナイアガラとは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-134-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Meyers Beach ice caves",
+       "name_i18n": {
+        "zh-TW": "Meyers Beach ice caves",
+        "en": "Apostle Islands sea caves (ice caves)",
+        "ja": "Meyers Beach ice caves"
+       },
+       "lat": 46.7389,
+       "lon": -90.9978,
+       "coord_confidence": "medium",
+       "elevation_m": 183.0,
+       "coordinate_source": "NPS Apostle Islands（Meyers Beach 冰洞路線，蘇必略湖面約183 m；座標 medium（岸線對位））",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-135",
+   "canonical_name": "Caddo Lake",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Caddo_Lake",
+     "verified_on": "2026-11-07",
+     "supports": "Wikipedia Caddo Lake（32°43′N 94°09′W 帶；最大南方淡水湖，沼澤地與柏樹）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-135-P01",
+     "spot_id": "us-135",
+     "name_zh": "卡多湖柏樹苔沼",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "卡多湖柏樹苔沼",
+      "en": "Caddo cypress bayou",
+      "ja": "カドー湖の柏樹の沼"
+     },
+     "best_time": "卡多湖柏樹苔沼",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-caddo-lake-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-471",
+       "variant_name": "卡多湖柏樹苔沼",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "靜水沼澤中垂掛西班牙苔蘚的百年水杉與晨霧（Wikipedia；船遊最宜——access 資訊性）；與既有 us 美中點（南達科他）題材錯位——本點為沼澤柏林。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "卡多湖柏樹苔沼",
+        "en": "Caddo cypress bayou",
+        "ja": "カドー湖の柏樹の沼"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "靜水沼澤中垂掛西班牙苔蘚的百年水杉與晨霧（Wikipedia；船遊最宜——access 資訊性）；與既有 us 美中點（南達科他）題材錯位——本點為沼澤柏林。",
+        "en": "Centuries-old bald cypress draped with Spanish moss in still bayous with morning fog (Wikipedia; best by boat - informational access note); disjoint from the existing Midwest plains subject.",
+        "ja": "静かな沼に垂れるスパニッシュモスと水杉、朝霧（Wikipedia；ボート推奨）。既存の平原対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-135-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Caddo Lake",
+       "name_i18n": {
+        "zh-TW": "Caddo Lake",
+        "en": "Caddo Lake (Spanish moss bayous)",
+        "ja": "Caddo Lake"
+       },
+       "lat": 32.7236,
+       "lon": -94.1531,
+       "coord_confidence": "high",
+       "elevation_m": 52.0,
+       "coordinate_source": "Wikipedia Caddo Lake（32°43′N 94°09′W 帶；最大南方淡水湖，沼澤地與柏樹）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-136",
+   "canonical_name": "Palo Duro Canyon",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://tpwd.texas.gov/state-parks/palo-duro-canyon",
+     "verified_on": "2026-11-07",
+     "supports": "Texas Parks & Wildlife / Wikipedia 帕洛杜羅峽谷（全美第二大峽谷；Lighthouse 岩區約34°58′N 101°41′W 帶；座標 medium）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-136-P01",
+     "spot_id": "us-136",
+     "name_zh": "帕洛杜羅燈塔岩",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "帕洛杜羅燈塔岩",
+      "en": "Palo Duro Lighthouse",
+      "ja": "パロ・デュロのライトハウス"
+     },
+     "best_time": "帕洛杜羅燈塔岩",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-palo-duro-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-472",
+       "variant_name": "帕洛杜羅燈塔岩",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "紅橙岩壁與尖頂「燈塔岩」（TPWD 州立公園；約20公里長峽谷）；與既有 us 大峽谷（800km 西）題材同類但尺度/岩色不同，距離遠無 5km 衝突——本點",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "帕洛杜羅燈塔岩",
+        "en": "Palo Duro Lighthouse",
+        "ja": "パロ・デュロのライトハウス"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "紅橙岩壁與尖頂「燈塔岩」（TPWD 州立公園；約20公里長峽谷）；與既有 us 大峽谷（800km 西）題材同類但尺度/岩色不同，距離遠無 5km 衝突——本點為草原中的紅岩峽谷。",
+        "en": "Red-and-orange walls with the capped Lighthouse spire (TPWD state park; a ~20-mile canyon on the plains); geographically far from the Grand Canyon with no 5 km conflict - a plain-ringed red canyon.",
+        "ja": "赤橙色の岩壁とキャップ付きのライトハウス岩（TPWD）。グランドキャニオンとは距離も地形も別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-136-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Palo Duro Canyon",
+       "name_i18n": {
+        "zh-TW": "Palo Duro Canyon",
+        "en": "Palo Duro Canyon (Lighthouse)",
+        "ja": "Palo Duro Canyon"
+       },
+       "lat": 34.97,
+       "lon": -101.68,
+       "coord_confidence": "medium",
+       "elevation_m": 900.0,
+       "coordinate_source": "Texas Parks & Wildlife / Wikipedia 帕洛杜羅峽谷（全美第二大峽谷；Lighthouse 岩區約34°58′N 101°41′W 帶；座標 medium）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-137",
+   "canonical_name": "Watkins Glen",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Watkins_Glen_State_Park",
+     "verified_on": "2026-11-07",
+     "supports": "Wikipedia/NY State Parks 沃特金斯格倫（Glen Creek 19 瀑與峽谷步道；42°22′N 76°45′W 帶）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-137-P01",
+     "spot_id": "us-137",
+     "name_zh": "沃特金斯格倫峽谷瀑布群",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "沃特金斯格倫峽谷瀑布群",
+      "en": "Watkins Glen gorge cascades",
+      "ja": "ワトキンス・グレンの滝群"
+     },
+     "best_time": "沃特金斯格倫峽谷瀑布群",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-watkins-glen-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-473",
+       "variant_name": "沃特金斯格倫峽谷瀑布群",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "400呎深石雕峽谷內 19 瀑與拱橋（NY State Parks；冬季步道封閉——access 資訊性）；與既有 us 美東點題材錯位——本點為峽谷瀑布群。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "沃特金斯格倫峽谷瀑布群",
+        "en": "Watkins Glen gorge cascades",
+        "ja": "ワトキンス・グレンの滝群"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "400呎深石雕峽谷內 19 瀑與拱橋（NY State Parks；冬季步道封閉——access 資訊性）；與既有 us 美東點題材錯位——本點為峽谷瀑布群。",
+        "en": "Nineteen waterfalls and arched bridges in a 400-ft carved gorge (NY State Parks; winter trail closure - access informational); disjoint from other Eastern US subjects.",
+        "ja": "400フィートの峡谷に19の滝とアーチ橋（NY州立公園；冬季閉鎖）。他の米東部対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-137-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Watkins Glen",
+       "name_i18n": {
+        "zh-TW": "Watkins Glen",
+        "en": "Watkins Glen State Park",
+        "ja": "Watkins Glen"
+       },
+       "lat": 42.3792,
+       "lon": -76.7467,
+       "coord_confidence": "high",
+       "elevation_m": 250.0,
+       "coordinate_source": "Wikipedia/NY State Parks 沃特金斯格倫（Glen Creek 19 瀑與峽谷步道；42°22′N 76°45′W 帶）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-138",
+   "canonical_name": "Sparks Lane",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/grsm/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Great Smoky Mountains（Cades Cove Loop 環線，Sparks Lane 對位；座標 medium）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-138-P01",
+     "spot_id": "us-138",
+     "name_zh": "斯帕克斯小巷晨霧",
+     "legacy_theme": "sunrise",
+     "name_i18n": {
+      "zh-TW": "斯帕克斯小巷晨霧",
+      "en": "Sparks Lane morning fog",
+      "ja": "スパークス・レーンの朝霧"
+     },
+     "best_time": "斯帕克斯小巷晨霧",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-sparks-lane-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-474",
+       "variant_name": "斯帕克斯小巷晨霧",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "山谷新拓農地柵欄小路在晨霧中（NPS Cades Cove；秋季麋鹿/白尾鹿與霧景著名）；與既有 us 美東點題材錯位——本點為谷地晨霧柵欄線。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "斯帕克斯小巷晨霧",
+        "en": "Sparks Lane morning fog",
+        "ja": "スパークス・レーンの朝霧"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "山谷新拓農地柵欄小路在晨霧中（NPS Cades Cove；秋季麋鹿/白尾鹿與霧景著名）；與既有 us 美東點題材錯位——本點為谷地晨霧柵欄線。",
+        "en": "A split-rail fence lane across a farm cove in morning fog (NPS Cades Cove; elk and deer sightings common); disjoint from other Eastern US subjects.",
+        "ja": "霧の中の農場と柵の小道（NPS ケイズ・コーブ）。他の米東部対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-138-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Sparks Lane",
+       "name_i18n": {
+        "zh-TW": "Sparks Lane",
+        "en": "Sparks Lane (Cades Cove)",
+        "ja": "Sparks Lane"
+       },
+       "lat": 35.6114,
+       "lon": -83.8192,
+       "coord_confidence": "medium",
+       "elevation_m": 500.0,
+       "coordinate_source": "NPS Great Smoky Mountains（Cades Cove Loop 環線，Sparks Lane 對位；座標 medium）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-139",
+   "canonical_name": "Crystal Mill",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Crystal_Mill",
+     "verified_on": "2026-11-07",
+     "supports": "Wikipedia/NRHP Crystal Mill（1892年木造水力廠，39°03′32″N 107°06′14″W；NRHP 85001493）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-139-P01",
+     "spot_id": "us-139",
+     "name_zh": "水晶磨坊秋色",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "水晶磨坊秋色",
+      "en": "Crystal Mill in autumn",
+      "ja": "クリスタル・ミルの秋"
+     },
+     "best_time": "水晶磨坊秋色",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-crystal-mill-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-475",
+       "variant_name": "水晶磨坊秋色",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "1892年水力廠懸於水晶河巨石上，秋季黃楊包圍（NRHP 登錄；私人路需高底盤車——access 資訊性）；與既有 us 科州點題材錯位——本點為磨坊＋急流＋秋",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "水晶磨坊秋色",
+        "en": "Crystal Mill in autumn",
+        "ja": "クリスタル・ミルの秋"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "1892年水力廠懸於水晶河巨石上，秋季黃楊包圍（NRHP 登錄；私人路需高底盤車——access 資訊性）；與既有 us 科州點題材錯位——本點為磨坊＋急流＋秋色。",
+        "en": "An 1892 wooden powerhouse perched on Crystal River boulders, boxed in by golden aspen (NRHP-listed; private rough road - access informational); disjoint from other Colorado subjects.",
+        "ja": "1892年の木造水力発電所が水晶河の巨岩に（NRHP登録；私道は高底盤車）。他のコロラド対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-139-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Crystal Mill",
+       "name_i18n": {
+        "zh-TW": "Crystal Mill",
+        "en": "Crystal Mill",
+        "ja": "Crystal Mill"
+       },
+       "lat": 39.05889,
+       "lon": -107.10389,
+       "coord_confidence": "high",
+       "elevation_m": 2710.0,
+       "coordinate_source": "Wikipedia/NRHP Crystal Mill（1892年木造水力廠，39°03′32″N 107°06′14″W；NRHP 85001493）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-140",
+   "canonical_name": "Ice Lake",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.fs.usda.gov/wildflowers/regions/Rocky_Mountain/IceLakes/index.shtml",
+     "verified_on": "2026-11-07",
+     "supports": "USFS/Colorado Lakes（Ice Lake 約12,260 ft/3,735 m；trailhead 37.8119,-107.7925；San Juan NF）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-140-P01",
+     "spot_id": "us-140",
+     "name_zh": "冰湖碧藍倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "冰湖碧藍倒影",
+      "en": "Ice Lake turquoise mirror",
+      "ja": "アイス湖のターコイズ"
+     },
+     "best_time": "冰湖碧藍倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-ice-lakes-basin-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-476",
+       "variant_name": "冰湖碧藍倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "3,735 m 冰斗湖映 13,000 呎峰牆，湖水礦物藍（USFS；步道約8英里爬升2,900呎——access 不計分）；與 us-123 褐鈴山（含氧紅岩",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "冰湖碧藍倒影",
+        "en": "Ice Lake turquoise mirror",
+        "ja": "アイス湖のターコイズ"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "3,735 m 冰斗湖映 13,000 呎峰牆，湖水礦物藍（USFS；步道約8英里爬升2,900呎——access 不計分）；與 us-123 褐鈴山（含氧紅岩湖鏡）題材錯位——本點為高山碧藍湖。",
+        "en": "A 3,735 m cirque lake mirroring 13,000-ft walls, mineral-turquoise water (USFS; ~8 mi trail with 2,900 ft gain - access not scored); disjoint from us-123 Maroon Bells.",
+        "ja": "3,735mの圏谷湖が13,000フィートの峰壁を映す（USFS；約8マイル）。マルーン・ベルズとは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-140-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Ice Lake",
+       "name_i18n": {
+        "zh-TW": "Ice Lake",
+        "en": "Ice Lakes Basin",
+        "ja": "Ice Lake"
+       },
+       "lat": 37.8114,
+       "lon": -107.7899,
+       "coord_confidence": "high",
+       "elevation_m": 3735.0,
+       "coordinate_source": "USFS/Colorado Lakes（Ice Lake 約12,260 ft/3,735 m；trailhead 37.8119,-107.7925；San Juan NF）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-141",
+   "canonical_name": "Last Dollar Road",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.visittelluride.com/",
+     "verified_on": "2026-11-07",
+     "supports": "Telluride tourism / San Miguel County（Last Dollar Road，特柳賴德西北；座標 medium（路脊推定））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-141-P01",
+     "spot_id": "us-141",
+     "name_zh": "Last Dollar Road 白楊谷景",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "Last Dollar Road 白楊谷景",
+      "en": "Last Dollar Road aspen valley",
+      "ja": "Last Dollar Roadのアスペン渓谷"
+     },
+     "best_time": "Last Dollar Road 白楊谷景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-last-dollar-road-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 09-20–10-10（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 09-20–10-10（seasonal-calendar）",
+      "en": "Seasonal window 09-20-10-10 (seasonal-calendar)",
+      "ja": "季節窓 09-20〜10-10（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-477",
+       "variant_name": "Last Dollar Road 白楊谷景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "土路脊線俯瞰威爾遜峰下的白楊谷地與特柳賴德盆地（Telluride 官方；9月末–10月中典型峰值）；與 us-141 水晶磨坊（磨坊主題）錯位——本點為谷地全",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "Last Dollar Road 白楊谷景",
+        "en": "Last Dollar Road aspen valley",
+        "ja": "Last Dollar Roadのアスペン渓谷"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "土路脊線俯瞰威爾遜峰下的白楊谷地與特柳賴德盆地（Telluride 官方；9月末–10月中典型峰值）；與 us-141 水晶磨坊（磨坊主題）錯位——本點為谷地全景。",
+        "en": "A dirt ridgeline over the aspen valley below Wilson Peak and the Telluride basin (Telluride tourism; typical peak late Sep-mid Oct); disjoint from the mill subject us-142.",
+        "ja": "Wilson Peak下のアスペン渓谷を望む土の稜線道（テリライド公式）。クリスタル・ミルとは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-141-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Last Dollar Road",
+       "name_i18n": {
+        "zh-TW": "Last Dollar Road",
+        "en": "Telluride (Last Dollar Road)",
+        "ja": "Last Dollar Road"
+       },
+       "lat": 37.8836,
+       "lon": -108.0053,
+       "coord_confidence": "medium",
+       "elevation_m": 2650.0,
+       "coordinate_source": "Telluride tourism / San Miguel County（Last Dollar Road，特柳賴德西北；座標 medium（路脊推定））",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-142",
+   "canonical_name": "Great Sand Dunes",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/grsa/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Great Sand Dunes（全美最高沙丘；Sangre de Cristo 山腳，37°47′N 105°31′W 帶）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-142-P01",
+     "spot_id": "us-142",
+     "name_zh": "大沙丘與積雪山嶺",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "大沙丘與積雪山嶺",
+      "en": "Great Sand Dunes and snow ranges",
+      "ja": "グレート・サンド・デューンズと雪山"
+     },
+     "best_time": "大沙丘與積雪山嶺",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_geology_light_visibility_module",
+     "formula_version": "v0.04-cl-data-25-great-sand-dunes-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-478",
+       "variant_name": "大沙丘與積雪山嶺",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "北美最高沙丘（最高 750 呎）緊貼積雪的 Sangre de Cristo 山（NPS；春季 Medano 溪湧浪季資訊性）；與既有 us 白沙（石膏白丘）錯",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_geology_light_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "大沙丘與積雪山嶺",
+        "en": "Great Sand Dunes and snow ranges",
+        "ja": "グレート・サンド・デューンズと雪山"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "北美最高沙丘（最高 750 呎）緊貼積雪的 Sangre de Cristo 山（NPS；春季 Medano 溪湧浪季資訊性）；與既有 us 白沙（石膏白丘）錯位——本點為山腳黃沙高丘。",
+        "en": "The tallest dunes in North America (to ~750 ft) stacked against the snow-capped Sangre de Cristos (NPS; spring Medano Creek surge is informational); disjoint from White Sands' gypsum dunes.",
+        "ja": "北米最高の砂丘が雪を冠ぶサングレ・デ・クリストの山並みと隣接（NPS）。ホワイトサンズとは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-142-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Great Sand Dunes",
+       "name_i18n": {
+        "zh-TW": "Great Sand Dunes",
+        "en": "Great Sand Dunes NP",
+        "ja": "Great Sand Dunes"
+       },
+       "lat": 37.781,
+       "lon": -105.531,
+       "coord_confidence": "high",
+       "elevation_m": 2560.0,
+       "coordinate_source": "NPS Great Sand Dunes（全美最高沙丘；Sangre de Cristo 山腳，37°47′N 105°31′W 帶）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-143",
+   "canonical_name": "Trillium Lake",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.fs.usda.gov/detail/mthood/",
+     "verified_on": "2026-11-07",
+     "supports": "USFS Mt Hood NF / Wikipedia Trillium Lake（3,812 ft/1,162 m；胡德山南眺定番）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-143-P01",
+     "spot_id": "us-143",
+     "name_zh": "特里利姆湖胡德山倒影",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "特里利姆湖胡德山倒影",
+      "en": "Trillium Lake Hood mirror",
+      "ja": "トリリウム湖のフッド山"
+     },
+     "best_time": "特里利姆湖胡德山倒影",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-trillium-lake-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-479",
+       "variant_name": "特里利姆湖胡德山倒影",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "冰蝕小湖映胡德山冰川（USFS；冬季冰湖雪景）；與既有 us-081 雷尼爾山（華盛頓側）與 us-090~096 華盛頓點題材錯位——本點為俄勒岡胡德山湖鏡。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "特里利姆湖胡德山倒影",
+        "en": "Trillium Lake Hood mirror",
+        "ja": "トリリウム湖のフッド山"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "冰蝕小湖映胡德山冰川（USFS；冬季冰湖雪景）；與既有 us-081 雷尼爾山（華盛頓側）與 us-090~096 華盛頓點題材錯位——本點為俄勒岡胡德山湖鏡。",
+        "en": "A glacial tarn mirroring Mount Hood's glacier (USFS; winter ice-and-snow lake); disjoint from the Washington Cascades spots.",
+        "ja": "氷河をいただくフッド山が湖に映る（USFS）。ワシントン側の対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-143-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Trillium Lake",
+       "name_i18n": {
+        "zh-TW": "Trillium Lake",
+        "en": "Mount Hood (Trillium Lake)",
+        "ja": "Trillium Lake"
+       },
+       "lat": 45.2617,
+       "lon": -121.7417,
+       "coord_confidence": "high",
+       "elevation_m": 1160.0,
+       "coordinate_source": "USFS Mt Hood NF / Wikipedia Trillium Lake（3,812 ft/1,162 m；胡德山南眺定番）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-144",
+   "canonical_name": "Abiqua Falls",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Abiqua_Falls",
+     "verified_on": "2026-11-07",
+     "supports": "Marion County/Wikipedia 網摘（Abiqua Falls，哥倫比亞玄武岩圓頂兩側瀑布；座標 medium）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-144-P01",
+     "spot_id": "us-144",
+     "name_zh": "阿比奎瀑布玄武岩圓頂",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "阿比奎瀑布玄武岩圓頂",
+      "en": "Abiqua Falls basalt amphitheater",
+      "ja": "アビカ滝の玄武岩の円形劇場"
+     },
+     "best_time": "阿比奎瀑布玄武岩圓頂",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-abiqua-falls-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-480",
+       "variant_name": "阿比奎瀑布玄武岩圓頂",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "92呎瀑布落在玄武岩柱狀圓頂的石臼潭（私人路步行许可——access 資訊性）；與 us-145 Proxy 瀑（森林脈絡瀑布）錯位——本點為單瀑圓頂。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "阿比奎瀑布玄武岩圓頂",
+        "en": "Abiqua Falls basalt amphitheater",
+        "ja": "アビカ滝の玄武岩の円形劇場"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "92呎瀑布落在玄武岩柱狀圓頂的石臼潭（私人路步行许可——access 資訊性）；與 us-145 Proxy 瀑（森林脈絡瀑布）錯位——本點為單瀑圓頂。",
+        "en": "A 92-ft fall over columnar basalt into an amphitheater plunge pool (private road walk-in - access informational); disjoint from Proxy Falls' forest-cascade subject.",
+        "ja": "柱状玄武岩に落ちる92フィートの滝（私道歩行）。森林脈絡のプロキシ滝とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-144-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Abiqua Falls",
+       "name_i18n": {
+        "zh-TW": "Abiqua Falls",
+        "en": "Abiqua Falls",
+        "ja": "Abiqua Falls"
+       },
+       "lat": 44.9528,
+       "lon": -122.2131,
+       "coord_confidence": "medium",
+       "elevation_m": 450.0,
+       "coordinate_source": "Marion County/Wikipedia 網摘（Abiqua Falls，哥倫比亞玄武岩圓頂兩側瀑布；座標 medium）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-145",
+   "canonical_name": "Proxy Falls",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.fs.usda.gov/detail/willamette/",
+     "verified_on": "2026-11-07",
+     "supports": "USFS McKenzie Ranger District（Proxy Falls，麥肯齊通道三姐妹荒野；座標 medium）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-145-P01",
+     "spot_id": "us-145",
+     "name_zh": "普羅克斯苔谷雙瀑",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "普羅克斯苔谷雙瀑",
+      "en": "Proxy Falls twin cascade",
+      "ja": "プロキシ滝の双滝"
+     },
+     "best_time": "普羅克斯苔谷雙瀑",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-proxy-falls-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-481",
+       "variant_name": "普羅克斯苔谷雙瀑",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "三姐妹荒野邊的雙瀑流過苔石（USFS；1.6英里步道易達）；與 us-144 阿比奎（玄武岩圓頂單瀑）錯位——本點為苔谷雙瀑。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "普羅克斯苔谷雙瀑",
+        "en": "Proxy Falls twin cascade",
+        "ja": "プロキシ滝の双滝"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "三姐妹荒野邊的雙瀑流過苔石（USFS；1.6英里步道易達）；與 us-144 阿比奎（玄武岩圓頂單瀑）錯位——本點為苔谷雙瀑。",
+        "en": "Twin cascades over mossy basalt at the edge of the Three Sisters Wilderness (USFS; easy 1.6-mile loop); disjoint from Abiqua's basalt amphitheater.",
+        "ja": "三姉妹荒野の縁、苔むす岩を流れる双滝（USFS）。アビカ滝とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-145-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Proxy Falls",
+       "name_i18n": {
+        "zh-TW": "Proxy Falls",
+        "en": "Proxy Falls",
+        "ja": "Proxy Falls"
+       },
+       "lat": 44.1408,
+       "lon": -122.2278,
+       "coord_confidence": "medium",
+       "elevation_m": 1220.0,
+       "coordinate_source": "USFS McKenzie Ranger District（Proxy Falls，麥肯齊通道三姐妹荒野；座標 medium）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-146",
+   "canonical_name": "Painted Hills",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/joda/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS John Day Fossil Beds（Painted Hills unit，44°39′N 120°06′W 帶）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-146-P01",
+     "spot_id": "us-146",
+     "name_zh": "彩繪山斑斕層丘",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "彩繪山斑斕層丘",
+      "en": "Painted Hills banded hills",
+      "ja": "ペインテッド・ヒルズの彩層"
+     },
+     "best_time": "彩繪山斑斕層丘",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_geology_light_visibility_module",
+     "formula_version": "v0.04-cl-data-25-painted-hills-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-482",
+       "variant_name": "彩繪山斑斕層丘",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "中新世火山灰土層紅/橙/金/黑條帶（NPS；雨後條帶最鮮——資訊性）；與既有 us-090~096 華盛頓/奧勒岡點題材錯位——本點為彩層丘陵。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_geology_light_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "彩繪山斑斕層丘",
+        "en": "Painted Hills banded hills",
+        "ja": "ペインテッド・ヒルズの彩層"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "中新世火山灰土層紅/橙/金/黑條帶（NPS；雨後條帶最鮮——資訊性）；與既有 us-090~096 華盛頓/奧勒岡點題材錯位——本點為彩層丘陵。",
+        "en": "Miocene volcanic-ash paleosols banded red, orange, gold and black (NPS; bands are richest after rain - informational); disjoint from other Oregon/Washington spots.",
+        "ja": "中新世の火山灰古土壌が赤・橙・金・黒の帯を作る（NPS）。他のオレゴン対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-146-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Painted Hills",
+       "name_i18n": {
+        "zh-TW": "Painted Hills",
+        "en": "Painted Hills (John Day Fossil Beds)",
+        "ja": "Painted Hills"
+       },
+       "lat": 44.6597,
+       "lon": -120.1111,
+       "coord_confidence": "high",
+       "elevation_m": 700.0,
+       "coordinate_source": "NPS John Day Fossil Beds（Painted Hills unit，44°39′N 120°06′W 帶）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-147",
+   "canonical_name": "Zebra Slot",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.hikingproject.com/trail/7030840/zebra-slot-canyon",
+     "verified_on": "2026-11-07",
+     "supports": "Hiking Project/REXBY（Zebra Slot，Hole-in-the-Rock Rd；slot 段約5,200 ft 帶；座標 medium）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-147-P01",
+     "spot_id": "us-147",
+     "name_zh": "斑馬狹縫波紋牆",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "斑馬狹縫波紋牆",
+      "en": "Zebra Slot striped walls",
+      "ja": "ゼブラ・スロットの縞壁"
+     },
+     "best_time": "斑馬狹縫波紋牆",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_geology_light_visibility_module",
+     "formula_version": "v0.04-cl-data-25-zebra-slot-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-483",
+       "variant_name": "斑馬狹縫波紋牆",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "寬僅一臂的狹縫內橙白條紋如斑馬紋（Escalante；狹縫內常年積水段需涉水——access 資訊性）；與既有 us 錫安 Narrows / 羚羊谷（50km",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_geology_light_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "斑馬狹縫波紋牆",
+        "en": "Zebra Slot striped walls",
+        "ja": "ゼブラ・スロットの縞壁"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "寬僅一臂的狹縫內橙白條紋如斑馬紋（Escalante；狹縫內常年積水段需涉水——access 資訊性）；與既有 us 錫安 Narrows / 羚羊谷（50km+）題材同類但紋理與尺度不同——本點為斑馬紋狹縫。",
+        "en": "Orange-and-white stripes like zebra hide in an arm-width slot (Escalante; a wading pool section - access informational); kin to Zion Narrows/Antelope but a different stripe pattern and scale.",
+        "ja": "腕幅ほどの狭部にオレンジと白の縞（エスカランテ）。ザイオンやアンテロープとは紋様と規模が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-147-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Zebra Slot",
+       "name_i18n": {
+        "zh-TW": "Zebra Slot",
+        "en": "Zebra Slot Canyon",
+        "ja": "Zebra Slot"
+       },
+       "lat": 37.661,
+       "lon": -111.421,
+       "coord_confidence": "medium",
+       "elevation_m": 1590.0,
+       "coordinate_source": "Hiking Project/REXBY（Zebra Slot，Hole-in-the-Rock Rd；slot 段約5,200 ft 帶；座標 medium）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-148",
+   "canonical_name": "Bentonite Hills",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/places/bentonite-hills.htm",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Bentonite Hills page（38°21′N 111°08′W 帶；Cathedral Valley Loop；Hartnet Rd 高底盤車）+ Wilderness Portal 座標 38.36109,-111.12776. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-148-P01",
+     "spot_id": "us-148",
+     "name_zh": "膨潤土彩帶丘陵",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "膨潤土彩帶丘陵",
+      "en": "Bentonite banded hills",
+      "ja": "ベントナイトの彩帯の丘"
+     },
+     "best_time": "膨潤土彩帶丘陵",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_geology_light_visibility_module",
+     "formula_version": "v0.04-cl-data-25-bentonite-hills-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-484",
+       "variant_name": "膨潤土彩帶丘陵",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "火山灰黏土層帶狀棕紅紫灰綠圓丘（NPS；雨天黏土路不通且丘面禁踩踏痕跡保育——access 不計分）；與 us-148 彩繪山（化石床彩層）錯位——本點為圓潤黏",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_geology_light_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "膨潤土彩帶丘陵",
+        "en": "Bentonite banded hills",
+        "ja": "ベントナイトの彩帯の丘"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "火山灰黏土層帶狀棕紅紫灰綠圓丘（NPS；雨天黏土路不通且丘面禁踩踏痕跡保育——access 不計分）；與 us-148 彩繪山（化石床彩層）錯位——本點為圓潤黏土丘。",
+        "en": "Volcanic-ash clay banded brown, red, purple, gray and green into soft domes (NPS; impassable clay roads after rain and footprint-recovery bans - access not scored); disjoint from Painted Hills' fossil-bed bands.",
+        "ja": "火山灰の粘土が茶・赤・紫・灰・緑の帯になる丸い丘（NPS；雨天は道路不通）。ペインテッド・ヒルズとは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-148-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Bentonite Hills",
+       "name_i18n": {
+        "zh-TW": "Bentonite Hills",
+        "en": "Bentonite Hills (Cathedral Valley)",
+        "ja": "Bentonite Hills"
+       },
+       "lat": 38.3611,
+       "lon": -111.1278,
+       "coord_confidence": "medium",
+       "elevation_m": 1980.0,
+       "coordinate_source": "NPS Bentonite Hills page（38°21′N 111°08′W 帶；Cathedral Valley Loop；Hartnet Rd 高底盤車）+ Wilderness Portal 座標 38.36109,-111.12776",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-149",
+   "canonical_name": "Joshua Tree NP",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/jotr/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Joshua Tree（Keys View 5,185 ft/1,580 m；33°53′N 116°11′W 帶）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-149-P01",
+     "spot_id": "us-149",
+     "name_zh": "約書亞樹銀河夜",
+     "legacy_theme": "milky_way",
+     "name_i18n": {
+      "zh-TW": "約書亞樹銀河夜",
+      "en": "Joshua Tree Milky Way night",
+      "ja": "ジョシュアツリーの銀河"
+     },
+     "best_time": "約書亞樹銀河夜",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_astronomy_ephemeris_module",
+     "formula_version": "v0.04-cl-data-25-joshua-tree-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-485",
+       "variant_name": "約書亞樹銀河夜",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "莫哈韋交會帶的暗夜公園夜空與約書亞樹剪影（NPS；2–4月花期另有 P02）；與既有 us 加州點（歐文斯谷暗夜）地理錯位——本點為莫哈韋夜空。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_astronomy_ephemeris_module",
+       "variant_name_i18n": {
+        "zh-TW": "約書亞樹銀河夜",
+        "en": "Joshua Tree Milky Way night",
+        "ja": "ジョシュアツリーの銀河"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "莫哈韋交會帶的暗夜公園夜空與約書亞樹剪影（NPS；2–4月花期另有 P02）；與既有 us 加州點（歐文斯谷暗夜）地理錯位——本點為莫哈韋夜空。",
+        "en": "A certified dark-sky park: night sky over Joshua tree silhouettes on the Mojave-M Colorado junction (NPS; spring bloom is P02); disjoint from the Owens Valley dark-sky spot.",
+        "ja": "ダークスカイパークの夜空とジョシュアツリーのシルエット（NPS；開花はP02）。オーエンスバレーの対象とは地理的に別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-149-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Joshua Tree NP",
+       "name_i18n": {
+        "zh-TW": "Joshua Tree NP",
+        "en": "Joshua Tree NP (Keys View)",
+        "ja": "Joshua Tree NP"
+       },
+       "lat": 33.8928,
+       "lon": -116.1888,
+       "coord_confidence": "high",
+       "elevation_m": 1580.0,
+       "coordinate_source": "NPS Joshua Tree（Keys View 5,185 ft/1,580 m；33°53′N 116°11′W 帶）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "us-149-P02",
+     "spot_id": "us-149",
+     "name_zh": "約書亞樹花枝",
+     "legacy_theme": "seasonal_foreground",
+     "name_i18n": {
+      "zh-TW": "約書亞樹花枝",
+      "en": "Joshua tree bloom",
+      "ja": "ジョシュアツリーの花"
+     },
+     "best_time": "約書亞樹花枝",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_seasonal_foreground_module",
+     "formula_version": "v0.04-cl-data-25-joshua-tree-P02",
+     "formula_confidence": 50,
+     "best_season": "季節窗 02-15–04-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 02-15–04-30（seasonal-calendar）",
+      "en": "Seasonal window 02-15-04-30 (seasonal-calendar)",
+      "ja": "季節窓 02-15〜04-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-486",
+       "variant_name": "約書亞樹花枝",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "罕見晚春花序（NPS；花期隨冬雨浮動、年度浮動）；與 P01 同園不同季。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_seasonal_foreground_module",
+       "variant_name_i18n": {
+        "zh-TW": "約書亞樹花枝",
+        "en": "Joshua tree bloom",
+        "ja": "ジョシュアツリーの花"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "罕見晚春花序（NPS；花期隨冬雨浮動、年度浮動）；與 P01 同園不同季。",
+        "en": "Unusual spring blossoms (NPS; bloom timing floats with winter rains); same park as P01, different season.",
+        "ja": "珍しい春の花（NPS；開花は冬雨次第で変動）。P01と同じ園で季節が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-149-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Joshua Tree NP",
+       "name_i18n": {
+        "zh-TW": "Joshua Tree NP",
+        "en": "Joshua Tree NP (Keys View)",
+        "ja": "Joshua Tree NP"
+       },
+       "lat": 33.8928,
+       "lon": -116.1888,
+       "coord_confidence": "high",
+       "elevation_m": 1580.0,
+       "coordinate_source": "NPS Joshua Tree（Keys View 5,185 ft/1,580 m；33°53′N 116°11′W 帶）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-150",
+   "canonical_name": "Trona Pinnacles",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.blm.gov/",
+     "verified_on": "2026-11-07",
+     "supports": "BLM Trona Pinnacles（tufa spires，National Natural Landmark；座標 medium（石塔群對位））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-150-P01",
+     "spot_id": "us-150",
+     "name_zh": "特羅納石灰華石塔",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "特羅納石灰華石塔",
+      "en": "Trona tufa spires",
+      "ja": "トロナの石灰華塔"
+     },
+     "best_time": "特羅納石灰華石塔",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_geology_light_visibility_module",
+     "formula_version": "v0.04-cl-data-25-trona-pinnacles-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-487",
+       "variant_name": "特羅納石灰華石塔",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "古代希爾斯湖床上升起 500+ 石灰華塔（BLM；土路最後 3.5 英里——access 資訊性）；與既有 us-100 莫諾湖（石灰華成於水畔）題材同源但形態",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_geology_light_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "特羅納石灰華石塔",
+        "en": "Trona tufa spires",
+        "ja": "トロナの石灰華塔"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "古代希爾斯湖床上升起 500+ 石灰華塔（BLM；土路最後 3.5 英里——access 資訊性）；與既有 us-100 莫諾湖（石灰華成於水畔）題材同源但形態（塔群旱地）不同——本點為旱地石塔群。",
+        "en": "More than 500 tufa towers rising from a dry Pleistocene lakebed (BLM; a 3.5-mile dirt road - access informational); kin to Mono Lake tufa but dry-land towers, a different form.",
+        "ja": "更新世湖床に立つ500超の石灰華塔（BLM）。モノ湖のものは水畔、こちらは乾地の塔群。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-150-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Trona Pinnacles",
+       "name_i18n": {
+        "zh-TW": "Trona Pinnacles",
+        "en": "Trona Pinnacles",
+        "ja": "Trona Pinnacles"
+       },
+       "lat": 35.6611,
+       "lon": -117.3453,
+       "coord_confidence": "medium",
+       "elevation_m": 750.0,
+       "coordinate_source": "BLM Trona Pinnacles（tufa spires，National Natural Landmark；座標 medium（石塔群對位））",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-151",
+   "canonical_name": "Painted Dunes",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/labe/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Lassen（Cinder Cone Painted Dunes，Butte Lake 區；座標 medium（沙丘對位））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-151-P01",
+     "spot_id": "us-151",
+     "name_zh": "彩繪沙丘火山口",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "彩繪沙丘火山口",
+      "en": "Painted Dunes and Cinder Cone",
+      "ja": "ペインテッド・デューンズと火山砕屑丘"
+     },
+     "best_time": "彩繪沙丘火山口",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-lassen-painted-dunes-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-488",
+       "variant_name": "彩繪沙丘火山口",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "氧化火山灰彩層鋪展在 Cinder Cone 火山口旁（NPS；Butte Lake 區夏季開放——access 資訊性）；與既有 us 拉森熱泉點（30km+",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "彩繪沙丘火山口",
+        "en": "Painted Dunes and Cinder Cone",
+        "ja": "ペインテッド・デューンズと火山砕屑丘"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "氧化火山灰彩層鋪展在 Cinder Cone 火山口旁（NPS；Butte Lake 區夏季開放——access 資訊性）；與既有 us 拉森熱泉點（30km+）題材錯位——本點為火山碎屑彩丘。",
+        "en": "Oxidized volcanic-ash bands beside the Cinder Cone crater (NPS; Butte Lake district summer access - informational); disjoint from the Lassen hot-spring subject.",
+        "ja": "酸化した火山灰の彩層がサインダーコーンの傍に広がる（NPS）。ラッセン温泉系とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-151-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Painted Dunes",
+       "name_i18n": {
+        "zh-TW": "Painted Dunes",
+        "en": "Lassen Volcanic NP (Painted Dunes)",
+        "ja": "Painted Dunes"
+       },
+       "lat": 40.5264,
+       "lon": -121.2722,
+       "coord_confidence": "medium",
+       "elevation_m": 2400.0,
+       "coordinate_source": "NPS Lassen（Cinder Cone Painted Dunes，Butte Lake 區；座標 medium（沙丘對位））",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-152",
+   "canonical_name": "Alice Lake",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Alice_Lake_(Sawtooth_Wilderness)",
+     "verified_on": "2026-11-07",
+     "supports": "Wikipedia Alice Lake (Sawtooth Wilderness)（43°56′21″N 114°56′37″W；surface 8,602 ft/2,622 m）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-152-P01",
+     "spot_id": "us-152",
+     "name_zh": "愛麗絲湖山鏡暗夜",
+     "legacy_theme": "reflection",
+     "name_i18n": {
+      "zh-TW": "愛麗絲湖山鏡暗夜",
+      "en": "Alice Lake Sawtooth mirror",
+      "ja": "アリス湖の山鏡"
+     },
+     "best_time": "愛麗絲湖山鏡暗夜",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_water_surface_module",
+     "formula_version": "v0.04-cl-data-25-alice-lake-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-489",
+       "variant_name": "愛麗絲湖山鏡暗夜",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "鋸齒山國家遊憩區冰斗湖映 El Capitan 峰（2,622 m；湖水初夏可能結冰——資訊性；IdDA 全州暗夜保護區夜空佳——夜空為加分非必要）；與既有 u",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_water_surface_module",
+       "variant_name_i18n": {
+        "zh-TW": "愛麗絲湖山鏡暗夜",
+        "en": "Alice Lake Sawtooth mirror",
+        "ja": "アリス湖の山鏡"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "鋸齒山國家遊憩區冰斗湖映 El Capitan 峰（2,622 m；湖水初夏可能結冰——資訊性；IdDA 全州暗夜保護區夜空佳——夜空為加分非必要）；與既有 us 星空點（大盆地/亞利桑那）地理錯位——本點為高山湖鏡。",
+        "en": "A 2,622 m cirque lake mirroring El Capitan in the Sawtooths (lakes can stay frozen into early summer - informational; within the Idaho Central Dark Sky Reserve, night sky a bonus); geographically disjoint from the Great Basin/Arizona dark-sky spots.",
+        "ja": "ソートゥース山の2,622mの圏谷湖（初夏まで凍結あり）。アイダホ暗空保護区内。既存の星空対象とは地理的に別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-152-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Alice Lake",
+       "name_i18n": {
+        "zh-TW": "Alice Lake",
+        "en": "Idaho Dark Sky Reserve (Alice Lake)",
+        "ja": "Alice Lake"
+       },
+       "lat": 43.9391,
+       "lon": -114.9437,
+       "coord_confidence": "high",
+       "elevation_m": 2622.0,
+       "coordinate_source": "Wikipedia Alice Lake (Sawtooth Wilderness)（43°56′21″N 114°56′37″W；surface 8,602 ft/2,622 m）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-153",
+   "canonical_name": "Craters of the Moon",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/crmo/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Craters of the Moon（43°25′N 113°30′W 帶；國際暗夜公園）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-153-P01",
+     "spot_id": "us-153",
+     "name_zh": "月球熔岩暗夜星空",
+     "legacy_theme": "milky_way",
+     "name_i18n": {
+      "zh-TW": "月球熔岩暗夜星空",
+      "en": "Craters of the Moon night sky",
+      "ja": "クレーターズ・オブ・ザ・ムーンの夜空"
+     },
+     "best_time": "月球熔岩暗夜星空",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_astronomy_ephemeris_module",
+     "formula_version": "v0.04-cl-data-25-craters-of-the-moon-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-490",
+       "variant_name": "月球熔岩暗夜星空",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "熔岩地景（熔岩丘、洞管）上的國際暗夜公園銀河（NPS；熔岩地形同時為白天題材——資訊性）；與 us-152 愛麗絲湖（湖鏡主題）錯位——本點為熔岩夜空。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_astronomy_ephemeris_module",
+       "variant_name_i18n": {
+        "zh-TW": "月球熔岩暗夜星空",
+        "en": "Craters of the Moon night sky",
+        "ja": "クレーターズ・オブ・ザ・ムーンの夜空"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "熔岩地景（熔岩丘、洞管）上的國際暗夜公園銀河（NPS；熔岩地形同時為白天題材——資訊性）；與 us-152 愛麗絲湖（湖鏡主題）錯位——本點為熔岩夜空。",
+        "en": "An International Dark Sky Park over basalt lava fields - lava domes and lava tubes by day, Milky Way by night (NPS); disjoint from us-152's lake-mirror subject.",
+        "ja": "玄武岩熔岩台地の上の国際ダークスカイパーク（NPS）。湖鏡のアリス湖とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-153-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Craters of the Moon",
+       "name_i18n": {
+        "zh-TW": "Craters of the Moon",
+        "en": "Craters of the Moon NM",
+        "ja": "Craters of the Moon"
+       },
+       "lat": 43.4169,
+       "lon": -113.4977,
+       "coord_confidence": "high",
+       "elevation_m": 1850.0,
+       "coordinate_source": "NPS Craters of the Moon（43°25′N 113°30′W 帶；國際暗夜公園）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-154",
+   "canonical_name": "Shoshone Falls",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.twinfallsidaho.org/",
+     "verified_on": "2026-11-07",
+     "supports": "City of Twin Falls / Wikipedia Shoshone Falls（212 呎高、900 呎寬；42°45′N 114°25′W 帶）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-154-P01",
+     "spot_id": "us-154",
+     "name_zh": "肖肖尼瀑布春汛",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "肖肖尼瀑布春汛",
+      "en": "Shoshone Falls spring surge",
+      "ja": "ショショーニ滝の春の増水"
+     },
+     "best_time": "肖肖尼瀑布春汛",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-shoshone-falls-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-491",
+       "variant_name": "肖肖尼瀑布春汛",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "比尼加拉更高（212 呎）的蛇河斷層瀑布，春季灌溉取水前水量最大（Twin Falls 市；夏季分流水量銳減——資訊性）；與 us-147/148 奧勒岡瀑布（",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "肖肖尼瀑布春汛",
+        "en": "Shoshone Falls spring surge",
+        "ja": "ショショーニ滝の春の増水"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "比尼加拉更高（212 呎）的蛇河斷層瀑布，春季灌溉取水前水量最大（Twin Falls 市；夏季分流水量銳減——資訊性）；與 us-147/148 奧勒岡瀑布（苔谷/玄武岩）錯位——本點為巨型斷層瀑布。",
+        "en": "A 212-ft fault drop of the Snake River, higher than Niagara, at spring peak before irrigation diversions (City of Twin Falls; summer flows drop - informational); disjoint from the Oregon falls.",
+        "ja": "ナイアガラより高い212フィートの断層瀑（ツインフォールズ市；春の増水期）。オレゴンの滝群とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-154-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Shoshone Falls",
+       "name_i18n": {
+        "zh-TW": "Shoshone Falls",
+        "en": "Shoshone Falls (Niagara of the West)",
+        "ja": "Shoshone Falls"
+       },
+       "lat": 42.7547,
+       "lon": -114.4214,
+       "coord_confidence": "high",
+       "elevation_m": 900.0,
+       "coordinate_source": "City of Twin Falls / Wikipedia Shoshone Falls（212 呎高、900 呎寬；42°45′N 114°25′W 帶）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-155",
+   "canonical_name": "Dry Tortugas",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/drto/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Dry Tortugas（Garden Key Fort Jefferson；24°37′41″N 82°52′25″W 對位）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-155-P01",
+     "spot_id": "us-155",
+     "name_zh": "乾龜傑佛遜堡日落",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "乾龜傑佛遜堡日落",
+      "en": "Fort Jefferson sunset",
+      "ja": "フォート・ジェファーソンの夕景"
+     },
+     "best_time": "乾龜傑佛遜堡日落",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-dry-tortugas-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-492",
+       "variant_name": "乾龜傑佛遜堡日落",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "墨西哥灣孤島上的巨型磚砌要塞與環礁海景（NPS；僅渡輪/水上飛機可達——access 資訊性）；與既有 us-098 緬因阿卡迪亞與佛州點（35km+ 北）題材",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "乾龜傑佛遜堡日落",
+        "en": "Fort Jefferson sunset",
+        "ja": "フォート・ジェファーソンの夕景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "墨西哥灣孤島上的巨型磚砌要塞與環礁海景（NPS；僅渡輪/水上飛機可達——access 資訊性）；與既有 us-098 緬因阿卡迪亞與佛州點（35km+ 北）題材錯位——本點為熱帶孤島要塞。",
+        "en": "A giant brick fort on a Gulf-of-Mexico coral island (NPS; ferry/seaplane only - access informational); disjoint from Acadia and the Florida mainland subjects.",
+        "ja": "メキシコ湾の孤島の巨大煉瓦要塞（NPS；フェリー/水上機のみ）。アカディアやフロリダ本土とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-155-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Dry Tortugas",
+       "name_i18n": {
+        "zh-TW": "Dry Tortugas",
+        "en": "Dry Tortugas NP (Fort Jefferson)",
+        "ja": "Dry Tortugas"
+       },
+       "lat": 24.628,
+       "lon": -82.8735,
+       "coord_confidence": "high",
+       "elevation_m": 3.0,
+       "coordinate_source": "NPS Dry Tortugas（Garden Key Fort Jefferson；24°37′41″N 82°52′25″W 對位）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-156",
+   "canonical_name": "Cape Hatteras Lighthouse",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/caha/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Cape Hatteras（美國最高的磚砌燈塔 198 呎；35°12′41″N 75°31′17″W）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-156-P01",
+     "spot_id": "us-156",
+     "name_zh": "哈特拉斯角黑白條燈塔",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "哈特拉斯角黑白條燈塔",
+      "en": "Cape Hatteras striped light",
+      "ja": "ケープ・ハテラス灯台"
+     },
+     "best_time": "哈特拉斯角黑白條燈塔",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-cape-hatteras-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-493",
+       "variant_name": "哈特拉斯角黑白條燈塔",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "美國最高磚砌燈塔（198呎）的黑白螺旋條紋在灘外 (NPS)；與 us-127 藍嶺（內陸橋）錯位——本點為外灘燈塔。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "哈特拉斯角黑白條燈塔",
+        "en": "Cape Hatteras striped light",
+        "ja": "ケープ・ハテラス灯台"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "美國最高磚砌燈塔（198呎）的黑白螺旋條紋在灘外 (NPS)；與 us-127 藍嶺（內陸橋）錯位——本點為外灘燈塔。",
+        "en": "America's tallest brick lighthouse (198 ft) with its black-white spiral bands on the Outer Banks (NPS); disjoint from the inland viaduct subject us-127.",
+        "ja": "米国最高の煉瓦灯台（198フィート）の白黒縞（NPS）。内陸の高架橋とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-156-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Cape Hatteras Lighthouse",
+       "name_i18n": {
+        "zh-TW": "Cape Hatteras Lighthouse",
+        "en": "Cape Hatteras Lighthouse",
+        "ja": "Cape Hatteras Lighthouse"
+       },
+       "lat": 35.2113,
+       "lon": -75.5213,
+       "coord_confidence": "high",
+       "elevation_m": 15.0,
+       "coordinate_source": "NPS Cape Hatteras（美國最高的磚砌燈塔 198 呎；35°12′41″N 75°31′17″W）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-157",
+   "canonical_name": "Assateague Island",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/asis/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Assateague Island NS（障壁島野馬；38°00′N 75°17′W 帶；座標 medium）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-157-P01",
+     "spot_id": "us-157",
+     "name_zh": "阿薩蒂格晨灘野馬",
+     "legacy_theme": "sunrise",
+     "name_i18n": {
+      "zh-TW": "阿薩蒂格晨灘野馬",
+      "en": "Assateague horses at dawn beach",
+      "ja": "アサティーグ島の野馬"
+     },
+     "best_time": "阿薩蒂格晨灘野馬",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-assateague-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-494",
+       "variant_name": "阿薩蒂格晨灘野馬",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "大西洋障壁島的著名野馬群在晨灘與鹽沼活動（NPS；野動互動距離與蟲季資訊性）；與既有 us 東部點題材錯位——本點為野馬＋灘線。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "阿薩蒂格晨灘野馬",
+        "en": "Assateague horses at dawn beach",
+        "ja": "アサティーグ島の野馬"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "大西洋障壁島的著名野馬群在晨灘與鹽沼活動（NPS；野動互動距離與蟲季資訊性）；與既有 us 東部點題材錯位——本點為野馬＋灘線。",
+        "en": "The famous wild horses roaming a dawn beach and salt marsh on the Atlantic barrier island (NPS; viewing distance and insect season informational); disjoint from other Eastern subjects.",
+        "ja": "大西洋の障壁島に生息する有名な野生馬（NPS）。他の米東部対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-157-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Assateague Island",
+       "name_i18n": {
+        "zh-TW": "Assateague Island",
+        "en": "Assateague Island wild horses",
+        "ja": "Assateague Island"
+       },
+       "lat": 38.0111,
+       "lon": -75.2814,
+       "coord_confidence": "medium",
+       "elevation_m": 2.0,
+       "coordinate_source": "NPS Assateague Island NS（障壁島野馬；38°00′N 75°17′W 帶；座標 medium）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-158",
+   "canonical_name": "Harding Icefield",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/kefj/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Kenai Fjords（Harding Icefield Trail，Exit Glacier 上方冰原展望；座標 medium（trail viewpoint 推定））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-158-P01",
+     "spot_id": "us-158",
+     "name_zh": "哈丁冰原展望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "哈丁冰原展望",
+      "en": "Harding Icefield panorama",
+      "ja": "ハーディング氷原の展望"
+     },
+     "best_time": "哈丁冰原展望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-harding-icefield-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-495",
+       "variant_name": "哈丁冰原展望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "8.2 英里步道頂端俯瞰 700 平方哩冰原與冰河溢口（NPS；步道夏季開放——access 不計分）；與既有 us-041 迪納利（內陸山景）與 us-125",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "哈丁冰原展望",
+        "en": "Harding Icefield panorama",
+        "ja": "ハーディング氷原の展望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "8.2 英里步道頂端俯瞰 700 平方哩冰原與冰河溢口（NPS；步道夏季開放——access 不計分）；與既有 us-041 迪納利（內陸山景）與 us-125 基石峽谷（瀑布）錯位——本點為冰原全景。",
+        "en": "The 8.2-mile trail's top looks over the 700-square-mile icefield and its outlet glaciers (NPS; summer trail - access not scored); disjoint from inland Denali scenery and the Keystone falls.",
+        "ja": "8.2マイルの道の頂から700平方マイルの氷原を一望（NPS）。デナリやキーストーン峡谷とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-158-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Harding Icefield",
+       "name_i18n": {
+        "zh-TW": "Harding Icefield",
+        "en": "Harding Icefield (Kenai Fjords)",
+        "ja": "Harding Icefield"
+       },
+       "lat": 59.995,
+       "lon": -149.69,
+       "coord_confidence": "medium",
+       "elevation_m": 1200.0,
+       "coordinate_source": "NPS Kenai Fjords（Harding Icefield Trail，Exit Glacier 上方冰原展望；座標 medium（trail viewpoint 推定））",
        "verification_status": "cl_data_25_web_verified_2026_11_07",
        "geometry_type": "area",
        "geometry_extent_m": 300,
