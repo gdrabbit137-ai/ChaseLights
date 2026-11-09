@@ -85,8 +85,8 @@ test('CL-UI-52 (3b): submit flow enforces caps, honeypot drop, and a no-cors com
     'honeypot-filled submissions are silently dropped');
   assert.match(jsSource, /mode:\s*'no-cors'/, 'no-cors fetch avoids CORS errors');
   assert.match(jsSource, /action:\s*'comment'/, 'payload carries action=comment');
-  assert.match(jsSource, /var GC_ENDPOINT = '';/,
-    'endpoint ships empty — owner pastes the /exec URL, never a secret');
+  assert.match(jsSource, /var GC_ENDPOINT = 'https:\/\/chaselights\.app\/api\/comment';/,
+    'endpoint is the owner-deployed same-origin comment API, never a secret');
 });
 
 test('CL-UI-52 (4): bridge template routes on action and appends, never clears, the comment tab', () => {
@@ -104,9 +104,9 @@ test('CL-UI-52 (4): bridge template routes on action and appends, never clears, 
   assert.match(bridgeSource, /if\s*\(p\.website\)/, 'bridge-side honeypot drop');
 });
 
-test('CL-UI-52 (5): cache-bust stamps on the new assets are clui60 in index.html', () => {
-  assert.match(htmlSource, /assets\/guest-comment\.css\?v=clui60/);
-  assert.match(htmlSource, /assets\/guest-comment\.js\?v=clui60/);
+test('CL-UI-52 (5): cache-bust stamps on the new assets are gc01 in index.html', () => {
+  assert.match(htmlSource, /assets\/guest-comment\.css\?v=gc01/);
+  assert.match(htmlSource, /assets\/guest-comment\.js\?v=gc01/);
   // monotonic: no stamp may regress below the previous generation
   const stamps = [...htmlSource.matchAll(/\?v=(clui\d+)/g)].map(m => Number(m[1].slice(4)));
   assert.ok(Math.min(...stamps) >= 41, 'all stamps clui41+');

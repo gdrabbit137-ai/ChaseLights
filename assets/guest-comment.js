@@ -8,7 +8,7 @@
 (function () {
   'use strict';
 
-  var GC_ENDPOINT = ''; // TODO(owner): paste your Apps Script Web App /exec URL here (e.g. 'https://script.google.com/macros/s/AKfyc.../exec')
+  var GC_ENDPOINT = 'https://chaselights.app/api/comment';
 
   var GC_I18N = {
     'zh-TW': {
