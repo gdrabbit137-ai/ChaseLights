@@ -71,7 +71,7 @@ test('CL-UI-38: first load mirrors the resolved context into the URL', () => {
 });
 
 test('CL-UI-38: homepage cache-bust stamp bumped to clui41', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui58/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui59/);
   assert.match(indexSource, /assets\/app\.css\?v=clui53/);
 });
 
