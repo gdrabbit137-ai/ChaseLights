@@ -181,7 +181,7 @@ class TestRuntime(unittest.TestCase):
 
     def test_runtime_dependencies_gaps(self):
         src = open(os.path.join(REPO, "runtime_dependencies.py"), encoding="utf-8").read()
-        for oid in ("us-120-P01", "us-128-P01", "us-158-P01"):  # directional_horizon (sunset/overlook)
+        for oid in ("us-121-P01", "us-138-P01", "us-155-P01"):  # directional_horizon (sunset/overlook)
             self.assertIn(f'"{oid}"', src, oid)
         for oid in ("us-125-P01", "us-149-P02"):  # seasonal_foreground
             self.assertIn(f'"{oid}"', src, oid)

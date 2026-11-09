@@ -175,7 +175,7 @@ class TestRuntime(unittest.TestCase):
         src = open(os.path.join(REPO, "runtime_dependencies.py"), encoding="utf-8").read()
         for oid in ("jp-073-P01", "jp-074-P01", "jp-075-P01"):  # cloud_sea batch
             self.assertIn(f'"{oid}"', src, oid)
-        for oid in ("jp-066-P01", "jp-069-P01", "jp-076-P01", "jp-080-P01"):  # directional_horizon (sunrise/sunset/overlook)
+        for oid in ("jp-037-P02", "jp-041-P02", "jp-045-P01", "jp-080-P01"):  # directional_horizon (sunrise/sunset/overlook)
             self.assertIn(f'"{oid}"', src, oid)
         for oid in ("jp-087-P01", "jp-087-P02"):  # seasonal_foreground
             self.assertIn(f'"{oid}"', src, oid)
