@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "673c73e24e8675083ed752cbe48f5994dcef7f47",
-  "source_index_revision": "sha256:ec49c31d6eb2774dde7536072b52d8e8a3f48b0649d0509279cb17bc18a9b54f",
+  "source_index_commit_sha": "6d62ccd2431b4828d171f11062f27d09995ee13c",
+  "source_index_revision": "sha256:2d515866f0097011eabd697461e0d144051cf26dc37189c682216910ededc994",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
@@ -1963,9 +1963,9 @@
       "revision": 1
     },
     "tw-113-P01": {
-      "source_commit_sha": "0246bb4496f82b11678ec06550f51b29099c3e41",
+      "source_commit_sha": "433d59401adf3727780b2af331426169bd81c40c",
       "source_path": "data/v2/opportunities/tw-113-P01.json",
-      "source_blob_sha": "5bdcb8557d0b46ba57fe05ec52182c2dd45896cd",
+      "source_blob_sha": "5d34da62d39ea5469a11ef9e0b38073b30165a35",
       "revision": 1
     },
     "tw-114-P01": {
@@ -106661,6 +106661,31 @@
               "zh-TW": "金色時刻窗為加分項：低角度直射光在瀑布水霧上會形成彩虹/光斑，非必要條件。",
               "en": "Golden-hour window is a bonus: low-angle direct light can make rainbows and glints on the spray, but is not required.",
               "ja": "ゴールデンアワー帯は加点項目：低角度直射光は水煙に虹や光斑を作るが必須ではない。"
+            }
+          },
+          {
+            "id": "C-tw-113-P01-LW2",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-113-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "光線窗（必要條件）：整小時每一時點太陽仰角都必須 > −6°（民用光線）。瀑布為可見光題材，夜間一律不符合；黃金時段光向（LW1）另作加分。",
+              "en": "Light window (necessary): sun elevation must be above -6 deg (civil light) at EVERY instant of the hour bucket. A waterfall is a visible-light subject and never qualifies at night; the golden-hour direction condition (LW1) remains a quality booster.",
+              "ja": "光の窓（必要条件）：時間バケット内の全時点で太陽高度 > -6°（市民光）。滝は可視光題材で夜間は成立しない。ゴールデンアワーの光向条件（LW1）は品質加味。"
             }
           }
         ]

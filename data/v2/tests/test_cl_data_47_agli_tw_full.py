@@ -23,13 +23,13 @@ class TestCLData47AgliTwFull(unittest.TestCase):
         with open(CAT, encoding='utf-8') as f:
             cls.cat = json.load(f)
 
-    def test_coverage_93_of_93(self):
+    def test_coverage_tw_full(self):
         tw_ids = {p['place_id'] for p in self.cat['places'] if p['place_id'].startswith('tw-')}
-        self.assertEqual(len(tw_ids), 93, 'catalog tw count drifted — re-anchor this pin')
+        self.assertEqual(len(tw_ids), 115, 'catalog tw count drifted — re-anchor this pin (CL-DATA-51: 115)')
         rec_ids = {r['place_id'] for r in self.full['records']}
         self.assertEqual(rec_ids, tw_ids)
-        self.assertEqual(len(self.full['records']), 93)
-        self.assertEqual(len(self.full['ranking']), 93)
+        self.assertEqual(len(self.full['records']), 115)
+        self.assertEqual(len(self.full['ranking']), 115)
 
     def test_unique_ids_and_monotonic_order(self):
         ids = [r['place_id'] for r in self.full['records']]
@@ -53,7 +53,7 @@ class TestCLData47AgliTwFull(unittest.TestCase):
     def test_provenance_and_confidence_present(self):
         for r in self.full['records']:
             self.assertIn(r['confidence'], ('high', 'medium', 'low'))
-            self.assertIn(r['source'], ('pilot-reuse', 'batch1', 'batch2', 're-eval-47', 'gap-fill-47'))
+            self.assertIn(r['source'], ('pilot-reuse', 'batch1', 'batch2', 're-eval-47', 'gap-fill-47', 'cl-data-51-direct'))
             self.assertTrue(r['evidence_note'])
             self.assertIn(r['l1'], self.full['l1_region_rankings'])
 
