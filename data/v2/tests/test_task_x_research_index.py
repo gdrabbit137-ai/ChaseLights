@@ -192,6 +192,14 @@ class ResearchIndexTests(unittest.TestCase):
             # us-040/046/055/057 threshold+copy fixes) pinned to the scoped-regen
             # commit carrying the new bytes (2026-11-09, blob+sha256 verified).
             'd3e019433a7516773f39c764ab09fe70810dec25',
+            # CL-DATA-51 merged-tree re-anchor: the 22 TW intake records carry
+            # their authorship bytes on the task branch — tw-099-P01 to
+            # affcdf391e (stage 4), the other 20 to 0246bb4496 (stage 4b),
+            # and tw-113-P01's light-window re-run to 433d59401a (stage 6 repin;
+            # blob+sha256 verified on the merged tree).
+            'affcdf391e49a43a606d7dd7e567aedf58e02f34',
+            '0246bb4496f82b11678ec06550f51b29099c3e41',
+            '433d59401adf3727780b2af331426169bd81c40c',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying

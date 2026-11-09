@@ -45,7 +45,7 @@ test('CL-DATA-19: 得月樓 (tw-062-P01) carries a REQUIRED civil light_window',
   assert.ok(doc.revision >= 4, 'revision bumped');
 });
 
-test('CL-DATA-19: exactly 129 windowed contracts cite the marker, by genre', () => {
+test('CL-DATA-19: exactly 138 windowed contracts cite the marker, by genre', () => {
   const counts = {};
   let total = 0;
   for (const f of ['tw-062-P01', 'us-026-P02', 'jp-007-P01']) {
@@ -85,11 +85,15 @@ test('CL-DATA-19: exactly 129 windowed contracts cite the marker, by genre', () 
   const lock = JSON.parse(fs);
   assert.ok((lock.repin_note_cl_data_19_20261106 || '').includes('124'), 'source-lock repin note records the CL-DATA-19 wave');
   const cl19 = lock.canonical_records.filter(r => {
+    // CL-DATA-51 direct-build records (tw-099..tw-120) carry the CL-DATA-19
+    // window convention from authorship (single-wave revision 1) — they are
+    // not part of the CL-DATA-19 revision-bump wave and stay out of this sweep.
+    if (/^tw-(099|10[0-9]|11[0-9]|120)-P\d+$/.test(r.opportunity_id)) return false;
     const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));
     const w = doc.condition_contract?.conditions?.find(c => c.metric === 'light_window');
     return w && (w.notes_i18n?.['zh-TW'] || '').includes('CL-DATA-19');
   });
-  assert.equal(cl19.length, 138); // CL-INT-103 re-anchor on union: +1 CL-DATA-33 tw-034-P02 light_window
+  assert.equal(cl19.length, 138); // CL-INT-103 re-anchor + CL-DATA-51 direct-build records excluded // CL-INT-103 re-anchor on union: +1 CL-DATA-33 tw-034-P02 light_window
   const byGenre = {};
   for (const r of cl19) {
     const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));
