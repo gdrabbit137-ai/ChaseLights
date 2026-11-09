@@ -319,8 +319,8 @@ def verify_main(root, lock):
     # byte-pinned to their W2 sources.
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
-            len(catalog.get("places", [])) != 239
-            or len(catalog.get("opportunities", [])) != 434):  # CL-INT-110 re-anchor 232/420 -> 239/434 (DATA-34 seven-place chain, measured on merged tree)
+            len(catalog.get("places", [])) != 261
+            or len(catalog.get("opportunities", [])) != 460):  # CL-CI-33 re-anchor 239/434 -> 261/460 (CL-DATA-43 merged tree, measured 2026-11-09; prior pin: CL-INT-110 232/420 -> 239/434, DATA-34 seven-place chain)
         raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]
@@ -393,7 +393,7 @@ def main():
             ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 214, True, False),  # CL-CI-22 re-anchor 201->204; CL-INT-91 +6 -> 210; CL-CI-31b +4 (cl-ci-31 + cl-ui-51 suites) -> 214 (measured on the merged tree, 214 pass / 0 fail)
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 109, True, False,  # CL-CI-22 re-anchor 71->109 (CL-DATA-25..28 discovery/regen suites)
-                {"timeout": 600}),  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under
+                {"timeout": 900}),  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under; CL-CI-33 raised to 900s for local verification headroom
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
@@ -426,7 +426,8 @@ def main():
             # TAP summary lines parse_node requires.
             ("browser-smoke", ["node", "apps/web-v2/tests/local-smoke.mjs"], 35, False, True),
             ("static-build", [sys.executable, "ops/v2/build_static.py", "--root", str(root),
-                "--output", str(logs / "candidate-build")], None, False, False),
+                "--output", str(logs / "candidate-build")], None, False, False,
+                {"timeout": 600}),  # CL-CI-33: 600s covers the Windows-local static build (~>180s under load); CI ubuntu is well under
             ("candidate-build-browser", ["node", "--test", "--test-isolation=none",
                 "--test-timeout=120000", "--test-reporter=tap",
                 "ops/v2/tests/static-build-smoke.mjs"], 6, False, True),
