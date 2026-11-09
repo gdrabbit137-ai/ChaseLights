@@ -203,6 +203,8 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-52: the 27 JP intake records (jp-065..jp-091) carry their
             # authorship bytes on the task branch, tree-verified at c507251b3e.
             'c507251b3e3fb09d6a5bd16abe04a8beb2aee7ed',
+            # CL-DATA-52 repin: jp-078-P01 legacy_tide bytes tree-verified at 4d56532dd.
+            '4d56532ddf843a345f28560f8ad85a461d51dc4f',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
