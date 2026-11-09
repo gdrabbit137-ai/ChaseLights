@@ -27,6 +27,10 @@ class TZSignTests(unittest.TestCase):
             "America/Denver": (-7, (39.74, -104.99)),
             "America/New_York": (-5, (40.71, -74.01)),
             "America/Anchorage": (-9, (61.22, -149.90)),
+            # CL-DATA-43: Hawaii places (us-112..118) previously fell through
+            # to the iana=null / offset=0 fallback and rendered good_hours in
+            # UTC (Makapuʻu us-117 sunrise showed 17:00 instead of ~07:00).
+            "Pacific/Honolulu": (-10, (21.31, -157.65)),
         }
         for zone, (expected, coord) in cases.items():
             got_zone, offset = eb.static_timezone(*coord)

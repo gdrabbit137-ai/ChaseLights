@@ -115,6 +115,10 @@ TZ_DISPLAY = [
     ((32, 55, -130, -114), "America/Los_Angeles", -8),
     ((30, 49, -114, -96), "America/Denver", -7),
     ((24, 50, -96, -66), "America/New_York", -5),
+    # CL-DATA-43: Hawaii (us-112..118) was falling through to the iana=null /
+    # offset=0 fallback, rendering sunrise/sunset good_hours in UTC — Makapuʻu
+    # (us-117) showed its 17:00Z sunrise as 17:00 local instead of ~07:00.
+    ((18, 23, -161, -154), "Pacific/Honolulu", -10),
     ((21, 26.6, 117.5, 122.2), "Asia/Taipei", 8),
     ((23, 46, 122.2, 146), "Asia/Tokyo", 9),
 ]
@@ -124,7 +128,10 @@ def static_timezone(lat, lon):
     for (lat_lo, lat_hi, lon_lo, lon_hi), zone, offset in TZ_DISPLAY:
         if lat_lo <= lat <= lat_hi and lon_lo <= lon <= lon_hi:
             return zone, offset
-    return None, 0
+    # CL-DATA-43: a miss must propagate UNKNOWN, never a fake 0 offset —
+    # 0 rendered UTC as if it were local. Callers keep the hour arithmetic
+    # on offset 0 but label the place timezone_display UNKNOWN with nulls.
+    return None, None
 
 
 def condition_verdict(condition, values, astro_row, month=None):
@@ -500,20 +507,29 @@ def main():
         })
         events = sun_events_span(lat, lon, span_start, span_end)
         zone, offset = static_timezone(lat, lon)
+        if offset is None:
+            # CL-DATA-43: unresolved timezone propagates as UNKNOWN (null
+            # iana/offset), not a fake 0 — hour arithmetic stays on UTC but
+            # the place is labeled honestly as having no display timezone.
+            tz_display = {"iana": None, "utc_offset_hours": None,
+                          "status": "UNKNOWN"}
+            local_offset = 0
+        else:
+            tz_display = {"iana": zone, "utc_offset_hours": offset,
+                          "status": "DISPLAY_APPROXIMATION"}
+            local_offset = offset
         need_moon = any("moon" in c["metric"] or "galactic" in c["metric"]
                         for doc in group["opportunities"]
                         for c in doc["condition_contract"]["conditions"])
         hours = artifact["hours"]
         place_out = {"place_id": None, "coordinate": [lat, lon],
                      "coordinate_source": group["source"],
-                     "timezone_display": {"iana": zone, "utc_offset_hours": offset,
-                                          "status": "DISPLAY_APPROXIMATION"},
+                     "timezone_display": dict(tz_display),
                      "provider_run": provider_runs[-1],
                      "opportunities": []}
         place_detail = {"place_id": None, "coordinate": [lat, lon],
                         "coordinate_source": group["source"],
-                        "timezone_display": {"iana": zone, "utc_offset_hours": offset,
-                                             "status": "DISPLAY_APPROXIMATION"},
+                        "timezone_display": dict(tz_display),
                         "opportunities": []}
         for doc in group["opportunities"]:
             oid = doc["opportunity_id"]
@@ -547,7 +563,7 @@ def main():
                         month=at.month)[0]
                     roles[condition["id"]] = condition.get("role")
                 status, fails, unknowns = hour_status(roles, states)
-                local_stamp = at + timedelta(hours=offset)
+                local_stamp = at + timedelta(hours=local_offset)
                 day_key = local_stamp.date().isoformat()
                 entry = days.setdefault(day_key, {"local_date": day_key, "hours": []})
                 # CL-DATA-31: a qualifying hour bucket is stamped at its
@@ -643,7 +659,7 @@ def main():
                 snap_at, snap_row, snap_astro, snap_states, snap_status = ctx
                 return {
                     "utc": snap_row["valid_at_utc"],
-                    "local": (snap_at + timedelta(hours=offset)).strftime("%Y-%m-%d %H:%M"),
+                    "local": (snap_at + timedelta(hours=local_offset)).strftime("%Y-%m-%d %H:%M"),
                     "status": snap_status,
                     "conditions": [
                         {"id": c["id"], "metric": c["metric"],
