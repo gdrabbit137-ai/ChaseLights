@@ -9,24 +9,24 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "4b0aa57dd6f3a4f2ecb4a8b78cfd570caf4e7b047ceb70e4db0dd1abced642cf",
+ "inputs_fingerprint_sha256": "7c5f11b58dcb83155b1471682baad9f6758e9a472f84f1cd50703777287b9b50",
  "summary": {
-  "places": 249,
-  "opportunities": 448,
-  "canonical_locked_opportunities": 448,
-  "places_with_unknown_scenic_beauty": 145,
-  "mean_weighted_total": 4.04,
-  "median_weighted_total": 4.06,
+  "places": 261,
+  "opportunities": 460,
+  "canonical_locked_opportunities": 460,
+  "places_with_unknown_scenic_beauty": 154,
+  "mean_weighted_total": 4.03,
+  "median_weighted_total": 4.05,
   "mean_basis": "places with evidenced scenic_beauty only (rubric v2 honest-unknown rule)",
   "region_counts": {
    "jp": 63,
    "tw": 93,
-   "us": 93
+   "us": 105
   },
   "weakness_counts": {
-   "low_weather_light_opportunities": 6,
+   "low_weather_light_opportunities": 7,
    "low_verifiability_opportunities": 3,
-   "clusters_within_5km": 18
+   "clusters_within_5km": 19
   }
  },
  "ranking": [
@@ -126,6 +126,36 @@
    ]
   },
   {
+   "place_id": "us-107",
+   "name_zh": "出口冰河・冰河舌谷景",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-107-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0,
+    "differentiation": 4,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 4.45,
+   "nearest_place": "us-045",
+   "nearest_km": 14.54,
+   "coords": [
+    60.1782633,
+    -149.6494389
+   ]
+  },
+  {
    "place_id": "jp-051",
    "name_zh": "嚴島神社・宮島大鳥居",
    "region": "jp",
@@ -211,8 +241,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": 4.4,
-   "nearest_place": "us-047",
-   "nearest_km": 262.87,
+   "nearest_place": "us-110",
+   "nearest_km": 156.83,
    "coords": [
     61.481048,
     -142.885231
@@ -373,18 +403,17 @@
    ]
   },
   {
-   "place_id": "us-059",
-   "name_zh": "卡特邁國家公園",
+   "place_id": "us-112",
+   "name_zh": "哈雷茂茂火山口夜空",
    "region": "us",
-   "n_opportunities": 2,
+   "n_opportunities": 1,
    "opportunity_ids": [
-    "us-059-P01",
-    "us-059-P02"
+    "us-112-P01"
    ],
    "rubric": {
-    "subject_strength": 5,
+    "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.75,
+    "verifiability": 5.0,
     "differentiation": 5,
     "scenic_beauty": 3
    },
@@ -396,11 +425,11 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": 4.35,
-   "nearest_place": "us-069",
-   "nearest_km": 200.71,
+   "nearest_place": "us-115",
+   "nearest_km": 43.38,
    "coords": [
-    58.55476,
-    -155.79193
+    19.40527778,
+    -155.28194444
    ]
   },
   {
@@ -2003,8 +2032,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": 4.05,
-   "nearest_place": "us-063",
-   "nearest_km": 168.31,
+   "nearest_place": "us-108",
+   "nearest_km": 138.22,
    "coords": [
     63.73209,
     -148.90273
@@ -2657,6 +2686,37 @@
    "coords": [
     47.710912,
     -124.415477
+   ]
+  },
+  {
+   "place_id": "us-059",
+   "name_zh": "卡特邁國家公園",
+   "region": "us",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "us-059-P01",
+    "us-059-P02"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.75,
+    "differentiation": 1,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.75,
+   "nearest_place": "us-111",
+   "nearest_km": 0.04,
+   "coords": [
+    58.55476,
+    -155.79193
    ]
   },
   {
@@ -3326,6 +3386,36 @@
    "coords": [
     21.929,
     120.848
+   ]
+  },
+  {
+   "place_id": "us-111",
+   "name_zh": "布魯克斯瀑布・鮭魚道水景",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-111-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 5.0,
+    "differentiation": 1,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.15,
+   "nearest_place": "us-059",
+   "nearest_km": 0.04,
+   "coords": [
+    58.555,
+    -155.7915
    ]
   },
   {
@@ -6879,7 +6969,7 @@
     "subject_strength": 5,
     "weather_light_dependency": 5,
     "verifiability": 3.5,
-    "differentiation": 5,
+    "differentiation": 4,
     "scenic_beauty": "unknown"
    },
    "scenic_beauty_evidence": {
@@ -6891,8 +6981,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "us-048",
-   "nearest_km": 82.44,
+   "nearest_place": "us-107",
+   "nearest_km": 14.54,
    "coords": [
     60.103141,
     -149.434574
@@ -7081,8 +7171,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "us-045",
-   "nearest_km": 124.92,
+   "nearest_place": "us-107",
+   "nearest_km": 118.27,
    "coords": [
     59.62,
     -151.45472
@@ -7287,7 +7377,7 @@
     "subject_strength": 5,
     "weather_light_dependency": 5,
     "verifiability": 3.0,
-    "differentiation": 5,
+    "differentiation": 4,
     "scenic_beauty": "unknown"
    },
    "scenic_beauty_evidence": {
@@ -7299,8 +7389,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "us-044",
-   "nearest_km": 19.55,
+   "nearest_place": "us-109",
+   "nearest_km": 11.39,
    "coords": [
     61.107222,
     -149.71472
@@ -7934,6 +8024,285 @@
    "coords": [
     47.606672,
     -119.364385
+   ]
+  },
+  {
+   "place_id": "us-108",
+   "name_zh": "墨菲穹丘極光",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-108-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "us-041",
+   "nearest_km": 138.22,
+   "coords": [
+    64.9525,
+    -148.3569444
+   ]
+  },
+  {
+   "place_id": "us-109",
+   "name_zh": "白鯨角・特納甘灣夕照",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-109-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0,
+    "differentiation": 4,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "us-065",
+   "nearest_km": 11.39,
+   "coords": [
+    61.00527778,
+    -149.69416667
+   ]
+  },
+  {
+   "place_id": "us-110",
+   "name_zh": "湯普森山口雪牆",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-110-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "us-047",
+   "nearest_km": 133.67,
+   "coords": [
+    61.12861111,
+    -145.72972222
+   ]
+  },
+  {
+   "place_id": "us-113",
+   "name_zh": "哈雷阿卡拉山頂雲海日出",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-113-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "us-116",
+   "nearest_km": 95.94,
+   "coords": [
+    20.70972222,
+    -156.25333333
+   ]
+  },
+  {
+   "place_id": "us-114",
+   "name_zh": "卡拉勞山谷雲霧眺望",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-114-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "us-118",
+   "nearest_km": 172.83,
+   "coords": [
+    22.15055,
+    -159.64505
+   ]
+  },
+  {
+   "place_id": "us-115",
+   "name_zh": "冒納凱亞遊客站銀河",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-115-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "us-116",
+   "nearest_km": 42.04,
+   "coords": [
+    19.75917,
+    -155.45611
+   ]
+  },
+  {
+   "place_id": "us-116",
+   "name_zh": "威皮歐山谷晨光",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-116-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "us-115",
+   "nearest_km": 42.04,
+   "coords": [
+    20.1177,
+    -155.5836
+   ]
+  },
+  {
+   "place_id": "us-117",
+   "name_zh": "馬卡普燈塔日出",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-117-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "us-118",
+   "nearest_km": 57.44,
+   "coords": [
+    21.309889,
+    -157.649748
+   ]
+  },
+  {
+   "place_id": "us-118",
+   "name_zh": "邦載管道夕照",
+   "region": "us",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "us-118-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0,
+    "differentiation": 5,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "us-117",
+   "nearest_km": 57.44,
+   "coords": [
+    21.664,
+    -158.054
    ]
   }
  ],
@@ -14300,6 +14669,154 @@
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-107-P01",
+   "place_id": "us-107",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0
+   },
+   "verif_gaps": [],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-108-P01",
+   "place_id": "us-108",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0
+   },
+   "verif_gaps": [],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-109-P01",
+   "place_id": "us-109",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0
+   },
+   "verif_gaps": [],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-110-P01",
+   "place_id": "us-110",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0
+   },
+   "verif_gaps": [],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-111-P01",
+   "place_id": "us-111",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 5.0
+   },
+   "verif_gaps": [],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-112-P01",
+   "place_id": "us-112",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0
+   },
+   "verif_gaps": [],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-113-P01",
+   "place_id": "us-113",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-114-P01",
+   "place_id": "us-114",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0
+   },
+   "verif_gaps": [],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-115-P01",
+   "place_id": "us-115",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0
+   },
+   "verif_gaps": [],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-116-P01",
+   "place_id": "us-116",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0
+   },
+   "verif_gaps": [],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-117-P01",
+   "place_id": "us-117",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
+   },
+   "verif_gaps": [
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "us-118-P01",
+   "place_id": "us-118",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 5.0
+   },
+   "verif_gaps": [],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
   }
  ],
  "weakness_lists": {
@@ -14337,6 +14854,12 @@
    {
     "opportunity_id": "tw-082-P01",
     "place_id": "tw-082",
+    "score": 2,
+    "recommendation": "改題材"
+   },
+   {
+    "opportunity_id": "us-111-P01",
+    "place_id": "us-111",
     "score": 2,
     "recommendation": "改題材"
    }
@@ -14721,6 +15244,21 @@
       "place_id": "us-078",
       "name_zh": "默特爾・愛德華茲公園",
       "nearest_km": 0.88
+     }
+    ],
+    "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
+   },
+   {
+    "members": [
+     {
+      "place_id": "us-059",
+      "name_zh": "卡特邁國家公園",
+      "nearest_km": 0.04
+     },
+     {
+      "place_id": "us-111",
+      "name_zh": "布魯克斯瀑布・鮭魚道水景",
+      "nearest_km": 0.04
      }
     ],
     "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
