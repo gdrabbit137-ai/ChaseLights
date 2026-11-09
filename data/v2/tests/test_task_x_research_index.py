@@ -184,6 +184,10 @@ class ResearchIndexTests(unittest.TestCase):
             # (us-097..us-106, PM-judgment admission, GROWTH-ONLY) pinned to
             # the stage-1 admission commit carrying the new bytes.
             '3dcf271879ea1ffde447f88d3870a68a09ef6d68',
+            # CL-DATA-43: 12 Alaska+Hawaii expansion admitted contracts
+            # (us-107..us-118, PM-judgment admission, GROWTH-ONLY) pinned to
+            # the stage-1c admission commit carrying the new bytes.
+            'c832d9112e8ba813b65c184a2fafb17a7f5b3643',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
