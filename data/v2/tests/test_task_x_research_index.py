@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((283,482),(len(actual),len(ids)))  # re-anchored CL-DATA-51 (TW intake tw-099..tw-120)
+        self.assertEqual((310,511),(len(actual),len(ids)))  # re-anchored CL-DATA-52 (JP intake jp-065..jp-091)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -200,6 +200,9 @@ class ResearchIndexTests(unittest.TestCase):
             'affcdf391e49a43a606d7dd7e567aedf58e02f34',
             '0246bb4496f82b11678ec06550f51b29099c3e41',
             '433d59401adf3727780b2af331426169bd81c40c',
+            # CL-DATA-52: the 27 JP intake records (jp-065..jp-091) carry their
+            # authorship bytes on the task branch, tree-verified at c507251b3e.
+            'c507251b3e3fb09d6a5bd16abe04a8beb2aee7ed',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -227,7 +230,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(849,count)  # 283 places x 3 (re-anchored CL-DATA-51)
+        self.assertEqual(930,count)  # 310 places x 3 (re-anchored CL-DATA-52)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
