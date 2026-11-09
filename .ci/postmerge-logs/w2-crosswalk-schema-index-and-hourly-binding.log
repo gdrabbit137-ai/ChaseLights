@@ -122,24 +122,24 @@ ok
 test_invalid_strings_fail_closed (test_genre_templates.BindingGrammarTests.test_invalid_strings_fail_closed) ... ok
 test_valid_strings (test_genre_templates.BindingGrammarTests.test_valid_strings) ... ok
 test_draft_expansion_refused (test_genre_templates.ExpansionTests.test_draft_expansion_refused) ... ok
-test_expanded_model_binding_strings_lint (test_genre_templates.ExpansionTests.test_expanded_model_binding_strings_lint) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpcno36j45\tw-001-P02.json
+test_expanded_model_binding_strings_lint (test_genre_templates.ExpansionTests.test_expanded_model_binding_strings_lint) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpknwcm4ny\tw-001-P02.json
 ok
-test_expansion_never_touches_canonical (test_genre_templates.ExpansionTests.test_expansion_never_touches_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpm_as_isv\tw-001-P02.json
+test_expansion_never_touches_canonical (test_genre_templates.ExpansionTests.test_expansion_never_touches_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpxfn_k3ka\tw-001-P02.json
 ok
-test_round_trip_matches_reviewed_canonical (test_genre_templates.ExpansionTests.test_round_trip_matches_reviewed_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp82b8be7e\tw-001-P02.json
-expanded sunrise-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpfie4wjvv\tw-036-P01.json
-expanded blue_hour_city-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmppfrud81w\tw-002-P01.json
-expanded mountain_view-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp2ut285aa\tw-016-P01.json
+test_round_trip_matches_reviewed_canonical (test_genre_templates.ExpansionTests.test_round_trip_matches_reviewed_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmph2s3pq57\tw-001-P02.json
+expanded sunrise-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpep8xn49g\tw-036-P01.json
+expanded blue_hour_city-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpdpwxq06d\tw-002-P01.json
+expanded mountain_view-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp9toxqsr9\tw-016-P01.json
 ok
 test_undeclared_param_refused (test_genre_templates.ExpansionTests.test_undeclared_param_refused) ... ok
 test_arithmetic (test_genre_templates.ExpressionTests.test_arithmetic) ... ok
 test_disallowed_syntax_fails (test_genre_templates.ExpressionTests.test_disallowed_syntax_fails) ... ok
 test_undeclared_param_fails (test_genre_templates.ExpressionTests.test_undeclared_param_fails) ... ok
-test_merge_exact_duplicate_skipped (test_genre_templates.MergeTests.test_merge_exact_duplicate_skipped) ... merged cloud_sea-v0.1 -> 9 offered, 1 duplicate skipped, 9 total -> C:\Users\Dick_\AppData\Local\Temp\tmptvrhsdv5\out.json
+test_merge_exact_duplicate_skipped (test_genre_templates.MergeTests.test_merge_exact_duplicate_skipped) ... merged cloud_sea-v0.1 -> 9 offered, 1 duplicate skipped, 9 total -> C:\Users\Dick_\AppData\Local\Temp\tmpit7yv_i_\out.json
 ok
 test_merge_point_conflict_refused (test_genre_templates.MergeTests.test_merge_point_conflict_refused) ... ok
 test_merge_requires_existing_contract (test_genre_templates.MergeTests.test_merge_requires_existing_contract) ... ok
-test_merge_scoped_overlap_is_allowed (test_genre_templates.MergeTests.test_merge_scoped_overlap_is_allowed) ... merged cloud_sea-v0.1 -> 9 offered, 0 duplicate skipped, 10 total -> C:\Users\Dick_\AppData\Local\Temp\tmpzp9vrimt\out.json
+test_merge_scoped_overlap_is_allowed (test_genre_templates.MergeTests.test_merge_scoped_overlap_is_allowed) ... merged cloud_sea-v0.1 -> 9 offered, 0 duplicate skipped, 10 total -> C:\Users\Dick_\AppData\Local\Temp\tmp7kujjtc0\out.json
 ok
 test_draft_templates_are_complete_but_refused (test_genre_templates.RegistryTests.test_draft_templates_are_complete_but_refused) ... ok
 test_every_metric_in_templates_is_in_vocabulary (test_genre_templates.RegistryTests.test_every_metric_in_templates_is_in_vocabulary) ... ok
@@ -471,7 +471,7 @@ test_04_crosswalk_exact_coverage_and_negative_conflict (test_worker2_batch04.Bat
 test_05_human_readable_parity_and_original_preview_is_untouched (test_worker2_batch04.Batch04Gate.test_05_human_readable_parity_and_original_preview_is_untouched) ... ok
 
 ----------------------------------------------------------------------
-Ran 184 tests in 598.942s
+Ran 184 tests in 597.207s
 
 OK
 {"tests": 184, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 184}
