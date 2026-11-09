@@ -76,8 +76,8 @@
           "timezone_display": {
             "type": "object", "required": ["iana", "utc_offset_hours", "status"],
             "additionalProperties": false,
-            "properties": {"iana": {"type": ["string", "null"]}, "utc_offset_hours": {"type": "number"},
-                           "status": {"const": "DISPLAY_APPROXIMATION"}}
+            "properties": {"iana": {"type": ["string", "null"]}, "utc_offset_hours": {"type": ["number", "null"]},
+                           "status": {"enum": ["DISPLAY_APPROXIMATION", "UNKNOWN"]}}
           },
           "provider_run": {
             "type": "object", "required": ["run_id", "provider", "source", "issued_at", "valid_at", "freshness"],
