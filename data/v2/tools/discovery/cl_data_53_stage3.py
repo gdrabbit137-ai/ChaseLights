@@ -21,7 +21,7 @@ def pins_for(paths, commit):
             "opportunity_id": Path(rel).stem,
             "path": rel,
             "blob_sha": subprocess.run(["git", "hash-object", "--stdin"], cwd=ROOT,
-                                       input=b, capture_output=True, text=True).stdout.strip(),
+                                       input=b, capture_output=True).stdout.decode().strip(),
             "sha256": hashlib.sha256(b).hexdigest(),
             "commit_sha": commit,
         })
@@ -33,7 +33,7 @@ def support_for(rel, commit):
     return {"path": rel,
             "commit_sha": commit,
             "blob_sha": subprocess.run(["git", "hash-object", "--stdin"], cwd=ROOT,
-                                       input=b, capture_output=True, text=True).stdout.strip(),
+                                       input=b, capture_output=True).stdout.decode().strip(),
             "sha256": hashlib.sha256(b).hexdigest()}
 
 
