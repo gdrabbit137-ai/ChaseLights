@@ -40,11 +40,11 @@ class TestClData24CatalogScoring(unittest.TestCase):
         assert "safe_access" not in rep["rubric_weights"]
         assert rep["rubric_weights"]["scenic_beauty"] == 20
         s = rep["summary"]
-        assert s["places"] == 249, f"expected 249 places, got {s['places']}"
-        assert s["opportunities"] == 448, f"expected 448 opportunities, got {s['opportunities']}"
-        assert s["canonical_locked_opportunities"] == 448
-        assert len(rep["ranking"]) == 249
-        assert len(rep["opportunity_scores"]) == 448
+        assert s["places"] == 261, f"expected 261 places, got {s['places']}"
+        assert s["opportunities"] == 460, f"expected 460 opportunities, got {s['opportunities']}"
+        assert s["canonical_locked_opportunities"] == 460
+        assert len(rep["ranking"]) == 261
+        assert len(rep["opportunity_scores"]) == 460
         assert s["places_with_unknown_scenic_beauty"] == sum(
             1 for p in rep["ranking"] if p["rubric"]["scenic_beauty"] == "unknown")
         # weighted totals in valid range (None = honest unknown), ranking ordered by (total, id)

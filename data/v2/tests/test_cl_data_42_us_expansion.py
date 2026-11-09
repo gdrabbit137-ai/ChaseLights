@@ -4,7 +4,7 @@ Owner rulings: PM-judgment admission (2026-11-08 「找到好的直接加入」)
 GROWTH-ONLY (2026-11-09 「先擴充景點」); scenic scoring paused 2026-11-08.
 
 Pins:
-- regions.py us list grows us-001..us-106 (106 active tuples, no removals);
+- regions.py us list grows us-001..us-118 (re-anchored CL-DATA-43: 118 active tuples, no removals);
 - every new opportunity contract schema-validates;
 - every all-day (visible-light) subject carries a REQUIRED civil light_window
   citing CL-DATA-42 (not the CL-DATA-19 wave, so that wave's pins are stable);
@@ -44,7 +44,7 @@ class TestRegions(unittest.TestCase):
     def test_us_catalog_grew_and_nothing_removed(self):
         spots = regions.REGIONS["us"]["spots"]
         # GROWTH-ONLY: the pre-42 head tuples must all still be present
-        self.assertEqual(len(spots), 106)
+        self.assertEqual(len(spots), 118)  # re-anchored CL-DATA-43 (growth-only AK/HI first batch: no removals)
         self.assertEqual(spots[0][3], "Grand Canyon National Park")
 
     def test_new_admin_areas(self):

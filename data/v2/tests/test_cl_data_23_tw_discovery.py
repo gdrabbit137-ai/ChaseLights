@@ -146,8 +146,8 @@ class TestCLData23TWDiscoveryShortlist(unittest.TestCase):
         places = [p["place_id"] for p in self.catalog["places"]]
         for c in self.shortlist["candidates"]:
             self.assertNotIn(c["id"], places)
-        self.assertEqual(len(self.catalog["places"]), 249,
-                         "catalog place count pinned (re-anchored CL-INT-105: 249 places, CL-DATA-42 jp supplement)")
+        self.assertEqual(len(self.catalog["places"]), 261,
+                         "catalog place count pinned (re-anchored CL-INT-105: 261 places, CL-DATA-43 AK/HI expansion)")
 
     def test_pipeline_tool_rerun_is_deterministic(self):
         import subprocess

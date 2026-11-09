@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((249,448),(len(actual),len(ids)))  # re-anchored CL-INT-110 (DATA-34 seven-place chain: 14 legacy supplement contracts)
+        self.assertEqual((261,460),(len(actual),len(ids)))  # re-anchored CL-DATA-43 (AK/HI expansion: 12 contracts)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -211,7 +211,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(747,count)  # 249 places x 3 (re-anchored CL-INT-110: DATA-34 chain)
+        self.assertEqual(783,count)  # 261 places x 3 (re-anchored CL-DATA-43)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
