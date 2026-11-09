@@ -1,0 +1,277 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "us-100-P01",
+ "place_id": "us-100",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "莫諾湖石灰華倒影",
+  "en": "Mono Lake tufa reflections",
+  "ja": "モノ湖テュファの反射"
+ },
+ "description_i18n": {
+  "zh-TW": "鹼水湖面的石灰華塔陣；湖面倒影要無風，銀河需要高原乾燥暗空。",
+  "en": "Limestone tufa towers in an alkaline lake; reflections need windless water and the high-desert dark sky carries the Milky Way.",
+  "ja": "塩湖のテュファ塔群。水面反射は無風を要し、高原の暗空が銀河を運ぶ。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-us-100-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -119.028063,
+      37.940344
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-42 admission web verification 2026-11-09; source: https://www.fs.usda.gov/r05/inyo/recreation/south-tufa (USFS Inyo NF official: Lat 37.940344, Lon -119.028063, elevation 6,400 ft), retrieved 2026-11-09",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "開放/營運/季節道路封閉（如 Skyline Drive 冬季封閉、Cadillac 日出車輛預約季節窗）依美國國家公園署（NPS）當期公告為準。",
+    "en": "Opening status, operations and seasonal road closures (e.g. Skyline Drive winter closure, Cadillac sunrise vehicle-reservation season) follow the current NPS published schedule.",
+    "ja": "開放状況・季節的道路規制（スカイライン・ドライブ冬季閉鎖、キャディラック山サンライズ車両予約の季節窓など）はNPSの現在の公告に従う。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 1951
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-us-100-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "莫諾湖石灰華倒影",
+    "en": "Mono Lake tufa reflections",
+    "ja": "モノ湖テュファの反射"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -119.028063,
+      37.940344
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-42 admission web verification 2026-11-09; source: https://www.fs.usda.gov/r05/inyo/recreation/south-tufa (USFS Inyo NF official: Lat 37.940344, Lon -119.028063, elevation 6,400 ft), retrieved 2026-11-09",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-us-100-P01-01",
+   "camera_context_id": "CZ-us-100-P01-01",
+   "target_id": "SG-us-100-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-42 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-us-100-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 37.940344,
+   "lon": -119.028063,
+   "label_i18n": {
+    "zh-TW": "South Tufa Area",
+    "en": "South Tufa Area",
+    "ja": "South Tufa Area"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-us-100-P01-v1",
+  "status": "draft",
+  "genre_template": "reflection",
+  "template_version": "reflection-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-us-100-P01-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "wind_speed_10m",
+    "operator": "lte",
+    "threshold": 2.0,
+    "unit": "m/s",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-100-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "倒影題材的命門是風：水面風速 >2 m/s 就起漣漪，立枯的鏡像破碎；2 m/s 以下才能拿到乾淨的鏡面反射。",
+     "en": "Wind is the make-or-break for reflections: above 2 m/s the water ripples and the mirror of the drowned larches breaks; only under 2 m/s gives a clean mirror.",
+     "ja": "反射撮影の要は風：水面風速2m/sを超えると漣が立ち、枯れ木の鏡像が崩れる。2m/s未満で初めて鏡面が得られる。"
+    }
+   },
+   {
+    "id": "C-us-100-P01-02",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "water_surface_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-100-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "水面狀態（結冰/水位）無即時觀測源，誠實回報 UNKNOWN，不猜測：冬期結冰時倒影不成立，請依現場狀況判斷。",
+     "en": "Water-surface state (ice/level) has no live observation source - honestly UNKNOWN, never guessed: in winter freeze the reflection fails, judge on site.",
+     "ja": "水面状態（結氷・水位）は即時観測源がなく、誠実にUNKNOWNを返す（推測しない）。冬季の凍結時は反射が成立しない。現地で判断すること。"
+    }
+   },
+   {
+    "id": "C-us-100-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-100-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "雨點直接打在水面就沒有鏡面，降水 >0.2 mm/h 否決。",
+     "en": "Raindrops breaking the water surface kill the mirror; reject above 0.2 mm/h.",
+     "ja": "雨粒が水面を叩くと鏡面は成立しない。降水0.2mm/h超は否決。"
+    }
+   },
+   {
+    "id": "C-us-100-P01-04",
+    "role": "QUALITY",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "between",
+    "threshold": [
+     20,
+     60
+    ],
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-100-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "帶點雲的藍天（總雲量 20–60%）讓倒影有色階而不是一片死藍；純藍天太單調，全陰太暗。",
+     "en": "Broken blue sky (total cloud 20-60%) gives the reflection tonal bands instead of a flat blue; pure blue is monotonous, full overcast too dark.",
+     "ja": "適度な雲（全雲量20〜60%）があると反射に階調が出る。快晴だと単調、全曇では暗すぎる。"
+    }
+   },
+   {
+    "id": "C-us-100-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-100-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "CL-DATA-42 admission：全日題材（可見光拍攝）一律加 civil 光線窗（太陽仰角 > −6°，同 CL-DATA-11 定義）；夜間時段不成立。",
+     "en": "CL-DATA-42 admission: all-day visible-light subject carries a REQUIRED civil light window (sun elevation > -6 deg, CL-DATA-11 definition); night hours never qualify.",
+     "ja": "CL-DATA-42 admission：全日の可視光題材に市民光の光窓（太陽高度 > -6°）を必須条件として追加（CL-DATA-11 定義と同源）。夜間は成立しない。"
+    },
+    "notes_i18n": {
+     "zh-TW": "CL-DATA-42 admission：全日題材（可見光拍攝）一律加 civil 光線窗（太陽仰角 > −6°，同 CL-DATA-11 定義）；夜間時段不成立。",
+     "en": "CL-DATA-42 admission: all-day visible-light subject carries a REQUIRED civil light window (sun elevation > -6 deg, CL-DATA-11 definition); night hours never qualify.",
+     "ja": "CL-DATA-42 admission：全日の可視光題材に市民光の光窓（太陽高度 > -6°）を必須条件として追加（CL-DATA-11 定義と同源）。夜間は成立しない。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "us-100-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d42-web-100"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-42 discovery admission (PM-judgment, owner rulings 2026-11-08 「找到好的直接加入」 + 2026-11-09 GROWTH-ONLY 「先擴充景點」; scenic scoring paused 2026-11-08); coordinates/elevation web-verified 2026-11-09 (sources in camera derivation_method and data/v2/audits/discovery/us-expansion-2026-11.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "provenance": {
+  "source_catalog": "CL-DATA-42 US-mainland expansion discovery (PM-judgment admission, GROWTH-ONLY)",
+  "source_revision": "cl-data-42:us-100-P01",
+  "imported_at": "2026-11-09T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ },
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ }
+}

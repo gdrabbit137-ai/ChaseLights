@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((239,434),(len(actual),len(ids)))  # re-anchored CL-INT-110 (DATA-34 seven-place chain: 14 legacy supplement contracts)
+        self.assertEqual((249,448),(len(actual),len(ids)))  # re-anchored CL-INT-110 (DATA-34 seven-place chain: 14 legacy supplement contracts)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -180,6 +180,10 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-40: us-002-P01 daylight_window access-time condition
             # (merged from origin/main, bytes at the CL-DATA-40 data commit).
             'c0c6114b0bfbae0afc28b1b5c0f128d3aa41b982',
+            # CL-DATA-42: 14 US-mainland expansion admitted contracts
+            # (us-097..us-106, PM-judgment admission, GROWTH-ONLY) pinned to
+            # the stage-1 admission commit carrying the new bytes.
+            '3dcf271879ea1ffde447f88d3870a68a09ef6d68',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -207,7 +211,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(717,count)  # 239 places x 3 (re-anchored CL-INT-110: DATA-34 chain)
+        self.assertEqual(747,count)  # 249 places x 3 (re-anchored CL-INT-110: DATA-34 chain)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')

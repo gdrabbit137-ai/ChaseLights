@@ -312,6 +312,16 @@ US_ADMIN_AREAS = {
     "us-094": ["Washington"],
     "us-095": ["Washington"],
     "us-096": ["Washington"],
+    "us-097": ["South Dakota"],  # CL-DATA-42 (43.78477,-101.89985, South Dakota)
+    "us-098": ["Maine"],  # CL-DATA-42 (44.3526,-68.226, Maine)
+    "us-099": ["Virginia"],  # CL-DATA-42 (38.555,-78.395, Virginia)
+    "us-100": ["California"],  # CL-DATA-42 (37.940344,-119.028063, California)
+    "us-101": ["Oregon"],  # CL-DATA-42 (44.278421,-124.113499, Oregon)
+    "us-102": ["Oregon"],  # CL-DATA-42 (45.57595,-122.11536, Oregon)
+    "us-103": ["Oregon"],  # CL-DATA-42 (45.88444,-123.96806, Oregon)
+    "us-104": ["New Hampshire"],  # CL-DATA-42 (44.180566,-71.695286, New Hampshire)
+    "us-105": ["Michigan"],  # CL-DATA-42 (46.4955,-86.5518, Michigan)
+    "us-106": ["Texas"],  # CL-DATA-42 (29.1679,-103.6106, Texas)
 }
 
 ADMIN_AREAS_BY_REGION = {
@@ -601,6 +611,25 @@ REGIONS = {
             (47.032, -117.298, "斯特普托山丘", "Steptoe Butte State Park Heritage Site", "ステップトー・ビュート", "Steptoe Butte", "美西", ["mountain"]),
             (46.283, -124.054, "失望角州立公園", "Cape Disappointment State Park", "ケープ・ディサポイントメント州立公園", "Cape Disappointment", "美西", ["coast"]),
             (47.606672, -119.364385, "乾瀑布", "Sun Lakes–Dry Falls", "ドライ・フォールズ", "Dry Falls", "美西", ["mountain"]),
+            (43.78477, -101.89985, "大惡地國家公園・大惡地觀景點", "Badlands NP – Big Badlands Overlook", "バッドランズ国立公園 ビッグ・バッドランズ展望台", "Big Badlands Overlook", "美中", ["mountain"]),
+
+            (44.3526, -68.226, "阿卡迪亞國家公園・卡迪山", "Acadia NP – Cadillac Mountain", "アカディア国立公園 キャディラック山", "Cadillac Mountain", "美東", ["mountain"]),
+
+            (38.555, -78.395, "謝南多厄國家公園・老鷹角", "Shenandoah NP – Hawksbill", "シェナンドー国立公園 ホークスビル", "Hawksbill", "美東", ["mountain"]),
+
+            (37.940344, -119.028063, "莫諾湖・南方石灰華區", "Mono Lake – South Tufa", "モノ湖 サウス・テュファ", "South Tufa Area", "美西", ["mountain"]),
+
+            (44.278421, -124.113499, "雷神之井", "Thor's Well", "トールズ・ウェル", "Thor's Well", "美西", ["mountain"]),
+
+            (45.57595, -122.11536, "摩特諾瑪瀑布", "Multnomah Falls", "マルトノマ滝", "Multnomah Falls", "美西", ["mountain"]),
+
+            (45.88444, -123.96806, "干草堆岩・坎農海灘", "Haystack Rock, Cannon Beach", "ヘイスタック・ロック", "Haystack Rock", "美西", ["mountain"]),
+
+            (44.180566, -71.695286, "畫家堡・法蘭科尼亞峽", "Artists Bluff, Franconia Notch", "アーティスツ・ブラフ", "Artists Bluff", "美東", ["mountain"]),
+
+            (46.4955, -86.5518, "畫岩國家湖岸・礦工堡", "Pictured Rocks NL – Miners Castle", "ピクチャード・ロックス マイナーズ・キャッスル", "Miners Castle", "美中", ["mountain"]),
+
+            (29.1679, -103.6106, "大彎國家公園・聖埃倫娜峽谷", "Big Bend NP – Santa Elena Canyon", "ビッグベンド国立公園 サンタ・エレナ峡谷", "Santa Elena Canyon", "美中", ["mountain"]),
         ],
     },
 }
@@ -626,7 +655,16 @@ ELEVATION_OVERRIDES = {
     "屏東關山": 152,
     # CL-DATA-17 2026-11-06 fact-check wave (US coordinates/elevations, authoritative re-verification):
     # 大峽谷 Mather Point 2170 m (USGS GNIS 7,119 ft); 優勝美地 Sentinel Bridge 1208 m (OSM 3,963 ft).
+    # CL-DATA-42 2026-11-09 (US expansion, authoritative web verification):
+    # 卡迪山 466 m (NPS 1,530 ft); 老鷹角 1,235 m (NPS brochure 4,051 ft);
+    # 莫諾湖石灰華 1,951 m (USFS 6,400 ft); 摩特諾瑪瀑布 191 m (Wikipedia 627 ft);
+    # 畫家堡 702 m (PeakVisor 2,303 ft).
     "大峽谷國家公園": 2170,
+    "阿卡迪亞國家公園・卡迪山": 466,
+    "謝南多厄國家公園・老鷹角": 1235,
+    "莫諾湖・南方石灰華區": 1951,
+    "摩特諾瑪瀑布": 191,
+    "畫家堡・法蘭科尼亞峽": 702,
     "優勝美地半圓頂": 1208,
     "合歡山主峰": 3417,
     "玉山主峰": 3952,
