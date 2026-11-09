@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "b21dbe2e172f91409a8fd83bfa1b0af4d3cbd361",
-  "source_index_revision": "sha256:8ebfbeca61cdf5c2530af1962259694c0feaccc3b69ff8bb8f4b5c0959371c2a",
+  "source_index_commit_sha": "7e04e0d46b7547538f87bce5d0ccb4214c099896",
+  "source_index_revision": "sha256:b57fc043b90ce6d7a3a97ef68acd37311fe29c0e01105f635f18d994fcaf864e",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
@@ -475,9 +475,9 @@
       "revision": 2
     },
     "jp-056-P01": {
-      "source_commit_sha": "dda29699705dcdf9ced993bca06316e1085a15e9",
+      "source_commit_sha": "d3e019433a7516773f39c764ab09fe70810dec25",
       "source_path": "data/v2/opportunities/jp-056-P01.json",
-      "source_blob_sha": "1354eaec319e6300e69f8b1a8221cd4986005e7e",
+      "source_blob_sha": "a8f933f1462a54cfed6dc5d07ed7a72afbda68d8",
       "revision": 2
     },
     "jp-057-P01": {
@@ -487,15 +487,15 @@
       "revision": 2
     },
     "jp-058-P01": {
-      "source_commit_sha": "dda29699705dcdf9ced993bca06316e1085a15e9",
+      "source_commit_sha": "d3e019433a7516773f39c764ab09fe70810dec25",
       "source_path": "data/v2/opportunities/jp-058-P01.json",
-      "source_blob_sha": "e43e7cc7736c99c9b0c9001eab848f6464f72de5",
+      "source_blob_sha": "ecc1966741b50e6fb4ae92c0fd7c3f79a71a0b19",
       "revision": 2
     },
     "jp-059-P01": {
-      "source_commit_sha": "dda29699705dcdf9ced993bca06316e1085a15e9",
+      "source_commit_sha": "d3e019433a7516773f39c764ab09fe70810dec25",
       "source_path": "data/v2/opportunities/jp-059-P01.json",
-      "source_blob_sha": "33db1b892d5bb3f168c1a6722b121262f8ddc685",
+      "source_blob_sha": "f419df47e6534b094d77b05c0b5c30235c4671d8",
       "revision": 2
     },
     "jp-060-P01": {
@@ -2215,9 +2215,9 @@
       "revision": 2
     },
     "us-040-P01": {
-      "source_commit_sha": "7a77bea62a609a861b725288f53036e10b750ac9",
+      "source_commit_sha": "d3e019433a7516773f39c764ab09fe70810dec25",
       "source_path": "data/v2/opportunities/us-040-P01.json",
-      "source_blob_sha": "1a7b40984d5942311a16590ae071bd024480e959",
+      "source_blob_sha": "830ec90228720a9ab544ab9d3f93ac66ab7aa120",
       "revision": 2
     },
     "us-041-P01": {
@@ -2239,9 +2239,9 @@
       "revision": 3
     },
     "us-046-P01": {
-      "source_commit_sha": "7a77bea62a609a861b725288f53036e10b750ac9",
+      "source_commit_sha": "d3e019433a7516773f39c764ab09fe70810dec25",
       "source_path": "data/v2/opportunities/us-046-P01.json",
-      "source_blob_sha": "8e55bcebe304066be6ab44b95ced25a4ab6d40cf",
+      "source_blob_sha": "2b7c733563f34bc1e7ddceab452b7afa0929d086",
       "revision": 3
     },
     "us-047-P01": {
@@ -2305,9 +2305,9 @@
       "revision": 3
     },
     "us-055-P02": {
-      "source_commit_sha": "7a77bea62a609a861b725288f53036e10b750ac9",
+      "source_commit_sha": "d3e019433a7516773f39c764ab09fe70810dec25",
       "source_path": "data/v2/opportunities/us-055-P02.json",
-      "source_blob_sha": "fb325783ee951248913903c9568d293cc195b243",
+      "source_blob_sha": "fd9322ff69ea68cc42cf90b9750a05703f897660",
       "revision": 3
     },
     "us-056-P01": {
@@ -2317,9 +2317,9 @@
       "revision": 3
     },
     "us-057-P01": {
-      "source_commit_sha": "7a77bea62a609a861b725288f53036e10b750ac9",
+      "source_commit_sha": "d3e019433a7516773f39c764ab09fe70810dec25",
       "source_path": "data/v2/opportunities/us-057-P01.json",
-      "source_blob_sha": "68628f05c39c8a062389e319c91f30dc66f03765",
+      "source_blob_sha": "a8053b58efa63dc3283ac6d5d9de2d8b41a72a43",
       "revision": 3
     },
     "us-059-P01": {
@@ -31794,6 +31794,31 @@
               "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
               "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
             }
+          },
+          {
+            "id": "C-jp-056-P01-04",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-056-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+              "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+              "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
+            }
           }
         ]
       },
@@ -32330,6 +32355,31 @@
               "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
               "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
             }
+          },
+          {
+            "id": "C-jp-058-P01-04",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-058-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+              "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+              "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
+            }
           }
         ]
       },
@@ -32596,6 +32646,31 @@
               "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
               "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
               "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+            }
+          },
+          {
+            "id": "C-jp-059-P01-04",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-059-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+              "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+              "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
             }
           }
         ]
@@ -117507,9 +117582,9 @@
         "ja": "Piers Park・Boston skyline＋Harbor全景"
       },
       "description_i18n": {
-        "zh-TW": "Piers Park・Boston skyline＋Harbor全景（V1 最佳時段：白天至暮色可見光；以Piers Park／East Boston waterfront公共區域實際可使用狀態為準；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
-        "en": "Piers Park・Boston skyline＋Harbor全景 (V1 best time: 白天至暮色可見光；以Piers Park／East Boston waterfront公共區域實際可使用狀態為準; V1 season: 全年 V1 migration skeleton; content to be refined in round 2.)",
-        "ja": "Piers Park・Boston skyline＋Harbor全景（V1ベスト時間帯: 白天至暮色可見光；以Piers Park／East Boston waterfront公共區域實際可使用狀態為準；V1季節: 全年。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+        "zh-TW": "Piers Park・Boston skyline＋Harbor全景（V1 最佳時段：日沒後藍調時刻（日沒後約 20–50 分；對應必要判據 blue_hour_window 太陽仰角 −4°～−8°）；以Piers Park／East Boston waterfront公共區域實際可使用狀態為準；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
+        "en": "Piers Park・Boston skyline＋Harbor全景 (V1 best time: blue hour after sunset (about 20-50 minutes post-sunset; matches the required blue_hour_window criterion, sun elevation -4 to -8 deg)；以Piers Park／East Boston waterfront公共區域實際可使用狀態為準; V1 season: 全年 V1 migration skeleton; content to be refined in round 2.)",
+        "ja": "Piers Park・Boston skyline＋Harbor全景（V1ベスト時間帯: 日没後のブルーアワー（日没後約20〜50分。必須条件 blue_hour_window、太陽高度-4〜-8°に対応）；以Piers Park／East Boston waterfront公共區域實際可使用狀態為準；V1季節: 全年。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
       },
       "camera_contexts": [
         {
@@ -118783,7 +118858,7 @@
             "capability": "CONDITIONS",
             "metric": "cloud_cover_low",
             "operator": "lte",
-            "threshold": null,
+            "threshold": 30,
             "unit": "%",
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
@@ -118792,12 +118867,17 @@
             "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
             "validation_status": "provisional",
             "condition_tier": "MAIN",
-            "threshold_source": "formula_derived",
+            "threshold_source": "evidence_review",
             "calibration_status": "provisional",
             "rationale_i18n": {
               "zh-TW": "低雲量 ≤30%（2026-10-26 owner 修正，取代原總雲 70%）：俯瞰的主體在地面，真正擋住目標的是雲底低於視線路徑的低雲/霧層；高卷雲飄在天空是構圖元素、不該否決。總雲判據物理上分不開這兩種情況（65% 全低雲幕全景已毀、85% 全高雲全景很好），故改以 cloud_cover_low 為主判據，中高雲退出否決鏈。30% 語意：目標區上空基本淨空、允許零星雲影。provisional，與 AOD 0.4 並列校準第一優先。",
               "en": "Low cloud <= 30% (owner correction 2026-10-26, replacing the original 70% total-cloud gate): the subject of an overlook lies on the ground, and what actually blocks it is low cloud/fog with a base below the sightline; high cirrus floats in the sky as a compositional element and must not veto. A total-cloud threshold cannot separate the two cases (65% all-low deck ruins the panorama, 85% all-high cloud leaves it fine), so cloud_cover_low becomes the main criterion and mid/high clouds leave the veto chain. 30% reads as 'target area essentially clear, scattered cloud shadows allowed'. Provisional, top calibration priority alongside AOD 0.4.",
               "ja": "下層雲≤30%（2026-10-26 オーナー修正、従来の全雲量70%に代わる）。俯瞰の主題は地面にあり、邪魔するのは視線より低い雲底の下層雲/霧。高層雲は構図要素で否決しない。全雲量では両者を区別できないため cloud_cover_low を主判断とし、中上層雲は否決チェーンから外す。30%は「対象域ほぼ晴透、点在する雲影は許容」。暫定値。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-09 CL-DATA-50：補回 2026-10-26 owner 修正明載於理由文字的 verified threshold（≤30%）——threshold 由 null 修正為 30，threshold_source 由 formula_derived（null 無從推導）改為 evidence_review（owner 修正註記）。判據語意不變。",
+              "en": "2026-11-09 CL-DATA-50: fills the verified threshold (<=30%) that the 2026-10-26 owner correction already states in the rationale - threshold corrected from null to 30, threshold_source from formula_derived (a null cannot be derived) to evidence_review (owner-correction note). Criterion semantics unchanged.",
+              "ja": "2026-11-09 CL-DATA-50：理由文に明記された 2026-10-26 オーナー修正の検証済み閾値（≤30%）を補完——threshold を null から 30 に、threshold_source を formula_derived（nullは導出不能）から evidence_review（オーナー修正注記）に修正。判定内容は不変。"
             }
           },
           {
@@ -121988,14 +122068,14 @@
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。",
-              "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
-              "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
+              "zh-TW": "低角度暖光打在冰面上：白冰染成粉金色、陰裂冰隙出影，冰壁與周邊峰稜立體感最強——加分項，非必要。",
+              "en": "Low-angle warm light on the glacier: white ice takes on rose-gold tone, crevasses gain shadow depth, and the ice walls with the surrounding peaks gain the most dimension - bonus, not required.",
+              "ja": "低い角度の暖かい光が氷河面を染める：白い氷が桃金色になり、クレバスに影が入って氷壁と周囲の山が最も立体感を増す——加点項目、必須ではない。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+              "zh-TW": "2026-11-09 CL-DATA-50：原 golden_hour 理由誤含 geological_landform 模板殘留（sedimentary layers／拱門逆光——Root Glacier 無沉積岩層與拱門），依實際題材（冰河）重寫；窗口語意不變。",
+              "en": "2026-11-09 CL-DATA-50: the original golden_hour rationale carried geological_landform template residue (sedimentary layers / backlit arches - Root Glacier has neither), rewritten for the actual glacier subject; window semantics unchanged.",
+              "ja": "2026-11-09 CL-DATA-50：元の golden_hour 理由に geological_landform テンプレートの残片（堆積層・逆光のアーチ、Root Glacier には存在しない）が混入していたため、実題材（氷河）に合わせて書き直し。窓の意味は不変。"
             }
           },
           {
@@ -122567,14 +122647,14 @@
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。",
-              "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
-              "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
+              "zh-TW": "低角度暖光為地標照加色：北極圈標誌牌正面受光最鮮明，背景 Brooks Range 山稜染金、與暮色天空分層——加分項，非必要。",
+              "en": "Low-angle warm light flatters the landmark shot: the Arctic Circle sign faces the light at its most vivid, with the Brooks Range backdrop turning gold and layered against the dusk sky - bonus, not required.",
+              "ja": "低い角度の暖かい光がランドマーク写真に彩りを添える：北極圏標識は正面光で最も鮮明になり、背後のブルックス山脈が金色に染まり、夕暮れの空と層を作る——加点項目、必須ではない。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+              "zh-TW": "2026-11-09 CL-DATA-50：原 golden_hour 理由誤含 geological_landform 模板殘留（sedimentary layers／拱門逆光——北極圈標誌無岩層無拱門），依實際題材（地標照）重寫；窗口語意不變。",
+              "en": "2026-11-09 CL-DATA-50: the original golden_hour rationale carried geological_landform template residue (sedimentary layers / backlit arches - the Arctic Circle sign has neither), rewritten for the actual landmark subject; window semantics unchanged.",
+              "ja": "2026-11-09 CL-DATA-50：元の golden_hour 理由に geological_landform テンプレートの残片（堆積層・逆光のアーチ、北極圏標識には存在しない）が混入していたため、実題材（ランドマーク）に合わせて書き直し。窓の意味は不変。"
             }
           },
           {
