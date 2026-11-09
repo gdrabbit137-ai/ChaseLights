@@ -93,7 +93,7 @@ async function goto(path,locale,viewport){
 const openResearch=async()=>{
   await evaljs(`document.readyState==='complete'?1:new Promise(r=>addEventListener('load',()=>r(1)))`);
   const shown = await evaljs(`new Promise(r=>{let n=0;const t=setInterval(()=>{
-    if(document.querySelectorAll('.place-button').length===261){clearInterval(t);r(true);return}
+    if(document.querySelectorAll('.place-button').length===350){clearInterval(t);r(true);return}
     if(++n%10===0)document.querySelector('#browse-research')?.click()},100);setTimeout(()=>{clearInterval(t);r(false)},20000)})`);
   if(!shown) console.log('# body:',String(await evaljs(`document.body.innerText.slice(0,400)`)).replace(/\n/g,' | '));
 };
@@ -103,9 +103,9 @@ const expect=async(name,expr,detail)=>{ check(name,await evaljs(expr),detail); }
   for(const locale of ['zh-TW','en','ja']){
     await goto('/',locale,'desktop');
     await openResearch();
-    check(`${locale}: 261 place buttons`,await evaljs(`document.querySelectorAll('.place-button').length===261`));
+    check(`${locale}: 350 place buttons`,await evaljs(`document.querySelectorAll('.place-button').length===350`));
     check(`${locale}: honest place count`,await evaljs(
-      `document.querySelector('#place-count').textContent===${JSON.stringify({'zh-TW':'符合景點: 261',en:'Matching places: 261',ja:'一致する撮影地: 261'}[locale])}`));
+      `document.querySelector('#place-count').textContent===${JSON.stringify({'zh-TW':'符合景點: 350',en:'Matching places: 350',ja:'一致する撮影地: 350'}[locale])}`));
     await expect(`${locale}: no scores on research view`,'!document.querySelector(".score")');
     await expect(`${locale}: no navigation buttons`,
       `![...document.querySelectorAll("#research-browser .nav-action")].some(a=>/maps|google\\.com\\/maps|directions/i.test(a.href||''))`);
@@ -134,7 +134,7 @@ const expect=async(name,expr,detail)=>{ check(name,await evaljs(expr),detail); }
   await evaljs(`const cb=document.querySelector('#topic-options input[value="topic:colorful-clouds"]');cb.checked=true;cb.dispatchEvent(new Event('change',{bubbles:true}))`);
   await sleep(300);
   const filtered=await evaljs(`document.querySelectorAll('.place-button').length`);
-  check('topic filter narrows places',filtered>0&&filtered<261,`visible=${filtered}`);
+  check('topic filter narrows places',filtered>0&&filtered<350,`visible=${filtered}`);
   // Mobile smoke.
   await goto('/','zh-TW','mobile');
   await openResearch();
