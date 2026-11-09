@@ -1,0 +1,553 @@
+{
+ "evaluation_bundle_version": "0.1.0",
+ "generated_at": "2026-11-09T16:44:23Z",
+ "forecast_hours": 168,
+ "guidance_only": true,
+ "live_recommendation": false,
+ "calibration_status": "PROVISIONAL_THRESHOLDS",
+ "provider": {
+  "name": "Open-Meteo",
+  "licence": "CC BY 4.0",
+  "urls": {
+   "terms": "https://open-meteo.com/en/terms",
+   "licence": "https://open-meteo.com/en/licence"
+  }
+ },
+ "limitations_i18n": {
+  "zh-TW": "評估結果為 GUIDANCE 参考：門檻為 provisional/approved 題材模板值，未經實拍校準，永不構成 FAVORABLE 保證。湖面狀態與花季窗口暫無即時觀測來源（標記 UNKNOWN）。天氣為網格預報，不代表拍攝點實況。",
+  "en": "Results are GUIDANCE only: thresholds are provisional/approved genre-template values, not calibrated against real shoots, and never constitute a FAVORABLE guarantee. Water-surface state and seasonal windows have no live observation source (UNKNOWN). Weather is grid forecast data, not on-site conditions.",
+  "ja": "評価結果はGUIDANCE参考値です: 閾値は暫定/承認済みテンプレート値で、実写検証されておらず、FAVORABLE保証にはなりません。水面状態と開花窗口は観測ソースがなくUNKNOWN。天気はグリッド予報であり現地実況ではありません。"
+ },
+ "place_count": 1,
+ "opportunity_count": 1,
+ "fetch_failures": [],
+ "skipped": [],
+ "provider_runs_count": 1,
+ "places": [
+  {
+   "place_id": "us-123",
+   "coordinate": [
+    39.0975,
+    -106.9886
+   ],
+   "coordinate_source": "camera_context_provisional",
+   "timezone_display": {
+    "iana": "America/Denver",
+    "utc_offset_hours": -7,
+    "status": "DISPLAY_APPROXIMATION"
+   },
+   "provider_run": {
+    "run_id": "om-39.0975--106.9886-2026-11-09T16:44:23Z",
+    "provider": "open-meteo",
+    "source": "https://api.open-meteo.com/v1/forecast?latitude=39.097500&longitude=-106.988600&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
+    "issued_at": "2026-11-09T16:44:23Z",
+    "valid_at": "2026-11-09T16:00:00Z",
+    "freshness": "FRESH",
+    "grid": {
+     "latitude": 39.09005,
+     "longitude": -106.97747,
+     "elevation_m": 3626.0
+    }
+   },
+   "opportunities": [
+    {
+     "opportunity_id": "us-123-P01",
+     "name_i18n": {
+      "zh-TW": "褐鈴山湖鏡倒影",
+      "en": "Maroon Bells lake mirror",
+      "ja": "マルーン・ベルズの湖面鏡写"
+     },
+     "genre_template": "reflection",
+     "condition_contract_id": "CC-us-123-P01-v1",
+     "condition_contract_sha256": "94daa069b6c3b36cfb7ccbdc266e167af4a33df12bbd4bb9706fdfabbb339414",
+     "days": [
+      {
+       "local_date": "2026-11-09",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 8,
+        "NOT_EVALUABLE": 7
+       },
+       "conditions": [
+        {
+         "id": "C-us-123-P01-01",
+         "metric": "wind_speed_10m",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 11
+        },
+        {
+         "id": "C-us-123-P01-02",
+         "metric": "water_surface_state",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-us-123-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 15
+        },
+        {
+         "id": "C-us-123-P01-04",
+         "metric": "cloud_cover_total",
+         "tier": "BONUS",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 15
+        },
+        {
+         "id": "C-us-123-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 8
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-10",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 24,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-us-123-P01-01",
+         "metric": "wind_speed_10m",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 1
+        },
+        {
+         "id": "C-us-123-P01-02",
+         "metric": "water_surface_state",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-us-123-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-04",
+         "metric": "cloud_cover_total",
+         "tier": "BONUS",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 10
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-11",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 19,
+        "NOT_EVALUABLE": 5
+       },
+       "conditions": [
+        {
+         "id": "C-us-123-P01-01",
+         "metric": "wind_speed_10m",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 15
+        },
+        {
+         "id": "C-us-123-P01-02",
+         "metric": "water_surface_state",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-us-123-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-04",
+         "metric": "cloud_cover_total",
+         "tier": "BONUS",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 10
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-12",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 16,
+        "NOT_EVALUABLE": 8
+       },
+       "conditions": [
+        {
+         "id": "C-us-123-P01-01",
+         "metric": "wind_speed_10m",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 22
+        },
+        {
+         "id": "C-us-123-P01-02",
+         "metric": "water_surface_state",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-us-123-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-04",
+         "metric": "cloud_cover_total",
+         "tier": "BONUS",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 10
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-13",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 15,
+        "NOT_EVALUABLE": 9
+       },
+       "conditions": [
+        {
+         "id": "C-us-123-P01-01",
+         "metric": "wind_speed_10m",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 14
+        },
+        {
+         "id": "C-us-123-P01-02",
+         "metric": "water_surface_state",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-us-123-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-04",
+         "metric": "cloud_cover_total",
+         "tier": "BONUS",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 10
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-14",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 18,
+        "NOT_EVALUABLE": 6
+       },
+       "conditions": [
+        {
+         "id": "C-us-123-P01-01",
+         "metric": "wind_speed_10m",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 14
+        },
+        {
+         "id": "C-us-123-P01-02",
+         "metric": "water_surface_state",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-us-123-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-04",
+         "metric": "cloud_cover_total",
+         "tier": "BONUS",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 10
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-15",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 19,
+        "NOT_EVALUABLE": 5
+       },
+       "conditions": [
+        {
+         "id": "C-us-123-P01-01",
+         "metric": "wind_speed_10m",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 12
+        },
+        {
+         "id": "C-us-123-P01-02",
+         "metric": "water_surface_state",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-us-123-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-04",
+         "metric": "cloud_cover_total",
+         "tier": "BONUS",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 24
+        },
+        {
+         "id": "C-us-123-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 10
+        }
+       ]
+      },
+      {
+       "local_date": "2026-11-16",
+       "state": "UNFAVORABLE",
+       "good_hours": [],
+       "hour_counts": {
+        "GUIDANCE_SATISFIED": 0,
+        "UNFAVORABLE": 9,
+        "NOT_EVALUABLE": 0
+       },
+       "conditions": [
+        {
+         "id": "C-us-123-P01-01",
+         "metric": "wind_speed_10m",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "FAIL",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-us-123-P01-02",
+         "metric": "water_surface_state",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "UNKNOWN",
+         "pass_hours": 0
+        },
+        {
+         "id": "C-us-123-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PASS",
+         "pass_hours": 9
+        },
+        {
+         "id": "C-us-123-P01-04",
+         "metric": "cloud_cover_total",
+         "tier": "BONUS",
+         "role": "QUALITY",
+         "day_verdict": "PASS",
+         "pass_hours": 9
+        },
+        {
+         "id": "C-us-123-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "day_verdict": "PARTIAL",
+         "pass_hours": 2
+        }
+       ]
+      }
+     ],
+     "live": {
+      "now": {
+       "utc": "2026-11-09T17:00:00Z",
+       "local": "2026-11-09 10:00",
+       "status": "NOT_EVALUABLE",
+       "conditions": [
+        {
+         "id": "C-us-123-P01-01",
+         "metric": "wind_speed_10m",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lte",
+         "threshold": 2,
+         "value": 1.5,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-us-123-P01-02",
+         "metric": "water_surface_state",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "none",
+         "threshold": null,
+         "value": null,
+         "verdict": "UNKNOWN"
+        },
+        {
+         "id": "C-us-123-P01-03",
+         "metric": "precipitation",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "lt",
+         "threshold": 0.2,
+         "value": 0.0,
+         "verdict": "PASS"
+        },
+        {
+         "id": "C-us-123-P01-04",
+         "metric": "cloud_cover_total",
+         "tier": "BONUS",
+         "role": "QUALITY",
+         "operator": "between",
+         "threshold": [
+          20,
+          60
+         ],
+         "value": 0.0,
+         "verdict": "FAIL"
+        },
+        {
+         "id": "C-us-123-P01-LW1",
+         "metric": "light_window",
+         "tier": "MAIN",
+         "role": "REQUIRED",
+         "operator": "none",
+         "threshold": null,
+         "value": "satisfied",
+         "verdict": "PASS"
+        }
+       ]
+      },
+      "next_good": null
+     }
+    }
+   ],
+   "name_i18n": {
+    "zh-TW": "褐鈴山（馬倫湖倒影）",
+    "en": "Maroon Bells (Maroon Lake mirror)",
+    "ja": "マルーン・ベルズ"
+   }
+  }
+ ]
+}
