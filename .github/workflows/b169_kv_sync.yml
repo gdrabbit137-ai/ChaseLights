@@ -1,0 +1,79 @@
+name: b169_kv_sync
+
+# CL-API-01: after the scheduled evaluation regeneration, distill
+# evaluations-latest.json into per-place RESULTS (no thresholds/formulas)
+# and upload to Cloudflare KV for the chaselights-api worker.
+# Fail-closed: without the CHASELIGHTS_CF_API_TOKEN secret this workflow
+# skips (the API keeps serving the last synced data; never partial writes).
+
+on:
+  schedule:
+    - cron: "30 2 * * *"   # after the scheduled evaluation regen completes
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: b169-kv-sync
+  cancel-in-progress: false
+
+jobs:
+  distill-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fail-closed token check
+        id: token
+        run: |
+          if [ -z "${{ secrets.CHASELIGHTS_CF_API_TOKEN }}" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::CHASELIGHTS_CF_API_TOKEN secret not set — skipping KV sync (TODO owner: create the secret)"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Fetch latest evaluations bundle
+        if: steps.token.outputs.skip == 'false'
+        run: |
+          curl -fsSL --retry 3 -o evaluations-latest.json \
+            "https://chaselights.app/evaluations-latest.json?nc=$GITHUB_RUN_ID"
+          python3 -c "import json;d=json.load(open('evaluations-latest.json'));print('bundle',d['generated_at'],d['place_count'],'places')"
+
+      - name: Distill to per-place results
+        if: steps.token.outputs.skip == 'false'
+        run: python3 scripts/kv_distill.py evaluations-latest.json distilled.json
+
+      - name: Upload to Cloudflare KV
+        if: steps.token.outputs.skip == 'false'
+        shell: python3 {0}
+        run: |
+          import json, os, urllib.request
+          token = os.environ["CHASELIGHTS_CF_API_TOKEN"]
+          account = os.environ["CF_ACCOUNT_ID"]
+          ns = os.environ["CF_KV_NAMESPACE_ID"]
+          data = json.load(open("distilled.json"))
+          base = f"https://api.cloudflare.com/client/v4/accounts/{account}/storage/kv/namespaces/{ns}/bulk"
+          def put(path, value):
+            req = urllib.request.Request(
+                f"https://api.cloudflare.com/client/v4/{path}",
+                data=json.dumps({"value": value}).encode(),
+                headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+                method="PUT")
+            with urllib.request.urlopen(req) as r:
+                if r.status != 200:
+                    raise SystemExit(f"KV put failed: {r.status}")
+          put(f"accounts/{account}/storage/kv/namespaces/{ns}/values/v1%3Aevals%3Aindex",
+              json.dumps(data["index"], ensure_ascii=False, separators=(",", ":")))
+          for pid, rec in data["places"].items():
+              put(f"accounts/{account}/storage/kv/namespaces/{ns}/values/v1%3Aevals%3A{pid}",
+                  json.dumps(rec, ensure_ascii=False, separators=(",", ":")))
+          print(f"uploaded index + {len(data['places'])} places to KV")
+        env:
+          CHASELIGHTS_CF_API_TOKEN: ${{ secrets.CHASELIGHTS_CF_API_TOKEN }}
+          CF_ACCOUNT_ID: "218303e56b40f3bc72f70bcc975fda64"
+          CF_KV_NAMESPACE_ID: "330ba59f50bc47e7b5aef11d7da059c6"
+
+      # Local verification recipe (not run in CI):
+      #   npx wrangler kv key get --namespace-id=330ba59f50bc47e7b5aef11d7da059c6 "v1:evals:index"
