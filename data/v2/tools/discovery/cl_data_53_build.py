@@ -471,6 +471,8 @@ PLACES = [ dict(place_id="us-119", region="us", slug="the-wave", score=4.9,
     desc_ja="8.2マイルの道の頂から700平方マイルの氷原を一望（NPS）。デナリやキーストーン峡谷とは題材が別。")]),
 ]
 
+RESTRICTED_ACCESS = {"us-119", "us-127", "us-130", "us-132", "us-134", "us-147", "us-148", "us-155", "us-158"}  # permit/hard-access, honestly labeled (not scored)
+
 cl.TYPICAL_WINDOWS.update({k: v["window"] for k, v in SEASONS_53.items()})
 cl.SEASON_NAMES.update({k: v["name"] for k, v in SEASONS_53.items()})
 cl.SEASONAL_SOURCES.update({k: v["src"] for k, v in SEASONS_53.items()})
@@ -700,7 +702,7 @@ def main():
             "lat": p["lat"], "lon": p["lon"], "elev_m": p["elev_m"],
             "coord_confidence": p["coord_conf"], "coord_source": p["coord_source"],
             "sources": p["coord_sources"], "subjects": [s["zh"] for s in p["subjects"]],
-            "access_restricted": "access_i18n" in p, "ticket": TICKET})
+            "access_restricted": ("access_i18n" in p) or p["place_id"] in RESTRICTED_ACCESS, "ticket": TICKET})
         ev["evidence"].append({
             "id": f"e-d53-web-{p['slug']}", "grade": "B",
             "kind": "official_or_wikipedia_text",
