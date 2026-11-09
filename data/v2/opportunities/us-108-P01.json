@@ -38,9 +38,9 @@
     "e-d38-access-glacier-np"
    ],
    "access_notes_i18n": {
-    "zh-TW": "公共交通抵達與道路狀況依 Alaska DNR/當地公告為準；夜間停車與極光守候請遵守安全指引。",
-    "en": "Road and access conditions follow Alaska DNR / local notices; observe night parking and aurora-waiting safety guidance.",
-    "ja": "道路・アクセス状況はAlaska DNR・現地の公告に従う。夜間の駐車・待機は安全指示に従う。"
+    "zh-TW": "公共交通抵達與道路狀況依 Alaska DNR/當地公告為準；夜間停車與極光守候請遵守安全指引。極光本體可見性由即時 aurora_state（NOAA OVATION）判定，未連線前誠實 fail-closed；本契約僅評估夜窗與天氣狀態。",
+    "en": "Road and access conditions follow Alaska DNR / local notices; observe night parking and aurora-waiting safety guidance. Actual aurora visibility is judged by the live aurora_state (NOAA OVATION) provider and stays fail-closed until that link is connected; this contract evaluates only the night window and weather state.",
+    "ja": "道路・アクセス状況はAlaska DNR・現地の公告に従う。夜間の駐車・待機は安全指示に従う。オーロラ自体の可視性はNOAA OVATIONのaurora_stateにより判定し、未接続時はfail-closed。本契約は夜窓と天気状態のみ評価。"
    },
    "safety_notes_i18n": {
     "zh-TW": "請依現場安全指示行動。",
