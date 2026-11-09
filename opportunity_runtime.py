@@ -859,6 +859,17 @@ ASTRONOMY_EPHEMERIS_PROFILES = {
     "tw-093-P02": {"mode": "milky_way_or_star_field"},
     "tw-094-P01": {"mode": "milky_way_or_star_field"},
     "tw-095-P01": {"mode": "milky_way_or_star_field"},
+    # CL-DATA-55 re-anchor: dark-sky admissions without configured profiles
+    "jp-089-P01": {"mode": "milky_way_or_star_field"},
+    "jp-090-P01": {"mode": "milky_way_or_star_field"},
+    "us-097-02": {"mode": "milky_way_or_star_field"},
+    "us-100-02": {"mode": "milky_way_or_star_field"},
+    "us-106-02": {"mode": "milky_way_or_star_field"},
+    "us-108-01": {"mode": "milky_way_or_star_field"},
+    "us-112-01": {"mode": "milky_way_or_star_field"},
+    "us-115-01": {"mode": "milky_way_or_star_field"},
+    "us-149-P01": {"mode": "milky_way_or_star_field"},
+    "us-153-P01": {"mode": "milky_way_or_star_field"},
 }
 
 

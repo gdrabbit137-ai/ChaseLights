@@ -189,8 +189,8 @@ def test_adapter_integrity():
     )
 
     tw = get_spots("tw")
-    assert len(tw) == 98
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 99)]
+    assert len(tw) == 120
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 121)]
     assert PRODUCT_STATUS_BY_SPOT["tw-063"] == "retired"
     # CL-DATA-25R: v1-built but v2-rejected places (<3.8) retired, ids reserved
     assert set(PRODUCT_STATUS_BY_SPOT) == {
@@ -1880,7 +1880,7 @@ def test_adapter_integrity():
     water_surface_profiles = [
         o for o in all_opportunities if o["formula_status"] == "needs_water_surface_module"
     ]
-    assert len(water_surface_profiles) == 9  # re-anchored CL-DATA-32: +jp-051-P01 +jp-054-P01 +jp-061-P01 (9 measured on the merged 477-opp catalog)
+    assert len(water_surface_profiles) == 25  # re-anchored CL-DATA-55: water-surface opportunities admitted through the 595-opp catalog
     assert all(runtime_policy(o) == "preview_module_available" for o in water_surface_profiles)
 
     calm = evaluate_water_surface({"wind": 1.4, "precipitation": 0.0, "pop": 15})
@@ -1929,6 +1929,8 @@ def test_adapter_integrity():
         "tw-019-P06", "tw-040-P03", "tw-041-P05", "tw-044-P03",
         # re-anchored CL-DATA-25: juhyo / drift-ice admissions
         "jp-038-P01", "jp-038-P02", "jp-041-P01", "jp-042-P01", "jp-047-P01",
+        # re-anchored CL-DATA-55: jp-068-P02 + us-134-P01 snow admissions
+        "jp-068-P02", "us-134-P01",
     }
     assert all(runtime_policy(o) == "preview_module_available" for o in snow_profiles)
 
@@ -2901,8 +2903,8 @@ def test_adapter_integrity():
 
     # B174 extends the fully curated Japan production set through jp-036.
     jp = get_spots("jp")
-    assert len(jp) == 64  # re-anchored CL-DATA-32: jp-051..jp-064 admitted
-    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 65) if i != 50)  # CL-DATA-25R: jp-050 retired
+    assert len(jp) == 91  # re-anchored CL-DATA-55: jp-065..jp-091 admitted
+    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 92) if i != 50)  # CL-DATA-25R: jp-050 retired
 
     nanzilin = next(s for s in tw if s["spot_id"] == "tw-085")
     assert nanzilin["navigation_target"]["status"] == "verified"
@@ -3714,7 +3716,7 @@ def test_adapter_integrity():
 
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 97)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 159)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
     us006 = get_opportunities("us", "us-006")
@@ -4616,7 +4618,7 @@ def test_active_catalog_weather_generation_guard():
     # B51 completes Japan migration: every production Japan Place is researched.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 65) if i != 50}  # re-anchored CL-DATA-25R/32: jp-037..jp-049, jp-051..064 admitted, jp-050 retired (v2 3.30 < 3.8)
+    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 92) if i != 50}  # re-anchored CL-DATA-25R/32: jp-037..jp-049, jp-051..064 admitted, jp-050 retired (v2 3.30 < 3.8)
     assert all(spot.get("opportunities") for spot in jp_spots if active_in_catalog(spot["spot_id"]))  # retired jp-050 stays unresearched by design
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
@@ -4782,7 +4784,7 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 97)}
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 159)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots
