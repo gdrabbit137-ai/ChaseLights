@@ -39,7 +39,7 @@ def load_contract(oid):
 class TestRegions(unittest.TestCase):
     def test_us_catalog_grew_and_nothing_removed(self):
         spots = regions.REGIONS["us"]["spots"]
-        self.assertEqual(len(spots), 118)
+        self.assertEqual(len(spots), 158)  # re-anchored CL-DATA-53 (40 Gemini US intake; no removals)
         self.assertEqual(spots[0][3], "Grand Canyon National Park")
         self.assertEqual(spots[105][3], "Big Bend NP – Santa Elena Canyon")
         self.assertEqual(spots[106][6], "阿拉斯加")

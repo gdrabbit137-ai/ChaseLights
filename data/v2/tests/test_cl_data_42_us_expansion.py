@@ -44,7 +44,7 @@ class TestRegions(unittest.TestCase):
     def test_us_catalog_grew_and_nothing_removed(self):
         spots = regions.REGIONS["us"]["spots"]
         # GROWTH-ONLY: the pre-42 head tuples must all still be present
-        self.assertEqual(len(spots), 118)  # re-anchored CL-DATA-43 (growth-only AK/HI first batch: no removals)
+        self.assertEqual(len(spots), 158)  # re-anchored CL-DATA-53 (40 Gemini US intake us-119..us-158; growth-only, no removals)
         self.assertEqual(spots[0][3], "Grand Canyon National Park")
 
     def test_new_admin_areas(self):
