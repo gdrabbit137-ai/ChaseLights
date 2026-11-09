@@ -1,0 +1,400 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "us-106-P02",
+ "place_id": "us-106",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "聖埃倫娜銀河／星空",
+  "en": "Santa Elena Milky Way / star field",
+  "ja": "サンタ・エレナの銀河／星空"
+ },
+ "description_i18n": {
+  "zh-TW": "里奧格蘭德切割的 1,500 呎石灰岩峽壁；沙漠透明夜空與峽壁反光都吃大氣狀態。",
+  "en": "Rio Grande-carved 1,500-ft limestone canyon walls; both the desert-transparent night sky and the canyon-wall glow ride on atmospheric state.",
+  "ja": "リオグランデが切った1,500フィートの石灰岩峡壁。砂漠の透明な夜空も峡壁の陽炎も大気状態が左右する。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-us-106-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -103.6106,
+      29.1679
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-42 admission web verification 2026-11-09; source: https://tpwd.texas.gov/huntwild/wildlife/wildlife-trails/fwtx/big-bend-loop (Latitude 29.1679, Longitude -103.6106) + https://www.nps.gov/bibe/planyourvisit/secyn.htm, retrieved 2026-11-09",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "verified",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "開放/營運/季節道路封閉（如 Skyline Drive 冬季封閉、Cadillac 日出車輛預約季節窗）依美國國家公園署（NPS）當期公告為準。",
+    "en": "Opening status, operations and seasonal road closures (e.g. Skyline Drive winter closure, Cadillac sunrise vehicle-reservation season) follow the current NPS published schedule.",
+    "ja": "開放状況・季節的道路規制（スカイライン・ドライブ冬季閉鎖、キャディラック山サンライズ車両予約の季節窓など）はNPSの現在の公告に従う。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-us-106-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "聖埃倫娜銀河／星空",
+    "en": "Santa Elena Milky Way / star field",
+    "ja": "サンタ・エレナの銀河／星空"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -103.6106,
+      29.1679
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-42 admission web verification 2026-11-09; source: https://tpwd.texas.gov/huntwild/wildlife/wildlife-trails/fwtx/big-bend-loop (Latitude 29.1679, Longitude -103.6106) + https://www.nps.gov/bibe/planyourvisit/secyn.htm, retrieved 2026-11-09",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-us-106-P02-01",
+   "camera_context_id": "CZ-us-106-P02-01",
+   "target_id": "SG-us-106-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-42 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-us-106-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 29.1679,
+   "lon": -103.6106,
+   "label_i18n": {
+    "zh-TW": "Santa Elena Canyon",
+    "en": "Santa Elena Canyon",
+    "ja": "Santa Elena Canyon"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-us-106-P02-v1",
+  "status": "draft",
+  "genre_template": "night_sky",
+  "template_version": "night_sky-v0.4",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-us-106-P02-01",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "astronomical_darkness",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-106-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "天文暮光窗（太陽高度 ≤ -18°）：星星對比的天文前提。",
+     "en": "Astronomical darkness window (sun elevation <= -18 deg): the astronomical prerequisite for stellar contrast.",
+     "ja": "天文暮色帯（太陽高度≤-18度）。恒星コントラストの天文的前提。"
+    },
+    "genre_scope": "starry_sky",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-us-106-P02-02",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_illumination_fraction",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-106-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月照 ≤50%（星空基層）：半月以下時亮星與星軌仍可拍；比銀河層（細月）寬鬆是刻意的分層。",
+     "en": "Moon illumination <= 50% (starry base): bright stars and star trails remain shootable at half moon or less; deliberately looser than the Milky-Way layer (crescent).",
+     "ja": "月照度≤50%（星空基層）。半月以下なら明るい星や星軌は撮れる。銀河層（細月）より意図的に緩い。"
+    },
+    "genre_scope": "starry_sky",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-us-106-P02-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 20,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-106-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "總雲量 ≤20%：星空是長曝主體，任何雲帶都蓋星點。",
+     "en": "Total cloud <= 20%: long exposures make any cloud band cover stars.",
+     "ja": "全雲量≤20%。長時間露光では雲帯が星を覆う。"
+    },
+    "genre_scope": "starry_sky",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-us-106-P02-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.3,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-106-P02-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD ≤0.3：氣溶膠消光吃掉星點對比，與銀河層同一上限。",
+     "en": "AOD <= 0.3: aerosol extinction eats stellar contrast; same ceiling as the Milky-Way layer.",
+     "ja": "AOD≤0.3。エアロゾル消光は星のコントラストを減らす。銀河層と同じ上限。"
+    },
+    "genre_scope": "starry_sky",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-us-106-P02-05",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "galactic_core_altitude",
+    "operator": "gte",
+    "threshold": 20,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-106-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "銀河核心高度 ≥20°：核心在地平線下的季節（台灣 11–2 月夜間）銀河不成立——此層不通僅影響銀河判定，星空基層照常評估。",
+     "en": "Galactic core altitude >= 20 deg: in seasons when the core stays below the horizon (Taiwan Nov-Feb nights) the Milky-Way layer fails; only the Milky-Way verdict is affected, the starry base is still evaluated.",
+     "ja": "銀河中心高度≥20度。中心が地平線下の季節（台湾11〜2月の夜間）は銀河層不成立。星空基層の評価には影響しない。"
+    },
+    "genre_scope": "milky_way",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-us-106-P02-06",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_altitude",
+    "operator": "lt",
+    "threshold": 0,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-106-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月亮在地平線下（<0°）：上層的首選狀態；月亮升起時改由 M3（離核心夠遠）判定。",
+     "en": "Moon below the horizon (<0 deg): the preferred upper-layer state; when the moon is up, M3 (far from the core) takes over.",
+     "ja": "月が地平線下（<0度）。上層の望ましい状態。月が昇っている場合はM3（中心から十分遠い）が判定を引き継ぐ。"
+    },
+    "genre_scope": "milky_way",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-us-106-P02-07",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_target_separation_deg",
+    "operator": "gte",
+    "threshold": 40,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-106-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月亮離銀河核心 ≥40°：細月升起但夠遠時銀河帶仍可拍；目標＝銀河核心（lunar_ephemeris 輸出）。僅在月亮升起時啟用（M2 未成立時）。",
+     "en": "Moon at least 40 deg from the galactic core: with a thin moon up but far from the core the galactic band stays shootable; target = galactic core (from lunar_ephemeris). Active only while the moon is up (when M2 is not met).",
+     "ja": "月が銀河中心から≥40度。細い月でも中心から遠ければ銀河帯は撮れる。対象＝銀河中心（lunar_ephemeris出力）。月が昇っている間のみ有効（M2未成立時）。"
+    },
+    "modifier_activation": {
+     "mode": "when_not_met",
+     "when_condition": "C-jp-021-P02-06"
+    },
+    "genre_scope": "milky_way",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-us-106-P02-08",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_illuminance_proxy",
+    "operator": "lte",
+    "threshold": 0.15,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-106-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月光照度代理 ≤0.15（月照×sin 月高）：補上重構時遺漏的月亮亮度天花板——凸月即使離核心 ≥40°，灑出的天光仍壓低銀河對比。0.15 約當「半月需在 18° 以下、20% 細月可到 50°+」的組合空間；三個月判據（M2/M3/M5）共同構成月亮約束，全部 provisional、校準第一優先。",
+     "en": "Moon illuminance proxy <= 0.15 (illumination x sin(altitude)): closes the moon-brightness ceiling lost in the restructure - a gibbous moon even >=40 deg from the core still washes out galactic contrast. 0.15 corresponds roughly to 'half moon below 18 deg, or a 20% crescent anywhere up to 50 deg'. Together M2/M3/M5 form the moon constraint set; all provisional, first calibration priority.",
+     "ja": "月光照度代理≤0.15（照度率×sin高度）。再構成時に欠けた月輝度の上限を補完。凸月は中心から≥40度でも銀河コントラストを下げる。0.15はおおよそ「半月は高度18度以下、20%の細月なら50度以上」に相当。M2/M3/M5で月の制約セットを構成。全てprovisional・較正最優先。"
+    },
+    "modifier_activation": {
+     "mode": "when_not_met",
+     "when_condition": "C-jp-021-P02-06"
+    },
+    "genre_scope": "milky_way",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "us-106-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d42-web-106"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-42 discovery admission (PM-judgment, owner rulings 2026-11-08 「找到好的直接加入」 + 2026-11-09 GROWTH-ONLY 「先擴充景點」; scenic scoring paused 2026-11-08); coordinates/elevation web-verified 2026-11-09 (sources in camera derivation_method and data/v2/audits/discovery/us-expansion-2026-11.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "provenance": {
+  "source_catalog": "CL-DATA-42 US-mainland expansion discovery (PM-judgment admission, GROWTH-ONLY)",
+  "source_revision": "cl-data-42:us-106-P02",
+  "imported_at": "2026-11-09T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ },
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ }
+}
