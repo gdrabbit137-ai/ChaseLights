@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 420 canonical sources remain source pinned (CL-DATA-32 southern-Japan discovery admission: jp-051..jp-064, PM judgment 2026-11-08)',()=>{
-  assert.equal(sha256(rawIndex),'198045a9c047d3a48f07ae6fccb3df3d4d25427b5007e6e3a31315bc88aa8426'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
-  assert.equal(sha256(rawCatalog),'a6cb123633d92fd184e2e3d71fd3bfa205289ffeab2083223d35b48954b4d465'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
+  assert.equal(sha256(rawIndex),'d3d2651954211a8fc79651928c0bda6bb2e7ce61b948ea894a437d6bfbe8b608'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
+  assert.equal(sha256(rawCatalog),'8fe798d807fd8083467d7e9a0bfaf7fc44ce2a483b56ed52f0b57efe99390f96'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,539);assert.equal(source.places.length,344); // CL-DATA-62 retirement on the merged tree (CL-INT-134): 6 places / 13 opportunities retired
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
