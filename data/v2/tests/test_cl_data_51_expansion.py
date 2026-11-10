@@ -137,15 +137,15 @@ class TestContracts(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 376)  # re-anchored CL-DATA-64 (13 new-subject-family places)
-        self.assertEqual(cat["counts"]["opportunities"], 608)
+        self.assertEqual(cat["counts"]["spots"], 370)  # merged: 376 - 6 retired
+        self.assertEqual(cat["counts"]["opportunities"], 587)
         tw = [s for s in cat["spots"] if s["spot_id"].startswith("tw-")]
-        self.assertEqual(len(tw), 119)
+        self.assertEqual(len(tw), 116)  # merged: 119 - 3 retired
 
     def test_manifest_tw_counts(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
         self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 124)
-        self.assertEqual(mf["regions"]["tw"]["counts"]["spots"], 119)
+        self.assertEqual(mf["regions"]["tw"]["counts"]["spots"], 116)
         self.assertEqual(mf["totals"], load("runtime_catalog_v004_r4_2.json")["counts"])
 
     def test_runtime_dependencies_gaps(self):
