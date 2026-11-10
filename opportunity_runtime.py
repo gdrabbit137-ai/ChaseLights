@@ -853,6 +853,13 @@ ASTRONOMY_EPHEMERIS_PROFILES = {
     "us-115-01": {"mode": "milky_way_or_star_field"},
     "us-149-P01": {"mode": "milky_way_or_star_field"},
     "us-153-P01": {"mode": "milky_way_or_star_field"},
+    # CL-DATA-64 admission: Matsu blue-tears night subjects share the same
+    # astronomical darkness + moon/light-pollution gates as the dark-sky
+    # star-field admissions above (see fail_reason_overrides copy).
+    "tw-121-P01": {"mode": "milky_way_or_star_field"},
+    "tw-122-P01": {"mode": "milky_way_or_star_field"},
+    "tw-123-P01": {"mode": "milky_way_or_star_field"},
+    "tw-124-P01": {"mode": "milky_way_or_star_field"},
 }
 
 
