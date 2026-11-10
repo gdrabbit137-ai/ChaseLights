@@ -14,17 +14,6 @@
   "en": "The solidified 1959 lava-lake floor with steaming fissures (NPS; a 4-mile loop - trail distance not scored; midday top-light shows surface texture best - honestly recorded; disjoint from the underground-tube subject of Nāhuku.)",
   "ja": "1959年噴火の溶岩湖底（NPS。約6.4kmのループ。正午の頂光で表面模様が最も鮮明）。ナフクの地下トンネルとは題材が別。"
  },
- "viewpoint_coords": {
-  "lat": 19.417,
-  "lon": -155.244,
-  "derivation_method": "CL-DATA-64 admission web verification 2026-11-10: viewpoint (NPS Hawaiʻi Volcanoes NP（Kīlauea Iki Overlook 與環線步道；1959 年噴發熔岩湖面；座標 medium（Overlook 對位））)"
- },
- "subject_coords": {
-  "lat": 19.419,
-  "lon": -155.248,
-  "derivation_method": "CL-DATA-64 admission web verification 2026-11-10: subject (NPS Hawaiʻi Volcanoes NP（Kīlauea Iki Overlook 與環線步道；1959 年噴發熔岩湖面；座標 medium（Overlook 對位））)"
- },
- "subject_distance_m": 474.8,
  "camera_contexts": [
   {
    "id": "CZ-us-163-P01-01",
@@ -74,12 +63,12 @@
     "geojson": {
      "type": "Point",
      "coordinates": [
-      -155.244,
-      19.417
+      -155.248,
+      19.419
      ]
     },
     "uncertainty_m": null,
-    "derivation_method": "CL-DATA-64 admission web verification 2026-11-10 (NPS Hawaiʻi Volcanoes NP（Kīlauea Iki Overlook 與環線步道；1959 年噴發熔岩湖面；座標 medium（Overlook 對位））; source URLs: https://www.nps.gov/havo/).",
+    "derivation_method": "CL-DATA-64 admission web verification 2026-11-10 (NPS Hawaiʻi Volcanoes NP（Kīlauea Iki Overlook 與環線步道；1959 年噴發熔岩湖面；座標 medium（Overlook 對位））; source URLs: https://www.nps.gov/havo/). subject separated from the viewpoint (owner-confirmed CL-DATA-64 semantics).",
     "source_geometry_revision": null,
     "reason_if_absent": null
    },
@@ -97,10 +86,10 @@
    "geometry_mode": "unknown",
    "azimuth_deg": null,
    "elevation_deg": null,
-   "distance_m": null,
+   "distance_m": 474.8,
    "evidence_refs": [],
-   "derivation_method": null,
-   "uncertainty_note": "CL-DATA-64 admission reference; angles and distance unknown pending field survey."
+   "derivation_method": "CL-DATA-64 admission: viewpoint(subject) separation derived from web-verified coordinates",
+   "uncertainty_note": "CL-DATA-64 admission reference; angles unknown pending field survey."
   }
  ],
  "navigation_targets": [

@@ -247,65 +247,6 @@
         }
       },
       "additionalProperties": false
-    },
-    "viewpoint_coords": {
-      "type": [
-        "object",
-        "null"
-      ],
-      "description": "CL-DATA-64 owner-confirmed viewpoint/subject separation: where the camera stands (nullable; null for general non-separated points).",
-      "required": [
-        "lat",
-        "lon"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "lat": {
-          "type": "number"
-        },
-        "lon": {
-          "type": "number"
-        },
-        "derivation_method": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
-      }
-    },
-    "subject_coords": {
-      "type": [
-        "object",
-        "null"
-      ],
-      "description": "CL-DATA-64 owner-confirmed viewpoint/subject separation: where the photographed subject is (nullable; null for general non-separated points).",
-      "required": [
-        "lat",
-        "lon"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "lat": {
-          "type": "number"
-        },
-        "lon": {
-          "type": "number"
-        },
-        "derivation_method": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
-      }
-    },
-    "subject_distance_m": {
-      "type": [
-        "number",
-        "null"
-      ],
-      "description": "CL-DATA-64: straight-line distance in metres between viewpoint and subject (nullable)."
     }
   },
   "additionalProperties": false,
@@ -965,10 +906,7 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": [
-              "arc_center_deg",
-              "arc_half_width_deg"
-            ],
+            "required": ["arc_center_deg", "arc_half_width_deg"],
             "properties": {
               "arc_center_deg": {
                 "type": "number",

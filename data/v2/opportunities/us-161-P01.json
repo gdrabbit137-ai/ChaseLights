@@ -14,17 +14,6 @@
   "en": "Lava-lake glow lighting the plume above Halemaʻumaʻu from the rim overlook, governed by USGS HVO activity state; long exposure; SO2/vog downwind caution - safety note; the park is open 24 h but rim areas may close during eruptive episodes - access follows on-site notices; disjoint from us-112's Milky-Way night-sky subject (glow there is honestly not_evaluatable) - here the lava glow itself, with a NEW REQUIRED volcanic_activity condition tied to USGS HVO status.",
   "ja": "口縁展望台からハレマウマウの溶岩湖の紅光（USGS HVOの活動状態に支配される。長時間露光。SO2・火山ガスの風下注意。公園は24時間開放だが噴火期は規制あり）。us-112の天の川とは題材が別。"
  },
- "viewpoint_coords": {
-  "lat": 19.4071,
-  "lon": -155.285,
-  "derivation_method": "CL-DATA-64 admission web verification 2026-11-10: viewpoint (NPS Hawaiʻi Volcanoes NP / Wikipedia Kīlauea（基勞亞展望台，口緣 rim；山頂標高約 1,227 m 帶；座標 medium（展望台對位））)"
- },
- "subject_coords": {
-  "lat": 19.4092,
-  "lon": -155.287,
-  "derivation_method": "CL-DATA-64 admission web verification 2026-11-10: subject (NPS Hawaiʻi Volcanoes NP / Wikipedia Kīlauea（基勞亞展望台，口緣 rim；山頂標高約 1,227 m 帶；座標 medium（展望台對位））)"
- },
- "subject_distance_m": 313.9,
  "camera_contexts": [
   {
    "id": "CZ-us-161-P01-01",
@@ -74,12 +63,12 @@
     "geojson": {
      "type": "Point",
      "coordinates": [
-      -155.285,
-      19.4071
+      -155.287,
+      19.4092
      ]
     },
     "uncertainty_m": null,
-    "derivation_method": "CL-DATA-64 admission web verification 2026-11-10 (NPS Hawaiʻi Volcanoes NP / Wikipedia Kīlauea（基勞亞展望台，口緣 rim；山頂標高約 1,227 m 帶；座標 medium（展望台對位））; source URLs: https://www.nps.gov/havo/ ; https://en.wikipedia.org/wiki/K%C4%ABlauea).",
+    "derivation_method": "CL-DATA-64 admission web verification 2026-11-10 (NPS Hawaiʻi Volcanoes NP / Wikipedia Kīlauea（基勞亞展望台，口緣 rim；山頂標高約 1,227 m 帶；座標 medium（展望台對位））; source URLs: https://www.nps.gov/havo/ ; https://en.wikipedia.org/wiki/K%C4%ABlauea). subject separated from the viewpoint (owner-confirmed CL-DATA-64 semantics).",
     "source_geometry_revision": null,
     "reason_if_absent": null
    },
@@ -97,10 +86,10 @@
    "geometry_mode": "unknown",
    "azimuth_deg": null,
    "elevation_deg": null,
-   "distance_m": null,
+   "distance_m": 313.9,
    "evidence_refs": [],
-   "derivation_method": null,
-   "uncertainty_note": "CL-DATA-64 admission reference; angles and distance unknown pending field survey."
+   "derivation_method": "CL-DATA-64 admission: viewpoint(subject) separation derived from web-verified coordinates",
+   "uncertainty_note": "CL-DATA-64 admission reference; angles unknown pending field survey."
   }
  ],
  "navigation_targets": [

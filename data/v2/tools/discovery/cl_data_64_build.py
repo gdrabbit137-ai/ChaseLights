@@ -377,14 +377,20 @@ def build_contract_64(p, subj):
              "geojson": {"type": "Point", "coordinates": [p["lon"], p["lat"]]},
              "uncertainty_m": None, "derivation_method": deriv,
              "source_geometry_revision": None, "reason_if_absent": None}
-    # viewpoint/subject separation (owner-confirmed CL-DATA-64; null for general points)
-    def coord_obj(pair, label):
-        if not pair:
-            return None
-        return {"lat": pair[0], "lon": pair[1],
-                "derivation_method": f"{TICKET} admission web verification {VER_DATE}: {label} ({p['coord_source']})"}
-    vp = coord_obj(p.get("viewpoint"), "viewpoint")
-    sj = coord_obj(p.get("subject"), "subject")
+    # Owner-confirmed CL-DATA-64 viewpoint/subject separation, expressed with the
+    # contract-native structures (camera_context=觀點, target=題材, VR.distance_m):
+    # the W1-pinned opportunity schema gates top-level additions (additionalProperties
+    # false), so the separation is NOT added as new top-level fields.
+    vp_pair = p.get("viewpoint") or (p["lat"], p["lon"])
+    sj_pair = p.get("subject") or (p["lat"], p["lon"])
+    vp_point = dict(point)
+    if vp_pair != (p["lat"], p["lon"]):
+        vp_point["geojson"] = {"type": "Point", "coordinates": [vp_pair[1], vp_pair[0]]}
+    sj_point = dict(point)
+    if sj_pair != (p["lat"], p["lon"]):
+        sj_point["geojson"] = {"type": "Point", "coordinates": [sj_pair[1], sj_pair[0]]}
+        sj_point["derivation_method"] = (deriv + " subject separated from the viewpoint "
+                                         "(owner-confirmed CL-DATA-64 semantics).")
     dist_m = None
     if p.get("viewpoint") and p.get("subject"):
         import math
@@ -403,11 +409,8 @@ def build_contract_64(p, subj):
         "lifecycle_status": "draft",
         "name_i18n": {"zh-TW": subj["zh"], "en": subj["en"], "ja": subj["ja"]},
         "description_i18n": {"zh-TW": subj["desc_zh"], "en": subj["desc_en"], "ja": subj["desc_ja"]},
-        "viewpoint_coords": vp,
-        "subject_coords": sj,
-        "subject_distance_m": dist_m,
         "camera_contexts": [{
-            "id": f"CZ-{oid}-01", "kind": "area", "geometry": dict(point),
+            "id": f"CZ-{oid}-01", "kind": "area", "geometry": dict(vp_point),
             "verification_status": "provisional", "evidence_refs": [],
             "access_notes_i18n": access, "safety_notes_i18n": safety,
             "altitude_m": float(elev) if elev else None,
@@ -415,15 +418,17 @@ def build_contract_64(p, subj):
         "targets": [{
             "id": f"SG-{oid}-01", "kind": "multi_component",
             "name_i18n": {"zh-TW": subj["zh"], "en": subj["en"], "ja": subj["ja"]},
-            "geometry": dict(point), "phenomenon_model_id": None,
+            "geometry": dict(sj_point), "phenomenon_model_id": None,
             "evidence_refs": [], "components": [],
         }],
         "observation_relations": [{
             "id": f"VR-{oid}-01", "camera_context_id": f"CZ-{oid}-01",
             "target_id": f"SG-{oid}-01", "type": "foreground_background",
             "geometry_mode": "unknown", "azimuth_deg": None, "elevation_deg": None,
-            "distance_m": None, "evidence_refs": [], "derivation_method": None,
-            "uncertainty_note": f"{TICKET} admission reference; angles and distance unknown pending field survey.",
+            "distance_m": dist_m, "evidence_refs": [],
+            "derivation_method": (f"{TICKET} admission: viewpoint(subject) separation derived "
+                                  "from web-verified coordinates" if dist_m is not None else None),
+            "uncertainty_note": f"{TICKET} admission reference; angles unknown pending field survey.",
         }],
         "navigation_targets": [{
             "id": f"NAV-{oid}-01", "status": "needs_review", "target_type": "other",
