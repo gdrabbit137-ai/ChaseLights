@@ -141,6 +141,11 @@ class ExpansionTests(unittest.TestCase):
         # provenance note on the canonical record; the template registry does
         # not model per-record notes either.
         NOTES_REFINABLE.add('tw-001-P02')
+        # CL-DATA-57 (2026-11-10, owner light-window rule: all natural-light
+        # subjects need a REQUIRED window): tw-016-P01's sunset_window was
+        # promoted QUALITY/MODIFIER -> REQUIRED/MAIN on the canonical record;
+        # the template registry keeps the pre-promotion generic values.
+        TIER_PROMOTED = {('tw-016-P01', 'sunset_window')}
         for template_id, opp in PROTOTYPE_SPOTS.items():
             expanded = self._expand(template_id, opp,
                                     {'viewpoint_altitude_m': 1092}
@@ -166,6 +171,8 @@ class ExpansionTests(unittest.TestCase):
                         continue
                     if key == 'notes_i18n' and opp in NOTES_REFINABLE:
                         self.assertIsNone(e.get(key), f'{opp}: template has no note')
+                        continue
+                    if key in ('role', 'condition_tier') and (opp, c['metric']) in TIER_PROMOTED:
                         continue
                     if key == 'threshold_source' and opp in THRESHOLD_SOURCE_REVIEWED:
                         continue
