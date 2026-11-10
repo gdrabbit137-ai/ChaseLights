@@ -12,10 +12,10 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and 420 canonical sources remain source pinned (CL-DATA-32 southern-Japan discovery admission: jp-051..jp-064, PM judgment 2026-11-08)',()=>{
-  assert.equal(sha256(rawIndex),'d3d2651954211a8fc79651928c0bda6bb2e7ce61b948ea894a437d6bfbe8b608'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
-  assert.equal(sha256(rawCatalog),'8fe798d807fd8083467d7e9a0bfaf7fc44ce2a483b56ed52f0b57efe99390f96'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
+  assert.equal(sha256(rawIndex),'a15331289f515eafdfd4f0d185dc058cec308d35effab769223e7da19bc59b5b'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
+  assert.equal(sha256(rawCatalog),'8975d72116d1d2fa378dda8e092e601756be88273cd01ab8c62d647d1ace1a66'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,539);assert.equal(source.places.length,344); // CL-DATA-62 retirement on the merged tree (CL-INT-134): 6 places / 13 opportunities retired
+  assert.equal(source.opportunities.length,552);assert.equal(source.places.length,357); // CL-INT-135 merged re-anchor: CL-DATA-64 adds 13 places / 13 opportunities on the retired tree
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
@@ -49,7 +49,7 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,344); // CL-DATA-62 retirement on the merged tree
+  assert.equal(browse(index,catalog,{search:'  '}).length,357); // CL-INT-135 merged re-anchor: 357 places (344 + 13 CL-DATA-64)
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
   assert.deepEqual(both.map(x=>x.place.place_id),['us-155','tw-026','us-156','us-121','tw-006']); // CL-INT-134 merged re-anchor: us-155/us-156/us-121 gained sunset/colorful-clouds topics (CL-DATA-53/54 waves)
   assert.deepEqual(both.find(x=>x.place.place_id==='tw-026').opportunities.map(x=>x.opportunity_id),['tw-026-P01','tw-026-P02']); // tw-006-P02 sunset joins tw-026 (CL-DATA-20)

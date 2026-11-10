@@ -132,8 +132,8 @@ test('ak/hi route outlying US places out of the US Mainland frame', () => {
   }
   assert.equal(akPlaces.length, 27,
     'exactly the 27 outlying Alaska places route to the ak frame (CL-DATA-43 +5, CL-DATA-53 +2: Keystone Canyon/Harding Icefield)');
-  assert.equal(hiPlaces.length, 7,
-    'exactly the 7 CL-DATA-43 Hawaii places route to the hi frame');
+  assert.equal(hiPlaces.length, 10,
+    'exactly the 10 Hawaii places route to the hi frame (7 CL-DATA-43 + 3 CL-DATA-64 Kilauea: us-161..163)');
   assert.ok(akPlaces.includes('us-041') && akPlaces.includes('us-069'),
     'Alaska places are catalog us-* ids routed to ak');
 
