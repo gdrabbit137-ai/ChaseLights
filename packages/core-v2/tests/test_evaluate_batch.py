@@ -123,13 +123,16 @@ class ConditionValueContractTests(unittest.TestCase):
         self.assertEqual(eb.condition_value(condition, {}, {}), "declared")
 
     def test_weather_boolean_cell_maps_to_enum(self):
-        condition = {"metric": "river_flow_state", "operator": "is_true",
+        # CL-DATA-66: river_flow_state moved to NO_SOURCE_METRICS (dam-regulated
+        # flow has no live source), so the generic boolean-cell path uses a
+        # neutral metric name here.
+        condition = {"metric": "trail_condition", "operator": "is_true",
                      "threshold": None, "role": "REQUIRED"}
         cell = {"value": True, "state": "AVAILABLE"}
-        self.assertEqual(eb.condition_value(condition, {"river_flow_state": cell}, {}),
+        self.assertEqual(eb.condition_value(condition, {"trail_condition": cell}, {}),
                          "satisfied")
         cell["value"] = False
-        self.assertEqual(eb.condition_value(condition, {"river_flow_state": cell}, {}),
+        self.assertEqual(eb.condition_value(condition, {"trail_condition": cell}, {}),
                          "unsatisfied")
 
     def test_unavailable_weather_cell_value_none(self):
