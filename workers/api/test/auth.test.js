@@ -206,7 +206,7 @@ test("expired auth state rejected and stale rows cleaned on read", async () => {
   const realFetch = globalThis.fetch;
   globalThis.fetch = async (url) => {
     if (String(url).includes("/oauth2/v2.1/token")) return new Response(JSON.stringify({ access_token: "fake-at" }), { status: 200 });
-    if (String(url).includes("/oauth2/v2.1/verify")) return new Response(JSON.stringify({ sub: "U999", name: "Late" }), { status: 200 });
+    if (String(url).includes("/oauth2/v2.1/userinfo") || String(url).includes("/oauth2/v2.1/verify")) return new Response(JSON.stringify({ sub: "U999", name: "Late" }), { status: 200 });
     return realFetch(url);
   };
   try {
