@@ -219,15 +219,15 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 366)
-        self.assertEqual(ev["opportunity_count"], 562)
+        self.assertEqual(ev["place_count"], 360)  # merged: 347 on main + 13 CL-DATA-64 places
+        self.assertEqual(ev["opportunity_count"], 550)  # merged: 537 on main + 13
         self.assertEqual(ev["forecast_hours"], 168)
         self.assertEqual(ev["fetch_failures"], [])
 
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
-        self.assertEqual(len(cat["places"]), 363)
-        self.assertEqual(len(cat["opportunities"]), 565)
+        self.assertEqual(len(cat["places"]), 357)  # merged: 363 on task tree - 6 retired
+        self.assertEqual(len(cat["opportunities"]), 553)  # merged: 565 on task tree - 12 retired opps + jp-030-P99
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(NEW_CONTRACTS) <= oids)
 

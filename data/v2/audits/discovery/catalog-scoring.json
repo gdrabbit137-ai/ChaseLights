@@ -9,11 +9,11 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "be3eb2df78d4b731921a97e278b0bd7ead38bff469bb52bbcbb55e70f1d0bb12",
+ "inputs_fingerprint_sha256": "4713845129063e6205d90bb1a5523b0984d5e7697f0b603bc9cd104f123531e8",
  "summary": {
   "places": 363,
-  "opportunities": 565,
-  "canonical_locked_opportunities": 565,
+  "opportunities": 566,
+  "canonical_locked_opportunities": 566,
   "places_with_unknown_scenic_beauty": 210,
   "mean_weighted_total": 4.01,
   "median_weighted_total": 4.05,
@@ -25,7 +25,7 @@
   },
   "weakness_counts": {
    "low_weather_light_opportunities": 11,
-   "low_verifiability_opportunities": 9,
+   "low_verifiability_opportunities": 10,
    "clusters_within_5km": 28
   }
  },
@@ -5723,14 +5723,15 @@
    "place_id": "jp-030",
    "name_zh": "鳴門海峽漩渦",
    "region": "jp",
-   "n_opportunities": 1,
+   "n_opportunities": 2,
    "opportunity_ids": [
-    "jp-030-P01"
+    "jp-030-P01",
+    "jp-030-P99"
    ],
    "rubric": {
-    "subject_strength": 2,
-    "weather_light_dependency": 1,
-    "verifiability": 2.5,
+    "subject_strength": 3,
+    "weather_light_dependency": 3,
+    "verifiability": 2.0,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -12276,6 +12277,22 @@
    "verif_gaps": [
     "geometry_not_verified",
     "conditions_missing_claim_or_threshold_source"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "jp-030-P99",
+   "place_id": "jp-030",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 1.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -19837,6 +19854,17 @@
    }
   ],
   "low_verifiability": [
+   {
+    "opportunity_id": "jp-030-P99",
+    "place_id": "jp-030",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
    {
     "opportunity_id": "tw-059-P01",
     "place_id": "tw-059",

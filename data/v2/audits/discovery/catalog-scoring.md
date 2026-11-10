@@ -1,12 +1,12 @@
 # CL-DATA-24 全庫景點機械評分（catalog scoring）
 
-評分範圍：363 places × 565 opportunities（全數來自庫內契約；唯讀分析）。
+評分範圍：363 places × 566 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`be3eb2df78d4b731…`（重跑可驗證確定性）。
+輸入指紋：`4713845129063e62…`（重跑可驗證確定性）。
 
 - 全庫加權均分：**4.01 / 5**；中位數：**4.05 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**210** 個，不虛構分數）。
 - 區域分布：jp=94, tw=119, us=150
-- 弱點清單筆數：低 weather_light **11**、低 verifiability **9**、5km 群聚 **28**。
+- 弱點清單筆數：低 weather_light **11**、低 verifiability **10**、5km 群聚 **28**。
 
 ## 五維判定規則（機械、可重跑）
 
@@ -90,6 +90,7 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 
 | opportunity | place | 分數 | 缺口 |
 |---|---|---|---|
+| `jp-030-P99` | jp-030 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-059-P01` | tw-059 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
 | `tw-060-P01` | tw-060 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
 | `tw-078-P01` | tw-078 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |

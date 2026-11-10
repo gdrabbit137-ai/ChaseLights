@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "c88330f993110cb278cd9901eefaa8874a8133f1",
-  "source_index_revision": "sha256:448785a54397378e1ed2b258964324fcc7f6b875e98d4f083d59a936af013edc",
+  "source_index_commit_sha": "00426314cde1f8c7082a7dba46afa283479c43b4",
+  "source_index_revision": "sha256:ecdfa220cb13f659acc048efd58b9d236da7045384ebdb322151344a0e4a3464",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
@@ -263,6 +263,12 @@
       "source_path": "data/v2/opportunities/jp-030-P01.json",
       "source_blob_sha": "c5d8279b05b5506f1e293054cece493978532de5",
       "revision": 2
+    },
+    "jp-030-P99": {
+      "source_commit_sha": "816d020b1c3b6618cbe3a7220ceb8c2f72a72cf8",
+      "source_path": "data/v2/opportunities/jp-030-P99.json",
+      "source_blob_sha": "5a7c15885b7e79034ca01fb15542f009428e7337",
+      "revision": 1
     },
     "jp-031-P02": {
       "source_commit_sha": "1bf8e398e20ebbc76be1157d98bd8dc188216746",
@@ -24487,6 +24493,248 @@
         "imported_at": "2026-10-21T20:51:45Z",
         "review_status": "pending",
         "reviewed_by": null
+      }
+    },
+    {
+      "schema_version": "2.1.0",
+      "opportunity_id": "jp-030-P99",
+      "place_id": "jp-030",
+      "revision": 1,
+      "lifecycle_status": "draft",
+      "name_i18n": {
+        "zh-TW": "鳴門海峽漩渦・一般拍攝",
+        "en": "Naruto Whirlpools · General shooting",
+        "ja": "鳴門海峡・一般撮影"
+      },
+      "description_i18n": {
+        "zh-TW": "一般拍攝題材（owner 裁決 2026-11-10 零題材兜底）：主體不被遮擋（能見度足夠）、無大雨大霧即可拍攝。此為可拍性下限保證，非策展題材；顯示層以「一般拍攝」標籤區分。能見度門檻：一般（5km）。",
+        "en": "General shooting subject (CL-DATA-65 zero-curated-subject fallback, owner ruling 2026-11-10): the subject is unobstructed (adequate visibility) and shootable without heavy rain or heavy fog. This is a shootability floor, not a curated genre; the display layer labels it General shooting.Visibility threshold: general (5km).",
+        "ja": "一般撮影題材（2026-11-10 オーナー裁定によるゼロ題材フォールバック）：主題が遮られず（視程十分）、大雨・濃霧がなければ撮影できる。撮影可能性の下限保証であり、キュレーション題材ではない。表示層は「一般撮影」ラベルで区別する。視程閾値：一般（5km）。"
+      },
+      "camera_contexts": [
+        {
+          "id": "CZ-jp-030-P99-01",
+          "kind": "area",
+          "geometry": {
+            "kind": "point",
+            "status": "provisional",
+            "geojson": {
+              "type": "Point",
+              "coordinates": [
+                134.651,
+                34.24
+              ]
+            },
+            "uncertainty_m": null,
+            "derivation_method": "inherited_from_place_opportunity_geometry",
+            "source_geometry_revision": null,
+            "reason_if_absent": null
+          },
+          "verification_status": "provisional",
+          "evidence_refs": [],
+          "access_notes_i18n": {
+            "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+            "en": "Access information not yet verified; follow on-site notices and rules.",
+            "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+          },
+          "safety_notes_i18n": {
+            "zh-TW": "請依現場安全指示行動。",
+            "en": "Follow on-site safety guidance.",
+            "ja": "現地の安全指示に従ってください。"
+          },
+          "altitude_m": null
+        }
+      ],
+      "targets": [
+        {
+          "id": "SG-jp-030-P99-01",
+          "kind": "multi_component",
+          "name_i18n": {
+            "zh-TW": "鳴門海峽漩渦（一般拍攝）",
+            "en": "Naruto Whirlpools (general shooting)",
+            "ja": "鳴門海峡（一般撮影）"
+          },
+          "geometry": {
+            "kind": "point",
+            "status": "provisional",
+            "geojson": {
+              "type": "Point",
+              "coordinates": [
+                134.651,
+                34.24
+              ]
+            },
+            "uncertainty_m": null,
+            "derivation_method": "inherited_from_place_opportunity_geometry",
+            "source_geometry_revision": null,
+            "reason_if_absent": null
+          },
+          "phenomenon_model_id": null,
+          "evidence_refs": [],
+          "components": []
+        }
+      ],
+      "observation_relations": [
+        {
+          "id": "VR-jp-030-P99-01",
+          "camera_context_id": "CZ-jp-030-P99-01",
+          "target_id": "SG-jp-030-P99-01",
+          "type": "foreground_background",
+          "geometry_mode": "unknown",
+          "azimuth_deg": null,
+          "elevation_deg": null,
+          "distance_m": null,
+          "evidence_refs": [],
+          "derivation_method": null,
+          "uncertainty_note": "Inherited from the place's existing canonical opportunity geometry (provisional)."
+        }
+      ],
+      "navigation_targets": [
+        {
+          "id": "NAV-jp-030-P99-01",
+          "status": "needs_review",
+          "target_type": "other",
+          "lat": 34.24,
+          "lon": 134.651,
+          "label_i18n": {
+            "zh-TW": "鳴門海峽漩渦",
+            "en": "Naruto Whirlpools",
+            "ja": "鳴門海峡"
+          },
+          "evidence_refs": [],
+          "confidence": "low"
+        }
+      ],
+      "evidence_claims": [
+        {
+          "claim_id": "jp-030-P99-claim-01",
+          "claim_type": "existence",
+          "evidence_refs": [],
+          "audit_status": "UNKNOWN",
+          "scope_note": "CL-DATA-65 general-genre auto-mount from the canonical place record; no independent photographic evidence attached yet."
+        }
+      ],
+      "readiness": {
+        "research_level": "R0",
+        "gaps": [
+          "RESEARCH_GAP",
+          "GEOMETRY_GAP"
+        ]
+      },
+      "provenance": {
+        "source_catalog": "general_genre_mount_v0.1",
+        "source_revision": "mount-general-jp-030-from-jp-030-P01",
+        "imported_at": "2026-11-10T00:00:00Z",
+        "review_status": "pending",
+        "reviewed_by": null
+      },
+      "condition_contract": {
+        "contract_id": "CC-jp-030-P99-v1",
+        "status": "draft",
+        "genre_template": "general",
+        "recommendation_policy_version": null,
+        "conditions": [
+          {
+            "id": "C-jp-030-P99-01",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 5,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-030-P99-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度 ≥ view_scale_km：主體不被遮擋的直接判據（owner 裁決核心「能見度夠」）。門檻依景點尺度取 3/5/8 km——近景型 3km 只排除觀點本身起霧（cloud_sea T6 同語義：1km 為濃霧中），遠景型 8km 保證中距離主體可辨識。誠實標註：GFS/Open-Meteo 能見度欄位為模式估計、上限約 24 km，超過後此判據鈍化。",
+              "en": "Visibility >= view_scale_km: the direct criterion for an unobstructed subject (the owner ruling's core 'adequate visibility'). The threshold follows place scale at 3/5/8 km - close-range 3km only excludes the viewer standing inside fog (same semantics as cloud_sea T6: 1 km is inside dense fog), vista-type 8km keeps a mid-range subject resolvable. Honest note: the GFS/Open-Meteo visibility field is a model estimate capped near 24 km; beyond that this criterion saturates.",
+              "ja": "視程≥view_scale_km：主題が遮られないことの直接判断基準（オーナー裁定の中核「視程が十分」）。閾値は拠点スケールに応じ3/5/8km——近景型3kmは撮影者が霧の中にいないことだけを排除（cloud_sea T6と同義：1kmは濃霧内）、遠景型8kmは中距離の主題を判別可能に保つ。GFS/Open-Meteoの視程はモデル推定で約24kmで飽和する点を誠実に明記。"
+            }
+          },
+          {
+            "id": "C-jp-030-P99-02",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.5,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-030-P99-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降雨 <0.5 mm/h：排除「大雨」（owner 裁決「無大雨」）。刻意比既有策展題材的 0.2 mm/h（overlook V4）寬——一般題材只保證可拍下限，小雨/飄雨不否決；0.5 mm/h 起手持拍攝與鏡頭保護才實際受影響。",
+              "en": "Precipitation < 0.5 mm/h: excludes 'heavy rain' (the owner ruling's 'no heavy rain'). Deliberately looser than the curated-genre 0.2 mm/h (overlook V4) - the general genre only guarantees a shootability floor and does not veto light rain/drizzle; from 0.5 mm/h handheld shooting and lens protection are actually affected.",
+              "ja": "降水<0.5mm/h：「大雨」を排除（オーナー裁定の「大雨なし」）。既存キュレーション題材の0.2mm/h（overlook V4）より意図的に緩い——一般題材は撮影可能の下限保証のみで、小雨・霧雨は否決しない。0.5mm/hから手持ち撮影とレンズ保護が実際に影響を受ける。"
+            }
+          },
+          {
+            "id": "C-jp-030-P99-03",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "relative_humidity_925hpa",
+            "operator": "lte",
+            "threshold": 95,
+            "unit": "%",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-030-P99-claim-01"
+            ],
+            "model_binding": "dataset:cwa_wrf3|field:relative_humidity_925hpa_percent|role:SHORT_HQ|level:925hpa",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "低層（925 hPa）相對濕度 ≤95%：排除「大霧」（owner 裁決「無大霧」），複用現有霧語義——霧/靄在近飽和低層濕度生成（cloud_sea T1 以 ≥85% 為生成條件），95% 以上即近飽和地表霧風險區。誠實標註：此為 925 hPa 面的代理指標而非地面觀測，覆蓋外（無資料源） propagate_unknown，不偽造判定。",
+              "en": "Low-level (925 hPa) relative humidity <= 95%: excludes 'heavy fog' (the owner ruling's 'no heavy fog'), reusing the existing mist semantics - fog/mist forms at near-saturation low-level humidity (cloud_sea T1 requires >= 85% for formation), so >= 95% is the near-saturated surface-fog risk zone. Honest note: this is a 925 hPa proxy, not a surface observation; where no source covers it the condition propagates UNKNOWN instead of fabricating a verdict.",
+              "ja": "下層（925 hPa）相対湿度≤95%：「濃霧」を排除（オーナー裁定の「濃霧なし」）。既存の霧セマンティクスを再利用——霧/もやは飽和近傍の下層湿度で生成し（cloud_sea T1は生成条件に≥85%）、95%以上は地表霧リスク帯。925 hPa面の代理指標であり地上観測ではない点、及びデータ源がない場合は偽判定せずUNKNOWNを伝播させる点を誠実に明記。"
+            }
+          },
+          {
+            "id": "C-jp-030-P99-04",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-030-P99-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "白天日間窗（必要條件）：整小時每一時點太陽仰角 > −6°（民用光線），夜間一律不符合。一般題材的語義就是「白天能拍」；沿用 CL-DATA-11 owner 裁定的 light_window 唯一語義（民用光線、不引月照 metric）。稽查基準（所有自然光題材一律需要光線窗）的正面落地。",
+              "en": "Daylight window (necessary condition): sun elevation must be above -6 deg (civil light) at EVERY instant of the hour bucket; night hours never qualify. The general genre's semantics is exactly 'shootable in daylight'; carries over the single CL-DATA-11 owner-ruling semantics of light_window (civil light only, no moon-illumination metric). This is the positive application of the audit baseline that every natural-light genre needs a light window.",
+              "ja": "日中窓（必要条件）：時間バケット内の全時点で太陽高度 > -6°（市民光）。夜間は一律成立しない。一般題材の意味はまさに「日中に撮れること」であり、CL-DATA-11オーナー裁定のlight_window唯一の語義（市民光のみ、月照指標不使用）を踏襲する。自然光題材はすべて光の窓を要するという監査基準の正面実装。"
+            }
+          }
+        ]
       }
     },
     {

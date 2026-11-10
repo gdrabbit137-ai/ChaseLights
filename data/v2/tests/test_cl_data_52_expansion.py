@@ -185,8 +185,8 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 366)  # re-anchored CL-DATA-64: scoped 168h evals for 13 new places spliced into the 2026-11-09T22:40:40Z bundle
-        self.assertEqual(ev["opportunity_count"], 562)
+        self.assertEqual(ev["place_count"], 360)  # merged: 347 on main + 13 CL-DATA-64 places  # re-anchored CL-DATA-64: scoped 168h evals for 13 new places spliced into the 2026-11-09T22:40:40Z bundle
+        self.assertEqual(ev["opportunity_count"], 550)  # merged: 537 on main + 13
 
 
 if __name__ == "__main__":

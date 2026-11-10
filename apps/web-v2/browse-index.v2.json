@@ -1,19 +1,19 @@
 {
-  "source_commit_sha": "c88330f993110cb278cd9901eefaa8874a8133f1",
+  "source_commit_sha": "00426314cde1f8c7082a7dba46afa283479c43b4",
   "manifest": {
     "format_version": "0.1.0",
     "mode": "RESEARCH_ONLY",
-    "index_revision": "sha256:448785a54397378e1ed2b258964324fcc7f6b875e98d4f083d59a936af013edc",
+    "index_revision": "sha256:ecdfa220cb13f659acc048efd58b9d236da7045384ebdb322151344a0e4a3464",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "w1_contract_commit_sha": "b56632b090aa79c28806f30b10aed79cbb0cfb31",
     "canonical_source_lock": "source-lock.json",
-    "source_lock_sha256": "52a5954efe49af73d3bcd0904a3dc5fa3f2b9cf03949abfbeb9b08903a12c45b",
-    "curation_sha256": "c86fd3f8c3351beba54a54c92505a96b9e937f213e4ba6d9c8e050dba5431d48",
+    "source_lock_sha256": "b9c61f695c7018b35d0c7d38f7d8c707f685015e25fa2e6daf99564b7d487645",
+    "curation_sha256": "da12111a953c9282fb5bf1cfb33263115b5cc14803eff2f2ea8349489479ba89",
     "files": {
-      "place-index.json": "559de9fde34eb399a88d55db42fd139dfad06a96d12ab94ec3b2cbdcfac7c5ef",
-      "topic-index.json": "0d94ad1abac3a28fecc19d13767739e82cf79f52e5abc565824c579706d828cd",
-      "field-provenance.json": "ac6f3020112255eba5d3744c3f92ab5685ee0666d44f94102cdb6a5c3d6a47d1",
-      "index-status.json": "632fb2cf01d563a6ee95fe0728757c7e854cf12177ee0b0e568b4316dcd91227"
+      "place-index.json": "67c52d60132056335ff820625dfbd583bdcd58917e9eae6920fc0d27fcec8931",
+      "topic-index.json": "930d208280484b38c85c6bc650ef18ffce5f3f99e0712e3eacae596ac9bf3d8f",
+      "field-provenance.json": "71b949313a9e84cd1e438756994e65e0e02f654d81684cce0e5eed3b0fd6e50c",
+      "index-status.json": "e3e4011009c3bf6349f9e36d7ab6c693753beb72cdda0cdb1ab034929ff97eb8"
     }
   },
   "place_index": {
@@ -9904,6 +9904,20 @@
         "publication_approval_ref": null
       },
       {
+        "opportunity_id": "jp-030-P99",
+        "place_id": "jp-030",
+        "revision": 1,
+        "source_commit_sha": "816d020b1c3b6618cbe3a7220ceb8c2f72a72cf8",
+        "source_path": "data/v2/opportunities/jp-030-P99.json",
+        "source_blob_sha": "5a7c15885b7e79034ca01fb15542f009428e7337",
+        "publication": "RESEARCH_ONLY",
+        "publication_reason_codes": [
+          "CANONICAL_R1_EVIDENCE_REVIEW",
+          "HUMAN_RELEASE_APPROVAL_PENDING"
+        ],
+        "publication_approval_ref": null
+      },
+      {
         "opportunity_id": "jp-031-P02",
         "place_id": "jp-031",
         "revision": 3,
@@ -17030,11 +17044,11 @@
         "publication_approval_ref": null
       }
     ],
-    "index_revision": "sha256:448785a54397378e1ed2b258964324fcc7f6b875e98d4f083d59a936af013edc"
+    "index_revision": "sha256:ecdfa220cb13f659acc048efd58b9d236da7045384ebdb322151344a0e4a3464"
   },
   "topic_index": {
     "schema_version": "0.1.0",
-    "index_revision": "sha256:448785a54397378e1ed2b258964324fcc7f6b875e98d4f083d59a936af013edc",
+    "index_revision": "sha256:ecdfa220cb13f659acc048efd58b9d236da7045384ebdb322151344a0e4a3464",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "topics": [
       {
@@ -29430,6 +29444,39 @@
           "data/v2/opportunities/jp-030-P01.json#/camera_contexts/0/safety_notes_i18n"
         ],
         "navigation_ref": "data/v2/opportunities/jp-030-P01.json#/navigation_targets"
+      },
+      "jp-030-P99": {
+        "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+        "classification": {
+          "topic_ids": [],
+          "canonical_pointers": [
+            "/targets/0/name_i18n",
+            "/description_i18n"
+          ],
+          "evidence_claim_id": "jp-030-P99-claim-01",
+          "evidence_refs": [],
+          "classification_basis": "general_genre_auto_mount_v0.1"
+        },
+        "classification_excerpts": {
+          "/targets/0/name_i18n": {
+            "zh-TW": "鳴門海峽漩渦（一般拍攝）",
+            "en": "Naruto Whirlpools (general shooting)",
+            "ja": "鳴門海峡（一般撮影）"
+          },
+          "/description_i18n": {
+            "zh-TW": "一般拍攝題材（owner 裁決 2026-11-10 零題材兜底）：主體不被遮擋（能見度足夠）、無大雨大霧即可拍攝。此為可拍性下限保證，非策展題材；顯示層以「一般拍攝」標籤區分。能見度門檻：一般（5km）。",
+            "en": "General shooting subject (CL-DATA-65 zero-curated-subject fallback, owner ruling 2026-11-10): the subject is unobstructed (adequate visibility) and shootable without heavy rain or heavy fog. This is a shootability floor, not a curated genre; the display layer labels it General shooting.Visibility threshold: general (5km).",
+            "ja": "一般撮影題材（2026-11-10 オーナー裁定によるゼロ題材フォールバック）：主題が遮られず（視程十分）、大雨・濃霧がなければ撮影できる。撮影可能性の下限保証であり、キュレーション題材ではない。表示層は「一般撮影」ラベルで区別する。視程閾値：一般（5km）。"
+          }
+        },
+        "description_ref": "data/v2/opportunities/jp-030-P99.json#/description_i18n",
+        "access_advisory_refs": [
+          "data/v2/opportunities/jp-030-P99.json#/camera_contexts/0/access_notes_i18n"
+        ],
+        "safety_refs": [
+          "data/v2/opportunities/jp-030-P99.json#/camera_contexts/0/safety_notes_i18n"
+        ],
+        "navigation_ref": "data/v2/opportunities/jp-030-P99.json#/navigation_targets"
       },
       "jp-031-P02": {
         "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
@@ -47105,7 +47152,7 @@
   "index_status": {
     "format_version": "0.1.0",
     "mode": "RESEARCH_ONLY",
-    "index_revision": "sha256:448785a54397378e1ed2b258964324fcc7f6b875e98d4f083d59a936af013edc",
+    "index_revision": "sha256:ecdfa220cb13f659acc048efd58b9d236da7045384ebdb322151344a0e4a3464",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "selected_date_recommendation_eligible": false,
     "forecast_available": false,
@@ -47121,7 +47168,7 @@
     "taxonomy_semantic_review": "PENDING",
     "counts": {
       "places": 357,
-      "opportunities": 552,
+      "opportunities": 553,
       "topic_ids": 8,
       "opportunity_topic_links": 45,
       "regions": 0,
@@ -48959,6 +49006,7 @@
       "jp-028-P02",
       "jp-029-P02",
       "jp-030-P01",
+      "jp-030-P99",
       "jp-031-P02",
       "jp-032-P02",
       "jp-033-P02",
