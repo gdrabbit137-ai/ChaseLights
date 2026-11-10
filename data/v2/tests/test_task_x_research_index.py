@@ -93,6 +93,7 @@ class ResearchIndexTests(unittest.TestCase):
         'a38356bd36eacbd7f81fa962e251aa21fb48a6fa',
         'a4f803a7106816773ef5a2f659271c656b873bd7',
         'cc9e9d1a667134aeec9a5466f2436e9d82f70192',  # CL-DATA-66: 8 edited contracts re-pinned to the stage-1 data commit
+        '5b3e29dea0a564560817e7f03d2082cd3126dad0',  # CL-DATA-65: jp-030-P99 general-genre mount data commit
         'affcdf391e49a43a606d7dd7e567aedf58e02f34',
         'b801dd4eba545a76879828b25e869f3c45df33ac',
         'c0c6114b0bfbae0afc28b1b5c0f128d3aa41b982',

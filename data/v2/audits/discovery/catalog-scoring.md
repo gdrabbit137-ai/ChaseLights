@@ -2,7 +2,7 @@
 
 評分範圍：363 places × 566 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`4713845129063e62…`（重跑可驗證確定性）。
+輸入指紋：`e0e2a22e4e77f397…`（重跑可驗證確定性）。
 
 - 全庫加權均分：**4.01 / 5**；中位數：**4.05 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**210** 個，不虛構分數）。
 - 區域分布：jp=94, tw=119, us=150
@@ -65,7 +65,7 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | 357 | `us-147` | 斑馬狹縫峽谷 | us | 1 | **None** | 5/5/3.0/5/unknown | us-006 (65.43) |
 | 358 | `us-151` | 拉森火山（彩繪沙丘） | us | 1 | **None** | 4/5/2.5/5/unknown | us-132 (192.76) |
 | 359 | `us-152` | 愛達荷暗夜保護區（愛麗絲湖） | us | 1 | **None** | 5/5/3.0/5/unknown | us-027 (22.27) |
-| 360 | `us-153` | 月球火山紀念地 | us | 1 | **None** | 4/5/2.5/5/unknown | us-154 (105.11) |
+| 360 | `us-153` | 月球火山紀念地 | us | 1 | **None** | 4/5/2.5/5/unknown | us-154 (103.34) |
 | 361 | `us-156` | 哈特拉斯角燈塔 | us | 1 | **None** | 5/5/2.5/5/unknown | us-157 (312.06) |
 | 362 | `us-157` | 阿薩蒂格島野馬 | us | 1 | **None** | 5/5/2.5/5/unknown | us-099 (278.4) |
 | 363 | `us-158` | 哈丁冰原（奇奈峽灣） | us | 1 | **None** | 4/5/2.5/5/unknown | us-045 (18.59) |
