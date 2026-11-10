@@ -112,6 +112,10 @@ jobs:
             /packages/core-v2/
             /packages/models-v2/
             /apps/web-v2/
+            # CL-CI-34: cl-ui-52-guest-comment.test.mjs reads
+            # templates/gas_sheet_bridge.js (root /templates/ dir); missing
+            # here fails w4-node 1 test (532/1/533 vs pin 540).
+            /templates/
             /ops/v2/
       - uses: actions/setup-python@v5
         with:
