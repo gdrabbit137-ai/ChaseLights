@@ -56,10 +56,13 @@ jobs:
           data = json.load(open("distilled.json"))
           base = f"https://api.cloudflare.com/client/v4/accounts/{account}/storage/kv/namespaces/{ns}/bulk"
           def put(path, value):
+            # CL-API-03 fix: the KV values REST endpoint takes the RAW value as
+            # the request body — the old {"value": ...} JSON envelope was stored
+            # literally and double-wrapped every record.
             req = urllib.request.Request(
                 f"https://api.cloudflare.com/client/v4/{path}",
-                data=json.dumps({"value": value}).encode(),
-                headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+                data=value.encode("utf-8"),
+                headers={"Authorization": f"Bearer {token}", "Content-Type": "text/plain;charset=UTF-8"},
                 method="PUT")
             with urllib.request.urlopen(req) as r:
                 if r.status != 200:

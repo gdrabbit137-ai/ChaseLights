@@ -9,11 +9,14 @@
 export const MATCH_WINDOW_H = 24;
 
 export function slotTimeMs(localDate, hour) {
-  return Date.parse(`${localDate}T${String(hour).padStart(2, "0")}:00+08:00`);
+  // KV distilled hours are "HH:MM" strings (spot-local, GMT+8 convention);
+  // ints (legacy) are accepted as whole hours.
+  const hm = typeof hour === "string" && hour.includes(":") ? hour.split(":") : [String(hour).padStart(2, "0"), "00"];
+  return Date.parse(`${localDate}T${hm[0].padStart(2, "0")}:${hm[1]}:00+08:00`);
 }
 
 export function windowKey(win) {
-  return `${win.local_date}T${String(win.hour).padStart(2, "0")}:00`;
+  return `${win.local_date}T${win.hour}`; // win.hour is "HH:MM"
 }
 
 // Earliest qualifying slot in [now + minAdvanceHours, now + 24h].
@@ -52,8 +55,8 @@ export function buildMessage(rec, win) {
   for (const s of rec?.subjects || []) if (s.opportunity_id === win.opportunity_id) subj = s;
   const place = placeDisplayName(rec);
   const name = subj ? subjectDisplayName(subj) : win.opportunity_id || "";
-  const when = `${win.local_date} ${String(win.hour).padStart(2, "0")}:00`;
-  return `📸 ChaseLights 攝影通知\n${place}｜${name}\n${when}（GMT+8）起天氣符合拍攝條件，預計 24 小時內。`;
+  const when = `${win.local_date} ${win.hour}（GMT+8）起天氣符合拍攝條件，預計 24 小時內。`;
+  return `📸 ChaseLights 攝影通知\n${place}｜${name}\n${when}`;
 }
 
 export async function sendTelegram(env, chatId, text) {

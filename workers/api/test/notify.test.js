@@ -109,8 +109,8 @@ const NOW = Date.parse("2026-11-10T12:00:00+08:00");
 test("findNextWindow: earliest qualifying slot inside 24h honoring min advance", () => {
   const subjects = [
     subj("cloud-sea", [
-      { local_date: "2026-11-11", verdict: "GUIDANCE_SATISFIED", hours: [5, 6] },
-      { local_date: "2026-11-10", verdict: "GUIDANCE_SATISFIED", hours: [20] },
+      { local_date: "2026-11-11", verdict: "GUIDANCE_SATISFIED", hours: ["05:00", "06:00"] },
+      { local_date: "2026-11-10", verdict: "GUIDANCE_SATISFIED", hours: ["20:00"] },
     ]),
   ];
   // advance 4h: 11/10 20:00 is +8h from 12:00 -> inside window; 11/11 05:00 is +17h -> also; earliest wins
@@ -125,24 +125,24 @@ test("findNextWindow: earliest qualifying slot inside 24h honoring min advance",
 
 test("findNextWindow: opportunity filter, verdict filter, >24h exclusion", () => {
   const subjects = [
-    subj("aurora", [{ local_date: "2026-11-11", verdict: "GUIDANCE_SATISFIED", hours: [3] }]), // 15h ahead
-    subj("sunset", [{ local_date: "2026-11-11", verdict: "UNFAVORABLE", hours: [17] }, { local_date: "2026-11-10", verdict: "GUIDANCE_SATISFIED", hours: [19] }]),
+    subj("aurora", [{ local_date: "2026-11-11", verdict: "GUIDANCE_SATISFIED", hours: ["03:00"] }]), // 15h ahead
+    subj("sunset", [{ local_date: "2026-11-11", verdict: "UNFAVORABLE", hours: ["17:00"] }, { local_date: "2026-11-10", verdict: "GUIDANCE_SATISFIED", hours: ["19:00"] }]),
   ];
   const w = findNextWindow(subjects, "sunset", NOW, 0);
   assert.equal(w.opportunity_id, "sunset");
   assert.equal(windowKey(w), "2026-11-10T19:00");
   // >24h slot (11/11 13:00 = +25h) is never matched
-  const far = subj("far", [{ local_date: "2026-11-11", verdict: "GUIDANCE_SATISFIED", hours: [13] }]);
+  const far = subj("far", [{ local_date: "2026-11-11", verdict: "GUIDANCE_SATISFIED", hours: ["13:00"] }]);
   assert.equal(findNextWindow([far], null, NOW, 0), null);
   assert.equal(findNextWindow(subjects, "nope", NOW, 0), null);
 });
 
 test("buildMessage: plain-language zh-TW line, no thresholds", () => {
   const rec = { place_id: "tw-001", name_i18n: { "zh-TW": "合歡山" }, subjects: [subj("cloud-sea", [])] };
-  const msg = buildMessage(rec, { local_date: "2026-11-11", hour: 5, opportunity_id: "cloud-sea" });
+  const msg = buildMessage(rec, { local_date: "2026-11-11", hour: "05:00", opportunity_id: "cloud-sea" });
   assert.ok(msg.includes("合歡山"));
   assert.ok(msg.includes("cloud-sea"));
-  assert.ok(msg.includes("2026-11-11 05:00"));
+  assert.ok(msg.includes("2026-11-11 05:00（GMT+8）"));
   for (const bad of ["threshold", "operator", "conditions"]) assert.ok(!msg.toLowerCase().includes(bad));
 });
 
@@ -158,7 +158,7 @@ function evalRec(placeId, hoursByDay, hourOverrides) {
 
 test("cron: match -> TG delivered once; second run same window deduped (no TG call)", async () => {
   const { env, db } = makeEnv({
-    kv: { "v1:evals:tw-001": JSON.stringify(evalRec("tw-001", { "2026-11-10": [22] })) },
+    kv: { "v1:evals:tw-001": JSON.stringify(evalRec("tw-001", { "2026-11-10": ["22:00"] })) },
   });
   // rule + active binding
   db._tables.notify_rules.push({ id: "r1", user_id: "u1", place_id: "tw-001", opportunity_id: null, channel: "telegram", min_advance_hours: 0, enabled: 1 });
@@ -193,7 +193,7 @@ test("cron: match -> TG delivered once; second run same window deduped (no TG ca
 
 test("cron: TG failure recorded undelivered, no retry spam within window", async () => {
   const { env, db } = makeEnv({
-    kv: { "v1:evals:tw-001": JSON.stringify(evalRec("tw-001", { "2026-11-10": [22] })) },
+    kv: { "v1:evals:tw-001": JSON.stringify(evalRec("tw-001", { "2026-11-10": ["22:00"] })) },
   });
   db._tables.notify_rules.push({ id: "r1", user_id: "u1", place_id: "tw-001", opportunity_id: null, channel: "telegram", min_advance_hours: 0, enabled: 1 });
   db._tables.telegram_bindings.set("u1", { status: "active", chat_id: "5048265539" });
@@ -212,7 +212,7 @@ test("cron: TG failure recorded undelivered, no retry spam within window", async
 
 test("cron: rule without active binding is logged undelivered; web_push rule stays skeleton", async () => {
   const { env, db } = makeEnv({
-    kv: { "v1:evals:tw-001": JSON.stringify(evalRec("tw-001", { "2026-11-10": [22] })) },
+    kv: { "v1:evals:tw-001": JSON.stringify(evalRec("tw-001", { "2026-11-10": ["22:00"] })) },
   });
   db._tables.notify_rules.push({ id: "r1", user_id: "u1", place_id: "tw-001", opportunity_id: null, channel: "telegram", min_advance_hours: 0, enabled: 1 });
   db._tables.notify_rules.push({ id: "r2", user_id: "u1", place_id: "tw-001", opportunity_id: null, channel: "web_push", min_advance_hours: 0, enabled: 1 });

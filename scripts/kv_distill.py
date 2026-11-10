@@ -12,12 +12,21 @@ import json, sys, os
 STATES = {"GUIDANCE_SATISFIED", "UNFAVORABLE", "NOT_EVALUABLE"}
 
 
+def norm_hour(h):
+    """Bundle good_hours are 'HH:MM' strings (or ints). Normalize to 'HH:MM'."""
+    if isinstance(h, int):
+        return f"{h:02d}:00"
+    if isinstance(h, str) and ":" in h:
+        return h
+    return None
+
+
 def distill_opportunity(opp):
     days = []
     next_window = None
     for d in opp.get("days", []):
         state = d["state"] if d["state"] in STATES else "NOT_EVALUABLE"
-        hours = sorted(h for h in d.get("good_hours", []) if isinstance(h, int))
+        hours = sorted(x for x in (norm_hour(h) for h in d.get("good_hours", [])) if x)
         if state == "GUIDANCE_SATISFIED" and hours and next_window is None:
             next_window = {"local_date": d["local_date"], "hours": hours}
         days.append({"local_date": d["local_date"], "verdict": state, "hours": hours})
