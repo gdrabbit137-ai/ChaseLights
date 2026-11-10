@@ -38,7 +38,7 @@ jobs:
         if: steps.token.outputs.skip == 'false'
         run: |
           curl -fsSL --retry 3 -o evaluations-latest.json \
-            "https://chaselights.app/evaluations-latest.json?nc=$GITHUB_RUN_ID"
+            "https://chaselights.app/apps/web-v2/evaluations-latest.json?nc=$GITHUB_RUN_ID"
           python3 -c "import json;d=json.load(open('evaluations-latest.json'));print('bundle',d['generated_at'],d['place_count'],'places')"
 
       - name: Distill to per-place results
