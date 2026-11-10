@@ -1,9 +1,9 @@
 {
   "summary": {
     "total_places": 115,
-    "listed": 45,
-    "unlisted": 70,
-    "match_method": "fuzzy_zh_name_substring (mined sources lacked GPS/elevation; coordinate pass not applicable)",
+    "listed": 53,
+    "unlisted": 62,
+    "match_method": "normalized-name rerun (CL-DATA-60B): suffix-stripped bidirectional substring + manual alias table (37 entries) + region/coordinate & topic-keyword assist on partial matches + manual web-verification supplement for 玉山主峰/野柳地質公園/崇德(清水斷崖)/大霸尖山; mined sources lacked GPS so coordinate pass = county-anchor assist only",
     "topics_covered": [
       "cloud-sea",
       "night-view",
@@ -21,27 +21,28 @@
       "lavender-flower-field",
       "bald-cypress",
       "aurora"
-    ]
+    ],
+    "supplemented_place_ids": [
+      "tw-040",
+      "tw-074",
+      "tw-034",
+      "tw-046"
+    ],
+    "alias_table_entries": 72,
+    "liuli_glow_merge_note": "琉璃光/琉璃雲視為同義題材，名稱含「琉璃雲(海)」之來源條目全部併入 liuli-glow 統計（本輪併入 1 mentions）",
+    "liuli_glow_merged_mentions": 1
   },
   "cross_validation": [
     {
       "place_id": "tw-001",
       "name_zh": "大屯山助航站",
       "listed_topics": [
-        "cloud-sea",
-        "miscanthus",
         "night-view",
+        "miscanthus",
+        "cloud-sea",
         "sunset"
       ],
       "list_hits": [
-        {
-          "topic": "cloud-sea",
-          "source": "大屯山助航站(台北)",
-          "mentions": 1,
-          "urls": [
-            "https://event-web.line.me/ectw/v2/article/Mq0kGa"
-          ]
-        },
         {
           "topic": "night-view",
           "source": "陽明山(文化大學後山/竹子湖觀景台/大屯山助航站)",
@@ -54,19 +55,27 @@
           ]
         },
         {
-          "topic": "sunset",
-          "source": "大屯山(台北)",
-          "mentions": 1,
-          "urls": [
-            "https://www.xinmedia.com/article/87581"
-          ]
-        },
-        {
           "topic": "miscanthus",
           "source": "大屯山(台北)",
           "mentions": 2,
           "urls": [
             "https://www.fetnet.net/content/cbu/tw/lifecircle/travel/2022/11/miscanthus.html",
+            "https://www.xinmedia.com/article/87581"
+          ]
+        },
+        {
+          "topic": "cloud-sea",
+          "source": "大屯山助航站(台北)",
+          "mentions": 1,
+          "urls": [
+            "https://event-web.line.me/ectw/v2/article/Mq0kGa"
+          ]
+        },
+        {
+          "topic": "sunset",
+          "source": "大屯山(台北)",
+          "mentions": 1,
+          "urls": [
             "https://www.xinmedia.com/article/87581"
           ]
         }
@@ -77,9 +86,21 @@
       "place_id": "tw-002",
       "name_zh": "象山六巨石攝影平台",
       "listed_topics": [
-        "sunset"
+        "night-view",
+        "sunset",
+        "cloud-waterfall"
       ],
       "list_hits": [
+        {
+          "topic": "night-view",
+          "source": "象山(六巨石)",
+          "mentions": 3,
+          "urls": [
+            "https://udn.com/news/story/7205/5368193",
+            "https://udn.com/news/story/120665/4017668",
+            "https://supertaste.tvbs.com.tw/travel/354543"
+          ]
+        },
         {
           "topic": "sunset",
           "source": "象山六巨石(台北)",
@@ -87,6 +108,14 @@
           "urls": [
             "https://cava.tw/lifestyle/travel-food/223993",
             "https://www.xinmedia.com/article/87581"
+          ]
+        },
+        {
+          "topic": "cloud-waterfall",
+          "source": "隙頂生力農場/象山觀景台(嘉義番路)",
+          "mentions": 1,
+          "urls": [
+            "https://udn.com/news/story/7266/5701236"
           ]
         }
       ],
@@ -96,7 +125,8 @@
       "place_id": "tw-003",
       "name_zh": "淡水漁人碼頭",
       "listed_topics": [
-        "sunset"
+        "sunset",
+        "cherry-blossom"
       ],
       "list_hits": [
         {
@@ -107,6 +137,15 @@
             "https://www.xinmedia.com/article/87581",
             "https://www.bella.tw/articles/travel&foodies/52332/taiwan-sunset-spots-recommendation",
             "https://edh.tw/lohas/article/32205"
+          ]
+        },
+        {
+          "topic": "cherry-blossom",
+          "source": "無極天元宮(淡水)",
+          "mentions": 2,
+          "urls": [
+            "https://money.udn.com/money/story/123060/9363247",
+            "https://news.immigration.gov.tw/NewsSection/Detail/48acf24a-2595-4179-afa5-1127763260d4?lang=TW"
           ]
         }
       ],
@@ -166,20 +205,20 @@
       ],
       "list_hits": [
         {
-          "topic": "night-view",
-          "source": "和美山步道(新店碧潭)",
-          "mentions": 1,
-          "urls": [
-            "https://udn.com/news/story/7205/5368193"
-          ]
-        },
-        {
           "topic": "firefly",
           "source": "和美山步道(新店碧潭)",
           "mentions": 2,
           "urls": [
             "https://www.elle.com/tw/life/travel/g71046027/2026-firefly-place-taiwan/",
             "https://ezgo.ardswc.gov.tw/theme/firefly/"
+          ]
+        },
+        {
+          "topic": "night-view",
+          "source": "和美山步道(新店碧潭)",
+          "mentions": 1,
+          "urls": [
+            "https://udn.com/news/story/7205/5368193"
           ]
         }
       ],
@@ -314,13 +353,21 @@
       "place_id": "tw-018",
       "name_zh": "日月潭・水社壩湖景步道",
       "listed_topics": [
-        "bald-cypress",
         "firefly",
-        "hot-spring",
         "stargazing",
         "sunrise"
       ],
       "list_hits": [
+        {
+          "topic": "firefly",
+          "source": "日月潭/桃米(南投)",
+          "mentions": 3,
+          "urls": [
+            "https://esg.gvm.com.tw/article/113608",
+            "https://life.chubb.com/tw-zh/customer/journal/chubbcare/article9.html",
+            "https://ezgo.ardswc.gov.tw/theme/firefly/"
+          ]
+        },
         {
           "topic": "stargazing",
           "source": "日月潭朝霧碼頭",
@@ -336,33 +383,6 @@
           "urls": [
             "https://www.gvm.com.tw/article/126984"
           ]
-        },
-        {
-          "topic": "hot-spring",
-          "source": "日月潭溫泉(南投)",
-          "mentions": 1,
-          "urls": [
-            "https://travel.udn.com/travel/story/120665/9092722"
-          ]
-        },
-        {
-          "topic": "firefly",
-          "source": "日月潭/桃米(南投)",
-          "mentions": 3,
-          "urls": [
-            "https://esg.gvm.com.tw/article/113608",
-            "https://life.chubb.com/tw-zh/customer/journal/chubbcare/article9.html",
-            "https://ezgo.ardswc.gov.tw/theme/firefly/"
-          ]
-        },
-        {
-          "topic": "bald-cypress",
-          "source": "日月潭向山(南投)",
-          "mentions": 2,
-          "urls": [
-            "https://city.gvm.com.tw/article/127289",
-            "https://travel.yam.com/article/126503"
-          ]
         }
       ],
       "status": "listed"
@@ -371,21 +391,11 @@
       "place_id": "tw-019",
       "name_zh": "合歡山主峰",
       "listed_topics": [
-        "cloud-sea",
         "stargazing",
+        "cloud-sea",
         "sunrise"
       ],
       "list_hits": [
-        {
-          "topic": "cloud-sea",
-          "source": "合歡山(台14甲公路、松雪樓)",
-          "mentions": 3,
-          "urls": [
-            "https://tw.news.yahoo.com/週末去哪玩-上山賞雲海去.html",
-            "https://www.moa.gov.tw/ws.php?id=2445093",
-            "https://event-web.line.me/ectw/v2/article/Mq0kGa"
-          ]
-        },
         {
           "topic": "stargazing",
           "source": "合歡山(暗空公園/鳶峰/武嶺/昆陽/松雪樓)",
@@ -396,6 +406,16 @@
             "https://www.youtube.com/watch?v=W0KrUvc9d8I",
             "https://travel.nantou.gov.tw/dark-sky-park/",
             "https://world.taobao.com/lang/zh-tw/shopping-guide/2024421474097430528.htm"
+          ]
+        },
+        {
+          "topic": "cloud-sea",
+          "source": "合歡山(台14甲公路、松雪樓)",
+          "mentions": 3,
+          "urls": [
+            "https://tw.news.yahoo.com/週末去哪玩-上山賞雲海去.html",
+            "https://www.moa.gov.tw/ws.php?id=2445093",
+            "https://event-web.line.me/ectw/v2/article/Mq0kGa"
           ]
         },
         {
@@ -414,16 +434,18 @@
       "place_id": "tw-020",
       "name_zh": "金龍山",
       "listed_topics": [
-        "cloud-sea",
         "liuli-glow",
-        "sunrise"
+        "sunrise",
+        "cloud-sea"
       ],
       "list_hits": [
         {
-          "topic": "cloud-sea",
+          "topic": "liuli-glow",
           "source": "金龍山(南投魚池)",
-          "mentions": 1,
+          "mentions": 3,
           "urls": [
+            "https://www.sunmoonlake.gov.tw/zh-TW/Attractions/Attractions?a=20&id=94",
+            "https://playing.ltn.com.tw/article/18207/1",
             "https://www.mook.com.tw/article/20195"
           ]
         },
@@ -437,12 +459,10 @@
           ]
         },
         {
-          "topic": "liuli-glow",
+          "topic": "cloud-sea",
           "source": "金龍山(南投魚池)",
-          "mentions": 3,
+          "mentions": 1,
           "urls": [
-            "https://www.sunmoonlake.gov.tw/zh-TW/Attractions/Attractions?a=20&id=94",
-            "https://playing.ltn.com.tw/article/18207/1",
             "https://www.mook.com.tw/article/20195"
           ]
         }
@@ -471,12 +491,23 @@
       "place_id": "tw-022",
       "name_zh": "二延平步道鋼構觀景平台",
       "listed_topics": [
-        "cloud-sea",
         "cloud-waterfall",
+        "cloud-sea",
         "liuli-glow",
         "sunset"
       ],
       "list_hits": [
+        {
+          "topic": "cloud-waterfall",
+          "source": "隙頂/二延平步道(嘉義)",
+          "mentions": 5,
+          "urls": [
+            "https://udn.com/news/story/120665/6050311",
+            "https://www.mook.com.tw/article/16597",
+            "https://udn.com/news/story/7266/5701236",
+            "https://www.youtube.com/watch?v=o5jG7NzCCV0"
+          ]
+        },
         {
           "topic": "cloud-sea",
           "source": "阿里山國家森林遊樂區(含小笠原山、慈雲寺觀景台、沼平公園、二延平步道)",
@@ -489,26 +520,6 @@
           ]
         },
         {
-          "topic": "sunset",
-          "source": "阿里山(二延平步道/小笠原山/慈雲寺)",
-          "mentions": 2,
-          "urls": [
-            "https://www.bella.tw/articles/travel&foodies/30512",
-            "https://www.ali-nsa.net/zh-tw/attractions/detail/162"
-          ]
-        },
-        {
-          "topic": "cloud-waterfall",
-          "source": "隙頂/二延平步道(嘉義)",
-          "mentions": 4,
-          "urls": [
-            "https://udn.com/news/story/120665/6050311",
-            "https://www.mook.com.tw/article/16597",
-            "https://udn.com/news/story/7266/5701236",
-            "https://www.youtube.com/watch?v=o5jG7NzCCV0"
-          ]
-        },
-        {
           "topic": "liuli-glow",
           "source": "隙頂二延平步道(嘉義)",
           "mentions": 4,
@@ -518,6 +529,15 @@
             "https://money.udn.com/money/story/122328/9086976",
             "https://www.mook.com.tw/article/16597"
           ]
+        },
+        {
+          "topic": "sunset",
+          "source": "阿里山(二延平步道/小笠原山/慈雲寺)",
+          "mentions": 2,
+          "urls": [
+            "https://www.bella.tw/articles/travel&foodies/30512",
+            "https://www.ali-nsa.net/zh-tw/attractions/detail/162"
+          ]
         }
       ],
       "status": "listed"
@@ -526,17 +546,23 @@
       "place_id": "tw-023",
       "name_zh": "頂石棹",
       "listed_topics": [
-        "cloud-sea",
+        "liuli-glow",
         "cloud-waterfall",
-        "liuli-glow"
+        "cloud-sea"
       ],
       "list_hits": [
         {
-          "topic": "cloud-sea",
-          "source": "頂石棹(嘉義竹崎)",
-          "mentions": 1,
+          "topic": "liuli-glow",
+          "source": "頂石棹(嘉義竹崎石棹6號)",
+          "mentions": 7,
           "urls": [
-            "https://www.mook.com.tw/article/20195"
+            "https://www.mook.com.tw/article/16597",
+            "https://www.mook.com.tw/article/20195",
+            "https://playing.ltn.com.tw/article/18207/1",
+            "https://travel.udn.com/travel/story/7208/7571997",
+            "https://travel.udn.com/travel/story/7270/7689719",
+            "https://orange.udn.com/orange/story/121315/6716203",
+            "https://money.udn.com/money/story/122328/9086976"
           ]
         },
         {
@@ -551,17 +577,11 @@
           ]
         },
         {
-          "topic": "liuli-glow",
-          "source": "頂石棹(嘉義竹崎石棹6號)",
-          "mentions": 7,
+          "topic": "cloud-sea",
+          "source": "頂石棹(嘉義竹崎)",
+          "mentions": 1,
           "urls": [
-            "https://www.mook.com.tw/article/16597",
-            "https://www.mook.com.tw/article/20195",
-            "https://playing.ltn.com.tw/article/18207/1",
-            "https://travel.udn.com/travel/story/7208/7571997",
-            "https://travel.udn.com/travel/story/7270/7689719",
-            "https://orange.udn.com/orange/story/121315/6716203",
-            "https://money.udn.com/money/story/122328/9086976"
+            "https://www.mook.com.tw/article/20195"
           ]
         }
       ],
@@ -571,29 +591,23 @@
       "place_id": "tw-024",
       "name_zh": "阿里山祝山觀日平台",
       "listed_topics": [
+        "cloud-sea",
         "cherry-blossom",
         "firefly",
+        "sunrise",
         "stargazing",
-        "sunrise"
+        "sunset"
       ],
       "list_hits": [
         {
-          "topic": "stargazing",
-          "source": "阿里山(芙谷峩橋/對高岳/小笠原山/祝山)",
-          "mentions": 2,
+          "topic": "cloud-sea",
+          "source": "阿里山國家森林遊樂區(含小笠原山、慈雲寺觀景台、沼平公園、二延平步道)",
+          "mentions": 4,
           "urls": [
-            "https://today.line.me/tw/v3/article/qoneB9x",
-            "https://www.instagram.com/p/DKYlug-sqNB/"
-          ]
-        },
-        {
-          "topic": "sunrise",
-          "source": "阿里山祝山觀景台",
-          "mentions": 3,
-          "urls": [
-            "https://www.gvm.com.tw/article/126984",
-            "https://tw.trip.com/moments/theme/destination-taiwan-100076-sunrise-watching-990211/",
-            "https://www.bella.tw/articles/travel&foodies/30512"
+            "https://www.ali-nsa.net/zh-tw/attractions/detail/162",
+            "https://www.mook.com.tw/article/19789",
+            "https://www.mook.com.tw/article/20195",
+            "https://event-web.line.me/ectw/v2/article/Mq0kGa"
           ]
         },
         {
@@ -617,6 +631,34 @@
             "https://life.chubb.com/tw-zh/customer/journal/chubbcare/article9.html",
             "https://ezgo.ardswc.gov.tw/theme/firefly/"
           ]
+        },
+        {
+          "topic": "sunrise",
+          "source": "阿里山祝山觀景台",
+          "mentions": 3,
+          "urls": [
+            "https://www.gvm.com.tw/article/126984",
+            "https://tw.trip.com/moments/theme/destination-taiwan-100076-sunrise-watching-990211/",
+            "https://www.bella.tw/articles/travel&foodies/30512"
+          ]
+        },
+        {
+          "topic": "stargazing",
+          "source": "阿里山(芙谷峩橋/對高岳/小笠原山/祝山)",
+          "mentions": 2,
+          "urls": [
+            "https://today.line.me/tw/v3/article/qoneB9x",
+            "https://www.instagram.com/p/DKYlug-sqNB/"
+          ]
+        },
+        {
+          "topic": "sunset",
+          "source": "阿里山(二延平步道/小笠原山/慈雲寺)",
+          "mentions": 2,
+          "urls": [
+            "https://www.bella.tw/articles/travel&foodies/30512",
+            "https://www.ali-nsa.net/zh-tw/attractions/detail/162"
+          ]
         }
       ],
       "status": "listed"
@@ -625,8 +667,8 @@
       "place_id": "tw-025",
       "name_zh": "二寮觀日亭",
       "listed_topics": [
-        "cloud-waterfall",
-        "sunrise"
+        "sunrise",
+        "cloud-waterfall"
       ],
       "list_hits": [
         {
@@ -705,18 +747,9 @@
       "place_id": "tw-030",
       "name_zh": "屏東關山",
       "listed_topics": [
-        "stargazing",
         "sunset"
       ],
       "list_hits": [
-        {
-          "topic": "stargazing",
-          "source": "池上/關山(台東)",
-          "mentions": 1,
-          "urls": [
-            "https://www.youtube.com/watch?v=MY2uhcdqBkA"
-          ]
-        },
         {
           "topic": "sunset",
           "source": "關山(墾丁)",
@@ -753,9 +786,21 @@
     {
       "place_id": "tw-034",
       "name_zh": "崇德",
-      "listed_topics": [],
-      "list_hits": [],
-      "status": "unlisted"
+      "listed_topics": [
+        "sunrise"
+      ],
+      "list_hits": [
+        {
+          "topic": "sunrise",
+          "source": "清水斷崖崇德/匯德觀景點：推薦清晨迎接太平洋日出(花蓮縣文化觀光處)",
+          "mentions": 1,
+          "urls": [
+            "https://hualien.travel/zh-tw/attraction/124/",
+            "https://hualien.travel/zh-tw/attraction/89/"
+          ]
+        }
+      ],
+      "status": "listed"
     },
     {
       "place_id": "tw-035",
@@ -793,18 +838,10 @@
       "place_id": "tw-038",
       "name_zh": "三仙台",
       "listed_topics": [
-        "stargazing",
-        "sunrise"
+        "sunrise",
+        "stargazing"
       ],
       "list_hits": [
-        {
-          "topic": "stargazing",
-          "source": "三仙台/成功(台東)",
-          "mentions": 1,
-          "urls": [
-            "https://www.instagram.com/p/DKYlug-sqNB/"
-          ]
-        },
         {
           "topic": "sunrise",
           "source": "三仙台(台東成功)",
@@ -814,6 +851,14 @@
             "https://tour.taitung.gov.tw/zh-tw/diary/detail/825",
             "https://www.gvm.com.tw/article/29383"
           ]
+        },
+        {
+          "topic": "stargazing",
+          "source": "三仙台/成功(台東)",
+          "mentions": 1,
+          "urls": [
+            "https://www.instagram.com/p/DKYlug-sqNB/"
+          ]
         }
       ],
       "status": "listed"
@@ -821,16 +866,48 @@
     {
       "place_id": "tw-039",
       "name_zh": "池上伯朗大道",
-      "listed_topics": [],
-      "list_hits": [],
-      "status": "unlisted"
+      "listed_topics": [
+        "stargazing"
+      ],
+      "list_hits": [
+        {
+          "topic": "stargazing",
+          "source": "池上/關山(台東)",
+          "mentions": 1,
+          "urls": [
+            "https://www.youtube.com/watch?v=MY2uhcdqBkA"
+          ]
+        }
+      ],
+      "status": "listed"
     },
     {
       "place_id": "tw-040",
       "name_zh": "玉山主峰",
-      "listed_topics": [],
-      "list_hits": [],
-      "status": "unlisted"
+      "listed_topics": [
+        "sunrise",
+        "cloud-sea"
+      ],
+      "list_hits": [
+        {
+          "topic": "sunrise",
+          "source": "玉山國家公園官方FAQ：主峰觀日出景點(排雲山莊-主峰線)",
+          "mentions": 1,
+          "urls": [
+            "https://www.ysnp.gov.tw/FAQ/C007000?ID=b0b6ba95-413e-411e-b730-1ec54454aa5d&PageIndex=5&PageType=1",
+            "https://www.samejantravel.tw/trails/409644c1a89b8134820ecb85df759949"
+          ]
+        },
+        {
+          "topic": "cloud-sea",
+          "source": "玉山國家公園官方FAQ：主峰觀雲海景點",
+          "mentions": 1,
+          "urls": [
+            "https://www.ysnp.gov.tw/FAQ/C007000?ID=b0b6ba95-413e-411e-b730-1ec54454aa5d&PageIndex=5&PageType=1"
+          ]
+        }
+      ],
+      "status": "listed"
     },
     {
       "place_id": "tw-041",
@@ -849,9 +926,20 @@
     {
       "place_id": "tw-043",
       "name_zh": "奇萊主峰",
-      "listed_topics": [],
-      "list_hits": [],
-      "status": "unlisted"
+      "listed_topics": [
+        "cloud-waterfall"
+      ],
+      "list_hits": [
+        {
+          "topic": "cloud-waterfall",
+          "source": "奇萊主北",
+          "mentions": 1,
+          "urls": [
+            "https://udn.com/news/story/120665/6050311"
+          ]
+        }
+      ],
+      "status": "listed"
     },
     {
       "place_id": "tw-044",
@@ -881,9 +969,41 @@
     {
       "place_id": "tw-046",
       "name_zh": "大霸尖山",
-      "listed_topics": [],
-      "list_hits": [],
-      "status": "unlisted"
+      "listed_topics": [
+        "sunrise",
+        "sunset",
+        "stargazing"
+      ],
+      "list_hits": [
+        {
+          "topic": "sunrise",
+          "source": "中霸坪日出黃金大霸(登山紀實)",
+          "mentions": 1,
+          "urls": [
+            "https://udn.com/news/story/12395/6163922",
+            "https://mountainriver.pixnet.net/blog/posts/16019924796"
+          ]
+        },
+        {
+          "topic": "sunset",
+          "source": "中霸坪日落黃金大霸(登山紀實)",
+          "mentions": 1,
+          "urls": [
+            "https://mountainriver.pixnet.net/blog/posts/16019924796",
+            "https://luhuawei.blog/2023/07/2023-08-blog-post.html"
+          ]
+        },
+        {
+          "topic": "stargazing",
+          "source": "九九山莊/中霸山屋夜間觀星與銀河(登山紀實)",
+          "mentions": 1,
+          "urls": [
+            "https://www.samejantravel.tw/trails/34e644c1a89b81e89570eb69a3fe1f11",
+            "https://mountainriver.pixnet.net/blog/posts/16019924796"
+          ]
+        }
+      ],
+      "status": "listed"
     },
     {
       "place_id": "tw-047",
@@ -1074,8 +1194,9 @@
       "place_id": "tw-068",
       "name_zh": "綠島朝日溫泉",
       "listed_topics": [
-        "hot-spring",
-        "sunrise"
+        "sunrise",
+        "stargazing",
+        "hot-spring"
       ],
       "list_hits": [
         {
@@ -1086,6 +1207,15 @@
             "https://www.gvm.com.tw/article/126984",
             "https://hk.trip.com/moments/theme/destination-taitung-760-sunrise-watching-990211/",
             "https://www.gvm.com.tw/article/29383"
+          ]
+        },
+        {
+          "topic": "stargazing",
+          "source": "綠島(柚子湖)",
+          "mentions": 2,
+          "urls": [
+            "https://www.youtube.com/watch?v=W0KrUvc9d8I",
+            "https://www.youtube.com/watch?v=xlsgxk6FP8I"
           ]
         },
         {
@@ -1103,7 +1233,8 @@
       "place_id": "tw-069",
       "name_zh": "蘭嶼東清灣",
       "listed_topics": [
-        "sunrise"
+        "sunrise",
+        "stargazing"
       ],
       "list_hits": [
         {
@@ -1115,6 +1246,14 @@
             "https://tour.taitung.gov.tw/zh-tw/diary/detail/825",
             "https://www.gvm.com.tw/article/29383"
           ]
+        },
+        {
+          "topic": "stargazing",
+          "source": "蘭嶼",
+          "mentions": 1,
+          "urls": [
+            "https://www.youtube.com/watch?v=MY2uhcdqBkA"
+          ]
         }
       ],
       "status": "listed"
@@ -1122,9 +1261,20 @@
     {
       "place_id": "tw-070",
       "name_zh": "蘭嶼青青草原",
-      "listed_topics": [],
-      "list_hits": [],
-      "status": "unlisted"
+      "listed_topics": [
+        "stargazing"
+      ],
+      "list_hits": [
+        {
+          "topic": "stargazing",
+          "source": "蘭嶼",
+          "mentions": 1,
+          "urls": [
+            "https://www.youtube.com/watch?v=MY2uhcdqBkA"
+          ]
+        }
+      ],
+      "status": "listed"
     },
     {
       "place_id": "tw-071",
@@ -1150,9 +1300,21 @@
     {
       "place_id": "tw-074",
       "name_zh": "野柳地質公園",
-      "listed_topics": [],
-      "list_hits": [],
-      "status": "unlisted"
+      "listed_topics": [
+        "sunset"
+      ],
+      "list_hits": [
+        {
+          "topic": "sunset",
+          "source": "野柳地質公園(北海岸及觀音山國家風景區官方)；日落金光攝影時段",
+          "mentions": 1,
+          "urls": [
+            "https://www.northguan-nsa.gov.tw/user/article.aspx?Lang=1&SNo=04002756",
+            "https://tw.trip.com/moments/theme/poi-queen-s-head-39039835-attraction-993137/"
+          ]
+        }
+      ],
+      "status": "listed"
     },
     {
       "place_id": "tw-075",
@@ -1313,21 +1475,9 @@
     {
       "place_id": "tw-087",
       "name_zh": "大雪山森林遊樂區43K觀景台",
-      "listed_topics": [
-        "cloud-sea"
-      ],
-      "list_hits": [
-        {
-          "topic": "cloud-sea",
-          "source": "大雪山森林遊樂區埡口(48K)",
-          "mentions": 2,
-          "urls": [
-            "https://www.mook.com.tw/article/19789",
-            "https://www.moa.gov.tw/ws.php?id=2445093"
-          ]
-        }
-      ],
-      "status": "listed"
+      "listed_topics": [],
+      "list_hits": [],
+      "status": "unlisted"
     },
     {
       "place_id": "tw-088",
@@ -1431,9 +1581,20 @@
     {
       "place_id": "tw-100",
       "name_zh": "石碇千島湖／鱷魚潭",
-      "listed_topics": [],
-      "list_hits": [],
-      "status": "unlisted"
+      "listed_topics": [
+        "cloud-sea"
+      ],
+      "list_hits": [
+        {
+          "topic": "cloud-sea",
+          "source": "坪林南山寺/石碇",
+          "mentions": 1,
+          "urls": [
+            "https://www.mook.com.tw/article/20195"
+          ]
+        }
+      ],
+      "status": "listed"
     },
     {
       "place_id": "tw-101",
@@ -1561,9 +1722,20 @@
     {
       "place_id": "tw-112",
       "name_zh": "太魯閣燕子口／九曲洞",
-      "listed_topics": [],
-      "list_hits": [],
-      "status": "unlisted"
+      "listed_topics": [
+        "waterfall"
+      ],
+      "list_hits": [
+        {
+          "topic": "waterfall",
+          "source": "白楊瀑布(花蓮太魯閣)",
+          "mentions": 1,
+          "urls": [
+            "https://blog.tripbaa.com/taiwan-10-waterfall/"
+          ]
+        }
+      ],
+      "status": "listed"
     },
     {
       "place_id": "tw-113",
@@ -1643,9 +1815,9 @@
       "place_id": "tw-120",
       "name_zh": "武陵農場",
       "listed_topics": [
-        "bald-cypress",
         "cherry-blossom",
-        "firefly"
+        "firefly",
+        "bald-cypress"
       ],
       "list_hits": [
         {
