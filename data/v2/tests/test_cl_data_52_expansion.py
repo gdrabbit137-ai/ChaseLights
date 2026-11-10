@@ -185,8 +185,8 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 350)  # re-anchored CL-DATA-53
-        self.assertEqual(ev["opportunity_count"], 545)
+        self.assertEqual(ev["place_count"], 353)  # re-anchored CL-CI-33 integration: origin scheduled bundle refresh 2026-11-09T22:40:40Z
+        self.assertEqual(ev["opportunity_count"], 550)
 
 
 if __name__ == "__main__":

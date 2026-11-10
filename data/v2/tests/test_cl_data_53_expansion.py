@@ -18,7 +18,7 @@ Pins:
 - seasonal windows present in seasonal-calendar.json (5 entries);
 - AGLI v2 dual-board records in agli-final.json (L/P, zero 90+, anchor comparandum for L>75);
 - runtime catalog counts (incl. us-097..118 backfill), manifest us counts (numeric_id_end 158),
-  runtime-deps gap sets, evaluations bundle spliced 350/546.
+  runtime-deps gap sets, evaluations bundle spliced 353/550.
 """
 import json
 import os
@@ -191,8 +191,8 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 350)
-        self.assertEqual(ev["opportunity_count"], 545)
+        self.assertEqual(ev["place_count"], 353)  # re-anchored CL-CI-33 integration: origin scheduled bundle refresh 2026-11-09T22:40:40Z
+        self.assertEqual(ev["opportunity_count"], 550)
         self.assertEqual(ev["forecast_hours"], 168)
 
 
