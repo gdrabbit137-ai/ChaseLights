@@ -1,0 +1,259 @@
+{
+  "generated_for": "CL-DATA-60 主題式清單挖掘 (「台灣XX個看OO的地方」搜尋法)",
+  "method": "web_search「台灣XX個看OO的地方」及變體; 每題材取 >=3 來源文萃取景點/題材/URL; GPS/海拔來源文未提供者從缺",
+  "topics": {
+    "cloud-sea": 15,
+    "night-view": 16,
+    "stargazing": 14,
+    "sunrise": 18,
+    "sunset": 21,
+    "cloud-waterfall": 10,
+    "liuli-glow": 11,
+    "waterfall": 12,
+    "hot-spring": 11,
+    "miscanthus": 11,
+    "cherry-blossom": 14,
+    "firefly": 17,
+    "tung-blossom": 15,
+    "lavender-flower-field": 9,
+    "bald-cypress": 17,
+    "aurora": 0
+  },
+  "cross_validation_summary": {
+    "total_places": 115,
+    "listed": 53,
+    "unlisted": 62,
+    "match_method": "normalized-name rerun (CL-DATA-60B): suffix-stripped bidirectional substring + manual alias table (37 entries) + region/coordinate & topic-keyword assist on partial matches + manual web-verification supplement for 玉山主峰/野柳地質公園/崇德(清水斷崖)/大霸尖山; mined sources lacked GPS so coordinate pass = county-anchor assist only",
+    "topics_covered": [
+      "cloud-sea",
+      "night-view",
+      "stargazing",
+      "sunrise",
+      "sunset",
+      "cloud-waterfall",
+      "liuli-glow",
+      "waterfall",
+      "hot-spring",
+      "miscanthus",
+      "cherry-blossom",
+      "firefly",
+      "tung-blossom",
+      "lavender-flower-field",
+      "bald-cypress",
+      "aurora"
+    ],
+    "supplemented_place_ids": [
+      "tw-040",
+      "tw-074",
+      "tw-034",
+      "tw-046"
+    ],
+    "alias_table_entries": 72,
+    "liuli_glow_merge_note": "琉璃光/琉璃雲視為同義題材，名稱含「琉璃雲(海)」之來源條目全部併入 liuli-glow 統計（本輪併入 1 mentions）",
+    "liuli_glow_merged_mentions": 1
+  },
+  "unlisted_place_ids": [
+    "tw-006",
+    "tw-008",
+    "tw-009",
+    "tw-010",
+    "tw-011",
+    "tw-012",
+    "tw-013",
+    "tw-016",
+    "tw-027",
+    "tw-028",
+    "tw-031",
+    "tw-032",
+    "tw-033",
+    "tw-035",
+    "tw-037",
+    "tw-041",
+    "tw-042",
+    "tw-044",
+    "tw-047",
+    "tw-048",
+    "tw-049",
+    "tw-050",
+    "tw-052",
+    "tw-054",
+    "tw-056",
+    "tw-057",
+    "tw-058",
+    "tw-059",
+    "tw-060",
+    "tw-061",
+    "tw-062",
+    "tw-064",
+    "tw-065",
+    "tw-066",
+    "tw-067",
+    "tw-071",
+    "tw-072",
+    "tw-073",
+    "tw-075",
+    "tw-078",
+    "tw-079",
+    "tw-080",
+    "tw-081",
+    "tw-086",
+    "tw-087",
+    "tw-088",
+    "tw-094",
+    "tw-095",
+    "tw-098",
+    "tw-099",
+    "tw-101",
+    "tw-104",
+    "tw-106",
+    "tw-108",
+    "tw-109",
+    "tw-110",
+    "tw-111",
+    "tw-114",
+    "tw-115",
+    "tw-117",
+    "tw-118",
+    "tw-119"
+  ],
+  "new_candidates_count": 136,
+  "liuli": {
+    "catalog_with_liuli_narrative": [
+      {
+        "place_id": "tw-020",
+        "name": "金龍山",
+        "evidence": "tw-020-P03 金龍山盆地低雲琉璃光"
+      },
+      {
+        "place_id": "tw-023",
+        "name": "頂石棹",
+        "evidence": "tw-023-P03 台18線63.5K頂石棹聚落琉璃光"
+      },
+      {
+        "place_id": "tw-098",
+        "name": "渭水之丘",
+        "evidence": "tw-098-P01 渭水之丘晨霧琉璃光(晨霧版，非城市燈光)"
+      }
+    ],
+    "mining_confirmed_liuli_glow_spots": [
+      {
+        "name": "頂石棹(嘉義)",
+        "in_catalog": true,
+        "place_id": "tw-23",
+        "mentions": 7
+      },
+      {
+        "name": "金龍山(南投)",
+        "in_catalog": true,
+        "place_id": "tw-020",
+        "mentions": 3
+      },
+      {
+        "name": "隙頂二延平步道(嘉義)",
+        "in_catalog": true,
+        "place_id": "tw-022",
+        "mentions": 4
+      },
+      {
+        "name": "雲洞山莊(苗栗)",
+        "in_catalog": true,
+        "place_id": "tw-014",
+        "mentions": 1
+      },
+      {
+        "name": "太平雲梯(嘉義)",
+        "in_catalog": true,
+        "place_id": "tw-105",
+        "mentions": 2
+      },
+      {
+        "name": "二尖山(嘉義梅山/太興)",
+        "in_catalog": false,
+        "mentions": 2
+      },
+      {
+        "name": "旗山中寮(高雄)",
+        "in_catalog": false,
+        "mentions": 1
+      },
+      {
+        "name": "虎頭飛(南投埔里)",
+        "in_catalog": false,
+        "mentions": 1
+      },
+      {
+        "name": "馬槽橋(陽明山)",
+        "in_catalog": false,
+        "mentions": 1
+      },
+      {
+        "name": "茶壺山(新北金瓜石)",
+        "in_catalog": false,
+        "mentions": 1
+      },
+      {
+        "name": "柴山(高雄)",
+        "in_catalog": false,
+        "mentions": 1
+      }
+    ],
+    "liuli_cloud_city_light_candidates": [
+      {
+        "place_id": "tw-001",
+        "name": "大屯山助航站",
+        "coords": [
+          25.1761,
+          121.5224
+        ],
+        "rationale": "俯瞰台北盆地，夜間雲霧+城市燈光的琉璃雲/琉璃光報導 (LINE旅遊雲海懶人包)"
+      },
+      {
+        "place_id": "tw-002",
+        "name": "象山六巨石攝影平台",
+        "coords": [
+          25.0288,
+          121.5722
+        ],
+        "rationale": "信義區燈火+低層雲過境時透霧燈光"
+      },
+      {
+        "place_id": "tw-051",
+        "name": "大古山",
+        "coords": [
+          25.1053,
+          121.29
+        ],
+        "rationale": "桃園機場/城市燈火夜景，霧季可拍透霧光"
+      },
+      {
+        "place_id": "tw-052",
+        "name": "小崗山雲臺",
+        "coords": [
+          22.8128,
+          120.3347
+        ],
+        "rationale": "高雄平原夜燈+冬季輻射霧"
+      },
+      {
+        "place_id": "tw-027",
+        "name": "田寮月世界",
+        "coords": [
+          22.886,
+          120.389
+        ],
+        "rationale": "惡地低雲霧+附近村落燈光"
+      }
+    ],
+    "notes": [
+      "琉璃光=城市/聚落燈光透過低雲霧折射的透光色澤；來源一致指出季節為10月至隔年3月",
+      "城市燈光透霧(琉璃雲)適用點需滿足: 高點俯瞰夜間城市燈火 + 常起低雲/輻射霧",
+      "撮影師曾國根推薦點(自由時報 playing.ltn.com.tw/article/18207/1): 隙頂二延平、金龍山、雲洞山莊、旗山中寮",
+      "udn 報導賞景點: 頂石棹、隙頂二延平、太平雲梯、二尖山"
+    ]
+  },
+  "limitations": [
+    "mined 清單文多無 GPS/海拔, 5km 座標比對不適用; 比對採 zh 名稱模糊子字串 (含手動別名表)",
+    "一條清單條目若命中多個既有景點, 採第一命中 (e.g. 「池上/關山」歸 tw-030 關山)",
+    "aurora: 台灣位處低緯, 清單文不存在; 科技大觀園等來源證實本島幾乎無極光觀賞條件"
+  ]
+}
