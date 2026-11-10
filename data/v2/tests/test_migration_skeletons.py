@@ -33,11 +33,12 @@ class MigrationSkeletonTests(unittest.TestCase):
         spots = self.catalog["spots"]
         opps = sum(len(s["opportunities"]) for s in spots)
         admitted = set(self.inventory["first_pass"]["admitted_canonical"])
-        # re-anchored CL-DATA-62: 6 Places retired (owner 2026-11-10) —
-        # runtime catalog now 357 spots / 574 opportunities (CL-INT-134 merged re-anchor: latest-main catalog minus the 6 retired spots).
-        self.assertEqual((357, 574), (len(spots), opps))
+        # merged re-anchor: 6 Places retired on main (CL-DATA-62/CL-INT-134) +
+        # 13 new-subject-family skeletons (CL-DATA-64) — runtime catalog now
+        # 370 spots / 587 opportunities; canonical archives retained (565).
+        self.assertEqual((370, 587), (len(spots), opps))
         canonical = sorted((ROOT / "data/v2/opportunities").glob("*.json"))
-        self.assertEqual(552, len(canonical))
+        self.assertEqual(565, len(canonical))
         self.assertEqual(len(admitted), 28)
         # R0 inventory is a frozen snapshot (live catalog grew with CL-DATA-25/25R admissions)
         self.assertEqual(self.inventory["first_pass"]["places_first_pass_covered"], 217)

@@ -16,7 +16,7 @@
   "無 95+：最高分均已附全球同型比較（阿蘇→黃石、知床流氷→波羅的海），錨點紀律未膨脹"
  ],
  "summary": {
-  "n": 90,
+  "n": 67,
   "mean_abs_diff": 2.39,
   "pct_over10": 0.0,
   "n_arbitrated_dims": 0,
@@ -33,7 +33,11 @@
    "high": 22,
    "medium": 31,
    "low": 10
-  }
+  },
+  "mean_agli": 58.38,
+  "median_agli": 60.6,
+  "n_90_plus": 0,
+  "notes": " | CL-DATA-64 appended jp-092,jp-093,jp-094,jp-095 (4 places, direct dual-board v2 scoring); anchor discipline maintained (zero 95+)"
  },
  "l1_region_rankings": {
   "JP1": {
@@ -154,7 +158,11 @@
   "jp-016",
   "jp-018",
   "jp-035",
-  "jp-014"
+  "jp-014",
+  "jp-094",
+  "jp-092",
+  "jp-095",
+  "jp-093"
  ],
  "records": [
   {
@@ -4963,6 +4971,122 @@
     "photo": "步道機位多但光線幽暗"
    },
    "agli": 63.0
+  },
+  {
+   "place_id": "jp-092",
+   "name_zh": "別府海地獄",
+   "l1": null,
+   "pass_A": null,
+   "pass_B": null,
+   "merged": {
+    "grandeur": 52,
+    "uniqueness": 70,
+    "visual": 75,
+    "richness": 50,
+    "season": 75,
+    "photo": 75,
+    "experience": null,
+    "cultural": null
+   },
+   "confidence": "medium",
+   "gli_version": "64-direct-v2",
+   "source": "cl-data-64-direct",
+   "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+   "reasons": {
+    "grandeur": "landscape scale is not top-tier but clean",
+    "uniqueness": "similar subjects exist",
+    "visual": "photogenic luminous/banded subject",
+    "richness": "subjects are relatively focused",
+    "season": "seasons are relatively free"
+   },
+   "agli": 64.2
+  },
+  {
+   "place_id": "jp-093",
+   "name_zh": "別府血池地獄",
+   "l1": null,
+   "pass_A": null,
+   "pass_B": null,
+   "merged": {
+    "grandeur": 45,
+    "uniqueness": 68,
+    "visual": 70,
+    "richness": 45,
+    "season": 75,
+    "photo": 70,
+    "experience": null,
+    "cultural": null
+   },
+   "confidence": "medium",
+   "gli_version": "64-direct-v2",
+   "source": "cl-data-64-direct",
+   "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+   "reasons": {
+    "grandeur": "landscape scale is not top-tier but clean",
+    "uniqueness": "similar subjects exist",
+    "visual": "photogenic but noisy",
+    "richness": "subjects are relatively focused",
+    "season": "seasons are relatively free"
+   },
+   "agli": 59.9
+  },
+  {
+   "place_id": "jp-094",
+   "name_zh": "草津湯畑",
+   "l1": null,
+   "pass_A": null,
+   "pass_B": null,
+   "merged": {
+    "grandeur": 48,
+    "uniqueness": 75,
+    "visual": 72,
+    "richness": 55,
+    "season": 78,
+    "photo": 72,
+    "experience": null,
+    "cultural": null
+   },
+   "confidence": "medium",
+   "gli_version": "64-direct-v2",
+   "source": "cl-data-64-direct",
+   "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+   "reasons": {
+    "grandeur": "landscape scale is not top-tier but clean",
+    "uniqueness": "日本湧出量第一的溫泉象徵，國家特別名勝",
+    "visual": "photogenic but noisy",
+    "richness": "can be paired with multiple subjects",
+    "season": "seasons are relatively free"
+   },
+   "agli": 64.7
+  },
+  {
+   "place_id": "jp-095",
+   "name_zh": "地獄谷野猿公苑",
+   "l1": null,
+   "pass_A": null,
+   "pass_B": null,
+   "merged": {
+    "grandeur": 45,
+    "uniqueness": 78,
+    "visual": 70,
+    "richness": 50,
+    "season": 45,
+    "photo": 70,
+    "experience": null,
+    "cultural": null
+   },
+   "confidence": "medium",
+   "gli_version": "64-direct-v2",
+   "source": "cl-data-64-direct",
+   "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+   "reasons": {
+    "grandeur": "landscape scale is not top-tier but clean",
+    "uniqueness": "世界唯一雪猴泡湯景觀",
+    "visual": "photogenic but noisy",
+    "richness": "subjects are relatively focused",
+    "season": "strong seasonal sense"
+   },
+   "agli": 60.3
   }
  ]
 }

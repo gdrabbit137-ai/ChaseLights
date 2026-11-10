@@ -53,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((344,539),(len(actual),len(ids)))  # re-anchored CL-INT-134 (6-place retirement on the merged 350/552 tree)
+        self.assertEqual((357,552),(len(actual),len(ids)))  # merged re-anchor: 344/539 on main + 13 CL-DATA-64 new-subject-family places
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -85,6 +85,7 @@ class ResearchIndexTests(unittest.TestCase):
         '6a420db5100bb184f655b4b765d29fdf3494588d',
         '7a77bea62a609a861b725288f53036e10b750ac9',
         '8024532fdfd00d32fb5d44335d2feb634d50a2de',
+        '5adb3ace77808544f95f9e4ef3b751cf9938f964',
         '8393d5b3d4612c04b57d583a694094f77f78696c',
         '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
         'a34cd15819a1b01702d6d38408524e444ca84906',
@@ -131,7 +132,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(1032,count)  # 344 places x 3 (re-anchored CL-INT-134: 6-place retirement on the merged tree)
+        self.assertEqual(1071,count)  # 357 places x 3 (merged re-anchor: retirement on main + 13 CL-DATA-64 places)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
@@ -200,7 +201,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(41,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # CL-INT-134 merged re-anchor: topic links of the merged 539-opportunity index (retired links removed on top of the CL-DATA-53/54 wave links)
+        self.assertEqual(45,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # CL-INT-134 merged re-anchor: topic links of the merged 539-opportunity index (retired links removed on top of the CL-DATA-53/54 wave links)
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])

@@ -42,10 +42,10 @@ def load(p):
 class TestRegions(unittest.TestCase):
     def test_jp_catalog_grew(self):
         spots = regions.get_spots("jp")
-        self.assertEqual(len(spots), 91)
+        self.assertEqual(len(spots), 95)  # re-anchored CL-DATA-64 (jp-092..095 geothermal/hells; growth-only)
         names = [s["name_i18n"]["zh-TW"] for s in spots]
         self.assertIn("富士山頂（剣ヶ峰）", names)
-        self.assertEqual(names[-1], "屋久島白谷雲水峽")  # jp-091
+        self.assertEqual(names[-1], "地獄谷野猿公苑")  # jp-095
 
     def test_new_admin_areas(self):
         for pid in NEW_IDS:
@@ -160,15 +160,15 @@ class TestAgli(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 363)  # re-anchored CL-DATA-53
-        self.assertEqual(cat["counts"]["opportunities"], 595)
+        self.assertEqual(cat["counts"]["spots"], 376)  # re-anchored CL-DATA-64
+        self.assertEqual(cat["counts"]["opportunities"], 608)
         jp = [s for s in cat["spots"] if s["spot_id"].startswith("jp-")]
-        self.assertEqual(len(jp), 90)  # jp-050 retired
+        self.assertEqual(len(jp), 94)  # jp-050 retired
 
     def test_manifest_jp_counts(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
-        self.assertEqual(mf["regions"]["jp"]["numeric_id_end"], 91)
-        self.assertEqual(mf["regions"]["jp"]["counts"]["spots"], 90)
+        self.assertEqual(mf["regions"]["jp"]["numeric_id_end"], 95)
+        self.assertEqual(mf["regions"]["jp"]["counts"]["spots"], 94)
         self.assertEqual(mf["totals"], load("runtime_catalog_v004_r4_2.json")["counts"])
 
     def test_runtime_dependencies_gaps(self):
@@ -185,8 +185,8 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 353)  # re-anchored CL-CI-33 integration: origin scheduled bundle refresh 2026-11-09T22:40:40Z
-        self.assertEqual(ev["opportunity_count"], 550)
+        self.assertEqual(ev["place_count"], 366)  # re-anchored CL-DATA-64: scoped 168h evals for 13 new places spliced into the 2026-11-09T22:40:40Z bundle
+        self.assertEqual(ev["opportunity_count"], 562)
 
 
 if __name__ == "__main__":

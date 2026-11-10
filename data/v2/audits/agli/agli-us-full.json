@@ -13,7 +13,7 @@
     "pass_B 為規則視角微調非獨立主體——本批誠實標註，正式版應由隔離子代理重評"
   ],
   "summary": {
-    "n": 145,
+    "n": 150,
     "confidence": {
       "high": 23,
       "medium": 56,
@@ -33,8 +33,8 @@
       "<40": 4
     },
     "n_90_plus": 0,
-    "mean_agli": 60.66,
-    "median_agli": 61.3,
+    "mean_agli": 60.87,
+    "median_agli": 61.5,
     "l1_region_rankings": [
       {
         "l1": "U1",
@@ -93,7 +93,7 @@
       "global_comparators_85_plus": []
     },
     "b_lens_note": "pass_B 為攝影師視角規則微調（非獨立評審主體），本批限制：無逐點影像重驗、信心等級以此保守標註",
-    "notes": " | CL-DATA-53 appended us-119..us-158 (40 places, direct dual-board v2 scoring); anchor discipline maintained (zero 95+)"
+    "notes": " | CL-DATA-53 appended us-119..us-158 (40 places, direct dual-board v2 scoring); anchor discipline maintained (zero 95+) | CL-DATA-64 appended us-159,us-160,us-161,us-162,us-163 (5 places, direct dual-board v2 scoring); anchor discipline maintained (zero 95+)"
   },
   "l1_region_rankings": [
     {
@@ -101,39 +101,39 @@
       "name": "Southwest Canyon Mesa Region",
       "top": "us-001:大峽谷國家公園",
       "top_agli": 84.5,
-      "n": 32
+      "n": 34
     },
     {
       "l1": "U2",
-      "name": "California Mountains and Coast Region",
+      "name": "U2",
       "top": "us-029:白沙國家公園",
       "top_agli": 71.6,
       "n": 12
     },
     {
       "l1": "U3",
-      "name": "Cascades—Washington-Oregon Region",
+      "name": "U3",
       "top": "us-081:雷尼爾山・天堂區",
       "top_agli": 70.0,
       "n": 32
     },
     {
       "l1": "U5",
-      "name": "Eastern Mountains and Inland Regions",
+      "name": "U5",
       "top": "us-142:us-142",
       "top_agli": 74.1,
       "n": 36
     },
     {
       "l1": "U6",
-      "name": "Southern Alaska (Fjord and Glacier Belt)",
+      "name": "U6",
       "top": "us-041:迪納利國家公園",
       "top_agli": 77.3,
       "n": 21
     },
     {
       "l1": "U7",
-      "name": "Northern Alaska (Arctic Tundra Belt)",
+      "name": "U7",
       "top": "us-108:墨菲穹丘極光",
       "top_agli": 42.7,
       "n": 1
@@ -141,9 +141,9 @@
     {
       "l1": "U8",
       "name": "Hawaiian Islands Region",
-      "top": "us-113:哈雷阿卡拉山頂雲海日出",
-      "top_agli": 71.5,
-      "n": 11
+      "top": "us-161:基勞亞口熔岩紅光夜拍（基勞亞展望台）",
+      "top_agli": 76.1,
+      "n": 14
     }
   ],
   "ranking": [
@@ -239,6 +239,16 @@
     },
     {
       "rank": 10,
+      "place_id": "us-161",
+      "name_zh": "基勞亞口熔岩紅光夜拍（基勞亞展望台）",
+      "l1": "U8",
+      "l1_rank": 1,
+      "agli": 76.1,
+      "confidence": "high",
+      "source": "cl-data-64-direct"
+    },
+    {
+      "rank": 11,
       "place_id": "us-119",
       "name_zh": "us-119",
       "l1": "U1",
@@ -248,7 +258,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 11,
+      "rank": 12,
       "place_id": "us-012",
       "name_zh": "雷尼爾山國家公園",
       "l1": "U1",
@@ -258,7 +268,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 12,
+      "rank": 13,
       "place_id": "us-142",
       "name_zh": "us-142",
       "l1": "U5",
@@ -268,7 +278,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 13,
+      "rank": 14,
       "place_id": "us-019",
       "name_zh": "奧林匹克國家公園",
       "l1": "U1",
@@ -278,7 +288,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 14,
+      "rank": 15,
       "place_id": "us-013",
       "name_zh": "火山口湖國家公園",
       "l1": "U1",
@@ -288,7 +298,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 15,
+      "rank": 16,
       "place_id": "us-128",
       "name_zh": "us-128",
       "l1": "U1",
@@ -298,27 +308,37 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 16,
+      "rank": 17,
+      "place_id": "us-159",
+      "name_zh": "老忠實間歇泉（黃石）",
+      "l1": "U1",
+      "l1_rank": 14,
+      "agli": 73.6,
+      "confidence": "high",
+      "source": "cl-data-64-direct"
+    },
+    {
+      "rank": 18,
       "place_id": "us-005",
       "name_zh": "拱門國家公園",
       "l1": "U1",
-      "l1_rank": 14,
+      "l1_rank": 15,
       "agli": 73.5,
       "confidence": "high",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 17,
+      "rank": 19,
       "place_id": "us-010",
       "name_zh": "黃石國家公園 大稜鏡溫泉",
       "l1": "U1",
-      "l1_rank": 15,
+      "l1_rank": 16,
       "agli": 73.4,
       "confidence": "high",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 18,
+      "rank": 20,
       "place_id": "us-123",
       "name_zh": "us-123",
       "l1": "U5",
@@ -328,7 +348,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 19,
+      "rank": 21,
       "place_id": "us-158",
       "name_zh": "us-158",
       "l1": "U6",
@@ -338,7 +358,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 20,
+      "rank": 22,
       "place_id": "us-029",
       "name_zh": "白沙國家公園",
       "l1": "U2",
@@ -348,27 +368,27 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 21,
+      "rank": 23,
       "place_id": "us-021",
       "name_zh": "峽谷地國家公園 梅薩拱門",
       "l1": "U1",
-      "l1_rank": 16,
+      "l1_rank": 17,
       "agli": 71.5,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 22,
+      "rank": 24,
       "place_id": "us-113",
       "name_zh": "哈雷阿卡拉山頂雲海日出",
       "l1": "U8",
-      "l1_rank": 1,
+      "l1_rank": 2,
       "agli": 71.5,
       "confidence": "high",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 23,
+      "rank": 25,
       "place_id": "us-060",
       "name_zh": "冰河灣國家公園",
       "l1": "U6",
@@ -378,7 +398,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 24,
+      "rank": 26,
       "place_id": "us-055",
       "name_zh": "威朗格利-聖埃利亞斯國家公園",
       "l1": "U6",
@@ -388,49 +408,39 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 25,
+      "rank": 27,
       "place_id": "us-127",
       "name_zh": "us-127",
       "l1": "U1",
-      "l1_rank": 17,
+      "l1_rank": 18,
       "agli": 70.9,
       "confidence": "medium",
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 26,
+      "rank": 28,
       "place_id": "us-014",
       "name_zh": "死亡谷國家公園",
       "l1": "U1",
-      "l1_rank": 18,
+      "l1_rank": 19,
       "agli": 70.4,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 27,
+      "rank": 29,
       "place_id": "us-114",
       "name_zh": "卡拉勞山谷雲霧眺望",
       "l1": "U8",
-      "l1_rank": 2,
+      "l1_rank": 3,
       "agli": 70.4,
       "confidence": "high",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 28,
+      "rank": 30,
       "place_id": "us-003",
       "name_zh": "羚羊峽谷",
-      "l1": "U1",
-      "l1_rank": 19,
-      "agli": 70.2,
-      "confidence": "high",
-      "source": "agli49-anchor-audit"
-    },
-    {
-      "rank": 29,
-      "place_id": "us-015",
-      "name_zh": "舊金山金門大橋",
       "l1": "U1",
       "l1_rank": 20,
       "agli": 70.2,
@@ -438,7 +448,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 30,
+      "rank": 31,
+      "place_id": "us-015",
+      "name_zh": "舊金山金門大橋",
+      "l1": "U1",
+      "l1_rank": 21,
+      "agli": 70.2,
+      "confidence": "high",
+      "source": "agli49-anchor-audit"
+    },
+    {
+      "rank": 32,
       "place_id": "us-031",
       "name_zh": "落磯山國家公園",
       "l1": "U2",
@@ -448,7 +468,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 31,
+      "rank": 33,
       "place_id": "us-081",
       "name_zh": "雷尼爾山・天堂區",
       "l1": "U3",
@@ -458,7 +478,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 32,
+      "rank": 34,
       "place_id": "us-037",
       "name_zh": "尼加拉瀑布",
       "l1": "U3",
@@ -468,17 +488,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 33,
+      "rank": 35,
       "place_id": "us-115",
       "name_zh": "冒納凱亞遊客站銀河",
       "l1": "U8",
-      "l1_rank": 3,
+      "l1_rank": 4,
       "agli": 69.9,
       "confidence": "high",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 34,
+      "rank": 36,
       "place_id": "us-140",
       "name_zh": "us-140",
       "l1": "U5",
@@ -488,17 +508,17 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 35,
+      "rank": 37,
       "place_id": "us-002",
       "name_zh": "馬蹄灣",
       "l1": "U1",
-      "l1_rank": 21,
+      "l1_rank": 22,
       "agli": 68.9,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 36,
+      "rank": 38,
       "place_id": "us-082",
       "name_zh": "雷尼爾山・倒影湖",
       "l1": "U3",
@@ -508,37 +528,37 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 37,
+      "rank": 39,
       "place_id": "us-020",
       "name_zh": "紅木國家公園",
       "l1": "U1",
-      "l1_rank": 22,
+      "l1_rank": 23,
       "agli": 68.5,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 38,
+      "rank": 40,
       "place_id": "us-017",
       "name_zh": "聖海倫斯火山",
       "l1": "U1",
-      "l1_rank": 23,
+      "l1_rank": 24,
       "agli": 67.6,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 39,
+      "rank": 41,
       "place_id": "us-112",
       "name_zh": "哈雷茂茂火山口夜空",
       "l1": "U8",
-      "l1_rank": 4,
+      "l1_rank": 5,
       "agli": 67.5,
       "confidence": "high",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 40,
+      "rank": 42,
       "place_id": "us-155",
       "name_zh": "us-155",
       "l1": "U5",
@@ -548,7 +568,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 41,
+      "rank": 43,
       "place_id": "us-133",
       "name_zh": "us-133",
       "l1": "U2",
@@ -558,7 +578,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 42,
+      "rank": 44,
       "place_id": "us-083",
       "name_zh": "雷尼爾山・日出區",
       "l1": "U3",
@@ -568,17 +588,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 43,
+      "rank": 45,
       "place_id": "us-148",
       "name_zh": "us-148",
       "l1": "U1",
-      "l1_rank": 24,
+      "l1_rank": 25,
       "agli": 67.0,
       "confidence": "medium",
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 44,
+      "rank": 46,
       "place_id": "us-100",
       "name_zh": "莫諾湖・南方石灰華區",
       "l1": "U5",
@@ -588,17 +608,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 45,
+      "rank": 47,
       "place_id": "us-111",
       "name_zh": "布魯克斯瀑布・鮭魚道水景",
       "l1": "U8",
-      "l1_rank": 5,
+      "l1_rank": 6,
       "agli": 66.3,
       "confidence": "high",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 46,
+      "rank": 48,
       "place_id": "us-038",
       "name_zh": "大霧山國家公園",
       "l1": "U3",
@@ -608,7 +628,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 47,
+      "rank": 49,
       "place_id": "us-146",
       "name_zh": "us-146",
       "l1": "U3",
@@ -618,7 +638,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 48,
+      "rank": 50,
       "place_id": "us-027",
       "name_zh": "鋸齒山脈",
       "l1": "U2",
@@ -628,7 +648,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 49,
+      "rank": 51,
+      "place_id": "us-163",
+      "name_zh": "基勞亞伊奇火山口熔岩地表",
+      "l1": "U8",
+      "l1_rank": 7,
+      "agli": 65.7,
+      "confidence": "medium",
+      "source": "cl-data-64-direct"
+    },
+    {
+      "rank": 52,
       "place_id": "us-149",
       "name_zh": "us-149",
       "l1": "U2",
@@ -638,7 +668,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 50,
+      "rank": 53,
       "place_id": "us-059",
       "name_zh": "卡特邁國家公園",
       "l1": "U6",
@@ -648,7 +678,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 51,
+      "rank": 54,
       "place_id": "us-092",
       "name_zh": "藝術家角",
       "l1": "U3",
@@ -658,7 +688,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 52,
+      "rank": 55,
       "place_id": "us-087",
       "name_zh": "颶風嶺",
       "l1": "U3",
@@ -668,7 +698,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 53,
+      "rank": 56,
       "place_id": "us-151",
       "name_zh": "us-151",
       "l1": "U2",
@@ -678,7 +708,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 54,
+      "rank": 57,
       "place_id": "us-153",
       "name_zh": "us-153",
       "l1": "U5",
@@ -688,17 +718,17 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 55,
+      "rank": 58,
       "place_id": "us-131",
       "name_zh": "us-131",
       "l1": "U1",
-      "l1_rank": 25,
+      "l1_rank": 26,
       "agli": 64.2,
       "confidence": "medium",
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 56,
+      "rank": 59,
       "place_id": "us-088",
       "name_zh": "霍雨林",
       "l1": "U3",
@@ -708,7 +738,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 57,
+      "rank": 60,
       "place_id": "us-105",
       "name_zh": "畫岩國家湖岸・礦工堡",
       "l1": "U3",
@@ -718,7 +748,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 58,
+      "rank": 61,
       "place_id": "us-121",
       "name_zh": "us-121",
       "l1": "U2",
@@ -728,7 +758,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 59,
+      "rank": 62,
       "place_id": "us-106",
       "name_zh": "大彎國家公園・聖埃倫娜峽谷",
       "l1": "U5",
@@ -738,7 +768,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 60,
+      "rank": 63,
       "place_id": "us-036",
       "name_zh": "紐約曼哈頓天際線",
       "l1": "U3",
@@ -748,17 +778,27 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 61,
+      "rank": 64,
+      "place_id": "us-160",
+      "name_zh": "牽牛花溫泉池（黃石上間歇泉盆地）",
+      "l1": "U1",
+      "l1_rank": 27,
+      "agli": 63.6,
+      "confidence": "medium",
+      "source": "cl-data-64-direct"
+    },
+    {
+      "rank": 65,
       "place_id": "us-116",
       "name_zh": "威皮歐山谷晨光",
       "l1": "U8",
-      "l1_rank": 6,
+      "l1_rank": 8,
       "agli": 63.4,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 62,
+      "rank": 66,
       "place_id": "us-103",
       "name_zh": "干草堆岩・坎農海灘",
       "l1": "U3",
@@ -768,17 +808,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 63,
+      "rank": 67,
       "place_id": "us-023",
       "name_zh": "巨人柱國家公園",
       "l1": "U1",
-      "l1_rank": 26,
+      "l1_rank": 28,
       "agli": 62.9,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 64,
+      "rank": 68,
       "place_id": "us-139",
       "name_zh": "us-139",
       "l1": "U5",
@@ -788,7 +828,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 65,
+      "rank": 69,
       "place_id": "us-152",
       "name_zh": "us-152",
       "l1": "U5",
@@ -798,7 +838,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 66,
+      "rank": 70,
       "place_id": "us-150",
       "name_zh": "us-150",
       "l1": "U2",
@@ -808,17 +848,17 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 67,
+      "rank": 71,
       "place_id": "us-147",
       "name_zh": "us-147",
       "l1": "U1",
-      "l1_rank": 27,
+      "l1_rank": 29,
       "agli": 62.1,
       "confidence": "medium",
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 68,
+      "rank": 72,
       "place_id": "us-143",
       "name_zh": "us-143",
       "l1": "U3",
@@ -828,7 +868,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 69,
+      "rank": 73,
       "place_id": "us-134",
       "name_zh": "us-134",
       "l1": "U5",
@@ -838,7 +878,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 70,
+      "rank": 74,
       "place_id": "us-091",
       "name_zh": "華盛頓山口觀景點",
       "l1": "U3",
@@ -848,7 +888,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 71,
+      "rank": 75,
       "place_id": "us-097",
       "name_zh": "大惡地國家公園・大惡地觀景點",
       "l1": "U5",
@@ -858,7 +898,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 72,
+      "rank": 76,
       "place_id": "us-141",
       "name_zh": "us-141",
       "l1": "U5",
@@ -868,7 +908,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 73,
+      "rank": 77,
       "place_id": "us-090",
       "name_zh": "迪亞布羅湖",
       "l1": "U3",
@@ -878,7 +918,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 74,
+      "rank": 78,
       "place_id": "us-136",
       "name_zh": "us-136",
       "l1": "U5",
@@ -888,7 +928,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 75,
+      "rank": 79,
       "place_id": "us-069",
       "name_zh": "克拉克湖國家公園",
       "l1": "U6",
@@ -898,7 +938,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 76,
+      "rank": 80,
       "place_id": "us-137",
       "name_zh": "us-137",
       "l1": "U5",
@@ -908,7 +948,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 77,
+      "rank": 81,
       "place_id": "us-093",
       "name_zh": "畫湖",
       "l1": "U3",
@@ -918,7 +958,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 78,
+      "rank": 82,
       "place_id": "us-056",
       "name_zh": "布魯克斯山脈",
       "l1": "U6",
@@ -928,7 +968,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 79,
+      "rank": 83,
       "place_id": "us-102",
       "name_zh": "摩特諾瑪瀑布",
       "l1": "U3",
@@ -938,7 +978,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 80,
+      "rank": 84,
       "place_id": "us-122",
       "name_zh": "us-122",
       "l1": "U2",
@@ -948,17 +988,17 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 81,
+      "rank": 85,
       "place_id": "us-130",
       "name_zh": "us-130",
       "l1": "U1",
-      "l1_rank": 28,
+      "l1_rank": 30,
       "agli": 59.9,
       "confidence": "medium",
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 82,
+      "rank": 86,
       "place_id": "us-098",
       "name_zh": "阿卡迪亞國家公園・卡迪山",
       "l1": "U5",
@@ -968,7 +1008,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 83,
+      "rank": 87,
       "place_id": "us-135",
       "name_zh": "us-135",
       "l1": "U5",
@@ -978,7 +1018,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 84,
+      "rank": 88,
       "place_id": "us-126",
       "name_zh": "us-126",
       "l1": "U5",
@@ -988,7 +1028,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 85,
+      "rank": 89,
       "place_id": "us-030",
       "name_zh": "芝加哥天際線",
       "l1": "U2",
@@ -998,7 +1038,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 86,
+      "rank": 90,
       "place_id": "us-047",
       "name_zh": "馬塔努斯卡冰河",
       "l1": "U6",
@@ -1008,7 +1048,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 87,
+      "rank": 91,
       "place_id": "us-132",
       "name_zh": "us-132",
       "l1": "U5",
@@ -1018,7 +1058,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 88,
+      "rank": 92,
       "place_id": "us-086",
       "name_zh": "里亞爾托海灘／牆中洞",
       "l1": "U3",
@@ -1028,17 +1068,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 89,
+      "rank": 93,
       "place_id": "us-129",
       "name_zh": "us-129",
       "l1": "U1",
-      "l1_rank": 29,
+      "l1_rank": 31,
       "agli": 58.1,
       "confidence": "medium",
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 90,
+      "rank": 94,
       "place_id": "us-065",
       "name_zh": "楚加奇州立公園",
       "l1": "U6",
@@ -1048,7 +1088,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 91,
+      "rank": 95,
       "place_id": "us-104",
       "name_zh": "畫家堡・法蘭科尼亞峽",
       "l1": "U5",
@@ -1058,7 +1098,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 92,
+      "rank": 96,
       "place_id": "us-051",
       "name_zh": "門登霍爾冰河",
       "l1": "U6",
@@ -1068,7 +1108,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 93,
+      "rank": 97,
       "place_id": "us-099",
       "name_zh": "謝南多厄國家公園・老鷹角",
       "l1": "U5",
@@ -1078,7 +1118,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 94,
+      "rank": 98,
       "place_id": "us-084",
       "name_zh": "雷尼爾山・蒂普蘇湖",
       "l1": "U3",
@@ -1088,7 +1128,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 95,
+      "rank": 99,
       "place_id": "us-145",
       "name_zh": "us-145",
       "l1": "U3",
@@ -1098,7 +1138,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 96,
+      "rank": 100,
       "place_id": "us-028",
       "name_zh": "洛杉磯格里斐斯天文台",
       "l1": "U2",
@@ -1108,7 +1148,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 97,
+      "rank": 101,
+      "place_id": "us-162",
+      "name_zh": "那胡庫熔岩管（瑟斯頓熔岩洞）",
+      "l1": "U8",
+      "l1_rank": 9,
+      "agli": 56.7,
+      "confidence": "medium",
+      "source": "cl-data-64-direct"
+    },
+    {
+      "rank": 102,
       "place_id": "us-144",
       "name_zh": "us-144",
       "l1": "U3",
@@ -1118,17 +1168,17 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 98,
+      "rank": 103,
       "place_id": "us-118",
       "name_zh": "邦載管道夕照",
       "l1": "U8",
-      "l1_rank": 7,
+      "l1_rank": 10,
       "agli": 56.4,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 99,
+      "rank": 104,
       "place_id": "us-085",
       "name_zh": "紅寶石海灘",
       "l1": "U3",
@@ -1138,7 +1188,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 100,
+      "rank": 105,
       "place_id": "us-154",
       "name_zh": "us-154",
       "l1": "U5",
@@ -1148,7 +1198,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 101,
+      "rank": 106,
       "place_id": "us-080",
       "name_zh": "欺騙海峽州立公園",
       "l1": "U5",
@@ -1158,7 +1208,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 102,
+      "rank": 107,
       "place_id": "us-101",
       "name_zh": "雷神之井",
       "l1": "U3",
@@ -1168,7 +1218,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 103,
+      "rank": 108,
       "place_id": "us-089",
       "name_zh": "帕盧斯瀑布",
       "l1": "U3",
@@ -1178,17 +1228,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 104,
+      "rank": 109,
       "place_id": "us-117",
       "name_zh": "馬卡普燈塔日出",
       "l1": "U8",
-      "l1_rank": 8,
+      "l1_rank": 11,
       "agli": 55.3,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 105,
+      "rank": 110,
       "place_id": "us-046",
       "name_zh": "哈徹山口",
       "l1": "U6",
@@ -1198,7 +1248,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 106,
+      "rank": 111,
       "place_id": "us-157",
       "name_zh": "us-157",
       "l1": "U5",
@@ -1208,7 +1258,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 107,
+      "rank": 112,
       "place_id": "us-064",
       "name_zh": "艾利耶斯卡",
       "l1": "U6",
@@ -1218,7 +1268,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 108,
+      "rank": 113,
       "place_id": "us-096",
       "name_zh": "乾瀑布",
       "l1": "U3",
@@ -1228,7 +1278,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 109,
+      "rank": 114,
       "place_id": "us-052",
       "name_zh": "荷馬沙嘴",
       "l1": "U6",
@@ -1238,17 +1288,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 110,
+      "rank": 115,
       "place_id": "us-107",
       "name_zh": "出口冰河・冰河舌谷景",
       "l1": "U8",
-      "l1_rank": 9,
+      "l1_rank": 12,
       "agli": 54.3,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 111,
+      "rank": 116,
       "place_id": "us-120",
       "name_zh": "us-120",
       "l1": "U3",
@@ -1258,7 +1308,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 112,
+      "rank": 117,
       "place_id": "us-156",
       "name_zh": "us-156",
       "l1": "U5",
@@ -1268,7 +1318,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 113,
+      "rank": 118,
       "place_id": "us-125",
       "name_zh": "us-125",
       "l1": "U5",
@@ -1278,7 +1328,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 114,
+      "rank": 119,
       "place_id": "us-079",
       "name_zh": "斯諾夸爾米瀑布",
       "l1": "U5",
@@ -1288,7 +1338,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 115,
+      "rank": 120,
       "place_id": "us-063",
       "name_zh": "塔爾基特納",
       "l1": "U6",
@@ -1298,7 +1348,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 116,
+      "rank": 121,
       "place_id": "us-094",
       "name_zh": "斯特普托山丘",
       "l1": "U3",
@@ -1308,17 +1358,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 117,
+      "rank": 122,
       "place_id": "us-024",
       "name_zh": "西雅圖太空針塔",
       "l1": "U1",
-      "l1_rank": 30,
+      "l1_rank": 32,
       "agli": 51.4,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 118,
+      "rank": 123,
       "place_id": "us-124",
       "name_zh": "us-124",
       "l1": "U5",
@@ -1328,7 +1378,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 119,
+      "rank": 124,
       "place_id": "us-048",
       "name_zh": "波蒂奇冰河",
       "l1": "U6",
@@ -1338,7 +1388,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 120,
+      "rank": 125,
       "place_id": "us-138",
       "name_zh": "us-138",
       "l1": "U5",
@@ -1348,7 +1398,7 @@
       "source": "cl-data-53-direct"
     },
     {
-      "rank": 121,
+      "rank": 126,
       "place_id": "us-040",
       "name_zh": "波士頓天際線",
       "l1": "U3",
@@ -1358,17 +1408,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 122,
+      "rank": 127,
       "place_id": "us-110",
       "name_zh": "湯普森山口雪牆",
       "l1": "U8",
-      "l1_rank": 10,
+      "l1_rank": 13,
       "agli": 50.3,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 123,
+      "rank": 128,
       "place_id": "us-095",
       "name_zh": "失望角州立公園",
       "l1": "U3",
@@ -1378,7 +1428,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 124,
+      "rank": 129,
       "place_id": "us-045",
       "name_zh": "蘇華德",
       "l1": "U6",
@@ -1388,7 +1438,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 125,
+      "rank": 130,
       "place_id": "us-061",
       "name_zh": "柯迪亞克島",
       "l1": "U6",
@@ -1398,17 +1448,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 126,
+      "rank": 131,
       "place_id": "us-016",
       "name_zh": "拉斯維加斯大道",
       "l1": "U1",
-      "l1_rank": 31,
+      "l1_rank": 33,
       "agli": 49.2,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 127,
+      "rank": 132,
       "place_id": "us-062",
       "name_zh": "埃克盧特納湖",
       "l1": "U6",
@@ -1418,7 +1468,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 128,
+      "rank": 133,
       "place_id": "us-033",
       "name_zh": "丹佛天際線",
       "l1": "U3",
@@ -1428,17 +1478,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 129,
+      "rank": 134,
       "place_id": "us-025",
       "name_zh": "聖莫尼卡碼頭",
       "l1": "U1",
-      "l1_rank": 32,
+      "l1_rank": 34,
       "agli": 47.2,
       "confidence": "medium",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 130,
+      "rank": 135,
       "place_id": "us-039",
       "name_zh": "邁阿密海灘",
       "l1": "U3",
@@ -1448,17 +1498,17 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 131,
+      "rank": 136,
       "place_id": "us-109",
       "name_zh": "白鯨角・特納甘灣夕照",
       "l1": "U8",
-      "l1_rank": 11,
+      "l1_rank": 14,
       "agli": 46.5,
       "confidence": "low",
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 132,
+      "rank": 137,
       "place_id": "us-071",
       "name_zh": "Kerry Park",
       "l1": "U5",
@@ -1468,7 +1518,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 133,
+      "rank": 138,
       "place_id": "us-026",
       "name_zh": "西雅圖派克市場",
       "l1": "U2",
@@ -1478,7 +1528,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 134,
+      "rank": 139,
       "place_id": "us-074",
       "name_zh": "煤氣廠公園",
       "l1": "U5",
@@ -1488,7 +1538,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 135,
+      "rank": 140,
       "place_id": "us-050",
       "name_zh": "朱諾",
       "l1": "U6",
@@ -1498,7 +1548,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 136,
+      "rank": 141,
       "place_id": "us-108",
       "name_zh": "墨菲穹丘極光",
       "l1": "U7",
@@ -1508,7 +1558,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 137,
+      "rank": 142,
       "place_id": "us-075",
       "name_zh": "探索公園",
       "l1": "U5",
@@ -1518,7 +1568,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 138,
+      "rank": 143,
       "place_id": "us-057",
       "name_zh": "北極圈地標",
       "l1": "U6",
@@ -1528,7 +1578,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 139,
+      "rank": 144,
       "place_id": "us-035",
       "name_zh": "沃斯堡牲畜市場",
       "l1": "U3",
@@ -1538,7 +1588,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 140,
+      "rank": 145,
       "place_id": "us-044",
       "name_zh": "安克拉治",
       "l1": "U6",
@@ -1548,7 +1598,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 141,
+      "rank": 146,
       "place_id": "us-076",
       "name_zh": "漢密爾頓觀景公園",
       "l1": "U5",
@@ -1558,7 +1608,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 142,
+      "rank": 147,
       "place_id": "us-077",
       "name_zh": "何塞・黎剎博士公園",
       "l1": "U5",
@@ -1568,7 +1618,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 143,
+      "rank": 148,
       "place_id": "us-072",
       "name_zh": "金色花園公園",
       "l1": "U5",
@@ -1578,7 +1628,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 144,
+      "rank": 149,
       "place_id": "us-078",
       "name_zh": "默特爾・愛德華茲公園",
       "l1": "U5",
@@ -1588,7 +1638,7 @@
       "source": "agli49-anchor-audit"
     },
     {
-      "rank": 145,
+      "rank": 150,
       "place_id": "us-073",
       "name_zh": "阿爾基海灘公園",
       "l1": "U5",
@@ -9793,6 +9843,151 @@
         "season": "strong seasonal sense"
       },
       "agli": 72.2
+    },
+    {
+      "place_id": "us-159",
+      "name_zh": "老忠實間歇泉（黃石）",
+      "l1": null,
+      "pass_A": null,
+      "pass_B": null,
+      "merged": {
+        "grandeur": 68,
+        "uniqueness": 80,
+        "visual": 82,
+        "richness": 55,
+        "season": 75,
+        "photo": 82,
+        "experience": null,
+        "cultural": null
+      },
+      "confidence": "high",
+      "gli_version": "64-direct-v2",
+      "source": "cl-data-64-direct",
+      "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+      "reasons": {
+        "grandeur": "landscape scale is not top-tier but clean",
+        "uniqueness": "全球最著名準時間歇泉，噴發可預期",
+        "visual": "photogenic luminous/banded subject",
+        "richness": "can be paired with multiple subjects",
+        "season": "seasons are relatively free"
+      },
+      "agli": 73.6
+    },
+    {
+      "place_id": "us-160",
+      "name_zh": "牽牛花溫泉池（黃石上間歇泉盆地）",
+      "l1": null,
+      "pass_A": null,
+      "pass_B": null,
+      "merged": {
+        "grandeur": 50,
+        "uniqueness": 72,
+        "visual": 75,
+        "richness": 45,
+        "season": 75,
+        "photo": 75,
+        "experience": null,
+        "cultural": null
+      },
+      "confidence": "medium",
+      "gli_version": "64-direct-v2",
+      "source": "cl-data-64-direct",
+      "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+      "reasons": {
+        "grandeur": "landscape scale is not top-tier but clean",
+        "uniqueness": "similar subjects exist",
+        "visual": "photogenic luminous/banded subject",
+        "richness": "subjects are relatively focused",
+        "season": "seasons are relatively free"
+      },
+      "agli": 63.6
+    },
+    {
+      "place_id": "us-161",
+      "name_zh": "基勞亞口熔岩紅光夜拍（基勞亞展望台）",
+      "l1": null,
+      "pass_A": null,
+      "pass_B": null,
+      "merged": {
+        "grandeur": 75,
+        "uniqueness": 85,
+        "visual": 85,
+        "richness": 55,
+        "season": 60,
+        "photo": 85,
+        "experience": null,
+        "cultural": null
+      },
+      "confidence": "high",
+      "gli_version": "64-direct-v2",
+      "source": "cl-data-64-direct",
+      "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+      "reasons": {
+        "grandeur": "landscape scale is not top-tier but clean",
+        "uniqueness": "全球最活躍火山之一的熔岩湖紅光，噴發期噴泉柱高達數百呎",
+        "visual": "photogenic luminous/banded subject",
+        "richness": "can be paired with multiple subjects",
+        "season": "strong seasonal sense"
+      },
+      "agli": 76.1
+    },
+    {
+      "place_id": "us-162",
+      "name_zh": "那胡庫熔岩管（瑟斯頓熔岩洞）",
+      "l1": null,
+      "pass_A": null,
+      "pass_B": null,
+      "merged": {
+        "grandeur": 42,
+        "uniqueness": 62,
+        "visual": 62,
+        "richness": 45,
+        "season": 85,
+        "photo": 62,
+        "experience": null,
+        "cultural": null
+      },
+      "confidence": "medium",
+      "gli_version": "64-direct-v2",
+      "source": "cl-data-64-direct",
+      "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+      "reasons": {
+        "grandeur": "landscape scale is not top-tier but clean",
+        "uniqueness": "similar subjects exist",
+        "visual": "photogenic but noisy",
+        "richness": "subjects are relatively focused",
+        "season": "seasons are relatively free"
+      },
+      "agli": 56.7
+    },
+    {
+      "place_id": "us-163",
+      "name_zh": "基勞亞伊奇火山口熔岩地表",
+      "l1": null,
+      "pass_A": null,
+      "pass_B": null,
+      "merged": {
+        "grandeur": 58,
+        "uniqueness": 70,
+        "visual": 70,
+        "richness": 50,
+        "season": 85,
+        "photo": 70,
+        "experience": null,
+        "cultural": null
+      },
+      "confidence": "medium",
+      "gli_version": "64-direct-v2",
+      "source": "cl-data-64-direct",
+      "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+      "reasons": {
+        "grandeur": "landscape scale is not top-tier but clean",
+        "uniqueness": "similar subjects exist",
+        "visual": "photogenic but noisy",
+        "richness": "subjects are relatively focused",
+        "season": "seasons are relatively free"
+      },
+      "agli": 65.7
     }
   ]
 }

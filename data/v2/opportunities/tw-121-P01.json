@@ -1,0 +1,409 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "tw-121-P01",
+ "place_id": "tw-121",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "塘后道沙灘藍眼淚",
+  "en": "Tanghou Beach blue tears",
+  "ja": "塘后道ビーチの藍眼淚"
+ },
+ "description_i18n": {
+  "zh-TW": "北竿最長沙灘的夜光蟲藍光浪緣（馬管處官方追淚點；長曝+高 ISO；藍眼淚濃度無法預報——需現場目視確認，條件誠實標 uncertain）；與既有 tw 北竿芹壁（石屋聚落）題材錯位——本點為沙灘生物螢光。",
+  "en": "Noctiluca blue-glow wave edges on Beigan's longest beach (Matsu NSB official tears-chasing spot; long exposure + high ISO; bioluminescence density is NOT forecastable - verify on site, conditions honestly marked uncertain); disjoint from the Qinbi stone-village subject.",
+  "ja": "北竿最長の砂浜に広がる夜光虫の青い光（馬管処公式；長時間露光＋高ISO。藍眼淚の密度は予報不能——現地目視確認が必要）。芹壁集落とは題材が別。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-121-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      120.00476,
+      26.222827
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-64 admission web verification 2026-11-10 (交通部觀光署 塘后道沙灘（120.00476/26.222827；北竿機場旁連島沙洲「糖沙」）; source URLs: https://www.taiwan.net.tw/m1.aspx?sNo=0001127-&id=A12-00589).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "北竿最長沙灘的夜光蟲藍光浪緣（馬管處官方追淚點；長曝+高 ISO；藍眼淚濃度無法預報——需現場目視確認，條件誠實標 uncertain）；與既有 tw 北竿芹壁（石屋聚落）題材錯位——本點為沙灘生物螢光。（開放/營運狀態以現場公告為準。）（藍眼淚濃度無法預報——觀賞需現場目視確認，天氣條件僅攝影參考。）",
+    "en": "Noctiluca blue-glow wave edges on Beigan's longest beach (Matsu NSB official tears-chasing spot; long exposure + high ISO; bioluminescence density is NOT forecastable - verify on site, conditions honestly marked uncertain); disjoint from the Qinbi stone-village subject. (Opening/operating status follows on-site notices.)（藍眼淚濃度無法預報——觀賞需現場目視確認，天氣條件僅攝影參考。）",
+    "ja": "北竿最長の砂浜に広がる夜光虫の青い光（馬管処公式；長時間露光＋高ISO。藍眼淚の密度は予報不能——現地目視確認が必要）。芹壁集落とは題材が別。（開放・営業状況は現地の案内に従う。）（藍眼淚濃度無法預報——觀賞需現場目視確認，天氣條件僅攝影參考。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 3.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-121-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "塘后道沙灘藍眼淚",
+    "en": "Tanghou Beach blue tears",
+    "ja": "塘后道ビーチの藍眼淚"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      120.00476,
+      26.222827
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-64 admission web verification 2026-11-10 (交通部觀光署 塘后道沙灘（120.00476/26.222827；北竿機場旁連島沙洲「糖沙」）; source URLs: https://www.taiwan.net.tw/m1.aspx?sNo=0001127-&id=A12-00589).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-121-P01-01",
+   "camera_context_id": "CZ-tw-121-P01-01",
+   "target_id": "SG-tw-121-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-64 admission reference; angles unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-121-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 26.222827,
+   "lon": 120.00476,
+   "label_i18n": {
+    "zh-TW": "塘后道沙灘",
+    "en": "Tanghou Beach blue tears (Beigan)",
+    "ja": "塘后道沙灘"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-121-P01-v1",
+  "status": "draft",
+  "genre_template": "blue_tears",
+  "template_version": "blue_tears-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-121-P01-S1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-121-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（window_open/window_closed，例年窗 04-01–09-30 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：本題材受營運期/季節窗硬性約束（CL-DATA-25 建置時即帶窗）。",
+     "en": "Seasonal-window verdict (window_open/window_closed; typical window 04-01-09-30 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): this subject is hard-gated by an operating/season window (built in at CL-DATA-25 admission).",
+     "ja": "季節窓判定（window_open/window_closed。例年窓 04-01〜09-30 は seasonal-calendar.json から、実況優先、両方欠ければ誠実に not_evaluatable）。本題材は営業期・季節窓でハード制約（CL-DATA-25 作成時に組み込み）。"
+    }
+   },
+   {
+    "id": "C-tw-121-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "astronomical_darkness",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-121-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "天文暮光窗（太陽高度 ≤ -18°）：星星對比的天文前提。",
+     "en": "Astronomical darkness window (sun elevation <= -18 deg): the astronomical prerequisite for stellar contrast.",
+     "ja": "天文暮色帯（太陽高度≤-18度）。恒星コントラストの天文的前提。"
+    },
+    "genre_scope": "starry_sky"
+   },
+   {
+    "id": "C-tw-121-P01-02",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_illumination_fraction",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-121-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月照 ≤50%（星空基層）：半月以下時亮星與星軌仍可拍；比銀河層（細月）寬鬆是刻意的分層。",
+     "en": "Moon illumination <= 50% (starry base): bright stars and star trails remain shootable at half moon or less; deliberately looser than the Milky-Way layer (crescent).",
+     "ja": "月照度≤50%（星空基層）。半月以下なら明るい星や星軌は撮れる。銀河層（細月）より意図的に緩い。"
+    },
+    "genre_scope": "starry_sky"
+   },
+   {
+    "id": "C-tw-121-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 20,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-121-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "總雲量 ≤20%：星空是長曝主體，任何雲帶都蓋星點。",
+     "en": "Total cloud <= 20%: long exposures make any cloud band cover stars.",
+     "ja": "全雲量≤20%。長時間露光では雲帯が星を覆う。"
+    },
+    "genre_scope": "starry_sky"
+   },
+   {
+    "id": "C-tw-121-P01-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.3,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-121-P01-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD ≤0.3：氣溶膠消光吃掉星點對比，與銀河層同一上限。",
+     "en": "AOD <= 0.3: aerosol extinction eats stellar contrast; same ceiling as the Milky-Way layer.",
+     "ja": "AOD≤0.3。エアロゾル消光は星のコントラストを減らす。銀河層と同じ上限。"
+    },
+    "genre_scope": "starry_sky"
+   },
+   {
+    "id": "C-tw-121-P01-06",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_altitude",
+    "operator": "lt",
+    "threshold": 0,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-121-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月亮在地平線下（<0°）：上層的首選狀態；月亮升起時改由 M3（離核心夠遠）判定。",
+     "en": "Moon below the horizon (<0 deg): the preferred upper-layer state; when the moon is up, M3 (far from the core) takes over.",
+     "ja": "月が地平線下（<0度）。上層の望ましい状態。月が昇っている場合はM3（中心から十分遠い）が判定を引き継ぐ。"
+    },
+    "genre_scope": "milky_way"
+   },
+   {
+    "id": "C-tw-121-P01-07",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_target_separation_deg",
+    "operator": "gte",
+    "threshold": 40,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-121-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月亮離銀河核心 ≥40°：細月升起但夠遠時銀河帶仍可拍；目標＝銀河核心（lunar_ephemeris 輸出）。僅在月亮升起時啟用（M2 未成立時）。",
+     "en": "Moon at least 40 deg from the galactic core: with a thin moon up but far from the core the galactic band stays shootable; target = galactic core (from lunar_ephemeris). Active only while the moon is up (when M2 is not met).",
+     "ja": "月が銀河中心から≥40度。細い月でも中心から遠ければ銀河帯は撮れる。対象＝銀河中心（lunar_ephemeris出力）。月が昇っている間のみ有効（M2未成立時）。"
+    },
+    "genre_scope": "milky_way",
+    "modifier_activation": {
+     "when_condition": "C-jp-022-P03-06",
+     "mode": "when_not_met"
+    }
+   },
+   {
+    "id": "C-tw-121-P01-08",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_illuminance_proxy",
+    "operator": "lte",
+    "threshold": 0.15,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-121-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月光照度代理 ≤0.15（月照×sin 月高）：補上重構時遺漏的月亮亮度天花板——凸月即使離核心 ≥40°，灑出的天光仍壓低銀河對比。0.15 約當「半月需在 18° 以下、20% 細月可到 50°+」的組合空間；三個月判據（M2/M3/M5）共同構成月亮約束，全部 provisional、校準第一優先。",
+     "en": "Moon illuminance proxy <= 0.15 (illumination x sin(altitude)): closes the moon-brightness ceiling lost in the restructure - a gibbous moon even >=40 deg from the core still washes out galactic contrast. 0.15 corresponds roughly to 'half moon below 18 deg, or a 20% crescent anywhere up to 50 deg'. Together M2/M3/M5 form the moon constraint set; all provisional, first calibration priority.",
+     "ja": "月光照度代理≤0.15（照度率×sin高度）。再構成時に欠けた月輝度の上限を補完。凸月は中心から≥40度でも銀河コントラストを下げる。0.15はおおよそ「半月は高度18度以下、20%の細月なら50度以上」に相当。M2/M3/M5で月の制約セットを構成。全てprovisional・較正最優先。"
+    },
+    "genre_scope": "milky_way",
+    "modifier_activation": {
+     "when_condition": "C-jp-022-P03-06",
+     "mode": "when_not_met"
+    }
+   },
+   {
+    "id": "C-tw-121-P01-N1",
+    "role": "REQUIRED",
+    "domain": "SUBJECT_STATE",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "noctiluca_concentration",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-121-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "夜光蟲濃度主導（必要條件）：藍眼淚為或然率自然現象，濃度無法預報（馬管處官方口徑——「出現屬於需要或然率的自然現象」）；系統無夜光蟲監測資料源，誠實 not_evaluatable（fail-closed），同 CL-DATA-20 潮汐語義；觀賞需現場目視確認，天氣門檻僅為攝影條件不保證淚量。",
+     "en": "Noctiluca density governs (necessary condition): blue tears are a probability-governed natural phenomenon and NOT forecastable (Matsu NSB official wording); the system has no noctiluca monitoring source, so this is honestly not_evaluatable (fail-closed), same semantics as the CL-DATA-20 tide pattern; viewing requires on-site visual confirmation - the weather gates only cover shooting conditions and never guarantee the glow.",
+     "ja": "夜光虫の濃度が支配（必要条件）。藍眼淚は確率的な自然現象で予報不能（馬管処公式）。濃度データソースが現状ないため誠実に not_evaluatable（fail-closed）。現地での目視確認が必要。気象ゲートは撮影条件のみで光量は保証しない。"
+    }
+   },
+   {
+    "id": "C-tw-121-P01-B1",
+    "role": "QUALITY",
+    "domain": "OCEAN",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "nearshore_surf_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-121-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "BONUS",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "近岸湧浪（加分，誠實標 uncertain）：夜光蟲受波浪擾動才發光——「需要有浪」，但近岸湧浪狀態無資料源，本條件不評分、僅供現場判斷參考；無風靜水亦可能於人為擾動（如搖櫓）下發光。",
+     "en": "Nearshore surf (bonus, honestly uncertain): noctiluca glow when waves agitate them - 'there must be waves' - but no nearshore-swell data source exists; this condition is not scored, on-site judgment only; still water can also glow under human agitation (e.g. rowing).",
+     "ja": "近岸のうねり（ボーナス、誠実に uncertain）。夜光虫は波の擾乱で発光するが、うねりデータソースがないためスコアリングしない。現地判断用。ローボートの人為擾乱でも発光しうる。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-121-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d64-web-tanghou-beach"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-64 admission (PM-judgment GROWTH-ONLY 2026-11-10, 5km dedupe with subject-disjoint overrides, new-subject-family intake); coordinates/elevation web-verified 2026-11-10 (sources in camera derivation_method and data/v2/audits/cl-data-64_web_evidence.json); volcanic_activity bound to USGS HVO current status (feed pending, fail-closed); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-64 new-subject-family intake (owner directive 2026-11-10)",
+  "source_revision": "cl-data-64:tanghou-beach",
+  "imported_at": "2026-11-10T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

@@ -37187,6 +37187,1293 @@
      ]
     }
    ]
+  },
+  {
+   "spot_id": "jp-092",
+   "canonical_name": "海地獄",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E5%88%A5%E5%BA%9C%E5%9C%B0%E7%8D%84%E3%82%81%E3%81%90%E3%82%8A",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 別府地獄めぐり（海地獄：北緯33度18分57.8秒 東経131度28分8.42秒；98°C 鈷藍熱泉池，國指定名勝）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-092-P01",
+     "spot_id": "jp-092",
+     "name_zh": "海地獄鈷藍泉池",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "海地獄鈷藍泉池",
+      "en": "Umi Jigoku cobalt pool",
+      "ja": "海地獄のコバルトブルー"
+     },
+     "best_time": "海地獄鈷藍泉池",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-umi-jigoku-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-528",
+       "variant_name": "海地獄鈷藍泉池",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "98°C 鈷藍熱泉池與升騰蒸氣（ja.wikipedia；國指定名勝——2009年別府の地獄；遊客設施內觀覽，清晨低溫蒸氣最盛、正午頂光池色最豔——與黃金時刻相",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "海地獄鈷藍泉池",
+        "en": "Umi Jigoku cobalt pool",
+        "ja": "海地獄のコバルトブルー"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "98°C 鈷藍熱泉池與升騰蒸氣（ja.wikipedia；國指定名勝——2009年別府の地獄；遊客設施內觀覽，清晨低溫蒸氣最盛、正午頂光池色最豔——與黃金時刻相反，誠實寫入）；與既有 九州溫泉點（黑川/湯平內陸聚落）題材錯位——本點為熱泉池本體。",
+        "en": "A 98C cobalt-blue boiling pool with rising steam (ja.wikipedia; nationally designated Place of Scenic Beauty, 2009; viewed from visitor facilities, steam peaks on cold mornings while pool color is richest under midday top-light - opposite of golden hour, recorded honestly); disjoint from the inland Kyushu onsen villages.",
+        "ja": "98°Cのコバルトブルーの熱泉池と立ち上る湯気（ja.wikipedia；国指定名勝。低温の早朝は湯気が、正午は色彩が最も良い——ゴールデンアワーと逆）。黒川・湯平とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-092-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "海地獄",
+       "name_i18n": {
+        "zh-TW": "海地獄",
+        "en": "Umi Jigoku (Sea Hell, Beppu)",
+        "ja": "海地獄"
+       },
+       "lat": 33.316056,
+       "lon": 131.4690056,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 別府地獄めぐり（海地獄：北緯33度18分57.8秒 東経131度28分8.42秒；98°C 鈷藍熱泉池，國指定名勝）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-093",
+   "canonical_name": "血の池地獄",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E5%88%A5%E5%BA%9C%E5%9C%B0%E7%8D%84%E3%82%81%E3%81%90%E3%82%8A",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 別府地獄めぐり（血の池地獄：北緯33度19分37.65秒 東経131度28分41.73秒；紅色熱泥池，日本最古の天然地獄）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-093-P01",
+     "spot_id": "jp-093",
+     "name_zh": "血池地獄紅泥池",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "血池地獄紅泥池",
+      "en": "Chinoike Jigoku red pond",
+      "ja": "血の池地獄の赤い泥池"
+     },
+     "best_time": "血池地獄紅泥池",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-chinoike-jigoku-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-529",
+       "variant_name": "血池地獄紅泥池",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "赤紅熱泥池（ja.wikipedia；與 jp-092 海地獄同巡禮路線不同色主體——血池為紅泥色體；正午頂光色彩最豔——與黃金時刻相反，誠實寫入）；與既有 九",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "血池地獄紅泥池",
+        "en": "Chinoike Jigoku red pond",
+        "ja": "血の池地獄の赤い泥池"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "赤紅熱泥池（ja.wikipedia；與 jp-092 海地獄同巡禮路線不同色主體——血池為紅泥色體；正午頂光色彩最豔——與黃金時刻相反，誠實寫入）；與既有 九州溫泉點題材錯位——本點為紅泥池。",
+        "en": "A scarlet boiling-mud pond (ja.wikipedia; same hell tour as Umi Jigoku but a red-mud color subject; midday top-light is the color optimum - honestly recorded); disjoint from inland onsen subjects.",
+        "ja": "赤い熱泥の池（ja.wikipedia。海地獄と同巡礼、色の主體が別。正午の頂光が色彩の最適）。別府溫泉點とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-093-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "血の池地獄",
+       "name_i18n": {
+        "zh-TW": "血の池地獄",
+        "en": "Chinoike Jigoku (Blood Pond Hell, Beppu)",
+        "ja": "血の池地獄"
+       },
+       "lat": 33.327125,
+       "lon": 131.4782583,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "ja.wikipedia 別府地獄めぐり（血の池地獄：北緯33度19分37.65秒 東経131度28分41.73秒；紅色熱泥池，日本最古の天然地獄）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-094",
+   "canonical_name": "草津湯畑",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E6%B9%AF%E7%95%91",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 草津温泉（湯畑：北緯36度37分22秒 東経138度35分48秒；溫泉街中心，每分約4,000L 湧出，國指定名勝・特別名勝；標高約1,200 m 帶——溫泉街廣域值，medium）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-094-P01",
+     "spot_id": "jp-094",
+     "name_zh": "湯畑蒸氣木樋",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "湯畑蒸氣木樋",
+      "en": "Yubatake steam flumes",
+      "ja": "湯畑の湯けむり"
+     },
+     "best_time": "湯畑蒸氣木樋",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-kusatsu-yubatake-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-530",
+       "variant_name": "湯畑蒸氣木樋",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "木樋湯流與升騰蒸氣的溫泉街中心（ja.wikipedia；國指定特別名勝；湯量恆定非天氣契約——蒸氣壯觀度隨氣溫差清晨最盛、正午色彩最豔——誠實寫入）；與既有 ",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "湯畑蒸氣木樋",
+        "en": "Yubatake steam flumes",
+        "ja": "湯畑の湯けむり"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "木樋湯流與升騰蒸氣的溫泉街中心（ja.wikipedia；國指定特別名勝；湯量恆定非天氣契約——蒸氣壯觀度隨氣溫差清晨最盛、正午色彩最豔——誠實寫入）；與既有 群馬/長野點題材錯位——本點為湯畑本體。",
+        "en": "Wooden flumes pouring steaming spring water at the heart of Kusatsu (ja.wikipedia; nationally designated Special Place of Scenic Beauty; discharge is constant and not a weather contract - steam reads best on cold mornings, color richest at midday - honestly recorded); disjoint from other Gunma/Nagano subjects.",
+        "ja": "湯けむりを上げる木樋の湯流（ja.wikipedia；国指定特別名勝。湯量は天気契約ではない——低温の早朝は湯気が、正午は色彩が良い）。群馬・長野の既存対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-094-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "草津湯畑",
+       "name_i18n": {
+        "zh-TW": "草津湯畑",
+        "en": "Kusatsu Yubatake (hot-water field)",
+        "ja": "草津湯畑"
+       },
+       "lat": 36.622806,
+       "lon": 138.596639,
+       "coord_confidence": "high",
+       "elevation_m": 1200.0,
+       "coordinate_source": "ja.wikipedia 草津温泉（湯畑：北緯36度37分22秒 東経138度35分48秒；溫泉街中心，每分約4,000L 湧出，國指定名勝・特別名勝；標高約1,200 m 帶——溫泉街廣域值，medium）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "jp-095",
+   "canonical_name": "地獄谷野猿公苑",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ja.wikipedia.org/wiki/%E5%9C%B0%E7%8D%84%E8%B0%B7%E9%87%8E%E7%8C%BF%E5%85%AC%E8%8B%91",
+     "verified_on": "2026-11-07",
+     "supports": "ja.wikipedia 地獄谷野猿公苑（北緯36度43分58.1秒 東経138度27分45.7秒；海拔約850 m——zh.wikipedia；上信越高原國立公園橫湯川峽谷，冬期積雪約4個月）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "jp-095-P01",
+     "spot_id": "jp-095",
+     "name_zh": "地獄谷蒸氣與雪猴",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "地獄谷蒸氣與雪猴",
+      "en": "Jigokudani steam and macaques",
+      "ja": "地獄谷の湯けむりとニホンザル"
+     },
+     "best_time": "地獄谷蒸氣與雪猴",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-jigokudani-yaen-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-531",
+       "variant_name": "地獄谷蒸氣與雪猴",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "裂隙蒸氣與雪中泡湯日本獼猴（ja.wikipedia；野生動物行為非可預報——出現機率誠實標 uncertain；冬季步道雪滑——access 資訊性）；與既有",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "地獄谷蒸氣與雪猴",
+        "en": "Jigokudani steam and macaques",
+        "ja": "地獄谷の湯けむりとニホンザル"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "裂隙蒸氣與雪中泡湯日本獼猴（ja.wikipedia；野生動物行為非可預報——出現機率誠實標 uncertain；冬季步道雪滑——access 資訊性）；與既有 長野點題材錯位——本點為蒸氣谷＋獼猴。",
+        "en": "Fissure steam and snow-bathing Japanese macaques (ja.wikipedia; wild-animal behavior is not forecastable - presence honestly marked uncertain; icy winter trail - access informational); disjoint from other Nagano subjects.",
+        "ja": "裂け目の湯けむりと温泉に浸かるニホンザル（ja.wikipedia。野生動物の出現は予報不能——誠実に uncertain。冬季の積雪路は滑る）。長野の既存対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "jp-095-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "地獄谷野猿公苑",
+       "name_i18n": {
+        "zh-TW": "地獄谷野猿公苑",
+        "en": "Jigokudani Yaen-Koen (Snow Monkey Park)",
+        "ja": "地獄谷野猿公苑"
+       },
+       "lat": 36.732806,
+       "lon": 138.462694,
+       "coord_confidence": "high",
+       "elevation_m": 850.0,
+       "coordinate_source": "ja.wikipedia 地獄谷野猿公苑（北緯36度43分58.1秒 東経138度27分45.7秒；海拔約850 m——zh.wikipedia；上信越高原國立公園橫湯川峽谷，冬期積雪約4個月）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-121",
+   "canonical_name": "塘后道沙灘",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.taiwan.net.tw/m1.aspx?sNo=0001127-&id=A12-00589",
+     "verified_on": "2026-11-07",
+     "supports": "交通部觀光署 塘后道沙灘（120.00476/26.222827；北竿機場旁連島沙洲「糖沙」）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-121-P01",
+     "spot_id": "tw-121",
+     "name_zh": "塘后道沙灘藍眼淚",
+     "legacy_theme": "long_exposure",
+     "name_i18n": {
+      "zh-TW": "塘后道沙灘藍眼淚",
+      "en": "Tanghou Beach blue tears",
+      "ja": "塘后道ビーチの藍眼淚"
+     },
+     "best_time": "塘后道沙灘藍眼淚",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_astronomy_ephemeris_module",
+     "formula_version": "v0.04-cl-data-25-tanghou-beach-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 04-01–09-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 04-01–09-30（seasonal-calendar）",
+      "en": "Seasonal window 04-01-09-30 (seasonal-calendar)",
+      "ja": "季節窓 04-01〜09-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-522",
+       "variant_name": "塘后道沙灘藍眼淚",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "北竿最長沙灘的夜光蟲藍光浪緣（馬管處官方追淚點；長曝+高 ISO；藍眼淚濃度無法預報——需現場目視確認，條件誠實標 uncertain）；與既有 tw 北竿芹壁",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_astronomy_ephemeris_module",
+       "variant_name_i18n": {
+        "zh-TW": "塘后道沙灘藍眼淚",
+        "en": "Tanghou Beach blue tears",
+        "ja": "塘后道ビーチの藍眼淚"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "北竿最長沙灘的夜光蟲藍光浪緣（馬管處官方追淚點；長曝+高 ISO；藍眼淚濃度無法預報——需現場目視確認，條件誠實標 uncertain）；與既有 tw 北竿芹壁（石屋聚落）題材錯位——本點為沙灘生物螢光。",
+        "en": "Noctiluca blue-glow wave edges on Beigan's longest beach (Matsu NSB official tears-chasing spot; long exposure + high ISO; bioluminescence density is NOT forecastable - verify on site, conditions honestly marked uncertain); disjoint from the Qinbi stone-village subject.",
+        "ja": "北竿最長の砂浜に広がる夜光虫の青い光（馬管処公式；長時間露光＋高ISO。藍眼淚の密度は予報不能——現地目視確認が必要）。芹壁集落とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-121-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "塘后道沙灘",
+       "name_i18n": {
+        "zh-TW": "塘后道沙灘",
+        "en": "Tanghou Beach blue tears (Beigan)",
+        "ja": "塘后道沙灘"
+       },
+       "lat": 26.222827,
+       "lon": 120.00476,
+       "coord_confidence": "medium",
+       "elevation_m": 3.0,
+       "coordinate_source": "交通部觀光署 塘后道沙灘（120.00476/26.222827；北竿機場旁連島沙洲「糖沙」）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-122",
+   "canonical_name": "北海坑道",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.taiwan.net.tw/m1.aspx?sNo=0001127-&id=A12-00590",
+     "verified_on": "2026-11-07",
+     "supports": "交通部觀光署 南竿北海坑道（119.92881/26.143015；坑道口少光害、夜間搖櫓賞淚官方遊程）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-122-P01",
+     "spot_id": "tw-122",
+     "name_zh": "北海坑道搖櫓藍眼淚",
+     "legacy_theme": "long_exposure",
+     "name_i18n": {
+      "zh-TW": "北海坑道搖櫓藍眼淚",
+      "en": "Beihai Tunnel rowing blue tears",
+      "ja": "北海坑道のローボート藍眼淚"
+     },
+     "best_time": "北海坑道搖櫓藍眼淚",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_astronomy_ephemeris_module",
+     "formula_version": "v0.04-cl-data-25-beihai-tunnel-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 04-01–09-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 04-01–09-30（seasonal-calendar）",
+      "en": "Seasonal window 04-01-09-30 (seasonal-calendar)",
+      "ja": "季節窓 04-01〜09-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-523",
+       "variant_name": "北海坑道搖櫓藍眼淚",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "坑道內無光害靜水，搭搖櫓船近距離追淚的官方夜間遊程（預約制每晚18:30-21:00 六梯次——access 資訊性；濃度無法預報，現場目視確認）；與既有 南竿",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_astronomy_ephemeris_module",
+       "variant_name_i18n": {
+        "zh-TW": "北海坑道搖櫓藍眼淚",
+        "en": "Beihai Tunnel rowing blue tears",
+        "ja": "北海坑道のローボート藍眼淚"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "坑道內無光害靜水，搭搖櫓船近距離追淚的官方夜間遊程（預約制每晚18:30-21:00 六梯次——access 資訊性；濃度無法預報，現場目視確認）；與既有 南竿鐵堡/馬祖南竿（據點、島域代表點）題材錯位——本點為坑道靜水螢光。",
+        "en": "Rock tunnel with zero light pollution and still water; the official night rowing tour gets you to the glow up close (reservation-based, nightly 18:30-21:00, six slots - access informational; density not forecastable, verify on site); disjoint from the Iron Fort / Nangan island subjects.",
+        "ja": "光害ゼロの坑道内静水。公式夜間ローボート遊程（要予約18:30-21:00、6回）。密度は予報不能。鉄堡・南竿対象とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-122-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "北海坑道",
+       "name_i18n": {
+        "zh-TW": "北海坑道",
+        "en": "Beihai Tunnel night rowing blue tears (Nangan)",
+        "ja": "北海坑道"
+       },
+       "lat": 26.143015,
+       "lon": 119.92881,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "交通部觀光署 南竿北海坑道（119.92881/26.143015；坑道口少光害、夜間搖櫓賞淚官方遊程）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-123",
+   "canonical_name": "福正沙灘",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.taiwan.net.tw/m1.aspx?sNo=0001127-&id=A12-00600",
+     "verified_on": "2026-11-07",
+     "supports": "交通部觀光署 福正聚落（119.98215/25.966231；沙灘在聚落旁、東犬燈塔下）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-123-P01",
+     "spot_id": "tw-123",
+     "name_zh": "福正沙灘藍眼淚",
+     "legacy_theme": "long_exposure",
+     "name_i18n": {
+      "zh-TW": "福正沙灘藍眼淚",
+      "en": "Fuzheng Beach blue tears",
+      "ja": "福正ビーチの藍眼淚"
+     },
+     "best_time": "福正沙灘藍眼淚",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_astronomy_ephemeris_module",
+     "formula_version": "v0.04-cl-data-25-fuzheng-beach-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 04-01–09-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 04-01–09-30（seasonal-calendar）",
+      "en": "Seasonal window 04-01-09-30 (seasonal-calendar)",
+      "ja": "季節窓 04-01〜09-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-524",
+       "variant_name": "福正沙灘藍眼淚",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "東莒北岸潔白沙灘的藍光浪緣，官方追淚點（馬祖日報/馬管處列名；夜間昏暗——access 資訊性；濃度無法預報）；與既有 東莒燈塔（燈塔主題）題材錯位——本點為沙",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_astronomy_ephemeris_module",
+       "variant_name_i18n": {
+        "zh-TW": "福正沙灘藍眼淚",
+        "en": "Fuzheng Beach blue tears",
+        "ja": "福正ビーチの藍眼淚"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "東莒北岸潔白沙灘的藍光浪緣，官方追淚點（馬祖日報/馬管處列名；夜間昏暗——access 資訊性；濃度無法預報）；與既有 東莒燈塔（燈塔主題）題材錯位——本點為沙灘生物螢光。",
+        "en": "Blue-glow wave edges on Dongju's white sand beach, an officially listed tears-chasing spot (Matsu Daily/Matsu NSB; dark at night - access informational; density not forecastable); disjoint from the Dongju Lighthouse subject.",
+        "ja": "東莒北岸の白砂の浜に広がる青い光（馬祖日報・馬管処公式リスト掲載）。灯台とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-123-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "福正沙灘",
+       "name_i18n": {
+        "zh-TW": "福正沙灘",
+        "en": "Fuzheng Beach blue tears (Dongju)",
+        "ja": "福正沙灘"
+       },
+       "lat": 25.966231,
+       "lon": 119.98215,
+       "coord_confidence": "medium",
+       "elevation_m": 3.0,
+       "coordinate_source": "交通部觀光署 福正聚落（119.98215/25.966231；沙灘在聚落旁、東犬燈塔下）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-124",
+   "canonical_name": "大漢據點",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.taiwan.net.tw/m1.aspx?sNo=0001127&id=A12-00335",
+     "verified_on": "2026-11-07",
+     "supports": "交通部觀光署 大漢據點（119.92906/26.140628；南竿南方鐵板海岸線，官方追淚點列名）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-124-P01",
+     "spot_id": "tw-124",
+     "name_zh": "大漢據點鐵板海岸藍眼淚",
+     "legacy_theme": "long_exposure",
+     "name_i18n": {
+      "zh-TW": "大漢據點鐵板海岸藍眼淚",
+      "en": "Dahan stronghold coastal blue tears",
+      "ja": "大漢據点の藍眼淚"
+     },
+     "best_time": "大漢據點鐵板海岸藍眼淚",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_astronomy_ephemeris_module",
+     "formula_version": "v0.04-cl-data-25-dahan-iframe-P01",
+     "formula_confidence": 50,
+     "best_season": "季節窗 04-01–09-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 04-01–09-30（seasonal-calendar）",
+      "en": "Seasonal window 04-01-09-30 (seasonal-calendar)",
+      "ja": "季節窓 04-01〜09-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-525",
+       "variant_name": "大漢據點鐵板海岸藍眼淚",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "鐵板澳口礁岩海岸的藍光浪打（馬祖日報官方追淚點列名；夜間礁岩地形險——access 資訊性、結伴同行；濃度無法預報）；與既有 南竿鐵堡（堡壘主題）及 tw-12",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_astronomy_ephemeris_module",
+       "variant_name_i18n": {
+        "zh-TW": "大漢據點鐵板海岸藍眼淚",
+        "en": "Dahan stronghold coastal blue tears",
+        "ja": "大漢據点の藍眼淚"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "鐵板澳口礁岩海岸的藍光浪打（馬祖日報官方追淚點列名；夜間礁岩地形險——access 資訊性、結伴同行；濃度無法預報）；與既有 南竿鐵堡（堡壘主題）及 tw-122 北海坑道（坑道靜水）題材錯位——本點為礁岩浪打螢光。",
+        "en": "Blue glow in breaking surf along the rocky Tieban coast (officially listed tears-chasing spot; treacherous night rocks - access informational, never go alone; density not forecastable); disjoint from Iron Fort and the tunnel's still-water subject.",
+        "ja": "鉄板海岸の礁岩に寄せる波の青い光（公式リスト掲載）。夜間の岩場は危険。鉄堡や坑道とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-124-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "大漢據點",
+       "name_i18n": {
+        "zh-TW": "大漢據點",
+        "en": "Dahan stronghold blue tears (Tieban coast)",
+        "ja": "大漢據點"
+       },
+       "lat": 26.140628,
+       "lon": 119.92906,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "交通部觀光署 大漢據點（119.92906/26.140628；南竿南方鐵板海岸線，官方追淚點列名）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-159",
+   "canonical_name": "Old Faithful",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Old_Faithful",
+     "verified_on": "2026-11-07",
+     "supports": "Wikipedia Old Faithful（44°27′38″N 110°49′41″W；標高 7,349 ft/2,240 m）+ NPS Old Faithful Geyser（平均間隔約90分鐘，變動50–127分鐘；2025-01 起中位數 102±10 分鐘——NPS 預測僅供現場參考，非本系統預報）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-159-P01",
+     "spot_id": "us-159",
+     "name_zh": "老忠實噴發柱",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "老忠實噴發柱",
+      "en": "Old Faithful eruption column",
+      "ja": "オールド・フェイスフルの噴柱"
+     },
+     "best_time": "老忠實噴發柱",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-old-faithful-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-526",
+       "variant_name": "老忠實噴發柱",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "世界最著名的準時錐狀間歇泉，噴發柱高30–55 m（NPS；噴發間隔資訊由園方現場預測提供（遊客中心/NPS App），非預報契約——access note 誠",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "老忠實噴發柱",
+        "en": "Old Faithful eruption column",
+        "ja": "オールド・フェイスフルの噴柱"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "世界最著名的準時錐狀間歇泉，噴發柱高30–55 m（NPS；噴發間隔資訊由園方現場預測提供（遊客中心/NPS App），非預報契約——access note 誠實標註；清晨低溫時蒸氣最壯觀）；與既有 黃石大稜鏡溫泉（彩色熱泉池）題材錯位——本點為噴發柱。",
+        "en": "The world's most famous predictable cone geyser, columns 30-55 m (NPS; eruption intervals are published on-site by park staff at the Visitor Center/NPS App - an access note, NOT a forecast contract; steam reads best on cold early mornings); disjoint from the Grand Prismatic colored-pool subject.",
+        "ja": "世界的に有名な準時制の錐状間欠泉、噴柱30-55m（NPS。噴火間隔は現地の予測でアクセス情報であり予報契約ではない。低温の早朝は蒸気が壮観）。グランド・プリズマティックとは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-159-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Old Faithful",
+       "name_i18n": {
+        "zh-TW": "Old Faithful",
+        "en": "Old Faithful Geyser (Yellowstone)",
+        "ja": "Old Faithful"
+       },
+       "lat": 44.46047,
+       "lon": -110.82814,
+       "coord_confidence": "high",
+       "elevation_m": 2240.0,
+       "coordinate_source": "Wikipedia Old Faithful（44°27′38″N 110°49′41″W；標高 7,349 ft/2,240 m）+ NPS Old Faithful Geyser（平均間隔約90分鐘，變動50–127分鐘；2025-01 起中位數 102±10 分鐘——NPS 預測僅供現場參考，非本系統預報）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-160",
+   "canonical_name": "Morning Glory Pool",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://en.wikipedia.org/wiki/Morning_Glory_Pool",
+     "verified_on": "2026-11-07",
+     "supports": "Wikipedia Morning Glory Pool（44°28′30″N 110°50′37″W；Upper Geyser Basin 深緣藍心熱泉）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-160-P01",
+     "spot_id": "us-160",
+     "name_zh": "牽牛花池彩環",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "牽牛花池彩環",
+      "en": "Morning Glory Pool color rings",
+      "ja": "モーニンググロリーの彩環"
+     },
+     "best_time": "牽牛花池彩環",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-morning-glory-pool-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-527",
+       "variant_name": "牽牛花池彩環",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "深藍池心與橙黃細菌墊彩環（Wikipedia/NPS；木棉道限界——板walkway外禁入，access 不計分；正午頂光色彩最豔、與黃金時刻相反——誠實寫入）",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "牽牛花池彩環",
+        "en": "Morning Glory Pool color rings",
+        "ja": "モーニンググロリーの彩環"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "深藍池心與橙黃細菌墊彩環（Wikipedia/NPS；木棉道限界——板walkway外禁入，access 不計分；正午頂光色彩最豔、與黃金時刻相反——誠實寫入）；與既有 us-158 大稜鏡溫泉（5.4km 外的大型彩池）題材同源但尺度與色帶不同——本點為小尺度同心彩環。",
+        "en": "Deep blue core ringed by orange bacterial mats (Wikipedia/NPS; boardwalk-only, no off-trail entry - access not scored; midday top-light is the color optimum, opposite of golden hour - recorded honestly); kin to Grand Prismatic 5.4 km away but a small concentric-ring scale.",
+        "ja": "深い藍の池心を橙の細菌マットが囲む（Wikipedia/NPS。木道外立入禁止。正午の頂光が色彩の最適でゴールデンアワーと逆）。グランド・プリズマティックとは尺度が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-160-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Morning Glory Pool",
+       "name_i18n": {
+        "zh-TW": "Morning Glory Pool",
+        "en": "Morning Glory Pool (Upper Geyser Basin)",
+        "ja": "Morning Glory Pool"
+       },
+       "lat": 44.4750325,
+       "lon": -110.8435128,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "Wikipedia Morning Glory Pool（44°28′30″N 110°50′37″W；Upper Geyser Basin 深緣藍心熱泉）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-161",
+   "canonical_name": "Kilauea Overlook",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/havo/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Hawaiʻi Volcanoes NP / Wikipedia Kīlauea（基勞亞展望台，口緣 rim；山頂標高約 1,227 m 帶；座標 medium（展望台對位））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-161-P01",
+     "spot_id": "us-161",
+     "name_zh": "哈雷茂茂熔岩紅光夜",
+     "legacy_theme": "sky_glow",
+     "name_i18n": {
+      "zh-TW": "哈雷茂茂熔岩紅光夜",
+      "en": "Halemaʻumaʻu lava-glow night",
+      "ja": "ハレマウマウの溶岩紅光"
+     },
+     "best_time": "哈雷茂茂熔岩紅光夜",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-kilauea-overlook-glow-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-532",
+       "variant_name": "哈雷茂茂熔岩紅光夜",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "口緣展望台望哈雷茂茂熔岩湖紅光映雲（USGS HVO 活動等級主導；長曝；SO2 火山霧（vog）下風向注意——安全 note；公園 24 小時開放但噴發期口緣",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "哈雷茂茂熔岩紅光夜",
+        "en": "Halemaʻumaʻu lava-glow night",
+        "ja": "ハレマウマウの溶岩紅光"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "口緣展望台望哈雷茂茂熔岩湖紅光映雲（USGS HVO 活動等級主導；長曝；SO2 火山霧（vog）下風向注意——安全 note；公園 24 小時開放但噴發期口緣區域可能管制——access 依現場公告）；與既有 us-112 哈雷茂茂夜空（銀河主題、噴發光 honest not_evaluatable）題材錯位——本點為熔岩紅光本體，且新增 REQUIRED volcanic_activity 條件接 USGS HVO 現況。",
+        "en": "Lava-lake glow lighting the plume above Halemaʻumaʻu from the rim overlook, governed by USGS HVO activity state; long exposure; SO2/vog downwind caution - safety note; the park is open 24 h but rim areas may close during eruptive episodes - access follows on-site notices; disjoint from us-112's Milky-Way night-sky subject (glow there is honestly not_evaluatable) - here the lava glow itself, with a NEW REQUIRED volcanic_activity condition tied to USGS HVO status.",
+        "ja": "口縁展望台からハレマウマウの溶岩湖の紅光（USGS HVOの活動状態に支配される。長時間露光。SO2・火山ガスの風下注意。公園は24時間開放だが噴火期は規制あり）。us-112の天の川とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-161-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Kilauea Overlook",
+       "name_i18n": {
+        "zh-TW": "Kilauea Overlook",
+        "en": "Kilauea crater lava-glow night (Kilauea Overlook)",
+        "ja": "Kilauea Overlook"
+       },
+       "lat": 19.4071,
+       "lon": -155.285,
+       "coord_confidence": "medium",
+       "elevation_m": 1227.0,
+       "coordinate_source": "NPS Hawaiʻi Volcanoes NP / Wikipedia Kīlauea（基勞亞展望台，口緣 rim；山頂標高約 1,227 m 帶；座標 medium（展望台對位））",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-162",
+   "canonical_name": "Nāhuku",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/places/nahuku.htm",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Nāhuku Lava Tube（Kīlauea summit 區 Crater Rim Drive；座標 medium（tube 對位））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-162-P01",
+     "spot_id": "us-162",
+     "name_zh": "那胡庫熔岩管內景",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "那胡庫熔岩管內景",
+      "en": "Nāhuku lava-tube interior",
+      "ja": "ナフク溶岩トンネルの内部"
+     },
+     "best_time": "那胡庫熔岩管內景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-nahuku-lava-tube-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-533",
+       "variant_name": "那胡庫熔岩管內景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "500 年樹齡雨林下的巨型熔岩管（NPS；管內 08:00-20:00 供照明，其外需自備手電筒——access 資訊性；與 us-161 紅光夜拍及 us-1",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "那胡庫熔岩管內景",
+        "en": "Nāhuku lava-tube interior",
+        "ja": "ナフク溶岩トンネルの内部"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "500 年樹齡雨林下的巨型熔岩管（NPS；管內 08:00-20:00 供照明，其外需自備手電筒——access 資訊性；與 us-161 紅光夜拍及 us-112 夜空題材錯位——本點為熔岩管地質。）",
+        "en": "A giant lava tube beneath 500-year-old rainforest (NPS; the tube is lit 08:00-20:00, bring a flashlight outside those hours - access informational; disjoint from the glow-night and night-sky subjects - here the tube geology.)",
+        "ja": "500年生の雨林の下の巨大溶岩トンネル（NPS。08:00-20:00は照明あり）。赤光・天の川とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-162-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Nāhuku",
+       "name_i18n": {
+        "zh-TW": "Nāhuku",
+        "en": "Nāhuku (Thurston Lava Tube)",
+        "ja": "Nāhuku"
+       },
+       "lat": 19.4134,
+       "lon": -155.243,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "NPS Nāhuku Lava Tube（Kīlauea summit 區 Crater Rim Drive；座標 medium（tube 對位））",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "us-163",
+   "canonical_name": "Kīlauea Iki",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.nps.gov/havo/",
+     "verified_on": "2026-11-07",
+     "supports": "NPS Hawaiʻi Volcanoes NP（Kīlauea Iki Overlook 與環線步道；1959 年噴發熔岩湖面；座標 medium（Overlook 對位））. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "us-163-P01",
+     "spot_id": "us-163",
+     "name_zh": "基勞亞伊奇熔岩湖面",
+     "legacy_theme": "geology",
+     "name_i18n": {
+      "zh-TW": "基勞亞伊奇熔岩湖面",
+      "en": "Kīlauea Iki lava-lake floor",
+      "ja": "キラウエア・イキの溶岩湖底"
+     },
+     "best_time": "基勞亞伊奇熔岩湖面",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-kilauea-iki-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-534",
+       "variant_name": "基勞亞伊奇熔岩湖面",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "1959 年噴發留下的固結熔岩湖面與蒸氣裂隙（NPS；4 英里環線——步道距離 access 不計分；正午頂光地表紋理最清晰——誠實寫入；與 us-162 熔岩",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "基勞亞伊奇熔岩湖面",
+        "en": "Kīlauea Iki lava-lake floor",
+        "ja": "キラウエア・イキの溶岩湖底"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "1959 年噴發留下的固結熔岩湖面與蒸氣裂隙（NPS；4 英里環線——步道距離 access 不計分；正午頂光地表紋理最清晰——誠實寫入；與 us-162 熔岩管（地下主題）錯位——本點為熔岩地表。）",
+        "en": "The solidified 1959 lava-lake floor with steaming fissures (NPS; a 4-mile loop - trail distance not scored; midday top-light shows surface texture best - honestly recorded; disjoint from the underground-tube subject of Nāhuku.)",
+        "ja": "1959年噴火の溶岩湖底（NPS。約6.4kmのループ。正午の頂光で表面模様が最も鮮明）。ナフクの地下トンネルとは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "us-163-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "Kīlauea Iki",
+       "name_i18n": {
+        "zh-TW": "Kīlauea Iki",
+        "en": "Kīlauea Iki crater lava floor",
+        "ja": "Kīlauea Iki"
+       },
+       "lat": 19.417,
+       "lon": -155.244,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "NPS Hawaiʻi Volcanoes NP（Kīlauea Iki Overlook 與環線步道；1959 年噴發熔岩湖面；座標 medium（Overlook 對位））",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
   }
  ]
 }

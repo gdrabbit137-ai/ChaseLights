@@ -12,7 +12,7 @@
   },
   "notes": "合併規則：試評（pilot）優先、其次較新之 batch2、再 batch1；batch1∩batch2 重疊且 AGli 差 >5 者由本票以同方法（A 錨點審查員／B 攝影師視角雙角色）重評，差 ≤5 者取較新者。兩批缺口 12 景點由本票補評。照片證據沿用 scenic-v3 有效池，異地誤配（司馬庫斯人物/中國渭河/鰜鲽老樹等）逐張剔除。L1 統一採 agli-tw-l1.json spot_level 權威映射，修正批次內 5 處映射差（tw-029 B1→B4、tw-040 C1→C4、tw-034 E1→C1、tw-044 C2→C1 等）。誠實揭露：雙評審為同上下文角色分離，非隔離子代理（同 CL-DATA-44/45 限制）。",
   "summary": {
-    "n": 115,
+    "n": 119,
     "n_pilot_reuse": 20,
     "n_batch2": 28,
     "n_batch1": 26,
@@ -56,8 +56,8 @@
       "medium": 26,
       "low": 30
     },
-    "mean_agli": 56.57,
-    "median_agli": 56.8,
+    "mean_agli": 56.65,
+    "median_agli": 55.8,
     "v3_comparison": {
       "n_with_v3": 88,
       "spearman_note": "pearson(v3*10, agli)",
@@ -184,7 +184,8 @@
         "confidence": "high"
       }
     ],
-    "n_cl51_direct": 22
+    "n_cl51_direct": 22,
+    "notes": " | CL-DATA-64 appended tw-121,tw-122,tw-123,tw-124 (4 places, direct dual-board v2 scoring); anchor discipline maintained (zero 95+)"
   },
   "l1_region_rankings": {
     "C2": [
@@ -419,21 +420,41 @@
       },
       {
         "rank": 2,
+        "place_id": "tw-122",
+        "agli": 65.6
+      },
+      {
+        "rank": 3,
         "place_id": "tw-066",
         "agli": 65.4
       },
       {
-        "rank": 3,
+        "rank": 4,
+        "place_id": "tw-121",
+        "agli": 62.9
+      },
+      {
+        "rank": 5,
         "place_id": "tw-065",
         "agli": 61.9
       },
       {
-        "rank": 4,
+        "rank": 6,
         "place_id": "tw-081",
         "agli": 59.1
       },
       {
-        "rank": 5,
+        "rank": 7,
+        "place_id": "tw-123",
+        "agli": 57.1
+      },
+      {
+        "rank": 8,
+        "place_id": "tw-124",
+        "agli": 55.7
+      },
+      {
+        "rank": 9,
         "place_id": "tw-094",
         "agli": 54.2
       }
@@ -998,6 +1019,16 @@
     },
     {
       "rank": 20,
+      "place_id": "tw-122",
+      "name_zh": "南竿北海坑道（夜間搖櫓藍眼淚）",
+      "l1": "F3",
+      "l1_rank": 2,
+      "agli": 65.6,
+      "confidence": "medium",
+      "source": "cl-data-64-direct"
+    },
+    {
+      "rank": 21,
       "place_id": "tw-015",
       "name_zh": "高美濕地",
       "l1": "B2",
@@ -1007,17 +1038,17 @@
       "source": "pilot-reuse"
     },
     {
-      "rank": 21,
+      "rank": 22,
       "place_id": "tw-066",
       "name_zh": "東引燈塔",
       "l1": "F3",
-      "l1_rank": 2,
+      "l1_rank": 3,
       "agli": 65.4,
       "confidence": "low",
       "source": "batch2"
     },
     {
-      "rank": 22,
+      "rank": 23,
       "place_id": "tw-071",
       "name_zh": "小琉球花瓶岩",
       "l1": "F2",
@@ -1027,7 +1058,7 @@
       "source": "batch2"
     },
     {
-      "rank": 23,
+      "rank": 24,
       "place_id": "tw-080",
       "name_zh": "帆船鼻大草原／海岬",
       "l1": "B4",
@@ -1037,7 +1068,7 @@
       "source": "batch2"
     },
     {
-      "rank": 24,
+      "rank": 25,
       "place_id": "tw-049",
       "name_zh": "桃山",
       "l1": "C2",
@@ -1047,7 +1078,7 @@
       "source": "batch2"
     },
     {
-      "rank": 25,
+      "rank": 26,
       "place_id": "tw-112",
       "name_zh": "太魯閣燕子口／九曲洞",
       "l1": "C1",
@@ -1057,7 +1088,17 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 26,
+      "rank": 27,
+      "place_id": "tw-121",
+      "name_zh": "北竿塘后道沙灘藍眼淚",
+      "l1": "F3",
+      "l1_rank": 4,
+      "agli": 62.9,
+      "confidence": "medium",
+      "source": "cl-data-64-direct"
+    },
+    {
+      "rank": 28,
       "place_id": "tw-056",
       "name_zh": "松蘿湖",
       "l1": "D1",
@@ -1067,7 +1108,7 @@
       "source": "batch2"
     },
     {
-      "rank": 27,
+      "rank": 29,
       "place_id": "tw-062",
       "name_zh": "金門得月樓",
       "l1": "F4",
@@ -1077,17 +1118,17 @@
       "source": "batch2"
     },
     {
-      "rank": 28,
+      "rank": 30,
       "place_id": "tw-065",
       "name_zh": "馬祖南竿",
       "l1": "F3",
-      "l1_rank": 3,
+      "l1_rank": 5,
       "agli": 61.9,
       "confidence": "low",
       "source": "batch2"
     },
     {
-      "rank": 29,
+      "rank": 31,
       "place_id": "tw-057",
       "name_zh": "加羅湖",
       "l1": "D1",
@@ -1097,7 +1138,7 @@
       "source": "batch2"
     },
     {
-      "rank": 30,
+      "rank": 32,
       "place_id": "tw-088",
       "name_zh": "翠峰湖環山步道觀景點",
       "l1": "D1",
@@ -1107,7 +1148,7 @@
       "source": "pilot-reuse"
     },
     {
-      "rank": 31,
+      "rank": 33,
       "place_id": "tw-059",
       "name_zh": "奎壁山",
       "l1": "F1",
@@ -1117,7 +1158,7 @@
       "source": "batch2"
     },
     {
-      "rank": 32,
+      "rank": 34,
       "place_id": "tw-104",
       "name_zh": "忘憂森林",
       "l1": "C5",
@@ -1127,7 +1168,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 33,
+      "rank": 35,
       "place_id": "tw-068",
       "name_zh": "綠島朝日溫泉",
       "l1": "F2",
@@ -1137,7 +1178,7 @@
       "source": "pilot-reuse"
     },
     {
-      "rank": 34,
+      "rank": 36,
       "place_id": "tw-078",
       "name_zh": "建功嶼／退潮石板道",
       "l1": "F1",
@@ -1147,7 +1188,7 @@
       "source": "batch2"
     },
     {
-      "rank": 35,
+      "rank": 37,
       "place_id": "tw-095",
       "name_zh": "塔塔加夫妻樹／鹿林山觀景點",
       "l1": "C4",
@@ -1157,7 +1198,7 @@
       "source": "gap-fill-47"
     },
     {
-      "rank": 36,
+      "rank": 38,
       "place_id": "tw-105",
       "name_zh": "太平雲梯／梅山36彎",
       "l1": "C5",
@@ -1167,7 +1208,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 37,
+      "rank": 39,
       "place_id": "tw-106",
       "name_zh": "萬年峽谷",
       "l1": "B5",
@@ -1177,7 +1218,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 38,
+      "rank": 40,
       "place_id": "tw-108",
       "name_zh": "龍頭山／多納環流丘",
       "l1": "B1",
@@ -1187,7 +1228,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 39,
+      "rank": 41,
       "place_id": "tw-118",
       "name_zh": "栗松溫泉野溪峽谷",
       "l1": "B3",
@@ -1197,7 +1238,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 40,
+      "rank": 42,
       "place_id": "tw-053",
       "name_zh": "杉林溪",
       "l1": "C5",
@@ -1207,17 +1248,17 @@
       "source": "batch2"
     },
     {
-      "rank": 41,
+      "rank": 43,
       "place_id": "tw-081",
       "name_zh": "南竿鐵堡／海防礁岩",
       "l1": "F3",
-      "l1_rank": 4,
+      "l1_rank": 6,
       "agli": 59.1,
       "confidence": "low",
       "source": "batch2"
     },
     {
-      "rank": 42,
+      "rank": 44,
       "place_id": "tw-064",
       "name_zh": "金門慈湖",
       "l1": "F4",
@@ -1227,7 +1268,7 @@
       "source": "batch2"
     },
     {
-      "rank": 43,
+      "rank": 45,
       "place_id": "tw-076",
       "name_zh": "龍磐公園／草原海岸",
       "l1": "B4",
@@ -1237,7 +1278,7 @@
       "source": "gap-fill-47"
     },
     {
-      "rank": 44,
+      "rank": 46,
       "place_id": "tw-029",
       "name_zh": "鵝鑾鼻燈塔",
       "l1": "B4",
@@ -1247,7 +1288,7 @@
       "source": "pilot-reuse"
     },
     {
-      "rank": 45,
+      "rank": 47,
       "place_id": "tw-038",
       "name_zh": "三仙台",
       "l1": "E2",
@@ -1257,7 +1298,7 @@
       "source": "batch1"
     },
     {
-      "rank": 46,
+      "rank": 48,
       "place_id": "tw-075",
       "name_zh": "外澳沙灘／龜山朝日",
       "l1": "A1",
@@ -1267,7 +1308,7 @@
       "source": "batch2"
     },
     {
-      "rank": 47,
+      "rank": 49,
       "place_id": "tw-110",
       "name_zh": "四草綠色隧道",
       "l1": "B2",
@@ -1277,7 +1318,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 48,
+      "rank": 50,
       "place_id": "tw-027",
       "name_zh": "田寮月世界",
       "l1": "B1",
@@ -1287,7 +1328,7 @@
       "source": "re-eval-47"
     },
     {
-      "rank": 49,
+      "rank": 51,
       "place_id": "tw-054",
       "name_zh": "正濱漁港",
       "l1": "A1",
@@ -1297,7 +1338,7 @@
       "source": "batch2"
     },
     {
-      "rank": 50,
+      "rank": 52,
       "place_id": "tw-013",
       "name_zh": "火炎山",
       "l1": "A3",
@@ -1307,7 +1348,7 @@
       "source": "batch1"
     },
     {
-      "rank": 51,
+      "rank": 53,
       "place_id": "tw-039",
       "name_zh": "池上伯朗大道",
       "l1": "D2",
@@ -1317,7 +1358,7 @@
       "source": "pilot-reuse"
     },
     {
-      "rank": 52,
+      "rank": 54,
       "place_id": "tw-117",
       "name_zh": "桶盤嶼柱狀玄武岩",
       "l1": "F1",
@@ -1327,7 +1368,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 53,
+      "rank": 55,
       "place_id": "tw-055",
       "name_zh": "五峰旗瀑布",
       "l1": "A1",
@@ -1337,7 +1378,7 @@
       "source": "batch2"
     },
     {
-      "rank": 54,
+      "rank": 56,
       "place_id": "tw-093",
       "name_zh": "福壽山農場觀景點",
       "l1": "C3",
@@ -1347,7 +1388,17 @@
       "source": "batch2"
     },
     {
-      "rank": 55,
+      "rank": 57,
+      "place_id": "tw-123",
+      "name_zh": "東莒福正沙灘藍眼淚（東犬燈塔旁）",
+      "l1": "F3",
+      "l1_rank": 7,
+      "agli": 57.1,
+      "confidence": "medium",
+      "source": "cl-data-64-direct"
+    },
+    {
+      "rank": 58,
       "place_id": "tw-018",
       "name_zh": "日月潭・水社壩湖景步道",
       "l1": "D2",
@@ -1357,7 +1408,7 @@
       "source": "batch1"
     },
     {
-      "rank": 56,
+      "rank": 59,
       "place_id": "tw-060",
       "name_zh": "七美雙心石滬",
       "l1": "F1",
@@ -1367,7 +1418,7 @@
       "source": "gap-fill-47"
     },
     {
-      "rank": 57,
+      "rank": 60,
       "place_id": "tw-061",
       "name_zh": "澎湖觀音亭",
       "l1": "F1",
@@ -1377,7 +1428,17 @@
       "source": "batch2"
     },
     {
-      "rank": 58,
+      "rank": 61,
+      "place_id": "tw-124",
+      "name_zh": "南竿大漢據點藍眼淚（鐵板海岸）",
+      "l1": "F3",
+      "l1_rank": 8,
+      "agli": 55.7,
+      "confidence": "medium",
+      "source": "cl-data-64-direct"
+    },
+    {
+      "rank": 62,
       "place_id": "tw-099",
       "name_zh": "桃源谷（灣坑頭山草原）",
       "l1": "A1",
@@ -1387,7 +1448,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 59,
+      "rank": 63,
       "place_id": "tw-100",
       "name_zh": "石碇千島湖／鱷魚潭",
       "l1": "A2",
@@ -1397,7 +1458,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 60,
+      "rank": 64,
       "place_id": "tw-102",
       "name_zh": "三貂角燈塔",
       "l1": "A1",
@@ -1407,7 +1468,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 61,
+      "rank": 65,
       "place_id": "tw-107",
       "name_zh": "佳樂水",
       "l1": "B4",
@@ -1417,7 +1478,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 62,
+      "rank": 66,
       "place_id": "tw-113",
       "name_zh": "白楊瀑布",
       "l1": "C1",
@@ -1427,7 +1488,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 63,
+      "rank": 67,
       "place_id": "tw-114",
       "name_zh": "赤科山金針花海",
       "l1": "D2",
@@ -1437,7 +1498,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 64,
+      "rank": 68,
       "place_id": "tw-115",
       "name_zh": "鹿野高台",
       "l1": "D2",
@@ -1447,7 +1508,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 65,
+      "rank": 69,
       "place_id": "tw-116",
       "name_zh": "太麻里金針山",
       "l1": "E2",
@@ -1457,7 +1518,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 66,
+      "rank": 70,
       "place_id": "tw-119",
       "name_zh": "加里山",
       "l1": "A3",
@@ -1467,7 +1528,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 67,
+      "rank": 71,
       "place_id": "tw-010",
       "name_zh": "和平島",
       "l1": "A1",
@@ -1477,7 +1538,7 @@
       "source": "batch1"
     },
     {
-      "rank": 68,
+      "rank": 72,
       "place_id": "tw-024",
       "name_zh": "阿里山祝山觀日平台",
       "l1": "C5",
@@ -1487,7 +1548,7 @@
       "source": "batch1"
     },
     {
-      "rank": 69,
+      "rank": 73,
       "place_id": "tw-085",
       "name_zh": "南子吝步道",
       "l1": "A1",
@@ -1497,17 +1558,17 @@
       "source": "batch2"
     },
     {
-      "rank": 70,
+      "rank": 74,
       "place_id": "tw-094",
       "name_zh": "東莒燈塔（東犬燈塔）",
       "l1": "F3",
-      "l1_rank": 5,
+      "l1_rank": 9,
       "agli": 54.2,
       "confidence": "high",
       "source": "gap-fill-47"
     },
     {
-      "rank": 71,
+      "rank": 75,
       "place_id": "tw-120",
       "name_zh": "武陵農場",
       "l1": "C3",
@@ -1517,7 +1578,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 72,
+      "rank": 76,
       "place_id": "tw-035",
       "name_zh": "六十石山",
       "l1": "D2",
@@ -1527,7 +1588,7 @@
       "source": "batch1"
     },
     {
-      "rank": 73,
+      "rank": 77,
       "place_id": "tw-004",
       "name_zh": "不厭亭",
       "l1": "A2",
@@ -1537,7 +1598,7 @@
       "source": "batch1"
     },
     {
-      "rank": 74,
+      "rank": 78,
       "place_id": "tw-073",
       "name_zh": "老梅綠石槽",
       "l1": "A1",
@@ -1547,7 +1608,7 @@
       "source": "gap-fill-47"
     },
     {
-      "rank": 75,
+      "rank": 79,
       "place_id": "tw-026",
       "name_zh": "井仔腳瓦盤鹽田",
       "l1": "B5",
@@ -1557,7 +1618,7 @@
       "source": "batch1"
     },
     {
-      "rank": 76,
+      "rank": 80,
       "place_id": "tw-058",
       "name_zh": "澎湖跨海大橋",
       "l1": "F1",
@@ -1567,7 +1628,7 @@
       "source": "batch2"
     },
     {
-      "rank": 77,
+      "rank": 81,
       "place_id": "tw-091",
       "name_zh": "司馬庫斯部落觀景點",
       "l1": "C2",
@@ -1577,7 +1638,7 @@
       "source": "gap-fill-47"
     },
     {
-      "rank": 78,
+      "rank": 82,
       "place_id": "tw-101",
       "name_zh": "林口水牛坑（林口大峽谷）",
       "l1": "A3",
@@ -1587,7 +1648,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 79,
+      "rank": 83,
       "place_id": "tw-111",
       "name_zh": "蓮池潭龍虎塔",
       "l1": "B1",
@@ -1597,7 +1658,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 80,
+      "rank": 84,
       "place_id": "tw-036",
       "name_zh": "七星潭",
       "l1": "E1",
@@ -1607,7 +1668,7 @@
       "source": "batch1"
     },
     {
-      "rank": 81,
+      "rank": 85,
       "place_id": "tw-089",
       "name_zh": "觀霧榛山步道觀景點",
       "l1": "C2",
@@ -1617,7 +1678,7 @@
       "source": "gap-fill-47"
     },
     {
-      "rank": 82,
+      "rank": 86,
       "place_id": "tw-016",
       "name_zh": "鳶嘴山",
       "l1": "C2",
@@ -1627,7 +1688,7 @@
       "source": "batch1"
     },
     {
-      "rank": 83,
+      "rank": 87,
       "place_id": "tw-022",
       "name_zh": "二延平步道鋼構觀景平台",
       "l1": "C5",
@@ -1637,7 +1698,7 @@
       "source": "batch1"
     },
     {
-      "rank": 84,
+      "rank": 88,
       "place_id": "tw-103",
       "name_zh": "清境農場",
       "l1": "C3",
@@ -1647,7 +1708,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 85,
+      "rank": 89,
       "place_id": "tw-087",
       "name_zh": "大雪山森林遊樂區43K觀景台",
       "l1": "C2",
@@ -1657,7 +1718,7 @@
       "source": "gap-fill-47"
     },
     {
-      "rank": 86,
+      "rank": 90,
       "place_id": "tw-002",
       "name_zh": "象山六巨石攝影平台",
       "l1": "A2",
@@ -1667,7 +1728,7 @@
       "source": "batch1"
     },
     {
-      "rank": 87,
+      "rank": 91,
       "place_id": "tw-109",
       "name_zh": "七股鹽山／潟湖",
       "l1": "B2",
@@ -1677,7 +1738,7 @@
       "source": "cl-data-51-direct"
     },
     {
-      "rank": 88,
+      "rank": 92,
       "place_id": "tw-007",
       "name_zh": "碧潭",
       "l1": "A2",
@@ -1687,7 +1748,7 @@
       "source": "pilot-reuse"
     },
     {
-      "rank": 89,
+      "rank": 93,
       "place_id": "tw-033",
       "name_zh": "粉鳥林",
       "l1": "D1",
@@ -1697,7 +1758,7 @@
       "source": "re-eval-47"
     },
     {
-      "rank": 90,
+      "rank": 94,
       "place_id": "tw-030",
       "name_zh": "屏東關山",
       "l1": "B4",
@@ -1707,7 +1768,7 @@
       "source": "re-eval-47"
     },
     {
-      "rank": 91,
+      "rank": 95,
       "place_id": "tw-025",
       "name_zh": "二寮觀日亭",
       "l1": "B5",
@@ -1717,7 +1778,7 @@
       "source": "batch1"
     },
     {
-      "rank": 92,
+      "rank": 96,
       "place_id": "tw-098",
       "name_zh": "渭水之丘／櫻花陵園",
       "l1": "D1",
@@ -1727,7 +1788,7 @@
       "source": "gap-fill-47"
     },
     {
-      "rank": 93,
+      "rank": 97,
       "place_id": "tw-031",
       "name_zh": "抹茶山（聖母山莊／三角崙）",
       "l1": "D1",
@@ -1737,7 +1798,7 @@
       "source": "re-eval-47"
     },
     {
-      "rank": 94,
+      "rank": 98,
       "place_id": "tw-003",
       "name_zh": "淡水漁人碼頭",
       "l1": "A2",
@@ -1747,7 +1808,7 @@
       "source": "pilot-reuse"
     },
     {
-      "rank": 95,
+      "rank": 99,
       "place_id": "tw-037",
       "name_zh": "多良火車站觀景台",
       "l1": "E2",
@@ -1757,7 +1818,7 @@
       "source": "re-eval-47"
     },
     {
-      "rank": 96,
+      "rank": 100,
       "place_id": "tw-028",
       "name_zh": "駁二藝術特區",
       "l1": "B1",
@@ -1767,7 +1828,7 @@
       "source": "pilot-reuse"
     },
     {
-      "rank": 97,
+      "rank": 101,
       "place_id": "tw-021",
       "name_zh": "武界部落",
       "l1": "C3",
@@ -1777,7 +1838,7 @@
       "source": "batch1"
     },
     {
-      "rank": 98,
+      "rank": 102,
       "place_id": "tw-032",
       "name_zh": "見晴懷古步道",
       "l1": "D1",
@@ -1787,7 +1848,7 @@
       "source": "re-eval-47"
     },
     {
-      "rank": 99,
+      "rank": 103,
       "place_id": "tw-005",
       "name_zh": "大稻埕碼頭",
       "l1": "A2",
@@ -1797,7 +1858,7 @@
       "source": "batch1"
     },
     {
-      "rank": 100,
+      "rank": 104,
       "place_id": "tw-009",
       "name_zh": "望幽谷",
       "l1": "A1",
@@ -1807,7 +1868,7 @@
       "source": "batch1"
     },
     {
-      "rank": 101,
+      "rank": 105,
       "place_id": "tw-051",
       "name_zh": "大古山",
       "l1": "A2",
@@ -1817,7 +1878,7 @@
       "source": "batch2"
     },
     {
-      "rank": 102,
+      "rank": 106,
       "place_id": "tw-012",
       "name_zh": "香山濕地賞蟹步道",
       "l1": "B2",
@@ -1827,7 +1888,7 @@
       "source": "batch1"
     },
     {
-      "rank": 103,
+      "rank": 107,
       "place_id": "tw-023",
       "name_zh": "頂石棹",
       "l1": "C5",
@@ -1837,7 +1898,7 @@
       "source": "batch1"
     },
     {
-      "rank": 104,
+      "rank": 108,
       "place_id": "tw-082",
       "name_zh": "鯉魚潭",
       "l1": "E1",
@@ -1847,7 +1908,7 @@
       "source": "gap-fill-47"
     },
     {
-      "rank": 105,
+      "rank": 109,
       "place_id": "tw-008",
       "name_zh": "觀音山硬漢嶺",
       "l1": "A2",
@@ -1857,7 +1918,7 @@
       "source": "batch1"
     },
     {
-      "rank": 106,
+      "rank": 110,
       "place_id": "tw-017",
       "name_zh": "王功漁港",
       "l1": "B2",
@@ -1867,7 +1928,7 @@
       "source": "batch1"
     },
     {
-      "rank": 107,
+      "rank": 111,
       "place_id": "tw-020",
       "name_zh": "金龍山",
       "l1": "D2",
@@ -1877,7 +1938,7 @@
       "source": "batch1"
     },
     {
-      "rank": 108,
+      "rank": 112,
       "place_id": "tw-083",
       "name_zh": "雲山水夢幻湖",
       "l1": "D2",
@@ -1887,7 +1948,7 @@
       "source": "gap-fill-47"
     },
     {
-      "rank": 109,
+      "rank": 113,
       "place_id": "tw-052",
       "name_zh": "小崗山雲臺",
       "l1": "B1",
@@ -1897,7 +1958,7 @@
       "source": "pilot-reuse"
     },
     {
-      "rank": 110,
+      "rank": 114,
       "place_id": "tw-014",
       "name_zh": "雲洞山莊",
       "l1": "C3",
@@ -1907,7 +1968,7 @@
       "source": "batch1"
     },
     {
-      "rank": 111,
+      "rank": 115,
       "place_id": "tw-006",
       "name_zh": "關渡大橋",
       "l1": "A2",
@@ -1917,7 +1978,7 @@
       "source": "batch1"
     },
     {
-      "rank": 112,
+      "rank": 116,
       "place_id": "tw-001",
       "name_zh": "大屯山助航站",
       "l1": "A1",
@@ -1927,7 +1988,7 @@
       "source": "batch1"
     },
     {
-      "rank": 113,
+      "rank": 117,
       "place_id": "tw-086",
       "name_zh": "八里崁頭里・淡江大橋觀景點",
       "l1": "A2",
@@ -1937,7 +1998,7 @@
       "source": "pilot-reuse"
     },
     {
-      "rank": 114,
+      "rank": 118,
       "place_id": "tw-011",
       "name_zh": "永安漁港",
       "l1": "A3",
@@ -1947,7 +2008,7 @@
       "source": "batch1"
     },
     {
-      "rank": 115,
+      "rank": 119,
       "place_id": "tw-084",
       "name_zh": "大農大富平地森林園區",
       "l1": "D2",
@@ -9619,6 +9680,122 @@
       "source": "cl-data-51-direct",
       "evidence_note": "CL-DATA-51 建置直接評分（單榜，來源座標/景觀證據於 cl-data-51_web_evidence.json）；經驗/文化維度為低信心估計",
       "agli": 53.5
+    },
+    {
+      "place_id": "tw-121",
+      "name_zh": "北竿塘后道沙灘藍眼淚",
+      "l1": "F3",
+      "pass_A": null,
+      "pass_B": null,
+      "merged": {
+        "grandeur": 45,
+        "uniqueness": 75,
+        "visual": 78,
+        "richness": 55,
+        "season": 55,
+        "photo": 78,
+        "experience": null,
+        "cultural": null
+      },
+      "confidence": "medium",
+      "gli_version": "64-direct-v2",
+      "source": "cl-data-64-direct",
+      "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+      "reasons": {
+        "grandeur": "landscape scale is not top-tier but clean",
+        "uniqueness": "CNN 世界15大自然奇景題材，馬祖代表性沙灘追淚點",
+        "visual": "photogenic luminous/banded subject",
+        "richness": "can be paired with multiple subjects",
+        "season": "strong seasonal sense"
+      },
+      "agli": 62.9
+    },
+    {
+      "place_id": "tw-122",
+      "name_zh": "南竿北海坑道（夜間搖櫓藍眼淚）",
+      "l1": "F3",
+      "pass_A": null,
+      "pass_B": null,
+      "merged": {
+        "grandeur": 50,
+        "uniqueness": 82,
+        "visual": 80,
+        "richness": 50,
+        "season": 50,
+        "photo": 80,
+        "experience": null,
+        "cultural": null
+      },
+      "confidence": "medium",
+      "gli_version": "64-direct-v2",
+      "source": "cl-data-64-direct",
+      "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+      "reasons": {
+        "grandeur": "landscape scale is not top-tier but clean",
+        "uniqueness": "坑道內靜水搖櫓近距離追淚的官方夜間遊程，全台唯一",
+        "visual": "photogenic luminous/banded subject",
+        "richness": "subjects are relatively focused",
+        "season": "strong seasonal sense"
+      },
+      "agli": 65.6
+    },
+    {
+      "place_id": "tw-123",
+      "name_zh": "東莒福正沙灘藍眼淚（東犬燈塔旁）",
+      "l1": "F3",
+      "pass_A": null,
+      "pass_B": null,
+      "merged": {
+        "grandeur": 42,
+        "uniqueness": 68,
+        "visual": 70,
+        "richness": 45,
+        "season": 55,
+        "photo": 70,
+        "experience": null,
+        "cultural": null
+      },
+      "confidence": "medium",
+      "gli_version": "64-direct-v2",
+      "source": "cl-data-64-direct",
+      "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+      "reasons": {
+        "grandeur": "landscape scale is not top-tier but clean",
+        "uniqueness": "東莒白沙灘追淚點，無光害海岸",
+        "visual": "photogenic but noisy",
+        "richness": "subjects are relatively focused",
+        "season": "strong seasonal sense"
+      },
+      "agli": 57.1
+    },
+    {
+      "place_id": "tw-124",
+      "name_zh": "南竿大漢據點藍眼淚（鐵板海岸）",
+      "l1": "F3",
+      "pass_A": null,
+      "pass_B": null,
+      "merged": {
+        "grandeur": 42,
+        "uniqueness": 66,
+        "visual": 66,
+        "richness": 45,
+        "season": 55,
+        "photo": 66,
+        "experience": null,
+        "cultural": null
+      },
+      "confidence": "medium",
+      "gli_version": "64-direct-v2",
+      "source": "cl-data-64-direct",
+      "evidence_note": "CL-DATA-64 construction direct eval: v2 L/P are in agli-final.json; this record's merged field is the v1-style 8-dim breakdown (experience/humanity are low-confidence estimates and are not scored in v2); access/reservation/eruption-closure limitations are recorded in access notes but are NOT SCORED per the ticket ruling",
+      "reasons": {
+        "grandeur": "landscape scale is not top-tier but clean",
+        "uniqueness": "礁岩海岸浪打螢光，與沙灘/坑道型態不同",
+        "visual": "photogenic but noisy",
+        "richness": "subjects are relatively focused",
+        "season": "strong seasonal sense"
+      },
+      "agli": 55.7
     }
   ]
 }

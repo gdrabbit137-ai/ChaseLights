@@ -153,6 +153,10 @@ TW_ADMIN_AREAS = {
     "tw-118": ["台東縣"],
     "tw-119": ["苗栗縣"],
     "tw-120": ["台中市"],
+    "tw-121": ["連江縣"],  # CL-DATA-64
+    "tw-122": ["連江縣"],  # CL-DATA-64
+    "tw-123": ["連江縣"],  # CL-DATA-64
+    "tw-124": ["連江縣"],  # CL-DATA-64
 }
 
 # B137 country-neutral first-level administrative-area metadata.
@@ -262,6 +266,10 @@ JP_ADMIN_AREAS = {
     "jp-089": ["長野県"],
     "jp-090": ["沖縄県"],
     "jp-091": ["鹿児島県"],
+    "jp-092": ["大分県"],  # CL-DATA-64
+    "jp-093": ["大分県"],  # CL-DATA-64
+    "jp-094": ["群馬県"],  # CL-DATA-64
+    "jp-095": ["長野県"],  # CL-DATA-64
 }
 
 US_ADMIN_AREAS = {
@@ -423,6 +431,11 @@ US_ADMIN_AREAS = {
     "us-156": ["North Carolina"],  # CL-DATA-53
     "us-157": ["Virginia"],  # CL-DATA-53
     "us-158": ["Alaska"],  # CL-DATA-53
+    "us-159": ["Wyoming"],  # CL-DATA-64
+    "us-160": ["Wyoming"],  # CL-DATA-64
+    "us-161": ["Hawaii"],  # CL-DATA-64
+    "us-162": ["Hawaii"],  # CL-DATA-64
+    "us-163": ["Hawaii"],  # CL-DATA-64
 
 }
 
@@ -561,6 +574,10 @@ REGIONS = {
             (23.1979087, 121.0371977, "栗松溫泉野溪峽谷", "Lisong Hot Spring Canyon", "栗松温泉の渓谷", "栗松溫泉", "本島", ["mountain"]),
             (24.5375, 120.9907, "加里山", "Jiali Mountain", "加里山", "加里山", "本島", ["mountain", "cloud_sea", "starlight"]),
             (24.364611, 121.31035, "武陵農場", "Wuling Farm", "武陵農場", "武陵農場", "本島", ["mountain", "starlight"]),
+            (26.222827, 120.00476, "北竿塘后道沙灘藍眼淚", "Tanghou Beach blue tears (Beigan)", "塘后道ビーチの藍眼淚", "塘后道沙灘", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
+            (26.143015, 119.92881, "南竿北海坑道（夜間搖櫓藍眼淚）", "Beihai Tunnel night rowing blue tears (Nangan)", "北海坑道（夜間ローボート藍眼淚）", "北海坑道", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
+            (25.966231, 119.98215, "東莒福正沙灘藍眼淚（東犬燈塔旁）", "Fuzheng Beach blue tears (Dongju)", "福正ビーチの藍眼淚（東犬灯台）", "福正沙灘", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
+            (26.140628, 119.92906, "南竿大漢據點藍眼淚（鐵板海岸）", "Dahan stronghold blue tears (Tieban coast)", "大漢據点の藍眼淚（鉄板海岸）", "大漢據點", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
         ],
     },
     "jp": {
@@ -659,6 +676,10 @@ REGIONS = {
             (35.5066, 137.8474, "阿智村（日本第一星空）", "Achi Village (Japan's #1 Starry Sky)", "阿智村（日本一の星空）", "阿智村", "關東/中部", ["mountain", "starlight"]),
             (24.2337, 123.7583, "波照間島（南十字星）", "Hateruma Island (Southern Cross)", "波照間島（南十字星）", "波照間島", "九州/沖繩", ["coast", "starlight"]),
             (30.3883, 130.6064, "屋久島白谷雲水峽", "Shiratani Unsuikyo Ravine", "白谷雲水峡", "白谷雲水峡", "九州/沖繩", ["forest", "waterfall"]),
+            (33.316056, 131.4690056, "別府海地獄", "Umi Jigoku (Sea Hell, Beppu)", "海地獄（別府）", "海地獄", "九州/沖繩", ["mountain"]),  # CL-DATA-64
+            (33.327125, 131.4782583, "別府血池地獄", "Chinoike Jigoku (Blood Pond Hell, Beppu)", "血の池地獄（別府）", "血の池地獄", "九州/沖繩", ["mountain"]),  # CL-DATA-64
+            (36.622806, 138.596639, "草津湯畑", "Kusatsu Yubatake (hot-water field)", "草津湯畑", "草津湯畑", "關東/中部", ["mountain"]),  # CL-DATA-64
+            (36.732806, 138.462694, "地獄谷野猿公苑", "Jigokudani Yaen-Koen (Snow Monkey Park)", "地獄谷野猿公苑", "地獄谷野猿公苑", "關東/中部", ["forest", "mountain"]),  # CL-DATA-64
         ],
     },
     "us": {
@@ -833,6 +854,11 @@ REGIONS = {
             (35.2113, -75.5213, "哈特拉斯角燈塔", "Cape Hatteras Lighthouse", "ケープ・ハテラス灯台", "Cape Hatteras Lighthouse", "美東", ["coast"]),  # CL-DATA-53
             (38.0111, -75.2814, "阿薩蒂格島野馬", "Assateague Island wild horses", "アサティーグ島の野生馬", "Assateague Island", "美東", ["coast"]),  # CL-DATA-53
             (59.995, -149.69, "哈丁冰原（奇奈峽灣）", "Harding Icefield (Kenai Fjords)", "ハーディング氷原（ケナイフィヨルド）", "Harding Icefield", "阿拉斯加", ["mountain"]),  # CL-DATA-53
+            (44.46047, -110.82814, "老忠實間歇泉（黃石）", "Old Faithful Geyser (Yellowstone)", "オールド・フェイスフル・ガイザー", "Old Faithful", "美西", ["mountain"]),  # CL-DATA-64
+            (44.4750325, -110.8435128, "牽牛花溫泉池（黃石上間歇泉盆地）", "Morning Glory Pool (Upper Geyser Basin)", "モーニンググロリー・プール", "Morning Glory Pool", "美西", ["mountain"]),  # CL-DATA-64
+            (19.4071, -155.285, "基勞亞口熔岩紅光夜拍（基勞亞展望台）", "Kilauea crater lava-glow night (Kilauea Overlook)", "キラウエア火口の溶岩紅光夜景", "Kilauea Overlook", "夏威夷", ["geology", "starlight"]),  # CL-DATA-64
+            (19.4134, -155.243, "那胡庫熔岩管（瑟斯頓熔岩洞）", "Nāhuku (Thurston Lava Tube)", "ナフク（サーストン溶岩トンネル）", "Nāhuku", "夏威夷", ["geology", "forest"]),  # CL-DATA-64
+            (19.417, -155.244, "基勞亞伊奇火山口熔岩地表", "Kīlauea Iki crater lava floor", "キラウエア・イキ火口の溶岩地面", "Kīlauea Iki", "夏威夷", ["geology"]),  # CL-DATA-64
         ],
     },
 }
@@ -950,6 +976,13 @@ ELEVATION_OVERRIDES = {
     "Cape Hatteras Lighthouse": 15,  # CL-DATA-53
     "Assateague Island": 2,  # CL-DATA-53
     "Harding Icefield": 1200,  # CL-DATA-53
+    # CL-DATA-64 admission elevations (web-verified 2026-11-10; null elevations omitted honestly)
+    "塘后道沙灘": 3,  # CL-DATA-64
+    "福正沙灘": 3,  # CL-DATA-64
+    "Old Faithful": 2240,  # CL-DATA-64
+    "草津湯畑": 1200,  # CL-DATA-64
+    "地獄谷野猿公苑": 850,  # CL-DATA-64
+    "Kilauea Overlook": 1227,  # CL-DATA-64
     # CL-DATA-52 admission elevations (web-verified 2026-11-09; null elevations omitted honestly)
     "富士山頂": 3776,
     "新倉山浅間公園": 410,
@@ -1410,6 +1443,72 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+    # CL-DATA-64 admission (web-verified 2026-11-10; keyed to full display names per get_spots contract)
+ "北竿塘后道沙灘藍眼淚": {"lat": 26.222827,
+           "lon": 120.00476,
+           "map_query": "塘后道沙灘",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: 交通部觀光署 塘后道沙灘（120.00476/26.222827；北竿機場旁連島沙洲「糖沙」）",
+           "coordinate_confidence": "medium"},
+ "南竿北海坑道（夜間搖櫓藍眼淚）": {"lat": 26.143015,
+           "lon": 119.92881,
+           "map_query": "北海坑道",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: 交通部觀光署 南竿北海坑道（119.92881/26.143015；坑道口少光害、夜間搖櫓賞淚官方遊程）",
+           "coordinate_confidence": "high"},
+ "東莒福正沙灘藍眼淚（東犬燈塔旁）": {"lat": 25.966231,
+           "lon": 119.98215,
+           "map_query": "福正沙灘",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: 交通部觀光署 福正聚落（119.98215/25.966231；沙灘在聚落旁、東犬燈塔下）",
+           "coordinate_confidence": "medium"},
+ "南竿大漢據點藍眼淚（鐵板海岸）": {"lat": 26.140628,
+           "lon": 119.92906,
+           "map_query": "大漢據點",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: 交通部觀光署 大漢據點（119.92906/26.140628；南竿南方鐵板海岸線，官方追淚點列名）",
+           "coordinate_confidence": "high"},
+ "老忠實間歇泉（黃石）": {"lat": 44.46047,
+           "lon": -110.82814,
+           "map_query": "Old Faithful",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: Wikipedia Old Faithful（44°27′38″N 110°49′41″W；標高 7,349 ft/2,240 m）+ NPS Old Faithful Geyser（平均間隔約90分鐘，變動50–127分鐘；2025-01 起中位數 102±10 分鐘——NPS 預測僅供現場參考，非本系統預報）",
+           "coordinate_confidence": "high"},
+ "牽牛花溫泉池（黃石上間歇泉盆地）": {"lat": 44.4750325,
+           "lon": -110.8435128,
+           "map_query": "Morning Glory Pool",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: Wikipedia Morning Glory Pool（44°28′30″N 110°50′37″W；Upper Geyser Basin 深緣藍心熱泉）",
+           "coordinate_confidence": "high"},
+ "別府海地獄": {"lat": 33.316056,
+           "lon": 131.4690056,
+           "map_query": "海地獄",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: ja.wikipedia 別府地獄めぐり（海地獄：北緯33度18分57.8秒 東経131度28分8.42秒；98°C 鈷藍熱泉池，國指定名勝）",
+           "coordinate_confidence": "high"},
+ "別府血池地獄": {"lat": 33.327125,
+           "lon": 131.4782583,
+           "map_query": "血の池地獄",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: ja.wikipedia 別府地獄めぐり（血の池地獄：北緯33度19分37.65秒 東経131度28分41.73秒；紅色熱泥池，日本最古の天然地獄）",
+           "coordinate_confidence": "high"},
+ "草津湯畑": {"lat": 36.622806,
+           "lon": 138.596639,
+           "map_query": "草津湯畑",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: ja.wikipedia 草津温泉（湯畑：北緯36度37分22秒 東経138度35分48秒；溫泉街中心，每分約4,000L 湧出，國指定名勝・特別名勝；標高約1,200 m 帶——溫泉街廣域值，medium）",
+           "coordinate_confidence": "high"},
+ "地獄谷野猿公苑": {"lat": 36.732806,
+           "lon": 138.462694,
+           "map_query": "地獄谷野猿公苑",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: ja.wikipedia 地獄谷野猿公苑（北緯36度43分58.1秒 東経138度27分45.7秒；海拔約850 m——zh.wikipedia；上信越高原國立公園橫湯川峽谷，冬期積雪約4個月）",
+           "coordinate_confidence": "high"},
+ "基勞亞口熔岩紅光夜拍（基勞亞展望台）": {"lat": 19.4071,
+           "lon": -155.285,
+           "map_query": "Kilauea Overlook",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: NPS Hawaiʻi Volcanoes NP / Wikipedia Kīlauea（基勞亞展望台，口緣 rim；山頂標高約 1,227 m 帶；座標 medium（展望台對位））",
+           "coordinate_confidence": "medium"},
+ "那胡庫熔岩管（瑟斯頓熔岩洞）": {"lat": 19.4134,
+           "lon": -155.243,
+           "map_query": "Nāhuku",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: NPS Nāhuku Lava Tube（Kīlauea summit 區 Crater Rim Drive；座標 medium（tube 對位））",
+           "coordinate_confidence": "medium"},
+ "基勞亞伊奇火山口熔岩地表": {"lat": 19.417,
+           "lon": -155.244,
+           "map_query": "Kīlauea Iki",
+           "coordinate_source": "CL-DATA-64 admission web verification 2026-11-10: NPS Hawaiʻi Volcanoes NP（Kīlauea Iki Overlook 與環線步道；1959 年噴發熔岩湖面；座標 medium（Overlook 對位））",
+           "coordinate_confidence": "medium"},
     # CL-DATA-53 admission (web-verified 2026-11-09; keyed to full display names per get_spots contract)
  "波浪谷（The Wave）": {"lat": 36.8617,
            "lon": -112.398,

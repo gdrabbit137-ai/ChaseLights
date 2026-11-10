@@ -45,10 +45,10 @@ def load(p):
 class TestRegions(unittest.TestCase):
     def test_tw_catalog_grew_and_nothing_removed(self):
         spots = regions.REGIONS["tw"]["spots"]
-        self.assertEqual(len(spots), 120)
+        self.assertEqual(len(spots), 124)  # re-anchored CL-DATA-64 (tw-121..124 Matsu blue tears; growth-only)
         self.assertEqual(spots[97][2], "渭水之丘／櫻花陵園")  # tw-098 untouched
         self.assertEqual(spots[98][2], "桃源谷（灣坑頭山草原）")  # first new (tw-099)
-        self.assertEqual(spots[-1][2], "武陵農場")  # tw-120
+        self.assertEqual(spots[-1][2], "南竿大漢據點藍眼淚（鐵板海岸）")  # tw-124
 
     def test_new_admin_areas(self):
         for pid in NEW_IDS:
@@ -137,15 +137,15 @@ class TestContracts(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 363)  # re-anchored CL-DATA-53 (us-097..118 backfill + us-119..158)
-        self.assertEqual(cat["counts"]["opportunities"], 595)
+        self.assertEqual(cat["counts"]["spots"], 376)  # re-anchored CL-DATA-64 (13 new-subject-family places)
+        self.assertEqual(cat["counts"]["opportunities"], 608)
         tw = [s for s in cat["spots"] if s["spot_id"].startswith("tw-")]
-        self.assertEqual(len(tw), 115)
+        self.assertEqual(len(tw), 119)
 
     def test_manifest_tw_counts(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
-        self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 120)
-        self.assertEqual(mf["regions"]["tw"]["counts"]["spots"], 115)
+        self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 124)
+        self.assertEqual(mf["regions"]["tw"]["counts"]["spots"], 119)
         self.assertEqual(mf["totals"], load("runtime_catalog_v004_r4_2.json")["counts"])
 
     def test_runtime_dependencies_gaps(self):

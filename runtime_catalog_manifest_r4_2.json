@@ -2,15 +2,15 @@
  "schema_version": "r4.2-b42-catalog-manifest-1",
  "purpose": "Central expected-state manifest for the effective curated Opportunity catalog. Runtime code computes actual counts and validates them against this snapshot.",
  "totals": {
-  "spots": 357,
-  "opportunities": 574,
-  "condition_variants": 589,
-  "profile_viewpoint_relations": 580
+  "spots": 370,
+  "opportunities": 587,
+  "condition_variants": 602,
+  "profile_viewpoint_relations": 593
  },
  "regions": {
   "tw": {
    "numeric_id_start": 1,
-   "numeric_id_end": 120,
+   "numeric_id_end": 124,
    "retired_spot_ids": [
     "tw-063",
     "tw-068",
@@ -22,46 +22,46 @@
     "tw-097"
    ],
    "counts": {
-    "spots": 112,
-    "opportunities": 245,
-    "condition_variants": 255,
-    "profile_viewpoint_relations": 250
+    "spots": 119,
+    "opportunities": 264,
+    "condition_variants": 274,
+    "profile_viewpoint_relations": 269
    }
   },
   "jp": {
    "numeric_id_start": 1,
-   "numeric_id_end": 91,
+   "numeric_id_end": 95,
    "retired_spot_ids": [
     "jp-050"
    ],
    "counts": {
-    "spots": 90,
-    "opportunities": 118,
-    "condition_variants": 123,
-    "profile_viewpoint_relations": 119
+    "spots": 94,
+    "opportunities": 122,
+    "condition_variants": 127,
+    "profile_viewpoint_relations": 123
    }
   },
   "us": {
    "numeric_id_start": 1,
-   "numeric_id_end": 158,
+   "numeric_id_end": 163,
    "retired_spot_ids": [
     "us-075",
     "us-076",
     "us-077"
    ],
    "counts": {
-    "spots": 155,
-    "opportunities": 211,
-    "condition_variants": 211,
-    "profile_viewpoint_relations": 211
+    "spots": 163,
+    "opportunities": 222,
+    "condition_variants": 222,
+    "profile_viewpoint_relations": 222
    }
   }
  },
  "runtime_policy_counts": {
   "data_insufficient": 2,
-  "module_pending": 195,
+  "module_pending": 199,
   "minimum_sufficient_available": 121,
-  "preview_module_available": 252,
+  "preview_module_available": 261,
   "hold": 2,
   "prototype_pending_certification": 2
  },

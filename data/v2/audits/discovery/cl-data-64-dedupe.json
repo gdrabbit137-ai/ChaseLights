@@ -1,0 +1,125 @@
+{
+ "tw-121": {
+  "nearest_existing": "tw-067",
+  "name": "北竿芹壁",
+  "km": 2.12,
+  "override": "subject-disjoint: Tanghou Beach noctiluca blue-glow waves (blue_tears, night sea bioluminescence) vs Qinbi preserved stone village (day/night village scenery) - same island, disjoint subjects (CL-DATA-51 differentiation precedent)"
+ },
+ "tw-122": {
+  "nearest_existing": "tw-081",
+  "name": "南竿鐵堡／海防礁岩",
+  "km": 0.78,
+  "override": "subject-disjoint: Beihai Tunnel still-water rowing blue tears (blue_tears, underground dock) vs Iron Fort seaside fortress (landmark) - disjoint subjects (CL-DATA-51 differentiation precedent)"
+ },
+ "tw-123": {
+  "nearest_existing": "tw-094",
+  "name": "東莒燈塔（東犬燈塔）",
+  "km": 0.36,
+  "override": "subject-disjoint: Fuzheng Beach noctiluca blue-glow waves (blue_tears) vs Dongju Lighthouse (lighthouse architecture) - same island ~0.3km, disjoint subjects (CL-DATA-51 differentiation precedent)"
+ },
+ "tw-124": {
+  "nearest_existing": "tw-081",
+  "name": "南竿鐵堡／海防礁岩",
+  "km": 0.81,
+  "override": "subject-disjoint: Dahan stronghold rocky-coast surf blue glow (blue_tears) vs Iron Fort fortress landmark - disjoint subjects (CL-DATA-51 differentiation precedent)"
+ },
+ "us-159": {
+  "nearest_existing": "us-010",
+  "name": "黃石國家公園 大稜鏡溫泉",
+  "km": 7.09
+ },
+ "us-160": {
+  "nearest_existing": "us-010",
+  "name": "黃石國家公園 大稜鏡溫泉",
+  "km": 5.42,
+  "override": "nearest existing Grand Prismatic ~5.4km away (no sub-5km neighbour); subject-disjoint at family level: small concentric bacterial-ring pool vs the grand prismatic terraces (CL-DATA-51 differentiation precedent)"
+ },
+ "jp-092": {
+  "nearest_existing": "jp-081",
+  "name": "鍋瀑布（水簾洞）",
+  "km": 44.94
+ },
+ "jp-093": {
+  "nearest_existing": "jp-081",
+  "name": "鍋瀑布（水簾洞）",
+  "km": 46.26
+ },
+ "jp-094": {
+  "nearest_existing": "jp-073",
+  "name": "SORA terrace 龍王雲海",
+  "km": 27.95
+ },
+ "jp-095": {
+  "nearest_existing": "jp-073",
+  "name": "SORA terrace 龍王雲海",
+  "km": 37.53
+ },
+ "us-161": {
+  "nearest_existing": "us-112",
+  "name": "哈雷茂茂火山口夜空",
+  "km": 0.38,
+  "override": "subject-disjoint: Halemaʻumaʻu lava-glow night (volcanic_glow with NEW REQUIRED volcanic_activity condition) vs us-112 Milky-Way night sky (night_sky; its glow is honestly not_evaluatable) - same viewpoint, disjoint subjects (CL-DATA-51 differentiation precedent)"
+ },
+ "us-162": {
+  "nearest_existing": "us-112",
+  "name": "哈雷茂茂火山口夜空",
+  "km": 4.18,
+  "override": "subject-disjoint: Nāhuku lava-tube interior (geological_landform, day subject) vs us-112 night-sky subject - ~4km apart, disjoint subjects (CL-DATA-51 differentiation precedent)"
+ },
+ "us-163": {
+  "nearest_existing": "us-112",
+  "name": "哈雷茂茂火山口夜空",
+  "km": 4.19,
+  "override": "subject-disjoint: Kīlauea Iki solidified lava-lake floor (geological_landform, day subject) vs us-112 night-sky subject - disjoint subjects (CL-DATA-51 differentiation precedent)"
+ },
+ "_internal": [
+  {
+   "pair": [
+    "jp-092",
+    "jp-093"
+   ],
+   "km": 1.5,
+   "reason": "subject-disjoint: Umi Jigoku cobalt-blue pool vs Chinoike red-mud pond (~1.5km, the two hells on the Beppu Jigoku-meguri route) - disjoint color subjects (CL-DATA-51 differentiation precedent)"
+  },
+  {
+   "pair": [
+    "tw-122",
+    "tw-124"
+   ],
+   "km": 0.27,
+   "reason": "subject-disjoint: Beihai Tunnel still-water rowing glow (underground dock) vs Dahan rocky-coast surf glow (open rocky shore ~0.3km) - different water forms (CL-DATA-51 differentiation precedent)"
+  },
+  {
+   "pair": [
+    "us-159",
+    "us-160"
+   ],
+   "km": 2.03,
+   "reason": "subject-disjoint: Old Faithful eruption column (transient vertical plume) vs Morning Glory Pool concentric color rings (~2km, classic Upper Geyser Basin paired visit) - disjoint subjects (CL-DATA-51 differentiation precedent)"
+  },
+  {
+   "pair": [
+    "us-161",
+    "us-162"
+   ],
+   "km": 4.46,
+   "reason": "subject-disjoint: Kilauea Overlook lava-glow night (volcanic_glow) vs Nāhuku lava-tube interior (day geological subject, ~4.5km) - disjoint subjects (CL-DATA-51 differentiation precedent)"
+  },
+  {
+   "pair": [
+    "us-161",
+    "us-163"
+   ],
+   "km": 4.44,
+   "reason": "subject-disjoint: Kilauea Overlook lava-glow night (volcanic_glow) vs Kīlauea Iki lava-lake floor (day geological subject) - disjoint subjects (CL-DATA-51 differentiation precedent)"
+  },
+  {
+   "pair": [
+    "us-162",
+    "us-163"
+   ],
+   "km": 0.41,
+   "reason": "subject-disjoint: Nāhuku underground lava tube vs Kīlauea Iki open lava-lake floor (~0.4km) - underground vs surface geology (CL-DATA-51 differentiation precedent)"
+  }
+ ]
+}
