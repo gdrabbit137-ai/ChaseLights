@@ -198,10 +198,22 @@ async function handleMockStart(req, env, url) {
 async function handleAuthMe(req, env) {
   const session = await getSession(req, env);
   if (!session) return json(req, 401, { error: "unauthorized" });
-  const row = await env.DB.prepare(
+  let row = await env.DB.prepare(
     "SELECT device_id, provider, provider_user_id, display_name, level FROM users WHERE device_id = ?1"
   ).bind(session.sub).first();
-  if (!row) return json(req, 401, { error: "session user not found" });
+  if (!row) {
+    // Self-heal: a validly-signed session whose users row is missing (e.g. token
+    // minted outside the login flow, or row lost) re-materializes from claims.
+    const provider = /^p:(line|google):/.test(session.sub) ? session.sub.split(":")[1] : "jwt";
+    const puid = /^p:(line|google):/.test(session.sub) ? session.sub.split(":").slice(2).join(":") : session.sub;
+    await env.DB.prepare(
+      "INSERT INTO users (device_id, provider, provider_user_id, display_name, level) VALUES (?1, ?2, ?3, ?4, ?5) ON CONFLICT(device_id) DO NOTHING"
+    ).bind(session.sub, provider, puid, session.name || "User", session.level || "free").run();
+    row = await env.DB.prepare(
+      "SELECT device_id, provider, provider_user_id, display_name, level FROM users WHERE device_id = ?1"
+    ).bind(session.sub).first();
+    if (!row) return json(req, 401, { error: "session user not found" });
+  }
   return json(req, 200, {
     user: { id: row.device_id, provider: row.provider, providerUserId: row.provider_user_id, displayName: row.display_name, level: row.level },
   });

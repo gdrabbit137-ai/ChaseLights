@@ -244,3 +244,13 @@ test("favorites: Bearer JWT takes precedence over legacy userId param; legacy an
   const anon = await worker.fetch(req("/favorites", { method: "POST", body: JSON.stringify({ userId: "dev-x", placeId: "tw-001" }) }), env, {});
   assert.equal((await anon.json()).ok, true);
 });
+
+test("self-heal: /auth/me re-materializes users row for valid JWT with no row", async () => {
+  const { env } = makeEnv();
+  const tok = await signJWT({ sub: "p:line:ghost", name: "Ghost", level: "free", typ: "access", exp: Math.floor(Date.now() / 1000) + 60 }, "test-secret-000");
+  const me = await worker.fetch(req("/auth/me", { headers: { Authorization: `Bearer ${tok}` } }), env, {});
+  assert.equal(me.status, 200);
+  const body = await me.json();
+  assert.equal(body.user.provider, "line");
+  assert.equal(body.user.providerUserId, "ghost");
+});
