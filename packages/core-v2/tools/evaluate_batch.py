@@ -555,6 +555,15 @@ def main():
                 if _cond.get("metric") == "light_direction":
                     _cond["view_azimuth_deg"] = view_az_deg
             days = {}
+            # CL-DATA-56: per-condition verdict counts, keyed by local day.
+            # The published hours rows carry only the ROLE-GATED failed/
+            # unknown lists from hour_status (REQUIRED failures, REQUIRED/
+            # BLOCKER unknowns) — those lists drive the hour gate, not the
+            # per-condition day verdict. Counting every condition's day
+            # pass_hours from them made QUALITY/BONUS conditions (e.g.
+            # golden_hour_window) read PASS with pass_hours == total even
+            # when their own per-hour verdicts were FAIL all day.
+            day_verdict_counts = {}
             hour_ctxs = []
             for hour_row in hours:
                 at = datetime.fromisoformat(hour_row["valid_at_utc"].replace("Z", "+00:00"))
@@ -604,6 +613,9 @@ def main():
                     "failed": fails,
                     "unknown": unknowns,
                 })
+                for cid, state in states.items():
+                    day_verdict_counts.setdefault(day_key, {}).setdefault(
+                        cid, {"PASS": 0, "FAIL": 0, "UNKNOWN": 0})[state] += 1
                 hour_ctxs.append((at, hour_row, astro_row, states, status))
                 for row in detail_hour_rows(
                         hour_row, local_stamp, status, conditions_eval,
@@ -627,9 +639,15 @@ def main():
                     state = "NOT_EVALUABLE"
                 conditions_day = []
                 total = len(hours_out)
+                counts_by_cid = day_verdict_counts.get(day_key, {})
                 for cid, cond in condition_by_id.items():
-                    fails = sum(1 for h in hours_out if cid in h["failed"])
-                    unknowns = sum(1 for h in hours_out if cid in h["unknown"])
+                    # CL-DATA-56: count from the condition's OWN per-hour
+                    # verdicts, not from the role-gated hour_status lists.
+                    tally = counts_by_cid.get(cid,
+                                              {"PASS": 0, "FAIL": 0,
+                                               "UNKNOWN": 0})
+                    unknowns = tally["UNKNOWN"]
+                    fails = tally["FAIL"]
                     pass_n = total - fails - unknowns
                     if unknowns == total:
                         verdict = "UNKNOWN"
