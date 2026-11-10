@@ -211,6 +211,9 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-54: the 13 contract-fix wave records repinned to e6603751b
             # (scoped evaluations regen commit; bytes unchanged since stage-4).
             'e6603751b8571025b9db78d405dbdd65c55476ea',
+            # CL-DATA-57: the two sunset-window promotion records repinned to
+            # 0ab54271b (contract commit; blob+sha256 verified on the task branch).
+            '0ab54271b600c0466dcca8dda2fc4a4a42c54680',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
