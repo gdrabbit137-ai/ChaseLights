@@ -229,7 +229,20 @@ def build_general_opportunity(place, docs, place_id, imported_at):
             'evidence_refs': [], 'derivation_method': None,
             'uncertainty_note': GEOMETRY_NOTE,
         }],
-        'navigation_targets': [],
+        'navigation_targets': [{
+            'id': f'NAV-{oid}-01',
+            'status': 'needs_review',
+            'target_type': 'other',
+            'lat': lat,
+            'lon': lon,
+            'label_i18n': {
+                'zh-TW': zh_name,
+                'en': name.get('en') or zh_name,
+                'ja': name.get('ja') or zh_name,
+            },
+            'evidence_refs': [],
+            'confidence': 'low',
+        }],
         'evidence_claims': [{
             'claim_id': f'{oid}-claim-01', 'claim_type': 'existence',
             'evidence_refs': [], 'audit_status': 'UNKNOWN',

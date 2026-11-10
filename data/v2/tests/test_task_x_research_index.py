@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((350,552),(len(actual),len(ids)))  # re-anchored CL-DATA-52 (JP intake jp-065..jp-091)
+        self.assertEqual((350,553),(len(actual),len(ids)))  # re-anchored CL-DATA-65 (jp-030-P99 general mount)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -218,6 +218,9 @@ class ResearchIndexTests(unittest.TestCase):
             # (us-123/us-132/us-143-P01) repinned to 8393d5b3d (contract commit;
             # blob+sha256 verified on the merged tree).
             '8393d5b3d4612c04b57d583a694094f77f78696c',
+            # CL-DATA-65: jp-030-P99 general-genre mount pinned to 816d020b1
+            # (stage-1 data commit; blob+sha256 verified on the task branch).
+            '816d020b1c3b6618cbe3a7220ceb8c2f72a72cf8',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
