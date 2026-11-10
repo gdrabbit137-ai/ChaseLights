@@ -309,7 +309,15 @@ def admit(pin_commit_sha: str | None, place_ids: list[str] | None = None,
     if write:
         if new_pins and pin_commit_sha:
             lock['canonical_records'].extend(new_pins)
-            lock['canonical_records'].sort(key=lambda p: p['opportunity_id'])
+            # Preserve the file's historical record order (review-diff hygiene):
+            # move each new pin to sit right after its opportunity_id
+            # predecessor, without re-sorting the whole list.
+            for pin in new_pins:
+                recs = lock['canonical_records']
+                recs.remove(pin)
+                idx = next(i for i, r in enumerate(recs)
+                           if r['opportunity_id'] > pin['opportunity_id'])
+                recs.insert(idx, pin)
             lock_path.write_bytes(_encoded(lock))
             curation_path.write_bytes(_encoded(curation))
     return {'new_pins': [p['opportunity_id'] for p in new_pins],
