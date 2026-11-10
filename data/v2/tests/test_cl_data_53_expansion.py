@@ -133,7 +133,7 @@ class TestContracts(unittest.TestCase):
         for sid, win in (("apostle_ice_caves", ("01-01", "03-15")),
                          ("newengland_foliage", ("09-29", "10-27")),
                          ("blueridge_foliage", ("10-10", "11-05")),
-                         ("joshua_tree_bloom", ("02-15", "04-30")),
+                         ("joshua_tree_bloom", ("04-01", "05-31")),
                          ("lastdollar_aspen", ("09-20", "10-10"))):
             self.assertIn(sid, have, sid)
             self.assertEqual(have[sid]["typical_window"],
