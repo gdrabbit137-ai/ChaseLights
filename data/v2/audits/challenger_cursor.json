@@ -251,5 +251,48 @@
   "us-146"
  ],
  "round11_valid_objections": 8,
- "round11_note": "Round11: us-121..146 10景點，30候選質疑成立8項——評估器 golden_hour pass_hours=24 bug（us-127/146，已開CL-DATA-56並當輪修復上線）、water_surface_state REQUIRED恆UNKNOWN+無結冰判據（us-123/132/143→CL-DATA-58）、light_window殘留缺口QUALITY-only（tw-095-P02/tw-016-P01深夜→CL-DATA-57）、季節語意不對稱+事實修正批（us-125/139/143/136/121/128→CL-DATA-59）。next_start_hint: 續 us-147..158 剩餘或 jp 區輪替"
+ "round11_note": "Round11: us-121..146 10景點，30候選質疑成立8項——評估器 golden_hour pass_hours=24 bug（us-127/146，已開CL-DATA-56並當輪修復上線）、water_surface_state REQUIRED恆UNKNOWN+無結冰判據（us-123/132/143→CL-DATA-58）、light_window殘留缺口QUALITY-only（tw-095-P02/tw-016-P01深夜→CL-DATA-57）、季節語意不對稱+事實修正批（us-125/139/143/136/121/128→CL-DATA-59）。next_start_hint: 續 us-147..158 剩餘或 jp 區輪替",
+ "round12_covered": [
+  "us-147",
+  "us-148",
+  "us-149-P01",
+  "us-149-P02",
+  "us-150",
+  "us-151",
+  "us-152",
+  "us-153",
+  "us-154",
+  "us-155",
+  "us-156",
+  "us-157",
+  "us-158"
+ ],
+ "round12_valid_objections": [
+  {
+   "id": "us-147-P01",
+   "objection": "golden_hour_window BONUS 理由「低角度直射光強化岩層紋理」對一臂寬的斑馬狹縫物理空窗：實拍最佳光是上午至中午的光束，低角度光進不了縫內，模板理由錯配成無效加分訊號。",
+   "evidence_url": "https://www.explorumentary.com/adventure-blog/zebra-slot-and-devils-garden-a-weekend-in-grand-staircase-escalante",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-152-P01",
+   "objection": "timezone_display 誤掛 America/Los_Angeles(UTC-8)：愛麗絲湖所在 Sawtooth/Blaine–Custer County 屬 Mountain Time（America/Boise, 11月 MST UTC-7），顯示拍攝時段整體偏移1小時。",
+   "evidence_url": "https://www.timeanddate.com/time/zone/@5608726",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-154-P01",
+   "objection": "timezone_display 誤掛 America/Los_Angeles(UTC-8)：Twin Falls 屬 America/Boise Mountain Time（MST UTC-7），顯示拍攝時段偏移1小時。",
+   "evidence_url": "https://time.is/Twin_Falls",
+   "verdict": "成立"
+  },
+  {
+   "id": "us-154-P01",
+   "objection": "river_flow_state 以「拍攝點過去72h當地雨量」映射水量，但 Shoshone Falls 流量由上游落磯山融雪＋Milner Dam 灌溉分流/水電取水決定（夏秋近乾），當地降雨與瀑布水量脫鉤——判據物理上測不到要判定的量。",
+   "evidence_url": "https://www.tfid.org/309/Shoshone-Falls",
+   "verdict": "成立"
+  }
+ ],
+ "round12_valid_objections_count": 4,
+ "round12_note": "Round12: us-147..158 共13契約，45候選質疑成立4項（us-147 golden_hour狹縫錯配、us-152/154時區誤掛Pacific、us-154水量判據與壩調節Snake River脫鉤）；其餘經NPS/BLM/time.is查證為不成立或已被警語覆蓋。next_start_hint: 下一輪輪替 jp 區"
 }
