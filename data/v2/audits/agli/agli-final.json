@@ -1,7 +1,7 @@
 {
   "schema": "agli-final/v2",
   "ticket": "CL-DATA-51",
-  "generated": "2026-11-09",
+  "generated": "2026-11-10",
   "method_doc": "data/v2/audits/agli/agli-method.md (v2)",
   "rulings": [
     "光影可拍性移出評分",
@@ -16957,6 +16957,513 @@
           "data/v2/audits/cl-data-53_web_evidence.json"
         ],
         "method": "CL-DATA-53 v2 direct dual-board scoring (2026-11-09)"
+      }
+    },
+    {
+      "place_id": "tw-121",
+      "name_zh": "北竿塘后道沙灘藍眼淚",
+      "region": "tw",
+      "l1": "F3",
+      "agli_l": 62.9,
+      "agli_p": 65.7,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 57.5,
+        "p_aesthetics": 78,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 35,
+      "certainty": 18,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "seasonal window -12; noctiluca density unverifiable -8"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-tw-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "tw-122",
+      "name_zh": "南竿北海坑道（夜間搖櫓藍眼淚）",
+      "region": "tw",
+      "l1": "F3",
+      "agli_l": 65.6,
+      "agli_p": 68.7,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 61.2,
+        "p_aesthetics": 80,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 40,
+      "certainty": 18,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "seasonal window -12; reservation access -4; noctiluca density unverifiable -8"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-tw-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "tw-123",
+      "name_zh": "東莒福正沙灘藍眼淚（東犬燈塔旁）",
+      "region": "tw",
+      "l1": "F3",
+      "agli_l": 57.1,
+      "agli_p": 59.0,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 51.7,
+        "p_aesthetics": 70,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 30,
+      "certainty": 22,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "seasonal window -12; noctiluca density unverifiable -8"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-tw-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "tw-124",
+      "name_zh": "南竿大漢據點藍眼淚（鐵板海岸）",
+      "region": "tw",
+      "l1": "F3",
+      "agli_l": 55.7,
+      "agli_p": 57.0,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 51.0,
+        "p_aesthetics": 66,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 30,
+      "certainty": 22,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "seasonal window -12; noctiluca density unverifiable -8"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-tw-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "us-159",
+      "name_zh": "老忠實間歇泉（黃石）",
+      "region": "us",
+      "l1": "U1",
+      "agli_l": 73.6,
+      "agli_p": 74.6,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 69.6,
+        "p_aesthetics": 82,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 45,
+      "certainty": 35,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "no mechanical penalty"
+      },
+      "confidence": "high",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-us-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "us-160",
+      "name_zh": "牽牛花溫泉池（黃石上間歇泉盆地）",
+      "region": "us",
+      "l1": "U1",
+      "agli_l": 63.6,
+      "agli_p": 64.0,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 56.7,
+        "p_aesthetics": 75,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 35,
+      "certainty": 35,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "no mechanical penalty"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-us-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "jp-092",
+      "name_zh": "別府海地獄",
+      "region": "jp",
+      "l1": "JP9",
+      "agli_l": 64.2,
+      "agli_p": 64.7,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 57.9,
+        "p_aesthetics": 75,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 35,
+      "certainty": 35,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "no mechanical penalty"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-jp-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "jp-093",
+      "name_zh": "別府血池地獄",
+      "region": "jp",
+      "l1": "JP9",
+      "agli_l": 59.9,
+      "agli_p": 59.8,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 53.0,
+        "p_aesthetics": 70,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 30,
+      "certainty": 35,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "no mechanical penalty"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-jp-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "jp-094",
+      "name_zh": "草津湯畑",
+      "region": "jp",
+      "l1": "JP4",
+      "agli_l": 64.7,
+      "agli_p": 64.1,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 58.9,
+        "p_aesthetics": 72,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 40,
+      "certainty": 35,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "no mechanical penalty"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-jp-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "jp-095",
+      "name_zh": "地獄谷野猿公苑",
+      "region": "jp",
+      "l1": "JP4",
+      "agli_l": 60.3,
+      "agli_p": 62.5,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 57.5,
+        "p_aesthetics": 70,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 40,
+      "certainty": 18,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "snow season dependency -12; wild-animal presence uncertain -8"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-jp-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "us-161",
+      "name_zh": "基勞亞口熔岩紅光夜拍（基勞亞展望台）",
+      "region": "us",
+      "l1": "U8",
+      "agli_l": 76.1,
+      "agli_p": 78.7,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 74.5,
+        "p_aesthetics": 85,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 50,
+      "certainty": 22,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "volcanic_activity gating -10; eruption episodic pause -6"
+      },
+      "confidence": "high",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-us-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "us-162",
+      "name_zh": "那胡庫熔岩管（瑟斯頓熔岩洞）",
+      "region": "us",
+      "l1": "U8",
+      "agli_l": 56.7,
+      "agli_p": 54.6,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 49.6,
+        "p_aesthetics": 62,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 30,
+      "certainty": 35,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "no mechanical penalty"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-us-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
+      }
+    },
+    {
+      "place_id": "us-163",
+      "name_zh": "基勞亞伊奇火山口熔岩地表",
+      "region": "us",
+      "l1": "U8",
+      "agli_l": 65.7,
+      "agli_p": 64.4,
+      "components": {
+        "L_weights": {
+          "grandeur": 0.28,
+          "uniqueness": 0.28,
+          "visual": 0.22,
+          "richness": 0.12,
+          "season": 0.1
+        },
+        "p_height": 60.6,
+        "p_aesthetics": 70,
+        "height_formula": "0.45*grandeur+0.35*uniqueness+0.20*richness"
+      },
+      "diversity": 35,
+      "certainty": 35,
+      "certainty_inputs": {
+        "n_opp": 1,
+        "penalty_basis": "agli-method.md v2 §3 mechanical",
+        "note": "no mechanical penalty"
+      },
+      "confidence": "medium",
+      "old_agli_v1": null,
+      "recheck_flag": false,
+      "recheck_flags": [],
+      "derivation_basis": "成品高度=0.45G+0.35U+0.20R（光窗移出）；畫面美感=visual；CL-DATA-64 建置直評（證據於 cl-data-64_web_evidence.json）；預約/欄架/噴發管制等 access 限制記錄於 access notes，NOT SCORED（ticket ruling）",
+      "provenance": {
+        "source_files": [
+          "agli-us-full.json",
+          "data/v2/audits/cl-data-64_web_evidence.json"
+        ],
+        "method": "CL-DATA-64 v2 direct dual-board scoring (2026-11-10)"
       }
     }
   ]
