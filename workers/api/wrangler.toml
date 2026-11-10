@@ -18,3 +18,7 @@ database_id = "05ef33f5-b833-4418-9b0d-ceca81db4f86"
 
 [observability]
 enabled = true
+
+# CL-API-03: notification engine cadence — match rules against next-24h windows.
+[triggers]
+crons = ["*/30 * * * *"]
