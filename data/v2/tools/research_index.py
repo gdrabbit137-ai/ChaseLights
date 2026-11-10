@@ -124,7 +124,8 @@ def assemble(w1_root, lock=None, curation=None):
                           if d.get('lifecycle_status') == 'retired')
     docs = {oid: d for oid, d in docs.items() if oid not in retired_oids}
     place_ids = sorted({d['place_id'] for d in docs.values()})
-    if set(curation['names']) != set(place_ids) or \
+    retired_pids = {read(ROOT / pins[oid]['path'])['place_id'] for oid in retired_oids}
+    if set(curation['names']) - retired_pids != set(place_ids) or \
             set(curation['classifications']) - set(retired_oids) != set(docs):
         raise ValueError('Curation must exactly cover Canonical Places/Opportunities')
     provenance = dict(format_version='0.1.0',name_method=curation['name_method'],
@@ -182,6 +183,8 @@ def assemble(w1_root, lock=None, curation=None):
     bindings = []
     topic_bindings = []
     for oid, pin in sorted(pins.items()):
+        if oid in retired_oids:
+            continue
         d = docs[oid]
         assignment = curation['classifications'][oid]
         claim = next(c for c in d['evidence_claims'] if c['claim_id'] == assignment['evidence_claim_id'])
