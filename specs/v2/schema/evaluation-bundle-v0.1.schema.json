@@ -24,7 +24,7 @@
               "metric": {"type": "string"},
               "tier": {"enum": ["MAIN", "MODIFIER", "SHOOT", "BONUS", null]},
               "role": {"enum": ["REQUIRED", "BLOCKER", "QUALITY", null]},
-              "operator": {"enum": ["none", "lt", "lte", "gt", "gte", "eq", "between"]},
+              "operator": {"enum": ["none", "lt", "lte", "gt", "gte", "eq", "between", "in"]},
               "threshold": {},
               "value": {},
               "verdict": {"enum": ["PASS", "FAIL", "UNKNOWN"]}

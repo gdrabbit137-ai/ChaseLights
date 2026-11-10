@@ -49,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((350,552),(len(actual),len(ids)))  # re-anchored CL-DATA-52 (JP intake jp-065..jp-091)
+        self.assertEqual((363,565),(len(actual),len(ids)))  # re-anchored CL-DATA-64 (13 new-subject-family places)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -218,6 +218,9 @@ class ResearchIndexTests(unittest.TestCase):
             # (us-123/us-132/us-143-P01) repinned to 8393d5b3d (contract commit;
             # blob+sha256 verified on the merged tree).
             '8393d5b3d4612c04b57d583a694094f77f78696c',
+            # CL-DATA-64: the 13 new-subject-family records repinned to 5adb3ace7
+            # (viewpoint/subject contract commit; blob+sha256 verified on the task tree).
+            '5adb3ace77808544f95f9e4ef3b751cf9938f964',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -245,7 +248,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(1050,count)  # 350 places x 3 (re-anchored CL-DATA-54)
+        self.assertEqual(1089,count)  # 363 places x 3 (re-anchored CL-DATA-64)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
@@ -314,7 +317,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(45,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
+        self.assertEqual(49,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])
