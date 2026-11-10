@@ -6,6 +6,11 @@ import {
   PROVIDERS, providerCredentials, oauthUserKey, makeTokens, getSession,
   cookieHeader, SESSION_COOKIE, REFRESH_COOKIE, authSecret, MERGE_SQL, verifyJWT,
 } from "./auth.js";
+import { runNotifyCron } from "./notify.js";
+
+// CL-API-03: rule limits by member level (402 = upgrade semantics).
+const NOTIFY_LIMITS = { free: 3, paid: 30 };
+const NOTIFY_CHANNELS = new Set(["telegram", "web_push"]);
 
 function corsHeaders(req) {
   const origin = req.headers.get("Origin") || "";
@@ -241,6 +246,109 @@ async function handleAuthRefresh(req, env) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// CL-API-03 notification engine — rules, Telegram binding, web-push skeleton
+// ---------------------------------------------------------------------------
+
+// Rules endpoints are JWT-only (no legacy anonymous fallback).
+async function requireSession(req, env) {
+  const session = await getSession(req, env);
+  if (!session || !session.sub) return null;
+  return session;
+}
+
+async function userLevel(env, sub, fallback) {
+  const row = await env.DB.prepare("SELECT level FROM users WHERE device_id = ?1").bind(sub).first();
+  return (row && row.level) || fallback || "free";
+}
+
+async function handleNotifyRules(req, env) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const uid = session.sub;
+  const level = await userLevel(env, uid, session.level);
+
+  if (req.method === "GET") {
+    const { results } = await env.DB.prepare(
+      "SELECT id, place_id, opportunity_id, channel, min_advance_hours, enabled, created_at FROM notify_rules WHERE user_id = ?1 ORDER BY created_at DESC"
+    ).bind(uid).all();
+    return json(req, 200, { userId: uid, level, rules: results || [] });
+  }
+
+  if (req.method === "POST") {
+    const body = await req.json().catch(() => null);
+    const placeId = (body && (body.placeId || body.place_id)) || null;
+    if (!placeId) return json(req, 400, { error: "placeId required" });
+    const opportunityId = (body && (body.opportunityId || body.opportunity_id)) || null;
+    const channel = (body && (body.channel || "telegram")) || "telegram";
+    if (!NOTIFY_CHANNELS.has(channel)) return json(req, 400, { error: "channel must be telegram or web_push" });
+    let advance = body && body.minAdvanceHours != null ? Number(body.minAdvanceHours) : 24;
+    if (!Number.isFinite(advance) || advance < 0 || advance > 72) return json(req, 400, { error: "minAdvanceHours must be 0..72" });
+    advance = Math.round(advance);
+
+    const limit = NOTIFY_LIMITS[level] || NOTIFY_LIMITS.free;
+    const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM notify_rules WHERE user_id = ?1").bind(uid).first();
+    const count = row ? row.n : 0;
+    if (count >= limit) {
+      return json(req, 402, { error: "notify rule limit reached — upgrade to paid for more", level, limit, count });
+    }
+
+    const id = btoa(crypto.getRandomValues(new Uint8Array(12)).reduce((s, b) => s + String.fromCharCode(b), ""))
+      .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    await env.DB.prepare(
+      "INSERT INTO notify_rules (id, user_id, place_id, opportunity_id, channel, min_advance_hours) VALUES (?1, ?2, ?3, ?4, ?5, ?6)"
+    ).bind(id, uid, placeId, opportunityId, channel, advance).run();
+    return json(req, 200, { ok: true, rule: { id, placeId, opportunityId, channel, minAdvanceHours: advance }, count: count + 1, limit });
+  }
+  return json(req, 405, { error: "method not allowed" });
+}
+
+async function handleNotifyRuleDelete(req, env, ruleId) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const r = await env.DB.prepare("DELETE FROM notify_rules WHERE id = ?1 AND user_id = ?2").bind(ruleId, session.sub).run();
+  const changed = r && r.meta && typeof r.meta.changes === "number" ? r.meta.changes : 0;
+  if (!changed) return json(req, 404, { error: "rule not found" });
+  return json(req, 200, { ok: true, deleted: ruleId });
+}
+
+async function handleTelegramStart(req, env) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const token = btoa(crypto.getRandomValues(new Uint8Array(12)).reduce((s, b) => s + String.fromCharCode(b), ""))
+    .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  await env.DB.prepare(
+    "INSERT INTO telegram_bindings (user_id, status, token) VALUES (?1, 'pending', ?2) ON CONFLICT(user_id) DO UPDATE SET status = 'pending', token = ?2"
+  ).bind(session.sub, token).run();
+  const bot = env.TG_BOT_USERNAME || "chaselights_cm_bot";
+  return json(req, 200, {
+    ok: true,
+    bot: `@${bot}`,
+    link: `https://t.me/${bot}?start=${token}`,
+    note: "open the link and press Start in Telegram; binding completes on the next engine poll (up to 30 min, or the next scheduled run)",
+  });
+}
+
+async function handleTelegramStatus(req, env) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const row = await env.DB.prepare("SELECT status, chat_id FROM telegram_bindings WHERE user_id = ?1").bind(session.sub).first();
+  return json(req, 200, { status: (row && row.status) || "none", chatId: (row && row.chat_id) || null });
+}
+
+async function handleWebPushSubscribe(req, env) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const body = await req.json().catch(() => null);
+  const endpoint = body && body.endpoint;
+  const keys = (body && body.keys) || {};
+  if (!endpoint || !keys.p256dh || !keys.auth) return json(req, 400, { error: "endpoint and keys.p256dh/keys.auth required" });
+  await env.DB.prepare(
+    "INSERT INTO web_push_subscriptions (user_id, endpoint, p256dh, auth) VALUES (?1, ?2, ?3, ?4) ON CONFLICT(endpoint) DO UPDATE SET user_id = ?1, p256dh = ?3, auth = ?4"
+  ).bind(session.sub, endpoint, keys.p256dh, keys.auth).run();
+  return json(req, 200, { ok: true, delivery: "skeleton — VAPID delivery ships in a follow-up ticket" });
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -269,6 +377,16 @@ export default {
 
     if (path === "/favorites") return handleFavorites(request, env, url);
 
+    // --- notify engine (CL-API-03, JWT-only) ---
+    if (path === "/notify/rules") return handleNotifyRules(request, env);
+    {
+      const dm = path.match(/^\/notify\/rules\/([\w-]+)$/);
+      if (dm && request.method === "DELETE") return handleNotifyRuleDelete(request, env, dm[1]);
+    }
+    if (path === "/notify/telegram/start" && request.method === "POST") return handleTelegramStart(request, env);
+    if (path === "/notify/telegram/status" && request.method === "GET") return handleTelegramStatus(request, env);
+    if (path === "/notify/web_push/subscribe" && request.method === "POST") return handleWebPushSubscribe(request, env);
+
     // --- auth (CL-API-02) ---
     let m;
     if ((m = path.match(/^\/auth\/(line|google)\/start$/))) {
@@ -285,5 +403,12 @@ export default {
     if (path === "/auth/refresh" && request.method === "POST") return handleAuthRefresh(request, env);
 
     return json(request, 404, { error: "not found" });
+  },
+
+  // CL-API-03: every 30 min (wrangler.toml [triggers]) — bind Telegram chats,
+  // match enabled rules against the next-24h distilled windows, deliver once
+  // per rule+window (notify_log PK dedupe).
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(runNotifyCron(env).then((s) => console.log("[notify-cron]", JSON.stringify(s))).catch((e) => console.error("[notify-cron]", e && e.message)));
   },
 };
