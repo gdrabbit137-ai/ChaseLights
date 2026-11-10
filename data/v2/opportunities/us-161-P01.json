@@ -1,0 +1,302 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "us-161-P01",
+ "place_id": "us-161",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "哈雷茂茂熔岩紅光夜",
+  "en": "Halemaʻumaʻu lava-glow night",
+  "ja": "ハレマウマウの溶岩紅光"
+ },
+ "description_i18n": {
+  "zh-TW": "口緣展望台望哈雷茂茂熔岩湖紅光映雲（USGS HVO 活動等級主導；長曝；SO2 火山霧（vog）下風向注意——安全 note；公園 24 小時開放但噴發期口緣區域可能管制——access 依現場公告）；與既有 us-112 哈雷茂茂夜空（銀河主題、噴發光 honest not_evaluatable）題材錯位——本點為熔岩紅光本體，且新增 REQUIRED volcanic_activity 條件接 USGS HVO 現況。",
+  "en": "Lava-lake glow lighting the plume above Halemaʻumaʻu from the rim overlook, governed by USGS HVO activity state; long exposure; SO2/vog downwind caution - safety note; the park is open 24 h but rim areas may close during eruptive episodes - access follows on-site notices; disjoint from us-112's Milky-Way night-sky subject (glow there is honestly not_evaluatable) - here the lava glow itself, with a NEW REQUIRED volcanic_activity condition tied to USGS HVO status.",
+  "ja": "口縁展望台からハレマウマウの溶岩湖の紅光（USGS HVOの活動状態に支配される。長時間露光。SO2・火山ガスの風下注意。公園は24時間開放だが噴火期は規制あり）。us-112の天の川とは題材が別。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-us-161-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -155.285,
+      19.4071
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-64 admission web verification 2026-11-10 (NPS Hawaiʻi Volcanoes NP / Wikipedia Kīlauea（基勞亞展望台，口緣 rim；山頂標高約 1,227 m 帶；座標 medium（展望台對位））; source URLs: https://www.nps.gov/havo/ ; https://en.wikipedia.org/wiki/K%C4%ABlauea).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "Hawaiʻi Volcanoes NP 全年 24 小時開放（Superintendent's Compendium；緊急封閉除外），夜間拍攝可行但需頭燈與結伴；開放/管制狀態以現場公告為準。 噴發期口緣區域可能依 HVO/NPS 公告管制。",
+    "en": "Hawaiʻi Volcanoes NP is open 24 hours a day (Superintendent's Compendium; emergency closures excepted) - night shooting is possible with headlamps and company; access/control status follows on-site notices. 噴發期口緣區域可能依 HVO/NPS 公告管制。",
+    "ja": "ハワイ火山国立公園は24時間開放（緊急閉鎖を除く）。夜間撮影は頭灯と仲間と共に。開放・規制は現地の案内に従う。 噴發期口緣區域可能依 HVO/NPS 公告管制。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "火山瓦斯（SO2/vog）下風向可能刺激呼吸道——請依 NPS 現場空氣品質與安全公告行動；噴發期口緣閉合區域嚴禁越權進入；夜間拍攝結伴同行、備頭燈。",
+    "en": "Volcanic gas (SO2/vog) downwind can irritate airways - follow NPS air-quality and safety notices; the closed rim area is strictly off-limits during eruptive episodes; at night shoot in company with headlamps.",
+    "ja": "火山ガス（SO2/vog）の風下は気道を刺激しうる——NPSの空気品質・安全告知に従う。噴火期の立入規制区域に立ち入らない。夜間は仲間と頭灯を持参。"
+   },
+   "altitude_m": 1227.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-us-161-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "哈雷茂茂熔岩紅光夜",
+    "en": "Halemaʻumaʻu lava-glow night",
+    "ja": "ハレマウマウの溶岩紅光"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -155.287,
+      19.4092
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-64 admission web verification 2026-11-10 (NPS Hawaiʻi Volcanoes NP / Wikipedia Kīlauea（基勞亞展望台，口緣 rim；山頂標高約 1,227 m 帶；座標 medium（展望台對位））; source URLs: https://www.nps.gov/havo/ ; https://en.wikipedia.org/wiki/K%C4%ABlauea). subject separated from the viewpoint (owner-confirmed CL-DATA-64 semantics).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-us-161-P01-01",
+   "camera_context_id": "CZ-us-161-P01-01",
+   "target_id": "SG-us-161-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": 313.9,
+   "evidence_refs": [],
+   "derivation_method": "CL-DATA-64 admission: viewpoint(subject) separation derived from web-verified coordinates",
+   "uncertainty_note": "CL-DATA-64 admission reference; angles unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-us-161-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 19.4071,
+   "lon": -155.285,
+   "label_i18n": {
+    "zh-TW": "Kilauea Overlook",
+    "en": "Kilauea crater lava-glow night (Kilauea Overlook)",
+    "ja": "Kilauea Overlook"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-us-161-P01-v1",
+  "status": "draft",
+  "genre_template": "volcanic_glow",
+  "template_version": "volcanic_glow-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-us-161-P01-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 30,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-161-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "夜景主體是城市燈火：總雲量 ≤30% 保證天際線與燈火可見；薄雲會吃掉遠處燈海層次。",
+     "en": "The subject is city lights: total cloud <= 30% keeps the skyline and light field visible; thin veils wash out the distant light layers.",
+     "ja": "主題は都市の灯り。全雲量≤30%でスカイラインと灯りの層が見える。薄い雲でも遠方の灯りが消える。"
+    }
+   },
+   {
+    "id": "C-us-161-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 10,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-161-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥10 km：夜間霧霾讓遠處燈火糊化，能見度是夜景清晰度的主要代理（夜間無 AOD 觀測，以能見度為主判據）。",
+     "en": "Visibility >= 10 km: night haze smears distant lights, so visibility is the main proxy for night clarity (no nighttime AOD observation; visibility is the primary criterion).",
+     "ja": "視程≥10km。夜間の煙霾は遠方の灯りをぼかす。夜間AOD観測がないため視程を主判準とする。"
+    }
+   },
+   {
+    "id": "C-us-161-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-161-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降雨受影響；0.2 mm/h 以下不受影響（與 tw-002-P01 相同門檻）。",
+     "en": "Rain interferes; below 0.2 mm/h is fine (same as tw-002-P01).",
+     "ja": "雨は影響。0.2mm/h未満なら問題なし（tw-002-P01と同じ）。"
+    }
+   },
+   {
+    "id": "C-us-161-P01-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-161-P01-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD ≤0.5 為加分項：白天溶膠厚度指示夜間煙霾殘留程度；僅為傾向指標，不否決（夜間對應性未校準）。",
+     "en": "AOD <= 0.5 is a bonus: daytime aerosol thickness hints at residual night haze; a tendency indicator only, never a veto (night correspondence uncalibrated).",
+     "ja": "AOD≤0.5は加点。昼間のエアロゾル厚は夜間煙霾の残存の目安。傾向指標のみで否決しない（夜間対応は未較正）。"
+    }
+   },
+   {
+    "id": "C-us-161-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "city_night_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-161-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "時間窗＝整小時太陽仰角 ≤ −6°（民用暮光後）。夜間光雕主體需要黑暗天空；白天時段即使天氣全過也不成立。",
+     "en": "Time window = the whole hour bucket with sun elevation <= -6 deg (after civil dusk). A night-illumination subject needs a dark sky; a daytime hour cannot qualify even if every weather condition passes.",
+     "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。夜間ライトアップの主題には暗い空が必要で、昼間は気象条件が全て通過しても成立しない。"
+    }
+   },
+   {
+    "id": "C-us-161-P01-VA1",
+    "role": "REQUIRED",
+    "domain": "SUBJECT_STATE",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "volcanic_activity",
+    "operator": "in",
+    "threshold": [
+     "erupting",
+     "lava-lake"
+    ],
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-161-P01-claim-01"
+    ],
+    "model_binding": "dataset:usgs_hvo|field:volcanic_activity|role:SUBJECT_STATE",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "evidence_review",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "火山活動狀態 ∈ {erupting, lava-lake}（必要條件，owner 確認 CL-DATA-64 語義）：熔岩紅光只有在 USGS HVO 現況為噴發中或熔岩湖持續時成立；enum 依 HVO 口徑（erupting/lava-lake/low/dormant）。系統尚未連線 USGS HVO 資料源，連線前誠實 not_evaluatable（fail-closed），不以預報捏造熔岩光（同 CL-DATA-20 潮汐語義）。查證當下（2026-11-10）：HVO 報導 episode 56 於 2026-11-05 結束、現況 paused、ADVISORY、南北兩噴氣孔夜間仍有 moderate glow——現況對應 lava-lake（口徑熔岩湖/持續光存在）。USGS HVO 2026-11-08/09: Kīlauea Halemaʻumaʻu eruption paused after episode 56 (ended 2026-11-05), alert ADVISORY; moderate glow persisted at the north and southwest vents overnight. Episodic lava fountaining has been ongoing within the summit caldera since 2024-12-23.",
+     "en": "Volcanic activity in {erupting, lava-lake} (required, owner-confirmed CL-DATA-64 semantics): lava glow only qualifies when the USGS HVO current status is erupting or a persistent lava lake; enum follows HVO wording (erupting/lava-lake/low/dormant). The system has no USGS HVO feed connected yet - until then this is honestly not_evaluatable (fail-closed), never fabricating lava glow from forecasts (same semantics as the CL-DATA-20 tide pattern). As of verification (2026-11-10): HVO reports episode 56 ended 2026-11-05, currently paused, ADVISORY, moderate glow at both vents overnight - maps to lava-lake (persistent glow present). USGS HVO 2026-11-08/09: Kīlauea Halemaʻumaʻu eruption paused after episode 56 (ended 2026-11-05), alert ADVISORY; moderate glow persisted at the north and southwest vents overnight. Episodic lava fountaining has been ongoing within the summit caldera since 2024-12-23.",
+     "ja": "火山活動状態 ∈ {erupting, lava-lake}（必須、オーナー確認 CL-DATA-64 語義）。溶岩の紅光は USGS HVO の現況が噴火中または溶岩湖持続の時のみ成立。HVO フィード未接続のため誠実に not_evaluatable（fail-closed）。検証時点（2026-11-10）：エピソード56が2026-11-05に終了、現況 paused、ADVISORY、両噴気孔に夜間 moderate glow——lava-lake に対応。"
+    },
+    "notes_i18n": {
+     "zh-TW": "USGS HVO 權威源：https://www.usgs.gov/volcanoes/Kilauea/volcano-updates（2026-11-10 查證）。",
+     "en": "Authoritative source: https://www.usgs.gov/volcanoes/Kilauea/volcano-updates (verified 2026-11-10).",
+     "ja": "権威ソース: https://www.usgs.gov/volcanoes/Kilauea/volcano-updates (2026-11-10 検証)。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "us-161-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d64-web-kilauea-overlook-glow"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-64 admission (PM-judgment GROWTH-ONLY 2026-11-10, 5km dedupe with subject-disjoint overrides, new-subject-family intake); coordinates/elevation web-verified 2026-11-10 (sources in camera derivation_method and data/v2/audits/cl-data-64_web_evidence.json); volcanic_activity bound to USGS HVO current status (feed pending, fail-closed); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-64 new-subject-family intake (owner directive 2026-11-10)",
+  "source_revision": "cl-data-64:kilauea-overlook-glow",
+  "imported_at": "2026-11-10T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

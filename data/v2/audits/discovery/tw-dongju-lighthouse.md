@@ -40,5 +40,6 @@
 ## ⛔ 差異化剔除（不進短名單）
 
 - geographic conflict: 東莒燈塔（東犬燈塔） at 0.0 km (<= 5.0 km), tag overlap ['coast', 'starlight']
+- geographic conflict: 東莒福正沙灘藍眼淚（東犬燈塔旁） at 0.4 km (<= 5.0 km), tag overlap ['coast', 'starlight']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

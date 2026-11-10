@@ -25,11 +25,11 @@ class TestCLData47AgliTwFull(unittest.TestCase):
 
     def test_coverage_tw_full(self):
         tw_ids = {p['place_id'] for p in self.cat['places'] if p['place_id'].startswith('tw-')}
-        self.assertEqual(len(tw_ids), 115, 'catalog tw count drifted — re-anchor this pin (CL-DATA-51: 115)')
+        self.assertEqual(len(tw_ids), 119, 'catalog tw count drifted — re-anchor this pin (CL-DATA-64: 119 active tw)')
         rec_ids = {r['place_id'] for r in self.full['records']}
         self.assertEqual(rec_ids, tw_ids)
-        self.assertEqual(len(self.full['records']), 115)
-        self.assertEqual(len(self.full['ranking']), 115)
+        self.assertEqual(len(self.full['records']), 119)
+        self.assertEqual(len(self.full['ranking']), 119)
 
     def test_unique_ids_and_monotonic_order(self):
         ids = [r['place_id'] for r in self.full['records']]
@@ -40,6 +40,13 @@ class TestCLData47AgliTwFull(unittest.TestCase):
     def test_deterministic_weighted_synthesis(self):
         for r in self.full['records']:
             merged = r['merged']
+            if r.get('gli_version') == '64-direct-v2':
+                # CL-DATA-64: experience/cultural are low-confidence estimates and are
+                # NOT SCORED in v2 — the 8-dim v1 synthesis does not apply; the v2
+                # dual-board L/P live in agli-final.json (gate-kept by the 64 tests).
+                self.assertEqual(sorted(k for k, v in merged.items() if v is None),
+                                 ['cultural', 'experience'])
+                continue
             expect = round(sum(merged[d] * WEIGHTS[d] for d in WEIGHTS) / 100.0, 1)
             self.assertEqual(expect, r['agli'],
                              f"{r['place_id']}: weighted synthesis {expect} != stored {r['agli']}")
@@ -48,12 +55,16 @@ class TestCLData47AgliTwFull(unittest.TestCase):
         for r in self.full['records']:
             self.assertEqual(set(r['merged']), set(WEIGHTS))
             for d, v in r['merged'].items():
-                self.assertTrue(0 <= v <= 100, f"{r['place_id']} {d}={v}")
+                if r.get('gli_version') == '64-direct-v2':
+                    # CL-DATA-64: experience/cultural honestly not scored (None)
+                    self.assertIn(v, (None,) + tuple(range(101)), f"{r['place_id']} {d}={v}")
+                else:
+                    self.assertTrue(0 <= v <= 100, f"{r['place_id']} {d}={v}")
 
     def test_provenance_and_confidence_present(self):
         for r in self.full['records']:
             self.assertIn(r['confidence'], ('high', 'medium', 'low'))
-            self.assertIn(r['source'], ('pilot-reuse', 'batch1', 'batch2', 're-eval-47', 'gap-fill-47', 'cl-data-51-direct'))
+            self.assertIn(r['source'], ('pilot-reuse', 'batch1', 'batch2', 're-eval-47', 'gap-fill-47', 'cl-data-51-direct', 'cl-data-64-direct'))
             self.assertTrue(r['evidence_note'])
             self.assertIn(r['l1'], self.full['l1_region_rankings'])
 

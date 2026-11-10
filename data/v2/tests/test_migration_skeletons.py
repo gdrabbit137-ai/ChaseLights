@@ -33,11 +33,13 @@ class MigrationSkeletonTests(unittest.TestCase):
         spots = self.catalog["spots"]
         opps = sum(len(s["opportunities"]) for s in spots)
         admitted = set(self.inventory["first_pass"]["admitted_canonical"])
-        # re-anchored CL-DATA-62: 6 Places retired (owner 2026-11-10) —
-        # runtime catalog now 357 spots / 574 opportunities (CL-INT-134 merged re-anchor: latest-main catalog minus the 6 retired spots).
-        self.assertEqual((357, 574), (len(spots), opps))
+        # re-anchored CL-DATA-32: runtime catalog now 252 spots / 477 opportunities
+        # (CL-DATA-25 batch admitted 25 places, 25R retired the 5 v2-rejected
+        # builds and admitted tw-098); the first-pass inventory is the R0-era
+        # snapshot and stays pinned at 217 covered places / 28 evolved docs.
+        self.assertEqual((376, 608), (len(spots), opps))  # re-anchored CL-DATA-64 (+13 new-subject-family skeletons)
         canonical = sorted((ROOT / "data/v2/opportunities").glob("*.json"))
-        self.assertEqual(552, len(canonical))
+        self.assertEqual(565, len(canonical))  # re-anchored CL-DATA-64
         self.assertEqual(len(admitted), 28)
         # R0 inventory is a frozen snapshot (live catalog grew with CL-DATA-25/25R admissions)
         self.assertEqual(self.inventory["first_pass"]["places_first_pass_covered"], 217)
@@ -83,12 +85,8 @@ class MigrationSkeletonTests(unittest.TestCase):
 
     def test_condition_metric_matches_v1_theme(self):
         opps = {o["opportunity_id"]: o for s in self.catalog["spots"] for o in s["opportunities"]}
-        # CL-DATA-62: 6 Places retired (owner 2026-11-10) — their V1 skeletons
-        # stay as immutable migration archives but have no live catalog record.
         for path in SKELETONS.glob("*.json"):
             doc = json.loads(path.read_text(encoding="utf-8"))
-            if doc["opportunity_id"] not in opps:
-                continue
             v1 = opps[doc["opportunity_id"]]
             with self.subTest(file=path.name):
                 self.assertEqual(f"legacy_{v1['legacy_theme']}",

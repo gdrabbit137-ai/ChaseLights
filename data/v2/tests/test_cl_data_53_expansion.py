@@ -47,8 +47,8 @@ def load(p):
 class TestRegions(unittest.TestCase):
     def test_us_catalog_grew(self):
         spots = regions.get_spots("us")
-        self.assertEqual(len(spots), 158)
-        self.assertEqual(spots[-1]["name_i18n"]["zh-TW"], "哈丁冰原（奇奈峽灣）")  # us-158
+        self.assertEqual(len(spots), 163)  # re-anchored CL-DATA-64 (us-159..160 Yellowstone geothermal + us-161..163 Kilauea lava; growth-only)
+        self.assertEqual(spots[-1]["name_i18n"]["zh-TW"], "基勞亞伊奇火山口熔岩地表")  # us-163
 
     def test_new_admin_areas(self):
         for pid in NEW_IDS:
@@ -168,15 +168,15 @@ class TestAgli(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 363)
-        self.assertEqual(cat["counts"]["opportunities"], 595)
+        self.assertEqual(cat["counts"]["spots"], 376)  # re-anchored CL-DATA-64
+        self.assertEqual(cat["counts"]["opportunities"], 608)
         us = [s for s in cat["spots"] if s["spot_id"].startswith("us-")]
-        self.assertEqual(len(us), 158)  # 96 legacy + 22 CL-DATA-42/43 backfill + 40 new
+        self.assertEqual(len(us), 163)  # 96 legacy + 22 CL-DATA-42/43 backfill + 40 new + 5 CL-DATA-64
 
     def test_manifest_us_counts(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
-        self.assertEqual(mf["regions"]["us"]["numeric_id_end"], 158)
-        self.assertEqual(mf["regions"]["us"]["counts"]["spots"], 158)
+        self.assertEqual(mf["regions"]["us"]["numeric_id_end"], 163)
+        self.assertEqual(mf["regions"]["us"]["counts"]["spots"], 163)
         self.assertEqual(mf["totals"], load("runtime_catalog_v004_r4_2.json")["counts"])
 
     def test_runtime_dependencies_gaps(self):
@@ -191,8 +191,8 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 353)  # re-anchored CL-CI-33 integration: origin scheduled bundle refresh 2026-11-09T22:40:40Z
-        self.assertEqual(ev["opportunity_count"], 550)
+        self.assertEqual(ev["place_count"], 366)  # re-anchored CL-DATA-64: scoped 168h evals for 13 new places spliced into the 2026-11-09T22:40:40Z bundle
+        self.assertEqual(ev["opportunity_count"], 562)
         self.assertEqual(ev["forecast_hours"], 168)
 
 

@@ -33,7 +33,7 @@ REPO = Path(__file__).resolve().parents[3]
 TEMPLATES = REPO / 'data/v2/templates'
 VOCAB = TEMPLATES / 'metric-vocabulary.json'
 
-ROLES = {'SHORT_HQ', 'MID', 'LONG', 'AEROSOL', 'OBS'}
+ROLES = {'SHORT_HQ', 'MID', 'LONG', 'AEROSOL', 'OBS', 'SUBJECT_STATE'}  # SUBJECT_STATE per W1-pinned opportunity-v2.1.schema (CL-DATA-64 volcanic_activity)
 BIND_KEYS = {'dataset', 'field', 'level', 'role', 'sector'}
 OPERATORS = {'gte', 'lte', 'gt', 'lt', 'between', 'none', 'eq'}
 

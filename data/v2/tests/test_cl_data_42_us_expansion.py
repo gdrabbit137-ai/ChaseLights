@@ -44,7 +44,7 @@ class TestRegions(unittest.TestCase):
     def test_us_catalog_grew_and_nothing_removed(self):
         spots = regions.REGIONS["us"]["spots"]
         # GROWTH-ONLY: the pre-42 head tuples must all still be present
-        self.assertEqual(len(spots), 158)  # re-anchored CL-DATA-53 (40 Gemini US intake us-119..us-158; growth-only, no removals)
+        self.assertEqual(len(spots), 163)  # re-anchored CL-DATA-64 (us-159..163; growth-only, no removals)
         self.assertEqual(spots[0][3], "Grand Canyon National Park")
 
     def test_new_admin_areas(self):
@@ -59,8 +59,12 @@ class TestRegions(unittest.TestCase):
 class TestDedupe(unittest.TestCase):
     def test_no_new_point_within_5km(self):
         spots = regions.REGIONS["us"]["spots"]
-        old = [(s[0], s[1]) for s in spots[:-10]]
-        new = [(s[0], s[1]) for s in spots[-10:]]
+        # spot_id = 1-based list index; re-anchored CL-DATA-64: bound both sides
+        # to the catalog state at this batch's admission (us-001..us-106) so
+        # later GROWTH-ONLY batches (43/51/52/53/64) appending to the tail do
+        # not shift the slice (cross-batch dedupe is each batch's own test).
+        new = spots[96:106]
+        old = spots[:96]
 
         def km(a, b):
             la1, lo1, la2, lo2 = map(math.radians, (a[0], a[1], b[0], b[1]))
