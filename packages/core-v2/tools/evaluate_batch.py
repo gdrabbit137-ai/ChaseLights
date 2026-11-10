@@ -282,6 +282,41 @@ def hour_status(roles, verdicts):
     return "GUIDANCE_SATISFIED", fails, unknowns
 
 
+def conditions_day_rows(condition_by_id, counts_by_cid, total):
+    """Per-condition day verdict rows from the condition's OWN hourly verdicts.
+
+    CL-DATA-56: `counts_by_cid` tallies each condition's raw PASS/FAIL/UNKNOWN
+    state per hour bucket (recorded before any role gating). Counting
+    pass_hours from the role-gated hour_status lists instead made QUALITY/
+    BONUS conditions — e.g. golden_hour_window — read PASS with
+    pass_hours == total (24) even when their own verdicts failed all day,
+    which is physically impossible for a solar window (~2 h/day at
+    mid-latitudes).
+    """
+    rows = []
+    for cid, cond in condition_by_id.items():
+        tally = counts_by_cid.get(cid, {"PASS": 0, "FAIL": 0, "UNKNOWN": 0})
+        unknowns = tally["UNKNOWN"]
+        fails = tally["FAIL"]
+        pass_n = total - fails - unknowns
+        if unknowns == total:
+            verdict = "UNKNOWN"
+        elif pass_n == total:
+            verdict = "PASS"
+        elif fails == total:
+            verdict = "FAIL"
+        else:
+            verdict = "PARTIAL"
+        rows.append({
+            "id": cid, "metric": cond["metric"],
+            "tier": cond.get("condition_tier") or "MAIN",
+            "role": cond.get("role"),
+            "day_verdict": verdict,
+            "pass_hours": pass_n,
+        })
+    return rows
+
+
 def detail_hour_rows(hour_row, local_stamp, status, conditions_eval,
                      astro_row, states, precise_local, precise_off):
     """CL-INT-91: details rows for one hour bucket.
@@ -637,33 +672,9 @@ def main():
                     state = "UNFAVORABLE"
                 else:
                     state = "NOT_EVALUABLE"
-                conditions_day = []
-                total = len(hours_out)
-                counts_by_cid = day_verdict_counts.get(day_key, {})
-                for cid, cond in condition_by_id.items():
-                    # CL-DATA-56: count from the condition's OWN per-hour
-                    # verdicts, not from the role-gated hour_status lists.
-                    tally = counts_by_cid.get(cid,
-                                              {"PASS": 0, "FAIL": 0,
-                                               "UNKNOWN": 0})
-                    unknowns = tally["UNKNOWN"]
-                    fails = tally["FAIL"]
-                    pass_n = total - fails - unknowns
-                    if unknowns == total:
-                        verdict = "UNKNOWN"
-                    elif pass_n == total:
-                        verdict = "PASS"
-                    elif fails == total:
-                        verdict = "FAIL"
-                    else:
-                        verdict = "PARTIAL"
-                    conditions_day.append({
-                        "id": cid, "metric": cond["metric"],
-                        "tier": cond.get("condition_tier") or "MAIN",
-                        "role": cond.get("role"),
-                        "day_verdict": verdict,
-                        "pass_hours": pass_n,
-                    })
+                conditions_day = conditions_day_rows(
+                    condition_by_id, day_verdict_counts.get(day_key, {}),
+                    len(hours_out))
                 day_out.append({
                     "local_date": day_key,
                     "state": state,
