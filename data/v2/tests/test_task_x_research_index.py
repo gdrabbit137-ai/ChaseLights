@@ -86,14 +86,13 @@ class ResearchIndexTests(unittest.TestCase):
         '7a77bea62a609a861b725288f53036e10b750ac9',
         '8024532fdfd00d32fb5d44335d2feb634d50a2de',
         '5adb3ace77808544f95f9e4ef3b751cf9938f964',
-        '816d020b1c3b6618cbe3a7220ceb8c2f72a72cf8',  # CL-DATA-65: jp-030-P99 general-genre auto-mount record
+        '5b3e29dea0a564560817e7f03d2082cd3126dad0',  # CL-DATA-65/CL-INT-135: jp-030-P99 general-genre mount data commit (was 816d020b pre-regen)
         '8393d5b3d4612c04b57d583a694094f77f78696c',
         '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
         'a34cd15819a1b01702d6d38408524e444ca84906',
         'a38356bd36eacbd7f81fa962e251aa21fb48a6fa',
         'a4f803a7106816773ef5a2f659271c656b873bd7',
         'cc9e9d1a667134aeec9a5466f2436e9d82f70192',  # CL-DATA-66: 8 edited contracts re-pinned to the stage-1 data commit
-        '5b3e29dea0a564560817e7f03d2082cd3126dad0',  # CL-DATA-65: jp-030-P99 general-genre mount data commit
         'affcdf391e49a43a606d7dd7e567aedf58e02f34',
         'b801dd4eba545a76879828b25e869f3c45df33ac',
         'c0c6114b0bfbae0afc28b1b5c0f128d3aa41b982',
