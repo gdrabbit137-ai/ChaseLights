@@ -71,8 +71,7 @@ const EXPECT = {
   'tw-058':'此景點的攝影題材條件尚未完成查證，無法提供評估',
   'tw-059':'此題材的成立條件尚未定義，無法提供評估',
   'tw-078':'此題材的成立條件尚未定義，無法提供評估',
-  'tw-083':'此景點的攝影題材條件尚未完成查證，無法提供評估',
-  'tw-084':'此景點的攝影題材條件尚未完成查證，無法提供評估',
+  // CL-DATA-62: tw-083/tw-084 retired (owner 2026-11-10) — hidden from the catalog.
 };
 const EN = {
   'tw-016':'Shooting coordinates are not yet verified, so this subject cannot be evaluated',

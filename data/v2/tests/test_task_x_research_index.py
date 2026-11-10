@@ -35,6 +35,10 @@ class ResearchIndexTests(unittest.TestCase):
         cls.provenance=x.read(x.INDEX/'field-provenance.json')
         cls.status=x.read(x.INDEX/'index-status.json')
         cls.docs={p['opportunity_id']:x.read(ROOT/p['path']) for p in cls.lock['canonical_records']}
+        # CL-DATA-62: 6 Places retired (owner 2026-11-10) — their canonical
+        # records remain byte-pinned archives in source-lock, but the generated
+        # index/provenance projection excludes them (lifecycle_status retired).
+        cls.docs={k:v for k,v in cls.docs.items() if k in cls.provenance['opportunities']}
 
     def test_pinned_w1_six_schemas_and_semantic_bundle(self):
         self.assertEqual([],x.validate(self.w1_root))
@@ -49,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((232,420),(len(actual),len(ids)))  # re-anchored CL-DATA-32 (14 southern-Japan additions)
+        self.assertEqual((226,407),(len(actual),len(ids)))  # re-anchored CL-DATA-62 (6-place retirement)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -163,6 +167,10 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-INT-103 union: tw-034-P02 re-pinned to the CL-DATA-33 light_window
             # revision commit (git-show verifiable at the merged tree HEAD).
             '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
+            # CL-DATA-62: 6 Places retired (owner 2026-11-10) — their 13
+            # canonical records stay byte-identical archives, re-pinned to the
+            # stage-1 retirement data commit.
+            '1208f2022a42829ccbbe064629bd7fd1dde2a260',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -190,7 +198,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(696,count)  # 232 places x 3 (re-anchored CL-DATA-32: 14 southern-Japan additions)
+        self.assertEqual(678,count)  # 226 places x 3 (re-anchored CL-DATA-62: 6-place retirement)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
@@ -259,7 +267,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(23,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
+        self.assertEqual(19,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # re-anchored CL-DATA-62 (4 retired classified links removed)
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])

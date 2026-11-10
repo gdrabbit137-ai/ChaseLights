@@ -31,7 +31,9 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertIn("tw-037", by_spot)
         self.assertIn("tw-059", by_spot)
         self.assertIn("tw-066", by_spot)
-        self.assertIn("tw-068", by_spot)
+        # CL-DATA-62: tw-068 綠島朝日溫泉 retired (owner 2026-11-10) — removed
+        # from the registry, so it no longer appears in the browser payload.
+        self.assertNotIn("tw-068", by_spot)
         self.assertIn("tw-069", by_spot)
         self.assertIn("tw-067", by_spot)
         self.assertIn("tw-065", by_spot)
@@ -67,10 +69,8 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertEqual(dongyin_group["coverage_entry_count"], 1)
         self.assertTrue(dongyin_group["all_topics_complete"])
 
-        zhaori_group = by_spot["tw-068"]
-        self.assertEqual(zhaori_group["catalog_opportunity_count"], 1)
-        self.assertEqual(zhaori_group["coverage_entry_count"], 1)
-        self.assertTrue(zhaori_group["all_topics_complete"])
+        # CL-DATA-62: tw-068 綠島朝日溫泉 retired (owner 2026-11-10) — its
+        # registry entry is gone, so no zhaori group renders.
 
         dongqing_group = by_spot["tw-069"]
         self.assertEqual(dongqing_group["catalog_opportunity_count"], 1)
@@ -196,15 +196,7 @@ class WeatherGridCoverageBrowserTest(unittest.TestCase):
         self.assertEqual(kuibishan["subject_geometries"][0]["geometry"]["max_range_km"], 0.4)
         self.assertEqual(kuibishan["camera_zones"][0]["browser_exposure"], "generalized")
 
-        zhaori = by_opp["tw-068-P01"]
-        self.assertTrue(zhaori["complete"])
-        self.assertEqual(zhaori["status"], "provisional")
-        self.assertEqual(zhaori["subject_geometries"][0]["geometry"]["type"], "sector")
-        self.assertEqual(zhaori["subject_geometries"][0]["geometry"]["max_range_km"], 0.5)
-        self.assertEqual(zhaori["environment_geometries"][0]["geometry"]["type"], "sector")
-        self.assertEqual(zhaori["environment_geometries"][0]["geometry"]["azimuth_start_deg"], 60)
-        self.assertEqual(zhaori["environment_geometries"][0]["geometry"]["azimuth_end_deg"], 120)
-        self.assertEqual(zhaori["camera_zones"][0]["browser_exposure"], "generalized")
+        # CL-DATA-62: tw-068-P01 綠島朝日溫泉 retired (owner 2026-11-10).
 
         dongqing = by_opp["tw-069-P01"]
         self.assertTrue(dongqing["complete"])
@@ -336,8 +328,11 @@ class RegionCoverageBrowserTest(unittest.TestCase):
         # cannot render.
         self.assertIn("gfs", layers)
         self.assertIn("icon", layers)
-        self.assertNotIn("viirs", layers, "no us VIIRS bundle is published yet")
         self.assertNotIn("cwa", layers)
+        # CL-DATA-62 re-anchor: the scheduled GIBS ingest has published the us
+        # VIIRS nightlights bundle (ed4671c21), so its layers now legitimately
+        # appear in the data-driven, fail-closed region layer list.
+        self.assertIn("viirs", layers)
         self.assertNotIn("jma", layers)
         self.assertNotIn("himawari", layers)
         self.assertNotIn("cams", layers,
