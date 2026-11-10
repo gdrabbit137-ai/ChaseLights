@@ -1,6 +1,6 @@
 {
   "evaluation_bundle_version": "0.1.0",
-  "generated_at": "2026-11-10T09:05:42Z",
+  "generated_at": "2026-11-10T09:58:22Z",
   "forecast_hours": 168,
   "guidance_only": true,
   "live_recommendation": false,
@@ -122674,8 +122674,8 @@
     {
       "place_id": "tw-002",
       "coordinate": [
-        25.02688,
-        121.57419
+        25.0288,
+        121.5722
       ],
       "coordinate_source": "camera_context_provisional",
       "timezone_display": {
@@ -122684,242 +122684,209 @@
         "status": "DISPLAY_APPROXIMATION"
       },
       "provider_run": {
-        "run_id": "om-25.0269-121.5742-2026-11-10T07:54:19Z",
+        "run_id": "om-25.0288-121.5722-2026-11-10T07:54:21Z",
         "provider": "open-meteo",
-        "source": "https://api.open-meteo.com/v1/forecast?latitude=25.026880&longitude=121.574190&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
-        "issued_at": "2026-11-10T07:54:19Z",
+        "source": "https://api.open-meteo.com/v1/forecast?latitude=25.028800&longitude=121.572200&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
+        "issued_at": "2026-11-10T07:54:21Z",
         "valid_at": "2026-11-10T07:00:00Z",
         "freshness": "FRESH",
         "grid": {
-          "latitude": 24.99121,
-          "longitude": 121.582344,
-          "elevation_m": 127.0
+          "latitude": 25.06151,
+          "longitude": 121.5194,
+          "elevation_m": 67.0
         }
       },
       "opportunities": [
         {
-          "opportunity_id": "tw-002-P02",
+          "opportunity_id": "tw-002-P01",
           "name_i18n": {
-            "zh-TW": "台北101與信義天際線夜景",
-            "en": "台北101與信義天際線夜景",
-            "ja": "台北101與信義天際線夜景"
+            "zh-TW": "象山攝手平台望台北 101 暮色／藍調",
+            "en": "Taipei 101 dusk / blue hour from Xiangshan Photographers Platform",
+            "ja": "象山撮影プラットフォームから望む台北101 暮色／ブルーアワー"
           },
-          "genre_template": "city_night",
-          "condition_contract_id": "CC-tw-002-P02-v1",
-          "condition_contract_sha256": "99827778324db305e0d2dda802295dda439ff800cbf5714b8d433981cf6310bf",
+          "genre_template": "blue_hour_city",
+          "condition_contract_id": "CC-tw-002-P01-v1",
+          "condition_contract_sha256": "956e67e36913df94fe5de1d034014381660e28550d6a092c80ab55b0a83935f9",
           "days": [
             {
               "local_date": "2026-11-10",
               "state": "GUIDANCE_SATISFIED",
               "good_hours": [
-                "22:00",
-                "23:00"
+                "17:25"
               ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 2,
-                "UNFAVORABLE": 7,
+                "GUIDANCE_SATISFIED": 1,
+                "UNFAVORABLE": 8,
                 "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-tw-002-P02-01",
+                  "id": "C-tw-002-P01-01",
+                  "metric": "blue_hour_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-tw-002-P01-02",
                   "metric": "cloud_cover_total",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 2
+                  "day_verdict": "PASS",
+                  "pass_hours": 9
                 },
                 {
-                  "id": "C-tw-002-P02-02",
-                  "metric": "visibility",
+                  "id": "C-tw-002-P01-03",
+                  "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 9
                 },
                 {
-                  "id": "C-tw-002-P02-03",
+                  "id": "C-tw-002-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 9
-                },
-                {
-                  "id": "C-tw-002-P02-04",
-                  "metric": "aod_550nm",
-                  "tier": "BONUS",
-                  "role": "QUALITY",
-                  "day_verdict": "PASS",
-                  "pass_hours": 9
-                },
-                {
-                  "id": "C-tw-002-P02-05",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 6
+                  "pass_hours": 8
                 }
               ]
             },
             {
               "local_date": "2026-11-11",
-              "state": "GUIDANCE_SATISFIED",
-              "good_hours": [
-                "00:00",
-                "01:00",
-                "02:00"
-              ],
+              "state": "UNFAVORABLE",
+              "good_hours": [],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 3,
-                "UNFAVORABLE": 21,
+                "GUIDANCE_SATISFIED": 0,
+                "UNFAVORABLE": 24,
                 "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-tw-002-P02-01",
+                  "id": "C-tw-002-P01-01",
+                  "metric": "blue_hour_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-tw-002-P01-02",
                   "metric": "cloud_cover_total",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 3
+                  "pass_hours": 11
                 },
                 {
-                  "id": "C-tw-002-P02-02",
-                  "metric": "visibility",
+                  "id": "C-tw-002-P01-03",
+                  "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 23
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
-                  "id": "C-tw-002-P02-03",
+                  "id": "C-tw-002-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P02-04",
-                  "metric": "aod_550nm",
-                  "tier": "BONUS",
-                  "role": "QUALITY",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P02-05",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
                 }
               ]
             },
             {
               "local_date": "2026-11-12",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "17:25"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 24,
+                "GUIDANCE_SATISFIED": 1,
+                "UNFAVORABLE": 23,
                 "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-tw-002-P02-01",
+                  "id": "C-tw-002-P01-01",
+                  "metric": "blue_hour_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-tw-002-P01-02",
                   "metric": "cloud_cover_total",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 4
+                  "pass_hours": 12
                 },
                 {
-                  "id": "C-tw-002-P02-02",
-                  "metric": "visibility",
+                  "id": "C-tw-002-P01-03",
+                  "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 15
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
-                  "id": "C-tw-002-P02-03",
+                  "id": "C-tw-002-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P02-04",
-                  "metric": "aod_550nm",
-                  "tier": "BONUS",
-                  "role": "QUALITY",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P02-05",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
                 }
               ]
             },
             {
               "local_date": "2026-11-13",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "17:25"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 24,
+                "GUIDANCE_SATISFIED": 1,
+                "UNFAVORABLE": 23,
                 "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-tw-002-P02-01",
+                  "id": "C-tw-002-P01-01",
+                  "metric": "blue_hour_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-tw-002-P01-02",
                   "metric": "cloud_cover_total",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 3
+                  "pass_hours": 16
                 },
                 {
-                  "id": "C-tw-002-P02-02",
-                  "metric": "visibility",
+                  "id": "C-tw-002-P01-03",
+                  "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 15
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
-                  "id": "C-tw-002-P02-03",
+                  "id": "C-tw-002-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P02-04",
-                  "metric": "aod_550nm",
-                  "tier": "BONUS",
-                  "role": "QUALITY",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P02-05",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
                 }
               ]
             },
@@ -122934,7 +122901,15 @@
               },
               "conditions": [
                 {
-                  "id": "C-tw-002-P02-01",
+                  "id": "C-tw-002-P01-01",
+                  "metric": "blue_hour_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-tw-002-P01-02",
                   "metric": "cloud_cover_total",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -122942,90 +122917,64 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-tw-002-P02-02",
-                  "metric": "visibility",
+                  "id": "C-tw-002-P01-03",
+                  "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 11
+                  "pass_hours": 21
                 },
                 {
-                  "id": "C-tw-002-P02-03",
+                  "id": "C-tw-002-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
                   "pass_hours": 18
-                },
-                {
-                  "id": "C-tw-002-P02-04",
-                  "metric": "aod_550nm",
-                  "tier": "BONUS",
-                  "role": "QUALITY",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 21
-                },
-                {
-                  "id": "C-tw-002-P02-05",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
                 }
               ]
             },
             {
               "local_date": "2026-11-15",
-              "state": "GUIDANCE_SATISFIED",
-              "good_hours": [
-                "18:00"
-              ],
+              "state": "UNFAVORABLE",
+              "good_hours": [],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 1,
+                "GUIDANCE_SATISFIED": 0,
                 "UNFAVORABLE": 23,
-                "NOT_EVALUABLE": 0
+                "NOT_EVALUABLE": 1
               },
               "conditions": [
                 {
-                  "id": "C-tw-002-P02-01",
+                  "id": "C-tw-002-P01-01",
+                  "metric": "blue_hour_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-tw-002-P01-02",
                   "metric": "cloud_cover_total",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 4
+                  "pass_hours": 16
                 },
                 {
-                  "id": "C-tw-002-P02-02",
-                  "metric": "visibility",
+                  "id": "C-tw-002-P01-03",
+                  "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
+                  "day_verdict": "UNKNOWN",
+                  "pass_hours": 0
                 },
                 {
-                  "id": "C-tw-002-P02-03",
+                  "id": "C-tw-002-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
                   "pass_hours": 18
-                },
-                {
-                  "id": "C-tw-002-P02-04",
-                  "metric": "aod_550nm",
-                  "tier": "BONUS",
-                  "role": "QUALITY",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-tw-002-P02-05",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
                 }
               ]
             },
@@ -123040,44 +122989,36 @@
               },
               "conditions": [
                 {
-                  "id": "C-tw-002-P02-01",
+                  "id": "C-tw-002-P01-01",
+                  "metric": "blue_hour_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-tw-002-P01-02",
                   "metric": "cloud_cover_total",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 7
+                  "pass_hours": 15
                 },
                 {
-                  "id": "C-tw-002-P02-02",
-                  "metric": "visibility",
+                  "id": "C-tw-002-P01-03",
+                  "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 23
+                  "day_verdict": "UNKNOWN",
+                  "pass_hours": 0
                 },
                 {
-                  "id": "C-tw-002-P02-03",
+                  "id": "C-tw-002-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P02-04",
-                  "metric": "aod_550nm",
-                  "tier": "BONUS",
-                  "role": "QUALITY",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-tw-002-P02-05",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
                 }
               ]
             },
@@ -123092,44 +123033,36 @@
               },
               "conditions": [
                 {
-                  "id": "C-tw-002-P02-01",
+                  "id": "C-tw-002-P01-01",
+                  "metric": "blue_hour_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-tw-002-P01-02",
                   "metric": "cloud_cover_total",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 6
+                  "pass_hours": 10
                 },
                 {
-                  "id": "C-tw-002-P02-02",
-                  "metric": "visibility",
+                  "id": "C-tw-002-P01-03",
+                  "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 15
+                  "day_verdict": "UNKNOWN",
+                  "pass_hours": 0
                 },
                 {
-                  "id": "C-tw-002-P02-03",
+                  "id": "C-tw-002-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 15
-                },
-                {
-                  "id": "C-tw-002-P02-04",
-                  "metric": "aod_550nm",
-                  "tier": "BONUS",
-                  "role": "QUALITY",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-tw-002-P02-05",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 5
                 }
               ]
             }
@@ -123141,84 +123074,37 @@
               "status": "UNFAVORABLE",
               "conditions": [
                 {
-                  "id": "C-tw-002-P02-01",
+                  "id": "C-tw-002-P01-01",
+                  "metric": "blue_hour_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "none",
+                  "threshold": null,
+                  "value": "unsatisfied",
+                  "verdict": "FAIL"
+                },
+                {
+                  "id": "C-tw-002-P01-02",
                   "metric": "cloud_cover_total",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "operator": "lte",
-                  "threshold": 30,
-                  "value": 59.0,
-                  "verdict": "FAIL"
-                },
-                {
-                  "id": "C-tw-002-P02-02",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "gte",
-                  "threshold": 10,
-                  "value": 15.9,
+                  "threshold": 70,
+                  "value": 56.0,
                   "verdict": "PASS"
                 },
                 {
-                  "id": "C-tw-002-P02-03",
-                  "metric": "precipitation",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "lt",
-                  "threshold": 0.2,
-                  "value": 0.0,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-tw-002-P02-04",
+                  "id": "C-tw-002-P01-03",
                   "metric": "aod_550nm",
-                  "tier": "BONUS",
-                  "role": "QUALITY",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
                   "operator": "lte",
                   "threshold": 0.5,
                   "value": 0.26,
                   "verdict": "PASS"
                 },
                 {
-                  "id": "C-tw-002-P02-05",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "none",
-                  "threshold": null,
-                  "value": "unsatisfied",
-                  "verdict": "FAIL"
-                }
-              ]
-            },
-            "next_good": {
-              "utc": "2026-11-10T14:00:00Z",
-              "local": "2026-11-10 22:00",
-              "status": "GUIDANCE_SATISFIED",
-              "conditions": [
-                {
-                  "id": "C-tw-002-P02-01",
-                  "metric": "cloud_cover_total",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "lte",
-                  "threshold": 30,
-                  "value": 27.0,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-tw-002-P02-02",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "gte",
-                  "threshold": 10,
-                  "value": 19.56,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-tw-002-P02-03",
+                  "id": "C-tw-002-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -123226,403 +123112,46 @@
                   "threshold": 0.2,
                   "value": 0.0,
                   "verdict": "PASS"
-                },
+                }
+              ]
+            },
+            "next_good": {
+              "utc": "2026-11-10T09:00:00Z",
+              "local": "2026-11-10 17:00",
+              "status": "GUIDANCE_SATISFIED",
+              "conditions": [
                 {
-                  "id": "C-tw-002-P02-04",
-                  "metric": "aod_550nm",
-                  "tier": "BONUS",
-                  "role": "QUALITY",
-                  "operator": "lte",
-                  "threshold": 0.5,
-                  "value": 0.23,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-tw-002-P02-05",
-                  "metric": "city_night_window",
+                  "id": "C-tw-002-P01-01",
+                  "metric": "blue_hour_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "operator": "none",
                   "threshold": null,
                   "value": "satisfied",
                   "verdict": "PASS"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "opportunity_id": "tw-002-P03",
-          "name_i18n": {
-            "zh-TW": "台北101跨年煙火全景",
-            "en": "台北101跨年煙火全景",
-            "ja": "台北101跨年煙火全景"
-          },
-          "genre_template": "city_night",
-          "condition_contract_id": "CC-tw-002-P03-v1",
-          "condition_contract_sha256": "778bf1f0e201aeb97297fe9ead18b7b4d966b49070c538d57351f8611827896b",
-          "days": [
-            {
-              "local_date": "2026-11-10",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
-              "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 3,
-                "NOT_EVALUABLE": 6
-              },
-              "conditions": [
-                {
-                  "id": "C-tw-002-P03-01",
-                  "metric": "precipitation",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 9
                 },
                 {
-                  "id": "C-tw-002-P03-02",
-                  "metric": "visibility",
+                  "id": "C-tw-002-P01-02",
+                  "metric": "cloud_cover_total",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 9
+                  "operator": "lte",
+                  "threshold": 70,
+                  "value": 42.0,
+                  "verdict": "PASS"
                 },
                 {
-                  "id": "C-tw-002-P03-03",
-                  "metric": "seasonal_state",
+                  "id": "C-tw-002-P01-03",
+                  "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
+                  "operator": "lte",
+                  "threshold": 0.5,
+                  "value": 0.26,
+                  "verdict": "PASS"
                 },
                 {
-                  "id": "C-tw-002-P03-04",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 6
-                }
-              ]
-            },
-            {
-              "local_date": "2026-11-11",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
-              "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 14,
-                "NOT_EVALUABLE": 10
-              },
-              "conditions": [
-                {
-                  "id": "C-tw-002-P03-01",
-                  "metric": "precipitation",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P03-02",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 23
-                },
-                {
-                  "id": "C-tw-002-P03-03",
-                  "metric": "seasonal_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-tw-002-P03-04",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
-                }
-              ]
-            },
-            {
-              "local_date": "2026-11-12",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
-              "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 17,
-                "NOT_EVALUABLE": 7
-              },
-              "conditions": [
-                {
-                  "id": "C-tw-002-P03-01",
-                  "metric": "precipitation",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P03-02",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 15
-                },
-                {
-                  "id": "C-tw-002-P03-03",
-                  "metric": "seasonal_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-tw-002-P03-04",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
-                }
-              ]
-            },
-            {
-              "local_date": "2026-11-13",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
-              "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 20,
-                "NOT_EVALUABLE": 4
-              },
-              "conditions": [
-                {
-                  "id": "C-tw-002-P03-01",
-                  "metric": "precipitation",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P03-02",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 15
-                },
-                {
-                  "id": "C-tw-002-P03-03",
-                  "metric": "seasonal_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-tw-002-P03-04",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
-                }
-              ]
-            },
-            {
-              "local_date": "2026-11-14",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
-              "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 24,
-                "NOT_EVALUABLE": 0
-              },
-              "conditions": [
-                {
-                  "id": "C-tw-002-P03-01",
-                  "metric": "precipitation",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 18
-                },
-                {
-                  "id": "C-tw-002-P03-02",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
-                },
-                {
-                  "id": "C-tw-002-P03-03",
-                  "metric": "seasonal_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-tw-002-P03-04",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
-                }
-              ]
-            },
-            {
-              "local_date": "2026-11-15",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
-              "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 22,
-                "NOT_EVALUABLE": 2
-              },
-              "conditions": [
-                {
-                  "id": "C-tw-002-P03-01",
-                  "metric": "precipitation",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 18
-                },
-                {
-                  "id": "C-tw-002-P03-02",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
-                },
-                {
-                  "id": "C-tw-002-P03-03",
-                  "metric": "seasonal_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-tw-002-P03-04",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
-                }
-              ]
-            },
-            {
-              "local_date": "2026-11-16",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
-              "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 13,
-                "NOT_EVALUABLE": 11
-              },
-              "conditions": [
-                {
-                  "id": "C-tw-002-P03-01",
-                  "metric": "precipitation",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-tw-002-P03-02",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 23
-                },
-                {
-                  "id": "C-tw-002-P03-03",
-                  "metric": "seasonal_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-tw-002-P03-04",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 11
-                }
-              ]
-            },
-            {
-              "local_date": "2026-11-17",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
-              "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 10,
-                "NOT_EVALUABLE": 5
-              },
-              "conditions": [
-                {
-                  "id": "C-tw-002-P03-01",
-                  "metric": "precipitation",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 15
-                },
-                {
-                  "id": "C-tw-002-P03-02",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 15
-                },
-                {
-                  "id": "C-tw-002-P03-03",
-                  "metric": "seasonal_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-tw-002-P03-04",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 5
-                }
-              ]
-            }
-          ],
-          "live": {
-            "now": {
-              "utc": "2026-11-10T08:00:00Z",
-              "local": "2026-11-10 16:00",
-              "status": "UNFAVORABLE",
-              "conditions": [
-                {
-                  "id": "C-tw-002-P03-01",
+                  "id": "C-tw-002-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -123630,40 +123159,9 @@
                   "threshold": 0.2,
                   "value": 0.0,
                   "verdict": "PASS"
-                },
-                {
-                  "id": "C-tw-002-P03-02",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "gte",
-                  "threshold": 10,
-                  "value": 15.9,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-tw-002-P03-03",
-                  "metric": "seasonal_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "eq",
-                  "threshold": "window_open",
-                  "value": null,
-                  "verdict": "UNKNOWN"
-                },
-                {
-                  "id": "C-tw-002-P03-04",
-                  "metric": "city_night_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "none",
-                  "threshold": null,
-                  "value": "unsatisfied",
-                  "verdict": "FAIL"
                 }
               ]
-            },
-            "next_good": null
+            }
           }
         }
       ],
@@ -230512,8 +230010,8 @@
     {
       "place_id": "us-005",
       "coordinate": [
-        38.7016,
-        -109.5662
+        38.74402,
+        -109.49973
       ],
       "coordinate_source": "camera_context_provisional",
       "timezone_display": {
@@ -230522,29 +230020,29 @@
         "status": "DISPLAY_APPROXIMATION"
       },
       "provider_run": {
-        "run_id": "om-38.7016--109.5662-2026-11-10T08:10:50Z",
+        "run_id": "om-38.7440--109.4997-2026-11-10T08:11:24Z",
         "provider": "open-meteo",
-        "source": "https://api.open-meteo.com/v1/forecast?latitude=38.701600&longitude=-109.566200&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
-        "issued_at": "2026-11-10T08:10:50Z",
+        "source": "https://api.open-meteo.com/v1/forecast?latitude=38.744020&longitude=-109.499730&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
+        "issued_at": "2026-11-10T08:11:24Z",
         "valid_at": "2026-11-10T08:00:00Z",
         "freshness": "FRESH",
         "grid": {
-          "latitude": 38.6898,
-          "longitude": -109.56943,
-          "elevation_m": 1532.0
+          "latitude": 38.750328,
+          "longitude": -109.50987,
+          "elevation_m": 1459.0
         }
       },
       "opportunities": [
         {
-          "opportunity_id": "us-005-P02",
+          "opportunity_id": "us-005-P01",
           "name_i18n": {
-            "zh-TW": "Balanced Rock・星空／銀河夜攝",
-            "en": "Balanced Rock・星空／銀河夜攝",
-            "ja": "Balanced Rock・星空／銀河夜攝"
+            "zh-TW": "Delicate Arch・夕照紅岩拱門",
+            "en": "Delicate Arch・夕照紅岩拱門",
+            "ja": "Delicate Arch・夕照紅岩拱門"
           },
-          "genre_template": "night_sky",
-          "condition_contract_id": "CC-us-005-P02-v1",
-          "condition_contract_sha256": "9700705180c8c2e854f23f50e10067eed2f218be189ea5f633a996251806c6a7",
+          "genre_template": "sunset",
+          "condition_contract_id": "CC-us-005-P01-v1",
+          "condition_contract_sha256": "33cfd3f1dee8715938d42f34db82abfde5e1d477669a0669c6eaee19a17ae780",
           "days": [
             {
               "local_date": "2026-11-10",
@@ -230557,64 +230055,40 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-005-P02-01",
-                  "metric": "astronomical_darkness",
+                  "id": "C-us-005-P01-01",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 11
+                  "pass_hours": 2
                 },
                 {
-                  "id": "C-us-005-P02-02",
-                  "metric": "moon_illumination_fraction",
+                  "id": "C-us-005-P01-02",
+                  "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 23
                 },
                 {
-                  "id": "C-us-005-P02-03",
-                  "metric": "cloud_cover_total",
-                  "tier": "MAIN",
+                  "id": "C-us-005-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 9
+                  "pass_hours": 1
                 },
                 {
-                  "id": "C-us-005-P02-04",
+                  "id": "C-us-005-P01-04",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 23
+                },
+                {
+                  "id": "C-us-005-P01-05",
                   "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 23
-                },
-                {
-                  "id": "C-us-005-P02-05",
-                  "metric": "galactic_core_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 6
-                },
-                {
-                  "id": "C-us-005-P02-06",
-                  "metric": "moon_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 14
-                },
-                {
-                  "id": "C-us-005-P02-07",
-                  "metric": "moon_target_separation_deg",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 14
-                },
-                {
-                  "id": "C-us-005-P02-08",
-                  "metric": "moon_illuminance_proxy",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
@@ -230633,64 +230107,40 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-005-P02-01",
-                  "metric": "astronomical_darkness",
+                  "id": "C-us-005-P01-01",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 12
+                  "pass_hours": 2
                 },
                 {
-                  "id": "C-us-005-P02-02",
-                  "metric": "moon_illumination_fraction",
+                  "id": "C-us-005-P01-02",
+                  "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-005-P02-03",
-                  "metric": "cloud_cover_total",
+                  "id": "C-us-005-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "REQUIRED",
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-005-P01-04",
+                  "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-005-P02-04",
+                  "id": "C-us-005-P01-05",
                   "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-us-005-P02-05",
-                  "metric": "galactic_core_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 6
-                },
-                {
-                  "id": "C-us-005-P02-06",
-                  "metric": "moon_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 15
-                },
-                {
-                  "id": "C-us-005-P02-07",
-                  "metric": "moon_target_separation_deg",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 15
-                },
-                {
-                  "id": "C-us-005-P02-08",
-                  "metric": "moon_illuminance_proxy",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
@@ -230709,64 +230159,40 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-005-P02-01",
-                  "metric": "astronomical_darkness",
+                  "id": "C-us-005-P01-01",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 12
+                  "pass_hours": 2
                 },
                 {
-                  "id": "C-us-005-P02-02",
-                  "metric": "moon_illumination_fraction",
+                  "id": "C-us-005-P01-02",
+                  "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-005-P02-03",
-                  "metric": "cloud_cover_total",
-                  "tier": "MAIN",
+                  "id": "C-us-005-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 20
+                  "pass_hours": 1
                 },
                 {
-                  "id": "C-us-005-P02-04",
+                  "id": "C-us-005-P01-04",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
+                },
+                {
+                  "id": "C-us-005-P01-05",
                   "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-us-005-P02-05",
-                  "metric": "galactic_core_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 6
-                },
-                {
-                  "id": "C-us-005-P02-06",
-                  "metric": "moon_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 15
-                },
-                {
-                  "id": "C-us-005-P02-07",
-                  "metric": "moon_target_separation_deg",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 15
-                },
-                {
-                  "id": "C-us-005-P02-08",
-                  "metric": "moon_illuminance_proxy",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
@@ -230785,64 +230211,40 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-005-P02-01",
-                  "metric": "astronomical_darkness",
+                  "id": "C-us-005-P01-01",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 12
+                  "pass_hours": 2
                 },
                 {
-                  "id": "C-us-005-P02-02",
-                  "metric": "moon_illumination_fraction",
+                  "id": "C-us-005-P01-02",
+                  "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-005-P02-03",
-                  "metric": "cloud_cover_total",
-                  "tier": "MAIN",
+                  "id": "C-us-005-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
                   "role": "REQUIRED",
-                  "day_verdict": "FAIL",
-                  "pass_hours": 0
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
                 },
                 {
-                  "id": "C-us-005-P02-04",
+                  "id": "C-us-005-P01-04",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
+                },
+                {
+                  "id": "C-us-005-P01-05",
                   "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-us-005-P02-05",
-                  "metric": "galactic_core_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 6
-                },
-                {
-                  "id": "C-us-005-P02-06",
-                  "metric": "moon_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 15
-                },
-                {
-                  "id": "C-us-005-P02-07",
-                  "metric": "moon_target_separation_deg",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 15
-                },
-                {
-                  "id": "C-us-005-P02-08",
-                  "metric": "moon_illuminance_proxy",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
@@ -230861,68 +230263,44 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-005-P02-01",
-                  "metric": "astronomical_darkness",
+                  "id": "C-us-005-P01-01",
+                  "metric": "sunset_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 2
+                },
+                {
+                  "id": "C-us-005-P01-02",
+                  "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
                   "pass_hours": 12
                 },
                 {
-                  "id": "C-us-005-P02-02",
-                  "metric": "moon_illumination_fraction",
-                  "tier": "MAIN",
+                  "id": "C-us-005-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
                   "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
                 },
                 {
-                  "id": "C-us-005-P02-03",
-                  "metric": "cloud_cover_total",
+                  "id": "C-us-005-P01-04",
+                  "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 1
+                  "pass_hours": 17
                 },
                 {
-                  "id": "C-us-005-P02-04",
+                  "id": "C-us-005-P01-05",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
                   "pass_hours": 6
-                },
-                {
-                  "id": "C-us-005-P02-05",
-                  "metric": "galactic_core_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 6
-                },
-                {
-                  "id": "C-us-005-P02-06",
-                  "metric": "moon_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 14
-                },
-                {
-                  "id": "C-us-005-P02-07",
-                  "metric": "moon_target_separation_deg",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 14
-                },
-                {
-                  "id": "C-us-005-P02-08",
-                  "metric": "moon_illuminance_proxy",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
                 }
               ]
             },
@@ -230932,73 +230310,49 @@
               "good_hours": [],
               "hour_counts": {
                 "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 24,
-                "NOT_EVALUABLE": 0
+                "UNFAVORABLE": 23,
+                "NOT_EVALUABLE": 1
               },
               "conditions": [
                 {
-                  "id": "C-us-005-P02-01",
-                  "metric": "astronomical_darkness",
+                  "id": "C-us-005-P01-01",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 12
+                  "pass_hours": 2
                 },
                 {
-                  "id": "C-us-005-P02-02",
-                  "metric": "moon_illumination_fraction",
+                  "id": "C-us-005-P01-02",
+                  "metric": "cloud_cover_low",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 23
+                },
+                {
+                  "id": "C-us-005-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 4
+                },
+                {
+                  "id": "C-us-005-P01-04",
+                  "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-005-P02-03",
-                  "metric": "cloud_cover_total",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 16
-                },
-                {
-                  "id": "C-us-005-P02-04",
+                  "id": "C-us-005-P01-05",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
-                },
-                {
-                  "id": "C-us-005-P02-05",
-                  "metric": "galactic_core_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 6
-                },
-                {
-                  "id": "C-us-005-P02-06",
-                  "metric": "moon_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 14
-                },
-                {
-                  "id": "C-us-005-P02-07",
-                  "metric": "moon_target_separation_deg",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 22
-                },
-                {
-                  "id": "C-us-005-P02-08",
-                  "metric": "moon_illuminance_proxy",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 20
                 }
               ]
             },
@@ -231013,68 +230367,44 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-005-P02-01",
-                  "metric": "astronomical_darkness",
+                  "id": "C-us-005-P01-01",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 12
+                  "pass_hours": 2
                 },
                 {
-                  "id": "C-us-005-P02-02",
-                  "metric": "moon_illumination_fraction",
+                  "id": "C-us-005-P01-02",
+                  "metric": "cloud_cover_low",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 23
+                },
+                {
+                  "id": "C-us-005-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 8
+                },
+                {
+                  "id": "C-us-005-P01-04",
+                  "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-005-P02-03",
-                  "metric": "cloud_cover_total",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "FAIL",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-us-005-P02-04",
+                  "id": "C-us-005-P01-05",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
-                },
-                {
-                  "id": "C-us-005-P02-05",
-                  "metric": "galactic_core_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 6
-                },
-                {
-                  "id": "C-us-005-P02-06",
-                  "metric": "moon_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 13
-                },
-                {
-                  "id": "C-us-005-P02-07",
-                  "metric": "moon_target_separation_deg",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-us-005-P02-08",
-                  "metric": "moon_illuminance_proxy",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 17
                 }
               ]
             },
@@ -231089,68 +230419,44 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-005-P02-01",
-                  "metric": "astronomical_darkness",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 1
-                },
-                {
-                  "id": "C-us-005-P02-02",
-                  "metric": "moon_illumination_fraction",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 1
-                },
-                {
-                  "id": "C-us-005-P02-03",
-                  "metric": "cloud_cover_total",
+                  "id": "C-us-005-P01-01",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "FAIL",
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-005-P02-04",
+                  "id": "C-us-005-P01-02",
+                  "metric": "cloud_cover_low",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-005-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "REQUIRED",
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-005-P01-04",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-us-005-P01-05",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
-                },
-                {
-                  "id": "C-us-005-P02-05",
-                  "metric": "galactic_core_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "FAIL",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-us-005-P02-06",
-                  "metric": "moon_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 1
-                },
-                {
-                  "id": "C-us-005-P02-07",
-                  "metric": "moon_target_separation_deg",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 1
-                },
-                {
-                  "id": "C-us-005-P02-08",
-                  "metric": "moon_illuminance_proxy",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 1
                 }
               ]
             }
@@ -231162,83 +230468,56 @@
               "status": "UNFAVORABLE",
               "conditions": [
                 {
-                  "id": "C-us-005-P02-01",
-                  "metric": "astronomical_darkness",
+                  "id": "C-us-005-P01-01",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "operator": "none",
                   "threshold": null,
-                  "value": "satisfied",
-                  "verdict": "PASS"
+                  "value": "unsatisfied",
+                  "verdict": "FAIL"
                 },
                 {
-                  "id": "C-us-005-P02-02",
-                  "metric": "moon_illumination_fraction",
+                  "id": "C-us-005-P01-02",
+                  "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "operator": "lte",
-                  "threshold": 0.5,
-                  "value": 0.0137,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-us-005-P02-03",
-                  "metric": "cloud_cover_total",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "lte",
-                  "threshold": 20,
+                  "threshold": 55,
                   "value": 0.0,
                   "verdict": "PASS"
                 },
                 {
-                  "id": "C-us-005-P02-04",
+                  "id": "C-us-005-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "REQUIRED",
+                  "operator": "between",
+                  "threshold": [
+                    20,
+                    70
+                  ],
+                  "value": 0.0,
+                  "verdict": "FAIL"
+                },
+                {
+                  "id": "C-us-005-P01-04",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lt",
+                  "threshold": 0.3,
+                  "value": 0.0,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-005-P01-05",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "operator": "lte",
-                  "threshold": 0.3,
+                  "threshold": 0.6,
                   "value": 0.06,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-us-005-P02-05",
-                  "metric": "galactic_core_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "gte",
-                  "threshold": 10,
-                  "value": -66.07646856197454,
-                  "verdict": "FAIL"
-                },
-                {
-                  "id": "C-us-005-P02-06",
-                  "metric": "moon_altitude",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "lt",
-                  "threshold": 0,
-                  "value": -76.3,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-us-005-P02-07",
-                  "metric": "moon_target_separation_deg",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "gte",
-                  "threshold": 40,
-                  "value": 999.0,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-us-005-P02-08",
-                  "metric": "moon_illuminance_proxy",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "lte",
-                  "threshold": 0.15,
-                  "value": 0.0,
                   "verdict": "PASS"
                 }
               ]
@@ -232413,11 +231692,11 @@
         "status": "DISPLAY_APPROXIMATION"
       },
       "provider_run": {
-        "run_id": "om-39.0744--120.0394-2026-11-10T08:11:28Z",
+        "run_id": "om-39.0744--120.0394-2026-11-10T09:58:17Z",
         "provider": "open-meteo",
         "source": "https://api.open-meteo.com/v1/forecast?latitude=39.074400&longitude=-120.039400&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
-        "issued_at": "2026-11-10T08:11:28Z",
-        "valid_at": "2026-11-10T08:00:00Z",
+        "issued_at": "2026-11-10T09:58:17Z",
+        "valid_at": "2026-11-10T09:00:00Z",
         "freshness": "FRESH",
         "grid": {
           "latitude": 39.063236,
@@ -232435,16 +231714,19 @@
           },
           "genre_template": "reflection",
           "condition_contract_id": "CC-us-132-P01-v1",
-          "condition_contract_sha256": "7cba4056d83f7f9a46493795a3a8339e06278bdb1050a0944cf06a8390e4d749",
+          "condition_contract_sha256": "151fa19c7706fe53be1d0f0ea3a156f8fb493231f6f88b1a9176db673ce8e5c6",
           "days": [
             {
               "local_date": "2026-11-10",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "15:00",
+                "16:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 18,
-                "NOT_EVALUABLE": 6
+                "GUIDANCE_SATISFIED": 2,
+                "UNFAVORABLE": 21,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -232458,10 +231740,18 @@
                 {
                   "id": "C-us-132-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-132-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 10
                 },
                 {
                   "id": "C-us-132-P01-03",
@@ -232469,7 +231759,7 @@
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
-                  "pass_hours": 24
+                  "pass_hours": 23
                 },
                 {
                   "id": "C-us-132-P01-04",
@@ -232477,7 +231767,7 @@
                   "tier": "BONUS",
                   "role": "QUALITY",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 2
+                  "pass_hours": 1
                 },
                 {
                   "id": "C-us-132-P01-LW1",
@@ -232491,12 +231781,17 @@
             },
             {
               "local_date": "2026-11-11",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "12:00",
+                "13:00",
+                "14:00",
+                "15:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 16,
-                "NOT_EVALUABLE": 8
+                "GUIDANCE_SATISFIED": 4,
+                "UNFAVORABLE": 20,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -232510,10 +231805,18 @@
                 {
                   "id": "C-us-132-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-132-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 15
                 },
                 {
                   "id": "C-us-132-P01-03",
@@ -232562,10 +231865,18 @@
                 {
                   "id": "C-us-132-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-132-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
                   "id": "C-us-132-P01-03",
@@ -232614,10 +231925,18 @@
                 {
                   "id": "C-us-132-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-132-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
                   "id": "C-us-132-P01-03",
@@ -232666,10 +231985,18 @@
                 {
                   "id": "C-us-132-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-132-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
                   "id": "C-us-132-P01-03",
@@ -232718,10 +232045,18 @@
                 {
                   "id": "C-us-132-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-132-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 19
                 },
                 {
                   "id": "C-us-132-P01-03",
@@ -232770,10 +232105,18 @@
                 {
                   "id": "C-us-132-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-132-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 16
                 },
                 {
                   "id": "C-us-132-P01-03",
@@ -232800,12 +232143,72 @@
                   "pass_hours": 10
                 }
               ]
+            },
+            {
+              "local_date": "2026-11-17",
+              "state": "UNFAVORABLE",
+              "good_hours": [],
+              "hour_counts": {
+                "GUIDANCE_SATISFIED": 0,
+                "UNFAVORABLE": 1,
+                "NOT_EVALUABLE": 0
+              },
+              "conditions": [
+                {
+                  "id": "C-us-132-P01-01",
+                  "metric": "wind_speed_10m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-us-132-P01-02",
+                  "metric": "water_surface_state",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "UNKNOWN",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-132-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-132-P01-03",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-us-132-P01-04",
+                  "metric": "cloud_cover_total",
+                  "tier": "BONUS",
+                  "role": "QUALITY",
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-132-P01-LW1",
+                  "metric": "light_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
+                }
+              ]
             }
           ],
           "live": {
             "now": {
-              "utc": "2026-11-10T08:00:00Z",
-              "local": "2026-11-10 00:00",
+              "utc": "2026-11-10T10:00:00Z",
+              "local": "2026-11-10 02:00",
               "status": "UNFAVORABLE",
               "conditions": [
                 {
@@ -232815,18 +232218,28 @@
                   "role": "REQUIRED",
                   "operator": "lte",
                   "threshold": 2,
-                  "value": 1.43,
+                  "value": 0.67,
                   "verdict": "PASS"
                 },
                 {
                   "id": "C-us-132-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "operator": "none",
                   "threshold": null,
                   "value": null,
                   "verdict": "UNKNOWN"
+                },
+                {
+                  "id": "C-us-132-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "gte",
+                  "threshold": 0,
+                  "value": -2.3,
+                  "verdict": "FAIL"
                 },
                 {
                   "id": "C-us-132-P01-03",
@@ -232863,7 +232276,76 @@
                 }
               ]
             },
-            "next_good": null
+            "next_good": {
+              "utc": "2026-11-10T23:00:00Z",
+              "local": "2026-11-10 15:00",
+              "status": "GUIDANCE_SATISFIED",
+              "conditions": [
+                {
+                  "id": "C-us-132-P01-01",
+                  "metric": "wind_speed_10m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lte",
+                  "threshold": 2,
+                  "value": 1.42,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-132-P01-02",
+                  "metric": "water_surface_state",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "operator": "none",
+                  "threshold": null,
+                  "value": null,
+                  "verdict": "UNKNOWN"
+                },
+                {
+                  "id": "C-us-132-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "gte",
+                  "threshold": 0,
+                  "value": 0.7,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-132-P01-03",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lt",
+                  "threshold": 0.2,
+                  "value": 0.0,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-132-P01-04",
+                  "metric": "cloud_cover_total",
+                  "tier": "BONUS",
+                  "role": "QUALITY",
+                  "operator": "between",
+                  "threshold": [
+                    20,
+                    60
+                  ],
+                  "value": 0.0,
+                  "verdict": "FAIL"
+                },
+                {
+                  "id": "C-us-132-P01-LW1",
+                  "metric": "light_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "none",
+                  "threshold": null,
+                  "value": "satisfied",
+                  "verdict": "PASS"
+                }
+              ]
+            }
           }
         }
       ],
@@ -232886,11 +232368,11 @@
         "status": "DISPLAY_APPROXIMATION"
       },
       "provider_run": {
-        "run_id": "om-39.0975--106.9886-2026-11-10T08:11:30Z",
+        "run_id": "om-39.0975--106.9886-2026-11-10T09:58:06Z",
         "provider": "open-meteo",
         "source": "https://api.open-meteo.com/v1/forecast?latitude=39.097500&longitude=-106.988600&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
-        "issued_at": "2026-11-10T08:11:30Z",
-        "valid_at": "2026-11-10T08:00:00Z",
+        "issued_at": "2026-11-10T09:58:06Z",
+        "valid_at": "2026-11-10T09:00:00Z",
         "freshness": "FRESH",
         "grid": {
           "latitude": 39.09005,
@@ -232908,7 +232390,7 @@
           },
           "genre_template": "reflection",
           "condition_contract_id": "CC-us-123-P01-v1",
-          "condition_contract_sha256": "94daa069b6c3b36cfb7ccbdc266e167af4a33df12bbd4bb9706fdfabbb339414",
+          "condition_contract_sha256": "063df38217aa31850a244e5ae2f7691c547b58d9e03f01c3e6aa9ace07b325b2",
           "days": [
             {
               "local_date": "2026-11-10",
@@ -232916,8 +232398,8 @@
               "good_hours": [],
               "hour_counts": {
                 "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 21,
-                "NOT_EVALUABLE": 2
+                "UNFAVORABLE": 22,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -232926,15 +232408,23 @@
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 3
+                  "pass_hours": 2
                 },
                 {
                   "id": "C-us-123-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-123-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
                 },
                 {
                   "id": "C-us-123-P01-03",
@@ -232942,7 +232432,7 @@
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
-                  "pass_hours": 23
+                  "pass_hours": 22
                 },
                 {
                   "id": "C-us-123-P01-04",
@@ -232964,12 +232454,18 @@
             },
             {
               "local_date": "2026-11-11",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "11:00",
+                "12:00",
+                "13:00",
+                "14:00",
+                "15:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 15,
-                "NOT_EVALUABLE": 9
+                "GUIDANCE_SATISFIED": 5,
+                "UNFAVORABLE": 19,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -232978,15 +232474,23 @@
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 21
+                  "pass_hours": 20
                 },
                 {
                   "id": "C-us-123-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-123-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 5
                 },
                 {
                   "id": "C-us-123-P01-03",
@@ -233001,8 +232505,8 @@
                   "metric": "cloud_cover_total",
                   "tier": "BONUS",
                   "role": "QUALITY",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 1
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
                 },
                 {
                   "id": "C-us-123-P01-LW1",
@@ -233016,12 +232520,21 @@
             },
             {
               "local_date": "2026-11-12",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "09:00",
+                "10:00",
+                "11:00",
+                "12:00",
+                "13:00",
+                "14:00",
+                "15:00",
+                "16:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 14,
-                "NOT_EVALUABLE": 10
+                "GUIDANCE_SATISFIED": 8,
+                "UNFAVORABLE": 16,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -233035,10 +232548,18 @@
                 {
                   "id": "C-us-123-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-123-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 8
                 },
                 {
                   "id": "C-us-123-P01-03",
@@ -233068,12 +232589,19 @@
             },
             {
               "local_date": "2026-11-13",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "09:00",
+                "10:00",
+                "11:00",
+                "14:00",
+                "15:00",
+                "16:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
+                "GUIDANCE_SATISFIED": 6,
                 "UNFAVORABLE": 18,
-                "NOT_EVALUABLE": 6
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -233087,10 +232615,18 @@
                 {
                   "id": "C-us-123-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-123-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 8
                 },
                 {
                   "id": "C-us-123-P01-03",
@@ -233124,8 +232660,8 @@
               "good_hours": [],
               "hour_counts": {
                 "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 23,
-                "NOT_EVALUABLE": 1
+                "UNFAVORABLE": 24,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -233139,9 +232675,17 @@
                 {
                   "id": "C-us-123-P01-02",
                   "metric": "water_surface_state",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "UNKNOWN",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-123-P01-ICE1",
+                  "metric": "temperature_2m",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
+                  "day_verdict": "FAIL",
                   "pass_hours": 0
                 },
                 {
@@ -233176,8 +232720,8 @@
               "good_hours": [],
               "hour_counts": {
                 "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 22,
-                "NOT_EVALUABLE": 2
+                "UNFAVORABLE": 24,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -233191,9 +232735,17 @@
                 {
                   "id": "C-us-123-P01-02",
                   "metric": "water_surface_state",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "UNKNOWN",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-123-P01-ICE1",
+                  "metric": "temperature_2m",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
+                  "day_verdict": "FAIL",
                   "pass_hours": 0
                 },
                 {
@@ -233224,12 +232776,14 @@
             },
             {
               "local_date": "2026-11-16",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "13:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 17,
-                "NOT_EVALUABLE": 7
+                "GUIDANCE_SATISFIED": 1,
+                "UNFAVORABLE": 23,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -233243,10 +232797,18 @@
                 {
                   "id": "C-us-123-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-123-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
                 },
                 {
                   "id": "C-us-123-P01-03",
@@ -233280,7 +232842,7 @@
               "good_hours": [],
               "hour_counts": {
                 "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 1,
+                "UNFAVORABLE": 2,
                 "NOT_EVALUABLE": 0
               },
               "conditions": [
@@ -233295,9 +232857,17 @@
                 {
                   "id": "C-us-123-P01-02",
                   "metric": "water_surface_state",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "UNKNOWN",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-123-P01-ICE1",
+                  "metric": "temperature_2m",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
+                  "day_verdict": "FAIL",
                   "pass_hours": 0
                 },
                 {
@@ -233306,15 +232876,15 @@
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
-                  "pass_hours": 1
+                  "pass_hours": 2
                 },
                 {
                   "id": "C-us-123-P01-04",
                   "metric": "cloud_cover_total",
                   "tier": "BONUS",
                   "role": "QUALITY",
-                  "day_verdict": "FAIL",
-                  "pass_hours": 0
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
                 },
                 {
                   "id": "C-us-123-P01-LW1",
@@ -233329,8 +232899,8 @@
           ],
           "live": {
             "now": {
-              "utc": "2026-11-10T08:00:00Z",
-              "local": "2026-11-10 01:00",
+              "utc": "2026-11-10T10:00:00Z",
+              "local": "2026-11-10 03:00",
               "status": "UNFAVORABLE",
               "conditions": [
                 {
@@ -233340,18 +232910,28 @@
                   "role": "REQUIRED",
                   "operator": "lte",
                   "threshold": 2,
-                  "value": 5.21,
+                  "value": 5.4,
                   "verdict": "FAIL"
                 },
                 {
                   "id": "C-us-123-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "operator": "none",
                   "threshold": null,
                   "value": null,
                   "verdict": "UNKNOWN"
+                },
+                {
+                  "id": "C-us-123-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "gte",
+                  "threshold": 0,
+                  "value": -4.6,
+                  "verdict": "FAIL"
                 },
                 {
                   "id": "C-us-123-P01-03",
@@ -233388,7 +232968,76 @@
                 }
               ]
             },
-            "next_good": null
+            "next_good": {
+              "utc": "2026-11-11T18:00:00Z",
+              "local": "2026-11-11 11:00",
+              "status": "GUIDANCE_SATISFIED",
+              "conditions": [
+                {
+                  "id": "C-us-123-P01-01",
+                  "metric": "wind_speed_10m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lte",
+                  "threshold": 2,
+                  "value": 0.5,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-123-P01-02",
+                  "metric": "water_surface_state",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "operator": "none",
+                  "threshold": null,
+                  "value": null,
+                  "verdict": "UNKNOWN"
+                },
+                {
+                  "id": "C-us-123-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "gte",
+                  "threshold": 0,
+                  "value": 1.0,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-123-P01-03",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lt",
+                  "threshold": 0.2,
+                  "value": 0.0,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-123-P01-04",
+                  "metric": "cloud_cover_total",
+                  "tier": "BONUS",
+                  "role": "QUALITY",
+                  "operator": "between",
+                  "threshold": [
+                    20,
+                    60
+                  ],
+                  "value": 0.0,
+                  "verdict": "FAIL"
+                },
+                {
+                  "id": "C-us-123-P01-LW1",
+                  "metric": "light_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "none",
+                  "threshold": null,
+                  "value": "satisfied",
+                  "verdict": "PASS"
+                }
+              ]
+            }
           }
         }
       ],
@@ -245044,8 +244693,8 @@
     {
       "place_id": "us-013",
       "coordinate": [
-        42.911253,
-        -122.146719
+        42.9421,
+        -122.1711
       ],
       "coordinate_source": "camera_context_provisional",
       "timezone_display": {
@@ -245054,29 +244703,29 @@
         "status": "DISPLAY_APPROXIMATION"
       },
       "provider_run": {
-        "run_id": "om-42.9113--122.1467-2026-11-10T08:14:09Z",
+        "run_id": "om-42.9421--122.1711-2026-11-10T08:14:11Z",
         "provider": "open-meteo",
-        "source": "https://api.open-meteo.com/v1/forecast?latitude=42.911253&longitude=-122.146719&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
-        "issued_at": "2026-11-10T08:14:09Z",
+        "source": "https://api.open-meteo.com/v1/forecast?latitude=42.942100&longitude=-122.171100&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
+        "issued_at": "2026-11-10T08:14:11Z",
         "valid_at": "2026-11-10T08:00:00Z",
         "freshness": "FRESH",
         "grid": {
-          "latitude": 42.908302,
-          "longitude": -122.14757,
-          "elevation_m": 2170.0
+          "latitude": 42.96017,
+          "longitude": -122.16701,
+          "elevation_m": 2386.0
         }
       },
       "opportunities": [
         {
-          "opportunity_id": "us-013-P01",
+          "opportunity_id": "us-013-P02",
           "name_i18n": {
-            "zh-TW": "Rim Village・Crater Lake火山口湖全景",
-            "en": "Rim Village・Crater Lake火山口湖全景",
-            "ja": "Rim Village・Crater Lake火山口湖全景"
+            "zh-TW": "Watchman Peak・Crater Lake日落360度展望",
+            "en": "Watchman Peak・Crater Lake日落360度展望",
+            "ja": "Watchman Peak・Crater Lake日落360度展望"
           },
           "genre_template": "overlook",
-          "condition_contract_id": "CC-us-013-P01-v1",
-          "condition_contract_sha256": "bc75fd12c48b1701dbe652a8f6d229c035e43f2c7a6d96c976b5009c7172b34a",
+          "condition_contract_id": "CC-us-013-P02-v1",
+          "condition_contract_sha256": "519a6e32b710646116551ff6659df3212a4b9f1300ca4bbf041e27f013212629",
           "days": [
             {
               "local_date": "2026-11-10",
@@ -245084,20 +244733,20 @@
               "good_hours": [],
               "hour_counts": {
                 "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 17,
-                "NOT_EVALUABLE": 7
+                "UNFAVORABLE": 22,
+                "NOT_EVALUABLE": 2
               },
               "conditions": [
                 {
-                  "id": "C-us-013-P01-01",
+                  "id": "C-us-013-P02-01",
                   "metric": "visibility",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 14
+                  "pass_hours": 16
                 },
                 {
-                  "id": "C-us-013-P01-02",
+                  "id": "C-us-013-P02-02",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245105,7 +244754,7 @@
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-013-P01-03",
+                  "id": "C-us-013-P02-03",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245113,7 +244762,7 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-04",
+                  "id": "C-us-013-P02-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245121,12 +244770,12 @@
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-013-P01-LW1",
-                  "metric": "light_window",
+                  "id": "C-us-013-P02-SW1",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 10
+                  "pass_hours": 2
                 }
               ]
             },
@@ -245136,12 +244785,12 @@
               "good_hours": [],
               "hour_counts": {
                 "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 14,
-                "NOT_EVALUABLE": 10
+                "UNFAVORABLE": 22,
+                "NOT_EVALUABLE": 2
               },
               "conditions": [
                 {
-                  "id": "C-us-013-P01-01",
+                  "id": "C-us-013-P02-01",
                   "metric": "visibility",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245149,7 +244798,7 @@
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-013-P01-02",
+                  "id": "C-us-013-P02-02",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245157,7 +244806,7 @@
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-013-P01-03",
+                  "id": "C-us-013-P02-03",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245165,7 +244814,7 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-04",
+                  "id": "C-us-013-P02-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245173,12 +244822,12 @@
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-013-P01-LW1",
-                  "metric": "light_window",
+                  "id": "C-us-013-P02-SW1",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 10
+                  "pass_hours": 2
                 }
               ]
             },
@@ -245188,12 +244837,12 @@
               "good_hours": [],
               "hour_counts": {
                 "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 14,
-                "NOT_EVALUABLE": 10
+                "UNFAVORABLE": 22,
+                "NOT_EVALUABLE": 2
               },
               "conditions": [
                 {
-                  "id": "C-us-013-P01-01",
+                  "id": "C-us-013-P02-01",
                   "metric": "visibility",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245201,7 +244850,7 @@
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-013-P01-02",
+                  "id": "C-us-013-P02-02",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245209,7 +244858,7 @@
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-013-P01-03",
+                  "id": "C-us-013-P02-03",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245217,7 +244866,7 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-04",
+                  "id": "C-us-013-P02-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245225,12 +244874,12 @@
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-013-P01-LW1",
-                  "metric": "light_window",
+                  "id": "C-us-013-P02-SW1",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 10
+                  "pass_hours": 2
                 }
               ]
             },
@@ -245245,7 +244894,7 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-013-P01-01",
+                  "id": "C-us-013-P02-01",
                   "metric": "visibility",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245253,7 +244902,7 @@
                   "pass_hours": 10
                 },
                 {
-                  "id": "C-us-013-P01-02",
+                  "id": "C-us-013-P02-02",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245261,7 +244910,7 @@
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-013-P01-03",
+                  "id": "C-us-013-P02-03",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245269,7 +244918,7 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-04",
+                  "id": "C-us-013-P02-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245277,12 +244926,12 @@
                   "pass_hours": 13
                 },
                 {
-                  "id": "C-us-013-P01-LW1",
-                  "metric": "light_window",
+                  "id": "C-us-013-P02-SW1",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 10
+                  "pass_hours": 2
                 }
               ]
             },
@@ -245297,7 +244946,7 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-013-P01-01",
+                  "id": "C-us-013-P02-01",
                   "metric": "visibility",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245305,7 +244954,7 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-02",
+                  "id": "C-us-013-P02-02",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245313,7 +244962,7 @@
                   "pass_hours": 5
                 },
                 {
-                  "id": "C-us-013-P01-03",
+                  "id": "C-us-013-P02-03",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245321,20 +244970,20 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-04",
+                  "id": "C-us-013-P02-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 11
+                  "pass_hours": 10
                 },
                 {
-                  "id": "C-us-013-P01-LW1",
-                  "metric": "light_window",
+                  "id": "C-us-013-P02-SW1",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 10
+                  "pass_hours": 2
                 }
               ]
             },
@@ -245349,7 +244998,7 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-013-P01-01",
+                  "id": "C-us-013-P02-01",
                   "metric": "visibility",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245357,7 +245006,7 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-02",
+                  "id": "C-us-013-P02-02",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245365,7 +245014,7 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-03",
+                  "id": "C-us-013-P02-03",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245373,7 +245022,7 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-04",
+                  "id": "C-us-013-P02-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245381,12 +245030,12 @@
                   "pass_hours": 8
                 },
                 {
-                  "id": "C-us-013-P01-LW1",
-                  "metric": "light_window",
+                  "id": "C-us-013-P02-SW1",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 10
+                  "pass_hours": 2
                 }
               ]
             },
@@ -245401,7 +245050,7 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-013-P01-01",
+                  "id": "C-us-013-P02-01",
                   "metric": "visibility",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245409,7 +245058,7 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-02",
+                  "id": "C-us-013-P02-02",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245417,7 +245066,7 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-03",
+                  "id": "C-us-013-P02-03",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245425,20 +245074,20 @@
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-013-P01-04",
+                  "id": "C-us-013-P02-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 6
+                  "pass_hours": 9
                 },
                 {
-                  "id": "C-us-013-P01-LW1",
-                  "metric": "light_window",
+                  "id": "C-us-013-P02-SW1",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 10
+                  "pass_hours": 2
                 }
               ]
             }
@@ -245450,17 +245099,17 @@
               "status": "UNFAVORABLE",
               "conditions": [
                 {
-                  "id": "C-us-013-P01-01",
+                  "id": "C-us-013-P02-01",
                   "metric": "visibility",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "operator": "gte",
                   "threshold": 24,
-                  "value": 0.3,
+                  "value": 0.1,
                   "verdict": "FAIL"
                 },
                 {
-                  "id": "C-us-013-P01-02",
+                  "id": "C-us-013-P02-02",
                   "metric": "aod_550nm",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245470,7 +245119,7 @@
                   "verdict": "PASS"
                 },
                 {
-                  "id": "C-us-013-P01-03",
+                  "id": "C-us-013-P02-03",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245480,7 +245129,7 @@
                   "verdict": "UNKNOWN"
                 },
                 {
-                  "id": "C-us-013-P01-04",
+                  "id": "C-us-013-P02-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
@@ -245490,8 +245139,8 @@
                   "verdict": "PASS"
                 },
                 {
-                  "id": "C-us-013-P01-LW1",
-                  "metric": "light_window",
+                  "id": "C-us-013-P02-SW1",
+                  "metric": "sunset_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "operator": "none",
@@ -255443,8 +255092,8 @@
     {
       "place_id": "us-011",
       "coordinate": [
-        43.75171,
-        -110.60817
+        43.8662,
+        -110.5472
       ],
       "coordinate_source": "camera_context_provisional",
       "timezone_display": {
@@ -255453,287 +255102,263 @@
         "status": "DISPLAY_APPROXIMATION"
       },
       "provider_run": {
-        "run_id": "om-43.7517--110.6082-2026-11-10T08:16:10Z",
+        "run_id": "om-43.8662--110.5472-2026-11-10T08:16:46Z",
         "provider": "open-meteo",
-        "source": "https://api.open-meteo.com/v1/forecast?latitude=43.751710&longitude=-110.608170&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
-        "issued_at": "2026-11-10T08:16:10Z",
+        "source": "https://api.open-meteo.com/v1/forecast?latitude=43.866200&longitude=-110.547200&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
+        "issued_at": "2026-11-10T08:16:46Z",
         "valid_at": "2026-11-10T08:00:00Z",
         "freshness": "FRESH",
         "grid": {
-          "latitude": 43.749428,
-          "longitude": -110.60392,
-          "elevation_m": 2095.0
+          "latitude": 43.863407,
+          "longitude": -110.55131,
+          "elevation_m": 2066.0
         }
       },
       "opportunities": [
         {
-          "opportunity_id": "us-011-P02",
+          "opportunity_id": "us-011-P01",
           "name_i18n": {
-            "zh-TW": "Snake River Overlook・Teton Range與Snake River經典全景",
-            "en": "Snake River Overlook・Teton Range與Snake River經典全景",
-            "ja": "Snake River Overlook・Teton Range與Snake River經典全景"
+            "zh-TW": "Oxbow Bend・Mount Moran日出與河面前景／可選倒影",
+            "en": "Oxbow Bend・Mount Moran日出與河面前景／可選倒影",
+            "ja": "Oxbow Bend・Mount Moran日出與河面前景／可選倒影"
           },
-          "genre_template": "overlook",
-          "condition_contract_id": "CC-us-011-P02-v1",
-          "condition_contract_sha256": "bf13f5331f513250cd53fdcb740bbad26284a8aeadcca7415ab3c8ddb05062d9",
+          "genre_template": "sunrise",
+          "condition_contract_id": "CC-us-011-P01-v1",
+          "condition_contract_sha256": "a5fe573efc966e23e02b7cd291c1536366f0f1e7bbbb1a7a407672893ff48a50",
           "days": [
             {
               "local_date": "2026-11-10",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "06:40",
+                "07:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 13,
-                "NOT_EVALUABLE": 10
+                "GUIDANCE_SATISFIED": 2,
+                "UNFAVORABLE": 21,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-us-011-P02-01",
-                  "metric": "visibility",
+                  "id": "C-us-011-P01-01",
+                  "metric": "sunrise_time_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 23
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 2
                 },
                 {
-                  "id": "C-us-011-P02-02",
-                  "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 23
-                },
-                {
-                  "id": "C-us-011-P02-03",
+                  "id": "C-us-011-P01-02",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
+                  "day_verdict": "PASS",
+                  "pass_hours": 23
                 },
                 {
-                  "id": "C-us-011-P02-04",
+                  "id": "C-us-011-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 2
+                },
+                {
+                  "id": "C-us-011-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 23
-                },
-                {
-                  "id": "C-us-011-P02-LW1",
-                  "metric": "light_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 10
                 }
               ]
             },
             {
               "local_date": "2026-11-11",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "06:40",
+                "07:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 14,
-                "NOT_EVALUABLE": 10
+                "GUIDANCE_SATISFIED": 2,
+                "UNFAVORABLE": 22,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-us-011-P02-01",
-                  "metric": "visibility",
+                  "id": "C-us-011-P01-01",
+                  "metric": "sunrise_time_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 2
                 },
                 {
-                  "id": "C-us-011-P02-02",
-                  "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-us-011-P02-03",
+                  "id": "C-us-011-P01-02",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
-                  "id": "C-us-011-P02-04",
+                  "id": "C-us-011-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 5
+                },
+                {
+                  "id": "C-us-011-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
-                },
-                {
-                  "id": "C-us-011-P02-LW1",
-                  "metric": "light_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 10
                 }
               ]
             },
             {
               "local_date": "2026-11-12",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "06:40",
+                "07:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 14,
-                "NOT_EVALUABLE": 10
+                "GUIDANCE_SATISFIED": 2,
+                "UNFAVORABLE": 22,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-us-011-P02-01",
-                  "metric": "visibility",
+                  "id": "C-us-011-P01-01",
+                  "metric": "sunrise_time_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 2
                 },
                 {
-                  "id": "C-us-011-P02-02",
-                  "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-us-011-P02-03",
+                  "id": "C-us-011-P01-02",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
-                  "id": "C-us-011-P02-04",
+                  "id": "C-us-011-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 5
+                },
+                {
+                  "id": "C-us-011-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
-                },
-                {
-                  "id": "C-us-011-P02-LW1",
-                  "metric": "light_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 10
                 }
               ]
             },
             {
               "local_date": "2026-11-13",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "06:40",
+                "07:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 14,
-                "NOT_EVALUABLE": 10
+                "GUIDANCE_SATISFIED": 2,
+                "UNFAVORABLE": 22,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-us-011-P02-01",
-                  "metric": "visibility",
+                  "id": "C-us-011-P01-01",
+                  "metric": "sunrise_time_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 2
                 },
                 {
-                  "id": "C-us-011-P02-02",
-                  "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PASS",
-                  "pass_hours": 24
-                },
-                {
-                  "id": "C-us-011-P02-03",
+                  "id": "C-us-011-P01-02",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
-                  "id": "C-us-011-P02-04",
+                  "id": "C-us-011-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-us-011-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
-                },
-                {
-                  "id": "C-us-011-P02-LW1",
-                  "metric": "light_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 10
                 }
               ]
             },
             {
               "local_date": "2026-11-14",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "06:45",
+                "07:00",
+                "08:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 14,
-                "NOT_EVALUABLE": 10
+                "GUIDANCE_SATISFIED": 3,
+                "UNFAVORABLE": 21,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-us-011-P02-01",
-                  "metric": "visibility",
+                  "id": "C-us-011-P01-01",
+                  "metric": "sunrise_time_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 18
+                  "pass_hours": 3
                 },
                 {
-                  "id": "C-us-011-P02-02",
-                  "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 6
-                },
-                {
-                  "id": "C-us-011-P02-03",
+                  "id": "C-us-011-P01-02",
                   "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 19
                 },
                 {
-                  "id": "C-us-011-P02-04",
+                  "id": "C-us-011-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 2
+                },
+                {
+                  "id": "C-us-011-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
                   "pass_hours": 21
-                },
-                {
-                  "id": "C-us-011-P02-LW1",
-                  "metric": "light_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 10
                 }
               ]
             },
@@ -255743,101 +255368,89 @@
               "good_hours": [],
               "hour_counts": {
                 "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 18,
-                "NOT_EVALUABLE": 6
+                "UNFAVORABLE": 24,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-us-011-P02-01",
-                  "metric": "visibility",
+                  "id": "C-us-011-P01-01",
+                  "metric": "sunrise_time_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 3
+                },
+                {
+                  "id": "C-us-011-P01-02",
+                  "metric": "cloud_cover_low",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 6
+                },
+                {
+                  "id": "C-us-011-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "PARTIAL",
                   "pass_hours": 11
                 },
                 {
-                  "id": "C-us-011-P02-02",
-                  "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-us-011-P02-03",
-                  "metric": "cloud_cover_low",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-us-011-P02-04",
+                  "id": "C-us-011-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
-                },
-                {
-                  "id": "C-us-011-P02-LW1",
-                  "metric": "light_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 10
                 }
               ]
             },
             {
               "local_date": "2026-11-16",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "06:45",
+                "07:00",
+                "08:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 14,
-                "NOT_EVALUABLE": 10
+                "GUIDANCE_SATISFIED": 3,
+                "UNFAVORABLE": 21,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
-                  "id": "C-us-011-P02-01",
-                  "metric": "visibility",
+                  "id": "C-us-011-P01-01",
+                  "metric": "sunrise_time_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 20
+                  "pass_hours": 3
                 },
                 {
-                  "id": "C-us-011-P02-02",
-                  "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-us-011-P02-03",
+                  "id": "C-us-011-P01-02",
                   "metric": "cloud_cover_low",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-us-011-P02-04",
-                  "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 24
                 },
                 {
-                  "id": "C-us-011-P02-LW1",
-                  "metric": "light_window",
+                  "id": "C-us-011-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "PARTIAL",
+                  "pass_hours": 6
+                },
+                {
+                  "id": "C-us-011-P01-04",
+                  "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
-                  "pass_hours": 10
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 }
               ]
             },
@@ -255852,44 +255465,36 @@
               },
               "conditions": [
                 {
-                  "id": "C-us-011-P02-01",
-                  "metric": "visibility",
+                  "id": "C-us-011-P01-01",
+                  "metric": "sunrise_time_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-011-P01-02",
+                  "metric": "cloud_cover_low",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 1
                 },
                 {
-                  "id": "C-us-011-P02-02",
-                  "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
+                  "id": "C-us-011-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "FAIL",
                   "pass_hours": 0
                 },
                 {
-                  "id": "C-us-011-P02-03",
-                  "metric": "cloud_cover_low",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "UNKNOWN",
-                  "pass_hours": 0
-                },
-                {
-                  "id": "C-us-011-P02-04",
+                  "id": "C-us-011-P01-04",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PASS",
                   "pass_hours": 1
-                },
-                {
-                  "id": "C-us-011-P02-LW1",
-                  "metric": "light_window",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "day_verdict": "FAIL",
-                  "pass_hours": 0
                 }
               ]
             }
@@ -255901,58 +255506,100 @@
               "status": "UNFAVORABLE",
               "conditions": [
                 {
-                  "id": "C-us-011-P02-01",
-                  "metric": "visibility",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "gte",
-                  "threshold": 20,
-                  "value": 55.6,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-us-011-P02-02",
-                  "metric": "aod_550nm",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "lte",
-                  "threshold": 0.4,
-                  "value": 0.07,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-us-011-P02-03",
-                  "metric": "cloud_cover_low",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "lte",
-                  "threshold": null,
-                  "value": 0.0,
-                  "verdict": "UNKNOWN"
-                },
-                {
-                  "id": "C-us-011-P02-04",
-                  "metric": "precipitation",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
-                  "operator": "lt",
-                  "threshold": 0.2,
-                  "value": 0.0,
-                  "verdict": "PASS"
-                },
-                {
-                  "id": "C-us-011-P02-LW1",
-                  "metric": "light_window",
+                  "id": "C-us-011-P01-01",
+                  "metric": "sunrise_time_window",
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "operator": "none",
                   "threshold": null,
                   "value": "unsatisfied",
                   "verdict": "FAIL"
+                },
+                {
+                  "id": "C-us-011-P01-02",
+                  "metric": "cloud_cover_low",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lte",
+                  "threshold": 55,
+                  "value": 0.0,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-011-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "operator": "between",
+                  "threshold": [
+                    20,
+                    70
+                  ],
+                  "value": 1.0,
+                  "verdict": "FAIL"
+                },
+                {
+                  "id": "C-us-011-P01-04",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lt",
+                  "threshold": 0.3,
+                  "value": 0.0,
+                  "verdict": "PASS"
                 }
               ]
             },
-            "next_good": null
+            "next_good": {
+              "utc": "2026-11-10T13:00:00Z",
+              "local": "2026-11-10 06:00",
+              "status": "GUIDANCE_SATISFIED",
+              "conditions": [
+                {
+                  "id": "C-us-011-P01-01",
+                  "metric": "sunrise_time_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "none",
+                  "threshold": null,
+                  "value": "satisfied",
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-011-P01-02",
+                  "metric": "cloud_cover_low",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lte",
+                  "threshold": 55,
+                  "value": 0.0,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-011-P01-03",
+                  "metric": "cloud_cover_mid_and_high",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "operator": "between",
+                  "threshold": [
+                    20,
+                    70
+                  ],
+                  "value": 100.0,
+                  "verdict": "FAIL"
+                },
+                {
+                  "id": "C-us-011-P01-04",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lt",
+                  "threshold": 0.3,
+                  "value": 0.0,
+                  "verdict": "PASS"
+                }
+              ]
+            }
           }
         }
       ],
@@ -264178,11 +263825,11 @@
         "status": "DISPLAY_APPROXIMATION"
       },
       "provider_run": {
-        "run_id": "om-45.2617--121.7417-2026-11-10T08:18:11Z",
+        "run_id": "om-45.2617--121.7417-2026-11-10T09:58:22Z",
         "provider": "open-meteo",
         "source": "https://api.open-meteo.com/v1/forecast?latitude=45.261700&longitude=-121.741700&forecast_hours=168&past_hours=0&timezone=GMT&timeformat=unixtime&cell_selection=land&temperature_unit=celsius&wind_speed_unit=ms&precipitation_unit=mm&hourly=temperature_2m%2Cdew_point_2m%2Crelative_humidity_2m%2Ccloudcover_low%2Ccloudcover_mid%2Ccloudcover_high%2Ccloudcover%2Cwind_speed_10m%2Cvisibility%2Cprecipitation%2Cprecipitation_probability%2Ctemperature_925hPa%2Crelative_humidity_925hPa%2Ctemperature_850hPa%2Crelative_humidity_850hPa%2Cwind_speed_850hPa%2Ctemperature_700hPa%2Crelative_humidity_700hPa%2Cwind_speed_700hPa%2Ctemperature_600hPa%2Crelative_humidity_600hPa%2Cwind_speed_600hPa",
-        "issued_at": "2026-11-10T08:18:11Z",
-        "valid_at": "2026-11-10T08:00:00Z",
+        "issued_at": "2026-11-10T09:58:22Z",
+        "valid_at": "2026-11-10T09:00:00Z",
         "freshness": "FRESH",
         "grid": {
           "latitude": 45.264965,
@@ -264200,16 +263847,20 @@
           },
           "genre_template": "reflection",
           "condition_contract_id": "CC-us-143-P01-v1",
-          "condition_contract_sha256": "0be938972440037d7280fa0fd93070c7eb319abd4f50b623bd8f2097268cf5e6",
+          "condition_contract_sha256": "8d657bda41063282270367ff87e527c757631dcdfac65d3e41ebe76d08eaf98c",
           "days": [
             {
               "local_date": "2026-11-10",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "08:00",
+                "09:00",
+                "16:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
-                "UNFAVORABLE": 22,
-                "NOT_EVALUABLE": 2
+                "GUIDANCE_SATISFIED": 3,
+                "UNFAVORABLE": 20,
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -264218,22 +263869,30 @@
                   "tier": "MAIN",
                   "role": "REQUIRED",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 3
+                  "pass_hours": 5
                 },
                 {
                   "id": "C-us-143-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-143-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 23
                 },
                 {
                   "id": "C-us-143-P01-03",
                   "metric": "precipitation",
                   "tier": "MAIN",
                   "role": "REQUIRED",
-                  "day_verdict": "PARTIAL",
+                  "day_verdict": "PASS",
                   "pass_hours": 23
                 },
                 {
@@ -264242,7 +263901,7 @@
                   "tier": "BONUS",
                   "role": "QUALITY",
                   "day_verdict": "PARTIAL",
-                  "pass_hours": 4
+                  "pass_hours": 1
                 },
                 {
                   "id": "C-us-143-P01-LW1",
@@ -264256,12 +263915,16 @@
             },
             {
               "local_date": "2026-11-11",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "09:00",
+                "10:00",
+                "15:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
+                "GUIDANCE_SATISFIED": 3,
                 "UNFAVORABLE": 21,
-                "NOT_EVALUABLE": 3
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -264275,10 +263938,18 @@
                 {
                   "id": "C-us-143-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-143-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
                   "id": "C-us-143-P01-03",
@@ -264327,10 +263998,18 @@
                 {
                   "id": "C-us-143-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-143-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
                   "id": "C-us-143-P01-03",
@@ -264360,12 +264039,14 @@
             },
             {
               "local_date": "2026-11-13",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "16:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
+                "GUIDANCE_SATISFIED": 1,
                 "UNFAVORABLE": 23,
-                "NOT_EVALUABLE": 1
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -264379,10 +264060,18 @@
                 {
                   "id": "C-us-143-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-143-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
                   "id": "C-us-143-P01-03",
@@ -264412,12 +264101,18 @@
             },
             {
               "local_date": "2026-11-14",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "09:00",
+                "10:00",
+                "11:00",
+                "15:00",
+                "16:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
+                "GUIDANCE_SATISFIED": 5,
                 "UNFAVORABLE": 19,
-                "NOT_EVALUABLE": 5
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -264431,10 +264126,18 @@
                 {
                   "id": "C-us-143-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-143-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
                   "id": "C-us-143-P01-03",
@@ -264483,10 +264186,18 @@
                 {
                   "id": "C-us-143-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-143-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
                   "id": "C-us-143-P01-03",
@@ -264516,12 +264227,17 @@
             },
             {
               "local_date": "2026-11-16",
-              "state": "UNFAVORABLE",
-              "good_hours": [],
+              "state": "GUIDANCE_SATISFIED",
+              "good_hours": [
+                "07:00",
+                "08:00",
+                "09:00",
+                "10:00"
+              ],
               "hour_counts": {
-                "GUIDANCE_SATISFIED": 0,
+                "GUIDANCE_SATISFIED": 4,
                 "UNFAVORABLE": 20,
-                "NOT_EVALUABLE": 4
+                "NOT_EVALUABLE": 0
               },
               "conditions": [
                 {
@@ -264535,10 +264251,18 @@
                 {
                   "id": "C-us-143-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "day_verdict": "UNKNOWN",
                   "pass_hours": 0
+                },
+                {
+                  "id": "C-us-143-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 24
                 },
                 {
                   "id": "C-us-143-P01-03",
@@ -264565,12 +264289,72 @@
                   "pass_hours": 10
                 }
               ]
+            },
+            {
+              "local_date": "2026-11-17",
+              "state": "UNFAVORABLE",
+              "good_hours": [],
+              "hour_counts": {
+                "GUIDANCE_SATISFIED": 0,
+                "UNFAVORABLE": 1,
+                "NOT_EVALUABLE": 0
+              },
+              "conditions": [
+                {
+                  "id": "C-us-143-P01-01",
+                  "metric": "wind_speed_10m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-us-143-P01-02",
+                  "metric": "water_surface_state",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "day_verdict": "UNKNOWN",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-143-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-us-143-P01-03",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "PASS",
+                  "pass_hours": 1
+                },
+                {
+                  "id": "C-us-143-P01-04",
+                  "metric": "cloud_cover_total",
+                  "tier": "BONUS",
+                  "role": "QUALITY",
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
+                },
+                {
+                  "id": "C-us-143-P01-LW1",
+                  "metric": "light_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "day_verdict": "FAIL",
+                  "pass_hours": 0
+                }
+              ]
             }
           ],
           "live": {
             "now": {
-              "utc": "2026-11-10T08:00:00Z",
-              "local": "2026-11-10 00:00",
+              "utc": "2026-11-10T10:00:00Z",
+              "local": "2026-11-10 02:00",
               "status": "UNFAVORABLE",
               "conditions": [
                 {
@@ -264580,18 +264364,28 @@
                   "role": "REQUIRED",
                   "operator": "lte",
                   "threshold": 2,
-                  "value": 4.91,
+                  "value": 5.12,
                   "verdict": "FAIL"
                 },
                 {
                   "id": "C-us-143-P01-02",
                   "metric": "water_surface_state",
-                  "tier": "MAIN",
-                  "role": "REQUIRED",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
                   "operator": "none",
                   "threshold": null,
                   "value": null,
                   "verdict": "UNKNOWN"
+                },
+                {
+                  "id": "C-us-143-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "gte",
+                  "threshold": 0,
+                  "value": 7.8,
+                  "verdict": "PASS"
                 },
                 {
                   "id": "C-us-143-P01-03",
@@ -264600,8 +264394,8 @@
                   "role": "REQUIRED",
                   "operator": "lt",
                   "threshold": 0.2,
-                  "value": 0.4,
-                  "verdict": "FAIL"
+                  "value": 0.0,
+                  "verdict": "PASS"
                 },
                 {
                   "id": "C-us-143-P01-04",
@@ -264628,7 +264422,76 @@
                 }
               ]
             },
-            "next_good": null
+            "next_good": {
+              "utc": "2026-11-10T16:00:00Z",
+              "local": "2026-11-10 08:00",
+              "status": "GUIDANCE_SATISFIED",
+              "conditions": [
+                {
+                  "id": "C-us-143-P01-01",
+                  "metric": "wind_speed_10m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lte",
+                  "threshold": 2,
+                  "value": 1.53,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-143-P01-02",
+                  "metric": "water_surface_state",
+                  "tier": "MODIFIER",
+                  "role": "QUALITY",
+                  "operator": "none",
+                  "threshold": null,
+                  "value": null,
+                  "verdict": "UNKNOWN"
+                },
+                {
+                  "id": "C-us-143-P01-ICE1",
+                  "metric": "temperature_2m",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "gte",
+                  "threshold": 0,
+                  "value": 7.8,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-143-P01-03",
+                  "metric": "precipitation",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "lt",
+                  "threshold": 0.2,
+                  "value": 0.0,
+                  "verdict": "PASS"
+                },
+                {
+                  "id": "C-us-143-P01-04",
+                  "metric": "cloud_cover_total",
+                  "tier": "BONUS",
+                  "role": "QUALITY",
+                  "operator": "between",
+                  "threshold": [
+                    20,
+                    60
+                  ],
+                  "value": 98.0,
+                  "verdict": "FAIL"
+                },
+                {
+                  "id": "C-us-143-P01-LW1",
+                  "metric": "light_window",
+                  "tier": "MAIN",
+                  "role": "REQUIRED",
+                  "operator": "none",
+                  "threshold": null,
+                  "value": "satisfied",
+                  "verdict": "PASS"
+                }
+              ]
+            }
           }
         }
       ],
