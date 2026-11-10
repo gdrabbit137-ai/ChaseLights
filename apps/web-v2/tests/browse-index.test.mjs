@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and canonical sources remain source pinned (CL-DATA-53: 350 places / 552 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'56af71245c21a860433a1c9b4b65bc83125d038f8ac6733e38d6b48d294c8fc6'); // re-measured on merged main tree (350 places / 552 opportunities)
-  assert.equal(sha256(rawCatalog),'4f0ba6301b9e16e9a53fa62a9d8d98b8e380e0e202eaeae7eb569fb35e0b0cf0'); // re-measured on merged main tree (350 places / 552 opportunities)
+test('W2 index and canonical sources remain source pinned (CL-DATA-65: 350 places / 553 opportunities)',()=>{
+  assert.equal(sha256(rawIndex),'72459d06b8119317c63297982b35a56d67e20dead5804065162664065e67332a'); // re-measured CL-DATA-65 (350 places / 553 opportunities)
+  assert.equal(sha256(rawCatalog),'aefc6eccc22857305be9123f4192d59b102ef42bf8fe2585448c8b7164a69e52'); // re-measured CL-DATA-65 (350 places / 553 opportunities)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,552);assert.equal(source.places.length,350);
+  assert.equal(source.opportunities.length,553);assert.equal(source.places.length,350);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){

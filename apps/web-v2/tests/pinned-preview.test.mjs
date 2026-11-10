@@ -14,7 +14,7 @@ test('default catalog retains the original pinned P01 source and research-only p
   assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha, W2_SHA);
   assert.equal(catalog.source_pins['tw-026-P01'].source_blob_sha,
     manifest.files.find(file => file.source_path === 'data/v2/opportunities/tw-026-P01.json').blob_sha);
-  assert.equal(catalog.opportunities.length,552); // re-anchored CL-DATA-53
+  assert.equal(catalog.opportunities.length,553); // re-anchored CL-DATA-65
   assert.equal(catalog.places.length,350); // re-anchored CL-DATA-53
   assert.deepEqual(preview.opportunities, [readPinned('tw-026-P01.json')]);
 });
