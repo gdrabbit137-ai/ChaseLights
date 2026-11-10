@@ -210,7 +210,7 @@
       },
       {
         "id": "C-tw-016-P01-04",
-        "role": "QUALITY",
+        "role": "REQUIRED",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -224,7 +224,7 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "MODIFIER",
+        "condition_tier": "MAIN",
         "threshold_source": "computed",
         "calibration_status": "provisional",
         "rationale_i18n": {
@@ -233,9 +233,9 @@
           "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+          "zh-TW": "2026-11-10 CL-DATA-57：sunset_window 升為 REQUIRED——可見光夕照題材不得在黃金窗外成立（深夜不得因天氣門檻通過而判為符合）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+          "en": "2026-11-10 CL-DATA-57: sunset_window promoted to REQUIRED — visible-light sunset subject must not qualify outside golden window. Semantic correction; layering parity gate exempt, documented here.",
+          "ja": "2026-11-10 CL-DATA-57：sunset_window を REQUIRED に昇格——可視光の夕景題材はゴールデンウィンドウ外では成立しない（深夜に気象ゲートのみで合格してはならない）。意味修正のため layering parity ゲートは免除。"
         }
       }
     ],
