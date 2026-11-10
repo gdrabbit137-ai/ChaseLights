@@ -25,11 +25,11 @@ class TestCLData47AgliTwFull(unittest.TestCase):
 
     def test_coverage_tw_full(self):
         tw_ids = {p['place_id'] for p in self.cat['places'] if p['place_id'].startswith('tw-')}
-        self.assertEqual(len(tw_ids), 119, 'catalog tw count drifted — re-anchor this pin (CL-DATA-64: 119 active tw)')
+        self.assertEqual(len(tw_ids), 116, "catalog tw count drifted — re-anchor this pin (merged re-anchor: 119 - 3 retired + 4 CL-DATA-64 new tw)")
         rec_ids = {r['place_id'] for r in self.full['records']}
         self.assertEqual(rec_ids, tw_ids)
-        self.assertEqual(len(self.full['records']), 119)
-        self.assertEqual(len(self.full['ranking']), 119)
+        self.assertEqual(len(self.full["records"]), 116)
+        self.assertEqual(len(self.full["ranking"]), 116)
 
     def test_unique_ids_and_monotonic_order(self):
         ids = [r['place_id'] for r in self.full['records']]
@@ -80,8 +80,8 @@ class TestCLData47AgliTwFull(unittest.TestCase):
     def test_summary_matches_records(self):
         s = self.full['summary']
         self.assertEqual(s['n'], len(self.full['records']))
-        self.assertEqual(sum(s['anchor_bands'].values()), 93)
-        self.assertEqual(sum(s['confidence'].values()), 93)
+        self.assertEqual(sum(s['anchor_bands'].values()), 90)  # merged: 93 - 3 retired
+        self.assertEqual(sum(s['confidence'].values()), 90)  # merged: 93 - 3 retired
 
 
 if __name__ == '__main__':

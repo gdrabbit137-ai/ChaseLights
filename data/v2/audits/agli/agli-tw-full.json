@@ -12,7 +12,7 @@
   },
   "notes": "合併規則：試評（pilot）優先、其次較新之 batch2、再 batch1；batch1∩batch2 重疊且 AGli 差 >5 者由本票以同方法（A 錨點審查員／B 攝影師視角雙角色）重評，差 ≤5 者取較新者。兩批缺口 12 景點由本票補評。照片證據沿用 scenic-v3 有效池，異地誤配（司馬庫斯人物/中國渭河/鰜鲽老樹等）逐張剔除。L1 統一採 agli-tw-l1.json spot_level 權威映射，修正批次內 5 處映射差（tw-029 B1→B4、tw-040 C1→C4、tw-034 E1→C1、tw-044 C2→C1 等）。誠實揭露：雙評審為同上下文角色分離，非隔離子代理（同 CL-DATA-44/45 限制）。",
   "summary": {
-    "n": 119,
+    "n": 116,
     "n_pilot_reuse": 20,
     "n_batch2": 28,
     "n_batch1": 26,
@@ -46,15 +46,15 @@
       "90+": 0,
       "80-89": 3,
       "70-79": 11,
-      "60-69": 19,
+      "60-69": 18,
       "50-59": 33,
       "40-49": 19,
-      "<40": 8
+      "<40": 6
     },
     "confidence": {
       "high": 37,
-      "medium": 26,
-      "low": 30
+      "medium": 24,
+      "low": 29
     },
     "mean_agli": 56.65,
     "median_agli": 55.8,
@@ -185,7 +185,7 @@
       }
     ],
     "n_cl51_direct": 22,
-    "notes": " | CL-DATA-64 appended tw-121,tw-122,tw-123,tw-124 (4 places, direct dual-board v2 scoring); anchor discipline maintained (zero 95+)"
+    "notes": " | CL-DATA-64 appended tw-121,tw-122,tw-123,tw-124 (4 places, direct dual-board v2 scoring); anchor discipline maintained (zero 95+) | merged re-anchor: retired tw-068/tw-083/tw-084 records removed (CL-DATA-62 retirement on main); n 119->116"
   },
   "l1_region_rankings": {
     "C2": [
@@ -405,11 +405,6 @@
         "rank": 3,
         "place_id": "tw-071",
         "agli": 64.2
-      },
-      {
-        "rank": 4,
-        "place_id": "tw-068",
-        "agli": 60.8
       }
     ],
     "F3": [
@@ -761,16 +756,6 @@
         "rank": 6,
         "place_id": "tw-020",
         "agli": 42.5
-      },
-      {
-        "rank": 7,
-        "place_id": "tw-083",
-        "agli": 39.9
-      },
-      {
-        "rank": 8,
-        "place_id": "tw-084",
-        "agli": 31.6
       }
     ],
     "A2": [
@@ -1166,16 +1151,6 @@
       "agli": 60.9,
       "confidence": "medium",
       "source": "cl-data-51-direct"
-    },
-    {
-      "rank": 35,
-      "place_id": "tw-068",
-      "name_zh": "綠島朝日溫泉",
-      "l1": "F2",
-      "l1_rank": 4,
-      "agli": 60.8,
-      "confidence": "low",
-      "source": "pilot-reuse"
     },
     {
       "rank": 36,
@@ -1938,16 +1913,6 @@
       "source": "batch1"
     },
     {
-      "rank": 112,
-      "place_id": "tw-083",
-      "name_zh": "雲山水夢幻湖",
-      "l1": "D2",
-      "l1_rank": 7,
-      "agli": 39.9,
-      "confidence": "medium",
-      "source": "gap-fill-47"
-    },
-    {
       "rank": 113,
       "place_id": "tw-052",
       "name_zh": "小崗山雲臺",
@@ -2006,16 +1971,6 @@
       "agli": 31.6,
       "confidence": "high",
       "source": "batch1"
-    },
-    {
-      "rank": 119,
-      "place_id": "tw-084",
-      "name_zh": "大農大富平地森林園區",
-      "l1": "D2",
-      "l1_rank": 8,
-      "agli": 31.6,
-      "confidence": "medium",
-      "source": "gap-fill-47"
     }
   ],
   "records": [
@@ -6940,75 +6895,6 @@
       "l1_rank": 1
     },
     {
-      "place_id": "tw-068",
-      "name_zh": "綠島朝日溫泉",
-      "l1": "F2",
-      "pass_A": {
-        "grandeur": 36,
-        "uniqueness": 84,
-        "visual": 64,
-        "richness": 62,
-        "photo": 66,
-        "season": 62,
-        "experience": 72,
-        "cultural": 56
-      },
-      "pass_B": {
-        "grandeur": 34,
-        "uniqueness": 82,
-        "visual": 60,
-        "richness": 58,
-        "photo": 62,
-        "season": 60,
-        "experience": 68,
-        "cultural": 52
-      },
-      "merged": {
-        "grandeur": 35,
-        "uniqueness": 83,
-        "visual": 62,
-        "richness": 60,
-        "photo": 64,
-        "season": 61,
-        "experience": 70,
-        "cultural": 54
-      },
-      "agli": 60.8,
-      "confidence": "low",
-      "photo_evidence": [
-        {
-          "title": "File:朝日溫泉.jpg",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/%E6%9C%9D%E6%97%A5%E6%BA%AB%E6%B3%89.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
-        },
-        {
-          "title": "File:Zhaori Hot Springs.jpg",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Zhaori_Hot_Springs.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
-        },
-        {
-          "title": "File:Zhaori Hot Springs 20150128.jpg",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Zhaori_Hot_Springs_20150128.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
-        }
-      ],
-      "reasons": {
-        "grandeur": "海岸溫泉池，無壯麗",
-        "uniqueness": "世界少見的海底溫泉，性質唯一",
-        "visual": "朝日+礁池意象佳（未經本批驗證）",
-        "richness": "溫泉+日出+潮間帶",
-        "photo": "日出溫泉主題穩定",
-        "season": "冬季最適、夏季曬",
-        "experience": "泡湯親民、需跳島",
-        "cultural": "溫泉人文與島嶼聚落"
-      },
-      "arbitrated_dims": {},
-      "source": "pilot-reuse",
-      "mean_abs_diff": 0.0,
-      "pct_over10": 0.0,
-      "evidence_note": "蒙太奇兩張皆縮圖失敗——本批無有效影像，分數僅依制度常識與既有 v3 記錄，須重抓驗證",
-      "l1_name": "綠島／蘭嶼",
-      "rank": 31,
-      "l1_rank": 4
-    },
-    {
       "place_id": "tw-069",
       "name_zh": "蘭嶼東清灣",
       "l1": "F2",
@@ -8045,159 +7931,6 @@
       ],
       "rank": 82,
       "l1_rank": 3
-    },
-    {
-      "place_id": "tw-083",
-      "name_zh": "雲山水夢幻湖",
-      "l1": "D2",
-      "l1_name": "花東縱谷",
-      "source": "gap-fill-47",
-      "reuse_pilot": false,
-      "pass_A": {
-        "grandeur": 28,
-        "uniqueness": 34,
-        "visual": 54,
-        "richness": 34,
-        "photo": 38,
-        "season": 55,
-        "experience": 56,
-        "cultural": 20
-      },
-      "pass_B": {
-        "grandeur": 32,
-        "uniqueness": 36,
-        "visual": 56,
-        "richness": 36,
-        "photo": 42,
-        "season": 53,
-        "experience": 54,
-        "cultural": 20
-      },
-      "merged": {
-        "grandeur": 30,
-        "uniqueness": 35,
-        "visual": 55,
-        "richness": 35,
-        "photo": 40,
-        "season": 54,
-        "experience": 55,
-        "cultural": 20
-      },
-      "reasons": {
-        "grandeur": "人工整備湖區，尺度小且無自然威力感",
-        "uniqueness": "落羽松水景在台灣多處可替代（宜蘭/南投類似）",
-        "visual": "湖面倒影與水色乾淨，晨光效果好",
-        "richness": "落羽松＋倒影單一主題",
-        "photo": "遊客機位固定，出片可預期但缺乏獨家視角",
-        "season": "秋冬轉色最強，夏季普通",
-        "experience": "入園受私營管理與時段限制",
-        "cultural": "人工造景無歷史敘事"
-      },
-      "arbitrated_dims": [],
-      "arbitration_note": "本批無 >10 維度",
-      "agli": 39.9,
-      "mean_abs_diff": 2.25,
-      "pct_over10": 0.0,
-      "confidence": "medium",
-      "evidence_note": "v3 有效照片 6 張（落羽松湖景），私有園區部分角度受限",
-      "photo_evidence": [
-        {
-          "title": "File:34-花蓮雲山水 (28896718933).jpg",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/34-%E8%8A%B1%E8%93%AE%E9%9B%B2%E5%B1%B1%E6%B0%B4_%2828896718933%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-          "valid": true
-        },
-        {
-          "title": "File:雲山水夢幻湖 Yunshanshui Dream Lake - panoramio.jpg",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/4/46/%E9%9B%B2%E5%B1%B1%E6%B0%B4%E5%A4%A2%E5%B9%BB%E6%B9%96_Yunshanshui_Dream_Lake_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-          "valid": true
-        },
-        {
-          "title": "File:雲山水夢幻湖 Yunshanshui Dream Lake - panoramio (1).jpg",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/c/c7/%E9%9B%B2%E5%B1%B1%E6%B0%B4%E5%A4%A2%E5%B9%BB%E6%B9%96_Yunshanshui_Dream_Lake_-_panoramio_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-          "valid": true
-        },
-        {
-          "title": "File:View across Yunshanshui Dream Lake towards white bridge.jpg",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/6/66/View_across_Yunshanshui_Dream_Lake_towards_white_bridge.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-          "valid": true
-        },
-        {
-          "title": "File:Reflection view of Yunshanshui Dream Lake at four o'clock in the afternoon.jpg",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Reflection_view_of_Yunshanshui_Dream_Lake_at_four_o%27clock_in_the_afternoon.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-          "valid": true
-        },
-        {
-          "title": "File:Late afternoon view of Yunshanshui Dream Lake with Castle Villa l9 behind trees in the background.jpg",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Late_afternoon_view_of_Yunshanshui_Dream_Lake_with_Castle_Villa_l9_behind_trees_in_the_background.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-          "valid": true
-        }
-      ],
-      "rank": 86,
-      "l1_rank": 5
-    },
-    {
-      "place_id": "tw-084",
-      "name_zh": "大農大富平地森林園區",
-      "l1": "D2",
-      "l1_name": "花東縱谷",
-      "source": "gap-fill-47",
-      "reuse_pilot": false,
-      "pass_A": {
-        "grandeur": 18,
-        "uniqueness": 20,
-        "visual": 34,
-        "richness": 34,
-        "photo": 28,
-        "season": 50,
-        "experience": 76,
-        "cultural": 24
-      },
-      "pass_B": {
-        "grandeur": 22,
-        "uniqueness": 24,
-        "visual": 36,
-        "richness": 36,
-        "photo": 32,
-        "season": 48,
-        "experience": 74,
-        "cultural": 26
-      },
-      "merged": {
-        "grandeur": 20,
-        "uniqueness": 22,
-        "visual": 35,
-        "richness": 35,
-        "photo": 30,
-        "season": 49,
-        "experience": 75,
-        "cultural": 25
-      },
-      "reasons": {
-        "grandeur": "平地人工林，完全無地形起伏",
-        "uniqueness": "平地森林復育概念獨特但景觀型態平凡",
-        "visual": "林道與草澤乾淨但單調",
-        "richness": "賞鳥、螢火蟲、蝶道為主，攝影題材少",
-        "photo": "晨霧林道有少量可拍，機位不成熟",
-        "season": "四至六月賞螢為唯一強窗口",
-        "experience": "園區開放且路況好，門檻低",
-        "cultural": "伐木地復育史有敘事但無地景呈現"
-      },
-      "arbitrated_dims": [],
-      "arbitration_note": "本批無 >10 維度",
-      "agli": 31.6,
-      "mean_abs_diff": 2.75,
-      "pct_over10": 0.0,
-      "confidence": "medium",
-      "evidence_note": "v3 有效照片 3 張（服務台與林道），景觀主體影像少",
-      "photo_evidence": [
-        {
-          "title": "File:Road through Danongdafu Forest Park.jpg",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/d/db/Road_through_Danongdafu_Forest_Park.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-          "valid": true
-        }
-      ],
-      "rank": 93,
-      "l1_rank": 6
     },
     {
       "place_id": "tw-085",

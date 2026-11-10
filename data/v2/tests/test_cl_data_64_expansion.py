@@ -204,8 +204,8 @@ class TestAgli(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 376)
-        self.assertEqual(cat["counts"]["opportunities"], 608)
+        self.assertEqual(cat["counts"]["spots"], 370)  # merged: 376 on the task tree - 6 retired
+        self.assertEqual(cat["counts"]["opportunities"], 587)
 
     def test_manifest_region_ends(self):
         mf = load("runtime_catalog_manifest_r4_2.json")

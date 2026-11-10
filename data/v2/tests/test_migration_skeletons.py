@@ -112,10 +112,10 @@ class MigrationSkeletonTests(unittest.TestCase):
         wspot = None
         for wp in gen.DEFAULT_WEATHER:
             for s in json.loads(wp.read_text(encoding="utf-8"))["spots"]:
-                if s["spot_id"] == "tw-068":
+                if s["spot_id"] == "tw-074":
                     wspot = s
         self.assertIsNotNone(wspot)
-        doc = json.loads((SKELETONS / "tw-068-P01.json").read_text(encoding="utf-8"))
+        doc = json.loads((SKELETONS / "tw-074-P01.json").read_text(encoding="utf-8"))
         self.assertEqual(wspot["access_note_i18n"],
                          doc["camera_contexts"][0]["access_notes_i18n"])
 
