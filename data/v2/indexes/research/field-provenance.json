@@ -11865,6 +11865,39 @@
       ],
       "navigation_ref": "data/v2/opportunities/jp-030-P01.json#/navigation_targets"
     },
+    "jp-030-P99": {
+      "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+      "classification": {
+        "topic_ids": [],
+        "canonical_pointers": [
+          "/targets/0/name_i18n",
+          "/description_i18n"
+        ],
+        "evidence_claim_id": "jp-030-P99-claim-01",
+        "evidence_refs": [],
+        "classification_basis": "general_genre_auto_mount_v0.1"
+      },
+      "classification_excerpts": {
+        "/targets/0/name_i18n": {
+          "zh-TW": "鳴門海峽漩渦（一般拍攝）",
+          "en": "Naruto Whirlpools (general shooting)",
+          "ja": "鳴門海峡（一般撮影）"
+        },
+        "/description_i18n": {
+          "zh-TW": "一般拍攝題材（owner 裁決 2026-11-10 零題材兜底）：主體不被遮擋（能見度足夠）、無大雨大霧即可拍攝。此為可拍性下限保證，非策展題材；顯示層以「一般拍攝」標籤區分。能見度門檻：一般（5km）。",
+          "en": "General shooting subject (CL-DATA-65 zero-curated-subject fallback, owner ruling 2026-11-10): the subject is unobstructed (adequate visibility) and shootable without heavy rain or heavy fog. This is a shootability floor, not a curated genre; the display layer labels it General shooting.Visibility threshold: general (5km).",
+          "ja": "一般撮影題材（2026-11-10 オーナー裁定によるゼロ題材フォールバック）：主題が遮られず（視程十分）、大雨・濃霧がなければ撮影できる。撮影可能性の下限保証であり、キュレーション題材ではない。表示層は「一般撮影」ラベルで区別する。視程閾値：一般（5km）。"
+        }
+      },
+      "description_ref": "data/v2/opportunities/jp-030-P99.json#/description_i18n",
+      "access_advisory_refs": [
+        "data/v2/opportunities/jp-030-P99.json#/camera_contexts/0/access_notes_i18n"
+      ],
+      "safety_refs": [
+        "data/v2/opportunities/jp-030-P99.json#/camera_contexts/0/safety_notes_i18n"
+      ],
+      "navigation_ref": "data/v2/opportunities/jp-030-P99.json#/navigation_targets"
+    },
     "jp-031-P02": {
       "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
       "classification": {

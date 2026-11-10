@@ -53,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((357,552),(len(actual),len(ids)))  # merged re-anchor: 344/539 on main + 13 CL-DATA-64 new-subject-family places
+        self.assertEqual((357,553),(len(actual),len(ids)))  # merged re-anchor: 344/539 on main + 13 CL-DATA-64 places + jp-030-P99 (CL-DATA-65)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -86,6 +86,7 @@ class ResearchIndexTests(unittest.TestCase):
         '7a77bea62a609a861b725288f53036e10b750ac9',
         '8024532fdfd00d32fb5d44335d2feb634d50a2de',
         '5adb3ace77808544f95f9e4ef3b751cf9938f964',
+        '816d020b1c3b6618cbe3a7220ceb8c2f72a72cf8',  # CL-DATA-65: jp-030-P99 general-genre auto-mount record
         '8393d5b3d4612c04b57d583a694094f77f78696c',
         '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
         'a34cd15819a1b01702d6d38408524e444ca84906',

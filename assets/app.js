@@ -1696,7 +1696,7 @@
         });
         const v2CondHtml=v2c?`<div class="v2-conditions"><div class="research-label">${esc(d().v2_conditions_from)}</div>${v2Groups.required.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_required)}${colonSep()}</span></div>${v2Groups.required.join('')}`:''}${v2Groups.booster.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_boosters)}${colonSep()}</span></div>${v2Groups.booster.join('')}`:''}${v2Groups.penalty.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_penalties)}${colonSep()}</span></div>${v2Groups.penalty.join('')}`:''}</div>`:'';
         return `<div class="opportunity-card${guideOnly?' opportunity-card-guide':''}">
-          <div class="opportunity-head"><div class="opportunity-title">${esc(modalSubject)}${v2c?` <span class="v2-genre-chip">${esc(v2GenreName(v2c.genre_template))}</span>`:''}</div></div>
+          <div class="opportunity-head"><div class="opportunity-title">${esc(modalSubject)}${v2c?` <span class="v2-genre-chip${v2c.genre_template==='general'?' v2-genre-chip-general':''}">${esc(v2GenreName(v2c.genre_template))}</span>`:''}</div></div>
           ${current}
           <div class="v2-eval" data-opp="${esc(op.opportunity_id)}"></div>
           ${v2CondHtml}
@@ -2011,9 +2011,9 @@
     }
     function v2Contract(opportunityId){return (opContracts&&opContracts.opportunities[opportunityId])||null;}
     const V2_GENRES = {
-      'zh-TW': { mountain_view:'山景視野', overlook:'制高點展望', reflection:'水面倒影', cloud_sea:'雲海', sunrise:'日出', sunset:'日落夕景', golden_hour:'黃金時刻', blue_hour_city:'城市藍調', overcast_soft:'陰天柔光', city_night:'城市夜景', night_sky:'夜空星空', seasonal_plant:'季節植物', geological_landform:'地質地景', waterfall:'瀑布' },
-      en: { mountain_view:'Mountain view', overlook:'Overlook', reflection:'Water reflection', cloud_sea:'Sea of clouds', sunrise:'Sunrise', sunset:'Sunset', golden_hour:'Golden hour', blue_hour_city:'City blue hour', overcast_soft:'Overcast soft light', city_night:'City night', night_sky:'Night sky', seasonal_plant:'Seasonal flora', geological_landform:'Geological landform', waterfall:'Waterfall' },
-      ja: { mountain_view:'山の眺望', overlook:'高所展望', reflection:'水面反射', cloud_sea:'雲海', sunrise:'日の出', sunset:'夕景', golden_hour:'ゴールデンアワー', blue_hour_city:'都市ブルーアワー', overcast_soft:'曇天ソフトライト', city_night:'都市夜景', night_sky:'星空', seasonal_plant:'季節の植物', geological_landform:'地形・地質', waterfall:'滝' }
+      'zh-TW': { mountain_view:'山景視野', overlook:'制高點展望', reflection:'水面倒影', cloud_sea:'雲海', sunrise:'日出', sunset:'日落夕景', golden_hour:'黃金時刻', blue_hour_city:'城市藍調', overcast_soft:'陰天柔光', city_night:'城市夜景', night_sky:'夜空星空', seasonal_plant:'季節植物', geological_landform:'地質地景', waterfall:'瀑布', general:'一般拍攝' },
+      en: { mountain_view:'Mountain view', overlook:'Overlook', reflection:'Water reflection', cloud_sea:'Sea of clouds', sunrise:'Sunrise', sunset:'Sunset', golden_hour:'Golden hour', blue_hour_city:'City blue hour', overcast_soft:'Overcast soft light', city_night:'City night', night_sky:'Night sky', seasonal_plant:'Seasonal flora', geological_landform:'Geological landform', waterfall:'Waterfall', general:'General shooting' },
+      ja: { mountain_view:'山の眺望', overlook:'高所展望', reflection:'水面反射', cloud_sea:'雲海', sunrise:'日の出', sunset:'夕景', golden_hour:'ゴールデンアワー', blue_hour_city:'都市ブルーアワー', overcast_soft:'曇天ソフトライト', city_night:'都市夜景', night_sky:'星空', seasonal_plant:'季節の植物', geological_landform:'地形・地質', waterfall:'滝', general:'一般撮影' }
     };
     function v2GenreName(g){const dict=V2_GENRES[currentLang]||V2_GENRES['zh-TW'];return dict[g]||g;}
     function formatHourSegments(list){

@@ -1,0 +1,128 @@
+{
+  "template_id": "general",
+  "version": "0.1",
+  "status": "defined",
+  "title_i18n": {
+    "zh-TW": "一般拍攝",
+    "en": "General shooting",
+    "ja": "一般撮影"
+  },
+  "definition_i18n": {
+    "zh-TW": "owner 裁決（2026-11-10，CL-DATA-65）的兜底題材：每個景點至少要有一個「一般題材」——主體不被遮擋（能見度足夠）、無大雨大霧即可拍攝。它不是策展題材：沒有特定攝影對象語義，只有可拍性的下限保證；顯示層以「一般拍攝」標籤與策展題材視覺區分。四條件全 REQUIRED、無 BONUS：條件不滿足就誠實顯示不符合，不做加分項。能見度門檻依景點尺度參數化（view_scale_km：遠景型 8km、一般 5km、近景型 3km）。用於零策展題材景點的自動掛載（place_id-P99），正式題材存在時永不覆蓋。",
+    "en": "Fallback genre per owner ruling (2026-11-10, CL-DATA-65): every place must keep at least one general subject - the subject is unobstructed (visibility adequate) and shootable without heavy rain or heavy fog. It is NOT a curated genre: no specific photographic-subject semantics, only a floor guarantee of shootability; the display layer labels it General shooting to visually distinguish it from curated genres. All four conditions are REQUIRED with no BONUS: unmet conditions honestly read as unmet, no quality bonuses. The visibility threshold is parameterized by place scale (view_scale_km: vista-type 8km, general 5km, close-range 3km). Used to auto-mount zero-curated-subject places (place_id-P99); it never overwrites curated subjects.",
+    "ja": "オーナー裁定（2026-11-10、CL-DATA-65）によるフォールバック題材：各拠点には最低一つの「一般題材」が必要——主題が遮られず（視程が十分）、大雨・濃霧がなければ撮影できる。キュレーション題材ではない：特定の被写体セマンティクスはなく、撮影可能性の下限保証のみ。表示層は「一般撮影」ラベルでキュレーション題材と視覚的に区別する。4条件すべてREQUIRED、BONUSなし：条件未達は誠実に未達と表示し、加点項目は設けない。視程閾値は拠点スケールでパラメータ化（view_scale_km：遠景型8km、一般5km、近景型3km）。キュレーション題材ゼロの拠点への自動マウント（place_id-P99）に用い、正式題材を上書きしない。"
+  },
+  "instantiated_by": [],
+  "params": [
+    {
+      "name": "view_scale_km",
+      "type": "number",
+      "required": true,
+      "description_i18n": {
+        "zh-TW": "景點尺度對應的最低可拍能見度（公里）：遠景型 8、一般 5、近景型 3。由掛載工具依景點既有題材分布自動選定（overlook/mountain_view/cloud_sea/night_sky → 8；waterfall/tidal/geological_landform/reflection → 3；其餘 → 5）。",
+        "en": "Minimum shootable visibility (km) for the place scale: vista-type 8, general 5, close-range 3. Chosen automatically by the mount tool from the place's existing genre distribution (overlook/mountain_view/cloud_sea/night_sky -> 8; waterfall/tidal/geological_landform/reflection -> 3; otherwise 5).",
+        "ja": "拠点スケールに応じた最低撮影可能視程（km）：遠景型8、一般5、近景型3。マウントツールが既存題材分布から自動選定（overlook/mountain_view/cloud_sea/night_sky→8、waterfall/tidal/geological_landform/reflection→3、その他→5）。"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "template_ref": "G1",
+      "metric": "visibility",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "gte",
+      "unit": "km",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "能見度 ≥ view_scale_km：主體不被遮擋的直接判據（owner 裁決核心「能見度夠」）。門檻依景點尺度取 3/5/8 km——近景型 3km 只排除觀點本身起霧（cloud_sea T6 同語義：1km 為濃霧中），遠景型 8km 保證中距離主體可辨識。誠實標註：GFS/Open-Meteo 能見度欄位為模式估計、上限約 24 km，超過後此判據鈍化。",
+        "en": "Visibility >= view_scale_km: the direct criterion for an unobstructed subject (the owner ruling's core 'adequate visibility'). The threshold follows place scale at 3/5/8 km - close-range 3km only excludes the viewer standing inside fog (same semantics as cloud_sea T6: 1 km is inside dense fog), vista-type 8km keeps a mid-range subject resolvable. Honest note: the GFS/Open-Meteo visibility field is a model estimate capped near 24 km; beyond that this criterion saturates.",
+        "ja": "視程≥view_scale_km：主題が遮られないことの直接判断基準（オーナー裁定の中核「視程が十分」）。閾値は拠点スケールに応じ3/5/8km——近景型3kmは撮影者が霧の中にいないことだけを排除（cloud_sea T6と同義：1kmは濃霧内）、遠景型8kmは中距離の主題を判別可能に保つ。GFS/Open-Meteoの視程はモデル推定で約24kmで飽和する点を誠実に明記。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "visibility_km",
+        "role": "MID"
+      },
+      "threshold": {
+        "expr": "view_scale_km"
+      }
+    },
+    {
+      "template_ref": "G2",
+      "metric": "precipitation",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lt",
+      "unit": "mm/h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "降雨 <0.5 mm/h：排除「大雨」（owner 裁決「無大雨」）。刻意比既有策展題材的 0.2 mm/h（overlook V4）寬——一般題材只保證可拍下限，小雨/飄雨不否決；0.5 mm/h 起手持拍攝與鏡頭保護才實際受影響。",
+        "en": "Precipitation < 0.5 mm/h: excludes 'heavy rain' (the owner ruling's 'no heavy rain'). Deliberately looser than the curated-genre 0.2 mm/h (overlook V4) - the general genre only guarantees a shootability floor and does not veto light rain/drizzle; from 0.5 mm/h handheld shooting and lens protection are actually affected.",
+        "ja": "降水<0.5mm/h：「大雨」を排除（オーナー裁定の「大雨なし」）。既存キュレーション題材の0.2mm/h（overlook V4）より意図的に緩い——一般題材は撮影可能の下限保証のみで、小雨・霧雨は否決しない。0.5mm/hから手持ち撮影とレンズ保護が実際に影響を受ける。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_rate_mm_h",
+        "role": "MID"
+      },
+      "threshold": 0.5
+    },
+    {
+      "template_ref": "G3",
+      "metric": "relative_humidity_925hpa",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "threshold": 95,
+      "rationale_i18n": {
+        "zh-TW": "低層（925 hPa）相對濕度 ≤95%：排除「大霧」（owner 裁決「無大霧」），複用現有霧語義——霧/靄在近飽和低層濕度生成（cloud_sea T1 以 ≥85% 為生成條件），95% 以上即近飽和地表霧風險區。誠實標註：此為 925 hPa 面的代理指標而非地面觀測，覆蓋外（無資料源） propagate_unknown，不偽造判定。",
+        "en": "Low-level (925 hPa) relative humidity <= 95%: excludes 'heavy fog' (the owner ruling's 'no heavy fog'), reusing the existing mist semantics - fog/mist forms at near-saturation low-level humidity (cloud_sea T1 requires >= 85% for formation), so >= 95% is the near-saturated surface-fog risk zone. Honest note: this is a 925 hPa proxy, not a surface observation; where no source covers it the condition propagates UNKNOWN instead of fabricating a verdict.",
+        "ja": "下層（925 hPa）相対湿度≤95%：「濃霧」を排除（オーナー裁定の「濃霧なし」）。既存の霧セマンティクスを再利用——霧/もやは飽和近傍の下層湿度で生成し（cloud_sea T1は生成条件に≥85%）、95%以上は地表霧リスク帯。925 hPa面の代理指標であり地上観測ではない点、及びデータ源がない場合は偽判定せずUNKNOWNを伝播させる点を誠実に明記。"
+      },
+      "binding": {
+        "dataset": "cwa_wrf3",
+        "field": "relative_humidity_925hpa_percent",
+        "level": "925hpa",
+        "role": "SHORT_HQ"
+      }
+    },
+    {
+      "template_ref": "G4",
+      "metric": "light_window",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "none",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "白天日間窗（必要條件）：整小時每一時點太陽仰角 > −6°（民用光線），夜間一律不符合。一般題材的語義就是「白天能拍」；沿用 CL-DATA-11 owner 裁定的 light_window 唯一語義（民用光線、不引月照 metric）。稽查基準（所有自然光題材一律需要光線窗）的正面落地。",
+        "en": "Daylight window (necessary condition): sun elevation must be above -6 deg (civil light) at EVERY instant of the hour bucket; night hours never qualify. The general genre's semantics is exactly 'shootable in daylight'; carries over the single CL-DATA-11 owner-ruling semantics of light_window (civil light only, no moon-illumination metric). This is the positive application of the audit baseline that every natural-light genre needs a light window.",
+        "ja": "日中窓（必要条件）：時間バケット内の全時点で太陽高度 > -6°（市民光）。夜間は一律成立しない。一般題材の意味はまさに「日中に撮れること」であり、CL-DATA-11オーナー裁定のlight_window唯一の語義（市民光のみ、月照指標不使用）を踏襲する。自然光題材はすべて光の窓を要するという監査基準の正面実装。"
+      }
+    }
+  ],
+  "owner_review": "2026-11-10 defined at v0.1 per owner ruling (CL-DATA-65): every place keeps at least one general subject - subject unobstructed at adequate visibility, shootable without heavy rain or heavy fog. All four conditions REQUIRED, no BONUS. Visibility threshold parameterized by view_scale_km (vista 8 / general 5 / close-range 3 km) - parameterization chosen over per-spot condition overrides as the path most compatible with the existing expansion pipeline (overlook's expr thresholds). Fog cap reuses the existing mist semantics (near-saturation low-level humidity, cloud_sea T1). Auto-mount applies to zero-curated-subject places as place_id-P99; curated subjects are never overwritten; fully retired (hidden) places are skipped."
+}

@@ -15,7 +15,7 @@ test('W2 index and 420 canonical sources remain source pinned (CL-DATA-32 southe
   assert.equal(sha256(rawIndex),'d3d2651954211a8fc79651928c0bda6bb2e7ce61b948ea894a437d6bfbe8b608'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
   assert.equal(sha256(rawCatalog),'8fe798d807fd8083467d7e9a0bfaf7fc44ce2a483b56ed52f0b57efe99390f96'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,539);assert.equal(source.places.length,344); // CL-DATA-62 retirement on the merged tree (CL-INT-134): 6 places / 13 opportunities retired
+  assert.equal(source.opportunities.length,553);assert.equal(source.places.length,357); // merged: 344/539 on main + 13 CL-DATA-64 places + jp-030-P99 (CL-DATA-65)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
@@ -49,7 +49,7 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,344); // CL-DATA-62 retirement on the merged tree
+  assert.equal(browse(index,catalog,{search:'  '}).length,357); // merged
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
   assert.deepEqual(both.map(x=>x.place.place_id),['us-155','tw-026','us-156','us-121','tw-006']); // CL-INT-134 merged re-anchor: us-155/us-156/us-121 gained sunset/colorful-clouds topics (CL-DATA-53/54 waves)
   assert.deepEqual(both.find(x=>x.place.place_id==='tw-026').opportunities.map(x=>x.opportunity_id),['tw-026-P01','tw-026-P02']); // tw-006-P02 sunset joins tw-026 (CL-DATA-20)
