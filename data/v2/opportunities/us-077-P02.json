@@ -2,8 +2,8 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-077-P02",
   "place_id": "us-077",
-  "revision": 2,
-  "lifecycle_status": "draft",
+  "revision": 1,
+  "lifecycle_status": "retired",
   "name_i18n": {
     "zh-TW": "Dr. Jose Rizal Park・Downtown Seattle 藍調／夜景",
     "en": "Dr. Jose Rizal Park・Downtown Seattle 藍調／夜景",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-jose-rizal-park-seattle"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Dr. Jose Rizal Park 位於 Beacon Hill（1007 12th Ave. S），seattle.gov 開放 04:00–23:30。高處公園俯視 I-90／South Downtown＋Elliott Bay，藍調／夜景時城市燈火與車流最為鮮明；沿樹叢步道走動注意地面濕滑與燈光不足，攝影儘量結伴並停在指定停車位，安全與規則以 Seattle Parks 公告為準。",
-        "en": "Dr. Jose Rizal Park is on Beacon Hill (1007 12th Ave. S), open 4 a.m.–11:30 p.m. per seattle.gov. The elevated park looks over I-90, South Downtown and Elliott Bay — city lights and traffic trails are sharpest at blue hour/night. Trails through thickets can be slick and dim; shoot with company and park in designated stalls. Safety and rules follow Seattle Parks postings.",
-        "ja": "ホセ・リサール博士公園はビーコンヒル（1007 12th Ave. S）にあり、seattle.govでは4時〜23時30分開放。高台からI-90、ダウンタウン南部、エリオット湾を望み、ブルーアワーと夜景で都市の灯りと車の光の流れが最も鮮明。茂み沿いの道は滑りやすく照明が少ないため、仲間とともに撮影し指定駐車区画に停めること。安全と規則はSeattle Parksの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-jose-rizal-park-seattle"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -245,11 +241,9 @@
     {
       "claim_id": "us-077-P02-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-jose-rizal-park-seattle"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.seattle.gov/parks/parks/jose-rizal-park); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {

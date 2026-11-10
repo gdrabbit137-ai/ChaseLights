@@ -196,11 +196,11 @@ class WeatherGridCoverageTest(unittest.TestCase):
         )
         audit = audit_coverage_registry(catalog, registry)
 
-        self.assertEqual(audit["counts"]["entries"], 50)
+        self.assertEqual(audit["counts"]["entries"], 49)  # CL-DATA-62: tw-068-P01 registry entry retired
         self.assertEqual(audit["counts"]["missing_opportunity"], 0)
-        self.assertEqual(audit["counts"]["provisional"], 50)
+        self.assertEqual(audit["counts"]["provisional"], 49)
         self.assertEqual(audit["counts"]["needs_research"], 0)
-        self.assertEqual(audit["counts"]["complete"], 50)
+        self.assertEqual(audit["counts"]["complete"], 49)
         self.assertEqual(audit["counts"]["incomplete"], 0)
 
         by_id = {row["opportunity_id"]: row for row in audit["results"]}
@@ -258,16 +258,7 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertEqual(by_id["tw-059-P01"]["environment_geometry_count"], 0)
         self.assertTrue(any("no reconstructable extent" in warning for warning in by_id["tw-059-P01"]["warnings"]))
 
-        self.assertTrue(by_id["tw-068-P01"]["complete"])
-        self.assertEqual(by_id["tw-068-P01"]["status"], "provisional")
-        self.assertEqual(by_id["tw-068-P01"]["subject_geometry_count"], 1)
-        self.assertEqual(by_id["tw-068-P01"]["environment_geometry_count"], 1)
-        self.assertTrue(
-            any(
-                "no reconstructable extent" in warning
-                for warning in by_id["tw-068-P01"]["warnings"]
-            )
-        )
+        # CL-DATA-62: tw-068-P01 綠島朝日溫泉 retired (owner 2026-11-10).
 
         self.assertTrue(by_id["tw-069-P01"]["complete"])
         self.assertEqual(by_id["tw-069-P01"]["status"], "provisional")
@@ -438,14 +429,7 @@ class WeatherGridCoverageTest(unittest.TestCase):
         self.assertGreater(kuibishan["north"], 23.602)
         self.assertLess(kuibishan["south"], 23.598)
 
-        zhaori = by_id["tw-068-P01"]["coverage_bbox"]
-        self.assertTrue(bbox_contains_point(zhaori, 22.63703, 121.50418))
-        # The local foreground stays close to the Camera Zone while the
-        # 15 km eastward dawn sector materially expands the atmospheric extent.
-        self.assertGreater(zhaori["east"], 121.62)
-        self.assertGreater(zhaori["north"], 22.69)
-        self.assertLess(zhaori["south"], 22.59)
-        self.assertLess(zhaori["west"], 121.501)
+        # CL-DATA-62: tw-068-P01 綠島朝日溫泉 retired (owner 2026-11-10).
 
         dongqing = by_id["tw-069-P01"]["coverage_bbox"]
         self.assertTrue(bbox_contains_point(dongqing, 22.05299, 121.56363))

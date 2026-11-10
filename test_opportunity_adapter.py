@@ -159,7 +159,7 @@ def test_adapter_integrity():
     assert EVENT_CALENDAR_SCHEMA_VERSION == "r4.2-event-calendar-1"
     assert validate_event_calendar() == []
     assert set(EVENT_CALENDAR["events"]) == {
-        "tw-082-P04", "tw-082-P06", "tw-084-P04", "tw-084-P05", "tw-084-P06"
+        "tw-082-P04", "tw-082-P06"
     }
     assert CATALOG_MANIFEST_SCHEMA_VERSION == "r4.2-b42-catalog-manifest-1"
     assert CATALOG_COUNTS == CATALOG_MANIFEST["totals"]
@@ -189,12 +189,14 @@ def test_adapter_integrity():
     )
 
     tw = get_spots("tw")
-    assert len(tw) == 120
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 121)]
+    assert len(tw) == 98
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 99)]
     assert PRODUCT_STATUS_BY_SPOT["tw-063"] == "retired"
     # CL-DATA-25R: v1-built but v2-rejected places (<3.8) retired, ids reserved
+    # CL-DATA-62: 6 Places retired per owner ruling 2026-11-10 適拍性審計
     assert set(PRODUCT_STATUS_BY_SPOT) == {
-        "tw-063", "jp-050", "tw-090", "tw-092", "tw-096", "tw-097"}
+        "tw-063", "jp-050", "tw-090", "tw-092", "tw-096", "tw-097",
+        "tw-068", "tw-083", "tw-084", "us-075", "us-076", "us-077"}
     assert product_status("tw-063") == "retired"
     assert active_in_catalog("tw-063") is False
     assert sum(1 for s in tw if active_in_catalog(s["spot_id"])) == CATALOG_MANIFEST["regions"]["tw"]["counts"]["spots"]
@@ -326,19 +328,14 @@ def test_adapter_integrity():
     assert dict(policies) == CATALOG_MANIFEST["runtime_policy_counts"]
     assert len(MINIMUM_SUFFICIENT_VISIBILITY_PROFILES) == CATALOG_MANIFEST["minimum_sufficient_visibility_profile_count"]
 
-    hualien = {spot["spot_id"]: spot for spot in tw if spot["spot_id"] in {"tw-082", "tw-083", "tw-084"}}
+    hualien = {spot["spot_id"]: spot for spot in tw if spot["spot_id"] in {"tw-082"}}
     assert {sid: spot["name_i18n"]["zh-TW"] for sid, spot in hualien.items()} == {
         "tw-082": "鯉魚潭",
-        "tw-083": "雲山水夢幻湖",
-        "tw-084": "大農大富平地森林園區",
     }
     assert hualien["tw-082"]["map_query"] == "23.93493,121.50803"
-    assert hualien["tw-083"]["map_query"] == "23.827018,121.51548"
-    assert hualien["tw-083"]["access_hours"] == ["08:30", "17:00"]
-    assert hualien["tw-084"]["map_query"] == "23.6151728,121.4146215"
-    assert hualien["tw-084"]["access_hours"] == ["08:00", "17:00"]
     assert get_opportunities("tw", "tw-082")[0]["runtime_policy"] == "preview_module_available"
-    assert get_opportunities("tw", "tw-083")[0]["runtime_policy"] == "preview_module_available"
+    # CL-DATA-62: tw-083 雲山水 / tw-084 大農大富 retired (owner 2026-11-10) —
+    # ids stay reserved in regions.py; their catalog surfaces are hidden.
 
     liushishishan_matches = [s for s in tw if s["name_i18n"]["zh-TW"] == "六十石山"]
     assert len(liushishishan_matches) == 1
@@ -1234,27 +1231,18 @@ def test_adapter_integrity():
     assert qixingtan_clear_view_eval["readable_bearing_count"] == 2
 
     liyu_ops = get_opportunities("tw", "tw-082")
-    yun_ops = get_opportunities("tw", "tw-083")
     assert len(liyu_ops) == 10
-    assert len(yun_ops) == 5
     assert {o["opportunity_id"] for o in liyu_ops} == {
         "tw-082-P01", "tw-082-P02", "tw-082-P03", "tw-082-P04",
         "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
         "tw-082-P09", "tw-082-P10",
     }
-    assert {o["opportunity_id"] for o in yun_ops} == {
-        "tw-083-P01", "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
-    }
     liyu_by_id = {o["opportunity_id"]: o for o in liyu_ops}
-    yun_by_id = {o["opportunity_id"]: o for o in yun_ops}
     assert liyu_by_id["tw-082-P02"]["runtime_policy"] == "minimum_sufficient_available"
     assert liyu_by_id["tw-082-P03"]["runtime_policy"] == "preview_module_available"
     assert all(liyu_by_id[x]["runtime_policy"] == "minimum_sufficient_available" for x in (
         "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
         "tw-082-P09", "tw-082-P10"
-    ))
-    assert all(yun_by_id[x]["runtime_policy"] == "minimum_sufficient_available" for x in (
-        "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05"
     ))
 
     firefly = evaluate_minimum_sufficient_visibility(liyu_by_id["tw-082-P04"], {
@@ -1342,99 +1330,6 @@ def test_adapter_integrity():
     assert wetland_close["long_range_visibility_is_not_a_blocker"] is True
     assert wetland_close["score_hint"] == 82
 
-    cypress = evaluate_minimum_sufficient_visibility(yun_by_id["tw-083-P02"], {
-        "local_date": "2026-12-20", "local_time": "10:00", "local_month": 12,
-        "pop": 10, "precipitation": 0.0, "access_open": True,
-    })
-    assert cypress["eligible"] is True
-    assert cypress["subject_presence_forecastable"] is False
-
-    cypress_summer = evaluate_minimum_sufficient_visibility(yun_by_id["tw-083-P02"], {
-        "local_date": "2026-07-20", "local_time": "10:00", "local_month": 7,
-        "pop": 10, "precipitation": 0.0, "access_open": True,
-    })
-    assert cypress_summer["eligible"] is False
-    assert cypress_summer["reason"] == "outside_curated_season"
-
-    iris = evaluate_minimum_sufficient_visibility(yun_by_id["tw-083-P03"], {
-        "local_date": "2026-04-10", "local_time": "10:00", "local_month": 4,
-        "pop": 10, "precipitation": 0.0, "access_open": True,
-    })
-    assert iris["eligible"] is True
-
-    danongdafu_ops = get_opportunities("tw", "tw-084")
-    assert len(danongdafu_ops) == 9
-    assert {o["opportunity_id"] for o in danongdafu_ops} == {
-        "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04", "tw-084-P05",
-        "tw-084-P06", "tw-084-P07", "tw-084-P08", "tw-084-P09",
-    }
-    assert all(o["runtime_policy"] == "minimum_sufficient_available" for o in danongdafu_ops)
-
-    danongdafu = danongdafu_ops[0]
-    danongdafu_local = evaluate_minimum_sufficient_visibility(
-        danongdafu,
-        {
-            "vis": 9100,
-            "c_low": 80,
-            "pop": 10,
-            "precipitation": 0.0,
-            "access_open": True,
-        },
-    )
-    assert danongdafu_local["eligible"] is True
-    assert danongdafu_local["long_range_visibility_is_not_a_blocker"] is True
-    assert danongdafu_local["lighting_geometry_verified"] is False
-    assert danongdafu_local["lighting_geometry_note"] == "forest_corridor_direction_and_canopy_geometry_not_yet_verified"
-
-    danongdafu_by_id = {o["opportunity_id"]: o for o in danongdafu_ops}
-
-    golden = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P02"], {
-        "local_date": "2026-09-26", "local_time": "16:00", "local_month": 9,
-        "vis": 9100, "c_low": 80, "pop": 10, "precipitation": 0.0, "access_open": True,
-    })
-    assert golden["eligible"] is True
-    assert golden["long_range_visibility_is_not_a_blocker"] is True
-
-    foliage_offseason = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P03"], {
-        "local_date": "2026-09-26", "local_time": "14:00", "local_month": 9,
-        "pop": 5, "precipitation": 0.0, "access_open": True,
-    })
-    assert foliage_offseason["eligible"] is False
-    assert foliage_offseason["reason"] == "outside_curated_season"
-
-    flowers_unverified = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P04"], {
-        "local_date": "2026-09-26", "local_time": "14:00", "local_month": 9,
-        "pop": 5, "precipitation": 0.0, "access_open": True,
-    })
-    assert flowers_unverified["eligible"] is False
-    assert flowers_unverified["reason"] == "official_foreground_not_verified_for_date"
-
-    firefly_event = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P05"], {
-        "local_date": "2026-03-28", "local_time": "19:30", "local_month": 3,
-        "pop": 10, "precipitation": 0.0, "access_open": False,
-    })
-    assert firefly_event["eligible"] is True
-    assert firefly_event["access_override"] is True
-
-    stars_event = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P06"], {
-        "local_date": "2026-03-28", "local_time": "19:45", "local_month": 3,
-        "astronomical_dark": True, "pop": 5, "precipitation": 0.0, "access_open": False,
-    })
-    assert stars_event["eligible"] is True
-    assert stars_event["access_override"] is True
-
-    wildlife = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P07"], {
-        "local_date": "2026-09-26", "local_time": "09:00", "local_month": 9,
-        "pop": 10, "precipitation": 0.0, "access_open": True,
-    })
-    assert wildlife["eligible"] is True
-    assert wildlife["wildlife_presence_forecastable"] is False
-
-    distant = evaluate_minimum_sufficient_visibility(danongdafu_by_id["tw-084-P09"], {
-        "vis": 9100, "c_low": 20, "pop": 10, "precipitation": 0.0, "access_open": True,
-    })
-    assert distant["eligible"] is False
-    assert distant["reason"] == "visibility_too_low"
     # B58 local-scene registry coverage is validated semantically above.
 
     # R4.2 Navigation Target contract: every Place has explicit state, but
@@ -1491,7 +1386,7 @@ def test_adapter_integrity():
     actual_non_city_night_names = {spot["name_i18n"]["zh-TW"] for spot in non_city_night_spots}
     assert actual_non_city_night_names == {
         "金龍山", "頂石棹", "田寮月世界", "金門慈湖",
-        "鯉魚潭", "大農大富平地森林園區"
+        "鯉魚潭",
     }, actual_non_city_night_names
     night_probe = {
         "astronomy_valid": True,
@@ -1880,7 +1775,7 @@ def test_adapter_integrity():
     water_surface_profiles = [
         o for o in all_opportunities if o["formula_status"] == "needs_water_surface_module"
     ]
-    assert len(water_surface_profiles) == 25  # re-anchored CL-DATA-55: water-surface opportunities admitted through the 595-opp catalog
+    assert len(water_surface_profiles) == 9  # re-anchored CL-DATA-32: +jp-051-P01 +jp-054-P01 +jp-061-P01 (9 measured on the merged 477-opp catalog)
     assert all(runtime_policy(o) == "preview_module_available" for o in water_surface_profiles)
 
     calm = evaluate_water_surface({"wind": 1.4, "precipitation": 0.0, "pop": 15})
@@ -1929,8 +1824,6 @@ def test_adapter_integrity():
         "tw-019-P06", "tw-040-P03", "tw-041-P05", "tw-044-P03",
         # re-anchored CL-DATA-25: juhyo / drift-ice admissions
         "jp-038-P01", "jp-038-P02", "jp-041-P01", "jp-042-P01", "jp-047-P01",
-        # re-anchored CL-DATA-55: jp-068-P02 + us-134-P01 snow admissions
-        "jp-068-P02", "us-134-P01",
     }
     assert all(runtime_policy(o) == "preview_module_available" for o in snow_profiles)
 
@@ -2903,8 +2796,8 @@ def test_adapter_integrity():
 
     # B174 extends the fully curated Japan production set through jp-036.
     jp = get_spots("jp")
-    assert len(jp) == 91  # re-anchored CL-DATA-55: jp-065..jp-091 admitted
-    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 92) if i != 50)  # CL-DATA-25R: jp-050 retired
+    assert len(jp) == 64  # re-anchored CL-DATA-32: jp-051..jp-064 admitted
+    assert all(get_opportunities("jp", f"jp-{i:03d}") for i in range(1, 65) if i != 50)  # CL-DATA-25R: jp-050 retired
 
     nanzilin = next(s for s in tw if s["spot_id"] == "tw-085")
     assert nanzilin["navigation_target"]["status"] == "verified"
@@ -3716,7 +3609,10 @@ def test_adapter_integrity():
 
     us_spots = get_spots("us")
     researched_us = {s["spot_id"] for s in us_spots if s.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 159)}
+    # CL-DATA-62: us-075/us-076/us-077 retired (owner 2026-11-10) — hidden from
+    # the catalog; ids stay reserved.
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 97)
+                            if i not in (75, 76, 77)}
     assert all(not (s.get("opportunities") or []) for s in us_spots if s["spot_id"] not in researched_us)
 
     us006 = get_opportunities("us", "us-006")
@@ -4510,20 +4406,8 @@ def test_active_catalog_weather_generation_guard():
     active_tw = analyze_weather._active_spots("tw")
     assert len(active_tw) == CATALOG_MANIFEST["regions"]["tw"]["counts"]["spots"]
 
-    chaori_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-068")
-    yehliu_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-074")
-    iron_fort_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-081")
-    assert chaori_spot["access_hours_windows"] == [["05:00", "10:00"], ["16:00", "23:00"]]
-    assert fetch_data._access_open_for_spot(
-        chaori_spot, datetime(2026, 9, 24, 6, 0), True, False
-    ) is True
-    assert fetch_data._access_open_for_spot(
-        chaori_spot, datetime(2026, 9, 24, 12, 0), True, False
-    ) is False
-    assert fetch_data._access_open_for_spot(
-        chaori_spot, datetime(2026, 9, 24, 20, 0), False, False
-    ) is True
-
+    # CL-DATA-62: tw-068 綠島朝日溫泉 retired (owner 2026-11-10) — no longer in
+    # the active legacy weather generation set.
     # Seasonal access is evaluated against the Place-local datetime passed in
     # by the weather pipeline, not the user's browser/device timezone.
     seasonal_spot = {
@@ -4580,6 +4464,8 @@ def test_active_catalog_weather_generation_guard():
         raise AssertionError("overlapping seasonal access rules must fail")
     except ValueError as exc:
         assert "overlapping seasonal access" in str(exc)
+    yehliu_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-074")
+    iron_fort_spot = next(spot for spot in active_tw if spot["spot_id"] == "tw-081")
     assert yehliu_spot["access_hours"] == ["08:00", "17:00"]
     assert iron_fort_spot["access_hours"] == ["08:00", "17:00"]
     assert fetch_data._access_open_for_spot(
@@ -4618,7 +4504,7 @@ def test_active_catalog_weather_generation_guard():
     # B51 completes Japan migration: every production Japan Place is researched.
     jp_spots = get_spots("jp")
     researched_jp = {spot["spot_id"] for spot in jp_spots if spot.get("opportunities")}
-    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 92) if i != 50}  # re-anchored CL-DATA-25R/32: jp-037..jp-049, jp-051..064 admitted, jp-050 retired (v2 3.30 < 3.8)
+    assert researched_jp == {f"jp-{i:03d}" for i in range(1, 65) if i != 50}  # re-anchored CL-DATA-25R/32: jp-037..jp-049, jp-051..064 admitted, jp-050 retired (v2 3.30 < 3.8)
     assert all(spot.get("opportunities") for spot in jp_spots if active_in_catalog(spot["spot_id"]))  # retired jp-050 stays unresearched by design
     blue_pond = next(spot for spot in jp_spots if spot["spot_id"] == "jp-001")
     assert abs(blue_pond["lat"] - 43.493611) < 1e-9
@@ -4784,7 +4670,9 @@ def test_active_catalog_weather_generation_guard():
 
     us_spots = get_spots("us")
     researched_us = {spot["spot_id"] for spot in us_spots if spot.get("opportunities")}
-    assert researched_us == {f"us-{i:03d}" for i in range(1, 159)}
+    # CL-DATA-62: us-075/us-076/us-077 retired (owner 2026-11-10).
+    assert researched_us == {f"us-{i:03d}" for i in range(1, 97)
+                            if i not in (75, 76, 77)}
     assert all(
         not (spot.get("opportunities") or [])
         for spot in us_spots

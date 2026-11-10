@@ -17,9 +17,11 @@ entries = {}
 for path in sorted((ROOT / "data/v2/opportunities").glob("*.json")):
     d = json.loads(path.read_text(encoding="utf-8"))
     cc = d.get("condition_contract") or {}
-    # CL-CI-32: include every opportunity file, legacy skeletons included
-    # (contract without genre_template). Silently dropping files here is what
-    # let the shipped bundle lag the canonical tree behind merged main.
+    if not cc.get("genre_template"):
+        continue
+    if d.get("lifecycle_status") == "retired":
+        # CL-DATA-62: retired Places are hidden from the display contract surface.
+        continue
     conditions = []
     for c in cc.get("conditions", []):
         conditions.append({
@@ -36,7 +38,7 @@ for path in sorted((ROOT / "data/v2/opportunities").glob("*.json")):
         "opportunity_id": d["opportunity_id"],
         "place_id": d["place_id"],
         "revision": d.get("revision"),
-        "genre_template": cc.get("genre_template"),
+        "genre_template": cc["genre_template"],
         "contract_id": cc.get("contract_id"),
         "contract_status": cc.get("status"),
         "name_i18n": d.get("name_i18n") or {},

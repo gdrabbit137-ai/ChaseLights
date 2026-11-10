@@ -123,7 +123,7 @@ _ACCESS_GROUPS = {
     "public_attraction_notice": ("tw-038-P01", "tw-038-P02", "tw-081-P01", "jp-030-P01", "jp-034-P02", "us-010-P01", "us-027-P01", "us-029-P01", "us-047-P01", "us-059-P01", "us-059-P02"),
     "waterfall_trail_status": ("tw-055-P01",),
     "tidal_path_notice": ("tw-059-P01", "tw-078-P01"),
-    "facility_hours_notice": ("tw-068-P01", "jp-033-P02", "us-024-P02", "us-050-P02"),
+    "facility_hours_notice": ("jp-033-P02", "us-024-P02", "us-050-P02"),
     "managed_boat_operation": ("jp-036-P03",),
 }
 

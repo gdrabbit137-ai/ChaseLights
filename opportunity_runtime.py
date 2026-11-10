@@ -110,7 +110,6 @@ MINIMUM_SUFFICIENT_VISIBILITY_PROFILES = {
     "tw-074-P01", "tw-074-P02",
     # B33 Danongdafu distant valley/mountain composition: unlike the close
     # forest subjects, long-range visibility is photographically material.
-    "tw-084-P09",
     # B33 Liyu Lake broad lake/mountain landscape: distant ridge visibility is material.
     "tw-082-P02",
     # B32: official Otaru photo spot. A clean, readable daytime canal +
@@ -144,14 +143,11 @@ MINIMUM_SUFFICIENT_LOCAL_SCENE_PROFILES = {
     # Long-range visibility and low cloud are not hard blockers; rain/access
     # remain blockers. Corridor-light geometry is not yet verified, so this
     # contract only rates scene usability, not "best forest light".
-    "tw-084-P01", "tw-084-P02", "tw-084-P03", "tw-084-P04",
-    "tw-084-P05", "tw-084-P06", "tw-084-P07", "tw-084-P08",
     # B33 Liyu Lake: event/ecology/trail/activity subjects are local scenes.
     "tw-082-P04", "tw-082-P05", "tw-082-P06", "tw-082-P07", "tw-082-P08",
     "tw-082-P09", "tw-082-P10",
     # B33 Yun Shan Shui: seasonal vegetation and garden/architecture subjects
     # are close-range local scenes, not distant visibility contracts.
-    "tw-083-P02", "tw-083-P03", "tw-083-P04", "tw-083-P05",
     # B34 Liushishishan flower-field / hill compositions: close-to-mid-range
     # seasonal scenes. Sunbeam is intentionally excluded and remains a
     # dedicated pending cloud-geometry Opportunity.
@@ -219,10 +215,6 @@ HUALIEN_LOCAL_PROFILES = {
     "tw-082-P08": {"kind": "activity_presence", "score_hint": 72, "presence_unknown": True},
     "tw-082-P09": {"kind": "mist_local_scene", "score_hint": 90},
     "tw-082-P10": {"kind": "local_scene", "score_hint": 82},
-    "tw-083-P02": {"kind": "seasonal_months", "months": {10, 11, 12, 1, 2}, "score_hint": 90, "presence_unknown": True},
-    "tw-083-P03": {"kind": "seasonal_months", "months": {4}, "score_hint": 88, "presence_unknown": True},
-    "tw-083-P04": {"kind": "local_scene", "score_hint": 84},
-    "tw-083-P05": {"kind": "local_scene", "score_hint": 82},
     "tw-035-P07": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 88, "presence_unknown": True},
     "tw-035-P08": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 86, "presence_unknown": True},
     "tw-035-P10": {"kind": "seasonal_months", "months": {8, 9}, "score_hint": 84, "presence_unknown": True},
@@ -230,14 +222,6 @@ HUALIEN_LOCAL_PROFILES = {
 
 
 DANONGDAFU_LOCAL_PROFILES = {
-    "tw-084-P01": {"kind": "corridor", "score_hint": 86},
-    "tw-084-P02": {"kind": "seasonal_months", "months": {8, 9, 10}, "score_hint": 88},
-    "tw-084-P03": {"kind": "seasonal_months", "months": {12, 1}, "score_hint": 90},
-    "tw-084-P04": _bind_event_calendar("tw-084-P04", {"kind": "verified_ranges", "score_hint": 90}),
-    "tw-084-P05": _bind_event_calendar("tw-084-P05", {"kind": "verified_ranges_time", "score_hint": 92, "access_override": True}),
-    "tw-084-P06": _bind_event_calendar("tw-084-P06", {"kind": "verified_dates_time_dark", "score_hint": 90, "access_override": True}),
-    "tw-084-P07": {"kind": "wildlife", "score_hint": 74},
-    "tw-084-P08": {"kind": "local_scene", "score_hint": 84},
 }
 
 
@@ -822,7 +806,6 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "us-071-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-072-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-073-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
-    "us-075-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-078-P03": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-080-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "us-083-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
@@ -1777,7 +1760,7 @@ def evaluate_opportunity_recommendation(
 
 def validate_event_calendar():
     errors = []
-    expected_ids = {"tw-082-P04", "tw-082-P06", "tw-084-P04", "tw-084-P05", "tw-084-P06"}
+    expected_ids = {"tw-082-P04", "tw-082-P06"}
     events = EVENT_CALENDAR.get("events", {})
     if set(events) != expected_ids:
         errors.append(

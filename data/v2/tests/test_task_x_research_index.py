@@ -35,6 +35,10 @@ class ResearchIndexTests(unittest.TestCase):
         cls.provenance=x.read(x.INDEX/'field-provenance.json')
         cls.status=x.read(x.INDEX/'index-status.json')
         cls.docs={p['opportunity_id']:x.read(ROOT/p['path']) for p in cls.lock['canonical_records']}
+        # CL-DATA-62: 6 Places retired (owner 2026-11-10) — their canonical
+        # records remain byte-pinned archives in source-lock, but the generated
+        # index/provenance projection excludes them (lifecycle_status retired).
+        cls.docs={k:v for k,v in cls.docs.items() if k in cls.provenance['opportunities']}
 
     def test_pinned_w1_six_schemas_and_semantic_bundle(self):
         self.assertEqual([],x.validate(self.w1_root))
@@ -49,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((350,552),(len(actual),len(ids)))  # re-anchored CL-DATA-52 (JP intake jp-065..jp-091)
+        self.assertEqual((226,407),(len(actual),len(ids)))  # re-anchored CL-DATA-62 (6-place retirement)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -65,16 +69,7 @@ class ResearchIndexTests(unittest.TestCase):
             # re-pinned to the ruling data commit 76e926d16 (rollback pointer
             # for the original human-review contracts: 34cb70f39 and earlier).
             '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
-            # CL-INT-114 re-anchor (batches 2/3/4 chain integrated): batch1's
-            # 1abb6b0e records were re-pinned by CL-DATA-36 batch2 (21198c9c)
-            # and CL-DATA-37 batch3 (1bf8e398); the CL-UI-20 b97f7bb8,
-            # CL-DATA-15 c90f5671 and CL-INT-89 2cd38d86 holders were
-            # re-pinned by the batch chain (the 1718a575/95fcf956/008ab85f
-            # lineage SHAs remain pinned for their untouched records).
-            'a38356bd36eacbd7f81fa962e251aa21fb48a6fa',  # CL-INT-114 merged-tree regen
-            '21198c9cc91e00cdd3df8daea76aac46bf9fb45b',  # CL-DATA-36 batch2
-            '1bf8e398e20ebbc76be1157d98bd8dc188216746',  # CL-DATA-37 batch3
-            '23f1bb6c0a90964067d885c3783c99c87a902b86',  # southern-Japan jp records (CL-INT-112 merged-tree state)
+            '1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad',  # CL-DATA-35 batch1: 60 access-verified records re-pinned to the batch commit
             '3eb466432807185bc8b9271d006666b72d1fa406',
             # CL-INT-83: the 8 CL-DATA-18 AI-verified fill records
             # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
@@ -89,16 +84,11 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-UI-20 round-2: 63 high-exposure subject records re-pinned to
             # the task-branch commit carrying verified en/ja subject names
             # (tw-036-P01 / tw-082-P01 keep their review-gated round-1 pins).
+            'b97f7bb87a46db4a3e21922d7f6058b8b64a6385',
             # CL-UI-25: 22 city_night contracts re-pinned to the task-branch
             # commit adding the contract-level city_night_window condition
             # (mirrors the CL-UI-23 evaluation-layer gate semantics).
-            # CL-INT-116: the four non-batch5 holders of 6a420db5 stay;
-            # the 68 batch5 records were restored to main-side bytes
-            # (CL-DATA-39 kept, not reverted) and re-pinned to 7a77bea62.
             '6a420db5100bb184f655b4b765d29fdf3494588d',
-            # CL-INT-116 merged tree: batch5 (CL-DATA-39) records kept at the
-            # main-side regen commit — evidence_refs intact, bytes verified.
-            '7a77bea62a609a861b725288f53036e10b750ac9',
             # CL-DATA-09: tw-027-P02 re-pinned to the task-branch commit adding
             # the contract-level city_night_window condition (civil darkness
             # <= -6 deg; TIME_SPECIALIZATION §3 misplacement, owner ruling
@@ -133,6 +123,9 @@ class ResearchIndexTests(unittest.TestCase):
             # restore). CL-DATA-32 later re-pinned tw-010-P01 (008ab85ff) when
             # the golden-window upgrade gave way to sunrise_time_window MAIN.
             '69b832accfc8c0438a50e51689c4e7c40765e9f4',
+            '90838a69af97cab0aafbfb89c3e984bd0f004f9b',  # CL-DATA-35 stage 2c: jp-029-P02 https-source refinement
+            '008ab85ff19794c3aa2ffc1173afa30212aa426e',
+            '2cd38d860868d63b7a214434d74f2db6ad153506',
             'b801dd4eba545a76879828b25e869f3c45df33ac',
             # CL-DATA-15 (merged side): owner-verified elevation corrections
             # (Paiyun Lodge 3,402 m / Datun 1,092 m / Zhushan 2,451 m;
@@ -140,6 +133,7 @@ class ResearchIndexTests(unittest.TestCase):
             # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
             # remain re-pinned to the task-branch commit carrying those
             # corrections (union merge, CL-INT-81).
+            'c90f56712550ae46824e30684442bbc44855c9b5',
             # CL-DATA-20: 18 tailored contracts + 3 byte-changed records
             # (tw-059-P01/tw-078-P01 tidal genre, tw-016-P01 summit geometry)
             # pinned to the data commit.
@@ -173,51 +167,10 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-INT-103 union: tw-034-P02 re-pinned to the CL-DATA-33 light_window
             # revision commit (git-show verifiable at the merged tree HEAD).
             '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
-            # CL-INT-116 merged tree: us-091-P01 carries CL-DATA-41 WSDOT edits
-            # unioned with CL-DATA-39 batch5 evidence (new bytes exist only at
-            # the merge commit, tree-verifiable at HEAD).
-            'c7b41c7c99e6a7cf73f1e90363a1fcfbe51fbed9',
-            # CL-DATA-40: us-002-P01 daylight_window access-time condition
-            # (merged from origin/main, bytes at the CL-DATA-40 data commit).
-            'c0c6114b0bfbae0afc28b1b5c0f128d3aa41b982',
-            # CL-DATA-42: 14 US-mainland expansion admitted contracts
-            # (us-097..us-106, PM-judgment admission, GROWTH-ONLY) pinned to
-            # the stage-1 admission commit carrying the new bytes.
-            '3dcf271879ea1ffde447f88d3870a68a09ef6d68',
-            # CL-DATA-43: 12 Alaska+Hawaii expansion admitted contracts
-            # (us-107..us-118, PM-judgment admission, GROWTH-ONLY) pinned to
-            # the stage-1c admission commit carrying the new bytes.
-            'c832d9112e8ba813b65c184a2fafb17a7f5b3643',
-            # CL-DATA-50: 7 contract-fix records (jp-056/058/059 light_window;
-            # us-040/046/055/057 threshold+copy fixes) pinned to the scoped-regen
-            # commit carrying the new bytes (2026-11-09, blob+sha256 verified).
-            'd3e019433a7516773f39c764ab09fe70810dec25',
-            # CL-DATA-51 merged-tree re-anchor: the 22 TW intake records carry
-            # their authorship bytes on the task branch — tw-099-P01 to
-            # affcdf391e (stage 4), the other 20 to 0246bb4496 (stage 4b),
-            # and tw-113-P01's light-window re-run to 433d59401a (stage 6 repin;
-            # blob+sha256 verified on the merged tree).
-            'affcdf391e49a43a606d7dd7e567aedf58e02f34',
-            '0246bb4496f82b11678ec06550f51b29099c3e41',
-            '433d59401adf3727780b2af331426169bd81c40c',
-            # CL-DATA-52: the 27 JP intake records (jp-065..jp-091) carry their
-            # authorship bytes on the task branch, tree-verified at c507251b3e.
-            'c507251b3e3fb09d6a5bd16abe04a8beb2aee7ed',
-            # CL-DATA-52 repin: jp-078-P01 legacy_tide bytes tree-verified at 4d56532dd.
-            '4d56532ddf843a345f28560f8ad85a461d51dc4f',
-            # CL-DATA-53: the 40 US intake wave repinned us contracts to ef5b1042a
-            # (stage-2 legacy regen commit, tree-verified).
-            'ef5b1042a5a86ea99e3bd6a477ed79ce5f62cf4e',
-            # CL-DATA-54: the 13 contract-fix wave records repinned to e6603751b
-            # (scoped evaluations regen commit; bytes unchanged since stage-4).
-            'e6603751b8571025b9db78d405dbdd65c55476ea',
-            # CL-DATA-57: the two sunset-window promotion records repinned to
-            # 0ab54271b (contract commit; blob+sha256 verified on the task branch).
-            '0ab54271b600c0466dcca8dda2fc4a4a42c54680',
-            # CL-DATA-58: the three round11 water_surface_state/ICE1 records
-            # (us-123/us-132/us-143-P01) repinned to 8393d5b3d (contract commit;
-            # blob+sha256 verified on the merged tree).
-            '8393d5b3d4612c04b57d583a694094f77f78696c',
+            # CL-DATA-62: 6 Places retired (owner 2026-11-10) — their 13
+            # canonical records stay byte-identical archives, re-pinned to the
+            # stage-1 retirement data commit.
+            '1208f2022a42829ccbbe064629bd7fd1dde2a260',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -245,7 +198,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(1050,count)  # 350 places x 3 (re-anchored CL-DATA-54)
+        self.assertEqual(678,count)  # 226 places x 3 (re-anchored CL-DATA-62: 6-place retirement)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
@@ -314,7 +267,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(45,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
+        self.assertEqual(19,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # re-anchored CL-DATA-62 (4 retired classified links removed)
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])

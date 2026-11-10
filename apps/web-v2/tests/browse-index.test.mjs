@@ -11,25 +11,17 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and canonical sources remain source pinned (CL-DATA-53: 350 places / 552 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'56af71245c21a860433a1c9b4b65bc83125d038f8ac6733e38d6b48d294c8fc6'); // re-measured on merged main tree (350 places / 552 opportunities)
-  assert.equal(sha256(rawCatalog),'4f0ba6301b9e16e9a53fa62a9d8d98b8e380e0e202eaeae7eb569fb35e0b0cf0'); // re-measured on merged main tree (350 places / 552 opportunities)
+test('W2 index and 420 canonical sources remain source pinned (CL-DATA-32 southern-Japan discovery admission: jp-051..jp-064, PM judgment 2026-11-08)',()=>{
+  assert.equal(sha256(rawIndex),'c45fb88af5b8ceb0a614d17cabfdabee7f7bbe213a3886ee433d041b479a9d46'); // re-measured after CL-DATA-62 six-place retirement regen (owner 2026-11-10)
+  assert.equal(sha256(rawCatalog),'e30e88725786c0dce3128a32119eb26ee133fb5778bfc1f72f82c3720c852985'); // CL-INT-103: re-measured after CL-DATA-35 batch1 access-verification regen
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,552);assert.equal(source.places.length,350);
+  assert.equal(source.opportunities.length,407);assert.equal(source.places.length,226); // CL-DATA-62: 6 places / 13 opportunities retired
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
     const basename=row.opportunity_id+'.json';
     let bytes;
-    // CL-DATA-57: tw-016-P01 is a repinned canonical record — the W2 fixture
-    // keeps freezing the ORIGINAL review bytes (2af08fb9 provenance), while
-    // the canonical record evolved via the owner-rule semantic correction
-    // (sunset_window promoted REQUIRED/MAIN). Its index row must match the
-    // live canonical bytes, not the frozen fixture.
-    if(row.opportunity_id==='tw-016-P01'){
-      readPinned(basename);
-      bytes=readFileSync(new URL(`../../../data/v2/opportunities/${basename}`,import.meta.url));
-    }else if(pinnedOriginal.includes(row.opportunity_id)){
+    if(pinnedOriginal.includes(row.opportunity_id)){
       readPinned(basename);
       bytes=readFileSync(new URL(`./fixtures/worker2/${basename}`,import.meta.url));
     }else if(reviewedTaskS.includes(row.opportunity_id)){
@@ -49,11 +41,11 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,350);
+  assert.equal(browse(index,catalog,{search:'  '}).length,226); // CL-DATA-62
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
-  assert.deepEqual(both.map(x=>x.place.place_id),['us-155','tw-026','us-156','us-121','tw-006']); // re-anchored CL-DATA-53 (sunset topic OR colorful-clouds; tw-006-P02 sunset joins tw-026)
-  assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['us-155-P01']); // re-anchored CL-DATA-53 (us-155 has only P01)
-  assert.deepEqual(browse(index,catalog,{topicIds:['topic:sunset']})[0].opportunities.map(x=>x.opportunity_id),['us-155-P01']);
+  assert.deepEqual(both.map(x=>x.place.place_id),['tw-026','tw-006']); // tw-006-P02 sunset joins tw-026 (CL-DATA-20)
+  assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['tw-026-P01','tw-026-P02']);
+  assert.deepEqual(browse(index,catalog,{topicIds:['topic:sunset']})[0].opportunities.map(x=>x.opportunity_id),['tw-026-P01']);
   assert.equal(browse(index,catalog,{search:'Oishi',topicIds:['topic:sunset']}).length,0);
   assert.throws(()=>browse(index,catalog,{topicIds:['topic:invented']}),/INVALID_FILTER/);
 });

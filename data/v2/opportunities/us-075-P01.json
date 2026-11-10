@@ -2,8 +2,8 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-075-P01",
   "place_id": "us-075",
-  "revision": 4,
-  "lifecycle_status": "draft",
+  "revision": 3,
+  "lifecycle_status": "retired",
   "name_i18n": {
     "zh-TW": "Discovery Park・Puget Sound＋Olympic／Cascade Mountains 山海景",
     "en": "Discovery Park・Puget Sound＋Olympic／Cascade Mountains 山海景",
@@ -29,18 +29,16 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-39 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch5-progress.json)",
+        "derivation_method": "imported_from_v1_viewpoint_reference",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
       "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d39-access-discovery-park-seattle"
-      ],
+      "evidence_refs": [],
       "access_notes_i18n": {
-        "zh-TW": "Discovery Park（3801 Discovery Park Blvd.）是 Seattle 最大自然公園，官方開放 04:30–23:00；現階段 Visitor Center 重建中至 2027 年夏，全園照常開放但海灘層停車須许可（permit／ADA 標章以外禁止，違規拖吊），前往 West Point Lighthouse 須步行數公里。西部岬角可拍 Puget Sound＋Olympic/Cascade 山景與燈塔；步道多坡，日落到西側最理想。規定以 Seattle Parks 公告為準。",
-        "en": "Discovery Park (3801 Discovery Park Blvd.) is Seattle's largest natural park, open 4:30 a.m.–11 p.m. The Visitor Center is closed for reconstruction until Summer 2027 — the rest of the park is open as usual, but beach-level parking requires a permit (or ADA placard), with towing enforced, and the West Point Lighthouse is a multi-kilometer walk. The western headlands frame Puget Sound with Olympic/Cascade ranges and the lighthouse; trails are hilly and sunsets fall best to the west. Rules follow Seattle Parks postings.",
-        "ja": "ディスカバリー・パーク（3801 Discovery Park Blvd.）はシアトル最大の自然公園で、4時30分〜23時開放。ビジターセンターは2027年夏まで再建のため閉鎖中だが公園は通常通り開放。ただしビールレベルの駐車は許可証（またはADAバッジ）が必要で違反はレッカー移動され、West Point灯台へは数キロの徒歩。西側の岬からピュージェット湾、オリンピック/カスケード山脈と灯台を撮れる。遊歩道は起伏が多く夕日は西向き。規則はSeattle Parksの告知に従うこと。"
+        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+        "en": "Access information not yet verified; follow on-site notices and rules.",
+        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
       },
       "safety_notes_i18n": {
         "zh-TW": "請依現場安全指示行動。",
@@ -75,9 +73,7 @@
         "reason_if_absent": null
       },
       "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d39-access-discovery-park-seattle"
-      ],
+      "evidence_refs": [],
       "components": []
     }
   ],
@@ -260,11 +256,9 @@
     {
       "claim_id": "us-075-P01-claim-01",
       "claim_type": "existence",
-      "evidence_refs": [
-        "e-d39-access-discovery-park-seattle"
-      ],
+      "evidence_refs": [],
       "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-39 batch5 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://seattle.gov/parks/parks/discovery-park | https://seattle.gov/parks/parks/discovery-park/parking-and-beach-shuttles); unverifiable on-site details left to on-site notices (honest unknown)"
+      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
     }
   ],
   "readiness": {
