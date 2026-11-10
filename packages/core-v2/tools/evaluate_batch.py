@@ -319,15 +319,26 @@ def load_contracted():
         contract = doc.get("condition_contract") or {}
         if not contract.get("genre_template"):
             continue
+        if doc.get("lifecycle_status") == "retired":
+            # CL-DATA-62: retired product never evaluates.
+            continue
         opportunities.append(doc)
     return opportunities
 
 
 def load_opportunity_docs():
-    """All opportunity docs regardless of template ladder (CL-UI-41)."""
+    """All opportunity docs regardless of template ladder (CL-UI-41).
+
+    CL-DATA-62: docs whose product is retired (lifecycle_status == "retired")
+    are excluded from evaluation entirely; the bundle records them as
+    PRODUCT_RETIRED skips instead of evaluating retired Places.
+    """
     docs = []
     for path in sorted((ROOT / "data/v2/opportunities").glob("*.json")):
-        docs.append(json.loads(path.read_text(encoding="utf-8")))
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        if doc.get("lifecycle_status") == "retired":
+            continue
+        docs.append(doc)
     return docs
 
 
@@ -461,6 +472,16 @@ def main():
                             "place_id": doc["place_id"],
                             "reason": "NO_GENRE_TEMPLATE"})
             skipped_place_ids.add(doc["place_id"])
+    # CL-DATA-62: retired Places leave the evaluation product; the skip list
+    # records them honestly instead of evaluating or mislabeling them.
+    retired_place_ids = set()
+    for path in sorted((ROOT / "data/v2/opportunities").glob("*.json")):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        if doc.get("lifecycle_status") == "retired":
+            retired_place_ids.add(doc["place_id"])
+    for pid in sorted(retired_place_ids - evaluated_place_ids - skipped_place_ids):
+        skipped.append({"place_id": pid, "reason": "PRODUCT_RETIRED"})
+        skipped_place_ids.add(pid)
     for pid in sorted(v1_ids - evaluated_place_ids - skipped_place_ids):
         skipped.append({"place_id": pid, "reason": "NO_OPPORTUNITY_CONTRACT"})
 

@@ -56,6 +56,10 @@ def main():
     docs = {}
     for pin_path in sorted((ROOT / "data/v2/opportunities").glob("*.json")):
         doc = read(pin_path)
+        if doc.get("lifecycle_status") == "retired":
+            # CL-DATA-62: retired Places stay pinned on disk (ids reserved) but
+            # are hidden from the shipped web catalog / browse index.
+            continue
         docs[doc["opportunity_id"]] = doc
     if set(docs) != set(bindings):
         raise ValueError("canonical/opportunity binding set mismatch")

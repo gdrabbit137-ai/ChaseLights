@@ -19,6 +19,9 @@ for path in sorted((ROOT / "data/v2/opportunities").glob("*.json")):
     cc = d.get("condition_contract") or {}
     if not cc.get("genre_template"):
         continue
+    if d.get("lifecycle_status") == "retired":
+        # CL-DATA-62: retired Places are hidden from the display contract surface.
+        continue
     conditions = []
     for c in cc.get("conditions", []):
         conditions.append({

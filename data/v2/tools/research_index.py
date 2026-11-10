@@ -117,8 +117,15 @@ def assemble(w1_root, lock=None, curation=None):
     sources = verify_sources(lock)
     pins = {p['opportunity_id']: p for p in lock['canonical_records']}
     docs = {oid: read(ROOT / pin['path']) for oid, pin in pins.items()}
+    # CL-DATA-62: products retired by owner ruling (lifecycle_status == "retired")
+    # keep their pinned canonical docs on disk (ids reserved) but are projected
+    # out of every research-index surface.
+    retired_oids = sorted(oid for oid, d in docs.items()
+                          if d.get('lifecycle_status') == 'retired')
+    docs = {oid: d for oid, d in docs.items() if oid not in retired_oids}
     place_ids = sorted({d['place_id'] for d in docs.values()})
-    if set(curation['names']) != set(place_ids) or set(curation['classifications']) != set(docs):
+    if set(curation['names']) != set(place_ids) or \
+            set(curation['classifications']) - set(retired_oids) != set(docs):
         raise ValueError('Curation must exactly cover Canonical Places/Opportunities')
     provenance = dict(format_version='0.1.0',name_method=curation['name_method'],
                       human_review='PENDING',names={},opportunities={},topic_definitions={})

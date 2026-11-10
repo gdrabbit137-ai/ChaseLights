@@ -57,6 +57,15 @@ PRODUCT_STATUS_BY_SPOT = {
     "tw-092": "retired",   # 北關海潮公園 (v2 3.60)
     "tw-096": "retired",   # 半天寮好望角 (v2 3.70)
     "tw-097": "retired",   # 擎天崗草原 (v2 3.20)
+    # CL-DATA-62 (owner 裁決 2026-11-10 適拍性審計，依 CL-DATA-61 審計名單)：
+    # 適拍性不足退役；ids 保留（positional spot_id 穩定），regions.py tuple 不動，
+    # 各 catalog/runtime surface 隱藏。
+    "tw-068": "retired",   # 綠島朝日溫泉 (retire-onsen)
+    "tw-083": "retired",   # 雲山水 (retire-small)
+    "tw-084": "retired",   # 大農大富平地森林園區 (retire-small)
+    "us-075": "retired",   # 探索公園 Discovery Park (retire-small)
+    "us-076": "retired",   # 漢密爾頓 Hamilton (retire-small)
+    "us-077": "retired",   # 黎剎 Rizal Park (retire-small)
 }
 
 
