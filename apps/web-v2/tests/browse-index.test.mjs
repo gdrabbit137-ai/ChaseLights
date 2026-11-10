@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and canonical sources remain source pinned (CL-DATA-65: 350 places / 553 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'d7fe3af1027d106e0dbb69cb4e1df2921c980c1b62f795b9656da010e067db6f'); // re-measured CL-DATA-65 (350 places / 553 opportunities)
-  assert.equal(sha256(rawCatalog),'7c63f84372df9ee3065f4ac6af8b78c657f663caba930b05f608072f597b3d71'); // re-measured CL-DATA-65 (350 places / 553 opportunities)
+test('W2 index and canonical sources remain source pinned (CL-INT-135 step2: 357 places / 553 opportunities)',()=>{
+  assert.equal(sha256(rawIndex),'a1e4d4d4b6c896c6c003ae2b5c584010baae2561ba47703cb7e070e6c055ab18'); // re-measured CL-INT-135 step2 (357 places / 553 opportunities)
+  assert.equal(sha256(rawCatalog),'58f0db03f41e170913f34a8241b03c773420c5c2e7dbb99645a9f576259478d6'); // re-measured CL-INT-135 step2 (357 places / 553 opportunities)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,553);assert.equal(source.places.length,350);
+  assert.equal(source.opportunities.length,553);assert.equal(source.places.length,357);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
@@ -49,10 +49,10 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,350);
+  assert.equal(browse(index,catalog,{search:'  '}).length,357);
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
-  assert.deepEqual(both.map(x=>x.place.place_id),['us-155','tw-026','us-156','us-121','tw-006']); // re-anchored CL-DATA-53 (sunset topic OR colorful-clouds; tw-006-P02 sunset joins tw-026)
-  assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['us-155-P01']); // re-anchored CL-DATA-53 (us-155 has only P01)
+  assert.deepEqual(both.map(x=>x.place.place_id),['us-155','tw-026','us-156','us-121','tw-006']); // re-anchored CL-INT-135 step2 (357 places) (sunset topic OR colorful-clouds; tw-006-P02 sunset joins tw-026)
+  assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['us-155-P01']); // re-anchored CL-INT-135 step2 (357 places) (us-155 has only P01)
   assert.deepEqual(browse(index,catalog,{topicIds:['topic:sunset']})[0].opportunities.map(x=>x.opportunity_id),['us-155-P01']);
   assert.equal(browse(index,catalog,{search:'Oishi',topicIds:['topic:sunset']}).length,0);
   assert.throws(()=>browse(index,catalog,{topicIds:['topic:invented']}),/INVALID_FILTER/);

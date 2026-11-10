@@ -37,9 +37,9 @@ class MigrationSkeletonTests(unittest.TestCase):
         # (CL-DATA-25 batch admitted 25 places, 25R retired the 5 v2-rejected
         # builds and admitted tw-098); the first-pass inventory is the R0-era
         # snapshot and stays pinned at 217 covered places / 28 evolved docs.
-        self.assertEqual((363, 595), (len(spots), opps))  # re-anchored CL-DATA-53
+        self.assertEqual((370, 587), (len(spots), opps))  # CL-INT-135 merged re-anchor: main 357/574 + 13 CL-DATA-64 spots/opps (retired 6 excluded)
         canonical = sorted((ROOT / "data/v2/opportunities").glob("*.json"))
-        self.assertEqual(553, len(canonical))  # re-anchored CL-DATA-65 (jp-030-P99 general mount)
+        self.assertEqual(566, len(canonical))  # CL-INT-135 step2 re-anchor: 565 + jp-030-P99 general mount (retired archives retained)
         self.assertEqual(len(admitted), 28)
         # R0 inventory is a frozen snapshot (live catalog grew with CL-DATA-25/25R admissions)
         self.assertEqual(self.inventory["first_pass"]["places_first_pass_covered"], 217)
@@ -87,6 +87,8 @@ class MigrationSkeletonTests(unittest.TestCase):
         opps = {o["opportunity_id"]: o for s in self.catalog["spots"] for o in s["opportunities"]}
         for path in SKELETONS.glob("*.json"):
             doc = json.loads(path.read_text(encoding="utf-8"))
+            if doc["opportunity_id"] in {"tw-068-P01", "tw-083-P01", "tw-083-P02", "tw-083-P03", "tw-084-P01", "tw-084-P03", "tw-084-P04", "us-075-P01", "us-075-P02", "us-076-P01", "us-076-P02", "us-077-P01", "us-077-P02"}:
+                continue  # CL-DATA-62: retired Places have no runtime V1 entry
             v1 = opps[doc["opportunity_id"]]
             with self.subTest(file=path.name):
                 self.assertEqual(f"legacy_{v1['legacy_theme']}",
