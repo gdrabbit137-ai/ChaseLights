@@ -1,4 +1,4 @@
-$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\tmp\clci33-wt\ops\v2\run_unittest.py specs/v2/tests test_weather_source_contract.py D:\tmp\clci33-wt\.ci\postmerge-logs\w1-weather-source-contract.json
+$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\tmp\ci33-merge\ops\v2\run_unittest.py specs/v2/tests test_weather_source_contract.py D:\tmp\ci33-merge\.ci\postmerge-logs\w1-weather-source-contract.json
 test_fabricated_forecast_issued_time_model_run_and_favorable_rejected (test_weather_source_contract.WeatherSourceContract.test_fabricated_forecast_issued_time_model_run_and_favorable_rejected) ... ok
 test_invalid_time_unit_raw_source_or_boolean_rejected (test_weather_source_contract.WeatherSourceContract.test_invalid_time_unit_raw_source_or_boolean_rejected) ... ok
 test_missing_or_invented_camera_grid_location_rejected (test_weather_source_contract.WeatherSourceContract.test_missing_or_invented_camera_grid_location_rejected) ... ok
@@ -6,7 +6,7 @@ test_source_url_hash_and_locale_fail_closed (test_weather_source_contract.Weathe
 test_valid_raw_record_with_frozen_no_score_and_locale_contract (test_weather_source_contract.WeatherSourceContract.test_valid_raw_record_with_frozen_no_score_and_locale_contract) ... ok
 
 ----------------------------------------------------------------------
-Ran 5 tests in 0.050s
+Ran 5 tests in 0.012s
 
 OK
 {"tests": 5, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 5}
