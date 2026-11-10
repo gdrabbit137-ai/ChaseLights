@@ -133,6 +133,29 @@ function randomId() {
     .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
+// ---------------------------------------------------------------------------
+// CL-API-02C: OAuth state storage on D1 (was KV auth:state:* — KV free-tier
+// daily put() cap was exhausted by manual re-seeds and 500ed /auth/*/start).
+// KV stays evaluation-data only. Cleanup is opportunistic: every read also
+// deletes rows older than 15 minutes (state TTL is 10 minutes).
+// ---------------------------------------------------------------------------
+async function putAuthState(env, state, obj) {
+  await env.DB.prepare("INSERT INTO auth_states (state, payload) VALUES (?1, ?2)")
+    .bind(state, JSON.stringify(obj)).run();
+}
+
+async function takeAuthState(env, state) {
+  const cleanup = env.DB.prepare("DELETE FROM auth_states WHERE created_at < datetime('now', '-15 minutes')").bind().run();
+  const row = await env.DB.prepare("SELECT payload FROM auth_states WHERE state = ?1").bind(state).first();
+  await env.DB.prepare("DELETE FROM auth_states WHERE state = ?1").bind(state).run(); // single-use
+  await cleanup;
+  if (!row || !row.payload) return null;
+  let st = null;
+  try { st = JSON.parse(row.payload); } catch { return null; }
+  if (typeof st.exp === "number" && Date.now() > st.exp) return null;
+  return st;
+}
+
 async function handleOAuthStart(req, env, provider, url) {
   const creds = providerCredentials(env, provider);
   if (!creds) return json(req, 404, { error: "unknown provider" });
@@ -144,7 +167,7 @@ async function handleOAuthStart(req, env, provider, url) {
   const redirectUri = `${base}/auth/${provider}/callback`;
   const state = randomId();
   const merge = url.searchParams.get("merge") || null;
-  await env.EVALS.put(`auth:state:${state}`, JSON.stringify({ provider, redirectUri, merge, exp: Date.now() + 600_000 }), { expirationTtl: 600 });
+  await putAuthState(env, state, { provider, redirectUri, merge, exp: Date.now() + 600_000 });
   const q = new URLSearchParams({
     response_type: "code", client_id: creds.id, redirect_uri: redirectUri,
     state, scope: creds.provider.scope,
@@ -160,10 +183,9 @@ async function handleOAuthCallback(req, env, provider, url) {
   const state = url.searchParams.get("state");
   if (!code || !state) return json(req, 400, { error: "code and state required" });
 
-  const stateJson = await env.EVALS.get(`auth:state:${state}`);
-  await env.EVALS.delete(`auth:state:${state}`); // single-use (CSRF)
-  if (!stateJson) return json(req, 400, { error: "invalid or expired state" });
-  const st = JSON.parse(stateJson);
+  // single-use (CSRF): read then delete immediately — a replayed state misses.
+  const st = await takeAuthState(env, state);
+  if (!st) return json(req, 400, { error: "invalid or expired state" });
   if (st.provider !== provider) return json(req, 400, { error: "state provider mismatch" });
 
   const tokenRes = await fetch(creds.provider.tokenUrl, {
