@@ -214,6 +214,10 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-57: the two sunset-window promotion records repinned to
             # 0ab54271b (contract commit; blob+sha256 verified on the task branch).
             '0ab54271b600c0466dcca8dda2fc4a4a42c54680',
+            # CL-DATA-58: the three round11 water_surface_state/ICE1 records
+            # (us-123/us-132/us-143-P01) repinned to 8393d5b3d (contract commit;
+            # blob+sha256 verified on the merged tree).
+            '8393d5b3d4612c04b57d583a694094f77f78696c',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
