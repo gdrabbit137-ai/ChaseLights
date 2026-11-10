@@ -12,8 +12,9 @@ Honesty contract (owner-ratified evaluation semantics):
   thresholds are calibrated against real shoot outcomes.
 - REQUIRED-tier condition FAIL at an hour -> UNFAVORABLE for that hour.
   Any REQUIRED UNKNOWN -> NOT_EVALUABLE. Otherwise GUIDANCE_SATISFIED.
-- Known-honest gaps stay UNKNOWN: water_surface_state and seasonal_state have
-  no live observation source (propagate_unknown); landform_present is the
+- Known-honest gaps stay UNKNOWN: water_surface_state, seasonal_state and
+  river_flow_state have no live observation source (propagate_unknown);
+  landform_present is the
   owner-declared static presence (deterministic PASS).
 - Provider provenance (URL, SHA256, retrieval time, grid point) is carried for
   every place; freshness is bounded by the pilot policy (6h -> STALE).
@@ -105,13 +106,26 @@ def eval_conditions_for(contract):
         return conditions
     return conditions + [GATE_CONDITION]
 DECLARED_PASS_METRICS = {"landform_present"}
-NO_SOURCE_METRICS = {"water_surface_state", "seasonal_state"}
+NO_SOURCE_METRICS = {"water_surface_state", "seasonal_state",
+                     # CL-DATA-66: dam-regulated flows (Shoshone Falls, Milner
+                     # Dam) cannot be judged from local precipitation; no live
+                     # gauge source yet, so river_flow_state stays honestly
+                     # UNKNOWN (challenger round12 us-154-P01).
+                     "river_flow_state"}
 # Display-only local clocks (approximate; Place index time_zone is UNKNOWN).
 # CL-UI-24: offset = local time − UTC, so western (negative-longitude) zones
 # are NEGATIVE (America/Los_Angeles −8, Denver −7, New_York −5, Anchorage −9).
 # These are standard-time (display approximation) values; DST is out of scope.
 TZ_DISPLAY = [
     ((54, 72, -170, -130), "America/Anchorage", -9),
+    # CL-DATA-66: the LA box swallowed southern/central Idaho - Alice Lake
+    # (us-152, Sawtooth) and Shoshone Falls (us-154, Twin Falls) rendered in
+    # Pacific time while both sit in Mountain Time (America/Boise, UTC-7
+    # standard). Challenger round12 us-152-P01/us-154-P01. Box covers the
+    # Snake River plain (lat > 42 keeps Nevada out; east edge -111.0 is the
+    # Idaho/Wyoming line; lat < 45.3 keeps the Pacific-time panhandle north
+    # of the Salmon River divide out).
+    ((42.0, 45.3, -117.3, -111.0), "America/Boise", -7),
     ((32, 55, -130, -114), "America/Los_Angeles", -8),
     ((30, 49, -114, -96), "America/Denver", -7),
     # CL-CI-33: the Denver box required lat>=30, which left a gap covering

@@ -2,7 +2,7 @@
  "schema_version": "2.1.0",
  "opportunity_id": "us-154-P01",
  "place_id": "us-154",
- "revision": 1,
+ "revision": 2,
  "lifecycle_status": "draft",
  "name_i18n": {
   "zh-TW": "肖肖尼瀑布春汛",
@@ -24,12 +24,12 @@
     "geojson": {
      "type": "Point",
      "coordinates": [
-      -114.4214,
-      42.7547
+      -114.391,
+      42.755
      ]
     },
     "uncertainty_m": null,
-    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (City of Twin Falls / Wikipedia Shoshone Falls（212 呎高、900 呎寬；42°45′N 114°25′W 帶）; source URLs: https://www.twinfallsidaho.org/ ; https://en.wikipedia.org/wiki/Shoshone_Falls).",
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (City of Twin Falls / Wikipedia Shoshone Falls（212 呎高、900 呎寬；42°45′N 114°25′W 帶）; source URLs: https://www.twinfallsidaho.org/ ; https://en.wikipedia.org/wiki/Shoshone_Falls). 2026-11-11 CL-DATA-66: coordinates corrected to 42.755/-114.391 (challenger round12 us-154-P01: ~2.5 km west offset vs BLM/Wikipedia site position 42.755/-114.391).",
     "source_geometry_revision": null,
     "reason_if_absent": null
    },
@@ -63,12 +63,12 @@
     "geojson": {
      "type": "Point",
      "coordinates": [
-      -114.4214,
-      42.7547
+      -114.391,
+      42.755
      ]
     },
     "uncertainty_m": null,
-    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (City of Twin Falls / Wikipedia Shoshone Falls（212 呎高、900 呎寬；42°45′N 114°25′W 帶）; source URLs: https://www.twinfallsidaho.org/ ; https://en.wikipedia.org/wiki/Shoshone_Falls).",
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (City of Twin Falls / Wikipedia Shoshone Falls（212 呎高、900 呎寬；42°45′N 114°25′W 帶）; source URLs: https://www.twinfallsidaho.org/ ; https://en.wikipedia.org/wiki/Shoshone_Falls). 2026-11-11 CL-DATA-66: coordinates corrected to 42.755/-114.391 (challenger round12 us-154-P01: ~2.5 km west offset vs BLM/Wikipedia site position 42.755/-114.391).",
     "source_geometry_revision": null,
     "reason_if_absent": null
    },
@@ -97,8 +97,8 @@
    "id": "NAV-us-154-P01-01",
    "status": "needs_review",
    "target_type": "other",
-   "lat": 42.7547,
-   "lon": -114.4214,
+   "lat": 42.755,
+   "lon": -114.391,
    "label_i18n": {
     "zh-TW": "Shoshone Falls",
     "en": "Shoshone Falls (Niagara of the West)",
@@ -129,15 +129,15 @@
     "claim_refs": [
      "us-154-P01-claim-01"
     ],
-    "model_binding": "dataset:gfs_0p25|field:precipitation_mm_72h|role:MID",
+    "model_binding": null,
     "validation_status": "provisional",
     "condition_tier": "MAIN",
     "threshold_source": "formula_derived",
     "calibration_status": "provisional",
     "rationale_i18n": {
-     "zh-TW": "水量狀態＝過去 72h 累積雨量映射（provisional：<5mm low、5–40mm mid、>40mm high）。mid/high 為水量可拍窗；過多（>40mm）僅作注意提示而非排除。",
-     "en": "Flow state = trailing 72h accumulated precipitation mapped (provisional: <5mm low, 5-40mm mid, >40mm high). mid/high are the shootable window; very high is a caution note, not an exclusion.",
-     "ja": "水量状態＝直前72h累積雨量の暫定マッピング（<5mm低、5–40mm中、>40mm高）。中/高が撮影可窓。高は注意表示のみで排除しない。"
+     "zh-TW": "瀑布水量由上游落磯山融雪與 Milner Dam（上游 24 mi）灌溉分流、水電取水決定，夏季近乎分流殆盡、秋季近枯——拍攝點當地 72h 累積雨量與瀑布流量物理脫鉤，量不到要判定的量。無即時觀測源，誠實回報 UNKNOWN（propagate_unknown），待引入上游流量計/USGS 測站後重建判據。2026-11-11 CL-DATA-66 修正（挑戰者 round12 us-154-P01：原 72h 當地雨量映射為物理錯向，已移除錯誤 model_binding）。",
+     "en": "The falls' flow is set by Rockies snowmelt upstream plus the Milner Dam (24 mi upstream) irrigation diversion and hydro withdrawals - summer flows are largely diverted, fall runs nearly dry. Local 72h precipitation at the shooting point is physically decoupled from the falls' flow: it cannot measure the quantity it claims to judge. No live observation source, so this honestly reports UNKNOWN (propagate_unknown) until an upstream gauge/USGS station feeds a rebuilt criterion. 2026-11-11 CL-DATA-66 fix (challenger round12 us-154-P01: the original local-rain mapping was physically misdirected; the wrong model_binding is removed).",
+     "ja": "滝の水量は上流のロッキー山脈の融雪と Milner Dam（上流24マイル）の灌漑取水・水力発電の取水で決まり、夏は大半が取水され秋にはほぼ涸れる。撮影地点の直前72時間雨量と滝の流量は物理的に無関係で、判定対象量を測れない。ライブ観測源がないため誠実に UNKNOWN を返し（propagate_unknown）、上流の流量計/USGS 観測所を導入した際に判準を再構築する。2026-11-11 CL-DATA-66 修正（チャレンジャー round12 us-154-P01）。"
     }
    },
    {

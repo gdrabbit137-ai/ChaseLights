@@ -2,7 +2,7 @@
  "schema_version": "2.1.0",
  "opportunity_id": "us-150-P01",
  "place_id": "us-150",
- "revision": 1,
+ "revision": 2,
  "lifecycle_status": "draft",
  "name_i18n": {
   "zh-TW": "特羅納石灰華石塔",
@@ -10,8 +10,8 @@
   "ja": "トロナの石灰華塔"
  },
  "description_i18n": {
-  "zh-TW": "古代希爾斯湖床上升起 500+ 石灰華塔（BLM；土路最後 3.5 英里——access 資訊性）；與既有 us-100 莫諾湖（石灰華成於水畔）題材同源但形態（塔群旱地）不同——本點為旱地石塔群。",
-  "en": "More than 500 tufa towers rising from a dry Pleistocene lakebed (BLM; a 3.5-mile dirt road - access informational); kin to Mono Lake tufa but dry-land towers, a different form.",
+  "zh-TW": "古代希爾斯湖床上升起 500+ 石灰華塔（BLM；土路最後 5.0 英里——access 資訊性）；與既有 us-100 莫諾湖（石灰華成於水畔）題材同源但形態（塔群旱地）不同——本點為旱地石塔群。",
+  "en": "More than 500 tufa towers rising from a dry Pleistocene lakebed (BLM; a 5.0-mile dirt road - access informational); kin to Mono Lake tufa but dry-land towers, a different form.",
   "ja": "更新世湖床に立つ500超の石灰華塔（BLM）。モノ湖のものは水畔、こちらは乾地の塔群。"
  },
  "camera_contexts": [
@@ -24,20 +24,20 @@
     "geojson": {
      "type": "Point",
      "coordinates": [
-      -117.3453,
-      35.6611
+      -117.37,
+      35.617
      ]
     },
     "uncertainty_m": null,
-    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (BLM Trona Pinnacles（tufa spires，National Natural Landmark；座標 medium（石塔群對位））; source URLs: https://www.blm.gov/ ; https://en.wikipedia.org/wiki/Trona_Pinnacles).",
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (BLM Trona Pinnacles（tufa spires，National Natural Landmark；座標 medium（石塔群對位））; source URLs: https://www.blm.gov/ ; https://en.wikipedia.org/wiki/Trona_Pinnacles). 2026-11-11 CL-DATA-66: coordinates corrected to 35.617/-117.370 (challenger round12 us-150-P01: ~4.9 km offset vs BLM/Wikipedia main area 35.617/-117.370).",
     "source_geometry_revision": null,
     "reason_if_absent": null
    },
    "verification_status": "provisional",
    "evidence_refs": [],
    "access_notes_i18n": {
-    "zh-TW": "古代希爾斯湖床上升起 500+ 石灰華塔（BLM；土路最後 3.5 英里——access 資訊性）；與既有 us-100 莫諾湖（石灰華成於水畔）題材同源但形態（塔群旱地）不同——本點為旱地石塔群。（開放/營運狀態以現場公告為準。）",
-    "en": "More than 500 tufa towers rising from a dry Pleistocene lakebed (BLM; a 3.5-mile dirt road - access informational); kin to Mono Lake tufa but dry-land towers, a different form. (Opening/operating status follows on-site notices.)",
+    "zh-TW": "古代希爾斯湖床上升起 500+ 石灰華塔（BLM；土路最後 5.0 英里——access 資訊性）；與既有 us-100 莫諾湖（石灰華成於水畔）題材同源但形態（塔群旱地）不同——本點為旱地石塔群。（開放/營運狀態以現場公告為準。）",
+    "en": "More than 500 tufa towers rising from a dry Pleistocene lakebed (BLM; a 5.0-mile dirt road - access informational); kin to Mono Lake tufa but dry-land towers, a different form. (Opening/operating status follows on-site notices.)",
     "ja": "更新世湖床に立つ500超の石灰華塔（BLM）。モノ湖のものは水畔、こちらは乾地の塔群。（開放・営業状況は現地の案内に従う。）"
    },
    "safety_notes_i18n": {
@@ -63,12 +63,12 @@
     "geojson": {
      "type": "Point",
      "coordinates": [
-      -117.3453,
-      35.6611
+      -117.37,
+      35.617
      ]
     },
     "uncertainty_m": null,
-    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (BLM Trona Pinnacles（tufa spires，National Natural Landmark；座標 medium（石塔群對位））; source URLs: https://www.blm.gov/ ; https://en.wikipedia.org/wiki/Trona_Pinnacles).",
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (BLM Trona Pinnacles（tufa spires，National Natural Landmark；座標 medium（石塔群對位））; source URLs: https://www.blm.gov/ ; https://en.wikipedia.org/wiki/Trona_Pinnacles). 2026-11-11 CL-DATA-66: coordinates corrected to 35.617/-117.370 (challenger round12 us-150-P01: ~4.9 km offset vs BLM/Wikipedia main area 35.617/-117.370).",
     "source_geometry_revision": null,
     "reason_if_absent": null
    },
@@ -97,8 +97,8 @@
    "id": "NAV-us-150-P01-01",
    "status": "needs_review",
    "target_type": "other",
-   "lat": 35.6611,
-   "lon": -117.3453,
+   "lat": 35.617,
+   "lon": -117.37,
    "label_i18n": {
     "zh-TW": "Trona Pinnacles",
     "en": "Trona Pinnacles",
