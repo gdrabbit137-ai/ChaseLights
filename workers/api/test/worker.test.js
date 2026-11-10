@@ -61,7 +61,7 @@ test("evaluations: 404 for unknown place, record when present", async () => {
 test("favorites: GET requires userId, POST add idempotent, remove deletes", async () => {
   const { env, sqlLog } = makeEnv();
   const noUser = await worker.fetch(makeReq("/favorites"), env, {});
-  assert.equal(noUser.status, 400);
+  assert.equal(noUser.status, 401); // CL-API-02: anonymous GET without credentials is now 401
 
   const add = await worker.fetch(makeReq("/favorites", { method: "POST", body: JSON.stringify({ userId: "dev1", placeId: "tw-001" }) }), env, {});
   assert.equal((await add.json()).ok, true);
