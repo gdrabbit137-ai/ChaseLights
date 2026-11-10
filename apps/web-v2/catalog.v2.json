@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "8d6dc979994078a74d1a7ced74c41d9d97c419e0",
-  "source_index_revision": "sha256:65d7e4bc6cf0b0a2b189a1fac8e0bc5581799317403ae72cecc92885a0dd790c",
+  "source_index_commit_sha": "d0f3e280b71828a70c4762bab6f5eaab3b9b5680",
+  "source_index_revision": "sha256:6c16966aa7c00be8e51ae2b5df5afa2545ed1e8dff4b2b64cf9e7943b309ab91",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
@@ -3097,9 +3097,9 @@
       "revision": 1
     },
     "us-123-P01": {
-      "source_commit_sha": "ef5b1042a5a86ea99e3bd6a477ed79ce5f62cf4e",
+      "source_commit_sha": "8393d5b3d4612c04b57d583a694094f77f78696c",
       "source_path": "data/v2/opportunities/us-123-P01.json",
-      "source_blob_sha": "5ea279edb5819df67533b630777493ba3d71ae6e",
+      "source_blob_sha": "e12da6af94499eff2f7719f7878dfcf7699bcf7b",
       "revision": 1
     },
     "us-124-P01": {
@@ -3151,9 +3151,9 @@
       "revision": 1
     },
     "us-132-P01": {
-      "source_commit_sha": "ef5b1042a5a86ea99e3bd6a477ed79ce5f62cf4e",
+      "source_commit_sha": "8393d5b3d4612c04b57d583a694094f77f78696c",
       "source_path": "data/v2/opportunities/us-132-P01.json",
-      "source_blob_sha": "9bbd17c7e4f72b3d781afd72427b6f295355d5db",
+      "source_blob_sha": "dbb6b104efcc1e1d8dc511c05c990aa674f691a1",
       "revision": 1
     },
     "us-133-P01": {
@@ -3217,9 +3217,9 @@
       "revision": 1
     },
     "us-143-P01": {
-      "source_commit_sha": "ef5b1042a5a86ea99e3bd6a477ed79ce5f62cf4e",
+      "source_commit_sha": "8393d5b3d4612c04b57d583a694094f77f78696c",
       "source_path": "data/v2/opportunities/us-143-P01.json",
-      "source_blob_sha": "dd992b154684be98e95ad7d7bb56ebf12f55ff01",
+      "source_blob_sha": "9fec4a5f4541159a2bd4a9b9b2cae5a5105d211b",
       "revision": 1
     },
     "us-144-P01": {
@@ -164092,7 +164092,7 @@
           },
           {
             "id": "C-us-123-P01-02",
-            "role": "REQUIRED",
+            "role": "QUALITY",
             "domain": "HYDROLOGY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
@@ -164106,13 +164106,38 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "MAIN",
+            "condition_tier": "MODIFIER",
             "threshold_source": "evidence_review",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "水面存續（不結冰、未乾涸）：季節性水體的存續由警語/公告層維護，屬純提示、不否決；缺公告時誠實 propagate unknown。",
-              "en": "Water presence (not frozen, not dried): seasonal-water existence is maintained in the advisory layer - pure notice, never a veto; propagates unknown when no advisory exists.",
-              "ja": "水面の存続（凍結・干上がりなし）。季節性水域の存続は警報層で管理。純粋な注意表示で否決しない。情報なければunknownを伝播。"
+              "zh-TW": "水面存續註記（不結冰、未乾涸）：無即時觀測源，僅作誠實提示、永不否決（CL-DATA-58 由 REQUIRED 降為不阻擋的 QUALITY 註記；結冰風險改由 ICE1 氣溫條件誠實評估）。",
+              "en": "Water-presence notice (not frozen, not dried): no live observation source - advisory only, never a veto (CL-DATA-58 demoted from REQUIRED to a non-gating QUALITY notice; freezing risk is now honestly evaluated by the ICE1 temperature condition).",
+              "ja": "水面存続の注記（凍結・干上がりなし）：即時観測源がなく、忠実な注意表示のみで否決しない（CL-DATA-58 で REQUIRED から非ゲートの QUALITY 注記へ。凍結リスクは ICE1 気温条件で誠実に評価）。"
+            }
+          },
+          {
+            "id": "C-us-123-P01-ICE1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "temperature_2m",
+            "operator": "gte",
+            "threshold": 0,
+            "unit": "°C",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-123-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:temperature_2m|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "冰點代理條件：氣溫 ≥0 °C 時湖面不會新生成冰（結冰風險誠實可評）。0 °C 為水的冰點（物理常數，formula_derived）；各湖氣候差異（Maroon Lake 2,884 m 凍季長、Tahoe 1,897 m 極少全湖封凍、Trillium Lake 1,158 m 冬季全面封凍）由預報溫度本身表達，不設人為月份窗，全年適用、不偽造資料。",
+              "en": "Freezing-point proxy: with air temperature >= 0 degC no new ice can form on the lake (honestly evaluable ice risk). 0 degC is the freezing point of water (physical constant, formula_derived); each lake's climate difference (Maroon Lake 2,884 m long freeze season, Tahoe 1,897 m rarely freezes over, Trillium Lake 1,158 m fully freezes in winter) is expressed by the forecast temperature itself - no artificial month window, valid year-round, never fabricated.",
+              "ja": "氷点プロキシ条件：気温が0°C以上なら湖面に新たな氷は生じない（凍結リスクを誠実に評価可能）。0°Cは水の氷点（物理定数、formula_derived）。各湖の気候差（Maroon Lake 2,884 m は凍結期が長い、Tahoe 1,897 m は全結氷は稀、Trillium Lake 1,158 m は冬に全面結氷）は予報気温そのものが表現し、人為的な月窓は設けず通年適用。"
             }
           },
           {
@@ -166626,7 +166651,7 @@
           },
           {
             "id": "C-us-132-P01-02",
-            "role": "REQUIRED",
+            "role": "QUALITY",
             "domain": "HYDROLOGY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
@@ -166640,13 +166665,38 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "MAIN",
+            "condition_tier": "MODIFIER",
             "threshold_source": "evidence_review",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "水面存續（不結冰、未乾涸）：季節性水體的存續由警語/公告層維護，屬純提示、不否決；缺公告時誠實 propagate unknown。",
-              "en": "Water presence (not frozen, not dried): seasonal-water existence is maintained in the advisory layer - pure notice, never a veto; propagates unknown when no advisory exists.",
-              "ja": "水面の存続（凍結・干上がりなし）。季節性水域の存続は警報層で管理。純粋な注意表示で否決しない。情報なければunknownを伝播。"
+              "zh-TW": "水面存續註記（不結冰、未乾涸）：無即時觀測源，僅作誠實提示、永不否決（CL-DATA-58 由 REQUIRED 降為不阻擋的 QUALITY 註記；結冰風險改由 ICE1 氣溫條件誠實評估）。",
+              "en": "Water-presence notice (not frozen, not dried): no live observation source - advisory only, never a veto (CL-DATA-58 demoted from REQUIRED to a non-gating QUALITY notice; freezing risk is now honestly evaluated by the ICE1 temperature condition).",
+              "ja": "水面存続の注記（凍結・干上がりなし）：即時観測源がなく、忠実な注意表示のみで否決しない（CL-DATA-58 で REQUIRED から非ゲートの QUALITY 注記へ。凍結リスクは ICE1 気温条件で誠実に評価）。"
+            }
+          },
+          {
+            "id": "C-us-132-P01-ICE1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "temperature_2m",
+            "operator": "gte",
+            "threshold": 0,
+            "unit": "°C",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-132-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:temperature_2m|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "冰點代理條件：氣溫 ≥0 °C 時湖面不會新生成冰（結冰風險誠實可評）。0 °C 為水的冰點（物理常數，formula_derived）；各湖氣候差異（Maroon Lake 2,884 m 凍季長、Tahoe 1,897 m 極少全湖封凍、Trillium Lake 1,158 m 冬季全面封凍）由預報溫度本身表達，不設人為月份窗，全年適用、不偽造資料。",
+              "en": "Freezing-point proxy: with air temperature >= 0 degC no new ice can form on the lake (honestly evaluable ice risk). 0 degC is the freezing point of water (physical constant, formula_derived); each lake's climate difference (Maroon Lake 2,884 m long freeze season, Tahoe 1,897 m rarely freezes over, Trillium Lake 1,158 m fully freezes in winter) is expressed by the forecast temperature itself - no artificial month window, valid year-round, never fabricated.",
+              "ja": "氷点プロキシ条件：気温が0°C以上なら湖面に新たな氷は生じない（凍結リスクを誠実に評価可能）。0°Cは水の氷点（物理定数、formula_derived）。各湖の気候差（Maroon Lake 2,884 m は凍結期が長い、Tahoe 1,897 m は全結氷は稀、Trillium Lake 1,158 m は冬に全面結氷）は予報気温そのものが表現し、人為的な月窓は設けず通年適用。"
             }
           },
           {
@@ -169656,7 +169706,7 @@
           },
           {
             "id": "C-us-143-P01-02",
-            "role": "REQUIRED",
+            "role": "QUALITY",
             "domain": "HYDROLOGY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
@@ -169670,13 +169720,38 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "MAIN",
+            "condition_tier": "MODIFIER",
             "threshold_source": "evidence_review",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "水面存續（不結冰、未乾涸）：季節性水體的存續由警語/公告層維護，屬純提示、不否決；缺公告時誠實 propagate unknown。",
-              "en": "Water presence (not frozen, not dried): seasonal-water existence is maintained in the advisory layer - pure notice, never a veto; propagates unknown when no advisory exists.",
-              "ja": "水面の存続（凍結・干上がりなし）。季節性水域の存続は警報層で管理。純粋な注意表示で否決しない。情報なければunknownを伝播。"
+              "zh-TW": "水面存續註記（不結冰、未乾涸）：無即時觀測源，僅作誠實提示、永不否決（CL-DATA-58 由 REQUIRED 降為不阻擋的 QUALITY 註記；結冰風險改由 ICE1 氣溫條件誠實評估）。",
+              "en": "Water-presence notice (not frozen, not dried): no live observation source - advisory only, never a veto (CL-DATA-58 demoted from REQUIRED to a non-gating QUALITY notice; freezing risk is now honestly evaluated by the ICE1 temperature condition).",
+              "ja": "水面存続の注記（凍結・干上がりなし）：即時観測源がなく、忠実な注意表示のみで否決しない（CL-DATA-58 で REQUIRED から非ゲートの QUALITY 注記へ。凍結リスクは ICE1 気温条件で誠実に評価）。"
+            }
+          },
+          {
+            "id": "C-us-143-P01-ICE1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "temperature_2m",
+            "operator": "gte",
+            "threshold": 0,
+            "unit": "°C",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-143-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:temperature_2m|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "冰點代理條件：氣溫 ≥0 °C 時湖面不會新生成冰（結冰風險誠實可評）。0 °C 為水的冰點（物理常數，formula_derived）；各湖氣候差異（Maroon Lake 2,884 m 凍季長、Tahoe 1,897 m 極少全湖封凍、Trillium Lake 1,158 m 冬季全面封凍）由預報溫度本身表達，不設人為月份窗，全年適用、不偽造資料。",
+              "en": "Freezing-point proxy: with air temperature >= 0 degC no new ice can form on the lake (honestly evaluable ice risk). 0 degC is the freezing point of water (physical constant, formula_derived); each lake's climate difference (Maroon Lake 2,884 m long freeze season, Tahoe 1,897 m rarely freezes over, Trillium Lake 1,158 m fully freezes in winter) is expressed by the forecast temperature itself - no artificial month window, valid year-round, never fabricated.",
+              "ja": "氷点プロキシ条件：気温が0°C以上なら湖面に新たな氷は生じない（凍結リスクを誠実に評価可能）。0°Cは水の氷点（物理定数、formula_derived）。各湖の気候差（Maroon Lake 2,884 m は凍結期が長い、Tahoe 1,897 m は全結氷は稀、Trillium Lake 1,158 m は冬に全面結氷）は予報気温そのものが表現し、人為的な月窓は設けず通年適用。"
             }
           },
           {
