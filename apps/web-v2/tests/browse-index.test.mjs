@@ -21,7 +21,15 @@ test('W2 index and canonical sources remain source pinned (CL-DATA-53: 350 place
   for(const row of index.place_index.opportunities){
     const basename=row.opportunity_id+'.json';
     let bytes;
-    if(pinnedOriginal.includes(row.opportunity_id)){
+    // CL-DATA-57: tw-016-P01 is a repinned canonical record — the W2 fixture
+    // keeps freezing the ORIGINAL review bytes (2af08fb9 provenance), while
+    // the canonical record evolved via the owner-rule semantic correction
+    // (sunset_window promoted REQUIRED/MAIN). Its index row must match the
+    // live canonical bytes, not the frozen fixture.
+    if(row.opportunity_id==='tw-016-P01'){
+      readPinned(basename);
+      bytes=readFileSync(new URL(`../../../data/v2/opportunities/${basename}`,import.meta.url));
+    }else if(pinnedOriginal.includes(row.opportunity_id)){
       readPinned(basename);
       bytes=readFileSync(new URL(`./fixtures/worker2/${basename}`,import.meta.url));
     }else if(reviewedTaskS.includes(row.opportunity_id)){
