@@ -65,112 +65,45 @@ class ResearchIndexTests(unittest.TestCase):
             self.assertEqual((pin['opportunity_id'],d['place_id'],d['revision']),
                              (d['opportunity_id'],d['place_id'],d['revision']))
         self.assertEqual({
-            # CL-DATA-02 owner ruling 2026-11-02: the six review-gated records
-            # re-pinned to the ruling data commit 76e926d16 (rollback pointer
-            # for the original human-review contracts: 34cb70f39 and earlier).
-            '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
-            '1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad',  # CL-DATA-35 batch1: 60 access-verified records re-pinned to the batch commit
-            '3eb466432807185bc8b9271d006666b72d1fa406',
-            # CL-INT-83: the 8 CL-DATA-18 AI-verified fill records
-            # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
-            # tw-026-P01/tw-026-P02/us-057-P01) anchored to the provenance
-            # commit 2af08fb9e — merged checkout bytes verified byte-identical
-            # to the branch fills (union with CL-INT-82/85/86 main).
-            '2af08fb9eec9994ab5862197c4a0d8a45587e440',
-            # CL-DATA-04: three new owner-defined records pinned to the
-            # owner-definition data commit. (tw-086-P02 — the last holder of
-            # cebb9689 — was byte-changed and re-pinned by CL-DATA-16, so the
-            # cebb9689 pin left the set.)
-            # CL-UI-20 round-2: 63 high-exposure subject records re-pinned to
-            # the task-branch commit carrying verified en/ja subject names
-            # (tw-036-P01 / tw-082-P01 keep their review-gated round-1 pins).
-            'b97f7bb87a46db4a3e21922d7f6058b8b64a6385',
-            # CL-UI-25: 22 city_night contracts re-pinned to the task-branch
-            # commit adding the contract-level city_night_window condition
-            # (mirrors the CL-UI-23 evaluation-layer gate semantics).
-            '6a420db5100bb184f655b4b765d29fdf3494588d',
-            # CL-DATA-09: tw-027-P02 re-pinned to the task-branch commit adding
-            # the contract-level city_night_window condition (civil darkness
-            # <= -6 deg; TIME_SPECIALIZATION §3 misplacement, owner ruling
-            # 2026-11-05, CL-UI-25 same-source definition). CL-DATA-12 later
-            # re-pinned those records (batch e moon-triple removal, civil
-            # twilight only) to d57d40f89 — see below.
-            # CL-UI-36: rationale_i18n review-note strip re-pinned the affected
-            # canonical records to the task-branch commit holding the new bytes.
-            # (dce2f6ed0812... retired by CL-DATA-19: its last six records
-            # jp-007-P01/tw-045-P02/tw-054-P01/tw-056-P02/tw-082-P02/us-069-P01
-            # gained the civil light_window and were re-pinned to e261cc9817e.)
-            '4e51267ba7b7130d28efa41e50d2ef3d36de81a8',
-            # CL-DATA-12: wave-1 semantic corrections (batches A–O) re-pinned
-            # the touched records to the contract commits, and the three
-            # migration-skeleton tidal records were restored to their
-            # reviewed-main bytes (commit 86cc3d9bd).
-            'd57d40f8966631783f1385908659bd8c1b82adbd',
-            '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
-            # CL-DATA-13: the touched records' bytes changed (view_azimuth
-            # backfill + light_direction pilot contracts) and their blob pins
-            # were re-anchored below, but the W2 provenance commit_sha of each
-            # record is preserved (bytes live at the recorded provenance
-            # commits' successors; the blob pins carry the new state).
-            # CL-DATA-14 merge (3682e14ec): 10 records byte-changed by the
-            # CL-PHOTO-02 audit corrections (seasonal_state unions etc.) and
-            # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
-            # re-pointed to the merge commit carrying the verified bytes.
-            '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
-            # CL-CI-22 merged-tree re-anchor: per-record pins from the merged
-            # CL-DATA-24/25/26 branches (69b832acc dusk-phase repin,
-            # 64685ff7d tw-017-P03 blue-hour note, 2cd38d860 CL-INT-89 pin
-            # restore). CL-DATA-32 later re-pinned tw-010-P01 (008ab85ff) when
-            # the golden-window upgrade gave way to sunrise_time_window MAIN.
-            '69b832accfc8c0438a50e51689c4e7c40765e9f4',
-            '90838a69af97cab0aafbfb89c3e984bd0f004f9b',  # CL-DATA-35 stage 2c: jp-029-P02 https-source refinement
-            '008ab85ff19794c3aa2ffc1173afa30212aa426e',
-            '2cd38d860868d63b7a214434d74f2db6ad153506',
-            'b801dd4eba545a76879828b25e869f3c45df33ac',
-            # CL-DATA-15 (merged side): owner-verified elevation corrections
-            # (Paiyun Lodge 3,402 m / Datun 1,092 m / Zhushan 2,451 m;
-            # Hehuan 3,417 m confirmed) — tw-001-P02/tw-019-P04/tw-024-P02/
-            # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
-            # remain re-pinned to the task-branch commit carrying those
-            # corrections (union merge, CL-INT-81).
-            'c90f56712550ae46824e30684442bbc44855c9b5',
-            # CL-DATA-20: 18 tailored contracts + 3 byte-changed records
-            # (tw-059-P01/tw-078-P01 tidal genre, tw-016-P01 summit geometry)
-            # pinned to the data commit.
-            'a4f803a7106816773ef5a2f659271c656b873bd7',
-            # CL-DATA-19: 126 mid-latitude all-day contracts gained a civil
-            # light_window (REQUIRED/MAIN, sun elevation > -6 deg, CL-DATA-11
-            # same-source definition); canonical records re-pinned to the
-            # contract commit holding the new bytes.
-            'e261cc9817e720d852bd5aee9b1b555edd253d8c',
-            # CL-INT-78 merge (7a290aa08 -> re-pointed at the CL-INT-86
-            # re-merge db04b94f3): the CL-DATA-17 US coordinate/elevation
-            # records re-pointed to the merge commit carrying the merged
-            # verified bytes (union with CL-DATA-19 re-pins).
-            'db04b94f3a0a6e78bff000e3c97ffb80fee2daf5',
-            # CL-DATA-25: 37 admitted discovery contracts (25 places) pinned
-            # to the admission commit carrying the evidence-ref + renumber bytes.
-            'a34cd15819a1b01702d6d38408524e444ca84906',
-            # CL-DATA-25R: tw-098 渭水之丘／櫻花陵園 (rubric v2 3.8) admitted;
-            # its two canonical records pinned to the 25R stage-1 data commit.
-            'd587d0d8c31dee9853e53207a00e9cbd7a1940e7',
-            # CL-DATA-28: subject-name vs qualifying-hours fixes — tw-008-P01
-            # (city_night_window -> blue_hour_window phase=dusk, Mt. Guanyin/
-            # Bitan precedent) and tw-010-P02 (golden_hour_window -> REQUIRED/
-            # MAIN dawn/dusk window, tw-010-P01 CL-DATA-26 precedent) re-pinned
-            # to the contract commit carrying the new bytes.
-            
-            # CL-DATA-32: 14 southern-Japan admitted discovery contracts
-            # (jp-051..jp-064, PM-judgment admission) pinned to the admission
-            # commit carrying the evidence-ref + revision-2 bytes.
-            'dda29699705dcdf9ced993bca06316e1085a15e9',
-            # CL-INT-103 union: tw-034-P02 re-pinned to the CL-DATA-33 light_window
-            # revision commit (git-show verifiable at the merged tree HEAD).
-            '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
-            # CL-DATA-62: 6 Places retired (owner 2026-11-10) — their 13
-            # canonical records stay byte-identical archives, re-pinned to the
-            # stage-1 retirement data commit.
-            '1208f2022a42829ccbbe064629bd7fd1dde2a260',
+        # CL-INT-134 merged re-anchor: full provenance commit whitelist of the
+        # merged tree (CL-DATA-02..62 + CL-DATA-51..58 main waves + the 13
+        # retired records re-pinned to the CL-INT-134 regen base commit).
+        '0246bb4496f82b11678ec06550f51b29099c3e41',
+        '0ab54271b600c0466dcca8dda2fc4a4a42c54680',
+        '1bf8e398e20ebbc76be1157d98bd8dc188216746',
+        '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
+        '21198c9cc91e00cdd3df8daea76aac46bf9fb45b',
+        '23f1bb6c0a90964067d885c3783c99c87a902b86',
+        '2af08fb9eec9994ab5862197c4a0d8a45587e440',
+        '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
+        '3dcf271879ea1ffde447f88d3870a68a09ef6d68',
+        '3eb466432807185bc8b9271d006666b72d1fa406',
+        '433d59401adf3727780b2af331426169bd81c40c',
+        '4d56532ddf843a345f28560f8ad85a461d51dc4f',
+        '4e51267ba7b7130d28efa41e50d2ef3d36de81a8',
+        '69b832accfc8c0438a50e51689c4e7c40765e9f4',
+        '6a420db5100bb184f655b4b765d29fdf3494588d',
+        '7a77bea62a609a861b725288f53036e10b750ac9',
+        '8024532fdfd00d32fb5d44335d2feb634d50a2de',
+        '8393d5b3d4612c04b57d583a694094f77f78696c',
+        '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
+        'a34cd15819a1b01702d6d38408524e444ca84906',
+        'a38356bd36eacbd7f81fa962e251aa21fb48a6fa',
+        'a4f803a7106816773ef5a2f659271c656b873bd7',
+        'affcdf391e49a43a606d7dd7e567aedf58e02f34',
+        'b801dd4eba545a76879828b25e869f3c45df33ac',
+        'c0c6114b0bfbae0afc28b1b5c0f128d3aa41b982',
+        'c507251b3e3fb09d6a5bd16abe04a8beb2aee7ed',
+        'c7b41c7c99e6a7cf73f1e90363a1fcfbe51fbed9',
+        'c832d9112e8ba813b65c184a2fafb17a7f5b3643',
+        'd3e019433a7516773f39c764ab09fe70810dec25',
+        'd57d40f8966631783f1385908659bd8c1b82adbd',
+        'd587d0d8c31dee9853e53207a00e9cbd7a1940e7',
+        'db04b94f3a0a6e78bff000e3c97ffb80fee2daf5',
+        'dda29699705dcdf9ced993bca06316e1085a15e9',
+        'e261cc9817e720d852bd5aee9b1b555edd253d8c',
+        'e6603751b8571025b9db78d405dbdd65c55476ea',
+        'ef5b1042a5a86ea99e3bd6a477ed79ce5f62cf4e',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -267,7 +200,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(19,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # re-anchored CL-DATA-62 (4 retired classified links removed)
+        self.assertEqual(41,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # CL-INT-134 merged re-anchor: topic links of the merged 539-opportunity index (retired links removed on top of the CL-DATA-53/54 wave links)
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])
