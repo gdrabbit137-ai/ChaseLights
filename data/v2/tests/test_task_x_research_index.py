@@ -35,6 +35,10 @@ class ResearchIndexTests(unittest.TestCase):
         cls.provenance=x.read(x.INDEX/'field-provenance.json')
         cls.status=x.read(x.INDEX/'index-status.json')
         cls.docs={p['opportunity_id']:x.read(ROOT/p['path']) for p in cls.lock['canonical_records']}
+        # CL-DATA-62: 6 Places retired (owner 2026-11-10) — their canonical
+        # records remain byte-pinned archives in source-lock, but the generated
+        # index/provenance projection excludes them (lifecycle_status retired).
+        cls.docs={k:v for k,v in cls.docs.items() if k in cls.provenance['opportunities']}
 
     def test_pinned_w1_six_schemas_and_semantic_bundle(self):
         self.assertEqual([],x.validate(self.w1_root))
@@ -49,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((363,565),(len(actual),len(ids)))  # re-anchored CL-DATA-64 (13 new-subject-family places)
+        self.assertEqual((357,552),(len(actual),len(ids)))  # CL-INT-135 merged re-anchor: 357 places / 552 live ids on the retired tree
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -126,7 +130,7 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-PHOTO-02 audit corrections (seasonal_state unions etc.) and
             # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
             # re-pointed to the merge commit carrying the verified bytes.
-            '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
+            '8024532fdfd00d32fb5d44335d2feb634d50a2de',  # CL-DATA-62 retirement merge re-pin (was 3682e14ec pre-retirement)
             # CL-CI-22 merged-tree re-anchor: per-record pins from the merged
             # CL-DATA-24/25/26 branches (69b832acc dusk-phase repin,
             # 64685ff7d tw-017-P03 blue-hour note, 2cd38d860 CL-INT-89 pin
@@ -248,7 +252,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(1089,count)  # 363 places x 3 (re-anchored CL-DATA-64)
+        self.assertEqual(1071,count)  # 357 places x 3 (CL-INT-135 merged re-anchor: 344 active + 13 CL-DATA-64 on the retired tree)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
@@ -317,7 +321,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(49,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
+        self.assertEqual(45,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])

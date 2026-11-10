@@ -9,7 +9,7 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "e33f4902584469949774cf5563d7d7bcfe675d898f79e74bc4e6a4423eff2766",
+ "inputs_fingerprint_sha256": "b28b5b90ff4b0c1e2b4021072f614273fa16a99c7e6145d4d12c87c3683820d2",
  "summary": {
   "places": 363,
   "opportunities": 565,
@@ -25,7 +25,7 @@
   },
   "weakness_counts": {
    "low_weather_light_opportunities": 11,
-   "low_verifiability_opportunities": 3,
+   "low_verifiability_opportunities": 9,
    "clusters_within_5km": 28
   }
  },
@@ -933,7 +933,7 @@
   },
   {
    "place_id": "tw-084",
-   "name_zh": "大農大富平地森林園區",
+   "name_zh": "tw-084",
    "region": "tw",
    "n_opportunities": 3,
    "opportunity_ids": [
@@ -3725,7 +3725,7 @@
   },
   {
    "place_id": "tw-083",
-   "name_zh": "雲山水夢幻湖",
+   "name_zh": "tw-083",
    "region": "tw",
    "n_opportunities": 3,
    "opportunity_ids": [
@@ -8322,7 +8322,7 @@
   },
   {
    "place_id": "tw-068",
-   "name_zh": "綠島朝日溫泉",
+   "name_zh": "tw-068",
    "region": "tw",
    "n_opportunities": 1,
    "opportunity_ids": [
@@ -10327,7 +10327,7 @@
   },
   {
    "place_id": "us-075",
-   "name_zh": "探索公園",
+   "name_zh": "us-075",
    "region": "us",
    "n_opportunities": 2,
    "opportunity_ids": [
@@ -10337,7 +10337,7 @@
    "rubric": {
     "subject_strength": 4.5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -10359,7 +10359,7 @@
   },
   {
    "place_id": "us-076",
-   "name_zh": "漢密爾頓觀景公園",
+   "name_zh": "us-076",
    "region": "us",
    "n_opportunities": 2,
    "opportunity_ids": [
@@ -10369,7 +10369,7 @@
    "rubric": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -10391,7 +10391,7 @@
   },
   {
    "place_id": "us-077",
-   "name_zh": "何塞・黎剎博士公園",
+   "name_zh": "us-077",
    "region": "us",
    "n_opportunities": 2,
    "opportunity_ids": [
@@ -10401,7 +10401,7 @@
    "rubric": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 1.5,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -15857,7 +15857,7 @@
     "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "tw-069-P01",
@@ -16254,7 +16254,7 @@
     "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "tw-083-P02",
@@ -16269,7 +16269,7 @@
     "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "tw-083-P03",
@@ -16284,7 +16284,7 @@
     "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "tw-084-P01",
@@ -16298,7 +16298,7 @@
     "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "tw-084-P03",
@@ -16312,7 +16312,7 @@
     "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "tw-084-P04",
@@ -16326,7 +16326,7 @@
     "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "tw-085-P01",
@@ -18334,13 +18334,15 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "us-075-P02",
@@ -18348,13 +18350,15 @@
    "scores": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "us-076-P01",
@@ -18362,13 +18366,15 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "us-076-P02",
@@ -18376,13 +18382,15 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "us-077-P01",
@@ -18390,13 +18398,15 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "us-077-P02",
@@ -18404,13 +18414,15 @@
    "scores": {
     "subject_strength": 4,
     "weather_light_dependency": 5,
-    "verifiability": 3.5
+    "verifiability": 1.5
    },
    "verif_gaps": [
-    "geometry_not_verified"
+    "geometry_not_verified",
+    "targets_missing_evidence_refs",
+    "access_note_placeholder"
    ],
    "canonical_locked": true,
-   "lifecycle_status": "draft"
+   "lifecycle_status": "retired"
   },
   {
    "opportunity_id": "us-078-P03",
@@ -19860,6 +19872,72 @@
      "access_note_placeholder"
     ],
     "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "us-075-P01",
+    "place_id": "us-075",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "us-075-P02",
+    "place_id": "us-075",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "us-076-P01",
+    "place_id": "us-076",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "us-076-P02",
+    "place_id": "us-076",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "us-077-P01",
+    "place_id": "us-077",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
+   },
+   {
+    "opportunity_id": "us-077-P02",
+    "place_id": "us-077",
+    "score": 1.5,
+    "gaps": [
+     "geometry_not_verified",
+     "targets_missing_evidence_refs",
+     "access_note_placeholder"
+    ],
+    "recommendation": "補資料"
    }
   ],
   "clusters_within_5km": [
@@ -20192,7 +20270,7 @@
     "members": [
      {
       "place_id": "tw-068",
-      "name_zh": "綠島朝日溫泉",
+      "name_zh": "tw-068",
       "nearest_km": 0.47
      },
      {
@@ -20302,17 +20380,17 @@
      },
      {
       "place_id": "us-075",
-      "name_zh": "探索公園",
+      "name_zh": "us-075",
       "nearest_km": 4.06
      },
      {
       "place_id": "us-076",
-      "name_zh": "漢密爾頓觀景公園",
+      "name_zh": "us-076",
       "nearest_km": 2.04
      },
      {
       "place_id": "us-077",
-      "name_zh": "何塞・黎剎博士公園",
+      "name_zh": "us-077",
       "nearest_km": 2.61
      },
      {

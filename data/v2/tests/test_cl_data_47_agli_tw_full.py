@@ -25,11 +25,11 @@ class TestCLData47AgliTwFull(unittest.TestCase):
 
     def test_coverage_tw_full(self):
         tw_ids = {p['place_id'] for p in self.cat['places'] if p['place_id'].startswith('tw-')}
-        self.assertEqual(len(tw_ids), 119, 'catalog tw count drifted — re-anchor this pin (CL-DATA-64: 119 active tw)')
+        self.assertEqual(len(tw_ids), 116, 'catalog tw count drifted — re-anchor this pin (CL-INT-135 merged tree: 119 branch − tw-068/083/084 retirement + 4 CL-DATA-64 = 116 active tw)')
         rec_ids = {r['place_id'] for r in self.full['records']}
         self.assertEqual(rec_ids, tw_ids)
-        self.assertEqual(len(self.full['records']), 119)
-        self.assertEqual(len(self.full['ranking']), 119)
+        self.assertEqual(len(self.full['records']), 116)
+        self.assertEqual(len(self.full['ranking']), 116)
 
     def test_unique_ids_and_monotonic_order(self):
         ids = [r['place_id'] for r in self.full['records']]

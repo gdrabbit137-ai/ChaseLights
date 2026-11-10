@@ -57,9 +57,9 @@ def load(p):
 
 class TestRegions(unittest.TestCase):
     def test_region_lists_grew(self):
-        self.assertEqual(len(regions.get_spots("tw")), 124)
-        self.assertEqual(len(regions.get_spots("jp")), 95)
-        self.assertEqual(len(regions.get_spots("us")), 163)
+        self.assertEqual(len(regions.get_spots("tw")), 124)  # raw regions.py ids: 120 + 4 CL-DATA-64 (retired stay raw; runtime catalog excludes)
+        self.assertEqual(len(regions.get_spots("jp")), 95)  # raw regions.py ids
+        self.assertEqual(len(regions.get_spots("us")), 163)  # raw regions.py ids
         ids = [s["spot_id"] for r in ("tw", "jp", "us") for s in regions.get_spots(r)]
         self.assertEqual(len(ids), len(set(ids)))
         for legacy in ("tw-065", "tw-066", "tw-067", "us-010", "us-112", "jp-090", "jp-091"):
@@ -204,8 +204,8 @@ class TestAgli(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 376)
-        self.assertEqual(cat["counts"]["opportunities"], 608)
+        self.assertEqual(cat["counts"]["spots"], 370)
+        self.assertEqual(cat["counts"]["opportunities"], 587)
 
     def test_manifest_region_ends(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
@@ -226,8 +226,8 @@ class TestRuntime(unittest.TestCase):
 
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
-        self.assertEqual(len(cat["places"]), 363)
-        self.assertEqual(len(cat["opportunities"]), 565)
+        self.assertEqual(len(cat["places"]), 357)  # CL-INT-135 merged re-anchor: 357 active places
+        self.assertEqual(len(cat["opportunities"]), 552)  # CL-INT-135 merged re-anchor
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(NEW_CONTRACTS) <= oids)
 

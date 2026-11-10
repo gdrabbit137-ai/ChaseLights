@@ -47,7 +47,7 @@ def load(p):
 class TestRegions(unittest.TestCase):
     def test_us_catalog_grew(self):
         spots = regions.get_spots("us")
-        self.assertEqual(len(spots), 163)  # re-anchored CL-DATA-64 (us-159..160 Yellowstone geothermal + us-161..163 Kilauea lava; growth-only)
+        self.assertEqual(len(spots), 163)  # raw regions.py ids: 158 + 5 CL-DATA-64 (retired stay raw; runtime catalog excludes them)
         self.assertEqual(spots[-1]["name_i18n"]["zh-TW"], "基勞亞伊奇火山口熔岩地表")  # us-163
 
     def test_new_admin_areas(self):
@@ -168,15 +168,15 @@ class TestAgli(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 376)  # re-anchored CL-DATA-64
-        self.assertEqual(cat["counts"]["opportunities"], 608)
+        self.assertEqual(cat["counts"]["spots"], 370)  # CL-INT-135 merged re-anchor (−6 retired)
+        self.assertEqual(cat["counts"]["opportunities"], 587)  # CL-INT-135 merged re-anchor
         us = [s for s in cat["spots"] if s["spot_id"].startswith("us-")]
-        self.assertEqual(len(us), 163)  # 96 legacy + 22 CL-DATA-42/43 backfill + 40 new + 5 CL-DATA-64
+        self.assertEqual(len(us), 160)  # CL-INT-135 merged re-anchor: −3 retired + 5 CL-DATA-64
 
     def test_manifest_us_counts(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
         self.assertEqual(mf["regions"]["us"]["numeric_id_end"], 163)
-        self.assertEqual(mf["regions"]["us"]["counts"]["spots"], 163)
+        self.assertEqual(mf["regions"]["us"]["counts"]["spots"], 160)
         self.assertEqual(mf["totals"], load("runtime_catalog_v004_r4_2.json")["counts"])
 
     def test_runtime_dependencies_gaps(self):

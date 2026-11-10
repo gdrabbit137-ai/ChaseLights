@@ -160,8 +160,8 @@ class TestAgli(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 376)  # re-anchored CL-DATA-64
-        self.assertEqual(cat["counts"]["opportunities"], 608)
+        self.assertEqual(cat["counts"]["spots"], 370)  # CL-INT-135 merged re-anchor (−6 retired)
+        self.assertEqual(cat["counts"]["opportunities"], 587)  # CL-INT-135 merged re-anchor
         jp = [s for s in cat["spots"] if s["spot_id"].startswith("jp-")]
         self.assertEqual(len(jp), 94)  # jp-050 retired
 
