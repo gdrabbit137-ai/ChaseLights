@@ -1980,6 +1980,9 @@
 
 /* V2 subject replacement (owner directive 2026-10-31) */
 .v2-genre-chip{display:inline-block;padding:1px 8px;border-radius:999px;font-size:.7rem;font-weight:600;background:rgba(88,166,255,.15);color:#58a6ff;vertical-align:middle}
+/* CL-DATA-65: the general (fallback) genre is visually distinct from curated
+   genres - neutral outline style instead of the curated blue fill. */
+.v2-genre-chip-general{background:transparent;color:inherit;border:1px solid currentColor;opacity:.85}
 .v2-chip-ok{color:#3fb950;font-weight:600;white-space:nowrap}
 .v2-chip-bad{color:#f85149;font-weight:600}
 .v2-conditions{margin-top:8px;font-size:.8rem}

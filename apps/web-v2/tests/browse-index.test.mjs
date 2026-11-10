@@ -11,21 +11,21 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and 420 canonical sources remain source pinned (CL-DATA-32 southern-Japan discovery admission: jp-051..jp-064, PM judgment 2026-11-08)',()=>{
-  assert.equal(sha256(rawIndex),'a15331289f515eafdfd4f0d185dc058cec308d35effab769223e7da19bc59b5b'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
-  assert.equal(sha256(rawCatalog),'8975d72116d1d2fa378dda8e092e601756be88273cd01ab8c62d647d1ace1a66'); // CL-INT-134: re-measured after post-merge regen (6-place retirement on the merged tree)
+test('W2 index and canonical sources remain source pinned (CL-DATA-65: 350 places / 553 opportunities)',()=>{
+  assert.equal(sha256(rawIndex),'d7fe3af1027d106e0dbb69cb4e1df2921c980c1b62f795b9656da010e067db6f'); // re-measured CL-DATA-65 (350 places / 553 opportunities)
+  assert.equal(sha256(rawCatalog),'7c63f84372df9ee3065f4ac6af8b78c657f663caba930b05f608072f597b3d71'); // re-measured CL-DATA-65 (350 places / 553 opportunities)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,552);assert.equal(source.places.length,357); // CL-INT-135 merged re-anchor: CL-DATA-64 adds 13 places / 13 opportunities on the retired tree
+  assert.equal(source.opportunities.length,553);assert.equal(source.places.length,350);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
     const basename=row.opportunity_id+'.json';
     let bytes;
     // CL-DATA-57: tw-016-P01 is a repinned canonical record — the W2 fixture
-    // keeps freezing the ORIGINAL review bytes, while the canonical record
-    // evolved via the owner-rule semantic correction. Its index row must match
-    // the live canonical bytes, not the frozen fixture. (CL-INT-134: restored
-    // after branch-side conflict resolution dropped it.)
+    // keeps freezing the ORIGINAL review bytes (2af08fb9 provenance), while
+    // the canonical record evolved via the owner-rule semantic correction
+    // (sunset_window promoted REQUIRED/MAIN). Its index row must match the
+    // live canonical bytes, not the frozen fixture.
     if(row.opportunity_id==='tw-016-P01'){
       readPinned(basename);
       bytes=readFileSync(new URL(`../../../data/v2/opportunities/${basename}`,import.meta.url));
@@ -49,11 +49,11 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,357); // CL-INT-135 merged re-anchor: 357 places (344 + 13 CL-DATA-64)
+  assert.equal(browse(index,catalog,{search:'  '}).length,350);
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
-  assert.deepEqual(both.map(x=>x.place.place_id),['us-155','tw-026','us-156','us-121','tw-006']); // CL-INT-134 merged re-anchor: us-155/us-156/us-121 gained sunset/colorful-clouds topics (CL-DATA-53/54 waves)
-  assert.deepEqual(both.find(x=>x.place.place_id==='tw-026').opportunities.map(x=>x.opportunity_id),['tw-026-P01','tw-026-P02']); // tw-006-P02 sunset joins tw-026 (CL-DATA-20)
-  assert.deepEqual(browse(index,catalog,{topicIds:['topic:sunset']}).find(x=>x.place.place_id==='tw-026').opportunities.map(x=>x.opportunity_id),['tw-026-P01']);
+  assert.deepEqual(both.map(x=>x.place.place_id),['us-155','tw-026','us-156','us-121','tw-006']); // re-anchored CL-DATA-53 (sunset topic OR colorful-clouds; tw-006-P02 sunset joins tw-026)
+  assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['us-155-P01']); // re-anchored CL-DATA-53 (us-155 has only P01)
+  assert.deepEqual(browse(index,catalog,{topicIds:['topic:sunset']})[0].opportunities.map(x=>x.opportunity_id),['us-155-P01']);
   assert.equal(browse(index,catalog,{search:'Oishi',topicIds:['topic:sunset']}).length,0);
   assert.throws(()=>browse(index,catalog,{topicIds:['topic:invented']}),/INVALID_FILTER/);
 });

@@ -319,8 +319,8 @@ def verify_main(root, lock):
     # byte-pinned to their W2 sources.
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
-            len(catalog.get("places", [])) != 363
-            or len(catalog.get("opportunities", [])) != 565):  # CL-DATA-64 re-anchor 350/552 -> 363/565 (13 new-subject-family contracts tw-121..124/us-159..163/jp-092..095 + regen on task branch 732365d1a lineage, measured 2026-11-10; prior pins: CL-CI-33 re-anchor 261/460 -> 350/552, CL-DATA-51..53 intake waves)
+            len(catalog.get("places", [])) != 350
+            or len(catalog.get("opportunities", [])) != 553):  # CL-DATA-65 re-anchor 350/552 -> 350/553 (jp-030-P99 general-genre mount + browse regen; prior pins: CL-CI-33 261/460 -> 350/552 merged tree a7b75259b, CL-DATA-51..53 intake waves)
         raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]

@@ -35,10 +35,6 @@ class ResearchIndexTests(unittest.TestCase):
         cls.provenance=x.read(x.INDEX/'field-provenance.json')
         cls.status=x.read(x.INDEX/'index-status.json')
         cls.docs={p['opportunity_id']:x.read(ROOT/p['path']) for p in cls.lock['canonical_records']}
-        # CL-DATA-62: 6 Places retired (owner 2026-11-10) — their canonical
-        # records remain byte-pinned archives in source-lock, but the generated
-        # index/provenance projection excludes them (lifecycle_status retired).
-        cls.docs={k:v for k,v in cls.docs.items() if k in cls.provenance['opportunities']}
 
     def test_pinned_w1_six_schemas_and_semantic_bundle(self):
         self.assertEqual([],x.validate(self.w1_root))
@@ -53,7 +49,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((357,552),(len(actual),len(ids)))  # CL-INT-135 merged re-anchor: 357 places / 552 live ids on the retired tree
+        self.assertEqual((350,553),(len(actual),len(ids)))  # re-anchored CL-DATA-65 (jp-030-P99 general mount)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -130,7 +126,7 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-PHOTO-02 audit corrections (seasonal_state unions etc.) and
             # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
             # re-pointed to the merge commit carrying the verified bytes.
-            '8024532fdfd00d32fb5d44335d2feb634d50a2de',  # CL-DATA-62 retirement merge re-pin (was 3682e14ec pre-retirement)
+            '3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98',
             # CL-CI-22 merged-tree re-anchor: per-record pins from the merged
             # CL-DATA-24/25/26 branches (69b832acc dusk-phase repin,
             # 64685ff7d tw-017-P03 blue-hour note, 2cd38d860 CL-INT-89 pin
@@ -222,9 +218,9 @@ class ResearchIndexTests(unittest.TestCase):
             # (us-123/us-132/us-143-P01) repinned to 8393d5b3d (contract commit;
             # blob+sha256 verified on the merged tree).
             '8393d5b3d4612c04b57d583a694094f77f78696c',
-            # CL-DATA-64: the 13 new-subject-family records repinned to 5adb3ace7
-            # (viewpoint/subject contract commit; blob+sha256 verified on the task tree).
-            '5adb3ace77808544f95f9e4ef3b751cf9938f964',
+            # CL-DATA-65: jp-030-P99 general-genre mount pinned to 816d020b1
+            # (stage-1 data commit; blob+sha256 verified on the task branch).
+            '816d020b1c3b6618cbe3a7220ceb8c2f72a72cf8',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -252,7 +248,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(1071,count)  # 357 places x 3 (CL-INT-135 merged re-anchor: 344 active + 13 CL-DATA-64 on the retired tree)
+        self.assertEqual(1050,count)  # 350 places x 3 (re-anchored CL-DATA-54)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
