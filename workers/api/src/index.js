@@ -18,10 +18,12 @@ function corsHeaders(req) {
 }
 
 function json(req, status, body, extraHeaders = {}) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json", ...corsHeaders(req), ...extraHeaders },
-  });
+  const h = new Headers({ "Content-Type": "application/json", ...corsHeaders(req) });
+  for (const [k, v] of Object.entries(extraHeaders)) {
+    if (Array.isArray(v)) for (const item of v) h.append(k, item); // multiple Set-Cookie
+    else h.set(k, v);
+  }
+  return new Response(JSON.stringify(body), { status, headers: h });
 }
 
 // naive per-isolate rate limiter (enough for v1; Redis-class precision later)
