@@ -163,7 +163,7 @@ test("OAuth flow: start redirects with state; callback exchanges code via mocked
     if (String(url).includes("/oauth2/v2.1/token")) {
       return new Response(JSON.stringify({ access_token: "fake-at", token_type: "Bearer" }), { status: 200 });
     }
-    if (String(url).includes("/oauth2/v2.1/verify")) {
+    if (String(url).includes("/oauth2/v2.1/userinfo")) {
       return new Response(JSON.stringify({ sub: "U123", name: "LINE User" }), { status: 200 });
     }
     return realFetch(url, init);

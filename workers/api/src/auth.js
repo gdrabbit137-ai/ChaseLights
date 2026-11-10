@@ -80,7 +80,7 @@ export const PROVIDERS = {
   line: {
     authorizeUrl: "https://access.line.me/oauth2/v2.1/authorize",
     tokenUrl: "https://api.line.me/oauth2/v2.1/token",
-    userinfoUrl: "https://api.line.me/oauth2/v2.1/verify",
+    userinfoUrl: "https://api.line.me/oauth2/v2.1/userinfo",
     scope: "openid profile",
     idEnv: "LINE_LOGIN_CLIENT_ID",
     secretEnv: "LINE_LOGIN_CLIENT_SECRET",
