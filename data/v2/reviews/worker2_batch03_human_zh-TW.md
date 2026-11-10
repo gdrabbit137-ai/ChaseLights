@@ -28,10 +28,7 @@ Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RE
 - 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold 0.6；GUIDANCE）
 - 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold [30, 60]；GUIDANCE）
 - 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold 0.2；GUIDANCE）
-
-### QUALITY
-
-- 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold unknown；GUIDANCE）
+- 2026-11-10 CL-DATA-57：sunset_window 升為 REQUIRED——可見光夕照題材不得在黃金窗外成立（深夜不得因天氣門檻通過而判為符合）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。（threshold unknown；GUIDANCE）
 
 
 ### 進入警告（不影響攝影條件）

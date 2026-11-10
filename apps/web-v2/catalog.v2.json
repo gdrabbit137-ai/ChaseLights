@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "8d6dc979994078a74d1a7ced74c41d9d97c419e0",
-  "source_index_revision": "sha256:65d7e4bc6cf0b0a2b189a1fac8e0bc5581799317403ae72cecc92885a0dd790c",
+  "source_index_commit_sha": "0ab54271b600c0466dcca8dda2fc4a4a42c54680",
+  "source_index_revision": "sha256:2b7db1dd15ec1b2b0d4f8040e60b96a71ca24dcccc651da3dcfdd26c4d4f986e",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
@@ -919,9 +919,9 @@
       "revision": 3
     },
     "tw-016-P01": {
-      "source_commit_sha": "a4f803a7106816773ef5a2f659271c656b873bd7",
+      "source_commit_sha": "0ab54271b600c0466dcca8dda2fc4a4a42c54680",
       "source_path": "data/v2/opportunities/tw-016-P01.json",
-      "source_blob_sha": "42087c31d3b2429b775ea621ea86c0fdfe427a21",
+      "source_blob_sha": "3c8c1d23f5f6bc10ff5b115515b64e0192bce50f",
       "revision": 2
     },
     "tw-017-P01": {
@@ -2035,9 +2035,9 @@
       "revision": 2
     },
     "tw-095-P02": {
-      "source_commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906",
+      "source_commit_sha": "0ab54271b600c0466dcca8dda2fc4a4a42c54680",
       "source_path": "data/v2/opportunities/tw-095-P02.json",
-      "source_blob_sha": "9f0a7ed91652e34ac4dfbb61deb5e1e6f48bc117",
+      "source_blob_sha": "81ce99555cb091967c8e0010c5eccb5fca034aa4",
       "revision": 2
     },
     "tw-098-P01": {
@@ -56416,7 +56416,7 @@
           },
           {
             "id": "C-tw-016-P01-04",
-            "role": "QUALITY",
+            "role": "REQUIRED",
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
@@ -56430,7 +56430,7 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "MODIFIER",
+            "condition_tier": "MAIN",
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
@@ -56439,9 +56439,9 @@
               "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+              "zh-TW": "2026-11-10 CL-DATA-57：sunset_window 升為 REQUIRED——可見光夕照題材不得在黃金窗外成立（深夜不得因天氣門檻通過而判為符合）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-10 CL-DATA-57: sunset_window promoted to REQUIRED — visible-light sunset subject must not qualify outside golden window. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-10 CL-DATA-57：sunset_window を REQUIRED に昇格——可視光の夕景題材はゴールデンウィンドウ外では成立しない（深夜に気象ゲートのみで合格してはならない）。意味修正のため layering parity ゲートは免除。"
             }
           }
         ],
@@ -111934,7 +111934,7 @@
           },
           {
             "id": "C-tw-095-P02-LW1",
-            "role": "QUALITY",
+            "role": "REQUIRED",
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
@@ -111948,7 +111948,7 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "MODIFIER",
+            "condition_tier": "MAIN",
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
@@ -111957,9 +111957,9 @@
               "ja": "夕暮れの低角度光が層を照らす：日没前後の逆光で稜線のシルエット、雲帯の縁、遠山の明暗リズムが同時に立ち、層になった山並みが最も読める。門檻ではなく加点（昼間でも雲帯があれば撮れるが、層は弱い）。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+              "zh-TW": "2026-11-10 CL-DATA-57：sunset_window 升為 REQUIRED——可見光夕照題材不得在黃金窗外成立（深夜不得因天氣門檻通過而判為符合）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+              "en": "2026-11-10 CL-DATA-57: sunset_window promoted to REQUIRED — visible-light sunset subject must not qualify outside golden window. Semantic correction; layering parity gate exempt, documented here.",
+              "ja": "2026-11-10 CL-DATA-57：sunset_window を REQUIRED に昇格——可視光の夕景題材はゴールデンウィンドウ外では成立しない（深夜に気象ゲートのみで合格してはならない）。意味修正のため layering parity ゲートは免除。"
             }
           }
         ]

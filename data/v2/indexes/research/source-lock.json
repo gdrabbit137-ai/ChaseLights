@@ -729,9 +729,9 @@
     {
       "opportunity_id": "tw-016-P01",
       "path": "data/v2/opportunities/tw-016-P01.json",
-      "blob_sha": "42087c31d3b2429b775ea621ea86c0fdfe427a21",
-      "sha256": "99c298b45f3d6d3afaa2928f45fa42692628192b6368eb7a1c745d1b616122e5",
-      "commit_sha": "a4f803a7106816773ef5a2f659271c656b873bd7"
+      "blob_sha": "3c8c1d23f5f6bc10ff5b115515b64e0192bce50f",
+      "sha256": "40bfcf777e059262a6d50efacc360694880bca6848f968c313be4e0f30796b09",
+      "commit_sha": "0ab54271b600c0466dcca8dda2fc4a4a42c54680"
     },
     {
       "opportunity_id": "tw-017-P01",
@@ -2031,9 +2031,9 @@
     {
       "opportunity_id": "tw-095-P02",
       "path": "data/v2/opportunities/tw-095-P02.json",
-      "blob_sha": "9f0a7ed91652e34ac4dfbb61deb5e1e6f48bc117",
-      "sha256": "431da22e7aa4c2e28977132cadd323c7bee1c795239c74368951bb28acb61c80",
-      "commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906"
+      "blob_sha": "81ce99555cb091967c8e0010c5eccb5fca034aa4",
+      "sha256": "67c2b00565165567bf6f3c2e100ecf913185e0eb25ead9cc2034bd6847e866dc",
+      "commit_sha": "0ab54271b600c0466dcca8dda2fc4a4a42c54680"
     },
     {
       "opportunity_id": "us-001-P01",
@@ -4594,5 +4594,6 @@
   "repin_note_cl_data_35_20261108": "CL-DATA-35 batch1 (2026-11-08): re-pinned 60 opportunities (37 places) after access-info verification wave — access_notes_i18n filled from official sources, evidence_refs attached (e-d35-access-*), geometry re-check documented, revision bumped; conditions untouched (legacy fail-closed conditions intentionally carry no threshold_source). Commit 1abb6b0eedc73b83f15fffcb9b9a3621b4fd05ad. Added supporting source data/v2/audits/cl-data-35_access_evidence.json (evidence registry for e-d35-access-*). Stage 2c: jp-029 access note refined to https city source (http castle site kept as secondary); evidence registry URL fixed. Correction: per CL-DATA-13 convention the W2 provenance commit_sha of each record is PRESERVED; only blob_sha/sha256 carry the new state.",
   "repin_note_cl_data_42_20261109": "CL-DATA-42 US-mainland expansion admission: 14 new opportunities (us-097..us-106, 10 places) pinned at the stage-1 admission commit; cl-data-42_web_evidence.json added to supporting_sources. PM-judgment admission (owner 2026-11-08), GROWTH-ONLY (owner 2026-11-09); scoring paused 2026-11-08.",
   "repin_note_cl_data_43_20261109": "CL-DATA-43 Alaska+Hawaii expansion admission: 12 new opportunities (us-107..us-118, 12 places: 5 阿拉斯加 / 7 夏威夷-first) pinned at the stage-1b admission commit; cl-data-43_web_evidence.json added to supporting_sources. PM-judgment admission (owner 2026-11-08), GROWTH-ONLY (owner 2026-11-09); scoring paused 2026-11-08.",
-  "repin_note_cl-data-53_20261109": "CL-DATA-53: pinned 0 new canonical records (us-119..us-158, tree-verified ef5b1042a5a86ea99e3bd6a477ed79ce5f62cf4e) and supporting evidence registries ['data/v2/audits/cl-data-53_web_evidence.json', 'data/v2/audits/discovery/cl-data-53-dedupe.json']. Stage-1b also backfilled the 22 CL-DATA-42/43 legacy runtime spots (us-097..118); their contracts were already pinned, no re-pin needed."
+  "repin_note_cl-data-53_20261109": "CL-DATA-53: pinned 0 new canonical records (us-119..us-158, tree-verified ef5b1042a5a86ea99e3bd6a477ed79ce5f62cf4e) and supporting evidence registries ['data/v2/audits/cl-data-53_web_evidence.json', 'data/v2/audits/discovery/cl-data-53-dedupe.json']. Stage-1b also backfilled the 22 CL-DATA-42/43 legacy runtime spots (us-097..118); their contracts were already pinned, no re-pin needed.",
+  "repin_note_cl_data_57_20261110": "CL-DATA-57: tw-016-P01 and tw-095-P02 repinned to 0ab54271b (sunset_window promoted QUALITY/MODIFIER to REQUIRED/MAIN, owner light-window rule; blob+sha256 verified on the task branch)."
 }

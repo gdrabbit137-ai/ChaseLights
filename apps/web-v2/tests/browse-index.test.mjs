@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and canonical sources remain source pinned (CL-DATA-53: 350 places / 552 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'990e63f3a3f884c120a0ff7a49b4b6115aea7c0a28d17df7d1cbf132d9294530'); // CL-CI-33: re-measured on the merged tree a7b75259b after browse-index/catalog regen (350 places / 552 opportunities)
-  assert.equal(sha256(rawCatalog),'396802069e7545767526dadddd11fde747648d8eb550b59048218993c44f8048'); // CL-CI-33: re-measured on the merged tree a7b75259b after browse-index/catalog regen (350 places / 552 opportunities)
+  assert.equal(sha256(rawIndex),'c55584409f87be79dd9a91c2091ed3badb003f8db188d40dd81ddaf266d82466'); // CL-DATA-57: re-measured on the task tree 0ab54271b after sunset_window REQUIRED promotion regen (350 places / 552 opportunities)
+  assert.equal(sha256(rawCatalog),'71c6485f29eec259f0181f377b66498f30b9ca18adea6cfc5ea2c600f600a9e1'); // CL-DATA-57: re-measured on the task tree 0ab54271b after sunset_window REQUIRED promotion regen (350 places / 552 opportunities)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,552);assert.equal(source.places.length,350);
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
@@ -21,7 +21,15 @@ test('W2 index and canonical sources remain source pinned (CL-DATA-53: 350 place
   for(const row of index.place_index.opportunities){
     const basename=row.opportunity_id+'.json';
     let bytes;
-    if(pinnedOriginal.includes(row.opportunity_id)){
+    // CL-DATA-57: tw-016-P01 is a repinned canonical record — the W2 fixture
+    // keeps freezing the ORIGINAL review bytes (2af08fb9 provenance), while
+    // the canonical record evolved via the owner-rule semantic correction
+    // (sunset_window promoted REQUIRED/MAIN). Its index row must match the
+    // live canonical bytes, not the frozen fixture.
+    if(row.opportunity_id==='tw-016-P01'){
+      readPinned(basename);
+      bytes=readFileSync(new URL(`../../../data/v2/opportunities/${basename}`,import.meta.url));
+    }else if(pinnedOriginal.includes(row.opportunity_id)){
       readPinned(basename);
       bytes=readFileSync(new URL(`./fixtures/worker2/${basename}`,import.meta.url));
     }else if(reviewedTaskS.includes(row.opportunity_id)){
