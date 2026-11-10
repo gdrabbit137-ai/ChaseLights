@@ -7,7 +7,7 @@ import { signJWT, verifyJWT, authSecret } from "../src/auth.js";
 
 // --- richer in-memory D1 stub ------------------------------------------------
 export function makeEnv(opts = {}) {
-  const tables = { users: new Map(), favorites: new Set(), notify_rules: new Set() };
+  const tables = { users: new Map(), favorites: new Set(), notify_rules: new Set(), auth_states: new Map() };
   const store = new Map();
   const keyFor = (t, pk) => pk.join("|");
   const db = {
@@ -42,10 +42,24 @@ export function makeEnv(opts = {}) {
             } else if (/DELETE FROM favorites/.test(sql)) {
               const k = keyFor(null, [args[0], args[1]]);
               if (tables.favorites.has(k)) { tables.favorites.delete(k); meta.changes = 1; }
+            } else if (/INSERT INTO auth_states/.test(sql)) {
+              const [state, payload] = args;
+              if (!tables.auth_states.has(state)) { tables.auth_states.set(state, { state, payload, created_at: new Date().toISOString().replace("T", " ").slice(0, 19) }); meta.changes = 1; }
+            } else if (/DELETE FROM auth_states WHERE created_at/.test(sql)) {
+              const cutoff = Date.now() - 15 * 60 * 1000;
+              for (const [k, v] of [...tables.auth_states]) {
+                if (Date.parse(v.created_at.replace(" ", "T") + "Z") < cutoff) { tables.auth_states.delete(k); meta.changes++; }
+              }
+            } else if (/DELETE FROM auth_states WHERE state/.test(sql)) {
+              if (tables.auth_states.has(args[0])) { tables.auth_states.delete(args[0]); meta.changes = 1; }
             }
             return { meta, run: () => {} };
           },
           first: async () => {
+            if (/FROM auth_states/.test(sql)) {
+              const row = tables.auth_states.get(args[0]);
+              return row ? { payload: row.payload } : null;
+            }
             if (/FROM users/.test(sql)) {
               const row = tables.users.get(args[0]);
               return row ? { ...row } : null;
@@ -139,7 +153,7 @@ test("mock provider: disabled in prod-like env, session flow works with AUTH_MOC
 
 // --- full OAuth callback with mocked provider endpoints (LINE) ------------------
 test("OAuth flow: start redirects with state; callback exchanges code via mocked LINE endpoints; state single-use", async () => {
-  const { env, tables } = makeEnv();
+  const { env, tables, store } = makeEnv();
   env.LINE_LOGIN_CLIENT_ID = "line-client-id";
   env.LINE_LOGIN_CLIENT_SECRET = "line-client-secret";
   const calls = [];
@@ -162,6 +176,9 @@ test("OAuth flow: start redirects with state; callback exchanges code via mocked
     const state = new URL(loc).searchParams.get("state");
     assert.ok(state);
     assert.ok(new URL(loc).searchParams.get("redirect_uri").includes("/api/v1/auth/line/callback"));
+    // CL-API-02C: state lives in D1, KV (EVALS) is untouched
+    assert.ok(![...store.keys()].some(k => k.startsWith("auth:state:")), "KV must not carry auth state");
+    assert.ok(tables.auth_states.has(state));
 
     const cb = await worker.fetch(req(`/auth/line/callback?code=xyz&state=${state}`), env, {});
     assert.equal(cb.status, 200);
@@ -169,6 +186,7 @@ test("OAuth flow: start redirects with state; callback exchanges code via mocked
     assert.equal(body.user.id, "p:line:U123");
     assert.equal(body.user.displayName, "LINE User");
     assert.ok(tables.users.has("p:line:U123"));
+    assert.ok(!tables.auth_states.has(state), "single-use state row must be deleted at read");
 
     // state is single-use: replay rejected
     const replay = await worker.fetch(req(`/auth/line/callback?code=xyz&state=${state}`), env, {});
@@ -177,6 +195,46 @@ test("OAuth flow: start redirects with state; callback exchanges code via mocked
     const forged = await worker.fetch(req("/auth/line/callback?code=xyz&state=forged"), env, {});
     assert.equal(forged.status, 400);
     assert.ok(calls.some(u => u.includes("api.line.me/oauth2/v2.1/token")));
+  } finally { globalThis.fetch = realFetch; }
+});
+
+// --- CL-API-02C: D1 state expiry (payload exp) + opportunistic old-row cleanup --
+test("expired auth state rejected and stale rows cleaned on read", async () => {
+  const { env, tables } = makeEnv();
+  env.LINE_LOGIN_CLIENT_ID = "line-client-id";
+  env.LINE_LOGIN_CLIENT_SECRET = "line-client-secret";
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async (url) => {
+    if (String(url).includes("/oauth2/v2.1/token")) return new Response(JSON.stringify({ access_token: "fake-at" }), { status: 200 });
+    if (String(url).includes("/oauth2/v2.1/verify")) return new Response(JSON.stringify({ sub: "U999", name: "Late" }), { status: 200 });
+    return realFetch(url);
+  };
+  try {
+    const start = await worker.fetch(req("/auth/line/start"), env, {});
+    assert.equal(start.status, 302);
+    const state = new URL(start.headers.get("Location")).searchParams.get("state");
+
+    // (a) payload exp in the past → 400
+    const row = tables.auth_states.get(state);
+    const st = JSON.parse(row.payload);
+    st.exp = Date.now() - 1000;
+    tables.auth_states.set(state, { ...row, payload: JSON.stringify(st) });
+    const exp = await worker.fetch(req(`/auth/line/callback?code=xyz&state=${state}`), env, {});
+    assert.equal(exp.status, 400);
+    assert.ok(!tables.auth_states.has(state), "expired row still deleted on read");
+
+    // (b) stale created_at rows are swept by the opportunistic cleanup
+    const stale = "stale-state-row";
+    tables.auth_states.set(stale, {
+      state: stale, payload: JSON.stringify({ provider: "line", redirectUri: "https://x", merge: null, exp: Date.now() + 600_000 }),
+      created_at: new Date(Date.now() - 30 * 60 * 1000).toISOString().replace("T", " ").slice(0, 19),
+    });
+    const start2 = await worker.fetch(req("/auth/line/start"), env, {});
+    assert.equal(start2.status, 302);
+    const state2 = new URL(start2.headers.get("Location")).searchParams.get("state");
+    const cb2 = await worker.fetch(req(`/auth/line/callback?code=xyz&state=${state2}`), env, {});
+    assert.equal(cb2.status, 200);
+    assert.ok(!tables.auth_states.has(stale), "read-time cleanup removed rows older than 15 minutes");
   } finally { globalThis.fetch = realFetch; }
 });
 
