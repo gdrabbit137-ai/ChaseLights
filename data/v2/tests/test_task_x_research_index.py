@@ -53,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((226,407),(len(actual),len(ids)))  # re-anchored CL-DATA-62 (6-place retirement)
+        self.assertEqual((344,539),(len(actual),len(ids)))  # re-anchored CL-INT-134 (6-place retirement on the merged 350/552 tree)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -198,7 +198,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(678,count)  # 226 places x 3 (re-anchored CL-DATA-62: 6-place retirement)
+        self.assertEqual(1032,count)  # 344 places x 3 (re-anchored CL-INT-134: 6-place retirement on the merged tree)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')

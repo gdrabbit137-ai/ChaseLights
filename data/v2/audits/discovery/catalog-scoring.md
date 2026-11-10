@@ -2,11 +2,11 @@
 
 評分範圍：350 places × 552 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`0eac3fc5dc971b95…`（重跑可驗證確定性）。
+輸入指紋：`0b1a0884586691a1…`（重跑可驗證確定性）。
 
 - 全庫加權均分：**4.03 / 5**；中位數：**4.06 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**202** 個，不虛構分數）。
 - 區域分布：jp=90, tw=115, us=145
-- 弱點清單筆數：低 weather_light **11**、低 verifiability **3**、5km 群聚 **23**。
+- 弱點清單筆數：低 weather_light **11**、低 verifiability **9**、5km 群聚 **23**。
 
 ## 五維判定規則（機械、可重跑）
 
@@ -93,6 +93,12 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | `tw-059-P01` | tw-059 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
 | `tw-060-P01` | tw-060 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
 | `tw-078-P01` | tw-078 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
+| `us-075-P01` | us-075 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
+| `us-075-P02` | us-075 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
+| `us-076-P01` | us-076 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
+| `us-076-P02` | us-076 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
+| `us-077-P01` | us-077 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
+| `us-077-P02` | us-077 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 
 ## 弱點清單 C：高重叠區（5km 群聚 → 檢討差異化/候選裁撤，僅建議）
 
@@ -112,11 +118,11 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 - 杉林溪（tw-053，最近 2.16 km）、忘憂森林（tw-104，最近 2.16 km）
 - 金門得月樓（tw-062，最近 2.32 km）、金門慈湖（tw-064，最近 4.74 km）、建功嶼／退潮石板道（tw-078，最近 2.32 km）
 - 馬祖南竿（tw-065，最近 3.37 km）、南竿鐵堡／海防礁岩（tw-081，最近 3.37 km）
-- 綠島朝日溫泉（tw-068，最近 0.47 km）、帆船鼻大草原／海岬（tw-080，最近 0.47 km）
+- tw-068（tw-068，最近 0.47 km）、帆船鼻大草原／海岬（tw-080，最近 0.47 km）
 - 南雅奇岩（tw-072，最近 0.57 km）、南子吝步道（tw-085，最近 0.57 km）
 - 雷尼爾山國家公園（us-012，最近 0.08 km）、雷尼爾山・天堂區（us-081，最近 2.02 km）、雷尼爾山・倒影湖（us-082，最近 0.08 km）
 - 奧林匹克國家公園（us-019，最近 0.05 km）、紅寶石海灘（us-085，最近 0.05 km）
-- 西雅圖太空針塔（us-024，最近 0.88 km）、西雅圖派克市場（us-026，最近 1.33 km）、Kerry Park（us-071，最近 1.1 km）、金色花園公園（us-072，最近 4.06 km）、阿爾基海灘公園（us-073，最近 2.04 km）、煤氣廠公園（us-074，最近 2.6 km）、探索公園（us-075，最近 4.06 km）、漢密爾頓觀景公園（us-076，最近 2.04 km）、何塞・黎剎博士公園（us-077，最近 2.61 km）、默特爾・愛德華茲公園（us-078，最近 0.88 km）
+- 西雅圖太空針塔（us-024，最近 0.88 km）、西雅圖派克市場（us-026，最近 1.33 km）、Kerry Park（us-071，最近 1.1 km）、金色花園公園（us-072，最近 4.06 km）、阿爾基海灘公園（us-073，最近 2.04 km）、煤氣廠公園（us-074，最近 2.6 km）、us-075（us-075，最近 4.06 km）、us-076（us-076，最近 2.04 km）、us-077（us-077，最近 2.61 km）、默特爾・愛德華茲公園（us-078，最近 0.88 km）
 - 卡特邁國家公園（us-059，最近 0.04 km）、布魯克斯瀑布・鮭魚道水景（us-111，最近 0.04 km）
 - 藝術家角（us-092，最近 2.65 km）、畫湖（us-093，最近 2.65 km）
 
