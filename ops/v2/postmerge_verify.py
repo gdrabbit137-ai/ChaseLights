@@ -390,7 +390,7 @@ def main():
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
-            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 217, True, False),  # CL-CI-22 re-anchor 201->204; CL-INT-91 +6 -> 210; CL-CI-31b +4 -> 214; CL-CI-33 re-anchor 214->217 (measured on merged tree a7b75259b: 217 pass / 0 fail, Windows python 3.14, no skip)
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 223, True, False),  # CL-CI-22 re-anchor 201->204; CL-INT-91 +6 -> 210; CL-CI-31b +4 -> 214; CL-CI-33 re-anchor 214->217; CL-DATA-56 +6 -> 223 (measured on merged tree 4d64711c1: 223 pass / 0 fail, Windows python 3.14, no skip)
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 184, True, False,  # CL-CI-22 re-anchor 71->109 (CL-DATA-25..28 suites); CL-CI-33 re-anchor 135->184 (measured on merged tree a7b75259b: 184 pass / 0 fail)
                 {"timeout": 900}),  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under; CL-CI-33 raised to 900s for local verification headroom
@@ -489,11 +489,11 @@ def main():
         # tree: 532 pass / 0 fail), exact total 1034 -> 1046 (measured deltas:
         # 1034 was the counted sum on 3bd61d360; this tree changes ONLY those
         # two groups, +8 node and +4 w3, and adds no other group tests).
-        if (report["counts"]["tests"] != 1132 or
+        if (report["counts"]["tests"] != 1138 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1132):
-            raise ValueError("Post-merge exact 1132-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1138):
+            raise ValueError("Post-merge exact 1138-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
