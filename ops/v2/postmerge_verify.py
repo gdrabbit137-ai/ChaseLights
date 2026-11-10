@@ -84,21 +84,32 @@ def verify_main(root, lock):
             out.setdefault("owner_file_counts", {})[paths[0]] = current_count
     # CL-CI-32: the shipped opportunity-contracts.json bundle must never lag
     # the canonical tree. Its count — and its entry set — must exactly equal
-    # the number of opportunity contract files under data/v2/opportunities;
-    # a merge that adds files without re-running
+    # the eligible opportunity contracts under data/v2/opportunities (the
+    # generator's own rules: condition_contract.genre_template present and
+    # lifecycle_status != "retired" — CL-DATA-62 hides retired Places from the
+    # display surface, and legacy draft skeletons carry no genre); a merge
+    # that adds files without re-running
     # data/v2/tools/make_display_contracts.py fails here instead of shipping
     # a stale V1-facing bundle.
     bundle = json.loads((root / "apps/web-v2/opportunity-contracts.json").read_text())
-    opp_files = len(git(root, "ls-tree", "-r", "--name-only", "HEAD",
-                        "data/v2/opportunities").splitlines())
+    expected_opp_ids = set()
+    for name in git(root, "ls-tree", "-r", "--name-only", "HEAD",
+                    "data/v2/opportunities").splitlines():
+        doc = json.loads((root / name).read_text(encoding="utf-8"))
+        cc = doc.get("condition_contract") or {}
+        if not cc.get("genre_template"):
+            continue
+        if doc.get("lifecycle_status") == "retired":
+            continue
+        expected_opp_ids.add(doc["opportunity_id"])
     opp_ids = bundle.get("opportunities")
     if (not isinstance(opp_ids, dict)
-            or bundle.get("count") != opp_files
-            or len(opp_ids) != opp_files):
+            or bundle.get("count") != len(expected_opp_ids)
+            or set(opp_ids) != expected_opp_ids):
         raise ValueError(
             "opportunity-contracts.json lag: bundle count="
-            f"{bundle.get('count')} != data/v2/opportunities files={opp_files}; "
-            "re-run data/v2/tools/make_display_contracts.py"
+            f"{bundle.get('count')} != data/v2/opportunities eligible contracts="
+            f"{len(expected_opp_ids)}; re-run data/v2/tools/make_display_contracts.py"
         )
     out["opportunity_contracts_count"] = bundle["count"]
     for p, expected in lock.get("effective_reviewed_blobs", {}).items():
