@@ -184,6 +184,9 @@ RUNTIME_PROFILE_GAPS = {
         "tw-025-P01", "tw-025-P02",
         "tw-026-P01",
         "tw-032-P03",
+        # CL-DATA-66 merged re-anchor: wave5 vertical-cloud contracts not yet
+        # configured, registered as explicit honest-degradation gaps.
+        "tw-165-P02", "tw-181-P01", "tw-189-P01", "tw-196-P01",
     }),
     "directional_horizon": frozenset({
         # CL-DATA-55 re-anchor: us-121+ directional dependencies moved to
@@ -225,6 +228,11 @@ RUNTIME_PROFILE_GAPS = {
         "tw-064-P01", "tw-069-P01",
         "tw-085-P01", "tw-085-P02",
         "tw-086-P03",
+        # CL-DATA-66 merged re-anchor: wave5 tw-186..195 sunset contracts carry a
+        # directional_horizon dependency; viewpoint bearings not yet configured,
+        # registered as explicit honest-degradation gaps per CL-DATA-55 precedent.
+        "tw-186-P01", "tw-188-P02", "tw-191-P02", "tw-193-P02",
+        "tw-194-P01", "tw-195-P02",
     }),
 }
 
