@@ -14,10 +14,10 @@
   "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
  ],
  "counts": {
-  "spots": 392,
-  "opportunities": 624,
-  "condition_variants": 639,
-  "profile_viewpoint_relations": 630
+  "spots": 407,
+  "opportunities": 646,
+  "condition_variants": 661,
+  "profile_viewpoint_relations": 652
  },
  "spots": [
   {
@@ -26298,6 +26298,2072 @@
        "coord_confidence": "medium",
        "elevation_m": 1500.0,
        "coordinate_source": "OSM Nominatim 藤枝（桃源區）＋林業保育署官方（園區海拔500-1,804m；主要遊憩帶1,500-1,804m）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-147",
+   "canonical_name": "關仔嶺枕頭山觀景台",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E6%9E%95%E9%A0%AD%E5%B1%B1%20%E5%8F%B0%E5%8D%97",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 枕頭山（台南白河，peak）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-147-P01",
+     "spot_id": "tw-147",
+     "name_zh": "枕頭山關仔嶺環景",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "枕頭山關仔嶺環景",
+      "en": "Guanziling panorama from Zhenitoushan",
+      "ja": "枕頭山から関子嶺を望む"
+     },
+     "best_time": "枕頭山關仔嶺環景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-zhenting-zhenitoushan-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-572",
+       "variant_name": "枕頭山關仔嶺環景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "白河枕頭山山頂展望關仔嶺溫泉聚落與嘉南平原（OSM peak 節點；海拔查無權威源誠實留空）；與既有 tw-022 二延平步道（隙頂茶園霧景）題材錯位——本點為",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "枕頭山關仔嶺環景",
+        "en": "Guanziling panorama from Zhenitoushan",
+        "ja": "枕頭山から関子嶺を望む"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "白河枕頭山山頂展望關仔嶺溫泉聚落與嘉南平原（OSM peak 節點；海拔查無權威源誠實留空）；與既有 tw-022 二延平步道（隙頂茶園霧景）題材錯位——本點為溫泉聚落環景。",
+        "en": "Summit lookout over the Guanziling hot-spring settlement and Chianan plain from Zhenitoushan, Baihe (OSM peak node; elevation honestly left empty - no authoritative source).",
+        "ja": "白河の枕頭山山頂から関子嶺温泉集落と嘉南平原を望む（OSM peak ノード）。標高は未確認のため誠実に空欄。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-147-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "關仔嶺枕頭山觀景台",
+       "name_i18n": {
+        "zh-TW": "關仔嶺枕頭山觀景台",
+        "en": "Zhenitoushan viewpoint (Guanziling)",
+        "ja": "關仔嶺枕頭山觀景台"
+       },
+       "lat": 23.3271039,
+       "lon": 120.4860274,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 枕頭山（台南白河，peak）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-147-P02",
+     "spot_id": "tw-147",
+     "name_zh": "枕頭山夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "枕頭山夕照",
+      "en": "Zhenitoushan sunset over the plain",
+      "ja": "枕頭山の夕映え"
+     },
+     "best_time": "枕頭山夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-zhenting-zhenitoushan-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-573",
+       "variant_name": "枕頭山夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "山頂向西眺望嘉南平原夕照（與同點 P01 環景契約題材分列）；方位暫以 generic 西向 tolerance 85 註冊，待現場校準。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "枕頭山夕照",
+        "en": "Zhenitoushan sunset over the plain",
+        "ja": "枕頭山の夕映え"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "山頂向西眺望嘉南平原夕照（與同點 P01 環景契約題材分列）；方位暫以 generic 西向 tolerance 85 註冊，待現場校準。",
+        "en": "Westward sunset over the Chianan plain from the summit (separate contract from the P01 panorama); generic west sector, tolerance 85, pending field calibration.",
+        "ja": "山頂から嘉南平原の夕日（P01 とは別契約）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-147-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "關仔嶺枕頭山觀景台",
+       "name_i18n": {
+        "zh-TW": "關仔嶺枕頭山觀景台",
+        "en": "Zhenitoushan viewpoint (Guanziling)",
+        "ja": "關仔嶺枕頭山觀景台"
+       },
+       "lat": 23.3271039,
+       "lon": 120.4860274,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 枕頭山（台南白河，peak）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-148",
+   "canonical_name": "中寮山蓮花亭",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E4%B8%AD%E5%AF%AE%E5%B1%B1%20%E9%AB%98%E9%9B%84",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 中寮山（高雄田寮，peak）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-148-P01",
+     "spot_id": "tw-148",
+     "name_zh": "中寮山蓮花亭琉璃夜景",
+     "legacy_theme": "city_night",
+     "name_i18n": {
+      "zh-TW": "中寮山蓮花亭琉璃夜景",
+      "en": "Zhongliaoshan night lights (liuli)",
+      "ja": "中寮山の夜景"
+     },
+     "best_time": "中寮山蓮花亭琉璃夜景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-zhongliaoshan-lianhuating-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-574",
+       "variant_name": "中寮山蓮花亭琉璃夜景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "蓮花亭俯瞰田寮月世界與岡山地區夜燈（OSM peak；海拔查無權威源誠實留空）；與既有 tw-027 田寮月世界（惡地地質日景）題材錯位——本點為市街琉璃光。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "中寮山蓮花亭琉璃夜景",
+        "en": "Zhongliaoshan night lights (liuli)",
+        "ja": "中寮山の夜景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "蓮花亭俯瞰田寮月世界與岡山地區夜燈（OSM peak；海拔查無權威源誠實留空）；與既有 tw-027 田寮月世界（惡地地質日景）題材錯位——本點為市街琉璃光。",
+        "en": "Pavilion lookout over the Tianliao moon-world badlands and Gangshan area night lights (OSM peak; elevation honestly left empty); disjoint from the badlands-geology subject of tw-027.",
+        "ja": "蓮花亭から田寮月世界と岡山方面の灯り（OSM peak）。月世界とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-148-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "中寮山蓮花亭",
+       "name_i18n": {
+        "zh-TW": "中寮山蓮花亭",
+        "en": "Zhongliaoshan Lianhua Pavilion viewpoint",
+        "ja": "中寮山蓮花亭"
+       },
+       "lat": 22.8302177,
+       "lon": 120.432777,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 中寮山（高雄田寮，peak）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-148-P02",
+     "spot_id": "tw-148",
+     "name_zh": "中寮山夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "中寮山夕照",
+      "en": "Zhongliaoshan sunset",
+      "ja": "中寮山の夕映え"
+     },
+     "best_time": "中寮山夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-zhongliaoshan-lianhuating-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-575",
+       "variant_name": "中寮山夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "蓮花亭向西夕照（與同點 P01 夜景契約分列）；方位暫以西向 tolerance 85 註冊。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "中寮山夕照",
+        "en": "Zhongliaoshan sunset",
+        "ja": "中寮山の夕映え"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "蓮花亭向西夕照（與同點 P01 夜景契約分列）；方位暫以西向 tolerance 85 註冊。",
+        "en": "Westward sunset from the pavilion (separate from the P01 night contract); generic west sector, tolerance 85.",
+        "ja": "蓮花亭から西向きの夕日（P01 とは別契約）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-148-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "中寮山蓮花亭",
+       "name_i18n": {
+        "zh-TW": "中寮山蓮花亭",
+        "en": "Zhongliaoshan Lianhua Pavilion viewpoint",
+        "ja": "中寮山蓮花亭"
+       },
+       "lat": 22.8302177,
+       "lon": 120.432777,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 中寮山（高雄田寮，peak）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-149",
+   "canonical_name": "九份二山",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/wiki/%E4%B9%9D%E4%BB%BD%E4%BA%8C%E5%B1%B1",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 九份二山（peak）＋zh.wikipedia 九份二山（峰頂海拔1,173m）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-149-P01",
+     "spot_id": "tw-149",
+     "name_zh": "九份二山日出",
+     "legacy_theme": "sunrise",
+     "name_i18n": {
+      "zh-TW": "九份二山日出",
+      "en": "Jiufenershan dawn",
+      "ja": "九份二山の日の出"
+     },
+     "best_time": "九份二山日出",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-jiufenershan-quake-memorial-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-576",
+       "variant_name": "九份二山日出",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "九份二山（1,173m，921大地震紀念地/堰塞湖）山頂展望日出（zh.wikipedia 海拔；OSM peak）；與既有 tw-020 金龍山（晨霧攝影勝地",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "九份二山日出",
+        "en": "Jiufenershan dawn",
+        "ja": "九份二山の日の出"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "九份二山（1,173m，921大地震紀念地/堰塞湖）山頂展望日出（zh.wikipedia 海拔；OSM peak）；與既有 tw-020 金龍山（晨霧攝影勝地）題材錯位。",
+        "en": "Dawn from the 1,173 m summit of Jiufenershan (921 earthquake memorial/landslide lake; zh.wikipedia elevation; OSM peak); disjoint from Jinlongshan's morning-mist subject.",
+        "ja": "標高1,173mの九份二山（921地震紀念地・堰塞湖）山頂の日の出。金龍山とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-149-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "九份二山",
+       "name_i18n": {
+        "zh-TW": "九份二山",
+        "en": "Jiufenershan earthquake memorial",
+        "ja": "九份二山"
+       },
+       "lat": 23.9345856,
+       "lon": 120.84163,
+       "coord_confidence": "high",
+       "elevation_m": 1173.0,
+       "coordinate_source": "OSM Nominatim 九份二山（peak）＋zh.wikipedia 九份二山（峰頂海拔1,173m）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-149-P02",
+     "spot_id": "tw-149",
+     "name_zh": "九份二山紀念地展望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "九份二山紀念地展望",
+      "en": "Jiufenershan memorial viewpoint",
+      "ja": "九份二山の展望"
+     },
+     "best_time": "九份二山紀念地展望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-jiufenershan-quake-memorial-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-577",
+       "variant_name": "九份二山紀念地展望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "紀念地步道俯瞰堰塞湖遺跡與南港溪谷（與同點 P01 日出契約分列）。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "九份二山紀念地展望",
+        "en": "Jiufenershan memorial viewpoint",
+        "ja": "九份二山の展望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "紀念地步道俯瞰堰塞湖遺跡與南港溪谷（與同點 P01 日出契約分列）。",
+        "en": "Trail lookout over the landslide-lake remains and the Nangang creek valley (separate from the P01 dawn contract).",
+        "ja": "堰塞湖跡と南港渓谷を見下ろす展望（P01 とは別契約）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-149-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "九份二山",
+       "name_i18n": {
+        "zh-TW": "九份二山",
+        "en": "Jiufenershan earthquake memorial",
+        "ja": "九份二山"
+       },
+       "lat": 23.9345856,
+       "lon": 120.84163,
+       "coord_confidence": "high",
+       "elevation_m": 1173.0,
+       "coordinate_source": "OSM Nominatim 九份二山（peak）＋zh.wikipedia 九份二山（峰頂海拔1,173m）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-150",
+   "canonical_name": "九天夕陽之樹",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://playing.ltn.com.tw/article/23989",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 望高寮（台中南屯春社里，大肚山台地高點一帶）＋自由時報/墨刻報導（九天夕陽之樹位於大肚山台地高點、俯瞰台中盆地）；海拔查無獨立權威值誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-150-P01",
+     "spot_id": "tw-150",
+     "name_zh": "九天夕陽之樹夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "九天夕陽之樹夕照",
+      "en": "Jiutian sunset-tree golden hour",
+      "ja": "九天夕陽之樹の夕焼け"
+     },
+     "best_time": "九天夕陽之樹夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-jiutian-sunset-tree-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-578",
+       "variant_name": "九天夕陽之樹夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "大肚山台地高點孤樹夕照、遠眺台中港海線（自由時報/墨刻列名 IG 打卡夕景；座標取 OSM 望高寮一帶）；與既有 tw-015 高美濕地（濕地雲彩倒影）題材錯位",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "九天夕陽之樹夕照",
+        "en": "Jiutian sunset-tree golden hour",
+        "ja": "九天夕陽之樹の夕焼け"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "大肚山台地高點孤樹夕照、遠眺台中港海線（自由時報/墨刻列名 IG 打卡夕景；座標取 OSM 望高寮一帶）；與既有 tw-015 高美濕地（濕地雲彩倒影）題材錯位。",
+        "en": "Lone-tree golden hour on the Dadu Plateau crest, overlooking Taichung port coastline (photo-community sunset landmark; coordinate from the OSM Wanggaoliao area).",
+        "ja": "大肚山台地の孤樹と夕焼け（IG有名スポット）。高美濕地とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-150-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "九天夕陽之樹",
+       "name_i18n": {
+        "zh-TW": "九天夕陽之樹",
+        "en": "Jiutian sunset tree (Dadu Plateau)",
+        "ja": "九天夕陽之樹"
+       },
+       "lat": 24.1447185,
+       "lon": 120.5785534,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 望高寮（台中南屯春社里，大肚山台地高點一帶）＋自由時報/墨刻報導（九天夕陽之樹位於大肚山台地高點、俯瞰台中盆地）；海拔查無獨立權威值誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-150-P02",
+     "spot_id": "tw-150",
+     "name_zh": "大肚山百萬夜景",
+     "legacy_theme": "city_night",
+     "name_i18n": {
+      "zh-TW": "大肚山百萬夜景",
+      "en": "Dadu Plateau million-dollar night view",
+      "ja": "大肚山の夜景"
+     },
+     "best_time": "大肚山百萬夜景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-jiutian-sunset-tree-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-579",
+       "variant_name": "大肚山百萬夜景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "夜幕後俯瞰台中盆地萬家燈火（媒體口徑「百萬夜景」；與同點 P01 夕照契約分列）。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "大肚山百萬夜景",
+        "en": "Dadu Plateau million-dollar night view",
+        "ja": "大肚山の夜景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "夜幕後俯瞰台中盆地萬家燈火（媒體口徑「百萬夜景」；與同點 P01 夕照契約分列）。",
+        "en": "Night view over the Taichung basin lights after dusk (the 'million-dollar night view'; separate from the P01 sunset contract).",
+        "ja": "夜の台中盆地の灯りを一望（P01 とは別契約）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-150-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "九天夕陽之樹",
+       "name_i18n": {
+        "zh-TW": "九天夕陽之樹",
+        "en": "Jiutian sunset tree (Dadu Plateau)",
+        "ja": "九天夕陽之樹"
+       },
+       "lat": 24.1447185,
+       "lon": 120.5785534,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 望高寮（台中南屯春社里，大肚山台地高點一帶）＋自由時報/墨刻報導（九天夕陽之樹位於大肚山台地高點、俯瞰台中盆地）；海拔查無獨立權威值誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-151",
+   "canonical_name": "內洞森林遊樂區",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/wiki/%E5%85%A7%E6%B4%9E%E5%9C%8B%E5%AE%B6%E6%A3%AE%E6%9E%97%E9%81%8A%E6%A8%82%E5%8D%80",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 內洞國家森林遊樂區（nature_reserve）＋zh.wikipedia（園區標高約230-800公尺，取入口帶230m）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-151-P01",
+     "spot_id": "tw-151",
+     "name_zh": "內洞三層瀑布",
+     "legacy_theme": "waterfall",
+     "name_i18n": {
+      "zh-TW": "內洞三層瀑布",
+      "en": "Neidong three-tier waterfall",
+      "ja": "内洞の三段滝"
+     },
+     "best_time": "內洞三層瀑布",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_waterfall_flow_mist_module",
+     "formula_version": "v0.04-cl-data-25-neidong-forest-recreation-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-580",
+       "variant_name": "內洞三層瀑布",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "南勢溪支流內洞溪三層瀑布與負離子森林（zh.wikipedia：園區標高約230-800m；舊稱娃娃谷）；與既有 tw-144 東眼山（森林稜線）題材錯位——本",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_waterfall_flow_mist_module",
+       "variant_name_i18n": {
+        "zh-TW": "內洞三層瀑布",
+        "en": "Neidong three-tier waterfall",
+        "ja": "内洞の三段滝"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "南勢溪支流內洞溪三層瀑布與負離子森林（zh.wikipedia：園區標高約230-800m；舊稱娃娃谷）；與既有 tw-144 東眼山（森林稜線）題材錯位——本點為瀑布主體。",
+        "en": "Three-tier waterfall on the Neidong creek inside the negative-ion forest (zh.wikipedia: park 230-800 m; old name 'Wawa Valley'); disjoint from Dongyanshan's ridge-forest subject.",
+        "ja": "内洞渓の三段滝と負離子の森（公式）。東眼山とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-151-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "內洞森林遊樂區",
+       "name_i18n": {
+        "zh-TW": "內洞森林遊樂區",
+        "en": "Neidong National Forest Recreation Area",
+        "ja": "內洞森林遊樂區"
+       },
+       "lat": 24.8165785,
+       "lon": 121.5478222,
+       "coord_confidence": "high",
+       "elevation_m": 230.0,
+       "coordinate_source": "OSM Nominatim 內洞國家森林遊樂區（nature_reserve）＋zh.wikipedia（園區標高約230-800公尺，取入口帶230m）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-152",
+   "canonical_name": "南方澳觀景台",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E5%8D%97%E6%96%B9%E6%BE%B3%E8%A7%80%E6%99%AF%E5%8F%B0",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 南方澳觀景台（park/viewpoint 節點）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-152-P01",
+     "spot_id": "tw-152",
+     "name_zh": "南方澳漁港全景",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "南方澳漁港全景",
+      "en": "Nanfangao fishing-port panorama",
+      "ja": "南方澳漁港の全景"
+     },
+     "best_time": "南方澳漁港全景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-nanfangao-viewpoint-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-581",
+       "variant_name": "南方澳漁港全景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "觀景台俯瞰南方澳漁港、豆腐岬與太平洋（OSM viewpoint；海拔查無權威源誠實留空）；與既有 tw-033 粉鳥林（海灣秘境沙灘）題材錯位——本點為漁港全",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "南方澳漁港全景",
+        "en": "Nanfangao fishing-port panorama",
+        "ja": "南方澳漁港の全景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "觀景台俯瞰南方澳漁港、豆腐岬與太平洋（OSM viewpoint；海拔查無權威源誠實留空）；與既有 tw-033 粉鳥林（海灣秘境沙灘）題材錯位——本點為漁港全景。",
+        "en": "Lookout over Nanfangao harbour, Doufu cape and the Pacific (OSM viewpoint; elevation honestly left empty); disjoint from the secret-bay beach subject of Fenniaolin.",
+        "ja": "南方澳漁港と豆腐岬、太平洋を望む（OSM viewpoint）。粉鳥林とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-152-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "南方澳觀景台",
+       "name_i18n": {
+        "zh-TW": "南方澳觀景台",
+        "en": "Nanfangao viewing platform",
+        "ja": "南方澳觀景台"
+       },
+       "lat": 24.5764952,
+       "lon": 121.8665024,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 南方澳觀景台（park/viewpoint 節點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-152-P02",
+     "spot_id": "tw-152",
+     "name_zh": "南方澳觀日",
+     "legacy_theme": "sunrise",
+     "name_i18n": {
+      "zh-TW": "南方澳觀日",
+      "en": "Nanfangao dawn over the Pacific",
+      "ja": "南方澳の日の出"
+     },
+     "best_time": "南方澳觀日",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-nanfangao-viewpoint-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-582",
+       "variant_name": "南方澳觀日",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "觀景台面向太平洋的第一道曙光（與同點 P01 全景契約分列）；方位暫以東向 tolerance 85 註冊。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "南方澳觀日",
+        "en": "Nanfangao dawn over the Pacific",
+        "ja": "南方澳の日の出"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "觀景台面向太平洋的第一道曙光（與同點 P01 全景契約分列）；方位暫以東向 tolerance 85 註冊。",
+        "en": "First light over the Pacific from the platform (separate from the P01 panorama); generic east sector, tolerance 85.",
+        "ja": "太平洋に昇る朝日（P01 とは別契約）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-152-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "南方澳觀景台",
+       "name_i18n": {
+        "zh-TW": "南方澳觀景台",
+        "en": "Nanfangao viewing platform",
+        "ja": "南方澳觀景台"
+       },
+       "lat": 24.5764952,
+       "lon": 121.8665024,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 南方澳觀景台（park/viewpoint 節點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-153",
+   "canonical_name": "楓林步道",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E6%A5%93%E6%9E%97%E6%AD%A5%E9%81%93%20%E8%8A%B1%E8%93%AE",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 楓林步道（花蓮吉安）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-153-P01",
+     "spot_id": "tw-153",
+     "name_zh": "吉安平原百萬夜景",
+     "legacy_theme": "city_night",
+     "name_i18n": {
+      "zh-TW": "吉安平原百萬夜景",
+      "en": "Ji'an plain night view",
+      "ja": "吉安平原の夜景"
+     },
+     "best_time": "吉安平原百萬夜景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-fenglin-trail-hualien-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-583",
+       "variant_name": "吉安平原百萬夜景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "楓林步道高點俯瞰花蓮市區與吉安平原夜燈、遠眺太平洋漁火（OSM trail 節點；海拔查無權威源誠實留空）；與既有 tw-082 鯉魚潭（湖面倒影）題材錯位。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "吉安平原百萬夜景",
+        "en": "Ji'an plain night view",
+        "ja": "吉安平原の夜景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "楓林步道高點俯瞰花蓮市區與吉安平原夜燈、遠眺太平洋漁火（OSM trail 節點；海拔查無權威源誠實留空）；與既有 tw-082 鯉魚潭（湖面倒影）題材錯位。",
+        "en": "Trail-high lookout over Hualien city and the Ji'an plain lights, with Pacific fishing-boat fires offshore (OSM trail node; elevation honestly left empty).",
+        "ja": "花蓮市街と吉安平原の灯り（OSM）。鯉魚潭とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-153-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "楓林步道",
+       "name_i18n": {
+        "zh-TW": "楓林步道",
+        "en": "Fenglin trail viewpoint (Ji'an, Hualien)",
+        "ja": "楓林步道"
+       },
+       "lat": 23.9671719,
+       "lon": 121.5471128,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 楓林步道（花蓮吉安）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-153-P02",
+     "spot_id": "tw-153",
+     "name_zh": "吉安平原夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "吉安平原夕照",
+      "en": "Ji'an plain sunset",
+      "ja": "吉安平原の夕映え"
+     },
+     "best_time": "吉安平原夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-fenglin-trail-hualien-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-584",
+       "variant_name": "吉安平原夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "步道向西俯瞰縱谷平原夕照（與同點 P01 夜景契約分列）；方位暫以西向 tolerance 85 註冊。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "吉安平原夕照",
+        "en": "Ji'an plain sunset",
+        "ja": "吉安平原の夕映え"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "步道向西俯瞰縱谷平原夕照（與同點 P01 夜景契約分列）；方位暫以西向 tolerance 85 註冊。",
+        "en": "Westward sunset over the rift-valley plain (separate from the P01 night contract); generic west sector, tolerance 85.",
+        "ja": "縦谷平原の夕日（P01 とは別契約）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-153-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "楓林步道",
+       "name_i18n": {
+        "zh-TW": "楓林步道",
+        "en": "Fenglin trail viewpoint (Ji'an, Hualien)",
+        "ja": "楓林步道"
+       },
+       "lat": 23.9671719,
+       "lon": 121.5471128,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 楓林步道（花蓮吉安）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-154",
+   "canonical_name": "太麻里雙乳蜂",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://ezgo.ardswc.gov.tw/zh-tw/leisure-area/77/",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 千鶴亭（太麻里金針山楓林步道段；農業易遊網官方口徑：楓林步道、千鶴亭、雙乳蜂-曙光亭與千禧亭和一等三角點）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-154-P01",
+     "spot_id": "tw-154",
+     "name_zh": "雙乳蜂曙光亭第一道曙光",
+     "legacy_theme": "sunrise",
+     "name_i18n": {
+      "zh-TW": "雙乳蜂曙光亭第一道曙光",
+      "en": "First light at Shuguang pavilion, Shuangrufeng",
+      "ja": "曙光亭の初日の出"
+     },
+     "best_time": "雙乳蜂曙光亭第一道曙光",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-taimali-shuangrufeng-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-585",
+       "variant_name": "雙乳蜂曙光亭第一道曙光",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "太麻里金針山制高點段雙乳蜂（曙光亭/千禧亭，一等三角點）的元旦第一道曙光勝地（農業易遊網官方口徑；座標取 OSM 千鶴亭步道段）；與既有 tw-116 太麻里金",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "雙乳蜂曙光亭第一道曙光",
+        "en": "First light at Shuguang pavilion, Shuangrufeng",
+        "ja": "曙光亭の初日の出"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "太麻里金針山制高點段雙乳蜂（曙光亭/千禧亭，一等三角點）的元旦第一道曙光勝地（農業易遊網官方口徑；座標取 OSM 千鶴亭步道段）；與既有 tw-116 太麻里金針山（低處金針花海）題材錯位——本點為制高點曙光。",
+        "en": "First-dawn landmark at the crest of Taimali Daylily Mountain (Shuguang/Qianxi pavilions, first-order triangulation point; official ezgo wording; coordinate from the OSM Qianhe-pavilion trail section); disjoint from the lower daylily-field subject of tw-116.",
+        "ja": "太麻里金針山の最高点（曙光亭・千禧亭、一等三角点）の初日の出。tw-116 とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-154-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "太麻里雙乳蜂",
+       "name_i18n": {
+        "zh-TW": "太麻里雙乳蜂",
+        "en": "Shuangrufeng (Taimali golden-daylily crest)",
+        "ja": "太麻里雙乳蜂"
+       },
+       "lat": 22.6446915,
+       "lon": 120.9520793,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 千鶴亭（太麻里金針山楓林步道段；農業易遊網官方口徑：楓林步道、千鶴亭、雙乳蜂-曙光亭與千禧亭和一等三角點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-154-P02",
+     "spot_id": "tw-154",
+     "name_zh": "雙乳蜂金針花海",
+     "legacy_theme": "seasonal_foreground",
+     "name_i18n": {
+      "zh-TW": "雙乳蜂金針花海",
+      "en": "Shuangrufeng daylily bloom",
+      "ja": "双乳蜂の金針花"
+     },
+     "best_time": "雙乳蜂金針花海",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_seasonal_foreground_module",
+     "formula_version": "v0.04-cl-data-25-taimali-shuangrufeng-P02",
+     "formula_confidence": 50,
+     "best_season": "季節窗 08-01–09-30（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 08-01–09-30（seasonal-calendar）",
+      "en": "Seasonal window 08-01-09-30 (seasonal-calendar)",
+      "ja": "季節窓 08-01〜09-30（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-586",
+       "variant_name": "雙乳蜂金針花海",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "制高點周邊金針花海（沿用 seasonal-calendar 既有 daylily_taimali 窗；與同點 P01 曙光契約分列）。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_seasonal_foreground_module",
+       "variant_name_i18n": {
+        "zh-TW": "雙乳蜂金針花海",
+        "en": "Shuangrufeng daylily bloom",
+        "ja": "双乳蜂の金針花"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "制高點周邊金針花海（沿用 seasonal-calendar 既有 daylily_taimali 窗；與同點 P01 曙光契約分列）。",
+        "en": "Daylily bloom around the crest (reuses the existing seasonal-calendar daylily_taimali window; separate from the P01 dawn contract).",
+        "ja": "最高点付近の金針花（daylily_taimali 季節窓を再利用；P01 とは別契約）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-154-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "太麻里雙乳蜂",
+       "name_i18n": {
+        "zh-TW": "太麻里雙乳蜂",
+        "en": "Shuangrufeng (Taimali golden-daylily crest)",
+        "ja": "太麻里雙乳蜂"
+       },
+       "lat": 22.6446915,
+       "lon": 120.9520793,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 千鶴亭（太麻里金針山楓林步道段；農業易遊網官方口徑：楓林步道、千鶴亭、雙乳蜂-曙光亭與千禧亭和一等三角點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-155",
+   "canonical_name": "旭海草原",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E6%97%AD%E6%B5%B7%E8%8D%89%E5%8E%9F",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 旭海草原遊樂區（viewpoint）＋草原步道（footway）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-155-P01",
+     "spot_id": "tw-155",
+     "name_zh": "旭海草原眺望太平洋",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "旭海草原眺望太平洋",
+      "en": "Pacific views from Xuhai grassland",
+      "ja": "旭海草原から太平洋を望む"
+     },
+     "best_time": "旭海草原眺望太平洋",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-xuhai-grassland-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-587",
+       "variant_name": "旭海草原眺望太平洋",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "草原步道俯瞰旭海漁港與太平洋（OSM viewpoint；海拔查無權威源誠實留空）；與既有 tw-107 佳樂水（風化奇岩海岸）題材錯位——本點為草原海景。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "旭海草原眺望太平洋",
+        "en": "Pacific views from Xuhai grassland",
+        "ja": "旭海草原から太平洋を望む"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "草原步道俯瞰旭海漁港與太平洋（OSM viewpoint；海拔查無權威源誠實留空）；與既有 tw-107 佳樂水（風化奇岩海岸）題材錯位——本點為草原海景。",
+        "en": "Grassland-trail lookout over Xuhai harbour and the Pacific (OSM viewpoint; elevation honestly left empty); disjoint from Jialeshui's weathered-rock coast subject.",
+        "ja": "草原歩道から旭海漁港と太平洋（OSM viewpoint）。佳樂水とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-155-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "旭海草原",
+       "name_i18n": {
+        "zh-TW": "旭海草原",
+        "en": "Xuhai grassland park",
+        "ja": "旭海草原"
+       },
+       "lat": 22.2046787,
+       "lon": 120.8852217,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 旭海草原遊樂區（viewpoint）＋草原步道（footway）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-156",
+   "canonical_name": "肉粽角",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/wiki/%E8%82%89%E7%B2%BD%E8%A7%92",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 肉粽角沙灘（beach）＋zh.wikipedia 肉粽角（彰濱工業區灘地）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-156-P01",
+     "spot_id": "tw-156",
+     "name_zh": "肉粽角消波塊夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "肉粽角消波塊夕照",
+      "en": "Rouzongjiao breakwater sunset",
+      "ja": "肉粽角の夕映え"
+     },
+     "best_time": "肉粽角消波塊夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-xianxi-rouzongjiao-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-588",
+       "variant_name": "肉粽角消波塊夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "彰濱肉粽角消波塊陣、風機與夕照同框（zh.wikipedia：彰濱工業區灘地；OSM beach 節點）；與既有 tw-017 王功漁港（燈塔與蚵田）題材錯位。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "肉粽角消波塊夕照",
+        "en": "Rouzongjiao breakwater sunset",
+        "ja": "肉粽角の夕映え"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "彰濱肉粽角消波塊陣、風機與夕照同框（zh.wikipedia：彰濱工業區灘地；OSM beach 節點）；與既有 tw-017 王功漁港（燈塔與蚵田）題材錯位。",
+        "en": "Tetrapod field, wind turbines and sunset together at the Changhua coastal industrial landfall (zh.wikipedia; OSM beach node); disjoint from Wanggong's lighthouse/oyster-field subject.",
+        "ja": "消波塊と風車と夕日（公式・OSM）。王功漁港とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-156-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "肉粽角",
+       "name_i18n": {
+        "zh-TW": "肉粽角",
+        "en": "Rouzongjiao breakwater point (Xianxi)",
+        "ja": "肉粽角"
+       },
+       "lat": 24.1253989,
+       "lon": 120.413279,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 肉粽角沙灘（beach）＋zh.wikipedia 肉粽角（彰濱工業區灘地）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-157",
+   "canonical_name": "雙春濱海遊憩區",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E9%9B%99%E6%98%A5%E6%BF%B1%E6%B5%B7%E9%81%8A%E6%86%A9%E5%8D%80",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 雙春濱海遊憩區（bus_stop/入口節點，台南北門）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-157-P01",
+     "spot_id": "tw-157",
+     "name_zh": "雙春木麻黃林夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "雙春木麻黃林夕照",
+      "en": "Shuangchun casuarina-forest sunset",
+      "ja": "双春の木麻黃林と夕日"
+     },
+     "best_time": "雙春木麻黃林夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-shuangchun-coast-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-589",
+       "variant_name": "雙春木麻黃林夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "木麻黃防風林步道與沙灘夕照（OSM 遊憩區入口；海拔查無權威源誠實留空）；與既有 tw-026 井仔腳瓦盤鹽田（鹽田倒影）題材錯位——本點為防風林沙灘。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "雙春木麻黃林夕照",
+        "en": "Shuangchun casuarina-forest sunset",
+        "ja": "双春の木麻黃林と夕日"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "木麻黃防風林步道與沙灘夕照（OSM 遊憩區入口；海拔查無權威源誠實留空）；與既有 tw-026 井仔腳瓦盤鹽田（鹽田倒影）題材錯位——本點為防風林沙灘。",
+        "en": "Casuarina windbreak boardwalk and beach sunset (OSM recreation-area entrance; elevation honestly left empty); disjoint from Jingzaijiao's salt-field mirror subject.",
+        "ja": "木麻黃の防風林歩道と砂浜の夕日（OSM）。井仔脚とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-157-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "雙春濱海遊憩區",
+       "name_i18n": {
+        "zh-TW": "雙春濱海遊憩區",
+        "en": "Shuangchun coastal recreation area",
+        "ja": "雙春濱海遊憩區"
+       },
+       "lat": 23.3053536,
+       "lon": 120.1126626,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 雙春濱海遊憩區（bus_stop/入口節點，台南北門）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-158",
+   "canonical_name": "高台山瞭望台",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E9%AB%98%E5%8F%B0%E5%B1%B1%20%E6%96%B0%E7%AB%B9",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 高台山（新竹尖石，peak）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-158-P01",
+     "spot_id": "tw-158",
+     "name_zh": "高台山瞭望那羅溪谷",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "高台山瞭望那羅溪谷",
+      "en": "Gaotaishan lookout over the Naluo valley",
+      "ja": "高台山から那羅渓谷を望む"
+     },
+     "best_time": "高台山瞭望那羅溪谷",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-gaotaishan-viewpoint-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-590",
+       "variant_name": "高台山瞭望那羅溪谷",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "高台山瞭望台俯瞰那羅溪谷與尖石部落群（OSM peak；海拔查無權威源誠實留空）；與既有 tw-130 宇老觀景台（秀巒線埡口）題材錯位——本點為高台山瞭望台主",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "高台山瞭望那羅溪谷",
+        "en": "Gaotaishan lookout over the Naluo valley",
+        "ja": "高台山から那羅渓谷を望む"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "高台山瞭望台俯瞰那羅溪谷與尖石部落群（OSM peak；海拔查無權威源誠實留空）；與既有 tw-130 宇老觀景台（秀巒線埡口）題材錯位——本點為高台山瞭望台主體。",
+        "en": "Lookout-tower view over the Naluo creek valley and Jianshi settlements (OSM peak; elevation honestly left empty); disjoint from the Yulao saddle viewpoint subject.",
+        "ja": "高台山の展望台から那羅渓谷と部落を望む（OSM peak）。宇老とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-158-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "高台山瞭望台",
+       "name_i18n": {
+        "zh-TW": "高台山瞭望台",
+        "en": "Gaotaishan lookout (Jianshi)",
+        "ja": "高台山瞭望台"
+       },
+       "lat": 24.6541971,
+       "lon": 121.2254431,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 高台山（新竹尖石，peak）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-159",
+   "canonical_name": "黃金海岸",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E9%BB%83%E9%87%91%E6%B5%B7%E5%B2%B8%20%E5%8F%B0%E5%8D%97",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 黃金海岸（台南南區，bicycle_rental 節點）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-159-P01",
+     "spot_id": "tw-159",
+     "name_zh": "黃金海岸夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "黃金海岸夕照",
+      "en": "Golden Coast sunset",
+      "ja": "黄金海岸の夕映え"
+     },
+     "best_time": "黃金海岸夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-huangjinhai-an-tainan-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-591",
+       "variant_name": "黃金海岸夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "台南市區南緣黃金海岸沙灘夕照與市燈同框（OSM 節點；海拔查無權威源誠實留空）；與既有 tw-142 安平漁人碼頭（港灣大魚裝置）題材錯位——本點為市郊沙灘線。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "黃金海岸夕照",
+        "en": "Golden Coast sunset",
+        "ja": "黄金海岸の夕映え"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "台南市區南緣黃金海岸沙灘夕照與市燈同框（OSM 節點；海拔查無權威源誠實留空）；與既有 tw-142 安平漁人碼頭（港灣大魚裝置）題材錯位——本點為市郊沙灘線。",
+        "en": "Beach sunset with city lights behind, on Tainan's southern coastal edge (OSM node; elevation honestly left empty); disjoint from Anping wharf's harbour-art subject.",
+        "ja": "台南南区の砂浜と夕日と街灯（OSM）。安平漁人碼頭とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-159-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "黃金海岸",
+       "name_i18n": {
+        "zh-TW": "黃金海岸",
+        "en": "Golden Coast (South District, Tainan)",
+        "ja": "黃金海岸"
+       },
+       "lat": 22.93175,
+       "lon": 120.1763,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 黃金海岸（台南南區，bicycle_rental 節點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-160",
+   "canonical_name": "江家古厝",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E6%B1%9F%E5%AE%B6%E5%8F%A4%E5%8E%9D",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 江家古厝（台南楠西，house 節點）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-160-P01",
+     "spot_id": "tw-160",
+     "name_zh": "江家古厝聚落與山景展望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "江家古厝聚落與山景展望",
+      "en": "Jiang settlement and mountain outlook",
+      "ja": "江家集落と山並みの展望"
+     },
+     "best_time": "江家古厝聚落與山景展望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-jiangjia-gucuo-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-592",
+       "variant_name": "江家古厝聚落與山景展望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "楠西三水江家古厝閩客傳統聚落群與周邊山景田野（OSM house 節點；海拔查無權威源誠實留空）；清單主題的花卉季窗（ginkgo/lupine/chrysan",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "江家古厝聚落與山景展望",
+        "en": "Jiang settlement and mountain outlook",
+        "ja": "江家集落と山並みの展望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "楠西三水江家古厝閩客傳統聚落群與周邊山景田野（OSM house 節點；海拔查無權威源誠實留空）；清單主題的花卉季窗（ginkgo/lupine/chrysanth）查無權威季節源，誠實不建時間窗契約——本契約為聚落與山景展望主體。",
+        "en": "The Hakka-Minnan traditional settlement of Jiangjia Gucuo with surrounding mountain and field views (OSM house node; elevation honestly left empty). The list's flower-season window (ginkgo/lupine/chrysanth) has no authoritative seasonal source, so no time-window contract is built - honestly.",
+        "ja": "楠西・江家古厝の伝統集落と周辺の山並み（OSM house ノード）。花卉の季節窓は権威源がなく誠実に不構築。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-160-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "江家古厝",
+       "name_i18n": {
+        "zh-TW": "江家古厝",
+        "en": "Jiang Family Historic Settlement (Sanshui)",
+        "ja": "江家古厝"
+       },
+       "lat": 24.871471,
+       "lon": 121.1650046,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 江家古厝（台南楠西，house 節點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-161",
+   "canonical_name": "中角灣",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E4%B8%AD%E8%A7%92%E7%81%A3",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 中角灣（新北金山，bicycle_rental 節點）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-161-P01",
+     "spot_id": "tw-161",
+     "name_zh": "中角灣沙灘夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "中角灣沙灘夕照",
+      "en": "Zhongjiao Bay beach sunset",
+      "ja": "中角湾の夕映え"
+     },
+     "best_time": "中角灣沙灘夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-zhongjiao-wan-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-593",
+       "variant_name": "中角灣沙灘夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "金山中角灣弧形沙灘面向西北海平面的夕照（OSM 節點；海拔查無權威源誠實留空）；與既有 tw-074 野柳地質公園（蕈狀岩地質）題材錯位。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "中角灣沙灘夕照",
+        "en": "Zhongjiao Bay beach sunset",
+        "ja": "中角湾の夕映え"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "金山中角灣弧形沙灘面向西北海平面的夕照（OSM 節點；海拔查無權威源誠實留空）；與既有 tw-074 野柳地質公園（蕈狀岩地質）題材錯位。",
+        "en": "Crescent beach sunset toward the NW sea horizon at Zhongjiao Bay, Jinshan (OSM node; elevation honestly left empty); disjoint from Yehliu's mushroom-rock geology subject.",
+        "ja": "金山中角湾の砂浜と北西水平線の夕日（OSM）。野柳とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-161-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "中角灣",
+       "name_i18n": {
+        "zh-TW": "中角灣",
+        "en": "Zhongjiao Bay / Shazhu Bay (Jinshan)",
+        "ja": "中角灣"
+       },
+       "lat": 25.238999,
+       "lon": 121.6323619,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 中角灣（新北金山，bicycle_rental 節點）；海拔查無權威源誠實留空",
        "verification_status": "cl_data_25_web_verified_2026_11_07",
        "geometry_type": "area",
        "geometry_extent_m": 300,
