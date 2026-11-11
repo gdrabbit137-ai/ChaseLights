@@ -371,6 +371,17 @@ async function handleWebPushSubscribe(req, env) {
   return json(req, 200, { ok: true, delivery: "skeleton — VAPID delivery ships in a follow-up ticket" });
 }
 
+// ---------------------------------------------------------------------------
+// CL-API-04: catalog digest for APP-01 version checking. Data source is KV
+// key v1:catalog:digest, written once per daily kv_distill sync (low-frequency
+// write — KV discipline compliant). Read-only here; fail-closed when absent.
+// ---------------------------------------------------------------------------
+async function handleCatalogDigests(req, env) {
+  const rec = await env.EVALS.get("v1:catalog:digest", "json");
+  if (!rec || !rec.digest) return json(req, 503, { error: "catalog digest not synced yet" });
+  return json(req, 200, { digest: rec.digest, catalog: rec.catalog || { sha256: rec.digest }, generated_at: rec.generated_at || null });
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -398,6 +409,8 @@ export default {
     }
 
     if (path === "/favorites") return handleFavorites(request, env, url);
+
+    if (path === "/catalog/digests" && request.method === "GET") return handleCatalogDigests(request, env);
 
     // --- notify engine (CL-API-03, JWT-only) ---
     if (path === "/notify/rules") return handleNotifyRules(request, env);

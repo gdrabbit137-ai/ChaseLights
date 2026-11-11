@@ -71,6 +71,42 @@ test("favorites: GET requires userId, POST add idempotent, remove deletes", asyn
   assert.equal((await del.json()).action, "remove");
 });
 
+test("catalog digests: 503 fail-closed when absent, 200 with APP-01-tolerant shape when synced", async () => {
+  const { env } = makeEnv();
+  const miss = await worker.fetch(makeReq("/catalog/digests"), env, {});
+  assert.equal(miss.status, 503);
+
+  const DIGEST = "39a773885c8d14036e9e8fdcfe38f3419e07ba2a2f1eec3812d22c14d19148ca";
+  env.EVALS.put("v1:catalog:digest", JSON.stringify({
+    digest: DIGEST, catalog: { sha256: DIGEST }, generated_at: "2026-11-10T18:30:00Z",
+  }));
+  const hit = await worker.fetch(makeReq("/catalog/digests"), env, {});
+  assert.equal(hit.status, 200);
+  const body = await hit.json();
+  assert.equal(body.digest, DIGEST);
+  assert.equal(body.catalog.sha256, DIGEST);
+  assert.ok(body.generated_at);
+});
+
+// APP-01 version-checker compatibility: the checker must accept either of the
+// two tolerant shapes ({digest} alone, or {catalog:{sha256}}+generated_at) as
+// served by GET /api/v1/catalog/digests.
+test("APP-01 checker simulation accepts both digest response shapes", async () => {
+  const DIGEST = "39a773885c8d14036e9e8fdcfe38f3419e07ba2a2f1eec3812d22c14d19148ca";
+  const checker = (body) => {
+    if (typeof body.digest === "string" && /^[a-f0-9]{64}$/.test(body.digest)) return body.digest;
+    if (body.catalog && typeof body.catalog.sha256 === "string") return body.catalog.sha256;
+    throw new Error("no digest in response");
+  };
+  const { env } = makeEnv();
+  env.EVALS.put("v1:catalog:digest", JSON.stringify({ digest: DIGEST, generated_at: "2026-11-10T18:30:00Z" }));
+  const res = await worker.fetch(makeReq("/catalog/digests"), env, {});
+  assert.equal(checker(await res.json()), DIGEST);
+  const res2 = await worker.fetch(makeReq("/catalog/digests"), env, {});
+  assert.equal(checker({ catalog: { sha256: DIGEST }, generated_at: "2026-11-10T18:30:00Z" }), DIGEST);
+  assert.throws(() => checker({ foo: 1 }));
+});
+
 test("unknown path 404; rate limit 429 after burst", async () => {
   const { env } = makeEnv();
   const nf = await worker.fetch(makeReq("/nope"), env, {});
