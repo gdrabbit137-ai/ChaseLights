@@ -26,6 +26,7 @@ function mountApp() {
   const ids=new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]));
   const document = {
     title:'',documentElement:{lang:''},
+    addEventListener(){},
     getElementById(id){if(!ids.has(id))throw Error('Missing actual HTML element: '+id);if(!elements.has(id))elements.set(id,fakeElement());return elements.get(id)},
     createElement(){return fakeElement()}
   };
@@ -41,6 +42,9 @@ function mountApp() {
     geometryType:()=>null,relationValue:()=>null,runtimeEvaluation:()=>null,associated:()=>null,
     matchMedia:()=>({matches:false,addEventListener:()=>{}}),
     fetch:async()=>({ok:false}),browse:()=>[],validateBrowseIndex:()=>null,
+    // CL-APP-02 shell-entry module stubs (imports are stripped above).
+    createPullToRefresh:()=>({handleTouchStart(){},handleTouchMove(){},handleTouchEnd(){}}),
+    fetchCloudDigest:async()=>null,fetchMember:async()=>null,
     console,Intl,Date,Set,Map
   },{timeout:2000});
   return {document,store,language:document.getElementById('language')};
