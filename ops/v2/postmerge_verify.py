@@ -419,7 +419,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 543, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509; CL-CI-31b -> 532; CL-CI-33 re-anchor 532->540 (measured on merged tree a7b75259b: node v26.7.0 --test-isolation=none, 540 pass / 0 fail)
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 553, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509; CL-CI-31b -> 532; CL-CI-33 re-anchor 532->540 (measured on merged tree a7b75259b: node v26.7.0 --test-isolation=none, 540 pass / 0 fail); CL-INT-137B re-anchor 543->553 (CL-APP-02 shell-entry tests merged, measured on task/CL-INT-137B: node v26.7.0 --test-isolation=none, 553 pass / 0 fail)
         # 2026-11-08 CL-CI-26: CL-UI-47 +5 real-hit-target tests -> w4-node=514 (CI-observed on merged tree 313feebe4, node v26 --test-isolation=none, 514 pass / 0 fail)
         # 2026-11-08 CL-INT-92: +3 hour-list-cap regression tests -> w4-node=516 on this base (measured locally: 516 pass / 3 pre-existing failures identical to pristine origin/main baseline: CL-COPY-01 coverage, CL-DATA-19 x2)
         # 2026-11-08 CL-CI-27: the 3 'pre-existing failures' were NOT pre-existing —
@@ -500,15 +500,16 @@ def main():
         # tree: 532 pass / 0 fail), exact total 1034 -> 1046 (measured deltas:
         # 1034 was the counted sum on 3bd61d360; this tree changes ONLY those
         # two groups, +8 node and +4 w3, and adds no other group tests).
-        # 2026-11-11 CL-CI-33: sync main with the CL-INT-135 eligible-set gate —
-        # w2 184->217, w4-node 540->543, exact total 1138->1174 (measured on
-        # this tree: w2 217 pass / 0 fail, w4-node 543 pass / 0 fail under
-        # node v26.7.0 --test-isolation=none, counted sum 1174).
-        if (report["counts"]["tests"] != 1174 or
+        # 2026-11-11 CL-INT-137B: CL-APP-02 (merged via CL-INT-137) added +10 node
+        # tests (cl-app-02-shell-entry.test.mjs) without re-anchoring: w4-node
+        # 543->553 (measured on task/CL-INT-137B: node v26.7.0
+        # --test-isolation=none, 553 pass / 0 fail), exact total 1174->1184
+        # (+10 node tests only; no other group's count changes on this tree).
+        if (report["counts"]["tests"] != 1184 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1174):
-            raise ValueError("Post-merge exact 1174-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1184):
+            raise ValueError("Post-merge exact 1184-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
