@@ -596,6 +596,10 @@ REGIONS = {
             (23.1979087, 121.0371977, "栗松溫泉野溪峽谷", "Lisong Hot Spring Canyon", "栗松温泉の渓谷", "栗松溫泉", "本島", ["mountain"]),
             (24.5375, 120.9907, "加里山", "Jiali Mountain", "加里山", "加里山", "本島", ["mountain", "cloud_sea", "starlight"]),
             (24.364611, 121.31035, "武陵農場", "Wuling Farm", "武陵農場", "武陵農場", "本島", ["mountain", "starlight"]),
+            (26.222827, 120.00476, "北竿塘后道沙灘藍眼淚", "Tanghou Beach blue tears (Beigan)", "塘后道ビーチの藍眼淚", "塘后道沙灘", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
+            (26.143015, 119.92881, "南竿北海坑道（夜間搖櫓藍眼淚）", "Beihai Tunnel night rowing blue tears (Nangan)", "北海坑道（夜間ローボート藍眼淚）", "北海坑道", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
+            (25.966231, 119.98215, "東莒福正沙灘藍眼淚（東犬燈塔旁）", "Fuzheng Beach blue tears (Dongju)", "福正ビーチの藍眼淚（東犬灯台）", "福正沙灘", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
+            (26.140628, 119.92906, "南竿大漢據點藍眼淚（鐵板海岸）", "Dahan stronghold blue tears (Tieban coast)", "大漢據点の藍眼淚（鉄板海岸）", "大漢據點", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
             (23.681681, 120.76637, "大崙山觀光茶園/銀杏森林", "Dalunshan Tea Terraces / Ginkgo Forest", "大崙山茶園／銀杏の森", "大崙山觀光茶園", "本島", ["mountain", "starlight"]),  # CL-DATA-66
             (24.9675371, 121.7272531, "坪林南山寺仙公廟", "Nanshan Temple (Xianguangmiao), Pinglin", "坪林南山寺仙公廟", "南山寺仙公廟", "本島", ["mountain", "starlight"]),  # CL-DATA-66
             (24.5415154, 120.950373, "仙山靈洞宮後山", "Xianshan (Lingdong Temple back hill)", "仙山霊洞宮の後山", "仙山靈洞宮", "本島", ["mountain", "starlight"]),  # CL-DATA-66
@@ -618,10 +622,6 @@ REGIONS = {
             (24.818749, 121.4161228, "東眼山國家森林遊樂區三角點", "Dongyanshan tri-point (Fuxing)", "東眼山国家森林遊楽区の三角点", "東眼山", "本島", ["forest", "mountain", "starlight"]),  # CL-DATA-66
             (24.9379719, 121.5198804, "東華聖宮", "Donghua Shengong temple night", "東華聖宮", "東華聖宮", "本島", ["city", "starlight"]),  # CL-DATA-66
             (23.0657536, 120.7470591, "藤枝國家森林遊樂區", "Tengjhih National Forest Recreation Area", "藤枝国家森林遊楽区", "藤枝", "本島", ["forest", "mountain"]),  # CL-DATA-66
-            (26.222827, 120.00476, "北竿塘后道沙灘藍眼淚", "Tanghou Beach blue tears (Beigan)", "塘后道ビーチの藍眼淚", "塘后道沙灘", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
-            (26.143015, 119.92881, "南竿北海坑道（夜間搖櫓藍眼淚）", "Beihai Tunnel night rowing blue tears (Nangan)", "北海坑道（夜間ローボート藍眼淚）", "北海坑道", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
-            (25.966231, 119.98215, "東莒福正沙灘藍眼淚（東犬燈塔旁）", "Fuzheng Beach blue tears (Dongju)", "福正ビーチの藍眼淚（東犬灯台）", "福正沙灘", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
-            (26.140628, 119.92906, "南竿大漢據點藍眼淚（鐵板海岸）", "Dahan stronghold blue tears (Tieban coast)", "大漢據点の藍眼淚（鉄板海岸）", "大漢據點", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
         ],
     },
     "jp": {
