@@ -601,18 +601,18 @@ REGIONS = {
             (25.966231, 119.98215, "東莒福正沙灘藍眼淚（東犬燈塔旁）", "Fuzheng Beach blue tears (Dongju)", "福正ビーチの藍眼淚（東犬灯台）", "福正沙灘", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
             (26.140628, 119.92906, "南竿大漢據點藍眼淚（鐵板海岸）", "Dahan stronghold blue tears (Tieban coast)", "大漢據点の藍眼淚（鉄板海岸）", "大漢據點", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
             (23.681681, 120.76637, "大崙山觀光茶園/銀杏森林", "Dalunshan Tea Terraces / Ginkgo Forest", "大崙山茶園／銀杏の森", "大崙山觀光茶園", "本島", ["mountain", "starlight"]),  # CL-DATA-66
-            (24.9675371, 121.7272531, "坪林南山寺仙公廟", "Nanshan Temple (Xianguangmiao), Pinglin", "坪林南山寺仙公廟", "南山寺仙公廟", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (24.9675371, 121.7272531, "坪林南山寺仙公廟", "Nanshan Temple (Xianguangmiao), Pinglin", "坪林南山寺仙公廟", "南山寺仙公廟", "本島", ["mountain", "starlight", "city"]),  # CL-DATA-66
             (24.5415154, 120.950373, "仙山靈洞宮後山", "Xianshan (Lingdong Temple back hill)", "仙山霊洞宮の後山", "仙山靈洞宮", "本島", ["mountain", "starlight"]),  # CL-DATA-66
             (24.5558111, 120.846273, "墨硯山琉璃光", "Moyanshan liuli-glow night", "墨硯山の琉璃光", "墨硯山", "本島", ["city", "starlight"]),  # CL-DATA-66
-            (25.053278, 121.73011, "姜子寮山觀景台", "Jiangziliao Mountain viewing platform", "姜子寮山の展望台", "姜子寮山", "本島", ["mountain", "starlight"]),  # CL-DATA-66
-            (24.6675183, 121.2820376, "宇老觀景台", "Yulao viewing platform (Jianshi)", "宇老観景台", "宇老觀景台", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (25.053278, 121.73011, "姜子寮山觀景台", "Jiangziliao Mountain viewing platform", "姜子寮山の展望台", "姜子寮山", "本島", ["mountain", "starlight", "city"]),  # CL-DATA-66
+            (24.6675183, 121.2820376, "宇老觀景台", "Yulao viewing platform (Jianshi)", "宇老観景台", "宇老觀景台", "本島", ["mountain", "starlight", "city"]),  # CL-DATA-66
             (24.6047, 121.089, "山上人家農場", "Shanshang Renjia Forest Farm", "山上人家森林農場", "山上人家森林農場", "本島", ["mountain", "forest", "starlight"]),  # CL-DATA-66
-            (24.9672358, 121.6196361, "石門二格山觀景台", "Ergeshan viewing platform (Shiding)", "二格山の展望台", "二格山", "本島", ["mountain", "starlight"]),  # CL-DATA-66
-            (23.854861, 120.83806, "集集大山轉播站", "Jiji Dashan broadcast-station viewpoint", "集集大山の中継局展望", "集集大山", "本島", ["mountain", "starlight"]),  # CL-DATA-66
-            (23.559532, 120.6789157, "1314觀景台", "1314 Observation Deck (Meishan Ruifeng)", "1314観景台", "1314觀景台", "本島", ["mountain", "starlight"]),  # CL-DATA-66
-            (25.07278, 121.77278, "五分山雷達站", "Wufenshan Weather Radar Station", "五分山気象レーダー站", "五分山雷達站", "本島", ["mountain", "starlight"]),  # CL-DATA-66
-            (23.964167, 120.989944, "埔里虎頭山虎嘯山莊", "Huxiao Farm, Hutoushan (Puli)", "虎嘯山荘（埔里虎頭山）", "虎嘯山莊", "本島", ["mountain", "starlight"]),  # CL-DATA-66
-            (25.1136611, 121.8596306, "報時山觀景台", "Baoshishan viewing platform (Jinguashi)", "報時山の展望台", "報時山", "本島", ["coast", "starlight"]),  # CL-DATA-66
+            (24.9672358, 121.6196361, "石門二格山觀景台", "Ergeshan viewing platform (Shiding)", "二格山の展望台", "二格山", "本島", ["mountain", "starlight", "city"]),  # CL-DATA-66
+            (23.854861, 120.83806, "集集大山轉播站", "Jiji Dashan broadcast-station viewpoint", "集集大山の中継局展望", "集集大山", "本島", ["mountain", "starlight", "city"]),  # CL-DATA-66
+            (23.559532, 120.6789157, "1314觀景台", "1314 Observation Deck (Meishan Ruifeng)", "1314観景台", "1314觀景台", "本島", ["mountain", "starlight", "city"]),  # CL-DATA-66
+            (25.07278, 121.77278, "五分山雷達站", "Wufenshan Weather Radar Station", "五分山気象レーダー站", "五分山雷達站", "本島", ["mountain", "starlight", "city"]),  # CL-DATA-66
+            (23.964167, 120.989944, "埔里虎頭山虎嘯山莊", "Huxiao Farm, Hutoushan (Puli)", "虎嘯山荘（埔里虎頭山）", "虎嘯山莊", "本島", ["mountain", "starlight", "city"]),  # CL-DATA-66
+            (25.1136611, 121.8596306, "報時山觀景台", "Baoshishan viewing platform (Jinguashi)", "報時山の展望台", "報時山", "本島", ["coast", "starlight", "city"]),  # CL-DATA-66
             (25.003363, 121.403214, "大同山/青龍嶺", "Datongshan / Qinglongling (Shulin)", "大同山・青龍嶺", "大同山/青龍嶺", "本島", ["city", "starlight"]),  # CL-DATA-66
             (25.1568, 121.7056, "大武崙白沙灘/外木山", "Waimushan coastal belt (Dawulun)", "外木山海濱（大武崙）", "大武崙白沙灘/外木山", "本島", ["coast", "starlight"]),  # CL-DATA-66
             (24.5242406, 121.6228895, "太平山森林遊樂區", "Taipingshan National Forest Recreation Area", "太平山国家森林遊楽区", "太平山", "本島", ["forest", "mountain", "starlight"]),  # CL-DATA-66
