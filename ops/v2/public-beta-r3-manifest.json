@@ -1,22 +1,38 @@
 {
- "status": "PASS",
- "source_commit_sha": "e09cf8c18675dcb38a9f1e482c9a5d907fef4f74",
- "mode": "RESEARCH_ONLY",
- "base_path": "/apps/web-v2/",
- "deployment_allowed": false,
- "live_forecast_eligible": false,
- "source_index_commit_sha": "f188209d9127fbe1f1be5a9a1e4231709300d841",
- "files": {
-  "apps/web-v2/index.html": "bf08b9c6c4b5ad01aba6ee614ffaadd13e962f1935156afec181518c58cb8fb1",
-  "apps/web-v2/styles.css": "88b8babfb5aaaace709d8ab714a907935888bb5a88388f3c49bfaf521ff65404",
-  "apps/web-v2/app.mjs": "6a942ed5fd5ffba26cc38faa00a66a33bcb72de0a644df1e81768cda3b675fd5",
-  "apps/web-v2/model.mjs": "d7a2a34e769d4afbf73583ea70cb66f012d852985f0b2af767ed440e470ef737",
-  "apps/web-v2/catalog-loader.mjs": "31b0b5c9c736e490c289f7a240fbec43615e330f3166ebb94518e1a941305953",
-  "apps/web-v2/catalog-state.mjs": "7a69ce03d5b30348ed96cd3daf57d27505ed20553c987322198c8e6bd4eb4e08",
-  "apps/web-v2/v21-adapter.mjs": "652380eeb9d7ae967f79987f00f20b31ce0064d2c2b034b62bea950b3f4560ae",
-  "apps/web-v2/browse-index.mjs": "2619ebabaa0321aec9847591aa5fafb47b1eb3f1f2ed12a205d30b72b52ae4df",
-  "apps/web-v2/browse-index.v2.json": "fb5c68def3ba7e772c93f0aa4d11490f50722df4cada22461061c901eb90bd36",
-  "apps/web-v2/catalog.v2.json": "f376ce15115bf180985487ad7c5b9ea1adfaa263ebda5e179cb9385276cf63e4",
-  "apps/web-v2/bundle-digests.mjs": "3bc8cc65b5ab28b6230cc94dda2adad5e7e139bff6d93c8132258a50a907680a"
- }
+  "status": "PASS",
+  "source_commit_sha": "e19eacdd2bfbda8e0de7ab0cdc0c53683fa67fd5",
+  "mode": "RESEARCH_ONLY",
+  "source_index_commit_sha": "84c7406b3483621192a09ba1e50060a36e2a74ba",
+  "base_path": "/apps/web-v2/",
+  "public_directory": "public",
+  "deployment_allowed": false,
+  "live_forecast_eligible": false,
+  "owner_trees": {
+    "specs/v2": "ee697a8a75fe11d202163d98bf9ed077b9435c9d",
+    "data/v2": "8aebc226f1ee3ed15c8d10dfc43f8dc0860b6689",
+    "packages/core-v2": "fe4a987c930bbb71c35fb2cc1612fa9cc91f6e7e",
+    "packages/models-v2": "bb602c4b451f12ee3bfc8fcd9c8b65b5e3c6a523",
+    "apps/web-v2": "081385ba31c29f36fec833cfa6c4fdefad9f1d69"
+  },
+  "files": {
+    "apps/web-v2/index.html": "6fa28628ca1ac5e40d62ea7c25f5232fdfa2e3977e651ef014d0ce41a08fc5c4",
+    "apps/web-v2/styles.css": "33b168c9b2dff60b72a327c9b65fac41aa730104377de12487aa8011c77b0bc2",
+    "apps/web-v2/app.mjs": "a32cbbdbfa29f15cf28732038b8e3bb5f7e66c530999e479aaba64628a19bdac",
+    "apps/web-v2/model.mjs": "a2ab4a9c0d843cb03d67e118df279e74d86da5734d1436568c86b2166c766c5a",
+    "apps/web-v2/catalog-loader.mjs": "064749acdcbdbcd7044dadcc873431bae54af970b69941de4df1c5483c6778a0",
+    "apps/web-v2/catalog-state.mjs": "7a69ce03d5b30348ed96cd3daf57d27505ed20553c987322198c8e6bd4eb4e08",
+    "apps/web-v2/v21-adapter.mjs": "0d35eea6ef506a2ad2055423d0f1b24e58002758b15aa4960d465ff02384c39e",
+    "apps/web-v2/browse-index.mjs": "2619ebabaa0321aec9847591aa5fafb47b1eb3f1f2ed12a205d30b72b52ae4df",
+    "apps/web-v2/bundle-digests.mjs": "5772eefc6bf31d1e31908f9a02627547b8e88759d76f6b3234b3d0e210e53697",
+    "apps/web-v2/browse-index.v2.json": "1be0d0532dd8357a57587c8b7759c9395b02328ed136c046379a4a46e497ed96",
+    "apps/web-v2/catalog.v2.json": "42c6d58821eb4cd6c3b31b83b2966600f71114185d1ecf92dc81bf343bb4fe95",
+    "apps/web-v2/pull-refresh.mjs": "708ba424c6fc783b324b4a82d802c57e558bce6117bc52ec06e285c99c49fab4",
+    "apps/web-v2/shell-auth.mjs": "88ec440b07f9a91d0c5e369df16c21c5bb6889a254fa76377261ed68c089ff3c",
+    "apps/web-v2/weather-pilot.html": "9aca5b330488141eb32e89ace55046d3176c0ed6fa73b5e3a4195dcdb81aa53b",
+    "apps/web-v2/weather-pilot.mjs": "cd1b506bff73ca9b8d09ad7b1625765c64509acad4ea28714d12f5c8ae3566dc",
+    "apps/web-v2/weather-pilot-tw036.json": "5300cd5a40c7ee39055ae2734a29b028643814ac38721f21b389d0c95fa35e83",
+    "apps/web-v2/solar-pilot.html": "94f13d4f651cb2b03cdad7b7bdd37134f48b121c62cc3ddd37335f1fe05cc6e8",
+    "apps/web-v2/solar-pilot.mjs": "af41b92b8eb3f1ddfd901b5e593fa7a49626032f05722f53e22302f2f07d2272",
+    "apps/web-v2/solar-window-tw036.json": "489edb10fa4cdbba55acf3f5a6839192d9a0ac5f96996ea25a5d9a636805f3c5"
+  }
 }
