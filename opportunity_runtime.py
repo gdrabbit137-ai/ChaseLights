@@ -730,6 +730,18 @@ def evaluate_minimum_sufficient_visibility(opportunity, item_data):
     }
 
 DIRECTIONAL_HORIZON_SECTORS = {
+    # CL-DATA-66 wave-2 admission: sunrise/sunset sector defaults (coastal/summit azimuths provisional, tolerance 85 like prior admissions)
+    "tw-149-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-152-P02": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-154-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-147-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-148-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-150-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-153-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-156-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-157-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-159-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-161-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     # CL-DATA-66 wave-1 admission: sunrise/sunset sector defaults (coastal/summit azimuths provisional, tolerance 85 like prior admissions)
     "tw-125-P02": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
     "tw-129-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
