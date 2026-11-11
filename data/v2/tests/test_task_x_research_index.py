@@ -228,6 +228,10 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-65: jp-030-P99 general-genre mount pinned to 5b3e29dea
             # (final task commit carrying the needs_review navigation bytes).
             '5b3e29dea0a564560817e7f03d2082cd3126dad0',
+            # CL-DATA-67: jp-049-P01/jp-065-P01 gain the civil light_window
+            # (sunset_window MODIFIER never vetoed night hours) repinned to
+            # 86b3fa825 (contract commit; blob+sha256 verified on the task tree).
+            '86b3fa825bf1ffaff6e9f20cd9f50c265deda514',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
