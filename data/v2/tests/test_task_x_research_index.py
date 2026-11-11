@@ -235,6 +235,10 @@ class ResearchIndexTests(unittest.TestCase):
             # (blob+sha256 verified on the merged tree).
             '3f209b05184c05e639e6b64da3c4117bce8c8373',
             'fc2e04510bfa40b6e378a17ae38de178137b8d55',
+            # CL-DATA-66 wave2: the scoreless Tier-A intake records
+            # (tw-147..tw-161, 22 contracts) carry their authorship bytes on
+            # the wave2 intake commit (blob+sha256 verified on the task tree).
+            '3c3ba44107275c380b299781127d9ef995d14407',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -331,7 +335,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(82,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # 45 (CL-INT-135) + 37 CL-DATA-66 wave1 classified contracts
+        self.assertEqual(104,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # 45 (CL-INT-135) + 37 CL-DATA-66 wave1 + 22 wave2 classified contracts
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])
