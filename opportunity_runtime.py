@@ -750,6 +750,10 @@ DIRECTIONAL_HORIZON_SECTORS = {
     "tw-168-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "tw-169-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "tw-171-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    # CL-DATA-66 wave-4 admission: sunrise/sunset sector defaults (generic sectors provisional, tolerance 85 like prior admissions)
+    "tw-175-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-178-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-182-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
     # CL-DATA-66 wave-1 admission: sunrise/sunset sector defaults (coastal/summit azimuths provisional, tolerance 85 like prior admissions)
     "tw-125-P02": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
     "tw-129-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},

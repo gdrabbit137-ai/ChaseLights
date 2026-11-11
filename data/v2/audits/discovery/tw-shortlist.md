@@ -9,11 +9,11 @@
 
 - 大雪山森林遊樂區43K觀景台 — geographic conflict: 大雪山森林遊樂區43K觀景台 at 0.0 km (<= 5.0 km), tag overlap ['cloud_sea', 'mountain']
 - 翠峰湖環山步道觀景點 — geographic conflict: 翠峰湖環山步道觀景點 at 0.0 km (<= 5.0 km), tag overlap ['forest', 'lake']; geographic conflict: 太平山森林遊樂區 at 1.9 km (<= 5.0 km), tag overlap ['forest']
-- 司馬庫斯部落觀景點 — geographic conflict: 司馬庫斯部落觀景點 at 0.0 km (<= 5.0 km), tag overlap ['mountain', 'starlight']
+- 司馬庫斯部落觀景點 — geographic conflict: 司馬庫斯部落觀景點 at 0.0 km (<= 5.0 km), tag overlap ['mountain', 'starlight']; geographic conflict: 秀巒軍艦岩／控溪吊橋 at 4.6 km (<= 5.0 km), tag overlap ['forest', 'mountain']
 - 加路蘭海岸遊憩區 — geographic conflict: 加路蘭海岸遊憩區 at 0.0 km (<= 5.0 km), tag overlap ['coast', 'starlight']
 - 塔塔加夫妻樹／鹿林山觀景點 — geographic conflict: 塔塔加夫妻樹／鹿林山觀景點 at 1.2 km (<= 5.0 km), tag overlap ['mountain', 'starlight']
-- 北關海潮公園 — geographic conflict: 北關海潮公園 at 0.0 km (<= 5.0 km), tag overlap ['coast', 'mountain']
 - 福壽山農場觀景點 — geographic conflict: 福壽山農場觀景點 at 0.0 km (<= 5.0 km), tag overlap ['cloud_sea', 'starlight']
+- 擎天崗草原 — geographic conflict: 碧山巖 at 4.0 km (<= 5.0 km), tag overlap ['mountain']
 - 東莒燈塔（東犬燈塔） — geographic conflict: 東莒燈塔（東犬燈塔） at 0.0 km (<= 5.0 km), tag overlap ['coast', 'starlight']; geographic conflict: 東莒福正沙灘藍眼淚（東犬燈塔旁） at 0.4 km (<= 5.0 km), tag overlap ['coast', 'starlight']
 - 觀霧榛山步道觀景點 — geographic conflict: 觀霧榛山步道觀景點 at 2.7 km (<= 5.0 km), tag overlap ['cloud_sea', 'mountain']
 - 半天寮好望角 — geographic conflict: 半天寮好望角 at 0.0 km (<= 5.0 km), tag overlap ['city', 'coast']

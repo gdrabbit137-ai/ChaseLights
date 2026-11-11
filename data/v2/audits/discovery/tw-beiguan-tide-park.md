@@ -3,7 +3,7 @@
 - region: tw | slug: `tw-beiguan-tide-park`
 - 座標：24.793, 121.875（海拔 15 m）
 - 擬設 subjects：coast, mountain
-- 差異化剔除檢查（機械）：最近既有景點 北關海潮公園，距離 0.0 km
+- 差異化剔除檢查（機械）：最近既有景點 壯圍沙丘海岸，距離 8.3 km
 - **rubric v3 景色優美單維度：unscored（須補評） / 5（納入線 ≥ 3.8）**
 
 ## Web 證據
@@ -23,9 +23,5 @@
 - 可達性：步道短，漲潮封閉警示；礁岩區注意湧浪
 - 安全：漲潮封閉、湧浪勿近礁緣
 - 差異化說明：龜山島朝日地質公園，宜蘭頭城段缺口
-
-## ⛔ 差異化剔除（不進短名單）
-
-- geographic conflict: 北關海潮公園 at 0.0 km (<= 5.0 km), tag overlap ['coast', 'mountain']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。
