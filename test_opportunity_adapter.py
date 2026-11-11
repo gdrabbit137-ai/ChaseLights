@@ -189,8 +189,8 @@ def test_adapter_integrity():
     )
 
     tw = get_spots("tw")
-    assert len(tw) == 146  # CL-DATA-66 wave1 re-anchor: 124 + 22 (tw-125..tw-146)
-    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 147)]
+    assert len(tw) == 200  # CL-DATA-66 merged re-anchor: 146 (wave1) + 54 more (tw-147..tw-200 wave5)
+    assert [s["spot_id"] for s in tw] == [f"tw-{i:03d}" for i in range(1, 201)]
     assert PRODUCT_STATUS_BY_SPOT["tw-063"] == "retired"
     # CL-DATA-25R: v1-built but v2-rejected places (<3.8) retired, ids reserved
     # CL-DATA-62: 6 Places retired per owner ruling 2026-11-10 適拍性審計
