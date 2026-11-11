@@ -8,7 +8,7 @@
 ## 已剔除（差異化）
 
 - 大雪山森林遊樂區43K觀景台 — geographic conflict: 大雪山森林遊樂區43K觀景台 at 0.0 km (<= 5.0 km), tag overlap ['cloud_sea', 'mountain']
-- 翠峰湖環山步道觀景點 — geographic conflict: 翠峰湖環山步道觀景點 at 0.0 km (<= 5.0 km), tag overlap ['forest', 'lake']
+- 翠峰湖環山步道觀景點 — geographic conflict: 翠峰湖環山步道觀景點 at 0.0 km (<= 5.0 km), tag overlap ['forest', 'lake']; geographic conflict: 太平山森林遊樂區 at 1.9 km (<= 5.0 km), tag overlap ['forest']
 - 司馬庫斯部落觀景點 — geographic conflict: 司馬庫斯部落觀景點 at 0.0 km (<= 5.0 km), tag overlap ['mountain', 'starlight']
 - 加路蘭海岸遊憩區 — geographic conflict: 加路蘭海岸遊憩區 at 0.0 km (<= 5.0 km), tag overlap ['coast', 'starlight']
 - 塔塔加夫妻樹／鹿林山觀景點 — geographic conflict: 塔塔加夫妻樹／鹿林山觀景點 at 1.2 km (<= 5.0 km), tag overlap ['mountain', 'starlight']
@@ -17,7 +17,7 @@
 - 東莒燈塔（東犬燈塔） — geographic conflict: 東莒燈塔（東犬燈塔） at 0.0 km (<= 5.0 km), tag overlap ['coast', 'starlight']; geographic conflict: 東莒福正沙灘藍眼淚（東犬燈塔旁） at 0.4 km (<= 5.0 km), tag overlap ['coast', 'starlight']
 - 觀霧榛山步道觀景點 — geographic conflict: 觀霧榛山步道觀景點 at 2.7 km (<= 5.0 km), tag overlap ['cloud_sea', 'mountain']
 - 半天寮好望角 — geographic conflict: 半天寮好望角 at 0.0 km (<= 5.0 km), tag overlap ['city', 'coast']
-- 忘憂森林 — geographic conflict: 杉林溪 at 2.2 km (<= 5.0 km), tag overlap ['forest', 'starlight']; geographic conflict: 忘憂森林 at 0.0 km (<= 5.0 km), tag overlap ['forest']
+- 忘憂森林 — geographic conflict: 杉林溪 at 2.2 km (<= 5.0 km), tag overlap ['forest', 'starlight']; geographic conflict: 忘憂森林 at 0.0 km (<= 5.0 km), tag overlap ['forest']; geographic conflict: 大崙山觀光茶園/銀杏森林 at 4.4 km (<= 5.0 km), tag overlap ['starlight']
 - 清境農場霧上觀景帶 — geographic conflict: 清境農場 at 0.8 km (<= 5.0 km), tag overlap ['cloud_sea', 'mountain']
 
 > 納入線 v3 ≥ 3.8（景色優美單維度；v2 五維 rubric 已退役）。僅供 PM 短名單決策；本管線不直接加入任何景點。源頭掃描原始紀錄：_source_sweep_raw.json（web 搜尋快取）。
