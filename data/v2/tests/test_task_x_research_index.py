@@ -53,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((449,681),(len(actual),len(ids)))  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1-6: 449 places / 681 live ids (379/590 wave1 + 15 wave2 places / 22 contracts + 12 wave3 places / 15 contracts + 10 wave4 places / 16 contracts + 17 wave5 places / 22 contracts + 16 wave6 places / 16 contracts)
+        self.assertEqual((460,692),(len(actual),len(ids)))  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1-7: 460 places / 692 live ids (379/590 wave1 + 15 wave2 places / 22 contracts + 12 wave3 places / 15 contracts + 10 wave4 places / 16 contracts + 17 wave5 places / 22 contracts + 16 wave6 places / 16 contracts + 11 wave7 places / 11 contracts)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -255,6 +255,10 @@ class ResearchIndexTests(unittest.TestCase):
             # (tw-201..tw-216, 16 contracts) carry their authorship bytes on
             # the wave6 intake commit (blob+sha256 verified on the task tree).
             '6e87b92f4894bf03a470cc075d32085ee03821ad',
+            # CL-DATA-66 wave7: the scoreless Tier-A intake records
+            # (tw-217..tw-227, 11 contracts) carry their authorship bytes on
+            # the wave7 intake commit (blob+sha256 verified on the task tree).
+            'ea49e822dd7d75e3102e5ce1a949025e9b57f0ac',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -282,7 +286,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(1347,count)  # 449 places x 3 (CL-DATA-66 wave6 re-anchor: 449 places x 3 = 1347 name spans)
+        self.assertEqual(1380,count)  # 460 places x 3 (CL-DATA-66 wave7 re-anchor: 460 places x 3 = 1380 name spans)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
@@ -351,7 +355,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(173,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # 45 (CL-INT-135) + 37 wave1 + 22 wave2 + 15 wave3 + 16 wave4 + 22 wave5 + 16 wave6 classified contracts
+        self.assertEqual(184,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # 45 (CL-INT-135) + 37 wave1 + 22 wave2 + 15 wave3 + 16 wave4 + 22 wave5 + 16 wave6 + 11 wave7 classified contracts
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])
