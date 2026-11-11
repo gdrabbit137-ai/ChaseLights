@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and canonical sources remain source pinned (CL-DATA-66 wave5: 433 places / 665 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'fc15cb8554ee4eca302fb4b715ea563ff4296d6e0fbaef2420762666ac3539ea'); // re-measured CL-DATA-66 wave5 (433 places / 665 opportunities)
-  assert.equal(sha256(rawCatalog),'44d5f010a31639d12287f4de4534ef382b9f1635908e74f55b4e7ba5de064835'); // re-measured CL-DATA-66 wave5 (433 places / 665 opportunities)
+  assert.equal(sha256(rawIndex),'1be0d0532dd8357a57587c8b7759c9395b02328ed136c046379a4a46e497ed96'); // re-measured CL-DATA-66 merged regen (433 places / 665 opportunities)
+  assert.equal(sha256(rawCatalog),'42c6d58821eb4cd6c3b31b83b2966600f71114185d1ecf92dc81bf343bb4fe95'); // re-measured CL-DATA-66 merged regen (433 places / 665 opportunities)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,665);assert.equal(source.places.length,433); // re-anchored CL-DATA-66 wave5 (tw-184..200)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
