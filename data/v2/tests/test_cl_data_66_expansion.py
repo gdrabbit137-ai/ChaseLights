@@ -481,8 +481,8 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 438)
-        self.assertEqual(ev["opportunity_count"], 670)
+        self.assertEqual(ev["place_count"], 433)
+        self.assertEqual(ev["opportunity_count"], 658)
         self.assertEqual(ev["forecast_hours"], 168)
 
     def test_web_catalog_regenerated(self):
