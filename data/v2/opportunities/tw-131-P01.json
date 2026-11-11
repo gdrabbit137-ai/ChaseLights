@@ -1,0 +1,399 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "tw-131-P01",
+ "place_id": "tw-131",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "山上人家雲海",
+  "en": "Shanshang Renjia cloud sea",
+  "ja": "山上人家の雲海"
+ },
+ "description_i18n": {
+  "zh-TW": "海拔約1200m 農場環抱雲海（交通部觀光署多媒體開放資料/UDN：觀雲海、看日出；鄰參山國家風景區與鵝公髻山）；與既有 新竹點題材錯位。",
+  "en": "Cloud seas surround the farm at ~1200 m (official tourism open data / UDN: cloud sea and sunrise); disjoint from other Hsinchu subjects.",
+  "ja": "標高約1200mの農場を囲む雲海（観光署オープンデータ）。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-131-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.089,
+      24.6047
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-66 wave-1 admission web verification 2026-11-11 (iot-sky 開放資料（經度121.089 緯度24.6047）＋交通部觀光署多媒體開放資料（海拔約1200m）; source URLs: https://www.iot-sky.com/iot/scenicspot?sel_city=%E6%96%B0%E7%AB%B9%E7%B8%A3 ; https://media.taiwan.net.tw/zh-tw/portal/travel/details/attraction_376440000a_000159). Scoreless intake (owner ruling 2026-11-11): admission = verification + 5km subject-disjoint dedupe; score fields empty.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "海拔約1200m 農場環抱雲海（交通部觀光署多媒體開放資料/UDN：觀雲海、看日出；鄰參山國家風景區與鵝公髻山）；與既有 新竹點題材錯位。（開放/營運狀態以現場公告為準。）",
+    "en": "Cloud seas surround the farm at ~1200 m (official tourism open data / UDN: cloud sea and sunrise); disjoint from other Hsinchu subjects. (Opening/operating status follows on-site notices.)",
+    "ja": "標高約1200mの農場を囲む雲海（観光署オープンデータ）。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 1200.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-131-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "山上人家雲海",
+    "en": "Shanshang Renjia cloud sea",
+    "ja": "山上人家の雲海"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.089,
+      24.6047
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-66 wave-1 admission web verification 2026-11-11 (iot-sky 開放資料（經度121.089 緯度24.6047）＋交通部觀光署多媒體開放資料（海拔約1200m）; source URLs: https://www.iot-sky.com/iot/scenicspot?sel_city=%E6%96%B0%E7%AB%B9%E7%B8%A3 ; https://media.taiwan.net.tw/zh-tw/portal/travel/details/attraction_376440000a_000159). Scoreless intake (owner ruling 2026-11-11): admission = verification + 5km subject-disjoint dedupe; score fields empty.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-131-P01-01",
+   "camera_context_id": "CZ-tw-131-P01-01",
+   "target_id": "SG-tw-131-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-66 wave-1 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-131-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 24.6047,
+   "lon": 121.089,
+   "label_i18n": {
+    "zh-TW": "山上人家森林農場",
+    "en": "Shanshang Renjia Forest Farm",
+    "ja": "山上人家森林農場"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-131-P01-v1",
+  "status": "draft",
+  "genre_template": "cloud_sea",
+  "template_version": "cloud_sea-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-131-P01-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "relative_humidity_925hpa",
+    "operator": "gte",
+    "threshold": 85,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-131-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "低層（925 hPa）相對濕度達飽和邊緣，盆地內才有雲在生成。85% 留緩衝：85–95% 區間已可堆積淺積雲。",
+     "en": "Near-saturation relative humidity at 925 hPa means cloud is forming inside the basin; 85% leaves buffer for shallow cumulus buildup.",
+     "ja": "925 hPaの相対湿度が飽和近くになると盆地内で雲が生成され始める。85%は浅い積雲の蓄積を見込んだ緩衝値。"
+    }
+   },
+   {
+    "id": "C-tw-131-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "relative_humidity_850hpa",
+    "operator": "gte",
+    "threshold": 55,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-131-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "濕層厚度的關鍵：925 濕而 850 乾只有淺霧或零星低雲；兩層連續飽和才可能形成有厚度的雲海。",
+     "en": "Wet-layer thickness hinge: moist at 925 but dry at 850 gives only shallow fog or scattered low cloud; continuous saturation across both levels is what makes a deep cloud sea.",
+     "ja": "湿層の厚さの要：925が湿っても850が乾いていれば浅い霧か散在する低雲に留まる。両層が連続して飽和して初めて厚みのある雲海になる。"
+    }
+   },
+   {
+    "id": "C-tw-131-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "lcl_height_m_agl",
+    "operator": "lt",
+    "threshold": 892,
+    "unit": "m",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-131-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "雲底須低於視線（觀點 1,092 m − 200 m ＝ 892 m 餘量），雲海才出現在眼前而非腳邊。LCL 為雲底代理。",
+     "en": "The cloud base must sit below the sightline (viewpoint 1,092 m minus a 200 m margin = 892 m) for the sea of clouds to appear in front of the viewer, not at their feet. LCL proxies the cloud base.",
+     "ja": "雲底が視線より低いこと（視点1,092mから200mの余裕＝892m）で、雲海が足元ではなく眼前に現れる。LCLは雲底の代理指標。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-06 CL-DATA-15（公開權威值校正）：大屯山主峰海拔 1,092 m（zh.wikipedia 大屯山），取代 CL-DATA-14 之 DEM 估計值 1,082 m；門檻 892 m ＝ 1,092 − 200（owner 公式），camera_contexts.altitude_m 已同步 1092。",
+     "en": "2026-11-06 CL-DATA-15 (public authoritative value correction): Mt. Datun main-peak elevation 1,092 m (zh.wikipedia Datun), replacing the CL-DATA-14 DEM estimate of 1,082 m; threshold 892 m = 1,092 - 200 (owner formula); camera_contexts.altitude_m synced to 1092.",
+     "ja": "2026-11-06 CL-DATA-15（公開権威値による校正）：大屯山主峰の標高 1,092 m（zh.wikipedia 大屯山、CL-DATA-14 の DEM 推定値 1,082 m を差し替え）；閾値 892 m ＝ 1,092 − 200（オーナー式）、camera_contexts.altitude_m は 1092 に同期。"
+    }
+   },
+   {
+    "id": "C-tw-131-P01-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_low",
+    "operator": "gte",
+    "threshold": 60,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-131-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "零星雲塊不成海；取「觀點下方盆地格點帶」的低雲覆蓋而非觀點格點。",
+     "en": "Scattered patches do not make a sea; low-cloud coverage is sampled over the basin grid cells below the viewpoint, not at the viewpoint cell.",
+     "ja": "点在する雲塊は海にならない。低雲の被覆率は視点のセルではなく、視点の下方にある盆地のグリッドで評価する。"
+    },
+    "binding": {
+     "strategy": "nearest_gridpoint",
+     "gridpoint_selector": "basin_cells_below_viewpoint"
+    }
+   },
+   {
+    "id": "C-tw-131-P01-05",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.4,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-131-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "越過雲頂看盆地輪廓的清晰度由整層氣膠（AOD）決定；不可用地面能見度——雲海形成時地表能見度自然轉差，會誤判。",
+     "en": "Clarity looking across the deck top is governed by the column aerosol optical depth; ground visibility must not be used, because the very formation of the cloud sea degrades it and would false-trigger.",
+     "ja": "雲海の上越しに盆地の輪郭を見通す明瞭さは気柱エアロゾル光学的厚み（AOD）で決まる。地上視程は雲海の形成自体が下げるため誤判定の元で使えない。"
+    }
+   },
+   {
+    "id": "C-tw-131-P01-06",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 1,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-131-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "只排除「觀點本身在濃霧中」。門檻刻意低（1 km 而非 10 km）：雲海越好，地面能見度越差，10 km 會反過來懲罰成功條件。",
+     "en": "Only excludes the viewer standing inside fog. The threshold is deliberately low (1 km, not 10 km): the better the cloud sea, the worse the ground visibility, so 10 km would punish the very success case.",
+     "ja": "撮影者が濃霧の中に立っていないことだけを判定。閾値は意図的に低く（10kmでなく1km）：雲海が良くなるほど地上視程は悪化するため、10kmでは成功例を罰してしまう。"
+    },
+    "binding": {
+     "strategy": "nearest_gridpoint",
+     "gridpoint_selector": "viewpoint_cell"
+    }
+   },
+   {
+    "id": "C-tw-131-P01-07",
+    "role": "QUALITY",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "temperature_delta_850_925_c",
+    "operator": "gte",
+    "threshold": 0.0,
+    "unit": "°C",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-131-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "逆溫封蓋：上層不比下層冷（Δ≥0 °C）即視為蓋子存在——等溫或弱逆溫已足以把水氣壓在下方，門檻由 ≥2.0 °C 放寬以降低漏報。屬加分項，不否決。氣壓層依景點高度綁定；缺欄位時誠實 not_evaluatable。",
+     "en": "Inversion lid: as soon as the upper level is not colder than the lower one (delta >= 0 C) a lid exists - isothermal or weakly inverted air already traps moisture below; the threshold was relaxed from 2.0 C to cut false negatives. Advisory bonus, never a veto. Pressure levels are bound to the spot elevation; missing columns stay honestly not_evaluatable.",
+     "ja": "逆転層の蓋：上位面が下位面より寒くなければ（Δ≥0 ℃）蓋があるとみなす——等温や弱い逆転でも下の湿気を押さえるには十分で、誤否定を減らすため閾値を2.0 ℃から緩和。加点項であり単独では否決しない。気圧面は地点の標高に応じて選定し、欠損時は正直にnot_evaluatable。"
+    }
+   },
+   {
+    "id": "C-tw-131-P01-08",
+    "role": "QUALITY",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "wind_speed_850hpa",
+    "operator": "lt",
+    "threshold": 12.0,
+    "unit": "m/s",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-131-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "邊界層微風（<12 m/s）有利雲海存續：風是雲海的侵蝕媒介，強風時此加分項不成立（修正項，不單獨否決）。氣壓層依景點高度綁定；地表 10 m 風不使用（三腳架作業屬攝影師判斷）。",
+     "en": "Light boundary-layer wind (<12 m/s) favours persistence: wind erodes a sea of clouds, so in strong wind this bonus does not apply (advisory, never a lone veto). The pressure level is bound to the spot elevation; surface 10 m wind is excluded - tripod handling is the photographer own call.",
+     "ja": "境界層の微風（<12 m/s）は雲海の維持に有利：風は雲海を侵食するため、強風時はこの加点は成立しない（参考項、単独では否決しない）。気圧面は地点標高に応じて選定。地上10m風は使用しない（三脚対応は撮影者の裁量）。"
+    },
+    "binding": {
+     "strategy": "height_bound",
+     "candidate_levels_hpa": [
+      925,
+      850
+     ],
+     "target_height_expression": "deck_top_estimate + 200m"
+    },
+    "modifier_activation": {
+     "when_condition": "C-tw-001-P02-07",
+     "mode": "when_not_met"
+    }
+   },
+   {
+    "id": "C-tw-131-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-131-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "光線窗（必要條件）：整小時每一時點太陽仰角都必須 > −6°（民用光線）。雲海只在民用光線下可拍；夜間一律不符合（owner 澄清 2026-11-05：月光例外取消，不採用月照 metric）。",
+     "en": "Light window (necessary condition): sun elevation must be above -6 deg (civil light) at EVERY instant of the hour bucket. A sea of clouds is only shootable in civil light; night hours never qualify (owner clarification 2026-11-05: the moonlight exception was a rhetorical question, not a ruling — no moon metric is used).",
+     "ja": "光の窓（必要条件）：時間バケット内の全時点で太陽高度 > -6°（市民光）。雲海は市民光の中でのみ撮影可能で、夜間は一律成立しない（オーナー確認 2026-11-05：月光の例外は撤回、月照指標は使用しない）。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-05 owner 裁定＋澄清（CL-DATA-11）：「晚上除非有月光否則看不到雲海」，隨後澄清月光例外取消——light_window 唯一語義為民用光線（太陽仰角 > −6°），夜間一律不符合，不引月照 metric。threshold_source=computed。本筆為語意修正，layering parity gate 豁免，理由記於本 revision note。",
+     "en": "2026-11-05 owner ruling + clarification (CL-DATA-11): \"a cloud sea is invisible at night unless there is moonlight\", then clarified — the moonlight exception is withdrawn: light_window means civil light only (sun elevation > -6 deg), night hours never qualify, and no moon-illumination metric is consulted. threshold_source=computed. Semantic correction: the layering parity gate is exempt for this record; the change is documented in this revision note.",
+     "ja": "2026-11-05 オーナー裁定＋確認（CL-DATA-11）：「月光のない夜、雲海は見えない」の後、月光の例外は撤回——light_window の唯一の語義は市民光（太陽高度 > -6°）で、夜間は一律成立せず、月照指標は使用しない。threshold_source=computed。意味修正のため layering parity ゲートは本レコードを免除し、変更はこのリビジョンノートに記録。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-131-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d66-web-shanshangrenjia-farm"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-66 wave-1 scoreless admission (owner ruling 2026-11-11: verification + 5km subject-disjoint dedupe; NO rubric/AGLI scoring); coordinates/elevation web-verified 2026-11-11 (sources in camera derivation_method and data/v2/audits/cl-data-66_web_evidence.json); 查無權威源之海拔誠實留空 (null); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-66 Tier-A wave-1 intake (owner-list streams, scoreless 2026-11-11)",
+  "source_revision": "cl-data-66:shanshangrenjia-farm",
+  "imported_at": "2026-11-11T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

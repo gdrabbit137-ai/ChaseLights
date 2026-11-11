@@ -153,6 +153,28 @@ TW_ADMIN_AREAS = {
     "tw-118": ["台東縣"],
     "tw-119": ["苗栗縣"],
     "tw-120": ["台中市"],
+    "tw-125": ["南投縣"],  # CL-DATA-66
+    "tw-126": ["新北市"],  # CL-DATA-66
+    "tw-127": ["苗栗縣"],  # CL-DATA-66
+    "tw-128": ["苗栗縣"],  # CL-DATA-66
+    "tw-129": ["基隆市"],  # CL-DATA-66
+    "tw-130": ["新竹縣"],  # CL-DATA-66
+    "tw-131": ["新竹縣"],  # CL-DATA-66
+    "tw-132": ["新北市"],  # CL-DATA-66
+    "tw-133": ["南投縣"],  # CL-DATA-66
+    "tw-134": ["嘉義縣"],  # CL-DATA-66
+    "tw-135": ["新北市"],  # CL-DATA-66
+    "tw-136": ["南投縣"],  # CL-DATA-66
+    "tw-137": ["新北市"],  # CL-DATA-66
+    "tw-138": ["新北市"],  # CL-DATA-66
+    "tw-139": ["基隆市"],  # CL-DATA-66
+    "tw-140": ["宜蘭縣"],  # CL-DATA-66
+    "tw-141": ["南投縣"],  # CL-DATA-66
+    "tw-142": ["台南市"],  # CL-DATA-66
+    "tw-143": ["新北市"],  # CL-DATA-66
+    "tw-144": ["桃園市"],  # CL-DATA-66
+    "tw-145": ["新北市"],  # CL-DATA-66
+    "tw-146": ["高雄市"],  # CL-DATA-66
     "tw-121": ["連江縣"],  # CL-DATA-64
     "tw-122": ["連江縣"],  # CL-DATA-64
     "tw-123": ["連江縣"],  # CL-DATA-64
@@ -574,6 +596,28 @@ REGIONS = {
             (23.1979087, 121.0371977, "栗松溫泉野溪峽谷", "Lisong Hot Spring Canyon", "栗松温泉の渓谷", "栗松溫泉", "本島", ["mountain"]),
             (24.5375, 120.9907, "加里山", "Jiali Mountain", "加里山", "加里山", "本島", ["mountain", "cloud_sea", "starlight"]),
             (24.364611, 121.31035, "武陵農場", "Wuling Farm", "武陵農場", "武陵農場", "本島", ["mountain", "starlight"]),
+            (23.681681, 120.76637, "大崙山觀光茶園/銀杏森林", "Dalunshan Tea Terraces / Ginkgo Forest", "大崙山茶園／銀杏の森", "大崙山觀光茶園", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (24.9675371, 121.7272531, "坪林南山寺仙公廟", "Nanshan Temple (Xianguangmiao), Pinglin", "坪林南山寺仙公廟", "南山寺仙公廟", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (24.5415154, 120.950373, "仙山靈洞宮後山", "Xianshan (Lingdong Temple back hill)", "仙山霊洞宮の後山", "仙山靈洞宮", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (24.5558111, 120.846273, "墨硯山琉璃光", "Moyanshan liuli-glow night", "墨硯山の琉璃光", "墨硯山", "本島", ["city", "starlight"]),  # CL-DATA-66
+            (25.053278, 121.73011, "姜子寮山觀景台", "Jiangziliao Mountain viewing platform", "姜子寮山の展望台", "姜子寮山", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (24.6675183, 121.2820376, "宇老觀景台", "Yulao viewing platform (Jianshi)", "宇老観景台", "宇老觀景台", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (24.6047, 121.089, "山上人家農場", "Shanshang Renjia Forest Farm", "山上人家森林農場", "山上人家森林農場", "本島", ["mountain", "forest", "starlight"]),  # CL-DATA-66
+            (24.9672358, 121.6196361, "石門二格山觀景台", "Ergeshan viewing platform (Shiding)", "二格山の展望台", "二格山", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (23.854861, 120.83806, "集集大山轉播站", "Jiji Dashan broadcast-station viewpoint", "集集大山の中継局展望", "集集大山", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (23.559532, 120.6789157, "1314觀景台", "1314 Observation Deck (Meishan Ruifeng)", "1314観景台", "1314觀景台", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (25.07278, 121.77278, "五分山雷達站", "Wufenshan Weather Radar Station", "五分山気象レーダー站", "五分山雷達站", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (23.964167, 120.989944, "埔里虎頭山虎嘯山莊", "Huxiao Farm, Hutoushan (Puli)", "虎嘯山荘（埔里虎頭山）", "虎嘯山莊", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (25.1136611, 121.8596306, "報時山觀景台", "Baoshishan viewing platform (Jinguashi)", "報時山の展望台", "報時山", "本島", ["coast", "starlight"]),  # CL-DATA-66
+            (25.003363, 121.403214, "大同山/青龍嶺", "Datongshan / Qinglongling (Shulin)", "大同山・青龍嶺", "大同山/青龍嶺", "本島", ["city", "starlight"]),  # CL-DATA-66
+            (25.1568, 121.7056, "大武崙白沙灘/外木山", "Waimushan coastal belt (Dawulun)", "外木山海濱（大武崙）", "大武崙白沙灘/外木山", "本島", ["coast", "starlight"]),  # CL-DATA-66
+            (24.5242406, 121.6228895, "太平山森林遊樂區", "Taipingshan National Forest Recreation Area", "太平山国家森林遊楽区", "太平山", "本島", ["forest", "mountain", "starlight"]),  # CL-DATA-66
+            (23.9489652, 121.1875001, "奧萬大楓林步道", "Aowanda maple trail", "奥万大の楓林古道", "奧萬大楓林步道", "本島", ["forest", "mountain"]),  # CL-DATA-66
+            (22.9965428, 120.16379, "安平漁人碼頭/大魚的祝福", "Anping Fisherman's Wharf / The Blessing of the Big Fish", "安平漁人碼頭／大魚的祝福", "安平漁人碼頭", "本島", ["coast", "city"]),  # CL-DATA-66
+            (25.298217, 121.536583, "富貴角風稜石", "Fuguijiao wind-cut stones", "富貴角の風稜石", "富貴角風稜石", "本島", ["coast", "geology"]),  # CL-DATA-66
+            (24.818749, 121.4161228, "東眼山國家森林遊樂區三角點", "Dongyanshan tri-point (Fuxing)", "東眼山国家森林遊楽区の三角点", "東眼山", "本島", ["forest", "mountain", "starlight"]),  # CL-DATA-66
+            (24.9379719, 121.5198804, "東華聖宮", "Donghua Shengong temple night", "東華聖宮", "東華聖宮", "本島", ["city", "starlight"]),  # CL-DATA-66
+            (23.0657536, 120.7470591, "藤枝國家森林遊樂區", "Tengjhih National Forest Recreation Area", "藤枝国家森林遊楽区", "藤枝", "本島", ["forest", "mountain"]),  # CL-DATA-66
             (26.222827, 120.00476, "北竿塘后道沙灘藍眼淚", "Tanghou Beach blue tears (Beigan)", "塘后道ビーチの藍眼淚", "塘后道沙灘", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
             (26.143015, 119.92881, "南竿北海坑道（夜間搖櫓藍眼淚）", "Beihai Tunnel night rowing blue tears (Nangan)", "北海坑道（夜間ローボート藍眼淚）", "北海坑道", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
             (25.966231, 119.98215, "東莒福正沙灘藍眼淚（東犬燈塔旁）", "Fuzheng Beach blue tears (Dongju)", "福正ビーチの藍眼淚（東犬灯台）", "福正沙灘", "馬祖", ["coast", "starlight"]),  # CL-DATA-64
@@ -977,6 +1021,25 @@ ELEVATION_OVERRIDES = {
     "Assateague Island": 2,  # CL-DATA-53
     "Harding Icefield": 1200,  # CL-DATA-53
     # CL-DATA-64 admission elevations (web-verified 2026-11-10; null elevations omitted honestly)
+    # CL-DATA-66 wave-1 admission elevations (web-verified 2026-11-11; null elevations omitted honestly)
+    "大崙山觀光茶園": 1300,  # CL-DATA-66
+    "仙山靈洞宮": 967,  # CL-DATA-66
+    "墨硯山": 157,  # CL-DATA-66
+    "姜子寮山": 729,  # CL-DATA-66
+    "宇老觀景台": 1450,  # CL-DATA-66
+    "山上人家森林農場": 1200,  # CL-DATA-66
+    "二格山": 678,  # CL-DATA-66
+    "集集大山": 1392,  # CL-DATA-66
+    "1314觀景台": 1314,  # CL-DATA-66
+    "五分山雷達站": 740,  # CL-DATA-66
+    "虎嘯山莊": 650,  # CL-DATA-66
+    "報時山": 295,  # CL-DATA-66
+    "大同山/青龍嶺": 256,  # CL-DATA-66
+    "大武崙白沙灘/外木山": 231,  # CL-DATA-66
+    "太平山": 1950,  # CL-DATA-66
+    "奧萬大楓林步道": 1100,  # CL-DATA-66
+    "東眼山": 1212,  # CL-DATA-66
+    "藤枝": 1500,  # CL-DATA-66
     "塘后道沙灘": 3,  # CL-DATA-64
     "福正沙灘": 3,  # CL-DATA-64
     "Old Faithful": 2240,  # CL-DATA-64
@@ -1443,6 +1506,117 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+    # CL-DATA-66 wave-1 admission (web-verified 2026-11-11; keyed to full display names per get_spots contract)
+ "大崙山觀光茶園/銀杏森林": {"lat": 23.681681,
+           "lon": 120.76637,
+           "map_query": "大崙山觀光茶園",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: 玩全台灣旅遊網 大崙山觀光茶園 GoogleMap座標 23.681681,120.766370；海拔1250-1500m 帶（南投旅遊網官方頁）",
+           "coordinate_confidence": "high"},
+ "坪林南山寺仙公廟": {"lat": 24.9675371,
+           "lon": 121.7272531,
+           "map_query": "南山寺仙公廟",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 南山寺（坪林漁光里樟空子路）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "仙山靈洞宮後山": {"lat": 24.5415154,
+           "lon": 120.950373,
+           "map_query": "仙山靈洞宮",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 協靈宮（仙山登山步道，獅潭新店村）；海拔967m（交通部觀光署多媒體開放資料：仙山海拔967公尺）",
+           "coordinate_confidence": "medium"},
+ "墨硯山琉璃光": {"lat": 24.5558111,
+           "lon": 120.846273,
+           "map_query": "墨硯山",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 墨硯山南峰；海拔約157m（健行筆記/vocus 攻略）",
+           "coordinate_confidence": "high"},
+ "姜子寮山觀景台": {"lat": 25.053278,
+           "lon": 121.73011,
+           "map_query": "姜子寮山",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: zh.wikipedia 姜子寮山（25°03′11.8″N 121°43′48.4″E；海拔729m，小百岳）",
+           "coordinate_confidence": "high"},
+ "宇老觀景台": {"lat": 24.6675183,
+           "lon": 121.2820376,
+           "map_query": "宇老觀景台",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 宇老觀景台（新竹60縣道20K）；海拔1450m（新竹尖石原住民文化館/拉美公司資料）",
+           "coordinate_confidence": "high"},
+ "山上人家農場": {"lat": 24.6047,
+           "lon": 121.089,
+           "map_query": "山上人家森林農場",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: iot-sky 開放資料（經度121.089 緯度24.6047）＋交通部觀光署多媒體開放資料（海拔約1200m）",
+           "coordinate_confidence": "medium"},
+ "石門二格山觀景台": {"lat": 24.9672358,
+           "lon": 121.6196361,
+           "map_query": "二格山",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 二格山（石碇格頭里）；海拔678m（zh.wikipedia 二格山，小百岳）",
+           "coordinate_confidence": "medium"},
+ "集集大山轉播站": {"lat": 23.854861,
+           "lon": 120.83806,
+           "map_query": "集集大山",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: zh.wikipedia 集集大山（23°51′17.5″N 120°50′17″E；主峰1,390m；南投旅遊網記1,392m）",
+           "coordinate_confidence": "high"},
+ "1314觀景台": {"lat": 23.559532,
+           "lon": 120.6789157,
+           "map_query": "1314觀景台",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 海鼠山（嘉義梅山）＋阿里山國家風景區管理處官方（海鼠山最高點海拔1,311m＋觀景台=1,314m）",
+           "coordinate_confidence": "high"},
+ "五分山雷達站": {"lat": 25.07278,
+           "lon": 121.77278,
+           "map_query": "五分山雷達站",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: 中央氣象署官方站況頁（東經121.77305 北緯25.07305 海拔740m）＋zh.wikipedia 五分山氣象雷達站",
+           "coordinate_confidence": "high"},
+ "埔里虎頭山虎嘯山莊": {"lat": 23.964167,
+           "lon": 120.989944,
+           "map_query": "虎嘯山莊",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: 虎嘯山莊官方對位座標 N23°57′51 E120°59′24（easycamp 登錄）＋ddnews（虎頭山約650m）",
+           "coordinate_confidence": "medium"},
+ "報時山觀景台": {"lat": 25.1136611,
+           "lon": 121.8596306,
+           "map_query": "報時山",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: zh.wikipedia 報時山（25°6′49.18″N 121°51′34.67″E；海拔295m；新北觀光局記260m 為步道口帶——取山頂295m 並註記）",
+           "coordinate_confidence": "high"},
+ "大同山/青龍嶺": {"lat": 25.003363,
+           "lon": 121.403214,
+           "map_query": "大同山/青龍嶺",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: 台灣66 全景資料（座標 25.003363, 121.403214；青龍嶺海拔約256m）＋新北觀光局（大同山237m）",
+           "coordinate_confidence": "high"},
+ "大武崙白沙灘/外木山": {"lat": 25.1568,
+           "lon": 121.7056,
+           "map_query": "大武崙白沙灘/外木山",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: 1968 開放資料 大武崙砲台（經度121.7056 緯度25.1568）＋基隆市文化局（大武崙山標高231m）；本點主題為外木山濱海大道日落海岸帶（非戲水）",
+           "coordinate_confidence": "high"},
+ "太平山森林遊樂區": {"lat": 24.5242406,
+           "lon": 121.6228895,
+           "map_query": "太平山",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 太平山國家森林遊樂區；太平山帶海拔1,950-2,000m（林業保育署太平山官方頁/TPS）",
+           "coordinate_confidence": "medium"},
+ "奧萬大楓林步道": {"lat": 23.9489652,
+           "lon": 121.1875001,
+           "map_query": "奧萬大楓林步道",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 奧萬大國家森林遊樂區；園區海拔1,100-2,600m（南投旅遊網/林業保育署）——楓林區帶取1,100m",
+           "coordinate_confidence": "medium"},
+ "安平漁人碼頭/大魚的祝福": {"lat": 22.9965428,
+           "lon": 120.16379,
+           "map_query": "安平漁人碼頭",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 安平漁人碼頭（安億路）＋台南市政府（大魚的祝福裝置藝術）；海拔查無獨立權威值誠實留空",
+           "coordinate_confidence": "medium"},
+ "富貴角風稜石": {"lat": 25.298217,
+           "lon": 121.536583,
+           "map_query": "富貴角風稜石",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: 交通部航港局 富貴角燈塔官方（WGS84 北緯25°17.893′ 東經121°32.195′）；海拔誠實留空",
+           "coordinate_confidence": "high"},
+ "東眼山國家森林遊樂區三角點": {"lat": 24.818749,
+           "lon": 121.4161228,
+           "map_query": "東眼山",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 東眼山國家森林遊樂區；東眼山海拔1,212m（林業保育署官方）",
+           "coordinate_confidence": "medium"},
+ "東華聖宮": {"lat": 24.9379719,
+           "lon": 121.5198804,
+           "map_query": "東華聖宮",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 東華聖宮（新店華城里）＋廟宇登錄——知名琉璃光/百萬夜景點為新店東華聖宮（mook/欣傳媒列名）；候選清單 region 欄『南投魚池』疑為誤植，座標以新店東華聖宮對位；海拔誠實留空",
+           "coordinate_confidence": "medium"},
+ "藤枝國家森林遊樂區": {"lat": 23.0657536,
+           "lon": 120.7470591,
+           "map_query": "藤枝",
+           "coordinate_source": "CL-DATA-66 wave-1 admission web verification 2026-11-11: OSM Nominatim 藤枝（桃源區）＋林業保育署官方（園區海拔500-1,804m；主要遊憩帶1,500-1,804m）",
+           "coordinate_confidence": "medium"},
     # CL-DATA-64 admission (web-verified 2026-11-10; keyed to full display names per get_spots contract)
  "北竿塘后道沙灘藍眼淚": {"lat": 26.222827,
            "lon": 120.00476,

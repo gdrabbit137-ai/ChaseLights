@@ -1,0 +1,269 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "tw-135-P01",
+ "place_id": "tw-135",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "五分山雷達站夜景",
+  "en": "Wufenshan radar-station night view",
+  "ja": "五分山レーダー站の夜景"
+ },
+ "description_i18n": {
+  "zh-TW": "山頂球體雷達站與基隆河谷燈海夜景（攝影社群列名；海拔740m——CWA 官方）；雷達站設施本身為管制區，僅步道/外圍合法拍攝——access 記錄不計分。",
+  "en": "The white radar dome against the Keelung river-valley lights at night (740 m per CWA official); the station compound is restricted - shoot only from the trail/surroundings (access note, not scored).",
+  "ja": "山頂のレーダードームと基隆河谷の灯り（標高740m、CWA公式）。敷地は立入制限。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-135-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.77278,
+      25.07278
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-66 wave-1 admission web verification 2026-11-11 (中央氣象署官方站況頁（東經121.77305 北緯25.07305 海拔740m）＋zh.wikipedia 五分山氣象雷達站; source URLs: https://www.cwa.gov.tw/V8/C/A/organ/46685.html ; https://zh.wikipedia.org/wiki/%E4%BA%94%E5%88%86%E5%B1%B1%E6%B0%A3%E8%B1%A1%E9%9B%B7%E9%81%94%E7%AB%99). Scoreless intake (owner ruling 2026-11-11): admission = verification + 5km subject-disjoint dedupe; score fields empty.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "山頂球體雷達站與基隆河谷燈海夜景（攝影社群列名；海拔740m——CWA 官方）；雷達站設施本身為管制區，僅步道/外圍合法拍攝——access 記錄不計分。（開放/營運狀態以現場公告為準。）（中央氣象署雷達站站區為管制區——僅步道及外圍合法拍攝。）",
+    "en": "The white radar dome against the Keelung river-valley lights at night (740 m per CWA official); the station compound is restricted - shoot only from the trail/surroundings (access note, not scored). (Opening/operating status follows on-site notices.) (The CWA radar compound is restricted - shoot only from the trail and surroundings.)",
+    "ja": "山頂のレーダードームと基隆河谷の灯り（標高740m、CWA公式）。敷地は立入制限。（開放・営業状況は現地の案内に従う。）（レーダー敷地は立入制限——登山道と周辺のみで撮影。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 740.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-135-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "五分山雷達站夜景",
+    "en": "Wufenshan radar-station night view",
+    "ja": "五分山レーダー站の夜景"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.77278,
+      25.07278
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-66 wave-1 admission web verification 2026-11-11 (中央氣象署官方站況頁（東經121.77305 北緯25.07305 海拔740m）＋zh.wikipedia 五分山氣象雷達站; source URLs: https://www.cwa.gov.tw/V8/C/A/organ/46685.html ; https://zh.wikipedia.org/wiki/%E4%BA%94%E5%88%86%E5%B1%B1%E6%B0%A3%E8%B1%A1%E9%9B%B7%E9%81%94%E7%AB%99). Scoreless intake (owner ruling 2026-11-11): admission = verification + 5km subject-disjoint dedupe; score fields empty.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-135-P01-01",
+   "camera_context_id": "CZ-tw-135-P01-01",
+   "target_id": "SG-tw-135-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-66 wave-1 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-135-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 25.07278,
+   "lon": 121.77278,
+   "label_i18n": {
+    "zh-TW": "五分山雷達站",
+    "en": "Wufenshan Weather Radar Station",
+    "ja": "五分山雷達站"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-135-P01-v1",
+  "status": "draft",
+  "genre_template": "city_night",
+  "template_version": "city_night-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-135-P01-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 30,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-135-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "夜景主體是城市燈火：總雲量 ≤30% 保證天際線與燈火可見；薄雲會吃掉遠處燈海層次。",
+     "en": "The subject is city lights: total cloud <= 30% keeps the skyline and light field visible; thin veils wash out the distant light layers.",
+     "ja": "主題は都市の灯り。全雲量≤30%でスカイラインと灯りの層が見える。薄い雲でも遠方の灯りが消える。"
+    }
+   },
+   {
+    "id": "C-tw-135-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 10,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-135-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥10 km：夜間霧霾讓遠處燈火糊化，能見度是夜景清晰度的主要代理（夜間無 AOD 觀測，以能見度為主判據）。",
+     "en": "Visibility >= 10 km: night haze smears distant lights, so visibility is the main proxy for night clarity (no nighttime AOD observation; visibility is the primary criterion).",
+     "ja": "視程≥10km。夜間の煙霾は遠方の灯りをぼかす。夜間AOD観測がないため視程を主判準とする。"
+    }
+   },
+   {
+    "id": "C-tw-135-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-135-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降雨受影響；0.2 mm/h 以下不受影響（與 tw-002-P01 相同門檻）。",
+     "en": "Rain interferes; below 0.2 mm/h is fine (same as tw-002-P01).",
+     "ja": "雨は影響。0.2mm/h未満なら問題なし（tw-002-P01と同じ）。"
+    }
+   },
+   {
+    "id": "C-tw-135-P01-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-135-P01-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD ≤0.5 為加分項：白天溶膠厚度指示夜間煙霾殘留程度；僅為傾向指標，不否決（夜間對應性未校準）。",
+     "en": "AOD <= 0.5 is a bonus: daytime aerosol thickness hints at residual night haze; a tendency indicator only, never a veto (night correspondence uncalibrated).",
+     "ja": "AOD≤0.5は加点。昼間のエアロゾル厚は夜間煙霾の残存の目安。傾向指標のみで否決しない（夜間対応は未較正）。"
+    }
+   },
+   {
+    "id": "C-tw-135-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "city_night_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-135-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "時間窗＝整小時太陽仰角 ≤ −6°（民用暮光後）。夜間光雕主體需要黑暗天空；白天時段即使天氣全過也不成立。",
+     "en": "Time window = the whole hour bucket with sun elevation <= -6 deg (after civil dusk). A night-illumination subject needs a dark sky; a daytime hour cannot qualify even if every weather condition passes.",
+     "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。夜間ライトアップの主題には暗い空が必要で、昼間は気象条件が全て通過しても成立しない。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-135-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d66-web-wufenshan-radar"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-66 wave-1 scoreless admission (owner ruling 2026-11-11: verification + 5km subject-disjoint dedupe; NO rubric/AGLI scoring); coordinates/elevation web-verified 2026-11-11 (sources in camera derivation_method and data/v2/audits/cl-data-66_web_evidence.json); 查無權威源之海拔誠實留空 (null); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-66 Tier-A wave-1 intake (owner-list streams, scoreless 2026-11-11)",
+  "source_revision": "cl-data-66:wufenshan-radar",
+  "imported_at": "2026-11-11T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

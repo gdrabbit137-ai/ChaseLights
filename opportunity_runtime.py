@@ -860,6 +860,9 @@ ASTRONOMY_EPHEMERIS_PROFILES = {
     "tw-122-P01": {"mode": "milky_way_or_star_field"},
     "tw-123-P01": {"mode": "milky_way_or_star_field"},
     "tw-124-P01": {"mode": "milky_way_or_star_field"},
+    # CL-DATA-66 wave-1 admission: Taipingshan / Dongyanshan dark-sky star subjects
+    "tw-140-P02": {"mode": "milky_way_or_star_field"},
+    "tw-144-P02": {"mode": "milky_way_or_star_field"},
 }
 
 
