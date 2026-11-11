@@ -21,8 +21,8 @@ jobs:
       - name: Install Capacitor CLI & deps
         run: npm ci --no-audit --no-fund
         working-directory: apps/mobile
-      - name: Sync web-v2 assets into the shell
-        run: node scripts/sync-web.mjs
+      - name: Sync web-v2 assets & Capacitor android project
+        run: npm run cap:sync
         working-directory: apps/mobile
       - name: Unit tests (version check / cache degrade / i18n)
         run: npm test
