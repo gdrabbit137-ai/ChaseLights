@@ -3620,6 +3620,335 @@
           }
         }
       ]
+    },
+    {
+      "pair_id": "2026-11-10T18:00:00Z__2026-11-11T00:00:00Z",
+      "generated_at": "2026-11-11T00:54:37.523098+00:00",
+      "calibration_id": "cwa-low-cloud-himawari-v1",
+      "training_slots": [
+        "2026-11-10T18:00:00Z"
+      ],
+      "validation_slot": "2026-11-11T00:00:00Z",
+      "baseline": {
+        "feature": "max(rh925,rh850)",
+        "transfer": {
+          "lower_rh_percent": 70,
+          "upper_rh_percent": 95
+        },
+        "training_metrics": {
+          "n": 60558,
+          "positive": 42824,
+          "negative": 17734,
+          "brier": 0.2014,
+          "auc": 0.714,
+          "threshold": 50.0,
+          "sensitivity": 0.9694,
+          "specificity": 0.1969,
+          "balanced_accuracy": 0.5831,
+          "confusion": {
+            "tp": 41514,
+            "tn": 3491,
+            "fp": 14243,
+            "fn": 1310
+          }
+        }
+      },
+      "selected_candidate": {
+        "feature": "rh_avg",
+        "transfer": {
+          "lower_rh_percent": 62,
+          "upper_rh_percent": 100
+        },
+        "training_metrics": {
+          "n": 60558,
+          "positive": 42824,
+          "negative": 17734,
+          "brier": 0.1714,
+          "auc": 0.7207,
+          "threshold": 50.0,
+          "sensitivity": 0.9535,
+          "specificity": 0.3207,
+          "balanced_accuracy": 0.6371,
+          "confusion": {
+            "tp": 40833,
+            "tn": 5688,
+            "fp": 12046,
+            "fn": 1991
+          }
+        }
+      },
+      "validation": {
+        "slot_utc": "2026-11-11T00:00:00Z",
+        "baseline": {
+          "n": 46932,
+          "positive": 29490,
+          "negative": 17442,
+          "brier": 0.2516,
+          "auc": 0.6579,
+          "threshold": 50.0,
+          "sensitivity": 0.9586,
+          "specificity": 0.1723,
+          "balanced_accuracy": 0.5655,
+          "confusion": {
+            "tp": 28268,
+            "tn": 3006,
+            "fp": 14436,
+            "fn": 1222
+          }
+        },
+        "candidate": {
+          "n": 46932,
+          "positive": 29490,
+          "negative": 17442,
+          "brier": 0.2012,
+          "auc": 0.7207,
+          "threshold": 50.0,
+          "sensitivity": 0.9356,
+          "specificity": 0.2567,
+          "balanced_accuracy": 0.5961,
+          "confusion": {
+            "tp": 27591,
+            "tn": 4477,
+            "fp": 12965,
+            "fn": 1899
+          }
+        }
+      },
+      "validation_candidates": [
+        {
+          "feature": "rh_min",
+          "transfer": {
+            "lower_rh_percent": 60,
+            "upper_rh_percent": 95
+          },
+          "metrics": {
+            "n": 46932,
+            "positive": 29490,
+            "negative": 17442,
+            "brier": 0.2016,
+            "auc": 0.728,
+            "threshold": 50.0,
+            "sensitivity": 0.9337,
+            "specificity": 0.308,
+            "balanced_accuracy": 0.6208,
+            "confusion": {
+              "tp": 27534,
+              "tn": 5372,
+              "fp": 12070,
+              "fn": 1956
+            }
+          },
+          "exploratory_only": true
+        },
+        {
+          "feature": "rh_avg",
+          "transfer": {
+            "lower_rh_percent": 62,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 46932,
+            "positive": 29490,
+            "negative": 17442,
+            "brier": 0.2012,
+            "auc": 0.7207,
+            "threshold": 50.0,
+            "sensitivity": 0.9356,
+            "specificity": 0.2567,
+            "balanced_accuracy": 0.5961,
+            "confusion": {
+              "tp": 27591,
+              "tn": 4477,
+              "fp": 12965,
+              "fn": 1899
+            }
+          },
+          "exploratory_only": false
+        },
+        {
+          "feature": "rh_avg_spread25",
+          "transfer": {
+            "lower_rh_percent": 60,
+            "upper_rh_percent": 98
+          },
+          "metrics": {
+            "n": 46932,
+            "positive": 29490,
+            "negative": 17442,
+            "brier": 0.1996,
+            "auc": 0.7287,
+            "threshold": 50.0,
+            "sensitivity": 0.9401,
+            "specificity": 0.2717,
+            "balanced_accuracy": 0.6059,
+            "confusion": {
+              "tp": 27723,
+              "tn": 4739,
+              "fp": 12703,
+              "fn": 1767
+            }
+          },
+          "exploratory_only": true
+        },
+        {
+          "feature": "rh_avg_spread50",
+          "transfer": {
+            "lower_rh_percent": 60,
+            "upper_rh_percent": 95
+          },
+          "metrics": {
+            "n": 46932,
+            "positive": 29490,
+            "negative": 17442,
+            "brier": 0.2016,
+            "auc": 0.728,
+            "threshold": 50.0,
+            "sensitivity": 0.9337,
+            "specificity": 0.308,
+            "balanced_accuracy": 0.6208,
+            "confusion": {
+              "tp": 27534,
+              "tn": 5372,
+              "fp": 12070,
+              "fn": 1956
+            }
+          },
+          "exploratory_only": true
+        },
+        {
+          "feature": "rh_avg_spread75",
+          "transfer": {
+            "lower_rh_percent": 60,
+            "upper_rh_percent": 91
+          },
+          "metrics": {
+            "n": 46932,
+            "positive": 29490,
+            "negative": 17442,
+            "brier": 0.2116,
+            "auc": 0.7229,
+            "threshold": 50.0,
+            "sensitivity": 0.9311,
+            "specificity": 0.3203,
+            "balanced_accuracy": 0.6257,
+            "confusion": {
+              "tp": 27457,
+              "tn": 5587,
+              "fp": 11855,
+              "fn": 2033
+            }
+          },
+          "exploratory_only": true
+        }
+      ],
+      "promotion": {
+        "eligible": false,
+        "gate": {
+          "minimum_brier_improvement": 0.015,
+          "minimum_specificity_improvement": 0.1,
+          "maximum_sensitivity_loss": 0.2,
+          "auc_must_not_decrease": true
+        },
+        "observed": {
+          "brier_improvement": 0.0504,
+          "specificity_improvement": 0.0843,
+          "sensitivity_loss": 0.023,
+          "auc_change": 0.0628
+        },
+        "reason": "candidate does not yet pass provisional two-slot promotion gate"
+      },
+      "snapshots": [
+        {
+          "slot_utc": "2026-11-10T18:00:00Z",
+          "cwa_valid_time_utc": "2026-11-10T18:00:00+00:00",
+          "time_delta_seconds": 0.0,
+          "label_counts": {
+            "positive_low_cloud": 42824,
+            "negative_clear": 17734,
+            "ambiguous_excluded": 1920,
+            "usable": 60558
+          },
+          "baseline": {
+            "n": 60558,
+            "positive": 42824,
+            "negative": 17734,
+            "brier": 0.2014,
+            "auc": 0.714,
+            "threshold": 50.0,
+            "sensitivity": 0.9694,
+            "specificity": 0.1969,
+            "balanced_accuracy": 0.5831,
+            "confusion": {
+              "tp": 41514,
+              "tn": 3491,
+              "fp": 14243,
+              "fn": 1310
+            }
+          },
+          "candidate": {
+            "n": 60558,
+            "positive": 42824,
+            "negative": 17734,
+            "brier": 0.1714,
+            "auc": 0.7207,
+            "threshold": 50.0,
+            "sensitivity": 0.9535,
+            "specificity": 0.3207,
+            "balanced_accuracy": 0.6371,
+            "confusion": {
+              "tp": 40833,
+              "tn": 5688,
+              "fp": 12046,
+              "fn": 1991
+            }
+          }
+        },
+        {
+          "slot_utc": "2026-11-11T00:00:00Z",
+          "cwa_valid_time_utc": "2026-11-11T00:00:00+00:00",
+          "time_delta_seconds": 0.0,
+          "label_counts": {
+            "positive_low_cloud": 29490,
+            "negative_clear": 17442,
+            "ambiguous_excluded": 15546,
+            "usable": 46932
+          },
+          "baseline": {
+            "n": 46932,
+            "positive": 29490,
+            "negative": 17442,
+            "brier": 0.2516,
+            "auc": 0.6579,
+            "threshold": 50.0,
+            "sensitivity": 0.9586,
+            "specificity": 0.1723,
+            "balanced_accuracy": 0.5655,
+            "confusion": {
+              "tp": 28268,
+              "tn": 3006,
+              "fp": 14436,
+              "fn": 1222
+            }
+          },
+          "candidate": {
+            "n": 46932,
+            "positive": 29490,
+            "negative": 17442,
+            "brier": 0.2012,
+            "auc": 0.7207,
+            "threshold": 50.0,
+            "sensitivity": 0.9356,
+            "specificity": 0.2567,
+            "balanced_accuracy": 0.5961,
+            "confusion": {
+              "tp": 27591,
+              "tn": 4477,
+              "fp": 12965,
+              "fn": 1899
+            }
+          }
+        }
+      ]
     }
   ],
   "review_readiness": {
@@ -3627,19 +3956,19 @@
     "eligible_for_model_review": false,
     "automatic_production_change": false,
     "minimum_distinct_validation_slots": 6,
-    "observed_distinct_validation_slots": 11,
+    "observed_distinct_validation_slots": 12,
     "window_validation_slots": [
-      "2026-11-07T18:00:00Z",
       "2026-11-08T12:00:00Z",
       "2026-11-08T18:00:00Z",
       "2026-11-09T18:00:00Z",
       "2026-11-10T00:00:00Z",
-      "2026-11-10T12:00:00Z"
+      "2026-11-10T12:00:00Z",
+      "2026-11-11T00:00:00Z"
     ],
     "median_improvements": {
-      "brier_improvement": 0.036,
-      "specificity_improvement": 0.1631,
-      "sensitivity_loss": 0.1743,
+      "brier_improvement": 0.0186,
+      "specificity_improvement": 0.0777,
+      "sensitivity_loss": 0.1169,
       "auc_change": -0.0193
     },
     "candidate_features_in_window": [
@@ -3653,7 +3982,7 @@
     "gates": {
       "minimum_distinct_validation_slots": true,
       "median_brier_improvement_at_least_0p015": true,
-      "median_specificity_improvement_at_least_0p10": true,
+      "median_specificity_improvement_at_least_0p10": false,
       "median_sensitivity_loss_at_most_0p20": true,
       "median_auc_change_nonnegative": false
     },
