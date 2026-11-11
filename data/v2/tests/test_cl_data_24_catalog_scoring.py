@@ -40,11 +40,11 @@ class TestClData24CatalogScoring(unittest.TestCase):
         assert "safe_access" not in rep["rubric_weights"]
         assert rep["rubric_weights"]["scenic_beauty"] == 20
         s = rep["summary"]
-        assert s["places"] == 400, f"expected 400 places, got {s['places']}"
-        assert s["opportunities"] == 625, f"expected 625 opportunities, got {s['opportunities']}"  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1: 400 places (394 live + 6 retired archives) / 625 canonical (612 live + 13 retired)
-        assert s["canonical_locked_opportunities"] == 625  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1: 400 places (394 live + 6 retired archives) / 625 canonical (612 live + 13 retired)
-        assert len(rep["ranking"]) == 400
-        assert len(rep["opportunity_scores"]) == 625  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1: 400 places (394 live + 6 retired archives) / 625 canonical (612 live + 13 retired)
+        assert s["places"] == 412, f"expected 400 places, got {s['places']}"
+        assert s["opportunities"] == 640, f"expected 625 opportunities, got {s['opportunities']}"  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1: 412 places (406 live + 6 retired archives) / 640 canonical (627 live + 13 retired)
+        assert s["canonical_locked_opportunities"] == 640  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1: 412 places (406 live + 6 retired archives) / 640 canonical (627 live + 13 retired)
+        assert len(rep["ranking"]) == 412
+        assert len(rep["opportunity_scores"]) == 640  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1: 412 places (406 live + 6 retired archives) / 640 canonical (627 live + 13 retired)
         assert s["places_with_unknown_scenic_beauty"] == sum(
             1 for p in rep["ranking"] if p["rubric"]["scenic_beauty"] == "unknown")
         # weighted totals in valid range (None = honest unknown), ranking ordered by (total, id)

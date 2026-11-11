@@ -3,6 +3,9 @@
 Wave 1: 22 places tw-125..tw-146 / 37 contracts.
 Wave 2: 15 places tw-147..tw-161 / 22 contracts (15 of the manifest-next-30
 admitted; 15 rejected: 14 same-family <5km overlaps + 1 pure-swimming-beach).
+Wave 3: 12 places tw-162..tw-173 / 15 contracts (12 of the manifest-next-30
+admitted; 18 rejected: 15 same-family <5km overlaps + 2 identical existing
+places + 1 pure-swimming-beach).
 
 Owner rulings baked into these tests (2026-11-11):
 - intake is SCORELESS: no rubric v2 gate, no AGLI dual-board, agli-final.json
@@ -14,10 +17,11 @@ Owner rulings baked into these tests (2026-11-11):
   ASTRONOMY_EPHEMERIS_PROFILES (tw-121..124 lesson).
 
 Pins checked here:
-- regions.py tw list 161 (raw ids: 161 = 124 + 22 wave1 + 15 wave2), no removals;
-- runtime catalog 407/646, manifest tw numeric_id_end 161;
-- web catalog 394/612 (all 59 new opportunity ids present);
-- evaluations bundle spliced 399/617, forecast_hours 168, fetch_failures [];
+- regions.py tw list 173 (raw ids: 173 = 124 + 22 wave1 + 15 wave2 + 12 wave3),
+  no removals;
+- runtime catalog 419/661, manifest tw numeric_id_end 173;
+- web catalog 406/627 (all 74 new opportunity ids present);
+- evaluations bundle spliced 411/632, forecast_hours 168, fetch_failures [];
 - honest null elevations stay null (tw-126 南山寺, tw-142 安平, tw-143 富貴角,
   tw-145 東華聖宮 + wave-2 unknowns); 報時山 260/295 discrepancy carried as note;
 - no day-subject carries invented score fields.
@@ -35,7 +39,8 @@ import regions  # noqa: E402
 
 WAVE1_IDS = [f"tw-{n}" for n in range(125, 147)]
 WAVE2_IDS = [f"tw-{n}" for n in range(147, 162)]
-NEW_IDS = WAVE1_IDS + WAVE2_IDS
+WAVE3_IDS = [f"tw-{n}" for n in range(162, 174)]
+NEW_IDS = WAVE1_IDS + WAVE2_IDS + WAVE3_IDS
 
 
 def _contracts(rng, suffixes=(1, 2)):
@@ -50,6 +55,7 @@ def _contracts(rng, suffixes=(1, 2)):
 
 WAVE1_CONTRACTS = _contracts(range(125, 147))
 WAVE2_CONTRACTS = _contracts(range(147, 162))
+WAVE3_CONTRACTS = _contracts(range(162, 174))
 NIGHT_SKY_IDS = {"tw-140-P02", "tw-144-P02"}
 WAVE2_NULL_ELEV = {"tw-147", "tw-148", "tw-150", "tw-152", "tw-153", "tw-154",
                    "tw-155", "tw-156", "tw-157", "tw-158", "tw-159", "tw-160", "tw-161"}
@@ -67,6 +73,19 @@ REJECTED_WAVE2 = {
     "滿月圓森林遊樂區", "漁光島月牙灣", "石門山", "船帆石+龍磐高位珊瑚礁",
     "西子灣/柴山海岸", "阿里山慈雲寺觀景台", "鳥嘴山大竹山農場", "三仙山西濱海蝕平台",
     "二尖山爽文嶺", "八仙山主峰", "三條崙海水浴場",
+}
+REJECTED_WAVE3 = {
+    "北投四季長廊/吳氏宗祠", "北關海潮公園單面山/豆腐岩", "南橫摩天農場", "司馬庫斯巨木群",
+    "合歡東峰", "吉安日光步道", "向陽森林遊樂區", "基隆嶼蝙蝠洞/海蝕峭壁",
+    "大尖山/二尖山茶園步道", "大肚山藍色公路", "大霸中霸坪", "小門嶼鯨魚洞框景",
+    "尾寮山觀景亭", "拉拉山恩愛農場/巴陵觀景台", "文化大學後山情人坡", "新豐新月沙灣",
+    "旗後燈塔/旗津海水浴場", "望洋山日出觀景台",
+}
+WAVE3_NULL_ELEV = {"tw-162", "tw-163", "tw-164", "tw-166", "tw-169", "tw-170",
+                   "tw-171", "tw-172", "tw-173"}
+WAVE3_SUNRISE_SUNSET = {
+    "tw-162-P01", "tw-162-P02", "tw-165-P01", "tw-166-P01",
+    "tw-168-P01", "tw-169-P01", "tw-171-P01",
 }
 
 
@@ -89,6 +108,10 @@ class TestManifest(unittest.TestCase):
         self.assertEqual(m["wave2"]["done"], 15)
         self.assertEqual(m["wave2"]["rejected"], 15)
         self.assertEqual(m["wave2"]["place_ids"], WAVE2_IDS)
+        self.assertEqual(m["wave3"]["planned"], 30)
+        self.assertEqual(m["wave3"]["done"], 12)
+        self.assertEqual(m["wave3"]["rejected"], 18)
+        self.assertEqual(m["wave3"]["place_ids"], WAVE3_IDS)
 
     def test_rejected_stay_in_manifest_with_reason(self):
         m = load("data/v2/audits/subject-lists/tier-a-manifest.json")
@@ -107,17 +130,27 @@ class TestManifest(unittest.TestCase):
         admitted2 = [r for r in m["tier_a"] if r["status"] == "admitted" and r["wave"] == 2]
         self.assertEqual(len(admitted2), 15)
         self.assertEqual({r["admitted_place_id"] for r in admitted2}, set(WAVE2_IDS))
+        for name in REJECTED_WAVE3:
+            self.assertIn(name, by_name, name)
+            r = by_name[name]
+            self.assertEqual(r["status"], "rejected", name)
+            self.assertTrue(r["wave"] == 3, name)
+            self.assertTrue(r["reject_reason"], name)
+        admitted3 = [r for r in m["tier_a"] if r["status"] == "admitted" and r["wave"] == 3]
+        self.assertEqual(len(admitted3), 12)
+        self.assertEqual({r["admitted_place_id"] for r in admitted3}, set(WAVE3_IDS))
 
     def test_wave_admitted_ids_are_new_places(self):
         m = load("data/v2/audits/subject-lists/tier-a-manifest.json")
         self.assertEqual(len(m["wave1"]["place_ids"]), 22)
         self.assertEqual(sorted(m["wave1"]["place_ids"]), sorted(WAVE1_IDS))
         self.assertEqual(m["wave2"]["place_ids"], WAVE2_IDS)
+        self.assertEqual(m["wave3"]["place_ids"], WAVE3_IDS)
 
 
 class TestRegions(unittest.TestCase):
     def test_region_lists_grew(self):
-        self.assertEqual(len(regions.get_spots("tw")), 161)  # 124 + 22 wave1 + 15 wave2
+        self.assertEqual(len(regions.get_spots("tw")), 173)  # 124 + 22 wave1 + 15 wave2 + 12 wave3
         self.assertEqual(len(regions.get_spots("jp")), 95)
         self.assertEqual(len(regions.get_spots("us")), 163)
         ids = [s["spot_id"] for r in ("tw", "jp", "us") for s in regions.get_spots(r)]
@@ -162,6 +195,21 @@ class TestDedupe(unittest.TestCase):
             self.assertTrue(r["reason"], r)
         self.assertEqual(sum(1 for r in rej if r["reason"].startswith("pure swimming beach")), 1)
 
+    def test_wave3_dedupe_registry(self):
+        reg = load("data/v2/audits/discovery/cl-data-66-dedupe.json")
+        for pid in WAVE3_IDS:
+            row = reg[pid]
+            self.assertGreaterEqual(row["km"], 5.0, pid)
+            self.assertTrue(row.get("nearest_existing"), pid)
+        rej = reg["_rejected_family_overlaps_wave3"]
+        self.assertEqual(len(rej), 18)
+        self.assertEqual({r["name"] for r in rej}, REJECTED_WAVE3)
+        for r in rej:
+            self.assertTrue(r["reason"], r)
+        # 2 identical existing places + 1 pure-swimming-beach among the rejections
+        self.assertEqual(sum(1 for r in rej if "identical existing place" in r["reason"]), 2)
+        self.assertEqual(sum(1 for r in rej if r["reason"].startswith("pure swimming beach")), 1)
+
 
 class TestContracts(unittest.TestCase):
     def _validate(self, oids):
@@ -178,8 +226,12 @@ class TestContracts(unittest.TestCase):
         self.assertEqual(len(WAVE2_CONTRACTS), 22)
         self._validate(WAVE2_CONTRACTS)
 
+    def test_all_wave3_contracts_exist_and_validate(self):
+        self.assertEqual(len(WAVE3_CONTRACTS), 15)
+        self._validate(WAVE3_CONTRACTS)
+
     def test_unique_condition_ids(self):
-        for oid in WAVE1_CONTRACTS + WAVE2_CONTRACTS:
+        for oid in WAVE1_CONTRACTS + WAVE2_CONTRACTS + WAVE3_CONTRACTS:
             doc = load(f"data/v2/opportunities/{oid}.json")
             ids = [c["id"] for c in doc["condition_contract"]["conditions"]]
             self.assertEqual(len(ids), len(set(ids)), f"{oid} duplicate condition id")
@@ -197,12 +249,17 @@ class TestContracts(unittest.TestCase):
         self.assertEqual(len(ev["places_wave2"]), 15)
         for row in ev["places_wave2"]:
             self.assertIsNone(row["score"], row["place_id"])
+        self.assertEqual(ev["places_wave3_count"], 12)
+        self.assertEqual(ev["rejected_wave3_count"], 18)
+        self.assertEqual(len(ev["places_wave3"]), 12)
+        for row in ev["places_wave3"]:
+            self.assertIsNone(row["score"], row["place_id"])
 
     def test_web_evidence_refs_resolve(self):
         ev = load("data/v2/audits/cl-data-66_web_evidence.json")
         ids = {e["id"] for e in ev["evidence"]}
-        self.assertEqual(len(ids), 37)  # 22 wave1 + 15 wave2
-        for oid in WAVE1_CONTRACTS + WAVE2_CONTRACTS:
+        self.assertEqual(len(ids), 49)  # 22 wave1 + 15 wave2 + 12 wave3
+        for oid in WAVE1_CONTRACTS + WAVE2_CONTRACTS + WAVE3_CONTRACTS:
             doc = load(f"data/v2/opportunities/{oid}.json")
             refs = doc["evidence_claims"][0]["evidence_refs"]
             self.assertTrue(refs and refs[0] in ids, refs)
@@ -218,6 +275,13 @@ class TestContracts(unittest.TestCase):
             self.assertIsNone(doc["camera_contexts"][0]["altitude_m"], pid)
         self.assertEqual(load("data/v2/opportunities/tw-149-P01.json")["camera_contexts"][0]["altitude_m"], 1173.0)
         self.assertEqual(load("data/v2/opportunities/tw-151-P01.json")["camera_contexts"][0]["altitude_m"], 230.0)
+
+    def test_wave3_honest_null_and_verified_elevations(self):
+        for pid in WAVE3_NULL_ELEV:
+            doc = load(f"data/v2/opportunities/{pid}-P01.json")
+            self.assertIsNone(doc["camera_contexts"][0]["altitude_m"], pid)
+        self.assertEqual(load("data/v2/opportunities/tw-165-P01.json")["camera_contexts"][0]["altitude_m"], 2722.0)
+        self.assertEqual(load("data/v2/opportunities/tw-167-P01.json")["camera_contexts"][0]["altitude_m"], 2128.0)
 
     def test_baoshishan_elevation_discrepancy_note(self):
         doc = load("data/v2/opportunities/tw-137-P01.json")
@@ -235,6 +299,8 @@ class TestContracts(unittest.TestCase):
                 self.assertIn(oid, ASTRONOMY_EPHEMERIS_PROFILES, oid)
         # wave-2 has no night_sky contract: nothing new to register
         self.assertEqual([o for o in WAVE2_CONTRACTS
+                          if load(f"data/v2/opportunities/{o}.json")["condition_contract"]["genre_template"] == "night_sky"], [])
+        self.assertEqual([o for o in WAVE3_CONTRACTS
                           if load(f"data/v2/opportunities/{o}.json")["condition_contract"]["genre_template"] == "night_sky"], [])
 
     def test_seasonal_plant_reuses_existing_window(self):
@@ -254,6 +320,25 @@ class TestContracts(unittest.TestCase):
         cal = load("data/v2/seasonal-calendar.json")
         e = next(x for x in cal["entries"] if x["plant_id"] == "daylily_taimali")
         self.assertTrue(e["typical_window"])
+
+    def test_wave3_seasonal_plant_reuses_maple_window(self):
+        doc = load("data/v2/opportunities/tw-173-P01.json")
+        self.assertEqual(doc["condition_contract"]["genre_template"], "seasonal_plant")
+        sids = [c["metric"] for c in doc["condition_contract"]["conditions"]]
+        self.assertIn("seasonal_state", sids)
+        cal = load("data/v2/seasonal-calendar.json")
+        e = next(x for x in cal["entries"] if x["plant_id"] == "red_maple")
+        self.assertEqual(e["typical_window"], {"start": "10-20", "end": "11-10"})
+
+    def test_wave3_honest_no_window_contracts(self):
+        # firefly/tungblossom/miscanthus/teaterrace topics with no authoritative
+        # seasonal source stay honestly window-free (overlook contracts only)
+        for oid in ("tw-164-P01", "tw-170-P01", "tw-172-P01"):
+            doc = load(f"data/v2/opportunities/{oid}.json")
+            tpl = doc["condition_contract"]["genre_template"]
+            self.assertEqual(tpl, "overlook", oid)
+            metrics = [c["metric"] for c in doc["condition_contract"]["conditions"]]
+            self.assertNotIn("seasonal_state", metrics, oid)
 
     def test_restricted_access_notes_informational_only(self):
         doc = load("data/v2/opportunities/tw-135-P01.json")
@@ -277,16 +362,30 @@ class TestContracts(unittest.TestCase):
             if tpl in ("sunrise", "sunset"):
                 self.assertIn(oid, WAVE2_SUNRISE_SUNSET, oid)
 
+    def test_wave3_directional_horizon_sectors_registered(self):
+        from opportunity_runtime import DIRECTIONAL_HORIZON_SECTORS
+        for oid in WAVE3_SUNRISE_SUNSET:
+            self.assertIn(oid, DIRECTIONAL_HORIZON_SECTORS, oid)
+            row = DIRECTIONAL_HORIZON_SECTORS[oid]
+            self.assertEqual(row["tolerance"], 85.0)
+            phase = row["phase"]
+            self.assertIn(phase, ("sunrise", "sunset"))
+            self.assertEqual(row["center"], 90.0 if phase == "sunrise" else 270.0)
+        for oid in WAVE3_CONTRACTS:
+            tpl = load(f"data/v2/opportunities/{oid}.json")["condition_contract"]["genre_template"]
+            if tpl in ("sunrise", "sunset"):
+                self.assertIn(oid, WAVE3_SUNRISE_SUNSET, oid)
+
 
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 407)
-        self.assertEqual(cat["counts"]["opportunities"], 646)
+        self.assertEqual(cat["counts"]["spots"], 419)
+        self.assertEqual(cat["counts"]["opportunities"], 661)
 
     def test_manifest_region_ends(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
-        self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 161)
+        self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 173)
         self.assertEqual(mf["regions"]["jp"]["numeric_id_end"], 95)
         self.assertEqual(mf["regions"]["us"]["numeric_id_end"], 163)
         self.assertEqual(mf["totals"], load("runtime_catalog_v004_r4_2.json")["counts"])
@@ -296,23 +395,25 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 399)
-        self.assertEqual(ev["opportunity_count"], 617)
+        self.assertEqual(ev["place_count"], 411)
+        self.assertEqual(ev["opportunity_count"], 632)
         self.assertEqual(ev["forecast_hours"], 168)
 
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
-        self.assertEqual(len(cat["places"]), 394)
-        self.assertEqual(len(cat["opportunities"]), 612)
+        self.assertEqual(len(cat["places"]), 406)
+        self.assertEqual(len(cat["opportunities"]), 627)
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(WAVE1_CONTRACTS) <= oids)
         self.assertTrue(set(WAVE2_CONTRACTS) <= oids)
+        self.assertTrue(set(WAVE3_CONTRACTS) <= oids)
 
     def test_tw_weather_refreshed_with_wave2(self):
         tw = load("tw_weather.json")
         ids = {s["spot_id"] for s in tw["spots"]}
         self.assertTrue(set(WAVE2_IDS) <= ids)
-        self.assertEqual(len(tw["spots"]), 153)
+        self.assertTrue(set(WAVE3_IDS) <= ids)
+        self.assertEqual(len(tw["spots"]), 165)
 
 
 if __name__ == "__main__":

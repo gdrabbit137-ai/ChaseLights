@@ -498,6 +498,8 @@ def main():
             "ticket": TICKET, "wave": WAVE})
     ev["places_wave3"] = wave3_places
     ev["evidence_wave3"] = wave3_evidence
+    have_ids = {e["id"] for e in ev["evidence"]}
+    ev["evidence"].extend([e for e in wave3_evidence if e["id"] not in have_ids])
     ev["places_wave3_count"] = len(wave3_places)
     ev["rejected_wave3_count"] = len(REJECTED_PLACES)
     ev["rule_wave3"] = (f"Scoreless intake wave {WAVE} (owner ruling {VER_DATE}): admission = web verification + "
@@ -512,6 +514,8 @@ def main():
     tm_path = ROOT / "data/v2/audits/subject-lists/tier-a-manifest.json"
     tm = json.loads(tm_path.read_bytes().decode("utf-8"))
     adm_names = {p["names"]["zh-TW"]: p["place_id"] for p in PLACES}
+    # manifest candidate display names differ from our full display names for 2 places
+    adm_names.update({"卑南利嘉林道": "tw-164", "大雪山43K/48K啞口": "tw-169"})
     rej_names = dict(REJECTED_PLACES)
     changed = 0
     for r in tm["tier_a"]:
