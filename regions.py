@@ -212,6 +212,23 @@ TW_ADMIN_AREAS = {
     "tw-181": ["南投縣"],  # CL-DATA-66
     "tw-182": ["南投縣"],  # CL-DATA-66
     "tw-183": ["新竹縣"],  # CL-DATA-66
+    "tw-184": ["南投縣"],  # CL-DATA-66
+    "tw-185": ["桃園市"],  # CL-DATA-66
+    "tw-186": ["桃園市"],  # CL-DATA-66
+    "tw-187": ["台北市"],  # CL-DATA-66
+    "tw-188": ["屏東縣"],  # CL-DATA-66
+    "tw-189": ["南投縣"],  # CL-DATA-66
+    "tw-190": ["台東縣"],  # CL-DATA-66
+    "tw-191": ["台中市"],  # CL-DATA-66
+    "tw-192": ["台東縣"],  # CL-DATA-66
+    "tw-193": ["台中市"],  # CL-DATA-66
+    "tw-194": ["台南市"],  # CL-DATA-66
+    "tw-195": ["新竹縣"],  # CL-DATA-66
+    "tw-196": ["苗栗縣"],  # CL-DATA-66
+    "tw-197": ["台中市"],  # CL-DATA-66
+    "tw-198": ["桃園市"],  # CL-DATA-66
+    "tw-199": ["台東縣"],  # CL-DATA-66
+    "tw-200": ["宜蘭縣"],  # CL-DATA-66
     "tw-121": ["連江縣"],  # CL-DATA-64
     "tw-122": ["連江縣"],  # CL-DATA-64
     "tw-123": ["連江縣"],  # CL-DATA-64
@@ -686,6 +703,23 @@ REGIONS = {
             (23.5586, 120.1625, "成龍濕地", "Chenglong wetland (Kouhu, Yunlin)", "成龍溼地", "成龍濕地", "本島", ["coast"]),  # CL-DATA-66
             (24.678, 121.3851, "拉拉山巴陵", "Lalashan Baling (Taoyuan)", "拉拉山巴陵", "拉拉山巴陵", "本島", ["mountain", "forest"]),  # CL-DATA-66
             (24.6501, 121.4706, "明池森林遊樂區", "Mingchi National Forest Recreation Area", "明池国家森林遊楽区", "明池森林遊樂區", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (23.9296754, 120.8978683, "蓮華池研究中心", "Lianhuachi Research Center (Yuchi)", "蓮華池研究中心", "蓮華池研究中心", "本島", ["forest"]),  # CL-DATA-66
+            (25.074203, 121.12928, "觀音草漯沙丘", "Caota sand dunes (Guanyin, Taoyuan)", "草漯砂丘（観音）", "草漯沙丘", "本島", ["coast", "geology"]),  # CL-DATA-66
+            (25.0860866, 121.1749149, "許厝港濕地", "Xucuogang wetland (Dayuan, Taoyuan)", "許厝港湿地", "許厝港濕地", "本島", ["coast"]),  # CL-DATA-66
+            (24.9672938, 121.5846918, "貓空樟樹步道", "Maokong Zhangshu (camphor) trail", "猫空・樟樹歩道", "貓空樟樹步道", "本島", ["mountain", "city"]),  # CL-DATA-66
+            (21.9206026, 120.7387692, "貓鼻頭裙礁/貓岩", "Maobitou fringing reef and cat-rock cape", "猫鼻頭の裙礁と猫岩", "貓鼻頭裙礁", "本島", ["coast", "geology"]),  # CL-DATA-66
+            (23.5954151, 120.9712389, "郡大林道32K望洋點", "Junda forest-road 32K overlook (Xinyi)", "郡大林道32Kの展望点", "郡大林道32K望洋點", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (22.8655356, 121.2315214, "都蘭鼻海蝕崖", "Dulanji sea cliff and reef flat", "都蘭鼻の海蝕崖", "都蘭鼻", "本島", ["coast", "geology"]),  # CL-DATA-66
+            (24.3597572, 120.6510659, "鐵砧山碉堡平台", "Tiezhanshan fort-platform overlook (Dajia)", "鉄砧山の砲台展望台", "鐵砧山", "本島", ["mountain", "city"]),  # CL-DATA-66
+            (23.2269268, 121.4186, "長濱烏石鼻柱狀火山岩", "Wushibi columnar volcanic rocks (Changbin)", "長浜・烏石鼻の柱状火山岩", "烏石鼻", "本島", ["coast", "geology"]),  # CL-DATA-66
+            (24.0612506, 120.7135114, "阿罩霧山", "Azhaowushan (Wufeng, Taichung)", "阿罩霧山", "阿罩霧山", "本島", ["mountain", "city"]),  # CL-DATA-66
+            (23.1062397, 120.0383364, "頂頭額沙洲", "Dingtoue sandbar (Qigu, Tainan)", "頂頭額砂洲", "頂頭額沙洲", "本島", ["coast"]),  # CL-DATA-66
+            (24.7665291, 121.118965, "飛鳳山觀日亭", "Feifengshan sun-watching pavilion (Qionglin)", "飛鳳山・観日亭", "飛鳳山觀日亭", "本島", ["mountain", "city"]),  # CL-DATA-66
+            (24.3672289, 120.913804, "馬那邦山頂峰展望", "Manapanshan summit outlook (Dahu/Tai'an)", "馬那邦山の山頂展望", "馬那邦山", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (24.2711925, 120.581588, "鰲峰山觀景平台", "Aofengshan viewing platform (Qingshui)", "鰲峰山の展望台", "鰲峰山觀景平台", "本島", ["mountain", "city"]),  # CL-DATA-66
+            (24.8421501, 121.2786819, "十一指古道", "Shiyizhi historic trail (Daxi)", "十一指古道", "十一指古道", "本島", ["forest"]),  # CL-DATA-66
+            (22.8150524, 121.143347, "卑南溪/利吉惡地", "Liji badland by the Beinan river (Taitung)", "卑南渓・利吉悪地", "利吉惡地", "本島", ["geology"]),  # CL-DATA-66
+            (24.4014567, 121.7891201, "南澳海蝕洞", "Nan'ao sea cave (Su'ao-Hualien coast)", "南澳の海蝕洞", "南澳海蝕洞", "本島", ["coast", "geology"]),  # CL-DATA-66
             (24.2799392, 120.8789334, "東勢林場", "Dongshi Forest Garden (Taichung)", "東勢林場", "東勢林場", "本島", ["mountain", "forest"]),  # CL-DATA-66
             (23.893282, 120.638984, "橫山觀日步道（橫山仙境）", "Hengshan sun-watching trail (Bagua range)", "横山観日歩道（横山仙境）", "橫山觀日步道", "本島", ["mountain"]),  # CL-DATA-66
             (25.0891603, 121.6289131, "汐止翠湖步道", "Xizhi Cuihu (Green Lake) trail", "汐止翠湖歩道", "汐止翠湖步道", "本島", ["lake", "forest"]),  # CL-DATA-66
@@ -1101,6 +1135,8 @@ ELEVATION_OVERRIDES = {
     "神桌山": 762,  # CL-DATA-66
     "天池山莊": 2860,  # CL-DATA-66
     "望高寮瞭望台": 1517,  # CL-DATA-66
+    # CL-DATA-66 wave-5 admission elevations (web-verified 2026-11-11; null elevations omitted honestly)
+    "馬那邦山": 1407,  # CL-DATA-66
     # CL-DATA-66 wave-3 admission elevations (web-verified 2026-11-11; null elevations omitted honestly)
     "南橫埡口": 2722,  # CL-DATA-66
     "塔曼山": 2128,  # CL-DATA-66
@@ -1592,6 +1628,92 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+    # CL-DATA-66 wave-5 admission (web-verified 2026-11-11; keyed to full display names per get_spots contract)
+ "蓮華池研究中心": {"lat": 23.9296754,
+           "lon": 120.8978683,
+           "map_query": "蓮華池研究中心",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 蓮華池（南投魚池五城村，pond 節點，林業試驗所蓮華池研究中心範圍）；海拔為 600-800m 區間帶，誠實不取單值、altitude_m 留空",
+           "coordinate_confidence": "medium"},
+ "觀音草漯沙丘": {"lat": 25.074203,
+           "lon": 121.12928,
+           "map_query": "草漯沙丘",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 草漯沙丘（桃園觀音草漯里，beach 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "許厝港濕地": {"lat": 25.0860866,
+           "lon": 121.1749149,
+           "map_query": "許厝港濕地",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 許厝港濕地（桃園大園內海里，wetland 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "貓空樟樹步道": {"lat": 24.9672938,
+           "lon": 121.5846918,
+           "map_query": "貓空樟樹步道",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 樟樹步道（台北文山指南里，footway 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "貓鼻頭裙礁/貓岩": {"lat": 21.9206026,
+           "lon": 120.7387692,
+           "map_query": "貓鼻頭裙礁",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 貓鼻頭（屏東恆春水泉里，cape 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "high"},
+ "郡大林道32K望洋點": {"lat": 23.5954151,
+           "lon": 120.9712389,
+           "map_query": "郡大林道32K望洋點",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 郡大林道（南投信義豐丘村，track 節點；32K望洋點實址沿林道再上，座標以林道節點對位、待現場校準）；清單海拔 3265m 為郡大山三角點之值、非本望洋點，誠實不取、altitude_m 留空",
+           "coordinate_confidence": "medium"},
+ "都蘭鼻海蝕崖": {"lat": 22.8655356,
+           "lon": 121.2315214,
+           "map_query": "都蘭鼻",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 都蘭鼻（台東東河都蘭村，cape 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "high"},
+ "鐵砧山碉堡平台": {"lat": 24.3597572,
+           "lon": 120.6510659,
+           "map_query": "鐵砧山",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 鐵砧山小百岳認證點（台中大甲頂店里，checkpoint 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "長濱烏石鼻柱狀火山岩": {"lat": 23.2269268,
+           "lon": 121.4186,
+           "map_query": "烏石鼻",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 烏石鼻（台東長濱寧埔村，cape 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "high"},
+ "阿罩霧山": {"lat": 24.0612506,
+           "lon": 120.7135114,
+           "map_query": "阿罩霧山",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 阿罩霧山（台中霧峰萊園里仁德巷，checkpoint 節點，小百岳登頂認證點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "頂頭額沙洲": {"lat": 23.1062397,
+           "lon": 120.0383364,
+           "map_query": "頂頭額沙洲",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 頂頭額汕（台南七股十份里，sand 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "high"},
+ "飛鳳山觀日亭": {"lat": 24.7665291,
+           "lon": 121.118965,
+           "map_query": "飛鳳山觀日亭",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 中坑山（新竹芎林，peak 節點；飛鳳山步道最高點/觀日亭所在）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "馬那邦山頂峰展望": {"lat": 24.3672289,
+           "lon": 120.913804,
+           "map_query": "馬那邦山",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 馬那邦山（苗栗大湖/泰安，checkpoint 節點，小百岳認證點）；海拔1,407m（清單層資料 zh.wikipedia 馬那邦山）",
+           "coordinate_confidence": "medium"},
+ "鰲峰山觀景平台": {"lat": 24.2711925,
+           "lon": 120.581588,
+           "map_query": "鰲峰山觀景平台",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 鰲峰山公園（台中清水，park 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "十一指古道": {"lat": 24.8421501,
+           "lon": 121.2786819,
+           "map_query": "十一指古道",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 十一指古道（桃園大溪義和里，path 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "卑南溪/利吉惡地": {"lat": 22.8150524,
+           "lon": 121.143347,
+           "map_query": "利吉惡地",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 利吉月世界（台東卑南利吉村利吉路，scree 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "high"},
+ "南澳海蝕洞": {"lat": 24.4014567,
+           "lon": 121.7891201,
+           "map_query": "南澳海蝕洞",
+           "coordinate_source": "CL-DATA-66 wave-5 admission web verification 2026-11-11: OSM Nominatim 南澳海蝕洞（宜蘭南澳武塔村觀音隧道旁，cave_entrance 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
     # CL-DATA-66 wave-4 admission (web-verified 2026-11-11; keyed to full display names per get_spots contract)
  "東勢林場": {"lat": 24.2799392,
            "lon": 120.8789334,

@@ -557,5 +557,148 @@
   "name": "司馬庫斯部落觀景點",
   "km": 4.62,
   "override": "subject-disjoint: Xiuluan warship-rock/footbridge river-gorge landform + wild-spring valley vs Smangus tribal viewpoint - 4.62km apart, disjoint subjects"
+ },
+ "_rejected_family_overlaps_wave5": [
+  {
+   "name": "虎仔山KEELUNG地標",
+   "reason": "5km dedupe reject: 3.45km from existing tw-054 正濱漁港 - same 基隆港 harbor family (hillside KEELUNG-sign harbor night view vs harbor-front fishing port), not subject-disjoint (梧棲漁港 wave-4 precedent)"
+  },
+  {
+   "name": "豆腐岬海蝕平台/珊瑚礁",
+   "reason": "5km dedupe reject: 0.95km from existing tw-152 南方澳觀景台 - same 南方澳 coastal family (near-duplicate bay), not subject-disjoint"
+  },
+  {
+   "name": "關刀山出關步道",
+   "reason": "5km dedupe reject: 1.87km from existing tw-014 雲洞山莊 - same 薑麻園/關刀山雲海茶園 family, not subject-disjoint"
+  },
+  {
+   "name": "雙龍林道高點",
+   "reason": "honest reject: identity/coordinate unverifiable - OSM only yields forest-road track nodes for 雙龍林道, no 高點/望洋點 node and no authoritative source for the specific viewpoint"
+  },
+  {
+   "name": "雪山東峰哭坡頂",
+   "reason": "5km dedupe reject: 4.02km from existing tw-041 雪山主峰 - same 雪山群峰 summit/route family, not subject-disjoint"
+  },
+  {
+   "name": "馬崙山新山遺址",
+   "reason": "5km dedupe reject: 1.66km from existing tw-087 大雪山森林遊樂區43K觀景台 - same 大雪山林道 cloud-sea family (tw-087/tw-169 both in catalog), not subject-disjoint"
+  },
+  {
+   "name": "龜山島龜首海蝕洞/海底噴口",
+   "reason": "honest reject: restricted-access islet - landing requires permit-managed boat tours, the 龜首 sea cave/sea-vent subject is only viewable from licensed boats; no shore/island-accessible camera context verifiable"
+  },
+  {
+   "name": "三才靈芝農場",
+   "reason": "owner minor-spot exclusion: private lingzhi/agri farm (石碇), identity not even OSM-locable; analogous to the homestay exclusion"
+  },
+  {
+   "name": "三貂角海蝕平台/大姆指岩",
+   "reason": "identical existing place: 0.08km from existing tw-102 三貂角燈塔 - same cape subject"
+  },
+  {
+   "name": "公老坪/若茵農場",
+   "reason": "owner minor-spot exclusion: 若茵農場 is a private night-view 景觀農場 (豐原公老坪), analogous to the homestay/private-restaurant exclusion (社頭極光森林 wave-4 precedent)"
+  },
+  {
+   "name": "六寮古道/獅山步道",
+   "reason": "identical existing place: 0.26km from existing tw-170 峨眉獅山古道/六寮古道 - same trail subject"
+  },
+  {
+   "name": "出風鼻海蝕岩/風吹石",
+   "reason": "5km dedupe reject: 4.44km from existing tw-107 佳樂水 - same 恆春東南海岸礁岩 family, not subject-disjoint"
+  },
+  {
+   "name": "和平海蝕崖",
+   "reason": "honest reject: identity/coordinate unverifiable - OSM only resolves the 和平 village/industrial node, no 海蝕崖 feature node and no authoritative source for the specific cliff"
+  }
+ ],
+ "tw-184": {
+  "nearest_existing": "tw-020",
+  "name": "金龍山",
+  "km": 3.45,
+  "override": "subject-disjoint: Lianhuachi research-forest pond landscape (forestry research station) vs Jinlongshan sunrise/cloud-sea lookout platform - 3.45km apart, disjoint subjects"
+ },
+ "tw-185": {
+  "nearest_existing": "tw-186",
+  "name": "許厝港濕地",
+  "km": 4.78,
+  "override": "subject-disjoint: Caota dune-geology landform vs Xucuogang wetland sunset/shorebird subject - 4.3km apart (same-wave siblings), disjoint subjects"
+ },
+ "tw-186": {
+  "nearest_existing": "tw-185",
+  "name": "觀音草漯沙丘",
+  "km": 4.78,
+  "override": "subject-disjoint: Xucuogang wetland sunset/shorebird subject vs Caota dune-geology landform - 4.3km apart (same-wave siblings), disjoint subjects"
+ },
+ "tw-187": {
+  "nearest_existing": "tw-132",
+  "name": "石門二格山觀景台",
+  "km": 3.52,
+  "override": "subject-disjoint: Maokong camphor-trail tea-terrace landscape vs Ergeshan Taipei-basin night-view platform - 3.52km apart, disjoint subjects"
+ },
+ "tw-188": {
+  "nearest_existing": "tw-030",
+  "name": "屏東關山",
+  "km": 5.31
+ },
+ "tw-189": {
+  "nearest_existing": "tw-182",
+  "name": "望高寮瞭望台（獵人古道）",
+  "km": 9.83
+ },
+ "tw-190": {
+  "nearest_existing": "tw-090",
+  "name": "加路蘭海岸遊憩區",
+  "km": 10.06
+ },
+ "tw-191": {
+  "nearest_existing": "tw-013",
+  "name": "火炎山",
+  "km": 7.87
+ },
+ "tw-192": {
+  "nearest_existing": "tw-035",
+  "name": "六十石山",
+  "km": 10.36
+ },
+ "tw-193": {
+  "nearest_existing": "tw-162",
+  "name": "八卦山天空步道",
+  "km": 16.35
+ },
+ "tw-194": {
+  "nearest_existing": "tw-109",
+  "name": "七股鹽山／潟湖",
+  "km": 8.76
+ },
+ "tw-195": {
+  "nearest_existing": "tw-160",
+  "name": "三水江家古厝",
+  "km": 12.56
+ },
+ "tw-196": {
+  "nearest_existing": "tw-014",
+  "name": "雲洞山莊",
+  "km": 9.6
+ },
+ "tw-197": {
+  "nearest_existing": "tw-015",
+  "name": "高美濕地",
+  "km": 5.56
+ },
+ "tw-198": {
+  "nearest_existing": "tw-160",
+  "name": "三水江家古厝",
+  "km": 11.92
+ },
+ "tw-199": {
+  "nearest_existing": "tw-090",
+  "name": "加路蘭海岸遊憩區",
+  "km": 5.24
+ },
+ "tw-200": {
+  "nearest_existing": "tw-033",
+  "name": "粉鳥林",
+  "km": 12.02
  }
 }
