@@ -1,0 +1,20 @@
+{
+  "name": "@chaselights/mobile",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "ChaseLights Capacitor APP shell — wraps apps/web-v2 with cloud-driven data, version check, offline cache and dynamic i18n.",
+  "scripts": {
+    "sync-web": "node scripts/sync-web.mjs",
+    "cap:sync": "node scripts/sync-web.mjs && npx cap sync android",
+    "cap:dev": "npx cap copy android --config capacitor.config.dev.json",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/core": "^6.2.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.0"
+  }
+}
