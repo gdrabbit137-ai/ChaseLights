@@ -1,9 +1,8 @@
 {
   "status": "PASS",
-  "root_head": "84195054c6171386191e6c44c55c41dcce81701e",
+  "root_head": "853a72b775a04b229884c60547cd6b9a216966d9",
   "tested_parents": [
-    "e46d3c9fada0b02df346d41d0ccaf818dd6def86",
-    "eb959eec768fbdea0c1b7b71b81033b155c072e8"
+    "2dbe8bfb4f98704378b51f26f5a93b1d10c78637"
   ],
   "checks": [],
   "groups": [
@@ -232,13 +231,13 @@
       "name": "w3-evaluator-and-hourly-source",
       "exit_code": 0,
       "counts": {
-        "tests": 217,
+        "tests": 223,
         "fail": 0,
         "error": 0,
         "skip": 0,
         "expected_failure": 0,
         "unexpected_success": 0,
-        "pass": 217
+        "pass": 223
       },
       "status": "PASS",
       "timed_out": false,
@@ -266,13 +265,13 @@
       "name": "w2-crosswalk-schema-index-and-hourly-binding",
       "exit_code": 0,
       "counts": {
-        "tests": 184,
+        "tests": 217,
         "fail": 0,
         "error": 0,
         "skip": 0,
         "expected_failure": 0,
         "unexpected_success": 0,
-        "pass": 184
+        "pass": 217
       },
       "status": "PASS",
       "timed_out": false,
@@ -310,8 +309,8 @@
       "name": "w4-node",
       "exit_code": 0,
       "counts": {
-        "tests": 540,
-        "pass": 540,
+        "tests": 553,
+        "pass": 553,
         "fail": 0,
         "skip": 0
       },
@@ -384,29 +383,29 @@
   "pin_sync": {},
   "reviewed_main_sha": "c743dfd6469937f715529014dcb781f7771db776",
   "actual_base_sha": "c743dfd6469937f715529014dcb781f7771db776",
-  "candidate_sha": "84195054c6171386191e6c44c55c41dcce81701e",
+  "candidate_sha": "853a72b775a04b229884c60547cd6b9a216966d9",
   "source_shas": {
     "w1": "9a84eee3c938af68c531005e42f98bd3ea18d272",
-    "w2": "083d6e519f62d0f5a14a1d34399b2e0e1a308566",
+    "w2": "0ab54271b600c0466dcca8dda2fc4a4a42c54680",
     "w3": "fddaeb9a1b2d2d6dde79f9b37342cf63e4bdaecb",
     "w4": "9e590f78578c642aacda4369332b6f01f075e5d2"
   },
   "source_provenance": {
-    "repository_head": "84195054c6171386191e6c44c55c41dcce81701e",
+    "repository_head": "853a72b775a04b229884c60547cd6b9a216966d9",
     "owner_trees": {
-      "specs/v2": "87b668dfb837f8584aa442f41d5d58f77f0f949e",
-      "data/v2": "4b78f05f83d35b37034bb34173b5b4d24d4cac11",
-      "packages/core-v2": "406715ca193dce868267c04bd3ee3a8d18c39f7d",
-      "packages/models-v2": "9bcd8b09c45d648aae153b9be97e581610e7efd5",
-      "apps/web-v2": "32eaffbce367a12d5a42b72f9fce4f5c0302a551"
+      "specs/v2": "ee697a8a75fe11d202163d98bf9ed077b9435c9d",
+      "data/v2": "4b8359a7c3c6e41c1704864a753469fc4aece26c",
+      "packages/core-v2": "fe4a987c930bbb71c35fb2cc1612fa9cc91f6e7e",
+      "packages/models-v2": "bb602c4b451f12ee3bfc8fcd9c8b65b5e3c6a523",
+      "apps/web-v2": "e63df8982f10fa3e1402e171f132e08374875fba"
     },
     "owner_file_counts": {
       "specs/v2": 96,
-      "data/v2": 2140,
-      "packages/core-v2": 97,
-      "apps/web-v2": 545
+      "data/v2": 2173,
+      "packages/core-v2": 98,
+      "apps/web-v2": 557
     },
-    "opportunity_contracts_count": 552,
+    "opportunity_contracts_count": 551,
     "hourly_pilot": {
       "provider_acceptance": "UNVERIFIED",
       "data_state": "RAW_ONLY",
@@ -430,7 +429,7 @@
       "us-071-P01"
     ],
     "canonical_git_blobs": {
-      "data/v2/opportunities/tw-016-P01.json": "42087c31d3b2429b775ea621ea86c0fdfe427a21",
+      "data/v2/opportunities/tw-016-P01.json": "3c8c1d23f5f6bc10ff5b115515b64e0192bce50f",
       "data/v2/opportunities/tw-026-P01.json": "87d380a1025bb6ec710bed8f2f95a93871dda477",
       "data/v2/opportunities/tw-026-P02.json": "a4eead2379cad0e84766ede186c1e39de78ce0b4",
       "data/v2/previews/tw-026-P01.research-only.v21.json": "3044444fd981dc57c4dee6b4e55c9ce0f8b2d0c2"
@@ -438,8 +437,8 @@
     "research_only": true
   },
   "counts": {
-    "tests": 1132,
-    "pass": 1132,
+    "tests": 1184,
+    "pass": 1184,
     "fail": 0,
     "error": 0,
     "skip": 0

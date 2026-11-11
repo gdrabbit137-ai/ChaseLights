@@ -15,7 +15,14 @@
     <label class="language"><span id="language-label"></span>
       <select id="language" data-i18n-aria="languageAria" aria-label="語言選擇"><option value="zh-TW">繁體中文</option><option value="en">English</option><option value="ja">日本語</option></select>
     </label>
+    <div class="member-area" id="member-area" data-open="false">
+      <a id="login-line" class="login-link" href="/api/v1/auth/line/start" hidden></a>
+      <a id="login-google" class="login-link" href="/api/v1/auth/google/start" hidden></a>
+      <span id="member-name" class="member-name" hidden></span>
+      <button id="login-toggle" type="button" hidden></button>
+    </div>
   </header>
+  <div id="pull-indicator" role="status" aria-live="polite" hidden></div>
   <main id="content" tabindex="-1">
     <section class="intro" id="forecast-home" aria-labelledby="headline">
       <div><p class="eyebrow" id="eyebrow"></p><h1 id="headline"></h1><p id="intro"></p><p class="eval-entry"><a id="evaluations-link" href="./evaluations.html?v=20261030a"></a></p></div>

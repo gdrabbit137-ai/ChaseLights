@@ -3,19 +3,19 @@ TAP version 13
 # Subtest: smoke contains no hardcoded 40-hex commit sha literal
 ok 1 - smoke contains no hardcoded 40-hex commit sha literal
   ---
-  duration_ms: 1.188
+  duration_ms: 0.9205
   type: 'test'
   ...
 # Subtest: smoke derives provenance expectations from repo build/pin artifacts
 ok 2 - smoke derives provenance expectations from repo build/pin artifacts
   ---
-  duration_ms: 0.1838
+  duration_ms: 0.1222
   type: 'test'
   ...
 # Subtest: simulated catalog regeneration keeps the assertion artifact-driven
 ok 3 - simulated catalog regeneration keeps the assertion artifact-driven
   ---
-  duration_ms: 0.5559
+  duration_ms: 0.4791
   type: 'test'
   ...
 # warning: unable to find all commit-graph files
@@ -34,37 +34,37 @@ ok 3 - simulated catalog regeneration keeps the assertion artifact-driven
 # Subtest: R2 manifest pins all ten original Git release bytes, not mutable main
 ok 4 - R2 manifest pins all ten original Git release bytes, not mutable main
   ---
-  duration_ms: 2353.2226
+  duration_ms: 1081.2341
   type: 'test'
   ...
 # Subtest: changed public asset bytes fail even when metadata still claims R2
 ok 5 - changed public asset bytes fail even when metadata still claims R2
   ---
-  duration_ms: 171.8681
+  duration_ms: 106.7708
   type: 'test'
   ...
 # Subtest: old W2 index declaration cannot pass the current R2 manifest
 ok 6 - old W2 index declaration cannot pass the current R2 manifest
   ---
-  duration_ms: 0.2045
+  duration_ms: 0.1974
   type: 'test'
   ...
 # Subtest: missing, extra or invalid manifest hashes fail closed
 ok 7 - missing, extra or invalid manifest hashes fail closed
   ---
-  duration_ms: 0.3864
+  duration_ms: 0.3881
   type: 'test'
   ...
 # Subtest: index revision/source mismatch fails independently of subject count
 ok 8 - index revision/source mismatch fails independently of subject count
   ---
-  duration_ms: 0.183
+  duration_ms: 0.1736
   type: 'test'
   ...
 # Subtest: live flags or forged evaluation cannot pass the Research-only index contract
 ok 9 - live flags or forged evaluation cannot pass the Research-only index contract
   ---
-  duration_ms: 0.4969
+  duration_ms: 0.6207
   type: 'test'
   ...
 1..9
@@ -75,4 +75,4 @@ ok 9 - live flags or forged evaluation cannot pass the Research-only index contr
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 3137.0974
+# duration_ms 1505.9543

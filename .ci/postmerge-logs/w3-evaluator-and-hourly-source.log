@@ -1,4 +1,4 @@
-$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\tmp\ci33-merge\ops\v2\run_unittest.py packages/core-v2/tests test_*.py D:\tmp\ci33-merge\.ci\postmerge-logs\w3-evaluator-and-hourly-source.json
+$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\a6e753775ff24cfd97e53508dd55bfe7\venv\Scripts\python.exe C:\tmp\clint137b-wt\ops\v2\run_unittest.py packages/core-v2/tests test_*.py C:\tmp\clint137b-wt\.ci\postmerge-logs\w3-evaluator-and-hourly-source.json
 test_astronomical_darkness_between_grid_points (test_astro_hourly_subhour.SubHourSamplingTests.test_astronomical_darkness_between_grid_points) ... ok
 test_blue_hour_window_between_grid_points (test_astro_hourly_subhour.SubHourSamplingTests.test_blue_hour_window_between_grid_points) ... ok
 test_golden_hour_window_between_grid_points (test_astro_hourly_subhour.SubHourSamplingTests.test_golden_hour_window_between_grid_points) ... ok
@@ -49,6 +49,12 @@ test_falling_bucket_is_dusk (test_cl_data_24_phase.SunPhaseTests.test_falling_bu
 test_phase_is_pure_geometry_no_events_needed (test_cl_data_24_phase.SunPhaseTests.test_phase_is_pure_geometry_no_events_needed) ... ok
 test_rising_bucket_is_dawn (test_cl_data_24_phase.SunPhaseTests.test_rising_bucket_is_dawn) ... ok
 test_symmetric_window_persists_in_both_phases (test_cl_data_24_phase.SunPhaseTests.test_symmetric_window_persists_in_both_phases) ... ok
+test_full_pass_day_still_reports_pass (test_cl_data_56_window_pass_hours.GoldenHourDayVerdictTests.test_full_pass_day_still_reports_pass) ... ok
+test_golden_hour_daily_minutes_within_physical_cap (test_cl_data_56_window_pass_hours.GoldenHourDayVerdictTests.test_golden_hour_daily_minutes_within_physical_cap) ... ok
+test_quality_window_failing_all_day_is_fail_not_pass_24 (test_cl_data_56_window_pass_hours.GoldenHourDayVerdictTests.test_quality_window_failing_all_day_is_fail_not_pass_24) ... ok
+test_quality_window_partial_day_counts_own_passes (test_cl_data_56_window_pass_hours.GoldenHourDayVerdictTests.test_quality_window_partial_day_counts_own_passes) ... ok
+test_role_gated_hour_lists_never_inflate_pass_hours (test_cl_data_56_window_pass_hours.GoldenHourDayVerdictTests.test_role_gated_hour_lists_never_inflate_pass_hours) ... ok
+test_unknown_day_propagates_unknown (test_cl_data_56_window_pass_hours.GoldenHourDayVerdictTests.test_unknown_day_propagates_unknown) ... ok
 test_bucket_row_shape_unchanged_without_precise_stamp (test_cl_int_91_subhour_details.SubHourDetailsRowTests.test_bucket_row_shape_unchanged_without_precise_stamp) ... ok
 test_every_good_hour_stamp_keys_a_details_row (test_cl_int_91_subhour_details.SubHourDetailsRowTests.test_every_good_hour_stamp_keys_a_details_row) ... ok
 test_non_qualifying_bucket_never_emits_sub_hour_row (test_cl_int_91_subhour_details.SubHourDetailsRowTests.test_non_qualifying_bucket_never_emits_sub_hour_row) ... ok
@@ -227,7 +233,7 @@ test_real_research_contract_has_no_live_or_provenance (test_w2_p01_contract_fail
 test_w2_contract_has_only_photo_conditions (test_w2_p01_contract_failclosed.W2P01FailClosed.test_w2_contract_has_only_photo_conditions) ... ok
 
 ----------------------------------------------------------------------
-Ran 217 tests in 23.694s
+Ran 223 tests in 18.581s
 
 OK
-{"tests": 217, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 217}
+{"tests": 223, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 223}

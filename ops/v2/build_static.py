@@ -13,6 +13,7 @@ from postmerge_verify import verify_main
 RUNTIME_FILES = ('index.html', 'styles.css', 'app.mjs', 'model.mjs',
                  'catalog-loader.mjs', 'catalog-state.mjs', 'v21-adapter.mjs',
                  'browse-index.mjs', 'bundle-digests.mjs', 'browse-index.v2.json', 'catalog.v2.json',
+                 'pull-refresh.mjs', 'shell-auth.mjs',
                  'weather-pilot.html', 'weather-pilot.mjs', 'weather-pilot-tw036.json',
                  'solar-pilot.html', 'solar-pilot.mjs', 'solar-window-tw036.json')
 
