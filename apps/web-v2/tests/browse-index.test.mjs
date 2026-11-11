@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and canonical sources remain source pinned (CL-DATA-66 wave2: 406 places / 627 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'84e9b69a1e98489437893943189045c39ca28dae1e5ce6dd19176984721ac652'); // re-measured CL-DATA-66 wave2 (406 places / 627 opportunities)
-  assert.equal(sha256(rawCatalog),'936fc0e2e26f6d5720b5fe067587e7c53032a18cb86a8e1820a6c3e359a2c931'); // re-measured CL-DATA-66 wave2 (406 places / 627 opportunities)
+test('W2 index and canonical sources remain source pinned (CL-DATA-66 wave4: 416 places / 643 opportunities)',()=>{
+  assert.equal(sha256(rawIndex),'c43f9686f153263cbba6b63c14b72bad727f9cc5c8d040f2ec3e8e44b40f977e'); // re-measured CL-DATA-66 wave4 (416 places / 643 opportunities)
+  assert.equal(sha256(rawCatalog),'758cd2c0525cdae0506561db14a086f938e6bc7727d97778a0a5bc5678a26c54'); // re-measured CL-DATA-66 wave4 (416 places / 643 opportunities)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,627);assert.equal(source.places.length,406); // re-anchored CL-DATA-66 wave2 (tw-147..161)
+  assert.equal(source.opportunities.length,643);assert.equal(source.places.length,416); // re-anchored CL-DATA-66 wave4 (tw-174..183)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   for(const row of index.place_index.opportunities){
@@ -49,9 +49,9 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,406); // re-anchored CL-DATA-66 wave3 (406 places)
+  assert.equal(browse(index,catalog,{search:'  '}).length,416); // re-anchored CL-DATA-66 wave4 (416 places)
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
-  assert.deepEqual(both.map(x=>x.place.place_id),['tw-148','tw-161','tw-150','us-155','tw-026','tw-162','tw-166','us-156','tw-137','tw-168','tw-138','tw-139','tw-169','tw-142','tw-143','tw-171','tw-153','us-121','tw-156','tw-147','tw-006','tw-157','tw-159']); // re-anchored CL-DATA-66 wave3 (406 places; sunset topic OR colorful-clouds; wave3 tw-162/166/168/169/171 sunset contracts join)
+  assert.deepEqual(both.map(x=>x.place.place_id),['tw-148','tw-161','tw-150','us-155','tw-026','tw-162','tw-166','us-156','tw-137','tw-168','tw-138','tw-139','tw-169','tw-142','tw-143','tw-171','tw-153','us-121','tw-178','tw-156','tw-147','tw-006','tw-157','tw-159']); // re-anchored CL-DATA-66 wave4 (416 places; sunset topic OR colorful-clouds; wave4 tw-178 Shoudao sunset joins)
   assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['tw-148-P02']); // re-anchored CL-DATA-66 wave3 (tw-148 leads the sunset OR colorful-clouds list)
   assert.deepEqual(browse(index,catalog,{topicIds:['topic:sunset']})[0].opportunities.map(x=>x.opportunity_id),['tw-148-P02']); // re-anchored CL-DATA-66 wave2
   assert.equal(browse(index,catalog,{search:'Oishi',topicIds:['topic:sunset']}).length,0);

@@ -9,8 +9,8 @@ const before=JSON.stringify(source);
 for(const locale of ['zh-TW','en','ja']){
   test(`${locale}: all eight real subjects preserve descriptions, targets and independent role/mode`,()=>{
     const catalog=importV21Catalog(source);
-    assert.equal(catalog.places.length,406); // re-anchored CL-DATA-66 wave3 (406 places)
-    assert.equal(catalog.opportunities.length,627); // re-anchored CL-DATA-66 wave2
+    assert.equal(catalog.places.length,416); // re-anchored CL-DATA-66 wave4 (416 places)
+    assert.equal(catalog.opportunities.length,643); // re-anchored CL-DATA-66 wave4
     for(const original of source.opportunities){
       const opp=catalog.opportunities.find(row=>row.opportunity_id===original.opportunity_id);
       const topic=researchTopic(catalog,opp,locale);
@@ -50,7 +50,7 @@ test('missing optional topic information does not hide the other seven subjects'
   delete changed.opportunities[0].description_i18n;
   changed.opportunities[0].condition_contract.conditions=[];
   const catalog=importV21Catalog(changed);
-  assert.equal(catalog.opportunities.length,627); // re-anchored CL-DATA-66 wave2
+  assert.equal(catalog.opportunities.length,643); // re-anchored CL-DATA-66 wave4
   const incomplete=researchTopic(catalog,catalog.opportunities[0],'en');
   assert.equal(incomplete.description,null);
   assert.deepEqual(incomplete.conditions,[]);

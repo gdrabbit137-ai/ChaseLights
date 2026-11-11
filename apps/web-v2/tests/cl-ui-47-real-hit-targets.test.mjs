@@ -91,7 +91,13 @@ test.before(async () => {
       if (m) { clearTimeout(t); resolve(m[1]); } });
     chrome.on('error', e => reject(new Error('spawn: ' + e.message)));
   });
-  const targets = await (await fetch(`http://${wsUrl.match(/ws:\/\/([^/]+)/)[1]}/json/list`)).json();
+  // Chrome (headless=new) can report an empty /json/list immediately after the
+  // DevTools-listening line — poll until the initial page target exists.
+  let targets = [];
+  for (let i = 0; i < 20 && !targets.length; i++) {
+    targets = await (await fetch(`http://${wsUrl.match(/ws:\/\/([^/]+)/)[1]}/json/list`)).json();
+    if (!targets.length) await new Promise(r => setTimeout(r, 250));
+  }
   ws = new WebSocket(targets.find(t => t.type === 'page').webSocketDebuggerUrl);
   await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
   ws.onmessage = e => { const m = JSON.parse(e.data);
