@@ -1,0 +1,39 @@
+name: android-build
+
+# ChaseLights APP shell (task CL-APP-01): builds the Capacitor Android APK in CI
+# because the dev machine has no Android SDK. Manual dispatch only — this ticket
+# does not gate any existing CI.
+on:
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+      - name: Install Capacitor CLI & deps
+        run: npm ci --no-audit --no-fund
+        working-directory: apps/mobile
+      - name: Sync web-v2 assets into the shell
+        run: node scripts/sync-web.mjs
+        working-directory: apps/mobile
+      - name: Unit tests (version check / cache degrade / i18n)
+        run: npm test
+        working-directory: apps/mobile
+      - name: Assemble debug APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+        working-directory: apps/mobile/android
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chaselights-debug-apk
+          path: apps/mobile/android/app/build/outputs/apk/debug/app-debug.apk
