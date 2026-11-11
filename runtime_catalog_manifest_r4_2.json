@@ -2,10 +2,10 @@
  "schema_version": "r4.2-b42-catalog-manifest-1",
  "purpose": "Central expected-state manifest for the effective curated Opportunity catalog. Runtime code computes actual counts and validates them against this snapshot.",
  "totals": {
-  "spots": 462,
-  "opportunities": 715,
-  "condition_variants": 730,
-  "profile_viewpoint_relations": 721
+  "spots": 473,
+  "opportunities": 726,
+  "condition_variants": 741,
+  "profile_viewpoint_relations": 732
  },
  "regions": {
   "jp": {
@@ -23,7 +23,7 @@
   },
   "tw": {
    "numeric_id_start": 1,
-   "numeric_id_end": 216,
+   "numeric_id_end": 227,
    "retired_spot_ids": [
     "tw-063",
     "tw-068",
@@ -35,10 +35,10 @@
     "tw-097"
    ],
    "counts": {
-    "spots": 208,
-    "opportunities": 377,
-    "condition_variants": 387,
-    "profile_viewpoint_relations": 382
+    "spots": 219,
+    "opportunities": 388,
+    "condition_variants": 398,
+    "profile_viewpoint_relations": 393
    }
   },
   "us": {
@@ -59,9 +59,9 @@
  },
  "runtime_policy_counts": {
   "data_insufficient": 2,
-  "module_pending": 212,
+  "module_pending": 213,
   "minimum_sufficient_available": 121,
-  "preview_module_available": 376,
+  "preview_module_available": 386,
   "hold": 2,
   "prototype_pending_certification": 2
  },

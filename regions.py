@@ -245,6 +245,17 @@ TW_ADMIN_AREAS = {
     "tw-214": ["台東縣"],  # CL-DATA-66
     "tw-215": ["屏東縣"],  # CL-DATA-66
     "tw-216": ["澎湖縣"],  # CL-DATA-66
+    "tw-217": ["台東縣"],  # CL-DATA-66
+    "tw-218": ["台中市"],  # CL-DATA-66
+    "tw-219": ["屏東縣"],  # CL-DATA-66
+    "tw-220": ["花蓮縣"],  # CL-DATA-66
+    "tw-221": ["基隆市"],  # CL-DATA-66
+    "tw-222": ["新北市"],  # CL-DATA-66
+    "tw-223": ["新北市"],  # CL-DATA-66
+    "tw-224": ["新北市"],  # CL-DATA-66
+    "tw-225": ["嘉義縣"],  # CL-DATA-66
+    "tw-226": ["新北市"],  # CL-DATA-66
+    "tw-227": ["苗栗縣"],  # CL-DATA-66
     "tw-121": ["連江縣"],  # CL-DATA-64
     "tw-122": ["連江縣"],  # CL-DATA-64
     "tw-123": ["連江縣"],  # CL-DATA-64
@@ -762,6 +773,17 @@ REGIONS = {
             (22.3884258, 120.9013411, "大鳥遊憩區觀海平台", "Daniao recreation-area ocean platform (Dawu)", "大鳥遊憩区の観海平台", "大鳥遊憩區", "本島", ["coast"]),  # CL-DATA-66
             (22.4083146, 120.7750721, "浸水營古道", "Jinshuiying historic trail (Fengliao-Dawu)", "浸水營古道", "浸水營古道", "本島", ["mountain", "forest"]),  # CL-DATA-66
             (23.5625548, 119.4690827, "漁翁島燈塔", "Yuwingdao (Xiyu) Lighthouse, Penghu", "漁翁島灯台", "漁翁島燈塔", "離島", ["coast"]),  # CL-DATA-66
+            (23.1768735, 121.4007995, "石雨傘平衡岩海岬", "Shiyusan balanced-rock cape (Chenggong)", "石雨傘のバランス岩", "石雨傘", "本島", ["coast", "geology"]),  # CL-DATA-66
+            (24.2468592, 121.2463891, "福壽山農場千櫻園", "Fushoushan Farm Qianying cherry garden", "福壽山農場千櫻園", "千櫻園", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (22.226901, 120.8181411, "雙流國家森林遊樂區", "Shuangliu National Forest Recreation Area", "双流国家森林遊楽区", "雙流森林遊樂區", "本島", ["forest"]),  # CL-DATA-66
+            (23.7311094, 121.5585614, "芭崎瞭望台", "Baqi highway lookout (Fengbin)", "芭崎展望台", "芭崎", "本島", ["coast"]),  # CL-DATA-66
+            (25.1554686, 121.7431337, "白米甕砲台", "Baimiwong Fort (Keelung)", "白米甕砲台", "白米甕砲台", "本島", ["coast", "city"]),  # CL-DATA-66
+            (25.2958668, 121.568381, "石門洞海蝕拱門", "Shimen Cave sea arch (Shimen)", "石門洞", "石門洞", "本島", ["coast", "geology"]),  # CL-DATA-66
+            (25.2269157, 121.651398, "金山神秘海岸一線天", "Jinshan Mystery Coast sea-cut shore", "金山の神秘海岸", "神秘海岸", "本島", ["coast", "geology"]),  # CL-DATA-66
+            (24.9561706, 121.569833, "銀河洞瀑布", "Yinhe Cave waterfall (Xindian)", "銀河洞瀑布", "銀河洞", "本島", ["forest", "city"]),  # CL-DATA-66
+            (23.5370055, 120.6077341, "獨立山古道螺旋三迴旋", "Dulishan railway-spiral historic trail (Zhuqi)", "独立山古道の螺旋部", "獨立山步道", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (25.0004256, 121.9933249, "萊萊海蝕平台魔鬼洗衣板", "Lailai wave-cut platform and volcanic dikes", "萊萊の海食台地", "萊萊海蝕平台", "本島", ["coast", "geology"]),  # CL-DATA-66
+            (24.5450793, 120.9109545, "鳴鳳古道", "Mingfeng historic trail (Shitan)", "鳴鳳古道", "鳴鳳古道", "本島", ["mountain", "forest"]),  # CL-DATA-66
         ],
     },
     "jp": {
@@ -1169,6 +1191,7 @@ ELEVATION_OVERRIDES = {
     "望高寮瞭望台": 1517,  # CL-DATA-66
     # CL-DATA-66 wave-5 admission elevations (web-verified 2026-11-11; null elevations omitted honestly)
     "馬那邦山": 1407,  # CL-DATA-66
+    # CL-DATA-66 wave-7 admission elevations (web-verified 2026-11-12; null elevations omitted honestly)
     # CL-DATA-66 wave-6 admission elevations (web-verified 2026-11-12; null elevations omitted honestly)
     # CL-DATA-66 wave-3 admission elevations (web-verified 2026-11-11; null elevations omitted honestly)
     "南橫埡口": 2722,  # CL-DATA-66
@@ -1661,6 +1684,62 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+    # CL-DATA-66 wave-7 admission (web-verified 2026-11-12; keyed to full display names per get_spots contract)
+ "石雨傘平衡岩海岬": {"lat": 23.1768735,
+           "lon": 121.4007995,
+           "map_query": "石雨傘",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 石雨傘（台東成功鎮忠孝里，hamlet 節點對位台11線104.5k 海岬、待現場校準）；海拔查無權威單值誠實留空",
+           "coordinate_confidence": "medium"},
+ "福壽山農場千櫻園": {"lat": 24.2468592,
+           "lon": 121.2463891,
+           "map_query": "千櫻園",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 福壽山農場（台中和平區梨山里福壽路，camp_site 節點對位農場園區；千櫻園在農場內、座標以農場節點對位待現場校準）；海拔查無權威單值誠實留空",
+           "coordinate_confidence": "medium"},
+ "雙流國家森林遊樂區": {"lat": 22.226901,
+           "lon": 120.8181411,
+           "map_query": "雙流森林遊樂區",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 雙流國家森林遊樂區（屏東獅子鄉丹路村，nature_reserve 節點）；海拔 150-700m 垂直分佈（林業保育署官方頁），單值不可取、誠實留空",
+           "coordinate_confidence": "high"},
+ "芭崎瞭望台": {"lat": 23.7311094,
+           "lon": 121.5585614,
+           "map_query": "芭崎",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 芭崎瞭望台（花蓮豐濱鄉磯崎村台11線31.5k，viewpoint 節點）；海拔查無權威單值誠實留空",
+           "coordinate_confidence": "high"},
+ "白米甕砲台": {"lat": 25.1554686,
+           "lon": 121.7431337,
+           "map_query": "白米甕砲台",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 白米甕炮台（基隆中山區太白里光華路37巷，fort 節點）；海拔查無權威單值誠實留空",
+           "coordinate_confidence": "high"},
+ "石門洞海蝕拱門": {"lat": 25.2958668,
+           "lon": 121.568381,
+           "map_query": "石門洞",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 石門洞（新北石門區尖鹿里淡金公路，viewpoint 節點）；海拔查無權威單值誠實留空",
+           "coordinate_confidence": "high"},
+ "金山神秘海岸一線天": {"lat": 25.2269157,
+           "lon": 121.651398,
+           "map_query": "神秘海岸",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 神祕海岸（新北金山區豐漁里水尾漁港旁，viewpoint 節點）；海拔查無權威單值誠實留空",
+           "coordinate_confidence": "high"},
+ "銀河洞瀑布": {"lat": 24.9561706,
+           "lon": 121.569833,
+           "map_query": "銀河洞",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 銀河洞（新北新店區北宜路二段，bus_stop 節點對位步道口、瀑布主體沿楣子寮溪上游待現場校準）；海拔牆面沿革 220m 附近但查無權威單值誠實留空",
+           "coordinate_confidence": "medium"},
+ "獨立山古道螺旋三迴旋": {"lat": 23.5370055,
+           "lon": 120.6077341,
+           "map_query": "獨立山步道",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 獨立山步道（嘉義竹崎鄉緞繻村紅南坑，footway 節點）；海拔查無權威單值誠實留空",
+           "coordinate_confidence": "high"},
+ "萊萊海蝕平台魔鬼洗衣板": {"lat": 25.0004256,
+           "lon": 121.9933249,
+           "map_query": "萊萊海蝕平台",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 萊萊海蝕平台（新北貢寮區福連里卯澳，viewpoint 節點）；海拔查無權威單值誠實留空",
+           "coordinate_confidence": "high"},
+ "鳴鳳古道": {"lat": 24.5450793,
+           "lon": 120.9109545,
+           "map_query": "鳴鳳古道",
+           "coordinate_source": "CL-DATA-66 wave-7 admission web verification 2026-11-12: OSM Nominatim 鳴鳳古道（苗栗獅潭鄉新店村向東牌，footway 節點）；海拔查無權威單值誠實留空",
+           "coordinate_confidence": "high"},
     # CL-DATA-66 wave-6 admission (web-verified 2026-11-12; keyed to full display names per get_spots contract)
  "基隆燈塔": {"lat": 25.1553203,
            "lon": 121.7476317,
