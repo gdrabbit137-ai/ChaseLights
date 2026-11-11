@@ -1,0 +1,12 @@
+{
+  "//": "Local dev mode: WebView loads the Vite-less web-v2 static build served by `npx serve apps/web-v2` (default http://localhost:8080). Only for development; never ship this config.",
+  "appId": "com.chaselights.app",
+  "appName": "ChaseLights",
+  "type": "module",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http",
+    "url": "http://localhost:8080",
+    "cleartext": true
+  }
+}
