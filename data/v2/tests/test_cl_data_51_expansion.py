@@ -45,10 +45,10 @@ def load(p):
 class TestRegions(unittest.TestCase):
     def test_tw_catalog_grew_and_nothing_removed(self):
         spots = regions.REGIONS["tw"]["spots"]
-        self.assertEqual(len(spots), 183)  # re-anchored CL-DATA-66 wave1-4 (tw-125..183 scoreless intake; growth-only)
+        self.assertEqual(len(spots), 200)  # re-anchored CL-DATA-66 wave1-5 (tw-125..200 scoreless intake; growth-only)
         self.assertEqual(spots[97][2], "渭水之丘／櫻花陵園")  # tw-098 untouched
         self.assertEqual(spots[98][2], "桃源谷（灣坑頭山草原）")  # first new (tw-099)
-        self.assertEqual(spots[-1][2], "秀巒軍艦岩／控溪吊橋")  # tw-183 (CL-DATA-66 wave4 last admitted)
+        self.assertEqual(spots[-1][2], "南澳海蝕洞")  # tw-200 (CL-DATA-66 wave5 last admitted)
 
     def test_new_admin_areas(self):
         for pid in NEW_IDS:
@@ -137,15 +137,15 @@ class TestContracts(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 429)  # CL-INT-135 merged re-anchor: 376 branch − 6 retired + 59 CL-DATA-66 wave1-4
-        self.assertEqual(cat["counts"]["opportunities"], 677)  # CL-INT-135 merged re-anchor: 608 − 21 retired + 90 CL-DATA-66 wave1-4
+        self.assertEqual(cat["counts"]["spots"], 446)  # CL-INT-135 merged re-anchor: 376 branch − 6 retired + 76 CL-DATA-66 wave1-5
+        self.assertEqual(cat["counts"]["opportunities"], 699)  # CL-INT-135 merged re-anchor: 608 − 21 retired + 112 CL-DATA-66 wave1-5
         tw = [s for s in cat["spots"] if s["spot_id"].startswith("tw-")]
-        self.assertEqual(len(tw), 175)
+        self.assertEqual(len(tw), 192)
 
     def test_manifest_tw_counts(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
-        self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 183)
-        self.assertEqual(mf["regions"]["tw"]["counts"]["spots"], 175)
+        self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 200)
+        self.assertEqual(mf["regions"]["tw"]["counts"]["spots"], 192)
         self.assertEqual(mf["totals"], load("runtime_catalog_v004_r4_2.json")["counts"])
 
     def test_runtime_dependencies_gaps(self):

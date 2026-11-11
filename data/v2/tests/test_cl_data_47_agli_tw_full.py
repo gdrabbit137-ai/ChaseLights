@@ -25,12 +25,12 @@ class TestCLData47AgliTwFull(unittest.TestCase):
 
     def test_coverage_tw_full(self):
         tw_ids = {p['place_id'] for p in self.cat['places'] if p['place_id'].startswith('tw-')}
-        self.assertEqual(len(tw_ids), 175, 'catalog tw count drifted — re-anchor this pin (CL-INT-135 merged tree: 116 AGLI-active tw + 59 CL-DATA-66 wave1-4 scoreless tw-125..183)')
+        self.assertEqual(len(tw_ids), 192, 'catalog tw count drifted — re-anchor this pin (CL-INT-135 merged tree: 116 AGLI-active tw + 76 CL-DATA-66 wave1-5 scoreless tw-125..200)')
         rec_ids = {r['place_id'] for r in self.full['records']}
         # CL-DATA-66 wave1 is SCORELESS (owner ruling 2026-11-11): no AGLI dual-board,
         # agli-final.json untouched — the 22 wave1 places (tw-125..146) stay out of this
         # full reconciliation until they are scored; every other tw place must be covered.
-        scoreless = {f'tw-{n}' for n in range(125, 184)}
+        scoreless = {f'tw-{n}' for n in range(125, 201)}
         self.assertEqual(rec_ids, tw_ids - scoreless)
         self.assertEqual(len(self.full['records']), 116)
         self.assertEqual(len(self.full['ranking']), 116)
