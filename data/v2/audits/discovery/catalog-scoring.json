@@ -9,24 +9,24 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "48a299fc4e84496c2ab77cd5eaa18826c34cae37290efcf0769eb80bdb79313f",
+ "inputs_fingerprint_sha256": "1258aa5a9ba83fbb9f183713eabb904b7a9d9474c5dcf87074ba1c74ba796d4f",
  "summary": {
-  "places": 455,
-  "opportunities": 694,
-  "canonical_locked_opportunities": 694,
-  "places_with_unknown_scenic_beauty": 277,
-  "mean_weighted_total": 3.93,
+  "places": 466,
+  "opportunities": 705,
+  "canonical_locked_opportunities": 705,
+  "places_with_unknown_scenic_beauty": 284,
+  "mean_weighted_total": 3.92,
   "median_weighted_total": 3.95,
   "mean_basis": "places with evidenced scenic_beauty only (rubric v2 honest-unknown rule)",
   "region_counts": {
    "jp": 94,
-   "tw": 211,
+   "tw": 222,
    "us": 150
   },
   "weakness_counts": {
-   "low_weather_light_opportunities": 12,
+   "low_weather_light_opportunities": 13,
    "low_verifiability_opportunities": 10,
-   "clusters_within_5km": 48
+   "clusters_within_5km": 50
   }
  },
  "ranking": [
@@ -2066,37 +2066,6 @@
    ]
   },
   {
-   "place_id": "tw-038",
-   "name_zh": "三仙台",
-   "region": "tw",
-   "n_opportunities": 2,
-   "opportunity_ids": [
-    "tw-038-P01",
-    "tw-038-P02"
-   ],
-   "rubric": {
-    "subject_strength": 4.5,
-    "weather_light_dependency": 5,
-    "verifiability": 3.75,
-    "differentiation": 4,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 4.08,
-   "nearest_place": "tw-192",
-   "nearest_km": 11.57,
-   "coords": [
-    23.12331,
-    121.40826
-   ]
-  },
-  {
    "place_id": "tw-001",
    "name_zh": "大屯山助航站",
    "region": "tw",
@@ -2292,8 +2261,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": 4.05,
-   "nearest_place": "tw-192",
-   "nearest_km": 10.36,
+   "nearest_place": "tw-217",
+   "nearest_km": 9.71,
    "coords": [
     23.21907,
     121.3176
@@ -2359,36 +2328,6 @@
    "coords": [
     22.8655356,
     121.2315214
-   ]
-  },
-  {
-   "place_id": "tw-192",
-   "name_zh": "長濱烏石鼻柱狀火山岩",
-   "region": "tw",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "tw-192-P01"
-   ],
-   "rubric": {
-    "subject_strength": 5,
-    "weather_light_dependency": 5,
-    "verifiability": 3.0,
-    "differentiation": 4,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 4.05,
-   "nearest_place": "tw-035",
-   "nearest_km": 10.36,
-   "coords": [
-    23.2269268,
-    121.4186
    ]
   },
   {
@@ -2902,39 +2841,6 @@
    ]
   },
   {
-   "place_id": "tw-102",
-   "name_zh": "三貂角燈塔",
-   "region": "tw",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "tw-102-P01"
-   ],
-   "rubric": {
-    "subject_strength": 5,
-    "weather_light_dependency": 5,
-    "verifiability": 2.5,
-    "differentiation": 4,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 0,
-    "s3": 1,
-    "top": 0,
-    "distinct_evidence_hosts": [
-     "www.motcmpb.gov.tw",
-     "zh.wikipedia.org"
-    ]
-   },
-   "weighted_total": 3.95,
-   "nearest_place": "tw-099",
-   "nearest_km": 9.81,
-   "coords": [
-    25.007,
-    122.001
-   ]
-  },
-  {
    "place_id": "tw-103",
    "name_zh": "清境農場",
    "region": "tw",
@@ -2965,38 +2871,6 @@
    "coords": [
     24.0586,
     121.1639
-   ]
-  },
-  {
-   "place_id": "tw-128",
-   "name_zh": "墨硯山琉璃光",
-   "region": "tw",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "tw-128-P01"
-   ],
-   "rubric": {
-    "subject_strength": 5,
-    "weather_light_dependency": 5,
-    "verifiability": 2.5,
-    "differentiation": 4,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 1,
-    "s2": 0,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": [
-     "vocus.cc"
-    ]
-   },
-   "weighted_total": 3.95,
-   "nearest_place": "tw-127",
-   "nearest_km": 10.65,
-   "coords": [
-    24.5558111,
-    120.846273
    ]
   },
   {
@@ -3189,6 +3063,97 @@
    "coords": [
     23.474492,
     120.701277
+   ]
+  },
+  {
+   "place_id": "tw-038",
+   "name_zh": "三仙台",
+   "region": "tw",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "tw-038-P01",
+    "tw-038-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.75,
+    "differentiation": 3,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.92,
+   "nearest_place": "tw-217",
+   "nearest_km": 6.0,
+   "coords": [
+    23.12331,
+    121.40826
+   ]
+  },
+  {
+   "place_id": "tw-192",
+   "name_zh": "長濱烏石鼻柱狀火山岩",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-192-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 3,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.9,
+   "nearest_place": "tw-217",
+   "nearest_km": 5.86,
+   "coords": [
+    23.2269268,
+    121.4186
+   ]
+  },
+  {
+   "place_id": "tw-217",
+   "name_zh": "石雨傘平衡岩海岬",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-217-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 3,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.9,
+   "nearest_place": "tw-192",
+   "nearest_km": 5.86,
+   "coords": [
+    23.1768735,
+    121.4007995
    ]
   },
   {
@@ -3741,8 +3706,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": 3.82,
-   "nearest_place": "tw-082",
-   "nearest_km": 12.02,
+   "nearest_place": "tw-220",
+   "nearest_km": 11.53,
    "coords": [
     23.827018,
     121.51548
@@ -3779,6 +3744,38 @@
    "coords": [
     24.9326,
     121.666
+   ]
+  },
+  {
+   "place_id": "tw-128",
+   "name_zh": "墨硯山琉璃光",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-128-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 3,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 1,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": [
+     "vocus.cc"
+    ]
+   },
+   "weighted_total": 3.8,
+   "nearest_place": "tw-227",
+   "nearest_km": 6.65,
+   "coords": [
+    24.5558111,
+    120.846273
    ]
   },
   {
@@ -4334,8 +4331,8 @@
     ]
    },
    "weighted_total": 3.7,
-   "nearest_place": "tw-202",
-   "nearest_km": 4.47,
+   "nearest_place": "tw-225",
+   "nearest_km": 2.74,
    "coords": [
     23.5599,
     120.5978
@@ -4407,36 +4404,6 @@
    "coords": [
     25.1136611,
     121.8596306
-   ]
-  },
-  {
-   "place_id": "tw-203",
-   "name_zh": "大石鼻山步道",
-   "region": "tw",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "tw-203-P01"
-   ],
-   "rubric": {
-    "subject_strength": 4,
-    "weather_light_dependency": 5,
-    "verifiability": 2.5,
-    "differentiation": 4,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 3.7,
-   "nearest_place": "tw-083",
-   "nearest_km": 14.82,
-   "coords": [
-    23.6980106,
-    121.5519903
    ]
   },
   {
@@ -4828,6 +4795,36 @@
    ]
   },
   {
+   "place_id": "tw-222",
+   "name_zh": "石門洞海蝕拱門",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-222-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 1,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.6,
+   "nearest_place": "tw-073",
+   "nearest_km": 2.44,
+   "coords": [
+    25.2958668,
+    121.568381
+   ]
+  },
+  {
    "place_id": "us-159",
    "name_zh": "老忠實間歇泉（黃石）",
    "region": "us",
@@ -5120,6 +5117,36 @@
    ]
   },
   {
+   "place_id": "tw-218",
+   "name_zh": "福壽山農場千櫻園",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-218-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 3,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.55,
+   "nearest_place": "tw-093",
+   "nearest_km": 7.5,
+   "coords": [
+    24.2468592,
+    121.2463891
+   ]
+  },
+  {
    "place_id": "jp-049",
    "name_zh": "蔵王御釜（五色湖）",
    "region": "jp",
@@ -5217,6 +5244,39 @@
    "coords": [
     24.823055,
     121.7025
+   ]
+  },
+  {
+   "place_id": "tw-102",
+   "name_zh": "三貂角燈塔",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-102-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 1,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 1,
+    "top": 0,
+    "distinct_evidence_hosts": [
+     "www.motcmpb.gov.tw",
+     "zh.wikipedia.org"
+    ]
+   },
+   "weighted_total": 3.5,
+   "nearest_place": "tw-226",
+   "nearest_km": 1.06,
+   "coords": [
+    25.007,
+    122.001
    ]
   },
   {
@@ -5345,8 +5405,8 @@
     ]
    },
    "weighted_total": 3.5,
-   "nearest_place": "tw-201",
-   "nearest_km": 4.23,
+   "nearest_place": "tw-221",
+   "nearest_km": 3.78,
    "coords": [
     25.1568,
     121.7056
@@ -5697,11 +5757,71 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": 3.25,
-   "nearest_place": "tw-105",
-   "nearest_km": 4.47,
+   "nearest_place": "tw-225",
+   "nearest_km": 2.01,
    "coords": [
     23.528333,
     120.625
+   ]
+  },
+  {
+   "place_id": "tw-203",
+   "name_zh": "大石鼻山步道",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-203-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 1,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.25,
+   "nearest_place": "tw-220",
+   "nearest_km": 3.74,
+   "coords": [
+    23.6980106,
+    121.5519903
+   ]
+  },
+  {
+   "place_id": "tw-220",
+   "name_zh": "芭崎瞭望台",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-220-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 1,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.25,
+   "nearest_place": "tw-203",
+   "nearest_km": 3.74,
+   "coords": [
+    23.7311094,
+    121.5585614
    ]
   },
   {
@@ -9263,7 +9383,7 @@
     "subject_strength": 5,
     "weather_light_dependency": 5,
     "verifiability": 2.75,
-    "differentiation": 3,
+    "differentiation": 1,
     "scenic_beauty": "unknown"
    },
    "scenic_beauty_evidence": {
@@ -9275,8 +9395,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "tw-139",
-   "nearest_km": 5.92,
+   "nearest_place": "tw-223",
+   "nearest_km": 4.65,
    "coords": [
     25.20886,
     121.69314
@@ -9484,7 +9604,7 @@
     "subject_strength": 4.5,
     "weather_light_dependency": 5,
     "verifiability": 2.5,
-    "differentiation": 4,
+    "differentiation": 3,
     "scenic_beauty": "unknown"
    },
    "scenic_beauty_evidence": {
@@ -9498,8 +9618,8 @@
     ]
    },
    "weighted_total": null,
-   "nearest_place": "tw-019",
-   "nearest_km": 10.82,
+   "nearest_place": "tw-218",
+   "nearest_km": 7.5,
    "coords": [
     24.23,
     121.318
@@ -9531,8 +9651,8 @@
     ]
    },
    "weighted_total": null,
-   "nearest_place": "tw-102",
-   "nearest_km": 9.81,
+   "nearest_place": "tw-226",
+   "nearest_km": 8.83,
    "coords": [
     24.974556,
     121.910444
@@ -9993,8 +10113,8 @@
     ]
    },
    "weighted_total": null,
-   "nearest_place": "tw-119",
-   "nearest_km": 4.1,
+   "nearest_place": "tw-227",
+   "nearest_km": 4.01,
    "coords": [
     24.5415154,
     120.950373
@@ -10622,7 +10742,7 @@
     "subject_strength": 5,
     "weather_light_dependency": 5,
     "verifiability": 2.5,
-    "differentiation": 3,
+    "differentiation": 1,
     "scenic_beauty": "unknown"
    },
    "scenic_beauty_evidence": {
@@ -10634,8 +10754,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "tw-074",
-   "nearest_km": 6.97,
+   "nearest_place": "tw-223",
+   "nearest_km": 2.34,
    "coords": [
     25.238999,
     121.6323619
@@ -11387,8 +11507,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "tw-132",
-   "nearest_km": 3.52,
+   "nearest_place": "tw-224",
+   "nearest_km": 1.94,
    "coords": [
     24.9672938,
     121.5846918
@@ -11701,8 +11821,8 @@
     "distinct_evidence_hosts": []
    },
    "weighted_total": null,
-   "nearest_place": "tw-010",
-   "nearest_km": 2.08,
+   "nearest_place": "tw-221",
+   "nearest_km": 0.45,
    "coords": [
     25.1553203,
     121.7476317
@@ -12047,6 +12167,223 @@
    "coords": [
     23.5625548,
     119.4690827
+   ]
+  },
+  {
+   "place_id": "tw-219",
+   "name_zh": "雙流國家森林遊樂區",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-219-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 3,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "tw-155",
+   "nearest_km": 7.33,
+   "coords": [
+    22.226901,
+    120.8181411
+   ]
+  },
+  {
+   "place_id": "tw-221",
+   "name_zh": "白米甕砲台",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-221-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "tw-201",
+   "nearest_km": 0.45,
+   "coords": [
+    25.1554686,
+    121.7431337
+   ]
+  },
+  {
+   "place_id": "tw-223",
+   "name_zh": "金山神秘海岸一線天",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-223-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "tw-161",
+   "nearest_km": 2.34,
+   "coords": [
+    25.2269157,
+    121.651398
+   ]
+  },
+  {
+   "place_id": "tw-224",
+   "name_zh": "銀河洞瀑布",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-224-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 3.0,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "tw-187",
+   "nearest_km": 1.94,
+   "coords": [
+    24.9561706,
+    121.569833
+   ]
+  },
+  {
+   "place_id": "tw-225",
+   "name_zh": "獨立山古道螺旋三迴旋",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-225-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "tw-202",
+   "nearest_km": 2.01,
+   "coords": [
+    23.5370055,
+    120.6077341
+   ]
+  },
+  {
+   "place_id": "tw-226",
+   "name_zh": "萊萊海蝕平台魔鬼洗衣板",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-226-P01"
+   ],
+   "rubric": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "tw-102",
+   "nearest_km": 1.06,
+   "coords": [
+    25.0004256,
+    121.9933249
+   ]
+  },
+  {
+   "place_id": "tw-227",
+   "name_zh": "鳴鳳古道",
+   "region": "tw",
+   "n_opportunities": 1,
+   "opportunity_ids": [
+    "tw-227-P01"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 1,
+    "scenic_beauty": "unknown"
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 0,
+    "top": 0,
+    "note": "no in-repo scenic-classification evidence — honest unknown",
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": null,
+   "nearest_place": "tw-127",
+   "nearest_km": 4.01,
+   "coords": [
+    24.5450793,
+    120.9109545
    ]
   },
   {
@@ -21853,6 +22190,171 @@
    "lifecycle_status": "draft"
   },
   {
+   "opportunity_id": "tw-217-P01",
+   "place_id": "tw-217",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-218-P01",
+   "place_id": "tw-218",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-219-P01",
+   "place_id": "tw-219",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-220-P01",
+   "place_id": "tw-220",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-221-P01",
+   "place_id": "tw-221",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-222-P01",
+   "place_id": "tw-222",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-223-P01",
+   "place_id": "tw-223",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-224-P01",
+   "place_id": "tw-224",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 2,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-225-P01",
+   "place_id": "tw-225",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-226-P01",
+   "place_id": "tw-226",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-227-P01",
+   "place_id": "tw-227",
+   "scores": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
    "opportunity_id": "us-001-P01",
    "place_id": "us-001",
    "scores": {
@@ -24691,6 +25193,12 @@
     "recommendation": "改題材"
    },
    {
+    "opportunity_id": "tw-224-P01",
+    "place_id": "tw-224",
+    "score": 2,
+    "recommendation": "改題材"
+   },
+   {
     "opportunity_id": "us-111-P01",
     "place_id": "us-111",
     "score": 2,
@@ -24991,9 +25499,24 @@
       "nearest_km": 2.61
      },
      {
+      "place_id": "tw-132",
+      "name_zh": "石門二格山觀景台",
+      "nearest_km": 3.52
+     },
+     {
       "place_id": "tw-145",
       "name_zh": "東華聖宮",
       "nearest_km": 2.61
+     },
+     {
+      "place_id": "tw-187",
+      "name_zh": "貓空樟樹步道",
+      "nearest_km": 1.94
+     },
+     {
+      "place_id": "tw-224",
+      "name_zh": "銀河洞瀑布",
+      "nearest_km": 1.94
      }
     ],
     "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
@@ -25018,12 +25541,17 @@
      {
       "place_id": "tw-139",
       "name_zh": "大武崙白沙灘/外木山",
-      "nearest_km": 4.23
+      "nearest_km": 3.78
      },
      {
       "place_id": "tw-201",
       "name_zh": "基隆燈塔",
-      "nearest_km": 2.08
+      "nearest_km": 0.45
+     },
+     {
+      "place_id": "tw-221",
+      "name_zh": "白米甕砲台",
+      "nearest_km": 0.45
      }
     ],
     "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
@@ -25284,6 +25812,31 @@
       "place_id": "tw-143",
       "name_zh": "富貴角風稜石",
       "nearest_km": 1.02
+     },
+     {
+      "place_id": "tw-222",
+      "name_zh": "石門洞海蝕拱門",
+      "nearest_km": 2.44
+     }
+    ],
+    "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
+   },
+   {
+    "members": [
+     {
+      "place_id": "tw-074",
+      "name_zh": "野柳地質公園",
+      "nearest_km": 4.65
+     },
+     {
+      "place_id": "tw-161",
+      "name_zh": "中角灣/沙珠灣",
+      "nearest_km": 2.34
+     },
+     {
+      "place_id": "tw-223",
+      "name_zh": "金山神秘海岸一線天",
+      "nearest_km": 2.34
      }
     ],
     "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
@@ -25336,14 +25889,34 @@
    {
     "members": [
      {
+      "place_id": "tw-102",
+      "name_zh": "三貂角燈塔",
+      "nearest_km": 1.06
+     },
+     {
+      "place_id": "tw-226",
+      "name_zh": "萊萊海蝕平台魔鬼洗衣板",
+      "nearest_km": 1.06
+     }
+    ],
+    "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
+   },
+   {
+    "members": [
+     {
       "place_id": "tw-105",
       "name_zh": "太平雲梯／梅山36彎",
-      "nearest_km": 4.47
+      "nearest_km": 2.74
      },
      {
       "place_id": "tw-202",
       "name_zh": "塘湖古道",
-      "nearest_km": 4.47
+      "nearest_km": 2.01
+     },
+     {
+      "place_id": "tw-225",
+      "name_zh": "獨立山古道螺旋三迴旋",
+      "nearest_km": 2.01
      }
     ],
     "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
@@ -25418,7 +25991,12 @@
      {
       "place_id": "tw-127",
       "name_zh": "仙山靈洞宮後山",
-      "nearest_km": 4.1
+      "nearest_km": 4.01
+     },
+     {
+      "place_id": "tw-227",
+      "name_zh": "鳴鳳古道",
+      "nearest_km": 4.01
      }
     ],
     "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
@@ -25434,21 +26012,6 @@
       "place_id": "tw-135",
       "name_zh": "五分山雷達站",
       "nearest_km": 4.81
-     }
-    ],
-    "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
-   },
-   {
-    "members": [
-     {
-      "place_id": "tw-132",
-      "name_zh": "石門二格山觀景台",
-      "nearest_km": 3.52
-     },
-     {
-      "place_id": "tw-187",
-      "name_zh": "貓空樟樹步道",
-      "nearest_km": 3.52
      }
     ],
     "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
@@ -25509,6 +26072,21 @@
       "place_id": "tw-186",
       "name_zh": "許厝港濕地",
       "nearest_km": 4.78
+     }
+    ],
+    "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
+   },
+   {
+    "members": [
+     {
+      "place_id": "tw-203",
+      "name_zh": "大石鼻山步道",
+      "nearest_km": 3.74
+     },
+     {
+      "place_id": "tw-220",
+      "name_zh": "芭崎瞭望台",
+      "nearest_km": 3.74
      }
     ],
     "recommendation": "高重叠區：檢討題材差異化或候選裁撤（評估合併/裁撤，僅建議）"
