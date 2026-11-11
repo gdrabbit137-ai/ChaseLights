@@ -27,7 +27,7 @@ Pins:
 - seasonal-calendar matsu_blue_tears entry (04-01..09-30, official peak 4-6月 note);
 - AGLI v2 dual-board records in agli-final.json (zero 90+, anchor comparandum for L>=75);
 - runtime catalog counts, manifest region ends (tw 124 / jp 95 / us 163),
-  evaluations bundle spliced 366/562.
+  evaluations bundle cron-refreshed to 361/551 (CL-INT-137B re-anchor).
 """
 import json
 import os
@@ -219,8 +219,8 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 366)
-        self.assertEqual(ev["opportunity_count"], 562)
+        self.assertEqual(ev["place_count"], 361)
+        self.assertEqual(ev["opportunity_count"], 551)
         self.assertEqual(ev["forecast_hours"], 168)
         self.assertEqual(ev["fetch_failures"], [])
 
