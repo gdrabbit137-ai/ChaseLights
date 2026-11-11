@@ -116,31 +116,6 @@
   "recommendation_policy_version": null,
   "conditions": [
    {
-    "id": "C-tw-141-P01-S1",
-    "role": "REQUIRED",
-    "domain": "SEASON_TIME",
-    "evaluation_mode": "GUIDANCE",
-    "capability": "CONDITIONS",
-    "metric": "seasonal_state",
-    "operator": "eq",
-    "threshold": "window_open",
-    "unit": null,
-    "unknown_policy": "propagate_unknown",
-    "claim_refs": [
-     "tw-141-P01-claim-01"
-    ],
-    "model_binding": null,
-    "validation_status": "provisional",
-    "condition_tier": "MAIN",
-    "threshold_source": "computed",
-    "calibration_status": "provisional",
-    "rationale_i18n": {
-     "zh-TW": "季節窗判定（window_open/window_closed，例年窗 10-20–11-10 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：本題材受營運期/季節窗硬性約束（CL-DATA-25 建置時即帶窗）。",
-     "en": "Seasonal-window verdict (window_open/window_closed; typical window 10-20-11-10 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): this subject is hard-gated by an operating/season window (built in at CL-DATA-25 admission).",
-     "ja": "季節窓判定（window_open/window_closed。例年窓 10-20〜11-10 は seasonal-calendar.json から、実況優先、両方欠ければ誠実に not_evaluatable）。本題材は営業期・季節窓でハード制約（CL-DATA-25 作成時に組み込み）。"
-    }
-   },
-   {
     "id": "C-tw-141-P01-01",
     "role": "REQUIRED",
     "domain": "SEASON_TIME",

@@ -51,6 +51,22 @@ def main():
     new = [f"data/v2/opportunities/{x}.json" for x in ids if x not in pinned]
     print("new pins:", len(new))
     d["canonical_records"].extend(pins_for(new, COMMIT))
+    # repin canonical records whose bytes changed after the original pin
+    # (CL-DATA-52 stage-3 repin precedent)
+    repinned = 0
+    for rec in d["canonical_records"]:
+        path = ROOT / rec["path"]
+        if path.exists() and rec["opportunity_id"] in {x["opportunity_id"] for x in d["canonical_records"]}:
+            b = path.read_bytes()
+            if rec["sha256"] != hashlib.sha256(b).hexdigest():
+                rec["sha256"] = hashlib.sha256(b).hexdigest()
+                rec["blob_sha"] = subprocess.run(["git", "hash-object", "--stdin"], cwd=ROOT,
+                                                 input=b, capture_output=True).stdout.decode().strip()
+                rec["commit_sha"] = subprocess.check_output(
+                    ["git", "-C", ROOT, "rev-parse", "HEAD"]).decode().strip()
+                repinned += 1
+    if repinned:
+        print("repinned changed canonical records:", repinned)
     ss_paths = [f"data/v2/audits/{TICKET.lower()}_web_evidence.json",
                 f"data/v2/audits/discovery/{TICKET.lower()}-dedupe.json",
                 "data/v2/audits/subject-lists/tier-a-manifest.json"]

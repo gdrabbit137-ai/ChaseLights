@@ -473,7 +473,8 @@ def build_contract_66(p, subj):
     tpl = subj["template"]
     if tpl == "seasonal_plant":
         conds = cl.clone_conditions(oid, "seasonal_plant")
-        conds.insert(0, cl.seasonal_condition(oid, subj["seasonal"]))
+        if "seasonal_state" not in [c["metric"] for c in conds]:
+            conds.insert(0, cl.seasonal_condition(oid, subj["seasonal"]))
     elif tpl == "night_sky":
         conds = cl.clone_conditions(oid, "night_sky")
     elif tpl == "geological_landform":

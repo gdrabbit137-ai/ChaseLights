@@ -101,6 +101,9 @@ test('CL-DATA-19: exactly 138 windowed contracts cite the marker, by genre', () 
     // window convention from authorship (single-wave revision 1), same
     // rationale as the tw-099..120/jp-065..091/us-119..158 exclusions.
     if (/^(jp-09[2-5]-P\d+$|us-(159|160|162|163)-P\d+$)/.test(r.opportunity_id)) return false;
+    // CL-DATA-66 direct-build records (tw-125..tw-146) carry the CL-DATA-19
+    // window convention from authorship (single-wave revision 1), same rationale.
+    if (/^tw-1(2[5-9]|3\d|4[0-6])-P\d+$/.test(r.opportunity_id)) return false;
     const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));
     const w = doc.condition_contract?.conditions?.find(c => c.metric === 'light_window');
     return w && (w.notes_i18n?.['zh-TW'] || '').includes('CL-DATA-19');
