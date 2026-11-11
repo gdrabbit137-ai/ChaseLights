@@ -703,6 +703,16 @@ REGIONS = {
             (23.5586, 120.1625, "成龍濕地", "Chenglong wetland (Kouhu, Yunlin)", "成龍溼地", "成龍濕地", "本島", ["coast"]),  # CL-DATA-66
             (24.678, 121.3851, "拉拉山巴陵", "Lalashan Baling (Taoyuan)", "拉拉山巴陵", "拉拉山巴陵", "本島", ["mountain", "forest"]),  # CL-DATA-66
             (24.6501, 121.4706, "明池森林遊樂區", "Mingchi National Forest Recreation Area", "明池国家森林遊楽区", "明池森林遊樂區", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (24.2799392, 120.8789334, "東勢林場", "Dongshi Forest Garden (Taichung)", "東勢林場", "東勢林場", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (23.893282, 120.638984, "橫山觀日步道（橫山仙境）", "Hengshan sun-watching trail (Bagua range)", "横山観日歩道（横山仙境）", "橫山觀日步道", "本島", ["mountain"]),  # CL-DATA-66
+            (25.0891603, 121.6289131, "汐止翠湖步道", "Xizhi Cuihu (Green Lake) trail", "汐止翠湖歩道", "汐止翠湖步道", "本島", ["lake", "forest"]),  # CL-DATA-66
+            (23.4841681, 120.830271, "特富野古道", "Tefuya Historic Trail (Zizhong end)", "特富野古道", "特富野古道", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (23.4036301, 120.1521167, "白水湖壽島", "Shoudao islet, Baishuihu (Chiayi)", "白水湖寿島", "白水湖壽島", "本島", ["coast"]),  # CL-DATA-66
+            (25.0970721, 121.5875981, "碧山巖", "Bishanyan viewpoint (Neihu, Taipei)", "碧山巖", "碧山巖", "本島", ["mountain", "city"]),  # CL-DATA-66
+            (24.58306, 120.97444, "神桌山", "Shenzhuoshan ridge (Sanyuan/Nanzhuang)", "神卓山", "神桌山", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (24.0453035, 121.2796483, "能高天池山莊", "Nenggao Tianchi hut (Mountains of Nantou)", "能高天池山荘", "天池山莊", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (23.5917017, 120.8748369, "望高寮瞭望台（獵人古道）", "Wanggaoliao watchtower (Hunter trail, Xinyi)", "望高寮展望台（獵人古道）", "望高寮瞭望台", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (24.6185541, 121.2851526, "秀巒軍艦岩／控溪吊橋", "Xiuluan warship-rock and Kongxi footbridge", "秀巒軍艦岩・控溪吊橋", "秀巒軍艦岩／控溪吊橋", "本島", ["mountain", "forest"]),  # CL-DATA-66
             (23.9296754, 120.8978683, "蓮華池研究中心", "Lianhuachi Research Center (Yuchi)", "蓮華池研究中心", "蓮華池研究中心", "本島", ["forest"]),  # CL-DATA-66
             (25.074203, 121.12928, "觀音草漯沙丘", "Caota sand dunes (Guanyin, Taoyuan)", "草漯砂丘（観音）", "草漯沙丘", "本島", ["coast", "geology"]),  # CL-DATA-66
             (25.0860866, 121.1749149, "許厝港濕地", "Xucuogang wetland (Dayuan, Taoyuan)", "許厝港湿地", "許厝港濕地", "本島", ["coast"]),  # CL-DATA-66
@@ -720,16 +730,6 @@ REGIONS = {
             (24.8421501, 121.2786819, "十一指古道", "Shiyizhi historic trail (Daxi)", "十一指古道", "十一指古道", "本島", ["forest"]),  # CL-DATA-66
             (22.8150524, 121.143347, "卑南溪/利吉惡地", "Liji badland by the Beinan river (Taitung)", "卑南渓・利吉悪地", "利吉惡地", "本島", ["geology"]),  # CL-DATA-66
             (24.4014567, 121.7891201, "南澳海蝕洞", "Nan'ao sea cave (Su'ao-Hualien coast)", "南澳の海蝕洞", "南澳海蝕洞", "本島", ["coast", "geology"]),  # CL-DATA-66
-            (24.2799392, 120.8789334, "東勢林場", "Dongshi Forest Garden (Taichung)", "東勢林場", "東勢林場", "本島", ["mountain", "forest"]),  # CL-DATA-66
-            (23.893282, 120.638984, "橫山觀日步道（橫山仙境）", "Hengshan sun-watching trail (Bagua range)", "横山観日歩道（横山仙境）", "橫山觀日步道", "本島", ["mountain"]),  # CL-DATA-66
-            (25.0891603, 121.6289131, "汐止翠湖步道", "Xizhi Cuihu (Green Lake) trail", "汐止翠湖歩道", "汐止翠湖步道", "本島", ["lake", "forest"]),  # CL-DATA-66
-            (23.4841681, 120.830271, "特富野古道", "Tefuya Historic Trail (Zizhong end)", "特富野古道", "特富野古道", "本島", ["mountain", "forest"]),  # CL-DATA-66
-            (23.4036301, 120.1521167, "白水湖壽島", "Shoudao islet, Baishuihu (Chiayi)", "白水湖寿島", "白水湖壽島", "本島", ["coast"]),  # CL-DATA-66
-            (25.0970721, 121.5875981, "碧山巖", "Bishanyan viewpoint (Neihu, Taipei)", "碧山巖", "碧山巖", "本島", ["mountain", "city"]),  # CL-DATA-66
-            (24.58306, 120.97444, "神桌山", "Shenzhuoshan ridge (Sanyuan/Nanzhuang)", "神卓山", "神桌山", "本島", ["mountain", "forest"]),  # CL-DATA-66
-            (24.0453035, 121.2796483, "能高天池山莊", "Nenggao Tianchi hut (Mountains of Nantou)", "能高天池山荘", "天池山莊", "本島", ["mountain", "starlight"]),  # CL-DATA-66
-            (23.5917017, 120.8748369, "望高寮瞭望台（獵人古道）", "Wanggaoliao watchtower (Hunter trail, Xinyi)", "望高寮展望台（獵人古道）", "望高寮瞭望台", "本島", ["mountain", "starlight"]),  # CL-DATA-66
-            (24.6185541, 121.2851526, "秀巒軍艦岩／控溪吊橋", "Xiuluan warship-rock and Kongxi footbridge", "秀巒軍艦岩・控溪吊橋", "秀巒軍艦岩／控溪吊橋", "本島", ["mountain", "forest"]),  # CL-DATA-66
         ],
     },
     "jp": {
