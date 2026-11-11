@@ -37,9 +37,9 @@ class MigrationSkeletonTests(unittest.TestCase):
         # (CL-DATA-25 batch admitted 25 places, 25R retired the 5 v2-rejected
         # builds and admitted tw-098); the first-pass inventory is the R0-era
         # snapshot and stays pinned at 217 covered places / 28 evolved docs.
-        self.assertEqual((446, 699), (len(spots), opps))  # CL-DATA-66 wave4 re-anchor: wave1-3 419/661 + 10/16 wave4 (retired 6 excluded)
+        self.assertEqual((462, 715), (len(spots), opps))  # CL-DATA-66 wave6 re-anchor: wave1-5 446/699 + 16/16 wave6 (retired 6 excluded)
         canonical = sorted((ROOT / "data/v2/opportunities").glob("*.json"))
-        self.assertEqual(678, len(canonical))  # wave5 re-anchor: 656 + 22 wave5 contracts (retired archives retained)
+        self.assertEqual(694, len(canonical))  # wave6 re-anchor: 656 + 38 wave5+wave6 contracts (retired archives retained)
         self.assertEqual(len(admitted), 28)
         # R0 inventory is a frozen snapshot (live catalog grew with CL-DATA-25/25R admissions)
         self.assertEqual(self.inventory["first_pass"]["places_first_pass_covered"], 217)
