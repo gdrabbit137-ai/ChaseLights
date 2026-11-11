@@ -2,7 +2,7 @@
 
 評分範圍：363 places × 566 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`8b41fc87ccebf9ac…`（重跑可驗證確定性）。
+輸入指紋：`4dc556a096a45be1…`（重跑可驗證確定性）。
 
 - 全庫加權均分：**4.01 / 5**；中位數：**4.05 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**210** 個，不虛構分數）。
 - 區域分布：jp=94, tw=119, us=150
