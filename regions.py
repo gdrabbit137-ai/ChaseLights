@@ -202,6 +202,16 @@ TW_ADMIN_AREAS = {
     "tw-171": ["雲林縣"],  # CL-DATA-66
     "tw-172": ["桃園市"],  # CL-DATA-66
     "tw-173": ["宜蘭縣"],  # CL-DATA-66
+    "tw-174": ["台中市"],  # CL-DATA-66
+    "tw-175": ["南投縣"],  # CL-DATA-66
+    "tw-176": ["新北市"],  # CL-DATA-66
+    "tw-177": ["嘉義縣"],  # CL-DATA-66
+    "tw-178": ["嘉義縣"],  # CL-DATA-66
+    "tw-179": ["台北市"],  # CL-DATA-66
+    "tw-180": ["苗栗縣"],  # CL-DATA-66
+    "tw-181": ["南投縣"],  # CL-DATA-66
+    "tw-182": ["南投縣"],  # CL-DATA-66
+    "tw-183": ["新竹縣"],  # CL-DATA-66
     "tw-121": ["連江縣"],  # CL-DATA-64
     "tw-122": ["連江縣"],  # CL-DATA-64
     "tw-123": ["連江縣"],  # CL-DATA-64
@@ -594,7 +604,7 @@ REGIONS = {
             (24.506139, 121.113833, "觀霧榛山步道觀景點", "Guanwu Zhenshan Trail Viewpoint", "観霧榛山步道", "觀霧國家森林遊樂區 榛山步道", "本島", ["cloud_sea", "mountain"]),
             (22.7864, 121.1839, "加路蘭海岸遊憩區", "Jialulan Recreation Area", "加路蘭遊憩区", "加路蘭遊憩區", "本島", ["coast", "starlight"]),
             (24.5976, 121.3246, "司馬庫斯部落觀景點", "Smangus, Jianshi", "スマングス部落", "司馬庫斯部落", "本島", ["mountain", "starlight"]),
-            (24.793, 121.875, "北關海潮公園", "Beiguan Tide Park", "北関海潮公園", "北關海潮公園", "本島", ["coast", "mountain"]),
+            (24.9119, 121.8772, "北關海潮公園", "Beiguan Tide Park", "北関海潮公園", "北關海潮公園", "本島", ["coast", "mountain"]),  # CL-DATA-66 coordinate correction 2026-11-11 (was 24.793,121.875 — 13km south of the real site; retired place, legacy dedupe pool only)
             (24.23, 121.318, "福壽山農場觀景點", "Fushoushan Farm", "福寿山農場", "福壽山農場", "本島", ["cloud_sea", "starlight"]),
             (25.9672, 119.9856, "東莒燈塔（東犬燈塔）", "Dongju (Dongquan) Lighthouse", "東莒島灯塔（東犬灯塔）", "東莒島燈塔", "馬祖", ["coast", "starlight"]),
             (23.475, 120.875, "塔塔加夫妻樹／鹿林山觀景點", "Tataka Couple Trees & Lulinshan", "塔塔加夫妻樹", "塔塔加夫妻樹", "本島", ["mountain", "starlight"]),
@@ -676,6 +686,16 @@ REGIONS = {
             (23.5586, 120.1625, "成龍濕地", "Chenglong wetland (Kouhu, Yunlin)", "成龍溼地", "成龍濕地", "本島", ["coast"]),  # CL-DATA-66
             (24.678, 121.3851, "拉拉山巴陵", "Lalashan Baling (Taoyuan)", "拉拉山巴陵", "拉拉山巴陵", "本島", ["mountain", "forest"]),  # CL-DATA-66
             (24.6501, 121.4706, "明池森林遊樂區", "Mingchi National Forest Recreation Area", "明池国家森林遊楽区", "明池森林遊樂區", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (24.2799392, 120.8789334, "東勢林場", "Dongshi Forest Garden (Taichung)", "東勢林場", "東勢林場", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (23.893282, 120.638984, "橫山觀日步道（橫山仙境）", "Hengshan sun-watching trail (Bagua range)", "横山観日歩道（横山仙境）", "橫山觀日步道", "本島", ["mountain"]),  # CL-DATA-66
+            (25.0891603, 121.6289131, "汐止翠湖步道", "Xizhi Cuihu (Green Lake) trail", "汐止翠湖歩道", "汐止翠湖步道", "本島", ["lake", "forest"]),  # CL-DATA-66
+            (23.4841681, 120.830271, "特富野古道", "Tefuya Historic Trail (Zizhong end)", "特富野古道", "特富野古道", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (23.4036301, 120.1521167, "白水湖壽島", "Shoudao islet, Baishuihu (Chiayi)", "白水湖寿島", "白水湖壽島", "本島", ["coast"]),  # CL-DATA-66
+            (25.0970721, 121.5875981, "碧山巖", "Bishanyan viewpoint (Neihu, Taipei)", "碧山巖", "碧山巖", "本島", ["mountain", "city"]),  # CL-DATA-66
+            (24.58306, 120.97444, "神桌山", "Shenzhuoshan ridge (Sanyuan/Nanzhuang)", "神卓山", "神桌山", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (24.0453035, 121.2796483, "能高天池山莊", "Nenggao Tianchi hut (Mountains of Nantou)", "能高天池山荘", "天池山莊", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (23.5917017, 120.8748369, "望高寮瞭望台（獵人古道）", "Wanggaoliao watchtower (Hunter trail, Xinyi)", "望高寮展望台（獵人古道）", "望高寮瞭望台", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (24.6185541, 121.2851526, "秀巒軍艦岩／控溪吊橋", "Xiuluan warship-rock and Kongxi footbridge", "秀巒軍艦岩・控溪吊橋", "秀巒軍艦岩／控溪吊橋", "本島", ["mountain", "forest"]),  # CL-DATA-66
         ],
     },
     "jp": {
@@ -1075,6 +1095,12 @@ ELEVATION_OVERRIDES = {
     "Assateague Island": 2,  # CL-DATA-53
     "Harding Icefield": 1200,  # CL-DATA-53
     # CL-DATA-64 admission elevations (web-verified 2026-11-10; null elevations omitted honestly)
+    # CL-DATA-66 wave-4 admission elevations (web-verified 2026-11-11; null elevations omitted honestly)
+    "橫山觀日步道": 443,  # CL-DATA-66
+    "特富野古道": 2275,  # CL-DATA-66
+    "神桌山": 762,  # CL-DATA-66
+    "天池山莊": 2860,  # CL-DATA-66
+    "望高寮瞭望台": 1517,  # CL-DATA-66
     # CL-DATA-66 wave-3 admission elevations (web-verified 2026-11-11; null elevations omitted honestly)
     "南橫埡口": 2722,  # CL-DATA-66
     "塔曼山": 2128,  # CL-DATA-66
@@ -1566,6 +1592,57 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+    # CL-DATA-66 wave-4 admission (web-verified 2026-11-11; keyed to full display names per get_spots contract)
+ "東勢林場": {"lat": 24.2799392,
+           "lon": 120.8789334,
+           "map_query": "東勢林場",
+           "coordinate_source": "CL-DATA-66 wave-4 admission web verification 2026-11-11: OSM Nominatim 東勢林場（台中东勢，theme_park 節點，勢林街6-1）；海拔官方農業旅遊場域資料為 500–700 公尺區間值，誠實不取單值、altitude_m 留空",
+           "coordinate_confidence": "medium"},
+ "橫山觀日步道（橫山仙境）": {"lat": 23.893282,
+           "lon": 120.638984,
+           "map_query": "橫山觀日步道",
+           "coordinate_source": "CL-DATA-66 wave-4 admission web verification 2026-11-11: OSM Nominatim 橫山（南投市永興里，hamlet 節點，八卦山台地最高峰）；海拔443公尺（政府 i運動資訊平台臺灣小百岳 NO.048）",
+           "coordinate_confidence": "medium"},
+ "汐止翠湖步道": {"lat": 25.0891603,
+           "lon": 121.6289131,
+           "map_query": "汐止翠湖步道",
+           "coordinate_source": "CL-DATA-66 wave-4 admission web verification 2026-11-11: OSM Nominatim 翠湖（新北汐止，water 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "high"},
+ "特富野古道": {"lat": 23.4841681,
+           "lon": 120.830271,
+           "map_query": "特富野古道",
+           "coordinate_source": "CL-DATA-66 wave-4 admission web verification 2026-11-11: 林務局特富野古道頁（全長6.32km；自忠入口海拔2,275m、步道最高2,282m最低1,798m）＋OSM Nominatim 特富野古道（自忠 trailhead 節點）",
+           "coordinate_confidence": "high"},
+ "白水湖壽島": {"lat": 23.4036301,
+           "lon": 120.1521167,
+           "map_query": "白水湖壽島",
+           "coordinate_source": "CL-DATA-66 wave-4 admission web verification 2026-11-11: OSM Nominatim 白水湖壽島（嘉義東石，viewpoint 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "high"},
+ "碧山巖": {"lat": 25.0970721,
+           "lon": 121.5875981,
+           "map_query": "碧山巖",
+           "coordinate_source": "CL-DATA-66 wave-4 admission web verification 2026-11-11: OSM Nominatim 碧山巖開漳聖王廟（台北內湖，place_of_worship 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "神桌山": {"lat": 24.58306,
+           "lon": 120.97444,
+           "map_query": "神桌山",
+           "coordinate_source": "CL-DATA-66 wave-4 admission web verification 2026-11-11: zh.wikipedia 神桌山（峰頂海拔762公尺；座標24°34′59″N 120°58′28″E，苗栗三灣/獅潭/南庄交界，加里山山脈八卦力山系北稜）",
+           "coordinate_confidence": "high"},
+ "能高天池山莊": {"lat": 24.0453035,
+           "lon": 121.2796483,
+           "map_query": "天池山莊",
+           "coordinate_source": "CL-DATA-66 wave-4 admission web verification 2026-11-11: 林業保育署南投分署天池山莊頁（南投仁愛精英村，海拔2,860公尺，能高北峰西側山坳）＋OSM Nominatim 天池山莊（alpine_hut 節點）",
+           "coordinate_confidence": "high"},
+ "望高寮瞭望台（獵人古道）": {"lat": 23.5917017,
+           "lon": 120.8748369,
+           "map_query": "望高寮瞭望台",
+           "coordinate_source": "CL-DATA-66 wave-4 admission web verification 2026-11-11: 自由時報望鄉部落獵人古道（登上海拔1517公尺的望高寮瞭望台，能眺望玉山群峰）＋OSM Nominatim 獵人古道（信義卡里布安村 path 節點；瞭望台實址沿古道向上約1.5km，座標以古道節點對位、待現場校準）",
+           "coordinate_confidence": "medium"},
+ "秀巒軍艦岩／控溪吊橋": {"lat": 24.6185541,
+           "lon": 121.2851526,
+           "map_query": "秀巒軍艦岩／控溪吊橋",
+           "coordinate_source": "CL-DATA-66 wave-4 admission web verification 2026-11-11: OSM Nominatim 秀巒（新竹尖石，hamlet 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
     # CL-DATA-66 wave-3 admission (web-verified 2026-11-11; keyed to full display names per get_spots contract)
  "八卦山天空步道": {"lat": 24.078,
            "lon": 120.5535,
@@ -2500,11 +2577,11 @@ SPOT_OVERRIDES = {
            "map_query": "司馬庫斯部落",
            "coordinate_source": "CL-DATA-25 admission web verification 2026-11-07: CL-DATA-23 dossier approx (司馬庫斯部落, 海拔約1,500–1,600 m zh.wikipedia); 部落代表點座標未一手核實 → approx + medium",
            "coordinate_confidence": "medium"},
- "北關海潮公園": {"lat": 24.793,
-           "lon": 121.875,
+ "北關海潮公園": {"lat": 24.9119,
+           "lon": 121.8772,
            "map_query": "北關海潮公園",
-           "coordinate_source": "CL-DATA-25 admission web verification 2026-11-07: 東北角及宜蘭海岸國家風景區官網（頭城鎮更新里, 台2線129.9K）＋dossier座標 24.793,121.875；龜山島朝日夏季方位",
-           "coordinate_confidence": "medium_high"},
+           "coordinate_source": "CL-DATA-66 correction 2026-11-11: recorded coordinate 24.793,121.875 was ~13km south of the real site; corrected to OSM way 545947415 北關海潮公園（宜蘭頭城，leisure=park）24.9119,121.8772 (https://www.openstreetmap.org/search?query=%E5%8C%97%E9%97%9C%E6%B5%B7%E6%BD%AE%E5%85%AC%E5%9C%92). Place is retired since CL-DATA-25R (taxonomy_v004 retired marker): no camera_context/contract exists, correction applies to the legacy dedupe pool only; original CL-DATA-25 admission source (東北角及宜蘭海岸國家風景區官網 台2線129.9K + dossier座標 24.793,121.875) kept for history.",
+           "coordinate_confidence": "high"},
  "福壽山農場觀景點": {"lat": 24.23,
            "lon": 121.318,
            "map_query": "福壽山農場",

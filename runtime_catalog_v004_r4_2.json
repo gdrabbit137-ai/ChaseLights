@@ -14,10 +14,10 @@
   "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
  ],
  "counts": {
-  "spots": 419,
-  "opportunities": 661,
-  "condition_variants": 676,
-  "profile_viewpoint_relations": 667
+  "spots": 429,
+  "opportunities": 677,
+  "condition_variants": 692,
+  "profile_viewpoint_relations": 683
  },
  "spots": [
   {
@@ -29801,6 +29801,1494 @@
        "coord_confidence": "high",
        "elevation_m": null,
        "coordinate_source": "OSM Nominatim 明池國家森林遊樂區（宜蘭大同，nature_reserve 節點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-174",
+   "canonical_name": "東勢林場",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E6%9D%B1%E5%8B%A2%E6%9E%97%E5%A0%B4",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 東勢林場（台中东勢，theme_park 節點，勢林街6-1）；海拔官方農業旅遊場域資料為 500–700 公尺區間值，誠實不取單值、altitude_m 留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-174-P01",
+     "spot_id": "tw-174",
+     "name_zh": "東勢林場雲霧森林步道",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "東勢林場雲霧森林步道",
+      "en": "Dongshi Forest Garden mist-forest trail",
+      "ja": "東勢林場の霧の森"
+     },
+     "best_time": "東勢林場雲霧森林步道",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-dongshi-forest-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-609",
+       "variant_name": "東勢林場雲霧森林步道",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "東勢林場（212公頃森林遊樂區，大安溪畔）園區森林步道的雲霧林與螢火/油桐季景（OSM theme_park 節點；官方海拔資料為 500–700 公尺區間，誠",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "東勢林場雲霧森林步道",
+        "en": "Dongshi Forest Garden mist-forest trail",
+        "ja": "東勢林場の霧の森"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "東勢林場（212公頃森林遊樂區，大安溪畔）園區森林步道的雲霧林與螢火/油桐季景（OSM theme_park 節點；官方海拔資料為 500–700 公尺區間，誠實不取單值）；清單主題的螢火蟲/油桐花季窗查無本站可繫結的權威季節資料源，誠實不建時間窗契約——本契約為森林步道主體。",
+        "en": "Mist-forest trails inside the 212-hectare Dongshi Forest Garden by the Dajia river (OSM theme-park node; official elevation is a 500-700 m range, honestly not collapsed to a single value). The list's firefly/tung-blossom windows have no authoritative seasonal source we can bind, so no time-window contract is built - honestly.",
+        "ja": "大甲溪畔の東勢林場（212ヘクタール）の霧の森と園内歩道（OSM）。標高は公式資料が500-700mの幅で、単一値にしないため空欄。蛍・油桐の季節窓は権威源がなく誠実に不構築。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-174-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "東勢林場",
+       "name_i18n": {
+        "zh-TW": "東勢林場",
+        "en": "Dongshi Forest Garden (Taichung)",
+        "ja": "東勢林場"
+       },
+       "lat": 24.2799392,
+       "lon": 120.8789334,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 東勢林場（台中东勢，theme_park 節點，勢林街6-1）；海拔官方農業旅遊場域資料為 500–700 公尺區間值，誠實不取單值、altitude_m 留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-174-P02",
+     "spot_id": "tw-174",
+     "name_zh": "東勢林場大安溪谷展望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "東勢林場大安溪谷展望",
+      "en": "Dongshi Dajia-valley outlook",
+      "ja": "東勢林場の大甲渓谷展望"
+     },
+     "best_time": "東勢林場大安溪谷展望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-dongshi-forest-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-610",
+       "variant_name": "東勢林場大安溪谷展望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "園區高點向大安溪谷與東勢山城方向展望（與同點 P01 森林步道契約分列）。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "東勢林場大安溪谷展望",
+        "en": "Dongshi Dajia-valley outlook",
+        "ja": "東勢林場の大甲渓谷展望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "園區高點向大安溪谷與東勢山城方向展望（與同點 P01 森林步道契約分列）。",
+        "en": "Outlook over the Dajia creek valley and the Dongshi hill town from the garden's high point (separate from the P01 forest-trail contract).",
+        "ja": "園内高台から大甲渓谷と東勢の町を望む（P01 とは別契約）。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-174-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "東勢林場",
+       "name_i18n": {
+        "zh-TW": "東勢林場",
+        "en": "Dongshi Forest Garden (Taichung)",
+        "ja": "東勢林場"
+       },
+       "lat": 24.2799392,
+       "lon": 120.8789334,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 東勢林場（台中东勢，theme_park 節點，勢林街6-1）；海拔官方農業旅遊場域資料為 500–700 公尺區間值，誠實不取單值、altitude_m 留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-175",
+   "canonical_name": "橫山觀日步道",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E6%A9%AB%E5%B1%B1%20%E5%8D%97%E6%8A%95",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 橫山（南投市永興里，hamlet 節點，八卦山台地最高峰）；海拔443公尺（政府 i運動資訊平台臺灣小百岳 NO.048）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-175-P01",
+     "spot_id": "tw-175",
+     "name_zh": "橫山觀日平台日出",
+     "legacy_theme": "sunrise",
+     "name_i18n": {
+      "zh-TW": "橫山觀日平台日出",
+      "en": "Hengshan sun-watching platform sunrise",
+      "ja": "横山観日プラットフォームの日の出"
+     },
+     "best_time": "橫山觀日平台日出",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-hengshan-guanyi-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-611",
+       "variant_name": "橫山觀日平台日出",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "八卦山台地最高峰（443m，臺灣小百岳NO.048）橫山觀日步道/觀日平台向東欣賞日出、俯瞰彰化平原（i運動資訊平台小百岳頁＋彰化旅遊網橫山觀日步道頁；OSM ",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "橫山觀日平台日出",
+        "en": "Hengshan sun-watching platform sunrise",
+        "ja": "横山観日プラットフォームの日の出"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "八卦山台地最高峰（443m，臺灣小百岳NO.048）橫山觀日步道/觀日平台向東欣賞日出、俯瞰彰化平原（i運動資訊平台小百岳頁＋彰化旅遊網橫山觀日步道頁；OSM hamlet 節點對位）；方位暫以 generic 東向 tolerance 85 註冊，待現場校準。",
+        "en": "Sunrise from the sun-watching platform on Hengshan, the 443 m high point of the Bagua plateau (Taiwan's Top-100 Y_MOUNT NO.048, government iSports page; Changhua tourism page; OSM hamlet node); generic east sector, tolerance 85, pending field calibration.",
+        "ja": "八卦山台地最高峰（443m、台湾小百岳NO.048）横山の観日プラットフォームからの日の出（政府 iSports）。方位は暫定の東向き。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-175-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "橫山觀日步道",
+       "name_i18n": {
+        "zh-TW": "橫山觀日步道",
+        "en": "Hengshan sun-watching trail (Bagua range)",
+        "ja": "橫山觀日步道"
+       },
+       "lat": 23.893282,
+       "lon": 120.638984,
+       "coord_confidence": "medium",
+       "elevation_m": 443.0,
+       "coordinate_source": "OSM Nominatim 橫山（南投市永興里，hamlet 節點，八卦山台地最高峰）；海拔443公尺（政府 i運動資訊平台臺灣小百岳 NO.048）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-175-P02",
+     "spot_id": "tw-175",
+     "name_zh": "橫山茶園與彰化平原展望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "橫山茶園與彰化平原展望",
+      "en": "Hengshan tea-terrace and Changhua-plain outlook",
+      "ja": "横山の茶園と彰化平原の展望"
+     },
+     "best_time": "橫山茶園與彰化平原展望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-hengshan-guanyi-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-612",
+       "variant_name": "橫山茶園與彰化平原展望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "橫山三角點周邊台地茶樹園與彰化平原展望、灰面鵟鷹過境季賞鷹（小百岳頁；與同點 P01 日出契約分列）；清單主題的雲海查無本站權威資料源，誠實不建雲海時間窗——本",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "橫山茶園與彰化平原展望",
+        "en": "Hengshan tea-terrace and Changhua-plain outlook",
+        "ja": "横山の茶園と彰化平原の展望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "橫山三角點周邊台地茶樹園與彰化平原展望、灰面鵟鷹過境季賞鷹（小百岳頁；與同點 P01 日出契約分列）；清單主題的雲海查無本站權威資料源，誠實不建雲海時間窗——本契約為展望主體。",
+        "en": "Terraced tea rows on the Hengshan plateau and the Changhua plain outlook, plus the March grey-faced-buzzard passage season (Top-100 page; separate from the P01 sunrise contract). The list's cloud-sea topic has no authoritative source we can bind - honestly no cloud-sea window contract.",
+        "ja": "横山の茶畑と彰化平原の展望、三月のサシバ渡り（小百岳頁）。雲海の季節窓は権威源がなく誠実に不構築。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-175-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "橫山觀日步道",
+       "name_i18n": {
+        "zh-TW": "橫山觀日步道",
+        "en": "Hengshan sun-watching trail (Bagua range)",
+        "ja": "橫山觀日步道"
+       },
+       "lat": 23.893282,
+       "lon": 120.638984,
+       "coord_confidence": "medium",
+       "elevation_m": 443.0,
+       "coordinate_source": "OSM Nominatim 橫山（南投市永興里，hamlet 節點，八卦山台地最高峰）；海拔443公尺（政府 i運動資訊平台臺灣小百岳 NO.048）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-176",
+   "canonical_name": "汐止翠湖步道",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E7%BF%A0%E6%B9%96%20%E6%B1%90%E6%AD%A2",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 翠湖（新北汐止，water 節點）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-176-P01",
+     "spot_id": "tw-176",
+     "name_zh": "翠湖環湖森林與湖景",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "翠湖環湖森林與湖景",
+      "en": "Cuihu lake-and-forest loop trail",
+      "ja": "翠湖の湖と森"
+     },
+     "best_time": "翠湖環湖森林與湖景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-xizhi-cuihu-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-613",
+       "variant_name": "翠湖環湖森林與湖景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "汐止內溝山翠湖環湖步道：森林環繞的小湖與湖畔步道（OSM water 節點；汐止區公所旅遊頁；海拔查無權威源誠實留空）；清單主題的螢火蟲/油桐花季窗查無本站可繫",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "翠湖環湖森林與湖景",
+        "en": "Cuihu lake-and-forest loop trail",
+        "ja": "翠湖の湖と森"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "汐止內溝山翠湖環湖步道：森林環繞的小湖與湖畔步道（OSM water 節點；汐止區公所旅遊頁；海拔查無權威源誠實留空）；清單主題的螢火蟲/油桐花季窗查無本站可繫結的權威季節資料源，誠實不建時間窗契約——本契約為湖景森林主體。",
+        "en": "The lakeside loop around Green Lake (Cuihu) on Neigou mountain, Xizhi: a small forest-ringed lake (OSM water node; Xizhi District page; elevation honestly left empty). The list's firefly/tung-blossom windows have no authoritative seasonal source we can bind, so no time-window contract is built - honestly.",
+        "ja": "汐止の翠湖の環湖歩道と森（OSM）。蛍・油桐の季節窓は権威源がなく誠実に不構築。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-176-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "汐止翠湖步道",
+       "name_i18n": {
+        "zh-TW": "汐止翠湖步道",
+        "en": "Xizhi Cuihu (Green Lake) trail",
+        "ja": "汐止翠湖步道"
+       },
+       "lat": 25.0891603,
+       "lon": 121.6289131,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 翠湖（新北汐止，water 節點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-177",
+   "canonical_name": "特富野古道",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.forest.gov.tw/0000323",
+     "verified_on": "2026-11-07",
+     "supports": "林務局特富野古道頁（全長6.32km；自忠入口海拔2,275m、步道最高2,282m最低1,798m）＋OSM Nominatim 特富野古道（自忠 trailhead 節點）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-177-P01",
+     "spot_id": "tw-177",
+     "name_zh": "特富野古道自忠端雲霧森林",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "特富野古道自忠端雲霧森林",
+      "en": "Tefuya trail Zizhong-end mist forest",
+      "ja": "特富野古道自忠側の霧の森"
+     },
+     "best_time": "特富野古道自忠端雲霧森林",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-tefuya-trail-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-614",
+       "variant_name": "特富野古道自忠端雲霧森林",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "特富野古道自忠端（海拔2,275m，林務局官方資料）沿舊鐵道雲霧森林與柳杉林展望（forest.gov.tw 步道頁＋OSM trailhead 節點）；清單主",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "特富野古道自忠端雲霧森林",
+        "en": "Tefuya trail Zizhong-end mist forest",
+        "ja": "特富野古道自忠側の霧の森"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "特富野古道自忠端（海拔2,275m，林務局官方資料）沿舊鐵道雲霧森林與柳杉林展望（forest.gov.tw 步道頁＋OSM trailhead 節點）；清單主題的茶園季窗與本站古道主體不符，誠實不建時間窗契約——本契約為古道雲霧林主體；與既有 tw-024 阿里山祝山觀日平台（3.36km）題材錯位——本點為森林古道，祝山為觀日平台。",
+        "en": "Mist forest and old-railway cedar woods from the Zizhong entrance of the Tefuya Historic Trail (2,275 m, Forestry Bureau page; OSM trailhead node); the list's teaterrace window doesn't fit the trail subject - honestly no window contract. Disjoint from tw-024 Zhushan sunrise platform 3.36 km away (trail forest vs sunrise platform).",
+        "ja": "特富野古道自忠側（標高2,275m、林務局）の霧の森と旧線（OSM）。茶園の季節窓は不構築。祝山観日平台とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-177-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "特富野古道",
+       "name_i18n": {
+        "zh-TW": "特富野古道",
+        "en": "Tefuya Historic Trail (Zizhong end)",
+        "ja": "特富野古道"
+       },
+       "lat": 23.4841681,
+       "lon": 120.830271,
+       "coord_confidence": "high",
+       "elevation_m": 2275.0,
+       "coordinate_source": "林務局特富野古道頁（全長6.32km；自忠入口海拔2,275m、步道最高2,282m最低1,798m）＋OSM Nominatim 特富野古道（自忠 trailhead 節點）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-178",
+   "canonical_name": "白水湖壽島",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E7%99%BD%E6%B0%B4%E6%B9%96%E5%A3%BD%E5%B3%B6",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 白水湖壽島（嘉義東石，viewpoint 節點）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-178-P01",
+     "spot_id": "tw-178",
+     "name_zh": "壽島水上古厝與蚵棚夕照",
+     "legacy_theme": "sunset",
+     "name_i18n": {
+      "zh-TW": "壽島水上古厝與蚵棚夕照",
+      "en": "Shoudao drowned-house and oyster-rack sunset",
+      "ja": "寿島の水中古厝と牡蠣棚の夕焼け"
+     },
+     "best_time": "壽島水上古厝與蚵棚夕照",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-baishuihu-shoudao-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-615",
+       "variant_name": "壽島水上古厝與蚵棚夕照",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "白水湖壽島沙洲：退潮顯露的水中古厝、倒電桿與蚵棚，向西台灣海峽夕照（OSM viewpoint 節點；海拔查無權威源誠實留空）；清單主題的 beach（泳灘）語",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "壽島水上古厝與蚵棚夕照",
+        "en": "Shoudao drowned-house and oyster-rack sunset",
+        "ja": "寿島の水中古厝と牡蠣棚の夕焼け"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "白水湖壽島沙洲：退潮顯露的水中古厝、倒電桿與蚵棚，向西台灣海峽夕照（OSM viewpoint 節點；海拔查無權威源誠實留空）；清單主題的 beach（泳灘）語義不符——壽島為鹽田沙洲/蚵田景觀非泳灘，誠實以夕照主體登記；方位暫以 generic 西向 tolerance 85 註冊，待現場校準。",
+        "en": "The Shoudao sandbar on Baishuihu: drowned houses, tilted poles and oyster racks exposed at low tide, sunset west toward the Taiwan Strait (OSM viewpoint node; elevation honestly left empty). The list's 'beach' topic doesn't fit - this is a salt-pan/oyster-landscape islet, not a swimming beach - honestly registered as a sunset subject; generic west sector, tolerance 85, pending field calibration.",
+        "ja": "白水湖寿島の水中古厝・倒れた電柱・牡蠣棚と台湾海峡の夕日（OSM）。リストのビーチ語義と合わないため夕景主体で登録。方位は暫定の西向き。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-178-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "白水湖壽島",
+       "name_i18n": {
+        "zh-TW": "白水湖壽島",
+        "en": "Shoudao islet, Baishuihu (Chiayi)",
+        "ja": "白水湖壽島"
+       },
+       "lat": 23.4036301,
+       "lon": 120.1521167,
+       "coord_confidence": "high",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 白水湖壽島（嘉義東石，viewpoint 節點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-179",
+   "canonical_name": "碧山巖",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E7%A2%A7%E5%B1%B1%E5%B7%96%E9%96%8B%E6%BC%B3%E8%81%96%E7%8E%8B%E5%BB%9F",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 碧山巖開漳聖王廟（台北內湖，place_of_worship 節點）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-179-P01",
+     "spot_id": "tw-179",
+     "name_zh": "碧山巖台北盆地琉璃夜景",
+     "legacy_theme": "city_night",
+     "name_i18n": {
+      "zh-TW": "碧山巖台北盆地琉璃夜景",
+      "en": "Taipei-basin liuli night view from Bishanyan",
+      "ja": "碧山巖から台北盆地の夜景"
+     },
+     "best_time": "碧山巖台北盆地琉璃夜景",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-bishanyan-neihu-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-616",
+       "variant_name": "碧山巖台北盆地琉璃夜景",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "碧山巖開漳聖王廟前觀景平台俯瞰台北盆地與101一帶萬家燈火（OSM place_of_worship 節點＋zh.wikipedia 條目；海拔查無權威源誠實留",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "碧山巖台北盆地琉璃夜景",
+        "en": "Taipei-basin liuli night view from Bishanyan",
+        "ja": "碧山巖から台北盆地の夜景"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "碧山巖開漳聖王廟前觀景平台俯瞰台北盆地與101一帶萬家燈火（OSM place_of_worship 節點＋zh.wikipedia 條目；海拔查無權威源誠實留空）；與同波 tw-176 汐止翠湖（4.25km）題材錯位——本點為廟前平台城市夜景，翠湖為森林湖景。",
+        "en": "The temple-front viewing platform at Bishanyan overlooking the Taipei basin and the Taipei-101 lights (OSM place-of-worship node; zh.wikipedia entry; elevation honestly left empty); disjoint from wave-sibling tw-176 Cuihu forest-lake subject 4.25 km away.",
+        "ja": "碧山巖の参道展望台から台北盆地と101の灯り（OSM・zh.wikipedia）。同波の翠湖（4.25km）とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-179-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "碧山巖",
+       "name_i18n": {
+        "zh-TW": "碧山巖",
+        "en": "Bishanyan viewpoint (Neihu, Taipei)",
+        "ja": "碧山巖"
+       },
+       "lat": 25.0970721,
+       "lon": 121.5875981,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 碧山巖開漳聖王廟（台北內湖，place_of_worship 節點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-179-P02",
+     "spot_id": "tw-179",
+     "name_zh": "碧山巖晨昏盆地展望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "碧山巖晨昏盆地展望",
+      "en": "Bishanyan basin dawn outlook",
+      "ja": "碧山巖の朝の盆地展望"
+     },
+     "best_time": "碧山巖晨昏盆地展望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-bishanyan-neihu-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-617",
+       "variant_name": "碧山巖晨昏盆地展望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "廟前平台向盆地側晨昏展望（與同點 P01 夜景契約分列）；清單主題的日出查無本站向位的權威資料源，誠實不註冊方向窗——本契約為晨昏展望主體。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "碧山巖晨昏盆地展望",
+        "en": "Bishanyan basin dawn outlook",
+        "ja": "碧山巖の朝の盆地展望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "廟前平台向盆地側晨昏展望（與同點 P01 夜景契約分列）；清單主題的日出查無本站向位的權威資料源，誠實不註冊方向窗——本契約為晨昏展望主體。",
+        "en": "Dawn/dusk basin outlook from the same platform (separate from the P01 night-view contract); the list's sunrise topic has no authoritative azimuth source for this site - honestly no directional window registered.",
+        "ja": "同プラットフォームから盆地側の朝の展望（P01 とは別契約）。日の出の方位は権威源がなく方向窓は不登録。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-179-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "碧山巖",
+       "name_i18n": {
+        "zh-TW": "碧山巖",
+        "en": "Bishanyan viewpoint (Neihu, Taipei)",
+        "ja": "碧山巖"
+       },
+       "lat": 25.0970721,
+       "lon": 121.5875981,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 碧山巖開漳聖王廟（台北內湖，place_of_worship 節點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-180",
+   "canonical_name": "神桌山",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://zh.wikipedia.org/zh-tw/%E7%A5%9E%E6%A1%8C%E5%B1%B1",
+     "verified_on": "2026-11-07",
+     "supports": "zh.wikipedia 神桌山（峰頂海拔762公尺；座標24°34′59″N 120°58′28″E，苗栗三灣/獅潭/南庄交界，加里山山脈八卦力山系北稜）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-180-P01",
+     "spot_id": "tw-180",
+     "name_zh": "神桌山稜線與南庄河谷展望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "神桌山稜線與南庄河谷展望",
+      "en": "Shenzhuoshan ridge and Nanzhuang valley outlook",
+      "ja": "神卓山の稜線と南庄河谷の展望"
+     },
+     "best_time": "神桌山稜線與南庄河谷展望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-shenzhuoshan-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-618",
+       "variant_name": "神桌山稜線與南庄河谷展望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "神桌山（762m，zh.wikipedia）稜線步道俯瞰南庄河谷與中港溪上游山林（zh.wikipedia 海拔/座標）；清單主題的螢火蟲季窗查無本站可繫結的權",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "神桌山稜線與南庄河谷展望",
+        "en": "Shenzhuoshan ridge and Nanzhuang valley outlook",
+        "ja": "神卓山の稜線と南庄河谷の展望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "神桌山（762m，zh.wikipedia）稜線步道俯瞰南庄河谷與中港溪上游山林（zh.wikipedia 海拔/座標）；清單主題的螢火蟲季窗查無本站可繫結的權威季節資料源、雲海查無本站權威資料源，誠實不建時間窗契約——本契約為稜線展望主體。",
+        "en": "Ridge-trail outlook over the Nanzhuang creek valley and the upper Zhonggang woods from Shenzhuoshan (762 m, zh.wikipedia elevation/coordinates). The list's firefly window has no authoritative seasonal source we can bind, and the cloud-sea topic no authoritative source for this site, so no time-window contract is built - honestly.",
+        "ja": "標高762mの神卓山稜線から南庄河谷を望む（zh.wikipedia）。蛍・雲海の季節窓は権威源がなく誠実に不構築。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-180-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "神桌山",
+       "name_i18n": {
+        "zh-TW": "神桌山",
+        "en": "Shenzhuoshan ridge (Sanyuan/Nanzhuang)",
+        "ja": "神桌山"
+       },
+       "lat": 24.58306,
+       "lon": 120.97444,
+       "coord_confidence": "high",
+       "elevation_m": 762.0,
+       "coordinate_source": "zh.wikipedia 神桌山（峰頂海拔762公尺；座標24°34′59″N 120°58′28″E，苗栗三灣/獅潭/南庄交界，加里山山脈八卦力山系北稜）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-181",
+   "canonical_name": "天池山莊",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://nantou.forest.gov.tw/tchills",
+     "verified_on": "2026-11-07",
+     "supports": "林業保育署南投分署天池山莊頁（南投仁愛精英村，海拔2,860公尺，能高北峰西側山坳）＋OSM Nominatim 天池山莊（alpine_hut 節點）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-181-P01",
+     "spot_id": "tw-181",
+     "name_zh": "天池山莊能高雲海雲瀑",
+     "legacy_theme": "cloud_sea",
+     "name_i18n": {
+      "zh-TW": "天池山莊能高雲海雲瀑",
+      "en": "Nenggao cloud sea and cloud waterfall from Tianchi hut",
+      "ja": "天池山荘からの雲海と雲瀑"
+     },
+     "best_time": "天池山莊能高雲海雲瀑",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_spatial_weather_module",
+     "formula_version": "v0.04-cl-data-25-nenggao-tianchi-hut-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-619",
+       "variant_name": "天池山莊能高雲海雲瀑",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "天池山莊（海拔2,860m，林業保育署官方資料）能高越嶺道上的高山雲海與雲瀑展望（nantou.forest.gov.tw 山莊頁＋OSM alpine_hut",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_spatial_weather_module",
+       "variant_name_i18n": {
+        "zh-TW": "天池山莊能高雲海雲瀑",
+        "en": "Nenggao cloud sea and cloud waterfall from Tianchi hut",
+        "ja": "天池山荘からの雲海と雲瀑"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "天池山莊（海拔2,860m，林業保育署官方資料）能高越嶺道上的高山雲海與雲瀑展望（nantou.forest.gov.tw 山莊頁＋OSM alpine_hut 節點）；與既有 tw-043 奇萊主峰（6.31km）題材錯位——本點為越嶺道山莊雲海主體。",
+        "en": "Alpine cloud sea and cloud waterfall over the Nenggao crossing from Tianchi hut (2,860 m, Forestry and Nature Conservation Agency Nantou page; OSM alpine-hut node); disjoint from tw-043 Qilai main peak's summit subject 6.31 km away.",
+        "ja": "標高2,860mの天池山荘（林業保育署）から能高越嶺道の雲海と雲瀑（OSM）。奇萊主峰とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-181-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "天池山莊",
+       "name_i18n": {
+        "zh-TW": "天池山莊",
+        "en": "Nenggao Tianchi hut (Mountains of Nantou)",
+        "ja": "天池山莊"
+       },
+       "lat": 24.0453035,
+       "lon": 121.2796483,
+       "coord_confidence": "high",
+       "elevation_m": 2860.0,
+       "coordinate_source": "林業保育署南投分署天池山莊頁（南投仁愛精英村，海拔2,860公尺，能高北峰西側山坳）＋OSM Nominatim 天池山莊（alpine_hut 節點）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-181-P02",
+     "spot_id": "tw-181",
+     "name_zh": "天池山莊奇萊南峰晨光",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "天池山莊奇萊南峰晨光",
+      "en": "Tianchi hut dawn on Qilai South Peak",
+      "ja": "天池山荘の朝の光"
+     },
+     "best_time": "天池山莊奇萊南峰晨光",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-nenggao-tianchi-hut-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-620",
+       "variant_name": "天池山莊奇萊南峰晨光",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "山莊前緣向奇萊南峰/能高南峰方向的晨光山景（與同點 P01 雲海契約分列）；清單主題的日出查無本站向位的權威資料源，誠實不註冊方向窗——本契約為晨光山景主體。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "天池山莊奇萊南峰晨光",
+        "en": "Tianchi hut dawn on Qilai South Peak",
+        "ja": "天池山荘の朝の光"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "山莊前緣向奇萊南峰/能高南峰方向的晨光山景（與同點 P01 雲海契約分列）；清單主題的日出查無本站向位的權威資料源，誠實不註冊方向窗——本契約為晨光山景主體。",
+        "en": "Dawn mountain view toward Qilai South / Nenggao South peaks from the hut frontage (separate from the P01 cloud-sea contract); the list's sunrise topic has no authoritative azimuth source for this site - honestly no directional window registered.",
+        "ja": "山荘から奇萊南峰・能高南峰方面の朝の光（P01 とは別契約）。日の出の方位は権威源がなく方向窓は不登録。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-181-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "天池山莊",
+       "name_i18n": {
+        "zh-TW": "天池山莊",
+        "en": "Nenggao Tianchi hut (Mountains of Nantou)",
+        "ja": "天池山莊"
+       },
+       "lat": 24.0453035,
+       "lon": 121.2796483,
+       "coord_confidence": "high",
+       "elevation_m": 2860.0,
+       "coordinate_source": "林業保育署南投分署天池山莊頁（南投仁愛精英村，海拔2,860公尺，能高北峰西側山坳）＋OSM Nominatim 天池山莊（alpine_hut 節點）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-182",
+   "canonical_name": "望高寮瞭望台",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://news.ltn.com.tw/news/Nantou/breakingnews/3897675",
+     "verified_on": "2026-11-07",
+     "supports": "自由時報望鄉部落獵人古道（登上海拔1517公尺的望高寮瞭望台，能眺望玉山群峰）＋OSM Nominatim 獵人古道（信義卡里布安村 path 節點；瞭望台實址沿古道向上約1.5km，座標以古道節點對位、待現場校準）. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-182-P01",
+     "spot_id": "tw-182",
+     "name_zh": "望高寮玉山群峰晨光",
+     "legacy_theme": "sunrise",
+     "name_i18n": {
+      "zh-TW": "望高寮玉山群峰晨光",
+      "en": "Yushan massif dawn from Wanggaoliao",
+      "ja": "望高寮から玉山連峰の朝の光"
+     },
+     "best_time": "望高寮玉山群峰晨光",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_directional_horizon_visibility_module",
+     "formula_version": "v0.04-cl-data-25-wanggaoliao-hunter-trail-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-621",
+       "variant_name": "望高寮玉山群峰晨光",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "海拔1,517公尺望高寮瞭望台（自由時報）眺望玉山主峰與玉山群峰晨光——望鄉為全台唯一清楚眺望玉山主峰的部落（LTN＋pixnet 行程記錄；OSM 獵人古道 ",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_directional_horizon_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "望高寮玉山群峰晨光",
+        "en": "Yushan massif dawn from Wanggaoliao",
+        "ja": "望高寮から玉山連峰の朝の光"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "海拔1,517公尺望高寮瞭望台（自由時報）眺望玉山主峰與玉山群峰晨光——望鄉為全台唯一清楚眺望玉山主峰的部落（LTN＋pixnet 行程記錄；OSM 獵人古道 path 節點對位）；方位暫以 generic 東向 tolerance 85 註冊，待現場校準。",
+        "en": "Dawn on the Yushan main peak and massif from the 1,517 m Wanggaoliao watchtower (Liberty Times; OSM hunter-trail path node as proxy - the tower sits ~1.5 km up-trail, pending field calibration); generic east sector, tolerance 85.",
+        "ja": "標高1,517mの望高寮展望台から玉山主峰・連峰の朝の光（自由時報）。方位は暫定の東向き。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-182-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "望高寮瞭望台",
+       "name_i18n": {
+        "zh-TW": "望高寮瞭望台",
+        "en": "Wanggaoliao watchtower (Hunter trail, Xinyi)",
+        "ja": "望高寮瞭望台"
+       },
+       "lat": 23.5917017,
+       "lon": 120.8748369,
+       "coord_confidence": "medium",
+       "elevation_m": 1517.0,
+       "coordinate_source": "自由時報望鄉部落獵人古道（登上海拔1517公尺的望高寮瞭望台，能眺望玉山群峰）＋OSM Nominatim 獵人古道（信義卡里布安村 path 節點；瞭望台實址沿古道向上約1.5km，座標以古道節點對位、待現場校準）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-182-P02",
+     "spot_id": "tw-182",
+     "name_zh": "望高寮陳有蘭溪谷展望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "望高寮陳有蘭溪谷展望",
+      "en": "Wanggaoliao Chenyoulan-valley outlook",
+      "ja": "望高寮の陳有蘭渓谷展望"
+     },
+     "best_time": "望高寮陳有蘭溪谷展望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-wanggaoliao-hunter-trail-P02",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-622",
+       "variant_name": "望高寮陳有蘭溪谷展望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "瞭望台俯瞰陳有蘭溪谷與望鄉/望美聚落（與同點 P01 晨光契約分列）；清單主題的雲海查無本站權威資料源，誠實不建雲海時間窗——本契約為溪谷展望主體。",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "望高寮陳有蘭溪谷展望",
+        "en": "Wanggaoliao Chenyoulan-valley outlook",
+        "ja": "望高寮の陳有蘭渓谷展望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "瞭望台俯瞰陳有蘭溪谷與望鄉/望美聚落（與同點 P01 晨光契約分列）；清單主題的雲海查無本站權威資料源，誠實不建雲海時間窗——本契約為溪谷展望主體。",
+        "en": "Outlook over the Chenyoulan creek gorge and the Wangxiang/Wangmei settlements from the watchtower (separate from the P01 dawn contract); the list's cloud-sea topic has no authoritative source for this site - honestly no cloud-sea window.",
+        "ja": "展望台から陳有蘭渓谷と望郷・望美集落を望む（P01 とは別契約）。雲海の季節窓は権威源がなく誠実に不構築。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-182-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "望高寮瞭望台",
+       "name_i18n": {
+        "zh-TW": "望高寮瞭望台",
+        "en": "Wanggaoliao watchtower (Hunter trail, Xinyi)",
+        "ja": "望高寮瞭望台"
+       },
+       "lat": 23.5917017,
+       "lon": 120.8748369,
+       "coord_confidence": "medium",
+       "elevation_m": 1517.0,
+       "coordinate_source": "自由時報望鄉部落獵人古道（登上海拔1517公尺的望高寮瞭望台，能眺望玉山群峰）＋OSM Nominatim 獵人古道（信義卡里布安村 path 節點；瞭望台實址沿古道向上約1.5km，座標以古道節點對位、待現場校準）",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "spot_id": "tw-183",
+   "canonical_name": "秀巒軍艦岩／控溪吊橋",
+   "product_status": "KEEP",
+   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
+   "research_sources": [
+    {
+     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
+     "url": "https://www.openstreetmap.org/search?query=%E7%A7%80%E5%B5%AC%20%E6%96%B0%E7%AB%B9",
+     "verified_on": "2026-11-07",
+     "supports": "OSM Nominatim 秀巒（新竹尖石，hamlet 節點）；海拔查無權威源誠實留空. Verified on 2026-11-07; exact tripod position and access not field-surveyed."
+    }
+   ],
+   "opportunities": [
+    {
+     "opportunity_id": "tw-183-P01",
+     "spot_id": "tw-183",
+     "name_zh": "軍艦岩白石溪谷與吊橋展望",
+     "legacy_theme": "mountain_view",
+     "name_i18n": {
+      "zh-TW": "軍艦岩白石溪谷與吊橋展望",
+      "en": "Warship-rock Baisha gorge and footbridge outlook",
+      "ja": "軍艦岩の白石渓谷と吊橋の展望"
+     },
+     "best_time": "軍艦岩白石溪谷與吊橋展望",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_visibility_module",
+     "formula_version": "v0.04-cl-data-25-xiuluan-warship-rock-P01",
+     "formula_confidence": 50,
+     "best_season": "全年候選，實際成立與否以當日資料為準",
+     "best_season_i18n": {
+      "zh-TW": "全年候選，實際成立與否以當日資料為準",
+      "en": "Year-round candidate; actual validity follows the day's data.",
+      "ja": "通年候補。成立は当日データ次第。"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-623",
+       "variant_name": "軍艦岩白石溪谷與吊橋展望",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "秀巒村控溪吊橋與軍艦岩吊橋俯瞰白石溪（薩克亞金溪）與泰崗溪匯流處的軍艦岩巨岩河景（OSM hamlet 節點＋多篇行記；海拔查無權威源誠實留空）；與既有 tw-",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_visibility_module",
+       "variant_name_i18n": {
+        "zh-TW": "軍艦岩白石溪谷與吊橋展望",
+        "en": "Warship-rock Baisha gorge and footbridge outlook",
+        "ja": "軍艦岩の白石渓谷と吊橋の展望"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "秀巒村控溪吊橋與軍艦岩吊橋俯瞰白石溪（薩克亞金溪）與泰崗溪匯流處的軍艦岩巨岩河景（OSM hamlet 節點＋多篇行記；海拔查無權威源誠實留空）；與既有 tw-091 司馬庫斯部落觀景點（4.62km）題材錯位——本點為溪谷吊橋河景主體，司馬庫斯為部落觀景。",
+        "en": "Outlook over the Baisha (Sakyajin) creek gorge and the warship-rock monolith from the Kongxi and warship-rock footbridges at Xiuluan village (OSM hamlet node; elevation honestly left empty); disjoint from tw-091 Smangus tribal viewpoint 4.62 km away (river-landform subject vs tribal viewpoint).",
+        "ja": "秀巒の控溪・軍艦岩の吊橋から白石渓と軍艦岩の河景（OSM）。司馬庫斯部落とは題材が別。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-183-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "秀巒軍艦岩／控溪吊橋",
+       "name_i18n": {
+        "zh-TW": "秀巒軍艦岩／控溪吊橋",
+        "en": "Xiuluan warship-rock and Kongxi footbridge",
+        "ja": "秀巒軍艦岩／控溪吊橋"
+       },
+       "lat": 24.6185541,
+       "lon": 121.2851526,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 秀巒（新竹尖石，hamlet 節點）；海拔查無權威源誠實留空",
+       "verification_status": "cl_data_25_web_verified_2026_11_07",
+       "geometry_type": "area",
+       "geometry_extent_m": 300,
+       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
+      }
+     ]
+    },
+    {
+     "opportunity_id": "tw-183-P02",
+     "spot_id": "tw-183",
+     "name_zh": "控溪吊橋楓香林楓紅",
+     "legacy_theme": "seasonal_foreground",
+     "name_i18n": {
+      "zh-TW": "控溪吊橋楓香林楓紅",
+      "en": "Kongxi bridge maple woods in autumn",
+      "ja": "控溪吊橋の楓の紅葉"
+     },
+     "best_time": "控溪吊橋楓香林楓紅",
+     "best_time_i18n": {
+      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
+      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
+      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
+     },
+     "mode": "area_opportunity",
+     "sampling_topology": "local_area",
+     "geometry_required": false,
+     "opportunity_confidence": "medium",
+     "formula_status": "needs_seasonal_foreground_module",
+     "formula_version": "v0.04-cl-data-25-xiuluan-warship-rock-P02",
+     "formula_confidence": 50,
+     "best_season": "季節窗 10-20–11-10（seasonal-calendar）",
+     "best_season_i18n": {
+      "zh-TW": "季節窗 10-20–11-10（seasonal-calendar）",
+      "en": "Seasonal window 10-20-11-10 (seasonal-calendar)",
+      "ja": "季節窓 10-20〜11-10（seasonal-calendar）"
+     },
+     "condition_variants": [
+      {
+       "variant_id": "VAR-624",
+       "variant_name": "控溪吊橋楓香林楓紅",
+       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
+       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
+       "boosters": "控溪吊橋對岸滿植楓香的楓紅季（沿用 seasonal-calendar 既有 red_maple 窗 10-20..11-10；海拔查無權威源誠實留空；與同點 ",
+       "penalties": "惡劣天候、能見度差、營運/季節窗外",
+       "formula_status": "needs_seasonal_foreground_module",
+       "variant_name_i18n": {
+        "zh-TW": "控溪吊橋楓香林楓紅",
+        "en": "Kongxi bridge maple woods in autumn",
+        "ja": "控溪吊橋の楓の紅葉"
+       },
+       "required_conditions_i18n": {
+        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
+        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
+        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
+       },
+       "boosters_i18n": {
+        "zh-TW": "控溪吊橋對岸滿植楓香的楓紅季（沿用 seasonal-calendar 既有 red_maple 窗 10-20..11-10；海拔查無權威源誠實留空；與同點 P01 河景契約分列）。",
+        "en": "Autumn color of the maple woods across the Baisha creek from the Kongxi footbridge (reuses the existing seasonal-calendar red_maple window 10-20..11-10; separate from the P01 river-landform contract).",
+        "ja": "控溪吊橋対岸の楓香林の紅葉（red_maple 季節窓を再利用）。P01 とは別契約。"
+       },
+       "penalties_i18n": {
+        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
+        "en": "Severe weather, poor visibility, outside operating/season window.",
+        "ja": "悪天候、視程不良、営業・季節窓外。"
+       }
+      }
+     ],
+     "viewpoints": [
+      {
+       "viewpoint_id": "tw-183-VP01",
+       "relation_role": "reference",
+       "sort_order": 1,
+       "name": "秀巒軍艦岩／控溪吊橋",
+       "name_i18n": {
+        "zh-TW": "秀巒軍艦岩／控溪吊橋",
+        "en": "Xiuluan warship-rock and Kongxi footbridge",
+        "ja": "秀巒軍艦岩／控溪吊橋"
+       },
+       "lat": 24.6185541,
+       "lon": 121.2851526,
+       "coord_confidence": "medium",
+       "elevation_m": null,
+       "coordinate_source": "OSM Nominatim 秀巒（新竹尖石，hamlet 節點）；海拔查無權威源誠實留空",
        "verification_status": "cl_data_25_web_verified_2026_11_07",
        "geometry_type": "area",
        "geometry_extent_m": 300,
