@@ -190,6 +190,18 @@ TW_ADMIN_AREAS = {
     "tw-159": ["台南市"],  # CL-DATA-66
     "tw-160": ["台南市"],  # CL-DATA-66
     "tw-161": ["新北市"],  # CL-DATA-66
+    "tw-162": ["彰化縣"],  # CL-DATA-66
+    "tw-163": ["嘉義縣"],  # CL-DATA-66
+    "tw-164": ["台東縣"],  # CL-DATA-66
+    "tw-165": ["台東縣"],  # CL-DATA-66
+    "tw-166": ["雲林縣"],  # CL-DATA-66
+    "tw-167": ["桃園市"],  # CL-DATA-66
+    "tw-168": ["宜蘭縣"],  # CL-DATA-66
+    "tw-169": ["台中市"],  # CL-DATA-66
+    "tw-170": ["新竹縣"],  # CL-DATA-66
+    "tw-171": ["雲林縣"],  # CL-DATA-66
+    "tw-172": ["桃園市"],  # CL-DATA-66
+    "tw-173": ["宜蘭縣"],  # CL-DATA-66
     "tw-121": ["連江縣"],  # CL-DATA-64
     "tw-122": ["連江縣"],  # CL-DATA-64
     "tw-123": ["連江縣"],  # CL-DATA-64
@@ -652,6 +664,18 @@ REGIONS = {
             (22.93175, 120.1763, "黃金海岸（台南南區）", "Golden Coast (South District, Tainan)", "黄金海岸（台南南区）", "黃金海岸", "本島", ["coast", "city"]),  # CL-DATA-66
             (24.871471, 121.1650046, "三水江家古厝", "Jiang Family Historic Settlement (Sanshui)", "江家古厝", "江家古厝", "本島", ["mountain", "forest"]),  # CL-DATA-66
             (25.238999, 121.6323619, "中角灣/沙珠灣", "Zhongjiao Bay / Shazhu Bay (Jinshan)", "中角湾／沙珠湾", "中角灣", "本島", ["coast"]),  # CL-DATA-66
+            (24.078, 120.5535, "八卦山天空步道", "Baguashan skywalk (Changhua)", "八卦山スカイウォーク", "八卦山天空步道", "本島", ["mountain", "city"]),  # CL-DATA-66
+            (23.4621, 120.5958, "半天岩紫雲寺後山", "Bantianyan Ziyun Temple back hill", "半天岩紫雲寺の裏山", "半天岩紫雲寺", "本島", ["mountain", "city", "starlight"]),  # CL-DATA-66
+            (22.805, 121.0418, "利嘉林道", "Lijia forest road (Beinan)", "利嘉林道", "利嘉林道", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (23.268, 120.9734, "南橫埡口/大關山隧道口", "Nanheng Yakou (Daguanshan tunnel east portal)", "南横埡口（大関山隧道東口）", "南橫埡口", "本島", ["mountain", "starlight"]),  # CL-DATA-66
+            (23.7317, 120.1744, "台西海園木棧道", "Taixi Haiyuan boardwalk (Yunlin)", "台西海園の木道", "台西海園", "本島", ["coast"]),  # CL-DATA-66
+            (24.706, 121.450417, "塔曼山魔幻森林展望點", "Taman Mountain magic-forest lookout", "タマン山の魔幻の森展望", "塔曼山", "本島", ["mountain", "forest", "starlight"]),  # CL-DATA-66
+            (24.7379, 121.8201, "壯圍沙丘海岸", "Zhuangwei dune coast (Yilan)", "壮圍の砂丘海岸", "壯圍沙丘", "本島", ["coast", "beach"]),  # CL-DATA-66
+            (24.2688, 121.0306, "大雪山48K啞口", "Daxueshan 48K saddle lookout", "大雪山48K埡口", "大雪山48K啞口", "本島", ["mountain", "forest", "starlight"]),  # CL-DATA-66
+            (24.649, 121.0197, "峨眉獅山古道/六寮古道", "Shishan / Liuliao historic trails (Emei)", "獅山古道・六寮古道（峨眉）", "獅山古道", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (23.5586, 120.1625, "成龍濕地", "Chenglong wetland (Kouhu, Yunlin)", "成龍溼地", "成龍濕地", "本島", ["coast"]),  # CL-DATA-66
+            (24.678, 121.3851, "拉拉山巴陵", "Lalashan Baling (Taoyuan)", "拉拉山巴陵", "拉拉山巴陵", "本島", ["mountain", "forest"]),  # CL-DATA-66
+            (24.6501, 121.4706, "明池森林遊樂區", "Mingchi National Forest Recreation Area", "明池国家森林遊楽区", "明池森林遊樂區", "本島", ["mountain", "forest"]),  # CL-DATA-66
         ],
     },
     "jp": {
@@ -1051,6 +1075,9 @@ ELEVATION_OVERRIDES = {
     "Assateague Island": 2,  # CL-DATA-53
     "Harding Icefield": 1200,  # CL-DATA-53
     # CL-DATA-64 admission elevations (web-verified 2026-11-10; null elevations omitted honestly)
+    # CL-DATA-66 wave-3 admission elevations (web-verified 2026-11-11; null elevations omitted honestly)
+    "南橫埡口": 2722,  # CL-DATA-66
+    "塔曼山": 2128,  # CL-DATA-66
     # CL-DATA-66 wave-2 admission elevations (web-verified 2026-11-11; null elevations omitted honestly)
     "九份二山": 1173,  # CL-DATA-66
     "內洞森林遊樂區": 230,  # CL-DATA-66
@@ -1539,6 +1566,67 @@ ACCESS_RULE_OVERRIDES["新穗高高空纜車"] = {
 # also sent to the frontend so navigation can resolve the named POI even if
 # a mountain/park covers a large area.
 SPOT_OVERRIDES = {
+    # CL-DATA-66 wave-3 admission (web-verified 2026-11-11; keyed to full display names per get_spots contract)
+ "八卦山天空步道": {"lat": 24.078,
+           "lon": 120.5535,
+           "map_query": "八卦山天空步道",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: OSM Nominatim 八卦山天空步道（彰化，footway 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "半天岩紫雲寺後山": {"lat": 23.4621,
+           "lon": 120.5958,
+           "map_query": "半天岩紫雲寺",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: OSM Nominatim 半天岩紫雲寺（嘉義番路，place_of_worship 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "利嘉林道": {"lat": 22.805,
+           "lon": 121.0418,
+           "map_query": "利嘉林道",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: OSM Nominatim 利嘉林道（台東卑南，track 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "南橫埡口/大關山隧道口": {"lat": 23.268,
+           "lon": 120.9734,
+           "map_query": "南橫埡口",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: zh.wikipedia 南橫公路（埡口＝台20線142K，海拔2722公尺，大關山隧道東口）＋OSM Nominatim 南橫埡口（節點）",
+           "coordinate_confidence": "high"},
+ "台西海園木棧道": {"lat": 23.7317,
+           "lon": 120.1744,
+           "map_query": "台西海園",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: OSM Nominatim 台西海園（雲林台西，hamlet 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "塔曼山魔幻森林展望點": {"lat": 24.706,
+           "lon": 121.450417,
+           "map_query": "塔曼山",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: zh.wikipedia 塔曼山（海拔2,127.9公尺；座標24.706000,121.450417，國土測繪中心1/5000像片基本圖）",
+           "coordinate_confidence": "high"},
+ "壯圍沙丘海岸": {"lat": 24.7379,
+           "lon": 121.8201,
+           "map_query": "壯圍沙丘",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: OSM Nominatim 壯圍沙丘旅遊服務園區（宜蘭壯圍，park 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "high"},
+ "大雪山48K啞口": {"lat": 24.2688,
+           "lon": 121.0306,
+           "map_query": "大雪山48K啞口",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: OSM Nominatim 大雪山森林遊樂區埡口觀景台停車場（台中大雪山林道高段）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "峨眉獅山古道/六寮古道": {"lat": 24.649,
+           "lon": 121.0197,
+           "map_query": "獅山古道",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: OSM Nominatim 獅山古道（新竹峨眉/獅頭山，service way 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "成龍濕地": {"lat": 23.5586,
+           "lon": 120.1625,
+           "map_query": "成龍濕地",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: OSM Nominatim 成龍濕地（雲林口湖，wetland 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "high"},
+ "拉拉山巴陵": {"lat": 24.678,
+           "lon": 121.3851,
+           "map_query": "拉拉山巴陵",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: OSM Nominatim 巴陵（桃園復興華陵里，bus_stop 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "medium"},
+ "明池森林遊樂區": {"lat": 24.6501,
+           "lon": 121.4706,
+           "map_query": "明池森林遊樂區",
+           "coordinate_source": "CL-DATA-66 wave-3 admission web verification 2026-11-11: OSM Nominatim 明池國家森林遊樂區（宜蘭大同，nature_reserve 節點）；海拔查無權威源誠實留空",
+           "coordinate_confidence": "high"},
     # CL-DATA-66 wave-2 admission (web-verified 2026-11-11; keyed to full display names per get_spots contract)
  "關仔嶺枕頭山觀景台": {"lat": 23.3271039,
            "lon": 120.4860274,
