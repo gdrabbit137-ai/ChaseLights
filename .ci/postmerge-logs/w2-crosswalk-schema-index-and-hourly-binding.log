@@ -1,4 +1,4 @@
-$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\42805ba4e67e4c829e6dd401b4400785\venv\Scripts\python.exe D:\tmp\ci33-merge\ops\v2\run_unittest.py data/v2/tests test_*.py D:\tmp\ci33-merge\.ci\postmerge-logs\w2-crosswalk-schema-index-and-hourly-binding.json
+$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\a6e753775ff24cfd97e53508dd55bfe7\venv\Scripts\python.exe C:\tmp\clint137b-wt\ops\v2\run_unittest.py data/v2/tests test_*.py C:\tmp\clint137b-wt\.ci\postmerge-logs\w2-crosswalk-schema-index-and-hourly-binding.json
 test_filled_records_carry_complete_provenance (test_cl_data_18_ai_verification_gate.AiVerificationAdmissionGate.test_filled_records_carry_complete_provenance) ... ok
 test_honest_unknowns_are_preserved (test_cl_data_18_ai_verification_gate.AiVerificationAdmissionGate.test_honest_unknowns_are_preserved) ... ok
 test_machine_readable_derivation_method_coverage (test_cl_data_18_ai_verification_gate.AiVerificationAdmissionGate.test_machine_readable_derivation_method_coverage) ... ok
@@ -117,29 +117,63 @@ test_evaluations_bundle_spliced (test_cl_data_53_expansion.TestRuntime.test_eval
 test_manifest_us_counts (test_cl_data_53_expansion.TestRuntime.test_manifest_us_counts) ... ok
 test_runtime_catalog_counts (test_cl_data_53_expansion.TestRuntime.test_runtime_catalog_counts) ... ok
 test_runtime_dependencies_gaps (test_cl_data_53_expansion.TestRuntime.test_runtime_dependencies_gaps) ... ok
+test_access_not_scored (test_cl_data_64_expansion.TestAgli.test_access_not_scored) ... ok
+test_dual_board_records (test_cl_data_64_expansion.TestAgli.test_dual_board_records) ... ok
+test_all_batch_contracts_exist_and_validate (test_cl_data_64_expansion.TestContracts.test_all_batch_contracts_exist_and_validate) ... ok
+test_blue_tears_noctiluca_honest_not_evaluatable (test_cl_data_64_expansion.TestContracts.test_blue_tears_noctiluca_honest_not_evaluatable) ... ok
+test_evidence_claim_refs_and_access_labels (test_cl_data_64_expansion.TestContracts.test_evidence_claim_refs_and_access_labels) ... ok
+test_geothermal_midday_color_honesty (test_cl_data_64_expansion.TestContracts.test_geothermal_midday_color_honesty) ... ok
+test_night_subjects_carry_no_daylight_light_window (test_cl_data_64_expansion.TestContracts.test_night_subjects_carry_no_daylight_light_window) ... ok
+test_seasonal_calendar_window (test_cl_data_64_expansion.TestContracts.test_seasonal_calendar_window) ... ok
+test_unique_condition_ids (test_cl_data_64_expansion.TestContracts.test_unique_condition_ids) ... ok
+test_unverified_elevations_left_null (test_cl_data_64_expansion.TestContracts.test_unverified_elevations_left_null) ... ok
+test_viewpoint_subject_separation_native_fields (test_cl_data_64_expansion.TestContracts.test_viewpoint_subject_separation_native_fields) ... ok
+test_volcanic_activity_required_on_lava_subjects (test_cl_data_64_expansion.TestContracts.test_volcanic_activity_required_on_lava_subjects) ... ok
+test_dedupe_registry_and_overrides (test_cl_data_64_expansion.TestDedupe.test_dedupe_registry_and_overrides) ... ok
+test_coordinate_overrides_web_verified (test_cl_data_64_expansion.TestRegions.test_coordinate_overrides_web_verified) ... ok
+test_new_admin_areas (test_cl_data_64_expansion.TestRegions.test_new_admin_areas) ... ok
+test_region_lists_grew (test_cl_data_64_expansion.TestRegions.test_region_lists_grew) ... ok
+test_evaluations_bundle_spliced (test_cl_data_64_expansion.TestRuntime.test_evaluations_bundle_spliced) ... ok
+test_manifest_region_ends (test_cl_data_64_expansion.TestRuntime.test_manifest_region_ends) ... ok
+test_runtime_catalog_counts (test_cl_data_64_expansion.TestRuntime.test_runtime_catalog_counts) ... ok
+test_web_catalog_regenerated (test_cl_data_64_expansion.TestRuntime.test_web_catalog_regenerated) ... ok
+test_scan_classification (test_cl_data_65_general_template.MountScanTests.test_scan_classification) ... ok
+test_honest_provenance_and_geometry (test_cl_data_65_general_template.MountedOpportunityTests.test_honest_provenance_and_geometry) ... ok
+test_identity_and_genre (test_cl_data_65_general_template.MountedOpportunityTests.test_identity_and_genre) ... ok
+test_no_overwrite_idempotent (test_cl_data_65_general_template.MountedOpportunityTests.test_no_overwrite_idempotent) ... {"status": "OK", "mode": "write", "now": "2026-11-11T13:02:16Z", "skipped": {"jp-030": "curated_subject_present"}, "mounted": [], "bytes": {}}
+ok
+test_schema_valid (test_cl_data_65_general_template.MountedOpportunityTests.test_schema_valid) ... ok
+test_all_conditions_required_no_bonus (test_cl_data_65_general_template.RegistryTests.test_all_conditions_required_no_bonus) ... ok
+test_evaluation_pipeline_compat (test_cl_data_65_general_template.RegistryTests.test_evaluation_pipeline_compat) ... ok
+test_general_defined_and_registered (test_cl_data_65_general_template.RegistryTests.test_general_defined_and_registered) ... ok
+test_metrics_in_vocabulary (test_cl_data_65_general_template.RegistryTests.test_metrics_in_vocabulary) ... ok
+test_scale_semantics_documented (test_cl_data_65_general_template.RegistryTests.test_scale_semantics_documented) ... ok
+test_three_language_rationales (test_cl_data_65_general_template.RegistryTests.test_three_language_rationales) ... ok
+test_visibility_threshold_parameterized_by_scale (test_cl_data_65_general_template.RegistryTests.test_visibility_threshold_parameterized_by_scale) ... ok
+test_scale_for_place (test_cl_data_65_general_template.ScaleTests.test_scale_for_place) ... ok
 test_canonical_bindings_all_lint_clean (test_genre_templates.BindingGrammarTests.test_canonical_bindings_all_lint_clean) ... binding-lint: 0 violations across data/v2/opportunities
 ok
 test_invalid_strings_fail_closed (test_genre_templates.BindingGrammarTests.test_invalid_strings_fail_closed) ... ok
 test_valid_strings (test_genre_templates.BindingGrammarTests.test_valid_strings) ... ok
 test_draft_expansion_refused (test_genre_templates.ExpansionTests.test_draft_expansion_refused) ... ok
-test_expanded_model_binding_strings_lint (test_genre_templates.ExpansionTests.test_expanded_model_binding_strings_lint) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpjux5niv8\tw-001-P02.json
+test_expanded_model_binding_strings_lint (test_genre_templates.ExpansionTests.test_expanded_model_binding_strings_lint) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp5vrx8xpc\tw-001-P02.json
 ok
-test_expansion_never_touches_canonical (test_genre_templates.ExpansionTests.test_expansion_never_touches_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpr58q1weu\tw-001-P02.json
+test_expansion_never_touches_canonical (test_genre_templates.ExpansionTests.test_expansion_never_touches_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpfy21i5cf\tw-001-P02.json
 ok
-test_round_trip_matches_reviewed_canonical (test_genre_templates.ExpansionTests.test_round_trip_matches_reviewed_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpsymtws0j\tw-001-P02.json
-expanded sunrise-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpv4qnnfzg\tw-036-P01.json
-expanded blue_hour_city-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp3oy2mqia\tw-002-P01.json
-expanded mountain_view-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp5gg6f83p\tw-016-P01.json
+test_round_trip_matches_reviewed_canonical (test_genre_templates.ExpansionTests.test_round_trip_matches_reviewed_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpc7w2vm2s\tw-001-P02.json
+expanded sunrise-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp2cls3q7g\tw-036-P01.json
+expanded blue_hour_city-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp54x5bo8j\tw-002-P01.json
+expanded mountain_view-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmps818j2if\tw-016-P01.json
 ok
 test_undeclared_param_refused (test_genre_templates.ExpansionTests.test_undeclared_param_refused) ... ok
 test_arithmetic (test_genre_templates.ExpressionTests.test_arithmetic) ... ok
 test_disallowed_syntax_fails (test_genre_templates.ExpressionTests.test_disallowed_syntax_fails) ... ok
 test_undeclared_param_fails (test_genre_templates.ExpressionTests.test_undeclared_param_fails) ... ok
-test_merge_exact_duplicate_skipped (test_genre_templates.MergeTests.test_merge_exact_duplicate_skipped) ... merged cloud_sea-v0.1 -> 9 offered, 1 duplicate skipped, 9 total -> C:\Users\Dick_\AppData\Local\Temp\tmpnktg4ae1\out.json
+test_merge_exact_duplicate_skipped (test_genre_templates.MergeTests.test_merge_exact_duplicate_skipped) ... merged cloud_sea-v0.1 -> 9 offered, 1 duplicate skipped, 9 total -> C:\Users\Dick_\AppData\Local\Temp\tmp2rh4qj2x\out.json
 ok
 test_merge_point_conflict_refused (test_genre_templates.MergeTests.test_merge_point_conflict_refused) ... ok
 test_merge_requires_existing_contract (test_genre_templates.MergeTests.test_merge_requires_existing_contract) ... ok
-test_merge_scoped_overlap_is_allowed (test_genre_templates.MergeTests.test_merge_scoped_overlap_is_allowed) ... merged cloud_sea-v0.1 -> 9 offered, 0 duplicate skipped, 10 total -> C:\Users\Dick_\AppData\Local\Temp\tmpjmgoedtc\out.json
+test_merge_scoped_overlap_is_allowed (test_genre_templates.MergeTests.test_merge_scoped_overlap_is_allowed) ... merged cloud_sea-v0.1 -> 9 offered, 0 duplicate skipped, 10 total -> C:\Users\Dick_\AppData\Local\Temp\tmpqbor4fr7\out.json
 ok
 test_draft_templates_are_complete_but_refused (test_genre_templates.RegistryTests.test_draft_templates_are_complete_but_refused) ... ok
 test_every_metric_in_templates_is_in_vocabulary (test_genre_templates.RegistryTests.test_every_metric_in_templates_is_in_vocabulary) ... ok
@@ -164,6 +198,8 @@ test_provisional_placeholders_present_in_all_three_locales (test_migration_skele
 CL-UI-07: no provisional/pending marker in any user-visible string. ... ok
 test_v1_access_notes_carry_verbatim_as_warnings (test_migration_skeletons.MigrationSkeletonTests.test_v1_access_notes_carry_verbatim_as_warnings)
 V1 access notices migrate verbatim (non-scoring warning), not dropped or invented. ... ok
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
@@ -268,6 +304,10 @@ warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 ok
 test_duplicate_ids_dangling_topics_and_wrong_canonical_revision (test_task_x_research_index.ResearchIndexTests.test_duplicate_ids_dangling_topics_and_wrong_canonical_revision) ... ok
 test_exact_unique_complete_place_and_opportunity_sets (test_task_x_research_index.ResearchIndexTests.test_exact_unique_complete_place_and_opportunity_sets) ... ok
@@ -305,8 +345,14 @@ warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 ok
 test_missing_name_locale_and_foreign_place_source_fail (test_task_x_research_index.ResearchIndexTests.test_missing_name_locale_and_foreign_place_source_fail) ... warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
@@ -446,6 +492,10 @@ warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 ok
 test_query_preferences_capabilities_are_test_only_and_no_favorable (test_task_x_research_index.ResearchIndexTests.test_query_preferences_capabilities_are_test_only_and_no_favorable) ... ok
 test_real_canonical_blob_sha256_identity_and_revision (test_task_x_research_index.ResearchIndexTests.test_real_canonical_blob_sha256_identity_and_revision) ... ok
@@ -471,7 +521,7 @@ test_04_crosswalk_exact_coverage_and_negative_conflict (test_worker2_batch04.Bat
 test_05_human_readable_parity_and_original_preview_is_untouched (test_worker2_batch04.Batch04Gate.test_05_human_readable_parity_and_original_preview_is_untouched) ... ok
 
 ----------------------------------------------------------------------
-Ran 184 tests in 595.234s
+Ran 217 tests in 506.334s
 
 OK
-{"tests": 184, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 184}
+{"tests": 217, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 217}
