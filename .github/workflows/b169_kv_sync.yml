@@ -41,9 +41,12 @@ jobs:
             "https://chaselights.app/apps/web-v2/evaluations-latest.json?nc=$GITHUB_RUN_ID"
           python3 -c "import json;d=json.load(open('evaluations-latest.json'));print('bundle',d['generated_at'],d['place_count'],'places')"
 
+          curl -fsSL --retry 3 -o catalog.v2.json \
+            "https://chaselights.app/apps/web-v2/catalog.v2.json?nc=$GITHUB_RUN_ID"
+
       - name: Distill to per-place results
         if: steps.token.outputs.skip == 'false'
-        run: python3 scripts/kv_distill.py evaluations-latest.json distilled.json
+        run: python3 scripts/kv_distill.py evaluations-latest.json distilled.json catalog.v2.json
 
       - name: Upload to Cloudflare KV
         if: steps.token.outputs.skip == 'false'
@@ -69,6 +72,12 @@ jobs:
                     raise SystemExit(f"KV put failed: {r.status}")
           put(f"accounts/{account}/storage/kv/namespaces/{ns}/values/v1%3Aevals%3Aindex",
               json.dumps(data["index"], ensure_ascii=False, separators=(",", ":")))
+          # CL-API-04: catalog digest (sha256 of the served catalog.v2.json).
+          # One extra key write per daily sync — low-frequency, KV-discipline OK.
+          if "catalog_digest" in data:
+            put(f"accounts/{account}/storage/kv/namespaces/{ns}/values/v1%3Acatalog%3Adigest",
+                json.dumps(data["catalog_digest"], ensure_ascii=False, separators=(",", ":")))
+            print("catalog digest:", data["catalog_digest"]["digest"])
           for pid, rec in data["places"].items():
               put(f"accounts/{account}/storage/kv/namespaces/{ns}/values/v1%3Aevals%3A{pid}",
                   json.dumps(rec, ensure_ascii=False, separators=(",", ":")))
