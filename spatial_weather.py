@@ -31,6 +31,17 @@ _SUPPORTED_PROFILE_IDS = (
     "tw-035-P06",
     "tw-040-P04",
     "tw-043-P02", "tw-043-P03",
+    # CL-DATA-66 wave-1: cloud-sea contracts use the standard 8-bearing lower-cloud-below-camera profile
+    "tw-125-P01",
+    "tw-127-P01",
+    "tw-130-P01",
+    "tw-131-P01",
+    "tw-133-P02",
+    "tw-134-P01",
+    "tw-136-P02",
+    "tw-140-P01",
+    "tw-144-P01",
+    "tw-146-P01",
     "tw-047-P01", "tw-047-P02",
     "tw-049-P03",
 )

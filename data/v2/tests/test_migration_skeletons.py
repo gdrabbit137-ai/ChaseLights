@@ -37,9 +37,9 @@ class MigrationSkeletonTests(unittest.TestCase):
         # (CL-DATA-25 batch admitted 25 places, 25R retired the 5 v2-rejected
         # builds and admitted tw-098); the first-pass inventory is the R0-era
         # snapshot and stays pinned at 217 covered places / 28 evolved docs.
-        self.assertEqual((370, 587), (len(spots), opps))  # CL-INT-135 merged re-anchor: main 357/574 + 13 CL-DATA-64 spots/opps (retired 6 excluded)
+        self.assertEqual((446, 699), (len(spots), opps))  # CL-DATA-66 wave4 re-anchor: wave1-3 419/661 + 10/16 wave4 (retired 6 excluded)
         canonical = sorted((ROOT / "data/v2/opportunities").glob("*.json"))
-        self.assertEqual(566, len(canonical))  # CL-INT-135 step2 re-anchor: 565 + jp-030-P99 general mount (retired archives retained)
+        self.assertEqual(678, len(canonical))  # wave5 re-anchor: 656 + 22 wave5 contracts (retired archives retained)
         self.assertEqual(len(admitted), 28)
         # R0 inventory is a frozen snapshot (live catalog grew with CL-DATA-25/25R admissions)
         self.assertEqual(self.inventory["first_pass"]["places_first_pass_covered"], 217)
@@ -107,7 +107,13 @@ class MigrationSkeletonTests(unittest.TestCase):
                                     for m in doc["missing_or_unknown"]))
 
     def test_v1_access_notes_carry_verbatim_as_warnings(self):
-        """V1 access notices migrate verbatim (non-scoring warning), not dropped or invented."""
+        """V1 access notices migrate verbatim (non-scoring warning), not dropped or invented.
+
+        CL-DATA-66 re-anchor: tw-068 綠島朝日溫泉 was retired by CL-DATA-62 (owner
+        2026-11-10) and dropped from the live V1 weather JSON, so the verbatim-carry
+        check re-anchors to tw-074 野柳地質公園 — an active spot whose V1
+        access_note_i18n still exists; the guarantee tested is unchanged.
+        """
         wspot = None
         for wp in gen.DEFAULT_WEATHER:
             for s in json.loads(wp.read_text(encoding="utf-8"))["spots"]:

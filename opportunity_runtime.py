@@ -730,6 +730,41 @@ def evaluate_minimum_sufficient_visibility(opportunity, item_data):
     }
 
 DIRECTIONAL_HORIZON_SECTORS = {
+    # CL-DATA-66 wave-2 admission: sunrise/sunset sector defaults (coastal/summit azimuths provisional, tolerance 85 like prior admissions)
+    "tw-149-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-152-P02": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-154-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-147-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-148-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-150-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-153-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-156-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-157-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-159-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-161-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    # CL-DATA-66 wave-3 admission: sunrise/sunset sector defaults (generic sectors provisional, tolerance 85 like prior admissions)
+    "tw-162-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-162-P02": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-165-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-166-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-168-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-169-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-171-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    # CL-DATA-66 wave-4 admission: sunrise/sunset sector defaults (generic sectors provisional, tolerance 85 like prior admissions)
+    "tw-175-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-178-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-182-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    # CL-DATA-66 wave-1 admission: sunrise/sunset sector defaults (coastal/summit azimuths provisional, tolerance 85 like prior admissions)
+    "tw-125-P02": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-129-P01": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-131-P02": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-132-P02": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-135-P02": {"center": 90.0, "tolerance": 85.0, "phase": "sunrise"},
+    "tw-137-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-138-P02": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-139-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-142-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
+    "tw-143-P01": {"center": 270.0, "tolerance": 85.0, "phase": "sunset"},
     "jp-022-P02": {"center": 270.0, "tolerance": 75.0, "phase": "sunset"},
     "jp-019-P01": {"center": 250.0, "tolerance": 70.0, "phase": "sunset"},
     "jp-013-P01": {"center": 270.0, "tolerance": 65.0, "phase": "sunset"},
@@ -860,6 +895,9 @@ ASTRONOMY_EPHEMERIS_PROFILES = {
     "tw-122-P01": {"mode": "milky_way_or_star_field"},
     "tw-123-P01": {"mode": "milky_way_or_star_field"},
     "tw-124-P01": {"mode": "milky_way_or_star_field"},
+    # CL-DATA-66 wave-1 admission: Taipingshan / Dongyanshan dark-sky star subjects
+    "tw-140-P02": {"mode": "milky_way_or_star_field"},
+    "tw-144-P02": {"mode": "milky_way_or_star_field"},
 }
 
 

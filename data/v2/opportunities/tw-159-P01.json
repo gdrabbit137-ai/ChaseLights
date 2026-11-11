@@ -1,0 +1,276 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "tw-159-P01",
+ "place_id": "tw-159",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "黃金海岸夕照",
+  "en": "Golden Coast sunset",
+  "ja": "黄金海岸の夕映え"
+ },
+ "description_i18n": {
+  "zh-TW": "台南市區南緣黃金海岸沙灘夕照與市燈同框（OSM 節點；海拔查無權威源誠實留空）；與既有 tw-142 安平漁人碼頭（港灣大魚裝置）題材錯位——本點為市郊沙灘線。",
+  "en": "Beach sunset with city lights behind, on Tainan's southern coastal edge (OSM node; elevation honestly left empty); disjoint from Anping wharf's harbour-art subject.",
+  "ja": "台南南区の砂浜と夕日と街灯（OSM）。安平漁人碼頭とは題材が別。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-159-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      120.1763,
+      22.93175
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-66 wave-2 admission web verification 2026-11-11 (OSM Nominatim 黃金海岸（台南南區，bicycle_rental 節點）；海拔查無權威源誠實留空; source URLs: https://www.openstreetmap.org/search?query=%E9%BB%83%E9%87%91%E6%B5%B7%E5%B2%B8%20%E5%8F%B0%E5%8D%97). Scoreless intake (owner ruling 2026-11-11): admission = verification + 5km subject-disjoint dedupe; score fields empty.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "台南市區南緣黃金海岸沙灘夕照與市燈同框（OSM 節點；海拔查無權威源誠實留空）；與既有 tw-142 安平漁人碼頭（港灣大魚裝置）題材錯位——本點為市郊沙灘線。（開放/營運狀態以現場公告為準。）",
+    "en": "Beach sunset with city lights behind, on Tainan's southern coastal edge (OSM node; elevation honestly left empty); disjoint from Anping wharf's harbour-art subject. (Opening/operating status follows on-site notices.)",
+    "ja": "台南南区の砂浜と夕日と街灯（OSM）。安平漁人碼頭とは題材が別。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-159-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "黃金海岸夕照",
+    "en": "Golden Coast sunset",
+    "ja": "黄金海岸の夕映え"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      120.1763,
+      22.93175
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-66 wave-2 admission web verification 2026-11-11 (OSM Nominatim 黃金海岸（台南南區，bicycle_rental 節點）；海拔查無權威源誠實留空; source URLs: https://www.openstreetmap.org/search?query=%E9%BB%83%E9%87%91%E6%B5%B7%E5%B2%B8%20%E5%8F%B0%E5%8D%97). Scoreless intake (owner ruling 2026-11-11): admission = verification + 5km subject-disjoint dedupe; score fields empty.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-159-P01-01",
+   "camera_context_id": "CZ-tw-159-P01-01",
+   "target_id": "SG-tw-159-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-66 wave-2 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-159-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 22.93175,
+   "lon": 120.1763,
+   "label_i18n": {
+    "zh-TW": "黃金海岸",
+    "en": "Golden Coast (South District, Tainan)",
+    "ja": "黃金海岸"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-159-P01-v1",
+  "status": "draft",
+  "genre_template": "sunset",
+  "template_version": "sunset-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-159-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "sunset_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-159-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "天文窗＝日落時刻 ±40 分（座標＋日期計算）。",
+     "en": "Astronomy window = sunset time +/- 40 minutes (from coordinates and date).",
+     "ja": "天文ウィンドウ＝日の入り時刻±40分（座標と日付から計算）。"
+    }
+   },
+   {
+    "id": "C-tw-159-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_low",
+    "operator": "lte",
+    "threshold": 55,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-159-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "太陽方位扇形的低雲直接擋日落；55% 允許塊狀雲——塊狀雲反而是上色主角（與 tw-036-P01 日出判據同構）。",
+     "en": "Low cloud in the solar azimuth sector blocks the setting sun directly; 55% still allows broken cloud, which paints the colour (mirrors tw-036-P01 sunrise logic).",
+     "ja": "太陽方位の扇形領域の低雲は沈む太陽を直接遮る。55%は塊状の雲を許容し、色を生む主役（tw-036-P01の日の出判準と同型）。"
+    },
+    "binding": {
+     "strategy": "nearest_gridpoint",
+     "gridpoint_selector": "sun_azimuth_sector"
+    }
+   },
+   {
+    "id": "C-tw-159-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_mid_and_high",
+    "operator": "between",
+    "threshold": [
+     20,
+     70
+    ],
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-159-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent+cloud_cover_high_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "中高雲是彩霞的染料：全晴只有金黃、全陰無色彩；20–70% 區間加分。指標由管線以 mid+high 求和推導。",
+     "en": "Mid and high cloud are the dyes of the sunset glow: clear sky gives only gold, overcast gives none; 20-70% scores. Derived by the pipeline as mid+high.",
+     "ja": "中高層雲は夕焼けの彩となる。快晴は金色のみ、全層雲は色彩なし。20〜70%で加点。mid+highの和として算出。"
+    }
+   },
+   {
+    "id": "C-tw-159-P01-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.3,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-159-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "拍攝受雨影響；0.3 mm/h 以下視為不受影響（與 tw-036-P01 相同門檻）。",
+     "en": "Rain interferes with shooting; below 0.3 mm/h is treated as not interfering (same threshold as tw-036-P01).",
+     "ja": "撮影は雨の影響を受ける。0.3mm/h未満は影響なしと扱う（tw-036-P01と同一閾値）。"
+    }
+   },
+   {
+    "id": "C-tw-159-P01-05",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.6,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-159-P01-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "適度霧霾散射強化紅橙色調，但 AOD > 0.6 時太陽盤面與地平線輪廓被吞沒（與 mountain_view 同一上限，依大氣透視同一物理）。",
+     "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
+     "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-159-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d66-web-huangjinhai-an-tainan"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-66 wave-2 scoreless admission (owner ruling 2026-11-11: verification + 5km subject-disjoint dedupe; NO rubric/AGLI scoring); coordinates/elevation web-verified 2026-11-11 (sources in camera derivation_method and data/v2/audits/cl-data-66_web_evidence.json); 查無權威源之海拔誠實留空 (null); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-66 Tier-A wave-2 intake (owner-list streams, scoreless 2026-11-11)",
+  "source_revision": "cl-data-66:huangjinhai-an-tainan",
+  "imported_at": "2026-11-11T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

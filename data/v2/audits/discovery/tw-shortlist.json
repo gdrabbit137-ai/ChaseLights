@@ -34,6 +34,47 @@
   },
   "candidates": [
     {
+      "id": "tw-beiguan-tide-park",
+      "name_i18n": {
+        "zh-TW": "北關海潮公園",
+        "en": "Beiguan Tide Park",
+        "ja": "北関海潮公園"
+      },
+      "prefecture": "Beiguan Tide Park",
+      "subjects": [
+        "coast",
+        "mountain"
+      ],
+      "rubric_v3": {
+        "composite_v3": null,
+        "status": "unscored（須補評：走 scenic_v3_candidates.py 同管線）"
+      },
+      "admits": false,
+      "weighted_total_v2_retired": 3,
+      "scenic_beauty_evidence": "s1=0；s2=0（東北角管理處場域頁非景觀分類）；s3=1：管理處介紹＋旅遊部落格攻略（≥2）→ 2+1=3",
+      "sources": [
+        "https://www.necoast-nsa.gov.tw/Attraction-Content.aspx?a=274",
+        "https://jatraveling.tw/blog/post/35028"
+      ],
+      "coords_approx": {
+        "lat": 24.793,
+        "lon": 121.875
+      },
+      "elev_m": 15,
+      "seasonal_window": {
+        "months": [
+          6,
+          7,
+          8,
+          9
+        ],
+        "note": "龜山島朝日夏季日出方位最佳；漲潮時段部分步道封閉"
+      },
+      "access_note": "步道短，漲潮封閉警示；礁岩區注意湧浪",
+      "safety_note": "漲潮封閉、湧浪勿近礁緣",
+      "differentiation_note": "龜山島朝日地質公園，宜蘭頭城段缺口"
+    },
+    {
       "id": "tw-weishui-hill",
       "name_i18n": {
         "zh-TW": "渭水之丘／櫻花陵園",
@@ -209,182 +250,6 @@
       "access_note": "車達步道約5分鐘；禁止攀爬懸空石台（ETtoday報導）",
       "safety_note": "懸空石台禁爬（官方規定）；晨霧時路面滑",
       "differentiation_note": "蘭陽平原琉璃光拍點，現有 catalog 宜蘭無此題材"
-    },
-    {
-      "id": "tw-qingtiangang",
-      "name_i18n": {
-        "zh-TW": "擎天崗草原",
-        "en": "Qingtiangang Grassland",
-        "ja": "擎天崗草原"
-      },
-      "prefecture": "Qingtiangang Grassland",
-      "subjects": [
-        "mountain",
-        "starlight",
-        "cloud_sea"
-      ],
-      "rubric_v3": {
-        "composite_v3": 2.0,
-        "visual_0_5": 2.75,
-        "cert_tier": 2,
-        "cert_evidence": "國家公園內遊憩區但無景觀級認證、攻略清單頻率不足",
-        "community_adj": 0,
-        "community_evidence": "無標章、瀏覽量普通或資料不完整（不負向校正）",
-        "composite_formula": "視覺2.75＋認證校正-0.75＋社群0",
-        "photos": [
-          {
-            "title": "File:擎天崗.JPG",
-            "url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/%E6%93%8E%E5%A4%A9%E5%B4%97.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/%E6%93%8E%E5%A4%A9%E5%B4%97.JPG/960px-%E6%93%8E%E5%A4%A9%E5%B4%97.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-            "w": 2048,
-            "h": 1536,
-            "source": "commons-search",
-            "query": "擎天崗草原",
-            "desc": "Cingtiangang Grassland in Yangmingshan, Taiwan",
-            "key": "File:擎天崗.JPG",
-            "label": "A",
-            "_valid": true,
-            "_subs": [
-              6,
-              6,
-              7,
-              5
-            ],
-            "_note": "草原步道",
-            "_reason": "",
-            "_photo_mean": 6.0
-          },
-          {
-            "title": "File:擎天崗2.JPG",
-            "url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/%E6%93%8E%E5%A4%A9%E5%B4%972.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-            "thumb": "https://upload.wikimedia.org/wikipedia/commons/2/2f/%E6%93%8E%E5%A4%A9%E5%B4%972.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-            "w": 720,
-            "h": 502,
-            "source": "commons-search",
-            "query": "擎天崗草原",
-            "desc": "Qingtiangang Grassland after heavy rain.",
-            "key": "File:擎天崗2.JPG",
-            "label": "B",
-            "_valid": true,
-            "_subs": [
-              6,
-              6,
-              6,
-              5
-            ],
-            "_note": "草坡遊客",
-            "_reason": "",
-            "_photo_mean": 5.75
-          },
-          {
-            "title": "File:擎天崗及大草原（陽明山牧場）.JPG",
-            "url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/%E6%93%8E%E5%A4%A9%E5%B4%97%E5%8F%8A%E5%A4%A7%E8%8D%89%E5%8E%9F%EF%BC%88%E9%99%BD%E6%98%8E%E5%B1%B1%E7%89%A7%E5%A0%B4%EF%BC%89.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/%E6%93%8E%E5%A4%A9%E5%B4%97%E5%8F%8A%E5%A4%A7%E8%8D%89%E5%8E%9F%EF%BC%88%E9%99%BD%E6%98%8E%E5%B1%B1%E7%89%A7%E5%A0%B4%EF%BC%89.JPG/960px-%E6%93%8E%E5%A4%A9%E5%B4%97%E5%8F%8A%E5%A4%A7%E8%8D%89%E5%8E%9F%EF%BC%88%E9%99%BD%E6%98%8E%E5%B1%B1%E7%89%A7%E5%A0%B4%EF%BC%89.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-            "w": 2048,
-            "h": 1536,
-            "source": "commons-search",
-            "query": "擎天崗草原",
-            "desc": "​擎天崗草原（陽明山牧場）及後方的擎天崗。",
-            "key": "File:擎天崗及大草原（陽明山牧場）.JPG",
-            "label": "C",
-            "_valid": true,
-            "_subs": [
-              4,
-              5,
-              4,
-              5
-            ],
-            "_note": "嵐霾山影",
-            "_reason": "",
-            "_photo_mean": 4.5
-          },
-          {
-            "title": "File:擎天崗大草原.jpg",
-            "url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg/960px-%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-            "w": 4160,
-            "h": 3120,
-            "source": "commons-search",
-            "query": "擎天崗草原",
-            "desc": "​擎天崗大草原一角。",
-            "key": "File:擎天崗大草原.jpg",
-            "label": "D",
-            "_valid": true,
-            "_subs": [
-              5,
-              6,
-              5,
-              5
-            ],
-            "_note": "石階草甸",
-            "_reason": "",
-            "_photo_mean": 5.25
-          },
-          {
-            "title": "File:陽明山國家公園的擎天崗大草原.jpg",
-            "url": "https://upload.wikimedia.org/wikipedia/commons/b/b4/%E9%99%BD%E6%98%8E%E5%B1%B1%E5%9C%8B%E5%AE%B6%E5%85%AC%E5%9C%92%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/%E9%99%BD%E6%98%8E%E5%B1%B1%E5%9C%8B%E5%AE%B6%E5%85%AC%E5%9C%92%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg/960px-%E9%99%BD%E6%98%8E%E5%B1%B1%E5%9C%8B%E5%AE%B6%E5%85%AC%E5%9C%92%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E5%A4%A7%E8%8D%89%E5%8E%9F.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-            "w": 4032,
-            "h": 3024,
-            "source": "commons-search",
-            "query": "擎天崗草原",
-            "desc": "​悠閒的牛牛們",
-            "key": "File:陽明山國家公園的擎天崗大草原.jpg",
-            "label": "E",
-            "_valid": false,
-            "_subs": null,
-            "_note": "",
-            "_reason": "牛隻特寫",
-            "_photo_mean": null
-          },
-          {
-            "title": "File:202506 早晨起霧的擎天崗草原 01.jpg",
-            "url": "https://upload.wikimedia.org/wikipedia/commons/3/3e/202506_%E6%97%A9%E6%99%A8%E8%B5%B7%E9%9C%A7%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E8%8D%89%E5%8E%9F_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-            "thumb": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/202506_%E6%97%A9%E6%99%A8%E8%B5%B7%E9%9C%A7%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E8%8D%89%E5%8E%9F_01.jpg/960px-202506_%E6%97%A9%E6%99%A8%E8%B5%B7%E9%9C%A7%E7%9A%84%E6%93%8E%E5%A4%A9%E5%B4%97%E8%8D%89%E5%8E%9F_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-            "w": 6192,
-            "h": 3870,
-            "source": "commons-search",
-            "query": "擎天崗草原",
-            "desc": "Qingtiangang grassland was appear convective fog in the morning in early summer",
-            "key": "File:202506 早晨起霧的擎天崗草原 01.jpg",
-            "label": "F",
-            "_valid": false,
-            "_subs": null,
-            "_note": "",
-            "_reason": "濃霧無景",
-            "_photo_mean": null
-          }
-        ],
-        "place_id": null,
-        "source": "candidate-supplementary",
-        "status": "scored"
-      },
-      "admits": false,
-      "weighted_total_v2_retired": 2,
-      "scenic_beauty_evidence": "s1=0；s2=0；s3=0：僅 threads（AI 生成帖，弱源）＋單篇陽明山部落格清單——攻略清單文出現頻率不足（dossier 已標註需官源補強）→ 2+0=2",
-      "sources": [
-        "https://www.threads.com/@meta.ai/post/DdGbOwmgmpb/",
-        "https://www.yangmingshanshui.com/website/news/yangmingshan-travel-itinerary/enjoying-the-moon-and-night-scene-location"
-      ],
-      "coords_approx": {
-        "lat": 25.1169,
-        "lon": 121.5549
-      },
-      "elev_m": 800,
-      "seasonal_window": {
-        "months": [
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
-        ],
-        "note": "銀河核心季4–9月；冬季東北風強且多雲"
-      },
-      "access_note": "陽明山園區24h開放，夜間無照明",
-      "safety_note": "夜間無照明、野牛群保持距離",
-      "differentiation_note": "大台北近郊銀河（光害打折）＋擎天崗雲海，與大屯山（5km外）題材錯位"
     }
   ],
   "below_line_candidates": [
@@ -392,14 +257,14 @@
       "id": "tw-weishui-hill",
       "zh": "渭水之丘／櫻花陵園",
       "v3": 3.0
-    },
-    {
-      "id": "tw-qingtiangang",
-      "zh": "擎天崗草原",
-      "v3": 2.0
     }
   ],
-  "unscored_candidates": [],
+  "unscored_candidates": [
+    {
+      "id": "tw-beiguan-tide-park",
+      "zh": "北關海潮公園"
+    }
+  ],
   "culled_candidates": [
     {
       "id": "tw-dashan-43k-cloudsea",
@@ -409,12 +274,12 @@
     {
       "id": "tw-cuifeng-lake",
       "zh": "翠峰湖環山步道觀景點",
-      "reason": "geographic conflict: 翠峰湖環山步道觀景點 at 0.0 km (<= 5.0 km), tag overlap ['forest', 'lake']"
+      "reason": "geographic conflict: 翠峰湖環山步道觀景點 at 0.0 km (<= 5.0 km), tag overlap ['forest', 'lake']; geographic conflict: 太平山森林遊樂區 at 1.9 km (<= 5.0 km), tag overlap ['forest']"
     },
     {
       "id": "tw-smangus",
       "zh": "司馬庫斯部落觀景點",
-      "reason": "geographic conflict: 司馬庫斯部落觀景點 at 0.0 km (<= 5.0 km), tag overlap ['mountain', 'starlight']"
+      "reason": "geographic conflict: 司馬庫斯部落觀景點 at 0.0 km (<= 5.0 km), tag overlap ['mountain', 'starlight']; geographic conflict: 秀巒軍艦岩／控溪吊橋 at 4.6 km (<= 5.0 km), tag overlap ['forest', 'mountain']"
     },
     {
       "id": "tw-jialulan-coast",
@@ -427,14 +292,14 @@
       "reason": "geographic conflict: 塔塔加夫妻樹／鹿林山觀景點 at 1.2 km (<= 5.0 km), tag overlap ['mountain', 'starlight']"
     },
     {
-      "id": "tw-beiguan-tide-park",
-      "zh": "北關海潮公園",
-      "reason": "geographic conflict: 北關海潮公園 at 0.0 km (<= 5.0 km), tag overlap ['coast', 'mountain']"
-    },
-    {
       "id": "tw-fushoushan-farm",
       "zh": "福壽山農場觀景點",
       "reason": "geographic conflict: 福壽山農場觀景點 at 0.0 km (<= 5.0 km), tag overlap ['cloud_sea', 'starlight']"
+    },
+    {
+      "id": "tw-qingtiangang",
+      "zh": "擎天崗草原",
+      "reason": "geographic conflict: 碧山巖 at 4.0 km (<= 5.0 km), tag overlap ['mountain']"
     },
     {
       "id": "tw-dongju-lighthouse",
@@ -454,7 +319,7 @@
     {
       "id": "tw-wangyou-forest",
       "zh": "忘憂森林",
-      "reason": "geographic conflict: 杉林溪 at 2.2 km (<= 5.0 km), tag overlap ['forest', 'starlight']; geographic conflict: 忘憂森林 at 0.0 km (<= 5.0 km), tag overlap ['forest']"
+      "reason": "geographic conflict: 杉林溪 at 2.2 km (<= 5.0 km), tag overlap ['forest', 'starlight']; geographic conflict: 忘憂森林 at 0.0 km (<= 5.0 km), tag overlap ['forest']; geographic conflict: 大崙山觀光茶園/銀杏森林 at 4.4 km (<= 5.0 km), tag overlap ['starlight']"
     },
     {
       "id": "tw-qingjing-farm",

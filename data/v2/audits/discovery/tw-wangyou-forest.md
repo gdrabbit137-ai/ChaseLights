@@ -27,5 +27,6 @@
 
 - geographic conflict: 杉林溪 at 2.2 km (<= 5.0 km), tag overlap ['forest', 'starlight']
 - geographic conflict: 忘憂森林 at 0.0 km (<= 5.0 km), tag overlap ['forest']
+- geographic conflict: 大崙山觀光茶園/銀杏森林 at 4.4 km (<= 5.0 km), tag overlap ['starlight']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

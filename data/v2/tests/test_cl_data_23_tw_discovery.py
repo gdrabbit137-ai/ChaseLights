@@ -146,8 +146,8 @@ class TestCLData23TWDiscoveryShortlist(unittest.TestCase):
         places = [p["place_id"] for p in self.catalog["places"]]
         for c in self.shortlist["candidates"]:
             self.assertNotIn(c["id"], places)
-        self.assertEqual(len(self.catalog["places"]), 357,
-                         "catalog place count pinned (CL-INT-135 merged re-anchor: 344 active + 13 CL-DATA-64 on the retired tree)")
+        self.assertEqual(len(self.catalog["places"]), 433,
+                         "catalog place count pinned (CL-INT-135 merged re-anchor: 344 active + 13 CL-DATA-64 + 76 CL-DATA-66 wave1-5 scoreless intake)")
 
     def test_pipeline_tool_rerun_is_deterministic(self):
         import subprocess
@@ -162,7 +162,7 @@ class TestCLData23TWDiscoveryShortlist(unittest.TestCase):
         # rubric v3 rerun: the three kept-tw candidates now score below the
         # 3.8 line on scenic v3; the mechanical dedupe cull is unchanged.
         self.assertEqual(summary["kept"], 0)
-        self.assertEqual(summary["below_line"], 2)
+        self.assertEqual(summary["below_line"], 1)
         self.assertEqual(summary["culled"], 12)
 
 
