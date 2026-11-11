@@ -85,3 +85,12 @@ main,main section,.brand>div,.research-heading h2{min-width:0}
 .topic-live-eval .live-eval-table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
 .topic-live-eval .live-eval-table td,.topic-live-eval .live-eval-table th{border-top:1px solid var(--line,#3a4a5a);padding:4px 8px;text-align:left}
 .topic-live-eval .live-stamp{font-weight:600;margin:6px 0}
+
+/* CL-APP-02: shell member sign-in entry + pull-to-refresh indicator.
+   Visibility rules are :not([hidden])-guarded so UA [hidden] hiding always wins. */
+.member-area{display:flex;gap:8px;align-items:center}
+.login-link:not([hidden]){display:inline-flex;border:1px solid #6dc9c3;color:#91e7d7;border-radius:8px;padding:8px 12px;text-decoration:none;font-size:13px;white-space:nowrap}
+#login-toggle:not([hidden]){display:inline-flex;background:#75d8ca;color:#092326;border:0;border-radius:8px;padding:9px 14px;font-weight:750;cursor:pointer;white-space:nowrap}
+.member-name:not([hidden]){display:inline-block;color:#c9dcea;font-size:13px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#pull-indicator:not([hidden]){display:block;position:sticky;top:0;z-index:9;text-align:center;font-size:12px;color:#8ce4d7;background:#111d2c;padding:6px 10px;border-bottom:1px solid #26374b}
+@media(max-width:700px){.member-name:not([hidden]){max-width:110px}.masthead{flex-wrap:wrap}}
