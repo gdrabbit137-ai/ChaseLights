@@ -1048,8 +1048,23 @@
         legacyFavorites=legacyFavorites.filter(name=>!names.has(name));
         persistLegacyFavorites();
       }
+      // CL-UI-55: the card star is cloud-backed (/api/v1/favorites). The local
+      // list above is the fallback — assets/favorites-client.js pushes the
+      // toggle to the API (member session or anonymous device id) and, on
+      // failure, shows the trilingual offline notice while the local list
+      // stands. Cloud merges arrive back via the chaselights:favorites event.
+      if(window.ChaseLightsFavorites)window.ChaseLightsFavorites.toggle(id,!removing);
       filterAndRender();
     }
+    // CL-UI-55: merged cloud favorites (login or anonymous device id) — ids
+    // unknown locally are adopted so the 我的最愛 filter renders the cloud list.
+    document.addEventListener('chaselights:favorites',e=>{
+      const ids=e&&e.detail&&e.detail.ids;
+      if(!Array.isArray(ids))return;
+      let changed=false;
+      for(const id of ids)if(typeof id==='string'&&id&&!favorites.includes(id)){favorites.push(id);changed=true;}
+      if(changed){localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));filterAndRender();}
+    });
 
     async function cacheMatch(url){try{if(!('caches'in window))return null;const c=await caches.open(CACHE_NAME);const r=await c.match(url);if(!r)return null;const j=await r.json();return schemaSupported(j)?j:null;}catch{return null;}}
     async function fetchAndCache(url,signal,cacheKey=url){const opts={cache:'no-cache'};if(signal)opts.signal=signal;const r=await fetch(url,opts);if(!r.ok)throw new Error(`HTTP ${r.status}`);const clone=r.clone();try{if('caches'in window){const c=await caches.open(CACHE_NAME);await c.put(cacheKey,clone);}}catch{}const j=await r.json();if(!schemaSupported(j))throw new Error(`Schema mismatch: expected ${MIN_SCHEMA_VERSION}-${MAX_SCHEMA_VERSION}, got ${j?.schema_version??'missing'}`);return j;}

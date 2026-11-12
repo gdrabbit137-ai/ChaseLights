@@ -140,8 +140,17 @@
     return !menu.hidden && menu.classList.contains('ma-open');
   }
 
+  // CL-UI-55: the favorites module subscribes to this auth state (login =>
+  // cloud favorites re-sync after the server merges the anonymous device list).
+  function broadcastAuth(member) {
+    try {
+      document.dispatchEvent(new CustomEvent('chaselights:auth', { detail: { member: member || null } }));
+    } catch (e) { /* old browsers — favorites still boot-time sync */ }
+  }
+
   function render(member) {
     if (!area) return;
+    broadcastAuth(member);
     var signed = Boolean(member);
     var menuOpen = !signed && area.getAttribute('data-open') === 'true';
     setShown(toggle, !signed);
