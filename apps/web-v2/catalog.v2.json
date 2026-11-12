@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "ddd63f4aa5fe3cb5643d691c039fc86428b2aa21",
-  "source_index_revision": "sha256:84ca8cecc129dabb56d312b0843e020813b69dba02ad20debe3cfe1049b7e857",
+  "source_index_commit_sha": "739540fae1901f856bf60a0315d0407fce1e55f0",
+  "source_index_revision": "sha256:d07522f0f24a346d7a0ce79f5f4a40c7bcbf467deaf89f4f77210e5cf323bce0",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
@@ -295,15 +295,15 @@
       "revision": 2
     },
     "jp-034-P01": {
-      "source_commit_sha": "e261cc9817e720d852bd5aee9b1b555edd253d8c",
+      "source_commit_sha": "c9bf04c40acd8b023322efbe3e034c10517c733c",
       "source_path": "data/v2/opportunities/jp-034-P01.json",
-      "source_blob_sha": "cb45adc1aa733e9edbb2a28bdc381f4de567f8f5",
+      "source_blob_sha": "032466e43fa270a9a3ad2d2595fd9fbf19d94602",
       "revision": 2
     },
     "jp-034-P02": {
-      "source_commit_sha": "4e51267ba7b7130d28efa41e50d2ef3d36de81a8",
+      "source_commit_sha": "c9bf04c40acd8b023322efbe3e034c10517c733c",
       "source_path": "data/v2/opportunities/jp-034-P02.json",
-      "source_blob_sha": "387e5d4dfb847b34253ec7cfee3394a6536307fc",
+      "source_blob_sha": "5c5967798187b1d7e55f36ed61de90e92824d014",
       "revision": 1
     },
     "jp-035-P01": {
@@ -331,9 +331,9 @@
       "revision": 3
     },
     "jp-036-P03": {
-      "source_commit_sha": "1bf8e398e20ebbc76be1157d98bd8dc188216746",
+      "source_commit_sha": "c9bf04c40acd8b023322efbe3e034c10517c733c",
       "source_path": "data/v2/opportunities/jp-036-P03.json",
-      "source_blob_sha": "1904e775466ce118e5e7a5998393a84df8682fac",
+      "source_blob_sha": "090e3e21875e8cee6e7f7f29c5acecce7eb7b264",
       "revision": 3
     },
     "jp-037-P01": {
@@ -487,9 +487,9 @@
       "revision": 2
     },
     "jp-057-P01": {
-      "source_commit_sha": "dda29699705dcdf9ced993bca06316e1085a15e9",
+      "source_commit_sha": "c9bf04c40acd8b023322efbe3e034c10517c733c",
       "source_path": "data/v2/opportunities/jp-057-P01.json",
-      "source_blob_sha": "69d7632ab23ba3d8b878dcb55ad931f785153046",
+      "source_blob_sha": "7508d92e0a83171c85add1dcd39645314f72bc32",
       "revision": 2
     },
     "jp-058-P01": {
@@ -697,9 +697,9 @@
       "revision": 1
     },
     "jp-090-P01": {
-      "source_commit_sha": "c507251b3e3fb09d6a5bd16abe04a8beb2aee7ed",
+      "source_commit_sha": "c9bf04c40acd8b023322efbe3e034c10517c733c",
       "source_path": "data/v2/opportunities/jp-090-P01.json",
-      "source_blob_sha": "4ac402e2fcca175509e2d1c0aef7ca9418c5afa9",
+      "source_blob_sha": "bb2659e4bf609c3f5e0d316fc0cc4f4f1f0880a7",
       "revision": 1
     },
     "jp-091-P01": {
@@ -29573,6 +29573,39 @@
               "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
               "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
             }
+          },
+          {
+            "id": "C-jp-034-P01-VW1",
+            "role": "REQUIRED",
+            "domain": "SEASON_TIME",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "venue_open_window",
+            "operator": "between",
+            "threshold": [
+              "08:00",
+              "18:00"
+            ],
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-034-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "evidence_review",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "場區營業時間窗（CL-DATA-68 round16 挑戰者成立質疑）：小時桶起始時刻須落在開園窗 [08:00, 18:00) 內，開園前（07:00 桶）不可達即不成立。官方 11/1–12/31 為 8:00–20:00（最終入園 19:40，glover-garden.jp/guide），本契約沿用 access_notes 已宣告的全年保守基準 08:00–18:00（特定日期另有延長開園，不把延長視為恒常）。",
+              "en": "Venue operating window (CL-DATA-68 round16 challenger finding): an hour bucket qualifies only when its start sits inside [08:00, 18:00) local; pre-opening hours (the 07:00 bucket) are unreachable and never qualify. Official hours for Nov 1 - Dec 31 are 8:00-20:00 (last entry 19:40, glover-garden.jp/guide); this contract keeps the all-year conservative baseline 08:00-18:00 already declared in access_notes (extended openings are date-specific and never treated as permanent).",
+              "ja": "施設営業時間窓（CL-DATA-68 round16 チャレンジャー指摘）：時間バケットの開始が現地時刻 [08:00, 18:00) 内にあるときのみ成立。開園前（07:00 バケット）は到達不可のため不成立。公式は11/1〜12/31 が 8:00〜20:00（最終入園19:40、glover-garden.jp/guide）。本契約は access_notes に既に宣言された通年の保守基準 08:00〜18:00 を採用（夜間延長は日付限定で恒常扱いしない）。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-12 CL-DATA-68：round16 挑戰者報告 jp-034-P01 成立質疑（07:00 早於開園，高）修復；評估層 venue_open_window 為逐小時確定性判定（桶起始 ∈ 窗）。",
+              "en": "2026-11-12 CL-DATA-68: fix for the round16 challenger finding on jp-034-P01 (07:00 precedes the 8:00 opening, high); the evaluator judges venue_open_window deterministically per hour bucket (bucket start inside the window).",
+              "ja": "2026-11-12 CL-DATA-68：round16 チャレンジャー指摘（jp-034-P01 07:00は開園前・高）の修正。評価層は venue_open_window をバケット単位で決定的に判定。"
+            }
           }
         ]
       },
@@ -29607,14 +29640,14 @@
       "revision": 1,
       "lifecycle_status": "draft",
       "name_i18n": {
-        "zh-TW": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景",
-        "en": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景",
-        "ja": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景"
+        "zh-TW": "哥拉巴園・洋館夜間燈光與長崎夜景",
+        "en": "哥拉巴園・洋館夜間燈光與長崎夜景",
+        "ja": "哥拉巴園・洋館夜間燈光與長崎夜景"
       },
       "description_i18n": {
-        "zh-TW": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景（V1 最佳時段：僅限2026官方夜間開園／Lantern Night有效日期，日落後至當日官方閉園前；V1 季節：2026官方公告：4/1–5/31、7/17–10/11、10/12–12/31（部分縮短／取消日依官方公告）。V1 遷移骨架；內容待第二輪研究完善。）",
-        "en": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景 (V1 best time: 僅限2026官方夜間開園／Lantern Night有效日期，日落後至當日官方閉園前; V1 season: 2026官方公告：4/1–5/31、7/17–10/11、10/12–12/31（部分縮短／取消日依官方公告） V1 migration skeleton; content to be refined in round 2.)",
-        "ja": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景（V1ベスト時間帯: 僅限2026官方夜間開園／Lantern Night有效日期，日落後至當日官方閉園前；V1季節: 2026官方公告：4/1–5/31、7/17–10/11、10/12–12/31（部分縮短／取消日依官方公告）。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+        "zh-TW": "哥拉巴園・洋館夜間燈光與長崎夜景（V1 最佳時段：僅限2026官方夜間開園有效日期，日落後至當日官方閉園前。V1 季節：2026官方公告：4/1–5/31、7/17–10/11、10/12–12/31（部分縮短／取消日依官方公告）。題材語義修正（CL-DATA-68 round16）：舊題名「2026 Lantern Night」屬事件錯置——長崎ランタンフェスティバル為舊正月活動，2026 年於 2/6–2/23 舉辦，11 月窗內不存在；本題材僅指官方夜間開園日的洋館燈光，活動行事曆成立與否由 seasonal_state 誠實 propagate unknown。V1 遷移骨架；內容待第二輪研究完善。）",
+        "en": "哥拉巴園・洋館夜間燈光與長崎夜景 (V1 best time: 僅限2026官方夜間開園有效日期，日落後至當日官方閉園前. V1 season: 2026官方公告：4/1–5/31、7/17–10/11、10/12–12/31（部分縮短／取消日依官方公告） Subject semantics corrected (CL-DATA-68 round16): the old title \"2026 Lantern Night\" was an event misplacement - the Nagasaki Lantern Festival is a Lunar-New-Year event held 2026-02-06 to 02-23 and does not exist in the November window; this subject means the Western-house night lighting on officially announced night-opening dates only, with the event calendar judged honestly via seasonal_state (propagate unknown). V1 migration skeleton; content to be refined in round 2.)",
+        "ja": "哥拉巴園・洋館夜間燈光與長崎夜景（V1ベスト時間帯: 僅限2026官方夜間開園有效日期，日落後至當日官方閉園前。V1季節: 2026官方公告：4/1–5/31、7/17–10/11、10/12–12/31（部分縮短／取消日依官方公告）。題材意味の修正（CL-DATA-68 round16）：旧題名「2026 Lantern Night」はイベント錯置——長崎ランタンフェスティバルは旧正月行事で、2026年は2/6〜2/23開催、11月の窓には存在しない。本題材は公式夜間開園日の洋館照明のみを指し、イベントカレンダーの成立は seasonal_state が誠実にunknownを伝播。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
       },
       "camera_contexts": [
         {
@@ -29655,9 +29688,9 @@
           "id": "SG-jp-034-P02-01",
           "kind": "multi_component",
           "name_i18n": {
-            "zh-TW": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景",
-            "en": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景",
-            "ja": "哥拉巴園・2026 Lantern Night／洋館燈光與長崎夜景"
+            "zh-TW": "哥拉巴園・洋館夜間燈光與長崎夜景",
+            "en": "哥拉巴園・洋館夜間燈光與長崎夜景",
+            "ja": "哥拉巴園・洋館夜間燈光與長崎夜景"
           },
           "geometry": {
             "kind": "point",
@@ -31170,6 +31203,39 @@
               "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
               "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
               "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
+            }
+          },
+          {
+            "id": "C-jp-036-P03-VW1",
+            "role": "REQUIRED",
+            "domain": "SEASON_TIME",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "venue_open_window",
+            "operator": "between",
+            "threshold": [
+              "08:30",
+              "17:00"
+            ],
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-036-P03-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "evidence_review",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "貸しボート營運窗（CL-DATA-68 round16 挑戰者成立質疑）：划船視角只有在租船營運時可達——官方貸しボート 8:30–17:00（最終受付 16:30，pmiyazaki.com/takachiho；需事前預約）。小時桶起始須落在 [08:30, 17:00) 內：07:00/08:00 桶（開業前）不成立；16:00 桶仍在最終受付前。桶級近似：受付 16:30 後不再受理，契約不表達日內分鐘級規則。",
+              "en": "Rental-boat operating window (CL-DATA-68 round16 challenger finding): the rowing viewpoint is reachable only while the rental boats run - officially 8:30-17:00 with final reception 16:30 (pmiyazaki.com/takachiho; advance reservation required). An hour bucket qualifies only when its start sits inside [08:30, 17:00) local: the 07:00/08:00 buckets (before opening) never qualify; the 16:00 bucket still precedes final reception. Bucket-level approximation: reception ends 16:30 and the contract does not express sub-hour daily rules.",
+              "ja": "貸しボート営業窓（CL-DATA-68 round16 チャレンジャー指摘）：舟からの眺めは貸しボート営業中のみ到達可能——公式は 8:30〜17:00、最終受付16:30（pmiyazaki.com/takachiho。事前予約制）。バケット開始が現地時刻 [08:30, 17:00) 内のときのみ成立：07:00/08:00 バケット（営業前）は不成立、16:00 バケットは最終受付前。バケット級の近似：受付終了16:30以降の分単位規則は契約では表現しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-12 CL-DATA-68：round16 挑戰者報告 jp-036-P03 成立質疑（07:00–08:00 早於貸船 8:30 營業，中）修復。P01（岸上步行）不受此窗限制，不動。",
+              "en": "2026-11-12 CL-DATA-68: fix for the round16 challenger finding on jp-036-P03 (the 07:00-08:00 hours precede the 8:30 boat opening, mid). P01 (on-foot walkway) is not bound by this window and is left unchanged.",
+              "ja": "2026-11-12 CL-DATA-68：round16 チャレンジャー指摘（jp-036-P03 07:00〜08:00は貸船営業8:30前・中）の修正。P01（遊歩道）はこの窓の対象外。"
             }
           }
         ]
@@ -38921,6 +38987,39 @@
               "zh-TW": "時間窗＝整小時太陽仰角 ≤ −6°（民用暮光後）。夜間光雕主體需要黑暗天空；白天時段即使天氣全過也不成立。",
               "en": "Time window = the whole hour bucket with sun elevation <= -6 deg (after civil dusk). A night-illumination subject needs a dark sky; a daytime hour cannot qualify even if every weather condition passes.",
               "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。夜間ライトアップの主題には暗い空が必要で、昼間は気象条件が全て通過しても成立しない。"
+            }
+          },
+          {
+            "id": "C-jp-057-P01-VW1",
+            "role": "REQUIRED",
+            "domain": "SEASON_TIME",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "venue_open_window",
+            "operator": "between",
+            "threshold": [
+              "09:00",
+              "21:00"
+            ],
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-057-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "evidence_review",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "纜車營運窗（CL-DATA-68 round16 挑戰者成立質疑）：依靠長崎ロープウェイ的訪客僅能在營運窗內上山——9:00–22:00、上行最終 21:00（スロープカー 9:00–22:00；konomachi-note.jp、inasayama.info）。小時桶起始須落在 [09:00, 21:00) 內：21:00 後與 00:00–05:00 桶對纜車使用者不可達，一律不成立。已知限制：土日祝 18:00–22:00 一般車輛禁入屬日別規則，現行條件系統不支援，本窗僅夾到纜車窗（設計缺口記於 data/v2/audits/design-gaps/round16.md）。",
+              "en": "Ropeway operating window (CL-DATA-68 round16 challenger finding): a ropeway-dependent visitor can ascend only within the operating window - Nagasaki Ropeway runs 9:00-22:00 with the last uphill car at 21:00 (slope car 9:00-22:00; konomachi-note.jp, inasayama.info). An hour bucket qualifies only when its start sits inside [09:00, 21:00) local: the 21:00+ and 00:00-05:00 buckets are unreachable by ropeway and never qualify. Known limitation: the Sat/Sun/holiday 18:00-22:00 private-vehicle ban is a day-class rule the current condition system cannot express; this window clamps to the ropeway only (recorded as a design gap in data/v2/audits/design-gaps/round16.md).",
+              "ja": "ロープウェイ営業窓（CL-DATA-68 round16 チャレンジャー指摘）：ロープウェイ利用者の登頂は営業窓内のみ——長崎ロープウェイ 9:00〜22:00、上り最終21:00（スロープカー 9:00〜22:00。konomachi-note.jp、inasayama.info）。バケット開始が現地時刻 [09:00, 21:00) 内のときのみ成立：21時以降と 00:00〜05:00 のバケットはロープウェイ利用では到達不可。既知の限界：土日祝 18:00〜22:00 の一般車輛進入禁止は日別規則で現行条件系では表現できない。本窓はロープウェイ窓のみに制限（設計ギャップは data/v2/audits/design-gaps/round16.md に記録）。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-12 CL-DATA-68：round16 挑戰者報告 jp-057-P01 成立質疑（22:00–23:00 與纜車末班上行 21:00 矛盾，中）修復；依票內指示夾進纜車營運窗。",
+              "en": "2026-11-12 CL-DATA-68: fix for the round16 challenger finding on jp-057-P01 (the 22:00-23:00 hours contradict the ropeway's 21:00 last uphill car, mid); clamped into the ropeway operating window per the ticket directive.",
+              "ja": "2026-11-12 CL-DATA-68：round16 チャレンジャー指摘（jp-057-P01 22:00〜23:00はロープウェイ最終21:00と矛盾・中）の修正。チケット指示によりロープウェイ営業窓へ制限。"
             }
           }
         ]
@@ -48800,9 +48899,9 @@
         "ja": "南十字星と夜の海"
       },
       "description_i18n": {
-        "zh-TW": "日本唯一可見南十字星全貌的有人島（ja.wikipedia；3–6月為主觀測季——資訊性季節語義，天空條件契約全年成立）；日本最南端有人島礁海景。",
-        "en": "The only inhabited Japanese island where the full Southern Cross is visible (ja.wikipedia; Mar-Jun is the main observation season - informational, the sky-condition contract holds year-round); Japan's southernmost inhabited island.",
-        "ja": "南十字星の全体が見られる唯一の有人島（ja.wikipedia；3〜6月が主な観測季——情報的な季節語義、空の条件契約は通年）。"
+        "zh-TW": "日本唯一可見南十字星全貌的有人島（ja.wikipedia；12–6月為觀測季——季節窗條件治理成立與否，天空條件契約僅在季節窗內評估）；日本最南端有人島礁海景。",
+        "en": "The only inhabited Japanese island where the full Southern Cross is visible (ja.wikipedia; Dec-Jun is the observation season - a season-window condition governs whether the subject qualifies, the sky-condition contract is evaluated only inside the season); Japan's southernmost inhabited island.",
+        "ja": "南十字星の全体が見られる唯一の有人島（ja.wikipedia；12〜6月が観測シーズン——季節窓条件が成立を支配し、空の条件契約は季節窓内でのみ評価）。"
       },
       "camera_contexts": [
         {
@@ -48826,9 +48925,9 @@
           "verification_status": "provisional",
           "evidence_refs": [],
           "access_notes_i18n": {
-            "zh-TW": "日本唯一可見南十字星全貌的有人島（ja.wikipedia；3–6月為主觀測季——資訊性季節語義，天空條件契約全年成立）；日本最南端有人島礁海景。（開放/營運狀態以現場公告為準。）",
-            "en": "The only inhabited Japanese island where the full Southern Cross is visible (ja.wikipedia; Mar-Jun is the main observation season - informational, the sky-condition contract holds year-round); Japan's southernmost inhabited island. (Opening/operating status follows on-site notices.)",
-            "ja": "南十字星の全体が見られる唯一の有人島（ja.wikipedia；3〜6月が主な観測季——情報的な季節語義、空の条件契約は通年）。（開放・営業状況は現地の案内に従う。）"
+            "zh-TW": "日本唯一可見南十字星全貌的有人島（ja.wikipedia；12–6月為觀測季——季節窗條件治理成立與否，天空條件契約僅在季節窗內評估）；日本最南端有人島礁海景。（開放/營運狀態以現場公告為準。）",
+            "en": "The only inhabited Japanese island where the full Southern Cross is visible (ja.wikipedia; Dec-Jun is the observation season - a season-window condition governs whether the subject qualifies, the sky-condition contract is evaluated only inside the season); Japan's southernmost inhabited island. (Opening/operating status follows on-site notices.)",
+            "ja": "南十字星の全体が見られる唯一の有人島（ja.wikipedia；12〜6月が観測シーズン——季節窓条件が成立を支配し、空の条件契約は季節窓内でのみ評価）。（開放・営業状況は現地の案内に従う。）"
           },
           "safety_notes_i18n": {
             "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
@@ -49119,6 +49218,36 @@
             "modifier_activation": {
               "when_condition": "C-jp-022-P03-06",
               "mode": "when_not_met"
+            }
+          },
+          {
+            "id": "C-jp-090-P01-S1",
+            "role": "REQUIRED",
+            "domain": "SEASON_TIME",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "seasonal_state",
+            "operator": "eq",
+            "threshold": "window_open",
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-090-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "南十字星（Crux）季節窗（CL-DATA-68 round16 挑戰者成立質疑）：波照間的南十字星觀測季為 12–6 月（例年窗 12-01–06-30；nap-camp 與 tabirai 一致：7–11 月夜間 Crux 沉於地平線下），11 月物理上不可見。目前無季節/事件資料源，誠實 propagate unknown——窗外的日子不會給出任何 good_hours。附註：galactic_core_altitude 僅治理 milky_way 圖層（銀河核心與 Crux 是不同天體、季節相位不同），本季節窗才是題材成立的主導條件。",
+              "en": "Southern Cross (Crux) season window (CL-DATA-68 round16 challenger finding): at Hateruma the Crux observation season is Dec-Jun (typical window 12-01-06-30; nap-camp and tabirai agree: from July to November Crux stays below the horizon at night), so November is physically impossible. No live season/event source exists, so this honestly propagates unknown - out-of-season days never emit good_hours. Note: galactic_core_altitude governs only the milky_way layer (the galactic core and Crux are different objects with different seasonal phases); this season window is the governing condition for the subject.",
+              "ja": "南十字星（Crux）の季節窓（CL-DATA-68 round16 チャレンジャー指摘）：波照間での南十字星の観測シーズンは12〜6月（例年窓 12-01〜06-30。nap-camp・tabirai ともに一致：7〜11月は夜間Cruxは地平線下）。11月は物理的に見えない。季節・イベントのライブソースが無いため誠実にunknownを伝播する——シーズン外の日は good_hours を出さない。補足：galactic_core_altitude は milky_way レイヤーのみを支配し（銀河中心とCruxは別天体・季節位相も異なる）、本季節窓が題材成立の主導条件。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-12 CL-DATA-68：round16 挑戰者報告 jp-090-P01 成立質疑（季節錯置，高）修復；例年窗 12-01–06-30 採 challenger 引證（nap-camp.com/mag/112850、tabirai.net 0000552）。",
+              "en": "2026-11-12 CL-DATA-68: fix for the round16 challenger finding on jp-090-P01 (seasonal misplacement, high); typical window 12-01-06-30 per challenger evidence (nap-camp.com/mag/112850, tabirai.net 0000552).",
+              "ja": "2026-11-12 CL-DATA-68：round16 チャレンジャー指摘（jp-090-P01 季節錯置・高）の修正。例年窓 12-01〜06-30 は挑戦者証拠（nap-camp.com/mag/112850、tabirai.net 0000552）による。"
             }
           }
         ]
