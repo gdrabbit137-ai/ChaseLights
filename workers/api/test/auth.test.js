@@ -40,8 +40,25 @@ export function makeEnv(opts = {}) {
                 }
               }
             } else if (/DELETE FROM favorites/.test(sql)) {
-              const k = keyFor(null, [args[0], args[1]]);
-              if (tables.favorites.has(k)) { tables.favorites.delete(k); meta.changes = 1; }
+              if (args.length === 1) {
+                // CL-UI-57 merge cleanup: delete every row keyed to one user id
+                for (const k of [...tables.favorites]) if (k.split("|")[0] === args[0]) { tables.favorites.delete(k); meta.changes++; }
+              } else {
+                const k = keyFor(null, [args[0], args[1]]);
+                if (tables.favorites.has(k)) { tables.favorites.delete(k); meta.changes = 1; }
+              }
+            } else if (/DELETE FROM notify_rules/.test(sql)) {
+              if (args.length === 1) {
+                for (const k of [...tables.notify_rules]) if (k.split("|")[0] === args[0]) { tables.notify_rules.delete(k); meta.changes++; }
+              }
+            } else if (/UPDATE users SET/.test(sql)) {
+              // CL-UI-57 profile update: [display_name, profile_json, device_id]
+              const row = tables.users.get(args[2]);
+              if (row) {
+                if (args[0] !== undefined) row.display_name = args[0];
+                row.profile_json = args[1] ?? null;
+                meta.changes = 1;
+              }
             } else if (/INSERT INTO auth_states/.test(sql)) {
               const [state, payload] = args;
               if (!tables.auth_states.has(state)) { tables.auth_states.set(state, { state, payload, created_at: new Date().toISOString().replace("T", " ").slice(0, 19) }); meta.changes = 1; }
@@ -320,4 +337,83 @@ test("self-heal: /auth/me re-materializes users row for valid JWT with no row", 
   const body = await me.json();
   assert.equal(body.user.provider, "line");
   assert.equal(body.user.providerUserId, "ghost");
+});
+
+// --- CL-UI-57: favorites isolation across logout and account switch ----------
+test("CL-UI-57 favorites isolation: merge leaves no anonymous residue; logout shows the empty device list; account B never sees A's favorites", async () => {
+  const { env, tables } = makeEnv({ AUTH_MOCK: "1" });
+  const A = "p:line:acct-a", B = "p:line:acct-b", DEV = "dev-device-57";
+
+  // Account A already faved 大屯山-equivalent (tw-001) directly on the account.
+  await env.DB.prepare("INSERT INTO favorites").bind(A, "tw-001").run();
+  // The anonymous device also faved tw-001 (the merge conflict case) + tw-002.
+  await env.DB.prepare("INSERT INTO favorites").bind(DEV, "tw-001").run();
+  await env.DB.prepare("INSERT INTO favorites").bind(DEV, "tw-002").run();
+
+  // Login as A with the device merge.
+  const loginA = await worker.fetch(req(`/auth/mock/start?provider=line&user=acct-a&merge=${DEV}`), env, {});
+  const tokA = (await loginA.json()).accessToken;
+  assert.ok([...tables.favorites].some(k => k.split("|")[0] === A && k.split("|")[1] === "tw-002"));
+
+  // CL-UI-57 core: NO residue stays under the anonymous device id, not even
+  // the conflicting tw-001 row that UPDATE OR IGNORE skipped.
+  assert.ok(![...tables.favorites].some(k => k.split("|")[0] === DEV), "anonymous device rows must be fully cleaned after merge");
+
+  // After logout (no cookie/Bearer), the device id resolves to the anonymous
+  // list — which is now empty, never A's favorites.
+  const anonAfterLogout = await worker.fetch(req(`/favorites?userId=${DEV}`), env, {});
+  assert.deepEqual((await anonAfterLogout.json()).favorites, []);
+
+  // Account B on the same browser sees only its own favorites.
+  const loginB = await worker.fetch(req(`/auth/mock/start?provider=line&user=acct-b&merge=${DEV}`), env, {});
+  const tokB = (await loginB.json()).accessToken;
+  const favsB = await worker.fetch(req("/favorites", { headers: { Authorization: `Bearer ${tokB}` } }), env, {});
+  const listB = (await favsB.json()).favorites.map(f => f.place_id);
+  assert.ok(!listB.includes("tw-001") && !listB.includes("tw-002"), "account B must not inherit account A's favorites");
+
+  // A still sees its own merged list.
+  const favsA = await worker.fetch(req("/favorites", { headers: { Authorization: `Bearer ${tokA}` } }), env, {});
+  assert.deepEqual((await favsA.json()).favorites.map(f => f.place_id).sort(), ["tw-001", "tw-002"]);
+});
+
+// --- CL-UI-57: member profile editing (PATCH /auth/profile) -------------------
+test("CL-UI-57 profile: PATCH updates display_name + optional profile fields; /auth/me returns them; anonymous is 401", async () => {
+  const { env } = makeEnv({ AUTH_MOCK: "1" });
+  const anon = await worker.fetch(req("/auth/profile", { method: "PATCH", body: JSON.stringify({ displayName: "X" }) }), env, {});
+  assert.equal(anon.status, 401);
+
+  const login = await worker.fetch(req("/auth/mock/start?provider=line&user=profer&name=Profer"), env, {});
+  const tok = (await login.json()).accessToken;
+  const auth = { Authorization: `Bearer ${tok}` };
+
+  const patch = await worker.fetch(req("/auth/profile", {
+    method: "PATCH", headers: { ...auth, "Content-Type": "application/json" },
+    body: JSON.stringify({ displayName: "山行者", profile: { experience: "十年", region: "大台北", bio: "  ", junk: "ignored" } }),
+  }), env, {});
+  assert.equal(patch.status, 200);
+  const saved = (await patch.json()).user;
+  assert.equal(saved.displayName, "山行者");
+  assert.deepEqual(saved.profile, { experience: "十年", region: "大台北" }, "empty strings are cleared, unknown keys dropped");
+
+  const me = await worker.fetch(req("/auth/me", { headers: auth }), env, {});
+  const meBody = (await me.json()).user;
+  assert.equal(meBody.displayName, "山行者");
+  assert.deepEqual(meBody.profile, { experience: "十年", region: "大台北" });
+
+  // Partial update merges: only bio this time; existing keys keep their value.
+  const patch2 = await worker.fetch(req("/auth/profile", {
+    method: "PATCH", headers: { ...auth, "Content-Type": "application/json" },
+    body: JSON.stringify({ profile: { bio: "晨拍控" } }),
+  }), env, {});
+  assert.deepEqual((await patch2.json()).user.profile, { experience: "十年", region: "大台北", bio: "晨拍控" });
+
+  // Validation: blank displayName and over-length are rejected.
+  const bad = await worker.fetch(req("/auth/profile", { method: "PATCH", headers: { ...auth, "Content-Type": "application/json" }, body: JSON.stringify({ displayName: "   " }) }), env, {});
+  assert.equal(bad.status, 400);
+  const long = await worker.fetch(req("/auth/profile", { method: "PATCH", headers: { ...auth, "Content-Type": "application/json" }, body: JSON.stringify({ displayName: "x".repeat(101) }) }), env, {});
+  assert.equal(long.status, 400);
+  const longBio = await worker.fetch(req("/auth/profile", { method: "PATCH", headers: { ...auth, "Content-Type": "application/json" }, body: JSON.stringify({ profile: { bio: "y".repeat(201) } }) }), env, {});
+  assert.equal(longBio.status, 200);
+  const meAfter = (await (await worker.fetch(req("/auth/me", { headers: auth }), env, {})).json()).user;
+  assert.equal(meAfter.profile.bio.length, 200, "profile fields are capped at 200 chars");
 });

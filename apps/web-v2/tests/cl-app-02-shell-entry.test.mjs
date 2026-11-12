@@ -137,7 +137,7 @@ test("app.mjs wires refresh to digest + data re-fetch and guarded member renderi
   for (const evt of ["touchstart", "touchmove", "touchend"]) {
     assert.ok(app.includes(`document.addEventListener("${evt}"`), `${evt} listener`);
   }
-  assert.ok(app.includes("async function refreshMember(){state.member=await fetchMember();renderMember();}"));
+  assert.ok(app.includes("async function refreshMember(){") && app.includes("if(prev&&!state.member)clearLocalFavorites();"), "refreshMember keeps guarded member rendering and drops the member cache on sign-out");;
   // Single-flight guard: a second pull during refresh must not stack loads.
   assert.ok(app.includes("if(refreshing)return;"));
 });

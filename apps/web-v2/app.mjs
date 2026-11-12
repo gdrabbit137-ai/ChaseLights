@@ -4,7 +4,7 @@ import {browse,validateBrowseIndex} from "./browse-index.mjs";
 import {CATALOG_SHA256,BROWSE_INDEX_SHA256} from "./bundle-digests.mjs";
 import {createPullToRefresh,fetchCloudDigest} from "./pull-refresh.mjs";
 import {fetchMember,consumeAuthError,authErrorMessage} from "./shell-auth.mjs";
-import {createFavoritesClient,localFavorites,persistLocalFavorites,favoritesFallbackMessage} from "./favorites-client.mjs";
+import {createFavoritesClient,localFavorites,persistLocalFavorites,clearLocalFavorites,favoritesFallbackMessage} from "./favorites-client.mjs";
 
 const copy = {
 "zh-TW":{subtitle:"攝影機會研究介面",language:"語言",eyebrow:"獨立 V2 測試入口",headline:"從景點與題材，規劃你的拍攝",intro:"探索已匯入的攝影景點與題材、構圖關係和證據。這不是即時天氣預報。",mode:"研究／展示模式",noData:"尚未提供 V2 正式資料。未顯示任何虛構景點或預報。",hasData:"已載入 V2 研究資料；尚未連接即時判斷。",source:"資料來源",updated:"資料產製時間",loaded:"本機載入時間",none:"未提供",unknown:"未知／未提供",importHeading:"匯入 V2 研究資料",importHelp:"選取 Worker 1／2 的 V2 JSON；不會上傳至伺服器。亦可由同目錄 catalog.v2.json 自動載入。",upload:"選取 JSON",places:"景點",search:"搜尋景點或 ID",empty:"等待 V2 資料",emptyHelp:"匯入包含 places 與 opportunities 的 V2 JSON 後，才會顯示實際研究紀錄。",choose:"選擇左側景點",opportunities:"攝影題材",noneOpp:"此景點沒有已提供的 V2 題材資料。",camera:"Camera Zone · 拍攝位置",subject:"Photo Target · 被攝主體",access:"Navigation / Access · 到達參考",relation:"Camera ↔ Subject · 觀測關係",distance:"距離",azimuth:"方位角",elevation:"仰俯角",time:"季節／時段／天文幾何",timeMissing:"尚未提供可驗證的時段、太陽／月亮／銀河幾何",runtime:"目前沒有可驗證的 V2 即時評估，不提供拍攝適合度或分數。",runtimeReady:"V2 執行結果",advanced:"研究條件、未知項與證據",required:"必要條件",blocker:"直接失敗條件",quality:"品質加分條件",unknowns:"待確認",evidence:"證據來源",notTranslated:"此欄尚未提供此語言的等價敘述",directions:"導航至已驗證到達點",map:"查看暫定座標（非導航）",navPending:"尚無已驗證的到達點；不產生導航路線",footer:"ChaseLights V2 獨立測試介面。研究紀錄不等於指定日期的預報。",invalid:"無法載入 V2 JSON：",count:"個",noMatches:"沒有符合的景點",dataLabel:"V2 研究 JSON",status:"研究狀態",pageTitle:"ChaseLights V2 — 攝影機會研究",skipToContent:"跳至主要內容",languageAria:"語言選擇",provenanceAria:"資料來源與時效",placesAria:"景點清單",opportunitiesAria:"攝影題材與研究資料",refreshing:"重新載入資料…",memberLogin:"登入",memberLoginLine:"使用 LINE 登入",memberLoginGoogle:"使用 Google 登入",memberLabel:"會員"},
@@ -89,7 +89,10 @@ async function refreshFavorites(){
   try{
     const ids=await favoritesClient.syncLocal();
     if(Array.isArray(ids)){
-      favoriteIds=new Set([...favoriteIds,...ids]);
+      // CL-UI-57: the broadcast cloud set REPLACES the local set — merge-only
+      // semantics could never remove a previous member's favorites after
+      // logout (the anonymous device list is the signed-out truth).
+      favoriteIds=new Set(ids);
       persistFavorites();
       state.favNotice=false;
     }
@@ -471,7 +474,15 @@ function renderMember(){
   $("login-line").hidden=!open;
   $("login-google").hidden=!open;
 }
-async function refreshMember(){state.member=await fetchMember();renderMember();}
+async function refreshMember(){
+  // CL-UI-57: on a signed-in -> signed-out transition the device-local cache
+  // was the previous member's merged list — clear it so the next favorites
+  // sync can neither re-display nor re-upload it.
+  const prev=state.member;
+  state.member=await fetchMember();
+  if(prev&&!state.member)clearLocalFavorites();
+  renderMember();
+}
 $("login-toggle").addEventListener("click",()=>{
   const area=$("member-area");
   area.setAttribute("data-open",area.getAttribute("data-open")==="true"?"false":"true");

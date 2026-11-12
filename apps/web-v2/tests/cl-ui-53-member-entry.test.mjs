@@ -12,7 +12,7 @@
 //      signed in (never a fake member);
 //  (5) signed-in state shows the member display name + 登出; signed-out
 //      shows 登入 with the LINE/Google menu;
-//  (6) cache-bust: assets/member-auth.js?v=clui61 in index.html (monotonic).
+//  (6) cache-bust: assets/member-auth.js?v=clui66 in index.html (monotonic).
 // Run: node --test apps/web-v2/tests/cl-ui-53-member-entry.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -138,15 +138,15 @@ test('CL-UI-53 (5): signed-out shows 登入 + menu; signed-in shows display name
   assert.match(jsSource, /fetchMember\(\)\.then\(render\)/);
 });
 
-test('CL-UI-55: cache-bust stamp ?v=clui66 on member-auth.js on all four shell pages (CL-UI-56 bumped)', () => {
+test('CL-UI-55: cache-bust stamp ?v=clui67 on member-auth.js on all four shell pages (CL-UI-56 bumped)', () => {
   for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    assert.match(src, /assets\/member-auth\.js\?v=clui66/, `${page} loads member-auth.js?v=clui66`);
+    assert.match(src, /assets\/member-auth\.js\?v=clui67/, `${page} loads member-auth.js?v=clui66`);
     assert.match(src, /data-member-area/, `${page} carries the masthead member area`);
   }
   const stamps = [...htmlSource.matchAll(/\?v=(clui\d+)/g)].map(m => Number(m[1].slice(4)));
   assert.ok(Math.min(...stamps) >= 41, 'all stamps clui41+');
-  assert.ok(Math.max(...stamps) === 66, 'new generation is the highest');
+  assert.ok(Math.max(...stamps) === 67, 'new generation is the highest');
 });
 
 // CL-API-05: failed OAuth callbacks land on the homepage as ?auth_error=1 —

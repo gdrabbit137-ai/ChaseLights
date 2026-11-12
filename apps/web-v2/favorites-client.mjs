@@ -55,6 +55,14 @@ export function persistLocalFavorites(ids) {
   return storageSet(LOCAL_FAVS_KEY, JSON.stringify([...ids]));
 }
 
+// CL-UI-57: drop the device-local cache on a signed-in -> signed-out
+// transition. While signed in the cache holds the member's merged list;
+// keeping it would leak the previous account's favorites into the anonymous
+// device list on the next syncLocal upload (and into the next account).
+export function clearLocalFavorites() {
+  return storageSet(LOCAL_FAVS_KEY, "[]");
+}
+
 export function createFavoritesClient({ fetchImpl = (...args) => fetch(...args), onNotice = () => {} } = {}) {
   let cached = null;
 

@@ -12,8 +12,8 @@
 //      action:'comment';
 //  (4) templates/gas_sheet_bridge.js routes on `action` — comments append to
 //      the 「訪客留言」 tab and the legacy clear+setValues sync is separate;
-//  (5) cache-bust: new assets carry ?v=clui61 in index.html (monotonic,
-//      after clui61).
+//  (5) cache-bust: new assets carry ?v=clui67 in index.html (monotonic,
+//      after clui67).
 // Run: node --test apps/web-v2/tests/cl-ui-52-guest-comment.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';

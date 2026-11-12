@@ -1056,13 +1056,18 @@
       if(window.ChaseLightsFavorites)window.ChaseLightsFavorites.toggle(id,!removing);
       filterAndRender();
     }
-    // CL-UI-55: merged cloud favorites (login or anonymous device id) — ids
-    // unknown locally are adopted so the 我的最愛 filter renders the cloud list.
+    // CL-UI-55/57: the broadcast cloud set REPLACES the rendered favorites.
+    // Adoption-only meant a logout (broadcasting the empty anonymous device
+    // list) could never clear the previous member's list from the screen.
+    // Successful broadcasts are the full server-side set for the current
+    // identity; the offline path broadcasts the local list itself, so nothing
+    // is lost when the API is unreachable.
     document.addEventListener('chaselights:favorites',e=>{
       const ids=e&&e.detail&&e.detail.ids;
       if(!Array.isArray(ids))return;
-      let changed=false;
-      for(const id of ids)if(typeof id==='string'&&id&&!favorites.includes(id)){favorites.push(id);changed=true;}
+      const cloud=ids.filter(x=>typeof x==='string'&&x);
+      const changed=cloud.length!==favorites.length||cloud.some(id=>!favorites.includes(id));
+      favorites=cloud;
       if(changed){localStorage.setItem('chaselights_favs_v2',JSON.stringify(favorites));filterAndRender();}
     });
 

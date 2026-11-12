@@ -17,6 +17,7 @@
   var MA_ENDPOINTS = {
     me: '/api/v1/auth/me',
     logout: '/api/v1/auth/logout',
+    profile: '/api/v1/auth/profile',
     line: '/api/v1/auth/line/start',
     google: '/api/v1/auth/google/start'
   };
@@ -28,7 +29,16 @@
       ma_line: '使用 LINE 登入',
       ma_google: '使用 Google 登入',
       ma_signed_in_as: '會員',
-      ma_auth_error: '登入失敗，請重試'
+      ma_auth_error: '登入失敗，請重試',
+      ma_edit_profile: '編輯會員資料',
+      ma_nickname: '暱稱',
+      ma_experience: '拍攝資歷（選填）',
+      ma_region: '常用地區（選填）',
+      ma_bio: '自介（選填）',
+      ma_profile_save: '儲存',
+      ma_profile_cancel: '取消',
+      ma_profile_saved: '已儲存會員資料。',
+      ma_profile_error: '儲存失敗，請重試'
     },
     'en': {
       ma_login: 'Sign in',
@@ -36,7 +46,16 @@
       ma_line: 'Sign in with LINE',
       ma_google: 'Sign in with Google',
       ma_signed_in_as: 'Member',
-      ma_auth_error: 'Sign in failed, please try again'
+      ma_auth_error: 'Sign in failed, please try again',
+      ma_edit_profile: 'Edit member profile',
+      ma_nickname: 'Nickname',
+      ma_experience: 'Photography experience (optional)',
+      ma_region: 'Usual shooting region (optional)',
+      ma_bio: 'Bio (optional)',
+      ma_profile_save: 'Save',
+      ma_profile_cancel: 'Cancel',
+      ma_profile_saved: 'Member profile saved.',
+      ma_profile_error: 'Could not save, please try again'
     },
     'ja': {
       ma_login: 'ログイン',
@@ -44,7 +63,16 @@
       ma_line: 'LINEでログイン',
       ma_google: 'Googleでログイン',
       ma_signed_in_as: '会員',
-      ma_auth_error: 'ログインに失敗しました。もう一度お試しください'
+      ma_auth_error: 'ログインに失敗しました。もう一度お試しください',
+      ma_edit_profile: 'メンバー情報を編集',
+      ma_nickname: 'ニックネーム',
+      ma_experience: '撮影歴（任意）',
+      ma_region: 'よく撮影する地域（任意）',
+      ma_bio: '自己紹介（任意）',
+      ma_profile_save: '保存',
+      ma_profile_cancel: 'キャンセル',
+      ma_profile_saved: 'プロフィールを保存しました。',
+      ma_profile_error: '保存に失敗しました。もう一度お試しください'
     }
   };
 
@@ -109,7 +137,14 @@
     var rawProvider = (u && typeof u.provider === 'string' && u.provider.trim()) ? u.provider :
                       (typeof doc.provider === 'string' && doc.provider.trim() ? doc.provider : null);
     var provider = rawProvider ? rawProvider.trim() : null;
-    return { name: name, provider: provider };
+    // CL-UI-57: /auth/me carries the member-editable profile object
+    // (experience/region/bio — migration 0006 profile_json). Unknown or
+    // non-object shapes stay null; the editor treats that as "empty".
+    var prof = (u && u.profile != null && typeof u.profile === 'object' && !Array.isArray(u.profile)) ? u.profile :
+               (doc.profile != null && typeof doc.profile === 'object' && !Array.isArray(doc.profile) ? doc.profile : null);
+    // CL-UI-57: profile is attached only when present — legacy callers see the
+    // original { name, provider } shape unchanged.
+    return prof ? { name: name, provider: provider, profile: prof } : { name: name, provider: provider };
   }
 
   function fetchMember() {
@@ -119,7 +154,135 @@
       .catch(function () { return null; });
   }
 
-  var area, toggle, menu, nameEl, logoutBtn;
+  var area, toggle, menu, nameEl, logoutBtn, panel, profInputs = null, curMember = null;
+
+  // CL-UI-57: save/error status notice — same fixed-bottom pattern as
+  // favorites-client.js, trilingual copy from MA_I18N.
+  var noticeEl = null, noticeTimer = null;
+  function showNotice(key) {
+    try {
+      if (!noticeEl) {
+        noticeEl = document.createElement('p');
+        noticeEl.className = 'ma-profile-notice';
+        noticeEl.setAttribute('role', 'status');
+        noticeEl.style.cssText = 'position:fixed;bottom:12px;left:12px;right:12px;margin:0 auto;max-width:420px;padding:8px 12px;border:1px solid #475569;background:#111827;color:#e2e8f0;font-size:13px;border-radius:8px;z-index:10001;text-align:center';
+        document.body.appendChild(noticeEl);
+      }
+      noticeEl.textContent = t(key);
+      noticeEl.hidden = false;
+      if (noticeTimer) clearTimeout(noticeTimer);
+      noticeTimer = setTimeout(function () { if (noticeEl) noticeEl.hidden = true; }, 6000);
+    } catch (e) { /* no body yet — notices are best-effort */ }
+  }
+
+  // CL-UI-57: the member profile editor. Clicking the member name while signed
+  // in expands an inline panel (nickname = display_name, plus three optional
+  // fields stored in users.profile_json via PATCH /api/v1/auth/profile).
+  // All inline styles + a custom class: no shell display rule can un-hide it
+  // (CL-UI-53B lesson), and no new stylesheet is needed.
+  var PROFILE_PANEL_CSS = 'display:none;position:absolute;top:calc(100% + 6px);right:0;min-width:230px;margin:0;padding:10px 12px;border:1px solid #334155;background:#1e293b;border-radius:10px;box-shadow:0 10px 24px rgba(0,0,0,.5);z-index:401;box-sizing:border-box';
+  var PROFILE_INPUT_CSS = 'display:block;width:100%;box-sizing:border-box;padding:4px 6px;font-size:13px;border:1px solid #334155;border-radius:6px;background:#0b1220;color:#e2e8f0';
+  var PROFILE_LABEL_CSS = 'display:block;font-size:12px;color:#94a3b8;margin:8px 0 2px';
+  var PROFILE_BTN_CSS = 'padding:6px 12px;font-size:13px;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;cursor:pointer';
+
+  function profileField(labelKey) {
+    var label = document.createElement('label');
+    label.style.cssText = PROFILE_LABEL_CSS;
+    var span = document.createElement('span');
+    span.setAttribute('data-ma-i18n', labelKey);
+    label.appendChild(span);
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.style.cssText = PROFILE_INPUT_CSS;
+    label.appendChild(input);
+    panel.appendChild(label);
+    return input;
+  }
+
+  function buildPanel() {
+    if (panel) return;
+    panel = document.createElement('div');
+    panel.className = 'ma-profile-panel';
+    panel.setAttribute('data-ma-profile-panel', '');
+    panel.style.cssText = PROFILE_PANEL_CSS;
+    profInputs = {
+      name: profileField('ma_nickname'),
+      experience: profileField('ma_experience'),
+      region: profileField('ma_region'),
+      bio: profileField('ma_bio')
+    };
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:8px;margin-top:10px';
+    var save = document.createElement('button');
+    save.type = 'button';
+    save.className = 'ma-profile-save';
+    save.setAttribute('data-ma-i18n', 'ma_profile_save');
+    save.style.cssText = PROFILE_BTN_CSS;
+    var cancel = document.createElement('button');
+    cancel.type = 'button';
+    cancel.className = 'ma-profile-cancel';
+    cancel.setAttribute('data-ma-i18n', 'ma_profile_cancel');
+    cancel.style.cssText = PROFILE_BTN_CSS;
+    row.appendChild(save);
+    row.appendChild(cancel);
+    panel.appendChild(row);
+    area.appendChild(panel);
+    save.addEventListener('click', function () { saveProfile(); });
+    cancel.addEventListener('click', function () { setPanelOpen(false); });
+    applyCopy();
+  }
+
+  function setPanelOpen(open) {
+    if (open) buildPanel();
+    if (!panel) return;
+    panel.hidden = !open;
+    panel.style.display = open ? 'block' : 'none';
+    if (open) fillPanel();
+  }
+
+  function isPanelOpen() {
+    return Boolean(panel) && panel.style.display !== 'none' && !panel.hidden;
+  }
+
+  function fillPanel() {
+    if (!profInputs || !curMember) return;
+    profInputs.name.value = curMember.name || '';
+    var prof = curMember.profile || {};
+    profInputs.experience.value = typeof prof.experience === 'string' ? prof.experience : '';
+    profInputs.region.value = typeof prof.region === 'string' ? prof.region : '';
+    profInputs.bio.value = typeof prof.bio === 'string' ? prof.bio : '';
+  }
+
+  function saveProfile() {
+    if (!profInputs || !curMember) return;
+    var name = profInputs.name.value.trim();
+    if (!name || name.length > 100) { showNotice('ma_profile_error'); return; }
+    var saveBtn = panel.querySelector('.ma-profile-save');
+    if (saveBtn) saveBtn.disabled = true;
+    fetch(MA_ENDPOINTS.profile, {
+      method: 'PATCH',
+      credentials: 'same-origin',
+      cache: 'no-store',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        displayName: name,
+        profile: {
+          experience: profInputs.experience.value.trim(),
+          region: profInputs.region.value.trim(),
+          bio: profInputs.bio.value.trim()
+        }
+      })
+    }).then(function (res) {
+      if (saveBtn) saveBtn.disabled = false;
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      showNotice('ma_profile_saved');
+      setPanelOpen(false);
+      return fetchMember().then(render);
+    }).catch(function () {
+      if (saveBtn) saveBtn.disabled = false;
+      showNotice('ma_profile_error');
+    });
+  }
 
   // CL-UI-53B: visibility must not depend on the [hidden] attribute alone —
   // shell display rules (.site-nav-more-btn { display:inline-flex } …)
@@ -157,8 +320,10 @@
 
   function render(member) {
     if (!area) return;
+    curMember = member;
     broadcastAuth(member);
     var signed = Boolean(member);
+    if (!signed && isPanelOpen()) setPanelOpen(false);
     var menuOpen = !signed && area.getAttribute('data-open') === 'true';
     setShown(toggle, !signed);
     setShown(logoutBtn, signed);
@@ -190,6 +355,20 @@
     if (lineLink) lineLink.setAttribute('href', MA_ENDPOINTS.line);
     if (googleLink) googleLink.setAttribute('href', MA_ENDPOINTS.google);
 
+    // CL-UI-57: clicking the member name (signed in) expands the profile editor.
+    nameEl.style.cursor = 'pointer';
+    nameEl.setAttribute('role', 'button');
+    nameEl.setAttribute('tabindex', '0');
+    nameEl.addEventListener('click', function () {
+      if (curMember) setPanelOpen(!isPanelOpen());
+    });
+    nameEl.addEventListener('keydown', function (e) {
+      if (curMember && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        setPanelOpen(!isPanelOpen());
+      }
+    });
+
     toggle.addEventListener('click', function (e) {
       e.stopPropagation();
       if (nameEl.style.display !== 'none' || nameEl.hidden === false) return; // signed in: toggle is hidden anyway
@@ -201,12 +380,14 @@
         setOpen(false);
         area.setAttribute('data-open', 'false');
       }
+      if (!area.contains(e.target) && isPanelOpen()) setPanelOpen(false);
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && isOpen()) {
         setOpen(false);
         area.setAttribute('data-open', 'false');
       }
+      if (e.key === 'Escape' && isPanelOpen()) setPanelOpen(false);
     });
 
     logoutBtn.addEventListener('click', function () {

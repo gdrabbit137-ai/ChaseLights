@@ -143,9 +143,25 @@
   // after a login the server has merged the anonymous favorites into the
   // member account, so re-pull the cloud list; after logout fall back to the
   // anonymous device list.
-  document.addEventListener('chaselights:auth', function (e) {
+  document.addEventListener('chaselights:auth', function (e) { onAuth(e); });
+
+  // CL-UI-57: while signed in, the device-local chaselights_favs_v2 cache is
+  // the MEMBER's merged list. On a signed-in -> signed-out transition it must
+  // be dropped, never re-synced or re-displayed: the cloud copy already lives
+  // on the account, and keeping it here would (a) leak the previous account's
+  // favorites into the anonymous device list on the next upload and (b) render
+  // them as "my favorites" after logout. The server's anonymous device list is
+  // the only source of truth for signed-out state.
+  var wasAuthed = false;
+  function onAuth(e) {
+    var member = (e && e.detail && e.detail.member) ? e.detail.member : null;
+    var authed = Boolean(member);
+    if (wasAuthed && !authed) {
+      try { localStorage.removeItem(LOCAL_FAVS_KEY); } catch (err) { /* storage blocked */ }
+    }
+    wasAuthed = authed;
     syncLocal();
-  });
+  }
 
   window.ChaseLightsFavorites = {
     toggle: toggle,
