@@ -59,6 +59,6 @@ test('CL-WG-30: sectors_monthly wedges resolve the current month', () => {
 });
 
 test('CL-WG-30: cache-bust stamp bumped to bclwg34 in the same ticket', () => {
-  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg34/);
-  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg34/);
+  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg35/);
+  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg35/);
 });
