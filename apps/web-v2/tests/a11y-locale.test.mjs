@@ -50,6 +50,9 @@ function mountApp() {
     URLSearchParams,
     consumeAuthError:realConsumeAuthError,
     authErrorMessage:realAuthErrorMessage,
+    // CL-UI-55 favorites module stubs (imports are stripped above).
+    createFavoritesClient:()=>({toggle:async()=>[],syncLocal:async()=>[],fetchCloud:async()=>[]}),
+    localFavorites:()=>[],persistLocalFavorites:()=>{},favoritesFallbackMessage:()=>'',
     window:{location:{search:''},history:{replaceState(){}}},
     console,Intl,Date,Set,Map
   },{timeout:2000});
