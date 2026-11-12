@@ -96,12 +96,19 @@
   // fake member.
   function parseMember(doc) {
     if (!doc || typeof doc !== 'object' || Array.isArray(doc)) return null;
-    var raw = doc.display_name != null ? doc.display_name :
-              (doc.name != null ? doc.name : (doc.sub != null ? doc.sub : null));
+    // CL-UI-56: /api/v1/auth/me actually answers { user: { displayName, provider, … } }
+    // (nested + camelCase, see workers/api/src/index.js handleAuthMe), so the
+    // nested shape wins; legacy top-level display_name/name/sub stay supported.
+    var u = (doc.user != null && typeof doc.user === 'object') ? doc.user : null;
+    var raw = (u && u.displayName != null) ? u.displayName :
+              (doc.display_name != null ? doc.display_name :
+              (doc.name != null ? doc.name : (doc.sub != null ? doc.sub : null)));
     if (typeof raw !== 'string') return null;
     var name = raw.trim();
     if (!name) return null;
-    var provider = (typeof doc.provider === 'string' && doc.provider.trim()) ? doc.provider.trim() : null;
+    var rawProvider = (u && typeof u.provider === 'string' && u.provider.trim()) ? u.provider :
+                      (typeof doc.provider === 'string' && doc.provider.trim() ? doc.provider : null);
+    var provider = rawProvider ? rawProvider.trim() : null;
     return { name: name, provider: provider };
   }
 

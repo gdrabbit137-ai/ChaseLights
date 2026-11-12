@@ -98,6 +98,32 @@ test('CL-UI-53 (4): parseMember semantics match web-v2 shell-auth (never a fake 
   assert.deepEqual(parseMember({ sub: 'u-123' }), { name: 'u-123', provider: null });
 });
 
+// CL-UI-56: parseMember must accept the REAL /api/v1/auth/me response shape —
+// { user: { id, provider, providerUserId, displayName, level } } (nested +
+// camelCase, per workers/api/src/index.js handleAuthMe). 401/empty stay signed-out.
+test('CL-UI-56 (4b): parseMember parses the real nested /auth/me shape (nested camelCase wins)', () => {
+  const parseMember = loadParseMember();
+  // exact handleAuthMe response shape, CJK display name, provider from user object
+  assert.deepEqual(
+    parseMember({ user: { id: 'p:line:u-9', provider: 'line', providerUserId: 'u-9', displayName: '山客小美', level: 'free' } }),
+    { name: '山客小美', provider: 'line' });
+  // displayName wins over legacy top-level fields
+  assert.deepEqual(
+    parseMember({ user: { displayName: 'NESTED', }, display_name: 'legacy' }),
+    { name: 'NESTED', provider: null });
+  // legacy top-level shapes still parse
+  assert.deepEqual(parseMember({ display_name: '舊形狀', provider: 'google' }), { name: '舊形狀', provider: 'google' });
+  // non-OK responses are not parsed here, but 401-like bodies must not yield a member
+  assert.equal(parseMember({}), null);
+  assert.equal(parseMember({ error: 'unauthorized' }), null);
+  assert.equal(parseMember({ user: null }), null);
+  assert.equal(parseMember({ user: {} }), null);
+  assert.equal(parseMember({ user: { displayName: '  ' } }), null);
+  assert.equal(parseMember({ user: { displayName: 42 } }), null);
+  // blank CJK-only whitespace still rejected
+  assert.equal(parseMember({ user: { displayName: '\u3000\u3000' } }), null);
+});
+
 test('CL-UI-53 (5): signed-out shows 登入 + menu; signed-in shows display name + 登出', () => {
   // CL-UI-53B: render() drives visibility via setShown — inline style.display
   // (weight-explicit, shell-rule-proof) plus the [hidden] attribute and the
@@ -112,15 +138,15 @@ test('CL-UI-53 (5): signed-out shows 登入 + menu; signed-in shows display name
   assert.match(jsSource, /fetchMember\(\)\.then\(render\)/);
 });
 
-test('CL-UI-55: cache-bust stamp ?v=clui65 on member-auth.js on all four shell pages', () => {
+test('CL-UI-55: cache-bust stamp ?v=clui66 on member-auth.js on all four shell pages (CL-UI-56 bumped)', () => {
   for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    assert.match(src, /assets\/member-auth\.js\?v=clui65/, `${page} loads member-auth.js?v=clui65`);
+    assert.match(src, /assets\/member-auth\.js\?v=clui66/, `${page} loads member-auth.js?v=clui66`);
     assert.match(src, /data-member-area/, `${page} carries the masthead member area`);
   }
   const stamps = [...htmlSource.matchAll(/\?v=(clui\d+)/g)].map(m => Number(m[1].slice(4)));
   assert.ok(Math.min(...stamps) >= 41, 'all stamps clui41+');
-  assert.ok(Math.max(...stamps) === 65, 'new generation is the highest');
+  assert.ok(Math.max(...stamps) === 66, 'new generation is the highest');
 });
 
 // CL-API-05: failed OAuth callbacks land on the homepage as ?auth_error=1 —

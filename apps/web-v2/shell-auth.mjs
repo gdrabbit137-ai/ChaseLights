@@ -42,11 +42,18 @@ export function authErrorMessage(locale) {
 // signed in" — the entry must show the sign-in buttons, never a fake member.
 export function parseMember(doc) {
   if (!doc || typeof doc !== "object" || Array.isArray(doc)) return null;
-  const raw = doc.display_name ?? doc.name ?? doc.sub ?? null;
+  // CL-UI-56: /api/v1/auth/me actually answers { user: { displayName, provider, … } }
+  // (nested + camelCase, see workers/api/src/index.js handleAuthMe), so the
+  // nested shape wins; legacy top-level display_name/name/sub stay supported.
+  const u = doc.user != null && typeof doc.user === "object" ? doc.user : null;
+  const raw = (u && u.displayName != null) ? u.displayName
+            : doc.display_name ?? doc.name ?? doc.sub ?? null;
   if (typeof raw !== "string") return null;
   const name = raw.trim();
   if (!name) return null;
-  const provider = typeof doc.provider === "string" && doc.provider.trim() ? doc.provider.trim() : null;
+  const rawProvider = (u && typeof u.provider === "string" && u.provider.trim()) ? u.provider
+                    : (typeof doc.provider === "string" && doc.provider.trim() ? doc.provider : null);
+  const provider = rawProvider ? rawProvider.trim() : null;
   return { name, provider };
 }
 
