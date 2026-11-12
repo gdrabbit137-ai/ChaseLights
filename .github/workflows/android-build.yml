@@ -28,11 +28,16 @@ jobs:
         run: npm test
         working-directory: apps/mobile
       - name: Write google-services.json from secret (CL-CI-35)
-        if: ${{ secrets.GOOGLE_SERVICES_JSON != '' }}
+        env:
+          GSERVICES: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
-          mkdir -p android/app
-          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > android/app/google-services.json
-          echo "google-services.json written from secret ($(wc -c < android/app/google-services.json) bytes)"
+          if [ -n "$GSERVICES" ]; then
+            mkdir -p android/app
+            printf '%s\n' "$GSERVICES" > android/app/google-services.json
+            echo "google-services.json written from secret ($(wc -c < android/app/google-services.json) bytes)"
+          else
+            echo "GOOGLE_SERVICES_JSON secret not set — skipping"
+          fi
         working-directory: apps/mobile
       - name: Push build gate (google-services.json presence)
         run: |
