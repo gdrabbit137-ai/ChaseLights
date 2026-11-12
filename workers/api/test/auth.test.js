@@ -180,20 +180,28 @@ test("OAuth flow: start redirects with state; callback exchanges code via mocked
     assert.ok(![...store.keys()].some(k => k.startsWith("auth:state:")), "KV must not carry auth state");
     assert.ok(tables.auth_states.has(state));
 
+    // CL-API-05: success is a 302 back to the homepage with HttpOnly cookies,
+    // never a bare JSON page.
     const cb = await worker.fetch(req(`/auth/line/callback?code=xyz&state=${state}`), env, {});
-    assert.equal(cb.status, 200);
-    const body = await cb.json();
-    assert.equal(body.user.id, "p:line:U123");
-    assert.equal(body.user.displayName, "LINE User");
+    assert.equal(cb.status, 302);
+    const cbLoc = new URL(cb.headers.get("Location"));
+    assert.equal(cbLoc.origin + cbLoc.pathname, "https://chaselights.app/");
+    assert.ok(!cbLoc.searchParams.has("auth_error"));
+    const cbCookies = cb.headers.getSetCookie();
+    assert.ok(cbCookies.some(c => c.startsWith("cl_session=") && c.includes("HttpOnly")));
+    assert.ok(cbCookies.some(c => c.startsWith("cl_refresh=") && c.includes("HttpOnly")));
     assert.ok(tables.users.has("p:line:U123"));
     assert.ok(!tables.auth_states.has(state), "single-use state row must be deleted at read");
 
+    // CL-API-05: every failure path is a 302 to the homepage with ?auth_error=1
     // state is single-use: replay rejected
     const replay = await worker.fetch(req(`/auth/line/callback?code=xyz&state=${state}`), env, {});
-    assert.equal(replay.status, 400);
+    assert.equal(replay.status, 302);
+    assert.ok(new URL(replay.headers.get("Location")).searchParams.get("auth_error") === "1");
     // forged state rejected
     const forged = await worker.fetch(req("/auth/line/callback?code=xyz&state=forged"), env, {});
-    assert.equal(forged.status, 400);
+    assert.equal(forged.status, 302);
+    assert.ok(new URL(forged.headers.get("Location")).searchParams.get("auth_error") === "1");
     assert.ok(calls.some(u => u.includes("api.line.me/oauth2/v2.1/token")));
   } finally { globalThis.fetch = realFetch; }
 });
@@ -214,13 +222,14 @@ test("expired auth state rejected and stale rows cleaned on read", async () => {
     assert.equal(start.status, 302);
     const state = new URL(start.headers.get("Location")).searchParams.get("state");
 
-    // (a) payload exp in the past → 400
+    // (a) payload exp in the past → 302 ?auth_error=1
     const row = tables.auth_states.get(state);
     const st = JSON.parse(row.payload);
     st.exp = Date.now() - 1000;
     tables.auth_states.set(state, { ...row, payload: JSON.stringify(st) });
     const exp = await worker.fetch(req(`/auth/line/callback?code=xyz&state=${state}`), env, {});
-    assert.equal(exp.status, 400);
+    assert.equal(exp.status, 302);
+    assert.ok(new URL(exp.headers.get("Location")).searchParams.get("auth_error") === "1");
     assert.ok(!tables.auth_states.has(state), "expired row still deleted on read");
 
     // (b) stale created_at rows are swept by the opportunistic cleanup
@@ -233,7 +242,7 @@ test("expired auth state rejected and stale rows cleaned on read", async () => {
     assert.equal(start2.status, 302);
     const state2 = new URL(start2.headers.get("Location")).searchParams.get("state");
     const cb2 = await worker.fetch(req(`/auth/line/callback?code=xyz&state=${state2}`), env, {});
-    assert.equal(cb2.status, 200);
+    assert.equal(cb2.status, 302);
     assert.ok(!tables.auth_states.has(stale), "read-time cleanup removed rows older than 15 minutes");
   } finally { globalThis.fetch = realFetch; }
 });

@@ -112,20 +112,43 @@ async function mergeAnonDevice(env, anonDeviceId, userKey) {
   return moved;
 }
 
-async function issueSession(req, env, user, anonDeviceId) {
+// CL-API-05: token+cookie issuance is shared by the JSON path (mock/dev) and
+// the browser callback path (302 back to the homepage — no bare JSON page).
+async function issueSessionCookies(env, user, anonDeviceId) {
   const { access, refresh } = await makeTokens(env, user.device_id, user.display_name, user.level);
   const merged = await mergeAnonDevice(env, anonDeviceId, user.device_id);
-  return json(req, 200, {
-    ok: true,
-    user: { id: user.device_id, provider: user.provider, providerUserId: user.provider_user_id, displayName: user.display_name, level: user.level },
-    accessToken: access,
-    mergedRows: merged,
-  }, {
-    "Set-Cookie": [
+  return {
+    access, refresh, merged,
+    setCookie: [
       cookieHeader(SESSION_COOKIE, access, 15 * 60),
       cookieHeader(REFRESH_COOKIE, refresh, 30 * 24 * 3600),
     ],
-  });
+  };
+}
+
+async function issueSession(req, env, user, anonDeviceId) {
+  const s = await issueSessionCookies(env, user, anonDeviceId);
+  return json(req, 200, {
+    ok: true,
+    user: { id: user.device_id, provider: user.provider, providerUserId: user.provider_user_id, displayName: user.display_name, level: user.level },
+    accessToken: s.access,
+    mergedRows: s.merged,
+  }, { "Set-Cookie": s.setCookie });
+}
+
+// CL-API-05: OAuth callbacks are top-level browser navigations, so every
+// terminal outcome is a 302 — success lands on the homepage (with cookies
+// attached), failure lands on the homepage with ?auth_error=1 which the shell
+// (member-auth.js / web-v2 shell) turns into a trilingual retry notice. A
+// fixed target was chosen over a return_to round-trip: the sign-in entry only
+// exists on the homepage shells, and keeping the D1 state payload unchanged is
+// the simplest, least-surprising option.
+const HOME_URL = "https://chaselights.app/";
+function homeRedirect(query) {
+  return Response.redirect(`${HOME_URL}?${query}`, 302);
+}
+function authErrorRedirect() {
+  return homeRedirect("auth_error=1");
 }
 
 function randomId() {
@@ -178,15 +201,15 @@ async function handleOAuthStart(req, env, provider, url) {
 
 async function handleOAuthCallback(req, env, provider, url) {
   const creds = providerCredentials(env, provider);
-  if (!creds) return json(req, 404, { error: "unknown provider" });
+  if (!creds) return authErrorRedirect();
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  if (!code || !state) return json(req, 400, { error: "code and state required" });
+  if (!code || !state) return authErrorRedirect();
 
   // single-use (CSRF): read then delete immediately — a replayed state misses.
   const st = await takeAuthState(env, state);
-  if (!st) return json(req, 400, { error: "invalid or expired state" });
-  if (st.provider !== provider) return json(req, 400, { error: "state provider mismatch" });
+  if (!st) return authErrorRedirect();
+  if (st.provider !== provider) return authErrorRedirect();
 
   const tokenRes = await fetch(creds.provider.tokenUrl, {
     method: "POST",
@@ -196,17 +219,23 @@ async function handleOAuthCallback(req, env, provider, url) {
       redirect_uri: st.redirectUri, client_id: creds.id, client_secret: creds.secret,
     }),
   });
-  if (!tokenRes.ok) return json(req, 502, { error: "provider token exchange failed", status: tokenRes.status });
+  if (!tokenRes.ok) return authErrorRedirect();
   const tokens = await tokenRes.json();
   const { accessToken } = creds.provider.parseToken(tokens);
 
   const userRes = await fetch(creds.provider.userinfoUrl, { headers: { Authorization: `Bearer ${accessToken}` } });
-  if (!userRes.ok) return json(req, 502, { error: "provider userinfo failed", status: userRes.status });
+  if (!userRes.ok) return authErrorRedirect();
   const profile = await userRes.json();
   const { providerUserId, displayName } = creds.provider.parseUser(profile);
 
   const user = await ensureOAuthUser(env, provider, providerUserId, displayName);
-  return issueSession(req, env, user, st.merge);
+  // CL-API-05: success is a 302 back to the homepage with the HttpOnly session
+  // cookies attached (never a bare JSON page).
+  const s = await issueSessionCookies(env, user, st.merge);
+  const res = homeRedirect("lang=zh-TW");
+  const h = new Headers(res.headers);
+  for (const c of s.setCookie) h.append("Set-Cookie", c);
+  return new Response(null, { status: 302, headers: h });
 }
 
 // Local/dev mock provider: same session-issue path as real OAuth callback,
