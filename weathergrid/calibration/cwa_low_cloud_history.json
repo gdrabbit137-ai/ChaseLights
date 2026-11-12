@@ -4607,6 +4607,335 @@
           }
         }
       ]
+    },
+    {
+      "pair_id": "2026-11-12T06:00:00Z__2026-11-12T12:00:00Z",
+      "generated_at": "2026-11-12T17:05:17.288818+00:00",
+      "calibration_id": "cwa-low-cloud-himawari-v1",
+      "training_slots": [
+        "2026-11-12T06:00:00Z"
+      ],
+      "validation_slot": "2026-11-12T12:00:00Z",
+      "baseline": {
+        "feature": "max(rh925,rh850)",
+        "transfer": {
+          "lower_rh_percent": 70,
+          "upper_rh_percent": 95
+        },
+        "training_metrics": {
+          "n": 47735,
+          "positive": 21449,
+          "negative": 26286,
+          "brier": 0.3609,
+          "auc": 0.6866,
+          "threshold": 50.0,
+          "sensitivity": 0.9613,
+          "specificity": 0.1988,
+          "balanced_accuracy": 0.58,
+          "confusion": {
+            "tp": 20619,
+            "tn": 5225,
+            "fp": 21061,
+            "fn": 830
+          }
+        }
+      },
+      "selected_candidate": {
+        "feature": "rh_avg",
+        "transfer": {
+          "lower_rh_percent": 73,
+          "upper_rh_percent": 100
+        },
+        "training_metrics": {
+          "n": 47735,
+          "positive": 21449,
+          "negative": 26286,
+          "brier": 0.2176,
+          "auc": 0.7176,
+          "threshold": 50.0,
+          "sensitivity": 0.6898,
+          "specificity": 0.6478,
+          "balanced_accuracy": 0.6688,
+          "confusion": {
+            "tp": 14796,
+            "tn": 17028,
+            "fp": 9258,
+            "fn": 6653
+          }
+        }
+      },
+      "validation": {
+        "slot_utc": "2026-11-12T12:00:00Z",
+        "baseline": {
+          "n": 42357,
+          "positive": 22274,
+          "negative": 20083,
+          "brier": 0.2891,
+          "auc": 0.7201,
+          "threshold": 50.0,
+          "sensitivity": 0.9908,
+          "specificity": 0.2453,
+          "balanced_accuracy": 0.6181,
+          "confusion": {
+            "tp": 22070,
+            "tn": 4927,
+            "fp": 15156,
+            "fn": 204
+          }
+        },
+        "candidate": {
+          "n": 42357,
+          "positive": 22274,
+          "negative": 20083,
+          "brier": 0.188,
+          "auc": 0.7773,
+          "threshold": 50.0,
+          "sensitivity": 0.8308,
+          "specificity": 0.5937,
+          "balanced_accuracy": 0.7122,
+          "confusion": {
+            "tp": 18505,
+            "tn": 11923,
+            "fp": 8160,
+            "fn": 3769
+          }
+        }
+      },
+      "validation_candidates": [
+        {
+          "feature": "rh_min",
+          "transfer": {
+            "lower_rh_percent": 62,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 42357,
+            "positive": 22274,
+            "negative": 20083,
+            "brier": 0.1946,
+            "auc": 0.7687,
+            "threshold": 50.0,
+            "sensitivity": 0.845,
+            "specificity": 0.5636,
+            "balanced_accuracy": 0.7043,
+            "confusion": {
+              "tp": 18821,
+              "tn": 11318,
+              "fp": 8765,
+              "fn": 3453
+            }
+          },
+          "exploratory_only": true
+        },
+        {
+          "feature": "rh_avg",
+          "transfer": {
+            "lower_rh_percent": 73,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 42357,
+            "positive": 22274,
+            "negative": 20083,
+            "brier": 0.188,
+            "auc": 0.7773,
+            "threshold": 50.0,
+            "sensitivity": 0.8308,
+            "specificity": 0.5937,
+            "balanced_accuracy": 0.7122,
+            "confusion": {
+              "tp": 18505,
+              "tn": 11923,
+              "fp": 8160,
+              "fn": 3769
+            }
+          },
+          "exploratory_only": false
+        },
+        {
+          "feature": "rh_avg_spread25",
+          "transfer": {
+            "lower_rh_percent": 68,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 42357,
+            "positive": 22274,
+            "negative": 20083,
+            "brier": 0.1905,
+            "auc": 0.7749,
+            "threshold": 50.0,
+            "sensitivity": 0.8284,
+            "specificity": 0.5953,
+            "balanced_accuracy": 0.7118,
+            "confusion": {
+              "tp": 18452,
+              "tn": 11955,
+              "fp": 8128,
+              "fn": 3822
+            }
+          },
+          "exploratory_only": true
+        },
+        {
+          "feature": "rh_avg_spread50",
+          "transfer": {
+            "lower_rh_percent": 62,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 42357,
+            "positive": 22274,
+            "negative": 20083,
+            "brier": 0.1946,
+            "auc": 0.7687,
+            "threshold": 50.0,
+            "sensitivity": 0.845,
+            "specificity": 0.5636,
+            "balanced_accuracy": 0.7043,
+            "confusion": {
+              "tp": 18821,
+              "tn": 11318,
+              "fp": 8765,
+              "fn": 3453
+            }
+          },
+          "exploratory_only": true
+        },
+        {
+          "feature": "rh_avg_spread75",
+          "transfer": {
+            "lower_rh_percent": 60,
+            "upper_rh_percent": 100
+          },
+          "metrics": {
+            "n": 42357,
+            "positive": 22274,
+            "negative": 20083,
+            "brier": 0.1989,
+            "auc": 0.7621,
+            "threshold": 50.0,
+            "sensitivity": 0.7975,
+            "specificity": 0.6176,
+            "balanced_accuracy": 0.7076,
+            "confusion": {
+              "tp": 17764,
+              "tn": 12403,
+              "fp": 7680,
+              "fn": 4510
+            }
+          },
+          "exploratory_only": true
+        }
+      ],
+      "promotion": {
+        "eligible": true,
+        "gate": {
+          "minimum_brier_improvement": 0.015,
+          "minimum_specificity_improvement": 0.1,
+          "maximum_sensitivity_loss": 0.2,
+          "auc_must_not_decrease": true
+        },
+        "observed": {
+          "brier_improvement": 0.1011,
+          "specificity_improvement": 0.3484,
+          "sensitivity_loss": 0.1601,
+          "auc_change": 0.0572
+        },
+        "reason": "candidate passes provisional two-slot promotion gate"
+      },
+      "snapshots": [
+        {
+          "slot_utc": "2026-11-12T06:00:00Z",
+          "cwa_valid_time_utc": "2026-11-12T06:00:00+00:00",
+          "time_delta_seconds": 0.0,
+          "label_counts": {
+            "positive_low_cloud": 21449,
+            "negative_clear": 26286,
+            "ambiguous_excluded": 14743,
+            "usable": 47735
+          },
+          "baseline": {
+            "n": 47735,
+            "positive": 21449,
+            "negative": 26286,
+            "brier": 0.3609,
+            "auc": 0.6866,
+            "threshold": 50.0,
+            "sensitivity": 0.9613,
+            "specificity": 0.1988,
+            "balanced_accuracy": 0.58,
+            "confusion": {
+              "tp": 20619,
+              "tn": 5225,
+              "fp": 21061,
+              "fn": 830
+            }
+          },
+          "candidate": {
+            "n": 47735,
+            "positive": 21449,
+            "negative": 26286,
+            "brier": 0.2176,
+            "auc": 0.7176,
+            "threshold": 50.0,
+            "sensitivity": 0.6898,
+            "specificity": 0.6478,
+            "balanced_accuracy": 0.6688,
+            "confusion": {
+              "tp": 14796,
+              "tn": 17028,
+              "fp": 9258,
+              "fn": 6653
+            }
+          }
+        },
+        {
+          "slot_utc": "2026-11-12T12:00:00Z",
+          "cwa_valid_time_utc": "2026-11-12T12:00:00+00:00",
+          "time_delta_seconds": 0.0,
+          "label_counts": {
+            "positive_low_cloud": 22274,
+            "negative_clear": 20083,
+            "ambiguous_excluded": 20121,
+            "usable": 42357
+          },
+          "baseline": {
+            "n": 42357,
+            "positive": 22274,
+            "negative": 20083,
+            "brier": 0.2891,
+            "auc": 0.7201,
+            "threshold": 50.0,
+            "sensitivity": 0.9908,
+            "specificity": 0.2453,
+            "balanced_accuracy": 0.6181,
+            "confusion": {
+              "tp": 22070,
+              "tn": 4927,
+              "fp": 15156,
+              "fn": 204
+            }
+          },
+          "candidate": {
+            "n": 42357,
+            "positive": 22274,
+            "negative": 20083,
+            "brier": 0.188,
+            "auc": 0.7773,
+            "threshold": 50.0,
+            "sensitivity": 0.8308,
+            "specificity": 0.5937,
+            "balanced_accuracy": 0.7122,
+            "confusion": {
+              "tp": 18505,
+              "tn": 11923,
+              "fp": 8160,
+              "fn": 3769
+            }
+          }
+        }
+      ]
     }
   ],
   "review_readiness": {
@@ -4614,33 +4943,33 @@
     "eligible_for_model_review": false,
     "automatic_production_change": false,
     "minimum_distinct_validation_slots": 6,
-    "observed_distinct_validation_slots": 14,
+    "observed_distinct_validation_slots": 15,
     "window_validation_slots": [
-      "2026-11-09T18:00:00Z",
       "2026-11-10T00:00:00Z",
       "2026-11-10T12:00:00Z",
       "2026-11-11T00:00:00Z",
       "2026-11-11T06:00:00Z",
-      "2026-11-12T00:00:00Z"
+      "2026-11-12T00:00:00Z",
+      "2026-11-12T12:00:00Z"
     ],
     "median_improvements": {
-      "brier_improvement": 0.0186,
-      "specificity_improvement": 0.0777,
-      "sensitivity_loss": 0.1169,
-      "auc_change": -0.0331
+      "brier_improvement": 0.0568,
+      "specificity_improvement": 0.207,
+      "sensitivity_loss": 0.1237,
+      "auc_change": -0.009
     },
     "candidate_features_in_window": [
       "rh_avg",
       "rh_avg",
       "rh_avg",
-      "rh_avg",
       "rh_min",
+      "rh_avg",
       "rh_avg"
     ],
     "gates": {
       "minimum_distinct_validation_slots": true,
       "median_brier_improvement_at_least_0p015": true,
-      "median_specificity_improvement_at_least_0p10": false,
+      "median_specificity_improvement_at_least_0p10": true,
       "median_sensitivity_loss_at_most_0p20": true,
       "median_auc_change_nonnegative": false
     },
