@@ -160,8 +160,8 @@ class TestAgli(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 446)  # CL-INT-135 merged re-anchor (−6 retired) + 59 CL-DATA-66 wave1-4
-        self.assertEqual(cat["counts"]["opportunities"], 699)  # CL-INT-135 merged re-anchor + 90 CL-DATA-66 wave1-4
+        self.assertEqual(cat["counts"]["spots"], 473)  # CL-INT-135 merged re-anchor (−6 retired) + 103 CL-DATA-66 wave1-7
+        self.assertEqual(cat["counts"]["opportunities"], 726)  # CL-INT-135 merged re-anchor + 117 CL-DATA-66 wave1-7
         jp = [s for s in cat["spots"] if s["spot_id"].startswith("jp-")]
         self.assertEqual(len(jp), 94)  # jp-050 retired
 
@@ -185,8 +185,8 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 433)  # re-anchored CL-DATA-64 + CL-DATA-66 wave1-4: scoped 168h evals for 59 new places spliced into the 2026-11-11 bundle
-        self.assertEqual(ev["opportunity_count"], 658)  # CL-DATA-66 wave1-4: 562 + 71 scoped evals for the 90 new contracts
+        self.assertEqual(ev["place_count"], 465)  # re-anchored CL-DATA-64 + CL-DATA-66 wave1-7: scoped 168h evals for 86 new places spliced into the 2026-11-11 bundle
+        self.assertEqual(ev["opportunity_count"], 697)  # CL-DATA-66 wave1-7: 562 + 98 scoped evals for the 117 new contracts
 
 
 if __name__ == "__main__":

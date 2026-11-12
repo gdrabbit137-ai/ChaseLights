@@ -179,7 +179,7 @@ class TestManifest(unittest.TestCase):
 
 class TestRegions(unittest.TestCase):
     def test_region_lists_grew(self):
-        self.assertEqual(len(regions.get_spots("tw")), 200)  # 124 + 22 wave1 + 15 wave2 + 12 wave3 + 10 wave4
+        self.assertEqual(len(regions.get_spots("tw")), 227)  # 124 + 22 wave1 + 15 wave2 + 12 wave3 + 10 wave4 + 17 wave5 + 16 wave6 + 11 wave7
         self.assertEqual(len(regions.get_spots("jp")), 95)
         self.assertEqual(len(regions.get_spots("us")), 163)
         ids = [s["spot_id"] for r in ("tw", "jp", "us") for s in regions.get_spots(r)]
@@ -315,7 +315,7 @@ class TestContracts(unittest.TestCase):
     def test_web_evidence_refs_resolve(self):
         ev = load("data/v2/audits/cl-data-66_web_evidence.json")
         ids = {e["id"] for e in ev["evidence"]}
-        self.assertEqual(len(ids), 76)  # 22 wave1 + 15 wave2 + 12 wave3 + 10 wave4 + 17 wave5
+        self.assertEqual(len(ids), 103)  # 22 wave1 + 15 wave2 + 12 wave3 + 10 wave4 + 17 wave5 + 16 wave6 + 11 wave7
         for oid in WAVE1_CONTRACTS + WAVE2_CONTRACTS + WAVE3_CONTRACTS + WAVE4_CONTRACTS:
             doc = load(f"data/v2/opportunities/{oid}.json")
             refs = doc["evidence_claims"][0]["evidence_refs"]
@@ -466,12 +466,12 @@ class TestContracts(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 446)
-        self.assertEqual(cat["counts"]["opportunities"], 699)
+        self.assertEqual(cat["counts"]["spots"], 473)
+        self.assertEqual(cat["counts"]["opportunities"], 726)
 
     def test_manifest_region_ends(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
-        self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 200)
+        self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 227)
         self.assertEqual(mf["regions"]["jp"]["numeric_id_end"], 95)
         self.assertEqual(mf["regions"]["us"]["numeric_id_end"], 163)
         self.assertEqual(mf["totals"], load("runtime_catalog_v004_r4_2.json")["counts"])
@@ -481,14 +481,14 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 433)
-        self.assertEqual(ev["opportunity_count"], 658)
+        self.assertEqual(ev["place_count"], 465)
+        self.assertEqual(ev["opportunity_count"], 697)
         self.assertEqual(ev["forecast_hours"], 168)
 
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
-        self.assertEqual(len(cat["places"]), 433)
-        self.assertEqual(len(cat["opportunities"]), 665)
+        self.assertEqual(len(cat["places"]), 460)
+        self.assertEqual(len(cat["opportunities"]), 692)
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(WAVE1_CONTRACTS) <= oids)
         self.assertTrue(set(WAVE2_CONTRACTS) <= oids)
@@ -501,7 +501,7 @@ class TestRuntime(unittest.TestCase):
         self.assertTrue(set(WAVE2_IDS) <= ids)
         self.assertTrue(set(WAVE3_IDS) <= ids)
         self.assertTrue(set(WAVE4_IDS) <= ids)
-        self.assertEqual(len(tw["spots"]), 192)
+        self.assertEqual(len(tw["spots"]), 219)
 
 
 if __name__ == "__main__":

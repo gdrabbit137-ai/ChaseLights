@@ -57,7 +57,7 @@ def load(p):
 
 class TestRegions(unittest.TestCase):
     def test_region_lists_grew(self):
-        self.assertEqual(len(regions.get_spots("tw")), 200)  # raw regions.py ids: 124 + 59 CL-DATA-66 wave1-4 (retired stay raw; runtime catalog excludes)
+        self.assertEqual(len(regions.get_spots("tw")), 227)  # raw regions.py ids: 124 + 103 CL-DATA-66 wave1-7 (retired stay raw; runtime catalog excludes)
         self.assertEqual(len(regions.get_spots("jp")), 95)  # raw regions.py ids
         self.assertEqual(len(regions.get_spots("us")), 163)  # raw regions.py ids
         ids = [s["spot_id"] for r in ("tw", "jp", "us") for s in regions.get_spots(r)]
@@ -204,12 +204,12 @@ class TestAgli(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 446)
-        self.assertEqual(cat["counts"]["opportunities"], 699)
+        self.assertEqual(cat["counts"]["spots"], 473)
+        self.assertEqual(cat["counts"]["opportunities"], 726)
 
     def test_manifest_region_ends(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
-        self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 200)
+        self.assertEqual(mf["regions"]["tw"]["numeric_id_end"], 227)
         self.assertEqual(mf["regions"]["jp"]["numeric_id_end"], 95)
         self.assertEqual(mf["regions"]["us"]["numeric_id_end"], 163)
         self.assertEqual(mf["totals"], load("runtime_catalog_v004_r4_2.json")["counts"])
@@ -219,15 +219,15 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 433)
-        self.assertEqual(ev["opportunity_count"], 658)
+        self.assertEqual(ev["place_count"], 465)
+        self.assertEqual(ev["opportunity_count"], 697)
         self.assertEqual(ev["forecast_hours"], 168)
         self.assertEqual(ev["fetch_failures"], [])
 
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
-        self.assertEqual(len(cat["places"]), 433)  # CL-DATA-66 wave5 re-anchor: 433 active places
-        self.assertEqual(len(cat["opportunities"]), 665)  # CL-DATA-66 wave1-4 re-anchor (59 places / 105 contracts)
+        self.assertEqual(len(cat["places"]), 460)  # CL-DATA-66 wave7 re-anchor: 460 places
+        self.assertEqual(len(cat["opportunities"]), 692)  # CL-DATA-66 wave1-7 re-anchor (86 places / 132 contracts)
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(NEW_CONTRACTS) <= oids)
 
