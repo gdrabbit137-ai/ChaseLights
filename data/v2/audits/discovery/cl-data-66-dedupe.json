@@ -1,0 +1,979 @@
+{
+ "tw-125": {
+  "nearest_existing": "tw-104",
+  "name": "忘憂森林",
+  "km": 4.4,
+  "override": "subject-disjoint: tea-terrace cloud sea/sunrise (open tea-terrace vista) vs Wuyou Forest flooded-forest mirror (forest water subject) - 4.4km apart, disjoint subjects"
+ },
+ "tw-126": {
+  "nearest_existing": "tw-100",
+  "name": "石碇千島湖／鱷魚潭",
+  "km": 7.3
+ },
+ "tw-127": {
+  "nearest_existing": "tw-119",
+  "name": "加里山",
+  "km": 4.1,
+  "override": "subject-disjoint: Xianshan cloud-mist 'fairyland' (cloud subject) vs Chiali-shan ridge/mountain view - 4.1km apart, disjoint subjects"
+ },
+ "tw-128": {
+  "nearest_existing": "tw-096",
+  "name": "半天寮好望角",
+  "km": 11.51
+ },
+ "tw-129": {
+  "nearest_existing": "tw-054",
+  "name": "正濱漁港",
+  "km": 11.71
+ },
+ "tw-130": {
+  "nearest_existing": "tw-091",
+  "name": "司馬庫斯部落觀景點",
+  "km": 8.89
+ },
+ "tw-131": {
+  "nearest_existing": "tw-089",
+  "name": "觀霧榛山步道觀景點",
+  "km": 11.24
+ },
+ "tw-132": {
+  "nearest_existing": "tw-100",
+  "name": "石碇千島湖／鱷魚潭",
+  "km": 6.06
+ },
+ "tw-133": {
+  "nearest_existing": "tw-018",
+  "name": "日月潭・水社壩湖景步道",
+  "km": 6.85
+ },
+ "tw-134": {
+  "nearest_existing": "tw-106",
+  "name": "萬年峽谷",
+  "km": 4.9,
+  "override": "subject-disjoint: 1314 deck tea-terrace cloud sea/night view vs Wannian canyon river-cut gorge - 4.9km apart, disjoint subjects"
+ },
+ "tw-135": {
+  "nearest_existing": "tw-004",
+  "name": "不厭亭",
+  "km": 7.75
+ },
+ "tw-136": {
+  "nearest_existing": "tw-021",
+  "name": "武界部落",
+  "km": 7.97
+ },
+ "tw-137": {
+  "nearest_existing": "tw-085",
+  "name": "南子吝步道",
+  "km": 2.9,
+  "override": "subject-disjoint: Baoshishan yin-yang-sea sunset (bay sunset platform) vs Nanziwen trail coastal walk (~2.9km) - disjoint subjects"
+ },
+ "tw-138": {
+  "nearest_existing": "tw-005",
+  "name": "大稻埕碼頭",
+  "km": 12.06
+ },
+ "tw-139": {
+  "nearest_existing": "tw-074",
+  "name": "野柳地質公園",
+  "km": 5.92
+ },
+ "tw-140": {
+  "nearest_existing": "tw-088",
+  "name": "翠峰湖環山步道觀景點",
+  "km": 1.94,
+  "override": "subject-disjoint: Taipingshan forest cloud sea/stars (recreation-area ridge) vs Cueifong Lake loop (alpine lake) - 1.9km apart, disjoint subjects"
+ },
+ "tw-141": {
+  "nearest_existing": "tw-103",
+  "name": "清境農場",
+  "km": 12.42
+ },
+ "tw-142": {
+  "nearest_existing": "tw-110",
+  "name": "四草綠色隧道",
+  "km": 3.8,
+  "override": "subject-disjoint: Anping wharf harbor sunset/installation art vs Sicao mangrove green tunnel - 3.8km apart, disjoint subjects"
+ },
+ "tw-143": {
+  "nearest_existing": "tw-073",
+  "name": "老梅綠石槽",
+  "km": 1.02,
+  "override": "subject-disjoint: Fuguijiao ventifact boulders + cape sunset (northernmost cape geology) vs Laomei seasonal green-algae reef - 1.0km apart, disjoint subjects"
+ },
+ "tw-144": {
+  "nearest_existing": "tw-056",
+  "name": "松蘿湖",
+  "km": 18.41
+ },
+ "tw-145": {
+  "nearest_existing": "tw-007",
+  "name": "碧潭",
+  "km": 2.61,
+  "override": "subject-disjoint: Donghua temple basin light-sea liuli glow (hillside night viewpoint) vs Bitan suspension-bridge riverside - 2.6km apart, disjoint subjects"
+ },
+ "tw-146": {
+  "nearest_existing": "tw-108",
+  "name": "龍頭山／多納環流丘",
+  "km": 22.33
+ },
+ "_rejected_family_overlaps": [
+  {
+   "name": "北大武喜多麗斷崖段",
+   "reason": "5km dedupe reject: 0.96km from existing tw-047 北大武山 - same summit/route subject family, not subject-disjoint"
+  },
+  {
+   "name": "薑麻園景觀茶園",
+   "reason": "5km dedupe reject: 0.34km from existing tw-014 雲洞山莊 - same 薑麻園 cloud-sea viewpoint subject, not subject-disjoint"
+  },
+  {
+   "name": "加路蘭海蝕奇石群",
+   "reason": "5km dedupe reject: 2.67km from existing tw-090 加路蘭海岸遊憩區 - same recreation-area subject (duplicate)"
+  },
+  {
+   "name": "好望角",
+   "reason": "5km dedupe reject: 1.57km from existing tw-096 半天寮好望角 - same viewpoint subject (duplicate)"
+  },
+  {
+   "name": "鼻頭角海蝕平台/軍艦岩",
+   "reason": "5km dedupe reject: 3.16km from existing tw-072 南雅奇岩 - same coastal mushroom-rock geology family, not subject-disjoint"
+  },
+  {
+   "name": "合歡北峰反射板",
+   "reason": "5km dedupe reject: 4.44km from existing tw-019 合歡山主峰 - same high-mountain sunrise/cloud-sea summit family, not subject-disjoint"
+  },
+  {
+   "name": "武嶺/主峰星空",
+   "reason": "5km dedupe reject: 0.87km from existing tw-019 合歡山主峰 - same summit stargazing/sunrise subject, not subject-disjoint"
+  },
+  {
+   "name": "阿拔泉山步道",
+   "reason": "5km dedupe reject: 1.70km from existing tw-105 太平雲梯/梅山36彎 - same 竹崎 viewpoint/trail cluster, not subject-disjoint"
+  }
+ ],
+ "_rejected_family_overlaps_wave2": [
+  {
+   "name": "風吹砂珊瑚礁懸崖",
+   "reason": "same-family overlap: 2.23km from tw-076 龍磐公園／草原海岸 (coastal reef cliff family)"
+  },
+  {
+   "name": "八斗子潮境公園海蝕平台",
+   "reason": "same-family overlap: 0.66km from tw-009 望幽谷"
+  },
+  {
+   "name": "墾丁白沙灣",
+   "reason": "same-family overlap: 3.15km from tw-030 屏東關山 (白砂灣夕照同關山夕照題材)"
+  },
+  {
+   "name": "對高岳觀景台",
+   "reason": "same-family overlap: 1.20km from tw-024 阿里山祝山觀日平台"
+  },
+  {
+   "name": "滿月圓森林遊樂區",
+   "reason": "same-family overlap: 3.39km from tw-144 東眼山國家森林遊樂區三角點"
+  },
+  {
+   "name": "漁光島月牙灣",
+   "reason": "same-family overlap: 2.08km from tw-142 安平漁人碼頭/大魚的祝福"
+  },
+  {
+   "name": "石門山",
+   "reason": "same-family overlap: 1.74km from tw-019 合歡山主峰"
+  },
+  {
+   "name": "船帆石+龍磐高位珊瑚礁",
+   "reason": "same-family overlap: 2.51km from tw-076 龍磐公園／草原海岸"
+  },
+  {
+   "name": "西子灣/柴山海岸",
+   "reason": "same-family overlap: 2.20km from tw-028 駁二藝術特區 (高雄港灣夕照家族)"
+  },
+  {
+   "name": "阿里山慈雲寺觀景台",
+   "reason": "same-family overlap: 1.66km from tw-024 阿里山祝山觀日平台"
+  },
+  {
+   "name": "鳥嘴山大竹山農場",
+   "reason": "same-family overlap: 3.03km from tw-131 山上人家農場"
+  },
+  {
+   "name": "三仙山西濱海蝕平台",
+   "reason": "same-family overlap: 1.00km from tw-038 三仙台 (identical existing place)"
+  },
+  {
+   "name": "二尖山爽文嶺",
+   "reason": "same-family overlap: 2.05km from tw-133 集集大山轉播站"
+  },
+  {
+   "name": "八仙山主峰",
+   "reason": "same-family overlap: 3.25km from tw-087 大雪山森林遊樂區43K觀景台"
+  },
+  {
+   "name": "三條崙海水浴場",
+   "reason": "pure swimming beach exclusion (owner rules)"
+  }
+ ],
+ "tw-147": {
+  "nearest_existing": "tw-022",
+  "name": "二延平步道鋼構觀景平台",
+  "km": 19.96
+ },
+ "tw-148": {
+  "nearest_existing": "tw-027",
+  "name": "田寮月世界",
+  "km": 7.66
+ },
+ "tw-149": {
+  "nearest_existing": "tw-020",
+  "name": "金龍山",
+  "km": 7.81
+ },
+ "tw-150": {
+  "nearest_existing": "tw-015",
+  "name": "高美濕地",
+  "km": 18.82
+ },
+ "tw-151": {
+  "nearest_existing": "tw-144",
+  "name": "東眼山國家森林遊樂區三角點",
+  "km": 13.29
+ },
+ "tw-152": {
+  "nearest_existing": "tw-033",
+  "name": "粉鳥林",
+  "km": 9.06
+ },
+ "tw-153": {
+  "nearest_existing": "tw-082",
+  "name": "鯉魚潭",
+  "km": 5.35
+ },
+ "tw-154": {
+  "nearest_existing": "tw-116",
+  "name": "太麻里金針山",
+  "km": 5.83
+ },
+ "tw-155": {
+  "nearest_existing": "tw-107",
+  "name": "佳樂水",
+  "km": 22.48
+ },
+ "tw-156": {
+  "nearest_existing": "tw-017",
+  "name": "王功漁港",
+  "km": 19.41
+ },
+ "tw-157": {
+  "nearest_existing": "tw-026",
+  "name": "井仔腳瓦盤鹽田",
+  "km": 5.2
+ },
+ "tw-158": {
+  "nearest_existing": "tw-130",
+  "name": "宇老觀景台",
+  "km": 5.91
+ },
+ "tw-159": {
+  "nearest_existing": "tw-142",
+  "name": "安平漁人碼頭/大魚的祝福",
+  "km": 7.32
+ },
+ "tw-160": {
+  "nearest_existing": "tw-011",
+  "name": "永安漁港",
+  "km": 19.97
+ },
+ "tw-161": {
+  "nearest_existing": "tw-074",
+  "name": "野柳地質公園",
+  "km": 6.97
+ },
+ "_rejected_family_overlaps_wave3": [
+  {
+   "name": "北投四季長廊/吳氏宗祠",
+   "reason": "5km dedupe reject: 3.05km from existing tw-001 大屯山助航站 - same 大屯山系台北盆地夜景/夕照 family, not subject-disjoint"
+  },
+  {
+   "name": "北關海潮公園單面山/豆腐岩",
+   "reason": "identical existing place: name-matched tw-092 北關海潮公園 already in catalog (OSM coordinate 24.9119,121.8772 vs recorded tw-092 24.793,121.875 - coordinate discrepancy noted honestly)"
+  },
+  {
+   "name": "南橫摩天農場",
+   "reason": "5km dedupe reject: 1.56km from existing tw-118 栗松溫泉野溪峽谷 - same 南橫利稻段山場 family, not subject-disjoint"
+  },
+  {
+   "name": "司馬庫斯巨木群",
+   "reason": "5km dedupe reject: 2.32km from existing tw-091 司馬庫斯部落觀景點 - same 司馬庫斯部落 family, not subject-disjoint"
+  },
+  {
+   "name": "合歡東峰",
+   "reason": "5km dedupe reject: 1.26km from existing tw-019 合歡山主峰 - same 合歡群峰日出/雲海 summit family, not subject-disjoint"
+  },
+  {
+   "name": "吉安日光步道",
+   "reason": "5km dedupe reject: 1.42km from existing tw-153 楓林步道（花蓮吉安） - same 吉安平原夜景/夕照家族, not subject-disjoint"
+  },
+  {
+   "name": "向陽森林遊樂區",
+   "reason": "5km dedupe reject: 1.75km from wave-3 admitted tw-165 南橫埡口/大關山隧道口 - same 南橫埡口-向陽鞍部 family, not subject-disjoint"
+  },
+  {
+   "name": "基隆嶼蝙蝠洞/海蝕峭壁",
+   "reason": "5km dedupe reject: 4.27km from existing tw-010 和平島 - same 基隆嶼/和平島海景 family, not subject-disjoint"
+  },
+  {
+   "name": "大尖山/二尖山茶園步道",
+   "reason": "5km dedupe reject: 3.44km from existing tw-105 太平雲梯／梅山36彎 - same 梅山茶園步道 cluster, not subject-disjoint"
+  },
+  {
+   "name": "大肚山藍色公路",
+   "reason": "5km dedupe reject: 1.33km from existing tw-150 九天夕陽之樹/大肚山台地 - same 大肚山台地夜景/夕照 family, not subject-disjoint"
+  },
+  {
+   "name": "大霸中霸坪",
+   "reason": "identical existing place: 0.06km from existing tw-046 大霸尖山 - same summit massif"
+  },
+  {
+   "name": "小門嶼鯨魚洞框景",
+   "reason": "5km dedupe reject: 3.54km from existing tw-058 澎湖跨海大橋 - same 澎湖西嶼夕照 family, not subject-disjoint"
+  },
+  {
+   "name": "尾寮山觀景亭",
+   "reason": "5km dedupe reject: 3.29km from existing tw-108 龍頭山／多納環流丘 - same 屏東山系展望 family, not subject-disjoint"
+  },
+  {
+   "name": "拉拉山恩愛農場/巴陵觀景台",
+   "reason": "5km dedupe reject: 4.22km from wave-3 admitted tw-172 拉拉山巴陵 and 3.19km from wave-3 admitted tw-167 塔曼山 - same 拉拉山-塔曼山稜線 family, not subject-disjoint"
+  },
+  {
+   "name": "文化大學後山情人坡",
+   "reason": "5km dedupe reject: 4.76km from existing tw-001 大屯山助航站 (4.90km tw-097 擎天崗) - same 大屯山系台北夜景 family, not subject-disjoint"
+  },
+  {
+   "name": "新豐新月沙灣",
+   "reason": "pure swimming beach exclusion (owner rules)"
+  },
+  {
+   "name": "旗後燈塔/旗津海水浴場",
+   "reason": "5km dedupe reject: 1.64km from existing tw-028 駁二藝術特區 - same 高雄港灣夕照 family, not subject-disjoint"
+  },
+  {
+   "name": "望洋山日出觀景台",
+   "reason": "5km dedupe reject: 1.05km from existing tw-088 翠峰湖環山步道觀景點 - same 太平山山系晨霧日出 family, not subject-disjoint"
+  }
+ ],
+ "tw-162": {
+  "nearest_existing": "tw-150",
+  "name": "九天夕陽之樹/大肚山台地",
+  "km": 7.84
+ },
+ "tw-163": {
+  "nearest_existing": "tw-022",
+  "name": "二延平步道鋼構觀景平台",
+  "km": 7.15
+ },
+ "tw-164": {
+  "nearest_existing": "tw-115",
+  "name": "鹿野高台",
+  "km": 14.45
+ },
+ "tw-165": {
+  "nearest_existing": "tw-045",
+  "name": "嘉明湖",
+  "km": 6.83
+ },
+ "tw-166": {
+  "nearest_existing": "tw-171",
+  "name": "成龍濕地",
+  "km": 19.29
+ },
+ "tw-167": {
+  "nearest_existing": "tw-173",
+  "name": "明池森林遊樂區",
+  "km": 6.54
+ },
+ "tw-168": {
+  "nearest_existing": "tw-092",
+  "name": "北關海潮公園",
+  "km": 8.26
+ },
+ "tw-169": {
+  "nearest_existing": "tw-016",
+  "name": "鳶嘴山",
+  "km": 8.26
+ },
+ "tw-170": {
+  "nearest_existing": "tw-131",
+  "name": "山上人家農場",
+  "km": 8.56
+ },
+ "tw-171": {
+  "nearest_existing": "tw-166",
+  "name": "台西海園木棧道",
+  "km": 19.29
+ },
+ "tw-172": {
+  "nearest_existing": "tw-167",
+  "name": "塔曼山魔幻森林展望點",
+  "km": 7.3
+ },
+ "tw-173": {
+  "nearest_existing": "tw-167",
+  "name": "塔曼山魔幻森林展望點",
+  "km": 6.54
+ },
+ "_rejected_family_overlaps_wave4": [
+  {
+   "name": "望高寮夜景公園",
+   "reason": "5km dedupe reject: 0.36km from existing tw-150 九天夕陽之樹/大肚山台地 - same 大肚山台地夜景/夕照 subject (near-duplicate), not subject-disjoint"
+  },
+  {
+   "name": "松雪樓/奇萊登山口平台",
+   "reason": "5km dedupe reject: 1.51km from existing tw-019 合歡山主峰 - same 合歡群峰 sunrise/cloud-sea summit family, not subject-disjoint"
+  },
+  {
+   "name": "梅山36彎28-36彎",
+   "reason": "identical existing place: name-matched tw-105 太平雲梯／梅山36彎 already in catalog - same 梅山36彎 switchback subject"
+  },
+  {
+   "name": "梅山36彎36彎",
+   "reason": "identical existing place: name-matched tw-105 太平雲梯／梅山36彎 already in catalog - same 梅山36彎 switchback subject"
+  },
+  {
+   "name": "梧棲漁港/台中港",
+   "reason": "5km dedupe reject: 4.02km from existing tw-015 高美濕地 - same 台中港海岸夕照/漁港 family, not subject-disjoint"
+  },
+  {
+   "name": "水山巨木步道高點",
+   "reason": "5km dedupe reject: 1.23km from existing tw-024 阿里山祝山觀日平台 - same 阿里山森林遊樂區 family, not subject-disjoint"
+  },
+  {
+   "name": "淺水灣",
+   "reason": "pure swimming beach exclusion (owner rules)"
+  },
+  {
+   "name": "清境觀星園/翠湖步道",
+   "reason": "5km dedupe reject: 1.37km from existing tw-103 清境農場 - same 清境 family, not subject-disjoint"
+  },
+  {
+   "name": "湖口祥喜路/大尖山",
+   "reason": "honest reject: identity/coordinate unverifiable - all Hukou night-view sources resolve to private landscape restaurants; no authoritative source for a public 祥喜路/大尖山 viewpoint"
+  },
+  {
+   "name": "烏來瀑布/桶後林道",
+   "reason": "5km dedupe reject: 3.47km from existing tw-151 內洞國家森林遊樂區 - same 烏來溪谷瀑布/森林 family, not subject-disjoint"
+  },
+  {
+   "name": "玉山北峰氣象站",
+   "reason": "5km dedupe reject: 1.93km from existing tw-040 玉山主峰 - same 玉山群峰 summit family, not subject-disjoint"
+  },
+  {
+   "name": "瑞峰1314觀景台",
+   "reason": "identical existing place: 0.0km from existing tw-134 1314觀景台 - same 海鼠山 deck"
+  },
+  {
+   "name": "白沙灣",
+   "reason": "pure swimming beach exclusion (owner rules); also 2.46km from tw-143 富貴角風稜石"
+  },
+  {
+   "name": "石梯坪單面山+壺穴",
+   "reason": "identical existing place: 0.91km from existing tw-077 石梯坪海蝕平台／壺穴群 - same reef platform subject"
+  },
+  {
+   "name": "碧湖山茶園",
+   "reason": "5km dedupe reject: 3.37km from existing tw-105 太平雲梯／梅山36彎 - same 梅山茶區雲海茶園 family, not subject-disjoint"
+  },
+  {
+   "name": "碧湖山觀光茶園",
+   "reason": "5km dedupe reject: 3.37km from existing tw-105 太平雲梯／梅山36彎 - same 梅山茶區雲海茶園 family (also near-duplicate of manifest row 碧湖山茶園), not subject-disjoint"
+  },
+  {
+   "name": "社頭極光森林/高鐵觀景區",
+   "reason": "owner minor-spot exclusion: private night-view 景觀餐廳 (員林山腳路), analogous to the homestay exclusion"
+  },
+  {
+   "name": "翡翠灣",
+   "reason": "pure swimming beach exclusion (owner rules); also 2.64km from tw-074 野柳地質公園"
+  },
+  {
+   "name": "花蓮磯崎海水浴場",
+   "reason": "pure swimming beach exclusion (owner rules)"
+  },
+  {
+   "name": "萬里桐潮池",
+   "reason": "5km dedupe reject: 3.91km from existing tw-030 屏東關山 - same 恆春西海岸夕照 family, not subject-disjoint"
+  }
+ ],
+ "tw-174": {
+  "nearest_existing": "tw-016",
+  "name": "鳶嘴山",
+  "km": 8.84
+ },
+ "tw-175": {
+  "nearest_existing": "tw-133",
+  "name": "集集大山轉播站",
+  "km": 20.69
+ },
+ "tw-176": {
+  "nearest_existing": "tw-179",
+  "name": "碧山巖",
+  "km": 4.25,
+  "override": "subject-disjoint: Bishanyan temple-front Taipei-basin night view vs Cuihu forest-ring lake trail - 4.25km apart (same-wave siblings), disjoint subjects"
+ },
+ "tw-177": {
+  "nearest_existing": "tw-024",
+  "name": "阿里山祝山觀日平台",
+  "km": 3.21,
+  "override": "subject-disjoint: Tefuya old-trail mist-forest/historic-railway hike vs Zhushan sunrise platform - 3.21km apart, disjoint subjects"
+ },
+ "tw-178": {
+  "nearest_existing": "tw-157",
+  "name": "雙春濱海遊憩區",
+  "km": 11.65
+ },
+ "tw-179": {
+  "nearest_existing": "tw-176",
+  "name": "汐止翠湖步道",
+  "km": 4.25,
+  "override": "subject-disjoint: Bishanyan temple-front Taipei-basin night view vs Cuihu forest-ring lake trail - 4.25km apart (same-wave siblings), disjoint subjects"
+ },
+ "tw-180": {
+  "nearest_existing": "tw-127",
+  "name": "仙山靈洞宮後山",
+  "km": 5.22
+ },
+ "tw-181": {
+  "nearest_existing": "tw-043",
+  "name": "奇萊主峰",
+  "km": 6.31
+ },
+ "tw-182": {
+  "nearest_existing": "tw-053",
+  "name": "杉林溪",
+  "km": 9.56
+ },
+ "tw-183": {
+  "nearest_existing": "tw-091",
+  "name": "司馬庫斯部落觀景點",
+  "km": 4.62,
+  "override": "subject-disjoint: Xiuluan warship-rock/footbridge river-gorge landform + wild-spring valley vs Smangus tribal viewpoint - 4.62km apart, disjoint subjects"
+ },
+ "_rejected_family_overlaps_wave5": [
+  {
+   "name": "虎仔山KEELUNG地標",
+   "reason": "5km dedupe reject: 3.45km from existing tw-054 正濱漁港 - same 基隆港 harbor family (hillside KEELUNG-sign harbor night view vs harbor-front fishing port), not subject-disjoint (梧棲漁港 wave-4 precedent)"
+  },
+  {
+   "name": "豆腐岬海蝕平台/珊瑚礁",
+   "reason": "5km dedupe reject: 0.95km from existing tw-152 南方澳觀景台 - same 南方澳 coastal family (near-duplicate bay), not subject-disjoint"
+  },
+  {
+   "name": "關刀山出關步道",
+   "reason": "5km dedupe reject: 1.87km from existing tw-014 雲洞山莊 - same 薑麻園/關刀山雲海茶園 family, not subject-disjoint"
+  },
+  {
+   "name": "雙龍林道高點",
+   "reason": "honest reject: identity/coordinate unverifiable - OSM only yields forest-road track nodes for 雙龍林道, no 高點/望洋點 node and no authoritative source for the specific viewpoint"
+  },
+  {
+   "name": "雪山東峰哭坡頂",
+   "reason": "5km dedupe reject: 4.02km from existing tw-041 雪山主峰 - same 雪山群峰 summit/route family, not subject-disjoint"
+  },
+  {
+   "name": "馬崙山新山遺址",
+   "reason": "5km dedupe reject: 1.66km from existing tw-087 大雪山森林遊樂區43K觀景台 - same 大雪山林道 cloud-sea family (tw-087/tw-169 both in catalog), not subject-disjoint"
+  },
+  {
+   "name": "龜山島龜首海蝕洞/海底噴口",
+   "reason": "honest reject: restricted-access islet - landing requires permit-managed boat tours, the 龜首 sea cave/sea-vent subject is only viewable from licensed boats; no shore/island-accessible camera context verifiable"
+  },
+  {
+   "name": "三才靈芝農場",
+   "reason": "owner minor-spot exclusion: private lingzhi/agri farm (石碇), identity not even OSM-locable; analogous to the homestay exclusion"
+  },
+  {
+   "name": "三貂角海蝕平台/大姆指岩",
+   "reason": "identical existing place: 0.08km from existing tw-102 三貂角燈塔 - same cape subject"
+  },
+  {
+   "name": "公老坪/若茵農場",
+   "reason": "owner minor-spot exclusion: 若茵農場 is a private night-view 景觀農場 (豐原公老坪), analogous to the homestay/private-restaurant exclusion (社頭極光森林 wave-4 precedent)"
+  },
+  {
+   "name": "六寮古道/獅山步道",
+   "reason": "identical existing place: 0.26km from existing tw-170 峨眉獅山古道/六寮古道 - same trail subject"
+  },
+  {
+   "name": "出風鼻海蝕岩/風吹石",
+   "reason": "5km dedupe reject: 4.44km from existing tw-107 佳樂水 - same 恆春東南海岸礁岩 family, not subject-disjoint"
+  },
+  {
+   "name": "和平海蝕崖",
+   "reason": "honest reject: identity/coordinate unverifiable - OSM only resolves the 和平 village/industrial node, no 海蝕崖 feature node and no authoritative source for the specific cliff"
+  }
+ ],
+ "tw-184": {
+  "nearest_existing": "tw-020",
+  "name": "金龍山",
+  "km": 3.45,
+  "override": "subject-disjoint: Lianhuachi research-forest pond landscape (forestry research station) vs Jinlongshan sunrise/cloud-sea lookout platform - 3.45km apart, disjoint subjects"
+ },
+ "tw-185": {
+  "nearest_existing": "tw-186",
+  "name": "許厝港濕地",
+  "km": 4.78,
+  "override": "subject-disjoint: Caota dune-geology landform vs Xucuogang wetland sunset/shorebird subject - 4.3km apart (same-wave siblings), disjoint subjects"
+ },
+ "tw-186": {
+  "nearest_existing": "tw-185",
+  "name": "觀音草漯沙丘",
+  "km": 4.78,
+  "override": "subject-disjoint: Xucuogang wetland sunset/shorebird subject vs Caota dune-geology landform - 4.3km apart (same-wave siblings), disjoint subjects"
+ },
+ "tw-187": {
+  "nearest_existing": "tw-132",
+  "name": "石門二格山觀景台",
+  "km": 3.52,
+  "override": "subject-disjoint: Maokong camphor-trail tea-terrace landscape vs Ergeshan Taipei-basin night-view platform - 3.52km apart, disjoint subjects"
+ },
+ "tw-188": {
+  "nearest_existing": "tw-030",
+  "name": "屏東關山",
+  "km": 5.31
+ },
+ "tw-189": {
+  "nearest_existing": "tw-182",
+  "name": "望高寮瞭望台（獵人古道）",
+  "km": 9.83
+ },
+ "tw-190": {
+  "nearest_existing": "tw-090",
+  "name": "加路蘭海岸遊憩區",
+  "km": 10.06
+ },
+ "tw-191": {
+  "nearest_existing": "tw-013",
+  "name": "火炎山",
+  "km": 7.87
+ },
+ "tw-192": {
+  "nearest_existing": "tw-035",
+  "name": "六十石山",
+  "km": 10.36
+ },
+ "tw-193": {
+  "nearest_existing": "tw-162",
+  "name": "八卦山天空步道",
+  "km": 16.35
+ },
+ "tw-194": {
+  "nearest_existing": "tw-109",
+  "name": "七股鹽山／潟湖",
+  "km": 8.76
+ },
+ "tw-195": {
+  "nearest_existing": "tw-160",
+  "name": "三水江家古厝",
+  "km": 12.56
+ },
+ "tw-196": {
+  "nearest_existing": "tw-014",
+  "name": "雲洞山莊",
+  "km": 9.6
+ },
+ "tw-197": {
+  "nearest_existing": "tw-015",
+  "name": "高美濕地",
+  "km": 5.56
+ },
+ "tw-198": {
+  "nearest_existing": "tw-160",
+  "name": "三水江家古厝",
+  "km": 11.92
+ },
+ "tw-199": {
+  "nearest_existing": "tw-090",
+  "name": "加路蘭海岸遊憩區",
+  "km": 5.24
+ },
+ "tw-200": {
+  "nearest_existing": "tw-033",
+  "name": "粉鳥林",
+  "km": 12.02
+ },
+ "_rejected_family_overlaps_wave6": [
+  {
+   "name": "四角窟海蝕平台",
+   "reason": "identical existing place: 0.36km from existing tw-102 三貂角燈塔 - same 三貂角 cape family"
+  },
+  {
+   "name": "國聖港燈塔",
+   "reason": "identical existing subject: 0.66km from wave-5 tw-194 頂頭額沙洲 - the lighthouse is already named inside tw-194's sunset contract"
+  },
+  {
+   "name": "大菓葉柱狀玄武岩",
+   "reason": "5km dedupe reject: 1.66km from existing tw-079 池西柱狀玄武岩／池西岩瀑九孔池 - same columnar-basalt geology family, not subject-disjoint"
+  },
+  {
+   "name": "富岡漁港海蝕岩",
+   "reason": "5km dedupe reject: 0.84km from existing tw-090 加路蘭海岸遊憩區 - same 富岡 coastal family, and the specific 海蝕岩 identity is unverifiable"
+  },
+  {
+   "name": "恩愛農場",
+   "reason": "owner minor-spot exclusion: private 拉拉山 homestay/farm (桃園復興), analogous to the homestay exclusion (三才靈芝農場 wave-5 precedent)"
+  },
+  {
+   "name": "惠蓀林場高點",
+   "reason": "family-cluster row: ~1km inside the admitted tw-207 惠蓀林場 - same forest family, not separately admitted"
+  },
+  {
+   "name": "拉拉山恩愛農場/神木區",
+   "reason": "owner minor-spot exclusion: same private 恩愛農場 as the sibling row (dup)"
+  },
+  {
+   "name": "旗津黑砂+旗後燈塔",
+   "reason": "family-cluster row: same 旗後燈塔/旗後山 subject as admitted tw-209, not separately admitted"
+  },
+  {
+   "name": "明池國家森林遊樂區高點",
+   "reason": "identical existing place: same OSM node as existing tw-173 明池森林遊樂區 (0km)"
+  },
+  {
+   "name": "月洞海蝕穴",
+   "reason": "5km dedupe reject: 1.23km from existing tw-077 石梯坪海蝕平台／壺穴群 - same 石梯坪 attraction family, not subject-disjoint"
+  },
+  {
+   "name": "水湳洞陰陽海海蝕崖",
+   "reason": "5km dedupe reject: 1.10km from existing tw-137 報時山觀景台 - same 水湳洞/陰陽海 family (the lookout overlooks the same bay), not subject-disjoint"
+  },
+  {
+   "name": "清境青青草原/觀星園",
+   "reason": "identical existing place: 0.67km from existing tw-103 清境農場 - same farm subject"
+  },
+  {
+   "name": "清水斷崖海蝕岩壁",
+   "reason": "identical existing place: 2.74km from existing tw-034 崇德清水斷崖展望點 - same cliff subject"
+  },
+  {
+   "name": "漢本海蝕崖",
+   "reason": "honest reject: identity/coordinate unverifiable - OSM only yields the 漢本 station/hamlet nodes, no 海蝕崖 feature node and no authoritative source for the specific cliff (the area's coast is already covered by tw-200 南澳海蝕洞)"
+  }
+ ],
+ "tw-201": {
+  "nearest_existing": "tw-010",
+  "name": "和平島",
+  "km": 2.08,
+  "override": "subject-disjoint: Keelung Lighthouse historic cape-and-channel subject vs Heping Island island-park geology - 2.08km apart, disjoint subjects"
+ },
+ "tw-202": {
+  "nearest_existing": "tw-105",
+  "name": "太平雲梯／梅山36彎",
+  "km": 4.47,
+  "override": "subject-disjoint: Tanghu historic-trail stone steps and ridge outlook (Zhuqi) vs Taiping suspension-bridge/M36-bend viewpoint (Meishan) - 4.47km apart, disjoint subjects"
+ },
+ "tw-203": {
+  "nearest_existing": "tw-083",
+  "name": "雲山水夢幻湖",
+  "km": 14.82
+ },
+ "tw-204": {
+  "nearest_existing": "tw-084",
+  "name": "大農大富平地森林園區",
+  "km": 7.99
+ },
+ "tw-205": {
+  "nearest_existing": "tw-071",
+  "name": "小琉球花瓶岩",
+  "km": 1.32,
+  "override": "subject-disjoint: Longxiadong sea-cut channels and pothole geology vs Vase Rock snorkel landmark - 1.32km apart, disjoint subjects"
+ },
+ "tw-206": {
+  "nearest_existing": "tw-153",
+  "name": "楓林步道（花蓮吉安）",
+  "km": 7.67
+ },
+ "tw-207": {
+  "nearest_existing": "tw-087",
+  "name": "大雪山森林遊樂區43K觀景台",
+  "km": 11.31
+ },
+ "tw-208": {
+  "nearest_existing": "tw-175",
+  "name": "橫山觀日步道（橫山仙境）",
+  "km": 7.67
+ },
+ "tw-209": {
+  "nearest_existing": "tw-028",
+  "name": "駁二藝術特區",
+  "km": 1.64,
+  "override": "subject-disjoint: Cihou Lighthouse historic night grounds on Cihou hill vs Pier-2 art-district harbourfront - 1.64km apart, disjoint subjects"
+ },
+ "tw-210": {
+  "nearest_existing": "tw-152",
+  "name": "南方澳觀景台",
+  "km": 4.77,
+  "override": "subject-disjoint: Wuyanjiao tied-island sea arch in Dong'ao bay vs Nanfang'ao harbour-bay lookout - 4.77km apart, disjoint subjects"
+ },
+ "tw-211": {
+  "nearest_existing": "tw-155",
+  "name": "旭海草原公園",
+  "km": 4.85,
+  "override": "subject-disjoint: Alangyi historic-trail boulder shore/coastal forest vs Xuhai grassland park - 4.85km apart, disjoint subjects"
+ },
+ "tw-212": {
+  "nearest_existing": "tw-114",
+  "name": "赤科山金針花海",
+  "km": 3.99,
+  "override": "subject-disjoint: Zhangyuan coastal wave-cut platform geology vs Chishan daylily-flower hills - 3.99km apart, disjoint subjects"
+ },
+ "tw-213": {
+  "nearest_existing": "tw-116",
+  "name": "太麻里金針山",
+  "km": 4.51,
+  "override": "subject-disjoint: Huayuan-bay cistern sky-mirror reflections vs Taimali daylily mountain - 4.51km apart, disjoint subjects"
+ },
+ "tw-214": {
+  "nearest_existing": "tw-215",
+  "name": "浸水營古道",
+  "km": 13.17
+ },
+ "tw-215": {
+  "nearest_existing": "tw-214",
+  "name": "大鳥遊憩區觀海平台",
+  "km": 13.17
+ },
+ "tw-216": {
+  "nearest_existing": "tw-079",
+  "name": "池西柱狀玄武岩／池西岩瀑九孔池",
+  "km": 5.69
+ },
+ "_rejected_family_overlaps_wave7": [
+  {
+   "name": "獅山古道",
+   "reason": "identical existing subject: 1.97km from existing tw-170 峨眉獅山古道/六寮古道 - the same 獅山古道 system already merged in wave 4"
+  },
+  {
+   "name": "石梯坪壺穴平台",
+   "reason": "identical existing subject: 0.91km from existing tw-077 石梯坪海蝕平台／壺穴群 - the same 石梯坪 platform/pothole subject"
+  },
+  {
+   "name": "石門山日出觀景點",
+   "reason": "honest reject: identity/coordinate unverifiable - OSM yields no 石門山 node in 花蓮秀林 and no authoritative source for this specific sunrise viewpoint"
+  },
+  {
+   "name": "福壽山農場松廬",
+   "reason": "family-cluster row: same 福壽山農場 attraction family as the admitted tw-218 千櫻園 row and existing tw-093 農場觀景點, not separately admitted"
+  },
+  {
+   "name": "空ㄟ農場/跑馬古道",
+   "reason": "owner minor-spot exclusion: 空ㄟ農場 is a private café/farm business on 跑馬古道 (OSM amenity=cafe), analogous to the homestay exclusion class"
+  },
+  {
+   "name": "綠島牛頭山海蝕崖",
+   "reason": "5km dedupe reject: 4.82km from existing tw-080 帆船鼻大草原／海岬 - same 綠島 cape/headland family, not subject-disjoint"
+  },
+  {
+   "name": "翠峰湖環山步道日出平台",
+   "reason": "identical existing subject: 0.78km from existing tw-088 翠峰湖環山步道觀景點 - the same 環山步道 viewpoint family"
+  },
+  {
+   "name": "能高越嶺古道天池山莊",
+   "reason": "identical existing subject: 0.03km from existing tw-181 能高天池山莊 (wave 5) - the same trail-station subject"
+  },
+  {
+   "name": "若茵農場中坑路觀景點",
+   "reason": "owner minor-spot exclusion: private 若茵農場 homestay/farm viewpoint (OSM hotel node), analogous to the 恩愛農場 wave-6 exclusion"
+  },
+  {
+   "name": "若茵農場高點",
+   "reason": "owner minor-spot exclusion: same private 若茵農場 as the sibling row (dup)"
+  },
+  {
+   "name": "草嶺古道",
+   "reason": "identical existing subject family: 2.3km from existing tw-099 桃源谷（灣坑頭山草原） - 灣坑頭山 is on the 草嶺古道 ridge line, the same trail subject"
+  },
+  {
+   "name": "觀霧國家森林遊樂區榛山步道",
+   "reason": "identical existing subject: 1.55km from existing tw-089 觀霧榛山步道觀景點 - the same 榛山步道 subject"
+  },
+  {
+   "name": "象鼻岩海蝕拱門",
+   "reason": "honest reject: the 象鼻岩 sea arch (海蝕拱門) collapsed in 2023-12 - the list's sea-arch subject no longer exists and the remaining rock cannot carry that subject"
+  },
+  {
+   "name": "頭城農場/藏酒酒莊",
+   "reason": "owner minor-spot exclusion: private 頭城農場/藏酒酒莊 homestay/farm business class, analogous to the homestay exclusion"
+  },
+  {
+   "name": "龍潭客家文化館/三坑古道",
+   "reason": "honest reject: 龍潭客家文化館 is an indoor museum (not a photography subject) and the 三坑古道 row has no authoritative coordinate source; OSM yields no match"
+  },
+  {
+   "name": "龍磐公園星空",
+   "reason": "identical existing subject: 0.17km from existing tw-076 龍磐公園／草原海岸 - the same 龍磐 subject already carries night-sky"
+  }
+ ],
+ "tw-217": {
+  "nearest_existing": "tw-192",
+  "name": "長濱烏石鼻柱狀火山岩",
+  "km": 5.86
+ },
+ "tw-218": {
+  "nearest_existing": "tw-093",
+  "name": "福壽山農場觀景點",
+  "km": 7.5
+ },
+ "tw-219": {
+  "nearest_existing": "tw-155",
+  "name": "旭海草原公園",
+  "km": 7.33
+ },
+ "tw-220": {
+  "nearest_existing": "tw-203",
+  "name": "大石鼻山步道",
+  "km": 3.74,
+  "override": "subject-disjoint: Baqi roadside high lookout subject vs Dashibishan summit-trail subject - 3.74km apart, disjoint subjects"
+ },
+ "tw-221": {
+  "nearest_existing": "tw-201",
+  "name": "基隆燈塔",
+  "km": 0.45,
+  "override": "subject-disjoint: Baimiwong Fort fortress-ruin subject (1900-1902 coastal battery, city-designated historic site) vs Keelung Lighthouse active navigation-aid historic subject - 0.45km apart on the same cape, disjoint subjects"
+ },
+ "tw-222": {
+  "nearest_existing": "tw-073",
+  "name": "老梅綠石槽",
+  "km": 2.44,
+  "override": "subject-disjoint: Shimen Cave sea-arch geology (uplifted arch) vs Laomei green algae-reef subject - 2.44km apart, disjoint subjects"
+ },
+ "tw-223": {
+  "nearest_existing": "tw-161",
+  "name": "中角灣/沙珠灣",
+  "km": 2.34,
+  "override": "subject-disjoint: Mystery Coast tide-arch and wave-cut reef shore vs Zhongjiao surf-bay beach subject - 2.34km apart, disjoint subjects"
+ },
+ "tw-224": {
+  "nearest_existing": "tw-187",
+  "name": "貓空樟樹步道",
+  "km": 1.94,
+  "override": "subject-disjoint: Yinhe Cave cliff waterfall with in-wall shrine vs Maokong camphor tea-garden trail subject - 1.94km apart, disjoint subjects"
+ },
+ "tw-225": {
+  "nearest_existing": "tw-202",
+  "name": "塘湖古道",
+  "km": 2.01,
+  "override": "subject-disjoint: Dulishan national trail with Alishan-railway triple spiral vs Tanghu historic stone-steps trail subject - 2.01km apart, disjoint subjects"
+ },
+ "tw-226": {
+  "nearest_existing": "tw-102",
+  "name": "三貂角燈塔",
+  "km": 1.06,
+  "override": "subject-disjoint: Lailai volcanic-dike wave-cut platform geology vs Sandiaojiao extreme-point lighthouse subject - 1.06km apart, disjoint subjects"
+ },
+ "tw-227": {
+  "nearest_existing": "tw-127",
+  "name": "仙山靈洞宮後山",
+  "km": 4.01,
+  "override": "subject-disjoint: Mingfeng historic trail (Saisiyat-era pass, Shitan) vs Xianshan temple back-hill subject - 4.01km apart, disjoint subjects"
+ }
+}

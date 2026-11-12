@@ -40,5 +40,6 @@
 ## ⛔ 差異化剔除（不進短名單）
 
 - geographic conflict: 翠峰湖環山步道觀景點 at 0.0 km (<= 5.0 km), tag overlap ['forest', 'lake']
+- geographic conflict: 太平山森林遊樂區 at 1.9 km (<= 5.0 km), tag overlap ['forest']
 
 > 本 dossier 僅為候選建議；清單成員是 owner 產品決策。座標標註「近似」者入選前須 Maps 定位驗證。

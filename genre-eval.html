@@ -59,6 +59,17 @@
             <a href="./field-intake.html" data-i18n="nav_field_intake">實拍驗證</a>
           </div>
         </div>
+        <div class="site-nav-more" data-member-area>
+          <span class="site-nav-item" data-member-name hidden>會員</span>
+          <button class="site-nav-more-btn" type="button" data-member-toggle
+                  aria-haspopup="true" aria-expanded="false" data-ma-i18n="ma_login" hidden>登入</button>
+          <button class="site-nav-more-btn" type="button" data-member-logout
+                  data-ma-i18n="ma_logout" hidden>登出</button>
+          <div class="site-nav-menu" data-member-menu hidden>
+            <a data-ma-line href="/api/v1/auth/line/start" data-ma-i18n="ma_line">使用 LINE 登入</a>
+            <a data-ma-google href="/api/v1/auth/google/start" data-ma-i18n="ma_google">使用 Google 登入</a>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -90,6 +101,7 @@
   <div class="eval-wrap" id="eval-wrap"></div>
 
   <script src="./assets/site-nav.js"></script>
+  <script src="./assets/member-auth.js?v=clui61"></script>
   <script src="./assets/genre-eval.js"></script>
 </body>
 </html>

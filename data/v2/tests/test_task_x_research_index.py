@@ -53,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((357,553),(len(actual),len(ids)))  # CL-INT-135 step2 re-anchor: 357 places / 553 live ids (jp-030-P99 general mount)
+        self.assertEqual((460,692),(len(actual),len(ids)))  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1-7: 460 places / 692 live ids (379/590 wave1 + 15 wave2 places / 22 contracts + 12 wave3 places / 15 contracts + 10 wave4 places / 16 contracts + 17 wave5 places / 22 contracts + 16 wave6 places / 16 contracts + 11 wave7 places / 11 contracts)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -228,6 +228,41 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-65: jp-030-P99 general-genre mount pinned to 5b3e29dea
             # (final task commit carrying the needs_review navigation bytes).
             '5b3e29dea0a564560817e7f03d2082cd3126dad0',
+            # CL-DATA-67: jp-049-P01/jp-065-P01 gain the civil light_window
+            # (sunset_window MODIFIER never vetoed night hours) repinned to
+            # 86b3fa825 (contract commit; blob+sha256 verified on the task tree).
+            '86b3fa825bf1ffaff6e9f20cd9f50c265deda514',
+            # CL-DATA-66 wave1: the 37 scoreless Tier-A intake records
+            # (tw-125..tw-146) carry their authorship bytes on the task branch —
+            # 36 records to fc2e04510 (the intake commit) and tw-141-P01's
+            # seasonal_state dedupe rebuild to 3f209b051
+            # (blob+sha256 verified on the merged tree).
+            '3f209b05184c05e639e6b64da3c4117bce8c8373',
+            'fc2e04510bfa40b6e378a17ae38de178137b8d55',
+            # CL-DATA-66 wave2: the scoreless Tier-A intake records
+            # (tw-147..tw-161, 22 contracts) carry their authorship bytes on
+            # the wave2 intake commit (blob+sha256 verified on the task tree).
+            '3c3ba44107275c380b299781127d9ef995d14407',
+            # CL-DATA-66 wave3: the scoreless Tier-A intake records
+            # (tw-162..tw-173, 15 contracts) carry their authorship bytes on
+            # the wave3 intake commit (blob+sha256 verified on the task tree).
+            '6c0d7c7517e5f17a56f6f6b1e4100bb0804eb14a',
+            # CL-DATA-66 wave4: the scoreless Tier-A intake records
+            # (tw-174..tw-183, 16 contracts) carry their authorship bytes on
+            # the wave4 intake commit (blob+sha256 verified on the task tree).
+            '427e2119904d0a7753f3d40eb6761ae5560f1507',
+            # CL-DATA-66 wave5: the scoreless Tier-A intake records
+            # (tw-184..tw-200, 22 contracts) carry their authorship bytes on
+            # the wave5 intake commit (blob+sha256 verified on the task tree).
+            '2a3b99d073b06e63b2d566aec6b6182882f80eae',
+            # CL-DATA-66 wave6: the scoreless Tier-A intake records
+            # (tw-201..tw-216, 16 contracts) carry their authorship bytes on
+            # the wave6 intake commit (blob+sha256 verified on the task tree).
+            '6e87b92f4894bf03a470cc075d32085ee03821ad',
+            # CL-DATA-66 wave7: the scoreless Tier-A intake records
+            # (tw-217..tw-227, 11 contracts) carry their authorship bytes on
+            # the wave7 intake commit (blob+sha256 verified on the task tree).
+            'ea49e822dd7d75e3102e5ce1a949025e9b57f0ac',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
@@ -255,7 +290,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(1071,count)  # 357 places x 3 (CL-INT-135 merged re-anchor: 344 active + 13 CL-DATA-64 on the retired tree)
+        self.assertEqual(1380,count)  # 460 places x 3 (CL-DATA-66 wave7 re-anchor: 460 places x 3 = 1380 name spans)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')
@@ -324,7 +359,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(45,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))
+        self.assertEqual(184,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # 45 (CL-INT-135) + 37 wave1 + 22 wave2 + 15 wave3 + 16 wave4 + 22 wave5 + 16 wave6 + 11 wave7 classified contracts
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])

@@ -1,0 +1,53 @@
+warning: unable to find all commit-graph files
+RUN w1-schema
+{"name": "w1-schema", "exit_code": 0, "counts": {"tests": 17, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 17}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w1-schema.log"}
+RUN w1-solar-window-contract
+{"name": "w1-solar-window-contract", "exit_code": 0, "counts": {"tests": 4, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 4}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w1-solar-window-contract.log"}
+RUN w1-weather-source-contract
+{"name": "w1-weather-source-contract", "exit_code": 0, "counts": {"tests": 5, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 5}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w1-weather-source-contract.log"}
+RUN w1-evaluation-schema
+{"name": "w1-evaluation-schema", "exit_code": 0, "counts": {"tests": 4, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 4}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w1-evaluation-schema.log"}
+RUN w1-free-composition
+{"name": "w1-free-composition", "exit_code": 0, "counts": {"tests": 6, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 6}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w1-free-composition.log"}
+RUN w1-shared-browse-contracts
+{"name": "w1-shared-browse-contracts", "exit_code": 0, "counts": {"tests": 31, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 31}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w1-shared-browse-contracts.log"}
+RUN w1-hourly-pilot-contract
+{"name": "w1-hourly-pilot-contract", "exit_code": 0, "counts": {"tests": 12, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 12}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w1-hourly-pilot-contract.log"}
+RUN w5-contract
+{"name": "w5-contract", "exit_code": 0, "counts": {"tests": 7, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 7}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w5-contract.log"}
+RUN w5-watchdog
+{"name": "w5-watchdog", "exit_code": 0, "counts": {"tests": 3, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 3}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w5-watchdog.log"}
+RUN w5-runner
+{"name": "w5-runner", "exit_code": 0, "counts": {"tests": 7, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 7}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w5-runner.log"}
+RUN w5-task-r-release-tools
+{"name": "w5-task-r-release-tools", "exit_code": 0, "counts": {"tests": 12, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 12}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w5-task-r-release-tools.log"}
+RUN w5-task-v-integration
+{"name": "w5-task-v-integration", "exit_code": 0, "counts": {"tests": 11, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 11}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w5-task-v-integration.log"}
+RUN w5-pin-sync
+{"name": "w5-pin-sync", "exit_code": 0, "counts": {"tests": 7, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 7}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w5-pin-sync.log"}
+RUN w3-evaluator-and-hourly-source
+{"name": "w3-evaluator-and-hourly-source", "exit_code": 0, "counts": {"tests": 223, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 223}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w3-evaluator-and-hourly-source.log"}
+RUN w3-solar-model
+{"name": "w3-solar-model", "exit_code": 0, "counts": {"tests": 15, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 15}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w3-solar-model.log"}
+RUN w2-crosswalk-schema-index-and-hourly-binding
+{"name": "w2-crosswalk-schema-index-and-hourly-binding", "exit_code": 0, "counts": {"tests": 253, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 253}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w2-crosswalk-schema-index-and-hourly-binding.log"}
+RUN w2-real-records
+{"name": "w2-real-records", "exit_code": 0, "counts": {}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w2-real-records.log"}
+RUN schema-valid-fixture
+{"name": "schema-valid-fixture", "exit_code": 0, "counts": {}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "schema-valid-fixture.log"}
+RUN w3-compile
+{"name": "w3-compile", "exit_code": 0, "counts": {}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w3-compile.log"}
+RUN w4-node
+{"name": "w4-node", "exit_code": 9, "counts": {}, "status": "FAIL", "timed_out": false, "gate_error": "Missing/ambiguous Node test count: tests", "log": "w4-node.log"}
+RUN w5-public-source-contract
+{"name": "w5-public-source-contract", "exit_code": 0, "counts": {"tests": 9, "pass": 9, "fail": 0, "skip": 0}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "w5-public-source-contract.log"}
+RUN local-isolation
+{"name": "local-isolation", "exit_code": 0, "counts": {}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "local-isolation.log"}
+RUN browser-smoke
+{"name": "browser-smoke", "exit_code": 0, "counts": {"tests": 35, "pass": 35, "fail": 0, "skip": 0}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "browser-smoke.log"}
+RUN static-build
+{"name": "static-build", "exit_code": 0, "counts": {}, "status": "PASS", "timed_out": false, "gate_error": null, "log": "static-build.log"}
+RUN candidate-build-browser
+{"name": "candidate-build-browser", "exit_code": 9, "counts": {}, "status": "FAIL", "timed_out": false, "gate_error": "Missing/ambiguous Node test count: tests", "log": "candidate-build-browser.log"}
+{"status": "FAIL", "head": "0a551fd44f2ffe1caeb22ca425e79538b1846888", "counts": {"tests": 661, "pass": 661, "fail": 0, "error": 0, "skip": 0}, "error": "ValueError: Post-merge exact 1220-case requirement failed"}
+PM_EXIT=1

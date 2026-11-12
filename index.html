@@ -25,6 +25,17 @@
             <a href="./field-intake.html" data-i18n="nav_field_intake">實拍驗證</a>
           </div>
         </div>
+        <div class="site-nav-more" data-member-area>
+          <span class="site-nav-item" data-member-name hidden>會員</span>
+          <button class="site-nav-more-btn" type="button" data-member-toggle
+                  aria-haspopup="true" aria-expanded="false" data-ma-i18n="ma_login" hidden>登入</button>
+          <button class="site-nav-more-btn" type="button" data-member-logout
+                  data-ma-i18n="ma_logout" hidden>登出</button>
+          <div class="site-nav-menu" data-member-menu hidden>
+            <a data-ma-line href="/api/v1/auth/line/start" data-ma-i18n="ma_line">使用 LINE 登入</a>
+            <a data-ma-google href="/api/v1/auth/google/start" data-ma-i18n="ma_google">使用 Google 登入</a>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -159,6 +170,7 @@
 
   <link rel="stylesheet" href="./assets/guest-comment.css?v=gc01">
   <script src="./assets/guest-comment.js?v=gc01"></script>
+  <script src="./assets/member-auth.js?v=clui61"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7a3bb8a3c6ee4fcc83d5e941e0ab291e"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

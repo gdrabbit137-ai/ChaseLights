@@ -330,8 +330,8 @@ def verify_main(root, lock):
     # byte-pinned to their W2 sources.
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
-            len(catalog.get("places", [])) != 357
-            or len(catalog.get("opportunities", [])) != 553):  # CL-INT-135 step2 re-anchor: 363/565 -> 357/553 (CL-DATA-65 jp-030-P99 mount + regen on the merged retired tree; prior pins: CL-CI-33 re-anchor 261/460 -> 350/552, CL-DATA-51..53 intake waves)
+            len(catalog.get("places", [])) != 460
+            or len(catalog.get("opportunities", [])) != 692):  # CL-INT-139 merged re-anchor: 433/665 -> 460/692 (CL-DATA-66 waves6-7 tw-201..227, measured on the merged tree; prior: wave5 433/665)
         raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]
@@ -403,7 +403,7 @@ def main():
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
             ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 223, True, False),  # CL-CI-22 re-anchor 201->204; CL-INT-91 +6 -> 210; CL-CI-31b +4 -> 214; CL-CI-33 re-anchor 214->217; CL-DATA-56 +6 -> 223 (measured on merged tree 4d64711c1: 223 pass / 0 fail, Windows python 3.14, no skip)
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
-            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 217, True, False,  # CL-CI-22 re-anchor 71->109 (CL-DATA-25..28 suites); CL-CI-33 re-anchor 135->184 (measured on merged tree a7b75259b: 184 pass / 0 fail)
+            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 253, True, False,  # CL-CI-22 re-anchor 71->109 (CL-DATA-25..28 suites); CL-CI-33 re-anchor 135->184 (measured on merged tree a7b75259b: 184 pass / 0 fail); CL-DATA-66 merged re-anchor 217->253 (measured on merged tree: 253 pass / 0 fail, Windows python 3.14)
                 {"timeout": 900}),  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under; CL-CI-33 raised to 900s for local verification headroom
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
@@ -505,11 +505,15 @@ def main():
         # 543->553 (measured on task/CL-INT-137B: node v26.7.0
         # --test-isolation=none, 553 pass / 0 fail), exact total 1174->1184
         # (+10 node tests only; no other group's count changes on this tree).
-        if (report["counts"]["tests"] != 1184 or
+        # 2026-11-12 CL-DATA-66 merged: wave5 + w2 crosswalk additions re-measured
+        # on the merged tree (node v26.7.0 --test-isolation=none, python 3.14):
+        # w2 217->253 (253 pass / 0 fail), exact total 1184->1220
+        # (measured: 1220 tests, 1220 pass, 0 fail, 0 skip).
+        if (report["counts"]["tests"] != 1220 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1184):
-            raise ValueError("Post-merge exact 1184-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1220):
+            raise ValueError("Post-merge exact 1220-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
