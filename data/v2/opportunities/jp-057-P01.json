@@ -239,6 +239,39 @@
      "en": "Time window = the whole hour bucket with sun elevation <= -6 deg (after civil dusk). A night-illumination subject needs a dark sky; a daytime hour cannot qualify even if every weather condition passes.",
      "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。夜間ライトアップの主題には暗い空が必要で、昼間は気象条件が全て通過しても成立しない。"
     }
+   },
+   {
+    "id": "C-jp-057-P01-VW1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "venue_open_window",
+    "operator": "between",
+    "threshold": [
+     "09:00",
+     "21:00"
+    ],
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-057-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "evidence_review",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "纜車營運窗（CL-DATA-68 round16 挑戰者成立質疑）：依靠長崎ロープウェイ的訪客僅能在營運窗內上山——9:00–22:00、上行最終 21:00（スロープカー 9:00–22:00；konomachi-note.jp、inasayama.info）。小時桶起始須落在 [09:00, 21:00) 內：21:00 後與 00:00–05:00 桶對纜車使用者不可達，一律不成立。已知限制：土日祝 18:00–22:00 一般車輛禁入屬日別規則，現行條件系統不支援，本窗僅夾到纜車窗（設計缺口記於 data/v2/audits/design-gaps/round16.md）。",
+     "en": "Ropeway operating window (CL-DATA-68 round16 challenger finding): a ropeway-dependent visitor can ascend only within the operating window - Nagasaki Ropeway runs 9:00-22:00 with the last uphill car at 21:00 (slope car 9:00-22:00; konomachi-note.jp, inasayama.info). An hour bucket qualifies only when its start sits inside [09:00, 21:00) local: the 21:00+ and 00:00-05:00 buckets are unreachable by ropeway and never qualify. Known limitation: the Sat/Sun/holiday 18:00-22:00 private-vehicle ban is a day-class rule the current condition system cannot express; this window clamps to the ropeway only (recorded as a design gap in data/v2/audits/design-gaps/round16.md).",
+     "ja": "ロープウェイ営業窓（CL-DATA-68 round16 チャレンジャー指摘）：ロープウェイ利用者の登頂は営業窓内のみ——長崎ロープウェイ 9:00〜22:00、上り最終21:00（スロープカー 9:00〜22:00。konomachi-note.jp、inasayama.info）。バケット開始が現地時刻 [09:00, 21:00) 内のときのみ成立：21時以降と 00:00〜05:00 のバケットはロープウェイ利用では到達不可。既知の限界：土日祝 18:00〜22:00 の一般車輛進入禁止は日別規則で現行条件系では表現できない。本窓はロープウェイ窓のみに制限（設計ギャップは data/v2/audits/design-gaps/round16.md に記録）。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-12 CL-DATA-68：round16 挑戰者報告 jp-057-P01 成立質疑（22:00–23:00 與纜車末班上行 21:00 矛盾，中）修復；依票內指示夾進纜車營運窗。",
+     "en": "2026-11-12 CL-DATA-68: fix for the round16 challenger finding on jp-057-P01 (the 22:00-23:00 hours contradict the ropeway's 21:00 last uphill car, mid); clamped into the ropeway operating window per the ticket directive.",
+     "ja": "2026-11-12 CL-DATA-68：round16 チャレンジャー指摘（jp-057-P01 22:00〜23:00はロープウェイ最終21:00と矛盾・中）の修正。チケット指示によりロープウェイ営業窓へ制限。"
+    }
    }
   ]
  },
