@@ -451,6 +451,22 @@ async function handleNotifyRuleDelete(req, env, ruleId) {
   return json(req, 200, { ok: true, deleted: ruleId });
 }
 
+// CL-UI-58: the reminders page needs an enabled toggle; PATCH (and PUT for
+// client convenience) flips it. Scope is deliberately narrow — no other field
+// is editable; everything else still goes through DELETE + POST recreate.
+async function handleNotifyRuleUpdate(req, env, ruleId) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const body = await req.json().catch(() => null);
+  const enabled = body && body.enabled;
+  if (typeof enabled !== "boolean") return json(req, 400, { error: "enabled boolean required" });
+  const r = await env.DB.prepare("UPDATE notify_rules SET enabled = ?2 WHERE id = ?1 AND user_id = ?3")
+    .bind(ruleId, enabled ? 1 : 0, session.sub).run();
+  const changed = r && r.meta && typeof r.meta.changes === "number" ? r.meta.changes : 0;
+  if (!changed) return json(req, 404, { error: "rule not found" });
+  return json(req, 200, { ok: true, rule: { id: ruleId, enabled } });
+}
+
 async function handleTelegramStart(req, env) {
   const session = await requireSession(req, env);
   if (!session) return json(req, 401, { error: "JWT session required" });
@@ -521,6 +537,7 @@ export default {
     {
       const dm = path.match(/^\/notify\/rules\/([\w-]+)$/);
       if (dm && request.method === "DELETE") return handleNotifyRuleDelete(request, env, dm[1]);
+      if (dm && (request.method === "PATCH" || request.method === "PUT")) return handleNotifyRuleUpdate(request, env, dm[1]);
     }
     if (path === "/notify/telegram/start" && request.method === "POST") return handleTelegramStart(request, env);
     if (path === "/notify/telegram/status" && request.method === "GET") return handleTelegramStatus(request, env);

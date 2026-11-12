@@ -54,6 +54,12 @@ function runSql(t, sql, args) {
     t.notify_rules.splice(i, 1);
     return { meta: { changes: 1 } };
   }
+  if (/UPDATE notify_rules SET enabled/.test(sql)) {
+    const r = t.notify_rules.find((x) => x.id === args[0] && x.user_id === args[2]);
+    if (!r) return { meta: { changes: 0 } };
+    r.enabled = args[1];
+    return { meta: { changes: 1 } };
+  }
   if (/INSERT INTO notify_log/.test(sql)) {
     const key = `${args[0]}|${args[1]}`;
     if (t.notify_log.has(key)) return { meta: { changes: 0 } };
@@ -303,6 +309,38 @@ test("rules: validation (bad channel, bad advance), GET list, DELETE own/not-fou
 
   const wp = await worker.fetch(makeReq("/notify/web_push/subscribe", { method: "POST", headers: hdr, body: JSON.stringify({ endpoint: "https://push.example/abc", keys: { p256dh: "k", auth: "a" } }) }), env, {});
   assert.equal((await wp.json()).ok, true);
+});
+
+test("CL-UI-58: PATCH toggles rule enabled (own rule only; 401 anon; 400 non-bool; 404 unknown)", async () => {
+  const { env } = makeEnv({});
+  const t = await mint(env, "u1", "paid");
+  const hdr = { "Content-Type": "application/json", Authorization: `Bearer ${t}` };
+
+  const anon = await worker.fetch(makeReq("/notify/rules/r1", { method: "PATCH", headers: {}, body: JSON.stringify({ enabled: false }) }), env, {});
+  assert.equal(anon.status, 401);
+
+  const created = await worker.fetch(makeReq("/notify/rules", { method: "POST", headers: hdr, body: JSON.stringify({ placeId: "tw-001", opportunityId: "cloud-sea" }) }), env, {});
+  const { rule } = await created.json();
+
+  const bad = await worker.fetch(makeReq(`/notify/rules/${rule.id}`, { method: "PATCH", headers: hdr, body: JSON.stringify({ enabled: "yes" }) }), env, {});
+  assert.equal(bad.status, 400);
+
+  const missing = await worker.fetch(makeReq("/notify/rules/does-not-exist", { method: "PATCH", headers: hdr, body: JSON.stringify({ enabled: false }) }), env, {});
+  assert.equal(missing.status, 404);
+
+  const off = await worker.fetch(makeReq(`/notify/rules/${rule.id}`, { method: "PATCH", headers: hdr, body: JSON.stringify({ enabled: false }) }), env, {});
+  assert.equal(off.status, 200);
+  const offBody = await off.json();
+  assert.equal(offBody.ok, true);
+  assert.equal(offBody.rule.enabled, false);
+
+  // Disabled rules are skipped by the cron engine.
+  const scan = await worker.fetch(makeReq("/notify/rules", { headers: hdr }), env, {});
+  const listBody = await scan.json();
+  assert.equal(listBody.rules[0].enabled, 0);
+
+  const on = await worker.fetch(makeReq(`/notify/rules/${rule.id}`, { method: "PATCH", headers: hdr, body: JSON.stringify({ enabled: true }) }), env, {});
+  assert.equal((await on.json()).rule.enabled, true);
 });
 
 test("scheduled handler exists and webpush skeleton generates P-256 keys", async () => {
