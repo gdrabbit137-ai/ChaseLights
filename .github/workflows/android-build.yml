@@ -27,6 +27,13 @@ jobs:
       - name: Unit tests (version check / cache degrade / i18n)
         run: npm test
         working-directory: apps/mobile
+      - name: Write google-services.json from secret (CL-CI-35)
+        if: ${{ secrets.GOOGLE_SERVICES_JSON != '' }}
+        run: |
+          mkdir -p android/app
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > android/app/google-services.json
+          echo "google-services.json written from secret ($(wc -c < android/app/google-services.json) bytes)"
+        working-directory: apps/mobile
       - name: Push build gate (google-services.json presence)
         run: |
           if [ -f android/app/google-services.json ]; then
