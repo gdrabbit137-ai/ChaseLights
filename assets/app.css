@@ -2066,3 +2066,16 @@
     text-align: center;
   }
 }
+
+/* CL-UI-58: 「加入提醒」 button on the card best-subject summary line.
+   The label/state come from assets/reminders-client.js; this only shapes the
+   mount point. 44px touch target kept down to the 390px contract. */
+.cl-rem-btn{
+  display:inline-flex;align-items:center;gap:4px;margin:0 0 0 8px;
+  padding:6px 10px;min-height:32px;border-radius:999px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.25);background:transparent;color:inherit;
+  font-size:.78rem;line-height:1.2;vertical-align:middle;
+}
+.cl-rem-btn:hover{border-color:rgba(255,255,255,.5)}
+.cl-rem-btn.cl-rem-on{border-color:#3fb950;color:#3fb950}
+.cl-rem-btn[data-rem-busy]{opacity:.55;pointer-events:none}

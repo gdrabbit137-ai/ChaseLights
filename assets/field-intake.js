@@ -7,7 +7,7 @@ const REVIEW_KM=5;
 const LANGS=["zh-TW","en","ja"];
 const L={
 "zh-TW":{
-back:"← ChaseLights",title:"📷 實拍驗證",lead:"選擇實拍照片，確認拍攝地點與實際看到的景象。照片只會在你的裝置上讀取，不會上傳。",language_label:"語言",local_badge:"照片留在本機",nav_cards:"卡片",nav_weathermap:"天氣圖",nav_more_tools:"更多工具 ▾",nav_genre_eval:"題材評估",nav_field_intake:"實拍驗證",
+back:"← ChaseLights",title:"📷 實拍驗證",lead:"選擇實拍照片，確認拍攝地點與實際看到的景象。照片只會在你的裝置上讀取，不會上傳。",language_label:"語言",local_badge:"照片留在本機",nav_cards:"卡片",nav_weathermap:"天氣圖",nav_more_tools:"更多工具 ▾",nav_genre_eval:"題材評估",nav_field_intake:"實拍驗證",nav_reminders:"提醒",
 step_photo:"1. 選擇照片",photo_help:"支援 JPEG / HEIC / HEIF。系統會嘗試讀取拍攝時間、GPS 與相機資訊，缺少的資料會清楚標示。",choose_photos:"選擇一張或多張實拍照片",photo_local:"原始照片不會傳到 ChaseLights",preparing:"正在準備照片資訊解析與景點資料…",
 step_data:"2. 資料使用設定",consent_model:"在下載紀錄中標記：我同意這筆觀測可供後續模型驗證。這不會自動上傳資料。",consent_gps:"在下載紀錄中保留照片的精確 GPS；預設不保留。",data_boundary_short:"目前流程只會在瀏覽器中整理資料並下載到你的裝置，不會建立伺服器紀錄。",
 step_review:"3. 確認實拍內容",review_help:"逐張確認照片資訊、拍攝景點、想驗證的題材，以及現場是否真的成立。GPS 只會提供候選建議，不會自動確認景點。",download_all:"儲存全部驗證紀錄",no_photos:"尚未選擇照片。",subject_generic:"已研究題材",translation_unavailable:"暫時無法顯示這段文字。",
@@ -23,7 +23,7 @@ outcome:"現場結果",outcome_empty:"尚未填寫",held:"有成立／有看到"
 reason:"主要未成立原因（選填）",reason_ph:"例如：低雲遮住山頭、風太大無法形成倒影…",note:"補充備註（選填）",note_ph:"可記錄現場狀況、構圖位置或其他之後回看會有幫助的資訊。",export_note:"下載的紀錄仍需後續人工確認；不會因為下載就自動改變模型或研究結論。",limit:"顯示前 {n} 個符合結果；可輸入更多字縮小範圍。"
 },
 "en":{
-back:"← ChaseLights",title:"📷 Field validation",lead:"Choose field photos, confirm where they were taken, and record what you actually saw. Photos are read only on your device and are not uploaded.",language_label:"Language",local_badge:"Photos stay on device",nav_cards:"Cards",nav_weathermap:"Weather map",nav_more_tools:"More tools ▾",nav_genre_eval:"Genre assessment",nav_field_intake:"Field check",
+back:"← ChaseLights",title:"📷 Field validation",lead:"Choose field photos, confirm where they were taken, and record what you actually saw. Photos are read only on your device and are not uploaded.",language_label:"Language",local_badge:"Photos stay on device",nav_cards:"Cards",nav_weathermap:"Weather map",nav_more_tools:"More tools ▾",nav_genre_eval:"Genre assessment",nav_field_intake:"Field check",nav_reminders:"Reminders",
 step_photo:"1. Choose photos",photo_help:"JPEG / HEIC / HEIF are supported. ChaseLights will try to read capture time, GPS, and camera details and clearly mark anything missing.",choose_photos:"Choose one or more field photos",photo_local:"Original photos are not sent to ChaseLights",preparing:"Preparing photo metadata and place data…",
 step_data:"2. Data-use settings",consent_model:"Mark in the downloaded record that I consent to this observation being used for later model validation. Nothing is uploaded automatically.",consent_gps:"Keep the photo's precise GPS in the downloaded record; it is omitted by default.",data_boundary_short:"This flow only organizes data in your browser and downloads it to your device. It does not create a server record.",
 step_review:"3. Confirm what you observed",review_help:"For each photo, confirm metadata, shooting place, intended subject, and whether it actually held. GPS only suggests candidates; it never confirms a place automatically.",download_all:"Save all validation records",no_photos:"No photos selected yet.",subject_generic:"Researched subject",translation_unavailable:"This text is temporarily unavailable.",
@@ -39,7 +39,7 @@ outcome:"What happened in the field?",outcome_empty:"Not filled in",held:"Held /
 reason:"Main reason it did not hold (optional)",reason_ph:"For example: low cloud covered the ridge, wind was too strong for reflections…",note:"Additional note (optional)",note_ph:"Record field conditions, composition position, or anything useful for later review.",export_note:"The downloaded record still needs later human review. Downloading it does not automatically change the model or research conclusions.",limit:"Showing the first {n} matches. Type more to narrow the results."
 },
 "ja":{
-back:"← ChaseLights",title:"📷 実写検証",lead:"実際に撮影した写真を選び、撮影場所と現地で見えた状況を確認します。写真は端末内でのみ読み取り、アップロードしません。",language_label:"言語",local_badge:"写真は端末内のみ",nav_cards:"カード",nav_weathermap:"天気マップ",nav_more_tools:"その他のツール ▾",nav_genre_eval:"題材評価",nav_field_intake:"実写検証",
+back:"← ChaseLights",title:"📷 実写検証",lead:"実際に撮影した写真を選び、撮影場所と現地で見えた状況を確認します。写真は端末内でのみ読み取り、アップロードしません。",language_label:"言語",local_badge:"写真は端末内のみ",nav_cards:"カード",nav_weathermap:"天気マップ",nav_more_tools:"その他のツール ▾",nav_genre_eval:"題材評価",nav_field_intake:"実写検証",nav_reminders:"リマインダー",
 step_photo:"1. 写真を選ぶ",photo_help:"JPEG / HEIC / HEIF に対応。撮影時刻、GPS、カメラ情報を読み取り、取得できない項目は明確に表示します。",choose_photos:"実写写真を1枚以上選ぶ",photo_local:"元の写真は ChaseLights に送信されません",preparing:"写真情報とスポットデータを準備中…",
 step_data:"2. データ利用設定",consent_model:"ダウンロード記録に、この観測を今後のモデル検証に利用してよいことを記録します。データは自動送信されません。",consent_gps:"写真の正確な GPS をダウンロード記録に残します。初期状態では保存しません。",data_boundary_short:"現在の流れはブラウザ内で情報を整理し端末へダウンロードするだけで、サーバー記録は作成しません。",
 step_review:"3. 実際の状況を確認",review_help:"写真ごとに情報、撮影場所、検証したかったテーマ、現地で成立したかを確認します。GPS は候補を提案するだけで、場所を自動確定しません。",download_all:"すべての検証記録を保存",no_photos:"まだ写真が選択されていません。",subject_generic:"調査済みテーマ",translation_unavailable:"この文言は一時的に表示できません。",
