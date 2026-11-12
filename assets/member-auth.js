@@ -88,20 +88,46 @@
 
   var area, toggle, menu, nameEl, logoutBtn;
 
+  // CL-UI-53B: visibility must not depend on the [hidden] attribute alone —
+  // shell display rules (.site-nav-more-btn { display:inline-flex } …)
+  // override the UA [hidden] rule, which is how the 登出 button stayed
+  // visible while signed out. Every element gets an explicit inline
+  // style.display (wins over any class rule), the [hidden] attribute for
+  // semantics/AT, and the menu additionally a .ma-open class so "open" is
+  // a positive, weight-explicit state instead of an attribute absence.
+  function setShown(el, show) {
+    if (!el) return;
+    el.hidden = !show;
+    el.style.display = show ? '' : 'none';
+    el.classList.toggle('ma-open', Boolean(show));
+  }
+
+  function setOpen(open) {
+    var show = Boolean(open);
+    menu.hidden = !show;
+    menu.classList.toggle('ma-open', show);
+    menu.style.display = show ? '' : 'none';
+    toggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+  }
+
+  function isOpen() {
+    return !menu.hidden && menu.classList.contains('ma-open');
+  }
+
   function render(member) {
     if (!area) return;
     var signed = Boolean(member);
-    toggle.hidden = signed;
-    menu.hidden = signed || area.getAttribute('data-open') !== 'true';
-    toggle.setAttribute('aria-expanded', menu.hidden ? 'false' : 'true');
-    logoutBtn.hidden = !signed;
-    nameEl.hidden = !signed;
+    var menuOpen = !signed && area.getAttribute('data-open') === 'true';
+    setShown(toggle, !signed);
+    setShown(logoutBtn, signed);
+    setShown(nameEl, signed);
     if (signed) {
       nameEl.textContent = t('ma_signed_in_as') + '： ' + member.name;
     } else {
       nameEl.textContent = '';
       toggle.textContent = t('ma_login');
     }
+    setOpen(menuOpen);
     applyCopy();
   }
 
@@ -122,21 +148,20 @@
 
     toggle.addEventListener('click', function (e) {
       e.stopPropagation();
-      if (nameEl.hidden === false) return; // signed in: toggle is hidden anyway
-      var open = menu.hidden;
-      menu.hidden = !open;
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (nameEl.style.display !== 'none' || nameEl.hidden === false) return; // signed in: toggle is hidden anyway
+      setOpen(!isOpen());
+      area.setAttribute('data-open', isOpen() ? 'true' : 'false');
     });
     document.addEventListener('click', function (e) {
-      if (!area.contains(e.target) && !menu.hidden) {
-        menu.hidden = true;
-        toggle.setAttribute('aria-expanded', 'false');
+      if (!area.contains(e.target) && isOpen()) {
+        setOpen(false);
+        area.setAttribute('data-open', 'false');
       }
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !menu.hidden) {
-        menu.hidden = true;
-        toggle.setAttribute('aria-expanded', 'false');
+      if (e.key === 'Escape' && isOpen()) {
+        setOpen(false);
+        area.setAttribute('data-open', 'false');
       }
     });
 

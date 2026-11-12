@@ -98,24 +98,26 @@ test('CL-UI-53 (4): parseMember semantics match web-v2 shell-auth (never a fake 
 });
 
 test('CL-UI-53 (5): signed-out shows 登入 + menu; signed-in shows display name + 登出', () => {
-  // render() drives visibility from the `hidden` attribute
-  assert.match(jsSource, /toggle\.hidden = signed;/);
-  assert.match(jsSource, /logoutBtn\.hidden = !signed;/);
-  assert.match(jsSource, /nameEl\.hidden = !signed;/);
-  assert.match(jsSource, /menu\.hidden = signed \|\|/);
+  // CL-UI-53B: render() drives visibility via setShown — inline style.display
+  // (weight-explicit, shell-rule-proof) plus the [hidden] attribute and the
+  // .ma-open class; menu open state goes through setOpen().
+  assert.match(jsSource, /setShown\(toggle, !signed\);/);
+  assert.match(jsSource, /setShown\(logoutBtn, signed\);/);
+  assert.match(jsSource, /setShown\(nameEl, signed\);/);
+  assert.match(jsSource, /setOpen\(menuOpen\);/);
   assert.match(jsSource, /ma_signed_in_as'\) \+ '： ' \+ member\.name/);
   // logout re-fetches the session afterwards
   assert.match(jsSource, /logoutBtn\.disabled = true;/);
   assert.match(jsSource, /fetchMember\(\)\.then\(render\)/);
 });
 
-test('CL-UI-53 (6): cache-bust stamp ?v=clui61 on member-auth.js on all four shell pages', () => {
+test('CL-UI-53 (6): cache-bust stamp ?v=clui62 on member-auth.js on all four shell pages', () => {
   for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    assert.match(src, /assets\/member-auth\.js\?v=clui61/, `${page} loads member-auth.js?v=clui61`);
+    assert.match(src, /assets\/member-auth\.js\?v=clui62/, `${page} loads member-auth.js?v=clui62`);
     assert.match(src, /data-member-area/, `${page} carries the masthead member area`);
   }
   const stamps = [...htmlSource.matchAll(/\?v=(clui\d+)/g)].map(m => Number(m[1].slice(4)));
   assert.ok(Math.min(...stamps) >= 41, 'all stamps clui41+');
-  assert.ok(Math.max(...stamps) === 61, 'new generation is the highest');
+  assert.ok(Math.max(...stamps) === 62, 'new generation is the highest');
 });
