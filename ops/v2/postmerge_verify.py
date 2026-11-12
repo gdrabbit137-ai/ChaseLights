@@ -419,7 +419,7 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 580, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509; CL-CI-31b -> 532; CL-CI-33 re-anchor 532->540 (measured on merged tree a7b75259b: node v26.7.0 --test-isolation=none, 540 pass / 0 fail); CL-INT-137B re-anchor 543->553 (CL-APP-02 shell-entry tests merged, measured on task/CL-INT-137B: node v26.7.0 --test-isolation=none, 553 pass / 0 fail); CL-CI-35 re-anchor 553->559 (CL-UI-53 member-entry tests merged, measured on merged tree d29113ca0: node v26.7.0 --test-isolation=none, 559 pass / 0 fail); CL-UI-55 re-anchor 559->580 (+8 favorites tests, measured on task/CL-UI-55 this tree: node v26.7.0 --test-isolation=none, 580 pass / 0 fail)
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 583, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509; CL-CI-31b -> 532; CL-CI-33 re-anchor 532->540 (measured on merged tree a7b75259b: node v26.7.0 --test-isolation=none, 540 pass / 0 fail); CL-INT-137B re-anchor 543->553 (CL-APP-02 shell-entry tests merged, measured on task/CL-INT-137B: node v26.7.0 --test-isolation=none, 553 pass / 0 fail); CL-CI-35 re-anchor 553->559 (CL-UI-53 member-entry tests merged, measured on merged tree d29113ca0: 559 pass / 0 fail); CL-UI-55 re-anchor 559->580 (+8 favorites tests, measured on task/CL-UI-55: 580 pass / 0 fail); CL-CI-35B2 re-anchor 580->583 (CL-APP-02/CL-UI-53 follow-up tests merged, measured on merged tree 992567c5c: node v26.7.0 --test-isolation=none, 583 pass / 0 fail)
         # 2026-11-08 CL-CI-26: CL-UI-47 +5 real-hit-target tests -> w4-node=514 (CI-observed on merged tree 313feebe4, node v26 --test-isolation=none, 514 pass / 0 fail)
         # 2026-11-08 CL-INT-92: +3 hour-list-cap regression tests -> w4-node=516 on this base (measured locally: 516 pass / 3 pre-existing failures identical to pristine origin/main baseline: CL-COPY-01 coverage, CL-DATA-19 x2)
         # 2026-11-08 CL-CI-27: the 3 'pre-existing failures' were NOT pre-existing —
@@ -516,11 +516,15 @@ def main():
         # test_task_v_integration.py (2 asserts) and static-build-smoke.mjs
         # (manifest.files) — CL-UI-55 added favorites-client.mjs as the 20th
         # RUNTIME_FILES entry (build_static.py) but those pins were missed.
-        if (report["counts"]["tests"] != 1247 or
+        # 2026-11-12 CL-CI-35B2 merge refresh (origin/main 97fb86dc3): CL-APP-02
+        # / CL-UI-53 follow-up test additions (+3 node tests) measured on the
+        # merged tree 992567c5c: w4-node 580->583 (583 pass / 0 fail), exact
+        # total 1247->1250 (measured: 1250 tests, 1250 pass, 0 fail, 0 skip).
+        if (report["counts"]["tests"] != 1250 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1247):
-            raise ValueError("Post-merge exact 1247-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1250):
+            raise ValueError("Post-merge exact 1250-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
