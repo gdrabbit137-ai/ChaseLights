@@ -109,6 +109,12 @@ async function mergeAnonDevice(env, anonDeviceId, userKey) {
     const r = await env.DB.prepare(sql).bind(userKey, anonDeviceId).run();
     moved += r && r.meta && typeof r.meta.changes === "number" ? r.meta.changes : 0;
   }
+  // CL-UI-57: UPDATE OR IGNORE leaves a source row in place when the member
+  // already holds the same place (PK conflict). Delete every remaining row
+  // keyed to the anonymous device id so the merged data can never re-surface
+  // under the device identity (logout / another account on the same browser).
+  await env.DB.prepare(MERGE_SQL.favorites_cleanup).bind(anonDeviceId).run();
+  await env.DB.prepare(MERGE_SQL.notify_rules_cleanup).bind(anonDeviceId).run();
   return moved;
 }
 
@@ -255,7 +261,7 @@ async function handleAuthMe(req, env) {
   const session = await getSession(req, env);
   if (!session) return json(req, 401, { error: "unauthorized" });
   let row = await env.DB.prepare(
-    "SELECT device_id, provider, provider_user_id, display_name, level FROM users WHERE device_id = ?1"
+    "SELECT device_id, provider, provider_user_id, display_name, level, profile_json FROM users WHERE device_id = ?1"
   ).bind(session.sub).first();
   if (!row) {
     // Self-heal: a validly-signed session whose users row is missing (e.g. token
@@ -271,7 +277,21 @@ async function handleAuthMe(req, env) {
     if (!row) return json(req, 401, { error: "session user not found" });
   }
   return json(req, 200, {
-    user: { id: row.device_id, provider: row.provider, providerUserId: row.provider_user_id, displayName: row.display_name, level: row.level },
+    user: {
+      id: row.device_id, provider: row.provider, providerUserId: row.provider_user_id,
+      displayName: row.display_name, level: row.level,
+      // CL-UI-57: member-editable profile fields (migration 0006 profile_json);
+      // cleared (null) keys are omitted so clients only see live values.
+      profile: (() => {
+        try {
+          const p = JSON.parse(row.profile_json || "{}");
+          if (!p || typeof p !== "object" || Array.isArray(p)) return {};
+          const out = {};
+          for (const key of PROFILE_FIELDS) if (p[key]) out[key] = p[key];
+          return out;
+        } catch { return {}; }
+      })(),
+    },
   });
 }
 
@@ -294,6 +314,74 @@ async function handleAuthRefresh(req, env) {
   const { access, refresh } = await makeTokens(env, row.device_id, row.display_name, row.level);
   return json(req, 200, { ok: true, accessToken: access, refreshToken: refresh }, {
     "Set-Cookie": [cookieHeader(SESSION_COOKIE, access, 15 * 60), cookieHeader(REFRESH_COOKIE, refresh, 30 * 24 * 3600)],
+  });
+}
+
+// ---------------------------------------------------------------------------
+// CL-UI-57: member profile editing (PATCH /auth/profile, session-only).
+// display_name is the member's editable nickname; the optional free-form
+// profile fields (experience / region / bio, all non-required) live in
+// users.profile_json (migration 0006).
+// ---------------------------------------------------------------------------
+const PROFILE_FIELDS = ["experience", "region", "bio"];
+const PROFILE_MAX_LEN = 200;
+
+function sanitizeProfile(raw) {
+  const out = {};
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return out;
+  for (const key of PROFILE_FIELDS) {
+    const v = raw[key];
+    if (typeof v !== "string") continue;
+    const trimmed = v.trim();
+    if (trimmed) out[key] = trimmed.slice(0, PROFILE_MAX_LEN);
+  }
+  return out;
+}
+
+async function handleAuthProfile(req, env) {
+  const session = await getSession(req, env);
+  if (!session || !session.sub) return json(req, 401, { error: "unauthorized" });
+  const body = await req.json().catch(() => null);
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return json(req, 400, { error: "body required" });
+  }
+
+  const row = await env.DB.prepare(
+    "SELECT device_id, provider, provider_user_id, display_name, level, profile_json FROM users WHERE device_id = ?1"
+  ).bind(session.sub).first();
+  if (!row) return json(req, 401, { error: "session user not found" });
+
+  let displayName = row.display_name;
+  if (body.displayName !== undefined) {
+    if (typeof body.displayName !== "string") return json(req, 400, { error: "displayName must be a string" });
+    const trimmed = body.displayName.trim();
+    if (!trimmed || trimmed.length > 100) return json(req, 400, { error: "displayName must be 1-100 characters" });
+    displayName = trimmed;
+  }
+
+  // profile_json merges over the stored object; omitted keys keep their value,
+  // an empty string clears the field.
+  let profile = {};
+  try { const prev = JSON.parse(row.profile_json || "{}"); if (prev && typeof prev === "object") profile = prev; } catch { profile = {}; }
+  const next = sanitizeProfile(body.profile);
+  for (const key of PROFILE_FIELDS) {
+    if (body.profile && typeof body.profile === "object" && !Array.isArray(body.profile) && body.profile[key] !== undefined) {
+      profile[key] = next[key] || null;
+    }
+  }
+  const profileJson = JSON.stringify(profile);
+
+  // Response omits cleared (null) keys so the client sees only live fields.
+  const publicProfile = {};
+  for (const key of PROFILE_FIELDS) if (profile[key]) publicProfile[key] = profile[key];
+
+  await env.DB.prepare(
+    "UPDATE users SET display_name = ?1, profile_json = ?2 WHERE device_id = ?3"
+  ).bind(displayName, profileJson, session.sub).run();
+
+  return json(req, 200, {
+    ok: true,
+    user: { id: row.device_id, provider: row.provider, providerUserId: row.provider_user_id, displayName, level: row.level, profile: publicProfile },
   });
 }
 
@@ -450,6 +538,7 @@ export default {
     }
     if (path === "/auth/mock/start") return handleMockStart(request, env, url);
     if (path === "/auth/me" && request.method === "GET") return handleAuthMe(request, env);
+    if (path === "/auth/profile" && request.method === "PATCH") return handleAuthProfile(request, env);
     if (path === "/auth/logout" && request.method === "POST") return handleAuthLogout(request, env);
     if (path === "/auth/refresh" && request.method === "POST") return handleAuthRefresh(request, env);
 

@@ -15,6 +15,10 @@ preview_id = "590d7aaed2d6480a9c16b2ea3c877cfc"
 binding = "DB"
 database_name = "chaselights-db"
 database_id = "05ef33f5-b833-4418-9b0d-ceca81db4f86"
+# CL-UI-57: D1 migrations live at the repo root (0001…0006), not under
+# workers/api — point the resolver there so `wrangler d1 migrations apply`
+# works from this config.
+migrations_dir = "../../migrations"
 
 [observability]
 enabled = true

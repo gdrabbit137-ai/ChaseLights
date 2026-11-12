@@ -110,8 +110,15 @@ export function oauthUserKey(provider, providerUserId) {
 }
 
 // Anonymous device rows are re-keyed onto the OAuth identity. UPDATE OR IGNORE
-// keeps PK (user_id, place_id) conflicts from exploding when both sides share rows.
+// keeps PK (user_id, place_id) conflicts from exploding when both sides share
+// rows. CL-UI-57: the conflicting source rows are NOT left behind by OR IGNORE,
+// so mergeAnonDevice follows up with a device-wide DELETE — otherwise a stale
+// anonymous row (a favorite the account already had) survives the merge and
+// leaks to whichever identity the device id later resolves to (a different
+// account on the same browser, or the anonymous mode after logout).
 export const MERGE_SQL = {
   favorites: "UPDATE OR IGNORE favorites SET user_id = ?1 WHERE user_id = ?2",
   notify_rules: "UPDATE OR IGNORE notify_rules SET user_id = ?1 WHERE user_id = ?2",
+  favorites_cleanup: "DELETE FROM favorites WHERE user_id = ?1",
+  notify_rules_cleanup: "DELETE FROM notify_rules WHERE user_id = ?1",
 };
