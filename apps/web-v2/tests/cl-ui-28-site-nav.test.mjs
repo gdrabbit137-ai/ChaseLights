@@ -1,6 +1,7 @@
 // CL-UI-28 — site-wide persistent navigation (blueprint §7 IA rework).
 // Covers: 1) identical nav DOM on all four pages with correct active marks;
-// 2) 更多工具 demotes genre-eval + field-intake without removing them;
+// 2) CL-UI-54: the 更多工具 dropdown is GONE (owner ruling: genre-eval /
+//    field-intake didn't help users); the page FILES stay (direct URLs work);
 // 3) cross-page region carry (cards → WeatherGrid and back, URL ?region=);
 // 4) 390px collapse (bottom bar, ≥44px touch targets);
 // 5) page toolbars kept below the nav (nav owns page switching only);
@@ -42,26 +43,33 @@ test('CL-UI-28 (1): all four pages share ONE identical site-nav DOM', () => {
     const nav = navBlock(html);
     assert.match(nav, /data-nav-target="cards"/);
     assert.match(nav, /data-nav-target="weather"/);
-    assert.match(nav, /class="site-nav-more" data-nav-more/);
-    assert.match(nav, /class="site-nav-menu" hidden/);
-    assert.match(nav, /href="\.\/genre-eval\.html"/);
-    assert.match(nav, /href="\.\/field-intake\.html"/);
     assert.match(nav, /aria-expanded="false"/);
-    // 題材評估 / 實拍驗證 are demoted under 更多工具 — not removed.
-    assert.ok(nav.indexOf('field_intake_title') === -1);
+    // CL-UI-54: no 更多工具 dropdown in the nav anymore.
+    assert.doesNotMatch(nav, /data-nav-more/);
+    assert.doesNotMatch(nav, /nav_more_tools/);
+    assert.doesNotMatch(nav, /genre-eval\.html/);
+    assert.doesNotMatch(nav, /field-intake\.html/);
   }
   // The nav is included on every page.
   for (const html of pages) assert.match(html, /assets\/site-nav\.css/);
   for (const html of pages) assert.match(html, /assets\/site-nav\.js/);
 });
 
-test('CL-UI-28 (2): active mark marks the CURRENT page', () => {
+test('CL-UI-28 (2): active mark marks the CURRENT page (cards / weather only)', () => {
   assert.match(navBlock(indexHtml), /data-nav-target="cards" data-active="page"/);
   assert.match(navBlock(wgHtml), /data-nav-target="weather" data-active="page"/);
-  assert.match(navBlock(genreHtml), /href="\.\/genre-eval\.html" data-active="page"/);
-  assert.match(navBlock(fieldHtml), /href="\.\/field-intake\.html" data-active="page"/);
   assert.doesNotMatch(navBlock(indexHtml), /data-nav-target="weather" data-active="page"/);
   assert.doesNotMatch(navBlock(wgHtml), /data-nav-target="cards" data-active="page"/);
+});
+
+test('CL-UI-54: genre-eval / field-intake pages still exist outside the nav', () => {
+  // Nav demotion was replaced by full removal (CL-UI-54); direct URLs work.
+  const genre = read('genre-eval.html');
+  const field = read('field-intake.html');
+  assert.match(genre, /<nav class="site-nav"/);
+  assert.match(field, /<nav class="site-nav"/);
+  assert.doesNotMatch(genre, /data-nav-more/);
+  assert.doesNotMatch(field, /data-nav-more/);
 });
 
 test('CL-UI-28 (3): cards → WeatherGrid carries the current region', () => {
