@@ -11,6 +11,31 @@ export const AUTH_START_ENDPOINTS = Object.freeze({
 });
 export const AUTH_ME_ENDPOINT = "/auth/me";
 
+// CL-API-05: OAuth callbacks redirect back to the homepage instead of
+// rendering bare JSON. A failed callback carries ?auth_error=1; the shell
+// consumes it and shows a trilingual retry notice.
+export const AUTH_ERROR_PARAM = "auth_error";
+export const AUTH_ERROR_I18N = Object.freeze({
+  "zh-TW": "登入失敗，請重試",
+  "en": "Sign in failed, please try again",
+  "ja": "ログインに失敗しました。もう一度お試しください"
+});
+
+// Returns true exactly when `search` (URLSearchParams or location.search
+// string) carries the auth_error=1 flag, and — given a URLSearchParams —
+// strips the flag from it so callers can clean the address bar.
+export function consumeAuthError(search) {
+  const q = typeof search === "string" ? new URLSearchParams(search) : search;
+  if (!(q && typeof q.get === "function")) return false;
+  if (q.get(AUTH_ERROR_PARAM) !== "1") return false;
+  if (typeof q.delete === "function") q.delete(AUTH_ERROR_PARAM);
+  return true;
+}
+
+export function authErrorMessage(locale) {
+  return AUTH_ERROR_I18N[locale] || AUTH_ERROR_I18N["zh-TW"];
+}
+
 // Accepts the /auth/me document; returns a member only when a usable display
 // name is present. Anything else (401, empty object, blank name) is "not
 // signed in" — the entry must show the sign-in buttons, never a fake member.

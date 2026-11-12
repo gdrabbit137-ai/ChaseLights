@@ -5,7 +5,7 @@ import {readFileSync} from "node:fs";
 import {fileURLToPath} from "node:url";
 import {dirname, join} from "node:path";
 import {createPullToRefresh, fetchCloudDigest} from "../pull-refresh.mjs";
-import {AUTH_START_ENDPOINTS, AUTH_ME_ENDPOINT, parseMember, fetchMember} from "../shell-auth.mjs";
+import {AUTH_START_ENDPOINTS, AUTH_ME_ENDPOINT, parseMember, fetchMember, consumeAuthError, authErrorMessage, AUTH_ERROR_I18N} from "../shell-auth.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(join(root, p), "utf8");
@@ -96,7 +96,7 @@ test("index.html carries the member area and pull indicator markup", () => {
 test("app.mjs wires refresh to digest + data re-fetch and guarded member rendering", () => {
   const app = read("app.mjs");
   assert.ok(app.includes('import {createPullToRefresh,fetchCloudDigest} from "./pull-refresh.mjs";'));
-  assert.ok(app.includes('import {fetchMember} from "./shell-auth.mjs";'));
+  assert.ok(app.includes('import {fetchMember,consumeAuthError,authErrorMessage} from "./shell-auth.mjs";'));
   assert.ok(app.includes('async function refreshData()'), "refreshData defined");
   assert.ok(app.includes("state.cloudDigest=await fetchCloudDigest();"), "refresh re-fetches bundle digest");
   assert.ok(app.includes("await loadResearchIndex();"), "refresh re-fetches browse index");
@@ -135,4 +135,37 @@ test("styles.css visibility rules are :not([hidden])-guarded", () => {
   }
   // No unscoped display rule on the new elements (would swallow [hidden]).
   assert.ok(!/#pull-indicator\{[^}]*display/.test(css));
+});
+
+// --- CL-API-05: failed OAuth callback lands as ?auth_error=1 -----------------
+test("consumeAuthError detects auth_error=1 and strips it from the query", () => {
+  const q = new URLSearchParams("?auth_error=1&keep=2");
+  assert.equal(consumeAuthError(q), true);
+  assert.equal(q.has("auth_error"), false);
+  assert.equal(q.get("keep"), "2");
+  // URLSearchParams.get returns the FIRST occurrence → "0" does not count.
+  assert.equal(consumeAuthError(new URLSearchParams("?auth_error=0")), false);
+  assert.equal(consumeAuthError(new URLSearchParams("?other=1")), false);
+  assert.equal(consumeAuthError(new URLSearchParams("")), false);
+  assert.equal(consumeAuthError(null), false);
+  assert.equal(consumeAuthError(undefined), false);
+});
+
+test("authErrorMessage is trilingual and falls back to zh-TW", () => {
+  assert.equal(authErrorMessage("zh-TW"), "登入失敗，請重試");
+  assert.equal(authErrorMessage("en"), "Sign in failed, please try again");
+  assert.equal(authErrorMessage("ja"), "ログインに失敗しました。もう一度お試しください");
+  assert.equal(authErrorMessage("fr"), "登入失敗，請重試");
+  assert.deepEqual(Object.keys(AUTH_ERROR_I18N).sort(), ["en", "ja", "zh-TW"]);
+});
+
+test("auth-error notice markup + app.mjs wiring (CL-API-05)", () => {
+  const html = read("index.html");
+  assert.ok(html.includes('id="auth-error"'), "notice element present");
+  assert.ok(html.includes('<p id="auth-error" role="status" aria-live="polite" hidden>'), "hidden + aria-live");
+  const app = read("app.mjs");
+  assert.ok(app.includes("consumeAuthError(q)"), "flag consumed at startup");
+  assert.ok(app.includes("authErrorMessage(state.locale)"), "locale-aware copy");
+  assert.ok(app.includes('history.replaceState'), "address bar cleaned");
+  assert.ok(app.includes('el.hidden=false;'), "notice unhidden");
 });

@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import vm from 'node:vm';
 import {createCatalogState} from '../catalog-state.mjs';
+import {consumeAuthError as realConsumeAuthError, authErrorMessage as realAuthErrorMessage} from '../shell-auth.mjs';
 
 const app = readFileSync(fileURLToPath(new URL('../app.mjs',import.meta.url)), 'utf8');
 const html = readFileSync(fileURLToPath(new URL('../index.html',import.meta.url)), 'utf8');
@@ -45,6 +46,11 @@ function mountApp() {
     // CL-APP-02 shell-entry module stubs (imports are stripped above).
     createPullToRefresh:()=>({handleTouchStart(){},handleTouchMove(){},handleTouchEnd(){}}),
     fetchCloudDigest:async()=>null,fetchMember:async()=>null,
+    // CL-API-05 auth-error notice runs at module load and reads the address bar.
+    URLSearchParams,
+    consumeAuthError:realConsumeAuthError,
+    authErrorMessage:realAuthErrorMessage,
+    window:{location:{search:''},history:{replaceState(){}}},
     console,Intl,Date,Set,Map
   },{timeout:2000});
   return {document,store,language:document.getElementById('language')};
