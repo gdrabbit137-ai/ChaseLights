@@ -3,6 +3,14 @@
    Blueprint §7: main items = 卡片 + 天氣圖; 題材評估 / 實拍驗證 live under
    更多工具 (demoted, not removed). Page-specific toolbars stay BELOW this bar. */
 .site-nav {
+  /* CL-UI-53B: without an explicit position, the z-index below was ignored on
+     desktop — the backdrop-filter still created a stacking context, but the
+     member/tools dropdown (z-index 401, inside it) painted UNDER the sticky
+     .filter-shell (z-index 120, opaque background) that follows in the root
+     stacking order. The menu reported a visible rect but was covered. Make
+     the bar positioned so z-index actually applies (mobile already got this
+     via position:fixed in the ≤640px rule). */
+  position: relative;
   background: rgba(15, 23, 42, .97);
   border-bottom: 1px solid #334155;
   backdrop-filter: blur(10px);
@@ -73,6 +81,25 @@
   padding: 6px;
   box-shadow: 0 10px 24px rgba(0, 0, 0, .5);
   z-index: 401;
+}
+/* CL-UI-53B: the unscoped display rules above (`.site-nav-more-btn`,
+   `.site-nav-item`, `.site-nav-menu a` …) override the UA `[hidden]` rule,
+   so a hidden 登出 button still computed display:flex and stayed visible
+   next to 登入. An explicit state-scoped guard keeps [hidden] honest, and
+   member-auth.js additionally switches visibility via a class plus inline
+   style so it never has to fight a shell display rule. */
+.site-nav-item[hidden],
+.site-nav-more-btn[hidden],
+.site-nav-menu[hidden] {
+  display: none;
+}
+/* CL-UI-53B member area: the menu is only shown through .ma-open (set by
+   member-auth.js), never by merely removing [hidden]. */
+.site-nav-menu[data-member-menu] {
+  display: none;
+}
+.site-nav-menu[data-member-menu].ma-open {
+  display: block;
 }
 .site-nav-menu a {
   display: flex;
