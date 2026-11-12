@@ -60,6 +60,18 @@ jobs:
             /weather-map.html
             /genre-eval.html
             /field-intake.html
+            # CL-CI-37: reminders.html is read by cl-ui-28-site-nav.test.mjs
+            # (w4-node); missing here fails that file at module load in CI
+            # (11 tests unregistered -> 600-11+1 file-fail = 590 total).
+            /reminders.html
+            # CL-CI-37: cl-ui-58-reminders.test.mjs reads
+            # workers/api/src/index.js and cl-ui-57-favorites-isolation-profile
+            # .test.mjs reads workers/api/src/{index,auth}.js plus pins the
+            # existence of migrations/0006_users_profile.sql — both files fail
+            # in CI when /workers/ or /migrations/ are absent from the sparse
+            # tree (load throw -> whole-file fail, 10 tests unregistered).
+            /workers/
+            /migrations/
             # Root modules imported by packages/core-v2 tests via sys.path[ROOT]
             /lunar_ephemeris.py
             # CL-CI-25: test_cl_data_23 lazily does `import regions` (5km
