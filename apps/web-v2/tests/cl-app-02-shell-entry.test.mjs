@@ -75,6 +75,37 @@ test("member lookup parses /auth/me documents and fails closed", async () => {
   assert.equal(await fetchMember(async () => ({ok: true, json: async () => { throw new Error("bad json"); }})), null);
 });
 
+// CL-UI-56: parseMember must accept the REAL /api/v1/auth/me response shape —
+// { user: { id, provider, providerUserId, displayName, level } } (nested +
+// camelCase, per workers/api/src/index.js handleAuthMe). 401/empty stay signed-out.
+test("CL-UI-56: parseMember parses the real nested /auth/me shape (nested camelCase wins)", () => {
+  // exact handleAuthMe response shape, CJK display name, provider from user object
+  assert.deepEqual(
+    parseMember({user: {id: "p:line:u-9", provider: "line", providerUserId: "u-9", displayName: "山客小美", level: "free"}}),
+    {name: "山客小美", provider: "line"});
+  // displayName wins over legacy top-level fields
+  assert.deepEqual(
+    parseMember({user: {displayName: "NESTED"}, display_name: "legacy"}),
+    {name: "NESTED", provider: null});
+  // legacy top-level shapes still parse
+  assert.deepEqual(parseMember({display_name: "舊形狀", provider: "google"}), {name: "舊形狀", provider: "google"});
+  // 401-like / empty bodies must never yield a member
+  assert.equal(parseMember({}), null);
+  assert.equal(parseMember({error: "unauthorized"}), null);
+  assert.equal(parseMember({user: null}), null);
+  assert.equal(parseMember({user: {}}), null);
+  assert.equal(parseMember({user: {displayName: "  "}}), null);
+  assert.equal(parseMember({user: {displayName: 42}}), null);
+});
+
+// CL-UI-56: fetchMember treats a 401 as signed-out and parses the nested shape on 200.
+test("CL-UI-56: fetchMember returns null on 401 and parses nested shape on 200", async () => {
+  const ok401 = {ok: false, status: 401, json: async () => ({error: "unauthorized"})};
+  assert.equal(await fetchMember(async () => ok401), null);
+  const ok200 = {ok: true, status: 200, json: async () => ({user: {id: "x", provider: "line", providerUserId: "y", displayName: "測試員", level: "free"}})};
+  assert.deepEqual(await fetchMember(async () => ok200), {name: "測試員", provider: "line"});
+});
+
 test("sign-in entry points target the deployed auth endpoints", () => {
   assert.equal(AUTH_START_ENDPOINTS.line, "/api/v1/auth/line/start");
   assert.equal(AUTH_START_ENDPOINTS.google, "/api/v1/auth/google/start");
