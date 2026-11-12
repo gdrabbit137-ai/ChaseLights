@@ -233,6 +233,9 @@ RUNTIME_PROFILE_GAPS = {
         # registered as explicit honest-degradation gaps per CL-DATA-55 precedent.
         "tw-186-P01", "tw-188-P02", "tw-191-P02", "tw-193-P02",
         "tw-194-P01", "tw-195-P02",
+        # CL-DATA-67 re-anchor: wave5 tw-216-P01 directional contract has no
+        # configured bearing yet; honest-degradation gap per CL-DATA-55 precedent.
+        "tw-216-P01",
     }),
 }
 
