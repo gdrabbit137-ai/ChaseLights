@@ -115,11 +115,10 @@ test('CL-UI-34 (5): index.html carries the collapsed panel, cards untouched, sta
   // CL-API-05: member-auth.js advanced to clui65 (CL-UI-55), so only site-nav.css still
   // carries a clui62 stamp on index.html.
   assert.equal((htmlSource.match(/\?v=clui62/g)||[]).length,1,'site-nav stamp stays at clui62');
-  // CL-UI-48: app.js advanced to clui67, app.css bumped to clui54 by CL-UI-49.
-  assert.equal((htmlSource.match(/\?v=clui54/g)||[]).length,1,'app.css stamp at clui54');
-  // CL-UI-57: app.js + member-auth.js + favorites-client.js all sit at clui67
-  // on index.html (three stamps, one generation).
-  assert.equal((htmlSource.match(/\?v=clui67/g)||[]).length,3,'app.js/member-auth/favorites-client stamps bumped to clui67');
+  // CL-UI-58: app.js + app.css + reminders-client.js all bumped to clui68.
+  assert.equal((htmlSource.match(/\?v=clui68/g)||[]).length,3,'app.js/app.css/reminders-client stamps bumped to clui68');
+  // CL-UI-57: member-auth.js + favorites-client.js stay at clui67.
+  assert.equal((htmlSource.match(/\?v=clui67/g)||[]).length,2,'member-auth/favorites-client stamps stay at clui67');
   // Render path and styles exist in app.js / app.css.
   assert.match(appSource,/function renderModalProvenance\(/);
   assert.match(appSource,/renderModalProvenance\(summarySpot\);/);

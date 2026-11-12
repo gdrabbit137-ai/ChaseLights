@@ -19,6 +19,7 @@ const indexHtml = read('index.html');
 const wgHtml = read('weather-map.html');
 const genreHtml = read('genre-eval.html');
 const fieldHtml = read('field-intake.html');
+const remHtml = read('reminders.html');
 const appJs = read('assets/app.js');
 const wgJs = read('assets/weather-map.js');
 const navCss = read('assets/site-nav.css');
@@ -33,8 +34,8 @@ function normalized(html) {
   return navBlock(html).replace(/ data-active="page"/g, '');
 }
 
-test('CL-UI-28 (1): all four pages share ONE identical site-nav DOM', () => {
-  const pages = [indexHtml, wgHtml, genreHtml, fieldHtml];
+test('CL-UI-28 (1): all five pages share ONE identical site-nav DOM', () => {
+  const pages = [indexHtml, wgHtml, genreHtml, fieldHtml, remHtml];
   const norm = pages.map(normalized);
   assert.equal(norm[1], norm[0], 'weather-map.html nav DOM matches index');
   assert.equal(norm[2], norm[0], 'genre-eval.html nav DOM matches index');
@@ -43,6 +44,8 @@ test('CL-UI-28 (1): all four pages share ONE identical site-nav DOM', () => {
     const nav = navBlock(html);
     assert.match(nav, /data-nav-target="cards"/);
     assert.match(nav, /data-nav-target="weather"/);
+    assert.match(nav, /data-nav-target="reminders"/);
+    assert.match(nav, /reminders\.html/);
     assert.match(nav, /aria-expanded="false"/);
     // CL-UI-54: no 更多工具 dropdown in the nav anymore.
     assert.doesNotMatch(nav, /data-nav-more/);
@@ -55,11 +58,14 @@ test('CL-UI-28 (1): all four pages share ONE identical site-nav DOM', () => {
   for (const html of pages) assert.match(html, /assets\/site-nav\.js/);
 });
 
-test('CL-UI-28 (2): active mark marks the CURRENT page (cards / weather only)', () => {
+test('CL-UI-28 (2): active mark marks the CURRENT page (cards / weather / reminders)', () => {
   assert.match(navBlock(indexHtml), /data-nav-target="cards" data-active="page"/);
   assert.match(navBlock(wgHtml), /data-nav-target="weather" data-active="page"/);
+  assert.match(navBlock(remHtml), /data-nav-target="reminders" data-active="page"/);
   assert.doesNotMatch(navBlock(indexHtml), /data-nav-target="weather" data-active="page"/);
+  assert.doesNotMatch(navBlock(indexHtml), /data-nav-target="reminders" data-active="page"/);
   assert.doesNotMatch(navBlock(wgHtml), /data-nav-target="cards" data-active="page"/);
+  assert.doesNotMatch(navBlock(remHtml), /data-nav-target="cards" data-active="page"/);
 });
 
 test('CL-UI-54: genre-eval / field-intake pages still exist outside the nav', () => {
@@ -115,8 +121,15 @@ test('CL-UI-28 (7): page toolbars stay below the nav (nav = switching only)', ()
 });
 
 test('CL-UI-28 (8): nav i18n keys exist in all three dictionaries', () => {
+  // CL-UI-58: the reminders page mirrors the nav keys it renders.
+  const navSources = [appJs, read('assets/genre-eval.js'), read('assets/field-intake.js'), read('assets/reminders-page.js')];
+  for (const src of navSources) {
+    for (const key of ['nav_cards', 'nav_weathermap', 'nav_reminders']) {
+      assert.match(src, new RegExp(`${key}:`), `${key} present`);
+    }
+  }
   for (const src of [appJs, read('assets/genre-eval.js'), read('assets/field-intake.js')]) {
-    for (const key of ['nav_cards', 'nav_weathermap', 'nav_more_tools', 'nav_genre_eval', 'nav_field_intake']) {
+    for (const key of ['nav_more_tools', 'nav_genre_eval', 'nav_field_intake']) {
       assert.match(src, new RegExp(`${key}:`), `${key} present`);
     }
   }
@@ -126,12 +139,12 @@ test('CL-UI-28 (8): nav i18n keys exist in all three dictionaries', () => {
   }
 });
 
-test('CL-UI-28 (9): index.html stamp bumped clui33 → clui41', () => {
+test('CL-UI-28 (9): index.html stamps tracked (CL-UI-58: app.js/app.css at clui68)', () => {
   // CL-UI-53B: site-nav.css advanced to clui62 (site-nav.js stays clui41).
   assert.match(indexHtml, /assets\/site-nav\.css\?v=clui62/);
   assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui67/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui54/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui68/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui68/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });
 

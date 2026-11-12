@@ -161,7 +161,7 @@ test('CL-UI-57 (5): parseMember carries the nested profile object; empty shape f
 // --- (6) cache-bust stamps ------------------------------------------------------
 test('CL-UI-57 (6): the edited V1 assets are cache-busted ?v=clui67 on their pages', () => {
   const index = readFileSync(join(ROOT, 'index.html'), 'utf8');
-  assert.match(index, /assets\/app\.js\?v=clui67/);
+  assert.match(index, /assets\/app\.js\?v=clui68/);
   assert.match(index, /assets\/member-auth\.js\?v=clui67/);
   assert.match(index, /assets\/favorites-client\.js\?v=clui67/);
   for (const page of ['weather-map.html', 'genre-eval.html', 'field-intake.html']) {
