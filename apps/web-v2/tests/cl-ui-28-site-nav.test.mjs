@@ -130,7 +130,7 @@ test('CL-UI-28 (9): index.html stamp bumped clui33 → clui41', () => {
   // CL-UI-53B: site-nav.css advanced to clui62 (site-nav.js stays clui41).
   assert.match(indexHtml, /assets\/site-nav\.css\?v=clui62/);
   assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui61/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui67/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui54/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });

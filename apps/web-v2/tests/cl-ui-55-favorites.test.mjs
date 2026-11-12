@@ -5,7 +5,7 @@
 // Layers covered here:
 //  (1) assets/favorites-client.js (V1 shell) unit behavior against a mocked
 //      fetch (contract shape from workers/api/src/index.js handleFavorites).
-//  (2) V1 shell wiring: favorites-client.js stamped ?v=clui55 on all four
+//  (2) V1 shell wiring: favorites-client.js stamped ?v=clui67 on all four
 //      shell pages; app.js routes the card star through
 //      window.ChaseLightsFavorites and adopts cloud merges via the
 //      chaselights:favorites event; member-auth.js broadcasts chaselights:auth.
@@ -115,10 +115,10 @@ test('CL-UI-55 (4): offline syncLocal keeps the local list and the client subscr
   assert.equal(authListeners.length, 1, 'favorites-client.js subscribes to the member-auth broadcast');
 });
 
-test('CL-UI-55 (5): V1 shell — favorites-client.js is stamped ?v=clui55 on all four shell pages', () => {
+test('CL-UI-55 (5): V1 shell — favorites-client.js is stamped ?v=clui67 on all four shell pages', () => {
   for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html']) {
     const html = readFileSync(join(ROOT, page), 'utf8');
-    assert.match(html, /assets\/favorites-client\.js\?v=clui55/, `${page} loads favorites-client.js?v=clui55`);
+    assert.match(html, /assets\/favorites-client\.js\?v=clui67/, `${page} loads favorites-client.js?v=clui67`);
   }
 });
 
