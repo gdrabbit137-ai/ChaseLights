@@ -60,6 +60,7 @@
       wm_spot_caption:'景點',wm_spot_all:'全部景點',wm_opp_caption:'題材',wm_opp_placeholder:'先選景點',
       wm_basemap_loading:'底圖載入中…',
       wm_reset_aria:'回到目前資料來源範圍',wm_reset_text:'模型範圍',
+      wm_locate_aria:'把地圖畫面中心定位到所選景點',wm_locate_text:'定位景點',
       wm_time_label:'預報時間',wm_time_play:'播放',
       wm_layer_panel:'目前圖層',wm_details:'詳細',wm_qc_pending:'資料品質 · 等待',
       wm_wv_toggle:'在其他圖層疊加 10 m 風向箭頭',
@@ -88,6 +89,7 @@
       wm_spot_caption:'Spot',wm_spot_all:'All spots',wm_opp_caption:'Subject',wm_opp_placeholder:'Pick a spot first',
       wm_basemap_loading:'Loading basemap…',
       wm_reset_aria:'Back to the current data source coverage',wm_reset_text:'Model range',
+      wm_locate_aria:'Center the map view on the selected spot',wm_locate_text:'Locate spot',
       wm_time_label:'Forecast time',wm_time_play:'Play',
       wm_layer_panel:'Current layer',wm_details:'Details',wm_qc_pending:'Data quality · waiting',
       wm_wv_toggle:'Overlay 10 m wind-direction arrows on other layers',
@@ -116,6 +118,7 @@
       wm_spot_caption:'スポット',wm_spot_all:'全スポット',wm_opp_caption:'題材',wm_opp_placeholder:'先にスポットを選択',
       wm_basemap_loading:'背景地図を読み込み中…',
       wm_reset_aria:'現在のデータソース範囲へ戻る',wm_reset_text:'モデル範囲',
+      wm_locate_aria:'選択した撮影地を画面中心に移動',wm_locate_text:'撮影地へ移動',
       wm_time_label:'予報時刻',wm_time_play:'再生',
       wm_layer_panel:'現在のレイヤー',wm_details:'詳細',wm_qc_pending:'データ品質 · 待機中',
       wm_wv_toggle:'他のレイヤーに 10 m 風向矢印を重ねる',
@@ -3068,6 +3071,12 @@
       selectSpot(spotSelect.value);
     });
 
+    // CL-UI-59: the only manual re-center path for a spot selection.
+    $('locate-spot').addEventListener('click', () => {
+      locateSpot();
+      renderAll();
+    });
+
     const opportunitySelect = $('opportunity-select');
     opportunitySelect.addEventListener('change', () => {
       state.opportunityId = opportunitySelect.value;
@@ -3102,21 +3111,36 @@
         '<option value="'+escapeHtml(s.spot_id)+'">'+escapeHtml(s.name)+'</option>'
       ).join('');
     spotSelect.value = state.spotId || '';
+    updateLocateSpotButton();
   }
 
+  // CL-UI-59: the locate control is meaningful only when a spot is selected.
+  function updateLocateSpotButton(){
+    const btn = $('locate-spot');
+    if(btn) btn.disabled = !state.spotId;
+  }
+
+  // CL-UI-59: selecting a spot (dropdown or canvas marker click) only swaps
+  // the data panel + marker highlight. The camera (zoom + center) stays
+  // wherever the user put it — re-centering happens only through the explicit
+  // 「定位景點」 control (locateSpot) or the deep-link initial-load path
+  // (applyDeepLinkSpotCamera).
   function selectSpot(spotId){
     state.spotId = spotId;
     state.opportunityId = '';
     refreshOpportunityOptions();
-    if(state.spotId){
-      const group = selectedCoverageGroup();
-      const union = group && unionViewport(group.opportunities);
-      if(union) fitCoverageBbox(union);
-      else zoomToSpot(selectedSpot());
-    }else{
-      state.view = {...timelineDataset().bbox};
-    }
+    updateLocateSpotButton();
     renderAll();
+  }
+
+  // CL-UI-59: manual re-center control. This is the only user path that may
+  // move the camera for a spot selection (besides deep-link initial load).
+  function locateSpot(){
+    if(!state.spotId) return;
+    const group = selectedCoverageGroup();
+    const union = group && unionViewport(group.opportunities);
+    if(union) fitCoverageBbox(union);
+    else zoomToSpot(selectedSpot());
   }
 
   function refreshOpportunityOptions(){
