@@ -509,11 +509,18 @@ def main():
         # on the merged tree (node v26.7.0 --test-isolation=none, python 3.14):
         # w2 217->253 (253 pass / 0 fail), exact total 1184->1220
         # (measured: 1220 tests, 1220 pass, 0 fail, 0 skip).
-        if (report["counts"]["tests"] != 1220 or
+        # 2026-11-12 CL-CI-35B2: CL-UI-55 (fb60fc269) merged +8 favorites tests
+        # without re-anchoring the exact total: 1220->1247 (measured on merged
+        # tree 650e16553: 1247 tests, 1247 pass, 0 fail, 0 skip). Also
+        # re-anchored the stale runtime-file pins 19->20 in
+        # test_task_v_integration.py (2 asserts) and static-build-smoke.mjs
+        # (manifest.files) — CL-UI-55 added favorites-client.mjs as the 20th
+        # RUNTIME_FILES entry (build_static.py) but those pins were missed.
+        if (report["counts"]["tests"] != 1247 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1220):
-            raise ValueError("Post-merge exact 1220-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != 1247):
+            raise ValueError("Post-merge exact 1247-case requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"
