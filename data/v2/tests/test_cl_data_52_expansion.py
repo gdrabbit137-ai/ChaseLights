@@ -185,8 +185,8 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 465)  # re-anchored CL-DATA-64 + CL-DATA-66 wave1-7: scoped 168h evals for 86 new places spliced into the 2026-11-11 bundle
-        self.assertEqual(ev["opportunity_count"], 697)  # CL-DATA-66 wave1-7: 562 + 98 scoped evals for the 117 new contracts
+        self.assertEqual(ev["place_count"], 460)  # CL-CI-36 re-anchor: cron drops the 6 CL-DATA-62-retired places (tw-068/083/084, us-075/076/077; -13 opps, PRODUCT_RETIRED is honest); CL-CI-36 dedup fix removes duplicate multi-coordinate-group rows (tw-002/us-005/us-011/us-013 listed twice); 465/697 -> 460/690
+        self.assertEqual(ev["opportunity_count"], 690)
 
 
 if __name__ == "__main__":

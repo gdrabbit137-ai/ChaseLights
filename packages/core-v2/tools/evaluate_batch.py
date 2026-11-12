@@ -836,6 +836,25 @@ def main():
             json.dumps(place_detail, ensure_ascii=False, separators=(",", ":")) + "\n",
             encoding="utf-8")
 
+    # CL-CI-36: a place_id spanning several coordinate groups (CL-UI-25) must
+    # appear ONCE in the published places list — the CL-UI-25 fix merged the
+    # detail docs but left places_out with one entry per group, so the bundle
+    # carried duplicate place rows (tw-002/us-005/us-011/us-013 each twice in
+    # the 2026-11-12 cron bundle) and place_count overstated the product.
+    # Merge by place_id: keep the first group's coordinate/provenance and
+    # append later groups' opportunities (detail side already records the
+    # per-opportunity coordinate in evaluations-details).
+    merged_places = {}
+    place_order = []
+    for place_out in places_out:
+        pid = place_out["place_id"]
+        if pid in merged_places:
+            merged_places[pid]["opportunities"].extend(place_out["opportunities"])
+        else:
+            merged_places[pid] = place_out
+            place_order.append(pid)
+    places_out = [merged_places[pid] for pid in place_order]
+
     bundle = {
         "evaluation_bundle_version": BUNDLE_VERSION,
         "generated_at": generated_iso,
