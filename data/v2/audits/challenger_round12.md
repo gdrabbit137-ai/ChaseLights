@@ -1,126 +1,229 @@
-# Challenger Round12 — us-147..158（CL-DATA-53 剩餘批次，知識隔離）
+# ChaseLights 挑戰者審查 — 第 12 輪（jp 區 jp-065..jp-074）
 
-日期：2026-11-10。資料來源：線上 `https://chaselights.app/apps/web-v2/opportunity-contracts.json` 與 `evaluations-latest.json`（13 個機會契約 / 12 景點）。方法：對每個機會提出 ≥3 個候選質疑，逐一以物理約束（太陽仰角/方位、暮光、季節封閉、潮汐、季節語意、緯度天象、時段合理性）與權威來源（NPS/BLM/州/NOAA/time.is）驗證。僅真缺陷判「成立」。
-
-**成立質疑：4 項**（us-147-P01 ×1、us-152-P01 ×1、us-154-P01 ×2）。其餘 41 個候選驗證為不成立或已被警語/UNKNOWN 機制覆蓋。
-
----
-
-## us-147 斑馬狹縫峽谷（Zebra Slot, Grand Staircase–Escalante, 37.661/-111.421, America/Denver）
-
-**卡片摘錄**：P01 geological_landform「斑馬狹縫波紋牆」——「寬僅一臂的狹縫內橙白條紋如斑馬紋（Escalante；狹縫內常年積水段需涉水——access 資訊性）」。判據：landform_present / precip ≤0.3 / golden_hour_window BONUS / AOD ≤0.4 BONUS / light_window（civil，> −6°）。評估 11-10、11-11 均 GUIDANCE_SATISFIED，good_hours 07:00–16:45。
-
-1. **候選**：golden_hour_window BONUS 對狹縫題材物理空窗——縫寬僅一臂，太陽仰角 <15°（golden hour 定義域）時直射光根本進不了縫內；斑馬紋需斜上/頂光束，實拍社群公認最佳在上午至中午（8:00–14:00），golden hour 反而是縫內最暗時段。**驗證**：explorumentary 實拍記錄「early morning light (8:00 a.m.) was perfect… mid-morning good」；bearfoottheory/vanlifebydesign 皆指 late morning–early afternoon 為條紋最佳光。與模板理由「低角度直射光強化岩層紋理」直接矛盾——此理由對開放地景成立、對狹縫不成立。**判定：成立（小缺陷：模板理由錯配，加分項在該點為無效訊號）**。證據：https://www.explorumentary.com/adventure-blog/zebra-slot-and-devils-garden-a-weekend-in-grand-staircase-escalante ；https://bearfoottheory.com/escalante-hiking/
-2. **候選**：Hole-in-the-Rock Road 冬季/雨後沖毀，11 月是否可達。**驗證**：BLM/多源確認土路乾季 2WD 可達、雨後泥濘難行，無固定季節封閉；卡片 desc 已標「積水段需涉水——access 資訊性」，且 SHOOT 條件 precip ≤0.3 mm/h 排除降雨時拍攝。**判定：不成立（已被警語覆蓋）**。證據：https://vanlifebydesign.com/zebra-slot-canyon-utah/
-3. **候選**：11 月 good_hours 07:00–16:45 是否落在夜間/暮光外。**驗證**：37.66°N 11 月 10 日日出約 06:57、日落約 17:09（民用暮光 06:25–17:40 量級），07:00–16:45 全程太陽在地平線上；light_window PARTIAL 10 小時與 civil 光窗量級一致。**判定：不成立（物理一致）**。
-4. **候選**：無上游集水區閃洪判據（狹縫致命風險）。**驗證**： shooting 時降雨 ≤0.3 mm/h 已排除現場降水；上游遠端降雨為安全警示層級，desc 已資訊性提示涉水。**判定：不成立（guidance 範疇；安全警語建議未來加註）**。
-
-## us-148 膨潤土彩帶丘陵（Bentonite Hills, Capitol Reef Cathedral Valley, 38.3611/-111.1278, America/Denver）
-
-**卡片摘錄**：「火山灰黏土層帶狀棕紅紫灰綠圓丘（NPS；雨天黏土路不通且丘面禁踩踏痕跡保育——access 不計分）」。判據同通用 geological_landform 模板。
-
-1. **候選**：Cathedral Valley 道路冬季不剷雪、雨後不可通行，11 月 access 是否實質關閉而卡片未反映。**驗證**：NPS「Roads in this area are maintained infrequently and are not plowed in winter… bentonite clay becomes impassable when wet」——與卡片 desc「雨天黏土路不通」完全對應。**判定：不成立（警語已覆蓋；access 不計分為系統設計）**。證據：https://www.nps.gov/thingstodo/hike-cathedral-valley.htm
-2. **候選**：golden_hour_window BONUS 對圓潤黏土丘是否物理成立。**驗證**：開放坡面低角度光確實強化彩帶色差（與狹縫不同情境），物理無矛盾。**判定：不成立**。
-3. **候選**：座標 38.3611/-111.1278 是否落在 Bentonite Hills 實際位置。**驗證**：Bentonite Hills 位 Cathedral Valley 西南緣（~38.36/-111.13），座標吻合。**判定：不成立**。
-4. **候選**：11 月 good_hours 07:00–16:40 光窗合理性。**驗證**：同 us-147 緯度帶 civil 光窗量級一致。**判定：不成立**。
-
-## us-149 約書亞樹國家公園（Keys View, 33.8928/-116.1888, America/Los_Angeles）
-
-### P01 night_sky「約書亞樹銀河夜」
-
-1. **候選**：11 月銀河核心已入晝側，≥10° 核心判據是否會產生假陽性。**驗證**：11 月核心夜間僅短暫低懸 SW 後即落（50°N 已不可見；34°N 僅黃昏極短窗），評估實輸出 11-09/11-10 全 UNFAVORABLE、核心判據 FAIL/PARTIAL——判據與天文一致、無假陽性。**判定：不成立**。證據：https://www.photographytalk.com/big-bend-stargazing/
-2. **候選**：Keys View 夜間是否封閉（園區夜間 access）。**驗證**：NPS FAQ「The park is open 24 hours a day… gates are left open at night」，Keys View 為官方列名觀星/日落點。**判定：不成立**。證據：https://home.nps.gov/jotr/faqs.htm
-3. **候選**：tz America/Los_Angeles（11 月 UTC-8）是否正確。**驗證**：Joshua Tree 屬加州，太平洋時區正確。**判定：不成立**。
-4. **候選**：月判據三件套（illum ≤0.5 / separation ≥40° / proxy ≤0.15）自承 provisional 卻 REQUIRED。**驗證**：round8 已對同構判據提過系統性疑慮（us-018-P02）；本輪以知識隔離立場確認行為一致且評估誠實輸出 UNFAVORABLE，非本批新缺陷。**判定：不成立（既有議題，非本點缺陷）**。
-
-### P02 seasonal_plant「約書亞樹花枝」
-
-1. **候選**：desc「罕見晚春花序」「2–4月花期」與 NPS 官方 Yucca brevifolia 花期 4–5 月是否矛盾。**驗證**：NPS 物種頁列 Joshua Tree 開花 April–May；FAQ 載低海拔 2 月起、高海拔可到 6 月，年度浮動大——「2–4月」早端可成立但 4–5 月為主窗；P02 由 seasonal_state（例年窗×實況窗）動態判定，非寫死月份。**判定：不成立（desc 月份措辭略早端，機制已動態處理；建議文案對齊 4–5 月）**。證據：https://www.nps.gov/jotr/learn/nature/keys-view.htm
-2. **候選**：11 月評估 seasonal_state=UNKNOWN 是否為硬湊。**驗證**：非花期 UNKNOWN 誠實回報、全日 UNFAVORABLE，符合 limitations 聲明。**判定：不成立**。
-3. **候選**：light_window 夜間 FAIL 是否正確。**驗證**：11-09 01 時樣本 FAIL、白天 PARTIAL——可見光題材不落夜間，正確。**判定：不成立**。
-
-## us-150 特羅納石灰華石塔（Trona Pinnacles, 35.6611/-117.3453, America/Los_Angeles）
-
-1. **候選**：座標偏移——BLM/Wikipedia 主區座標 35.617/-117.370，卡片 35.6611/-117.3453 偏北東約 4.9 km。**驗證**：BLM「dirt road RM143…5.0-mile from SR 178」與 Wikipedia 座標一致；卡片偏移約一個格點尺度，對天氣網格與方位計算影響輕微（coordinate_source=camera_context_provisional 已自標 provisional）。**判定：不成立（座標有 ~5km 偏移，建議校正但不構成行為缺陷）**。證據：https://www.blm.gov/visit/trona-pinnacles ；https://en.wikipedia.org/wiki/Trona_Pinnacles
-2. **候選**：冬季大雨後土路封閉未反映。**驗證**：BLM「road may be closed during the winter months after a heavy rain」；卡片 desc 標「土路最後 3.5 英里——access 資訊性」（實為 5.0 mi，路長敘述略短，屬文案誤差非判據缺陷）。**判定：不成立（已覆蓋）**。
-3. **候選**：light_window/golden hour 對開放地景的物理適配。**驗證**：開放石塔群低角度光成立。**判定：不成立**。
-4. **候選**：11 月光窗（good_hours 自 06:00 起）。**驗證**：35.66°N 11 月 civil twilight 起於約 05:55，06:00 合理。**判定：不成立**。
-
-## us-151 拉森火山（彩繪沙丘火山口, Lassen Painted Dunes, 40.5264/-121.2722, America/Los_Angeles）
-
-**卡片摘錄**：「氧化火山灰彩層鋪展在 Cinder Cone 火山口旁（NPS；Butte Lake 區夏季開放——access 資訊性）」。評估 11-10/11-11 GUIDANCE_SATISFIED。
-
-1. **候選**：11 月 Butte Lake 區實際季節封閉——NPS 明載 Butte Lake Road（FR-32N21）冬季不維護、「vehicle travel is not advised when snow covers the road (approx. November–April)」、可閘門關閉；公園主幹線 11 月中下旬封閉（曾早至 10-18）。卡片僅「夏季開放」一筆警語，11 月 SATISFIED 天數對使用者有誤導風險。**驗證**：NPS Getting Around/Winter 頁確認。**判定：不成立（警語已覆蓋；但警語強度弱於實際：11 月起道路常態閘門關閉，建議加註「November–April 不維護/可能閘門關閉」）**。證據：https://www.nps.gov/lavo/planyourvisit/gettingaround.htm ；https://www.nps.gov/lavo/planyourvisit/fall.htm
-2. **候選**：visibility 判據 24 km 上限自承鈍化。**驗證**：理由欄自我揭露並由 AOD 承接，非隱藏缺陷。**判定：不成立**。
-3. **候選**：cloud_cover_low ≤30% 取代總雲量（owner 2026-10-26 修正）對俯瞰題材是否物理合理。**驗證**：低雲/霧層擋視線、高雲為構圖元素的物理區分成立。**判定：不成立**。
-4. **候選**：light_window 對 40.5°N 11 月（good_hours 07:00–16:00）。**驗證**：日出約 06:45、日落約 17:00，civil 光窗覆蓋 07:00–16:00，合理。**判定：不成立**。
-
-## us-152 愛達荷暗夜保護區（愛麗絲湖, Alice Lake Sawtooth, 43.9391/-114.9437, America/Los_Angeles）
-
-**卡片摘錄**：「鋸齒山…冰斗湖映 El Capitan 峰（2,622 m；湖水初夏可能結冰——資訊性；IdDA 全州暗夜保護區…）」。判據：wind ≤2 / water_surface_state / precip / 雲 20–60% BONUS / light_window。
-
-1. **候選**：**timezone_display 掛 America/Los_Angeles（UTC-8），但愛麗絲湖所在的 Sawtooth/Blaine–Custer County 屬 Mountain Time（America/Boise，11 月 MST UTC-7）**——display 時段整體偏移 1 小時，使用者在錯的鐘點赴拍。**驗證**：time.is「IANA time zone identifier for Twin Falls is America/Boise」、timeanddate Stanley/Sawtooth NRA 均 MST；49 CFR §71.9 邊界在 Salmon River 以北才轉 Pacific。**判定：成立**。證據：https://www.timeanddate.com/time/zone/@5608726 ；https://calendarhours.com/idaho-time-zone-map/
-2. **候選**：11 月湖面已結冰、倒影季節性死亡而判據僅 propagate UNKNOWN。**驗證**：Alice Lake 標高 2,622 m，湖凍至初夏（Wikipedia/gpsnauticalcharts）；卡片 desc「湖水初夏可能結冰——資訊性」+ water_surface_state 誠實 UNKNOWN。**判定：不成立（已被警語覆蓋）**。證據：https://en.wikipedia.org/wiki/Alice_Lake_(Sawtooth_Wilderness)
-3. **候選**：11 月步道積雪、11.6 mi 往返晨間進入不可行。**驗證**：10–4 月步道積雪（discoversawtooth/多源）；access 資訊性設計。**判定：不成立（已覆蓋；同上建議加註）**。
-4. **候選**：desc 拼字「IdDA」錯誤（Idaho Dark…）。**驗證**：文字誤植，無行為影響。**判定：不成立（文案瑕疵，隨修復批次一併更正）**。
-
-## us-153 月球火山紀念地（Craters of the Moon, 43.4169/-113.4977, America/Denver）
-
-**卡片摘錄**：P01 night_sky「熔岩地景上的國際暗夜公園銀河（NPS；熔岩地形同時為白天題材——資訊性）」。
-
-1. **候選**：Loop Road 11 月中旬起封閉機動車輛（mid-Nov–mid-Apr），夜間攝點是否實質不可達。**驗證**：NPS Winter 頁確認「Loop Road is typically closed for motorized travel between mid-November and mid-April」；步行/雪鞋仍可進入（遊客中心區步行可及熔岩地形），且 11-10 尚在封閉前。**判定：不成立（季節封閉屬 access 層；建議卡片加註冬季道路封閉）**。證據：https://www.nps.gov/thingstodo/craters-in-winter.htm
-2. **候選**：熔岩洞管冬季關閉（11–5 月洞口積雪冰）影響白天同框題材。**驗證**：NPS 確認 caves 通常 5 月底–10 月開放；卡片把熔岩地形列為白天資訊性題材、判據僅針對夜空，不衝突。**判定：不成立**。證據：https://www.nps.gov/thingstodo/craters-caves.htm
-3. **候選**：11 月核心判據假陽性。**驗證**：評估 11-10/11-11 全 UNFAVORABLE、core PARTIAL（黃昏低窗）——與 43°N 11 月天文一致。**判定：不成立**。
-4. **候選**：tz America/Denver 是否正確（Idaho 多數縣 Mountain）。**驗證**：Butte County 屬 Mountain Time，正確。**判定：不成立**。證據：https://calendarhours.com/idaho-time-zone-map/
-
-## us-154 肖肖尼瀑布（Shoshone Falls, Twin Falls, 42.7547/-114.4214, America/Los_Angeles）
-
-**卡片摘錄**：P01 waterfall「比尼加拉更高（212 呎）的蛇河斷層瀑布，春季灌溉取水前水量最大（Twin Falls 市；夏季分流水量銳減——資訊性）」。判據：river_flow_state＝「過去 72h 累積雨量映射（<5mm low、5–40mm mid、>40mm high）」REQUIRED/MAIN。
-
-1. **候選**：**river_flow_state 代理與實際水量脫鉤——Shoshone Falls 的水量由上游落磯山融雪 + Milner Dam（上游 24 mi）灌溉分流與 Shoshone Falls 水電取水決定，夏季近乎蒸發、秋季近乾；拍攝點當地 72h 雨量與瀑布流量幾乎無因果關係（流域為大壩調節、當地屬乾旱區，春汛時當地常無雨）。判據測不到它要判定的物理量，mid/high 窗永遠不會由真實春汛觸發。**驗證**：Twin Falls 官方「In the summer months, a portion of the river is diverted for irrigation… In the Fall… nearly dry」；Wikipedia「natural water from snowmelt in the Rockies… Milner Dam 24 miles upstream… frequently zero」——直接證實水量驅動源不在拍攝點降雨。**判定：成立（判據定義缺陷，provisional 但物理錯向）**。證據：https://www.tfid.org/309/Shoshone-Falls ；https://en.wikipedia.org/wiki/Shoshone_Falls
-2. **候選**：**timezone_display 掛 America/Los_Angeles（UTC-8），Twin Falls 實為 America/Boise Mountain Time（MST UTC-7）**——顯示時段偏移 1 小時。**驗證**：time.is/timeanddate/savvytime 一致。**判定：成立**。證據：https://time.is/Twin_Falls
-3. **候選**：11 月水量近枯仍列「春汛」題材是否季節錯置。**驗證**：desc 已言明春季最大/夏秋銳減；評估 river_flow_state UNKNOWN（不假陽性）、全日 UNFAVORABLE——行為誠實。**判定：不成立**。
-4. **候選**：座標 42.7547/-114.4214 較瀑布實址（42.755/-114.391）偏西約 2.5 km。**驗證**：格點尺度內，影響輕微。**判定：不成立（建議校正）**。
-5. **候選**：園區開放時間（Shoshone Falls Park 有收費營業時段）與光窗重疊。**驗證**：good_hours 均在日間營業時段內量級。**判定：不成立**。
-
-## us-155 乾龜國家公園（傑佛遜堡日落, Dry Tortugas, 24.628/-82.8735, America/New_York）
-
-1. **候選**：一日遊 15:00 離島、日落（約 17:40）不可達——sunset_window REQUIRED 與大眾交通根本衝突。**驗證**：Yankee Freedom「DEPARTURE: 3PM」；NPS camping 頁確認渡輪為日遊唯一班次、水上飛機不載宿營客；卡片判據理由自承「渡輪約 15:00 離島…日落時刻僅島上宿營者可達（honest 標註）」。**判定：不成立（已被警語誠實覆蓋）**。證據：https://www.drytortugas.com/key-west-ferry/ ；https://www.nps.gov/drto/planyourvisit/camping.htm
-2. **候選**：good_hours 17:05 是否落在真實日落窗。**驗證**：24.63°N 11 月日落約 17:35–17:40 EST，±40 分窗＝約 16:55–18:20，17:05 在窗內。**判定：不成立（物理一致）**。
-3. **候選**：堡區開放「sunrise to sunset」是否排除日落拍攝。**驗證**：NPS 營區規則指堡體開放至日落；宿營者於營地/海堤看日落不違規。**判定：不成立**。
-4. **候選**：tz America/New_York（11 月 EST UTC-5）正確。**驗證**：Dry Tortugas 屬佛州東時區。**判定：不成立**。
-
-## us-156 哈特拉斯角燈塔（Cape Hatteras, 35.2113/-75.5213, America/New_York）
-
-1. **候選**：外灘島海灘朝東，「日落」是否物理存在於此題材。**驗證**：11 月日落方位約 245–250°（西南西）落於 Pamlico Sound 側陸/潟湖方向；實拍社群證實自海灘向西取燈塔剪影為成熟日落構圖（photographylife 提供日落 200mm 實拍）。sunset_window 本身（日落時刻 ±40 分）天文正確。**判定：不成立**。證據：https://photographylife.com/photo-spots/cape-hatteras-lighthouse ；https://tile.loc.gov/storage-services/master/pnp/habshaer/nc/nc0400/nc0432/data/nc0432data.pdf
-2. **候選**：good_hours 17:00（11-11）是否在窗內。**驗證**：Buxton 11-11 日落約 16:55，窗約 16:15–17:35，17:00 在窗內。**判定：不成立**。
-3. **候選**：「198 呎美國最高磚砌燈塔」事實核。**驗證**：Cape Hatteras Light 198 ft、全美最高磚造燈塔，正確。**判定：不成立**。證據：https://home.nps.gov/caha/planyourvisit/chls.htm
-4. **候選**：tz EST 正確性。**驗證**：北卡東部時區，正確。**判定：不成立**。
-
-## us-157 阿薩蒂格島野馬（Assateague, 38.0111/-75.2814, America/New_York）
-
-1. **候選**：晨間 06:05 園區是否開放。**驗證**：NPS「Maryland District Open year round, 24 hours a day」——日出拍攝可達。**判定：不成立**。證據：https://home.nps.gov/asis/planyourvisit/hours.htm
-2. **候選**：sunrise_window good_hours 06:05/07:00 是否涵蓋實際日出。**驗證**：38°N 11-10 日出約 06:34，±40 分＝05:54–07:14，06:05/07:00 皆在窗內；海平線無遮擋假設成立（東側大西洋）。**判定：不成立**。
-3. **候選**：11 月是否仍蟲季/野馬離灘。**驗證**：蚊蟲季 5–9 月資訊性；野馬全年活動於灘與鹽沼。**判定：不成立**。
-4. **候選**：座標屬馬里蘭區南端（近 OC 入口），野馬於全島分布。**驗證**：38.011 在 MD 區內，成立點位有效。**判定：不成立**。
-
-## us-158 哈丁冰原展望（Harding Icefield, Kenai Fjords, 59.995/-149.69, America/Anchorage）
-
-**卡片摘錄**：「8.2 英里步道頂端俯瞰 700 平方哩冰原與冰河溢口（NPS；步道夏季開放——access 不計分）」。
-
-1. **候選**：11 月 Exit Glacier Road（Herman Leirer Rd）封閉汽車（約 11 月–5 月），trailhead 不可開車抵達——desc「步道夏季開放」警語是否足夠。**驗證**：NPS「in late-October to mid-May, the road to Exit Glacier is inaccessible to cars」；步道本身 10–5 月為 mountaineering route。卡片已標夏季開放+access 不計分；評估 11 月全 UNFAVORABLE 無誤導輸出。**判定：不成立（已覆蓋；同 us-151 建議強化警語具體月份）**。證據：https://www.nps.gov/kefj/planyourvisit/exit-glacier-area.htm ；https://www.nps.gov/kefj/planyourvisit/harding_icefield_trail.htm
-2. **候選**：desc「8.2 英里」與「7.8-mile」版本差異。**驗證**：NPS 兩頁並存 7.8/8.2 mi 表述（thingstodo 頁用 8.2），非錯誤。**判定：不成立**。
-3. **候選**：59.995°N 11 月 light_window PARTIAL 9 小時是否物理可能。**驗證**：11-10 日出約 09:20、日落約 16:50，civil 光窗約 08:35–17:35 ≈ 9.0 h——與 9 一致；無 22:00–06:00 光窗洩漏。**判定：不成立**。
-4. **候選**：tz America/Anchorage（UTC-9）正確。**驗證**：Kenai 半島屬 Alaska Time。**判定：不成立**。
+產出日：2026-11-12（台北時間）。輸入：challenger_r12_input.json（10 筆 entry，9 個地點）。
+※ 原本輪 us 區（us-147..158）報告已備份至同目錄 challenger_round12_us.md，本檔依任務指示覆蓋為 jp 區報告。
+方法：對每個景點提出 ≥3 個候選質疑，逐一以物理約束（日出日落、園區開放時間、季節閉鎖、實拍可行性）驗證。
+日出日落由 NOAA 近似式以 python 計算（TZ+9），並以外部資料交叉比對。
 
 ---
 
-## 結論
+## jp-065｜富士山頂剣ヶ峰（jp-065-P01）
 
-**成立（4）**
-- us-147-P01｜golden_hour_window BONUS 理由對「一臂寬狹縫」物理空窗（縫內需中上午光束；低角度光進不了縫），模板理由錯配為無效加分訊號。
-- us-152-P01｜timezone_display America/Los_Angeles 誤置：Sawtooth/愛麗絲湖屬 America/Boise（Mountain, UTC-7），顯示時段偏移 1 小時。
-- us-154-P01｜timezone_display 同誤：Twin Falls 屬 America/Boise（Mountain, UTC-7）。
-- us-154-P01｜river_flow_state 以拍攝點 72h 當地雨量映射水量，但瀑布流量由上游融雪 + Milner Dam 灌溉分流/水電取水決定，當地降雨與水量脫鉤——判據物理上測不到目標量。
+資料：11-14 good_hours 17:00、21:00；11-15 03:00、04:00。
 
-**次要文案建議（不計成立）**：us-149-P02 花期文案 2–4月→4–5月對齊；us-150 desc 土路 3.5→5.0 mi、座標 ~5km 校正；us-154 座標 ~2.5km 校正；us-152「IdDA」拼字；us-151/us-153/us-158 冬季道路封閉警語加註具體月份。
+質疑清單：
+1. 11-14 的 17:00–21:00 為夜間：富士山頂 11 月日落約 16:39（計算值），17:00 後全暗，可見光山景題材出現深夜時段。
+2. 11-15 的 03:00–04:00 為深凌晨，日出前 2.5 小時，完全無光。
+3. 季節/法規不可行：所有富士登山道 2026-09-10 已閉山，靜岡側 11-10 起冬期閉鎖，道路法第 46 條「五合目～山頂通行禁止」；山頂 11 月氣溫 −10℃ 以下、山小屋全數關閉。
+
+驗證結論：
+1. **成立（重大缺陷）** — 日落 16:39（python NOAA 計算），17:00–21:00 為全黑夜間。
+2. **成立（重大缺陷）** — 日出 06:19，03:00–04:00 無可見光。
+3. **成立（重大缺陷）** — https://www.fujisan-climb.jp/off-season/ ；https://www.pref.shizuoka.jp/machizukuri/doro/fujisandoro/1029307.html ；https://imafuji.earth/
+
+→ 三項全數成立：good_hours 全部位於夜間，且地點冬季封山，整體不可行。
+
+---
+
+## jp-066｜新倉山五重塔與富士（jp-066-P01）
+
+資料：11-11 16:00；11-12 08:00–16:00；11-13/11-14 06:00–15:00。
+
+質疑清單：
+1. 06:00 早於日出（富士吉田 11-13/14 日出約 06:15–06:19），是否仍在黑暗中？
+2. 「五重塔與富士」正午時段（11:00–13:00）是否合理？富士午後常被雲遮。
+3. 11-11 僅 16:00 一小時，日落 16:42，是否趕不上光線？
+
+驗證結論：
+1. **邊界、基本不成立**：民用曙光（太陽 −6°）約 05:45 起，06:00 已有天光；但若要求「日出後」則偏早 15 分鐘，屬邊界值。
+2. **不成立**：忠霊塔＋富士為全天取景題材；午後富士被雲遮是氣候統計風險（富士吉田観光ガイド建議 8–9 時最不易有雲），不構成時段錯誤。https://www.fujiyoshida.net/spot/index.php?p=12
+3. **不成立**：16:00–16:42 仍屬傍晚暖光。公園 24 小時開放、10–11 月忠霊塔ライトアップ 17:00–21:50。https://www.city.fujiyoshida.yamanashi.jp/page/13101.html
+
+→ 時段資料整體大致合理，僅 06:00 處於曙光邊界（建議下修至 06:15 之後）。
+
+---
+
+## jp-067｜大正池燒岳倒影（jp-067-P01）
+
+資料：無任何 day（空陣列）。
+
+質疑清單：
+1. 上高地 2026 年 11-15 閉山式，11-16 起冬期閉鎖：若機會落在 11-16 以後則完全不可行（巴士/設施全停）。
+2. 「倒影」需要無風平靜水面＋晨光，時段須為清晨；未給任何時段，無從驗證。
+3. 上高地 11 月中旬日出約 06:20；若未來補上 06:00 前時段即為缺陷。
+
+驗證結論：
+1. **成立（風險）**：季節硬約束為 11-16 封閉（https://www.kamikochi.or.jp/learn/faq/ ；https://www.pref.nagano.lg.jp/shizenhogo/infra/doro/joho/kamikouti.html）。
+2. **無法驗證（資料不足）**。
+3. **無法驗證（資料不足）**。
+
+→ 無 days 屬資料缺失；但季節閉鎖使 11 月中旬後任何視窗皆不可行。
+
+---
+
+## jp-072｜合掌村冬季點燈（jp-072-P01）
+
+資料：11-11 18:00–21:00；11-12 01:00–05:00、18:00–22:00；11-13 00:00–05:00、18:00–20:00。
+
+質疑清單：
+1. 「冬季點燈」為 1 月中旬～2 月上旬特定 4 天限定活動（2026 為 1/12、1/18、1/25、2/1；2027 為 1/11 起），11 月根本沒有點燈。
+2. 點燈時段為 17:30–19:30，good_hours 卻給到 18:00–21:00/22:00，晚於實際點燈結束時間。
+3. 00:00–05:00 深夜時段：集落夜間非開放狀態、無點燈、完全黑暗。
+
+驗證結論：
+1. **成立（重大缺陷）**：https://www.kankou-gifu.jp/event/detail_1287.html ；https://www.knt.co.jp/meito/sp/shirakawago/ （2027 開催日 1/11、17、24、31）
+2. **成立**：點燈 17:30–19:30，20:00 之後無光可拍。
+3. **成立**：夜間集落非開放狀態，且 11 月無點燈。
+
+→ 三項全數成立：11 月任何日期均無點燈事件，good_hours 與題材物理不符，整體重大缺陷。
+
+---
+
+## jp-068-A｜みくりが池立山連峰倒影（jp-068-P01）
+
+資料：無 days。
+
+質疑清單：
+1. 室堂標高 2,450 m，11 月已積雪結凍，官方山行資訊要求アイゼン/チェーンスパイク，是否具備拍攝條件？
+2. アルペンルート 11-04 起改冬期ダイヤ、室堂最終便 15:30 発，清晨拍倒影受限於纜車首班時刻。
+3. 「倒影」需無風清晨；山小屋（みくりが池温泉）宿泊營業至 11-24 泊，之後僅日歸，11 月末晨昏拍攝窗口極窄。
+
+驗證結論：
+1. **成立（風險）**：https://www.yamakei-online.com/mt_info/info_detail.php?info_id=1037 （11/1–24 室堂平積雪・凍結あり）
+2. **成立（風險）**：https://www.alpen-route.com/index.php （冬季ダイヤ、室堂最終便 15:30）
+3. **成立（風險）**：アルペンルート營業至 11/30；若 days 補上 11-25 以後則完全不可行。
+
+→ 資料缺失，但三項季節/交通/積雪約束均為真實風險。
+
+---
+
+## jp-068-B｜雪之大谷雪壁（jp-068-P02）
+
+資料：無 days。
+
+質疑清單：
+1. 「雪の大谷ウォーク」每年僅 4/15–6/25 舉辦（2026 年即 4/15–6/25），11 月無此活動、無雪壁。
+2. 雪壁是除雪後才形成，11 月路面上雪已除盡或未達牆高。
+3. アルペンルート 11-30 終了，11 月下旬之後無法到達室堂。
+
+驗證結論：
+1. **成立（重大缺陷）**：https://www.enjoytokyo.jp/event/2051170/ ；https://toyama.visit-town.com/toyamastyle/yukinootani/ （「4月中旬〜6月中旬の2か月間だけ」）
+2. **成立**：除雪時間序不符。
+3. **成立（風險）**：https://www.alpen-route.com/enjoy_navi/snow_otani/2025/
+
+→ 11 月任何日期與「雪壁」題材物理不符：重大缺陷。
+
+---
+
+## jp-073｜SORA terrace 山頂雲海（jp-073-P01）
+
+資料：無 days。
+
+質疑清單：
+1. 綠色季節 2026 年至 11-08 為止，11-09–11-30 ロープウェイ運休，SORA terrace 無法使用 → 11 月任何日期不可行。
+2. ロープウェイ 9 月下旬後營業 9:00–18:00（上行最終 17:20），11 月中旬日出 06:23 — 無法在日出前抵達山頂拍「朝雲海」。
+3. 官方推薦日落前 1–1.5 小時上山（日落 16:37，對應 15:00 後上山），17:20 前是否可行？
+
+驗證結論：
+1. **成立（重大缺陷）**：https://prtimes.jp/main/html/rd/p/000000220.000031800.html （11/9～11/30 ロープウェイ運休、SORA terrace 利用不可）；https://naganotour.world-tours.jp/en/column/sora-terrace
+2. **成立（風險）**：開園 9:00 與「清晨雲海」不相容。
+3. **不成立**：官方向來推薦夕陽雲海（https://www.fun-japan.jp/en/lp/shiho_zekkei/nagano），17:20 前上山可行。
+
+→ 11 月日期整體不可行；若 opportunity 對準 11 月，為重大缺陷。
+
+---
+
+## jp-070｜奧入瀬溪流急流步道（jp-070-P01）
+
+資料：無 days。
+
+質疑清單：
+1. 11 月中旬紅葉已近尾聲，題材若為秋景則季節偏晚。
+2. 溪流步道無門禁，但日出 06:17／日落 16:23（十和田一帶），可拍光線窗口約 06:30–16:00；若未來給出 06:00 前或 17:00 後時段即為黑暗缺陷。
+3. 11 月下旬起積雪結冰，急流步道濕滑，實拍風險。
+
+驗證結論：
+1. **成立（風險，條件性）**：奧入瀬紅葉見頃 10 月下旬前後（青森縣觀光一般資訊）。
+2. **無法驗證（資料不足）**。
+3. **成立（風險，條件性）**：冬季結冰為既知物理限制。
+
+→ 資料缺失；先驗風險為季節與日照窗口。
+
+---
+
+## jp-071｜蔦沼朝燒紅葉倒影（jp-071-P01）
+
+資料：無 days。
+
+質疑清單：
+1. 蔦沼紅葉見頃為 10 月中旬～下旬；11 月中旬紅葉大多已落，「朝燒紅葉倒影」題材季節錯位。
+2. 朝燒專屬時段為日出後 1–1.5 小時（約 06:30–07:30）；2026 年早朝管制 10/23–11/03 採事前預約（每日 80 人、2,000 円），11 月中旬無管制但也無紅葉。
+3. 蔦溫泉停車場前日 20:00–當日 4:50 禁止進入（2026 管制期），任何「05:00 前」時段在規則上不可行。
+
+驗證結論：
+1. **成立（重大缺陷，條件性）**：https://gototravel.tw/aomori-tsutanuma-autumn-leaves/ ；https://www.jtb.co.jp/kando/detail/96.asp （紅葉 10 月中下旬、ピーク 10/20 前後）
+2. **成立（風險）**：https://gosakurajp.com/post_2026-tsutanuma-foliage-booking.html
+3. **成立（風險）**：同上（停車場 20:00–4:50 封閉）。
+
+→ 11 月中旬與紅葉題材錯位，屬重大風險；朝燒時段本身需在日出後 1–1.5 小時內。
+
+---
+
+## jp-069｜美瑛拼布丘陵名樹（jp-069-P01）
+
+資料：11-13 08:00、15:00；11-14 14:00、15:00；11-15 06:00–15:00。
+
+質疑清單：
+1. 11-15 之 06:00 早於美瑛日出（06:23），是否仍暗？
+2. 11 月中旬雪情：美瑛 11 月可能初雪，畫面與「拼布丘陵」題材不符的季節風險。
+3. 名樹（セブンスターの木、親子の木等）全數位於私有農地，立入禁止、ドローン原則禁止 — 拍攝位置受法律限制。
+
+驗證結論：
+1. **成立（邊界缺陷）**：日出 06:23（NOAA 計算），06:00 為曙光前，僅民用曙光約 05:55 起可見輪廓，屬過早時段。
+2. **成立（風險，條件性）**：11 月中旬美瑛降雪機率高，拼布景觀可能已被雪覆蓋。
+3. **成立（約束）**：https://www.biei-hokkaido.jp/ja/9932 ；https://www.biei-hokkaido.jp/ja/facility/seven-stars-tree
+
+→ 06:00 時段偏早為可指摘缺陷；其餘時段可行。
+
+---
+
+## jp-074｜竹田城跡雲海浮城（jp-074-P01）
+
+資料：無 days。
+
+質疑清單：
+1. 雲海季（9 月中旬–12 月初旬）早朝開城 5:00、雲海好發 6:00–8:00；若 good_hours 給在 10:00 之後則與「雲海」題材不符。
+2. 11 月平日早朝無雲海巴士，需徒步 40–50 分登城；05:00 開城前提下行程可行但嚴苛。
+3. 12 月 7 日後轉 10:00–15:00、1 月下旬–2 月末冬季閉山，任何冬季日期不可行。
+
+驗證結論：
+1. **無法驗證（資料不足）**；物理基準：雲海 6:00–8:00 最盛（https://fieldnotes-japan.com/ja/spot/takeda-castle-ruins-asago/）。
+2. **成立（風險）**：https://topics.smt.docomo.ne.jp/article/kisspress/region/kisspress-65905
+3. **成立（風險）**：https://watabi.org/articles/takeda-castle-guide （1/4–2 月末閉山）。
+
+→ 資料缺失；若補上晚於 09:00 之時段即應判缺陷。
+
+---
+
+# 成立質疑總表
+
+| # | 地點 | 質疑 | 嚴重度 | 依據 |
+|---|------|------|--------|------|
+| 1 | jp-065 富士山頂剣ヶ峰 | good_hours 17:00–21:00 為夜間（日落 16:39） | 重大 | NOAA 日落計算 |
+| 2 | jp-065 | good_hours 03:00–04:00 為深凌晨（日出 06:19） | 重大 | NOAA 日出計算 |
+| 3 | jp-065 | 11 月所有登山道閉山・冬期閉鎖、山頂 −10℃、山小屋關閉 | 重大 | fujisan-climb.jp、静岡県 |
+| 4 | jp-072 合掌村冬季點燈 | 11 月無點燈（活動限 1–2 月特定 4 日） | 重大 | 岐阜県観光、近畿日本ツーリスト |
+| 5 | jp-072 | 點燈實際時段 17:30–19:30，20:00 後無光 | 重大 | 同上 |
+| 6 | jp-072 | 00:00–05:00 深夜集落非開放狀態 | 重大 | 同上 |
+| 7 | jp-068-P02 雪之大谷 | ウォーク僅 4/15–6/25，11 月無雪壁 | 重大 | enjoytokyo、VISIT富山 |
+| 8 | jp-073 SORA terrace | 11-09–11-30 ロープウェイ運休、terrace 不可用 | 重大 | 龍王公式發布（PRTimes） |
+| 9 | jp-073 | 開園 9:00 無法拍清晨雲海 | 中 | 世界トピックス/JAPE |
+| 10 | jp-071 蔦沼 | 11 月中旬紅葉已落（見頃 10 月中下旬） | 重大（季節錯位） | JTB、蔦沼公式 X |
+| 11 | jp-071 | 早朝管制期 10/23–11/03 限 80 人預約、停車場 20:00–4:50 封閉 | 中 | gosakura/SUPPART |
+| 12 | jp-069 美瑛 | 11-15 06:00 早於日出 06:23 | 輕-中 | NOAA 日出計算 |
+| 13 | jp-069 | 名樹皆私有農地立入禁止、ドローン原則禁止 | 約束 | 美瑛町公式 |
+| 14 | jp-067 大正池 | 上高地 11-15 閉山、11-16 起冬期閉鎖 | 風險 | 上高地公式、長野県 |
+| 15 | jp-068-P01 みくりが池 | 室堂 11 月積雪凍結需アイゼン；山小屋 11-24 泊止 | 風險 | ヤマケイオンライン |
+| 16 | jp-074 竹田城 | 12/7 後 10:00–15:00、1 月下旬–2 月末冬季閉山 | 風險 | 朝来市系資料 |
+
+**結論**：jp-065 與 jp-072 為本輪最嚴重（good_hours 整體落入夜間/事件不存在）；jp-073、jp-068-P02、jp-071 為季節硬約束重大缺陷；jp-069 有時段偏早缺陷；jp-066 整體大致合理（僅 06:00 邊界偏早）；jp-067、jp-068-P01、jp-070、jp-074 因 days 為空無法完成時段驗證，僅能列季節風險。
