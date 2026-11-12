@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "9d53589dcce22de3140ef4520e8d3f823e61d1e0",
-  "source_index_revision": "sha256:5fcff738be4539e78e2f581fee7da553970ee52430153cb17088b2a19d55c3ce",
+  "source_index_commit_sha": "739540fae1901f856bf60a0315d0407fce1e55f0",
+  "source_index_revision": "sha256:84ca8cecc129dabb56d312b0843e020813b69dba02ad20debe3cfe1049b7e857",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "23f1bb6c0a90964067d885c3783c99c87a902b86",
@@ -445,10 +445,10 @@
       "revision": 2
     },
     "jp-049-P01": {
-      "source_commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906",
+      "source_commit_sha": "86b3fa825bf1ffaff6e9f20cd9f50c265deda514",
       "source_path": "data/v2/opportunities/jp-049-P01.json",
-      "source_blob_sha": "184fac19845ad9dcf1e97f08dc93c6294c3d86e3",
-      "revision": 2
+      "source_blob_sha": "c00b3a474247fa184f8ff0208c9f1c2e5132f449",
+      "revision": 3
     },
     "jp-051-P01": {
       "source_commit_sha": "dda29699705dcdf9ced993bca06316e1085a15e9",
@@ -535,10 +535,10 @@
       "revision": 2
     },
     "jp-065-P01": {
-      "source_commit_sha": "c507251b3e3fb09d6a5bd16abe04a8beb2aee7ed",
+      "source_commit_sha": "86b3fa825bf1ffaff6e9f20cd9f50c265deda514",
       "source_path": "data/v2/opportunities/jp-065-P01.json",
-      "source_blob_sha": "762c73b5aa47ec738da2cd8a385aa8d29e544592",
-      "revision": 1
+      "source_blob_sha": "21d81e48f913b4f41e7bfe4c363fa24bb663b580",
+      "revision": 2
     },
     "jp-066-P01": {
       "source_commit_sha": "c507251b3e3fb09d6a5bd16abe04a8beb2aee7ed",
@@ -36543,7 +36543,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "jp-049-P01",
       "place_id": "jp-049",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "御釜五色湖面",
@@ -36802,6 +36802,31 @@
               "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
               "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
               "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+            }
+          },
+          {
+            "id": "C-jp-049-P01-LW2",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-049-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-12 CL-DATA-67 全面稽查：全日可見光題材補必要 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。原契約僅 sunset_window MODIFIER（QUALITY、不否決），致深夜時段通過天氣門檻——全日題材需必要光線窗。threshold_source=computed：來源規則為 CL-DATA-11 民用光定義（sun elevation > −6°），非實測校準。",
+              "en": "2026-11-12 CL-DATA-67 full audit: all-day visible-light subject gains a required light_window (civil, sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). The original contract only had sunset_window as MODIFIER (QUALITY, non-vetoing), so deep-night hours passed the weather gates. threshold_source=computed: source rule is the CL-DATA-11 civil-light definition (sun elevation > -6 deg), not measured calibration.",
+              "ja": "2026-11-12 CL-DATA-67 全面監査：全日型の可視光題材に必須の light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同一定義；夜間は一律不成立）。元契約は sunset_window の MODIFIER（QUALITY、否決しない）のみで、深夜帯が天気ゲートを通過していた。threshold_source=computed：出典ルールは CL-DATA-11 の市民光定義（太陽高度 > -6°）、実測校正ではない。"
             }
           }
         ]
@@ -40906,7 +40931,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "jp-065-P01",
       "place_id": "jp-065",
-      "revision": 1,
+      "revision": 2,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "富士山頂剣ヶ峰",
@@ -41140,6 +41165,31 @@
               "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
               "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
               "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+            }
+          },
+          {
+            "id": "C-jp-065-P01-LW2",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-065-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "computed",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "2026-11-12 CL-DATA-67 全面稽查：全日可見光題材補必要 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。原契約僅 sunset_window MODIFIER（QUALITY、不否決），致深夜時段通過天氣門檻——全日題材需必要光線窗。threshold_source=computed：來源規則為 CL-DATA-11 民用光定義（sun elevation > −6°），非實測校準。",
+              "en": "2026-11-12 CL-DATA-67 full audit: all-day visible-light subject gains a required light_window (civil, sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). The original contract only had sunset_window as MODIFIER (QUALITY, non-vetoing), so deep-night hours passed the weather gates. threshold_source=computed: source rule is the CL-DATA-11 civil-light definition (sun elevation > -6 deg), not measured calibration.",
+              "ja": "2026-11-12 CL-DATA-67 全面監査：全日型の可視光題材に必須の light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同一定義；夜間は一律不成立）。元契約は sunset_window の MODIFIER（QUALITY、否決しない）のみで、深夜帯が天気ゲートを通過していた。threshold_source=computed：出典ルールは CL-DATA-11 の市民光定義（太陽高度 > -6°）、実測校正ではない。"
             }
           }
         ]
