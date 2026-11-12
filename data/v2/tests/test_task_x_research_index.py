@@ -113,8 +113,11 @@ class ResearchIndexTests(unittest.TestCase):
             # canonical records to the task-branch commit holding the new bytes.
             # (dce2f6ed0812... retired by CL-DATA-19: its last six records
             # jp-007-P01/tw-045-P02/tw-054-P01/tw-056-P02/tw-082-P02/us-069-P01
-            # gained the civil light_window and were re-pinned to e261cc9817e.)
-            '4e51267ba7b7130d28efa41e50d2ef3d36de81a8',
+            # gained the civil light_window and were re-pinned to e261cc9817e.
+            # 4e51267ba... retired by CL-DATA-68: its last holders
+            # jp-034-P01/jp-034-P02/jp-036-P03/jp-057-P01/jp-090-P01 were
+            # re-pinned to c9bf04c40 by the round16 Kyushu contract fixes.)
+            'c9bf04c40acd8b023322efbe3e034c10517c733c',
             # CL-DATA-12: wave-1 semantic corrections (batches A–O) re-pinned
             # the touched records to the contract commits, and the three
             # migration-skeleton tidal records were restored to their

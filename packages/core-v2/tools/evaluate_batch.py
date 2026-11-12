@@ -139,7 +139,40 @@ def static_timezone(lat, lon):
     return None, None
 
 
-def condition_verdict(condition, values, astro_row, month=None):
+def venue_open_verdict(condition, local_start_min):
+    """CL-DATA-68: deterministic venue operating-window verdict.
+
+    The window is declared on the condition as threshold ["HH:MM", "HH:MM"]
+    (open, close) in the venue's local display clock; an hour bucket
+    qualifies only when its START sits inside [open, close). Overnight
+    windows (close <= open) and out-of-range clocks are malformed and fail
+    closed as UNKNOWN — never a fabricated PASS/FAIL.
+    """
+    threshold = condition.get("threshold")
+    if local_start_min is None:
+        return "UNKNOWN", "LOCAL_TIME_UNAVAILABLE"
+    if (not isinstance(threshold, list) or len(threshold) != 2
+            or not all(isinstance(x, str) for x in threshold)):
+        return "UNKNOWN", "VENUE_WINDOW_MALFORMED"
+
+    def _minutes(token):
+        hh, mm = token.split(":")
+        return int(hh) * 60 + int(mm)
+
+    try:
+        open_min = _minutes(threshold[0])
+        close_min = _minutes(threshold[1])
+    except (ValueError, AttributeError):
+        return "UNKNOWN", "VENUE_WINDOW_MALFORMED"
+    if not (0 <= open_min < close_min <= 1440):
+        return "UNKNOWN", "VENUE_WINDOW_MALFORMED"
+    ok = open_min <= local_start_min < close_min
+    return ("PASS" if ok else "FAIL"), (
+        f"VENUE_OPEN_WINDOW({threshold[0]}-{threshold[1]})")
+
+
+def condition_verdict(condition, values, astro_row, month=None,
+                      local_start_min=None):
     """Return (verdict, detail) with verdict in PASS/FAIL/UNKNOWN."""
     metric = condition["metric"]
     operator = condition.get("operator")
@@ -148,6 +181,8 @@ def condition_verdict(condition, values, astro_row, month=None):
         return "UNKNOWN", "NO_LIVE_OBSERVATION_SOURCE"
     if metric in DECLARED_PASS_METRICS:
         return "PASS", "OWNER_DECLARED_PRESENCE"
+    if metric == "venue_open_window":
+        return venue_open_verdict(condition, local_start_min)
     if metric == "light_direction":
         # CL-DATA-13: month-calibrated light-direction arc. The contract
         # declares `sectors` — 12 monthly {arc_center_deg, arc_half_width_deg}
@@ -627,10 +662,14 @@ def main():
                                               need_moon=need_moon)
                 states = {}
                 roles = {}
+                local_bucket_start = at + timedelta(hours=local_offset)
+                local_start_min = (local_bucket_start.hour * 60
+                                   + local_bucket_start.minute)
                 for condition in conditions_eval:
                     states[condition["id"]] = condition_verdict(
                         condition, hour_row["values"], astro_row,
-                        month=at.month)[0]
+                        month=at.month,
+                        local_start_min=local_start_min)[0]
                     roles[condition["id"]] = condition.get("role")
                 status, fails, unknowns = hour_status(roles, states)
                 local_stamp = at + timedelta(hours=local_offset)

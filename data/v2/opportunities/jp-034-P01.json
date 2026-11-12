@@ -264,6 +264,39 @@
           "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
           "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
         }
+      },
+      {
+        "id": "C-jp-034-P01-VW1",
+        "role": "REQUIRED",
+        "domain": "SEASON_TIME",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "venue_open_window",
+        "operator": "between",
+        "threshold": [
+          "08:00",
+          "18:00"
+        ],
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-034-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "場區營業時間窗（CL-DATA-68 round16 挑戰者成立質疑）：小時桶起始時刻須落在開園窗 [08:00, 18:00) 內，開園前（07:00 桶）不可達即不成立。官方 11/1–12/31 為 8:00–20:00（最終入園 19:40，glover-garden.jp/guide），本契約沿用 access_notes 已宣告的全年保守基準 08:00–18:00（特定日期另有延長開園，不把延長視為恒常）。",
+          "en": "Venue operating window (CL-DATA-68 round16 challenger finding): an hour bucket qualifies only when its start sits inside [08:00, 18:00) local; pre-opening hours (the 07:00 bucket) are unreachable and never qualify. Official hours for Nov 1 - Dec 31 are 8:00-20:00 (last entry 19:40, glover-garden.jp/guide); this contract keeps the all-year conservative baseline 08:00-18:00 already declared in access_notes (extended openings are date-specific and never treated as permanent).",
+          "ja": "施設営業時間窓（CL-DATA-68 round16 チャレンジャー指摘）：時間バケットの開始が現地時刻 [08:00, 18:00) 内にあるときのみ成立。開園前（07:00 バケット）は到達不可のため不成立。公式は11/1〜12/31 が 8:00〜20:00（最終入園19:40、glover-garden.jp/guide）。本契約は access_notes に既に宣言された通年の保守基準 08:00〜18:00 を採用（夜間延長は日付限定で恒常扱いしない）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-12 CL-DATA-68：round16 挑戰者報告 jp-034-P01 成立質疑（07:00 早於開園，高）修復；評估層 venue_open_window 為逐小時確定性判定（桶起始 ∈ 窗）。",
+          "en": "2026-11-12 CL-DATA-68: fix for the round16 challenger finding on jp-034-P01 (07:00 precedes the 8:00 opening, high); the evaluator judges venue_open_window deterministically per hour bucket (bucket start inside the window).",
+          "ja": "2026-11-12 CL-DATA-68：round16 チャレンジャー指摘（jp-034-P01 07:00は開園前・高）の修正。評価層は venue_open_window をバケット単位で決定的に判定。"
+        }
       }
     ]
   },

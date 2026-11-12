@@ -10,9 +10,9 @@
   "ja": "南十字星と夜の海"
  },
  "description_i18n": {
-  "zh-TW": "日本唯一可見南十字星全貌的有人島（ja.wikipedia；3–6月為主觀測季——資訊性季節語義，天空條件契約全年成立）；日本最南端有人島礁海景。",
-  "en": "The only inhabited Japanese island where the full Southern Cross is visible (ja.wikipedia; Mar-Jun is the main observation season - informational, the sky-condition contract holds year-round); Japan's southernmost inhabited island.",
-  "ja": "南十字星の全体が見られる唯一の有人島（ja.wikipedia；3〜6月が主な観測季——情報的な季節語義、空の条件契約は通年）。"
+  "zh-TW": "日本唯一可見南十字星全貌的有人島（ja.wikipedia；12–6月為觀測季——季節窗條件治理成立與否，天空條件契約僅在季節窗內評估）；日本最南端有人島礁海景。",
+  "en": "The only inhabited Japanese island where the full Southern Cross is visible (ja.wikipedia; Dec-Jun is the observation season - a season-window condition governs whether the subject qualifies, the sky-condition contract is evaluated only inside the season); Japan's southernmost inhabited island.",
+  "ja": "南十字星の全体が見られる唯一の有人島（ja.wikipedia；12〜6月が観測シーズン——季節窓条件が成立を支配し、空の条件契約は季節窓内でのみ評価）。"
  },
  "camera_contexts": [
   {
@@ -36,9 +36,9 @@
    "verification_status": "provisional",
    "evidence_refs": [],
    "access_notes_i18n": {
-    "zh-TW": "日本唯一可見南十字星全貌的有人島（ja.wikipedia；3–6月為主觀測季——資訊性季節語義，天空條件契約全年成立）；日本最南端有人島礁海景。（開放/營運狀態以現場公告為準。）",
-    "en": "The only inhabited Japanese island where the full Southern Cross is visible (ja.wikipedia; Mar-Jun is the main observation season - informational, the sky-condition contract holds year-round); Japan's southernmost inhabited island. (Opening/operating status follows on-site notices.)",
-    "ja": "南十字星の全体が見られる唯一の有人島（ja.wikipedia；3〜6月が主な観測季——情報的な季節語義、空の条件契約は通年）。（開放・営業状況は現地の案内に従う。）"
+    "zh-TW": "日本唯一可見南十字星全貌的有人島（ja.wikipedia；12–6月為觀測季——季節窗條件治理成立與否，天空條件契約僅在季節窗內評估）；日本最南端有人島礁海景。（開放/營運狀態以現場公告為準。）",
+    "en": "The only inhabited Japanese island where the full Southern Cross is visible (ja.wikipedia; Dec-Jun is the observation season - a season-window condition governs whether the subject qualifies, the sky-condition contract is evaluated only inside the season); Japan's southernmost inhabited island. (Opening/operating status follows on-site notices.)",
+    "ja": "南十字星の全体が見られる唯一の有人島（ja.wikipedia；12〜6月が観測シーズン——季節窓条件が成立を支配し、空の条件契約は季節窓内でのみ評価）。（開放・営業状況は現地の案内に従う。）"
    },
    "safety_notes_i18n": {
     "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
@@ -329,6 +329,36 @@
     "modifier_activation": {
      "when_condition": "C-jp-022-P03-06",
      "mode": "when_not_met"
+    }
+   },
+   {
+    "id": "C-jp-090-P01-S1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-090-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "南十字星（Crux）季節窗（CL-DATA-68 round16 挑戰者成立質疑）：波照間的南十字星觀測季為 12–6 月（例年窗 12-01–06-30；nap-camp 與 tabirai 一致：7–11 月夜間 Crux 沉於地平線下），11 月物理上不可見。目前無季節/事件資料源，誠實 propagate unknown——窗外的日子不會給出任何 good_hours。附註：galactic_core_altitude 僅治理 milky_way 圖層（銀河核心與 Crux 是不同天體、季節相位不同），本季節窗才是題材成立的主導條件。",
+     "en": "Southern Cross (Crux) season window (CL-DATA-68 round16 challenger finding): at Hateruma the Crux observation season is Dec-Jun (typical window 12-01-06-30; nap-camp and tabirai agree: from July to November Crux stays below the horizon at night), so November is physically impossible. No live season/event source exists, so this honestly propagates unknown - out-of-season days never emit good_hours. Note: galactic_core_altitude governs only the milky_way layer (the galactic core and Crux are different objects with different seasonal phases); this season window is the governing condition for the subject.",
+     "ja": "南十字星（Crux）の季節窓（CL-DATA-68 round16 チャレンジャー指摘）：波照間での南十字星の観測シーズンは12〜6月（例年窓 12-01〜06-30。nap-camp・tabirai ともに一致：7〜11月は夜間Cruxは地平線下）。11月は物理的に見えない。季節・イベントのライブソースが無いため誠実にunknownを伝播する——シーズン外の日は good_hours を出さない。補足：galactic_core_altitude は milky_way レイヤーのみを支配し（銀河中心とCruxは別天体・季節位相も異なる）、本季節窓が題材成立の主導条件。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-12 CL-DATA-68：round16 挑戰者報告 jp-090-P01 成立質疑（季節錯置，高）修復；例年窗 12-01–06-30 採 challenger 引證（nap-camp.com/mag/112850、tabirai.net 0000552）。",
+     "en": "2026-11-12 CL-DATA-68: fix for the round16 challenger finding on jp-090-P01 (seasonal misplacement, high); typical window 12-01-06-30 per challenger evidence (nap-camp.com/mag/112850, tabirai.net 0000552).",
+     "ja": "2026-11-12 CL-DATA-68：round16 チャレンジャー指摘（jp-090-P01 季節錯置・高）の修正。例年窓 12-01〜06-30 は挑戦者証拠（nap-camp.com/mag/112850、tabirai.net 0000552）による。"
     }
    }
   ]

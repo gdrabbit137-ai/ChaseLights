@@ -1,5 +1,5 @@
 {
-  "version": "0.8",
+  "version": "0.9",
   "note": "Metric vocabulary for genre condition templates. Condition metrics are unit-normalized ids; bindings map a metric to dataset fields (field naming follows DATA_SOURCE_TIERING_SPEC manifest style: name + unit suffix). '+' joins the fields a derived metric consumes.",
   "metrics": {
     "relative_humidity_925hpa": {
@@ -379,6 +379,17 @@
       "domain": "ASTRONOMY",
       "kind": "computed",
       "bindings": []
+    },
+    "venue_open_window": {
+      "unit": null,
+      "domain": "EPHEMERAL",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "場區營業時間窗（CL-DATA-68）：契約以 threshold [open, close]（當地顯示時鐘 HH:MM）宣告營運窗，小時桶起始落在窗內才成立；評估層確定性判定，無外部資料源。",
+        "en": "Venue operating window (CL-DATA-68): the contract declares the operating window as threshold [open, close] (HH:MM in the venue's local display clock); an hour bucket qualifies only when its start sits inside the window. Judged deterministically by the evaluator; no external data source.",
+        "ja": "施設営業時間窓（CL-DATA-68）：契約は threshold [open, close]（現地表示時計 HH:MM）で営業窓を宣言し、バケット開始が窓内にあるときのみ成立。評価層が決定的に判定し、外部データソースなし。"
+      }
     }
   },
   "changelog": [
@@ -388,6 +399,7 @@
     "0.5 2026-10-26: add golden_hour_window (golden_hour / overcast_soft draft templates, light-direction condition genres for人文/architecture and soft-light subjects)",
     "0.6 2026-10-26: add river_flow_state (waterfall template, 72h accumulated precip mapping, provisional), landform_present (geological_landform template, observation metric)",
     "0.7 2026-10-31: elevation-bound pressure levels for high-mountain cloud sea (700/600 hPa): add relative_humidity_700hpa/600hpa, wind_speed_600hpa/700hpa, temperature_delta_850_700_c, temperature_delta_700_600_c; cloud_sea inversion threshold relaxed to >=0C, wind flipped to lt 12 (calm bonus), galactic core altitude lowered to >=10 deg (spring low-core window)",
-    "0.8 2026-11-05: add light_window (cloud_sea light window, CL-DATA-11 owner ruling + clarification: a cloud sea is visible only in civil light — sun elevation > -6 deg at every sampled instant; night hours never qualify regardless of the moon, no moon metric consulted)"
+    "0.8 2026-11-05: add light_window (cloud_sea light window, CL-DATA-11 owner ruling + clarification: a cloud sea is visible only in civil light — sun elevation > -6 deg at every sampled instant; night hours never qualify regardless of the moon, no moon metric consulted)",
+    "0.9 2026-11-12: add venue_open_window (CL-DATA-68 round16 fixes: Glover Garden opening clamp, Takachiho rental-boat window, Inasayama ropeway window; deterministic evaluator branch, no external source)"
   ]
 }

@@ -238,6 +238,39 @@
           "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
           "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
         }
+      },
+      {
+        "id": "C-jp-036-P03-VW1",
+        "role": "REQUIRED",
+        "domain": "SEASON_TIME",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "venue_open_window",
+        "operator": "between",
+        "threshold": [
+          "08:30",
+          "17:00"
+        ],
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-036-P03-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "貸しボート營運窗（CL-DATA-68 round16 挑戰者成立質疑）：划船視角只有在租船營運時可達——官方貸しボート 8:30–17:00（最終受付 16:30，pmiyazaki.com/takachiho；需事前預約）。小時桶起始須落在 [08:30, 17:00) 內：07:00/08:00 桶（開業前）不成立；16:00 桶仍在最終受付前。桶級近似：受付 16:30 後不再受理，契約不表達日內分鐘級規則。",
+          "en": "Rental-boat operating window (CL-DATA-68 round16 challenger finding): the rowing viewpoint is reachable only while the rental boats run - officially 8:30-17:00 with final reception 16:30 (pmiyazaki.com/takachiho; advance reservation required). An hour bucket qualifies only when its start sits inside [08:30, 17:00) local: the 07:00/08:00 buckets (before opening) never qualify; the 16:00 bucket still precedes final reception. Bucket-level approximation: reception ends 16:30 and the contract does not express sub-hour daily rules.",
+          "ja": "貸しボート営業窓（CL-DATA-68 round16 チャレンジャー指摘）：舟からの眺めは貸しボート営業中のみ到達可能——公式は 8:30〜17:00、最終受付16:30（pmiyazaki.com/takachiho。事前予約制）。バケット開始が現地時刻 [08:30, 17:00) 内のときのみ成立：07:00/08:00 バケット（営業前）は不成立、16:00 バケットは最終受付前。バケット級の近似：受付終了16:30以降の分単位規則は契約では表現しない。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-12 CL-DATA-68：round16 挑戰者報告 jp-036-P03 成立質疑（07:00–08:00 早於貸船 8:30 營業，中）修復。P01（岸上步行）不受此窗限制，不動。",
+          "en": "2026-11-12 CL-DATA-68: fix for the round16 challenger finding on jp-036-P03 (the 07:00-08:00 hours precede the 8:30 boat opening, mid). P01 (on-foot walkway) is not bound by this window and is left unchanged.",
+          "ja": "2026-11-12 CL-DATA-68：round16 チャレンジャー指摘（jp-036-P03 07:00〜08:00は貸船営業8:30前・中）の修正。P01（遊歩道）はこの窓の対象外。"
+        }
       }
     ]
   },
