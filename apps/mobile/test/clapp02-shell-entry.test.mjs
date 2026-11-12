@@ -43,7 +43,7 @@ test("重整：重抓 bundle digest 端點（/api/v1/catalog/digests），離線
 test("登入入口：端點指向 LINE／Google OAuth start，錨點存在於 shell 頁面", () => {
   assert.equal(AUTH_START_ENDPOINTS.line, "/api/v1/auth/line/start");
   assert.equal(AUTH_START_ENDPOINTS.google, "/api/v1/auth/google/start");
-  assert.equal(AUTH_ME_ENDPOINT, "/auth/me");
+  assert.equal(AUTH_ME_ENDPOINT, "/api/v1/auth/me");
   const html = readFileSync(join(webV2, "index.html"), "utf8");
   assert.ok(html.includes(`href="${AUTH_START_ENDPOINTS.line}"`), "LINE start anchor");
   assert.ok(html.includes(`href="${AUTH_START_ENDPOINTS.google}"`), "Google start anchor");

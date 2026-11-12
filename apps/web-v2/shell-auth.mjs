@@ -1,15 +1,16 @@
 // Shell auth entry (CL-APP-02): trilingual sign-in entry points and the
 // signed-in member lookup.
 //
-// JWTs ride HttpOnly cookies, so same-origin fetches to /auth/me carry the
-// session automatically inside the WebView — no token handling lives here.
+// JWTs ride HttpOnly cookies, so same-origin fetches to /api/v1/auth/me carry
+// the session automatically inside the WebView — no token handling lives here.
 // The start endpoints are plain top-level navigations (302 to the OAuth
 // provider), so they are rendered as anchors, never fetched.
+// CL-UI-54: the bare /auth/* path 404'd — the API mounts under /api/v1.
 export const AUTH_START_ENDPOINTS = Object.freeze({
   line: "/api/v1/auth/line/start",
   google: "/api/v1/auth/google/start"
 });
-export const AUTH_ME_ENDPOINT = "/auth/me";
+export const AUTH_ME_ENDPOINT = "/api/v1/auth/me";
 
 // CL-API-05: OAuth callbacks redirect back to the homepage instead of
 // rendering bare JSON. A failed callback carries ?auth_error=1; the shell

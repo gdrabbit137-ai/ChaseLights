@@ -77,11 +77,11 @@ test('CL-UI-53B (1c): member-auth.js switches visibility via inline style + .ma-
 });
 
 for (const page of PAGES) {
-  test(`CL-UI-53B (3): ${page} carries the cache-bust stamps (site-nav clui62, member-auth clui63)`, () => {
+  test(`CL-UI-53B (3): ${page} carries the cache-bust stamps (site-nav clui62, member-auth clui64)`, () => {
     const html = readFileSync(join(WEB, page), 'utf8');
     assert.match(html, /site-nav\.css\?v=clui62/, 'site-nav.css stamp bumped');
-    // CL-API-05: member-auth.js advanced to clui63.
-    assert.match(html, /member-auth\.js\?v=clui63/, 'member-auth.js stamp bumped');
+    // CL-UI-54: member-auth.js advanced to clui64 (endpoint prefix fix).
+    assert.match(html, /member-auth\.js\?v=clui64/, 'member-auth.js stamp bumped');
   });
 }
 

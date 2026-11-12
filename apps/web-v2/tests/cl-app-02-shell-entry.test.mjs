@@ -69,7 +69,7 @@ test("member lookup parses /auth/me documents and fails closed", async () => {
     calls.push([url, init]);
     return {ok: true, json: async () => ({display_name: "小美"})};
   }), {name: "小美", provider: null});
-  assert.deepEqual(calls[0], ["/auth/me", {credentials: "same-origin", cache: "no-store"}]);
+  assert.deepEqual(calls[0], ["/api/v1/auth/me", {credentials: "same-origin", cache: "no-store"}]);
   assert.equal(await fetchMember(async () => ({ok: false})), null);
   assert.equal(await fetchMember(async () => { throw new Error("x"); }), null);
   assert.equal(await fetchMember(async () => ({ok: true, json: async () => { throw new Error("bad json"); }})), null);
@@ -78,7 +78,7 @@ test("member lookup parses /auth/me documents and fails closed", async () => {
 test("sign-in entry points target the deployed auth endpoints", () => {
   assert.equal(AUTH_START_ENDPOINTS.line, "/api/v1/auth/line/start");
   assert.equal(AUTH_START_ENDPOINTS.google, "/api/v1/auth/google/start");
-  assert.equal(AUTH_ME_ENDPOINT, "/auth/me");
+  assert.equal(AUTH_ME_ENDPOINT, "/api/v1/auth/me");
   const html = read("index.html");
   assert.ok(html.includes(`<a id="login-line" class="login-link" href="${AUTH_START_ENDPOINTS.line}" hidden>`));
   assert.ok(html.includes(`<a id="login-google" class="login-link" href="${AUTH_START_ENDPOINTS.google}" hidden>`));

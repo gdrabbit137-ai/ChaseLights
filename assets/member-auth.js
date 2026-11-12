@@ -2,8 +2,10 @@
    Mirrors apps/web-v2/shell-auth.mjs semantics (CL-APP-02): the start
    endpoints are plain top-level navigations (302 to the OAuth provider), so
    they render as anchors, never fetched; JWTs ride HttpOnly cookies, so
-   same-origin fetches to /auth/me carry the session automatically — no token
-   handling lives here. Logout is a same-origin POST to /auth/logout.
+   same-origin fetches to /api/v1/auth/me carry the session automatically —
+   no token handling lives here. Logout is a same-origin POST to
+   /api/v1/auth/logout (CL-UI-54: the bare /auth/* paths 404'd — the API
+   mounts everything under /api/v1).
    Self-contained on purpose, following the guest-comment.js precedent
    (GC_ENDPOINT): the main assets/app.js is heavily test-pinned, so this
    widget ships its own trilingual copy and never edits it.
@@ -13,8 +15,8 @@
   'use strict';
 
   var MA_ENDPOINTS = {
-    me: '/auth/me',
-    logout: '/auth/logout',
+    me: '/api/v1/auth/me',
+    logout: '/api/v1/auth/logout',
     line: '/api/v1/auth/line/start',
     google: '/api/v1/auth/google/start'
   };

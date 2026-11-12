@@ -44,8 +44,9 @@ test('CL-UI-53 (1): member area lives in the site-nav masthead with both OAuth a
 });
 
 test('CL-UI-53 (2): member-auth.js owns the exact auth endpoints and reuses site-nav classes', () => {
-  assert.match(jsSource, /me:\s*'\/auth\/me'/);
-  assert.match(jsSource, /logout:\s*'\/auth\/logout'/);
+  // CL-UI-54: the API mounts under /api/v1 — bare /auth/* 404'd live.
+  assert.match(jsSource, /me:\s*'\/api\/v1\/auth\/me'/);
+  assert.match(jsSource, /logout:\s*'\/api\/v1\/auth\/logout'/);
   assert.match(jsSource, /line:\s*'\/api\/v1\/auth\/line\/start'/);
   assert.match(jsSource, /google:\s*'\/api\/v1\/auth\/google\/start'/);
   // start endpoints are 302 navigations → set as anchors, never fetched
@@ -111,15 +112,15 @@ test('CL-UI-53 (5): signed-out shows 登入 + menu; signed-in shows display name
   assert.match(jsSource, /fetchMember\(\)\.then\(render\)/);
 });
 
-test('CL-UI-53 (6): cache-bust stamp ?v=clui63 on member-auth.js on all four shell pages', () => {
+test('CL-UI-54: cache-bust stamp ?v=clui64 on member-auth.js on all four shell pages', () => {
   for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    assert.match(src, /assets\/member-auth\.js\?v=clui63/, `${page} loads member-auth.js?v=clui63`);
+    assert.match(src, /assets\/member-auth\.js\?v=clui64/, `${page} loads member-auth.js?v=clui64`);
     assert.match(src, /data-member-area/, `${page} carries the masthead member area`);
   }
   const stamps = [...htmlSource.matchAll(/\?v=(clui\d+)/g)].map(m => Number(m[1].slice(4)));
   assert.ok(Math.min(...stamps) >= 41, 'all stamps clui41+');
-  assert.ok(Math.max(...stamps) === 63, 'new generation is the highest');
+  assert.ok(Math.max(...stamps) === 64, 'new generation is the highest');
 });
 
 // CL-API-05: failed OAuth callbacks land on the homepage as ?auth_error=1 —
