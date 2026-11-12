@@ -10,7 +10,9 @@ import { runNotifyCron } from "./notify.js";
 
 // CL-API-03: rule limits by member level (402 = upgrade semantics).
 const NOTIFY_LIMITS = { free: 3, paid: 30 };
-const NOTIFY_CHANNELS = new Set(["telegram", "web_push"]);
+// CL-APP-03 (owner ruling): reminder delivery default is APP PUSH (FCM);
+// telegram/web_push stay accepted for legacy rules.
+const NOTIFY_CHANNELS = new Set(["push", "telegram", "web_push"]);
 
 function corsHeaders(req) {
   const origin = req.headers.get("Origin") || "";
@@ -419,8 +421,8 @@ async function handleNotifyRules(req, env) {
     const placeId = (body && (body.placeId || body.place_id)) || null;
     if (!placeId) return json(req, 400, { error: "placeId required" });
     const opportunityId = (body && (body.opportunityId || body.opportunity_id)) || null;
-    const channel = (body && (body.channel || "telegram")) || "telegram";
-    if (!NOTIFY_CHANNELS.has(channel)) return json(req, 400, { error: "channel must be telegram or web_push" });
+    const channel = (body && body.channel) || "push";
+    if (!NOTIFY_CHANNELS.has(channel)) return json(req, 400, { error: "channel must be push, telegram or web_push" });
     let advance = body && body.minAdvanceHours != null ? Number(body.minAdvanceHours) : 24;
     if (!Number.isFinite(advance) || advance < 0 || advance > 72) return json(req, 400, { error: "minAdvanceHours must be 0..72" });
     advance = Math.round(advance);
@@ -491,6 +493,46 @@ async function handleTelegramStatus(req, env) {
   return json(req, 200, { status: (row && row.status) || "none", chatId: (row && row.chat_id) || null });
 }
 
+// ---------------------------------------------------------------------------
+// CL-APP-03: FCM device push tokens (APP push base).
+// POST   /push_tokens  — register/refresh a device token. Auth: Bearer JWT
+//   session (member) OR anonymous body deviceId (device-id mode, same scheme
+//   as favorites). DELETE unregisters by token.
+// ---------------------------------------------------------------------------
+async function handlePushTokenRegister(req, env) {
+  const body = await req.json().catch(() => null);
+  if (!body || typeof body !== "object") return json(req, 400, { error: "body required" });
+  const token = typeof body.token === "string" ? body.token.trim() : "";
+  if (!token || token.length > 4096) return json(req, 400, { error: "token required" });
+  const platform = typeof body.platform === "string" && body.platform.trim() ? body.platform.trim().slice(0, 64) : "android/fcm";
+
+  let uid = null;
+  const session = await getSession(req, env);
+  if (session && session.sub) uid = session.sub;
+  else {
+    const deviceId = typeof body.deviceId === "string" ? body.deviceId.trim() : "";
+    if (!deviceId || deviceId.length > 200) return json(req, 400, { error: "Authorization session or deviceId required" });
+    uid = await getUser(env, deviceId);
+    if (!uid) return json(req, 400, { error: "deviceId required" });
+  }
+
+  await env.DB.prepare(
+    "INSERT INTO push_tokens (user_device_id, platform, token, updated_at) VALUES (?1, ?2, ?3, datetime('now')) " +
+    "ON CONFLICT(token) DO UPDATE SET user_device_id = ?1, platform = ?2, updated_at = datetime('now')"
+  ).bind(uid, platform, token).run();
+  return json(req, 200, { ok: true, platform, deviceId: uid });
+}
+
+async function handlePushTokenDelete(req, env) {
+  const body = await req.json().catch(() => null);
+  const token = body && typeof body.token === "string" ? body.token.trim() : "";
+  if (!token) return json(req, 400, { error: "token required" });
+  const r = await env.DB.prepare("DELETE FROM push_tokens WHERE token = ?1").bind(token).run();
+  const changed = r && r.meta && typeof r.meta.changes === "number" ? r.meta.changes : 0;
+  if (!changed) return json(req, 404, { error: "token not found" });
+  return json(req, 200, { ok: true });
+}
+
 async function handleWebPushSubscribe(req, env) {
   const session = await requireSession(req, env);
   if (!session) return json(req, 401, { error: "JWT session required" });
@@ -542,6 +584,8 @@ export default {
     if (path === "/notify/telegram/start" && request.method === "POST") return handleTelegramStart(request, env);
     if (path === "/notify/telegram/status" && request.method === "GET") return handleTelegramStatus(request, env);
     if (path === "/notify/web_push/subscribe" && request.method === "POST") return handleWebPushSubscribe(request, env);
+    if (path === "/push_tokens" && request.method === "POST") return handlePushTokenRegister(request, env);
+    if (path === "/push_tokens" && request.method === "DELETE") return handlePushTokenDelete(request, env);
 
     // --- auth (CL-API-02) ---
     let m;

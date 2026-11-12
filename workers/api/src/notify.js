@@ -5,6 +5,7 @@
 // Time convention: distilled days carry spot-LOCAL wall clock (local_date + hour
 // int). This v1 matches them on the site-wide GMT+8 convention; JP (UTC+9)
 // spots may drift up to 1h inside the match window — follow-up: per-spot tz.
+import { sendPush } from "./push.js";
 
 export const MATCH_WINDOW_H = 24;
 
@@ -140,7 +141,7 @@ export async function runNotifyCron(env, nowMs = Date.now()) {
     try {
       const ins = await env.DB.prepare(
         "INSERT INTO notify_log (rule_id, window_start, user_id, place_id, opportunity_id, channel) VALUES (?1, ?2, ?3, ?4, ?5, ?6) ON CONFLICT(rule_id, window_start) DO NOTHING"
-      ).bind(rule.id, key, rule.user_id, rule.place_id, rule.opportunity_id || null, rule.channel || "telegram").run();
+      ).bind(rule.id, key, rule.user_id, rule.place_id, rule.opportunity_id || null, rule.channel || "push").run();
       fresh = !!(ins.meta && ins.meta.changes > 0);
     } catch (e) {
       summary.errors.push(`log: ${e && e.message}`);
@@ -154,6 +155,55 @@ export async function runNotifyCron(env, nowMs = Date.now()) {
         "UPDATE notify_log SET delivered = 0, detail = ?2 WHERE rule_id = ?1 AND window_start = ?3"
       ).bind(rule.id, "web_push delivery not implemented (VAPID skeleton)", key).run();
       summary.undelivered += 1;
+      continue;
+    }
+
+    if (rule.channel === "push") {
+      // CL-APP-03: APP push via FCM HTTP v1. Fail-closed on missing service
+      // account secret — record undelivered, log to console, never throw.
+      const msg = buildMessage(rec, win);
+      const title = msg.split("\n")[0];
+      const bodyText = msg.split("\n").slice(1).join("\n");
+      const sa = env.FCM_SERVICE_ACCOUNT_JSON;
+      if (!sa) {
+        console.warn("[notify-cron] push skipped: FCM_SERVICE_ACCOUNT_JSON not set (fail-closed) — rule", rule.id);
+        await env.DB.prepare(
+          "UPDATE notify_log SET delivered = 0, detail = ?2 WHERE rule_id = ?1 AND window_start = ?3"
+        ).bind(rule.id, "push skipped: FCM service account not configured (fail-closed)", key).run();
+        summary.undelivered += 1;
+        continue;
+      }
+      let tokens = [];
+      try {
+        ({ results: tokens } = await env.DB.prepare(
+          "SELECT token FROM push_tokens WHERE user_device_id = ?1"
+        ).bind(rule.user_id).all());
+      } catch (e) {
+        summary.errors.push(`push tokens: ${e && e.message}`);
+      }
+      tokens = tokens || [];
+      if (!tokens.length) {
+        await env.DB.prepare(
+          "UPDATE notify_log SET delivered = 0, detail = ?2 WHERE rule_id = ?1 AND window_start = ?3"
+        ).bind(rule.id, "push skipped: no registered device token for user", key).run();
+        summary.undelivered += 1;
+        continue;
+      }
+      let anyOk = false;
+      let lastError = null;
+      for (const t of tokens) {
+        try {
+          const r = await sendPush(env, t.token, { title, body: bodyText });
+          if (r.ok) anyOk = true; else lastError = r.error || "unknown";
+        } catch (e) {
+          lastError = e && e.message;
+        }
+      }
+      await env.DB.prepare(
+        "UPDATE notify_log SET delivered = ?2, detail = ?3 WHERE rule_id = ?1 AND window_start = ?4"
+      ).bind(rule.id, anyOk ? 1 : 0, JSON.stringify({ status: anyOk ? "pushed" : "failed", error: lastError }), key).run();
+      if (anyOk) summary.sent += 1;
+      else summary.undelivered += 1;
       continue;
     }
 

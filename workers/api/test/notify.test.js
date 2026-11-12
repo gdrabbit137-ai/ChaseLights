@@ -288,7 +288,8 @@ test("rules: validation (bad channel, bad advance), GET list, DELETE own/not-fou
 
   const created = await worker.fetch(makeReq("/notify/rules", { method: "POST", headers: hdr, body: JSON.stringify({ placeId: "tw-001", opportunityId: "cloud-sea" }) }), env, {});
   const { rule } = await created.json();
-  assert.equal(rule.channel, "telegram");
+  // CL-APP-03: default reminder channel is now APP push.
+  assert.equal(rule.channel, "push");
   assert.equal(rule.minAdvanceHours, 24);
 
   const list = await worker.fetch(makeReq("/notify/rules", { headers: hdr }), env, {});
