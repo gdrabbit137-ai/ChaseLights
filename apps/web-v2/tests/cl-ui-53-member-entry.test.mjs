@@ -112,15 +112,15 @@ test('CL-UI-53 (5): signed-out shows 登入 + menu; signed-in shows display name
   assert.match(jsSource, /fetchMember\(\)\.then\(render\)/);
 });
 
-test('CL-UI-54: cache-bust stamp ?v=clui64 on member-auth.js on all four shell pages', () => {
+test('CL-UI-55: cache-bust stamp ?v=clui65 on member-auth.js on all four shell pages', () => {
   for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    assert.match(src, /assets\/member-auth\.js\?v=clui64/, `${page} loads member-auth.js?v=clui64`);
+    assert.match(src, /assets\/member-auth\.js\?v=clui65/, `${page} loads member-auth.js?v=clui65`);
     assert.match(src, /data-member-area/, `${page} carries the masthead member area`);
   }
   const stamps = [...htmlSource.matchAll(/\?v=(clui\d+)/g)].map(m => Number(m[1].slice(4)));
   assert.ok(Math.min(...stamps) >= 41, 'all stamps clui41+');
-  assert.ok(Math.max(...stamps) === 64, 'new generation is the highest');
+  assert.ok(Math.max(...stamps) === 65, 'new generation is the highest');
 });
 
 // CL-API-05: failed OAuth callbacks land on the homepage as ?auth_error=1 —

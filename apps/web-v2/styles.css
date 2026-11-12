@@ -96,3 +96,8 @@ main,main section,.brand>div,.research-heading h2{min-width:0}
 @media(max-width:700px){.member-name:not([hidden]){max-width:110px}.masthead{flex-wrap:wrap}}
 /* CL-API-05: failed OAuth callback notice (?auth_error=1 → #auth-error). */
 #auth-error:not([hidden]){display:block;margin:8px 16px 0;padding:6px 10px;border:1px solid #b36;background:#2a1420;color:#ffb3c8;font-size:13px;border-radius:6px}
+/* CL-UI-55: cloud-backed favorite star on opportunity cards + sync notice. */
+.fav-star{background:none;border:1px solid #475569;border-radius:999px;color:#e2e8f0;cursor:pointer;font-size:14px;line-height:1;padding:3px 8px}
+.fav-star:hover{transform:scale(1.06);border-color:#64748b}
+.fav-star[aria-pressed="true"]{color:#f59e0b;border-color:#f59e0b}
+.fav-notice:not([hidden]){display:block;position:fixed;bottom:12px;left:12px;right:12px;margin:0 auto;max-width:420px;padding:8px 12px;border:1px solid #475569;border-radius:8px;background:#111827;color:#e2e8f0;font-size:13px;text-align:center;z-index:10001}

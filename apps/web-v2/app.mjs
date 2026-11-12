@@ -4,6 +4,7 @@ import {browse,validateBrowseIndex} from "./browse-index.mjs";
 import {CATALOG_SHA256,BROWSE_INDEX_SHA256} from "./bundle-digests.mjs";
 import {createPullToRefresh,fetchCloudDigest} from "./pull-refresh.mjs";
 import {fetchMember,consumeAuthError,authErrorMessage} from "./shell-auth.mjs";
+import {createFavoritesClient,localFavorites,persistLocalFavorites,favoritesFallbackMessage} from "./favorites-client.mjs";
 
 const copy = {
 "zh-TW":{subtitle:"攝影機會研究介面",language:"語言",eyebrow:"獨立 V2 測試入口",headline:"從景點與題材，規劃你的拍攝",intro:"探索已匯入的攝影景點與題材、構圖關係和證據。這不是即時天氣預報。",mode:"研究／展示模式",noData:"尚未提供 V2 正式資料。未顯示任何虛構景點或預報。",hasData:"已載入 V2 研究資料；尚未連接即時判斷。",source:"資料來源",updated:"資料產製時間",loaded:"本機載入時間",none:"未提供",unknown:"未知／未提供",importHeading:"匯入 V2 研究資料",importHelp:"選取 Worker 1／2 的 V2 JSON；不會上傳至伺服器。亦可由同目錄 catalog.v2.json 自動載入。",upload:"選取 JSON",places:"景點",search:"搜尋景點或 ID",empty:"等待 V2 資料",emptyHelp:"匯入包含 places 與 opportunities 的 V2 JSON 後，才會顯示實際研究紀錄。",choose:"選擇左側景點",opportunities:"攝影題材",noneOpp:"此景點沒有已提供的 V2 題材資料。",camera:"Camera Zone · 拍攝位置",subject:"Photo Target · 被攝主體",access:"Navigation / Access · 到達參考",relation:"Camera ↔ Subject · 觀測關係",distance:"距離",azimuth:"方位角",elevation:"仰俯角",time:"季節／時段／天文幾何",timeMissing:"尚未提供可驗證的時段、太陽／月亮／銀河幾何",runtime:"目前沒有可驗證的 V2 即時評估，不提供拍攝適合度或分數。",runtimeReady:"V2 執行結果",advanced:"研究條件、未知項與證據",required:"必要條件",blocker:"直接失敗條件",quality:"品質加分條件",unknowns:"待確認",evidence:"證據來源",notTranslated:"此欄尚未提供此語言的等價敘述",directions:"導航至已驗證到達點",map:"查看暫定座標（非導航）",navPending:"尚無已驗證的到達點；不產生導航路線",footer:"ChaseLights V2 獨立測試介面。研究紀錄不等於指定日期的預報。",invalid:"無法載入 V2 JSON：",count:"個",noMatches:"沒有符合的景點",dataLabel:"V2 研究 JSON",status:"研究狀態",pageTitle:"ChaseLights V2 — 攝影機會研究",skipToContent:"跳至主要內容",languageAria:"語言選擇",provenanceAria:"資料來源與時效",placesAria:"景點清單",opportunitiesAria:"攝影題材與研究資料",refreshing:"重新載入資料…",memberLogin:"登入",memberLoginLine:"使用 LINE 登入",memberLoginGoogle:"使用 Google 登入",memberLabel:"會員"},
@@ -11,9 +12,9 @@ en:{subtitle:"Photography opportunity research",language:"Language",eyebrow:"Ind
 ja:{subtitle:"撮影機会の調査ビュー",language:"言語",eyebrow:"独立した V2 テスト入口",headline:"撮影地と題材から、撮影を考える",intro:"読み込んだ撮影地、構図、観測関係、根拠を確認できます。リアルタイム天気予報ではありません。",mode:"調査／プレビュー",noData:"正式な V2 データは未提供です。架空の撮影地や予報は表示しません。",hasData:"V2 調査データを読み込みました。リアルタイム判定は未接続です。",source:"データ出典",updated:"データ生成日時",loaded:"ローカル読込日時",none:"未提供",unknown:"不明／未提供",importHeading:"V2 調査データを読み込む",importHelp:"Worker 1／2 の V2 JSON を選択してください。サーバーには送信されません。同じフォルダの catalog.v2.json も自動読込できます。",upload:"JSON を選択",places:"撮影地",search:"撮影地または ID を検索",empty:"V2 データ待機中",emptyHelp:"places と opportunities を含む V2 JSON を読み込むと実際の調査記録を表示します。",choose:"左側から撮影地を選択",opportunities:"撮影機会",noneOpp:"この撮影地の V2 撮影機会は未提供です。",camera:"Camera Zone · 撮影位置",subject:"Photo Target · 被写体",access:"Navigation / Access · 到達地点",relation:"Camera ↔ Subject · 観測関係",distance:"距離",azimuth:"方位角",elevation:"仰俯角",time:"季節／時間帯／天体配置",timeMissing:"検証済みの時間帯・太陽・月・天の川の幾何情報は未提供です",runtime:"検証可能な V2 実行結果はありません。撮影可否や点数は表示しません。",runtimeReady:"V2 実行結果",advanced:"調査条件・不明点・根拠",required:"必須条件",blocker:"阻害条件",quality:"品質向上条件",unknowns:"未確認事項",evidence:"根拠資料",notTranslated:"この言語の同等の説明は未提供です",directions:"確認済み到達地点へナビ",map:"暫定座標を地図表示（ナビではありません）",navPending:"確認済み到達地点がないためナビは利用できません",footer:"ChaseLights V2 独立テスト画面。調査記録は日付指定の予報ではありません。",invalid:"V2 JSON を読み込めません：",count:"件",noMatches:"一致する撮影地はありません",dataLabel:"V2 調査 JSON",status:"調査状態",pageTitle:"ChaseLights V2 — 撮影機会の調査",skipToContent:"メインコンテンツへ移動",languageAria:"言語の選択",provenanceAria:"資料の出典と更新時刻",placesAria:"撮影地一覧",opportunitiesAria:"撮影機会と調査資料",refreshing:"データを再読み込み中…",memberLogin:"ログイン",memberLoginLine:"LINEでログイン",memberLoginGoogle:"Googleでログイン",memberLabel:"会員"}
 };
 const homeCopy = {
-"zh-TW":{subtitle:"攝影預報與拍攝題材",eyebrow:"拍攝前，先了解可能性",headline:"攝影預報",intro:"查看拍攝預報，或探索景點與拍攝題材。",evaluationsLink:"攝影條件評估（GUIDANCE 即時參考）",pageTitle:"ChaseLights V2 — 攝影預報",dateStatus:"日期尚未選擇；指定日期預報尚未接線。",forecastStatus:"目前尚無可用的攝影預報",forecastHelp:"你仍可查看現有研究資料，了解拍攝題材與需要留意的條件。",browseResearch:"查看景點與拍攝題材",closeResearch:"關閉研究瀏覽",researchHeading:"景點與拍攝題材",researchScope:"研究資料，非指定日期預報。",toolsHeading:"資料工具",sourceHeading:"資料來源與進階資訊",provenanceAria:"資料來源與進階資訊",loading:"正在載入景點資料…",unavailable:"景點資料尚未提供，請稍後重試。",loadError:"暫時無法載入資料，請重試。",invalidData:"資料結構或語系不完整，無法使用這份資料。請重試或選取其他檔案。",emptyData:"目前尚無可瀏覽的景點資料。",readyData:"景點研究資料已載入。",retry:"重試載入",reload:"重新載入景點資料",clearSearch:"清除搜尋",placeNameMissing:"景點名稱尚未提供",placeIdentity:"景點識別碼",advanced:"資料來源與進階資訊",importHeading:"匯入研究資料",importHelp:"選取 V2 研究 JSON；資料留在此瀏覽器，不會上傳。匯入資料不會啟用攝影預報。",framingHint:"請先確認現場通行與安全，再於確認開放的範圍自行取景；研究範圍不是指定機位。"},
-en:{subtitle:"Photography forecasts and subjects",eyebrow:"Explore possibilities before your shoot",headline:"Photography forecast",intro:"Check photography forecasts or explore places and subjects to photograph.",evaluationsLink:"Photography condition evaluation (live GUIDANCE)",pageTitle:"ChaseLights V2 — Photography forecast",dateStatus:"No date selected; date-specific forecasts are not connected yet.",forecastStatus:"No photography forecast is available yet.",forecastHelp:"You can still browse existing research to understand subjects and the conditions to consider.",browseResearch:"Explore places and photography subjects",closeResearch:"Close research browser",researchHeading:"Places and photography subjects",researchScope:"Research information, not a date-specific forecast.",toolsHeading:"Data tools",sourceHeading:"Data sources and advanced information",provenanceAria:"Data sources and advanced information",loading:"Loading place information…",unavailable:"Place information is not available yet. Please retry later.",loadError:"Information could not be loaded. Please try again.",invalidData:"Invalid structure or incomplete localization. This information cannot be used. Retry or choose another file.",emptyData:"There is no place information to browse yet.",readyData:"Place research information loaded.",retry:"Retry loading",reload:"Reload place information",clearSearch:"Clear search",placeNameMissing:"Place name not provided",placeIdentity:"Place identifier",advanced:"Data sources and advanced information",importHeading:"Import research information",importHelp:"Choose a V2 research JSON file. It stays in this browser and is not uploaded. Importing does not enable photography forecasts.",framingHint:"Check local access and safety first, then choose your composition within confirmed open areas. A researched area is not a prescribed tripod position."},
-ja:{subtitle:"撮影予報と撮影の題材",eyebrow:"撮影の前に、可能性を確認",headline:"撮影予報",intro:"撮影予報を確認したり、撮影地と題材を調べたりできます。",evaluationsLink:"撮影条件評価（ライブGUIDANCE）",pageTitle:"ChaseLights V2 — 撮影予報",dateStatus:"日付は未選択です。指定日の予報はまだ接続されていません。",forecastStatus:"撮影条件の予報はまだ利用できません。",forecastHelp:"既存の調査情報から、撮影の題材と確認すべき条件を調べられます。",browseResearch:"撮影地と撮影の題材を見る",closeResearch:"調査情報を閉じる",researchHeading:"撮影地と撮影の題材",researchScope:"調査情報であり、指定日の予報ではありません。",toolsHeading:"データツール",sourceHeading:"データの出典と詳細情報",provenanceAria:"データの出典と詳細情報",loading:"撮影地の情報を読み込んでいます…",unavailable:"撮影地の情報はまだ提供されていません。後でもう一度お試しください。",loadError:"情報を読み込めませんでした。もう一度お試しください。",invalidData:"構造または翻訳が不完全なため、この情報は使用できません。再試行するか、別のファイルを選択してください。",emptyData:"閲覧できる撮影地の情報はまだありません。",readyData:"撮影地の調査情報を読み込みました。",retry:"読み込みを再試行",reload:"撮影地の情報を再読み込み",clearSearch:"検索をクリア",placeNameMissing:"撮影地の名称は未提供です",placeIdentity:"撮影地の識別子",advanced:"データの出典と詳細情報",importHeading:"調査情報を読み込む",importHelp:"V2 調査 JSON を選択してください。情報はこのブラウザー内に留まり、アップロードされません。読み込んでも撮影予報は有効になりません。",framingHint:"まず現地の通行条件と安全を確認し、開放が確認できた範囲で構図を選んでください。調査上の範囲は指定の三脚位置ではありません。"}
+"zh-TW":{subtitle:"攝影預報與拍攝題材",eyebrow:"拍攝前，先了解可能性",headline:"攝影預報",intro:"查看拍攝預報，或探索景點與拍攝題材。",evaluationsLink:"攝影條件評估（GUIDANCE 即時參考）",pageTitle:"ChaseLights V2 — 攝影預報",dateStatus:"日期尚未選擇；指定日期預報尚未接線。",forecastStatus:"目前尚無可用的攝影預報",forecastHelp:"你仍可查看現有研究資料，了解拍攝題材與需要留意的條件。",browseResearch:"查看景點與拍攝題材",closeResearch:"關閉研究瀏覽",researchHeading:"景點與拍攝題材",researchScope:"研究資料，非指定日期預報。",toolsHeading:"資料工具",sourceHeading:"資料來源與進階資訊",provenanceAria:"資料來源與進階資訊",loading:"正在載入景點資料…",unavailable:"景點資料尚未提供，請稍後重試。",loadError:"暫時無法載入資料，請重試。",invalidData:"資料結構或語系不完整，無法使用這份資料。請重試或選取其他檔案。",emptyData:"目前尚無可瀏覽的景點資料。",readyData:"景點研究資料已載入。",retry:"重試載入",reload:"重新載入景點資料",clearSearch:"清除搜尋",placeNameMissing:"景點名稱尚未提供",placeIdentity:"景點識別碼",advanced:"資料來源與進階資訊",importHeading:"匯入研究資料",importHelp:"選取 V2 研究 JSON；資料留在此瀏覽器，不會上傳。匯入資料不會啟用攝影預報。",framingHint:"請先確認現場通行與安全，再於確認開放的範圍自行取景；研究範圍不是指定機位。",favStarAdd:"加入我的最愛",favStarRemove:"移除我的最愛",favNotice:"收藏暫時無法同步，已保存在此裝置。"},
+en:{subtitle:"Photography forecasts and subjects",eyebrow:"Explore possibilities before your shoot",headline:"Photography forecast",intro:"Check photography forecasts or explore places and subjects to photograph.",evaluationsLink:"Photography condition evaluation (live GUIDANCE)",pageTitle:"ChaseLights V2 — Photography forecast",dateStatus:"No date selected; date-specific forecasts are not connected yet.",forecastStatus:"No photography forecast is available yet.",forecastHelp:"You can still browse existing research to understand subjects and the conditions to consider.",browseResearch:"Explore places and photography subjects",closeResearch:"Close research browser",researchHeading:"Places and photography subjects",researchScope:"Research information, not a date-specific forecast.",toolsHeading:"Data tools",sourceHeading:"Data sources and advanced information",provenanceAria:"Data sources and advanced information",loading:"Loading place information…",unavailable:"Place information is not available yet. Please retry later.",loadError:"Information could not be loaded. Please try again.",invalidData:"Invalid structure or incomplete localization. This information cannot be used. Retry or choose another file.",emptyData:"There is no place information to browse yet.",readyData:"Place research information loaded.",retry:"Retry loading",reload:"Reload place information",clearSearch:"Clear search",placeNameMissing:"Place name not provided",placeIdentity:"Place identifier",advanced:"Data sources and advanced information",importHeading:"Import research information",importHelp:"Choose a V2 research JSON file. It stays in this browser and is not uploaded. Importing does not enable photography forecasts.",framingHint:"Check local access and safety first, then choose your composition within confirmed open areas. A researched area is not a prescribed tripod position.",favStarAdd:"Add to favorites",favStarRemove:"Remove from favorites",favNotice:"Favorites could not be synced; saved on this device."},
+ja:{subtitle:"撮影予報と撮影の題材",eyebrow:"撮影の前に、可能性を確認",headline:"撮影予報",intro:"撮影予報を確認したり、撮影地と題材を調べたりできます。",evaluationsLink:"撮影条件評価（ライブGUIDANCE）",pageTitle:"ChaseLights V2 — 撮影予報",dateStatus:"日付は未選択です。指定日の予報はまだ接続されていません。",forecastStatus:"撮影条件の予報はまだ利用できません。",forecastHelp:"既存の調査情報から、撮影の題材と確認すべき条件を調べられます。",browseResearch:"撮影地と撮影の題材を見る",closeResearch:"調査情報を閉じる",researchHeading:"撮影地と撮影の題材",researchScope:"調査情報であり、指定日の予報ではありません。",toolsHeading:"データツール",sourceHeading:"データの出典と詳細情報",provenanceAria:"データの出典と詳細情報",loading:"撮影地の情報を読み込んでいます…",unavailable:"撮影地の情報はまだ提供されていません。後でもう一度お試しください。",loadError:"情報を読み込めませんでした。もう一度お試しください。",invalidData:"構造または翻訳が不完全なため、この情報は使用できません。再試行するか、別のファイルを選択してください。",emptyData:"閲覧できる撮影地の情報はまだありません。",readyData:"撮影地の調査情報を読み込みました。",retry:"読み込みを再試行",reload:"撮影地の情報を再読み込み",clearSearch:"検索をクリア",placeNameMissing:"撮影地の名称は未提供です",placeIdentity:"撮影地の識別子",advanced:"データの出典と詳細情報",importHeading:"調査情報を読み込む",importHelp:"V2 調査 JSON を選択してください。情報はこのブラウザー内に留まり、アップロードされません。読み込んでも撮影予報は有効になりません。",framingHint:"まず現地の通行条件と安全を確認し、開放が確認できた範囲で構図を選んでください。調査上の範囲は指定の三脚位置ではありません。",favStarAdd:"お気に入りに追加",favStarRemove:"お気に入りから削除",favNotice:"お気に入りを同期できませんでした。この端末に保存しました。"}
 };
 for (const locale of LOCALES) Object.assign(copy[locale], homeCopy[locale]);
 const browseCopy={
@@ -74,9 +75,36 @@ ja:{sourceCommit:"出典 commit SHA（データの申告）",catalog:"調査資�
 if (LOCALES.some(l => Object.keys(copy[l]).sort().join("|") !== Object.keys(copy["zh-TW"]).sort().join("|") || Object.keys(researchCopy[l]).sort().join("|") !== Object.keys(researchCopy["zh-TW"]).sort().join("|"))) throw new Error("Incomplete locale UI dictionary");
 const $ = id => document.getElementById(id);
 const node = (tag, className, text) => {const e=document.createElement(tag);if(className)e.className=className;if(text!==undefined)e.textContent=String(text);return e;};
-const state={locale:"zh-TW",catalog:null,selected:null,source:null,loaded:null,status:"loading",member:null,cloudDigest:null};
+const state={locale:"zh-TW",catalog:null,selected:null,source:null,loaded:null,status:"loading",member:null,cloudDigest:null,favNotice:false};
 let researchIndex=null,indexInvalid=false;
 const selectedTopics=new Set();
+// CL-UI-55: cloud-backed favorites (/api/v1/favorites). The member session
+// cookie takes precedence server-side; anonymous users carry a device id.
+// The local chaselights_favs_v2 list (shared with the V1 shell) is the
+// offline fallback and is uploaded/merged on first launch and after login.
+const favoritesClient=createFavoritesClient({onNotice:()=>{state.favNotice=true;render();}});
+let favoriteIds=new Set(localFavorites());
+function persistFavorites(){persistLocalFavorites([...favoriteIds]);}
+async function refreshFavorites(){
+  try{
+    const ids=await favoritesClient.syncLocal();
+    if(Array.isArray(ids)){
+      favoriteIds=new Set([...favoriteIds,...ids]);
+      persistFavorites();
+      state.favNotice=false;
+    }
+  }catch{state.favNotice=true;}
+  render();
+}
+function syncStarButtons(){
+  for(const b of document.querySelectorAll("#detail .fav-star")){
+    const on=favoriteIds.has(b.getAttribute("data-fav-place"));
+    b.textContent=on?"★":"☆";
+    b.setAttribute("aria-pressed",String(on));
+    const label=t(on?"favStarRemove":"favStarAdd");
+    b.setAttribute("aria-label",label);b.title=label;
+  }
+}
 async function sha256(raw){const bytes=new TextEncoder().encode(raw);return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');}
 const catalogState=createCatalogState({onChange:data=>{Object.assign(state,data);if(data.status==='ready'&&!data.verifiedBundle)selectedTopics.clear();render();},
   verifyDefault:async raw=>(await sha256(raw))===CATALOG_SHA256});
@@ -145,6 +173,13 @@ function render(){
   renderTopics();
   renderPlaces();renderDetail();
   renderMember();
+  // CL-UI-55: surface the favorites offline fallback notice in the active locale.
+  let favNoticeEl=$("fav-notice");
+  if(state.favNotice){
+    if(!favNoticeEl){favNoticeEl=node("p","fav-notice");favNoticeEl.id="fav-notice";favNoticeEl.setAttribute("role","status");document.body.appendChild(favNoticeEl);}
+    favNoticeEl.hidden=false;
+    favNoticeEl.textContent=favoritesFallbackMessage(state.locale);
+  }else if(favNoticeEl)favNoticeEl.hidden=true;
   if(restoreResearchFocus && !$("research-browser").hidden)$("research-heading").focus();
 }
 function activeIndex(){
@@ -228,6 +263,26 @@ function renderOpportunity(target,opp,c,place){
   const heading=node("h3","",name(opp));heading.id="topic-"+oid;heading.tabIndex=-1;
   card.setAttribute("aria-labelledby",heading.id);
   const top=node("div","opportunity-head");top.append(heading,node("span","pill",t("researchOnly")));card.append(top);
+  // CL-UI-55: cloud-backed favorite star. The toggle posts to
+  // /api/v1/favorites (member session or anonymous device id); on failure
+  // the local chaselights_favs_v2 list stands and the trilingual notice shows.
+  const placeKey=placeId(place);
+  const star=node("button","fav-star");
+  star.type="button";star.setAttribute("data-fav-place",placeKey);
+  star.textContent=favoriteIds.has(placeKey)?"★":"☆";
+  const starOn=favoriteIds.has(placeKey);
+  star.setAttribute("aria-pressed",String(starOn));
+  star.setAttribute("aria-label",t(starOn?"favStarRemove":"favStarAdd"));
+  star.title=star.getAttribute("aria-label");
+  star.addEventListener("click",async()=>{
+    const adding=!favoriteIds.has(placeKey);
+    if(adding)favoriteIds.add(placeKey);else favoriteIds.delete(placeKey);
+    persistFavorites();
+    syncStarButtons();
+    const ids=await favoritesClient.toggle(placeKey,adding);
+    if(Array.isArray(ids)){favoriteIds=new Set([...favoriteIds,...ids]);persistFavorites();syncStarButtons();}
+  });
+  top.append(star);
   const topics=activeIndex()?.topic_index.opportunity_topics.find(x=>x.opportunity_id===oid)?.topic_ids||[];
   if(topics.length)card.append(node("p","meta",topics.map(id=>displayLocalizedName(activeIndex().topic_index.topics.find(x=>x.topic_id===id)?.name_i18n,state.locale)).join(" · ")));
   else card.append(node("p","meta",t("unclassified")));
@@ -436,6 +491,7 @@ async function refreshData(){
     await loadResearchIndex();
     await catalogState.load();
     await refreshMember();
+    await refreshFavorites();
   }finally{refreshing=false;$("pull-indicator").hidden=true;}
 }
 const pullToRefresh=createPullToRefresh({
@@ -460,3 +516,5 @@ document.addEventListener("touchend",pullToRefresh.handleTouchEnd,{passive:true}
   window.setTimeout(()=>{el.hidden=true;},8000);
 })();
 void refreshMember();
+// CL-UI-55: bootstrap favorites sync (upload local favorites, pull cloud list).
+void refreshFavorites();
