@@ -10,7 +10,7 @@
 
    Backend contract (CL-API-03 + CL-UI-58 PATCH):
    - GET    /api/v1/notify_rules      -> { rules:[{id, place_id, opportunity_id, channel, min_advance_hours, enabled}] } (JWT only; 401 = not signed in)
-   - POST   /api/v1/notify_rules      { placeId, opportunityId, channel:'telegram', minAdvanceHours:24 }
+   - POST   /api/v1/notify_rules      { placeId, opportunityId, channel:'push', minAdvanceHours:24 }
    - PATCH  /api/v1/notify_rules/<id> { enabled: boolean }
    - DELETE /api/v1/notify_rules/<id>
 */
@@ -37,14 +37,14 @@
       rem_added_btn: '已加入 ✓',
       rem_search_placeholder: '搜尋景點名稱或題材名稱…',
       rem_region_label: '地區', rem_place_label: '景點', rem_subject_label: '題材',
-      rem_col_channel: 'Telegram', rem_col_advance: '提前 {n} 小時',
+      rem_col_channel: 'App 推播', rem_col_advance: '提前 {n} 小時',
       rem_enabled: '啟用', rem_disabled: '停用',
       rem_delete: '刪除',
-      rem_login_prompt: '登入後即可管理你的拍攝提醒（條件符合時透過 Telegram 通知）。',
+      rem_login_prompt: '登入後即可管理你的拍攝提醒（條件符合時透過 APP 推播通知）。',
       rem_login_line: '使用 LINE 登入', rem_login_google: '使用 Google 登入',
       rem_empty: '目前沒有提醒。用下方「快速增加提醒」新增第一筆。',
       rem_loading: '正在載入提醒…',
-      rem_saved: '已加入提醒，條件符合時將透過 Telegram 通知。',
+      rem_saved: '已加入提醒，條件符合時將透過 APP 推播通知。',
       rem_removed: '已移除提醒。',
       rem_err: '提醒暫時無法同步，請稍後再試。',
       rem_limit: '提醒數量已達方案上限，請先移除部分提醒。',
@@ -59,14 +59,14 @@
       rem_added_btn: 'Added ✓',
       rem_search_placeholder: 'Search place or subject names…',
       rem_region_label: 'Region', rem_place_label: 'Place', rem_subject_label: 'Subject',
-      rem_col_channel: 'Telegram', rem_col_advance: '{n} h in advance',
+      rem_col_channel: 'App push', rem_col_advance: '{n} h in advance',
       rem_enabled: 'Enabled', rem_disabled: 'Paused',
       rem_delete: 'Delete',
-      rem_login_prompt: 'Sign in to manage your shooting reminders (notified via Telegram when conditions qualify).',
+      rem_login_prompt: 'Sign in to manage your shooting reminders (notified via app push when conditions qualify).',
       rem_login_line: 'Sign in with LINE', rem_login_google: 'Sign in with Google',
       rem_empty: 'No reminders yet. Use “Quick add reminder” below to create your first one.',
       rem_loading: 'Loading reminders…',
-      rem_saved: 'Reminder added — you will be notified via Telegram when conditions qualify.',
+      rem_saved: 'Reminder added — you will be notified via app push when conditions qualify.',
       rem_removed: 'Reminder removed.',
       rem_err: 'Reminders could not be synced right now; please try again later.',
       rem_limit: 'Reminder limit reached for your plan — remove some reminders first.',
@@ -81,14 +81,14 @@
       rem_added_btn: '追加済み ✓',
       rem_search_placeholder: 'スポット名や題材名を検索…',
       rem_region_label: '地域', rem_place_label: 'スポット', rem_subject_label: '題材',
-      rem_col_channel: 'Telegram', rem_col_advance: '{n} 時間前に通知',
+      rem_col_channel: 'アプリ通知', rem_col_advance: '{n} 時間前に通知',
       rem_enabled: '有効', rem_disabled: '停止',
       rem_delete: '削除',
-      rem_login_prompt: 'ログインすると撮影リマインダーを管理できます（条件が揃うと Telegram で通知）。',
+      rem_login_prompt: 'ログインすると撮影リマインダーを管理できます（条件が揃うとアプリのプッシュ通知でお知らせします）。',
       rem_login_line: 'LINE でログイン', rem_login_google: 'Google でログイン',
       rem_empty: 'リマインダーはまだありません。下の「クイック追加」で最初の1件を作成してください。',
       rem_loading: 'リマインダーを読み込み中…',
-      rem_saved: 'リマインダーを追加しました。条件が揃うと Telegram で通知します。',
+      rem_saved: 'リマインダーを追加しました。条件が揃うとアプリのプッシュ通知でお知らせします。',
       rem_removed: 'リマインダーを削除しました。',
       rem_err: 'リマインダーを同期できませんでした。しばらくしてから再試行してください。',
       rem_limit: 'リマインダー数がプランの上限に達しました。先に一部を削除してください。',
@@ -188,7 +188,7 @@
     return fetch(RULES_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ placeId: placeId, opportunityId: oppId || undefined, channel: 'telegram', minAdvanceHours: 24 })
+      body: JSON.stringify({ placeId: placeId, opportunityId: oppId || undefined, channel: 'push', minAdvanceHours: 24 })
     }).then(function (r) { return r.json().then(function (b) { return { status: r.status, body: b }; }); });
   }
 

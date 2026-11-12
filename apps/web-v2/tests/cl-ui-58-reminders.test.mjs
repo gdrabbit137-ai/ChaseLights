@@ -77,7 +77,7 @@ test('CL-UI-58 (2): client wires the real notify_rules contract (POST/PATCH/DELE
   assert.equal(post.status, 200);
   const postCall = calls.find(c => c.method === 'POST');
   assert.deepEqual(JSON.parse(postCall.body), {
-    placeId: 'tw-001', opportunityId: 'tw-001-P01', channel: 'telegram', minAdvanceHours: 24
+    placeId: 'tw-001', opportunityId: 'tw-001-P01', channel: 'push', minAdvanceHours: 24
   });
   assert.equal(postCall.url, '/api/v1/notify_rules');
   assert.equal(postCall.body.indexOf('channel'), postCall.body.indexOf('channel'), 'body is a JSON string');
@@ -189,7 +189,7 @@ test('CL-UI-58 (6): page list rendering — names, channel, advance, toggle, del
   const html = el('rem-list').innerHTML;
   assert.match(html, /合歡山/);
   assert.match(html, /雲海/);
-  assert.match(html, /Telegram/);
+  assert.match(html, /App 推播/);
   assert.match(html, /提前 24 小時/);
   assert.match(html, /data-rem-toggle/);
   assert.match(html, /data-rem-delete/);
@@ -229,8 +229,8 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui62/);
   assert.match(remHtml, /assets\/app\.css\?v=clui68/);
   assert.match(remHtml, /assets\/member-auth\.js\?v=clui67/);
-  assert.match(remHtml, /assets\/reminders-client\.js\?v=clui68/);
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui68/);
+  assert.match(remHtml, /assets\/reminders-client\.js\?v=clui69/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui69/);
   // Login panel + login deep links present (OAuth 302 anchors, per CL-UI-53).
   assert.match(remHtml, /rem-login-panel/);
   assert.match(pageJs, /\/api\/v1\/auth\/line\/start/);
@@ -239,7 +239,7 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /max-width: 390px/);
   assert.match(remHtml, /min-height:44px|min-height: 44px/);
   // The homepage loads the card-side client and carries the bumped stamps.
-  assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui68/);
+  assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui69/);
   assert.match(indexHtml, /assets\/app\.js\?v=clui68/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui68/);
 });

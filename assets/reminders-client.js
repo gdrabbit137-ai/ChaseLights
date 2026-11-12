@@ -7,7 +7,7 @@
 
    Backend contract (workers/api/src/index.js + notify.js, CL-API-03/58):
    - GET    /api/v1/notify_rules        -> { userId, level, rules:[{id, place_id, opportunity_id, channel, min_advance_hours, enabled, created_at}] } (JWT only)
-   - POST   /api/v1/notify_rules        { placeId, opportunityId?, channel:'telegram', minAdvanceHours:24 } -> { ok, rule, count, limit } (402 = free-tier cap)
+   - POST   /api/v1/notify_rules        { placeId, opportunityId?, channel:'push', minAdvanceHours:24 } -> { ok, rule, count, limit } (402 = free-tier cap)
    - PATCH  /api/v1/notify_rules/<id>   { enabled: boolean } -> { ok, rule } (CL-UI-58 added the toggle)
    - DELETE /api/v1/notify_rules/<id>   -> { ok, deleted }
    Sessions ride HttpOnly cookies (CL-UI-53) — same-origin fetches carry them;
@@ -28,7 +28,7 @@
       rem_add_aria: '為這個題材加入拍攝提醒',
       rem_added_aria: '已設定提醒，點擊移除',
       rem_login: '請先登入後再設定提醒',
-      rem_saved: '已加入提醒，條件符合時將透過 Telegram 通知。',
+      rem_saved: '已加入提醒，條件符合時將透過 APP 推播通知。',
       rem_removed: '已移除提醒。',
       rem_err: '提醒暫時無法同步，請稍後再試。',
       rem_limit: '提醒數量已達方案上限，請先移除部分提醒。'
@@ -39,7 +39,7 @@
       rem_add_aria: 'Add a shooting reminder for this subject',
       rem_added_aria: 'Reminder set, tap to remove',
       rem_login: 'Please sign in before setting reminders',
-      rem_saved: 'Reminder added — you will be notified via Telegram when conditions qualify.',
+      rem_saved: 'Reminder added — you will be notified via app push when conditions qualify.',
       rem_removed: 'Reminder removed.',
       rem_err: 'Reminders could not be synced right now; please try again later.',
       rem_limit: 'Reminder limit reached for your plan — remove some reminders first.'
@@ -50,7 +50,7 @@
       rem_add_aria: 'この題材の撮影リマインダーを追加',
       rem_added_aria: 'リマインダー設定済み、タップで削除',
       rem_login: 'リマインダーを使うには先にログインしてください',
-      rem_saved: 'リマインダーを追加しました。条件が揃うと Telegram で通知します。',
+      rem_saved: 'リマインダーを追加しました。条件が揃うとアプリのプッシュ通知でお知らせします。',
       rem_removed: 'リマインダーを削除しました。',
       rem_err: 'リマインダーを同期できませんでした。しばらくしてから再試行してください。',
       rem_limit: 'リマインダー数がプランの上限に達しました。先に一部を削除してください。'
@@ -129,7 +129,7 @@
     return fetch(RULES_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ placeId: placeId, opportunityId: oppId || undefined, channel: 'telegram', minAdvanceHours: 24 })
+      body: JSON.stringify({ placeId: placeId, opportunityId: oppId || undefined, channel: 'push', minAdvanceHours: 24 })
     }).then(function (r) { return r.json().then(function (b) { return { status: r.status, body: b }; }); });
   }
 

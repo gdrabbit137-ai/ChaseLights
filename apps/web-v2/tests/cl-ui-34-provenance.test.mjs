@@ -115,8 +115,9 @@ test('CL-UI-34 (5): index.html carries the collapsed panel, cards untouched, sta
   // CL-API-05: member-auth.js advanced to clui65 (CL-UI-55), so only site-nav.css still
   // carries a clui62 stamp on index.html.
   assert.equal((htmlSource.match(/\?v=clui62/g)||[]).length,1,'site-nav stamp stays at clui62');
-  // CL-UI-58: app.js + app.css + reminders-client.js all bumped to clui68.
-  assert.equal((htmlSource.match(/\?v=clui68/g)||[]).length,3,'app.js/app.css/reminders-client stamps bumped to clui68');
+  // CL-UI-58: app.js + app.css bumped to clui68; CL-APP-03: reminders-client.js advanced to clui69.
+  assert.equal((htmlSource.match(/\?v=clui68/g)||[]).length,2,'app.js/app.css stamps stay at clui68');
+  assert.equal((htmlSource.match(/\?v=clui69/g)||[]).length,1,'reminders-client stamp bumped to clui69 (CL-APP-03 push channel)');
   // CL-UI-57: member-auth.js + favorites-client.js stay at clui67.
   assert.equal((htmlSource.match(/\?v=clui67/g)||[]).length,2,'member-auth/favorites-client stamps stay at clui67');
   // Render path and styles exist in app.js / app.css.
