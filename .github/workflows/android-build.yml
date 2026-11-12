@@ -27,6 +27,14 @@ jobs:
       - name: Unit tests (version check / cache degrade / i18n)
         run: npm test
         working-directory: apps/mobile
+      - name: Push build gate (google-services.json presence)
+        run: |
+          if [ -f android/app/google-services.json ]; then
+            echo "push: google-services.json found — FCM APP push ENABLED"
+          else
+            echo "::notice::google-services.json not provided yet — APK builds WITHOUT FCM; the app disables push gracefully at runtime ([push] disabled console notice)"
+          fi
+        working-directory: apps/mobile
       - name: Assemble debug APK
         run: |
           chmod +x gradlew

@@ -12,3 +12,7 @@ __pycache__/
 
 # CL-CI-31: build outputs are never committed (build_static refuses a non-empty output dir)
 .ci/v2-public-candidate/
+
+# CL-APP-03: Firebase credentials NEVER enter the repo
+google-services.json
+*service-account*.json

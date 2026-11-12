@@ -4,7 +4,7 @@
 import {createVersionChecker} from './version-check.mjs';
 import {createI18n} from './i18n/index.mjs';
 
-export async function boot({checker, i18n, onStatus = () => {}} = {}) {
+export async function boot({checker, i18n, push, onStatus = () => {}} = {}) {
   if (!checker || !i18n) throw new Error('boot: checker and i18n are required');
   const result = await checker.check();
   const messageKey = {
@@ -23,7 +23,13 @@ export async function boot({checker, i18n, onStatus = () => {}} = {}) {
       .catch(() => onStatus({phase: 'downloaded', status: 'download-failed',
         message: i18n.t('loadError')}));
   }
+  // CL-APP-03: APP push base — fire-and-forget; a push failure never breaks
+  // boot (the registrar degrades gracefully when FCM is unavailable).
+  if (push) {
+    Promise.resolve(push.start()).catch((e) => console.info(`[push] startup skipped: ${e && e.message}`));
+  }
   return result;
 }
 
 export {createVersionChecker, createI18n};
+export {createPushRegistrar, defaultPushPlugin, registerPushToken, PUSH_CHANNEL_ID} from './push.mjs';
