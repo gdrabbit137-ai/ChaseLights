@@ -25,23 +25,47 @@
       ma_logout: '登出',
       ma_line: '使用 LINE 登入',
       ma_google: '使用 Google 登入',
-      ma_signed_in_as: '會員'
+      ma_signed_in_as: '會員',
+      ma_auth_error: '登入失敗，請重試'
     },
     'en': {
       ma_login: 'Sign in',
       ma_logout: 'Sign out',
       ma_line: 'Sign in with LINE',
       ma_google: 'Sign in with Google',
-      ma_signed_in_as: 'Member'
+      ma_signed_in_as: 'Member',
+      ma_auth_error: 'Sign in failed, please try again'
     },
     'ja': {
       ma_login: 'ログイン',
       ma_logout: 'ログアウト',
       ma_line: 'LINEでログイン',
       ma_google: 'Googleでログイン',
-      ma_signed_in_as: '会員'
+      ma_signed_in_as: '会員',
+      ma_auth_error: 'ログインに失敗しました。もう一度お試しください'
     }
   };
+
+  // CL-API-05: OAuth callbacks land back on the homepage; the failure variant
+  // carries ?auth_error=1. Show a trilingual retry notice and clean the URL —
+  // no bare JSON page is ever rendered by the callback.
+  function showAuthErrorNotice() {
+    var q = new URLSearchParams(window.location.search);
+    if (q.get('auth_error') !== '1') return;
+    try {
+      q.delete('auth_error');
+      var rest = q.toString();
+      window.history.replaceState(null, '', window.location.pathname + (rest ? '?' + rest : '') + window.location.hash);
+    } catch (e) { /* replaceState unavailable — notice still shows */ }
+    var note = document.createElement('p');
+    note.className = 'ma-auth-error';
+    note.setAttribute('role', 'status');
+    note.style.cssText = 'margin:6px 12px 0;padding:6px 10px;border:1px solid #b36;background:#2a1420;color:#ffb3c8;font-size:13px;border-radius:6px';
+    note.textContent = t('ma_auth_error');
+    if (area && area.parentNode) area.parentNode.insertBefore(note, area);
+    else document.body.appendChild(note);
+    window.setTimeout(function () { if (note.parentNode) note.parentNode.removeChild(note); }, 8000);
+  }
 
   function maLang() {
     var sel = document.getElementById('lang-select');
@@ -139,6 +163,8 @@
     nameEl = area.querySelector('[data-member-name]');
     logoutBtn = area.querySelector('[data-member-logout]');
     if (!toggle || !menu || !nameEl || !logoutBtn) return;
+
+    showAuthErrorNotice();
 
     // Start endpoints are 302 navigations — plain anchors, never fetched.
     var lineLink = area.querySelector('[data-ma-line]');

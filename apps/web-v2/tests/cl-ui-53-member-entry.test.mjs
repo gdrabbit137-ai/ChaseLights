@@ -26,7 +26,7 @@ const htmlSource = readFileSync(join(WEB, 'index.html'), 'utf8');
 const jsSource = readFileSync(join(WEB, 'assets', 'member-auth.js'), 'utf8');
 
 const LANGS = ['zh-TW', 'en', 'ja'];
-const I18N_KEYS = ['ma_login', 'ma_logout', 'ma_line', 'ma_google', 'ma_signed_in_as'];
+const I18N_KEYS = ['ma_login', 'ma_logout', 'ma_line', 'ma_google', 'ma_signed_in_as', 'ma_auth_error'];
 
 test('CL-UI-53 (1): member area lives in the site-nav masthead with both OAuth anchors', () => {
   const navAt = htmlSource.indexOf('<nav class="site-nav"');
@@ -111,13 +111,27 @@ test('CL-UI-53 (5): signed-out shows 登入 + menu; signed-in shows display name
   assert.match(jsSource, /fetchMember\(\)\.then\(render\)/);
 });
 
-test('CL-UI-53 (6): cache-bust stamp ?v=clui62 on member-auth.js on all four shell pages', () => {
+test('CL-UI-53 (6): cache-bust stamp ?v=clui63 on member-auth.js on all four shell pages', () => {
   for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    assert.match(src, /assets\/member-auth\.js\?v=clui62/, `${page} loads member-auth.js?v=clui62`);
+    assert.match(src, /assets\/member-auth\.js\?v=clui63/, `${page} loads member-auth.js?v=clui63`);
     assert.match(src, /data-member-area/, `${page} carries the masthead member area`);
   }
   const stamps = [...htmlSource.matchAll(/\?v=(clui\d+)/g)].map(m => Number(m[1].slice(4)));
   assert.ok(Math.min(...stamps) >= 41, 'all stamps clui41+');
-  assert.ok(Math.max(...stamps) === 62, 'new generation is the highest');
+  assert.ok(Math.max(...stamps) === 63, 'new generation is the highest');
+});
+
+// CL-API-05: failed OAuth callbacks land on the homepage as ?auth_error=1 —
+// member-auth.js consumes the flag, shows the trilingual retry notice and
+// cleans the address bar.
+test('CL-UI-53 (7): auth_error query flag consumed with trilingual retry notice', () => {
+  assert.match(jsSource, /auth_error/);
+  assert.match(jsSource, /function showAuthErrorNotice\(\)/);
+  assert.match(jsSource, /showAuthErrorNotice\(\);/);
+  assert.match(jsSource, /history\.replaceState/);
+  const vals = [...jsSource.matchAll(/ma_auth_error:\s*'([^']*)'/g)].map(m => m[1]);
+  assert.equal(vals.length, 3);
+  assert.equal(vals[0], '登入失敗，請重試');
+  assert.ok(vals.every(v => v.length >= 6));
 });
