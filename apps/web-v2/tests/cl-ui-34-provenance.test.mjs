@@ -111,7 +111,9 @@ test('CL-UI-34 (5): index.html carries the collapsed panel, cards untouched, sta
   assert.ok(modalStart>0&&panelAt>modalStart&&panelAt<modalEnd);
   assert.doesNotMatch(htmlSource.slice(0,modalStart),/modal-provenance/);
   assert.ok(!htmlSource.includes('?v=clui39'),'stamp must be bumped');
-  assert.equal((htmlSource.match(/\?v=clui41/g)||[]).length,2,'site-nav stamps at clui41');
+  // CL-UI-53B: site-nav.css advanced to clui62 (one stamp on index.html).
+  // (site-nav.css clui62 + member-auth.js clui62 → two clui62 stamps on index)
+  assert.equal((htmlSource.match(/\?v=clui62/g)||[]).length,2,'site-nav + member-auth stamps at clui62');
   // CL-UI-48: app.js advanced to clui60, app.css bumped to clui54 by CL-UI-49.
   assert.equal((htmlSource.match(/\?v=clui54/g)||[]).length,1,'app.css stamp at clui54');
   assert.equal((htmlSource.match(/\?v=clui60/g)||[]).length,1,'app.js stamp bumped to clui60');
