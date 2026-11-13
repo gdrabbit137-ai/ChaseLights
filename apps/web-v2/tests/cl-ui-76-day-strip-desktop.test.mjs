@@ -36,22 +36,25 @@ const grab = (start, end) => {
 test('CL-UI-76 (1): desktop tier CSS — content-sized cells 90–110px, mobile 46px untouched', () => {
   // The base (mobile <768px) rule keeps the CL-UI-75 fixed 46px width.
   assert.match(cssSource, /\.v2-strip-cell\{[^}]*flex:0 0 auto[^}]*width:46px[^}]*box-sizing:border-box/);
-  // Desktop tier: >=768px media query widens the cell to content with a
-  // 90–110px band and steps type/padding up.
+  // Desktop tier: >=768px media query — max-content grid columns (90px min)
+  // so a cell is never narrower than its own text (CL-UI-79).
   const deskStart = cssSource.indexOf('@media (min-width:768px){');
   assert.ok(deskStart >= 0, 'a (min-width:768px) tier exists');
-  const desk = cssSource.slice(deskStart, deskStart + 800);
-  assert.match(desk, /\.v2-strip-cell\{width:auto;min-width:90px;max-width:110px;padding:5px 8px;font-size:\.72rem;gap:3px\}/);
-  // The desktop tier must not reintroduce wrapping or a vertical reflow.
+  const desk = cssSource.slice(deskStart, cssSource.indexOf('\n}', deskStart) + 1);
+  assert.match(desk, /\.v2-day-strip\{display:grid;grid-auto-flow:column;grid-auto-columns:minmax\(90px,max-content\);justify-content:space-between\}/);
+  assert.match(desk, /\.v2-strip-cell\{width:auto;min-width:90px;padding:5px 8px;font-size:\.72rem;gap:3px\}/);
+  // The desktop tier must not reintroduce wrapping or a vertical reflow,
+  // and must not clip cell text (no hidden/ellipsis in the desktop tier).
   assert.doesNotMatch(desk, /flex-wrap:wrap/);
   assert.doesNotMatch(desk, /overflow-wrap:anywhere/);
+  assert.doesNotMatch(desk, /text-overflow:ellipsis/);
   // The 390px compact tier is unchanged (CL-UI-75's exact rules).
   const mobile = cssSource.slice(cssSource.indexOf('@media (max-width:390px)'), cssSource.indexOf('@media (max-width:390px)') + 600);
   assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:2px 1px;gap:2px\}/);
   assert.doesNotMatch(mobile, /min-width:90/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui79/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui79/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui84/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui84/);
 });
 
 // ---- (2) real-browser probe: desktop 1280px and mobile 390px ----------------
@@ -208,7 +211,10 @@ for (const vp of [{name: 'desktop 1280px', w: 1280, h: 900, mobile: false, shot:
     assert.equal(probe.firstText, '06–13', 'abbreviated window intact');
     if (vp.w >= 768) {
       assert.ok(probe.minCell >= 90, `desktop cells are content-sized >=90px (min ${probe.minCell}px)`);
-      assert.ok(probe.maxCell <= 110, `desktop cells stay <=110px (max ${probe.maxCell}px)`);
+      // CL-UI-79: no upper cap — cells grow to their text's max-content
+      // width; the max-content grid column can never be narrower than the
+      // text, so zero truncation is structural.
+      assert.ok(probe.maxCell >= probe.minCell, 'cells stay content-sized');
     } else {
       assert.equal(probe.minCell, 46, 'mobile keeps the exact 46px fixed width');
       assert.equal(probe.maxCell, 46, 'mobile keeps the exact 46px fixed width');
