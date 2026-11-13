@@ -2642,15 +2642,18 @@
       if(!m)return '';
       return (V2_EVAL_METRICS[currentLang]||V2_EVAL_METRICS['zh-TW'])[m]||m;
     }
-    // CL-UI-64: compact 8-day strip — one row of day+badge cells replacing the
-    // previous 8 long rows. Clicking (or the native title on hover) reveals a
-    // SHORT reason word only; the long per-day narrative is gone from the
-    // glance level.
+    // CL-UI-64: compact 8-day strip — one row of day cells replacing the
+    // previous 8 long rows.
+    // CL-UI-68 (owner ruling): the info lives INSIDE the cell — two lines
+    // (day label + text). Met days show the qualifying-hour count plus the
+    // hour segments; unmet days show 未符·short reason; unknown days show the
+    // honest label. The bare color bar with the info hidden in a hover title
+    // is retired — no title= information carrier, no click-to-reveal note.
     // CL-UI-67: nextNote (the spot-local re-anchored 「🎯 下一個符合時段」)
-    // is no longer a standalone row — it rides on the FIRST qualifying day
-    // cell's hover/title so the strip stays the single self-explaining block.
-    // When no day in the strip qualifies, there is no qualifying box to
-    // attribute it to and the note is omitted with the row.
+    // is no longer a standalone row nor a hover — it renders as a small badge
+    // INSIDE the FIRST qualifying cell. When no day in the strip qualifies,
+    // there is no qualifying box to attribute it to and the note is omitted
+    // with the row.
     function v2DayStripHtml(days,labels,tz,spot,genre,opportunityId,nextNote=''){
       let nextIdx=-1;
       if(nextNote){for(let i=0;i<(days||[]).length;i++){if(days[i]&&days[i].state==='GUIDANCE_SATISFIED'){nextIdx=i;break;}}}
@@ -2658,13 +2661,19 @@
         const cls=day.state==='GUIDANCE_SATISFIED'?'v2-ok':day.state==='NOT_EVALUABLE'?'v2-unk':'v2-bad';
         const lab=day.state==='GUIDANCE_SATISFIED'?d().eval2_ok:day.state==='NOT_EVALUABLE'?d().eval2_unk:d().eval2_bad;
         const title=labels[i]||day.local_date;
-        const hours=v2EffectiveHours(day,tz).length;
+        const hoursList=v2EffectiveHours(day,tz);
+        const hours=hoursList.length;
+        const goodList=hours?formatHourSegments(hoursList):'';
         const reason=(day.state!=='GUIDANCE_SATISFIED')?v2ShortReasonWord(day,spot,genre,opportunityId):'';
+        const text=(day.state==='GUIDANCE_SATISFIED')
+          ?`${d().eval2_hours} ${hours}${goodList?` · ${goodList}`:''}`
+          :(reason?`${lab}·${reason}`:lab);
         const nextTail=(i===nextIdx&&nextNote)?` · 🎯 ${nextNote}`:'';
-        const aria=`${title} ${lab}${hours?` · ${d().eval2_hours} ${hours}`:''}${reason?' · '+reason:''}${nextTail}`;
-        return `<button type="button" class="v2-strip-cell ${cls}" data-idx="${i}" data-label="${esc(title)}" data-verdict="${esc(lab)}" data-reason="${esc(reason)}" data-hours="${hours}" aria-label="${esc(aria)}" title="${esc(aria)}"><span class="v2-strip-day">${esc(title)}</span><span class="v2-strip-bar" aria-hidden="true"></span></button>`;
+        const aria=`${title} ${text}${nextTail}`;
+        const nextBadge=(i===nextIdx&&nextNote)?`<span class="v2-strip-next">🎯 ${esc(nextNote)}</span>`:'';
+        return `<button type="button" class="v2-strip-cell ${cls}" data-idx="${i}" data-label="${esc(title)}" data-verdict="${esc(lab)}" data-reason="${esc(reason)}" data-hours="${hours}" aria-label="${esc(aria)}"><span class="v2-strip-day">${esc(title)}</span><span class="v2-strip-text">${esc(text)}</span>${nextBadge}</button>`;
       }).join('');
-      return `<div class="v2-day-strip" role="group">${cells}</div><div class="v2-strip-note" hidden></div>`;
+      return `<div class="v2-day-strip" role="group">${cells}</div>`;
     }
     // CL-UI-64: top "today at a glance" body — subject-cards lookup for the
     // selected date: suitable -> short subject chips + window; not-met -> the
@@ -2839,30 +2848,24 @@
           const opp=place?(place.opportunities||[]).find(o=>o.opportunity_id===el.dataset.opp):null;
           if(!opp||!(opp.days||[]).length){el.innerHTML=`<div class="v2-eval-block"><div class="v2-note">${esc(d().eval2_none)}</div></div>`;return;}
           // CL-DATA-06: show the full 7-day evaluation window — CL-UI-64 as a
-          // compact strip (one row of day+badge cells; short reason word on
-          // click/hover) instead of the previous 8 long rows.
+          // compact strip, CL-UI-68 as text-in-cell boxes (day label + verdict/
+          // segment text; the next-window badge on the first qualifying cell)
+          // instead of the previous 8 long rows.
           const live=opp.live||{};
           const days=opp.days.slice(0,DAY_KEYS.length);
           const labels=evalDayLabels(spot.timezone,DAY_KEYS.length);
-          // CL-UI-67 (owner ruling): the standalone 「⏱ now — 未符」 row and
-          // the 「🎯 下一個符合時段」 row are gone — the strip is self-
-          // explaining. The next-window info survives inside the FIRST
-          // qualifying day cell's hover title (CL-UI-22 re-anchor preserved:
+          // CL-UI-67/CL-UI-68 (owner ruling): the standalone 「⏱ now — 未符」
+          // row and the 「🎯 下一個符合時段」 row are gone — the strip is
+          // self-explaining. The next-window info survives as a small badge
+          // INSIDE the first qualifying cell — no hover needed (CL-UI-22
+          // re-anchor preserved:
           // v2NextWindowLocal against the spot's local now, never a stale
           // bundle value; with no still-future window nothing is attached).
           const nextLocal=v2NextWindowLocal(opp.days||[],v2LocalNow(spot.timezone),live.next_good?live.next_good.local:'');
           const nextNote=nextLocal?`${d().v2_next_window}${nextWindowStamp(nextLocal,spot.timezone)}`:'';
           const dayHtml=v2DayStripHtml(days,labels,spot.timezone,spot,opp.genre_template||'',opp.opportunity_id,nextNote);
           el.innerHTML=`<div class="v2-eval-block">${dayHtml}</div>`;
-          // CL-UI-64: a strip cell click reveals the SHORT reason word for that
-          // day in the note line — never the long per-day sentence.
-          el.querySelectorAll('.v2-strip-cell').forEach(cell=>cell.addEventListener('click',()=>{
-            const note=el.querySelector('.v2-strip-note');
-            if(!note)return;
-            const reason=cell.dataset.reason||'';
-            note.textContent=`${cell.dataset.label}：${cell.dataset.verdict}${reason?' · '+reason:''}`;
-            note.hidden=false;
-          }));
+          // CL-UI-68: the cell text IS the info — no click-to-reveal note line.
           decorateV2CondLive(spot,el);
         });
       });
