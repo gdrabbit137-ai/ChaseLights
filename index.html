@@ -7,7 +7,7 @@
   <link rel="icon" href="./assets/favicon.ico" sizes="32x32">
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
-  <link rel="stylesheet" href="./assets/app.css?v=clui71">
+  <link rel="stylesheet" href="./assets/app.css?v=clui72">
 
 </head>
 <body>
@@ -75,6 +75,7 @@
           <label for="spot-sort" data-i18n="sort_label">排序</label>
           <select id="spot-sort" class="sort-select" onchange="setSortMode(this.value)">
             <option value="region" data-i18n="sort_region">地區順序</option>
+            <option value="next_window" data-i18n="sort_next_window">最近可拍</option>
             <option value="hours_desc" data-i18n="sort_hours">符合時數：高到低</option>
             <option value="distance_near" data-i18n="sort_distance_near">距離：近到遠</option>
             <option value="distance_far" data-i18n="sort_distance_far">距離：遠到近</option>
@@ -86,6 +87,11 @@
           <div class="rank-summary" id="filter-result-summary"></div>
         </div>
       </div>
+      <!-- CL-UI-66: status-tier tabs (列表頂部) + horizontally scrollable
+           subject chips (tabs 下方). Both are rendered by app.js; the hosts
+           here only reserve the layout slots. -->
+      <div id="tier-tabs" class="tier-tabs"></div>
+      <div id="subject-chips" class="subject-chips"></div>
     </div>
   </div>
 
@@ -131,7 +137,7 @@
   </div>
 
   <script src="./assets/site-nav.js?v=clui41"></script>
-  <script src="./assets/app.js?v=clui71"></script>
+  <script src="./assets/app.js?v=clui72"></script>
   <!-- CL-UI-52: guest comment entry — footer-level, tertiary, never competes
        with the card grid's visual focus (chaselights-product-design). -->
   <footer class="guest-comment-footer">
