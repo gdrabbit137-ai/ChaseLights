@@ -31,7 +31,7 @@
 
   var I18N = {
     'zh-TW': {
-      page_title: '我的拍攝提醒', nav_cards: '卡片', nav_weathermap: '天氣圖', nav_reminders: '提醒',
+      page_title: '提醒清單', nav_cards: '卡片', nav_weathermap: '天氣圖', nav_reminders: '提醒',
       rem_list_title: '我的提醒',
       rem_add_title: '快速增加提醒',
       rem_add_btn: '🔔 加入提醒',
@@ -53,7 +53,7 @@
       rem_no_match: '沒有符合的景點或題材。'
     },
     'en': {
-      page_title: 'My shooting reminders', nav_cards: 'Cards', nav_weathermap: 'Weather map', nav_reminders: 'Reminders',
+      page_title: 'Reminders', nav_cards: 'Cards', nav_weathermap: 'Weather map', nav_reminders: 'Reminders',
       rem_list_title: 'My reminders',
       rem_add_title: 'Quick add reminder',
       rem_add_btn: '🔔 Add reminder',
@@ -75,7 +75,7 @@
       rem_no_match: 'No matching places or subjects.'
     },
     'ja': {
-      page_title: '撮影リマインダー', nav_cards: 'カード', nav_weathermap: '天気マップ', nav_reminders: 'リマインダー',
+      page_title: 'リマインダー', nav_cards: 'カード', nav_weathermap: '天気マップ', nav_reminders: 'リマインダー',
       rem_list_title: 'リマインダー一覧',
       rem_add_title: 'リマインダーをクイック追加',
       rem_add_btn: '🔔 リマインダー追加',

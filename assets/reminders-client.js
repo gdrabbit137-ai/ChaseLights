@@ -173,8 +173,12 @@
   function applyToButton(btn) {
     var rule = state.rules[ruleKey(placeOf(btn), oppOf(btn))] || state.rules[ruleKey(placeOf(btn), '')];
     var added = !!rule;
+    // CL-UI-69 compact mode: per-subject-row bells render the icon only
+    // (owner ruling — 🔔 toggle, ★ stays favorites-only; the app.css
+    // .cl-rem-compact rules make hollow=off, filled/highlight=on).
+    var compact = btn.getAttribute('data-rem-compact') === '1';
     btn.classList.toggle('cl-rem-on', added);
-    btn.textContent = added ? t('rem_added') : t('rem_add');
+    btn.textContent = compact ? '🔔' : (added ? t('rem_added') : t('rem_add'));
     btn.setAttribute('aria-label', added ? t('rem_added_aria') : t('rem_add_aria'));
     btn.setAttribute('aria-pressed', added ? 'true' : 'false');
     if (state.busy[ruleKey(placeOf(btn), oppOf(btn))]) btn.setAttribute('data-rem-busy', '1');
