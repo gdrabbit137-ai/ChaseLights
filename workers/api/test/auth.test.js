@@ -21,6 +21,13 @@ export function makeEnv(opts = {}) {
               if (!tables.users.has(device_id)) {
                 tables.users.set(device_id, { device_id, provider: provider ?? null, provider_user_id: puid ?? null, display_name: name ?? null, level: "free" });
                 meta.changes = 1;
+              } else if (args.length >= 4) {
+                // CL-API-06: emulate ON CONFLICT DO UPDATE backfill semantics
+                const row = tables.users.get(device_id);
+                row.provider = provider ?? row.provider;
+                row.provider_user_id = puid ?? row.provider_user_id;
+                if (row.display_name === null || row.display_name === "") row.display_name = name ?? row.display_name;
+                meta.changes = 1;
               }
             } else if (/INSERT OR IGNORE INTO favorites/.test(sql) || /INSERT INTO favorites/.test(sql)) {
               const k = keyFor(null, [args[0], args[1]]);
@@ -416,4 +423,36 @@ test("CL-UI-57 profile: PATCH updates display_name + optional profile fields; /a
   assert.equal(longBio.status, 200);
   const meAfter = (await (await worker.fetch(req("/auth/me", { headers: auth }), env, {})).json()).user;
   assert.equal(meAfter.profile.bio.length, 200, "profile fields are capped at 200 chars");
+});
+
+// --- CL-API-06: OAuth login backfills NULL display_name; edited names survive --
+test("CL-API-06 backfill: legacy NULL display_name row is filled at next OAuth login; edited name is not overwritten", async () => {
+  const { env, tables } = makeEnv({ AUTH_MOCK: "1" });
+  // (a) simulate the legacy orphan: row exists with NULL provider/display_name
+  tables.users.set("p:line:legacy-1", { device_id: "p:line:legacy-1", provider: null, provider_user_id: null, display_name: null, level: "free" });
+  const login1 = await worker.fetch(req("/auth/mock/start?provider=line&user=legacy-1&name=林先生"), env, {});
+  assert.equal(login1.status, 200);
+  const row1 = tables.users.get("p:line:legacy-1");
+  assert.equal(row1.provider, "line");
+  assert.equal(row1.display_name, "林先生", "NULL display_name must be backfilled at login");
+  assert.equal(row1.level, "free", "level must not change");
+
+  // (b) a user who edited their name keeps it on subsequent logins
+  const login2 = await worker.fetch(req("/auth/mock/start?provider=line&user=legacy-1&name=林先生"), env, {});
+  const tok2 = (await login2.json()).accessToken;
+  const patch = await worker.fetch(req("/auth/profile", {
+    method: "PATCH", headers: { Authorization: `Bearer ${tok2}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ displayName: "自訂名字" }),
+  }), env, {});
+  assert.equal(patch.status, 200);
+  const login3 = await worker.fetch(req("/auth/mock/start?provider=line&user=legacy-1&name=林先生"), env, {});
+  assert.equal(login3.status, 200);
+  const row3 = tables.users.get("p:line:legacy-1");
+  assert.equal(row3.display_name, "自訂名字", "profile-edited display_name must not be overwritten by OAuth");
+
+  // (c) empty-string display_name is also backfilled
+  tables.users.set("p:google:empty-1", { device_id: "p:google:empty-1", provider: "google", provider_user_id: "empty-1", display_name: "", level: "free" });
+  const login4 = await worker.fetch(req("/auth/mock/start?provider=google&user=empty-1&name=G User"), env, {});
+  assert.equal(login4.status, 200);
+  assert.equal(tables.users.get("p:google:empty-1").display_name, "G User", "empty-string display_name must be backfilled");
 });
