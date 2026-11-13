@@ -193,6 +193,6 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
   assert.match(appCss, /\.v2-day-strip\{[^}]*overflow-x:auto/);
   assert.match(appCss, /\.v2-strip-cell\{[^}]*width:46px[^}]*box-sizing:border-box/);
   assert.match(appCss, /\.v2-strip-text\{[^}]*white-space:nowrap[^}]*text-overflow:ellipsis/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui79/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui79/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui84/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui84/);
 });
