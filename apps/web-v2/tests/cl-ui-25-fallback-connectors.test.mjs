@@ -81,6 +81,6 @@ test('CL-UI-25 B2: other html pages reference the shared favicon asset', () => {
 });
 
 test('CL-UI-25 B3: index.html cache-bust stamp bumped for this app.js edit', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui71/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui71/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui72/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui72/);
 });
