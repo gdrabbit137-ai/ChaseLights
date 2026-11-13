@@ -95,8 +95,15 @@ async function handleFavorites(req, env, url) {
 
 async function ensureOAuthUser(env, provider, providerUserId, displayName) {
   const deviceKey = oauthUserKey(provider, providerUserId);
+  // CL-API-06: DO NOTHING left provider/display_name NULL forever on rows
+  // created by the legacy insert. Backfill NULL/empty fields on conflict, but
+  // never overwrite a name the user edited via /auth/profile.
   await env.DB.prepare(
-    "INSERT INTO users (device_id, provider, provider_user_id, display_name, level) VALUES (?1, ?2, ?3, ?4, 'free') ON CONFLICT(device_id) DO NOTHING"
+    `INSERT INTO users (device_id, provider, provider_user_id, display_name, level) VALUES (?1, ?2, ?3, ?4, 'free')
+     ON CONFLICT(device_id) DO UPDATE SET
+       provider = excluded.provider,
+       provider_user_id = excluded.provider_user_id,
+       display_name = CASE WHEN users.display_name IS NULL OR users.display_name = '' THEN excluded.display_name ELSE users.display_name END`
   ).bind(deviceKey, provider, providerUserId, displayName).run();
   const row = await env.DB.prepare(
     "SELECT device_id, provider, provider_user_id, display_name, level FROM users WHERE device_id = ?1"
