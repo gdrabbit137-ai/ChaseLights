@@ -140,6 +140,7 @@ test('CL-UI-62: suitable rows match bundle GUIDANCE_SATISFIED days with qualifyi
     const days = artifact.places[place.place_id];
     const expectedByDate = new Map();
     for (const opp of place.opportunities) {
+      if (opp.genre_template === 'general') continue; // CL-UI-65: never a chip
       for (const day of opp.days) {
         if (day.state === 'GUIDANCE_SATISFIED' && (day.good_hours || []).length > 0) {
           expectedByDate.set(day.local_date, (expectedByDate.get(day.local_date) || 0) + 1);
@@ -154,6 +155,7 @@ test('CL-UI-62: suitable rows match bundle GUIDANCE_SATISFIED days with qualifyi
       const allowed = new Set();
       const canon = (o) => JSON.stringify(Object.fromEntries(Object.entries(o).sort()));
       for (const opp of place.opportunities) {
+        if (opp.genre_template === 'general') continue; // CL-UI-65: never a chip
         for (const day of opp.days) {
           if (day.local_date === date && day.state === 'GUIDANCE_SATISFIED' && (day.good_hours || []).length > 0) {
             allowed.add(canon(genreDict.genres[opp.genre_template]));

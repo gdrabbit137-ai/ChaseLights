@@ -20,8 +20,46 @@ Output is deterministic for a given bundle; bytes are LF on disk.
 Dominant-reason rule (full text in fail_reason_short.json): each failed subject
 casts one vote for its most core violated metric (FAIL conditions ranked by
 metric_priority, then REQUIRED>QUALITY, MAIN>other tiers, then declaration
-order; fallback REQUIRED+MAIN UNKNOWN, then PARTIAL with pass_hours=0);
+order; fallback REQUIRED+MAIN UNKNOWN, then PARTIAL with pass_hours=0, then
+CL-UI-65: any PARTIAL condition, fewest pass_hours first — an UNFAVORABLE day
+whose conditions only PARTIAL (no FAIL hour) still owes the card a reason);
 highest vote count wins, ties break to earlier metric_priority then metric id.
+
+CL-UI-65 general baseline (owner ruling, general-v0.1 full-catalog): the
+derivation layer additionally computes a per-place per-day shootability floor
+directly from the committed hourly weather data (weather_details/<region>/
+<place_id>.json hourly_forecast) — NO formal opportunity contract is created
+(460 contracts would flood the catalog):
+
+    general_baseline: {ok: bool, reason_short: trilingual word|null}
+
+CL-UI-65 owner ruling (display semantics upgraded to three tiers): each
+place-day also carries
+
+    tier: "recommend" | "shootable" | "not_recommended" | null
+
+  - recommend  — a curated subject qualifies (suitable non-empty);
+  - shootable  — every curated subject unmet but the general baseline passes
+                 ("weather allows, no decisive light");
+  - not_recommended — the general baseline also fails (reason_short names why);
+  - null — no known hourly weather for the day (honest no-verdict).
+
+Conditions (general template v0.1 semantics): visibility >= view_scale_km
+(vista 8 / general 5 / close-range 3 by the place's genre mix, same mapping as
+mount_general_opportunities.scale_for_place), precipitation < 0.5 mm/h,
+relative humidity <= 95% (surface rh is the committed proxy for the template's
+925 hPa field), and the daylight window (sun elevation > -6 deg civil light).
+A day is ok when at least one hour passes all four; each known-violating hour
+votes its most core violated metric (metric_priority order) and the dominant
+vote becomes reason_short. Hours with missing fields are UNKNOWN: they never
+pass (fail-closed ok) and never fabricate a reason.
+
+NOT_EVALUABLE is NOT an evaluated failure: a place-day mixing NOT_EVALUABLE
+with evaluated subjects keeps the evaluated verdict (clear/failed + votes);
+only a place-day whose every contribution was NOT_EVALUABLE stays
+not_evaluable — and its dominant_reason falls back to the general baseline
+reason. A failed row without any vote falls back the same way (dominant_source
+records which path produced the reason: curated_votes | general_baseline).
 """
 from __future__ import annotations
 
@@ -34,10 +72,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 COPY_DIR = ROOT / "data/v2/copy"
 EVAL_DIR = ROOT / "data/v2/evaluations"
+WEATHER_DIR = ROOT / "weather_details"
 
 STATUS_CLEAR = "clear"
 STATUS_FAILED = "failed"
 STATUS_NOT_EVALUABLE = "not_evaluable"
+
+# CL-UI-65 general baseline constants — mirror mount_general_opportunities
+# (CL-DATA-65) so the derived baseline and the mounted P99 template never
+# disagree about a place's view scale.
+GENERAL_VISTA_GENRES = {"overlook", "mountain_view", "cloud_sea", "night_sky"}
+GENERAL_NEAR_GENRES = {"waterfall", "tidal", "geological_landform", "reflection"}
+GENERAL_PRECIP_MM_H_MAX = 0.5
+GENERAL_RH_PERCENT_MAX = 95
+GENERAL_SUN_ELEVATION_MIN = -6  # civil light; night hours never qualify
 
 
 def load_copy():
@@ -61,10 +109,85 @@ def _core_violation_metric(conds, priority_map):
                      and c.get("role") == "REQUIRED" and c.get("tier") == "MAIN"]
     pool = pool or [c for c in conds if c.get("day_verdict") == "PARTIAL"
                     and c.get("pass_hours") == 0]
+    # CL-UI-65: an UNFAVORABLE day can carry only PARTIAL conditions with some
+    # passing hours (the passing windows never coincide). The day still owes
+    # the card a short reason — fall back to any PARTIAL condition, the fewest
+    # passing hours first (the binding constraint), then the core-vote order.
+    pool = pool or [c for c in conds if c.get("day_verdict") == "PARTIAL"]
     if not pool:
         return None
-    best = min(pool, key=lambda c: _condition_sort_key(c, priority_map))
+    best = min(pool, key=lambda c: (c.get("pass_hours", 0),
+                                    _condition_sort_key(c, priority_map)))
     return best.get("metric")
+
+
+def general_view_scale(genre_templates):
+    """view_scale_km from the place's genre mix (CL-DATA-65 mapping)."""
+    present = set(genre_templates)
+    if present & GENERAL_VISTA_GENRES:
+        return 8
+    if present & GENERAL_NEAR_GENRES:
+        return 3
+    return 5
+
+
+def load_place_hourly_weather(place_id):
+    """Committed hourly weather for a place, grouped by local_date.
+
+    weather_details/<region>/<place_id>.json is the W1 detail artifact; its
+    spot.hourly_forecast rows carry local_date plus the raw fields the general
+    baseline reads (visibility, precipitation, rh, sun_elevation). Missing
+    file/fields degrade to UNKNOWN hours — never fabricated verdicts.
+    """
+    path = WEATHER_DIR / place_id.split("-", 1)[0] / ("%s.json" % place_id)
+    if not path.exists():
+        return {}
+    try:
+        doc = json.loads(path.read_bytes().decode("utf-8"))
+    except (ValueError, OSError):
+        return {}
+    hours = ((doc.get("spot") or {}).get("hourly_forecast")) or []
+    by_date = {}
+    for hour in hours:
+        date = hour.get("local_date")
+        if isinstance(date, str):
+            by_date.setdefault(date, []).append(hour)
+    return by_date
+
+
+def general_day_baseline(hours, view_scale, priority, words):
+    """general-v0.1 baseline for one place-day: {ok, reason_short}."""
+    votes = {}
+    ok = False
+    for hour in hours:
+        vis = hour.get("visibility")
+        precip = hour.get("precipitation")
+        rh = hour.get("rh")
+        sun = hour.get("sun_elevation")
+        violated = []
+        if vis is not None and vis < view_scale:
+            violated.append("visibility")
+        if precip is not None and precip >= GENERAL_PRECIP_MM_H_MAX:
+            violated.append("precipitation")
+        if rh is not None and rh > GENERAL_RH_PERCENT_MAX:
+            violated.append("relative_humidity_925hpa")
+        if sun is not None and sun <= GENERAL_SUN_ELEVATION_MIN:
+            violated.append("light_window")
+        # any missing field makes the hour UNKNOWN: it cannot pass (fail-closed)
+        # and cannot vote (honest silence instead of a fabricated reason)
+        known = (vis is not None and precip is not None
+                 and rh is not None and sun is not None)
+        if known and not violated:
+            ok = True
+        if violated:
+            metric = min(violated, key=lambda m: priority.get(m, len(priority)))
+            votes[metric] = votes.get(metric, 0) + 1
+    if ok:
+        return {"ok": True, "reason_short": None}
+    best = None
+    if votes:
+        best = min(sorted(votes), key=lambda m: (-votes[m], priority.get(m, len(priority)), m))
+    return {"ok": False, "reason_short": dict(words[best]) if best else None}
 
 
 def derive_place_days(bundle, genres, fails):
@@ -82,20 +205,35 @@ def derive_place_days(bundle, genres, fails):
         return fails["words"].get(metric)
 
     places_out = {}
+    weather_cache = {}
     for place in bundle["places"]:
         place_id = place["place_id"]
         by_date = {}
         for opp in place["opportunities"]:
             genre = opp.get("genre_template")
+            if genre == "general":
+                # CL-UI-65 owner ruling: the general subject is never a curated
+                # chip — the mounted P99 general opportunity is superseded by
+                # the derived general_baseline/tier in this layer. Its days
+                # still anchor place-day rows (a general-only place keeps its
+                # date coverage); they contribute no chips and no votes.
+                for day in opp.get("days", []):
+                    by_date.setdefault(day["local_date"], {
+                        "status": STATUS_CLEAR, "suitable": [], "votes": {},
+                        "not_evaluable": 0, "failed": False})
+                continue
             genre_short = genres.get(genre)
             for day in opp.get("days", []):
                 date = day["local_date"]
                 row = by_date.setdefault(date, {
-                    "status": STATUS_CLEAR, "suitable": [], "votes": {}, "not_evaluable": 0})
+                    "status": STATUS_CLEAR, "suitable": [], "votes": {},
+                    "not_evaluable": 0, "failed": False})
                 state = day.get("state")
                 if state == "NOT_EVALUABLE":
+                    # CL-UI-65: NOT_EVALUABLE is not an evaluated failure — it
+                    # never overwrites a verdict derived from evaluated
+                    # subjects; it only marks the row when nothing evaluated.
                     row["not_evaluable"] += 1
-                    row["status"] = STATUS_NOT_EVALUABLE
                     continue
                 if state == "GUIDANCE_SATISFIED" and day.get("good_hours"):
                     if genre_short is None:
@@ -106,7 +244,7 @@ def derive_place_days(bundle, genres, fails):
                         "window": list(day["good_hours"]),
                     })
                 elif state == "UNFAVORABLE":
-                    row["status"] = STATUS_FAILED
+                    row["failed"] = True
                     conds = list(day.get("conditions", []))
                     for i, c in enumerate(conds):
                         c["_order"] = i
@@ -114,24 +252,71 @@ def derive_place_days(bundle, genres, fails):
                     if metric is not None:
                         row["votes"][metric] = row["votes"].get(metric, 0) + 1
 
+        if place_id not in weather_cache:
+            weather_cache[place_id] = load_place_hourly_weather(place_id)
+        place_weather = weather_cache[place_id]
+        view_scale = general_view_scale(opp.get("genre_template")
+                                        for opp in place["opportunities"])
+
         dates_out = {}
         for date in sorted(by_date):
             row = by_date[date]
+            baseline = general_day_baseline(
+                place_weather.get(date, []), view_scale, priority, fails["words"])
             dominant = None
             best = None
+            dominant_source = None
             if row["votes"]:
                 best = min(sorted(row["votes"]), key=lambda m: (-row["votes"][m], prio_index(m), m))
                 dominant = short_word(best)
+                dominant_source = "curated_votes"
+            elif baseline["reason_short"] is not None and (
+                    row["failed"] or row["not_evaluable"]):
+                # CL-UI-65 fallback: no curated vote (all-NOT_EVALUABLE day, or
+                # an UNFAVORABLE day the extended rule still cannot name) — the
+                # general baseline supplies the reason instead of a bare verdict.
+                best = min(
+                    ("precipitation", "visibility", "relative_humidity_925hpa", "light_window"),
+                    key=lambda m: (0 if fails["words"].get(m) == baseline["reason_short"] else 1,
+                                   prio_index(m)))
+                dominant = dict(baseline["reason_short"])
+                dominant_source = "general_baseline"
+            if row["failed"]:
+                status = STATUS_FAILED
+            elif row["suitable"]:
+                status = STATUS_CLEAR
+            elif row["not_evaluable"]:
+                status = STATUS_NOT_EVALUABLE
+            else:
+                status = STATUS_CLEAR
+            # CL-UI-65 three-tier display semantics (owner ruling):
+            # recommend > shootable > not_recommended; null = no known weather.
+            hours_for_day = place_weather.get(date) or []
+            known_hours = any(
+                all(hour.get(k) is not None for k in
+                    ("visibility", "precipitation", "rh", "sun_elevation"))
+                for hour in hours_for_day)
+            if row["suitable"]:
+                tier = "recommend"
+            elif baseline["ok"]:
+                tier = "shootable"
+            elif known_hours:
+                tier = "not_recommended"
+            else:
+                tier = None
             dates_out[date] = {
-                "status": row["status"],
+                "status": status,
                 "suitable": row["suitable"],
-                "dominant_metric": best if row["votes"] and dominant else None,
+                "dominant_metric": best if dominant else None,
                 "dominant_reason": dict(dominant) if dominant else None,
+                "dominant_source": dominant_source,
+                "general_baseline": baseline,
+                "tier": tier,
             }
         places_out[place_id] = dates_out
 
     return {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "ticket": "CL-UI-62",
         "layer": "subject_cards",
         "derived_from": {
@@ -139,6 +324,12 @@ def derive_place_days(bundle, genres, fails):
             "source_bundle_sha256": bundle["_source_sha256"],
             "generator": "data/v2/tools/build_subject_cards.py",
             "rule_version": fails["dominant_reason_rule"]["rule_version"],
+            "general_baseline": {
+                "rule": "general-v0.1",
+                "rule_version": "1.0",
+                "source": "weather_details/<region>/<place_id>.json hourly_forecast",
+                "note": "derived in this layer; no formal opportunity contract is mounted",
+            },
         },
         "dictionaries": {"genre_short_names": genres, "fail_reason_short": fails["words"]},
         "places": places_out,

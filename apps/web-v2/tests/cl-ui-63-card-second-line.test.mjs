@@ -118,18 +118,24 @@ test('CL-UI-63 (4): not-met line renders ONE short word, no sentence', () => {
       }
     }
   }
-  // the second bad line is built only for UNFAVORABLE days
+  // CL-UI-65: the fallback (no curated reason) UNFAVORABLE line still starts
+  // with the bare ✗ 未符 verdict glyph
   assert.match(createSpotCardBlock,
-    /scSecondLine=\(v2Evaluated&&v2Best\.state==='UNFAVORABLE'\)\?`<div class="best-window-row card-second-line"><span class="v2-line-verdict v2-verdict-bad">\$\{esc\(d\(\)\.card_line_bad\)\}<\/span>/);
-  // NOT_EVALUABLE never gets a second line (no invented verdict on unknown data)
+    /\(v2Best\.state==='UNFAVORABLE'\?`<div class="best-window-row card-second-line"><span class="v2-line-verdict v2-verdict-bad">\$\{esc\(d\(\)\.card_line_bad\)\}<\/span>/);
+  // CL-UI-65 owner ruling: the second line is three-tier and covers
+  // UNFAVORABLE and NOT_EVALUABLE days (tier is derived from real weather,
+  // not an invented verdict)
   const scSecondLineDecl = grab('const scSecondLine=', 'const opportunityName=');
-  assert.ok(scSecondLineDecl.includes("UNFAVORABLE"),
-    'second line is UNFAVORABLE-only');
+  assert.ok(scSecondLineDecl.includes("v2_tier_shootable") &&
+    scSecondLineDecl.includes("v2_tier_not_recommended"),
+    'second line carries the shootable / not-recommended tiers');
+  assert.ok(scSecondLineDecl.includes("v2Best.state==='UNFAVORABLE'||v2Best.state==='NOT_EVALUABLE'"),
+    'second line covers UNFAVORABLE and NOT_EVALUABLE days');
 });
 
 test('CL-UI-63 (5): suitable second line is verdict · window · short chips', () => {
   assert.match(createSpotCardBlock,
-    /card-second-line"><span class="v2-line-verdict v2-verdict-ok">\$\{esc\(d\(\)\.card_line_ok\)\}<\/span> · <b>\$\{esc\(formatHourSegments\(v2Best\.hoursList\)\)\}<\/b>\$\{scShortsHtml\}<\/div>/);
+    /card-second-line"><span class="v2-line-verdict v2-verdict-ok">\$\{esc\(scTier==='recommend'\?d\(\)\.v2_tier_recommend:d\(\)\.card_line_ok\)\}<\/span> · <b>\$\{esc\(formatHourSegments\(v2Best\.hoursList\)\)\}<\/b>\$\{scShortsHtml\}<\/div>/);
   // the window anchor stays the card's existing v2EffectiveHours list — the
   // card can never advertise hours the modal contradicts (CL-UI-12/43).
   assert.match(createSpotCardBlock, /formatHourSegments\(v2Best\.hoursList\)/);
@@ -152,6 +158,15 @@ test('CL-UI-63 (7): verdict glyphs exist in all three dictionaries', () => {
     ['✓ 符合', '✓ Met', '✓ 達成']);
   assert.deepEqual([...i18n.matchAll(/card_line_bad:'([^']*)'/g)].map(m => m[1]),
     ['✗ 未符', '✗ Not met', '✗ 未達成']);
+  // CL-UI-65 three-tier copy exists in all three dictionaries
+  assert.deepEqual([...i18n.matchAll(/v2_tier_recommend:'([^']*)'/g)].map(m => m[1]),
+    ['✓ 推薦', '✓ Recommended', '✓ 推薦']);
+  assert.deepEqual([...i18n.matchAll(/v2_tier_shootable:'([^']*)'/g)].map(m => m[1]),
+    ['○ 可拍', '○ Shootable', '○ 撮影可']);
+  assert.deepEqual([...i18n.matchAll(/v2_tier_not_recommended:'([^']*)'/g)].map(m => m[1]),
+    ['✗ 不宜', '✗ Not recommended', '✗ 非推奨']);
+  assert.deepEqual([...i18n.matchAll(/v2_general_shooting:'([^']*)'/g)].map(m => m[1]),
+    ['一般拍攝', 'General shooting', '一般撮影']);
 });
 
 test('CL-UI-63 (8): artifact rows join back to the artifact dictionary (zh/en/ja chips)', () => {
