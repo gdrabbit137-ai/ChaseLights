@@ -999,7 +999,11 @@
       const o=dayPickerOption(currentDayFilter);
       const n=dayPickerViableCount(currentDayFilter);
       const summary=n===null?'':` · ${n>0?d().day_summary_viable.replace('{n}',n):d().day_summary_none}`;
-      trigger.innerHTML=`<span>📅 ${esc(o.label)}${esc(summary)}</span><span class="day-picker-caret" aria-hidden="true">▾</span>`;
+      // CL-UI-81 (P1-4): two-segment trigger — line 1 carries the day label and
+      // honest count, line 2 the region summary (12px #8B98A9). Both nowrap so
+      // the pill never folds mid-word (三語 ja 最長亦不破格).
+      const regionSummary=currentAdminAreas.size?d().admin_area_selected.replace('{n}',currentAdminAreas.size):d().admin_area_all;
+      trigger.innerHTML=`<span class="day-picker-text"><span class="day-picker-main">📅 ${esc(o.label)}${esc(summary)}</span><span class="day-picker-sub">${esc(regionSummary)}</span></span><span class="day-picker-caret" aria-hidden="true">▾</span>`;
       trigger.setAttribute('aria-label',`${o.label} — ${d().day_picker_label}`);
       renderDayPicker();
     }

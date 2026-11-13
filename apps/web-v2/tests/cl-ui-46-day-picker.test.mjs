@@ -39,7 +39,7 @@ test('CL-UI-46 (1): the CL-UI-45 day strip + arrows are removed everywhere',()=>
   // Trigger keeps the strip's full-width row slot on mobile.
   const media=cssSource.slice(cssSource.indexOf('@media (max-width: 640px)'),cssSource.indexOf('.sub-btn.active'));
   assert.match(media,/\.day-picker-trigger\s*\{[^}]*width:\s*100%;/);
-  assert.match(media,/\.day-picker-trigger\s*\{[^}]*min-height:\s*44px;/,'≥44px tap target');
+  assert.match(media,/\.day-picker-trigger\s*\{[^}]*min-height:\s*48px;/,'≥44px tap target (CL-UI-81: 48px two-line pill)');
 });
 
 test('CL-UI-46 (2): trigger sits in the form-control family (.sort-select tokens)',()=>{
