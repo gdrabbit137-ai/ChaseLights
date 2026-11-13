@@ -80,6 +80,7 @@ ROOT = Path(__file__).resolve().parents[3]
 COPY_DIR = ROOT / "data/v2/copy"
 EVAL_DIR = ROOT / "data/v2/evaluations"
 WEATHER_DIR = ROOT / "weather_details"
+DETAILS_DIR = ROOT / "apps/web-v2/evaluations-details"
 
 STATUS_CLEAR = "clear"
 STATUS_FAILED = "failed"
@@ -257,13 +258,23 @@ def hourly_general_rows(hours, view_scale, priority):
          "no":  {"HH:MM": metric_id},    # floor fails; short word via dict
          "fit": {"HH:MM": [genre ids]},  # curated window covers the hour
          "unk": ["HH:MM", ...]}          # known hour, incomplete fields
+         "na":  ["HH:MM", ...]}          # night hour, clean weather, no window
 
-    Fail-closed: a missing hour is absent from all four (the renderer shows
+    CHALLENGER-14/B: light_window is no longer a per-hour FAILURE word. The
+    hour floor judges WEATHER only (visibility / precipitation / RH) — a
+    weather violation names a weather word. A night hour
+    (sun_elevation <= GENERAL_SUN_ELEVATION_MIN) with clean weather is not a
+    failure and not a general pass: night scenery subjects are IN their
+    window at night, so window coverage decides — hours a curated window
+    covers move to "fit" (merge below); the rest land in the neutral "na"
+    bucket (「非建議時段」, never a failure-style short word).
+
+    Fail-closed: a missing hour is absent from all five (the renderer shows
     an honest no-verdict), an incomplete hour lands in "unk" (g=null, never a
     fabricated pass/fail), and a word-less metric id still names the metric
     (the renderer falls back to the bare ✗).
     """
-    ok, no, unk = [], {}, []
+    ok, no, unk, na = [], {}, [], []
     for hour in hours:
         t = hour.get("time")
         hh = t[-5:] if isinstance(t, str) and len(t) >= 5 else None
@@ -273,11 +284,18 @@ def hourly_general_rows(hours, view_scale, priority):
         if not known:
             unk.append(hh)
             continue
-        if violated:
-            no[hh] = min(violated, key=lambda m: priority.get(m, len(priority)))
+        # CHALLENGER-14/B: weather words win the no bucket; light_window is
+        # excluded from the hour verdict entirely (it stays a DAY-layer vote
+        # in general_day_baseline, which the hour layer must not echo).
+        weather = [m for m in violated if m != "light_window"]
+        sun = hour.get("sun_elevation")
+        if weather:
+            no[hh] = min(weather, key=lambda m: priority.get(m, len(priority)))
+        elif sun is not None and sun <= GENERAL_SUN_ELEVATION_MIN:
+            na.append(hh)
         else:
             ok.append(hh)
-    return {"ok": ok, "no": no, "fit": {}, "unk": unk}
+    return {"ok": ok, "no": no, "fit": {}, "unk": unk, "na": na}
 
 
 def derive_place_days(bundle, genres, fails):
@@ -409,11 +427,31 @@ def derive_place_days(bundle, genres, fails):
                 if not genre:
                     continue
                 for hh in entry.get("window") or []:
-                    fit = hourly["fit"].get(hh)
+                    # CHALLENGER-14/D (CHALLENGER-13 P7 closure): good_hours
+                    # can carry the engine's precise sub-hour stamp (17:35,
+                    # the earliest passing sample inside the 17:00 bucket).
+                    # The hourly grid only renders :00 rows, so a sub-hour
+                    # stamp folds into the bucket that CONTAINS it (floor to
+                    # :00) — the same bucket the engine's details rows key as
+                    # sub_hour_of_bucket. Kept unnormalised, those buckets
+                    # were unreachable from the table (720 in the previous
+                    # artifact); the precise stamp itself is untouched in the
+                    # suitable[].window list, which drives the card hint.
+                    key = hh[:3] + "00" if isinstance(hh, str) and len(hh) == 5 and hh[2] == ":" and hh[3:] != "00" else hh
+                    fit = hourly["fit"].get(key)
                     if fit is None:
-                        hourly["fit"][hh] = [genre]
+                        hourly["fit"][key] = [genre]
                     elif genre not in fit:
                         fit.append(genre)
+            # CHALLENGER-14/B: one hour, one bucket — a curated window
+            # covering the hour wins outright, so the hour leaves "no"
+            # (previously only shadowed by the renderer's fit>ok>no priority)
+            # and the neutral "na" list. fit∩no double verdicts (1,163 hours
+            # in the previous artifact) become structurally impossible.
+            for key in hourly["fit"]:
+                hourly["no"].pop(key, None)
+            if hourly["na"]:
+                hourly["na"] = [key for key in hourly["na"] if key not in hourly["fit"]]
             dates_out[date] = {
                 "status": status,
                 "suitable": row["suitable"],
@@ -427,7 +465,7 @@ def derive_place_days(bundle, genres, fails):
         places_out[place_id] = dates_out
 
     return {
-        "schema_version": "1.2",
+        "schema_version": "1.3",
         "ticket": "CL-UI-62",
         "layer": "subject_cards",
         "derived_from": {
@@ -443,11 +481,27 @@ def derive_place_days(bundle, genres, fails):
             },
             # CL-UI-73: the same general-v0.1 floor, evaluated per hour; the
             # day-level ok/reason stays the aggregate of these hour verdicts.
+            # CHALLENGER-14/B: the HOUR verdict is weather-only — night hours
+            # are never a light_window failure; hours no curated window
+            # covers land in the neutral "na" bucket (「非建議時段」), hours a
+            # window covers land in "fit" and are removed from no/na (one
+            # bucket per hour). The DAY baseline keeps the light_window vote
+            # (day-layer wording, unchanged).
+            # CHALLENGER-14/D: sub-hour good_hours stamps fold into the
+            # covering :00 bucket (17:35 → 17:00, the engine's
+            # sub_hour_of_bucket), so every fit bucket is reachable from the
+            # hourly table's :00 rows.
             "hourly_granularity": {
-                "rule": "general-v0.1 per hour; subjects_fitting = curated "
-                        "subject whose good_hours window covers the hour",
+                "rule": "general-v0.1 per hour, weather metrics only; "
+                        "subjects_fitting = curated subject whose good_hours "
+                        "window covers the hour (sub-hour stamps fold to the "
+                        "covering :00 bucket); night hours without a "
+                        "covering window sit in the neutral na bucket",
                 "fail_closed": "missing weather or unknown fields → g=null, "
                                "no fitting subjects, no fabricated reason",
+                "same_run": "generated only from the bundle run the "
+                            "evaluations-details carry (asserted fail-fast, "
+                            "CHALLENGER-14/A)",
             },
         },
         "dictionaries": {"genre_short_names": genres, "fail_reason_short": fails["words"]},
@@ -461,6 +515,60 @@ def read_bundle(path):
     bundle["_source_path"] = str(path)
     bundle["_source_sha256"] = hashlib.sha256(raw).hexdigest()
     return bundle
+
+
+def _bundle_run_stamp(path):
+    """bundle-20261113T071212Z.json → 2026-11-13T07:12:12Z (details generated_at form)."""
+    name = Path(path).name
+    stem = name[len("bundle-"):-len(".json")] if name.startswith("bundle-") and name.endswith(".json") else None
+    if not stem or len(stem) != 16 or stem[8] != "T" or stem[-1] != "Z":
+        return None
+    return "%s-%s-%sT%s:%s:%sZ" % (stem[0:4], stem[4:6], stem[6:8], stem[9:11], stem[11:13], stem[13:15])
+
+
+def assert_same_run_as_details(bundle_path, details_dir=None):
+    """CHALLENGER-14/A: fail-fast on cross-run drift.
+
+    The status column (evaluations-details, the curated per-hour verdicts)
+    and the subject column (this artifact) must come from the SAME
+    evaluation run — different runs forecast different windows, and the same
+    row then contradicts itself (owner case tw-197 11-14/15). The CI
+    schedule regenerates both in one job (CL-UI-70); this assertion makes
+    same-source a CONTRACT, not luck: refuse to generate when the details
+    layer does not carry this bundle's run.
+
+    details generated_at (ISO, e.g. 2026-11-13T07:12:12Z) and the bundle
+    filename stamp (20261113T071212Z) are the same evaluate_batch.py run
+    timestamp. Local/offline runs with NO details present degrade to a
+    warning — never a fabricated pass.
+    """
+    details_dir = Path(details_dir) if details_dir is not None else DETAILS_DIR
+    run = _bundle_run_stamp(bundle_path)
+    if run is None:
+        return  # not an archive bundle name; nothing to compare against
+    runs = set()
+    if details_dir.exists():
+        for path in sorted(details_dir.glob("*.json")):
+            try:
+                stamp = json.loads(path.read_bytes().decode("utf-8")).get("generated_at")
+            except (ValueError, OSError):
+                continue
+            if isinstance(stamp, str) and stamp:
+                runs.add(stamp)
+    if not runs:
+        print("WARN: no evaluations-details under %s — same-run assertion skipped"
+              % details_dir)
+        return
+    if run not in runs:
+        newer = sorted(r for r in runs if r > run)
+        raise SystemExit(
+            "FAIL: subject-cards refused — cross-run drift (CHALLENGER-14/A): "
+            "bundle %s (run %s) is not the run the evaluations-details carry "
+            "(%s%s). Regenerate details and subject-cards from the same run "
+            "(CL-UI-70 ordering: evaluate_batch.py first, then this tool)."
+            % (Path(bundle_path).name, run,
+               ", ".join(sorted(runs)[:3]) + ("…" if len(runs) > 3 else ""),
+               "; %d detail run(s) NEWER than this bundle" % len(newer) if newer else ""))
 
 
 def latest_bundle_path():
@@ -480,6 +588,10 @@ def main(argv=None):
     if not args.bundle and not args.latest:
         ap.error("pass --bundle <path> or --latest")
     path = args.bundle or latest_bundle_path()
+    # CHALLENGER-14/A: same-run contract with the evaluations-details layer —
+    # refuse to generate a subject-cards artifact from a run the status
+    # column does not share (fail-fast instead of a contradictory render).
+    assert_same_run_as_details(path)
 
     genres, fails = load_copy()
     out, unknown = derive_place_days(read_bundle(path), genres, fails)

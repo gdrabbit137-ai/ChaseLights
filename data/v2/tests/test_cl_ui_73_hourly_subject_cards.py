@@ -43,9 +43,23 @@ class HourlyGeneralRowsTests(unittest.TestCase):
         self.assertEqual(rows["unk"], [])
         self.assertEqual(rows["fit"], {})
 
-    def test_night_hour_votes_light_window(self):
+    def test_night_hour_is_neutral_not_light_window(self):
+        # CHALLENGER-14/B: a night hour is NOT a light_window failure — night
+        # scenery subjects are IN their window at night; without a covering
+        # curated window the hour is neutral (na), never a failure word, and
+        # never a general pass either.
         rows = bsc.hourly_general_rows([_hour("02:00", sun=-20)], 5, PRIORITY)
-        self.assertEqual(rows["no"], {"02:00": "light_window"})
+        self.assertEqual(rows["no"], {})
+        self.assertEqual(rows["na"], ["02:00"])
+        self.assertNotIn("02:00", rows["ok"])
+
+    def test_night_weather_violation_names_a_weather_word(self):
+        # CHALLENGER-14/B: weather words win the no bucket — a fogged night
+        # hour is ✗ 霾/能見度, never ✗ 非日照時段 (light_window stays a
+        # DAY-layer vote only).
+        rows = bsc.hourly_general_rows([_hour("02:00", sun=-20, vis=1.5)], 5, PRIORITY)
+        self.assertEqual(rows["no"], {"02:00": "visibility"})
+        self.assertEqual(rows["na"], [])
 
     def test_rain_hour_names_precipitation(self):
         rows = bsc.hourly_general_rows([_hour("13:00", precip=2.0)], 5, PRIORITY)
@@ -60,7 +74,7 @@ class HourlyGeneralRowsTests(unittest.TestCase):
 
     def test_hour_without_time_is_dropped(self):
         self.assertEqual(bsc.hourly_general_rows([{"visibility": 20}], 5, PRIORITY),
-                         {"ok": [], "no": {}, "fit": {}, "unk": []})
+                         {"ok": [], "no": {}, "fit": {}, "unk": [], "na": []})
 
     def test_view_scale_applies_per_hour(self):
         rows = bsc.hourly_general_rows([_hour("10:00", vis=6)], 8, PRIORITY)
@@ -112,11 +126,40 @@ class HourlyMergeTests(unittest.TestCase):
         self.assertNotIn("25:00", row["hours"]["no"])
         self.assertEqual(row["hours"]["unk"], [])
 
+    def test_sub_hour_window_stamp_folds_into_the_covering_bucket(self):
+        # CHALLENGER-14/D (CHALLENGER-13 P7 closure): a precise sub-hour
+        # good_hours stamp (17:35 inside the 17:00 bucket) lands on the :00
+        # bucket row — the hourly grid only renders :00 rows, so the sub-hour
+        # bucket would otherwise be unreachable. The precise stamp itself is
+        # untouched in suitable[].window.
+        weather = {"2026-01-01": [_hour("%02d:00" % h, sun=-20 if h < 17 else 30)
+                                  for h in range(24)]}
+        days = [("sunset", [{"local_date": "2026-01-01", "state": "GUIDANCE_SATISFIED",
+                             "good_hours": ["17:35"], "conditions": []}])]
+        row = self._derive(_place(days), weather)["2026-01-01"]
+        self.assertEqual(row["hours"]["fit"], {"17:00": ["sunset"]})
+        self.assertEqual([hh for hh in row["hours"]["fit"] if hh[3:] != "00"], [])
+        self.assertEqual(row["suitable"][0]["window"], ["17:35"])
+
+    def test_window_coverage_clears_the_no_and_na_buckets(self):
+        # CHALLENGER-14/B: one hour, one bucket — a night hour a curated
+        # window covers must not simultaneously carry a no-word (fit∩no was
+        # 1,163 hours in the previous artifact, only shadowed by the
+        # renderer's priority) nor stay in the neutral na list.
+        weather = {"2026-01-01": [_hour("%02d:00" % h, sun=-20, vis=1.5)
+                                  for h in range(24)]}
+        days = [("night_sky", [{"local_date": "2026-01-01", "state": "GUIDANCE_SATISFIED",
+                                "good_hours": ["02:00"], "conditions": []}])]
+        row = self._derive(_place(days), weather)["2026-01-01"]
+        self.assertIn("02:00", row["hours"]["fit"])
+        self.assertNotIn("02:00", row["hours"]["no"])
+        self.assertNotIn("02:00", row["hours"]["na"])
+
     def test_no_weather_day_has_empty_floor_buckets(self):
         days = [("sunset", [{"local_date": "2026-01-01", "state": "GUIDANCE_SATISFIED",
                              "good_hours": ["17:00"], "conditions": []}])]
         row = self._derive(_place(days), {})["2026-01-01"]
-        self.assertEqual(row["hours"], {"ok": [], "no": {}, "fit": {"17:00": ["sunset"]}, "unk": []})
+        self.assertEqual(row["hours"], {"ok": [], "no": {}, "fit": {"17:00": ["sunset"]}, "unk": [], "na": []})
 
     def test_day_baseline_stays_the_hour_aggregate(self):
         weather = {"2026-01-01": [_hour("%02d:00" % h, precip=1.0 if h == 9 else 0.0)
@@ -149,7 +192,7 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
         cls.words = cls.artifact["dictionaries"]["fail_reason_short"]
 
     def test_schema_and_hourly_provenance(self):
-        self.assertEqual(self.artifact["schema_version"], "1.2")
+        self.assertEqual(self.artifact["schema_version"], "1.3")
         self.assertIn("hourly_granularity", self.artifact["derived_from"])
 
     def test_every_row_carries_hour_buckets(self):
@@ -157,11 +200,12 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
         for rows in self.artifact["places"].values():
             for row in rows.values():
                 hours = row["hours"]
-                self.assertEqual(sorted(hours), ["fit", "no", "ok", "unk"])
+                self.assertEqual(sorted(hours), ["fit", "na", "no", "ok", "unk"])
                 self.assertIsInstance(hours["ok"], list)
                 self.assertIsInstance(hours["no"], dict)
                 self.assertIsInstance(hours["fit"], dict)
                 self.assertIsInstance(hours["unk"], list)
+                self.assertIsInstance(hours["na"], list)
                 n += 1
         self.assertGreater(n, 3000)
 
@@ -171,9 +215,19 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
                 hours = row["hours"]
                 for metric in hours["no"].values():
                     self.assertIn(metric, self.words, metric)
-                for genres in hours["fit"].values():
-                    self.assertTrue(genres)
-                    for g in genres:
+                    # CHALLENGER-14/B: light_window never names an HOUR
+                    # failure — night hours are window-coverage decisions.
+                    self.assertNotEqual(metric, "light_window")
+                # CHALLENGER-14/B: one hour, one bucket.
+                self.assertFalse(set(hours["fit"]) & set(hours["no"]))
+                self.assertFalse(set(hours["fit"]) & set(hours["na"]))
+                # CHALLENGER-14/D: every fit bucket is reachable from the
+                # hourly table's :00 rows.
+                for hh in hours["fit"]:
+                    self.assertEqual(hh[3:], "00", f"sub-hour fit bucket {hh}")
+                for genre_list in hours["fit"].values():
+                    self.assertTrue(genre_list)
+                    for g in genre_list:
                         self.assertIn(g, self.genres, g)
 
     def test_tw142_anping_hourly_output(self):
@@ -190,7 +244,13 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
                     ("visibility", "precipitation", "rh", "sun_elevation"))
                 for h in whours)
             if whours and every_known_hour:
-                self.assertEqual(len(hours["ok"]) + len(hours["no"]) + len(hours["unk"]),
+                # CHALLENGER-14/B accounting: one verdict per hour — ok, or a
+                # fit-only hour (a covering window removed its no/na word), or
+                # no, unk, na. (A daylight window hour stays in ok AND fit.)
+                fit_only = {hh for hh in hours["fit"] if hh not in set(hours["ok"])}
+                self.assertEqual(len(hours["ok"]) + len(fit_only)
+                                 + len(hours["no"]) + len(hours["unk"])
+                                 + len(hours["na"]),
                                  len(whours), date)
             self.assertFalse(hours["unk"], f"{date} must have complete fields")
             # fit hours must be inside the curated good_hours windows
@@ -199,17 +259,66 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
                 for day in opp["days"]:
                     if day["local_date"] == date and day["state"] == "GUIDANCE_SATISFIED":
                         good.update(day.get("good_hours") or [])
+            # CHALLENGER-14/D: sub-hour stamps fold to their covering bucket.
+            good = {hh[:3] + "00" if hh[3:] != "00" else hh for hh in good
+                    if isinstance(hh, str) and len(hh) == 5}
             for hh in hours["fit"]:
                 self.assertIn(hh, good, f"tw-142 {date} {hh} not in good_hours")
-        # one concrete daylight row: 17:00 sunset chip, night hours named
+        # one concrete daylight row: 19:00 city-night chip; night hours are
+        # window-coverage decisions (CHALLENGER-14/B), never 非日照時段
         day1 = self.artifact["places"]["tw-142"]["2026-11-13"]["hours"]
-        self.assertIn("sunset", day1["fit"]["17:00"])
-        self.assertEqual(day1["no"]["02:00"], "light_window")
+        self.assertIn("city_night", day1["fit"]["19:00"])
+        self.assertNotIn("02:00", day1["no"])
+        self.assertIn("02:00", day1["na"])
         self.assertEqual(self.words["light_window"]["zh-TW"], "非日照時段")  # CL-UI-70 word layer
         self.assertIn("12:00", day1["ok"])
 
     def test_lf_bytes(self):
         self.assertNotIn(b"\r\n", ARTIFACT.read_bytes())
+
+
+class SameRunAssertionTests(unittest.TestCase):
+    """CHALLENGER-14/A: build_subject_cards refuses a cross-run bundle."""
+
+    def setUp(self):
+        self.details = Path(self.enterContext(_tmp_dir()))
+
+    def test_matching_run_passes(self):
+        (self.details / "tw-000.json").write_text(
+            json.dumps({"generated_at": "2026-11-13T07:12:12Z"}), encoding="utf-8")
+        self.assertIsNone(bsc.assert_same_run_as_details(
+            "/x/bundle-20261113T071212Z.json", self.details))
+
+    def test_mismatched_run_refused(self):
+        (self.details / "tw-001.json").write_text(
+            json.dumps({"generated_at": "2026-11-14T01:12:12Z"}), encoding="utf-8")
+        with self.assertRaises(SystemExit):
+            bsc.assert_same_run_as_details(
+                "/x/bundle-20261113T071212Z.json", self.details)
+
+    def test_missing_details_warn_but_proceed(self):
+        empty = self.details / "empty"
+        empty.mkdir()
+        self.assertIsNone(bsc.assert_same_run_as_details(
+            "/x/bundle-20261113T071212Z.json", empty))
+
+    def test_stale_older_run_details_do_not_block(self):
+        (self.details / "tw-002.json").write_text(
+            json.dumps({"generated_at": "2026-11-12T20:23:12Z"}), encoding="utf-8")
+        (self.details / "tw-003.json").write_text(
+            json.dumps({"generated_at": "2026-11-13T07:12:12Z"}), encoding="utf-8")
+        self.assertIsNone(bsc.assert_same_run_as_details(
+            "/x/bundle-20261113T071212Z.json", self.details))
+
+
+import contextlib  # noqa: E402
+import tempfile  # noqa: E402
+
+
+@contextlib.contextmanager
+def _tmp_dir():
+    with tempfile.TemporaryDirectory() as tmp:
+        yield Path(tmp)
 
 
 if __name__ == "__main__":

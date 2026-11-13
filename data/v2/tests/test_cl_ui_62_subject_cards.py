@@ -132,9 +132,18 @@ class DerivedArtifactTests(unittest.TestCase):
                     self.assertEqual(row["tier"], "shootable")
                 else:
                     self.assertIn(row["tier"], ("not_recommended", None))
-                    self.assertEqual(row["tier"] == "not_recommended",
-                                     gb["reason_short"] is not None
-                                     or row["status"] != "not_evaluable")
+                    if row["tier"] == "not_recommended":
+                        self.assertEqual(row["tier"] == "not_recommended",
+                                         gb["reason_short"] is not None
+                                         or row["status"] != "not_evaluable")
+                    else:
+                        # tier None: no complete weather hour for the date —
+                        # the row stays honest-null even when the curated day
+                        # failed. Regenerating from a newer run reaches dates
+                        # the committed weather_details do not cover yet
+                        # (CHALLENGER-14/A: same-run regeneration, us-* on the
+                        # furthest forecast day).
+                        self.assertIsNone(gb["reason_short"])
         self.assertGreater(rows, 3000)
 
     def test_dominant_metric_voted_by_failed_subjects(self):
