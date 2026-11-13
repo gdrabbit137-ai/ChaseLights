@@ -5,7 +5,7 @@
 //   2. per-subject 「✗/✅ 未符·…」 current line (opportunity-current),
 //   3. 「⏱ today HH:MM — 未符」 now row (v2-now),
 //   4. 「🎯 下一個符合時段」 row (v2-next) — merged into the FIRST qualifying
-//      strip cell's hover title instead,
+//      strip cell as an in-cell badge (CL-UI-68: no hover),
 //   5. 「即時條件評估」 title row (v2-title) — the strip is the assessment.
 // Final modal structure: title → 8-day strip → conditions ×N → viewpoints →
 // guide → hourly link.
@@ -50,7 +50,7 @@ test('CL-UI-67 (3): dead CSS for the removed rows is gone',()=>{
   assert.ok(!cssSource.includes('.v2-title'));
 });
 
-test('CL-UI-67 (4): next window rides on the FIRST qualifying strip cell hover/title',()=>{
+test('CL-UI-67 (4): next window rides INSIDE the first qualifying cell (badge, no hover)',()=>{
   const helperCode=grab('function v2DominantFailMetric','function ensureV2Detail');
   const prelude=`
     const V2_EVAL_METRICS={'zh-TW':{},en:{},ja:{}};
@@ -76,16 +76,20 @@ test('CL-UI-67 (4): next window rides on the FIRST qualifying strip cell hover/t
     {local_date:'2026-11-15',state:'GUIDANCE_SATISFIED',good_hours:['06:00'],conditions:[]},
   ];
   const withNote=fns.v2DayStripHtml(days,['今天','明天','後天'],'Asia/Taipei',{spot_id:'jp-003'},'cloud_sea','jp-003-P01','下一個符合時段：後天 11/15 06:00');
-  const cells=withNote.match(/<button[^>]*>/g)||[];
+  const cells=withNote.match(/<button[\s\S]*?<\/button>/g)||[];
   assert.equal(cells.length,3);
-  // The FIRST qualifying cell (明天, idx 1) carries the note on hover/title;
-  // the earlier 未符 cell does not, and the second qualifying cell doesn't
-  // repeat it.
-  assert.ok(cells[0].includes('title="今天 未符"')&&!cells[0].includes('下一個符合時段'),'no note on the non-qualifying cell');
-  assert.ok(cells[1].includes('🎯 下一個符合時段：後天 11/15 06:00'),'note rides on the first qualifying cell');
+  // CL-UI-68: the FIRST qualifying cell (明天, idx 1) carries the note as an
+  // in-cell badge — no hover/title carrier anywhere in the strip; the earlier
+  // 未符 cell does not carry it, and the second qualifying cell doesn't repeat.
+  assert.ok(!cells[0].includes('下一個符合時段'),'no badge on the non-qualifying cell');
+  assert.ok(cells[1].includes('<span class="v2-strip-next">🎯 下一個符合時段：後天 11/15 06:00</span>'),'badge inside the first qualifying cell');
   assert.ok(!cells[2].includes('下一個符合時段'),'note is not repeated on later qualifying cells');
-  // aria-label mirrors the title (screen-reader parity).
-  assert.match(withNote,/aria-label="明天 符合 · 符合時數 1 · 🎯 下一個符合時段：後天 11\/15 06:00"/);
+  assert.ok(!withNote.includes('title='),'no hover title information carrier');
+  // aria-label mirrors the in-cell text + badge (screen-reader parity).
+  assert.match(withNote,/aria-label="明天 符合時數 1 · 17:00 · 🎯 下一個符合時段：後天 11\/15 06:00"/);
+  // In-cell text is present on every cell (CL-UI-68 unified format).
+  assert.ok(cells[0].includes('<span class="v2-strip-text">未符</span>'),'unmet cell text present');
+  assert.ok(cells[1].includes('<span class="v2-strip-text">符合時數 1 · 17:00</span>'),'met cell text present');
 
   // No qualifying day in the strip → nothing to attach the note to; the strip
   // stays clean (the note is omitted together with the row).
@@ -100,6 +104,6 @@ test('CL-UI-67 (4): next window rides on the FIRST qualifying strip cell hover/t
 
 test('CL-UI-67 (5): cache-bust stamp bumped for the edited app.js/app.css',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui73/);
-  assert.match(index,/assets\/app\.css\?v=clui73/);
+  assert.match(index,/assets\/app\.js\?v=clui74/);
+  assert.match(index,/assets\/app\.css\?v=clui74/);
 });

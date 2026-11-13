@@ -91,7 +91,7 @@ test('CL-UI-64 (2): quick-view helpers render short chips / short word only', ()
   assert.ok(noneHtml.includes('quick-none'));
 });
 
-test('CL-UI-64 (3): 8-day compact strip — one row of badge cells, short reason on the cell', () => {
+test('CL-UI-68 (3): 8-day strip — info written INSIDE the cell (two lines), no hover/title carrier', () => {
   const helperCode = grab('function v2DominantFailMetric', 'function ensureV2Detail');
   const prelude = `
     const V2_EVAL_METRICS={'zh-TW':{precipitation:'降水',visibility:'能見度',cloud_cover_low:'低雲'},en:{},ja:{}};
@@ -119,18 +119,23 @@ test('CL-UI-64 (3): 8-day compact strip — one row of badge cells, short reason
     {local_date: '2026-11-15', state: 'NOT_EVALUABLE', good_hours: [], conditions: []},
   ];
   const html = fns.v2DayStripHtml(days, ['今天', '明天', '後天'], 'Asia/Taipei', {spot_id: 'jp-003'}, 'cloud_sea', 'jp-003-P01');
-  const cells = html.match(/class="v2-strip-cell[^"]*"/g) || [];
+  const cells = html.match(/<button[\s\S]*?<\/button>/g) || [];
   assert.equal(cells.length, 3, 'one cell per day row');
   assert.ok(html.includes('v2-ok') && html.includes('v2-bad') && html.includes('v2-unk'));
   assert.ok(html.includes('data-reason="降水"'), 'short reason word on the failed cell');
-  assert.ok(html.includes('v2-strip-note'), 'note line host present');
-  // The strip carries no long per-day narrative and no v2-fail-by rows.
-  assert.ok(!html.includes('v2-fail-by'));
-  assert.ok(!html.includes('v2-past-note'));
-  // decorateV2Eval wires the click -> note with the SHORT word only.
-  assert.match(appSource, /el\.querySelectorAll\('\.v2-strip-cell'\)\.forEach\(cell=>cell\.addEventListener\('click'/);
-  assert.ok(appSource.includes("note.textContent=`${cell.dataset.label}：${cell.dataset.verdict}${reason?' · '+reason:''}`"),
-    'click note uses the SHORT reason word only');
+  // CL-UI-68: the text lives INSIDE the cell — met: count + hour segments,
+  // unmet: 未符·short reason. No hover/title carrier, no click-to-reveal note.
+  assert.ok(html.includes('<span class="v2-strip-text">符合時數 1 · 17:00</span>'),
+    'met cell text: qualifying-hour count + hour segments');
+  assert.ok(html.includes('<span class="v2-strip-text">未符·降水</span>'),
+    'unmet cell text: 未符·short reason');
+  assert.ok(html.includes('<span class="v2-strip-text">資料不足</span>'),
+    'unknown cell text: the honest label');
+  assert.ok(!html.includes('title='), 'no title attribute — hover is not the information carrier');
+  assert.ok(!html.includes('v2-strip-note') && !html.includes('v2-strip-bar'),
+    'click-to-reveal note and bare color bar retired');
+  // decorateV2Eval no longer wires a click -> note reveal.
+  assert.ok(!appSource.includes("el.querySelectorAll('.v2-strip-cell').forEach(cell=>cell.addEventListener('click'"));
   // The modal no longer renders the 8 long day rows.
   assert.ok(!appSource.includes('v2DayHtml(day,labels[i]||day.local_date'));
 });
@@ -164,11 +169,16 @@ test('CL-UI-64 (6): i18n keys exist in all three dictionaries', () => {
 
 test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped', () => {
   for (const cls of ['.place-quick-view', '.quick-chip', '.quick-miss', '.v2-day-strip',
-    '.v2-strip-cell', '.v2-strip-bar', '.v2-strip-note', '.v2-cond-details',
+    '.v2-strip-cell', '.v2-strip-text', '.v2-strip-next', '.v2-cond-details',
     '.v2-cond-details[open]', '.place-hourly-link']) {
     assert.ok(appCss.includes(cls), 'css missing ' + cls);
   }
-  assert.match(appCss, /@media \(max-width:390px\)\{\s*\.v2-strip-cell/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui73/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui73/);
+  // CL-UI-68: the 390px tier self-sizes the text-in-cell boxes (wrap + text
+  // wrapping), the bare-bar tier is gone.
+  assert.ok(appCss.includes('@media (max-width:390px)'), '390px tier present');
+  assert.ok(!appCss.includes('.v2-strip-bar') && !appCss.includes('.v2-strip-note'),
+    'bare bar / note CSS retired');
+  assert.match(appCss, /\.v2-strip-text\{[^}]*overflow-wrap:anywhere/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui74/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui74/);
 });
