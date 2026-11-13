@@ -62,10 +62,12 @@ test('CL-UI-26 (3): card state row appends the dominant known failure reason',()
   assert.equal(zh.v2FailReasonSuffix({state:'NOT_EVALUABLE',day:unknownDay},null),'');
   assert.equal(zh.v2FailReasonSuffix({state:'GUIDANCE_SATISFIED',day:rainDay},null),'');
   assert.equal(zh.v2FailReasonSuffix(null,null),'');
-  // Render path consumes the helper in the card state row (CL-UI-50: on a
-  // NOT_EVALUABLE day the suffix is used instead of repeating the label).
-  assert.match(appSource,/esc\(v2StateLabel\)\+esc\(v2FailReasonSuffix\(v2Best,spot\)\)/);
-  assert.match(appSource,/v2Best\.state==='NOT_EVALUABLE'\?\(v2NotEvalReason\?esc\(d\(\)\[v2NotEvalReason\]\):esc\(v2FailReasonSuffix\(v2Best,spot\)\)\)/);
+  // CL-UI-63: the card no longer renders the long-sentence suffix — the
+  // short reason word comes from the subject-cards layer and the full
+  // sentence stays in the place modal day rows. The helper survives as the
+  // shared pure logic covered by the assertions above.
+  const cardBlock=appSource.slice(appSource.indexOf('function createSpotCard'),appSource.indexOf('function distanceToSpotKm'));
+  assert.equal(cardBlock.includes('v2FailReasonSuffix'),false,'card must not consume v2FailReasonSuffix (CL-UI-63)');
   // The winning day row is carried on the best object so card and day share
   // one source of conditions, plus the context genre.
   assert.match(appSource,/oppDays:o\.days\|\|\[\],day,genre:o\.genre_template/);
@@ -105,6 +107,6 @@ test('CL-UI-32: low-cloud fail reason copy pinned in all three languages',()=>{
 
 test('CL-UI-26 (6): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui68/);
-  assert.match(index,/assets\/app\.css\?v=clui68/);
+  assert.match(index,/assets\/app\.js\?v=clui71/);
+  assert.match(index,/assets\/app\.css\?v=clui71/);
 });

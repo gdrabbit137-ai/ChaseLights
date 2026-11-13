@@ -91,10 +91,11 @@ test('CL-UI-15 (2): per-card timezone row is removed from the card list',()=>{
   assert.match(appSource,/tzAbbrLabel\(tz\)/);
 });
 
-test('CL-UI-15 (3): forecast-status row omitted on GUIDANCE_SATISFIED cards',()=>{
-  // The row renders only for non-satisfied V2 evaluations.
-  assert.match(createSpotCardBlock,
-    /\$\{v2Best&&v2Best\.state!=='GUIDANCE_SATISFIED'\?`<div class="info-row forecast-status-row card-meta-row">/);
+test('CL-UI-15 (3): forecast-status row is retired on every card (CL-UI-63)',()=>{
+  // CL-UI-63: the long-sentence status line left the card entirely — the
+  // second line carries the verdict + short chips from the subject-cards layer.
+  assert.equal(/forecast-status-row/.test(createSpotCardBlock),false,
+    'card status list must not render the forecast-status row');
   // Grouping (CL-UI-12) and fail-closed (CL-UI-14) semantics are untouched.
   assert.match(appSource,/const v2Evaluated=!!v2Best;/);
   assert.match(createSpotCardBlock,/v2NoEvalReasonText\(spot\)/);

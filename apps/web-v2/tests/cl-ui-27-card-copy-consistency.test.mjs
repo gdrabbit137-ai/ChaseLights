@@ -43,10 +43,15 @@ test('CL-UI-27 (1): none-copy and next window render as ONE merged line', () => 
   assert.ok(!card.includes('best-window-row">${esc(d().v2_next_window)}'));
 });
 
-test('CL-UI-27 (2a): the card status row drops the 「預報狀態：」 prefix', () => {
+test('CL-UI-27 (2a): the long-sentence status row is retired (CL-UI-63 second line)', () => {
   const card = grab('function createSpotCard', 'function distanceToSpotKm');
-  assert.match(card, /forecast-status-row card-meta-row">\$\{v2StatusRow\}/);
+  assert.ok(!card.includes('forecast-status-row'), 'long-sentence status row left the card');
   assert.ok(!card.includes('forecast_status'), 'createSpotCard must not render d().forecast_status');
+  // The second line carries the verdict + short subject/reason chips from the
+  // subject-cards layer instead.
+  assert.match(card, /card-second-line/);
+  assert.match(card, /v2-verdict-ok/);
+  assert.match(card, /v2-verdict-bad/);
 });
 
 test('CL-UI-27 (2b): the visibility fail reason keeps one plain-language clause', () => {
@@ -96,7 +101,7 @@ test('CL-UI-27 (4): the metric-chip row is all-or-nothing', () => {
 });
 
 test('CL-UI-27 (5): index.html cache-bust stamp bumped to clui41', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui68/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui68/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui71/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui71/);
   assert.ok(!indexSource.includes('clui27'));
 });
