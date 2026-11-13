@@ -39,7 +39,7 @@ test('CL-UI-46 (1): the CL-UI-45 day strip + arrows are removed everywhere',()=>
   // Trigger keeps the strip's full-width row slot on mobile.
   const media=cssSource.slice(cssSource.indexOf('@media (max-width: 640px)'),cssSource.indexOf('.sub-btn.active'));
   assert.match(media,/\.day-picker-trigger\s*\{[^}]*width:\s*100%;/);
-  assert.match(media,/\.day-picker-trigger\s*\{[^}]*min-height:\s*44px;/,'≥44px tap target');
+  assert.match(media,/\.day-picker-trigger\s*\{[^}]*min-height:\s*48px;/,'≥44px tap target (CL-UI-81: 48px two-line pill)');
 });
 
 test('CL-UI-46 (2): trigger sits in the form-control family (.sort-select tokens)',()=>{
@@ -125,6 +125,6 @@ test('CL-UI-46 (7): new i18n keys exist in all three dictionaries',()=>{
 });
 
 test('CL-UI-46 (8): index.html cache-bust stamps tracked (app.css bumped to clui54 by CL-UI-49)',()=>{
-  assert.match(htmlSource,/assets\/app\.js\?v=clui79/);
-  assert.match(htmlSource,/assets\/app\.css\?v=clui79/);
+  assert.match(htmlSource,/assets\/app\.js\?v=clui84/);
+  assert.match(htmlSource,/assets\/app\.css\?v=clui84/);
 });
