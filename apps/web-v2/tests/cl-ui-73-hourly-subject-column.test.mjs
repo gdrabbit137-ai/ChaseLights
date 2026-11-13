@@ -122,10 +122,10 @@ test('CL-UI-73 (4): artifact shape — every row has fit/ok/no/unk buckets, reas
   assert.ok(fitHours > 1000, `fitting-hour count ${fitHours}`);
 });
 
-test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui76 stamps', () => {
+test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui77 stamps', () => {
   for (const cls of ['.td-subjects.subj-has', '.td-subjects.subj-ok-row', '.td-subjects.subj-no-row', '.subj-chip', '.timeline-mobile-subjects']) {
     assert.ok(cssSource.includes(cls), `css has ${cls}`);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui76/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui77/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui77/);
 });
