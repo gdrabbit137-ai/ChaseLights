@@ -2088,3 +2088,36 @@
 .cl-rem-btn:hover{border-color:rgba(255,255,255,.5)}
 .cl-rem-btn.cl-rem-on{border-color:#3fb950;color:#3fb950}
 .cl-rem-btn[data-rem-busy]{opacity:.55;pointer-events:none}
+
+/* CL-UI-66: list status-tier tabs ([✓推薦/○可拍/✗不宜/全部] with live
+   counts) and the horizontally scrollable subject-chip strip below them.
+   Both strips scroll on touch (390px-first); active state reuses the shared
+   #38bdf8 accent tokens. */
+.tier-tabs { margin: 8px 0 2px; }
+.tier-tab-bar {
+  display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding: 2px 0; scrollbar-width: none;
+}
+.tier-tab-bar::-webkit-scrollbar { display: none; }
+.tier-tab {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; border-radius: 999px; cursor: pointer; white-space: nowrap;
+  background: #0f172a; color: var(--text); border: 1px solid #334155;
+  font-size: 0.85rem; transition: all 0.2s ease;
+}
+.tier-tab:hover { border-color: #38bdf8; }
+.tier-tab.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; font-weight: 700; }
+.tier-tab-count { font-size: 0.75rem; opacity: 0.85; }
+.subject-chips { margin: 4px 0 10px; }
+.subject-chip-strip {
+  display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding: 2px 0; scrollbar-width: none;
+}
+.subject-chip-strip::-webkit-scrollbar { display: none; }
+.subject-chip {
+  flex: 0 0 auto; padding: 5px 10px; border-radius: 12px; cursor: pointer;
+  white-space: nowrap; background: #0f172a; color: var(--text);
+  border: 1px solid #334155; font-size: 0.78rem; transition: all 0.2s ease;
+}
+.subject-chip:hover { border-color: #38bdf8; }
+.subject-chip.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; font-weight: 700; }
