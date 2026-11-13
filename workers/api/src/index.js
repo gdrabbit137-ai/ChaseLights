@@ -1,7 +1,24 @@
 // ChaseLights API v1 (CL-API-01 base + CL-API-02 member system).
 // Results only — no thresholds/condition formulas.
 const ALLOWED_ORIGIN = "https://chaselights.app";
-const RATE_LIMIT = { max: 60, windowMs: 60_000 };
+// CL-API-07: class-based per-IP limits. A single 60/min bucket 429'd the
+// cheap read endpoints (1×/auth/me + 6×/favorites per page load) after a few
+// owner page switches, and the clients misread 429 as signed-out. Reads are
+// lenient (D1/KV reads are cheap); OAuth callbacks and token endpoints stay
+// strict; everything else keeps the original default.
+const RATE_LIMITS = {
+  read: { max: 600, windowMs: 60_000 },
+  auth: { max: 20, windowMs: 60_000 },
+  write: { max: 60, windowMs: 60_000 },
+};
+function rateClass(path, method) {
+  if (
+    method === "GET" &&
+    /^\/(auth\/me$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$)/.test(path)
+  ) return "read";
+  if (/^\/auth\/(line|google)\/callback$|^\/auth\/mock\/start$|^\/auth\/refresh$/.test(path)) return "auth";
+  return "write";
+}
 import {
   PROVIDERS, providerCredentials, oauthUserKey, makeTokens, getSession,
   cookieHeader, SESSION_COOKIE, REFRESH_COOKIE, authSecret, MERGE_SQL, verifyJWT,
@@ -34,13 +51,18 @@ function json(req, status, body, extraHeaders = {}) {
 }
 
 // naive per-isolate rate limiter (enough for v1; Redis-class precision later)
+// CL-API-07: one bucket per (class, ip) so a read burst can never consume the
+// strict auth-write budget, and vice versa.
 const buckets = new Map();
-function rateLimited(ip, now) {
-  const b = buckets.get(ip) || { count: 0, start: now };
-  if (now - b.start > RATE_LIMIT.windowMs) { b.count = 0; b.start = now; }
+function rateLimited(ip, path, method, now) {
+  const cls = rateClass(path, method);
+  const lim = RATE_LIMITS[cls];
+  const key = cls + ":" + ip;
+  const b = buckets.get(key) || { count: 0, start: now };
+  if (now - b.start > lim.windowMs) { b.count = 0; b.start = now; }
   b.count += 1;
-  buckets.set(ip, b);
-  return b.count > RATE_LIMIT.max;
+  buckets.set(key, b);
+  return b.count > lim.max;
 }
 
 async function getUser(env, userId) {
@@ -561,7 +583,7 @@ export default {
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(request) });
 
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-    if (rateLimited(ip, Date.now())) return json(request, 429, { error: "rate limited" });
+    if (rateLimited(ip, path, request.method, Date.now())) return json(request, 429, { error: "rate limited" });
 
     if (path === "/health") {
       return json(request, 200, { ok: true, service: "chaselights-api", version: "v2-auth", time: new Date().toISOString() });
