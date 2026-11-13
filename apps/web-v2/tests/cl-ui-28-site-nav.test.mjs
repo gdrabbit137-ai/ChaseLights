@@ -139,12 +139,12 @@ test('CL-UI-28 (8): nav i18n keys exist in all three dictionaries', () => {
   }
 });
 
-test('CL-UI-28 (9): index.html stamps tracked (CL-UI-58: app.js/app.css at clui68)', () => {
+test('CL-UI-28 (9): index.html stamps tracked (CL-UI-63: app.js/app.css at clui71)', () => {
   // CL-UI-53B: site-nav.css advanced to clui62 (site-nav.js stays clui41).
   assert.match(indexHtml, /assets\/site-nav\.css\?v=clui62/);
   assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui68/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui68/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui71/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui71/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });
 
