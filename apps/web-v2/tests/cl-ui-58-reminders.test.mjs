@@ -230,10 +230,10 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /<nav class="site-nav"/);
   assert.match(remHtml, /data-nav-target="reminders" data-active="page"/);
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui62/);
-  assert.match(remHtml, /assets\/app\.css\?v=clui74/);
+  assert.match(remHtml, /assets\/app\.css\?v=clui75/);
   assert.match(remHtml, /assets\/member-auth\.js\?v=clui68/);
-  assert.match(remHtml, /assets\/reminders-client\.js\?v=clui70/);
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui70/);
+  assert.match(remHtml, /assets\/reminders-client\.js\?v=clui75/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui75/);
   // Login panel + login deep links present (OAuth 302 anchors, per CL-UI-53).
   assert.match(remHtml, /rem-login-panel/);
   assert.match(pageJs, /\/api\/v1\/auth\/line\/start/);
@@ -242,9 +242,9 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /max-width: 390px/);
   assert.match(remHtml, /min-height:44px|min-height: 44px/);
   // The homepage loads the card-side client and carries the bumped stamps.
-  assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui70/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui74/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui74/);
+  assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui75/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui75/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui75/);
 });
 
 test('CL-UI-58 (9): worker PATCH route — enabled toggle is wired and scoped', () => {

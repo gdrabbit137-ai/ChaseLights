@@ -43,7 +43,7 @@ test('CL-UI-05 (a): no V2 evaluation fails closed to the conservative copy',()=>
     /v2Evaluated\?opportunityDisplayName\(spot,metric\.opportunity_id,theme,metric\.opportunity_name\):v2NoEvalReasonText\(spot\)/);
   // The fallback summary is the conservative pending copy only — no best window.
   assert.match(createSpotCardBlock,
-    /\$\{v2Summary\|\|`<div class="theme-winner">📷 \$\{esc\(opportunityName\)\}<\/div>`\}/);
+    /\$\{clSummaryHtml\|\|v2Summary\|\|`<div class="theme-winner">📷 \$\{esc\(opportunityName\)\}<\/div>`\}/);
   // The no-evaluation branch of the summary shows no legacy best-window row.
   const v2SummaryBlock=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');
   const noneBranch=v2SummaryBlock.slice(v2SummaryBlock.indexOf('(v2Best?'));
