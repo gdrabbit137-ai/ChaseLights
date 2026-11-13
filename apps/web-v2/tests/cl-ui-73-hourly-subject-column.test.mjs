@@ -55,8 +55,8 @@ test('CL-UI-73 (1): tri-lingual column header + the column rides after the statu
   const row = appSource.slice(rowIdx, rowIdx + 3200);
   assert.ok(row.includes('<td class="td-subjects ${subjCell.cls}">${subjCell.html}</td>'), 'subjects <td>');
   assert.ok(row.indexOf('eval2_unk') < row.indexOf('td-subjects'), 'after the status cell');
-  // mobile card carries the same line
-  assert.ok(row.includes('timeline-mobile-subjects ${subjCell.cls}'), 'mobile subjects line');
+  // CL-UI-82: the mobile card carries the subject on the mainline (能拍：題材名)
+  assert.ok(row.includes('tm-mainline-subj'), 'mobile mainline subject line');
 });
 
 test('CL-UI-73 (2): helper semantics on the committed artifact (tw-142 安平漁人碼頭)', () => {
@@ -134,10 +134,10 @@ test('CL-UI-73 (4): artifact shape — every row has fit/ok/no/unk/na buckets, r
   assert.ok(fitHours > 1000, `fitting-hour count ${fitHours}`);
 });
 
-test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui86 stamps', () => {
+test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui87 stamps', () => {
   for (const cls of ['.td-subjects.subj-has', '.td-subjects.subj-ok-row', '.td-subjects.subj-na-row', '.td-subjects.subj-no-row', '.subj-chip', '.subj-na', '.timeline-mobile-subjects']) {
     assert.ok(cssSource.includes(cls), `css has ${cls}`);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui86/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui86/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui87/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui87/);
 });

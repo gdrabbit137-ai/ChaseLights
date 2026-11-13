@@ -118,8 +118,8 @@ test('CL-UI-75 (3): strip layout CSS — one horizontal row, fixed-width cells, 
   const mobile = cssSource.slice(cssSource.indexOf('@media (max-width:390px)'), cssSource.indexOf('@media (max-width:390px)') + 600);
   assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:2px 1px;gap:2px\}/);
   assert.doesNotMatch(mobile, /flex:1 1/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui86/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui86/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui87/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui87/);
 });
 
 // ---- (4) real-browser probe: 390px and desktop -------------------------------

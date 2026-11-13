@@ -145,7 +145,9 @@ test('CL-UI-14 F6: visibility at the data cap is labelled, not shown as a bare n
   assert.ok(appSource.includes("vis_cap:'≥ 24 km (data cap)'"));
   assert.ok(appSource.includes("vis_cap:'≥ 24 km（データ上限）'"));
   const rowBlock=grab('(spot.hourly_forecast||[])','decorateWeatherTimeline(spot');
-  assert.match(rowBlock,/\$\{visibilityText\(item\.visibility\)\?\?'—'\}/);
+  // CL-UI-82: the mobile details render the cap via visCellHtml (short value
+  // + tooltip) — the full cap string still resolves through visibilityText.
+  assert.match(rowBlock,/\$\{visCellHtml\(item\.visibility\)\}/);
 });
 
 test('CL-UI-14 F7: a single timezone convention (GMT+8) across card and modal',()=>{
@@ -199,7 +201,9 @@ test('CL-UI-14 U4: modal date switch re-evaluates the same source the cards use'
 test('CL-UI-14 U3: mobile usability — sticky time column, larger targets, summary first',()=>{
   assert.match(cssSource,/\.terminal-table th:first-child,\.terminal-table td:first-child\{position:sticky;left:0/);
   assert.match(cssSource,/max-width:640px[\s\S]*?\.modal-day-btn\{min-height:40px/);
-  assert.match(cssSource,/max-width:640px[\s\S]*?\.timeline-mobile-time\{font-size:\.92rem\}/);
+  // CL-UI-82: the mobile time/status keep the 14px semibold audit token —
+  // the ≤640px font-size override now pins the token size, not .92rem.
+  assert.match(cssSource,/max-width:640px[\s\S]*?\.timeline-mobile-time\{font-size:14px\}/);
   // The summary (date switch + per-day overview) renders before the hourly
   // table. CL-UI-72: the headline block is gone — day tabs lead.
   const modalBlock=block('function renderWeatherModal','function closeModal');

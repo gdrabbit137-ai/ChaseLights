@@ -71,7 +71,7 @@ test('CL-UI-78 (2): wmDayBanner renders 11 月 14 日 週六 style labels per la
 
 test('CL-UI-78 (3): rows carry hour-only stamps; a banner row opens each local date', () => {
   const rowIdx = appSource.indexOf('(spot.hourly_forecast||[]).forEach(item=>{');
-  const row = appSource.slice(rowIdx, rowIdx + 2600);
+  const row = appSource.slice(rowIdx, rowIdx + 4200);
   // hour-only stamp on the desktop row and the mobile card
   assert.ok(row.includes('${item.time.slice(-5)}'), 'row time is HH:MM only');
   assert.ok(!row.includes('<td>${item.time}'), 'full datetime no longer in the row');
@@ -136,12 +136,16 @@ test('CL-UI-78 (6): ≤768px card layout + audit anchors (CSS)', () => {
   const showIdx = cssSource.indexOf('.timeline-mobile { display: block; }', hideIdx);
   assert.ok(showIdx > 0, 'mobile cards shown on ≤768px');
   assert.ok(cssSource.slice(hideIdx, showIdx).length < 400, 'hide/show are adjacent rules in the same query');
-  // card spec: 12px padding, 8px radius, 8px card gap; time 14px semibold
-  assert.match(cssSource, /\.timeline-mobile-card \{[^}]*border-radius: 8px;[^}]*padding: 12px;[^}]*margin-bottom: 8px;/s);
-  assert.match(cssSource, /\.timeline-mobile-time \{ font-size: 14px; color: #e2e8f0; font-weight: 600; \}/);
-  // collapsed details + toggle
-  assert.match(cssSource, /\.timeline-mobile-details \{ display: none; \}/);
-  assert.match(cssSource, /\.timeline-mobile-card\.tm-details-open \.timeline-mobile-details \{ display: block;/);
+  // card spec (CL-UI-82): 8px radius (var), compact padding, 8px card gap;
+  // time 14px semibold in the fixed 64px left column
+  assert.match(cssSource, /\.timeline-mobile-card \{[^}]*border-radius: var\(--hour-card-radius\);[^}]*padding: 7px 12px 7px 15px;[^}]*margin-bottom: var\(--hour-card-gap\);/s);
+  assert.match(cssSource, /\.timeline-mobile-time \{ font-size: var\(--hour-card-status-fs\); color: #e2e8f0; font-weight: 600; width: var\(--hour-card-time-w\); flex: none; line-height: 1\.3; \}/);
+  // CL-UI-82: 3px left status band + native <details> 「詳細氣象」
+  assert.match(cssSource, /\.timeline-mobile-card::before \{[^}]*width: var\(--hour-card-band-w\);/s);
+  assert.match(cssSource, /\.timeline-mobile-card\.tm-st-ok::before \{ background: #22C55E; \}/);
+  assert.match(cssSource, /\.timeline-mobile-card\.tm-st-bad::before \{ background: #EF4444; \}/);
+  assert.match(cssSource, /\.timeline-mobile-card\.tm-st-outside::before \{ background: #64748B; \}/);
+  assert.match(cssSource, /details\.tm-details \{ margin-top: 2px; border-top: 1px solid #2A3441; \}/);
   // P1-1: fixed 88px visibility column
   assert.match(cssSource, /\.terminal-table th\.col-vis, \.terminal-table td\.col-vis \{ width: 88px; min-width: 88px; max-width: 88px; \}/);
   // P1-2: the recommend tier tab is green, never blue
@@ -157,13 +161,17 @@ test('CL-UI-78 (6b): audit app.js anchors — short vis cell + collapsible card'
   const row = appSource.slice(rowIdx, rowIdx + 3200);
   assert.ok(row.includes('${visCellHtml(item.visibility)}'), 'desktop row uses the short vis cell');
   assert.ok(row.includes('class="key-metric td-vis"'), 'vis cell carries the fixed-width class');
-  // P1-3: card face = time/status + clouds + temp; rest collapses into ⋯ 詳情
-  const cardIdx = appSource.indexOf('timeline-mobile-head');
-  const card = appSource.slice(cardIdx, cardIdx + 2600);
+  // P1-3 + CL-UI-82: card face = time (64px col) / mainline status+subject /
+  // plain-language weather line; raw values collapse into <details>.
+  const cardIdx = appSource.indexOf("card.className=`timeline-mobile-card");
+  const card = appSource.slice(cardIdx, cardIdx + 3200);
   assert.ok(card.indexOf('timeline-mobile-time') < card.indexOf('timeline-mobile-status'), 'time before status');
-  assert.ok(card.includes('timeline-mobile-quick-clouds') && card.includes('timeline-mobile-quick-temp'), 'clouds+temp quick row');
-  assert.ok(card.includes("classList.toggle('tm-details-open')"), 'details toggle');
-  assert.ok(card.includes('timeline-mobile-details'), 'details container');
+  assert.ok(card.includes('timeline-mobile-plain'), 'plain-language weather line');
+  assert.ok(card.includes('<details class="tm-details"'), 'native details 「詳細氣象」');
+  assert.ok(card.includes('tmDetailsOpen'), 'open state restored from tmRestoreOpen');
+  assert.ok(!card.includes("classList.toggle('tm-details-open')"), 'old class-toggle retired');
+  // dedupe: mobile 一般拍攝 chip is hidden by default, revealed only on ✅
+  assert.ok(card.includes('tm-subj-general" hidden'), 'general chip hidden by default');
   // new i18n key in all three dictionaries
   assert.equal(appSource.split("wm_details:'").length - 1, 3, 'wm_details in all three dicts');
 });
