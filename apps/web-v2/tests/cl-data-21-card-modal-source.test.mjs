@@ -24,15 +24,13 @@ const here=path.dirname(fileURLToPath(import.meta.url));
 const repo=path.resolve(here,'..','..','..');
 const appSource=readFileSync(path.join(repo,'assets','app.js'),'utf8');
 
-test('CL-DATA-21 (a): the weather-modal 「最佳」 badge is GONE (CL-UI-78 owner ruling)',()=>{
-  // The blue pill (tag-best) and its best-row tint explained nothing to
-  // users; ranking info lives in the 適合題材 chips (same V2 bundle via
-  // v2HourSubjectCell). The legacy summaryMetric window must also never
-  // select any best-hour tag.
-  assert.ok(!appSource.includes('tag-best'),'tag-best pill must be gone');
-  assert.ok(!appSource.includes('tag_best'),'tag_best i18n key must be gone');
-  assert.ok(!appSource.includes('best-row'),'best-row tint must be gone');
-  assert.ok(!appSource.includes('v2WmHours'),'modal best-hour V2 set must be gone with the badge');
+test('CL-DATA-21 (a): the weather-modal 「最佳」 badge follows the CL-UI-81 GREEN contract',()=>{
+  // CL-INT-163: 78 removed the blue pill; 81 reintroduced the marker as a
+  // GREEN semantic (V2-effective-hour driven). The legacy summaryMetric
+  // window path must still never select any best-hour tag.
+  assert.ok(appSource.includes('tag-best')&&appSource.includes("tag_best:'最佳'"),'green tag-best badge present (81)');
+  assert.ok(!/#38bdf8|#1d4ed8|#3b82f6/.test(appSource.match(/tag-best[^`]*`/)?.[0]||''),'no blue pill markup');
+  assert.ok(appSource.includes('best-row')&&appSource.includes('v2WmHours'),'best-row tint driven by the V2 hour set');
   assert.ok(!appSource.includes('summaryMetric?.window_start&&item.time>='),'legacy window_start best-tag must stay gone');
 });
 

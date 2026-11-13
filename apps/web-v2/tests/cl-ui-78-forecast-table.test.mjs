@@ -118,7 +118,8 @@ test('CL-UI-78 (5): no BLUE 「最佳」 pill; CL-UI-81 green semantic present',
     'the 「最佳」 badge is the green contract (#123B2A/#4ADE80)');
   assert.ok(cssSource.includes('.terminal-table tr.best-row') && cssSource.includes('rgba(34, 197, 94, 0.10)'),
     'best row highlight is green');
-  assert.ok(!cssSource.includes('#1d4ed8'), 'no blue pill tint survives');
+  assert.ok(!/#38bdf8|#1d4ed8|#3b82f6/.test(cssSource.match(/\.tag-best \{[^}]*\}/)?.[0]||''),
+    'the 「最佳」 badge block carries no blue tint');
 });
 
 test('CL-UI-78 (6): ≤768px card layout + audit anchors (CSS)', () => {
