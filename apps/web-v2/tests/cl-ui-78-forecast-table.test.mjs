@@ -142,7 +142,8 @@ test('CL-UI-78 (6): ≤768px card layout + audit anchors (CSS)', () => {
   // P1-1: fixed 88px visibility column
   assert.match(cssSource, /\.terminal-table th\.col-vis, \.terminal-table td\.col-vis \{ width: 88px; min-width: 88px; max-width: 88px; \}/);
   // P1-2: the recommend tier tab is green, never blue
-  assert.match(cssSource, /\.tier-tab\.active \{ background: #123B2A; color: #4ADE80; border-color: #166534;/);
+  // CL-INT-163: 81's P2-1 pill shape — border: 1.5px solid (semantic still GREEN)
+  assert.match(cssSource, /\.tier-tab\.active \{ background: #123B2A; color: #4ADE80; border: 1\.5px solid #166534;/);
   assert.ok(!cssSource.includes('.tier-tab.active { background: #38bdf8'), 'no blue recommend tab');
 });
 
