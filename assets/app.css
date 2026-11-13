@@ -677,25 +677,26 @@
     }
     
     .terminal-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; white-space: nowrap; color: #ffffff; }
+    /* CL-UI-78: the modal hourly table only — tighter cell padding so the
+       reordered columns fit 1280px with zero horizontal scroll. */
+    .timeline-table-wrap .terminal-table th,
+    .timeline-table-wrap .terminal-table td { padding: 6px 5px; }
     .terminal-table th, .terminal-table td { padding: 6px 8px; text-align: left; border-bottom: 1px solid #222; }
     .terminal-table th { background: #141414; color: #ff79c6; position: sticky; top: 0; }
     
     .terminal-table tr.past-row { color: #888888 !important; background: #080808; }
-    .terminal-table td:first-child { min-width: 96px; }
-    .terminal-table tr.best-row { background: rgba(56, 189, 248, 0.22); border-left: 3px solid #38bdf8; color: #ffffff !important; }
+    /* CL-UI-78: time cell carries only HH:MM (date lives in the group banner). */
+    .terminal-table td:first-child { min-width: 48px; }
     .tag-past { font-size: 0.7rem; color: #aaa; border: 1px solid #555; padding: 1px 4px; border-radius: 3px; }
-    .tag-best {
-      display:inline-block;
-      margin-left:5px;
-      padding:1px 5px;
-      border-radius:4px;
-      border:1px solid rgba(56,189,248,.72);
-      background:rgba(56,189,248,.16);
+    /* CL-UI-78: date-group banner — the date renders once per local date. */
+    .wm-date-row td {
+      background:#141c2b;
       color:#7dd3fc;
-      font-size:.66rem;
       font-weight:800;
-      letter-spacing:.02em;
-      vertical-align:middle;
+      font-size:.78rem;
+      letter-spacing:.04em;
+      border-bottom:1px solid #2b3442;
+      padding:5px 8px;
     }
 
     /* CL-UI-73: hourly 適合題材 column — green = a subject fits this hour,
@@ -728,10 +729,14 @@
       margin-bottom: 9px;
     }
     .timeline-mobile-card.past-row { opacity: .58; background: #080808; }
-    .timeline-mobile-card.best-row {
-      background: rgba(56, 189, 248, 0.14);
-      border-color: #38bdf8;
-      box-shadow: inset 3px 0 0 #38bdf8;
+    /* CL-UI-78: mobile date-group banner. */
+    .timeline-mobile-day {
+      color:#7dd3fc;
+      font-weight:800;
+      font-size:.8rem;
+      margin:10px 2px 4px;
+      padding-bottom:3px;
+      border-bottom:1px dashed #2b3442;
     }
     .timeline-mobile-head {
       display: flex;
@@ -2046,7 +2051,6 @@
 .terminal-table th:first-child,.terminal-table td:first-child{position:sticky;left:0;z-index:1}
 .terminal-table td:first-child{background:#0c0c0c}
 .terminal-table tr.past-row td:first-child{background:#080808}
-.terminal-table tr.best-row td:first-child{background:#12304a}
 #modal-close-mobile{display:none}
 /* CL-UI-34: collapsed data-source panel at the modal bottom (deep layer). */
 .modal-provenance{border:1px solid #1e293b;border-radius:9px;margin-top:12px;background:rgba(15,23,42,.45);font-size:.76rem}
