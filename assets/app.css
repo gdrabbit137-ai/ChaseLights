@@ -822,7 +822,18 @@
       .timeline-mobile { display: block; }
       .modal-summary { font-size: .76rem; }
     }
-    .place-guide-modal { max-width: 820px; background: #111827; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    /* CL-UI-79 + design-review-1 P1-1: the place-detail modal is 1180px
+       (designer ruling, supersedes the earlier 1080px figure) — at a 1280px
+       viewport the 8 day cells (90px min each + gaps + padding) fit and the
+       in-cell day labels never overlap. The strip itself uses a max-content
+       grid below so it can never overflow its track. */
+    .place-guide-modal { max-width: 1180px; background: #111827; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    /* CL-UI-79: the place-detail modal was 820px wide — at a 1280px viewport
+       the 8 day cells (90px min each + gaps + padding) could not fit inside
+       the modal body, so the in-cell day labels (「11/14」) overlapped and the
+       hour-window text clipped. 1080px leaves comfortable whitespace at
+       1280px while fitting 8 content-sized cells; the strip itself uses a
+       max-content grid below so it can never overflow its track. */
     .place-guide-time-note { color:#94a3b8; font-size:.78rem; margin-bottom:10px; line-height:1.45; }
     .place-guide-section-title { color:#e2e8f0; font-size:.88rem; font-weight:800; margin-bottom:8px; }
     .place-guide-intro { color:#94a3b8; font-size:.84rem; margin-bottom:12px; line-height:1.5; }
@@ -2043,6 +2054,14 @@
 .timeline-legend .legend-outside{color:#94a3b8}
 .astro-missing{color:#64748b;font-size:.74rem}
 .legend-item.legend-astro{color:#64748b;font-size:.74rem}
+/* CL-UI-79 + design-review-1 P1-1: the modal hourly table keeps a 1080px
+   min-width inside its own horizontally-scrolling wrapper, so the 能見度
+   column (fixed 88px) can never be clipped by the modal's right edge — the
+   wrapper scrolls instead. Scoped to the modal table; the homepage
+   .terminal-table is untouched. */
+.timeline-table-wrap{overflow-x:auto}
+.timeline-table-wrap .terminal-table{min-width:1080px}
+.terminal-table .td-vis{width:88px;min-width:88px;max-width:88px}
 .terminal-table th:first-child,.terminal-table td:first-child{position:sticky;left:0;z-index:1}
 .terminal-table td:first-child{background:#0c0c0c}
 .terminal-table tr.past-row td:first-child{background:#080808}
@@ -2129,12 +2148,21 @@
 /* CL-UI-76: desktop (>=768px) cells size to their content — the 46px fixed
    width is the 390px-first compact tier (CL-UI-75) and truncates
    「今天 ✓9 06:00 0」 on wide viewports. Desktop keeps the one-line layout
-   with a 90–110px content-sized cell; the abbreviated window text displays
-   in full. Mobile (<768px) keeps the 46px horizontal-scroll tier untouched. */
+   with a 90px-min content-sized cell; the abbreviated window text displays
+   in full. Mobile (<768px) keeps the 46px horizontal-scroll tier untouched.
+   CL-UI-79: the desktop tier becomes a max-content GRID — every column is at
+   least 90px and grows to its text's max-content width, so a cell can never
+   be narrower than its own text (no ellipsis, no overlapping 「1114」 day
+   labels, no clipped 「06:00–11:00」 windows). If the 8 content-sized columns
+   plus gaps ever exceed the modal body (narrow desktop 768–1080px), the
+   strip scrolls horizontally — shrinking the type is the next fallback,
+   never clipping. With the CL-UI-79 1080px modal the heaviest 8-cell strip
+   fits without scrolling. */
 @media (min-width:768px){
-  .v2-strip-cell{width:auto;min-width:90px;max-width:110px;padding:5px 8px;font-size:.72rem;gap:3px}
-  .v2-strip-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .v2-strip-day{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .v2-day-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(90px,max-content);justify-content:space-between}
+  .v2-strip-cell{width:auto;min-width:90px;padding:5px 8px;font-size:.72rem;gap:3px}
+  .v2-strip-day{overflow:visible;text-overflow:clip}
+  .v2-strip-text{overflow:visible;text-overflow:clip}
 }
 .v2-strip-cell.v2-ok{border-color:rgba(63,185,80,.55)}
 .v2-strip-cell.v2-bad{border-color:rgba(248,81,73,.55)}
@@ -2151,7 +2179,7 @@
 .v2-cond-caret{display:inline-block;margin-left:6px;transition:transform .15s}
 .v2-cond-details[open] .v2-cond-caret{transform:rotate(90deg)}
 .v2-cond-details .v2-conditions{margin-top:6px}
-.place-hourly-link{display:inline-block;margin-top:12px;color:#9ecbff;text-decoration:none;font-size:.85rem}
+.place-hourly-link{display:inline-block;margin-top:12px;padding:0;background:none;border:none;font-family:inherit;color:#9ecbff;text-decoration:none;font-size:.85rem;cursor:pointer}
 .place-hourly-link:hover{text-decoration:underline}
 @media (max-width:390px){
   /* CL-UI-75: at 390px the strip stays ONE horizontal row of fixed-width
