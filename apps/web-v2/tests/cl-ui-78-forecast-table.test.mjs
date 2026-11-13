@@ -152,7 +152,7 @@ test('CL-UI-78 (6b): audit app.js anchors — short vis cell + collapsible card'
   const rowIdx = appSource.indexOf('(spot.hourly_forecast||[]).forEach(item=>{');
   const row = appSource.slice(rowIdx, rowIdx + 3200);
   assert.ok(row.includes('${visCellHtml(item.visibility)}'), 'desktop row uses the short vis cell');
-  assert.ok(row.includes('class="key-metric col-vis"'), 'vis cell carries the fixed-width class');
+  assert.ok(row.includes('class="key-metric td-vis"'), 'vis cell carries the fixed-width class');
   // P1-3: card face = time/status + clouds + temp; rest collapses into ⋯ 詳情
   const cardIdx = appSource.indexOf('timeline-mobile-head');
   const card = appSource.slice(cardIdx, cardIdx + 2600);

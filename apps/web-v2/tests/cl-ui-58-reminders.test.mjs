@@ -230,7 +230,7 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /<nav class="site-nav"/);
   assert.match(remHtml, /data-nav-target="reminders" data-active="page"/);
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui62/);
-  assert.match(remHtml, /assets\/app\.css\?v=clui84/);
+  assert.match(remHtml, /assets\/app\.css\?v=clui85/);
   assert.match(remHtml, /assets\/member-auth\.js\?v=clui81/);
   assert.match(remHtml, /assets\/reminders-client\.js\?v=clui83/);
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui75/);
@@ -243,8 +243,8 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /min-height:44px|min-height: 44px/);
   // The homepage loads the card-side client and carries the bumped stamps.
   assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui83/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui84/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui84/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui85/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui85/);
 });
 
 test('CL-UI-58 (9): worker PATCH route — enabled toggle is wired and scoped', () => {

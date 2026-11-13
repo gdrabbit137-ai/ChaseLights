@@ -159,9 +159,20 @@ test('CL-UI-64 (4): 拍攝條件/成立條件 collapses into an accordion (defau
   assert.ok(block.includes('</details>'));
 });
 
-test('CL-UI-64 (5): bottom hourly-forecast exit link carries region + place_id (spot)', () => {
-  assert.match(appSource, /<a class="place-hourly-link" href="\.\/weather-map\.html\?region=\$\{esc\(String\(spot\.spot_id\|\|''\)\.split\('-'\)\[0\]\)\}&spot=\$\{esc\(spot\.spot_id\|\|''\)\}">/);
+test('CL-UI-64 (5): bottom hourly-forecast control stays on-page (CL-UI-79 owner ruling)', () => {
+  // CL-UI-79: the control is a BUTTON, not an anchor — it must never
+  // navigate away to weather-map.html. It opens the same-page weather
+  // forecast modal for this place (or smooth-scrolls to a future in-modal
+  // hourly table).
+  assert.doesNotMatch(appSource, /<a class="place-hourly-link"/);
+  assert.doesNotMatch(appSource, /place-hourly-link"[^>]*href=/);
+  assert.match(appSource, /<button type="button" class="place-hourly-link" id="place-hourly-btn" data-spot-id="\$\{esc\(spot\.spot_id\|\|''\)\}">/);
   assert.match(appSource, /\$\{esc\(d\(\)\.v2_hourly_link\)\}/);
+  const handler = grab("if(hourlyBtn)hourlyBtn.addEventListener('click'", "decorateV2Eval(spot)");
+  assert.ok(handler.includes('openWeatherModal(latest'), 'fallback opens the same-page forecast modal');
+  assert.ok(handler.includes("scrollIntoView({behavior:'smooth'"), 'in-modal table preference: smooth scroll');
+  const modalBlock = grab('function openPlaceModal(spot,summaryMetric){', 'function syncModalScrollLock()');
+  assert.ok(!modalBlock.includes('weather-map.html'), 'no navigation to weather-map from the place modal');
 });
 
 test('CL-UI-64 (6): i18n keys exist in all three dictionaries', () => {
@@ -193,6 +204,6 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
   assert.match(appCss, /\.v2-day-strip\{[^}]*overflow-x:auto/);
   assert.match(appCss, /\.v2-strip-cell\{[^}]*width:46px[^}]*box-sizing:border-box/);
   assert.match(appCss, /\.v2-strip-text\{[^}]*white-space:nowrap[^}]*text-overflow:ellipsis/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui84/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui84/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui85/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui85/);
 });
