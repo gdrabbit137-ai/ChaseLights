@@ -58,7 +58,7 @@ test('CL-UI-11 (c): after restore, data still updates through the single gated r
   const calls = (applyDataBlock.match(/filterAndRender\(\)/g) || []).length;
   assert.equal(calls, 1, 'applyData must still call filterAndRender exactly once');
   assert.match(applyDataBlock,
-    /ensureV2EvalBundle\(\)\.then\(\(\)=>\{if\(seq===activeLoadSequence&&region===currentRegion\)filterAndRender\(\);\}\);return true;\}/);
+    /ensureV2EvalBundle\(\)\.then\(bundle=>\{if\(seq===activeLoadSequence&&region===currentRegion\)\{filterAndRender\(\);/);
   // The snapshot is written only after the settled gated render: inside
   // filterAndRender, after cards (or the empty state) are on screen.
   const filterBlock = block('function filterAndRender', 'function opportunityScoreClass');
