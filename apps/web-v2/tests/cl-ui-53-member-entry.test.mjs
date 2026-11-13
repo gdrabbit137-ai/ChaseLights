@@ -138,10 +138,10 @@ test('CL-UI-53 (5): signed-out shows 登入 + menu; signed-in shows display name
   assert.match(jsSource, /fetchMember\(\)\.then\(render\)/);
 });
 
-test('CL-UI-55: cache-bust stamp ?v=clui67 on member-auth.js on all four shell pages (CL-UI-56 bumped)', () => {
-  for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html']) {
+test('CL-UI-55/60: cache-bust stamp ?v=clui68 on member-auth.js on all shell pages (CL-UI-60 bumped)', () => {
+  for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html', 'reminders.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    assert.match(src, /assets\/member-auth\.js\?v=clui67/, `${page} loads member-auth.js?v=clui66`);
+    assert.match(src, /assets\/member-auth\.js\?v=clui68/, `${page} loads member-auth.js?v=clui68`);
     assert.match(src, /data-member-area/, `${page} carries the masthead member area`);
   }
   const stamps = [...htmlSource.matchAll(/\?v=(clui\d+)/g)].map(m => Number(m[1].slice(4)));
