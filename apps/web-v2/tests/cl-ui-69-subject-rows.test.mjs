@@ -72,8 +72,11 @@ test('CL-UI-69 (1): per-subject rows replace the second-line chips when the laye
   assert.match(createSpotCardBlock, /scMoreBtn\.onclick=e=>\{e\.stopPropagation\(\);/);
   assert.match(createSpotCardBlock, /card\.onclick=e=>\{if\(e\.target\.closest&&e\.target\.closest\('a,button,input,select,summary'\)\)return;openPlaceModal\(spot,metric\);\};/);
   // The row summary wins over the fallback lines when the layer is loaded.
-  assert.match(createSpotCardBlock, /class="shooting-summary">\$\{clSummaryHtml\|\|v2Summary\|\|/);
-  // Degraded path (subject-cards file unavailable) keeps the CL-UI-63 line.
+  // CL-UI-71: the fallback is the SAME row format (clFallbackRows), never the
+  // retired CL-UI-63 second line.
+  assert.match(createSpotCardBlock, /class="shooting-summary">\$\{clSummaryHtml\|\|clFallbackRows\|\|v2Summary\|\|/);
+  assert.match(createSpotCardBlock, /const clFallbackRows=/);
+  // Degraded path (subject-cards file unavailable) keeps a tier line.
   assert.match(createSpotCardBlock, /card-second-line/);
 });
 
@@ -145,7 +148,7 @@ test('CL-UI-69 (5): the reminder icon is 🔔 only (owner ruling) — compact to
 
 test('CL-UI-69 (6): 390px row rules ship and the page serves the bumped stamps', () => {
   assert.match(appCss, /@media \(max-width:390px\)\{\n  \.cl-subject-row\{font-size:\.74rem\}/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui75/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
   assert.match(indexSource, /assets\/app\.css\?v=clui75/);
   assert.match(indexSource, /assets\/reminders-client\.js\?v=clui75/);
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui75/);

@@ -47,10 +47,10 @@ test('CL-UI-27 (2a): the long-sentence status row is retired (CL-UI-63 second li
   const card = grab('function createSpotCard', 'function distanceToSpotKm');
   assert.ok(!card.includes('forecast-status-row'), 'long-sentence status row left the card');
   assert.ok(!card.includes('forecast_status'), 'createSpotCard must not render d().forecast_status');
-  // The second line carries the verdict + short subject/reason chips from the
-  // subject-cards layer instead.
+  // The second line carries the tier verdict (CL-UI-65 three-tier); the
+  // ✓-green ok line retired with the old format (CL-UI-71).
   assert.match(card, /card-second-line/);
-  assert.match(card, /v2-verdict-ok/);
+  assert.match(card, /v2-verdict-mid/);
   assert.match(card, /v2-verdict-bad/);
 });
 
@@ -101,7 +101,7 @@ test('CL-UI-27 (4): the metric-chip row is all-or-nothing', () => {
 });
 
 test('CL-UI-27 (5): index.html cache-bust stamp bumped to clui41', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui75/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
   assert.match(indexSource, /assets\/app\.css\?v=clui75/);
   assert.ok(!indexSource.includes('clui27'));
 });

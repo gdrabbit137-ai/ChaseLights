@@ -82,7 +82,8 @@ test('CL-UI-20 B3: v2_best_subject_tomorrow / _after exist in all three dicts',(
 
 test('CL-UI-20 B4: the best-subject label follows the day tab via v2BestSubjectKey',()=>{
   assert.ok(appSource.includes("const v2BestSubjectKey=()=>currentDayFilter==='tomorrow'?'v2_best_subject_tomorrow':currentDayFilter==='after_tomorrow'?'v2_best_subject_after':isFarDay(currentDayFilter)?'v2_best_subject_far':'v2_best_subject';"));
-  assert.ok(appSource.includes('${esc(d()[v2BestSubjectKey()])}${esc(stripSpotNamePrefix(v2Best.name,spot,v2PlaceData?[v2PlaceData]:[]))}'));
+  // CL-UI-71: the old best-subject card line is retired (dict keys remain).
+  assert.ok(!appSource.includes('${esc(d()[v2BestSubjectKey()])}${esc(stripSpotNamePrefix'),'retired template must be gone');
 });
 
 test('CL-UI-20 B5: the mobile modal close button is keyed to i18n',()=>{

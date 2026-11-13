@@ -200,7 +200,12 @@ test('CL-UI-18 B2: 03:21 homepage "today" tab — card evaluates 11/05, not the 
   const cards=c.children.filter(x=>x.className==='card');
   assert.equal(cards.length,1,'the 11/05 05:00 hour makes the spot viable on the today tab at 03:21');
   const html=cards[0]._html;
-  assert.ok(html.includes('符合時數 1'),'card counts the re-anchored today hours');
+  // CL-UI-71: the viable card renders the uniform fallback row —
+  // 「○ 可拍: 05:00 🔔」 (same anatomy as curated subject rows), not the
+  // retired 「本日最佳題材＋符合時數」 line.
+  assert.ok(html.includes('○ 可拍'),'card renders the same-format shootable fallback row');
+  assert.ok(html.includes('符合時數 1')===false,'the retired 符合時數 chip never renders');
+  assert.ok(html.includes('本日最佳')===false,'the retired 本日最佳題材 line never renders');
   assert.ok(html.includes('05:00'),'card window is the 11/05 05:00 block');
   assert.ok(!html.includes('17:00'),'the stale 11/04 17:00 window never renders');
   assert.ok(!html.includes('2026-11-05'),'no raw ISO date — page-header 11/05 convention only');
