@@ -71,7 +71,9 @@ class DictionaryCoverageTests(unittest.TestCase):
 
     def test_dominant_reason_rule_is_documented(self):
         rule = self.fails_doc["dominant_reason_rule"]
-        self.assertEqual(rule["rule_version"], "1.0")
+        # CL-UI-70: rule_version 1.1 — window metrics abstain when the window
+        # occurred; qualification metrics never vote at place-day level.
+        self.assertEqual(rule["rule_version"], "1.1")
         for lang in ("zh-TW", "en"):
             self.assertGreater(len(rule[lang]), 40)
 
@@ -86,7 +88,7 @@ class DerivedArtifactTests(unittest.TestCase):
     def test_provenance(self):
         d = self.artifact["derived_from"]
         self.assertEqual(d["generator"], "data/v2/tools/build_subject_cards.py")
-        self.assertEqual(d["rule_version"], "1.0")
+        self.assertEqual(d["rule_version"], "1.1")
         self.assertTrue((EVAL_DIR / d["source_bundle"]).exists())
 
     def test_generator_determinism_fresh_derivation_equals_artifact(self):

@@ -5,15 +5,15 @@
  "words": {
   "aod_550nm": {"zh-TW": "霾", "en": "haze", "ja": "霞"},
   "astronomical_darkness": {"zh-TW": "天不夠暗", "en": "not dark enough", "ja": "暗さ不足"},
-  "blue_hour_window": {"zh-TW": "時段不對", "en": "wrong time window", "ja": "時間帯が合わない"},
-  "city_night_window": {"zh-TW": "時段不對", "en": "wrong time window", "ja": "時間帯が合わない"},
+  "blue_hour_window": {"zh-TW": "非拍攝時段", "en": "outside shooting window", "ja": "撮影時間帯外"},
+  "city_night_window": {"zh-TW": "非拍攝時段", "en": "outside shooting window", "ja": "撮影時間帯外"},
   "cloud_cover_low": {"zh-TW": "低雲", "en": "low cloud", "ja": "低い雲"},
   "cloud_cover_mid": {"zh-TW": "厚雲", "en": "thick cloud", "ja": "厚い雲"},
   "cloud_cover_mid_and_high": {"zh-TW": "厚雲", "en": "thick cloud", "ja": "厚い雲"},
   "cloud_cover_total": {"zh-TW": "陰", "en": "overcast", "ja": "曇り"},
-  "daylight_window": {"zh-TW": "時段不對", "en": "wrong time window", "ja": "時間帯が合わない"},
+  "daylight_window": {"zh-TW": "非拍攝時段", "en": "outside shooting window", "ja": "撮影時間帯外"},
   "galactic_core_altitude": {"zh-TW": "銀河偏低", "en": "galactic core too low", "ja": "銀河中心が低い"},
-  "golden_hour_window": {"zh-TW": "時段不對", "en": "wrong time window", "ja": "時間帯が合わない"},
+  "golden_hour_window": {"zh-TW": "非拍攝時段", "en": "outside shooting window", "ja": "撮影時間帯外"},
   "landform_present": {"zh-TW": "地形不合", "en": "landform not present", "ja": "地形条件外"},
   "lcl_height_m_agl": {"zh-TW": "雲底低", "en": "low cloud base", "ja": "雲底が低い"},
   "legacy_drift_ice": {"zh-TW": "無流冰", "en": "no drift ice", "ja": "流氷なし"},
@@ -22,7 +22,7 @@
   "legacy_reflection": {"zh-TW": "條件不合", "en": "conditions not met", "ja": "条件が満たされず"},
   "legacy_tide": {"zh-TW": "潮位不合", "en": "tide not in range", "ja": "潮位が適域外"},
   "light_direction": {"zh-TW": "光向不合", "en": "wrong light direction", "ja": "光の向きが悪い"},
-  "light_window": {"zh-TW": "光線不對", "en": "wrong light", "ja": "光の時間外"},
+  "light_window": {"zh-TW": "非日照時段", "en": "outside daylight hours", "ja": "日照時間帯外"},
   "moon_altitude": {"zh-TW": "月位置", "en": "moon position", "ja": "月の位置"},
   "moon_illuminance_proxy": {"zh-TW": "月太亮", "en": "moon too bright", "ja": "月明るすぎ"},
   "moon_illumination_fraction": {"zh-TW": "月太亮", "en": "moon too bright", "ja": "月明るすぎ"},
@@ -37,8 +37,8 @@
   "relative_humidity_925hpa": {"zh-TW": "濕度不合", "en": "humidity not in range", "ja": "湿度が適域外"},
   "river_flow_state": {"zh-TW": "溪水不佳", "en": "river conditions wrong", "ja": "川の状態が悪い"},
   "seasonal_state": {"zh-TW": "非季節", "en": "off-season", "ja": "季節外れ"},
-  "sunrise_time_window": {"zh-TW": "時段不對", "en": "wrong time window", "ja": "時間帯が合わない"},
-  "sunset_window": {"zh-TW": "時段不對", "en": "wrong time window", "ja": "時間帯が合わない"},
+  "sunrise_time_window": {"zh-TW": "非拍攝時段", "en": "outside shooting window", "ja": "撮影時間帯外"},
+  "sunset_window": {"zh-TW": "非拍攝時段", "en": "outside shooting window", "ja": "撮影時間帯外"},
   "temperature_2m": {"zh-TW": "氣溫不合", "en": "temperature out of range", "ja": "気温が適域外"},
   "temperature_delta_700_600_c": {"zh-TW": "大氣不合", "en": "atmosphere not in range", "ja": "大気条件外"},
   "temperature_delta_850_700_c": {"zh-TW": "大氣不合", "en": "atmosphere not in range", "ja": "大気条件外"},
@@ -102,9 +102,9 @@
   "legacy_reflection"
  ],
  "dominant_reason_rule": {
-  "zh-TW": "同日同地多題材失敗時，主導原因＝各失敗題材「最核心被違反條件」的票數最高者。每個失敗題材（該日 state=UNFAVORABLE）先依此順序選出一個核心違反 metric：(1) day_verdict=FAIL 的條件中 metric_priority 最前者（同分時 REQUIRED 優於 QUALITY、MAIN 優於其他 tier、再取契約宣告順序）；(2) 無 FAIL 時取 REQUIRED+MAIN 的 UNKNOWN；(3) 再無則取 pass_hours=0 的 PARTIAL；都不是則該題材不投票。得票最高者為主導原因；同票取 metric_priority 較前者；再同取 metric id 字序。該日全數符合（suitable）或全數無法評估時 dominant_reason=null。",
-  "en": "For a place-day with multiple failed subjects, the dominant reason is the metric most voted as each failed subject's MOST CORE violated condition. Each failed subject (day state=UNFAVORABLE) casts one vote for a single metric, chosen in order: (1) among day_verdict=FAIL conditions, the earliest in metric_priority (ties: REQUIRED before QUALITY, MAIN before other tiers, then contract declaration order); (2) else a REQUIRED+MAIN UNKNOWN; (3) else a PARTIAL with pass_hours=0; otherwise the subject abstains. Highest vote count wins; ties break to the earlier metric_priority entry, then metric id order. dominant_reason=null when every subject that day is suitable or not evaluable.",
-  "note": "metric_priority[0..32] reuses the shipped V2_FAIL_PRIORITY order from assets/app.js so the data layer can never contradict the live card UX; the remaining entries extend it for metrics that exist in contracts but not in that legacy list.",
-  "rule_version": "1.0"
+  "zh-TW": "同日同地多題材失敗時，主導原因＝各失敗題材「最核心被違反條件」的票數最高者。每個失敗題材（該日 state=UNFAVORABLE）先依此順序選出一個核心違反 metric：(1) day_verdict=FAIL 的條件中 metric_priority 最前者（同分時 REQUIRED 優於 QUALITY、MAIN 優於其他 tier、再取契約宣告順序）；(2) 無 FAIL 時取 REQUIRED+MAIN 的 UNKNOWN；(3) 再無則取 pass_hours=0 的 PARTIAL；都不是則該題材不投票。窗類條件（sunrise/sunset/golden/blue/city_night_window、light_window、astronomical_darkness、daylight_window）在窗有發生（pass_hours>0）時不投票——窗內失敗的主因是天氣，主導詞必為天氣短詞（卡片並以「下一個符合時段」帶出窗口導引）；僅當窗未發生（pass_hours=0）且無天氣類條件 FAIL/PARTIAL 時才投票，用中性詞「非拍攝時段」。資格類條件（seasonal_state/landform_present/light_direction）屬單題材資格，不參與日層投票，其原因只留在題材展開區。得票最高者為主導原因；同票取 metric_priority 較前者；再同取 metric id 字序。該日全數符合（suitable）或全數無法評估時 dominant_reason=null。",
+  "en": "For a place-day with multiple failed subjects, the dominant reason is the metric most voted as each failed subject's MOST CORE violated condition. Each failed subject (day state=UNFAVORABLE) casts one vote for a single metric, chosen in order: (1) among day_verdict=FAIL conditions, the earliest in metric_priority (ties: REQUIRED before QUALITY, MAIN before other tiers, then contract declaration order); (2) else a REQUIRED+MAIN UNKNOWN; (3) else a PARTIAL with pass_hours=0; otherwise the subject abstains. Time-window metrics (sunrise/sunset/golden/blue/city_night_window, light_window, astronomical_darkness, daylight_window) abstain when the window occurred (pass_hours>0) — the real cause is then weather, so the dominant word is a weather word (the card adds the next qualifying window as guidance); they vote only when the window never happened (pass_hours=0) AND no weather-class condition shows a FAIL/PARTIAL, with the neutral wording 'outside shooting window'. Qualification metrics (seasonal_state/landform_present/light_direction) are per-subject eligibility: they never vote at place-day level and stay in the modal's per-subject expansion rows. Highest vote count wins; ties break to the earlier metric_priority entry, then metric id order. dominant_reason=null when every subject that day is suitable or not evaluable.",
+  "note": "metric_priority[0..32] reuses the shipped V2_FAIL_PRIORITY order from assets/app.js so the data layer can never contradict the live card UX; the remaining entries extend it for metrics that exist in contracts but not in that legacy list. CL-UI-70 (CHALLENGER-13): window-class metrics vote only for a genuinely absent window; qualification-class metrics are excluded from the day vote (rule_version 1.1).",
+  "rule_version": "1.1"
  }
 }
