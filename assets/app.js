@@ -1307,7 +1307,7 @@
     }
     // CL-UI-72 (owner ruling): the modal summary sentence
     // (「今天…起還有 n 小時適合拍攝；後天…條件更好」) and the blue
-    // 「🎯 下一個符合時段」 banner are removed — the date tabs + per-day
+    // 「下一個符合時段」 banner are removed — the date tabs + per-day
     // rows below already carry that information and were hard to read.
     // The headline helper and its i18n keys are retired with the block.
     function modalDayRow(label,info,scRow){
@@ -2172,7 +2172,7 @@
       const dayLabels=summaryData?summaryData.labels:[d().eval2_d0,d().eval2_d1,d().eval2_d2];
       const overviewRows=summaryData?summaryData.dayInfos.map((info,i)=>modalDayRow(dayLabels[i],info,v2SubjectCardRow(summaryData.place.place_id,info&&info.date))).join(''):`<div class="modal-day-none">${esc(d().modal_window_none)}</div>`;
       // CL-UI-72 (owner ruling): the long summary sentence and the blue
-      // 「🎯 下一個符合時段」 banner are gone — the date tabs + per-day rows
+      // 「下一個符合時段」 banner are gone — the date tabs + per-day rows
       // below are the primary surface for this information.
       // CL-UI-33: the render path needs the spot timezone, but `tz` was only a
       // local of modalSummaryData — referencing it here threw
@@ -2287,6 +2287,13 @@
       segs.push([st,en]);
       const fmt=v=>String(Math.floor(v/60)).padStart(2,'0')+':'+String(v%60).padStart(2,'0');
       return segs.map(sg=>sg[0]===sg[1]?fmt(sg[0]):fmt(sg[0])+'–'+fmt(sg[1])).join(listSep());
+    }
+    // CL-UI-75: the 8-day strip abbreviates WHOLE-hour range segments —
+    // 06:00–14:00 → 06–14 — while a lone stamp keeps its full 17:00 form
+    // (a bare 17 would be ambiguous). Strip-only: the card and modal rows
+    // keep the full unabbreviated segments.
+    function compactHourSegmentsText(text){
+      return String(text||'').split(listSep()).map(seg=>seg.includes('–')?seg.replace(/:00/g,''):seg).join(listSep());
     }
     function v2ContractThreshold(c){
       const th=c.threshold;
@@ -2703,33 +2710,33 @@
     // CL-UI-64: compact 8-day strip — one row of day cells replacing the
     // previous 8 long rows.
     // CL-UI-68 (owner ruling): the info lives INSIDE the cell — two lines
-    // (day label + text). Met days show the qualifying-hour count plus the
-    // hour segments; unmet days show 未符·short reason; unknown days show the
-    // honest label. The bare color bar with the info hidden in a hover title
-    // is retired — no title= information carrier, no click-to-reveal note.
-    // CL-UI-67: nextNote (the spot-local re-anchored 「🎯 下一個符合時段」)
-    // is no longer a standalone row nor a hover — it renders as a small badge
-    // INSIDE the FIRST qualifying cell. When no day in the strip qualifies,
-    // there is no qualifying box to attribute it to and the note is omitted
-    // with the row.
-    function v2DayStripHtml(days,labels,tz,spot,genre,opportunityId,nextNote=''){
-      let nextIdx=-1;
-      if(nextNote){for(let i=0;i<(days||[]).length;i++){if(days[i]&&days[i].state==='GUIDANCE_SATISFIED'){nextIdx=i;break;}}}
+    // (day label + text). The bare color bar with the info hidden in a hover
+    // title is retired — no title= information carrier, no click-to-reveal note.
+    // CL-UI-75 (owner ruling): the 「下一個符合時段」 in-cell badge
+    // (CL-UI-67) is retired at EVERY breakpoint — the next-window info is
+    // carried by the 今日速覽 quick-view window line. Cells go fully compact:
+    // met days show a ✓n qualifying-hours badge plus an abbreviated window
+    // (06:00–14:00 → 06–14), unmet days show ✗short-reason, unknown days keep
+    // the honest label. The strip stays ONE horizontal row of fixed-width
+    // cells (horizontally scrollable at 390px) so no text ever reflows into a
+    // one-character-per-line vertical column; the full unabbreviated segments
+    // stay on the card and modal rows (compactHourSegmentsText is strip-only).
+    function v2DayStripHtml(days,labels,tz,spot,genre,opportunityId){
       const cells=(days||[]).map((day,i)=>{
         const cls=day.state==='GUIDANCE_SATISFIED'?'v2-ok':day.state==='NOT_EVALUABLE'?'v2-unk':'v2-bad';
         const lab=day.state==='GUIDANCE_SATISFIED'?d().eval2_ok:day.state==='NOT_EVALUABLE'?d().eval2_unk:d().eval2_bad;
         const title=labels[i]||day.local_date;
         const hoursList=v2EffectiveHours(day,tz);
         const hours=hoursList.length;
-        const goodList=hours?formatHourSegments(hoursList):'';
+        const fullList=hours?formatHourSegments(hoursList):'';
+        const goodList=compactHourSegmentsText(fullList);
         const reason=(day.state!=='GUIDANCE_SATISFIED')?v2ShortReasonWord(day,spot,genre,opportunityId):'';
-        const text=(day.state==='GUIDANCE_SATISFIED')
-          ?`${d().eval2_hours} ${hours}${goodList?` · ${goodList}`:''}`
-          :(reason?`${lab}·${reason}`:lab);
-        const nextTail=(i===nextIdx&&nextNote)?` · 🎯 ${nextNote}`:'';
-        const aria=`${title} ${text}${nextTail}`;
-        const nextBadge=(i===nextIdx&&nextNote)?`<span class="v2-strip-next">🎯 ${esc(nextNote)}</span>`:'';
-        return `<button type="button" class="v2-strip-cell ${cls}" data-idx="${i}" data-label="${esc(title)}" data-verdict="${esc(lab)}" data-reason="${esc(reason)}" data-hours="${hours}" aria-label="${esc(aria)}"><span class="v2-strip-day">${esc(title)}</span><span class="v2-strip-text">${esc(text)}</span>${nextBadge}</button>`;
+        const aria=(day.state==='GUIDANCE_SATISFIED')
+          ?`${title} ${d().eval2_hours} ${hours}${fullList?` · ${fullList}`:''}`
+          :(reason?`${title} ${lab}·${reason}`:`${title} ${lab}`);
+        const hoursBadge=(day.state==='GUIDANCE_SATISFIED')?`<span class="v2-strip-hours">✓${hours}</span>`:'';
+        const text=(day.state==='GUIDANCE_SATISFIED')?goodList:(reason?`✗${reason}`:lab);
+        return `<button type="button" class="v2-strip-cell ${cls}" data-idx="${i}" data-label="${esc(title)}" data-verdict="${esc(lab)}" data-reason="${esc(reason)}" data-hours="${hours}" aria-label="${esc(aria)}"><span class="v2-strip-day">${esc(title)}</span>${hoursBadge}<span class="v2-strip-text">${esc(text)}</span></button>`;
       }).join('');
       return `<div class="v2-day-strip" role="group">${cells}</div>`;
     }
@@ -2930,21 +2937,14 @@
           if(!opp||!(opp.days||[]).length){el.innerHTML=`<div class="v2-eval-block"><div class="v2-note">${esc(d().eval2_none)}</div></div>`;return;}
           // CL-DATA-06: show the full 7-day evaluation window — CL-UI-64 as a
           // compact strip, CL-UI-68 as text-in-cell boxes (day label + verdict/
-          // segment text; the next-window badge on the first qualifying cell)
-          // instead of the previous 8 long rows.
-          const live=opp.live||{};
+          // segment text) instead of the previous 8 long rows.
           const days=opp.days.slice(0,DAY_KEYS.length);
           const labels=evalDayLabels(spot.timezone,DAY_KEYS.length);
-          // CL-UI-67/CL-UI-68 (owner ruling): the standalone 「⏱ now — 未符」
-          // row and the 「🎯 下一個符合時段」 row are gone — the strip is
-          // self-explaining. The next-window info survives as a small badge
-          // INSIDE the first qualifying cell — no hover needed (CL-UI-22
-          // re-anchor preserved:
-          // v2NextWindowLocal against the spot's local now, never a stale
-          // bundle value; with no still-future window nothing is attached).
-          const nextLocal=v2NextWindowLocal(opp.days||[],v2LocalNow(spot.timezone),live.next_good?live.next_good.local:'');
-          const nextNote=nextLocal?`${d().v2_next_window}${nextWindowStamp(nextLocal,spot.timezone)}`:'';
-          const dayHtml=v2DayStripHtml(days,labels,spot.timezone,spot,opp.genre_template||'',opp.opportunity_id,nextNote);
+          // CL-UI-75 (owner ruling): the 「下一個符合時段」 in-cell badge
+          // is retired at every breakpoint — the strip is the per-day
+          // assessment and the next-window info is carried by the 今日速覽
+          // quick-view window line (fail-closed preserved: no window, no display).
+          const dayHtml=v2DayStripHtml(days,labels,spot.timezone,spot,opp.genre_template||'',opp.opportunity_id);
           el.innerHTML=`<div class="v2-eval-block">${dayHtml}</div>`;
           // CL-UI-68: the cell text IS the info — no click-to-reveal note line.
           decorateV2CondLive(spot,el);

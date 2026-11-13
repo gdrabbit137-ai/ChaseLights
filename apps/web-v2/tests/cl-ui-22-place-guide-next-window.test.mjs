@@ -22,16 +22,18 @@ const grab=(start,end)=>{
 
 test('CL-UI-22 (a): place-guide modal v2-next uses v2NextWindowLocal with the spot timezone',()=>{
   const v2PlaceBlock=grab('function v2PlaceForSpot','async function cleanupOldCaches');
-  // The row value comes from the same re-anchor helper as the weather modal,
-  // fed with the spot's own timezone (never a hardcoded zone).
-  assert.match(v2PlaceBlock,/v2NextWindowLocal\(opp\.days\|\|\[\],v2LocalNow\(spot\.timezone\),live\.next_good\?live\.next_good\.local:''\)/);
-  // CL-UI-67 (owner ruling): the standalone v2-next row is gone — the
-  // re-anchored window rides on the FIRST qualifying strip cell's hover
-  // title instead, still labelled with the shared v2_next_window wording
-  // and only when a validated future value exists (fail-closed preserved).
+  // CL-UI-75: the strip's next-window wiring is retired; the surviving
+  // re-anchor is the card's v2Best.nextLocal (createSpotCard), fed with the
+  // spot's own timezone (never a hardcoded zone).
+  assert.match(appSource,/best\.nextLocal=v2NextWindowLocal\(best\.oppDays,v2LocalNow\(tz\),ng\?ng\.local:''\);/);
+  // CL-UI-67 (owner ruling): the standalone v2-next row is gone.
+  // CL-UI-75 (owner ruling): the 🎯 next-window badge is retired from the
+  // strip at every breakpoint — the next-window info on the place-guide
+  // modal is carried by the 今日速覽 quick-view window line, and the only
+  // remaining re-anchored stamp lives on the card's theme-winner rows.
   assert.doesNotMatch(v2PlaceBlock,/v2-next/);
-  assert.match(v2PlaceBlock,/const nextNote=nextLocal\?`\$\{d\(\)\.v2_next_window\}\$\{nextWindowStamp\(nextLocal,spot\.timezone\)\}`:''/);
-  assert.match(v2PlaceBlock,/v2DayStripHtml\(days,labels,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id,nextNote\)/);
+  assert.doesNotMatch(v2PlaceBlock,/nextNote|v2-strip-next|🎯/);
+  assert.match(v2PlaceBlock,/v2DayStripHtml\(days,labels,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id\)/);
 });
 
 test('CL-UI-22 (b): place-guide modal no longer shows the raw bundle next_good stamp',()=>{
@@ -46,7 +48,9 @@ test('CL-UI-22 (c): no other live.next_good rendering path skips the re-anchor',
   // going through v2NextWindowLocal first. CL-UI-72 retired the third read
   // (modalSummaryData) with the banner it fed.
   const reads=[...appSource.matchAll(/(opp\.live&&opp\.live\.next_good)|(best\.live&&best\.live\.next_good)|(live\.next_good\?live\.next_good\.local)/g)].map(m=>m.index);
-  assert.equal(reads.length,2,'unexpected number of live.next_good reads');
+  // CL-UI-75: the strip-badge wiring's read is retired — createSpotCard's is
+  // the only remaining read, and it feeds v2NextWindowLocal (asserted above).
+  assert.equal(reads.length,1,'unexpected number of live.next_good reads');
   for(const idx of reads){
     const windowText=appSource.slice(idx-200,idx+800);
     assert.match(windowText,/v2NextWindowLocal/,`next_good read at ${idx} must feed v2NextWindowLocal`);
@@ -55,6 +59,6 @@ test('CL-UI-22 (c): no other live.next_good rendering path skips the re-anchor',
 
 test('CL-UI-22 (d): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui77/);
-  assert.match(index,/assets\/app\.css\?v=clui77/);
+  assert.match(index,/assets\/app\.js\?v=clui78/);
+  assert.match(index,/assets\/app\.css\?v=clui78/);
 });

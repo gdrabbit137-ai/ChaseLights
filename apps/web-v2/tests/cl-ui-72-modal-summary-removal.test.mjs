@@ -43,17 +43,19 @@ test('CL-UI-72 (3): CSS rules for the removed block are gone',()=>{
 });
 
 test('CL-UI-72 (4): the daily strip keeps its concise two-line format',()=>{
-  // Owner convention: short words, no long sentence stacking. The strip cell
-  // text stays 「符合時數 n · hour segments」 / 「未符·short reason」; the 🎯
-  // next-window badge inside the first qualifying cell (CL-UI-67) survives.
+  // Owner convention: short words, no long sentence stacking. CL-UI-75
+  // (owner ruling) retired the 🎯 next-window in-cell badge at every
+  // breakpoint — the compact cell copy (✓n hours badge, ✗short-reason,
+  // abbreviated 06–14 window) is the only in-cell info now.
   const strip=grab('function v2DayStripHtml','// CL-UI-64: top');
   assert.ok(strip.includes('eval2_hours'));
   assert.ok(strip.includes('v2ShortReasonWord'));
-  assert.ok(strip.includes('v2-strip-next'),'CL-UI-67 badge inside the first qualifying cell survives');
+  assert.ok(!strip.includes('v2-strip-next') && !strip.includes('🎯'),
+    'CL-UI-75: the 🎯 next-window badge is retired from the strip');
   assert.ok(!/modal_headline/.test(strip));
 });
 
 test('CL-UI-72 (5): cache-bust bumped in the same commit',()=>{
-  assert.match(htmlSource,/assets\/app\.js\?v=clui77/);
-  assert.match(htmlSource,/assets\/app\.css\?v=clui77/);
+  assert.match(htmlSource,/assets\/app\.js\?v=clui78/);
+  assert.match(htmlSource,/assets\/app\.css\?v=clui78/);
 });

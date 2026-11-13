@@ -50,7 +50,7 @@ test('CL-UI-67 (3): dead CSS for the removed rows is gone',()=>{
   assert.ok(!cssSource.includes('.v2-title'));
 });
 
-test('CL-UI-67 (4): next window rides INSIDE the first qualifying cell (badge, no hover)',()=>{
+test('CL-UI-67 (4): compact strip cells — no 🎯 next-window badge anywhere (CL-UI-75 owner ruling)',()=>{
   const helperCode=grab('function v2DominantFailMetric','function ensureV2Detail');
   const prelude=`
     const V2_EVAL_METRICS={'zh-TW':{},en:{},ja:{}};
@@ -63,9 +63,10 @@ test('CL-UI-67 (4): next window rides INSIDE the first qualifying cell (badge, n
     const localDateString=()=>'2026-11-13';
     const selectedDayOffset=()=>0;
     const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    const d=()=>({eval2_hours:'符合時數',eval2_ok:'符合',eval2_bad:'未符',eval2_unk:'資料不足',v2_next_window:'下一個符合時段：'});
+    const d=()=>({eval2_hours:'符合時數',eval2_ok:'符合',eval2_bad:'未符',eval2_unk:'資料不足'});
     const listSep=()=>'、';
-    const formatHourSegments=list=>(list||[]).join('、');
+    const formatHourSegments=list=>(list||[]).length>1?list[0]+'–'+list[list.length-1]:(list||[]).join('、');
+    const compactHourSegmentsText=text=>String(text||'').split('、').map(seg=>seg.includes('–')?seg.replace(/:00/g,''):seg).join('、');
     const v2EffectiveHours=(day)=>((day&&day.good_hours)||[]);
     const v2BestForSpot=null;
   `;
@@ -73,37 +74,32 @@ test('CL-UI-67 (4): next window rides INSIDE the first qualifying cell (badge, n
   const days=[
     {local_date:'2026-11-13',state:'UNFAVORABLE',good_hours:[],conditions:[]},
     {local_date:'2026-11-14',state:'GUIDANCE_SATISFIED',good_hours:['17:00'],conditions:[]},
-    {local_date:'2026-11-15',state:'GUIDANCE_SATISFIED',good_hours:['06:00'],conditions:[]},
+    {local_date:'2026-11-15',state:'GUIDANCE_SATISFIED',good_hours:['06:00','07:00','08:00'],conditions:[]},
   ];
-  const withNote=fns.v2DayStripHtml(days,['今天','明天','後天'],'Asia/Taipei',{spot_id:'jp-003'},'cloud_sea','jp-003-P01','下一個符合時段：後天 11/15 06:00');
-  const cells=withNote.match(/<button[\s\S]*?<\/button>/g)||[];
+  // CL-UI-75: the strip no longer takes a next-note at all — a caller that
+  // still passes one gets the identical compact strip (no 🎯 anywhere).
+  const html=fns.v2DayStripHtml(days,['今天','明天','後天'],'Asia/Taipei',{spot_id:'jp-003'},'cloud_sea','jp-003-P01');
+  const cells=html.match(/<button[\s\S]*?<\/button>/g)||[];
   assert.equal(cells.length,3);
-  // CL-UI-68: the FIRST qualifying cell (明天, idx 1) carries the note as an
-  // in-cell badge — no hover/title carrier anywhere in the strip; the earlier
-  // 未符 cell does not carry it, and the second qualifying cell doesn't repeat.
-  assert.ok(!cells[0].includes('下一個符合時段'),'no badge on the non-qualifying cell');
-  assert.ok(cells[1].includes('<span class="v2-strip-next">🎯 下一個符合時段：後天 11/15 06:00</span>'),'badge inside the first qualifying cell');
-  assert.ok(!cells[2].includes('下一個符合時段'),'note is not repeated on later qualifying cells');
-  assert.ok(!withNote.includes('title='),'no hover title information carrier');
-  // aria-label mirrors the in-cell text + badge (screen-reader parity).
-  assert.match(withNote,/aria-label="明天 符合時數 1 · 17:00 · 🎯 下一個符合時段：後天 11\/15 06:00"/);
-  // In-cell text is present on every cell (CL-UI-68 unified format).
+  assert.ok(!html.includes('下一個符合時段') && !html.includes('🎯'),
+    'the next-window badge is retired at every breakpoint');
+  assert.ok(!html.includes('v2-strip-next'),'no badge span anywhere in the strip');
+  assert.ok(!html.includes('title='),'no hover title information carrier');
+  // aria-label keeps the FULL qualifying-hours wording (screen-reader parity).
+  assert.match(html,/aria-label="明天 符合時數 1 · 17:00"/);
+  // In-cell text is compact: met = ✓n hours badge + abbreviated window;
+  // unmet = ✗short-reason; a lone whole-hour stamp keeps 17:00, a range
+  // compresses to 06–08.
+  assert.ok(cells[1].includes('<span class="v2-strip-hours">✓1</span>'),'hours badge, not a sentence');
+  assert.ok(cells[1].includes('<span class="v2-strip-text">17:00</span>'),'lone stamp keeps its full form');
+  assert.ok(cells[2].includes('<span class="v2-strip-hours">✓3</span>'),'hours badge on the second met cell');
+  assert.ok(cells[2].includes('<span class="v2-strip-text">06–08</span>'),'range window abbreviated 06:00–08:00 → 06–08');
   assert.ok(cells[0].includes('<span class="v2-strip-text">未符</span>'),'unmet cell text present');
-  assert.ok(cells[1].includes('<span class="v2-strip-text">符合時數 1 · 17:00</span>'),'met cell text present');
-
-  // No qualifying day in the strip → nothing to attach the note to; the strip
-  // stays clean (the note is omitted together with the row).
-  const badDays=days.map(day=>({...day,state:'UNFAVORABLE',good_hours:[]}));
-  const noNote=fns.v2DayStripHtml(badDays,['今天','明天','後天'],'Asia/Taipei',{spot_id:'jp-003'},'cloud_sea','jp-003-P01','下一個符合時段：後天 11/15 06:00');
-  assert.ok(!noNote.includes('下一個符合時段'));
-
-  // Empty nextNote (no still-future window): titles unchanged, no note.
-  const plain=fns.v2DayStripHtml(days,['今天','明天','後天'],'Asia/Taipei',{spot_id:'jp-003'},'cloud_sea','jp-003-P01','');
-  assert.ok(!plain.includes('下一個符合時段'));
+  assert.ok(!cells[0].includes('✗'),'no reason word on the stub — the plain label stays');
 });
 
 test('CL-UI-67 (5): cache-bust stamp bumped for the edited app.js/app.css',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui77/);
-  assert.match(index,/assets\/app\.css\?v=clui77/);
+  assert.match(index,/assets\/app\.js\?v=clui78/);
+  assert.match(index,/assets\/app\.css\?v=clui78/);
 });

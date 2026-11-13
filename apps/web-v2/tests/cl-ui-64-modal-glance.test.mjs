@@ -57,6 +57,7 @@ test('CL-UI-64 (2): quick-view helpers render short chips / short word only', ()
     const d=()=>({v2_quick_none:'尚無速覽資料',eval2_hours:'符合時數',eval2_ok:'符合',eval2_bad:'未符',eval2_unk:'資料不足'});
     const listSep=()=>'、';
     const formatHourSegments=list=>(list||[]).join('、');
+    const compactHourSegmentsText=text=>String(text||'').split('、').map(seg=>seg.includes('–')?seg.replace(/:00/g,''):seg).join('、');
     const v2EffectiveHours=(day)=>((day&&day.good_hours)||[]);
     const v2BestForSpot=null;
   `;
@@ -107,6 +108,7 @@ test('CL-UI-68 (3): 8-day strip — info written INSIDE the cell (two lines), no
     const d=()=>({eval2_hours:'符合時數',eval2_ok:'符合',eval2_bad:'未符',eval2_unk:'資料不足'});
     const listSep=()=>'、';
     const formatHourSegments=list=>(list||[]).join('、');
+    const compactHourSegmentsText=text=>String(text||'').split('、').map(seg=>seg.includes('–')?seg.replace(/:00/g,''):seg).join('、');
     const v2EffectiveHours=(day)=>((day&&day.good_hours)||[]);
     const v2BestForSpot=null;
   `;
@@ -123,17 +125,23 @@ test('CL-UI-68 (3): 8-day strip — info written INSIDE the cell (two lines), no
   assert.equal(cells.length, 3, 'one cell per day row');
   assert.ok(html.includes('v2-ok') && html.includes('v2-bad') && html.includes('v2-unk'));
   assert.ok(html.includes('data-reason="降水"'), 'short reason word on the failed cell');
-  // CL-UI-68: the text lives INSIDE the cell — met: count + hour segments,
-  // unmet: 未符·short reason. No hover/title carrier, no click-to-reveal note.
-  assert.ok(html.includes('<span class="v2-strip-text">符合時數 1 · 17:00</span>'),
-    'met cell text: qualifying-hour count + hour segments');
-  assert.ok(html.includes('<span class="v2-strip-text">未符·降水</span>'),
-    'unmet cell text: 未符·short reason');
+  // CL-UI-68: the text lives INSIDE the cell — CL-UI-75 compact copy:
+  // met = ✓n qualifying-hours badge + abbreviated window, unmet = ✗short
+  // reason, unknown = the honest label. No hover/title carrier, no
+  // click-to-reveal note, no 🎯 badge (CL-UI-75 owner ruling).
+  assert.ok(html.includes('<span class="v2-strip-hours">✓1</span>'),
+    'met cell: qualifying-hour badge, not a sentence');
+  assert.ok(html.includes('<span class="v2-strip-text">17:00</span>'),
+    'met cell: lone whole-hour stamp keeps its full form');
+  assert.ok(html.includes('<span class="v2-strip-text">✗降水</span>'),
+    'unmet cell text: ✗short reason');
   assert.ok(html.includes('<span class="v2-strip-text">資料不足</span>'),
     'unknown cell text: the honest label');
   assert.ok(!html.includes('title='), 'no title attribute — hover is not the information carrier');
   assert.ok(!html.includes('v2-strip-note') && !html.includes('v2-strip-bar'),
     'click-to-reveal note and bare color bar retired');
+  assert.ok(!html.includes('🎯') && !html.includes('v2-strip-next'),
+    'CL-UI-75: the 🎯 next-window badge is retired at every breakpoint');
   // decorateV2Eval no longer wires a click -> note reveal.
   assert.ok(!appSource.includes("el.querySelectorAll('.v2-strip-cell').forEach(cell=>cell.addEventListener('click'"));
   // The modal no longer renders the 8 long day rows.
@@ -169,16 +177,22 @@ test('CL-UI-64 (6): i18n keys exist in all three dictionaries', () => {
 
 test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped', () => {
   for (const cls of ['.place-quick-view', '.quick-chip', '.quick-miss', '.v2-day-strip',
-    '.v2-strip-cell', '.v2-strip-text', '.v2-strip-next', '.v2-cond-details',
+    '.v2-strip-cell', '.v2-strip-text', '.v2-strip-hours', '.v2-cond-details',
     '.v2-cond-details[open]', '.place-hourly-link']) {
     assert.ok(appCss.includes(cls), 'css missing ' + cls);
   }
-  // CL-UI-68: the 390px tier self-sizes the text-in-cell boxes (wrap + text
-  // wrapping), the bare-bar tier is gone.
+  // CL-UI-75: the strip is ONE horizontal row of fixed-width cells that
+  // scrolls horizontally at 390px — no wrap tier, no vertical one-char
+  // reflow; the 🎯 badge CSS is retired with the badge.
   assert.ok(appCss.includes('@media (max-width:390px)'), '390px tier present');
   assert.ok(!appCss.includes('.v2-strip-bar') && !appCss.includes('.v2-strip-note'),
     'bare bar / note CSS retired');
-  assert.match(appCss, /\.v2-strip-text\{[^}]*overflow-wrap:anywhere/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui77/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui77/);
+  assert.ok(!appCss.includes('.v2-strip-next') && !appCss.includes('🎯'),
+    'CL-UI-75: next-window badge CSS retired');
+  assert.match(appCss, /\.v2-day-strip\{[^}]*flex-wrap:nowrap/);
+  assert.match(appCss, /\.v2-day-strip\{[^}]*overflow-x:auto/);
+  assert.match(appCss, /\.v2-strip-cell\{[^}]*width:46px[^}]*box-sizing:border-box/);
+  assert.match(appCss, /\.v2-strip-text\{[^}]*white-space:nowrap[^}]*text-overflow:ellipsis/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui78/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui78/);
 });
