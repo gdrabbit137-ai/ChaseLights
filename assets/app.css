@@ -2002,10 +2002,8 @@
 
 .v2-none{color:#c9d1d9}
 
-/* CL-UI-14: weather-modal consistency + user-view UI */
-.modal-headline{color:#f8fafc;font-size:.95rem;font-weight:800;line-height:1.55;margin-bottom:7px}
-.modal-next-window{color:#0f172a;background:#38bdf8;border-radius:8px;padding:8px 11px;font-weight:800;font-size:.86rem;margin-bottom:9px}
-.modal-next-window b{color:#082f49}
+/* CL-UI-14: weather-modal consistency + user-view UI.
+   CL-UI-72: the removed summary-sentence / next-window-banner rules are gone. */
 .modal-day-switch{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
 .modal-day-btn{padding:8px 14px;min-height:36px;border-radius:8px;border:1px solid #334155;background:#111827;color:#cbd5e1;font-weight:700;font-size:.8rem;cursor:pointer}
 .modal-day-btn:hover{border-color:#38bdf8;color:#e2e8f0}
@@ -2048,7 +2046,6 @@
 }
 .modal-close-mobile-btn{width:100%;min-height:46px;border-radius:10px;border:1px solid #334155;background:#111827;color:#e2e8f0;font-size:1rem;font-weight:800;cursor:pointer}
 @media (max-width:640px){
-  .modal-headline{font-size:.9rem}
   .modal-overview{font-size:.78rem;padding:8px 9px}
   .modal-day-row{font-size:.78rem}
   .modal-day-btn{min-height:40px;padding:9px 14px;font-size:.82rem}
