@@ -115,15 +115,15 @@ test('CL-UI-34 (5): index.html carries the collapsed panel, cards untouched, sta
   // CL-API-05: member-auth.js advanced to clui65 (CL-UI-55), so only site-nav.css still
   // carries a clui62 stamp on index.html.
   assert.equal((htmlSource.match(/\?v=clui62/g)||[]).length,1,'site-nav stamp stays at clui62');
-  // CL-UI-73: app.js + app.css advanced to clui79; member-auth.js stays at clui68 (CL-UI-60 refresh).
-  assert.equal((htmlSource.match(/\?v=clui68/g)||[]).length,1,'member-auth.js stays at clui68 after the CL-UI-63 app.js/app.css bump');
-  // CL-UI-61→CL-UI-69: reminders-client.js advanced past clui69 (CL-APP-03) to clui75.
-  assert.match(htmlSource,/reminders-client\.js\?v=clui75/,'reminders-client stamp bumped to clui75');
-  // CL-UI-73: app.js + app.css advanced to clui79; reminders-client.js stays at clui75.
+  // CL-UI-73: app.js + app.css advanced to clui79; member-auth.js stays at clui81 (CL-UI-60 refresh).
+  assert.equal((htmlSource.match(/\?v=clui81/g)||[]).length,1,'member-auth.js stays at clui81 after the CL-UI-63 app.js/app.css bump');
+  // CL-UI-61→CL-UI-69: reminders-client.js advanced past clui75 (CL-APP-03) to clui83 (CL-API-07).
+  assert.match(htmlSource,/reminders-client\.js\?v=clui83/,'reminders-client stamp bumped to clui83');
+  // CL-UI-73: app.js + app.css advanced to clui79; reminders-client.js stays at clui83.
   assert.equal((htmlSource.match(/\?v=clui79/g)||[]).length,2,'app.js + app.css both at clui79');
-  assert.equal((htmlSource.match(/\?v=clui75/g)||[]).length,1,'reminders-client.js is the only clui75 stamp left');
-  // CL-UI-57: favorites-client.js stays at clui67; member-auth.js advanced to clui68 (CL-UI-60 refresh).
-  assert.equal((htmlSource.match(/\?v=clui67/g)||[]).length,1,'favorites-client stamp stays at clui67');
+  assert.equal((htmlSource.match(/\?v=clui83/g)||[]).length,1,'reminders-client.js is the only clui83 stamp left');
+  // CL-UI-57: favorites-client.js stays at clui82; member-auth.js advanced to clui81 (CL-UI-60 refresh).
+  assert.equal((htmlSource.match(/\?v=clui82/g)||[]).length,1,'favorites-client stamp stays at clui82');
   // Render path and styles exist in app.js / app.css.
   assert.match(appSource,/function renderModalProvenance\(/);
   assert.match(appSource,/renderModalProvenance\(summarySpot\);/);

@@ -162,12 +162,12 @@ test('CL-UI-57 (5): parseMember carries the nested profile object; empty shape f
 test('CL-UI-57 (6): the edited V1 assets are cache-busted on their pages', () => {
   const index = readFileSync(join(ROOT, 'index.html'), 'utf8');
   assert.match(index, /assets\/app\.js\?v=clui79/);
-  // CL-UI-60: member-auth.js advanced to clui68 (silent refresh session renewal).
-  assert.match(index, /assets\/member-auth\.js\?v=clui68/);
-  assert.match(index, /assets\/favorites-client\.js\?v=clui67/);
+  // CL-UI-60: member-auth.js advanced to clui81 (silent refresh session renewal).
+  assert.match(index, /assets\/member-auth\.js\?v=clui81/);
+  assert.match(index, /assets\/favorites-client\.js\?v=clui82/);
   for (const page of ['weather-map.html', 'genre-eval.html', 'field-intake.html']) {
     const html = readFileSync(join(ROOT, page), 'utf8');
-    assert.match(html, /assets\/member-auth\.js\?v=clui68/, `${page} loads member-auth.js?v=clui68`);
+    assert.match(html, /assets\/member-auth\.js\?v=clui81/, `${page} loads member-auth.js?v=clui81`);
   }
 });
 
