@@ -66,21 +66,55 @@ export function clearLocalFavorites() {
 export function createFavoritesClient({ fetchImpl = (...args) => fetch(...args), onNotice = () => {} } = {}) {
   let cached = null;
 
+  // CL-API-07: single-flight + result cache — the boot sync, the auth-event
+  // resync and post-toggle re-pulls used to fire several real GETs per page
+  // load (the tail showed 6× favorites/page), tripping the IP rate limiter.
+  // Writes invalidate the cache; a 10 s window serves repeat reads locally.
+  const CLOUD_CACHE_MS = 10_000;
+  let cloudInFlight = null, cloudCache = null, cloudCacheAt = 0;
+
+  function invalidateCloudCache() {
+    cloudCache = null;
+    cloudCacheAt = 0;
+  }
+
   async function fetchCloud() {
-    const res = await fetchImpl(
-      FAVORITES_ENDPOINT + "?userId=" + encodeURIComponent(deviceId()),
-      { credentials: "same-origin", cache: "no-store" }
-    );
-    if (!res.ok) throw new Error("favorites HTTP " + res.status);
-    const doc = await res.json();
-    if (!doc || !Array.isArray(doc.favorites)) return [];
-    cached = doc.favorites
-      .map((row) => (row && typeof row.place_id === "string" ? row.place_id : null))
-      .filter((x) => x);
-    return cached;
+    if (cloudInFlight) return cloudInFlight;
+    if (cloudCache !== null && Date.now() - cloudCacheAt < CLOUD_CACHE_MS) return cloudCache;
+    cloudInFlight = (async () => {
+      const res = await fetchImpl(
+        FAVORITES_ENDPOINT + "?userId=" + encodeURIComponent(deviceId()),
+        { credentials: "same-origin", cache: "no-store" }
+      );
+      if (!res.ok) throw new Error("favorites HTTP " + res.status);
+      const doc = await res.json();
+      if (!doc || !Array.isArray(doc.favorites)) return [];
+      const ids = doc.favorites
+        .map((row) => (row && typeof row.place_id === "string" ? row.place_id : null))
+        .filter((x) => x);
+      cloudCache = ids;
+      cloudCacheAt = Date.now();
+      return ids;
+    })();
+    try {
+      return await cloudInFlight;
+    } finally {
+      cloudInFlight = null;
+    }
+  }
+
+  // CL-API-07: exponential backoff — a 429/5xx never mutates member/favorites
+  // state, it just schedules a later re-sync (1 s → 2 s → 4 s, max 3 tries).
+  let retryTimer = 0, retryAttempt = 0;
+  function scheduleRetry(fn) {
+    if (retryAttempt >= 3) return;
+    const delay = 1000 * Math.pow(2, retryAttempt++);
+    clearTimeout(retryTimer);
+    retryTimer = setTimeout(() => { void fn(); }, delay);
   }
 
   async function push(placeId, action) {
+    invalidateCloudCache();
     const res = await fetchImpl(FAVORITES_ENDPOINT, {
       method: "POST",
       credentials: "same-origin",
@@ -98,9 +132,11 @@ export function createFavoritesClient({ fetchImpl = (...args) => fetch(...args),
   async function toggle(placeId, adding) {
     try {
       await push(placeId, adding ? "add" : "remove");
+      retryAttempt = 0;
       return await fetchCloud();
     } catch {
       onNotice(favoritesFallbackMessage());
+      scheduleRetry(() => toggle(placeId, adding));
       const local = localFavorites();
       return Array.isArray(cached) ? cached : local;
     }
@@ -109,13 +145,20 @@ export function createFavoritesClient({ fetchImpl = (...args) => fetch(...args),
   // First-launch bootstrap and login resync: upload every local favorite the
   // cloud list lacks (POST add is idempotent), then return the merged set.
   async function syncLocal() {
-    const cloud = await fetchCloud().catch(() => null);
-    if (!cloud) return localFavorites(); // offline: local list stands, no data loss
-    const missing = localFavorites().filter((id) => !cloud.includes(id));
-    for (const id of missing) {
-      try { await push(id, "add"); } catch { /* per-item best-effort */ }
+    try {
+      const cloud = await fetchCloud();
+      const missing = localFavorites().filter((id) => !cloud.includes(id));
+      for (const id of missing) {
+        try { await push(id, "add"); } catch { /* per-item best-effort */ }
+      }
+      retryAttempt = 0;
+      return await fetchCloud();
+    } catch {
+      // 429/5xx/offline: the current list stands — keep state, retry later.
+      onNotice(favoritesFallbackMessage());
+      scheduleRetry(() => syncLocal());
+      return Array.isArray(cached) ? cached : localFavorites();
     }
-    return await fetchCloud();
   }
 
   return { toggle, syncLocal, fetchCloud };

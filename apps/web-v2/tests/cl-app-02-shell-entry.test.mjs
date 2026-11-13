@@ -5,7 +5,7 @@ import {readFileSync} from "node:fs";
 import {fileURLToPath} from "node:url";
 import {dirname, join} from "node:path";
 import {createPullToRefresh, fetchCloudDigest} from "../pull-refresh.mjs";
-import {AUTH_START_ENDPOINTS, AUTH_ME_ENDPOINT, parseMember, fetchMember, consumeAuthError, authErrorMessage, AUTH_ERROR_I18N} from "../shell-auth.mjs";
+import {AUTH_START_ENDPOINTS, AUTH_ME_ENDPOINT, parseMember, fetchMember, consumeAuthError, authErrorMessage, AUTH_ERROR_I18N, resetAuthRefreshState, MEMBER_TRANSIENT} from "../shell-auth.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(join(root, p), "utf8");
@@ -65,14 +65,20 @@ test("member lookup parses /auth/me documents and fails closed", async () => {
   assert.equal(parseMember(null), null);
   assert.equal(parseMember([1]), null);
   const calls = [];
+  resetAuthRefreshState(); // CL-API-07: clear the module me cache between pulls
   assert.deepEqual(await fetchMember((url, init) => {
     calls.push([url, init]);
     return {ok: true, json: async () => ({display_name: "小美"})};
   }), {name: "小美", provider: null});
   assert.deepEqual(calls[0], ["/api/v1/auth/me", {credentials: "same-origin", cache: "no-store"}]);
-  assert.equal(await fetchMember(async () => ({ok: false})), null);
-  assert.equal(await fetchMember(async () => { throw new Error("x"); }), null);
+  resetAuthRefreshState();
+  // CL-API-07: unknown non-401 failures are transient — state is kept, never "signed out".
+  assert.equal(await fetchMember(async () => ({ok: false})), MEMBER_TRANSIENT);
+  resetAuthRefreshState();
+  assert.equal(await fetchMember(async () => { throw new Error("x"); }), MEMBER_TRANSIENT);
+  resetAuthRefreshState();
   assert.equal(await fetchMember(async () => ({ok: true, json: async () => { throw new Error("bad json"); }})), null);
+  resetAuthRefreshState();
 });
 
 // CL-UI-56: parseMember must accept the REAL /api/v1/auth/me response shape —
@@ -100,10 +106,13 @@ test("CL-UI-56: parseMember parses the real nested /auth/me shape (nested camelC
 
 // CL-UI-56: fetchMember treats a 401 as signed-out and parses the nested shape on 200.
 test("CL-UI-56: fetchMember returns null on 401 and parses nested shape on 200", async () => {
+  resetAuthRefreshState();
   const ok401 = {ok: false, status: 401, json: async () => ({error: "unauthorized"})};
   assert.equal(await fetchMember(async () => ok401), null);
+  resetAuthRefreshState();
   const ok200 = {ok: true, status: 200, json: async () => ({user: {id: "x", provider: "line", providerUserId: "y", displayName: "測試員", level: "free"}})};
   assert.deepEqual(await fetchMember(async () => ok200), {name: "測試員", provider: "line"});
+  resetAuthRefreshState();
 });
 
 test("sign-in entry points target the deployed auth endpoints", () => {
@@ -127,7 +136,7 @@ test("index.html carries the member area and pull indicator markup", () => {
 test("app.mjs wires refresh to digest + data re-fetch and guarded member rendering", () => {
   const app = read("app.mjs");
   assert.ok(app.includes('import {createPullToRefresh,fetchCloudDigest} from "./pull-refresh.mjs";'));
-  assert.ok(app.includes('import {fetchMember,consumeAuthError,authErrorMessage} from "./shell-auth.mjs";'));
+  assert.ok(app.includes('import {fetchMember,MEMBER_TRANSIENT,consumeAuthError,authErrorMessage} from "./shell-auth.mjs";'));
   assert.ok(app.includes('async function refreshData()'), "refreshData defined");
   assert.ok(app.includes("state.cloudDigest=await fetchCloudDigest();"), "refresh re-fetches bundle digest");
   assert.ok(app.includes("await loadResearchIndex();"), "refresh re-fetches browse index");
