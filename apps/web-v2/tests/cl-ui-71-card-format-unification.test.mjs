@@ -55,15 +55,25 @@ function makeFallback() {
     'return {evaluated,formatHourSegments};')();
 }
 
-test('CL-UI-71 (1): 象山六巨石/1314 fallback renders the SAME row format — real artifact rows', () => {
+test('CL-UI-71 (1): suitable-empty shootable rows render the SAME row format — real artifact rows', () => {
   const h = makeFallback();
   // Real committed rows for suitable-empty + shootable days (the shape the
-  // fallback exists for). CHALLENGER-14/A: re-anchored to the current
-  // same-run artifact — tw-002/tw-134 gained curated suitable rows in the
-  // newer run; jp-001/jp-002 carry the same fallback shape on 2026-11-13.
-  for (const [spotId, date] of [['jp-001', '2026-11-13'], ['jp-002', '2026-11-13']]) {
-    const row = artifact.places[spotId][date];
-    assert.ok(row, `${spotId} has a subject-cards row`);
+  // fallback exists for). CL-CI-36: the scheduled refresh slides the 8-day
+  // window every run, so the exemplars are DERIVED from the current artifact
+  // instead of pinned place+date strings (tw-002/tw-134 were the original
+  // owner-observed cases; jp-001/jp-002 re-anchored them at CHALLENGER-14/A).
+  const anchors = [];
+  for (const [spotId, days] of Object.entries(artifact.places)) {
+    for (const [date, row] of Object.entries(days)) {
+      if (!(row.suitable || []).length && row.tier === 'shootable') {
+        anchors.push([spotId, date, row]);
+        if (anchors.length >= 2) break;
+      }
+    }
+    if (anchors.length >= 2) break;
+  }
+  assert.equal(anchors.length, 2, 'artifact carries suitable-empty shootable rows');
+  for (const [spotId, date, row] of anchors) {
     assert.equal(row.suitable.length, 0, `${spotId} suitable empty on ${date}`);
     assert.equal(row.tier, 'shootable', `${spotId} tier on ${date}`);
     const html = h.evaluated(true, {hours: 1, hoursList: ['18:00']}, '', '', row);
@@ -75,9 +85,17 @@ test('CL-UI-71 (1): 象山六巨石/1314 fallback renders the SAME row format �
   }
 });
 
-test('CL-UI-71 (2): 中寮山蓮花亭 keeps the curated rows path — one format per list', () => {
-  const row = artifact.places['tw-148']['2026-11-13'];
-  assert.ok(row.suitable.length > 0, '中寮山蓮花亭 has suitable entries');
+test('CL-UI-71 (2): a curated day keeps the curated rows path — one format per list', () => {
+  // CL-CI-36: anchor derived from the current artifact (中寮山蓮花亭 tw-148
+  // was the original case) — any suitable day must suppress the fallback.
+  let row = null;
+  outer:
+  for (const [spotId, days] of Object.entries(artifact.places)) {
+    for (const [date, r] of Object.entries(days)) {
+      if ((r.suitable || []).length) { row = r; break outer; }
+    }
+  }
+  assert.ok(row && row.suitable.length > 0, 'the artifact has suitable entries');
   const h = makeFallback();
   // suitable present → clFallbackRows stays empty; the curated rows render
   const html = h.evaluated(true, {hours: 1, hoursList: ['18:00']}, '<div class="cl-subject-rows"></div>', '', row);

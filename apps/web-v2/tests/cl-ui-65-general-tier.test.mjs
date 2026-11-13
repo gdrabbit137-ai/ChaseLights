@@ -15,8 +15,12 @@ const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(here, '..', '..', '..');
 const appSource = readFileSync(join(ROOT, 'assets', 'app.js'), 'utf8');
 const indexSource = readFileSync(join(ROOT, 'index.html'), 'utf8');
+// CL-CI-36: the artifact is read through the SAME stable pointer app.js uses
+// (V2_SUBJECT_CARDS_FILE) — never a filename copied into the test.
+const cardsFile = (appSource.match(/V2_SUBJECT_CARDS_FILE='([^']+)'/) || [])[1];
+assert.ok(cardsFile, 'subject-cards filename pinned in app.js');
 const artifact = JSON.parse(readFileSync(
-  join(ROOT, 'data', 'v2', 'evaluations', 'subject-cards-20261112T202312Z.json'), 'utf8'));
+  join(ROOT, 'data', 'v2', 'evaluations', cardsFile), 'utf8'));
 
 const grab = (start, end) => {
   const i = appSource.indexOf(start);
@@ -36,7 +40,7 @@ const makeHelpers = (tree) => new Function(
   `${helperCode}\nv2SubjectCards=${JSON.stringify(tree)};\n` +
   'return {v2SubjectCardRow,v2GeneralBaseline,v2GeneralLineText,v2SubjectCardShorts,v2SubjectCardShortReason};')();
 
-test('CL-UI-65 (1): every derived row carries tier + general_baseline (460 places)', () => {
+test('CL-UI-65 (1): every derived row carries tier + general_baseline (corpus-wide)', () => {
   const counts = {recommend: 0, shootable: 0, not_recommended: 0, null_tier: 0};
   let rows = 0;
   for (const days of Object.values(artifact.places)) {
@@ -53,10 +57,22 @@ test('CL-UI-65 (1): every derived row carries tier + general_baseline (460 place
   assert.ok(rows > 3000, `real corpus: ${rows}`);
   assert.ok(counts.recommend > 0 && counts.shootable > 0 && counts.not_recommended > 0,
     `all three tiers occur: ${JSON.stringify(counts)}`);
-  // tw-005 (大稻埕碼頭) regression: its formerly bare failed days carry a reason
-  const tw = artifact.places['tw-005'];
-  const bare = Object.values(tw).filter(r => r.status === 'failed' && !r.dominant_reason);
-  assert.equal(bare.length, 0, 'tw-005 failed days all carry a short reason');
+  // tw-005 (大稻埕碼頭) regression, re-stated refresh-robustly (CL-CI-36):
+  // the pinned place/day example drifts every scheduled refresh, but the
+  // DISPLAY contract it guarded does not — a ✗ 不宜 tier line (the
+  // suitable-empty not_recommended shape) never renders bare: every such row
+  // carries a short reason (curated votes or the general baseline fallback).
+  let badRows = 0;
+  for (const [pid, days] of Object.entries(artifact.places)) {
+    for (const [dt, row] of Object.entries(days)) {
+      if ((row.suitable || []).length || row.tier !== 'not_recommended') continue;
+      badRows++;
+      const reason = row.dominant_reason ||
+        ((row.general_baseline || {}).reason_short || null);
+      assert.ok(reason, `${pid} ${dt} ✗ 不宜 row carries a short reason`);
+    }
+  }
+  assert.ok(badRows > 100, `expected a real not_recommended corpus, got ${badRows}`);
 });
 
 test('CL-UI-65 (2): three-tier second line renders per tier', () => {

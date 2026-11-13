@@ -18,8 +18,31 @@ const ROOT = join(here, '..', '..', '..');
 const appSource = readFileSync(join(ROOT, 'assets', 'app.js'), 'utf8');
 const cssSource = readFileSync(join(ROOT, 'assets', 'app.css'), 'utf8');
 const indexSource = readFileSync(join(ROOT, 'index.html'), 'utf8');
+// CL-CI-36: the artifact is read through the SAME stable pointer app.js uses
+// (V2_SUBJECT_CARDS_FILE) — never a filename copied into the test.
+const cardsFile = (appSource.match(/V2_SUBJECT_CARDS_FILE='([^']+)'/) || [])[1];
+assert.ok(cardsFile, 'subject-cards filename pinned in app.js');
 const artifact = JSON.parse(readFileSync(
-  join(ROOT, 'data', 'v2', 'evaluations', 'subject-cards-20261112T202312Z.json'), 'utf8'));
+  join(ROOT, 'data', 'v2', 'evaluations', cardsFile), 'utf8'));
+
+// CL-CI-36: the scheduled refresh slides the 8-day window every run, so the
+// helper-semantics exemplar is DERIVED from the current artifact: one
+// place-day whose hour buckets cover all three render branches (a curated
+// fit hour, a general-ok hour, and a neutral na hour). tw-142 安平漁人碼頭
+// was the original pinned case.
+let anchor = null;
+outer:
+for (const [pid, days] of Object.entries(artifact.places)) {
+  for (const [date, row] of Object.entries(days)) {
+    const h = row.hours;
+    if (!h) continue;
+    const fitHour = Object.keys(h.fit || {})[0];
+    const okHour = (h.ok || []).find(hh => !((h.fit || {})[hh]));
+    const naHour = (h.na || [])[0];
+    if (fitHour && okHour && naHour) { anchor = [pid, date]; break outer; }
+  }
+}
+assert.ok(anchor, 'artifact carries a row with fit/ok/na hour buckets');
 
 const grab = (start, end) => {
   const i = appSource.indexOf(start);
@@ -59,26 +82,31 @@ test('CL-UI-73 (1): tri-lingual column header + the column rides after the statu
   assert.ok(row.includes('tm-mainline-subj'), 'mobile mainline subject line');
 });
 
-test('CL-UI-73 (2): helper semantics on the committed artifact (tw-142 安平漁人碼頭)', () => {
+test('CL-UI-73 (2): helper semantics on the committed artifact (derived anchor)', () => {
   const cell = makeCell().v2HourSubjectCell;
-  const item = (h) => ({local_date: '2026-11-13', time: `2026-11-13 ${h}`});
-  const twRow = artifact.places['tw-142']['2026-11-13'];
-  assert.ok(twRow.hours, 'tw-142 2026-11-13 carries hour buckets');
-  // 19:00 → city_night chip (green) — the night hour the window covers
-  const fit = cell({spot_id: 'tw-142', local_date: '2026-11-13'}, item('19:00'));
-  const nightShort = artifact.dictionaries.genre_short_names.city_night['zh-TW'];
-  assert.ok(nightShort, 'city_night short name exists');
-  assert.ok(fit.html.includes(nightShort), `chip shows ${nightShort}: ${fit.html}`);
+  const [anchorId, anchorDate] = anchor;
+  const item = (h) => ({local_date: anchorDate, time: `${anchorDate} ${h}`});
+  const twRow = artifact.places[anchorId][anchorDate];
+  assert.ok(twRow.hours, `${anchorId} ${anchorDate} carries hour buckets`);
+  // a curated fit hour → green chip with the genre short name
+  const fitHour = Object.keys(twRow.hours.fit)[0];
+  const fitGenre = twRow.hours.fit[fitHour][0];
+  const fit = cell({spot_id: anchorId, local_date: anchorDate}, item(fitHour));
+  const fitShort = artifact.dictionaries.genre_short_names[fitGenre]['zh-TW'];
+  assert.ok(fitShort, `${fitGenre} short name exists`);
+  assert.ok(fit.html.includes(fitShort), `chip shows ${fitShort}: ${fit.html}`);
   assert.ok(fit.html.includes('subj-chip'), 'chip class');
   assert.equal(fit.cls, 'subj-has');
-  // 12:00 → no subject, general floor ok → yellow ○ 一般拍攝
+  // a general-ok hour (no curated subject) → yellow ○ 一般拍攝
   // (CHALLENGER-14/C: the HOUR floor pass is not the day tier ○ 可拍)
-  const ok = cell({spot_id: 'tw-142', local_date: '2026-11-13'}, item('12:00'));
+  const okHour = (twRow.hours.ok || []).find(hh => !((twRow.hours.fit || {})[hh]));
+  const ok = cell({spot_id: anchorId, local_date: anchorDate}, item(okHour));
   assert.equal(ok.html, '<span class="subj-ok">○ 一般拍攝</span>');
   assert.equal(ok.cls, 'subj-ok-row');
-  // 02:00 → night hour, clean weather, no curated window → neutral
-  // 🕒 非建議時段 (CHALLENGER-14/B: never a failure word, never ○)
-  const na = cell({spot_id: 'tw-142', local_date: '2026-11-13'}, item('02:00'));
+  // a neutral na hour → 🕒 非建議時段
+  // (CHALLENGER-14/B: never a failure word, never ○)
+  const naHour = twRow.hours.na[0];
+  const na = cell({spot_id: anchorId, local_date: anchorDate}, item(naHour));
   assert.ok(na.html.includes('🕒') && na.html.includes('非建議時段'), `neutral: ${na.html}`);
   assert.ok(!na.html.includes('✗'), 'no failure word on a neutral night hour');
   assert.equal(na.cls, 'subj-na-row');
@@ -98,10 +126,12 @@ test('CL-UI-73 (3): fail-closed — unknown fields and missing rows never invent
   const missing = cell({spot_id: 'xx-000', local_date: '2026-01-01'}, {local_date: '2026-01-01', time: '2026-01-01 23:00'});
   assert.equal(missing.cls, 'subj-unknown', 'hour with no weather row → no verdict');
   // an artifact without the hours key at all (old schema) → no verdict, no crash
+  // (CL-CI-36: the stripped row is the derived anchor, not a pinned place/day)
+  const [anchorId, anchorDate] = anchor;
   const legacy = JSON.parse(JSON.stringify(artifact));
-  delete legacy.places['tw-142']['2026-11-13'].hours;
+  delete legacy.places[anchorId][anchorDate].hours;
   const cell2 = makeCell({dict: legacy}).v2HourSubjectCell;
-  const old = cell2({spot_id: 'tw-142', local_date: '2026-11-13'}, {local_date: '2026-11-13', time: '2026-11-13 12:00'});
+  const old = cell2({spot_id: anchorId, local_date: anchorDate}, {local_date: anchorDate, time: `${anchorDate} 12:00`});
   assert.equal(old.cls, 'subj-unknown');
 });
 

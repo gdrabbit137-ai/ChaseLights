@@ -92,7 +92,10 @@ test('CL-UI-43 i fixture replay (碧潭/望幽谷 shape): V2 0 qualifying hours 
 // Small fake-DOM harness around the shipped decorateWeatherTimeline.
 function runDecorate(detail,spotId,rows){
   const els=rows.map(r=>({dataset:{v2t:r.v2t},cells:[null,{textContent:''}]}));
-  const mobileEls=rows.map(r=>({dataset:{v2t:r.v2t},querySelector:()=>({textContent:''})}));
+  // The mobile paint branch (CL-UI-82) touches classList and the general
+  // chips on every card — stub them or the branch throws async after the
+  // test ends (unhandledRejection fails the run even when all tests pass).
+  const mobileEls=rows.map(r=>({dataset:{v2t:r.v2t},querySelector:()=>({textContent:''}),classList:{add(){},remove(){}},querySelectorAll:()=>[]}));
   const run=new Function('els','mobileEls','detailJson',[
     block('const i18nDict','const categoryKeys'),
     "let currentLang='zh-TW';const d=()=>i18nDict[currentLang]||i18nDict['zh-TW'];",
