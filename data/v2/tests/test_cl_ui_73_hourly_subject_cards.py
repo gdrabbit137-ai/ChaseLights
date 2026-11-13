@@ -205,7 +205,7 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
         day1 = self.artifact["places"]["tw-142"]["2026-11-13"]["hours"]
         self.assertIn("sunset", day1["fit"]["17:00"])
         self.assertEqual(day1["no"]["02:00"], "light_window")
-        self.assertEqual(self.words["light_window"]["zh-TW"], "光線不對")
+        self.assertEqual(self.words["light_window"]["zh-TW"], "非日照時段")  # CL-UI-70 word layer
         self.assertIn("12:00", day1["ok"])
 
     def test_lf_bytes(self):

@@ -71,9 +71,9 @@ test('CL-UI-73 (2): helper semantics on the committed artifact (tw-142 安平漁
   const ok = cell({spot_id: 'tw-142', local_date: '2026-11-13'}, item('12:00'));
   assert.equal(ok.html, '<span class="subj-ok">○ 可拍</span>');
   assert.equal(ok.cls, 'subj-ok-row');
-  // 02:00 → floor fails (light_window) → gray ✗ 光線不對
+  // 02:00 → floor fails (light_window) → gray ✗ 非日照時段 (CL-UI-70 word layer)
   const no = cell({spot_id: 'tw-142', local_date: '2026-11-13'}, item('02:00'));
-  assert.ok(no.html.includes('✗') && no.html.includes('光線不對'), `short reason: ${no.html}`);
+  assert.ok(no.html.includes('✗') && no.html.includes('非日照時段'), `short reason: ${no.html}`);
   assert.equal(no.cls, 'subj-no-row');
   // a date/hour the artifact never covers → honest dash
   const dash = cell({spot_id: 'tw-999', local_date: '2099-01-01'}, {time: '2099-01-01 10:00'});
