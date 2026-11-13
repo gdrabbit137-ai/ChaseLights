@@ -50,7 +50,9 @@ test('CL-UI-73 (1): tri-lingual column header + the column rides after the statu
   // row cell: the subjects <td> sits between the status <td> and the Kp <td>,
   // so the status column keeps its cells[1] index (CL-UI-43 painters rely on it)
   const rowIdx = appSource.indexOf('(spot.hourly_forecast||[]).forEach(item=>{');
-  const row = appSource.slice(rowIdx, rowIdx + 2000);
+  // CL-UI-78: the loop body grew (date-group banner before the row build), so
+  // the window widened — the pinned substrings themselves are unchanged.
+  const row = appSource.slice(rowIdx, rowIdx + 3200);
   assert.ok(row.includes('<td class="td-subjects ${subjCell.cls}">${subjCell.html}</td>'), 'subjects <td>');
   assert.ok(row.indexOf('eval2_unk') < row.indexOf('td-subjects'), 'after the status cell');
   // mobile card carries the same line
@@ -132,10 +134,10 @@ test('CL-UI-73 (4): artifact shape — every row has fit/ok/no/unk/na buckets, r
   assert.ok(fitHours > 1000, `fitting-hour count ${fitHours}`);
 });
 
-test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui79 stamps', () => {
+test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui84 stamps', () => {
   for (const cls of ['.td-subjects.subj-has', '.td-subjects.subj-ok-row', '.td-subjects.subj-na-row', '.td-subjects.subj-no-row', '.subj-chip', '.subj-na', '.timeline-mobile-subjects']) {
     assert.ok(cssSource.includes(cls), `css has ${cls}`);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui79/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui79/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui84/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui84/);
 });
