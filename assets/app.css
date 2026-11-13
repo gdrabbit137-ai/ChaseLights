@@ -2126,6 +2126,16 @@
    one-character-per-line vertical column — the compact cell copy (✓n badge,
    ✗short-reason, abbreviated 06–14 window) is sized to fit. */
 .v2-strip-cell{flex:0 0 auto;width:46px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 3px;border:1px solid rgba(255,255,255,.14);border-radius:6px;background:rgba(255,255,255,.03);cursor:pointer;color:#cfd8e3;font-size:.68rem;font-family:inherit;text-align:center}
+/* CL-UI-76: desktop (>=768px) cells size to their content — the 46px fixed
+   width is the 390px-first compact tier (CL-UI-75) and truncates
+   「今天 ✓9 06:00 0」 on wide viewports. Desktop keeps the one-line layout
+   with a 90–110px content-sized cell; the abbreviated window text displays
+   in full. Mobile (<768px) keeps the 46px horizontal-scroll tier untouched. */
+@media (min-width:768px){
+  .v2-strip-cell{width:auto;min-width:90px;max-width:110px;padding:5px 8px;font-size:.72rem;gap:3px}
+  .v2-strip-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .v2-strip-day{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
 .v2-strip-cell.v2-ok{border-color:rgba(63,185,80,.55)}
 .v2-strip-cell.v2-bad{border-color:rgba(248,81,73,.55)}
 .v2-strip-cell.v2-unk{border-color:rgba(210,153,34,.55)}

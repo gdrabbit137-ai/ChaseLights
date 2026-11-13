@@ -118,8 +118,8 @@ test('CL-UI-75 (3): strip layout CSS — one horizontal row, fixed-width cells, 
   const mobile = cssSource.slice(cssSource.indexOf('@media (max-width:390px)'), cssSource.indexOf('@media (max-width:390px)') + 600);
   assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:2px 1px;gap:2px\}/);
   assert.doesNotMatch(mobile, /flex:1 1/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui78/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui78/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui79/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui79/);
 });
 
 // ---- (4) real-browser probe: 390px and desktop -------------------------------
@@ -273,7 +273,13 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true, shot: 'cl
     assert.equal(probe.cells, 8, 'all 8 day cells present');
     assert.equal(probe.oneRow, true, 'every cell sits on ONE row — no wrap into a vertical column');
     assert.equal(probe.sameWidth, true, 'fixed-width cells');
-    assert.ok(probe.maxWidth <= 60, `cell width stays fixed (got ${probe.maxWidth}px)`);
+    // CL-UI-76: desktop cells are content-sized (90–110px); the fixed-width
+    // cap stays a MOBILE-only contract (<768px keeps CL-UI-75's 46px cells).
+    if (vp.w >= 768) {
+      assert.ok(probe.maxWidth >= 90 && probe.maxWidth <= 110, `desktop cells are content-sized 90–110px (got ${probe.maxWidth}px, CL-UI-76)`);
+    } else {
+      assert.ok(probe.maxWidth <= 60, `mobile cell width stays fixed (got ${probe.maxWidth}px)`);
+    }
     assert.ok(probe.maxTextHeight <= 20, `no one-character-per-line squeeze: text stays single-line (got ${probe.maxTextHeight}px)`);
     assert.equal(probe.anyBadge, false, 'no 🎯 badge in the rendered strip');
     assert.equal(probe.firstBadge, '✓8', 'badge-form hours on the met cell');
