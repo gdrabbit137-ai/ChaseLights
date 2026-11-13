@@ -5,20 +5,26 @@
    summary line. Buttons are re-enhanced via a MutationObserver so card
    re-renders (day tab / language / region switches) restyle themselves.
 
-   Backend contract (workers/api/src/index.js + notify.js, CL-API-03/58):
-   - GET    /api/v1/notify_rules        -> { userId, level, rules:[{id, place_id, opportunity_id, channel, min_advance_hours, enabled, created_at}] } (JWT only)
-   - POST   /api/v1/notify_rules        { placeId, opportunityId?, channel:'push', minAdvanceHours:24 } -> { ok, rule, count, limit } (402 = free-tier cap)
-   - PATCH  /api/v1/notify_rules/<id>   { enabled: boolean } -> { ok, rule } (CL-UI-58 added the toggle)
-   - DELETE /api/v1/notify_rules/<id>   -> { ok, deleted }
+   Backend contract (workers/api/src/index.js + notify.js, CL-API-03/58;
+   CL-UI-61: the real worker route is /notify/rules under the /api/v1 base —
+   the earlier /notify_rules spelling was a 404):
+   - GET    /api/v1/notify/rules        -> { userId, level, rules:[{id, place_id, opportunity_id, channel, min_advance_hours, enabled, created_at}] } (JWT only)
+   - POST   /api/v1/notify/rules        { placeId, opportunityId?, channel:'push', minAdvanceHours:24 } -> { ok, rule, count, limit } (402 = free-tier cap)
+   - PATCH  /api/v1/notify/rules/<id>   { enabled: boolean } -> { ok, rule } (CL-UI-58 added the toggle)
+   - DELETE /api/v1/notify/rules/<id>   -> { ok, deleted }
    Sessions ride HttpOnly cookies (CL-UI-53) — same-origin fetches carry them;
-   notify_rules has NO anonymous fallback, so 401 always means "log in first".
+   notify rules have NO anonymous fallback, so 401 always means "log in first".
+
+   CL-UI-61 login gate: boot resolves the session via /api/v1/auth/me first
+   (throttled to one call per window) and only fetches rules while signed in;
+   signed-out visitors get the login toast, never a sync error.
 
    Failure posture: a network error never blocks the card — the button keeps
    its previous state and a trilingual toast explains the retry. */
 (function () {
   'use strict';
 
-  var RULES_ENDPOINT = '/api/v1/notify_rules';
+  var RULES_ENDPOINT = '/api/v1/notify/rules';
   var ME_ENDPOINT = '/api/v1/auth/me';
 
   var I18N = {
@@ -118,11 +124,23 @@
     });
   }
 
-  function checkSignedIn() {
-    return fetch(ME_ENDPOINT, { headers: { Accept: 'application/json' } }).then(function (r) {
+  // CL-UI-61: the session check is throttled — one /auth/me call per window
+  // (boot, card clicks, tab returns reuse the same in-flight/cached answer
+  // instead of hammering the endpoint). force=true bypasses the window
+  // (e.g. the chaselights:auth event after a login in another surface).
+  var ME_THROTTLE_MS = 30000;
+  var mePromise = null, meAt = 0;
+  function checkSignedIn(force) {
+    var now = Date.now();
+    if (!force && mePromise && now - meAt < ME_THROTTLE_MS) return mePromise;
+    meAt = now;
+    mePromise = fetch(ME_ENDPOINT, { headers: { Accept: 'application/json' } }).then(function (r) {
       state.signedIn = r.ok;
       return state.signedIn;
-    }).catch(function () { return state.signedIn === true; });
+    }).catch(function () {
+      return state.signedIn === true;
+    });
+    return mePromise;
   }
 
   function createRule(placeId, oppId) {
@@ -138,8 +156,14 @@
       .then(function (r) { return r.json().then(function (b) { return { status: r.status, body: b }; }); });
   }
 
-  function refresh() {
-    return fetchRules().then(enhance).catch(function () { enhance(); });
+  // CL-UI-61 login gate: rules are fetched only after /auth/me says signed-in.
+  // Signed-out visitors never hit the rules endpoint (their buttons keep the
+  // plain label; the click guard shows the login toast).
+  function refresh(force) {
+    return checkSignedIn(force).then(function (signed) {
+      if (!signed) { state.rules = {}; state.loaded = true; enhance(); return state.rules; }
+      return fetchRules().then(enhance).catch(function () { enhance(); });
+    });
   }
 
   // ---- DOM ----
@@ -205,7 +229,9 @@
       enhanceTimer = setTimeout(enhance, 50);
     }).observe(document.documentElement, { childList: true, subtree: true });
   }
-  document.addEventListener('chaselights:auth', function () { refresh(); });
+  // The auth event fires after a login/logout in another surface — the cached
+  // signed-in answer is stale, so force a fresh /auth/me.
+  document.addEventListener('chaselights:auth', function () { refresh(true); });
   window.addEventListener('pageshow', function () { refresh(); });
 
   function boot() {
