@@ -437,7 +437,7 @@
       const n=Number(c);const v=currentTempUnit==='F'?(n*9/5+32):n;return `${Math.round(v*10)/10}${tempUnitLabel()}`;
     }
     function trMessage(key){ const t=currentData?.translations?.messages?.[key]; return localeText(t)||d().status_unavailable; }
-    function trFactor(f){ if(!f)return''; const t=currentData?.translations?.factors?.[f.key]; const text=localeText(t); if(!text)return''; return f.value!==null&&f.value!==undefined?text.replace('{v}',f.value):text; }
+    /* CL-UI-83: trFactor retired with the card factor chips — no remaining caller. */
     function esc(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
 
     const OPPORTUNITY_NEGATIVE_STATUS_KEYS=new Set([
@@ -1203,7 +1203,8 @@
     function selectedDateForSpot(spot){return localDateString(spot?.timezone||'UTC',selectedDayOffset());}
     function currentDayForSpot(spot){const target=selectedDateForSpot(spot);return (spot.daily||[]).find(day=>day?.date===target)||null;}
     function getMetric(spot){const day=currentDayForSpot(spot);if(!day)return null;return day.all||null;}
-    function fmtWindow(m){if(!m)return'—';const a=m.window_start,b=m.window_end,tz=m.timezone_abbr||'';if(!a||!b)return m.best_time||'—';const [ad,at]=a.split(' '),[bd,bt]=b.split(' ');const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');const tz2=tzAbbrLabel(tz);return ad===bd?`${ad2} ${at}–${bt} ${tz2}`:`${ad2} ${at} → ${bd2} ${bt} ${tz2}`;}
+    function fmtWindow(m){if(!m)return'—';const a=m.window_start,b=m.window_end,tz=m.timezone_abbr||'';if(!a||!b)return m.best_time||'—';const [ad,at]=a.split(' '),[bd,bt]=b.split(' ');if(at===bt)return '—';/* CL-UI-83: a zero-length window (06:00-06:00) is a degenerate interval — honest dash, never a fake range. */
+const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');const tz2=tzAbbrLabel(tz);return ad===bd?`${ad2} ${at}–${bt} ${tz2}`:`${ad2} ${at} → ${bd2} ${bt} ${tz2}`;}
     function confidenceLabel(value){const key=String(value||'').toLowerCase();return key==='high'?d().confidence_high:key==='medium'?d().confidence_medium:key==='low'?d().confidence_low:'—';}
     // CL-UI-44: the astronomy cell is field-driven, not theme-whitelisted. Any
     // hour that carries solar azimuth/elevation shows it — all-day subjects
@@ -1512,7 +1513,14 @@
       const clSummaryHtml=clSubjectRows?`${clSubjectRows}${(v2Best&&!v2Best.hours)?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}</div>`:''}`:'';
       const opportunityName=v2Evaluated?opportunityDisplayName(spot,metric.opportunity_id,theme,metric.opportunity_name):v2NoEvalReasonText(spot);
       const indicator=(!researchPending&&!noViable&&v2Evaluated&&v2Best.state==='GUIDANCE_SATISFIED')?trMessage(metric.indicator_key):'';
-      const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=localeText(spot.access_note_i18n);const showIndicator=!!indicator;const factors=(researchPending||noViable)?[]:(metric.factors||[]);const factorHtml=factors.map(f=>{const text=trFactor(f);return text?`<span class="factor-pill ${f.type==='minus'?'factor-minus':'factor-plus'}">${f.type==='minus'?'−':'＋'} ${text}</span>`:'';}).filter(Boolean).join('');const factorMore=factors.length>2?`<span class="factor-pill factor-more">+${factors.length-2}</span>`:'';
+      // CL-UI-83 (owner實測): the card-face green status banner (indicator pill)
+      // and the ＋/− booster/penalty chips are retired — CL-UI-80 missed the
+      // GUIDANCE_SATISFIED card variant, so lists showed cards WITH a colored
+      // banner + chips next to cards without them. The qualifying information
+      // already lives in the per-subject rows; every card now renders the ONE
+      // unified anatomy: 標題+★ / 地區 / 屬性灰字 / 逐題材行（含空鈴鐺位） /
+      // pills / 三鈕 — no variant carries extra verdict decoration.
+      const astro=(researchPending||noViable)?'':astroText(metric,theme);const darkSky=(researchPending||noViable)?'':darkSkyText(spot,theme);const navTool=navigationToolHtml(spot);const access=localeText(spot.access_note_i18n);
       // CL-UI-58: 「加入提醒」 lives on the best-subject summary line. The
       // button is a bare mount point (data-rem-place / data-rem-opp) —
       // assets/reminders-client.js owns its label, state and click behavior
@@ -1526,7 +1534,7 @@
       // inventing a ✓ from the eval bundle's hours.
       const clFallbackRows=(()=>{if(!v2Evaluated||!v2Best||!v2Best.hours||clSubjectRows)return '';if(scRow&&scRow.tier==='not_recommended')return `<div class="cl-subject-rows">${clSubjectRowHtml({name:d().v2_tier_not_recommended+(scTierReason?' · '+scTierReason:''),window:[]},false)}</div>`;return `<div class="cl-subject-rows">${clSubjectRowHtml({name:d().v2_tier_shootable,window:v2Best.hoursList},false)}</div>`;})();
       const v2Summary=(v2Best&&!v2Best.hours)?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}${remBtn}</div>${scSecondLine}`:'';
-      const reasonHtml=(researchPending||noViable||v2Summary)?'':`${showIndicator?`<div><span class="indicator-pill">${indicator}</span></div>`:''}${factorHtml?`<div class="factor-row card-factor-row">${factorHtml}${factorMore}</div>`:''}`;
+      const reasonHtml='';
       const distance=distanceToSpotKm(spot);const distanceChip=currentSortMode.startsWith('distance_')&&distance!==null?`<span class="metric-chip">📍 ${distance<10?distance.toFixed(1):Math.round(distance)} km</span>`:'';
       const compactMetrics=(researchPending||noViable)?(formatTemp(metric.temp)==='—'?'':tempChipHtml(metric.temp)):(()=>{
         // CL-UI-27: the chip row is all-or-nothing — a card carries the full
@@ -2827,7 +2835,7 @@
       if(row&&row.status==='clear'){
         const chips=v2SubjectCardShorts(row,currentLang);
         const windows=[],seen=new Set();
-        (row.suitable||[]).forEach(s=>{const w=s&&s.window;if(w&&!seen.has(w)){seen.add(w);windows.push(w);}});
+        (row.suitable||[]).forEach(s=>{const w=s&&s.window;if(w&&w.length){const key=JSON.stringify(w);if(!seen.has(key)){seen.add(key);/* CL-UI-83: segments go through formatHourSegments like every other surface — never raw comma-joined stamps. */windows.push(formatHourSegments(w));}}});
         const html=chips.map(c=>`<span class="quick-chip">✓ ${esc(c)}</span>`).join('');
         if(html||windows.length)return html+(windows.length?`<span class="quick-window">⏱ ${esc(windows.join(listSep()))}</span>`:'');
       }
@@ -2923,7 +2931,9 @@
       if(pass.length)return t.v2_pass_hours.replace('{t}',formatHourSegments(pass));
       if(vals.length){
         vals.sort((a,b)=>a-b);
-        return t.v2_never_num.replace('{r}',v2FmtNum(vals[0])+'–'+v2FmtNum(vals[vals.length-1]));
+        // CL-UI-83: a single distinct value is not a range — no fake "06–06".
+        const r=vals[0]===vals[vals.length-1]?v2FmtNum(vals[0]):v2FmtNum(vals[0])+'–'+v2FmtNum(vals[vals.length-1]);
+        return t.v2_never_num.replace('{r}',r);
       }
       return t.v2_never;
     }

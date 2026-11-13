@@ -435,20 +435,10 @@
       font-weight:700;
       letter-spacing:.02em;
     }
-    .indicator-pill { display: inline-block; margin-top: 0; font-size: 0.8rem; background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 3px 8px; border-radius: 6px; font-weight: 600; }
-    .factor-row { margin-top: 6px; display:flex; gap:5px; flex-wrap:wrap; }
-    .factor-pill { font-size:.7rem; padding:2px 6px; border-radius:9px; border:1px solid #334155; }
-    .factor-plus { color:#86efac; background:rgba(34,197,94,.08); }
-    .factor-minus { color:#fca5a5; background:rgba(239,68,68,.08); }
-    .factor-row { display:flex; flex-wrap:wrap; gap:5px; margin-top:5px; }
-    .factor-pill { font-size:0.72rem; padding:2px 7px; border-radius:10px; border:1px solid #334155; }
-    .factor-plus { color:#86efac; background:rgba(34,197,94,.09); border-color:rgba(34,197,94,.3); }
-    .factor-minus { color:#fca5a5; background:rgba(239,68,68,.08); border-color:rgba(239,68,68,.3); }
-    .factor-more { display:none; color:#94a3b8; background:#0f172a; }
-    @media (max-width:640px) {
-      .factor-row.card-factor-row .factor-pill:nth-child(n+3):not(.factor-more) { display:none; }
-      .factor-row.card-factor-row .factor-more { display:inline-block; }
-    }
+    /* CL-UI-83: the card-face indicator pill and ＋/− factor chips are retired
+       (info lives in the per-subject rows) — their color rules are gone with
+       the render path; status colors now come only from the shared palette:
+       green #3fb950/#22C55E, yellow #d29922/#e3b341, red #f85149/#f87171, gray. */
     .shooting-summary {
       margin:4px 0 7px;
       padding:8px 10px;
@@ -464,7 +454,7 @@
     .card-second-line { display:flex; flex-wrap:wrap; gap:2px 6px; align-items:baseline; }
     .v2-line-verdict { font-weight:700; white-space:nowrap; }
     .v2-verdict-ok { color:#3fb950; }
-    .v2-verdict-bad { color:#f0883e; }
+    .v2-verdict-bad { color:#f85149; } /* CL-UI-83: 未符 joins the shared red status family (#f85149/#f87171) — the stray orange #f0883e hardcode is gone. */
     .v2-verdict-mid { color:#d29922; }
     .subject-short { color:#e2e8f0; background:rgba(148,163,184,.18); border-radius:6px; padding:1px 6px; font-size:.8rem; white-space:nowrap; }
     .subject-more { color:#94a3b8; font-size:.8rem; white-space:nowrap; }
@@ -1869,10 +1859,7 @@
     font-size: .86rem;
   }
 
-  .indicator-pill,
-  .factor-pill {
-    font-size: .67rem;
-  }
+  /* CL-UI-83: indicator/factor pill rules retired with the card render path. */
 
   .card-secondary-meta {
     margin-top: 5px;
