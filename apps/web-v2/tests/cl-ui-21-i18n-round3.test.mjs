@@ -130,14 +130,16 @@ test('CL-UI-21 C3: no full-width separators remain in en rendering paths',()=>{
 });
 
 test('CL-UI-21 D4: place-modal now/next lines re-anchor to spot-local day vocabulary + 11/04 15:00 stamp',()=>{
-  // CL-UI-67 (owner ruling): the standalone now/next rows are gone — the
-  // strip is self-explaining and the next window rides on the first
-  // qualifying cell's hover title. The 15:00 stamp format contract survives:
+  // CL-UI-67 (owner ruling): the standalone now/next rows are gone.
+  // CL-UI-75 (owner ruling): the strip's 🎯 next-window badge is retired too —
+  // the 15:00 stamp format contract survives on the card's theme-winner rows:
   // the next window is still re-anchored via v2NextWindowLocal and stamped
   // from the validated nextLocal instead of the raw bundle value.
   assert.ok(!appSource.includes('const nowLabel=v2DayLabel(nowLocal.slice(0,10)'),
     'the standalone now row must stay removed');
-  assert.match(appSource,/\$\{d\(\)\.v2_next_window\}\$\{nextWindowStamp\(nextLocal,spot\.timezone\)\}/);
+  assert.ok(!appSource.includes('nextNote') && !appSource.includes('🎯'),
+    'CL-UI-75: the strip badge is retired');
+  assert.match(appSource,/\$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(nextWindowStamp\(v2Best\.nextLocal,spot\.timezone\)\)\}<\/b>/);
 });
 
 test('CL-UI-21 F6: provisional map link title is localized and short',()=>{

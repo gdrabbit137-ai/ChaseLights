@@ -2112,20 +2112,27 @@
 .quick-window{color:#cfd8e3}
 .quick-miss{color:#f85149;font-weight:600}
 .quick-none{color:#8b98a5}
-.v2-day-strip{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 2px}
+/* CL-UI-75: the strip stays ONE horizontal row of fixed-width cells — narrow
+   viewports scroll it horizontally instead of wrapping cells into a vertical
+   narrow column. No wrap, ever. */
+.v2-day-strip{display:flex;flex-wrap:nowrap;gap:4px;margin:6px 0 2px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.v2-day-strip::-webkit-scrollbar{display:none}
 /* CL-UI-68: text-in-cell boxes — day label + verdict/segment text inside the
    cell; the verdict also tints the border/text so the color meaning survives
-   without hover. */
-.v2-strip-cell{flex:1 1 46px;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 3px;border:1px solid rgba(255,255,255,.14);border-radius:6px;background:rgba(255,255,255,.03);cursor:pointer;color:#cfd8e3;font-size:.68rem;font-family:inherit;text-align:center}
+   without hover.
+   CL-UI-75: cells are fixed-width columns whose text never re-wraps into a
+   one-character-per-line vertical column — the compact cell copy (✓n badge,
+   ✗short-reason, abbreviated 06–14 window) is sized to fit. */
+.v2-strip-cell{flex:0 0 auto;width:46px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 3px;border:1px solid rgba(255,255,255,.14);border-radius:6px;background:rgba(255,255,255,.03);cursor:pointer;color:#cfd8e3;font-size:.68rem;font-family:inherit;text-align:center}
 .v2-strip-cell.v2-ok{border-color:rgba(63,185,80,.55)}
 .v2-strip-cell.v2-bad{border-color:rgba(248,81,73,.55)}
 .v2-strip-cell.v2-unk{border-color:rgba(210,153,34,.55)}
 .v2-strip-day{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.v2-strip-text{max-width:100%;overflow-wrap:anywhere;line-height:1.25}
+.v2-strip-text{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+.v2-strip-hours{font-weight:600;letter-spacing:.02em;color:inherit}
 .v2-strip-cell.v2-ok .v2-strip-text{color:#7ee2a0}
 .v2-strip-cell.v2-bad .v2-strip-text{color:#ff8f88}
 .v2-strip-cell.v2-unk .v2-strip-text{color:#e3b341}
-.v2-strip-next{max-width:100%;font-size:.6rem;border:1px solid rgba(158,203,255,.5);border-radius:4px;padding:1px 3px;color:#9ecbff;overflow-wrap:anywhere}
 .v2-cond-details{margin-top:8px;font-size:.8rem;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 8px}
 .v2-cond-details summary{cursor:pointer;font-weight:600;color:#9ecbff;list-style:none}
 .v2-cond-details summary::-webkit-details-marker{display:none}
@@ -2135,10 +2142,13 @@
 .place-hourly-link{display:inline-block;margin-top:12px;color:#9ecbff;text-decoration:none;font-size:.85rem}
 .place-hourly-link:hover{text-decoration:underline}
 @media (max-width:390px){
-  /* CL-UI-68: at 390px each box self-sizes and wraps its text instead of
-     squeezing eight fixed cells into one row. */
+  /* CL-UI-75: at 390px the strip stays ONE horizontal row of fixed-width
+     cells — the overflow scrolls horizontally and no text ever re-wraps
+     into a one-character-per-line vertical column (the old wrap-at-76px
+     tier is retired). Cells keep the 46px width so the honest 資料不足
+     label is never ellipsized away. */
   .v2-day-strip{gap:3px}
-  .v2-strip-cell{flex:1 1 76px;font-size:.62rem;padding:3px 2px;gap:2px}
+  .v2-strip-cell{font-size:.62rem;padding:2px 1px;gap:2px}
   .v2-strip-text{line-height:1.3}
   .quick-view-body{font-size:.8rem}
   .quick-chip{padding:2px 8px}

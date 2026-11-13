@@ -110,16 +110,10 @@ test('CL-UI-05 (d): next qualifying window shows when live.next_good exists',()=
   const summary=cardBlock('const v2Summary=(v2Best&&!v2Best.hours)?','const reasonHtml=');
   assert.match(summary,
     /v2Best\.nextLocal\?` · \$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(nextWindowStamp\(v2Best\.nextLocal,spot\.timezone\)\)\}<\/b>`:''/);
-  // CL-UI-22: the place-guide modal's v2-next row went through the same
-  // v2NextWindowLocal re-anchor as the weather modal, with the shared
-  // v2_next_window label and fail-closed rendering.
+  // CL-UI-75 (owner ruling): the day-strip's 🎯 next-window wiring (and the
+  // badge) is retired at every breakpoint — the strip call takes no note.
+  assert.ok(!appSource.includes('nextNote') && !appSource.includes('v2-strip-next'));
   assert.match(appSource,
-    /const nextLocal=v2NextWindowLocal\(opp\.days\|\|\[\],v2LocalNow\(spot\.timezone\),live\.next_good\?live\.next_good\.local:''\);/);
-  // CL-UI-67: the standalone v2-next row is gone — the re-anchored window
-  // rides on the first qualifying strip cell's hover title instead.
-  assert.match(appSource,
-    /const nextNote=nextLocal\?`\$\{d\(\)\.v2_next_window\}\$\{nextWindowStamp\(nextLocal,spot\.timezone\)\}`:'';/);
-  assert.match(appSource,
-    /v2DayStripHtml\(days,labels,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id,nextNote\)/);
+    /v2DayStripHtml\(days,labels,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id\)/);
   assert.ok(!appSource.includes('class="v2-next"'));
 });

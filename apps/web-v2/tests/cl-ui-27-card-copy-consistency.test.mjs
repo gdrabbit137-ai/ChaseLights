@@ -81,8 +81,10 @@ test('CL-UI-27 (3): relative-day words on the next-window stamp (zh/en/ja)', () 
 test('CL-UI-27 (3b): all next-window render points go through nextWindowStamp', () => {
   assert.match(appSource, /nextWindowStamp\(v2Best\.nextLocal,spot\.timezone\)/);
   // CL-UI-72: the modal-banner render point (summaryData.nextLocal) is retired
-  // with the blue banner — the card and the day-strip badge remain.
-  assert.match(appSource, /nextWindowStamp\(nextLocal,spot\.timezone\)/);
+  // with the blue banner. CL-UI-75: the day-strip badge wiring is retired too —
+  // the card's theme-winner rows are the only remaining stamp site.
+  assert.ok(!appSource.includes('nextNote') && !appSource.includes('🎯'),
+    'CL-UI-75: the strip badge is retired');
 });
 
 test('CL-UI-27 (3c): relative-day words exist in all three dictionaries', () => {
@@ -102,7 +104,7 @@ test('CL-UI-27 (4): the metric-chip row is all-or-nothing', () => {
 });
 
 test('CL-UI-27 (5): index.html cache-bust stamp bumped to clui41', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui76/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui77/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui77/);
   assert.ok(!indexSource.includes('clui27'));
 });
