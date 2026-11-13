@@ -474,23 +474,16 @@
       padding:2px 6px;
       border-radius:5px;
     }
-    .scene-pill {
+    .env-type-text {
       font-size:.66rem;
       line-height:1.2;
       color:#94a3b8;
-      background:transparent;
-      border:1px solid rgba(71,85,105,.45);
-      padding:2px 6px;
-      border-radius:10px;
-      margin-right:3px;
+      letter-spacing:.02em;
     }
-    .scene-more { display:none; color:#64748b; }
     .tags-wrapper { margin-top:3px; margin-bottom:7px; opacity:.88; }
     @media (max-width:640px) {
       .category-tag { font-size:.65rem; }
       .tags-wrapper { margin-top:2px; margin-bottom:6px; }
-      .tags-wrapper .scene-pill:nth-child(n+3):not(.scene-more) { display:none; }
-      .tags-wrapper .scene-more { display:inline-block; }
     }
     .info-row { font-size: 0.88rem; color: #cbd5e1; margin: 4px 0; }
     .local-time-label { display:inline; }
@@ -1724,9 +1717,8 @@
     margin-bottom: 5px;
   }
 
-  .scene-pill {
-    font-size: .62rem;
-    padding: 1px 5px;
+  .env-type-text {
+    font-size:.62rem;
   }
 
   .shooting-summary {
