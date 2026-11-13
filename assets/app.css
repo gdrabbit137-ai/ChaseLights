@@ -2159,3 +2159,25 @@
 }
 .subject-chip:hover { border-color: #38bdf8; }
 .subject-chip.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; font-weight: 700; }
+
+/* CL-UI-69: per-subject card rows — one line per suitable subject
+   「短名: HH:MM–HH:MM 🔔」, folded past 3 by a +N toggle. */
+.cl-subject-rows{display:flex;flex-direction:column;gap:4px;margin:4px 0 2px;padding:7px 9px;background:rgba(30,41,59,.45);border:1px solid rgba(255,255,255,.08);border-radius:10px}
+.cl-subject-row{display:flex;align-items:center;gap:5px;font-size:.8rem;line-height:1.35;flex-wrap:wrap}
+.cl-subject-name{color:#e2e8f0;font-weight:600}
+.cl-subject-colon{color:#8b98a5}
+.cl-subject-window{color:#93c5fd;font-variant-numeric:tabular-nums}
+.cl-subject-extra[hidden]{display:none}
+.cl-subject-more{align-self:flex-start;margin-left:0;padding:3px 10px;border-radius:999px;cursor:pointer;
+  background:transparent;color:#93c5fd;border:1px solid #334155;font-size:.75rem;font-family:inherit}
+.cl-subject-more:hover{border-color:#38bdf8}
+/* Owner ruling (CL-UI-69): the reminder icon is 🔔 only (★ stays favorites).
+   Hollow (desaturated) = no reminder; filled + highlighted = reminder set. */
+.cl-rem-btn.cl-rem-compact{margin-left:auto;gap:0;padding:3px 7px;min-height:26px;font-size:.95rem;line-height:1;border-radius:999px}
+.cl-rem-btn.cl-rem-compact:not(.cl-rem-on){filter:grayscale(1);opacity:.5}
+.cl-rem-btn.cl-rem-compact.cl-rem-on{background:rgba(63,185,80,.16)}
+@media (max-width:390px){
+  .cl-subject-row{font-size:.74rem}
+  .cl-rem-btn.cl-rem-compact{padding:3px 5px}
+  .cl-subject-rows{padding:6px 8px}
+}

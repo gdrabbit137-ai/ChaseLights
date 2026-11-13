@@ -1522,7 +1522,8 @@ def test_adapter_integrity():
     assert "return day.all||null" in frontend_source
 
     assert 'id="place-modal-overlay"' in frontend_source
-    assert "card.onclick=()=>openPlaceModal" in frontend_source
+    # CL-UI-69: the card click now guards against in-card buttons before opening
+    assert "closest('a,button,input,select,summary'))return;openPlaceModal(spot,metric)" in frontend_source
     assert "data-weather" in frontend_source
     assert "🌦️ 天氣預報" in frontend_source
     assert "點擊看 96H 明細" not in frontend_source
