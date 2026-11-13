@@ -106,9 +106,9 @@ test('CL-UI-65 (4): chips never include the general subject', () => {
   assert.ok(!shortsFn.includes('general_baseline'));
 });
 
-test('CL-UI-65 (5): mid-verdict style exists and stamps advanced to clui72', () => {
+test('CL-UI-65 (5): mid-verdict style exists and stamps advanced to clui73', () => {
   const css = readFileSync(join(ROOT, 'assets', 'app.css'), 'utf8');
   assert.match(css, /\.v2-verdict-mid\s*{\s*color:/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui72/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui72/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui73/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui73/);
 });
