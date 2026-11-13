@@ -155,28 +155,36 @@ def load_place_hourly_weather(place_id):
     return by_date
 
 
+def general_hour_state(hour, view_scale, priority):
+    """CL-UI-73: one weather hour against the general-v0.1 floor.
+
+    Returns (violated_metrics, known). Any missing field makes the hour
+    UNKNOWN: known=False — it cannot pass (fail-closed) and cannot vote.
+    """
+    vis = hour.get("visibility")
+    precip = hour.get("precipitation")
+    rh = hour.get("rh")
+    sun = hour.get("sun_elevation")
+    violated = []
+    if vis is not None and vis < view_scale:
+        violated.append("visibility")
+    if precip is not None and precip >= GENERAL_PRECIP_MM_H_MAX:
+        violated.append("precipitation")
+    if rh is not None and rh > GENERAL_RH_PERCENT_MAX:
+        violated.append("relative_humidity_925hpa")
+    if sun is not None and sun <= GENERAL_SUN_ELEVATION_MIN:
+        violated.append("light_window")
+    known = (vis is not None and precip is not None
+             and rh is not None and sun is not None)
+    return violated, known
+
+
 def general_day_baseline(hours, view_scale, priority, words):
     """general-v0.1 baseline for one place-day: {ok, reason_short}."""
     votes = {}
     ok = False
     for hour in hours:
-        vis = hour.get("visibility")
-        precip = hour.get("precipitation")
-        rh = hour.get("rh")
-        sun = hour.get("sun_elevation")
-        violated = []
-        if vis is not None and vis < view_scale:
-            violated.append("visibility")
-        if precip is not None and precip >= GENERAL_PRECIP_MM_H_MAX:
-            violated.append("precipitation")
-        if rh is not None and rh > GENERAL_RH_PERCENT_MAX:
-            violated.append("relative_humidity_925hpa")
-        if sun is not None and sun <= GENERAL_SUN_ELEVATION_MIN:
-            violated.append("light_window")
-        # any missing field makes the hour UNKNOWN: it cannot pass (fail-closed)
-        # and cannot vote (honest silence instead of a fabricated reason)
-        known = (vis is not None and precip is not None
-                 and rh is not None and sun is not None)
+        violated, known = general_hour_state(hour, view_scale, priority)
         if known and not violated:
             ok = True
         if violated:
@@ -188,6 +196,39 @@ def general_day_baseline(hours, view_scale, priority, words):
     if votes:
         best = min(sorted(votes), key=lambda m: (-votes[m], priority.get(m, len(priority)), m))
     return {"ok": False, "reason_short": dict(words[best]) if best else None}
+
+
+def hourly_general_rows(hours, view_scale, priority):
+    """CL-UI-73: per-hour general floor + fitting-subject buckets for one day.
+
+    Compact, deduped shape (reasons reference the artifact-level
+    fail_reason_short dictionary by metric id — never duplicated per hour):
+
+        {"ok":  ["HH:MM", ...],          # general floor passes for THIS hour
+         "no":  {"HH:MM": metric_id},    # floor fails; short word via dict
+         "fit": {"HH:MM": [genre ids]},  # curated window covers the hour
+         "unk": ["HH:MM", ...]}          # known hour, incomplete fields
+
+    Fail-closed: a missing hour is absent from all four (the renderer shows
+    an honest no-verdict), an incomplete hour lands in "unk" (g=null, never a
+    fabricated pass/fail), and a word-less metric id still names the metric
+    (the renderer falls back to the bare ✗).
+    """
+    ok, no, unk = [], {}, []
+    for hour in hours:
+        t = hour.get("time")
+        hh = t[-5:] if isinstance(t, str) and len(t) >= 5 else None
+        if not hh:
+            continue
+        violated, known = general_hour_state(hour, view_scale, priority)
+        if not known:
+            unk.append(hh)
+            continue
+        if violated:
+            no[hh] = min(violated, key=lambda m: priority.get(m, len(priority)))
+        else:
+            ok.append(hh)
+    return {"ok": ok, "no": no, "fit": {}, "unk": unk}
 
 
 def derive_place_days(bundle, genres, fails):
@@ -240,6 +281,10 @@ def derive_place_days(bundle, genres, fails):
                         unknown_metrics.add("genre:%s" % genre)
                         continue
                     row["suitable"].append({
+                        # CL-UI-73: the genre id rides along so the hourly
+                        # buckets can reference the artifact-level dictionary
+                        # instead of duplicating trilingual dicts per hour.
+                        "genre": genre,
                         "subject_short": dict(genre_short),
                         "window": list(day["good_hours"]),
                     })
@@ -304,9 +349,26 @@ def derive_place_days(bundle, genres, fails):
                 tier = "not_recommended"
             else:
                 tier = None
+            # CL-UI-73: hourly granularity — each weather hour of the day gets
+            # its own general-floor verdict and its fitting-subject bucket
+            # (a curated subject fits the hour when the hour is inside its
+            # qualifying window, i.e. the same hours that made it suitable).
+            # Fail-closed: no weather / unknown fields → g=None, no reason.
+            hourly = hourly_general_rows(hours_for_day, view_scale, priority)
+            for entry in row["suitable"]:
+                genre = entry.get("genre")
+                if not genre:
+                    continue
+                for hh in entry.get("window") or []:
+                    fit = hourly["fit"].get(hh)
+                    if fit is None:
+                        hourly["fit"][hh] = [genre]
+                    elif genre not in fit:
+                        fit.append(genre)
             dates_out[date] = {
                 "status": status,
                 "suitable": row["suitable"],
+                "hours": hourly,
                 "dominant_metric": best if dominant else None,
                 "dominant_reason": dict(dominant) if dominant else None,
                 "dominant_source": dominant_source,
@@ -316,7 +378,7 @@ def derive_place_days(bundle, genres, fails):
         places_out[place_id] = dates_out
 
     return {
-        "schema_version": "1.1",
+        "schema_version": "1.2",
         "ticket": "CL-UI-62",
         "layer": "subject_cards",
         "derived_from": {
@@ -329,6 +391,14 @@ def derive_place_days(bundle, genres, fails):
                 "rule_version": "1.0",
                 "source": "weather_details/<region>/<place_id>.json hourly_forecast",
                 "note": "derived in this layer; no formal opportunity contract is mounted",
+            },
+            # CL-UI-73: the same general-v0.1 floor, evaluated per hour; the
+            # day-level ok/reason stays the aggregate of these hour verdicts.
+            "hourly_granularity": {
+                "rule": "general-v0.1 per hour; subjects_fitting = curated "
+                        "subject whose good_hours window covers the hour",
+                "fail_closed": "missing weather or unknown fields → g=null, "
+                               "no fitting subjects, no fabricated reason",
             },
         },
         "dictionaries": {"genre_short_names": genres, "fail_reason_short": fails["words"]},
