@@ -1,0 +1,33 @@
+{
+ "schema_version": "1.0",
+ "ticket": "CL-UI-62",
+ "purpose": "Genre-family short names (2-3 char zh-TW card labels; en/ja equivalents). Derived from the canonical template title_i18n where a template file exists; inline genres follow their shipped opportunity name_i18n. Covers EVERY genre_template value present in data/v2/opportunities and the evaluation bundles.",
+ "sources": [
+  "data/v2/templates/*.json title_i18n (15 template genres)",
+  "data/v2/opportunities/*.json condition_contract.genre_template (inline genres: blue_tears, snow_ice, snow_ice_night, tidal, volcanic_glow, drift_ice)"
+ ],
+ "note": "seasonal_plant is a FAMILY label covering 花季/楓紅/芒草/桐花/茶園 etc.; per-species wording stays in the opportunity name_i18n.",
+ "genres": {
+  "blue_hour_city": {"zh-TW": "藍調", "en": "Blue hour", "ja": "ブルーアワー"},
+  "blue_tears": {"zh-TW": "藍眼淚", "en": "Blue tears", "ja": "藍眼淚"},
+  "city_night": {"zh-TW": "夜景", "en": "City night", "ja": "夜景"},
+  "cloud_sea": {"zh-TW": "雲海", "en": "Cloud sea", "ja": "雲海"},
+  "drift_ice": {"zh-TW": "流冰", "en": "Drift ice", "ja": "流氷"},
+  "general": {"zh-TW": "一般", "en": "General", "ja": "一般"},
+  "geological_landform": {"zh-TW": "地景", "en": "Landform", "ja": "地形"},
+  "golden_hour": {"zh-TW": "金光", "en": "Golden hour", "ja": "ゴールデンアワー"},
+  "mountain_view": {"zh-TW": "山景", "en": "Mountain view", "ja": "山景"},
+  "night_sky": {"zh-TW": "星空", "en": "Night sky", "ja": "星空"},
+  "overcast_soft": {"zh-TW": "陰柔光", "en": "Soft overcast", "ja": "柔光"},
+  "overlook": {"zh-TW": "眺望", "en": "Overlook", "ja": "眺望"},
+  "reflection": {"zh-TW": "倒影", "en": "Reflection", "ja": "水面反射"},
+  "seasonal_plant": {"zh-TW": "花季", "en": "Seasonal flora", "ja": "季節の花"},
+  "snow_ice": {"zh-TW": "冰雪", "en": "Snow & ice", "ja": "雪氷"},
+  "snow_ice_night": {"zh-TW": "夜冰雪", "en": "Night snow & ice", "ja": "夜の雪氷"},
+  "sunrise": {"zh-TW": "日出", "en": "Sunrise", "ja": "日の出"},
+  "sunset": {"zh-TW": "夕陽", "en": "Sunset", "ja": "夕景"},
+  "tidal": {"zh-TW": "潮汐", "en": "Tide", "ja": "潮汐"},
+  "volcanic_glow": {"zh-TW": "熔岩", "en": "Lava glow", "ja": "溶岩"},
+  "waterfall": {"zh-TW": "瀑布", "en": "Waterfall", "ja": "滝"}
+ }
+}
