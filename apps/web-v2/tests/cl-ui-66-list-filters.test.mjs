@@ -253,6 +253,8 @@ test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the s
     assert.match(block, /overflow-x:\s*auto/, `${cls} must scroll horizontally (390px-first)`);
     assert.match(block, /-webkit-overflow-scrolling:\s*touch/);
   }
-  assert.match(cssSource, /\.tier-tab\.active \{[^}]*#38bdf8/);
+  // CL-UI-78 P1-2 (design-review-1): the recommend tab is a GREEN semantic
+  // state; the subject chip stays blue (selected-but-not-semantic).
+  assert.match(cssSource, /\.tier-tab\.active \{[^}]*#4ADE80/);
   assert.match(cssSource, /\.subject-chip\.active \{[^}]*#38bdf8/);
 });

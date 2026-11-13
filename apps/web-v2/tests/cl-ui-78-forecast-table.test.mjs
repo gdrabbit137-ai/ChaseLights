@@ -119,24 +119,49 @@ test('CL-UI-78 (5): the 「最佳」 blue pill is gone; CSS cleaned', () => {
   }
 });
 
-test('CL-UI-78 (6): 1280px zero horizontal scroll + 390px card layout (CSS anchors)', () => {
+test('CL-UI-78 (6): ≤768px card layout + audit anchors (CSS)', () => {
   // narrow time column: the sticky first cell only carries HH:MM now
   assert.match(cssSource, /\.terminal-table td:first-child \{ min-width: 48px; \}/);
   // banner + mobile-banner styles exist
   assert.match(cssSource, /\.wm-date-row td \{/);
   assert.match(cssSource, /\.timeline-mobile-day \{/);
-  // 390px (≤640px) keeps the established card-first layout: table hidden,
-  // cards shown — priority info (time/status/subjects) sits first in the card.
+  // P1-3 (design-review-1): at ≤768px the table is hidden, cards shown
   const hideIdx = cssSource.indexOf('.timeline-table-wrap { display: none; }');
-  assert.ok(hideIdx > 0, 'table hidden on ≤640px');
+  assert.ok(hideIdx > 0, 'table hidden on ≤768px');
   const mqStart = cssSource.lastIndexOf('@media', hideIdx);
-  assert.match(cssSource.slice(mqStart, hideIdx), /max-width: ?640px/, 'hide rule lives in the ≤640px media query');
+  assert.match(cssSource.slice(mqStart, hideIdx), /max-width: ?768px/, 'hide rule lives in the ≤768px media query');
   const showIdx = cssSource.indexOf('.timeline-mobile { display: block; }', hideIdx);
-  assert.ok(showIdx > 0, 'mobile cards shown on ≤640px');
+  assert.ok(showIdx > 0, 'mobile cards shown on ≤768px');
   assert.ok(cssSource.slice(hideIdx, showIdx).length < 400, 'hide/show are adjacent rules in the same query');
+  // card spec: 12px padding, 8px radius, 8px card gap; time 14px semibold
+  assert.match(cssSource, /\.timeline-mobile-card \{[^}]*border-radius: 8px;[^}]*padding: 12px;[^}]*margin-bottom: 8px;/s);
+  assert.match(cssSource, /\.timeline-mobile-time \{ font-size: 14px; color: #e2e8f0; font-weight: 600; \}/);
+  // collapsed details + toggle
+  assert.match(cssSource, /\.timeline-mobile-details \{ display: none; \}/);
+  assert.match(cssSource, /\.timeline-mobile-card\.tm-details-open \.timeline-mobile-details \{ display: block;/);
+  // P1-1: fixed 88px visibility column
+  assert.match(cssSource, /\.terminal-table th\.col-vis, \.terminal-table td\.col-vis \{ width: 88px; min-width: 88px; max-width: 88px; \}/);
+  // P1-2: the recommend tier tab is green, never blue
+  assert.match(cssSource, /\.tier-tab\.active \{ background: #123B2A; color: #4ADE80; border-color: #166534;/);
+  assert.ok(!cssSource.includes('.tier-tab.active { background: #38bdf8'), 'no blue recommend tab');
+});
+
+test('CL-UI-78 (6b): audit app.js anchors — short vis cell + collapsible card', () => {
+  // P1-1: capped visibility renders the SHORT value with the note as tooltip
+  assert.ok(appSource.includes('function visCellHtml(km)'), 'visCellHtml helper');
+  const rowIdx = appSource.indexOf('(spot.hourly_forecast||[]).forEach(item=>{');
+  const row = appSource.slice(rowIdx, rowIdx + 3200);
+  assert.ok(row.includes('${visCellHtml(item.visibility)}'), 'desktop row uses the short vis cell');
+  assert.ok(row.includes('class="key-metric col-vis"'), 'vis cell carries the fixed-width class');
+  // P1-3: card face = time/status + clouds + temp; rest collapses into ⋯ 詳情
   const cardIdx = appSource.indexOf('timeline-mobile-head');
-  const card = appSource.slice(cardIdx, cardIdx + 400);
+  const card = appSource.slice(cardIdx, cardIdx + 2600);
   assert.ok(card.indexOf('timeline-mobile-time') < card.indexOf('timeline-mobile-status'), 'time before status');
+  assert.ok(card.includes('timeline-mobile-quick-clouds') && card.includes('timeline-mobile-quick-temp'), 'clouds+temp quick row');
+  assert.ok(card.includes("classList.toggle('tm-details-open')"), 'details toggle');
+  assert.ok(card.includes('timeline-mobile-details'), 'details container');
+  // new i18n key in all three dictionaries
+  assert.equal(appSource.split("wm_details:'").length - 1, 3, 'wm_details in all three dicts');
 });
 
 test('CL-UI-78 (7): 1280px zero horizontal scroll (real-CDP layout probe, browser-gated)', {skip: !process.env.CHROMIUM_EXECUTABLE && !process.env.CLUI78_BROWSER}, async () => {
