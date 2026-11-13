@@ -109,14 +109,16 @@ test('CL-UI-78 (4): compact header — short labels with tooltips, clouds merged
   assert.ok(row.indexOf('eval2_unk') < row.indexOf('td-subjects'), 'status cell before subjects cell');
 });
 
-test('CL-UI-78 (5): the 「最佳」 blue pill is gone; CSS cleaned', () => {
-  assert.ok(!appSource.includes('tag-best') && !appSource.includes('tag_best'));
-  assert.ok(!appSource.includes('best-row'));
-  assert.ok(!cssSource.includes('.tag-best') && !cssSource.includes('best-row'));
-  // and the subtitle no longer explains a blue tint that no longer exists
-  for (const stale of ['藍底＝', 'blue = a relatively better time', '青色＝']) {
-    assert.ok(!appSource.includes(stale), `stale subtitle copy gone: ${stale}`);
-  }
+test('CL-UI-78 (5): no BLUE 「最佳」 pill; CL-UI-81 green semantic present', () => {
+  // CL-INT-163: 78 removed the blue pill; 81 reintroduces the marker as GREEN.
+  assert.ok(!appSource.includes('tag_best') || appSource.includes('tag-best'), 'marker rides the 81 green class');
+  assert.ok(!appSource.includes('藍底＝') && !appSource.includes('blue = a relatively better time') && !appSource.includes('青色＝'),
+    'no stale blue-tint subtitle copy');
+  assert.ok(cssSource.includes('.tag-best') && cssSource.includes('background:#123B2A') && cssSource.includes('color:#4ADE80'),
+    'the 「最佳」 badge is the green contract (#123B2A/#4ADE80)');
+  assert.ok(cssSource.includes('.terminal-table tr.best-row') && cssSource.includes('rgba(34, 197, 94, 0.10)'),
+    'best row highlight is green');
+  assert.ok(!cssSource.includes('#1d4ed8'), 'no blue pill tint survives');
 });
 
 test('CL-UI-78 (6): ≤768px card layout + audit anchors (CSS)', () => {
