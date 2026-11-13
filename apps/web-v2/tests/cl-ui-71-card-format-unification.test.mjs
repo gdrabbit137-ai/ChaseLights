@@ -127,8 +127,8 @@ test('CL-UI-71 (5): the old 「本日最佳題材」 render path is retired from
   assert.match(createSpotCardBlock, /class="cl-subject-rows"/);
 });
 
-test('CL-UI-71 (6): cache-bust stamp — app.js advanced to clui87 (app.css follows at clui87 per CL-UI-72)', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui87/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui87/);
+test('CL-UI-71 (6): cache-bust stamp — app.js advanced to clui88 (app.css follows at clui88 per CL-UI-72)', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui88/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui88/);
   assert.ok(!indexSource.includes('app.js?v=clui75'), 'stale app.js stamp retired');
 });
