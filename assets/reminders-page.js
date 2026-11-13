@@ -8,16 +8,17 @@
    The region is derived from the place_id prefix (tw/jp/us/ak/hi), the same
    regions the homepage VALID_REGIONS uses. No data-layer files are touched.
 
-   Backend contract (CL-API-03 + CL-UI-58 PATCH):
-   - GET    /api/v1/notify_rules      -> { rules:[{id, place_id, opportunity_id, channel, min_advance_hours, enabled}] } (JWT only; 401 = not signed in)
-   - POST   /api/v1/notify_rules      { placeId, opportunityId, channel:'push', minAdvanceHours:24 }
-   - PATCH  /api/v1/notify_rules/<id> { enabled: boolean }
-   - DELETE /api/v1/notify_rules/<id>
+   Backend contract (CL-API-03 + CL-UI-58 PATCH; CL-UI-61: the real worker
+   route is /notify/rules under the /api/v1 base — /notify_rules was a 404):
+   - GET    /api/v1/notify/rules      -> { rules:[{id, place_id, opportunity_id, channel, min_advance_hours, enabled}] } (JWT only; 401 = not signed in)
+   - POST   /api/v1/notify/rules      { placeId, opportunityId, channel:'push', minAdvanceHours:24 }
+   - PATCH  /api/v1/notify/rules/<id> { enabled: boolean }
+   - DELETE /api/v1/notify/rules/<id>
 */
 (function () {
   'use strict';
 
-  var RULES_ENDPOINT = '/api/v1/notify_rules';
+  var RULES_ENDPOINT = '/api/v1/notify/rules';
   var ME_ENDPOINT = '/api/v1/auth/me';
   var CATALOG_URL = './apps/web-v2/evaluations-latest.json';
   var REGIONS = [
@@ -392,21 +393,49 @@
     return fetchRules().then(renderAll).catch(function () { showNotice('rem_err'); });
   }
 
-  function checkSignedIn() {
-    return fetch(ME_ENDPOINT, { headers: { Accept: 'application/json' } }).then(function (r) {
+  // CL-UI-61: the session check is throttled — one /auth/me call per window
+  // (boot, reloads and post-401 retries reuse the same cached answer instead
+  // of hammering the endpoint). force=true bypasses the window.
+  var ME_THROTTLE_MS = 30000;
+  var mePromise = null, meAt = 0;
+  function checkSignedIn(force) {
+    var now = Date.now();
+    if (!force && mePromise && now - meAt < ME_THROTTLE_MS) return mePromise;
+    meAt = now;
+    mePromise = fetch(ME_ENDPOINT, { headers: { Accept: 'application/json' } }).then(function (r) {
       state.signedIn = r.ok;
       return r.ok;
     }).catch(function () { return false; });
+    return mePromise;
+  }
+
+  function loadCatalog() {
+    // Catalog failure must not block the signed-in rules load (CL-UI-61):
+    // it only degrades the quick-add picker names, not the login gate.
+    return fetch(CATALOG_URL, { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (b) { state.catalog = (b && b.places) || []; })
+      .catch(function () { state.catalog = []; });
   }
 
   function boot() {
     state.lang = lang();
     bindEvents();
     renderAll();
-    Promise.all([
-      fetch(CATALOG_URL, { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (b) { state.catalog = (b && b.places) || []; }),
-      checkSignedIn()
-    ]).then(reload).catch(function () { showNotice('rem_err'); });
+    loadCatalog();
+    // CL-UI-61 login gate: resolve the session first (throttled /auth/me),
+    // then fetch rules ONLY while signed in. Signed-out visitors get the
+    // 「請先登入」 panel with the login buttons — never the sync-error wording.
+    checkSignedIn().then(function (signed) {
+      renderAll();
+      if (!signed) return null;
+      return reload();
+    }).catch(function () {
+      // Only a signed-in rules failure reaches here as a sync error; the
+      // signed-out branch renders the login panel instead (CL-UI-61).
+      if (state.signedIn === true) showNotice('rem_err');
+      else renderAll();
+    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
