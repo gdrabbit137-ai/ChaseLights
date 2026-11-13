@@ -34,8 +34,8 @@ test('CL-UI-36 B: v2CondLive current value carries the unit', () => {
 
 test('CL-UI-36: homepage cache-bust stamp bumped to clui41', () => {
   const index = readFileSync(new URL('../../../index.html', import.meta.url), 'utf8');
-  assert.match(index, /assets\/app\.js\?v=clui88/);
-  assert.match(index, /assets\/app\.css\?v=clui88/);
+  assert.match(index, /assets\/app\.js\?v=clui89/);
+  assert.match(index, /assets\/app\.css\?v=clui89/);
 });
 
 test('CL-UI-36 A: no internal review note leaks into user-facing bundles', () => {

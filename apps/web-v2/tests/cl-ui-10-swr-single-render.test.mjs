@@ -42,8 +42,10 @@ test('CL-UI-10 (b): applyData renders exactly once, after the V2 bundle settles'
   // repaint when the bundle arrives.
   const calls = (applyDataBlock.match(/filterAndRender\(\)/g) || []).length;
   assert.equal(calls, 1, 'applyData must call filterAndRender exactly once');
-  assert.match(applyDataBlock,
-    /ensureV2EvalBundle\(\)\.then\(\(\)=>\{if\(seq===activeLoadSequence&&region===currentRegion\)filterAndRender\(\);\}\);return true;\}/);
+  // CL-UI-84: the gated render gained a settle-status tail (honest stale-cache
+  // banner label) but still fires exactly once, via the bundle promise.
+  assert.ok(applyDataBlock.includes("ensureV2EvalBundle().then(bundle=>{if(seq===activeLoadSequence&&region===currentRegion){filterAndRender();"),
+    'the single gated render still runs via the bundle promise');
   assert.equal(/filterAndRender\(\);return true;\}/.test(applyDataBlock), false,
     'the synchronous double render must be gone');
 });
@@ -87,7 +89,10 @@ test('CL-UI-10 (b): fetch timeout guarantees the bundle promise always settles',
 });
 
 test('CL-UI-10 (c): the update indicator uses the shared i18n "updating" copy, no internal labels', () => {
-  assert.match(showUpdateBlock, /updateBanner\.textContent=d\(\)\.updating;/);
+  // CL-UI-84: the banner text is now `text||d().updating` — the optional
+  // override carries the honest 「顯示上次資料」 stale-cache label; the default
+  // remains the shared i18n "updating" copy.
+  assert.match(showUpdateBlock, /updateBanner\.textContent=text\|\|d\(\)\.updating;/);
   const bannerText = showUpdateBlock.slice(showUpdateBlock.indexOf('cssText'));
   assert.equal(/provisional|pending|internal|待證據|研究中/i.test(bannerText), false);
   // zh-TW / en / ja dictionaries all carry the updating string.
