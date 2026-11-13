@@ -2,7 +2,7 @@
       'zh-TW': {
         page_title:'ChaseLights — 攝影氣象預報', country_aria:'國家／區域', temp_unit_aria:'溫度單位', weathergrid_title:'開啟 WeatherGrid 天氣圖', nav_cards:'卡片', nav_weathermap:'天氣圖', nav_more_tools:'更多工具 ▾', nav_genre_eval:'題材評估', nav_field_intake:'實拍驗證', nav_reminders:'提醒', field_intake_title:'開啟實拍驗證', place_modal_title:'景點攝影資訊', weather_modal_title:'景點氣象分析', close_place:'關閉景點攝影資訊', close_weather:'關閉景點氣象分析', load_error:'暫時無法載入攝影氣象資料。',
         country_label:'📍 選擇國家/區域：', opt_tw:'🇹🇼 台灣', opt_jp:'🇯🇵 日本', opt_us:'🇺🇸 美國', lang_opt_zh:'🌐 繁體中文', lang_opt_en:'🌐 English', lang_opt_ja:'🌐 日語',
-        btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', eval2_title:'即時條件評估', eval2_d0:'今天', eval2_d1:'明天', eval2_d2:'後天', eval2_d_past:'昨天', eval2_ok:'符合', eval2_bad:'未符', eval2_unk:'資料不足', eval2_hours:'符合時數', eval2_fail_by:'未符條件', eval2_none:'此日期的評估尚未生成', eval2_load_fail:'評估資料暫時無法載入', v2_best_subject:'本日最佳題材：', v2_best_subject_tomorrow:'明日最佳題材：', v2_best_subject_after:'後日最佳題材：', v2_next_window:'下一個符合時段：',nw_rel_0:'今天',nw_rel_1:'明天',nw_rel_2:'後天',nw_rel_3:'大後天', v2_none_today:'本日無符合題材', v2_none_tomorrow:'明日無符合題材', v2_none_after:'後日無符合題材',v2_best_subject_far:'當日最佳題材：',v2_none_far:'當日無符合題材',where_far:'📍 當天去哪裡拍？',day_conf_note:'第4天起預報可信度逐日遞減',day_picker_label:'選擇日期', day_summary_viable:'{n} 個景點符合', day_summary_none:'無符合景點', v2_conditions_from:'拍攝條件', v2_cond_now:'現況', v2_gap_ok:'已達門檻', v2_gap_short:'尚差 {n}', v2_gap_over:'超過 {n}', v2_pass_hours:'達成時段 {t}', v2_never_num:'全日未達 · 今日 {r}', v2_never:'全日未達', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…', card_line_ok:'✓ 符合', card_line_bad:'✗ 未符',
+        btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', eval2_title:'即時條件評估', eval2_d0:'今天', eval2_d1:'明天', eval2_d2:'後天', eval2_d_past:'昨天', eval2_ok:'符合', eval2_bad:'未符', eval2_unk:'資料不足', eval2_hours:'符合時數', eval2_fail_by:'未符條件', eval2_none:'此日期的評估尚未生成', eval2_load_fail:'評估資料暫時無法載入', v2_best_subject:'本日最佳題材：', v2_best_subject_tomorrow:'明日最佳題材：', v2_best_subject_after:'後日最佳題材：', v2_next_window:'下一個符合時段：',nw_rel_0:'今天',nw_rel_1:'明天',nw_rel_2:'後天',nw_rel_3:'大後天', v2_none_today:'本日無符合題材', v2_none_tomorrow:'明日無符合題材', v2_none_after:'後日無符合題材',v2_best_subject_far:'當日最佳題材：',v2_none_far:'當日無符合題材',where_far:'📍 當天去哪裡拍？',day_conf_note:'第4天起預報可信度逐日遞減',day_picker_label:'選擇日期', day_summary_viable:'{n} 個景點符合', day_summary_none:'無符合景點', v2_conditions_from:'拍攝條件', v2_quick_title:'今日速覽', v2_quick_none:'尚無速覽資料', v2_cond_count:'條件 ×{n}', v2_hourly_link:'查看逐小時預報 →', v2_cond_now:'現況', v2_gap_ok:'已達門檻', v2_gap_short:'尚差 {n}', v2_gap_over:'超過 {n}', v2_pass_hours:'達成時段 {t}', v2_never_num:'全日未達 · 今日 {r}', v2_never:'全日未達', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…', card_line_ok:'✓ 符合', card_line_bad:'✗ 未符',
         last_updated:'最後更新：', click_detail:'查看詳細資訊', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', map_link_approx:'📍 地圖（概略座標）', nav_pending:'🗺️ 導航待確認', radar_link:'🗺️ 天氣圖', field_intake_link:'📷 實拍驗證', genre_eval_link:'🌗 題材評估', genre_eval_title:'開啟攝影題材條件評估',place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_selected_date:'📅 所選日期拍攝機會', guide_no_selected_date:'所選日期目前沒有明確的拍攝建議。', guide_more_subjects:'其他已查證拍攝題材（{n}）', guide_all_subjects:'查看這裡可以拍什麼（{n}）', guide_subjects_note:'以下是這個景點已查證的拍攝題材，不代表所選日期條件適合。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'所選日期最佳評分', guide_day_best:'最佳拍攝時段', guide_day_relative:'相對較佳時段', guide_confidence:'信心', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'拍攝指南', guide_score_why:'為什麼適合？', guide_score_status:'判定', guide_unresearched:'目前沒有可提供的拍攝指南。', research_pending_card:'所選日期目前無法提供可靠的拍攝建議',eval2_no_contract:'此景點的攝影題材條件尚未完成查證，無法提供評估',eval2_no_geometry:'拍攝座標尚未完成查證，無法評估此題材',eval2_no_template:'此題材的成立條件尚未定義，無法提供評估',eval2_unverified:'評估條件尚未查證，無法判定', no_viable_group:'暫無合適拍攝機會（{n}）', no_eval_group:'尚無本日評估的景點（{n}）', no_eval_group_named:'尚無本日評估：{names}（共 {n} 個）', no_eval_group_named_more:'尚無本日評估：{names} 等 {n} 個', late_night_banner_sparse:'今日接近尾聲，以下為剩餘的建議時段', late_night_banner:'今日拍攝時段已結束，以下顯示明天的建議', late_night_banner_both:'今日與明日目前均無符合時段', back_today:'回到今天', tomorrow_badge:'明天', eval2_past_hours:'今日已過時段不計', eval2_day_past:'此日已過，時段不計入符合', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型', admin_area_filter:'地區', admin_area_all:'全部地區', admin_area_selected:'已選 {n} 個地區', admin_area_clear:'清除地區', admin_area_search:'搜尋地區…', admin_area_no_match:'找不到符合的地區', admin_area_done:'完成', admin_area_close:'關閉地區選單', admin_area_show_empty:'顯示尚未收錄的地區', admin_area_hide_empty:'隱藏尚未收錄的地區', sort_label:'排序', sort_region:'地區順序', sort_hours:'符合時數：高到低', sort_score_desc:'評分：高到低', sort_score_asc:'評分：低到高', sort_distance_near:'距離：近到遠', sort_distance_far:'距離：遠到近', sort_location_requesting:'正在取得目前位置…', sort_location_using_current:'以目前位置排序', sort_location_unavailable:'無法取得位置，已改回地區順序', result_count_region:'依地區順序 · {n} 個景點', result_count_score_desc:'依評分高到低 · {n} 個景點', result_count_score_asc:'依評分低到高 · {n} 個景點', result_count_hours_desc:'依符合時數高到低 · {n} 個景點', result_count_distance_near:'依距離近到遠 · {n} 個景點', result_count_distance_far:'依距離遠到近 · {n} 個景點', region_group_count:'{n} 個景點',
         best_window:'⏱️ 最佳拍攝時段：', relative_window:'⏱️ 相對較佳時段：', forecast_status:'📍 預報狀態：', v2_fail_reason:'未符原因：', cloud_base_label:'估算凝結高度', best_theme:'📸 所選日期較適合：', local_time:'當地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 逐時拍攝條件：過去 {p} 小時 + 未來 {f} 小時（藍底＝所選日期中相對較佳的時段；仍需看整體評分與條件）', tag_best:'最佳',
@@ -16,7 +16,7 @@
       'en': {
         page_title:'ChaseLights — Photography Weather Forecast', country_aria:'Country / region', temp_unit_aria:'Temperature unit', weathergrid_title:'Open WeatherGrid weather map', nav_cards:'Cards', nav_weathermap:'Weather map', nav_more_tools:'More tools ▾', nav_genre_eval:'Genre assessment', nav_field_intake:'Field check', nav_reminders:'Reminders', field_intake_title:'Open field validation', place_modal_title:'Place photography guide', weather_modal_title:'Place weather analysis', close_place:'Close place photography guide', close_weather:'Close place weather analysis', load_error:'Photography weather data is temporarily unavailable.',
         country_label:'📍 Select Region:', opt_tw:'🇹🇼 Taiwan', opt_jp:'🇯🇵 Japan', opt_us:'🇺🇸 United States', lang_opt_zh:'🌐 Traditional Chinese', lang_opt_en:'🌐 English', lang_opt_ja:'🌐 Japanese',
-        btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', eval2_title:'Live condition assessment', eval2_d0:'Today', eval2_d1:'Tomorrow', eval2_d2:'Day after', eval2_d_past:'Yesterday', eval2_ok:'Met', eval2_bad:'Not met', eval2_unk:'Insufficient data', eval2_hours:'qualifying hours', eval2_fail_by:'Unmet conditions', eval2_none:'Evaluation for this date has not been generated yet', eval2_load_fail:'Evaluation data temporarily unavailable', v2_best_subject:'Best subject today: ', v2_best_subject_tomorrow:'Best subject tomorrow: ', v2_best_subject_after:'Best subject day after: ', v2_next_window:'Next qualifying window: ',nw_rel_0:'today',nw_rel_1:'tomorrow',nw_rel_2:'in 2 days',nw_rel_3:'in 3 days', v2_none_today:'No qualifying subject today', v2_none_tomorrow:'No qualifying subject tomorrow', v2_none_after:'No qualifying subject day after',v2_best_subject_far:'Best subject that day: ',v2_none_far:'No qualifying subject that day',where_far:'📍 Where to shoot that day?',day_conf_note:'Forecast confidence decreases day by day from day 4',day_picker_label:'Pick a date', day_summary_viable:'{n} spots qualify', day_summary_none:'No qualifying spots', v2_conditions_from:'Shooting conditions', v2_cond_now:'Now', v2_gap_ok:'meets threshold', v2_gap_short:'short by {n}', v2_gap_over:'over by {n}', v2_pass_hours:'Met at {t}', v2_never_num:'Not met all day · today {r}', v2_never:'Not met all day', loading:'Fetching photography weather data...', updating:'Updating in background…', card_line_ok:'✓ Met', card_line_bad:'✗ Not met',
+        btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', eval2_title:'Live condition assessment', eval2_d0:'Today', eval2_d1:'Tomorrow', eval2_d2:'Day after', eval2_d_past:'Yesterday', eval2_ok:'Met', eval2_bad:'Not met', eval2_unk:'Insufficient data', eval2_hours:'qualifying hours', eval2_fail_by:'Unmet conditions', eval2_none:'Evaluation for this date has not been generated yet', eval2_load_fail:'Evaluation data temporarily unavailable', v2_best_subject:'Best subject today: ', v2_best_subject_tomorrow:'Best subject tomorrow: ', v2_best_subject_after:'Best subject day after: ', v2_next_window:'Next qualifying window: ',nw_rel_0:'today',nw_rel_1:'tomorrow',nw_rel_2:'in 2 days',nw_rel_3:'in 3 days', v2_none_today:'No qualifying subject today', v2_none_tomorrow:'No qualifying subject tomorrow', v2_none_after:'No qualifying subject day after',v2_best_subject_far:'Best subject that day: ',v2_none_far:'No qualifying subject that day',where_far:'📍 Where to shoot that day?',day_conf_note:'Forecast confidence decreases day by day from day 4',day_picker_label:'Pick a date', day_summary_viable:'{n} spots qualify', day_summary_none:'No qualifying spots', v2_conditions_from:'Shooting conditions', v2_quick_title:'Today at a glance', v2_quick_none:'No summary available yet', v2_cond_count:'Conditions ×{n}', v2_hourly_link:'View hourly forecast →', v2_cond_now:'Now', v2_gap_ok:'meets threshold', v2_gap_short:'short by {n}', v2_gap_over:'over by {n}', v2_pass_hours:'Met at {t}', v2_never_num:'Not met all day · today {r}', v2_never:'Not met all day', loading:'Fetching photography weather data...', updating:'Updating in background…', card_line_ok:'✓ Met', card_line_bad:'✗ Not met',
         last_updated:'Last Updated: ', click_detail:'View details', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', map_link_approx:'📍 Map (approximate pin)', nav_pending:'🗺️ Nav pending', radar_link:'🗺️ Weather map', field_intake_link:'📷 Field Check', genre_eval_link:'🌗 Genre Assessment', genre_eval_title:'Open genre condition assessment',place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_selected_date:'📅 Selected-date shooting opportunities', guide_no_selected_date:'There is no clear shooting recommendation for the selected date.', guide_more_subjects:'Other verified subjects ({n})', guide_all_subjects:'What can you photograph here? ({n})', guide_subjects_note:'These are verified subjects for this place; they do not imply suitable conditions on the selected date.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Best score for selected date', guide_day_best:'Best shooting time', guide_day_relative:'Relatively better time', guide_confidence:'Confidence', confidence_high:'High', confidence_medium:'Medium', confidence_low:'Low', guide_details:'Shooting guide', guide_score_why:'Why is this suitable?', guide_score_status:'Assessment', guide_unresearched:'No shooting guide is currently available for this place.', research_pending_card:'A reliable shooting recommendation is not currently available for the selected date',eval2_no_contract:'Subject conditions for this spot are not yet verified, so no evaluation is available',eval2_no_geometry:'Shooting coordinates are not yet verified, so this subject cannot be evaluated',eval2_no_template:'Qualifying conditions for this subject are not yet defined, so no evaluation is available',eval2_unverified:'Assessment conditions are not yet verified, so no verdict is available', no_viable_group:'No viable shooting opportunity ({n})', no_eval_group:'No evaluation yet for this date ({n})', no_eval_group_named:'No evaluation yet for this date: {names} ({n})', no_eval_group_named_more:'No evaluation yet for this date: {names}, and {n} in total', late_night_banner_sparse:'Today is winding down — here are the remaining shooting suggestions', late_night_banner:"Today's shooting hours have ended — showing tomorrow's suggestions", late_night_banner_both:'No qualifying windows today or tomorrow yet', back_today:'Back to today', tomorrow_badge:'Tomorrow', eval2_past_hours:'Hours already past today are excluded', eval2_day_past:'This day has passed — its hours no longer count as qualifying', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for selected date · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', recommendation_reasons:'Why it stands out', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type', admin_area_filter:'Area', admin_area_all:'All areas', admin_area_selected:'{n} selected', admin_area_clear:'Clear areas', admin_area_search:'Search areas…', admin_area_no_match:'No matching area', admin_area_done:'Done', admin_area_close:'Close area picker', admin_area_show_empty:'Show areas not yet covered', admin_area_hide_empty:'Hide areas not yet covered', sort_label:'Sort', sort_region:'Geographic order', sort_hours:'Qualifying hours: high to low', sort_score_desc:'Score: high to low', sort_score_asc:'Score: low to high', sort_distance_near:'Distance: near to far', sort_distance_far:'Distance: far to near', sort_location_requesting:'Getting your current location…', sort_location_using_current:'Sorted from current location', sort_location_unavailable:'Location unavailable; switched to geographic order', result_count_region:'Geographic order · {n} spots', result_count_score_desc:'Score high to low · {n} spots', result_count_score_asc:'Score low to high · {n} spots', result_count_hours_desc:'By qualifying hours, high to low · {n} spots', result_count_distance_near:'Nearest first · {n} spots', result_count_distance_far:'Farthest first · {n} spots', region_group_count:'{n} spots',
         best_window:'⏱️ Best shooting time: ', relative_window:'⏱️ Relatively better time: ', forecast_status:'📍 Status: ', v2_fail_reason:'Reason: ', cloud_base_label:'Est. LCL', best_theme:'📸 Best for selected date: ', local_time:'Local time', dark_sky:'Dark sky',
         modal_subtitle:'⏱️ Hourly shooting conditions: past {p} hours + next {f} hours (blue = a relatively better time on the selected date; check the overall score and conditions)', tag_best:'BEST',
@@ -30,7 +30,7 @@
       'ja': {
         page_title:'ChaseLights — 撮影向け気象予報', country_aria:'国・地域', temp_unit_aria:'温度単位', weathergrid_title:'WeatherGrid 天気マップを開く', nav_cards:'カード', nav_weathermap:'天気マップ', nav_more_tools:'その他のツール ▾', nav_genre_eval:'題材評価', nav_field_intake:'実写検証', nav_reminders:'リマインダー', field_intake_title:'実写検証を開く', place_modal_title:'撮影スポットガイド', weather_modal_title:'撮影スポット気象分析', close_place:'撮影スポットガイドを閉じる', close_weather:'撮影スポット気象分析を閉じる', load_error:'撮影向け気象データを一時的に読み込めません。',
         country_label:'📍 地域を選択：', opt_tw:'🇹🇼 台湾', opt_jp:'🇯🇵 日本', opt_us:'🇺🇸 アメリカ', lang_opt_zh:'🌐 中国語（繁体字）', lang_opt_en:'🌐 英語', lang_opt_ja:'🌐 日本語',
-        btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', eval2_title:'リアルタイム条件評価', eval2_d0:'今日', eval2_d1:'明日', eval2_d2:'明後日', eval2_d_past:'昨日', eval2_ok:'達成', eval2_bad:'未達成', eval2_unk:'データ不足', eval2_hours:'撮影に適した時間数', eval2_fail_by:'未達成の条件', eval2_none:'この日付の評価はまだ生成されていません', eval2_load_fail:'評価データを読み込めません', v2_best_subject:'本日の最適な題材：', v2_best_subject_tomorrow:'明日の最適な題材：', v2_best_subject_after:'明後日の最適な題材：', v2_next_window:'次の撮影に適した時間帯：',nw_rel_0:'今日',nw_rel_1:'明日',nw_rel_2:'明後日',nw_rel_3:'3日後', v2_none_today:'本日に適したテーマなし', v2_none_tomorrow:'明日に適したテーマなし', v2_none_after:'明後日に適したテーマなし',v2_best_subject_far:'当日の最適な題材：',v2_none_far:'当日適したテーマがありません',where_far:'📍 その日はどこへ？',day_conf_note:'4日目以降は予報の信頼度が日ごとに低下します',day_picker_label:'日付を選択', day_summary_viable:'{n} 件が適合', day_summary_none:'適合する場所なし', v2_conditions_from:'撮影条件', v2_cond_now:'現況', v2_gap_ok:'しきい値達成', v2_gap_short:'あと{n}', v2_gap_over:'{n} 超過', v2_pass_hours:'達成時間帯 {t}', v2_never_num:'終日未達成・本日 {r}', v2_never:'終日未達成', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…', card_line_ok:'✓ 達成', card_line_bad:'✗ 未達成',
+        btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', eval2_title:'リアルタイム条件評価', eval2_d0:'今日', eval2_d1:'明日', eval2_d2:'明後日', eval2_d_past:'昨日', eval2_ok:'達成', eval2_bad:'未達成', eval2_unk:'データ不足', eval2_hours:'撮影に適した時間数', eval2_fail_by:'未達成の条件', eval2_none:'この日付の評価はまだ生成されていません', eval2_load_fail:'評価データを読み込めません', v2_best_subject:'本日の最適な題材：', v2_best_subject_tomorrow:'明日の最適な題材：', v2_best_subject_after:'明後日の最適な題材：', v2_next_window:'次の撮影に適した時間帯：',nw_rel_0:'今日',nw_rel_1:'明日',nw_rel_2:'明後日',nw_rel_3:'3日後', v2_none_today:'本日に適したテーマなし', v2_none_tomorrow:'明日に適したテーマなし', v2_none_after:'明後日に適したテーマなし',v2_best_subject_far:'当日の最適な題材：',v2_none_far:'当日適したテーマがありません',where_far:'📍 その日はどこへ？',day_conf_note:'4日目以降は予報の信頼度が日ごとに低下します',day_picker_label:'日付を選択', day_summary_viable:'{n} 件が適合', day_summary_none:'適合する場所なし', v2_conditions_from:'撮影条件', v2_quick_title:'今日サマリー', v2_quick_none:'サマリーデータはまだありません', v2_cond_count:'条件 ×{n}', v2_hourly_link:'時間別予報を見る →', v2_cond_now:'現況', v2_gap_ok:'しきい値達成', v2_gap_short:'あと{n}', v2_gap_over:'{n} 超過', v2_pass_hours:'達成時間帯 {t}', v2_never_num:'終日未達成・本日 {r}', v2_never:'終日未達成', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…', card_line_ok:'✓ 達成', card_line_bad:'✗ 未達成',
         last_updated:'最終更新：', click_detail:'詳細を見る', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', map_link_approx:'📍 地図（概略座標）', nav_pending:'🗺️ ナビ確認待ち', radar_link:'🗺️ 天気マップ', field_intake_link:'📷 実写検証', genre_eval_link:'🌗 題材評価', genre_eval_title:'撮影題材の条件評価を開く',place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_selected_date:'📅 選択日の撮影機会', guide_no_selected_date:'選択日には明確におすすめできる撮影時間がありません。', guide_more_subjects:'その他の確認済み撮影テーマ（{n}）', guide_all_subjects:'ここで撮影できるものを見る（{n}）', guide_subjects_note:'以下はこの場所で確認済みの撮影テーマです。選択日の条件が適していることを意味しません。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'選択日の最良スコア', guide_day_best:'最適な撮影時間', guide_day_relative:'比較的良い時間帯', guide_confidence:'信頼度', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'撮影ガイド', guide_score_why:'なぜ撮影に適している？', guide_score_status:'判定', guide_unresearched:'この場所では現在、撮影ガイドを提供できません。', research_pending_card:'選択日は信頼できる撮影提案を現在提供できません',eval2_no_contract:'このスポットの撮影題材の条件はまだ検証されておらず、評価を提供できません',eval2_no_geometry:'撮影座標の検証が未了のため、この題材は評価できません',eval2_no_template:'この題材の成立条件がまだ定義されておらず、評価を提供できません',eval2_unverified:'評価条件が未検証のため、判定できません', no_viable_group:'適した撮影機会なし（{n}）', no_eval_group:'この日の評価がまだないスポット（{n}）', no_eval_group_named:'この日の評価がまだないスポット：{names}（{n} 件）', no_eval_group_named_more:'この日の評価がまだないスポット：{names} など {n} 件', late_night_banner_sparse:'本日は終盤です。残りの撮影候補を表示します', late_night_banner:'本日の撮影時間帯は終了しました。明日の提案を表示します', late_night_banner_both:'本日も明日も現在適合する時間帯はありません', back_today:'今日に戻る', tomorrow_badge:'明日', eval2_past_hours:'本日すでに過ぎた時間帯は除外', eval2_day_past:'この日は終了済みのため、適した時間数には含めません', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'選択日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', recommendation_reasons:'おすすめ理由', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除', admin_area_filter:'地域', admin_area_all:'すべての地域', admin_area_selected:'{n} 件選択', admin_area_clear:'地域を解除', admin_area_search:'地域を検索…', admin_area_no_match:'該当する地域がありません', admin_area_done:'完了', admin_area_close:'地域選択を閉じる', admin_area_show_empty:'未収録の地域を表示', admin_area_hide_empty:'未収録の地域を隠す', sort_label:'並び順', sort_region:'地域順', sort_hours:'撮影に適した時間数が多い順', sort_score_desc:'評価：高い順', sort_score_asc:'評価：低い順', sort_distance_near:'距離：近い順', sort_distance_far:'距離：遠い順', sort_location_requesting:'現在地を取得中…', sort_location_using_current:'現在地からの距離順', sort_location_unavailable:'現在地を取得できないため地域順に戻しました', result_count_region:'地域順 · {n} スポット', result_count_score_desc:'評価の高い順 · {n} スポット', result_count_score_asc:'評価の低い順 · {n} スポット', result_count_hours_desc:'撮影に適した時間数の多い順 · {n} スポット', result_count_distance_near:'近い順 · {n} スポット', result_count_distance_far:'遠い順 · {n} スポット', region_group_count:'{n} スポット',
         best_window:'⏱️ 最適時間：', relative_window:'⏱️ 比較的良い時間帯：', forecast_status:'📍 予報状況：', v2_fail_reason:'未達成の理由：', cloud_base_label:'推定LCL', best_theme:'📸 選択日に向く：', local_time:'現地時間', dark_sky:'暗空',
         modal_subtitle:'⏱️ 時間別の撮影条件：過去{p}時間＋未来{f}時間（青色＝選択日の中で相対的に条件が良い時間帯。総合評価と条件も確認してください）', tag_best:'最適',
@@ -1726,7 +1726,8 @@
           else if(c.role==='BLOCKER')v2Groups.penalty.push(item);
           else v2Groups.booster.push(item);
         });
-        const v2CondHtml=v2c?`<div class="v2-conditions"><div class="research-label">${esc(d().v2_conditions_from)}</div>${v2Groups.required.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_required)}${colonSep()}</span></div>${v2Groups.required.join('')}`:''}${v2Groups.booster.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_boosters)}${colonSep()}</span></div>${v2Groups.booster.join('')}`:''}${v2Groups.penalty.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_penalties)}${colonSep()}</span></div>${v2Groups.penalty.join('')}`:''}</div>`:'';
+        const v2CondCount=v2c?((v2c.conditions||[]).length):0;
+        const v2CondHtml=v2c?`<details class="v2-cond-details"><summary class="v2-cond-summary">${esc(d().v2_cond_count).replace('{n}',String(v2CondCount))}<span class="v2-cond-caret" aria-hidden="true">▸</span></summary><div class="v2-conditions"><div class="research-label">${esc(d().v2_conditions_from)}</div>${v2Groups.required.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_required)}${colonSep()}</span></div>${v2Groups.required.join('')}`:''}${v2Groups.booster.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_boosters)}${colonSep()}</span></div>${v2Groups.booster.join('')}`:''}${v2Groups.penalty.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_penalties)}${colonSep()}</span></div>${v2Groups.penalty.join('')}`:''}</div></details>`:'';
         return `<div class="opportunity-card${guideOnly?' opportunity-card-guide':''}">
           <div class="opportunity-head"><div class="opportunity-title">${esc(modalSubject)}${v2c?` <span class="v2-genre-chip${v2c.genre_template==='general'?' v2-genre-chip-general':''}">${esc(v2GenreName(v2c.genre_template))}</span>`:''}</div></div>
           ${current}
@@ -1744,7 +1745,7 @@
         : `<div class="place-guide-empty">${esc(d().guide_no_selected_date)}</div>`;
       const guideSummary=(selectedCards?d().guide_more_subjects:d().guide_all_subjects).replace('{n}',guideOnlyOpportunities.length);
       const guideSection=guideCards?`<details class="place-guide-more"><summary>${esc(guideSummary)}</summary><div class="place-guide-more-body"><div class="place-guide-intro">${esc(d().guide_subjects_note)}<br>${esc(d().researched_only)}</div><div class="opportunity-list">${guideCards}</div></div></details>`:'';
-      body.innerHTML=`<div class="place-guide-time-note">🕒 ${esc(d().place_time_note)}</div><section class="place-guide-selected"><div class="place-guide-section-title">${esc(d().guide_selected_date)}</div>${selectedSection}</section>${guideSection}`;
+      body.innerHTML=`<div class="place-guide-time-note">🕒 ${esc(d().place_time_note)}</div><section class="place-quick-view" aria-label="${esc(d().v2_quick_title)}"><div class="place-guide-section-title">${esc(d().v2_quick_title)}</div><div class="quick-view-body" id="place-quick-view-body"><span class="quick-none">${esc(d().v2_quick_none)}</span></div></section><section class="place-guide-selected"><div class="place-guide-section-title">${esc(d().guide_selected_date)}</div>${selectedSection}</section>${guideSection}<a class="place-hourly-link" href="./weather-map.html?region=${esc(String(spot.spot_id||'').split('-')[0])}&spot=${esc(spot.spot_id||'')}">${esc(d().v2_hourly_link)}</a>`;
       decorateV2Eval(spot);
       overlay.style.display='flex';
       syncModalScrollLock();
@@ -2406,6 +2407,70 @@
         `<span class="v2-hours">${esc(d().eval2_hours)} ${hours}${goodList?' · '+esc(goodList):''}</span></div>${pastNote}${failBits}`;
     }
     let v2Details={};
+    // CL-UI-64: dominant-failure metric (priority order shared with
+    // v2DominantFailReason) used to derive a SHORT word for compact surfaces.
+    function v2DominantFailMetric(conditions){
+      const failSet=new Set((conditions||[]).filter(c=>c&&(c.day_verdict==='FAIL'||c.day_verdict==='PARTIAL')).map(c=>c.metric));
+      for(const m of V2_FAIL_PRIORITY)if(failSet.has(m))return m;
+      return null;
+    }
+    // CL-UI-64: one SHORT reason word for the 8-day strip cell (subject-card
+    // dominant_reason first; falls back to the dominant metric's short name —
+    // never the long sentence, which stays in the collapsed conditions layer).
+    function v2ShortReasonWord(day,spot,genre,opportunityId){
+      const row=v2SubjectCardRow(spot&&spot.spot_id,day&&day.local_date);
+      const r=v2SubjectCardShortReason(row,currentLang);
+      if(r)return r;
+      const m=v2DominantFailMetric(day&&day.conditions);
+      if(!m)return '';
+      return (V2_EVAL_METRICS[currentLang]||V2_EVAL_METRICS['zh-TW'])[m]||m;
+    }
+    // CL-UI-64: compact 8-day strip — one row of day+badge cells replacing the
+    // previous 8 long rows. Clicking (or the native title on hover) reveals a
+    // SHORT reason word only; the long per-day narrative is gone from the
+    // glance level.
+    function v2DayStripHtml(days,labels,tz,spot,genre,opportunityId){
+      const cells=(days||[]).map((day,i)=>{
+        const cls=day.state==='GUIDANCE_SATISFIED'?'v2-ok':day.state==='NOT_EVALUABLE'?'v2-unk':'v2-bad';
+        const lab=day.state==='GUIDANCE_SATISFIED'?d().eval2_ok:day.state==='NOT_EVALUABLE'?d().eval2_unk:d().eval2_bad;
+        const title=labels[i]||day.local_date;
+        const hours=v2EffectiveHours(day,tz).length;
+        const reason=(day.state!=='GUIDANCE_SATISFIED')?v2ShortReasonWord(day,spot,genre,opportunityId):'';
+        const aria=`${title} ${lab}${hours?` · ${d().eval2_hours} ${hours}`:''}${reason?' · '+reason:''}`;
+        return `<button type="button" class="v2-strip-cell ${cls}" data-idx="${i}" data-label="${esc(title)}" data-verdict="${esc(lab)}" data-reason="${esc(reason)}" data-hours="${hours}" aria-label="${esc(aria)}" title="${esc(aria)}"><span class="v2-strip-day">${esc(title)}</span><span class="v2-strip-bar" aria-hidden="true"></span></button>`;
+      }).join('');
+      return `<div class="v2-day-strip" role="group">${cells}</div><div class="v2-strip-note" hidden></div>`;
+    }
+    // CL-UI-64: top "today at a glance" body — subject-cards lookup for the
+    // selected date: suitable -> short subject chips + window; not-met -> the
+    // dominant short reason word. No long sentences at this level. A missing
+    // subject-card row falls back to the evaluation bundle's best opportunity;
+    // when nothing is known it degrades to the honest v2_quick_none line.
+    function v2QuickViewHtml(spot,place){
+      const t=d();
+      const row=v2SubjectCardRow(spot&&spot.spot_id,localDateString((spot&&spot.timezone)||'UTC',selectedDayOffset()));
+      if(row&&row.status==='clear'){
+        const chips=v2SubjectCardShorts(row,currentLang);
+        const windows=[],seen=new Set();
+        (row.suitable||[]).forEach(s=>{const w=s&&s.window;if(w&&!seen.has(w)){seen.add(w);windows.push(w);}});
+        const html=chips.map(c=>`<span class="quick-chip">✓ ${esc(c)}</span>`).join('');
+        if(html||windows.length)return html+(windows.length?`<span class="quick-window">⏱ ${esc(windows.join(listSep()))}</span>`:'');
+      }
+      if(row&&row.status==='failed'){
+        const r=v2SubjectCardShortReason(row,currentLang);
+        if(r)return `<span class="quick-miss">✗ ${esc(r)}</span>`;
+      }
+      if(place){
+        const best=v2BestForSpot(place,spot.timezone);
+        if(best&&best.hours>0)return `<span class="quick-chip">✓ ${esc(best.name)}</span>`+(best.hoursList.length?`<span class="quick-window">⏱ ${esc(formatHourSegments(best.hoursList))}</span>`:'');
+        if(best){
+          const m=v2DominantFailMetric(best.day&&best.day.conditions);
+          if(m)return `<span class="quick-miss">✗ ${esc((V2_EVAL_METRICS[currentLang]||V2_EVAL_METRICS['zh-TW'])[m]||m)}</span>`;
+        }
+      }
+      return `<span class="quick-none">${esc(t.v2_quick_none)}</span>`;
+    }
+
     function ensureV2Detail(spotId){
       if(!v2Details[spotId]){
         v2Details[spotId]=fetch('./apps/web-v2/evaluations-details/'+spotId+'.json',{cache:'no-cache'})
@@ -2530,19 +2595,30 @@
     function decorateV2Eval(spot){
       const host=document.getElementById('place-modal-body');
       if(!host)return;
+      // CL-UI-64: the quick-view section exists whenever the modal opened with
+      // opportunities; the eval nodes only exist for evaluated subjects. Both
+      // share the same gated bundle fetch.
+      const quickHost=host.querySelector('#place-quick-view-body');
       const nodes=host.querySelectorAll('.v2-eval[data-opp]');
-      if(!nodes.length)return;
+      if(!quickHost&&!nodes.length)return;
       ensureV2EvalBundle().then(bundle=>{
+        if(document.getElementById('place-modal-body')!==host)return;
+        if(quickHost){
+          const qPlace=bundle?((bundle.places||[]).find(p=>p.place_id===spot.spot_id)||null):null;
+          quickHost.innerHTML=bundle?v2QuickViewHtml(spot,qPlace):`<span class="quick-none">${esc(d().eval2_load_fail)}</span>`;
+        }
         nodes.forEach(el=>{
           if(!document.getElementById('place-modal-body').contains(el))return;
           if(!bundle){el.innerHTML=`<div class="v2-eval-block"><div class="v2-note">${esc(d().eval2_load_fail)}</div></div>`;return;}
           const place=(bundle.places||[]).find(p=>p.place_id===spot.spot_id);
           const opp=place?(place.opportunities||[]).find(o=>o.opportunity_id===el.dataset.opp):null;
           if(!opp||!(opp.days||[]).length){el.innerHTML=`<div class="v2-eval-block"><div class="v2-note">${esc(d().eval2_none)}</div></div>`;return;}
-          // CL-DATA-06: show the full 7-day evaluation window.
+          // CL-DATA-06: show the full 7-day evaluation window — CL-UI-64 as a
+          // compact strip (one row of day+badge cells; short reason word on
+          // click/hover) instead of the previous 8 long rows.
           const days=opp.days.slice(0,DAY_KEYS.length);
           const labels=evalDayLabels(spot.timezone,DAY_KEYS.length);
-          const dayHtml=days.map((day,i)=>v2DayHtml(day,labels[i]||day.local_date,spot.timezone,spot,opp.genre_template||'',opp.opportunity_id)).join('');
+          const dayHtml=v2DayStripHtml(days,labels,spot.timezone,spot,opp.genre_template||'',opp.opportunity_id);
           const live=opp.live||{};
           // CL-UI-21: the "now" line follows the spot's own local date for its
           // day word (an evening page in Taipei must not call a JP spot's
@@ -2558,6 +2634,15 @@
           const nextLocal=v2NextWindowLocal(opp.days||[],v2LocalNow(spot.timezone),live.next_good?live.next_good.local:'');
           const nextLine=nextLocal?`<div class="v2-next">🎯 ${esc(d().v2_next_window)}${esc(nextWindowStamp(nextLocal,spot.timezone))}</div>`:'';
           el.innerHTML=`<div class="v2-eval-block"><div class="v2-title">${esc(d().eval2_title)}</div>${dayHtml}${nowLine}${nextLine}</div>`;
+          // CL-UI-64: a strip cell click reveals the SHORT reason word for that
+          // day in the note line — never the long per-day sentence.
+          el.querySelectorAll('.v2-strip-cell').forEach(cell=>cell.addEventListener('click',()=>{
+            const note=el.querySelector('.v2-strip-note');
+            if(!note)return;
+            const reason=cell.dataset.reason||'';
+            note.textContent=`${cell.dataset.label}：${cell.dataset.verdict}${reason?' · '+reason:''}`;
+            note.hidden=false;
+          }));
           decorateV2CondLive(spot,el);
         });
       });
