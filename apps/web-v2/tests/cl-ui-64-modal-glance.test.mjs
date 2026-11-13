@@ -77,10 +77,12 @@ test('CL-UI-64 (2): quick-view helpers render short chips / short word only', ()
   assert.ok(missHtml.includes('quick-miss'), 'failed day renders the short miss word');
   assert.ok(!/[。！？，]/.test(missHtml.replace(/<[^>]*>/g, '').replace('✗', '')),
     'quick view never carries a long sentence: ' + missHtml);
-  // A failed row WITHOUT a dominant_reason (jp-003 2026-11-15) degrades to the
-  // honest none-line — never an invented cause.
-  const fnsFailed = new Function(prelude.replace("let dayDate='2026-11-13';", "let dayDate='2026-11-15';") +
-    helperCode + ';return {v2QuickViewHtml};')();
+  // A failed row WITHOUT a dominant_reason degrades to the honest none-line —
+  // never an invented cause. (CL-INT-154: the committed artifact no longer has
+  // such a row, so inject a synthetic one instead of pinning live data.)
+  const fnsFailed = new Function(prelude.replace("let dayDate='2026-11-13';", "let dayDate='2026-11-15';") + `
+    v2SubjectCards = Object.assign({}, v2SubjectCards, { 'jp-003': Object.assign({}, v2SubjectCards['jp-003'] || {}, { '2026-11-15': { status: 'failed', suitable: [] } }) });
+  ` + helperCode + ';return {v2QuickViewHtml};')();
   const failedHtml = fnsFailed.v2QuickViewHtml(spot, null);
   assert.ok(failedHtml.includes('quick-none'), 'a failed row with no dominant_reason degrades honestly');
 
