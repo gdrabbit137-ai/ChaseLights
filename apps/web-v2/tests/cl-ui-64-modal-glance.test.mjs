@@ -179,6 +179,6 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
   assert.ok(!appCss.includes('.v2-strip-bar') && !appCss.includes('.v2-strip-note'),
     'bare bar / note CSS retired');
   assert.match(appCss, /\.v2-strip-text\{[^}]*overflow-wrap:anywhere/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui75/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui75/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui76/);
 });
