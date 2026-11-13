@@ -187,8 +187,8 @@ test('CL-UI-63 (8): artifact rows join back to the artifact dictionary (zh/en/ja
   assert.ok(checked > 500, `expected a real suitable corpus, got ${checked}`);
 });
 
-test('CL-UI-63 (9): cache-bust stamps advanced to clui72', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui72/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui72/);
+test('CL-UI-63 (9): cache-bust stamps advanced to clui73', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui73/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui73/);
   assert.ok(!indexSource.includes('clui69'), 'stale stamps fully retired');
 });

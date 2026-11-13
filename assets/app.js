@@ -1896,10 +1896,10 @@
         const scoreVerdict=!guideOnly&&m?opportunityVerdict(m,modalSubject):{primary:'',detail:''};
         const v2pl=(v2EvalBundle&&(v2EvalBundle.places||[]).find(pl=>pl.place_id===spot.spot_id))||null;
         const v2op=v2pl?(v2pl.opportunities||[]).find(o=>o.opportunity_id===op.opportunity_id):null;
-        const v2day=v2op?v2DayForOffset(v2op,selectedDayOffset(),spot.timezone):null;
-        const v2CurLabel=v2day?(v2day.state==='GUIDANCE_SATISFIED'?d().state_ok:v2day.state==='UNFAVORABLE'?d().state_bad:d().eval2_unk):'';
-        const v2CurWin=v2day&&(v2day.good_hours||[]).length?` · ${esc(formatHourSegments(v2day.good_hours))}`:'';
-        const current=!guideOnly&&v2day?`<div class="opportunity-current">${esc(v2CurLabel)}${v2CurWin}</div>`:'';
+        // CL-UI-67 (owner ruling): the per-subject current-status line
+        // (「✅/⚠️ …」) is removed — the 8-day strip below already expresses
+        // the verdict for every day including the selected one, so a separate
+        // status line only duplicated it.
         const scoreFactors='';
         const scoreStatus=!guideOnly&&m?scoreVerdict.primary:'';
         const scoreStatusDetail=!guideOnly&&m?scoreVerdict.detail:'';
@@ -1934,7 +1934,6 @@
         const v2CondHtml=v2c?`<details class="v2-cond-details"><summary class="v2-cond-summary">${esc(d().v2_cond_count).replace('{n}',String(v2CondCount))}<span class="v2-cond-caret" aria-hidden="true">▸</span></summary><div class="v2-conditions"><div class="research-label">${esc(d().v2_conditions_from)}</div>${v2Groups.required.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_required)}${colonSep()}</span></div>${v2Groups.required.join('')}`:''}${v2Groups.booster.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_boosters)}${colonSep()}</span></div>${v2Groups.booster.join('')}`:''}${v2Groups.penalty.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_penalties)}${colonSep()}</span></div>${v2Groups.penalty.join('')}`:''}</div></details>`:'';
         return `<div class="opportunity-card${guideOnly?' opportunity-card-guide':''}">
           <div class="opportunity-head"><div class="opportunity-title">${esc(modalSubject)}${v2c?` <span class="v2-genre-chip${v2c.genre_template==='general'?' v2-genre-chip-general':''}">${esc(v2GenreName(v2c.genre_template))}</span>`:''}</div></div>
-          ${current}
           <div class="v2-eval" data-opp="${esc(op.opportunity_id)}"></div>
           ${v2CondHtml}
           ${metaRows.length?`<div class="opportunity-meta">${metaRows.join('')}</div>`:''}
@@ -2647,14 +2646,22 @@
     // previous 8 long rows. Clicking (or the native title on hover) reveals a
     // SHORT reason word only; the long per-day narrative is gone from the
     // glance level.
-    function v2DayStripHtml(days,labels,tz,spot,genre,opportunityId){
+    // CL-UI-67: nextNote (the spot-local re-anchored 「🎯 下一個符合時段」)
+    // is no longer a standalone row — it rides on the FIRST qualifying day
+    // cell's hover/title so the strip stays the single self-explaining block.
+    // When no day in the strip qualifies, there is no qualifying box to
+    // attribute it to and the note is omitted with the row.
+    function v2DayStripHtml(days,labels,tz,spot,genre,opportunityId,nextNote=''){
+      let nextIdx=-1;
+      if(nextNote){for(let i=0;i<(days||[]).length;i++){if(days[i]&&days[i].state==='GUIDANCE_SATISFIED'){nextIdx=i;break;}}}
       const cells=(days||[]).map((day,i)=>{
         const cls=day.state==='GUIDANCE_SATISFIED'?'v2-ok':day.state==='NOT_EVALUABLE'?'v2-unk':'v2-bad';
         const lab=day.state==='GUIDANCE_SATISFIED'?d().eval2_ok:day.state==='NOT_EVALUABLE'?d().eval2_unk:d().eval2_bad;
         const title=labels[i]||day.local_date;
         const hours=v2EffectiveHours(day,tz).length;
         const reason=(day.state!=='GUIDANCE_SATISFIED')?v2ShortReasonWord(day,spot,genre,opportunityId):'';
-        const aria=`${title} ${lab}${hours?` · ${d().eval2_hours} ${hours}`:''}${reason?' · '+reason:''}`;
+        const nextTail=(i===nextIdx&&nextNote)?` · 🎯 ${nextNote}`:'';
+        const aria=`${title} ${lab}${hours?` · ${d().eval2_hours} ${hours}`:''}${reason?' · '+reason:''}${nextTail}`;
         return `<button type="button" class="v2-strip-cell ${cls}" data-idx="${i}" data-label="${esc(title)}" data-verdict="${esc(lab)}" data-reason="${esc(reason)}" data-hours="${hours}" aria-label="${esc(aria)}" title="${esc(aria)}"><span class="v2-strip-day">${esc(title)}</span><span class="v2-strip-bar" aria-hidden="true"></span></button>`;
       }).join('');
       return `<div class="v2-day-strip" role="group">${cells}</div><div class="v2-strip-note" hidden></div>`;
@@ -2834,24 +2841,19 @@
           // CL-DATA-06: show the full 7-day evaluation window — CL-UI-64 as a
           // compact strip (one row of day+badge cells; short reason word on
           // click/hover) instead of the previous 8 long rows.
+          const live=opp.live||{};
           const days=opp.days.slice(0,DAY_KEYS.length);
           const labels=evalDayLabels(spot.timezone,DAY_KEYS.length);
-          const dayHtml=v2DayStripHtml(days,labels,spot.timezone,spot,opp.genre_template||'',opp.opportunity_id);
-          const live=opp.live||{};
-          // CL-UI-21: the "now" line follows the spot's own local date for its
-          // day word (an evening page in Taipei must not call a JP spot's
-          // morning "today") and reuses the weather modal's 11/04 15:00 stamp
-          // format instead of a raw ISO date.
-          const nowLocal=String(live.now?.local||'');
-          const nowLabel=v2DayLabel(nowLocal.slice(0,10),spot.timezone,0);
-          const nowLine=live.now?`<div class="v2-now">⏱ ${esc(nowLabel)} ${esc(shortDateStamp(live.now.local))} — ${live.now.status==='GUIDANCE_SATISFIED'?esc(d().eval2_ok):live.now.status==='NOT_EVALUABLE'?esc(d().eval2_unk):esc(d().eval2_bad)}</div>`:'';
-          // CL-UI-22: the place-guide modal must re-anchor the next window to
-          // the spot's local now exactly like the weather modal — a stale
-          // bundle value (e.g. yesterday's next_good) is never shown; with no
-          // still-future qualifying window the whole row is omitted.
+          // CL-UI-67 (owner ruling): the standalone 「⏱ now — 未符」 row and
+          // the 「🎯 下一個符合時段」 row are gone — the strip is self-
+          // explaining. The next-window info survives inside the FIRST
+          // qualifying day cell's hover title (CL-UI-22 re-anchor preserved:
+          // v2NextWindowLocal against the spot's local now, never a stale
+          // bundle value; with no still-future window nothing is attached).
           const nextLocal=v2NextWindowLocal(opp.days||[],v2LocalNow(spot.timezone),live.next_good?live.next_good.local:'');
-          const nextLine=nextLocal?`<div class="v2-next">🎯 ${esc(d().v2_next_window)}${esc(nextWindowStamp(nextLocal,spot.timezone))}</div>`:'';
-          el.innerHTML=`<div class="v2-eval-block"><div class="v2-title">${esc(d().eval2_title)}</div>${dayHtml}${nowLine}${nextLine}</div>`;
+          const nextNote=nextLocal?`${d().v2_next_window}${nextWindowStamp(nextLocal,spot.timezone)}`:'';
+          const dayHtml=v2DayStripHtml(days,labels,spot.timezone,spot,opp.genre_template||'',opp.opportunity_id,nextNote);
+          el.innerHTML=`<div class="v2-eval-block">${dayHtml}</div>`;
           // CL-UI-64: a strip cell click reveals the SHORT reason word for that
           // day in the note line — never the long per-day sentence.
           el.querySelectorAll('.v2-strip-cell').forEach(cell=>cell.addEventListener('click',()=>{

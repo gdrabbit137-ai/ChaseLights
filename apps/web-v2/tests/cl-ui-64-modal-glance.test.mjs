@@ -169,6 +169,6 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
     assert.ok(appCss.includes(cls), 'css missing ' + cls);
   }
   assert.match(appCss, /@media \(max-width:390px\)\{\s*\.v2-strip-cell/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui72/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui72/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui73/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui73/);
 });

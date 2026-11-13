@@ -39,7 +39,10 @@ test('CL-DATA-21 (b): place-guide modal resolves V2 day rows by local date, not 
   assert.ok(!appSource.includes('(o.days||[])[selectedDayOffset()]'),'v2Hours ranking must not index day rows');
   assert.ok(!appSource.includes('(v2op.days||[])[selectedDayOffset()]'),'opportunity current-day must not index day rows');
   assert.match(appSource,/const dy=v2DayForOffset\(o,selectedDayOffset\(\),spot\.timezone\);v2Hours\[o\.opportunity_id\]=dy\?/);
-  assert.match(appSource,/const v2day=v2op\?v2DayForOffset\(v2op,selectedDayOffset\(\),spot\.timezone\):null/);
+  // CL-UI-67: the modal's per-subject current-day verdict line was removed
+  // (the 8-day strip expresses it), so the index-based v2day lookup is gone
+  // too — the modal must never resolve a day row by index.
+  assert.ok(!appSource.includes('(v2op.days||[])[selectedDayOffset()]'),'v2day day-row lookups must stay local-date anchored or be absent');
 });
 
 test('CL-DATA-21 (c): pinned places carry a gating light/sunset window',()=>{
@@ -63,6 +66,6 @@ test('CL-DATA-21 (c): pinned places carry a gating light/sunset window',()=>{
 
 test('CL-DATA-21 (d): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(path.join(repo,'index.html'),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui72/);
-  assert.match(index,/assets\/app\.css\?v=clui72/);
+  assert.match(index,/assets\/app\.js\?v=clui73/);
+  assert.match(index,/assets\/app\.css\?v=clui73/);
 });

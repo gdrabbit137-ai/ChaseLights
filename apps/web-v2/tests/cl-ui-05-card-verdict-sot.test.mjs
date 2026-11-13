@@ -65,9 +65,13 @@ test('CL-UI-05 (b): evaluated card uses V2-derived day-state labels shared with 
   assert.match(v2BestForSpotBlock,/best\.stateLabel=v2CardStateLabel\(best\.state\);/);
   assert.equal(/best\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk/.test(v2BestForSpotBlock),false,
     'card state label must come from v2CardStateLabel, not an inline map');
-  // Modal current-day row maps the same day states (consistency contract).
+  // CL-UI-67: the modal's per-subject current-day row is gone — the 8-day
+  // strip is the shared day-state surface and maps the same states with the
+  // same eval2 vocabulary (no inline v2day map anywhere).
+  assert.ok(!appSource.includes("v2day.state==='UNFAVORABLE'"),
+    'modal current-day inline map must stay removed (strip is the shared surface)');
   assert.match(appSource,
-    /v2day\.state==='GUIDANCE_SATISFIED'\?d\(\)\.state_ok:v2day\.state==='UNFAVORABLE'\?d\(\)\.state_bad:d\(\)\.eval2_unk/);
+    /day\.state==='GUIDANCE_SATISFIED'\?d\(\)\.eval2_ok:day\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk:d\(\)\.eval2_bad/);
 });
 
 test('CL-UI-05 (c): eval2_none (not generated) and eval2_unk (NOT_EVALUABLE) stay distinct',()=>{
@@ -109,6 +113,11 @@ test('CL-UI-05 (d): next qualifying window shows when live.next_good exists',()=
   // v2_next_window label and fail-closed rendering.
   assert.match(appSource,
     /const nextLocal=v2NextWindowLocal\(opp\.days\|\|\[\],v2LocalNow\(spot\.timezone\),live\.next_good\?live\.next_good\.local:''\);/);
+  // CL-UI-67: the standalone v2-next row is gone — the re-anchored window
+  // rides on the first qualifying strip cell's hover title instead.
   assert.match(appSource,
-    /const nextLine=nextLocal\?`<div class="v2-next">🎯 \$\{esc\(d\(\)\.v2_next_window\)\}\$\{esc\(nextWindowStamp\(nextLocal,spot\.timezone\)\)\}<\/div>`:'';/);
+    /const nextNote=nextLocal\?`\$\{d\(\)\.v2_next_window\}\$\{nextWindowStamp\(nextLocal,spot\.timezone\)\}`:'';/);
+  assert.match(appSource,
+    /v2DayStripHtml\(days,labels,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id,nextNote\)/);
+  assert.ok(!appSource.includes('class="v2-next"'));
 });

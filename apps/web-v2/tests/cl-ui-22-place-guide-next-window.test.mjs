@@ -25,11 +25,13 @@ test('CL-UI-22 (a): place-guide modal v2-next uses v2NextWindowLocal with the sp
   // The row value comes from the same re-anchor helper as the weather modal,
   // fed with the spot's own timezone (never a hardcoded zone).
   assert.match(v2PlaceBlock,/v2NextWindowLocal\(opp\.days\|\|\[\],v2LocalNow\(spot\.timezone\),live\.next_good\?live\.next_good\.local:''\)/);
-  // The shared i18n wording (v2_next_window) replaces the old guide_day_best
-  // label on this row.
-  assert.match(v2PlaceBlock,/<div class="v2-next">🎯 \$\{esc\(d\(\)\.v2_next_window\)\}/);
-  // Fail-closed: the row renders only when a validated future value exists.
-  assert.match(v2PlaceBlock,/const nextLine=nextLocal\?/);
+  // CL-UI-67 (owner ruling): the standalone v2-next row is gone — the
+  // re-anchored window rides on the FIRST qualifying strip cell's hover
+  // title instead, still labelled with the shared v2_next_window wording
+  // and only when a validated future value exists (fail-closed preserved).
+  assert.doesNotMatch(v2PlaceBlock,/v2-next/);
+  assert.match(v2PlaceBlock,/const nextNote=nextLocal\?`\$\{d\(\)\.v2_next_window\}\$\{nextWindowStamp\(nextLocal,spot\.timezone\)\}`:''/);
+  assert.match(v2PlaceBlock,/v2DayStripHtml\(days,labels,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id,nextNote\)/);
 });
 
 test('CL-UI-22 (b): place-guide modal no longer shows the raw bundle next_good stamp',()=>{
@@ -52,6 +54,6 @@ test('CL-UI-22 (c): no other live.next_good rendering path skips the re-anchor',
 
 test('CL-UI-22 (d): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui72/);
-  assert.match(index,/assets\/app\.css\?v=clui72/);
+  assert.match(index,/assets\/app\.js\?v=clui73/);
+  assert.match(index,/assets\/app\.css\?v=clui73/);
 });
