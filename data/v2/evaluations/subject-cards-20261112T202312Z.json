@@ -13,8 +13,8 @@
    "same_run": "generated only from the bundle run the evaluations-details carry (asserted fail-fast, CHALLENGER-14/A)"
   },
   "rule_version": "1.1",
-  "source_bundle": "bundle-20261113T200006Z.json",
-  "source_bundle_sha256": "1a16b67abb019a1428c00c0c4f7388c25c8b5a59a955ad02eb3e6255e3a46a23"
+  "source_bundle": "bundle-20261113T211821Z.json",
+  "source_bundle_sha256": "352a8ef1c51715d9381cdfa4573aca3d5d33ba282e5fa9a1443eabe000b09a6c"
  },
  "dictionaries": {
   "fail_reason_short": {
@@ -3291,9 +3291,6 @@
     },
     "hours": {
      "fit": {
-      "05:00": [
-       "sunrise"
-      ],
       "06:00": [
        "sunrise"
       ],
@@ -3307,6 +3304,7 @@
       "02:00",
       "03:00",
       "04:00",
+      "05:00",
       "17:00",
       "18:00",
       "19:00",
@@ -3341,7 +3339,6 @@
        "zh-TW": "日出"
       },
       "window": [
-       "05:45",
        "06:00",
        "07:00"
       ]
@@ -6039,11 +6036,11 @@
     "tier": "shootable"
    },
    "2026-11-21": {
-    "dominant_metric": "cloud_cover_low",
+    "dominant_metric": "cloud_cover_mid_and_high",
     "dominant_reason": {
-     "en": "low cloud",
-     "ja": "低い雲",
-     "zh-TW": "低雲"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -7808,18 +7805,19 @@
   },
   "jp-018": {
    "2026-11-14": {
-    "dominant_metric": null,
-    "dominant_reason": null,
-    "dominant_source": null,
+    "dominant_metric": "cloud_cover_total",
+    "dominant_reason": {
+     "en": "overcast",
+     "ja": "曇り",
+     "zh-TW": "陰"
+    },
+    "dominant_source": "curated_votes",
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
      "fit": {
-      "05:00": [
-       "city_night"
-      ],
       "06:00": [
        "golden_hour"
       ],
@@ -7860,6 +7858,7 @@
       "02:00",
       "03:00",
       "04:00",
+      "05:00",
       "18:00",
       "19:00",
       "20:00",
@@ -7884,7 +7883,7 @@
      ],
      "unk": []
     },
-    "status": "clear",
+    "status": "failed",
     "suitable": [
      {
       "genre": "golden_hour",
@@ -7905,17 +7904,6 @@
        "14:00",
        "15:00",
        "16:15"
-      ]
-     },
-     {
-      "genre": "city_night",
-      "subject_short": {
-       "en": "City night",
-       "ja": "夜景",
-       "zh-TW": "夜景"
-      },
-      "window": [
-       "05:00"
       ]
      }
     ],
@@ -9189,7 +9177,7 @@
      "ok": [],
      "unk": []
     },
-    "status": "not_evaluable",
+    "status": "failed",
     "suitable": [],
     "tier": "not_recommended"
    }
@@ -11964,18 +11952,19 @@
   },
   "jp-027": {
    "2026-11-14": {
-    "dominant_metric": null,
-    "dominant_reason": null,
-    "dominant_source": null,
+    "dominant_metric": "cloud_cover_total",
+    "dominant_reason": {
+     "en": "overcast",
+     "ja": "曇り",
+     "zh-TW": "陰"
+    },
+    "dominant_source": "curated_votes",
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
      "fit": {
-      "05:00": [
-       "city_night"
-      ],
       "10:00": [
        "overlook"
       ],
@@ -12004,6 +11993,7 @@
       "02:00",
       "03:00",
       "04:00",
+      "05:00",
       "06:00",
       "18:00",
       "19:00",
@@ -12028,7 +12018,7 @@
      ],
      "unk": []
     },
-    "status": "clear",
+    "status": "failed",
     "suitable": [
      {
       "genre": "overlook",
@@ -12045,17 +12035,6 @@
        "14:00",
        "15:00",
        "16:00"
-      ]
-     },
-     {
-      "genre": "city_night",
-      "subject_short": {
-       "en": "City night",
-       "ja": "夜景",
-       "zh-TW": "夜景"
-      },
-      "window": [
-       "05:00"
       ]
      }
     ],
@@ -32461,11 +32440,11 @@
     "tier": "shootable"
    },
    "2026-11-21": {
-    "dominant_metric": "visibility",
+    "dominant_metric": "cloud_cover_low",
     "dominant_reason": {
-     "en": "fog",
-     "ja": "霧",
-     "zh-TW": "霧"
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -46469,11 +46448,11 @@
     "tier": "not_recommended"
    },
    "2026-11-21": {
-    "dominant_metric": "cloud_cover_mid_and_high",
+    "dominant_metric": "aod_550nm",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "haze",
+     "ja": "霞",
+     "zh-TW": "霾"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -50232,11 +50211,11 @@
     "tier": "not_recommended"
    },
    "2026-11-21": {
-    "dominant_metric": "cloud_cover_low",
+    "dominant_metric": "cloud_cover_mid",
     "dominant_reason": {
-     "en": "low cloud",
-     "ja": "低い雲",
-     "zh-TW": "低雲"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -63888,11 +63867,11 @@
   },
   "tw-047": {
    "2026-11-14": {
-    "dominant_metric": "cloud_cover_mid_and_high",
+    "dominant_metric": "precipitation",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "rain",
+     "ja": "雨",
+     "zh-TW": "雨"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -103438,16 +103417,13 @@
      "reason_short": null
     },
     "hours": {
-     "fit": {
-      "04:00": [
-       "city_night"
-      ]
-     },
+     "fit": {},
      "na": [
       "00:00",
       "01:00",
       "02:00",
       "03:00",
+      "04:00",
       "05:00",
       "22:00",
       "23:00"
@@ -103475,20 +103451,8 @@
      "unk": []
     },
     "status": "failed",
-    "suitable": [
-     {
-      "genre": "city_night",
-      "subject_short": {
-       "en": "City night",
-       "ja": "夜景",
-       "zh-TW": "夜景"
-      },
-      "window": [
-       "04:00"
-      ]
-     }
-    ],
-    "tier": "recommend"
+    "suitable": [],
+    "tier": "shootable"
    },
    "2026-11-15": {
     "dominant_metric": "cloud_cover_mid_and_high",
@@ -103906,11 +103870,11 @@
     "tier": "shootable"
    },
    "2026-11-21": {
-    "dominant_metric": "visibility",
+    "dominant_metric": "cloud_cover_mid_and_high",
     "dominant_reason": {
-     "en": "fog",
-     "ja": "霧",
-     "zh-TW": "霧"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -104569,11 +104533,11 @@
     "tier": "recommend"
    },
    "2026-11-21": {
-    "dominant_metric": "cloud_cover_mid_and_high",
+    "dominant_metric": "aod_550nm",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "haze",
+     "ja": "霞",
+     "zh-TW": "霾"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -109264,11 +109228,11 @@
     "tier": "not_recommended"
    },
    "2026-11-21": {
-    "dominant_metric": "cloud_cover_mid_and_high",
+    "dominant_metric": "aod_550nm",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "haze",
+     "ja": "霞",
+     "zh-TW": "霾"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -117248,11 +117212,11 @@
     "tier": "not_recommended"
    },
    "2026-11-21": {
-    "dominant_metric": "visibility",
+    "dominant_metric": "cloud_cover_low",
     "dominant_reason": {
-     "en": "fog",
-     "ja": "霧",
-     "zh-TW": "霧"
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -124114,11 +124078,11 @@
     "tier": "not_recommended"
    },
    "2026-11-21": {
-    "dominant_metric": "cloud_cover_mid_and_high",
+    "dominant_metric": "aod_550nm",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "haze",
+     "ja": "霞",
+     "zh-TW": "霾"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -132214,11 +132178,11 @@
     "tier": "not_recommended"
    },
    "2026-11-21": {
-    "dominant_metric": "light_window",
+    "dominant_metric": "aod_550nm",
     "dominant_reason": {
-     "en": "outside daylight hours",
-     "ja": "日照時間帯外",
-     "zh-TW": "非日照時段"
+     "en": "haze",
+     "ja": "霞",
+     "zh-TW": "霾"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -143296,11 +143260,11 @@
     "tier": "not_recommended"
    },
    "2026-11-21": {
-    "dominant_metric": "light_window",
+    "dominant_metric": "aod_550nm",
     "dominant_reason": {
-     "en": "outside daylight hours",
-     "ja": "日照時間帯外",
-     "zh-TW": "非日照時段"
+     "en": "haze",
+     "ja": "霞",
+     "zh-TW": "霾"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -147415,9 +147379,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "geological_landform"
-      ],
       "14:00": [
        "geological_landform"
       ],
@@ -147470,7 +147431,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:40"
@@ -148126,6 +148086,9 @@
       ],
       "12:00": [
        "geological_landform"
+      ],
+      "13:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -148160,7 +148123,8 @@
        "09:00",
        "10:00",
        "11:00",
-       "12:00"
+       "12:00",
+       "13:00"
       ]
      }
     ],
@@ -148169,19 +148133,19 @@
   },
   "us-004": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_mid",
-    "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
-    },
-    "dominant_source": "curated_votes",
+    "dominant_metric": null,
+    "dominant_reason": null,
+    "dominant_source": null,
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
-     "fit": {},
+     "fit": {
+      "16:00": [
+       "mountain_view"
+      ]
+     },
      "na": [
       "00:00",
       "01:00",
@@ -148213,9 +148177,21 @@
      ],
      "unk": []
     },
-    "status": "failed",
-    "suitable": [],
-    "tier": "shootable"
+    "status": "clear",
+    "suitable": [
+     {
+      "genre": "mountain_view",
+      "subject_short": {
+       "en": "Mountain view",
+       "ja": "山景",
+       "zh-TW": "山景"
+      },
+      "window": [
+       "16:30"
+      ]
+     }
+    ],
+    "tier": "recommend"
    },
    "2026-11-14": {
     "dominant_metric": null,
@@ -148945,11 +148921,11 @@
   },
   "us-006": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_total",
+    "dominant_metric": "cloud_cover_low",
     "dominant_reason": {
-     "en": "overcast",
-     "ja": "曇り",
-     "zh-TW": "陰"
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -151086,6 +151062,9 @@
     },
     "hours": {
      "fit": {
+      "06:00": [
+       "sunrise"
+      ],
       "07:00": [
        "sunrise"
       ],
@@ -151100,7 +151079,6 @@
       "03:00",
       "04:00",
       "05:00",
-      "06:00",
       "18:00",
       "19:00",
       "20:00",
@@ -151134,6 +151112,7 @@
        "zh-TW": "日出"
       },
       "window": [
+       "06:45",
        "07:00",
        "08:00"
       ]
@@ -152962,11 +152941,7 @@
      "reason_short": null
     },
     "hours": {
-     "fit": {
-      "18:00": [
-       "city_night"
-      ]
-     },
+     "fit": {},
      "na": [
       "00:00",
       "01:00",
@@ -152975,6 +152950,7 @@
       "04:00",
       "05:00",
       "06:00",
+      "18:00",
       "19:00",
       "20:00",
       "21:00",
@@ -152999,20 +152975,8 @@
      "unk": []
     },
     "status": "failed",
-    "suitable": [
-     {
-      "genre": "city_night",
-      "subject_short": {
-       "en": "City night",
-       "ja": "夜景",
-       "zh-TW": "夜景"
-      },
-      "window": [
-       "18:00"
-      ]
-     }
-    ],
-    "tier": "recommend"
+    "suitable": [],
+    "tier": "shootable"
    },
    "2026-11-14": {
     "dominant_metric": "cloud_cover_mid_and_high",
@@ -153027,20 +152991,13 @@
      "reason_short": null
     },
     "hours": {
-     "fit": {
-      "02:00": [
-       "city_night"
-      ],
-      "03:00": [
-       "city_night"
-      ],
-      "04:00": [
-       "city_night"
-      ]
-     },
+     "fit": {},
      "na": [
       "00:00",
       "01:00",
+      "02:00",
+      "03:00",
+      "04:00",
       "05:00",
       "18:00",
       "19:00",
@@ -153068,22 +153025,8 @@
      "unk": []
     },
     "status": "failed",
-    "suitable": [
-     {
-      "genre": "city_night",
-      "subject_short": {
-       "en": "City night",
-       "ja": "夜景",
-       "zh-TW": "夜景"
-      },
-      "window": [
-       "02:00",
-       "03:00",
-       "04:00"
-      ]
-     }
-    ],
-    "tier": "recommend"
+    "suitable": [],
+    "tier": "shootable"
    },
    "2026-11-15": {
     "dominant_metric": "cloud_cover_mid_and_high",
@@ -153451,6 +153394,9 @@
     },
     "hours": {
      "fit": {
+      "21:00": [
+       "city_night"
+      ],
       "22:00": [
        "city_night"
       ]
@@ -153465,7 +153411,6 @@
       "18:00",
       "19:00",
       "20:00",
-      "21:00",
       "23:00"
      ],
      "no": {},
@@ -153495,6 +153440,7 @@
        "zh-TW": "夜景"
       },
       "window": [
+       "21:00",
        "22:00"
       ]
      },
@@ -153506,6 +153452,7 @@
        "zh-TW": "夜景"
       },
       "window": [
+       "21:00",
        "22:00"
       ]
      }
@@ -153528,6 +153475,12 @@
       "01:00": [
        "city_night"
       ],
+      "02:00": [
+       "city_night"
+      ],
+      "03:00": [
+       "city_night"
+      ],
       "04:00": [
        "city_night"
       ],
@@ -153536,8 +153489,6 @@
       ]
      },
      "na": [
-      "02:00",
-      "03:00",
       "05:00",
       "19:00",
       "20:00",
@@ -153574,6 +153525,8 @@
       "window": [
        "00:00",
        "01:00",
+       "02:00",
+       "03:00",
        "04:00",
        "18:00"
       ]
@@ -153588,6 +153541,8 @@
       "window": [
        "00:00",
        "01:00",
+       "02:00",
+       "03:00",
        "04:00",
        "18:00"
       ]
@@ -154729,11 +154684,11 @@
   },
   "us-019": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_low",
+    "dominant_metric": "cloud_cover_mid_and_high",
     "dominant_reason": {
-     "en": "low cloud",
-     "ja": "低い雲",
-     "zh-TW": "低雲"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -154742,6 +154697,9 @@
     },
     "hours": {
      "fit": {
+      "13:00": [
+       "geological_landform"
+      ],
       "14:00": [
        "geological_landform"
       ],
@@ -154793,6 +154751,7 @@
        "zh-TW": "地景"
       },
       "window": [
+       "13:00",
        "14:00",
        "15:00",
        "16:00"
@@ -155379,6 +155338,9 @@
       ],
       "11:00": [
        "geological_landform"
+      ],
+      "12:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -155411,7 +155373,8 @@
        "08:00",
        "09:00",
        "10:00",
-       "11:00"
+       "11:00",
+       "12:00"
       ]
      }
     ],
@@ -155430,6 +155393,14 @@
     "hours": {
      "fit": {
       "13:00": [
+       "overcast_soft",
+       "cloud_sea"
+      ],
+      "15:00": [
+       "overcast_soft",
+       "cloud_sea"
+      ],
+      "16:00": [
        "overcast_soft",
        "cloud_sea"
       ]
@@ -155476,7 +155447,9 @@
        "zh-TW": "陰柔光"
       },
       "window": [
-       "13:00"
+       "13:00",
+       "15:00",
+       "16:00"
       ]
      },
      {
@@ -155487,7 +155460,9 @@
        "zh-TW": "雲海"
       },
       "window": [
-       "13:00"
+       "13:00",
+       "15:00",
+       "16:00"
       ]
      }
     ],
@@ -156123,6 +156098,9 @@
     },
     "hours": {
      "fit": {
+      "06:00": [
+       "sunrise"
+      ],
       "07:00": [
        "sunrise"
       ]
@@ -156134,7 +156112,6 @@
       "03:00",
       "04:00",
       "05:00",
-      "06:00",
       "18:00",
       "19:00",
       "20:00",
@@ -156169,6 +156146,7 @@
        "zh-TW": "日出"
       },
       "window": [
+       "06:25",
        "07:00"
       ]
      }
@@ -156931,10 +156909,7 @@
     },
     "hours": {
      "fit": {
-      "12:00": [
-       "overcast_soft"
-      ],
-      "13:00": [
+      "14:00": [
        "overcast_soft"
       ],
       "15:00": [
@@ -156985,8 +156960,7 @@
        "zh-TW": "陰柔光"
       },
       "window": [
-       "12:00",
-       "13:00",
+       "14:00",
        "15:50",
        "16:00"
       ]
@@ -156995,18 +156969,19 @@
     "tier": "recommend"
    },
    "2026-11-14": {
-    "dominant_metric": null,
-    "dominant_reason": null,
-    "dominant_source": null,
+    "dominant_metric": "cloud_cover_total",
+    "dominant_reason": {
+     "en": "overcast",
+     "ja": "曇り",
+     "zh-TW": "陰"
+    },
+    "dominant_source": "curated_votes",
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
      "fit": {
-      "02:00": [
-       "city_night"
-      ],
       "07:00": [
        "overcast_soft"
       ],
@@ -157029,6 +157004,7 @@
      "na": [
       "00:00",
       "01:00",
+      "02:00",
       "03:00",
       "04:00",
       "05:00",
@@ -157057,7 +157033,7 @@
      ],
      "unk": []
     },
-    "status": "clear",
+    "status": "failed",
     "suitable": [
      {
       "genre": "overcast_soft",
@@ -157073,17 +157049,6 @@
        "14:00",
        "15:50",
        "16:00"
-      ]
-     },
-     {
-      "genre": "city_night",
-      "subject_short": {
-       "en": "City night",
-       "ja": "夜景",
-       "zh-TW": "夜景"
-      },
-      "window": [
-       "02:00"
       ]
      }
     ],
@@ -157554,7 +157519,11 @@
      "reason_short": null
     },
     "hours": {
-     "fit": {},
+     "fit": {
+      "12:00": [
+       "overcast_soft"
+      ]
+     },
      "na": [
       "00:00",
       "01:00",
@@ -157572,17 +157541,29 @@
      "unk": []
     },
     "status": "failed",
-    "suitable": [],
-    "tier": "shootable"
+    "suitable": [
+     {
+      "genre": "overcast_soft",
+      "subject_short": {
+       "en": "Soft overcast",
+       "ja": "柔光",
+       "zh-TW": "陰柔光"
+      },
+      "window": [
+       "12:00"
+      ]
+     }
+    ],
+    "tier": "recommend"
    }
   },
   "us-025": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_low",
+    "dominant_metric": "cloud_cover_mid_and_high",
     "dominant_reason": {
-     "en": "low cloud",
-     "ja": "低い雲",
-     "zh-TW": "低雲"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -158195,10 +158176,7 @@
     },
     "hours": {
      "fit": {
-      "12:00": [
-       "overcast_soft"
-      ],
-      "13:00": [
+      "14:00": [
        "overcast_soft"
       ],
       "15:00": [
@@ -158249,8 +158227,7 @@
        "zh-TW": "陰柔光"
       },
       "window": [
-       "12:00",
-       "13:00",
+       "14:00",
        "15:50",
        "16:00"
       ]
@@ -158785,7 +158762,11 @@
      "reason_short": null
     },
     "hours": {
-     "fit": {},
+     "fit": {
+      "12:00": [
+       "overcast_soft"
+      ]
+     },
      "na": [
       "00:00",
       "01:00",
@@ -158803,8 +158784,20 @@
      "unk": []
     },
     "status": "failed",
-    "suitable": [],
-    "tier": "shootable"
+    "suitable": [
+     {
+      "genre": "overcast_soft",
+      "subject_short": {
+       "en": "Soft overcast",
+       "ja": "柔光",
+       "zh-TW": "陰柔光"
+      },
+      "window": [
+       "12:00"
+      ]
+     }
+    ],
+    "tier": "recommend"
    }
   },
   "us-027": {
@@ -158859,11 +158852,11 @@
     "tier": "shootable"
    },
    "2026-11-14": {
-    "dominant_metric": "cloud_cover_total",
+    "dominant_metric": "cloud_cover_mid",
     "dominant_reason": {
-     "en": "overcast",
-     "ja": "曇り",
-     "zh-TW": "陰"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -160541,11 +160534,11 @@
     "tier": "shootable"
    },
    "2026-11-14": {
-    "dominant_metric": "cloud_cover_total",
+    "dominant_metric": "cloud_cover_mid",
     "dominant_reason": {
-     "en": "overcast",
-     "ja": "曇り",
-     "zh-TW": "陰"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -163000,6 +162993,9 @@
     },
     "hours": {
      "fit": {
+      "17:00": [
+       "blue_hour_city"
+      ],
       "18:00": [
        "blue_hour_city"
       ]
@@ -163044,6 +163040,7 @@
        "zh-TW": "藍調"
       },
       "window": [
+       "17:50",
        "18:00"
       ]
      }
@@ -163061,7 +163058,8 @@
     "hours": {
      "fit": {
       "06:00": [
-       "sunrise"
+       "sunrise",
+       "blue_hour_city"
       ],
       "07:00": [
        "sunrise"
@@ -163121,6 +163119,7 @@
        "zh-TW": "藍調"
       },
       "window": [
+       "06:05",
        "18:00"
       ]
      }
@@ -163475,19 +163474,19 @@
   },
   "us-040": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_total",
-    "dominant_reason": {
-     "en": "overcast",
-     "ja": "曇り",
-     "zh-TW": "陰"
-    },
-    "dominant_source": "curated_votes",
+    "dominant_metric": null,
+    "dominant_reason": null,
+    "dominant_source": null,
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
-     "fit": {},
+     "fit": {
+      "16:00": [
+       "blue_hour_city"
+      ]
+     },
      "na": [
       "00:00",
       "01:00",
@@ -163520,9 +163519,21 @@
      ],
      "unk": []
     },
-    "status": "failed",
-    "suitable": [],
-    "tier": "shootable"
+    "status": "clear",
+    "suitable": [
+     {
+      "genre": "blue_hour_city",
+      "subject_short": {
+       "en": "Blue hour",
+       "ja": "ブルーアワー",
+       "zh-TW": "藍調"
+      },
+      "window": [
+       "16:45"
+      ]
+     }
+    ],
+    "tier": "recommend"
    },
    "2026-11-14": {
     "dominant_metric": null,
@@ -163534,6 +163545,9 @@
     },
     "hours": {
      "fit": {
+      "05:00": [
+       "blue_hour_city"
+      ],
       "06:00": [
        "blue_hour_city"
       ]
@@ -163544,7 +163558,6 @@
       "02:00",
       "03:00",
       "04:00",
-      "05:00",
       "17:00",
       "18:00",
       "19:00",
@@ -163578,6 +163591,7 @@
        "zh-TW": "藍調"
       },
       "window": [
+       "05:55",
        "06:00"
       ]
      }
@@ -166995,9 +167009,6 @@
     },
     "hours": {
      "fit": {
-      "11:00": [
-       "overcast_soft"
-      ],
       "12:00": [
        "overcast_soft"
       ],
@@ -167053,7 +167064,6 @@
        "zh-TW": "陰柔光"
       },
       "window": [
-       "11:00",
        "12:00",
        "13:00",
        "14:00",
@@ -167517,9 +167527,6 @@
     },
     "hours": {
      "fit": {
-      "11:00": [
-       "mountain_view"
-      ],
       "12:00": [
        "mountain_view"
       ],
@@ -167588,7 +167595,6 @@
        "zh-TW": "山景"
       },
       "window": [
-       "11:00",
        "12:00",
        "13:00",
        "14:00",
@@ -168136,9 +168142,6 @@
     },
     "hours": {
      "fit": {
-      "11:00": [
-       "geological_landform"
-      ],
       "12:00": [
        "geological_landform"
       ],
@@ -168193,7 +168196,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "11:00",
        "12:00",
        "13:00",
        "14:30",
@@ -168208,7 +168210,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "11:00",
        "12:00",
        "13:00",
        "14:30",
@@ -168872,6 +168873,9 @@
       ],
       "10:00": [
        "geological_landform"
+      ],
+      "11:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -168901,7 +168905,8 @@
       "window": [
        "08:00",
        "09:00",
-       "10:00"
+       "10:00",
+       "11:00"
       ]
      },
      {
@@ -168914,7 +168919,8 @@
       "window": [
        "08:00",
        "09:00",
-       "10:00"
+       "10:00",
+       "11:00"
       ]
      }
     ],
@@ -169338,9 +169344,6 @@
     },
     "hours": {
      "fit": {
-      "11:00": [
-       "geological_landform"
-      ],
       "12:00": [
        "geological_landform"
       ],
@@ -169396,7 +169399,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "11:00",
        "12:00",
        "13:00",
        "14:00",
@@ -169927,6 +169929,9 @@
      "fit": {
       "10:00": [
        "geological_landform"
+      ],
+      "11:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -169954,7 +169959,8 @@
        "zh-TW": "地景"
       },
       "window": [
-       "10:00"
+       "10:00",
+       "11:00"
       ]
      }
     ],
@@ -171524,6 +171530,9 @@
       ],
       "10:00": [
        "geological_landform"
+      ],
+      "11:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -171551,7 +171560,8 @@
       },
       "window": [
        "09:00",
-       "10:00"
+       "10:00",
+       "11:00"
       ]
      },
      {
@@ -171563,7 +171573,8 @@
       },
       "window": [
        "09:00",
-       "10:00"
+       "10:00",
+       "11:00"
       ]
      }
     ],
@@ -171965,9 +171976,6 @@
     },
     "hours": {
      "fit": {
-      "11:00": [
-       "mountain_view"
-      ],
       "12:00": [
        "mountain_view"
       ],
@@ -172019,7 +172027,6 @@
        "zh-TW": "山景"
       },
       "window": [
-       "11:00",
        "12:00",
        "13:00",
        "14:00"
@@ -172403,9 +172410,6 @@
     },
     "hours": {
      "fit": {
-      "11:00": [
-       "overlook"
-      ],
       "12:00": [
        "overlook"
       ],
@@ -172454,7 +172458,6 @@
        "zh-TW": "眺望"
       },
       "window": [
-       "11:00",
        "12:00",
        "13:00"
       ]
@@ -173673,11 +173676,11 @@
     "tier": "shootable"
    },
    "2026-11-14": {
-    "dominant_metric": "cloud_cover_mid_and_high",
+    "dominant_metric": "cloud_cover_total",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "overcast",
+     "ja": "曇り",
+     "zh-TW": "陰"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -173685,11 +173688,7 @@
      "reason_short": null
     },
     "hours": {
-     "fit": {
-      "06:00": [
-       "blue_hour_city"
-      ]
-     },
+     "fit": {},
      "na": [
       "00:00",
       "01:00",
@@ -173697,6 +173696,7 @@
       "03:00",
       "04:00",
       "05:00",
+      "06:00",
       "19:00",
       "20:00",
       "23:00"
@@ -173722,20 +173722,8 @@
      "unk": []
     },
     "status": "failed",
-    "suitable": [
-     {
-      "genre": "blue_hour_city",
-      "subject_short": {
-       "en": "Blue hour",
-       "ja": "ブルーアワー",
-       "zh-TW": "藍調"
-      },
-      "window": [
-       "06:30"
-      ]
-     }
-    ],
-    "tier": "recommend"
+    "suitable": [],
+    "tier": "shootable"
    },
    "2026-11-15": {
     "dominant_metric": "cloud_cover_mid_and_high",
@@ -175022,19 +175010,19 @@
     "tier": "shootable"
    },
    "2026-11-14": {
-    "dominant_metric": null,
-    "dominant_reason": null,
-    "dominant_source": null,
+    "dominant_metric": "cloud_cover_total",
+    "dominant_reason": {
+     "en": "overcast",
+     "ja": "曇り",
+     "zh-TW": "陰"
+    },
+    "dominant_source": "curated_votes",
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
-     "fit": {
-      "06:00": [
-       "blue_hour_city"
-      ]
-     },
+     "fit": {},
      "na": [
       "00:00",
       "01:00",
@@ -175042,6 +175030,7 @@
       "03:00",
       "04:00",
       "05:00",
+      "06:00",
       "19:00",
       "20:00",
       "23:00"
@@ -175066,32 +175055,9 @@
      ],
      "unk": []
     },
-    "status": "clear",
-    "suitable": [
-     {
-      "genre": "blue_hour_city",
-      "subject_short": {
-       "en": "Blue hour",
-       "ja": "ブルーアワー",
-       "zh-TW": "藍調"
-      },
-      "window": [
-       "06:30"
-      ]
-     },
-     {
-      "genre": "blue_hour_city",
-      "subject_short": {
-       "en": "Blue hour",
-       "ja": "ブルーアワー",
-       "zh-TW": "藍調"
-      },
-      "window": [
-       "06:30"
-      ]
-     }
-    ],
-    "tier": "recommend"
+    "status": "failed",
+    "suitable": [],
+    "tier": "shootable"
    },
    "2026-11-15": {
     "dominant_metric": null,
@@ -175502,19 +175468,19 @@
     "tier": "shootable"
    },
    "2026-11-14": {
-    "dominant_metric": null,
-    "dominant_reason": null,
-    "dominant_source": null,
+    "dominant_metric": "cloud_cover_total",
+    "dominant_reason": {
+     "en": "overcast",
+     "ja": "曇り",
+     "zh-TW": "陰"
+    },
+    "dominant_source": "curated_votes",
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
-     "fit": {
-      "06:00": [
-       "blue_hour_city"
-      ]
-     },
+     "fit": {},
      "na": [
       "00:00",
       "01:00",
@@ -175522,6 +175488,7 @@
       "03:00",
       "04:00",
       "05:00",
+      "06:00",
       "19:00",
       "23:00"
      ],
@@ -175546,21 +175513,9 @@
      ],
      "unk": []
     },
-    "status": "clear",
-    "suitable": [
-     {
-      "genre": "blue_hour_city",
-      "subject_short": {
-       "en": "Blue hour",
-       "ja": "ブルーアワー",
-       "zh-TW": "藍調"
-      },
-      "window": [
-       "06:30"
-      ]
-     }
-    ],
-    "tier": "recommend"
+    "status": "failed",
+    "suitable": [],
+    "tier": "shootable"
    },
    "2026-11-15": {
     "dominant_metric": null,
@@ -175896,13 +175851,13 @@
     },
     "hours": {
      "fit": {
-      "12:00": [
-       "overcast_soft"
-      ],
       "13:00": [
        "overcast_soft"
       ],
       "14:00": [
+       "overcast_soft"
+      ],
+      "15:00": [
        "overcast_soft"
       ]
      },
@@ -175922,7 +175877,6 @@
       "23:00"
      ],
      "no": {
-      "15:00": "precipitation",
       "16:00": "precipitation"
      },
      "ok": [
@@ -175948,9 +175902,9 @@
        "zh-TW": "陰柔光"
       },
       "window": [
-       "12:00",
        "13:00",
-       "14:00"
+       "14:00",
+       "15:00"
       ]
      }
     ],
@@ -176434,6 +176388,9 @@
      "fit": {
       "07:00": [
        "overcast_soft"
+      ],
+      "12:00": [
+       "overcast_soft"
       ]
      },
      "na": [
@@ -176462,7 +176419,8 @@
        "zh-TW": "陰柔光"
       },
       "window": [
-       "07:00"
+       "07:00",
+       "12:00"
       ]
      }
     ],
@@ -176471,11 +176429,11 @@
   },
   "us-080": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_mid_and_high",
+    "dominant_metric": "cloud_cover_low",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -176483,11 +176441,7 @@
      "reason_short": null
     },
     "hours": {
-     "fit": {
-      "12:00": [
-       "overlook"
-      ]
-     },
+     "fit": {},
      "na": [
       "00:00",
       "01:00",
@@ -176520,20 +176474,8 @@
      "unk": []
     },
     "status": "failed",
-    "suitable": [
-     {
-      "genre": "overlook",
-      "subject_short": {
-       "en": "Overlook",
-       "ja": "眺望",
-       "zh-TW": "眺望"
-      },
-      "window": [
-       "12:00"
-      ]
-     }
-    ],
-    "tier": "recommend"
+    "suitable": [],
+    "tier": "shootable"
    },
    "2026-11-14": {
     "dominant_metric": null,
@@ -178677,11 +178619,11 @@
   },
   "us-085": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_low",
+    "dominant_metric": "cloud_cover_mid_and_high",
     "dominant_reason": {
-     "en": "low cloud",
-     "ja": "低い雲",
-     "zh-TW": "低雲"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -179674,6 +179616,9 @@
       ],
       "11:00": [
        "geological_landform"
+      ],
+      "12:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -179706,7 +179651,8 @@
        "08:00",
        "09:00",
        "10:00",
-       "11:00"
+       "11:00",
+       "12:00"
       ]
      }
     ],
@@ -179715,13 +179661,9 @@
   },
   "us-087": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_mid",
-    "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
-    },
-    "dominant_source": "curated_votes",
+    "dominant_metric": null,
+    "dominant_reason": null,
+    "dominant_source": null,
     "general_baseline": {
      "ok": false,
      "reason_short": {
@@ -179731,7 +179673,11 @@
      }
     },
     "hours": {
-     "fit": {},
+     "fit": {
+      "15:00": [
+       "mountain_view"
+      ]
+     },
      "na": [
       "00:00",
       "01:00",
@@ -179750,7 +179696,6 @@
       "12:00": "relative_humidity_925hpa",
       "13:00": "relative_humidity_925hpa",
       "14:00": "relative_humidity_925hpa",
-      "15:00": "precipitation",
       "16:00": "visibility",
       "17:00": "precipitation",
       "18:00": "visibility",
@@ -179763,9 +179708,21 @@
      "ok": [],
      "unk": []
     },
-    "status": "failed",
-    "suitable": [],
-    "tier": "not_recommended"
+    "status": "clear",
+    "suitable": [
+     {
+      "genre": "mountain_view",
+      "subject_short": {
+       "en": "Mountain view",
+       "ja": "山景",
+       "zh-TW": "山景"
+      },
+      "window": [
+       "15:55"
+      ]
+     }
+    ],
+    "tier": "recommend"
    },
    "2026-11-14": {
     "dominant_metric": null,
@@ -180138,10 +180095,10 @@
     },
     "hours": {
      "fit": {
-      "15:00": [
+      "13:00": [
        "overcast_soft"
       ],
-      "16:00": [
+      "15:00": [
        "overcast_soft"
       ]
      },
@@ -180166,7 +180123,6 @@
       "09:00": "precipitation",
       "10:00": "precipitation",
       "12:00": "precipitation",
-      "13:00": "precipitation",
       "14:00": "precipitation"
      },
      "ok": [
@@ -180186,8 +180142,8 @@
        "zh-TW": "陰柔光"
       },
       "window": [
-       "15:00",
-       "16:00"
+       "13:00",
+       "15:00"
       ]
      }
     ],
@@ -180697,6 +180653,9 @@
       ],
       "11:00": [
        "overcast_soft"
+      ],
+      "12:00": [
+       "overcast_soft"
       ]
      },
      "na": [
@@ -180726,7 +180685,8 @@
       },
       "window": [
        "10:00",
-       "11:00"
+       "11:00",
+       "12:00"
       ]
      }
     ],
@@ -180744,9 +180704,6 @@
     },
     "hours": {
      "fit": {
-      "12:00": [
-       "geological_landform"
-      ],
       "13:00": [
        "geological_landform"
       ],
@@ -180798,7 +180755,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "12:00",
        "13:00",
        "14:00",
        "15:40"
@@ -181388,6 +181344,9 @@
       ],
       "11:00": [
        "geological_landform"
+      ],
+      "12:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -181421,7 +181380,8 @@
        "08:00",
        "09:00",
        "10:00",
-       "11:00"
+       "11:00",
+       "12:00"
       ]
      }
     ],
@@ -181817,11 +181777,11 @@
   },
   "us-091": {
    "2026-11-13": {
-    "dominant_metric": "precipitation",
+    "dominant_metric": "visibility",
     "dominant_reason": {
-     "en": "rain",
-     "ja": "雨",
-     "zh-TW": "雨"
+     "en": "fog",
+     "ja": "霧",
+     "zh-TW": "霧"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -182609,11 +182569,11 @@
   },
   "us-093": {
    "2026-11-13": {
-    "dominant_metric": "wind_speed_10m",
+    "dominant_metric": "water_surface_state",
     "dominant_reason": {
-     "en": "strong wind",
-     "ja": "強風",
-     "zh-TW": "風強"
+     "en": "water surface not still",
+     "ja": "水面の状態が悪い",
+     "zh-TW": "水面不佳"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -182997,19 +182957,19 @@
   },
   "us-094": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_mid",
-    "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
-    },
-    "dominant_source": "curated_votes",
+    "dominant_metric": null,
+    "dominant_reason": null,
+    "dominant_source": null,
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
-     "fit": {},
+     "fit": {
+      "15:00": [
+       "mountain_view"
+      ]
+     },
      "na": [
       "00:00",
       "01:00",
@@ -183041,9 +183001,21 @@
      ],
      "unk": []
     },
-    "status": "failed",
-    "suitable": [],
-    "tier": "shootable"
+    "status": "clear",
+    "suitable": [
+     {
+      "genre": "mountain_view",
+      "subject_short": {
+       "en": "Mountain view",
+       "ja": "山景",
+       "zh-TW": "山景"
+      },
+      "window": [
+       "15:35"
+      ]
+     }
+    ],
+    "tier": "recommend"
    },
    "2026-11-14": {
     "dominant_metric": "cloud_cover_mid",
@@ -183345,11 +183317,11 @@
     "tier": "shootable"
    },
    "2026-11-20": {
-    "dominant_metric": "cloud_cover_mid",
+    "dominant_metric": "aod_550nm",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "haze",
+     "ja": "霞",
+     "zh-TW": "霾"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -183382,11 +183354,11 @@
   },
   "us-095": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_low",
+    "dominant_metric": "cloud_cover_mid_and_high",
     "dominant_reason": {
-     "en": "low cloud",
-     "ja": "低い雲",
-     "zh-TW": "低雲"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -183432,11 +183404,11 @@
     "tier": "shootable"
    },
    "2026-11-14": {
-    "dominant_metric": "cloud_cover_mid_and_high",
+    "dominant_metric": "cloud_cover_low",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -183775,9 +183747,6 @@
     },
     "hours": {
      "fit": {
-      "12:00": [
-       "geological_landform"
-      ],
       "13:00": [
        "geological_landform"
       ],
@@ -183832,7 +183801,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "12:00",
        "13:00",
        "14:00",
        "15:40",
@@ -184421,6 +184389,9 @@
       ],
       "11:00": [
        "geological_landform"
+      ],
+      "12:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -184453,7 +184424,8 @@
        "08:00",
        "09:00",
        "10:00",
-       "11:00"
+       "11:00",
+       "12:00"
       ]
      }
     ],
@@ -184988,11 +184960,7 @@
      "reason_short": null
     },
     "hours": {
-     "fit": {
-      "15:00": [
-       "overlook"
-      ]
-     },
+     "fit": {},
      "na": [
       "00:00",
       "01:00",
@@ -185026,20 +184994,8 @@
      "unk": []
     },
     "status": "failed",
-    "suitable": [
-     {
-      "genre": "overlook",
-      "subject_short": {
-       "en": "Overlook",
-       "ja": "眺望",
-       "zh-TW": "眺望"
-      },
-      "window": [
-       "15:25"
-      ]
-     }
-    ],
-    "tier": "recommend"
+    "suitable": [],
+    "tier": "shootable"
    },
    "2026-11-14": {
     "dominant_metric": "cloud_cover_low",
@@ -185530,19 +185486,19 @@
   },
   "us-099": {
    "2026-11-13": {
-    "dominant_metric": null,
-    "dominant_reason": null,
-    "dominant_source": null,
+    "dominant_metric": "cloud_cover_low",
+    "dominant_reason": {
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
+    },
+    "dominant_source": "curated_votes",
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
-     "fit": {
-      "16:00": [
-       "overlook"
-      ]
-     },
+     "fit": {},
      "na": [
       "00:00",
       "01:00",
@@ -185575,21 +185531,9 @@
      ],
      "unk": []
     },
-    "status": "clear",
-    "suitable": [
-     {
-      "genre": "overlook",
-      "subject_short": {
-       "en": "Overlook",
-       "ja": "眺望",
-       "zh-TW": "眺望"
-      },
-      "window": [
-       "16:20"
-      ]
-     }
-    ],
-    "tier": "recommend"
+    "status": "failed",
+    "suitable": [],
+    "tier": "shootable"
    },
    "2026-11-14": {
     "dominant_metric": "cloud_cover_low",
@@ -186333,11 +186277,11 @@
   },
   "us-101": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_mid_and_high",
+    "dominant_metric": "cloud_cover_low",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -186718,11 +186662,11 @@
   },
   "us-102": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_mid",
+    "dominant_metric": "water_surface_state",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "water surface not still",
+     "ja": "水面の状態が悪い",
+     "zh-TW": "水面不佳"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -191089,11 +191033,11 @@
   },
   "us-113": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_mid_and_high",
+    "dominant_metric": "cloud_cover_low",
     "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -193496,9 +193440,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "geological_landform"
-      ],
       "14:00": [
        "geological_landform"
       ],
@@ -193551,7 +193492,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:45"
@@ -194148,6 +194088,9 @@
       ],
       "12:00": [
        "geological_landform"
+      ],
+      "13:00": [
+       "geological_landform"
       ]
      },
      "na": [],
@@ -194178,7 +194121,8 @@
        "09:00",
        "10:00",
        "11:00",
-       "12:00"
+       "12:00",
+       "13:00"
       ]
      }
     ],
@@ -194187,19 +194131,19 @@
   },
   "us-120": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_low",
-    "dominant_reason": {
-     "en": "low cloud",
-     "ja": "低い雲",
-     "zh-TW": "低雲"
-    },
-    "dominant_source": "curated_votes",
+    "dominant_metric": null,
+    "dominant_reason": null,
+    "dominant_source": null,
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
-     "fit": {},
+     "fit": {
+      "16:00": [
+       "overlook"
+      ]
+     },
      "na": [
       "18:00",
       "19:00",
@@ -194232,9 +194176,21 @@
      ],
      "unk": []
     },
-    "status": "failed",
-    "suitable": [],
-    "tier": "shootable"
+    "status": "clear",
+    "suitable": [
+     {
+      "genre": "overlook",
+      "subject_short": {
+       "en": "Overlook",
+       "ja": "眺望",
+       "zh-TW": "眺望"
+      },
+      "window": [
+       "16:00"
+      ]
+     }
+    ],
+    "tier": "recommend"
    },
    "2026-11-14": {
     "dominant_metric": null,
@@ -196370,9 +196326,13 @@
   },
   "us-125": {
    "2026-11-13": {
-    "dominant_metric": null,
-    "dominant_reason": null,
-    "dominant_source": null,
+    "dominant_metric": "light_window",
+    "dominant_reason": {
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
+    },
+    "dominant_source": "curated_votes",
     "general_baseline": {
      "ok": true,
      "reason_short": null
@@ -197119,13 +197079,7 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "geological_landform"
-      ],
       "14:00": [
-       "geological_landform"
-      ],
-      "15:00": [
        "geological_landform"
       ],
       "16:00": [
@@ -197147,7 +197101,9 @@
       "22:00",
       "23:00"
      ],
-     "no": {},
+     "no": {
+      "15:00": "precipitation"
+     },
      "ok": [
       "07:00",
       "08:00",
@@ -197172,9 +197128,7 @@
        "zh-TW": "地景"
       },
       "window": [
-       "13:00",
        "14:00",
-       "15:00",
        "16:45"
       ]
      }
@@ -197772,6 +197726,9 @@
       ],
       "12:00": [
        "geological_landform"
+      ],
+      "13:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -197805,7 +197762,8 @@
        "09:00",
        "10:00",
        "11:00",
-       "12:00"
+       "12:00",
+       "13:00"
       ]
      }
     ],
@@ -197823,9 +197781,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "overlook"
-      ],
       "14:00": [
        "overlook"
       ],
@@ -197877,7 +197832,6 @@
        "zh-TW": "眺望"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:00"
@@ -198375,9 +198329,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "geological_landform"
-      ],
       "14:00": [
        "geological_landform"
       ],
@@ -198429,7 +198380,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:35"
@@ -199040,6 +198990,9 @@
       ],
       "12:00": [
        "geological_landform"
+      ],
+      "13:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -199074,7 +199027,8 @@
        "09:00",
        "10:00",
        "11:00",
-       "12:00"
+       "12:00",
+       "13:00"
       ]
      }
     ],
@@ -199092,10 +199046,10 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
+      "14:00": [
        "overlook"
       ],
-      "14:00": [
+      "15:00": [
        "overlook"
       ]
      },
@@ -199140,8 +199094,8 @@
        "zh-TW": "眺望"
       },
       "window": [
-       "13:00",
-       "14:00"
+       "14:00",
+       "15:00"
       ]
      }
     ],
@@ -199621,9 +199575,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "geological_landform"
-      ],
       "14:00": [
        "geological_landform"
       ],
@@ -199675,7 +199626,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:30"
@@ -200283,6 +200233,9 @@
       ],
       "12:00": [
        "geological_landform"
+      ],
+      "13:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -200317,7 +200270,8 @@
        "09:00",
        "10:00",
        "11:00",
-       "12:00"
+       "12:00",
+       "13:00"
       ]
      }
     ],
@@ -200326,11 +200280,11 @@
   },
   "us-132": {
    "2026-11-13": {
-    "dominant_metric": "wind_speed_10m",
+    "dominant_metric": "cloud_cover_total",
     "dominant_reason": {
-     "en": "strong wind",
-     "ja": "強風",
-     "zh-TW": "風強"
+     "en": "overcast",
+     "ja": "曇り",
+     "zh-TW": "陰"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -200749,9 +200703,6 @@
     },
     "hours": {
      "fit": {
-      "12:00": [
-       "overlook"
-      ],
       "13:00": [
        "overlook"
       ],
@@ -200807,7 +200758,6 @@
        "zh-TW": "眺望"
       },
       "window": [
-       "12:00",
        "13:00",
        "14:00",
        "15:00",
@@ -201692,11 +201642,11 @@
   },
   "us-135": {
    "2026-11-13": {
-    "dominant_metric": "water_surface_state",
+    "dominant_metric": "cloud_cover_total",
     "dominant_reason": {
-     "en": "water surface not still",
-     "ja": "水面の状態が悪い",
-     "zh-TW": "水面不佳"
+     "en": "overcast",
+     "ja": "曇り",
+     "zh-TW": "陰"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -202083,9 +202033,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "overlook"
-      ],
       "14:00": [
        "overlook"
       ],
@@ -202137,7 +202084,6 @@
        "zh-TW": "眺望"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:00"
@@ -202944,6 +202890,9 @@
     },
     "hours": {
      "fit": {
+      "06:00": [
+       "sunrise"
+      ],
       "07:00": [
        "sunrise"
       ]
@@ -202955,7 +202904,6 @@
       "03:00",
       "04:00",
       "05:00",
-      "06:00",
       "18:00",
       "19:00",
       "20:00",
@@ -202989,6 +202937,7 @@
        "zh-TW": "日出"
       },
       "window": [
+       "06:35",
        "07:00"
       ]
      }
@@ -203383,9 +203332,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "overlook"
-      ],
       "14:00": [
        "overlook"
       ],
@@ -203437,7 +203383,6 @@
        "zh-TW": "眺望"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:00"
@@ -204729,9 +204674,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "geological_landform"
-      ],
       "14:00": [
        "geological_landform"
       ],
@@ -204783,7 +204725,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:15"
@@ -205397,6 +205338,9 @@
       ],
       "12:00": [
        "geological_landform"
+      ],
+      "13:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -205431,7 +205375,8 @@
        "09:00",
        "10:00",
        "11:00",
-       "12:00"
+       "12:00",
+       "13:00"
       ]
      }
     ],
@@ -205883,6 +205828,9 @@
       ],
       "11:00": [
        "reflection"
+      ],
+      "12:00": [
+       "reflection"
       ]
      },
      "na": [],
@@ -205913,7 +205861,8 @@
       "window": [
        "09:00",
        "10:00",
-       "11:00"
+       "11:00",
+       "12:00"
       ]
      }
     ],
@@ -206713,9 +206662,6 @@
     },
     "hours": {
      "fit": {
-      "12:00": [
-       "geological_landform"
-      ],
       "13:00": [
        "geological_landform"
       ],
@@ -206769,7 +206715,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "12:00",
        "13:00",
        "14:00",
        "15:55",
@@ -207385,6 +207330,9 @@
       ],
       "11:00": [
        "geological_landform"
+      ],
+      "12:00": [
+       "geological_landform"
       ]
      },
      "na": [],
@@ -207414,7 +207362,8 @@
        "08:00",
        "09:00",
        "10:00",
-       "11:00"
+       "11:00",
+       "12:00"
       ]
      }
     ],
@@ -207432,9 +207381,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "geological_landform"
-      ],
       "14:00": [
        "geological_landform"
       ],
@@ -207486,7 +207432,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:40"
@@ -208093,6 +208038,9 @@
       ],
       "12:00": [
        "geological_landform"
+      ],
+      "13:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -208128,7 +208076,8 @@
        "09:00",
        "10:00",
        "11:00",
-       "12:00"
+       "12:00",
+       "13:00"
       ]
      }
     ],
@@ -208146,10 +208095,10 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
+      "14:00": [
        "geological_landform"
       ],
-      "14:00": [
+      "15:00": [
        "geological_landform"
       ],
       "16:00": [
@@ -208198,8 +208147,8 @@
        "zh-TW": "地景"
       },
       "window": [
-       "13:00",
        "14:00",
+       "15:00",
        "16:35"
       ]
      }
@@ -208812,6 +208761,9 @@
       ],
       "12:00": [
        "geological_landform"
+      ],
+      "13:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -208847,7 +208799,8 @@
        "09:00",
        "10:00",
        "11:00",
-       "12:00"
+       "12:00",
+       "13:00"
       ]
      }
     ],
@@ -209245,9 +209198,6 @@
     },
     "hours": {
      "fit": {
-      "12:00": [
-       "geological_landform"
-      ],
       "13:00": [
        "geological_landform"
       ],
@@ -209302,7 +209252,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "12:00",
        "13:00",
        "14:00",
        "15:00",
@@ -209924,6 +209873,9 @@
       ],
       "11:00": [
        "geological_landform"
+      ],
+      "12:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -209956,7 +209908,8 @@
        "08:00",
        "09:00",
        "10:00",
-       "11:00"
+       "11:00",
+       "12:00"
       ]
      }
     ],
@@ -210353,11 +210306,11 @@
     "tier": "not_recommended"
    },
    "2026-11-20": {
-    "dominant_metric": "cloud_cover_low",
+    "dominant_metric": "aod_550nm",
     "dominant_reason": {
-     "en": "low cloud",
-     "ja": "低い雲",
-     "zh-TW": "低雲"
+     "en": "haze",
+     "ja": "霞",
+     "zh-TW": "霾"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -210392,11 +210345,11 @@
   },
   "us-152": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_total",
+    "dominant_metric": "wind_speed_10m",
     "dominant_reason": {
-     "en": "overcast",
-     "ja": "曇り",
-     "zh-TW": "陰"
+     "en": "strong wind",
+     "ja": "強風",
+     "zh-TW": "風強"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -211553,19 +211506,19 @@
   },
   "us-155": {
    "2026-11-13": {
-    "dominant_metric": "cloud_cover_mid_and_high",
-    "dominant_reason": {
-     "en": "thick cloud",
-     "ja": "厚い雲",
-     "zh-TW": "厚雲"
-    },
-    "dominant_source": "curated_votes",
+    "dominant_metric": null,
+    "dominant_reason": null,
+    "dominant_source": null,
     "general_baseline": {
      "ok": true,
      "reason_short": null
     },
     "hours": {
-     "fit": {},
+     "fit": {
+      "17:00": [
+       "sunset"
+      ]
+     },
      "na": [
       "00:00",
       "01:00",
@@ -211597,9 +211550,21 @@
      ],
      "unk": []
     },
-    "status": "failed",
-    "suitable": [],
-    "tier": "shootable"
+    "status": "clear",
+    "suitable": [
+     {
+      "genre": "sunset",
+      "subject_short": {
+       "en": "Sunset",
+       "ja": "夕景",
+       "zh-TW": "夕陽"
+      },
+      "window": [
+       "17:05"
+      ]
+     }
+    ],
+    "tier": "recommend"
    },
    "2026-11-14": {
     "dominant_metric": "cloud_cover_mid_and_high",
@@ -212818,9 +212783,6 @@
     },
     "hours": {
      "fit": {
-      "11:00": [
-       "overlook"
-      ],
       "12:00": [
        "overlook"
       ],
@@ -212878,7 +212840,6 @@
        "zh-TW": "眺望"
       },
       "window": [
-       "11:00",
        "12:00",
        "13:00",
        "14:00",
@@ -213281,9 +213242,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "geological_landform"
-      ],
       "14:00": [
        "geological_landform"
       ],
@@ -213335,7 +213293,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:15"
@@ -213896,6 +213853,9 @@
       ],
       "12:00": [
        "geological_landform"
+      ],
+      "13:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -213931,7 +213891,8 @@
        "09:00",
        "10:00",
        "11:00",
-       "12:00"
+       "12:00",
+       "13:00"
       ]
      }
     ],
@@ -213949,9 +213910,6 @@
     },
     "hours": {
      "fit": {
-      "13:00": [
-       "geological_landform"
-      ],
       "14:00": [
        "geological_landform"
       ],
@@ -214003,7 +213961,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "13:00",
        "14:00",
        "15:00",
        "16:15"
@@ -214564,6 +214521,9 @@
       ],
       "12:00": [
        "geological_landform"
+      ],
+      "13:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -214599,7 +214559,8 @@
        "09:00",
        "10:00",
        "11:00",
-       "12:00"
+       "12:00",
+       "13:00"
       ]
      }
     ],
@@ -215003,9 +214964,6 @@
     },
     "hours": {
      "fit": {
-      "10:00": [
-       "geological_landform"
-      ],
       "11:00": [
        "geological_landform"
       ],
@@ -215069,7 +215027,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "10:00",
        "11:00",
        "12:00",
        "13:00",
@@ -215629,6 +215586,9 @@
       ],
       "09:00": [
        "geological_landform"
+      ],
+      "10:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -215656,7 +215616,8 @@
       "window": [
        "07:00",
        "08:00",
-       "09:00"
+       "09:00",
+       "10:00"
       ]
      }
     ],
@@ -215674,9 +215635,6 @@
     },
     "hours": {
      "fit": {
-      "10:00": [
-       "geological_landform"
-      ],
       "11:00": [
        "geological_landform"
       ],
@@ -215740,7 +215698,6 @@
        "zh-TW": "地景"
       },
       "window": [
-       "10:00",
        "11:00",
        "12:00",
        "13:00",
@@ -216300,6 +216257,9 @@
       ],
       "09:00": [
        "geological_landform"
+      ],
+      "10:00": [
+       "geological_landform"
       ]
      },
      "na": [
@@ -216327,7 +216287,8 @@
       "window": [
        "07:00",
        "08:00",
-       "09:00"
+       "09:00",
+       "10:00"
       ]
      }
     ],
