@@ -228,7 +228,7 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /data-nav-target="reminders" data-active="page"/);
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui62/);
   assert.match(remHtml, /assets\/app\.css\?v=clui68/);
-  assert.match(remHtml, /assets\/member-auth\.js\?v=clui67/);
+  assert.match(remHtml, /assets\/member-auth\.js\?v=clui68/);
   assert.match(remHtml, /assets\/reminders-client\.js\?v=clui69/);
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui69/);
   // Login panel + login deep links present (OAuth 302 anchors, per CL-UI-53).

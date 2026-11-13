@@ -11,6 +11,14 @@ export const AUTH_START_ENDPOINTS = Object.freeze({
   google: "/api/v1/auth/google/start"
 });
 export const AUTH_ME_ENDPOINT = "/api/v1/auth/me";
+// CL-UI-60: silent session renewal. The access JWT cookie (cl_session) expires
+// after 15 minutes while the refresh JWT cookie (cl_refresh) lasts 30 days
+// (workers/api/src/index.js handleAuthRefresh), so a 401 on /auth/me must try
+// POST /auth/refresh once before declaring the visitor signed out. The worker
+// answers 200 { ok, accessToken, refreshToken } and rotates BOTH cookies via
+// Set-Cookie, so the follow-up /auth/me succeeds inside the WebView without
+// any token handling here; 401 answers { error: "invalid refresh token" }.
+export const AUTH_REFRESH_ENDPOINT = "/api/v1/auth/refresh";
 
 // CL-API-05: OAuth callbacks redirect back to the homepage instead of
 // rendering bare JSON. A failed callback carries ?auth_error=1; the shell
@@ -57,12 +65,59 @@ export function parseMember(doc) {
   return { name, provider };
 }
 
+// CL-UI-60: simple throttle so a renewed session does not re-double-call
+// /auth/me + /auth/refresh on every load: at most one refresh attempt per
+// window, and concurrent 401s share a single in-flight refresh. State lives
+// per module instance (one page load), like the throttle in member-auth.js.
+const REFRESH_THROTTLE_MS = 30_000;
+let lastRefreshAt = 0;
+let refreshInFlight = null;
+
+// Test hook: reset throttle + in-flight state between cases.
+export function resetAuthRefreshState() {
+  lastRefreshAt = 0;
+  refreshInFlight = null;
+}
+
+async function refreshThenMe(fetchImpl, url) {
+  if (refreshInFlight) return refreshInFlight;
+  if (Date.now() - lastRefreshAt < REFRESH_THROTTLE_MS) return null;
+  lastRefreshAt = Date.now();
+  refreshInFlight = (async () => {
+    try {
+      // The refresh JWT rides the HttpOnly cl_refresh cookie (same-origin);
+      // the POST body stays empty — handleAuthRefresh also accepts a
+      // { refreshToken } body but cookies are the only source in the shell.
+      const refreshRes = await fetchImpl(AUTH_REFRESH_ENDPOINT, {
+        method: "POST",
+        credentials: "same-origin",
+        cache: "no-store"
+      });
+      if (!refreshRes.ok) return null;
+      const meRes = await fetchImpl(url, { credentials: "same-origin", cache: "no-store" });
+      if (!meRes.ok) return null;
+      return await meRes.json();
+    } catch {
+      return null;
+    } finally {
+      refreshInFlight = null;
+    }
+  })();
+  return refreshInFlight;
+}
+
 export async function fetchMember(fetchImpl = (...args) => fetch(...args), url = AUTH_ME_ENDPOINT) {
   let response;
   try {
     response = await fetchImpl(url, { credentials: "same-origin", cache: "no-store" });
   } catch {
     return null;
+  }
+  // CL-UI-60: exactly a 401 (expired access JWT) earns a refresh attempt —
+  // any other non-OK answer stays signed-out without touching /auth/refresh.
+  if (response.status === 401) {
+    const doc = await refreshThenMe(fetchImpl, url);
+    return doc ? parseMember(doc) : null;
   }
   if (!response.ok) return null;
   let doc;

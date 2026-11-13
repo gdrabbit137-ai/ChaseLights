@@ -16,6 +16,7 @@
 
   var MA_ENDPOINTS = {
     me: '/api/v1/auth/me',
+    refresh: '/api/v1/auth/refresh',
     logout: '/api/v1/auth/logout',
     profile: '/api/v1/auth/profile',
     line: '/api/v1/auth/line/start',
@@ -147,11 +148,61 @@
     return prof ? { name: name, provider: provider, profile: prof } : { name: name, provider: provider };
   }
 
+  // CL-UI-60: silent session renewal (mirrors apps/web-v2/shell-auth.mjs).
+  // The access JWT cookie (cl_session) expires after 15 minutes while the
+  // refresh JWT cookie (cl_refresh) lasts 30 days (workers/api/src/index.js
+  // handleAuthRefresh), so a 401 on /auth/me must try POST /auth/refresh once
+  // before declaring the visitor signed out — the owner-visible bug was the
+  // masthead flipping back to 「登入」 after every 15-minute expiry. The
+  // worker answers 200 { ok, accessToken, refreshToken } and rotates BOTH
+  // cookies via Set-Cookie, so the follow-up /auth/me succeeds without any
+  // token handling here; 401 answers { error: "invalid refresh token" }.
+  // Throttle: at most one refresh attempt per window (remembered in closure
+  // state, so a renewed session never double-calls me+refresh on every
+  // load/lang switch), and concurrent 401s share a single in-flight refresh.
+  var MA_REFRESH_THROTTLE_MS = 30000;
+  var maLastRefreshAt = 0, maRefreshInFlight = null;
+
+  function maFetch(url, opts) {
+    return fetch(url, opts).catch(function () { return null; });
+  }
+
+  function maMeOnce() {
+    return maFetch(MA_ENDPOINTS.me, { credentials: 'same-origin', cache: 'no-store' })
+      .then(function (res) {
+        if (!res) return null;
+        if (res.status === 401) return maRefreshThenMe();
+        return res.ok ? res.json().catch(function () { return null; }) : null;
+      });
+  }
+
+  function maRefreshThenMe() {
+    if (maRefreshInFlight) return maRefreshInFlight;
+    if (Date.now() - maLastRefreshAt < MA_REFRESH_THROTTLE_MS) return Promise.resolve(null);
+    maLastRefreshAt = Date.now();
+    // The refresh JWT rides the HttpOnly cl_refresh cookie (same-origin);
+    // the POST body stays empty — handleAuthRefresh also accepts a
+    // { refreshToken } body but cookies are the only source in the shell.
+    maRefreshInFlight = maFetch(MA_ENDPOINTS.refresh, {
+      method: 'POST', credentials: 'same-origin', cache: 'no-store'
+    }).then(function (res) {
+      if (!res || !res.ok) return null;
+      return maFetch(MA_ENDPOINTS.me, { credentials: 'same-origin', cache: 'no-store' })
+        .then(function (meRes) {
+          return (meRes && meRes.ok) ? meRes.json().catch(function () { return null; }) : null;
+        });
+    }).then(function (doc) {
+      maRefreshInFlight = null;
+      return doc;
+    }).catch(function () {
+      maRefreshInFlight = null;
+      return null;
+    });
+    return maRefreshInFlight;
+  }
+
   function fetchMember() {
-    return fetch(MA_ENDPOINTS.me, { credentials: 'same-origin', cache: 'no-store' })
-      .then(function (res) { return res.ok ? res.json() : null; })
-      .then(function (doc) { return parseMember(doc); })
-      .catch(function () { return null; });
+    return maMeOnce().then(function (doc) { return parseMember(doc); });
   }
 
   var area, toggle, menu, nameEl, logoutBtn, panel, profInputs = null, curMember = null;

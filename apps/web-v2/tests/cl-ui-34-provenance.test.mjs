@@ -116,10 +116,10 @@ test('CL-UI-34 (5): index.html carries the collapsed panel, cards untouched, sta
   // carries a clui62 stamp on index.html.
   assert.equal((htmlSource.match(/\?v=clui62/g)||[]).length,1,'site-nav stamp stays at clui62');
   // CL-UI-58: app.js + app.css bumped to clui68; CL-APP-03: reminders-client.js advanced to clui69.
-  assert.equal((htmlSource.match(/\?v=clui68/g)||[]).length,2,'app.js/app.css stamps stay at clui68');
+  assert.equal((htmlSource.match(/\?v=clui68/g)||[]).length,3,'app.js/app.css stamps stay at clui68; member-auth.js joins clui68 (CL-UI-60 refresh)');
   assert.equal((htmlSource.match(/\?v=clui69/g)||[]).length,1,'reminders-client stamp bumped to clui69 (CL-APP-03 push channel)');
-  // CL-UI-57: member-auth.js + favorites-client.js stay at clui67.
-  assert.equal((htmlSource.match(/\?v=clui67/g)||[]).length,2,'member-auth/favorites-client stamps stay at clui67');
+  // CL-UI-57: favorites-client.js stays at clui67; member-auth.js advanced to clui68 (CL-UI-60 refresh).
+  assert.equal((htmlSource.match(/\?v=clui67/g)||[]).length,1,'favorites-client stamp stays at clui67');
   // Render path and styles exist in app.js / app.css.
   assert.match(appSource,/function renderModalProvenance\(/);
   assert.match(appSource,/renderModalProvenance\(summarySpot\);/);
