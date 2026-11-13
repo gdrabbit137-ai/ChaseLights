@@ -76,8 +76,9 @@ test('CL-UI-62: every violated metric has a trilingual short weather word', () =
   for (const metric of failShort.metric_priority) {
     assert.ok(failShort.words[metric], `metric_priority has dangling entry: ${metric}`);
   }
-  // rule doc present and versioned
-  assert.equal(failShort.dominant_reason_rule.rule_version, '1.0');
+  // rule doc present and versioned (CL-UI-70: rule 1.1 — window metrics
+  // abstain when the window occurred; qualification metrics never day-vote)
+  assert.equal(failShort.dominant_reason_rule.rule_version, '1.1');
   assert.ok(failShort.dominant_reason_rule['zh-TW'].length > 40);
   assert.ok(failShort.dominant_reason_rule.en.length > 40);
 });

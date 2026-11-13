@@ -38,6 +38,20 @@ jobs:
           assert bundle['guidance_only'] is True and bundle['live_recommendation'] is False
           print('bundle OK:', bundle['place_count'], 'places /', bundle['opportunity_count'], 'opportunities')
           PY
+      - name: Regenerate subject-cards from the same bundle (CL-UI-70)
+        # CHALLENGER-13 P6: the derived subject-cards layer (chips / card
+        # second line) must come from the SAME evaluation run as the bundle
+        # — regenerate it here, inside this job, so the bundle and its
+        # derived artifact land in ONE commit (no stale-drift where the card
+        # word layer contradicts the modal's hourly data). The committed
+        # filename subject-cards-20261112T202312Z.json is a STABLE POINTER
+        # pinned by assets/app.js (V2_SUBJECT_CARDS_FILE) and the CL-UI-62/
+        # 63/64/65 tests; the true provenance lives inside the file
+        # (derived_from.source_bundle + source_bundle_sha256).
+        run: |
+          newest_bundle=$(ls -t data/v2/evaluations/bundle-*.json | head -n 1)
+          python data/v2/tools/build_subject_cards.py --bundle "$newest_bundle" \
+            --out data/v2/evaluations/subject-cards-20261112T202312Z.json
       - name: Commit evaluation bundle
         run: |
           ls -t data/v2/evaluations/bundle-*.json 2>/dev/null | tail -n +8 | xargs -r rm -f

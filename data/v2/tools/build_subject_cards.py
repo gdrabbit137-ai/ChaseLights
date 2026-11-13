@@ -24,6 +24,13 @@ order; fallback REQUIRED+MAIN UNKNOWN, then PARTIAL with pass_hours=0, then
 CL-UI-65: any PARTIAL condition, fewest pass_hours first — an UNFAVORABLE day
 whose conditions only PARTIAL (no FAIL hour) still owes the card a reason);
 highest vote count wins, ties break to earlier metric_priority then metric id.
+CL-UI-70 (CHALLENGER-13): time-window metrics (WINDOW_METRICS below) never
+vote when the window occurred (pass_hours > 0) — the day reason is then a
+weather word; they vote only when the window did not occur (pass_hours == 0)
+and no weather condition shows a concrete violation, with the neutral word
+「非拍攝時段」. Qualification metrics (QUALIFICATION_METRICS: season /
+landform / light direction) never vote at place-day level; their reason stays
+in the modal's per-subject expansion rows.
 
 CL-UI-65 general baseline (owner ruling, general-v0.1 full-catalog): the
 derivation layer additionally computes a per-place per-day shootability floor
@@ -102,18 +109,60 @@ def _condition_sort_key(cond, priority_map):
             role_rank, tier_rank, cond.get("_order", 0))
 
 
+# CL-UI-70 (CHALLENGER-13 audit, owner ruling — suggestion b): time-window
+# metrics describe the WHEN of a subject, not its weather. A night/blue-hour
+# subject is outside its window for most of any day, so the CL-UI-65
+# "fewest pass_hours wins" tie-break systematically crowned the window over
+# the real weather failure — a day whose window DID occur (pass_hours > 0)
+# was labelled 「時段不對」 when the truth was cloud/rain/haze. Window metrics
+# therefore vote only when the window did not occur at all (pass_hours == 0)
+# and no weather-class condition shows a concrete violation (FAIL/PARTIAL);
+# their word is the neutral 「非拍攝時段」, never a failure wording.
+WINDOW_METRICS = frozenset((
+    "sunrise_time_window", "sunset_window", "golden_hour_window",
+    "blue_hour_window", "city_night_window", "daylight_window",
+    "light_window", "astronomical_darkness"))
+# CL-UI-70: per-subject eligibility conditions (season / landform / light
+# direction) mean nothing at place-day level — a day word 「非季節」 next to
+# recommended chips contradicts the same row (CHALLENGER-13 P3). They stay
+# per-subject: their reason lives in the modal's 題材展開區, never in the
+# place-day dominant vote.
+QUALIFICATION_METRICS = frozenset(
+    ("seasonal_state", "landform_present", "light_direction"))
+
+
 def _core_violation_metric(conds, priority_map):
     """One metric id (or None) = the subject's most core violated condition."""
-    fails = [c for c in conds if c.get("day_verdict") == "FAIL"]
+    # CL-UI-70: whether any weather-class condition shows a concrete problem.
+    # Weather-class = neither a time window nor a per-subject qualification.
+    weather_trouble = any(
+        c.get("metric") not in WINDOW_METRICS
+        and c.get("metric") not in QUALIFICATION_METRICS
+        and c.get("day_verdict") in ("FAIL", "PARTIAL")
+        for c in conds)
+    # Window metrics are vote-eligible only when the window never happened
+    # (pass_hours == 0) AND the weather was not the problem; qualification
+    # metrics never vote at place-day level.
+    def _vote_eligible(c):
+        metric = c.get("metric")
+        if metric in QUALIFICATION_METRICS:
+            return False
+        if metric in WINDOW_METRICS:
+            return c.get("pass_hours", 0) == 0 and not weather_trouble
+        return True
+    fails = [c for c in conds if c.get("day_verdict") == "FAIL"
+             and _vote_eligible(c)]
     pool = fails or [c for c in conds if c.get("day_verdict") == "UNKNOWN"
-                     and c.get("role") == "REQUIRED" and c.get("tier") == "MAIN"]
+                     and c.get("role") == "REQUIRED" and c.get("tier") == "MAIN"
+                     and _vote_eligible(c)]
     pool = pool or [c for c in conds if c.get("day_verdict") == "PARTIAL"
-                    and c.get("pass_hours") == 0]
+                    and c.get("pass_hours") == 0 and _vote_eligible(c)]
     # CL-UI-65: an UNFAVORABLE day can carry only PARTIAL conditions with some
     # passing hours (the passing windows never coincide). The day still owes
     # the card a short reason — fall back to any PARTIAL condition, the fewest
     # passing hours first (the binding constraint), then the core-vote order.
-    pool = pool or [c for c in conds if c.get("day_verdict") == "PARTIAL"]
+    pool = pool or [c for c in conds if c.get("day_verdict") == "PARTIAL"
+                    and _vote_eligible(c)]
     if not pool:
         return None
     best = min(pool, key=lambda c: (c.get("pass_hours", 0),

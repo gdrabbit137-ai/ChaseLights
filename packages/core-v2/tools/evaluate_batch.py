@@ -685,6 +685,17 @@ def main():
                 # ~05:25, while the sun was still below −10° at 05:00).
                 # Weather conditions stay bucket-level (hourly grid data), so
                 # the label is precise for the astro window within the bucket.
+                # CL-UI-70 (CHALLENGER-13 P7, edge-bucket policy confirmed):
+                # the precise sub-hour stamp is computed ONLY for
+                # GUIDANCE_SATISFIED buckets. On an UNFAVORABLE day a window
+                # metric can still pass one bucket (its day condition
+                # pass_hours counts bucket-level passes), but no precise
+                # stamp is emitted — good_hours stays empty for that day, so
+                # a blue-hour day that failed on weather shows the bucket
+                # label (17:00) in the hourly grid without the 17:25 precise
+                # stamp its qualifying neighbours carry. That asymmetry is
+                # the documented edge-bucket behaviour, not a bug; the
+                # subject-cards layer never fabricates a hint from it.
                 precise_local = None
                 precise_off = None
                 if status == "GUIDANCE_SATISFIED":
