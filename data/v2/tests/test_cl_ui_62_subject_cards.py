@@ -112,8 +112,27 @@ class DerivedArtifactTests(unittest.TestCase):
                 if row["dominant_reason"] is not None:
                     self.assertIn(row["dominant_metric"], words)
                     self.assertEqual(row["dominant_reason"], words[row["dominant_metric"]])
+                    self.assertIn(row["dominant_source"], ("curated_votes", "general_baseline"))
                 else:
                     self.assertIsNone(row["dominant_metric"])
+                    self.assertIsNone(row["dominant_source"])
+                # CL-UI-65: every row carries the general baseline
+                gb = row["general_baseline"]
+                self.assertIsInstance(gb["ok"], bool)
+                if gb["ok"]:
+                    self.assertIsNone(gb["reason_short"])
+                elif gb["reason_short"] is not None:
+                    self.assertIn(gb["reason_short"], words.values())
+                # CL-UI-65: three-tier semantics consistent with the row body
+                if row["suitable"]:
+                    self.assertEqual(row["tier"], "recommend")
+                elif gb["ok"]:
+                    self.assertEqual(row["tier"], "shootable")
+                else:
+                    self.assertIn(row["tier"], ("not_recommended", None))
+                    self.assertEqual(row["tier"] == "not_recommended",
+                                     gb["reason_short"] is not None
+                                     or row["status"] != "not_evaluable")
         self.assertGreater(rows, 3000)
 
     def test_dominant_metric_voted_by_failed_subjects(self):
@@ -139,7 +158,15 @@ class DerivedArtifactTests(unittest.TestCase):
                     expected = min(sorted(day_votes), key=lambda m: (-day_votes[m], priority.get(m, len(priority)), m))
                     self.assertEqual(row["dominant_metric"], expected, f"{place['place_id']} {date}")
                 elif not day_votes:
-                    self.assertIsNone(row["dominant_reason"], f"{place['place_id']} {date}")
+                    # CL-UI-65: without curated votes the reason may only come
+                    # from the general-baseline fallback (or stay honestly null).
+                    if row["dominant_reason"] is not None:
+                        self.assertEqual(row["dominant_source"], "general_baseline",
+                                         f"{place['place_id']} {date}")
+                        self.assertEqual(row["dominant_reason"],
+                                         row["general_baseline"]["reason_short"])
+                    else:
+                        self.assertEqual(row["dominant_source"], None)
 
     def test_lf_bytes_for_committed_data_files(self):
         for path in (ARTIFACT, COPY_DIR / "genre_short_names.json", COPY_DIR / "fail_reason_short.json"):
