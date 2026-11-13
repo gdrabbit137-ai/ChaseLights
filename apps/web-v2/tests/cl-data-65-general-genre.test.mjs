@@ -32,6 +32,6 @@ test('CL-DATA-65 (b): the general genre chip is visually distinct from curated g
 });
 
 test('CL-DATA-65 (c): cache-bust stamps bumped for app.js/app.css', () => {
-  assert.match(htmlSource, /assets\/app\.css\?v=clui80/);
-  assert.match(htmlSource, /assets\/app\.js\?v=clui80/);
+  assert.match(htmlSource, /assets\/app\.css\?v=clui84/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui84/);
 });

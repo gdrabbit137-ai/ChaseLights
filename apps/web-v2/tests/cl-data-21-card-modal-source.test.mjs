@@ -24,15 +24,16 @@ const here=path.dirname(fileURLToPath(import.meta.url));
 const repo=path.resolve(here,'..','..','..');
 const appSource=readFileSync(path.join(repo,'assets','app.js'),'utf8');
 
-test('CL-DATA-21 (a): weather-modal 「最佳」 tag is painted only from V2 good_hours',()=>{
-  const block=appSource.slice(appSource.indexOf('let nowAnchorAssigned=false'),appSource.indexOf('(spot.hourly_forecast||[]).forEach'));
-  assert.match(block,/v2WmPlace=v2PlaceForSpot\(summarySpot\)/);
-  assert.match(block,/v2WmDay=v2WmOpp\?v2DayForOffset\(v2WmOpp,selectedDayOffset\(\),summarySpot\?\.timezone\):null/);
-  assert.match(block,/v2WmHours=new Set\(v2EffectiveHours\(v2WmDay,summarySpot\?\.timezone\)\)/);
-  // the isBest predicate on the timeline loop reads the same V2 hour set
-  assert.match(appSource,/const isBest=!!\(selectedDate&&item\.local_date===selectedDate&&v2WmHours\.size&&v2WmHours\.has\(item\.time\.slice\(-5\)\)\)/);
-  // the legacy window must no longer select the tag anywhere in the timeline
-  assert.ok(!appSource.includes('summaryMetric?.window_start&&item.time>='),'legacy window_start best-tag must be gone');
+test('CL-DATA-21 (a): the weather-modal 「最佳」 badge is GONE (CL-UI-78 owner ruling)',()=>{
+  // The blue pill (tag-best) and its best-row tint explained nothing to
+  // users; ranking info lives in the 適合題材 chips (same V2 bundle via
+  // v2HourSubjectCell). The legacy summaryMetric window must also never
+  // select any best-hour tag.
+  assert.ok(!appSource.includes('tag-best'),'tag-best pill must be gone');
+  assert.ok(!appSource.includes('tag_best'),'tag_best i18n key must be gone');
+  assert.ok(!appSource.includes('best-row'),'best-row tint must be gone');
+  assert.ok(!appSource.includes('v2WmHours'),'modal best-hour V2 set must be gone with the badge');
+  assert.ok(!appSource.includes('summaryMetric?.window_start&&item.time>='),'legacy window_start best-tag must stay gone');
 });
 
 test('CL-DATA-21 (b): place-guide modal resolves V2 day rows by local date, not index',()=>{
@@ -66,6 +67,6 @@ test('CL-DATA-21 (c): pinned places carry a gating light/sunset window',()=>{
 
 test('CL-DATA-21 (d): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(path.join(repo,'index.html'),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui80/);
-  assert.match(index,/assets\/app\.css\?v=clui80/);
+  assert.match(index,/assets\/app\.js\?v=clui84/);
+  assert.match(index,/assets\/app\.css\?v=clui84/);
 });

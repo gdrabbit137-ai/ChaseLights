@@ -115,12 +115,12 @@ test('CL-UI-34 (5): index.html carries the collapsed panel, cards untouched, sta
   // CL-API-05: member-auth.js advanced to clui65 (CL-UI-55), so only site-nav.css still
   // carries a clui62 stamp on index.html.
   assert.equal((htmlSource.match(/\?v=clui62/g)||[]).length,1,'site-nav stamp stays at clui62');
-  // CL-UI-73: app.js + app.css advanced to clui80; member-auth.js stays at clui81 (CL-UI-60 refresh).
+  // CL-UI-73: app.js + app.css advanced to clui84; member-auth.js stays at clui81 (CL-UI-60 refresh).
   assert.equal((htmlSource.match(/\?v=clui81/g)||[]).length,1,'member-auth.js stays at clui81 after the CL-UI-63 app.js/app.css bump');
   // CL-UI-61→CL-UI-69: reminders-client.js advanced past clui75 (CL-APP-03) to clui83 (CL-API-07).
   assert.match(htmlSource,/reminders-client\.js\?v=clui83/,'reminders-client stamp bumped to clui83');
-  // CL-UI-73: app.js + app.css advanced to clui80; reminders-client.js stays at clui83.
-  assert.equal((htmlSource.match(/\?v=clui80/g)||[]).length,2,'app.js + app.css both at clui80');
+  // CL-UI-73: app.js + app.css advanced to clui84; reminders-client.js stays at clui83.
+  assert.equal((htmlSource.match(/\?v=clui84/g)||[]).length,2,'app.js + app.css both at clui84');
   assert.equal((htmlSource.match(/\?v=clui83/g)||[]).length,1,'reminders-client.js is the only clui83 stamp left');
   // CL-UI-57: favorites-client.js stays at clui82; member-auth.js advanced to clui81 (CL-UI-60 refresh).
   assert.equal((htmlSource.match(/\?v=clui82/g)||[]).length,1,'favorites-client stamp stays at clui82');

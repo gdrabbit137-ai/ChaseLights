@@ -256,6 +256,7 @@ test('CL-UI-18 C6: astro missing is a compact marker + one legend note; badge co
   assert.match(rowBlock,/\$\{astro\|\|astroMissingHtml\(item,true\)\}/);
   assert.match(rowBlock,/astroMissingRows\+\+/);
   assert.match(rowBlock,/timeline-legend/);
-  assert.match(cssSource,/terminal-table td:first-child \{ min-width: 96px; \}/);
+  // CL-UI-78: the time cell narrowed to HH:MM (date lives in the banner row).
+  assert.match(cssSource,/terminal-table td:first-child \{ min-width: 48px; \}/);
   assert.match(cssSource,/\.v2-chip-ok\{color:#3fb950;font-weight:600;white-space:nowrap\}/);
 });

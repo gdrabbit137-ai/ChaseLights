@@ -241,8 +241,8 @@ test('CL-UI-66 (15): index.html carries the tab/chip hosts, the next_window sort
   assert.match(indexSource, /id="tier-tabs"/);
   assert.match(indexSource, /id="subject-chips"/);
   assert.match(indexSource, /<option value="next_window" data-i18n="sort_next_window">/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui80/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui80/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui84/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui84/);
 });
 
 test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the shared active accent', () => {
@@ -253,6 +253,8 @@ test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the s
     assert.match(block, /overflow-x:\s*auto/, `${cls} must scroll horizontally (390px-first)`);
     assert.match(block, /-webkit-overflow-scrolling:\s*touch/);
   }
-  assert.match(cssSource, /\.tier-tab\.active \{[^}]*#38bdf8/);
+  // CL-UI-78 P1-2 (design-review-1): the recommend tab is a GREEN semantic
+  // state; the subject chip stays blue (selected-but-not-semantic).
+  assert.match(cssSource, /\.tier-tab\.active \{[^}]*#4ADE80/);
   assert.match(cssSource, /\.subject-chip\.active \{[^}]*#38bdf8/);
 });

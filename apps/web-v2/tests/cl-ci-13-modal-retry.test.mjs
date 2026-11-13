@@ -31,9 +31,10 @@ test('CL-CI-13 A1: detail_retry exists in all three LANG dicts',()=>{
 });
 
 test('CL-CI-13 A2: modal_subtitle is a {p}/{f} template — the stale 72h copy is gone',()=>{
-  const zh=grab("modal_subtitle:'⏱️ 逐時拍攝條件","tag_best:'最佳'");
-  const en=grab("modal_subtitle:'⏱️ Hourly","tag_best:'BEST'");
-  const ja=grab("modal_subtitle:'⏱️ 時間別","tag_best:'最適'");
+  // CL-UI-78: the grab tail moved to the th_lcl_short key (tag_best removed).
+  const zh=grab("modal_subtitle:'⏱️ 逐時拍攝條件","th_lcl_short:'高度'");
+  const en=grab("modal_subtitle:'⏱️ Hourly","th_lcl_short:'Height'");
+  const ja=grab("modal_subtitle:'⏱️ 時間別","th_lcl_short:'高度'");
   for(const [seg] of [[zh],[en],[ja]]){
     assert.ok(seg.includes('{p}')&&seg.includes('{f}'),seg);
     assert.ok(!/72/.test(seg),`stale 72h window still hardcoded: ${seg}`);
@@ -41,7 +42,7 @@ test('CL-CI-13 A2: modal_subtitle is a {p}/{f} template — the stale 72h copy i
 });
 
 test('CL-CI-13 A3: index.html bumps the app.js cache-bust stamp to clui49',()=>{
-  assert.match(indexSource,/assets\/app\.js\?v=clui80/);
+  assert.match(indexSource,/assets\/app\.js\?v=clui84/);
   assert.ok(!indexSource.includes('assets/app.js?v=clui33'));
 });
 
