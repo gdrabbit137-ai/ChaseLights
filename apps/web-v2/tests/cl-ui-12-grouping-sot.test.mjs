@@ -104,7 +104,8 @@ test('CL-UI-12 (c): day0 qualifying hours count only the remaining part of the d
   const v2DayHtmlBlock=block('function v2DayHtml','let v2Details={}');
   assert.match(v2DayHtmlBlock,/const hoursList=v2EffectiveHours\(day,tz\);/);
   assert.match(v2DayHtmlBlock,/v2-past-note/);
-  assert.match(appSource,/v2DayStripHtml\(days,labels,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id\)/);
+  // CL-UI-67: the strip call now carries the next-window note (no standalone row).
+  assert.match(appSource,/v2DayStripHtml\(days,labels,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id,nextNote\)/);
   // The modal's "current-conditions" reference hour never resolves to a
   // today-hour that already passed.
   const v2PickRefHourBlock=block('function v2PickRefHour','function v2FmtNum');

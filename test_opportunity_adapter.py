@@ -1546,7 +1546,9 @@ def test_adapter_integrity():
     assert "function opportunityDisplayName(spot,opportunityId,theme,legacyName)" in frontend_source
     assert "const selectedDateOpportunities=rankedOpportunities.filter(hasSelectedDateEvaluation);" in frontend_source
     assert "const guideOnlyOpportunities=rankedOpportunities.filter(op=>!selectedDateIds.has(op.opportunity_id));" in frontend_source
-    assert "const current=!guideOnly&&v2day?" in frontend_source
+    # CL-UI-67: the modal's per-subject current verdict line was removed (the
+    # 8-day strip expresses it) — pin drift, wording retired, no behavior change.
+    assert "opportunity-current" not in frontend_source
     assert "const scoreConfidence=!guideOnly&&m?.score_confidence?" in frontend_source
     assert "const dayBestWindow=!guideOnly&&!v2op&&m&&(m.window_start||m.best_time)?fmtWindow(m):'';" in frontend_source
     assert "const bestSeason=localizedResearchValue(op,'best_season');" in frontend_source
