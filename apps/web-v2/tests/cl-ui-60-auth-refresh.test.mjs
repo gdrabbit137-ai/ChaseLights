@@ -23,7 +23,7 @@
 //   (4) throttle: a renewed session never re-double-calls refresh (one
 //       refresh POST per window; concurrent 401s share one in-flight refresh);
 //   (5) non-401 failures never touch /auth/refresh;
-//   (6) V1 member-auth.js mirrors the same flow + cache-bust clui68.
+//   (6) V1 member-auth.js mirrors the same flow + cache-bust clui81.
 // Run: node --test apps/web-v2/tests/cl-ui-60-auth-refresh.test.mjs
 import test, { beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
@@ -31,7 +31,8 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import {
-  AUTH_ME_ENDPOINT, AUTH_REFRESH_ENDPOINT, fetchMember, parseMember, resetAuthRefreshState
+  AUTH_ME_ENDPOINT, AUTH_REFRESH_ENDPOINT, fetchMember, parseMember, resetAuthRefreshState,
+  MEMBER_TRANSIENT, isMemberTransient
 } from '../shell-auth.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -112,17 +113,20 @@ test('CL-UI-60 (4a): throttle — a second 401 load within the window does not r
   assert.equal(await fetchMember(s.fetchImpl), null);
   const refreshCallsAfterFirst = s.calls.filter(c => c[0] === AUTH_REFRESH_ENDPOINT).length;
   assert.equal(refreshCallsAfterFirst, 1);
-  // Second load immediately after: throttled — no refresh, no double me+refresh round trip.
+  // CL-API-07: the second load is served from the 10 s result cache — zero
+  // additional requests, no refresh, no re-probe.
   assert.equal(await fetchMember(s.fetchImpl), null);
-  const refreshCallsAfterSecond = s.calls.filter(c => c[0] === AUTH_REFRESH_ENDPOINT).length;
-  assert.equal(refreshCallsAfterSecond, 1, 'refresh POST ran exactly once across both loads');
-  assert.equal(s.calls.filter(c => c[0] === AUTH_ME_ENDPOINT).length, 3,
-    'second load only does the bare /auth/me probe');
+  assert.equal(s.calls.filter(c => c[0] === AUTH_REFRESH_ENDPOINT).length, 1,
+    'refresh POST ran exactly once across both loads');
+  assert.equal(s.calls.filter(c => c[0] === AUTH_ME_ENDPOINT).length, 2,
+    'the second load reuses the cached answer (no re-probe)');
 });
 
-test('CL-UI-60 (4b): concurrent 401s share one in-flight refresh', async () => {
+test('CL-UI-60 (4b): concurrent 401s share one in-flight me+refresh round trip', async () => {
+  // CL-API-07: concurrent fetchMember calls share a single in-flight round
+  // trip — one me probe, one refresh POST, one retried me serve both loads.
   const s = scriptedFetch({
-    [AUTH_ME_ENDPOINT]: [me401, me401, me200],
+    [AUTH_ME_ENDPOINT]: [me401, me200],
     [AUTH_REFRESH_ENDPOINT]: [refresh200]
   });
   const [a, b] = await Promise.all([fetchMember(s.fetchImpl), fetchMember(s.fetchImpl)]);
@@ -130,16 +134,26 @@ test('CL-UI-60 (4b): concurrent 401s share one in-flight refresh', async () => {
   assert.deepEqual(b, parseMember(ME_OK));
   assert.equal(s.calls.filter(c => c[0] === AUTH_REFRESH_ENDPOINT).length, 1,
     'a single refresh POST serves both concurrent loads');
+  assert.equal(s.calls.filter(c => c[0] === AUTH_ME_ENDPOINT).length, 2,
+    'a single me probe + retried me serve both concurrent loads');
 });
 
+// CL-API-07: 429/5xx/network failures are TRANSIENT — the shell keeps its
+// current member state (no 登入 flip) and retries with backoff; only a 401
+// with a failed refresh decides signed-out.
 test('CL-UI-60 (5): non-401 failures never touch /auth/refresh', async () => {
   const s = scriptedFetch({ [AUTH_ME_ENDPOINT]: [() => ({ ok: false, status: 500, json: async () => ({}) })] });
-  assert.equal(await fetchMember(s.fetchImpl), null);
+  assert.equal(await fetchMember(s.fetchImpl), MEMBER_TRANSIENT, '5xx is transient, not signed-out');
   assert.deepEqual(s.calls.map(c => c[0]), [AUTH_ME_ENDPOINT]);
-  // Network failure on me also stays signed out without a refresh attempt.
-  const s2 = scriptedFetch({});
-  assert.equal(await fetchMember(async () => { throw new Error('offline'); }), null);
-  assert.equal(s2.calls.length, 0);
+  // Network failure on me is transient too, without a refresh attempt.
+  assert.equal(await fetchMember(async () => { throw new Error('offline'); }), MEMBER_TRANSIENT);
+});
+
+test('CL-API-07 (5b): me 429 is transient — signed-in state is never dropped', async () => {
+  const s = scriptedFetch({ [AUTH_ME_ENDPOINT]: [() => ({ ok: false, status: 429, json: async () => ({ error: 'rate limited' }) })] });
+  assert.equal(await fetchMember(s.fetchImpl), MEMBER_TRANSIENT);
+  assert.deepEqual(s.calls.map(c => c[0]), [AUTH_ME_ENDPOINT], '429 never touches /auth/refresh');
+  assert.ok(isMemberTransient(MEMBER_TRANSIENT));
 });
 
 test('CL-UI-60 (6): V1 member-auth.js mirrors the silent-renewal flow', () => {
@@ -160,9 +174,9 @@ test('CL-UI-60 (6): V1 member-auth.js mirrors the silent-renewal flow', () => {
   assert.match(memberSource, /if \(maRefreshInFlight\) return maRefreshInFlight;/);
 });
 
-test('CL-UI-60 (7): cache-bust — member-auth.js advanced to clui68 on every shell page', () => {
+test('CL-UI-60 (7): cache-bust — member-auth.js advanced to clui81 on every shell page', () => {
   for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html', 'reminders.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    assert.match(src, /assets\/member-auth\.js\?v=clui68/, `${page} loads member-auth.js?v=clui68`);
+    assert.match(src, /assets\/member-auth\.js\?v=clui81/, `${page} loads member-auth.js?v=clui81`);
   }
 });

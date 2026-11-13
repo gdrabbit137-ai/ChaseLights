@@ -3,7 +3,7 @@ import {createCatalogState} from "./catalog-state.mjs";
 import {browse,validateBrowseIndex} from "./browse-index.mjs";
 import {CATALOG_SHA256,BROWSE_INDEX_SHA256} from "./bundle-digests.mjs";
 import {createPullToRefresh,fetchCloudDigest} from "./pull-refresh.mjs";
-import {fetchMember,consumeAuthError,authErrorMessage} from "./shell-auth.mjs";
+import {fetchMember,MEMBER_TRANSIENT,consumeAuthError,authErrorMessage} from "./shell-auth.mjs";
 import {createFavoritesClient,localFavorites,persistLocalFavorites,clearLocalFavorites,favoritesFallbackMessage} from "./favorites-client.mjs";
 
 const copy = {
@@ -474,12 +474,25 @@ function renderMember(){
   $("login-line").hidden=!open;
   $("login-google").hidden=!open;
 }
+// CL-API-07: a 429/5xx on /auth/me is transient — the member state is kept
+// as-is (no 登入 flip) and a backoff retry re-checks later (1 s → 2 s → 4 s,
+// max 3 attempts). Only a 401 with a failed refresh (fetchMember → null)
+// decides signed-out.
+let memberRetryAttempt=0,memberRetryTimer=0;
+function scheduleMemberRetry(){
+  if(memberRetryAttempt>=3)return;
+  const delay=1000*Math.pow(2,memberRetryAttempt++);
+  clearTimeout(memberRetryTimer);
+  memberRetryTimer=setTimeout(()=>{void refreshMember();},delay);
+}
 async function refreshMember(){
   // CL-UI-57: on a signed-in -> signed-out transition the device-local cache
   // was the previous member's merged list — clear it so the next favorites
   // sync can neither re-display nor re-upload it.
   const prev=state.member;
-  state.member=await fetchMember();
+  const next=await fetchMember();
+  if(next===MEMBER_TRANSIENT){scheduleMemberRetry();}
+  else{memberRetryAttempt=0;state.member=next;}
   if(prev&&!state.member)clearLocalFavorites();
   renderMember();
 }

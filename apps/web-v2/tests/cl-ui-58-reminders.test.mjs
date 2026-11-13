@@ -231,8 +231,8 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /data-nav-target="reminders" data-active="page"/);
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui62/);
   assert.match(remHtml, /assets\/app\.css\?v=clui79/);
-  assert.match(remHtml, /assets\/member-auth\.js\?v=clui68/);
-  assert.match(remHtml, /assets\/reminders-client\.js\?v=clui75/);
+  assert.match(remHtml, /assets\/member-auth\.js\?v=clui81/);
+  assert.match(remHtml, /assets\/reminders-client\.js\?v=clui83/);
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui75/);
   // Login panel + login deep links present (OAuth 302 anchors, per CL-UI-53).
   assert.match(remHtml, /rem-login-panel/);
@@ -242,7 +242,7 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /max-width: 390px/);
   assert.match(remHtml, /min-height:44px|min-height: 44px/);
   // The homepage loads the card-side client and carries the bumped stamps.
-  assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui75/);
+  assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui83/);
   assert.match(indexHtml, /assets\/app\.js\?v=clui79/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui79/);
 });

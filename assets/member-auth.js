@@ -170,9 +170,11 @@
   function maMeOnce() {
     return maFetch(MA_ENDPOINTS.me, { credentials: 'same-origin', cache: 'no-store' })
       .then(function (res) {
-        if (!res) return null;
+        // CL-API-07: 429/5xx and network failure are transient — keep the
+        // current state (only 401 after a failed refresh means signed out).
+        if (!res || res.status === 429 || res.status >= 500) return MA_TRANSIENT;
         if (res.status === 401) return maRefreshThenMe();
-        return res.ok ? res.json().catch(function () { return null; }) : null;
+        return res.ok ? res.json().catch(function () { return null; }) : MA_TRANSIENT;
       });
   }
 
@@ -201,8 +203,44 @@
     return maRefreshInFlight;
   }
 
+  // CL-API-07: 429/5xx/network failure on /auth/me is NEVER "signed out" —
+  // it returns the transient marker so render() keeps the current state and
+  // schedules a backoff retry; only 401 (after a failed refresh) clears it.
+  var MA_TRANSIENT = { transient: true };
+
+  // CL-API-07: single-flight + short result cache — repeated member pulls on
+  // one page load (boot, lang switch) share at most one real /auth/me per
+  // cache window. Forced callers (logout, profile save) bypass via reset.
+  var MA_ME_CACHE_MS = 10000;
+  var maMeInFlight = null, maMeCacheMember = null, maMeCacheAt = 0;
+  function maMeReset() {
+    maMeInFlight = null; maMeCacheMember = null; maMeCacheAt = 0;
+  }
+
+  // CL-API-07: exponential backoff retry (1s → 2s → 4s, max 3) after a
+  // transient failure — never re-render from the marker itself.
+  var maRetryAttempt = 0, maRetryTimer = null;
+  function maScheduleRetry() {
+    if (maRetryAttempt >= 3) return;
+    var delay = 1000 * Math.pow(2, maRetryAttempt++);
+    if (maRetryTimer) clearTimeout(maRetryTimer);
+    maRetryTimer = setTimeout(function () { fetchMember().then(render); }, delay);
+  }
+
   function fetchMember() {
-    return maMeOnce().then(function (doc) { return parseMember(doc); });
+    if (maMeInFlight) return maMeInFlight;
+    if (maMeCacheAt && Date.now() - maMeCacheAt < MA_ME_CACHE_MS) {
+      return Promise.resolve(maMeCacheMember);
+    }
+    maMeInFlight = maMeOnce().then(function (doc) {
+      var member = (doc === MA_TRANSIENT) ? MA_TRANSIENT : parseMember(doc);
+      maMeCacheMember = member;
+      maMeCacheAt = Date.now();
+      return member;
+    });
+    return maMeInFlight.finally
+      ? maMeInFlight.finally(function () { maMeInFlight = null; })
+      : maMeInFlight.then(function (m) { maMeInFlight = null; return m; });
   }
 
   var area, toggle, menu, nameEl, logoutBtn, panel, profInputs = null, curMember = null;
@@ -328,6 +366,7 @@
       if (!res.ok) throw new Error('HTTP ' + res.status);
       showNotice('ma_profile_saved');
       setPanelOpen(false);
+      maMeReset(); // forced fresh pull after the profile changed
       return fetchMember().then(render);
     }).catch(function () {
       if (saveBtn) saveBtn.disabled = false;
@@ -371,6 +410,10 @@
 
   function render(member) {
     if (!area) return;
+    // CL-API-07: a transient /auth/me failure never re-renders — the current
+    // member state stands and a backoff retry re-checks later.
+    if (member === MA_TRANSIENT) { maScheduleRetry(); return; }
+    maRetryAttempt = 0;
     curMember = member;
     broadcastAuth(member);
     var signed = Boolean(member);
@@ -449,6 +492,7 @@
         cache: 'no-store'
       }).then(function () {
         logoutBtn.disabled = false;
+        maMeReset(); // forced fresh pull after the session changed
         return fetchMember();
       }).then(function (member) {
         area.setAttribute('data-open', 'false');

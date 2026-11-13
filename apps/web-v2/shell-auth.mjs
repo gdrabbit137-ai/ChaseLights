@@ -77,6 +77,66 @@ let refreshInFlight = null;
 export function resetAuthRefreshState() {
   lastRefreshAt = 0;
   refreshInFlight = null;
+  resetAuthMeState();
+}
+
+// CL-API-07: a 429/5xx/network failure on /auth/me must NEVER be read as
+// "signed out" — the old `res.ok ? … : null` path flipped a signed-in member
+// back to the 登入 buttons whenever the IP rate limiter answered 429 after a
+// few page loads. Callers receiving MEMBER_TRANSIENT keep their current
+// member state and retry later (exponential backoff in the shell); only a
+// 401 — after a failed silent refresh — decides signed-out.
+export const MEMBER_TRANSIENT = Object.freeze({ transient: true });
+export function isMemberTransient(v) {
+  return v === MEMBER_TRANSIENT;
+}
+
+// CL-API-07: module-level single-flight + short result cache so the repeated
+// /auth/me pulls across member/favorites/shell modules on one page load share
+// at most ONE real request per cache window.
+const ME_CACHE_MS = 10_000;
+let meInFlight = null, meCacheMember = null, meCacheAt = 0;
+
+export function resetAuthMeState() {
+  meInFlight = null;
+  meCacheMember = null;
+  meCacheAt = 0;
+}
+
+export async function fetchMember(fetchImpl = (...args) => fetch(...args), url = AUTH_ME_ENDPOINT) {
+  if (meInFlight) return meInFlight;
+  if (meCacheAt && Date.now() - meCacheAt < ME_CACHE_MS) return meCacheMember;
+  meInFlight = (async () => {
+    let result;
+    let response = null;
+    try {
+      response = await fetchImpl(url, { credentials: "same-origin", cache: "no-store" });
+    } catch {
+      result = MEMBER_TRANSIENT;
+    }
+    if (response) {
+      if (response.status === 429 || response.status >= 500) {
+        result = MEMBER_TRANSIENT; // transient: keep current state, retry later
+      } else if (response.status === 401) {
+        const doc = await refreshThenMe(fetchImpl, url);
+        result = doc ? parseMember(doc) : null; // 401 + failed refresh = signed out
+      } else if (!response.ok) {
+        result = MEMBER_TRANSIENT;
+      } else {
+        let doc;
+        try { doc = await response.json(); } catch { doc = null; }
+        result = parseMember(doc);
+      }
+    }
+    meCacheMember = result;
+    meCacheAt = Date.now();
+    return result;
+  })();
+  try {
+    return await meInFlight;
+  } finally {
+    meInFlight = null;
+  }
 }
 
 async function refreshThenMe(fetchImpl, url) {
@@ -106,21 +166,4 @@ async function refreshThenMe(fetchImpl, url) {
   return refreshInFlight;
 }
 
-export async function fetchMember(fetchImpl = (...args) => fetch(...args), url = AUTH_ME_ENDPOINT) {
-  let response;
-  try {
-    response = await fetchImpl(url, { credentials: "same-origin", cache: "no-store" });
-  } catch {
-    return null;
-  }
-  // CL-UI-60: exactly a 401 (expired access JWT) earns a refresh attempt —
-  // any other non-OK answer stays signed-out without touching /auth/refresh.
-  if (response.status === 401) {
-    const doc = await refreshThenMe(fetchImpl, url);
-    return doc ? parseMember(doc) : null;
-  }
-  if (!response.ok) return null;
-  let doc;
-  try { doc = await response.json(); } catch { return null; }
-  return parseMember(doc);
-}
+

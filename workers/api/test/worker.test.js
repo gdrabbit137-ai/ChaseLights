@@ -71,11 +71,39 @@ test("favorites: GET requires userId, POST add idempotent, remove deletes", asyn
   assert.equal((await del.json()).action, "remove");
 });
 
-test("unknown path 404; rate limit 429 after burst", async () => {
+test("unknown path 404; rate limit 429 after burst (write class, CL-API-07)", async () => {
   const { env } = makeEnv();
   const nf = await worker.fetch(makeReq("/nope"), env, {});
   assert.equal(nf.status, 404);
   let last;
-  for (let i = 0; i < 70; i++) last = await worker.fetch(makeReq("/health", { headers: { "CF-Connecting-IP": "1.2.3.4" } }), env, {});
+  // CL-API-07: /health is a lenient read (600/min); the default write class
+  // (60/min) still 429s after a burst — probe it via the unknown path, which
+  // is rate-limited before routing.
+  for (let i = 0; i < 70; i++) last = await worker.fetch(makeReq("/nope", { headers: { "CF-Connecting-IP": "1.2.3.4" } }), env, {});
   assert.equal(last.status, 429);
+});
+
+// CL-API-07: cheap reads share a lenient bucket (600/min) — the owner bug was
+// 1×/auth/me + 6×/favorites per page load tripping the old single 60/min
+// bucket and the clients misreading 429 as signed-out.
+test("CL-API-07: 30 consecutive /auth/me GETs never 429 (read class)", async () => {
+  const { env } = makeEnv();
+  let last;
+  for (let i = 0; i < 30; i++) {
+    last = await worker.fetch(makeReq("/auth/me", { headers: { "CF-Connecting-IP": "9.9.9.9" } }), env, {});
+    assert.notEqual(last.status, 429, `me request #${i + 1} must not be rate limited`);
+  }
+});
+
+test("CL-API-07: read bursts never consume the strict auth-write budget", async () => {
+  const { env } = makeEnv();
+  // 65 read-class GETs (> old 60/min) must all pass, and the auth class
+  // bucket stays untouched.
+  let last;
+  for (let i = 0; i < 65; i++) last = await worker.fetch(makeReq("/health", { headers: { "CF-Connecting-IP": "8.8.8.8" } }), env, {});
+  assert.equal(last.status, 200);
+  // Strict auth class: 25 /auth/mock/start hits exceed max 20 → 429.
+  let authLast;
+  for (let i = 0; i < 25; i++) authLast = await worker.fetch(makeReq("/auth/mock/start", { headers: { "CF-Connecting-IP": "8.8.8.8" } }), env, {});
+  assert.equal(authLast.status, 429);
 });
