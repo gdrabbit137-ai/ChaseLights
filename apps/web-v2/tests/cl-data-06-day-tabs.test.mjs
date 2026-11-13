@@ -91,7 +91,7 @@ test('CL-DATA-06 E1: evalDayLabels covers day 0-6 (relative words, then MM/DD)',
 test('CL-DATA-06 E2: modal summary and place-guide eval render all seven days',()=>{
   const modal=grab('function modalSummaryData','function modalHeadline');
   assert.ok(modal.includes('DAY_KEYS.map'));
-  const guide=grab('// CL-DATA-06: show the full 7-day evaluation window.','const labels=evalDayLabels');
+  const guide=grab('CL-DATA-06: show the full 7-day evaluation window','const labels=evalDayLabels');
   assert.ok(guide.includes('opp.days.slice(0,DAY_KEYS.length)'));
 });
 
