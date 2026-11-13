@@ -50,6 +50,9 @@ function mountApp() {
     URLSearchParams,
     consumeAuthError:realConsumeAuthError,
     authErrorMessage:realAuthErrorMessage,
+    // CL-API-07: app.mjs compares fetchMember results against MEMBER_TRANSIENT
+    // (the import is stripped above), so the sandbox must carry the sentinel.
+    MEMBER_TRANSIENT: Object.freeze({transient:true}),
     // CL-UI-55 favorites module stubs (imports are stripped above).
     createFavoritesClient:()=>({toggle:async()=>[],syncLocal:async()=>[],fetchCloud:async()=>[]}),
     localFavorites:()=>[],persistLocalFavorites:()=>{},favoritesFallbackMessage:()=>'',
