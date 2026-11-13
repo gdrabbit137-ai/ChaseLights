@@ -31,9 +31,9 @@ const factory=new Function([
   grab('function formatHourSegments','function v2ContractThreshold'),
   grab('const VIS_CAP_KM','function astroMissingHtml'),
   grab('// CL-UI-14/F1: the modal','function navigationTargetNote'),
-  'return {formatTemp,esc,tzAbbrLabel,visibilityText,tempChipHtml,modalWindowKey,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow};'
+  'return {formatTemp,esc,tzAbbrLabel,visibilityText,tempChipHtml,modalWindowKey,modalDayInfo,modalWindowSegment,modalDayRow};'
 ].join('\n'));
-const {formatTemp,esc,tzAbbrLabel,visibilityText,tempChipHtml,modalWindowKey,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow}=factory();
+const {formatTemp,esc,tzAbbrLabel,visibilityText,tempChipHtml,modalWindowKey,modalDayInfo,modalWindowSegment,modalDayRow}=factory();
 
 test('CL-UI-14 F1: modal window label is keyed to the same V2 day state as the rows',()=>{
   // Only a fully met day may be called "best".
@@ -92,39 +92,20 @@ test('CL-UI-14 F1: a partially-met day is labelled "relatively better, still not
   assert.doesNotMatch(row,/最佳拍攝時段/);
 });
 
-test('CL-UI-14 F1/U1: headline answers "should I go today, and when"',()=>{
-  const data={dayInfos:[
-    {hours:1,list:['17:00'],state:'GUIDANCE_SATISFIED',date:'2026-11-02'},
-    {hours:3,list:['00:00','01:00','02:00'],state:'GUIDANCE_SATISFIED',date:'2026-11-03'},
-    {hours:0,list:[],state:'UNFAVORABLE',date:'2026-11-04'}
-  ]};
-  const headline=modalHeadline(data);
-  assert.match(headline,/今天 11\/02 17:00 起還有 1 小時適合拍攝/);
-  assert.match(headline,/明天 11\/03 00:00–02:00 條件更好（3 小時）/);
-  // No suggestion at all → honest wording, never a bare dash.
-  const none=modalHeadline({dayInfos:[
-    {hours:0,list:[],state:'UNFAVORABLE',date:'2026-11-02'},
-    {hours:0,list:[],state:'UNFAVORABLE',date:'2026-11-03'},
-    {hours:0,list:[],state:'UNFAVORABLE',date:'2026-11-04'}
-  ]});
-  assert.match(none,/今天已無建議拍攝時段/);
-  assert.doesNotMatch(none,/—/);
-  // No bundle data → unknown wording, never a bare dash.
-  assert.match(modalHeadline(null),/目前無法提供拍攝建議摘要/);
-});
-
-test('CL-UI-42 F5: a MM/DD day label never repeats the date in the window segment',()=>{
-  // Day 3+ labels fall back to the spot-local MM/DD stamp (v2DayLabel); the
-  // dated window segment would then print 「11/10 11/10 16:00–17:00」.
-  const data={labels:['11/10','11/11','11/12'],dayInfos:[
-    {hours:1,list:['16:00'],state:'GUIDANCE_SATISFIED',date:'2026-11-10'},
-    {hours:2,list:['05:00','06:00'],state:'GUIDANCE_SATISFIED',date:'2026-11-11'},
-    {hours:0,list:[],state:'UNFAVORABLE',date:'2026-11-12'}
-  ]};
-  const headline=modalHeadline(data);
-  assert.doesNotMatch(headline,/11\/10 11\/10/);
-  assert.match(headline,/11\/10 16:00 起還有 1 小時適合拍攝/);
-  assert.match(headline,/；11\/11 05:00–06:00 條件更好（2 小時）/);
+test('CL-UI-72: the modal summary sentence + blue next-window banner are removed',()=>{
+  // Owner ruling: 「今天…起還有 n 小時…；後天…條件更好」 headline and the
+  // blue 「🎯 下一個符合時段」 banner are redundant with the date tabs and
+  // the per-day rows — both are gone, with their i18n keys and CSS.
+  const renderBlock=block('function renderWeatherModal','function closeModal');
+  assert.ok(!renderBlock.includes('modal-headline'),'headline div must be gone');
+  assert.ok(!renderBlock.includes('modal-next-window'),'next-window banner must be gone');
+  assert.ok(!appSource.includes('modalHeadline'),'modalHeadline helper is retired');
+  assert.ok(!appSource.includes("modal_headline_now:'"),'headline i18n keys are retired');
+  assert.ok(!appSource.includes("modal_headline_none_today:'"));
+  assert.ok(!appSource.includes("modal_headline_better:'"));
+  assert.ok(!appSource.includes("modal_headline_unknown:'"));
+  assert.ok(!cssSource.includes('.modal-headline'),'headline CSS is retired');
+  assert.ok(!cssSource.includes('.modal-next-window'),'banner CSS is retired');
 });
 
 test('CL-UI-14 F3: missing astronomy gets an honest per-hour reason, never a bare dash',()=>{
@@ -219,21 +200,23 @@ test('CL-UI-14 U3: mobile usability — sticky time column, larger targets, summ
   assert.match(cssSource,/\.terminal-table th:first-child,\.terminal-table td:first-child\{position:sticky;left:0/);
   assert.match(cssSource,/max-width:640px[\s\S]*?\.modal-day-btn\{min-height:40px/);
   assert.match(cssSource,/max-width:640px[\s\S]*?\.timeline-mobile-time\{font-size:\.92rem\}/);
-  // The summary (headline + 3-day overview) renders before the hourly table.
+  // The summary (date switch + per-day overview) renders before the hourly
+  // table. CL-UI-72: the headline block is gone — day tabs lead.
   const modalBlock=block('function renderWeatherModal','function closeModal');
-  assert.ok(modalBlock.indexOf('modal-headline')>-1);
+  assert.ok(modalBlock.indexOf('modal-day-switch')>-1);
   assert.ok(modalBlock.indexOf('modal-overview')>-1);
-  assert.ok(modalBlock.indexOf('modal-headline')<modalBlock.indexOf('timeline-head'));
+  assert.ok(!modalBlock.includes('modal-headline'),'CL-UI-72: headline block removed');
+  assert.ok(modalBlock.indexOf('modal-day-switch')<modalBlock.indexOf('timeline-head'));
 });
 
 test('CL-UI-14 U5: all new copy exists in all three languages and carries no internal labels',()=>{
-  const keys=['modal_window_none','modal_window_relative','astro_missing','temp_unavailable','vis_cap','legend_title','modal_headline_now','modal_headline_none_today','modal_headline_better','modal_headline_unknown'];
+  const keys=['modal_window_none','modal_window_relative','astro_missing','temp_unavailable','vis_cap','legend_title'];
   for(const key of keys){
     const count=[...appSource.matchAll(new RegExp(`(?:^|[^\\w-])${key}:`).source,'g')].length;
     // one occurrence per language dictionary (zh-TW, en, ja)
     const occurrences=(appSource.match(new RegExp(`${key}:'`,'g'))||[]).length;
     assert.ok(occurrences>=3,`${key} not present in all three languages (${occurrences})`);
   }
-  const newCopy=grab("modal_window_none:'{day}無建議時段'","modal_headline_unknown:'現在、撮影サマリーを表示できません'");
+  const newCopy=grab("modal_window_none:'{day}無建議時段'","legend_title:'狀態圖例：'");
   assert.doesNotMatch(newCopy,/internal|provisional|待證據|研究中/i);
 });
