@@ -67,5 +67,5 @@ test('CL-DATA-21 (c): pinned places carry a gating light/sunset window',()=>{
 test('CL-DATA-21 (d): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(path.join(repo,'index.html'),'utf8');
   assert.match(index,/assets\/app\.js\?v=clui76/);
-  assert.match(index,/assets\/app\.css\?v=clui75/);
+  assert.match(index,/assets\/app\.css\?v=clui76/);
 });

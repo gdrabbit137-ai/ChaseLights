@@ -101,11 +101,11 @@ test('CL-UI-18 B1: 03:21 modal summary — headline never cites the past window'
     grabModal('function modalDayInfo','function modalDayRow'),
     grabModal('function v2PlaceForSpot','function v2SpotDayVerdict'),
     'const formatHourSegments=(l)=>(l||[]).join(\'、\');',
-    'const d=()=>({eval2_d0:\'今天\',eval2_d1:\'明天\',eval2_d2:\'後天\',eval2_d_past:\'昨天\',modal_headline_now:\'{day} {window} 起還有 {n} 小時適合拍攝\',modal_headline_none_today:\'{day}已無建議拍攝時段\',modal_headline_better:\'；{day} {window} 條件更好（{n} 小時）\',modal_headline_unknown:\'目前無法提供拍攝建議摘要\'});',
+    'const d=()=>({eval2_d0:\'今天\',eval2_d1:\'明天\',eval2_d2:\'後天\',eval2_d_past:\'昨天\'});',
     'let v2EvalBundle={places:[]};',
-    'return {modalSummaryData,modalHeadline,v2NextWindowLocal,v2LocalNow,shortDateStamp,setBundle:(v)=>{v2EvalBundle=v;}};'
+    'return {modalSummaryData,v2NextWindowLocal,v2LocalNow,shortDateStamp,setBundle:(v)=>{v2EvalBundle=v;}};'
   ].join('\n'));
-  const {modalSummaryData,modalHeadline,v2NextWindowLocal,v2LocalNow,shortDateStamp,setBundle}=factoryB(FakeDate);
+  const {modalSummaryData,v2NextWindowLocal,v2LocalNow,shortDateStamp,setBundle}=factoryB(FakeDate);
   // Sanity: the fake clock really reads 03:21 on 11/05 in Taipei.
   const now=v2LocalNow(tz);
   assert.deepEqual(now,{date:SPOT_TODAY,minutes:3*60+21},'simulation clock is 03:21 on 11/05');
@@ -120,11 +120,10 @@ test('CL-UI-18 B1: 03:21 modal summary — headline never cites the past window'
   assert.equal(data.dayInfos[0].date,SPOT_TODAY);
   assert.equal(data.dayInfos[0].hours,1,'05:00 today is still ahead at 03:21');
   assert.equal(data.dayInfos[0].list[0],'05:00');
-  const headline=modalHeadline(data);
-  assert.ok(headline.includes('05:00'),'headline cites the real remaining window');
-  assert.ok(headline.includes('還有 1 小時'),'the remaining-hours phrasing attaches to the real remaining list');
-  assert.ok(!headline.includes('17:00'),'the past 11/04 17:00 window is never quoted');
-  assert.ok(!headline.includes('11/04'),'no yesterday date leaks into the summary');
+  // CL-UI-72: the headline sentence is removed; the day row itself carries
+  // the re-anchored window — the past 11/04 17:00 slot must never leak in.
+  assert.ok(!data.dayInfos[0].list.includes('17:00'),'the past 11/04 17:00 window is never quoted');
+  assert.ok(data.dayInfos.every(i=>!String(i.date).includes('2026-11-04')),'no yesterday date leaks into the summary');
   // Next window keeps the page-header 11/05 convention.
   const nextLocal=v2NextWindowLocal(opp.days,now,'2026-11-04 17:00');
   assert.equal(shortDateStamp(nextLocal),'11/05 05:00');
@@ -230,7 +229,6 @@ test('CL-UI-18 C2: modal summary consumes date-anchored day rows and labels',()=
   const modalBlock=grab('function modalSummaryData','function modalDayRow');
   assert.match(modalBlock,/v2DayForOffset\(opp,i,tz\)/);
   assert.match(modalBlock,/v2DayLabel\(info&&info\.date,tz,i\)/);
-  assert.match(appSource,/const labels=data\.labels\|\|\[d\(\)\.eval2_d0/);
 });
 
 test('CL-UI-18 C3: cards and sort consume date-anchored day rows',()=>{

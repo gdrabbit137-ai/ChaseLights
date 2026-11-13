@@ -42,10 +42,11 @@ test('CL-UI-22 (b): place-guide modal no longer shows the raw bundle next_good s
 test('CL-UI-22 (c): no other live.next_good rendering path skips the re-anchor',()=>{
   // Every remaining direct read of live.next_good in app.js is the pattern
   // `next_good` → capture the local stamp → v2NextWindowLocal fallback
-  // (createSpotCard, modalSummaryData, v2PlaceForSpot). None render
-  // next_good.local without going through v2NextWindowLocal first.
+  // (createSpotCard, v2PlaceForSpot). None render next_good.local without
+  // going through v2NextWindowLocal first. CL-UI-72 retired the third read
+  // (modalSummaryData) with the banner it fed.
   const reads=[...appSource.matchAll(/(opp\.live&&opp\.live\.next_good)|(best\.live&&best\.live\.next_good)|(live\.next_good\?live\.next_good\.local)/g)].map(m=>m.index);
-  assert.equal(reads.length,3,'unexpected number of live.next_good reads');
+  assert.equal(reads.length,2,'unexpected number of live.next_good reads');
   for(const idx of reads){
     const windowText=appSource.slice(idx-200,idx+800);
     assert.match(windowText,/v2NextWindowLocal/,`next_good read at ${idx} must feed v2NextWindowLocal`);
@@ -55,5 +56,5 @@ test('CL-UI-22 (c): no other live.next_good rendering path skips the re-anchor',
 test('CL-UI-22 (d): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
   assert.match(index,/assets\/app\.js\?v=clui76/);
-  assert.match(index,/assets\/app\.css\?v=clui75/);
+  assert.match(index,/assets\/app\.css\?v=clui76/);
 });

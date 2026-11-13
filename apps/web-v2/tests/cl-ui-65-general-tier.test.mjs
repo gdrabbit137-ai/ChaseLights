@@ -111,5 +111,5 @@ test('CL-UI-65 (5): mid-verdict style exists and stamps advanced to clui75', () 
   const css = readFileSync(join(ROOT, 'assets', 'app.css'), 'utf8');
   assert.match(css, /\.v2-verdict-mid\s*{\s*color:/);
   assert.match(indexSource, /assets\/app\.js\?v=clui76/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui75/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui76/);
 });

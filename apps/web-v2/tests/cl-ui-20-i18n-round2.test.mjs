@@ -53,12 +53,8 @@ test('CL-UI-20 A2: formatHourSegments joins with the language-aware separator',(
 // ---------------------------------------------------------------------------
 // Part B: dictionary and wiring pins (all three languages).
 // ---------------------------------------------------------------------------
-test('CL-UI-20 B1: en modal headline leads with the day label',()=>{
-  assert.ok(appSource.includes("modal_headline_now:'{day}: {n} suitable hour(s) (from {window})'"));
-  // zh-TW and ja keep their established order.
-  assert.ok(appSource.includes("modal_headline_now:'{day} {window} 起還有 {n} 小時適合拍攝'"));
-  assert.ok(appSource.includes("modal_headline_now:'{day} {window} からあと {n} 時間撮影に適しています'"));
-});
+// CL-UI-72: the modal headline (and its modal_headline_* keys) is removed —
+// the old B1 day-order pins retire with it.
 
 test('CL-UI-20 B2: no hardcoded full-width joins remain in shared render paths',()=>{
   assert.ok(!appSource.includes(".join('、')"),'hour/time joins must go through listSep()');

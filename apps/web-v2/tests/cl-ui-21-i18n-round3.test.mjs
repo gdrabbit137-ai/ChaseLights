@@ -28,9 +28,9 @@ const factory=new Function([
   grab('function v2RemainingHoursList','function v2ParseLocalStamp'),
   grab('function formatHourSegments','function v2ContractThreshold'),
   grab('// CL-UI-14/F1: the modal','function navigationTargetNote'),
-  'return {esc,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow,v2DayLabel,shortDateStamp};'
+  'return {esc,modalDayInfo,modalWindowSegment,modalDayRow,v2DayLabel,shortDateStamp};'
 ].join('\n'));
-const {esc,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow,v2DayLabel,shortDateStamp}=factory();
+const {esc,modalDayInfo,modalWindowSegment,modalDayRow,v2DayLabel,shortDateStamp}=factory();
 
 const setLang=(lang)=>{ /* dict is closed over; factory rebuild instead */ };
 const buildFor=(lang)=>{
@@ -48,7 +48,7 @@ const buildFor=(lang)=>{
     grab('function v2RemainingHoursList','function v2ParseLocalStamp'),
     grab('function formatHourSegments','function v2ContractThreshold'),
     grab('// CL-UI-14/F1: the modal','function navigationTargetNote'),
-    'return {esc,modalDayInfo,modalWindowSegment,modalHeadline,modalDayRow,v2DayLabel,shortDateStamp};'
+    'return {esc,modalDayInfo,modalWindowSegment,modalDayRow,v2DayLabel,shortDateStamp};'
   ].join('\n'));
   return f();
 };
@@ -77,18 +77,16 @@ const summary=(f,tz,now)=>{
   return {dayInfos:infos,labels};
 };
 
-test('CL-UI-21 A1: en modal headline renders the day-first sentence (actual rendered text)',()=>{
-  const stamp0=shortDateStamp(D0); // CL-UI-34: clock-derived MM/DD stamp
+test('CL-UI-72: the modal headline is retired — day rows still render the trilingual day vocabulary',()=>{
+  // The old A1 pin verified the headline sentence; CL-UI-72 removed it.
+  // The per-day row wording (the surviving surface) must still localize.
   const en=buildFor('en');
-  const data=summary(en,'Asia/Taipei',10*60); // 10:00 spot-local
-  const rendered=esc(en.modalHeadline(data));
-  assert.equal(rendered,`Today: 1 suitable hour(s) (from ${stamp0} 17:00)`);
-  // never the pre-CL-UI-20 order (window before day)
-  assert.ok(!/suitable hour\(s\) from/.test(rendered));
-  const ja=buildFor('ja');
-  assert.equal(esc(ja.modalHeadline(summary(ja,'Asia/Taipei',10*60))),`今日 ${stamp0} 17:00 からあと 1 時間撮影に適しています`);
+  const info=en.modalDayInfo(days[0],'Asia/Taipei',10*60); // 10:00 spot-local
+  const rowHtml=en.modalDayRow(en.v2DayLabel(info.date,'Asia/Taipei',0),info);
+  assert.ok(rowHtml.includes('qualifying hours'),'en row carries the hours vocabulary');
   const zh=buildFor('zh-TW');
-  assert.equal(esc(zh.modalHeadline(summary(zh,'Asia/Taipei',10*60))),`今天 ${stamp0} 17:00 起還有 1 小時適合拍攝`);
+  const zhRow=zh.modalDayRow(zh.v2DayLabel(zh.modalDayInfo(days[0],'Asia/Taipei',10*60).date,'Asia/Taipei',0),zh.modalDayInfo(days[0],'Asia/Taipei',10*60));
+  assert.ok(zhRow.includes('符合時數'),'zh-TW row carries the hours vocabulary');
 });
 
 test('CL-UI-21 B2: day-tab none rows carry the selected date\u2019s day vocabulary (en not "today")',()=>{
