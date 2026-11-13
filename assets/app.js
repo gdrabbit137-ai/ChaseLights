@@ -1480,8 +1480,6 @@
       // the place modal's day rows (題材展開區). NOT_EVALUABLE keeps the
       // honest 「資料不足」 summary line with no invented verdict or reason.
       const scRow=(v2Evaluated&&v2Best.day)?v2SubjectCardRow(spot.spot_id,v2Best.day.local_date):null;
-      const scShorts=v2SubjectCardShorts(scRow,currentLang);
-      const scShortsHtml=scShorts.length?` · ${scShorts.slice(0,4).map(s=>`<span class="subject-short">${esc(s)}</span>`).join(' · ')}${scShorts.length>4?` · <span class="subject-more" title="${esc(scShorts.join(listSep()))}">+${scShorts.length-4}</span>`:''}`:'';
       const scShortReason=(v2Evaluated&&v2Best.state==='UNFAVORABLE')?v2SubjectCardShortReason(scRow,currentLang):'';
       // CL-UI-65: the second line is three-tier (owner ruling) — ✓推薦
       // (curated chips, ok line) / ○可拍 (curated all unmet, general baseline
@@ -1498,9 +1496,17 @@
       // reminder set, hollow = not set). Windows come from the same derived
       // subject-cards row (scRow) the verdict already consumes, deduped by
       // trilingual name with the windows unioned; at most 3 lines show, the
-      // rest fold behind 「+N 題材」. The data-layer fallback (subject-cards
-      // file unavailable) keeps the CL-UI-63 second-line chips — the card
-      // never blocks on the derived layer.
+      // rest fold behind 「+N 題材」.
+      // CL-UI-71 (owner实测 CL-UI-63/69 分流根因): a place whose subject-cards
+      // row is missing or has NO suitable entries (e.g. tw-002 象山六巨石 /
+      // tw-134 1314觀景台 on a status:'failed'·tier:'shootable' day) used to
+      // fall through to the old CL-UI-63 「本日最佳題材＋✓符合」 second line,
+      // so one list showed two card formats. The fallback now renders the
+      // SAME row anatomy via a synthetic entry — 「○ 可拍: HH:MM–HH:MM 🔔」
+      // when the evaluated day still has qualifying hours (row tier
+      // shootable or the layer is unavailable), the ✗不宜·短因 row when the
+      // tier is not_recommended. The retired 「本日最佳題材」 line is gone:
+      // every card in a list shows one format.
       const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;const key=canon(tris);if(!seen.has(key))seen.set(key,{name:tris[currentLang]||tris['zh-TW']||'',window:[]});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
       const clSubjBell=`<button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="${esc(spot.spot_id)}" data-rem-compact="1"></button>`;
       const clSubjectRowHtml=(entry,hidden)=>`<div class="cl-subject-row${hidden?' cl-subject-extra':''}"${hidden?' hidden':''}><span class="cl-subject-name">${esc(entry.name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window">${esc(formatHourSegments(entry.window))}</span>${clSubjBell}</div>`;
@@ -1517,7 +1523,13 @@
       // (notify_rules POST/DELETE, trilingual, login guard), so app.js stays
       // out of the notify contract.
       const remBtn=v2Best?`<button type="button" class="cl-rem-btn" data-rem-place="${esc(spot.spot_id)}" data-rem-opp="${esc(v2Best.oppId||'')}">🔔</button>`:'';
-      const v2Summary=v2Best&&v2Best.hours?`<div class="theme-winner">📷 ${esc(d()[v2BestSubjectKey()])}${esc(stripSpotNamePrefix(v2Best.name,spot,v2PlaceData?[v2PlaceData]:[]))} <span class="v2-chip-ok">${esc(d().eval2_hours)} ${v2Best.hours}</span>${remBtn}</div><div class="best-window-row card-second-line"><span class="v2-line-verdict v2-verdict-ok">${esc(scTier==='recommend'?d().v2_tier_recommend:d().card_line_ok)}</span> · <b>${esc(formatHourSegments(v2Best.hoursList))}</b>${scShortsHtml}</div>`:(v2Best?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}${remBtn}</div>${scSecondLine}`:'');
+      // CL-UI-71: same-format fallback when the subject-cards row is absent or
+      // suitable-empty but the evaluated day still has qualifying hours — a
+      // synthetic entry pushed through the SAME clSubjectRowHtml the curated
+      // rows use. A not_recommended tier keeps the ✗ line honest instead of
+      // inventing a ✓ from the eval bundle's hours.
+      const clFallbackRows=(()=>{if(!v2Evaluated||!v2Best||!v2Best.hours||clSubjectRows)return '';if(scRow&&scRow.tier==='not_recommended')return `<div class="cl-subject-rows">${clSubjectRowHtml({name:d().v2_tier_not_recommended+(scTierReason?' · '+scTierReason:''),window:[]},false)}</div>`;return `<div class="cl-subject-rows">${clSubjectRowHtml({name:d().v2_tier_shootable,window:v2Best.hoursList},false)}</div>`;})();
+      const v2Summary=(v2Best&&!v2Best.hours)?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}${remBtn}</div>${scSecondLine}`:'';
       const reasonHtml=(researchPending||noViable||v2Summary)?'':`${showIndicator?`<div><span class="indicator-pill">${indicator}</span></div>`:''}${factorHtml?`<div class="factor-row card-factor-row">${factorHtml}${factorMore}</div>`:''}`;
       const distance=distanceToSpotKm(spot);const distanceChip=currentSortMode.startsWith('distance_')&&distance!==null?`<span class="metric-chip">📍 ${distance<10?distance.toFixed(1):Math.round(distance)} km</span>`:'';
       const compactMetrics=(researchPending||noViable)?(formatTemp(metric.temp)==='—'?'':tempChipHtml(metric.temp)):(()=>{
@@ -1541,7 +1553,7 @@
       // page header already carries the unified GMT clock, so the row only
       // repeated on every card. If a multi-timezone card list is ever needed,
       // restore a tzAbbrLabel()-based label here (see fmtWindow()).
-      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${clSummaryHtml||v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${clElevPill}${clSunPill}${compactMetrics}${distanceChip}</span></div>${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().weather_link)}>${toolButtonInner(d().weather_link)}</a>${navTool}<a href="${weatherMapDeepLinkUrl(spot)}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a></div></div>`;
+      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${clSummaryHtml||clFallbackRows||v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${clElevPill}${clSunPill}${compactMetrics}${distanceChip}</span></div>${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().weather_link)}>${toolButtonInner(d().weather_link)}</a>${navTool}<a href="${weatherMapDeepLinkUrl(spot)}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a></div></div>`;
       card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openWeatherModal(spot,metric);};
       const scMoreBtn=card.querySelector('[data-sc-more]');
       if(scMoreBtn){scMoreBtn.onclick=e=>{e.stopPropagation();const extras=card.querySelectorAll('.cl-subject-extra');const open=scMoreBtn.getAttribute('aria-expanded')==='true';extras.forEach(el=>{el.hidden=open;});scMoreBtn.setAttribute('aria-expanded',open?'false':'true');scMoreBtn.textContent=open?d().clui69_more_subjects.replace('{n}',clSubjectExtra.length):d().clui69_less;};}
