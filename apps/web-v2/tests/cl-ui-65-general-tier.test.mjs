@@ -67,9 +67,10 @@ test('CL-UI-65 (2): three-tier second line renders per tier', () => {
   assert.ok(shootable.includes('v2_tier_shootable') && shootable.includes('v2_general_shooting'));
   // not_recommended line: ✗不宜 · short reason (general reason backs up curated)
   assert.ok(shootable.includes('v2_tier_not_recommended') && shootable.includes('scTierReason'));
-  // recommend line keeps chips + window, labeled ✓推薦 when the row is recommend
-  assert.match(createSpotCardBlock,
-    /scTier==='recommend'\?d\(\)\.v2_tier_recommend:d\(\)\.card_line_ok/);
+  // CL-UI-71: the ✓推薦/✓符合 labeled line retired with the old format —
+  // the recommend tier is expressed by the curated per-subject rows themselves.
+  assert.ok(!createSpotCardBlock.includes("scTier==='recommend'?d().v2_tier_recommend:d().card_line_ok"),
+    'old ok-line retired');
   // helper semantics
   const row = {general_baseline: {ok: false, reason_short: {'zh-TW': '雨', en: 'rain', ja: '雨'}}};
   assert.equal(h.v2GeneralLineText(row, 'zh-TW'), '一般拍攝 · ✗ 不宜 · 雨');
@@ -109,6 +110,6 @@ test('CL-UI-65 (4): chips never include the general subject', () => {
 test('CL-UI-65 (5): mid-verdict style exists and stamps advanced to clui75', () => {
   const css = readFileSync(join(ROOT, 'assets', 'app.css'), 'utf8');
   assert.match(css, /\.v2-verdict-mid\s*{\s*color:/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui75/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
   assert.match(indexSource, /assets\/app\.css\?v=clui75/);
 });

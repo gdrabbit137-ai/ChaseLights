@@ -43,9 +43,9 @@ test('CL-UI-05 (a): no V2 evaluation fails closed to the conservative copy',()=>
     /v2Evaluated\?opportunityDisplayName\(spot,metric\.opportunity_id,theme,metric\.opportunity_name\):v2NoEvalReasonText\(spot\)/);
   // The fallback summary is the conservative pending copy only — no best window.
   assert.match(createSpotCardBlock,
-    /\$\{clSummaryHtml\|\|v2Summary\|\|`<div class="theme-winner">📷 \$\{esc\(opportunityName\)\}<\/div>`\}/);
+    /\$\{clSummaryHtml\|\|clFallbackRows\|\|v2Summary\|\|`<div class="theme-winner">📷 \$\{esc\(opportunityName\)\}<\/div>`\}/);
   // The no-evaluation branch of the summary shows no legacy best-window row.
-  const v2SummaryBlock=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');
+  const v2SummaryBlock=cardBlock('const v2Summary=(v2Best&&!v2Best.hours)?','const reasonHtml=');
   const noneBranch=v2SummaryBlock.slice(v2SummaryBlock.indexOf('(v2Best?'));
   assert.equal(/d\(\)\.best_window/.test(noneBranch),false,'no-evaluation path must not show a best-window row');
   // CL-UI-63: the long-sentence forecast-status row is retired from the card;
@@ -53,7 +53,9 @@ test('CL-UI-05 (a): no V2 evaluation fails closed to the conservative copy',()=>
   assert.equal(/forecast-status-row/.test(createSpotCardBlock),false,
     'card must not render the forecast-status row (CL-UI-63)');
   assert.match(createSpotCardBlock,/card-second-line/);
-  assert.match(createSpotCardBlock,/v2-verdict-ok/);
+  // CL-UI-71: the ✓-green ok line retired with the old format; the tier
+  // colors stay mid (○可拍) / bad (✗不宜).
+  assert.match(createSpotCardBlock,/v2-verdict-mid/);
   assert.match(createSpotCardBlock,/v2-verdict-bad/);
 });
 
@@ -85,7 +87,7 @@ test('CL-UI-05 (c): eval2_none (not generated) and eval2_unk (NOT_EVALUABLE) sta
     /day\.state==='GUIDANCE_SATISFIED'\?d\(\)\.eval2_ok:day\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk:d\(\)\.eval2_bad/);
   // Card honours the same split: NOT_EVALUABLE shows eval2_unk, an evaluated
   // day without qualifying hours shows the day-aware v2_none copy (v2NoneSubjectKey).
-  const summary=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');
+  const summary=cardBlock('const v2Summary=(v2Best&&!v2Best.hours)?','const reasonHtml=');
   assert.match(summary,/v2Best\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk:d\(\)\[v2NoneSubjectKey\(\)\]/);
   // i18n: the not-generated copy is date-scoped and distinct from the
   // NOT_EVALUABLE label in every supported locale.
@@ -105,7 +107,7 @@ test('CL-UI-05 (d): next qualifying window shows when live.next_good exists',()=
     /best\.nextLocal=v2NextWindowLocal\(best\.oppDays,v2LocalNow\(tz\),ng\?ng\.local:''\);/);
   // The card's no-qualifying-hours summary renders the wired next window and
   // falls back to pure copy when there is none.
-  const summary=cardBlock('const v2Summary=v2Best&&v2Best.hours?','const reasonHtml=');
+  const summary=cardBlock('const v2Summary=(v2Best&&!v2Best.hours)?','const reasonHtml=');
   assert.match(summary,
     /v2Best\.nextLocal\?` · \$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(nextWindowStamp\(v2Best\.nextLocal,spot\.timezone\)\)\}<\/b>`:''/);
   // CL-UI-22: the place-guide modal's v2-next row went through the same

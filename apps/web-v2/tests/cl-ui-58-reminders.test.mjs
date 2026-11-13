@@ -243,7 +243,7 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /min-height:44px|min-height: 44px/);
   // The homepage loads the card-side client and carries the bumped stamps.
   assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui75/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui75/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui76/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui75/);
 });
 

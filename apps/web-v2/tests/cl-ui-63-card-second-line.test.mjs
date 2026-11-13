@@ -82,19 +82,11 @@ test('CL-UI-63 (3): short subject names dedupe, resolve per language, fold past 
     h.v2SubjectCardShorts({suitable: [{subject_short: {'zh-TW': '山景'}}]}, 'en'), ['山景']);
   assert.deepEqual(h.v2SubjectCardShorts({suitable: []}, 'zh-TW'), []);
   assert.deepEqual(h.v2SubjectCardShorts(null, 'zh-TW'), []);
-  // the render fold: at most 4 chips, remainder collapsed to +N
-  assert.match(createSpotCardBlock, /scShorts\.slice\(0,4\)/);
-  assert.match(createSpotCardBlock, /class="subject-more" title="\$\{esc\(scShorts\.join\(listSep\(\)\)\)\}">\+\$\{scShorts\.length-4\}/);
-  // exercise the real fold expression with a >4-subject day
-  const exprSrc = grab('const scShortsHtml=', 'const scShortReason=')
-    .replace(/^const scShortsHtml=/, '').replace(/;\s*$/, '');
-  const foldFn = new Function('scShorts', 'esc', 'listSep', `return ${exprSrc};`);
-  const six = ['夜景', '銀河', '雲海', '日出', '夕景', '山景'];
-  const html = foldFn(six, s => s, () => '、');
-  assert.ok(html.includes('夜景') && html.includes('日出'), 'first four chips render');
-  assert.ok(!/>夕景</.test(html), 'fifth chip is folded away');
-  assert.ok(html.includes('+2'), 'fold chip shows the remainder count');
-  assert.ok(html.includes('title="夜景、銀河、雲海、日出、夕景、山景"'), 'fold chip title carries the full list');
+  // CL-UI-71: the CL-UI-63 chip fold left the card with the old format —
+  // the card folds per-subject ROWS instead (cl-ui-69, at most 3 + +N) and
+  // the suitable-empty fallback renders the tier row (see CL-UI-63 (5)).
+  assert.ok(!createSpotCardBlock.includes('scShortsHtml'), 'chip second line retired');
+  assert.ok(createSpotCardBlock.includes('clSubjectRows'), 'per-subject rows are the card surface');
 });
 
 test('CL-UI-63 (4): not-met line renders ONE short word, no sentence', () => {
@@ -133,12 +125,20 @@ test('CL-UI-63 (4): not-met line renders ONE short word, no sentence', () => {
     'second line covers UNFAVORABLE and NOT_EVALUABLE days');
 });
 
-test('CL-UI-63 (5): suitable second line is verdict · window · short chips', () => {
-  assert.match(createSpotCardBlock,
-    /card-second-line"><span class="v2-line-verdict v2-verdict-ok">\$\{esc\(scTier==='recommend'\?d\(\)\.v2_tier_recommend:d\(\)\.card_line_ok\)\}<\/span> · <b>\$\{esc\(formatHourSegments\(v2Best\.hoursList\)\)\}<\/b>\$\{scShortsHtml\}<\/div>/);
+test('CL-UI-63 (5): suitable-empty fallback renders the SAME row format (CL-UI-71)', () => {
+  // tw-002/tw-134 style day: subject-cards row present but suitable [] while
+  // the eval bundle still has qualifying hours — the card must NOT fall back
+  // to the retired 本日最佳題材 line; it renders one synthetic row
+  // 「○ 可拍: HH:MM–HH:MM 🔔」 through the same clSubjectRowHtml.
+  assert.match(createSpotCardBlock, /const clFallbackRows=/);
+  assert.match(createSpotCardBlock, /clSubjectRowHtml\(\{name:d\(\)\.v2_tier_shootable,window:v2Best\.hoursList\},false\)/);
+  assert.match(createSpotCardBlock, /v2_tier_not_recommended\+\(scTierReason\?' · '\+scTierReason:''/);
   // the window anchor stays the card's existing v2EffectiveHours list — the
   // card can never advertise hours the modal contradicts (CL-UI-12/43).
-  assert.match(createSpotCardBlock, /formatHourSegments\(v2Best\.hoursList\)/);
+  assert.match(createSpotCardBlock, /window:v2Best\.hoursList/);
+  // the retired old-format line is gone from the card block entirely
+  assert.ok(!createSpotCardBlock.includes("d()[v2BestSubjectKey()]"), '本日最佳題材 line retired');
+  assert.ok(!createSpotCardBlock.includes('v2-chip-ok'), 'hours chip retired');
 });
 
 test('CL-UI-63 (6): the long-sentence reason left the card and lives in the modal', () => {
@@ -188,7 +188,7 @@ test('CL-UI-63 (8): artifact rows join back to the artifact dictionary (zh/en/ja
 });
 
 test('CL-UI-63 (9): cache-bust stamps advanced to clui75', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui75/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
   assert.match(indexSource, /assets\/app\.css\?v=clui75/);
   assert.ok(!indexSource.includes('clui69'), 'stale stamps fully retired');
 });

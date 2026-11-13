@@ -33,9 +33,9 @@ test('CL-UI-15 (1): summary line strips a leading spot-name prefix (display-leve
   assert.equal(stripSpotNamePrefix('合歡山',spot),'合歡山');
   // No prefix at all: unchanged.
   assert.equal(stripSpotNamePrefix('雲海',spot),'雲海');
-  // Render path consumes the helper, passing the V2 evaluation-bundle place
-  // object as an extra alias source (CL-UI-47).
-  assert.match(createSpotCardBlock,/esc\(stripSpotNamePrefix\(v2Best\.name,spot,v2PlaceData\?\[v2PlaceData\]:\[\]\)\)/);
+  // CL-UI-71: the 本日最佳題材 card line (the last stripSpotNamePrefix render
+  // consumer) is retired — the helper itself stays (cl-ui-15 helper tests).
+  assert.match(appSource,/function stripSpotNamePrefix\(subject,spot,altPlaces\)\{/);
 });
 
 test('CL-UI-48: ja strip drops the dangling leading particle (grammar-safe)',()=>{
