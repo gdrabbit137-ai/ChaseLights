@@ -49,10 +49,10 @@ function loadClient(fetchImpl) {
 test('CL-UI-58 (1): card renders the reminder mount point on the best-subject line', () => {
   assert.match(appJs, /class="cl-rem-btn" data-rem-place="\$\{esc\(spot\.spot_id\)\}" data-rem-opp="\$\{esc\(v2Best\.oppId\|\|''\)\}"/);
   // It lives inside the theme-winner summary line (both the qualifying-hours
-  // branch and the no-subject branch), and app.js never calls notify_rules
-  // itself — the client owns the contract.
+  // branch and the no-subject branch), and app.js never calls the notify
+  // rules API itself — the client owns the contract.
   assert.match(appJs, /assets\/reminders-client\.js owns its label/);
-  assert.doesNotMatch(appJs, /\/api\/v1\/notify_rules/);
+  assert.doesNotMatch(appJs, /\/api\/v1\/notify/);
   // Button styling exists (44px-class touch target, busy + on states).
   assert.match(appCss, /\.cl-rem-btn\{/);
   assert.match(appCss, /\.cl-rem-btn\.cl-rem-on\{/);
@@ -79,13 +79,13 @@ test('CL-UI-58 (2): client wires the real notify_rules contract (POST/PATCH/DELE
   assert.deepEqual(JSON.parse(postCall.body), {
     placeId: 'tw-001', opportunityId: 'tw-001-P01', channel: 'push', minAdvanceHours: 24
   });
-  assert.equal(postCall.url, '/api/v1/notify_rules');
+  assert.equal(postCall.url, '/api/v1/notify/rules');
   assert.equal(postCall.body.indexOf('channel'), postCall.body.indexOf('channel'), 'body is a JSON string');
 
   const del = await rem._internals.deleteRule('r1');
   assert.equal(del.body.ok, true);
   const delCall = calls.find(c => c.method === 'DELETE');
-  assert.equal(delCall.url, '/api/v1/notify_rules/r1');
+  assert.equal(delCall.url, '/api/v1/notify/rules/r1');
 });
 
 test('CL-UI-58 (3): rule matching reindex — opp rule exact, opp-less rule covers the place', () => {
@@ -103,15 +103,18 @@ test('CL-UI-58 (3): rule matching reindex — opp rule exact, opp-less rule cove
   assert.equal(rem.ruleFor(map, 'tw-001', 'tw-001-P99').id, 'a');
 });
 
-test('CL-UI-58 (4): not-signed-in guard — 401 blocks the rule call and shows the login toast', async () => {
-  let rulesCalled = 0;
-  const rem = loadClient((url, opts) => {
-    if (String(url).indexOf('/notify_rules') >= 0) rulesCalled += 1;
+test('CL-UI-58 (4) + CL-UI-61: login gate — signed-out users never reach the rules endpoint', async () => {
+  let rulesCalled = 0, meCalled = 0;
+  const rem = loadClient((url) => {
+    const u = String(url);
+    if (u.indexOf('/notify/rules') >= 0) rulesCalled += 1;
+    if (u.indexOf('/auth/me') >= 0) meCalled += 1;
     return Promise.resolve({ ok: false, status: 401, json: () => Promise.resolve({ error: 'JWT session required' }) });
   });
   await rem.refresh();
   assert.equal(rem.state.signedIn, false);
-  assert.ok(rulesCalled >= 1, 'rule list attempted once before the guard');
+  assert.equal(meCalled, 1, 'the throttled /auth/me gate answers once');
+  assert.equal(rulesCalled, 0, 'CL-UI-61: rules endpoint is never hit while signed out');
   // A click while signed out never reaches createRule (no POST), only the toast.
   const postSpy = rem._internals.createRule;
   let posts = 0;
@@ -229,8 +232,8 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui62/);
   assert.match(remHtml, /assets\/app\.css\?v=clui68/);
   assert.match(remHtml, /assets\/member-auth\.js\?v=clui67/);
-  assert.match(remHtml, /assets\/reminders-client\.js\?v=clui69/);
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui69/);
+  assert.match(remHtml, /assets\/reminders-client\.js\?v=clui70/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui70/);
   // Login panel + login deep links present (OAuth 302 anchors, per CL-UI-53).
   assert.match(remHtml, /rem-login-panel/);
   assert.match(pageJs, /\/api\/v1\/auth\/line\/start/);
@@ -239,7 +242,7 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /max-width: 390px/);
   assert.match(remHtml, /min-height:44px|min-height: 44px/);
   // The homepage loads the card-side client and carries the bumped stamps.
-  assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui69/);
+  assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui70/);
   assert.match(indexHtml, /assets\/app\.js\?v=clui68/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui68/);
 });
