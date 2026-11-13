@@ -95,7 +95,7 @@ test('CL-UI-81 (5) P1-4: syncDayButtons renders both segments and reuses honest 
   assert.doesNotMatch(sync, /CLUI81_PLACEHOLDER/);
 });
 
-test('CL-UI-81 (6) cache-bust: index.html serves app.js + app.css at ?v=clui84', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui84/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui84/);
+test('CL-UI-81 (6) cache-bust: index.html serves app.js + app.css at ?v=clui86', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui86/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui86/);
 });

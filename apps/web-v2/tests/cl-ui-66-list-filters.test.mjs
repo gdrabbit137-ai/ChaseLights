@@ -241,8 +241,8 @@ test('CL-UI-66 (15): index.html carries the tab/chip hosts, the next_window sort
   assert.match(indexSource, /id="tier-tabs"/);
   assert.match(indexSource, /id="subject-chips"/);
   assert.match(indexSource, /<option value="next_window" data-i18n="sort_next_window">/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui85/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui85/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui86/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui86/);
 });
 
 test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the shared active accent', () => {
