@@ -1428,7 +1428,10 @@
       // modal (same guard the keyboard handler already applies).
       const card=document.createElement('div');card.className='card';card.tabIndex=0;card.setAttribute('role','button');card.onclick=e=>{if(e.target.closest&&e.target.closest('a,button,input,select,summary'))return;openPlaceModal(spot,metric);};card.onkeydown=e=>{if(e.target.closest('a,button,input,select,summary'))return;if(e.key==='Enter'||e.key===' '){e.preventDefault();openPlaceModal(spot,metric);}};
       const noViable=!!metric.no_viable_opportunity;const researchPending=!!metric.research_pending||!spot.opportunities?.length;
-      const fav=favorites.includes(spot.spot_id);const scenes=spot.scenes||[];const visibleScenes=scenes.slice(0,4);const scenePills=visibleScenes.map(x=>`<span class="scene-pill">${sceneLabel(x)}</span>`).join('');const sceneMore=scenes.length>2?`<span class="scene-pill scene-more">+${scenes.length-2}</span>`:'';
+      const fav=favorites.includes(spot.spot_id);const scenes=spot.scenes||[];const visibleScenes=scenes.slice(0,4);// CL-UI-77: env-type line is plain non-interactive text (城市 · 山岳) —
+      // visibly layered under the interactive subject chips (夜景: 時段 🔔);
+      // no chip frame, no background, never clickable.
+      const envTypeText=scenes.map(x=>sceneLabel(x).replace(/^[^\p{L}\p{N}]+/u,'').trim()).filter(Boolean).join(' · ');const scenePills=envTypeText?`<span class="env-type-text">${esc(envTypeText)}</span>`:'';const sceneMore='';
       const theme=metric.theme||'mountain_view';
       const v2PlaceData=v2PlaceForSpot(spot);
       const v2Best=v2PlaceData?v2BestForSpot(v2PlaceData,spot.timezone):null;
