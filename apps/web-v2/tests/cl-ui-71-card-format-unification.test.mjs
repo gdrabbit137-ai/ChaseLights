@@ -57,9 +57,11 @@ function makeFallback() {
 
 test('CL-UI-71 (1): 象山六巨石/1314 fallback renders the SAME row format — real artifact rows', () => {
   const h = makeFallback();
-  // Real committed rows for the owner-reported places: row present but
-  // suitable [] on 2026-11-13 (the day the split was observed).
-  for (const [spotId, date] of [['tw-002', '2026-11-13'], ['tw-134', '2026-11-13']]) {
+  // Real committed rows for suitable-empty + shootable days (the shape the
+  // fallback exists for). CHALLENGER-14/A: re-anchored to the current
+  // same-run artifact — tw-002/tw-134 gained curated suitable rows in the
+  // newer run; jp-001/jp-002 carry the same fallback shape on 2026-11-13.
+  for (const [spotId, date] of [['jp-001', '2026-11-13'], ['jp-002', '2026-11-13']]) {
     const row = artifact.places[spotId][date];
     assert.ok(row, `${spotId} has a subject-cards row`);
     assert.equal(row.suitable.length, 0, `${spotId} suitable empty on ${date}`);
@@ -91,14 +93,21 @@ test('CL-UI-71 (3): not_recommended tier keeps the ✗ line — no invented ✓ 
 
 test('CL-UI-71 (4): artifact audit — every suitable-empty day is shootable or not_recommended', () => {
   // The fallback only needs the two tier shapes; a suitable-empty 'recommend'
-  // row would need a third branch. Assert the artifact never produces one.
-  let checked = 0;
-  for (const days of Object.values(artifact.places)) {
-    for (const row of Object.values(days)) {
+  // row would need a third branch. Assert the artifact never produces one —
+  // except the honest null tier on days the committed weather_details do not
+  // cover yet (CHALLENGER-14/A: same-run regeneration reaches the furthest
+  // forecast dates; a weather-less row renders no invented verdict).
+  let checked = 0, nullTiers = 0;
+  for (const [placeId, days] of Object.entries(artifact.places)) {
+    for (const [date, row] of Object.entries(days)) {
       if ((row.suitable || []).length) continue;
-      assert.ok(row.tier === 'shootable' || row.tier === 'not_recommended',
-        `unexpected tier ${row.tier} for a suitable-empty row`);
-      checked++;
+      if (row.tier === 'shootable' || row.tier === 'not_recommended') { checked++; continue; }
+      const h = row.hours || {};
+      const weatherless = !(h.ok || []).length && !Object.keys(h.no || {}).length
+        && !(h.na || []).length && !(h.unk || []).length;
+      assert.equal(row.tier, null, `${placeId} ${date} unexpected tier for a suitable-empty row`);
+      assert.ok(weatherless, `${placeId} ${date} null tier must be a weather-less row`);
+      nullTiers++;
     }
   }
   assert.ok(checked > 1000, `expected a real corpus, got ${checked}`);
@@ -118,8 +127,8 @@ test('CL-UI-71 (5): the old 「本日最佳題材」 render path is retired from
   assert.match(createSpotCardBlock, /class="cl-subject-rows"/);
 });
 
-test('CL-UI-71 (6): cache-bust stamp — app.js advanced to clui76 (app.css follows at clui76 per CL-UI-72)', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui76/);
+test('CL-UI-71 (6): cache-bust stamp — app.js advanced to clui77 (app.css follows at clui77 per CL-UI-72)', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui77/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui77/);
   assert.ok(!indexSource.includes('app.js?v=clui75'), 'stale app.js stamp retired');
 });

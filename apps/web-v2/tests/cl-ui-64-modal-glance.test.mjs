@@ -62,7 +62,7 @@ test('CL-UI-64 (2): quick-view helpers render short chips / short word only', ()
   `;
   const fns = new Function(prelude + helperCode +
     ';return {v2QuickViewHtml,v2DayStripHtml,v2ShortReasonWord,v2DominantFailMetric};')();
-  const spot = {spot_id: 'jp-003', timezone: 'Asia/Tokyo'};
+  const spot = {spot_id: 'jp-005', timezone: 'Asia/Tokyo'};
 
   // Clear day: short subject chips + window, no long sentences.
   const clearHtml = fns.v2QuickViewHtml(spot, null);
@@ -81,7 +81,7 @@ test('CL-UI-64 (2): quick-view helpers render short chips / short word only', ()
   // never an invented cause. (CL-INT-154: the committed artifact no longer has
   // such a row, so inject a synthetic one instead of pinning live data.)
   const fnsFailed = new Function(prelude.replace("let dayDate='2026-11-13';", "let dayDate='2026-11-15';") + `
-    v2SubjectCards = Object.assign({}, v2SubjectCards, { 'jp-003': Object.assign({}, v2SubjectCards['jp-003'] || {}, { '2026-11-15': { status: 'failed', suitable: [] } }) });
+    v2SubjectCards = Object.assign({}, v2SubjectCards, { 'jp-005': Object.assign({}, v2SubjectCards['jp-005'] || {}, { '2026-11-15': { status: 'failed', suitable: [] } }) });
   ` + helperCode + ';return {v2QuickViewHtml};')();
   const failedHtml = fnsFailed.v2QuickViewHtml(spot, null);
   assert.ok(failedHtml.includes('quick-none'), 'a failed row with no dominant_reason degrades honestly');
@@ -179,6 +179,6 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
   assert.ok(!appCss.includes('.v2-strip-bar') && !appCss.includes('.v2-strip-note'),
     'bare bar / note CSS retired');
   assert.match(appCss, /\.v2-strip-text\{[^}]*overflow-wrap:anywhere/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui76/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui77/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui77/);
 });

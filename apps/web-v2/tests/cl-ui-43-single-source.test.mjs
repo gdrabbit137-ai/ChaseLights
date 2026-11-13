@@ -113,6 +113,30 @@ function runDecorate(detail,spotId,rows){
   });
 }
 
+// ---- CL-UI-43 x) CHALLENGER-14/C: the hourly status word is three-way ----
+
+test('CL-UI-43 x: v2HourLabel splits window-geometry misses from weather failures',()=>{
+  const outside={status:'UNFAVORABLE',conditions:[
+    {role:'REQUIRED',metric:'city_night_window',verdict:'FAIL'},
+    {role:'REQUIRED',metric:'visibility',verdict:'PASS'}]};
+  assert.equal(v2HourLabel(outside),'🕒 非建議時段','window-geometry-only FAIL → neutral 🕒');
+  const weather={status:'UNFAVORABLE',conditions:[
+    {role:'REQUIRED',metric:'city_night_window',verdict:'FAIL'},
+    {role:'REQUIRED',metric:'cloud_cover_total',verdict:'FAIL'}]};
+  assert.equal(v2HourLabel(weather),'⚠️ 未符','any weather FAIL stays ⚠️ 未符');
+  const mixed={status:'UNFAVORABLE',conditions:[
+    {role:'REQUIRED',metric:'sunset_window',verdict:'FAIL'},
+    {role:'REQUIRED',metric:'wind_speed_10m',verdict:'FAIL'}]};
+  assert.equal(v2HourLabel(mixed),'⚠️ 未符','mixed window+weather → 未符');
+  assert.equal(v2HourLabel({status:'GUIDANCE_SATISFIED',conditions:[]}),'✅ 符合');
+  // bare-string input stays supported (CL-UI-43 callers pass a status)
+  assert.equal(v2HourLabel('UNFAVORABLE'),'⚠️ 未符');
+  assert.equal(v2HourLabel('GUIDANCE_SATISFIED'),'✅ 符合');
+  assert.equal(v2HourLabel(null),'資料不足');
+  // the window metric set mirrors evaluate_batch.py TIME_WINDOW_METRICS
+  assert.match(appSource,/V2_HOUR_WINDOW_METRICS=new Set\(\['light_window','sunrise_time_window','sunset_window','golden_hour_window','blue_hour_window','city_night_window','astronomical_darkness','daylight_window'\]\)/);
+});
+
 // ---- CL-UI-43 ii) past hours never count as qualifying ----
 
 test('CL-UI-43 ii: eval2 day rows share the card v2EffectiveHours anchor — past days degrade',()=>{

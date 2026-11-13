@@ -104,6 +104,6 @@ test('CL-UI-67 (4): next window rides INSIDE the first qualifying cell (badge, n
 
 test('CL-UI-67 (5): cache-bust stamp bumped for the edited app.js/app.css',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui76/);
-  assert.match(index,/assets\/app\.css\?v=clui76/);
+  assert.match(index,/assets\/app\.js\?v=clui77/);
+  assert.match(index,/assets\/app\.css\?v=clui77/);
 });

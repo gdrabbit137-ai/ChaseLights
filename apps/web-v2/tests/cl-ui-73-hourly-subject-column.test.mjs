@@ -1,7 +1,9 @@
 // CL-UI-73: hourly 「適合題材」 column in the forecast modal's hourly table.
 // Data layer: build_subject_cards.py emits per-place×date hour buckets
-// (fit/ok/no/unk). Renderer semantics: curated subject fits the hour → green
-// chips; no subject but the hourly general floor passes → yellow 「○ 可拍」;
+// (fit/ok/no/unk/na). Renderer semantics: curated subject fits the hour →
+// green chips; no subject but the hourly general floor passes → yellow
+// 「○ 一般拍攝」 (CHALLENGER-14/C: not the day-tier 「○ 可拍」); a night hour
+// with clean weather no curated window covers → neutral 「🕒 非建議時段」;
 // floor fails → gray 「✗ <short reason>」; missing artifact/hour/fields → an
 // honest dash (fail-closed). Source assertions + extracted pure helper, per
 // the established V1-shell test pattern.
@@ -28,7 +30,7 @@ const grab = (start, end) => {
 const cellCode = grab('function v2HourSubjectCell', '// CL-UI-26: every 不符 verdict');
 const makeCell = ({currentLang = 'zh-TW', dict = artifact} = {}) => new Function(
   `${cellCode}\nv2SubjectCards=${JSON.stringify(dict)};currentLang=${JSON.stringify(currentLang)};` +
-  'const d=()=>({eval2_unk:"資料不足",v2_tier_shootable:"○ 可拍"});' +
+  'const d=()=>({eval2_unk:"資料不足",v2_hour_general_ok:"○ 一般拍攝",state_outside:"🕒 非建議時段"});' +
   'const esc=(s)=>String(s);const listSep=()=>" · ";;' +
   'const v2SubjectCardRow=(spotId,localDate)=>((v2SubjectCards.places||{})[spotId]||{})[localDate]||null;' +
   'return {v2HourSubjectCell};')();
@@ -60,21 +62,24 @@ test('CL-UI-73 (2): helper semantics on the committed artifact (tw-142 安平漁
   const item = (h) => ({local_date: '2026-11-13', time: `2026-11-13 ${h}`});
   const twRow = artifact.places['tw-142']['2026-11-13'];
   assert.ok(twRow.hours, 'tw-142 2026-11-13 carries hour buckets');
-  // 17:00 → sunset chip (green)
-  const fit = cell({spot_id: 'tw-142', local_date: '2026-11-13'}, item('17:00'));
-  const sunsetShort = artifact.dictionaries.genre_short_names.sunset['zh-TW'];
-  assert.ok(sunsetShort, 'sunset short name exists');
-  assert.ok(fit.html.includes(sunsetShort), `chip shows ${sunsetShort}: ${fit.html}`);
+  // 19:00 → city_night chip (green) — the night hour the window covers
+  const fit = cell({spot_id: 'tw-142', local_date: '2026-11-13'}, item('19:00'));
+  const nightShort = artifact.dictionaries.genre_short_names.city_night['zh-TW'];
+  assert.ok(nightShort, 'city_night short name exists');
+  assert.ok(fit.html.includes(nightShort), `chip shows ${nightShort}: ${fit.html}`);
   assert.ok(fit.html.includes('subj-chip'), 'chip class');
   assert.equal(fit.cls, 'subj-has');
-  // 12:00 → no subject, general floor ok → yellow ○ 可拍
+  // 12:00 → no subject, general floor ok → yellow ○ 一般拍攝
+  // (CHALLENGER-14/C: the HOUR floor pass is not the day tier ○ 可拍)
   const ok = cell({spot_id: 'tw-142', local_date: '2026-11-13'}, item('12:00'));
-  assert.equal(ok.html, '<span class="subj-ok">○ 可拍</span>');
+  assert.equal(ok.html, '<span class="subj-ok">○ 一般拍攝</span>');
   assert.equal(ok.cls, 'subj-ok-row');
-  // 02:00 → floor fails (light_window) → gray ✗ 非日照時段 (CL-UI-70 word layer)
-  const no = cell({spot_id: 'tw-142', local_date: '2026-11-13'}, item('02:00'));
-  assert.ok(no.html.includes('✗') && no.html.includes('非日照時段'), `short reason: ${no.html}`);
-  assert.equal(no.cls, 'subj-no-row');
+  // 02:00 → night hour, clean weather, no curated window → neutral
+  // 🕒 非建議時段 (CHALLENGER-14/B: never a failure word, never ○)
+  const na = cell({spot_id: 'tw-142', local_date: '2026-11-13'}, item('02:00'));
+  assert.ok(na.html.includes('🕒') && na.html.includes('非建議時段'), `neutral: ${na.html}`);
+  assert.ok(!na.html.includes('✗'), 'no failure word on a neutral night hour');
+  assert.equal(na.cls, 'subj-na-row');
   // a date/hour the artifact never covers → honest dash
   const dash = cell({spot_id: 'tw-999', local_date: '2099-01-01'}, {time: '2099-01-01 10:00'});
   assert.equal(dash.cls, 'subj-unknown');
@@ -84,7 +89,7 @@ test('CL-UI-73 (2): helper semantics on the committed artifact (tw-142 安平漁
 test('CL-UI-73 (3): fail-closed — unknown fields and missing rows never invent a verdict', () => {
   const tree = JSON.parse(JSON.stringify(artifact));
   tree.places['xx-000'] = {'2026-01-01': {status: 'clear', suitable: [],
-    hours: {ok: [], no: {}, fit: {}, unk: ['11:00']}}};
+    hours: {ok: [], no: {}, fit: {}, unk: ['11:00'], na: []}}};
   const cell = makeCell({dict: tree}).v2HourSubjectCell;
   const unknown = cell({spot_id: 'xx-000', local_date: '2026-01-01'}, {local_date: '2026-01-01', time: '2026-01-01 11:00'});
   assert.equal(unknown.cls, 'subj-unknown', 'incomplete fields → no verdict');
@@ -98,17 +103,22 @@ test('CL-UI-73 (3): fail-closed — unknown fields and missing rows never invent
   assert.equal(old.cls, 'subj-unknown');
 });
 
-test('CL-UI-73 (4): artifact shape — every row has fit/ok/no/unk buckets, reasons resolve', () => {
+test('CL-UI-73 (4): artifact shape — every row has fit/ok/no/unk/na buckets, reasons resolve', () => {
   let rows = 0, fitHours = 0;
   for (const place of Object.values(artifact.places)) {
     for (const row of Object.values(place)) {
       const hours = row.hours;
       assert.ok(hours, 'row carries hours');
-      assert.deepEqual(Object.keys(hours).sort(), ['fit', 'no', 'ok', 'unk']);
-      assert.ok(Array.isArray(hours.ok) && Array.isArray(hours.unk));
+      assert.deepEqual(Object.keys(hours).sort(), ['fit', 'na', 'no', 'ok', 'unk']);
+      assert.ok(Array.isArray(hours.ok) && Array.isArray(hours.unk) && Array.isArray(hours.na));
       for (const metric of Object.values(hours.no)) {
         assert.ok(artifact.dictionaries.fail_reason_short[metric], `reason word: ${metric}`);
+        // CHALLENGER-14/B: light_window never names an HOUR failure
+        assert.notEqual(metric, 'light_window');
       }
+      // CHALLENGER-14/B: one hour, one bucket — no fit∩no / fit∩na overlap
+      assert.ok(!Object.keys(hours.fit).some(hh => hh in hours.no), 'fit∩no empty');
+      assert.ok(!Object.keys(hours.fit).some(hh => hours.na.includes(hh)), 'fit∩na empty');
       for (const genres of Object.values(hours.fit)) {
         for (const g of genres) {
           assert.ok(artifact.dictionaries.genre_short_names[g], `genre short: ${g}`);
@@ -122,10 +132,10 @@ test('CL-UI-73 (4): artifact shape — every row has fit/ok/no/unk buckets, reas
   assert.ok(fitHours > 1000, `fitting-hour count ${fitHours}`);
 });
 
-test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui76 stamps', () => {
-  for (const cls of ['.td-subjects.subj-has', '.td-subjects.subj-ok-row', '.td-subjects.subj-no-row', '.subj-chip', '.timeline-mobile-subjects']) {
+test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui77 stamps', () => {
+  for (const cls of ['.td-subjects.subj-has', '.td-subjects.subj-ok-row', '.td-subjects.subj-na-row', '.td-subjects.subj-no-row', '.subj-chip', '.subj-na', '.timeline-mobile-subjects']) {
     assert.ok(cssSource.includes(cls), `css has ${cls}`);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui76/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui77/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui77/);
 });

@@ -52,8 +52,10 @@ test('CL-UI-63 (2): row lookup keys on the selected date (date switching updates
   assert.equal(h.V2_SUBJECT_CARDS_FILE, ARTIFACT_FILE);
   // A real place with two different days: 2026-11-13 clear (has suitable),
   // 2026-11-15 failed — switching the date must switch the row.
-  const clearRow = h.v2SubjectCardRow('jp-003', '2026-11-13');
-  const failedRow = h.v2SubjectCardRow('jp-003', '2026-11-15');
+  // (CHALLENGER-14/A: re-anchored to the current same-run artifact — jp-003's
+  // 11-13 row became failed in the newer run, jp-005 carries the pair.)
+  const clearRow = h.v2SubjectCardRow('jp-005', '2026-11-13');
+  const failedRow = h.v2SubjectCardRow('jp-005', '2026-11-15');
   assert.ok(clearRow, 'clear day row exists');
   assert.ok(failedRow, 'failed day row exists');
   assert.equal(clearRow.status, 'clear');
@@ -188,7 +190,7 @@ test('CL-UI-63 (8): artifact rows join back to the artifact dictionary (zh/en/ja
 });
 
 test('CL-UI-63 (9): cache-bust stamps advanced to clui75', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui76/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui76/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui77/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui77/);
   assert.ok(!indexSource.includes('clui69'), 'stale stamps fully retired');
 });
