@@ -80,20 +80,51 @@
     try { document.dispatchEvent(new CustomEvent('chaselights:favorites', { detail: { ids: ids, member: member === undefined ? null : member } })); } catch (e) { /* old browsers */ }
   }
 
+  // CL-API-07: single-flight + short result cache — the boot sync, the
+  // auth-event resync and post-toggle re-pulls used to fire several real
+  // GETs per page load (the tail showed 6× favorites/page), tripping the IP
+  // rate limiter. Writes invalidate the cache; a 10 s window serves repeat
+  // reads locally. Concurrent calls share one in-flight request.
+  var CLOUD_CACHE_MS = 10000;
+  var cloudInFlight = null, cloudCache = null, cloudCacheAt = 0;
+  function invalidateCloudCache() { cloudCache = null; cloudCacheAt = 0; }
+
+  // CL-API-07: exponential backoff retry (1s → 2s → 4s, max 3) after a
+  // transient (429/5xx/offline) failure — the current list stands meanwhile.
+  var retryTimer = null, retryAttempt = 0;
+  function scheduleRetry(fn) {
+    if (retryAttempt >= 3) return;
+    var delay = 1000 * Math.pow(2, retryAttempt++);
+    if (retryTimer) clearTimeout(retryTimer);
+    retryTimer = setTimeout(function () { fn(); }, delay);
+  }
+
   function fetchCloud() {
-    return fetch(FAV_ENDPOINT + '?userId=' + encodeURIComponent(deviceId()), {
+    if (cloudInFlight) return cloudInFlight;
+    if (cloudCache !== null && Date.now() - cloudCacheAt < CLOUD_CACHE_MS) {
+      return Promise.resolve(cloudCache);
+    }
+    cloudInFlight = fetch(FAV_ENDPOINT + '?userId=' + encodeURIComponent(deviceId()), {
       credentials: 'same-origin', cache: 'no-store'
     }).then(function (res) {
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();
     }).then(function (doc) {
-      if (!doc || !Array.isArray(doc.favorites)) return [];
-      return doc.favorites.map(function (row) { return row && typeof row.place_id === 'string' ? row.place_id : null; })
-        .filter(function (x) { return x; });
+      var ids = (!doc || !Array.isArray(doc.favorites)) ? [] :
+        doc.favorites.map(function (row) { return row && typeof row.place_id === 'string' ? row.place_id : null; })
+          .filter(function (x) { return x; });
+      cloudCache = ids;
+      cloudCacheAt = Date.now();
+      return ids;
     });
+    var clear = function () { cloudInFlight = null; };
+    return cloudInFlight.finally
+      ? cloudInFlight.finally(clear)
+      : cloudInFlight.then(function (v) { clear(); return v; }, function (e) { clear(); throw e; });
   }
 
   function push(placeId, action) {
+    invalidateCloudCache(); // writes always re-pull fresh afterwards
     return fetch(FAV_ENDPOINT, {
       method: 'POST',
       credentials: 'same-origin',
@@ -111,9 +142,16 @@
   // a trilingual notice.
   function toggle(placeId, adding) {
     return push(placeId, adding ? 'add' : 'remove').then(function () {
+      retryAttempt = 0;
       return fetchCloud();
     }).then(function (ids) { broadcast(ids); return ids; })
-      .catch(function () { showNotice('fav_offline'); return localFavorites(); });
+      .catch(function () {
+        // CL-API-07: 429/5xx/offline never mutates the list — the local list
+        // stands and a backoff retry re-syncs later.
+        showNotice('fav_offline');
+        scheduleRetry(function () { toggle(placeId, adding); });
+        return localFavorites();
+      });
   }
 
   // First-launch bootstrap + login resync: upload every local favorite that
@@ -129,12 +167,15 @@
       });
       return done.then(function () { return fetchCloud(); }).then(function (ids) {
         if (missing.length) showNotice('fav_saved');
+        retryAttempt = 0;
         broadcast(ids);
         return ids;
       });
     }).catch(function () {
-      // Offline: keep the local list as-is, no silent data loss.
+      // CL-API-07: 429/5xx/offline — keep the local list as-is (no silent
+      // data loss, no state flip) and retry with exponential backoff.
       broadcast(localFavorites());
+      scheduleRetry(syncLocal);
       return localFavorites();
     });
   }
@@ -152,14 +193,16 @@
   // favorites into the anonymous device list on the next upload and (b) render
   // them as "my favorites" after logout. The server's anonymous device list is
   // the only source of truth for signed-out state.
-  var wasAuthed = false;
+  var wasAuthed = null; // CL-API-07: unknown before the first auth event
   function onAuth(e) {
     var member = (e && e.detail && e.detail.member) ? e.detail.member : null;
     var authed = Boolean(member);
+    if (wasAuthed === authed) return; // dedup: repeated renders fire this per render
     if (wasAuthed && !authed) {
       try { localStorage.removeItem(LOCAL_FAVS_KEY); } catch (err) { /* storage blocked */ }
     }
     wasAuthed = authed;
+    invalidateCloudCache(); // the identity behind the list changed
     syncLocal();
   }
 

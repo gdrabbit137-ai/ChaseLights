@@ -112,11 +112,23 @@
     return map;
   }
 
+  // CL-API-07: a 429/5xx on the rules endpoint is transient — the current
+  // rules stay rendered and a backoff retry re-pulls later; only 401 clears
+  // the signed-in state.
+  var rulesRetryTimer = null, rulesRetryAttempt = 0;
+  function scheduleRulesRetry() {
+    if (rulesRetryAttempt >= 3) return;
+    var delay = 1000 * Math.pow(2, rulesRetryAttempt++);
+    if (rulesRetryTimer) clearTimeout(rulesRetryTimer);
+    rulesRetryTimer = setTimeout(function () { rulesRetryAttempt = 0; refresh(false); }, delay);
+  }
   function fetchRules() {
     return fetch(RULES_ENDPOINT, { headers: { Accept: 'application/json' } }).then(function (r) {
       if (r.status === 401) { state.signedIn = false; state.rules = {}; state.loaded = true; return null; }
+      if (r.status === 429 || r.status >= 500) { scheduleRulesRetry(); return state.rules; }
       if (!r.ok) throw new Error('HTTP ' + r.status);
       state.signedIn = true;
+      rulesRetryAttempt = 0;
       return r.json();
     }).then(function (body) {
       if (body) { state.rules = reindex(body.rules); state.loaded = true; }
@@ -135,7 +147,10 @@
     if (!force && mePromise && now - meAt < ME_THROTTLE_MS) return mePromise;
     meAt = now;
     mePromise = fetch(ME_ENDPOINT, { headers: { Accept: 'application/json' } }).then(function (r) {
-      state.signedIn = r.ok;
+      // CL-API-07: 429/5xx/network failure is transient — keep the current
+      // signedIn state (never flip to signed-out); only 401 decides it.
+      if (r.status === 401) state.signedIn = false;
+      else if (r.ok) state.signedIn = true;
       return state.signedIn;
     }).catch(function () {
       return state.signedIn === true;
