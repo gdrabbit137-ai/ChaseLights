@@ -52,6 +52,25 @@ jobs:
           newest_bundle=$(ls -t data/v2/evaluations/bundle-*.json | head -n 1)
           python data/v2/tools/build_subject_cards.py --bundle "$newest_bundle" \
             --out data/v2/evaluations/subject-cards-20261112T202312Z.json
+      - name: Gate — artifact-coupled node tests stay green (CL-CI-36)
+        # Root-cure for the "refresh breaks test pins" loop: the refresh must
+        # never land a commit that reds the tests coupled to the regenerated
+        # artifacts (evaluations bundle / subject-cards / details). The coupled
+        # set is discovered dynamically (any *.test.mjs that reads those data
+        # paths — no browser deps, no playwright needed); a failure fails the
+        # job instead of shipping red tests to main. Data pins themselves are
+        # banned in-suite by cl-ci-36-refresh-pins.test.mjs (dynamic anchors).
+        uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+      - name: Run artifact-coupled tests
+        run: |
+          coupled=$(grep -rlE "'data', *'v2', *'evaluations'|evaluations-latest|evaluations-details|subject-cards" apps/web-v2/tests --include='*.test.mjs' | sort | tr '\n' ' ')
+          echo "coupled test files:"
+          echo "$coupled" | tr ' ' '\n' | sed '/^$/d'
+          # --test-isolation=none is the canonical suite mode (w4-node/postmerge_verify);
+          # default per-file isolation reds unrelated isolation-sensitive files.
+          node --test --test-isolation=none $coupled
       - name: Commit evaluation bundle
         run: |
           ls -t data/v2/evaluations/bundle-*.json 2>/dev/null | tail -n +8 | xargs -r rm -f

@@ -10,6 +10,7 @@ regression row; no general contract is mounted into opportunities/.
 from __future__ import annotations
 
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -28,6 +29,15 @@ def _words():
 
 PRIORITY = {m: i for i, m in enumerate(_words()["metric_priority"])}
 WORDS = _words()["words"]
+
+# CL-CI-36: the scheduled refresh rebuilds the artifact in place under the
+# stable pointer app.js pins (V2_SUBJECT_CARDS_FILE) — resolve the filename
+# from app.js, never a copied literal that goes stale every 6h.
+_pointer = re.search(
+    r"V2_SUBJECT_CARDS_FILE='([^']+)'",
+    (ROOT / "assets/app.js").read_text(encoding="utf-8"))
+assert _pointer, "app.js pins V2_SUBJECT_CARDS_FILE"
+ARTIFACT_PATH = EVAL_DIR / _pointer.group(1)
 
 
 def _hour(vis=24.1, precip=0.0, rh=60, sun=30):
@@ -330,7 +340,7 @@ class ArtifactRegressionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.artifact = json.loads(
-            (ROOT / "data/v2/evaluations/subject-cards-20261112T202312Z.json")
+            ARTIFACT_PATH
             .read_bytes().decode("utf-8"))
 
     def test_dadaocheng_has_a_reason_on_its_bare_failed_day(self):
@@ -365,13 +375,14 @@ class ClUi70FullCatalogVoteTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.artifact = json.loads(
-            (ROOT / "data/v2/evaluations/subject-cards-20261112T202312Z.json")
+            ARTIFACT_PATH
             .read_bytes().decode("utf-8"))
 
     def test_no_window_dominant_row_where_the_window_occurred(self):
         bundle = json.loads((EVAL_DIR / self.artifact["derived_from"]["source_bundle"])
                             .read_bytes().decode("utf-8"))
         checked = 0
+        baseline_checked = 0
         for place in bundle["places"]:
             rows = self.artifact["places"].get(place["place_id"], {})
             # a place-day row aggregates votes from EVERY opportunity that
@@ -383,6 +394,27 @@ class ClUi70FullCatalogVoteTests(unittest.TestCase):
                         day["conditions"])
             for date, row in rows.items():
                 if row.get("dominant_metric") not in bsc.WINDOW_METRICS:
+                    continue
+                if row.get("dominant_source") == "general_baseline":
+                    # CL-CI-36: the CL-UI-65 baseline fallback (an
+                    # evaluated-quiet day with no curated vote) names its
+                    # reason from the COMMITTED WEATHER, not the bundle — no
+                    # bundle condition exists on this path. The window word
+                    # must still be backed by genuinely absent daylight:
+                    # recompute the baseline from weather_details and require
+                    # the same failing reason to round-trip.
+                    baseline_checked += 1
+                    weather = bsc.load_place_hourly_weather(place["place_id"])
+                    scale = bsc.general_view_scale(
+                        o.get("genre_template") for o in place["opportunities"])
+                    recomputed = bsc.general_day_baseline(
+                        weather.get(date) or [], scale, PRIORITY, WORDS)
+                    self.assertFalse(recomputed["ok"],
+                                     "%s %s: baseline-sourced window dominant on a passing floor"
+                                     % (place["place_id"], date))
+                    self.assertEqual(recomputed["reason_short"], row["dominant_reason"],
+                                     "%s %s: baseline reason round-trip"
+                                     % (place["place_id"], date))
                     continue
                 checked += 1
                 cond = next((c for c in conds_by_date.get(date, [])

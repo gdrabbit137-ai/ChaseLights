@@ -19,8 +19,12 @@ const ROOT = join(here, '..', '..', '..');
 const appSource = readFileSync(join(ROOT, 'assets', 'app.js'), 'utf8');
 const appCss = readFileSync(join(ROOT, 'assets', 'app.css'), 'utf8');
 const indexSource = readFileSync(join(ROOT, 'index.html'), 'utf8');
+// CL-CI-36: the artifact is read through the SAME stable pointer app.js uses
+// (V2_SUBJECT_CARDS_FILE) — never a filename copied into the test.
+const cardsFile = (appSource.match(/V2_SUBJECT_CARDS_FILE='([^']+)'/) || [])[1];
+assert.ok(cardsFile, 'subject-cards filename pinned in app.js');
 const artifact = JSON.parse(readFileSync(
-  join(ROOT, 'data', 'v2', 'evaluations', 'subject-cards-20261112T202312Z.json'), 'utf8'));
+  join(ROOT, 'data', 'v2', 'evaluations', cardsFile), 'utf8'));
 
 const grab = (start, end) => {
   const i = appSource.indexOf(start);
@@ -42,16 +46,30 @@ test('CL-UI-64 (1): modal opens with a quick-view section fed by the gated bundl
 
 test('CL-UI-64 (2): quick-view helpers render short chips / short word only', () => {
   const helperCode = grab('function v2DominantFailMetric', 'function ensureV2Detail');
-  const prelude = `
+  // CL-CI-36: the scheduled refresh slides the 8-day window every run, so
+  // the clear/failed exemplars are DERIVED from the current artifact: one
+  // date carrying both a clear+chips row and a reasoned failed row.
+  const byDate = {};
+  for (const [pid, days] of Object.entries(artifact.places)) {
+    for (const [dt, row] of Object.entries(days)) {
+      const slot = byDate[dt] || (byDate[dt] = {clear: null, miss: null});
+      if (!slot.clear && row.status === 'clear' && (row.suitable || []).length) slot.clear = pid;
+      if (!slot.miss && row.status === 'failed' && row.dominant_reason) slot.miss = pid;
+    }
+  }
+  const anchorDate = Object.keys(byDate).find(dt => byDate[dt].clear && byDate[dt].miss);
+  assert.ok(anchorDate, 'artifact carries a clear day and a reasoned failed day');
+  const anchor = byDate[anchorDate];
+  const makePrelude = (dayDate, cards) => `
     const V2_EVAL_METRICS={'zh-TW':{precipitation:'降水',visibility:'能見度',cloud_cover_low:'低雲'},en:{precipitation:'Precipitation',visibility:'Visibility',cloud_cover_low:'Low cloud'},ja:{precipitation:'降水',visibility:'視程',cloud_cover_low:'下層雲'}};
     const V2_FAIL_PRIORITY=['precipitation','visibility','cloud_cover_low'];
     let currentLang='zh-TW';
-    let v2SubjectCards=${JSON.stringify(artifact.places)};
+    let v2SubjectCards=${JSON.stringify(cards)};
     const v2SubjectCardRow=(id,date)=>(v2SubjectCards[id]&&v2SubjectCards[id][date])||null;
     const v2SubjectCardShorts=(row,lang)=>((row&&row.suitable)||[]).map(s=>s.subject_short&&(s.subject_short[lang]||s.subject_short['zh-TW'])).filter(Boolean);
     const v2SubjectCardShortReason=(row,lang)=>row&&row.dominant_reason?(row.dominant_reason[lang]||row.dominant_reason['zh-TW']||''):'';
     const localDateString=()=>dayDate;
-    let dayDate='2026-11-13';
+    let dayDate=${JSON.stringify(dayDate)};
     const selectedDayOffset=()=>0;
     const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     const d=()=>({v2_quick_none:'尚無速覽資料',eval2_hours:'符合時數',eval2_ok:'符合',eval2_bad:'未符',eval2_unk:'資料不足'});
@@ -61,9 +79,9 @@ test('CL-UI-64 (2): quick-view helpers render short chips / short word only', ()
     const v2EffectiveHours=(day)=>((day&&day.good_hours)||[]);
     const v2BestForSpot=null;
   `;
-  const fns = new Function(prelude + helperCode +
+  const fns = new Function(makePrelude(anchorDate, artifact.places) + helperCode +
     ';return {v2QuickViewHtml,v2DayStripHtml,v2ShortReasonWord,v2DominantFailMetric};')();
-  const spot = {spot_id: 'jp-005', timezone: 'Asia/Tokyo'};
+  const spot = {spot_id: anchor.clear, timezone: 'Asia/Tokyo'};
 
   // Clear day: short subject chips + window, no long sentences.
   const clearHtml = fns.v2QuickViewHtml(spot, null);
@@ -71,20 +89,21 @@ test('CL-UI-64 (2): quick-view helpers render short chips / short word only', ()
   assert.ok(clearHtml.includes('quick-window'), 'clear day renders window');
   assert.ok(!clearHtml.includes('quick-miss'));
 
-  // Failed day: one short dominant reason word, no sentence punctuation
-  // (jp-001 2026-11-13 is a failed row that carries dominant_reason).
-  const missHelpers = new Function(prelude + helperCode + ';return {v2QuickViewHtml};')();
-  const missHtml = missHelpers.v2QuickViewHtml({spot_id: 'jp-001', timezone: 'Asia/Tokyo'}, null);
+  // Failed day: one short dominant reason word, no sentence punctuation.
+  const missHelpers = new Function(makePrelude(anchorDate, artifact.places) + helperCode + ';return {v2QuickViewHtml};')();
+  const missHtml = missHelpers.v2QuickViewHtml({spot_id: anchor.miss, timezone: 'Asia/Tokyo'}, null);
   assert.ok(missHtml.includes('quick-miss'), 'failed day renders the short miss word');
   assert.ok(!/[。！？，]/.test(missHtml.replace(/<[^>]*>/g, '').replace('✗', '')),
     'quick view never carries a long sentence: ' + missHtml);
   // A failed row WITHOUT a dominant_reason degrades to the honest none-line —
-  // never an invented cause. (CL-INT-154: the committed artifact no longer has
-  // such a row, so inject a synthetic one instead of pinning live data.)
-  const fnsFailed = new Function(prelude.replace("let dayDate='2026-11-13';", "let dayDate='2026-11-15';") + `
-    v2SubjectCards = Object.assign({}, v2SubjectCards, { 'jp-005': Object.assign({}, v2SubjectCards['jp-005'] || {}, { '2026-11-15': { status: 'failed', suitable: [] } }) });
-  ` + helperCode + ';return {v2QuickViewHtml};')();
-  const failedHtml = fnsFailed.v2QuickViewHtml(spot, null);
+  // never an invented cause. (CL-INT-154: injected synthetically instead of
+  // pinning live data; CL-CI-36: the injected day sits outside the refresh
+  // window so the anchor can never collide with a real refreshed row.)
+  const synthTree = Object.assign({}, artifact.places, {
+    'xx-000': {'2099-01-01': {status: 'failed', suitable: []}}});
+  const fnsFailed = new Function(
+    makePrelude('2099-01-01', synthTree) + helperCode + ';return {v2QuickViewHtml};')();
+  const failedHtml = fnsFailed.v2QuickViewHtml({spot_id: 'xx-000', timezone: 'UTC'}, null);
   assert.ok(failedHtml.includes('quick-none'), 'a failed row with no dominant_reason degrades honestly');
 
   // No row at all: honest none-line (never invented copy).

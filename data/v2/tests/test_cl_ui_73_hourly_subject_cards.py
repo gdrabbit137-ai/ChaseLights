@@ -9,6 +9,7 @@ artifact's tw-142 (安平漁人碼頭) hourly spot-check.
 from __future__ import annotations
 
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -27,7 +28,14 @@ def _words():
 PRIORITY = {m: i for i, m in enumerate(_words()["metric_priority"])}
 WORDS = _words()["words"]
 
-ARTIFACT = ROOT / "data/v2/evaluations/subject-cards-20261112T202312Z.json"
+# CL-CI-36: the scheduled refresh rebuilds the artifact in place under the
+# stable pointer app.js pins (V2_SUBJECT_CARDS_FILE) — resolve the filename
+# from app.js, never a copied literal that goes stale every 6h.
+_pointer = re.search(
+    r"V2_SUBJECT_CARDS_FILE='([^']+)'",
+    (ROOT / "assets/app.js").read_text(encoding="utf-8"))
+assert _pointer, "app.js pins V2_SUBJECT_CARDS_FILE"
+ARTIFACT = ROOT / "data/v2/evaluations" / _pointer.group(1)
 
 
 def _hour(hh, vis=24.1, precip=0.0, rh=60, sun=30):
@@ -264,14 +272,22 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
                     if isinstance(hh, str) and len(hh) == 5}
             for hh in hours["fit"]:
                 self.assertIn(hh, good, f"tw-142 {date} {hh} not in good_hours")
-        # one concrete daylight row: 19:00 city-night chip; night hours are
-        # window-coverage decisions (CHALLENGER-14/B), never 非日照時段
-        day1 = self.artifact["places"]["tw-142"]["2026-11-13"]["hours"]
-        self.assertIn("city_night", day1["fit"]["19:00"])
-        self.assertNotIn("02:00", day1["no"])
-        self.assertIn("02:00", day1["na"])
+        # one concrete daylight row, anchored dynamically (CL-CI-36): the
+        # refresh slides the 8-day window every run, so the spot-check date is
+        # derived from the current artifact — the row must be a tw-142 day
+        # whose curated window fits a city-night hour, with neutral night
+        # hours (na, never no) and daylight general-pass hours.
+        day_date = next(
+            d for d, r in self.artifact["places"]["tw-142"].items()
+            if any("city_night" in g for g in r["hours"]["fit"].values()))
+        day1 = self.artifact["places"]["tw-142"][day_date]["hours"]
+        fit_hh = next(hh for hh, g in day1["fit"].items() if "city_night" in g)
+        self.assertIn("city_night", day1["fit"][fit_hh])
+        self.assertTrue(day1["na"], f"tw-142 {day_date} has neutral night hours")
+        for hh in day1["na"]:
+            self.assertNotIn(hh, day1["no"])  # night hours are never a failure
+        self.assertTrue(day1["ok"], f"tw-142 {day_date} has daylight general-pass hours")
         self.assertEqual(self.words["light_window"]["zh-TW"], "非日照時段")  # CL-UI-70 word layer
-        self.assertIn("12:00", day1["ok"])
 
     def test_lf_bytes(self):
         self.assertNotIn(b"\r\n", ARTIFACT.read_bytes())

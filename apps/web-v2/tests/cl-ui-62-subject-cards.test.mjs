@@ -23,6 +23,14 @@ const genreDict = JSON.parse(readFileSync(join(copyDir, 'genre_short_names.json'
 const failShort = JSON.parse(readFileSync(join(copyDir, 'fail_reason_short.json'), 'utf8'));
 const LANGS = ['zh-TW', 'en', 'ja'];
 
+// CL-CI-36: the scheduled bundle refresh rebuilds the subject-cards artifact
+// in place under the stable pointer app.js pins (V2_SUBJECT_CARDS_FILE), so
+// the tests must resolve the filename from app.js — never a copied literal.
+const appSource = readFileSync(join(ROOT, 'assets', 'app.js'), 'utf8');
+const cardsFile = (appSource.match(/V2_SUBJECT_CARDS_FILE='([^']+)'/) || [])[1];
+assert.ok(cardsFile, 'subject-cards filename pinned in app.js');
+const artifactPath = join(evalDir, cardsFile);
+
 function oppFiles() {
   return readdirSync(oppDir).filter((f) => f.endsWith('.json')).map((f) => join(oppDir, f));
 }
@@ -55,7 +63,6 @@ test('CL-UI-62: every violated metric has a trilingual short weather word', () =
     for (const metric of Object.keys(perOpp)) metrics.add(metric);
   }
   // bundle condition metrics
-  const artifactPath = join(evalDir, 'subject-cards-20261112T202312Z.json');
   const artifact = JSON.parse(readFileSync(artifactPath, 'utf8'));
   const bundle = JSON.parse(readFileSync(join(evalDir, artifact.derived_from.source_bundle), 'utf8'));
   for (const place of bundle.places) {
@@ -92,7 +99,6 @@ test('CL-UI-62: metric_priority keeps the shipped legacy head order', () => {
 });
 
 test('CL-UI-62: derived artifact provenance binds it to a real bundle', () => {
-  const artifactPath = join(evalDir, 'subject-cards-20261112T202312Z.json');
   const artifact = JSON.parse(readFileSync(artifactPath, 'utf8'));
   assert.equal(artifact.layer, 'subject_cards');
   assert.equal(artifact.ticket, 'CL-UI-62');
@@ -107,7 +113,6 @@ test('CL-UI-62: derived artifact provenance binds it to a real bundle', () => {
 });
 
 test('CL-UI-62: derived rows join back to the source bundle (460 places, all days)', () => {
-  const artifactPath = join(evalDir, 'subject-cards-20261112T202312Z.json');
   const artifact = JSON.parse(readFileSync(artifactPath, 'utf8'));
   const bundle = JSON.parse(readFileSync(join(evalDir, artifact.derived_from.source_bundle), 'utf8'));
   assert.equal(Object.keys(artifact.places).length, bundle.places.length);
@@ -134,7 +139,6 @@ test('CL-UI-62: derived rows join back to the source bundle (460 places, all day
 });
 
 test('CL-UI-62: suitable rows match bundle GUIDANCE_SATISFIED days with qualifying hours', () => {
-  const artifactPath = join(evalDir, 'subject-cards-20261112T202312Z.json');
   const artifact = JSON.parse(readFileSync(artifactPath, 'utf8'));
   const bundle = JSON.parse(readFileSync(join(evalDir, artifact.derived_from.source_bundle), 'utf8'));
   for (const place of bundle.places) {

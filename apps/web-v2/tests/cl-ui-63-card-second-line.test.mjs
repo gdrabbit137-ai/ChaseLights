@@ -15,8 +15,13 @@ const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(here, '..', '..', '..');
 const appSource = readFileSync(join(ROOT, 'assets', 'app.js'), 'utf8');
 const indexSource = readFileSync(join(ROOT, 'index.html'), 'utf8');
+// CL-CI-36: the scheduled bundle refresh slides the 8-day window every run,
+// so the artifact is read through the SAME stable pointer app.js uses
+// (V2_SUBJECT_CARDS_FILE) — never a filename copied into the test.
+const cardsFile = (appSource.match(/V2_SUBJECT_CARDS_FILE='([^']+)'/) || [])[1];
+assert.ok(cardsFile, 'subject-cards filename pinned in app.js');
 const artifact = JSON.parse(readFileSync(
-  join(ROOT, 'data', 'v2', 'evaluations', 'subject-cards-20261112T202312Z.json'), 'utf8'));
+  join(ROOT, 'data', 'v2', 'evaluations', cardsFile), 'utf8'));
 
 const grab = (start, end) => {
   const i = appSource.indexOf(start);
@@ -32,7 +37,7 @@ const makeHelpers = (tree) => new Function(
   `${helperCode}\nv2SubjectCards=${JSON.stringify(tree)};\n` +
   'return {V2_SUBJECT_CARDS_FILE,v2SubjectCardRow,v2SubjectCardShorts,v2SubjectCardShortReason};')();
 
-const ARTIFACT_FILE = 'subject-cards-20261112T202312Z.json';
+const ARTIFACT_FILE = cardsFile;
 
 test('CL-UI-63 (1): subject-cards layer loads inside the existing evaluations fetch flow', () => {
   // Bound into ensureV2EvalBundle — the same gated fetch that already feeds
@@ -50,20 +55,26 @@ test('CL-UI-63 (1): subject-cards layer loads inside the existing evaluations fe
 test('CL-UI-63 (2): row lookup keys on the selected date (date switching updates)', () => {
   const h = makeHelpers(artifact);
   assert.equal(h.V2_SUBJECT_CARDS_FILE, ARTIFACT_FILE);
-  // A real place with two different days: 2026-11-13 clear (has suitable),
-  // 2026-11-15 failed — switching the date must switch the row.
-  // (CHALLENGER-14/A: re-anchored to the current same-run artifact — jp-003's
-  // 11-13 row became failed in the newer run, jp-005 carries the pair.)
-  const clearRow = h.v2SubjectCardRow('jp-005', '2026-11-13');
-  const failedRow = h.v2SubjectCardRow('jp-005', '2026-11-15');
-  assert.ok(clearRow, 'clear day row exists');
-  assert.ok(failedRow, 'failed day row exists');
-  assert.equal(clearRow.status, 'clear');
-  assert.equal(failedRow.status, 'failed');
+  // CL-CI-36: the scheduled refresh slides the 8-day window every run, so
+  // the clear/failed exemplars are DERIVED from the current artifact (a
+  // place carrying one suitable day and one suitable-empty day) instead of
+  // pinned place+date strings — the lookup semantics stay hard-asserted.
+  let pair = null;
+  for (const [pid, days] of Object.entries(artifact.places)) {
+    const posDate = Object.keys(days).find(dt => (days[dt].suitable || []).length);
+    const empDate = Object.keys(days).find(dt => !(days[dt].suitable || []).length);
+    if (posDate && empDate) { pair = [pid, posDate, empDate]; break; }
+  }
+  assert.ok(pair, 'the artifact carries a place with differing days');
+  const [pid, posDate, empDate] = pair;
+  const clearRow = h.v2SubjectCardRow(pid, posDate);
+  const failedRow = h.v2SubjectCardRow(pid, empDate);
+  assert.ok(clearRow, 'suitable day row exists');
+  assert.ok(failedRow, 'suitable-empty day row exists');
   assert.ok(clearRow.suitable.length > 0 && failedRow.suitable.length === 0,
     'the two dates really differ');
-  assert.equal(h.v2SubjectCardRow('jp-003', '1999-01-01'), null);
-  assert.equal(h.v2SubjectCardRow('no-such-place', '2026-11-13'), null);
+  assert.equal(h.v2SubjectCardRow(pid, '1999-01-01'), null);
+  assert.equal(h.v2SubjectCardRow('no-such-place', posDate), null);
   // The card render keys the lookup on the selected day's own local_date (the
   // same anchor as the verdict), so a date switch re-resolves the row.
   assert.match(createSpotCardBlock,
