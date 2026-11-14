@@ -3047,6 +3047,11 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     // cells (horizontally scrollable at 390px) so no text ever reflows into a
     // one-character-per-line vertical column; the full unabbreviated segments
     // stay on the card and modal rows (compactHourSegmentsText is strip-only).
+    // CL-UI-88 (owner defect fix, DESIGN-3a): the slot string is NEVER
+    // ellipsis-truncated — cells are content-sized (the box widens to its
+    // text, the row slides) and the full unabbreviated segments ride the cell
+    // tooltip beside the aria-label parity copy. The selected-date cell
+    // carries .sel so the strip can center it.
     function v2DayStripHtml(days,labels,tz,spot,genre,opportunityId){
       const cells=(days||[]).map((day,i)=>{
         const cls=day.state==='GUIDANCE_SATISFIED'?'v2-ok':day.state==='NOT_EVALUABLE'?'v2-unk':'v2-bad';
@@ -3062,7 +3067,8 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
           :(reason?`${title} ${lab}·${reason}`:`${title} ${lab}`);
         const hoursBadge=(day.state==='GUIDANCE_SATISFIED')?`<span class="v2-strip-hours">✓${hours}</span>`:'';
         const text=(day.state==='GUIDANCE_SATISFIED')?goodList:(reason?`✗${reason}`:lab);
-        return `<button type="button" class="v2-strip-cell ${cls}" data-idx="${i}" data-label="${esc(title)}" data-verdict="${esc(lab)}" data-reason="${esc(reason)}" data-hours="${hours}" aria-label="${esc(aria)}"><span class="v2-strip-day">${esc(title)}</span>${hoursBadge}<span class="v2-strip-text">${esc(text)}</span></button>`;
+        const sel=(i===selectedDayOffset())?' sel':'';
+        return `<button type="button" class="v2-strip-cell ${cls}${sel}" data-idx="${i}" data-label="${esc(title)}" data-verdict="${esc(lab)}" data-reason="${esc(reason)}" data-hours="${hours}" title="${esc(aria)}" aria-label="${esc(aria)}"><span class="v2-strip-day">${esc(title)}</span>${hoursBadge}<span class="v2-strip-text">${esc(text)}</span></button>`;
       }).join('');
       return `<div class="v2-day-strip" role="group">${cells}</div>`;
     }
@@ -3071,6 +3077,58 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     // dominant short reason word. No long sentences at this level. A missing
     // subject-card row falls back to the evaluation bundle's best opportunity;
     // when nothing is known it degrades to the honest v2_quick_none line.
+    // CL-UI-88 (DESIGN-3a, copied from mockup-detail.html): drag-to-scroll with
+    // inertia for the day strips — mouse/pen only (touch keeps native pan), a
+    // 5px threshold before the drag engages, click capture so a drag never
+    // mis-fires the day tap, and velocity decay after release.
+    function initDragScroll(el){
+      if(!el||el._dragInit)return;el._dragInit=true;
+      let down=false,moved=false,startX=0,startSL=0,lastX=0,lastT=0,vel=0,raf=0;
+      el.addEventListener('pointerdown',e=>{
+        if(e.button!==0||(e.pointerType!=='mouse'&&e.pointerType!=='pen'))return;
+        down=true;moved=false;startX=lastX=e.clientX;startSL=el.scrollLeft;
+        lastT=performance.now();vel=0;cancelAnimationFrame(raf);el.classList.add('dragging');
+      });
+      window.addEventListener('pointermove',e=>{
+        if(!down)return;
+        if(!moved&&Math.abs(e.clientX-startX)<5)return;
+        if(!moved){moved=true;el.style.scrollSnapType='none';}
+        e.preventDefault();
+        el.scrollLeft=startSL-(e.clientX-startX);
+        const now=performance.now(),dt=(now-lastT)||16;
+        vel=(e.clientX-lastX)/dt;lastX=e.clientX;lastT=now;
+      },{passive:false});
+      window.addEventListener('pointerup',()=>{
+        if(!down)return;down=false;el.classList.remove('dragging');
+        if(!moved)return;
+        let v=-vel; // px/ms，續滑方向＝拖曳方向
+        if(Math.abs(v)>0.02){
+          const step=()=>{
+            el.scrollLeft+=v*16;v*=0.95;
+            const max=el.scrollWidth-el.clientWidth;
+            if(Math.abs(v)>0.05&&el.scrollLeft>0&&el.scrollLeft<max){raf=requestAnimationFrame(step);}
+            else{el.style.scrollSnapType='';}
+          };
+          raf=requestAnimationFrame(step);
+        }else{el.style.scrollSnapType='';}
+      });
+      el.addEventListener('click',e=>{ // 拖曳後不誤觸日期點選
+        if(moved){e.preventDefault();e.stopPropagation();moved=false;}
+      },true);
+    }
+    // CL-UI-88 (DESIGN-3a): the selected (today) day cell starts scrolled into
+    // the visible center of its strip; re-checked after the modal max-width
+    // transition settles (0.25s).
+    function centerSel(el){
+      if(!el)return;const c=el.querySelector('.sel');if(!c)return;
+      const apply=()=>{
+        const rel=c.getBoundingClientRect().left-el.getBoundingClientRect().left+el.scrollLeft;
+        const target=rel-(el.clientWidth-c.offsetWidth)/2;
+        el.scrollLeft=Math.max(0,Math.min(target,el.scrollWidth-el.clientWidth));
+      };
+      apply();
+      setTimeout(apply,320); // 待 max-width 轉場（.25s）結束後再校正一次
+    }
     function v2QuickViewHtml(spot,place){
       const t=d();
       const row=v2SubjectCardRow(spot&&spot.spot_id,localDateString((spot&&spot.timezone)||'UTC',selectedDayOffset()));
@@ -3275,6 +3333,11 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         if(quickHost){
           const qPlace=bundle?((bundle.places||[]).find(p=>p.place_id===spot.spot_id)||null):null;
           quickHost.innerHTML=bundle?v2QuickViewHtml(spot,qPlace):`<span class="quick-none">${esc(d().eval2_load_fail)}</span>`;
+          // CL-UI-88 (mockup-detail): the quick-view panel carries the tier
+          // semantics — green panel when the day has a recommendation, the
+          // neutral panel when it honestly reports a miss / no data.
+          const qsec=quickHost.closest('.place-quick-view');
+          if(qsec)qsec.classList.toggle('quick-ok',!/(quick-miss|quick-none)/.test(quickHost.innerHTML));
         }
         nodes.forEach(el=>{
           if(!document.getElementById('place-modal-body').contains(el))return;
@@ -3294,6 +3357,11 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
           const dayHtml=v2DayStripHtml(days,labels,spot.timezone,spot,opp.genre_template||'',opp.opportunity_id);
           el.innerHTML=`<div class="v2-eval-block">${dayHtml}</div>`;
           // CL-UI-68: the cell text IS the info — no click-to-reveal note line.
+          // CL-UI-88 (DESIGN-3a): every subject block owns ONE date row — each
+          // strip is wired as an independent drag-scrollable row and the
+          // selected date starts centered inside it.
+          const strip=el.querySelector('.v2-day-strip');
+          if(strip){initDragScroll(strip);centerSel(strip);}
           decorateV2CondLive(spot,el);
         });
       });

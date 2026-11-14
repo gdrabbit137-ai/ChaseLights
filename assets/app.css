@@ -2322,42 +2322,50 @@
 .quick-window{color:var(--cl-text-2)}
 .quick-miss{color:var(--cl-red);font-weight:600}
 .quick-none{color:var(--cl-text-3)}
-/* CL-UI-75: the strip stays ONE horizontal row of fixed-width cells — narrow
-   viewports scroll it horizontally instead of wrapping cells into a vertical
-   narrow column. No wrap, ever. */
-.v2-day-strip{display:flex;flex-wrap:nowrap;gap:var(--cl-sp-1);margin:6px 0 2px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+/* CL-UI-75: the strip stays ONE horizontal row — narrow viewports scroll it
+   horizontally instead of wrapping cells into a vertical narrow column. No
+   wrap, ever. */
+/* CL-UI-88 (owner defect fix, DESIGN-3a — mockup-detail.html verbatim): the
+   date row is an overflow-x scroll strip at EVERY width — hidden scrollbar,
+   two-side 8px gradient fade hints that the row slides, drag-to-scroll with
+   inertia (initDragScroll), overscroll contained inside the modal. The strip
+   is PER SUBJECT BLOCK: each 題材區塊 owns one row that scrolls independently. */
+.v2-day-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(min-content,max-content);justify-content:flex-start;gap:6px;margin:6px 0 2px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain;cursor:grab;
+  -webkit-mask-image:linear-gradient(90deg,transparent,var(--cl-ink) 8px,var(--cl-ink) calc(100% - 8px),transparent);
+  mask-image:linear-gradient(90deg,transparent,var(--cl-ink) 8px,var(--cl-ink) calc(100% - 8px),transparent)}
 .v2-day-strip::-webkit-scrollbar{display:none}
+.v2-day-strip.dragging{cursor:grabbing}
 /* CL-UI-68: text-in-cell boxes — day label + verdict/segment text inside the
    cell; the verdict also tints the border/text so the color meaning survives
    without hover.
-   CL-UI-75: cells are fixed-width columns whose text never re-wraps into a
+   CL-UI-75: cells are one-line columns whose text never re-wraps into a
    one-character-per-line vertical column — the compact cell copy (✓n badge,
-   ✗short-reason, abbreviated 06–14 window) is sized to fit. */
-.v2-strip-cell{flex:0 0 auto;width:46px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 3px;border:1px solid color-mix(in srgb, var(--cl-text-1) 14%, transparent);border-radius:var(--cl-r-xs);background:color-mix(in srgb, var(--cl-text-1) 3%, transparent);cursor:pointer;color:var(--cl-text-2);font-size:.68rem;font-family:inherit;text-align:center}
-/* CL-UI-76: desktop (>=768px) cells size to their content — the 46px fixed
-   width is the 390px-first compact tier (CL-UI-75) and truncates
-   「今天 ✓9 06:00 0」 on wide viewports. Desktop keeps the one-line layout
-   with a 90px-min content-sized cell; the abbreviated window text displays
-   in full. Mobile (<768px) keeps the 46px horizontal-scroll tier untouched.
-   CL-UI-79: the desktop tier becomes a max-content GRID — every column is at
-   least 90px and grows to its text's max-content width, so a cell can never
-   be narrower than its own text (no ellipsis, no overlapping 「1114」 day
-   labels, no clipped 「06:00–11:00」 windows). If the 8 content-sized columns
-   plus gaps ever exceed the modal body (narrow desktop 768–1080px), the
-   strip scrolls horizontally — shrinking the type is the next fallback,
-   never clipping. With the CL-UI-79 1080px modal the heaviest 8-cell strip
-   fits without scrolling. */
+   ✗short-reason, abbreviated 06–14 window) is sized to fit.
+   CL-UI-88 (owner defect fix): the slot string is NEVER truncated — no
+   ellipsis at any width; the cell's min-width is content-driven (grid
+   min-content columns), so the box WIDENS when a slot string does not fit
+   and the row slides instead of clipping the right edge. */
+.v2-strip-cell{width:auto;min-width:0;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:2px;padding:4px 8px;min-height:46px;border:1px solid color-mix(in srgb, var(--cl-text-1) 14%, transparent);border-radius:var(--cl-r-xs);background:color-mix(in srgb, var(--cl-text-1) 3%, transparent);cursor:pointer;color:var(--cl-text-2);font-size:.72rem;font-family:inherit;text-align:left}
+/* CL-UI-88 (mockup-detail n2a): the selected (today) date cell keeps the
+   mockup's outline selection mark. */
+.v2-strip-cell.sel{outline:2px solid var(--cl-text-1);outline-offset:-2px}
+/* CL-UI-76: desktop (>=768px) columns keep a 90px-min content-sized tier —
+   the 390px-first compact typography stays the smaller tier. The max-content
+   grid (CL-UI-79) means a cell can never be narrower than its own text (no
+   ellipsis, no overlapping day labels, no clipped windows); when the columns
+   exceed the modal body the strip scrolls horizontally — shrinking the type
+   is the next fallback, never clipping. */
 @media (min-width:768px){
   .v2-day-strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(90px,max-content);justify-content:space-between}
   .v2-strip-cell{width:auto;min-width:90px;padding:5px 8px;font-size:.72rem;gap:3px}
-  .v2-strip-day{overflow:visible;text-overflow:clip}
-  .v2-strip-text{overflow:visible;text-overflow:clip}
 }
 .v2-strip-cell.v2-ok{border-color:color-mix(in srgb, var(--cl-green) 55%, transparent)}
 .v2-strip-cell.v2-bad{border-color:color-mix(in srgb, var(--cl-red) 55%, transparent)}
 .v2-strip-cell.v2-unk{border-color:color-mix(in srgb, var(--cl-amber) 55%, transparent)}
-.v2-strip-day{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.v2-strip-text{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+/* CL-UI-88 (owner defect fix): no ellipsis on the in-cell copy at ANY width —
+   the box widens to the text (max-content columns) instead of clipping. */
+.v2-strip-day{white-space:nowrap}
+.v2-strip-text{white-space:nowrap;line-height:1.25}
 .v2-strip-hours{font-weight:600;letter-spacing:.02em;color:inherit}
 .v2-strip-cell.v2-ok .v2-strip-text{color:var(--cl-green-text)}
 .v2-strip-cell.v2-bad .v2-strip-text{color:var(--cl-red-text)}
@@ -2370,17 +2378,31 @@
 .v2-cond-details .v2-conditions{margin-top:6px}
 .place-hourly-link{display:inline-block;margin-top:var(--cl-sp-3);padding:0;background:none;border:none;font-family:inherit;color:var(--cl-blue);text-decoration:none;font-size:.85rem;cursor:pointer}
 .place-hourly-link:hover{text-decoration:underline}
+/* CL-UI-88 (mockup-detail quick panel): the 今日速覽 panel carries the tier
+   semantics — green panel when the selected date has a recommendation. */
+.place-quick-view.quick-ok{background:color-mix(in srgb, var(--cl-green) 10%, transparent);border-color:color-mix(in srgb, var(--cl-green) 55%, transparent)}
+.place-quick-view.quick-ok .place-guide-section-title{color:var(--cl-green-text)}
 @media (max-width:390px){
-  /* CL-UI-75: at 390px the strip stays ONE horizontal row of fixed-width
-     cells — the overflow scrolls horizontally and no text ever re-wraps
-     into a one-character-per-line vertical column (the old wrap-at-76px
-     tier is retired). Cells keep the 46px width so the honest 資料不足
-     label is never ellipsized away. */
+  /* CL-UI-75: at 390px the strip stays ONE horizontal row — the overflow
+     scrolls horizontally and no text ever re-wraps into a one-character-per-
+     line vertical column.
+     CL-UI-88: cells are content-sized at 390 too — a slot string that does
+     not fit WIDENS its box and the row slides (fade hints both edges); the
+     smaller type is the only compactness tier left. */
   .v2-day-strip{gap:3px}
-  .v2-strip-cell{font-size:.62rem;padding:2px 1px;gap:2px}
+  .v2-strip-cell{font-size:.62rem;padding:3px 5px;gap:2px}
   .v2-strip-text{line-height:1.3}
   .quick-view-body{font-size:.8rem}
   .quick-chip{padding:2px 8px}
+}
+/* CL-UI-88 (mockup-detail n4b): ≤480px the detail modal goes full-screen —
+   inset 0, radius 0, close button a 44×44 touch target (DR1 390 節奏表).
+   Scoped to the place-detail modal so the other modals keep their pinned
+   640px-tier behavior. */
+@media (max-width:480px){
+  .modal-overlay:has(> .modal.place-guide-modal){padding:0}
+  .modal.place-guide-modal{max-width:none;width:100%;height:100dvh;max-height:100dvh;margin:0;border-radius:0}
+  .place-guide-modal .close-btn{width:44px;height:44px}
 }
 /* CL-UI-66: list status-tier tabs ([✓推薦/○可拍/✗不宜/全部] with live
    counts) and the horizontally scrollable subject-chip strip below them.
