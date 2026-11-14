@@ -256,8 +256,10 @@ test('CL-UI-61 (4): page end-to-end on the real routes — signed-in boot, quick
     assert.equal(pg.state.rules[0].place_id, 'tw-001');
 
     // Toggle off → PATCH /api/v1/notify/rules/<id>.
+    // CL-UI-90 re-anchor: the toggle is now a mockup switch BUTTON — the
+    // handler reads the next state from the .rem-on class on the click target.
     const row = { getAttribute: (k) => (k === 'data-rule-id' ? pg.state.rules[0].id : null) };
-    el('rem-list')._handlers.change[0]({ target: { matches: (s) => s === '[data-rem-toggle]', checked: false, closest: () => row } });
+    el('rem-list')._handlers.click[0]({ target: { matches: (s) => s === '[data-rem-toggle]', classList: { contains: (c) => c === 'rem-on' }, closest: () => row } });
     assert.ok(await waitFor(() => log.some((l) => l.startsWith('PATCH /api/v1/notify/rules/'))), 'toggle PATCHed the real per-rule route');
     assert.ok(await waitFor(() => pg.state.rules[0] && pg.state.rules[0].enabled === 0));
 
