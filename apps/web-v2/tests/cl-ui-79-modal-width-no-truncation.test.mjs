@@ -52,14 +52,15 @@ test('CL-UI-79 (1): source contract — 1180px modal, max-content grid strip, mo
   const desk = cssSource.slice(cssSource.indexOf('@media (min-width:768px){'), mediaEnd + 1);
   assert.match(desk, /\.v2-day-strip\{display:grid;grid-auto-flow:column;grid-auto-columns:minmax\(90px,max-content\);justify-content:space-between\}/);
   assert.doesNotMatch(desk, /text-overflow:ellipsis/);
-  // Mobile 46px tier untouched (CL-UI-75).
-  assert.match(cssSource, /\.v2-strip-cell\{[^}]*flex:0 0 auto[^}]*width:46px[^}]*box-sizing:border-box/);
+  // CL-UI-88 re-anchor (owner defect fix): the mobile 46px fixed-width tier is
+  // retired — cells are content-sized at every width (no ellipsis ever).
+  assert.match(cssSource, /\.v2-strip-cell\{[^}]*width:auto;min-width:0[^}]*box-sizing:border-box/);
   // Hourly control never navigates away (owner follow-up ruling).
   assert.doesNotMatch(appSource, /<a class="place-hourly-link"/);
   assert.match(appSource, /id="place-hourly-btn"/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui92/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui92/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui93/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui93/);
 });
 
 // ---- (2) real-browser probe: 1280 / 1024 / 768 / 390 ------------------------
@@ -218,8 +219,9 @@ for (const vp of [{name: '1280px', w: 1280, h: 900, mobile: false, minModal: 100
       assert.ok(probe.modalWidth >= vp.minModal, `${vp.name}: modal width ${probe.modalWidth}px >= ${vp.minModal}px`);
       assert.ok(probe.minCell >= 90, `desktop cells >=90px (min ${probe.minCell}px)`);
     } else {
-      assert.equal(probe.minCell, 46, 'mobile keeps the exact 46px fixed width');
-      assert.equal(probe.maxCell, 46, 'mobile keeps the exact 46px fixed width');
+      // CL-UI-88 re-anchor: mobile cells are content-sized — the box widens
+      // to its text instead of ellipsizing it.
+      assert.ok(probe.minCell >= 30, `mobile cells are content-sized, never squeezed (min ${probe.minCell}px)`);
     }
     console.log(vp.shot + ' probe: ' + JSON.stringify(probe));
     const shot = await send('Page.captureScreenshot', {format: 'png'});

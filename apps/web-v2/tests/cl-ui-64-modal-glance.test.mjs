@@ -156,7 +156,11 @@ test('CL-UI-68 (3): 8-day strip — info written INSIDE the cell (two lines), no
     'unmet cell text: ✗short reason');
   assert.ok(html.includes('<span class="v2-strip-text">資料不足</span>'),
     'unknown cell text: the honest label');
-  assert.ok(!html.includes('title='), 'no title attribute — hover is not the information carrier');
+  // CL-UI-88 re-anchor (owner defect fix): the cell keeps the compact copy
+  // visible and the FULL wording rides the tooltip (title=) beside the
+  // aria-label parity copy — hover is supplementary, never the only carrier.
+  assert.ok(html.includes('title='), 'the full segments ride the cell tooltip');
+  assert.ok(html.includes('aria-label='), 'aria parity copy intact');
   assert.ok(!html.includes('v2-strip-note') && !html.includes('v2-strip-bar'),
     'click-to-reveal note and bare color bar retired');
   assert.ok(!html.includes('🎯') && !html.includes('v2-strip-next'),
@@ -211,18 +215,26 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
     '.v2-cond-details[open]', '.place-hourly-link']) {
     assert.ok(appCss.includes(cls), 'css missing ' + cls);
   }
-  // CL-UI-75: the strip is ONE horizontal row of fixed-width cells that
-  // scrolls horizontally at 390px — no wrap tier, no vertical one-char
-  // reflow; the 🎯 badge CSS is retired with the badge.
+  // CL-UI-75: the strip is ONE horizontal row of cells that scrolls
+  // horizontally at 390px — no wrap tier, no vertical one-char reflow; the
+  // 🎯 badge CSS is retired with the badge.
+  // CL-UI-88 re-anchor (owner defect fix): the fixed 46px cell + in-cell
+  // ellipsis tier is retired — cells are content-sized and the slot string
+  // is never truncated at any width.
   assert.ok(appCss.includes('@media (max-width:390px)'), '390px tier present');
   assert.ok(!appCss.includes('.v2-strip-bar') && !appCss.includes('.v2-strip-note'),
     'bare bar / note CSS retired');
   assert.ok(!appCss.includes('.v2-strip-next') && !appCss.includes('🎯'),
     'CL-UI-75: next-window badge CSS retired');
-  assert.match(appCss, /\.v2-day-strip\{[^}]*flex-wrap:nowrap/);
+  assert.match(appCss, /\.v2-day-strip\{[^}]*grid-auto-flow:column/);
   assert.match(appCss, /\.v2-day-strip\{[^}]*overflow-x:auto/);
-  assert.match(appCss, /\.v2-strip-cell\{[^}]*width:46px[^}]*box-sizing:border-box/);
-  assert.match(appCss, /\.v2-strip-text\{[^}]*white-space:nowrap[^}]*text-overflow:ellipsis/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui92/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui92/);
+  assert.ok(!/(?<!min-)width:46px/.test(appCss), 'CL-UI-88: the fixed 46px cell tier is retired');
+  const stripTextRule = appCss.match(/\.v2-strip-text\{[^}]*\}/g) || [];
+  assert.ok(stripTextRule.length >= 1, '.v2-strip-text rule present');
+  for (const rule of stripTextRule) {
+    assert.ok(!rule.includes('text-overflow:ellipsis') && !rule.includes('overflow:hidden'),
+      'CL-UI-88: the slot string is never ellipsis-truncated: ' + rule);
+  }
+  assert.match(indexSource, /assets\/app\.js\?v=clui93/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui93/);
 });

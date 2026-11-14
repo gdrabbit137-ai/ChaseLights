@@ -97,29 +97,42 @@ test('CL-UI-75 (2): compact cell copy — ✓n badge / ✗short-reason / abbrevi
   // Unmet: ✗short-reason. Unknown: the honest label.
   assert.ok(cells[1].includes('<span class="v2-strip-text">✗低雲</span>'), 'unmet cell: ✗short-reason');
   assert.ok(cells[2].includes('<span class="v2-strip-text">資料不足</span>'), 'unknown cell: honest label');
-  // No badge, no hover carrier anywhere.
-  assert.ok(!html.includes('🎯') && !html.includes('v2-strip-next') && !html.includes('title='));
+  // No badge anywhere.
+  assert.ok(!html.includes('🎯') && !html.includes('v2-strip-next'));
+  // CL-UI-88 re-anchor (owner defect fix): the CL-UI-68 「no title= carrier」
+  // ruling was scoped to the bare color bar; the content-sized cell keeps the
+  // compact copy visible and the FULL unabbreviated wording rides the cell
+  // tooltip beside the aria-label parity copy.
+  assert.ok(html.includes('title="今天 符合時數 8 · 06:00–13:00"'),
+    'CL-UI-88: the full segments ride the cell tooltip');
   // aria-label keeps the FULL unabbreviated wording (screen-reader parity).
   assert.match(html, /aria-label="今天 符合時數 8 · 06:00–13:00"/);
   assert.match(html, /aria-label="明天 未符·低雲"/);
 });
 
-test('CL-UI-75 (3): strip layout CSS — one horizontal row, fixed-width cells, no wrap tier', () => {
-  assert.match(cssSource, /\.v2-day-strip\{[^}]*flex-wrap:nowrap/);
+test('CL-UI-75 (3): strip layout CSS — one horizontal row, no wrap tier', () => {
+  // CL-UI-88 re-anchor (owner defect fix): the fixed-width 46px cell tier and
+  // the in-cell ellipsis are retired — the strip is a max-content grid whose
+  // cells widen to their text and whose row slides (overflow-x + fade hints).
+  assert.match(cssSource, /\.v2-day-strip\{[^}]*grid-auto-flow:column/);
   assert.match(cssSource, /\.v2-day-strip\{[^}]*overflow-x:auto/);
-  assert.match(cssSource, /\.v2-strip-cell\{[^}]*flex:0 0 auto[^}]*width:46px[^}]*box-sizing:border-box/);
-  assert.match(cssSource, /\.v2-strip-text\{[^}]*white-space:nowrap[^}]*text-overflow:ellipsis/);
+  assert.ok(!/(?<!min-)width:46px/.test(cssSource), 'the fixed 46px cell tier is retired');
+  const stripTextRule = cssSource.match(/\.v2-strip-text\{[^}]*\}/g) || [];
+  for (const rule of stripTextRule) {
+    assert.ok(!rule.includes('text-overflow:ellipsis') && !rule.includes('overflow:hidden'),
+      'the slot string is never ellipsis-truncated: ' + rule);
+  }
   // The old wrap tier and the one-char-per-line reflow rule are gone.
   assert.ok(!cssSource.includes('flex:1 1 76px'), 'the 76px wrap tier is retired');
   assert.ok(!/\.v2-strip-text\{[^}]*overflow-wrap:anywhere/.test(cssSource),
     'overflow-wrap:anywhere was the one-character-per-line reflow rule');
-  // 390px tier: cells keep the 46px width (the honest 資料不足 label must
-  // never ellipsize) and only shrink type/padding; no wrap tier, ever.
+  // 390px tier: cells only shrink type/padding — width stays content-driven
+  // (a slot string that does not fit widens its box); no wrap tier, ever.
   const mobile = cssSource.slice(cssSource.indexOf('@media (max-width:390px)'), cssSource.indexOf('@media (max-width:390px)') + 600);
-  assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:2px 1px;gap:2px\}/);
+  assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:3px 5px;gap:2px\}/);
   assert.doesNotMatch(mobile, /flex:1 1/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui92/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui92/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui93/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui93/);
 });
 
 // ---- (4) real-browser probe: 390px and desktop -------------------------------
@@ -272,23 +285,19 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true, shot: 'cl
     assert.equal(probe.error, undefined, 'strip rendered');
     assert.equal(probe.cells, 8, 'all 8 day cells present');
     assert.equal(probe.oneRow, true, 'every cell sits on ONE row — no wrap into a vertical column');
-    assert.equal(probe.sameWidth, true, 'fixed-width cells');
-    // CL-UI-76: desktop cells are content-sized (90–110px); the fixed-width
-    // cap stays a MOBILE-only contract (<768px keeps CL-UI-75's 46px cells).
-    if (vp.w >= 768) {
-      assert.ok(probe.maxWidth >= 90 && probe.maxWidth <= 110, `desktop cells are content-sized 90–110px (got ${probe.maxWidth}px, CL-UI-76)`);
-    } else {
-      assert.ok(probe.maxWidth <= 60, `mobile cell width stays fixed (got ${probe.maxWidth}px)`);
-    }
+    // CL-UI-88 re-anchor: cells are content-sized — each box widens to its
+    // own text, so widths are no longer uniform by design; the hard contract
+    // is zero truncation + one row + single-line copy.
+    assert.ok(probe.maxWidth >= 46, `cells keep a comfortable touch width (min ${probe.maxWidth}px)`);
     assert.ok(probe.maxTextHeight <= 20, `no one-character-per-line squeeze: text stays single-line (got ${probe.maxTextHeight}px)`);
     assert.equal(probe.anyBadge, false, 'no 🎯 badge in the rendered strip');
     assert.equal(probe.firstBadge, '✓8', 'badge-form hours on the met cell');
     assert.equal(probe.firstText, '06–13', 'abbreviated window');
     console.log(vp.shot + ' probe: ' + JSON.stringify(probe));
-    // CL-UI-75: at 390px the eight fixed-width cells may exceed the container —
-    // the owner ruling sanctions horizontal scrolling there; the hard contract
-    // is ONE row + no vertical squeeze, which holds either way.
-    assert.ok(probe.scrollW >= probe.stripW, 'cells laid out at their fixed width');
+    // CL-UI-75/88: at 390px the eight content-sized cells may exceed the
+    // container — the strip slides horizontally (fade hints + drag); the hard
+    // contract is ONE row + no vertical squeeze + zero truncation.
+    assert.ok(probe.scrollW >= probe.stripW, 'cells laid out at their content width');
     // Visual evidence screenshot (not committed).
     const shot = await send('Page.captureScreenshot', {format: 'png'});
     screenshotPath = process.env.CLUI75_SHOT_DIR || tmpdir();

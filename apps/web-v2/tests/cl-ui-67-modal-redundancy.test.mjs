@@ -84,7 +84,10 @@ test('CL-UI-67 (4): compact strip cells — no 🎯 next-window badge anywhere (
   assert.ok(!html.includes('下一個符合時段') && !html.includes('🎯'),
     'the next-window badge is retired at every breakpoint');
   assert.ok(!html.includes('v2-strip-next'),'no badge span anywhere in the strip');
-  assert.ok(!html.includes('title='),'no hover title information carrier');
+  // CL-UI-88 re-anchor (owner defect fix): the compact copy stays visible and
+  // the FULL wording rides the cell tooltip (title=) beside the aria parity
+  // copy — hover is supplementary, never the only carrier.
+  assert.ok(html.includes('title='),'the full segments ride the cell tooltip');
   // aria-label keeps the FULL qualifying-hours wording (screen-reader parity).
   assert.match(html,/aria-label="明天 符合時數 1 · 17:00"/);
   // In-cell text is compact: met = ✓n hours badge + abbreviated window;
@@ -100,6 +103,6 @@ test('CL-UI-67 (4): compact strip cells — no 🎯 next-window badge anywhere (
 
 test('CL-UI-67 (5): cache-bust stamp bumped for the edited app.js/app.css',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui92/);
-  assert.match(index,/assets\/app\.css\?v=clui92/);
+  assert.match(index,/assets\/app\.js\?v=clui93/);
+  assert.match(index,/assets\/app\.css\?v=clui93/);
 });

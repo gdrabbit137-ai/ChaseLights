@@ -33,9 +33,11 @@ const grab = (start, end) => {
   return appSource.slice(a, b);
 };
 
-test('CL-UI-76 (1): desktop tier CSS — content-sized cells 90–110px, mobile 46px untouched', () => {
-  // The base (mobile <768px) rule keeps the CL-UI-75 fixed 46px width.
-  assert.match(cssSource, /\.v2-strip-cell\{[^}]*flex:0 0 auto[^}]*width:46px[^}]*box-sizing:border-box/);
+test('CL-UI-76 (1): desktop tier CSS — content-sized cells, mobile content-sized too (CL-UI-88)', () => {
+  // CL-UI-88 re-anchor (owner defect fix): the base (mobile <768px) fixed
+  // 46px width is retired — cells are content-sized at EVERY width so the
+  // slot string is never ellipsis-truncated.
+  assert.match(cssSource, /\.v2-strip-cell\{[^}]*width:auto;min-width:0[^}]*box-sizing:border-box/);
   // Desktop tier: >=768px media query — max-content grid columns (90px min)
   // so a cell is never narrower than its own text (CL-UI-79).
   const deskStart = cssSource.indexOf('@media (min-width:768px){');
@@ -48,13 +50,14 @@ test('CL-UI-76 (1): desktop tier CSS — content-sized cells 90–110px, mobile 
   assert.doesNotMatch(desk, /flex-wrap:wrap/);
   assert.doesNotMatch(desk, /overflow-wrap:anywhere/);
   assert.doesNotMatch(desk, /text-overflow:ellipsis/);
-  // The 390px compact tier is unchanged (CL-UI-75's exact rules).
+  // The 390px compact tier shrinks type/padding only (CL-UI-88: width stays
+  // content-driven there too).
   const mobile = cssSource.slice(cssSource.indexOf('@media (max-width:390px)'), cssSource.indexOf('@media (max-width:390px)') + 600);
-  assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:2px 1px;gap:2px\}/);
+  assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:3px 5px;gap:2px\}/);
   assert.doesNotMatch(mobile, /min-width:90/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui92/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui92/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui93/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui93/);
 });
 
 // ---- (2) real-browser probe: desktop 1280px and mobile 390px ----------------
@@ -216,8 +219,9 @@ for (const vp of [{name: 'desktop 1280px', w: 1280, h: 900, mobile: false, shot:
       // text, so zero truncation is structural.
       assert.ok(probe.maxCell >= probe.minCell, 'cells stay content-sized');
     } else {
-      assert.equal(probe.minCell, 46, 'mobile keeps the exact 46px fixed width');
-      assert.equal(probe.maxCell, 46, 'mobile keeps the exact 46px fixed width');
+      // CL-UI-88 re-anchor: mobile cells are content-sized too — the box
+      // widens to its text instead of ellipsizing it.
+      assert.ok(probe.minCell >= 30, `mobile cells are content-sized, never squeezed (min ${probe.minCell}px)`);
     }
     console.log(vp.shot + ' probe: ' + JSON.stringify(probe));
     // Visual evidence screenshot (not committed).
