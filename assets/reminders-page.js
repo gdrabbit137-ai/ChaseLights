@@ -33,8 +33,8 @@
     'zh-TW': {
       page_title: '提醒清單', nav_cards: '卡片', nav_weathermap: '天氣圖', nav_reminders: '提醒',
       rem_list_title: '我的提醒',
-      rem_add_title: '快速增加提醒',
-      rem_add_btn: '🔔 加入提醒',
+      rem_add_title: '＋ 新增提醒',
+      rem_add_btn: '加入提醒',
       rem_added_btn: '已加入 ✓',
       rem_search_placeholder: '搜尋景點名稱或題材名稱…',
       rem_region_label: '地區', rem_place_label: '景點', rem_subject_label: '題材',
@@ -43,20 +43,29 @@
       rem_delete: '刪除',
       rem_login_prompt: '登入後即可管理你的拍攝提醒（條件符合時透過 APP 推播通知）。',
       rem_login_line: '使用 LINE 登入', rem_login_google: '使用 Google 登入',
-      rem_empty: '目前沒有提醒。用下方「快速增加提醒」新增第一筆。',
+      rem_empty: '還沒有提醒。選地區 → 景點 → 題材建立第一個拍攝提醒。',
       rem_loading: '正在載入提醒…',
       rem_saved: '已加入提醒，條件符合時將透過 APP 推播通知。',
       rem_removed: '已移除提醒。',
       rem_err: '提醒暫時無法同步，請稍後再試。',
       rem_limit: '提醒數量已達方案上限，請先移除部分提醒。',
       rem_any_subject: '該景點全部題材',
-      rem_no_match: '沒有符合的景點或題材。'
+      rem_no_match: '沒有符合的景點或題材。',
+      rem_next_label: '下次觸發', rem_paused_next: '暫停中',
+      rem_streak: '連續 {n} 日未符',
+      rem_next_estimate: '依目前評估推估', rem_no_window: '近期無符合時段',
+      rem_preview_first: '首次觸發', rem_preview_unknown: '待評估',
+      rem_found: '找到 {n} 個景點',
+      rem_empty_t: '還沒有提醒', rem_empty_d: '選地區 → 景點 → 題材建立第一個拍攝提醒，條件符合時會透過 APP 推播通知你。',
+      rem_empty_a: '建立提醒', rem_edit: '編輯',
+      rem_active_count: '{total} 個提醒 · {active} 個啟用中',
+      rem_flow_hint: '選地區 → 景點 → 題材，或直接搜尋景點名；符合時段前會透過 APP 推播通知。'
     },
     'en': {
       page_title: 'Reminders', nav_cards: 'Cards', nav_weathermap: 'Weather map', nav_reminders: 'Reminders',
       rem_list_title: 'My reminders',
-      rem_add_title: 'Quick add reminder',
-      rem_add_btn: '🔔 Add reminder',
+      rem_add_title: '＋ New reminder',
+      rem_add_btn: 'Add reminder',
       rem_added_btn: 'Added ✓',
       rem_search_placeholder: 'Search place or subject names…',
       rem_region_label: 'Region', rem_place_label: 'Place', rem_subject_label: 'Subject',
@@ -65,20 +74,29 @@
       rem_delete: 'Delete',
       rem_login_prompt: 'Sign in to manage your shooting reminders (notified via app push when conditions qualify).',
       rem_login_line: 'Sign in with LINE', rem_login_google: 'Sign in with Google',
-      rem_empty: 'No reminders yet. Use “Quick add reminder” below to create your first one.',
+      rem_empty: 'No reminders yet. Pick region → place → subject to create your first reminder.',
       rem_loading: 'Loading reminders…',
       rem_saved: 'Reminder added — you will be notified via app push when conditions qualify.',
       rem_removed: 'Reminder removed.',
       rem_err: 'Reminders could not be synced right now; please try again later.',
       rem_limit: 'Reminder limit reached for your plan — remove some reminders first.',
       rem_any_subject: 'All subjects at this place',
-      rem_no_match: 'No matching places or subjects.'
+      rem_no_match: 'No matching places or subjects.',
+      rem_next_label: 'Next trigger', rem_paused_next: 'Paused',
+      rem_streak: '{n} days unfit in a row',
+      rem_next_estimate: 'estimated from the current evaluation', rem_no_window: 'No fitting window soon',
+      rem_preview_first: 'First trigger', rem_preview_unknown: 'Pending evaluation',
+      rem_found: 'Found {n} places',
+      rem_empty_t: 'No reminders yet', rem_empty_d: 'Pick region → place → subject to create your first reminder — we notify via app push when conditions qualify.',
+      rem_empty_a: 'Create reminder', rem_edit: 'Edit',
+      rem_active_count: '{total} reminders · {active} active',
+      rem_flow_hint: 'Pick region → place → subject, or search directly; we notify via app push when conditions qualify.'
     },
     'ja': {
       page_title: 'リマインダー', nav_cards: 'カード', nav_weathermap: '天気マップ', nav_reminders: 'リマインダー',
       rem_list_title: 'リマインダー一覧',
-      rem_add_title: 'リマインダーをクイック追加',
-      rem_add_btn: '🔔 リマインダー追加',
+      rem_add_title: '＋ リマインド追加',
+      rem_add_btn: 'リマインドに追加',
       rem_added_btn: '追加済み ✓',
       rem_search_placeholder: 'スポット名や題材名を検索…',
       rem_region_label: '地域', rem_place_label: 'スポット', rem_subject_label: '題材',
@@ -87,14 +105,23 @@
       rem_delete: '削除',
       rem_login_prompt: 'ログインすると撮影リマインダーを管理できます（条件が揃うとアプリのプッシュ通知でお知らせします）。',
       rem_login_line: 'LINE でログイン', rem_login_google: 'Google でログイン',
-      rem_empty: 'リマインダーはまだありません。下の「クイック追加」で最初の1件を作成してください。',
+      rem_empty: 'リマインダーはまだありません。地域 → スポット → 題材を選んで最初の1件を作成してください。',
       rem_loading: 'リマインダーを読み込み中…',
       rem_saved: 'リマインダーを追加しました。条件が揃うとアプリのプッシュ通知でお知らせします。',
       rem_removed: 'リマインダーを削除しました。',
       rem_err: 'リマインダーを同期できませんでした。しばらくしてから再試行してください。',
       rem_limit: 'リマインダー数がプランの上限に達しました。先に一部を削除してください。',
       rem_any_subject: 'このスポットの全題材',
-      rem_no_match: '該当するスポットや題材がありません。'
+      rem_no_match: '該当するスポットや題材がありません。',
+      rem_next_label: '次回発火', rem_paused_next: '停止中',
+      rem_streak: '{n} 日連続で不適合',
+      rem_next_estimate: '現在の評価からの推定', rem_no_window: '近くに適合する時間帯なし',
+      rem_preview_first: '初回発火', rem_preview_unknown: '評価待ち',
+      rem_found: '{n} 件見つかりました',
+      rem_empty_t: 'リマインドはまだありません', rem_empty_d: '地域 → スポット → 題材を選んで最初のリマインドを作成。条件が揃うとアプリのプッシュ通知でお知らせします。',
+      rem_empty_a: 'リマインド作成', rem_edit: '編集',
+      rem_active_count: 'リマインド {total} 件・有効 {active} 件',
+      rem_flow_hint: '地域 → スポット → 題材を選ぶか、直接検索。条件が揃うとアプリのプッシュ通知でお知らせします。'
     }
   };
 
@@ -143,6 +170,83 @@
     var opps = place.opportunities || [];
     for (var i = 0; i < opps.length; i++) if (opps[i].opportunity_id === oppId) return opps[i];
     return null;
+  }
+
+  // ---- next-trigger / unfit-streak derivation (CL-UI-90 mockup anatomy) ----
+  // Pure client-side derivation from the SAME evaluations bundle the page
+  // already loads for the picker — no new API, no data-layer change.
+  // Next trigger = first future "good hour" of the rule's opportunity minus
+  // min_advance_hours (spot-local, displayed as M/D HH:MM). A rule without an
+  // explicit subject (opportunity_id empty) scans every opportunity at the
+  // place and takes the earliest fit.
+  function oppDays(place, oppId) {
+    if (oppId) { var o = findSubject(place, oppId); return o ? (o.days || []) : []; }
+    var out = [];
+    ((place && place.opportunities) || []).forEach(function (o) { (o.days || []).forEach(function (d) { out.push(d); }); });
+    return out;
+  }
+  function localNow(place, nowMs) {
+    var off = 0;
+    if (place && place.timezone_display && typeof place.timezone_display.utc_offset_hours === 'number') {
+      off = place.timezone_display.utc_offset_hours * 3600000;
+    }
+    return new Date((nowMs == null ? Date.now() : nowMs) + off);
+  }
+  function findNextTrigger(place, oppId, advanceHours, nowMs) {
+    var days = oppDays(place, oppId);
+    if (!days.length) return null;
+    var now = localNow(place, nowMs);
+    var nowKey = now.toISOString().slice(0, 10) + 'T' + now.toISOString().slice(11, 16);
+    var best = null; // {date, hour, atMs} earliest future good hour
+    days.forEach(function (d) {
+      (d.good_hours || []).forEach(function (h) {
+        var key = d.local_date + 'T' + h;
+        if (key <= nowKey) return;
+        var atMs = Date.parse(d.local_date + 'T' + h + ':00Z');
+        if (best === null || atMs < best.atMs) best = { local_date: d.local_date, hour: h, atMs: atMs };
+      });
+    });
+    if (best === null) return null;
+    var adv = (advanceHours == null ? 24 : advanceHours) * 3600000;
+    var trig = new Date(best.atMs - adv);
+    return {
+      date: best.local_date, hour: best.hour,
+      label: pad2(trig.getUTCMonth() + 1) + '/' + pad2(trig.getUTCDate()) + ' ' + pad2(trig.getUTCHours()) + ':' + pad2(trig.getUTCMinutes())
+    };
+  }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  // Consecutive unfit days counted from the start of the bundle window
+  // (earliest first), stopping at today — the amber 「該複核提醒」 cue.
+  function unfitStreak(place, oppId, nowMs) {
+    var days = oppDays(place, oppId);
+    if (!days.length) return 0;
+    var today = localNow(place, nowMs).toISOString().slice(0, 10);
+    var streak = 0;
+    for (var i = 0; i < days.length; i++) {
+      var d = days[i];
+      if (d.local_date > today) break;
+      if ((d.good_hours || []).length === 0) streak++;
+      else break;
+    }
+    return streak;
+  }
+  // Card status line: paused → grey 暫停中; amber streak (>=3 unfit days, no
+  // next window) → 該複核提醒 cue; else mono green next trigger; honest
+  // 「近期無符合時段」 fallback instead of a fabricated time.
+  function nextStatusHtml(rule) {
+    var on = !!rule.enabled;
+    var place = findPlace(state.catalog, rule.place_id);
+    if (!on) return '<span class="rem-next rem-next-off">' + esc(t('rem_paused_next')) + '</span>';
+    var streak = unfitStreak(place, rule.opportunity_id);
+    var next = findNextTrigger(place, rule.opportunity_id, rule.min_advance_hours);
+    if (!next && streak >= 3) {
+      return '<span class="rem-next rem-next-warn">' + esc(t('rem_streak').replace('{n}', String(streak))) + '</span>';
+    }
+    if (next) {
+      return '<span class="rem-next" title="' + esc(t('rem_next_estimate')) + '">' +
+        esc(t('rem_next_label')) + ' ' + esc(next.label) + '</span>';
+    }
+    return '<span class="rem-next">' + esc(t('rem_no_window')) + '</span>';
   }
 
   // ---- toast ----
@@ -214,20 +318,37 @@
   function renderList() {
     var list = document.getElementById('rem-list');
     var panel = document.getElementById('rem-list-panel');
+    var empty = document.getElementById('rem-empty');
     if (!state.signedIn) { panel.hidden = true; return; }
     panel.hidden = false;
-    document.getElementById('rem-list-title').textContent = t('rem_list_title') + '（' + state.rules.length + '）';
-    if (!state.rules.length) { list.innerHTML = '<p class="rem-state">' + esc(t('rem_empty')) + '</p>'; return; }
+    document.getElementById('rem-list-title').textContent = t('rem_list_title');
+    var active = state.rules.filter(function (r) { return !!r.enabled; }).length;
+    document.getElementById('rem-count').textContent = state.rules.length
+      ? t('rem_active_count').replace('{total}', String(state.rules.length)).replace('{active}', String(active))
+      : '';
+    empty.hidden = !!state.rules.length;
+    document.getElementById('rem-empty-title').textContent = t('rem_empty_t');
+    document.getElementById('rem-empty-desc').textContent = t('rem_empty_d');
+    document.getElementById('rem-empty-add').textContent = t('rem_empty_a');
+    if (!state.rules.length) { list.innerHTML = ''; return; }
     list.innerHTML = state.rules.map(function (rule) {
       var names = ruleLabel(rule);
       var on = !!rule.enabled;
-      return '<div class="rem-row" data-rule-id="' + esc(rule.id) + '">' +
-        '<div class="rem-names"><b>' + esc(names.placeName) + '</b>' +
-        '<span class="rem-sub">' + esc(names.subjName) + '</span></div>' +
-        '<span class="rem-meta">' + esc(t('rem_col_channel')) + ' · ' + esc(t('rem_col_advance').replace('{n}', String(rule.min_advance_hours != null ? rule.min_advance_hours : 24))) + '</span>' +
-        '<label class="rem-switch"><input type="checkbox" data-rem-toggle aria-label="' + esc(t('rem_enabled')) + '"' + (on ? ' checked' : '') + '> ' + esc(on ? t('rem_enabled') : t('rem_disabled')) + '</label>' +
+      var region = regionName(regionOfPlace(rule.place_id), state.lang);
+      return '<div class="rem-card' + (on ? '' : ' rem-off') + '" data-rule-id="' + esc(rule.id) + '">' +
+        '<div class="rem-main">' +
+        '<div class="rem-line1"><span class="rem-place">' + esc(names.placeName) + '</span>' +
+        '<span class="rem-subject-chip">' + esc(names.subjName) + '</span></div>' +
+        '<div class="rem-line2"><span class="rem-region">' + esc(region) + ' · ' + esc(t('rem_col_channel')) + ' · ' +
+        esc(t('rem_col_advance').replace('{n}', String(rule.min_advance_hours != null ? rule.min_advance_hours : 24))) + '</span>' +
+        nextStatusHtml(rule) +
+        '</div></div>' +
+        '<div class="rem-acts">' +
+        '<button type="button" class="rem-switch' + (on ? ' rem-on' : '') + '" data-rem-toggle role="switch"' +
+        ' aria-checked="' + (on ? 'true' : 'false') + '" aria-label="' + esc(on ? t('rem_enabled') : t('rem_disabled')) + '"></button>' +
+        '<button type="button" class="rem-edit-btn" data-rem-edit>' + esc(t('rem_edit')) + '</button>' +
         '<button type="button" class="rem-del" data-rem-delete>' + esc(t('rem_delete')) + '</button>' +
-        '</div>';
+        '</div></div>';
     }).join('');
   }
 
@@ -254,6 +375,7 @@
     document.getElementById('rem-add-title').textContent = t('rem_add_title');
     document.getElementById('rem-search').placeholder = t('rem_search_placeholder');
     document.getElementById('rem-add-submit').textContent = t('rem_add_btn');
+    document.getElementById('rem-flow-hint').textContent = t('rem_flow_hint');
 
     var regionSel = document.getElementById('rem-region');
     var prevRegion = regionSel.value || 'tw';
@@ -261,6 +383,28 @@
     renderPlaceOptions();
     renderSubjectOptions();
     renderSearchResults();
+    renderPreview();
+  }
+
+  // Add preview (mockup .preview): appears once a place is picked; the primary
+  // button stays disabled until then (no guessing the user's intent).
+  function renderPreview() {
+    var pv = document.getElementById('rem-preview');
+    var btn = document.getElementById('rem-add-submit');
+    if (!state.signedIn) { pv.hidden = true; return; }
+    var placeId = document.getElementById('rem-place').value;
+    var place = findPlace(state.catalog, placeId);
+    var oppId = document.getElementById('rem-subject').value;
+    var subjName = oppId
+      ? (function () { var s = findSubject(place, oppId); return s ? nameOf(s.name_i18n, state.lang) : oppId; })()
+      : t('rem_any_subject');
+    if (!place) { pv.hidden = true; btn.disabled = true; return; }
+    pv.hidden = false;
+    btn.disabled = false;
+    var placeName = nameOf(place.name_i18n, state.lang) || place.place_id;
+    var next = findNextTrigger(place, oppId || null, 24);
+    var when = next ? t('rem_preview_first') + ' ' + next.label : t('rem_preview_unknown');
+    document.getElementById('rem-preview-txt').textContent = placeName + ' · ' + subjName + ' · ' + when;
   }
 
   function placesForRegion(regionId) {
@@ -291,6 +435,10 @@
   function renderSearchResults() {
     var kw = document.getElementById('rem-search').value;
     var ul = document.getElementById('rem-results');
+    // Mockup contract: the hit list only appears once a keyword is typed —
+    // no 460-row dump on an empty input (the pure filterCatalog helper keeps
+    // its empty-keyword = full-catalog semantics for tests).
+    if (!String(kw || '').trim()) { ul.innerHTML = ''; return; }
     var matches = [];
     filterCatalog(state.catalog, kw, state.lang).forEach(function (m) {
       var opps = m.opportunities.length ? m.opportunities : (m.place.opportunities || []);
@@ -299,14 +447,19 @@
         matches.push({ place: m.place, opp: o });
       });
     });
-    if (!matches.length) { ul.innerHTML = '<li class="rem-rr-sub">' + esc(t('rem_no_match')) + '</li>'; return; }
+    if (!matches.length) { ul.innerHTML = '<li class="rem-rr-note">' + esc(t('rem_no_match')) + '</li>'; return; }
     var existing = {};
     state.rules.forEach(function (r) { existing[r.place_id + '|' + (r.opportunity_id || '')] = true; });
-    ul.innerHTML = matches.slice(0, 40).map(function (m) {
+    var hits = {};
+    matches.forEach(function (m) { hits[m.place.place_id] = true; });
+    var hitCount = Object.keys(hits).length;
+    var head = '<li class="rem-rr-note"><span class="rem-rr-hint">' +
+      esc(t('rem_found').replace('{n}', String(hitCount))) + '</span></li>';
+    ul.innerHTML = head + matches.slice(0, 40).map(function (m) {
       var key = m.place.place_id + '|' + (m.opp ? m.opp.opportunity_id : '');
       var added = !!existing[key];
-      return '<li><span><b>' + esc(nameOf(m.place.name_i18n, state.lang) || m.place.place_id) + '</b>' +
-        '<span class="rem-rr-sub"> · ' + esc(m.opp ? (nameOf(m.opp.name_i18n, state.lang) || m.opp.opportunity_id) : t('rem_any_subject')) + '</span></span>' +
+      return '<li><span class="rem-rr-main"><span class="rem-rr-name">' + esc(nameOf(m.place.name_i18n, state.lang) || m.place.place_id) + '</span>' +
+        '<span class="rem-rr-sub">' + esc(m.opp ? (nameOf(m.opp.name_i18n, state.lang) || m.opp.opportunity_id) : t('rem_any_subject')) + '</span></span>' +
         '<button type="button" data-rem-quick-add data-place="' + esc(m.place.place_id) + '" data-opp="' + esc(m.opp ? m.opp.opportunity_id : '') + '"' + (added ? ' disabled' : '') + '>' +
         esc(added ? t('rem_added_btn') : t('rem_add_btn')) + '</button></li>';
     }).join('');
@@ -316,6 +469,7 @@
     document.getElementById('page-title').textContent = t('page_title');
     document.documentElement.lang = state.lang;
     document.title = 'ChaseLights — ' + t('page_title');
+    if (!state.signedIn) document.getElementById('rem-count').textContent = '';
     // nav_* keys are mirrored in this page's dict (shared shell markup).
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var k = el.getAttribute('data-i18n');
@@ -335,16 +489,22 @@
       try { localStorage.setItem('chaselights_lang', state.lang); } catch (e) { /* private mode */ }
       renderAll();
     });
-    document.getElementById('rem-region').addEventListener('change', renderPlaceOptions);
-    document.getElementById('rem-place').addEventListener('change', renderSubjectOptions);
+    document.getElementById('rem-region').addEventListener('change', function () { renderPlaceOptions(); renderPreview(); });
+    document.getElementById('rem-place').addEventListener('change', function () { renderSubjectOptions(); renderPreview(); });
+    document.getElementById('rem-subject').addEventListener('change', renderPreview);
     document.getElementById('rem-search').addEventListener('input', renderSearchResults);
+    document.getElementById('rem-empty-add').addEventListener('click', function () {
+      var region = document.getElementById('rem-region');
+      if (region) region.focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
     document.getElementById('rem-add-submit').addEventListener('click', function () {
       var placeId = document.getElementById('rem-place').value;
       var oppId = document.getElementById('rem-subject').value;
       addRule(placeId, oppId);
     });
     document.getElementById('rem-list').addEventListener('click', function (e) {
-      var row = e.target.closest ? e.target.closest('.rem-row') : null;
+      var row = e.target.closest ? e.target.closest('.rem-card') : null;
       if (!row) return;
       var ruleId = row.getAttribute('data-rule-id');
       if (e.target.matches && e.target.matches('[data-rem-delete]')) {
@@ -353,24 +513,37 @@
           showNotice('rem_removed');
           return reload();
         }).catch(function () { showNotice('rem_err'); });
+        return;
       }
-    });
-    document.getElementById('rem-list').addEventListener('change', function (e) {
-      var row = e.target.closest ? e.target.closest('.rem-row') : null;
-      if (!row || !e.target.matches || !e.target.matches('[data-rem-toggle]')) return;
-      var ruleId = row.getAttribute('data-rule-id');
-      var on = !!e.target.checked;
-      patchRule(ruleId, on).then(function (res) {
-        if (!res || res.status === 401 || !res.body || res.body.ok !== true) {
-          e.target.checked = !on;
-          if (res && res.status === 401) { state.signedIn = false; renderAll(); }
-          else showNotice('rem_err');
-          return;
-        }
-        state.rules = state.rules.map(function (r) { return r.id === ruleId ? Object.assign({}, r, { enabled: on ? 1 : 0 }) : r; });
-        renderList();
-        if (window.ChaseLightsReminders) window.ChaseLightsReminders.refresh();
-      }).catch(function () { e.target.checked = !on; showNotice('rem_err'); });
+      if (e.target.matches && e.target.matches('[data-rem-edit]')) {
+        // Mockup semantics: 編輯 = load the rule into the add panel for
+        // re-picking; no extra API surface (CL-UI-58 contract untouched).
+        var rule = state.rules.filter(function (r) { return r.id === ruleId; })[0];
+        if (!rule) return;
+        var regionSel = document.getElementById('rem-region');
+        regionSel.value = regionOfPlace(rule.place_id);
+        renderPlaceOptions();
+        document.getElementById('rem-place').value = rule.place_id;
+        renderSubjectOptions();
+        if (rule.opportunity_id) document.getElementById('rem-subject').value = rule.opportunity_id;
+        renderPreview();
+        document.getElementById('rem-add-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      if (e.target.matches && e.target.matches('[data-rem-toggle]')) {
+        var btn = e.target;
+        var on = !btn.classList.contains('rem-on');
+        patchRule(ruleId, on).then(function (res) {
+          if (!res || res.status === 401 || !res.body || res.body.ok !== true) {
+            if (res && res.status === 401) { state.signedIn = false; renderAll(); }
+            else showNotice('rem_err');
+            return;
+          }
+          state.rules = state.rules.map(function (r) { return r.id === ruleId ? Object.assign({}, r, { enabled: on ? 1 : 0 }) : r; });
+          renderList();
+          if (window.ChaseLightsReminders) window.ChaseLightsReminders.refresh();
+        }).catch(function () { showNotice('rem_err'); });
+      }
     });
     document.getElementById('rem-results').addEventListener('click', function (e) {
       var btn = e.target.closest ? e.target.closest('[data-rem-quick-add]') : null;
@@ -412,9 +585,15 @@
   function loadCatalog() {
     // Catalog failure must not block the signed-in rules load (CL-UI-61):
     // it only degrades the quick-add picker names, not the login gate.
+    // CL-UI-90: once the bundle lands, re-render the picker + preview —
+    // boot renders the panel before the fetch resolves, so without this
+    // re-render the preview row can stay hidden until the next interaction.
     return fetch(CATALOG_URL, { cache: 'no-cache' })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (b) { state.catalog = (b && b.places) || []; })
+      .then(function (b) {
+        state.catalog = (b && b.places) || [];
+        if (state.signedIn) { renderQuickAdd(); }
+      })
       .catch(function () { state.catalog = []; });
   }
 
@@ -452,6 +631,10 @@
     findSubject: findSubject,
     nameOf: nameOf,
     renderList: renderList,
-    renderSearchResults: renderSearchResults
+    renderSearchResults: renderSearchResults,
+    renderPreview: renderPreview,
+    findNextTrigger: findNextTrigger,
+    unfitStreak: unfitStreak,
+    nextStatusHtml: nextStatusHtml
   };
 })();
