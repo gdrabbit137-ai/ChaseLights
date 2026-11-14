@@ -40,10 +40,11 @@ const grab = (start, end) => {
 test('CL-UI-79 (1): source contract — 1180px modal, max-content grid strip, mobile 46px intact', () => {
   assert.match(cssSource, /\.place-guide-modal \{ max-width: 1180px;/);
   assert.doesNotMatch(cssSource, /\.place-guide-modal \{ max-width: 1080px;/);
-  // P1-1: hourly table scrolls inside its wrapper; vis column fixed 88px.
+  // P1-1 (CL-UI-87 re-anchor): the 5-column mockup table needs no scroll
+  // floor — the old 1080px min-width is retired; the wrapper keeps overflow-x.
   assert.match(cssSource, /\.timeline-table-wrap\{overflow-x:auto\}/);
-  assert.match(cssSource, /\.timeline-table-wrap \.terminal-table\{min-width:1080px\}/);
-  assert.match(cssSource, /\.terminal-table \.td-vis\{width:88px;min-width:88px;max-width:88px\}/);
+  assert.doesNotMatch(cssSource, /min-width:1080px/);
+  assert.match(cssSource, /\.terminal-table td\.td-vis\{width:88px;min-width:88px;max-width:88px\}/);
   assert.match(appSource, /function visCellHtml\(km\)/);
   assert.match(appSource, /class="key-metric td-vis">\$\{visCellHtml\(item\.visibility\)\}/);
   assert.match(appSource, /class="vis-cap" title="\$\{esc\(d\(\)\.tip_vis\)\}">≥ 24 km<\/span>/);
@@ -57,8 +58,8 @@ test('CL-UI-79 (1): source contract — 1180px modal, max-content grid strip, mo
   assert.doesNotMatch(appSource, /<a class="place-hourly-link"/);
   assert.match(appSource, /id="place-hourly-btn"/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui91/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui91/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui92/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui92/);
 });
 
 // ---- (2) real-browser probe: 1280 / 1024 / 768 / 390 ------------------------

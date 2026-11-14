@@ -69,43 +69,50 @@ test('CL-UI-78 (2): wmDayBanner renders 11 月 14 日 週六 style labels per la
   assert.equal(makeBanner('zh-TW')('garbage'), 'garbage');
 });
 
-test('CL-UI-78 (3): rows carry hour-only stamps; a banner row opens each local date', () => {
-  const rowIdx = appSource.indexOf('(spot.hourly_forecast||[]).forEach(item=>{');
-  const row = appSource.slice(rowIdx, rowIdx + 4200);
+test('CL-UI-87 re-anchor (3): rows carry hour-only stamps; one day-group <details> opens each local date', () => {
+  const loopIdx = appSource.indexOf('for(const item of wmList){');
+  const loop = appSource.slice(loopIdx, loopIdx + 4200);
   // hour-only stamp on the desktop row and the mobile card
-  assert.ok(row.includes('${item.time.slice(-5)}'), 'row time is HH:MM only');
-  assert.ok(!row.includes('<td>${item.time}'), 'full datetime no longer in the row');
-  assert.ok(row.includes("esc(item.time.slice(-5))"), 'mobile card time is HH:MM only');
-  // banner: one <tr class="wm-date-row"> before the first row of each date
-  assert.ok(row.includes("br.className='wm-date-row'"), 'banner row class');
-  assert.ok(row.includes('wmDayBanner(item.local_date)'), 'banner label from local_date');
-  assert.ok(row.includes("bd.className='timeline-mobile-day'"), 'mobile banner div');
-  // banner row carries no data-v2t (must never be painted by the status painter)
-  const bannerIdx = row.indexOf("br.className='wm-date-row'");
-  const bannerEnd = row.indexOf('const tr=document.createElement', bannerIdx);
-  assert.ok(!row.slice(bannerIdx, bannerEnd).includes('data-v2t'), 'banner row is not a status row');
+  assert.ok(loop.includes('const hh=item.time.slice(-5)'), 'row time is HH:MM only');
+  assert.ok(loop.includes('<td class="hr">${esc(hh)}'), 'desktop time cell is HH:MM only');
+  assert.ok(!loop.includes('<td>${item.time}'), 'full datetime no longer in the row');
+  assert.ok(loop.includes("esc(item.time.slice(-5))"), 'mobile card time is HH:MM only');
+  // CL-UI-87 (mockup n1a): one <details class="day-group"> per local date,
+  // keyed by data-date — the wm-date-row banner rows are retired
+  assert.ok(appSource.includes("det.className='day-group';det.dataset.date=wmDate"), 'desktop day-group keyed by date');
+  assert.ok(appSource.includes("mobileDet.className='day-group';mobileDet.dataset.date=wmDate"), 'mobile day-group keyed by date');
+  assert.ok(!appSource.includes("br.className='wm-date-row'"), 'banner rows retired');
+  assert.ok(!appSource.includes("bd.className='timeline-mobile-day'"), 'mobile banner divs retired');
+  // the group label still renders the page-header banner stamp per local date
+  assert.ok(appSource.includes('return wmDayBanner(date);'), 'group label from local_date');
+  // status rows carry data-v2t; the group <details> shell itself does not
+  assert.ok(loop.includes('data-v2t="${esc(detKey)}"'), 'status rows carry data-v2t');
+  assert.ok(!loop.slice(loop.indexOf('mobileDet.innerHTML='), loop.indexOf('const rowsHtml=')).includes('data-v2t'), 'group shell is not a status row');
 });
 
-test('CL-UI-78 (4): compact header — short labels with tooltips, clouds merged to one column', () => {
-  const headIdx = appSource.indexOf('thead.innerHTML=`<tr>');
-  const head = appSource.slice(headIdx, appSource.indexOf('</tr>`;', headIdx) + 6);
-  // column order: 時間 → 狀態 → 適合題材 → 高度 → 溫度 → 濕度 → 雲 L/M/H → 風 → 能見度 → 天文
-  const order = ['th_time', 'th_status', 'th_subjects', 'th_lcl_short', 'th_temp_short', 'th_rh', 'th_clouds', 'th_wind_short', 'th_vis', 'th_astro'];
+test('CL-UI-87 re-anchor (4): mockup hourly columns — 時刻|狀態|適合題材|口語化氣象|⋯; raw values in the kv row', () => {
+  const headIdx = appSource.indexOf('<thead><tr><th>${esc(d().th_time)}</th>');
+  const head = appSource.slice(headIdx, appSource.indexOf('</tr></thead>', headIdx) + 12);
+  // column order: 時刻 → 狀態 → 適合題材 → 口語化氣象 → (⋯)
+  const order = ['th_time', 'th_status', 'th_subjects', 'th_plain'];
   let pos = -1;
   for (const key of order) {
     const at = head.indexOf(key, pos + 1);
     assert.ok(at > pos, `${key} follows the previous column`);
     pos = at;
   }
-  assert.ok(!head.includes('<th>${d().th_clow}') && !head.includes('<th>${d().th_cmid}') && !head.includes('<th>${d().th_chigh}'),
-    'no separate cloud <th> in the header (full names survive only as tooltip text)');
-  // merged cloud cell: L/M/H single values with a full-name tooltip
-  const rowIdx = appSource.indexOf('(spot.hourly_forecast||[]).forEach(item=>{');
-  const row = appSource.slice(rowIdx, rowIdx + 2600);
-  assert.ok(row.includes("${item.c_low??'—'}/${item.c_mid??'—'}/${item.c_high??'—'}"), 'merged L/M/H cell');
-  assert.ok(row.includes('th_clow)') && row.includes('th_cmid)') && row.includes('th_chigh)'),
-    'full cloud names survive as the merged cell tooltip');
+  // the old 10-column metric header is gone
+  assert.ok(!head.includes('th_lcl_short') && !head.includes('th_temp_short') && !head.includes('th_clouds'), 'no numeric metric columns in the header');
+  // raw values survive ONLY in the kv detail row (mockup n2c): temp/wind/rh/
+  // low+mid+high cloud/LCL/vis each as a labeled kv item
+  const kvIdx = appSource.indexOf('const kvHtml=');
+  const kv = appSource.slice(kvIdx, appSource.indexOf('let nowAnchorAssigned', kvIdx));
+  for (const key of ['th_temp', 'th_wind', 'th_rh', 'th_clow', 'th_cmid', 'th_chigh', 'th_cloud_base', 'th_vis', 'th_astro']) {
+    assert.ok(kv.includes('${esc(d().' + key + ')}'), `kv item: ${key}`);
+  }
   // status column keeps index 1 (CL-UI-43 painter contract, pinned upstream)
+  const rowIdx = appSource.indexOf('rowsHtml.push(`<tr class=');
+  const row = appSource.slice(rowIdx, rowIdx + 1400);
   assert.ok(row.indexOf('eval2_unk') < row.indexOf('td-subjects'), 'status cell before subjects cell');
 });
 
@@ -156,13 +163,14 @@ test('CL-UI-78 (6): ≤768px card layout + audit anchors (CSS)', () => {
   assert.ok(!cssSource.includes('.tier-tab.active { background: #38bdf8'), 'no blue recommend tab');
 });
 
-test('CL-UI-78 (6b): audit app.js anchors — short vis cell + collapsible card', () => {
+test('CL-UI-87 re-anchor (6b): audit app.js anchors — short vis cell + collapsible card', () => {
   // P1-1: capped visibility renders the SHORT value with the note as tooltip
   assert.ok(appSource.includes('function visCellHtml(km)'), 'visCellHtml helper');
-  const rowIdx = appSource.indexOf('(spot.hourly_forecast||[]).forEach(item=>{');
-  const row = appSource.slice(rowIdx, rowIdx + 3200);
-  assert.ok(row.includes('${visCellHtml(item.visibility)}'), 'desktop row uses the short vis cell');
-  assert.ok(row.includes('class="key-metric td-vis"'), 'vis cell carries the fixed-width class');
+  // CL-UI-87: the vis value now lives in the kv detail row (mockup n2c)
+  const kvIdx = appSource.indexOf('const kvHtml=');
+  const kv = appSource.slice(kvIdx, appSource.indexOf('let nowAnchorAssigned', kvIdx));
+  assert.ok(kv.includes('${visCellHtml(item.visibility)}'), 'desktop row uses the short vis cell');
+  assert.ok(kv.includes('class="key-metric td-vis"'), 'vis cell carries the fixed-width class');
   // P1-3 + CL-UI-82: card face = time (64px col) / mainline status+subject /
   // plain-language weather line; raw values collapse into <details>.
   const cardIdx = appSource.indexOf("card.className=`timeline-mobile-card");
