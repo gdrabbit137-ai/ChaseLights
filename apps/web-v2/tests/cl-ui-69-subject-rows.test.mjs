@@ -139,7 +139,7 @@ test('CL-UI-69 (5): the reminder icon is 🔔 only (owner ruling) — compact to
   // CSS: hollow (desaturated) when off, filled + highlight when on.
   assert.match(appCss, /\.cl-rem-btn\.cl-rem-compact\{margin-left:auto;gap:0;padding:3px 7px;min-height:26px/);
   assert.match(appCss, /\.cl-rem-btn\.cl-rem-compact:not\(\.cl-rem-on\)\{filter:grayscale\(1\);opacity:\.5\}/);
-  assert.match(appCss, /\.cl-rem-btn\.cl-rem-compact\.cl-rem-on\{background:rgba\(63,185,80,\.16\)\}/);
+  assert.match(appCss, /\.cl-rem-btn\.cl-rem-compact\.cl-rem-on\{background:color-mix\(in srgb, var\(--cl-green\) 16%, transparent\)\}/);
   // Reminders list name (owner ruling): 提醒清單 / Reminders / リマインダー.
   assert.deepEqual([...remPage.matchAll(/page_title: '([^']*)'/g)].map(m => m[1]),
     ['提醒清單', 'Reminders', 'リマインダー']);
@@ -148,8 +148,8 @@ test('CL-UI-69 (5): the reminder icon is 🔔 only (owner ruling) — compact to
 
 test('CL-UI-69 (6): 390px row rules ship and the page serves the bumped stamps', () => {
   assert.match(appCss, /@media \(max-width:390px\)\{\n  \.cl-subject-row\{font-size:\.74rem\}/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui89/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui89/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui90/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui90/);
   assert.match(indexSource, /assets\/reminders-client\.js\?v=clui83/);
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui75/);
 });

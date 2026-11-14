@@ -35,23 +35,23 @@ const block = (start, end) => {
 
 test('CL-UI-81 (1) P1-2: selected tier pill is the green recommended contract (#123B2A/#4ADE80/#166534)', () => {
   const sel = block('.tier-tab.active {', '.tier-tab-count');
-  assert.match(sel, /background:\s*#123B2A;/);
-  assert.match(sel, /color:\s*#4ADE80;/);
-  assert.match(sel, /border:\s*1\.5px solid #166534;/);
+  assert.match(sel, /background:\s*color-mix\(in srgb, var\(--cl-green\) 22%, var\(--cl-bg-0\)\);/);
+  assert.match(sel, /color:\s*var\(--cl-green-text\);/);
+  assert.match(sel, /border:\s*1\.5px solid var\(--cl-green-border\);/);
   // The blue accent must not survive on the semantic selection.
   assert.doesNotMatch(sel, /#38bdf8/);
 });
 
 test('CL-UI-81 (2) P1-2: forecast-table best row + badge go green (row highlight, mobile card, sticky cell, tag-best)', () => {
-  assert.match(cssSource, /\.terminal-table tr\.best-row \{ background: rgba\(34, 197, 94, 0\.10\); border-left: 2px solid #22C55E;/);
+  assert.match(cssSource, /\.terminal-table tr\.best-row \{ background: var\(--cl-green-bg\); border-left: 2px solid var\(--cl-green\);/);
   const tagBest = block('.tag-best {', 'font-size:.66rem');
-  assert.match(tagBest, /border:1px solid #166534;/);
-  assert.match(tagBest, /background:#123B2A;/);
-  assert.match(tagBest, /color:#4ADE80;/);
+  assert.match(tagBest, /border:1px solid var\(--cl-green-border\);/);
+  assert.match(tagBest, /background:color-mix\(in srgb, var\(--cl-green\) 22%, var\(--cl-bg-0\)\);/);
+  assert.match(tagBest, /color:var\(--cl-green-text\);/);
   const mobile = block('.timeline-mobile-card.best-row {', '}');
-  assert.match(mobile, /rgba\(34, 197, 94, 0\.10\)/);
-  assert.match(mobile, /#22C55E/);
-  assert.match(cssSource, /\.terminal-table tr\.best-row td:first-child\{background:#12291d\}/);
+  assert.match(mobile, /var\(--cl-green-bg\)/);  // == rgba(34,197,94,.10) (CL-UI-85 landing)
+  assert.match(mobile, /var\(--cl-green\)/);  // == #22C55E
+  assert.match(cssSource, /\.terminal-table tr\.best-row td:first-child\{background:color-mix\(in srgb, var\(--cl-green\) 16%, var\(--cl-bg-0\)\)\}/);
 });
 
 test('CL-UI-81 (3) P2-1: pill geometry 32px / 0 12px / gap 8px / radius 999px; unselected text #A8B3C2', () => {
@@ -59,17 +59,17 @@ test('CL-UI-81 (3) P2-1: pill geometry 32px / 0 12px / gap 8px / radius 999px; u
   assert.match(tab, /height:\s*32px;/);
   assert.match(tab, /padding:\s*0 12px;/);
   assert.match(tab, /border-radius:\s*999px;/);
-  assert.match(tab, /color:\s*#A8B3C2;/);
+  assert.match(tab, /color:\s*var\(--cl-text-2\);/);
   const strip = block('.subject-chip-strip {', '.subject-chip-strip::-webkit-scrollbar');
   assert.match(strip, /gap:\s*8px;/);
   const chip = block('.subject-chip {', '.subject-chip:hover');
   assert.match(chip, /height:\s*32px;/);
   assert.match(chip, /padding:\s*0 12px;/);
   assert.match(chip, /border-radius:\s*999px;/);
-  assert.match(chip, /color:\s*#A8B3C2;/);
+  assert.match(chip, /color:\s*var\(--cl-text-2\);/);
   // Selected state is distinguishable beyond color: border 1.5px + weight 600.
   assert.match(block('.tier-tab.active {', '.tier-tab-count'), /font-weight:\s*600;/);
-  assert.match(block('.subject-chip.active {', '\n'), /border: 1\.5px solid #38bdf8; font-weight: 600;/);
+  assert.match(block('.subject-chip.active {', '\n'), /border: 1\.5px solid var\(--cl-blue\); font-weight: 600;/);  // == #38bdf8 (CL-UI-85 landing)
 });
 
 test('CL-UI-81 (4) P1-4: date pill is a two-segment trigger — 176px min-width, 48px, nowrap, 12px gray region line', () => {
@@ -81,7 +81,7 @@ test('CL-UI-81 (4) P1-4: date pill is a two-segment trigger — 176px min-width,
   assert.match(main, /white-space:\s*nowrap;/);
   const sub = block('.day-picker-sub {', '}');
   assert.match(sub, /font-size:\s*\.75rem;/);
-  assert.match(sub, /color:\s*#8B98A9;/);
+  assert.match(sub, /color:\s*var\(--cl-text-3\);/);
   assert.match(sub, /white-space:\s*nowrap;/);
 });
 
@@ -95,7 +95,7 @@ test('CL-UI-81 (5) P1-4: syncDayButtons renders both segments and reuses honest 
   assert.doesNotMatch(sync, /CLUI81_PLACEHOLDER/);
 });
 
-test('CL-UI-81 (6) cache-bust: index.html serves app.js + app.css at ?v=clui89', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui89/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui89/);
+test('CL-UI-81 (6) cache-bust: index.html serves app.js + app.css at ?v=clui90', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui90/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui90/);
 });

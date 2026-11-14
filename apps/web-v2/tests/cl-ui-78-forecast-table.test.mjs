@@ -114,9 +114,9 @@ test('CL-UI-78 (5): no BLUE 「最佳」 pill; CL-UI-81 green semantic present',
   assert.ok(!appSource.includes('tag_best') || appSource.includes('tag-best'), 'marker rides the 81 green class');
   assert.ok(!appSource.includes('藍底＝') && !appSource.includes('blue = a relatively better time') && !appSource.includes('青色＝'),
     'no stale blue-tint subtitle copy');
-  assert.ok(cssSource.includes('.tag-best') && cssSource.includes('background:#123B2A') && cssSource.includes('color:#4ADE80'),
+  assert.ok(cssSource.includes('.tag-best') && cssSource.includes('color-mix(in srgb, var(--cl-green) 22%, var(--cl-bg-0))') && cssSource.includes('color:var(--cl-green-text)'),
     'the 「最佳」 badge is the green contract (#123B2A/#4ADE80)');
-  assert.ok(cssSource.includes('.terminal-table tr.best-row') && cssSource.includes('rgba(34, 197, 94, 0.10)'),
+  assert.ok(cssSource.includes('.terminal-table tr.best-row') && cssSource.includes('var(--cl-green-bg)'),
     'best row highlight is green');
   assert.ok(!/#38bdf8|#1d4ed8|#3b82f6/.test(cssSource.match(/\.tag-best \{[^}]*\}/)?.[0]||''),
     'the 「最佳」 badge block carries no blue tint');
@@ -139,18 +139,18 @@ test('CL-UI-78 (6): ≤768px card layout + audit anchors (CSS)', () => {
   // card spec (CL-UI-82): 8px radius (var), compact padding, 8px card gap;
   // time 14px semibold in the fixed 64px left column
   assert.match(cssSource, /\.timeline-mobile-card \{[^}]*border-radius: var\(--hour-card-radius\);[^}]*padding: 7px 12px 7px 15px;[^}]*margin-bottom: var\(--hour-card-gap\);/s);
-  assert.match(cssSource, /\.timeline-mobile-time \{ font-size: var\(--hour-card-status-fs\); color: #e2e8f0; font-weight: 600; width: var\(--hour-card-time-w\); flex: none; line-height: 1\.3; \}/);
+  assert.match(cssSource, /\.timeline-mobile-time \{ font-size: var\(--hour-card-status-fs\); color: var\(--cl-text-1\); font-weight: 600; width: var\(--hour-card-time-w\); flex: none; line-height: 1\.3; \}/);
   // CL-UI-82: 3px left status band + native <details> 「詳細氣象」
   assert.match(cssSource, /\.timeline-mobile-card::before \{[^}]*width: var\(--hour-card-band-w\);/s);
-  assert.match(cssSource, /\.timeline-mobile-card\.tm-st-ok::before \{ background: #22C55E; \}/);
-  assert.match(cssSource, /\.timeline-mobile-card\.tm-st-bad::before \{ background: #EF4444; \}/);
-  assert.match(cssSource, /\.timeline-mobile-card\.tm-st-outside::before \{ background: #64748B; \}/);
-  assert.match(cssSource, /details\.tm-details \{ margin-top: 2px; border-top: 1px solid #2A3441; \}/);
+  assert.match(cssSource, /\.timeline-mobile-card\.tm-st-ok::before \{ background: var\(--cl-green\); \}/);
+  assert.match(cssSource, /\.timeline-mobile-card\.tm-st-bad::before \{ background: var\(--cl-red\); \}/);
+  assert.match(cssSource, /\.timeline-mobile-card\.tm-st-outside::before \{ background: var\(--cl-grey\); \}/);
+  assert.match(cssSource, /details\.tm-details \{ margin-top: 2px; border-top: 1px solid var\(--cl-border\); \}/);
   // P1-1: fixed 88px visibility column
   assert.match(cssSource, /\.terminal-table th\.col-vis, \.terminal-table td\.col-vis \{ width: 88px; min-width: 88px; max-width: 88px; \}/);
   // P1-2: the recommend tier tab is green, never blue
   // CL-INT-163: 81's P2-1 pill shape — border: 1.5px solid (semantic still GREEN)
-  assert.match(cssSource, /\.tier-tab\.active \{ background: #123B2A; color: #4ADE80; border: 1\.5px solid #166534;/);
+  assert.match(cssSource, /\.tier-tab\.active \{ background: color-mix\(in srgb, var\(--cl-green\) 22%, var\(--cl-bg-0\)\); color: var\(--cl-green-text\); border: 1\.5px solid var\(--cl-green-border\);/);
   assert.ok(!cssSource.includes('.tier-tab.active { background: #38bdf8'), 'no blue recommend tab');
 });
 

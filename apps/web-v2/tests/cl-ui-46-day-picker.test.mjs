@@ -45,9 +45,9 @@ test('CL-UI-46 (1): the CL-UI-45 day strip + arrows are removed everywhere',()=>
 test('CL-UI-46 (2): trigger sits in the form-control family (.sort-select tokens)',()=>{
   const trigger=cssSource.slice(cssSource.indexOf('.day-picker-trigger {'),cssSource.indexOf('.day-picker-trigger:hover'));
   assert.match(trigger,/border-radius:\s*6px;/);
-  assert.match(trigger,/background:\s*#1e293b;/);
-  assert.match(trigger,/color:\s*#cbd5e1;/);
-  assert.match(cssSource,/\.day-picker-trigger:hover,\s*\n\s*\.day-picker-trigger:focus-visible\s*\{\s*border-color:\s*#38bdf8;/);
+  assert.match(trigger,/background:\s*var\(--cl-bg-2\);/);  // == #1e293b (CL-UI-85 landing)
+  assert.match(trigger,/color:\s*var\(--cl-text-2\);/);  // == #cbd5e1 (CL-UI-85 landing)
+  assert.match(cssSource,/\.day-picker-trigger:hover,\s*\n\s*\.day-picker-trigger:focus-visible\s*\{\s*border-color:\s*var\(--cl-blue\);/);
   assert.match(block('function syncDayButtons','function openDayPicker'),/day_summary_(viable|none)/,'trigger carries the day summary count');
 });
 
@@ -58,7 +58,7 @@ test('CL-UI-46 (3): mobile bottom sheet + desktop dropdown, one data model',()=>
   assert.match(sheet,/\.day-picker-panel\s*\{[^}]*transform:\s*translateY\(100%\);/,'slides up from the bottom edge');
   assert.match(sheet,/\.day-picker-overlay:not\(\[hidden\]\)\s*\{\s*display:\s*block;/,'semi-transparent overlay is mobile-only (and hidden state still wins — CL-UI-47)');
   assert.match(sheet,/\.day-picker-overlay\[hidden\]\s*\{\s*display:\s*none;/,'CL-UI-47: closed-state overlay can never defeat the [hidden] rule');
-  assert.match(cssSource,/rgba\(2,\s*6,\s*23,\s*0\.55\)/,'overlay is semi-transparent');
+  assert.match(cssSource,/color-mix\(in srgb, var\(--cl-bg-0\) 55%, transparent\)/,'overlay is semi-transparent');
   // Desktop: the base panel is a dropdown anchored under the trigger.
   const base=cssSource.slice(cssSource.indexOf('.day-picker-panel {'),cssSource.indexOf('.day-option {'));
   assert.match(base,/position:\s*absolute;/);
@@ -125,6 +125,6 @@ test('CL-UI-46 (7): new i18n keys exist in all three dictionaries',()=>{
 });
 
 test('CL-UI-46 (8): index.html cache-bust stamps tracked (app.css bumped to clui54 by CL-UI-49)',()=>{
-  assert.match(htmlSource,/assets\/app\.js\?v=clui89/);
-  assert.match(htmlSource,/assets\/app\.css\?v=clui89/);
+  assert.match(htmlSource,/assets\/app\.js\?v=clui90/);
+  assert.match(htmlSource,/assets\/app\.css\?v=clui90/);
 });

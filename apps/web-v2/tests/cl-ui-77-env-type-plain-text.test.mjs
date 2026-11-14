@@ -25,7 +25,7 @@ test('CL-UI-77 (1): card env-type renders plain text, never scene chips', () => 
 test('CL-UI-77 (2): env-type text is low-key, frameless, non-interactive', () => {
   assert.match(appCss, /\.env-type-text \{/);
   const block = appCss.match(/\.env-type-text \{[^}]*\}/)[0];
-  assert.match(block, /color:#94a3b8/);
+  assert.match(block, /color:var\(--cl-text-3\)/);  // == #8B98A9 (CL-UI-85 landing)
   assert.ok(!/border/.test(block), 'no border — not a chip');
   assert.ok(!/background/.test(block), 'no background — not a chip');
   assert.ok(!/cursor/.test(block), 'never presented as interactive');
@@ -41,7 +41,7 @@ test('CL-UI-77 (3): subject reminder rows keep their interactive anatomy', () =>
   assert.match(appJs, /cl-rem-btn cl-rem-compact/);
 });
 
-test('CL-UI-77 (4): cache-bust bumped to clui89 on the homepage', () => {
-  assert.match(indexHtml, /assets\/app\.js\?v=clui89/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui89/);
+test('CL-UI-77 (4): cache-bust bumped to clui90 on the homepage', () => {
+  assert.match(indexHtml, /assets\/app\.js\?v=clui90/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui90/);
 });

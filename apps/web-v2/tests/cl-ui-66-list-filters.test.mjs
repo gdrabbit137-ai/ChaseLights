@@ -241,8 +241,8 @@ test('CL-UI-66 (15): index.html carries the tab/chip hosts, the next_window sort
   assert.match(indexSource, /id="tier-tabs"/);
   assert.match(indexSource, /id="subject-chips"/);
   assert.match(indexSource, /<option value="next_window" data-i18n="sort_next_window">/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui89/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui89/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui90/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui90/);
 });
 
 test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the shared active accent', () => {
@@ -255,8 +255,8 @@ test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the s
   }
   /* CL-UI-81 (P1-2): tier selection carries the 「推薦」 semantic → GREEN.
      Subject chips are a non-semantic selection → blue stays. */
-  assert.match(cssSource, /\.tier-tab\.active \{[^}]*#4ADE80/);
-  assert.match(cssSource, /\.tier-tab\.active \{[^}]*#123B2A/);
-  assert.match(cssSource, /\.tier-tab\.active \{[^}]*#166534/);
-  assert.match(cssSource, /\.subject-chip\.active \{[^}]*#38bdf8/);
+  assert.match(cssSource, /\.tier-tab\.active \{[^}]*var\(--cl-green-text\)/);
+  assert.match(cssSource, /\.tier-tab\.active \{[^}]*color-mix\(in srgb, var\(--cl-green\) 22%/);
+  assert.match(cssSource, /\.tier-tab\.active \{[^}]*var\(--cl-green-border\)/);
+  assert.match(cssSource, /\.subject-chip\.active \{[^}]*var\(--cl-blue\)/);
 });
