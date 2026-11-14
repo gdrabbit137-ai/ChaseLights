@@ -77,7 +77,19 @@
       wm_dialog_p4:'JMA MSM 官方原生範圍從 22.4°N、120°E 起；目前 HTTP transport 為避開邊界座標拒絕，瀏覽資料從 22.45°N、120.0625°E 起。台灣最南端及西側離島因此不在目前 JMA 瀏覽圖層內；切換模型時地圖會使用 JMA 自己的實際資料邊界。',
       wm_dialog_p5:'台灣地區的顯示範圍對齊中央氣象署官方衛星雲圖（約 105–145°E、5–40°N，西太平洋）。GFS 0.25° 為主源時整個範圍用同一份預報全幅渲染，不會出現接合縫；ICON 與 CAMS 亦提供同範圍的全幅選項。切到區域高解析模型（CWA WRF 3 km、JMA MSM、Himawari-9）時，只在該模型自己的涵蓋範圍內繪製，範圍外誠實留白，不代表晴朗。',
       wm_dialog_p6:'每個來源使用自己的資料邊界、網格解析度與時間語意；Himawari-9 為單張最新觀測，其餘模型為預報時間軸。衛星觀測採最近鄰呈現；預報的畫面內插只改善顯示連續性，不增加原始資料的真實解析度。',
-      wm_dialog_p7:'底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。'
+      wm_dialog_p7:'底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。',
+      wm_side_title:'景點列表',
+      wm_offline_badge:'📴 離線 · 上次資料 {t}',
+      wm_layer_unavailable:'此地區目前資料源未提供此圖層',
+      wm_cov_ok:'✓ 已驗證',wm_cov_soft:'○ 暫行',wm_cov_off:'△ 待研究',
+      wm_detail_btn:'詳情',wm_remind_btn:'🔔 提醒',wm_mini_locate:'📍 定位',
+      wm_fcst_btn:'🌦️ 天氣預報',wm_eval_btn:'🌗 題材評估',wm_close_btn:'關閉',
+      wm_cov_section:'題材 coverage',wm_camera_section:'拍攝位置（coverage 機位）',
+      wm_cov_none:'此景點尚未建立題材 coverage。',
+      wm_no_camera_zones:'此景點尚未建立拍攝位置（機位）資料。',
+      wm_no_data_short:'無資料',
+      wm_day_today:'今天',wm_day_tomorrow:'明天',wm_day_after:'後天',
+      wm_band_ok:'此時刻有可繪資料',wm_band_no:'此時刻目前資料源無此圖層'
     },
     'en':{
       nav_cards:'Cards',nav_weathermap:'Weather map',nav_more_tools:'More tools ▾',nav_genre_eval:'Genre assessment',nav_field_intake:'Field check',nav_reminders:'Reminders',
@@ -106,7 +118,19 @@
       wm_dialog_p4:'JMA MSM\'s official native domain starts at 22.4°N, 120°E; the current HTTP transport starts the browsable data at 22.45°N, 120.0625°E to avoid boundary-coordinate rejection. Taiwan\'s southern tip and western offshore islands are therefore outside the current JMA browsing layers; when switching models the map uses JMA\'s own actual data boundary.',
       wm_dialog_p5:'The Taiwan display range aligns with the Central Weather Administration\'s official satellite imagery (about 105–145°E, 5–40°N, western Pacific). With GFS 0.25° as the main source the whole range is rendered from one forecast full-frame with no stitching seams; ICON and CAMS also offer same-range full-frame options. When switching to regional high-resolution models (CWA WRF 3 km, JMA MSM, Himawari-9), rendering stays inside that model\'s own coverage and the outside is honestly blank — it does not mean clear.',
       wm_dialog_p6:'Each source keeps its own data boundary, grid resolution and time semantics; Himawari-9 is a single latest observation while the other models are forecast timelines. Satellite observations use nearest-neighbor presentation; forecast display interpolation only improves visual continuity and does not add real resolution to the underlying data.',
-      wm_dialog_p7:'The basemap uses MapLibre + OpenFreeMap; if the external basemap cannot load, WeatherGrid automatically falls back to the existing Canvas lat/lon grid without affecting GFS layers or spot sampling.'
+      wm_dialog_p7:'The basemap uses MapLibre + OpenFreeMap; if the external basemap cannot load, WeatherGrid automatically falls back to the existing Canvas lat/lon grid without affecting GFS layers or spot sampling.',
+      wm_side_title:'Places',
+      wm_offline_badge:'📴 Offline · last data {t}',
+      wm_layer_unavailable:'Not offered by the current sources in this region',
+      wm_cov_ok:'✓ Verified',wm_cov_soft:'○ Provisional',wm_cov_off:'△ Needs research',
+      wm_detail_btn:'Detail',wm_remind_btn:'🔔 Remind',wm_mini_locate:'📍 Locate',
+      wm_fcst_btn:'🌦️ Forecast',wm_eval_btn:'🌗 Genre eval',wm_close_btn:'Close',
+      wm_cov_section:'Subject coverage',wm_camera_section:'Camera positions (coverage)',
+      wm_cov_none:'No subject coverage registered for this spot yet.',
+      wm_no_camera_zones:'No camera positions registered for this spot yet.',
+      wm_no_data_short:'no data',
+      wm_day_today:'Today',wm_day_tomorrow:'Tomorrow',wm_day_after:'Day after',
+      wm_band_ok:'Data available at this time',wm_band_no:'No data for this layer at this time'
     },
     'ja':{
       nav_cards:'カード',nav_weathermap:'天気マップ',nav_more_tools:'その他のツール ▾',nav_genre_eval:'題材評価',nav_field_intake:'実写検証',nav_reminders:'リマインダー',
@@ -135,7 +159,19 @@
       wm_dialog_p4:'JMA MSM の公式ネイティブ領域は 22.4°N・120°E から始まります。現在の HTTP transport は境界座標の拒否を避けるため、表示データは 22.45°N・120.0625°E からです。台湾最南端と西側の離島は現在の JMA 表示レイヤーに入りません。モデル切替時、地図は JMA 自身の実際のデータ境界を使用します。',
       wm_dialog_p5:'台湾地域の表示範囲は中央気象署の公式衛星雲図に揃えています（約 105–145°E、5–40°N、西太平洋）。GFS 0.25° が主ソースの場合、範囲全体を同一の予報フルフレームで描画し、継ぎ目は出ません。ICON と CAMS も同範囲のフルフレームを提供します。地域高解像度モデル（CWA WRF 3 km・JMA MSM・Himawari-9）へ切替時は、そのモデル自身のカバー範囲内のみ描画し、範囲外は正直に空白です。晴れを意味しません。',
       wm_dialog_p6:'各ソースは独自のデータ境界・グリッド解像度・時間語意を持ちます。Himawari-9 は単一の最新観測、他のモデルは予報タイムラインです。衛星観測は最近隣表示。予報の表示補間は見た目の連続性を改善するだけで、元データの実解像度は増えません。',
-      wm_dialog_p7:'背景地図は MapLibre + OpenFreeMap を使用します。外部の背景地図が読み込めない場合、WeatherGrid は既存の Canvas 経緯度グリッドへ自動的に戻り、GFS レイヤーとスポットサンプリングには影響しません。'
+      wm_dialog_p7:'背景地図は MapLibre + OpenFreeMap を使用します。外部の背景地図が読み込めない場合、WeatherGrid は既存の Canvas 経緯度グリッドへ自動的に戻り、GFS レイヤーとスポットサンプリングには影響しません。',
+      wm_side_title:'スポット一覧',
+      wm_offline_badge:'📴 オフライン · 前回データ {t}',
+      wm_layer_unavailable:'この地域の現在のデータソースでは提供されていません',
+      wm_cov_ok:'✓ 検証済み',wm_cov_soft:'○ 暫定',wm_cov_off:'△ 要調査',
+      wm_detail_btn:'詳細',wm_remind_btn:'🔔 リマインド',wm_mini_locate:'📍 現在地表示',
+      wm_fcst_btn:'🌦️ 天気予報',wm_eval_btn:'🌗 題材評価',wm_close_btn:'閉じる',
+      wm_cov_section:'題材カバレッジ',wm_camera_section:'撮影ポジション（カバレッジ機位）',
+      wm_cov_none:'このスポットにはまだ題材カバレッジが登録されていません。',
+      wm_no_camera_zones:'このスポットにはまだ撮影ポジションが登録されていません。',
+      wm_no_data_short:'データなし',
+      wm_day_today:'今日',wm_day_tomorrow:'明日',wm_day_after:'明後日',
+      wm_band_ok:'この時刻は描画可能なデータあり',wm_band_no:'この時刻はこのレイヤーのデータなし'
     }
   };
 
@@ -1791,6 +1827,8 @@
     if(spot){
       $('spot-select').value=spot.spot_id;
       selectSpot(spot.spot_id);
+      // CL-UI-92: map-marker click opens the mockup mini card at the marker.
+      wmOpenMini(spot.spot_id);
     }
   }
 
@@ -5280,6 +5318,9 @@
     play.disabled=observation || frames.length<2;
     play.textContent=state.timelinePlaying?wmT('暫停'):wmT('播放');
     play.setAttribute('aria-pressed',state.timelinePlaying?'true':'false');
+    // CL-UI-92: the mockup timeline dock (day pills + hour cells, today/now
+    // centered) reads the same provider-owned frame list.
+    wmUpdateTimeDock();
   }
 
   function statusBadge(op){
@@ -5472,6 +5513,418 @@
       coveragePanelVisible: !$('coverage-panel').hidden,
       view: {...state.view}
     };
+    // CL-UI-92: keep the mockup overlay shell (layer chips / side list /
+    // mini card / detail modal) in sync with the live state.
+    wmRenderOverlays();
+  }
+
+  // ===== CL-UI-92: mockup-first weather-map overlay shell (Stage 3b) =====
+  // Spec source: origin/task/DESIGN-3 head 3d455f121 —
+  // data/v2/audits/design-mockups/mockup-weathermap.html, implemented as
+  // overlay components on top of the live WeatherGrid page. Pure visual
+  // layer: layer data, timeline logic and API contracts are untouched —
+  // the overlays READ the existing state and drive the EXISTING paths only
+  // (selectSpot / locateSpot / setFrameIndex). Camera behavior stays
+  // CL-UI-59: selecting never moves the camera; re-centering remains the
+  // explicit 「📍 定位景點」 action (locateSpot).
+
+  const WM_PHOTO_LAYERS=['low_cloud_percent','visibility_km','wind_speed_10m_m_s','precip_rate_mm_h'];
+  const WM_PHOTO_ICONS={'low_cloud_percent':'☁️','visibility_km':'👁️','wind_speed_10m_m_s':'💨','precip_rate_mm_h':'🌧️'};
+  let wmMiniSpotId=null;
+  let wmOverlayWired=false;
+  let wmSideRenderKey=null;
+  let wmDockRenderKey=null;
+  let wmDockDayIndex={};
+  let wmDockTodayKey=null;
+  let wmMiniMoveHooked=false;
+  let wmDetailSpotId=null;
+
+  function wmD(){ return WM_STATIC[WM_LANG] || WM_STATIC['zh-TW']; }
+
+  function wmRegionName(){
+    const label=window.WeatherMapRegions?.REGION_LABELS?.[state.region];
+    return label ? (label[WM_LANG] || label['zh-TW']) : state.region;
+  }
+
+  // Honest status badge derived from the live subject-aware coverage bundle
+  // (same semantics as updateCoverageStatus); never a fabricated tier.
+  function wmSpotCoverage(spotId){
+    const group=coverageGroupForSpot(spotId);
+    if(!group || !(group.opportunities||[]).length) return {dot:'off',badge:'off',group:null};
+    if(group.all_topics_complete) return {dot:'ok',badge:'ok',group};
+    return {dot:'soft',badge:'soft',group};
+  }
+
+  function wmCovBadgeText(kind){
+    const D=wmD();
+    return kind==='ok'?D.wm_cov_ok:(kind==='soft'?D.wm_cov_soft:D.wm_cov_off);
+  }
+
+  function wmIsOffline(){
+    try{ if(navigator.onLine===false) return true; }catch(_){}
+    return state.source==='unavailable';
+  }
+
+  function wmSampleText(spot,key){
+    const value=samplePointValue({lat:spot.lat,lon:spot.lon},key);
+    return Number.isFinite(value)?escapeHtml(formatValue(value,key)):'—';
+  }
+
+  // ── 圖層切換 ×4（mockup layer-chips；驅動既有 layer-select 同一路徑）──
+  function renderWmLayerChips(){
+    const host=$('layer-chips');
+    if(!host) return;
+    const avail=availableLayerKeys();
+    host.innerHTML=WM_PHOTO_LAYERS.map(key=>{
+      const cfg=layerConfig[key];
+      const ok=avail.includes(key);
+      const cls=`wm-chip${state.layer===key?' on':''}${ok?'':' off'}`;
+      const label=`${WM_PHOTO_ICONS[key]} ${escapeHtml(wmT(cfg.label))}`;
+      return `<button type="button" class="${cls}" data-wm-layer="${key}"${ok?'':` aria-disabled="true" title="${escapeHtml(wmD().wm_layer_unavailable)}"`}>${label}</button>`;
+    }).join('');
+  }
+
+  // ── 景點側欄（地區分組＋狀態點＋mono 取樣值）──
+  function renderWmSide(){
+    const body=$('wm-side-body');
+    if(!body) return;
+    const spots=state.data?.spots || [];
+    const offline=wmIsOffline();
+    const key=[state.region,state.spotId,state.layer,spots.length,offline].join('|');
+    if(key===wmSideRenderKey) return;
+    wmSideRenderKey=key;
+    const count=$('wm-side-count');
+    if(count) count.textContent=`${spots.length}`;
+    const groupTitle=$('wm-side-group');
+    if(groupTitle) groupTitle.textContent=`${wmRegionName()} · ${spots.length}`;
+    body.innerHTML=spots.map(spot=>{
+      const cov=wmSpotCoverage(spot.spot_id);
+      const sel=state.spotId===spot.spot_id?' sel':'';
+      return `<button type="button" class="wm-spot-row${sel}" data-wm-spot="${escapeHtml(spot.spot_id)}" title="${escapeHtml(spot.name)}">`
+        +`<span class="wm-dot ${cov.dot}" aria-hidden="true"></span>`
+        +`<span class="wm-grow"><span class="wm-s-name">${escapeHtml(spot.name)}</span><br><span class="wm-s-sub mono">${escapeHtml(spot.spot_id)}</span></span>`
+        +`<span class="wm-s-time mono">${wmSampleText(spot,state.layer)}</span>`
+        +`</button>`;
+    }).join('');
+    const badge=$('wm-offline-badge');
+    if(badge){
+      if(offline && state.data){
+        const stamp=state.data.cycle?.cycle_time_utc || baseFrame()?.valid_time_utc;
+        const timeText=Number.isFinite(Date.parse(stamp))?formatTaipeiTime(stamp):'—';
+        badge.textContent=wmD().wm_offline_badge.split('{t}').join(timeText);
+        badge.hidden=false;
+      }else{
+        badge.hidden=true;
+      }
+    }
+  }
+
+  // ── 迷你卡（點擊景點原地彈出；mockup .mini 264px 規格）──
+  function wmPositionMini(){
+    const mini=$('wm-mini');
+    if(!mini || mini.hidden) return;
+    const spot=(state.data?.spots||[]).find(s=>s.spot_id===wmMiniSpotId);
+    if(!spot) return;
+    const p=project(spot.lon,spot.lat);
+    const wrap=$('map-wrap');
+    const w=wrap?wrap.clientWidth:canvas.clientWidth;
+    const h=wrap?wrap.clientHeight:canvas.clientHeight;
+    // Mockup clamp: keep the 264px card fully inside the map viewport.
+    const mx=Math.min(Math.max(8,p.x+18),Math.max(8,w-272));
+    const my=Math.min(Math.max(8,p.y-30),Math.max(8,h-248));
+    mini.style.left=`${mx}px`;
+    mini.style.top=`${my}px`;
+  }
+
+  function renderWmMini(){
+    const mini=$('wm-mini');
+    if(!mini) return;
+    const spot=wmMiniSpotId?(state.data?.spots||[]).find(s=>s.spot_id===wmMiniSpotId):null;
+    if(!spot || wmMiniSpotId!==state.spotId){
+      wmMiniSpotId=null;
+      mini.hidden=true;
+      return;
+    }
+    const D=wmD();
+    const cov=wmSpotCoverage(spot.spot_id);
+    const f=frame();
+    const fTime=f?.valid_time_utc?`${formatTaipeiTime(f.valid_time_utc)} TST`:'—';
+    mini.innerHTML=`
+      <div class="wm-mini-head"><span class="wm-mini-name">${escapeHtml(spot.name)}</span>
+        <span class="wm-tier ${cov.badge}">${escapeHtml(wmCovBadgeText(cov.badge))}</span>
+        <button type="button" class="wm-mini-x" data-wm-act="close" aria-label="${escapeHtml(D.wm_close_btn)}">✕</button></div>
+      <div class="wm-mini-region">${escapeHtml(wmRegionName())} · ${spot.lat.toFixed(3)}, ${spot.lon.toFixed(3)}</div>
+      <div class="wm-mini-win"><span class="wm-dot ${cov.dot}" aria-hidden="true"></span><span class="mono">${fTime} · ${escapeHtml(wmT(layerConfig[state.layer].label))} ${wmSampleText(spot,state.layer)}</span></div>
+      <div class="wm-mini-pills">${WM_PHOTO_LAYERS.map(key=>`<span class="wm-pill">${WM_PHOTO_ICONS[key]} <b class="mono">${wmSampleText(spot,key)}</b></span>`).join('')}</div>
+      <div class="wm-mini-acts">
+        <button type="button" class="wm-btn" data-wm-act="detail">${escapeHtml(D.wm_detail_btn)}</button>
+        <a class="wm-btn" href="./reminders.html">${escapeHtml(D.wm_remind_btn)}</a>
+        <button type="button" class="wm-btn" data-wm-act="locate">${escapeHtml(D.wm_mini_locate)}</button>
+      </div>`;
+    mini.hidden=false;
+    wmPositionMini();
+  }
+
+  function wmOpenMini(spotId){
+    if(!spotId) return;
+    wmMiniSpotId=spotId;
+    renderWmMini();
+  }
+
+  function wmCloseMini(){
+    wmMiniSpotId=null;
+    const mini=$('wm-mini');
+    if(mini) mini.hidden=true;
+  }
+
+  function wmEnsureMiniMoveHook(){
+    if(wmMiniMoveHooked || !state.map || typeof state.map.on!=='function') return;
+    wmMiniMoveHooked=true;
+    state.map.on('move',()=>{ if(wmMiniSpotId) wmPositionMini(); });
+  }
+
+  // ── 詳情彈窗（mockup-3 骨架：真實取樣值＋coverage＋機位摺疊）──
+  function wmOpenDetail(spotId){
+    const spot=(state.data?.spots||[]).find(s=>s.spot_id===spotId);
+    if(!spot) return;
+    const D=wmD();
+    wmDetailSpotId=spotId;
+    const cov=wmSpotCoverage(spotId);
+    const nameHost=$('wm-modal-name');
+    if(nameHost) nameHost.textContent=spot.name;
+    const tier=$('wm-modal-tier');
+    if(tier){
+      tier.className=`wm-tier ${cov.badge}`;
+      tier.textContent=wmCovBadgeText(cov.badge);
+    }
+    const regionHost=$('wm-modal-region');
+    if(regionHost) regionHost.textContent=`${wmRegionName()} · ${spot.lat.toFixed(4)}°, ${spot.lon.toFixed(4)}°`;
+    const rows=WM_PHOTO_LAYERS.map(key=>{
+      const value=samplePointValue({lat:spot.lat,lon:spot.lon},key);
+      const ok=Number.isFinite(value);
+      return `<div class="wm-cond-row"><span>${WM_PHOTO_ICONS[key]} ${escapeHtml(wmT(layerConfig[key].label))}</span>`
+        +`<span class="mono">${ok?escapeHtml(formatValue(value,key)):'—'}</span>`
+        +`<span class="${ok?'wm-cond-ok':'wm-cond-no'}">${ok?'✓':escapeHtml(D.wm_no_data_short)}</span></div>`;
+    }).join('');
+    const group=cov.group;
+    let covHtml;
+    if(!group){
+      covHtml=`<div>${escapeHtml(D.wm_cov_none)}</div>`;
+    }else{
+      const migrated=Number(group.coverage_entry_count ?? group.opportunities.length);
+      const total=Number(group.catalog_opportunity_count ?? group.opportunities.length);
+      const incomplete=group.opportunities.filter(x=>!x.complete).length;
+      covHtml=`<div>${escapeHtml(wmT('已建立 coverage：{a} / {b} 個題材；其中 {c} 個仍不完整。',{a:migrated,b:total,c:incomplete}))}</div>`;
+    }
+    const zones=(group?.opportunities||[]).flatMap(op=>op.camera_zones||[]).filter(z=>z&&z.name);
+    const zoneList=zones.length
+      ? zones.slice(0,6).map(z=>`<div>📍 ${escapeHtml(z.name)}</div>`).join('')
+        +(zones.length>6?`<div>… +${zones.length-6}</div>`:'')
+      : `<div>${escapeHtml(D.wm_no_camera_zones)}</div>`;
+    const body=$('wm-modal-body');
+    if(body){
+      body.innerHTML=`
+        <div class="wm-modal-section">${rows}</div>
+        <details class="wm-acc"><summary>${escapeHtml(D.wm_cov_section)}</summary><div class="wm-acc-body">${covHtml}</div></details>
+        <details class="wm-acc"><summary>${escapeHtml(D.wm_camera_section)}</summary><div class="wm-acc-body">${zoneList}</div></details>`;
+    }
+    const overlay=$('wm-detail-overlay');
+    if(overlay) overlay.hidden=false;
+  }
+
+  function wmCloseDetail(){
+    wmDetailSpotId=null;
+    const overlay=$('wm-detail-overlay');
+    if(overlay) overlay.hidden=true;
+  }
+
+  // ── 日期列＋小時軸（today/now 自動置中；只讀既有 frame 契約）──
+  function wmUpdateTimeDock(){
+    const dock=$('wm-timeline-dock');
+    if(!dock) return;
+    const tl=timelineDataset();
+    const frames=(tl&&tl.frames)||[];
+    const show=!isObservationMode() && !isStaticEnvironmentMode() && frames.length>1;
+    dock.hidden=!show;
+    if(!show){ wmDockRenderKey=null; return; }
+    const D=wmD();
+    let dayFmt,hmFmt;
+    try{
+      dayFmt=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit'});
+      hmFmt=new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',hour12:false});
+    }catch(_){ dock.hidden=true; return; }
+    let todayKey;
+    try{ todayKey=dayFmt.format(new Date()); }catch(_){ todayKey=null; }
+    const mmdd=iso=>{
+      try{
+        const parts=dayFmt.formatToParts(new Date(iso));
+        const get=t=>(parts.find(x=>x.type===t)||{}).value||'';
+        return `${get('month')}/${get('day')}`;
+      }catch(_){ return ''; }
+    };
+    const relLabel=diffDays=>diffDays===0?` ${D.wm_day_today}`
+      :(diffDays===1?` ${D.wm_day_tomorrow}`:(diffDays===2?` ${D.wm_day_after}`:''));
+    const dayDiff=key=>Number.isFinite(Date.parse(key))&&todayKey
+      ? Math.round((Date.parse(key)-Date.parse(todayKey))/86400000) : null;
+    const dayOrder=[];
+    const dayMap=new Map();
+    frames.forEach((f,i)=>{
+      let key;
+      try{ key=dayFmt.format(new Date(f.valid_time_utc)); }catch(_){ key=''; }
+      if(!dayMap.has(key)){ dayMap.set(key,[]); dayOrder.push(key); }
+      dayMap.get(key).push(i);
+    });
+    wmDockDayIndex=Object.fromEntries(dayOrder.map(k=>[k,dayMap.get(k)]));
+    wmDockTodayKey=todayKey;
+    const curFrame=frames[state.frameIndex]||frames[0];
+    const selDay=curFrame?dayFmt.format(new Date(curFrame.valid_time_utc)):null;
+    const nowIdx=nearestFrameIndex(tl,new Date().toISOString());
+    const dayRow=$('wm-day-row'), hourRow=$('wm-hour-row');
+    if(!dayRow || !hourRow) return;
+    dayRow.innerHTML=dayOrder.map(key=>{
+      const idxs=dayMap.get(key)||[];
+      const label=idxs.length?`${mmdd(frames[idxs[0]].valid_time_utc)}${relLabel(dayDiff(key))}`:key;
+      return `<button type="button" class="wm-day-pill${key===selDay?' sel':''}" data-wm-day="${escapeHtml(key)}"><span class="l1">${escapeHtml(label)}</span></button>`;
+    }).join('');
+    const hourIdx=dayMap.get(selDay)||[];
+    hourRow.innerHTML=hourIdx.map(i=>{
+      const f=frames[i];
+      let hasData=false;
+      try{ hasData=datasetHasFrameForLayer(autoDataset(state.layer),state.layer,f.valid_time_utc); }catch(_){}
+      const cls=`wm-hour-cell${i===nowIdx?' now':''}${i===state.frameIndex?' sel':''}`;
+      return `<button type="button" class="${cls}" data-wm-frame="${i}" title="${escapeHtml(hasData?D.wm_band_ok:D.wm_band_no)}">`
+        +`<span class="h mono">${escapeHtml(hmFmt.format(new Date(f.valid_time_utc)))}</span>`
+        +`<span class="band ${hasData?'ok':'off'}" aria-hidden="true"></span></button>`;
+    }).join('');
+    // today / now auto-centering: only on actual selection changes, so the
+    // user's manual horizontal browsing is never yanked back mid-drag.
+    const renderKey=`${state.frameIndex}|${frames.length}|${state.modelMode}|${state.layer}|${dayOrder.length}`;
+    if(renderKey===wmDockRenderKey) return;
+    wmDockRenderKey=renderKey;
+    const selPill=dayRow.querySelector('.sel');
+    if(selPill) selPill.scrollIntoView({inline:'center',block:'nearest'});
+    const centerCell=hourRow.querySelector('.sel') || hourRow.querySelector('.now');
+    if(centerCell) centerCell.scrollIntoView({inline:'center',block:'nearest'});
+  }
+
+  // ── 事件接線（delegated，一次註冊）──
+  function wmInitOverlays(){
+    if(wmOverlayWired) return;
+    wmOverlayWired=true;
+    const chips=$('layer-chips');
+    if(chips){
+      chips.addEventListener('click',e=>{
+        const b=e.target.closest('[data-wm-layer]');
+        if(!b || b.classList.contains('off')) return;
+        state.layer=b.dataset.wmLayer;
+        const layerSelect=$('layer-select');
+        if(layerSelect) layerSelect.value=state.layer;
+        syncWindVectorDefault();
+        const windToggle=$('wind-vector-toggle');
+        if(windToggle) windToggle.checked=state.windVectors;
+        renderAll();
+      });
+    }
+    const sideBody=$('wm-side-body');
+    if(sideBody){
+      sideBody.addEventListener('click',e=>{
+        const row=e.target.closest('[data-wm-spot]');
+        if(!row) return;
+        const spotId=row.dataset.wmSpot;
+        const spotSelect=$('spot-select');
+        if(spotSelect) spotSelect.value=spotId;
+        selectSpot(spotId);
+        wmOpenMini(spotId);
+      });
+    }
+    const sideToggle=$('side-toggle');
+    const side=$('wm-side');
+    if(sideToggle && side){
+      sideToggle.addEventListener('click',()=>side.classList.toggle('open'));
+    }
+    const dayRow=$('wm-day-row');
+    if(dayRow){
+      dayRow.addEventListener('click',e=>{
+        const b=e.target.closest('[data-wm-day]');
+        if(!b) return;
+        const idxs=wmDockDayIndex[b.dataset.wmDay]||[];
+        if(!idxs.length) return;
+        let target=idxs[0];
+        if(b.dataset.wmDay===wmDockTodayKey){
+          const nowIso=new Date().toISOString();
+          target=idxs.reduce((best,i)=>{
+            const d=Math.abs(Date.parse((timelineDataset()?.frames||[])[i]?.valid_time_utc)-Date.parse(nowIso));
+            const bd=Math.abs(Date.parse((timelineDataset()?.frames||[])[best]?.valid_time_utc)-Date.parse(nowIso));
+            return Number.isFinite(d)&&d<bd?i:best;
+          },idxs[0]);
+        }
+        stopTimelinePlayback();
+        setFrameIndex(target);
+      });
+    }
+    const hourRow=$('wm-hour-row');
+    if(hourRow){
+      hourRow.addEventListener('click',e=>{
+        const b=e.target.closest('[data-wm-frame]');
+        if(!b) return;
+        stopTimelinePlayback();
+        setFrameIndex(Number(b.dataset.wmFrame));
+      });
+    }
+    const mini=$('wm-mini');
+    if(mini){
+      mini.addEventListener('click',e=>{
+        const act=e.target.closest('[data-wm-act]');
+        if(!act) return;
+        const kind=act.dataset.wmAct;
+        if(kind==='close') wmCloseMini();
+        else if(kind==='detail' && wmMiniSpotId) wmOpenDetail(wmMiniSpotId);
+        else if(kind==='locate'){
+          // Explicit camera action (CL-UI-59) — the only spot path that
+          // may re-center the view.
+          locateSpot();
+          wmCloseMini();
+          renderAll();
+        }
+      });
+    }
+    const overlay=$('wm-detail-overlay');
+    if(overlay){
+      overlay.addEventListener('click',e=>{ if(e.target===overlay) wmCloseDetail(); });
+      const modal=overlay.querySelector('.wm-modal');
+      if(modal){
+        modal.addEventListener('click',e=>{
+          const act=e.target.closest('[data-wm-act]');
+          if(!act) return;
+          const kind=act.dataset.wmAct;
+          if(kind==='close') wmCloseDetail();
+          else if(kind==='locate'){
+            locateSpot();
+            wmCloseDetail();
+            renderAll();
+          }
+        });
+      }
+    }
+    document.addEventListener('keydown',e=>{
+      if(e.key!=='Escape') return;
+      wmCloseMini();
+      wmCloseDetail();
+    });
+    try{
+      window.addEventListener('online',()=>{ wmSideRenderKey=null; renderWmSide(); });
+      window.addEventListener('offline',()=>{ wmSideRenderKey=null; renderWmSide(); });
+    }catch(_){}
+  }
+
+  // ── renderAll 掛鉤：overlay shell 與 live state 同步 ──
+  function wmRenderOverlays(){
+    wmInitOverlays();
+    wmEnsureMiniMoveHook();
+    renderWmLayerChips();
+    renderWmSide();
+    if(wmDetailSpotId && !selectedSpot()) wmCloseDetail();
+    renderWmMini();
   }
 
   window.addEventListener('resize',()=>{
