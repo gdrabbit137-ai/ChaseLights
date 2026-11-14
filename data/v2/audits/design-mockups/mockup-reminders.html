@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOCKUP 4 — 提醒清單頁 · ChaseLights DESIGN-4</title>
+<style>
+/* ============================================================
+   DESIGN-4 mockup — 提醒清單頁（reminders.html 重設計）
+   token 引用：design-system.html（DESIGN-4 全站唯一真相）
+   基準：DESIGN-3 三已核 mockup（mockup-cards/forecast/detail）
+   流程語義沿用現行 reminders.html：地區→景點→題材 三層＋關鍵字搜尋
+   ============================================================ */
+:root{
+  /* surfaces */
+  --bg-0:#0B0F1A; --bg-1:#111827; --bg-2:#1A2332; --bg-3:#232D3F;
+  --border:#2A3441; --border-strong:#3B4757;
+  /* text */
+  --text-1:#E6EBF2; --text-2:#A8B3C2; --text-3:#8B98A9;
+  /* semantic — 契約色 */
+  --green:#22C55E; --green-text:#4ADE80; --green-bg:rgba(34,197,94,.10); --green-border:#166534;
+  --amber:#F59E0B; --amber-text:#FBBF24; --amber-bg:rgba(245,158,11,.10); --amber-border:#92600A;
+  --red:#EF4444; --red-text:#F87171; --red-bg:rgba(239,68,68,.09); --red-border:#7F1D1D;
+  --grey:#6B7686; --grey-text:#98A4B3; --grey-bg:rgba(107,118,134,.14);
+  --blue:#3B82F6; /* 僅連結 */
+  /* scale（design-system token） */
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+  --fs-12:12px; --fs-13:13px; --fs-14:14px; --fs-15:15px; --fs-16:16px; --fs-20:20px;
+  --control-h:36px; --pill-h:32px; --chip-h:24px; --btn-h:40px;
+  --shadow-1:0 1px 2px rgba(0,0,0,.4); --shadow-2:0 8px 24px rgba(0,0,0,.5); --shadow-3:0 16px 48px rgba(0,0,0,.65);
+  --font:"Inter","Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Mono","Consolas",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:#3B4757 var(--bg-0)}
+body{background:var(--bg-0);color:var(--text-1);font-family:var(--font);font-size:var(--fs-14);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* ── mockup chrome（非產品 UI）────────────────────────── */
+.mockup-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:var(--sp-3);
+  padding:8px 16px;background:#070A12;border-bottom:1px solid var(--border);font-size:var(--fs-12);color:var(--text-3)}
+.mockup-bar .tag{font-weight:600;color:#F472B6;letter-spacing:.04em}
+.mockup-bar .grp{display:flex;gap:4px}
+.mockup-bar button{height:24px;padding:0 10px;border-radius:var(--r-xs);border:1px solid var(--border);color:var(--text-2);font-size:11px}
+.mockup-bar button.on{background:var(--bg-3);color:var(--text-1);border-color:var(--border-strong)}
+.mockup-bar .spacer{flex:1}
+
+#shell{max-width:760px;margin:0 auto;padding:var(--sp-5) var(--sp-5) 64px;transition:max-width .25s}
+#shell.vp390{max-width:390px;padding:var(--sp-4) 0 64px;box-shadow:0 0 0 1px var(--border),0 24px 80px rgba(0,0,0,.6)}
+#shell.vp390 .pad{padding-left:var(--sp-4);padding-right:var(--sp-4)}
+
+/* ── 導覽列（design-system 標準骨架）──────────────────── */
+.topnav-wrap{position:relative;z-index:40;background:var(--bg-0);border-bottom:1px solid var(--border)}
+.topnav{display:flex;align-items:center;gap:var(--sp-4);max-width:1280px;margin:0 auto;padding:var(--sp-3) var(--sp-5)}
+.logo{font-weight:600;font-size:var(--fs-15);letter-spacing:-.01em}
+.logo .dot{color:var(--green)}
+.topnav .navlinks{display:flex;gap:var(--sp-4);font-size:var(--fs-13)}
+.topnav .navlinks a{color:var(--text-2)}
+.topnav .navlinks a.active{color:var(--text-1);font-weight:600}
+.topnav .right{margin-left:auto;display:flex;gap:var(--sp-2);align-items:center}
+#shell.vp390 .topnav-wrap .navlinks{display:none}
+#shell.vp390 .member,#shell.vp390 .login-btn{height:40px}
+#shell.vp390 .member .m-name{max-width:96px}
+#shell.vp390 .member-menu button{height:44px}
+#shell.vp390 .member-menu{min-width:200px}
+
+/* ── 會員入口（DESIGN-3b 已核規格）────────────────────── */
+.login-btn{display:none;align-items:center;height:36px;padding:0 16px;border:1px solid var(--border-strong);border-radius:var(--r-xs);
+  background:var(--bg-2);color:var(--text-1);font-size:var(--fs-13);font-weight:600}
+.login-btn:hover{background:var(--bg-3)}
+.member{position:relative;display:none;align-items:center;gap:var(--sp-2);height:36px;padding:0 10px 0 5px;
+  border:1px solid var(--border);border-radius:18px;background:var(--bg-2);cursor:pointer;user-select:none}
+.member:hover{background:var(--bg-3);border-color:var(--border-strong)}
+.avatar{width:26px;height:26px;border-radius:50%;background:var(--bg-3);border:1px solid var(--border-strong);color:var(--text-1);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none}
+.member .m-name{font-size:var(--fs-13);color:var(--text-2);max-width:128px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.member .m-caret{font-size:9px;color:var(--text-3)}
+.member-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:184px;background:var(--bg-1);border:1px solid var(--border-strong);
+  border-radius:var(--r-md);box-shadow:var(--shadow-3);padding:var(--sp-1);display:none;z-index:70}
+.member.open .member-menu{display:block}
+.member-menu button{display:flex;width:100%;align-items:center;gap:var(--sp-2);height:36px;padding:0 var(--sp-2);
+  border-radius:var(--r-xs);color:var(--text-2);font-size:var(--fs-13);text-align:left}
+.member-menu button:hover{background:var(--bg-2);color:var(--text-1)}
+.member-menu .mm-ic{width:18px;text-align:center;flex:none}
+.member-menu .mm-sep{height:1px;background:var(--border);margin:var(--sp-1) 6px}
+.member-menu .mm-out{color:var(--grey-text)}
+.member-zone.in .member{display:flex}
+.member-zone.out .login-btn{display:flex}
+
+/* ── 標題列 ──────────────────────────────────────────── */
+.title-row{display:flex;align-items:baseline;gap:var(--sp-3);margin:var(--sp-5) 0 var(--sp-2)}
+.title-row h1{font-size:var(--fs-20);font-weight:600}
+.title-row .count{margin-left:auto;font-size:var(--fs-13);color:var(--text-3)}
+
+/* ── 新增提醒面板 ─────────────────────────────────────── */
+.panel{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-4);margin-bottom:var(--sp-4)}
+.panel h2{font-size:var(--fs-14);font-weight:600;margin-bottom:var(--sp-3)}
+.add-grid{display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap}
+select.sel,input.sel{height:var(--control-h);padding:0 var(--sp-3);background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text-1);font-size:var(--fs-13)}
+select.sel:focus-visible,input.sel:focus-visible{outline:1px solid var(--border-strong)}
+input.sel{flex:1;min-width:140px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:36px;padding:0 var(--sp-4);
+  border-radius:var(--r-xs);border:1px solid var(--border);background:var(--bg-2);font-size:var(--fs-13);color:var(--text-2);white-space:nowrap}
+.btn:hover{background:var(--bg-3);color:var(--text-1);border-color:var(--border-strong)}
+.btn-primary{height:var(--btn-h);font-size:var(--fs-14);font-weight:600;background:var(--bg-3);border-color:var(--border-strong);color:var(--text-1)}
+.btn-primary[disabled]{opacity:.45;cursor:default}
+.btn-danger{height:30px;font-size:var(--fs-12);border-color:var(--red-border);color:var(--red-text);background:transparent;padding:0 10px}
+.btn-danger:hover{background:var(--red-bg)}
+/* 三層選單的箭頭指示 */
+.add-flow{display:flex;align-items:center;gap:var(--sp-2);flex-wrap:wrap}
+.add-flow .arrow{color:var(--text-3);font-size:12px;flex:none}
+/* 搜尋結果列 */
+.results{margin-top:var(--sp-3);border-top:1px solid var(--border)}
+.result-row{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-2) 0;border-bottom:1px solid var(--border);min-width:0}
+.result-row .r-name{font-size:var(--fs-13);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.result-row .r-sub{font-size:var(--fs-12);color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.result-row .grow{flex:1;min-width:0}
+.hint{font-size:var(--fs-12);color:var(--text-3);margin-top:var(--sp-2)}
+/* 加入後的預覽 chip */
+.preview{display:flex;align-items:center;gap:var(--sp-2);margin-top:var(--sp-3);padding:var(--sp-2) var(--sp-3);
+  background:var(--bg-2);border:1px solid var(--border-strong);border-radius:var(--r-sm);font-size:var(--fs-13)}
+.preview .p-ic{flex:none}
+.preview .grow{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ── 提醒卡 ──────────────────────────────────────────── */
+.rem-card{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-3) var(--sp-4);
+  margin-bottom:var(--sp-2);display:flex;gap:var(--sp-3);align-items:center;min-width:0}
+#shell.vp390 .rem-card{padding:var(--sp-3);border-radius:var(--r-sm)}
+.rem-card:hover{border-color:var(--border-strong)}
+.rem-card.off .rem-main{opacity:.55}
+.rem-main{flex:1;min-width:0}
+.rem-line1{display:flex;align-items:center;gap:var(--sp-2);min-width:0}
+.rem-line1 .place{font-size:var(--fs-14);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.g-chip{display:inline-flex;align-items:center;height:var(--chip-h);padding:0 var(--sp-2);flex:none;
+  border-radius:var(--r-xs);border:1px solid var(--border);background:var(--bg-1);font-size:var(--fs-12);color:var(--text-2)}
+.rem-line2{display:flex;align-items:center;gap:var(--sp-2);margin-top:2px;font-size:var(--fs-12);color:var(--text-3);min-width:0}
+.rem-line2 .region{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:none}
+.rem-line2 .next{margin-left:auto;font-family:var(--mono);font-size:var(--fs-12);color:var(--green-text);flex:none}
+.rem-line2 .next.warn{color:var(--amber-text)}
+.rem-line2 .next.off{color:var(--grey-text)}
+.rem-acts{display:flex;gap:var(--sp-2);flex:none;align-items:center}
+/* 開關 switch（design-system 元件） */
+.switch{position:relative;width:36px;height:20px;border-radius:999px;background:var(--bg-3);border:1px solid var(--border-strong);
+  cursor:pointer;flex:none;transition:background .15s}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--text-3);transition:all .15s}
+.switch.on{background:var(--green-bg);border-color:var(--green-border)}
+.switch.on::after{left:18px;background:var(--green)}
+
+/* ── 空狀態（design-system 標準樣式）──────────────────── */
+.empty{display:flex;flex-direction:column;align-items:center;gap:var(--sp-2);padding:var(--sp-6) var(--sp-4);
+  background:var(--bg-1);border:1px dashed var(--border-strong);border-radius:var(--r-md);text-align:center}
+.empty .ic{font-size:28px;opacity:.7}
+.empty .t{font-size:var(--fs-14);font-weight:600}
+.empty .d{font-size:var(--fs-13);color:var(--text-3);max-width:340px}
+.empty .btn{margin-top:var(--sp-2)}
+
+/* ── 設計說明（頁尾摺疊）───────────────────────────────── */
+details.notes{margin-top:var(--sp-6);border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg-1)}
+details.notes summary{padding:var(--sp-3) var(--sp-4);font-size:var(--fs-13);font-weight:600;color:var(--text-2);cursor:pointer;list-style:none}
+details.notes summary::before{content:"▸ ";color:var(--text-3)}
+details.notes[open] summary::before{content:"▾ "}
+details.notes .body{padding:0 var(--sp-4) var(--sp-4);font-size:var(--fs-13);color:var(--text-2)}
+details.notes h4{font-size:var(--fs-12);color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:var(--sp-4) 0 var(--sp-2)}
+details.notes table{width:100%;border-collapse:collapse;font-size:var(--fs-12)}
+details.notes td{padding:6px 8px;border-top:1px solid var(--border);vertical-align:top;color:var(--text-2)}
+details.notes td:first-child{width:150px;color:var(--text-1);font-weight:600;white-space:nowrap}
+details.notes code{font-family:var(--mono);font-size:11px;background:var(--bg-2);padding:1px 5px;border-radius:4px;color:var(--text-1)}
+details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:var(--sp-3)}
+
+/* ── 390 節奏 ───────────────────────────────────────── */
+#shell.vp390 .add-grid{gap:var(--sp-2)}
+#shell.vp390 .rem-acts{flex-direction:column;gap:var(--sp-1);align-items:stretch}
+#shell.vp390 .rem-acts .btn{height:36px;justify-content:center}
+#shell.vp390 .rem-line2 .next{font-size:11px}
+@media (max-width:480px){
+  .rem-acts{flex-direction:column;gap:4px;align-items:stretch}
+  .rem-acts .btn{height:36px;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- mockup 工具列（非產品 UI） -->
+<div class="mockup-bar">
+  <span class="tag">MOCKUP 4/6 · 提醒清單頁</span>
+  <span class="grp" id="lang-grp">
+    <button data-lang="zh-TW" class="on">zh-TW</button><button data-lang="en">en</button><button data-lang="ja">ja</button>
+  </span>
+  <span class="grp" id="vp-grp">
+    <button data-vp="1280" class="on">1280px</button><button data-vp="390">390px</button>
+  </span>
+  <span class="grp" id="auth-grp">
+    <button data-auth="out">未登入</button><button data-auth="in" class="on">已登入</button>
+  </span>
+  <span class="grp" id="state-grp">
+    <button data-state="list" class="on">有提醒</button><button data-state="empty">空清單</button>
+  </span>
+  <span class="spacer"></span>
+  <a href="design-system.html">→ design-system</a>
+  <a href="mockup-cards.html">→ 已核 mockup 1</a>
+  <a href="mockup-forecast.html">→ 已核 mockup 2</a>
+  <a href="mockup-detail.html">→ 已核 mockup 3</a>
+  <a href="mockup-weathermap.html">→ mockup 5 天氣圖</a>
+  <a href="mockup-genre-eval.html">→ mockup 6 題材評估</a>
+</div>
+
+<nav class="topnav-wrap">
+  <div class="topnav">
+    <span class="logo">ChaseLights<span class="dot">·</span></span>
+    <span class="navlinks">
+      <a href="mockup-cards.html" data-i18n="nav_cards">卡片</a>
+      <a href="mockup-weathermap.html" data-i18n="nav_weathermap">天氣圖</a>
+      <a href="mockup-reminders.html" class="active" data-i18n="nav_reminders">拍攝提醒</a>
+    </span>
+    <span class="right">
+      <span class="member-zone in" id="member-zone">
+        <button class="login-btn" data-i18n="login">登入</button>
+        <span class="member" id="member">
+          <span class="avatar" data-i18n="avatar_ch">晨</span>
+          <span class="m-name" data-i18n="member_name">晨曦旅人</span>
+          <span class="m-caret">▾</span>
+          <span class="member-menu">
+            <button><span class="mm-ic">★</span><span data-i18n="menu_fav">我的最愛</span></button>
+            <button><span class="mm-ic">🔔</span><span data-i18n="menu_rem">提醒清單</span></button>
+            <button><span class="mm-ic">👤</span><span data-i18n="menu_profile">會員資料</span></button>
+            <span class="mm-sep"></span>
+            <button class="mm-out"><span class="mm-ic">↩</span><span data-i18n="menu_logout">登出</span></button>
+          </span>
+        </span>
+      </span>
+    </span>
+  </div>
+</nav>
+
+<div id="shell">
+
+  <div class="title-row">
+    <h1>🔔 <span data-i18n="page_title">拍攝提醒</span></h1>
+    <span class="count" id="rem-count"></span>
+  </div>
+
+  <!-- 新增提醒：地區→景點→題材 三層選單＋關鍵字搜尋（沿用現行流程語義） -->
+  <section class="panel" id="add-panel">
+    <h2 data-i18n="add_title">＋ 新增提醒</h2>
+    <div class="add-flow">
+      <select class="sel" id="sel-region" aria-label="region"></select>
+      <span class="arrow">→</span>
+      <select class="sel" id="sel-place" aria-label="place" style="flex:1;min-width:180px"></select>
+      <span class="arrow">→</span>
+      <select class="sel" id="sel-subject" aria-label="subject"></select>
+    </div>
+    <input class="sel" id="kw" type="search" style="margin-top:8px;width:100%" data-i18n-ph="kw_ph" placeholder="關鍵字搜尋景點（名稱或地區）…">
+    <div class="results" id="results"></div>
+    <div class="preview" id="preview" hidden>
+      <span class="p-ic">🔔</span>
+      <span class="grow" id="preview-txt"></span>
+      <button class="btn btn-primary" id="btn-add" style="height:32px" data-i18n="add_btn">加入提醒</button>
+    </div>
+    <p class="hint" id="flow-hint" data-i18n="flow_hint">選地區 → 景點 → 題材，或直接搜尋景點名；加入後在符合時段前 15 分鐘通知。</p>
+  </section>
+
+  <!-- 提醒清單 -->
+  <section class="panel" id="list-panel">
+    <h2 data-i18n="list_title">我的提醒</h2>
+    <div id="rem-list"></div>
+    <div class="empty" id="rem-empty" hidden>
+      <span class="ic">🔔</span>
+      <span class="t" data-i18n="e_rem_t">還沒有提醒</span>
+      <span class="d" data-i18n="e_rem_d">選地區 → 景點 → 題材建立第一個拍攝提醒，符合時段前會通知你。</span>
+      <button class="btn btn-primary" data-i18n="e_rem_a" onclick="document.getElementById('sel-region').focus()">建立提醒</button>
+    </div>
+  </section>
+
+  <details class="notes">
+    <summary data-i18n="notes_title">設計說明 — 設計決策 × design-review 對應</summary>
+    <div class="body">
+      <h4 data-i18n="notes_add">新增流程</h4>
+      <table>
+        <tr><td>三層選單沿用</td><td>現行 reminders.html 的 地區→景點→題材 三層語義原樣保留（CL-UI-58 流程契約）；視覺改為 design-system 下拉（h36 r8）＋「→」指示；層級依存：改地區重灌景點、改景點重灌題材。</td></tr>
+        <tr><td>關鍵字搜尋並行</td><td>搜尋輸入框即時過濾景點（名稱＋地區），命中列可點選 = 直接選定該景點（跳過第一層點選）；控制項同族：同一高度/圓角/邊框語系（CL-UI-46 控制族規則）。</td></tr>
+        <tr><td>加入預覽</td><td>三層選齊後出現預覽列（🔔 景點·題材·首次觸發預估）＋主按鈕 40px；未選齊按鈕 disabled（opacity .45），不猜測使用者意圖。</td></tr>
+        <tr><td>390px 節奏</td><td>三層選單換行成兩列（地區＋題材同行、景點佔整列）；按鈕列縱排、全寬 36px 維持 thumb 可達。</td></tr>
+      </table>
+      <h4 data-i18n="notes_card">提醒卡解剖</h4>
+      <table>
+        <tr><td>一行主狀態</td><td>DR2 密集卡規則 — 第一行「景點名＋題材 chip」，第二行「地區＋下次觸發時間」；時間 mono 13px 綠字（非建議時段的暫緩提醒轉灰）。長敘事不進清單。</td></tr>
+        <tr><td>下次觸發語義</td><td>「下次觸發 11/17 05:20」＝下一個符合時段前 15 分（顯示 spot-local 時間＋相對日詞）；連續未符 → 「連續 5 日未符」琥珀字，提醒使用者該複核提醒而不是靜默沉默。</td></tr>
+        <tr><td>開關＋編輯/刪除</td><td>switch（design-system 元件）＝暫停/恢復單一提醒；暫停時整卡降透明度＋時間轉灰；刪除為紅描邊按鈕（30px，桌面）/全寬 36px（390px 觸控目標）。</td></tr>
+        <tr><td>單一語義</td><td>★=收藏、🔔=提醒全站單一語義（DESIGN-3b 契約）；提醒卡不使用 ★，收藏狀態不在此頁呈現。</td></tr>
+      </table>
+      <h4 data-i18n="notes_state">兩態與空狀態</h4>
+      <table>
+        <tr><td>mockup-bar 狀態切換</td><td>「有提醒 / 空清單」示範空狀態（design-system §9 標準樣式：dashed 框＋圖示＋主張＋指引＋動作鈕「建立提醒」滾動回新增面板）。</td></tr>
+        <tr><td>未登入</td><td>masthead 切為描邊登入鈕（DESIGN-3b）；清單區域顯示登入後才有內容的提示（沿用現行 rem-login-panel 語義）。</td></tr>
+        <tr><td>token 引用</td><td>全部樣式引用 <code>design-system.html</code>（DESIGN-4 token v1）— 表面四層/語義色/圓角/間距/陰影/控制項高度不在此頁重定義；基準為 DESIGN-3 三已核 mockup。</td></tr>
+      </table>
+      <p class="data-src" data-i18n="data_src">資料樣例：景點沿用 subject-cards 真實 place（tw-034 崇德、tw-032 見晴懷古步道、tw-027 田寮月世界、jp-011 東京鐵塔、jp-045 地球岬展望台、jp-001 美瑛青池、us-158 哈丁冰原）；題材短名沿用 21 種 genre_short_names。下次觸發時間為符合視窗−15 分的示意推導。</p>
+    </div>
+  </details>
+</div>
+
+<script>
+/* ── 三語詞典 ─────────────────────────────────────────── */
+const I18N={
+ 'zh-TW':{nav_cards:'卡片',nav_weathermap:'天氣圖',nav_reminders:'拍攝提醒',login:'登入',member_name:'晨曦旅人',avatar_ch:'晨',
+  menu_fav:'我的最愛',menu_rem:'提醒清單',menu_profile:'會員資料',menu_logout:'登出',
+  page_title:'拍攝提醒',rem_count:'5 個提醒 · 3 個啟用中',
+  add_title:'＋ 新增提醒',kw_ph:'關鍵字搜尋景點（名稱或地區）…',add_btn:'加入提醒',
+  flow_hint:'選地區 → 景點 → 題材，或直接搜尋景點名；加入後在符合時段前 15 分鐘通知。',
+  list_title:'我的提醒',
+  next_label:'下次觸發',paused:'已暫停',paused_next:'暫停中',streak:'連續 5 日未符',
+  first_trigger:'首次觸發',search_none:'沒有符合的景點 — 試試地區或名稱的一部分。',
+  search_hint:'找到',places_word:'個景點',
+  e_rem_t:'還沒有提醒',e_rem_d:'選地區 → 景點 → 題材建立第一個拍攝提醒，符合時段前會通知你。',e_rem_a:'建立提醒',
+  del:'刪除',edit:'編輯',
+  r_taiwan:'台灣',r_japan:'日本',r_us:'美國',
+  notes_title:'設計說明 — 設計決策 × design-review 對應',notes_add:'新增流程',notes_card:'提醒卡解剖',notes_state:'兩態與空狀態',
+  data_src:'資料樣例：景點沿用 subject-cards 真實 place（tw-034 崇德、tw-032 見晴懷古步道、tw-027 田寮月世界、jp-011 東京鐵塔、jp-045 地球岬展望台、jp-001 美瑛青池、us-158 哈丁冰原）；題材短名沿用 21 種 genre_short_names。下次觸發時間為符合視窗−15 分的示意推導。'},
+ en:{nav_cards:'Cards',nav_weathermap:'Weather map',nav_reminders:'Reminders',login:'Log in',member_name:'Dawn Chaser',avatar_ch:'D',
+  menu_fav:'Favorites',menu_rem:'Reminders',menu_profile:'Account',menu_logout:'Log out',
+  page_title:'Reminders',rem_count:'5 reminders · 3 active',
+  add_title:'＋ New reminder',kw_ph:'Search places by keyword (name or region)…',add_btn:'Add reminder',
+  flow_hint:'Pick region → place → subject, or search directly; we notify 15 min before the fitting window.',
+  list_title:'My reminders',
+  next_label:'Next trigger',paused:'Paused',paused_next:'Paused',streak:'5 days unfit in a row',
+  first_trigger:'First trigger',search_none:'No matching place — try a region or part of a name.',
+  search_hint:'Found',places_word:' places',
+  e_rem_t:'No reminders yet',e_rem_d:'Pick region → place → subject to create your first reminder.',e_rem_a:'Create reminder',
+  del:'Delete',edit:'Edit',
+  r_taiwan:'Taiwan',r_japan:'Japan',r_us:'United States',
+  notes_title:'Design notes — decisions × design-review findings',notes_add:'Add flow',notes_card:'Reminder card anatomy',notes_state:'States & empty state',
+  data_src:'Samples reuse real subject-cards places (tw-034 Chongde, tw-032 Jianqing Historic Trail, tw-027 Tianliao Moon World, jp-011 Tokyo Tower, jp-045 Cape Chikyu, jp-001 Shirogane Blue Pond, us-158 Harding Icefield); 21 genre short names. Next-trigger = fitting window −15 min (illustrative).'},
+ ja:{nav_cards:'カード',nav_weathermap:'天気マップ',nav_reminders:'撮影リマインダー',login:'ログイン',member_name:'暁の旅人',avatar_ch:'暁',
+  menu_fav:'お気に入り',menu_rem:'リマインド一覧',menu_profile:'会員情報',menu_logout:'ログアウト',
+  page_title:'撮影リマインダー',rem_count:'リマインド 5 件・有効 3 件',
+  add_title:'＋ リマインド追加',kw_ph:'キーワードでスポットを検索（名称・地域）…',add_btn:'リマインドに追加',
+  flow_hint:'地域 → スポット → 題材を選ぶか、直接検索。適合時間帯の 15 分前に通知します。',
+  list_title:'リマインド一覧',
+  next_label:'次回発火',paused:'一時停止',paused_next:'停止中',streak:'5 日連続で不適合',
+  first_trigger:'初回発火',search_none:'該当するスポットがありません — 地域か名称の一部で試してください。',
+  search_hint:'見つかりました',places_word:' 件',
+  e_rem_t:'リマインドはまだありません',e_rem_d:'地域 → スポット → 題材を選んで最初のリマインドを作成。',e_rem_a:'リマインド作成',
+  del:'削除',edit:'編集',
+  r_taiwan:'台湾',r_japan:'日本',r_us:'アメリカ',
+  notes_title:'デザインメモ — 決定事項 × design-review 対応',notes_add:'追加フロー',notes_card:'リマインドカード構造',notes_state:'状態と空状態',
+  data_src:'データ例：subject-cards の実スポット（崇徳・見晴懐古歩道・田寮月世界・東京タワー・地球岬展望台・美瑛青い池・ハーディング氷原）を再利用。次回発火＝適合窓 −15 分（例示）。'}
+};
+/* 題材短名（subject-cards dictionaries.genre_short_names — design-system 引用） */
+const G={
+ mountain_view:['山景','Mountain view','山景'], overlook:['眺望','Overlook','眺望'], sunrise:['日出','Sunrise','日の出'],
+ sunset:['夕陽','Sunset','夕景'], golden_hour:['金光','Golden hour','ゴールデンアワー'], blue_hour:['藍調','Blue hour','ブルーアワー'],
+ city_night:['夜景','City night','夜景'], night_sky:['星空','Night sky','星空'], cloud_sea:['雲海','Cloud sea','雲海'],
+ overcast_soft:['陰柔光','Soft overcast','柔光'], geological_landform:['地景','Landform','地形'], reflection:['倒影','Reflection','水面反射'],
+ waterfall:['瀑布','Waterfall','滝'], snow_ice:['冰雪','Snow & ice','雪氷'], seasonal_plant:['花季','Seasonal flora','季節の花'],
+ tidal:['潮汐','Tide','潮汐'], blue_tears:['藍眼淚','Blue tears','藍眼淚'], drift_ice:['流冰','Drift ice','流氷'],
+ volcanic_glow:['熔岩','Lava glow','溶岩'], snow_ice_night:['夜冰雪','Night snow & ice','夜の雪氷'], general:['一般','General','一般']
+};
+/* 真實景點（subject-cards place）＋地區 */
+const PLACES=[
+ {id:'tw-034',rg:'tw',n:['崇德','Chongde','崇徳'],a:['花蓮縣 秀林鄉','Xiulin, Hualien','花蓮県秀林郷'],g:['sunrise','overlook']},
+ {id:'tw-032',rg:'tw',n:['見晴懷古步道','Jianqing Historic Trail','見晴懐古歩道'],a:['宜蘭縣 太平山','Taipingshan, Yilan','宜蘭県太平山'],g:['cloud_sea','overlook','overcast_soft']},
+ {id:'tw-033',rg:'tw',n:['粉鳥林','Fenniaolin Fish Harbor','粉鳥林漁港'],a:['宜蘭縣 南澳','Nan’ao, Yilan','宜蘭県南澳'],g:['sunrise','tidal']},
+ {id:'tw-027',rg:'tw',n:['田寮月世界','Tianliao Moon World','田寮月世界'],a:['高雄市 田寮區','Tianliao, Kaohsiung','高雄市田寮区'],g:['geological_landform','night_sky']},
+ {id:'jp-011',rg:'jp',n:['東京鐵塔','Tokyo Tower','東京タワー'],a:['東京都 港區','Minato, Tokyo','東京都港区'],g:['overlook','city_night']},
+ {id:'jp-045',rg:'jp',n:['地球岬展望台','Cape Chikyu Observatory','地球岬展望台'],a:['北海道 室蘭市','Muroran, Hokkaido','北海道室蘭市'],g:['sunset','overlook']},
+ {id:'jp-001',rg:'jp',n:['美瑛青池','Shirogane Blue Pond','美瑛青い池'],a:['北海道 美瑛町','Biei, Hokkaido','北海道美瑛町'],g:['reflection','general']},
+ {id:'us-158',rg:'us',n:['哈丁冰原','Harding Icefield','ハーディング氷原'],a:['阿拉斯加 奇奈峽灣','Kenai Fjords, AK','ケナイフィヨルド'],g:['snow_ice']}
+];
+/* 提醒樣例：景點＋題材＋下次觸發（視窗−15分推導）＋狀態 */
+const REMS=[
+ {p:'tw-034',g:'sunrise',next:[['11/16','05:20','06:00'],['11/17','05:20','06:00']],on:true},
+ {p:'tw-032',g:'cloud_sea',next:[['11/16','11:45','12:00'],['11/17','11:45','12:00']],on:true},
+ {p:'jp-045',g:'sunset',next:[['11/16','15:15','15:30']],on:true},
+ {p:'jp-001',g:'reflection',next:[['11/17','07:45','08:00']],on:false},
+ {p:'tw-027',g:'night_sky',next:[],on:true,streak:true}
+];
+let lang='zh-TW',li=0;
+const t=()=>I18N[lang];
+const L=k=>({zh:0,en:1,ja:2})[lang.startsWith('zh')?'zh':lang];
+const g=k=>(G[k]||[k,k,k])[L()];
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+/* ── 新增流程 ───────────────────────────────────────── */
+const REGIONS=[['tw','r_taiwan'],['jp','r_japan'],['us','r_us']];
+function fillRegion(){
+  document.getElementById('sel-region').innerHTML=REGIONS.map(([v,k])=>`<option value="${v}">${t()[k]}</option>`).join('');
+}
+function fillPlaces(){
+  const rg=document.getElementById('sel-region').value;
+  document.getElementById('sel-place').innerHTML='<option value="">—</option>'+PLACES.filter(p=>p.rg===rg)
+    .map(p=>`<option value="${p.id}">${esc(p.n[L()])} · ${esc(p.a[L()])}</option>`).join('');
+}
+function fillSubjects(){
+  const pid=document.getElementById('sel-place').value,p=PLACES.find(x=>x.id===pid);
+  document.getElementById('sel-subject').innerHTML='<option value="">—</option>'+(p?p.g:[...new Set(PLACES.flatMap(x=>x.g))])
+    .map(k=>`<option value="${k}">${g(k)}</option>`).join('');
+}
+function updatePreview(){
+  const pid=document.getElementById('sel-place').value,sk=document.getElementById('sel-subject').value;
+  const p=PLACES.find(x=>x.id===pid);
+  const pv=document.getElementById('preview'),btn=document.getElementById('btn-add');
+  if(!p||!sk){pv.hidden=true;btn.disabled=true;return;}
+  btn.disabled=false;pv.hidden=false;
+  document.getElementById('preview-txt').textContent=`🔔 ${p.n[L()]} · ${g(sk)} · ${t().first_trigger} ${p.id==='tw-034'?'11/17 05:20':'—'}`;
+}
+function renderResults(){
+  const q=document.getElementById('kw').value.trim().toLowerCase();
+  const box=document.getElementById('results');
+  if(!q){box.innerHTML='';return;}
+  const hits=PLACES.filter(p=>p.n[L()].toLowerCase().includes(q)||p.a[L()].toLowerCase().includes(q)||p.n[0].toLowerCase().includes(q));
+  box.innerHTML=hits.length
+    ?`<p class="hint">${t().search_hint} ${hits.length}${t().places_word}</p>`+hits.map(p=>`
+      <div class="result-row"><span class="grow"><span class="r-name">${esc(p.n[L()])}</span><br><span class="r-sub">${esc(p.a[L()])}</span></span>
+      <button class="btn" style="height:30px" data-pick="${p.id}" data-g="${p.g[0]}">${t().e_rem_a}</button></div>`).join('')
+    :`<p class="hint">${t().search_none}</p>`;
+}
+document.getElementById('sel-region').addEventListener('change',()=>{fillPlaces();fillSubjects();updatePreview();});
+document.getElementById('sel-place').addEventListener('change',()=>{fillSubjects();updatePreview();});
+document.getElementById('sel-subject').addEventListener('change',updatePreview);
+document.getElementById('kw').addEventListener('input',renderResults);
+document.getElementById('results').addEventListener('click',e=>{
+  const b=e.target.closest('[data-pick]');if(!b)return;
+  document.getElementById('sel-region').value=PLACES.find(p=>p.id===b.dataset.pick).rg;
+  fillPlaces();document.getElementById('sel-place').value=b.dataset.pick;fillSubjects();
+  document.getElementById('sel-subject').value=b.dataset.g;updatePreview();
+});
+document.getElementById('btn-add').addEventListener('click',()=>{REMS.unshift({p:document.getElementById('sel-place').value,g:document.getElementById('sel-subject').value,next:[],on:true});renderRems();});
+
+/* ── 提醒卡 ─────────────────────────────────────────── */
+function remHTML(r){
+  const p=PLACES.find(x=>x.id===r.p);
+  let next;
+  if(!r.on) next=`<span class="next off">${t().paused_next}</span>`;
+  else if(r.streak||!r.next.length) next=`<span class="next warn">${r.streak?t().streak:t().paused_next}</span>`;
+  else next=`<span class="next">${t().next_label} ${r.next[0][0]} ${r.next[0][1]}</span>`;
+  return `<div class="rem-card${r.on?'':' off'}">
+    <div class="rem-main">
+      <div class="rem-line1"><span class="place">${esc(p.n[L()])}</span><span class="g-chip">${g(r.g)}</span></div>
+      <div class="rem-line2"><span class="region">${esc(p.a[L()])}</span>${next}</div>
+    </div>
+    <div class="rem-acts">
+      <button class="switch${r.on?' on':''}" data-sw aria-label="toggle"></button>
+      <button class="btn" style="height:30px;padding:0 10px;font-size:12px" data-edit>${t().edit}</button>
+      <button class="btn-danger btn" data-del>${t().del}</button>
+    </div>
+  </div>`;
+}
+function renderRems(){
+  const list=document.getElementById('rem-list'),empty=document.getElementById('rem-empty');
+  const active=REMS.filter(r=>r.on).length;
+  document.getElementById('rem-count').textContent=REMS.length
+    ?(lang.startsWith('zh')?`${REMS.length} 個提醒 · ${active} 個啟用中`
+     :lang==='ja'?`リマインド ${REMS.length} 件・有効 ${active} 件`
+     :`${REMS.length} reminders · ${active} active`)
+    :'';
+  list.innerHTML=REMS.map(remHTML).join('');
+  list.style.display=REMS.length?'':'none';empty.hidden=!!REMS.length;
+}
+document.getElementById('list-panel').addEventListener('click',e=>{
+  const sw=e.target.closest('[data-sw]'),del=e.target.closest('[data-del]'),ed=e.target.closest('[data-edit]');
+  const cards=[...document.querySelectorAll('.rem-card')];
+  const idx=cards.indexOf(e.target.closest('.rem-card'));
+  if(sw){REMS[idx].on=!REMS[idx].on;renderRems();}
+  if(del){REMS.splice(idx,1);renderRems();}
+  if(ed){/* 示意：編輯 = 載入到新增面板 */}
+});
+/* ── mockup chrome ──────────────────────────────────── */
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t()[k])el.textContent=t()[k];});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(t()[k])el.placeholder=t()[k];});
+  fillRegion();fillPlaces();fillSubjects();updatePreview();renderRems();renderResults();
+}
+applyLang();
+document.getElementById('lang-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;
+  document.querySelectorAll('#lang-grp button').forEach(x=>x.classList.toggle('on',x===b));applyLang();});
+const mz=document.getElementById('member-zone'),mbtn=document.getElementById('member');
+document.getElementById('auth-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#auth-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  mz.className='member-zone '+(b.dataset.auth==='in'?'in':'out');mbtn.classList.remove('open');});
+mbtn.addEventListener('click',e=>{e.stopPropagation();mbtn.classList.toggle('open');});
+document.addEventListener('click',e=>{if(!mbtn.contains(e.target))mbtn.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')mbtn.classList.remove('open');});
+document.getElementById('vp-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#vp-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('shell').classList.toggle('vp390',b.dataset.vp==='390');});
+document.getElementById('state-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#state-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  const saved=stateBackup||(stateBackup=REMS.slice());
+  if(b.dataset.state==='empty'){REMS.length=0;renderRems();}else{REMS.length=0;REMS.push(...saved);renderRems();}});
+let stateBackup=null;
+</script>
+</body>
+</html>

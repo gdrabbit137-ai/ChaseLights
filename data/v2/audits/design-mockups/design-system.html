@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DESIGN SYSTEM — ChaseLights 全站風格一致化 · DESIGN-4</title>
+<style>
+/* ============================================================
+   ChaseLights DESIGN SYSTEM（DESIGN-4）
+   基準：DESIGN-3 三已核 mockup（mockup-cards / forecast / detail）
+   本檔＝全站唯一真相：token 總表＋共用元件庫；後續所有頁面引用。
+   不重做三已核 mockup — 它們是本系統的視覺語言來源（見頁尾對應表）。
+   ============================================================ */
+:root{
+  /* surfaces */
+  --bg-0:#0B0F1A; --bg-1:#111827; --bg-2:#1A2332; --bg-3:#232D3F;
+  --border:#2A3441; --border-strong:#3B4757;
+  /* text */
+  --text-1:#E6EBF2; --text-2:#A8B3C2; --text-3:#8B98A9;
+  /* semantic — 契約色 */
+  --green:#22C55E; --green-text:#4ADE80; --green-bg:rgba(34,197,94,.10); --green-border:#166534;
+  --amber:#F59E0B; --amber-text:#FBBF24; --amber-bg:rgba(245,158,11,.10); --amber-border:#92600A;
+  --red:#EF4444; --red-text:#F87171; --red-bg:rgba(239,68,68,.09); --red-border:#7F1D1D;
+  --grey:#6B7686; --grey-text:#98A4B3; --grey-bg:rgba(107,118,134,.14);
+  --blue:#3B82F6; /* 僅連結 */
+  /* scale */
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+  --fs-12:12px; --fs-13:13px; --fs-14:14px; --fs-15:15px; --fs-16:16px; --fs-20:20px;
+  --control-h:36px; --pill-h:32px; --chip-h:24px; --btn-h:40px;
+  /* shadow — 由三已核 mockup 的下拉/彈窗陰影編碼成 3 級 */
+  --shadow-1:0 1px 2px rgba(0,0,0,.4);
+  --shadow-2:0 8px 24px rgba(0,0,0,.5);
+  --shadow-3:0 16px 48px rgba(0,0,0,.65);
+  --font:"Inter","Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Mono","Consolas",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:#3B4757 var(--bg-0)}
+body{background:var(--bg-0);color:var(--text-1);font-family:var(--font);font-size:var(--fs-14);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+code,.mono{font-family:var(--mono)}
+
+/* ── mockup chrome（非產品 UI）────────────────────────── */
+.mockup-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:var(--sp-3);
+  padding:8px 16px;background:#070A12;border-bottom:1px solid var(--border);font-size:var(--fs-12);color:var(--text-3)}
+.mockup-bar .tag{font-weight:600;color:#F472B6;letter-spacing:.04em}
+.mockup-bar .grp{display:flex;gap:4px}
+.mockup-bar button{height:24px;padding:0 10px;border-radius:var(--r-xs);border:1px solid var(--border);color:var(--text-2);font-size:11px}
+.mockup-bar button.on{background:var(--bg-3);color:var(--text-1);border-color:var(--border-strong)}
+.mockup-bar .spacer{flex:1}
+
+#shell{max-width:1280px;margin:0 auto;padding:var(--sp-5) var(--sp-5) 64px;transition:max-width .25s}
+#shell.vp390{max-width:390px;padding:var(--sp-4) 0 64px;box-shadow:0 0 0 1px var(--border),0 24px 80px rgba(0,0,0,.6)}
+#shell.vp390 .sec{padding:0 var(--sp-4)}
+
+/* ── 導覽列（live 元件）──────────────────────────────── */
+.topnav-wrap{position:relative;z-index:40;background:var(--bg-0);border-bottom:1px solid var(--border)}
+.topnav{display:flex;align-items:center;gap:var(--sp-4);max-width:1280px;margin:0 auto;padding:var(--sp-3) var(--sp-5)}
+.logo{font-weight:600;font-size:var(--fs-15);letter-spacing:-.01em}
+.logo .dot{color:var(--green)}
+.topnav .navlinks{display:flex;gap:var(--sp-4);font-size:var(--fs-13)}
+.topnav .navlinks a{color:var(--text-2)}
+.topnav .navlinks a.active{color:var(--text-1);font-weight:600}
+.topnav .right{margin-left:auto;display:flex;gap:var(--sp-2);align-items:center}
+
+/* ── 會員入口（DESIGN-3b 已核規格）────────────────────── */
+.login-btn{display:none;align-items:center;height:36px;padding:0 16px;border:1px solid var(--border-strong);border-radius:var(--r-xs);
+  background:var(--bg-2);color:var(--text-1);font-size:var(--fs-13);font-weight:600}
+.login-btn:hover{background:var(--bg-3)}
+.member{position:relative;display:none;align-items:center;gap:var(--sp-2);height:36px;padding:0 10px 0 5px;
+  border:1px solid var(--border);border-radius:18px;background:var(--bg-2);cursor:pointer;user-select:none}
+.member:hover{background:var(--bg-3);border-color:var(--border-strong)}
+.avatar{width:26px;height:26px;border-radius:50%;background:var(--bg-3);border:1px solid var(--border-strong);color:var(--text-1);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none}
+.member .m-name{font-size:var(--fs-13);color:var(--text-2);max-width:128px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.member .m-caret{font-size:9px;color:var(--text-3)}
+.member-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:184px;background:var(--bg-1);border:1px solid var(--border-strong);
+  border-radius:var(--r-md);box-shadow:var(--shadow-3);padding:var(--sp-1);display:none;z-index:70}
+.member.open .member-menu{display:block}
+.member-menu button{display:flex;width:100%;align-items:center;gap:var(--sp-2);height:36px;padding:0 var(--sp-2);
+  border-radius:var(--r-xs);color:var(--text-2);font-size:var(--fs-13);text-align:left}
+.member-menu button:hover{background:var(--bg-2);color:var(--text-1)}
+.member-menu .mm-ic{width:18px;text-align:center;flex:none}
+.member-menu .mm-sep{height:1px;background:var(--border);margin:var(--sp-1) 6px}
+.member-menu .mm-out{color:var(--grey-text)}
+.member-zone.in .member{display:flex}
+.member-zone.out .login-btn{display:flex}
+
+/* ── 頁面骨架 ─────────────────────────────────────────── */
+.title-row{display:flex;align-items:baseline;gap:var(--sp-3);margin:var(--sp-5) 0 var(--sp-2)}
+.title-row h1{font-size:var(--fs-20);font-weight:600}
+.title-row .count{margin-left:auto;font-size:var(--fs-13);color:var(--text-3)}
+.lede{max-width:880px;font-size:var(--fs-13);color:var(--text-2);margin-bottom:var(--sp-5)}
+.sec{margin-bottom:var(--sp-6)}
+.sec>h2{font-size:var(--fs-16);font-weight:600;margin-bottom:var(--sp-2);display:flex;align-items:baseline;gap:var(--sp-3)}
+.sec>h2 .anchor{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-3);font-weight:400}
+.sec>.desc{font-size:var(--fs-13);color:var(--text-2);margin-bottom:var(--sp-3);max-width:880px}
+.panel{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-4)}
+.spec-table{width:100%;border-collapse:collapse;font-size:var(--fs-13)}
+.spec-table th{text-align:left;font-size:var(--fs-12);color:var(--text-3);font-weight:600;text-transform:uppercase;
+  letter-spacing:.05em;padding:6px 10px;border-bottom:1px solid var(--border)}
+.spec-table td{padding:8px 10px;border-top:1px solid var(--border);vertical-align:middle;color:var(--text-2)}
+.spec-table td:first-child{color:var(--text-1)}
+.sw{display:inline-block;width:44px;height:22px;border-radius:var(--r-xs);border:1px solid var(--border-strong);vertical-align:middle}
+.hex{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-1)}
+.demo-row{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center}
+.type-sample{padding:6px 0}
+.sp-bar{height:var(--h,12px);background:var(--bg-3);border-radius:4px}
+.rad-box{width:96px;height:56px;background:var(--bg-2);border:1px solid var(--border-strong);display:flex;align-items:center;
+  justify-content:center;font-family:var(--mono);font-size:var(--fs-12);color:var(--text-2)}
+.shadow-box{width:140px;height:72px;background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:var(--fs-12);color:var(--text-2)}
+
+/* ── 元件庫原件 ───────────────────────────────────────── */
+.pill{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:var(--r-xs);
+  background:var(--bg-2);font-size:var(--fs-12);color:var(--text-2)}
+.pill b{font-family:var(--mono);font-weight:400;color:var(--text-1)}
+.chip{display:inline-flex;align-items:center;height:var(--chip-h);padding:0 var(--sp-2);flex:none;
+  border-radius:var(--r-xs);border:1px solid var(--border);background:var(--bg-1);font-size:var(--fs-12);color:var(--text-2)}
+.chip.on{background:var(--bg-3);border-color:var(--border-strong);color:var(--text-1);font-weight:600}
+.tier{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;
+  font-size:var(--fs-12);font-weight:600;flex:none}
+.tier-rec{background:var(--green-bg);color:var(--green-text);box-shadow:inset 0 0 0 1px var(--green-border)}
+.tier-shoot{background:var(--amber-bg);color:var(--amber-text);box-shadow:inset 0 0 0 1px var(--amber-border)}
+.tier-no{background:var(--red-bg);color:var(--red-text);box-shadow:inset 0 0 0 1px var(--red-border)}
+.tier-defer{background:var(--grey-bg);color:var(--grey-text);box-shadow:inset 0 0 0 1px var(--border-strong)}
+.tab{display:inline-flex;align-items:center;gap:6px;height:var(--pill-h);padding:0 var(--sp-3);
+  border-radius:999px;border:1px solid var(--border);background:var(--bg-2);font-size:var(--fs-13);color:var(--text-2);flex:none}
+.tab .n{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-3)}
+.tab.sel{font-weight:600;color:var(--text-1);background:var(--bg-3);border-width:1.5px}
+.tab.sel .n{color:var(--text-2)}
+.tab.t-rec.sel{border-color:var(--green-border);color:var(--green-text)}.tab.t-rec.sel .n{color:var(--green-text)}
+.tab.t-shoot.sel{border-color:var(--amber-border);color:var(--amber-text)}.tab.t-shoot.sel .n{color:var(--amber-text)}
+.tab.t-no.sel{border-color:var(--red-border);color:var(--red-text)}.tab.t-no.sel .n{color:var(--red-text)}
+select.sel{height:var(--control-h);padding:0 var(--sp-3);background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text-1);font-size:var(--fs-13)}
+input.sel{height:var(--control-h);padding:0 var(--sp-3);background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text-1);font-size:var(--fs-13)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:30px;
+  border-radius:var(--r-xs);border:1px solid var(--border);background:var(--bg-2);font-size:var(--fs-12);color:var(--text-2);white-space:nowrap;padding:0 10px}
+.btn:hover{background:var(--bg-3);color:var(--text-1);border-color:var(--border-strong)}
+.btn-ctl{height:var(--control-h);font-size:var(--fs-13);padding:0 var(--sp-4)}
+.btn-lg{height:var(--btn-h);font-size:var(--fs-14);font-weight:600;padding:0 var(--sp-5)}
+.btn-primary{background:var(--bg-3);border-color:var(--border-strong);color:var(--text-1);font-weight:600}
+.btn-danger{border-color:var(--red-border);color:var(--red-text);background:transparent}
+.btn-danger:hover{background:var(--red-bg)}
+.btn-ghost{background:transparent}
+.date-pill{display:flex;flex-direction:column;justify-content:center;gap:1px;min-width:176px;height:48px;
+  padding:0 var(--sp-3);background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-sm);white-space:nowrap;flex:none;cursor:pointer}
+.date-pill .l1{font-size:var(--fs-14);font-weight:600}
+.date-pill .l2{font-size:var(--fs-12);color:var(--text-3)}
+.date-pill:hover{border-color:var(--border-strong)}
+.box{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-4)}
+details.acc{border:1px solid var(--border);border-radius:var(--r-sm);background:var(--bg-1);overflow:hidden}
+details.acc summary{padding:var(--sp-3);font-size:var(--fs-13);font-weight:600;color:var(--text-2);cursor:pointer;list-style:none}
+details.acc summary::before{content:"▸ ";color:var(--text-3)}
+details.acc[open] summary::before{content:"▾ "}
+details.acc .acc-body{padding:0 var(--sp-3) var(--sp-3);font-size:var(--fs-13);color:var(--text-2)}
+.switch{position:relative;width:36px;height:20px;border-radius:999px;background:var(--bg-3);border:1px solid var(--border-strong);
+  cursor:pointer;flex:none;transition:background .15s}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--text-3);transition:all .15s}
+.switch.on{background:var(--green-bg);border-color:var(--green-border)}
+.switch.on::after{left:18px;background:var(--green)}
+
+/* ── 空狀態 ──────────────────────────────────────────── */
+.empty{display:flex;flex-direction:column;align-items:center;gap:var(--sp-2);padding:var(--sp-6) var(--sp-4);
+  background:var(--bg-1);border:1px dashed var(--border-strong);border-radius:var(--r-md);text-align:center}
+.empty .ic{font-size:28px;opacity:.7}
+.empty .t{font-size:var(--fs-14);font-weight:600}
+.empty .d{font-size:var(--fs-13);color:var(--text-3);max-width:340px}
+.empty .btn{margin-top:var(--sp-2)}
+.skel{background:linear-gradient(90deg,var(--bg-2) 25%,var(--bg-3) 50%,var(--bg-2) 75%);background-size:200% 100%;
+  animation:sk 1.4s infinite;border-radius:var(--r-xs)}
+@keyframes sk{from{background-position:200% 0}to{background-position:-200% 0}}
+.skel-line{height:12px}
+.offline-badge{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;
+  background:var(--grey-bg);color:var(--grey-text);font-size:var(--fs-12);font-weight:600}
+
+/* ── footer ──────────────────────────────────────────── */
+.site-footer{border-top:1px solid var(--border);margin-top:var(--sp-6)}
+.site-footer .inner{max-width:1280px;margin:0 auto;padding:var(--sp-5);display:flex;flex-wrap:wrap;gap:var(--sp-5);
+  font-size:var(--fs-12);color:var(--text-3)}
+.site-footer .col{display:flex;flex-direction:column;gap:6px;min-width:120px}
+.site-footer .col b{color:var(--text-2);font-size:var(--fs-12);font-weight:600}
+.site-footer a{color:var(--text-3)}
+.site-footer a:hover{color:var(--text-1)}
+.site-footer .fine{flex-basis:100%;border-top:1px solid var(--border);padding-top:var(--sp-3);color:var(--text-3)}
+
+/* ── 設計說明（頁尾摺疊）───────────────────────────────── */
+details.notes{margin-top:var(--sp-6);border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg-1)}
+details.notes summary{padding:var(--sp-3) var(--sp-4);font-size:var(--fs-13);font-weight:600;color:var(--text-2);cursor:pointer;list-style:none}
+details.notes summary::before{content:"▸ ";color:var(--text-3)}
+details.notes[open] summary::before{content:"▾ "}
+details.notes .body{padding:0 var(--sp-4) var(--sp-4);font-size:var(--fs-13);color:var(--text-2)}
+details.notes h4{font-size:var(--fs-12);color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:var(--sp-4) 0 var(--sp-2)}
+details.notes table{width:100%;border-collapse:collapse;font-size:var(--fs-12)}
+details.notes td{padding:6px 8px;border-top:1px solid var(--border);vertical-align:top;color:var(--text-2)}
+details.notes td:first-child{width:150px;color:var(--text-1);font-weight:600;white-space:nowrap}
+details.notes code{font-family:var(--mono);font-size:11px;background:var(--bg-2);padding:1px 5px;border-radius:4px;color:var(--text-1)}
+details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:var(--sp-3)}
+
+/* ── 390 節奏 ────────────────────────────────────────── */
+#shell.vp390 .topnav{padding:var(--sp-3) var(--sp-4)}
+#shell.vp390 .navlinks{display:none}
+#shell.vp390 .member,#shell.vp390 .login-btn{height:40px}
+#shell.vp390 .member .m-name{max-width:96px}
+#shell.vp390 .member-menu button{height:44px}
+#shell.vp390 .member-menu{min-width:200px}
+#shell.vp390 .demo-row{gap:var(--sp-2)}
+#shell.vp390 .spec-table{font-size:var(--fs-12)}
+#shell.vp390 .site-footer .inner{padding:var(--sp-4)}
+@media (max-width:768px){
+  .navlinks{display:none}
+  .member,.login-btn{height:40px}
+  .member .m-name{max-width:96px}
+  .member-menu button{height:44px}
+}
+</style>
+</head>
+<body>
+
+<!-- mockup 工具列（非產品 UI） -->
+<div class="mockup-bar">
+  <span class="tag">DESIGN SYSTEM · DESIGN-4 全站唯一真相</span>
+  <span class="grp" id="lang-grp">
+    <button data-lang="zh-TW" class="on">zh-TW</button><button data-lang="en">en</button><button data-lang="ja">ja</button>
+  </span>
+  <span class="grp" id="vp-grp">
+    <button data-vp="1280" class="on">1280px</button><button data-vp="390">390px</button>
+  </span>
+  <span class="grp" id="auth-grp">
+    <button data-auth="out">未登入</button><button data-auth="in" class="on">已登入</button>
+  </span>
+  <span class="spacer"></span>
+  <a href="mockup-cards.html">→ 已核 mockup 1 卡片</a>
+  <a href="mockup-forecast.html">→ 已核 mockup 2 預報</a>
+  <a href="mockup-detail.html">→ 已核 mockup 3 詳情</a>
+  <a href="mockup-reminders.html">→ 提醒</a>
+  <a href="mockup-weathermap.html">→ 天氣圖</a>
+  <a href="mockup-genre-eval.html">→ 題材評估</a>
+</div>
+
+<div id="shell">
+
+  <!-- 導覽列 live 展示 -->
+  <nav class="topnav">
+    <span class="logo">ChaseLights<span class="dot">·</span></span>
+    <span class="navlinks">
+      <a href="#" class="active" data-i18n="nav_cards">卡片</a>
+      <a href="#" data-i18n="nav_weathermap">天氣圖</a>
+      <a href="#" data-i18n="nav_reminders">拍攝提醒</a>
+    </span>
+    <span class="right">
+      <span class="member-zone in" id="member-zone">
+        <button class="login-btn" data-i18n="login">登入</button>
+        <span class="member" id="member">
+          <span class="avatar" data-i18n="avatar_ch">晨</span>
+          <span class="m-name" data-i18n="member_name">晨曦旅人</span>
+          <span class="m-caret">▾</span>
+          <span class="member-menu">
+            <button><span class="mm-ic">★</span><span data-i18n="menu_fav">我的最愛</span></button>
+            <button><span class="mm-ic">🔔</span><span data-i18n="menu_rem">提醒清單</span></button>
+            <button><span class="mm-ic">👤</span><span data-i18n="menu_profile">會員資料</span></button>
+            <span class="mm-sep"></span>
+            <button class="mm-out"><span class="mm-ic">↩</span><span data-i18n="menu_logout">登出</span></button>
+          </span>
+        </span>
+      </span>
+    </span>
+  </nav>
+
+  <div class="title-row">
+    <h1 data-i18n="ds_title">🎨 全站設計系統</h1>
+    <span class="count mono">DESIGN-4 · token v1</span>
+  </div>
+  <p class="lede" data-i18n="ds_lede">以 DESIGN-3 三個已核 mockup（卡片列表／小時預報／詳情彈窗）的視覺語言為基準編纂：色彩、字級、間距、圓角、陰影、狀態語義、共用元件與空狀態的標準樣式。後續所有頁面（提醒／天氣圖／題材評估／產品實作）一律引用本檔 token，不再各自發明數值。三個已核 mockup 本身不重做 — 它們是本系統的來源，僅在衍生頁面引用時註明。</p>
+
+  <!-- 1 色彩 -->
+  <section class="sec">
+    <h2 data-i18n="sec_color">1 · 色彩全表<span class="anchor">colors</span></h2>
+    <p class="desc" data-i18n="sec_color_d">表面四層深度遞進；文字三層灰階全部 ≥4.5:1；語義色契約固定。藍是連結專用色 — 語義必綠（DR1 P1-2），選中非語義才可用藍。</p>
+    <div class="panel">
+      <table class="spec-table">
+        <thead><tr><th data-i18n="th_token">Token</th><th data-i18n="th_value">值</th><th data-i18n="th_use">用途</th><th data-i18n="th_sample">樣本</th></tr></thead>
+        <tbody>
+          <tr><td>--bg-0</td><td class="hex">#0B0F1A</td><td data-i18n="c_bg0">頁底（最深）</td><td><span class="sw" style="background:#0B0F1A"></span></td></tr>
+          <tr><td>--bg-1</td><td class="hex">#111827</td><td data-i18n="c_bg1">卡片／面板</td><td><span class="sw" style="background:#111827"></span></td></tr>
+          <tr><td>--bg-2</td><td class="hex">#1A2332</td><td data-i18n="c_bg2">pill／按鈕／輸入框</td><td><span class="sw" style="background:#1A2332"></span></td></tr>
+          <tr><td>--bg-3</td><td class="hex">#232D3F</td><td data-i18n="c_bg3">hover／選中／頭像</td><td><span class="sw" style="background:#232D3F"></span></td></tr>
+          <tr><td>--border</td><td class="hex">#2A3441</td><td data-i18n="c_brd">全站 1px 邊框</td><td><span class="sw" style="background:#2A3441"></span></td></tr>
+          <tr><td>--border-strong</td><td class="hex">#3B4757</td><td data-i18n="c_brd2">hover 邊框／分隔強調</td><td><span class="sw" style="background:#3B4757"></span></td></tr>
+          <tr><td>--text-1</td><td class="hex">#E6EBF2</td><td data-i18n="c_t1">主文字／標題</td><td><span class="sw" style="background:#E6EBF2"></span></td></tr>
+          <tr><td>--text-2</td><td class="hex">#A8B3C2</td><td data-i18n="c_t2">內文／次要</td><td><span class="sw" style="background:#A8B3C2"></span></td></tr>
+          <tr><td>--text-3</td><td class="hex">#8B98A9</td><td data-i18n="c_t3">輔助／計數／時間標籤</td><td><span class="sw" style="background:#8B98A9"></span></td></tr>
+        </tbody>
+      </table>
+      <h4 style="margin:16px 0 8px;font-size:12px;color:var(--text-3);text-transform:uppercase;letter-spacing:.05em" data-i18n="c_sem_h">語義／狀態色（契約）</h4>
+      <table class="spec-table">
+        <thead><tr><th data-i18n="th_state">狀態</th><th data-i18n="th_token">Token</th><th data-i18n="th_value">值</th><th data-i18n="th_use">用途</th></tr></thead>
+        <tbody>
+          <tr><td>✓ <span data-i18n="st_rec">推薦</span></td><td class="hex">--green / -text / -bg / -border</td><td class="hex">#22C55E / #4ADE80</td><td data-i18n="c_g">推薦徽章、選中 tab、符合日格、色帶</td></tr>
+          <tr><td>○ <span data-i18n="st_shoot">可拍</span></td><td class="hex">--amber / -text / -bg / -border</td><td class="hex">#F59E0B / #FBBF24</td><td data-i18n="c_a">可拍徽章、一般拍攝行、★收藏</td></tr>
+          <tr><td>✗ <span data-i18n="st_no">不宜</span></td><td class="hex">--red / -text / -bg / -border</td><td class="hex">#EF4444 / #F87171</td><td data-i18n="c_r">不宜徽章、✗短詞、刪除</td></tr>
+          <tr><td>🕒 <span data-i18n="st_defer">非建議時段</span></td><td class="hex">--grey / -text / -bg</td><td class="hex">#6B7686 / #98A4B3</td><td data-i18n="c_gy">非建議時段、資料不足、離線</td></tr>
+          <tr><td data-i18n="c_link">連結</td><td class="hex">--blue</td><td class="hex">#3B82F6</td><td data-i18n="c_b">僅連結（永不做語義／選中色）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2 字級 -->
+  <section class="sec">
+    <h2 data-i18n="sec_type">2 · 字級尺規<span class="anchor">type</span></h2>
+    <p class="desc" data-i18n="sec_type_d">六檔封閉尺規；字重只用 400 / 600 兩檔；時間與數值一律 mono tabular — 掃描時寬度固定。</p>
+    <div class="panel">
+      <table class="spec-table">
+        <thead><tr><th data-i18n="th_token">Token</th><th data-i18n="th_use">用途</th><th data-i18n="th_sample">樣本</th></tr></thead>
+        <tbody>
+          <tr><td class="hex">--fs-12</td><td data-i18n="ty_12">輔助／pill／chips／計數</td><td><span style="font-size:12px" data-i18n="ty12_s">雲量 12% · 輔助文字 12px</span></td></tr>
+          <tr><td class="hex">--fs-13</td><td data-i18n="ty_13">內文／控制項／導覽</td><td><span style="font-size:13px" data-i18n="ty13_s">內文 13px — 卡片逐題材行與說明</span></td></tr>
+          <tr><td class="hex">--fs-14</td><td data-i18n="ty_14">卡片標／日期 pill 首行</td><td><span style="font-size:14px;font-weight:600" data-i18n="ty14_s">卡片標題 14px / 600</span></td></tr>
+          <tr><td class="hex">--fs-15</td><td data-i18n="ty_15">logo／頁面小標</td><td><span style="font-size:15px;font-weight:600">ChaseLights·</span></td></tr>
+          <tr><td class="hex">--fs-16</td><td data-i18n="ty_16">區塊標／彈窗標</td><td><span style="font-size:16px;font-weight:600" data-i18n="ty16_s">區塊標題 16px / 600</span></td></tr>
+          <tr><td class="hex">--fs-20</td><td data-i18n="ty_20">頁面主標</td><td><span style="font-size:20px;font-weight:600" data-i18n="ty20_s">頁面主標 20px / 600</span></td></tr>
+          <tr><td class="hex mono">mono</td><td data-i18n="ty_mo">時間／數值／視窗</td><td><span class="mono" style="font-size:13px">05:35–06:00 · ☀ 249°/3° · 24°C</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3 間距 -->
+  <section class="sec">
+    <h2 data-i18n="sec_space">3 · 間距尺規<span class="anchor">spacing</span></h2>
+    <p class="desc" data-i18n="sec_space_d">4 的倍數，六檔封閉；卡內節奏 = 12（行距）/ 16（卡 padding）/ 24（區塊間）；390px 卡間距降為 8。</p>
+    <div class="panel">
+      <table class="spec-table">
+        <tbody>
+          <tr><td class="hex">--sp-1 · 4px</td><td data-i18n="sp_1">pills 內距、行內微調</td><td style="width:50%"><div class="sp-bar" style="--h:4px;width:64px"></div></td></tr>
+          <tr><td class="hex">--sp-2 · 8px</td><td data-i18n="sp_2">chip/gap、390px 卡間距</td><td style="width:50%"><div class="sp-bar" style="--h:8px;width:64px"></div></td></tr>
+          <tr><td class="hex">--sp-3 · 12px</td><td data-i18n="sp_3">卡內行距、按鈕 gap、控制項 padding</td><td style="width:50%"><div class="sp-bar" style="--h:12px;width:96px"></div></td></tr>
+          <tr><td class="hex">--sp-4 · 16px</td><td data-i18n="sp_4">卡片 padding、區塊間最小值</td><td style="width:50%"><div class="sp-bar" style="--h:16px;width:128px"></div></td></tr>
+          <tr><td class="hex">--sp-5 · 24px</td><td data-i18n="sp_5">卡片網格 gap、區塊間</td><td style="width:50%"><div class="sp-bar" style="--h:16px;width:192px"></div></td></tr>
+          <tr><td class="hex">--sp-6 · 32px</td><td data-i18n="sp_6">頁面 section 間、頁尾前</td><td style="width:50%"><div class="sp-bar" style="--h:16px;width:256px"></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4 圓角 -->
+  <section class="sec">
+    <h2 data-i18n="sec_rad">4 · 圓角<span class="anchor">radius</span></h2>
+    <p class="desc" data-i18n="sec_rad_d">四檔封閉；嵌套半徑＝外層 −4px（DR1 P2-2）；999px 是 pill/徽章/tier 專用，不佔尺規。</p>
+    <div class="panel">
+      <div class="demo-row">
+        <div class="rad-box" style="border-radius:6px">6 chip/btn</div>
+        <div class="rad-box" style="border-radius:8px">8 pill/小卡</div>
+        <div class="rad-box" style="border-radius:12px">12 卡片</div>
+        <div class="rad-box" style="border-radius:16px">16 彈窗</div>
+        <div class="rad-box" style="border-radius:999px">999 tier/pill</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 陰影 -->
+  <section class="sec">
+    <h2 data-i18n="sec_shadow">5 · 陰影<span class="anchor">shadow</span></h2>
+    <p class="desc" data-i18n="sec_shadow_d">三級封閉，全部純黑投影（深色主題不做彩色陰影）：懸浮小件、面板、彈窗/下拉。卡片靜態不用陰影 — 邊框即可。</p>
+    <div class="panel">
+      <div class="demo-row" style="padding:8px 4px 20px">
+        <div class="shadow-box" style="box-shadow:var(--shadow-1)">--shadow-1 hover</div>
+        <div class="shadow-box" style="box-shadow:var(--shadow-2)">--shadow-2 面板</div>
+        <div class="shadow-box" style="box-shadow:var(--shadow-3)">--shadow-3 彈窗/下拉</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 狀態語義 -->
+  <section class="sec">
+    <h2 data-i18n="sec_sem">6 · 狀態色語義<span class="anchor">semantics</span></h2>
+    <p class="desc" data-i18n="sec_sem_d">詞彙與符號全站固定，不發明近義詞；狀態不可只靠色相（色盲可讀：符號+文字共載）；一列上不得出現矛盾的 ✓／✗ 併列（以三態標籤調和）。</p>
+    <div class="panel">
+      <table class="spec-table">
+        <thead><tr><th data-i18n="th_state">狀態</th><th data-i18n="th_mark">符號</th><th data-i18n="th_demo">樣式</th><th data-i18n="th_rule">規則</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="st_rec">推薦</td><td class="mono">✓</td><td><span class="tier tier-rec">✓ 推薦</span></td><td data-i18n="sem_r1">curated 題材成立、值得專程前往；列表頁語義必綠</td></tr>
+          <tr><td data-i18n="st_shoot">可拍</td><td class="mono">○</td><td><span class="tier tier-shoot">○ 可拍</span></td><td data-i18n="sem_r2">curated 全數未符但一般基線通過；小時級用「一般拍攝」避免與日級撞詞</td></tr>
+          <tr><td data-i18n="st_no">不宜</td><td class="mono">✗</td><td><span class="tier tier-no">✗ 不宜</span></td><td data-i18n="sem_r3">連一般基線也不過；必附 fail_reason_short 短詞，不得只給色</td></tr>
+          <tr><td data-i18n="st_defer">非建議時段</td><td class="mono">🕒</td><td><span class="tier tier-defer">🕒 非建議時段</span></td><td data-i18n="sem_r4">窗型題材在窗外（時鐘沒錯，是時間不對）— 絕不投票為主失敗原因</td></tr>
+          <tr><td data-i18n="st_warn">未符</td><td class="mono">⚠️</td><td><span class="tier tier-defer" style="color:var(--amber-text);box-shadow:inset 0 0 0 1px var(--amber-border)">⚠️ 未符</span></td><td data-i18n="sem_r5">小時級三態標籤之一：符合 / 🕒非建議時段 / ⚠️未符</td></tr>
+          <tr><td data-i18n="st_nodata">資料不足</td><td class="mono">—</td><td><span class="tier tier-defer">— <span data-i18n="st_nodata">資料不足</span></span></td><td data-i18n="sem_r6">必點名缺哪項輸入（水況資料未接入…），不得黑箱</td></tr>
+        </tbody>
+      </table>
+      <div class="demo-row" style="margin-top:12px">
+        <span class="pill">雲量 <b>12%</b></span>
+        <span class="pill">能見度 <b>24 km</b></span>
+        <span class="pill">☀ <b>249°/3°</b></span>
+        <a href="#">連結樣本 — 藍僅用於連結</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 元件庫 -->
+  <section class="sec">
+    <h2 data-i18n="sec_comp">7 · 元件庫<span class="anchor">components</span></h2>
+    <p class="desc" data-i18n="sec_comp_d">標準樣式與尺寸系統（chip 24 / pill·tier 22 / 控制項·下拉 36 / 次按鈕 30 / 主按鈕 40；390px 控制項 40、選單列 44 觸控目標）。衍生頁面只組合，不重寫樣式。</p>
+    <div class="panel">
+      <table class="spec-table">
+        <thead><tr><th data-i18n="th_comp">元件</th><th data-i18n="th_size">尺寸</th><th data-i18n="th_demo">標準樣式</th></tr></thead>
+        <tbody>
+          <tr><td>pill</td><td class="mono">h22 · r6</td><td><span class="pill">⛰ <b>1,900 m</b></span> <span class="pill">🌡 <b>13°C</b></span> <span class="pill">🌅 <b>05:40</b></span></td></tr>
+          <tr><td>chip</td><td class="mono">h24 · r6</td><td><button class="chip">日出</button> <button class="chip on">雲海</button> <button class="chip">夕陽</button></td></tr>
+          <tr><td data-i18n="cp_tier">tier 徽章</td><td class="mono">h22 · r999</td><td><span class="tier tier-rec">✓ 推薦</span> <span class="tier tier-shoot">○ 可拍</span> <span class="tier tier-no">✗ 不宜</span></td></tr>
+          <tr><td data-i18n="cp_tab">分段 tab</td><td class="mono">h32 · r999</td><td><button class="tab t-rec sel">✓ <span>推薦</span> <span class="n">223</span></button> <button class="tab">○ <span>可拍</span> <span class="n">234</span></button></td></tr>
+          <tr><td data-i18n="cp_btn">按鈕</td><td class="mono">30/36/40</td><td><button class="btn">次要 30</button> <button class="btn btn-ctl">控制項 36</button> <button class="btn btn-lg btn-primary">主要 40</button> <button class="btn btn-ctl btn-danger">刪除</button></td></tr>
+          <tr><td data-i18n="cp_select">下拉</td><td class="mono">h36 · r8</td><td><select class="sel"><option>全部地區</option></select> <select class="sel"><option>依最近可拍時段</option></select></td></tr>
+          <tr><td data-i18n="cp_input">輸入框</td><td class="mono">h36 · r8</td><td><input class="sel" style="width:220px" placeholder="搜尋景點…"></td></tr>
+          <tr><td>date-pill</td><td class="mono">48h · 兩行</td><td><button class="date-pill"><span class="l1">📅 今天 · 11/16</span><span class="l2">台灣 · 日本 · 美國</span></button></td></tr>
+          <tr><td data-i18n="cp_box">方框（card/box）</td><td class="mono">r12 · bg-1</td><td><span class="box" style="padding:8px 12px" data-i18n="cp_box_d">內容容器：1px 邊框、12px 圓角、hover 邊框轉 strong</span></td></tr>
+          <tr><td data-i18n="cp_acc">摺疊 accordion</td><td class="mono">r8 · bg-1</td><td><details class="acc" style="max-width:320px"><summary data-i18n="cp_acc_s">條件 ×4（點開示範）</summary><div class="acc-body" data-i18n="cp_acc_d">內容 13px／text-2；摘要列 ▸/▾ 前綴。詳情彈窗的「條件 ×N」、設計說明同此元件。</div></details></td></tr>
+          <tr><td data-i18n="cp_switch">開關 switch</td><td class="mono">36×20</td><td><button class="switch on" aria-label="reminder on"></button> <button class="switch" aria-label="reminder off"></button></td></tr>
+          <tr><td data-i18n="cp_pop">彈出 popover/彈窗</td><td class="mono">r16 · shadow-3</td><td data-i18n="cp_pop_d">member-menu / 迷你卡 / 詳情彈窗：bg-1＋strong 邊框＋--shadow-3，開啟由 .open 類控制，關閉即移出 hit-testing。</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8 導覽列 / masthead / footer -->
+  <section class="sec">
+    <h2 data-i18n="sec_chrome">8 · 導覽列 · masthead · footer<span class="anchor">chrome</span></h2>
+    <p class="desc" data-i18n="sec_chrome_d">全站共用骨架（上方 nav 為 live 樣本）：單一導覽列三項（卡片｜天氣圖｜拍攝提醒）＋右側會員入口；題材評估等工具頁保持直達 URL、不入導覽（owner ruling）。masthead 兩態規格＝DESIGN-3b 已核版。footer 為三欄連結＋資料視窗聲明。</p>
+    <div class="panel">
+      <table class="spec-table">
+        <tbody>
+          <tr><td>nav</td><td class="mono">h~54 · bg-0</td><td data-i18n="ch_nav">sticky 頂欄、1px 底框；logo 15/600（綠點）；連結 13px text-2，active＝text-1+600；390px 隱藏連結列。</td></tr>
+          <tr><td>masthead（未登入）</td><td class="mono">h36 · r6</td><td><span class="member-zone out" style="display:inline-flex"><button class="login-btn" style="display:flex">登入</button></span><span class="mono" style="font-size:12px;margin-left:8px" data-i18n="ch_out">描邊「登入」鈕，bg-2。</span></td></tr>
+          <tr><td>masthead（登入態）</td><td class="mono">h36 · r18</td><td><span class="member-zone in" style="display:inline-flex"><span class="member" style="display:flex"><span class="avatar">晨</span><span class="m-name">晨曦旅人</span><span class="m-caret">▾</span></span></span><span class="mono" style="font-size:12px;margin-left:8px" data-i18n="ch_in">頭像（中性灰）＋會員名＋▾；點開下拉四項＋登出分隔。</span></td></tr>
+          <tr><td>footer</td><td class="mono">3 col · r0</td><td data-i18n="ch_footer">1px 上框；產品連結／會員／資料聲明三欄（390px 直疊）；尾行資料視窗常數與 GMT+8 標示。</td></tr>
+        </tbody>
+      </table>
+      <details class="acc" style="margin-top:12px">
+        <summary data-i18n="ch_footer_demo">footer 展開樣本（點開）</summary>
+        <div class="acc-body">
+          <footer class="site-footer" style="border-radius:8px;overflow:hidden">
+            <div class="inner">
+              <div class="col"><b>ChaseLights·</b><a href="#">卡片</a><a href="#">天氣圖</a><a href="#">拍攝提醒</a><a href="#">題材評估</a></div>
+              <div class="col"><b data-i18n="menu_fav">我的最愛</b><a href="#">提醒清單</a><a href="#">會員資料</a><a href="#" data-i18n="login">登入</a></div>
+              <div class="col"><b data-i18n="f_data">資料</b><span data-i18n="f_win">預報視窗：過去 24 小時＋未來 72 小時</span><span>GMT+8 · <span class="mono">2026-11-16 06:00</span></span></div>
+              <div class="fine" data-i18n="f_fine">ChaseLights · 攝影天氣指南。氣象資料僅供拍攝規劃參考。</div>
+            </div>
+          </footer>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 9 空狀態 -->
+  <section class="sec">
+    <h2 data-i18n="sec_empty">9 · 空狀態<span class="anchor">empty states</span></h2>
+    <p class="desc" data-i18n="sec_empty_d">五種全站空狀態的標準樣式：dashed 邊框框＋圖示＋一行主張＋一句指引＋動作鈕；載入中用 skeleton shimmer（唯一允許的裝飾動畫 — 承載狀態）；錯誤必附重試；離線明示「顯示上次資料」及其時間。</p>
+    <div class="demo-row" style="align-items:stretch">
+      <div class="empty" style="flex:1;min-width:240px">
+        <span class="ic">★</span>
+        <span class="t" data-i18n="e_fav_t">還沒有收藏</span>
+        <span class="d" data-i18n="e_fav_d">在卡片右上按 ★ 加入最愛，這裡會列出你追蹤的景點。</span>
+        <button class="btn btn-ctl btn-primary" data-i18n="e_fav_a">去逛卡片列表</button>
+      </div>
+      <div class="empty" style="flex:1;min-width:240px">
+        <span class="ic">🔔</span>
+        <span class="t" data-i18n="e_rem_t">還沒有提醒</span>
+        <span class="d" data-i18n="e_rem_d">選地區 → 景點 → 題材建立第一個拍攝提醒，符合時段前會通知你。</span>
+        <button class="btn btn-ctl btn-primary" data-i18n="e_rem_a">建立提醒</button>
+      </div>
+      <div class="empty" style="flex:1;min-width:240px">
+        <span class="t" data-i18n="e_load_t">載入中</span>
+        <div style="width:100%;max-width:260px;display:flex;flex-direction:column;gap:8px">
+          <div class="skel skel-line" style="width:70%"></div>
+          <div class="skel skel-line" style="width:100%"></div>
+          <div class="skel skel-line" style="width:85%"></div>
+        </div>
+        <span class="d" data-i18n="e_load_d">skeleton 佔位（shimmer 是唯一裝飾動畫）</span>
+      </div>
+      <div class="empty" style="flex:1;min-width:240px">
+        <span class="ic">⚠️</span>
+        <span class="t" data-i18n="e_err_t">暫時無法載入</span>
+        <span class="d" data-i18n="e_err_d">網路逾時（30s）。已自動重試 2 次 — 可再手動重試。</span>
+        <button class="btn btn-ctl" data-i18n="e_err_a">↻ 重試</button>
+      </div>
+      <div class="empty" style="flex:1;min-width:240px">
+        <span class="ic">📴</span>
+        <span class="t" data-i18n="e_off_t">離線中 — 顯示上次資料</span>
+        <span class="d" data-i18n="e_off_d"><span class="offline-badge">📴 離線 · 上次更新 <span class="mono">11/16 05:40</span></span><br>以下為最後一次成功載入的快照。</span>
+        <button class="btn btn-ctl" data-i18n="e_off_a">重新連線</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="inner">
+      <div class="col"><b>ChaseLights·</b><a href="mockup-cards.html">卡片</a><a href="mockup-weathermap.html">天氣圖</a><a href="mockup-reminders.html">拍攝提醒</a><a href="mockup-genre-eval.html">題材評估</a></div>
+      <div class="col"><b data-i18n="f_member">會員</b><a href="#" data-i18n="menu_fav">我的最愛</a><a href="mockup-reminders.html" data-i18n="menu_rem">提醒清單</a><a href="#" data-i18n="menu_profile">會員資料</a></div>
+      <div class="col"><b data-i18n="f_data">資料</b><span data-i18n="f_win">預報視窗：過去 24 小時＋未來 72 小時</span><span>GMT+8 · <span class="mono">2026-11-16 06:00</span></span></div>
+      <div class="fine" data-i18n="f_fine">ChaseLights · 攝影天氣指南。氣象資料僅供拍攝規劃參考。</div>
+    </div>
+  </footer>
+
+  <details class="notes">
+    <summary data-i18n="notes_title">設計說明 — 設計決策 × design-review 對應</summary>
+    <div class="body">
+      <h4 data-i18n="notes_base">基準與引用關係（不重做已核 mockup）</h4>
+      <table>
+        <tr><td>三已核 mockup 為源</td><td>token 與元件規格全部取自 DESIGN-3 已核的 <code>mockup-cards.html</code>／<code>mockup-forecast.html</code>／<code>mockup-detail.html</code>（commit b2a3500aa）。本檔不改動它們任何一處 — 它們是視覺語言的來源；新頁面（提醒／天氣圖／題材評估）僅「引用」本檔 token 並在各自設計說明註明。</td></tr>
+        <tr><td>新增 token 的原則</td><td>只「編碼」已核 mockup 已在用的數值（如下拉/彈窗陰影 → shadow-3），不引入新視覺語言；唯一的補齊是 footer 與五種空狀態（現行站內沒有統一規格，屬 DESIGN-4 新增面）。</td></tr>
+        <tr><td>唯一真相</td><td>後續頁面與 RD 實作一律以本檔為 token 來源；發現衝突時先改本檔再套用，禁止頁面各自覆寫數值。</td></tr>
+      </table>
+      <h4 data-i18n="notes_sem">狀態語義對應</h4>
+      <table>
+        <tr><td>三層判定</td><td>✓推薦／○可拍／✗不宜 三層語義（owner ruling）；小時級三態標籤（符合／🕒非建議時段／⚠️未符）避免同行矛盾對（DR2 challenger 規則）；「一般拍攝」僅小時級，避免與日級「可拍」撞詞。</td></tr>
+        <tr><td>窗型不投票</td><td>DR2 主失敗原因規則 — 光窗類 metric 在窗已出現時不得當主因（是天氣辜負你，不是時鐘）；窗完全缺席 → 中性「非建議時段」。</td></tr>
+        <tr><td>色盲可讀</td><td>所有狀態 = 色相＋符號（✓○✗🕒⚠️）＋文字標籤三重編碼；藍僅連結（DR1 P1-2）。</td></tr>
+        <tr><td>資料不足點名</td><td>DR1 hours-absurdity sweep — 「無法提供建議」必須說出缺的輸入（水況資料未接入／季節曆未涵蓋），不得黑箱。</td></tr>
+      </table>
+      <h4 data-i18n="notes_chrome">共用骨架對應</h4>
+      <table>
+        <tr><td>nav 三項＋會員入口</td><td>PRODUCT_BLUEPRINT IA — 首頁卡片頁是 hub，導覽列單一且不再有「更多工具」下拉；題材評估直達 URL。masthead 兩態＝DESIGN-3b 已核規格原樣（頭像中性灰不佔語義色；★=收藏、🔔=提醒單一語義）。</td></tr>
+        <tr><td>footer</td><td>新增補齊面：三欄（產品/會員/資料）＋資料視窗聲明；資料視窗文案必須 derive 自資料集實際視窗常數，禁止寫死過期數字（product-design 複製規則 a）。</td></tr>
+        <tr><td>空狀態×5</td><td>DR1/DR2 規則匯總：錯誤必附重試＋自動重試次數（「暫時無法載入」單獨出現是死路）；離線明示快照時間；載入 skeleton 為唯一裝飾動畫（動畫須承載狀態）；空狀態給「下一步」按鈕。</td></tr>
+        <tr><td>尺寸系統</td><td>chip 24 / pill·tier 22 / 下拉·控制項 36 / 次鈕 30 / 主鈕 40（DR1 P2-11）；390px：控制項 40、選單列 44、觸控目標 ≥44。</td></tr>
+      </table>
+      <p class="data-src" data-i18n="data_src">樣本值沿用三已核 mockup 的真實資料層：subject-cards 評估層（2026-11-16 · 460 景點 ✓223/○234/✗3）、21 種題材短名、fail_reason_short 詞典。視窗切換鈕僅改變容器寬度以示範 390px 節奏。</p>
+    </div>
+  </details>
+</div>
+
+<script>
+/* 三語詞典（UI 標籤；設計說明表格正文依慣例保留 zh-TW） */
+const I18N={
+ 'zh-TW':{nav_cards:'卡片',nav_weathermap:'天氣圖',nav_reminders:'拍攝提醒',login:'登入',member_name:'晨曦旅人',avatar_ch:'晨',
+  menu_fav:'我的最愛',menu_rem:'提醒清單',menu_profile:'會員資料',menu_logout:'登出',
+  ds_title:'🎨 全站設計系統',
+  ds_lede:'以 DESIGN-3 三個已核 mockup（卡片列表／小時預報／詳情彈窗）的視覺語言為基準編纂：色彩、字級、間距、圓角、陰影、狀態語義、共用元件與空狀態的標準樣式。後續所有頁面（提醒／天氣圖／題材評估／產品實作）一律引用本檔 token，不再各自發明數值。三個已核 mockup 本身不重做 — 它們是本系統的來源，僅在衍生頁面引用時註明。',
+  sec_color:'1 · 色彩全表',sec_color_d:'表面四層深度遞進；文字三層灰階全部 ≥4.5:1；語義色契約固定。藍是連結專用色 — 語義必綠（DR1 P1-2），選中非語義才可用藍。',
+  th_token:'Token',th_value:'值',th_use:'用途',th_sample:'樣本',th_state:'狀態',th_mark:'符號',th_demo:'樣式',th_rule:'規則',th_size:'尺寸',th_comp:'元件',
+  c_bg0:'頁底（最深）',c_bg1:'卡片／面板',c_bg2:'pill／按鈕／輸入框',c_bg3:'hover／選中／頭像',c_brd:'全站 1px 邊框',c_brd2:'hover 邊框／分隔強調',
+  c_t1:'主文字／標題',c_t2:'內文／次要',c_t3:'輔助／計數／時間標籤',c_sem_h:'語義／狀態色（契約）',
+  st_rec:'推薦',st_shoot:'可拍',st_no:'不宜',st_defer:'非建議時段',st_warn:'未符',st_nodata:'資料不足',c_link:'連結',
+  c_g:'推薦徽章、選中 tab、符合日格、色帶',c_a:'可拍徽章、一般拍攝行、★收藏',c_r:'不宜徽章、✗短詞、刪除',c_gy:'非建議時段、資料不足、離線',c_b:'僅連結（永不做語義／選中色）',
+  sec_type:'2 · 字級尺規',sec_type_d:'六檔封閉尺規；字重只用 400 / 600 兩檔；時間與數值一律 mono tabular — 掃描時寬度固定。',
+  ty_12:'輔助／pill／chips／計數',ty_13:'內文／控制項／導覽',ty_14:'卡片標／日期 pill 首行',ty_15:'logo／頁面小標',ty_16:'區塊標／彈窗標',ty_20:'頁面主標',ty_mo:'時間／數值／視窗',
+  ty12_s:'雲量 12% · 輔助文字 12px',ty13_s:'內文 13px — 卡片逐題材行與說明',ty14_s:'卡片標題 14px / 600',ty16_s:'區塊標題 16px / 600',ty20_s:'頁面主標 20px / 600',
+  sec_space:'3 · 間距尺規',sec_space_d:'4 的倍數，六檔封閉；卡內節奏 = 12（行距）/ 16（卡 padding）/ 24（區塊間）；390px 卡間距降為 8。',
+  sp_1:'pills 內距、行內微調',sp_2:'chip/gap、390px 卡間距',sp_3:'卡內行距、按鈕 gap、控制項 padding',sp_4:'卡片 padding、區塊間最小值',sp_5:'卡片網格 gap、區塊間',sp_6:'頁面 section 間、頁尾前',
+  sec_rad:'4 · 圓角',sec_rad_d:'四檔封閉；嵌套半徑＝外層 −4px（DR1 P2-2）；999px 是 pill/徽章/tier 專用，不佔尺規。',
+  sec_shadow:'5 · 陰影',sec_shadow_d:'三級封閉，全部純黑投影（深色主題不做彩色陰影）：懸浮小件、面板、彈窗/下拉。卡片靜態不用陰影 — 邊框即可。',
+  sec_sem:'6 · 狀態色語義',sec_sem_d:'詞彙與符號全站固定，不發明近義詞；狀態不可只靠色相（色盲可讀：符號+文字共載）；一列上不得出現矛盾的 ✓／✗ 併列（以三態標籤調和）。',
+  sem_r1:'curated 題材成立、值得專程前往；列表頁語義必綠',sem_r2:'curated 全數未符但一般基線通過；小時級用「一般拍攝」避免與日級撞詞',
+  sem_r3:'連一般基線也不過；必附 fail_reason_short 短詞，不得只給色',sem_r4:'窗型題材在窗外（時鐘沒錯，是時間不對）— 絕不投票為主失敗原因',
+  sem_r5:'小時級三態標籤之一：符合 / 🕒非建議時段 / ⚠️未符',sem_r6:'必點名缺哪項輸入（水況資料未接入…），不得黑箱',
+  sec_comp:'7 · 元件庫',sec_comp_d:'標準樣式與尺寸系統（chip 24 / pill·tier 22 / 控制項·下拉 36 / 次按鈕 30 / 主按鈕 40；390px 控制項 40、選單列 44 觸控目標）。衍生頁面只組合，不重寫樣式。',
+  cp_tier:'tier 徽章',cp_tab:'分段 tab',cp_btn:'按鈕',cp_select:'下拉',cp_input:'輸入框',cp_box:'方框（card/box）',cp_box_d:'內容容器：1px 邊框、12px 圓角、hover 邊框轉 strong',
+  cp_acc:'摺疊 accordion',cp_acc_s:'條件 ×4（點開示範）',cp_acc_d:'內容 13px／text-2；摘要列 ▸/▾ 前綴。詳情彈窗的「條件 ×N」、設計說明同此元件。',
+  cp_switch:'開關 switch',cp_pop:'彈出 popover/彈窗',cp_pop_d:'member-menu / 迷你卡 / 詳情彈窗：bg-1＋strong 邊框＋--shadow-3，開啟由 .open 類控制，關閉即移出 hit-testing。',
+  sec_chrome:'8 · 導覽列 · masthead · footer',sec_chrome_d:'全站共用骨架（上方 nav 為 live 樣本）：單一導覽列三項（卡片｜天氣圖｜拍攝提醒）＋右側會員入口；題材評估等工具頁保持直達 URL、不入導覽（owner ruling）。masthead 兩態規格＝DESIGN-3b 已核版。footer 為三欄連結＋資料視窗聲明。',
+  ch_nav:'sticky 頂欄、1px 底框；logo 15/600（綠點）；連結 13px text-2，active＝text-1+600；390px 隱藏連結列。',
+  ch_out:'描邊「登入」鈕，bg-2。',ch_in:'頭像（中性灰）＋會員名＋▾；點開下拉四項＋登出分隔。',
+  ch_footer:'1px 上框；產品連結／會員／資料聲明三欄（390px 直疊）；尾行資料視窗常數與 GMT+8 標示。',
+  ch_footer_demo:'footer 展開樣本（點開）',f_member:'會員',f_data:'資料',f_win:'預報視窗：過去 24 小時＋未來 72 小時',
+  f_fine:'ChaseLights · 攝影天氣指南。氣象資料僅供拍攝規劃參考。',
+  sec_empty:'9 · 空狀態',sec_empty_d:'五種全站空狀態的標準樣式：dashed 邊框框＋圖示＋一行主張＋一句指引＋動作鈕；載入中用 skeleton shimmer（唯一允許的裝飾動畫 — 承載狀態）；錯誤必附重試；離線明示「顯示上次資料」及其時間。',
+  e_fav_t:'還沒有收藏',e_fav_d:'在卡片右上按 ★ 加入最愛，這裡會列出你追蹤的景點。',e_fav_a:'去逛卡片列表',
+  e_rem_t:'還沒有提醒',e_rem_d:'選地區 → 景點 → 題材建立第一個拍攝提醒，符合時段前會通知你。',e_rem_a:'建立提醒',
+  e_load_t:'載入中',e_load_d:'skeleton 佔位（shimmer 是唯一裝飾動畫）',
+  e_err_t:'暫時無法載入',e_err_d:'網路逾時（30s）。已自動重試 2 次 — 可再手動重試。',e_err_a:'↻ 重試',
+  e_off_t:'離線中 — 顯示上次資料',e_off_d:'以下為最後一次成功載入的快照。',e_off_a:'重新連線',
+  notes_title:'設計說明 — 設計決策 × design-review 對應',notes_base:'基準與引用關係（不重做已核 mockup）',notes_sem:'狀態語義對應',notes_chrome:'共用骨架對應',
+  data_src:'樣本值沿用三已核 mockup 的真實資料層：subject-cards 評估層（2026-11-16 · 460 景點 ✓223/○234/✗3）、21 種題材短名、fail_reason_short 詞典。視窗切換鈕僅改變容器寬度以示範 390px 節奏。'},
+ en:{nav_cards:'Cards',nav_weathermap:'Weather map',nav_reminders:'Reminders',login:'Log in',member_name:'Dawn Chaser',avatar_ch:'D',
+  menu_fav:'Favorites',menu_rem:'Reminders',menu_profile:'Account',menu_logout:'Log out',
+  ds_title:'🎨 Design System',
+  ds_lede:'Codified from the three approved DESIGN-3 mockups (cards list / hourly forecast / detail modal): color, type, spacing, radius, shadow, status semantics, shared components and empty states. All later pages (reminders / weather map / genre eval / product code) reference THIS file — no inventing values per page. The three approved mockups are NOT redone — they are the source of this system.',
+  sec_color:'1 · Color',sec_color_d:'Four surface depths; three text greys all ≥4.5:1; the semantic contract is fixed. Blue is link-only — semantics must be green (DR1 P1-2).',
+  th_token:'Token',th_value:'Value',th_use:'Usage',th_sample:'Sample',th_state:'State',th_mark:'Mark',th_demo:'Style',th_rule:'Rule',th_size:'Size',th_comp:'Component',
+  c_bg0:'Page base (deepest)',c_bg1:'Card / panel',c_bg2:'Pill / button / input',c_bg3:'Hover / selected / avatar',c_brd:'Global 1px border',c_brd2:'Hover border / emphasis',
+  c_t1:'Primary text / titles',c_t2:'Body / secondary',c_t3:'Aux / counts / time labels',c_sem_h:'Semantic / status colors (contract)',
+  st_rec:'Recommended',st_shoot:'Shootable',st_no:'Not advised',st_defer:'Not the hour',st_warn:'Conditions failed',st_nodata:'Insufficient data',c_link:'Link',
+  c_g:'Recommend badge, selected tab, fit day-cell, band',c_a:'Shootable badge, general line, ★favorite',c_r:'Not-advised badge, ✗ short word, delete',c_gy:'Not-the-hour, insufficient data, offline',c_b:'Links only (never semantic/selected)',
+  sec_type:'2 · Type scale',sec_type_d:'Closed six-step scale; weights 400/600 only; times and numbers always mono tabular.',
+  ty_12:'Aux / pills / chips / counts',ty_13:'Body / controls / nav',ty_14:'Card titles / date pill',ty_15:'Logo / sub titles',ty_16:'Section / modal titles',ty_20:'Page title',ty_mo:'Time / numbers / windows',
+  ty12_s:'Cloud 12% · aux 12px',ty13_s:'Body 13px — per-subject rows and notes',ty14_s:'Card title 14px / 600',ty16_s:'Section title 16px / 600',ty20_s:'Page title 20px / 600',
+  sec_space:'3 · Spacing',sec_space_d:'Multiples of 4, closed six steps; in-card rhythm = 12 / 16 / 24; 390px card gap drops to 8.',
+  sp_1:'Pill padding, inline tweaks',sp_2:'Chip gaps, 390px card gap',sp_3:'In-card line gaps, button gap, control padding',sp_4:'Card padding, min section gap',sp_5:'Grid gap, section gaps',sp_6:'Between page sections, before footer',
+  sec_rad:'4 · Radius',sec_rad_d:'Closed four steps; nested radius = outer −4px (DR1 P2-2); 999px reserved for pills/badges/tiers.',
+  sec_shadow:'5 · Shadow',sec_shadow_d:'Closed three levels, pure black only: floating bits, panels, modals/dropdowns. Static cards use borders, not shadows.',
+  sec_sem:'6 · Status semantics',sec_sem_d:'Fixed vocabulary and marks site-wide; never hue-only (icon+text co-carries the state); no contradictory ✓/✗ pair on one row.',
+  sem_r1:'Curated subject holds, worth a dedicated trip',sem_r2:'All curated fail but the general baseline passes; hourly label is "General shooting"',
+  sem_r3:'Even the baseline fails; must carry a fail_reason_short word',sem_r4:'Window-type subject outside its window — never votes as dominant failure',
+  sem_r5:'One of the hourly tri-state labels',sem_r6:'Must name the missing input, never a black box',
+  sec_comp:'7 · Components',sec_comp_d:'Standard styles and size system (chip 24 / pill·tier 22 / controls 36 / secondary btn 30 / primary 40; 390px: 40 and 44px menu rows). Derived pages compose, never restyle.',
+  cp_tier:'Tier badge',cp_tab:'Segmented tab',cp_btn:'Buttons',cp_select:'Dropdown',cp_input:'Input',cp_box:'Box (card)',cp_box_d:'Content container: 1px border, 12px radius, hover border → strong',
+  cp_acc:'Accordion',cp_acc_s:'Conditions ×4 (tap to demo)',cp_acc_d:'Body 13px / text-2; ▸/▾ summary prefix. Same component in the detail modal.',
+  cp_switch:'Switch',cp_pop:'Popover / modal',cp_pop_d:'member-menu / mini card / detail modal: bg-1 + strong border + --shadow-3; closed = removed from hit-testing.',
+  sec_chrome:'8 · Nav · masthead · footer',sec_chrome_d:'Shared skeleton (the nav above is a live sample): one persistent bar, three links + member entry; tool pages like genre-eval stay direct-URL only (owner ruling). Masthead spec = the approved DESIGN-3b version. Footer = three link columns + data-window note.',
+  ch_nav:'Sticky top bar, 1px bottom border; logo 15/600 (green dot); links 13px text-2, active = text-1+600; hidden at 390px.',
+  ch_out:'Outlined "Log in" button, bg-2.',ch_in:'Avatar (neutral grey) + member name + ▾; dropdown four items + logout divider.',
+  ch_footer:'1px top border; product / member / data columns (stacked at 390px); data-window constant + GMT+8 note.',
+  ch_footer_demo:'Footer expanded sample (tap)',f_member:'Member',f_data:'Data',f_win:'Forecast window: past 24h + next 72h',
+  f_fine:'ChaseLights · photography weather guide. For planning reference only.',
+  sec_empty:'9 · Empty states',sec_empty_d:'Five standard empty states: dashed frame + icon + one-line claim + one-line guide + action button; loading = skeleton shimmer (the only decorative animation — it carries state); errors must offer retry; offline states "showing last data" with its timestamp.',
+  e_fav_t:'No favorites yet',e_fav_d:'Tap ★ on a card to track it; tracked places list here.',e_fav_a:'Browse cards',
+  e_rem_t:'No reminders yet',e_rem_d:'Pick region → place → subject to create your first reminder.',e_rem_a:'Create reminder',
+  e_load_t:'Loading',e_load_d:'Skeleton placeholder (shimmer is the only decorative animation)',
+  e_err_t:'Could not load',e_err_d:'Network timed out (30s). Auto-retried twice — retry manually if you like.',e_err_a:'↻ Retry',
+  e_off_t:'Offline — showing last data',e_off_d:'Snapshot of the last successful load.',e_off_a:'Reconnect',
+  notes_title:'Design notes — decisions × design-review findings',notes_base:'Baseline & reference (approved mockups untouched)',notes_sem:'Status semantics mapping',notes_chrome:'Shared skeleton mapping',
+  data_src:'Samples reuse the real data layer of the three approved mockups: subject-cards evaluation layer (2026-11-16 · 460 places ✓223/○234/✗3), 21 genre short names, fail_reason_short dict. The viewport toggle only changes container width.'},
+ ja:{nav_cards:'カード',nav_weathermap:'天気マップ',nav_reminders:'撮影リマインダー',login:'ログイン',member_name:'暁の旅人',avatar_ch:'暁',
+  menu_fav:'お気に入り',menu_rem:'リマインド一覧',menu_profile:'会員情報',menu_logout:'ログアウト',
+  ds_title:'🎨 デザインシステム',
+  ds_lede:'DESIGN-3 の承認済み 3 モックアップ（カード一覧／時間別予報／詳細モーダル）の視覚言語を基準に編纂：カラー・文字・余白・角丸・影・状態意味論・共通コンポーネント・空状態の標準スタイル。以後の全ページはこのファイルの token を参照し、独自の数値を発明しない。承認済み 3 モックアップは作り直さない。',
+  sec_color:'1 · カラー一覧',sec_color_d:'表面は 4 段階の深度。文字グレーはすべて ≥4.5:1。意味色の契約は固定。青はリンク専用（DR1 P1-2）。',
+  th_token:'Token',th_value:'値',th_use:'用途',th_sample:'サンプル',th_state:'状態',th_mark:'記号',th_demo:'スタイル',th_rule:'規則',th_size:'サイズ',th_comp:'部品',
+  c_bg0:'ページ底（最深）',c_bg1:'カード／パネル',c_bg2:'ピル／ボタン／入力',c_bg3:'ホバー／選択中／アバター',c_brd:'全体 1px ボーダー',c_brd2:'ホバーボーダー／強調',
+  c_t1:'主要テキスト／見出し',c_t2:'本文／サブ',c_t3:'補助／カウント／時刻',c_sem_h:'意味／状態色（契約）',
+  st_rec:'推薦',st_shoot:'撮影可',st_no:'不適',st_defer:'時間帯外',st_warn:'未達',st_nodata:'データ不足',c_link:'リンク',
+  c_g:'推薦バッジ・選択タブ・適合日セル',c_a:'撮影可バッジ・一般撮影行・★お気に入り',c_r:'不適バッジ・✗短語・削除',c_gy:'時間帯外・データ不足・オフライン',c_b:'リンクのみ（意味色には使わない）',
+  sec_type:'2 · 文字スケール',sec_type_d:'6 段階の閉じたスケール。太さは 400/600 のみ。時刻と数値は常に mono。',
+  ty_12:'補助／ピル／チップ／カウント',ty_13:'本文／コントロール／ナビ',ty_14:'カード見出し／日付ピル',ty_15:'ロゴ／小見出し',ty_16:'セクション／モーダル見出し',ty_20:'ページ見出し',ty_mo:'時刻／数値／時間帯',
+  ty12_s:'雲量 12%・補助 12px',ty13_s:'本文 13px — カードの行と注記',ty14_s:'カード見出し 14px / 600',ty16_s:'セクション見出し 16px / 600',ty20_s:'ページ見出し 20px / 600',
+  sec_space:'3 · 余白スケール',sec_space_d:'4 の倍数・6 段階。カード内 = 12 / 16 / 24。390px ではカード間 8。',
+  sp_1:'ピル内余白・微調整',sp_2:'チップ間・390px のカード間',sp_3:'カード内行間・ボタン間',sp_4:'カード余白・最小セクション間',sp_5:'グリッド間・セクション間',sp_6:'セクション間・フッター前',
+  sec_rad:'4 · 角丸',sec_rad_d:'4 段階の閉じた規模。ネストは外側 −4px（DR1 P2-2）。999px はピル／バッジ専用。',
+  sec_shadow:'5 · 影',sec_shadow_d:'3 段階・すべて黒のみ：浮遊小物・パネル・モーダル。静的カードは影ではなくボーダー。',
+  sec_sem:'6 · 状態の意味論',sec_sem_d:'語彙と記号は全サイト固定。色相だけに依存しない（記号＋文字で二重表記）。同じ行に矛盾する ✓/✗ を並べない。',
+  sem_r1:'厳選題材が成立・専用の撮影行に値する',sem_r2:'厳選は不成立だが一般ベースラインは通過。時間帯のラベルは「一般撮影」',
+  sem_r3:'一般ベースラインも不通過。fail_reason_short の短語が必須',sem_r4:'窓型題材が窓の外 — 主失敗理由には決して選ばない',
+  sem_r5:'時間帯三態ラベルの 1 つ',sem_r6:'欠けている入力を必ず明示・黑箱は禁止',
+  sec_comp:'7 · コンポーネント',sec_comp_d:'標準スタイルとサイズ体系（chip 24 / pill・tier 22 / コントロール 36 / サブボタン 30 / 主要 40。390px：40・メニュー行 44）。派生ページは組み合わせのみ。',
+  cp_tier:'tier バッジ',cp_tab:'セグメントタブ',cp_btn:'ボタン',cp_select:'ドロップダウン',cp_input:'入力欄',cp_box:'ボックス（カード）',cp_box_d:'内容コンテナ：1px ボーダー・12px 角丸・ホバーで strong',
+  cp_acc:'アコーディオン',cp_acc_s:'条件 ×4（タップで例示）',cp_acc_d:'本文 13px／text-2。詳細モーダルも同じ部品。',
+  cp_switch:'スイッチ',cp_pop:'ポップオーバー／モーダル',cp_pop_d:'member-menu / ミニカード / 詳細モーダル：bg-1＋strong ボーダー＋--shadow-3。',
+  sec_chrome:'8 · ナビ・マストヘッド・フッター',sec_chrome_d:'共通骨格（上のナビは実サンプル）：永続バー 3 項目＋会員入口。ツール系ページは直 URL のみ。マストヘッド 2 状態＝承認済み DESIGN-3b 版。フッターは 3 列＋データ窓の注記。',
+  ch_nav:'スティッキー・トップバー・1px 下ボーダー。ロゴ 15/600（緑ドット）。リンク 13px text-2、active＝text-1+600。390px で非表示。',
+  ch_out:'枠線「ログイン」ボタン・bg-2。',ch_in:'アバター（中立グレー）＋会員名＋▾。ドロップダウン 4 項目＋ログアウト区切り。',
+  ch_footer:'1px 上ボーダー。製品／会員／データの 3 列（390px で縦積み）。データ窓定数と GMT+8。',
+  ch_footer_demo:'フッター展開サンプル（タップ）',f_member:'会員',f_data:'データ',f_win:'予報窓：過去 24 時間＋未来 72 時間',
+  f_fine:'ChaseLights・撮影天気ガイド。計画参考用。',
+  sec_empty:'9 · 空状態',sec_empty_d:'5 種の標準空状態：破線枠＋アイコン＋主張 1 行＋案内 1 行＋アクション。ロード中は skeleton（唯一の装飾アニメ）。エラーは必ずリ retry 付き。オフラインは「前回データ表示」と時刻を明示。',
+  e_fav_t:'お気に入りはまだありません',e_fav_d:'カード右上の ★ で追跡するとここに並びます。',e_fav_a:'カード一覧へ',
+  e_rem_t:'リマインドはまだありません',e_rem_d:'地域 → スポット → 題材を選んで最初のリマインドを作成。',e_rem_a:'リマインド作成',
+  e_load_t:'読み込み中',e_load_d:'skeleton プレースホルダー（唯一の装飾アニメ）',
+  e_err_t:'読み込めませんでした',e_err_d:'ネットワークタイムアウト（30s）。自動再試行 2 回済み — 手動でも再試行できます。',e_err_a:'↻ 再試行',
+  e_off_t:'オフライン — 前回データを表示',e_off_d:'最後に成功した読み込みのスナップショット。',e_off_a:'再接続',
+  notes_title:'デザインメモ — 決定事項 × design-review 対応',notes_base:'基準と参照関係（承認済みモックアップは無変更）',notes_sem:'状態意味論の対応',notes_chrome:'共通骨格の対応',
+  data_src:'サンプル値は承認済み 3 モックアップの実データ層を再利用：subject-cards 評価層（2026-11-16・460 スポット ✓223/○234/✗3）、21 題材短名、fail_reason_short 辞書。'}
+};
+let lang='zh-TW';
+const t=()=>I18N[lang];
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t()[k])el.textContent=t()[k];});
+}
+applyLang();
+document.getElementById('lang-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;
+  document.querySelectorAll('#lang-grp button').forEach(x=>x.classList.toggle('on',x===b));applyLang();});
+/* DESIGN-3b 會員入口：兩態切換＋下拉 */
+const mz=document.getElementById('member-zone'),mbtn=document.getElementById('member');
+document.getElementById('auth-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#auth-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  mz.className='member-zone '+(b.dataset.auth==='in'?'in':'out');mbtn.classList.remove('open');});
+mbtn.addEventListener('click',e=>{e.stopPropagation();mbtn.classList.toggle('open');});
+document.addEventListener('click',e=>{if(!mbtn.contains(e.target))mbtn.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')mbtn.classList.remove('open');});
+document.getElementById('vp-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#vp-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('shell').classList.toggle('vp390',b.dataset.vp==='390');});
+/* 元件庫互動示範：chips 可切選、開關可撥 */
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('on')));
+document.querySelectorAll('.switch').forEach(s=>s.addEventListener('click',()=>s.classList.toggle('on')));
+</script>
+</body>
+</html>

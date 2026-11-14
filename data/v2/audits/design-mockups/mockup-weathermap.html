@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOCKUP 5 — 天氣圖頁 · ChaseLights DESIGN-4</title>
+<style>
+/* ============================================================
+   DESIGN-4 mockup — 天氣圖頁（weather-map 重設計）
+   token 引用：design-system.html（DESIGN-4 全站唯一真相）
+   基準：DESIGN-3 三已核 mockup；圖層配色單調亮度坡（Windy 標準）
+   ============================================================ */
+:root{
+  --bg-0:#0B0F1A; --bg-1:#111827; --bg-2:#1A2332; --bg-3:#232D3F;
+  --border:#2A3441; --border-strong:#3B4757;
+  --text-1:#E6EBF2; --text-2:#A8B3C2; --text-3:#8B98A9;
+  --green:#22C55E; --green-text:#4ADE80; --green-bg:rgba(34,197,94,.10); --green-border:#166534;
+  --amber:#F59E0B; --amber-text:#FBBF24; --amber-bg:rgba(245,158,11,.10); --amber-border:#92600A;
+  --red:#EF4444; --red-text:#F87171; --red-bg:rgba(239,68,68,.09); --red-border:#7F1D1D;
+  --grey:#6B7686; --grey-text:#98A4B3; --grey-bg:rgba(107,118,134,.14);
+  --blue:#3B82F6;
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+  --fs-12:12px; --fs-13:13px; --fs-14:14px; --fs-15:15px; --fs-16:16px; --fs-20:20px;
+  --control-h:36px; --pill-h:32px; --chip-h:24px; --btn-h:40px;
+  --shadow-1:0 1px 2px rgba(0,0,0,.4); --shadow-2:0 8px 24px rgba(0,0,0,.5); --shadow-3:0 16px 48px rgba(0,0,0,.65);
+  --font:"Inter","Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Mono","Consolas",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:#3B4757 var(--bg-0)}
+body{background:var(--bg-0);color:var(--text-1);font-family:var(--font);font-size:var(--fs-14);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.mono{font-family:var(--mono)}
+
+/* ── mockup chrome（非產品 UI）────────────────────────── */
+.mockup-bar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:var(--sp-3);
+  padding:8px 16px;background:#070A12;border-bottom:1px solid var(--border);font-size:var(--fs-12);color:var(--text-3)}
+.mockup-bar .tag{font-weight:600;color:#F472B6;letter-spacing:.04em}
+.mockup-bar .grp{display:flex;gap:4px}
+.mockup-bar button{height:24px;padding:0 10px;border-radius:var(--r-xs);border:1px solid var(--border);color:var(--text-2);font-size:11px}
+.mockup-bar button.on{background:var(--bg-3);color:var(--text-1);border-color:var(--border-strong)}
+.mockup-bar .spacer{flex:1}
+
+/* ── 導覽列（design-system 標準骨架）──────────────────── */
+.topnav-wrap{position:relative;z-index:55;background:var(--bg-0);border-bottom:1px solid var(--border)}
+.topnav{display:flex;align-items:center;gap:var(--sp-4);max-width:1280px;margin:0 auto;padding:var(--sp-3) var(--sp-5)}
+.logo{font-weight:600;font-size:var(--fs-15);letter-spacing:-.01em}
+.logo .dot{color:var(--green)}
+.topnav .navlinks{display:flex;gap:var(--sp-4);font-size:var(--fs-13)}
+.topnav .navlinks a{color:var(--text-2)}
+.topnav .navlinks a.active{color:var(--text-1);font-weight:600}
+.topnav .right{margin-left:auto;display:flex;gap:var(--sp-2);align-items:center}
+.shell390 .navlinks{display:none}
+.shell390 .member,.shell390 .login-btn{height:40px}
+.shell390 .member .m-name{max-width:96px}
+.shell390 .member-menu button{height:44px}
+.shell390 .member-menu{min-width:200px}
+
+/* ── 會員入口（DESIGN-3b 已核規格）────────────────────── */
+.login-btn{display:none;align-items:center;height:36px;padding:0 16px;border:1px solid var(--border-strong);border-radius:var(--r-xs);
+  background:var(--bg-2);color:var(--text-1);font-size:var(--fs-13);font-weight:600}
+.member{position:relative;display:none;align-items:center;gap:var(--sp-2);height:36px;padding:0 10px 0 5px;
+  border:1px solid var(--border);border-radius:18px;background:var(--bg-2);cursor:pointer;user-select:none}
+.avatar{width:26px;height:26px;border-radius:50%;background:var(--bg-3);border:1px solid var(--border-strong);color:var(--text-1);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none}
+.member .m-name{font-size:var(--fs-13);color:var(--text-2);max-width:128px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.member .m-caret{font-size:9px;color:var(--text-3)}
+.member-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:184px;background:var(--bg-1);border:1px solid var(--border-strong);
+  border-radius:var(--r-md);box-shadow:var(--shadow-3);padding:var(--sp-1);display:none;z-index:70}
+.member.open .member-menu{display:block}
+.member-menu button{display:flex;width:100%;align-items:center;gap:var(--sp-2);height:36px;padding:0 var(--sp-2);
+  border-radius:var(--r-xs);color:var(--text-2);font-size:var(--fs-13);text-align:left}
+.member-menu button:hover{background:var(--bg-2)}
+.member-menu .mm-ic{width:18px;text-align:center;flex:none}
+.member-menu .mm-sep{height:1px;background:var(--border);margin:var(--sp-1) 6px}
+.member-menu .mm-out{color:var(--grey-text)}
+.member-zone.in .member{display:flex}
+.member-zone.out .login-btn{display:flex}
+
+/* ── 地圖版面：全幅地圖＋覆蓋控制層 ───────────────────── */
+#map-wrap{position:relative;height:calc(100vh - 118px);min-height:480px;background:var(--bg-0);overflow:hidden}
+#map-svg{position:absolute;inset:0;width:100%;height:100%}
+/* 控制層：左上 圖層切換 + 圖例 */
+.ctl{position:absolute;z-index:30;display:flex;flex-direction:column;gap:var(--sp-2);align-items:flex-start}
+.ctl-tl{top:var(--sp-4);left:var(--sp-4)}
+.layer-chips{display:flex;gap:var(--sp-2);flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;height:var(--chip-h);padding:0 var(--sp-2);flex:none;
+  border-radius:var(--r-xs);border:1px solid var(--border);background:rgba(17,24,39,.9);font-size:var(--fs-12);color:var(--text-2)}
+.chip.on{background:var(--bg-3);border-color:var(--border-strong);color:var(--text-1);font-weight:600}
+.chip .sw-dot{width:8px;height:8px;border-radius:50%;margin-right:4px;flex:none}
+/* 圖例 — 自動衍生：細漸層棒＋min/max 標籤，點擊展開全刻度 */
+.legend{display:flex;align-items:center;gap:8px;background:rgba(17,24,39,.9);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:6px 10px;font-size:var(--fs-12);color:var(--text-2)}
+.legend .bar{width:96px;height:8px;border-radius:999px}
+.legend .min,.legend .max{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-2)}
+.legend .name{color:var(--text-3)}
+/* 右側：景點列表側欄 */
+.side{position:absolute;top:var(--sp-4);right:var(--sp-4);bottom:96px;width:280px;z-index:30;
+  background:rgba(17,24,39,.94);border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow-2);
+  display:flex;flex-direction:column;overflow:hidden}
+.side-head{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-3);border-bottom:1px solid var(--border);font-size:var(--fs-13);font-weight:600}
+.side-head .count{margin-left:auto;font-size:var(--fs-12);color:var(--text-3);font-weight:400}
+.side-body{overflow-y:auto;padding:var(--sp-2)}
+.side-group{font-size:var(--fs-12);color:var(--text-3);padding:var(--sp-2) var(--sp-2) 2px;text-transform:uppercase;letter-spacing:.05em}
+.spot-row{display:flex;align-items:center;gap:var(--sp-2);width:100%;text-align:left;padding:8px;border-radius:var(--r-sm);min-width:0}
+.spot-row:hover{background:var(--bg-2)}
+.spot-row.sel{background:var(--bg-3)}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dot.rec{background:var(--green)}.dot.shoot{background:var(--amber)}.dot.no{background:var(--red)}
+.spot-row .s-name{font-size:var(--fs-13);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.spot-row .s-sub{font-size:var(--fs-12);color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.spot-row .grow{flex:1;min-width:0}
+.spot-row .s-time{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-2);flex:none}
+/* 底部：日期列＋時間軸 */
+.timeline-dock{position:absolute;left:var(--sp-4);right:var(--sp-4);bottom:var(--sp-4);z-index:30;
+  background:rgba(17,24,39,.94);border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow-2);padding:var(--sp-2) var(--sp-3)}
+.day-row{display:flex;gap:var(--sp-2);overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:2px;margin-bottom:var(--sp-2);
+  scrollbar-width:none;mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent)}
+.day-row::-webkit-scrollbar{height:0}
+.day-pill{display:flex;flex-direction:column;justify-content:center;gap:1px;min-width:132px;height:44px;padding:0 var(--sp-3);
+  background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-sm);white-space:nowrap;flex:none;scroll-snap-align:center;cursor:pointer}
+.day-pill .l1{font-size:var(--fs-13);font-weight:600}
+.day-pill .l2{font-size:var(--fs-12);color:var(--text-3)}
+.day-pill:hover{border-color:var(--border-strong)}
+.day-pill.sel{background:var(--bg-3);border-color:var(--border-strong)}
+/* 小時軸：橫捲，now 自動置中 */
+.hour-row{display:flex;gap:2px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:2px;scrollbar-width:none;
+  mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent)}
+.hour-row::-webkit-scrollbar{height:0}
+.hour-cell{flex:none;width:44px;height:44px;border-radius:var(--r-xs);background:var(--bg-2);border:1px solid var(--border);
+  scroll-snap-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.hour-cell .h{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-2)}
+.hour-cell .band{width:28px;height:3px;border-radius:2px;background:var(--grey)}
+.hour-cell.now .h{color:var(--text-1)}
+.hour-cell.now{border-color:var(--border-strong)}
+.hour-cell.sel{background:var(--bg-3);border-width:1.5px;border-color:var(--text-2)}
+
+/* ── 地圖標記 ───────────────────────────────────────── */
+.marker{position:absolute;z-index:20;transform:translate(-50%,-50%);cursor:pointer;user-select:none}
+.marker .ring{width:14px;height:14px;border-radius:50%;border:2px solid var(--text-1);display:flex;align-items:center;justify-content:center}
+.marker .core{width:6px;height:6px;border-radius:50%}
+.marker.rec .ring{border-color:var(--green-text);background:var(--green-bg)}.marker.rec .core{background:var(--green)}
+.marker.shoot .ring{border-color:var(--amber-text);background:var(--amber-bg)}.marker.shoot .core{background:var(--amber)}
+.marker.no .ring{border-color:var(--red-text);background:var(--red-bg)}.marker.no .core{background:var(--red)}
+.marker.sel .ring{box-shadow:0 0 0 3px rgba(230,235,242,.25)}
+.marker .lbl{position:absolute;top:18px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--text-2);
+  background:rgba(11,15,26,.8);padding:1px 5px;border-radius:4px;white-space:nowrap}
+
+/* ── 迷你卡（點擊景點彈出）──────────────────────────── */
+.mini{position:absolute;z-index:40;width:264px;background:var(--bg-1);border:1px solid var(--border-strong);border-radius:var(--r-md);
+  box-shadow:var(--shadow-3);padding:var(--sp-3);display:none}
+.mini.open{display:block}
+.mini-head{display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-1)}
+.mini-head .name{font-size:var(--fs-14);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mini-head .x{margin-left:auto;color:var(--text-3);font-size:13px;flex:none}
+.mini .region{font-size:var(--fs-12);color:var(--text-3);margin-bottom:var(--sp-2)}
+.mini .win{display:flex;align-items:center;gap:6px;height:24px;font-size:var(--fs-13)}
+.mini .win .dot{width:6px;height:6px}
+.mini .win .w{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-2)}
+.mini .pills{display:flex;flex-wrap:wrap;gap:var(--sp-1);margin:var(--sp-2) 0}
+.pill{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:var(--r-xs);
+  background:var(--bg-2);font-size:var(--fs-12);color:var(--text-2)}
+.pill b{font-family:var(--mono);font-weight:400;color:var(--text-1)}
+.mini .acts{display:flex;gap:var(--sp-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;height:30px;padding:0 10px;flex:1;
+  border-radius:var(--r-xs);border:1px solid var(--border);background:var(--bg-2);font-size:var(--fs-12);color:var(--text-2);white-space:nowrap}
+.btn:hover{background:var(--bg-3);color:var(--text-1);border-color:var(--border-strong)}
+/* tier 徽章 */
+.tier{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;font-size:var(--fs-12);font-weight:600;flex:none}
+.tier-rec{background:var(--green-bg);color:var(--green-text);box-shadow:inset 0 0 0 1px var(--green-border)}
+.tier-shoot{background:var(--amber-bg);color:var(--amber-text);box-shadow:inset 0 0 0 1px var(--amber-border)}
+.tier-no{background:var(--red-bg);color:var(--red-text);box-shadow:inset 0 0 0 1px var(--red-border)}
+
+/* ── 詳情彈窗（mockup-detail 同骨架）──────────────────── */
+.overlay{position:fixed;inset:0;z-index:80;background:rgba(4,6,12,.6);display:none}
+.overlay.open{display:block}
+.modal{position:relative;z-index:85;max-width:560px;margin:7vh auto 0;background:var(--bg-1);border:1px solid var(--border-strong);
+  border-radius:var(--r-lg);box-shadow:var(--shadow-3);padding:var(--sp-5);max-height:80vh;overflow-y:auto}
+.shell390 .modal{margin:3vh 8px;border-radius:var(--r-md)}
+.modal-head{display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2)}
+.modal-head h3{font-size:var(--fs-16);font-weight:600}
+.modal-head .star{margin-left:auto;color:var(--amber);font-size:13px;flex:none}
+.modal .region{font-size:var(--fs-13);color:var(--text-3);margin-bottom:var(--sp-3)}
+.day-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-2);margin-bottom:var(--sp-3)}
+.shell390 .day-grid{grid-template-columns:repeat(2,1fr)}
+.day-box{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px;min-height:64px}
+.day-box .d{font-size:var(--fs-12);color:var(--text-3);margin-bottom:4px}
+.day-box .fit{font-size:var(--fs-12);font-weight:600}
+.day-box.ok{background:var(--green-bg);border-color:var(--green-border)}.day-box.ok .fit{color:var(--green-text)}
+.day-box.soft{background:var(--amber-bg);border-color:var(--amber-border)}.day-box.soft .fit{color:var(--amber-text)}
+.day-box.bad{background:var(--red-bg);border-color:var(--red-border)}.day-box.bad .fit{color:var(--red-text)}
+.day-box .t{font-family:var(--mono);font-size:11px;color:var(--text-2)}
+details.acc{border:1px solid var(--border);border-radius:var(--r-sm);background:var(--bg-1);margin-bottom:var(--sp-2)}
+details.acc summary{padding:var(--sp-3);font-size:var(--fs-13);font-weight:600;color:var(--text-2);cursor:pointer;list-style:none}
+details.acc summary::before{content:"▸ ";color:var(--text-3)}
+details.acc[open] summary::before{content:"▾ "}
+details.acc .acc-body{padding:0 var(--sp-3) var(--sp-3);font-size:var(--fs-13);color:var(--text-2)}
+.modal .acts{display:flex;gap:var(--sp-2);margin-top:var(--sp-3)}
+.modal .acts .btn{height:var(--btn-h);font-size:var(--fs-13)}
+.modal .m-close{position:absolute;top:10px;right:12px;color:var(--text-3);font-size:16px}
+
+/* ── 設計說明（頁尾摺疊）───────────────────────────────── */
+.notes-wrap{max-width:1280px;margin:0 auto;padding:0 var(--sp-5) 64px}
+.shell390 .notes-wrap{padding:0 var(--sp-4) 64px}
+details.notes{border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg-1);margin-top:var(--sp-5)}
+details.notes summary{padding:var(--sp-3) var(--sp-4);font-size:var(--fs-13);font-weight:600;color:var(--text-2);cursor:pointer;list-style:none}
+details.notes summary::before{content:"▸ ";color:var(--text-3)}
+details.notes[open] summary::before{content:"▾ "}
+details.notes .body{padding:0 var(--sp-4) var(--sp-4);font-size:var(--fs-13);color:var(--text-2)}
+details.notes h4{font-size:var(--fs-12);color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:var(--sp-4) 0 var(--sp-2)}
+details.notes table{width:100%;border-collapse:collapse;font-size:var(--fs-12)}
+details.notes td{padding:6px 8px;border-top:1px solid var(--border);vertical-align:top;color:var(--text-2)}
+details.notes td:first-child{width:150px;color:var(--text-1);font-weight:600;white-space:nowrap}
+details.notes code{font-family:var(--mono);font-size:11px;background:var(--bg-2);padding:1px 5px;border-radius:4px;color:var(--text-1)}
+details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:var(--sp-3)}
+
+/* ── 390：側欄收進 bottom sheet ─────────────────────── */
+.sheet-btn{position:absolute;top:var(--sp-4);right:var(--sp-4);z-index:35;display:none;height:var(--control-h);padding:0 var(--sp-3);
+  border-radius:var(--r-sm);border:1px solid var(--border-strong);background:rgba(17,24,39,.9);color:var(--text-1);font-size:var(--fs-13);font-weight:600}
+.shell390 .side{display:none}
+.shell390 .side.open{display:flex;top:auto;bottom:104px;left:var(--sp-4);right:var(--sp-4);width:auto;max-height:46vh}
+.shell390 .sheet-btn{display:inline-flex}
+.shell390 .ctl-tl{right:calc(var(--sp-4) + 96px)}
+.shell390 .legend{display:none}
+@media (max-width:768px){
+  .side{display:none}
+  .sheet-btn{display:inline-flex}
+  .legend{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- mockup 工具列（非產品 UI） -->
+<div class="mockup-bar">
+  <span class="tag">MOCKUP 5/6 · 天氣圖頁</span>
+  <span class="grp" id="lang-grp">
+    <button data-lang="zh-TW" class="on">zh-TW</button><button data-lang="en">en</button><button data-lang="ja">ja</button>
+  </span>
+  <span class="grp" id="vp-grp">
+    <button data-vp="1280" class="on">1280px</button><button data-vp="390">390px</button>
+  </span>
+  <span class="grp" id="auth-grp">
+    <button data-auth="out">未登入</button><button data-auth="in" class="on">已登入</button>
+  </span>
+  <span class="grp" id="off-grp">
+    <button data-off="on" class="on">線上</button><button data-off="off">離線</button>
+  </span>
+  <span class="spacer"></span>
+  <a href="design-system.html">→ design-system</a>
+  <a href="mockup-cards.html">→ 已核 mockup 1</a>
+  <a href="mockup-detail.html">→ 已核 mockup 3</a>
+  <a href="mockup-reminders.html">→ mockup 4 提醒</a>
+  <a href="mockup-genre-eval.html">→ mockup 6 題材評估</a>
+</div>
+
+<nav class="topnav-wrap" id="navwrap">
+  <div class="topnav">
+    <span class="logo">ChaseLights<span class="dot">·</span></span>
+    <span class="navlinks">
+      <a href="mockup-cards.html" data-i18n="nav_cards">卡片</a>
+      <a href="mockup-weathermap.html" class="active" data-i18n="nav_weathermap">天氣圖</a>
+      <a href="mockup-reminders.html" data-i18n="nav_reminders">拍攝提醒</a>
+    </span>
+    <span class="right">
+      <span class="member-zone in" id="member-zone">
+        <button class="login-btn" data-i18n="login">登入</button>
+        <span class="member" id="member">
+          <span class="avatar" data-i18n="avatar_ch">晨</span>
+          <span class="m-name" data-i18n="member_name">晨曦旅人</span>
+          <span class="m-caret">▾</span>
+          <span class="member-menu">
+            <button><span class="mm-ic">★</span><span data-i18n="menu_fav">我的最愛</span></button>
+            <button><span class="mm-ic">🔔</span><span data-i18n="menu_rem">提醒清單</span></button>
+            <button><span class="mm-ic">👤</span><span data-i18n="menu_profile">會員資料</span></button>
+            <span class="mm-sep"></span>
+            <button class="mm-out"><span class="mm-ic">↩</span><span data-i18n="menu_logout">登出</span></button>
+          </span>
+        </span>
+      </span>
+    </span>
+  </div>
+</nav>
+
+<div id="map-wrap">
+  <!-- 抽象暗色底圖：格線＋抽象海岸（零圖片、無外部 tile；實作換 raster/mmap 圖層） -->
+  <svg id="map-svg" viewBox="0 0 1280 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="landg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#16202E"/><stop offset="1" stop-color="#101724"/>
+      </linearGradient>
+    </defs>
+    <rect width="1280" height="640" fill="#0A0E17"/>
+    <!-- graticule -->
+    <g stroke="#182231" stroke-width="1">
+      <path d="M0 80H1280M0 160H1280M0 240H1280M0 320H1280M0 400H1280M0 480H1280M0 560H1280"/>
+      <path d="M107 0V640M214 0V640M321 0V640M428 0V640M535 0V640M642 0V640M749 0V640M856 0V640M963 0V640M1070 0V640M1177 0V640"/>
+    </g>
+    <!-- 海色漸層（資料層示意：低雲量坡 深藍→白 的低段） -->
+    <rect width="1280" height="640" fill="url(#seag)" opacity=".55"/>
+    <defs>
+      <linearGradient id="seag" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0E2233"/><stop offset=".5" stop-color="#0C1B2A"/><stop offset="1" stop-color="#0B1523"/>
+      </linearGradient>
+    </defs>
+    <!-- 抽象海岸（示意形） -->
+    <path d="M60 120 C120 90 200 100 240 150 C280 205 260 300 210 340 C150 385 90 360 60 300 C35 245 20 160 60 120Z" fill="url(#landg)" stroke="#2A3441"/>
+    <path d="M980 90 C1050 60 1150 70 1190 130 C1230 195 1200 260 1140 290 C1070 322 990 290 960 220 C935 160 930 110 980 90Z" fill="url(#landg)" stroke="#2A3441"/>
+    <path d="M300 430 C380 400 470 420 500 480 C528 538 480 600 400 612 C320 624 260 570 255 510 C252 468 268 444 300 430Z" fill="url(#landg)" stroke="#2A3441"/>
+    <path d="M640 300 C700 280 760 300 775 350 C790 402 750 450 690 456 C630 462 600 420 605 370 C608 338 618 308 640 300Z" fill="url(#landg)" stroke="#2A3441"/>
+    <!-- 靜默的行政界線（不與資料配色衝突：低對比虛線） -->
+    <path d="M642 0C640 200 636 420 632 640" fill="none" stroke="#223046" stroke-dasharray="3 6"/>
+    <!-- 區域標籤 -->
+    <g font-family="Consolas,Menlo,monospace" font-size="11" fill="#4E5B6E">
+      <text x="150" y="230">TW · N25°</text><text x="1070" y="180">JP · N43°</text>
+      <text x="380" y="520">TW-S</text><text x="680" y="380">Ryukyu</text><text x="80" y="80" transform="translate(0,0)">AK · N61°</text>
+    </g>
+  </svg>
+
+  <!-- 左上：圖層切換＋圖例 -->
+  <div class="ctl ctl-tl">
+    <div class="layer-chips" id="layers"></div>
+    <div class="legend" id="legend"><span class="name"></span><span class="min mono"></span><span class="bar"></span><span class="max mono"></span></div>
+  </div>
+
+  <!-- 右側：景點列表側欄 -->
+  <aside class="side" id="side">
+    <div class="side-head"><span data-i18n="side_title">景點列表</span><span class="count" id="side-count"></span></div>
+    <div class="side-body" id="side-body"></div>
+  </aside>
+  <button class="sheet-btn" id="sheet-btn" data-i18n="side_title">景點列表</button>
+
+  <!-- 底部：日期列＋小時軸（today/now 自動置中） -->
+  <div class="timeline-dock">
+    <div class="day-row" id="day-row"></div>
+    <div class="hour-row" id="hour-row"></div>
+  </div>
+
+  <!-- 標記與迷你卡掛載點 -->
+  <div id="markers"></div>
+  <div class="mini" id="mini"></div>
+</div>
+
+<!-- 詳情彈窗（mockup-detail 骨架：8日格＋條件摺疊） -->
+<div class="overlay" id="overlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="m-close" id="m-close">✕</button>
+    <div class="modal-head"><h3 id="m-name"></h3><span class="tier" id="m-tier"></span><span class="star">★</span></div>
+    <div class="region" id="m-region"></div>
+    <div class="day-grid" id="m-days"></div>
+    <details class="acc"><summary data-i18n="m_cond">條件 ×4</summary>
+      <div class="acc-body" id="m-conds"></div>
+    </details>
+    <details class="acc"><summary data-i18n="m_guide">拍攝位置與指南</summary>
+      <div class="acc-body" data-i18n="m_guide_d">拍攝位置：主步道觀景平台（海拔 1,900 m）。指南：晨光前 20 分到定位，偏光鏡可壓低雲層反差。</div>
+    </details>
+    <div class="acts">
+      <button class="btn" data-i18n="btn_fcst">🌦️ 天氣預報</button>
+      <button class="btn" data-i18n="btn_eval">🌗 題材評估</button>
+      <button class="btn" id="m-locate" data-i18n="btn_locate">📍 定位景點</button>
+    </div>
+  </div>
+</div>
+
+<div class="notes-wrap">
+  <details class="notes">
+    <summary data-i18n="notes_title">設計說明 — 設計決策 × design-review 對應</summary>
+    <div class="body">
+      <h4 data-i18n="notes_map">地圖版面</h4>
+      <table>
+        <tr><td>全幅地圖＋浮層控制</td><td>地圖佔滿 nav 以下全部高度；控制層全部浮在圖上（左上 圖層/圖例、右側 景點側欄、底部 日期+小時軸）— 資料是主角，控制件半透明 bg（rgba 17,24,39,.94）不遮擋圖面。</td></tr>
+        <tr><td>圖例（owner reversal 定稿）</td><td>每個啟用圖層顯示緊湊自動衍生圖例：細漸層棒＋min/max 標籤；由 palette 模組單一來源生成，不出現手抄文案；未啟用資料層時不顯示。游標讀值為主通道。</td></tr>
+        <tr><td>單調亮度坡配色</td><td>CL-WG-21 — 圖層坡只走亮度（低雲：晴=深藍 → 遮天=白），中段不插紫/粉非語義跳色；底圖行政界線低對比虛線靜默化，不與資料坡打架（B146 規則）。</td></tr>
+        <tr><td>零外部依賴</td><td>底圖為抽象 SVG 示意（格線＋抽象海岸）；實作換 raster 圖層時，控制層/側欄/時間軸規格不變。</td></tr>
+      </table>
+      <h4 data-i18n="notes_spot">景點互動</h4>
+      <table>
+        <tr><td>點擊景點 → 迷你卡</td><td>標記改 sel 高亮（環加光暈），原地彈出迷你卡：名稱+tier 徽章+下次視窗（mono）+環境 pills+三鈕（詳情/提醒/定位）。卡寬 264px，靠邊自動夾進視窗。</td></tr>
+        <tr><td>鏡頭不動（CL-UI-59）</td><td>選另一景點只更新資料面板與標記高亮 — 永不 setView/flyTo；重新定位是顯式使用者動作（迷你卡的「📍 定位景點」鈕）。mockup 以「定位景點」鈕示意。</td></tr>
+        <tr><td>側欄分組</td><td>地區分組（台灣/日本/美國）＋狀態點（綠/黃/紅=tier 契約）＋下次視窗 mono；列點擊=與地圖標記同一選擇狀態（雙向同步）。390px 收進 bottom sheet（右上下拉）。</td></tr>
+        <tr><td>彈窗連通路</td><td>迷你卡「詳情」→ 詳情彈窗（mockup-3 已核骨架：8 日格直接可讀文字＋條件摺疊＋拍攝指南）；彈窗鈕連 天氣預報／題材評估（mockup 6）。</td></tr>
+      </table>
+      <h4 data-i18n="notes_time">時間控制</h4>
+      <table>
+        <tr><td>日期列 7 日橫捲</td><td>完整性契約 — 相對日詞+MM/DD 兩行 pill，單行 scroll-snap 橫捲＋右緣 fade；今天自動置中（scrollIntoView inline:center）。</td></tr>
+        <tr><td>小時軸 24 格</td><td>同規則：now 自動置中、選中格 bg-3 加框；每格下緣 3px 色帶 = 該小時全站據點 fit 比例的微縮（綠/黃/灰混合示意）— 掃描用，不是逐點值。</td></tr>
+        <tr><td>時間語義</td><td>頁首 GMT+8；拍攝視窗一律 spot-local＋相對日詞；數值一律 mono。</td></tr>
+        <tr><td>離線（design-system §9）</td><td>mockup-bar「線上/離線」示範：離線時側欄頂掛「顯示上次資料」badge（含快照時間），地圖層改用最後快照且時間軸鎖在快照小時。</td></tr>
+      </table>
+      <p class="data-src" data-i18n="data_src">資料樣例：8 個真實 place（subject-cards，tier 為 2026-11-16 評估層真實值）；圖層數值（雲量%/能見度km/風速）為示意；底圖為抽象 SVG 非實測投影。視窗切換鈕示範 390px 節奏（側欄→bottom sheet、圖例讓位）。</p>
+    </div>
+  </details>
+</div>
+
+<script>
+/* ── 三語詞典 ─────────────────────────────────────────── */
+const I18N={
+ 'zh-TW':{nav_cards:'卡片',nav_weathermap:'天氣圖',nav_reminders:'拍攝提醒',login:'登入',member_name:'晨曦旅人',avatar_ch:'晨',
+  menu_fav:'我的最愛',menu_rem:'提醒清單',menu_profile:'會員資料',menu_logout:'登出',
+  side_title:'景點列表',offline_badge:'📴 離線 · 上次資料 11/16 05:40',
+  r_taiwan:'台灣',r_japan:'日本',r_us:'美國',
+  ly_cloud:'低雲',ly_vis:'能見度',ly_wind:'風',ly_prec:'降水',
+  lg_min:'晴',lg_max:'遮天',
+  mini_detail:'詳情',mini_remind:'🔔 提醒',mini_locate:'📍 定位',
+  today:'今天',btn_fcst:'🌦️ 天氣預報',btn_eval:'🌗 題材評估',btn_locate:'📍 定位景點',
+  m_cond:'條件 ×4',m_guide:'拍攝位置與指南',m_guide_d:'拍攝位置：主步道觀景平台（海拔 1,900 m）。指南：晨光前 20 分到定位，偏光鏡可壓低雲層反差。',
+  notes_title:'設計說明 — 設計決策 × design-review 對應',notes_map:'地圖版面',notes_spot:'景點互動',notes_time:'時間控制',
+  data_src:'資料樣例：8 個真實 place（subject-cards，tier 為 2026-11-16 評估層真實值）；圖層數值（雲量%/能見度km/風速）為示意；底圖為抽象 SVG 非實測投影。視窗切換鈕示範 390px 節奏（側欄→bottom sheet、圖例讓位）。'},
+ en:{nav_cards:'Cards',nav_weathermap:'Weather map',nav_reminders:'Reminders',login:'Log in',member_name:'Dawn Chaser',avatar_ch:'D',
+  menu_fav:'Favorites',menu_rem:'Reminders',menu_profile:'Account',menu_logout:'Log out',
+  side_title:'Places',offline_badge:'📴 Offline · last data 11/16 05:40',
+  r_taiwan:'Taiwan',r_japan:'Japan',r_us:'United States',
+  ly_cloud:'Low cloud',ly_vis:'Visibility',ly_wind:'Wind',ly_prec:'Precip',
+  lg_min:'Clear',lg_max:'Overcast',
+  mini_detail:'Detail',mini_remind:'🔔 Remind',mini_locate:'📍 Locate',
+  today:'Today',btn_fcst:'🌦️ Forecast',btn_eval:'🌗 Genre eval',btn_locate:'📍 Locate spot',
+  m_cond:'Conditions ×4',m_guide:'Shooting spot & guide',m_guide_d:'Spot: main trail viewing platform (1,900 m). Guide: be in position 20 min before first light; a polarizer tames cloud contrast.',
+  notes_title:'Design notes — decisions × design-review findings',notes_map:'Map layout',notes_spot:'Spot interaction',notes_time:'Time controls',
+  data_src:'Samples: 8 real places (subject-cards, real 2026-11-16 tiers); layer values are illustrative; basemap is an abstract SVG, not a real projection.'},
+ ja:{nav_cards:'カード',nav_weathermap:'天気マップ',nav_reminders:'撮影リマインダー',login:'ログイン',member_name:'暁の旅人',avatar_ch:'暁',
+  menu_fav:'お気に入り',menu_rem:'リマインド一覧',menu_profile:'会員情報',menu_logout:'ログアウト',
+  side_title:'スポット一覧',offline_badge:'📴 オフライン · 前回データ 11/16 05:40',
+  r_taiwan:'台湾',r_japan:'日本',r_us:'アメリカ',
+  ly_cloud:'低雲',ly_vis:'視程',ly_wind:'風',ly_prec:'降水',
+  lg_min:'快晴',lg_max:'曇天',
+  mini_detail:'詳細',mini_remind:'🔔 リマインド',mini_locate:'📍 現在地表示',
+  today:'今日',btn_fcst:'🌦️ 天気予報',btn_eval:'🌗 題材評価',btn_locate:'📍 スポットを中心に',
+  m_cond:'条件 ×4',m_guide:'撮影ポジションとガイド',m_guide_d:'撮影位置：メイン遊歩道の展望台（標高 1,900 m）。ガイド：夜明け 20 分前に定位。偏光フィルターで雲のコントラストを抑える。',
+  notes_title:'デザインメモ — 決定事項 × design-review 対応',notes_map:'マップ配置',notes_spot:'スポット操作',notes_time:'時間コントロール',
+  data_src:'データ例：実スポット 8 件（subject-cards、2026-11-16 の実 tier）。レイヤー数値は例示。底図は抽象 SVG。'}
+};
+/* 題材短名 */
+const G={sunrise:['日出','Sunrise','日の出'],sunset:['夕陽','Sunset','夕景'],cloud_sea:['雲海','Cloud sea','雲海'],
+ city_night:['夜景','City night','夜景'],overlook:['眺望','Overlook','眺望'],reflection:['倒影','Reflection','水面反射'],
+ snow_ice:['冰雪','Snow & ice','雪氷'],geological_landform:['地景','Landform','地形']};
+/* 真實 place（tier=2026-11-16 subject-cards）＋地圖座標（%）＋示意圖層值 */
+const SPOTS=[
+ {id:'tw-034',rg:'tw',n:['崇德','Chongde','崇徳'],a:['花蓮縣 秀林鄉','Xiulin, Hualien','花蓮県秀林郷'],tier:'rec',x:47,y:66,
+  win:['05:35–06:00','05:35–06:00'],env:['15 m','24°C'],ly:{cloud:18,vis:24,wind:3}},
+ {id:'tw-032',rg:'tw',n:['見晴懷古步道','Jianqing Historic Trail','見晴懐古歩道'],a:['宜蘭縣 太平山','Taipingshan, Yilan','宜蘭県太平山'],tier:'rec',x:51,y:56,
+  win:['12:00–15:00','11:45–15:00'],env:['1,900 m','13°C'],ly:{cloud:35,vis:18,wind:2}},
+ {id:'tw-033',rg:'tw',n:['粉鳥林','Fenniaolin Fish Harbor','粉鳥林漁港'],a:['宜蘭縣 南澳','Nan’ao, Yilan','宜蘭県南澳'],tier:'rec',x:57,y:63,
+  win:['05:35–06:00','05:35–06:00'],env:['5 m','24°C'],ly:{cloud:22,vis:26,wind:4}},
+ {id:'tw-027',rg:'tw',n:['田寮月世界','Tianliao Moon World','田寮月世界'],a:['高雄市 田寮區','Tianliao, Kaohsiung','高雄市田寮区'],tier:'rec',x:42,y:78,
+  win:['06:00–16:45','06:00–16:45'],env:['60 m','25°C'],ly:{cloud:12,vis:28,wind:2}},
+ {id:'jp-011',rg:'jp',n:['東京鐵塔','Tokyo Tower','東京タワー'],a:['東京都 港區','Minato, Tokyo','東京都港区'],tier:'rec',x:74,y:52,
+  win:['06:00–16:00','00:00–04:00'],env:['150 m','14°C'],ly:{cloud:40,vis:20,wind:5}},
+ {id:'jp-045',rg:'jp',n:['地球岬展望台','Cape Chikyu Observatory','地球岬展望台'],a:['北海道 室蘭市','Muroran, Hokkaido','北海道室蘭市'],tier:'rec',x:78,y:30,
+  win:['15:30–16:00','15:30–16:00'],env:['120 m','9°C'],ly:{cloud:28,vis:22,wind:7}},
+ {id:'jp-001',rg:'jp',n:['美瑛青池','Shirogane Blue Pond','美瑛青い池'],a:['北海道 美瑛町','Biei, Hokkaido','北海道美瑛町'],tier:'shoot',x:75,y:24,
+  win:['08:00–11:00','08:00–11:00'],env:['500 m','6°C'],ly:{cloud:65,vis:12,wind:4}},
+ {id:'us-158',rg:'us',n:['哈丁冰原','Harding Icefield','ハーディング氷原'],a:['阿拉斯加 奇奈峽灣','Kenai Fjords, AK','ケナイフィヨルド'],tier:'no',x:9,y:14,
+  win:['00:00','—'],env:['900 m','1°C'],ly:{cloud:88,vis:6,wind:14}}
+];
+const RGK={tw:'r_taiwan',jp:'r_japan',us:'r_us'};
+const TIERS={zh:{rec:'✓ 推薦',shoot:'○ 可拍',no:'✗ 不宜'},en:{rec:'✓ Recommended',shoot:'○ Shootable',no:'✗ Not advised'},ja:{rec:'✓ 推薦',shoot:'○ 撮影可',no:'✗ 不適'}};
+/* 圖層定義：單調亮度坡（Windy 標準）＋min/max 語義錨 */
+const LAYERS=[
+ {k:'cloud',ic:'☁️',ramp:['#0E2A40','#2C5B7A','#6E9BB8','#C9DCE8','#F5F8FA'],min:['晴','Clear','快晴'],max:['遮天','Overcast','曇天'],unit:'%'},
+ {k:'vis',ic:'👁️',ramp:['#F5F8FA','#C9DCE8','#6E9BB8','#2C5B7A','#0E2A40'],min:['差','Poor','不良'],max:['極佳','Excellent','極良'],unit:'km'},
+ {k:'wind',ic:'💨',ramp:['#0E2A40','#274B66','#4E7391','#8FB0C6','#E4EEF4'],min:['無風','Calm','無風'],max:['風強','Strong','強風'],unit:'m/s'},
+ {k:'prec',ic:'🌧️',ramp:['#0E2A40','#1E4056','#3A637F','#7BA0B8','#DCE9F0'],min:['乾','Dry','乾燥'],max:['大雨','Heavy','大雨'],unit:'mm/h'}
+];
+let lang='zh-TW',layer=LAYERS[0],selSpot=null,daySel=3,hourSel=6,offline=false;
+const t=()=>I18N[lang];
+const L=k=>({zh:0,en:1,ja:2})[lang.startsWith('zh')?'zh':lang];
+const g=k=>(G[k]||[k,k,k])[L()];
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+/* 圖例：單一來源自動衍生（palette 模組 → 漸層棒） */
+function renderLegend(){
+  const lg=document.getElementById('legend');
+  lg.style.display=offline?'':'';
+  lg.querySelector('.name').textContent=`${layer.ic} ${t()['ly_'+layer.k]}`;
+  lg.querySelector('.min').textContent=layer.min[L()];
+  lg.querySelector('.max').textContent=layer.max[L()];
+  lg.querySelector('.bar').style.background=`linear-gradient(90deg,${layer.ramp.join(',')})`;
+}
+function layerOf(sp){return sp.ly[layer.k];}
+function renderLayers(){
+  document.getElementById('layers').innerHTML=LAYERS.map(l=>
+    `<button class="chip${l.k===layer.k?' on':''}" data-ly="${l.k}">${l.ic} ${t()['ly_'+l.k]}</button>`).join('');
+  renderLegend();
+}
+/* 標記 */
+function renderMarkers(){
+  const box=document.getElementById('markers');
+  box.innerHTML=SPOTS.map((s,i)=>`
+    <div class="marker ${s.tier}${selSpot===i?' sel':''}" data-spot="${i}" style="left:${s.x}%;top:${s.y}%">
+      <span class="ring"><span class="core"></span></span><span class="lbl">${esc(s.n[L()])}</span>
+    </div>`).join('');
+}
+/* 側欄 */
+function renderSide(){
+  const groups=[['tw',[]],['jp',[]],['us',[]]];
+  SPOTS.forEach((s,i)=>groups.find(g2=>g2[0]===s.rg)[1].push(i));
+  let html='';
+  for(const [rg,idxs] of groups){
+    if(!idxs.length)continue;
+    html+=`<div class="side-group">${t()[RGK[rg]]} · ${idxs.length}</div>`;
+    html+=idxs.map(i=>{const s=SPOTS[i];return `
+      <button class="spot-row${selSpot===i?' sel':''}" data-spot="${i}">
+        <span class="dot ${s.tier}"></span>
+        <span class="grow"><span class="s-name">${esc(s.n[L()])}</span><br><span class="s-sub">${esc(s.a[L()])}</span></span>
+        <span class="s-time">${s.win[L()]}</span>
+      </button>`}).join('');
+  }
+  document.getElementById('side-body').innerHTML=html;
+  document.getElementById('side-count').textContent=`${SPOTS.length}`;
+  if(offline){
+    const head=document.querySelector('.side-head');
+    let b=document.getElementById('off-badge');
+    if(!b){b=document.createElement('span');b.id='off-badge';b.className='tier';b.style.cssText='background:var(--grey-bg);color:var(--grey-text);box-shadow:inset 0 0 0 1px var(--border-strong);font-size:11px';head.appendChild(b);}
+    b.textContent=t().offline_badge;
+  }
+}
+/* 迷你卡 */
+function openMini(i){
+  const s=SPOTS[i],mini=document.getElementById('mini'),wrap=document.getElementById('map-wrap');
+  const wr=wrap.getBoundingClientRect();
+  let mx=s.x/100*wr.width+18,my=s.y/100*wr.height-30;
+  mx=Math.min(Math.max(8,mx),wr.width-280);my=Math.min(Math.max(8,my),wr.height-240);
+  mini.style.left=mx+'px';mini.style.top=my+'px';
+  mini.innerHTML=`
+    <div class="mini-head"><span class="name">${esc(s.n[L()])}</span>
+      <span class="tier tier-${s.tier}">${TIERS[lang.startsWith('zh')?'zh':lang][s.tier]}</span>
+      <button class="x" data-close>✕</button></div>
+    <div class="region">${esc(s.a[L()])}</div>
+    <div class="win"><span class="dot ${s.tier}"></span><span class="w">${s.win[L()]}</span></div>
+    <div class="pills"><span class="pill">⛰ <b>${s.env[0]}</b></span><span class="pill">🌡 <b>${s.env[1]}</b></span>
+      <span class="pill">${layer.ic} <b>${layerOf(s)}${layer.unit}</b></span></div>
+    <div class="acts">
+      <button class="btn" data-detail="${i}">${t().mini_detail}</button>
+      <button class="btn" data-remind="${i}">${t().mini_remind}</button>
+      <button class="btn" data-locate="${i}">${t().mini_locate}</button>
+    </div>`;
+  mini.classList.add('open');
+  mini.querySelectorAll('[data-detail]').forEach(b=>b.addEventListener('click',()=>openDetail(+b.dataset.detail)));
+  mini.querySelector('[data-close]').addEventListener('click',()=>mini.classList.remove('open'));
+}
+function selectSpot(i,fromMap){
+  selSpot=i;renderMarkers();renderSide();
+  if(fromMap)openMini(i);else{document.getElementById('mini').classList.remove('open');openMini(i);}
+}
+/* 詳情彈窗 */
+const DAY8=[
+ {d:['11/16 今天','11/16 Today','11/16 今日'],cls:'ok',fit:['✓ 日出','✓ Sunrise','✓ 日の出'],t:'05:35–06:00'},
+ {d:['11/17 明天','11/17 Tomorrow','11/17 明日'],cls:'ok',fit:['✓ 眺望','✓ Overlook','✓ 眺望'],t:'08:00–09:00'},
+ {d:['11/18 後天','11/18 Wed','11/18 明後日'],cls:'soft',fit:['○ 可拍','○ Shootable','○ 撮影可'],t:'06:00–16:00'},
+ {d:['11/19 大後天','11/19 Thu','11/19 3日後'],cls:'soft',fit:['○ 可拍','○ Shootable','○ 撮影可'],t:'06:00–16:00'},
+ {d:['11/20 11/20','11/20 11/20','11/20 11/20'],cls:'ok',fit:['✓ 雲海','✓ Cloud sea','✓ 雲海'],t:'12:00–15:00'},
+ {d:['11/21 11/21','11/21 11/21','11/21 11/21'],cls:'bad',fit:['✗ 厚雲','✗ Thick cloud','✗ 厚い雲'],t:'—'},
+ {d:['11/22 11/22','11/22 11/22','11/22 11/22'],cls:'bad',fit:['✗ 霧','✗ Fog','✗ 霧'],t:'—'},
+ {d:['11/23 11/23','11/23 11/23','11/23 11/23'],cls:'bad',fit:['✗ 雨','✗ Rain','✗ 雨'],t:'—'}
+];
+function openDetail(i){
+  const s=SPOTS[i];
+  document.getElementById('m-name').textContent=s.n[L()];
+  const tier=document.getElementById('m-tier');tier.className='tier tier-'+s.tier;tier.textContent=TIERS[lang.startsWith('zh')?'zh':lang][s.tier];
+  document.getElementById('m-region').textContent=s.a[L()]+' · GMT+8';
+  document.getElementById('m-days').innerHTML=DAY8.map(d=>`
+    <div class="day-box ${d.cls}"><div class="d">${d.d[L()]}</div><div class="fit">${d.fit[L()]}</div><div class="t">${d.t}</div></div>`).join('');
+  document.getElementById('m-conds').innerHTML=
+    `<div>能見度（view_scale）— 8 km 級 · <span style="color:var(--green-text)">✓</span></div>
+     <div>雲量低層 — ≤ 40% · <span style="color:var(--green-text)">✓</span></div>
+     <div>降水 — &lt; 0.5 mm/h · <span style="color:var(--green-text)">✓</span></div>
+     <div>日照窗 — civil light 05:35–17:45 · <span style="color:var(--green-text)">✓</span></div>`;
+  document.getElementById('overlay').classList.add('open');
+}
+/* 日期列＋小時軸：today/now 自動置中 */
+const DAYS=[
+ {d:['11/13 週五','11/13 Fri','11/13 金'],s:['晴','Clear','晴']},
+ {d:['11/14 週六','11/14 Sat','11/14 土'],s:['多雲','Partly cloudy','所により曇']},
+ {d:['11/15 週日','11/15 Sun','11/15 日'],s:['陰','Overcast','曇']},
+ {d:['11/16 今天','11/16 Today','11/16 今日'],s:['晨霧散','Fog clears','朝霧晴れ']},
+ {d:['11/17 明天','11/17 Tomorrow','11/17 明日'],s:['晴','Clear','晴']},
+ {d:['11/18 後天','11/18 Wed','11/18 明後日'],s:['多雲','Partly cloudy','所により曇']},
+ {d:['11/19 大後天','11/19 Thu','11/19 3日後'],s:['雨','Rain','雨']}
+];
+function renderDays(){
+  const row=document.getElementById('day-row');
+  row.innerHTML=DAYS.map((d,i)=>`
+    <button class="day-pill${i===daySel?' sel':''}" data-day="${i}">
+      <span class="l1">${d.d[L()]}</span><span class="l2">${d.s[L()]}</span>
+    </button>`).join('');
+  const sel=row.children[daySel];sel&&sel.scrollIntoView({inline:'center',block:'nearest'});
+}
+const HOURS=Array.from({length:24},(_,h)=>h);
+/* 示意色帶：該小時全站 fit 比例（綠/黃/灰混合） */
+function bandFor(h){ // 簡化示意：夜間灰、晨昏綠多、日間黃多
+  if(h<5||h>19)return 'var(--grey)';
+  if(h<=7||h>=16)return 'var(--green)';
+  return 'var(--amber)';
+}
+function renderHours(){
+  const row=document.getElementById('hour-row');
+  row.innerHTML=HOURS.map(h=>`
+    <button class="hour-cell${h===6?' now':''}${h===hourSel?' sel':''}" data-hour="${h}">
+      <span class="h">${String(h).padStart(2,'0')}:00</span><span class="band" style="background:${bandFor(h)}"></span>
+    </button>`).join('');
+  const sel=row.children[6];sel&&sel.scrollIntoView({inline:'center',block:'nearest'});
+}
+/* ── 事件 ── */
+document.getElementById('layers').addEventListener('click',e=>{
+  const b=e.target.closest('[data-ly]');if(!b)return;
+  layer=LAYERS.find(l=>l.k===b.dataset.ly);renderLayers();renderMarkers();
+});
+document.getElementById('markers').addEventListener('click',e=>{
+  const m=e.target.closest('[data-spot]');if(!m)return;
+  selectSpot(+m.dataset.spot,true);
+});
+document.getElementById('side-body').addEventListener('click',e=>{
+  const r=e.target.closest('[data-spot]');if(!r)return;
+  selectSpot(+r.dataset.spot,false);
+});
+document.getElementById('day-row').addEventListener('click',e=>{
+  const b=e.target.closest('[data-day]');if(!b)return;daySel=+b.dataset.day;renderDays();
+});
+document.getElementById('hour-row').addEventListener('click',e=>{
+  const b=e.target.closest('[data-hour]');if(!b)return;hourSel=+b.dataset.hour;renderHours();
+});
+document.getElementById('sheet-btn').addEventListener('click',()=>document.getElementById('side').classList.toggle('open'));
+document.getElementById('m-close').addEventListener('click',()=>document.getElementById('overlay').classList.remove('open'));
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')e.target.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('overlay').classList.remove('open');document.getElementById('mini').classList.remove('open');}});
+document.getElementById('m-locate').addEventListener('click',()=>document.getElementById('overlay').classList.remove('open'));
+/* mockup chrome */
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t()[k])el.textContent=t()[k];});
+  renderLayers();renderMarkers();renderSide();renderDays();renderHours();
+}
+applyLang();
+document.getElementById('lang-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;
+  document.querySelectorAll('#lang-grp button').forEach(x=>x.classList.toggle('on',x===b));applyLang();});
+const mz=document.getElementById('member-zone'),mbtn=document.getElementById('member');
+document.getElementById('auth-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#auth-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  mz.className='member-zone '+(b.dataset.auth==='in'?'in':'out');mbtn.classList.remove('open');});
+mbtn.addEventListener('click',e=>{e.stopPropagation();mbtn.classList.toggle('open');});
+document.addEventListener('click',e=>{if(!mbtn.contains(e.target))mbtn.classList.remove('open');});
+document.getElementById('vp-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#vp-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  document.body.classList.toggle('shell390',b.dataset.vp==='390');
+  document.getElementById('navwrap').classList.toggle('shell390',b.dataset.vp==='390');});
+document.getElementById('off-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#off-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  offline=b.dataset.off==='off';renderLayers();renderSide();
+  if(!offline){const ob=document.getElementById('off-badge');ob&&ob.remove();}});
+</script>
+</body>
+</html>
