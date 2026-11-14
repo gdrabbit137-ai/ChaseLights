@@ -166,7 +166,7 @@ test('CL-UI-85 (5c) empty-state classes match the design-system names', () => {
 });
 
 // ---- (6) cache-bust: app.js + app.css bumped together in index.html
-test('CL-UI-85 (6) cache-bust stamp: index.html serves app.js + app.css at ?v=clui94', () => {
-  assert.equal((indexSource.match(/\?v=clui94/g) || []).length, 2, 'app.js + app.css both at clui94');
+test('CL-UI-85 (6) cache-bust stamp: index.html serves app.js + app.css at ?v=clui95', () => {
+  assert.equal((indexSource.match(/\?v=clui95/g) || []).length, 2, 'app.js + app.css both at clui95');
   assert.doesNotMatch(indexSource, /\?v=clui89\b/, 'old generation retired');
 });

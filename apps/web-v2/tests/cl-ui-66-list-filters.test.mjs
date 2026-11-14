@@ -148,11 +148,23 @@ test('CL-UI-66 (5): sortRows next_window ranks by next window with geographic ti
 });
 
 test('CL-UI-66 (6): filterAndRender composes filters with AND and shows the relax-filters empty state', () => {
-  const block = grab('function filterAndRender', 'const effSort=');
+  const block = grab('function filterAndRender', 'const sortSel=');
   assert.ok(block.includes("currentTier!=='all'"), 'tier filter applied');
   assert.ok(block.includes("currentSubject!=='all'"), 'subject filter applied');
   assert.ok(block.includes('clui66SpotTier(row.spot)===currentTier'));
-  assert.ok(block.includes('clui66SpotSubjectKeys(row.spot).includes(currentSubject)'));
+  // CL-UI-91: the chip narrows ONLY the ✓推薦 layer via clui91ChipFilterPass —
+  // the old blanket subject filter (which zeroed 可拍/不宜 under any chip,
+  // since those rows carry no suitable entries) is retired.
+  assert.ok(block.includes('tierRows.filter(clui91ChipFilterPass)'));
+  assert.ok(!block.includes('clui66SpotSubjectKeys(row.spot).includes(currentSubject)'),
+    'blanket per-row chip filter retired from the render path');
+  // CL-UI-91: chip display-ordering boost for the chip-independent tiers.
+  assert.ok(block.includes('clui91ChipBoost(tierRows)'));
+  const helper = grab('function clui91ChipFilterPass', 'function clui91ChipBoost');
+  assert.ok(helper.includes("clui66SpotTier(row.spot)!=='recommend'"),
+    'shootable/not_recommended rows pass the chip regardless');
+  assert.ok(helper.includes('clui66SpotSubjectKeys(row.spot).includes(currentSubject)'),
+    'recommend rows must match the chip');
   const emptyBlock = grab('const filterActive=', 'CL-UI-66: an active status tab renders a flat list');
   assert.ok(emptyBlock.includes("d().clui66_empty"), 'active-filter empty state uses the relax-filters copy');
   assert.ok(emptyBlock.includes("d().no_spots"), 'no active filters keeps the original empty copy');
@@ -265,8 +277,8 @@ test('CL-UI-66 (15): index.html carries the tab/chip hosts, the next_window sort
   assert.match(indexSource, /id="tier-tabs"/);
   assert.match(indexSource, /id="subject-chips"/);
   assert.match(indexSource, /<option value="next_window" data-i18n="sort_next_window">/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui94/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui94/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui95/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui95/);
 });
 
 test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the CL-UI-86 per-tier dual encoding', () => {

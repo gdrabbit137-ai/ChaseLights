@@ -153,6 +153,6 @@ test('CL-UI-89 (7): 詳細氣象 strip never truncates — content-sized flex ce
   assert.ok(cardBlock.includes('${visCellHtml(item.visibility)}'), 'vis value in the details block');
 });
 
-test('CL-UI-89 (8): cache-bust stamp advanced to clui94', () => {
-  assert.equal((indexSource.match(/\?v=clui94/g) || []).length, 2, 'app.js + app.css at clui94');
+test('CL-UI-89 (8): cache-bust stamp advanced to clui95', () => {
+  assert.equal((indexSource.match(/\?v=clui95/g) || []).length, 2, 'app.js + app.css at clui95');
 });
