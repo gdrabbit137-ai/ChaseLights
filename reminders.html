@@ -8,50 +8,132 @@
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
   <link rel="stylesheet" href="./assets/app.css?v=clui94">
   <style>
-    /* CL-UI-58: reminders page — mobile-first (390px contract), follows the
-       genre-eval page shell pattern (inline page styles, shared nav shell). */
-    .rem-header{max-width:760px;margin:0 auto;padding:14px 12px 0}
-    .rem-header h1{margin:0 0 10px;font-size:1.15rem}
-    .rem-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
-    .rem-wrap{max-width:760px;margin:0 auto;padding:0 12px 80px}
-    .rem-panel{border:1px solid var(--line,rgba(255,255,255,.12));border-radius:10px;
-      background:var(--panel,#141a22);padding:14px;margin-bottom:14px}
-    .rem-row{border:1px solid var(--line,rgba(255,255,255,.12));border-radius:8px;
-      padding:10px 12px;margin-bottom:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .rem-row .rem-names{flex:1;min-width:180px}
-    .rem-row .rem-names b{display:block;font-size:.95rem}
-    .rem-row .rem-names .rem-sub{color:#8fa1b3;font-size:.82rem}
-    .rem-row .rem-meta{color:#8fa1b3;font-size:.78rem}
-    .rem-switch{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:.82rem;min-height:44px}
-    .rem-switch input{accent-color:#2f81f7;width:18px;height:18px;cursor:pointer}
-    .rem-del{padding:8px 12px;min-height:44px;border-radius:8px;border:1px solid rgba(248,81,73,.4);
-      background:transparent;color:#f85149;cursor:pointer;font-size:.82rem}
-    .rem-del:hover{background:rgba(248,81,73,.12)}
-    .rem-add-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-    .rem-add-row select,.rem-add-row input{padding:8px 10px;min-height:44px;border-radius:8px;
-      border:1px solid var(--line,rgba(255,255,255,.15));background:var(--panel,#141a22);color:inherit;font-size:.9rem}
-    .rem-add-row input{flex:1;min-width:140px}
-    .rem-add-btn{padding:8px 14px;min-height:44px;border-radius:8px;border:1px solid transparent;
-      background:#2f81f7;color:#fff;cursor:pointer;font-size:.88rem;white-space:nowrap}
-    .rem-add-btn[disabled]{opacity:.5;cursor:default}
-    .rem-search{width:100%;margin-top:8px}
-    .rem-results{list-style:none;margin:10px 0 0;padding:0}
-    .rem-results li{display:flex;justify-content:space-between;gap:10px;align-items:center;
-      border-top:1px solid var(--line,rgba(255,255,255,.08));padding:8px 0}
-    .rem-results .rem-rr-sub{color:#8fa1b3;font-size:.8rem}
-    .rem-results button{padding:6px 10px;min-height:44px;border-radius:8px;border:1px solid rgba(47,129,247,.5);
-      background:transparent;color:#58a6ff;cursor:pointer;font-size:.8rem;white-space:nowrap}
-    .rem-login{text-align:center;padding:8px 0}
-    .rem-login a{display:inline-block;margin:6px;padding:10px 16px;border-radius:8px;
-      border:1px solid var(--line,rgba(255,255,255,.2));color:inherit;text-decoration:none}
-    .rem-state{color:#8fa1b3;font-size:.9rem;text-align:center;padding:16px 0}
+    /* CL-UI-90: reminders page — mockup-first rebuild (Stage 3a).
+       Spec source (逐字實作): origin/task/DESIGN-3 head 3d455f121
+       data/v2/audits/design-mockups/mockup-reminders.html — the
+       region→place→subject three-tier add flow + parallel keyword search +
+       add preview, the reminder card (place + subject chip + mono next-trigger
+       + switch/edit/delete), the amber consecutive-unfit streak and the
+       standard empty state. All colors/radii/spacing/heights reference the
+       live --cl-* tokens (app.css :root) — no color redefinition here.
+       Behavior layer unchanged: notify_rules CRUD endpoints, bell semantics,
+       favorites isolation, login gate (CL-UI-58/61 contracts). */
+    .rem-header{max-width:760px;margin:0 auto;padding:var(--cl-sp-5) var(--cl-sp-4) 0}
+    .rem-title-row{display:flex;align-items:baseline;gap:var(--cl-sp-3);flex-wrap:wrap}
+    .rem-title-row h1{white-space:nowrap}
+    .rem-title-row h1{margin:0;font-size:var(--cl-fs-20);font-weight:600;color:var(--cl-text-1)}
+    .rem-title-row .rem-lang{margin-left:auto}
+    .rem-count{font-size:var(--cl-fs-13);color:var(--cl-text-3);white-space:nowrap}
+    .rem-lang .control-dropdown{height:var(--cl-control-h)}
+    .rem-wrap{max-width:760px;margin:0 auto;padding:var(--cl-sp-4) var(--cl-sp-4) 80px}
+    .rem-panel{background:var(--cl-bg-1);border:1px solid var(--cl-border);border-radius:var(--cl-r-md);
+      padding:var(--cl-sp-4);margin-bottom:var(--cl-sp-4)}
+    .rem-panel h2{margin:0 0 var(--cl-sp-3);font-size:var(--cl-fs-14);font-weight:600;color:var(--cl-text-1)}
+    /* ── 新增提醒：三層選單＋關鍵字搜尋並行（mockup .add-flow）── */
+    .rem-add-flow{display:flex;align-items:center;gap:var(--cl-sp-2);flex-wrap:wrap}
+    .rem-add-flow .rem-arrow{color:var(--cl-text-3);font-size:var(--cl-fs-12);flex:none}
+    .rem-add-flow select,.rem-search{height:var(--cl-control-h);padding:0 var(--cl-sp-3);
+      background:var(--cl-bg-2);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);
+      color:var(--cl-text-1);font-size:var(--cl-fs-13)}
+    .rem-add-flow select:focus-visible,.rem-search:focus-visible{outline:1px solid var(--cl-border-strong)}
+    .rem-add-flow #rem-place{flex:1;min-width:180px}
+    .rem-search{display:block;width:100%;margin-top:var(--cl-sp-2)}
+    .rem-results{list-style:none;margin:var(--cl-sp-3) 0 0;padding:0;border-top:1px solid var(--cl-border)}
+    .rem-results li{display:flex;align-items:center;gap:var(--cl-sp-2);padding:var(--cl-sp-2) 0;
+      border-bottom:1px solid var(--cl-border);min-width:0}
+    .rem-results li.rem-rr-note{color:var(--cl-text-3);font-size:var(--cl-fs-12);border-bottom:none}
+    .rem-results .rem-rr-main{flex:1;min-width:0;overflow:hidden}
+    .rem-results .rem-rr-name{display:block;font-size:var(--cl-fs-13);font-weight:600;color:var(--cl-text-1);
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .rem-results .rem-rr-sub{display:block;color:var(--cl-text-3);font-size:var(--cl-fs-12);
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .rem-results .rem-rr-hint{color:var(--cl-text-3);font-size:var(--cl-fs-12)}
+    .rem-results button{height:30px;padding:0 10px;border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);
+      background:var(--cl-bg-2);color:var(--cl-text-2);font-size:var(--cl-fs-12);white-space:nowrap;flex:none;cursor:pointer}
+    .rem-results button:hover:not([disabled]){background:var(--cl-bg-3);color:var(--cl-text-1);border-color:var(--cl-border-strong)}
+    .rem-results button[disabled]{opacity:.55;cursor:default}
+    /* 加入預覽列（三層選齊後出現；未選齊主按鈕 disabled） */
+    .rem-preview{display:flex;align-items:center;gap:var(--cl-sp-2);margin-top:var(--cl-sp-3);
+      padding:var(--cl-sp-2) var(--cl-sp-3);background:var(--cl-bg-2);border:1px solid var(--cl-border-strong);
+      border-radius:var(--cl-r-sm);font-size:var(--cl-fs-13);color:var(--cl-text-1)}
+    .rem-preview[hidden]{display:none}
+    .rem-preview .rem-p-ic{flex:none}
+    .rem-preview .rem-p-txt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .rem-preview .rem-add-btn{height:32px;padding:0 var(--cl-sp-4);border-radius:var(--cl-r-xs);
+      border:1px solid var(--cl-border-strong);background:var(--cl-bg-3);color:var(--cl-text-1);
+      font-size:var(--cl-fs-13);font-weight:600;white-space:nowrap;flex:none;cursor:pointer}
+    .rem-add-btn:hover:not([disabled]){background:var(--cl-bg-2)}
+    .rem-add-btn[disabled]{opacity:.45;cursor:default}
+    .rem-hint{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin:var(--cl-sp-2) 0 0}
+    /* ── 提醒卡（mockup .rem-card 解剖：一行主狀態）────────── */
+    .rem-card{background:var(--cl-bg-1);border:1px solid var(--cl-border);border-radius:var(--cl-r-md);
+      padding:var(--cl-sp-3) var(--cl-sp-4);margin-bottom:var(--cl-sp-2);display:flex;gap:var(--cl-sp-3);
+      align-items:center;min-width:0}
+    .rem-card:hover{border-color:var(--cl-border-strong)}
+    .rem-card.rem-off .rem-main{opacity:.55}
+    .rem-main{flex:1;min-width:0}
+    .rem-line1{display:flex;align-items:center;gap:var(--cl-sp-2);min-width:0}
+    .rem-place{font-size:var(--cl-fs-14);font-weight:600;color:var(--cl-text-1);
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .rem-subject-chip{display:inline-flex;align-items:center;height:var(--cl-chip-h);padding:0 var(--cl-sp-2);flex:none;
+      max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+      border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);background:var(--cl-bg-1);
+      font-size:var(--cl-fs-12);color:var(--cl-text-2)}
+    .rem-line2{display:flex;align-items:center;gap:var(--cl-sp-2);margin-top:2px;
+      font-size:var(--cl-fs-12);color:var(--cl-text-3);min-width:0}
+    .rem-region{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:none;max-width:60%}
+    .rem-next{margin-left:auto;font-family:var(--cl-mono);font-size:var(--cl-fs-12);
+      color:var(--cl-green-text);flex:none}
+    .rem-next.rem-next-warn{color:var(--cl-amber-text)}
+    .rem-next.rem-next-off{color:var(--cl-grey-text)}
+    .rem-acts{display:flex;gap:var(--cl-sp-2);flex:none;align-items:center}
+    .rem-acts .rem-edit-btn{height:30px;padding:0 10px;border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);
+      background:var(--cl-bg-2);color:var(--cl-text-2);font-size:var(--cl-fs-12);white-space:nowrap;cursor:pointer}
+    .rem-acts .rem-edit-btn:hover{background:var(--cl-bg-3);color:var(--cl-text-1);border-color:var(--cl-border-strong)}
+    .rem-acts .rem-del{height:30px;padding:0 10px;border-radius:var(--cl-r-xs);border:1px solid var(--cl-red-border);
+      background:transparent;color:var(--cl-red-text);font-size:var(--cl-fs-12);white-space:nowrap;cursor:pointer}
+    .rem-acts .rem-del:hover{background:var(--cl-red-bg)}
+    /* 開關 switch（design-system 元件：36×20 圓角軌道＋滑塊） */
+    .rem-switch{position:relative;width:36px;height:20px;border-radius:999px;background:var(--cl-bg-3);
+      border:1px solid var(--cl-border-strong);cursor:pointer;flex:none;transition:background .15s;padding:0}
+    .rem-switch::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+      background:var(--cl-text-3);transition:all .15s}
+    .rem-switch::before{content:"";position:absolute;inset:-12px} /* invisible 44px-class touch target */
+    .rem-switch.rem-on{background:var(--cl-green-bg);border-color:var(--cl-green-border)}
+    .rem-switch.rem-on::after{left:18px;background:var(--cl-green)}
+    /* ── 空狀態（design-system §9：dashed 框＋圖示＋主張＋動作鈕）── */
+    .rem-empty{display:flex;flex-direction:column;align-items:center;gap:var(--cl-sp-2);
+      padding:var(--cl-sp-6) var(--cl-sp-4);background:var(--cl-bg-1);
+      border:1px dashed var(--cl-border-strong);border-radius:var(--cl-r-md);text-align:center}
+    .rem-empty[hidden]{display:none}
+    .rem-empty .rem-e-ic{font-size:28px;opacity:.7}
+    .rem-empty .rem-e-t{font-size:var(--cl-fs-14);font-weight:600;color:var(--cl-text-1)}
+    .rem-empty .rem-e-d{font-size:var(--cl-fs-13);color:var(--cl-text-3);max-width:340px}
+    .rem-empty .rem-e-btn{margin-top:var(--cl-sp-2);height:var(--cl-btn-h);padding:0 var(--cl-sp-4);
+      border-radius:var(--cl-r-xs);border:1px solid var(--cl-border-strong);background:var(--cl-bg-3);
+      color:var(--cl-text-1);font-size:var(--cl-fs-14);font-weight:600;cursor:pointer}
+    /* 登入面板（沿用 rem-login-panel 語義，改 design-system 面板殼） */
+    .rem-login{text-align:center;padding:var(--cl-sp-2) 0}
+    .rem-login p{margin:0 0 var(--cl-sp-2);font-size:var(--cl-fs-13);color:var(--cl-text-2)}
+    .rem-login a{display:inline-block;margin:6px;padding:10px 16px;border-radius:var(--cl-r-sm);
+      border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-1);
+      text-decoration:none;font-size:var(--cl-fs-13)}
+    .rem-login a:hover{background:var(--cl-bg-3)}
+    .rem-state{color:var(--cl-text-3);font-size:var(--cl-fs-13);text-align:center;padding:var(--cl-sp-4) 0}
     .rem-notice{position:fixed;bottom:12px;left:12px;right:12px;margin:0 auto;max-width:420px;
-      padding:8px 12px;border:1px solid #475569;background:#111827;color:#e2e8f0;font-size:13px;
-      border-radius:8px;z-index:10001;text-align:center}
+      padding:8px 12px;border:1px solid var(--cl-border-strong);background:var(--cl-bg-1);color:var(--cl-text-1);
+      font-size:var(--cl-fs-13);border-radius:var(--cl-r-sm);z-index:10001;text-align:center}
     .rem-notice[hidden]{display:none}
+    /* 390 節奏（mockup：按鈕列縱排全寬、44px 觸控目標維持 thumb 可達） */
     @media (max-width: 390px) {
-      .rem-add-row select{flex:1 1 100%}
-      .rem-row .rem-names{min-width:100%}
+      .rem-add-flow #rem-place{flex:1 1 100%}
+      .rem-line2 .rem-next{font-size:11px}
+    }
+    /* 通用窄幅（<=480px）：觸控目標 44px 級距 */
+    @media (max-width: 480px) {
+      .rem-acts{flex-direction:column;gap:4px;align-items:stretch}
+      .rem-acts .rem-edit-btn,.rem-acts .rem-del{height:44px;min-height:44px}
+      .rem-results button{min-height:44px}
     }
   </style>
 </head>
@@ -80,13 +162,16 @@
   </nav>
 
   <header class="rem-header">
-    <h1>🔔 <span id="page-title">我的拍攝提醒</span></h1>
-    <div class="rem-controls">
-      <select id="lang-select" class="control-dropdown lang-dropdown" aria-label="語言">
-        <option value="zh-TW" selected>🌐 繁體中文</option>
-        <option value="en">🌐 English</option>
-        <option value="ja">🌐 日本語</option>
-      </select>
+    <div class="rem-title-row">
+      <h1>🔔 <span id="page-title">拍攝提醒</span></h1>
+      <span class="rem-count" id="rem-count"></span>
+      <span class="rem-lang">
+        <select id="lang-select" class="control-dropdown lang-dropdown" aria-label="語言">
+          <option value="zh-TW" selected>🌐 繁體中文</option>
+          <option value="en">🌐 English</option>
+          <option value="ja">🌐 日本語</option>
+        </select>
+      </span>
     </div>
   </header>
 
@@ -95,21 +180,34 @@
       <div class="rem-login" id="rem-login-body"></div>
     </section>
 
-    <section class="rem-panel" id="rem-list-panel" hidden>
-      <h2 id="rem-list-title" style="margin:0 0 10px;font-size:1rem"></h2>
-      <div id="rem-list"></div>
-    </section>
-
     <section class="rem-panel" id="rem-add-panel" hidden>
-      <h2 id="rem-add-title" style="margin:0 0 10px;font-size:1rem"></h2>
-      <div class="rem-add-row">
+      <h2 id="rem-add-title"></h2>
+      <div class="rem-add-flow">
         <select id="rem-region" aria-label="地區"></select>
+        <span class="rem-arrow" aria-hidden="true">→</span>
         <select id="rem-place" aria-label="景點"></select>
+        <span class="rem-arrow" aria-hidden="true">→</span>
         <select id="rem-subject" aria-label="題材"></select>
-        <button id="rem-add-submit" class="rem-add-btn" type="button"></button>
       </div>
       <input id="rem-search" class="rem-search" type="search" autocomplete="off">
       <ul id="rem-results" class="rem-results"></ul>
+      <div class="rem-preview" id="rem-preview" hidden>
+        <span class="rem-p-ic" aria-hidden="true">🔔</span>
+        <span class="rem-p-txt" id="rem-preview-txt"></span>
+        <button id="rem-add-submit" class="rem-add-btn" type="button"></button>
+      </div>
+      <p class="rem-hint" id="rem-flow-hint"></p>
+    </section>
+
+    <section class="rem-panel" id="rem-list-panel" hidden>
+      <h2 id="rem-list-title"></h2>
+      <div id="rem-list"></div>
+      <div class="rem-empty" id="rem-empty" hidden>
+        <span class="rem-e-ic" aria-hidden="true">🔔</span>
+        <span class="rem-e-t" id="rem-empty-title"></span>
+        <span class="rem-e-d" id="rem-empty-desc"></span>
+        <button class="rem-e-btn" id="rem-empty-add" type="button"></button>
+      </div>
     </section>
 
     <p id="rem-state" class="rem-state"></p>
@@ -118,6 +216,6 @@
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui81"></script>
   <script src="./assets/reminders-client.js?v=clui83"></script>
-  <script src="./assets/reminders-page.js?v=clui75"></script>
+  <script src="./assets/reminders-page.js?v=clui90"></script>
 </body>
 </html>
