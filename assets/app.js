@@ -1631,8 +1631,12 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // dominant reason wins when present; the general baseline reason backs
       // it up so a ✗ never renders bare.
       const scTier=scRow?scRow.tier:null;
-      const scTierReason=(scTier==='not_recommended')?((()=>{const gb=v2GeneralBaseline(scRow);const g=gb&&gb.reason_short?(gb.reason_short[currentLang]||gb.reason_short['zh-TW']||''):'';return g||scShortReason;})()):'';
-      const scSecondLine=(v2Evaluated&&(v2Best.state==='UNFAVORABLE'||v2Best.state==='NOT_EVALUABLE'))?((scTier==='shootable')?`<div class="best-window-row card-second-line"><span class="v2-line-verdict v2-verdict-mid">${esc(d().v2_tier_shootable)}</span> · <span class="subject-short">${esc(d().v2_general_shooting)}</span></div>`:(scTier==='not_recommended')?`<div class="best-window-row card-second-line"><span class="v2-line-verdict v2-verdict-bad">${esc(d().v2_tier_not_recommended)}</span>${scTierReason?` · <span class="subject-short">${esc(scTierReason)}</span>`:''}</div>`:(v2Best.state==='UNFAVORABLE'?`<div class="best-window-row card-second-line"><span class="v2-line-verdict v2-verdict-bad">${esc(d().card_line_bad)}</span>${scShortReason?` · <span class="subject-short">${esc(scShortReason)}</span>`:''}</div>`:'')):'';
+      // CL-DATA-68: the time-aware tier's short note (「窗已過·今日仍可拍」 /
+      // the remaining-period reason) rides the row as tier_reason — only
+      // TODAY rows carry it, cross-day rows stay note-less.
+      const scTierNote=(scRow&&scRow.tier_reason)?((scRow.tier_reason[currentLang])||scRow.tier_reason['zh-TW']||''):'';
+      const scTierReason=(scTier==='not_recommended')?((()=>{if(scTierNote)return scTierNote;const gb=v2GeneralBaseline(scRow);const g=gb&&gb.reason_short?(gb.reason_short[currentLang]||gb.reason_short['zh-TW']||''):'';return g||scShortReason;})()):'';
+      const scSecondLine=(v2Evaluated&&(v2Best.state==='UNFAVORABLE'||v2Best.state==='NOT_EVALUABLE'))?((scTier==='shootable')?`<div class="best-window-row card-second-line"><span class="v2-line-verdict v2-verdict-mid">${esc(d().v2_tier_shootable)}</span>${scTierNote?` · <span class="subject-short">${esc(scTierNote)}</span>`:` · <span class="subject-short">${esc(d().v2_general_shooting)}</span>`}</div>`:(scTier==='not_recommended')?`<div class="best-window-row card-second-line"><span class="v2-line-verdict v2-verdict-bad">${esc(d().v2_tier_not_recommended)}</span>${scTierReason?` · <span class="subject-short">${esc(scTierReason)}</span>`:''}</div>`:(v2Best.state==='UNFAVORABLE'?`<div class="best-window-row card-second-line"><span class="v2-line-verdict v2-verdict-bad">${esc(d().card_line_bad)}</span>${scShortReason?` · <span class="subject-short">${esc(scShortReason)}</span>`:''}</div>`:'')):'';
       // CL-UI-69: per-subject rows (owner mockup) replace the second-line
       // subject chips. Each suitable subject of the selected date renders ONE
       // line 「短名: HH:MM–HH:MM 🔔」; the line-end bell is the reminder
@@ -1654,9 +1658,16 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;const key=canon(tris);if(!seen.has(key))seen.set(key,{name:tris[currentLang]||tris['zh-TW']||'',window:[]});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
       const clSubjBell=`<button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="${esc(spot.spot_id)}" data-rem-compact="1"></button>`;
       const clSubjectRowHtml=(entry,hidden)=>`<div class="cl-subject-row${hidden?' cl-subject-extra':''}"${hidden?' hidden':''}><span class="cl-subject-name">${esc(entry.name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window">${esc(formatHourSegments(entry.window))}</span>${clSubjBell}</div>`;
+      // CL-DATA-68: a TODAY shootable/not_recommended row whose curated
+      // windows have ALL passed must not re-exhibit their past stamps as
+      // if still shootable — the card renders the tier note line
+      // (「○ 可拍 · 窗已過·今日仍可拍」 / ✗不宜·短因) through the SAME row
+      // anatomy instead. Cross-day rows carry no tier_reason and keep the
+      // stamp rows.
       const clSubjectExtra=scEntries.slice(3);
       const clSubjectMoreBtn=clSubjectExtra.length?`<button type="button" class="cl-subject-more" data-sc-more aria-expanded="false">${esc(d().clui69_more_subjects.replace('{n}',clSubjectExtra.length))}</button>`:'';
-      const clSubjectRows=scEntries.length?`<div class="cl-subject-rows">${scEntries.slice(0,3).map(e=>clSubjectRowHtml(e,false)).join('')}${clSubjectExtra.map(e=>clSubjectRowHtml(e,true)).join('')}${clSubjectMoreBtn}</div>`:'';
+      const scPassedNote=(scTier==='shootable'||scTier==='not_recommended')&&scTierNote&&scEntries.length>0;
+      const clSubjectRows=scPassedNote?(()=>{const nm=(scTier==='shootable')?d().v2_tier_shootable+' · '+scTierNote:d().v2_tier_not_recommended+(scTierReason?' · '+scTierReason:'');return `<div class="cl-subject-rows">${clSubjectRowHtml({name:nm,window:[]},false)}</div>`;})():(()=>{if(scEntries.length===0)return '';return `<div class="cl-subject-rows">${scEntries.slice(0,3).map(e=>clSubjectRowHtml(e,false)).join('')}${clSubjectExtra.map(e=>clSubjectRowHtml(e,true)).join('')}${clSubjectMoreBtn}</div>`;})();
       const clSummaryHtml=clSubjectRows?`${clSubjectRows}${(v2Best&&!v2Best.hours)?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}</div>`:''}`:'';
       const opportunityName=v2Evaluated?opportunityDisplayName(spot,metric.opportunity_id,theme,metric.opportunity_name):v2NoEvalReasonText(spot);
       const indicator=(!researchPending&&!noViable&&v2Evaluated&&v2Best.state==='GUIDANCE_SATISFIED')?trMessage(metric.indicator_key):'';
@@ -1678,7 +1689,10 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // (✓推薦/○可拍/✗不宜) next to the name — the same three-level state the
       // second line and clFallbackRows already consume; a NOT_EVALUABLE day
       // (or an unevaluated spot) renders the honest grey 資料不足 badge.
-      const clBadgeTier=(()=>{if(!v2Evaluated)return 'defer';if(v2Best.state==='GUIDANCE_SATISFIED')return 'rec';if(scTier==='not_recommended')return 'no';if(scTier==='shootable')return 'shoot';return v2Best.state==='NOT_EVALUABLE'?'defer':'no';})();
+      // CL-DATA-68 single truth: the badge follows the time-aware tier —
+      // a GUIDANCE_SATISFIED day whose windows all passed is ○可拍/✗不宜,
+      // never a ✓ that contradicts the tier tabs.
+      const clBadgeTier=(()=>{if(!v2Evaluated)return 'defer';if(scTier)return({recommend:'rec',shootable:'shoot',not_recommended:'no'})[scTier];if(v2Best.state==='GUIDANCE_SATISFIED')return 'rec';return v2Best.state==='NOT_EVALUABLE'?'defer':'no';})();
       const clBadgeLabel={rec:d().tier_recommend,shoot:d().tier_shootable,no:d().tier_not_recommended,defer:d().eval2_unk}[clBadgeTier];
       // CL-UI-71: same-format fallback when the subject-cards row is absent or
       // suitable-empty but the evaluated day still has qualifying hours — a
@@ -1799,6 +1813,12 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     // V2 day-state helpers the cards use (v2SpotDayVerdict), so a tab count
     // can never disagree with the verdicts on the cards it counts.
     function clui66SpotTier(spot){
+      // CL-DATA-68 single truth: the tier tabs read the SAME derived tier
+      // the card badge/second line consume (the subject-cards row of the
+      // selected date). The bundle verdict stays the fallback for spots
+      // whose row is missing or honest-null (資料不足 counts only under 全部).
+      const row=v2SubjectCardRow(spot.spot_id,clui66SpotLocalDate(spot));
+      if(row&&row.tier)return row.tier;
       const verdict=v2SpotDayVerdict(spot);
       if(verdict==='viable')return 'recommend';
       if(verdict==='deferred')return 'not_recommended';

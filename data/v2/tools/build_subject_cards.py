@@ -67,6 +67,20 @@ only a place-day whose every contribution was NOT_EVALUABLE stays
 not_evaluable — and its dominant_reason falls back to the general baseline
 reason. A failed row without any vote falls back the same way (dominant_source
 records which path produced the reason: curated_votes | general_baseline).
+
+CL-DATA-68 (owner-approved plan) — MINUTE-LEVEL WINDOW BOUNDARIES: the
+civil-light floor above judged hours by the hourly Open-Meteo grid instant
+(sun_elevation > -6), an hour-bucket verdict that mislabels the dawn/dusk
+boundary hours by up to a full bucket. The layer now computes the
+sun-elevation windows directly from the place coordinate + local date with
+the validated NOAA/Meeus altitude chain (packages/models-v2/
+civil_twilight.py — Open-Meteo publishes no solar angles), refined to the
+minute by bisection and cached once per place-day. Every civil-light
+judgment (general baseline hour floor, per-hour na/ok buckets) uses the
+civil-light interval intersection; each row carries the minute-level
+civil_light {dawn, dusk} provenance. A place-day whose geometry yields no
+boundary (polar) or a place without coordinate/offset falls back to the
+old hourly sun_elevation bucket honestly — never a fabricated verdict.
 """
 from __future__ import annotations
 
@@ -74,6 +88,7 @@ import argparse
 import hashlib
 import json
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -82,9 +97,73 @@ EVAL_DIR = ROOT / "data/v2/evaluations"
 WEATHER_DIR = ROOT / "weather_details"
 DETAILS_DIR = ROOT / "apps/web-v2/evaluations-details"
 
+# CL-DATA-68: minute-level solar windows (civil light et al.) from the same
+# NOAA/Meeus chain solar_window is validated against. Open-Meteo publishes
+# no solar angles, so the derived layer computes them from coordinates.
+_MODELS_DIR = ROOT / "packages" / "models-v2"
+if str(_MODELS_DIR) not in sys.path:
+    sys.path.insert(0, str(_MODELS_DIR))
+from civil_twilight import (  # noqa: E402
+    hour_hits_interval, solar_day_windows)
+
 STATUS_CLEAR = "clear"
 STATUS_FAILED = "failed"
 STATUS_NOT_EVALUABLE = "not_evaluable"
+
+# CL-DATA-68 time-aware tier (owner-approved plan, single tier truth):
+# today rows judge the REMAINING period after the evaluation instant
+# (tier_evaluated_at = the bundle run), cross-day rows keep the full-day
+# rules. Rule 2's shootable note (窗已過·今日仍可拍) is attached to the row
+# as tier_reason so the card renders it without inventing new i18n keys.
+TIER_NOTE_WINDOW_PASSED = {
+    "zh-TW": "窗已過·今日仍可拍",
+    "en": "windows passed · still shootable today",
+    "ja": "撮影窓は終了・本日は撮影可",
+}
+
+
+def parse_evaluated_at(bundle):
+    """The evaluation instant (bundle generated_at, ISO UTC) as a UTC-aware
+    datetime, or None when the bundle carries none (fabricated test bundles
+    keep the full-day rules)."""
+    stamp = bundle.get("generated_at")
+    if not isinstance(stamp, str):
+        return None
+    try:
+        return datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def subject_window_left(entry, solar, eval_min):
+    """Rule 1 helper: does this suitable subject still have qualifying
+    window minutes after the evaluation instant?
+
+    The good_hours stamps are the qualifying (weather+astro) bucket
+    samples; the window END is the minute-level interval of the subject's
+    sun-elevation window metrics covering that bucket, capped by the
+    bucket end (weather is only known per hourly grid bucket — minutes
+    beyond a qualified bucket are never claimed). No geometry (polar /
+    no window metric) degrades to the bucket end — the old implicit
+    semantics, never a fabricated later end."""
+    intervals = []
+    if solar is not None:
+        for metric in entry.get("window_metrics") or []:
+            intervals.extend(solar["intervals"].get(metric, []))
+    for stamp in entry.get("window") or []:
+        if not isinstance(stamp, str) or len(stamp) < 4 or ":" not in stamp:
+            continue
+        hh = stamp[:2]
+        if not hh.isdigit():
+            continue
+        bucket_start = int(hh) * 60
+        bucket_end = bucket_start + 60
+        ends = [e for (s, e) in intervals if s < bucket_end and e > bucket_start]
+        window_end = min(max(ends), bucket_end) if ends else bucket_end
+        if window_end > eval_min:
+            return True
+    return False
+
 
 # CL-UI-65 general baseline constants — mirror mount_general_opportunities
 # (CL-DATA-65) so the derived baseline and the mounted P99 template never
@@ -181,6 +260,52 @@ def general_view_scale(genre_templates):
     return 5
 
 
+def hour_local_minute(hour):
+    """CL-DATA-68: the hour row's local bucket start in day minutes, or
+    None when the row carries no parseable local time."""
+    t = hour.get("time")
+    if isinstance(t, str) and len(t) >= 5:
+        hh, mm = t[-5:].split(":")[:2]
+        if hh.isdigit() and mm.isdigit():
+            return int(hh) * 60 + int(mm)
+    return None
+
+
+def place_day_solar(place, date):
+    """CL-DATA-68: the place-day's minute-level solar windows, or None when
+    the geometry is unavailable (no coordinate / no offset / compute error).
+    civil_twilight caches one computation per place-day."""
+    coord = place.get("coordinate")
+    offset = (place.get("timezone_display") or {}).get("utc_offset_hours")
+    if not coord or offset is None:
+        return None
+    try:
+        return solar_day_windows(coord[0], coord[1], date, offset)
+    except Exception:
+        return None
+
+
+def civil_light_intervals(solar):
+    """The place-day's civil-light minute intervals ([] = honestly none),
+    or None when no geometry is available (hourly bucket fallback)."""
+    if solar is None:
+        return None
+    return solar["intervals"].get("light_window", [])
+
+
+def civil_light_stamp(solar):
+    """Minute-level civil dawn/dusk provenance for the row ({HH:MM,HH:MM}),
+    or None when the geometry has no boundary (polar day/night)."""
+    if solar is None:
+        return None
+    dawn = solar["events"]["civil_dawn"]
+    dusk = solar["events"]["civil_dusk"]
+    if dawn is None or dusk is None:
+        return None
+    return {"dawn": "%02d:%02d" % (dawn // 60, dawn % 60),
+            "dusk": "%02d:%02d" % (dusk // 60, dusk % 60)}
+
+
 def load_place_hourly_weather(place_id):
     """Committed hourly weather for a place, grouped by local_date.
 
@@ -205,11 +330,19 @@ def load_place_hourly_weather(place_id):
     return by_date
 
 
-def general_hour_state(hour, view_scale, priority):
+def general_hour_state(hour, view_scale, priority, civil=None):
     """CL-UI-73: one weather hour against the general-v0.1 floor.
 
     Returns (violated_metrics, known). Any missing field makes the hour
     UNKNOWN: known=False — it cannot pass (fail-closed) and cannot vote.
+
+    CL-DATA-68: `civil` is the place-day's minute-level civil-light interval
+    list (civil_twilight, cached once per place-day). When present the light
+    test is the civil-light interval intersection — the hour has civil-light
+    minutes — replacing the hourly grid-instant bucket; the hour's sun
+    elevation field is then no longer required for a light verdict. A None
+    `civil` (no geometry: missing coordinate/offset, polar day) keeps the
+    old hourly sun_elevation > -6 bucket honestly.
     """
     vis = hour.get("visibility")
     precip = hour.get("precipitation")
@@ -222,19 +355,28 @@ def general_hour_state(hour, view_scale, priority):
         violated.append("precipitation")
     if rh is not None and rh > GENERAL_RH_PERCENT_MAX:
         violated.append("relative_humidity_925hpa")
-    if sun is not None and sun <= GENERAL_SUN_ELEVATION_MIN:
+    if civil is not None:
+        h_min = hour_local_minute(hour)
+        if h_min is None or not hour_hits_interval(h_min, 60, civil):
+            violated.append("light_window")
+    elif sun is not None and sun <= GENERAL_SUN_ELEVATION_MIN:
         violated.append("light_window")
-    known = (vis is not None and precip is not None
-             and rh is not None and sun is not None)
+    known = (vis is not None and precip is not None and rh is not None
+             and (civil is not None or sun is not None))
     return violated, known
 
 
-def general_day_baseline(hours, view_scale, priority, words):
-    """general-v0.1 baseline for one place-day: {ok, reason_short}."""
+def general_day_baseline(hours, view_scale, priority, words, civil=None):
+    """general-v0.1 baseline for one place-day: {ok, reason_short}.
+
+    CL-DATA-68: `civil` threads the minute-level civil-light intervals —
+    the light_window vote then counts only hours with NO civil-light
+    minutes instead of the hourly grid instant."""
     votes = {}
     ok = False
     for hour in hours:
-        violated, known = general_hour_state(hour, view_scale, priority)
+        violated, known = general_hour_state(hour, view_scale, priority,
+                                             civil=civil)
         if known and not violated:
             ok = True
         if violated:
@@ -248,7 +390,7 @@ def general_day_baseline(hours, view_scale, priority, words):
     return {"ok": False, "reason_short": dict(words[best]) if best else None}
 
 
-def hourly_general_rows(hours, view_scale, priority):
+def hourly_general_rows(hours, view_scale, priority, civil=None):
     """CL-UI-73: per-hour general floor + fitting-subject buckets for one day.
 
     Compact, deduped shape (reasons reference the artifact-level
@@ -280,7 +422,8 @@ def hourly_general_rows(hours, view_scale, priority):
         hh = t[-5:] if isinstance(t, str) and len(t) >= 5 else None
         if not hh:
             continue
-        violated, known = general_hour_state(hour, view_scale, priority)
+        violated, known = general_hour_state(hour, view_scale, priority,
+                                             civil=civil)
         if not known:
             unk.append(hh)
             continue
@@ -291,10 +434,20 @@ def hourly_general_rows(hours, view_scale, priority):
         sun = hour.get("sun_elevation")
         if weather:
             no[hh] = min(weather, key=lambda m: priority.get(m, len(priority)))
-        elif sun is not None and sun <= GENERAL_SUN_ELEVATION_MIN:
-            na.append(hh)
         else:
-            ok.append(hh)
+            # CL-DATA-68: night = the hour has no civil-light minutes
+            # (minute-level civil-light interval) when the geometry is
+            # available; the hourly grid instant stays the fallback.
+            if civil is not None:
+                h_min = hour_local_minute(hour)
+                night = h_min is None or not hour_hits_interval(
+                    h_min, 60, civil)
+            else:
+                night = sun is not None and sun <= GENERAL_SUN_ELEVATION_MIN
+            if night:
+                na.append(hh)
+            else:
+                ok.append(hh)
     return {"ok": ok, "no": no, "fit": {}, "unk": unk, "na": na}
 
 
@@ -314,8 +467,21 @@ def derive_place_days(bundle, genres, fails):
 
     places_out = {}
     weather_cache = {}
+    eval_dt = parse_evaluated_at(bundle)
     for place in bundle["places"]:
         place_id = place["place_id"]
+        # CL-DATA-68: the evaluation instant in the place's display clock —
+        # today rows judge the remaining period after it.
+        offset = (place.get("timezone_display") or {}).get("utc_offset_hours")
+        if eval_dt is not None and offset is not None:
+            eval_local = eval_dt + timedelta(hours=offset)
+            eval_today = eval_local.strftime("%Y-%m-%d")
+            eval_minute = (eval_local.hour * 60 + eval_local.minute
+                           + eval_local.second / 60.0)
+        else:
+            eval_local = None
+            eval_today = None
+            eval_minute = None
         by_date = {}
         for opp in place["opportunities"]:
             genre = opp.get("genre_template")
@@ -354,6 +520,13 @@ def derive_place_days(bundle, genres, fails):
                         "genre": genre,
                         "subject_short": dict(genre_short),
                         "window": list(day["good_hours"]),
+                        # CL-DATA-68: the opportunity's sun-elevation window
+                        # metrics — the remaining-window end for the
+                        # time-aware tier reads their minute-level intervals
+                        # instead of an hour-bucket bucket-end.
+                        "window_metrics": sorted({
+                            c.get("metric") for c in day.get("conditions", [])
+                            if c.get("metric") in WINDOW_METRICS}),
                     })
                 elif state == "UNFAVORABLE":
                     row["failed"] = True
@@ -371,10 +544,17 @@ def derive_place_days(bundle, genres, fails):
                                         for opp in place["opportunities"])
 
         dates_out = {}
+        solar_by_date = {}
         for date in sorted(by_date):
             row = by_date[date]
+            # CL-DATA-68: minute-level solar windows for this place-day
+            # (cached once per place-day inside civil_twilight).
+            solar = place_day_solar(place, date)
+            solar_by_date[date] = solar
+            civil = civil_light_intervals(solar)
             baseline = general_day_baseline(
-                place_weather.get(date, []), view_scale, priority, fails["words"])
+                place_weather.get(date, []), view_scale, priority, fails["words"],
+                civil=civil)
             dominant = None
             best = None
             dominant_source = None
@@ -403,12 +583,55 @@ def derive_place_days(bundle, genres, fails):
                 status = STATUS_CLEAR
             # CL-UI-65 three-tier display semantics (owner ruling):
             # recommend > shootable > not_recommended; null = no known weather.
+            # CL-DATA-68 time-aware tier: TODAY rows judge the REMAINING
+            # period after tier_evaluated_at — (1) a curated subject window
+            # with qualifying minutes still ahead → recommend; (2) every
+            # curated window passed (or never matched) but the remaining-
+            # period general baseline passes → shootable with the
+            # 「窗已過·今日仍可拍」 note; (3) the remaining baseline also
+            # fails → not_recommended with the short remaining reason;
+            # no known remaining hour stays honest-null. Cross-day rows
+            # (tomorrow/future) keep the full-day rules (rule 4) — and so
+            # do rows whose bundle carries no evaluation instant.
             hours_for_day = place_weather.get(date) or []
             known_hours = any(
                 all(hour.get(k) is not None for k in
                     ("visibility", "precipitation", "rh", "sun_elevation"))
                 for hour in hours_for_day)
-            if row["suitable"]:
+            tier_basis = "full_day"
+            remaining_baseline = None
+            tier_reason = None
+            is_today = (eval_today is not None and date == eval_today)
+            if is_today:
+                tier_basis = "remaining"
+                eval_min = eval_minute
+                remaining = [h for h in hours_for_day
+                             if (hour_local_minute(h) is not None
+                                 and hour_local_minute(h) + 60 > eval_min)]  # type: ignore[operator]
+                remaining_baseline = general_day_baseline(
+                    remaining, view_scale, priority, fails["words"], civil=civil)
+                window_left = any(
+                    subject_window_left(entry, solar, eval_min)
+                    for entry in row["suitable"])
+                rem_known = any(
+                    all(h.get(k) is not None
+                        for k in ("visibility", "precipitation", "rh"))
+                    and (civil is not None
+                         or h.get("sun_elevation") is not None)
+                    for h in remaining)
+                if window_left:
+                    tier = "recommend"
+                elif remaining_baseline["ok"]:
+                    tier = "shootable"
+                    tier_reason = dict(TIER_NOTE_WINDOW_PASSED)
+                elif rem_known:
+                    tier = "not_recommended"
+                    tier_reason = (dict(remaining_baseline["reason_short"])
+                                   if remaining_baseline["reason_short"]
+                                   else None)
+                else:
+                    tier = None
+            elif row["suitable"]:
                 tier = "recommend"
             elif baseline["ok"]:
                 tier = "shootable"
@@ -421,7 +644,8 @@ def derive_place_days(bundle, genres, fails):
             # (a curated subject fits the hour when the hour is inside its
             # qualifying window, i.e. the same hours that made it suitable).
             # Fail-closed: no weather / unknown fields → g=None, no reason.
-            hourly = hourly_general_rows(hours_for_day, view_scale, priority)
+            hourly = hourly_general_rows(hours_for_day, view_scale, priority,
+                                         civil=civil)
             for entry in row["suitable"]:
                 genre = entry.get("genre")
                 if not genre:
@@ -461,13 +685,50 @@ def derive_place_days(bundle, genres, fails):
                 "dominant_source": dominant_source,
                 "general_baseline": baseline,
                 "tier": tier,
+                # CL-DATA-68: minute-level civil dawn/dusk provenance for the
+                # row (None = no geometry boundary, e.g. polar day).
+                "civil_light": civil_light_stamp(solar),
+                # CL-DATA-68 time-aware tier provenance: which rule set set
+                # this tier, and (today rows) the remaining-period baseline
+                # and the rule-2/rule-3 short note the card renders.
+                "tier_basis": tier_basis,
+                "remaining_baseline": remaining_baseline,
+                "tier_reason": tier_reason,
             }
         places_out[place_id] = dates_out
 
+    tier_semantics = {
+        "rule": "CL-DATA-68 time-aware tier (owner-approved): today rows "
+                "judge the REMAINING period after tier_evaluated_at — "
+                "recommend when a curated subject window still has "
+                "qualifying minutes ahead (window end = minute-level "
+                "sun-elevation window interval, capped by the last "
+                "qualified hour bucket); shootable (「窗已過·今日仍可拍」) "
+                "when every curated window passed or never matched but the "
+                "remaining-period general baseline passes; not_recommended "
+                "(short remaining reason) when the remaining baseline also "
+                "fails; no known remaining hour stays honest-null. "
+                "Cross-day rows keep the full-day rules (tier_basis=full_day).",
+        "rule_version": "1.0",
+        "evaluated_at": bundle.get("generated_at") if isinstance(
+            bundle.get("generated_at"), str) else None,
+        "civil_light": {
+            "rule": "CL-DATA-68 minute-level window boundaries (civil -6 deg "
+                    "et al.) computed from the place coordinate + NOAA/Meeus "
+                    "altitude chain, cached once per place-day; civil-light "
+                    "judgments use the interval intersection, the hourly "
+                    "grid instant stays the honest fallback when the "
+                    "geometry yields no boundary",
+            "source": "packages/models-v2/civil_twilight.py solar_day_windows",
+        },
+    }
     return {
-        "schema_version": "1.3",
+        "schema_version": "1.4",
         "ticket": "CL-UI-62",
         "layer": "subject_cards",
+        # CL-DATA-68: the instant every today-tier was judged against —
+        # the UI's freshness check for the tier column.
+        "tier_evaluated_at": tier_semantics["evaluated_at"],
         "derived_from": {
             "source_bundle": Path(bundle["_source_path"]).name,
             "source_bundle_sha256": bundle["_source_sha256"],
@@ -503,6 +764,7 @@ def derive_place_days(bundle, genres, fails):
                             "evaluations-details carry (asserted fail-fast, "
                             "CHALLENGER-14/A)",
             },
+            "tier_semantics": tier_semantics,
         },
         "dictionaries": {"genre_short_names": genres, "fail_reason_short": fails["words"]},
         "places": places_out,

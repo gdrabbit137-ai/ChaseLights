@@ -200,7 +200,7 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
         cls.words = cls.artifact["dictionaries"]["fail_reason_short"]
 
     def test_schema_and_hourly_provenance(self):
-        self.assertEqual(self.artifact["schema_version"], "1.3")
+        self.assertEqual(self.artifact["schema_version"], "1.4")
         self.assertIn("hourly_granularity", self.artifact["derived_from"])
 
     def test_every_row_carries_hour_buckets(self):

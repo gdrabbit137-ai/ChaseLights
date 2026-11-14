@@ -51,7 +51,7 @@ test('CL-UI-86 (1): cards carry content-visibility:auto + contain-intrinsic-size
 test('CL-UI-86 (2): card head renders name 14/600 ellipsis + tier badge + bare star', () => {
   assert.match(createSpotCardBlock, /<span class="tier tier-\$\{clBadgeTier\}">\$\{esc\(clBadgeLabel\)\}<\/span><button class="fav-btn/);
   // The badge shares the tier adapter's three-level state + the honest 資料不足.
-  assert.match(createSpotCardBlock, /clBadgeTier=\(\(\)=>\{if\(!v2Evaluated\)return 'defer';if\(v2Best\.state==='GUIDANCE_SATISFIED'\)return 'rec';if\(scTier==='not_recommended'\)return 'no';if\(scTier==='shootable'\)return 'shoot';return v2Best\.state==='NOT_EVALUABLE'\?'defer':'no';\}\)\(\);/);
+  assert.match(createSpotCardBlock, /clBadgeTier=\(\(\)=>\{if\(!v2Evaluated\)return 'defer';if\(scTier\)return\(\{recommend:'rec',shootable:'shoot',not_recommended:'no'\}\)\[scTier\];if\(v2Best\.state==='GUIDANCE_SATISFIED'\)return 'rec';return v2Best\.state==='NOT_EVALUABLE'\?'defer':'no';\}\)\(\);/);
   assert.match(createSpotCardBlock, /clBadgeLabel=\{rec:d\(\)\.tier_recommend,shoot:d\(\)\.tier_shootable,no:d\(\)\.tier_not_recommended,defer:d\(\)\.eval2_unk\}\[clBadgeTier\];/);
   // Badge classes map to the CL-UI-85 shared tier components (all three + grey).
   assert.match(cssSource, /\.tier-rec\{[^}]*var\(--cl-green-text\)/);

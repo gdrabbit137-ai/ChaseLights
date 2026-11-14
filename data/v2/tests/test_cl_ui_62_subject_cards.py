@@ -125,8 +125,23 @@ class DerivedArtifactTests(unittest.TestCase):
                     self.assertIsNone(gb["reason_short"])
                 elif gb["reason_short"] is not None:
                     self.assertIn(gb["reason_short"], words.values())
-                # CL-UI-65: three-tier semantics consistent with the row body
-                if row["suitable"]:
+                # CL-UI-65: three-tier semantics consistent with the row body.
+                # CL-DATA-68: today rows (tier_basis=remaining) judge the
+                # REMAINING period after tier_evaluated_at — the full-day
+                # body (suitable / general_baseline) may legitimately
+                # disagree with the remaining verdict (windows passed or
+                # weather turned); the time-aware rule itself is asserted in
+                # test_cl_data_68_time_aware_tier.py.
+                if row.get("tier_basis") == "remaining":
+                    self.assertIn(row["tier"],
+                                  ("recommend", "shootable", "not_recommended",
+                                   None))
+                    if row["tier"] == "shootable":
+                        self.assertTrue(row["remaining_baseline"]["ok"])
+                        self.assertTrue(row["tier_reason"])
+                    elif row["tier"] == "not_recommended":
+                        self.assertFalse(row["remaining_baseline"]["ok"])
+                elif row["suitable"]:
                     self.assertEqual(row["tier"], "recommend")
                 elif gb["ok"]:
                     self.assertEqual(row["tier"], "shootable")
