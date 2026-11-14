@@ -44,10 +44,10 @@ test('CL-UI-46 (1): the CL-UI-45 day strip + arrows are removed everywhere',()=>
 
 test('CL-UI-46 (2): trigger sits in the form-control family (.sort-select tokens)',()=>{
   const trigger=cssSource.slice(cssSource.indexOf('.day-picker-trigger {'),cssSource.indexOf('.day-picker-trigger:hover'));
-  assert.match(trigger,/border-radius:\s*6px;/);
-  assert.match(trigger,/background:\s*var\(--cl-bg-2\);/);  // == #1e293b (CL-UI-85 landing)
-  assert.match(trigger,/color:\s*var\(--cl-text-2\);/);  // == #cbd5e1 (CL-UI-85 landing)
-  assert.match(cssSource,/\.day-picker-trigger:hover,\s*\n\s*\.day-picker-trigger:focus-visible\s*\{\s*border-color:\s*var\(--cl-blue\);/);
+  assert.match(trigger,/border-radius:\s*var\(--cl-r-sm\);/);  // == 8px (CL-UI-86 mockup date-pill)
+  assert.match(trigger,/background:\s*var\(--cl-bg-2\);/);
+  assert.match(trigger,/color:\s*var\(--cl-text-2\);/);
+  assert.match(cssSource,/\.day-picker-trigger:hover,\s*\n\s*\.day-picker-trigger:focus-visible\s*\{\s*border-color:\s*var\(--cl-border-strong\);/);  // CL-UI-86: hover follows the mockup pill (blue is links only)
   assert.match(block('function syncDayButtons','function openDayPicker'),/day_summary_(viable|none)/,'trigger carries the day summary count');
 });
 
@@ -125,6 +125,6 @@ test('CL-UI-46 (7): new i18n keys exist in all three dictionaries',()=>{
 });
 
 test('CL-UI-46 (8): index.html cache-bust stamps tracked (app.css bumped to clui54 by CL-UI-49)',()=>{
-  assert.match(htmlSource,/assets\/app\.js\?v=clui90/);
-  assert.match(htmlSource,/assets\/app\.css\?v=clui90/);
+  assert.match(htmlSource,/assets\/app\.js\?v=clui91/);
+  assert.match(htmlSource,/assets\/app\.css\?v=clui91/);
 });

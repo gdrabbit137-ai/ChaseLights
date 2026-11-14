@@ -241,11 +241,11 @@ test('CL-UI-66 (15): index.html carries the tab/chip hosts, the next_window sort
   assert.match(indexSource, /id="tier-tabs"/);
   assert.match(indexSource, /id="subject-chips"/);
   assert.match(indexSource, /<option value="next_window" data-i18n="sort_next_window">/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui90/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui90/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui91/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui91/);
 });
 
-test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the shared active accent', () => {
+test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the CL-UI-86 per-tier dual encoding', () => {
   for (const cls of ['.tier-tab-bar', '.subject-chip-strip']) {
     const i = cssSource.indexOf(cls + ' {');
     assert.ok(i >= 0, `missing CSS block for ${cls}`);
@@ -253,10 +253,14 @@ test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the s
     assert.match(block, /overflow-x:\s*auto/, `${cls} must scroll horizontally (390px-first)`);
     assert.match(block, /-webkit-overflow-scrolling:\s*touch/);
   }
-  /* CL-UI-81 (P1-2): tier selection carries the 「推薦」 semantic → GREEN.
-     Subject chips are a non-semantic selection → blue stays. */
-  assert.match(cssSource, /\.tier-tab\.active \{[^}]*var\(--cl-green-text\)/);
-  assert.match(cssSource, /\.tier-tab\.active \{[^}]*color-mix\(in srgb, var\(--cl-green\) 22%/);
-  assert.match(cssSource, /\.tier-tab\.active \{[^}]*var\(--cl-green-border\)/);
-  assert.match(cssSource, /\.subject-chip\.active \{[^}]*var\(--cl-blue\)/);
+  /* CL-UI-86 (mockup-cards P2-1): segmented control dual encoding — selected
+     = bg-3 + 600 weight + per-tier semantic color (green 推薦 / amber 可拍 /
+     red 不宜). Subject chips are a NON-semantic selection → neutral bg-3
+     elevation (blue stays link-only). */
+  assert.match(cssSource, /\.tier-tab\.active \{[^}]*var\(--cl-bg-3\)/);
+  assert.match(cssSource, /\.tier-tab\.active \{[^}]*font-weight:\s*600/);
+  assert.match(cssSource, /\.tier-tab\[data-tier="recommend"\]\.active \{[^}]*var\(--cl-green-text\)/);
+  assert.match(cssSource, /\.tier-tab\[data-tier="shootable"\]\.active \{[^}]*var\(--cl-amber-text\)/);
+  assert.match(cssSource, /\.tier-tab\[data-tier="not_recommended"\]\.active \{[^}]*var\(--cl-red-text\)/);
+  assert.match(cssSource, /\.subject-chip\.active \{[^}]*var\(--cl-bg-3\)/);
 });
