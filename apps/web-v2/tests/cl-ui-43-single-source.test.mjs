@@ -31,6 +31,7 @@ const factory=new Function([
       grab('function formatHourSegments','function v2ContractThreshold'),
   grab('function v2HourLabel','function v2PickRefHour'),
   grab('function v2DayHtml','let v2Details={}'),
+  grab('function clui82CloudFullReason','function tempChipHtml'),
   grab('function decorateWeatherTimeline','function decorateV2Eval'),
   'return {esc,v2EffectiveHours,v2DayHtml,v2HourLabel,decorateWeatherTimeline,v2RemainingHoursList};'
 ].join('\n'));
@@ -102,6 +103,7 @@ function runDecorate(detail,spotId,rows){
     grab('function localDateString','function currentDayForSpot'),
     grab('function localNowMinutes','function v2BestForSpot'),
     grab('function v2HourLabel','function v2PickRefHour'),
+    grab('function clui82CloudFullReason','function tempChipHtml'),
     grab('function decorateWeatherTimeline','function decorateV2Eval'),
     'const document={getElementById:id=>id==="timeline-body"?{querySelectorAll:()=>els}:null,querySelectorAll:()=>mobileEls};',
     'const ensureV2Detail=()=>Promise.resolve(JSON.parse(detailJson));',

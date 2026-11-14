@@ -211,7 +211,10 @@ test('CL-UI-78 (7): 1280px zero horizontal scroll (real-CDP layout probe, browse
   const port = server.address().port + 1;
   const cdpproc = spawn(chrome, [
     `--remote-debugging-port=${port}`, '--headless=new', '--no-first-run', '--no-default-browser-check',
-    '--disable-gpu', '--window-size=1280,900', 'about:blank',
+    // CI (ubuntu 24.04 runners) restricts unprivileged user namespaces, so the
+    // raw-spawned chromium can fail to start unless the sandbox is disabled;
+    // harmless on dev machines. Same for a small /dev/shm on runners.
+    '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu', '--window-size=1280,900', 'about:blank',
   ], {stdio: 'ignore'});
   try {
     // wait for the DevTools endpoint

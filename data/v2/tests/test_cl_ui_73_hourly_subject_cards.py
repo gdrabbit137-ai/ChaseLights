@@ -240,10 +240,14 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
 
     def test_tw142_anping_hourly_output(self):
         place = next(p for p in self.bundle["places"] if p["place_id"] == "tw-142")
-        weather = json.loads((ROOT / "weather_details/tw/tw-142.json").read_bytes().decode("utf-8"))
-        by_date = {}
-        for hour in weather["spot"]["hourly_forecast"]:
-            by_date.setdefault(hour["local_date"], []).append(hour)
+        # CL-CI-37: round-trip against the committed same-run weather input
+        # snapshot (dynamic pointer via artifact provenance) — the CI sparse
+        # checkout carries no /weather_details/ and the live window slides.
+        snap_name = self.artifact["derived_from"].get("weather_snapshot")
+        assert snap_name is not None, (
+            "artifact derived_from.weather_snapshot missing — regenerate via "
+            "build_subject_cards --write-weather-snapshot")
+        by_date = bsc.load_weather_snapshot(ARTIFACT.parent / snap_name)["places"].get("tw-142", {})
         for date, row in self.artifact["places"]["tw-142"].items():
             hours = row["hours"]
             whours = by_date.get(date) or []

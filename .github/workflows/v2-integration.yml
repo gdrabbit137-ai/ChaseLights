@@ -37,7 +37,11 @@ concurrency:
 jobs:
   integration:
     name: V2 real merged-tree 444-case Research-only Beta acceptance
-    runs-on: ubuntu-latest
+    # CL-CI-37: ubuntu-latest resolved to the ubuntu-26.04 image (2026-11 rollout,
+    # ubuntu26/20261111.196) which playwright@1.57.0 cannot provision chromium on
+    # ("Playwright does not support chromium on ubuntu26.04-x64"); pin the
+    # playwright-supported ubuntu-24.04 image until playwright supports 26.04.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
       W5_BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
@@ -139,6 +143,10 @@ jobs:
         run: |
           python -m pip install 'jsonschema==4.26.0' 'PyYAML==6.0.3' 'tzdata==2025.3'
           npm install --prefix .ci/tooling --no-save --package-lock=false playwright@1.57.0
+          # CL-CI-37: CJK font metrics — the ubuntu runner image lacks
+          # Noto CJK, so zh/ja label fallback fonts overflow layout probes
+          # (CL-UI-78 (7) 1280px zero-horizontal-scroll reds CI-only).
+          sudo apt-get install -y fonts-noto-cjk
           .ci/tooling/node_modules/.bin/playwright install --with-deps chromium
           node -e 'const p=require("node:path"); const m=p.resolve(".ci/tooling/node_modules/playwright"); const c=require(m).chromium; console.log("PLAYWRIGHT_MODULE="+m); console.log("CHROMIUM_EXECUTABLE="+c.executablePath());' >> "$GITHUB_ENV"
       - name: Require exact W1–W4 trees, real browse sources and all 444 checks

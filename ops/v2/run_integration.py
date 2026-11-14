@@ -71,7 +71,7 @@ def parse_node(output):
 
 
 def run_group(name, command, root, logs, env, expected=None, python=False, node=False,
-              timeout=180):
+              timeout=180, min_tests=None):
     result_path = logs / (name + '.json')
     if python:
         command = [sys.executable, str(TASK / 'ops/v2/run_unittest.py'),
@@ -101,6 +101,13 @@ def run_group(name, command, root, logs, env, expected=None, python=False, node=
             result_path.write_text(json.dumps(counts, indent=2) + '\n')
         if expected is not None and counts.get('tests') != expected:
             raise ValueError(f'Expected {expected} tests; got {counts.get("tests")}')
+        # CL-CI-37: artifact-coupled count pins must be dynamic (CL-CI-36
+        # pattern) — a floor keeps the regression protection of the old exact
+        # equality (tests silently vanishing / unregistered files drop below
+        # the floor) while letting suites grow by new commits without a
+        # hand re-anchor on every merge.
+        if min_tests is not None and counts.get('tests', 0) < min_tests:
+            raise ValueError(f'Required at least {min_tests} tests; got {counts.get("tests")}')
         if counts.get('skip', 0) or counts.get('expected_failure', 0):
             raise ValueError('SKIP/expected failure cannot satisfy integration')
         if (python or node) and (not counts.get('tests') or counts.get('fail', 0) or

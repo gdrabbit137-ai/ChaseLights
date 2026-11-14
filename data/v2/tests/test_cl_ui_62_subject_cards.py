@@ -84,6 +84,22 @@ class DerivedArtifactTests(unittest.TestCase):
         cls.artifact = json.loads(ARTIFACT.read_bytes().decode("utf-8"))
         source_name = cls.artifact["derived_from"]["source_bundle"]
         cls.bundle = json.loads((EVAL_DIR / source_name).read_bytes().decode("utf-8"))
+        # CL-CI-37: the committed same-run weather input snapshot is the
+        # derivation's frozen input — the sliding weather_details window (and
+        # the CI sparse checkout, which carries no /weather_details/ at all)
+        # can no longer change the answer. The snapshot filename rides the
+        # artifact provenance (dynamic pointer, never a hardcoded name).
+        snap_name = cls.artifact["derived_from"].get("weather_snapshot")
+        assert snap_name is not None, (
+            "artifact derived_from.weather_snapshot missing — regenerate via "
+            "build_subject_cards --write-weather-snapshot")
+        snap_path = EVAL_DIR / snap_name
+        import hashlib
+        sha = hashlib.sha256(snap_path.read_bytes()).hexdigest()
+        assert sha == cls.artifact["derived_from"]["weather_snapshot_sha256"], (
+            "weather input snapshot drifted from the artifact provenance")
+        cls.snapshot_doc = bsc.load_weather_snapshot(snap_path)
+        cls.snapshot_path = snap_path
 
     def test_provenance(self):
         d = self.artifact["derived_from"]
@@ -93,7 +109,23 @@ class DerivedArtifactTests(unittest.TestCase):
 
     def test_generator_determinism_fresh_derivation_equals_artifact(self):
         genres, fails = bsc.load_copy()
-        payload, unknown = bsc.derive_place_days(bsc.read_bundle(EVAL_DIR / self.artifact["derived_from"]["source_bundle"]), genres, fails)
+        # CL-CI-37: derive from the committed same-run weather input snapshot
+        # (dynamic pointer via artifact provenance), never the moving
+        # weather_details window.
+        prev = bsc.WEATHER_SNAPSHOT
+        bsc.WEATHER_SNAPSHOT = self.snapshot_doc
+        try:
+            payload, unknown = bsc.derive_place_days(
+                bsc.read_bundle(EVAL_DIR / self.artifact["derived_from"]["source_bundle"]), genres, fails)
+        finally:
+            bsc.WEATHER_SNAPSHOT = prev
+        # CL-CI-37: main() stamps the snapshot provenance onto derived_from;
+        # the direct-derivation comparison must carry the same dynamic stamp
+        # (name + sha read from the snapshot file itself).
+        import hashlib
+        payload["derived_from"]["weather_snapshot"] = self.snapshot_path.name
+        payload["derived_from"]["weather_snapshot_sha256"] = hashlib.sha256(
+            self.snapshot_path.read_bytes()).hexdigest()
         self.assertEqual(unknown, set())
         self.assertEqual(json.loads(json.dumps(payload, sort_keys=True)), json.loads(json.dumps(self.artifact, sort_keys=True)))
 
@@ -204,7 +236,11 @@ class DerivedArtifactTests(unittest.TestCase):
         import os
         with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as tmp:
             out = Path(tmp) / "regen.json"
-            rc = bsc.main(["--bundle", str(EVAL_DIR / self.artifact["derived_from"]["source_bundle"]), "--out", str(out)])
+            rc = bsc.main(["--bundle", str(EVAL_DIR / self.artifact["derived_from"]["source_bundle"]),
+                           # CL-CI-37: regen from the committed same-run snapshot,
+                           # not the sliding weather_details window.
+                           "--weather-snapshot", str(self.snapshot_path),
+                           "--out", str(out)])
             self.assertEqual(rc, 0)
             self.assertEqual(out.read_bytes(), ARTIFACT.read_bytes())
 

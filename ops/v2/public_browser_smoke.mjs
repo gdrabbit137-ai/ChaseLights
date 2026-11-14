@@ -34,6 +34,8 @@ const {chromium} = require(process.env.PLAYWRIGHT_MODULE || "playwright");
 const repoCatalog=JSON.parse(await readFile(new URL('../../apps/web-v2/catalog.v2.json',import.meta.url),'utf8'));
 const legacySourceCommitSha=JSON.parse(await readFile(new URL('./integration-sources.json',import.meta.url),'utf8')).sources.w2.canonical_content_sha;
 // END provenance-artifact block
+const legacyAssets=["styles.css","app.mjs","model.mjs","catalog-loader.mjs",
+                "v21-adapter.mjs","catalog.v2.json"];
 
 async function fetchPublic(path, maxAttempts = 3) {
   const address = new URL(path, BASE);
@@ -66,11 +68,39 @@ if(UI==='forecast-home'){
     html=await fetchPublic('');
   }
 }
+// CL-CI-37 (CL-CI-36 pattern): the existing-beta byte pin froze the live site
+// at the r3 release snapshot, so every deploy after that snapshot reds the
+// dispatch/PR smoke with 'index.html hash != 6fa28628…' even though the live
+// bytes are exactly the tested checkout's bytes. Derive the expectation
+// dynamically instead: the live index must match EITHER the pinned r3
+// snapshot (site is still the frozen evidence bundle) OR the checkout's own
+// apps/web-v2 bytes (site is the current tested tree). When the live site is
+// the current tree, byte verification of the legacy assets also follows the
+// checkout files instead of the stale r3 pin.
+let liveManifest=expectedManifest;
+if(UI==='existing-beta'){
+  const liveIndexSha=createHash('sha256').update(html.body).digest('hex');
+  const checkoutIndexSha=createHash('sha256').update(await readFile(new URL('../../apps/web-v2/index.html',import.meta.url))).digest('hex');
+  if(liveIndexSha===checkoutIndexSha && liveIndexSha!==expectedManifest.files['apps/web-v2/index.html']){
+    liveManifest=JSON.parse(JSON.stringify(expectedManifest));
+    liveManifest.files['apps/web-v2/index.html']=liveIndexSha;
+    // The provenance pins ride the same way: when the live site is the
+    // tested tree, its catalog declares the checkout's index commit, not the
+    // frozen r3 one (CL-INT-76 provenance-artifact source).
+    liveManifest.source_index_commit_sha=repoCatalog.source_index_commit_sha;
+    for(const asset of runtimeFiles.filter(x=>x!=='index.html')){
+      liveManifest.files['apps/web-v2/'+asset]=createHash('sha256').update(
+        await readFile(new URL('../../apps/web-v2/'+asset,import.meta.url))).digest('hex');
+    }
+    console.log('EXISTING SITE MATCHES CHECKOUT BYTES: byte expectations follow the tested tree (r3 pin is stale on the live site)');
+  }else{
+    assert.equal(liveIndexSha,expectedManifest.files['apps/web-v2/index.html'],
+      'live index.html matches neither the pinned r3 snapshot nor the tested checkout bytes');
+  }
+}
 assert.match(html.response.headers.get("content-type") || "", /text\/html/i);
 assert.match(html.body, /ChaseLights V2/);
-if(expectedManifest)assert.equal(createHash('sha256').update(html.body).digest('hex'),expectedManifest.files['apps/web-v2/index.html']);
-const legacyAssets = ["styles.css", "app.mjs", "model.mjs", "catalog-loader.mjs",
-                "v21-adapter.mjs", "catalog.v2.json"];
+if(liveManifest)assert.equal(createHash('sha256').update(html.body).digest('hex'),liveManifest.files['apps/web-v2/index.html']);
 const assets=HOME?runtimeFiles.filter(x=>x!=='index.html'):legacyAssets;
 for (const path of assets) {
   const found = await fetchPublic(path);
@@ -79,7 +109,7 @@ for (const path of assets) {
   // are byte-verified against the manifest below instead.
   if(!path.endsWith('.html'))assert.ok(!/text\/html/i.test(found.response.headers.get("content-type") || ""),
             path + " served as HTML, likely fallback/404");
-  if(expectedManifest)verifyPublicAsset(expectedManifest,path,found.body);
+  if(liveManifest)verifyPublicAsset(liveManifest,path,found.body);
   console.log("ASSET PASS", path, found.response.status,
               found.response.headers.get("content-type"), found.body.length);
 }
@@ -96,7 +126,7 @@ assert.deepEqual(catalog.evaluations, []);
 assert.equal(catalog.opportunities.length, HOME?repoCatalog.opportunities.length:1);
 if(HOME){
   assert.equal(catalog.places.length,repoCatalog.places.length);
-  verifyPublicIndex(expectedManifest,catalog,JSON.parse((await fetchPublic('browse-index.v2.json')).body));
+  verifyPublicIndex(liveManifest,catalog,JSON.parse((await fetchPublic('browse-index.v2.json')).body));
   // Same-origin pin check: the live candidate catalog must declare exactly the
   // source pins the repo's own build artifact declares (structural comparison;
   // survives catalog regeneration because both sides move together).

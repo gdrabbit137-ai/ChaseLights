@@ -33,7 +33,10 @@ concurrency:
 jobs:
   public-preview:
     name: Published V2 / six Chromium locale and device checks
-    runs-on: ubuntu-latest
+    # CL-CI-37: pin ubuntu-24.04 — ubuntu-latest now resolves to the ubuntu-26.04
+    # runner image that playwright@1.57.0 cannot provision chromium on
+    # ("Playwright does not support chromium on ubuntu26.04-x64").
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - name: Checkout current source (no weather forecast promotion)
@@ -64,6 +67,9 @@ jobs:
       - name: Install independent Chromium browser
         run: |
           npm install --prefix .ci/tooling --no-save --package-lock=false playwright@1.57.0
+          # CL-CI-37: Noto CJK fonts — the runner image lacks them and the
+          # six locale/device checks render zh/ja copy in the browser.
+          sudo apt-get install -y fonts-noto-cjk
           .ci/tooling/node_modules/.bin/playwright install --with-deps chromium
           node -e 'const p=require("node:path"); const m=p.resolve(".ci/tooling/node_modules/playwright"); const c=require(m).chromium; console.log("PLAYWRIGHT_MODULE="+m); console.log("CHROMIUM_EXECUTABLE="+c.executablePath());' >> "$GITHUB_ENV"
       - name: Require real public HTTPS V2 page and local V1/V2 isolation

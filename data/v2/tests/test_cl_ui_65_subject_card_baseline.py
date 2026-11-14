@@ -377,6 +377,15 @@ class ClUi70FullCatalogVoteTests(unittest.TestCase):
         cls.artifact = json.loads(
             ARTIFACT_PATH
             .read_bytes().decode("utf-8"))
+        # CL-CI-37: the baseline recompute reads the committed same-run
+        # weather input snapshot (dynamic pointer via artifact provenance),
+        # never the sliding weather_details window (absent from the CI
+        # sparse checkout entirely).
+        snap_name = cls.artifact["derived_from"].get("weather_snapshot")
+        assert snap_name is not None, (
+            "artifact derived_from.weather_snapshot missing — regenerate via "
+            "build_subject_cards --write-weather-snapshot")
+        cls.snapshot_places = bsc.load_weather_snapshot(EVAL_DIR / snap_name)["places"]
 
     def test_no_window_dominant_row_where_the_window_occurred(self):
         bundle = json.loads((EVAL_DIR / self.artifact["derived_from"]["source_bundle"])
@@ -401,10 +410,11 @@ class ClUi70FullCatalogVoteTests(unittest.TestCase):
                     # reason from the COMMITTED WEATHER, not the bundle — no
                     # bundle condition exists on this path. The window word
                     # must still be backed by genuinely absent daylight:
-                    # recompute the baseline from weather_details and require
+                    # recompute the baseline from the committed weather
+                    # input snapshot and require
                     # the same failing reason to round-trip.
                     baseline_checked += 1
-                    weather = bsc.load_place_hourly_weather(place["place_id"])
+                    weather = self.snapshot_places.get(place["place_id"], {})
                     scale = bsc.general_view_scale(
                         o.get("genre_template") for o in place["opportunities"])
                     recomputed = bsc.general_day_baseline(
