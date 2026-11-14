@@ -6,7 +6,10 @@ import {createHash} from 'node:crypto';
 // from the immutable historical R2 release evidence — so it is allowed but
 // never required. Unknown files still fail closed.
 export const requiredRuntimeFiles=['index.html','styles.css','app.mjs','model.mjs','catalog-loader.mjs','catalog-state.mjs','v21-adapter.mjs','browse-index.mjs','browse-index.v2.json','catalog.v2.json'];
-export const optionalRuntimeFiles=['bundle-digests.mjs','pull-refresh.mjs','shell-auth.mjs','weather-pilot.html','weather-pilot.mjs','weather-pilot-tw036.json','solar-pilot.html','solar-pilot.mjs','solar-window-tw036.json'];
+// CL-CI-37: favorites-client.mjs is the 20th RUNTIME_FILES entry in
+// build_static.py (CL-UI-55) — it ships in candidate build manifests, so it must
+// be in the allowed list here or validateManifest fails closed on every smoke.
+export const optionalRuntimeFiles=['bundle-digests.mjs','pull-refresh.mjs','shell-auth.mjs','favorites-client.mjs','weather-pilot.html','weather-pilot.mjs','weather-pilot-tw036.json','solar-pilot.html','solar-pilot.mjs','solar-window-tw036.json'];
 export const runtimeFiles=[...requiredRuntimeFiles,...optionalRuntimeFiles];
 export function validateManifest(manifest){
   assert.equal(manifest.status,'PASS');

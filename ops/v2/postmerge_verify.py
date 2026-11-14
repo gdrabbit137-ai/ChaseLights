@@ -419,7 +419,8 @@ def main():
                 None, False, False),
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
-                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], 600, False, True),  # CL-CI-22 re-anchor 499->508; CL-UI-48 +1 -> 509; CL-CI-31b -> 532; CL-CI-33 re-anchor 532->540; CL-INT-137B re-anchor 543->553; CL-CI-35 re-anchor 553->559; CL-UI-55 re-anchor 559->580; CL-CI-35B2 re-anchor 580->583; CL-INT-146 re-anchor 583->590; CL-CI-36B re-anchor 590->600 (measured on task/CL-CI-36B merged tree: node v26.7.0, 600 pass / 0 fail)
+                    (root / "apps/web-v2/tests").glob("*.test.mjs"))]], None, False, True,
+                {"min_tests": 600}),  # CL-CI-37 (CL-CI-36 pattern): exact pin 499->600 kept rotting red on every test-adding merge (last red: CL-UI-87/88/89 +20 -> 620); replaced with a growth-tolerant floor — equality is still enforced in aggregate by the pass+skip==tests gate and min 600 catches unregistered-file drops
         # 2026-11-08 CL-CI-26: CL-UI-47 +5 real-hit-target tests -> w4-node=514 (CI-observed on merged tree 313feebe4, node v26 --test-isolation=none, 514 pass / 0 fail)
         # 2026-11-08 CL-INT-92: +3 hour-list-cap regression tests -> w4-node=516 on this base (measured locally: 516 pass / 3 pre-existing failures identical to pristine origin/main baseline: CL-COPY-01 coverage, CL-DATA-19 x2)
         # 2026-11-08 CL-CI-27: the 3 'pre-existing failures' were NOT pre-existing —
@@ -526,11 +527,17 @@ def main():
         # 2026-11-12 CL-CI-36B: post CL-CI-36 merge recount on task/CL-CI-36B:
         # w3 223->235 (+12), w4-node 590->600 (+10), exact total 1257->1279
         # (measured: 1279 tests, 1279 pass, 0 fail, 0 skip).
-        if (report["counts"]["tests"] != 1279 or
+        # CL-CI-37 (CL-CI-36 pattern): the exact-total equality (last 1279)
+        # rotted red on every merge that adds tests — the observed CI count on
+        # the CL-UI-89 tree is 1299 (620 w4-node) and equality pins there are
+        # an infinite re-anchor chore. Convert to a floor: regression protection
+        # (tests vanishing below 1279 or pass+skip != tests) is kept, growth is
+        # tolerated.
+        if (report["counts"]["tests"] < 1279 or
                 report["counts"]["fail"] != 0 or
                 report["counts"]["error"] != 0 or
-                report["counts"]["pass"] + report["counts"]["skip"] != 1279):
-            raise ValueError("Post-merge exact 1279-case requirement failed")
+                report["counts"]["pass"] + report["counts"]["skip"] != report["counts"]["tests"]):
+            raise ValueError("Post-merge 1279-case floor requirement failed")
         if not all(g["status"] == "PASS" for g in report["groups"]):
             raise ValueError("One or more required suites failed")
         report["status"] = "PASS"

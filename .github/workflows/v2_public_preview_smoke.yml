@@ -33,7 +33,10 @@ concurrency:
 jobs:
   public-preview:
     name: Published V2 / six Chromium locale and device checks
-    runs-on: ubuntu-latest
+    # CL-CI-37: pin ubuntu-24.04 — ubuntu-latest now resolves to the ubuntu-26.04
+    # runner image that playwright@1.57.0 cannot provision chromium on
+    # ("Playwright does not support chromium on ubuntu26.04-x64").
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - name: Checkout current source (no weather forecast promotion)
