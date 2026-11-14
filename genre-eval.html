@@ -8,40 +8,74 @@
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
   <link rel="stylesheet" href="./assets/app.css?v=clui95">
   <style>
-    .eval-banner{background:var(--panel,#141a22);border:1px solid var(--line,rgba(255,255,255,.12));
-      border-radius:8px;padding:10px 14px;margin:12px auto;max-width:1100px;font-size:.85rem;color:#cfd8e3}
-    .eval-banner b{color:#ffd479}
-    .eval-controls{display:flex;gap:10px;align-items:center;max-width:1100px;margin:0 auto 12px;flex-wrap:wrap}
-    .eval-search{flex:1;min-width:200px;padding:8px 12px;border-radius:8px;border:1px solid var(--line,rgba(255,255,255,.15));
-      background:var(--panel,#141a22);color:inherit;font-size:.9rem}
-    .eval-wrap{max-width:1100px;margin:0 auto;padding:0 12px 60px}
-    .eval-place{border:1px solid var(--line,rgba(255,255,255,.12));border-radius:10px;margin-bottom:14px;
-      background:var(--panel,#141a22);overflow:hidden}
-    .eval-place-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;cursor:pointer;gap:10px}
-    .eval-place-head h3{margin:0;font-size:1rem}
-    .eval-place-head .count{color:#8fa1b3;font-size:.85rem;white-space:nowrap}
-    .eval-opps{display:none;padding:0 16px 14px}
-    .eval-place.open .eval-opps{display:block}
-    .eval-opp{border-top:1px solid var(--line,rgba(255,255,255,.1));padding:12px 0}
-    .eval-opp-head{display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer;flex-wrap:wrap}
-    .eval-opp-head .gname{font-weight:600}
-    .eval-days{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}
-    .eval-day-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--line,rgba(255,255,255,.15));
-      background:transparent;color:inherit;cursor:pointer;font-size:.8rem}
-    .eval-day-btn.active{background:var(--accent,#2f81f7);color:#fff;border-color:transparent}
-    .badge{padding:2px 10px;border-radius:999px;font-size:.78rem;font-weight:600;white-space:nowrap}
-    .b-good{background:rgba(46,160,67,.18);color:#3fb950;border:1px solid rgba(63,185,80,.4)}
-    .b-bad{background:rgba(248,81,73,.15);color:#f85149;border:1px solid rgba(248,81,73,.35)}
-    .b-unk{background:rgba(187,128,9,.18);color:#d29922;border:1px solid rgba(210,153,34,.4)}
-    .live-table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:8px}
-    .live-table th,.live-table td{border-top:1px solid var(--line,rgba(255,255,255,.1));padding:5px 8px;text-align:left}
-    .live-table thead th{border-top:none;color:#8fa1b3;font-weight:600}
-    .v-pass{color:#3fb950}.v-fail{color:#f85149}.v-unk{color:#d29922}
-    .hourly-wrap{overflow-x:auto;margin-top:8px}
-    .best-row{background:rgba(47,129,247,.16)}
-    .now-anchor{color:#58a6ff;font-weight:700}
-    .eval-muted{color:#8fa1b3;font-size:.82rem}
-    .eval-note{margin:6px 0 0;font-size:.78rem;color:#8fa1b3}
+    /* CL-UI-93 (mockup-first Stage 3c): 題材評估頁版面重做，規格
+       data/v2/audits/design-mockups/mockup-genre-eval.html（DESIGN-3
+       3d455f121）逐字實作；樣式全部引用已上線 --cl-* token
+       （app.css :root，CL-UI-85），本頁不重定義任何數值。 */
+    .genre-shell{max-width:1100px;margin:0 auto;padding:var(--cl-sp-5) var(--cl-sp-5) 64px}
+    .genre-eval-header{max-width:1100px;margin:0 auto;padding:0}
+    .title-row{display:flex;align-items:baseline;gap:var(--cl-sp-3);margin:var(--cl-sp-5) 0 var(--cl-sp-2)}
+    .title-row h1{font-size:var(--cl-fs-20);font-weight:600;margin:0}
+    .title-row .count{margin-left:auto;font-size:var(--cl-fs-13);color:var(--cl-text-3)}
+    .control-strip{display:flex;gap:var(--cl-sp-2);align-items:center;flex-wrap:wrap}
+    .control-strip select.sel,.control-strip input.sel{height:var(--cl-control-h)}
+    .control-strip #eval-search{flex:1;min-width:180px}
+    .control-strip .updated{font-size:var(--cl-fs-12);color:var(--cl-text-3);white-space:nowrap}
+    /* 日期列：8 日橫捲、選中日自動置中（mockup scroll-snap 節奏） */
+    .eval-date-panel{margin-bottom:var(--cl-sp-4)}
+    .date-row{display:flex;gap:var(--cl-sp-2);overflow-x:auto;scroll-snap-type:x proximity;padding:var(--cl-sp-3) 0 2px;
+      scrollbar-width:none;mask-image:linear-gradient(90deg,var(--cl-ink) calc(100% - 24px),transparent)}
+    .date-row::-webkit-scrollbar{height:0}
+    .date-row .date-pill{min-width:132px;height:44px;scroll-snap-align:center}
+    /* 總覽：符合度 tabs＋逐題材 8 日格 */
+    .sum-tabs{display:flex;gap:var(--cl-sp-2);margin-bottom:var(--cl-sp-3);flex-wrap:wrap}
+    .tab.t-unk.sel{border-color:var(--cl-border-strong);color:var(--cl-grey-text)}
+    .tab.t-unk.sel .n{color:var(--cl-grey-text)}
+    .g-row{border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);background:var(--cl-bg-1);
+      margin-bottom:var(--cl-sp-2);overflow:hidden}
+    .g-row.sel{border-color:var(--cl-border-strong)}
+    .g-head{display:flex;align-items:center;gap:var(--cl-sp-2);padding:var(--cl-sp-2) var(--cl-sp-3);cursor:pointer;min-width:0}
+    .g-head:hover{background:var(--cl-bg-2)}
+    .g-head .g-name{font-size:var(--cl-fs-14);font-weight:600;flex:none;color:var(--cl-text-1)}
+    .g-head .g-day{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-2);
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .g-head .grow{flex:1;min-width:0}
+    /* 迷你 8 日格：直接可讀文字（owner annotated ruling） */
+    .mini-days{display:flex;gap:2px;flex:none}
+    .mday{width:64px;min-height:44px;border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);background:var(--cl-bg-2);
+      padding:3px 4px;display:flex;flex-direction:column;gap:1px;cursor:pointer;text-align:center;justify-content:center}
+    .mday .md-d{font-size:10px;color:var(--cl-text-3);font-family:var(--cl-mono)}
+    .mday .md-f{font-size:11px;font-weight:600;line-height:1.2;color:var(--cl-text-2)}
+    .mday.ok{background:var(--cl-green-bg);border-color:var(--cl-green-border)}
+    .mday.ok .md-f{color:var(--cl-green-text)}
+    .mday.bad{background:var(--cl-red-bg);border-color:var(--cl-red-border)}
+    .mday.bad .md-f{color:var(--cl-red-text)}
+    .mday.unk{background:var(--cl-grey-bg)}
+    .mday.unk .md-f{color:var(--cl-grey-text)}
+    .mday.cur{outline:2px solid var(--cl-text-2);outline-offset:-1px}
+    /* 展開的條件明細（沿用 live-table 語義：v-pass 綠 / v-fail 紅 / v-unk 黃） */
+    .g-body{display:none;border-top:1px solid var(--cl-border);padding:var(--cl-sp-3)}
+    .g-row.open .g-body{display:block}
+    .cond-table{width:100%;border-collapse:collapse;font-size:var(--cl-fs-12)}
+    .cond-table th{text-align:left;color:var(--cl-text-3);font-weight:600;padding:4px 8px;border-bottom:1px solid var(--cl-border)}
+    .cond-table td{padding:5px 8px;border-top:1px solid var(--cl-border);color:var(--cl-text-2);vertical-align:top}
+    .v-pass{color:var(--cl-green-text)}
+    .v-fail{color:var(--cl-red-text)}
+    .v-unk{color:var(--cl-amber-text)}
+    .mono{font-family:var(--cl-mono)}
+    /* 資料不足必點名（hours-absurdity sweep） */
+    .unk-note{font-size:var(--cl-fs-12);color:var(--cl-grey-text);padding:6px 8px;margin:0}
+    .eval-muted{color:var(--cl-text-3);font-size:var(--cl-fs-13);padding:var(--cl-sp-3) 0;margin:0}
+    /* 390 節奏：8 日迷你格單行橫捲＋fade；控制列換行 */
+    @media (max-width:640px){
+      .genre-shell{padding:var(--cl-sp-4) 0 64px}
+      .mini-days{width:100%;overflow-x:auto;scrollbar-width:none;
+        mask-image:linear-gradient(90deg,var(--cl-ink) calc(100% - 16px),transparent)}
+      .mini-days::-webkit-scrollbar{height:0}
+      .g-head{flex-wrap:wrap}
+      .g-head .g-day{flex-basis:100%;order:3}
+      .title-row .count{flex-basis:100%;order:3}
+    }
   </style>
 </head>
 <body>
@@ -69,14 +103,19 @@
   </nav>
 
   <header class="genre-eval-header">
-    <h1>🌗 <span id="page-title">攝影題材條件評估</span></h1>
+    <div class="title-row">
+      <h1>🌗 <span id="page-title">攝影題材條件評估</span></h1>
+      <span class="count" id="eval-meta"></span>
+    </div>
     <div class="control-strip">
-      <select id="region-select" class="control-dropdown country-dropdown" aria-label="區域">
+      <select id="region-select" class="control-dropdown country-dropdown sel" aria-label="region">
         <option value="tw" selected>🇹🇼 台灣</option>
         <option value="jp">🇯🇵 日本</option>
         <option value="us">🇺🇸 美國</option>
       </select>
-      <select id="lang-select" class="control-dropdown lang-dropdown" aria-label="語言">
+      <select id="place-select" class="sel" aria-label="place"></select>
+      <input id="eval-search" class="sel" type="search" autocomplete="off">
+      <select id="lang-select" class="control-dropdown lang-dropdown" aria-label="language">
         <option value="zh-TW" selected>🌐 繁體中文</option>
         <option value="en">🌐 English</option>
         <option value="ja">🌐 日本語</option>
@@ -85,18 +124,17 @@
     </div>
   </header>
 
-  <div class="eval-banner" id="guidance-banner"></div>
-
-  <div class="eval-controls">
-    <input id="eval-search" class="eval-search" type="search" autocomplete="off">
+  <div class="genre-shell">
+    <div id="eval-loading" style="text-align:center;padding:40px"></div>
+    <!-- 日期列：8 日 pills，today 自動置中 -->
+    <section class="box eval-date-panel"><div class="date-row" id="date-row"></div></section>
+    <!-- 總覽：符合度 tabs＋逐題材 8 日格（選中日同步） -->
+    <section id="overview"></section>
   </div>
-
-  <div id="eval-loading" style="text-align:center;padding:40px"></div>
-  <div class="eval-wrap" id="eval-wrap"></div>
 
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui81"></script>
   <script src="./assets/favorites-client.js?v=clui82"></script>
-  <script src="./assets/genre-eval.js"></script>
+  <script src="./assets/genre-eval.js?v=clui95"></script>
 </body>
 </html>
