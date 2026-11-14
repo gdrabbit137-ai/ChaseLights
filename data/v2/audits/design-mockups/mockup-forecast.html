@@ -43,6 +43,39 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 #shell{max-width:1180px;margin:0 auto;padding:var(--sp-5) var(--sp-5) 64px;transition:max-width .25s}
 #shell.vp390{max-width:390px;padding:var(--sp-4) 0 64px;box-shadow:0 0 0 1px var(--border),0 24px 80px rgba(0,0,0,.6)}
 
+/* ── 站點 masthead（DESIGN-3b：與列表頁同一語義 — 卡片|天氣圖|拍攝提醒＋會員入口右上）── */
+.topnav{display:flex;align-items:center;gap:var(--sp-4);margin-bottom:var(--sp-5)}
+.logo{font-weight:600;font-size:var(--fs-15);letter-spacing:-.01em}
+.logo .dot{color:var(--green)}
+.topnav .navlinks{display:flex;gap:var(--sp-4);font-size:var(--fs-13);color:var(--text-3)}
+.topnav .navlinks a{color:var(--text-2)}
+.topnav .navlinks a.active{color:var(--text-1);font-weight:600}
+.topnav .right{margin-left:auto;display:flex;gap:var(--sp-2);align-items:center}
+
+/* ── 會員入口（DESIGN-3b）— masthead 右上；★=我的最愛、🔔=提醒，沿用站內單一語義 ── */
+.login-btn{display:none;align-items:center;height:36px;padding:0 16px;border:1px solid var(--border-strong);border-radius:var(--r-xs);
+  background:var(--bg-2);color:var(--text-1);font-size:var(--fs-13);font-weight:600}
+.login-btn:hover{background:var(--bg-3)}
+.member{position:relative;display:none;align-items:center;gap:var(--sp-2);height:36px;padding:0 10px 0 5px;
+  border:1px solid var(--border);border-radius:18px;background:var(--bg-2);cursor:pointer;user-select:none}
+.member:hover{background:var(--bg-3);border-color:var(--border-strong)}
+.avatar{width:26px;height:26px;border-radius:50%;background:var(--bg-3);border:1px solid var(--border-strong);color:var(--text-1);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none}
+.member .m-name{font-size:var(--fs-13);color:var(--text-2);max-width:128px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.member .m-caret{font-size:9px;color:var(--text-3)}
+.member-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:184px;background:var(--bg-1);border:1px solid var(--border-strong);
+  border-radius:var(--r-md);box-shadow:0 16px 48px rgba(0,0,0,.65);padding:var(--sp-1);display:none;z-index:70}
+.member.open .member-menu{display:block}
+.member-menu button{display:flex;width:100%;align-items:center;gap:var(--sp-2);height:36px;padding:0 var(--sp-2);
+  border-radius:var(--r-xs);color:var(--text-2);font-size:var(--fs-13);text-align:left}
+.member-menu button:hover{background:var(--bg-2);color:var(--text-1)}
+.member-menu .mm-ic{width:18px;text-align:center;flex:none}
+.member-menu .mm-sep{height:1px;background:var(--border);margin:var(--sp-1) 6px}
+.member-menu .mm-out{color:var(--grey-text)}
+/* 兩態切換（mockup-bar 示範）：in=登入態（頭像＋下拉）、out=未登入（登入鈕） */
+.member-zone.in .member{display:flex}
+.member-zone.out .login-btn{display:flex}
+
 /* 頁首 */
 .place-head{display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-3)}
 .place-head h1{font-size:var(--fs-20);font-weight:600;letter-spacing:-.01em}
@@ -50,11 +83,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .place-head .back{color:var(--blue);font-size:var(--fs-13)}
 .place-head .close{margin-left:auto;width:36px;height:36px;border-radius:var(--r-sm);border:1px solid var(--border);
   background:var(--bg-2);color:var(--text-2);font-size:14px}
-/* 8 日 tabs */
-.day-tabs{display:flex;gap:var(--sp-2);overflow-x:auto;padding-bottom:2px;margin-bottom:var(--sp-4);
-  mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);scroll-snap-type:x proximity}
+/* 8 日 tabs — 可橫移列（DESIGN-3a：overflow-x＋隱藏捲軸＋拖曳慣性＋兩側 8px fade） */
+.day-tabs{display:flex;gap:var(--sp-2);overflow-x:auto;padding-bottom:2px;margin-bottom:var(--sp-4);scrollbar-width:none;
+  cursor:grab;overscroll-behavior-x:contain;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8px,#000 calc(100% - 8px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 8px,#000 calc(100% - 8px),transparent)}
 .day-tabs::-webkit-scrollbar{height:0}
-.day-tab{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:64px;padding:var(--sp-2) var(--sp-3);flex:none;scroll-snap-align:start;
+.day-tabs.dragging{cursor:grabbing}
+.day-tab{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:64px;padding:var(--sp-2) var(--sp-3);flex:none;
   background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-sm)}
 .day-tab .d1{font-size:var(--fs-12);color:var(--text-3)}
 .day-tab .d2{font-family:var(--mono);font-size:var(--fs-13);color:var(--text-2)}
@@ -118,6 +154,12 @@ tr.na-row td .mono{font-family:var(--mono)}
 #shell.vp390 .day-tabs{gap:6px}
 #shell.vp390 table.hrs,#shell.vp390 tr.detail,#shell.vp390 tr.na-row{display:none}
 #shell.vp390 .tbl-390{display:block}
+/* DESIGN-3b：390px 會員入口節奏 — 控制項 40px、選單列 44px 觸控目標 */
+#shell.vp390 .topnav .navlinks{display:none}
+#shell.vp390 .member,#shell.vp390 .login-btn{height:40px}
+#shell.vp390 .member .m-name{max-width:96px}
+#shell.vp390 .member-menu button{height:44px}
+#shell.vp390 .member-menu{min-width:200px}
 .hcard{position:relative;background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-sm);
   padding:var(--sp-3) var(--sp-3) var(--sp-3) calc(var(--sp-3) + 6px);margin-bottom:var(--sp-2);min-height:0}
 .hcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:var(--band-w);border-radius:var(--r-sm) 0 0 var(--r-sm)}
@@ -165,12 +207,40 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
   <span class="grp" id="vp-grp">
     <button data-vp="1280" class="on">1280px</button><button data-vp="390">390px</button>
   </span>
+  <span class="grp" id="auth-grp">
+    <button data-auth="out">未登入</button><button data-auth="in" class="on">已登入</button>
+  </span>
   <span class="spacer"></span>
   <a href="mockup-cards.html">→ mockup 1 列表頁</a>
   <a href="mockup-detail.html">→ mockup 3 詳情彈窗</a>
 </div>
 
 <div id="shell">
+  <nav class="topnav">
+    <span class="logo">ChaseLights<span class="dot">·</span></span>
+    <span class="navlinks">
+      <a href="#" class="active" data-i18n="nav_cards">卡片</a>
+      <a href="#" data-i18n="nav_weathermap">天氣圖</a>
+      <a href="#" data-i18n="nav_reminders">拍攝提醒</a>
+    </span>
+    <span class="right">
+      <span class="member-zone in" id="member-zone">
+        <button class="login-btn" data-i18n="login">登入</button>
+        <span class="member" id="member">
+          <span class="avatar" data-i18n="avatar_ch">晨</span>
+          <span class="m-name" data-i18n="member_name">晨曦旅人</span>
+          <span class="m-caret">▾</span>
+          <span class="member-menu">
+            <button><span class="mm-ic">★</span><span data-i18n="menu_fav">我的最愛</span></button>
+            <button><span class="mm-ic">🔔</span><span data-i18n="menu_rem">提醒清單</span></button>
+            <button><span class="mm-ic">👤</span><span data-i18n="menu_profile">會員資料</span></button>
+            <span class="mm-sep"></span>
+            <button class="mm-out"><span class="mm-ic">↩</span><span data-i18n="menu_logout">登出</span></button>
+          </span>
+        </span>
+      </span>
+    </span>
+  </nav>
   <div class="place-head">
     <div>
       <h1 id="h-place">🌦️ 東京鐵塔 — 天氣預報</h1>
@@ -207,7 +277,8 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
       <table>
         <tr><td id="n3a">小時卡化</td><td id="n3a-v">DR1 P1-3 — ≤768px 表格改卡：3px 左色帶承載語義（掃描不用讀字）、時刻欄固定 64px mono、一行主狀態 14/600＋一行口語氣象 12px；單卡收起 ≈68px，一屏可見 8+ 小時。</td></tr>
         <tr><td id="n3b">迷你色帶</td><td id="n3b-v">DR1 P3-2 — 表格上方 16px 色帶（每小時一格：綠/黃/灰/na 暗格），最佳小時加白框；390px 下與小時卡共用同一語義。</td></tr>
-        <tr><td id="n3c">日 tabs 橫捲</td><td id="n3c-v">8 顆 × 64px 在 390px 單行橫捲＋fade mask，不換行（同 mockup 1 chips 規則）。</td></tr>
+        <tr><td id="n3c">日 tabs 橫捲</td><td id="n3c-v">8 顆 × 64px 單行橫捲，不換行（同 mockup 1 chips 規則）；橫移列為通用行為（DESIGN-3a）：overflow-x auto＋隱藏捲軸＋拖曳慣性，兩側 8px 漸層提示可滑，今天／所選日 tab 自動捲入可視區中央。</td></tr>
+        <tr><td id="n3d">會員入口（DESIGN-3b）</td><td>預報頁補上與列表頁同一語義的站點 masthead（卡片｜天氣圖｜拍攝提醒），右上：未登入＝描邊「登入」鈕；登入態＝頭像圓＋會員名，點開下拉：我的最愛★ / 提醒清單🔔 / 會員資料 / 登出。mockup-bar「未登入 / 已登入」切換鈕示範兩態；不新增功能，僅視覺呈現現行 masthead 會員入口。</td></tr>
       </table>
       <p class="data-src" id="n-src">資料樣例：jp-011 東京鐵塔 subject-cards 真實值 — 2026-11-16 tier=recommend（clear）：✓眺望 06:00–16:00（16 小時）、✓夜景 00:00–04:00；na 05:00·18:00–23:00。11/14–21 逐日 tier 為真實評估值。口語化氣象數值為示意。</p>
     </div>
@@ -221,21 +292,27 @@ const I18N={
   today:'今天',tomorrow:'明天',notes:'設計說明 — 設計決策 × design-review 對應',
   kv:[['氣溫','風速','風','濕度','低雲','中雲','高雲','凝結高度','能見度'],['°C','m/s','','%','%','%','%','m','']],
   wind:['無風','微風','風強'],vis:['能見度極佳','能見度良好','能見度普通','能見度差'],
-  dnotes:{n1a:'日期分組＋摺疊',n1b:'時刻欄 = 錨點',n1c:'na 時段摺疊',n2a:'狀態單一判斷',n2b:'口語化氣象',n2c:'詳細氣象展開',n3a:'小時卡化',n3b:'迷你色帶',n3c:'日 tabs 橫捲'},
+  dnotes:{n1a:'日期分組＋摺疊',n1b:'時刻欄 = 錨點',n1c:'na 時段摺疊',n2a:'狀態單一判斷',n2b:'口語化氣象',n2c:'詳細氣象展開',n3a:'小時卡化',n3b:'迷你色帶',n3c:'日 tabs 橫捲',n3d:'會員入口（DESIGN-3b）'},
+  nav_cards:'卡片',nav_weathermap:'天氣圖',nav_reminders:'拍攝提醒',
+  login:'登入',member_name:'晨曦旅人',avatar_ch:'晨',menu_fav:'我的最愛',menu_rem:'提醒清單',menu_profile:'會員資料',menu_logout:'登出',
   dsrc:'資料樣例：jp-011 東京鐵塔 subject-cards 真實值 — 2026-11-16 tier=recommend（clear）：✓眺望 06:00–16:00（16 小時）、✓夜景 00:00–04:00；na 05:00·18:00–23:00。11/14–21 逐日 tier 為真實評估值。口語化氣象數值為示意。'},
  en:{title:'🌦️ Tokyo Tower — Forecast',sub:'Minato, Tokyo · Elev 150 m · Asia/Tokyo · eval bundle 20261112T202312Z',
   th:['Hour','State','Subjects','Weather (plain)',''],ok:'Met',gen:'General',no:'Not met',na:'Off-window',
   today:'Today',tomorrow:'Tomorrow',notes:'Design notes — decisions × design-review findings',
   kv:[['Temp','Wind','Wind','Humidity','Low cloud','Mid cloud','High cloud','LCL','Visibility'],['°C','m/s','','%','%','%','%','m','']],
   wind:['calm','light','strong'],vis:['Visibility excellent','good','fair','poor'],
-  dnotes:{n1a:'Date groups + collapse',n1b:'Hour column = anchor',n1c:'Collapsed off-window',n2a:'Single state per hour',n2b:'Plain-weather wording',n2c:'Detail disclosure',n3a:'Hour cards (mobile)',n3b:'Mini color band',n3c:'Scrollable day tabs'},
+  dnotes:{n1a:'Date groups + collapse',n1b:'Hour column = anchor',n1c:'Collapsed off-window',n2a:'Single state per hour',n2b:'Plain-weather wording',n2c:'Detail disclosure',n3a:'Hour cards (mobile)',n3b:'Mini color band',n3c:'Scrollable day tabs',n3d:'Member entry (DESIGN-3b)'},
+  nav_cards:'Cards',nav_weathermap:'Weather map',nav_reminders:'Reminders',
+  login:'Log in',member_name:'Dawn Chaser',avatar_ch:'D',menu_fav:'Favorites',menu_rem:'Reminders',menu_profile:'Account',menu_logout:'Log out',
   dsrc:'Data samples: real subject-cards values for jp-011 Tokyo Tower — 2026-11-16 tier=recommend (clear): ✓Overlook 06:00–16:00, ✓City night 00:00–04:00; off-window 05:00 · 18:00–23:00. Daily tiers 11/14–21 are real. Weather figures illustrative.'},
  ja:{title:'🌦️ 東京タワー — 天気予報',sub:'東京都港区 · 標高 150 m · Asia/Tokyo · 評価層 bundle 20261112T202312Z',
   th:['時刻','状態','適合題材','口語天気',''],ok:'適合',gen:'一般撮影',no:'未達',na:'時間帯外',
   today:'今日',tomorrow:'明日',notes:'デザインメモ — 決定事項 × design-review 対応',
   kv:[['気温','風速','風','湿度','低雲','中雲','高雲','凝結高度','視程'],['°C','m/s','','%','%','%','%','m','']],
   wind:['無風','微風','強風'],vis:['視程最高','視程良','視程普通','視程不良'],
-  dnotes:{n1a:'日付グループ＋折りたたみ',n1b:'時刻列＝アンカー',n1c:'時間帯外の折りたたみ',n2a:'1時間1状態',n2b:'口語天気',n2c:'詳細展開',n3a:'時間カード化',n3b:'ミニカラーバンド',n3c:'日タブ横スクロール'},
+  dnotes:{n1a:'日付グループ＋折りたたみ',n1b:'時刻列＝アンカー',n1c:'時間帯外の折りたたみ',n2a:'1時間1状態',n2b:'口語天気',n2c:'詳細展開',n3a:'時間カード化',n3b:'ミニカラーバンド',n3c:'日タブ横スクロール',n3d:'会員エントリー（DESIGN-3b）'},
+  nav_cards:'カード',nav_weathermap:'天気マップ',nav_reminders:'撮影リマインダー',
+  login:'ログイン',member_name:'暁の旅人',avatar_ch:'暁',menu_fav:'お気に入り',menu_rem:'リマインド一覧',menu_profile:'会員情報',menu_logout:'ログアウト',
   dsrc:'データ例：jp-011 東京タワー subject-cards 実値 — 2026-11-16 tier=recommend（clear）。11/14–21 の日別 tier は実値。天気数値はダミー。'}
 };
 const G={overlook:['眺望','Overlook','眺望'],city_night:['夜景','City night','夜景']};
@@ -274,6 +351,53 @@ const WX={ // hour: [state, subjects[], weather(plain), detail]
 let lang='zh-TW',selDay=2;
 const t=()=>I18N[lang];
 const g=k=>(G[k]||[k,k,k])[lang==='zh-TW'?0:lang==='en'?1:2];
+
+/* DESIGN-3a — 日期列橫移：拖曳＋慣性＋所選(今天) tab 置中 */
+function initDragScroll(el){
+  if(!el||el._dragInit)return;el._dragInit=true;
+  let down=false,moved=false,startX=0,startSL=0,lastX=0,lastT=0,vel=0,raf=0;
+  el.addEventListener('pointerdown',e=>{
+    if(e.button!==0||(e.pointerType!=='mouse'&&e.pointerType!=='pen'))return;
+    down=true;moved=false;startX=lastX=e.clientX;startSL=el.scrollLeft;
+    lastT=performance.now();vel=0;cancelAnimationFrame(raf);el.classList.add('dragging');
+  });
+  window.addEventListener('pointermove',e=>{
+    if(!down)return;
+    if(!moved&&Math.abs(e.clientX-startX)<5)return;
+    if(!moved){moved=true;el.style.scrollSnapType='none';}
+    e.preventDefault();
+    el.scrollLeft=startSL-(e.clientX-startX);
+    const now=performance.now(),dt=(now-lastT)||16;
+    vel=(e.clientX-lastX)/dt;lastX=e.clientX;lastT=now;
+  },{passive:false});
+  window.addEventListener('pointerup',()=>{
+    if(!down)return;down=false;el.classList.remove('dragging');
+    if(!moved)return;
+    let v=-vel; // px/ms，續滑方向＝拖曳方向
+    if(Math.abs(v)>0.02){
+      const step=()=>{
+        el.scrollLeft+=v*16;v*=0.95;
+        const max=el.scrollWidth-el.clientWidth;
+        if(Math.abs(v)>0.05&&el.scrollLeft>0&&el.scrollLeft<max){raf=requestAnimationFrame(step);}
+        else{el.style.scrollSnapType='';}
+      };
+      raf=requestAnimationFrame(step);
+    }else{el.style.scrollSnapType='';}
+  });
+  el.addEventListener('click',e=>{ // 拖曳後不誤觸日期切換
+    if(moved){e.preventDefault();e.stopPropagation();moved=false;}
+  },true);
+}
+function centerSel(el){
+  if(!el)return;const c=el.querySelector('.sel');if(!c)return;
+  const apply=()=>{
+    const rel=c.getBoundingClientRect().left-el.getBoundingClientRect().left+el.scrollLeft;
+    const target=rel-(el.clientWidth-c.offsetWidth)/2;
+    el.scrollLeft=Math.max(0,Math.min(target,el.scrollWidth-el.clientWidth));
+  };
+  apply();
+  setTimeout(apply,320); // 待 max-width 轉場（.25s）結束後再校正一次
+}
 
 function stChip(st){
   const s=t();
@@ -356,6 +480,7 @@ function toggleDetail(btn,h){
 }
 function render(){
   const s=t();
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t()[k])el.textContent=t()[k];});
   document.getElementById('h-place').textContent=s.title;
   document.getElementById('h-sub').textContent=s.sub;
   document.getElementById('notes-t').textContent=s.notes;
@@ -363,18 +488,28 @@ function render(){
   document.getElementById('n1c').textContent=s.dnotes.n1c;document.getElementById('n2a').textContent=s.dnotes.n2a;
   document.getElementById('n2b').textContent=s.dnotes.n2b;document.getElementById('n2c').textContent=s.dnotes.n2c;
   document.getElementById('n3a').textContent=s.dnotes.n3a;document.getElementById('n3b').textContent=s.dnotes.n3b;
-  document.getElementById('n3c').textContent=s.dnotes.n3c;document.getElementById('n-src').textContent=s.dsrc;
+  document.getElementById('n3c').textContent=s.dnotes.n3c;document.getElementById('n3d').textContent=s.dnotes.n3d;document.getElementById('n-src').textContent=s.dsrc;
   document.getElementById('daytabs').innerHTML=DAYS.map((d,i)=>
     `<button class="day-tab${i===selDay?' sel':''}" data-i="${i}">
       <span class="d1">${['週六','週日','週一','週二','週三','週四','週五','週六'][i]}</span>
       <span class="d2">${d[0]}</span>
       <span class="dot dot-${d[1]}"></span></button>`).join('');
+  centerSel(document.getElementById('daytabs'));
   document.getElementById('band').innerHTML=bandHTML();
   document.getElementById('groups').innerHTML=DAYS.map((_,i)=>groupHTML(i)).join('');
 }
 render();
+initDragScroll(document.getElementById('daytabs'));
 document.getElementById('lang-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;
   document.querySelectorAll('#lang-grp button').forEach(x=>x.classList.toggle('on',x===b));render();});
+/* DESIGN-3b 會員入口：兩態切換＋下拉 */
+const mz=document.getElementById('member-zone'),mbtn=document.getElementById('member');
+document.getElementById('auth-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#auth-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  mz.className='member-zone '+(b.dataset.auth==='in'?'in':'out');mbtn.classList.remove('open');});
+mbtn.addEventListener('click',e=>{e.stopPropagation();mbtn.classList.toggle('open');});
+document.addEventListener('click',e=>{if(!mbtn.contains(e.target))mbtn.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')mbtn.classList.remove('open');});
 document.getElementById('vp-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
   document.querySelectorAll('#vp-grp button').forEach(x=>x.classList.toggle('on',x===b));
   document.getElementById('shell').classList.toggle('vp390',b.dataset.vp==='390');});
