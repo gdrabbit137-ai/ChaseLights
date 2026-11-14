@@ -136,7 +136,7 @@ test('CL-UI-71 (5): the old 「本日最佳題材」 render path is retired from
   assert.ok(!createSpotCardBlock.includes('v2-chip-ok'), 'hours chip retired');
   assert.ok(!createSpotCardBlock.includes('scShortsHtml'), 'chip second line retired');
   // uniform chain: curated rows → same-format fallback → honest none line
-  assert.match(createSpotCardBlock, /class="shooting-summary">\$\{clSummaryHtml\|\|clFallbackRows\|\|v2Summary\|\|/);
+  assert.match(createSpotCardBlock, /class="shooting-summary">\$\{clSummaryHtml\|\|clFallbackRows\|\|clNoWinRow\|\|v2Summary\|\|/);
   // the fallback uses the SAME row builder (one anatomy everywhere)
   assert.match(createSpotCardBlock, /clSubjectRowHtml\(\{name:d\(\)\.v2_tier_shootable,window:v2Best\.hoursList\},false\)/);
   // the reminder mount (data-rem-opp) survives on the honest none line
@@ -145,8 +145,8 @@ test('CL-UI-71 (5): the old 「本日最佳題材」 render path is retired from
   assert.match(createSpotCardBlock, /class="cl-subject-rows"/);
 });
 
-test('CL-UI-71 (6): cache-bust stamp — app.js advanced to clui94 (app.css follows at clui94 per CL-UI-72)', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui94/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui94/);
+test('CL-UI-71 (6): cache-bust stamp — app.js advanced to clui95 (app.css follows at clui95 per CL-UI-72)', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui95/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui95/);
   assert.ok(!indexSource.includes('app.js?v=clui75'), 'stale app.js stamp retired');
 });

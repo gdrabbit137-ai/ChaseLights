@@ -1658,6 +1658,11 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;const key=canon(tris);if(!seen.has(key))seen.set(key,{name:tris[currentLang]||tris['zh-TW']||'',window:[]});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
       const clSubjBell=`<button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="${esc(spot.spot_id)}" data-rem-compact="1"></button>`;
       const clSubjectRowHtml=(entry,hidden)=>`<div class="cl-subject-row${hidden?' cl-subject-extra':''}"${hidden?' hidden':''}><span class="cl-subject-name">${esc(entry.name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window">${esc(formatHourSegments(entry.window))}</span>${clSubjBell}</div>`;
+      // CL-UI-91 (owner): tier rows ride the SAME cl-subject-row anatomy —
+      // tier + short note in the name slot, the next qualifying window stamp
+      // in the window slot (empty honestly when none is known) — never a
+      // separate format.
+      const clTierRowHtml=(name,stamp,opp)=>`<div class="cl-subject-rows"><div class="cl-subject-row"><span class="cl-subject-name">${esc(name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window">${stamp}</span><button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="${esc(spot.spot_id)}"${opp?` data-rem-opp="${esc(opp)}"`:''}></button></div></div>`;
       // CL-DATA-68: a TODAY shootable/not_recommended row whose curated
       // windows have ALL passed must not re-exhibit their past stamps as
       // if still shootable — the card renders the tier note line
@@ -1667,8 +1672,16 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const clSubjectExtra=scEntries.slice(3);
       const clSubjectMoreBtn=clSubjectExtra.length?`<button type="button" class="cl-subject-more" data-sc-more aria-expanded="false">${esc(d().clui69_more_subjects.replace('{n}',clSubjectExtra.length))}</button>`:'';
       const scPassedNote=(scTier==='shootable'||scTier==='not_recommended')&&scTierNote&&scEntries.length>0;
-      const clSubjectRows=scPassedNote?(()=>{const nm=(scTier==='shootable')?d().v2_tier_shootable+' · '+scTierNote:d().v2_tier_not_recommended+(scTierReason?' · '+scTierReason:'');return `<div class="cl-subject-rows">${clSubjectRowHtml({name:nm,window:[]},false)}</div>`;})():(()=>{if(scEntries.length===0)return '';return `<div class="cl-subject-rows">${scEntries.slice(0,3).map(e=>clSubjectRowHtml(e,false)).join('')}${clSubjectExtra.map(e=>clSubjectRowHtml(e,true)).join('')}${clSubjectMoreBtn}</div>`;})();
-      const clSummaryHtml=clSubjectRows?`${clSubjectRows}${(v2Best&&!v2Best.hours)?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}</div>`:''}`:'';
+      // CL-UI-91: the no-window tier identity is ONE row — tier (+ short
+      // note/reason) with the next qualifying window stamp in the window slot.
+      const clNoWinStamp=(v2Best&&v2Best.nextLocal)?esc(nextWindowStamp(v2Best.nextLocal,spot.timezone)):'';
+      const clNoWinName=(scTier==='shootable')?(d().v2_tier_shootable+(scTierNote?' · '+scTierNote:'')):(d().v2_tier_not_recommended+(scTierReason?' · '+scTierReason:''));
+      const clSubjectRows=scPassedNote?clTierRowHtml(clNoWinName,clNoWinStamp,v2Best&&v2Best.oppId):(()=>{if(scEntries.length===0)return '';return `<div class="cl-subject-rows">${scEntries.slice(0,3).map(e=>clSubjectRowHtml(e,false)).join('')}${clSubjectExtra.map(e=>clSubjectRowHtml(e,true)).join('')}${clSubjectMoreBtn}</div>`;})();
+      // CL-UI-91: the standalone 📅 本日無符合題材 line leaves the
+      // shootable/not_recommended cards — their tier row (clNoWinRow below)
+      // carries the next window in the SAME anatomy. Rowless/NOT_EVALUABLE
+      // days keep the honest 資料不足 line.
+      const clSummaryHtml=clSubjectRows?`${clSubjectRows}${(v2Best&&!v2Best.hours&&scTier!=='shootable'&&scTier!=='not_recommended')?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}</div>`:''}`:'';
       const opportunityName=v2Evaluated?opportunityDisplayName(spot,metric.opportunity_id,theme,metric.opportunity_name):v2NoEvalReasonText(spot);
       const indicator=(!researchPending&&!noViable&&v2Evaluated&&v2Best.state==='GUIDANCE_SATISFIED')?trMessage(metric.indicator_key):'';
       // CL-UI-83 (owner實測): the card-face green status banner (indicator pill)
@@ -1701,6 +1714,12 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // inventing a ✓ from the eval bundle's hours.
       const clFallbackRows=(()=>{if(!v2Evaluated||!v2Best||!v2Best.hours||clSubjectRows)return '';if(scRow&&scRow.tier==='not_recommended')return `<div class="cl-subject-rows">${clSubjectRowHtml({name:d().v2_tier_not_recommended+(scTierReason?' · '+scTierReason:''),window:[]},false)}</div>`;return `<div class="cl-subject-rows">${clSubjectRowHtml({name:d().v2_tier_shootable,window:v2Best.hoursList},false)}</div>`;})();
       const v2Summary=(v2Best&&!v2Best.hours)?`<div class="theme-winner v2-none">📅 ${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}${v2Best.nextLocal?` · ${esc(d().v2_next_window)}<b>${esc(nextWindowStamp(v2Best.nextLocal,spot.timezone))}</b>`:''}${remBtn}</div>${scSecondLine}`:'';
+      // CL-UI-91 (owner): the evaluated no-window cards — the deferred
+      // population (○可拍 窗已過 / ✗不宜) — render ONE tier row through the
+      // SAME cl-subject-row anatomy (clNoWinName + next window stamp +
+      // reminder bell). The 📅 standalone line and the duplicate second line
+      // retire from these cards; rowless days keep them (scTier null).
+      const clNoWinRow=(v2Evaluated&&v2Best&&!v2Best.hours&&(scTier==='shootable'||scTier==='not_recommended')&&!clSubjectRows)?clTierRowHtml(clNoWinName,clNoWinStamp,v2Best.oppId):'';
       const reasonHtml='';
       const distance=distanceToSpotKm(spot);const distanceChip=currentSortMode.startsWith('distance_')&&distance!==null?`<span class="metric-chip">📍 ${distance<10?distance.toFixed(1):Math.round(distance)} km</span>`:'';
       const compactMetrics=(researchPending||noViable)?(formatTemp(metric.temp)==='—'?'':tempChipHtml(metric.temp)):(()=>{
@@ -1724,7 +1743,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // page header already carries the unified GMT clock, so the row only
       // repeated on every card. If a multi-timezone card list is ever needed,
       // restore a tzAbbrLabel()-based label here (see fmtWindow()).
-      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><span class="tier tier-${clBadgeTier}">${esc(clBadgeLabel)}</span><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${clSummaryHtml||clFallbackRows||v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${clElevPill}${clSunPill}${compactMetrics}${distanceChip}</span></div>${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().weather_link)}>${toolButtonInner(d().weather_link)}</a>${navTool}<a href="${weatherMapDeepLinkUrl(spot)}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a></div></div>`;
+      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><span class="tier tier-${clBadgeTier}">${esc(clBadgeLabel)}</span><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${clSummaryHtml||clFallbackRows||clNoWinRow||v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${clElevPill}${clSunPill}${compactMetrics}${distanceChip}</span></div>${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().weather_link)}>${toolButtonInner(d().weather_link)}</a>${navTool}<a href="${weatherMapDeepLinkUrl(spot)}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a></div></div>`;
       card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openWeatherModal(spot,metric);};
       const scMoreBtn=card.querySelector('[data-sc-more]');
       if(scMoreBtn){scMoreBtn.onclick=e=>{e.stopPropagation();const extras=card.querySelectorAll('.cl-subject-extra');const open=scMoreBtn.getAttribute('aria-expanded')==='true';extras.forEach(el=>{el.hidden=open;});scMoreBtn.setAttribute('aria-expanded',open?'false':'true');scMoreBtn.textContent=open?d().clui69_more_subjects.replace('{n}',clSubjectExtra.length):d().clui69_less;};}
@@ -1935,6 +1954,29 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       return Number.POSITIVE_INFINITY;
     }
 
+    // CL-UI-91 (owner ruling): the subject chip narrows ONLY the ✓推薦 layer.
+    // ○可拍 (general baseline passes) and ✗不宜 (general baseline fails) are
+    // chip-INDEPENDENT classifications — a shootable/not_recommended row
+    // passes the chip filter regardless of the active chip, so no chip can
+    // zero a tier tab (owner-observed: 日出 chip wiped 可拍 to 0 because the
+    // derived shootable/not_recommended rows carry no `suitable` entries for
+    // the chip keys to match). Chip × shootable/not_recommended affects only
+    // display ordering (clui91ChipBoost), never membership or counts.
+    function clui91ChipFilterPass(row){
+      if(currentSubject==='all')return true;
+      return clui66SpotTier(row.spot)!=='recommend'||clui66SpotSubjectKeys(row.spot).includes(currentSubject);
+    }
+    // CL-UI-91: stable display-ordering boost for the chip-independent tiers —
+    // rows whose subject windows include the chip surface first. A no-op for
+    // shootable/not_recommended rows in the current artifact (they carry no
+    // suitable entries), forward-compatible if per-subject windows land there.
+    function clui91ChipBoost(rows){
+      if(currentSubject==='all')return rows;
+      const hit=[],rest=[];
+      for(const row of rows)(clui66SpotSubjectKeys(row.spot).includes(currentSubject)?hit:rest).push(row);
+      return hit.concat(rest);
+    }
+
     function filterAndRender(){
       syncFilterHighlights();
       const container=document.getElementById('spots-container');container.innerHTML='';if(!currentData)return;
@@ -1972,9 +2014,13 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       }
       let tierRows=rowsAll;
       if(currentTier!=='all')tierRows=tierRows.filter(row=>clui66SpotTier(row.spot)===currentTier);
-      if(currentSubject!=='all')tierRows=tierRows.filter(row=>clui66SpotSubjectKeys(row.spot).includes(currentSubject));
+      // CL-UI-91: the chip narrows only the ✓推薦 layer (see clui91ChipFilterPass).
+      if(currentSubject!=='all')tierRows=tierRows.filter(clui91ChipFilterPass);
       const effSort=clui66EffectiveSort();
       sortRows(tierRows,effSort);
+      // CL-UI-91: chip display-ordering for the chip-independent tiers
+      // (skipped in region mode, where geographic grouping owns the order).
+      if(effSort!=='region')tierRows=clui91ChipBoost(tierRows);
       const sortSel=document.getElementById('spot-sort');if(sortSel)sortSel.value=effSort;
       updateFilterResultSummary(tierRows.length,effSort);
       const filterActive=currentTier!=='all'||currentSubject!=='all';
