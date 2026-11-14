@@ -80,6 +80,10 @@ ROOT = Path(__file__).resolve().parents[3]
 COPY_DIR = ROOT / "data/v2/copy"
 EVAL_DIR = ROOT / "data/v2/evaluations"
 WEATHER_DIR = ROOT / "weather_details"
+# CL-CI-37: committed same-run weather input snapshot (see load_place_hourly_weather).
+WEATHER_SNAPSHOT = None
+SNAPSHOT_SCHEMA = "subject-cards-weather-input@1"
+SNAPSHOT_HOUR_FIELDS = ("time", "visibility", "precipitation", "rh", "sun_elevation")
 DETAILS_DIR = ROOT / "apps/web-v2/evaluations-details"
 
 STATUS_CLEAR = "clear"
@@ -182,6 +186,14 @@ def general_view_scale(genre_templates):
 
 
 def load_place_hourly_weather(place_id):
+    # CL-CI-37: when a committed same-run weather snapshot is active, the
+    # derivation reads it instead of the sliding weather_details window —
+    # the artifact becomes byte-reproducible from committed inputs alone
+    # (the CI sparse checkout has no /weather_details/ at all: 1.2G), and
+    # the auto-update bots moving weather_details can no longer rot the
+    # determinism tests red between refreshes.
+    if WEATHER_SNAPSHOT is not None:
+        return WEATHER_SNAPSHOT.get("places", {}).get(place_id, {})
     """Committed hourly weather for a place, grouped by local_date.
 
     weather_details/<region>/<place_id>.json is the W1 detail artifact; its
@@ -578,11 +590,38 @@ def latest_bundle_path():
     return bundles[-1]
 
 
+def load_weather_snapshot(path):
+    """CL-CI-37: load a committed same-run weather input snapshot."""
+    doc = json.loads(Path(path).read_bytes().decode("utf-8"))
+    if doc.get("schema") != SNAPSHOT_SCHEMA:
+        raise ValueError("weather snapshot schema mismatch: %s" % doc.get("schema"))
+    return doc
+
+
+def write_weather_snapshot(path, weather_cache, bundle_name):
+    """CL-CI-37: freeze the exact derivation inputs (grouped hour rows,
+    filtered to the fields the general baseline reads) so the artifact is
+    byte-reproducible from committed files alone."""
+    slim = {}
+    for place_id, by_date in sorted(weather_cache.items()):
+        slim[place_id] = {
+            date: [{k: h.get(k) for k in SNAPSHOT_HOUR_FIELDS} for h in hours]
+            for date, hours in sorted(by_date.items())
+        }
+    doc = {"schema": SNAPSHOT_SCHEMA, "source_bundle": bundle_name, "places": slim}
+    text = json.dumps(doc, ensure_ascii=False, sort_keys=True, indent=1) + "\n"
+    with open(path, "wb") as fh:
+        fh.write(text.encode("utf-8"))
+    return doc
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="CL-UI-62: build the derived subject-card layer from an evaluation bundle.")
     ap.add_argument("--bundle", help="path to an evaluation bundle JSON")
     ap.add_argument("--latest", action="store_true", help="use newest bundle in data/v2/evaluations")
     ap.add_argument("--out", help="output path (default: stdout)")
+    ap.add_argument("--weather-snapshot", help="CL-CI-37: derive from this committed same-run weather input snapshot instead of the sliding weather_details window")
+    ap.add_argument("--write-weather-snapshot", help="CL-CI-37: freeze the consumed weather inputs to this path (committed alongside the artifact)")
     args = ap.parse_args(argv)
 
     if not args.bundle and not args.latest:
@@ -593,8 +632,38 @@ def main(argv=None):
     # column does not share (fail-fast instead of a contradictory render).
     assert_same_run_as_details(path)
 
+    snapshot_doc = None
+    if args.weather_snapshot:
+        global WEATHER_SNAPSHOT
+        snapshot_doc = load_weather_snapshot(args.weather_snapshot)
+        WEATHER_SNAPSHOT = snapshot_doc
+
     genres, fails = load_copy()
-    out, unknown = derive_place_days(read_bundle(path), genres, fails)
+    recorded_cache = {}
+    if args.write_weather_snapshot:
+        real_loader = load_place_hourly_weather
+        def recording_loader(place_id, _real=real_loader, _cache=recorded_cache):
+            if place_id not in _cache:
+                _cache[place_id] = _real(place_id)
+            return _cache[place_id]
+        # derive_place_days reads the module-level loader through the
+        # module namespace; patch it there so the wrapper sees every call.
+        globals()["load_place_hourly_weather"] = recording_loader
+        try:
+            out, unknown = derive_place_days(read_bundle(path), genres, fails)
+        finally:
+            globals()["load_place_hourly_weather"] = real_loader
+    else:
+        out, unknown = derive_place_days(read_bundle(path), genres, fails)
+    if args.write_weather_snapshot:
+        snap_path = args.write_weather_snapshot
+        write_weather_snapshot(snap_path, recorded_cache, Path(path).name)
+    if args.weather_snapshot or args.write_weather_snapshot:
+        snap_name = Path(args.weather_snapshot or args.write_weather_snapshot).name
+        import hashlib
+        sha = hashlib.sha256(Path(args.weather_snapshot or args.write_weather_snapshot).read_bytes()).hexdigest()
+        out["derived_from"]["weather_snapshot"] = snap_name
+        out["derived_from"]["weather_snapshot_sha256"] = sha
     if unknown:
         ap.exit(2, "FAIL: metrics/genres missing from the copy dictionaries: %s\n" % sorted(unknown))
     text = json.dumps(out, ensure_ascii=False, indent=1, sort_keys=True) + "\n"

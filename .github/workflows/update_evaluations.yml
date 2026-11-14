@@ -50,7 +50,13 @@ jobs:
         # (derived_from.source_bundle + source_bundle_sha256).
         run: |
           newest_bundle=$(ls -t data/v2/evaluations/bundle-*.json | head -n 1)
+          # CL-CI-37: --write-weather-snapshot freezes the consumed weather
+          # inputs to a stable pointer committed alongside the artifact, so
+          # the subject-cards determinism tests re-derive from committed
+          # bytes instead of the sliding weather_details window (absent from
+          # the CI sparse checkout entirely).
           python data/v2/tools/build_subject_cards.py --bundle "$newest_bundle" \
+            --write-weather-snapshot data/v2/evaluations/subject-cards-weather-input.json \
             --out data/v2/evaluations/subject-cards-20261112T202312Z.json
       - name: Gate — artifact-coupled node tests stay green (CL-CI-36)
         # Root-cure for the "refresh breaks test pins" loop: the refresh must

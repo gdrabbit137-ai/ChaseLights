@@ -403,8 +403,12 @@ def main():
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
             ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 235, True, False),  # CL-CI-22 re-anchor 201->204; CL-INT-91 +6 -> 210; CL-CI-31b +4 -> 214; CL-CI-33 re-anchor 214->217; CL-DATA-56 +6 -> 223; CL-CI-36B re-anchor 223->235 (measured on task/CL-CI-36B merged tree: 235 pass / 0 fail, Windows python 3.14, no skip)
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 15, True, False),
-            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], 253, True, False,  # CL-CI-22 re-anchor 71->109 (CL-DATA-25..28 suites); CL-CI-33 re-anchor 135->184 (measured on merged tree a7b75259b: 184 pass / 0 fail); CL-DATA-66 merged re-anchor 217->253 (measured on merged tree: 253 pass / 0 fail, Windows python 3.14)
-                {"timeout": 900}),  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under; CL-CI-33 raised to 900s for local verification headroom
+            ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], None, True, False,  # CL-CI-22 re-anchor 71->109 (CL-DATA-25..28 suites); CL-CI-33 re-anchor 135->184 (measured on merged tree a7b75259b: 184 pass / 0 fail); CL-DATA-66 merged re-anchor 217->253 (measured on merged tree: 253 pass / 0 fail, Windows python 3.14)
+                {"timeout": 900,  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under; CL-CI-33 raised to 900s for local verification headroom
+                 # CL-CI-37 (CL-CI-36 pattern): the exact 253 pin rotted red on every
+                 # data/test-adding merge (observed 312 on the CL-UI-73 tree);
+                 # growth-tolerant floor keeps the unregistered-drop protection.
+                 "min_tests": 253}),
             ("w2-real-records", [sys.executable, "specs/v2/tests/validate_contract.py",
                 *[str(p.relative_to(root)) for p in sorted((root / "data/v2/opportunities").glob("*.json"))]],
                 None, False, False),
