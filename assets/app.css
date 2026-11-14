@@ -1232,7 +1232,10 @@
 }
 .deferred-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  /* CL-UI-91 (owner): the deferred group's cards use the SAME multi-column
+     list grid as the main cards — the old full-width single-column layout is
+     retired so no card population renders a second card format. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--cl-sp-4);
   padding: var(--cl-sp-4);
 }
