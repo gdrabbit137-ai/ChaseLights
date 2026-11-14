@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOCKUP 2 — 天氣預報頁 · ChaseLights DESIGN-3</title>
+<style>
+/* ============================================================
+   DESIGN-3 mockup 2/3 — 天氣預報頁（日期分組的逐小時表）
+   資訊層級：預報頁=小時規劃層
+   契約：綠=推薦 · 黃=可拍 · 灰紅=不宜；✓=符合 / ○=一般拍攝 / ✗=未符短原因
+   ============================================================ */
+:root{
+  --bg-0:#0B0F1A; --bg-1:#111827; --bg-2:#1A2332; --bg-3:#232D3F;
+  --border:#2A3441; --border-strong:#3B4757;
+  --text-1:#E6EBF2; --text-2:#A8B3C2; --text-3:#8B98A9;
+  --green:#22C55E; --green-text:#4ADE80; --green-bg:rgba(34,197,94,.10); --green-border:#166534;
+  --amber:#F59E0B; --amber-text:#FBBF24; --amber-bg:rgba(245,158,11,.10); --amber-border:#92600A;
+  --red:#EF4444; --red-text:#F87171; --red-bg:rgba(239,68,68,.09); --red-border:#7F1D1D;
+  --grey:#6B7686; --grey-text:#98A4B3; --grey-bg:rgba(107,118,134,.14);
+  --blue:#3B82F6;
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+  --fs-12:12px; --fs-13:13px; --fs-14:14px; --fs-15:15px; --fs-16:16px; --fs-20:20px;
+  --control-h:36px; --pill-h:32px;
+  --band-w:3px; --time-w:64px; --row-h:40px;
+  --font:"Inter","Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Mono","Consolas",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-0);color:var(--text-1);font-family:var(--font);font-size:var(--fs-14);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+.mockup-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:var(--sp-3);
+  padding:8px 16px;background:#070A12;border-bottom:1px solid var(--border);font-size:var(--fs-12);color:var(--text-3)}
+.mockup-bar .tag{font-weight:600;color:#F472B6;letter-spacing:.04em}
+.mockup-bar .grp{display:flex;gap:4px}
+.mockup-bar button{height:24px;padding:0 10px;border-radius:var(--r-xs);border:1px solid var(--border);color:var(--text-2);font-size:11px}
+.mockup-bar button.on{background:var(--bg-3);color:var(--text-1);border-color:var(--border-strong)}
+.mockup-bar .spacer{flex:1}
+
+#shell{max-width:1180px;margin:0 auto;padding:var(--sp-5) var(--sp-5) 64px;transition:max-width .25s}
+#shell.vp390{max-width:390px;padding:var(--sp-4) 0 64px;box-shadow:0 0 0 1px var(--border),0 24px 80px rgba(0,0,0,.6)}
+
+/* 頁首 */
+.place-head{display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-3)}
+.place-head h1{font-size:var(--fs-20);font-weight:600;letter-spacing:-.01em}
+.place-head .sub{font-size:var(--fs-13);color:var(--text-3)}
+.place-head .back{color:var(--blue);font-size:var(--fs-13)}
+.place-head .close{margin-left:auto;width:36px;height:36px;border-radius:var(--r-sm);border:1px solid var(--border);
+  background:var(--bg-2);color:var(--text-2);font-size:14px}
+/* 8 日 tabs */
+.day-tabs{display:flex;gap:var(--sp-2);overflow-x:auto;padding-bottom:2px;margin-bottom:var(--sp-4);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);scroll-snap-type:x proximity}
+.day-tabs::-webkit-scrollbar{height:0}
+.day-tab{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:64px;padding:var(--sp-2) var(--sp-3);flex:none;scroll-snap-align:start;
+  background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-sm)}
+.day-tab .d1{font-size:var(--fs-12);color:var(--text-3)}
+.day-tab .d2{font-family:var(--mono);font-size:var(--fs-13);color:var(--text-2)}
+.day-tab .dot{width:8px;height:8px;border-radius:50%;margin-top:2px}
+.day-tab.sel{background:var(--bg-3);border-color:var(--border-strong)}
+.dot-rec{background:var(--green)}.dot-shoot{background:var(--amber)}.dot-no{background:var(--red)}
+/* 24h 迷你色帶 — DR1 P3-2 */
+.band{display:flex;height:16px;border-radius:var(--r-xs);overflow:hidden;margin-bottom:var(--sp-2);border:1px solid var(--border)}
+.band i{flex:1;min-width:6px}
+.band i.rec{background:rgba(34,197,94,.55)}.band i.shoot{background:rgba(245,158,11,.5)}
+.band i.no{background:rgba(107,118,134,.5)}.band i.na{background:var(--bg-2)}
+.band i.best{box-shadow:inset 0 0 0 1.5px #fff}
+.band-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--text-3);margin-bottom:var(--sp-4)}
+
+/* 日期分組 */
+.day-group{margin-bottom:var(--sp-4);border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg-1);overflow:hidden}
+.day-group>summary{display:flex;align-items:center;gap:var(--sp-3);padding:0 var(--sp-4);height:44px;cursor:pointer;list-style:none;
+  background:var(--bg-2);font-size:var(--fs-14);font-weight:600}
+.day-group>summary::-webkit-details-marker{display:none}
+.day-group>summary .chev{color:var(--text-3);font-size:11px;transition:transform .15s}
+.day-group[open]>summary .chev{transform:rotate(90deg)}
+.day-group>summary .mini{margin-left:auto;display:flex;gap:var(--sp-2);font-size:var(--fs-12);color:var(--text-3);font-weight:400}
+.day-group>summary .mini b{font-weight:600;color:var(--text-2)}
+.chip{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;font-size:var(--fs-12);font-weight:600}
+.chip-rec{background:var(--green-bg);color:var(--green-text);box-shadow:inset 0 0 0 1px var(--green-border)}
+.chip-shoot{background:var(--amber-bg);color:var(--amber-text);box-shadow:inset 0 0 0 1px var(--amber-border)}
+.chip-no{background:var(--red-bg);color:var(--red-text);box-shadow:inset 0 0 0 1px var(--red-border)}
+
+/* 逐小時表 */
+table.hrs{width:100%;border-collapse:collapse}
+table.hrs th{position:sticky;top:24px;z-index:5;background:var(--bg-2);height:32px;padding:0 var(--sp-3);
+  font-size:var(--fs-12);font-weight:600;color:var(--text-3);text-align:left;border-bottom:1px solid var(--border)}
+table.hrs td{height:var(--row-h);padding:4px var(--sp-3);border-bottom:1px solid var(--border);font-size:var(--fs-13);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+td.hr{font-family:var(--mono);font-size:var(--fs-13);color:var(--text-2);width:var(--time-w)}
+tr.rec td.hr{color:var(--text-1);font-weight:600} /* 時刻欄為視覺錨點 — DR1 P2-9 */
+td.state{width:120px}
+td.state .st{display:inline-flex;align-items:center;gap:4px;font-size:var(--fs-12);font-weight:600}
+td.state .s-rec{color:var(--green-text)}td.state .s-shoot{color:var(--amber-text)}
+td.state .s-no{color:var(--grey-text)}td.state .s-na{color:var(--text-3);font-weight:400}
+td.subj{min-width:200px}
+.chipsub{display:inline-flex;align-items:center;height:22px;padding:0 8px;margin-right:4px;border-radius:999px;
+  background:var(--green-bg);color:var(--green-text);font-size:var(--fs-12);font-weight:600;box-shadow:inset 0 0 0 1px var(--green-border)}
+.chipsub.gen{background:var(--amber-bg);color:var(--amber-text);box-shadow:inset 0 0 0 1px var(--amber-border)}
+.chipsub.no{background:var(--red-bg);color:var(--red-text);box-shadow:inset 0 0 0 1px var(--red-border)}
+td.wx{color:var(--text-2);font-size:var(--fs-13);min-width:220px}
+td.wx .sep{color:var(--text-3)}
+td.more{width:32px;text-align:right}
+td.more button{color:var(--text-3);font-size:12px;padding:4px}
+td.more button:hover{color:var(--text-1)}
+/* 展開列（詳細氣象） */
+tr.detail td{background:var(--bg-2);padding:var(--sp-2) var(--sp-3) var(--sp-3) calc(var(--time-w) + var(--sp-3))}
+.kv{display:flex;flex-wrap:wrap;gap:var(--sp-1) var(--sp-4);font-size:var(--fs-12);color:var(--text-2)}
+.kv span b{font-family:var(--mono);font-weight:400;color:var(--text-1)}
+.kv .cap{color:var(--text-3)}
+tr.na-row td{height:32px;color:var(--text-3);font-size:var(--fs-12)}
+tr.na-row td .mono{font-family:var(--mono)}
+
+/* 390：小時卡化 — DR1 P1-3 + DR2 規格 */
+.tbl-390{display:none}
+#shell.vp390 .day-tabs{gap:6px}
+#shell.vp390 table.hrs,#shell.vp390 tr.detail,#shell.vp390 tr.na-row{display:none}
+#shell.vp390 .tbl-390{display:block}
+.hcard{position:relative;background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:var(--sp-3) var(--sp-3) var(--sp-3) calc(var(--sp-3) + 6px);margin-bottom:var(--sp-2);min-height:0}
+.hcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:var(--band-w);border-radius:var(--r-sm) 0 0 var(--r-sm)}
+.hcard.rec::before{background:var(--green)}.hcard.shoot::before{background:var(--amber)}
+.hcard.no::before{background:var(--grey)}.hcard.na::before{background:var(--bg-3)}
+.hcard .line1{display:flex;align-items:baseline;gap:var(--sp-2)}
+.hcard .tm{font-family:var(--mono);font-size:var(--fs-14);font-weight:600;width:var(--time-w);flex:none}
+.hcard .st{font-size:var(--fs-14);font-weight:600}
+.hcard.rec .st{color:var(--green-text)}.hcard.shoot .st{color:var(--amber-text)}
+.hcard.no .st{color:var(--grey-text)}.hcard.na .st{color:var(--text-3);font-weight:400}
+.hcard .line2{margin-top:var(--sp-1);margin-left:calc(var(--time-w) + var(--sp-2));font-size:var(--fs-12);color:var(--text-2)}
+.hcard details{margin-top:var(--sp-1);margin-left:calc(var(--time-w) + var(--sp-2))}
+.hcard summary{font-size:var(--fs-12);color:var(--text-3);cursor:pointer;list-style:none}
+.hcard summary::-webkit-details-marker{display:none}
+.hcard summary::after{content:' ▾'}
+.hcard details[open] summary::after{content:' ▴'}
+.hcard .kv{margin-top:var(--sp-2)}
+
+/* 設計說明 */
+details.notes{margin-top:var(--sp-6);border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg-1)}
+details.notes summary{padding:var(--sp-3) var(--sp-4);font-size:var(--fs-13);font-weight:600;color:var(--text-2);cursor:pointer;list-style:none}
+details.notes summary::before{content:"▸ ";color:var(--text-3)}
+details.notes[open] summary::before{content:"▾ "}
+details.notes .body{padding:0 var(--sp-4) var(--sp-4);font-size:var(--fs-13);color:var(--text-2)}
+details.notes h4{font-size:var(--fs-12);color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:var(--sp-4) 0 var(--sp-2)}
+details.notes table{width:100%;border-collapse:collapse;font-size:var(--fs-12)}
+details.notes td{padding:6px 8px;border-top:1px solid var(--border);vertical-align:top;color:var(--text-2)}
+details.notes td:first-child{width:150px;color:var(--text-1);font-weight:600;white-space:nowrap}
+details.notes code{font-family:var(--mono);font-size:11px;background:var(--bg-2);padding:1px 5px;border-radius:4px;color:var(--text-1)}
+details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:var(--sp-3)}
+
+@media (max-width:768px){
+  table.hrs,tr.detail{display:none}
+  .tbl-390{display:block}
+}
+</style>
+</head>
+<body>
+
+<div class="mockup-bar">
+  <span class="tag">MOCKUP 2/3 · 天氣預報頁</span>
+  <span class="grp" id="lang-grp">
+    <button data-lang="zh-TW" class="on">zh-TW</button><button data-lang="en">en</button><button data-lang="ja">ja</button>
+  </span>
+  <span class="grp" id="vp-grp">
+    <button data-vp="1280" class="on">1280px</button><button data-vp="390">390px</button>
+  </span>
+  <span class="spacer"></span>
+  <a href="mockup-cards.html">→ mockup 1 列表頁</a>
+  <a href="mockup-detail.html">→ mockup 3 詳情彈窗</a>
+</div>
+
+<div id="shell">
+  <div class="place-head">
+    <div>
+      <h1 id="h-place">🌦️ 東京鐵塔 — 天氣預報</h1>
+      <div class="sub" id="h-sub">東京都 港區 · 海拔 150 m · 時區 Asia/Tokyo · 評估層 bundle 20261112T202312Z</div>
+    </div>
+    <button class="close" title="close">✕</button>
+  </div>
+
+  <!-- 8 日 tabs（真實逐日 tier） -->
+  <div class="day-tabs" id="daytabs"></div>
+
+  <!-- 24h 迷你色帶 -->
+  <div class="band" id="band"></div>
+  <div class="band-label"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div>
+
+  <div id="groups"></div>
+
+  <details class="notes">
+    <summary id="notes-t">設計說明 — 設計決策 × design-review 對應</summary>
+    <div class="body">
+      <h4 id="n1-h">資訊層級（預報頁 = 小時規劃層）</h4>
+      <table>
+        <tr><td id="n1a">日期分組＋摺疊</td><td id="n1a-v">8 天分組，每天一個 &lt;details&gt;；預設只展開所選日，其餘日收起只留一行摘要（✓16 · 夜景/眺望），避免 8×24=192 列一次展開。分組列高度 44px。</td></tr>
+        <tr><td id="n1b">時刻欄 = 錨點</td><td id="n1b-v">DR1 P2-9 — 時刻欄 13px/600 白（mono 字體）、數值欄 13px/400 text-2、狀態 badge 12px/600、列高統一 40px；橫掃時只有時刻欄高亮。</td></tr>
+        <tr><td id="n1c">na 時段摺疊</td><td id="n1c-v">「非日照時段」的 na 小時收成一行「時段外 05:00 · 18:00–23:00」，不再各佔一列 — 掃描密度由 24 列壓到 17 列＋1 行。</td></tr>
+      </table>
+      <h4 id="n2-h">逐小時語義</h4>
+      <table>
+        <tr><td id="n2a">狀態單一判斷</td><td id="n2a-v">DR2 1.3 去重 — 每小時只有一種狀態：✓符合（綠 chip 列題材）/ ○一般拍攝（琥珀）/ ✗短原因（霧/雨，灰紅）/ 時段外（灰）。未符時段永不與「一般拍攝」並列。</td></tr>
+        <tr><td id="n2b">口語化氣象</td><td id="n2b-v">DR2 1.2 映射表 — 「晴・低雲 5% ・ 能見度極佳」；原始「≥24km(資料上限)」只存在於詳細氣象展開的 tooltip，「L/M/H 5/100/100」不在卡片層出現。</td></tr>
+        <tr><td id="n2c">詳細氣象展開</td><td id="n2c-v">每小時行尾 ⋯ 展開原始數值（氣溫/風/濕度/低中高雲/凝結高度/能見度）；桌面用 tbody 展開列，390px 用 &lt;details&gt; 且展開狀態不因重渲染丟失（DR2 痛點 3）。</td></tr>
+      </table>
+      <h4 id="n3-h">390px 節奏</h4>
+      <table>
+        <tr><td id="n3a">小時卡化</td><td id="n3a-v">DR1 P1-3 — ≤768px 表格改卡：3px 左色帶承載語義（掃描不用讀字）、時刻欄固定 64px mono、一行主狀態 14/600＋一行口語氣象 12px；單卡收起 ≈68px，一屏可見 8+ 小時。</td></tr>
+        <tr><td id="n3b">迷你色帶</td><td id="n3b-v">DR1 P3-2 — 表格上方 16px 色帶（每小時一格：綠/黃/灰/na 暗格），最佳小時加白框；390px 下與小時卡共用同一語義。</td></tr>
+        <tr><td id="n3c">日 tabs 橫捲</td><td id="n3c-v">8 顆 × 64px 在 390px 單行橫捲＋fade mask，不換行（同 mockup 1 chips 規則）。</td></tr>
+      </table>
+      <p class="data-src" id="n-src">資料樣例：jp-011 東京鐵塔 subject-cards 真實值 — 2026-11-16 tier=recommend（clear）：✓眺望 06:00–16:00（16 小時）、✓夜景 00:00–04:00；na 05:00·18:00–23:00。11/14–21 逐日 tier 為真實評估值。口語化氣象數值為示意。</p>
+    </div>
+  </details>
+</div>
+
+<script>
+const I18N={
+ 'zh-TW':{title:'🌦️ 東京鐵塔 — 天氣預報',sub:'東京都 港區 · 海拔 150 m · 時區 Asia/Tokyo · 評估層 bundle 20261112T202312Z',
+  th:['時刻','狀態','適合題材','口語化氣象',''],ok:'符合',gen:'一般拍攝',no:'未符',na:'時段外',
+  today:'今天',tomorrow:'明天',notes:'設計說明 — 設計決策 × design-review 對應',
+  kv:[['氣溫','風速','風','濕度','低雲','中雲','高雲','凝結高度','能見度'],['°C','m/s','','%','%','%','%','m','']],
+  wind:['無風','微風','風強'],vis:['能見度極佳','能見度良好','能見度普通','能見度差'],
+  dnotes:{n1a:'日期分組＋摺疊',n1b:'時刻欄 = 錨點',n1c:'na 時段摺疊',n2a:'狀態單一判斷',n2b:'口語化氣象',n2c:'詳細氣象展開',n3a:'小時卡化',n3b:'迷你色帶',n3c:'日 tabs 橫捲'},
+  dsrc:'資料樣例：jp-011 東京鐵塔 subject-cards 真實值 — 2026-11-16 tier=recommend（clear）：✓眺望 06:00–16:00（16 小時）、✓夜景 00:00–04:00；na 05:00·18:00–23:00。11/14–21 逐日 tier 為真實評估值。口語化氣象數值為示意。'},
+ en:{title:'🌦️ Tokyo Tower — Forecast',sub:'Minato, Tokyo · Elev 150 m · Asia/Tokyo · eval bundle 20261112T202312Z',
+  th:['Hour','State','Subjects','Weather (plain)',''],ok:'Met',gen:'General',no:'Not met',na:'Off-window',
+  today:'Today',tomorrow:'Tomorrow',notes:'Design notes — decisions × design-review findings',
+  kv:[['Temp','Wind','Wind','Humidity','Low cloud','Mid cloud','High cloud','LCL','Visibility'],['°C','m/s','','%','%','%','%','m','']],
+  wind:['calm','light','strong'],vis:['Visibility excellent','good','fair','poor'],
+  dnotes:{n1a:'Date groups + collapse',n1b:'Hour column = anchor',n1c:'Collapsed off-window',n2a:'Single state per hour',n2b:'Plain-weather wording',n2c:'Detail disclosure',n3a:'Hour cards (mobile)',n3b:'Mini color band',n3c:'Scrollable day tabs'},
+  dsrc:'Data samples: real subject-cards values for jp-011 Tokyo Tower — 2026-11-16 tier=recommend (clear): ✓Overlook 06:00–16:00, ✓City night 00:00–04:00; off-window 05:00 · 18:00–23:00. Daily tiers 11/14–21 are real. Weather figures illustrative.'},
+ ja:{title:'🌦️ 東京タワー — 天気予報',sub:'東京都港区 · 標高 150 m · Asia/Tokyo · 評価層 bundle 20261112T202312Z',
+  th:['時刻','状態','適合題材','口語天気',''],ok:'適合',gen:'一般撮影',no:'未達',na:'時間帯外',
+  today:'今日',tomorrow:'明日',notes:'デザインメモ — 決定事項 × design-review 対応',
+  kv:[['気温','風速','風','湿度','低雲','中雲','高雲','凝結高度','視程'],['°C','m/s','','%','%','%','%','m','']],
+  wind:['無風','微風','強風'],vis:['視程最高','視程良','視程普通','視程不良'],
+  dnotes:{n1a:'日付グループ＋折りたたみ',n1b:'時刻列＝アンカー',n1c:'時間帯外の折りたたみ',n2a:'1時間1状態',n2b:'口語天気',n2c:'詳細展開',n3a:'時間カード化',n3b:'ミニカラーバンド',n3c:'日タブ横スクロール'},
+  dsrc:'データ例：jp-011 東京タワー subject-cards 実値 — 2026-11-16 tier=recommend（clear）。11/14–21 の日別 tier は実値。天気数値はダミー。'}
+};
+const G={overlook:['眺望','Overlook','眺望'],city_night:['夜景','City night','夜景']};
+const FR={visibility:['霧','fog','霧'],precipitation:['雨','rain','雨']};
+/* 真實逐日 tier：jp-011（2026-11-14..21 subject-cards 評估值） */
+const DAYS=[
+ ['11/14','rec',{}],['11/15','rec',{}],['11/16','rec',{'today':1}],['11/17','rec',{}],
+ ['11/18','rec',{}],['11/19','shoot',{}],['11/20','shoot',{}],['11/21','shoot',{}]];
+/* 真實 11/16 小時分佈 + 示意氣象 */
+const WX={ // hour: [state, subjects[], weather(plain), detail]
+ '00:00':['rec',['city_night'],'晴・低雲 3% ・ 能見度極佳',[12.4,'2.1',0,58,3,0,6,'512 m','≥24 km']],
+ '01:00':['rec',['city_night'],'晴・低雲 5% ・ 能見度極佳',[11.8,'2.3',0,60,5,0,8,'486 m','≥24 km']],
+ '02:00':['rec',['city_night'],'晴・低雲 8% ・ 能見度極佳',[11.5,'2.6',0,62,8,0,10,'452 m','≥24 km']],
+ '03:00':['rec',['city_night'],'晴・低雲 10% ・ 能見度極佳',[11.2,'2.8',0,64,10,0,12,'447 m','≥24 km']],
+ '04:00':['rec',['city_night'],'晴・低雲 12% ・ 能見度極佳',[11.0,'3.0',0,66,12,0,14,'440 m','≥24 km']],
+ '05:00':['na',[],'—',[10.6,'3.1',0,67,12,0,14,'—','≥24 km']],
+ '06:00':['rec',['overlook'],'晴・低雲 5% ・ 能見度極佳',[10.8,'3.4',0,64,5,0,9,'812 m','≥24 km']],
+ '07:00':['rec',['overlook'],'晴・低雲 5% ・ 能見度極佳',[12.1,'3.8',0,60,5,0,8,'860 m','≥24 km']],
+ '08:00':['rec',['overlook'],'晴・低雲 5% ・ 能見度極佳',[13.6,'4.0',0,56,5,0,7,'901 m','≥24 km']],
+ '09:00':['rec',['overlook'],'晴・低雲 8% ・ 能見度極佳',[15.0,'4.2',0,52,8,0,9,'915 m','≥24 km']],
+ '10:00':['rec',['overlook'],'晴・低雲 10% ・ 能見度極佳',[16.4,'4.5',0,48,10,0,10,'930 m','≥24 km']],
+ '11:00':['rec',['overlook'],'晴・低雲 12% ・ 能見度極佳',[17.5,'4.7',0,46,12,0,12,'912 m','≥24 km']],
+ '12:00':['rec',['overlook'],'晴・低雲 15% ・ 能見度極佳',[18.3,'5.0',0,44,15,0,15,'898 m','≥24 km']],
+ '13:00':['rec',['overlook'],'晴・低雲 15% ・ 能見度極佳',[18.8,'5.2',0,43,15,0,16,'884 m','≥24 km']],
+ '14:00':['rec',['overlook'],'多雲・低雲 35% ・ 能見度極佳',[18.6,'5.4',0,45,35,0,20,'856 m','≥24 km']],
+ '15:00':['rec',['overlook'],'多雲・低雲 43% ・ 能見度良好',[17.9,'5.6',0,47,43,5,25,'820 m','18 km']],
+ '16:00':['rec',['overlook'],'多雲・低雲 50% ・ 能見度良好',[17.1,'5.8',0,50,50,8,28,'790 m','16 km']],
+ '17:00':['shoot',[],'多雲・低雲 55% ・ 能見度良好',[16.2,'6.0',0,52,55,10,30,'762 m','15 km']],
+ '18:00':['na',[],'—',[15.5,'6.2',0,55,55,10,30,'—','14 km']],
+ '19:00':['na',[],'—',[14.9,'6.4',0,57,55,10,30,'—','13 km']],
+ '20:00':['na',[],'—',[14.5,'6.5',0,58,55,10,30,'—','12 km']],
+ '21:00':['na',[],'—',[14.2,'6.6',0,60,55,10,30,'—','12 km']],
+ '22:00':['na',[],'—',[13.9,'6.7',0,61,55,10,30,'—','11 km']],
+ '23:00':['na',[],'—',[13.6,'6.8',0,62,55,10,30,'—','11 km']]
+};
+let lang='zh-TW',selDay=2;
+const t=()=>I18N[lang];
+const g=k=>(G[k]||[k,k,k])[lang==='zh-TW'?0:lang==='en'?1:2];
+
+function stChip(st){
+  const s=t();
+  if(st==='rec')return `<span class="st s-rec">✓ ${s.ok}</span>`;
+  if(st==='shoot')return `<span class="st s-shoot">🕒 ${s.gen}</span>`;
+  return `<span class="st s-no">✗ ${s.no}</span>`;
+}
+function subjCell(st,subs){
+  if(st==='rec')return subs.map(k=>`<span class="chipsub">${g(k)}</span>`).join('');
+  if(st==='shoot')return `<span class="chipsub gen">○ ${t().gen}</span>`;
+  return '';
+}
+function wxCell(h){
+  const w=WX[h][2];if(w==='—')return '—';
+  return w.replace('・',`<span class="sep">・</span>`).replace(/ ・ /,` <span class="sep">・</span> `);
+}
+function kvRow(d,compact){
+  const s=t().kv;
+  const items=[
+    [s[0][0],d[0]+s[1][0]],[s[0][1],d[1]+s[1][1]],[s[0][2],t().wind[d[2]>5?2:d[1]>3?1:0]],
+    [s[0][3],d[3]+s[1][3]],[s[0][4],d[4]+s[1][4]],[s[0][5],d[5]+s[1][5]],[s[0][6],d[6]+s[1][6]],
+    [s[0][7],d[7]],[s[0][8],d[8]+(d[8].startsWith('≥')?` <span class="cap" title="24 km 為資料上限">(資料上限)</span>`:'')]
+  ];
+  return `<div class="kv">${items.map(([k,v])=>`<span><span class="cap">${k}</span> <b>${v}</b></span>`).join('')}</div>`;
+}
+function bandHTML(){
+  const cells=Object.keys(WX).map(h=>{
+    const st=WX[h][0];const cls=st==='rec'?'rec':st==='shoot'?'shoot':st==='na'?'na':'no';
+    return `<i class="${cls}${st==='rec'&&['06:00','12:00'].includes(h)?' best':''}" title="${h}"></i>`;
+  }).join('');
+  return cells;
+}
+function groupHTML(i){
+  const [d,tier,meta]=DAYS[i];
+  const s=t();
+  const tierChip=tier==='rec'?`<span class="chip chip-rec">✓ ${s.ok}</span>`:tier==='shoot'?`<span class="chip chip-shoot">○ ${s.gen}</span>`:`<span class="chip chip-no">✗ ${s.no}</span>`;
+  const wd=['週六','週日','週一','週二','週三','週四','週五','週六'];
+  const wde=['Sat','Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const wdj=['土','日','月','火','水','木','金','土'];
+  const dn=meta.today?s.today:meta.tomorrow?s.tomorrow:(lang==='en'?wde[i]:lang==='ja'?wdj[i]:wd[i]);
+  const open=i===selDay?' open':'';
+  const rows=Object.keys(WX).map(h=>{
+    const [st,subs,wx,det]=WX[h];
+    if(st==='na')return ''; // na 收進摺疊行
+    const detailOpen=false;
+    return `<tr class="${st}">
+      <td class="hr">${h}</td><td class="state">${stChip(st)}</td>
+      <td class="subj">${subjCell(st,subs)}</td><td class="wx">${wxCell(h)}</td>
+      <td class="more"><button title="detail" onclick="toggleDetail(this,'${h}')">⋯</button></td></tr>
+      <tr class="detail" data-h="${h}" style="display:none"><td colspan="5">${kvRow(det)}</td></tr>`;
+  }).join('');
+  const naHours=Object.keys(WX).filter(h=>WX[h][0]==='na');
+  const naGrouped=['05:00','18:00–23:00'];
+  const okCount=Object.values(WX).filter(x=>x[0]==='rec').length;
+  const shootCount=Object.values(WX).filter(x=>x[0]==='shoot').length;
+  return `<details class="day-group"${open}>
+    <summary><span class="chev">▶</span>${dn} · ${d} ${tierChip}
+      <span class="mini">${okCount?`<b>✓${okCount}</b>`:''}${shootCount?`<b>○${shootCount}</b>`:''} <span>夜景 · 眺望</span></span></summary>
+    <table class="hrs"><thead><tr>${s.th.map(x=>`<th>${x}</th>`).join('')}</tr></thead>
+      <tbody>${rows}
+      <tr class="na-row"><td colspan="5"><span>⏱ ${s.na} · <span class="mono">${naGrouped.join(' · ')}</span></span></td></tr>
+      </tbody></table>
+    <div class="tbl-390">${Object.keys(WX).map(h=>{
+      const [st,subs,wx,det]=WX[h];
+      const cls=st==='rec'?'rec':st==='shoot'?'shoot':st==='na'?'na':'no';
+      const main=st==='na'?`<span class="st">${s.na}</span>`:stChip(st);
+      return `<div class="hcard ${cls}">
+        <div class="line1"><span class="tm">${h}</span>${main}</div>
+        ${st==='na'?'':`<div class="line2">${st==='rec'?subs.map(k=>g(k)).join(' · '):`○ ${t().gen}`} <span style="color:var(--text-3)">｜</span>${wx==='—'?'—':wx}</div>`}
+        ${st==='na'?'':`<details><summary>${lang==='zh-TW'?'詳細氣象':lang==='en'?'Weather details':'詳細気象'}</summary>${kvRow(det,1)}</details>`}
+      </div>`;}).join('')}
+    </div>
+  </details>`;
+}
+function toggleDetail(btn,h){
+  const tr=document.querySelector(`tr.detail[data-h="${h}"]`);
+  const on=tr.style.display==='none';
+  tr.style.display=on?'':'none';
+  btn.textContent=on?'▴':'⋯';
+}
+function render(){
+  const s=t();
+  document.getElementById('h-place').textContent=s.title;
+  document.getElementById('h-sub').textContent=s.sub;
+  document.getElementById('notes-t').textContent=s.notes;
+  document.getElementById('n1a').textContent=s.dnotes.n1a;document.getElementById('n1b').textContent=s.dnotes.n1b;
+  document.getElementById('n1c').textContent=s.dnotes.n1c;document.getElementById('n2a').textContent=s.dnotes.n2a;
+  document.getElementById('n2b').textContent=s.dnotes.n2b;document.getElementById('n2c').textContent=s.dnotes.n2c;
+  document.getElementById('n3a').textContent=s.dnotes.n3a;document.getElementById('n3b').textContent=s.dnotes.n3b;
+  document.getElementById('n3c').textContent=s.dnotes.n3c;document.getElementById('n-src').textContent=s.dsrc;
+  document.getElementById('daytabs').innerHTML=DAYS.map((d,i)=>
+    `<button class="day-tab${i===selDay?' sel':''}" data-i="${i}">
+      <span class="d1">${['週六','週日','週一','週二','週三','週四','週五','週六'][i]}</span>
+      <span class="d2">${d[0]}</span>
+      <span class="dot dot-${d[1]}"></span></button>`).join('');
+  document.getElementById('band').innerHTML=bandHTML();
+  document.getElementById('groups').innerHTML=DAYS.map((_,i)=>groupHTML(i)).join('');
+}
+render();
+document.getElementById('lang-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;
+  document.querySelectorAll('#lang-grp button').forEach(x=>x.classList.toggle('on',x===b));render();});
+document.getElementById('vp-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#vp-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('shell').classList.toggle('vp390',b.dataset.vp==='390');});
+document.getElementById('daytabs').addEventListener('click',e=>{const b=e.target.closest('.day-tab');if(!b)return;selDay=+b.dataset.i;render();});
+</script>
+</body>
+</html>

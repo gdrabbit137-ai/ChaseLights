@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOCKUP 3 — 卡片內容頁（詳情彈窗）· ChaseLights DESIGN-3</title>
+<style>
+/* ============================================================
+   DESIGN-3 mockup 3/3 — 詳情彈窗（知識查詢層）
+   結構：今日速覽 → 8 日方框 → 條件 ×N 摺疊 → 拍攝位置 → 指南
+   契約：綠=推薦 · 黃=可拍 · 灰紅=不宜
+   ============================================================ */
+:root{
+  --bg-0:#0B0F1A; --bg-1:#111827; --bg-2:#1A2332; --bg-3:#232D3F;
+  --border:#2A3441; --border-strong:#3B4757;
+  --text-1:#E6EBF2; --text-2:#A8B3C2; --text-3:#8B98A9;
+  --green:#22C55E; --green-text:#4ADE80; --green-bg:rgba(34,197,94,.10); --green-border:#166534;
+  --amber:#F59E0B; --amber-text:#FBBF24; --amber-bg:rgba(245,158,11,.10); --amber-border:#92600A;
+  --red:#EF4444; --red-text:#F87171; --red-bg:rgba(239,68,68,.09); --red-border:#7F1D1D;
+  --grey:#6B7686; --grey-text:#98A4B3; --grey-bg:rgba(107,118,134,.14);
+  --blue:#3B82F6;
+  --r-xs:6px; --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+  --fs-12:12px; --fs-13:13px; --fs-14:14px; --fs-15:15px; --fs-16:16px; --fs-20:20px;
+  --cell-h:46px; --cell-w:86px;
+  --font:"Inter","Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Mono","Consolas",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#060811;color:var(--text-1);font-family:var(--font);font-size:var(--fs-14);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+.mockup-bar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:var(--sp-3);
+  padding:8px 16px;background:#070A12;border-bottom:1px solid var(--border);font-size:var(--fs-12);color:var(--text-3)}
+.mockup-bar .tag{font-weight:600;color:#F472B6;letter-spacing:.04em}
+.mockup-bar .grp{display:flex;gap:4px}
+.mockup-bar button{height:24px;padding:0 10px;border-radius:var(--r-xs);border:1px solid var(--border);color:var(--text-2);font-size:11px}
+.mockup-bar button.on{background:var(--bg-3);color:var(--text-1);border-color:var(--border-strong)}
+.mockup-bar .spacer{flex:1}
+
+/* 遮罩＋彈窗 */
+#overlay{position:fixed;inset:0;background:rgba(4,7,14,.72);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 16px}
+.modal{width:100%;max-width:1180px;background:var(--bg-1);border:1px solid var(--border-strong);border-radius:var(--r-lg);
+  box-shadow:0 32px 96px rgba(0,0,0,.7);padding:var(--sp-5);transition:border-radius .25s,max-width .25s}
+.modal.fs{max-width:none;min-height:100%;border-radius:0;padding:var(--sp-4)}
+
+/* 頭 */
+.m-head{display:flex;align-items:flex-start;gap:var(--sp-3);margin-bottom:var(--sp-4)}
+.m-head h1{font-size:var(--fs-20);font-weight:600;letter-spacing:-.01em}
+.m-head .sub{font-size:var(--fs-13);color:var(--text-3);margin-top:2px}
+.m-head .r{margin-left:auto;display:flex;align-items:center;gap:var(--sp-2)}
+.tier{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:999px;font-size:var(--fs-12);font-weight:600}
+.tier-rec{background:var(--green-bg);color:var(--green-text);box-shadow:inset 0 0 0 1px var(--green-border)}
+.star{font-size:16px;color:var(--text-3)}.star.fav{color:var(--amber)}
+.close{width:44px;height:44px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--bg-2);color:var(--text-2);font-size:15px;flex:none}
+
+/* 今日速覽 */
+.quick{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;padding:var(--sp-3) var(--sp-4);
+  background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--r-md);margin-bottom:var(--sp-4)}
+.quick .q-t{font-size:var(--fs-13);font-weight:600;color:var(--green-text);flex:none}
+.quick .q-chip{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:999px;
+  background:rgba(34,197,94,.16);color:var(--green-text);font-size:var(--fs-12);font-weight:600}
+.quick .q-w{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-1)}
+.quick .q-wx{margin-left:auto;font-size:var(--fs-12);color:var(--text-2)}
+.quick .q-wx .sep{color:var(--text-3)}
+
+/* 節標題 */
+.sec-t{font-size:var(--fs-15);font-weight:600;margin:var(--sp-5) 0 var(--sp-3)}
+.sec-t small{font-size:var(--fs-12);color:var(--text-3);font-weight:400;margin-left:var(--sp-2)}
+
+/* 8 日方框 */
+.strip{display:grid;grid-template-columns:repeat(8,1fr);gap:var(--sp-2)}
+.cell{display:flex;flex-direction:column;justify-content:center;gap:2px;min-height:var(--cell-h);padding:var(--sp-1) var(--sp-2);
+  background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-sm);text-align:left}
+.cell .c-d{font-size:var(--fs-12);color:var(--text-3);display:flex;justify-content:space-between;align-items:center}
+.cell .c-t{font-size:var(--fs-12);font-family:var(--mono);color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell.ok{background:var(--green-bg);border-color:var(--green-border)}
+.cell.ok .c-d{color:var(--green-text)}
+.cell.mid{background:var(--amber-bg);border-color:var(--amber-border)}
+.cell.mid .c-d{color:var(--amber-text)}
+.cell.bad{background:var(--red-bg);border-color:var(--red-border)}
+.cell.bad .c-d{color:var(--red-text)}
+.cell.sel{outline:2px solid #fff;outline-offset:-2px}
+.badge-ok{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--green-text);background:rgba(34,197,94,.18);
+  padding:1px 5px;border-radius:4px}
+.badge-mid{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--amber-text);background:rgba(245,158,11,.18);
+  padding:1px 5px;border-radius:4px}
+
+/* 條件摺疊 */
+.cond{border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg-2);margin-bottom:var(--sp-2);overflow:hidden}
+.cond>summary{display:flex;align-items:center;gap:var(--sp-2);padding:0 var(--sp-3);height:40px;cursor:pointer;list-style:none;font-size:var(--fs-14);font-weight:600}
+.cond>summary::-webkit-details-marker{display:none}
+.cond>summary .chev{color:var(--text-3);font-size:11px;transition:transform .15s}
+.cond[open]>summary .chev{transform:rotate(90deg)}
+.cond>summary .n{margin-left:auto;font-family:var(--mono);font-size:var(--fs-12);color:var(--text-3);font-weight:400}
+.cond .body{padding:var(--sp-2) var(--sp-3) var(--sp-3);font-size:var(--fs-13);color:var(--text-2)}
+.c-row{display:flex;gap:var(--sp-2);padding:var(--sp-1) 0;align-items:baseline}
+.c-row .k{flex:none;width:56px;font-size:var(--fs-12);font-weight:600}
+.c-row .k.req{color:var(--green-text)}.c-row .k.boost{color:var(--amber-text)}.c-row .k.pen{color:var(--red-text)}
+
+/* 拍攝位置 */
+.loc{display:flex;gap:var(--sp-5);flex-wrap:wrap;align-items:center;background:var(--bg-2);border:1px solid var(--border);
+  border-radius:var(--r-md);padding:var(--sp-3) var(--sp-4)}
+.loc .col{display:flex;flex-direction:column;gap:2px}
+.loc .k{font-size:var(--fs-12);color:var(--text-3)}
+.loc .v{font-family:var(--mono);font-size:var(--fs-13);color:var(--text-1)}
+.loc .btns{margin-left:auto;display:flex;gap:var(--sp-2)}
+.loc .btn{display:inline-flex;align-items:center;height:var(--sp-5);height:40px;padding:0 var(--sp-4);border-radius:var(--r-sm);
+  border:1px solid var(--border);background:var(--bg-1);font-size:var(--fs-13);color:var(--text-1)}
+.loc .btn:hover{background:var(--bg-3);border-color:var(--border-strong)}
+
+/* 指南 */
+.tips{list-style:none;display:flex;flex-direction:column;gap:var(--sp-2)}
+.tips li{display:flex;gap:var(--sp-2);font-size:var(--fs-13);color:var(--text-2)}
+.tips li::before{content:'·';color:var(--text-3);font-weight:600}
+
+/* 資料狀態 */
+.prov{margin-top:var(--sp-4);padding-top:var(--sp-3);border-top:1px solid var(--border);
+  font-size:var(--fs-12);color:var(--text-3)}
+
+/* 設計說明 */
+details.notes{margin-top:var(--sp-6);border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg-1)}
+details.notes summary{padding:var(--sp-3) var(--sp-4);font-size:var(--fs-13);font-weight:600;color:var(--text-2);cursor:pointer;list-style:none}
+details.notes summary::before{content:"▸ ";color:var(--text-3)}
+details.notes[open] summary::before{content:"▾ "}
+details.notes .body{padding:0 var(--sp-4) var(--sp-4);font-size:var(--fs-13);color:var(--text-2)}
+details.notes h4{font-size:var(--fs-12);color:var(--text-3);text-transform:uppercase;letter-spacing:.05em;margin:var(--sp-4) 0 var(--sp-2)}
+details.notes table{width:100%;border-collapse:collapse;font-size:var(--fs-12)}
+details.notes td{padding:6px 8px;border-top:1px solid var(--border);vertical-align:top;color:var(--text-2)}
+details.notes td:first-child{width:150px;color:var(--text-1);font-weight:600;white-space:nowrap}
+details.notes code{font-family:var(--mono);font-size:11px;background:var(--bg-2);padding:1px 5px;border-radius:4px;color:var(--text-1)}
+details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:var(--sp-3)}
+
+/* 390：方框橫捲 46px */
+#overlay.p390 .modal{max-width:390px;min-height:100%;border-radius:0;padding:var(--sp-4)}
+#overlay.p390 .strip{display:flex;overflow-x:auto;gap:6px;scroll-snap-type:x proximity;scrollbar-width:none;
+  mask-image:linear-gradient(90deg,#000 calc(100% - 16px),transparent)}
+#overlay.p390 .strip::-webkit-scrollbar{display:none}
+#overlay.p390 .cell{flex:none;width:var(--cell-w);min-height:var(--cell-h);scroll-snap-align:start}
+#overlay.p390 .m-head{flex-wrap:wrap}
+#overlay.p390 .close{width:44px;height:44px}
+#overlay.p390 .loc .btns{margin-left:0;width:100%}
+#overlay.p390 .loc .btns .btn{flex:1}
+</style>
+</head>
+<body>
+
+<div class="mockup-bar">
+  <span class="tag">MOCKUP 3/3 · 卡片內容頁（詳情彈窗）</span>
+  <span class="grp" id="lang-grp">
+    <button data-lang="zh-TW" class="on">zh-TW</button><button data-lang="en">en</button><button data-lang="ja">ja</button>
+  </span>
+  <span class="grp" id="vp-grp">
+    <button data-vp="1280" class="on">1280px</button><button data-vp="390">390px</button>
+  </span>
+  <span class="spacer"></span>
+  <a href="mockup-cards.html">→ mockup 1 列表頁</a>
+  <a href="mockup-forecast.html">→ mockup 2 預報頁</a>
+</div>
+
+<div id="overlay">
+  <div class="modal" id="modal">
+    <!-- 頭 -->
+    <div class="m-head">
+      <div>
+        <h1 id="h-name">📍 崇德</h1>
+        <div class="sub" id="h-sub">花蓮縣 秀林鄉 · Asia/Taipei · 時間以景點當地時區顯示</div>
+      </div>
+      <div class="r">
+        <span class="tier tier-rec" id="tier">✓ 推薦</span>
+        <span class="star fav">★</span>
+        <button class="close">✕</button>
+      </div>
+    </div>
+
+    <!-- 今日速覽 -->
+    <div class="quick" id="quick">
+      <span class="q-t" id="q-t">今日速覽 · 11/16</span>
+      <span class="q-chip">日出 <span class="q-w">05:35–06:00</span></span>
+      <span class="q-chip">眺望 <span class="q-w">08:00–09:00</span></span>
+      <span class="q-chip">山景 <span class="q-w">16:25</span></span>
+      <span class="q-wx" id="q-wx">晴・低雲 5%<span class="sep">・</span>能見度極佳</span>
+    </div>
+
+    <!-- 8 日方框（真實逐日 tier：tw-034） -->
+    <div class="sec-t" id="t-strip">8 日拍攝機會 <small id="t-strip-s">點選日期查看當日預報 · 390px 橫向捲動</small></div>
+    <div class="strip" id="strip"></div>
+
+    <!-- 條件 ×N 摺疊 -->
+    <div class="sec-t" id="t-cond">拍攝條件 <small id="t-cond-s">依題材展開 · 必須 / 加分 / 扣分</small></div>
+    <div id="conds"></div>
+
+    <!-- 拍攝位置 -->
+    <div class="sec-t" id="t-loc">拍攝位置</div>
+    <div class="loc">
+      <div class="col"><span class="k" id="l-coord">座標（機位）</span><span class="v">24.1886°N, 121.5273°E</span></div>
+      <div class="col"><span class="k" id="l-elev">海拔</span><span class="v">332 m</span></div>
+      <div class="col"><span class="k" id="l-access">進出</span><span class="v" id="v-access" style="font-family:var(--font)">台 8 線中橫公路 · 停車場步行 5 分</span></div>
+      <div class="btns">
+        <button class="btn" id="b-map">📍 地圖</button>
+        <button class="btn" id="b-nav">🗺️ 導航</button>
+        <button class="btn" id="b-grid">🗺️ 天氣圖</button>
+      </div>
+    </div>
+
+    <!-- 指南 -->
+    <div class="sec-t" id="t-tips">拍攝指南</div>
+    <ul class="tips" id="tips"></ul>
+
+    <div class="prov" id="prov">資料：subject-cards 評估層 bundle 20261112T202312Z · 氣象 Open-Meteo（GFS）· 最後更新 11/14 07:00</div>
+
+    <details class="notes">
+      <summary id="notes-t">設計說明 — 設計決策 × design-review 對應</summary>
+      <div class="body">
+        <h4 id="n1-h">資訊層級（彈窗 = 知識查詢層）</h4>
+        <table>
+          <tr><td id="n1a">三段式結構</td><td id="n1a-v">今日速覽（3 秒：能不能拍＋時段）→ 8 日方框（掃描一週節奏）→ 條件/位置/指南（知識查詢）。速覽永遠在第一屏頂部。</td></tr>
+          <tr><td id="n1b">今日速覽</td><td id="n1b-v">綠面板（語義承載 tier）＋題材 chip 內嵌時段（mono）＋口語化氣象一句（DR2 1.2 映射）；不重複長句徽章（DR1 P2-7）。</td></tr>
+          <tr><td id="n1c">藍色退場</td><td id="n1c-v">DR1 P2-3 — 「拍攝位置」「拍攝指南」節標題改白 #E6EBF2 15/600；藍僅留給真連結。</td></tr>
+        </table>
+        <h4 id="n2-h">8 日方框</h4>
+        <table>
+          <tr><td id="n2a">格內雙行</td><td id="n2a-v">DR1 CL-UI-68 沿用：格內兩行（日標＋狀態行），不做 hover-only 資訊；✓n badge（mono）＋時段縮寫（06–09 刪零，DR1 CL-UI-75），未符日 ✗短原因（霧/雨，fail_reason_short 真實詞）。</td></tr>
+          <tr><td id="n2b">46px / 橫捲</td><td id="n2b-v">390px：固定寬 86px × 高 46px 格，單行橫捲＋右緣 fade，文字永不折行成一字一列（DR1 390 節奏）；桌面：8 格自適應 grid，無捲動。</td></tr>
+          <tr><td id="n2c">狀態三色</td><td id="n2c-v">✓推薦綠 / ○可拍黃 / ✗不宜紅灰 — 與列表頁 tier 徽章、預報頁色帶同一語義（跨面一致性）。</td></tr>
+        </table>
+        <h4 id="n3-h">條件 ×N 摺疊</h4>
+        <table>
+          <tr><td id="n3a">逐題材一摺</td><td id="n3a-v">每題材一個 &lt;details&gt;：必須（綠）/ 加分（黃）/ 扣分（紅）三段列；右端顯示變體數。預設收起 — 知識查詢按需展開，不打斷速覽掃描。</td></tr>
+          <tr><td id="n3b">展開保留</td><td id="n3b-v">DR2 痛點 3 — details open 狀態由 DOM 承載，語言切換重渲染後以 open 屬性還原，滾動/重繪不重置。</td></tr>
+        </table>
+        <h4 id="n4-h">彈窗與 390px</h4>
+        <table>
+          <tr><td id="n4a">寬度上限</td><td id="n4a-v">DR1 P1-1 — max-width 1180px，內部不再需要橫捲；右欄資訊併入分組卡，徹底消除右緣裁切。</td></tr>
+          <tr><td id="n4b">390 全螢幕</td><td id="n4b-v">DR1 390 節奏表 — ≤480px 彈窗 inset 0、圓角 0、關閉鈕 44×44；位置區三鈕轉為全寬等分。</td></tr>
+        </table>
+        <p class="data-src" id="n-src">資料樣例：tw-034 崇德 subject-cards 真實值 — 8 日（11/14–21）逐日 tier：✓5 日 / ○2 日 / ✗1 日（11/19 霧·雨）；11/16 適合：日出 05:35–06:00、眺望 08:00–09:00、山景 16:25。條件/位置/指南為示意內容。</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+<script>
+const I18N={
+ 'zh-TW':{name:'📍 崇德',sub:'花蓮縣 秀林鄉 · Asia/Taipei · 時間以景點當地時區顯示',tier:'✓ 推薦',
+  q:'今日速覽 · 11/16',qwx:'晴・低雲 5%・能見度極佳',tstrip:'8 日拍攝機會',tstripS:'點選日期查看當日預報 · 390px 橫向捲動',
+  tcond:'拍攝條件',tcondS:'依題材展開 · 必須 / 加分 / 扣分',tloc:'拍攝位置',ttips:'拍攝指南',
+  kCoord:'座標（機位）',kElev:'海拔',kAccess:'進出',access:'台 8 線中橫公路 · 停車場步行 5 分',
+  bMap:'📍 地圖',bNav:'🗺️ 導航',bGrid:'🗺️ 天氣圖',
+  kReq:'必須',kBoost:'加分',kPen:'扣分',dDetail:'詳細氣象',
+  days:['今天','明天','11/18','11/19','11/20','11/21','11/22','11/23'],
+  tips:['日出時段正面臨海，低雲 0–10% 時霞光最佳；建議 05:00 前抵達佔位。','山景 16:25 需能見度 ≥10 km；西側高雲過半時改拍夕陽剪影。','冬季東北季風強，三腳架需配重；風速 >8 m/s 建議改拍車軌。'],
+  notes:'設計說明 — 設計決策 × design-review 對應',
+  dn:{n1a:'三段式結構',n1b:'今日速覽',n1c:'藍色退場',n2a:'格內雙行',n2b:'46px / 橫捲',n2c:'狀態三色',n3a:'逐題材一摺',n3b:'展開保留',n4a:'寬度上限',n4b:'390 全螢幕'},
+  nsrc:'資料樣例：tw-034 崇德 subject-cards 真實值 — 8 日（11/14–21）逐日 tier：✓5 日 / ○2 日 / ✗1 日（11/19 霧·雨）；11/16 適合：日出 05:35–06:00、眺望 08:00–09:00、山景 16:25。條件/位置/指南為示意內容。'},
+ en:{name:'📍 Chongde',sub:'Xiulin, Hualien · Asia/Taipei · All times in local timezone',tier:'✓ Recommended',
+  q:'Today at a glance · 11/16',qwx:'Clear · low cloud 5% · visibility excellent',tstrip:'8-day opportunities',tstripS:'Tap a day to load its forecast · horizontal scroll at 390px',
+  tcond:'Shooting conditions',tcondS:'Per subject · required / boosters / penalties',tloc:'Shooting location',ttips:'Field guide',
+  kCoord:'Coordinates (camera)',kElev:'Elevation',kAccess:'Access',access:'Prov 8 Central Cross-Island Hwy · 5 min walk from parking',
+  bMap:'📍 Map',bNav:'🗺️ Navigate',bGrid:'🗺️ Weather grid',
+  kReq:'Required',kBoost:'Boosters',kPen:'Penalties',dDetail:'Weather details',
+  days:['Today','Tomorrow','11/18','11/19','11/20','11/21','11/22','11/23'],
+  tips:['Sunrise faces the sea; best glow at 0–10% low cloud. Arrive before 05:00.','Mountain view at 16:25 needs visibility ≥10 km; switch to sunset silhouettes when high cloud exceeds half.','Strong NE monsoon in winter; add ballast to tripods above 8 m/s.'],
+  notes:'Design notes — decisions × design-review findings',
+  dn:{n1a:'Three-part structure',n1b:'Today at a glance',n1c:'Blue retired',n2a:'Two lines per cell',n2b:'46px / horizontal scroll',n2c:'Three-state color',n3a:'One fold per subject',n3b:'Open state kept',n4a:'Width cap',n4b:'390 fullscreen'},
+  nsrc:'Data samples: real subject-cards values for tw-034 Chongde — 8 days (11/14–21) daily tiers: ✓5 / ○2 / ✗1 (11/19 fog·rain); 11/16: Sunrise 05:35–06:00, Overlook 08:00–09:00, Mountain view 16:25. Conditions/location/guide are illustrative.'},
+ ja:{name:'📍 崇徳',sub:'花蓮県秀林郷 · Asia/Taipei · 時刻は現地タイムゾーン表示',tier:'✓ 推薦',
+  q:'今日のサマリー · 11/16',qwx:'晴・低雲 5%・視程最高',tstrip:'8日間の撮影チャンス',tstripS:'日付をタップして予報を表示 · 390px は横スクロール',
+  tcond:'撮影条件',tcondS:'題材別に展開 · 必須 / 加点 / 減点',tloc:'撮影位置',ttips:'撮影ガイド',
+  kCoord:'座標（撮影点）',kElev:'標高',kAccess:'アクセス',access:'台8線中横公路 · 駐車場から徒歩5分',
+  bMap:'📍 地図',bNav:'🗺️ ナビ',bGrid:'🗺️ 天気マップ',
+  kReq:'必須',kBoost:'加点',kPen:'減点',dDetail:'詳細気象',
+  days:['今日','明日','11/18','11/19','11/20','11/21','11/22','11/23'],
+  tips:['日の出は海に正面；低雲 0–10% で光彩が最良。05:00 前の確保を推奨。','山景 16:25 は視程 ≥10 km 必要；高雲が半分を超えたら夕景シルエットへ。','冬季は季節風が強い；風速 >8 m/s では三脚に重りを。'],
+  notes:'デザインメモ — 決定事項 × design-review 対応',
+  dn:{n1a:'3部構成',n1b:'今日のサマリー',n1c:'青色の撤退',n2a:'セル2行',n2b:'46px / 横スクロール',n2c:'3状態カラー',n3a:'題材別フォールド',n3b:'展開状態の保持',n4a:'幅の上限',n4b:'390 フルスクリーン'},
+  nsrc:'データ例：tw-034 崇徳 subject-cards 実値 — 8日間（11/14–21）の日別 tier：✓5 / ○2 / ✗1（11/19 霧・雨）。条件・位置・ガイドはダミー。'}
+};
+/* 真實 8 日 tier：tw-034（2026-11-14..21 subject-cards 評估值） */
+const STRIP=[
+ {d:'11/14',st:'mid',b:'○',t:'一般拍攝 05–13'},
+ {d:'11/15',st:'ok',b:'✓2',t:'05–09 · 16'},
+ {d:'11/16',st:'ok',b:'✓5',t:'05–09 · 16',today:1},
+ {d:'11/17',st:'ok',b:'✓6',t:'05–13'},
+ {d:'11/18',st:'ok',b:'✓9',t:'05–16'},
+ {d:'11/19',st:'bad',b:'',t:'✗霧·雨'},
+ {d:'11/20',st:'mid',b:'○',t:'一般拍攝 04–13'},
+ {d:'11/21',st:'ok',b:'✓2',t:'日出 05–06'}
+];
+/* 條件（示意，依題材） */
+const CONDS=[
+ {g:['日出','Sunrise','日の出'],n:2,req:['總雲量 ≤40%；低雲 ≤20%','能見度 ≥10 km'],boost:['中高雲 20–50%（霞光縫隙）','潮位與長浪平稳'],pen:['降水 >0.2 mm/h','風速 >8 m/s']},
+ {g:['眺望','Overlook','眺望'],n:1,req:['能見度 ≥12 km','總雲量 ≤60%'],boost:['雨後能見度極佳時段'],pen:['霧 / 相對濕度 925hPa 超界']},
+ {g:['山景','Mountain view','山景'],n:1,req:['能見度 ≥10 km'],boost:['夕照角度 5–15°'],pen:['降水','高雲 >80%']}
+];
+let lang='zh-TW';
+const t=()=>I18N[lang];
+const loc=(a)=>a[lang==='zh-TW'?0:lang==='en'?1:2];
+
+function stripHTML(){
+  return STRIP.map((c,i)=>`<button class="cell ${c.st}${c.today?' sel':''}" data-i="${i}">
+    <span class="c-d"><span>${c.today?t().days[0]:c.today===undefined&&i===1?t().days[1]:c.d}</span>${c.b&&c.st==='ok'?`<span class="badge-ok">${c.b}</span>`:c.st==='mid'?`<span class="badge-mid">○</span>`:''}</span>
+    <span class="c-t">${c.t}</span></button>`).join('');
+}
+function condHTML(){
+  return CONDS.map(c=>`<details class="cond" ${c.g[0]==='日出'?'open':''}>
+    <summary><span class="chev">▶</span>${loc(c.g)} <span class="n">×${c.n}</span></summary>
+    <div class="body">
+      <div class="c-row"><span class="k req">${t().kReq}</span><span>${c.req.join('；')}</span></div>
+      <div class="c-row"><span class="k boost">${t().kBoost}</span><span>${c.boost.join('；')}</span></div>
+      <div class="c-row"><span class="k pen">${t().kPen}</span><span>${c.pen.join('；')}</span></div>
+    </div></details>`).join('');
+}
+function render(){
+  const s=t();
+  document.getElementById('h-name').textContent=s.name;
+  document.getElementById('h-sub').textContent=s.sub;
+  document.getElementById('tier').textContent=s.tier;
+  document.getElementById('q-t').textContent=s.q;
+  document.getElementById('q-wx').innerHTML=s.qwx.replace(/・/g,'<span class="sep">・</span>');
+  document.getElementById('t-strip').childNodes[0].textContent=s.tstrip+' ';
+  document.getElementById('t-strip-s').textContent=s.tstripS;
+  document.getElementById('t-cond').childNodes[0].textContent=s.tcond+' ';
+  document.getElementById('t-cond-s').textContent=s.tcondS;
+  document.getElementById('t-loc').textContent=s.tloc;
+  document.getElementById('t-tips').textContent=s.ttips;
+  document.getElementById('l-coord').textContent=s.kCoord;
+  document.getElementById('l-elev').textContent=s.kElev;
+  document.getElementById('l-access').textContent=s.kAccess;
+  document.getElementById('v-access').textContent=s.access;
+  document.getElementById('b-map').textContent=s.bMap;
+  document.getElementById('b-nav').textContent=s.bNav;
+  document.getElementById('b-grid').textContent=s.bGrid;
+  document.getElementById('strip').innerHTML=stripHTML();
+  document.getElementById('conds').innerHTML=condHTML();
+  document.getElementById('tips').innerHTML=s.tips.map(x=>`<li>${x}</li>`).join('');
+  document.getElementById('notes-t').textContent=s.notes;
+  const dn=s.dn;
+  ['n1a','n1b','n1c','n2a','n2b','n2c','n3a','n3b','n4a','n4b'].forEach(k=>{
+    const el=document.getElementById(k);if(el)el.textContent=dn[k];});
+  document.getElementById('n-src').textContent=s.nsrc;
+}
+render();
+document.getElementById('lang-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;
+  document.querySelectorAll('#lang-grp button').forEach(x=>x.classList.toggle('on',x===b));render();});
+document.getElementById('vp-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#vp-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('overlay').classList.toggle('p390',b.dataset.vp==='390');});
+document.getElementById('strip').addEventListener('click',e=>{const c=e.target.closest('.cell');if(!c)return;
+  document.querySelectorAll('.cell').forEach(x=>x.classList.toggle('sel',x===c));});
+</script>
+</body>
+</html>
