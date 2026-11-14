@@ -10,7 +10,8 @@
         prov_layers_label:'天氣圖（WeatherGrid）另用下列圖層', prov_cycle_label:'起報', prov_obs_label:'觀測', prov_layers_loading:'讀取中…', prov_layers_missing:'暫無此圖層資料',
         prov_elev_label:'海拔與座標', prov_elev_camera:'機位海拔（景點資料）', prov_elev_api:'預報格點海拔（Open-Meteo）', prov_elev_grid:'預報格點海拔（評估用）', prov_coord_label:'座標來源', prov_confidence_label:'信心', prov_conf_high:'高', prov_conf_medium:'中', prov_conf_low:'低', prov_coord_unknown:'座標來源資料暫缺',
         prov_threshold_label:'門檻性質', prov_threshold_fallback:'門檻為暫定值，尚未以實拍校準；結果僅供拍攝參考，不保證出景。',
-        prov_tz_label:'時區', prov_tz_note:'所有時間以景點當地時區顯示，與您所在時區不同時請自行換算。'
+        prov_tz_label:'時區', prov_tz_note:'所有時間以景點當地時區顯示，與您所在時區不同時請自行換算。',
+        e_fav_t:'還沒有收藏', e_fav_d:'在卡片右上按 ★ 加入最愛，這裡會列出你追蹤的景點。', e_fav_a:'去逛卡片列表', e_rem_t:'還沒有提醒', e_rem_d:'選地區 → 景點 → 題材建立第一個拍攝提醒，符合時段前會通知你。', e_rem_a:'建立提醒', e_load_t:'載入中', e_load_d:'skeleton 佔位（shimmer 是唯一裝飾動畫）', e_err_t:'暫時無法載入', e_err_d:'網路逾時（30s）。已自動重試 2 次 — 可再手動重試。', e_err_a:'↻ 重試', e_off_t:'離線中 — 顯示上次資料', e_off_badge:'離線 · 上次更新', e_off_d:'以下為最後一次成功載入的快照。', e_off_a:'重新連線'
       },
       'en': {
         page_title:'ChaseLights — Photography Weather Forecast', country_aria:'Country / region', temp_unit_aria:'Temperature unit', weathergrid_title:'Open WeatherGrid weather map', nav_cards:'Cards', nav_weathermap:'Weather map', nav_more_tools:'More tools ▾', nav_genre_eval:'Genre assessment', nav_field_intake:'Field check', nav_reminders:'Reminders', field_intake_title:'Open field validation', place_modal_title:'Place photography guide', weather_modal_title:'Place weather analysis', close_place:'Close place photography guide', close_weather:'Close place weather analysis', load_error:'Photography weather data is temporarily unavailable.',
@@ -23,7 +24,8 @@
         prov_layers_label:'The weather map (WeatherGrid) additionally uses these layers', prov_cycle_label:'Cycle', prov_obs_label:'Observed', prov_layers_loading:'Loading…', prov_layers_missing:'No data for this layer',
         prov_elev_label:'Elevation & coordinates', prov_elev_camera:'Camera elevation (spot record)', prov_elev_api:'Forecast-grid elevation (Open-Meteo)', prov_elev_grid:'Forecast-grid elevation (evaluation)', prov_coord_label:'Coordinate source', prov_confidence_label:'Confidence', prov_conf_high:'High', prov_conf_medium:'Medium', prov_conf_low:'Low', prov_coord_unknown:'Coordinate source unavailable',
         prov_threshold_label:'Threshold nature', prov_threshold_fallback:'Thresholds are interim values not yet calibrated against real shoots; results are guidance only and never guarantee a shot.',
-        prov_tz_label:'Time zone', prov_tz_note:'All times are shown in the spot\u2019s local time zone; convert if it differs from yours.'
+        prov_tz_label:'Time zone', prov_tz_note:'All times are shown in the spot\u2019s local time zone; convert if it differs from yours.',
+        e_fav_t:'No favorites yet', e_fav_d:'Tap ★ on a card to track it; tracked places list here.', e_fav_a:'Browse cards', e_rem_t:'No reminders yet', e_rem_d:'Pick region → place → subject to create your first reminder.', e_rem_a:'Create reminder', e_load_t:'Loading', e_load_d:'Skeleton placeholder (shimmer is the only decorative animation)', e_err_t:'Could not load', e_err_d:'Network timed out (30s). Auto-retried twice — retry manually if you like.', e_err_a:'↻ Retry', e_off_t:'Offline — showing last data', e_off_badge:'Offline · last update', e_off_d:'Snapshot of the last successful load.', e_off_a:'Reconnect'
       },
       'ja': {
         page_title:'ChaseLights — 撮影向け気象予報', country_aria:'国・地域', temp_unit_aria:'温度単位', weathergrid_title:'WeatherGrid 天気マップを開く', nav_cards:'カード', nav_weathermap:'天気マップ', nav_more_tools:'その他のツール ▾', nav_genre_eval:'題材評価', nav_field_intake:'実写検証', nav_reminders:'リマインダー', field_intake_title:'実写検証を開く', place_modal_title:'撮影スポットガイド', weather_modal_title:'撮影スポット気象分析', close_place:'撮影スポットガイドを閉じる', close_weather:'撮影スポット気象分析を閉じる', load_error:'撮影向け気象データを一時的に読み込めません。',
@@ -36,9 +38,43 @@
         prov_layers_label:'天気マップ（WeatherGrid）は追加で次のレイヤーを使用', prov_cycle_label:'起報', prov_obs_label:'観測', prov_layers_loading:'読み込み中…', prov_layers_missing:'このレイヤーのデータなし',
         prov_elev_label:'標高と座標', prov_elev_camera:'撮影地点の標高（スポット記録）', prov_elev_api:'予報グリッド標高（Open-Meteo）', prov_elev_grid:'予報グリッド標高（評価用）', prov_coord_label:'座標ソース', prov_confidence_label:'信頼度', prov_conf_high:'高', prov_conf_medium:'中', prov_conf_low:'低', prov_coord_unknown:'座標ソースなし',
         prov_threshold_label:'閾値の性質', prov_threshold_fallback:'閾値は暫定値で、実写による校準は未実施です。結果は撮影の参考値であり、撮れることを保証しません。',
-        prov_tz_label:'タイムゾーン', prov_tz_note:'時刻はすべてスポットの現地時間で表示します。お住まいの時間帯と異なる場合は換算してください。'
+        prov_tz_label:'タイムゾーン', prov_tz_note:'時刻はすべてスポットの現地時間で表示します。お住まいの時間帯と異なる場合は換算してください。',
+        e_fav_t:'お気に入りはまだありません', e_fav_d:'カード右上の ★ で追跡するとここに並びます。', e_fav_a:'カード一覧へ', e_rem_t:'リマインドはまだありません', e_rem_d:'地域 → スポット → 題材を選んで最初のリマインドを作成。', e_rem_a:'リマインド作成', e_load_t:'読み込み中', e_load_d:'skeleton プレースホルダー（唯一の装飾アニメ）', e_err_t:'読み込めませんでした', e_err_d:'ネットワークタイムアウト（30s）。自動再試行 2 回済み — 手動でも再試行できます。', e_err_a:'↻ 再試行', e_off_t:'オフライン — 前回データを表示', e_off_badge:'オフライン・最終更新', e_off_d:'最後に成功した読み込みのスナップショット。', e_off_a:'再接続'
       }
     };
+
+    /* ===== CL-UI-85: shared empty-state components (design-system.html §9,
+       origin/task/DESIGN-3 head 3d455f121). Pure visual render helpers — no
+       behavior, no data logic; Stage 2 composes them. Copy comes from the
+       e_* i18nDict keys above (trilingual, verbatim from the approved
+       design-system mockup). */
+    function clEmptyStateHtml(kind, opts) {
+      opts = opts || {};
+      const t = d();
+      if (kind === 'loading') {
+        return '<div class="empty" role="status"><span class="t">' + esc(t.e_load_t) + '</span>' +
+          '<div class="skel-lines" aria-hidden="true">' +
+          '<div class="skel skel-line" style="width:70%"></div>' +
+          '<div class="skel skel-line" style="width:100%"></div>' +
+          '<div class="skel skel-line" style="width:85%"></div></div>' +
+          '<span class="d">' + esc(t.e_load_d) + '</span></div>';
+      }
+      const copy = {
+        favorites: { ic: '★', t: t.e_fav_t, d: t.e_fav_d, a: t.e_fav_a, cls: ' btn-primary' },
+        reminders: { ic: '🔔', t: t.e_rem_t, d: t.e_rem_d, a: t.e_rem_a, cls: ' btn-primary' },
+        error:     { ic: '⚠️', t: t.e_err_t, d: t.e_err_d, a: t.e_err_a, cls: '' },
+        offline:   { ic: '📴', t: t.e_off_t, d: null,      a: t.e_off_a, cls: '' }
+      }[kind];
+      if (!copy) return '';
+      let dHtml = esc(copy.d);
+      if (kind === 'offline') {
+        const ts = opts.updated ? ' <span class="mono">' + esc(opts.updated) + '</span>' : '';
+        dHtml = '<span class="offline-badge">📴 ' + esc(t.e_off_badge) + ts + '</span><br>' + esc(t.e_off_d);
+      }
+      return '<div class="empty"><span class="ic" aria-hidden="true">' + copy.ic + '</span>' +
+        '<span class="t">' + esc(copy.t) + '</span><span class="d">' + dHtml + '</span>' +
+        '<button type="button" class="btn btn-ctl' + copy.cls + '">' + esc(copy.a) + '</button></div>';
+    }
 
     const categoryKeys = {
       // Geography is handled by the country-aware first-level administrative
