@@ -26,6 +26,7 @@
       --cl-shadow-2:0 8px 24px rgba(0,0,0,.5);
       --cl-shadow-3:0 16px 48px rgba(0,0,0,.65);
       --cl-ink:#000000; /* the only black the system uses (shadow/overlay ink) */
+      --cl-white:#FFFFFF; /* the only white the system uses (band best-hour inset frame) */
       --cl-font:"Inter","Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
       --cl-mono:"SF Mono",ui-monospace,"Cascadia Mono","Consolas",monospace;
       /* legacy aliases — pre-token variable names now resolve into tokens */
@@ -918,6 +919,76 @@
     details.tm-details .timeline-mobile-metric { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     details.tm-details .timeline-mobile-subjects { margin: 2px 0; }
     details.tm-details .timeline-mobile-astro { margin-top: 2px; line-height: 1.3; }
+
+    /* ===== CL-UI-87 (mockup-first Stage 2b) — mockup-forecast.html hourly
+       area: 24h mini band + 8 日 date-groups (n1a) + 40px anchor time column
+       (n1b, DR1 P2-9) + collapsed 時段外 line (n1c) + kv detail rows (n2c).
+       Tokens: the CL-UI-85 --cl-* layer. ===== */
+    /* n3b: 24h mini color band (green=✓ / amber=○ / grey=✗ / dark=時段外) */
+    .timeline-band { margin: 0 0 var(--cl-sp-3); }
+    .timeline-band .band { display: flex; height: 16px; border-radius: var(--cl-r-xs); overflow: hidden; border: 1px solid var(--cl-border); background: var(--cl-bg-1); }
+    .timeline-band .band i { flex: 1 1 0; min-width: 5px; }
+    .timeline-band .band i.rec { background: color-mix(in srgb, var(--cl-green) 55%, transparent); }
+    .timeline-band .band i.shoot { background: color-mix(in srgb, var(--cl-amber) 50%, transparent); }
+    .timeline-band .band i.no { background: color-mix(in srgb, var(--cl-grey) 50%, transparent); }
+    .timeline-band .band i.na { background: var(--cl-bg-2); }
+    .timeline-band .band i.best { box-shadow: inset 0 0 0 1.5px var(--cl-white); }
+    .timeline-band .band-label { display: flex; justify-content: space-between; font-family: var(--cl-mono); font-size: 10px; color: var(--cl-text-3); margin-top: 3px; }
+    /* n1a: date-groups — native <details>, 44px summary bar, collapsed by
+       default except the selected day; user-opened groups persist. */
+    #timeline-groups details.day-group,
+    #timeline-mobile details.day-group {
+      margin: 0 0 var(--cl-sp-3);
+      border: 1px solid var(--cl-border);
+      border-radius: var(--cl-r-md);
+      background: var(--cl-bg-1);
+      overflow: hidden;
+    }
+    details.day-group > summary {
+      display: flex; align-items: center; gap: var(--cl-sp-3);
+      padding: 0 var(--cl-sp-3); min-height: 44px; cursor: pointer; list-style: none;
+      background: var(--cl-bg-2);
+      font-size: var(--cl-fs-14); font-weight: 600; color: var(--cl-text-1);
+    }
+    details.day-group > summary::-webkit-details-marker { display: none; }
+    details.day-group > summary .chev { color: var(--cl-text-3); font-size: 11px; transition: transform .15s; flex: none; }
+    details.day-group[open] > summary .chev { transform: rotate(90deg); }
+    details.day-group > summary .dg-date { font-family: var(--cl-mono); font-weight: 400; color: var(--cl-text-2); font-size: var(--cl-fs-13); }
+    details.day-group > summary .mini { margin-left: auto; display: flex; gap: var(--cl-sp-2); font-size: var(--cl-fs-12); color: var(--cl-text-3); font-weight: 400; align-items: center; min-width: 0; overflow: hidden; }
+    details.day-group > summary .mini b { font-weight: 600; color: var(--cl-text-2); }
+    details.day-group > summary .mini span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* group tier chip (mockup .chip): ✓ 推薦 / ○ 可拍 / ✗ 不宜 */
+    .dg-chip { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; font-size: var(--cl-fs-12); font-weight: 600; flex: none; }
+    .dg-chip-rec { background: var(--cl-green-bg); color: var(--cl-green-text); box-shadow: inset 0 0 0 1px var(--cl-green-border); }
+    .dg-chip-shoot { background: var(--cl-amber-bg); color: var(--cl-amber-text); box-shadow: inset 0 0 0 1px var(--cl-amber-border); }
+    .dg-chip-no { background: var(--cl-red-bg); color: var(--cl-red-text); box-shadow: inset 0 0 0 1px var(--cl-red-border); }
+    /* per-group hourly table: 時刻 | 狀態 | 適合題材 | 口語化氣象 | ⋯ */
+    #timeline-groups table.hrs { width: 100%; border-collapse: collapse; white-space: nowrap; }
+    #timeline-groups table.hrs th { height: 32px; padding: 0 var(--cl-sp-3); font-size: var(--cl-fs-12); font-weight: 600; color: var(--cl-text-3); text-align: left; border-bottom: 1px solid var(--cl-border); background: var(--cl-bg-1); }
+    #timeline-groups table.hrs td { height: 40px; padding: 4px var(--cl-sp-3); border-bottom: 1px solid var(--cl-border); font-size: var(--cl-fs-13); vertical-align: middle; color: var(--cl-text-1); }
+    #timeline-groups table.hrs tr:last-child td { border-bottom: none; }
+    /* n1b (DR1 P2-9): the 時刻 column is the visual anchor — mono, and bold
+       light text on a qualifying hour (read off the subject cell's own
+       bucket, so the anchor can never contradict the 適合題材 chips). */
+    #timeline-groups td.hr { font-family: var(--cl-mono); font-size: var(--cl-fs-13); color: var(--cl-text-2); width: 64px; min-width: 64px; }
+    #timeline-groups tr:has(td.td-subjects.subj-has) td.hr,
+    #timeline-groups tr:has(td.td-subjects.subj-ok-row) td.hr { color: var(--cl-text-1); font-weight: 600; }
+    #timeline-groups td.state { width: 120px; }
+    #timeline-groups td.wx { color: var(--cl-text-2); min-width: 200px; }
+    #timeline-groups td.more { width: 36px; text-align: right; }
+    #timeline-groups td.more button { color: var(--cl-text-3); font-size: 12px; padding: 4px 6px; cursor: pointer; background: none; border: none; }
+    #timeline-groups td.more button:hover { color: var(--cl-text-1); }
+    /* n2c: the expandable kv row — raw values only live here */
+    #timeline-groups tr.detail > td { background: var(--cl-bg-2); padding: var(--cl-sp-2) var(--cl-sp-3) var(--cl-sp-3) calc(64px + var(--cl-sp-3)); }
+    #timeline-groups tr.detail[hidden] { display: none; }
+    #timeline-groups .kv { display: flex; flex-wrap: wrap; gap: var(--cl-sp-1) var(--cl-sp-3); font-size: var(--cl-fs-12); color: var(--cl-text-2); }
+    #timeline-groups .kv b { font-family: var(--cl-mono); font-weight: 400; color: var(--cl-text-1); }
+    #timeline-groups .kv .cap { color: var(--cl-text-3); }
+    /* n1c: the collapsed 時段外 line — one row, no per-hour rows */
+    #timeline-groups tr.na-row > td { height: 32px; color: var(--cl-text-3); font-size: var(--cl-fs-12); }
+    #timeline-groups tr.na-row .mono { font-family: var(--cl-mono); }
+    #timeline-mobile details.day-group > summary { min-height: 40px; font-size: var(--cl-fs-13); }
+    #timeline-mobile .tbl-390 { padding: var(--cl-sp-2); }
 
     @media (max-width: 640px) {
       .modal-overlay {
@@ -2177,10 +2248,12 @@
    wrapper scrolls instead. Scoped to the modal table; the homepage
    .terminal-table is untouched. */
 .timeline-table-wrap{overflow-x:auto}
-.timeline-table-wrap .terminal-table{min-width:1080px}
-.terminal-table .td-vis{width:88px;min-width:88px;max-width:88px}
+/* CL-UI-87: the mockup date-group tables have 5 columns — the 1080px
+   horizontal-scroll floor of the old 10-column table is retired. */
+/* CL-UI-79: the capped vis value stays decision-readable; the kv row
+   carries it via .kv b.key-metric.td-vis (td scope, no fixed width). */
+.terminal-table td.td-vis{width:88px;min-width:88px;max-width:88px}
 .terminal-table th:first-child,.terminal-table td:first-child{position:sticky;left:0;z-index:1}
-.terminal-table td:first-child{background:var(--cl-bg-0)}
 .terminal-table tr.past-row td:first-child{background:var(--cl-bg-0)}
 .terminal-table tr.best-row td:first-child{background:color-mix(in srgb, var(--cl-green) 16%, var(--cl-bg-0))}
 #modal-close-mobile{display:none}

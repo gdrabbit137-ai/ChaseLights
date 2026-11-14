@@ -7,7 +7,7 @@
   <link rel="icon" href="./assets/favicon.ico" sizes="32x32">
   <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
-  <link rel="stylesheet" href="./assets/app.css?v=clui91">
+  <link rel="stylesheet" href="./assets/app.css?v=clui92">
 
 </head>
 <body>
@@ -119,11 +119,12 @@
         <div style="color: #aaa; font-size: 0.8rem; margin-bottom: 10px;" data-i18n="modal_subtitle">
           ⏱️ 逐時拍攝條件：過去 24 小時 + 未來 72 小時（藍底＝所選日期中相對較佳的時段；仍需看整體評分與條件）
         </div>
+        <!-- CL-UI-87 (mockup-first Stage 2b): 24h mini band + mockup-forecast
+             date-groups (the desktop table shell). The mobile hour cards keep
+             their own #timeline-mobile container (CL-UI-82 anatomy). -->
+        <div class="timeline-band" id="timeline-band"></div>
         <div class="timeline-table-wrap" style="overflow-x: auto;">
-          <table class="terminal-table">
-            <thead id="timeline-head"></thead>
-            <tbody id="timeline-body"></tbody>
-          </table>
+          <div id="timeline-groups"></div>
         </div>
         <div class="timeline-mobile" id="timeline-mobile"></div>
         <!-- CL-UI-34: user-visible data provenance for the spot's evaluation.
@@ -137,7 +138,7 @@
   </div>
 
   <script src="./assets/site-nav.js?v=clui41"></script>
-  <script src="./assets/app.js?v=clui91"></script>
+  <script src="./assets/app.js?v=clui92"></script>
   <!-- CL-UI-52: guest comment entry — footer-level, tertiary, never competes
        with the card grid's visual focus (chaselights-product-design). -->
   <footer class="guest-comment-footer">
