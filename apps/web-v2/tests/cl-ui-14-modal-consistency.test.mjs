@@ -210,7 +210,7 @@ test('CL-UI-14 U3: mobile usability — sticky time column, larger targets, summ
   assert.ok(modalBlock.indexOf('modal-day-switch')>-1);
   assert.ok(modalBlock.indexOf('modal-overview')>-1);
   assert.ok(!modalBlock.includes('modal-headline'),'CL-UI-72: headline block removed');
-  assert.ok(modalBlock.indexOf('modal-day-switch')<modalBlock.indexOf('timeline-head'));
+  assert.ok(modalBlock.indexOf('modal-day-switch')<modalBlock.indexOf('timeline-groups'));
 });
 
 test('CL-UI-14 U5: all new copy exists in all three languages and carries no internal labels',()=>{
