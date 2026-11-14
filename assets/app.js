@@ -457,7 +457,7 @@
       items.forEach(([key,labelKey])=>{
         const b=document.createElement('button');b.type='button';b.className='tier-tab'+(currentTier===key?' active':'');b.dataset.tier=key;
         b.setAttribute('role','tab');b.setAttribute('aria-selected',currentTier===key?'true':'false');
-        b.innerHTML=`<span class="tier-tab-label">${esc(d()[labelKey])}</span> <span class="tier-tab-count">${Number(counts[key])||0}</span>`;
+        b.innerHTML=`<span class="tier-tab-label">${labelKey==='tier_all'?'🌐 ':''}${esc(d()[labelKey])}</span> <span class="tier-tab-count">${Number(counts[key])||0}</span>`;
         b.onclick=()=>switchTier(key);
         bar.appendChild(b);
       });
@@ -1665,6 +1665,12 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // (notify_rules POST/DELETE, trilingual, login guard), so app.js stays
       // out of the notify contract.
       const remBtn=v2Best?`<button type="button" class="cl-rem-btn" data-rem-place="${esc(spot.spot_id)}" data-rem-opp="${esc(v2Best.oppId||'')}">🔔</button>`:'';
+      // CL-UI-86 (mockup-cards card-head): the card head gains the tier badge
+      // (✓推薦/○可拍/✗不宜) next to the name — the same three-level state the
+      // second line and clFallbackRows already consume; a NOT_EVALUABLE day
+      // (or an unevaluated spot) renders the honest grey 資料不足 badge.
+      const clBadgeTier=(()=>{if(!v2Evaluated)return 'defer';if(v2Best.state==='GUIDANCE_SATISFIED')return 'rec';if(scTier==='not_recommended')return 'no';if(scTier==='shootable')return 'shoot';return v2Best.state==='NOT_EVALUABLE'?'defer':'no';})();
+      const clBadgeLabel={rec:d().tier_recommend,shoot:d().tier_shootable,no:d().tier_not_recommended,defer:d().eval2_unk}[clBadgeTier];
       // CL-UI-71: same-format fallback when the subject-cards row is absent or
       // suitable-empty but the evaluated day still has qualifying hours — a
       // synthetic entry pushed through the SAME clSubjectRowHtml the curated
@@ -1695,7 +1701,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // page header already carries the unified GMT clock, so the row only
       // repeated on every card. If a multi-timezone card list is ever needed,
       // restore a tzAbbrLabel()-based label here (see fmtWindow()).
-      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${clSummaryHtml||clFallbackRows||v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${clElevPill}${clSunPill}${compactMetrics}${distanceChip}</span></div>${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().weather_link)}>${toolButtonInner(d().weather_link)}</a>${navTool}<a href="${weatherMapDeepLinkUrl(spot)}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a></div></div>`;
+      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><span class="tier tier-${clBadgeTier}">${esc(clBadgeLabel)}</span><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${clSummaryHtml||clFallbackRows||v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${clElevPill}${clSunPill}${compactMetrics}${distanceChip}</span></div>${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().weather_link)}>${toolButtonInner(d().weather_link)}</a>${navTool}<a href="${weatherMapDeepLinkUrl(spot)}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a></div></div>`;
       card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openWeatherModal(spot,metric);};
       const scMoreBtn=card.querySelector('[data-sc-more]');
       if(scMoreBtn){scMoreBtn.onclick=e=>{e.stopPropagation();const extras=card.querySelectorAll('.cl-subject-extra');const open=scMoreBtn.getAttribute('aria-expanded')==='true';extras.forEach(el=>{el.hidden=open;});scMoreBtn.setAttribute('aria-expanded',open?'false':'true');scMoreBtn.textContent=open?d().clui69_more_subjects.replace('{n}',clSubjectExtra.length):d().clui69_less;};}
@@ -1851,7 +1857,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       items.forEach(([key,labelKey])=>{
         const b=document.createElement('button');b.type='button';b.className='tier-tab'+(currentTier===key?' active':'');b.dataset.tier=key;
         b.setAttribute('role','tab');b.setAttribute('aria-selected',currentTier===key?'true':'false');
-        b.innerHTML=`<span class="tier-tab-label">${esc(d()[labelKey])}</span> <span class="tier-tab-count">${counts[key]}</span>`;
+        b.innerHTML=`<span class="tier-tab-label">${labelKey==='tier_all'?'🌐 ':''}${esc(d()[labelKey])}</span> <span class="tier-tab-count">${counts[key]}</span>`;
         b.onclick=()=>switchTier(key);
         bar.appendChild(b);
       });

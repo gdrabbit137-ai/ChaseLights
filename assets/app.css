@@ -166,8 +166,8 @@
       min-width: 176px;
       min-height: 48px;
       padding: 4px 12px;
-      border: 1px solid var(--cl-border-strong);
-      border-radius: 6px;
+      border: 1px solid var(--cl-border);
+      border-radius: var(--cl-r-sm);
       background: var(--cl-bg-2);
       color: var(--cl-text-2);
       font-size: .8rem;
@@ -184,6 +184,7 @@
       font-size: .875rem;
       line-height: 1.25;
       white-space: nowrap;
+      color: var(--cl-text-1);
     }
     .day-picker-sub {
       display: block;
@@ -194,8 +195,8 @@
       white-space: nowrap;
     }
     .day-picker-trigger:hover,
-    .day-picker-trigger:focus-visible { border-color: var(--cl-blue); }
-    .day-picker-trigger[aria-expanded="true"] { border-color: var(--cl-blue); }
+    .day-picker-trigger:focus-visible { border-color: var(--cl-border-strong); }
+    .day-picker-trigger[aria-expanded="true"] { border-color: var(--cl-border-strong); }
     .day-picker-caret { color: var(--cl-text-3); font-size: .9rem; flex: 0 0 auto; }
     .day-picker-overlay {
       position: fixed;
@@ -343,14 +344,16 @@
       display:flex; align-items:center; justify-content:space-between; gap:var(--cl-sp-3);
       flex-wrap:wrap; margin: 8px 0 6px;
     }
-    .discovery-title { font-size:.95rem; font-weight:800; color:var(--cl-text-1); }
+    /* CL-UI-86 (mockup-cards .title-row P3-1): 結果數與標題同一 baseline —
+       標題 16/600、右側計數 13px 灰字。 */
+    .discovery-title { font-size:var(--cl-fs-16); font-weight:600; color:var(--cl-text-1); }
     .place-search {
       min-width:220px; flex:1; max-width:360px;
       background:var(--cl-bg-0); color:var(--cl-text-1); border:1px solid var(--cl-border);
       border-radius:var(--cl-r-sm); padding:7px 10px; font-size:.84rem; outline:none;
     }
     .place-search:focus { border-color:var(--cl-blue); box-shadow:0 0 0 1px color-mix(in srgb, var(--cl-blue) 20%, transparent); }
-    .rank-summary { color:var(--cl-text-3); font-size:.78rem; margin-bottom:10px; }
+    .rank-summary { color:var(--cl-text-3); font-size:var(--cl-fs-13); margin-bottom:10px; }
 
     @media (max-width:640px) {
       .discovery-row {
@@ -372,52 +375,55 @@
     }
 
     .container {
-      max-width: 1000px;
+      /* CL-UI-86 (mockup-cards): list grid — 1280 shell, 3 columns, 24px
+         gutter; ≤768px collapses to a single column with an 8px gap. */
+      max-width: 1280px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: var(--cl-sp-4);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: stretch;
+      gap: var(--cl-sp-5);
     }
     .card {
       background: var(--card-bg);
       border-radius: var(--cl-r-md);
       padding: var(--cl-sp-4);
-      box-shadow: 0 4px 6px -1px color-mix(in srgb, var(--cl-ink) 30%, transparent);
       border: 1px solid var(--cl-border);
       cursor:pointer;
-      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background-color .18s ease;
+      transition:border-color .18s ease;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
       height: 100%;
       box-sizing: border-box;
+      min-width: 0;
+      /* CL-UI-86 (mockup-cards 460-card performance): offscreen cards skip
+         layout entirely — content-visibility virtualization, copied verbatim
+         from the mockup's .card rule. */
+      content-visibility:auto;
+      contain-intrinsic-size:auto 190px;
     }
     @media (hover:hover) and (pointer:fine) {
       .card:hover {
-        transform:translateY(-2px);
-        border-color:color-mix(in srgb, var(--cl-blue) 72%, transparent);
-        box-shadow:0 8px 18px -6px color-mix(in srgb, var(--cl-ink) 50%, transparent);
-        background:var(--cl-bg-3);
+        border-color:var(--cl-border-strong);
       }
     }
-    .card:active { transform:translateY(0) scale(.995); }
     .card:focus-visible {
       outline:2px solid var(--cl-blue);
       outline-offset:3px;
       border-color:var(--cl-blue);
     }
-    .card-header { display:flex; justify-content:space-between; align-items:flex-start; gap:var(--cl-sp-3); margin-bottom:var(--cl-sp-2); }
-    .card-header-actions { display:flex; align-items:flex-start; gap:7px; flex:0 0 auto; }
-    
+    .card-header { display:flex; justify-content:space-between; align-items:center; gap:var(--cl-sp-3); margin-bottom:var(--cl-sp-2); }
+    .card-header-actions { display:flex; align-items:center; gap:7px; flex:0 0 auto; }
+
     /* 雙語景點名稱獨立兩排排版樣式 */
-    .spot-title-group { display: flex; flex-direction: column; gap: 2px; }
-    @media (min-width:641px) {
-      .spot-title-group { min-height: 52px; }
-      .tags-wrapper { min-height: 20px; }
-    }
-    .spot-name { font-size: 1.15rem; font-weight: bold; color: var(--cl-text-1); line-height: 1.3; }
-    .spot-local-name { font-size: 0.8rem; color: var(--cl-text-3); font-weight: normal; line-height: 1.2; word-break: break-word; }
+    .spot-title-group { display: flex; flex-direction: column; gap: 2px; min-width:0; }
+    /* CL-UI-86 (mockup-cards card anatomy): head = 名稱 14/600 (ellipsis,
+       single-line scan) + tier badge + ★; the bilingual local name drops to
+       the gray meta line below. */
+    .spot-name { font-size: var(--cl-fs-14); font-weight: 600; color: var(--cl-text-1); line-height: 1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .spot-local-name { font-size: var(--cl-fs-12); color: var(--cl-text-3); font-weight: normal; line-height: 1.2; word-break: break-word; }
 
     .fav-btn {
       position:static;
@@ -427,16 +433,16 @@
       align-items:center;
       justify-content:center;
       padding:0;
-      background:var(--cl-bg-0);
-      border:1px solid var(--cl-border);
+      background:transparent;
+      border:none;
       border-radius:var(--cl-r-sm);
-      font-size:1.05rem;
+      font-size:13px;
       cursor:pointer;
-      color:var(--cl-grey);
-      transition:transform .18s ease,border-color .18s ease,background .18s ease;
+      color:var(--cl-text-3);
+      transition:transform .18s ease,color .18s ease;
     }
     .fav-btn.active { color:var(--cl-amber); }
-    .fav-btn:hover { transform:scale(1.06); border-color:var(--cl-border-strong); background:var(--cl-bg-1); }
+    .fav-btn:hover { transform:scale(1.06); color:var(--cl-amber); }
 
     .score-badge { padding: 4px 10px; border-radius: var(--cl-r-sm); font-weight: 800; color: var(--cl-text-1); font-size: 0.95rem; letter-spacing: 0.5px; box-shadow: 0 2px 4px color-mix(in srgb, var(--cl-ink) 20%, transparent); }
     .score-label { display:none; }
@@ -466,13 +472,14 @@
        (info lives in the per-subject rows) — their color rules are gone with
        the render path; status colors now come only from the shared palette:
        green var(--cl-green)/var(--cl-green), yellow var(--cl-amber)/var(--cl-amber-text), red var(--cl-red)/var(--cl-red-text), gray. */
+    /* CL-UI-86 (mockup-cards): the card body is a plain scan list — the old
+       blue left-border callout box is retired; rows carry the semantics. */
     .shooting-summary {
       margin:4px 0 7px;
-      padding:8px 10px;
-      border:1px solid color-mix(in srgb, var(--cl-blue) 18%, transparent);
-      border-left:3px solid color-mix(in srgb, var(--cl-blue) 65%, transparent);
-      border-radius:var(--cl-r-sm);
-      background:color-mix(in srgb, var(--cl-bg-0) 58%, transparent);
+      padding:0;
+      border:none;
+      border-radius:0;
+      background:transparent;
     }
     .theme-winner { display:block; margin:0 0 4px; font-size:.84rem; color:var(--cl-amber-text); font-weight:800; line-height:1.35; }
     .best-window-row { margin:2px 0 0; font-size:.88rem; color:var(--cl-text-1); }
@@ -486,7 +493,7 @@
     .subject-short { color:var(--cl-text-1); background:color-mix(in srgb, var(--cl-grey-text) 18%, transparent); border-radius:var(--cl-r-xs); padding:1px 6px; font-size:.8rem; white-space:nowrap; }
     .subject-more { color:var(--cl-text-3); font-size:.8rem; white-space:nowrap; }
     @media (max-width:640px) {
-      .shooting-summary { margin:3px 0 6px; padding:7px 9px; }
+      .shooting-summary { margin:3px 0 6px; padding:0; }
       .theme-winner { font-size:.82rem; margin-bottom:3px; }
       .best-window-row { font-size:.82rem; margin-bottom:0; }
       .best-window-row b { font-size:.9rem; }
@@ -509,16 +516,16 @@
     .modal-summary-extra { margin-top:var(--cl-sp-1); color:var(--cl-blue); font-size:.76rem; }
     .kp-pill { display: inline-block; margin-top: 6px; margin-left: 4px; font-size: 0.8rem; background: color-mix(in srgb, var(--cl-amber-text) 15%, transparent); color: var(--cl-amber-text); border: 1px solid color-mix(in srgb, var(--cl-amber-text) 40%, transparent); padding: 3px 8px; border-radius: var(--cl-r-xs); font-weight: 600; }
 
+    /* CL-UI-86 (mockup-cards): 地區 gray line — plain text, no chip frame. */
     .category-tag {
       display:inline-block;
-      font-size:.68rem;
-      font-weight:600;
+      font-size:var(--cl-fs-12);
+      font-weight:400;
       line-height:1.2;
       color:var(--cl-text-3);
-      background:color-mix(in srgb, var(--cl-border) 45%, transparent);
-      border:1px solid color-mix(in srgb, var(--cl-border-strong) 45%, transparent);
-      padding:2px 6px;
-      border-radius:5px;
+      background:transparent;
+      border:none;
+      padding:0;
     }
     .env-type-text {
       font-size:.66rem;
@@ -589,7 +596,7 @@
     }
     .access-note { color:var(--cl-amber-text); }
     @media (max-width: 640px) {
-      .card { padding: 14px; }
+      .card { padding: var(--cl-sp-3); border-radius: var(--cl-r-sm); }
       .card-header { margin-bottom: 6px; }
       .tags-wrapper { margin-bottom: 6px; }
       .theme-winner { margin-bottom: 3px; }
@@ -601,21 +608,21 @@
         overflow: hidden;
         line-height: 1.45;
       }
-      .card-footer-tools { margin-top: 9px; }
+      .card-footer-tools { margin-top: auto; }
     }
     
     .card-footer-tools {
-      margin-top:var(--cl-sp-3);
-      padding-top:8px;
-      border-top:1px dashed var(--cl-border);
+      /* CL-UI-86 (mockup-cards .acts): solid top rule, equal-width buttons
+         aligned to the card's bottom edge. */
+      margin-top:auto;
+      padding-top:var(--cl-sp-2);
+      border-top:1px solid var(--cl-border);
     }
     .card-footer-tools > div:first-child { display:none; }
-    /* CL-UI-17R: buttons no longer stretch across the full card width;
-       they shrink-wrap to icon+label and right-align to cut vertical/horizontal share. */
     .card-footer-tools > div:last-child {
       display:flex;
       flex-wrap:wrap;
-      justify-content:flex-end;
+      justify-content:stretch;
       align-items:center;
       gap:var(--cl-sp-2);
     }
@@ -623,26 +630,28 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap:5px;
-      font-size:0.74rem;
+      gap:4px;
+      flex:1 1 0;
+      height:30px;
+      font-size:var(--cl-fs-12);
       line-height:1.2;
       text-align:center;
       white-space:nowrap;
-      color:var(--accent);
+      color:var(--cl-text-2);
       text-decoration:none;
-      background:var(--cl-bg-0);
-      padding:5px 10px;
-      border-radius:7px;
+      background:var(--cl-bg-2);
+      padding:0 10px;
+      border-radius:var(--cl-r-xs);
       border:1px solid var(--cl-border);
-      transition:background .2s ease,border-color .2s ease,color .18s ease,transform .12s ease;
+      transition:background .2s ease,border-color .2s ease,color .18s ease;
       cursor:pointer;
     }
     .tool-ico { font-size:.88rem; line-height:1; }
-    .tool-link:hover { background:var(--cl-bg-3); border-color:var(--cl-grey); color:var(--cl-blue); }
+    .tool-link:hover { background:var(--cl-bg-3); border-color:var(--cl-border-strong); color:var(--cl-text-1); }
     .tool-link:active { transform:translateY(1px); }
     .card-footer-tools { cursor:default; }
     .tool-link.disabled { color:var(--cl-grey); cursor:not-allowed; opacity:.75; }
-    .tool-link.disabled:hover { background:var(--cl-bg-0); }
+    .tool-link.disabled:hover { background:var(--cl-bg-2); }
 
     @media (max-width:640px) {
       .card-footer-tools {
@@ -1078,13 +1087,11 @@
   white-space: nowrap;
 }
 
-.container {
-  max-width: 1600px;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: stretch;
-}
+/* CL-UI-86: the old B103 single-column container override is retired — the
+   mockup list grid (1280 shell / 3 columns / 24px gutter) lives in the base
+   .container rule. */
 .card {
-  padding: 14px;
+  padding: var(--cl-sp-4);
 }
 .card-header {
   margin-bottom: 5px;
@@ -1098,7 +1105,7 @@
 }
 .shooting-summary {
   margin: 3px 0 5px;
-  padding: 7px 9px;
+  padding: 0;
 }
 .recommendation-reasons {
   margin-top: var(--cl-sp-1);
@@ -1117,8 +1124,9 @@
   font-size: .75rem;
 }
 .card-footer-tools {
-  margin-top: 9px;
-  padding-top: 7px;
+  margin-top: auto;
+  padding-top: var(--cl-sp-2);
+  border-top: 1px solid var(--cl-border);
 }
 
 .deferred-group {
@@ -1155,17 +1163,15 @@
   padding: var(--cl-sp-4);
 }
 
-@media (min-width: 700px) {
+/* CL-UI-86 (mockup-cards): grid collapses to one column ≤768px with the
+   compact 8px gutter; the old 700/1100/1500/1700 column ladders are retired
+   in favor of the mockup's fixed 3-column list grid. */
+@media (max-width: 768px) {
   .container,
-  .deferred-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (min-width: 1100px) {
-  .container,
-  .deferred-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (min-width: 1500px) {
-  .container,
-  .deferred-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .deferred-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--cl-sp-2);
+  }
 }
 
 @media (max-width: 900px) {
@@ -1253,15 +1259,17 @@
   flex-wrap:wrap;
 }
 .metric-chip {
+  /* CL-UI-86 (mockup-cards .pill): 22px env pills — bg-2 surface, r-xs, 12px. */
   display:inline-flex;
   align-items:center;
-  min-height:20px;
-  padding:1px 6px;
-  border:1px solid color-mix(in srgb, var(--cl-border-strong) 55%, transparent);
-  border-radius:var(--cl-r-sm);
-  background:color-mix(in srgb, var(--cl-bg-0) 38%, transparent);
+  gap:var(--cl-sp-1);
+  height:22px;
+  padding:0 8px;
+  border:none;
+  border-radius:var(--cl-r-xs);
+  background:var(--cl-bg-2);
   color:var(--cl-text-2);
-  font-size:.7rem;
+  font-size:var(--cl-fs-12);
   line-height:1.2;
   white-space:nowrap;
 }
@@ -1280,7 +1288,7 @@
     font-size:.72rem;
   }
   .metric-chip {
-    font-size:.7rem;
+    font-size:var(--cl-fs-12);
   }
 }
 
@@ -1741,7 +1749,9 @@
    Goal: make the forecast board easier to scan on wide displays without
    changing mobile behavior or any scoring / data logic. */
 @media (min-width: 901px) {
-  :root { --desktop-shell-max: 1720px; }
+  /* CL-UI-86 (mockup-cards): the list shell is the mockup's 1280px #shell —
+     filter toolbar and card grid share the same max width. */
+  :root { --desktop-shell-max: 1280px; }
 
   body {
     padding-left: clamp(18px, 2vw, 36px);
@@ -1805,18 +1815,6 @@
     font-size: .74rem;
   }
 
-  .container,
-  .deferred-grid {
-    gap: 14px;
-  }
-
-  .card {
-    border-radius: 10px;
-    padding: 13px 14px 12px;
-    border-color: color-mix(in srgb, var(--cl-border-strong) 72%, transparent);
-    box-shadow: 0 3px 10px -7px color-mix(in srgb, var(--cl-ink) 90%, transparent);
-  }
-
   .card-header {
     gap: 10px;
     margin-bottom: var(--cl-sp-1);
@@ -1868,9 +1866,7 @@
   }
 
   .shooting-summary {
-    padding: 7px 9px 7px 10px;
-    border-left-width: 2px;
-    background: color-mix(in srgb, var(--cl-bg-0) 44%, transparent);
+    padding: 0;
   }
 
   .theme-winner {
@@ -1903,40 +1899,37 @@
 
   .metric-chip,
   .card-timezone {
-    font-size: .67rem;
+    font-size: var(--cl-fs-12);
   }
 
   .card-footer-tools {
-    margin-top: var(--cl-sp-2);
-    padding-top: 7px;
+    margin-top: auto;
+    padding-top: var(--cl-sp-2);
   }
 
   .tool-link {
     min-height: 26px;
     padding: 3px 8px;
-    font-size: .71rem;
-    color: var(--cl-blue);
-    background: color-mix(in srgb, var(--cl-bg-0) 66%, transparent);
+    font-size: var(--cl-fs-12);
+    color: var(--cl-text-2);
+    background: var(--cl-bg-2);
   }
 
   @media (hover:hover) and (pointer:fine) {
     .card:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 22px -16px color-mix(in srgb, var(--cl-ink) 95%, transparent);
+      border-color: var(--cl-border-strong);
     }
     .tool-link:hover {
       background: var(--cl-bg-3);
       border-color: var(--cl-border-strong);
+      color: var(--cl-text-1);
     }
   }
 }
 
-@media (min-width: 1700px) {
-  .container,
-  .deferred-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
+
+/* CL-UI-86: the 1700px 4-column ladder retired with the mockup's 3-column
+   list grid. */
 
 
 
@@ -2326,43 +2319,58 @@
   padding: 2px 0; scrollbar-width: none;
 }
 .tier-tab-bar::-webkit-scrollbar { display: none; }
+/* CL-UI-86 (mockup-cards P2-1): segmented control, dual-encoded selection —
+   selected = weight 600 + 1.5px border on var(--cl-bg-3); per-tier semantic
+   color (綠=推薦 · 黃=可拍 · 紅=不宜 · 中性=全部); unselected uniform
+   var(--cl-text-2) (≥4.5:1). Count = mono second gray layer. */
 .tier-tab {
   flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px;
   height: 32px; padding: 0 12px; border-radius: 999px; cursor: pointer; white-space: nowrap;
-  background: var(--cl-bg-0); color: var(--cl-text-2); border: 1px solid var(--cl-border);
+  background: var(--cl-bg-2); color: var(--cl-text-2); border: 1px solid var(--cl-border);
   font-size: 0.85rem; transition: all 0.2s ease;
 }
-.tier-tab:hover { border-color: var(--cl-green-text); }
-/* CL-UI-81 (P1-2/P2-1): the selected count pill carries the 「推薦」 semantic —
-   it must be GREEN (green=recommended contract), never the link/neutral-select
-   blue. Shape adds a second dimension (border 1.5px + weight 600). */
-.tier-tab.active { background: color-mix(in srgb, var(--cl-green) 22%, var(--cl-bg-0)); color: var(--cl-green-text); border: 1.5px solid var(--cl-green-border); font-weight: 600; }
-.tier-tab-count { font-size: 0.75rem; opacity: 0.85; }
+.tier-tab:hover { border-color: var(--cl-border-strong); }
+.tier-tab.active { background: var(--cl-bg-3); color: var(--cl-text-1); border: 1.5px solid var(--cl-border-strong); font-weight: 600; }
+.tier-tab[data-tier="recommend"].active { border-color: var(--cl-green-border); color: var(--cl-green-text); }
+.tier-tab[data-tier="shootable"].active { border-color: var(--cl-amber-border); color: var(--cl-amber-text); }
+.tier-tab[data-tier="not_recommended"].active { border-color: var(--cl-red-border); color: var(--cl-red-text); }
+.tier-tab-count { font-family: var(--cl-mono); font-size: 0.75rem; color: var(--cl-text-3); }
+.tier-tab.active .tier-tab-count { color: var(--cl-text-2); }
+.tier-tab[data-tier="recommend"].active .tier-tab-count { color: var(--cl-green-text); }
+.tier-tab[data-tier="shootable"].active .tier-tab-count { color: var(--cl-amber-text); }
+.tier-tab[data-tier="not_recommended"].active .tier-tab-count { color: var(--cl-red-text); }
 .subject-chips { margin: 4px 0 10px; }
 .subject-chip-strip {
   display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch;
   padding: 2px 0; scrollbar-width: none;
 }
 .subject-chip-strip::-webkit-scrollbar { display: none; }
-/* CL-UI-81 (P2-1): chips share the pill geometry (32px / 0 12px / 999px) and
-   the ≥4.5:1 unselected text var(--cl-text-2). Subject chips are a NON-semantic
-   selection, so they keep the blue accent (P1-2 ruling). */
-.subject-chip {
-  flex: 0 0 auto; display: inline-flex; align-items: center; height: 32px;
-  padding: 0 12px; border-radius: 999px; cursor: pointer;
-  white-space: nowrap; background: var(--cl-bg-0); color: var(--cl-text-2);
-  border: 1px solid var(--cl-border); font-size: 0.78rem; transition: all 0.2s ease;
+/* CL-UI-86 (mockup-cards): 題材 chips 單行橫捲 — scroll-snap + 右緣 24px fade
+   mask; chips 24px (--cl-chip-h) / r-xs / bg-1; active = neutral elevation
+   (bg-3 + border-strong + 600), never the link blue. */
+.subject-chip-strip {
+  scroll-snap-type: x proximity;
+  mask-image: linear-gradient(90deg, var(--cl-ink) calc(100% - 24px), transparent);
 }
-.subject-chip:hover { border-color: var(--cl-blue); }
-.subject-chip.active { background: var(--cl-blue); color: var(--cl-bg-0); border: 1.5px solid var(--cl-blue); font-weight: 600; }
+.subject-chip {
+  flex: 0 0 auto; display: inline-flex; align-items: center; height: var(--cl-chip-h);
+  padding: 0 8px; border-radius: var(--cl-r-xs); cursor: pointer; scroll-snap-align: start;
+  white-space: nowrap; background: var(--cl-bg-1); color: var(--cl-text-2);
+  border: 1px solid var(--cl-border); font-size: var(--cl-fs-12); transition: all 0.2s ease;
+}
+.subject-chip:hover { border-color: var(--cl-border-strong); }
+.subject-chip.active { background: var(--cl-bg-3); border: 1.5px solid var(--cl-border-strong); color: var(--cl-text-1); font-weight: 600; }
 
 /* CL-UI-69: per-subject card rows — one line per suitable subject
-   「短名: HH:MM–HH:MM 🔔」, folded past 3 by a +N toggle. */
-.cl-subject-rows{display:flex;flex-direction:column;gap:var(--cl-sp-1);margin:4px 0 2px;padding:7px 9px;background:color-mix(in srgb, var(--cl-bg-1) 45%, transparent);border:1px solid color-mix(in srgb, var(--cl-text-1) 8%, transparent);border-radius:10px}
-.cl-subject-row{display:flex;align-items:center;gap:5px;font-size:.8rem;line-height:1.35;flex-wrap:wrap}
-.cl-subject-name{color:var(--cl-text-1);font-weight:600}
+   「短名: HH:MM–HH:MM 🔔」, folded past 3 by a +N toggle.
+   CL-UI-86 (mockup-cards .subj-row): plain 26px scan line — 行首綠色點承載
+   語義、短名 600、時段 mono text-2（藍僅連結）、行尾鈴鐺；外框 retirement。 */
+.cl-subject-rows{display:flex;flex-direction:column;gap:var(--cl-sp-1);margin:4px 0 2px}
+.cl-subject-row{display:flex;align-items:center;gap:var(--cl-sp-2);height:26px;font-size:var(--cl-fs-13);line-height:1.35;min-width:0}
+.cl-subject-row::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cl-green);flex:none}
+.cl-subject-name{color:var(--cl-text-1);font-weight:600;flex:none}
 .cl-subject-colon{color:var(--cl-text-3)}
-.cl-subject-window{color:var(--cl-blue);font-variant-numeric:tabular-nums}
+.cl-subject-window{color:var(--cl-text-2);font-family:var(--cl-mono);font-size:var(--cl-fs-12);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cl-subject-extra[hidden]{display:none}
 .cl-subject-more{align-self:flex-start;margin-left:0;padding:3px 10px;border-radius:999px;cursor:pointer;
   background:transparent;color:var(--cl-blue);border:1px solid var(--cl-border);font-size:.75rem;font-family:inherit}
@@ -2375,7 +2383,6 @@
 @media (max-width:390px){
   .cl-subject-row{font-size:.74rem}
   .cl-rem-btn.cl-rem-compact{padding:3px 5px}
-  .cl-subject-rows{padding:6px 8px}
 }
 
 /* ============================================================
