@@ -51,10 +51,11 @@ test('CL-UI-66 (1): tier/subject/sort/empty i18n keys exist in ALL three diction
   }
 });
 
-test('CL-UI-66 (2): tier adapter maps viable/deferred/noeval; shootable reserved for CL-UI-65', () => {
+test('CL-UI-66 (2): tier adapter reads the row tier first, verdict fallback keeps viable/deferred/noeval', () => {
   const fn = new Function([
     'const verdicts={a:"viable",b:"deferred",c:"noeval",d:"noeval"};',
     'function v2SpotDayVerdict(spot){return verdicts[spot.spot_id];}',
+    'const v2SubjectCardRow=()=>null;const clui66SpotLocalDate=()=>"2026-11-14";',
     grab('function clui66SpotTier', 'function clui66SpotLocalDate'),
     'return {a:clui66SpotTier({spot_id:"a"}),b:clui66SpotTier({spot_id:"b"}),c:clui66SpotTier({spot_id:"c"})};',
   ].join('\n'));
@@ -63,10 +64,20 @@ test('CL-UI-66 (2): tier adapter maps viable/deferred/noeval; shootable reserved
   assert.equal(r.b, 'not_recommended');
   // CL-UI-66: 資料不足 spots are never labeled ✗不宜 — they only count under 全部.
   assert.equal(r.c, 'noeval');
-  assert.ok(!/\bshootable\b[^]*return\s*'shootable'/.test(grab('function clui66SpotTier', 'function clui66SpotLocalDate').replace(/^[\s\S]*?return 'noeval';/, '')) || true);
-  // shootable never produced by the adapter (reserved for CL-UI-65)
-  const src = grab('function clui66SpotTier', 'function clui66SpotLocalDate');
-  assert.ok(!src.includes("'shootable'"), 'adapter must not emit shootable yet');
+  // CL-DATA-68 single truth: a row tier wins over the verdict mapping —
+  // shootable passes through verbatim (no longer reserved).
+  const fn2 = new Function([
+    'const rows={a:{tier:"recommend"},b:{tier:"shootable"},c:{tier:"not_recommended"},d:{tier:null}};',
+    'const v2SubjectCardRow=(id)=>rows[id];const clui66SpotLocalDate=()=>"2026-11-14";',
+    'function v2SpotDayVerdict(spot){return "viable";}',
+    grab('function clui66SpotTier', 'function clui66SpotLocalDate'),
+    'return {a:clui66SpotTier({spot_id:"a"}),b:clui66SpotTier({spot_id:"b"}),c:clui66SpotTier({spot_id:"c"}),d:clui66SpotTier({spot_id:"d"})};',
+  ].join('\n'));
+  const r2 = fn2();
+  assert.equal(r2.a, 'recommend');
+  assert.equal(r2.b, 'shootable');
+  assert.equal(r2.c, 'not_recommended');
+  assert.equal(r2.d, 'recommend', 'honest-null row falls back to the verdict mapping');
 });
 
 test('CL-UI-66 (3): clui66TierCounts counts each tab from the same verdict source', () => {
@@ -74,12 +85,25 @@ test('CL-UI-66 (3): clui66TierCounts counts each tab from the same verdict sourc
   const fn = new Function([
     `const verdicts=${JSON.stringify(verdicts)};`,
     'function v2SpotDayVerdict(spot){return verdicts[spot.spot_id];}',
+    'const v2SubjectCardRow=()=>null;const clui66SpotLocalDate=()=>"2026-11-14";',
     grab('function clui66SpotTier', 'function clui66SpotLocalDate'),
     grab('function clui66TierCounts', 'function renderTierTabs'),
     'const rows=["a","b","c","d"].map(id=>({spot:{spot_id:id}}));',
     'return clui66TierCounts(rows);',
   ].join('\n'));
   assert.deepEqual(fn(), { recommend: 2, shootable: 0, not_recommended: 1, all: 4 });
+  // CL-DATA-68 single truth: the tabs count the row tier (card tier=tab
+  // tier); a shootable row now counts in its own tab.
+  const fn2 = new Function([
+    'const rowsBySpot={a:{tier:"recommend"},b:{tier:"shootable"},c:{tier:"not_recommended"},d:{tier:null}};',
+    'const v2SubjectCardRow=(id)=>rowsBySpot[id];const clui66SpotLocalDate=()=>"2026-11-14";',
+    'function v2SpotDayVerdict(spot){return "noeval";}',
+    grab('function clui66SpotTier', 'function clui66SpotLocalDate'),
+    grab('function clui66TierCounts', 'function renderTierTabs'),
+    'const rows=["a","b","c","d"].map(id=>({spot:{spot_id:id}}));',
+    'return clui66TierCounts(rows);',
+  ].join('\n'));
+  assert.deepEqual(fn2(), { recommend: 1, shootable: 1, not_recommended: 1, all: 4 });
 });
 
 test('CL-UI-66 (4): clui66NextWindowValue ranks today hours, then future days, then unknown', () => {
@@ -241,8 +265,8 @@ test('CL-UI-66 (15): index.html carries the tab/chip hosts, the next_window sort
   assert.match(indexSource, /id="tier-tabs"/);
   assert.match(indexSource, /id="subject-chips"/);
   assert.match(indexSource, /<option value="next_window" data-i18n="sort_next_window">/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui92/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui92/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui93/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui93/);
 });
 
 test('CL-UI-66 (16): app.css styles both strips with horizontal scroll and the CL-UI-86 per-tier dual encoding', () => {

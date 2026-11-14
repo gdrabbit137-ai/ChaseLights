@@ -49,7 +49,12 @@ test('CL-UI-65 (1): every derived row carries tier + general_baseline (corpus-wi
       const gb = row.general_baseline;
       assert.ok(gb && typeof gb.ok === 'boolean', 'general_baseline present');
       if (gb.ok) assert.equal(gb.reason_short, null);
-      if (row.suitable.length) assert.equal(row.tier, 'recommend');
+      // CL-DATA-68: TODAY rows (tier_basis=remaining) judge the remaining
+      // period — the full-day body may disagree with the remaining verdict;
+      // cross-day rows keep the CL-UI-65 rule.
+      if (row.tier_basis === 'remaining') {
+        assert.ok(['recommend', 'shootable', 'not_recommended', null].includes(row.tier));
+      } else if (row.suitable.length) assert.equal(row.tier, 'recommend');
       else if (gb.ok) assert.equal(row.tier, 'shootable');
       counts[row.tier ?? 'null_tier']++;
     }
@@ -67,7 +72,9 @@ test('CL-UI-65 (1): every derived row carries tier + general_baseline (corpus-wi
     for (const [dt, row] of Object.entries(days)) {
       if ((row.suitable || []).length || row.tier !== 'not_recommended') continue;
       badRows++;
-      const reason = row.dominant_reason ||
+      // CL-DATA-68: a TODAY row's short reason lives in tier_reason (the
+      // remaining-period verdict); the day-level words back it up.
+      const reason = row.tier_reason || row.dominant_reason ||
         ((row.general_baseline || {}).reason_short || null);
       assert.ok(reason, `${pid} ${dt} ✗ 不宜 row carries a short reason`);
     }
@@ -126,6 +133,6 @@ test('CL-UI-65 (4): chips never include the general subject', () => {
 test('CL-UI-65 (5): mid-verdict style exists and stamps advanced to clui75', () => {
   const css = readFileSync(join(ROOT, 'assets', 'app.css'), 'utf8');
   assert.match(css, /\.v2-verdict-mid\s*{\s*color:/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui92/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui92/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui93/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui93/);
 });

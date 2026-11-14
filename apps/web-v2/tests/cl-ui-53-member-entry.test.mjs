@@ -146,7 +146,7 @@ test('CL-UI-55/60: cache-bust stamp ?v=clui81 on member-auth.js on all shell pag
   }
   const stamps = [...htmlSource.matchAll(/\?v=(clui\d+)/g)].map(m => Number(m[1].slice(4)));
   assert.ok(Math.min(...stamps) >= 41, 'all stamps clui41+');
-  assert.ok(Math.max(...stamps) === 92, 'new generation is the highest (CL-INT-165: CL-UI-83 four-variant unification + CL-UI-84 filter cache integrated, app.js/app.css bumped to clui92)');
+  assert.ok(Math.max(...stamps) === 93, 'new generation is the highest (CL-DATA-68: time-aware tier single-truth badge/tabs + tier_reason note, app.js/app.css bumped to clui93)');
 });
 
 // CL-API-05: failed OAuth callbacks land on the homepage as ?auth_error=1 —

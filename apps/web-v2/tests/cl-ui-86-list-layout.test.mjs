@@ -51,7 +51,7 @@ test('CL-UI-86 (1): cards carry content-visibility:auto + contain-intrinsic-size
 test('CL-UI-86 (2): card head renders name 14/600 ellipsis + tier badge + bare star', () => {
   assert.match(createSpotCardBlock, /<span class="tier tier-\$\{clBadgeTier\}">\$\{esc\(clBadgeLabel\)\}<\/span><button class="fav-btn/);
   // The badge shares the tier adapter's three-level state + the honest 資料不足.
-  assert.match(createSpotCardBlock, /clBadgeTier=\(\(\)=>\{if\(!v2Evaluated\)return 'defer';if\(v2Best\.state==='GUIDANCE_SATISFIED'\)return 'rec';if\(scTier==='not_recommended'\)return 'no';if\(scTier==='shootable'\)return 'shoot';return v2Best\.state==='NOT_EVALUABLE'\?'defer':'no';\}\)\(\);/);
+  assert.match(createSpotCardBlock, /clBadgeTier=\(\(\)=>\{if\(!v2Evaluated\)return 'defer';if\(scTier\)return\(\{recommend:'rec',shootable:'shoot',not_recommended:'no'\}\)\[scTier\];if\(v2Best\.state==='GUIDANCE_SATISFIED'\)return 'rec';return v2Best\.state==='NOT_EVALUABLE'\?'defer':'no';\}\)\(\);/);
   assert.match(createSpotCardBlock, /clBadgeLabel=\{rec:d\(\)\.tier_recommend,shoot:d\(\)\.tier_shootable,no:d\(\)\.tier_not_recommended,defer:d\(\)\.eval2_unk\}\[clBadgeTier\];/);
   // Badge classes map to the CL-UI-85 shared tier components (all three + grey).
   assert.match(cssSource, /\.tier-rec\{[^}]*var\(--cl-green-text\)/);
@@ -178,10 +178,10 @@ test('CL-UI-86 (8): shooting-summary drops the blue left-border box', () => {
 });
 
 // ---- (9) cache-first render path untouched; stamp bumped ----
-test('CL-UI-86 (9): CL-UI-84 cache-first wiring intact and cache-bust at clui92', () => {
+test('CL-UI-86 (9): CL-UI-84 cache-first wiring intact and cache-bust at clui93', () => {
   assert.ok(appSource.includes("if(!v2EvalBundle&&clui84FilterCache){"), 'failure branch keeps the cached bar');
   assert.ok(appSource.includes('clui84RenderTabsFromCounts(clui84FilterCache.tier_counts)'), 'cached counts repaint the tabs');
   assert.ok(appSource.includes('saveFilterCache(rowsAll);'), 'settled render persists the bar state');
-  assert.equal((indexSource.match(/\?v=clui92/g) || []).length, 2, 'app.js + app.css both at clui92');
+  assert.equal((indexSource.match(/\?v=clui93/g) || []).length, 2, 'app.js + app.css both at clui93');
   assert.doesNotMatch(indexSource, /\?v=clui90\b/, 'old generation retired');
 });
