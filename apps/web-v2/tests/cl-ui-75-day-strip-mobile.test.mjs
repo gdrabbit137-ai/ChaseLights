@@ -215,10 +215,20 @@ test.before(async () => {
     {stdio: ['ignore', 'ignore', 'pipe']});
   const wsUrl = await new Promise((resolve, reject) => {
     let buf = '';
-    const t = setTimeout(() => reject(new Error('no devtools endpoint')), 20000);
+    // event-loop-aware wait: with --test-isolation=none these hooks run while later
+    // test modules still import (heavy synchronous JSON parsing blocks the loop);
+    // only unblocked wall-clock time counts toward the spawn deadline.
+    let loopLast = Date.now(); const loopStart = loopLast;
+    const t = setInterval(() => {
+      const now = Date.now();
+      if (now - loopLast < 1500 && now - loopStart > 20000) {
+        clearInterval(t); reject(new Error('no devtools endpoint'));
+      }
+      loopLast = now;
+    }, 250);
     chrome.stderr.on('data', d => { buf += d;
       const m = buf.match(/DevTools listening on (ws:\/\/\S+)/);
-      if (m) { clearTimeout(t); resolve(m[1]); } });
+      if (m) { clearInterval(t); resolve(m[1]); } });
     chrome.on('error', e => reject(new Error('spawn: ' + e.message)));
   });
   const dbgHost = wsUrl.match(/ws:\/\/([^/]+)/)[1];

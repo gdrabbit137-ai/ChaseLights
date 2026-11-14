@@ -61,11 +61,19 @@ const BROWSER = process.env.CHROMIUM_EXECUTABLE
   || process.env.CHROME_PATH
   || (process.platform === 'win32' ? 'C:/Program Files/Google/Chrome/Application/chrome.exe' : '/usr/bin/chromium');
 
-let server, baseURL, chrome, ws, send, evaljs;
+let server, baseURL, chrome, ws, send, evaljs, ready;
 const nextId = (() => { let id = 0; return () => ++id; })();
 const pending = new Map();
 
-test.before(async () => {
+// CL-UI-90 harness fix: this file used a top-level `test.before()`, which
+// under --test-isolation=none attaches to the SHARED root suite — it ran
+// while later test modules were still importing (heavy synchronous JSON
+// parsing), the 60s spawn window elapsed event-loop-blocked, and its
+// rejection cascaded to ALL ~790 tests in the run. Lazy per-file init
+// instead: the browser boots on the first test that actually needs it.
+async function bootBrowser() {
+  if (ready) return ready;
+  ready = (async () => {
   const MIME = {'.html':'text/html','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.svg':'image/svg+xml'};
   server = createServer((req, res) => {
     const p = req.url.split('?')[0].replace(/\/+$/, '') || '/';
@@ -85,10 +93,20 @@ test.before(async () => {
     {stdio: ['ignore','ignore','pipe']});
   const wsUrl = await new Promise((resolve, reject) => {
     let buf = '';
-    const t = setTimeout(() => reject(new Error('no devtools endpoint')), 20000);
+    // event-loop-aware wait: with --test-isolation=none these hooks run while later
+    // test modules still import (heavy synchronous JSON parsing blocks the loop);
+    // only unblocked wall-clock time counts toward the spawn deadline.
+    let loopLast = Date.now(); const loopStart = loopLast;
+    const t = setInterval(() => {
+      const now = Date.now();
+      if (now - loopLast < 1500 && now - loopStart > 60000) {
+        clearInterval(t); reject(new Error('no devtools endpoint'));
+      }
+      loopLast = now;
+    }, 250);
     chrome.stderr.on('data', d => { buf += d;
       const m = buf.match(/DevTools listening on (ws:\/\/\S+)/);
-      if (m) { clearTimeout(t); resolve(m[1]); } });
+      if (m) { clearInterval(t); resolve(m[1]); } });
     chrome.on('error', e => reject(new Error('spawn: ' + e.message)));
   });
   const dbgHost = wsUrl.match(/ws:\/\/([^/]+)/)[1];
@@ -111,13 +129,17 @@ test.before(async () => {
     if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || 'page error');
     return r.result?.result?.value ?? r.result?.value;
   };
-});
+  })().catch(e => { ready = null; throw e; });
+  return ready;
+}
 
-test.after(async () => {
-  try { ws?.close(); } catch {}
-  chrome?.kill();
-  await new Promise(r => server?.close(r));
-});
+function teardownBrowser() {
+  return Promise.all([
+    (async () => { try { ws?.close(); } catch {} })(),
+    (async () => { chrome?.kill(); })(),
+    (async () => { await new Promise(r => server?.close(r)); })()
+  ]);
+}
 
 async function setViewport(width, height, mobile) {
   await send('Emulation.setDeviceMetricsOverride',
@@ -173,6 +195,7 @@ async function realClick(cx, cy) {
 
 for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true}, {name: 'desktop 1280px', w: 1280, h: 900, mobile: false}]) {
   test(`CL-UI-47 (2): ${vp.name} — closed overlay is display:none and a REAL hit reaches the card`, async (t) => {
+    await bootBrowser();
     await setViewport(vp.w, vp.h, vp.mobile);
     await loadPage();
     const probe = await cardCenterProbe();
@@ -188,3 +211,5 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true}, {name: '
     await realClick(10, 10); // outside-click close
   });
 }
+// Lazy-init cleanup: the browser shuts down once the (2) loop has finished.
+test('CL-UI-47 (3): browser teardown', async () => { await teardownBrowser(); });
