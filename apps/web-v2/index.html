@@ -20,8 +20,13 @@
     <div class="member-area" id="member-area" data-open="false">
       <a id="login-line" class="login-link" href="/api/v1/auth/line/start" hidden></a>
       <a id="login-google" class="login-link" href="/api/v1/auth/google/start" hidden></a>
+      <!-- CL-APP-07: fail-closed — stays hidden until /auth/config reports Apple configured -->
+      <a id="login-apple" class="login-link" href="/api/v1/auth/apple/start" hidden></a>
       <span id="member-name" class="member-name" hidden></span>
       <button id="login-toggle" type="button" hidden></button>
+      <!-- CL-APP-07: 連結其他登入方式 (signed-in only; filled by app.mjs) -->
+      <button id="link-toggle" class="login-link" type="button" hidden></button>
+      <div id="member-links" hidden></div>
     </div>
   </header>
   <div id="pull-indicator" role="status" aria-live="polite" hidden></div>
