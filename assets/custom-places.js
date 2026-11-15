@@ -42,6 +42,7 @@
       ro_elev: '海拔（DEM 自動）', ro_tz: '時區自動', ro_pending: '落釘後自動帶入',
       ro_elev_outlier: '海拔異常（超出 −450～8,849 m）——請確認座標',
       create: '建立私人點', update: '更新私人點',
+      reason_name: '請先輸入景點名稱', reason_pin: '請先落釘或輸入經緯度',
       done1: '✓ 私人點已建立', done1_edit: '✓ 已更新', done_deferred: '已建立·氣象資料明日更新（每日抓取額度誠實排隊）',
       cc_title: '掛題材·自訂條件', cc_sub: 'CL-UI-99 已上線引擎——五組參數同規格',
       p_low: '低雲門檻（%）', p_mid: '中雲門檻（%）', p_high: '高雲門檻（%）', p_precip: '降水上限（mm/h）',
@@ -78,6 +79,7 @@
       ro_elev: 'Elevation (auto DEM)', ro_tz: 'Timezone (auto)', ro_pending: 'auto-filled after pinning',
       ro_elev_outlier: 'Elevation outlier (outside −450…8,849 m) — check the coordinates',
       create: 'Create place', update: 'Save changes',
+      reason_name: 'Enter a place name first', reason_pin: 'Pin on the map or enter lat/lng first',
       done1: '✓ Place created', done1_edit: '✓ Saved', done_deferred: 'Created · weather data updates tomorrow (honest daily-fetch queue)',
       cc_title: 'Subject & custom conditions', cc_sub: 'Live CL-UI-99 engine — same five parameter groups',
       p_low: 'Low-cloud threshold (%)', p_mid: 'Mid-cloud threshold (%)', p_high: 'High-cloud threshold (%)', p_precip: 'Precip cap (mm/h)',
@@ -114,6 +116,7 @@
       ro_elev: '標高（DEM 自動）', ro_tz: 'タイムゾーン（自動）', ro_pending: 'ピン配置後に自動入力',
       ro_elev_outlier: '標高が異常（−450〜8,849 m 外）— 座標を確認してください',
       create: '作成', update: '変更を保存',
+      reason_name: '先に名称を入力してください', reason_pin: 'ピン配置か緯度経度の入力が必要です',
       done1: '✓ 作成しました', done1_edit: '✓ 保存しました', done_deferred: '作成済み・気象データは明日更新（毎日取得枠の正直な待機）',
       cc_title: '題材・カスタム条件', cc_sub: '稼働中の CL-UI-99 エンジン — 同じ 5 パラメータ群',
       p_low: '低雲しきい値（%）', p_mid: '中雲しきい値（%）', p_high: '高雲しきい値（%）', p_precip: '降水上限（mm/h）',
@@ -501,6 +504,16 @@
       '<div class="cl-cp-ro" id="cl-cp-ro"></div></div>' +
       '<button type="button" class="cl-cp-submit" id="cl-cp-submit">' + esc(isEdit ? t().update : t().create) + '</button>');
     wireClose();
+    // patch-2: the name field is the FIRST field and auto-focuses (owner bug:
+    // on a short window the field was clipped and the user could not see why
+    // 「建立私人點」 stayed disabled). focus() also scrolls it into view.
+    var nm = els.overlay.querySelector('#cl-cp-name');
+    if (nm) {
+      nm.focus();
+      // disabled reason lives ON the button (not just grayed-out): recompute
+      // on every keystroke, pin change and geo fill
+      nm.addEventListener('input', updateSubmitState);
+    }
     var pk = els.overlay.querySelector('#cl-cp-pinpick');
     pk.addEventListener('click', function (e) {
       var r = pk.getBoundingClientRect();
@@ -517,6 +530,7 @@
         state.pin = { lat: els.overlay.querySelector('#cl-cp-lat').value.trim(), lng: els.overlay.querySelector('#cl-cp-lng').value.trim() };
         refreshPin();
       });
+      els.overlay.querySelector(sel).addEventListener('input', updateSubmitState);
     });
     els.overlay.querySelector('#cl-cp-submit').addEventListener('click', submitAdd);
     var gb = els.overlay.querySelector('#cl-cp-geo-btn');
@@ -563,6 +577,22 @@
       var b2 = els.overlay.querySelector('#cl-cp-geo-btn'); if (b2) b2.disabled = false;
     });
   }
+  // patch-2: the disabled submit button SHOWS the reason (「請先輸入景點名稱」/
+  // 「請先落釘或輸入經緯度」) instead of just graying out — the owner could not
+  // see a hidden name field, so a gray button with no explanation read as a
+  // dead end. ready = name AND finite lat/lng.
+  function updateSubmitState() {
+    var su = els.overlay.querySelector('#cl-cp-submit');
+    if (!su) return;
+    var nameEl = els.overlay.querySelector('#cl-cp-name');
+    var name = nameEl ? nameEl.value.trim() : '';
+    var latEl = els.overlay.querySelector('#cl-cp-lat'), lngEl = els.overlay.querySelector('#cl-cp-lng');
+    var lat = latEl ? parseFloat(latEl.value) : NaN, lng = lngEl ? parseFloat(lngEl.value) : NaN;
+    var ok = !!name && isFinite(lat) && isFinite(lng);
+    su.classList.toggle('ready', ok);
+    su.style.cursor = ok ? 'pointer' : 'not-allowed';
+    su.textContent = ok ? (state.editing ? t().update : t().create) : (!name ? t().reason_name : t().reason_pin);
+  }
   function pinXY() {
     if (!state.pin) return null;
     var lat = Number(state.pin.lat), lng = Number(state.pin.lng);
@@ -578,13 +608,11 @@
       ro.innerHTML = '<span class="pill">🏔 <span>' + esc(t().ro_elev) + '</span> <b id="cl-cp-elev">…</b></span>' +
         '<span class="pill">🕐 <span>' + esc(t().ro_tz) + '</span> <b id="cl-cp-tz">…</b></span>';
       lookupPinInfo();
-      var su = els.overlay.querySelector('#cl-cp-submit');
-      su.classList.add('ready'); su.style.cursor = 'pointer';
+      updateSubmitState();
     } else {
       pk.innerHTML = '<span class="cl-cp-pin-hint">' + esc(t().ro_pending) + '</span>';
       ro.innerHTML = '<span class="pill" style="color:var(--cl-text-3)">🏔 🕐 ' + esc(t().ro_pending) + '</span>';
-      var su2 = els.overlay.querySelector('#cl-cp-submit');
-      su2.classList.remove('ready'); su2.style.cursor = 'not-allowed';
+      updateSubmitState();
     }
   }
   function lookupPinInfo() {

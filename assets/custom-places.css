@@ -74,10 +74,16 @@ body[data-cp-view="official"] #spots-container .cl-cp-card{display:none}
 body[data-cp-view="private"] #spots-container > *:not(.cl-cp-card){display:none !important}
 
 /* ── modal (add/edit / conditions / nominate / delete confirm) ── */
+/* CL-APP-06 patch-2 (owner bug report): the popup could grow TALLER than the
+   window, clipping the name field (the first field) so 「建立私人點」 stayed
+   disabled and the user was stuck. The modal is now height-bounded to the
+   overlay's own padding and scrolls INTERNALLY — fully visible at any window
+   height; the name field stays the first field and auto-focuses. */
 .cl-cp-overlay{position:fixed;inset:0;background:rgba(4,7,14,.72);backdrop-filter:blur(3px);
   display:none;align-items:flex-start;justify-content:center;z-index:90;padding:var(--cl-sp-6) var(--cl-sp-4);overflow-y:auto}
 .cl-cp-overlay.open{display:flex}
-.cl-cp-modal{width:100%;max-width:560px;background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);
+.cl-cp-modal{width:100%;max-width:560px;max-height:calc(100vh - var(--cl-sp-6) * 2);overflow-y:auto;box-sizing:border-box;
+  background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);
   border-radius:var(--cl-r-lg);padding:var(--cl-sp-5);box-shadow:var(--cl-shadow-3)}
 .cl-cp-m-head{display:flex;align-items:flex-start;gap:var(--cl-sp-3);margin-bottom:var(--cl-sp-3)}
 .cl-cp-m-head .name{font-size:16px;font-weight:600}
@@ -174,6 +180,9 @@ body[data-cp-view="private"] #spots-container > *:not(.cl-cp-card){display:none 
   .cl-cp-f-row{flex-wrap:wrap}
   .cl-cp-cc-params{grid-template-columns:1fr 1fr}
   .cl-cp-ccp.wide{grid-column:span 2}
+  /* patch-2: no overlay padding on mobile — the sheet is exactly the window
+     (min=max=100vh) and scrolls INTERNALLY, so even a 390px/low-height window
+     keeps the name field and the submit button reachable */
   .cl-cp-overlay{padding:0}
-  .cl-cp-overlay .cl-cp-modal{max-width:390px;min-height:100vh;border-radius:0}
+  .cl-cp-overlay .cl-cp-modal{max-width:390px;min-height:100vh;max-height:100vh;border-radius:0}
 }

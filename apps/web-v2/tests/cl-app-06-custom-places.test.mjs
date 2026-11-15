@@ -25,8 +25,8 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 
 // ------------------------------------------------------------- (1) source
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06b/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06b/);
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06c/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06c/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   assert.match(htmlSource, /assets\/app\.js\?v=clui101/);
 });
@@ -73,12 +73,33 @@ test('CL-APP-06 (1c): gray identity CSS never borrows the ✓○✗ semantic col
   assert.match(cssSource, /body\[data-cp-view="private"\]/);
 });
 
+test('CL-APP-06 (1c-2, patch-2): the modal is height-bounded + internally scrollable at ANY window height', () => {
+  // owner bug: the popup grew taller than the window and the name field was
+  // clipped, so 「建立私人點」 stayed disabled — the user was stuck.
+  const modal = cssSource.slice(cssSource.indexOf('.cl-cp-modal{'), cssSource.indexOf('.cl-cp-m-head'));
+  assert.match(modal, /max-height:\s*calc\(100vh\s*-\s*var\(--cl-sp-6\)\s*\*\s*2\)/,
+    'desktop modal height ≤ window minus the overlay padding');
+  assert.match(modal, /overflow-y:\s*auto/, 'the modal scrolls INTERNALLY (overlay no longer the only scroller)');
+  // mobile sheet: exactly the window height, internal scroll
+  const mq = cssSource.slice(cssSource.indexOf('@media (max-width:700px)'));
+  assert.match(mq, /max-height:100vh/, '390px sheet: min=max=100vh — never taller than the window');
+  // the name field is the first field and auto-focuses (focus also scrolls it into view)
+  assert.match(jsSource, /#cl-cp-name[\s\S]{0,120}\.focus\(\)/, 'name field auto-focuses on open');
+  // the disabled button shows the reason on itself, not just gray
+  assert.match(jsSource, /reason_name/);
+  assert.match(jsSource, /reason_pin/);
+  assert.match(jsSource, /updateSubmitState/);
+  assert.match(jsSource, /請先輸入景點名稱/);
+});
+
 test('CL-APP-06 (1d): tri-lingual dictionary parity in the asset', () => {
   const keys = ['priv_badge', 'v_all', 'v_official', 'v_private', 'trial_expired', 'trial_note',
     'deferred_note', 'm_edit', 'm_cc', 'm_nom', 'm_del', 'add_title', 'ro_elev', 'ro_tz',
     'nom_title', 'del_title', 'count_fmt',
     // 📍 current-location copy must exist in ALL three dictionaries
-    'geo_btn', 'geo_note', 'geo_working', 'geo_denied', 'geo_timeout', 'geo_error'];
+    'geo_btn', 'geo_note', 'geo_working', 'geo_denied', 'geo_timeout', 'geo_error',
+    // patch-2: disabled-button reason copy must exist in ALL three dictionaries
+    'reason_name', 'reason_pin'];
   for (const lang of ['zh-TW', 'en', 'ja']) {
     const block = jsSource.slice(jsSource.indexOf(`'${lang}':`), jsSource.indexOf(`'${lang}':`) + 8000);
     for (const key of keys) assert.ok(new RegExp(`\\b${key}:`).test(block), `${lang} missing ${key}`);
@@ -397,15 +418,27 @@ test('CL-APP-06 (2e): add modal — pin map + lat/lng + READ-ONLY auto elevation
     const lat = ov.querySelector('#cl-cp-lat').value, lng = ov.querySelector('#cl-cp-lng').value;
     const elev = ov.querySelector('#cl-cp-elev') && ov.querySelector('#cl-cp-elev').textContent;
     const tz = ov.querySelector('#cl-cp-tz') && ov.querySelector('#cl-cp-tz').textContent;
-    const submitReady = ov.querySelector('#cl-cp-submit').classList.contains('ready');
-    return { open, lat, lng, elev, tz, submitReady };
+    const submitBtn = ov.querySelector('#cl-cp-submit');
+    const out = { open, lat, lng, elev, tz,
+      readyBefore: submitBtn.classList.contains('ready'), btnBefore: submitBtn.textContent };
+    // patch-2: the name is required — typing it flips the button ready with its real label
+    const nm = ov.querySelector('#cl-cp-name');
+    nm.value = '測試私人點';
+    nm.dispatchEvent(new Event('input'));
+    await new Promise(r => setTimeout(r, 100));
+    out.readyAfter = submitBtn.classList.contains('ready');
+    out.btnAfter = submitBtn.textContent;
+    return out;
   })()`);
   assert.equal(probe.open, true);
   assert.ok(probe.lat, 'click-to-drop fills lat');
   assert.ok(probe.lng, 'click-to-drop fills lng');
   assert.equal(probe.elev, '80 m', 'DEM elevation auto-filled (read-only value)');
   assert.match(probe.tz, /Asia\/Taipei/, 'timezone auto-filled (IANA)');
-  assert.equal(probe.submitReady, true);
+  assert.equal(probe.readyBefore, false, 'no name yet — button not ready');
+  assert.match(probe.btnBefore, /請先輸入景點名稱/, 'patch-2: the disabled button shows the reason on itself, not just gray');
+  assert.equal(probe.readyAfter, true, 'typing the name makes the button ready');
+  assert.match(probe.btnAfter, /建立私人點/, 'ready button carries its real label again');
 });
 
 test('CL-APP-06 (2f): headless screenshots at 1280/390 for the mockup comparison', async () => {
@@ -516,6 +549,10 @@ test('CL-APP-06 (2j): 📍 current location — success fills lat/lng + drops th
     };
     btn.click();
     await new Promise(r => setTimeout(r, 300));
+    const nm = ov.querySelector('#cl-cp-name');
+    nm.value = '測試私人點';
+    nm.dispatchEvent(new Event('input'));
+    await new Promise(r => setTimeout(r, 100));
     const lat = ov.querySelector('#cl-cp-lat').value, lng = ov.querySelector('#cl-cp-lng').value;
     const mark = !!ov.querySelector('.cl-cp-pinmark');
     const submitReady = ov.querySelector('#cl-cp-submit').classList.contains('ready');
@@ -558,6 +595,10 @@ test('CL-APP-06 (2k): 📍 denied → honest message, falls back to manual pin/l
     ov.querySelector('#cl-cp-lng').value = '121.7675';
     ov.querySelector('#cl-cp-lng').dispatchEvent(new Event('change'));
     await new Promise(r => setTimeout(r, 150));
+    const nm = ov.querySelector('#cl-cp-name');
+    nm.value = '測試私人點';
+    nm.dispatchEvent(new Event('input'));
+    await new Promise(r => setTimeout(r, 100));
     return { status, lat, lng, mark: !!ov.querySelector('.cl-cp-pinmark'),
       submitReady: ov.querySelector('#cl-cp-submit').classList.contains('ready'),
       btnReEnabled: !ov.querySelector('#cl-cp-geo-btn').disabled };
@@ -593,6 +634,96 @@ test('CL-APP-06 (2l): 📍 timeout → honest message, manual input survives', a
   assert.equal(probe.btnVisible, true, 'geo button stays visible on mobile');
   assert.equal(probe.btnReEnabled, true);
   assert.equal(probe.statusVisible, true, 'status text is computed-visible');
+});
+
+
+test('CL-APP-06 (2m, patch-2): short window (1280×768) — modal fully visible, name field visible + auto-focused, reason on the button', async () => {
+  await bootBrowser();
+  await setViewport(1280, 768, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    document.querySelector('.cl-cp-add-btn').click();
+    await new Promise(r => setTimeout(r, 200));
+    const ov = document.querySelector('.cl-cp-overlay');
+    const modal = ov.querySelector('.cl-cp-modal');
+    const mr = modal.getBoundingClientRect();
+    const name = ov.querySelector('#cl-cp-name');
+    const nr = name.getBoundingClientRect();
+    const btn = ov.querySelector('#cl-cp-submit');
+    const out = {
+      winH: window.innerHeight, modalTop: mr.top, modalBottom: mr.bottom,
+      nameVisible: getComputedStyle(name).display !== 'none' && nr.height > 0 && nr.top >= 0 && nr.bottom <= window.innerHeight,
+      focused: document.activeElement === name,
+      btnText: btn.textContent, ready: btn.classList.contains('ready'),
+      modalScrollable: modal.scrollHeight > modal.clientHeight,
+    };
+    // internal scroll: the button must be reachable at the BOTTOM of the modal
+    modal.scrollTop = modal.scrollHeight;
+    await new Promise(r => setTimeout(r, 100));
+    const br = btn.getBoundingClientRect();
+    const hit = document.elementFromPoint(br.left + br.width / 2, br.top + br.height / 2);
+    out.btnReachable = br.top >= 0 && br.bottom <= window.innerHeight + 1 && (hit === btn || (hit && btn.contains(hit)));
+    return out;
+  })()`);
+  assert.ok(probe.modalTop >= -1 && probe.modalBottom <= probe.winH + 1,
+    `modal fully inside the ${probe.winH}px window (top=${probe.modalTop}, bottom=${probe.modalBottom})`);
+  assert.equal(probe.nameVisible, true, 'name field computed-visible inside the window');
+  assert.equal(probe.focused, true, 'the first field (name) auto-focuses on open');
+  assert.equal(probe.ready, false);
+  assert.match(probe.btnText, /請先輸入景點名稱/, 'the disabled button shows its reason, not just gray');
+  assert.ok(probe.btnReachable, 'the submit button is reachable (clickable) inside the internally scrolled modal');
+});
+
+test('CL-APP-06 (2n, patch-2): 390×768 small window — same fix on the mobile sheet', async () => {
+  await bootBrowser();
+  await setViewport(390, 768, true);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    document.querySelector('.cl-cp-add-btn').click();
+    await new Promise(r => setTimeout(r, 200));
+    const ov = document.querySelector('.cl-cp-overlay');
+    const modal = ov.querySelector('.cl-cp-modal');
+    const mr = modal.getBoundingClientRect();
+    const name = ov.querySelector('#cl-cp-name');
+    const nr = name.getBoundingClientRect();
+    const btn = ov.querySelector('#cl-cp-submit');
+    const out = {
+      winH: window.innerHeight, winW: window.innerWidth,
+      modalTop: mr.top, modalBottom: mr.bottom, modalW: mr.width,
+      nameVisible: getComputedStyle(name).display !== 'none' && nr.height > 0 && nr.top >= 0 && nr.bottom <= window.innerHeight,
+      focused: document.activeElement === name,
+      btnText: btn.textContent,
+    };
+    modal.scrollTop = modal.scrollHeight;
+    await new Promise(r => setTimeout(r, 100));
+    const br = btn.getBoundingClientRect();
+    const hit = document.elementFromPoint(br.left + br.width / 2, br.top + br.height / 2);
+    out.btnReachable = br.left >= 0 && br.top >= 0 && br.bottom <= window.innerHeight + 1 && (hit === btn || (hit && btn.contains(hit)));
+    // typing the name swaps the button reason to the missing-pin one…
+    const nm = ov.querySelector('#cl-cp-name');
+    nm.value = '測試私人點';
+    nm.dispatchEvent(new Event('input'));
+    await new Promise(r => setTimeout(r, 100));
+    out.btnNameOnly = btn.textContent;
+    // …and dropping the pin (manual lat/lng) makes it ready with the real label
+    ov.querySelector('#cl-cp-lat').value = '24.8225';
+    ov.querySelector('#cl-cp-lng').value = '121.7675';
+    ov.querySelector('#cl-cp-lng').dispatchEvent(new Event('change'));
+    await new Promise(r => setTimeout(r, 400));
+    out.readyAfter = btn.classList.contains('ready');
+    out.btnAfter = btn.textContent;
+    return out;
+  })()`);
+  assert.ok(probe.modalW <= probe.winW + 1, 'the sheet fits the 390px window');
+  assert.ok(probe.modalTop >= -1 && probe.modalBottom <= probe.winH + 1,
+    `sheet fully inside the ${probe.winW}×${probe.winH} window (top=${probe.modalTop}, bottom=${probe.modalBottom})`);
+  assert.equal(probe.nameVisible, true, 'name field visible on the 390px sheet');
+  assert.equal(probe.focused, true, 'name field auto-focuses on mobile too');
+  assert.match(probe.btnText, /請先輸入景點名稱/, 'disabled reason visible on mobile');
+  assert.ok(probe.btnReachable, 'submit button reachable on the 390px sheet');
+  assert.match(probe.btnNameOnly, /請先落釘或輸入經緯度/, 'after the name, the button explains the NEXT missing step');
+  assert.equal(probe.readyAfter, true);
+  assert.match(probe.btnAfter, /建立私人點/);
 });
 
 test('CL-APP-06 (2g): browser teardown', async () => { await teardownBrowser(); });
