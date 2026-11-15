@@ -32,6 +32,8 @@ test('CL-DATA-65 (b): the general genre chip is visually distinct from curated g
 });
 
 test('CL-DATA-65 (c): cache-bust stamps bumped for app.js/app.css', () => {
-  assert.match(htmlSource, /assets\/app\.css\?v=clui98/);
-  assert.match(htmlSource, /assets\/app\.js\?v=clui98/);
+  // CL-INT-183 semantic stamp merge: CL-DATA-69 base pinned clui98, CL-UI-98
+  // later bumped main to clui100 — the pin follows the highest landed stamp.
+  assert.match(htmlSource, /assets\/app\.css\?v=clui100/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui100/);
 });
