@@ -146,9 +146,9 @@
     "domain": "SEASON_TIME",
     "evaluation_mode": "GUIDANCE",
     "capability": "CONDITIONS",
-    "metric": "water_surface_state",
-    "operator": "none",
-    "threshold": null,
+    "metric": "water_reflection_state",
+    "operator": "neq",
+    "threshold": "unfit",
     "unit": null,
     "unknown_policy": "propagate_unknown",
     "claim_refs": [
@@ -157,12 +157,12 @@
     "model_binding": null,
     "validation_status": "provisional",
     "condition_tier": "MAIN",
-    "threshold_source": "computed",
+    "threshold_source": "formula_derived",
     "calibration_status": "provisional",
     "rationale_i18n": {
-     "zh-TW": "水面狀態（結冰/水位）無即時觀測源，誠實回報 UNKNOWN，不猜測：冬期結冰時倒影不成立，請依現場狀況判斷。",
-     "en": "Water-surface state (ice/level) has no live observation source - honestly UNKNOWN, never guessed: in winter freeze the reflection fails, judge on site.",
-     "ja": "水面状態（結氷・水位）は即時観測源がなく、誠実にUNKNOWNを返す（推測しない）。冬季の凍結時は反射が成立しない。現地で判断すること。"
+     "zh-TW": "水面平靜度派生指標（CL-DATA-72 batch A / CHALLENGER-15 A7，manager 定案）：評估層以風速＋降水（含過去 2–6 小時）＋氣溫派生三級——鏡面（風≤1.5 m/s＋過去 2–6h 無雨＋氣溫>0）、可拍（風≤3＋近無雨）、不宜（風>3 或降雨中或氣溫≤0→可能結冰）。本條 neq 'unfit'：僅『不宜』否決，鏡面/可拍皆成立。浪高無接源（>0.3m 判不宜的規則待 marine 波浪接源後生效）。",
+     "en": "Derived water-surface stillness (CL-DATA-72 batch A / CHALLENGER-15 A7, manager ruling): the evaluator derives a three-level state from wind speed, precipitation (including the past 2-6 h) and air temperature — mirror (wind <= 1.5 m/s, no rain in the past 2-6 h, air temp > 0), shootable (wind <= 3, near-no-rain), unfit (wind > 3 or raining or air temp <= 0 -> possible icing). This condition is neq 'unfit': only unfit vetoes; mirror/shootable both satisfy it. Wave height has no connected source (the > 0.3 m -> unfit rule activates once marine waves land).",
+     "ja": "水面の静けさ派生指標（CL-DATA-72 batch A / CHALLENGER-15 A7、マネージャー裁定）：評価層は風速・降水（直近2〜6時間を含む）・気温から3段階を導出 — 鏡面（風≤1.5 m/s・直近2〜6h無降雨・気温>0）、撮影可（風≤3・ほぼ無雨）、不適（風>3 または降雨中 または気温≤0→結氷の可能性）。本条件は neq 'unfit'：『不適』のみ否決。波高は未接続（>0.3m→不適ルールは海洋波データ接続後に有効）。"
     }
    },
    {
