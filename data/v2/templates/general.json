@@ -1,16 +1,16 @@
 {
   "template_id": "general",
-  "version": "0.1",
+  "version": "0.2",
   "status": "defined",
   "title_i18n": {
-    "zh-TW": "一般拍攝",
-    "en": "General shooting",
-    "ja": "一般撮影"
+    "zh-TW": "可拍",
+    "en": "Shootable",
+    "ja": "撮影可"
   },
   "definition_i18n": {
-    "zh-TW": "owner 裁決（2026-11-10，CL-DATA-65）的兜底題材：每個景點至少要有一個「一般題材」——主體不被遮擋（能見度足夠）、無大雨大霧即可拍攝。它不是策展題材：沒有特定攝影對象語義，只有可拍性的下限保證；顯示層以「一般拍攝」標籤與策展題材視覺區分。四條件全 REQUIRED、無 BONUS：條件不滿足就誠實顯示不符合，不做加分項。能見度門檻依景點尺度參數化（view_scale_km：遠景型 8km、一般 5km、近景型 3km）。用於零策展題材景點的自動掛載（place_id-P99），正式題材存在時永不覆蓋。",
-    "en": "Fallback genre per owner ruling (2026-11-10, CL-DATA-65): every place must keep at least one general subject - the subject is unobstructed (visibility adequate) and shootable without heavy rain or heavy fog. It is NOT a curated genre: no specific photographic-subject semantics, only a floor guarantee of shootability; the display layer labels it General shooting to visually distinguish it from curated genres. All four conditions are REQUIRED with no BONUS: unmet conditions honestly read as unmet, no quality bonuses. The visibility threshold is parameterized by place scale (view_scale_km: vista-type 8km, general 5km, close-range 3km). Used to auto-mount zero-curated-subject places (place_id-P99); it never overwrites curated subjects.",
-    "ja": "オーナー裁定（2026-11-10、CL-DATA-65）によるフォールバック題材：各拠点には最低一つの「一般題材」が必要——主題が遮られず（視程が十分）、大雨・濃霧がなければ撮影できる。キュレーション題材ではない：特定の被写体セマンティクスはなく、撮影可能性の下限保証のみ。表示層は「一般撮影」ラベルでキュレーション題材と視覚的に区別する。4条件すべてREQUIRED、BONUSなし：条件未達は誠実に未達と表示し、加点項目は設けない。視程閾値は拠点スケールでパラメータ化（view_scale_km：遠景型8km、一般5km、近景型3km）。キュレーション題材ゼロの拠点への自動マウント（place_id-P99）に用い、正式題材を上書きしない。"
+    "zh-TW": "owner 裁決（2026-11-10，CL-DATA-65）的兜底題材：每個景點至少要有一個「一般題材」——主體不被遮擋（能見度足夠）、無大雨大霧即可拍攝。它不是策展題材：沒有特定攝影對象語義，只有可拍性的下限保證；顯示層以「可拍」標籤與策展題材視覺區分。四條件全 REQUIRED、無 BONUS：條件不滿足就誠實顯示不符合，不做加分項。能見度門檻依景點尺度參數化（view_scale_km：遠景型 8km、一般 5km、近景型 3km）。用於零策展題材景點的自動掛載（place_id-P99），正式題材存在時永不覆蓋。",
+    "en": "Fallback genre per owner ruling (2026-11-10, CL-DATA-65): every place must keep at least one general subject - the subject is unobstructed (visibility adequate) and shootable without heavy rain or heavy fog. It is NOT a curated genre: no specific photographic-subject semantics, only a floor guarantee of shootability; the display layer labels it Shootable to visually distinguish it from curated genres. All four conditions are REQUIRED with no BONUS: unmet conditions honestly read as unmet, no quality bonuses. The visibility threshold is parameterized by place scale (view_scale_km: vista-type 8km, general 5km, close-range 3km). Used to auto-mount zero-curated-subject places (place_id-P99); it never overwrites curated subjects.",
+    "ja": "オーナー裁定（2026-11-10、CL-DATA-65）によるフォールバック題材：各拠点には最低一つの「一般題材」が必要——主題が遮られず（視程が十分）、大雨・濃霧がなければ撮影できる。キュレーション題材ではない：特定の被写体セマンティクスはなく、撮影可能性の下限保証のみ。表示層は「撮影可」ラベルでキュレーション題材と視覚的に区別する。4条件すべてREQUIRED、BONUSなし：条件未達は誠実に未達と表示し、加点項目は設けない。視程閾値は拠点スケールでパラメータ化（view_scale_km：遠景型8km、一般5km、近景型3km）。キュレーション題材ゼロの拠点への自動マウント（place_id-P99）に用い、正式題材を上書きしない。"
   },
   "instantiated_by": [],
   "params": [
@@ -124,5 +124,5 @@
       }
     }
   ],
-  "owner_review": "2026-11-10 defined at v0.1 per owner ruling (CL-DATA-65): every place keeps at least one general subject - subject unobstructed at adequate visibility, shootable without heavy rain or heavy fog. All four conditions REQUIRED, no BONUS. Visibility threshold parameterized by view_scale_km (vista 8 / general 5 / close-range 3 km) - parameterization chosen over per-spot condition overrides as the path most compatible with the existing expansion pipeline (overlook's expr thresholds). Fog cap reuses the existing mist semantics (near-saturation low-level humidity, cloud_sea T1). Auto-mount applies to zero-curated-subject places as place_id-P99; curated subjects are never overwritten; fully retired (hidden) places are skipped."
+  "owner_review": "2026-11-10 defined at v0.1 per owner ruling (CL-DATA-65): every place keeps at least one general subject - subject unobstructed at adequate visibility, shootable without heavy rain or heavy fog. All four conditions REQUIRED, no BONUS. Visibility threshold parameterized by view_scale_km (vista 8 / general 5 / close-range 3 km) - parameterization chosen over per-spot condition overrides as the path most compatible with the existing expansion pipeline (overlook's expr thresholds). Fog cap reuses the existing mist semantics (near-saturation low-level humidity, cloud_sea T1). Auto-mount applies to zero-curated-subject places as place_id-P99; curated subjects are never overwritten; fully retired (hidden) places are skipped. 2026-11-15 v0.2 per owner ruling (CL-DATA-69): display title renamed 一般拍攝/General shooting/一般撮影 -> 可拍/Shootable/撮影可 (copy unification); conditions and thresholds unchanged, backward compatible."
 }
