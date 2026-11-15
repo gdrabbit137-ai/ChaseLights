@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOCKUP — 景點評分＋回報/留言 UGC 通道 · ChaseLights DESIGN-7</title>
+<style>
+/* ============================================================
+   DESIGN-7 mockup（v2 owner 裁示）— 景點分數（L/P 兩軸五級）
+   ＋回報/留言合成一條 UGC 通道（舊 guest-comment 退役）
+   設計錨點：Linear/Vercel 級深色儀表板 · --cl-* token 系統
+   色彩契約：綠=推薦 · 黃=可拍 · 灰紅=不宜 · 藍僅連結
+   評分展示契約：★=分數（琥珀）、n=票數 mono 第二灰層、
+   冷啟動不出示任何分數、匿名=遮罩暱稱、回報=不公開工單
+   純 CSS/JS，無圖片、無外部字型
+   ============================================================ */
+:root{
+  /* surfaces */
+  --cl-bg-0:#0B0F1A; --cl-bg-1:#111827; --cl-bg-2:#1A2332; --cl-bg-3:#232D3F;
+  --cl-border:#2A3441; --cl-border-strong:#3B4757;
+  /* text */
+  --cl-text-1:#E6EBF2; --cl-text-2:#A8B3C2; --cl-text-3:#8B98A9;
+  /* semantic — 契約色 */
+  --cl-green:#22C55E; --cl-green-text:#4ADE80; --cl-green-bg:rgba(34,197,94,.10); --cl-green-border:#166534;
+  --cl-amber:#F59E0B; --cl-amber-text:#FBBF24; --cl-amber-bg:rgba(245,158,11,.10); --cl-amber-border:#92600A;
+  --cl-red:#EF4444; --cl-red-text:#F87171; --cl-red-bg:rgba(239,68,68,.09); --cl-red-border:#7F1D1D;
+  --cl-grey:#6B7686; --cl-grey-text:#98A4B3; --cl-grey-bg:rgba(107,118,134,.14);
+  --cl-blue:#3B82F6; /* 僅連結 */
+  --cl-ink:#000000;
+  /* scale */
+  --cl-r-xs:6px; --cl-r-sm:8px; --cl-r-md:12px; --cl-r-lg:16px;
+  --cl-sp-1:4px; --cl-sp-2:8px; --cl-sp-3:12px; --cl-sp-4:16px; --cl-sp-5:24px; --cl-sp-6:32px;
+  --cl-fs-12:12px; --cl-fs-13:13px; --cl-fs-14:14px; --cl-fs-15:15px; --cl-fs-16:16px; --cl-fs-20:20px;
+  --cl-control-h:36px; --cl-pill-h:32px; --cl-chip-h:24px; --cl-btn-h:40px;
+  --cl-shadow-1:0 1px 3px rgba(0,0,0,.35); --cl-shadow-3:0 24px 80px rgba(0,0,0,.7);
+  --cl-font:"Inter","Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --cl-mono:"SF Mono",ui-monospace,"Cascadia Mono","Consolas",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:var(--cl-border-strong) var(--cl-bg-0)}
+body{background:var(--cl-bg-0);color:var(--cl-text-1);font-family:var(--cl-font);font-size:var(--cl-fs-14);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--cl-blue);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* ── mockup 工具列（非產品 UI）────────────────────────── */
+.mockup-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:var(--cl-sp-3);flex-wrap:wrap;
+  padding:8px 16px;background:#070A12;border-bottom:1px solid var(--cl-border);font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.mockup-bar .tag{font-weight:600;color:#F472B6;letter-spacing:.04em}
+.mockup-bar .grp{display:flex;gap:4px}
+.mockup-bar button{height:24px;padding:0 10px;border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);color:var(--cl-text-2);font-size:11px}
+.mockup-bar button.on{background:var(--cl-bg-3);color:var(--cl-text-1);border-color:var(--cl-border-strong)}
+.mockup-bar .spacer{flex:1}
+
+/* ── app shell ─────────────────────────────────────────── */
+#shell{max-width:1280px;margin:0 auto;padding:var(--cl-sp-5) var(--cl-sp-5) 64px;transition:max-width .25s}
+#shell.vp390{max-width:390px;padding:var(--cl-sp-4) 0 64px;box-shadow:0 0 0 1px var(--cl-border),0 24px 80px rgba(0,0,0,.6)}
+
+/* header */
+.topnav{display:flex;align-items:center;gap:var(--cl-sp-4);margin-bottom:var(--cl-sp-5)}
+.logo{font-weight:600;font-size:var(--cl-fs-15);letter-spacing:-.01em}
+.logo .dot{color:var(--cl-green)}
+.topnav .navlinks{display:flex;gap:var(--cl-sp-4);font-size:var(--cl-fs-13);color:var(--cl-text-3)}
+.topnav .navlinks a{color:var(--cl-text-2)}
+.topnav .navlinks a.active{color:var(--cl-text-1);font-weight:600}
+.topnav .right{margin-left:auto;display:flex;gap:var(--cl-sp-2);align-items:center}
+/* 會員入口兩態 */
+.login-btn{display:none;align-items:center;height:36px;padding:0 16px;border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-xs);
+  background:var(--cl-bg-2);color:var(--cl-text-1);font-size:var(--cl-fs-13);font-weight:600}
+.login-btn:hover{background:var(--cl-bg-3)}
+.member{position:relative;display:none;align-items:center;gap:var(--cl-sp-2);height:36px;padding:0 10px 0 5px;
+  border:1px solid var(--cl-border);border-radius:18px;background:var(--cl-bg-2);cursor:pointer;user-select:none}
+.member:hover{background:var(--cl-bg-3);border-color:var(--cl-border-strong)}
+.avatar{width:26px;height:26px;border-radius:50%;background:var(--cl-bg-3);border:1px solid var(--cl-border-strong);color:var(--cl-text-1);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none}
+.member .m-name{font-size:var(--cl-fs-13);color:var(--cl-text-2);max-width:128px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.member .m-caret{font-size:9px;color:var(--cl-text-3)}
+.member-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:184px;background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);
+  border-radius:var(--cl-r-md);box-shadow:var(--cl-shadow-3);padding:var(--cl-sp-1);display:none;z-index:70}
+.member.open .member-menu{display:block}
+.member-menu button{display:flex;width:100%;align-items:center;gap:var(--cl-sp-2);height:36px;padding:0 var(--cl-sp-2);
+  border-radius:var(--cl-r-xs);color:var(--cl-text-2);font-size:var(--cl-fs-13);text-align:left}
+.member-menu button:hover{background:var(--cl-bg-2);color:var(--cl-text-1)}
+.member-menu .mm-ic{width:18px;text-align:center;flex:none}
+.member-menu .mm-sep{height:1px;background:var(--cl-border);margin:var(--cl-sp-1) 6px}
+.member-menu .mm-out{color:var(--cl-grey-text)}
+.member-zone.in .member{display:flex}
+.member-zone.out .login-btn{display:flex}
+
+/* 標題與篩選 */
+.title-row{display:flex;align-items:baseline;gap:var(--cl-sp-3);margin-bottom:var(--cl-sp-3)}
+.title-row h1{font-size:var(--cl-fs-16);font-weight:600}
+.title-row .count{margin-left:auto;font-size:var(--cl-fs-13);color:var(--cl-text-3)}
+.filterbar{display:flex;flex-wrap:wrap;gap:var(--cl-sp-2);align-items:center;margin-bottom:var(--cl-sp-4)}
+.tabs{display:flex;gap:var(--cl-sp-2)}
+.tab{display:inline-flex;align-items:center;gap:6px;height:var(--cl-pill-h);padding:0 var(--cl-sp-3);
+  border-radius:999px;border:1px solid var(--cl-border);background:var(--cl-bg-2);font-size:var(--cl-fs-13);color:var(--cl-text-2);flex:none}
+.tab .n{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.tab.sel{font-weight:600;color:var(--cl-text-1);background:var(--cl-bg-3);border-width:1.5px}
+.tab.sel .n{color:var(--cl-text-2)}
+.tab.t-rec.sel{border-color:var(--cl-green-border);color:var(--cl-green-text)}
+.tab.t-rec.sel .n{color:var(--cl-green-text)}
+.tab.t-shoot.sel{border-color:var(--cl-amber-border);color:var(--cl-amber-text)}
+.tab.t-shoot.sel .n{color:var(--cl-amber-text)}
+.tab.t-no.sel{border-color:var(--cl-red-border);color:var(--cl-red-text)}
+.tab.t-no.sel .n{color:var(--cl-red-text)}
+.chip-row{display:flex;gap:var(--cl-sp-2);overflow-x:auto;scroll-snap-type:x proximity;
+  margin-bottom:var(--cl-sp-4);padding-bottom:2px;
+  mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent)}
+.chip-row::-webkit-scrollbar{height:0}
+.chip{display:inline-flex;align-items:center;height:var(--cl-chip-h);padding:0 var(--cl-sp-2);flex:none;scroll-snap-align:start;
+  border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);background:var(--cl-bg-1);font-size:var(--cl-fs-12);color:var(--cl-text-2)}
+.chip.on{background:var(--cl-bg-3);border-color:var(--cl-border-strong);color:var(--cl-text-1);font-weight:600}
+
+/* ── 卡片（本體原樣 DESIGN-6 定案 ＋ 景點評分 chip）────── */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--cl-sp-5)}
+#shell.vp390 .grid{grid-template-columns:1fr;gap:var(--cl-sp-2)}
+.card{background:var(--cl-bg-1);border:1px solid var(--cl-border);border-radius:var(--cl-r-md);
+  padding:var(--cl-sp-4);display:flex;flex-direction:column;min-width:0;
+  content-visibility:auto;contain-intrinsic-size:auto 190px}
+#shell.vp390 .card{padding:var(--cl-sp-3);border-radius:var(--cl-r-sm)}
+.card:hover{border-color:var(--cl-border-strong)}
+.card-head{display:flex;align-items:center;gap:var(--cl-sp-2);margin-bottom:var(--cl-sp-2);flex-wrap:nowrap}
+.card-head .name{font-size:var(--cl-fs-14);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-head .star{margin-left:auto;color:var(--cl-text-3);font-size:13px;flex:none}
+.card-head .star.fav{color:var(--cl-amber)}
+/* 景點評分 chip（DR7 §5.2：標題行 tier 徽章旁）— 未達門檻不渲染 */
+.r-chip{display:inline-flex;align-items:center;gap:2px;height:20px;padding:0 7px;flex:none;
+  border-radius:999px;background:var(--cl-bg-2);border:1px solid var(--cl-border);
+  font-family:var(--cl-mono);font-size:11px;color:var(--cl-text-2);cursor:pointer;white-space:nowrap}
+.r-chip:hover{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+.r-chip b{color:var(--cl-amber-text);font-weight:600}
+.tier{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;
+  font-size:var(--cl-fs-12);font-weight:600;flex:none}
+.tier-rec{background:var(--cl-green-bg);color:var(--cl-green-text);box-shadow:inset 0 0 0 1px var(--cl-green-border)}
+.tier-shoot{background:var(--cl-amber-bg);color:var(--cl-amber-text);box-shadow:inset 0 0 0 1px var(--cl-amber-border)}
+.tier-no{background:var(--cl-red-bg);color:var(--cl-red-text);box-shadow:inset 0 0 0 1px var(--cl-red-border)}
+.region{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-bottom:var(--cl-sp-2)}
+/* 逐題材行（卡片本體原樣） */
+.subj-row{display:flex;align-items:center;gap:var(--cl-sp-2);height:26px;font-size:var(--cl-fs-13);min-width:0}
+.subj-row .dot{width:6px;height:6px;border-radius:50%;background:var(--cl-green);flex:none}
+.subj-row .g{font-weight:600;color:var(--cl-text-1);flex:none}
+.subj-row .w{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.subj-row .bell{margin-left:auto;color:var(--cl-text-3);font-size:12px;flex:none;cursor:pointer}
+.subj-row .bell:hover{color:var(--cl-amber)}
+.gen-line{display:flex;align-items:center;gap:6px;height:26px;font-size:var(--cl-fs-13);color:var(--cl-text-2)}
+.no-line{display:flex;align-items:center;gap:6px;height:26px;font-size:var(--cl-fs-13);color:var(--cl-red-text)}
+.pills{display:flex;flex-wrap:wrap;gap:var(--cl-sp-1);margin:var(--cl-sp-2) 0 var(--cl-sp-3)}
+.pill{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:var(--cl-r-xs);
+  background:var(--cl-bg-2);font-size:var(--cl-fs-12);color:var(--cl-text-2)}
+.pill b{font-family:var(--cl-mono);font-weight:400;color:var(--cl-text-1)}
+/* 邀評 pill（無推播訂閱會員的入口） */
+.invite{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;flex:none;
+  background:var(--cl-amber-bg);border:1px dashed var(--cl-amber-border);color:var(--cl-amber-text);font-size:var(--cl-fs-12);cursor:pointer}
+.invite:hover{background:rgba(245,158,11,.16)}
+.acts{margin-top:auto;display:flex;gap:var(--cl-sp-2);padding-top:var(--cl-sp-2);border-top:1px solid var(--cl-border)}
+.acts .btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;height:30px;
+  border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);background:var(--cl-bg-2);font-size:var(--cl-fs-12);color:var(--cl-text-2);white-space:nowrap}
+.acts .btn:hover{background:var(--cl-bg-3);color:var(--cl-text-1);border-color:var(--cl-border-strong)}
+
+/* 頁尾 UGC 入口（原 CL-UI-52 💬留言 位置，換新通道） */
+.foot-ugc{margin-top:var(--cl-sp-6);display:flex;justify-content:center}
+.foot-ugc button{height:34px;padding:0 18px;border-radius:999px;border:1px solid var(--cl-border);
+  background:var(--cl-bg-1);color:var(--cl-text-2);font-size:var(--cl-fs-13)}
+.foot-ugc button:hover{background:var(--cl-bg-2);color:var(--cl-text-1);border-color:var(--cl-border-strong)}
+
+/* ── 彈窗共用 ─────────────────────────────────────────── */
+.overlay{position:fixed;inset:0;background:rgba(4,7,14,.72);backdrop-filter:blur(3px);
+  display:none;align-items:flex-start;justify-content:center;z-index:90;padding:var(--cl-sp-6) var(--cl-sp-4);overflow-y:auto}
+.overlay.open{display:flex}
+.modal{width:100%;max-width:560px;background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-lg);
+  padding:var(--cl-sp-5);box-shadow:var(--cl-shadow-3)}
+.m-head{display:flex;align-items:flex-start;gap:var(--cl-sp-3);margin-bottom:var(--cl-sp-2)}
+.m-head .name{font-size:var(--cl-fs-16);font-weight:600}
+.m-head .sub{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-top:2px}
+.m-head .close{margin-left:auto;width:36px;height:36px;border-radius:var(--cl-r-sm);border:1px solid var(--cl-border);
+  background:var(--cl-bg-2);color:var(--cl-text-2);font-size:14px;flex:none}
+.m-head .close:hover{background:var(--cl-bg-3);color:var(--cl-text-1)}
+/* 事實｜評價 分隔（owner 裁示分欄） */
+.fact-sep{display:flex;align-items:center;gap:var(--cl-sp-2);margin:var(--cl-sp-3) 0 var(--cl-sp-2);
+  font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.fact-sep::before,.fact-sep::after{content:'';flex:1;height:1px;background:var(--cl-border)}
+
+/* ── 景點彈窗 quick-look（同源預報頁）─────────────────── */
+.quick{display:flex;align-items:center;gap:var(--cl-sp-3);flex-wrap:wrap;padding:var(--cl-sp-3) var(--cl-sp-4);
+  background:var(--cl-green-bg);border:1px solid var(--cl-green-border);border-radius:var(--cl-r-md);margin-bottom:var(--cl-sp-2)}
+.quick.mid{background:var(--cl-amber-bg);border-color:var(--cl-amber-border)}
+.quick.bad{background:var(--cl-red-bg);border-color:var(--cl-red-border)}
+.quick .q-t{font-size:var(--cl-fs-13);font-weight:600;color:var(--cl-green-text);flex:none}
+.quick.mid .q-t{color:var(--cl-amber-text)}
+.quick.bad .q-t{color:var(--cl-red-text)}
+.quick .q-chip{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:999px;
+  background:rgba(34,197,94,.16);color:var(--cl-green-text);font-size:var(--cl-fs-12);font-weight:600}
+.quick.mid .q-chip{background:rgba(245,158,11,.16);color:var(--cl-amber-text)}
+.quick.bad .q-chip{background:rgba(239,68,68,.14);color:var(--cl-red-text)}
+.quick .q-band{display:flex;gap:2px;height:14px;flex:1 1 240px;min-width:180px}
+.quick .q-band i{flex:1;min-width:3px;border-radius:2px;background:var(--cl-bg-3)}
+.quick .q-band i.ok{background:var(--cl-green)}
+.quick .q-band i.mid{background:var(--cl-amber)}
+.quick .q-band i.bad{background:var(--cl-red)}
+.quick .q-band i.past{opacity:.32}
+.quick .q-next{font-size:var(--cl-fs-12);color:var(--cl-text-2)}
+.quick .q-next b{font-family:var(--cl-mono);font-weight:600;color:var(--cl-amber-text)}
+.band-label{display:flex;justify-content:space-between;font-family:var(--cl-mono);font-size:10px;color:var(--cl-text-3);margin:2px 0 var(--cl-sp-3)}
+.factline{display:flex;gap:var(--cl-sp-2);flex-wrap:wrap;margin-bottom:var(--cl-sp-2)}
+.factline .pill{background:var(--cl-bg-2)}
+
+/* ── 評價區塊（DR7 §5.2 核心）────────────────────────── */
+.rbox{padding:var(--cl-sp-3);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);background:var(--cl-bg-2)}
+.rbox .r-t{display:flex;align-items:baseline;gap:var(--cl-sp-2);margin-bottom:var(--cl-sp-2)}
+.rbox .r-t .lbl{font-size:var(--cl-fs-13);font-weight:600}
+/* L/P 雙軸列 */
+.axis{display:flex;align-items:center;gap:var(--cl-sp-2);height:26px}
+.axis .an{flex:none;width:88px;font-size:var(--cl-fs-12);color:var(--cl-text-2)}
+.axis .an b{color:var(--cl-text-1)}
+.scale{display:flex;gap:3px;flex:1;align-items:center}
+.scale i{flex:1;height:8px;border-radius:2px;background:var(--cl-bg-3)}
+.scale i.fill{background:var(--cl-amber)}
+.axis .av{flex:none;width:40px;text-align:right;font-family:var(--cl-mono);font-size:var(--cl-fs-13);color:var(--cl-text-1)}
+.axis .av small{color:var(--cl-text-3);font-size:10px}
+/* 統計行 */
+.rstat{display:flex;flex-wrap:wrap;gap:var(--cl-sp-2);margin-top:var(--cl-sp-2);font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.rstat .k{color:var(--cl-text-1);font-family:var(--cl-mono)}
+/* 匿名留言 */
+.rev{margin-top:var(--cl-sp-2);padding-top:var(--cl-sp-2);border-top:1px solid var(--cl-border)}
+.rev .row{display:flex;gap:6px;font-size:var(--cl-fs-12);color:var(--cl-text-2);padding:3px 0;min-width:0}
+.rev .who{flex:none;color:var(--cl-text-3)}
+.rev .lp{flex:none;font-family:var(--cl-mono);font-size:11px;color:var(--cl-amber-text)}
+.rev .txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 我的評分 */
+.mine{margin-top:var(--cl-sp-2);padding:var(--cl-sp-2) var(--cl-sp-3);border-radius:var(--cl-r-xs);
+  background:var(--cl-green-bg);border:1px solid var(--cl-green-border);display:flex;align-items:center;gap:var(--cl-sp-2);font-size:var(--cl-fs-12)}
+.mine .mk{color:var(--cl-green-text);font-weight:600;flex:none}
+.mine .mv{font-family:var(--cl-mono);color:var(--cl-text-1)}
+.mine .edit{margin-left:auto;color:var(--cl-text-2);font-size:var(--cl-fs-12);text-decoration:underline;text-underline-offset:2px}
+.mine .edit:hover{color:var(--cl-text-1)}
+/* 入口鈕 */
+.racts{display:flex;gap:var(--cl-sp-2);margin-top:var(--cl-sp-3)}
+.racts button{flex:1;height:36px;border-radius:var(--cl-r-sm);font-size:var(--cl-fs-13);font-weight:600;
+  border:1px solid var(--cl-border-strong);background:var(--cl-bg-3);color:var(--cl-text-1)}
+.racts button:hover{background:var(--cl-bg-2)}
+.racts .b-rate:hover{border-color:var(--cl-amber-border);color:var(--cl-amber-text)}
+/* 冷啟動 */
+.empty{margin-top:var(--cl-sp-2);padding:var(--cl-sp-3);border:1px dashed var(--cl-border-strong);border-radius:var(--cl-r-sm);text-align:center;background:var(--cl-bg-1)}
+.empty .e1{font-size:var(--cl-fs-13);color:var(--cl-text-2);font-weight:600}
+.empty .e2{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-top:2px}
+.empty button{margin-top:var(--cl-sp-2);height:30px;padding:0 14px;border-radius:999px;
+  background:var(--cl-bg-3);border:1px solid var(--cl-border-strong);color:var(--cl-amber-text);font-size:var(--cl-fs-12);font-weight:600}
+.empty button:hover{background:var(--cl-bg-2)}
+
+/* ── 評分送出彈窗 ─────────────────────────────────────── */
+.ctx{display:flex;align-items:center;gap:var(--cl-sp-2);flex-wrap:wrap;margin-bottom:var(--cl-sp-3);
+  padding:var(--cl-sp-2) var(--cl-sp-3);background:var(--cl-bg-2);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);font-size:var(--cl-fs-12)}
+.ctx .g{font-weight:600;color:var(--cl-text-1)}
+.ctx .dt{font-family:var(--cl-mono);color:var(--cl-text-2)}
+.ctx .src{margin-left:auto;display:inline-flex;align-items:center;gap:4px;height:20px;padding:0 8px;border-radius:999px;
+  background:var(--cl-green-bg);border:1px solid var(--cl-green-border);color:var(--cl-green-text);font-size:11px}
+.qaxis{margin-bottom:var(--cl-sp-4)}
+.qaxis .qh{display:flex;align-items:baseline;gap:var(--cl-sp-2);margin-bottom:6px}
+.qaxis .qh .qn{font-size:var(--cl-fs-14);font-weight:600}
+.qaxis .qh .qd{font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.qaxis .qh .qhint{margin-left:auto;font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-amber-text)}
+.levs{display:flex;gap:6px}
+.lev{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:52px;padding:6px 0 0;
+  border-radius:var(--cl-r-sm);border:1px solid var(--cl-border);background:var(--cl-bg-2);
+  color:var(--cl-text-2);font-size:var(--cl-fs-12);user-select:none}
+.lev:hover{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+.lev.sel{background:var(--cl-amber-bg);border-color:var(--cl-amber-border);border-width:1.5px;color:var(--cl-amber-text);font-weight:600}
+.lev .dots{letter-spacing:2px;font-size:11px}
+#shell.vp390 .levs{flex-wrap:wrap}
+#shell.vp390 .lev{flex:1 1 30%}
+.txt-note{width:100%;height:64px;margin:var(--cl-sp-1) 0 var(--cl-sp-3);padding:var(--cl-sp-2) var(--cl-sp-3);
+  background:var(--cl-bg-2);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);color:var(--cl-text-1);
+  font-family:inherit;font-size:var(--cl-fs-13);resize:none}
+.txt-note:focus{outline:none;border-color:var(--cl-border-strong)}
+.txt-note::placeholder{color:var(--cl-text-3)}
+.anon{display:flex;align-items:center;gap:6px;font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-bottom:var(--cl-sp-3)}
+.anon .who{color:var(--cl-text-2)}
+.submit{width:100%;height:var(--cl-btn-h);border-radius:var(--cl-r-sm);background:var(--cl-bg-3);
+  border:1px solid var(--cl-border-strong);color:var(--cl-text-3);font-size:var(--cl-fs-14);font-weight:600;cursor:not-allowed}
+.submit.ready{background:var(--cl-amber);border-color:var(--cl-amber);color:#1A1206;cursor:pointer}
+.submit.ready:hover{background:var(--cl-amber-text)}
+.done{padding:var(--cl-sp-4);border:1px solid var(--cl-green-border);background:var(--cl-green-bg);border-radius:var(--cl-r-md);text-align:center}
+.done .d1{color:var(--cl-green-text);font-weight:600;font-size:var(--cl-fs-14)}
+.done .d2{font-family:var(--cl-mono);color:var(--cl-text-1);font-size:var(--cl-fs-15);margin:var(--cl-sp-2) 0}
+.done .d3{font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.done button{margin-top:var(--cl-sp-3);height:34px;padding:0 16px;border-radius:var(--cl-r-sm);
+  border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-1);font-size:var(--cl-fs-13)}
+/* 回報表單：錯誤類型 */
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:var(--cl-sp-3)}
+#shell.vp390 .types{grid-template-columns:1fr 1fr}
+.type{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:var(--cl-sp-2) var(--cl-sp-3);height:56px;
+  border-radius:var(--cl-r-sm);border:1px solid var(--cl-border);background:var(--cl-bg-2);color:var(--cl-text-2);text-align:left}
+.type:hover{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+.type.sel{background:var(--cl-amber-bg);border-color:var(--cl-amber-border);border-width:1.5px;color:var(--cl-amber-text)}
+.type .ic{font-size:15px}
+.type .nm{font-size:var(--cl-fs-12);font-weight:600}
+.type .en{font-size:10px;color:var(--cl-text-3)}
+.type.sel .en{color:var(--cl-amber-text)}
+.fix-input{width:100%;height:36px;margin-bottom:var(--cl-sp-3);padding:0 var(--cl-sp-3);
+  background:var(--cl-bg-2);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);color:var(--cl-text-1);
+  font-family:inherit;font-size:var(--cl-fs-13)}
+.fix-input:focus{outline:none;border-color:var(--cl-border-strong)}
+/* 未登入 */
+.needlogin{padding:var(--cl-sp-4);border:1px dashed var(--cl-border-strong);border-radius:var(--cl-r-md);text-align:center}
+.needlogin .n1{font-size:var(--cl-fs-20)}
+.needlogin .n2{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-top:var(--cl-sp-1)}
+.needlogin .oauth{display:flex;gap:var(--cl-sp-2);justify-content:center;margin-top:var(--cl-sp-3)}
+.needlogin .oauth button{height:var(--cl-btn-h);padding:0 18px;border-radius:var(--cl-r-sm);font-size:var(--cl-fs-13);font-weight:600;
+  border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-1)}
+.needlogin .oauth button:hover{background:var(--cl-bg-3)}
+
+/* 設計說明 */
+details.notes{margin-top:var(--cl-sp-6);border:1px solid var(--cl-border);border-radius:var(--cl-r-md);background:var(--cl-bg-1)}
+details.notes summary{padding:var(--cl-sp-3) var(--cl-sp-4);font-size:var(--cl-fs-13);font-weight:600;color:var(--cl-text-2);cursor:pointer;list-style:none}
+details.notes summary::before{content:"▸ ";color:var(--cl-text-3)}
+details.notes[open] summary::before{content:"▾ "}
+details.notes .body{padding:0 var(--cl-sp-4) var(--cl-sp-4);font-size:var(--cl-fs-13);color:var(--cl-text-2)}
+details.notes h4{font-size:var(--cl-fs-12);color:var(--cl-text-3);text-transform:uppercase;letter-spacing:.05em;margin:var(--cl-sp-4) 0 var(--cl-sp-2)}
+details.notes table{width:100%;border-collapse:collapse;font-size:var(--cl-fs-12)}
+details.notes td{padding:6px 8px;border-top:1px solid var(--cl-border);vertical-align:top;color:var(--cl-text-2)}
+details.notes td:first-child{width:130px;color:var(--cl-text-1);font-weight:600;white-space:nowrap}
+details.notes code{font-family:var(--cl-mono);font-size:11px;background:var(--cl-bg-2);padding:1px 5px;border-radius:4px;color:var(--cl-text-1)}
+details.notes .data-src{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-top:var(--cl-sp-3)}
+
+/* ── 390 預覽節奏 ─────────────────────────────────────── */
+#shell.vp390 .filterbar{gap:6px}
+#shell.vp390 .tabs{overflow-x:auto;scroll-snap-type:x proximity;max-width:100%;scrollbar-width:none;
+  mask-image:linear-gradient(90deg,#000 calc(100% - 16px),transparent);padding-bottom:2px}
+#shell.vp390 .tabs::-webkit-scrollbar{height:0}
+#shell.vp390 .tab{scroll-snap-align:start}
+#shell.vp390 .topnav .navlinks{display:none}
+#shell.vp390 .member,#shell.vp390 .login-btn{height:40px}
+#shell.vp390 .member .m-name{max-width:96px}
+#shell.vp390 .member-menu button{height:44px}
+#shell.vp390 .member-menu{min-width:200px}
+#shell.vp390 .axis .an{width:74px}
+#shell.vp390 .modal{padding:var(--cl-sp-4)}
+.overlay.p390{padding:0}
+.overlay.p390 .modal{max-width:390px;min-height:100vh;border-radius:0}
+</style>
+</head>
+<body>
+
+<!-- mockup 工具列（非產品 UI） -->
+<div class="mockup-bar">
+  <span class="tag">MOCKUP · 景點評分＋回報/留言 DESIGN-7 v2</span>
+  <span class="grp" id="lang-grp">
+    <button data-lang="zh-TW" class="on">zh-TW</button><button data-lang="en">en</button><button data-lang="ja">ja</button>
+  </span>
+  <span class="grp" id="vp-grp">
+    <button data-vp="1280" class="on">1280px</button><button data-vp="390">390px</button>
+  </span>
+  <span class="grp" id="auth-grp">
+    <button data-auth="out">未登入</button><button data-auth="in" class="on">已登入</button>
+  </span>
+  <span class="spacer"></span>
+  <span>流程：卡片★chip → 景點彈窗評價區 → ✎評分／🚩回報／💬留言</span>
+  <button id="push-demo" style="border-color:var(--cl-green-border)">模擬拍完推播邀評 →</button>
+</div>
+
+<div id="shell">
+  <nav class="topnav">
+    <span class="logo">ChaseLights<span class="dot">·</span></span>
+    <span class="navlinks">
+      <a href="#" class="active" data-i18n="nav_cards">卡片</a>
+      <a href="#" data-i18n="nav_weathermap">天氣圖</a>
+      <a href="#" data-i18n="nav_reminders">拍攝提醒</a>
+    </span>
+    <span class="right">
+      <span class="member-zone in" id="member-zone">
+        <button class="login-btn" data-i18n="login">登入</button>
+        <span class="member" id="member">
+          <span class="avatar" data-i18n="avatar_ch">晨</span>
+          <span class="m-name" data-i18n="member_name">晨曦旅人</span>
+          <span class="m-caret">▾</span>
+          <span class="member-menu">
+            <button><span class="mm-ic">★</span><span data-i18n="menu_fav">我的最愛</span></button>
+            <button><span class="mm-ic">🔔</span><span data-i18n="menu_rem">提醒清單</span></button>
+            <button><span class="mm-ic">✎</span><span data-i18n="menu_myrating">我的評分</span></button>
+            <button><span class="mm-ic">👤</span><span data-i18n="menu_profile">會員資料</span></button>
+            <span class="mm-sep"></span>
+            <button class="mm-out"><span class="mm-ic">↩</span><span data-i18n="menu_logout">登出</span></button>
+          </span>
+        </span>
+      </span>
+    </span>
+  </nav>
+
+  <div class="title-row">
+    <h1 data-i18n="page_title">📍 今天去哪裡拍？</h1>
+    <span class="count" data-i18n="result_meta">依最近可拍時段 · 460 個景點</span>
+  </div>
+
+  <div class="filterbar">
+    <span class="tabs" id="tabs">
+      <button class="tab t-rec sel">✓ <span data-i18n="t_rec">推薦</span> <span class="n">223</span></button>
+      <button class="tab t-shoot">○ <span data-i18n="t_shoot">可拍</span> <span class="n">234</span></button>
+      <button class="tab t-no">✗ <span data-i18n="t_no">不宜</span> <span class="n">3</span></button>
+      <button class="tab t-all">🌐 <span data-i18n="t_all">全部</span> <span class="n">460</span></button>
+    </span>
+  </div>
+  <div class="chip-row" id="chips"></div>
+
+  <div class="grid" id="grid"></div>
+  <p class="q-next" style="text-align:center;margin-top:var(--cl-sp-5)" data-i18n="load_note">已顯示 12 / 460 · 向下滾動虛擬載入其餘卡片</p>
+
+  <!-- 頁尾 UGC 入口：原 CL-UI-52「💬 留言」位置，換成一條通道（留言/回報） -->
+  <div class="foot-ugc"><button id="foot-feedback">💬 <span data-i18n="foot_feedback">留言／回報</span></button></div>
+
+  <details class="notes">
+    <summary data-i18n="notes_title">設計說明 — 景點評分×回報通道 × design-review-7 v2 對應（owner/RD 用，不隨產品出貨）</summary>
+    <div class="body">
+      <h4 data-i18n="notes_core">評分模型（v2 owner 裁示）</h4>
+      <table>
+        <tr><td>評分對象</td><td><b>只評景點</b>（place_id）：不評題材×窗、不評系統準不準。題材差異由 tier（✓○✗）承載；題材細節寫進留言文字。一人一票（user×place），選填拍攝日（時間衰減 half-life 365 天，裁決點 3）。</td></tr>
+        <tr><td>L／P 兩軸</td><td>L=景色（這景點值不值得）、P=出片滿意度（實際收穫）。五級文案：不佳／普通／尚可／好／極佳。無出片鏈路會員的 P 權重 ×0.5（防「沒去也給低分」）。裁決點 1。</td></tr>
+        <tr><td>與 tier 關係</td><td><b>評分永不參與 tier 計算</b>——tier 是 fail-closed 物理預測（今天能拍嗎），評分是人類校正層（上次去了值不值），只在顯示層並列。</td></tr>
+        <tr><td>信任階梯</td><td>五級：新會員 0.5 → 活躍 1.0 → 有出片紀錄（拍完推播邀評／accepted 回報鏈路）1.5 → 資深 2.0 → 策展 3.0。聚合＝貝氏平均（k=5）＋時間衰減＋簇上限。DR7 §3。</td></tr>
+        <tr><td>防洗分</td><td>一人一票（編輯覆蓋）；24h 計入上限 3 票；同 IP/裝置簇等效票上限 2（第 3 票 ×0.25）；秒評/σ 異常 → flagged 人工審、fail-closed。冷啟動 <code>n_eff&lt;2</code> 不出示任何分數、卡片不出空 chip。</td></tr>
+        <tr><td>推播聯動</td><td>提醒窗觸發後 +3 小時「拍完邀評」push（每日 ≤1、每週 ≤3）直開評分彈窗；<code>source=push_invite</code> 是「有出片紀錄」級的自動來源。無推播訂閱者改用卡片邀評 pill。</td></tr>
+      </table>
+      <h4 data-i18n="notes_ugc">回報／留言通道（一條 UGC）</h4>
+      <table>
+        <tr><td>三類提交</td><td><code>rating</code>（景點，分數公開）／<code>report</code>（回報錯誤，<b>不公開</b>＝站長工單）／<code>comment</code>（留言，經審公開；不帶景點＝站務留言）。同一張表、同一彈窗骨架、同一套信任防護。</td></tr>
+        <tr><td>錯誤類型</td><td>單選六類：資料錯／位置錯／條件錯／季節時窗錯／封閉消失／其他——類型代碼即 triage 派工 routing key（data ticket / content ticket / 站長）。</td></tr>
+        <tr><td>審閱流程</td><td>送出 → 自動篩（節流/禁詞/同簇去重）→ open 佇列 → accepted（建 ticket＋計 trust 貢獻）/ need_info / rejected。留言首審制公開（裁決點 2）。</td></tr>
+        <tr><td>管理端</td><td>最小方案：D1 表＋現有 admin 頁骨架加「回報審閱」清單頁（篩選＋展開＋三鍵處置＋CSV 匯出），不建新系統。</td></tr>
+        <tr><td>舊留言退役</td><td>guest-comment.js/css、index.html 頁尾區塊、GAS bridge <code>action='comment'</code> 分支、<code>/api/comment</code> 代理、cl-ui-52 測試——W1 新通道上線 → W2 並行 2 週 → W3 單票退役（可 revert）。Sheet「訪客留言」遷移入 feedback（source=legacy_import、權重 0、不公開）；legacy 四分頁 sync 分支【保留】。</td></tr>
+      </table>
+      <h4 data-i18n="notes_ui">UI 佈局</h4>
+      <table>
+        <tr><td>卡片</td><td>本體原樣（DESIGN-6 定案）。唯一新增＝標題行 tier 徽章旁一枚景點評分 chip「<code>★4.1·34</code>」——僅達門檻組合顯示；chip 點按開景點彈窗評價區。</td></tr>
+        <tr><td>景點彈窗</td><td>quick-look（現在去會怎樣＋24h 色帶）＋事實 pills（海拔/日出，data 層）→ <b>分隔線（事實｜評價）</b> → 評價區塊：L/P 雙軸列＋P≥4 出片率＋n＋近 30 天＋匿名留言 ≤3 則（遮罩暱稱）＋「我的評分」列＋兩鈕 ✎評分／🚩回報錯誤。冷啟動＝虛線框「尚無足夠評價」＋邀評 CTA。</td></tr>
+        <tr><td>評分彈窗</td><td>L、P 各五級按鈕（雙編碼：刻度點數＋文字），兩軸選完主按鈕才啟用；文字留言選填；匿名聲明「顯示為 晨曦**」。流程 B（推播邀評）帶「📸 今日拍攝」綠標＝出片鏈路。送出→完成態（我的評分＋再編輯入口，綠框=入聚合確認）。</td></tr>
+        <tr><td>回報彈窗</td><td>類型六格單選（icon＋中英文雙編碼）→ 說明（必填）→ 更正建議（選填）→ 匿名聲明 → 送出 →「已收到·審閱中」（ amber 確認）。</td></tr>
+        <tr><td>頁尾</td><td>原 CL-UI-52「💬 留言」同位置換「💬 留言／回報」開同一通道（站務留言＝不帶景點）。mockup-bar「未登入」→ 任何提交呈登入引導（新通道要求登入，honeypot 由其取代）。</td></tr>
+        <tr><td>色彩語義</td><td>評分數字＝琥珀（--cl-amber-text）——語義色只屬於 ✓○✗，評分不用綠紅以免誤讀為 tier 判定；「我的評分」確認態用綠（=入聚合成功）；回報完成態用琥珀（=審閱中，非公開發布）。</td></tr>
+      </table>
+      <h4 data-i18n="notes_states">狀態矩陣（mockup 內全部可走）</h4>
+      <table>
+        <tr><td>已達門檻</td><td>清水斷崖 ★4.1·34（P≥4 78%）、美瑛青池 ★4.5·9、哈丁冰原 ★4.6·13</td></tr>
+        <tr><td>冷啟動</td><td>旭岳（2 人評過，樣本不足）——卡片不出 chip、彈窗顯示虛線框＋邀評 CTA</td></tr>
+        <tr><td>我的評分</td><td>已登入＋已評景點顯示「我的評分 L4·P5 · ✎編輯」（重開彈窗=UPDATE 覆蓋）</td></tr>
+        <tr><td>未登入</td><td>mockup-bar「未登入」→ 評分/回報/留言全呈登入引導；卡片不出邀評 pill</td></tr>
+        <tr><td>邀評流程 B</td><td>mockup-bar「模擬拍完推播邀評」→ 崇德評分彈窗帶「📸 今日拍攝」</td></tr>
+      </table>
+      <p class="data-src" data-i18n="data_src">資料樣例：真實景點名／真實題材短名（21 種）／subject-cards 評估層真實 tier 值（2026-11-16：✓223/○234/✗3）。評分數值為示意（系統尚未上線）。視窗切換僅改容器寬度以示範 390px 節奏。</p>
+    </div>
+  </details>
+</div>
+
+<!-- 彈窗容器：① 景點彈窗 ② 評分送出 ③ 回報表單 ④ 留言/回報（頁尾通道） -->
+<div class="overlay" id="place-overlay"><div class="modal"></div></div>
+<div class="overlay" id="rate-overlay"><div class="modal"></div></div>
+<div class="overlay" id="report-overlay"><div class="modal"></div></div>
+<div class="overlay" id="fb-overlay"><div class="modal"></div></div>
+
+<script>
+/* ── 三語詞典 ─────────────────────────────────────────── */
+const I18N={
+'zh-TW':{nav_cards:'卡片',nav_weathermap:'天氣圖',nav_reminders:'拍攝提醒',
+ login:'登入',member_name:'晨曦旅人',avatar_ch:'晨',menu_fav:'我的最愛',menu_rem:'提醒清單',menu_myrating:'我的評分',menu_profile:'會員資料',menu_logout:'登出',
+ page_title:'📍 今天去哪裡拍？',result_meta:'依最近可拍時段 · 460 個景點',
+ t_rec:'推薦',t_shoot:'可拍',t_no:'不宜',t_all:'全部',load_note:'已顯示 12 / 460 · 向下滾動虛擬載入其餘卡片',
+ btn_subject:'題材',btn_map:'地圖',btn_grid:'天氣圖',gen_ok:'一般拍攝',
+ foot_feedback:'留言／回報',
+ q_now:'現在去會怎樣',band_tip:'今日 24h · 與預報頁同源',q_next:'下一個符合時刻',fcst_note:'（逐小時表本 mockup 從略 — 見 DESIGN-6 預報 mockup）',
+ rb_title:'評價（會員 UGC）',ax_L:'L 景色',ax_P:'P 出片滿意度',p_rate:'P≥4 出片率',n_total:'有效評價',n_30:'近 30 天',
+ mine_lbl:'我的評分',edit:'✎ 編輯',b_rate:'✎ 評分',b_report:'🚩 回報錯誤',
+ e1:'尚無足夠評價',e2_n:'已有 {n} 人評過（樣本不足，暫不出示分數）',cta:'去過？留下第一個評價',
+ rate_title:'為這個景點評分',rate_edit_title:'編輯我的評分',
+ qd_L:'這個景點本身值不值得？景色、氛圍、專程程度',qd_P:'實際拍攝的收穫：成功率、片子滿意度',
+ lv:['不佳','普通','尚可','好','極佳'],
+ ph:'選填：這裡拍什麼最值、哪個題材好、機位在哪…',
+ anon:'送出後顯示為',anon_who:'晨曦**',submit:'送出評分',submit_edit:'更新評分',
+ done1:'評分已送出，已計入聚合',done2_fmt:'L{L} · P{P}',done3:'修改會覆蓋原評分（不重複計票）',done_btn:'完成',
+ rep_title:'回報站上錯誤',rep_sub:'回報不公開顯示——直接送到站長的審閱佇列',
+ rt_data:['📡','資料錯誤','Wrong data'],rt_loc:['📍','位置錯誤','Wrong location'],
+ rt_cond:['🎚','條件錯誤','Wrong conditions'],rt_seas:['🍁','季節/時窗錯','Wrong season/window'],
+ rt_gone:['🚧','封閉/消失','Closed or gone'],rt_other:['💬','其他','Other'],
+ rep_desc:'說明（必填）',rep_ph:'哪裡錯、當時狀況、什麼時候遇到的…',
+ rep_fix:'更正建議（選填）',rep_fix_ph:'正確的值／正確的位置／建議的門檻…',
+ rep_submit:'送出回報',rep_done1:'已收到，審閱中',rep_done2:'🚩',rep_done3:'回報不公開顯示；處置結果不另行通知（v1）',
+ nl1:'登入後才能送出',nl2:'評分／回報／留言都是會員功能；匿名顯示，永不公開你的帳號資訊',
+ src_push:'📸 今日拍攝',ctx_note:'依你今日拍攝提醒（06:00 日出窗）預填',
+ fb_title:'留言給站長',fb_sub:'站務留言：建議、想要的功能、任何想法',
+ fb_submit:'送出留言',fb_done1:'已送出，謝謝你的留言！',
+ notes_title:'設計說明 — 景點評分×回報通道 × design-review-7 v2 對應（owner/RD 用，不隨產品出貨）',
+ notes_core:'評分模型（v2 owner 裁示）',notes_ugc:'回報／留言通道（一條 UGC）',notes_ui:'UI 佈局',notes_states:'狀態矩陣（mockup 內全部可走）',
+ data_src:'資料樣例：真實景點名／真實題材短名（21 種）／subject-cards 評估層真實 tier 值（2026-11-16：✓223/○234/✗3）。評分數值為示意（系統尚未上線）。視窗切換僅改容器寬度以示範 390px 節奏。'},
+'en':{nav_cards:'Cards',nav_weathermap:'Weather map',nav_reminders:'Reminders',
+ login:'Log in',member_name:'Dawn Chaser',avatar_ch:'D',menu_fav:'Favorites',menu_rem:'Reminders',menu_myrating:'My ratings',menu_profile:'Account',menu_logout:'Log out',
+ page_title:'📍 Where to shoot today?',result_meta:'By next shootable window · 460 places',
+ t_rec:'Recommended',t_shoot:'Shootable',t_no:'Not advised',t_all:'All',load_note:'Showing 12 / 460 · scroll to virtual-load the rest',
+ btn_subject:'Subjects',btn_map:'Map',btn_grid:'Weather grid',gen_ok:'General shooting',
+ foot_feedback:'Feedback / Report',
+ q_now:'How will it be if I go now',band_tip:'Today 24h · same source as forecast page',q_next:'Next matching moment',fcst_note:'(Hourly table omitted — see DESIGN-6 forecast mockup.)',
+ rb_title:'Member ratings',ax_L:'L Scenery',ax_P:'P Photo yield',p_rate:'P≥4 success rate',n_total:'Effective ratings',n_30:'Last 30 days',
+ mine_lbl:'My rating',edit:'✎ Edit',b_rate:'✎ Rate',b_report:'🚩 Report an issue',
+ e1:'Not enough ratings yet',e2_n:'{n} rated so far (too few to show a score)',cta:'Been there? Leave the first rating',
+ rate_title:'Rate this place',rate_edit_title:'Edit my rating',
+ qd_L:'Is the place itself worth it? scenery, mood, dedication',qd_P:'The haul: hit rate, how you feel about the shots',
+ lv:['Poor','Fair','OK','Good','Superb'],
+ ph:'Optional: what is worth shooting here, best subjects, where the spot is…',
+ anon:'Will be shown as',anon_who:'Dawn C**',submit:'Submit rating',submit_edit:'Update rating',
+ done1:'Rating submitted and aggregated',done2_fmt:'L{L} · P{P}',done3:'Edits overwrite your original vote (never double-counted)',done_btn:'Done',
+ rep_title:'Report an issue',rep_sub:'Reports are never shown publicly — they go straight to the owner\'s review queue',
+ rt_data:['📡','Wrong data','Data'],rt_loc:['📍','Wrong location','Location'],
+ rt_cond:['🎚','Wrong conditions','Conditions'],rt_seas:['🍁','Wrong season/window','Season'],
+ rt_gone:['🚧','Closed or gone','Gone'],rt_other:['💬','Other','Other'],
+ rep_desc:'Description (required)',rep_ph:'What is wrong, the conditions then, when it happened…',
+ rep_fix:'Suggested fix (optional)',rep_fix_ph:'The correct value / location / threshold…',
+ rep_submit:'Send report',rep_done1:'Received — under review',rep_done2:'🚩',rep_done3:'Reports are never public; you will not be notified of the outcome (v1)',
+ nl1:'Log in to submit',nl2:'Ratings / reports / comments are member-only; shown anonymously, your account is never exposed',
+ src_push:'📸 Shot today',ctx_note:'Pre-filled from today\'s shooting reminder (06:00 sunrise window)',
+ fb_title:'Message the owner',fb_sub:'Site feedback: suggestions, feature requests, anything',
+ fb_submit:'Send message',fb_done1:'Sent — thank you!',
+ notes_title:'Design notes — place rating × report channel × design-review-7 v2 (owner/RD, never ships)',
+ notes_core:'Rating model (v2 ruling)',notes_ugc:'Report / comment channel (one UGC pipe)',notes_ui:'UI placement',notes_states:'State matrix',
+ data_src:'Data samples: real place names / real 21 genre short names / real subject-cards tier values (2026-11-16: ✓223/○234/✗3). Rating values are illustrative (system not yet live).'},
+'ja':{nav_cards:'カード',nav_weathermap:'天気マップ',nav_reminders:'撮影リマインダー',
+ login:'ログイン',member_name:'暁の旅人',avatar_ch:'暁',menu_fav:'お気に入り',menu_rem:'リマインド一覧',menu_myrating:'マイ評価',menu_profile:'会員情報',menu_logout:'ログアウト',
+ page_title:'📍 今日はどこで撮る？',result_meta:'次の撮影可能時間順 · 460 スポット',
+ t_rec:'推薦',t_shoot:'撮影可',t_no:'不適',t_all:'すべて',load_note:'12 / 460 表示中 · スクロールで仮想ロード',
+ btn_subject:'題材',btn_map:'地図',btn_grid:'天気マップ',gen_ok:'一般撮影',
+ foot_feedback:'コメント／報告',
+ q_now:'今行くとどう？',band_tip:'本日 24h・予報ページと同ソース',q_next:'次の適合時刻',fcst_note:'（時間別表は省略 — DESIGN-6 予報 mockup 参照）',
+ rb_title:'メンバー評価',ax_L:'L 景色',ax_P:'P 出来栄え',p_rate:'P≥4 成功率',n_total:'有効評価',n_30:'直近30日',
+ mine_lbl:'マイ評価',edit:'✎ 編集',b_rate:'✎ 評価',b_report:'🚩 問題を報告',
+ e1:'まだ評価が足りません',e2_n:'{n} 件の評価あり（表示には不足）',cta:'行ったことある？最初の評価を',
+ rate_title:'この場所を評価',rate_edit_title:'マイ評価を編集',
+ qd_L:'その場所自体の価値：景色・雰囲気・専程の価値',qd_P:'撮影の収穫：成功率・写真好み',
+ lv:['悪い','普通','まあ','良い','最高'],
+ ph:'任意：ここは何を撮るべきか、良い題材、場所…',
+ anon:'表示名',anon_who:'暁の旅**',submit:'評価を送信',submit_edit:'評価を更新',
+ done1:'評価を送信・集計に反映',done2_fmt:'L{L} · P{P}',done3:'編集は元の票を上書き（二重計上なし）',done_btn:'完了',
+ rep_title:'問題を報告',rep_sub:'報告は公開されません — オーナーのレビュー列に直接届きます',
+ rt_data:['📡','データ誤り','Data'],rt_loc:['📍','位置誤り','Location'],
+ rt_cond:['🎚','条件誤り','Conditions'],rt_seas:['🍁','季節/時間窓誤り','Season'],
+ rt_gone:['🚧','閉鎖/消失','Gone'],rt_other:['💬','その他','Other'],
+ rep_desc:'説明（必須）',rep_ph:'何が違うか、当時の状況、いつ…',
+ rep_fix:'修正案（任意）',rep_fix_ph:'正しい値／位置／しきい値…',
+ rep_submit:'報告を送信',rep_done1:'受付完了 — 審査中',rep_done2:'🚩',rep_done3:'報告は非公開；結果の通知はありません（v1）',
+ nl1:'送信にはログインが必要',nl2:'評価／報告／コメントは会員機能；匿名表示、アカウント情報は非公開',
+ src_push:'📸 本日撮影',ctx_note:'本日の撮影リマインダー（06:00 日の出窓）から自動入力',
+ fb_title:'オーナーへのメッセージ',fb_sub:'サイトへのご意見：提案・ご要望など',
+ fb_submit:'メッセージを送信',fb_done1:'送信しました。ありがとうございます！',
+ notes_title:'デザインメモ — 場所評価×報告チャネル × design-review-7 v2 対応（オーナー/RD 用）',
+ notes_core:'評価モデル（v2 裁定）',notes_ugc:'報告／コメントチャネル',notes_ui:'UI 配置',notes_states:'状態マトリクス',
+ data_src:'データ例：実地名／実题材短名（21種）／subject-cards 実 tier 値（2026-11-16：✓223/○234/✗3）。評価値はダミー。'}
+};
+/* 真實題材短名（subject-cards dictionaries.genre_short_names，21 種） */
+const G={
+ mountain_view:['山景','Mountain view','山景'], overlook:['眺望','Overlook','眺望'], sunrise:['日出','Sunrise','日の出'],
+ sunset:['夕陽','Sunset','夕景'], golden_hour:['金光','Golden hour','ゴールデンアワー'], blue_hour:['藍調','Blue hour','ブルーアワー'],
+ city_night:['夜景','City night','夜景'], night_sky:['星空','Night sky','星空'],
+ cloud_sea:['雲海','Cloud sea','雲海'], overcast_soft:['陰柔光','Soft overcast','柔光'], geological_landform:['地景','Landform','地形'],
+ golden:['金光','Golden hour','ゴールデンアワー'], general:['一般','General','一般']};
+/* fail_reason_short 真實短詞 */
+const FR={visibility:['霧','fog','霧'],precipitation:['雨','rain','雨'],cloud_cover_mid:['厚雲','thick cloud','厚い雲'],
+ cloud_cover_low:['低雲','low cloud','低い雲'],relative_humidity_925hpa:['濕度不合','humidity out of range','湿度が適域外']};
+
+/* 真實 place 資料（subject-cards 2026-11-16）＋示意環境值。
+   r = 景點評分（place 級）: {L,P,n,neff,p4,n30,comments:[[who,lp,txt]],mine:{L,P,date}} | 'cold'（2 票樣本不足）| undefined（0 票） */
+const CARDS=[
+ {id:'tw-034',n:['崇德','Chongde','崇徳'],rg:['花蓮縣 秀林鄉','Xiulin, Hualien','花蓮県秀林郷'],tier:'rec',
+  s:[['sunrise','05:35–06:00'],['overlook','08:00–09:00'],['mountain_view','16:25']],env:['15 m','05:35','24°C'],
+  b:'rrrrrgggggaaaaaaagaarrrrr',
+  r:{L:4.1,P:3.9,n:34,neff:30.8,p4:78,n30:8,mine:{L:4,P:5,date:'11/15'},
+     comments:[['晨曦**','L4·P5','雲海值得，日出後半小時最紅；機位在停車場北側'],['攝影者·台南','L4·P4','風大要帶濾鏡，海面反光比預期多'],['山影**','L3·P3','到達成本偏高，住宿只有一間']]}},
+ {id:'tw-032',n:['見晴懷古步道','Jianqing Historic Trail','見晴懐古歩道'],rg:['宜蘭縣 太平山','Taipingshan, Yilan','宜蘭県太平山'],tier:'rec',
+  s:[['overcast_soft','06:00–08:00'],['overlook','09:00'],['cloud_sea','12:00–15:00']],env:['1,900 m','05:40','13°C'],
+  b:'rrrrrrggaaaagggaaaarrrrr',
+  r:{L:4.6,P:4.4,n:21,neff:19.2,p4:86,n30:5,mine:{L:5,P:4,date:'11/14'},
+     comments:[['雲端**','L5·P5','中午過後雲海最盛，木棧道第二觀景台最好拍'],['林間**','L4·P4','山路霧多，要提早出發']]}},
+ {id:'tw-033',n:['粉鳥林','Fenniaolin Fish Harbor','粉鳥林漁港'],rg:['宜蘭縣 南澳','Nan’ao, Yilan','宜蘭県南澳'],tier:'rec',
+  s:[['sunrise','05:35–06:00']],env:['5 m','05:35','24°C'],b:'rrrrrgaaaaaaaaaaararrrrr',
+  r:{L:4.2,P:4.0,n:9,neff:8.1,p4:67,n30:3,comments:[['海風**','L4·P4','堤防東側最順；漁船入畫要等時機']]}},
+ {id:'tw-027',n:['田寮月世界','Tianliao Moon World','田寮月世界'],rg:['高雄市 田寮區','Tianliao, Kaohsiung','高雄市田寮区'],tier:'rec',
+  s:[['geological_landform','06:00–16:45'],['night_sky','18:00']],env:['60 m','05:44','25°C'],b:'rrrrrrgggggggggggagrrrrr',
+  r:{L:4.4,P:4.1,n:18,neff:16.4,p4:72,n30:4,comments:[['惡地**','L5·P4','斜射光讓月世界紋理全開，正午反而平淡'],['南風**','L4·P4','雨後次日地表色彩最濃']]}},
+ {id:'jp-011',n:['東京鐵塔','Tokyo Tower','東京タワー'],rg:['東京都 港區','Minato, Tokyo','東京都港区'],tier:'rec',
+  s:[['overlook','06:00–16:00'],['city_night','19:00–23:00']],env:['150 m','06:04','14°C'],b:'ggggaaggggggggggaaagggga',
+  r:{L:4.1,P:3.9,n:31,neff:28.9,p4:68,n30:9,comments:[['都市**','L4·P4','觀景台玻璃反光，貼窗拍才乾淨']]}},
+ {id:'jp-045',n:['地球岬展望台','Cape Chikyu Observatory','地球岬展望台'],rg:['北海道 室蘭市','Muroran, Hokkaido','北海道室蘭市'],tier:'rec',
+  s:[['sunset','15:30–16:00'],['overlook','06:00–07:00 · 13:00–15:00']],env:['120 m','06:25','9°C'],b:'aaaaaagaaaaaaggggaarrrrr',
+  r:{L:4.8,P:4.6,n:12,neff:10.9,p4:92,n30:2,comments:[['岬**','L5·P5','斷崖直落太平洋，白天也壯觀']]}},
+ {id:'jp-018',n:['名古屋城','Nagoya Castle','名古屋城'],rg:['愛知縣 名古屋市','Nagoya, Aichi','名古屋市中区'],tier:'rec',
+  s:[['golden','08:00–16:10'],['city_night','19:00–23:00']],env:['20 m','06:21','13°C'],b:'gggggaaaggggggggaaagggga',
+  r:{L:4.0,P:3.7,n:12,neff:10.9,p4:58,n30:2,comments:[]}},
+ {id:'jp-001',n:['美瑛青池','Shirogane Blue Pond','美瑛青い池'],rg:['北海道 美瑛町','Biei, Hokkaido','北海道美瑛町'],tier:'shoot',
+  s:[],ok:['08:00–11:00'],no:[['06:00','relative_humidity_925hpa']],env:['500 m','06:27','6°C'],
+  b:'rrrrraaaaaaaaaaaarrrrrrr',
+  r:{L:4.5,P:4.5,n:9,neff:8.3,p4:89,n30:2,comments:[['青池**','L5·P5','早晨倒影完美，第一班人流前 30 分鐘是空景']]}},
+ {id:'jp-003',n:['釧路濕原','Kushiro Wetland','釧路湿原'],rg:['北海道 釧路市','Kushiro, Hokkaido','北海道釧路市'],tier:'shoot',
+  s:[],ok:['06:00–16:00'],no:[],env:['5 m','06:16','8°C'],b:'aaaaaaaaaaaaaaaaaaarrrrr',
+  r:{L:4.3,P:4.0,n:6,neff:5.4,p4:67,n30:1,comments:[]}},
+ {id:'jp-010',n:['大石公園','Oishi Park','大石公園'],rg:['山梨縣 富士河口湖','Fujikawaguchiko, Yamanashi','山梨県富士河口湖町'],tier:'shoot',
+  s:[],ok:['05:00–16:00'],no:[['17:00','visibility']],env:['900 m','06:19','9°C'],b:'rrrrraaaaaaaaaaarrrrrrrr',
+  r:{L:4.4,P:4.2,n:5,neff:4.6,p4:80,n30:0,comments:[]}},
+ {id:'jp-002',n:['旭岳','Mt. Asahi','旭岳'],rg:['北海道 東川町','Higashikawa, Hokkaido','北海道東川町'],tier:'no',
+  s:[],noDom:'cloud_cover_mid',env:['1,600 m','06:26','2°C'],b:'rrrrrrrrrrrrrrrrrrrrrrrr',
+  r:'cold'},
+ {id:'us-158',n:['哈丁冰原','Harding Icefield','ハーディング氷原'],rg:['阿拉斯加 奇奈峽灣','Kenai Fjords, AK','ケナイフィヨルド'],tier:'no',
+  s:[],noDom:'precipitation',env:['900 m','08:55','1°C'],b:'rrrrrrrrrrrrrrrrrrrrrrrr',
+  r:{L:4.6,P:4.5,n:13,neff:11.7,p4:85,n30:1,comments:[['冰原**','L5·P5','步道頂點值得全程爬，冰原一望無際']]}}
+];
+const CHIPS=['mountain_view','sunrise','sunset','cloud_sea','night_sky','city_night','geological_landform','overlook','golden','overcast_soft','general'];
+
+let lang='zh-TW';
+const t=()=>I18N[lang];
+const g=k=>(G[k]||[k,k,k])[lang==='zh-TW'?0:lang==='en'?1:2];
+const fr=k=>(FR[k]||[k,k,k])[lang==='zh-TW'?0:lang==='en'?1:2];
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const L0=()=>lang==='zh-TW'?0:lang==='en'?1:2;
+const logged_in=()=>document.getElementById('member-zone').classList.contains('in');
+const NOW_H=11;
+
+/* 景點評分 chip（卡片標題行）— 冷啟動/0 票不渲染 */
+function rchip(c){
+  if(!c.r||c.r==='cold')return '';
+  const mine=c.r.mine&&logged_in();
+  return `<span class="r-chip" title="${t().rb_title}"><b>★${c.r.P.toFixed(1)}</b>·${c.r.n}${mine?` ${lang==='en'?'mine':'我'}`:''}</span>`;
+}
+function quickChip(c){
+  if(c.tier==='rec')return `<span class="q-chip">✓ ${t().t_rec}</span>`;
+  if(c.tier==='shoot')return `<span class="q-chip">○ ${t().t_shoot}</span>`;
+  return `<span class="q-chip">✗ ${fr(c.noDom)}</span>`;
+}
+function bandCells(c){return (c.b||'').split('').map((ch,h)=>
+  `<i class="${ch==='g'?'ok':ch==='a'?'mid':'bad'}${h<NOW_H?' past':''}" title="${String(h).padStart(2,'0')}:00"></i>`).join('');}
+
+/* 評價區塊（景點彈窗內；DR7 §5.2） */
+function rbox(c){
+  const head=`<div class="fact-sep"><span>${lang==='en'?'facts · data':'事實欄（data 層）｜評價（會員 UGC）'}</span></div>`;
+  if(!c.r){
+    return head+`<div class="rbox"><div class="r-t"><span class="lbl">${t().rb_title}</span></div>
+      <div class="empty"><div class="e1">${t().e1}</div><div class="e2">${t().e2_n.replace('{n}',0)}</div>
+      <button data-open="rate">${t().cta}</button></div></div>`;
+  }
+  if(c.r==='cold'){
+    return head+`<div class="rbox"><div class="r-t"><span class="lbl">${t().rb_title}</span></div>
+      <div class="empty"><div class="e1">${t().e1}</div><div class="e2">${t().e2_n.replace('{n}',2)}</div>
+      <button data-open="rate">${t().cta}</button></div></div>`;
+  }
+  const rd=c.r;
+  const fill=v=>{let s='';for(let i=1;i<=5;i++)s+=`<i class="${v>=i-0.5?'fill':''}"></i>`;return s;};
+  const axLabel=ax=>ax==='L'?t().ax_L:t().ax_P;
+  const revs=(rd.comments||[]).slice(0,3).map(([who,lp,txt])=>
+    `<div class="row"><span class="who">${esc(who)}</span><span class="lp">${esc(lp)}</span><span class="txt">${esc(txt)}</span></div>`).join('');
+  const mine=rd.mine&&logged_in();
+  return head+`<div class="rbox">
+    <div class="axis"><span class="an"><b>L</b> ${axLabel('L')}</span>
+      <span class="scale">${fill(rd.L)}</span>
+      <span class="av">${rd.L.toFixed(1)}<small> /5</small></span></div>
+    <div class="axis"><span class="an"><b>P</b> ${axLabel('P')}</span>
+      <span class="scale">${fill(rd.P)}</span>
+      <span class="av">${rd.P.toFixed(1)}<small> /5</small></span></div>
+    <div class="rstat">
+      <span>${t().p_rate} <span class="k">${rd.p4}%</span></span>
+      <span>${t().n_total} <span class="k">n=${rd.n}</span></span>
+      <span>${t().n_30} <span class="k">${rd.n30}</span></span>
+    </div>
+    ${revs?`<div class="rev">${revs}</div>`:''}
+    ${mine?`<div class="mine"><span class="mk">${t().mine_lbl}</span>
+      <span class="mv">L${rd.mine.L} · P${rd.mine.P}</span><span style="color:var(--cl-text-3)">${rd.mine.date}</span>
+      <button class="edit" data-open="rate">${t().edit}</button></div>`:''}
+    <div class="racts"><button class="b-rate" data-open="rate">${t().b_rate}</button>
+      <button data-open="report">${t().b_report}</button></div>
+  </div>`;
+}
+
+/* 景點彈窗（點卡片本體：quick-look＋事實＋評價區） */
+function placeHTML(c){
+  const qcls=c.tier==='rec'?'':c.tier==='shoot'?'mid':'bad';
+  return `<div class="m-head"><div><div class="name">${esc(c.n[L0()])}</div>
+    <div class="sub">${c.rg[L0()]} · ${t().q_now} · 11/16</div></div>
+    <button class="close" id="m-close">✕</button></div>
+  <div class="quick ${qcls}">${quickChip(c)}
+    <div class="q-band" title="${t().band_tip}">${bandCells(c)}</div>
+    <span class="q-next">${t().q_next}：<b>16:25</b> ${g('mountain_view')}</span></div>
+  <div class="band-label"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div>
+  <div class="factline"><span class="pill">⛰ <b>${c.env[0]}</b></span><span class="pill">🌅 <b>${c.env[1]}</b></span><span class="pill">🌡 <b>${c.env[2]}</b></span></div>
+  <p style="font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-bottom:var(--cl-sp-2)">${t().fcst_note}</p>
+  ${rbox(c)}`;
+}
+
+/* 評分送出彈窗（流程 A 面板/卡片進入；流程 B 推播邀評進入） */
+let rateState={L:0,P:0};
+function rateHTML(c,isEdit,isPush){
+  const mine=(c.r&&c.r!=='cold'&&c.r.mine&&logged_in())?c.r.mine:null;
+  rateState={L:isEdit&&mine?mine.L:0,P:isEdit&&mine?mine.P:0};
+  const levs=ax=>[1,2,3,4,5].map(v=>
+    `<button class="lev${rateState[ax]===v?' sel':''}" data-ax="${ax}" data-v="${v}">
+      <span class="dots">${'●'.repeat(v)}${'○'.repeat(5-v)}</span><span>${t().lv[v-1]}</span></button>`).join('');
+  return `<div class="m-head"><div><div class="name">${isEdit?t().rate_edit_title:t().rate_title}</div>
+    <div class="sub">${esc(c.n[L0()])} · ${c.rg[L0()]}</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="ctx"><span class="g">${esc(c.n[L0()])}</span><span class="dt">${mine?mine.date+' ·':'11/15 ·'} ${c.env[1]}</span>
+    ${isPush?`<span class="src">${t().src_push}</span><span style="color:var(--cl-text-3)">${t().ctx_note}</span>`:''}</div>
+  <div class="qaxis"><div class="qh"><span class="qn">L — ${t().ax_L.split(' ')[1]}</span>
+    <span class="qd">${t().qd_L}</span><span class="qhint" id="q-l">${rateState.L?'★'+rateState.L:''}</span></div>
+    <div class="levs" id="lev-L">${levs('L')}</div></div>
+  <div class="qaxis"><div class="qh"><span class="qn">P — ${t().ax_P.split(' ')[1]}</span>
+    <span class="qd">${t().qd_P}</span><span class="qhint" id="q-p">${rateState.P?'★'+rateState.P:''}</span></div>
+    <div class="levs" id="lev-P">${levs('P')}</div></div>
+  <textarea class="txt-note" placeholder="${t().ph}"></textarea>
+  <div class="anon"><span>🔒 ${t().anon}</span><span class="who">${t().anon_who}</span></div>
+  ${isPush?`<div class="anon" style="margin-top:-8px"><span style="color:var(--cl-green-text)">🎞 ${lang==='en'?'This rating counts toward the "with photo record" trust tier':'此評分計入「有出片紀錄」信任層'}</span></div>`:''}
+  <button class="submit${rateState.L&&rateState.P?' ready':''}" id="rate-submit">${isEdit?t().submit_edit:t().submit}</button>`;
+}
+function rateDoneHTML(c){
+  const {L,P}=rateState;
+  return `<div class="m-head"><div><div class="name">${esc(c.n[L0()])}</div>
+    <div class="sub">${c.rg[L0()]}</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="done"><div class="d1">✓ ${t().done1}</div><div class="d2">${t().done2_fmt.replace('{L}',L).replace('{P}',P)}</div>
+    <div class="d3">${t().done3}</div><button id="done-btn">${t().done_btn}</button></div>`;
+}
+
+/* 回報表單（錯誤類型六選一；DR7 §2.2） */
+const RTYPES=[['rt_data','data_wrong'],['rt_loc','location_wrong'],['rt_cond','condition_wrong'],
+              ['rt_seas','seasonal_wrong'],['rt_gone','place_gone'],['rt_other','other']];
+let reportType=null;
+function reportHTML(c){
+  reportType=null;
+  const types=RTYPES.map(([k,code])=>`<button class="type" data-code="${code}">
+    <span class="ic">${t()[k][0]}</span><span class="nm">${t()[k][1]}</span><span class="en">${t()[k][2]}</span></button>`).join('');
+  return `<div class="m-head"><div><div class="name">🚩 ${t().rep_title}</div>
+    <div class="sub">${t().rep_sub}</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="ctx"><span class="g">${esc(c.n[L0()])}</span><span style="color:var(--cl-text-3)">${c.rg[L0()]}</span></div>
+  <div class="types" id="rtypes">${types}</div>
+  <div style="font-size:var(--cl-fs-12);font-weight:600;margin-bottom:4px">${t().rep_desc}</div>
+  <textarea class="txt-note" placeholder="${t().rep_ph}"></textarea>
+  <div style="font-size:var(--cl-fs-12);font-weight:600;margin-bottom:4px">${t().rep_fix}</div>
+  <input class="fix-input" placeholder="${t().rep_fix_ph}">
+  <div class="anon"><span>🔒 ${t().anon}</span><span class="who">${t().anon_who}</span>
+    <span style="margin-left:auto;color:var(--cl-red-text);font-size:11px">${lang==='en'?'never shown publicly':'不公開顯示'}</span></div>
+  <button class="submit" id="report-submit">${t().rep_submit}</button>`;
+}
+function reportDoneHTML(c){
+  return `<div class="m-head"><div><div class="name">${esc(c.n[L0()])}</div>
+    <div class="sub">${c.rg[L0()]}</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="done" style="border-color:var(--cl-amber-border);background:var(--cl-amber-bg)">
+    <div class="d1" style="color:var(--cl-amber-text)">${t().rep_done1} ${t().rep_done2}</div>
+    <div class="d3" style="margin-top:var(--cl-sp-2)">${t().rep_done3}</div>
+    <button id="done-btn">${t().done_btn}</button></div>`;
+}
+
+/* 站務留言（頁尾通道；原 CL-UI-52 功能併入） */
+function fbHTML(){
+  return `<div class="m-head"><div><div class="name">💬 ${t().fb_title}</div>
+    <div class="sub">${t().fb_sub}</div></div><button class="close" id="m-close">✕</button></div>
+  <textarea class="txt-note" style="height:110px" placeholder="${t().fb_sub}"></textarea>
+  <div class="anon"><span>🔒 ${t().anon}</span><span class="who">${t().anon_who}</span></div>
+  <button class="submit" id="fb-submit">${t().fb_submit}</button>`;
+}
+function fbDoneHTML(){
+  return `<div class="m-head"><div><div class="name">💬</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="done"><div class="d1">✓ ${t().fb_done1}</div><button id="done-btn">${t().done_btn}</button></div>`;
+}
+
+/* 未登入 */
+function needLoginHTML(){
+  return `<div class="m-head"><div><div class="name">${t().nl1}</div><div class="sub">${t().nl2}</div></div>
+    <button class="close" id="m-close">✕</button></div>
+  <div class="needlogin"><div class="n1">🔒</div><div class="n2">${t().nl2}</div>
+    <div class="oauth"><button>LINE</button><button>Google</button></div></div>`;
+}
+
+/* ── 卡片（本體原樣 ＋ 標題行評分 chip ＋ 邀評 pill）───── */
+function cardHTML(c){
+  const tierBadge={rec:`<span class="tier tier-rec">✓ ${t().t_rec}</span>`,
+    shoot:`<span class="tier tier-shoot">○ ${t().t_shoot}</span>`,
+    no:`<span class="tier tier-no">✗ ${t().t_no}</span>`}[c.tier];
+  let body='';
+  if(c.tier==='rec'){
+    body=c.s.map(([gg,w])=>`<div class="subj-row"><span class="dot"></span><span class="g">${g(gg)}</span><span class="w">${w}</span><span class="bell">🔔</span></div>`).join('');
+  }else if(c.tier==='shoot'){
+    body=`<div class="gen-line"><span style="color:var(--cl-amber-text)">○</span><span>${t().gen_ok}</span>
+      <span class="w" style="flex:1;text-align:right">${c.ok.join(' · ')}</span></div>`;
+  }else{
+    body=`<div class="no-line"><span>✗</span><span style="font-weight:600">${fr(c.noDom)}</span></div>`;
+  }
+  const invite=(c.tier!=='no'&&logged_in())?`<button class="invite" data-open="rate">✎ ${lang==='en'?'Been there? Rate it':'去過？評個分'}</button>`:'';
+  return `<div class="card" data-id="${c.id}">
+    <div class="card-head"><span class="name">${esc(c.n[L0()])}</span>${tierBadge}${rchip(c)}<span class="star fav">★</span></div>
+    <div class="region">${c.rg[L0()]}</div>
+    ${body}
+    <div class="pills"><span class="pill">⛰ <b>${c.env[0]}</b></span><span class="pill">🌡 <b>${c.env[2]}</b></span><span class="pill">🌅 <b>${c.env[1]}</b></span>${invite}</div>
+    <div class="acts">
+      <button class="btn b-subj">🎞 ${t().btn_subject}</button>
+      <button class="btn">📍 ${t().btn_map}</button>
+      <button class="btn">🗺️ ${t().btn_grid}</button>
+    </div>
+  </div>`;
+}
+
+/* ── 渲染與事件 ───────────────────────────────────────── */
+let mCard=null;
+function openOv(id,c,html){mCard=c;
+  const ov=document.getElementById(id);ov.querySelector('.modal').innerHTML=html;
+  ov.classList.toggle('p390',document.getElementById('shell').classList.contains('vp390'));
+  ov.classList.add('open');bindModal(ov,c);}
+function bindModal(ov,c){
+  ov.querySelector('#m-close').onclick=()=>ov.classList.remove('open');
+  const done=ov.querySelector('#done-btn');if(done)done.onclick=()=>ov.classList.remove('open');
+  /* 評分 */
+  const su=ov.querySelector('#rate-submit');
+  if(su)su.onclick=()=>{ov.querySelector('.modal').innerHTML=rateDoneHTML(mCard);bindModal(ov,mCard);};
+  ov.querySelectorAll('.lev').forEach(b=>b.onclick=()=>{rateState[b.dataset.ax]=+b.dataset.v;
+    ov.querySelectorAll(`[data-ax="${b.dataset.ax}"]`).forEach(x=>x.classList.toggle('sel',x===b));
+    const q=ov.querySelector(b.dataset.ax==='L'?'#q-l':'#q-p');if(q)q.textContent='★'+b.dataset.v;
+    if(rateState.L&&rateState.P)su.classList.add('ready');});
+  /* 回報 */
+  const rsu=ov.querySelector('#report-submit');
+  if(rsu)rsu.disabled=true;
+  ov.querySelectorAll('.type').forEach(b=>b.onclick=()=>{reportType=b.dataset.code;
+    ov.querySelectorAll('.type').forEach(x=>x.classList.toggle('sel',x===b));
+    if(rsu)rsu.classList.add('ready');if(rsu)rsu.disabled=false;});
+  if(rsu)rsu.onclick=()=>{if(!reportType)return;ov.querySelector('.modal').innerHTML=reportDoneHTML(mCard);bindModal(ov,mCard);};
+  /* 站務留言 */
+  const fsu=ov.querySelector('#fb-submit');
+  if(fsu)fsu.onclick=()=>{ov.querySelector('.modal').innerHTML=fbDoneHTML();bindModal(ov,mCard);};
+  /* 區域內二級入口 */
+  ov.querySelectorAll('[data-open]').forEach(b=>b.onclick=e=>{e.stopPropagation();
+    if(!logged_in()){openOv('rate-overlay',mCard,needLoginHTML());return;}
+    const o=b.dataset.open;
+    if(o==='rate'){const isEdit=!!b.closest('.mine');
+      openOv('rate-overlay',mCard,rateHTML(mCard,isEdit,false));}
+    else if(o==='report')openOv('report-overlay',mCard,reportHTML(mCard));});
+}
+function render(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t()[k])el.textContent=t()[k];});
+  document.getElementById('grid').innerHTML=CARDS.map(cardHTML).join('');
+  document.getElementById('chips').innerHTML=CHIPS.map((k,i)=>`<button class="chip${i<2?' on':''}">${g(k)}</button>`).join('');
+}
+render();
+document.getElementById('lang-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;
+  document.querySelectorAll('#lang-grp button').forEach(x=>x.classList.toggle('on',x===b));render();
+  const ov=document.querySelector('.overlay.open');
+  if(ov&&mCard){ /* 開啟中的彈窗同步重繪 */
+    if(ov.id==='place-overlay')openOv('place-overlay',mCard,placeHTML(mCard));}});
+/* 會員兩態 */
+const mz=document.getElementById('member-zone'),mbtn=document.getElementById('member');
+document.getElementById('auth-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#auth-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  mz.className='member-zone '+(b.dataset.auth==='in'?'in':'out');mbtn.classList.remove('open');render();});
+mbtn.addEventListener('click',e=>{e.stopPropagation();mbtn.classList.toggle('open');});
+document.addEventListener('click',e=>{if(!mbtn.contains(e.target))mbtn.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')mbtn.classList.remove('open');});
+/* viewport */
+document.getElementById('vp-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#vp-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('shell').classList.toggle('vp390',b.dataset.vp==='390');
+  document.querySelectorAll('.overlay.open').forEach(o=>o.classList.toggle('p390',b.dataset.vp==='390'));});
+/* tabs */
+document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;
+  document.querySelectorAll('#tabs .tab').forEach(x=>x.classList.toggle('sel',x===b));
+  const m={'t-rec':'rec','t-shoot':'shoot','t-no':'no'}[b.className.split(' ').find(c=>c.startsWith('t-')&&c!=='tab')];
+  document.getElementById('grid').innerHTML=CARDS.filter(c=>!m||c.tier===m).map(cardHTML).join('');});
+document.getElementById('chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(b)b.classList.toggle('on');});
+/* 卡片事件：點卡片本體／★chip＝景點彈窗；三鈕「題材」＝題材面板（示意不開）；邀評 pill＝評分彈窗 */
+document.getElementById('grid').addEventListener('click',e=>{
+  const card=e.target.closest('.card');if(!card)return;
+  const c=CARDS.find(x=>x.id===card.dataset.id);if(!c)return;
+  if(e.target.closest('.invite')){ /* bindModal 不含 grid；此處處理邀評 */
+    if(!logged_in()){openOv('rate-overlay',c,needLoginHTML());return;}
+    openOv('rate-overlay',c,rateHTML(c,false,false));return;}
+  if(e.target.closest('.btn')||e.target.closest('.bell'))return; /* 三鈕/🔔 示意不開 */
+  openOv('place-overlay',c,placeHTML(c));});
+/* 頁尾 UGC 入口（原 CL-UI-52 位置） */
+document.getElementById('foot-feedback').addEventListener('click',()=>{
+  if(!logged_in()){openOv('rate-overlay',null,needLoginHTML());return;}
+  openOv('fb-overlay',null,fbHTML());});
+/* 模擬拍完推播邀評（流程 B） */
+document.getElementById('push-demo').addEventListener('click',()=>{
+  const c=CARDS.find(x=>x.id==='tw-034');
+  if(!logged_in()){openOv('rate-overlay',c,needLoginHTML());return;}
+  openOv('rate-overlay',c,rateHTML(c,false,true));});
+const closeOverlay=id=>document.getElementById(id).addEventListener('click',e=>{
+  if(e.target.id===id)e.target.classList.remove('open');});
+['place-overlay','rate-overlay','report-overlay','fb-overlay'].forEach(closeOverlay);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')['place-overlay','rate-overlay','report-overlay','fb-overlay'].forEach(id=>document.getElementById(id).classList.remove('open'));});
+</script>
+</body>
+</html>
