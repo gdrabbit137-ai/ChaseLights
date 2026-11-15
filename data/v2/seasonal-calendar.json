@@ -1,7 +1,7 @@
 {
  "_meta": {
   "file": "data/v2/seasonal-calendar.json",
-  "purpose": "Owner-maintained seasonal window calendar for the seasonal_plant genre. AI harvest may ONLY write entries' current_season (and only with a source_url). Pages display source links from current_season.source_url.",
+  "purpose": "Owner-maintained seasonal window calendar for the seasonal_plant genre. AI harvest may ONLY write entries' current_season (and only with a source_url). Pages display source links from current_season.source_url. CL-DATA-73 note: the misty_forest genre reuses this calendar (entry plant_id=misty_forest, typical window per the owner ticket directive); the seasonal-window engine (CL-DATA-72) consumes entries by opportunity id.",
   "schema": {
    "entry": {
     "plant_id": "stable id (e.g. red_maple, daylily)",
@@ -1475,6 +1475,43 @@
       "zh-TW": "馬管處官方：藍眼淚每年4月起於馬祖海域出沒，4-6月為好發期，9-10月間結束；無月夜+漲退潮擾動+南風提升機率；verified 2026-11-10",
       "en": "馬管處官方：藍眼淚每年4月起於馬祖海域出沒，4-6月為好發期，9-10月間結束；無月夜+漲退潮擾動+南風提升機率；verified 2026-11-10",
       "ja": "馬管處官方：藍眼淚每年4月起於馬祖海域出沒，4-6月為好發期，9-10月間結束；無月夜+漲退潮擾動+南風提升機率；verified 2026-11-10"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "misty_forest",
+   "spots": [
+    "tw-024-P06",
+    "tw-032-P04",
+    "tw-053-P03",
+    "tw-088-P03",
+    "tw-089-P02",
+    "tw-091-P03",
+    "tw-104-P02",
+    "tw-120-P02",
+    "tw-140-P03",
+    "tw-151-P02",
+    "tw-173-P03",
+    "tw-177-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "迷霧森林季",
+    "en": "Misty-forest fog season",
+    "ja": "霧の森のシーズン"
+   },
+   "typical_window": {
+    "start": "12-01",
+    "end": "04-30"
+   },
+   "sources": [
+    {
+     "url": "CL-DATA-73 (owner ticket directive 2026-11-16)",
+     "kind": "owner_directive",
+     "note_i18n": {
+      "zh-TW": "owner 指令（CL-DATA-73）：迷霧森林題材限秋冬春高濕季節窗，台灣 12–4 月最穩（東北季風高濕＋晨間輻射冷卻）；接 CL-DATA-72 季節窗引擎，實況窗（current_season）可由 AI 採集補入。",
+      "en": "Owner directive (CL-DATA-73): the misty-forest genre is limited to the autumn-winter-spring high-humidity window; Taiwan Dec-Apr is most stable (monsoon moisture + morning radiative cooling). Rides the CL-DATA-72 seasonal-window engine; a sourced current_season live window may be harvested later.",
+      "ja": "オーナー指示（CL-DATA-73）：迷霧森林は秋冬春の高湿季節窓に限定、台湾は12-4月が最安定（モンスーン湿気＋朝の放射冷却）。CL-DATA-72の季節窓エンジンに接続。"
      }
     }
    ]
