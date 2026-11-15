@@ -1,7 +1,7 @@
 {
  "_meta": {
   "file": "data/v2/seasonal-calendar.json",
-  "purpose": "Owner-maintained seasonal window calendar for the seasonal_plant genre. AI harvest may ONLY write entries' current_season (and only with a source_url). Pages display source links from current_season.source_url.",
+  "purpose": "Owner-maintained seasonal window calendar for seasonal windows (seasonal_plant genre plus CL-DATA-74 snow_season/firefly_season windows). AI harvest may ONLY write entries' current_season (and only with a source_url). Pages display source links from current_season.source_url.",
   "schema": {
    "entry": {
     "plant_id": "stable id (e.g. red_maple, daylily)",
@@ -1475,6 +1475,114 @@
       "zh-TW": "馬管處官方：藍眼淚每年4月起於馬祖海域出沒，4-6月為好發期，9-10月間結束；無月夜+漲退潮擾動+南風提升機率；verified 2026-11-10",
       "en": "馬管處官方：藍眼淚每年4月起於馬祖海域出沒，4-6月為好發期，9-10月間結束；無月夜+漲退潮擾動+南風提升機率；verified 2026-11-10",
       "ja": "馬管處官方：藍眼淚每年4月起於馬祖海域出沒，4-6月為好發期，9-10月間結束；無月夜+漲退潮擾動+南風提升機率；verified 2026-11-10"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "firefly_season",
+   "spots": [
+    "tw-151-P02",
+    "tw-144-P03"
+   ],
+   "name_i18n": {
+    "zh-TW": "螢火蟲季",
+    "en": "Firefly season",
+    "ja": "ホタルの季節"
+   },
+   "typical_window": {
+    "start": "04-01",
+    "end": "06-15"
+   },
+   "sources": [
+    {
+     "kind": "owner_ticket",
+     "note_i18n": {
+      "zh-TW": "CL-DATA-74 owner 核可五題材資料包（2026-11-16）：例年窗由 owner 資料包提供；實況窗僅在具 source_url 時採信（fail-closed）。",
+      "en": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): typical windows from the owner pack; live windows are trusted only with a source_url (fail-closed).",
+      "ja": "CL-DATA-74 オーナー承認データパック（2026-11-16）：例年窓はオーナーパック由来。実況窓は source_url がある場合のみ採用（fail-closed）。"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "snow_season",
+   "spots": [
+    "tw-041-P06",
+    "tw-042-P02",
+    "tw-044-P04",
+    "tw-046-P03"
+   ],
+   "name_i18n": {
+    "zh-TW": "雪季",
+    "en": "Snow season",
+    "ja": "雪季"
+   },
+   "typical_window": {
+    "start": "11-15",
+    "end": "03-10"
+   },
+   "sources": [
+    {
+     "kind": "owner_ticket",
+     "note_i18n": {
+      "zh-TW": "CL-DATA-74 owner 核可五題材資料包（2026-11-16）：例年窗由 owner 資料包提供；實況窗僅在具 source_url 時採信（fail-closed）。",
+      "en": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): typical windows from the owner pack; live windows are trusted only with a source_url (fail-closed).",
+      "ja": "CL-DATA-74 オーナー承認データパック（2026-11-16）：例年窓はオーナーパック由来。実況窓は source_url がある場合のみ採用（fail-closed）。"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "snow_season",
+   "spots": [
+    "jp-065-P02",
+    "jp-065-P03"
+   ],
+   "name_i18n": {
+    "zh-TW": "雪季",
+    "en": "Snow season",
+    "ja": "雪季"
+   },
+   "typical_window": {
+    "start": "11-15",
+    "end": "04-15"
+   },
+   "sources": [
+    {
+     "kind": "owner_ticket",
+     "note_i18n": {
+      "zh-TW": "CL-DATA-74 owner 核可五題材資料包（2026-11-16）：例年窗由 owner 資料包提供；實況窗僅在具 source_url 時採信（fail-closed）。",
+      "en": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): typical windows from the owner pack; live windows are trusted only with a source_url (fail-closed).",
+      "ja": "CL-DATA-74 オーナー承認データパック（2026-11-16）：例年窓はオーナーパック由来。実況窓は source_url がある場合のみ採用（fail-closed）。"
+     }
+    }
+   ]
+  },
+  {
+   "plant_id": "snow_season",
+   "spots": [
+    "tw-019-P07",
+    "tw-120-P02",
+    "tw-093-P03",
+    "us-009-P02"
+   ],
+   "name_i18n": {
+    "zh-TW": "雪季",
+    "en": "Snow season",
+    "ja": "雪季"
+   },
+   "typical_window": {
+    "start": "12-01",
+    "end": "02-28"
+   },
+   "sources": [
+    {
+     "kind": "owner_ticket",
+     "note_i18n": {
+      "zh-TW": "CL-DATA-74 owner 核可五題材資料包（2026-11-16）：例年窗由 owner 資料包提供；實況窗僅在具 source_url 時採信（fail-closed）。",
+      "en": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): typical windows from the owner pack; live windows are trusted only with a source_url (fail-closed).",
+      "ja": "CL-DATA-74 オーナー承認データパック（2026-11-16）：例年窓はオーナーパック由来。実況窓は source_url がある場合のみ採用（fail-closed）。"
      }
     }
    ]

@@ -1,0 +1,247 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "us-121-P02",
+ "place_id": "us-121",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "Bixby Bridge moonlit coast",
+  "en": "Bixby Bridge moonlit coast",
+  "ja": "ビクスビー橋の月光の海岸"
+ },
+ "description_i18n": {
+  "zh-TW": "滿月前後的月光海岸：比克斯比溪橋與海岸線在斜射月光下的橋影與浪緣（月仰角 5°–30° 窗）——月照≥85%、總雲≤30%、無雨時成立；海岸語義。",
+  "en": "A moonlit coast around full moon: the Bixby Creek bridge and coastline under raking moonlight - bridge shadow and wave edges (moon elevation 5-30 deg); needs illumination >= 85%, total cloud <= 30% and no rain; coast semantics.",
+  "ja": "満月前後の月光の海岸：ビクスビー橋と海岸線が斜めの月光で橋の影と波の縁を見せる（月高度 5°〜30°）— 月照 ≥85%、全雲量 ≤30%、無雨が必要。海岸の語義。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-us-121-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -121.9046,
+      36.0727
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-53 admission web verification 2026-11-09 (Wikipedia Bixby Creek Bridge（36°04′22″N 121°54′17″W，1932年拱橋橋面高約85 m；加州 Big Sur 海岸）; source URLs: https://en.wikipedia.org/wiki/Bixby_Creek_Bridge). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "1932年開通的開拱橋橫跨峽谷崖岸，太平洋夕照為加州最著名公路定番之一（Wikipedia；橋面約85m）；與 us-122 麥克威瀑布（14km 南，瀑布體主題）題材錯位——本點為橋＋海岸線。（開放/營運狀態以現場公告為準。）",
+    "en": "The 1932 open-spandrel arch spans a sheer coastal canyon into the Pacific sunset - one of California's classic road compositions (Wikipedia; ~85 m deck); disjoint from us-122 McWay Falls (waterfall subject) 14 km south. (Opening/operating status follows on-site notices.)",
+    "ja": "1932年架設のアーチ橋が渓谷を跨ぎ太平洋の夕日と並ぶ（Wikipedia；橋面約85m）。14km南のマクウェイ滝（滝が主題）とは題材が別。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 80.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-us-121-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "Bixby Bridge moonlit coast",
+    "en": "Bixby Bridge moonlit coast",
+    "ja": "ビクスビー橋の月光の海岸"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -121.9046,
+      36.0727
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-53 admission web verification 2026-11-09 (Wikipedia Bixby Creek Bridge（36°04′22″N 121°54′17″W，1932年拱橋橋面高約85 m；加州 Big Sur 海岸）; source URLs: https://en.wikipedia.org/wiki/Bixby_Creek_Bridge). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-us-121-P02-01-01",
+   "camera_context_id": "CZ-us-121-P02-01",
+   "target_id": "SG-us-121-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Subject-specific angles/distance not re-verified in CL-DATA-74 (same viewpoint geometry as the sibling subject)."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-us-121-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 36.0727,
+   "lon": -121.9046,
+   "label_i18n": {
+    "zh-TW": "Bixby Creek Bridge",
+    "en": "Bixby Creek Bridge (Big Sur)",
+    "ja": "Bixby Creek Bridge"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-us-121-P02-v1",
+  "status": "draft",
+  "genre_template": "moonlit_scene",
+  "template_version": "moonlit_scene-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-us-121-P02-M1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "moon_illumination_fraction",
+    "operator": "gte",
+    "threshold": 0.85,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-121-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月照 ≥85%（滿月前後）：月光地景需要滿月級照度才能把地景前景打亮到可拍——滿月±2–3 天的窗口；月照低於 85% 時光量不足以撐起地景（新月日本條件誠實否決）。",
+     "en": "Moon illumination >= 85% (around full moon): a moonlit landscape needs full-moon-grade illumination to lift a foreground to shootable - a +/- 2-3 day full-moon window; below 85% the light cannot carry the landscape (a new-moon day is an honest FAIL for this condition).",
+     "ja": "月照 ≥85%（満月前後）：月光景観には満月級の照度で前景を撮影可能な明るさにする必要がある — 満月±2〜3日の窓。85%未満では地景を支える光量がない（新月日は本条件が誠実に否決）。"
+    }
+   },
+   {
+    "id": "C-us-121-P02-M2",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "moon_altitude",
+    "operator": "between",
+    "threshold": [
+     5,
+     30
+    ],
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-121-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月仰角 5°–30° 窗（civil_twilight 引擎同族的月出沒數學）：月升後 5° 以上才有可用的斜射月光打亮山脊/海岸前景；30° 以上月光近乎頂光、地景變平淡——月光地景的黃金仰角帶。月亮在地平線下本條件誠實否決（同時封住 M1 月下自動成立的旁路）。",
+     "en": "Moon elevation 5-30 deg window (the moon rise/set math family of the civil_twilight engine): above 5 deg after moonrise the raking moonlight lifts a ridge/coast foreground; above 30 deg the light goes near-top and the landscape flattens - the golden-elevation band of moonlight. A moon below the horizon is an honest FAIL here (also closing the M1 below-horizon auto-pass bypass).",
+     "ja": "月高度 5°〜30° の窓（civil_twilight エンジン同族の月出没数学）：月出後 5°以上で斜めの月光が尾根・海岸の前景を照らす。30°超はほぼ頂光になり平坦 — 月光景観の黄金仰角帯。地平線下の月は本条件が誠実に否決（M1 の月下自動成立の抜け道も閉じる）。"
+    }
+   },
+   {
+    "id": "C-us-121-P02-M3",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 30,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-121-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "總雲量 ≤30%（雲量低）：月光是唯一光源——雲幕直接關掉地景照明；30% 允許零星散雲作構圖元素。",
+     "en": "Total cloud <= 30% (low cloud): moonlight is the only light source - a cloud deck switches the landscape lighting off; 30% keeps room for scattered clouds as compositional elements.",
+     "ja": "全雲量 ≤30%（低雲量）：月光が唯一の光源 — 雲幕は地景の照明を消す。30% は構図要素としての散在雲を許容。"
+    }
+   },
+   {
+    "id": "C-us-121-P02-M4",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-121-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審通用門檻；夜間海岸/山脊的濕滑另由存取安全分擔）。",
+     "en": "Precipitation < 0.2 mm/h: shooting unaffected (carried-over generic threshold; night-time wet ridge/coast slip stays an access-safety matter).",
+     "ja": "降水 <0.2 mm/h：撮影への影響なし（既承認の一般閾値。夜間の尾根・海岸の滑りはアクセス安全が担う）。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "us-121-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d53-web-bixby-bridge"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): subject mounted on the existing place with the sibling subject's verified geometry/evidence; conditions per the moonlit_scene template. CL-DATA-53 admission (PM-judgment GROWTH-ONLY 2026-11-09, 5km dedupe, owner Gemini US list); coordinates/elevation web-verified 2026-11-09 (sources in camera derivation_method and data/v2/audits/cl-data-53_web_evidence.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-23 discovery shortlist (CL-DATA-25 admission)",
+  "source_revision": "CL-DATA-74-mount",
+  "imported_at": "2026-11-07T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

@@ -1,0 +1,244 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-065-P03",
+ "place_id": "jp-065",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "富士山頂雪景",
+  "en": "Snow scene on Mt. Fuji summit",
+  "ja": "富士山頂の雪景色"
+ },
+ "description_i18n": {
+  "zh-TW": "雪季的富士山頂剣ヶ峰：火口緣與剣ヶ峰積雪、御來館方向的雪簷；雪季窗內（含五合目以上雪線）地面有雪、氣溫≤1°C、能見度≥3km 時成立。",
+  "en": "Mt. Fuji summit (Kengamine) in snow season: snow on the crater rim and Kengamine, snow cornices on the hut row - qualifies inside the snow-season window (snow line above the 5th station) with ground snow, temp <= 1 C, visibility >= 3 km.",
+  "ja": "雪季の富士山頂剣ヶ峰：火口縁と剣ヶ峰の積雪、山小屋の雪庇 — 雪季窓内（五合目以上の雪線を含む）で地面に雪、気温 ≤1°C、視程 ≥3 km のとき成立。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-065-P03-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      138.7274,
+      35.3606
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 富士山（山頂剣ヶ峰 35°21′38″N 138°43′39″E；標高3,776 m）; source URLs: https://ja.wikipedia.org/wiki/%E5%AF%8C%E5%A3%AB%E5%B1%B1). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "日本最高峰剣ヶ峰山頂展望：雲海、御來光、影富士（zh.wikipedia；登山開放期夏季，氣象台公告開山）；與 jp-066 新倉山淺間公園（4.8km，五重塔同框定番機位）題材錯位——本點為登頂級山體本身。（開放/營運狀態以現場公告為準。）",
+    "en": "From Japan's highest summit Kengamine: cloud sea, sunrise gonore, shadow Fuji (ja.wikipedia; open hiking season per official notices); subject-disjoint from jp-066 Chureito 4.8 km (hillside pagoda classic). (Opening/operating status follows on-site notices.)",
+    "ja": "日本最高峰・剣ヶ峰からの雲海・御来光・影富士（ja.wikipedia；山開き期間は公式情報による）。4.8km先の新倉山（五重塔の定番）とは題材が別。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 3776.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-065-P03-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "富士山頂雪景",
+    "en": "Snow scene on Mt. Fuji summit",
+    "ja": "富士山頂の雪景色"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      138.7274,
+      35.3606
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 富士山（山頂剣ヶ峰 35°21′38″N 138°43′39″E；標高3,776 m）; source URLs: https://ja.wikipedia.org/wiki/%E5%AF%8C%E5%A3%AB%E5%B1%B1). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-065-P03-01-01",
+   "camera_context_id": "CZ-jp-065-P03-01",
+   "target_id": "SG-jp-065-P03-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Subject-specific angles/distance not re-verified in CL-DATA-74 (same viewpoint geometry as the sibling subject)."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-065-P03-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 35.3606,
+   "lon": 138.7274,
+   "label_i18n": {
+    "zh-TW": "富士山頂",
+    "en": "Mount Fuji Summit (Kengamine)",
+    "ja": "富士山頂"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-065-P03-v1",
+  "status": "draft",
+  "genre_template": "snow_scene",
+  "template_version": "snow_scene-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-065-P03-S1",
+    "role": "REQUIRED",
+    "domain": "HYDROLOGY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "snow_cover_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-065-P03-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "地面有雪（派生三級 snow_cover_state：snowing/snow_covered/none；僅 none 否決）。票面語義「snowfall>0 或 snow_depth>0」由派生層摺疊為單一狀態——OR，不是 AND；降雪中地面未積也成立。兩個雪欄位皆缺 → 誠實 not_evaluatable（fail-closed）。",
+     "en": "Ground snow (derived three-level snow_cover_state: snowing/snow_covered/none; only 'none' vetoes). The ticket OR semantics (snowfall > 0 OR snow_depth > 0) collapses into this single state - an OR, not an AND; falling snow with a bare ground still qualifies. Both snow fields missing -> honestly not_evaluatable (fail-closed).",
+     "ja": "地面の雪（派生3段階 snow_cover_state：snowing/snow_covered/none；none のみ否決）。OR 意味論は派生層で単一状態に畳む—ANDではなくOR。降雪中で積雪なしでも成立。両雪欄欠損は誠実に not_evaluatable（fail-closed）。"
+    }
+   },
+   {
+    "id": "C-jp-065-P03-S2",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "temperature_2m",
+    "operator": "lte",
+    "threshold": 1.0,
+    "unit": "°C",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-065-P03-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:temperature_2m_c|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "氣溫 ≤1°C：雪面不融化——氣溫高於 1°C 時積雪迅速消融、雪面濕暗反光失格；1°C 給融雪反光的邊際餘量。provisional。",
+     "en": "Air temp <= 1 C: the snowpack stays frozen - above 1 C lying snow melts fast and a wet, dark surface loses the snow look; 1 C keeps a marginal band for refreezing-melt surfaces. Provisional.",
+     "ja": "気温 ≤1°C：雪面が融けない — 1°C超では積雪が急速に融け湿った暗い面になり雪景色が失格。1°Cは再凍結・融解の境界の余裕。暫定値。"
+    }
+   },
+   {
+    "id": "C-jp-065-P03-S3",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 3.0,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-065-P03-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥3 km：雪中可拍的界線——暴雪/白牆（ホワイトアウト）否決，飄雪本身不否決（雪中拍攝反而是氛圍加分；jp-047 樹氷語義同源）。",
+     "en": "Visibility >= 3 km: the shootable-in-snow line - blizzard/whiteout vetoes, falling snow itself does not (shooting in falling snow is atmosphere-positive; same semantics as the jp-047 snow-monster gate).",
+     "ja": "視程 ≥3 km：雪中撮影可の境界 — 吹雪・ホワイトアウトは否決、降雪自体は否決しない（雪中撮影はむしろ雰囲気加点。jp-047 樹氷と同語義）。"
+    }
+   },
+   {
+    "id": "C-jp-065-P03-S4",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-065-P03-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（window_open/window_closed，例年窗 11-15~04-15 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：雪季窗是本題材的硬性約束（CL-DATA-74 owner 核可資料包）。",
+     "en": "Seasonal-window verdict (window_open/window_closed; typical window 11-15~04-15 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): the season window is this subject's hard constraint (CL-DATA-74 owner-approved data pack).",
+     "ja": "季節窓判定（window_open/window_closed。例年窓 11-15~04-15 は seasonal-calendar.json から、実況優先、両方なければ誠実に not_evaluatable）：季節窓は本題材のハード制約（CL-DATA-74 オーナー承認データパック）。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-065-P03-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d52-web-fuji-summit"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): subject mounted on the existing place with the sibling subject's verified geometry/evidence; conditions per the snow_scene template. CL-DATA-52 admission (PM-judgment GROWTH-ONLY, 5km dedupe, owner intake 2026-11-09); coordinates/elevation web-verified 2026-11-07 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-23 discovery shortlist (CL-DATA-25 admission)",
+  "source_revision": "CL-DATA-74-mount",
+  "imported_at": "2026-11-07T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

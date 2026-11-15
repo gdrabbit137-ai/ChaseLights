@@ -1,0 +1,244 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "tw-120-P02",
+ "place_id": "tw-120",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "武陵農場雪景",
+  "en": "Snow scene at Wuling Farm",
+  "ja": "武陵農場の雪景色"
+ },
+ "description_i18n": {
+  "zh-TW": "雪季寒流過境的武陵農場：七家灣溪畔與雪峰群（桃山/雪山北稜）積雪、果園披雪；雪季窗內地面有雪、氣溫≤1°C、能見度≥3km 時成立。",
+  "en": "Wuling Farm after a cold snap in snow season: snow along the Chijiawan Creek and on the peak line (Taoshan / Snow North ridge), frosted orchards - qualifies inside the snow-season window with ground snow, temp <= 1 C, visibility >= 3 km.",
+  "ja": "雪季の寒波通過後の武陵農場：七家湾渓沿いとピークライン（桃山/雪山北稜）の積雪、果樹園の雪 — 雪季窓内で地面に雪、気温 ≤1°C、視程 ≥3 km のとき成立。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-120-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.31035,
+      24.364611
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-51 admission web verification 2026-11-09 (zh.wikipedia 武陵農場（座標 24°21′52.6″N 121°18′37.26″E）＋交通部觀光署櫻花季頁（海拔1,740–2,200m，1993年起種櫻）; source URLs: https://zh.wikipedia.org/zh-tw/%E6%AD%A6%E9%99%B5%E8%BE%B2%E5%A0%B4 ; https://www.taiwan.net.tw/m1.aspx?sNo=0001019&lid=081652).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "1,740–2,200m 高山農場櫻花道與雪山圈谷背景（觀光署櫻花季官方，每年2月管制入園）；與 tw-093 福壽山（3km內無、梨山系但10km級，雲海題材）與 tw-041 雪山主峰（登山題材）錯位——本點為花與農場帶。（開放/營運狀態以現場公告為準。）",
+    "en": "Cherry-lined farm roads at 1,740-2,200 m with the Xueshan cirque behind (Tourism Bureau blossom-season official; Feb access controlled); disjoint from cloud-sea tw-093 Fushoushan and summit-climb tw-041. (Opening/operating status follows on-site notices.)",
+    "ja": "標高1,740〜2,200mの桜並木と雪山圏谷の背景（観光署桜季公式、2月は入園制限）。雲海の福寿山や登山対象の雪山主峰とは題材が別。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 1900.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-120-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "武陵農場雪景",
+    "en": "Snow scene at Wuling Farm",
+    "ja": "武陵農場の雪景色"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.31035,
+      24.364611
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-51 admission web verification 2026-11-09 (zh.wikipedia 武陵農場（座標 24°21′52.6″N 121°18′37.26″E）＋交通部觀光署櫻花季頁（海拔1,740–2,200m，1993年起種櫻）; source URLs: https://zh.wikipedia.org/zh-tw/%E6%AD%A6%E9%99%B5%E8%BE%B2%E5%A0%B4 ; https://www.taiwan.net.tw/m1.aspx?sNo=0001019&lid=081652).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-120-P02-01-01",
+   "camera_context_id": "CZ-tw-120-P02-01",
+   "target_id": "SG-tw-120-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Subject-specific angles/distance not re-verified in CL-DATA-74 (same viewpoint geometry as the sibling subject)."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-120-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 24.364611,
+   "lon": 121.31035,
+   "label_i18n": {
+    "zh-TW": "武陵農場",
+    "en": "Wuling Farm",
+    "ja": "武陵農場"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-120-P02-v1",
+  "status": "draft",
+  "genre_template": "snow_scene",
+  "template_version": "snow_scene-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-120-P02-S1",
+    "role": "REQUIRED",
+    "domain": "HYDROLOGY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "snow_cover_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-120-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "地面有雪（派生三級 snow_cover_state：snowing/snow_covered/none；僅 none 否決）。票面語義「snowfall>0 或 snow_depth>0」由派生層摺疊為單一狀態——OR，不是 AND；降雪中地面未積也成立。兩個雪欄位皆缺 → 誠實 not_evaluatable（fail-closed）。",
+     "en": "Ground snow (derived three-level snow_cover_state: snowing/snow_covered/none; only 'none' vetoes). The ticket OR semantics (snowfall > 0 OR snow_depth > 0) collapses into this single state - an OR, not an AND; falling snow with a bare ground still qualifies. Both snow fields missing -> honestly not_evaluatable (fail-closed).",
+     "ja": "地面の雪（派生3段階 snow_cover_state：snowing/snow_covered/none；none のみ否決）。OR 意味論は派生層で単一状態に畳む—ANDではなくOR。降雪中で積雪なしでも成立。両雪欄欠損は誠実に not_evaluatable（fail-closed）。"
+    }
+   },
+   {
+    "id": "C-tw-120-P02-S2",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "temperature_2m",
+    "operator": "lte",
+    "threshold": 1.0,
+    "unit": "°C",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-120-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:temperature_2m_c|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "氣溫 ≤1°C：雪面不融化——氣溫高於 1°C 時積雪迅速消融、雪面濕暗反光失格；1°C 給融雪反光的邊際餘量。provisional。",
+     "en": "Air temp <= 1 C: the snowpack stays frozen - above 1 C lying snow melts fast and a wet, dark surface loses the snow look; 1 C keeps a marginal band for refreezing-melt surfaces. Provisional.",
+     "ja": "気温 ≤1°C：雪面が融けない — 1°C超では積雪が急速に融け湿った暗い面になり雪景色が失格。1°Cは再凍結・融解の境界の余裕。暫定値。"
+    }
+   },
+   {
+    "id": "C-tw-120-P02-S3",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 3.0,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-120-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥3 km：雪中可拍的界線——暴雪/白牆（ホワイトアウト）否決，飄雪本身不否決（雪中拍攝反而是氛圍加分；jp-047 樹氷語義同源）。",
+     "en": "Visibility >= 3 km: the shootable-in-snow line - blizzard/whiteout vetoes, falling snow itself does not (shooting in falling snow is atmosphere-positive; same semantics as the jp-047 snow-monster gate).",
+     "ja": "視程 ≥3 km：雪中撮影可の境界 — 吹雪・ホワイトアウトは否決、降雪自体は否決しない（雪中撮影はむしろ雰囲気加点。jp-047 樹氷と同語義）。"
+    }
+   },
+   {
+    "id": "C-tw-120-P02-S4",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-120-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（window_open/window_closed，例年窗 12-01~02-28 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：雪季窗是本題材的硬性約束（CL-DATA-74 owner 核可資料包）。",
+     "en": "Seasonal-window verdict (window_open/window_closed; typical window 12-01~02-28 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): the season window is this subject's hard constraint (CL-DATA-74 owner-approved data pack).",
+     "ja": "季節窓判定（window_open/window_closed。例年窓 12-01~02-28 は seasonal-calendar.json から、実況優先、両方なければ誠実に not_evaluatable）：季節窓は本題材のハード制約（CL-DATA-74 オーナー承認データパック）。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-120-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d51-web-wuling-farm"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): subject mounted on the existing place with the sibling subject's verified geometry/evidence; conditions per the snow_scene template. CL-DATA-51 admission (rubric v2 >=3.8, 5km dedupe, owner intake 2026-11-09); coordinates/elevation web-verified 2026-11-07 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-51 Gemini TW photography list intake (CL-DATA-25 admission)",
+  "source_revision": "CL-DATA-74-mount",
+  "imported_at": "2026-11-07T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

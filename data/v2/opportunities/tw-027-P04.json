@@ -1,0 +1,252 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "tw-027-P04",
+ "place_id": "tw-027",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "田寮月世界月光惡地",
+  "en": "Moonlit badlands of Tianliao Moon World",
+  "ja": "田寮月世界の月光悪地"
+ },
+ "description_i18n": {
+  "zh-TW": "滿月前後的月光地景：月世界惡地泥岩在斜射月光下的灰白紋理與剪影（月仰角 5°–30° 窗）——月照≥85%、總雲≤30%、無雨時成立；地景前景語義。",
+  "en": "A moonlit landscape around full moon: the mudstone badlands of Moon World under raking moonlight - grey-white texture and silhouettes (moon elevation 5-30 deg); needs illumination >= 85%, total cloud <= 30% and no rain; foreground-landscape semantics.",
+  "ja": "満月前後の月光景観：月世界の悪地泥岩が斜めの月光で白灰色の質感とシルエットを見せる（月高度 5°〜30°）— 月照 ≥85%、全雲量 ≤30%、無雨が必要。前景地景の語義。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-027-P04-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      120.38898,
+      22.886
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [
+    "e-d36-access-tianliao-moonworld"
+   ],
+   "access_notes_i18n": {
+    "zh-TW": "位於高雄市田寮區月世界地景公園（高雄市政府官方刊物《高雄畫刊》收錄之國家級泥岩惡地景觀）。公園內步道與觀景設施依現場公告開放；主要道路為月球路（崇德與古亭里之間），車行可达，夜間有景觀照明時段與設施管制依市府公告。土質鬆軟易滑，請勿離開步道。",
+    "en": "In the Moon World landform park, Tianliao District, Kaohsiung (the national-class mudstone badland landscape covered by the city government's official TAKAO magazine). The park's trails and viewing facilities open per on-site notices; the main road is Yueqiu (Moon) Road between Chongde and Guting villages and is reachable by car. Landscape-lighting hours and facility controls follow city government notices. The mud surface is soft and slippery — stay on the trails.",
+    "ja": "高雄市田寮区の月世界地景公園（高雄市政府公式誌『TAKAO楽高雄』が掲載する国際級の泥岩悪地景観）。園内の歩道と展望施設は現地公告に従い開放。主要道路は崇德里と古亭里の間の「月球路（月の道）」で、車でアクセス可。ライトアップの時間帯と施設の規制は市の公告に従う。泥質の地面は柔らかく滑りやすいため、歩道から外れないこと。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動。",
+    "en": "Follow on-site safety guidance.",
+    "ja": "現地の安全指示に従ってください。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-027-P04-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "田寮月世界月光惡地",
+    "en": "Moonlit badlands of Tianliao Moon World",
+    "ja": "田寮月世界の月光悪地"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      120.38898,
+      22.886
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [
+    "e-d36-access-tianliao-moonworld"
+   ],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-027-P04-01-01",
+   "camera_context_id": "CZ-tw-027-P04-01",
+   "target_id": "SG-tw-027-P04-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Subject-specific angles/distance not re-verified in CL-DATA-74 (same viewpoint geometry as the sibling subject)."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-027-P04-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 22.886,
+   "lon": 120.38898,
+   "label_i18n": {
+    "zh-TW": "田寮月世界",
+    "en": "Tianliao Moon World",
+    "ja": "田寮月世界"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-027-P04-v1",
+  "status": "draft",
+  "genre_template": "moonlit_scene",
+  "template_version": "moonlit_scene-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-027-P04-M1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "moon_illumination_fraction",
+    "operator": "gte",
+    "threshold": 0.85,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-027-P04-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月照 ≥85%（滿月前後）：月光地景需要滿月級照度才能把地景前景打亮到可拍——滿月±2–3 天的窗口；月照低於 85% 時光量不足以撐起地景（新月日本條件誠實否決）。",
+     "en": "Moon illumination >= 85% (around full moon): a moonlit landscape needs full-moon-grade illumination to lift a foreground to shootable - a +/- 2-3 day full-moon window; below 85% the light cannot carry the landscape (a new-moon day is an honest FAIL for this condition).",
+     "ja": "月照 ≥85%（満月前後）：月光景観には満月級の照度で前景を撮影可能な明るさにする必要がある — 満月±2〜3日の窓。85%未満では地景を支える光量がない（新月日は本条件が誠実に否決）。"
+    }
+   },
+   {
+    "id": "C-tw-027-P04-M2",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "moon_altitude",
+    "operator": "between",
+    "threshold": [
+     5,
+     30
+    ],
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-027-P04-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月仰角 5°–30° 窗（civil_twilight 引擎同族的月出沒數學）：月升後 5° 以上才有可用的斜射月光打亮山脊/海岸前景；30° 以上月光近乎頂光、地景變平淡——月光地景的黃金仰角帶。月亮在地平線下本條件誠實否決（同時封住 M1 月下自動成立的旁路）。",
+     "en": "Moon elevation 5-30 deg window (the moon rise/set math family of the civil_twilight engine): above 5 deg after moonrise the raking moonlight lifts a ridge/coast foreground; above 30 deg the light goes near-top and the landscape flattens - the golden-elevation band of moonlight. A moon below the horizon is an honest FAIL here (also closing the M1 below-horizon auto-pass bypass).",
+     "ja": "月高度 5°〜30° の窓（civil_twilight エンジン同族の月出没数学）：月出後 5°以上で斜めの月光が尾根・海岸の前景を照らす。30°超はほぼ頂光になり平坦 — 月光景観の黄金仰角帯。地平線下の月は本条件が誠実に否決（M1 の月下自動成立の抜け道も閉じる）。"
+    }
+   },
+   {
+    "id": "C-tw-027-P04-M3",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 30,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-027-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "總雲量 ≤30%（雲量低）：月光是唯一光源——雲幕直接關掉地景照明；30% 允許零星散雲作構圖元素。",
+     "en": "Total cloud <= 30% (low cloud): moonlight is the only light source - a cloud deck switches the landscape lighting off; 30% keeps room for scattered clouds as compositional elements.",
+     "ja": "全雲量 ≤30%（低雲量）：月光が唯一の光源 — 雲幕は地景の照明を消す。30% は構図要素としての散在雲を許容。"
+    }
+   },
+   {
+    "id": "C-tw-027-P04-M4",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-027-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審通用門檻；夜間海岸/山脊的濕滑另由存取安全分擔）。",
+     "en": "Precipitation < 0.2 mm/h: shooting unaffected (carried-over generic threshold; night-time wet ridge/coast slip stays an access-safety matter).",
+     "ja": "降水 <0.2 mm/h：撮影への影響なし（既承認の一般閾値。夜間の尾根・海岸の滑りはアクセス安全が担う）。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-027-P04-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d36-access-tianliao-moonworld"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): subject mounted on the existing place with the sibling subject's verified geometry/evidence; conditions per the moonlit_scene template. CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+  }
+ ],
+ "readiness": {
+  "research_level": "R0",
+  "gaps": [
+   "RESEARCH_GAP",
+   "GEOMETRY_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "CL-DATA-74-mount",
+  "imported_at": "2026-10-21T20:51:45Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

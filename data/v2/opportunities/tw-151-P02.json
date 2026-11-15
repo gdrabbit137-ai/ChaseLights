@@ -1,0 +1,294 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "tw-151-P02",
+ "place_id": "tw-151",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "內洞溪谷螢火蟲",
+  "en": "Fireflies in the Neidong stream valley",
+  "ja": "内洞渓谷のホタル"
+ },
+ "description_i18n": {
+  "zh-TW": "螢季（4–6月）的內洞國家森林遊樂區：南勢溪支流溪谷與森林步道的螢火蟲夜——無月（月照≤30% 或月下）、高濕≥85%、氣溫≥15°C、無雨、天文暗夜窗時成立；低海拔溪谷森林語義。",
+  "en": "Firefly nights along the tributary stream valley and forest boardwalks of Neidong Forest Recreation Area in the season window (Apr-Jun): needs a moonless night (illumination <= 30% or moon below the horizon), humidity >= 85%, temp >= 15 C, no rain and astronomical darkness; low-altitude stream-forest semantics.",
+  "ja": "螢季（4〜6月）の内洞国家森林遊楽区：支流渓谷と森林歩道のホタルの夜 — 無月（月照 ≤30% か月没）、湿度 ≥85%、気温 ≥15°C、無雨、天文暗の夜窓が必要。低標高渓谷・森林の語義。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-151-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.5478222,
+      24.8165785
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-66 wave-2 admission web verification 2026-11-11 (OSM Nominatim 內洞國家森林遊樂區（nature_reserve）＋zh.wikipedia（園區標高約230-800公尺，取入口帶230m）; source URLs: https://zh.wikipedia.org/wiki/%E5%85%A7%E6%B4%9E%E5%9C%8B%E5%AE%B6%E6%A3%AE%E6%9E%97%E9%81%8A%E6%A8%82%E5%8D%80). Scoreless intake (owner ruling 2026-11-11): admission = verification + 5km subject-disjoint dedupe; score fields empty.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "南勢溪支流內洞溪三層瀑布與負離子森林（zh.wikipedia：園區標高約230-800m；舊稱娃娃谷）；與既有 tw-144 東眼山（森林稜線）題材錯位——本點為瀑布主體。（開放/營運狀態以現場公告為準。）",
+    "en": "Three-tier waterfall on the Neidong creek inside the negative-ion forest (zh.wikipedia: park 230-800 m; old name 'Wawa Valley'); disjoint from Dongyanshan's ridge-forest subject. (Opening/operating status follows on-site notices.)",
+    "ja": "内洞渓の三段滝と負離子の森（公式）。東眼山とは題材が別。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 230.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-151-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "內洞溪谷螢火蟲",
+    "en": "Fireflies in the Neidong stream valley",
+    "ja": "内洞渓谷のホタル"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.5478222,
+      24.8165785
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-66 wave-2 admission web verification 2026-11-11 (OSM Nominatim 內洞國家森林遊樂區（nature_reserve）＋zh.wikipedia（園區標高約230-800公尺，取入口帶230m）; source URLs: https://zh.wikipedia.org/wiki/%E5%85%A7%E6%B4%9E%E5%9C%8B%E5%AE%B6%E6%A3%AE%E6%9E%97%E9%81%8A%E6%A8%82%E5%8D%80). Scoreless intake (owner ruling 2026-11-11): admission = verification + 5km subject-disjoint dedupe; score fields empty.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-151-P02-01-01",
+   "camera_context_id": "CZ-tw-151-P02-01",
+   "target_id": "SG-tw-151-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Subject-specific angles/distance not re-verified in CL-DATA-74 (same viewpoint geometry as the sibling subject)."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-151-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 24.8165785,
+   "lon": 121.5478222,
+   "label_i18n": {
+    "zh-TW": "內洞森林遊樂區",
+    "en": "Neidong National Forest Recreation Area",
+    "ja": "內洞森林遊樂區"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-151-P02-v1",
+  "status": "draft",
+  "genre_template": "firefly",
+  "template_version": "firefly-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-151-P02-F1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-151-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（window_open/window_closed，例年窗 04-01~06-15 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：螢季窗是本題材的硬性約束（CL-DATA-74 owner 核可資料包）。",
+     "en": "Seasonal-window verdict (window_open/window_closed; typical window 04-01~06-15 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): the season window is this subject's hard constraint (CL-DATA-74 owner-approved data pack).",
+     "ja": "季節窓判定（window_open/window_closed。例年窓 04-01~06-15 は seasonal-calendar.json から、実況優先、両方なければ誠実に not_evaluatable）：季節窓は本題材のハード制約（CL-DATA-74 オーナー承認データパック）。"
+    }
+   },
+   {
+    "id": "C-tw-151-P02-F2",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "moon_illumination_fraction",
+    "operator": "lte",
+    "threshold": 0.3,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-151-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月照 ≤30%（「無月」語義）：月光壓過螢光——滿月下的溪谷看不到螢。月亮在地平線下時整條件自動成立（MOON_BELOW_HORIZON_PASS，CL-DATA-72 batch A 同語義）。",
+     "en": "Moon illumination <= 30% (the 'no moon' semantics): moonlight overwhelms firefly glow - a full-moon valley shows no fireflies. With the moon below the horizon the condition passes outright (MOON_BELOW_HORIZON_PASS, CL-DATA-72 batch-A semantics).",
+     "ja": "月照 ≤30%（「無月」の意味論）：月光はホタルの光を圧する — 満月の渓谷にホタルは見えない。月が地平線下なら条件は自動成立（MOON_BELOW_HORIZON_PASS、CL-DATA-72 batch A 同語義）。"
+    }
+   },
+   {
+    "id": "C-tw-151-P02-F3",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "relative_humidity_2m",
+    "operator": "gte",
+    "threshold": 85.0,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-151-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:relative_humidity_2m_percent|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "相對濕度 ≥85%（高濕）：螢火蟲夜間活動與發光強度隨濕度升高——乾燥夜螢況銳減；溪谷森林點的常態帶。provisional，校準第一優先。",
+     "en": "Relative humidity >= 85% (high humidity): firefly night activity and glow intensity rise with humidity - dry nights cut the display sharply; this is the normal band of stream-forest sites. Provisional, first calibration priority.",
+     "ja": "相対湿度 ≥85%（高湿度）：ホタルの夜間活動・発光強度は湿度とともに上がる — 乾いた夜は激減。渓谷・森林ポイントの平常帯。暫定値・較正最優先。"
+    }
+   },
+   {
+    "id": "C-tw-151-P02-F4",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "temperature_2m",
+    "operator": "gte",
+    "threshold": 15.0,
+    "unit": "°C",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-151-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:temperature_2m_c|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "氣溫 ≥15°C：低溫抑制螢火蟲活動與發光（窗內寒流夜螢況近乎歸零）；15°C 是 TW 螢季的可觀察下限。provisional。",
+     "en": "Air temp >= 15 C: low temperature suppresses firefly activity and glow (cold-snap nights inside the window are near zero); 15 C is the observable floor of the TW firefly season. Provisional.",
+     "ja": "気温 ≥15°C：低温はホタルの活動・発光を抑える（窓内の寒波夜はほぼゼロ）。15°C は台湾ホタル季の観察下限。暫定値。"
+    }
+   },
+   {
+    "id": "C-tw-151-P02-F5",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-151-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "無雨（<0.2 mm/h）：降雨打斷螢火蟲發光與觀察（沿用已審通用門檻）。",
+     "en": "No rain (< 0.2 mm/h): rain interrupts firefly display and observation (carried-over generic threshold).",
+     "ja": "無雨（<0.2 mm/h）：雨はホタルの発光と観察を中断する（既承認の一般閾値）。"
+    }
+   },
+   {
+    "id": "C-tw-151-P02-F6",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "astronomical_darkness",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-151-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "夜窗＝天文暗（太陽仰角 ≤−18°）：螢火蟲光在人間光源與天光下不可見——觀察窗需要完全暗夜（次小時取樣，任一取樣成立）。",
+     "en": "Night window = astronomical darkness (sun elevation <= -18 deg): firefly glow is invisible under artificial light and sky glow - the observing window needs a fully dark night (sub-hour sampled; any sample qualifies).",
+     "ja": "夜窓＝天文暗（太陽高度 ≤−18°）：人工光・天光の下ではホタルの光は見えない — 完全な暗夜が観察窓（サブアワー・サンプリング、1サンプルでも成立）。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-151-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d66-web-neidong-forest-recreation"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): subject mounted on the existing place with the sibling subject's verified geometry/evidence; conditions per the firefly template. CL-DATA-66 wave-2 scoreless admission (owner ruling 2026-11-11: verification + 5km subject-disjoint dedupe; NO rubric/AGLI scoring); coordinates/elevation web-verified 2026-11-11 (sources in camera derivation_method and data/v2/audits/cl-data-66_web_evidence.json); 查無權威源之海拔誠實留空 (null); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-66 Tier-A wave-2 intake (owner-list streams, scoreless 2026-11-11)",
+  "source_revision": "CL-DATA-74-mount",
+  "imported_at": "2026-11-11T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

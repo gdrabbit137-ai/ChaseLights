@@ -1,0 +1,274 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "tw-024-P06",
+ "place_id": "tw-024",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "小笠原山星軌",
+  "en": "Star trails over Ogasawara-yama",
+  "ja": "小笠原山の星の軌跡"
+ },
+ "description_i18n": {
+  "zh-TW": "星軌疊加拍攝：小笠原山 360° 平台以中央山脈稜線為前景的同心圓星軌——天文暗＋無月（月照≤15% 或月下）＋總雲≤20%＋AOD≤0.3＋連續晴窗 ≥2h（連續性否決）時成立。",
+  "en": "Star-trail stacking: concentric trails around the Central Range ridgeline from the Ogasawara-yama 360 platform - needs astronomical darkness, a moonless sky (illumination <= 15% or moon below the horizon), total cloud <= 20%, AOD <= 0.3 and a continuous clear window >= 2 h (the continuity veto).",
+  "ja": "星景スタック撮影：小笠原山 360° 展望台から中央山脈稜線を前景にした同心円の星の軌跡 — 天文暗、無月（月照 ≤15% か月没）、全雲量 ≤20%、AOD ≤0.3、連続晴れ窓 ≥2h（連続性否決）が必要。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-024-P06-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      120.822892,
+      23.512215
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-36 2026-11-09: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch2-progress.json).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [
+    "e-d36-access-zhushan-sunrise"
+   ],
+   "access_notes_i18n": {
+    "zh-TW": "位於阿里山國家森林遊樂區內。依林業及自然保育署阿里山林業鐵路及文化資產管理處官網，祝山車站自2023年11月21日重新啟用，觀日列車開車時間於乘車前1日下午4時30分在林鐵官網首頁、阿里山車站2樓、遊樂區大門口及旅客中心公告；建議預先在林鐵網路訂票系統或各站購票。祝山線僅由阿里山站發車，請依公告時刻前往。",
+    "en": "Inside the Ali Mountain National Forest Recreation Area. Per the Forestry and Nature Conservation Agency's Ali Mountain Forest Railway & Cultural Heritage Management Office site, Zhushan Station reopened on 2023-11-21; the sunrise-train departure time is announced at 16:30 on the day before travel on the railway's website home page, at Ali Station 2F, at the recreation-area main gate and at the visitor center. Advance tickets via the railway's online booking system or station counters are recommended. The Zhushan line departs only from Ali Station — follow the announced times.",
+    "ja": "阿里山国家森林遊楽区内。林業及び自然保育署阿里山林業鉄路・文化資産管理処の公式サイトによると、祝山駅は2023年11月21日に再開業。観日列車の発車時刻は乗車前日の午後4時30分に、林鉄公式サイトのトップページ・阿里山駅2階・遊楽区ゲート・ビジターセンターで発表される。林鉄のネット予約システムか各駅の窓口での事前購入を推奨。祝山線は阿里山駅のみの発車で、発表の時刻に従うこと。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動。",
+    "en": "Follow on-site safety guidance.",
+    "ja": "現地の安全指示に従ってください。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-024-P06-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "小笠原山星軌",
+    "en": "Star trails over Ogasawara-yama",
+    "ja": "小笠原山の星の軌跡"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      120.822892,
+      23.512215
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [
+    "e-d36-access-zhushan-sunrise"
+   ],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-024-P06-01-01",
+   "camera_context_id": "CZ-tw-024-P06-01",
+   "target_id": "SG-tw-024-P06-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Subject-specific angles/distance not re-verified in CL-DATA-74 (same viewpoint geometry as the sibling subject)."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-024-P06-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 23.512215,
+   "lon": 120.822892,
+   "label_i18n": {
+    "zh-TW": "阿里山祝山觀日平台",
+    "en": "Alishan Zhushan Sunrise Platform",
+    "ja": "阿里山祝山観日平台"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-024-P06-v1",
+  "status": "draft",
+  "genre_template": "star_trails",
+  "template_version": "star_trails-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-024-P06-B1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "astronomical_darkness",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-024-P06-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "天文暮光窗（太陽仰角 ≤−18°）：night_sky B1 同源引用——星軌是長曝主體，天文暗是對比前提（次小時取樣，任一取樣成立）。",
+     "en": "Astronomical darkness window (sun elevation <= -18 deg): carried over from night_sky B1 - a long-exposure subject whose contrast prerequisite is a fully dark sky (sub-hour sampled; any sample qualifies).",
+     "ja": "天文薄明窓（太陽高度 ≤−18°）：night_sky B1 同源引用 — 長秒露光の主題で、完全暗がコントラストの前提（サブアワー・サンプリング、1サンプルでも成立）。"
+    }
+   },
+   {
+    "id": "C-tw-024-P06-B2",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "moon_illumination_fraction",
+    "operator": "lte",
+    "threshold": 0.15,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-024-P06-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "無月＝月照 ≤15%（月下自動成立，MOON_BELOW_HORIZON_PASS，CL-DATA-72 batch A 同語義）：星軌是一張連續數小時的長曝，月光在整個疊加過程持續注光——細月也要 ≤15% 才能保住軌跡對比。比 night_sky 基層（50%）嚴是刻意的。",
+     "en": "No moon = illumination <= 15% (passes outright below the horizon, MOON_BELOW_HORIZON_PASS, CL-DATA-72 batch-A semantics): a star-trail stack pours light for hours of continuous exposure - even a thin moon needs <= 15% to preserve trail contrast. Deliberately tighter than the 50% night_sky base.",
+     "ja": "無月＝月照 ≤15%（地平線下では自動成立、MOON_BELOW_HORIZON_PASS、CL-DATA-72 batch A 同語義）：星景は数時間の連続露光で月光が一晩中注がれる — 細い月でも ≤15% が軌跡コントラストを保つ。night_sky 基層（50%）より意図的に厳しい。"
+    }
+   },
+   {
+    "id": "C-tw-024-P06-B3",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 20,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-024-P06-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "總雲量 ≤20%：night_sky B3 同源引用——任何雲帶都蓋星點（單時判據；跨小時的連續性由 B5 分擔）。",
+     "en": "Total cloud <= 20%: carried over from night_sky B3 - any cloud band covers stars (single-hour criterion; the cross-hour continuity is carried by B5).",
+     "ja": "全雲量 ≤20%：night_sky B3 同源引用 — 雲帯は星点を覆う（単時刻判準。時間をまたぐ連続性は B5 が担う）。"
+    }
+   },
+   {
+    "id": "C-tw-024-P06-B4",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.3,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-024-P06-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD ≤0.3：night_sky B4 同源引用——氣溶膠消光吃掉星點對比。",
+     "en": "AOD <= 0.3: carried over from night_sky B4 - aerosol extinction eats stellar contrast.",
+     "ja": "AOD ≤0.3：night_sky B4 同源引用 — エアロゾル消光が星の対比を減らす。"
+    }
+   },
+   {
+    "id": "C-tw-024-P06-B5",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "clear_streak_hours",
+    "operator": "gte",
+    "threshold": 2.0,
+    "unit": "h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-024-P06-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "連續晴窗 ≥2h（新派生條件 clear_streak_hours，CHALLENGER-15 報告的連續性語義）：星軌是一張連續長曝——以當小時往前連續 cloud_cover_total ≤20% 的小時數判定；缺雲欄位誠實斷裂（該小時 UNKNOWN、計數歸零），缺口永不計入晴窗。短於 2h 的小時對疊加拍攝誠實降級。",
+     "en": "Continuous clear window >= 2 h (new derived condition clear_streak_hours, the CHALLENGER-15 report's continuity semantics): a star-trail stack is one continuous exposure - judged as the hours of consecutive cloud_cover_total <= 20% ending at the current hour; a missing cloud cell breaks the streak honestly (UNKNOWN cell, count reset) and a gap is never counted as clear time. An hour with < 2 h of streak degrades honestly for stacking.",
+     "ja": "連続晴れ窓 ≥2h（新派生条件 clear_streak_hours、CHALLENGER-15 報告の連続性意味論）：星景は1枚の連続長秒露光 — 当該時刻まで連続で全雲量 ≤20% の時間数で判定。雲欄欠損は誠実に途切れ（UNKNOWN、計数リセット）、欠損部は晴れ時間に数えない。2h未満の時間はスタックに対し誠実に降格。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-024-P06-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d36-access-zhushan-sunrise"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): subject mounted on the existing place with the sibling subject's verified geometry/evidence; conditions per the star_trails template. CL-DATA-36 batch2 access verification 2026-11-09: transport/parking/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch2-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+  }
+ ],
+ "readiness": {
+  "research_level": "R0",
+  "gaps": [
+   "RESEARCH_GAP",
+   "GEOMETRY_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "CL-DATA-74-mount",
+  "imported_at": "2026-10-21T20:51:45Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

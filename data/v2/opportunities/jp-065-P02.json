@@ -1,0 +1,294 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "jp-065-P02",
+ "place_id": "jp-065",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "富士山頂サンセットアルペングロー",
+  "en": "Sunset alpenglow on Mt. Fuji summit",
+  "ja": "富士山頂のサンセットアルペングロー"
+ },
+ "description_i18n": {
+  "zh-TW": "日沒後暖光帶打亮剣ヶ峰雪面（僅雪季成立）：山頂展望在日沒瞬間看峰緣由金轉紅；日語圈「マッキノー（山暉き）」現象；峰頂無雲與視線淨空為必要。",
+  "en": "The warm band just after sunset lights the Kengamine snow face (snow season only): from the summit viewpoint the crater rim turns gold then red at sunset - the Japanese 'Mackinaw' (yamagai) phenomenon; a clear summit and sightline are required.",
+  "ja": "日没直後の暖光帯が剣ヶ峰の雪面を染める（雪季のみ）：山頂展望は日没の瞬間、火口縁が金から赤へ変わるのを見る（山暉き）。山頂無雲と視線の透明度が必須。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-065-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      138.7274,
+      35.3606
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 富士山（山頂剣ヶ峰 35°21′38″N 138°43′39″E；標高3,776 m）; source URLs: https://ja.wikipedia.org/wiki/%E5%AF%8C%E5%A3%AB%E5%B1%B1). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "日本最高峰剣ヶ峰山頂展望：雲海、御來光、影富士（zh.wikipedia；登山開放期夏季，氣象台公告開山）；與 jp-066 新倉山淺間公園（4.8km，五重塔同框定番機位）題材錯位——本點為登頂級山體本身。（開放/營運狀態以現場公告為準。）",
+    "en": "From Japan's highest summit Kengamine: cloud sea, sunrise gonore, shadow Fuji (ja.wikipedia; open hiking season per official notices); subject-disjoint from jp-066 Chureito 4.8 km (hillside pagoda classic). (Opening/operating status follows on-site notices.)",
+    "ja": "日本最高峰・剣ヶ峰からの雲海・御来光・影富士（ja.wikipedia；山開き期間は公式情報による）。4.8km先の新倉山（五重塔の定番）とは題材が別。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 3776.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-065-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "富士山頂サンセットアルペングロー",
+    "en": "Sunset alpenglow on Mt. Fuji summit",
+    "ja": "富士山頂のサンセットアルペングロー"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      138.7274,
+      35.3606
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 富士山（山頂剣ヶ峰 35°21′38″N 138°43′39″E；標高3,776 m）; source URLs: https://ja.wikipedia.org/wiki/%E5%AF%8C%E5%A3%AB%E5%B1%B1). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-065-P02-01-01",
+   "camera_context_id": "CZ-jp-065-P02-01",
+   "target_id": "SG-jp-065-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Subject-specific angles/distance not re-verified in CL-DATA-74 (same viewpoint geometry as the sibling subject)."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-065-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 35.3606,
+   "lon": 138.7274,
+   "label_i18n": {
+    "zh-TW": "富士山頂",
+    "en": "Mount Fuji Summit (Kengamine)",
+    "ja": "富士山頂"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-065-P02-v1",
+  "status": "draft",
+  "genre_template": "alpenglow",
+  "template_version": "alpenglow-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-065-P02-B1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "alpenglow_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-065-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "金山光帶＝太陽仰角 −0.8°〜−6°（civil_twilight 引擎同族，CL-DATA-11 light_window 同源取樣）：直射日盤已落、山頂僅存反射暖光；低於 −6° 暖色消失。帶寬 <1 小時且可落在整點網格之間，採次小時取樣（任一取樣帶內成立）。",
+     "en": "Alpenglow band = sun elevation between -0.8 and -6 deg (civil_twilight engine family, same sub-hour sampling as the CL-DATA-11 light_window): the direct disc is gone, only reflected warm summit light remains; below -6 deg the warm cast dies. The band is under an hour wide and can fall between grid points, so it rides sub-hour sampling (any sample inside the band qualifies).",
+     "ja": "アルペングロー帯＝太陽高度 −0.8°〜−6°（civil_twilight エンジン同族、CL-DATA-11 light_window と同じサブアワー・サンプリング）：直射日盤は沈み山頂の反射暖光のみ。−6°未満で暖色は消える。帯は1時間未満でグリッド点に挟まれ得るためサブアワー・サンプリング（帯内サンプルが一つでもあれば成立）。"
+    }
+   },
+   {
+    "id": "C-jp-065-P02-B2",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "cloud_cover_mid_and_high",
+    "operator": "lte",
+    "threshold": 40,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-065-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_and_high_percent|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "峰頂無雲的第一道：中高雲量 ≤40%。金山的主體是峰頂受光面，中高雲直接蓋住峰體或把暖光吃掉；40% 保留零星卷雲的構圖餘地。provisional，校準第一優先。",
+     "en": "First summit-clear gate: mid+high cloud <= 40%. The subject is the lit summit face - mid/high cloud caps the peak or eats the warm light; 40% keeps room for scattered cirrus composition. Provisional, first calibration priority.",
+     "ja": "山頂無雲の第一関門：中高雲量 ≤40%。主題は光を浴びる山頂面で、中高雲は峰体を覆い暖光を消す。40% は点在する巻雲の構図余地を残す。暫定値・較正最優先。"
+    }
+   },
+   {
+    "id": "C-jp-065-P02-B3",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "cloud_cover_low",
+    "operator": "lte",
+    "threshold": 30,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-065-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "觀點到峰的視線淨空：低雲量 ≤30%。觀點通常低於峰頂，真正擋住峰體的是視線路徑上的低雲/霧層；高卷雲在天空是構圖元素，不該否決（CL-DATA-12 overlook 判據同構）。",
+     "en": "Sightline clearance from the viewpoint: low cloud <= 30%. The viewpoint sits below the summit and what actually blocks the peak is low cloud/fog across the sightline; high cirrus is a compositional element and must not veto (same shape as the CL-DATA-12 overlook criterion).",
+     "ja": "展望点から山頂の視線のクリア：下層雲 ≤30%。展望点は山頂より低く、峰体を遮るのは視線上の下層雲・霧。高層雲は構図要素で否決しない（CL-DATA-12 展望判準と同型）。"
+    }
+   },
+   {
+    "id": "C-jp-065-P02-B4",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 10,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-065-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥10 km：觀點能看見峰的直接代理（山岳主稜跨數十公里）。誠實標註：GFS/Open-Meteo 能見度上限約 24 km，超過後此判據鈍化，長距離由中高雲/AOD 分擔。provisional。",
+     "en": "Visibility >= 10 km: the direct proxy for the peak being visible from the viewpoint (main ridges span tens of km). Honest note: the GFS/Open-Meteo field caps near 24 km and saturates beyond; long-range discrimination is shared with the mid/high-cloud and AOD gates. Provisional.",
+     "ja": "視程 ≥10 km：展望点から山頂が見える直接代理（主稜は数十 km）。GFS/Open-Meteo の視程は約 24 km で飽和するため、長距離判別は中高雲・AOD が担う。暫定値。"
+    }
+   },
+   {
+    "id": "C-jp-065-P02-B5",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-065-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審通用門檻；雪季降水多為雪，由季節窗與能見度分擔）。",
+     "en": "Precipitation < 0.2 mm/h: shooting unaffected (carried-over generic threshold; in snow season the precipitation is mostly snow, covered by the seasonal window and visibility gates).",
+     "ja": "降水 <0.2 mm/h：撮影への影響なし（既承認の一般閾値。雪季の降水は主に雪で、季節窓と視程が担う）。"
+    }
+   },
+   {
+    "id": "C-jp-065-P02-B6",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-065-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（window_open/window_closed，例年窗 11-15~04-15 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：雪季窗是本題材的硬性約束（CL-DATA-74 owner 核可資料包）。",
+     "en": "Seasonal-window verdict (window_open/window_closed; typical window 11-15~04-15 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): the season window is this subject's hard constraint (CL-DATA-74 owner-approved data pack).",
+     "ja": "季節窓判定（window_open/window_closed。例年窓 11-15~04-15 は seasonal-calendar.json から、実況優先、両方なければ誠実に not_evaluatable）：季節窓は本題材のハード制約（CL-DATA-74 オーナー承認データパック）。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-065-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d52-web-fuji-summit"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): subject mounted on the existing place with the sibling subject's verified geometry/evidence; conditions per the alpenglow template. CL-DATA-52 admission (PM-judgment GROWTH-ONLY, 5km dedupe, owner intake 2026-11-09); coordinates/elevation web-verified 2026-11-07 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-23 discovery shortlist (CL-DATA-25 admission)",
+  "source_revision": "CL-DATA-74-mount",
+  "imported_at": "2026-11-07T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}
