@@ -45,6 +45,8 @@ EVAL_METRICS = [
     "water_surface_state", "seasonal_state", "river_flow_state",
     "water_reflection_state",
     "landform_present",
+    # CL-DATA-73: misty-forest metrics.
+    "fog_state", "soft_light_window", "morning_window",
 ]
 
 
@@ -299,6 +301,27 @@ A["cloudsea"]["sunrise_time_window"] = ("現在不在日出時段，雲海沒有
 A["cloudsea"]["galactic_core_altitude"] = ("銀河核心還在地平線下，拍不到銀河帶",
                                            "The galactic core is still below the horizon — no Milky Way band to shoot",
                                            "銀河の中心はまだ地平線下で、天の川の帯が撮れません")
+
+# CL-DATA-73: misty-forest arch — fog IS the subject; terrain wording keyed to
+# humid forest trails, mossy canopy, pond/valley fog banks.
+A["mistyforest"]["fog_state"] = ("霧還沒出現——能見度 >1 km 明確無霧；或霧未成形（濕度/溫露差不足），林間乾淨",
+                                 "No fog to shoot — visibility over 1 km is explicitly fogless, or the fog has not formed (humidity / dew-point spread short) and the woods are clean",
+                                 "撮れる霧がない——視程1km超で明確に無霧、または霧が未形成（湿度・温度露点差が不足）で林内はすっきり")
+A["mistyforest"]["precipitation"] = ("降雨把林間霧沖成水幕，樹影糊掉",
+                                     "Rain washes the forest fog into a water curtain — the tree silhouettes blur away",
+                                     "雨が林の霧を水幕に変え、木々のシルエットがぼやけます")
+A["mistyforest"]["wind_speed_10m"] = ("風太強，林間霧被吹散，樹影全露",
+                                      "Too windy — the wind scatters the forest fog and lays the trees bare",
+                                      "風が強く、林の霧が散って木々が丸見えです")
+A["mistyforest"]["soft_light_window"] = ("太陽角度太高（或天色太暗），林間光線變硬，不是柔光時段",
+                                         "Sun angle too high (or too dark) — the forest light turns harsh, outside the soft-light hours",
+                                         "太陽高度が高すぎる（または暗すぎる）ため、林内の光が硬くなり柔光の時間帯ではありません")
+A["mistyforest"]["morning_window"] = ("晨窗未到或已過——非日出後 1–3 小時，霧與斜光的重疊段不在此刻",
+                                      "Outside the morning window — not 1-3 h after sunrise, when fog and slant light overlap",
+                                      "朝の窓の時間帯外——日の出後1-3時間の霧と斜光の重なりではありません")
+A["mistyforest"]["seasonal_state"] = ("季節窗外——高濕霧季（台灣 12–4 月最穩）以外，林霧不易成形",
+                                      "Off-season — outside the humid fog season (Taiwan Dec-Apr is most stable) forest fog rarely forms",
+                                      "季節外れ——高湿の霧の季節（台湾は12-4月が最も安定）以外は林霧ができにくい")
 
 # Harbor / pier / riverside wharf viewpoints.
 A["harbor"]["precipitation"] = ("雨下個不停，碼頭與水面灰成一片",
@@ -686,6 +709,16 @@ WINDOW_SHARED = {
     "astronomical_darkness": ("天還沒全暗（或已經天亮），星空不見了",
                               "Not fully dark yet (or already dawn) — the stars are gone",
                               "完全に暗くなっていない（または夜明け）ため、星空が見えません"),
+    # CL-DATA-73: misty-forest new-metric words.
+    "fog_state": ("霧還沒出現——能見度 >1 km 明確無霧；或霧未成形（濕度/溫露差不足）",
+                  "No fog to shoot — visibility over 1 km is explicitly fogless, or the fog has not formed (humidity / dew-point spread short)",
+                  "撮れる霧がない——視程1km超で明確に無霧、または霧が未形成（湿度・温度露点差が不足）"),
+    "soft_light_window": ("太陽角度太高（或天色太暗），不是柔光時段",
+                          "Sun angle too high (or too dark) — outside the soft-light hours",
+                          "太陽高度が高すぎる（または暗すぎる）ため、柔光の時間帯ではありません"),
+    "morning_window": ("晨窗未到或已過——非日出後 1–3 小時",
+                       "Outside the morning window — not 1-3 h after sunrise",
+                       "朝の窓の時間帯外——日の出後1-3時間ではありません"),
 }
 
 # Genre hints used when keywords cannot classify terrain.
@@ -703,6 +736,7 @@ GENRE_ARCH = {
     "cloud_sea": "cloudsea",
     "overcast_soft": "default",
     "golden_hour": "coast",
+    "misty_forest": "mistyforest",   # CL-DATA-73
 }
 
 ARCH_KEYWS = [
