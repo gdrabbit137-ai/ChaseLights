@@ -53,8 +53,9 @@ test('CL-UI-94/43 i: the 適合題材 cell IS the hourly verdict — the status 
   assert.match(rowBlock,/const metrics=\(activeOpportunityId&&item\.opportunity_scores\?\.\[activeOpportunityId\]\)\|\|item\.theme_scores\?\.\[activeTheme\]/);
   // The subject cell is the verdict source for every row.
   assert.match(rowBlock,/const subjCell=v2HourSubjectCell\(spot,item\)/);
-  // Past hours fold into the time column as （已過） — never a 歷史 status tag.
-  assert.match(rowBlock,/clui94_past/);
+  // Past hours are told by the past-row tint alone (CL-UI-96) — never a
+  // 歷史 status tag, and no （已過） small text in the time cell.
+  assert.match(rowBlock,/isPast\?'past-row'/);
   assert.ok(!rowBlock.includes('d().tag_past'),'歷史 tag retired from the hourly table');
   // The V2 painter that filled cells[1] from evaluations-details is retired
   // (it was the contradiction source: it could paint ⚠未符 next to a ✓chip).

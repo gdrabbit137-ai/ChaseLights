@@ -258,6 +258,6 @@ test('CL-UI-95 (4): styles, trilingual keys, cache-bust stamp', () => {
     'v2_ds_next', 'v2_ds_nonext', 'v2_ds_ok_today']) {
     assert.equal(appSource.split(key + ':').length - 1, 3, key + ' in all three dictionaries');
   }
-  assert.equal((indexSource.match(/\?v=clui97/g) || []).length, 2,
-    'app.js + app.css both at clui97');
+  assert.equal((indexSource.match(/\?v=clui98/g) || []).length, 2,
+    'app.js + app.css both at clui98');
 });
