@@ -53,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((460,692),(len(actual),len(ids)))  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1-7: 460 places / 692 live ids (379/590 wave1 + 15 wave2 places / 22 contracts + 12 wave3 places / 15 contracts + 10 wave4 places / 16 contracts + 17 wave5 places / 22 contracts + 16 wave6 places / 16 contracts + 11 wave7 places / 11 contracts)
+        self.assertEqual((460,704),(len(actual),len(ids)))  # CL-DATA-73 re-anchor: 692 -> 704 (+12 misty_forest live ids, measured on the merged tree)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):

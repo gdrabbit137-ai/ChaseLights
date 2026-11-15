@@ -25,7 +25,7 @@ before(async()=>{
   catalog=JSON.parse(await readFile(resolve(root,'apps/web-v2/catalog.v2.json'),'utf8'));
   assert.equal(catalog.research_only,true);assert.equal(catalog.forecast_available,false);
   assert.equal(catalog.selected_date_recommendation_eligible,false);assert.deepEqual(catalog.evaluations,[]);
-  assert.equal(catalog.opportunities.length,692); // 460 places / 692 opportunities (CL-INT-139 re-anchor: 433/665 -> 460/692 waves6-7 tw-201..227, measured on merged tree; prior: CL-INT-135 357/553)
+  assert.equal(catalog.opportunities.length,704); // 460 places / 704 opportunities (CL-DATA-73 re-anchor: 692 -> 704 +12 misty_forest mounts, measured on the merged tree; prior: CL-INT-139 460/692, CL-INT-135 357/553)
   assert.equal(catalog.places.length,460);
   opportunity=catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01');
   assert.ok(opportunity,'The canonical P01 record must be in the packaged bundle');

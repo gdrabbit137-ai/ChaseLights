@@ -9,11 +9,11 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "b87fe9ef9b53de36a1f39516380cf1c0d49e7af5c67b5d3d2ece0f6507e24036",
+ "inputs_fingerprint_sha256": "87cd7126ed17763b58d08a015144c4aaaffab99172815f02fba2b234d1993e3d",
  "summary": {
   "places": 466,
-  "opportunities": 705,
-  "canonical_locked_opportunities": 705,
+  "opportunities": 717,
+  "canonical_locked_opportunities": 717,
   "places_with_unknown_scenic_beauty": 284,
   "mean_weighted_total": 3.91,
   "median_weighted_total": 3.95,
@@ -2778,9 +2778,10 @@
    "place_id": "tw-089",
    "name_zh": "觀霧榛山步道觀景點",
    "region": "tw",
-   "n_opportunities": 1,
+   "n_opportunities": 2,
    "opportunity_ids": [
-    "tw-089-P01"
+    "tw-089-P01",
+    "tw-089-P02"
    ],
    "rubric": {
     "subject_strength": 5,
@@ -4501,6 +4502,40 @@
    ]
   },
   {
+   "place_id": "tw-120",
+   "name_zh": "武陵農場",
+   "region": "tw",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "tw-120-P01",
+    "tw-120-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4.5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 3,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 0,
+    "s3": 1,
+    "top": 0,
+    "distinct_evidence_hosts": [
+     "www.taiwan.net.tw",
+     "zh.wikipedia.org"
+    ]
+   },
+   "weighted_total": 3.67,
+   "nearest_place": "tw-049",
+   "nearest_km": 7.57,
+   "coords": [
+    24.364611,
+    121.31035
+   ]
+  },
+  {
    "place_id": "jp-038",
    "name_zh": "蔵王樹氷（蔵王ロープウェイ・山形側）",
    "region": "jp",
@@ -4664,6 +4699,41 @@
    ]
   },
   {
+   "place_id": "tw-140",
+   "name_zh": "太平山森林遊樂區",
+   "region": "tw",
+   "n_opportunities": 3,
+   "opportunity_ids": [
+    "tw-140-P01",
+    "tw-140-P02",
+    "tw-140-P03"
+   ],
+   "rubric": {
+    "subject_strength": 4.67,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5,
+    "differentiation": 1,
+    "scenic_beauty": 4
+   },
+   "scenic_beauty_evidence": {
+    "s1": 1,
+    "s2": 0,
+    "s3": 1,
+    "top": 0,
+    "distinct_evidence_hosts": [
+     "tps.forest.gov.tw",
+     "yilan.forest.gov.tw"
+    ]
+   },
+   "weighted_total": 3.62,
+   "nearest_place": "tw-088",
+   "nearest_km": 1.94,
+   "coords": [
+    24.5242406,
+    121.6228895
+   ]
+  },
+  {
    "place_id": "jp-041",
    "name_zh": "知床ウトロ流氷（プユニ岬）",
    "region": "jp",
@@ -4727,40 +4797,6 @@
    "coords": [
     32.75336,
     129.84933
-   ]
-  },
-  {
-   "place_id": "tw-024",
-   "name_zh": "阿里山祝山觀日平台",
-   "region": "tw",
-   "n_opportunities": 5,
-   "opportunity_ids": [
-    "tw-024-P01",
-    "tw-024-P02",
-    "tw-024-P03",
-    "tw-024-P04",
-    "tw-024-P05"
-   ],
-   "rubric": {
-    "subject_strength": 4.6,
-    "weather_light_dependency": 5,
-    "verifiability": 3.5,
-    "differentiation": 1,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 3.6,
-   "nearest_place": "tw-177",
-   "nearest_km": 3.21,
-   "coords": [
-    23.512215,
-    120.822892
    ]
   },
   {
@@ -4954,6 +4990,41 @@
    ]
   },
   {
+   "place_id": "tw-024",
+   "name_zh": "阿里山祝山觀日平台",
+   "region": "tw",
+   "n_opportunities": 6,
+   "opportunity_ids": [
+    "tw-024-P01",
+    "tw-024-P02",
+    "tw-024-P03",
+    "tw-024-P04",
+    "tw-024-P05",
+    "tw-024-P06"
+   ],
+   "rubric": {
+    "subject_strength": 4.67,
+    "weather_light_dependency": 5,
+    "verifiability": 3.33,
+    "differentiation": 1,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.58,
+   "nearest_place": "tw-177",
+   "nearest_km": 3.21,
+   "coords": [
+    23.512215,
+    120.822892
+   ]
+  },
+  {
    "place_id": "tw-064",
    "name_zh": "金門慈湖",
    "region": "tw",
@@ -4982,73 +5053,6 @@
    "coords": [
     24.46897,
     118.30675
-   ]
-  },
-  {
-   "place_id": "tw-140",
-   "name_zh": "太平山森林遊樂區",
-   "region": "tw",
-   "n_opportunities": 2,
-   "opportunity_ids": [
-    "tw-140-P01",
-    "tw-140-P02"
-   ],
-   "rubric": {
-    "subject_strength": 4.5,
-    "weather_light_dependency": 5,
-    "verifiability": 2.5,
-    "differentiation": 1,
-    "scenic_beauty": 4
-   },
-   "scenic_beauty_evidence": {
-    "s1": 1,
-    "s2": 0,
-    "s3": 1,
-    "top": 0,
-    "distinct_evidence_hosts": [
-     "tps.forest.gov.tw",
-     "yilan.forest.gov.tw"
-    ]
-   },
-   "weighted_total": 3.58,
-   "nearest_place": "tw-088",
-   "nearest_km": 1.94,
-   "coords": [
-    24.5242406,
-    121.6228895
-   ]
-  },
-  {
-   "place_id": "tw-120",
-   "name_zh": "武陵農場",
-   "region": "tw",
-   "n_opportunities": 1,
-   "opportunity_ids": [
-    "tw-120-P01"
-   ],
-   "rubric": {
-    "subject_strength": 4,
-    "weather_light_dependency": 5,
-    "verifiability": 2.5,
-    "differentiation": 3,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 0,
-    "s3": 1,
-    "top": 0,
-    "distinct_evidence_hosts": [
-     "www.taiwan.net.tw",
-     "zh.wikipedia.org"
-    ]
-   },
-   "weighted_total": 3.55,
-   "nearest_place": "tw-049",
-   "nearest_km": 7.57,
-   "coords": [
-    24.364611,
-    121.31035
    ]
   },
   {
@@ -5148,10 +5152,11 @@
    "place_id": "tw-088",
    "name_zh": "翠峰湖環山步道觀景點",
    "region": "tw",
-   "n_opportunities": 2,
+   "n_opportunities": 3,
    "opportunity_ids": [
     "tw-088-P01",
-    "tw-088-P02"
+    "tw-088-P02",
+    "tw-088-P03"
    ],
    "rubric": {
     "subject_strength": 5,
@@ -5608,13 +5613,14 @@
    "place_id": "tw-091",
    "name_zh": "司馬庫斯部落觀景點",
    "region": "tw",
-   "n_opportunities": 2,
+   "n_opportunities": 3,
    "opportunity_ids": [
     "tw-091-P01",
-    "tw-091-P02"
+    "tw-091-P02",
+    "tw-091-P03"
    ],
    "rubric": {
-    "subject_strength": 4.5,
+    "subject_strength": 4.67,
     "weather_light_dependency": 5,
     "verifiability": 2.5,
     "differentiation": 1,
@@ -5630,7 +5636,7 @@
      "zh.wikipedia.org"
     ]
    },
-   "weighted_total": 3.38,
+   "weighted_total": 3.42,
    "nearest_place": "tw-183",
    "nearest_km": 4.62,
    "coords": [
@@ -8704,16 +8710,17 @@
    "place_id": "tw-032",
    "name_zh": "見晴懷古步道",
    "region": "tw",
-   "n_opportunities": 3,
+   "n_opportunities": 4,
    "opportunity_ids": [
     "tw-032-P01",
     "tw-032-P02",
-    "tw-032-P03"
+    "tw-032-P03",
+    "tw-032-P04"
    ],
    "rubric": {
-    "subject_strength": 4.67,
+    "subject_strength": 4.75,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 3.25,
     "differentiation": 3,
     "scenic_beauty": "unknown"
    },
@@ -8964,15 +8971,16 @@
    "place_id": "tw-053",
    "name_zh": "杉林溪",
    "region": "tw",
-   "n_opportunities": 2,
+   "n_opportunities": 3,
    "opportunity_ids": [
     "tw-053-P01",
-    "tw-053-P02"
+    "tw-053-P02",
+    "tw-053-P03"
    ],
    "rubric": {
     "subject_strength": 5,
     "weather_light_dependency": 5,
-    "verifiability": 3.5,
+    "verifiability": 3.17,
     "differentiation": 1,
     "scenic_beauty": "unknown"
    },
@@ -9695,9 +9703,10 @@
    "place_id": "tw-104",
    "name_zh": "忘憂森林",
    "region": "tw",
-   "n_opportunities": 1,
+   "n_opportunities": 2,
    "opportunity_ids": [
-    "tw-104-P01"
+    "tw-104-P01",
+    "tw-104-P02"
    ],
    "rubric": {
     "subject_strength": 5,
@@ -10421,14 +10430,15 @@
    "place_id": "tw-151",
    "name_zh": "內洞國家森林遊樂區",
    "region": "tw",
-   "n_opportunities": 1,
+   "n_opportunities": 2,
    "opportunity_ids": [
-    "tw-151-P01"
+    "tw-151-P01",
+    "tw-151-P02"
    ],
    "rubric": {
-    "subject_strength": 4,
-    "weather_light_dependency": 2,
-    "verifiability": 3.0,
+    "subject_strength": 4.5,
+    "weather_light_dependency": 3.5,
+    "verifiability": 2.75,
     "differentiation": 4,
     "scenic_beauty": "unknown"
    },
@@ -11108,13 +11118,14 @@
    "place_id": "tw-173",
    "name_zh": "明池森林遊樂區",
    "region": "tw",
-   "n_opportunities": 2,
+   "n_opportunities": 3,
    "opportunity_ids": [
     "tw-173-P01",
-    "tw-173-P02"
+    "tw-173-P02",
+    "tw-173-P03"
    ],
    "rubric": {
-    "subject_strength": 4,
+    "subject_strength": 4.33,
     "weather_light_dependency": 5,
     "verifiability": 2.5,
     "differentiation": 3,
@@ -11235,12 +11246,13 @@
    "place_id": "tw-177",
    "name_zh": "特富野古道",
    "region": "tw",
-   "n_opportunities": 1,
+   "n_opportunities": 2,
    "opportunity_ids": [
-    "tw-177-P01"
+    "tw-177-P01",
+    "tw-177-P02"
    ],
    "rubric": {
-    "subject_strength": 4,
+    "subject_strength": 4.5,
     "weather_light_dependency": 5,
     "verifiability": 2.5,
     "differentiation": 1,
@@ -17628,6 +17640,21 @@
    "lifecycle_status": "draft"
   },
   {
+   "opportunity_id": "tw-024-P06",
+   "place_id": "tw-024",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
    "opportunity_id": "tw-025-P01",
    "place_id": "tw-025",
    "scores": {
@@ -17913,6 +17940,21 @@
    },
    "verif_gaps": [
     "geometry_not_verified"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-032-P04",
+   "place_id": "tw-032",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -18809,6 +18851,21 @@
    },
    "verif_gaps": [
     "geometry_not_verified"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-053-P03",
+   "place_id": "tw-053",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -19730,7 +19787,37 @@
    "lifecycle_status": "draft"
   },
   {
+   "opportunity_id": "tw-088-P03",
+   "place_id": "tw-088",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
    "opportunity_id": "tw-089-P01",
+   "place_id": "tw-089",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-089-P02",
    "place_id": "tw-089",
    "scores": {
     "subject_strength": 5,
@@ -19764,6 +19851,21 @@
    "place_id": "tw-091",
    "scores": {
     "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-091-P03",
+   "place_id": "tw-091",
+   "scores": {
+    "subject_strength": 5,
     "weather_light_dependency": 5,
     "verifiability": 2.5
    },
@@ -19956,6 +20058,21 @@
   },
   {
    "opportunity_id": "tw-104-P01",
+   "place_id": "tw-104",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-104-P02",
    "place_id": "tw-104",
    "scores": {
     "subject_strength": 5,
@@ -20199,6 +20316,21 @@
    "place_id": "tw-120",
    "scores": {
     "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-120-P02",
+   "place_id": "tw-120",
+   "scores": {
+    "subject_strength": 5,
     "weather_light_dependency": 5,
     "verifiability": 2.5
    },
@@ -20690,6 +20822,21 @@
    "lifecycle_status": "draft"
   },
   {
+   "opportunity_id": "tw-140-P03",
+   "place_id": "tw-140",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
    "opportunity_id": "tw-141-P01",
    "place_id": "tw-141",
    "scores": {
@@ -20951,6 +21098,21 @@
     "subject_strength": 4,
     "weather_light_dependency": 2,
     "verifiability": 3.0
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-151-P02",
+   "place_id": "tw-151",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
    },
    "verif_gaps": [
     "geometry_not_verified",
@@ -21380,6 +21542,21 @@
    "lifecycle_status": "draft"
   },
   {
+   "opportunity_id": "tw-173-P03",
+   "place_id": "tw-173",
+   "scores": {
+    "subject_strength": 5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
    "opportunity_id": "tw-174-P01",
    "place_id": "tw-174",
    "scores": {
@@ -21459,6 +21636,21 @@
    "place_id": "tw-177",
    "scores": {
     "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 2.5
+   },
+   "verif_gaps": [
+    "geometry_not_verified",
+    "targets_missing_evidence_refs"
+   ],
+   "canonical_locked": true,
+   "lifecycle_status": "draft"
+  },
+  {
+   "opportunity_id": "tw-177-P02",
+   "place_id": "tw-177",
+   "scores": {
+    "subject_strength": 5,
     "weather_light_dependency": 5,
     "verifiability": 2.5
    },

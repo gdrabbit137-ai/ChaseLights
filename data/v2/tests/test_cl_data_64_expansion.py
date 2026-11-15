@@ -220,7 +220,7 @@ class TestRuntime(unittest.TestCase):
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
         self.assertEqual(ev["place_count"], 460)  # CL-CI-36 re-anchor: cron drops the 6 CL-DATA-62-retired places (tw-068/083/084, us-075/076/077; -13 opps, PRODUCT_RETIRED is honest); CL-CI-36 dedup fix removes duplicate multi-coordinate-group rows (tw-002/us-005/us-011/us-013 listed twice); 465/697 -> 460/690
-        self.assertEqual(ev["opportunity_count"], 690)
+        self.assertEqual(ev["opportunity_count"], 702)  # CL-DATA-73 re-anchor: 690 -> 702 (merged tree: +12 misty_forest evaluated, eligible contracts)
         self.assertEqual(ev["forecast_hours"], 168)
         self.assertEqual(ev["fetch_failures"], [])
 
