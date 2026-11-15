@@ -73,7 +73,7 @@ test('CL-UI-88 (1): strip CSS — content-sized cells, no ellipsis, fade hints +
   // Quick-view panel carries the tier semantics (green when recommended).
   assert.match(cssSource, /\.place-quick-view\.quick-ok\{background:color-mix\(in srgb, var\(--cl-green\) 10%, transparent\);border-color:color-mix\(in srgb, var\(--cl-green\) 55%, transparent\)\}/);
   // Cache-bust: the served homepage carries the new stamp.
-  assert.equal((indexSource.match(/\?v=clui99/g) || []).length, 2, 'app.js + app.css both at clui99');
+  assert.equal((indexSource.match(/\?v=clui100/g) || []).length, 2, 'app.js + app.css both at clui100');
 });
 
 test('CL-UI-88 (2): strip wiring — tooltip + .sel + per-block drag init in app.js', () => {
@@ -88,7 +88,7 @@ test('CL-UI-88 (2): strip wiring — tooltip + .sel + per-block drag init in app
   assert.match(appSource, /const strip=el\.querySelector\('\.v2-day-strip'\);\n\s+if\(strip\)\{initDragScroll\(strip\);centerSel\(strip\);\}/);
   // The quick view panel toggles its tier class after the render (CL-UI-95:
   // quick-ok / quick-mid / quick-bad from the chip's data-tier marker).
-  assert.ok(appSource.includes("qsec.classList.remove('quick-ok','quick-mid','quick-bad')"), 'quick panel tier class wired');
+  assert.ok(appSource.includes("section.classList.remove('quick-ok','quick-mid','quick-bad')"), 'quick panel tier class wired');
   // The strip render call site stays pinned (cl-ui-05/12/22/75 contract).
   assert.match(appSource, /v2DayStripHtml\(days,labels,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id\)/);
 });
