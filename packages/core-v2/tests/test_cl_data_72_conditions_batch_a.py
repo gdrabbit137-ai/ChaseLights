@@ -271,8 +271,8 @@ class MoonAlternationTests(unittest.TestCase):
 class WaterReflectionTests(unittest.TestCase):
     """CL-COND-A7: derived three-level water surface state."""
 
-    WRS = {"metric": "water_reflection_state", "operator": "neq",
-           "threshold": "unfit"}
+    WRS = {"metric": "water_reflection_state", "operator": "none",
+           "threshold": None}
 
     def test_three_state_switching_on_wind(self):
         # The owner verification case: one lake, wind swings -> the three
@@ -338,7 +338,7 @@ class WaterReflectionTests(unittest.TestCase):
             else:
                 self.assertEqual(cond["metric"], "water_reflection_state", oid)
                 self.assertEqual((cond["operator"], cond["threshold"]),
-                                 ("neq", "unfit"), oid)
+                                 ("none", None), oid)
                 derived += 1
         self.assertEqual(derived, 46)
 
@@ -350,7 +350,7 @@ class WaterReflectionTests(unittest.TestCase):
         self.assertEqual(len(t2), 1)
         self.assertEqual(t2[0]["metric"], "water_reflection_state")
         self.assertEqual((t2[0]["operator"], t2[0]["threshold"]),
-                         ("neq", "unfit"))
+                         ("none", None))
 
     def test_vocabulary_covers_water_reflection_state(self):
         vocab = json.loads((ROOT / "data/v2/templates/metric-vocabulary.json")

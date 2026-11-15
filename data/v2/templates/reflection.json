@@ -42,7 +42,7 @@
       "evaluation_mode": "GUIDANCE",
       "capability": "CONDITIONS",
       "condition_tier": "MAIN",
-      "operator": "neq",
+      "operator": "none",
       "unit": null,
       "unknown_policy": "propagate_unknown",
       "threshold_source": "formula_derived",
@@ -53,7 +53,7 @@
         "ja": "水面の静けさ派生指標（CL-DATA-72 batch A / CHALLENGER-15 A7、マネージャー裁定）：評価層は風速・降水（直近2〜6時間を含む）・気温から3段階を導出 — 鏡面（風≤1.5 m/s・直近2〜6h無降雨・気温>0）、撮影可（風≤3・ほぼ無雨）、不適（風>3 または降雨中 または気温≤0→結氷の可能性）。本条件は neq 'unfit'：『不適』のみ否決。波高は未接続（>0.3m→不適ルールは海洋波データ接続後に有効）。"
       },
       "binding": null,
-      "threshold": "unfit"
+      "threshold": null
     },
     {
       "template_ref": "T3",

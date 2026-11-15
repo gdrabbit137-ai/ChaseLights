@@ -35,7 +35,7 @@ VOCAB = TEMPLATES / 'metric-vocabulary.json'
 
 ROLES = {'SHORT_HQ', 'MID', 'LONG', 'AEROSOL', 'OBS', 'SUBJECT_STATE'}  # SUBJECT_STATE per W1-pinned opportunity-v2.1.schema (CL-DATA-64 volcanic_activity)
 BIND_KEYS = {'dataset', 'field', 'level', 'role', 'sector'}
-OPERATORS = {'gte', 'lte', 'gt', 'lt', 'between', 'none', 'eq', 'neq'}  # neq: string-level derived metrics (CL-DATA-72 water_reflection_state neq 'unfit')
+OPERATORS = {'gte', 'lte', 'gt', 'lt', 'between', 'none', 'eq'}
 
 
 def _load_json(path: Path):

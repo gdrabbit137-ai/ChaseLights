@@ -301,16 +301,18 @@ def condition_verdict(condition, values, astro_row, month=None,
         # CL-DATA-72 batch A / CL-COND-A7: the reflection family evaluates the
         # DERIVED surface-state proxy (water_reflection_state: mirror /
         # shootable / unfit) that the batch runner computes per hour from wind,
-        # precipitation history and air temperature. "unfit" is the only level
-        # that vetoes (REQUIRED); mirror/shootable both satisfy the condition.
+        # precipitation history and air temperature. The contract carries no
+        # threshold (operator "none"): only the "unfit" level vetoes —
+        # mirror/shootable both satisfy the condition.
         cell = values.get("water_reflection_state") if isinstance(values, dict) else None
         if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
             return "UNKNOWN", "REFLECTION_STATE_DERIVATION_UNAVAILABLE"
         level = cell.get("value")
         if level not in ("mirror", "shootable", "unfit"):
             return "UNKNOWN", "REFLECTION_STATE_INVALID_LEVEL"
-        if operator == "neq":
-            passed = level != threshold
+        if operator in ("none", None, "neq"):
+            passed = level != "unfit" if operator in (None, "none") \
+                else level != threshold
         elif operator == "eq":
             passed = level == threshold
         else:
