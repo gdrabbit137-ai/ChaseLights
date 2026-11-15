@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOCKUP — 自訂景點（私人點）· ChaseLights DESIGN-8</title>
+<style>
+/* ============================================================
+   DESIGN-8 mockup — 自訂景點（自訂私人點）
+   單一列表原則：自訂點與官方景點同卡片流；私人＝灰徽章（不搶語義色）
+   ＋新增流程＝按鈕彈窗（地圖釘點 lat/lng＋海拔 DEM 自動＋時區自動）
+   ＋題材掛載：一般題材＋CL-UI-99 已上線引擎五組自訂條件
+   ＋提名升級官方（⋯選單 → 一鍵提名 → 審核佇列）
+   設計錨點：Linear/Vercel 級深色儀表板 · --cl-* token 系統
+   色彩契約：綠=推薦 · 黃=可拍 · 灰紅=不宜 · 藍僅連結 ·
+             私人=灰（中性，永不借用 ✓○✗ 語義色）
+   純 CSS/JS，無圖片、無外部字型
+   ============================================================ */
+:root{
+  /* surfaces */
+  --cl-bg-0:#0B0F1A; --cl-bg-1:#111827; --cl-bg-2:#1A2332; --cl-bg-3:#232D3F;
+  --cl-border:#2A3441; --cl-border-strong:#3B4757;
+  /* text */
+  --cl-text-1:#E6EBF2; --cl-text-2:#A8B3C2; --cl-text-3:#8B98A9;
+  /* semantic — 契約色 */
+  --cl-green:#22C55E; --cl-green-text:#4ADE80; --cl-green-bg:rgba(34,197,94,.10); --cl-green-border:#166534;
+  --cl-amber:#F59E0B; --cl-amber-text:#FBBF24; --cl-amber-bg:rgba(245,158,11,.10); --cl-amber-border:#92600A;
+  --cl-red:#EF4444; --cl-red-text:#F87171; --cl-red-bg:rgba(239,68,68,.09); --cl-red-border:#7F1D1D;
+  --cl-grey:#6B7686; --cl-grey-text:#98A4B3; --cl-grey-bg:rgba(107,118,134,.14);
+  --cl-blue:#3B82F6; /* 僅連結 */
+  --cl-ink:#000000;
+  /* scale */
+  --cl-r-xs:6px; --cl-r-sm:8px; --cl-r-md:12px; --cl-r-lg:16px;
+  --cl-sp-1:4px; --cl-sp-2:8px; --cl-sp-3:12px; --cl-sp-4:16px; --cl-sp-5:24px; --cl-sp-6:32px;
+  --cl-fs-12:12px; --cl-fs-13:13px; --cl-fs-14:14px; --cl-fs-15:15px; --cl-fs-16:16px; --cl-fs-20:20px;
+  --cl-control-h:36px; --cl-pill-h:32px; --cl-chip-h:24px; --cl-btn-h:40px;
+  --cl-shadow-1:0 1px 3px rgba(0,0,0,.35); --cl-shadow-3:0 24px 80px rgba(0,0,0,.7);
+  --cl-font:"Inter","Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --cl-mono:"SF Mono",ui-monospace,"Cascadia Mono","Consolas",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:var(--cl-border-strong) var(--cl-bg-0)}
+body{background:var(--cl-bg-0);color:var(--cl-text-1);font-family:var(--cl-font);font-size:var(--cl-fs-14);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--cl-blue);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* ── mockup 工具列（非產品 UI）────────────────────────── */
+.mockup-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:var(--cl-sp-3);flex-wrap:wrap;
+  padding:8px 16px;background:#070A12;border-bottom:1px solid var(--cl-border);font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.mockup-bar .tag{font-weight:600;color:#F472B6;letter-spacing:.04em}
+.mockup-bar .grp{display:flex;gap:4px}
+.mockup-bar button{height:24px;padding:0 10px;border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);color:var(--cl-text-2);font-size:11px}
+.mockup-bar button.on{background:var(--cl-bg-3);color:var(--cl-text-1);border-color:var(--cl-border-strong)}
+.mockup-bar .spacer{flex:1}
+
+/* ── app shell ─────────────────────────────────────────── */
+#shell{max-width:1280px;margin:0 auto;padding:var(--cl-sp-5) var(--cl-sp-5) 64px;transition:max-width .25s}
+#shell.vp390{max-width:390px;padding:var(--cl-sp-4) 0 64px;box-shadow:0 0 0 1px var(--cl-border),0 24px 80px rgba(0,0,0,.6)}
+
+/* header */
+.topnav{display:flex;align-items:center;gap:var(--cl-sp-4);margin-bottom:var(--cl-sp-5)}
+.logo{font-weight:600;font-size:var(--cl-fs-15);letter-spacing:-.01em}
+.logo .dot{color:var(--cl-green)}
+.topnav .navlinks{display:flex;gap:var(--cl-sp-4);font-size:var(--cl-fs-13);color:var(--cl-text-3)}
+.topnav .navlinks a{color:var(--cl-text-2)}
+.topnav .navlinks a.active{color:var(--cl-text-1);font-weight:600}
+.topnav .right{margin-left:auto;display:flex;gap:var(--cl-sp-2);align-items:center}
+/* 會員入口兩態 */
+.login-btn{display:none;align-items:center;height:36px;padding:0 16px;border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-xs);
+  background:var(--cl-bg-2);color:var(--cl-text-1);font-size:var(--cl-fs-13);font-weight:600}
+.login-btn:hover{background:var(--cl-bg-3)}
+.member{position:relative;display:none;align-items:center;gap:var(--cl-sp-2);height:36px;padding:0 10px 0 5px;
+  border:1px solid var(--cl-border);border-radius:18px;background:var(--cl-bg-2);cursor:pointer;user-select:none}
+.member:hover{background:var(--cl-bg-3);border-color:var(--cl-border-strong)}
+.avatar{width:26px;height:26px;border-radius:50%;background:var(--cl-bg-3);border:1px solid var(--cl-border-strong);color:var(--cl-text-1);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none}
+.member .m-name{font-size:var(--cl-fs-13);color:var(--cl-text-2);max-width:128px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.member .m-caret{font-size:9px;color:var(--cl-text-3)}
+.member-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:184px;background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);
+  border-radius:var(--cl-r-md);box-shadow:var(--cl-shadow-3);padding:var(--cl-sp-1);display:none;z-index:70}
+.member.open .member-menu{display:block}
+.member-menu button{display:flex;width:100%;align-items:center;gap:var(--cl-sp-2);height:36px;padding:0 var(--cl-sp-2);
+  border-radius:var(--cl-r-xs);color:var(--cl-text-2);font-size:var(--cl-fs-13);text-align:left}
+.member-menu button:hover{background:var(--cl-bg-2);color:var(--cl-text-1)}
+.member-menu .mm-ic{width:18px;text-align:center;flex:none}
+.member-menu .mm-sep{height:1px;background:var(--cl-border);margin:var(--cl-sp-1) 6px}
+.member-menu .mm-out{color:var(--cl-grey-text)}
+.member-zone.in .member{display:flex}
+.member-zone.out .login-btn{display:flex}
+
+/* 標題與篩選 */
+.title-row{display:flex;align-items:baseline;gap:var(--cl-sp-3);margin-bottom:var(--cl-sp-3);flex-wrap:wrap}
+.title-row h1{font-size:var(--cl-fs-16);font-weight:600}
+.title-row .count{font-size:var(--cl-fs-13);color:var(--cl-text-3)}
+.title-row .count b{color:var(--cl-text-2);font-weight:600}
+.title-row .add-btn{margin-left:auto}
+.filterbar{display:flex;flex-wrap:wrap;gap:var(--cl-sp-2);align-items:center;margin-bottom:var(--cl-sp-3)}
+.tabs{display:flex;gap:var(--cl-sp-2)}
+.tab{display:inline-flex;align-items:center;gap:6px;height:var(--cl-pill-h);padding:0 var(--cl-sp-3);
+  border-radius:999px;border:1px solid var(--cl-border);background:var(--cl-bg-2);font-size:var(--cl-fs-13);color:var(--cl-text-2);flex:none}
+.tab .n{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.tab.sel{font-weight:600;color:var(--cl-text-1);background:var(--cl-bg-3);border-width:1.5px}
+.tab.sel .n{color:var(--cl-text-2)}
+.tab.t-rec.sel{border-color:var(--cl-green-border);color:var(--cl-green-text)}
+.tab.t-rec.sel .n{color:var(--cl-green-text)}
+.tab.t-shoot.sel{border-color:var(--cl-amber-border);color:var(--cl-amber-text)}
+.tab.t-shoot.sel .n{color:var(--cl-amber-text)}
+.tab.t-no.sel{border-color:var(--cl-red-border);color:var(--cl-red-text)}
+.tab.t-no.sel .n{color:var(--cl-red-text)}
+/* 官方/私人檢視切換（地區選單旁）＝中性灰選取，不借語義色 */
+.tab.t-view.sel{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+.tab.t-view.sel .n{color:var(--cl-text-2)}
+.tab.t-priv.sel{border-color:var(--cl-border-strong);color:var(--cl-grey-text)}
+/* 地區選單 */
+.region-sel{height:var(--cl-pill-h);padding:0 8px;border-radius:999px;border:1px solid var(--cl-border);
+  background:var(--cl-bg-2);color:var(--cl-text-2);font-size:var(--cl-fs-13);font-family:inherit}
+.region-sel:focus{outline:none;border-color:var(--cl-border-strong)}
+/* 新增私人景點按鈕 */
+.add-btn{display:inline-flex;align-items:center;gap:6px;height:var(--cl-pill-h);padding:0 14px;border-radius:999px;flex:none;
+  background:var(--cl-bg-3);border:1px solid var(--cl-border-strong);color:var(--cl-text-1);font-size:var(--cl-fs-13);font-weight:600}
+.add-btn:hover{border-color:var(--cl-grey-text);background:var(--cl-bg-2)}
+.add-btn b{color:var(--cl-grey-text);font-weight:700}
+/* 額度 chip（誠實顯示） */
+.quota-chip{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:999px;flex:none;
+  background:var(--cl-bg-2);border:1px solid var(--cl-border);font-family:var(--cl-mono);font-size:11px;color:var(--cl-text-3)}
+.quota-chip b{color:var(--cl-text-1);font-weight:400}
+.chip-row{display:flex;gap:var(--cl-sp-2);overflow-x:auto;scroll-snap-type:x proximity;
+  margin-bottom:var(--cl-sp-3);padding-bottom:2px;
+  mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent)}
+.chip-row::-webkit-scrollbar{height:0}
+.chip{display:inline-flex;align-items:center;height:var(--cl-chip-h);padding:0 var(--cl-sp-2);flex:none;scroll-snap-align:start;
+  border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);background:var(--cl-bg-1);font-size:var(--cl-fs-12);color:var(--cl-text-2)}
+.chip.on{background:var(--cl-bg-3);border-color:var(--cl-border-strong);color:var(--cl-text-1);font-weight:600}
+
+/* ── 地圖同顯示（官方依 tier 色釘 · 私人＝灰釘白環）────── */
+.mapdemo{position:relative;height:148px;border:1px solid var(--cl-border);border-radius:var(--cl-r-md);
+  margin-bottom:var(--cl-sp-4);overflow:hidden;
+  background:
+    radial-gradient(120px 70px at 78% 22%,rgba(107,118,134,.10),transparent 70%),
+    radial-gradient(90px 60px at 22% 30%,rgba(107,118,134,.08),transparent 70%),
+    linear-gradient(180deg,#0E1422,#0B101C)}
+.mapdemo .mlabel{position:absolute;top:8px;left:12px;font-size:11px;color:var(--cl-text-3)}
+.mappin{position:absolute;width:10px;height:10px;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 1px 3px rgba(0,0,0,.5)}
+.mappin.rec{background:var(--cl-green)}
+.mappin.shoot{background:var(--cl-amber)}
+.mappin.no{background:var(--cl-red)}
+.mappin.priv{background:var(--cl-grey);box-shadow:0 0 0 2px var(--cl-bg-0),0 0 0 3.5px var(--cl-grey-text)}
+.maplegend{position:absolute;bottom:8px;left:12px;right:12px;display:flex;gap:var(--cl-sp-3);flex-wrap:wrap;
+  font-size:11px;color:var(--cl-text-3)}
+.maplegend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.maplegend i.leg-priv{background:var(--cl-grey);box-shadow:0 0 0 2px var(--cl-bg-0),0 0 0 3px var(--cl-grey-text)}
+
+/* ── 卡片（本體原樣 DESIGN-6 定案 ＋ 私人徽章/⋯選單）───── */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--cl-sp-5)}
+#shell.vp390 .grid{grid-template-columns:1fr;gap:var(--cl-sp-2)}
+.card{background:var(--cl-bg-1);border:1px solid var(--cl-border);border-radius:var(--cl-r-md);
+  padding:var(--cl-sp-4);display:flex;flex-direction:column;min-width:0;position:relative;
+  content-visibility:auto;contain-intrinsic-size:auto 190px}
+#shell.vp390 .card{padding:var(--cl-sp-3);border-radius:var(--cl-r-sm)}
+.card:hover{border-color:var(--cl-border-strong)}
+.card-head{display:flex;align-items:center;gap:var(--cl-sp-2);margin-bottom:var(--cl-sp-2);flex-wrap:nowrap}
+.card-head .name{font-size:var(--cl-fs-14);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-head .star{margin-left:auto;color:var(--cl-text-3);font-size:13px;flex:none}
+.card-head .star.fav{color:var(--cl-amber)}
+/* 私人徽章：灰（中性）——永不借 ✓○✗ 語義色 */
+.priv-badge{display:inline-flex;align-items:center;gap:3px;height:22px;padding:0 8px;border-radius:999px;flex:none;
+  background:var(--cl-grey-bg);color:var(--cl-grey-text);box-shadow:inset 0 0 0 1px var(--cl-border-strong);
+  font-size:var(--cl-fs-12);font-weight:600}
+/* ⋯選單 */
+.more{width:22px;height:22px;border-radius:var(--cl-r-xs);flex:none;color:var(--cl-text-3);font-size:14px;line-height:1;
+  display:inline-flex;align-items:center;justify-content:center}
+.more:hover{color:var(--cl-text-1);background:var(--cl-bg-2)}
+.cardmenu{position:absolute;top:44px;right:10px;min-width:170px;background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);
+  border-radius:var(--cl-r-sm);box-shadow:var(--cl-shadow-3);padding:var(--cl-sp-1);display:none;z-index:40}
+.cardmenu.open{display:block}
+.cardmenu button{display:flex;width:100%;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:var(--cl-r-xs);
+  color:var(--cl-text-2);font-size:var(--cl-fs-13);text-align:left}
+.cardmenu button:hover{background:var(--cl-bg-2);color:var(--cl-text-1)}
+.cardmenu .cm-ic{width:18px;text-align:center;flex:none}
+.cardmenu .cm-sep{height:1px;background:var(--cl-border);margin:3px 6px}
+.cardmenu .danger{color:var(--cl-red-text)}
+.cardmenu .danger:hover{background:rgba(239,68,68,.10)}
+.r-chip{display:inline-flex;align-items:center;gap:2px;height:20px;padding:0 7px;flex:none;
+  border-radius:999px;background:var(--cl-bg-2);border:1px solid var(--cl-border);
+  font-family:var(--cl-mono);font-size:11px;color:var(--cl-text-2);cursor:pointer;white-space:nowrap}
+.r-chip:hover{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+.r-chip b{color:var(--cl-amber-text);font-weight:600}
+.tier{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;
+  font-size:var(--cl-fs-12);font-weight:600;flex:none}
+.tier-rec{background:var(--cl-green-bg);color:var(--cl-green-text);box-shadow:inset 0 0 0 1px var(--cl-green-border)}
+.tier-shoot{background:var(--cl-amber-bg);color:var(--cl-amber-text);box-shadow:inset 0 0 0 1px var(--cl-amber-border)}
+.tier-no{background:var(--cl-red-bg);color:var(--cl-red-text);box-shadow:inset 0 0 0 1px var(--cl-red-border)}
+.region{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-bottom:var(--cl-sp-2)}
+.subj-row{display:flex;align-items:center;gap:var(--cl-sp-2);height:26px;font-size:var(--cl-fs-13);min-width:0}
+.subj-row .dot{width:6px;height:6px;border-radius:50%;background:var(--cl-green);flex:none}
+.subj-row .g{font-weight:600;color:var(--cl-text-1);flex:none}
+.subj-row .w{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.subj-row .bell{margin-left:auto;color:var(--cl-text-3);font-size:12px;flex:none;cursor:pointer}
+.subj-row .bell:hover{color:var(--cl-amber)}
+.gen-line{display:flex;align-items:center;gap:6px;height:26px;font-size:var(--cl-fs-13);color:var(--cl-text-2)}
+.no-line{display:flex;align-items:center;gap:6px;height:26px;font-size:var(--cl-fs-13);color:var(--cl-red-text)}
+/* 自訂條件摘要（CL-UI-99 卡片摘要同款：只列有調的參數） */
+.cc-line{display:flex;align-items:center;gap:6px;font-size:var(--cl-fs-12);color:var(--cl-text-2);
+  padding:5px 0 0;min-width:0}
+.cc-line .cc-chip{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:999px;flex:none;
+  background:var(--cl-bg-2);border:1px dashed var(--cl-border-strong);color:var(--cl-grey-text);font-size:11px}
+.cc-line .cc-txt{font-family:var(--cl-mono);font-size:11px;color:var(--cl-text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pills{display:flex;flex-wrap:wrap;gap:var(--cl-sp-1);margin:var(--cl-sp-2) 0 var(--cl-sp-3)}
+.pill{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:var(--cl-r-xs);
+  background:var(--cl-bg-2);font-size:var(--cl-fs-12);color:var(--cl-text-2)}
+.pill b{font-family:var(--cl-mono);font-weight:400;color:var(--cl-text-1)}
+.acts{margin-top:auto;display:flex;gap:var(--cl-sp-2);padding-top:var(--cl-sp-2);border-top:1px solid var(--cl-border)}
+.acts .btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;height:30px;
+  border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);background:var(--cl-bg-2);font-size:var(--cl-fs-12);color:var(--cl-text-2);white-space:nowrap}
+.acts .btn:hover{background:var(--cl-bg-3);color:var(--cl-text-1);border-color:var(--cl-border-strong)}
+
+/* 頁尾 UGC 入口 */
+.foot-ugc{margin-top:var(--cl-sp-6);display:flex;justify-content:center}
+.foot-ugc button{height:34px;padding:0 18px;border-radius:999px;border:1px solid var(--cl-border);
+  background:var(--cl-bg-1);color:var(--cl-text-2);font-size:var(--cl-fs-13)}
+.foot-ugc button:hover{background:var(--cl-bg-2);color:var(--cl-text-1);border-color:var(--cl-border-strong)}
+
+/* ── 彈窗共用 ─────────────────────────────────────────── */
+.overlay{position:fixed;inset:0;background:rgba(4,7,14,.72);backdrop-filter:blur(3px);
+  display:none;align-items:flex-start;justify-content:center;z-index:90;padding:var(--cl-sp-6) var(--cl-sp-4);overflow-y:auto}
+.overlay.open{display:flex}
+.modal{width:100%;max-width:560px;background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-lg);
+  padding:var(--cl-sp-5);box-shadow:var(--cl-shadow-3)}
+.m-head{display:flex;align-items:flex-start;gap:var(--cl-sp-3);margin-bottom:var(--cl-sp-2)}
+.m-head .name{font-size:var(--cl-fs-16);font-weight:600}
+.m-head .sub{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-top:2px}
+.m-head .close{margin-left:auto;width:36px;height:36px;border-radius:var(--cl-r-sm);border:1px solid var(--cl-border);
+  background:var(--cl-bg-2);color:var(--cl-text-2);font-size:14px;flex:none}
+.m-head .close:hover{background:var(--cl-bg-3);color:var(--cl-text-1)}
+.fact-sep{display:flex;align-items:center;gap:var(--cl-sp-2);margin:var(--cl-sp-3) 0 var(--cl-sp-2);
+  font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.fact-sep::before,.fact-sep::after{content:'';flex:1;height:1px;background:var(--cl-border)}
+
+/* quick-look（同 DESIGN-5 定案；私人點同款） */
+.quick{display:flex;align-items:center;gap:var(--cl-sp-3);flex-wrap:wrap;padding:var(--cl-sp-3) var(--cl-sp-4);
+  background:var(--cl-green-bg);border:1px solid var(--cl-green-border);border-radius:var(--cl-r-md);margin-bottom:var(--cl-sp-2)}
+.quick.mid{background:var(--cl-amber-bg);border-color:var(--cl-amber-border)}
+.quick.bad{background:var(--cl-red-bg);border-color:var(--cl-red-border)}
+.quick .q-chip{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:999px;flex:none;
+  background:rgba(34,197,94,.16);color:var(--cl-green-text);font-size:var(--cl-fs-12);font-weight:600}
+.quick.mid .q-chip{background:rgba(245,158,11,.16);color:var(--cl-amber-text)}
+.quick.bad .q-chip{background:rgba(239,68,68,.14);color:var(--cl-red-text)}
+.quick .q-band{display:flex;gap:2px;height:14px;flex:1 1 240px;min-width:180px}
+.quick .q-band i{flex:1;min-width:3px;border-radius:2px;background:var(--cl-bg-3)}
+.quick .q-band i.ok{background:var(--cl-green)}
+.quick .q-band i.mid{background:var(--cl-amber)}
+.quick .q-band i.bad{background:var(--cl-red)}
+.quick .q-band i.past{opacity:.32}
+.quick .q-next{font-size:var(--cl-fs-12);color:var(--cl-text-2)}
+.quick .q-next b{font-family:var(--cl-mono);font-weight:600;color:var(--cl-amber-text)}
+.band-label{display:flex;justify-content:space-between;font-family:var(--cl-mono);font-size:10px;color:var(--cl-text-3);margin:2px 0 var(--cl-sp-3)}
+.factline{display:flex;gap:var(--cl-sp-2);flex-wrap:wrap;margin-bottom:var(--cl-sp-2)}
+.factline .pill{background:var(--cl-bg-2)}
+/* 共用機制註記（提醒/評分/推播與官方同源） */
+.shared-note{display:flex;gap:8px;align-items:flex-start;padding:var(--cl-sp-2) var(--cl-sp-3);border-radius:var(--cl-r-sm);
+  background:var(--cl-bg-2);border:1px solid var(--cl-border);font-size:var(--cl-fs-12);color:var(--cl-text-2);margin-bottom:var(--cl-sp-2)}
+.shared-note b{color:var(--cl-text-1)}
+
+/* ── 新增/編輯私人景點彈窗 ────────────────────────────── */
+.fld{margin-bottom:var(--cl-sp-3)}
+.fld label{display:block;font-size:var(--cl-fs-12);font-weight:600;margin-bottom:4px;color:var(--cl-text-2)}
+.fld .inp{width:100%;height:36px;padding:0 var(--cl-sp-3);background:var(--cl-bg-2);border:1px solid var(--cl-border);
+  border-radius:var(--cl-r-sm);color:var(--cl-text-1);font-family:inherit;font-size:var(--cl-fs-13)}
+.fld .inp:focus{outline:none;border-color:var(--cl-border-strong)}
+.fld .inp::placeholder{color:var(--cl-text-3)}
+.fld .hint{font-size:11px;color:var(--cl-text-3);margin-top:3px}
+.f-row{display:flex;gap:var(--cl-sp-2)}
+.f-row .fld{flex:1;min-width:0}
+.pinpick{position:relative;height:170px;border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);cursor:crosshair;
+  background:
+    radial-gradient(140px 80px at 70% 30%,rgba(107,118,134,.12),transparent 70%),
+    radial-gradient(100px 70px at 25% 45%,rgba(107,118,134,.09),transparent 70%),
+    linear-gradient(180deg,#0E1422,#0B101C);
+  overflow:hidden;margin-bottom:6px}
+.pinpick .pk-cross{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--cl-text-3);font-size:11px;pointer-events:none}
+.pinmark{position:absolute;width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%);
+  background:var(--cl-grey);box-shadow:0 0 0 2px var(--cl-bg-0),0 0 0 4px var(--cl-grey-text);pointer-events:none}
+.pinmark::after{content:'';position:absolute;left:50%;top:100%;transform:translate(-50%,2px);
+  width:0;height:0;border:5px solid transparent;border-top-color:var(--cl-grey)}
+.ro-line{display:flex;gap:var(--cl-sp-2);flex-wrap:wrap;margin:var(--cl-sp-2) 0}
+.ro-line .pill{background:var(--cl-bg-2)}
+.ro-line .pill b{color:var(--cl-text-1)}
+.anon{display:flex;align-items:center;gap:6px;font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-bottom:var(--cl-sp-3)}
+.submit{width:100%;height:var(--cl-btn-h);border-radius:var(--cl-r-sm);background:var(--cl-bg-3);
+  border:1px solid var(--cl-border-strong);color:var(--cl-text-3);font-size:var(--cl-fs-14);font-weight:600;cursor:not-allowed}
+.submit.ready{background:var(--cl-amber);border-color:var(--cl-amber);color:#1A1206;cursor:pointer}
+.submit.ready:hover{background:var(--cl-amber-text)}
+.done{padding:var(--cl-sp-4);border:1px solid var(--cl-green-border);background:var(--cl-green-bg);border-radius:var(--cl-r-md);text-align:center}
+.done.amber{border-color:var(--cl-amber-border);background:var(--cl-amber-bg)}
+.done .d1{color:var(--cl-green-text);font-weight:600;font-size:var(--cl-fs-14)}
+.done.amber .d1{color:var(--cl-amber-text)}
+.done .d2{font-family:var(--cl-mono);color:var(--cl-text-1);font-size:var(--cl-fs-13);margin:var(--cl-sp-2) 0}
+.done .d3{font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.done button{margin-top:var(--cl-sp-3);height:34px;padding:0 16px;border-radius:var(--cl-r-sm);
+  border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-1);font-size:var(--cl-fs-13)}
+.done .cta{margin-right:6px;border-color:var(--cl-amber-border);color:var(--cl-amber-text)}
+
+/* ── 掛題材＋自訂條件彈窗（CL-UI-99 五組參數同規格）───── */
+.subjgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:var(--cl-sp-3)}
+#shell.vp390 .subjgrid{grid-template-columns:1fr 1fr}
+.subjopt{display:flex;align-items:center;gap:6px;height:38px;padding:0 10px;border-radius:var(--cl-r-sm);
+  border:1px solid var(--cl-border);background:var(--cl-bg-2);color:var(--cl-text-2);font-size:var(--cl-fs-12)}
+.subjopt:hover{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+.subjopt.sel{background:var(--cl-bg-3);border-color:var(--cl-border-strong);border-width:1.5px;color:var(--cl-text-1);font-weight:600}
+.cc-params{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:var(--cl-sp-2)}
+#shell.vp390 .cc-params{grid-template-columns:1fr 1fr}
+.ccp{display:flex;flex-direction:column;gap:2px;padding:7px 9px;border-radius:var(--cl-r-sm);border:1px solid var(--cl-border);background:var(--cl-bg-2)}
+.ccp label{font-size:11px;color:var(--cl-text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ccp input{width:100%;height:28px;padding:0 6px;background:var(--cl-bg-1);border:1px solid var(--cl-border);
+  border-radius:var(--cl-r-xs);color:var(--cl-text-1);font-family:var(--cl-mono);font-size:12px}
+.ccp input:focus{outline:none;border-color:var(--cl-border-strong)}
+.ccp .hint{font-size:10px;color:var(--cl-text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ccp.wide{grid-column:span 3}
+#shell.vp390 .ccp.wide{grid-column:span 2}
+.cc-preview{display:flex;align-items:center;gap:6px;font-size:var(--cl-fs-12);color:var(--cl-text-2);margin-bottom:var(--cl-sp-3)}
+.cc-preview .k{font-family:var(--cl-mono);color:var(--cl-amber-text)}
+.ctx{display:flex;align-items:center;gap:var(--cl-sp-2);flex-wrap:wrap;margin-bottom:var(--cl-sp-3);
+  padding:var(--cl-sp-2) var(--cl-sp-3);background:var(--cl-bg-2);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);font-size:var(--cl-fs-12)}
+.ctx .g{font-weight:600;color:var(--cl-text-1)}
+.ctx .dt{font-family:var(--cl-mono);color:var(--cl-text-2)}
+.ctx .src{margin-left:auto;display:inline-flex;align-items:center;gap:4px;height:20px;padding:0 8px;border-radius:999px;flex:none;
+  background:var(--cl-grey-bg);border:1px solid var(--cl-border-strong);color:var(--cl-grey-text);font-size:11px}
+/* 刪除確認 */
+.delbox{padding:var(--cl-sp-4);border:1px solid var(--cl-red-border);background:var(--cl-red-bg);border-radius:var(--cl-r-md)}
+.delbox .d1{color:var(--cl-red-text);font-weight:600;font-size:var(--cl-fs-14)}
+.delbox .d3{font-size:var(--cl-fs-12);color:var(--cl-text-2);margin-top:var(--cl-sp-2)}
+.delbox .warn{font-size:var(--cl-fs-12);color:var(--cl-text-2);margin-top:var(--cl-sp-2)}
+.delacts{display:flex;gap:var(--cl-sp-2);margin-top:var(--cl-sp-3)}
+.delacts button{flex:1;height:38px;border-radius:var(--cl-r-sm);font-size:var(--cl-fs-13);font-weight:600;border:1px solid var(--cl-border-strong)}
+.delacts .cancel{background:var(--cl-bg-2);color:var(--cl-text-1)}
+.delacts .confirm{background:var(--cl-red-bg);border-color:var(--cl-red-border);color:var(--cl-red-text)}
+.delacts .confirm:hover{background:rgba(239,68,68,.2)}
+
+/* 設計說明 */
+details.notes{margin-top:var(--cl-sp-6);border:1px solid var(--cl-border);border-radius:var(--cl-r-md);background:var(--cl-bg-1)}
+details.notes summary{padding:var(--cl-sp-3) var(--cl-sp-4);font-size:var(--cl-fs-13);font-weight:600;color:var(--cl-text-2);cursor:pointer;list-style:none}
+details.notes summary::before{content:"▸ ";color:var(--cl-text-3)}
+details.notes[open] summary::before{content:"▾ "}
+details.notes .body{padding:0 var(--cl-sp-4) var(--cl-sp-4);font-size:var(--cl-fs-13);color:var(--cl-text-2)}
+details.notes h4{font-size:var(--cl-fs-12);color:var(--cl-text-3);text-transform:uppercase;letter-spacing:.05em;margin:var(--cl-sp-4) 0 var(--cl-sp-2)}
+details.notes table{width:100%;border-collapse:collapse;font-size:var(--cl-fs-12)}
+details.notes td{padding:6px 8px;border-top:1px solid var(--cl-border);vertical-align:top;color:var(--cl-text-2)}
+details.notes td:first-child{width:130px;color:var(--cl-text-1);font-weight:600;white-space:nowrap}
+details.notes code{font-family:var(--cl-mono);font-size:11px;background:var(--cl-bg-2);padding:1px 5px;border-radius:4px;color:var(--cl-text-1)}
+details.notes .data-src{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-top:var(--cl-sp-3)}
+
+/* ── 390 預覽節奏 ─────────────────────────────────────── */
+#shell.vp390 .filterbar{gap:6px}
+#shell.vp390 .tabs{overflow-x:auto;scroll-snap-type:x proximity;max-width:100%;scrollbar-width:none;
+  mask-image:linear-gradient(90deg,#000 calc(100% - 16px),transparent);padding-bottom:2px}
+#shell.vp390 .tabs::-webkit-scrollbar{height:0}
+#shell.vp390 .tab{scroll-snap-align:start}
+#shell.vp390 .topnav .navlinks{display:none}
+#shell.vp390 .member,#shell.vp390 .login-btn{height:40px}
+#shell.vp390 .member .m-name{max-width:96px}
+#shell.vp390 .member-menu button{height:44px}
+#shell.vp390 .member-menu{min-width:200px}
+#shell.vp390 .title-row .add-btn{margin-left:0}
+#shell.vp390 .mapdemo{height:120px}
+#shell.vp390 .modal{padding:var(--cl-sp-4)}
+#shell.vp390 .pinpick{height:140px}
+#shell.vp390 .f-row{flex-wrap:wrap}
+.overlay.p390{padding:0}
+.overlay.p390 .modal{max-width:390px;min-height:100vh;border-radius:0}
+</style>
+</head>
+<body>
+
+<!-- mockup 工具列（非產品 UI） -->
+<div class="mockup-bar">
+  <span class="tag">MOCKUP · 自訂景點（私人點）DESIGN-8</span>
+  <span class="grp" id="lang-grp">
+    <button data-lang="zh-TW" class="on">zh-TW</button><button data-lang="en">en</button><button data-lang="ja">ja</button>
+  </span>
+  <span class="grp" id="vp-grp">
+    <button data-vp="1280" class="on">1280px</button><button data-vp="390">390px</button>
+  </span>
+  <span class="grp" id="auth-grp">
+    <button data-auth="out">未登入</button><button data-auth="in" class="on">已登入</button>
+  </span>
+  <span class="spacer"></span>
+  <span data-i18n="flow_note">流程：＋新增 → 地圖釘點 → 掛題材/條件 → ⋯ 提名升級官方</span>
+  <button id="demo-add" style="border-color:var(--cl-border-strong)">＋ 模擬新增流程 →</button>
+</div>
+
+<div id="shell">
+  <nav class="topnav">
+    <span class="logo">ChaseLights<span class="dot">·</span></span>
+    <span class="navlinks">
+      <a href="#" class="active" data-i18n="nav_cards">卡片</a>
+      <a href="#" data-i18n="nav_weathermap">天氣圖</a>
+      <a href="#" data-i18n="nav_reminders">拍攝提醒</a>
+    </span>
+    <span class="right">
+      <span class="member-zone in" id="member-zone">
+        <button class="login-btn" data-i18n="login">登入</button>
+        <span class="member" id="member">
+          <span class="avatar" data-i18n="avatar_ch">晨</span>
+          <span class="m-name" data-i18n="member_name">晨曦旅人</span>
+          <span class="m-caret">▾</span>
+          <span class="member-menu">
+            <button><span class="mm-ic">★</span><span data-i18n="menu_fav">我的最愛</span></button>
+            <button><span class="mm-ic">🔔</span><span data-i18n="menu_rem">提醒清單</span></button>
+            <button><span class="mm-ic">✎</span><span data-i18n="menu_myrating">我的評分</span></button>
+            <button><span class="mm-ic">📍</span><span data-i18n="menu_myplaces">我的私人點</span></button>
+            <button><span class="mm-ic">👤</span><span data-i18n="menu_profile">會員資料</span></button>
+            <span class="mm-sep"></span>
+            <button class="mm-out"><span class="mm-ic">↩</span><span data-i18n="menu_logout">登出</span></button>
+          </span>
+        </span>
+      </span>
+    </span>
+  </nav>
+
+  <div class="title-row">
+    <h1 data-i18n="page_title">📍 今天去哪裡拍？</h1>
+    <span class="count" data-i18n="result_meta">依最近可拍時段 · 共 460 個官方景點＋你的 3 個私人點</span>
+    <span class="quota-chip" id="quota-chip">📍 <span data-i18n="quota_lbl">私人點</span> <b id="quota-n">3/50</b> · <span data-i18n="quota_tier">Premium</span></span>
+    <button class="add-btn" id="btn-add"><b>＋</b> <span data-i18n="add_btn">新增私人景點</span></button>
+  </div>
+
+  <div class="filterbar">
+    <span class="tabs" id="tier-tabs">
+      <button class="tab t-rec sel">✓ <span data-i18n="t_rec">推薦</span> <span class="n">225</span></button>
+      <button class="tab t-shoot">○ <span data-i18n="t_shoot">可拍</span> <span class="n">235</span></button>
+      <button class="tab t-no">✗ <span data-i18n="t_no">不宜</span> <span class="n">3</span></button>
+      <button class="tab t-all" id="t-all">🌐 <span data-i18n="t_all">全部</span> <span class="n">463</span></button>
+    </span>
+    <span class="tabs" id="view-tabs">
+      <button class="tab t-view sel" data-view="all"><span data-i18n="v_all">全部</span> <span class="n">463</span></button>
+      <button class="tab t-view" data-view="official"><span data-i18n="v_official">官方</span> <span class="n">460</span></button>
+      <button class="tab t-view t-priv" data-view="private"><span data-i18n="v_private">私人</span> <span class="n">3</span></button>
+    </span>
+    <select class="region-sel" id="region-sel" aria-label="region">
+      <option value="all">🌐 全部地區</option>
+      <option value="tw">🇹🇼 台灣</option>
+      <option value="jp">🇯🇵 日本</option>
+      <option value="us">🇺🇸 美國</option>
+    </select>
+  </div>
+  <div class="chip-row" id="chips"></div>
+
+  <!-- 地圖同顯示：官方依 tier 色釘 · 私人＝灰釘白環（不搶語義色） -->
+  <div class="mapdemo" id="mapdemo">
+    <span class="mlabel" data-i18n="map_note">🗺️ 地圖同步顯示官方＋私人點（示意底圖）</span>
+    <span class="mappin rec" style="left:31%;top:64%" title="崇德 ✓"></span>
+    <span class="mappin rec" style="left:28%;top:55%" title="見晴懷古步道 ✓"></span>
+    <span class="mappin rec" style="left:66%;top:58%" title="田寮月世界 ✓"></span>
+    <span class="mappin shoot" style="left:79%;top:26%" title="美瑛青池 ○"></span>
+    <span class="mappin shoot" style="left:82%;top:18%" title="大石公園 ○"></span>
+    <span class="mappin no" style="left:86%;top:12%" title="旭岳 ✗"></span>
+    <span class="mappin priv" style="left:33%;top:48%" title="礁溪自家陽台展望（私人）"></span>
+    <span class="mappin priv" style="left:30%;top:58%" title="霧社水庫西岸岔路（私人）"></span>
+    <span class="mappin priv" style="left:85%;top:22%" title="苫小牧西港堤防燈點（私人）"></span>
+    <span class="maplegend">
+      <span><i class="leg-rec" style="background:var(--cl-green)"></i><span data-i18n="lg_rec">推薦</span></span>
+      <span><i style="background:var(--cl-amber)"></i><span data-i18n="lg_shoot">可拍</span></span>
+      <span><i style="background:var(--cl-red)"></i><span data-i18n="lg_no">不宜</span></span>
+      <span><i class="leg-priv"></i><span data-i18n="lg_priv">你的私人點</span></span>
+    </span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <p class="q-next" style="text-align:center;margin-top:var(--cl-sp-5)" data-i18n="load_note">已顯示 10 個官方＋3 個私人 / 463 · 向下滾動虛擬載入其餘卡片</p>
+
+  <div class="foot-ugc"><button id="foot-feedback">💬 <span data-i18n="foot_feedback">留言／回報</span></button></div>
+
+  <details class="notes">
+    <summary data-i18n="notes_title">設計說明 — 自訂景點（私人點）× design-review-8 對應（owner/RD 用，不隨產品出貨）</summary>
+    <div class="body">
+      <h4 data-i18n="notes_core">單一列表原則（DR8 §1）</h4>
+      <table>
+        <tr><td>同卡片流</td><td>自訂私人點與官方景點<b>同一張卡片、同一評估層</b>（同 subject-cards tier 語義 ✓○✗、同 24h 色帶、同評分 chip）——不另立「我的清單」平行頁。唯一差異＝標題行一枚<b>灰色「私人」徽章</b>＋⋯選單。</td></tr>
+        <tr><td>私人＝灰</td><td>徽章與地圖釘都用 <code>--cl-grey</code>（中性），<b>永不借用綠/黃/紅語義色</b>——✓○✗ 仍是唯一決策階層；破壞性動作（⋯選單的刪除項）是紅的唯一例外。</td></tr>
+        <tr><td>篩選切換</td><td>全部｜官方｜私人 檢視切換<b>挨著地區選單</b>；計數誠實：全部 463＝官方 460＋私人 3（永不相加出錯）。✓○✗ tier tabs 與檢視切換可疊加。</td></tr>
+        <tr><td>地圖同顯示</td><td>官方釘＝tier 色釘；私人釘＝灰釘＋白環（雙編碼，色盲可辨）。地圖不隱藏私人點——同一空間認知。</td></tr>
+        <tr><td>⋯選單</td><td>私人卡標題行 ⋯ → ✎編輯（重開新增彈窗預填）／🎞 掛題材·條件／⬆ 提名升級官方／🗑 刪除（紅＋不可回復確認）。官方卡沒有 ⋯。</td></tr>
+      </table>
+      <h4 data-i18n="notes_flow">新增流程＝按鈕彈窗（DR8 §2）</h4>
+      <table>
+        <tr><td>不是獨立頁</td><td>「＋ 新增私人景點」按鈕彈出 560px 彈窗（390px 全幕）：<b>名稱 → 地圖釘點 lat/lng → 自動帶入海拔/時區 → 建立 → 接著掛題材/條件</b>。兩步完成，不離開列表。</td></tr>
+        <tr><td>地圖釘點</td><td>點圖＝落釘（lat/lng mono 輸入框雙向同步，可手鍵全球任意經緯度——海洋/極區亦可）。</td></tr>
+        <tr><td>海拔 DEM 自動</td><td>落釘後唯讀 pill「海拔（DEM 自動）」——Elevation API，使用者不手填（防 460 景點級的海拔漂移）。</td></tr>
+        <tr><td>時區自動</td><td>唯讀 pill「時區自動（IANA 名＋UTC 偏移）」——全球任意經緯度可用，日出/時窗計算自動就地。</td></tr>
+        <tr><td>額度誠實</td><td>彈窗與標題行都顯示 <code>私人點 3/50 · Premium</code>；滿額時 ＋按鈕轉灰＋升級連結（不突襲）。</td></tr>
+      </table>
+      <h4 data-i18n="notes_cc">題材掛載＋自訂條件（DR8 §3）</h4>
+      <table>
+        <tr><td>一般題材</td><td>自訂點掛<b>一般題材</b>（21 種短名同一套字典；不開個人新題材——特殊題材走人工審，DR8 §5）。</td></tr>
+        <tr><td>自訂條件</td><td><b>重用 CL-UI-99 已上線引擎</b>的五組參數（同規格同驗證）：低/中/高雲 0-100%、降水上限 mm/h、能見度下限 km、風速上限 m/s、時間窗 HH:MM（跨午夜可）＋提前量分鐘。寬鬆預設，只列有調的參數。</td></tr>
+        <tr><td>機制共用</td><td>提醒（notify cron 同引擎）、評分（rating 聚合同管線）、推播（push 佇列同一節流位）——私人點<b>零新後端路徑</b>，只有資料來源多一列自訂座標。</td></tr>
+      </table>
+      <h4 data-i18n="notes_nom">提名升級官方（DR8 §4）</h4>
+      <table>
+        <tr><td>一鍵提名</td><td>⋯選單 →「⬆ 提名升級官方」→ 確認彈窗 → 進<b>審核佇列</b>（位置驗證/去重/命名規範/季節窗四關）。</td></tr>
+        <tr><td>轉正語義</td><td>審核通過＝私人點升格官方 place_id：<b>評分/提醒/最愛隨帶</b>；私人徽章消失、⋯選單移除。不通過退回私人（附原因），點仍在你的列表。</td></tr>
+      </table>
+      <h4 data-i18n="notes_del">刪除語義</h4>
+      <table>
+        <tr><td>不可回復</td><td>刪除私人點＝<b>提醒一併停用、評分紀錄一併移除</b>——彈窗明列受影響的附掛資料（「此點有 1 條提醒、1 個評分」）＋紅系確認。最愛只指向私人點的也一併清除。</td></tr>
+      </table>
+      <h4 data-i18n="notes_ui">狀態矩陣（mockup 內全部可走）</h4>
+      <table>
+        <tr><td>私人 ✓（條件）</td><td>霧社水庫西岸岔路：✓ 雲海＋自訂條件（低雲≤15%・能見度≥12km・04:30–07:00）＋提醒 1 條</td></tr>
+        <tr><td>私人 ○（條件）</td><td>礁溪自家陽台展望：○ 眺望＋自訂條件（低雲≤30%・05:00–06:30）</td></tr>
+        <tr><td>私人 ✗</td><td>苫小牧西港堤防燈點：✗ 低雲滿（私人也吃同一 fail-reason 短詞層）</td></tr>
+        <tr><td>私人＋評分</td><td>霧社水庫西岸岔路帶 ★chip（評分機制同官方）</td></tr>
+        <tr><td>未登入</td><td>mockup-bar「未登入」→ ＋按鈕/⋯選單/提名全呈登入引導（自訂點是會員功能）</td></tr>
+        <tr><td>提名 demo</td><td>mockup-bar「＋ 模擬新增流程」→ 新增彈窗；私卡 ⋯ → 提名升級官方</td></tr>
+      </table>
+      <p class="data-src" data-i18n="data_src">資料樣例：官方卡片沿用 design-review-7 真實景點/題材/tier 值；私人點與條件數值為示意（自訂景點系統未上線）。海拔/時區讀取、釘點互動為 mockup 模擬；視窗切換僅改容器寬度以示範 390px 節奏。</p>
+    </div>
+  </details>
+</div>
+
+<!-- 彈窗容器：① 新增/編輯私人景點 ② 掛題材+條件 ③ 提名 ④ 刪除確認 ⑤ 景點彈窗 -->
+<div class="overlay" id="add-overlay"><div class="modal"></div></div>
+<div class="overlay" id="cc-overlay"><div class="modal"></div></div>
+<div class="overlay" id="nom-overlay"><div class="modal"></div></div>
+<div class="overlay" id="del-overlay"><div class="modal"></div></div>
+<div class="overlay" id="place-overlay"><div class="modal"></div></div>
+
+<script>
+/* ── 三語詞典 ─────────────────────────────────────────── */
+const I18N={
+'zh-TW':{nav_cards:'卡片',nav_weathermap:'天氣圖',nav_reminders:'拍攝提醒',
+ login:'登入',member_name:'晨曦旅人',avatar_ch:'晨',menu_fav:'我的最愛',menu_rem:'提醒清單',menu_myrating:'我的評分',menu_myplaces:'我的私人點',menu_profile:'會員資料',menu_logout:'登出',
+ flow_note:'流程：＋新增 → 地圖釘點 → 掛題材/條件 → ⋯ 提名升級官方',
+ page_title:'📍 今天去哪裡拍？',result_meta:'依最近可拍時段 · 共 460 個官方景點＋你的 3 個私人點',
+ quota_lbl:'私人點',quota_tier:'Premium',add_btn:'新增私人景點',
+ t_rec:'推薦',t_shoot:'可拍',t_no:'不宜',t_all:'全部',v_all:'全部',v_official:'官方',v_private:'私人',
+ map_note:'🗺️ 地圖同步顯示官方＋私人點（示意底圖）',lg_rec:'推薦',lg_shoot:'可拍',lg_no:'不宜',lg_priv:'你的私人點',
+ btn_subject:'題材',btn_map:'地圖',btn_grid:'天氣圖',gen_ok:'一般拍攝',priv_badge:'私人',
+ cc_chip:'條件',foot_feedback:'留言／回報',load_note:'已顯示 10 個官方＋3 個私人 / 463 · 向下滾動虛擬載入其餘卡片',
+ m_edit:'✎ 編輯',m_cc:'🎞 掛題材·條件',m_nom:'⬆ 提名升級官方',m_del:'🗑 刪除',
+ pl_title:'私人點',pl_shared:'提醒／評分／推播與官方景點<b>共用同一機制</b>（同一 notify 引擎、同一 rating 聚合、同一 push 佇列）——私人點只是多一列你自己的座標。',
+ fcst_note:'（逐小時表本 mockup 從略 — 見 DESIGN-6 預報 mockup）',
+ add_title:'新增私人景點',add_edit_title:'編輯私人景點',add_sub:'不離開列表——按鈕彈窗，兩步完成',
+ qd_name:'名稱',qd_name_ph:'例如：礁溪自家陽台展望',qd_name_hint:'建議可辨識的短名；提名官方時會再審命名規範',
+ qd_pin:'地圖釘點（點圖落釘，或直接鍵入經緯度）',qd_pin_hint:'全球任意經緯度皆可（海洋/極區亦可）；lat/lng 可雙向同步',
+ ro_elev:'海拔（DEM 自動）',ro_tz:'時區自動',ro_tz_val_fmt:'{tz} · UTC{off}',ro_pending:'落釘後自動帶入',
+ add_submit:'建立私人點',add_submit_edit:'更新私人點',
+ add_done1:'✓ 私人點已建立',add_done2_fmt:'{lat} · {lng} · {elev} m',add_done3:'下一步：掛題材＋自訂條件（也可之後再掛）',add_cta:'🎞 掛題材/條件 →',add_cta_later:'完成',
+ add_done1_edit:'✓ 已更新',add_submit_full:'私人點已滿額（50/50）——升級或刪除後再新增',
+ cc_title:'掛題材＋自訂條件',cc_sub:'重用 CL-UI-99 已上線引擎——五組參數同規格',
+ qd_subj:'題材（一般題材）',cc_lbl:'自訂條件（選填；留空＝只看一般基準）',
+ p_low:'低雲門檻（%）',p_mid:'中雲門檻（%）',p_high:'高雲門檻（%）',p_precip:'降水上限（mm/h）',p_vis:'能見度下限（km）',p_wind:'風速上限（m/s）',p_window:'時間窗',p_lead:'提前量（分鐘）',
+ h_low:'低於此值才通知。100＝不限',h_precip:'每小時雨量不超過此值',h_vis:'能見度至少要有這麼遠，避免起霧看不清',h_wind:'風速不超過此值，腳架與長曝較穩',h_lead:'條件成立前這麼多分鐘通知你出發',
+ cc_prev:'摘要預覽：',cc_prev_none:'（未調任何參數＝一般基準）',cc_engine:'引擎：CL-UI-99 自訂條件（提醒自訂模式同管線）',
+ cc_submit:'套用到此點',cc_done1:'✓ 條件已套用',cc_done2:'低雲≤15%・能見度≥12km・04:30–07:00',cc_done3:'提醒／評分／推播共用現行機制——同一引擎、同一節流',cc_done_btn:'完成',
+ nom_title:'提名升級官方',nom_sub:'提名後進審核佇列；通過＝升格官方景點',
+ nom_ctx:'四關審核：位置驗證／去重／命名規範／季節窗。不通過退回私人（附原因），點仍在你的列表。',
+ nom_btn:'一鍵提名',nom_done1:'✓ 已提名 · 審核佇列',nom_done2:'第 12 位提名者',nom_done3:'審核結果不另行通知（可在此查看狀態）；通過後評分／提醒／最愛隨帶轉官方',nom_done_btn:'完成',
+ del_title:'刪除此私人點？',del_warn:'此動作不可回復：',del_warn_list:'提醒 1 條將一併停用・評分 1 則將一併移除・指向此點的最愛將清除',del_cancel:'取消',del_confirm:'🗑 刪除私人點',
+ nl1:'登入後才能使用私人點',nl2:'新增／編輯／提名私人景點是會員功能；私人點只出現在你的帳號',nl_oauth:'登入以繼續',
+ notes_title:'設計說明 — 自訂景點（私人點）× design-review-8 對應（owner/RD 用，不隨產品出貨）',
+ notes_core:'單一列表原則（DR8 §1）',notes_flow:'新增流程＝按鈕彈窗（DR8 §2）',notes_cc:'題材掛載＋自訂條件（DR8 §3）',
+ notes_nom:'提名升級官方（DR8 §4）',notes_del:'刪除語義',notes_ui:'狀態矩陣（mockup 內全部可走）',
+ data_src:'資料樣例：官方卡片沿用 design-review-7 真實景點/題材/tier 值；私人點與條件數值為示意（自訂景點系統未上線）。海拔/時區讀取、釘點互動為 mockup 模擬；視窗切換僅改容器寬度以示範 390px 節奏。'},
+'en':{nav_cards:'Cards',nav_weathermap:'Weather map',nav_reminders:'Reminders',
+ login:'Log in',member_name:'Dawn Chaser',avatar_ch:'D',menu_fav:'Favorites',menu_rem:'Reminders',menu_myrating:'My ratings',menu_myplaces:'My custom places',menu_profile:'Account',menu_logout:'Log out',
+ flow_note:'Flow: + add → drop a pin → attach subject/conditions → ⋯ nominate as official',
+ page_title:'📍 Where to shoot today?',result_meta:'By next shootable window · 460 official places + your 3 custom places',
+ quota_lbl:'Custom places',quota_tier:'Premium',add_btn:'Add custom place',
+ t_rec:'Recommended',t_shoot:'Shootable',t_no:'Not advised',t_all:'All',v_all:'All',v_official:'Official',v_private:'Private',
+ map_note:'🗺️ Map shows official + custom pins together (illustrative basemap)',lg_rec:'Recommended',lg_shoot:'Shootable',lg_no:'Not advised',lg_priv:'Your custom places',
+ btn_subject:'Subjects',btn_map:'Map',btn_grid:'Weather grid',gen_ok:'General shooting',priv_badge:'Private',
+ cc_chip:'Cond.',foot_feedback:'Feedback / Report',load_note:'Showing 10 official + 3 custom of 463 · scroll to virtual-load the rest',
+ m_edit:'✎ Edit',m_cc:'🎞 Subject & conditions',m_nom:'⬆ Nominate as official',m_del:'🗑 Delete',
+ pl_title:'Custom place',pl_shared:'Reminders / ratings / push <b>share the exact same machinery</b> as official places (same notify engine, same rating pipeline, same push queue) — a custom place is just one extra row of your own coordinates.',
+ fcst_note:'(Hourly table omitted — see DESIGN-6 forecast mockup.)',
+ add_title:'Add a custom place',add_edit_title:'Edit custom place',add_sub:'No separate page — button opens a modal, two steps',
+ qd_name:'Name',qd_name_ph:'e.g. My rooftop terrace, Jiaoxi',qd_name_hint:'Pick a recognizable short name; naming rules are re-checked at nomination',
+ qd_pin:'Pin on map (click to drop, or type lat/lng)',qd_pin_hint:'Any latitude/longitude worldwide (ocean and polar included); lat/lng sync both ways',
+ ro_elev:'Elevation (auto DEM)',ro_tz:'Timezone (auto)',ro_tz_val_fmt:'{tz} · UTC{off}',ro_pending:'auto-filled after pinning',
+ add_submit:'Create place',add_submit_edit:'Save changes',
+ add_done1:'✓ Place created',add_done2_fmt:'{lat} · {lng} · {elev} m',add_done3:'Next: attach a subject + conditions (or do it later)',add_cta:'🎞 Subject/conditions →',add_cta_later:'Done',
+ add_done1_edit:'✓ Saved',add_submit_full:'Quota full (50/50) — upgrade, or delete a place first',
+ cc_title:'Subject & custom conditions',cc_sub:'Reuses the live CL-UI-99 engine — same five parameter groups',
+ qd_subj:'Subject (general genres)',cc_lbl:'Custom conditions (optional; empty = general baseline only)',
+ p_low:'Low-cloud threshold (%)',p_mid:'Mid-cloud threshold (%)',p_high:'High-cloud threshold (%)',p_precip:'Precip cap (mm/h)',p_vis:'Visibility floor (km)',p_wind:'Wind cap (m/s)',p_window:'Time window',p_lead:'Lead time (minutes)',
+ h_low:'Only notify when below this. 100 = no limit',h_precip:'Hourly rain up to this much',h_vis:'Visibility must be at least this far, to avoid fog',h_wind:'Wind no more than this — steadier tripod and long exposures',h_lead:'You are notified this many minutes before conditions are met',
+ cc_prev:'Summary preview:',cc_prev_none:'(nothing tuned = general baseline)',cc_engine:'Engine: CL-UI-99 custom conditions (same pipeline as reminder custom mode)',
+ cc_submit:'Apply to this place',cc_done1:'✓ Conditions applied',cc_done2:'Low cloud≤15% · visibility≥12km · 04:30–07:00',cc_done3:'Reminders / ratings / push reuse the live machinery — same engine, same throttle',cc_done_btn:'Done',
+ nom_title:'Nominate as official',nom_sub:'Nominations enter the review queue; approval promotes it to an official place',
+ nom_ctx:'Four review gates: location check / dedupe / naming rules / season window. Rejected = back to private (with a reason); the place stays in your list.',
+ nom_btn:'Nominate now',nom_done1:'✓ Nominated · review queue',nom_done2:'12th nominator',nom_done3:'No notification of the outcome (check status here); ratings / reminders / favorites carry over when approved',nom_done_btn:'Done',
+ del_title:'Delete this custom place?',del_warn:'This cannot be undone:',del_warn_list:'1 reminder will be disabled · 1 rating will be removed · favorites pointing here will be cleared',del_cancel:'Cancel',del_confirm:'🗑 Delete place',
+ nl1:'Log in to use custom places',nl2:'Adding / editing / nominating custom places is member-only; they appear only on your account',nl_oauth:'Log in to continue',
+ notes_title:'Design notes — custom places × design-review-8 (owner/RD, never ships)',
+ notes_core:'Single-list principle (DR8 §1)',notes_flow:'Add flow = button modal (DR8 §2)',notes_cc:'Subject attach + custom conditions (DR8 §3)',
+ notes_nom:'Nominate as official (DR8 §4)',notes_del:'Delete semantics',notes_ui:'State matrix',
+ data_src:'Samples: official cards reuse real places/genres/tier values from design-review-7; custom places and condition values are illustrative (system not yet live). DEM elevation, timezone and pin interactions are mockup-simulated; viewport toggle only changes container width to demonstrate the 390px rhythm.'},
+'ja':{nav_cards:'カード',nav_weathermap:'天気マップ',nav_reminders:'撮影リマインダー',
+ login:'ログイン',member_name:'暁の旅人',avatar_ch:'暁',menu_fav:'お気に入り',menu_rem:'リマインド一覧',menu_myrating:'マイ評価',menu_myplaces:'マイ自作スポット',menu_profile:'会員情報',menu_logout:'ログアウト',
+ flow_note:'フロー：＋追加 → ピン配置 → 題材/条件 → ⋯公式へ推薦',
+ page_title:'📍 今日はどこで撮る？',result_meta:'次の撮影可能時間順 · 公式 460 スポット＋あなたの自作 3 スポット',
+ quota_lbl:'自作スポット',quota_tier:'Premium',add_btn:'自作スポットを追加',
+ t_rec:'推薦',t_shoot:'撮影可',t_no:'不適',t_all:'すべて',v_all:'すべて',v_official:'公式',v_private:'自作',
+ map_note:'🗺️ 地図に公式＋自作ピンを同時表示（イメージ図）',lg_rec:'推薦',lg_shoot:'撮影可',lg_no:'不適',lg_priv:'あなたの自作スポット',
+ btn_subject:'題材',btn_map:'地図',btn_grid:'天気マップ',gen_ok:'一般撮影',priv_badge:'自作',
+ cc_chip:'条件',foot_feedback:'コメント／報告',load_note:'公式 10＋自作 3 / 463 表示中 · スクロールで仮想ロード',
+ m_edit:'✎ 編集',m_cc:'🎞 題材・条件',m_nom:'⬆ 公式へ推薦',m_del:'🗑 削除',
+ pl_title:'自作スポット',pl_shared:'リマインド／評価／プッシュは公式スポットと<b>同一の仕組み</b>（同一 notify エンジン・同一評価集計・同一 push キュー）— 自作スポットは自分の座標が 1 行増えるだけ。',
+ fcst_note:'（時間別表は省略 — DESIGN-6 予報 mockup 参照）',
+ add_title:'自作スポットを追加',add_edit_title:'自作スポットを編集',add_sub:'別ページなし — ボタンでモーダル、2 ステップ',
+ qd_name:'名称',qd_name_ph:'例：自宅ベランダの展望（礁渓）',qd_name_hint:'識別しやすい短い名を。公式推薦時に命名規則を再審査します',
+ qd_pin:'地図でピン配置（クリック、または緯度経度を直接入力）',qd_pin_hint:'世界中の緯度経度に対応（海上・極域も可）；lat/lng は双方向同期',
+ ro_elev:'標高（DEM 自動）',ro_tz:'タイムゾーン（自動）',ro_tz_val_fmt:'{tz} · UTC{off}',ro_pending:'ピン配置後に自動入力',
+ add_submit:'作成',add_submit_edit:'変更を保存',
+ add_done1:'✓ 作成しました',add_done2_fmt:'{lat} · {lng} · {elev} m',add_done3:'次に：題材＋条件を設定（後からでも可）',add_cta:'🎞 題材/条件 →',add_cta_later:'完了',
+ add_done1_edit:'✓ 保存しました',add_submit_full:'上限に達しました（50/50）— アップグレードか削除後に追加できます',
+ cc_title:'題材＋カスタム条件',cc_sub:'稼働中の CL-UI-99 エンジンを再利用 — 同じ 5 パラメータ群',
+ qd_subj:'題材（一般題材）',cc_lbl:'カスタム条件（任意；空欄＝一般基準のみ）',
+ p_low:'低雲しきい値（%）',p_mid:'中雲しきい値（%）',p_high:'高雲しきい値（%）',p_precip:'降水上限（mm/h）',p_vis:'視程下限（km）',p_wind:'風速上限（m/s）',p_window:'時間帯',p_lead:'通知の余裕（分）',
+ h_low:'この値未満のときだけ通知。100＝無制限',h_precip:'1 時間の雨量はこの値まで',h_vis:'視程は最低この距離 — 霧を避けます',h_wind:'風速はこの値以下 — 三脚撮影が安定します',h_lead:'条件成立のこの分数前に通知します',
+ cc_prev:'サマリー：',cc_prev_none:'（未調整＝一般基準）',cc_engine:'エンジン：CL-UI-99 カスタム条件（リマインド自作モードと同管線）',
+ cc_submit:'このスポットに適用',cc_done1:'✓ 条件を適用しました',cc_done2:'低雲≤15%・視程≥12km・04:30–07:00',cc_done3:'リマインド／評価／プッシュは現行の仕組みを共用 — 同一エンジン・同一スロットル',cc_done_btn:'完了',
+ nom_title:'公式へ推薦',nom_sub:'推薦するとレビュー待ち列に入り、承認で公式スポットに昇格',
+ nom_ctx:'審査 4 関：位置確認／重複除去／命名規則／季節窓。不承認は自作に戻る（理由付）— スポットはリストに残ります。',
+ nom_btn:'推薦する',nom_done1:'✓ 推薦済み · 審査列',nom_done2:'12 番目の推薦者',nom_done3:'審査結果の通知はありません（ここで状態確認可）；承認後は評価／リマインド／お気に入りが公式へ引き継がれます',nom_done_btn:'完了',
+ del_title:'この自作スポットを削除？',del_warn:'この操作は元に戻せません：',del_warn_list:'リマインド 1 件を停止・評価 1 件を削除・この地点へのお気に入りを消去します',del_cancel:'キャンセル',del_confirm:'🗑 削除する',
+ nl1:'自作スポットにはログインが必要',nl2:'追加／編集／推薦は会員機能；自作スポットは自分のアカウントにのみ表示されます',nl_oauth:'ログインして続行',
+ notes_title:'デザインメモ — 自作スポット × design-review-8 対応（オーナー/RD 用）',
+ notes_core:'単一リスト原則（DR8 §1）',notes_flow:'追加フロー＝ボタンモーダル（DR8 §2）',notes_cc:'題材＋カスタム条件（DR8 §3）',
+ notes_nom:'公式推薦（DR8 §4）',notes_del:'削除の意味',notes_ui:'状態マトリクス',
+ data_src:'データ例：公式カードは design-review-7 の実地名/実题材/実 tier 値を流用。自作スポットと条件値はダミー（未実装）。標高/タイムゾーン取得とピン操作はモック。'}
+};
+/* 真實題材短名（subject-cards dictionaries.genre_short_names） */
+const G={
+ mountain_view:['山景','Mountain view','山景'], overlook:['眺望','Overlook','眺望'], sunrise:['日出','Sunrise','日の出'],
+ sunset:['夕陽','Sunset','夕景'], golden:['金光','Golden hour','ゴールデンアワー'],
+ city_night:['夜景','City night','夜景'], night_sky:['星空','Night sky','星空'],
+ cloud_sea:['雲海','Cloud sea','雲海'], overcast_soft:['陰柔光','Soft overcast','柔光'], general:['一般','General','一般']};
+/* fail_reason_short 真實短詞 */
+const FR={visibility:['霧','fog','霧'],precipitation:['雨','rain','雨'],cloud_cover_mid:['厚雲','thick cloud','厚い雲'],
+ cloud_cover_low:['低雲','low cloud','低い雲'],relative_humidity_925hpa:['濕度不合','humidity out of range','湿度が適域外']};
+
+/* 官方卡片沿用 design-review-7 樣例（真實 place/題材/tier）＋ 3 個私人點。
+   私人點：priv=true · cc=[zh,en,ja] 自訂條件摘要（只列有調參數，CL-UI-99 摘要規則） · lat/lng。 */
+const CARDS=[
+ {id:'tw-034',n:['崇德','Chongde','崇徳'],rg:['花蓮縣 秀林鄉','Xiulin, Hualien','花蓮県秀林郷'],tier:'rec',
+  s:[['sunrise','05:35–06:00'],['overlook','08:00–09:00'],['mountain_view','16:25']],env:['15 m','05:35','24°C'],
+  b:'rrrrrgggggaaaaaaagaarrrrr',r:{P:3.9,n:34}},
+ {id:'tw-032',n:['見晴懷古步道','Jianqing Historic Trail','見晴懐古歩道'],rg:['宜蘭縣 太平山','Taipingshan, Yilan','宜蘭県太平山'],tier:'rec',
+  s:[['overcast_soft','06:00–08:00'],['overlook','09:00'],['cloud_sea','12:00–15:00']],env:['1,900 m','05:40','13°C'],
+  b:'rrrrrrggaaaagggaaaarrrrr',r:{P:4.4,n:21}},
+ {id:'tw-033',n:['粉鳥林','Fenniaolin Fish Harbor','粉鳥林漁港'],rg:['宜蘭縣 南澳','Nan’ao, Yilan','宜蘭県南澳'],tier:'rec',
+  s:[['sunrise','05:35–06:00']],env:['5 m','05:35','24°C'],b:'rrrrrgaaaaaaaaaaararrrrr',r:{P:4.0,n:9}},
+ {id:'tw-p01',priv:true,n:['礁溪自家陽台展望','My rooftop terrace, Jiaoxi','自宅ベランダの展望（礁渓）'],rg:['宜蘭縣 礁溪鄉','Jiaoxi, Yilan','宜蘭県礁渓郷'],tier:'shoot',
+  gen:true,ok:['06:00–06:30'],cc:['低雲≤30%・05:00–06:30','Low cloud≤30% · 05:00–06:30','低雲≤30%・05:00–06:30'],
+  lat:'24.8225',lng:'121.7675',env:['80 m','05:36','23°C'],b:'rrrrraaaaaaaaarrrrrrrrrr'},
+ {id:'tw-p02',priv:true,n:['霧社水庫西岸岔路','Wushe Res. west fork','霧社ダム西岸の分岐'],rg:['南投縣 仁愛鄉','Ren’ai, Nantou','南投県仁愛郷'],tier:'rec',
+  s:[['cloud_sea','04:30–07:00']],cc:['低雲≤15%・能見度≥12km・04:30–07:00','Low cloud≤15% · vis≥12km · 04:30–07:00','低雲≤15%・視程≥12km・04:30–07:00'],
+  lat:'23.9412',lng:'121.1523',env:['1,150 m','05:31','11°C'],b:'rrrrgggggaaaaaaaarrrrrrrr',r:{P:4.5,n:3},bells:1},
+ {id:'jp-p01',priv:true,n:['苫小牧西港堤防燈點','Tomakomai west pier light','苫小牧西港堤防の灯'],rg:['北海道 苫小牧市','Tomakomai, Hokkaido','北海道苫小牧市'],tier:'no',
+  noDom:'cloud_cover_low',lat:'42.6389',lng:'141.3556',env:['3 m','06:22','7°C'],b:'rrrrrrrrrrrrrrrrrrrrrrrr'},
+ {id:'tw-027',n:['田寮月世界','Tianliao Moon World','田寮月世界'],rg:['高雄市 田寮區','Tianliao, Kaohsiung','高雄市田寮区'],tier:'rec',
+  s:[['golden','06:00–16:45'],['night_sky','18:00']],env:['60 m','05:44','25°C'],b:'rrrrrrgggggggggggagrrrrr',r:{P:4.1,n:18}},
+ {id:'jp-011',n:['東京鐵塔','Tokyo Tower','東京タワー'],rg:['東京都 港區','Minato, Tokyo','東京都港区'],tier:'rec',
+  s:[['overlook','06:00–16:00'],['city_night','19:00–23:00']],env:['150 m','06:04','14°C'],b:'ggggaaggggggggggaaagggga',r:{P:3.9,n:31}},
+ {id:'jp-045',n:['地球岬展望台','Cape Chikyu Observatory','地球岬展望台'],rg:['北海道 室蘭市','Muroran, Hokkaido','北海道室蘭市'],tier:'rec',
+  s:[['sunset','15:30–16:00'],['overlook','06:00–07:00 · 13:00–15:00']],env:['120 m','06:25','9°C'],b:'aaaaaagaaaaaaggggaarrrrr',r:{P:4.6,n:12}},
+ {id:'jp-001',n:['美瑛青池','Shirogane Blue Pond','美瑛青い池'],rg:['北海道 美瑛町','Biei, Hokkaido','北海道美瑛町'],tier:'shoot',
+  gen:true,ok:['08:00–11:00'],env:['500 m','06:27','6°C'],b:'rrrrraaaaaaaaaaaarrrrrrr',r:{P:4.5,n:9}},
+ {id:'jp-010',n:['大石公園','Oishi Park','大石公園'],rg:['山梨縣 富士河口湖','Fujikawaguchiko, Yamanashi','山梨県富士河口湖町'],tier:'shoot',
+  gen:true,ok:['05:00–16:00'],env:['900 m','06:19','9°C'],b:'rrrrraaaaaaaaaaarrrrrrrr',r:{P:4.2,n:5}},
+ {id:'jp-002',n:['旭岳','Mt. Asahi','旭岳'],rg:['北海道 東川町','Higashikawa, Hokkaido','北海道東川町'],tier:'no',
+  gen:true,noDom:'cloud_cover_mid',env:['1,600 m','06:26','2°C'],b:'rrrrrrrrrrrrrrrrrrrrrrrr'},
+ {id:'us-158',n:['哈丁冰原','Harding Icefield','ハーディング氷原'],rg:['阿拉斯加 奇奈峽灣','Kenai Fjords, AK','ケナイフィヨルド'],tier:'no',
+  gen:true,noDom:'precipitation',env:['900 m','08:55','1°C'],b:'rrrrrrrrrrrrrrrrrrrrrrrr',r:{P:4.5,n:13}}
+];
+const CHIPS=['mountain_view','sunrise','sunset','cloud_sea','night_sky','city_night','overlook','golden','general'];
+
+/* demo quota（誠實顯示；新增成功會 +1） */
+let quotaUsed=3, quotaCap=50;
+let lang='zh-TW', view='all', tierSel=null, region='all', pinState=null, mCard=null, ccSubj='overcast_soft';
+const RO={all:['🌐 全部地區','🌐 All regions','🌐 全地域'],tw:['🇹🇼 台灣','🇹🇼 Taiwan','🇹🇼 台湾'],
+          jp:['🇯🇵 日本','🇯🇵 Japan','🇯🇵 日本'],us:['🇺🇸 美國','🇺🇸 USA','🇺🇸 アメリカ']};
+const t=()=>I18N[lang];
+const L0=()=>lang==='zh-TW'?0:lang==='en'?1:2;
+const g=k=>(G[k]||[k,k,k])[L0()];
+const fr=k=>(FR[k]||[k,k,k])[L0()];
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const logged_in=()=>document.getElementById('member-zone').classList.contains('in');
+const NOW_H=11;
+
+/* ── 卡片（本體原樣 ＋ 私人灰徽章/⋯選單/條件摘要）────── */
+function rchip(c){if(!c.r)return '';
+  return `<span class="r-chip" title="${t().notes_core}"><b>★${c.r.P.toFixed(1)}</b>·${c.r.n}</span>`;}
+function tierBadge(c){return {rec:`<span class="tier tier-rec">✓ ${t().t_rec}</span>`,
+  shoot:`<span class="tier tier-shoot">○ ${t().t_shoot}</span>`,
+  no:`<span class="tier tier-no">✗ ${t().t_no}</span>`}[c.tier];}
+function ccLine(c){if(!c.cc)return '';
+  return `<div class="cc-line"><span class="cc-chip">🎚 ${t().cc_chip}</span><span class="cc-txt">${esc(c.cc[L0()])}</span></div>`;}
+function cardBody(c){
+  if(c.tier==='rec')
+    return c.s.map(([gg,w])=>`<div class="subj-row"><span class="dot"></span><span class="g">${g(gg)}</span><span class="w">${w}</span><span class="bell">🔔</span></div>`).join('');
+  if(c.tier==='shoot')
+    return `<div class="gen-line"><span style="color:var(--cl-amber-text)">○</span><span>${t().gen_ok}</span><span class="w" style="flex:1;text-align:right">${c.ok.join(' · ')}</span></div>`;
+  return `<div class="no-line"><span>✗</span><span style="font-weight:600">${fr(c.noDom)}</span></div>`;}
+function moreMenu(c){
+  const lbl=k=>t()[k].replace(/^\S+\s*/,'');
+  return `<button class="more" data-more="${c.id}" aria-label="⋯">⋯</button>
+  <span class="cardmenu" id="cm-${c.id}">
+    <button data-act="edit"><span class="cm-ic">✎</span>${lbl('m_edit')}</button>
+    <button data-act="cc"><span class="cm-ic">🎞</span>${lbl('m_cc')}</button>
+    <span class="cm-sep"></span>
+    <button data-act="nom"><span class="cm-ic">⬆</span>${lbl('m_nom')}</button>
+    <span class="cm-sep"></span>
+    <button data-act="del" class="danger"><span class="cm-ic">🗑</span>${lbl('m_del')}</button>
+  </span>`;}
+function cardHTML(c){
+  const priv=c.priv?`<span class="priv-badge">◉ ${t().priv_badge}</span>`:'';
+  const more=c.priv?moreMenu(c):'';
+  const cc=ccLine(c);
+  return `<div class="card" data-id="${c.id}">
+    <div class="card-head"><span class="name">${esc(c.n[L0()])}</span>${tierBadge(c)}${priv}${rchip(c)}
+      <span class="star ${c.priv?'':'fav'}">${c.priv?'☆':'★'}</span>${more}</div>
+    <div class="region">${c.rg[L0()]}${c.priv?` · <span style="font-family:var(--cl-mono)">${c.lat}, ${c.lng}</span>`:''}</div>
+    ${cardBody(c)}${cc}
+    <div class="pills"><span class="pill">⛰ <b>${c.env[0]}</b></span><span class="pill">🌡 <b>${c.env[2]}</b></span><span class="pill">🌅 <b>${c.env[1]}</b></span></div>
+    <div class="acts">
+      <button class="btn b-subj">🎞 ${t().btn_subject}</button>
+      <button class="btn">📍 ${t().btn_map}</button>
+      <button class="btn">🗺️ ${t().btn_grid}</button>
+    </div>
+  </div>`;}
+
+/* ── 渲染與篩選（檢視×tier×地區 疊加；計數誠實）──────── */
+function filtered(){return CARDS.filter(c=>{
+  if(view==='official'&&c.priv)return false;
+  if(view==='private'&&!c.priv)return false;
+  if(tierSel&&c.tier!==tierSel)return false;
+  if(region!=='all'&&!c.id.startsWith(region+'-'))return false;
+  return true;});}
+function render(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t()[k])el.textContent=t()[k];});
+  document.querySelectorAll('#region-sel option').forEach(o=>{if(RO[o.value])o.textContent=RO[o.value][L0()];});
+  document.getElementById('quota-n').textContent=`${quotaUsed}/${quotaCap}`;
+  document.getElementById('grid').innerHTML=filtered().map(cardHTML).join('');
+  document.getElementById('chips').innerHTML=CHIPS.map((k,i)=>`<button class="chip${i<2?' on':''}">${g(k)}</button>`).join('');
+}
+render();
+
+/* mockup-bar：語言/視窗/會員兩態 */
+document.getElementById('lang-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.lang;
+  document.querySelectorAll('#lang-grp button').forEach(x=>x.classList.toggle('on',x===b));render();});
+const mz=document.getElementById('member-zone'),mbtn=document.getElementById('member');
+document.getElementById('auth-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#auth-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  mz.className='member-zone '+(b.dataset.auth==='in'?'in':'out');mbtn.classList.remove('open');render();});
+mbtn.addEventListener('click',e=>{e.stopPropagation();mbtn.classList.toggle('open');});
+document.addEventListener('click',e=>{if(!mbtn.contains(e.target))mbtn.classList.remove('open');
+  document.querySelectorAll('.cardmenu.open').forEach(m=>m.classList.remove('open'));});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){mbtn.classList.remove('open');
+  document.querySelectorAll('.overlay.open').forEach(o=>o.classList.remove('open'));}});
+/* viewport */
+document.getElementById('vp-grp').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#vp-grp button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('shell').classList.toggle('vp390',b.dataset.vp==='390');
+  document.querySelectorAll('.overlay.open').forEach(o=>o.classList.toggle('p390',b.dataset.vp==='390'));});
+/* tier tabs（✓○✗全部 與檢視切換疊加） */
+document.getElementById('tier-tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;
+  const cls=[...b.classList].find(c=>c.startsWith('t-')&&c!=='tab');
+  tierSel={rec:'rec',shoot:'shoot',no:'no'}[cls]||null;
+  document.querySelectorAll('#tier-tabs .tab').forEach(x=>x.classList.toggle('sel',x===b));render();});
+/* 檢視切換 全部｜官方｜私人 */
+document.getElementById('view-tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;
+  view=b.dataset.view;
+  document.querySelectorAll('#view-tabs .tab').forEach(x=>x.classList.toggle('sel',x===b));render();});
+/* 地區選單 */
+document.getElementById('region-sel').addEventListener('change',e=>{region=e.target.value;render();});
+document.getElementById('chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(b)b.classList.toggle('on');});
+
+/* ── 彈窗骨架 ─────────────────────────────────────────── */
+function openOv(id,c,html){mCard=c;
+  const ov=document.getElementById(id);ov.querySelector('.modal').innerHTML=html;
+  ov.classList.toggle('p390',document.getElementById('shell').classList.contains('vp390'));
+  ov.classList.add('open');bindModal(ov,c);}
+function bindModal(ov,c){
+  const cl=ov.querySelector('#m-close');if(cl)cl.onclick=()=>ov.classList.remove('open');
+  const dn=ov.querySelector('#done-btn');if(dn)dn.onclick=()=>ov.classList.remove('open');}
+
+/* ── 新增/編輯私人景點（按鈕彈窗；地圖釘點＋DEM 海拔＋時區自動）── */
+function elev(lng,lat){return Math.abs(Math.round(Math.sin(lng*.7+lat*1.3)*400))+30;}
+function tzInfo(lng,lat){
+  if(lng>=119&&lng<129&&lat>=21)return ['Asia/Taipei','+8'];
+  if(lng>=129&&lng<146&&lat>=30)return ['Asia/Tokyo','+9'];
+  return [lang==='en'?'Local (auto)':'現地時區（自動）',String(Math.round(lng/15)).replace(/^(-?)(\d+)/,(m,s,d)=>s+'+'+d)];}
+let addPin=null;
+function addHTML(c,isEdit){
+  addPin=c?{lat:c.lat,lng:c.lng}:null;
+  const pinUI=addPin?`<span class="pinmark" style="left:${((+addPin.lng-119)/33*100).toFixed(1)}%;top:${((46-+addPin.lat)/22*100).toFixed(1)}%"></span>`
+    :`<span class="pk-cross">${lang==='en'?'click the map to drop a pin':'點圖落釘'}</span>`;
+  const ro=addPin?`<span class="pill">🏔 <span style="color:var(--cl-text-3)">${t().ro_elev}</span> <b>${elev(+addPin.lng,+addPin.lat)} m</b></span>
+    <span class="pill">🕐 <span style="color:var(--cl-text-3)">${t().ro_tz}</span> <b>${t().ro_tz_val_fmt.replace('{tz}',tzInfo(+addPin.lng,+addPin.lat)[0]).replace('{off}',tzInfo(+addPin.lng,+addPin.lat)[1])}</b></span>`
+    :`<span class="pill" style="color:var(--cl-text-3)">🏔 🕐 ${t().ro_pending}</span>`;
+  return `<div class="m-head"><div><div class="name">${isEdit?t().add_edit_title:t().add_title}</div>
+    <div class="sub">${t().add_sub}</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="ctx"><span class="g">📍 <span data-q>${t().quota_lbl}</span></span><span class="dt">${quotaUsed}/${quotaCap}</span>
+    <span class="src">Premium</span></div>
+  <div class="fld"><label>${t().qd_name}</label><input class="inp" id="f-name" placeholder="${t().qd_name_ph}" value="${c?esc(c.n[L0()]):''}">
+    <div class="hint">${t().qd_name_hint}</div></div>
+  <div class="fld"><label>${t().qd_pin}</label>
+    <div class="pinpick" id="pinpick">${pinUI}</div>
+    <div class="hint">${t().qd_pin_hint}</div>
+    <div class="f-row" style="margin-top:8px">
+      <div class="fld" style="margin-bottom:0"><label>lat</label><input class="inp" id="f-lat" inputmode="decimal" placeholder="24.8225" value="${addPin?addPin.lat:''}" style="font-family:var(--cl-mono)"></div>
+      <div class="fld" style="margin-bottom:0"><label>lng</label><input class="inp" id="f-lng" inputmode="decimal" placeholder="121.7675" value="${addPin?addPin.lng:''}" style="font-family:var(--cl-mono)"></div>
+    </div>
+    <div class="ro-line">${ro}</div></div>
+  <button class="submit" id="add-submit" ${addPin?'':''}>${isEdit?t().add_submit_edit:t().add_submit}</button>`;}
+function addDoneHTML(c,isEdit){
+  if(!addPin)return '';
+  return `<div class="m-head"><div><div class="name">${esc(c?c.n[L0()]:addPin.name||t().add_title)}</div></div>
+    <button class="close" id="m-close">✕</button></div>
+  <div class="done"><div class="d1">${isEdit?t().add_done1_edit:t().add_done1}</div>
+    <div class="d2">${t().add_done2_fmt.replace('{lat}',addPin.lat).replace('{lng}',addPin.lng).replace('{elev}',elev(+addPin.lng,+addPin.lat))}</div>
+    ${isEdit?`<div class="d3">${t().add_cta_later}</div>`
+      :`<div class="d3">${t().add_done3}</div><div style="margin-top:12px"><button class="cta" id="goto-cc">${t().add_cta}</button><button id="done-btn">${t().add_cta_later}</button></div>`}</div>`;}
+function refreshPin(ov){
+  addPin={lat:ov.querySelector('#f-lat').value.trim(),lng:ov.querySelector('#f-lng').value.trim()};
+  const pk=ov.querySelector('#pinpick');
+  if(addPin.lat&&addPin.lng&&!isNaN(+addPin.lat)&&!isNaN(+addPin.lng)){
+    pk.innerHTML=`<span class="pinmark" style="left:${((+addPin.lng-119)/33*100).toFixed(1)}%;top:${((46-+addPin.lat)/22*100).toFixed(1)}%"></span>`;
+    ov.querySelector('.ro-line').innerHTML=
+      `<span class="pill">🏔 <span style="color:var(--cl-text-3)">${t().ro_elev}</span> <b>${elev(+addPin.lng,+addPin.lat)} m</b></span>
+       <span class="pill">🕐 <span style="color:var(--cl-text-3)">${t().ro_tz}</span> <b>${t().ro_tz_val_fmt.replace('{tz}',tzInfo(+addPin.lng,+addPin.lat)[0]).replace('{off}',tzInfo(+addPin.lng,+addPin.lat)[1])}</b></span>`;
+    const su=ov.querySelector('#add-submit');if(su){su.classList.add('ready');su.style.cursor='pointer';}
+  }else{
+    pk.innerHTML=`<span class="pk-cross">${lang==='en'?'click the map to drop a pin':'點圖落釘'}</span>`;
+    ov.querySelector('.ro-line').innerHTML=`<span class="pill" style="color:var(--cl-text-3)">🏔 🕐 ${t().ro_pending}</span>`;}}
+function bindAdd(ov,c,isEdit){
+  bindModal(ov,c);
+  const pk=ov.querySelector('#pinpick');
+  pk.addEventListener('click',e=>{const r=pk.getBoundingClientRect();
+    ov.querySelector('#f-lat').value=(46-(e.clientY-r.top)/r.height*22).toFixed(4);
+    ov.querySelector('#f-lng').value=(119+(e.clientX-r.left)/r.width*33).toFixed(4);
+    refreshPin(ov);});
+  ov.querySelector('#f-lat').addEventListener('change',()=>refreshPin(ov));
+  ov.querySelector('#f-lng').addEventListener('change',()=>refreshPin(ov));
+  const su=ov.querySelector('#add-submit');
+  if(addPin){su.classList.add('ready');su.style.cursor='pointer';}
+  su.onclick=()=>{
+    if(!addPin||!addPin.lat||!addPin.lng||isNaN(+addPin.lat)||isNaN(+addPin.lng))return;
+    if(!isEdit)quotaUsed=Math.min(quotaUsed+1,quotaCap);
+    ov.querySelector('.modal').innerHTML=addDoneHTML(c,isEdit);
+    const gcc=ov.querySelector('#goto-cc');if(gcc)gcc.onclick=()=>{
+      const np=c||{n:[lang==='en'?'New custom place':'新私人點',lang==='en'?'New custom place':'新私人點',lang==='en'?'New custom place':'新自作スポット'],lat:addPin.lat,lng:addPin.lng,cc:['低雲≤15%・能見度≥12km・04:30–07:00','','']};
+      openOv('cc-overlay',np,ccHTML(np));bindCC(document.getElementById('cc-overlay'),np);};
+    bindModal(ov,c);render();};}
+/* ＋按鈕（mockup-bar 與標題行共通） */
+function startAdd(){if(!logged_in()){openOv('add-overlay',null,needLoginHTML());return;}
+  openOv('add-overlay',null,addHTML(null,false));bindAdd(document.getElementById('add-overlay'),null,false);}
+document.getElementById('btn-add').addEventListener('click',startAdd);
+
+/* ── 掛題材＋自訂條件（CL-UI-99 五組參數同規格）────────── */
+function ccHTML(c){
+  const opts=['overlook','sunrise','cloud_sea','city_night','night_sky','general'].map(k=>
+    `<button class="subjopt${ccSubj===k?' sel':''}" data-k="${k}">${g(k)}</button>`).join('');
+  return `<div class="m-head"><div><div class="name">🎞 ${t().cc_title}</div>
+    <div class="sub">${t().cc_sub}</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="ctx"><span class="g">${esc(c.n[L0()])}</span><span class="dt">${c.lat}, ${c.lng}</span>
+    <span class="src">◉ ${t().priv_badge}</span></div>
+  <div class="fld"><label>${t().qd_subj}</label><div class="subjgrid" id="subjgrid">${opts}</div></div>
+  <div class="fld"><label>${t().cc_lbl}</label>
+    <div class="cc-params">
+      <div class="ccp"><label>${t().p_low}</label><input id="cc-low" inputmode="numeric" value="15"><div class="hint">${t().h_low}</div></div>
+      <div class="ccp"><label>${t().p_mid}</label><input id="cc-mid" inputmode="numeric" value="100"><div class="hint">100＝不限</div></div>
+      <div class="ccp"><label>${t().p_high}</label><input id="cc-high" inputmode="numeric" value="100"><div class="hint">100＝不限</div></div>
+      <div class="ccp"><label>${t().p_precip}</label><input id="cc-precip" inputmode="decimal" value="0.5"><div class="hint">${t().h_precip}</div></div>
+      <div class="ccp"><label>${t().p_vis}</label><input id="cc-vis" inputmode="decimal" value="12"><div class="hint">${t().h_vis}</div></div>
+      <div class="ccp"><label>${t().p_wind}</label><input id="cc-wind" inputmode="decimal" value="100"><div class="hint">${t().h_wind}</div></div>
+      <div class="ccp wide"><label>${t().p_window}</label><div style="display:flex;gap:6px;align-items:center">
+        <input id="cc-start" value="04:30" style="flex:1"><span style="color:var(--cl-text-3)">–</span><input id="cc-end" value="07:00" style="flex:1"></div><div class="hint">HH:MM · 跨午夜可</div></div>
+      <div class="ccp"><label>${t().p_lead}</label><input id="cc-lead" inputmode="numeric" value="45"><div class="hint">${t().h_lead}</div></div>
+    </div>
+    <div class="cc-preview"><span style="color:var(--cl-text-3)">${t().cc_prev}</span><span class="k" id="cc-prev-val">低雲≤15%・能見度≥12km・04:30–07:00</span></div>
+    <div class="hint" style="margin-bottom:12px">${t().cc_engine}</div></div>
+  <button class="submit ready" id="cc-submit" style="cursor:pointer">${t().cc_submit}</button>`;}
+function ccDoneHTML(c){
+  return `<div class="m-head"><div><div class="name">${esc(c.n[L0()])}</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="done"><div class="d1">${t().cc_done1}</div><div class="d2">${t().cc_done2}</div>
+    <div class="d3">${t().cc_done3}</div><button id="done-btn">${t().cc_done_btn}</button></div>`;}
+function bindCC(ov,c){
+  bindModal(ov,c);
+  ov.querySelectorAll('.subjopt').forEach(b=>b.onclick=()=>{ccSubj=b.dataset.k;
+    ov.querySelectorAll('.subjopt').forEach(x=>x.classList.toggle('sel',x===b));});
+  const su=ov.querySelector('#cc-submit');
+  if(su)su.onclick=()=>{ov.querySelector('.modal').innerHTML=ccDoneHTML(c);bindModal(ov,c);render();};}
+
+/* ── 提名升級官方（⋯ → 一鍵提名 → 審核佇列）──────────── */
+function nomHTML(c){
+  return `<div class="m-head"><div><div class="name">⬆ ${t().nom_title}</div>
+    <div class="sub">${t().nom_sub}</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="ctx"><span class="g">${esc(c.n[L0()])}</span><span class="dt">${c.lat}, ${c.lng}</span>
+    <span class="src">◉ ${t().priv_badge} → 🌐 ${t().v_official}</span></div>
+  <p style="font-size:var(--cl-fs-12);color:var(--cl-text-2);margin-bottom:var(--cl-sp-3)">${t().nom_ctx}</p>
+  <button class="submit ready" id="nom-submit" style="cursor:pointer">${t().nom_btn}</button>`;}
+function nomDoneHTML(c){
+  return `<div class="m-head"><div><div class="name">${esc(c.n[L0()])}</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="done amber"><div class="d1">${t().nom_done1}</div><div class="d2">${t().nom_done2}</div>
+    <div class="d3">${t().nom_done3}</div><button id="done-btn">${t().nom_done_btn}</button></div>`;}
+
+/* ── 刪除確認（紅系；明列受影響的附掛資料）───────────── */
+function delHTML(c){
+  return `<div class="m-head"><div><div class="name">${t().del_title}</div></div><button class="close" id="m-close">✕</button></div>
+  <div class="delbox"><div class="d1">🗑 ${esc(c.n[L0()])}</div>
+    <div class="warn">${t().del_warn}</div><div class="d3">${t().del_warn_list}</div>
+    <div class="delacts"><button class="cancel" id="del-cancel">${t().del_cancel}</button>
+      <button class="confirm" id="del-confirm">${t().del_confirm}</button></div></div>`;}
+
+/* ── 景點彈窗（私人點同款 quick-look＋共用機制註記）──── */
+function quickChip(c){if(c.tier==='rec')return `<span class="q-chip">✓ ${t().t_rec}</span>`;
+  if(c.tier==='shoot')return `<span class="q-chip">○ ${t().t_shoot}</span>`;
+  return `<span class="q-chip">✗ ${t().t_no}</span>`;}
+function bandCells(c){return (c.b||'').split('').map((ch,h)=>
+  `<i class="${ch==='g'?'ok':ch==='a'?'mid':'bad'}${h<NOW_H?' past':''}" title="${String(h).padStart(2,'0')}:00"></i>`).join('');}
+function placeHTML(c){
+  const qcls=c.tier==='rec'?'':c.tier==='shoot'?'mid':'bad';
+  return `<div class="m-head"><div><div class="name">${esc(c.n[L0()])} ${c.priv?`<span class="priv-badge">◉ ${t().priv_badge}</span>`:''}</div>
+    <div class="sub">${c.rg[L0()]}${c.priv?` · <span style="font-family:var(--cl-mono)">${c.lat}, ${c.lng}</span>`:''} · 11/16</div></div>
+    <button class="close" id="m-close">✕</button></div>
+  <div class="quick ${qcls}">${quickChip(c)}<div class="q-band">${bandCells(c)}</div></div>
+  <div class="band-label"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div>
+  <div class="factline"><span class="pill">⛰ <b>${c.env[0]}</b></span><span class="pill">🌅 <b>${c.env[1]}</b></span><span class="pill">🌡 <b>${c.env[2]}</b></span>${c.cc?`<span class="pill">🎚 <b>${esc(c.cc[L0()])}</b></span>`:''}</div>
+  <p style="font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-bottom:var(--cl-sp-2)">${t().fcst_note}</p>
+  ${c.priv?`<div class="shared-note">🔗<span>${t().pl_shared}</span></div>`:''}`;}
+
+/* ── 未登入 ───────────────────────────────────────────── */
+function needLoginHTML(){
+  return `<div class="m-head"><div><div class="name">${t().nl1}</div><div class="sub">${t().nl2}</div></div>
+    <button class="close" id="m-close">✕</button></div>
+  <div style="padding:var(--cl-sp-4);border:1px dashed var(--cl-border-strong);border-radius:var(--cl-r-md);text-align:center">
+    <div style="font-size:var(--cl-fs-20)">🔒</div>
+    <div style="font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-top:var(--cl-sp-1)">${t().nl2}</div>
+    <div style="display:flex;gap:var(--cl-sp-2);justify-content:center;margin-top:var(--cl-sp-3)">
+      <button style="height:var(--cl-btn-h);padding:0 18px;border-radius:var(--cl-r-sm);font-size:var(--cl-fs-13);font-weight:600;border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-1)">LINE</button>
+      <button style="height:var(--cl-btn-h);padding:0 18px;border-radius:var(--cl-r-sm);font-size:var(--cl-fs-13);font-weight:600;border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-1)">Google</button>
+    </div></div>`;}
+
+/* ── 卡片事件：⋯選單／點卡片本體＝景點彈窗 ────────────── */
+document.getElementById('grid').addEventListener('click',e=>{
+  const card=e.target.closest('.card');if(!card)return;
+  const c=CARDS.find(x=>x.id===card.dataset.id);if(!c)return;
+  if(e.target.closest('.btn')||e.target.closest('.bell'))return;
+  const more=e.target.closest('.more');
+  if(more){e.stopPropagation();const m=document.getElementById('cm-'+c.id);const wasOpen=m.classList.contains('open');
+    document.querySelectorAll('.cardmenu.open').forEach(x=>x.classList.remove('open'));
+    if(!wasOpen)m.classList.add('open');return;}
+  if(e.target.closest('.star'))return;
+  const act=e.target.closest('[data-act]');
+  if(act){e.stopPropagation();document.querySelectorAll('.cardmenu.open').forEach(x=>x.classList.remove('open'));
+    if(!logged_in()){openOv('add-overlay',c,needLoginHTML());return;}
+    const a=act.dataset.act;
+    if(a==='edit'){openOv('add-overlay',c,addHTML(c,true));bindAdd(document.getElementById('add-overlay'),c,true);}
+    else if(a==='cc')openOv('cc-overlay',c,ccHTML(c)),bindCC(document.getElementById('cc-overlay'),c);
+    else if(a==='nom'){openOv('nom-overlay',c,nomHTML(c));
+      const su=document.querySelector('#nom-overlay #nom-submit');
+      if(su)su.onclick=()=>{document.querySelector('#nom-overlay .modal').innerHTML=nomDoneHTML(c);bindModal(document.getElementById('nom-overlay'),c);};}
+    else if(a==='del'){openOv('del-overlay',c,delHTML(c));
+      const dc=document.querySelector('#del-overlay #del-confirm');
+      if(dc)dc.onclick=()=>document.getElementById('del-overlay').classList.remove('open');
+      const dn=document.querySelector('#del-overlay #del-cancel');
+      if(dn)dn.onclick=()=>document.getElementById('del-overlay').classList.remove('open');}
+    return;}
+  openOv('place-overlay',c,placeHTML(c));});
+/* mockup-bar 流程按鈕 */
+document.getElementById('demo-add').addEventListener('click',startAdd);
+/* 頁尾 UGC 入口（原 CL-UI-52 位置） */
+document.getElementById('foot-feedback').addEventListener('click',()=>{
+  if(!logged_in()){openOv('add-overlay',null,needLoginHTML());return;}
+  openOv('place-overlay',null,placeHTML(CARDS.find(x=>x.id==='tw-034')));});
+const closeOverlay=id=>document.getElementById(id).addEventListener('click',e=>{
+  if(e.target.id===id)e.target.classList.remove('open');});
+['add-overlay','cc-overlay','nom-overlay','del-overlay','place-overlay'].forEach(closeOverlay);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')['add-overlay','cc-overlay','nom-overlay','del-overlay','place-overlay'].forEach(id=>document.getElementById(id).classList.remove('open'));});
+</script>
+</body>
+</html>
