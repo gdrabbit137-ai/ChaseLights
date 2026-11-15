@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and canonical sources remain source pinned (CL-DATA-66 wave7: 460 places / 692 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'3fc90a9fa868124d0d084f7f746b3c617367a786dbe3a15a6b2cb4d36715affa'); // re-measured CL-DATA-72 (merged-tree regen: research_index --git-provenance + build_web_catalog, source commit anchored to the regen commit a0e7a2454 per CL-CI-31c)
-  assert.equal(sha256(rawCatalog),'25a77eb33a2cada3c77423b382cfee554a9136a414791e47a5124122a60adad0'); // re-measured CL-DATA-72 (merged-tree regen, source commit a0e7a2454)
+test('W2 index and canonical sources remain source pinned (CL-DATA-74 five-genre: 460 places / 709 opportunities)',()=>{
+  assert.equal(sha256(rawIndex),'0d3fce31cbdbbb454dd0a65f636efd05248ddb4d46374fefcf373fa64bffa7da'); // re-measured CL-DATA-74 (merged-tree regen: research_index --git-provenance + build_web_catalog, source commit anchored to the mount commit 1f806b443 per CL-CI-31c)
+  assert.equal(sha256(rawCatalog),'8aa3f5863bf9787980ed8047b32f0f6d31e05536b11944ca59853ac95ad63929'); // re-measured CL-DATA-74 (merged-tree regen, source commit 1f806b443)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,692);assert.equal(source.places.length,460); // re-anchored CL-DATA-66 wave7 (tw-217..227)
+  assert.equal(source.opportunities.length,709);assert.equal(source.places.length,460); // re-anchored CL-DATA-74 five-genre (17 mounts); places count unchanged since CL-DATA-66 wave7 (tw-217..227)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   // CL-DATA-72: owner-ruled contract evolution (sunset T3 QUALITY c9e65a2c1 +
