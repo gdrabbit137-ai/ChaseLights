@@ -13,12 +13,16 @@
 //     every active point flips trial_expired (data kept, evaluation stopped,
 //     hidden from the default list, gray + honest 「試用期滿」 under the
 //     private filter). paid = 50, owner = unlimited.
-//   - anti-abuse three layers (owner ruling): (1) 10 creates/day cooldown,
-//     (2) rolling 30-day distinct-point budget = cap × 1.5 (dedupe key =
-//     coords rounded to 0.001°; delete is SOFT — archived + deleted_at, and
-//     re-adding the same coords within 30 days REVIVES the row with its
-//     existing data, no new fetch, no new budget charge), (3) first fetch
-//     queued low priority.
+//   - anti-abuse layers (owner ruling, updated: the rolling 30-day distinct
+//     budget was REMOVED — daily cost is already capped by the per-user daily
+//     fetch budget, and the 75-key budget was redundant + confusing):
+//     (1) 60 creates/day hard block (friendly reminder at the 50th),
+//     (2) per-user daily fetch budget 60 (excess deferred to next day),
+//     (3) first fetch queued low priority. Delete stays SOFT — archived +
+//     deleted_at, and re-adding the same coords within 30 days REVIVES the
+//     row with its existing data, no new fetch, no new charge; the 30-day
+//     distinct-key count is kept as an internal telemetry record only
+//     (it never blocks an add).
 // Results only — thresholds/formulas never leave this module's own domain,
 // and user-facing copy is tri-lingual everywhere.
 import { validateCustomConditions, parseCustomConditions, findNextCustomWindow, slotTimeMs } from "./notify.js";
@@ -31,7 +35,6 @@ export const CAPS = { freeTrial: 3, freeExpired: 0, paid: 50 };
 // the 61st add is rejected 403.
 export const DAILY_ADD_LIMIT = 60;
 export const DAILY_ADD_REMINDER_AT = 50;
-export const BUDGET_MULTIPLIER = 1.5;        // rolling 30-day distinct budget = cap × 1.5
 export const DEDUP_WINDOW_DAYS = 30;
 export const COORD_PRECISION = 3;            // 0.001° dedupe key
 export const NOMINATION_THROTTLE_DAYS = 7;
@@ -121,11 +124,6 @@ export const MESSAGES = {
     "zh-TW": "今日已新增 50 個景點，單日上限 60 個。",
     "en": "You have added 50 places today — the daily limit is 60.",
     "ja": "本日50件のスポットを追加しました。1日の上限は60件です。",
-  },
-  budget: {
-    "zh-TW": "30 日內的景點總量已達上限，請先刪除較舊景點或升級。",
-    "en": "You have reached the 30-day total-place limit — delete older places or upgrade first.",
-    "ja": "30日以内のスポット合計が上限に達しました。古いスポットを削除するか、アップグレードしてください。",
   },
   degraded: {
     "zh-TW": "資料更新延遲：全站自訂點用量接近額度上限，首次抓取暫緩（資料保留，不會遺失）。",
@@ -460,7 +458,7 @@ export async function handleCustomPlaces(req, env) {
 
     // Dedupe/revive: same (user, coords@0.001°) archived within 30 days
     // comes back to life with its existing data — no new fetch, no new
-    // 30-day budget charge.
+    // charge.
     const keyLat = roundCoord(lat), keyLng = roundCoord(lng);
     const reviveRow = await env.DB.prepare(
       "SELECT id FROM custom_places WHERE user_id = ?1 AND ROUND(lat,3) = ?2 AND ROUND(lng,3) = ?3 AND status = 'archived' AND deleted_at >= datetime('now', ?4) ORDER BY deleted_at DESC LIMIT 1"
@@ -493,23 +491,18 @@ export async function handleCustomPlaces(req, env) {
       });
     }
 
-    // Owner-ruled layer 2: rolling 30-day distinct budget = cap × 1.5 — a
-    // NEW dedupe key is rejected when admitting it would push the member's
-    // distinct points past the budget (≤ cap × 1.5 at all times).
-    if (cap !== Infinity) {
-      const budget = cap * BUDGET_MULTIPLIER;
+    // Owner ruling (CL-APP-06 close-out): the rolling 30-day distinct budget
+    // (cap × 1.5) was REMOVED as a gate — daily cost is already capped by the
+    // per-user daily fetch budget, and the extra layer confused users. The
+    // distinct-key count is kept as an INTERNAL telemetry record only (it
+    // never rejects an add); revive/archived semantics above are unchanged.
+    let distinct30d = null;
+    try {
       const distinctRow = await env.DB.prepare(
         "SELECT COUNT(*) AS n FROM (SELECT DISTINCT ROUND(lat,3) AS la, ROUND(lng,3) AS lo FROM custom_places WHERE user_id = ?1 AND (status = 'active' OR (status = 'archived' AND deleted_at >= datetime('now', ?2))))"
       ).bind(uid, `-${DEDUP_WINDOW_DAYS} days`).first();
-      const distinctCount = distinctRow ? distinctRow.n : 0;
-      if (distinctCount + 1 > budget) {
-        return json(req, 403, {
-          error: "30-day distinct place budget reached", reason: "budget",
-          budget, distinctCount,
-          message: pickMsg("budget"),
-        });
-      }
-    }
+      distinct30d = distinctRow ? distinctRow.n : null;
+    } catch { /* telemetry is best-effort, never blocking */ }
 
     const id = randomId();
     await env.DB.prepare(
@@ -529,6 +522,7 @@ export async function handleCustomPlaces(req, env) {
       reminder: dailyAddsAfter >= DAILY_ADD_REMINDER_AT ? pickMsg("daily_add_reminder") : null,
       degraded: globalState.hard,
       degradedMessage: globalState.hard ? pickMsg("degraded") : null,
+      internal: { distinct30d }, // 30-day dedupe telemetry — informational only, never a gate
     });
   }
 

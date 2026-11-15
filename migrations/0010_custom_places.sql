@@ -17,15 +17,17 @@
 -- Delete semantics (owner anti-abuse ruling): delete is SOFT — status goes
 -- 'archived' + deleted_at is stamped. Re-adding the same (user, lat/lng
 -- rounded to 0.001°) within 30 days REVIVES the row (existing data reused,
--- no new fetch queued, the 30-day distinct budget is not re-charged).
+-- no new fetch queued).
 --
--- Anti-abuse three layers (owner ruling):
---   1. daily add cooldown: at most 10 creates per user per day (403 + honest
---      trilingual message) — blocks bulk add/delete churn;
---   2. rolling 30-day distinct budget: distinct points that were active in
---      the last 30 days (dedupe key = rounded coords) must stay <= cap * 1.5
---      (free-trial 4.5, paid 75) — beyond that the add is rejected with an
---      honest trilingual message;
+-- Anti-abuse layers (owner ruling, close-out update: the rolling 30-day
+-- distinct budget cap×1.5 was REMOVED as a gate — daily cost is already
+-- capped by the per-user daily fetch budget 60 and the extra layer only
+-- confused users; the distinct-key count is kept as internal telemetry):
+--   1. daily add cooldown: at most 60 creates per user per day (403 + honest
+--      trilingual message; a friendly reminder rides the 50th add);
+--   2. per-user daily fetch budget: at most 60 actual weather fetches per
+--      user per day — excess queue entries defer to the NEXT day, the point
+--      stays created and its card honestly reports the delayed update;
 --   3. first-fetch downgrade: a newly created point's first fetch is queued
 --      LOW priority (custom_fetch_queue) — bulk adds never burst the API.
 

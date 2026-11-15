@@ -6,8 +6,9 @@
 //     trial_expired the moment it passes — evaluation stops, data kept)
 //   CRUD permission (another member's place 404s)
 //   daily add cooldown 60 (reminder at 50, 403 at the 61st)
-//   rolling 30-day distinct budget = cap × 1.5 (dedupe @0.001°)
-//   soft delete + revive within 30d (no new fetch, no budget re-charge)
+//   rotation attack: no distinct-key budget blocks an add; daily fetches stay
+//     constant at 60 (owner close-out ruling — the 30-day budget layer is gone)
+//   soft delete + revive within 30d (no new fetch, no re-charge)
 //   first fetch queued LOW priority; queue processing writes KV evals
 //   global brake ladder (70% → batch ×0.9; 90% → refresh stop + honest labels)
 //   nomination → feedback type=report routing_key=nomination (pending dup
@@ -16,7 +17,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import worker from "../src/index.js";
 import {
-  TRIAL_DAYS, CAPS, DAILY_ADD_LIMIT, DAILY_ADD_REMINDER_AT, BUDGET_MULTIPLIER,
+  TRIAL_DAYS, CAPS, DAILY_ADD_LIMIT, DAILY_ADD_REMINDER_AT,
   DEDUP_WINDOW_DAYS,  roundCoord, dedupeKey, trialState, capFor,
   evaluateCustomPlace, dominantFailWord, energySaverLevel,
   processCustomFetchQueue, globalUsageState, userFetchCount,
@@ -308,7 +309,7 @@ test("caps: paid member up to 50, the 51st is 403 with grandfather-keeping copy"
     const res = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: `p${i}`, lat: 24 + i * 0.01, lng: 121 + i * 0.01 }) }), env, {});
     assert.equal(res.status, 200, `add #${i + 1}`);
   }
-  // the 30-day distinct budget (50 × 1.5 = 75) must NOT fire before the 50-cap
+  // no other gate may fire before the 50-cap (the 30-day budget layer was removed)
   const res51 = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "p51", lat: 25.6, lng: 121.6 }) }), env, {});
   assert.equal(res51.status, 403);
   const body = await res51.json();
@@ -385,32 +386,47 @@ test("daily add cooldown: reminder rides the 50th add; the 61st is 403 單日上
   assert.equal(b61.message["zh-TW"], "單日上限 60 個，明天再繼續。");
 });
 
-test("30-day distinct budget: cap × 1.5 distinct keys (dedupe @0.001°); message honest", async () => {
+test("rotation attack (owner ruling: the 30-day distinct budget layer is REMOVED): churn never blocks an add; daily fetches stay constant at 60", async () => {
   const { env, db } = makeEnv();
-  seedUser(db, "f2", "free", TRIAL_DAYS - 1); // cap 3 → budget 4.5 → floor 4 distinct keys max? >= 4.5 → at 5 keys reject
-  const t = await mint(env, "f2");
-  // churn: add 3 (cap), delete, re-add different coords each time…
-  // distinct budget = 3 × 1.5 = 4.5 → the 5th DISTINCT key is rejected
-  const coords = [[24.0, 121.0], [25.0, 121.0], [26.0, 121.0], [27.0, 121.0], [28.0, 121.0]];
-  let added = 0, rejected = null;
-  for (const [lat, lng] of coords) {
-    // keep under the active cap by deleting before each next add
-    const list = await (await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {})).json();
-    for (const p of list.places) {
-      await worker.fetch(makeReq(`/custom_places/${p.id}`, { method: "DELETE", headers: hdr(t) }), env, {});
+  seedUser(db, "rot1", "paid"); // cap 50
+  const t = await mint(env, "rot1");
+  const t2 = db._tables;
+  const restore = await stubFetch(async () => omGood());
+  try {
+    // churn: 60 DISTINCT coords, deleting every other place to stay under the
+    // 50-active cap — every add succeeds (no distinct-key rejection exists)
+    let distinct30d = null;
+    for (let i = 0; i < 60; i++) {
+      const res = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: `r${i}`, lat: -60 + i * 0.3, lng: 60 + i * 0.3 }) }), env, {});
+      assert.equal(res.status, 200, `rotation add #${i + 1} must never be blocked by a distinct-key budget`);
+      const b = await res.json();
+      assert.notEqual(b.reason, "budget");
+      if (b.internal && typeof b.internal.distinct30d === "number") distinct30d = b.internal.distinct30d;
+      if (i % 2 === 1) {
+        const del = await worker.fetch(makeReq(`/custom_places/${b.id}`, { method: "DELETE", headers: hdr(t) }), env, {});
+        assert.equal(del.status, 200);
+      }
     }
-    const res = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: `b${lat}`, lat, lng }) }), env, {});
-    if (res.status === 200) added += 1; else rejected = res;
-  }
-  assert.equal(added, 4, "budget floor: 4 distinct keys pass (4 <= 4.5)");
-  assert.equal(rejected.status, 403);
-  const body = await rejected.json();
-  assert.equal(body.reason, "budget");
-  assert.equal(body.budget, 4.5);
-  assert.match(body.message["zh-TW"], /30 日內/);
+    assert.equal(distinct30d, 59, "30-day distinct telemetry is recorded internally (pre-insert count, never a gate)");
+    // the owner-ruled cost ceiling is the DAILY FETCH BUDGET: exactly 60
+    // actual fetches per day regardless of rotation churn — excess defers.
+    // 30 adds still queue (deleted ones dropped their entries); +35 seeded.
+    for (let i = 0; i < 35; i++) {
+      const pid = `rotx-${i}`;
+      t2.custom_places.push({ id: pid, user_id: "rot1", name: `x${i}`, lat: -20 + i * 0.1, lng: 70 + i * 0.1, elevation: null, timezone: null, custom_conditions: null, status: "active", created_at: dbStamp(NOW), updated_at: dbStamp(NOW), deleted_at: null });
+      t2.custom_fetch_queue.set(pid, { place_id: pid, user_id: "rot1", reason: "new", priority: 20, due_at: dbStamp(NOW), status: "pending", updated_at: dbStamp(NOW) });
+    }
+    const s = await processCustomFetchQueue(env, NOW, { batch: 100 });
+    assert.equal(s.processed, 60, "daily fetches stay constant at 60 under rotation attack");
+    assert.equal(s.deferred, 5, "the 5 excess entries defer, not fail");
+    assert.equal(await userFetchCount(env, "rot1", NOW), 60);
+    for (const id of s.deferredPlaces) {
+      assert.ok(db._tables.custom_fetch_queue.get(id).due_at > dbStamp(NOW), "deferred entry moves to the next day");
+    }
+  } finally { restore(); }
 });
 
-test("soft delete + revive: same coords@0.001° within 30d revives with existing id, no new fetch, no budget charge", async () => {
+test("soft delete + revive: same coords@0.001° within 30d revives with existing id, no new fetch, no re-charge", async () => {
   const { env, db } = makeEnv();
   seedUser(db, "u3", "paid");
   const t = await mint(env, "u3");
