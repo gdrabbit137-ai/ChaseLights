@@ -401,10 +401,10 @@ def main():
             ("w5-task-r-release-tools", ["ops/v2/tests", "test_task_r_release_tools.py"], 12, True, False),
             ("w5-task-v-integration", ["ops/v2/tests", "test_task_v_integration.py"], 11, True, False),
             ("w5-pin-sync", ["ops/v2/tests", "test_pin_sync.py"], 7, True, False),
-            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 235, True, False),  # CL-CI-22 re-anchor 201->204; CL-INT-91 +6 -> 210; CL-CI-31b +4 -> 214; CL-CI-33 re-anchor 214->217; CL-DATA-56 +6 -> 223; CL-CI-36B re-anchor 223->235 (measured on task/CL-CI-36B merged tree: 235 pass / 0 fail, Windows python 3.14, no skip)
+            ("w3-evaluator-and-hourly-source", ["packages/core-v2/tests", "test_*.py"], 279, True, False),  # CL-CI-22 re-anchor 201->204; CL-INT-91 +6 -> 210; CL-CI-31b +4 -> 214; CL-CI-33 re-anchor 214->217; CL-DATA-56 +6 -> 223; CL-CI-36B re-anchor 223->235; CL-INT-188 re-anchor 235->279 (CL-DATA-71 cloud_base_height suite + CL-DATA-72 evaluator-wave additions; measured on the CL-INT-188 merged tree: 279 pass / 0 fail, Windows python 3.14, no skip)
             ("w3-solar-model", ["packages/models-v2/tests", "test_*.py"], 24, True, False),  # CL-DATA-68: +9 minute-window module tests (test_cl_data_68_minute_windows.py), 24 pass / 0 fail measured on task/CL-DATA-68 (Windows python 3.14)
             ("w2-crosswalk-schema-index-and-hourly-binding", ["data/v2/tests", "test_*.py"], None, True, False,  # CL-CI-22 re-anchor 71->109 (CL-DATA-25..28 suites); CL-CI-33 re-anchor 135->184; CL-DATA-66 merged re-anchor 217->253; CL-DATA-68 re-anchor 253->325 (measured on task/CL-DATA-68: 325 pass / 0 fail — +13 time-aware-tier cases + research_index suite 17 newly-running under the pinned W1 #489 root, Windows python 3.14)
-                {"timeout": 900,  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under; CL-CI-33 raised to 900s for local verification headroom
+                {"timeout": 1200,  # CL-INT-78: 600s covers the Windows-local w2 suite duration (~380-600s under load); CI ubuntu is well under; CL-CI-33 raised to 900s for local verification headroom; CL-INT-188 raised to 1200s (measured Windows-local 328-case suite under load exceeded 900s)
                  # CL-CI-37 (CL-CI-36 pattern): the exact pin kept rotting red on every
                  # data/test-adding merge (observed 312 on the CL-UI-73 tree);
                  # growth-tolerant floor keeps the unregistered-drop protection.
