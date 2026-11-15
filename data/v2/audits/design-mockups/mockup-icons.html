@@ -152,6 +152,9 @@ details.notes .n li{margin:4px 0 4px 18px}
 <symbol id="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
 <symbol id="ic-thermometer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></symbol>
 <symbol id="ic-cloud-snow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M8 15h.01"/><path d="M8 19h.01"/><path d="M12 17h.01"/><path d="M12 21h.01"/><path d="M16 15h.01"/><path d="M16 19h.01"/></symbol>
+<!-- 疊組合件（非單一 Lucide icon）：cloud（1.73.0 path 原樣、y-1.5 位移避開波線）＋ waves 底部波線（形狀原樣、y+2 位移）疊成單一 SVG —— 雲在海面上＝雲海 -->
+<symbol id="ic-cloud-sea" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" transform="translate(0 -1.5)"/><path d="M2 21q2.5 2 5 0t5 0 5 0 5 0"/></symbol>
+<symbol id="ic-cloud-fog" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 17H7"/><path d="M17 21H9"/></symbol>
 <symbol id="ic-lightbulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
 <symbol id="ic-stars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></symbol>
 </defs></svg>
@@ -240,6 +243,7 @@ details.notes .n li{margin:4px 0 4px 18px}
         <tr><td class="now">🎞 / 📋（題材）</td><td><svg class="ic"><use href="#ic-gallery-thumbnails"/></svg> <span class="m">gallery-thumbnails</span></td><td>題材 / Subjects / 題材</td><td class="t-mut">text-2</td><td class="warn">frames 於 Lucide 1.73 不存在（查證 404）；備選 layers</td></tr>
         <tr><td class="now">🗺</td><td><svg class="ic"><use href="#ic-map-pin"/></svg> <span class="m">map-pin</span>／<svg class="ic"><use href="#ic-map"/></svg> <span class="m">map</span></td><td>地圖 / Map / 地図</td><td class="t-mut">text-2</td><td>map-pin=單點動作、map=天氣圖導覽</td></tr>
         <tr><td class="now">☁ / ⛅</td><td><svg class="ic"><use href="#ic-cloud-sun"/></svg> <span class="m">cloud-sun</span></td><td>天氣圖 / Weather map / 天気図</td><td class="t-mut">text-2</td><td>cloudy 為備選（純雲，無拍攝語義）</td></tr>
+        <tr><td class="now">（純文字）雲海</td><td><svg class="ic"><use href="#ic-cloud-sea"/></svg> <span class="m">cloud＋waves 疊組</span></td><td>雲海 / Sea of clouds / 雲海</td><td class="t-mut">text-3</td><td class="warn">疊組合件：cloud＋waves 兩個 Lucide path 疊成單一 SVG（非單一 icon）— 原誤用 cloud-snow（下雪雲）語義錯置，已修正；對比試驗見 §7 ④</td></tr>
         <tr><td class="now">✓ ○ ✗</td><td><span class="t-ok">✓</span> <span class="t-warn">○</span> <span class="t-bad">✗</span> <b>保留文字，不 icon 化</b></td><td>推薦/可拍/不宜 · Shootable · 撮影可/否</td><td>契約色 green/amber/red</td><td>單字元記號已是最佳掃描件，Lucide 無對應語義</td></tr>
         <tr><td class="now">🌌（銀河/星軌）</td><td><svg class="ic"><use href="#ic-stars"/></svg> <span class="m">stars</span>（勉強）</td><td>星空 / Astro / 星空</td><td class="t-mut">text-3</td><td class="warn">建議自繪（見 §7）</td></tr>
         <tr><td class="now">💡（光害）</td><td><svg class="ic"><use href="#ic-lightbulb"/></svg> <span class="m">lightbulb</span>（語義不足）</td><td>光害 / Light pollution / 光害</td><td class="t-mut">text-3</td><td class="warn">lightbulb 讀作「點子/提示」，建議自繪</td></tr>
@@ -323,7 +327,7 @@ details.notes .n li{margin:4px 0 4px 18px}
   <!-- ══ 7. 品牌專屬自繪清單 ══ -->
   <section id="s7">
     <h2>7 · 品牌專屬件 — 建議自繪（Lucide 無對應／語義不符）</h2>
-    <p class="desc">以下 5 件建議自繪 SVG（24 grid、stroke 2、currentColor，與 Lucide 同構混用無違和）；其餘全站一律 Lucide，不再自繪。</p>
+    <p class="desc">以下 <b>4 件</b>建議自繪 SVG（24 grid、stroke 2、currentColor，與 Lucide 同構混用無違和）；雲海已由 cloud＋waves 疊組合件解決（見 ④，免自繪）；其餘全站一律 Lucide，不再自繪。</p>
     <div class="custom-grid">
       <div class="custom">
         <div class="ph"><svg class="ic s24" style="color:var(--green-text)"><use href="#ic-stars"/></svg></div>
@@ -341,9 +345,9 @@ details.notes .n li{margin:4px 0 4px 18px}
         <p>lightbulb 語義是「點子」；自繪「城市光暈射向天際」小圖，表達 Bortle/光害等級。</p>
       </div>
       <div class="custom">
-        <div class="ph"><svg class="ic s24" style="color:var(--text-3)"><use href="#ic-cloud-snow"/></svg></div>
-        <h4>④ 雲海</h4>
-        <p>cloud-snow 的雪點誤導（雲海≠下雪）；自繪「雲層疊山稜」雙形，雲海/低雲 80%+ 條件語義。</p>
+        <div class="ph" style="gap:10px"><div style="text-align:center"><svg class="ic s24" style="color:var(--green-text)"><use href="#ic-cloud-sea"/></svg><div style="font-size:10px;color:var(--green-text)">✓ 定案</div></div><div style="text-align:center"><svg class="ic s24" style="color:var(--text-3)"><use href="#ic-cloud-fog"/></svg><div style="font-size:10px;color:var(--text-3)">cloud-fog 備選</div></div></div>
+        <h4>④ 雲海（疊組合件，免自繪）</h4>
+        <p>原對照 cloud-snow（下雪雲）語義錯置 — 雲海≠下雪。改 Lucide 疊組：<span class="m">cloud</span>＋<span class="m">waves</span> 兩 path 疊成單一 SVG（雲在海面上＝雲海/低雲 80%+ 語義）；cloud-fog 對比後落選（雲下雙橫線讀作「霧」，與霧海混淆）。原件皆 1.73.0 原樣，RD 免自繪。</p>
       </div>
       <div class="custom">
         <div class="ph"><svg class="ic s24" style="color:var(--text-3)"><use href="#ic-stars"/></svg></div>
@@ -362,6 +366,8 @@ details.notes .n li{margin:4px 0 4px 18px}
         <li><b>尺寸階梯：</b>14（pill/按鈕）/ 16（行內）/ 20（導覽）／展示 24；stroke 恆 2（Lucide 標準），縮到 14px 不加粗以維持單色重量一致。</li>
         <li><b>tier 記號不 icon 化：</b>✓/○/✗ 是全站掃描契約（tab/徽章/計數同源），文字＋契約色已是單字元最強掃描件；icon 化反而引入第二套語言。</li>
         <li><b>自繪邊界：</b>僅 §7 五件自繪；其餘 emoji 全量清理為 Lucide。自繪件同構（24 grid / stroke 2 / currentColor），RD 可直接以 lucide-angular/vue 套件外掛 custom icon。</li>
+        <li><b>雲海語義修正（owner 截圖指正）：</b>§7 ④ 原以 cloud-snow（下雪雲）示意雲海 = 語義錯置。定案改<b>疊組合件</b>：cloud＋waves 兩個 Lucide path 疊成單一 SVG（cloud 原樣、waves 底部波線形狀原樣 y+2 位移），「雲在海面上」直讀雲海/低雲 80%+ 條件；cloud-fog 對比落選（雲下雙橫線讀作「霧」，與霧海混淆）。對照表已加雲海列並註明疊組性質；自繪清單 5→4 件。</li>
+        <li><b>天氣題材對照語義複查：</b>對照 <span class="m">genre_short_names.json</span> 全 21 題材族逐一看對 — 現行對照表僅覆蓋 天氣圖/日出/海拔/溫度/星空/光害/雲海；<b>無</b>雲瀑、霧海、琉璃光等獨立題材登記（未來新增時須先過語義核對再選 icon）。既有映射再掃一遍：mountain（海拔）、sunrise/sun（日出/泛日照）、thermometer（溫度）、cloud-sun（天氣圖）語義成立；stars（星空）＝勉強、lightbulb（光害）＝語義不足，兩者維持已標註建議自繪 — 無其他錯置。</li>
       </ul>
     </div>
   </details>
