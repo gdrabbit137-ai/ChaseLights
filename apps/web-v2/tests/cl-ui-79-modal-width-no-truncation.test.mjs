@@ -37,9 +37,9 @@ const grab = (start, end) => {
   return appSource.slice(a, b);
 };
 
-test('CL-UI-79 (1): source contract — 1180px modal, max-content grid strip, mobile 46px intact', () => {
-  assert.match(cssSource, /\.place-guide-modal \{ max-width: 1180px;/);
-  assert.doesNotMatch(cssSource, /\.place-guide-modal \{ max-width: 1080px;/);
+test('CL-UI-79 (1): source contract — 560px subject-panel modal, max-content grid strip, mobile 46px intact', () => {
+  assert.match(cssSource, /\.place-guide-modal \{ max-width: 560px;/);
+  assert.doesNotMatch(cssSource, /\.place-guide-modal \{ max-width: 1180px;/);
   // P1-1 (CL-UI-87 re-anchor): the 5-column mockup table needs no scroll
   // floor — the old 1080px min-width is retired; the wrapper keeps overflow-x.
   assert.match(cssSource, /\.timeline-table-wrap\{overflow-x:auto\}/);
@@ -59,8 +59,8 @@ test('CL-UI-79 (1): source contract — 1180px modal, max-content grid strip, mo
   assert.doesNotMatch(appSource, /<a class="place-hourly-link"/);
   assert.match(appSource, /id="place-hourly-btn"/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui99/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui99/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui100/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui100/);
 });
 
 // ---- (2) real-browser probe: 1280 / 1024 / 768 / 390 ------------------------
@@ -209,9 +209,9 @@ const PROBE = `(() => {
   };
 })()`;
 
-for (const vp of [{name: '1280px', w: 1280, h: 900, mobile: false, minModal: 1000, shot: 'clui79-1280'},
-                  {name: '1024px', w: 1024, h: 800, mobile: false, minModal: 950, shot: 'clui79-1024'},
-                  {name: '768px', w: 768, h: 900, mobile: false, minModal: 700, shot: 'clui79-768'},
+for (const vp of [{name: '1280px', w: 1280, h: 900, mobile: false, minModal: 500, shot: 'clui79-1280'},
+                  {name: '1024px', w: 1024, h: 800, mobile: false, minModal: 500, shot: 'clui79-1024'},
+                  {name: '768px', w: 768, h: 900, mobile: false, minModal: 500, shot: 'clui79-768'},
                   {name: '390px', w: 390, h: 844, mobile: true, minModal: 0, shot: 'clui79-390'}]) {
   test(`CL-UI-79 (2): ${vp.name} — modal width + zero truncation`, async () => {
     await send('Emulation.setDeviceMetricsOverride', {width: vp.w, height: vp.h, deviceScaleFactor: 1, mobile: vp.mobile});

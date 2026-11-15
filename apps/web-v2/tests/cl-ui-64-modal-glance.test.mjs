@@ -32,20 +32,19 @@ const grab = (start, end) => {
   return appSource.slice(i, appSource.indexOf(end, i));
 };
 
-test('CL-UI-64 (1): modal opens with a quick-view section fed by the gated bundle fetch', () => {
-  // Section markup in openPlaceModal, before the selected-date section.
-  // CL-UI-95 (DESIGN-5): the panel title lives INSIDE the rendered quick
-  // body (q-t 「現在去會怎樣 · M/D」) — the separate section-title line is gone.
-  assert.match(appSource, /<section class="place-quick-view"[^>]*>/);
-  assert.match(appSource, /id="place-quick-view-body"/);
-  assert.ok(!appSource.includes('<section class="place-quick-view" aria-label="${esc(d().v2_quick_title)}"><div class="place-guide-section-title">'),
-    'CL-UI-95: the quick panel title moved inside the rendered body');
-  // Filled inside decorateV2Eval's single gated fetch (subject cards load
+test('CL-UI-64 (1): forecast modal opens with a quick-view section fed by the gated bundle fetch', () => {
+  // CL-UI-98 (DESIGN-6b efdd1febc): the quick view moved into the FORECAST
+  // modal shell (index.html #modal-overlay) — the card-click surface; the
+  // subject panel (#place-modal-overlay) no longer renders it.
+  assert.match(indexSource, /<section class="place-quick-view modal-quick-view"[^>]*>/);
+  assert.match(indexSource, /id="modal-quick-view-body"/);
+  assert.ok(!appSource.includes('place-quick-view-body'),
+    'CL-UI-98: the subject panel no longer hosts the quick view');
+  // Filled inside mountQuickView's single gated fetch (subject cards load
   // alongside the evaluation bundle; a bundle failure degrades honestly).
-  assert.match(appSource, /quickHost\.innerHTML=bundle\?v2QuickViewHtml\(spot,qPlace\):`<span class="quick-none">\$\{esc\(d\(\)\.eval2_load_fail\)\}<\/span>`/);
-  // The gate no longer requires eval nodes — a spot with no evaluated subject
-  // still gets its quick view.
-  assert.match(appSource, /if\(!quickHost&&!nodes\.length\)return;/);
+  assert.match(appSource, /host\.innerHTML=bundle\?v2QuickViewHtml\(spot,qPlace\):`<span class="quick-none">\$\{esc\(d\(\)\.eval2_load_fail\)\}<\/span>`/);
+  // The forecast modal mounts the SAME pipeline (one implementation).
+  assert.match(appSource, /mountQuickView\(document\.getElementById\('modal-quick-view-body'\),spot\)/);
 });
 
 test('CL-UI-64 (2): quick view is 「現在去會怎樣」 — tier chip / band / next moment (CL-UI-95 DESIGN-5)', () => {
@@ -273,6 +272,6 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
     assert.ok(!rule.includes('text-overflow:ellipsis') && !rule.includes('overflow:hidden'),
       'CL-UI-88: the slot string is never ellipsis-truncated: ' + rule);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui99/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui99/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui100/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui100/);
 });

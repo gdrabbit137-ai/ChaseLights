@@ -1040,7 +1040,14 @@
        viewport the 8 day cells (90px min each + gaps + padding) fit and the
        in-cell day labels never overlap. The strip itself uses a max-content
        grid below so it can never overflow its track. */
-    .place-guide-modal { max-width: 1180px; background: var(--cl-bg-1); font-family: var(--cl-font); }
+    /* CL-UI-98 (DESIGN-6b efdd1febc): the place panel is now the 「題材」
+       subject panel (opened by the card's bottom-left button) — 560px at
+       desktop, full-screen at 390 (the shared .modal ≤640 rule). The forecast
+       content moved to the card-click modal (#modal-overlay). */
+    .place-guide-modal { max-width: 560px; background: var(--cl-bg-1); font-family: var(--cl-font); }
+    /* CL-UI-98: the forecast modal's quick-view section reuses the
+       .place-quick-view anatomy; only the outer rhythm differs. */
+    .modal-quick-view { margin: 0 0 10px; }
     /* CL-UI-79: the place-detail modal was 820px wide — at a 1280px viewport
        the 8 day cells (90px min each + gaps + padding) could not fit inside
        the modal body, so the in-cell day labels (「11/14」) overlapped and the

@@ -214,7 +214,7 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true}, {name: '
       assert.ok(center.hit && center.hit.inside,
                 `card center must hit the card or a descendant (attempt ${attempt + 1}), hit ${center.hit ? center.hit.tag + '.' + center.hit.cls : null}`);
       await realClick(center.cx, center.cy);
-      const after = await evaljs(`({modalOpen: document.getElementById('place-modal-overlay').style.display === 'flex'})`);
+      const after = await evaljs(`({modalOpen: document.getElementById('modal-overlay').style.display === 'flex'})`);
       modalOpen = after.modalOpen;
     }
     assert.equal(modalOpen, true, 'real input click at the card center must open the modal');

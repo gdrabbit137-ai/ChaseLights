@@ -139,6 +139,6 @@ test('CL-UI-96 (4): 歷史 is told by the past-row tint alone — no （已過�
   assert.ok(!appSource.includes('clui94_past'), 'clui94_past i18n key retired from all three dicts');
 });
 
-test('CL-UI-96 (5): cache-bust advanced — index.html serves app.js + app.css at ?v=clui99', () => {
-  assert.equal((indexSource.match(/\?v=clui99/g) || []).length, 2, 'app.js + app.css both at clui99');
+test('CL-UI-96 (5): cache-bust advanced — index.html serves app.js + app.css at ?v=clui100', () => {
+  assert.equal((indexSource.match(/\?v=clui100/g) || []).length, 2, 'app.js + app.css both at clui100');
 });
