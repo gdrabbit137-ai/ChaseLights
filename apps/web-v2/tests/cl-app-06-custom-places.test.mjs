@@ -28,7 +28,8 @@ test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bus
   assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06/);
   assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
-  assert.match(htmlSource, /assets\/app\.js\?v=clui101/);
+  // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
+  assert.match(htmlSource, /assets\/app\.js\?v=clui102/);
 });
 
 test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () => {
@@ -102,6 +103,7 @@ const BROWSER = process.env.CHROMIUM_EXECUTABLE
   || (process.platform === 'win32' ? 'C:/Program Files/Google/Chrome/Application/chrome.exe' : '/usr/bin/chromium');
 
 let server, baseURL, chrome, ws, send, evaljs, ready;
+let loadEvents = 0; // Page.loadEventFired counter (CL-INT-190: evaluate may land on the STALE page before a navigation commits)
 const nextId = (() => { let id = 0; return () => ++id; })();
 const pending = new Map();
 
@@ -149,6 +151,7 @@ async function bootBrowser() {
       ws = new WebSocket(targets.find(t => t.type === 'page').webSocketDebuggerUrl);
     await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
     ws.onmessage = e => { const m = JSON.parse(e.data);
+      if (m.method === 'Page.loadEventFired') loadEvents++;
       if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); } };
     send = (method, params = {}) => new Promise((resolve, reject) => {
       const i = nextId(); pending.set(i, m => m.error ? reject(new Error(m.error.message)) : resolve(m.result));
@@ -230,7 +233,15 @@ async function setViewport(width, height, mobile) {
   await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile });
 }
 async function loadPage() {
+  const before = loadEvents;
   await send('Page.navigate', { url: baseURL });
+  await new Promise((resolve,reject)=>{
+    const t0=Date.now();
+    const iv=setInterval(()=>{
+      if(loadEvents>before){clearInterval(iv);resolve(true);}
+      else if(Date.now()-t0>20000){clearInterval(iv);reject(new Error('navigation never fired load'));}
+    },100);
+  });
   await evaljs(`new Promise((resolve,reject)=>{
     const t0=Date.now();
     const iv=setInterval(()=>{
@@ -238,13 +249,15 @@ async function loadPage() {
       else if(Date.now()-t0>25000){clearInterval(iv);reject(new Error('cards never rendered'));}
     },100);
   })`);
-  await evaljs(`document.dispatchEvent(new CustomEvent('chaselights:auth', { detail: { member: { id: 'u1', displayName: '晨曦旅人', level: 'paid' } } }))`);
   await evaljs(`new Promise((resolve,reject)=>{
     const t0=Date.now();
     const iv=setInterval(()=>{
+      // CL-INT-190: re-dispatch every tick — a broadcast lost to a navigation race
+      // must not hang the harness; chaselights:auth is REPLACE-semantics/idempotent.
+      document.dispatchEvent(new CustomEvent('chaselights:auth', { detail: { member: { id: 'u1', displayName: '晨曦旅人', level: 'paid' } } }));
       if(document.querySelector('.cl-cp-card')){clearInterval(iv);resolve(true);}
       else if(Date.now()-t0>10000){clearInterval(iv);reject(new Error('private cards never rendered'));}
-    },100);
+    },300);
   })`);
   await new Promise(r => setTimeout(r, 400));
 }
