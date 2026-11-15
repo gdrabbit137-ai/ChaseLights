@@ -41,6 +41,14 @@ METRIC_FIELDS = {
     "temperature_delta_700_600_c": "temperature_delta_700_600_c",
     "cloud_cover_total": "cloud_cover_total",
     "cloud_cover_mid_and_high": "cloud_cover_mid_and_high",
+    # CL-DATA-74: snow-line + continuous-clear-window metrics for the
+    # snow_scene / star_trails families. Registered ahead of the contract
+    # landing; rows without the field resolve to UNKNOWN, never a fabricated
+    # comparison.
+    "snowfall": "snowfall",
+    "snow_depth": "snow_depth",
+    "snow_cover_state": "snow_cover_state",
+    "clear_streak_hours": "clear_streak_hours",
 }
 
 

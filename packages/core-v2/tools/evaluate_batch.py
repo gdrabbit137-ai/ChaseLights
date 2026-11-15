@@ -59,7 +59,9 @@ ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blu
                  "galactic_core_altitude", "city_night_window",
                  "light_window", "daylight_window",
                  # CL-DATA-73: misty-forest soft-light + morning windows.
-                 "soft_light_window", "morning_window"}
+                 "soft_light_window", "morning_window",
+ # CL-DATA-74: five-genre alpenglow window.
+                 "alpenglow_window"}
 
 # CL-UI-23: metrics that ARE a time window (window membership). A contract that
 # already declares one of these is time-window aware; the evaluation layer does
@@ -69,7 +71,9 @@ TIME_WINDOW_METRICS = {"sunrise_time_window", "sunset_window",
                        "astronomical_darkness", "city_night_window",
                        "light_window", "daylight_window",
                        # CL-DATA-73: misty-forest soft-light + morning windows.
-                       "soft_light_window", "morning_window"}
+                       "soft_light_window", "morning_window",
+ # CL-DATA-74: five-genre alpenglow window.
+                       "alpenglow_window"}
 # CL-UI-23: genre templates whose subject semantics require a night hours
 # window but whose current owner contracts carry no time-window condition
 # (data-layer gap, owner gate pending). The evaluation layer enforces the
@@ -340,6 +344,32 @@ def condition_verdict(condition, values, astro_row, month=None,
             return "UNKNOWN", "UNSUPPORTED_FOG_STATE_OPERATOR"
         passed = level in ("fog", "forming")
         return ("PASS" if passed else "FAIL"), f"FOG_STATE({level})"
+
+    if metric == "snow_cover_state":
+        # CL-DATA-74: the snow_scene family evaluates the DERIVED ground-state
+        # enum the batch runner computes per hour from the Open-Meteo snow
+        # fields (snow_cover_state: snowing / snow_covered / none). The ticket
+        # semantics is an OR (snowfall > 0 OR snow_depth > 0) — the derived
+        # enum collapses it into one displayable state so a flat-AND contract
+        # list never demands both at once. operator "none" (threshold null):
+        # only "none" (neither falling nor lying snow) vetoes; snowing and
+        # snow_covered both satisfy. Fail-closed: a missing/invalid snow cell
+        # propagates UNKNOWN — never a fabricated "no snow".
+        cell = values.get("snow_cover_state") if isinstance(values, dict) else None
+        if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
+            return "UNKNOWN", "SNOW_COVER_STATE_DERIVATION_UNAVAILABLE"
+        level = cell.get("value")
+        if level not in ("snowing", "snow_covered", "none"):
+            return "UNKNOWN", "SNOW_COVER_STATE_INVALID_LEVEL"
+        if operator in ("none", None):
+            passed = level != "none"
+        elif operator == "neq":
+            passed = level != threshold
+        elif operator == "eq":
+            passed = level == threshold
+        else:
+            return "UNKNOWN", "NON_NUMERIC_OPERATOR"
+        return ("PASS" if passed else "FAIL"), f"SNOW_COVER_STATE({level})"
     if metric == "venue_open_window":
         return venue_open_verdict(condition, local_start_min)
     if metric == "cloud_base_height":
@@ -518,6 +548,12 @@ def condition_value(condition, values, astro_row, local_date=None):
         if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
             return None
         return boolean_value_label(cell.get("value"))
+    if metric == "snow_cover_state":
+        # CL-DATA-74: display the derived ground-state the verdict judged on.
+        cell = values.get("snow_cover_state")
+        if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
+            return None
+        return cell.get("value")
     if metric == "light_direction":
         # display the observation the arc was judged on
         return astro_row.get("sun_azimuth_deg")
@@ -754,6 +790,80 @@ def _cell_value(values, name):
             and not isinstance(cell.get("value"), bool)):
         return float(cell["value"])
     return None
+
+# CL-DATA-74 — snow_scene family: derived ground-state enum per hour from the
+# Open-Meteo snow fields. The ticket semantics (snowfall > 0 OR snow_depth > 0)
+# is collapsed into one displayable level so the flat-AND contract list never
+# demands both at once:
+#   snowing      降雪中: snowfall > 0 cm/h (falling snow, ground may be bare)
+#   snow_covered 積雪: snow_depth > 0 m while not snowing (lying snow)
+#   none         無雪: neither field shows snow
+# Fail-closed: BOTH snow cells missing -> UNKNOWN cell (never fabricated "no
+# snow"); one available cell is enough to certify the "none"/"snowing" states
+# it can speak for (depth-only rows can never claim "snowing", and vice versa).
+def snow_cover_levels(hours):
+    levels = []
+    for hour_row in hours:
+        values = hour_row.get("values") or {}
+
+        def _cell(name, _values=values):
+            cell = _values.get(name)
+            if (isinstance(cell, dict) and cell.get("state") == "AVAILABLE"
+                    and isinstance(cell.get("value"), (int, float))
+                    and not isinstance(cell.get("value"), bool)):
+                return float(cell["value"])
+            return None
+
+        snowfall = _cell("snowfall")
+        depth = _cell("snow_depth")
+        if snowfall is None and depth is None:
+            levels.append({"state": "UNKNOWN", "value": None})
+            continue
+        if snowfall is not None and snowfall > 0.0:
+            level = "snowing"
+        elif depth is not None and depth > 0.0:
+            level = "snow_covered"
+        else:
+            level = "none"
+        levels.append({"state": "AVAILABLE", "value": level})
+    return levels
+
+
+# CL-DATA-74 — star_trails family: continuous-clear-window probe (the
+# CHALLENGER-15 streak semantics). A star-trail stack is one multi-hour
+# exposure; a cloud band crossing mid-stack ruins it, so the veto is
+# CONTINUITY, not the single-hour cloud mean. The runner computes, for every
+# hour, the length of the clear streak ENDING at that hour (the hour itself
+# plus directly preceding consecutive hours with cloud_cover_total <=
+# STARTRAIL_STREAK_CLOUD_MAX). Missing/invalid cloud cells break the streak
+# honestly: the hour's value is None (UNKNOWN cell) and the streak restarts at
+# the next certified-clear hour — a gap can never be counted as clear time.
+STARTRAIL_STREAK_CLOUD_MAX = 20.0
+
+
+def clear_streak_levels(hours):
+    levels = []
+    streak = 0.0
+    for hour_row in hours:
+        values = hour_row.get("values") or {}
+
+        def _cell(name, _values=values):
+            cell = _values.get(name)
+            if (isinstance(cell, dict) and cell.get("state") == "AVAILABLE"
+                    and isinstance(cell.get("value"), (int, float))
+                    and not isinstance(cell.get("value"), bool)):
+                return float(cell["value"])
+            return None
+
+        cloud = _cell("cloud_cover_total")
+        if cloud is not None:
+            clear = cloud <= STARTRAIL_STREAK_CLOUD_MAX
+            streak = streak + 1.0 if clear else 0.0
+            levels.append({"state": "AVAILABLE", "value": streak})
+        else:
+            streak = 0.0
+            levels.append({"state": "UNKNOWN", "value": None})
+    return levels
 
 
 def conditions_day_rows(condition_by_id, counts_by_cid, total):
@@ -1107,6 +1217,17 @@ def main():
         fog_levels = fog_states(hours)
         for hour_row, fstate in zip(hours, fog_levels):
             hour_row["values"]["fog_state"] = fstate
+
+        # CL-DATA-74: derive the snow_scene ground-state and the star_trails
+        # continuous-clear streak once per coordinate group and attach them to
+        # the shared hour rows (idempotent — every snow/trail opportunity of
+        # the group reads the same cells).
+        snow_levels = snow_cover_levels(hours)
+        for hour_row, level in zip(hours, snow_levels):
+            hour_row["values"]["snow_cover_state"] = level
+        streak_levels = clear_streak_levels(hours)
+        for hour_row, streak in zip(hours, streak_levels):
+            hour_row["values"]["clear_streak_hours"] = streak
         place_out = {"place_id": None, "coordinate": [lat, lon],
                      "coordinate_source": group["source"],
                      "timezone_display": dict(tz_display),

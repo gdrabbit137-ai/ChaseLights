@@ -10,6 +10,11 @@ GENRE_CONDITION_TEMPLATES.md:
 - blue_hour_window: sun elevation between -8° and -4°
 - golden_hour_window: sun elevation between -6° and +6°
 - astronomical_darkness: sun elevation <= -18°
+- alpenglow_window: sun elevation between -6° and -0.8° (CL-DATA-74 日照金山:
+  the pink summit-light band that opens after sunset as the civil window
+  deepens; the direct disc is already gone below -0.8°, so only reflected
+  summit light remains; below -6° the band has lost the warm cast — same
+  civil_twilight family as the light_window engine)
 - city_night_window: EVERY sampled instant in the hour bucket has sun
   elevation <= -6° (civil darkness) — CL-UI-23 evaluation-layer gate for
   city_night contracts that carry no contract-level time window yet
@@ -84,6 +89,15 @@ SOFT_LIGHT_HIGH_DEG = 10.0
 MORNING_WINDOW_START_H = 1.0
 MORNING_WINDOW_END_H = 3.0
 
+# CL-DATA-74 日照金山 (alpenglow) summit-light band: sun elevation between
+# -6 deg (civil edge, where the reflected warm cast dies) and -0.8 deg (the
+# direct disc is effectively gone below the terrain/atmosphere horizon). Same
+# civil_twilight engine family as light_window; a narrow band that can fall
+# between two whole-hour grid points, so it rides the sub-hour sampling like
+# the blue/golden windows (any-sample membership for the bucket verdict).
+ALPENGLOW_LOW_DEG = -6.0
+ALPENGLOW_HIGH_DEG = -0.8
+
 # CL-DATA-24: the sun's phase for an hour bucket — "dawn" (morning side of
 # the day, nearest horizon crossing is a sunrise) or "dusk" (evening side,
 # nearest crossing is a sunset). blue_hour_window / golden_hour_window are
@@ -109,7 +123,7 @@ ASTRO_SAMPLING_PROVENANCE = {
     "sample_offsets_minutes": WINDOW_SAMPLE_OFFSETS,
     "metrics": ["astronomical_darkness", "city_night_window", "golden_hour_window",
                 "blue_hour_window", "sunrise_time_window", "sunset_window",
-                "light_window", "soft_light_window", "morning_window"],
+                "light_window", "soft_light_window", "morning_window", "alpenglow_window"],
     "bucket": "[hour_start, hour_start+60min)",
 }
 
@@ -222,6 +236,11 @@ def window_pass_profiles(dt_utc, lat, lon, events=None):
         # CL-DATA-73: morning PRIORITY window — per-sample membership in
         # [sunrise + 1 h, sunrise + 3 h] against the day's rising crossing.
         "morning_window": [False] * len(samples),
+
+        # CL-DATA-74: alpenglow summit-light band (-6..-0.8 deg), sub-hour
+        # sampled like the other narrow windows; any-sample bucket membership.
+        "alpenglow_window": [ALPENGLOW_LOW_DEG <= a <= ALPENGLOW_HIGH_DEG
+                             for a in altitudes],
         # CL-DATA-40: daylight window — every sampled instant has the sun above
         # the horizon (proper daylight, before sunset). Access-constrained
         # subjects (sites closed at sunset, e.g. NPS Horseshoe Bend) bind their
@@ -302,6 +321,10 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
         "morning_window": (any(profiles["morning_window"])
                            if any(e_kind == "sunrise" for _, e_kind in events)
                            else None),
+
+        # CL-DATA-74: alpenglow summit-light band — any-sample membership like
+        # the blue/golden windows (a narrow band between grid points is real).
+        "alpenglow_window": any(profiles["alpenglow_window"]),
         # CL-DATA-40: access-closing window — a subject whose site closes at
         # sunset qualifies only in hours entirely in proper daylight
         # (every sampled instant sun elevation > 0 deg).

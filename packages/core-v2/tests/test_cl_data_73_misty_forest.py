@@ -28,8 +28,8 @@ sys.path.insert(0, str(ROOT / "data/v2/tools"))
 import apply_template as at  # noqa: E402
 
 MOUNTED = [
-    "tw-024-P06", "tw-032-P04", "tw-053-P03", "tw-088-P03", "tw-089-P02",
-    "tw-091-P03", "tw-104-P02", "tw-120-P02", "tw-140-P03", "tw-151-P02",
+    "tw-024-P07", "tw-032-P04", "tw-053-P03", "tw-088-P03", "tw-089-P02",
+    "tw-091-P03", "tw-104-P02", "tw-120-P03", "tw-140-P04", "tw-151-P03",
     "tw-173-P03", "tw-177-P02",
 ]
 

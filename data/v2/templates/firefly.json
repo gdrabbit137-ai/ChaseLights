@@ -1,0 +1,164 @@
+{
+  "template_id": "firefly",
+  "version": "0.1",
+  "status": "defined",
+  "title_i18n": {
+    "zh-TW": "螢火蟲",
+    "en": "Firefly",
+    "ja": "ホタル"
+  },
+  "definition_i18n": {
+    "zh-TW": "螢火蟲觀察拍攝題材：季節窗（4–6 月，TW，照 seasonal-calendar 橋）＋無月（月照 ≤30%；月下自動成立，CL-DATA-72 batch A 同語義）＋高濕 ≥85%＋氣溫 ≥15°C＋無雨＋夜窗（天文暗）。掛載對象限低海拔溪谷森林點。",
+    "en": "Firefly watching/shooting: a season window (Apr-Jun, TW, via the seasonal-calendar bridge) + no moon (illumination <= 30%; moon below the horizon passes outright, CL-DATA-72 batch-A semantics) + humidity >= 85% + air temp >= 15 C + no rain + a night window (astronomical darkness). Mounted on low-altitude stream-forest spots only.",
+    "ja": "ホタル観察・撮影題材：季節窓（4〜6月、TW、seasonal-calendar ブリッジ）＋無月（月照 ≤30%。月没時は自動成立、CL-DATA-72 batch A と同語義）＋高湿度 ≥85%＋気温 ≥15°C＋無雨＋夜窓（天文暗）。低標高の渓谷・森林ポイントのみにマウント。"
+  },
+  "instantiated_by": [],
+  "params": [],
+  "conditions": [
+    {
+      "template_ref": "F1",
+      "metric": "seasonal_state",
+      "role": "REQUIRED",
+      "domain": "SEASON_TIME",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "eq",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "季節窗判定（window_open/window_closed，例年窗 04-01–06-15 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：螢火蟲季是發生學硬約束——窗外的任何好天氣都不構成螢火蟲夜。",
+        "en": "Seasonal-window verdict (window_open/window_closed; typical window 04-01 to 06-15 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): the firefly season is a hard phenology constraint - no weather makes a firefly night outside the window.",
+        "ja": "季節窓判定（window_open/window_closed。例年窓 04-01〜06-15 は seasonal-calendar.json から、実況優先、両方なければ誠実に not_evaluatable）：ホタル季は発生学的ハード制約。窓外の好天はホタルの夜にならない。"
+      },
+      "binding": null,
+      "threshold": "window_open",
+      "genre_scope": null
+    },
+    {
+      "template_ref": "F2",
+      "metric": "moon_illumination_fraction",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "月照 ≤30%（「無月」語義）：月光壓過螢光——滿月下的溪谷看不到螢。月亮在地平線下時整條件自動成立（MOON_BELOW_HORIZON_PASS，CL-DATA-72 batch A 同語義）。",
+        "en": "Moon illumination <= 30% (the 'no moon' semantics): moonlight overwhelms firefly glow - a full-moon valley shows no fireflies. With the moon below the horizon the condition passes outright (MOON_BELOW_HORIZON_PASS, CL-DATA-72 batch-A semantics).",
+        "ja": "月照 ≤30%（「無月」の意味論）：月光はホタルの光を圧する — 満月の渓谷にホタルは見えない。月が地平線下なら条件は自動成立（MOON_BELOW_HORIZON_PASS、CL-DATA-72 batch A 同語義）。"
+      },
+      "binding": null,
+      "threshold": 0.3,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "F3",
+      "metric": "relative_humidity_2m",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "gte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "相對濕度 ≥85%（高濕）：螢火蟲夜間活動與發光強度隨濕度升高——乾燥夜螢況銳減；溪谷森林點的常態帶。provisional，校準第一優先。",
+        "en": "Relative humidity >= 85% (high humidity): firefly night activity and glow intensity rise with humidity - dry nights cut the display sharply; this is the normal band of stream-forest sites. Provisional, first calibration priority.",
+        "ja": "相対湿度 ≥85%（高湿度）：ホタルの夜間活動・発光強度は湿度とともに上がる — 乾いた夜は激減。渓谷・森林ポイントの平常帯。暫定値・較正最優先。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "relative_humidity_2m_percent",
+        "role": "MID"
+      },
+      "threshold": 85.0,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "F4",
+      "metric": "temperature_2m",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "gte",
+      "unit": "°C",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "氣溫 ≥15°C：低溫抑制螢火蟲活動與發光（窗內寒流夜螢況近乎歸零）；15°C 是 TW 螢季的可觀察下限。provisional。",
+        "en": "Air temp >= 15 C: low temperature suppresses firefly activity and glow (cold-snap nights inside the window are near zero); 15 C is the observable floor of the TW firefly season. Provisional.",
+        "ja": "気温 ≥15°C：低温はホタルの活動・発光を抑える（窓内の寒波夜はほぼゼロ）。15°C は台湾ホタル季の観察下限。暫定値。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "temperature_2m_c",
+        "role": "MID"
+      },
+      "threshold": 15.0,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "F5",
+      "metric": "precipitation",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lt",
+      "unit": "mm/h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "無雨（<0.2 mm/h）：降雨打斷螢火蟲發光與觀察（沿用已審通用門檻）。",
+        "en": "No rain (< 0.2 mm/h): rain interrupts firefly display and observation (carried-over generic threshold).",
+        "ja": "無雨（<0.2 mm/h）：雨はホタルの発光と観察を中断する（既承認の一般閾値）。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_mm_h",
+        "role": "MID"
+      },
+      "threshold": 0.2,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "F6",
+      "metric": "astronomical_darkness",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "none",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "夜窗＝天文暗（太陽仰角 ≤−18°）：螢火蟲光在人間光源與天光下不可見——觀察窗需要完全暗夜（次小時取樣，任一取樣成立）。",
+        "en": "Night window = astronomical darkness (sun elevation <= -18 deg): firefly glow is invisible under artificial light and sky glow - the observing window needs a fully dark night (sub-hour sampled; any sample qualifies).",
+        "ja": "夜窓＝天文暗（太陽高度 ≤−18°）：人工光・天光の下ではホタルの光は見えない — 完全な暗夜が観察窓（サブアワー・サンプリング、1サンプルでも成立）。"
+      },
+      "binding": null,
+      "threshold": null,
+      "genre_scope": null
+    }
+  ],
+  "owner_review": "CL-DATA-74 owner-approved data pack 2026-11-16: firefly gates per ticket (season window 4-6月 TW via the seasonal-calendar bridge, moon <= 30% with the batch-A below-horizon pass, humidity >= 85%, temp >= 15 C, no rain, astronomical darkness). Mounted on low-altitude stream-forest spots."
+}

@@ -271,7 +271,7 @@ class TestContracts(unittest.TestCase):
         self._validate(WAVE1_CONTRACTS)
 
     def test_all_wave2_contracts_exist_and_validate(self):
-        self.assertEqual(len(WAVE2_CONTRACTS), 23)  # CL-DATA-73 re-anchor: 22 -> 23 (tw-151-P02 內洞 misty_forest mount rides the wave2 range)
+        self.assertEqual(len(WAVE2_CONTRACTS), 22)  # CL-INT-192 re-anchor: the merged tree keeps the tw-151-P02 firefly mount at P02 (CL-DATA-74 exclusion) and the CL-DATA-73 misty mount moves to tw-151-P03, outside the P01/P02 wave scan (22, as pre-73) (tw-151-P02 內洞 misty_forest mount rides the wave2 range)
         self._validate(WAVE2_CONTRACTS)
 
     def test_all_wave3_contracts_exist_and_validate(self):
@@ -320,7 +320,7 @@ class TestContracts(unittest.TestCase):
             doc = load(f"data/v2/opportunities/{oid}.json")
             claim = doc["evidence_claims"][0]
             if claim["audit_status"] == "UNKNOWN" and not claim["evidence_refs"]:
-                # CL-DATA-73: misty_forest mounts (tw-151-P02 / tw-177-P02)
+                # CL-DATA-73: misty_forest mounts (tw-151-P03 / tw-177-P02; CL-INT-192 renumber)
                 # ride inside the wave ranges and carry no web-evidence refs
                 # by design (honest no-evidence-yet, owner ticket directive) —
                 # require the honest marker instead of a fabricated citation.

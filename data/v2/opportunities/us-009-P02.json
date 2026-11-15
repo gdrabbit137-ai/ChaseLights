@@ -1,0 +1,249 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "us-009-P02",
+ "place_id": "us-009",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "Tunnel View Yosemite Valley snow scene",
+  "en": "Tunnel View Yosemite Valley snow scene",
+  "ja": "トンネルビュー・ヨセミテ渓谷の雪景色"
+ },
+ "description_i18n": {
+  "zh-TW": "雪季寒流過境的優勝美地隧道觀景臺：Valley floor、El Capitan 與 Bridalveil Falls 披雪的經典全景；雪季窗內地面有雪、氣溫≤1°C、能見度≥3km 時成立。",
+  "en": "Tunnel View after a cold snap in snow season: the classic panorama with the Valley floor, El Capitan and Bridalveil Falls under snow - qualifies inside the snow-season window with ground snow, temp <= 1 C, visibility >= 3 km.",
+  "ja": "雪季の寒波通過後のトンネルビュー：渓谷底・エル・キャピタン・ブライダルベール滝が雪を被る定番パノラマ — 雪季窓内で地面に雪、気温 ≤1°C、視程 ≥3 km のとき成立。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-us-009-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -119.676861,
+      37.715553
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-38 2026-11-09: geometry no-conflict — no conflicting authoritative coordinate found in this pass; provisional/derived geometry retained as-is (documented, batch4-progress.json)",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [
+    "e-d38-access-tunnel-view-yose"
+   ],
+   "access_notes_i18n": {
+    "zh-TW": "隧道觀景臺（Tunnel View）位於加州優勝美地國家公園41號公路Wawona隧道東口，全年開車可達，設有含無障礙車位的專用停車場與短距離鋪面步道至觀景平臺。旺季上午9時後谷地停車通常滿位，建議提早。冬季谷區以上道路可能需雪鏈。夜間拍攝請使用專用停車場而非路肩，拍攝El Capitan、Bridalveil Fall與Half Dome時避免燈光影響車道。",
+    "en": "Tunnel View sits at the east end of the Wawona Tunnel on Highway 41, Yosemite National Park — reachable by vehicle year-round, with designated parking including accessible spaces and a short paved walk to the viewing plaza. Yosemite Valley parking is usually full after 9 a.m. in busy months; arrive early. Trails and roads above the valley may require tire chains in winter. Night: the overlook is roadside with its own lot — use it rather than stopping on the highway shoulder, and keep lights off the roadway while shooting El Capitan, Bridalveil Fall and Half Dome.",
+    "ja": "トンネルビューはヨセミテ国立公園のハイウェイ41、Wawonaトンネル東端に位置し、通年車でアクセス可能。バリアフリー枠を含む専用駐車場と短い舗装歩道が展望プラザへ続く。繁忙期は9時以降、ヨセミテバレーの駐車は満車になりがちなので早めの到着を。冬季は渓谷より高地の道路でタイヤチェーンが必要な場合がある。夜間は路肩ではなく専用駐車場を利用し、El Capitan・Bridalveil Fall・Half Dome撮影時は車道に光を漏らさないこと。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動。",
+    "en": "Follow on-site safety guidance.",
+    "ja": "現地の安全指示に従ってください。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-us-009-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "Tunnel View Yosemite Valley snow scene",
+    "en": "Tunnel View Yosemite Valley snow scene",
+    "ja": "トンネルビュー・ヨセミテ渓谷の雪景色"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -119.676861,
+      37.715553
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [
+    "e-d38-access-tunnel-view-yose"
+   ],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-us-009-P02-01-01",
+   "camera_context_id": "CZ-us-009-P02-01",
+   "target_id": "SG-us-009-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Subject-specific angles/distance not re-verified in CL-DATA-74 (same viewpoint geometry as the sibling subject)."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-us-009-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 37.715553,
+   "lon": -119.676861,
+   "label_i18n": {
+    "zh-TW": "優勝美地隧道觀景臺",
+    "en": "Yosemite Tunnel View",
+    "ja": "ヨセミテ トンネルビュー"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-us-009-P02-v1",
+  "status": "draft",
+  "genre_template": "snow_scene",
+  "template_version": "snow_scene-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-us-009-P02-S1",
+    "role": "REQUIRED",
+    "domain": "HYDROLOGY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "snow_cover_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-009-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "地面有雪（派生三級 snow_cover_state：snowing/snow_covered/none；僅 none 否決）。票面語義「snowfall>0 或 snow_depth>0」由派生層摺疊為單一狀態——OR，不是 AND；降雪中地面未積也成立。兩個雪欄位皆缺 → 誠實 not_evaluatable（fail-closed）。",
+     "en": "Ground snow (derived three-level snow_cover_state: snowing/snow_covered/none; only 'none' vetoes). The ticket OR semantics (snowfall > 0 OR snow_depth > 0) collapses into this single state - an OR, not an AND; falling snow with a bare ground still qualifies. Both snow fields missing -> honestly not_evaluatable (fail-closed).",
+     "ja": "地面の雪（派生3段階 snow_cover_state：snowing/snow_covered/none；none のみ否決）。OR 意味論は派生層で単一状態に畳む—ANDではなくOR。降雪中で積雪なしでも成立。両雪欄欠損は誠実に not_evaluatable（fail-closed）。"
+    }
+   },
+   {
+    "id": "C-us-009-P02-S2",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "temperature_2m",
+    "operator": "lte",
+    "threshold": 1.0,
+    "unit": "°C",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-009-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:temperature_2m_c|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "氣溫 ≤1°C：雪面不融化——氣溫高於 1°C 時積雪迅速消融、雪面濕暗反光失格；1°C 給融雪反光的邊際餘量。provisional。",
+     "en": "Air temp <= 1 C: the snowpack stays frozen - above 1 C lying snow melts fast and a wet, dark surface loses the snow look; 1 C keeps a marginal band for refreezing-melt surfaces. Provisional.",
+     "ja": "気温 ≤1°C：雪面が融けない — 1°C超では積雪が急速に融け湿った暗い面になり雪景色が失格。1°Cは再凍結・融解の境界の余裕。暫定値。"
+    }
+   },
+   {
+    "id": "C-us-009-P02-S3",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 3.0,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-009-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥3 km：雪中可拍的界線——暴雪/白牆（ホワイトアウト）否決，飄雪本身不否決（雪中拍攝反而是氛圍加分；jp-047 樹氷語義同源）。",
+     "en": "Visibility >= 3 km: the shootable-in-snow line - blizzard/whiteout vetoes, falling snow itself does not (shooting in falling snow is atmosphere-positive; same semantics as the jp-047 snow-monster gate).",
+     "ja": "視程 ≥3 km：雪中撮影可の境界 — 吹雪・ホワイトアウトは否決、降雪自体は否決しない（雪中撮影はむしろ雰囲気加点。jp-047 樹氷と同語義）。"
+    }
+   },
+   {
+    "id": "C-us-009-P02-S4",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-009-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（window_open/window_closed，例年窗 12-01~02-28 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：雪季窗是本題材的硬性約束（CL-DATA-74 owner 核可資料包）。",
+     "en": "Seasonal-window verdict (window_open/window_closed; typical window 12-01~02-28 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): the season window is this subject's hard constraint (CL-DATA-74 owner-approved data pack).",
+     "ja": "季節窓判定（window_open/window_closed。例年窓 12-01~02-28 は seasonal-calendar.json から、実況優先、両方なければ誠実に not_evaluatable）：季節窓は本題材のハード制約（CL-DATA-74 オーナー承認データパック）。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "us-009-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d38-access-tunnel-view-yose"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): subject mounted on the existing place with the sibling subject's verified geometry/evidence; conditions per the snow_scene template. CL-DATA-38 batch4 access verification 2026-11-09: transport/parking/hours/closures/permits verified against official sources (https://www.nps.gov/places/000/tunnel-view.htm | https://www.nps.gov/yose/planyourvisit/viewpoints.htm); unverifiable on-site details left to on-site notices (honest unknown)"
+  }
+ ],
+ "readiness": {
+  "research_level": "R0",
+  "gaps": [
+   "RESEARCH_GAP",
+   "GEOMETRY_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "CL-DATA-74-mount",
+  "imported_at": "2026-10-21T20:51:45Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

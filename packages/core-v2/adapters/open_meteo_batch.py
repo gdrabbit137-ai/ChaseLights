@@ -30,6 +30,11 @@ FORECAST_FIELDS = [
     "temperature_2m", "dew_point_2m", "relative_humidity_2m",
     "cloudcover_low", "cloudcover_mid", "cloudcover_high", "cloudcover",
     "wind_speed_10m", "visibility", "precipitation", "precipitation_probability",
+    # CL-DATA-74: snow-line fields for the snow_scene family (snowfall cm/h,
+    # snow_depth m). A provider/model that does not carry a field leaves its
+    # cells UNAVAILABLE — the derived snow_cover_state then fails closed as
+    # UNKNOWN, never a fabricated "no snow".
+    "snowfall", "snow_depth",
     "temperature_925hPa", "relative_humidity_925hPa",
     "temperature_850hPa", "relative_humidity_850hPa", "wind_speed_850hPa",
     "temperature_700hPa", "relative_humidity_700hPa", "wind_speed_700hPa",
@@ -162,6 +167,11 @@ def fetch_place(lat, lon, forecast_hours):
             "visibility": _cell(_km(_at(hourly, "visibility", index)), "km", minimum=0),
             "precipitation": _cell(_at(hourly, "precipitation", index), "mm", minimum=0),
             "precipitation_probability": _cell(_at(hourly, "precipitation_probability", index), "%", minimum=0, maximum=100),
+            # CL-DATA-74: snow fields (Open-Meteo units: snowfall cm/h,
+            # snow_depth m). Cells stay UNAVAILABLE when the provider omits
+            # them — fail-closed downstream, never zero-filled.
+            "snowfall": _cell(_at(hourly, "snowfall", index), "cm", minimum=0),
+            "snow_depth": _cell(_at(hourly, "snow_depth", index), "m", minimum=0),
             "relative_humidity_925hpa": _cell(_at(hourly, "relative_humidity_925hPa", index), "%", minimum=0, maximum=100),
             "relative_humidity_850hpa": _cell(_at(hourly, "relative_humidity_850hPa", index), "%", minimum=0, maximum=100),
             "wind_speed_850hpa": _cell(_at(hourly, "wind_speed_850hPa", index), "m/s", minimum=0),

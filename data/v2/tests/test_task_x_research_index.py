@@ -282,7 +282,7 @@ class ResearchIndexTests(unittest.TestCase):
             # a0ad3da55 = the batch-A closure commit: the 46 reflection-family
             # contracts moved to operator 'none' (only 'unfit' vetoes).
             'a0ad3da5583a35268522435276a04d6a0252a159',
-            # CL-DATA-73: the 12 misty_forest mount records (tw-024-P06 …
+            # CL-DATA-73: the 12 misty_forest mount records (tw-024-P07 …
             # tw-177-P02) pinned to the mount commit carrying the trilingual
             # contracts (blob+sha256 provenance verified by
             # research_index --git-provenance on the merged tree).

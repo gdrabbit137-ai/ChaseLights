@@ -1,0 +1,247 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "tw-199-P02",
+ "place_id": "tw-199",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "利吉惡地月光地景",
+  "en": "Moonlit landscape of the Lichi badlands",
+  "ja": "利吉悪地の月光景観"
+ },
+ "description_i18n": {
+  "zh-TW": "滿月前後的月光地景：利吉惡地泥岩月柱在斜射月光下的紋理與谷線剪影（月仰角 5°–30° 窗）——月照≥85%、總雲≤30%、無雨時成立；地景前景語義。",
+  "en": "A moonlit landscape around full moon: the Lichi melange pillars under raking moonlight - texture and gully silhouettes (moon elevation 5-30 deg); needs illumination >= 85%, total cloud <= 30% and no rain; foreground-landscape semantics.",
+  "ja": "満月前後の月光景観：利吉悪地の泥岩ピラーが斜めの月光で質感と谷のシルエットを見せる（月高度 5°〜30°）— 月照 ≥85%、全雲量 ≤30%、無雨が必要。前景地景の語義。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-199-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.143347,
+      22.8150524
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-66 wave-5 admission web verification 2026-11-11 (OSM Nominatim 利吉月世界（台東卑南利吉村利吉路，scree 節點）；海拔查無權威源誠實留空; source URLs: https://www.openstreetmap.org/search?query=%E5%88%A9%E5%90%89%E6%9C%88%E4%B8%96%E7%95%8C ; https://www.forest.gov.tw/0008143). Scoreless intake (owner ruling 2026-11-11): admission = verification + 5km subject-disjoint dedupe; score fields empty.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "利吉惡地（林業及自然保育署地質公園官方列名，利吉層泥岩惡地形）與卑南溪畔月世界景觀（OSM scree 節點；海拔誠實留空）；清單主題的 miscanthus 芒花季窗查無本站可繫結的權威季節資料源，誠實不建時間窗契約——本契約為惡地地質主體；與既有 tw-090 加路蘭海岸遊憩區（5.2km）題材錯位——本點為內陸泥岩惡地。（開放/營運狀態以現場公告為準。）",
+    "en": "The Liji mudstone badland (officially listed geopark by the Forestry and Nature Conservation Agency; Liji-layer melange terrain) above the Beinan river (OSM scree node). The list's miscanthus window has no authoritative seasonal source we can bind, so no time-window contract - honestly; disjoint from tw-090 Jialulan's coastal subject 5.2 km away (inland mudstone badland vs coastal recreation area). (Opening/operating status follows on-site notices.)",
+    "ja": "利吉悪地（林業保育署の地質公園公式、利吉層の泥岩悪地形）（OSM）。芒草の季節窓は権威源がなく誠実に不構築。加路蘭とは題材が別。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-199-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "利吉惡地月光地景",
+    "en": "Moonlit landscape of the Lichi badlands",
+    "ja": "利吉悪地の月光景観"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.143347,
+      22.8150524
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-66 wave-5 admission web verification 2026-11-11 (OSM Nominatim 利吉月世界（台東卑南利吉村利吉路，scree 節點）；海拔查無權威源誠實留空; source URLs: https://www.openstreetmap.org/search?query=%E5%88%A9%E5%90%89%E6%9C%88%E4%B8%96%E7%95%8C ; https://www.forest.gov.tw/0008143). Scoreless intake (owner ruling 2026-11-11): admission = verification + 5km subject-disjoint dedupe; score fields empty.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-199-P02-01-01",
+   "camera_context_id": "CZ-tw-199-P02-01",
+   "target_id": "SG-tw-199-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Subject-specific angles/distance not re-verified in CL-DATA-74 (same viewpoint geometry as the sibling subject)."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-199-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 22.8150524,
+   "lon": 121.143347,
+   "label_i18n": {
+    "zh-TW": "利吉惡地",
+    "en": "Liji badland by the Beinan river (Taitung)",
+    "ja": "利吉惡地"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-199-P02-v1",
+  "status": "draft",
+  "genre_template": "moonlit_scene",
+  "template_version": "moonlit_scene-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-199-P02-M1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "moon_illumination_fraction",
+    "operator": "gte",
+    "threshold": 0.85,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-199-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月照 ≥85%（滿月前後）：月光地景需要滿月級照度才能把地景前景打亮到可拍——滿月±2–3 天的窗口；月照低於 85% 時光量不足以撐起地景（新月日本條件誠實否決）。",
+     "en": "Moon illumination >= 85% (around full moon): a moonlit landscape needs full-moon-grade illumination to lift a foreground to shootable - a +/- 2-3 day full-moon window; below 85% the light cannot carry the landscape (a new-moon day is an honest FAIL for this condition).",
+     "ja": "月照 ≥85%（満月前後）：月光景観には満月級の照度で前景を撮影可能な明るさにする必要がある — 満月±2〜3日の窓。85%未満では地景を支える光量がない（新月日は本条件が誠実に否決）。"
+    }
+   },
+   {
+    "id": "C-tw-199-P02-M2",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "moon_altitude",
+    "operator": "between",
+    "threshold": [
+     5,
+     30
+    ],
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-199-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月仰角 5°–30° 窗（civil_twilight 引擎同族的月出沒數學）：月升後 5° 以上才有可用的斜射月光打亮山脊/海岸前景；30° 以上月光近乎頂光、地景變平淡——月光地景的黃金仰角帶。月亮在地平線下本條件誠實否決（同時封住 M1 月下自動成立的旁路）。",
+     "en": "Moon elevation 5-30 deg window (the moon rise/set math family of the civil_twilight engine): above 5 deg after moonrise the raking moonlight lifts a ridge/coast foreground; above 30 deg the light goes near-top and the landscape flattens - the golden-elevation band of moonlight. A moon below the horizon is an honest FAIL here (also closing the M1 below-horizon auto-pass bypass).",
+     "ja": "月高度 5°〜30° の窓（civil_twilight エンジン同族の月出没数学）：月出後 5°以上で斜めの月光が尾根・海岸の前景を照らす。30°超はほぼ頂光になり平坦 — 月光景観の黄金仰角帯。地平線下の月は本条件が誠実に否決（M1 の月下自動成立の抜け道も閉じる）。"
+    }
+   },
+   {
+    "id": "C-tw-199-P02-M3",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 30,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-199-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "總雲量 ≤30%（雲量低）：月光是唯一光源——雲幕直接關掉地景照明；30% 允許零星散雲作構圖元素。",
+     "en": "Total cloud <= 30% (low cloud): moonlight is the only light source - a cloud deck switches the landscape lighting off; 30% keeps room for scattered clouds as compositional elements.",
+     "ja": "全雲量 ≤30%（低雲量）：月光が唯一の光源 — 雲幕は地景の照明を消す。30% は構図要素としての散在雲を許容。"
+    }
+   },
+   {
+    "id": "C-tw-199-P02-M4",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "condition_tier": "MAIN",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-199-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+    "validation_status": "provisional",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審通用門檻；夜間海岸/山脊的濕滑另由存取安全分擔）。",
+     "en": "Precipitation < 0.2 mm/h: shooting unaffected (carried-over generic threshold; night-time wet ridge/coast slip stays an access-safety matter).",
+     "ja": "降水 <0.2 mm/h：撮影への影響なし（既承認の一般閾値。夜間の尾根・海岸の滑りはアクセス安全が担う）。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-199-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d66-web-liji-badland"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-74 owner-approved five-genre data pack (2026-11-16): subject mounted on the existing place with the sibling subject's verified geometry/evidence; conditions per the moonlit_scene template. CL-DATA-66 wave-5 scoreless admission (owner ruling 2026-11-11: verification + 5km subject-disjoint dedupe; NO rubric/AGLI scoring); coordinates/elevation web-verified 2026-11-11 (sources in camera derivation_method and data/v2/audits/cl-data-66_web_evidence.json); 查無權威源之海拔誠實留空 (null); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-66 Tier-A wave-5 intake (owner-list streams, scoreless 2026-11-11)",
+  "source_revision": "CL-DATA-74-mount",
+  "imported_at": "2026-11-11T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

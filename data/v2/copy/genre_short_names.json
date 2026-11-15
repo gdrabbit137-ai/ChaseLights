@@ -1,9 +1,9 @@
 {
  "schema_version": "1.0",
  "ticket": "CL-UI-62",
- "purpose": "Genre-family short names (2-3 char zh-TW card labels; en/ja equivalents). Derived from the canonical template title_i18n where a template file exists; inline genres follow their shipped opportunity name_i18n. Covers EVERY genre_template value present in data/v2/opportunities and the evaluation bundles (CL-DATA-73: + misty_forest).",
+ "purpose": "Genre-family short names (2-3 char zh-TW card labels; en/ja equivalents). Derived from the canonical template title_i18n where a template file exists; inline genres follow their shipped opportunity name_i18n. Covers EVERY genre_template value present in data/v2/opportunities and the evaluation bundles (CL-DATA-73: + misty_forest; CL-DATA-74: + alpenglow/snow_scene/firefly/star_trails/moonlit_scene).",
  "sources": [
-  "data/v2/templates/*.json title_i18n (16 template genres)",
+  "data/v2/templates/*.json title_i18n (21 template genres)",
   "data/v2/opportunities/*.json condition_contract.genre_template (inline genres: blue_tears, snow_ice, snow_ice_night, tidal, volcanic_glow, drift_ice)"
  ],
  "note": "seasonal_plant is a FAMILY label covering 花季/楓紅/芒草/桐花/茶園 etc.; per-species wording stays in the opportunity name_i18n.",
@@ -117,6 +117,31 @@
    "zh-TW": "迷霧",
    "en": "Misty Forest",
    "ja": "霧の森"
+  },
+  "alpenglow": {
+   "zh-TW": "金山",
+   "en": "Alpenglow",
+   "ja": "山暉き"
+  },
+  "firefly": {
+   "zh-TW": "螢火蟲",
+   "en": "Firefly",
+   "ja": "ホタル"
+  },
+  "moonlit_scene": {
+   "zh-TW": "月光",
+   "en": "Moonlit",
+   "ja": "月光"
+  },
+  "snow_scene": {
+   "zh-TW": "雪景",
+   "en": "Snow scene",
+   "ja": "雪景色"
+  },
+  "star_trails": {
+   "zh-TW": "星軌",
+   "en": "Star trails",
+   "ja": "星の軌跡"
   }
  }
 }

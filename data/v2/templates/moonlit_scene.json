@@ -1,0 +1,119 @@
+{
+  "template_id": "moonlit_scene",
+  "version": "0.1",
+  "status": "defined",
+  "title_i18n": {
+    "zh-TW": "月光地景",
+    "en": "Moonlit scene",
+    "ja": "月光景観"
+  },
+  "definition_i18n": {
+    "zh-TW": "月光地景題材：滿月前後（月照 ≥85%）＋月仰角 5°–30° 窗（civil_twilight 引擎同族月出沒數學——月升後光斜射打亮前景、過高則光平淡；5° 以下仰角不足）＋雲量低（總雲 ≤30%）＋掛載地點語義限山脊/海岸/地景前景點。月光是本題材唯一光源，白天與無月夜誠實不成立。",
+    "en": "Moonlit-landscape subject: around full moon (illumination >= 85%) + a moon-elevation 5-30 deg window (same rise/set math family as the civil_twilight engine - low moonlight rakes the foreground, higher washes it flat; below 5 deg the light is insufficient) + low cloud (total <= 30%) + mounting semantics restricted to ridge/coast/foreground-landscape spots. Moonlight is this subject's only light source: daytime and moonless nights honestly never qualify.",
+    "ja": "月光景観題材：満月前後（月照 ≥85%）＋月高度 5°〜30° の窓（civil_twilight エンジン同族の月出没数学 — 低い月光が前景を斜めに照らし、高すぎると平坦。5°未満は光量不足）＋低雲量（全雲 ≤30%）＋マウント意味論は尾根・海岸・前景地景ポイントに限定。月光が唯一の光源で、昼と月のない夜は誠実に不成立。"
+  },
+  "instantiated_by": [],
+  "params": [],
+  "conditions": [
+    {
+      "template_ref": "M1",
+      "metric": "moon_illumination_fraction",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "gte",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "月照 ≥85%（滿月前後）：月光地景需要滿月級照度才能把地景前景打亮到可拍——滿月±2–3 天的窗口；月照低於 85% 時光量不足以撐起地景（新月日本條件誠實否決）。",
+        "en": "Moon illumination >= 85% (around full moon): a moonlit landscape needs full-moon-grade illumination to lift a foreground to shootable - a +/- 2-3 day full-moon window; below 85% the light cannot carry the landscape (a new-moon day is an honest FAIL for this condition).",
+        "ja": "月照 ≥85%（満月前後）：月光景観には満月級の照度で前景を撮影可能な明るさにする必要がある — 満月±2〜3日の窓。85%未満では地景を支える光量がない（新月日は本条件が誠実に否決）。"
+      },
+      "binding": null,
+      "threshold": 0.85,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "M2",
+      "metric": "moon_altitude",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "between",
+      "unit": "°",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "月仰角 5°–30° 窗（civil_twilight 引擎同族的月出沒數學）：月升後 5° 以上才有可用的斜射月光打亮山脊/海岸前景；30° 以上月光近乎頂光、地景變平淡——月光地景的黃金仰角帶。月亮在地平線下本條件誠實否決（同時封住 M1 月下自動成立的旁路）。",
+        "en": "Moon elevation 5-30 deg window (the moon rise/set math family of the civil_twilight engine): above 5 deg after moonrise the raking moonlight lifts a ridge/coast foreground; above 30 deg the light goes near-top and the landscape flattens - the golden-elevation band of moonlight. A moon below the horizon is an honest FAIL here (also closing the M1 below-horizon auto-pass bypass).",
+        "ja": "月高度 5°〜30° の窓（civil_twilight エンジン同族の月出没数学）：月出後 5°以上で斜めの月光が尾根・海岸の前景を照らす。30°超はほぼ頂光になり平坦 — 月光景観の黄金仰角帯。地平線下の月は本条件が誠実に否決（M1 の月下自動成立の抜け道も閉じる）。"
+      },
+      "binding": null,
+      "threshold": [
+        5,
+        30
+      ],
+      "genre_scope": null
+    },
+    {
+      "template_ref": "M3",
+      "metric": "cloud_cover_total",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "總雲量 ≤30%（雲量低）：月光是唯一光源——雲幕直接關掉地景照明；30% 允許零星散雲作構圖元素。",
+        "en": "Total cloud <= 30% (low cloud): moonlight is the only light source - a cloud deck switches the landscape lighting off; 30% keeps room for scattered clouds as compositional elements.",
+        "ja": "全雲量 ≤30%（低雲量）：月光が唯一の光源 — 雲幕は地景の照明を消す。30% は構図要素としての散在雲を許容。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_total_percent",
+        "role": "MID"
+      },
+      "threshold": 30,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "M4",
+      "metric": "precipitation",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lt",
+      "unit": "mm/h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "降雨 <0.2 mm/h：拍攝本身不受影響（沿用已審通用門檻；夜間海岸/山脊的濕滑另由存取安全分擔）。",
+        "en": "Precipitation < 0.2 mm/h: shooting unaffected (carried-over generic threshold; night-time wet ridge/coast slip stays an access-safety matter).",
+        "ja": "降水 <0.2 mm/h：撮影への影響なし（既承認の一般閾値。夜間の尾根・海岸の滑りはアクセス安全が担う）。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "precipitation_mm_h",
+        "role": "MID"
+      },
+      "threshold": 0.2,
+      "genre_scope": null
+    }
+  ],
+  "owner_review": "CL-DATA-74 owner-approved data pack 2026-11-16: moonlit gates per ticket (illumination >= 85%, moon elevation 5-30 deg on the civil_twilight-family moon math, low cloud). Mounting restricted to ridge/coast/foreground-landscape spots."
+}
