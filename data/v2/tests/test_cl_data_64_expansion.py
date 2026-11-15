@@ -220,14 +220,14 @@ class TestRuntime(unittest.TestCase):
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
         self.assertEqual(ev["place_count"], 460)  # CL-CI-36 re-anchor: cron drops the 6 CL-DATA-62-retired places (tw-068/083/084, us-075/076/077; -13 opps, PRODUCT_RETIRED is honest); CL-CI-36 dedup fix removes duplicate multi-coordinate-group rows (tw-002/us-005/us-011/us-013 listed twice); 465/697 -> 460/690
-        self.assertEqual(ev["opportunity_count"], 690)
+        self.assertEqual(ev["opportunity_count"], 707)  # CL-DATA-74 re-anchor: 690 + 17 five-genre mounts
         self.assertEqual(ev["forecast_hours"], 168)
         self.assertEqual(ev["fetch_failures"], [])
 
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
         self.assertEqual(len(cat["places"]), 460)  # CL-DATA-66 wave7 re-anchor: 460 places
-        self.assertEqual(len(cat["opportunities"]), 692)  # CL-DATA-66 wave1-7 re-anchor (86 places / 132 contracts)
+        self.assertEqual(len(cat["opportunities"]), 709)  # CL-DATA-74 re-anchor: 692 + 17 five-genre mounts  # CL-DATA-66 wave1-7 re-anchor (86 places / 132 contracts)
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(NEW_CONTRACTS) <= oids)
 

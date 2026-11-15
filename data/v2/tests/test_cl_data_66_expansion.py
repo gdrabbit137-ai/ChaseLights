@@ -59,7 +59,9 @@ def _contracts(rng, suffixes=(1, 2)):
 
 
 WAVE1_CONTRACTS = _contracts(range(125, 147))
-WAVE2_CONTRACTS = _contracts(range(147, 162))
+# CL-DATA-74: the five-genre mount contracts are NOT intake-wave contracts — the tw-151-P02 firefly mount shares a place id with wave2 but its subject belongs to the owner-approved five-genre pack.
+CL_DATA_74_MOUNTS = {"tw-151-P02"}
+WAVE2_CONTRACTS = [o for o in _contracts(range(147, 162)) if o not in CL_DATA_74_MOUNTS]
 WAVE3_CONTRACTS = _contracts(range(162, 174))
 WAVE4_CONTRACTS = _contracts(range(174, 184))
 NIGHT_SKY_IDS = {"tw-140-P02", "tw-144-P02"}
@@ -482,13 +484,13 @@ class TestRuntime(unittest.TestCase):
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
         self.assertEqual(ev["place_count"], 460)  # CL-CI-36 re-anchor: cron drops the 6 CL-DATA-62-retired places (tw-068/083/084, us-075/076/077; -13 opps, PRODUCT_RETIRED is honest); CL-CI-36 dedup fix removes duplicate multi-coordinate-group rows (tw-002/us-005/us-011/us-013 listed twice); 465/697 -> 460/690
-        self.assertEqual(ev["opportunity_count"], 690)
+        self.assertEqual(ev["opportunity_count"], 707)  # CL-DATA-74 re-anchor: 690 + 17 five-genre mounts
         self.assertEqual(ev["forecast_hours"], 168)
 
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
         self.assertEqual(len(cat["places"]), 460)
-        self.assertEqual(len(cat["opportunities"]), 692)
+        self.assertEqual(len(cat["opportunities"]), 709)  # CL-DATA-74 re-anchor: 692 + 17 five-genre mounts
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(WAVE1_CONTRACTS) <= oids)
         self.assertTrue(set(WAVE2_CONTRACTS) <= oids)
