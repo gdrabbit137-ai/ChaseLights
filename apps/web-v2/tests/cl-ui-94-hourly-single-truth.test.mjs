@@ -141,6 +141,6 @@ test('CL-UI-94 (4): 歷史 folds into the time column — small （已過）, ne
   assert.ok(appSource.includes("clui94_past:'（経過）'"), 'ja wording');
 });
 
-test('CL-UI-94 (5): cache-bust advanced — index.html serves app.js + app.css at ?v=clui96', () => {
-  assert.equal((indexSource.match(/\?v=clui96/g) || []).length, 2, 'app.js + app.css both at clui96');
+test('CL-UI-94 (5): cache-bust advanced — index.html serves app.js + app.css at ?v=clui97', () => {
+  assert.equal((indexSource.match(/\?v=clui97/g) || []).length, 2, 'app.js + app.css both at clui97');
 });
