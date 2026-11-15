@@ -7,7 +7,8 @@
 <style>
 /* ============================================================
    DESIGN-3 mockup 3/3 — 詳情彈窗（知識查詢層）
-   結構：今日速覽 → 8 日方框 → 條件 ×N 摺疊 → 拍攝位置 → 指南
+   結構：現在去會怎樣（DESIGN-5：與卡片同源 tier＋24h 迷你色帶＋下一個符合時刻）
+   → 8 日方框（含所選日期題材列）→ 條件 ×N 摺疊 → 拍攝位置 → 指南
    契約：綠=推薦 · 黃=可拍 · 灰紅=不宜
    ============================================================ */
 :root{
@@ -52,18 +53,42 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .m-head .r{margin-left:auto;display:flex;align-items:center;gap:var(--sp-2)}
 .tier{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:999px;font-size:var(--fs-12);font-weight:600}
 .tier-rec{background:var(--green-bg);color:var(--green-text);box-shadow:inset 0 0 0 1px var(--green-border)}
+.tier-mid{background:var(--amber-bg);color:var(--amber-text);box-shadow:inset 0 0 0 1px var(--amber-border)}
 .star{font-size:16px;color:var(--text-3)}.star.fav{color:var(--amber)}
 .close{width:44px;height:44px;border-radius:var(--r-sm);border:1px solid var(--border);background:var(--bg-2);color:var(--text-2);font-size:15px;flex:none}
 
-/* 今日速覽 */
+/* 現在去會怎樣（DESIGN-5 — 與卡片同源 tier；面板色 = tier 語義：○ 可拍=amber / ✓=green / ✗=red） */
 .quick{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;padding:var(--sp-3) var(--sp-4);
   background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--r-md);margin-bottom:var(--sp-4)}
+.quick.mid{background:var(--amber-bg);border-color:var(--amber-border)}
+.quick.bad{background:var(--red-bg);border-color:var(--red-border)}
 .quick .q-t{font-size:var(--fs-13);font-weight:600;color:var(--green-text);flex:none}
+.quick.mid .q-t{color:var(--amber-text)}
+.quick.bad .q-t{color:var(--red-text)}
 .quick .q-chip{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:999px;
   background:rgba(34,197,94,.16);color:var(--green-text);font-size:var(--fs-12);font-weight:600}
+.quick.mid .q-chip{background:rgba(245,158,11,.16);color:var(--amber-text)}
+.quick.bad .q-chip{background:rgba(239,68,68,.14);color:var(--red-text)}
 .quick .q-w{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-1)}
+/* 今日 24h 迷你色帶 — 與預報頁同源（逐時 baseline tier，三色語義同卡片/8 日格） */
+.quick .q-band{display:flex;gap:2px;height:14px;flex:1 1 240px;min-width:180px}
+.quick .q-band i{flex:1;min-width:3px;border-radius:2px;background:var(--bg-3);cursor:default}
+.quick .q-band i.ok{background:var(--green)}
+.quick .q-band i.mid{background:var(--amber)}
+.quick .q-band i.bad{background:var(--red)}
+.quick .q-next{font-size:var(--fs-12);color:var(--text-2)}
+.quick .q-next .q-w{font-weight:600;color:var(--amber-text)}
 .quick .q-wx{margin-left:auto;font-size:var(--fs-12);color:var(--text-2)}
 .quick .q-wx .sep{color:var(--text-3)}
+/* 所選日期題材列（DESIGN-5：題材層判定降級至此，不再佔速覽） */
+.day-sub{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin-top:var(--sp-2)}
+.day-sub .ds{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;
+  border:1px solid var(--border);background:var(--bg-2);font-size:var(--fs-12);color:var(--text-2)}
+.day-sub .ds .ds-n{font-weight:600;color:var(--text-1)}
+.day-sub .ds.ok{border-color:var(--green-border)}.day-sub .ds.ok .ds-v{color:var(--green-text)}
+.day-sub .ds.mid{border-color:var(--amber-border)}.day-sub .ds.mid .ds-v{color:var(--amber-text)}
+.day-sub .ds.bad{border-color:var(--red-border)}.day-sub .ds.bad .ds-v{color:var(--red-text)}
+.day-sub .ds-lab{width:100%;font-size:var(--fs-12);color:var(--text-3)}
 
 /* 節標題 */
 .sec-t{font-size:var(--fs-15);font-weight:600;margin:var(--sp-5) 0 var(--sp-3)}
@@ -241,24 +266,25 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
         <div class="sub" id="h-sub">花蓮縣 秀林鄉 · Asia/Taipei · 時間以景點當地時區顯示</div>
       </div>
       <div class="r">
-        <span class="tier tier-rec" id="tier">✓ 推薦</span>
+        <span class="tier tier-mid" id="tier">○ 可拍</span>
         <span class="star fav">★</span>
         <button class="close">✕</button>
       </div>
     </div>
 
-    <!-- 今日速覽 -->
-    <div class="quick" id="quick">
-      <span class="q-t" id="q-t">今日速覽 · 11/16</span>
-      <span class="q-chip">日出 <span class="q-w">05:35–06:00</span></span>
-      <span class="q-chip">眺望 <span class="q-w">08:00–09:00</span></span>
-      <span class="q-chip">山景 <span class="q-w">16:25</span></span>
+    <!-- 現在去會怎樣（DESIGN-5：與卡片同源 tier＋24h 迷你色帶＋下一個符合時刻） -->
+    <div class="quick mid" id="quick">
+      <span class="q-t" id="q-t">現在去會怎樣 · 11/16</span>
+      <span class="q-chip" id="q-tier">○ 可拍・日出窗已過・今日仍可拍</span>
+      <div class="q-band" id="q-band" title="今日 24h · 與預報頁同源"></div>
+      <span class="q-next" id="q-next">下一個符合時刻：<span class="q-w">16:25</span> 山景</span>
       <span class="q-wx" id="q-wx">晴・低雲 5%<span class="sep">・</span>能見度極佳</span>
     </div>
 
     <!-- 8 日方框（真實逐日 tier：tw-034） -->
     <div class="sec-t" id="t-strip">8 日拍攝機會 <small id="t-strip-s">點選日期查看當日預報 · 日期列可橫向捲動</small></div>
     <div class="strip" id="strip"></div>
+    <div class="day-sub" id="day-sub"></div>
 
     <!-- 條件 ×N 摺疊 -->
     <div class="sec-t" id="t-cond">拍攝條件 <small id="t-cond-s">依題材展開 · 必須 / 加分 / 扣分</small></div>
@@ -288,8 +314,9 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
       <div class="body">
         <h4 id="n1-h">資訊層級（彈窗 = 知識查詢層）</h4>
         <table>
-          <tr><td id="n1a">三段式結構</td><td id="n1a-v">今日速覽（3 秒：能不能拍＋時段）→ 8 日方框（掃描一週節奏）→ 條件/位置/指南（知識查詢）。速覽永遠在第一屏頂部。</td></tr>
-          <tr><td id="n1b">今日速覽</td><td id="n1b-v">綠面板（語義承載 tier）＋題材 chip 內嵌時段（mono）＋口語化氣象一句（DR2 1.2 映射）；不重複長句徽章（DR1 P2-7）。</td></tr>
+          <tr><td id="n1a">三段式結構</td><td id="n1a-v">現在去會怎樣（3 秒：能不能拍＋何時能拍）→ 8 日方框（掃描一週節奏）→ 條件/位置/指南（知識查詢）。速覽永遠在第一屏頂部。</td></tr>
+          <tr><td id="n1b">現在去會怎樣</td><td id="n1b-v">面板色承載與卡片<b>同源</b> tier（○=amber／✓=green／✗=red）＋今日 24h 迷你色帶（與預報頁逐時 tier 同源）＋下一個符合時刻；口語化氣象一句保留（DR2 1.2 映射），不重複長句徽章（DR1 P2-7）。</td></tr>
+          <tr><td id="n1d">DESIGN-5 決策記錄</td><td id="n1d-v"><b>owner 提案</b>：速覽與卡片單一真相對齊 — 速覽改「現在去會怎樣」，顯示與卡片同源 tier（○可拍·窗已過·今日仍可拍／✓題材／✗短因）＋今日 24h 迷你色帶（與預報頁同源）＋下一個可拍/符合時刻；題材層判定（如「翠湖景 ✗低雲·下一窗 後天 07:00」）降為所選日期拍攝機會區的題材列資訊。<b>採納範圍</b>：全案採納 — 速覽三要素（同源 tier／24h 色帶／下一時刻）、題材判定降級至 8 日方框下之題材列；8 日格與條件/位置/指南摺疊維持不變；頁首 tier 徽章同步改與卡片同源（本樣例：日出窗已過 → ○ 可拍）。</td></tr>
           <tr><td id="n1c">藍色退場</td><td id="n1c-v">DR1 P2-3 — 「拍攝位置」「拍攝指南」節標題改白 #E6EBF2 15/600；藍僅留給真連結。</td></tr>
           <tr><td id="nmbr">會員入口（DESIGN-3b）</td><td>本頁為彈窗示範，補上與列表頁同一語義的站點 masthead（卡片｜天氣圖｜拍攝提醒）承載會員入口，右上：未登入＝描邊「登入」鈕；登入態＝頭像圓＋會員名，點開下拉：我的最愛★ / 提醒清單🔔 / 會員資料 / 登出。masthead 以 z-index 浮於彈窗背板之上便於檢視兩態；mockup-bar「未登入 / 已登入」切換鈕示範兩態。</td></tr>
         </table>
@@ -317,8 +344,11 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
 
 <script>
 const I18N={
- 'zh-TW':{name:'📍 崇德',sub:'花蓮縣 秀林鄉 · Asia/Taipei · 時間以景點當地時區顯示',tier:'✓ 推薦',
-  q:'今日速覽 · 11/16',qwx:'晴・低雲 5%・能見度極佳',tstrip:'8 日拍攝機會',tstripS:'點選日期查看當日預報 · 日期列可橫向捲動',
+ 'zh-TW':{name:'📍 崇德',sub:'花蓮縣 秀林鄉 · Asia/Taipei · 時間以景點當地時區顯示',tier:'○ 可拍',
+  q:'現在去會怎樣 · 11/16',qtier:'○ 可拍・日出窗已過・今日仍可拍',
+  qnext:'下一個符合時刻：<span class="q-w">16:25</span> 山景',bandT:'今日 24h 迷你色帶 · 與預報頁同源',
+  dsub:'今天題材判定（DESIGN-5：由速覽降級至此）',dsubO:'樣例僅含今天（11/16）題材判定',
+  qwx:'晴・低雲 5%・能見度極佳',tstrip:'8 日拍攝機會',tstripS:'點選日期查看當日預報 · 日期列可橫向捲動',
   tcond:'拍攝條件',tcondS:'依題材展開 · 必須 / 加分 / 扣分',tloc:'拍攝位置',ttips:'拍攝指南',
   kCoord:'座標（機位）',kElev:'海拔',kAccess:'進出',access:'台 8 線中橫公路 · 停車場步行 5 分',
   bMap:'📍 地圖',bNav:'🗺️ 導航',bGrid:'🗺️ 天氣圖',
@@ -326,12 +356,15 @@ const I18N={
   days:['今天','明天','11/18','11/19','11/20','11/21','11/22','11/23'],
   tips:['日出時段正面臨海，低雲 0–10% 時霞光最佳；建議 05:00 前抵達佔位。','山景 16:25 需能見度 ≥10 km；西側高雲過半時改拍夕陽剪影。','冬季東北季風強，三腳架需配重；風速 >8 m/s 建議改拍車軌。'],
   notes:'設計說明 — 設計決策 × design-review 對應',
-  dn:{n1a:'三段式結構',n1b:'今日速覽',n1c:'藍色退場',n2a:'格內雙行',n2b:'46px / 橫捲',n2c:'狀態三色',n3a:'逐題材一摺',n3b:'展開保留',n4a:'寬度上限',n4b:'390 全螢幕',nmbr:'會員入口（DESIGN-3b）'},
+  dn:{n1a:'三段式結構',n1b:'現在去會怎樣',n1d:'DESIGN-5 決策記錄',n1c:'藍色退場',n2a:'格內雙行',n2b:'46px / 橫捲',n2c:'狀態三色',n3a:'逐題材一摺',n3b:'展開保留',n4a:'寬度上限',n4b:'390 全螢幕',nmbr:'會員入口（DESIGN-3b）'},
   nav_cards:'卡片',nav_weathermap:'天氣圖',nav_reminders:'拍攝提醒',
   login:'登入',member_name:'晨曦旅人',avatar_ch:'晨',menu_fav:'我的最愛',menu_rem:'提醒清單',menu_profile:'會員資料',menu_logout:'登出',
   nsrc:'資料樣例：tw-034 崇德 subject-cards 真實值 — 8 日（11/14–21）逐日 tier：✓5 日 / ○2 日 / ✗1 日（11/19 霧·雨）；11/16 適合：日出 05:35–06:00、眺望 08:00–09:00、山景 16:25。條件/位置/指南為示意內容。'},
- en:{name:'📍 Chongde',sub:'Xiulin, Hualien · Asia/Taipei · All times in local timezone',tier:'✓ Recommended',
-  q:'Today at a glance · 11/16',qwx:'Clear · low cloud 5% · visibility excellent',tstrip:'8-day opportunities',tstripS:'Tap a day to load its forecast · strip scrolls horizontally',
+ en:{name:'📍 Chongde',sub:'Xiulin, Hualien · Asia/Taipei · All times in local timezone',tier:'○ Shootable',
+  q:'If I go now · 11/16',qtier:'○ Shootable · sunrise window passed · still shootable today',
+  qnext:'Next matching moment: <span class="q-w">16:25</span> Mountain view',bandT:'Today 24h mini band · same source as forecast page',
+  dsub:'Today by subject (DESIGN-5: demoted from quick view)',dsubO:'Sample includes today (11/16) verdicts only',
+  qwx:'Clear · low cloud 5% · visibility excellent',tstrip:'8-day opportunities',tstripS:'Tap a day to load its forecast · strip scrolls horizontally',
   tcond:'Shooting conditions',tcondS:'Per subject · required / boosters / penalties',tloc:'Shooting location',ttips:'Field guide',
   kCoord:'Coordinates (camera)',kElev:'Elevation',kAccess:'Access',access:'Prov 8 Central Cross-Island Hwy · 5 min walk from parking',
   bMap:'📍 Map',bNav:'🗺️ Navigate',bGrid:'🗺️ Weather grid',
@@ -339,12 +372,15 @@ const I18N={
   days:['Today','Tomorrow','11/18','11/19','11/20','11/21','11/22','11/23'],
   tips:['Sunrise faces the sea; best glow at 0–10% low cloud. Arrive before 05:00.','Mountain view at 16:25 needs visibility ≥10 km; switch to sunset silhouettes when high cloud exceeds half.','Strong NE monsoon in winter; add ballast to tripods above 8 m/s.'],
   notes:'Design notes — decisions × design-review findings',
-  dn:{n1a:'Three-part structure',n1b:'Today at a glance',n1c:'Blue retired',n2a:'Two lines per cell',n2b:'46px / horizontal scroll',n2c:'Three-state color',n3a:'One fold per subject',n3b:'Open state kept',n4a:'Width cap',n4b:'390 fullscreen',nmbr:'Member entry (DESIGN-3b)'},
+  dn:{n1a:'Three-part structure',n1b:'If I go now',n1d:'DESIGN-5 decision log',n1c:'Blue retired',n2a:'Two lines per cell',n2b:'46px / horizontal scroll',n2c:'Three-state color',n3a:'One fold per subject',n3b:'Open state kept',n4a:'Width cap',n4b:'390 fullscreen',nmbr:'Member entry (DESIGN-3b)'},
   nav_cards:'Cards',nav_weathermap:'Weather map',nav_reminders:'Reminders',
   login:'Log in',member_name:'Dawn Chaser',avatar_ch:'D',menu_fav:'Favorites',menu_rem:'Reminders',menu_profile:'Account',menu_logout:'Log out',
   nsrc:'Data samples: real subject-cards values for tw-034 Chongde — 8 days (11/14–21) daily tiers: ✓5 / ○2 / ✗1 (11/19 fog·rain); 11/16: Sunrise 05:35–06:00, Overlook 08:00–09:00, Mountain view 16:25. Conditions/location/guide are illustrative.'},
- ja:{name:'📍 崇徳',sub:'花蓮県秀林郷 · Asia/Taipei · 時刻は現地タイムゾーン表示',tier:'✓ 推薦',
-  q:'今日のサマリー · 11/16',qwx:'晴・低雲 5%・視程最高',tstrip:'8日間の撮影チャンス',tstripS:'日付をタップして予報を表示 · 日付列は横スクロール',
+ ja:{name:'📍 崇徳',sub:'花蓮県秀林郷 · Asia/Taipei · 時刻は現地タイムゾーン表示',tier:'○ 撮影可',
+  q:'今すぐ行くと · 11/16',qtier:'○ 撮影可・日の出窓は終了・本日はまだ可',
+  qnext:'次の適合時刻：<span class="q-w">16:25</span> 山景',bandT:'本日 24h ミニ帯 · 予報ページと同ソース',
+  dsub:'今日の題材判定（DESIGN-5：サマリーから降格）',dsubO:'サンプルは本日（11/16）の判定のみ',
+  qwx:'晴・低雲 5%・視程最高',tstrip:'8日間の撮影チャンス',tstripS:'日付をタップして予報を表示 · 日付列は横スクロール',
   tcond:'撮影条件',tcondS:'題材別に展開 · 必須 / 加点 / 減点',tloc:'撮影位置',ttips:'撮影ガイド',
   kCoord:'座標（撮影点）',kElev:'標高',kAccess:'アクセス',access:'台8線中横公路 · 駐車場から徒歩5分',
   bMap:'📍 地図',bNav:'🗺️ ナビ',bGrid:'🗺️ 天気マップ',
@@ -352,7 +388,7 @@ const I18N={
   days:['今日','明日','11/18','11/19','11/20','11/21','11/22','11/23'],
   tips:['日の出は海に正面；低雲 0–10% で光彩が最良。05:00 前の確保を推奨。','山景 16:25 は視程 ≥10 km 必要；高雲が半分を超えたら夕景シルエットへ。','冬季は季節風が強い；風速 >8 m/s では三脚に重りを。'],
   notes:'デザインメモ — 決定事項 × design-review 対応',
-  dn:{n1a:'3部構成',n1b:'今日のサマリー',n1c:'青色の撤退',n2a:'セル2行',n2b:'46px / 横スクロール',n2c:'3状態カラー',n3a:'題材別フォールド',n3b:'展開状態の保持',n4a:'幅の上限',n4b:'390 フルスクリーン',nmbr:'会員エントリー（DESIGN-3b）'},
+  dn:{n1a:'3部構成',n1b:'今すぐ行くと',n1d:'DESIGN-5 決定記録',n1c:'青色の撤退',n2a:'セル2行',n2b:'46px / 横スクロール',n2c:'3状態カラー',n3a:'題材別フォールド',n3b:'展開状態の保持',n4a:'幅の上限',n4b:'390 フルスクリーン',nmbr:'会員エントリー（DESIGN-3b）'},
   nav_cards:'カード',nav_weathermap:'天気マップ',nav_reminders:'撮影リマインダー',
   login:'ログイン',member_name:'暁の旅人',avatar_ch:'暁',menu_fav:'お気に入り',menu_rem:'リマインド一覧',menu_profile:'会員情報',menu_logout:'ログアウト',
   nsrc:'データ例：tw-034 崇徳 subject-cards 実値 — 8日間（11/14–21）の日別 tier：✓5 / ○2 / ✗1（11/19 霧・雨）。条件・位置・ガイドはダミー。'}
@@ -374,6 +410,14 @@ const CONDS=[
  {g:['眺望','Overlook','眺望'],n:1,req:['能見度 ≥12 km','總雲量 ≤60%'],boost:['雨後能見度極佳時段'],pen:['霧 / 相對濕度 925hPa 超界']},
  {g:['山景','Mountain view','山景'],n:1,req:['能見度 ≥10 km'],boost:['夕照角度 5–15°'],pen:['降水','高雲 >80%']}
 ];
+/* DESIGN-5 — 今日 24h 迷你色帶（與預報頁逐時 tier 同源樣例）＋ 題材層判定（降級至所選日期題材列） */
+const BAND=(()=>{const b=[];for(let h=0;h<24;h++){b.push(h<5?'off':h<10?'ok':h<16?'mid':h<18?'ok':'off');}return b;})();
+const SUBJ=[
+ {g:['日出','Sunrise','日の出'],cls:'mid',v:['窗已過・下一窗 明天 05:35','Window passed · next tomorrow 05:35','窓は終了・次は明日 05:35']},
+ {g:['眺望','Overlook','眺望'],cls:'mid',v:['窗已過・今日無下一窗','Window passed · none left today','窓は終了・本日これ以上なし']},
+ {g:['山景','Mountain view','山景'],cls:'ok',v:['今天 16:25 符合','Matches today 16:25','本日 16:25 が適合']}
+];
+let selDay=2;
 let lang='zh-TW';
 const t=()=>I18N[lang];
 const loc=(a)=>a[lang==='zh-TW'?0:lang==='en'?1:2];
@@ -439,6 +483,12 @@ function condHTML(){
       <div class="c-row"><span class="k pen">${t().kPen}</span><span>${c.pen.join('；')}</span></div>
     </div></details>`).join('');
 }
+function daySubHTML(){
+  const s=t();
+  if(selDay!==2)return `<span class="ds-lab">${s.dsubO}</span>`;
+  return `<span class="ds-lab">${s.dsub}</span>`+SUBJ.map(c=>
+    `<span class="ds ${c.cls}"><span class="ds-n">${loc(c.g)}</span><span class="ds-v">${c.v[lang==='zh-TW'?0:lang==='en'?1:2]}</span></span>`).join('');
+}
 function render(){
   const s=t();
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t()[k])el.textContent=t()[k];});
@@ -446,6 +496,11 @@ function render(){
   document.getElementById('h-sub').textContent=s.sub;
   document.getElementById('tier').textContent=s.tier;
   document.getElementById('q-t').textContent=s.q;
+  document.getElementById('q-tier').textContent=s.qtier;
+  document.getElementById('q-band').innerHTML=BAND.map((c,h)=>`<i class="${c}" title="${String(h).padStart(2,'0')}:00"></i>`).join('');
+  document.getElementById('q-band').title=s.bandT;
+  document.getElementById('q-next').innerHTML=s.qnext;
+  document.getElementById('day-sub').innerHTML=daySubHTML();
   document.getElementById('q-wx').innerHTML=s.qwx.replace(/・/g,'<span class="sep">・</span>');
   document.getElementById('t-strip').childNodes[0].textContent=s.tstrip+' ';
   document.getElementById('t-strip-s').textContent=s.tstripS;
@@ -466,7 +521,7 @@ function render(){
   document.getElementById('tips').innerHTML=s.tips.map(x=>`<li>${x}</li>`).join('');
   document.getElementById('notes-t').textContent=s.notes;
   const dn=s.dn;
-  ['n1a','n1b','n1c','n2a','n2b','n2c','n3a','n3b','n4a','n4b','nmbr'].forEach(k=>{
+  ['n1a','n1b','n1d','n1c','n2a','n2b','n2c','n3a','n3b','n4a','n4b','nmbr'].forEach(k=>{
     const el=document.getElementById(k);if(el)el.textContent=dn[k];});
   document.getElementById('n-src').textContent=s.nsrc;
 }
@@ -488,7 +543,8 @@ document.getElementById('vp-grp').addEventListener('click',e=>{const b=e.target.
   document.getElementById('topnav-wrap').classList.toggle('vp390',b.dataset.vp==='390');
   centerSel(document.getElementById('strip'));});
 document.getElementById('strip').addEventListener('click',e=>{const c=e.target.closest('.cell');if(!c)return;
-  document.querySelectorAll('.cell').forEach(x=>x.classList.toggle('sel',x===c));});
+  document.querySelectorAll('.cell').forEach(x=>x.classList.toggle('sel',x===c));
+  selDay=+c.dataset.i;document.getElementById('day-sub').innerHTML=daySubHTML();});
 </script>
 </body>
 </html>
