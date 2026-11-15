@@ -14,7 +14,7 @@ const RATE_LIMITS = {
 function rateClass(path, method) {
   if (
     method === "GET" &&
-    /^\/(auth\/me$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$)/.test(path)
+    /^\/(auth\/me$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$|feedback$|admin\/feedback$)/.test(path)
   ) return "read";
   if (/^\/auth\/(line|google)\/callback$|^\/auth\/mock\/start$|^\/auth\/refresh$/.test(path)) return "auth";
   return "write";
@@ -24,9 +24,17 @@ import {
   cookieHeader, SESSION_COOKIE, REFRESH_COOKIE, authSecret, MERGE_SQL, verifyJWT,
 } from "./auth.js";
 import { runNotifyCron, validateCustomConditions, parseCustomConditions } from "./notify.js";
+import {
+  handleFeedback, handleFeedbackSubmit, handleFeedbackDelete,
+  handleAdminFeedbackList, handleAdminFeedbackReview, feedbackEnabled,
+} from "./feedback.js";
 
 // CL-API-03: rule limits by member level (402 = upgrade semantics).
-const NOTIFY_LIMITS = { free: 3, paid: 30 };
+// CL-DATA-70 owner ruling (Stage 1): grading column users.member_level
+// (free/paid/owner) drives the reminder cap — free 3 / paid 20 / owner
+// unlimited. Until billing is live a KV flag (same style as the feedback
+// gray flag) treats every free member as paid for testing.
+const NOTIFY_RULE_CAPS = { free: 3, paid: 20 };
 // CL-APP-03 (owner ruling): reminder delivery default is APP PUSH (FCM);
 // telegram/web_push stay accepted for legacy rules.
 const NOTIFY_CHANNELS = new Set(["push", "telegram", "web_push"]);
@@ -378,15 +386,40 @@ async function handleAuthProfile(req, env) {
   }
 
   const row = await env.DB.prepare(
-    "SELECT device_id, provider, provider_user_id, display_name, level, profile_json FROM users WHERE device_id = ?1"
+    "SELECT device_id, provider, provider_user_id, display_name, level, profile_json, name_history FROM users WHERE device_id = ?1"
   ).bind(session.sub).first();
   if (!row) return json(req, 401, { error: "session user not found" });
 
   let displayName = row.display_name;
+  let renameEntry = null;
+  let nameHistory = [];
+  try { const h = JSON.parse(row.name_history || "[]"); if (Array.isArray(h)) nameHistory = h; } catch { nameHistory = []; }
   if (body.displayName !== undefined) {
     if (typeof body.displayName !== "string") return json(req, 400, { error: "displayName must be a string" });
     const trimmed = body.displayName.trim();
     if (!trimmed || trimmed.length > 100) return json(req, 400, { error: "displayName must be 1-100 characters" });
+    if (trimmed !== (row.display_name || "")) {
+      // CL-DATA-70 owner ruling: once the feedback channel is live, display_name
+      // may change at most once per 7 days (429 + tri-lingual reason); every
+      // accepted rename is recorded in users.name_history for audit. Rating
+      // trust stays keyed to user_id — renames never touch it.
+      if (await feedbackEnabled(env)) {
+        const last = nameHistory[nameHistory.length - 1];
+        if (last && last.at && (Date.now() - Date.parse(last.at)) < 7 * 24 * 3600_000) {
+          return json(req, 429, {
+            error: "display_name can only be changed once every 7 days",
+            message: {
+              "zh-TW": "暱稱每 7 天只能修改一次，請稍後再試",
+              "en": "Display name can only be changed once every 7 days — please try again later",
+              "ja": "表示名は7日に1回のみ変更できます。しばらくしてからお試しください",
+            },
+          });
+        }
+        // empty→name is an initial setup, not a rename — recorded, never throttled
+        if (row.display_name) renameEntry = { name: trimmed, at: new Date().toISOString() };
+        else renameEntry = { name: trimmed, at: new Date().toISOString(), initial: true };
+      }
+    }
     displayName = trimmed;
   }
 
@@ -410,6 +443,13 @@ async function handleAuthProfile(req, env) {
     "UPDATE users SET display_name = ?1, profile_json = ?2 WHERE device_id = ?3"
   ).bind(displayName, profileJson, session.sub).run();
 
+  // CL-DATA-70: append the rename audit entry (kept small — last 50).
+  if (renameEntry) {
+    const nextHistory = [...nameHistory, renameEntry].slice(-50);
+    await env.DB.prepare("UPDATE users SET name_history = ?1 WHERE device_id = ?2")
+      .bind(JSON.stringify(nextHistory), session.sub).run();
+  }
+
   return json(req, 200, {
     ok: true,
     user: { id: row.device_id, provider: row.provider, providerUserId: row.provider_user_id, displayName, level: row.level, profile: publicProfile },
@@ -432,6 +472,38 @@ async function userLevel(env, sub, fallback) {
   const row = await env.DB.prepare("SELECT level FROM users WHERE device_id = ?1").bind(sub).first();
   return (row && row.level) || fallback || "free";
 }
+
+// CL-DATA-70: effective member grade from the EXISTING users.level column
+// (value domain extended: free/paid/owner — owner = unlimited, set by the
+// manager directly in D1).
+function effectiveMemberLevel(level, freeAsPaid) {
+  if (level === "owner") return "owner";
+  if (level === "paid" || (level === "free" && freeAsPaid)) return "paid";
+  return "free";
+}
+
+// Pre-billing grace flag: everyone tests at the paid cap until money flows.
+async function memberFreeAsPaid(env) {
+  if (env.MEMBER_FREE_AS_PAID === "1") return true;
+  if (env.MEMBER_FREE_AS_PAID === "0") return false;
+  try {
+    const v = await env.EVALS.get("v1:flags:member", "json");
+    return !!(v && v.freeAsPaid === true);
+  } catch { return false; }
+}
+
+const NOTIFY_RULE_LIMIT_MESSAGES = {
+  free: {
+    "zh-TW": "免費版上限 3 條提醒。既有提醒會保留，刪除至上限內即可再新增。",
+    "en": "Free plan is capped at 3 reminders. Existing reminders are kept — delete down below the cap to add more.",
+    "ja": "無料プランのリマインダー上限は3件です。既存のリマインダーは保持され、上限以下にすると追加できます。",
+  },
+  paid: {
+    "zh-TW": "付費版上限 20 條提醒。既有提醒會保留，刪除至上限內即可再新增。",
+    "en": "Paid plan is capped at 20 reminders. Existing reminders are kept — delete down below the cap to add more.",
+    "ja": "有料プランのリマインダー上限は20件です。既存のリマインダーは保持され、上限以下にすると追加できます。",
+  },
+};
 
 async function handleNotifyRules(req, env) {
   const session = await requireSession(req, env);
@@ -470,11 +542,22 @@ async function handleNotifyRules(req, env) {
       return json(req, 400, { error: "customConditions and opportunityId are mutually exclusive (subject mode or custom mode)" });
     }
 
-    const limit = NOTIFY_LIMITS[level] || NOTIFY_LIMITS.free;
+    const freeAsPaid = level !== "owner" && level !== "paid" ? await memberFreeAsPaid(env) : false;
+    const effLevel = effectiveMemberLevel(level, freeAsPaid);
+    const limit = effLevel === "owner" ? Infinity : NOTIFY_RULE_CAPS[effLevel];
     const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM notify_rules WHERE user_id = ?1").bind(uid).first();
     const count = row ? row.n : 0;
     if (count >= limit) {
-      return json(req, 402, { error: "notify rule limit reached — upgrade to paid for more", level, limit, count });
+      // CL-DATA-70 owner ruling: 403 (not 402) + tri-lingual reason. Rules that
+      // predate the cap are grandfathered (never auto-deleted) — the member
+      // can only add again once the count is below the cap. Owner is exempt.
+      return json(req, 403, {
+        error: "notify rule limit reached",
+        memberLevel: effLevel,
+        count,
+        cap: effLevel === "owner" ? null : limit,
+        message: NOTIFY_RULE_LIMIT_MESSAGES[effLevel],
+      });
     }
 
     const id = btoa(crypto.getRandomValues(new Uint8Array(12)).reduce((s, b) => s + String.fromCharCode(b), ""))
@@ -619,6 +702,31 @@ export default {
     }
 
     if (path === "/favorites") return handleFavorites(request, env, url);
+
+    // --- feedback channel (CL-DATA-70, gray-released) ---
+    if (path === "/feedback" && (request.method === "GET")) {
+      if (!(await feedbackEnabled(env))) return json(request, 403, { error: "feedback disabled" });
+      return handleFeedback(request, env, url);
+    }
+    if (path === "/feedback" && (request.method === "POST" || request.method === "PUT")) {
+      if (!(await feedbackEnabled(env))) return json(request, 403, { error: "feedback disabled" });
+      return handleFeedbackSubmit(request, env, url);
+    }
+    if (path === "/feedback" && request.method === "DELETE") {
+      if (!(await feedbackEnabled(env))) return json(request, 403, { error: "feedback disabled" });
+      return handleFeedbackDelete(request, env, url);
+    }
+    if (path === "/admin/feedback" && request.method === "GET") {
+      if (!(await feedbackEnabled(env))) return json(request, 403, { error: "feedback disabled" });
+      return handleAdminFeedbackList(request, env, url);
+    }
+    {
+      const am = path.match(/^\/admin\/feedback\/([\w-]+)$/);
+      if (am && request.method === "PATCH") {
+        if (!(await feedbackEnabled(env))) return json(request, 403, { error: "feedback disabled" });
+        return handleAdminFeedbackReview(request, env, am[1]);
+      }
+    }
 
     // --- notify engine (CL-API-03, JWT-only) ---
     if (path === "/notify/rules") return handleNotifyRules(request, env);

@@ -248,7 +248,7 @@ test("telegram binding poll: /start <token> activates pending binding, offset ad
 });
 
 // ---------------------------------------------------------------- endpoints
-test("rules: JWT required; free tier capped at 3 with 402; paid beyond 3 ok", async () => {
+test("rules: JWT required; free capped at 3 with 403 + tri-lingual; paid capped at 20; owner unlimited", async () => {
   const { env, db } = makeEnv({});
   const anon = await worker.fetch(makeReq("/notify/rules", { method: "POST", body: JSON.stringify({ placeId: "tw-001" }) }), env, {});
   assert.equal(anon.status, 401);
@@ -262,16 +262,59 @@ test("rules: JWT required; free tier capped at 3 with 402; paid beyond 3 ok", as
     assert.equal(r.status, 200, `free rule ${i}`);
   }
   const over = await worker.fetch(makeReq("/notify/rules", { method: "POST", headers: hdr(free), body: JSON.stringify({ placeId: "tw-099" }) }), env, {});
-  assert.equal(over.status, 402);
+  assert.equal(over.status, 403); // CL-DATA-70 owner ruling: 402 → 403
   const overBody = await over.json();
-  assert.equal(overBody.limit, 3);
-  assert.equal(overBody.level, "free");
+  assert.equal(overBody.cap, 3);
+  assert.equal(overBody.memberLevel, "free");
+  assert.ok(overBody.message["zh-TW"].includes("3") && overBody.message.en && overBody.message.ja);
 
+  // paid: 20 reserved — 4 rules fine
   for (let i = 1; i <= 4; i++) {
     const r = await worker.fetch(makeReq("/notify/rules", { method: "POST", headers: hdr(paid), body: JSON.stringify({ placeId: `tw-00${i}` }) }), env, {});
     assert.equal(r.status, 200, `paid rule ${i}`);
   }
-  assert.equal(db._tables.notify_rules.length, 7);
+  // owner (users.level='owner', set by the manager in D1): unlimited
+  db._tables.users.set("u-owner", { device_id: "u-owner", level: "owner" });
+  const owner = await mint(env, "u-owner", "free");
+  for (let i = 1; i <= 5; i++) {
+    const r = await worker.fetch(makeReq("/notify/rules", { method: "POST", headers: hdr(owner), body: JSON.stringify({ placeId: `tw-00${i}` }) }), env, {});
+    assert.equal(r.status, 200, `owner rule ${i}`);
+  }
+  assert.equal(db._tables.notify_rules.filter((r) => r.user_id === "u-owner").length, 5);
+  // pre-billing grace flag: free members test at the paid cap
+  const g = makeEnv({});
+  await g.env.EVALS.put("v1:flags:member", JSON.stringify({ freeAsPaid: true }));
+  const gf = await mint(g.env, "u-gf", "free");
+  for (let i = 1; i <= 4; i++) {
+    const r = await worker.fetch(makeReq("/notify/rules", { method: "POST", headers: hdr(gf), body: JSON.stringify({ placeId: `tw-00${i}` }) }), g.env, {});
+    assert.equal(r.status, 200, `grace rule ${i}`);
+  }
+  assert.equal(db._tables.notify_rules.length, 12);
+});
+
+test("rules grandfather: pre-cap rules over the limit are kept, never auto-deleted; add reopens below cap", async () => {
+  const { env, db } = makeEnv({});
+  const tok = await mint(env, "u-gfather", "free");
+  const hdr = { "Content-Type": "application/json", Authorization: `Bearer ${tok}` };
+  for (let i = 1; i <= 5; i++) {
+    db._tables.notify_rules.push({ id: `g${i}`, user_id: "u-gfather", place_id: `tw-00${i}`, opportunity_id: null, channel: "telegram", min_advance_hours: 24, enabled: 1, created_at: new Date().toISOString() });
+  }
+  const over = await worker.fetch(makeReq("/notify/rules", { method: "POST", headers: hdr, body: JSON.stringify({ placeId: "tw-new" }) }), env, {});
+  assert.equal(over.status, 403);
+  // the 5 grandfathered rules survive untouched
+  assert.equal(db._tables.notify_rules.length, 5);
+  const list = await (await worker.fetch(makeReq("/notify/rules", { headers: hdr }), env, {})).json();
+  assert.equal(list.rules.length, 5);
+  // still blocked at 4 (above cap)…
+  db._tables.notify_rules.pop();
+  const over2 = await worker.fetch(makeReq("/notify/rules", { method: "POST", headers: hdr, body: JSON.stringify({ placeId: "tw-new" }) }), env, {});
+  assert.equal(over2.status, 403);
+  // …and reopens once below the cap (pop 2 of the remaining 3 → 2 left)
+  db._tables.notify_rules.pop(); db._tables.notify_rules.pop();
+  assert.equal(db._tables.notify_rules.length, 2);
+  const ok = await worker.fetch(makeReq("/notify/rules", { method: "POST", headers: hdr, body: JSON.stringify({ placeId: "tw-new" }) }), env, {});
+  assert.equal(ok.status, 200);
+  assert.equal(db._tables.notify_rules.length, 3);
 });
 
 test("rules: validation (bad channel, bad advance), GET list, DELETE own/not-found", async () => {
