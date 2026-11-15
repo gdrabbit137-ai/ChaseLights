@@ -104,7 +104,7 @@ test('CL-UI-27 (4): the metric-chip row is all-or-nothing', () => {
 });
 
 test('CL-UI-27 (5): index.html cache-bust stamp bumped to clui41', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui95/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui95/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui96/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui96/);
   assert.ok(!indexSource.includes('clui27'));
 });

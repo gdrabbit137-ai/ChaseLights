@@ -83,17 +83,18 @@ test('CL-UI-87 (2): 24h mini band over the selected day — semantic cells + bes
 });
 
 // ---- (3) desktop table anatomy ----
-test('CL-UI-87 (3): 5-column group table, 40px rows, mono 時刻 anchor, plain-weather cell', () => {
-  // per-group table header: 時刻|狀態|適合題材|口語化氣象|⋯
+test('CL-UI-87/94 (3): 4-column group table, 40px rows, mono 時間 anchor, plain-weather cell', () => {
+  // per-group table header: 時間|適合題材|口語化氣象|⋯ (CL-UI-94: 狀態 retired)
   const headIdx = appSource.indexOf('<thead><tr><th>${esc(d().th_time)}</th>');
   const head = appSource.slice(headIdx, appSource.indexOf('</thead>', headIdx));
-  const order = ['th_time', 'th_status', 'th_subjects', 'th_plain'];
+  const order = ['th_time', 'th_subjects', 'th_plain'];
   let pos = -1;
   for (const key of order) {
     const at = head.indexOf(key, pos + 1);
-    assert.ok(at > pos, `${key} column in mockup order`);
+    assert.ok(at > pos, `${key} column in order`);
     pos = at;
   }
+  assert.ok(!head.includes('th_status'), 'CL-UI-94: no 狀態 column');
   assert.ok(appSource.includes("th_plain:'口語化氣象'") && appSource.includes("th_plain:'Weather (plain)'") && appSource.includes("th_plain:'口語天気'"), 'th_plain trilingual');
   // row: mono 64px time cell + plain weather + ⋯ toggle button
   assert.match(hourLoop, /<td class="hr">\$\{esc\(hh\)\}/, 'hour-only mono time cell');
@@ -134,10 +135,11 @@ test('CL-UI-87 (5): 時段外 hours collapse into one line — never a per-hour 
   assert.match(hourLoop, /const isNa=subjCell\.kind==='outside';/, 'collapse source = the subject-cards na bucket');
   assert.match(hourLoop, /na\.push\(hh\)/, 'collapsed hours collected, no row emitted');
   const naCode = grab('const naHtml=', 'const det=document.createElement');
-  assert.match(naCode, /na\.length\?`<tr class="na-row"><td colspan="5"><span>\$\{esc\(d\(\)\.state_outside\)\}<\/span> · <span class="mono">\$\{esc\(formatHourSegments\(na\)\)\}<\/span><\/td><\/tr>`:''/, 'one collapsed line with the compressed hour segments');
+  assert.match(naCode, /na\.length\?`<tr class="na-row"><td colspan="4"><span>\$\{esc\(d\(\)\.state_outside\)\}<\/span> · <span class="mono">\$\{esc\(formatHourSegments\(na\)\)\}<\/span><\/td><\/tr>`:''/, 'one collapsed line with the compressed hour segments');
   assert.match(cssSource, /#timeline-groups tr\.na-row > td \{ height: 32px; color: var\(--cl-text-3\); font-size: var\(--cl-fs-12\); \}/, '32px honest grey line');
-  // the mobile shell keeps the mockup's minimal na card (time + status only)
-  assert.match(hourLoop, /isNa\?`<span class="timeline-mobile-status">\$\{esc\(d\(\)\.eval2_unk\)\}<\/span>`:`<div class="tm-maincol">/, 'minimal na card on mobile');
+  // CL-UI-94: the mobile na card shows the neutral 🕒 word itself — no
+  // 資料不足 status placeholder anywhere
+  assert.match(hourLoop, /isNa\?`<span class="tm-subj-na">\$\{esc\(d\(\)\.state_outside\)\}<\/span>`:`<div class="tm-maincol">/, 'minimal na card on mobile');
   assert.match(hourLoop, /\$\{isNa\?'':`<details class="tm-details"/, 'na card carries no 詳細氣象');
 });
 
@@ -159,19 +161,19 @@ test('CL-UI-87 (6): summary = day label · date + tier chip + ✓/○ counts + s
 });
 
 // ---- (7) painter compatibility ----
-test('CL-UI-87 (7): status painter contract intact — cells[1], V2-owned, #timeline-groups host', () => {
-  assert.match(hourLoop, /<td>\$\{esc\(d\(\)\.eval2_unk\)\}<\/td>/, 'status cell = the honest placeholder at index 1');
+test('CL-UI-94 (7): status column retired — no painter write path into the hourly table', () => {
+  assert.ok(!hourLoop.includes('<td>${esc(d().eval2_unk)}</td>'), 'no status placeholder cell at index 1');
   const deco = grab('function decorateWeatherTimeline', 'function decorateV2Eval');
-  assert.match(deco, /getElementById\('timeline-groups'\)\|\|document\.getElementById\('timeline-body'\)/, 'new host + legacy harness fallback');
-  assert.match(deco, /v2HourLabel\(st\)/, 'V2-owned verdict (CL-UI-43)');
-  assert.match(deco, /document\.querySelectorAll\('#timeline-mobile \[data-v2t\]'\)/, 'mobile painter selector unchanged');
+  assert.match(deco, /CL-UI-94/, 'retirement comment anchors the contract change');
+  assert.match(deco, /return;\s*\n\s*\}/, 'the evaluations-details painter is a no-op');
+  assert.ok(!deco.includes('cells[1]') && !deco.includes("querySelectorAll('#timeline-mobile [data-v2t]')"), 'no paint path on desktop or mobile');
 });
 
 // ---- (8) tokens + stamps ----
-test('CL-UI-87 (8): --cl-* tokens only + clui95 stamps + scroll/probe compat', () => {
+test('CL-UI-87 (8): --cl-* tokens only + clui96 stamps + scroll/probe compat', () => {
   const clui87css = cssSource.slice(cssSource.indexOf('===== CL-UI-87'), cssSource.indexOf('#timeline-mobile .tbl-390'));
   assert.doesNotMatch(clui87css.replace(/\/\*[^*]*\*\//g, ''), /#[0-9A-Fa-f]{3,8}\b/, 'no hardcoded hex in the new CSS (token layer only)');
-  assert.equal((indexSource.match(/\?v=clui95/g) || []).length, 2, 'app.js + app.css at clui95');
+  assert.equal((indexSource.match(/\?v=clui96/g) || []).length, 2, 'app.js + app.css at clui96');
   // the now-anchor scroll keeps working against the new container
   const scroll = grab('function scrollWeatherModalToCurrent', '// ---- CL-UI-34');
   assert.match(scroll, /getElementById\('timeline-groups'\)/, 'desktop anchor lookup on the groups container');

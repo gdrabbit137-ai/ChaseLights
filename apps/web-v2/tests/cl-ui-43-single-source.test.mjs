@@ -39,23 +39,32 @@ const {esc,v2EffectiveHours,v2DayHtml,v2HourLabel,decorateWeatherTimeline,v2Rema
 
 // ---- CL-UI-43 i) single evaluation source for the hourly table ----
 
-test('CL-UI-43 i: the hourly status cell is V2-owned — legacy verdicts are never painted',()=>{
+test('CL-UI-94/43 i: the 適合題材 cell IS the hourly verdict — the status column is retired',()=>{
   const rowBlock=grab('(spot.hourly_forecast||[])','decorateWeatherTimeline(spot');
-  // The initial cell is the honest placeholder; decorateWeatherTimeline fills
-  // the V2 verdict per hour.
-  assert.match(rowBlock,/<td>\$\{esc\(d\(\)\.eval2_unk\)\}<\/td>/);
-  assert.match(rowBlock,/timeline-mobile-status">\$\{esc\(d\(\)\.eval2_unk\)\}/);
+  // CL-UI-94: no status cell at all — the placeholder td and the mobile
+  // status span are gone; the subject cell (subject-cards hours) is the
+  // single truth (✓chip / ○ 一般拍攝 / ✗短原因).
+  assert.ok(!rowBlock.includes('<td>${esc(d().eval2_unk)}</td>'),'no placeholder status cell');
+  assert.ok(!rowBlock.includes('timeline-mobile-status'),'no mobile status span');
+  assert.ok(!appSource.includes('th_status:</th>')&&!rowBlock.includes('d().th_status'),'no 狀態 header in the hourly table');
   // The legacy shortOpportunityState verdict is gone from the hourly render.
   assert.ok(!rowBlock.includes('shortOpportunityState(metrics)'));
   // The legacy scores remain only as a row-presence/sorting reference.
   assert.match(rowBlock,/const metrics=\(activeOpportunityId&&item\.opportunity_scores\?\.\[activeOpportunityId\]\)\|\|item\.theme_scores\?\.\[activeTheme\]/);
-  // The V2 fill pass is the only place the per-hour verdict is decided.
+  // The subject cell is the verdict source for every row.
+  assert.match(rowBlock,/const subjCell=v2HourSubjectCell\(spot,item\)/);
+  // Past hours fold into the time column as （已過） — never a 歷史 status tag.
+  assert.match(rowBlock,/clui94_past/);
+  assert.ok(!rowBlock.includes('d().tag_past'),'歷史 tag retired from the hourly table');
+  // The V2 painter that filled cells[1] from evaluations-details is retired
+  // (it was the contradiction source: it could paint ⚠未符 next to a ✓chip).
   const decoBlock=grab('function decorateWeatherTimeline','function decorateV2Eval');
-  assert.match(decoBlock,/v2HourLabel\(st\)/);
-  assert.match(decoBlock,/ensureV2Detail\(spot\.spot_id\)/);
+  assert.match(decoBlock,/CL-UI-94/);
+  assert.match(decoBlock,/return;\s*\n\s*\}/);
+  assert.ok(!decoBlock.includes('cells[1]'),'painter no longer writes cells[1]');
 });
 
-test('CL-UI-43 i fixture replay (碧潭/望幽谷 shape): V2 0 qualifying hours + legacy scores → no ✅ in the hourly table',async()=>{
+test('CL-UI-94 fixture replay (碧潭/望幽谷 shape + 大屯山 contradiction): eval-detail verdicts never reach the hourly table',async()=>{
   // Fixture: the card says 「本日無符合」 (V2 zero qualifying hours) while the
   // legacy hourly payload scores every hour as recommended.
   const v2Day={local_date:'2030-01-01',state:'UNFAVORABLE',good_hours:[],hour_counts:{GUIDANCE_SATISFIED:0,UNFAVORABLE:24,NOT_EVALUABLE:0}};
@@ -65,29 +74,23 @@ test('CL-UI-43 i fixture replay (碧潭/望幽谷 shape): V2 0 qualifying hours 
   const html=v2DayHtml(v2Day,'今天','Asia/Taipei',{spot_id:'tw-007'},'mountain_view','tw-007-P01');
   assert.match(html,/符合時數 0/);
   assert.ok(!/✅/.test(html));
-  // And the hourly status source can only come from the V2 fill pass — with a
-  // V2 day of zero GUIDANCE_SATISFIED hours the map carries no ✅ status at
-  // all, so no row can ever show one (asserted structurally in the test above
-  // and behaviorally via the paint harness below).
+  // CL-UI-94: with the status column retired, evaluations-details verdicts
+  // have NO render path into the hourly table at all — the retired painter
+  // must leave every cell untouched, even when the details bundle carries a
+  // GUIDANCE_SATISFIED/UNFAVORABLE verdict for the same hour (the 大屯山
+  // contradiction class: chip said ✓ while the painter painted ⚠未符).
   const detail={opportunities:[{opportunity_id:'tw-007-P01',days:[
     {local_date:'2020-01-01',hours:[{local:'06:00',status:'GUIDANCE_SATISFIED'},{local:'07:00',status:'GUIDANCE_SATISFIED'}]},
-    {local_date:'2030-01-01',hours:[{local:'06:00',status:'UNFAVORABLE'}]}
+    {local_date:'2030-01-01',hours:[{local:'06:00',status:'GUIDANCE_SATISFIED'},{local:'12:00',status:'UNFAVORABLE'}]}
   ]}]};
   const rows=[
-    {v2t:'2020-01-01|06:00'}, // past hour — must degrade, never ✅
+    {v2t:'2020-01-01|06:00'}, // past hour — time column marks it, painter stays silent
     {v2t:'2020-01-01|07:00'},
-    {v2t:'2030-01-01|06:00'}  // future hour with V2 UNFAVORABLE
+    {v2t:'2030-01-01|06:00'}, // future GUIDANCE_SATISFIED — chip-side source only
+    {v2t:'2030-01-01|12:00'}  // future UNFAVORABLE — never ⚠️ 未符 in a cell
   ];
   const painted=await runDecorate(detail,'tw-007',rows);
-  assert.equal(painted.get('2020-01-01|06:00'),'歷史');
-  assert.equal(painted.get('2020-01-01|07:00'),'歷史');
-  assert.equal(painted.get('2030-01-01|06:00'),'⚠️ 未符');
-  // A V2 GUIDANCE_SATISFIED hour in the future still earns ✅ (no regression).
-  const detail2={opportunities:[{opportunity_id:'tw-007-P01',days:[
-    {local_date:'2030-01-01',hours:[{local:'17:00',status:'GUIDANCE_SATISFIED'}]}
-  ]}]};
-  const painted2=await runDecorate(detail2,'tw-007',[{v2t:'2030-01-01|17:00'}]);
-  assert.equal(painted2.get('2030-01-01|17:00'),'✅ 符合');
+  for(const r of rows)assert.equal(painted.get(r.v2t),'','retired painter writes nothing — no ⚠️ 未符/✅/歷史 text in any cell');
 });
 
 // Small fake-DOM harness around the shipped decorateWeatherTimeline.

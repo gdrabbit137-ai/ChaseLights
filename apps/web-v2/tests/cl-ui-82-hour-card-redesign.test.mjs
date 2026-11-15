@@ -106,15 +106,15 @@ test('CL-UI-82 (5): trilingual token pack — every clui82_* key in all three di
   assert.equal(en.sky({c_low:43, c_mid:0, c_high:0}), 'Partly cloudy');
 });
 
-test('CL-UI-82 (6): dedupe — 一般拍攝 hidden by default, decorate reveals only on ✅', () => {
+test('CL-UI-82/94 (6): the ○ 一般拍攝 token IS the verdict — always rendered, no reveal/dedupe pass', () => {
+  // CL-UI-94: the status painter is retired; the subject-cell buckets are the
+  // single source, so the general token renders unconditionally (grey).
   const deco = grab('function decorateWeatherTimeline', 'function decorateV2Eval');
-  assert.ok(deco.includes("card.querySelectorAll('.tm-subj-general')"), 'decorate targets the general chips');
-  assert.ok(/state_ok\)\{card\.classList\.add\('tm-st-ok'\);general\.forEach\(x=>x\.hidden=false\)/.test(deco), '✅ reveals the chip');
-  assert.ok(/state_outside\)\{card\.classList\.add\('tm-st-outside'\);general\.forEach\(x=>x\.hidden=true\)/.test(deco), '🕒 hides the chip');
-  assert.ok(/state_bad\)\{card\.classList\.add\('tm-st-bad'\);general\.forEach\(x=>x\.hidden=true\)/.test(deco), '⚠️ hides the chip');
-  assert.ok(deco.includes("card.classList.remove('tm-st-ok','tm-st-bad','tm-st-outside')"), 'band classes reset before repaint');
+  assert.ok(!deco.includes("card.querySelectorAll('.tm-subj-general')"), 'no decorator touch on the general token');
+  assert.ok(!deco.includes("card.classList.remove('tm-st-ok','tm-st-bad','tm-st-outside')"), 'no status band repaint');
   const cardBlock = grab("const card=document.createElement('div');card.className=`timeline-mobile-card", 'mobile.appendChild(card);');
-  assert.ok(cardBlock.includes('tm-subj-general" hidden'), 'render emits the chip hidden');
+  assert.ok(cardBlock.includes('tm-subj-general">${esc(d().v2_hour_general_ok)}</span>'), 'render emits the token visible');
+  assert.ok(!cardBlock.includes('tm-subj-general" hidden'), 'no hidden default');
   assert.ok(cardBlock.includes('tm-subj-fail'), 'fail word rides the mainline');
 });
 
@@ -147,5 +147,5 @@ test('CL-UI-82 (8): height/scan tokens + raw cap kept OUT of the card face', () 
   assert.ok(cardBlock.includes('${visCellHtml(item.visibility)}'), 'details vis uses the short cap cell (tooltip, never the full cap text)');
   assert.ok(!cardBlock.includes('visibilityText(item.visibility)'), 'full cap string never rendered on the card');
   // cache-bust advanced
-  assert.equal((indexSource.match(/\?v=clui95/g) || []).length, 2, 'app.js + app.css at clui95');
+  assert.equal((indexSource.match(/\?v=clui96/g) || []).length, 2, 'app.js + app.css at clui96');
 });

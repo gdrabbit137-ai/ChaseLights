@@ -90,17 +90,19 @@ test('CL-UI-87 re-anchor (3): rows carry hour-only stamps; one day-group <detail
   assert.ok(!loop.slice(loop.indexOf('mobileDet.innerHTML='), loop.indexOf('const rowsHtml=')).includes('data-v2t'), 'group shell is not a status row');
 });
 
-test('CL-UI-87 re-anchor (4): mockup hourly columns — 時刻|狀態|適合題材|口語化氣象|⋯; raw values in the kv row', () => {
+test('CL-UI-87/94 re-anchor (4): mockup hourly columns — 時間|適合題材|口語化氣象|⋯; raw values in the kv row', () => {
   const headIdx = appSource.indexOf('<thead><tr><th>${esc(d().th_time)}</th>');
   const head = appSource.slice(headIdx, appSource.indexOf('</tr></thead>', headIdx) + 12);
-  // column order: 時刻 → 狀態 → 適合題材 → 口語化氣象 → (⋯)
-  const order = ['th_time', 'th_status', 'th_subjects', 'th_plain'];
+  // CL-UI-94: column order 時間 → 適合題材 → 口語化氣象 → (⋯) — the 狀態
+  // column is retired; the subject cell is the single-truth verdict.
+  const order = ['th_time', 'th_subjects', 'th_plain'];
   let pos = -1;
   for (const key of order) {
     const at = head.indexOf(key, pos + 1);
     assert.ok(at > pos, `${key} follows the previous column`);
     pos = at;
   }
+  assert.ok(!head.includes('th_status'), 'no 狀態 header column');
   // the old 10-column metric header is gone
   assert.ok(!head.includes('th_lcl_short') && !head.includes('th_temp_short') && !head.includes('th_clouds'), 'no numeric metric columns in the header');
   // raw values survive ONLY in the kv detail row (mockup n2c): temp/wind/rh/
@@ -110,10 +112,11 @@ test('CL-UI-87 re-anchor (4): mockup hourly columns — 時刻|狀態|適合題�
   for (const key of ['th_temp', 'th_wind', 'th_rh', 'th_clow', 'th_cmid', 'th_chigh', 'th_cloud_base', 'th_vis', 'th_astro']) {
     assert.ok(kv.includes('${esc(d().' + key + ')}'), `kv item: ${key}`);
   }
-  // status column keeps index 1 (CL-UI-43 painter contract, pinned upstream)
+  // CL-UI-94: the retired status cell is gone from the row build entirely
   const rowIdx = appSource.indexOf('rowsHtml.push(`<tr class=');
   const row = appSource.slice(rowIdx, rowIdx + 1400);
-  assert.ok(row.indexOf('eval2_unk') < row.indexOf('td-subjects'), 'status cell before subjects cell');
+  assert.ok(!row.includes('eval2_unk'), 'no status placeholder cell');
+  assert.ok(row.includes('<td class="subj td-subjects ${subjCell.cls}">${subjCell.html}</td>'), 'subjects cell present');
 });
 
 test('CL-UI-78 (5): no BLUE 「最佳」 pill; CL-UI-81 green semantic present', () => {
@@ -171,17 +174,20 @@ test('CL-UI-87 re-anchor (6b): audit app.js anchors — short vis cell + collaps
   const kv = appSource.slice(kvIdx, appSource.indexOf('let nowAnchorAssigned', kvIdx));
   assert.ok(kv.includes('${visCellHtml(item.visibility)}'), 'desktop row uses the short vis cell');
   assert.ok(kv.includes('class="key-metric td-vis"'), 'vis cell carries the fixed-width class');
-  // P1-3 + CL-UI-82: card face = time (64px col) / mainline status+subject /
+  // P1-3 + CL-UI-82: card face = time (64px col) / mainline subject verdict /
   // plain-language weather line; raw values collapse into <details>.
   const cardIdx = appSource.indexOf("card.className=`timeline-mobile-card");
   const card = appSource.slice(cardIdx, cardIdx + 3200);
-  assert.ok(card.indexOf('timeline-mobile-time') < card.indexOf('timeline-mobile-status'), 'time before status');
+  assert.ok(card.includes('timeline-mobile-time'), 'time column present');
+  assert.ok(!card.includes('timeline-mobile-status'), 'CL-UI-94: status span retired from the card');
   assert.ok(card.includes('timeline-mobile-plain'), 'plain-language weather line');
   assert.ok(card.includes('<details class="tm-details"'), 'native details 「詳細氣象」');
   assert.ok(card.includes('tmDetailsOpen'), 'open state restored from tmRestoreOpen');
   assert.ok(!card.includes("classList.toggle('tm-details-open')"), 'old class-toggle retired');
-  // dedupe: mobile 一般拍攝 chip is hidden by default, revealed only on ✅
-  assert.ok(card.includes('tm-subj-general" hidden'), 'general chip hidden by default');
+  // CL-UI-94: the mobile ○ 一般拍攝 token is the verdict itself — always
+  // rendered (grey), same source as the ✓ chip (hours.ok); no reveal/dedupe.
+  assert.ok(card.includes('tm-subj-general">${esc(d().v2_hour_general_ok)}</span>'), 'general token always rendered');
+  assert.ok(!card.includes('tm-subj-general" hidden'), 'no hidden-by-default reveal logic');
   // new i18n key in all three dictionaries
   assert.equal(appSource.split("wm_details:'").length - 1, 3, 'wm_details in all three dicts');
 });
