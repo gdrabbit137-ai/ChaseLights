@@ -55,6 +55,10 @@ Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RE
 - 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.3；GUIDANCE）
 - 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.6；GUIDANCE）
 
+### QUALITY
+
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold [20, 70]；GUIDANCE）
+
 
 ### 進入警告（不影響攝影條件）
 - 封閉、危險路段與未核實合法取景範圍僅作安全／進入提醒，不降低天氣攝影適合度。導航仍須核實抵達點。
@@ -80,6 +84,10 @@ Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RE
 - 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold [20, 70]；GUIDANCE）
 - 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.3；GUIDANCE）
 - 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 0.6；GUIDANCE）
+
+### QUALITY
+
+- 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold [20, 70]；GUIDANCE）
 
 
 ### 進入警告（不影響攝影條件）

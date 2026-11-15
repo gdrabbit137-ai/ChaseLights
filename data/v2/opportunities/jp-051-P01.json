@@ -160,9 +160,14 @@
     "threshold_source": "evidence_review",
     "calibration_status": "provisional",
     "rationale_i18n": {
-     "zh-TW": "水面存續（不結冰、未乾涸）：季節性水體的存續由警語/公告層維護，屬純提示、不否決；缺公告時誠實 propagate unknown。",
-     "en": "Water presence (not frozen, not dried): seasonal-water existence is maintained in the advisory layer - pure notice, never a veto; propagates unknown when no advisory exists.",
-     "ja": "水面の存続（凍結・干上がりなし）。季節性水域の存続は警報層で管理。純粋な注意表示で否決しない。情報なければunknownを伝播。"
+     "zh-TW": "潮汐決定型（CL-DATA-72 batch A / CHALLENGER-15 A7，manager 定案）：鏡面存續由潮位決定，系統尚無潮汐資料源——誠實 propagate unknown（fail-closed → NOT_EVALUABLE），不以風雨派生水況冒充潮位判據。拍攝指南：需查潮汐表（退潮後殘水或滿潮時位才有鏡面）。",
+     "en": "Tide-decided subject (CL-DATA-72 batch A / CHALLENGER-15 A7, manager ruling): the mirror exists only inside a tide window and the system has no tide data source — honest propagate unknown (fail-closed -> NOT_EVALUABLE); the wind/rain derived proxy must not impersonate a tide gate. Shooting guide: check the tide table — the mirror appears after ebb (residual water) or at the high-tide water level.",
+     "ja": "潮位決定型（CL-DATA-72 batch A / CHALLENGER-15 A7、マネージャー裁定）：鏡面の存続は潮位で決まり、システムに潮汐データソースがない — 誠実に propagate unknown（fail-closed → NOT_EVALUABLE）。風雨派生の水況を潮位判定の代用にしない。撮影ガイド：干潮表を確認（干潮後の残水または満潮時に鏡面）。"
+    },
+    "notes_i18n": {
+     "zh-TW": "拍攝指南：需查潮汐表——潮位決定鏡面存續；風平浪靜不代表露出水面。",
+     "en": "Shooting guide: check the tide table — the tide decides whether the mirror exists; calm wind does not mean exposed water.",
+     "ja": "撮影ガイド：干潮表を確認 — 鏡面の存続は潮位次第。風が弱くても水面があるとは限らない。"
     }
    },
    {

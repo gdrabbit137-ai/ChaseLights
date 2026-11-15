@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-035-P06",
   "place_id": "tw-035",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "六十石山觀景點下方縱谷雲海",
@@ -284,6 +284,36 @@
           "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch d）：雲海可見光題材補 light_window（civil，太陽仰角 > −6°；夜間不成立）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
           "en": "2026-11-06 CL-DATA-12 full audit (batch d): visible-light cloud-sea subject gains civil light_window (sun elevation > -6 deg; never true at night). Semantic correction; layering parity gate exempt, documented here.",
           "ja": "2026-11-06 CL-DATA-12 全面監査（batch d）：可視光の雲海題材に light_window を追加（市民光、太陽高度 > -6°；夜間は不成立）。 意味修正のため layering parity ゲートは免除。"
+        }
+      },
+      {
+        "id": "C-tw-035-P06-CB1",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_base_height",
+        "operator": "lt",
+        "threshold": 744,
+        "unit": "m",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-035-P06-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "雲海/雲瀑/夜光高度窗（CL-DATA-71）：雲底（既有 LCL 代理）須低於視線餘量（觀點海拔 944 m − 200 m = 744 m，雲海族 DEM−200 慣例）；晴天無雲時雲底抬升遠超閾值，展望/夜光主體雖銳利但無下方雲層，本題材不成立。",
+          "en": "Cloud-sea/cascade/night-glow base window (CL-DATA-71): the cloud base (existing LCL proxy) must sit below the sight-line margin (viewpoint 944 m - 200 m = 744 m, the CL-DATA-12 cloud-sea-family DEM-200 convention); on clear nights the base rises far above the threshold - no deck below, the subject does not hold.",
+          "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 944 m − 200 m = 744 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
+        },
+        "notes_i18n": {
+          "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 944 m）− 200 m = 744 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
+          "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 944 m) - 200 m = 744 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
+          "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 944 m）− 200 m = 744 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
         }
       }
     ]

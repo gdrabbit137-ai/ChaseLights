@@ -2,7 +2,7 @@
  "schema_version": "2.1.0",
  "opportunity_id": "tw-128-P01",
  "place_id": "tw-128",
- "revision": 1,
+ "revision": 2,
  "lifecycle_status": "draft",
  "name_i18n": {
   "zh-TW": "墨硯山苗栗琉璃光",
@@ -238,6 +238,39 @@
      "zh-TW": "時間窗＝整小時太陽仰角 ≤ −6°（民用暮光後）。夜間光雕主體需要黑暗天空；白天時段即使天氣全過也不成立。",
      "en": "Time window = the whole hour bucket with sun elevation <= -6 deg (after civil dusk). A night-illumination subject needs a dark sky; a daytime hour cannot qualify even if every weather condition passes.",
      "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。夜間ライトアップの主題には暗い空が必要で、昼間は気象条件が全て通過しても成立しない。"
+    }
+   },
+   {
+    "id": "C-tw-128-P01-CB1",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_base_height",
+    "operator": "between",
+    "threshold": [
+     50,
+     120
+    ],
+    "unit": "m",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-128-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "evidence_review",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "琉璃光高度窗（CL-DATA-71）：雲底（既有 LCL 代理）須落在本點帶 50–120 m——雲層懸在觀點（157 m）下方、市街燈海上方，燈光經薄雲散射成琉璃光；雲底高於帶外（晴天無雲或雲層高掛）時夜燈銳利、無散射層，本題材不成立。",
+     "en": "Glow (liuli) cloud-base window (CL-DATA-71): the cloud base (existing LCL proxy) must fall in this place's recorded band 50–120 m - the deck hangs below the viewpoint (157 m) and above the town lights, scattering them into the glow; a base outside the band (clear sky or deck hanging high) gives crisp unlit-scatter lights and the subject does not hold.",
+     "ja": "琉璃光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は本地点の帯 50–120 m に収まること。雲が視点（157 m）の下・街灯の上に掛かり、光が薄雲で散って琉璃光になる。帯外（快晴や雲が高い）では街灯が鋭く、散乱層がなく題材は成立しない。"
+    },
+    "notes_i18n": {
+     "zh-TW": "CL-DATA-71：帶值照 catalog 記載（data/v2/audits/subject-lists/liuli-cloudheights.json，owner-gemini-liuliglow-30 清單）；觀點海拔＝camera_context web-verified altitude_m 157 m。評估值＝既有 LCL 代理 （lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）。",
+     "en": "CL-DATA-71: band values as recorded in the catalog (data/v2/audits/subject-lists/liuli-cloudheights.json, owner-gemini-liuliglow-30 list); viewpoint elevation = camera_context web-verified altitude_m 157 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground).",
+     "ja": "CL-DATA-71：帯値はカタログ記載どおり（data/v2/audits/subject-lists/liuli-cloudheights.json、owner-gemini-liuliglow-30 リスト）；視点高度＝camera_context web-verified altitude_m 157 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点から推算、視点グリッド地面上の高さ）。"
     }
    }
   ]

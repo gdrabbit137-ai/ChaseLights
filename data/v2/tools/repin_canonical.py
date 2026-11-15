@@ -10,7 +10,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(r"D:\d\Dick\Project\ChaseLights-wt-CL-DATA-01")
+# Resolve the repo from this tool's own location (parents[3]) so the pin works
+# from any worktree/checkout; the historical absolute path remains available
+# as an optional argv[1] override.
+ROOT = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parents[3]
 LOCK = ROOT / "data/v2/indexes/research/source-lock.json"
 
 
