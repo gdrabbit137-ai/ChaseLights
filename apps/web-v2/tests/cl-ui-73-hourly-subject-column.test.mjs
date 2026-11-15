@@ -58,24 +58,25 @@ const makeCell = ({currentLang = 'zh-TW', dict = artifact} = {}) => new Function
   'const v2SubjectCardRow=(spotId,localDate)=>((v2SubjectCards.places||{})[spotId]||{})[localDate]||null;' +
   'return {v2HourSubjectCell};')();
 
-test('CL-UI-73 (1): tri-lingual column header + the column rides after the status column', () => {
+test('CL-UI-73/94 (1): tri-lingual column header + the column rides first after 時間 (status column retired)', () => {
   for (const lang of ['zh-TW', 'en', 'ja']) {
     assert.match(appSource, new RegExp(`th_subjects:'[^']+'`), `th_subjects exists (${lang})`);
   }
   assert.ok(appSource.includes("th_subjects:'適合題材'"), 'zh-TW header');
   assert.ok(appSource.includes("th_subjects:'Subjects'"), 'en header');
   assert.ok(appSource.includes("th_subjects:'適合テーマ'"), 'ja header');
-  // header: 狀態 then 適合題材 (CL-UI-87: the mockup date-group table header)
+  // CL-UI-94: 時間 → 適合題材 → 口語化氣象 — no 狀態 column anywhere
   const headIdx = appSource.indexOf('<thead><tr><th>${esc(d().th_time)}</th>');
   const head = appSource.slice(headIdx, headIdx + 400);
   assert.ok(head.includes('<th>${esc(d().th_subjects)}</th>'), 'subjects <th>');
-  assert.ok(head.indexOf('th_status') < head.indexOf('th_subjects'), 'after 狀態');
-  // row cell: the subjects <td> sits right after the status <td>, so the
-  // status column keeps its cells[1] index (CL-UI-43 painters rely on it)
+  assert.ok(head.indexOf('th_subjects') < head.indexOf('th_plain'), 'subjects before plain weather');
+  assert.ok(!head.includes('th_status'), 'no 狀態 header');
+  // row cell: the subjects <td> is the verdict source (subject-cards hours);
+  // the retired painter cannot contradict it (no cells[1] writes anywhere).
   const rowIdx = appSource.indexOf('rowsHtml.push(`<tr class=');// CL-UI-87: the row build lives in the per-group hour loop
   const row = appSource.slice(rowIdx, rowIdx + 2400);
   assert.ok(row.includes('<td class="subj td-subjects ${subjCell.cls}">${subjCell.html}</td>'), 'subjects <td>');
-  assert.ok(row.indexOf('eval2_unk') < row.indexOf('td-subjects'), 'after the status cell');
+  assert.ok(!row.includes('eval2_unk'), 'no status placeholder cell in the row');
   // CL-UI-82: the mobile card carries the subject on the mainline (能拍：題材名)
   assert.ok(row.includes('tm-mainline-subj'), 'mobile mainline subject line');
 });
@@ -162,10 +163,10 @@ test('CL-UI-73 (4): artifact shape — every row has fit/ok/no/unk/na buckets, r
   assert.ok(fitHours > 1000, `fitting-hour count ${fitHours}`);
 });
 
-test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui95 stamps', () => {
+test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui96 stamps', () => {
   for (const cls of ['.td-subjects.subj-has', '.td-subjects.subj-ok-row', '.td-subjects.subj-na-row', '.td-subjects.subj-no-row', '.subj-chip', '.subj-na', '.timeline-mobile-subjects']) {
     assert.ok(cssSource.includes(cls), `css has ${cls}`);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui95/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui95/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui96/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui96/);
 });

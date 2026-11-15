@@ -120,19 +120,21 @@ test('CL-UI-89 (5): 未符 mainline = ⚠️ 未符・短原因 (clui82BadReason
   assert.equal(mappingModule(JA).bad(JA.state_bad, {c_low:84, c_mid:0, c_high:0}), '⚠️ 未達成・下層雲多め');
 });
 
-test('CL-UI-89 (6): paint wiring — decorate appends the reason on the mobile mainline only', () => {
+test('CL-UI-89/94 (6): the ✗ short reason rides the subject cell — no painter write path left', () => {
   const deco = grab('function decorateWeatherTimeline', 'function decorateV2Eval');
-  // the CL-UI-82 dedupe contract lines stay byte-identical
-  assert.ok(/state_bad\)\{card\.classList\.add\('tm-st-bad'\);general\.forEach\(x=>x\.hidden=true\)/.test(deco), '⚠️ still hides the 一般拍攝 chip');
-  assert.ok(deco.includes("cell.textContent=clui82BadReasonLabel(label,wxByT&&wxByT[card.dataset.v2t])"), '⚠️ mainline gains the short reason');
-  assert.ok(deco.includes('function decorateWeatherTimeline(spot,activeOpportunityId,wxByT)'), 'weather stash passed into decorate');
-  // desktop table cells keep the bare verdict (the 口語化氣象 column already
-  // carries the cloud word via the sky mapping) — only ONE paint site changed
-  assert.equal(deco.split('clui82BadReasonLabel').length - 1, 1, 'reason appended at the mobile mainline paint only');
-  // render loop stashes the hour's weather for the paint pass + passes it in
+  // CL-UI-94: the status painter is retired — evaluations-details can no
+  // longer append a second verdict (it was the 大屯山 contradiction source).
+  assert.match(deco, /CL-UI-94/, 'retirement anchor');
+  assert.ok(!deco.includes('clui82BadReasonLabel'), 'no second reason write path');
+  // the fail short-reason comes from the subject-cards dict (same source as
+  // the ✓ chips) and rides the mobile mainline + desktop subject cell
+  const cellBlock = grab('function v2HourSubjectCell', '// CL-UI-26: every 不符 verdict');
+  assert.ok(cellBlock.includes('fail_reason_short'), 'fail words from the artifact dictionary');
+  assert.ok(cellBlock.includes("class=\"subj-no\">✗"), '✗ short reason in the subject cell');
   const cardBlock = grab("const card=document.createElement('div');card.className=`timeline-mobile-card", 'mobile.appendChild(card);');
-  assert.ok(cardBlock.includes('wxByT[card.dataset.v2t]=item'), 'weather stash keyed by the same v2t');
-  assert.ok(appSource.includes('decorateWeatherTimeline(spot,activeOpportunityId,wxByT)'), 'call site forwards the stash');
+  assert.ok(cardBlock.includes('tm-subj-fail'), 'fail word rides the mobile mainline');
+  assert.ok(cardBlock.includes('wxByT[card.dataset.v2t]=item'), 'weather stash kept for the plain-line source');
+  assert.ok(appSource.includes('decorateWeatherTimeline(spot,activeOpportunityId,wxByT)'), 'call site anchor retained');
 });
 
 test('CL-UI-89 (7): 詳細氣象 strip never truncates — content-sized flex cells, no ellipsis', () => {
@@ -153,6 +155,6 @@ test('CL-UI-89 (7): 詳細氣象 strip never truncates — content-sized flex ce
   assert.ok(cardBlock.includes('${visCellHtml(item.visibility)}'), 'vis value in the details block');
 });
 
-test('CL-UI-89 (8): cache-bust stamp advanced to clui95', () => {
-  assert.equal((indexSource.match(/\?v=clui95/g) || []).length, 2, 'app.js + app.css at clui95');
+test('CL-UI-89 (8): cache-bust stamp advanced to clui96', () => {
+  assert.equal((indexSource.match(/\?v=clui96/g) || []).length, 2, 'app.js + app.css at clui96');
 });
