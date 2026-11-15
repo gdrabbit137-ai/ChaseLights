@@ -3,17 +3,17 @@
   "manifest": {
     "format_version": "0.1.0",
     "mode": "RESEARCH_ONLY",
-    "index_revision": "sha256:d07522f0f24a346d7a0ce79f5f4a40c7bcbf467deaf89f4f77210e5cf323bce0",
+    "index_revision": "sha256:13f000cbcaacedd7b876d0fc19f5c34a3f1ba3692ad93181f89b5520eb11f71f",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "w1_contract_commit_sha": "b56632b090aa79c28806f30b10aed79cbb0cfb31",
     "canonical_source_lock": "source-lock.json",
-    "source_lock_sha256": "18209780259b3be996c62d056a21bcbc4c145a0a8a827f3dc3ca8b2e36c0f5c1",
+    "source_lock_sha256": "f9189d0cdc3048f5f55aefce0b93691631ae7bfaf6c98b1ffa815cc709851b52",
     "curation_sha256": "b36c38e916882299df831c9e4de65deaaac52fb3fae1d4c38b2c053c09b065ce",
     "files": {
-      "place-index.json": "055173cfa34d9151fce98772bd9409e4c6da651e67cbe5b73f96ac18ff99c17a",
-      "topic-index.json": "849954fa8c39cda828f32dc51366a0e71718724e1f7997b42efb72ae3d727c52",
-      "field-provenance.json": "00809c0ea67edb7627557098bd9f5d4687d118a0bdae0624b2b4e7fd48814a27",
-      "index-status.json": "4eb0a51929e226eafa1571b7021278ccb503e00324c57b0fb5e6cccc823e64c1"
+      "place-index.json": "4fd12c3280998f0c507219d1618947a936298b187eeb43088d44d11d360a30da",
+      "topic-index.json": "0a075a135a3517ad59af1335735b3c3376c89cef45563bc83d8dfbd1338273b7",
+      "field-provenance.json": "21a0a8ac1439ab51087e27bb7a7e1c6c56f8441e9387bbb892d42a71ed182938",
+      "index-status.json": "c0abbe7565962e676e7fe6fec6da4149fd3d63eef3d43419be8a68d3c3e056f3"
     }
   },
   "place_index": {
@@ -12584,10 +12584,10 @@
       {
         "opportunity_id": "jp-030-P99",
         "place_id": "jp-030",
-        "revision": 1,
-        "source_commit_sha": "5b3e29dea0a564560817e7f03d2082cd3126dad0",
+        "revision": 2,
+        "source_commit_sha": "a923ee67a3f3edc6c1c258661d8aeedd78a85e18",
         "source_path": "data/v2/opportunities/jp-030-P99.json",
-        "source_blob_sha": "5a7c15885b7e79034ca01fb15542f009428e7337",
+        "source_blob_sha": "cb98f2950da1b13431006259f169e1496ccc02b1",
         "publication": "RESEARCH_ONLY",
         "publication_reason_codes": [
           "CANONICAL_R1_EVIDENCE_REVIEW",
@@ -21668,11 +21668,11 @@
         "publication_approval_ref": null
       }
     ],
-    "index_revision": "sha256:d07522f0f24a346d7a0ce79f5f4a40c7bcbf467deaf89f4f77210e5cf323bce0"
+    "index_revision": "sha256:13f000cbcaacedd7b876d0fc19f5c34a3f1ba3692ad93181f89b5520eb11f71f"
   },
   "topic_index": {
     "schema_version": "0.1.0",
-    "index_revision": "sha256:d07522f0f24a346d7a0ce79f5f4a40c7bcbf467deaf89f4f77210e5cf323bce0",
+    "index_revision": "sha256:13f000cbcaacedd7b876d0fc19f5c34a3f1ba3692ad93181f89b5520eb11f71f",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "topics": [
       {
@@ -38321,14 +38321,14 @@
         },
         "classification_excerpts": {
           "/targets/0/name_i18n": {
-            "zh-TW": "鳴門海峽漩渦（一般拍攝）",
-            "en": "Naruto Whirlpools (general shooting)",
-            "ja": "鳴門海峡（一般撮影）"
+            "zh-TW": "鳴門海峽漩渦（可拍）",
+            "en": "Naruto Whirlpools (shootable)",
+            "ja": "鳴門海峡（撮影可）"
           },
           "/description_i18n": {
-            "zh-TW": "一般拍攝題材（owner 裁決 2026-11-10 零題材兜底）：主體不被遮擋（能見度足夠）、無大雨大霧即可拍攝。此為可拍性下限保證，非策展題材；顯示層以「一般拍攝」標籤區分。能見度門檻：一般（5km）。",
-            "en": "General shooting subject (CL-DATA-65 zero-curated-subject fallback, owner ruling 2026-11-10): the subject is unobstructed (adequate visibility) and shootable without heavy rain or heavy fog. This is a shootability floor, not a curated genre; the display layer labels it General shooting.Visibility threshold: general (5km).",
-            "ja": "一般撮影題材（2026-11-10 オーナー裁定によるゼロ題材フォールバック）：主題が遮られず（視程十分）、大雨・濃霧がなければ撮影できる。撮影可能性の下限保証であり、キュレーション題材ではない。表示層は「一般撮影」ラベルで区別する。視程閾値：一般（5km）。"
+            "zh-TW": "可拍題材（owner 裁決 2026-11-10 零題材兜底；CL-DATA-69 文案統一改名）：主體不被遮擋（能見度足夠）、無大雨大霧即可拍攝。此為可拍性下限保證，非策展題材；顯示層以「可拍」標籤區分。能見度門檻：一般（5km）。",
+            "en": "Shootable subject (CL-DATA-65 zero-curated-subject fallback, owner ruling 2026-11-10; title renamed per CL-DATA-69 copy unification): the subject is unobstructed (adequate visibility) and shootable without heavy rain or heavy fog. This is a shootability floor, not a curated genre; the display layer labels it Shootable.Visibility threshold: general (5km).",
+            "ja": "撮影可題材（2026-11-10 オーナー裁定によるゼロ題材フォールバック、CL-DATA-69 文案統一による改名）：主題が遮られず（視程十分）、大雨・濃霧がなければ撮影できる。撮影可能性の下限保証であり、キュレーション題材ではない。表示層は「撮影可」ラベルで区別する。視程閾値：一般（5km）。"
           }
         },
         "description_ref": "data/v2/opportunities/jp-030-P99.json#/description_i18n",
@@ -61157,7 +61157,7 @@
   "index_status": {
     "format_version": "0.1.0",
     "mode": "RESEARCH_ONLY",
-    "index_revision": "sha256:d07522f0f24a346d7a0ce79f5f4a40c7bcbf467deaf89f4f77210e5cf323bce0",
+    "index_revision": "sha256:13f000cbcaacedd7b876d0fc19f5c34a3f1ba3692ad93181f89b5520eb11f71f",
     "taxonomy_revision": "sha256:50c69521d12b2b00a7c52681545a0fd011eda0cca8c2f07518bd0bfac782dbad",
     "selected_date_recommendation_eligible": false,
     "forecast_available": false,

@@ -43,7 +43,9 @@ class RegistryTests(unittest.TestCase):
 
     def test_general_defined_and_registered(self):
         self.assertEqual(self.t['template_id'], 'general')
-        self.assertEqual(self.t['version'], '0.1')
+        # CL-INT-183 re-anchor: CL-DATA-69 owner copy unification bumped the
+        # general template to v0.2 (title rename only; conditions unchanged).
+        self.assertEqual(self.t['version'], '0.2')
         self.assertEqual(self.templates['general']['status'], 'defined')
 
     def test_all_conditions_required_no_bonus(self):

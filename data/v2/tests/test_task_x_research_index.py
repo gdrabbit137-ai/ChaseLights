@@ -230,7 +230,9 @@ class ResearchIndexTests(unittest.TestCase):
             '5adb3ace77808544f95f9e4ef3b751cf9938f964',
             # CL-DATA-65: jp-030-P99 general-genre mount pinned to 5b3e29dea
             # (final task commit carrying the needs_review navigation bytes).
-            '5b3e29dea0a564560817e7f03d2082cd3126dad0',
+            # CL-INT-183 re-anchor: CL-DATA-69 renamed the record title to 可拍
+            # (revision 2) — repinned to the task-branch rename commit.
+            'a923ee67a3f3edc6c1c258661d8aeedd78a85e18',
             # CL-DATA-67: jp-049-P01/jp-065-P01 gain the civil light_window
             # (sunset_window MODIFIER never vetoed night hours) repinned to
             # 86b3fa825 (contract commit; blob+sha256 verified on the task tree).
