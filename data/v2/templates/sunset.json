@@ -72,7 +72,7 @@
     {
       "template_ref": "T3",
       "metric": "cloud_cover_mid_and_high",
-      "role": "REQUIRED",
+      "role": "QUALITY",
       "domain": "WEATHER",
       "evaluation_mode": "GUIDANCE",
       "capability": "CONDITIONS",
@@ -83,9 +83,9 @@
       "threshold_source": "formula_derived",
       "calibration_status": "provisional",
       "rationale_i18n": {
-        "zh-TW": "中高雲是彩霞的染料：全晴只有金黃、全陰無色彩；20–70% 區間加分。指標由管線以 mid+high 求和推導。",
-        "en": "Mid and high cloud are the dyes of the sunset glow: clear sky gives only gold, overcast gives none; 20-70% scores. Derived by the pipeline as mid+high.",
-        "ja": "中高層雲は夕焼けの彩となる。快晴は金色のみ、全層雲は色彩なし。20〜70%で加点。mid+highの和として算出。"
+        "zh-TW": "中高雲是彩霞的染料：全晴只有金黃、全陰無色彩；20–70% 區間加分。指標由管線以 mid+high 求和推導。 CL-DATA-72 batch A（CHALLENGER-15 A5）：20–70% 是加分區間不是否決線——167 個全晴日僅因本條被否決；role 收斂為 QUALITY，與日出模板同構。",
+        "en": "Mid and high cloud are the dyes of the sunset glow: clear sky gives only gold, overcast gives none; 20-70% scores. Derived by the pipeline as mid+high. CL-DATA-72 batch A (CHALLENGER-15 A5): the 20-70% band is a bonus, not a veto — 167 fully-clear days failed on this condition alone; role converges to QUALITY, mirroring the sunrise template.",
+        "ja": "中高層雲は夕焼けの彩となる。快晴は金色のみ、全層雲は色彩なし。20〜70%で加点。mid+highの和として算出。 CL-DATA-72 batch A（CHALLENGER-15 A5）: 20〜70%は加点区間であり拒否線ではない。快晴167日が本条件だけで否決されたため、roleをQUALITYに統一（日の出テンプレートと同構）。"
       },
       "binding": {
         "dataset": "gfs_0p25",
