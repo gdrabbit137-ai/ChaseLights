@@ -331,7 +331,7 @@ def verify_main(root, lock):
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
             len(catalog.get("places", [])) != 460
-            or len(catalog.get("opportunities", [])) != 692):  # CL-INT-139 merged re-anchor: 433/665 -> 460/692 (CL-DATA-66 waves6-7 tw-201..227, measured on the merged tree; prior: wave5 433/665)
+            or len(catalog.get("opportunities", [])) != 721):  # CL-INT-192 merged re-anchor: 460/692 -> 460/721 (CL-DATA-73 misty_forest 12 + CL-DATA-74 five-genre 17 mounts + merged-tree regen a6b3c0e68, measured on the merged tree; prior: CL-INT-139 460/692)
         raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]
