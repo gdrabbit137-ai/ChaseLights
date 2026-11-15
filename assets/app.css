@@ -744,7 +744,6 @@
     /* CL-UI-81 (P1-2): 「最佳」 semantic is GREEN — row highlight
        var(--cl-green-bg) + 2px var(--cl-green) left border; badge color-mix(in srgb, var(--cl-green) 22%, var(--cl-bg-0))/var(--cl-green-text). */
     .terminal-table tr.best-row { background: var(--cl-green-bg); border-left: 2px solid var(--cl-green); color: var(--cl-text-1) !important; }
-    .tag-past { font-size: 0.7rem; color: var(--cl-grey); border: 1px solid var(--cl-grey); padding: 1px 4px; border-radius: 3px; }
     .tag-best {
       display:inline-block;
       margin-left:5px;
