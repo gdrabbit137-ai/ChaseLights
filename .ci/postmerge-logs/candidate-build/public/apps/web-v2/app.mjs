@@ -3,17 +3,18 @@ import {createCatalogState} from "./catalog-state.mjs";
 import {browse,validateBrowseIndex} from "./browse-index.mjs";
 import {CATALOG_SHA256,BROWSE_INDEX_SHA256} from "./bundle-digests.mjs";
 import {createPullToRefresh,fetchCloudDigest} from "./pull-refresh.mjs";
-import {fetchMember} from "./shell-auth.mjs";
+import {fetchMember,MEMBER_TRANSIENT,consumeAuthError,authErrorMessage,AUTH_CONFIG_ENDPOINT,AUTH_LINK_STATUS_ENDPOINT,AUTH_LINK_START_ENDPOINT,parseAuthConfig,parseLinkStatus,consumeLinkResult,linkResultMessage} from "./shell-auth.mjs";
+import {createFavoritesClient,localFavorites,persistLocalFavorites,clearLocalFavorites,favoritesFallbackMessage} from "./favorites-client.mjs";
 
 const copy = {
-"zh-TW":{subtitle:"攝影機會研究介面",language:"語言",eyebrow:"獨立 V2 測試入口",headline:"從景點與題材，規劃你的拍攝",intro:"探索已匯入的攝影景點與題材、構圖關係和證據。這不是即時天氣預報。",mode:"研究／展示模式",noData:"尚未提供 V2 正式資料。未顯示任何虛構景點或預報。",hasData:"已載入 V2 研究資料；尚未連接即時判斷。",source:"資料來源",updated:"資料產製時間",loaded:"本機載入時間",none:"未提供",unknown:"未知／未提供",importHeading:"匯入 V2 研究資料",importHelp:"選取 Worker 1／2 的 V2 JSON；不會上傳至伺服器。亦可由同目錄 catalog.v2.json 自動載入。",upload:"選取 JSON",places:"景點",search:"搜尋景點或 ID",empty:"等待 V2 資料",emptyHelp:"匯入包含 places 與 opportunities 的 V2 JSON 後，才會顯示實際研究紀錄。",choose:"選擇左側景點",opportunities:"攝影題材",noneOpp:"此景點沒有已提供的 V2 題材資料。",camera:"Camera Zone · 拍攝位置",subject:"Photo Target · 被攝主體",access:"Navigation / Access · 到達參考",relation:"Camera ↔ Subject · 觀測關係",distance:"距離",azimuth:"方位角",elevation:"仰俯角",time:"季節／時段／天文幾何",timeMissing:"尚未提供可驗證的時段、太陽／月亮／銀河幾何",runtime:"目前沒有可驗證的 V2 即時評估，不提供拍攝適合度或分數。",runtimeReady:"V2 執行結果",advanced:"研究條件、未知項與證據",required:"必要條件",blocker:"直接失敗條件",quality:"品質加分條件",unknowns:"待確認",evidence:"證據來源",notTranslated:"此欄尚未提供此語言的等價敘述",directions:"導航至已驗證到達點",map:"查看暫定座標（非導航）",navPending:"尚無已驗證的到達點；不產生導航路線",footer:"ChaseLights V2 獨立測試介面。研究紀錄不等於指定日期的預報。",invalid:"無法載入 V2 JSON：",count:"個",noMatches:"沒有符合的景點",dataLabel:"V2 研究 JSON",status:"研究狀態",pageTitle:"ChaseLights V2 — 攝影機會研究",skipToContent:"跳至主要內容",languageAria:"語言選擇",provenanceAria:"資料來源與時效",placesAria:"景點清單",opportunitiesAria:"攝影題材與研究資料",refreshing:"重新載入資料…",memberLogin:"登入",memberLoginLine:"使用 LINE 登入",memberLoginGoogle:"使用 Google 登入",memberLabel:"會員"},
-en:{subtitle:"Photography opportunity research",language:"Language",eyebrow:"Independent V2 test entry",headline:"Explore places and what to photograph",intro:"Explore imported places, compositions, observation relationships and evidence. This is not a live weather forecast.",mode:"Research / preview mode",noData:"No official V2 dataset is available. No fabricated places or forecasts are shown.",hasData:"V2 research data loaded; live evaluation is not connected.",source:"Data source",updated:"Data generated",loaded:"Loaded locally",none:"Not provided",unknown:"Unknown / not provided",importHeading:"Import V2 research data",importHelp:"Select a Worker 1/2 V2 JSON file; it stays in your browser. An optional catalog.v2.json in this directory is loaded automatically.",upload:"Choose JSON",places:"Places",search:"Search places or IDs",empty:"Waiting for V2 data",emptyHelp:"Import V2 JSON with places and opportunities to display actual research records.",choose:"Select a place on the left",opportunities:"Photography opportunities",noneOpp:"No V2 opportunities were provided for this place.",camera:"Camera Zone · shooting area",subject:"Photo Target · subject",access:"Navigation / Access · arrival reference",relation:"Camera ↔ Subject · observation relation",distance:"Distance",azimuth:"Azimuth",elevation:"Elevation angle",time:"Season / time / celestial geometry",timeMissing:"No verified time, sun, moon or Milky Way geometry supplied",runtime:"No verifiable V2 runtime evaluation; no shooting verdict or score is displayed.",runtimeReady:"V2 runtime result",advanced:"Research conditions, unknowns and evidence",required:"Required",blocker:"Blockers",quality:"Quality factors",unknowns:"Unknowns",evidence:"Evidence sources",notTranslated:"Equivalent text for this language has not been supplied",directions:"Directions to verified arrival point",map:"View provisional coordinate (not directions)",navPending:"No verified arrival point; directions are unavailable",footer:"Independent ChaseLights V2 test interface. Research is not a date-specific forecast.",invalid:"Unable to load V2 JSON: ",count:"",noMatches:"No matching places",dataLabel:"V2 research JSON",status:"Research status",pageTitle:"ChaseLights V2 — Photography research",skipToContent:"Skip to main content",languageAria:"Language selection",provenanceAria:"Data provenance and freshness",placesAria:"Places list",opportunitiesAria:"Photography opportunities and research",refreshing:"Refreshing data…",memberLogin:"Sign in",memberLoginLine:"Sign in with LINE",memberLoginGoogle:"Sign in with Google",memberLabel:"Member"},
-ja:{subtitle:"撮影機会の調査ビュー",language:"言語",eyebrow:"独立した V2 テスト入口",headline:"撮影地と題材から、撮影を考える",intro:"読み込んだ撮影地、構図、観測関係、根拠を確認できます。リアルタイム天気予報ではありません。",mode:"調査／プレビュー",noData:"正式な V2 データは未提供です。架空の撮影地や予報は表示しません。",hasData:"V2 調査データを読み込みました。リアルタイム判定は未接続です。",source:"データ出典",updated:"データ生成日時",loaded:"ローカル読込日時",none:"未提供",unknown:"不明／未提供",importHeading:"V2 調査データを読み込む",importHelp:"Worker 1／2 の V2 JSON を選択してください。サーバーには送信されません。同じフォルダの catalog.v2.json も自動読込できます。",upload:"JSON を選択",places:"撮影地",search:"撮影地または ID を検索",empty:"V2 データ待機中",emptyHelp:"places と opportunities を含む V2 JSON を読み込むと実際の調査記録を表示します。",choose:"左側から撮影地を選択",opportunities:"撮影機会",noneOpp:"この撮影地の V2 撮影機会は未提供です。",camera:"Camera Zone · 撮影位置",subject:"Photo Target · 被写体",access:"Navigation / Access · 到達地点",relation:"Camera ↔ Subject · 観測関係",distance:"距離",azimuth:"方位角",elevation:"仰俯角",time:"季節／時間帯／天体配置",timeMissing:"検証済みの時間帯・太陽・月・天の川の幾何情報は未提供です",runtime:"検証可能な V2 実行結果はありません。撮影可否や点数は表示しません。",runtimeReady:"V2 実行結果",advanced:"調査条件・不明点・根拠",required:"必須条件",blocker:"阻害条件",quality:"品質向上条件",unknowns:"未確認事項",evidence:"根拠資料",notTranslated:"この言語の同等の説明は未提供です",directions:"確認済み到達地点へナビ",map:"暫定座標を地図表示（ナビではありません）",navPending:"確認済み到達地点がないためナビは利用できません",footer:"ChaseLights V2 独立テスト画面。調査記録は日付指定の予報ではありません。",invalid:"V2 JSON を読み込めません：",count:"件",noMatches:"一致する撮影地はありません",dataLabel:"V2 調査 JSON",status:"調査状態",pageTitle:"ChaseLights V2 — 撮影機会の調査",skipToContent:"メインコンテンツへ移動",languageAria:"言語の選択",provenanceAria:"資料の出典と更新時刻",placesAria:"撮影地一覧",opportunitiesAria:"撮影機会と調査資料",refreshing:"データを再読み込み中…",memberLogin:"ログイン",memberLoginLine:"LINEでログイン",memberLoginGoogle:"Googleでログイン",memberLabel:"会員"}
+"zh-TW":{subtitle:"攝影機會研究介面",language:"語言",eyebrow:"獨立 V2 測試入口",headline:"從景點與題材，規劃你的拍攝",intro:"探索已匯入的攝影景點與題材、構圖關係和證據。這不是即時天氣預報。",mode:"研究／展示模式",noData:"尚未提供 V2 正式資料。未顯示任何虛構景點或預報。",hasData:"已載入 V2 研究資料；尚未連接即時判斷。",source:"資料來源",updated:"資料產製時間",loaded:"本機載入時間",none:"未提供",unknown:"未知／未提供",importHeading:"匯入 V2 研究資料",importHelp:"選取 Worker 1／2 的 V2 JSON；不會上傳至伺服器。亦可由同目錄 catalog.v2.json 自動載入。",upload:"選取 JSON",places:"景點",search:"搜尋景點或 ID",empty:"等待 V2 資料",emptyHelp:"匯入包含 places 與 opportunities 的 V2 JSON 後，才會顯示實際研究紀錄。",choose:"選擇左側景點",opportunities:"攝影題材",noneOpp:"此景點沒有已提供的 V2 題材資料。",camera:"Camera Zone · 拍攝位置",subject:"Photo Target · 被攝主體",access:"Navigation / Access · 到達參考",relation:"Camera ↔ Subject · 觀測關係",distance:"距離",azimuth:"方位角",elevation:"仰俯角",time:"季節／時段／天文幾何",timeMissing:"尚未提供可驗證的時段、太陽／月亮／銀河幾何",runtime:"目前沒有可驗證的 V2 即時評估，不提供拍攝適合度或分數。",runtimeReady:"V2 執行結果",advanced:"研究條件、未知項與證據",required:"必要條件",blocker:"直接失敗條件",quality:"品質加分條件",unknowns:"待確認",evidence:"證據來源",notTranslated:"此欄尚未提供此語言的等價敘述",directions:"導航至已驗證到達點",map:"查看暫定座標（非導航）",navPending:"尚無已驗證的到達點；不產生導航路線",footer:"ChaseLights V2 獨立測試介面。研究紀錄不等於指定日期的預報。",invalid:"無法載入 V2 JSON：",count:"個",noMatches:"沒有符合的景點",dataLabel:"V2 研究 JSON",status:"研究狀態",pageTitle:"ChaseLights V2 — 攝影機會研究",skipToContent:"跳至主要內容",languageAria:"語言選擇",provenanceAria:"資料來源與時效",placesAria:"景點清單",opportunitiesAria:"攝影題材與研究資料",refreshing:"重新載入資料…",memberLogin:"登入",memberLoginLine:"使用 LINE 登入",memberLoginGoogle:"使用 Google 登入",memberLoginApple:"使用 Apple 登入",memberLinkToggle:"連結其他登入方式",memberLinkNone:"尚未連結其他登入方式",memberLinkLine:"連結 LINE",memberLinkGoogle:"連結 Google",memberLinkApple:"連結 Apple",memberLinkEmailLabel:"以 Email 驗證連結",memberLinkEmailBtn:"送出",memberLinkEmailSent:"驗證信已寄出，請查收信箱。",memberLinkEmailPending:"Email 驗證連結尚未開放。",memberLinkError:"連結失敗，請重試",memberLabel:"會員"},
+en:{subtitle:"Photography opportunity research",language:"Language",eyebrow:"Independent V2 test entry",headline:"Explore places and what to photograph",intro:"Explore imported places, compositions, observation relationships and evidence. This is not a live weather forecast.",mode:"Research / preview mode",noData:"No official V2 dataset is available. No fabricated places or forecasts are shown.",hasData:"V2 research data loaded; live evaluation is not connected.",source:"Data source",updated:"Data generated",loaded:"Loaded locally",none:"Not provided",unknown:"Unknown / not provided",importHeading:"Import V2 research data",importHelp:"Select a Worker 1/2 V2 JSON file; it stays in your browser. An optional catalog.v2.json in this directory is loaded automatically.",upload:"Choose JSON",places:"Places",search:"Search places or IDs",empty:"Waiting for V2 data",emptyHelp:"Import V2 JSON with places and opportunities to display actual research records.",choose:"Select a place on the left",opportunities:"Photography opportunities",noneOpp:"No V2 opportunities were provided for this place.",camera:"Camera Zone · shooting area",subject:"Photo Target · subject",access:"Navigation / Access · arrival reference",relation:"Camera ↔ Subject · observation relation",distance:"Distance",azimuth:"Azimuth",elevation:"Elevation angle",time:"Season / time / celestial geometry",timeMissing:"No verified time, sun, moon or Milky Way geometry supplied",runtime:"No verifiable V2 runtime evaluation; no shooting verdict or score is displayed.",runtimeReady:"V2 runtime result",advanced:"Research conditions, unknowns and evidence",required:"Required",blocker:"Blockers",quality:"Quality factors",unknowns:"Unknowns",evidence:"Evidence sources",notTranslated:"Equivalent text for this language has not been supplied",directions:"Directions to verified arrival point",map:"View provisional coordinate (not directions)",navPending:"No verified arrival point; directions are unavailable",footer:"Independent ChaseLights V2 test interface. Research is not a date-specific forecast.",invalid:"Unable to load V2 JSON: ",count:"",noMatches:"No matching places",dataLabel:"V2 research JSON",status:"Research status",pageTitle:"ChaseLights V2 — Photography research",skipToContent:"Skip to main content",languageAria:"Language selection",provenanceAria:"Data provenance and freshness",placesAria:"Places list",opportunitiesAria:"Photography opportunities and research",refreshing:"Refreshing data…",memberLogin:"Sign in",memberLoginLine:"Sign in with LINE",memberLoginGoogle:"Sign in with Google",memberLoginApple:"Sign in with Apple",memberLinkToggle:"Link other sign-in methods",memberLinkNone:"No linked sign-in methods yet",memberLinkLine:"Link LINE",memberLinkGoogle:"Link Google",memberLinkApple:"Link Apple",memberLinkEmailLabel:"Link via email verification",memberLinkEmailBtn:"Send",memberLinkEmailSent:"A verification email was sent — check your inbox.",memberLinkEmailPending:"Email linking is not open yet.",memberLinkError:"Linking failed, please try again",memberLabel:"Member"},
+ja:{subtitle:"撮影機会の調査ビュー",language:"言語",eyebrow:"独立した V2 テスト入口",headline:"撮影地と題材から、撮影を考える",intro:"読み込んだ撮影地、構図、観測関係、根拠を確認できます。リアルタイム天気予報ではありません。",mode:"調査／プレビュー",noData:"正式な V2 データは未提供です。架空の撮影地や予報は表示しません。",hasData:"V2 調査データを読み込みました。リアルタイム判定は未接続です。",source:"データ出典",updated:"データ生成日時",loaded:"ローカル読込日時",none:"未提供",unknown:"不明／未提供",importHeading:"V2 調査データを読み込む",importHelp:"Worker 1／2 の V2 JSON を選択してください。サーバーには送信されません。同じフォルダの catalog.v2.json も自動読込できます。",upload:"JSON を選択",places:"撮影地",search:"撮影地または ID を検索",empty:"V2 データ待機中",emptyHelp:"places と opportunities を含む V2 JSON を読み込むと実際の調査記録を表示します。",choose:"左側から撮影地を選択",opportunities:"撮影機会",noneOpp:"この撮影地の V2 撮影機会は未提供です。",camera:"Camera Zone · 撮影位置",subject:"Photo Target · 被写体",access:"Navigation / Access · 到達地点",relation:"Camera ↔ Subject · 観測関係",distance:"距離",azimuth:"方位角",elevation:"仰俯角",time:"季節／時間帯／天体配置",timeMissing:"検証済みの時間帯・太陽・月・天の川の幾何情報は未提供です",runtime:"検証可能な V2 実行結果はありません。撮影可否や点数は表示しません。",runtimeReady:"V2 実行結果",advanced:"調査条件・不明点・根拠",required:"必須条件",blocker:"阻害条件",quality:"品質向上条件",unknowns:"未確認事項",evidence:"根拠資料",notTranslated:"この言語の同等の説明は未提供です",directions:"確認済み到達地点へナビ",map:"暫定座標を地図表示（ナビではありません）",navPending:"確認済み到達地点がないためナビは利用できません",footer:"ChaseLights V2 独立テスト画面。調査記録は日付指定の予報ではありません。",invalid:"V2 JSON を読み込めません：",count:"件",noMatches:"一致する撮影地はありません",dataLabel:"V2 調査 JSON",status:"調査状態",pageTitle:"ChaseLights V2 — 撮影機会の調査",skipToContent:"メインコンテンツへ移動",languageAria:"言語の選択",provenanceAria:"資料の出典と更新時刻",placesAria:"撮影地一覧",opportunitiesAria:"撮影機会と調査資料",refreshing:"データを再読み込み中…",memberLogin:"ログイン",memberLoginLine:"LINEでログイン",memberLoginGoogle:"Googleでログイン",memberLoginApple:"Appleでログイン",memberLinkToggle:"他のログイン方法を連携",memberLinkNone:"連携済みのログイン方法はありません",memberLinkLine:"LINEを連携",memberLinkGoogle:"Googleを連携",memberLinkApple:"Appleを連携",memberLinkEmailLabel:"メール認証で連携",memberLinkEmailBtn:"送信",memberLinkEmailSent:"確認メールを送信しました。受信箱を確認してください。",memberLinkEmailPending:"メール連携はまだ利用できません。",memberLinkError:"連携に失敗しました。もう一度お試しください",memberLabel:"会員"}
 };
 const homeCopy = {
-"zh-TW":{subtitle:"攝影預報與拍攝題材",eyebrow:"拍攝前，先了解可能性",headline:"攝影預報",intro:"查看拍攝預報，或探索景點與拍攝題材。",evaluationsLink:"攝影條件評估（GUIDANCE 即時參考）",pageTitle:"ChaseLights V2 — 攝影預報",dateStatus:"日期尚未選擇；指定日期預報尚未接線。",forecastStatus:"目前尚無可用的攝影預報",forecastHelp:"你仍可查看現有研究資料，了解拍攝題材與需要留意的條件。",browseResearch:"查看景點與拍攝題材",closeResearch:"關閉研究瀏覽",researchHeading:"景點與拍攝題材",researchScope:"研究資料，非指定日期預報。",toolsHeading:"資料工具",sourceHeading:"資料來源與進階資訊",provenanceAria:"資料來源與進階資訊",loading:"正在載入景點資料…",unavailable:"景點資料尚未提供，請稍後重試。",loadError:"暫時無法載入資料，請重試。",invalidData:"資料結構或語系不完整，無法使用這份資料。請重試或選取其他檔案。",emptyData:"目前尚無可瀏覽的景點資料。",readyData:"景點研究資料已載入。",retry:"重試載入",reload:"重新載入景點資料",clearSearch:"清除搜尋",placeNameMissing:"景點名稱尚未提供",placeIdentity:"景點識別碼",advanced:"資料來源與進階資訊",importHeading:"匯入研究資料",importHelp:"選取 V2 研究 JSON；資料留在此瀏覽器，不會上傳。匯入資料不會啟用攝影預報。",framingHint:"請先確認現場通行與安全，再於確認開放的範圍自行取景；研究範圍不是指定機位。"},
-en:{subtitle:"Photography forecasts and subjects",eyebrow:"Explore possibilities before your shoot",headline:"Photography forecast",intro:"Check photography forecasts or explore places and subjects to photograph.",evaluationsLink:"Photography condition evaluation (live GUIDANCE)",pageTitle:"ChaseLights V2 — Photography forecast",dateStatus:"No date selected; date-specific forecasts are not connected yet.",forecastStatus:"No photography forecast is available yet.",forecastHelp:"You can still browse existing research to understand subjects and the conditions to consider.",browseResearch:"Explore places and photography subjects",closeResearch:"Close research browser",researchHeading:"Places and photography subjects",researchScope:"Research information, not a date-specific forecast.",toolsHeading:"Data tools",sourceHeading:"Data sources and advanced information",provenanceAria:"Data sources and advanced information",loading:"Loading place information…",unavailable:"Place information is not available yet. Please retry later.",loadError:"Information could not be loaded. Please try again.",invalidData:"Invalid structure or incomplete localization. This information cannot be used. Retry or choose another file.",emptyData:"There is no place information to browse yet.",readyData:"Place research information loaded.",retry:"Retry loading",reload:"Reload place information",clearSearch:"Clear search",placeNameMissing:"Place name not provided",placeIdentity:"Place identifier",advanced:"Data sources and advanced information",importHeading:"Import research information",importHelp:"Choose a V2 research JSON file. It stays in this browser and is not uploaded. Importing does not enable photography forecasts.",framingHint:"Check local access and safety first, then choose your composition within confirmed open areas. A researched area is not a prescribed tripod position."},
-ja:{subtitle:"撮影予報と撮影の題材",eyebrow:"撮影の前に、可能性を確認",headline:"撮影予報",intro:"撮影予報を確認したり、撮影地と題材を調べたりできます。",evaluationsLink:"撮影条件評価（ライブGUIDANCE）",pageTitle:"ChaseLights V2 — 撮影予報",dateStatus:"日付は未選択です。指定日の予報はまだ接続されていません。",forecastStatus:"撮影条件の予報はまだ利用できません。",forecastHelp:"既存の調査情報から、撮影の題材と確認すべき条件を調べられます。",browseResearch:"撮影地と撮影の題材を見る",closeResearch:"調査情報を閉じる",researchHeading:"撮影地と撮影の題材",researchScope:"調査情報であり、指定日の予報ではありません。",toolsHeading:"データツール",sourceHeading:"データの出典と詳細情報",provenanceAria:"データの出典と詳細情報",loading:"撮影地の情報を読み込んでいます…",unavailable:"撮影地の情報はまだ提供されていません。後でもう一度お試しください。",loadError:"情報を読み込めませんでした。もう一度お試しください。",invalidData:"構造または翻訳が不完全なため、この情報は使用できません。再試行するか、別のファイルを選択してください。",emptyData:"閲覧できる撮影地の情報はまだありません。",readyData:"撮影地の調査情報を読み込みました。",retry:"読み込みを再試行",reload:"撮影地の情報を再読み込み",clearSearch:"検索をクリア",placeNameMissing:"撮影地の名称は未提供です",placeIdentity:"撮影地の識別子",advanced:"データの出典と詳細情報",importHeading:"調査情報を読み込む",importHelp:"V2 調査 JSON を選択してください。情報はこのブラウザー内に留まり、アップロードされません。読み込んでも撮影予報は有効になりません。",framingHint:"まず現地の通行条件と安全を確認し、開放が確認できた範囲で構図を選んでください。調査上の範囲は指定の三脚位置ではありません。"}
+"zh-TW":{subtitle:"攝影預報與拍攝題材",eyebrow:"拍攝前，先了解可能性",headline:"攝影預報",intro:"查看拍攝預報，或探索景點與拍攝題材。",evaluationsLink:"攝影條件評估（GUIDANCE 即時參考）",pageTitle:"ChaseLights V2 — 攝影預報",dateStatus:"日期尚未選擇；指定日期預報尚未接線。",forecastStatus:"目前尚無可用的攝影預報",forecastHelp:"你仍可查看現有研究資料，了解拍攝題材與需要留意的條件。",browseResearch:"查看景點與拍攝題材",closeResearch:"關閉研究瀏覽",researchHeading:"景點與拍攝題材",researchScope:"研究資料，非指定日期預報。",toolsHeading:"資料工具",sourceHeading:"資料來源與進階資訊",provenanceAria:"資料來源與進階資訊",loading:"正在載入景點資料…",unavailable:"景點資料尚未提供，請稍後重試。",loadError:"暫時無法載入資料，請重試。",invalidData:"資料結構或語系不完整，無法使用這份資料。請重試或選取其他檔案。",emptyData:"目前尚無可瀏覽的景點資料。",readyData:"景點研究資料已載入。",retry:"重試載入",reload:"重新載入景點資料",clearSearch:"清除搜尋",placeNameMissing:"景點名稱尚未提供",placeIdentity:"景點識別碼",advanced:"資料來源與進階資訊",importHeading:"匯入研究資料",importHelp:"選取 V2 研究 JSON；資料留在此瀏覽器，不會上傳。匯入資料不會啟用攝影預報。",framingHint:"請先確認現場通行與安全，再於確認開放的範圍自行取景；研究範圍不是指定機位。",favStarAdd:"加入我的最愛",favStarRemove:"移除我的最愛",favNotice:"收藏暫時無法同步，已保存在此裝置。"},
+en:{subtitle:"Photography forecasts and subjects",eyebrow:"Explore possibilities before your shoot",headline:"Photography forecast",intro:"Check photography forecasts or explore places and subjects to photograph.",evaluationsLink:"Photography condition evaluation (live GUIDANCE)",pageTitle:"ChaseLights V2 — Photography forecast",dateStatus:"No date selected; date-specific forecasts are not connected yet.",forecastStatus:"No photography forecast is available yet.",forecastHelp:"You can still browse existing research to understand subjects and the conditions to consider.",browseResearch:"Explore places and photography subjects",closeResearch:"Close research browser",researchHeading:"Places and photography subjects",researchScope:"Research information, not a date-specific forecast.",toolsHeading:"Data tools",sourceHeading:"Data sources and advanced information",provenanceAria:"Data sources and advanced information",loading:"Loading place information…",unavailable:"Place information is not available yet. Please retry later.",loadError:"Information could not be loaded. Please try again.",invalidData:"Invalid structure or incomplete localization. This information cannot be used. Retry or choose another file.",emptyData:"There is no place information to browse yet.",readyData:"Place research information loaded.",retry:"Retry loading",reload:"Reload place information",clearSearch:"Clear search",placeNameMissing:"Place name not provided",placeIdentity:"Place identifier",advanced:"Data sources and advanced information",importHeading:"Import research information",importHelp:"Choose a V2 research JSON file. It stays in this browser and is not uploaded. Importing does not enable photography forecasts.",framingHint:"Check local access and safety first, then choose your composition within confirmed open areas. A researched area is not a prescribed tripod position.",favStarAdd:"Add to favorites",favStarRemove:"Remove from favorites",favNotice:"Favorites could not be synced; saved on this device."},
+ja:{subtitle:"撮影予報と撮影の題材",eyebrow:"撮影の前に、可能性を確認",headline:"撮影予報",intro:"撮影予報を確認したり、撮影地と題材を調べたりできます。",evaluationsLink:"撮影条件評価（ライブGUIDANCE）",pageTitle:"ChaseLights V2 — 撮影予報",dateStatus:"日付は未選択です。指定日の予報はまだ接続されていません。",forecastStatus:"撮影条件の予報はまだ利用できません。",forecastHelp:"既存の調査情報から、撮影の題材と確認すべき条件を調べられます。",browseResearch:"撮影地と撮影の題材を見る",closeResearch:"調査情報を閉じる",researchHeading:"撮影地と撮影の題材",researchScope:"調査情報であり、指定日の予報ではありません。",toolsHeading:"データツール",sourceHeading:"データの出典と詳細情報",provenanceAria:"データの出典と詳細情報",loading:"撮影地の情報を読み込んでいます…",unavailable:"撮影地の情報はまだ提供されていません。後でもう一度お試しください。",loadError:"情報を読み込めませんでした。もう一度お試しください。",invalidData:"構造または翻訳が不完全なため、この情報は使用できません。再試行するか、別のファイルを選択してください。",emptyData:"閲覧できる撮影地の情報はまだありません。",readyData:"撮影地の調査情報を読み込みました。",retry:"読み込みを再試行",reload:"撮影地の情報を再読み込み",clearSearch:"検索をクリア",placeNameMissing:"撮影地の名称は未提供です",placeIdentity:"撮影地の識別子",advanced:"データの出典と詳細情報",importHeading:"調査情報を読み込む",importHelp:"V2 調査 JSON を選択してください。情報はこのブラウザー内に留まり、アップロードされません。読み込んでも撮影予報は有効になりません。",framingHint:"まず現地の通行条件と安全を確認し、開放が確認できた範囲で構図を選んでください。調査上の範囲は指定の三脚位置ではありません。",favStarAdd:"お気に入りに追加",favStarRemove:"お気に入りから削除",favNotice:"お気に入りを同期できませんでした。この端末に保存しました。"}
 };
 for (const locale of LOCALES) Object.assign(copy[locale], homeCopy[locale]);
 const browseCopy={
@@ -74,9 +75,39 @@ ja:{sourceCommit:"出典 commit SHA（データの申告）",catalog:"調査資�
 if (LOCALES.some(l => Object.keys(copy[l]).sort().join("|") !== Object.keys(copy["zh-TW"]).sort().join("|") || Object.keys(researchCopy[l]).sort().join("|") !== Object.keys(researchCopy["zh-TW"]).sort().join("|"))) throw new Error("Incomplete locale UI dictionary");
 const $ = id => document.getElementById(id);
 const node = (tag, className, text) => {const e=document.createElement(tag);if(className)e.className=className;if(text!==undefined)e.textContent=String(text);return e;};
-const state={locale:"zh-TW",catalog:null,selected:null,source:null,loaded:null,status:"loading",member:null,cloudDigest:null};
+const state={locale:"zh-TW",catalog:null,selected:null,source:null,loaded:null,status:"loading",member:null,cloudDigest:null,favNotice:false};
 let researchIndex=null,indexInvalid=false;
 const selectedTopics=new Set();
+// CL-UI-55: cloud-backed favorites (/api/v1/favorites). The member session
+// cookie takes precedence server-side; anonymous users carry a device id.
+// The local chaselights_favs_v2 list (shared with the V1 shell) is the
+// offline fallback and is uploaded/merged on first launch and after login.
+const favoritesClient=createFavoritesClient({onNotice:()=>{state.favNotice=true;render();}});
+let favoriteIds=new Set(localFavorites());
+function persistFavorites(){persistLocalFavorites([...favoriteIds]);}
+async function refreshFavorites(){
+  try{
+    const ids=await favoritesClient.syncLocal();
+    if(Array.isArray(ids)){
+      // CL-UI-57: the broadcast cloud set REPLACES the local set — merge-only
+      // semantics could never remove a previous member's favorites after
+      // logout (the anonymous device list is the signed-out truth).
+      favoriteIds=new Set(ids);
+      persistFavorites();
+      state.favNotice=false;
+    }
+  }catch{state.favNotice=true;}
+  render();
+}
+function syncStarButtons(){
+  for(const b of document.querySelectorAll("#detail .fav-star")){
+    const on=favoriteIds.has(b.getAttribute("data-fav-place"));
+    b.textContent=on?"★":"☆";
+    b.setAttribute("aria-pressed",String(on));
+    const label=t(on?"favStarRemove":"favStarAdd");
+    b.setAttribute("aria-label",label);b.title=label;
+  }
+}
 async function sha256(raw){const bytes=new TextEncoder().encode(raw);return [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');}
 const catalogState=createCatalogState({onChange:data=>{Object.assign(state,data);if(data.status==='ready'&&!data.verifiedBundle)selectedTopics.clear();render();},
   verifyDefault:async raw=>(await sha256(raw))===CATALOG_SHA256});
@@ -145,6 +176,13 @@ function render(){
   renderTopics();
   renderPlaces();renderDetail();
   renderMember();
+  // CL-UI-55: surface the favorites offline fallback notice in the active locale.
+  let favNoticeEl=$("fav-notice");
+  if(state.favNotice){
+    if(!favNoticeEl){favNoticeEl=node("p","fav-notice");favNoticeEl.id="fav-notice";favNoticeEl.setAttribute("role","status");document.body.appendChild(favNoticeEl);}
+    favNoticeEl.hidden=false;
+    favNoticeEl.textContent=favoritesFallbackMessage(state.locale);
+  }else if(favNoticeEl)favNoticeEl.hidden=true;
   if(restoreResearchFocus && !$("research-browser").hidden)$("research-heading").focus();
 }
 function activeIndex(){
@@ -228,6 +266,26 @@ function renderOpportunity(target,opp,c,place){
   const heading=node("h3","",name(opp));heading.id="topic-"+oid;heading.tabIndex=-1;
   card.setAttribute("aria-labelledby",heading.id);
   const top=node("div","opportunity-head");top.append(heading,node("span","pill",t("researchOnly")));card.append(top);
+  // CL-UI-55: cloud-backed favorite star. The toggle posts to
+  // /api/v1/favorites (member session or anonymous device id); on failure
+  // the local chaselights_favs_v2 list stands and the trilingual notice shows.
+  const placeKey=placeId(place);
+  const star=node("button","fav-star");
+  star.type="button";star.setAttribute("data-fav-place",placeKey);
+  star.textContent=favoriteIds.has(placeKey)?"★":"☆";
+  const starOn=favoriteIds.has(placeKey);
+  star.setAttribute("aria-pressed",String(starOn));
+  star.setAttribute("aria-label",t(starOn?"favStarRemove":"favStarAdd"));
+  star.title=star.getAttribute("aria-label");
+  star.addEventListener("click",async()=>{
+    const adding=!favoriteIds.has(placeKey);
+    if(adding)favoriteIds.add(placeKey);else favoriteIds.delete(placeKey);
+    persistFavorites();
+    syncStarButtons();
+    const ids=await favoritesClient.toggle(placeKey,adding);
+    if(Array.isArray(ids)){favoriteIds=new Set([...favoriteIds,...ids]);persistFavorites();syncStarButtons();}
+  });
+  top.append(star);
   const topics=activeIndex()?.topic_index.opportunity_topics.find(x=>x.opportunity_id===oid)?.topic_ids||[];
   if(topics.length)card.append(node("p","meta",topics.map(id=>displayLocalizedName(activeIndex().topic_index.topics.find(x=>x.topic_id===id)?.name_i18n,state.locale)).join(" · ")));
   else card.append(node("p","meta",t("unclassified")));
@@ -306,7 +364,7 @@ function renderOpportunity(target,opp,c,place){
   liveSec.append(node("h4","",t("evalLiveTitle")));
   liveSec.append(node("p","automation-status",t("evalLiveNone")));
   card.append(liveSec);
-  const EVAL_METRICS={cloud_cover_low:{ "zh-TW":"低雲",en:"Low cloud",ja:"下層雲",unit:"%"},cloud_cover_mid_and_high:{"zh-TW":"中高雲",en:"Mid+high cloud",ja:"中上層雲",unit:"%"},cloud_cover_total:{"zh-TW":"總雲量",en:"Total cloud",ja:"雲量",unit:"%"},wind_speed_10m:{"zh-TW":"風速",en:"Wind",ja:"風速",unit:"m/s"},wind_speed_850hpa:{"zh-TW":"850hPa風速",en:"850hPa wind",ja:"850hPa風速",unit:"m/s"},precipitation:{"zh-TW":"降水",en:"Precipitation",ja:"降水",unit:"mm"},aod_550nm:{"zh-TW":"氣膠光學厚度",en:"Aerosol optical depth",ja:"エアロゾル光学的厚度",unit:""},visibility:{"zh-TW":"能見度",en:"Visibility",ja:"視程",unit:"km"},relative_humidity_2m:{"zh-TW":"相對濕度",en:"Humidity",ja:"相対湿度",unit:"%"},relative_humidity_925hpa:{"zh-TW":"925hPa濕度",en:"925hPa humidity",ja:"925hPa湿度",unit:"%"},relative_humidity_850hpa:{"zh-TW":"850hPa濕度",en:"850hPa humidity",ja:"850hPa湿度",unit:"%"},temperature_2m:{"zh-TW":"氣溫",en:"Temperature",ja:"気温",unit:"°C"},temperature_delta_850_925_c:{"zh-TW":"逆溫指標",en:"Inversion index",ja:"逆転指標",unit:"°C"},lcl_height_m_agl:{"zh-TW":"雲底高度(LCL)",en:"Cloud base (LCL)",ja:"雲底高度(LCL)",unit:"m"},sunrise_time_window:{"zh-TW":"日出窗口",en:"Sunrise window",ja:"日の出窓",unit:""},sunset_window:{"zh-TW":"日落窗口",en:"Sunset window",ja:"日没窓",unit:""},blue_hour_window:{"zh-TW":"藍調窗口",en:"Blue hour window",ja:"ブルーアワー窓",unit:""},golden_hour_window:{"zh-TW":"黃金時刻窗",en:"Golden hour window",ja:"ゴールデンアワー窓",unit:""},astronomical_darkness:{"zh-TW":"天文黑暗",en:"Astronomical darkness",ja:"天文学的暗闇",unit:""},moon_altitude:{"zh-TW":"月高角",en:"Moon altitude",ja:"月高度",unit:"°"},moon_illumination_fraction:{"zh-TW":"月照亮百分比",en:"Moon illumination",ja:"月照率",unit:"%"},moon_target_separation_deg:{"zh-TW":"月目標角距",en:"Moon separation",ja:"月と対象の角距離",unit:"°"},moon_illuminance_proxy:{"zh-TW":"月照強度",en:"Moon illumination proxy",ja:"月照強度",unit:""},galactic_core_altitude:{"zh-TW":"銀河核心高度",en:"Galactic core altitude",ja:"銀河中心高度",unit:"°"},seasonal_state:{"zh-TW":"花季狀態",en:"Seasonal state",ja:"季節状態",unit:""},water_surface_state:{"zh-TW":"水面狀態",en:"Water surface state",ja:"水面状態",unit:""},landform_present:{"zh-TW":"地形存在",en:"Landform present",ja:"地形存在",unit:""},river_flow_state:{"zh-TW":"河川流量狀態",en:"River flow state",ja:"河川流量状態",unit:""}};
+  const EVAL_METRICS={cloud_cover_low:{ "zh-TW":"低雲",en:"Low cloud",ja:"下層雲",unit:"%"},cloud_cover_mid_and_high:{"zh-TW":"中高雲",en:"Mid+high cloud",ja:"中上層雲",unit:"%"},cloud_cover_total:{"zh-TW":"總雲量",en:"Total cloud",ja:"雲量",unit:"%"},wind_speed_10m:{"zh-TW":"風速",en:"Wind",ja:"風速",unit:"m/s"},wind_speed_850hpa:{"zh-TW":"850hPa風速",en:"850hPa wind",ja:"850hPa風速",unit:"m/s"},precipitation:{"zh-TW":"降水",en:"Precipitation",ja:"降水",unit:"mm"},aod_550nm:{"zh-TW":"氣膠光學厚度",en:"Aerosol optical depth",ja:"エアロゾル光学的厚度",unit:""},visibility:{"zh-TW":"能見度",en:"Visibility",ja:"視程",unit:"km"},relative_humidity_2m:{"zh-TW":"相對濕度",en:"Humidity",ja:"相対湿度",unit:"%"},relative_humidity_925hpa:{"zh-TW":"925hPa濕度",en:"925hPa humidity",ja:"925hPa湿度",unit:"%"},relative_humidity_850hpa:{"zh-TW":"850hPa濕度",en:"850hPa humidity",ja:"850hPa湿度",unit:"%"},temperature_2m:{"zh-TW":"氣溫",en:"Temperature",ja:"気温",unit:"°C"},temperature_delta_850_925_c:{"zh-TW":"逆溫指標",en:"Inversion index",ja:"逆転指標",unit:"°C"},lcl_height_m_agl:{"zh-TW":"雲底高度(LCL)",en:"Cloud base (LCL)",ja:"雲底高度(LCL)",unit:"m"},cloud_base_height:{"zh-TW":"雲底高度窗",en:"Cloud base window",ja:"雲底高度窓",unit:"m"},sunrise_time_window:{"zh-TW":"日出窗口",en:"Sunrise window",ja:"日の出窓",unit:""},sunset_window:{"zh-TW":"日落窗口",en:"Sunset window",ja:"日没窓",unit:""},blue_hour_window:{"zh-TW":"藍調窗口",en:"Blue hour window",ja:"ブルーアワー窓",unit:""},golden_hour_window:{"zh-TW":"黃金時刻窗",en:"Golden hour window",ja:"ゴールデンアワー窓",unit:""},astronomical_darkness:{"zh-TW":"天文黑暗",en:"Astronomical darkness",ja:"天文学的暗闇",unit:""},moon_altitude:{"zh-TW":"月高角",en:"Moon altitude",ja:"月高度",unit:"°"},moon_illumination_fraction:{"zh-TW":"月照亮百分比",en:"Moon illumination",ja:"月照率",unit:"%"},moon_target_separation_deg:{"zh-TW":"月目標角距",en:"Moon separation",ja:"月と対象の角距離",unit:"°"},moon_illuminance_proxy:{"zh-TW":"月照強度",en:"Moon illumination proxy",ja:"月照強度",unit:""},galactic_core_altitude:{"zh-TW":"銀河核心高度",en:"Galactic core altitude",ja:"銀河中心高度",unit:"°"},seasonal_state:{"zh-TW":"花季狀態",en:"Seasonal state",ja:"季節状態",unit:""},water_surface_state:{"zh-TW":"水面狀態",en:"Water surface state",ja:"水面状態",unit:""},water_reflection_state:{"zh-TW":"水面平靜度",en:"Water reflection state",ja:"水面の静けさ",unit:""},landform_present:{"zh-TW":"地形存在",en:"Landform present",ja:"地形存在",unit:""},river_flow_state:{"zh-TW":"河川流量狀態",en:"River flow state",ja:"河川流量状態",unit:""},venue_open_window:{"zh-TW":"營業時間窗",en:"Venue open window",ja:"営業時間窓",unit:""},fog_state:{"zh-TW":"霧狀態",en:"Fog state",ja:"霧状態",unit:""},soft_light_window:{"zh-TW":"柔光時窗",en:"Soft light window",ja:"柔光窓",unit:""},morning_window:{"zh-TW":"晨窗",en:"Morning window",ja:"朝の窓",unit:""}};
   const evalMetricLabel=m=>{const d=EVAL_METRICS[m];return d?(d[state.locale]||d.en):m};
   const evalThreshold=c=>{const op=c.operator||"none",th=c.threshold;if(op==="none"||th==null)return "";if(op==="between"&&Array.isArray(th))return `${th[0]}–${th[1]}`;const sym={lt:"<",lte:"≤",gt:">",gte:"≥",eq:"="}[op]||op;return `${sym}${th}`};
   const evalValue=(v,locale)=>{if(v==null)return "—";if(v===true||v==="satisfied")return t("evalInWin");if(v===false||v==="unsatisfied")return t("evalOutWin");if(v==="declared")return t("evalDeclared");return String(v)};
@@ -404,6 +462,16 @@ async function loadResearchIndex(){
 }
 void loadResearchIndex();
 // --- Shell entry (CL-APP-02): member sign-in area + pull-to-refresh ---
+// CL-APP-07: provider entries are fail-closed — /auth/config decides whether
+// the Apple anchor exists at all; a provider without owner secrets never
+// renders a button that answers 503.
+let providerConfig={line:true,google:true,apple:false};
+async function loadProviderConfig(){
+  try{
+    const res=await fetch(AUTH_CONFIG_ENDPOINT,{cache:"no-store"});
+    if(res&&res.ok)providerConfig=parseAuthConfig(await res.json().catch(()=>null));
+  }catch{/* unreachable worker: keep the last known (fail-closed) state */}
+}
 function renderMember(){
   const signed=Boolean(state.member);
   $("member-name").hidden=!signed;
@@ -412,16 +480,123 @@ function renderMember(){
   $("login-toggle").textContent=t("memberLogin");
   $("login-line").textContent=t("memberLoginLine");
   $("login-google").textContent=t("memberLoginGoogle");
+  $("login-apple").textContent=t("memberLoginApple");
   const open=!signed&&$("member-area").getAttribute("data-open")==="true";
   $("login-line").hidden=!open;
   $("login-google").hidden=!open;
+  $("login-apple").hidden=!open||!providerConfig.apple;
+  // CL-APP-07: 連結其他登入方式 (signed in only; the panel is state-driven).
+  $("link-toggle").hidden=!signed;
+  $("link-toggle").textContent=t("memberLinkToggle");
+  const linkOpen=signed&&$("member-area").getAttribute("data-link-open")==="true";
+  $("member-links").hidden=!linkOpen;
+  if(linkOpen)void fillMemberLinks();
 }
-async function refreshMember(){state.member=await fetchMember();renderMember();}
+// One /auth/link/status pull per open; rebuilds status + start-link anchors +
+// the email-verification row (LINE-style flow) inline, no new stylesheet.
+let linkLinksInFlight=null;
+function fillMemberLinks(){
+  if(linkLinksInFlight)return linkLinksInFlight;
+  const done=(ok)=>{linkLinksInFlight=null;return ok;};
+  linkLinksInFlight=(async()=>{
+    const box=$("member-links");
+    try{
+      const res=await fetch(AUTH_LINK_STATUS_ENDPOINT,{credentials:"same-origin",cache:"no-store"});
+      if(!res||!res.ok)return done(false);
+      const doc=parseLinkStatus(await res.json().catch(()=>null));
+      if(!doc)return done(false);
+      box.textContent="";
+      const status=document.createElement("p");
+      status.style.cssText="margin:6px 0;font-size:12px;color:#94a3b8";
+      const names=doc.links.map(l=>l.provider.charAt(0).toUpperCase()+l.provider.slice(1));
+      status.textContent=names.length?names.join("、"):t("memberLinkNone");
+      box.appendChild(status);
+      const linked={};doc.links.forEach(l=>{linked[l.provider]=true;});
+      for(const p of ["line","google","apple"]){
+        if(p===doc.user.provider||linked[p])continue;
+        if(p==="apple"&&!providerConfig.apple)continue;
+        const a=document.createElement("a");
+        a.className="login-link";
+        a.href=`/api/v1/auth/${p}/start?link=1`;
+        a.textContent=t(`memberLink${p.charAt(0).toUpperCase()+p.slice(1)}`);
+        a.style.cssText="display:inline-block;margin:0 6px 6px 0;padding:4px 10px;font-size:12px;border:1px solid #334155;border-radius:8px";
+        box.appendChild(a);
+      }
+      // Email verification row: only meaningful without a verified email.
+      if(!doc.verifiedEmail){
+        const label=document.createElement("label");
+        label.style.cssText="display:block;margin-top:6px;font-size:12px;color:#94a3b8";
+        label.textContent=t("memberLinkEmailLabel");
+        const input=document.createElement("input");
+        input.type="email";
+        input.style.cssText="display:block;width:100%;box-sizing:border-box;margin:4px 0;padding:4px 6px;font-size:12px;border:1px solid #334155;border-radius:6px;background:#0b1220;color:#e2e8f0";
+        const btn=document.createElement("button");
+        btn.type="button";
+        btn.textContent=t("memberLinkEmailBtn");
+        btn.style.cssText="padding:4px 10px;font-size:12px;border:1px solid #334155;border-radius:8px;cursor:pointer";
+        btn.addEventListener("click",()=>void submitLinkEmail(input,btn));
+        label.appendChild(input);label.appendChild(btn);
+        box.appendChild(label);
+      }
+      return done(true);
+    }catch{return done(false);}
+  })();
+  return linkLinksInFlight;
+}
+async function submitLinkEmail(input,btn){
+  const email=(input.value||"").trim();
+  btn.disabled=true;
+  try{
+    const res=await fetch(AUTH_LINK_START_ENDPOINT,{
+      method:"POST",credentials:"same-origin",cache:"no-store",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({email})
+    });
+    showMemberNotice(res&&res.status===503?t("memberLinkEmailPending"):res&&res.ok?t("memberLinkEmailSent"):t("memberLinkError"));
+    if(res&&res.ok)input.value="";
+  }catch{showMemberNotice(t("memberLinkError"));}
+  finally{btn.disabled=false;}
+}
+function showMemberNotice(text){
+  const el=$("auth-error");
+  if(!el)return;
+  el.textContent=text;
+  el.hidden=false;
+  window.setTimeout(()=>{el.hidden=true;},8000);
+}
+// CL-API-07: a 429/5xx on /auth/me is transient — the member state is kept
+// as-is (no 登入 flip) and a backoff retry re-checks later (1 s → 2 s → 4 s,
+// max 3 attempts). Only a 401 with a failed refresh (fetchMember → null)
+// decides signed-out.
+let memberRetryAttempt=0,memberRetryTimer=0;
+function scheduleMemberRetry(){
+  if(memberRetryAttempt>=3)return;
+  const delay=1000*Math.pow(2,memberRetryAttempt++);
+  clearTimeout(memberRetryTimer);
+  memberRetryTimer=setTimeout(()=>{void refreshMember();},delay);
+}
+async function refreshMember(){
+  // CL-UI-57: on a signed-in -> signed-out transition the device-local cache
+  // was the previous member's merged list — clear it so the next favorites
+  // sync can neither re-display nor re-upload it.
+  const prev=state.member;
+  const next=await fetchMember();
+  if(next===MEMBER_TRANSIENT){scheduleMemberRetry();}
+  else{memberRetryAttempt=0;state.member=next;}
+  if(prev&&!state.member)clearLocalFavorites();
+  renderMember();
+}
 $("login-toggle").addEventListener("click",()=>{
   const area=$("member-area");
   area.setAttribute("data-open",area.getAttribute("data-open")==="true"?"false":"true");
   renderMember();
 });
+$("link-toggle").addEventListener("click",()=>{
+  const area=$("member-area");
+  area.setAttribute("data-link-open",area.getAttribute("data-link-open")==="true"?"false":"true");
+  renderMember();
+});
+void loadProviderConfig().then(renderMember);
 let refreshing=false;
 // Refresh = re-fetch the published bundle digest AND the data (catalog +
 // browse index); digest verification stays fail-closed, so a changed bundle
@@ -436,6 +611,7 @@ async function refreshData(){
     await loadResearchIndex();
     await catalogState.load();
     await refreshMember();
+    await refreshFavorites();
   }finally{refreshing=false;$("pull-indicator").hidden=true;}
 }
 const pullToRefresh=createPullToRefresh({
@@ -446,4 +622,35 @@ const pullToRefresh=createPullToRefresh({
 document.addEventListener("touchstart",pullToRefresh.handleTouchStart,{passive:true});
 document.addEventListener("touchmove",pullToRefresh.handleTouchMove,{passive:true});
 document.addEventListener("touchend",pullToRefresh.handleTouchEnd,{passive:true});
+// CL-API-05: a failed OAuth callback lands here as ?auth_error=1 — show the
+// trilingual retry notice once and clean the address bar.
+(function showAuthErrorNotice(){
+  const q=new URLSearchParams(window.location.search);
+  if(!consumeAuthError(q))return;
+  const rest=q.toString();
+  try{window.history.replaceState(null,"",window.location.pathname+(rest?"?"+rest:"")+window.location.hash);}catch{}
+  const el=$("auth-error");
+  if(!el)return;
+  el.textContent=authErrorMessage(state.locale);
+  el.hidden=false;
+  window.setTimeout(()=>{el.hidden=true;},8000);
+})();
+// CL-APP-07: the email-link verify click lands here with ?link_result=ok|error
+// (possibly without a session). Show the tri-lingual notice, clean the URL,
+// refresh the member state.
+(function showLinkResultNotice(){
+  const q=new URLSearchParams(window.location.search);
+  const result=consumeLinkResult(q);
+  if(!result)return;
+  const rest=q.toString();
+  try{window.history.replaceState(null,"",window.location.pathname+(rest?"?"+rest:"")+window.location.hash);}catch{}
+  const el=$("auth-error");
+  if(!el)return;
+  el.textContent=linkResultMessage(state.locale,result);
+  el.hidden=false;
+  window.setTimeout(()=>{el.hidden=true;},8000);
+  void refreshMember();
+})();
 void refreshMember();
+// CL-UI-55: bootstrap favorites sync (upload local favorites, pull cloud list).
+void refreshFavorites();

@@ -1,4 +1,4 @@
-$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\a6e753775ff24cfd97e53508dd55bfe7\venv\Scripts\python.exe C:\tmp\clint137b-wt\ops\v2\run_unittest.py packages/core-v2/tests test_*.py C:\tmp\clint137b-wt\.ci\postmerge-logs\w3-evaluator-and-hourly-source.json
+$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\a6e753775ff24cfd97e53508dd55bfe7\venv\Scripts\python.exe D:\tmp\clint192-wt\ops\v2\run_unittest.py packages/core-v2/tests test_*.py D:\tmp\clint192-wt\.ci\postmerge-logs\w3-evaluator-and-hourly-source.json
 test_astronomical_darkness_between_grid_points (test_astro_hourly_subhour.SubHourSamplingTests.test_astronomical_darkness_between_grid_points) ... ok
 test_blue_hour_window_between_grid_points (test_astro_hourly_subhour.SubHourSamplingTests.test_blue_hour_window_between_grid_points) ... ok
 test_golden_hour_window_between_grid_points (test_astro_hourly_subhour.SubHourSamplingTests.test_golden_hour_window_between_grid_points) ... ok
@@ -55,6 +55,111 @@ test_quality_window_failing_all_day_is_fail_not_pass_24 (test_cl_data_56_window_
 test_quality_window_partial_day_counts_own_passes (test_cl_data_56_window_pass_hours.GoldenHourDayVerdictTests.test_quality_window_partial_day_counts_own_passes) ... ok
 test_role_gated_hour_lists_never_inflate_pass_hours (test_cl_data_56_window_pass_hours.GoldenHourDayVerdictTests.test_role_gated_hour_lists_never_inflate_pass_hours) ... ok
 test_unknown_day_propagates_unknown (test_cl_data_56_window_pass_hours.GoldenHourDayVerdictTests.test_unknown_day_propagates_unknown) ... ok
+test_jp_034_p01_opening_window (test_cl_data_68_venue_open_window.ContractWiringTests.test_jp_034_p01_opening_window) ... ok
+test_jp_034_p02_lantern_semantics_removed (test_cl_data_68_venue_open_window.ContractWiringTests.test_jp_034_p02_lantern_semantics_removed) ... ok
+test_jp_036_p03_boat_window (test_cl_data_68_venue_open_window.ContractWiringTests.test_jp_036_p03_boat_window) ... ok
+test_jp_057_ropeway_window (test_cl_data_68_venue_open_window.ContractWiringTests.test_jp_057_ropeway_window) ... ok
+test_jp_090_carries_crux_season_window (test_cl_data_68_venue_open_window.ContractWiringTests.test_jp_090_carries_crux_season_window) ... ok
+test_metric_vocabulary_covers_venue_open_window (test_cl_data_68_venue_open_window.ContractWiringTests.test_metric_vocabulary_covers_venue_open_window) ... ok
+test_unique_condition_ids_preserved (test_cl_data_68_venue_open_window.ContractWiringTests.test_unique_condition_ids_preserved) ... ok
+test_boat_window_half_hour_open (test_cl_data_68_venue_open_window.VenueOpenWindowVerdictTests.test_boat_window_half_hour_open) ... ok
+test_glover_garden_opening_clamp (test_cl_data_68_venue_open_window.VenueOpenWindowVerdictTests.test_glover_garden_opening_clamp) ... ok
+test_malformed_windows_fail_closed (test_cl_data_68_venue_open_window.VenueOpenWindowVerdictTests.test_malformed_windows_fail_closed) ... ok
+test_quality_role_never_gates (test_cl_data_68_venue_open_window.VenueOpenWindowVerdictTests.test_quality_role_never_gates) ... ok
+test_ropeway_last_uphill_clamp (test_cl_data_68_venue_open_window.VenueOpenWindowVerdictTests.test_ropeway_last_uphill_clamp) ... ok
+test_curated_elevation_wins_and_dem_fallback (test_cl_data_71_cloud_base_height.CatalogDemElevationTests.test_curated_elevation_wins_and_dem_fallback) ... ok
+test_all_13_patched_contracts_carry_the_condition (test_cl_data_71_cloud_base_height.ContractAuditTests.test_all_13_patched_contracts_carry_the_condition) ... ok
+test_catalog_band_points_use_evidence_review (test_cl_data_71_cloud_base_height.ContractAuditTests.test_catalog_band_points_use_evidence_review) ... ok
+test_derivation_rules_annotated_in_notes (test_cl_data_71_cloud_base_height.ContractAuditTests.test_derivation_rules_annotated_in_notes) ... ok
+test_clear_night_fails (test_cl_data_71_cloud_base_height.DerivedThresholdTests.test_clear_night_fails) ... ok
+test_deck_below_sight_line_passes (test_cl_data_71_cloud_base_height.DerivedThresholdTests.test_deck_below_sight_line_passes) ... ok
+test_threshold_is_viewpoint_minus_200 (test_cl_data_71_cloud_base_height.DerivedThresholdTests.test_threshold_is_viewpoint_minus_200) ... ok
+test_display_value_is_the_lcl_proxy (test_cl_data_71_cloud_base_height.HonestyPathTests.test_display_value_is_the_lcl_proxy) ... ok
+test_malformed_between_unknown (test_cl_data_71_cloud_base_height.HonestyPathTests.test_malformed_between_unknown) ... ok
+test_missing_lcl_cell_unknown (test_cl_data_71_cloud_base_height.HonestyPathTests.test_missing_lcl_cell_unknown) ... ok
+test_missing_viewpoint_elevation_unknown (test_cl_data_71_cloud_base_height.HonestyPathTests.test_missing_viewpoint_elevation_unknown) ... ok
+test_non_numeric_operator_unknown (test_cl_data_71_cloud_base_height.HonestyPathTests.test_non_numeric_operator_unknown) ... ok
+test_band_edges (test_cl_data_71_cloud_base_height.MoyanshanOwnerCaseTests.test_band_edges) ... ok
+test_clear_night_fails (test_cl_data_71_cloud_base_height.MoyanshanOwnerCaseTests.test_clear_night_fails) ... ok
+test_required_fail_makes_the_hour_unfavorable (test_cl_data_71_cloud_base_height.MoyanshanOwnerCaseTests.test_required_fail_makes_the_hour_unfavorable) ... ok
+test_typical_cloud_glow_night_passes (test_cl_data_71_cloud_base_height.MoyanshanOwnerCaseTests.test_typical_cloud_glow_night_passes) ... ok
+test_display_value_round_trip (test_cl_data_72_conditions_batch_a.FlowerSeasonIntegrationTests.test_display_value_round_trip) ... ok
+test_window_open_hour_is_satisfiable (test_cl_data_72_conditions_batch_a.FlowerSeasonIntegrationTests.test_window_open_hour_is_satisfiable) ... ok
+test_alternation_gates_moon_up_close_case (test_cl_data_72_conditions_batch_a.MoonAlternationTests.test_alternation_gates_moon_up_close_case) ... ok
+test_alternation_moon_down_stands_dependents_down (test_cl_data_72_conditions_batch_a.MoonAlternationTests.test_alternation_moon_down_stands_dependents_down) ... ok
+test_alternation_resolves_moon_up_far_case (test_cl_data_72_conditions_batch_a.MoonAlternationTests.test_alternation_resolves_moon_up_far_case) ... ok
+test_anchor_unknown_propagates (test_cl_data_72_conditions_batch_a.MoonAlternationTests.test_anchor_unknown_propagates) ... ok
+test_b2_passes_when_moon_below_horizon (test_cl_data_72_conditions_batch_a.MoonAlternationTests.test_b2_passes_when_moon_below_horizon) ... ok
+test_b2_still_gates_when_moon_is_up (test_cl_data_72_conditions_batch_a.MoonAlternationTests.test_b2_still_gates_when_moon_is_up) ... ok
+test_night_sky_and_blue_tears_contracts_have_anchors (test_cl_data_72_conditions_batch_a.MoonAlternationTests.test_night_sky_and_blue_tears_contracts_have_anchors) ... ok
+test_sentinel_999_is_fail_closed (test_cl_data_72_conditions_batch_a.MoonAlternationTests.test_sentinel_999_is_fail_closed) ... ok
+test_calendar_loads_and_binds_spots (test_cl_data_72_conditions_batch_a.SeasonalBridgeTests.test_calendar_loads_and_binds_spots) ... ok
+test_condition_verdict_uses_bound_entries (test_cl_data_72_conditions_batch_a.SeasonalBridgeTests.test_condition_verdict_uses_bound_entries) ... ok
+test_current_season_takes_precedence_over_typical (test_cl_data_72_conditions_batch_a.SeasonalBridgeTests.test_current_season_takes_precedence_over_typical) ... ok
+test_daylily_seasonal_window_open_and_closed (test_cl_data_72_conditions_batch_a.SeasonalBridgeTests.test_daylily_seasonal_window_open_and_closed) ... ok
+test_no_calendar_entry_stays_unknown (test_cl_data_72_conditions_batch_a.SeasonalBridgeTests.test_no_calendar_entry_stays_unknown) ... ok
+test_seasonal_fail_now_gates_as_unfavorable (test_cl_data_72_conditions_batch_a.SeasonalBridgeTests.test_seasonal_fail_now_gates_as_unfavorable) ... ok
+test_typical_window_fallback_and_wrap (test_cl_data_72_conditions_batch_a.SeasonalBridgeTests.test_typical_window_fallback_and_wrap) ... ok
+test_unsourced_current_season_is_ignored (test_cl_data_72_conditions_batch_a.SeasonalBridgeTests.test_unsourced_current_season_is_ignored) ... ok
+test_all_sunset_contracts_are_quality (test_cl_data_72_conditions_batch_a.SunsetT3QualityTests.test_all_sunset_contracts_are_quality) ... ok
+test_quality_fail_never_gates (test_cl_data_72_conditions_batch_a.SunsetT3QualityTests.test_quality_fail_never_gates) ... ok
+test_template_t3_is_quality (test_cl_data_72_conditions_batch_a.SunsetT3QualityTests.test_template_t3_is_quality) ... ok
+test_46_contracts_use_derived_metric_and_4_tidal_kept (test_cl_data_72_conditions_batch_a.WaterReflectionTests.test_46_contracts_use_derived_metric_and_4_tidal_kept) ... ok
+test_condition_verdict_neq_unfit (test_cl_data_72_conditions_batch_a.WaterReflectionTests.test_condition_verdict_neq_unfit) ... ok
+test_missing_cells_fail_closed (test_cl_data_72_conditions_batch_a.WaterReflectionTests.test_missing_cells_fail_closed) ... ok
+test_reflection_template_uses_derived_metric (test_cl_data_72_conditions_batch_a.WaterReflectionTests.test_reflection_template_uses_derived_metric) ... ok
+test_seasonal_state_leaves_no_source_set (test_cl_data_72_conditions_batch_a.WaterReflectionTests.test_seasonal_state_leaves_no_source_set) ... ok
+test_three_state_switching_on_wind (test_cl_data_72_conditions_batch_a.WaterReflectionTests.test_three_state_switching_on_wind) ... ok
+test_vocabulary_covers_water_reflection_state (test_cl_data_72_conditions_batch_a.WaterReflectionTests.test_vocabulary_covers_water_reflection_state) ... ok
+test_fail_words_registered (test_cl_data_73_misty_forest.CopyLayerTests.test_fail_words_registered) ... ok
+test_genre_short_name_leq6_trilingual (test_cl_data_73_misty_forest.CopyLayerTests.test_genre_short_name_leq6_trilingual) ... ok
+test_overrides_carry_misty_forest_copy (test_cl_data_73_misty_forest.CopyLayerTests.test_overrides_carry_misty_forest_copy) ... ok
+test_clear_day_hour_is_unfavorable_via_fog_required (test_cl_data_73_misty_forest.EvaluatorCompositionTests.test_clear_day_hour_is_unfavorable_via_fog_required) ... ok
+test_foggy_morning_hour_is_guidance_satisfied (test_cl_data_73_misty_forest.EvaluatorCompositionTests.test_foggy_morning_hour_is_guidance_satisfied) ... ok
+test_band_edges (test_cl_data_73_misty_forest.FogStateDerivationTests.test_band_edges) ... ok
+test_below_one_km_without_branches_is_not_forming (test_cl_data_73_misty_forest.FogStateDerivationTests.test_below_one_km_without_branches_is_not_forming) ... ok
+test_clear_day_10km_is_explicit_no_fog_owner_case_2 (test_cl_data_73_misty_forest.FogStateDerivationTests.test_clear_day_10km_is_explicit_no_fog_owner_case_2) ... ok
+test_fog_day_vis_in_band_passes_owner_case_1 (test_cl_data_73_misty_forest.FogStateDerivationTests.test_fog_day_vis_in_band_passes_owner_case_1) ... ok
+test_forming_branch_passes_owner_any_semantics (test_cl_data_73_misty_forest.FogStateDerivationTests.test_forming_branch_passes_owner_any_semantics) ... ok
+test_malformed_operator_degrades_to_unknown (test_cl_data_73_misty_forest.FogStateDerivationTests.test_malformed_operator_degrades_to_unknown) ... ok
+test_missing_visibility_fails_closed_unknown (test_cl_data_73_misty_forest.FogStateDerivationTests.test_missing_visibility_fails_closed_unknown) ... ok
+test_dawn_slant_hour_qualifies_soft_light (test_cl_data_73_misty_forest.LightWindowTests.test_dawn_slant_hour_qualifies_soft_light) ... ok
+test_morning_window_1_to_3h_after_sunrise (test_cl_data_73_misty_forest.LightWindowTests.test_morning_window_1_to_3h_after_sunrise) ... ok
+test_morning_window_is_quality_never_a_lone_veto (test_cl_data_73_misty_forest.LightWindowTests.test_morning_window_is_quality_never_a_lone_veto) ... ok
+test_night_never_qualifies_soft_light (test_cl_data_73_misty_forest.LightWindowTests.test_night_never_qualifies_soft_light) ... ok
+test_all_12_mounted_contracts_exist_and_validate (test_cl_data_73_misty_forest.MountedContractTests.test_all_12_mounted_contracts_exist_and_validate) ... ok
+test_mounted_places_are_the_ticket_candidates (test_cl_data_73_misty_forest.MountedContractTests.test_mounted_places_are_the_ticket_candidates) ... ok
+test_calendar_entry_covers_all_mounted_spots (test_cl_data_73_misty_forest.SeasonalGateTests.test_calendar_entry_covers_all_mounted_spots) ... ok
+test_inside_window_passes (test_cl_data_73_misty_forest.SeasonalGateTests.test_inside_window_passes) ... ok
+test_no_entry_resolves_fail_not_fabricated_open (test_cl_data_73_misty_forest.SeasonalGateTests.test_no_entry_resolves_fail_not_fabricated_open) ... ok
+test_outside_window_fails (test_cl_data_73_misty_forest.SeasonalGateTests.test_outside_window_fails) ... ok
+test_all_template_metrics_in_vocabulary (test_cl_data_73_misty_forest.TemplateRegistryTests.test_all_template_metrics_in_vocabulary) ... ok
+test_conditions_match_the_owner_spec (test_cl_data_73_misty_forest.TemplateRegistryTests.test_conditions_match_the_owner_spec) ... ok
+test_template_is_defined_and_validates (test_cl_data_73_misty_forest.TemplateRegistryTests.test_template_is_defined_and_validates) ... ok
+test_title_trilingual_owner_spec (test_cl_data_73_misty_forest.TemplateRegistryTests.test_title_trilingual_owner_spec) ... ok
+test_astro_threshold_membership (test_cl_data_74_conditions.AlpenglowWindowTests.test_astro_threshold_membership) ... ok
+test_band_constants (test_cl_data_74_conditions.AlpenglowWindowTests.test_band_constants) ... ok
+test_registered_in_provenance (test_cl_data_74_conditions.AlpenglowWindowTests.test_registered_in_provenance) ... ok
+test_some_evening_bucket_is_in_band (test_cl_data_74_conditions.AlpenglowWindowTests.test_some_evening_bucket_is_in_band) ... ok
+test_missing_cell_breaks_streak (test_cl_data_74_conditions.ClearStreakTests.test_missing_cell_breaks_streak) ... ok
+test_streak_counts_consecutive_clear_hours (test_cl_data_74_conditions.ClearStreakTests.test_streak_counts_consecutive_clear_hours) ... ok
+test_verdict_two_hour_window (test_cl_data_74_conditions.ClearStreakTests.test_verdict_two_hour_window) ... ok
+test_moon_gate_with_below_horizon_pass (test_cl_data_74_conditions.FireflyConditionTests.test_moon_gate_with_below_horizon_pass) ... ok
+test_season_window_open_and_closed (test_cl_data_74_conditions.FireflyConditionTests.test_season_window_open_and_closed) ... ok
+test_weather_gates (test_cl_data_74_conditions.FireflyConditionTests.test_weather_gates) ... ok
+test_elevation_band (test_cl_data_74_conditions.MoonlitConditionTests.test_elevation_band) ... ok
+test_full_moon_vs_new_moon (test_cl_data_74_conditions.MoonlitConditionTests.test_full_moon_vs_new_moon) ... ok
+test_moon_down_hour_is_never_moonlit (test_cl_data_74_conditions.MoonlitConditionTests.test_moon_down_hour_is_never_moonlit) ... ok
+test_both_fields_missing_fail_closed (test_cl_data_74_conditions.SnowCoverStateTests.test_both_fields_missing_fail_closed) ... ok
+test_depth_only_row_never_claims_snowing (test_cl_data_74_conditions.SnowCoverStateTests.test_depth_only_row_never_claims_snowing) ... ok
+test_display_value (test_cl_data_74_conditions.SnowCoverStateTests.test_display_value) ... ok
+test_or_semantics_collapsed (test_cl_data_74_conditions.SnowCoverStateTests.test_or_semantics_collapsed) ... ok
+test_verdicts (test_cl_data_74_conditions.SnowCoverStateTests.test_verdicts) ... ok
+test_new_moon_vs_full_moon (test_cl_data_74_conditions.StarTrailsConditionTests.test_new_moon_vs_full_moon) ... ok
+test_streak_gate (test_cl_data_74_conditions.StarTrailsConditionTests.test_streak_gate) ... ok
+test_binding_strings_lint (test_cl_data_74_conditions.TemplateRegistryTests.test_binding_strings_lint) ... ok
+test_five_new_templates_validate_and_are_defined (test_cl_data_74_conditions.TemplateRegistryTests.test_five_new_templates_validate_and_are_defined) ... ok
+test_new_metrics_in_vocabulary (test_cl_data_74_conditions.TemplateRegistryTests.test_new_metrics_in_vocabulary) ... ok
 test_bucket_row_shape_unchanged_without_precise_stamp (test_cl_int_91_subhour_details.SubHourDetailsRowTests.test_bucket_row_shape_unchanged_without_precise_stamp) ... ok
 test_every_good_hour_stamp_keys_a_details_row (test_cl_int_91_subhour_details.SubHourDetailsRowTests.test_every_good_hour_stamp_keys_a_details_row) ... ok
 test_non_qualifying_bucket_never_emits_sub_hour_row (test_cl_int_91_subhour_details.SubHourDetailsRowTests.test_non_qualifying_bucket_never_emits_sub_hour_row) ... ok
@@ -233,7 +338,7 @@ test_real_research_contract_has_no_live_or_provenance (test_w2_p01_contract_fail
 test_w2_contract_has_only_photo_conditions (test_w2_p01_contract_failclosed.W2P01FailClosed.test_w2_contract_has_only_photo_conditions) ... ok
 
 ----------------------------------------------------------------------
-Ran 223 tests in 18.581s
+Ran 328 tests in 21.317s
 
 OK
-{"tests": 223, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 223}
+{"tests": 328, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 328}

@@ -1,4 +1,4 @@
-$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\a6e753775ff24cfd97e53508dd55bfe7\venv\Scripts\python.exe C:\tmp\clint137b-wt\ops\v2\run_unittest.py data/v2/tests test_*.py C:\tmp\clint137b-wt\.ci\postmerge-logs\w2-crosswalk-schema-index-and-hourly-binding.json
+$ C:\Users\Dick_\AppData\Local\hermes\installs\eadc5e9d4a6ba3c1\environments\a6e753775ff24cfd97e53508dd55bfe7\venv\Scripts\python.exe D:\tmp\clint192-wt\ops\v2\run_unittest.py data/v2/tests test_*.py D:\tmp\clint192-wt\.ci\postmerge-logs\w2-crosswalk-schema-index-and-hourly-binding.json
 test_filled_records_carry_complete_provenance (test_cl_data_18_ai_verification_gate.AiVerificationAdmissionGate.test_filled_records_carry_complete_provenance) ... ok
 test_honest_unknowns_are_preserved (test_cl_data_18_ai_verification_gate.AiVerificationAdmissionGate.test_honest_unknowns_are_preserved) ... ok
 test_machine_readable_derivation_method_coverage (test_cl_data_18_ai_verification_gate.AiVerificationAdmissionGate.test_machine_readable_derivation_method_coverage) ... ok
@@ -140,7 +140,7 @@ test_web_catalog_regenerated (test_cl_data_64_expansion.TestRuntime.test_web_cat
 test_scan_classification (test_cl_data_65_general_template.MountScanTests.test_scan_classification) ... ok
 test_honest_provenance_and_geometry (test_cl_data_65_general_template.MountedOpportunityTests.test_honest_provenance_and_geometry) ... ok
 test_identity_and_genre (test_cl_data_65_general_template.MountedOpportunityTests.test_identity_and_genre) ... ok
-test_no_overwrite_idempotent (test_cl_data_65_general_template.MountedOpportunityTests.test_no_overwrite_idempotent) ... {"status": "OK", "mode": "write", "now": "2026-11-11T13:02:16Z", "skipped": {"jp-030": "curated_subject_present"}, "mounted": [], "bytes": {}}
+test_no_overwrite_idempotent (test_cl_data_65_general_template.MountedOpportunityTests.test_no_overwrite_idempotent) ... {"status": "OK", "mode": "write", "now": "2026-11-15T22:56:12Z", "skipped": {"jp-030": "curated_subject_present"}, "mounted": [], "bytes": {}}
 ok
 test_schema_valid (test_cl_data_65_general_template.MountedOpportunityTests.test_schema_valid) ... ok
 test_all_conditions_required_no_bonus (test_cl_data_65_general_template.RegistryTests.test_all_conditions_required_no_bonus) ... ok
@@ -151,29 +151,159 @@ test_scale_semantics_documented (test_cl_data_65_general_template.RegistryTests.
 test_three_language_rationales (test_cl_data_65_general_template.RegistryTests.test_three_language_rationales) ... ok
 test_visibility_threshold_parameterized_by_scale (test_cl_data_65_general_template.RegistryTests.test_visibility_threshold_parameterized_by_scale) ... ok
 test_scale_for_place (test_cl_data_65_general_template.ScaleTests.test_scale_for_place) ... ok
+test_all_wave1_contracts_exist_and_validate (test_cl_data_66_expansion.TestContracts.test_all_wave1_contracts_exist_and_validate) ... ok
+test_all_wave2_contracts_exist_and_validate (test_cl_data_66_expansion.TestContracts.test_all_wave2_contracts_exist_and_validate) ... ok
+test_all_wave3_contracts_exist_and_validate (test_cl_data_66_expansion.TestContracts.test_all_wave3_contracts_exist_and_validate) ... ok
+test_all_wave4_contracts_exist_and_validate (test_cl_data_66_expansion.TestContracts.test_all_wave4_contracts_exist_and_validate) ... ok
+test_astronomy_ephemeris_profiles_registered (test_cl_data_66_expansion.TestContracts.test_astronomy_ephemeris_profiles_registered) ... ok
+test_baoshishan_elevation_discrepancy_note (test_cl_data_66_expansion.TestContracts.test_baoshishan_elevation_discrepancy_note) ... ok
+test_honest_null_elevations (test_cl_data_66_expansion.TestContracts.test_honest_null_elevations) ... ok
+test_restricted_access_notes_informational_only (test_cl_data_66_expansion.TestContracts.test_restricted_access_notes_informational_only) ... ok
+test_scoreless_intake_no_score_fields (test_cl_data_66_expansion.TestContracts.test_scoreless_intake_no_score_fields) ... ok
+test_seasonal_plant_reuses_existing_window (test_cl_data_66_expansion.TestContracts.test_seasonal_plant_reuses_existing_window) ... ok
+test_unique_condition_ids (test_cl_data_66_expansion.TestContracts.test_unique_condition_ids) ... ok
+test_wave2_directional_horizon_sectors_registered (test_cl_data_66_expansion.TestContracts.test_wave2_directional_horizon_sectors_registered) ... ok
+test_wave2_honest_null_and_verified_elevations (test_cl_data_66_expansion.TestContracts.test_wave2_honest_null_and_verified_elevations) ... ok
+test_wave2_seasonal_plant_reuses_daylily_window (test_cl_data_66_expansion.TestContracts.test_wave2_seasonal_plant_reuses_daylily_window) ... ok
+test_wave3_directional_horizon_sectors_registered (test_cl_data_66_expansion.TestContracts.test_wave3_directional_horizon_sectors_registered) ... ok
+test_wave3_honest_no_window_contracts (test_cl_data_66_expansion.TestContracts.test_wave3_honest_no_window_contracts) ... ok
+test_wave3_honest_null_and_verified_elevations (test_cl_data_66_expansion.TestContracts.test_wave3_honest_null_and_verified_elevations) ... ok
+test_wave3_seasonal_plant_reuses_maple_window (test_cl_data_66_expansion.TestContracts.test_wave3_seasonal_plant_reuses_maple_window) ... ok
+test_wave4_directional_horizon_sectors_registered (test_cl_data_66_expansion.TestContracts.test_wave4_directional_horizon_sectors_registered) ... ok
+test_wave4_honest_null_and_verified_elevations (test_cl_data_66_expansion.TestContracts.test_wave4_honest_null_and_verified_elevations) ... ok
+test_web_evidence_refs_resolve (test_cl_data_66_expansion.TestContracts.test_web_evidence_refs_resolve) ... ok
+test_dedupe_registry_and_overrides (test_cl_data_66_expansion.TestDedupe.test_dedupe_registry_and_overrides) ... ok
+test_wave2_dedupe_registry (test_cl_data_66_expansion.TestDedupe.test_wave2_dedupe_registry) ... ok
+test_wave3_dedupe_registry (test_cl_data_66_expansion.TestDedupe.test_wave3_dedupe_registry) ... ok
+test_wave4_dedupe_registry (test_cl_data_66_expansion.TestDedupe.test_wave4_dedupe_registry) ... ok
+test_rejected_stay_in_manifest_with_reason (test_cl_data_66_expansion.TestManifest.test_rejected_stay_in_manifest_with_reason) ... ok
+test_tier_a_manifest_counts (test_cl_data_66_expansion.TestManifest.test_tier_a_manifest_counts) ... ok
+test_wave_admitted_ids_are_new_places (test_cl_data_66_expansion.TestManifest.test_wave_admitted_ids_are_new_places) ... ok
+test_coordinate_overrides_web_verified (test_cl_data_66_expansion.TestRegions.test_coordinate_overrides_web_verified) ... ok
+test_new_admin_areas (test_cl_data_66_expansion.TestRegions.test_new_admin_areas) ... ok
+test_region_lists_grew (test_cl_data_66_expansion.TestRegions.test_region_lists_grew) ... ok
+test_evaluations_bundle_spliced (test_cl_data_66_expansion.TestRuntime.test_evaluations_bundle_spliced) ... ok
+test_manifest_region_ends (test_cl_data_66_expansion.TestRuntime.test_manifest_region_ends) ... ok
+test_runtime_catalog_counts (test_cl_data_66_expansion.TestRuntime.test_runtime_catalog_counts) ... ok
+test_tw_weather_refreshed_with_wave2 (test_cl_data_66_expansion.TestRuntime.test_tw_weather_refreshed_with_wave2) ... ok
+test_web_catalog_regenerated (test_cl_data_66_expansion.TestRuntime.test_web_catalog_regenerated) ... ok
+test_civil_light_minute_stamps_present (test_cl_data_68_time_aware_tier.SingleTruthConsistencyTests.test_civil_light_minute_stamps_present) ... ok
+test_per_day_tab_counts_sum_to_the_day_rows (test_cl_data_68_time_aware_tier.SingleTruthConsistencyTests.test_per_day_tab_counts_sum_to_the_day_rows) ... ok
+test_tier_enum_and_single_field (test_cl_data_68_time_aware_tier.SingleTruthConsistencyTests.test_tier_enum_and_single_field) ... ok
+test_time_aware_rows_carry_the_remaining_columns (test_cl_data_68_time_aware_tier.SingleTruthConsistencyTests.test_time_aware_rows_carry_the_remaining_columns) ... ok
+test_cross_day_keeps_the_full_day_rules (test_cl_data_68_time_aware_tier.TimeAwareTierTests.test_cross_day_keeps_the_full_day_rules) ... ok
+test_minute_level_civil_light_boundary_hour (test_cl_data_68_time_aware_tier.TimeAwareTierTests.test_minute_level_civil_light_boundary_hour) ... ok
+test_no_evaluated_at_keeps_the_full_day_rules (test_cl_data_68_time_aware_tier.TimeAwareTierTests.test_no_evaluated_at_keeps_the_full_day_rules) ... ok
+test_subject_window_left_uses_the_minute_interval (test_cl_data_68_time_aware_tier.TimeAwareTierTests.test_subject_window_left_uses_the_minute_interval) ... ok
+test_top_level_schema_and_freshness_stamp (test_cl_data_68_time_aware_tier.TimeAwareTierTests.test_top_level_schema_and_freshness_stamp) ... ok
+test_window_passed_clean_remaining_is_shootable_with_note (test_cl_data_68_time_aware_tier.TimeAwareTierTests.test_window_passed_clean_remaining_is_shootable_with_note) ... ok
+test_window_passed_rainy_remaining_is_not_recommended (test_cl_data_68_time_aware_tier.TimeAwareTierTests.test_window_passed_rainy_remaining_is_not_recommended) ... ok
+test_window_passed_unknown_remaining_stays_honest_null (test_cl_data_68_time_aware_tier.TimeAwareTierTests.test_window_passed_unknown_remaining_stays_honest_null) ... ok
+test_window_still_ahead_is_recommend (test_cl_data_68_time_aware_tier.TimeAwareTierTests.test_window_still_ahead_is_recommend) ... ok
+test_fail_reason_words_cover_new_metrics (test_cl_data_74_mounting.CopyLayerTests.test_fail_reason_words_cover_new_metrics) ... ok
+test_genre_short_names_cover_five (test_cl_data_74_mounting.CopyLayerTests.test_genre_short_names_cover_five) ... ok
+test_curation_covers_all_17 (test_cl_data_74_mounting.CurationTests.test_curation_covers_all_17) ... ok
+test_no_duplicate_mount_ids (test_cl_data_74_mounting.CurationTests.test_no_duplicate_mount_ids) ... ok
+test_all_17_mounted_docs_exist (test_cl_data_74_mounting.MountDocTests.test_all_17_mounted_docs_exist) ... ok
+test_conditions_wellformed (test_cl_data_74_mounting.MountDocTests.test_conditions_wellformed) ... ok
+test_geometry_and_claims_reuse_sibling_structure (test_cl_data_74_mounting.MountDocTests.test_geometry_and_claims_reuse_sibling_structure) ... ok
+test_place_semantics (test_cl_data_74_mounting.MountDocTests.test_place_semantics) ... ok
+test_seasonal_conditions_carry_spot_windows (test_cl_data_74_mounting.MountDocTests.test_seasonal_conditions_carry_spot_windows) ... ok
+test_all_seasonal_mounts_bound (test_cl_data_74_mounting.SeasonalCalendarBridgeTests.test_all_seasonal_mounts_bound) ... ok
+test_alpenglow_snow_line_window (test_cl_data_74_mounting.SeasonalCalendarBridgeTests.test_alpenglow_snow_line_window) ... ok
+test_firefly_season_window (test_cl_data_74_mounting.SeasonalCalendarBridgeTests.test_firefly_season_window) ... ok
+test_no_sourced_live_window_is_fabricated (test_cl_data_74_mounting.SeasonalCalendarBridgeTests.test_no_sourced_live_window_is_fabricated) ... ok
+test_snow_season_real_window (test_cl_data_74_mounting.SeasonalCalendarBridgeTests.test_snow_season_real_window) ... ok
+test_cli_regen_matches_artifact (test_cl_ui_62_subject_cards.DerivedArtifactTests.test_cli_regen_matches_artifact) ... wrote C:\Users\Dick_\AppData\Local\Temp\tmp6wbhodqg\regen.json (460 places)
+ok
+test_dominant_metric_voted_by_failed_subjects (test_cl_ui_62_subject_cards.DerivedArtifactTests.test_dominant_metric_voted_by_failed_subjects)
+dominant_metric must be the highest-vote core violation per the rule. ... ok
+test_generator_determinism_fresh_derivation_equals_artifact (test_cl_ui_62_subject_cards.DerivedArtifactTests.test_generator_determinism_fresh_derivation_equals_artifact) ... ok
+test_lf_bytes_for_committed_data_files (test_cl_ui_62_subject_cards.DerivedArtifactTests.test_lf_bytes_for_committed_data_files) ... ok
+test_provenance (test_cl_ui_62_subject_cards.DerivedArtifactTests.test_provenance) ... ok
+test_row_invariants (test_cl_ui_62_subject_cards.DerivedArtifactTests.test_row_invariants) ... ok
+test_dominant_reason_rule_is_documented (test_cl_ui_62_subject_cards.DictionaryCoverageTests.test_dominant_reason_rule_is_documented) ... ok
+test_every_genre_has_trilingual_short_name (test_cl_ui_62_subject_cards.DictionaryCoverageTests.test_every_genre_has_trilingual_short_name) ... ok
+test_every_metric_has_trilingual_short_word (test_cl_ui_62_subject_cards.DictionaryCoverageTests.test_every_metric_has_trilingual_short_word) ... ok
+test_metric_priority_has_no_dangling_entries_and_no_duplicates (test_cl_ui_62_subject_cards.DictionaryCoverageTests.test_metric_priority_has_no_dangling_entries_and_no_duplicates) ... ok
+test_dadaocheng_has_a_reason_on_its_bare_failed_day (test_cl_ui_65_subject_card_baseline.ArtifactRegressionTests.test_dadaocheng_has_a_reason_on_its_bare_failed_day) ... ok
+test_every_row_has_general_baseline (test_cl_ui_65_subject_card_baseline.ArtifactRegressionTests.test_every_row_has_general_baseline) ... ok
+test_no_general_contract_mounted (test_cl_ui_65_subject_card_baseline.ArtifactRegressionTests.test_no_general_contract_mounted)
+general baseline is derived, never a formal P99-style contract flood. ... ok
+test_no_qualification_metric_ever_dominates (test_cl_ui_65_subject_card_baseline.ClUi70FullCatalogVoteTests.test_no_qualification_metric_ever_dominates) ... ok
+test_no_window_dominant_row_where_the_window_occurred (test_cl_ui_65_subject_card_baseline.ClUi70FullCatalogVoteTests.test_no_window_dominant_row_where_the_window_occurred) ... ok
+test_qualification_metrics_never_vote_at_day_level (test_cl_ui_65_subject_card_baseline.ClUi70WindowVoteTests.test_qualification_metrics_never_vote_at_day_level)
+CHALLENGER-13 P3: 非季節 next to recommended chips was a ... ok
+test_window_absent_but_weather_troubled_defers_to_weather (test_cl_ui_65_subject_card_baseline.ClUi70WindowVoteTests.test_window_absent_but_weather_troubled_defers_to_weather) ... ok
+test_window_absent_with_clear_weather_is_the_neutral_word (test_cl_ui_65_subject_card_baseline.ClUi70WindowVoteTests.test_window_absent_with_clear_weather_is_the_neutral_word)
+Window never happened (pass_hours=0) and no weather violation: ... ok
+test_window_occurred_votes_weather_not_window (test_cl_ui_65_subject_card_baseline.ClUi70WindowVoteTests.test_window_occurred_votes_weather_not_window)
+CHALLENGER-13 tw-001-P03 shape: blue hour window PASSED at 17:00 ... ok
+test_clear_day_is_ok (test_cl_ui_65_subject_card_baseline.GeneralBaselineTests.test_clear_day_is_ok) ... ok
+test_fog_day_votes_visibility (test_cl_ui_65_subject_card_baseline.GeneralBaselineTests.test_fog_day_votes_visibility) ... ok
+test_humidity_violation (test_cl_ui_65_subject_card_baseline.GeneralBaselineTests.test_humidity_violation) ... ok
+test_night_only_day_is_never_ok (test_cl_ui_65_subject_card_baseline.GeneralBaselineTests.test_night_only_day_is_never_ok) ... ok
+test_one_good_hour_makes_the_day_ok (test_cl_ui_65_subject_card_baseline.GeneralBaselineTests.test_one_good_hour_makes_the_day_ok) ... ok
+test_rain_day_votes_precipitation (test_cl_ui_65_subject_card_baseline.GeneralBaselineTests.test_rain_day_votes_precipitation) ... ok
+test_unknown_hours_fail_closed_without_fabricating_reason (test_cl_ui_65_subject_card_baseline.GeneralBaselineTests.test_unknown_hours_fail_closed_without_fabricating_reason) ... ok
+test_view_scale_from_genre_mix (test_cl_ui_65_subject_card_baseline.GeneralBaselineTests.test_view_scale_from_genre_mix) ... ok
+test_view_scale_thresholds (test_cl_ui_65_subject_card_baseline.GeneralBaselineTests.test_view_scale_thresholds) ... ok
+test_all_not_evaluable_falls_back_to_general_reason (test_cl_ui_65_subject_card_baseline.NotEvaluableSemanticsTests.test_all_not_evaluable_falls_back_to_general_reason) ... ok
+test_all_not_evaluable_general_ok_keeps_honest_null (test_cl_ui_65_subject_card_baseline.NotEvaluableSemanticsTests.test_all_not_evaluable_general_ok_keeps_honest_null) ... ok
+test_mixed_not_evaluable_keeps_evaluated_verdict (test_cl_ui_65_subject_card_baseline.NotEvaluableSemanticsTests.test_mixed_not_evaluable_keeps_evaluated_verdict) ... ok
+test_unfavorable_partial_only_day_gets_a_reason (test_cl_ui_65_subject_card_baseline.NotEvaluableSemanticsTests.test_unfavorable_partial_only_day_gets_a_reason)
+CL-UI-65 regression: tw-005-style day — UNFAVORABLE, only PARTIAL conds. ... ok
+test_curated_all_fail_general_ok_is_shootable (test_cl_ui_65_subject_card_baseline.TierTests.test_curated_all_fail_general_ok_is_shootable) ... ok
+test_curated_pass_is_recommend_even_when_general_disagrees (test_cl_ui_65_subject_card_baseline.TierTests.test_curated_pass_is_recommend_even_when_general_disagrees) ... ok
+test_general_fail_is_not_recommended_with_reason (test_cl_ui_65_subject_card_baseline.TierTests.test_general_fail_is_not_recommended_with_reason) ... ok
+test_no_weather_is_honest_null_tier (test_cl_ui_65_subject_card_baseline.TierTests.test_no_weather_is_honest_null_tier) ... ok
+test_not_evaluable_with_general_ok_is_shootable (test_cl_ui_65_subject_card_baseline.TierTests.test_not_evaluable_with_general_ok_is_shootable) ... ok
+test_every_row_carries_hour_buckets (test_cl_ui_73_hourly_subject_cards.ArtifactHourlySpotCheckTests.test_every_row_carries_hour_buckets) ... ok
+test_lf_bytes (test_cl_ui_73_hourly_subject_cards.ArtifactHourlySpotCheckTests.test_lf_bytes) ... ok
+test_no_bucket_content_is_valid (test_cl_ui_73_hourly_subject_cards.ArtifactHourlySpotCheckTests.test_no_bucket_content_is_valid) ... ok
+test_schema_and_hourly_provenance (test_cl_ui_73_hourly_subject_cards.ArtifactHourlySpotCheckTests.test_schema_and_hourly_provenance) ... ok
+test_tw142_anping_hourly_output (test_cl_ui_73_hourly_subject_cards.ArtifactHourlySpotCheckTests.test_tw142_anping_hourly_output) ... ok
+test_clear_daylight_hours_ok (test_cl_ui_73_hourly_subject_cards.HourlyGeneralRowsTests.test_clear_daylight_hours_ok) ... ok
+test_hour_without_time_is_dropped (test_cl_ui_73_hourly_subject_cards.HourlyGeneralRowsTests.test_hour_without_time_is_dropped) ... ok
+test_incomplete_hour_is_unknown_fail_closed (test_cl_ui_73_hourly_subject_cards.HourlyGeneralRowsTests.test_incomplete_hour_is_unknown_fail_closed) ... ok
+test_night_hour_is_neutral_not_light_window (test_cl_ui_73_hourly_subject_cards.HourlyGeneralRowsTests.test_night_hour_is_neutral_not_light_window) ... ok
+test_night_weather_violation_names_a_weather_word (test_cl_ui_73_hourly_subject_cards.HourlyGeneralRowsTests.test_night_weather_violation_names_a_weather_word) ... ok
+test_rain_hour_names_precipitation (test_cl_ui_73_hourly_subject_cards.HourlyGeneralRowsTests.test_rain_hour_names_precipitation) ... ok
+test_view_scale_applies_per_hour (test_cl_ui_73_hourly_subject_cards.HourlyGeneralRowsTests.test_view_scale_applies_per_hour) ... ok
+test_day_baseline_stays_the_hour_aggregate (test_cl_ui_73_hourly_subject_cards.HourlyMergeTests.test_day_baseline_stays_the_hour_aggregate) ... ok
+test_fit_hour_without_a_weather_bucket_has_no_floor_verdict (test_cl_ui_73_hourly_subject_cards.HourlyMergeTests.test_fit_hour_without_a_weather_bucket_has_no_floor_verdict) ... ok
+test_no_weather_day_has_empty_floor_buckets (test_cl_ui_73_hourly_subject_cards.HourlyMergeTests.test_no_weather_day_has_empty_floor_buckets) ... ok
+test_sub_hour_window_stamp_folds_into_the_covering_bucket (test_cl_ui_73_hourly_subject_cards.HourlyMergeTests.test_sub_hour_window_stamp_folds_into_the_covering_bucket) ... ok
+test_sunset_subject_fits_only_its_window_hours (test_cl_ui_73_hourly_subject_cards.HourlyMergeTests.test_sunset_subject_fits_only_its_window_hours) ... ok
+test_window_coverage_clears_the_no_and_na_buckets (test_cl_ui_73_hourly_subject_cards.HourlyMergeTests.test_window_coverage_clears_the_no_and_na_buckets) ... ok
+test_matching_run_passes (test_cl_ui_73_hourly_subject_cards.SameRunAssertionTests.test_matching_run_passes) ... ok
+test_mismatched_run_refused (test_cl_ui_73_hourly_subject_cards.SameRunAssertionTests.test_mismatched_run_refused) ... ok
+test_missing_details_warn_but_proceed (test_cl_ui_73_hourly_subject_cards.SameRunAssertionTests.test_missing_details_warn_but_proceed) ... WARN: no evaluations-details under C:\Users\Dick_\AppData\Local\Temp\tmpxb1uecv7\empty — same-run assertion skipped
+ok
+test_stale_older_run_details_do_not_block (test_cl_ui_73_hourly_subject_cards.SameRunAssertionTests.test_stale_older_run_details_do_not_block) ... ok
 test_canonical_bindings_all_lint_clean (test_genre_templates.BindingGrammarTests.test_canonical_bindings_all_lint_clean) ... binding-lint: 0 violations across data/v2/opportunities
 ok
 test_invalid_strings_fail_closed (test_genre_templates.BindingGrammarTests.test_invalid_strings_fail_closed) ... ok
 test_valid_strings (test_genre_templates.BindingGrammarTests.test_valid_strings) ... ok
 test_draft_expansion_refused (test_genre_templates.ExpansionTests.test_draft_expansion_refused) ... ok
-test_expanded_model_binding_strings_lint (test_genre_templates.ExpansionTests.test_expanded_model_binding_strings_lint) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp5vrx8xpc\tw-001-P02.json
+test_expanded_model_binding_strings_lint (test_genre_templates.ExpansionTests.test_expanded_model_binding_strings_lint) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp6ir6ol23\tw-001-P02.json
 ok
-test_expansion_never_touches_canonical (test_genre_templates.ExpansionTests.test_expansion_never_touches_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpfy21i5cf\tw-001-P02.json
+test_expansion_never_touches_canonical (test_genre_templates.ExpansionTests.test_expansion_never_touches_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpqdgfll3a\tw-001-P02.json
 ok
-test_round_trip_matches_reviewed_canonical (test_genre_templates.ExpansionTests.test_round_trip_matches_reviewed_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpc7w2vm2s\tw-001-P02.json
-expanded sunrise-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp2cls3q7g\tw-036-P01.json
-expanded blue_hour_city-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp54x5bo8j\tw-002-P01.json
-expanded mountain_view-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmps818j2if\tw-016-P01.json
+test_round_trip_matches_reviewed_canonical (test_genre_templates.ExpansionTests.test_round_trip_matches_reviewed_canonical) ... expanded cloud_sea-v0.1 -> 9 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp6v0wrbz7\tw-001-P02.json
+expanded sunrise-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpsqntgcl1\tw-036-P01.json
+expanded blue_hour_city-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmp948p0tuo\tw-002-P01.json
+expanded mountain_view-v0.1 -> 4 conditions -> C:\Users\Dick_\AppData\Local\Temp\tmpl8v1ohkp\tw-016-P01.json
 ok
 test_undeclared_param_refused (test_genre_templates.ExpansionTests.test_undeclared_param_refused) ... ok
 test_arithmetic (test_genre_templates.ExpressionTests.test_arithmetic) ... ok
 test_disallowed_syntax_fails (test_genre_templates.ExpressionTests.test_disallowed_syntax_fails) ... ok
 test_undeclared_param_fails (test_genre_templates.ExpressionTests.test_undeclared_param_fails) ... ok
-test_merge_exact_duplicate_skipped (test_genre_templates.MergeTests.test_merge_exact_duplicate_skipped) ... merged cloud_sea-v0.1 -> 9 offered, 1 duplicate skipped, 9 total -> C:\Users\Dick_\AppData\Local\Temp\tmp2rh4qj2x\out.json
+test_merge_exact_duplicate_skipped (test_genre_templates.MergeTests.test_merge_exact_duplicate_skipped) ... merged cloud_sea-v0.1 -> 9 offered, 1 duplicate skipped, 9 total -> C:\Users\Dick_\AppData\Local\Temp\tmpsg1bvc91\out.json
 ok
 test_merge_point_conflict_refused (test_genre_templates.MergeTests.test_merge_point_conflict_refused) ... ok
 test_merge_requires_existing_contract (test_genre_templates.MergeTests.test_merge_requires_existing_contract) ... ok
-test_merge_scoped_overlap_is_allowed (test_genre_templates.MergeTests.test_merge_scoped_overlap_is_allowed) ... merged cloud_sea-v0.1 -> 9 offered, 0 duplicate skipped, 10 total -> C:\Users\Dick_\AppData\Local\Temp\tmpqbor4fr7\out.json
+test_merge_scoped_overlap_is_allowed (test_genre_templates.MergeTests.test_merge_scoped_overlap_is_allowed) ... merged cloud_sea-v0.1 -> 9 offered, 0 duplicate skipped, 10 total -> C:\Users\Dick_\AppData\Local\Temp\tmpylboslqs\out.json
 ok
 test_draft_templates_are_complete_but_refused (test_genre_templates.RegistryTests.test_draft_templates_are_complete_but_refused) ... ok
 test_every_metric_in_templates_is_in_vocabulary (test_genre_templates.RegistryTests.test_every_metric_in_templates_is_in_vocabulary) ... ok
@@ -184,6 +314,15 @@ test_official_sample_has_explicit_role_not_camera_or_navigation (test_hourly_pil
 test_place_specific_timezone_has_geography_standard_time_and_iana_evidence (test_hourly_pilot_binding.HourlyPilotBinding.test_place_specific_timezone_has_geography_standard_time_and_iana_evidence) ... ok
 test_real_existing_place_and_canonical_blob_binding (test_hourly_pilot_binding.HourlyPilotBinding.test_real_existing_place_and_canonical_blob_binding) ... ok
 test_sidecar_does_not_promote_existing_index_or_geometry (test_hourly_pilot_binding.HourlyPilotBinding.test_sidecar_does_not_promote_existing_index_or_geometry) ... ok
+test_attach_hourly_drops_past_rows_and_missing_files (test_kv_distill_hourly.KvDistillHourlyTest.test_attach_hourly_drops_past_rows_and_missing_files) ... hourly rows merged for 1/1 places from C:\Users\Dick_\AppData\Local\Temp\tmpb8nec674\weather_details
+distilled 1 places -> C:\Users\Dick_\AppData\Local\Temp\tmpb8nec674\out.json
+hourly rows merged for 0/1 places from C:\Users\Dick_\AppData\Local\Temp\tmpb8nec674\weather_details
+distilled 1 places -> C:\Users\Dick_\AppData\Local\Temp\tmpb8nec674\out3.json
+ok
+test_forbidden_key_check_still_passes_with_hourly (test_kv_distill_hourly.KvDistillHourlyTest.test_forbidden_key_check_still_passes_with_hourly) ... hourly rows merged for 1/1 places from C:\Users\Dick_\AppData\Local\Temp\tmpzq2awvwg\weather_details
+distilled 1 places -> C:\Users\Dick_\AppData\Local\Temp\tmpzq2awvwg\out.json
+ok
+test_slim_row_maps_fields_and_keeps_zero_values (test_kv_distill_hourly.KvDistillHourlyTest.test_slim_row_maps_fields_and_keeps_zero_values) ... ok
 test_admitted_canonical_matches_skeleton_bytes (test_migration_skeletons.MigrationSkeletonTests.test_admitted_canonical_matches_skeleton_bytes)
 Records not yet template-applied stay byte-identical to their staged skeleton. ... ok
 test_condition_metric_matches_v1_theme (test_migration_skeletons.MigrationSkeletonTests.test_condition_metric_matches_v1_theme) ... ok
@@ -198,6 +337,9 @@ test_provisional_placeholders_present_in_all_three_locales (test_migration_skele
 CL-UI-07: no provisional/pending marker in any user-visible string. ... ok
 test_v1_access_notes_carry_verbatim_as_warnings (test_migration_skeletons.MigrationSkeletonTests.test_v1_access_notes_carry_verbatim_as_warnings)
 V1 access notices migrate verbatim (non-scoring warning), not dropped or invented. ... ok
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
@@ -308,6 +450,12 @@ warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 ok
 test_duplicate_ids_dangling_topics_and_wrong_canonical_revision (test_task_x_research_index.ResearchIndexTests.test_duplicate_ids_dangling_topics_and_wrong_canonical_revision) ... ok
 test_exact_unique_complete_place_and_opportunity_sets (test_task_x_research_index.ResearchIndexTests.test_exact_unique_complete_place_and_opportunity_sets) ... ok
@@ -347,8 +495,17 @@ warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 ok
 test_missing_name_locale_and_foreign_place_source_fail (test_task_x_research_index.ResearchIndexTests.test_missing_name_locale_and_foreign_place_source_fail) ... warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
@@ -496,6 +653,12 @@ warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
 warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
+warning: unable to find all commit-graph files
 ok
 test_query_preferences_capabilities_are_test_only_and_no_favorable (test_task_x_research_index.ResearchIndexTests.test_query_preferences_capabilities_are_test_only_and_no_favorable) ... ok
 test_real_canonical_blob_sha256_identity_and_revision (test_task_x_research_index.ResearchIndexTests.test_real_canonical_blob_sha256_identity_and_revision) ... ok
@@ -521,7 +684,7 @@ test_04_crosswalk_exact_coverage_and_negative_conflict (test_worker2_batch04.Bat
 test_05_human_readable_parity_and_original_preview_is_untouched (test_worker2_batch04.Batch04Gate.test_05_human_readable_parity_and_original_preview_is_untouched) ... ok
 
 ----------------------------------------------------------------------
-Ran 217 tests in 506.334s
+Ran 342 tests in 860.121s
 
 OK
-{"tests": 217, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 217}
+{"tests": 342, "fail": 0, "error": 0, "skip": 0, "expected_failure": 0, "unexpected_success": 0, "pass": 342}
