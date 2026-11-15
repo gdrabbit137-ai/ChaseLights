@@ -183,7 +183,7 @@ test('CL-UI-90 (7) token discipline — zero hardcoded colors in the page styles
     assert.ok(style.includes(`var(${tok})`), `page styles use ${tok}`);
   }
   // cache-bust bump is scoped to the reminders page
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui90/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui99/);
   assert.doesNotMatch(remHtml, /reminders-page\.js\?v=clui75/);
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui62/);
   assert.match(remHtml, /assets\/app\.css\?v=clui100/);

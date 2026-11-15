@@ -151,5 +151,5 @@ test('CL-UI-69 (6): 390px row rules ship and the page serves the bumped stamps',
   assert.match(indexSource, /assets\/app\.js\?v=clui100/);
   assert.match(indexSource, /assets\/app\.css\?v=clui100/);
   assert.match(indexSource, /assets\/reminders-client\.js\?v=clui83/);
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui90/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui99/);
 });
