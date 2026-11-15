@@ -49,6 +49,9 @@ test('CL-UI-99 (1): custom-conditions form markup, stamps, worker contract wirin
   assert.match(pageJs, /if \(customConditions\) payload\.customConditions = customConditions;/);
   assert.match(pageJs, /else payload\.opportunityId = oppId \|\| undefined;/);
   assert.match(pageJs, /rem_cc_invalid/);
+  // The subject change event toggles the panel LIVE (visual-probe regression:
+  // selecting 自訂條件… must not require a place re-selection to open the form).
+  assert.match(pageJs, /getElementById\('rem-subject'\)\.addEventListener\('change',[\s\S]{0,160}?renderCustomPanel\(\);/);
 
   // Worker: validation lives next to the engine; POST accepts the payload,
   // rejects the both-modes body, and the GET/cron select carries the column.

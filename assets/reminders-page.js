@@ -705,7 +705,11 @@
     });
     document.getElementById('rem-region').addEventListener('change', function () { renderPlaceOptions(); renderPreview(); });
     document.getElementById('rem-place').addEventListener('change', function () { renderSubjectOptions(); renderPreview(); });
-    document.getElementById('rem-subject').addEventListener('change', renderPreview);
+    document.getElementById('rem-subject').addEventListener('change', function () {
+      // CL-UI-99: the custom entry toggles the parameter form live.
+      renderCustomPanel();
+      renderPreview();
+    });
     document.getElementById('rem-search').addEventListener('input', renderSearchResults);
     document.getElementById('rem-empty-add').addEventListener('click', function () {
       var region = document.getElementById('rem-region');
