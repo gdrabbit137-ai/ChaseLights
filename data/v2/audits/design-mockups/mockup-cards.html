@@ -126,7 +126,7 @@ select.sel{height:var(--control-h);padding:0 var(--sp-3);background:var(--bg-2);
 #shell.vp390 .grid{grid-template-columns:1fr;gap:var(--sp-2)}
 .card{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);
   padding:var(--sp-4);display:flex;flex-direction:column;min-width:0;
-  content-visibility:auto;contain-intrinsic-size:auto 220px; /* 460 卡效能：離屏卡片不排版（DESIGN-6 實高 ~219px） */ }
+  content-visibility:auto;contain-intrinsic-size:auto 190px; /* 460 卡效能：離屏卡片不排版 */ }
 #shell.vp390 .card{padding:var(--sp-3);border-radius:var(--r-sm)}
 .card:hover{border-color:var(--border-strong)}
 .card-head{display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2)}
@@ -161,22 +161,7 @@ select.sel{height:var(--control-h);padding:0 var(--sp-3);background:var(--bg-2);
   border-radius:var(--r-xs);border:1px solid var(--border);background:var(--bg-2);font-size:var(--fs-12);color:var(--text-2);white-space:nowrap}
 .acts .btn:hover{background:var(--bg-3);color:var(--text-1);border-color:var(--border-strong)}
 
-/* ── DESIGN-6：卡片本體＝預報速覽 ─────────────────────── */
-/* 今日 24h 迷你色帶（與詳情彈窗/預報頁同源）— 已過時段 35% 透明 */
-.band{display:flex;gap:2px;height:12px;margin:var(--sp-2) 0}
-.band i{flex:1;min-width:2px;border-radius:2px;background:var(--bg-3)}
-.band i.ok{background:var(--green)}.band i.mid{background:var(--amber)}.band i.bad{background:var(--red)}
-.band i.past{opacity:.32}
-/* 現在狀態行 — 徽章=判定（頭部），此行=原因＋時間，不重複語義 */
-.nowline{display:flex;align-items:center;gap:6px;height:20px;font-size:var(--fs-12);color:var(--text-2);min-width:0;white-space:nowrap;overflow:hidden}
-.nowline .st{font-weight:600;flex:none}
-.nowline.t-shoot .st{color:var(--amber-text)}
-.nowline.t-rec .st{color:var(--green-text)}
-.nowline.t-no .st{color:var(--red-text)}
-.nowline .nx{color:var(--text-3);overflow:hidden;text-overflow:ellipsis}
-.nowline .nx b{font-family:var(--mono);font-weight:600;color:var(--text-1)}
-
-/* ── 題材面板（DESIGN-6：三鈕之「題材」開啟；原詳情彈窗題材內容前進至此）── */
+/* ── 彈窗共用（DESIGN-6 owner 澄清：卡片點開＝預報內容；左下「題材」鈕＝題材面板）── */
 .overlay{position:fixed;inset:0;background:rgba(4,7,14,.72);backdrop-filter:blur(3px);
   display:none;align-items:flex-start;justify-content:center;z-index:90;padding:var(--sp-6) var(--sp-4);overflow-y:auto}
 .overlay.open{display:flex}
@@ -219,10 +204,38 @@ select.sel{height:var(--control-h);padding:0 var(--sp-3);background:var(--bg-2);
 .m-tips li::before{content:'·';color:var(--text-3);font-weight:600}
 #shell.vp390 ~ .overlay, .overlay.p390{padding:0}
 .overlay.p390 .modal{max-width:390px;min-height:100vh;border-radius:0}
-/* 390：卡片節奏 — 色帶滿寬、nowline 允許換行為兩行 */
-#shell.vp390 .band{height:14px}
-#shell.vp390 .nowline{white-space:normal;height:auto;line-height:1.4}
-#shell.vp390 .card{contain-intrinsic-size:auto 212px}
+/* 390：卡片節奏（本體回復原樣） */
+#shell.vp390 .card{contain-intrinsic-size:auto 186px}
+/* ── 預報彈窗（DESIGN-6 owner 澄清：點卡片開預報內容 — 與預報頁/詳情速覽同源同構）── */
+.quick{display:flex;align-items:center;gap:var(--sp-3);flex-wrap:wrap;padding:var(--sp-3) var(--sp-4);
+  background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--r-md);margin-bottom:var(--sp-4)}
+.quick.mid{background:var(--amber-bg);border-color:var(--amber-border)}
+.quick.bad{background:var(--red-bg);border-color:var(--red-border)}
+.quick .q-t{font-size:var(--fs-13);font-weight:600;color:var(--green-text);flex:none}
+.quick.mid .q-t{color:var(--amber-text)}
+.quick.bad .q-t{color:var(--red-text)}
+.quick .q-chip{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 10px;border-radius:999px;
+  background:rgba(34,197,94,.16);color:var(--green-text);font-size:var(--fs-12);font-weight:600}
+.quick.mid .q-chip{background:rgba(245,158,11,.16);color:var(--amber-text)}
+.quick.bad .q-chip{background:rgba(239,68,68,.14);color:var(--red-text)}
+.quick .q-band{display:flex;gap:2px;height:14px;flex:1 1 240px;min-width:180px}
+.quick .q-band i{flex:1;min-width:3px;border-radius:2px;background:var(--bg-3);cursor:default}
+.quick .q-band i.ok{background:var(--green)}
+.quick .q-band i.mid{background:var(--amber)}
+.quick .q-band i.bad{background:var(--red)}
+.quick .q-band i.past{opacity:.32}
+.quick .q-next{font-size:var(--fs-12);color:var(--text-2)}
+.quick .q-next b{font-family:var(--mono);font-weight:600;color:var(--amber-text)}
+.band-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--text-3);margin:2px 0 var(--sp-3)}
+/* 逐小時三欄表：時間 / 狀態 / 題材 */
+table.hrs{width:100%;border-collapse:collapse}
+table.hrs th{background:var(--bg-2);height:32px;padding:0 var(--sp-3);font-size:var(--fs-12);color:var(--text-3);text-align:left;font-weight:600}
+table.hrs td{height:36px;padding:4px var(--sp-3);border-bottom:1px solid var(--border);font-size:var(--fs-13);vertical-align:middle}
+table.hrs td.tt{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-2);width:64px}
+table.hrs td.st-rec{color:var(--green-text);font-weight:600}
+table.hrs td.st-shoot{color:var(--amber-text);font-weight:600}
+table.hrs td.st-no{color:var(--red-text)}
+table.hrs td.sj{color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 .load-note{margin:var(--sp-5) auto 0;text-align:center;font-size:var(--fs-12);color:var(--text-3)}
 
@@ -348,10 +361,10 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
       <h4 data-i18n="notes_card">卡片解剖</h4>
       <table>
         <tr><td>DESIGN-6 owner 提案</td><td>①三鈕左一「天氣預報」改「題材」，開啟拍攝題材資訊面板（題材清單＋8 日窗/條件/位置/指南，即原詳情彈窗題材內容）；②卡片本體由「天氣預報」內容取代現行速覽 — 24h 色帶/逐時資訊直接上卡片（owner 卡片截圖：○可拍徽章＋「○可拍：窗已過·今日仍可拍」＋海拔/太陽/凝結/溫度 pills＋三鈕）。</td></tr>
-        <tr><td>DESIGN-6 設計師版本（採用）</td><td><b>owner 原案 vs 設計師建議</b>：原案「24h 色帶＋逐題材行」並存 — 色帶與逐題材行同為「今天什麼時段能拍」的兩種編碼，在同一張卡上重複語義且 390px 高度爆表。<b>設計師合併</b>：卡片本體＝一條預報速覽 — 24h 迷你色帶（同源詳情彈窗/預報頁，已過時段 35% 淡化）＋單行「現在狀態」（窗已過·今日仍可拍／✓符合中／✗短因）＋「下一個 HH:MM 題材」；逐題材行（時段/條件/位置/指南）整體降級進「題材」面板 — 色帶回答「今天節奏」，面板回答「我專攻的題材哪天幾點」。取捨：卡片不再逐題材掃描，換取每卡省 ~52px×3 行與零重複；掃描需求由 tier tabs＋色帶承擔。若 owner 仍要逐題材行，可作為色帶下方一條可收合 disclosure（+26px），不改色帶。</td></tr>
-        <tr><td>層級關係（去重）</td><td>頭部 tier 徽章＝判定（✓/○/✗，單一真相，沿用 DESIGN-5 時間感知）；色帶＝逐時分布（徽章的 why，視覺不重複文字）；狀態行＝判定原因＋下一時刻（文字補色帶之不足）；凝結(LCL) pill 與雲海/低雲條件同源但用途不同（環境 vs 題材門檻），各自只出現一次。同一語義絕不兩處文字渲染（DR「single truth per row」延伸到卡面）。</td></tr>
-        <tr><td>卡片高度</td><td>1280：~190→~205px（色帶 12px＋狀態行 20px 取代 2–3 行逐題材 78px，pills 3→4 顆 +22px）；390：同構 ~208px（色帶 14px、狀態行可換兩行）。content-visibility:auto 保留，contain-intrinsic-size 同步 190→205/208px — 離屏佔位估值與實高偏差 <10%，捲軸不跳。</td></tr>
-        <tr><td>三層資訊架構（更新）</td><td>頭：名稱 14/600 ＋ tier 徽章 ＋ ★。身：預報速覽（24h 色帶＋狀態行）。腳：環境 pills（海拔/太陽/凝結/溫度，owner 截圖規格）＋三鈕 題材｜地圖｜天氣圖。列表頁仍是 3 秒決策層；知識查詢移入題材面板。</td></tr>
+        <tr><td>DESIGN-6 owner 澄清（定案）</td><td><b>owner 兩次澄清推翻設計師「逐題材行移進面板」合併案</b>：①卡片本體資訊回復原樣 — 標題/★/tier 徽章/逐題材行「短名: 時段 🔔」/環境 pills/三鈕，全部不動；②「點開卡片」的彈窗＝原本天氣預報的資訊 — 速覽「現在去會怎樣」（同源 tier chip＋今日 24h 色帶＋下一個符合時刻）＋逐小時三欄表（時間/狀態/題材），與預報頁/詳情速覽同源同構；③三鈕左一仍改「題材」，開題材資訊面板（8 日格/條件/位置/指南，即原詳情彈窗題材內容）。即：預報上卡降級為「點開看預報」，卡片本體維持逐題材掃描。</td></tr>
+        <tr><td>層級關係</td><td>卡片列表＝3 秒決策層（逐題材行掃描）；點卡片＝預報層（「現在去會怎樣」＋24h 色帶＋逐小時表）；「題材」鈕＝知識查詢層（8 日窗/條件/位置/指南）。24h 色帶只在預報彈窗出現，不再上卡面；同一語義絕不兩處文字渲染。</td></tr>
+        <tr><td>卡片高度</td><td>1280：~190px（本體原樣還原）；390 同構 ~186px。content-visibility:auto 保留，contain-intrinsic-size 回復 190/186px — 離屏佔位估值與實高偏差 <10%，捲軸不跳。</td></tr>
+        <tr><td>三層資訊架構（更新）</td><td>頭：名稱 14/600 ＋ tier 徽章 ＋ ★。身：逐題材行「短名 時段 🔔」（✗ 卡一行短因；○ 卡一般拍攝行）。腳：環境 pills＋三鈕 題材｜地圖｜天氣圖（左一「題材」開題材面板；點卡片本體開預報彈窗）。</td></tr>
         <tr><td>題材面板</td><td>560px 彈窗（390 全螢幕）：逐題材 &lt;details&gt; — 摘要行＝題材名＋8 日窗 mini 條＋🔔；展開＝8 日格（✓/○/✗ 三色同源）＋條件（必須/加分/扣分）＋拍攝位置＋指南。○可拍卡僅列「一般拍攝」一項；✗ 卡同樣開一般拍攝面板，顯示原因詞典對應門檻。Esc／背板／✕ 關閉；390 轉 fullscreen。</td></tr>
         <tr><td>grid stretch 對齊</td><td>DR1 P2-8 — align-items stretch＋acts margin-top:auto，15 張卡底緣成一直線；卡間 24px（390px 降 8px）。</td></tr>
       </table>
@@ -373,7 +386,8 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
   </details>
 </div>
 
-<!-- DESIGN-6：題材面板（卡片三鈕「題材」開啟） -->
+<!-- DESIGN-6 owner 澄清：點卡片＝預報彈窗；三鈕「題材」＝題材面板 -->
+<div class="overlay" id="fcst-overlay"><div class="modal"></div></div>
 <div class="overlay" id="subj-overlay"><div class="modal"></div></div>
 
 <script>
@@ -384,34 +398,34 @@ const I18N={
   page_title:'📍 今天去哪裡拍？',result_meta:'依最近可拍時段 · 460 個景點',today:'今天',
   t_rec:'推薦',t_shoot:'可拍',t_no:'不宜',t_all:'全部',load_note:'已顯示 15 / 460 · 向下滾動虛擬載入其餘卡片（content-visibility 離屏不排版）',
   btn_subject:'題材',btn_map:'地圖',btn_grid:'天氣圖',notes_title:'設計說明 — 設計決策 × design-review 對應',
-  band_tip:'今日 24h 可拍色帶（綠=推薦 · 黃=可拍 · 紅=不宜 · 淡=已過）',
-  now_active:'符合中',now_wpass:'窗已過 · 今日仍可拍',next:'下一個',tomorrow:'明日',
-  p_elev:'海拔',p_sun:'太陽（日出）',p_lcl:'凝結（LCL）',p_temp:'溫度',
+  q_now:'現在去會怎樣',fcst_sub:'天氣預報 · 逐小時',h_time:'時間',h_state:'狀態',h_subj:'題材',
+  st_rec:'✓ 推薦',st_shoot:'○ 可拍',st_no:'✗ 不宜',q_next:'下一個符合時刻',band_tip:'今日 24h · 與預報頁同源',
+  gen_ok:'一般拍攝',
   m_sub:'拍攝題材 · 8 日窗 / 條件 / 位置 / 指南',m_8d:'8 日窗',m_loc:'拍攝位置',req:'必須',boost:'加分',pen:'扣分',
   notes_layout:'版面重排',notes_card:'卡片解剖',notes_token:'色階 · 字級 · 間距 token',notes_perf:'460 卡列表效能',
-  data_src:'資料樣例：subject-cards 評估層真實值（2026-11-16 · 460 景點：✓223 / ○234 / ✗3；題材短名 21 種、fail_reason_short 詞典）。海拔/太陽/凝結/溫度與 8 日窗為示意值。視窗切換鈕僅改變容器寬度以示範 390px 節奏。'},
+  data_src:'資料樣例：subject-cards 評估層真實值（2026-11-16 · 460 景點：✓223 / ○234 / ✗3；題材短名 21 種、fail_reason_short 詞典）。海拔/溫度/日出與 24h 色帶為示意值。視窗切換鈕僅改變容器寬度以示範 390px 節奏。'},
  en:{nav_cards:'Cards',nav_weathermap:'Weather map',nav_reminders:'Reminders',opt_region:'All regions',opt_sort:'By next shootable window',
   login:'Log in',member_name:'Dawn Chaser',avatar_ch:'D',menu_fav:'Favorites',menu_rem:'Reminders',menu_profile:'Account',menu_logout:'Log out',
   page_title:'📍 Where to shoot today?',result_meta:'By next shootable window · 460 places',today:'Today',
   t_rec:'Recommended',t_shoot:'Shootable',t_no:'Not advised',t_all:'All',load_note:'Showing 15 / 460 · scroll to virtual-load the rest (content-visibility offscreen skip)',
   btn_subject:'Subjects',btn_map:'Map',btn_grid:'Weather grid',notes_title:'Design notes — decisions × design-review findings',
-  band_tip:'Today 24h shootable band (green=recommended · amber=shootable · red=not advised · faded=past)',
-  now_active:'Matching now',now_wpass:'Window passed · still shootable today',next:'Next',tomorrow:'Tomorrow',
-  p_elev:'Elevation',p_sun:'Sun (sunrise)',p_lcl:'Condensation (LCL)',p_temp:'Temperature',
+  q_now:'How will it be if I go now',fcst_sub:'Forecast · hourly',h_time:'Time',h_state:'State',h_subj:'Subjects',
+  st_rec:'✓ Recommended',st_shoot:'○ Shootable',st_no:'✗ Not advised',q_next:'Next matching moment',band_tip:'Today 24h · same source as forecast page',
+  gen_ok:'General shooting',
   m_sub:'Subjects · 8-day windows / conditions / location / guide',m_8d:'8-day windows',m_loc:'Location',req:'Required',boost:'Booster',pen:'Penalty',
   notes_layout:'Layout',notes_card:'Card anatomy',notes_token:'Color · type · spacing tokens',notes_perf:'460-card list performance',
-  data_src:'Data samples: real subject-cards evaluation layer (2026-11-16 · 460 places: ✓223 / ○234 / ✗3; 21 genre short names, fail_reason_short dict). Elevation/sun/LCL/temp and 8-day windows are illustrative. The viewport toggle only changes container width to demo the 390px rhythm.'},
+  data_src:'Data samples: real subject-cards evaluation layer (2026-11-16 · 460 places: ✓223 / ○234 / ✗3; 21 genre short names, fail_reason_short dict). Elevation/temp/sunrise and the 24h band are illustrative. The viewport toggle only changes container width to demo the 390px rhythm.'},
  ja:{nav_cards:'カード',nav_weathermap:'天気マップ',nav_reminders:'撮影リマインダー',opt_region:'全地域',opt_sort:'撮影可能時間順',
   login:'ログイン',member_name:'暁の旅人',avatar_ch:'暁',menu_fav:'お気に入り',menu_rem:'リマインド一覧',menu_profile:'会員情報',menu_logout:'ログアウト',
   page_title:'📍 今日はどこで撮る？',result_meta:'次の撮影可能時間順 · 460 スポット',today:'今日',
   t_rec:'推薦',t_shoot:'撮影可',t_no:'不適',t_all:'すべて',load_note:'15 / 460 表示中 · スクロールで仮想ロード（content-visibility）',
   btn_subject:'題材',btn_map:'地図',btn_grid:'天気マップ',notes_title:'デザインメモ — 決定事項 × design-review 対応',
-  band_tip:'本日 24h 撮影バンド（緑=推薦・黄=撮影可・赤=不適・薄=経過）',
-  now_active:'現在適格',now_wpass:'窓は終了・本日も撮影可',next:'次の',tomorrow:'明日',
-  p_elev:'標高',p_sun:'太陽（日の出）',p_lcl:'凝結（LCL）',p_temp:'気温',
+  q_now:'今行くとどう？',fcst_sub:'天気予報・時間別',h_time:'時刻',h_state:'状態',h_subj:'題材',
+  st_rec:'✓ 推薦',st_shoot:'○ 撮影可',st_no:'✗ 不適',q_next:'次の適合時刻',band_tip:'本日 24h・予報ページと同ソース',
+  gen_ok:'一般撮影',
   m_sub:'撮影題材・8日窓／条件／位置／ガイド',m_8d:'8日窓',m_loc:'撮影位置',req:'必須',boost:'加点',pen:'減点',
   notes_layout:'レイアウト',notes_card:'カード構造',notes_token:'カラー・文字・余白トークン',notes_perf:'460カードのパフォーマンス',
-  data_src:'データ例：subject-cards 評価層の実値（2026-11-16 · 460 スポット：✓223 / ○234 / ✗3）。標高・太陽・LCL・気温と 8 日窓はダミー。'}
+  data_src:'データ例：subject-cards 評価層の実値（2026-11-16 · 460 スポット：✓223 / ○234 / ✗3）。標高・気温・日の出と 24h バンドはダミー。'}
 };
 /* 真實題材短名（subject-cards dictionaries.genre_short_names，21 種） */
 const G={
@@ -431,8 +445,8 @@ const FR={visibility:['霧','fog','霧'],precipitation:['雨','rain','雨'],clou
  temperature_2m:['氣溫不合','temperature out of range','気温が適域外'],light_window:['非日照時段','outside daylight hours','日照時間帯外']};
 
 /* 真實 place-day 資料（2026-11-16，subject-cards-20261112T202312Z）＋示意環境值
-   DESIGN-6：b=今日 24h 色帶（r/a/g/.，與詳情彈窗/預報頁同源）；env=[海拔,太陽,凝結(LCL),溫度]；
-   note：active=符合中 / wpass=窗已過·今日仍可拍 / no=✗短因；nx=[時刻,題材,'+1'=明日] */
+   DESIGN-6 owner 澄清：卡片本體原樣（s=逐題材行）；b=今日 24h 色帶（r/a/g，供點開之預報彈窗，同源預報頁）；
+   env=[海拔,太陽(日出),凝結(LCL),溫度]；nx=[時刻,題材,'+1'=明日] */
 const CARDS=[
  {id:'tw-034',n:['崇德','Chongde','崇徳'],rg:['花蓮縣 秀林鄉','Xiulin, Hualien','花蓮県秀林郷'],tier:'rec',
   s:[['sunrise','05:35–06:00'],['overlook','08:00–09:00'],['mountain_view','16:25']],env:['15 m','05:35','1,200 m','24°C'],
@@ -515,19 +529,52 @@ const SUBJ_META={
  general:{req:['能見度 ≥5 km · 無降水','Visibility ≥5 km, no precip','視程 ≥5 km・降水なし'],boost:['多雲透光','Broken cloud, some sun','雲間に光'],pen:['強風','Strong wind','強風'],
   loc:['全域','Anywhere on site','区域内全域'],tip:['以一般基線評估','Evaluated on the general baseline','一般基線で評価']}};
 const D8_BASE=['ok','ok','mid','ok','ok','bad','mid','ok']; /* 示意 8 日窗：ok=✓ mid=○ bad=✗ */
+const NOW_H=11; /* 示意「現在」=11:00 */
 
-function bandHTML(c){
-  const NOW=11;
-  return '<div class="band" title="'+t().band_tip+'">'+c.b.split('').map((ch,h)=>
-    ch==='.'?'<i></i>':`<i class="${ch==='g'?'ok':ch==='a'?'mid':'bad'}${h<NOW?' past':''}"></i>`).join('')+'</div>';
+function quickChip(c){
+  if(c.tier==='rec')return c.note==='active'?t().st_rec:'';
+  return c.tier==='shoot'?t().st_shoot:t().st_no;
 }
-function nowlineHTML(c){
-  const nx=c.nx?(c.nx[2]?(t().tomorrow+' '):'')+`<b>${c.nx[0]}</b>${c.nx[1]?' '+g(c.nx[1]):''}`:'';
-  let st='';
-  if(c.note==='active')st=`<span class="st">${c.tier==='rec'?'✓':'○'} ${t().now_active}</span>`;
-  else if(c.note==='wpass')st=`<span class="st">${t().now_wpass}</span>`;
-  else st=`<span class="st">✗ ${fr(c.noDom)}</span>`;
-  return `<div class="nowline t-${c.tier}">${st}${nx?`<span class="nx">${t().next} ${nx}</span>`:''}</div>`;
+/* 預報彈窗（DESIGN-6 owner 澄清：點卡片開預報內容 — 速覽＋24h 色帶＋逐小時三欄表，同源預報頁） */
+function bandCells(c){return c.b.split('').map((ch,h)=>
+  `<i class="${ch==='g'?'ok':ch==='a'?'mid':'bad'}${h<NOW_H?' past':''}" title="${String(h).padStart(2,'0')}:00"></i>`).join('');}
+function subjectsAt(c,h){
+  const wins=(c.tier==='rec')?c.s:(c.tier==='shoot'?(c.ok||[]).map(w=>['general',w]):[]);
+  const hits=[];
+  for(const [k,ws] of wins)for(const seg of ws.split(' · ')){
+    const m=seg.match(/^(\d{2}):(\d{2})(?:–(\d{2}):(\d{2}))?$/);if(!m)continue;
+    const s0=+m[1],e0=m[3]!==undefined?+m[3]:s0;
+    if(h>=s0&&h<=e0){hits.push((m[3]!==undefined?`${g(k)} ${seg}`:g(k)));break;}
+  }
+  if(c.tier==='shoot'&&c.no)for(const [hh,rr] of c.no){if(+hh===h)hits.push(`✗ ${fr(rr)}`);}
+  if(!hits.length&&c.tier==='no'&&c.noDom&&h>=0)hits.push(`✗ ${fr(c.noDom)}`);
+  return hits.join(' · ');
+}
+function nextMoment(c){
+  if(c.tier==='no')return '';
+  const nx=c.nx||null;
+  if(nx)return (nx[2]?t().tomorrow+' ':'')+`<b>${nx[0]}</b>${nx[1]&&nx[1]!=='general'?' '+g(nx[1]):''}`;
+  return '';
+}
+function fcstHTML(c){
+  const L=lang==='zh-TW'?0:lang==='en'?1:2;
+  const chip=quickChip(c);
+  const qcls=c.tier==='rec'?'':c.tier==='shoot'?'mid':'bad';
+  const qn=nextMoment(c);
+  const stateOf=ch=>ch==='g'?['st-rec',t().st_rec]:ch==='a'?['st-shoot',t().st_shoot]:['st-no',t().st_no];
+  let rows='';
+  for(let h=0;h<24;h++){
+    const ch=c.b[h]||'r';const [sc,st]=stateOf(ch);const sj=subjectsAt(c,h);
+    rows+=`<tr><td class="tt">${String(h).padStart(2,'0')}:00</td><td class="${sc}">${st}</td><td class="sj">${sj||'—'}</td></tr>`;
+  }
+  return `<div class="m-head"><div><div class="name">${esc(c.n[L])}</div><div class="sub">${c.rg[L]} · ${t().fcst_sub}</div></div>
+    <button class="close" id="m-close">✕</button></div>
+  <div class="quick ${qcls}"><span class="q-t">${t().q_now} · 11/16</span>
+    ${chip?`<span class="q-chip">${chip}</span>`:''}
+    <div class="q-band" title="${t().band_tip}">${bandCells(c)}</div>
+    ${qn?`<span class="q-next">${t().q_next}：${qn}</span>`:''}</div>
+  <div class="band-label"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div>
+  <table class="hrs"><thead><tr><th>${t().h_time}</th><th>${t().h_state}</th><th>${t().h_subj}</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 function subjListFor(c){
   if(c.tier==='rec')return c.s.map(x=>x[0]);
@@ -555,9 +602,9 @@ function modalHTML(c){
   }).join('');
 }
 let mCard=null;
-function openModal(c){mCard=c;
-  const ov=document.getElementById('subj-overlay');
-  ov.querySelector('.modal').innerHTML=modalHTML(c);
+function openModal(c,html){mCard=c;
+  const ov=document.getElementById(html===fcstHTML(c)?'fcst-overlay':'subj-overlay');
+  ov.querySelector('.modal').innerHTML=html;
   ov.classList.toggle('p390',document.getElementById('shell').classList.contains('vp390'));
   ov.classList.add('open');
   document.getElementById('m-close').onclick=()=>ov.classList.remove('open');
@@ -566,13 +613,20 @@ function cardHTML(c){
   const tierBadge={rec:`<span class="tier tier-rec">✓ ${lang==='en'?'Recommended':'推薦'}</span>`,
     shoot:`<span class="tier tier-shoot">○ ${t().t_shoot}</span>`,
     no:`<span class="tier tier-no">✗ ${t().t_no}</span>`}[c.tier];
-  const P=t();
+  let body='';
+  if(c.tier==='rec'){
+    body=c.s.map(([gg,w])=>`<div class="subj-row"><span class="dot"></span><span class="g">${g(gg)}</span><span class="w">${w}</span><span class="bell" title="remind">🔔</span></div>`).join('');
+  }else if(c.tier==='shoot'){
+    body=`<div class="gen-line ok-mark"><span>○</span><span>${t().gen_ok}</span><span class="w" style="font-family:var(--mono);font-size:12px;color:var(--text-2)">${c.ok.join(' · ')}</span></div>`
+      +(c.no&&c.no.length?`<div class="no-line" style="color:var(--text-3)">✗ ${c.no.map(([h,r])=>`<span style="font-family:var(--mono);font-size:12px">${h}</span> ${fr(r)}`).join(' · ')}</div>`:'');
+  }else{
+    body=`<div class="no-line"><span>✗</span><span style="font-weight:600">${fr(c.noDom)}</span>${c.noNight?`<span class="w" style="color:var(--text-3);font-family:var(--mono);font-size:12px">00:00–22:00 ${fr(c.noNight)}</span>`:''}</div>`;
+  }
   return `<div class="card" data-id="${c.id}">
     <div class="card-head"><span class="name">${esc(c.n[lang==='zh-TW'?0:lang==='en'?1:2])}</span>${tierBadge}<span class="star fav">★</span></div>
     <div class="region">${c.rg[lang==='zh-TW'?0:lang==='en'?1:2]}</div>
-    ${bandHTML(c)}
-    ${nowlineHTML(c)}
-    <div class="pills"><span class="pill" title="${P.p_elev}">⛰ <b>${c.env[0]}</b></span><span class="pill" title="${P.p_sun}">☀ <b>${c.env[1]}</b></span><span class="pill" title="${P.p_lcl}">💧 <b>${c.env[2]}</b></span><span class="pill" title="${P.p_temp}">🌡 <b>${c.env[3]}</b></span></div>
+    ${body}
+    <div class="pills"><span class="pill">⛰ <b>${c.env[0]}</b></span><span class="pill">🌡 <b>${c.env[3]}</b></span><span class="pill">🌅 <b>${c.env[1]}</b></span></div>
     <div class="acts">
       <button class="btn b-subj">🎞 ${t().btn_subject}</button>
       <button class="btn">📍 ${t().btn_map}</button>
@@ -605,15 +659,22 @@ document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.cl
   const m={'t-rec':'rec','t-shoot':'shoot','t-no':'no'}[b.className.split(' ').find(c=>c.startsWith('t-')&&c!=='tab')];
   document.getElementById('grid').innerHTML=CARDS.filter(c=>!m||c.tier===m).map(cardHTML).join('')||`<p class="load-note">${t().load_note}</p>`;});
 document.getElementById('chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(b)b.classList.toggle('on');});
-/* DESIGN-6：卡片「題材」鈕 → 題材面板 */
+/* DESIGN-6 owner 澄清：點卡片本體＝預報彈窗；三鈕「題材」＝題材面板 */
 document.getElementById('grid').addEventListener('click',e=>{
-  const b=e.target.closest('.b-subj');if(!b)return;
-  const c=CARDS.find(x=>x.id===b.closest('.card').dataset.id);if(c)openModal(c);});
-document.getElementById('subj-overlay').addEventListener('click',e=>{
-  if(e.target.id==='subj-overlay')e.target.classList.remove('open');});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('subj-overlay').classList.remove('open');});
-/* 語言切換時若面板開啟，同步重繪 */
-document.getElementById('lang-grp').addEventListener('click',()=>{if(mCard&&document.getElementById('subj-overlay').classList.contains('open'))openModal(mCard);});
+  const card=e.target.closest('.card');if(!card)return;
+  const c=CARDS.find(x=>x.id===card.dataset.id);if(!c)return;
+  if(e.target.closest('.b-subj')){openModal(c,modalHTML(c));return;}
+  if(e.target.closest('.btn')||e.target.closest('.bell'))return; /* 其他鈕/🔔 不開彈窗（示意） */
+  openModal(c,fcstHTML(c));});
+const closeOverlay=id=>document.getElementById(id).addEventListener('click',e=>{
+  if(e.target.id===id)e.target.classList.remove('open');});
+closeOverlay('fcst-overlay');closeOverlay('subj-overlay');
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('fcst-overlay').classList.remove('open');document.getElementById('subj-overlay').classList.remove('open');}});
+/* 語言切換時若彈窗開啟，同步重繪 */
+document.getElementById('lang-grp').addEventListener('click',()=>{
+  if(!mCard)return;
+  if(document.getElementById('fcst-overlay').classList.contains('open'))openModal(mCard,fcstHTML(mCard));
+  if(document.getElementById('subj-overlay').classList.contains('open'))openModal(mCard,modalHTML(mCard));});
 </script>
 </body>
 </html>
