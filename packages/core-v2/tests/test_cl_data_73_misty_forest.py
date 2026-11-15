@@ -319,7 +319,9 @@ class MountedContractTests(unittest.TestCase):
 class CopyLayerTests(unittest.TestCase):
     def test_genre_short_name_leq6_trilingual(self):
         entry = GENRE_SHORT["genres"]["misty_forest"]
-        self.assertEqual(entry["zh-TW"], "迷霧森林")
+        # CL-DATA-73 copy fix (0faa539c0): chip 迷霧森林→迷霧 for the CL-UI-62
+        # 2-3 char bound; template title stays 迷霧森林.
+        self.assertEqual(entry["zh-TW"], "迷霧")
         self.assertLessEqual(len(entry["zh-TW"]), 6)
         self.assertEqual(entry["en"], "Misty Forest")
         self.assertEqual(entry["ja"], "霧の森")
