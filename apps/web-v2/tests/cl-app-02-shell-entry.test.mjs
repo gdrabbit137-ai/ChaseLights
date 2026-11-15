@@ -136,7 +136,7 @@ test("index.html carries the member area and pull indicator markup", () => {
 test("app.mjs wires refresh to digest + data re-fetch and guarded member rendering", () => {
   const app = read("app.mjs");
   assert.ok(app.includes('import {createPullToRefresh,fetchCloudDigest} from "./pull-refresh.mjs";'));
-  assert.ok(app.includes('import {fetchMember,MEMBER_TRANSIENT,consumeAuthError,authErrorMessage} from "./shell-auth.mjs";'));
+  assert.ok(app.includes('import {fetchMember,MEMBER_TRANSIENT,consumeAuthError,authErrorMessage,AUTH_CONFIG_ENDPOINT,AUTH_LINK_STATUS_ENDPOINT,AUTH_LINK_START_ENDPOINT,parseAuthConfig,parseLinkStatus,consumeLinkResult,linkResultMessage} from "./shell-auth.mjs";'));
   assert.ok(app.includes('async function refreshData()'), "refreshData defined");
   assert.ok(app.includes("state.cloudDigest=await fetchCloudDigest();"), "refresh re-fetches bundle digest");
   assert.ok(app.includes("await loadResearchIndex();"), "refresh re-fetches browse index");

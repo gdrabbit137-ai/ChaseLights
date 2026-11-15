@@ -142,7 +142,9 @@ test('CL-API-07 (3): V1 masthead — me 429 never flips signed-in → 登入; ba
   const log = [];
   let meCalls = 0;
   const routes = {
-    '/api/v1/auth/me': () => ++meCalls === 1 ? ME_OK : me429()
+    '/api/v1/auth/me': () => ++meCalls === 1 ? ME_OK : me429(),
+    // CL-APP-07: the masthead now also reads /auth/config (provider visibility).
+    '/api/v1/auth/config': () => ({ ok: true, status: 200, json: async () => ({ providers: { line: true, google: true, apple: false } }) })
   };
   const box = runMemberAuth(log, routes);
   box.fireReady();
@@ -165,7 +167,8 @@ test('CL-API-07 (3): V1 masthead — me 429 never flips signed-in → 登入; ba
 test('CL-API-07 (3b): V1 masthead — signed-in member survives a burst of 429s', async () => {
   const log = [];
   const routes = {
-    '/api/v1/auth/me': () => log.push(1) && ({ ok: true, status: 200, json: async () => ({ user: { displayName: '山客', provider: 'line' } }) })
+    '/api/v1/auth/me': () => log.push(1) && ({ ok: true, status: 200, json: async () => ({ user: { displayName: '山客', provider: 'line' } }) }),
+    '/api/v1/auth/config': () => ({ ok: true, status: 200, json: async () => ({ providers: { line: true, google: true, apple: false } }) })
   };
   const box = runMemberAuth(log, routes);
   box.fireReady();
@@ -237,7 +240,7 @@ test('CL-API-07 (5): worker limiter — lenient reads, strict auth, default writ
   const authMax = Number(src.match(/auth: \{ max: (\d+)/)[1]);
   const readMax = Number(src.match(/read: \{ max: (\d+)/)[1]);
   assert.ok(authMax < readMax, 'auth/token budget stays strictly below the read budget');
-  assert.match(src, /auth\\\/\(line\|google\)\\\/callback/, 'OAuth callbacks in the strict class');
+  assert.match(src, /auth\\\/\(line\|google\|apple\)\\\/callback/, 'OAuth callbacks in the strict class');
   assert.match(src, /auth\\\/refresh/, 'token refresh in the strict class');
   // the limiter classifies per path+method before routing
   assert.match(src, /rateLimited\(ip, path, request\.method/);

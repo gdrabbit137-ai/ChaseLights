@@ -81,7 +81,7 @@ for (const page of PAGES) {
     const html = readFileSync(join(WEB, page), 'utf8');
     assert.match(html, /site-nav\.css\?v=clui62/, 'site-nav.css stamp bumped');
     // CL-UI-60: member-auth.js advanced to clui81 (silent refresh session renewal).
-    assert.match(html, /member-auth\.js\?v=clui81/, 'member-auth.js stamp bumped (CL-UI-60)');
+    assert.match(html, /member-auth\.js\?v=clui103/, 'member-auth.js stamp bumped (CL-APP-07)');
   });
 }
 

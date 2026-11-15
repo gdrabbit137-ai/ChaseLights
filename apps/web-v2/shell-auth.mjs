@@ -30,6 +30,71 @@ export const AUTH_ERROR_I18N = Object.freeze({
   "ja": "ログインに失敗しました。もう一度お試しください"
 });
 
+// CL-APP-07: provider configuration + account linking endpoints. /auth/config
+// is public and read-class; the shells read it BEFORE mounting any provider
+// entry so a provider the owner has not provisioned stays hidden (fail-closed).
+export const AUTH_CONFIG_ENDPOINT = "/api/v1/auth/config";
+export const AUTH_LINK_STATUS_ENDPOINT = "/api/v1/auth/link/status";
+export const AUTH_LINK_START_ENDPOINT = "/api/v1/auth/link/start";
+export const AUTH_LINK_PARAM = "link"; // start URLs carry ?link=1 for the 連結 flow
+export const LINK_RESULT_PARAM = "link_result";
+export const LINK_RESULT_I18N = Object.freeze({
+  ok: {
+    "zh-TW": "已連結登入方式。",
+    "en": "Sign-in method linked.",
+    "ja": "ログイン方法を連携しました。"
+  },
+  error: {
+    "zh-TW": "連結失敗，請重試",
+    "en": "Linking failed, please try again",
+    "ja": "連携に失敗しました。もう一度お試しください"
+  }
+});
+
+// Returns "ok"|"error"|null when `search` carries link_result, and strips it
+// so callers can clean the address bar (same semantics as consumeAuthError).
+export function consumeLinkResult(search) {
+  const q = typeof search === "string" ? new URLSearchParams(search) : search;
+  if (!(q && typeof q.get === "function")) return null;
+  const v = q.get(LINK_RESULT_PARAM);
+  if (v !== "ok" && v !== "error") return null;
+  if (typeof q.delete === "function") q.delete(LINK_RESULT_PARAM);
+  return v;
+}
+
+export function linkResultMessage(locale, result) {
+  const pack = LINK_RESULT_I18N[result] || LINK_RESULT_I18N.error;
+  return pack[locale] || pack["zh-TW"];
+}
+
+// /auth/config → which providers are actually configured. Any malformed or
+// unreachable answer means "not configured" for every provider (fail-closed).
+export function parseAuthConfig(doc) {
+  if (!doc || typeof doc !== "object" || Array.isArray(doc) || !doc.providers || typeof doc.providers !== "object") {
+    return { line: false, google: false, apple: false };
+  }
+  const p = doc.providers;
+  const bool = (v) => v === true;
+  return { line: bool(p.line), google: bool(p.google), apple: bool(p.apple) };
+}
+
+// /auth/link/status → the signed-in member's link state. Anything unusable is
+// an empty state (the panel then just shows nothing), never a fake link.
+export function parseLinkStatus(doc) {
+  if (!doc || typeof doc !== "object" || Array.isArray(doc)) return null;
+  const u = doc.user != null && typeof doc.user === "object" ? doc.user : null;
+  if (!u || typeof u.id !== "string") return null;
+  const links = Array.isArray(doc.links)
+    ? doc.links.filter((l) => l && typeof l === "object" && typeof l.provider === "string" && l.provider)
+        .map((l) => ({ provider: l.provider, email: typeof l.email === "string" ? l.email : null }))
+    : [];
+  return {
+    user: { id: u.id, provider: typeof u.provider === "string" ? u.provider : null },
+    verifiedEmail: typeof doc.verifiedEmail === "string" && doc.verifiedEmail ? doc.verifiedEmail : null,
+    links,
+  };
+}
+
 // Returns true exactly when `search` (URLSearchParams or location.search
 // string) carries the auth_error=1 flag, and — given a URLSearchParams —
 // strips the flag from it so callers can clean the address bar.

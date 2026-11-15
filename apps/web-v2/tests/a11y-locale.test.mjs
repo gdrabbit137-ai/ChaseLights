@@ -4,7 +4,8 @@ import {readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import vm from 'node:vm';
 import {createCatalogState} from '../catalog-state.mjs';
-import {consumeAuthError as realConsumeAuthError, authErrorMessage as realAuthErrorMessage} from '../shell-auth.mjs';
+import {consumeAuthError as realConsumeAuthError, authErrorMessage as realAuthErrorMessage,
+  consumeLinkResult as realConsumeLinkResult, linkResultMessage as realLinkResultMessage} from '../shell-auth.mjs';
 
 const app = readFileSync(fileURLToPath(new URL('../app.mjs',import.meta.url)), 'utf8');
 const html = readFileSync(fileURLToPath(new URL('../index.html',import.meta.url)), 'utf8');
@@ -50,6 +51,9 @@ function mountApp() {
     URLSearchParams,
     consumeAuthError:realConsumeAuthError,
     authErrorMessage:realAuthErrorMessage,
+    // CL-APP-07: the link_result notice also runs at module load.
+    consumeLinkResult:realConsumeLinkResult,
+    linkResultMessage:realLinkResultMessage,
     // CL-API-07: app.mjs compares fetchMember results against MEMBER_TRANSIENT
     // (the import is stripped above), so the sandbox must carry the sentinel.
     MEMBER_TRANSIENT: Object.freeze({transient:true}),

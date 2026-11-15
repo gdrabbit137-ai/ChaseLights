@@ -20,7 +20,12 @@
     logout: '/api/v1/auth/logout',
     profile: '/api/v1/auth/profile',
     line: '/api/v1/auth/line/start',
-    google: '/api/v1/auth/google/start'
+    google: '/api/v1/auth/google/start',
+    // CL-APP-07: Apple + account linking endpoints.
+    apple: '/api/v1/auth/apple/start',
+    config: '/api/v1/auth/config',
+    linkStatus: '/api/v1/auth/link/status',
+    linkStart: '/api/v1/auth/link/start'
   };
 
   var MA_I18N = {
@@ -39,7 +44,21 @@
       ma_profile_save: '儲存',
       ma_profile_cancel: '取消',
       ma_profile_saved: '已儲存會員資料。',
-      ma_profile_error: '儲存失敗，請重試'
+      ma_profile_error: '儲存失敗，請重試',
+      ma_apple: '使用 Apple 登入',
+      ma_link_other: '連結其他登入方式',
+      ma_linked_none: '尚未連結其他登入方式',
+      ma_linked_prefix: '已連結：',
+      ma_link_current: '目前登入方式',
+      ma_link_line: '連結 LINE',
+      ma_link_google: '連結 Google',
+      ma_link_apple: '連結 Apple',
+      ma_link_email_label: '以 Email 驗證連結（輸入信箱後收信完成）',
+      ma_link_email_btn: '送出',
+      ma_link_email_sent: '驗證信已寄出，請查收信箱並點擊連結。',
+      ma_link_email_pending: 'Email 驗證連結尚未開放（待站方設定寄信服務）。',
+      ma_link_ok: '已連結登入方式。',
+      ma_link_error: '連結失敗，請重試'
     },
     'en': {
       ma_login: 'Sign in',
@@ -56,7 +75,21 @@
       ma_profile_save: 'Save',
       ma_profile_cancel: 'Cancel',
       ma_profile_saved: 'Member profile saved.',
-      ma_profile_error: 'Could not save, please try again'
+      ma_profile_error: 'Could not save, please try again',
+      ma_apple: 'Sign in with Apple',
+      ma_link_other: 'Link other sign-in methods',
+      ma_linked_none: 'No linked sign-in methods yet',
+      ma_linked_prefix: 'Linked: ',
+      ma_link_current: 'Current sign-in method',
+      ma_link_line: 'Link LINE',
+      ma_link_google: 'Link Google',
+      ma_link_apple: 'Link Apple',
+      ma_link_email_label: 'Link via email verification (receive a mail and open the link)',
+      ma_link_email_btn: 'Send',
+      ma_link_email_sent: 'A verification email was sent — open the link in your inbox.',
+      ma_link_email_pending: 'Email linking is not open yet (the mail service is pending owner setup).',
+      ma_link_ok: 'Sign-in method linked.',
+      ma_link_error: 'Linking failed, please try again'
     },
     'ja': {
       ma_login: 'ログイン',
@@ -73,7 +106,21 @@
       ma_profile_save: '保存',
       ma_profile_cancel: 'キャンセル',
       ma_profile_saved: 'プロフィールを保存しました。',
-      ma_profile_error: '保存に失敗しました。もう一度お試しください'
+      ma_profile_error: '保存に失敗しました。もう一度お試しください',
+      ma_apple: 'Appleでログイン',
+      ma_link_other: '他のログイン方法を連携',
+      ma_linked_none: '連携済みのログイン方法はありません',
+      ma_linked_prefix: '連携済み：',
+      ma_link_current: '現在のログイン方法',
+      ma_link_line: 'LINEを連携',
+      ma_link_google: 'Googleを連携',
+      ma_link_apple: 'Appleを連携',
+      ma_link_email_label: 'メール認証で連携（受信したメールのリンクを開く）',
+      ma_link_email_btn: '送信',
+      ma_link_email_sent: '確認メールを送信しました。受信箱のリンクを開いてください。',
+      ma_link_email_pending: 'メール連携はまだ利用できません（送信設定は準備中です）。',
+      ma_link_ok: 'ログイン方法を連携しました。',
+      ma_link_error: '連携に失敗しました。もう一度お試しください'
     }
   };
 
@@ -96,6 +143,24 @@
     if (area && area.parentNode) area.parentNode.insertBefore(note, area);
     else document.body.appendChild(note);
     window.setTimeout(function () { if (note.parentNode) note.parentNode.removeChild(note); }, 8000);
+  }
+
+  // CL-APP-07: the member-center email-link flow lands back on the homepage
+  // with ?link_result=ok|error (the verify click happens in the mail client —
+  // no member session guaranteed). Show a tri-lingual notice, clean the URL,
+  // and re-pull the member state so the panel reflects the new link.
+  function showLinkResultNotice() {
+    var q = new URLSearchParams(window.location.search);
+    var result = q.get('link_result');
+    if (result !== 'ok' && result !== 'error') return;
+    try {
+      q.delete('link_result');
+      var rest = q.toString();
+      window.history.replaceState(null, '', window.location.pathname + (rest ? '?' + rest : '') + window.location.hash);
+    } catch (e) { /* replaceState unavailable — notice still shows */ }
+    showNotice(result === 'ok' ? 'ma_link_ok' : 'ma_link_error');
+    maMeReset();
+    fetchMember().then(render);
   }
 
   function maLang() {
@@ -244,6 +309,7 @@
   }
 
   var area, toggle, menu, nameEl, logoutBtn, panel, profInputs = null, curMember = null;
+  var linkEls = null; // CL-APP-07: 連結 section element refs
 
   // CL-UI-57: save/error status notice — same fixed-bottom pattern as
   // favorites-client.js, trilingual copy from MA_I18N.
@@ -315,10 +381,118 @@
     row.appendChild(save);
     row.appendChild(cancel);
     panel.appendChild(row);
+
+    // CL-APP-07: 連結其他登入方式 — link status + start-link anchors + the
+    // email-verification flow for providers without an email scope (LINE).
+    var linkSec = document.createElement('div');
+    linkSec.className = 'ma-link-section';
+    linkSec.style.cssText = 'margin-top:12px;padding-top:10px;border-top:1px solid #334155';
+    var linkTitle = document.createElement('div');
+    linkTitle.setAttribute('data-ma-i18n', 'ma_link_other');
+    linkTitle.style.cssText = 'font-size:12px;color:#94a3b8;margin-bottom:6px';
+    linkSec.appendChild(linkTitle);
+    var linkStatusEl = document.createElement('p');
+    linkStatusEl.className = 'ma-link-status';
+    linkStatusEl.setAttribute('role', 'status');
+    linkStatusEl.style.cssText = 'margin:0 0 6px;font-size:12px;color:#cbd5e1';
+    linkSec.appendChild(linkStatusEl);
+    var provRow = document.createElement('div');
+    provRow.className = 'ma-link-providers';
+    provRow.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px';
+    linkSec.appendChild(provRow);
+    // Email verification row (hidden once the account carries a verified email).
+    var emailLabel = document.createElement('label');
+    emailLabel.className = 'ma-link-email-label';
+    emailLabel.setAttribute('data-ma-i18n', 'ma_link_email_label');
+    emailLabel.style.cssText = PROFILE_LABEL_CSS;
+    var emailInput = document.createElement('input');
+    emailInput.type = 'email';
+    emailInput.className = 'ma-link-email-input';
+    emailInput.style.cssText = PROFILE_INPUT_CSS;
+    emailLabel.appendChild(emailInput);
+    var emailBtn = document.createElement('button');
+    emailBtn.type = 'button';
+    emailBtn.className = 'ma-link-email-btn';
+    emailBtn.setAttribute('data-ma-i18n', 'ma_link_email_btn');
+    emailBtn.style.cssText = PROFILE_BTN_CSS + ';margin-top:6px';
+    emailLabel.appendChild(emailBtn);
+    emailBtn.addEventListener('click', function () { submitLinkEmail(emailInput, emailBtn); });
+    linkSec.appendChild(emailLabel);
+    panel.appendChild(linkSec);
+    linkEls = { statusEl: linkStatusEl, provRow: provRow, emailLabel: emailLabel, emailInput: emailInput };
+
     area.appendChild(panel);
     save.addEventListener('click', function () { saveProfile(); });
     cancel.addEventListener('click', function () { setPanelOpen(false); });
     applyCopy();
+  }
+
+  // CL-APP-07: POST /auth/link/start with the entered email. Delivery depends
+  // on the owner's mail webhook — 503 means "not open yet" (honest), anything
+  // else is a retriable failure. The verify URL NEVER rides this response.
+  function submitLinkEmail(input, btn) {
+    var email = (input.value || '').trim();
+    if (!email || email.length > 200 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showNotice('ma_link_error');
+      return;
+    }
+    btn.disabled = true;
+    fetch(MA_ENDPOINTS.linkStart, {
+      method: 'POST',
+      credentials: 'same-origin',
+      cache: 'no-store',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    }).then(function (res) {
+      btn.disabled = false;
+      if (res && res.status === 503) { showNotice('ma_link_email_pending'); return; }
+      if (!res || !res.ok) { showNotice('ma_link_error'); return; }
+      showNotice('ma_link_email_sent');
+      input.value = '';
+    }).catch(function () {
+      btn.disabled = false;
+      showNotice('ma_link_error');
+    });
+  }
+
+  // CL-APP-07: one /auth/link/status pull per panel fill (no caching needed —
+  // the panel is transient). Renders linked providers + start-link anchors for
+  // the rest; Apple anchors only exist when /auth/config reports it configured
+  // (fail-closed: a provider without owner secrets never shows a button).
+  var maAppleConfigured = null; // null = unknown → keep hidden
+  function fillLinkSection() {
+    if (!linkEls || !curMember) return;
+    var statusEl = linkEls.statusEl, provRow = linkEls.provRow;
+    maFetch(MA_ENDPOINTS.linkStatus, { credentials: 'same-origin', cache: 'no-store' })
+      .then(function (res) {
+        if (!res || !res.ok) { statusEl.textContent = ''; return null; }
+        return res.json().catch(function () { return null; });
+      })
+      .then(function (doc) {
+        if (!doc || !doc.user) { statusEl.textContent = ''; return; }
+        while (provRow.firstChild) provRow.removeChild(provRow.firstChild);
+        var linkedNames = (doc.links || []).map(function (l) {
+          return l.provider && l.provider.length ? l.provider.charAt(0).toUpperCase() + l.provider.slice(1) : '';
+        }).filter(Boolean);
+        if (linkedNames.length) statusEl.textContent = t('ma_linked_prefix') + linkedNames.join('、');
+        else statusEl.textContent = t('ma_linked_none');
+        var linkedProviders = {};
+        (doc.links || []).forEach(function (l) { if (l.provider) linkedProviders[l.provider] = true; });
+        ['line', 'google', 'apple'].forEach(function (provider) {
+          if (provider === doc.user.provider) return;            // current identity
+          if (linkedProviders[provider]) return;                 // already linked
+          if (provider === 'apple' && maAppleConfigured !== true) return; // fail-closed
+          var a = document.createElement('a');
+          a.href = MA_ENDPOINTS[provider] + '?link=1';
+          a.setAttribute('data-ma-i18n', 'ma_link_' + provider);
+          a.style.cssText = 'display:inline-block;padding:4px 10px;font-size:12px;border:1px solid #334155;border-radius:8px;color:#e2e8f0;background:#1e293b';
+          provRow.appendChild(a);
+        });
+        // Email row: the LINE-style flow only matters without a verified email.
+        linkEls.emailLabel.style.display = doc.verifiedEmail ? 'none' : 'block';
+        linkEls.emailLabel.hidden = !doc.verifiedEmail ? false : true;
+        applyCopy();
+      });
   }
 
   function setPanelOpen(open) {
@@ -326,7 +500,7 @@
     if (!panel) return;
     panel.hidden = !open;
     panel.style.display = open ? 'block' : 'none';
-    if (open) fillPanel();
+    if (open) { fillPanel(); fillLinkSection(); }
   }
 
   function isPanelOpen() {
@@ -442,12 +616,30 @@
     if (!toggle || !menu || !nameEl || !logoutBtn) return;
 
     showAuthErrorNotice();
+    showLinkResultNotice();
 
     // Start endpoints are 302 navigations — plain anchors, never fetched.
     var lineLink = area.querySelector('[data-ma-line]');
     var googleLink = area.querySelector('[data-ma-google]');
+    var appleLink = area.querySelector('[data-ma-apple]');
     if (lineLink) lineLink.setAttribute('href', MA_ENDPOINTS.line);
     if (googleLink) googleLink.setAttribute('href', MA_ENDPOINTS.google);
+    if (appleLink) appleLink.setAttribute('href', MA_ENDPOINTS.apple);
+
+    // CL-APP-07: fail-closed provider visibility — /auth/config reports what
+    // the worker actually holds credentials for; the Apple anchor stays hidden
+    // until the owner's four secrets land (never a button that 503s).
+    maFetch(MA_ENDPOINTS.config, { cache: 'no-store' }).then(function (res) {
+      if (!res || !res.ok) return null;
+      return res.json().catch(function () { return null; });
+    }).then(function (doc) {
+      if (!doc || !doc.providers) return;
+      maAppleConfigured = doc.providers.apple === true;
+      if (maAppleConfigured && appleLink) {
+        appleLink.hidden = false;
+        appleLink.style.display = '';
+      }
+    });
 
     // CL-UI-57: clicking the member name (signed in) expands the profile editor.
     nameEl.style.cursor = 'pointer';
