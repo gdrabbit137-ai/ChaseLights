@@ -5,6 +5,7 @@
   "type": "module",
   "description": "ChaseLights Capacitor APP shell — wraps apps/web-v2 with cloud-driven data, version check, offline cache and dynamic i18n.",
   "scripts": {
+    "gen:brand": "node scripts/gen-brand-assets.mjs",
     "sync-web": "node scripts/sync-web.mjs",
     "cap:sync": "node scripts/sync-web.mjs && npx cap sync android",
     "cap:dev": "npx cap copy android --config capacitor.config.dev.json",
@@ -16,6 +17,7 @@
     "@capacitor/push-notifications": "^6.0.5"
   },
   "devDependencies": {
-    "@capacitor/cli": "^6.2.0"
+    "@capacitor/cli": "^6.2.0",
+    "@resvg/resvg-js": "^2.6.2"
   }
 }

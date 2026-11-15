@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChaseLights — 提醒清單</title>
-  <link rel="icon" href="/assets/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
-  <link rel="stylesheet" href="./assets/app.css?v=clui101">
+  <link rel="stylesheet" href="./assets/app.css?v=clui102">
   <style>
     /* CL-UI-90: reminders page — mockup-first rebuild (Stage 3a).
        Spec source (逐字實作): origin/task/DESIGN-3 head 3d455f121
@@ -289,5 +291,11 @@
   <script src="./assets/member-auth.js?v=clui81"></script>
   <script src="./assets/reminders-client.js?v=clui83"></script>
   <script src="./assets/reminders-page.js?v=clui99"></script>
+  <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
+  <footer class="site-footer">
+    <a class="site-footer-link" href="./sources.html" data-sf-i18n="sf_sources">資料來源與授權</a>
+    <span class="site-footer-note" data-sf-i18n="sf_note">氣象資料僅供參考，拍攝安全請自行評估。</span>
+  </footer>
+  <script src="./assets/site-footer.js?v=sf01"></script>
 </body>
 </html>

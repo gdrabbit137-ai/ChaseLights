@@ -5,8 +5,9 @@
 //    the JOINER SYMBOLS follow the display language — en half-width
 //    (・→' · ', ／→' / ', ＋→' + ', 與 between latin words →' & '), ja natural
 //    (與 between latin words → と, ・ kept as-is).
-// 2. Favicon: the homepage must not 404 on favicon.ico — index.html links
-//    ./assets/favicon.ico + ./assets/favicon.svg and both files exist.
+// 2. Favicon (CL-APP-05): 案5 主峰金頂 favicon — index.html links
+//    ./assets/favicon.svg (+ PNG fallback + apple-touch); every other shell
+//    page links the shared /assets set; the retired favicon.ico must be gone.
 // 3. Cache-bust: app.js was edited this ticket, so index.html carries a
 //    monotonic stamp bump (?v=clui41).
 import test from 'node:test';
@@ -65,22 +66,28 @@ test('CL-UI-25 A4: reviewedLocaleName routes its zh fallback through the connect
 // ---------------------------------------------------------------------------
 // B: favicon + cache-bust pins
 // ---------------------------------------------------------------------------
-test('CL-UI-25 B1: homepage links a favicon that exists (no favicon.ico 404)', () => {
-  assert.match(indexSource, /<link rel="icon"[^>]*href="\.\/assets\/favicon\.ico"/);
-  assert.match(indexSource, /<link rel="icon" type="image\/svg\+xml"[^>]*href="\.\/assets\/favicon\.svg"/);
-  assert.ok(existsSync(path.join(repoRoot, 'assets', 'favicon.ico')), 'assets/favicon.ico must exist');
+test('CL-UI-25 B1: homepage links the CL-APP-05 favicon set that exists (no favicon.ico 404)', () => {
+  assert.match(indexSource, /<link rel="icon"[^>]*href="\.\/assets\/favicon\.svg"[^>]*type="image\/svg\+xml"/);
+  assert.match(indexSource, /<link rel="icon"[^>]*href="\.\/assets\/favicon-32\.png"/);
+  assert.match(indexSource, /<link rel="apple-touch-icon"[^>]*href="\.\/assets\/apple-touch-icon-180\.png"/);
   assert.ok(existsSync(path.join(repoRoot, 'assets', 'favicon.svg')), 'assets/favicon.svg must exist');
+  for (const f of ['favicon-16.png', 'favicon-32.png', 'favicon-48.png', 'apple-touch-icon-180.png']) {
+    assert.ok(existsSync(path.join(repoRoot, 'assets', f)), `assets/${f} must exist`);
+  }
+  assert.ok(!existsSync(path.join(repoRoot, 'assets', 'favicon.ico')), 'favicon.ico retired (CL-APP-05)');
 });
 
-test('CL-UI-25 B2: other html pages reference the shared favicon asset', () => {
+test('CL-UI-25 B2: other html pages reference the shared CL-APP-05 favicon asset', () => {
   for (const page of ['weather-map.html', 'field-intake.html', 'genre-eval.html',
     'apps/web-v2/evaluations.html', 'apps/web-v2/index.html']) {
     const src = readFileSync(path.join(repoRoot, page), 'utf8');
-    assert.match(src, /<link rel="icon" href="\/assets\/favicon\.ico"/, page + ' must link the favicon');
+    assert.match(src, /<link rel="icon" href="\/assets\/favicon\.svg" type="image\/svg\+xml"/, page + ' must link the svg favicon');
+    assert.match(src, /<link rel="apple-touch-icon" href="\/assets\/apple-touch-icon-180\.png"/, page + ' must link the apple-touch icon');
+    assert.ok(!/<link rel="icon"[^>]*favicon\.ico/.test(src), page + ' must not link the retired favicon.ico');
   }
 });
 
 test('CL-UI-25 B3: index.html cache-bust stamp bumped for this app.js edit', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui101/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui101/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui102/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui102/);
 });

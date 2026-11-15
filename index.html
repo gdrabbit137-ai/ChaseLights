@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChaseLights — 攝影氣象預報</title>
-  <link rel="icon" href="./assets/favicon.ico" sizes="32x32">
-  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon-180.png">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
-  <link rel="stylesheet" href="./assets/app.css?v=clui101">
+  <link rel="stylesheet" href="./assets/app.css?v=clui102">
   <!-- CL-UI-100: place rating + report/comment UGC channel UI (gray-gated). -->
-  <link rel="stylesheet" href="./assets/feedback-ui.css?v=clui101">
+  <link rel="stylesheet" href="./assets/feedback-ui.css?v=clui102">
 
 </head>
 <body>
@@ -144,9 +145,9 @@
   </div>
 
   <script src="./assets/site-nav.js?v=clui41"></script>
-  <script src="./assets/app.js?v=clui101"></script>
+  <script src="./assets/app.js?v=clui102"></script>
   <!-- CL-UI-100: rating chip / evaluation section / rate·report·comment flows. -->
-  <script src="./assets/feedback-ui.js?v=clui101"></script>
+  <script src="./assets/feedback-ui.js?v=clui102"></script>
   <!-- CL-UI-52: guest comment entry — footer-level, tertiary, never competes
        with the card grid's visual focus (chaselights-product-design). -->
   <footer class="guest-comment-footer">
@@ -182,6 +183,12 @@
   <script src="./assets/member-auth.js?v=clui81"></script>
 <script src="./assets/reminders-client.js?v=clui83"></script>
   <script src="./assets/favorites-client.js?v=clui82"></script>
+  <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
+  <footer class="site-footer">
+    <a class="site-footer-link" href="./sources.html" data-sf-i18n="sf_sources">資料來源與授權</a>
+    <span class="site-footer-note" data-sf-i18n="sf_note">氣象資料僅供參考，拍攝安全請自行評估。</span>
+  </footer>
+  <script src="./assets/site-footer.js?v=sf01"></script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7a3bb8a3c6ee4fcc83d5e941e0ab291e"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
