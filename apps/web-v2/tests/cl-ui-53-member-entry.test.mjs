@@ -26,7 +26,7 @@ const htmlSource = readFileSync(join(WEB, 'index.html'), 'utf8');
 const jsSource = readFileSync(join(WEB, 'assets', 'member-auth.js'), 'utf8');
 
 const LANGS = ['zh-TW', 'en', 'ja'];
-const I18N_KEYS = ['ma_login', 'ma_logout', 'ma_line', 'ma_google', 'ma_signed_in_as', 'ma_auth_error'];
+const I18N_KEYS = ['ma_login', 'ma_logout', 'ma_line', 'ma_google', 'ma_apple', 'ma_signed_in_as', 'ma_auth_error', 'ma_link_other', 'ma_link_line', 'ma_link_google', 'ma_link_apple', 'ma_link_error'];
 
 test('CL-UI-53 (1): member area lives in the site-nav masthead with both OAuth anchors', () => {
   const navAt = htmlSource.indexOf('<nav class="site-nav"');
@@ -36,6 +36,8 @@ test('CL-UI-53 (1): member area lives in the site-nav masthead with both OAuth a
     'member entry must sit inside the masthead site-nav, before the filter shell');
   assert.match(htmlSource, /data-ma-line href="\/api\/v1\/auth\/line\/start"/);
   assert.match(htmlSource, /data-ma-google href="\/api\/v1\/auth\/google\/start"/);
+  // CL-APP-07: Apple anchor exists but fails closed (hidden until /auth/config says configured)
+  assert.match(htmlSource, /data-ma-apple href="\/api\/v1\/auth\/apple\/start"[^>]*hidden/);
   // menu + 登入 toggle + 登出 button all closed/hidden in static markup
   assert.match(htmlSource, /data-member-menu hidden/);
   assert.match(htmlSource, /data-member-toggle[^>]*hidden/);
@@ -141,12 +143,12 @@ test('CL-UI-53 (5): signed-out shows 登入 + menu; signed-in shows display name
 test('CL-UI-55/60: cache-bust stamp ?v=clui81 on member-auth.js on all shell pages (CL-UI-60 bumped)', () => {
   for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html', 'reminders.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    assert.match(src, /assets\/member-auth\.js\?v=clui81/, `${page} loads member-auth.js?v=clui81`);
+    assert.match(src, /assets\/member-auth\.js\?v=clui103/, `${page} loads member-auth.js?v=clui103`);
     assert.match(src, /data-member-area/, `${page} carries the masthead member area`);
   }
   const stamps = [...htmlSource.matchAll(/\?v=(clui\d+)/g)].map(m => Number(m[1].slice(4)));
   assert.ok(Math.min(...stamps) >= 41, 'all stamps clui41+');
-  assert.ok(Math.max(...stamps) === 102, 'new generation is the highest (CL-INT-187: app.js/app.css + feedback-ui.js/css bumped to clui102)');
+  assert.ok(Math.max(...stamps) === 103, 'new generation is the highest (CL-APP-07: member-auth.js bumped to clui103)');
 });
 
 // CL-API-05: failed OAuth callbacks land on the homepage as ?auth_error=1 —
