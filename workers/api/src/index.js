@@ -14,14 +14,15 @@ const RATE_LIMITS = {
 function rateClass(path, method) {
   if (
     method === "GET" &&
-    /^\/(auth\/me$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$|feedback$|feedback\/config$|admin\/feedback$)/.test(path)
+    /^\/(auth\/me$|auth\/config$|auth\/link\/status$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$|feedback$|feedback\/config$|admin\/feedback$)/.test(path)
   ) return "read";
-  if (/^\/auth\/(line|google)\/callback$|^\/auth\/mock\/start$|^\/auth\/refresh$/.test(path)) return "auth";
+  if (/^\/auth\/(line|google|apple)\/callback$|^\/auth\/mock\/start$|^\/auth\/refresh$/.test(path)) return "auth";
   return "write";
 }
 import {
-  PROVIDERS, providerCredentials, oauthUserKey, makeTokens, getSession,
+  PROVIDERS, providerCredentials, providerConfigured, oauthUserKey, makeTokens, getSession,
   cookieHeader, SESSION_COOKIE, REFRESH_COOKIE, authSecret, MERGE_SQL, verifyJWT,
+  appleClientSecret, verifyAppleIdToken, resolvePrimaryDeviceId,
 } from "./auth.js";
 import { runNotifyCron, validateCustomConditions, parseCustomConditions } from "./notify.js";
 import {
@@ -85,7 +86,7 @@ async function getUser(env, userId) {
 // query/body param stays as anonymous (device) mode.
 async function resolveUserId(req, env, url, body) {
   const session = await getSession(req, env);
-  if (session && session.sub) return session.sub;
+  if (session && session.sub) return resolvePrimaryDeviceId(env, session.sub);
   const userId = url.searchParams.get("userId") || (body && body.userId);
   return getUser(env, userId);
 }
@@ -123,21 +124,124 @@ async function handleFavorites(req, env, url) {
 // CL-API-02 member system
 // ---------------------------------------------------------------------------
 
-async function ensureOAuthUser(env, provider, providerUserId, displayName) {
+async function ensureOAuthUser(env, provider, providerUserId, displayName, verifiedEmail = null) {
   const deviceKey = oauthUserKey(provider, providerUserId);
   // CL-API-06: DO NOTHING left provider/display_name NULL forever on rows
   // created by the legacy insert. Backfill NULL/empty fields on conflict, but
   // never overwrite a name the user edited via /auth/profile.
+  // CL-APP-07: a provider-verified email is stored on first sight (auto-link
+  // key); an already-stored verified_email is never overwritten.
   await env.DB.prepare(
-    `INSERT INTO users (device_id, provider, provider_user_id, display_name, level) VALUES (?1, ?2, ?3, ?4, 'free')
+    `INSERT INTO users (device_id, provider, provider_user_id, display_name, level, verified_email) VALUES (?1, ?2, ?3, ?4, 'free', ?5)
      ON CONFLICT(device_id) DO UPDATE SET
        provider = excluded.provider,
        provider_user_id = excluded.provider_user_id,
-       display_name = CASE WHEN users.display_name IS NULL OR users.display_name = '' THEN excluded.display_name ELSE users.display_name END`
-  ).bind(deviceKey, provider, providerUserId, displayName).run();
+       display_name = CASE WHEN users.display_name IS NULL OR users.display_name = '' THEN excluded.display_name ELSE users.display_name END,
+       verified_email = CASE WHEN (users.verified_email IS NULL OR users.verified_email = '') THEN excluded.verified_email ELSE users.verified_email END`
+  ).bind(deviceKey, provider, providerUserId, displayName, verifiedEmail).run();
   const row = await env.DB.prepare(
-    "SELECT device_id, provider, provider_user_id, display_name, level FROM users WHERE device_id = ?1"
+    "SELECT device_id, provider, provider_user_id, display_name, level, verified_email FROM users WHERE device_id = ?1"
   ).bind(deviceKey).first();
+  return row;
+}
+
+// ---------------------------------------------------------------------------
+// CL-APP-07: account linking. All member data keys on users.device_id, so an
+// alias identity is re-keyed onto the PRIMARY user's device_id and every
+// ownership table (favorites/notify_rules/feedback/custom_places/push_tokens)
+// moves with it. Conflict policy (owner ruling): favorites = union (UPDATE OR
+// IGNORE + leftover cleanup), reminders = ALL kept (notify_rules has no unique
+// constraint on user content), feedback = one-rating-per-(user,place) keeps the
+// PRIMARY's vote (the conflicting alias row cannot survive the UNIQUE index —
+// reported honestly, never silently duplicated).
+// ---------------------------------------------------------------------------
+const LINK_MERGE_STEPS = [
+  // [merge SQL, cleanup SQL, may-be-missing-table] — custom_places arrives with
+  // CL-APP-06; until that migration exists the step is skipped, not fatal.
+  { sql: "UPDATE OR IGNORE favorites SET user_id = ?1 WHERE user_id = ?2", cleanup: "DELETE FROM favorites WHERE user_id = ?1" },
+  { sql: "UPDATE notify_rules SET user_id = ?1 WHERE user_id = ?2", cleanup: null }, // PK is a random id: no conflicts, all kept
+  { sql: "UPDATE OR IGNORE feedback SET user_id = ?1 WHERE user_id = ?2", cleanup: "DELETE FROM feedback WHERE user_id = ?1" },
+  { sql: "UPDATE OR IGNORE custom_places SET user_id = ?1 WHERE user_id = ?2", cleanup: "DELETE FROM custom_places WHERE user_id = ?1", optional: true },
+  { sql: "UPDATE OR IGNORE push_tokens SET user_device_id = ?1 WHERE user_device_id = ?2", cleanup: null },
+];
+
+async function mergeAliasDataIntoPrimary(env, aliasId, primaryId) {
+  let moved = 0;
+  for (const step of LINK_MERGE_STEPS) {
+    try {
+      const r = await env.DB.prepare(step.sql).bind(primaryId, aliasId).run();
+      moved += r && r.meta && typeof r.meta.changes === "number" ? r.meta.changes : 0;
+      if (step.cleanup) await env.DB.prepare(step.cleanup).bind(aliasId).run();
+    } catch (e) {
+      if (step.optional) continue; // table not migrated yet (CL-APP-06)
+      throw e;
+    }
+  }
+  return moved;
+}
+
+export function normalizeEmail(email) {
+  return typeof email === "string" ? email.trim().toLowerCase() : "";
+}
+
+async function getPrimaryRow(env, deviceKey) {
+  const link = await env.DB.prepare(
+    "SELECT primary_user_id FROM account_links WHERE alias_device_id = ?1"
+  ).bind(deviceKey).first();
+  if (!link || !link.primary_user_id || link.primary_user_id === deviceKey) return null;
+  return await env.DB.prepare(
+    "SELECT device_id, provider, provider_user_id, display_name, level, verified_email FROM users WHERE device_id = ?1"
+  ).bind(link.primary_user_id).first() || null;
+}
+
+async function linkAliasToPrimary(env, aliasRow, primaryRow, email) {
+  if (!aliasRow || !primaryRow || aliasRow.device_id === primaryRow.device_id) return null;
+  // Chains stay flat by construction: an alias always resolves to its primary
+  // first, so reaching here means the row is still standalone.
+  await env.DB.prepare(
+    "INSERT INTO account_links (alias_device_id, primary_user_id, alias_provider, alias_provider_user_id, verified_email) VALUES (?1, ?2, ?3, ?4, ?5) ON CONFLICT(alias_device_id) DO NOTHING"
+  ).bind(aliasRow.device_id, primaryRow.device_id, aliasRow.provider, aliasRow.provider_user_id, email || null).run();
+  await mergeAliasDataIntoPrimary(env, aliasRow.device_id, primaryRow.device_id);
+  return primaryRow;
+}
+
+// Resolve the row a login actually issues the session for. Three paths:
+//  (a) the identity is already linked → its primary;
+//  (b) explicit 連結 intent (member-center flow, `link=1` start param): the
+//      CURRENT session user becomes the primary — explicit beats email;
+//  (c) auto-link: the login carried a provider-verified email matching another
+//      account's verified email → linked to that (older) account.
+async function resolveLoginUser(env, candidateRow, { linkToSessionDeviceId = null } = {}) {
+  let row = candidateRow;
+  const existingPrimary = await getPrimaryRow(env, row.device_id);
+  if (existingPrimary) row = existingPrimary;
+
+  if (linkToSessionDeviceId && linkToSessionDeviceId !== row.device_id) {
+    const primary = await env.DB.prepare(
+      "SELECT device_id, provider, provider_user_id, display_name, level, verified_email FROM users WHERE device_id = ?1"
+    ).bind(linkToSessionDeviceId).first();
+    if (primary) {
+      // The session user may itself be an alias — resolve to the real primary.
+      const realPrimary = (await getPrimaryRow(env, primary.device_id)) || primary;
+      const linked = await linkAliasToPrimary(env, row, realPrimary, row.verified_email);
+      if (linked) return linked;
+    }
+  } else {
+    const email = normalizeEmail(row.verified_email);
+    if (email) {
+      const other = await env.DB.prepare(
+        "SELECT device_id FROM users WHERE verified_email = ?1 AND device_id != ?2 ORDER BY created_at ASC LIMIT 1"
+      ).bind(email, row.device_id).first();
+      if (other && other.device_id) {
+        const primary = (await getPrimaryRow(env, other.device_id)) ||
+          await env.DB.prepare(
+            "SELECT device_id, provider, provider_user_id, display_name, level, verified_email FROM users WHERE device_id = ?1"
+          ).bind(other.device_id).first();
+        const linked = await linkAliasToPrimary(env, row, primary, email);
+        if (linked) return linked;
+      }
+    }
+  }
   return row;
 }
 
@@ -227,28 +331,79 @@ async function takeAuthState(env, state) {
 async function handleOAuthStart(req, env, provider, url) {
   const creds = providerCredentials(env, provider);
   if (!creds) return json(req, 404, { error: "unknown provider" });
-  if (!creds.id || !creds.secret) {
-    // Skeleton mode: no owner credentials yet — mock path is the only way in.
+  // CL-APP-07: fail-closed — Apple needs FOUR owner-supplied secrets (Services
+  // ID / team ID / key ID / .p8 key); until they land the start endpoint says
+  // so honestly (503) and the shells keep the entry hidden.
+  if (!providerConfigured(env, provider)) {
     return json(req, 503, { error: `${provider} OAuth credentials not configured (owner application pending)` });
   }
   const base = url.origin + "/api/v1";
   const redirectUri = `${base}/auth/${provider}/callback`;
   const state = randomId();
   const merge = url.searchParams.get("merge") || null;
-  await putAuthState(env, state, { provider, redirectUri, merge, exp: Date.now() + 600_000 });
+  // CL-APP-07: `link=1` marks the 連結其他登入方式 flow — at callback the
+  // current session user becomes the link's primary (explicit link beats
+  // email auto-link). Plain login buttons never carry it, so a family
+  // member's QR scan can never silently merge into the signed-in account.
+  const link = url.searchParams.get("link") === "1" ? true : null;
+  await putAuthState(env, state, { provider, redirectUri, merge, link, exp: Date.now() + 600_000 });
   const q = new URLSearchParams({
     response_type: "code", client_id: creds.id, redirect_uri: redirectUri,
     state, scope: creds.provider.scope,
   });
   if (provider === "line") q.set("prompt", "consent");
+  // Apple requires the code via form_post (name/email scope can't use query).
+  if (provider === "apple") q.set("response_mode", "form_post");
   return Response.redirect(`${creds.provider.authorizeUrl}?${q}`, 302);
+}
+
+// CL-APP-07: exchange the authorization code for an identity. LINE/Google use
+// the userinfo endpoint; Apple has none — the identity comes from the RS256
+// id_token verified against Apple's JWKS, and the client_secret is an ES256
+// JWT minted from the owner's .p8 key.
+async function fetchOAuthIdentity(env, creds, provider, code, st) {
+  const clientSecret = provider === "apple" ? await appleClientSecret(env) : creds.secret;
+  const tokenRes = await fetch(creds.provider.tokenUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      grant_type: "authorization_code", code,
+      redirect_uri: st.redirectUri, client_id: creds.id, client_secret: clientSecret,
+    }),
+  });
+  if (!tokenRes.ok) return null;
+  const tokens = await tokenRes.json();
+  if (provider === "apple") {
+    const claims = await verifyAppleIdToken(env, tokens.id_token);
+    if (!claims) return null;
+    const parsed = creds.provider.parseUser(claims);
+    if (!parsed || !parsed.providerUserId) return null;
+    return parsed;
+  }
+  const { accessToken } = creds.provider.parseToken(tokens);
+  if (!accessToken) return null;
+  const userRes = await fetch(creds.provider.userinfoUrl, { headers: { Authorization: `Bearer ${accessToken}` } });
+  if (!userRes.ok) return null;
+  const profile = await userRes.json();
+  const parsed = creds.provider.parseUser(profile);
+  if (!parsed || !parsed.providerUserId) return null;
+  return parsed;
 }
 
 async function handleOAuthCallback(req, env, provider, url) {
   const creds = providerCredentials(env, provider);
   if (!creds) return authErrorRedirect();
-  const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
+  // Apple posts the code (response_mode=form_post); LINE/Google answer with a
+  // query-string GET. Accept both shapes so one handler serves every provider.
+  let code = url.searchParams.get("code");
+  let state = url.searchParams.get("state");
+  if (provider === "apple" && (!code || !state) && (req.method === "POST")) {
+    try {
+      const form = await req.formData();
+      code = code || form.get("code");
+      state = state || form.get("state");
+    } catch { /* malformed POST body → auth_error below */ }
+  }
   if (!code || !state) return authErrorRedirect();
 
   // single-use (CSRF): read then delete immediately — a replayed state misses.
@@ -256,69 +411,77 @@ async function handleOAuthCallback(req, env, provider, url) {
   if (!st) return authErrorRedirect();
   if (st.provider !== provider) return authErrorRedirect();
 
-  const tokenRes = await fetch(creds.provider.tokenUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "authorization_code", code,
-      redirect_uri: st.redirectUri, client_id: creds.id, client_secret: creds.secret,
-    }),
-  });
-  if (!tokenRes.ok) return authErrorRedirect();
-  const tokens = await tokenRes.json();
-  const { accessToken } = creds.provider.parseToken(tokens);
+  const identity = await fetchOAuthIdentity(env, creds, provider, code, st);
+  if (!identity) return authErrorRedirect();
 
-  const userRes = await fetch(creds.provider.userinfoUrl, { headers: { Authorization: `Bearer ${accessToken}` } });
-  if (!userRes.ok) return authErrorRedirect();
-  const profile = await userRes.json();
-  const { providerUserId, displayName } = creds.provider.parseUser(profile);
-
-  const user = await ensureOAuthUser(env, provider, providerUserId, displayName);
+  const user = await ensureOAuthUser(
+    env, provider, identity.providerUserId, identity.displayName,
+    identity.emailVerified ? normalizeEmail(identity.email) : null,
+  );
+  // CL-APP-07: resolve the link — explicit member-center intent, then email
+  // auto-link, then the identity itself (see resolveLoginUser).
+  const session = await getSession(req, env);
+  const linkTo = st.link && session && session.sub ? session.sub : null;
+  const resolved = await resolveLoginUser(env, user, { linkToSessionDeviceId: linkTo });
   // CL-API-05: success is a 302 back to the homepage with the HttpOnly session
   // cookies attached (never a bare JSON page).
-  const s = await issueSessionCookies(env, user, st.merge);
+  const s = await issueSessionCookies(env, resolved, st.merge);
   const res = homeRedirect("lang=zh-TW");
   const h = new Headers(res.headers);
   for (const c of s.setCookie) h.append("Set-Cookie", c);
   return new Response(null, { status: 302, headers: h });
 }
 
-// Local/dev mock provider: same session-issue path as real OAuth callback,
-// gated behind an env flag so it can never serve in production.
+// Local/dev mock provider: same session-issue + link-resolution path as the
+// real OAuth callback, gated behind an env flag so it can never serve in
+// production. `email=` simulates a provider-verified email, `link=1` the
+// member-center link flow (needs the session cookie of the primary account).
 async function handleMockStart(req, env, url) {
   if (env.AUTH_MOCK !== "1") return json(req, 404, { error: "not found" });
   const provider = url.searchParams.get("provider") || "line";
   if (!PROVIDERS[provider]) return json(req, 400, { error: "unknown provider" });
   const uid = url.searchParams.get("user") || "mock-user-1";
   const name = url.searchParams.get("name") || `Mock ${provider} User`;
+  const email = normalizeEmail(url.searchParams.get("email") || "");
   const merge = url.searchParams.get("merge") || null;
-  const user = await ensureOAuthUser(env, provider, uid, name);
-  return issueSession(req, env, user, merge);
+  const user = await ensureOAuthUser(env, provider, uid, name, email || null);
+  const session = await getSession(req, env);
+  const linkTo = url.searchParams.get("link") === "1" && session && session.sub ? session.sub : null;
+  const resolved = await resolveLoginUser(env, user, { linkToSessionDeviceId: linkTo });
+  return issueSession(req, env, resolved, merge);
 }
 
 async function handleAuthMe(req, env) {
   const session = await getSession(req, env);
   if (!session) return json(req, 401, { error: "unauthorized" });
   let row = await env.DB.prepare(
-    "SELECT device_id, provider, provider_user_id, display_name, level, profile_json FROM users WHERE device_id = ?1"
+    "SELECT device_id, provider, provider_user_id, display_name, level, profile_json, verified_email FROM users WHERE device_id = ?1"
   ).bind(session.sub).first();
   if (!row) {
     // Self-heal: a validly-signed session whose users row is missing (e.g. token
     // minted outside the login flow, or row lost) re-materializes from claims.
-    const provider = /^p:(line|google):/.test(session.sub) ? session.sub.split(":")[1] : "jwt";
-    const puid = /^p:(line|google):/.test(session.sub) ? session.sub.split(":").slice(2).join(":") : session.sub;
+    const provider = /^p:(line|google|apple):/.test(session.sub) ? session.sub.split(":")[1] : "jwt";
+    const puid = /^p:(line|google|apple):/.test(session.sub) ? session.sub.split(":").slice(2).join(":") : session.sub;
     await env.DB.prepare(
       "INSERT INTO users (device_id, provider, provider_user_id, display_name, level) VALUES (?1, ?2, ?3, ?4, ?5) ON CONFLICT(device_id) DO NOTHING"
     ).bind(session.sub, provider, puid, session.name || "User", session.level || "free").run();
     row = await env.DB.prepare(
-      "SELECT device_id, provider, provider_user_id, display_name, level FROM users WHERE device_id = ?1"
+      "SELECT device_id, provider, provider_user_id, display_name, level, verified_email FROM users WHERE device_id = ?1"
     ).bind(session.sub).first();
     if (!row) return json(req, 401, { error: "session user not found" });
   }
+  // CL-APP-07: an alias identity's data lives under its PRIMARY device_id —
+  // /auth/me answers for the primary so the session the member actually uses
+  // never points at a dormant alias row.
+  const primary = await getPrimaryRow(env, row.device_id);
+  if (primary) row = primary;
   return json(req, 200, {
     user: {
       id: row.device_id, provider: row.provider, providerUserId: row.provider_user_id,
       displayName: row.display_name, level: row.level,
+      // CL-APP-07: the verified email (linking key); null until provided by a
+      // verified-email provider or the member-center email flow.
+      verifiedEmail: row.verified_email || null,
       // CL-UI-57: member-editable profile fields (migration 0006 profile_json);
       // cleared (null) keys are omitted so clients only see live values.
       profile: (() => {
@@ -348,7 +511,10 @@ async function handleAuthRefresh(req, env) {
   if (!token && body && body.refreshToken) token = body.refreshToken;
   const payload = token ? await verifyJWT(token, authSecret(env)) : null;
   if (!payload || payload.typ !== "refresh") return json(req, 401, { error: "invalid refresh token" });
-  const row = await env.DB.prepare("SELECT device_id, display_name, level FROM users WHERE device_id = ?1").bind(payload.sub).first();
+  // CL-APP-07: refresh re-keys onto the primary when the account was linked
+  // after the original login — the new session must not keep the alias id.
+  const refreshSub = await resolvePrimaryDeviceId(env, payload.sub);
+  const row = await env.DB.prepare("SELECT device_id, display_name, level FROM users WHERE device_id = ?1").bind(refreshSub).first();
   if (!row) return json(req, 401, { error: "user not found" });
   const { access, refresh } = await makeTokens(env, row.device_id, row.display_name, row.level);
   return json(req, 200, { ok: true, accessToken: access, refreshToken: refresh }, {
@@ -385,9 +551,12 @@ async function handleAuthProfile(req, env) {
     return json(req, 400, { error: "body required" });
   }
 
+  // CL-APP-07: edits land on the PRIMARY row (an alias session edits the
+  // account the member actually sees).
+  const profileUserId = await resolvePrimaryDeviceId(env, session.sub);
   const row = await env.DB.prepare(
-    "SELECT device_id, provider, provider_user_id, display_name, level, profile_json, name_history FROM users WHERE device_id = ?1"
-  ).bind(session.sub).first();
+    "SELECT device_id, provider, provider_user_id, display_name, level, profile_json, name_history, verified_email FROM users WHERE device_id = ?1"
+  ).bind(profileUserId).first();
   if (!row) return json(req, 401, { error: "session user not found" });
 
   let displayName = row.display_name;
@@ -441,13 +610,13 @@ async function handleAuthProfile(req, env) {
 
   await env.DB.prepare(
     "UPDATE users SET display_name = ?1, profile_json = ?2 WHERE device_id = ?3"
-  ).bind(displayName, profileJson, session.sub).run();
+  ).bind(displayName, profileJson, profileUserId).run();
 
   // CL-DATA-70: append the rename audit entry (kept small — last 50).
   if (renameEntry) {
     const nextHistory = [...nameHistory, renameEntry].slice(-50);
     await env.DB.prepare("UPDATE users SET name_history = ?1 WHERE device_id = ?2")
-      .bind(JSON.stringify(nextHistory), session.sub).run();
+      .bind(JSON.stringify(nextHistory), profileUserId).run();
   }
 
   return json(req, 200, {
@@ -465,7 +634,9 @@ async function handleAuthProfile(req, env) {
 async function requireSession(req, env) {
   const session = await getSession(req, env);
   if (!session || !session.sub) return null;
-  return session;
+  // CL-APP-07: pre-link sessions still carry the alias id — ownership reads
+  // and writes resolve to the primary before touching data.
+  return { ...session, sub: await resolvePrimaryDeviceId(env, session.sub) };
 }
 
 async function userLevel(env, sub, fallback) {
@@ -637,7 +808,7 @@ async function handlePushTokenRegister(req, env) {
 
   let uid = null;
   const session = await getSession(req, env);
-  if (session && session.sub) uid = session.sub;
+  if (session && session.sub) uid = await resolvePrimaryDeviceId(env, session.sub);
   else {
     const deviceId = typeof body.deviceId === "string" ? body.deviceId.trim() : "";
     if (!deviceId || deviceId.length > 200) return json(req, 400, { error: "Authorization session or deviceId required" });
@@ -673,6 +844,146 @@ async function handleWebPushSubscribe(req, env) {
     "INSERT INTO web_push_subscriptions (user_id, endpoint, p256dh, auth) VALUES (?1, ?2, ?3, ?4) ON CONFLICT(endpoint) DO UPDATE SET user_id = ?1, p256dh = ?3, auth = ?4"
   ).bind(session.sub, endpoint, keys.p256dh, keys.auth).run();
   return json(req, 200, { ok: true, delivery: "skeleton — VAPID delivery ships in a follow-up ticket" });
+}
+
+// ---------------------------------------------------------------------------
+// CL-APP-07: provider config + account linking.
+// ---------------------------------------------------------------------------
+
+// GET /auth/config — public, read-class. The shells read this BEFORE mounting
+// provider entries: a provider the owner has not provisioned stays hidden
+// (fail-closed), never a button that answers 503 in the user's face.
+async function handleAuthConfig(req, env) {
+  return json(req, 200, {
+    providers: {
+      line: providerConfigured(env, "line"),
+      google: providerConfigured(env, "google"),
+      apple: providerConfigured(env, "apple"),
+    },
+  });
+}
+
+// GET /auth/link/status — session-only. Powers the member dropdown 連結 panel.
+async function handleLinkStatus(req, env) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const row = await env.DB.prepare(
+    "SELECT device_id, provider, provider_user_id, display_name, level, verified_email FROM users WHERE device_id = ?1"
+  ).bind(session.sub).first();
+  if (!row) return json(req, 401, { error: "session user not found" });
+  const { results } = await env.DB.prepare(
+    "SELECT alias_provider, verified_email, created_at FROM account_links WHERE primary_user_id = ?1 ORDER BY created_at ASC"
+  ).bind(session.sub).all();
+  return json(req, 200, {
+    user: { id: row.device_id, provider: row.provider, providerUserId: row.provider_user_id, displayName: row.display_name, level: row.level },
+    verifiedEmail: row.verified_email || null,
+    // Provider ids stay server-side (privacy): the UI shows provider + email.
+    links: (results || []).map((r) => ({ provider: r.alias_provider, email: r.verified_email || null, createdAt: r.created_at })),
+  });
+}
+
+// POST /auth/link/start { email } — the member-center email-verification flow
+// for providers without an email scope (LINE). A single-use token (30 min) is
+// queued and delivered through the owner-configured webhook; WITHOUT a
+// configured delivery channel the flow fails closed (503): handing the verify
+// URL to the requester instead would let any signed-in member claim an email
+// they don't own and take over the matching account via auto-link.
+// Token TTL: 30 minutes (enforced in the SQL WHERE clauses below).
+const LINK_MESSAGES = {
+  sent: {
+    "zh-TW": "驗證信已寄出，請在 30 分鐘內點擊信中連結完成連結。",
+    "en": "A verification email was sent — open the link within 30 minutes to finish linking.",
+    "ja": "確認メールを送信しました。30分以内にリンクを開いて連携を完了してください。",
+  },
+  notConfigured: {
+    "zh-TW": "會員中心連結信尚未開放（待站方設定寄信服務）。",
+    "en": "Email linking is not open yet (the mail service is pending owner setup).",
+    "ja": "メール連携はまだ利用できません（送信設定は準備中です）。",
+  },
+  deliveryFailed: {
+    "zh-TW": "驗證信寄送失敗，請稍後再試。",
+    "en": "The verification email could not be sent — please try again later.",
+    "ja": "確認メールの送信に失敗しました。しばらくしてからお試しください。",
+  },
+};
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+async function handleLinkStart(req, env, url) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const body = await req.json().catch(() => null);
+  const email = normalizeEmail(body && body.email);
+  if (!EMAIL_RE.test(email) || email.length > 200) {
+    return json(req, 400, { error: "valid email required" });
+  }
+  if (!env.LINK_EMAIL_WEBHOOK) {
+    return json(req, 503, { error: "email delivery not configured", message: LINK_MESSAGES.notConfigured });
+  }
+  // Opportunistic cleanup: consumed/expired rows never linger.
+  await env.DB.prepare(
+    "DELETE FROM link_email_verifications WHERE created_at < datetime('now', '-30 minutes') OR consumed = 1"
+  ).bind().run();
+  const token = randomId();
+  await env.DB.prepare(
+    "INSERT INTO link_email_verifications (token, user_id, email) VALUES (?1, ?2, ?3)"
+  ).bind(token, session.sub, email).run();
+  const verifyUrl = `${url.origin}/api/v1/auth/link/verify?token=${encodeURIComponent(token)}`;
+  let delivered = false;
+  try {
+    const res = await fetch(env.LINK_EMAIL_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ to: email, verifyUrl, token, ttlMinutes: 30 }),
+    });
+    delivered = res && res.ok;
+  } catch { delivered = false; }
+  if (!delivered) return json(req, 503, { error: "email delivery failed", message: LINK_MESSAGES.deliveryFailed });
+  return json(req, 200, { ok: true, delivery: "webhook", email, message: LINK_MESSAGES.sent });
+}
+
+// GET /auth/link/verify?token=… — the email-link click. Token-only credential
+// (the click may happen in another browser, without the member session).
+// Existing account with the same verified email → alias merges into it;
+// otherwise the verified email becomes this account's linking key (a later
+// Apple/Google login with the same email auto-links). Terminal state is a
+// 302 to the homepage with ?link_result=ok|error (shell shows a tri-lingual
+// notice and re-pulls /auth/me).
+async function handleLinkVerify(req, env, url) {
+  const token = url.searchParams.get("token");
+  if (!token) return homeRedirect("link_result=error");
+  await env.DB.prepare(
+    "DELETE FROM link_email_verifications WHERE created_at < datetime('now', '-30 minutes')"
+  ).bind().run();
+  const row = await env.DB.prepare(
+    "SELECT token, user_id, email, consumed FROM link_email_verifications WHERE token = ?1"
+  ).bind(token).first();
+  // single-use: consume first, fail-closed on replay.
+  await env.DB.prepare("DELETE FROM link_email_verifications WHERE token = ?1").bind(token).run();
+  if (!row || row.consumed) return homeRedirect("link_result=error");
+  const email = normalizeEmail(row.email);
+  const aliasRow = await env.DB.prepare(
+    "SELECT device_id, provider, provider_user_id, display_name, level, verified_email FROM users WHERE device_id = ?1"
+  ).bind(row.user_id).first();
+  if (!aliasRow || !email) return homeRedirect("link_result=error");
+
+  let result = "ok";
+  const other = await env.DB.prepare(
+    "SELECT device_id FROM users WHERE verified_email = ?1 AND device_id != ?2 ORDER BY created_at ASC LIMIT 1"
+  ).bind(email, aliasRow.device_id).first();
+  if (other && other.device_id) {
+    const primary = (await getPrimaryRow(env, other.device_id)) ||
+      await env.DB.prepare(
+        "SELECT device_id, provider, provider_user_id, display_name, level, verified_email FROM users WHERE device_id = ?1"
+      ).bind(other.device_id).first();
+    const linked = await linkAliasToPrimary(env, aliasRow, primary, email);
+    if (!linked) result = "error";
+  } else if ((aliasRow.verified_email || "") !== email) {
+    try {
+      await env.DB.prepare("UPDATE users SET verified_email = ?1 WHERE device_id = ?2")
+        .bind(email, aliasRow.device_id).run();
+    } catch { result = "error"; } // unique index → email claimed meanwhile
+  }
+  return homeRedirect(result === "ok" ? "link_result=ok" : "link_result=error");
 }
 
 export default {
@@ -749,15 +1060,21 @@ export default {
 
     // --- auth (CL-API-02) ---
     let m;
-    if ((m = path.match(/^\/auth\/(line|google)\/start$/))) {
+    if ((m = path.match(/^\/auth\/(line|google|apple)\/start$/))) {
       if (request.method !== "GET") return json(request, 405, { error: "method not allowed" });
       return handleOAuthStart(request, env, m[1], url);
     }
-    if ((m = path.match(/^\/auth\/(line|google)\/callback$/))) {
-      if (request.method !== "GET") return json(request, 405, { error: "method not allowed" });
+    if ((m = path.match(/^\/auth\/(line|google|apple)\/callback$/))) {
+      if (request.method !== "GET" && !(m[1] === "apple" && request.method === "POST")) {
+        return json(request, 405, { error: "method not allowed" });
+      }
       return handleOAuthCallback(request, env, m[1], url);
     }
     if (path === "/auth/mock/start") return handleMockStart(request, env, url);
+    if (path === "/auth/config" && request.method === "GET") return handleAuthConfig(request, env);
+    if (path === "/auth/link/status" && request.method === "GET") return handleLinkStatus(request, env);
+    if (path === "/auth/link/start" && request.method === "POST") return handleLinkStart(request, env, url);
+    if (path === "/auth/link/verify" && request.method === "GET") return handleLinkVerify(request, env, url);
     if (path === "/auth/me" && request.method === "GET") return handleAuthMe(request, env);
     if (path === "/auth/profile" && request.method === "PATCH") return handleAuthProfile(request, env);
     if (path === "/auth/logout" && request.method === "POST") return handleAuthLogout(request, env);

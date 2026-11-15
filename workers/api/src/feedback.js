@@ -30,7 +30,7 @@ const VOTE_ROW_LIMIT = 500;   // per-place vote scan cap
 const COMMENT_LIST_LIMIT = 20;
 const AGGREGATE_LIMIT_MS = 30 * 86_400_000;
 
-import { getSession } from "./auth.js";
+import { getSession, resolvePrimaryDeviceId } from "./auth.js";
 
 function nowIso() {
   // D1 datetime('now') format "YYYY-MM-DD HH:MM:SS" (UTC)
@@ -407,7 +407,10 @@ export async function handleFeedback(req, env, url) {
 
 async function requireMember(req, env) {
   const session = await getSession(req, env);
-  return session && session.sub ? session : null;
+  if (!session || !session.sub) return null;
+  // CL-APP-07: pre-link alias sessions resolve onto the primary — feedback
+  // votes/aggregates stay keyed to the single member identity.
+  return { ...session, sub: await resolvePrimaryDeviceId(env, session.sub) };
 }
 
 // Admin/curator/owner member level (users.level) gates the review surface —
