@@ -269,6 +269,11 @@ class ResearchIndexTests(unittest.TestCase):
             # (tw-217..tw-227, 11 contracts) carry their authorship bytes on
             # the wave7 intake commit (blob+sha256 verified on the task tree).
             'ea49e822dd7d75e3102e5ce1a949025e9b57f0ac',
+            # CL-DATA-71: the 13 viewpoint-relative cloud_base_height records
+            # re-pinned to the contract commit carrying the new bytes
+            # (catalog band for tw-128-P01, DEM-200 derived for the rest;
+            # blob+sha256 tree-verified on the task branch).
+            'f21a8cdc2f450f9c8b5dab21ab8f1e16485b3e52',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
