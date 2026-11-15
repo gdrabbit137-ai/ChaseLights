@@ -213,8 +213,8 @@ test('CL-UI-91 (8): the empty state keys off the actual result count only', () =
   assert.ok(!emptyBlock.includes('deferredRows'), 'tier-tab views never consult the deferred grouping');
 });
 
-test('CL-UI-91 (9): cache-bust stamp — app.js + app.css advanced to clui101', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui101/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui101/);
-  assert.equal((indexSource.match(/\?v=clui101/g) || []).length,4, 'exactly the app.js + app.css stamps');
+test('CL-UI-91 (9): cache-bust stamp — app.js + app.css advanced to clui102', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui102/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui102/);
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,4, 'exactly the app.js + app.css stamps');
 });
