@@ -53,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((460,692),(len(actual),len(ids)))  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1-7: 460 places / 692 live ids (379/590 wave1 + 15 wave2 places / 22 contracts + 12 wave3 places / 15 contracts + 10 wave4 places / 16 contracts + 17 wave5 places / 22 contracts + 16 wave6 places / 16 contracts + 11 wave7 places / 11 contracts)
+        self.assertEqual((460,704),(len(actual),len(ids)))  # CL-DATA-73 re-anchor: 692 -> 704 (+12 misty_forest live ids, measured on the merged tree)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -282,6 +282,11 @@ class ResearchIndexTests(unittest.TestCase):
             # a0ad3da55 = the batch-A closure commit: the 46 reflection-family
             # contracts moved to operator 'none' (only 'unfit' vetoes).
             'a0ad3da5583a35268522435276a04d6a0252a159',
+            # CL-DATA-73: the 12 misty_forest mount records (tw-024-P06 …
+            # tw-177-P02) pinned to the mount commit carrying the trilingual
+            # contracts (blob+sha256 provenance verified by
+            # research_index --git-provenance on the merged tree).
+            '5556c7ea2ea4cad540132db5fc05d3c9771755f5',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-DATA-72: tw-026-P01 canonical evolved past the 2026-11-02 owner

@@ -53,7 +53,10 @@ class DictionaryCoverageTests(unittest.TestCase):
             self.assertIsNotNone(entry, g)
             for lang in LANGS:
                 self.assertTrue(entry.get(lang), f"{g} missing {lang}")
-            self.assertLessEqual(len(entry["zh-TW"]), 3, f"{g} zh-TW short name must be 2-3 chars")
+            # CL-DATA-73: bound relaxed 3 -> 6 (CL-UI-63 card-chip <=6-char
+            # contract): misty_forest ships the owner-directed short name
+            # 迷霧森林 (4 chars) under the ticket's <=6-char rule.
+            self.assertLessEqual(len(entry["zh-TW"]), 6, f"{g} zh-TW short name must be <=6 chars")
 
     def test_every_metric_has_trilingual_short_word(self):
         for m in self.metrics:

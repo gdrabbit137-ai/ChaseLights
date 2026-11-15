@@ -16,6 +16,12 @@ GENRE_CONDITION_TEMPLATES.md:
 - light_window: EVERY sampled instant in the hour bucket has sun elevation
   > -6° (civil light) — CL-DATA-11 cloud-sea visibility window; night hours
   never qualify regardless of the moon (owner clarification 2026-11-05)
+- soft_light_window: EVERY sampled instant in the hour bucket is in civil
+  light (> -6°, night hours never qualify — the trees cannot be seen) AND at
+  least one sampled instant has sun elevation <= +10° (slant light exists) —
+  CL-DATA-73 misty-forest light condition
+- morning_window: ANY sampled instant sits 1-3 h AFTER sunrise (same day's
+  rising crossing) — CL-DATA-73 misty-forest PRIORITY morning window
 - moon_illuminance_proxy: illumination_fraction × sin(moon_altitude), 0 below horizon
 - galactic_core_altitude: lunar_ephemeris galactic-core contract
 
@@ -64,6 +70,20 @@ CITY_NIGHT_MAX_DEG = -6.0
 # moon data is consulted.
 CIVIL_LIGHT_MIN_DEG = -6.0
 
+# CL-DATA-73: misty-forest soft scattered light. The fog carries the light;
+# the canopy shot needs LOW-ANGLE slant illumination — at least one sampled
+# instant at or below +10 deg — while night hours never qualify (the trees
+# cannot be seen, so every sampled instant must stay above the civil-light
+# line -6 deg). See the profile comment for the all/any split rationale.
+SOFT_LIGHT_HIGH_DEG = 10.0
+
+# CL-DATA-73: misty-forest morning PRIORITY window — 1 to 3 h after sunrise.
+# Membership is per-sample against the day's rising crossing: an instant
+# qualifies when 1 h <= (t - sunrise) <= 3 h (the same day's next sunrise
+# event, so late-evening samples near yesterday's sunset never count).
+MORNING_WINDOW_START_H = 1.0
+MORNING_WINDOW_END_H = 3.0
+
 # CL-DATA-24: the sun's phase for an hour bucket — "dawn" (morning side of
 # the day, nearest horizon crossing is a sunrise) or "dusk" (evening side,
 # nearest crossing is a sunset). blue_hour_window / golden_hour_window are
@@ -89,7 +109,7 @@ ASTRO_SAMPLING_PROVENANCE = {
     "sample_offsets_minutes": WINDOW_SAMPLE_OFFSETS,
     "metrics": ["astronomical_darkness", "city_night_window", "golden_hour_window",
                 "blue_hour_window", "sunrise_time_window", "sunset_window",
-                "light_window"],
+                "light_window", "soft_light_window", "morning_window"],
     "bucket": "[hour_start, hour_start+60min)",
 }
 
@@ -186,6 +206,22 @@ def window_pass_profiles(dt_utc, lat, lon, events=None):
         "blue_hour_window": [BLUE_LOW_DEG <= a <= BLUE_HIGH_DEG
                              for a in altitudes],
         "light_window": [a > CIVIL_LIGHT_MIN_DEG for a in altitudes],
+        # CL-DATA-73: soft scattered light — the hour qualifies when EVERY
+        # sampled instant is inside civil light (night hours never qualify;
+        # the trees cannot be seen) AND at least one sampled instant has the
+        # sun at or below +10 deg (low-angle slant light exists in the
+        # bucket; the card stamps that precise instant). The (-6, +10] band
+        # is shorter than one hour around midwinter, so a whole-bucket
+        # all-sample reading would leave the genre no qualifying bucket in
+        # the deep-fog season — the split all/any reading keeps the night
+        # exclusion strict while preserving the slant-light requirement.
+        "soft_light_window": [all(a > CIVIL_LIGHT_MIN_DEG for a in altitudes)
+                              and any(a <= SOFT_LIGHT_HIGH_DEG
+                                      for a in altitudes)
+                              for _ in altitudes],
+        # CL-DATA-73: morning PRIORITY window — per-sample membership in
+        # [sunrise + 1 h, sunrise + 3 h] against the day's rising crossing.
+        "morning_window": [False] * len(samples),
         # CL-DATA-40: daylight window — every sampled instant has the sun above
         # the horizon (proper daylight, before sunset). Access-constrained
         # subjects (sites closed at sunset, e.g. NPS Horseshoe Bend) bind their
@@ -207,6 +243,23 @@ def window_pass_profiles(dt_utc, lat, lon, events=None):
                     if best is None or delta < best:
                         best = delta
             profiles[key][i] = best is not None and best <= half
+    # CL-DATA-73: morning window membership. A sample qualifies when the
+    # rising crossing it belongs to (the latest sunrise at or before the
+    # sample) precedes it by 1-3 h; the events list is already sorted, so a
+    # single forward walk keeps the last sunrise <= sample.
+    sunrise_events = sorted(t for t, kind in events if kind == "sunrise")
+    if sunrise_events:
+        ref = None
+        idx = 0
+        for i, t in enumerate(samples):
+            while idx < len(sunrise_events) and sunrise_events[idx] <= t:
+                ref = sunrise_events[idx]
+                idx += 1
+            if ref is None:
+                continue
+            delta_h = (t - ref) / 3600.0
+            profiles["morning_window"][i] = (
+                MORNING_WINDOW_START_H <= delta_h <= MORNING_WINDOW_END_H)
     return profiles
 
 
@@ -240,6 +293,15 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
         "blue_hour_window": any(profiles["blue_hour_window"]),
         # CL-DATA-11: cloud-sea light window — pure civil-light geometry.
         "light_window": all(profiles["light_window"]),
+        # CL-DATA-73: soft scattered light — the whole bucket inside civil
+        # light (night never qualifies) with slant light present.
+        "soft_light_window": all(profiles["soft_light_window"]),
+        # CL-DATA-73: morning PRIORITY window — any sampled instant 1-3 h
+        # after the day's sunrise. No rising crossing in the events span
+        # (polar day/night) propagates UNKNOWN honestly, never a False FAIL.
+        "morning_window": (any(profiles["morning_window"])
+                           if any(e_kind == "sunrise" for _, e_kind in events)
+                           else None),
         # CL-DATA-40: access-closing window — a subject whose site closes at
         # sunset qualifies only in hours entirely in proper daylight
         # (every sampled instant sun elevation > 0 deg).
