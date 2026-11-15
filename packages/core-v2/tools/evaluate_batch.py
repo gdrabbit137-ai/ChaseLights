@@ -57,7 +57,9 @@ ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blu
                  "moon_illumination_fraction", "moon_altitude",
                  "moon_target_separation_deg", "moon_illuminance_proxy",
                  "galactic_core_altitude", "city_night_window",
-                 "light_window", "daylight_window"}
+                 "light_window", "daylight_window",
+                 # CL-DATA-73: misty-forest soft-light + morning windows.
+                 "soft_light_window", "morning_window"}
 
 # CL-UI-23: metrics that ARE a time window (window membership). A contract that
 # already declares one of these is time-window aware; the evaluation layer does
@@ -65,7 +67,9 @@ ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blu
 TIME_WINDOW_METRICS = {"sunrise_time_window", "sunset_window",
                        "blue_hour_window", "golden_hour_window",
                        "astronomical_darkness", "city_night_window",
-                       "light_window", "daylight_window"}
+                       "light_window", "daylight_window",
+                       # CL-DATA-73: misty-forest soft-light + morning windows.
+                       "soft_light_window", "morning_window"}
 # CL-UI-23: genre templates whose subject semantics require a night hours
 # window but whose current owner contracts carry no time-window condition
 # (data-layer gap, owner gate pending). The evaluation layer enforces the
@@ -318,6 +322,24 @@ def condition_verdict(condition, values, astro_row, month=None,
         else:
             return "UNKNOWN", "NON_NUMERIC_OPERATOR"
         return ("PASS" if passed else "FAIL"), f"WATER_REFLECTION_STATE({level})"
+    if metric == "fog_state":
+        # CL-DATA-73: the misty-forest decisive condition evaluates the DERIVED
+        # fog-state cell (fog / forming / not_forming / no_fog). The owner
+        # ANY semantics (fog present OR fog forming) is one branch here:
+        # "fog" and "forming" both satisfy; "not_forming" and "no_fog"
+        # fail — visibility > 1 km is the explicit 無霧 failure. The contract
+        # carries no threshold (operator "none"); a malformed operator
+        # degrades to UNKNOWN, never a fabricated verdict.
+        cell = values.get("fog_state") if isinstance(values, dict) else None
+        if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
+            return "UNKNOWN", "FOG_STATE_DERIVATION_UNAVAILABLE"
+        level = cell.get("value")
+        if level not in FOG_LEVELS:
+            return "UNKNOWN", "FOG_STATE_INVALID_LEVEL"
+        if operator not in ("none", None):
+            return "UNKNOWN", "UNSUPPORTED_FOG_STATE_OPERATOR"
+        passed = level in ("fog", "forming")
+        return ("PASS" if passed else "FAIL"), f"FOG_STATE({level})"
     if metric == "venue_open_window":
         return venue_open_verdict(condition, local_start_min)
     if metric == "cloud_base_height":
@@ -667,6 +689,73 @@ def water_reflection_levels(hours):
     return levels
 
 
+# CL-DATA-73: misty-forest fog state. The fog IS the subject, so the decisive
+# condition INVERTS the usual visibility logic — owner-approved exception to
+# the "no fabricated reverse visibility thresholds" doctrine (fog is the only
+# genre where the inverted metric is the photographic subject itself). The
+# derivation unifies the owner-specified ANY branches into one per-hour cell:
+#   fog        霧正在發生: 0.05 km <= visibility <= 0.5 km (50-500 m)
+#   forming    霧形成中:   visibility outside the fog band but RH >= 95%
+#                          AND (T - Td) < 1 deg C
+#   not_forming 霧未成形:  visibility <= 1 km but neither branch holds
+#   no_fog     無霧:      visibility > 1 km — the explicit "no fog" failure
+# Visibility drives the verdict when known; a missing visibility cell degrades
+# the hour to UNKNOWN (fail-closed), never a fabricated level.
+FOG_PRESENT_MIN_KM = 0.05
+FOG_PRESENT_MAX_KM = 0.5
+FOG_NO_FOG_KM = 1.0
+FOG_FORMING_RH_PCT = 95.0
+FOG_FORMING_DEW_SPREAD_C = 1.0
+FOG_LEVELS = ("fog", "forming", "not_forming", "no_fog")
+
+
+def fog_states(hours):
+    """Per-hour derived fog_state cells, aligned with `hours`.
+
+    Fail-closed: a missing/unusable visibility cell yields an UNKNOWN cell
+    (the condition then reads FOG_STATE_DERIVATION_UNAVAILABLE). RH/temperature
+    spread are only consulted inside the forming branch; unknown supporting
+    cells there simply leave the hour not_forming-or-no_fog by visibility —
+    they never fabricate a forming verdict.
+    """
+    states_out = []
+    for hour_row in hours:
+        values = hour_row.get("values") or {}
+        cell = values.get("visibility")
+        vis = None
+        if (isinstance(cell, dict) and cell.get("state") == "AVAILABLE"
+                and isinstance(cell.get("value"), (int, float))
+                and not isinstance(cell.get("value"), bool)
+                and cell["value"] >= 0):
+            vis = float(cell["value"])
+        if vis is None:
+            states_out.append({"state": "UNKNOWN", "value": None})
+            continue
+        if FOG_PRESENT_MIN_KM <= vis <= FOG_PRESENT_MAX_KM:
+            level = "fog"
+        elif vis > FOG_NO_FOG_KM:
+            level = "no_fog"
+        else:
+            rh = _cell_value(values, "relative_humidity_2m")
+            temp = _cell_value(values, "temperature_2m")
+            dew = _cell_value(values, "dew_point_2m")
+            forming = (rh is not None and rh >= FOG_FORMING_RH_PCT
+                       and temp is not None and dew is not None
+                       and (temp - dew) < FOG_FORMING_DEW_SPREAD_C)
+            level = "forming" if forming else "not_forming"
+        states_out.append({"state": "AVAILABLE", "value": level})
+    return states_out
+
+
+def _cell_value(values, name):
+    cell = (values or {}).get(name)
+    if (isinstance(cell, dict) and cell.get("state") == "AVAILABLE"
+            and isinstance(cell.get("value"), (int, float))
+            and not isinstance(cell.get("value"), bool)):
+        return float(cell["value"])
+    return None
+
+
 def conditions_day_rows(condition_by_id, counts_by_cid, total):
     """Per-condition day verdict rows from the condition's OWN hourly verdicts.
 
@@ -1012,6 +1101,12 @@ def main():
         reflection_levels = water_reflection_levels(hours)
         for hour_row, level in zip(hours, reflection_levels):
             hour_row["values"]["water_reflection_state"] = level
+        # CL-DATA-73: derive the per-hour fog_state proxy once per coordinate
+        # group and attach it to the shared hour rows (idempotent — every
+        # misty-forest opportunity of the group reads the same cells).
+        fog_levels = fog_states(hours)
+        for hour_row, fstate in zip(hours, fog_levels):
+            hour_row["values"]["fog_state"] = fstate
         place_out = {"place_id": None, "coordinate": [lat, lon],
                      "coordinate_source": group["source"],
                      "timezone_display": dict(tz_display),

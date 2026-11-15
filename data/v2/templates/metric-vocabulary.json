@@ -1,5 +1,5 @@
 {
-  "version": "0.10",
+  "version": "0.11",
   "note": "Metric vocabulary for genre condition templates. Condition metrics are unit-normalized ids; bindings map a metric to dataset fields (field naming follows DATA_SOURCE_TIERING_SPEC manifest style: name + unit suffix). '+' joins the fields a derived metric consumes.",
   "metrics": {
     "relative_humidity_925hpa": {
@@ -396,6 +396,39 @@
       "domain": "HYDROLOGY",
       "kind": "computed",
       "bindings": []
+    },
+    "fog_state": {
+      "unit": null,
+      "domain": "WEATHER",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "霧狀態（CL-DATA-73，owner 核可反轉能見度邏輯）：評估層由能見度＋2m 濕度＋溫露差合成的小時狀態 fog（能見度 50–500m，霧正在發生）／forming（能見度 ≤1km 且 RH≥95% 且溫露差 <1°C，霧形成中）／not_forming（≤1km 但兩分支皆不成立）／no_fog（能見度 >1km，明確無霧）。fog 與 forming 皆視為成立（owner ANY 語義二擇一）。",
+        "en": "Fog state (CL-DATA-73, owner-approved inversion of the visibility logic): an evaluator-derived per-hour level from visibility + 2 m RH + dew-point spread - fog (visibility 50-500 m, fog happening) / forming (visibility <= 1 km with RH >= 95% and spread < 1 deg C) / not_forming (<= 1 km but neither branch) / no_fog (visibility > 1 km, explicitly fogless). Both fog and forming satisfy the condition (owner ANY semantics).",
+        "ja": "霧状態（CL-DATA-73、視程ロジック反転はオーナー承認）：評価層が視程＋2m湿度＋温度露点差から合成する時間帯レベル - fog（視程50-500m、霧が発生中）／forming（視程1km以下でRH95%以上かつ差1℃未満、霧が形成中）／not_forming（1km以下だが両分岐不成立）／no_fog（視程1km超、明確に無霧）。fog と forming の両方が成立扱い（オーナーの ANY 意味論）。"
+      }
+    },
+    "soft_light_window": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "柔光時窗（CL-DATA-73）：小時桶每一取樣瞬間都在民用光線內（>−6°，夜間一律不成立——看不見樹），且桶內存在太陽高度 ≤10° 的晨昏斜射取樣（斜光存在才成立；卡片以該精確時刻標記）。純幾何計算，無外部資料源。",
+        "en": "Soft-light window (CL-DATA-73): EVERY sampled instant of the hour bucket stays inside civil light (> -6 deg; night hours never qualify - the trees cannot be seen) AND at least one sampled instant has sun elevation <= +10 deg (slant light present; the card stamps that precise instant). Pure solar geometry, no external source.",
+        "ja": "柔光窓（CL-DATA-73）：バケット内の全サンプル時点が市民光内（>-6°、夜間は一律不成立——木が見えない）で、かつ桶内に太陽高度10°以下の斜光サンプルが存在すること。純粋な太陽幾何計算。"
+      }
+    },
+    "morning_window": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "晨窗（CL-DATA-73 優先窗）：小時桶內任一取樣瞬間落在日出後 1–3 小時（對當日日出事件計算）；加分項，不單獨否決。極區無日出事件時誠實 UNKNOWN。",
+        "en": "Morning window (CL-DATA-73, PRIORITY): any sampled instant of the hour bucket sits 1-3 h after that day's sunrise; advisory bonus, never a lone veto. Polar no-sunrise spans degrade honestly to UNKNOWN.",
+        "ja": "朝の窓（CL-DATA-73、優先窓）：バケット内のいずれかのサンプルが当日の日の出後1-3時間に該当；加点項で単独では否決しない。極域で日の出がない場合は誠実にUNKNOWN。"
+      }
     }
   },
   "changelog": [
@@ -407,6 +440,7 @@
     "0.7 2026-10-31: elevation-bound pressure levels for high-mountain cloud sea (700/600 hPa): add relative_humidity_700hpa/600hpa, wind_speed_600hpa/700hpa, temperature_delta_850_700_c, temperature_delta_700_600_c; cloud_sea inversion threshold relaxed to >=0C, wind flipped to lt 12 (calm bonus), galactic core altitude lowered to >=10 deg (spring low-core window)",
     "0.8 2026-11-05: add light_window (cloud_sea light window, CL-DATA-11 owner ruling + clarification: a cloud sea is visible only in civil light — sun elevation > -6 deg at every sampled instant; night hours never qualify regardless of the moon, no moon metric consulted)",
     "0.9 2026-11-12: add venue_open_window (CL-DATA-68 round16 fixes: Glover Garden opening clamp, Takachiho rental-boat window, Inasayama ropeway window; deterministic evaluator branch, no external source)",
-    "0.10 2026-11-15: add water_reflection_state (CL-DATA-72 batch A / CHALLENGER-15 A7: reflection water-surface state derived by the evaluator from wind, precipitation history and air temperature — mirror/shootable/unfit three levels; tide-decided shoreline subjects keep water_surface_state fail-closed with a check-the-tide-table shooting guide)"
+    "0.10 2026-11-15: add water_reflection_state (CL-DATA-72 batch A / CHALLENGER-15 A7: reflection water-surface state derived by the evaluator from wind, precipitation history and air temperature — mirror/shootable/unfit three levels; tide-decided shoreline subjects keep water_surface_state fail-closed with a check-the-tide-table shooting guide)",
+    "0.11 2026-11-16: add fog_state (CL-DATA-73 misty-forest decisive condition, owner-approved visibility inversion: evaluator-derived fog/forming/not_forming/no_fog levels; fog+forming satisfy the owner ANY semantics), soft_light_window (sun elevation in (-6,+10] every sampled instant, night never qualifies) and morning_window (1-3 h after sunrise, PRIORITY advisory)"
   ]
 }
