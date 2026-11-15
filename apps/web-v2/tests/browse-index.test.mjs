@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and canonical sources remain source pinned (CL-DATA-66 wave7: 460 places / 692 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'61f1cd39ba75252e21fd7f93768a830f6329ecf637caa26ceb27ae7c0e572af3'); // re-measured CL-DATA-73 (merged-tree regen: research_index --git-provenance + build_web_catalog, index_revision 4c26f3f9 per CL-CI-31c)
-  assert.equal(sha256(rawCatalog),'bd0daafe74ed39b393a362af5ad571c12c607572746d413ca011b222316bf090'); // re-measured CL-DATA-73 (merged-tree regen, index_revision 4c26f3f9)
+test('W2 index and canonical sources remain source pinned (CL-INT-192 merged regen: 460 places / 721 opportunities)',()=>{
+  assert.equal(sha256(rawIndex),'0f0843e37543653f2f070063a3aa4702d50a327d8c793586f39133054db682be'); // re-measured CL-INT-192 (merged-tree full regen a6b3c0e68: 73+74 mounts, index_revision 8a7951c9 per CL-CI-31c)
+  assert.equal(sha256(rawCatalog),'595ce9f400ead8adb4bbd8882ec345429e5bf5eded7f2e0cd77e52c65598505e'); // re-measured CL-INT-192 (merged-tree full regen a6b3c0e68, index_revision 8a7951c9)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,704);assert.equal(source.places.length,460); // re-anchored CL-DATA-73 (+12 misty_forest)
+  assert.equal(source.opportunities.length,721);assert.equal(source.places.length,460); // re-anchored CL-INT-192 (+12 misty_forest +17 five-genre)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   // CL-DATA-72: owner-ruled contract evolution (sunset T3 QUALITY c9e65a2c1 +

@@ -220,14 +220,14 @@ class TestRuntime(unittest.TestCase):
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
         self.assertEqual(ev["place_count"], 460)  # CL-CI-36 re-anchor: cron drops the 6 CL-DATA-62-retired places (tw-068/083/084, us-075/076/077; -13 opps, PRODUCT_RETIRED is honest); CL-CI-36 dedup fix removes duplicate multi-coordinate-group rows (tw-002/us-005/us-011/us-013 listed twice); 465/697 -> 460/690
-        self.assertEqual(ev["opportunity_count"], 702)  # CL-DATA-73 re-anchor: 690 -> 702 (merged tree: +12 misty_forest evaluated, eligible contracts)
+        self.assertEqual(ev["opportunity_count"], 719)  # CL-INT-192 re-anchor: 702 -> 719 (merged tree: +17 five-genre mounts evaluated, eligible contracts)
         self.assertEqual(ev["forecast_hours"], 168)
         self.assertEqual(ev["fetch_failures"], [])
 
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
         self.assertEqual(len(cat["places"]), 460)  # CL-DATA-66 wave7 re-anchor: 460 places
-        self.assertEqual(len(cat["opportunities"]), 704)  # CL-DATA-73 re-anchor: 692 -> 704 (+12 misty_forest, measured on the merged tree)
+        self.assertEqual(len(cat["opportunities"]), 721)  # CL-INT-192 re-anchor: 704 -> 721 (+17 five-genre, measured on the merged tree)
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(NEW_CONTRACTS) <= oids)
 

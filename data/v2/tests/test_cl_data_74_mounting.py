@@ -154,7 +154,7 @@ class CurationTests(unittest.TestCase):
         self.assertEqual(len(all_mounts), len(set(all_mounts)))
         # ids must not collide with any existing canonical doc
         on_disk = {p.stem for p in OPPS.glob("*.json")}
-        self.assertEqual(len(on_disk), 705 + 17)
+        self.assertEqual(len(on_disk), 717 + 17)  # CL-INT-192 merged-tree re-anchor: base 705 -> 717 (CL-DATA-73 misty mounts already in the union tree) + 17 five-genre
 
 
 class CopyLayerTests(unittest.TestCase):

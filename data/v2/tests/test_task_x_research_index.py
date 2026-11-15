@@ -53,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((460,704),(len(actual),len(ids)))  # CL-DATA-73 re-anchor: 692 -> 704 (+12 misty_forest live ids, measured on the merged tree)
+        self.assertEqual((460,721),(len(actual),len(ids)))  # CL-INT-192 re-anchor: 704 -> 721 (+17 five-genre live ids, measured on the merged tree)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -287,7 +287,11 @@ class ResearchIndexTests(unittest.TestCase):
             # contracts (blob+sha256 provenance verified by
             # research_index --git-provenance on the merged tree).
             '5556c7ea2ea4cad540132db5fc05d3c9771755f5',
-        }, {p['commit_sha'] for p in self.lock['canonical_records']})
+                    # CL-INT-192: CL-DATA-74 five-genre mounts (commit-verified bytes)
+            '1f806b4439ff69f3a792fa2f25a3fa234756d19c',
+            # CL-INT-192 step-2 merge: renumbered CL-DATA-73 misty records re-pinned at the merge commit (tree-verified)
+            '24d40b5d1f6d0287a0cf4675a0b2fe0090e001f0',
+}, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-DATA-72: tw-026-P01 canonical evolved past the 2026-11-02 owner
         # ruling (sunset T3 QUALITY wave); re-anchored to the merged-tree
