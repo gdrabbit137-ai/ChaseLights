@@ -18,8 +18,6 @@ test('CL-DATA-65 (a): V2_GENRES carries the three-language general label', () =>
     const dictBlock = block.slice(block.indexOf(lang), block.indexOf(lang) + 600);
     assert.match(dictBlock, /general:'/);
   }
-  // CL-DATA-69 re-anchor: owner copy unification renamed the general template
-  // title to 可拍 (trilingual); conditions/thresholds unchanged.
   assert.equal(template.title_i18n['zh-TW'], '可拍');
   assert.equal(template.title_i18n.en, 'Shootable');
   assert.equal(template.title_i18n.ja, '撮影可');
@@ -34,6 +32,6 @@ test('CL-DATA-65 (b): the general genre chip is visually distinct from curated g
 });
 
 test('CL-DATA-65 (c): cache-bust stamps bumped for app.js/app.css', () => {
-  assert.match(htmlSource, /assets\/app\.css\?v=clui100/);
-  assert.match(htmlSource, /assets\/app\.js\?v=clui100/);
+  assert.match(htmlSource, /assets\/app\.css\?v=clui98/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui98/);
 });
