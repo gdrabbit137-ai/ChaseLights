@@ -4,7 +4,7 @@
 //      12–24 → 良好 / 6–12 → 普通 / <6 → 差; total cloud ≤10% → 晴, low cloud
 //      30–70% → 多雲, >70% → 陰; wind >6 → 風強 / 1.5–6 → 微風 / <1.5 → 無風.
 //      The raw cap text 「≥ 24 km（資料上限）」 NEVER appears on the card face.
-//  (2) Dedupe: the 「一般拍攝」 chip is hidden by default on the mobile card and
+//  (2) Dedupe: the 「可拍」 chip is hidden by default on the mobile card and
 //      revealed ONLY on a ✅ hour; ⚠️ 未符 / 🕒 非建議時段 hours never carry it.
 //      The decorate pass also drives the 3px status band classes (tm-st-*).
 //  (3) Raw values (vis/temp/wind/rh/LCL/low+mid+high cloud/astro) live only
@@ -106,7 +106,7 @@ test('CL-UI-82 (5): trilingual token pack — every clui82_* key in all three di
   assert.equal(en.sky({c_low:43, c_mid:0, c_high:0}), 'Partly cloudy');
 });
 
-test('CL-UI-82/94 (6): the ○ 一般拍攝 token IS the verdict — always rendered, no reveal/dedupe pass', () => {
+test('CL-UI-82/94 (6): the ○ 可拍 token IS the verdict — always rendered, no reveal/dedupe pass', () => {
   // CL-UI-94: the status painter is retired; the subject-cell buckets are the
   // single source, so the general token renders unconditionally (grey).
   const deco = grab('function decorateWeatherTimeline', 'function decorateV2Eval');
@@ -147,5 +147,5 @@ test('CL-UI-82 (8): height/scan tokens + raw cap kept OUT of the card face', () 
   assert.ok(cardBlock.includes('${visCellHtml(item.visibility)}'), 'details vis uses the short cap cell (tooltip, never the full cap text)');
   assert.ok(!cardBlock.includes('visibilityText(item.visibility)'), 'full cap string never rendered on the card');
   // cache-bust advanced
-  assert.equal((indexSource.match(/\?v=clui98/g) || []).length, 2, 'app.js + app.css at clui98');
+  assert.equal((indexSource.match(/\?v=clui99/g) || []).length, 2, 'app.js + app.css at clui99');
 });

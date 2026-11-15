@@ -179,7 +179,7 @@ test('CL-UI-63 (7): verdict glyphs exist in all three dictionaries', () => {
   assert.deepEqual([...i18n.matchAll(/v2_tier_not_recommended:'([^']*)'/g)].map(m => m[1]),
     ['✗ 不宜', '✗ Not recommended', '✗ 非推奨']);
   assert.deepEqual([...i18n.matchAll(/v2_general_shooting:'([^']*)'/g)].map(m => m[1]),
-    ['一般拍攝', 'General shooting', '一般撮影']);
+    ['可拍', 'Shootable', '撮影可']);
 });
 
 test('CL-UI-63 (8): artifact rows join back to the artifact dictionary (zh/en/ja chips)', () => {
@@ -201,7 +201,7 @@ test('CL-UI-63 (8): artifact rows join back to the artifact dictionary (zh/en/ja
 });
 
 test('CL-UI-63 (9): cache-bust stamps advanced to clui75', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui98/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui98/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui99/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui99/);
   assert.ok(!indexSource.includes('clui69'), 'stale stamps fully retired');
 });

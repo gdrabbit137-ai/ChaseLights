@@ -2,7 +2,7 @@
 // Data layer: build_subject_cards.py emits per-place×date hour buckets
 // (fit/ok/no/unk/na). Renderer semantics: curated subject fits the hour →
 // green chips; no subject but the hourly general floor passes → yellow
-// 「○ 一般拍攝」 (CHALLENGER-14/C: not the day-tier 「○ 可拍」); a night hour
+// 「○ 可拍」 (CHALLENGER-14/C: not the day-tier 「○ 可拍」); a night hour
 // with clean weather no curated window covers → neutral 「🕒 非建議時段」;
 // floor fails → gray 「✗ <short reason>」; missing artifact/hour/fields → an
 // honest dash (fail-closed). Source assertions + extracted pure helper, per
@@ -53,7 +53,7 @@ const grab = (start, end) => {
 const cellCode = grab('function v2HourSubjectCell', '// CL-UI-26: every 不符 verdict');
 const makeCell = ({currentLang = 'zh-TW', dict = artifact} = {}) => new Function(
   `${cellCode}\nv2SubjectCards=${JSON.stringify(dict)};currentLang=${JSON.stringify(currentLang)};` +
-  'const d=()=>({eval2_unk:"資料不足",v2_hour_general_ok:"○ 一般拍攝",state_outside:"🕒 非建議時段"});' +
+  'const d=()=>({eval2_unk:"資料不足",v2_hour_general_ok:"○ 可拍",state_outside:"🕒 非建議時段"});' +
   'const esc=(s)=>String(s);const listSep=()=>" · ";;' +
   'const v2SubjectCardRow=(spotId,localDate)=>((v2SubjectCards.places||{})[spotId]||{})[localDate]||null;' +
   'return {v2HourSubjectCell};')();
@@ -96,11 +96,11 @@ test('CL-UI-73 (2): helper semantics on the committed artifact (derived anchor)'
   assert.ok(fit.html.includes(fitShort), `chip shows ${fitShort}: ${fit.html}`);
   assert.ok(fit.html.includes('subj-chip'), 'chip class');
   assert.equal(fit.cls, 'subj-has');
-  // a general-ok hour (no curated subject) → yellow ○ 一般拍攝
+  // a general-ok hour (no curated subject) → yellow ○ 可拍
   // (CHALLENGER-14/C: the HOUR floor pass is not the day tier ○ 可拍)
   const okHour = (twRow.hours.ok || []).find(hh => !((twRow.hours.fit || {})[hh]));
   const ok = cell({spot_id: anchorId, local_date: anchorDate}, item(okHour));
-  assert.equal(ok.html, '<span class="subj-ok">○ 一般拍攝</span>');
+  assert.equal(ok.html, '<span class="subj-ok">○ 可拍</span>');
   assert.equal(ok.cls, 'subj-ok-row');
   // a neutral na hour → 🕒 非建議時段
   // (CHALLENGER-14/B: never a failure word, never ○)
@@ -163,10 +163,10 @@ test('CL-UI-73 (4): artifact shape — every row has fit/ok/no/unk/na buckets, r
   assert.ok(fitHours > 1000, `fitting-hour count ${fitHours}`);
 });
 
-test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui98 stamps', () => {
+test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui99 stamps', () => {
   for (const cls of ['.td-subjects.subj-has', '.td-subjects.subj-ok-row', '.td-subjects.subj-na-row', '.td-subjects.subj-no-row', '.subj-chip', '.subj-na', '.timeline-mobile-subjects']) {
     assert.ok(cssSource.includes(cls), `css has ${cls}`);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui98/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui98/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui99/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui99/);
 });

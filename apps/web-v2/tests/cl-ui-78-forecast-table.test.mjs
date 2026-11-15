@@ -184,7 +184,7 @@ test('CL-UI-87 re-anchor (6b): audit app.js anchors — short vis cell + collaps
   assert.ok(card.includes('<details class="tm-details"'), 'native details 「詳細氣象」');
   assert.ok(card.includes('tmDetailsOpen'), 'open state restored from tmRestoreOpen');
   assert.ok(!card.includes("classList.toggle('tm-details-open')"), 'old class-toggle retired');
-  // CL-UI-94: the mobile ○ 一般拍攝 token is the verdict itself — always
+  // CL-UI-94: the mobile ○ 可拍 token is the verdict itself — always
   // rendered (grey), same source as the ✓ chip (hours.ok); no reveal/dedupe.
   assert.ok(card.includes('tm-subj-general">${esc(d().v2_hour_general_ok)}</span>'), 'general token always rendered');
   assert.ok(!card.includes('tm-subj-general" hidden'), 'no hidden-by-default reveal logic');

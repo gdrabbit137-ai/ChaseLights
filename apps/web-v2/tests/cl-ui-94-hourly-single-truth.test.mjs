@@ -1,7 +1,7 @@
 // CL-UI-94 (owner ruling, 實測案例: 大屯山助航站 11:00–15:00 狀態「⚠未符」與
 // 雲海 chip 矛盾): the hourly status column is RETIRED. The 適合題材 cell IS
 // the single-truth verdict (same source as the chips — subject-cards hours):
-// 任一題材符合 → 綠 ✓chip；題材皆不符但一般基準過 → 灰「○ 一般拍攝」；
+// 任一題材符合 → 綠 ✓chip；題材皆不符但一般基準過 → 灰「○ 可拍」；
 // 一般也不過 →「✗ 短原因」。歷史 is told by the past-row tint alone (CL-UI-96;
 // the （已過） small text was retired). New column anatomy:
 // 時間｜適合題材｜口語化氣象 (＋⋯).
@@ -55,7 +55,7 @@ const grab = (start, end) => {
 const cellCode = grab('function v2HourSubjectCell', '// CL-UI-26: every 不符 verdict');
 const makeCell = ({currentLang = 'zh-TW'} = {}) => new Function(
   `${cellCode}\nv2SubjectCards=${JSON.stringify(artifact)};currentLang=${JSON.stringify(currentLang)};` +
-  'const d=()=>({eval2_unk:"資料不足",v2_hour_general_ok:"○ 一般拍攝",state_outside:"🕒 非建議時段"});' +
+  'const d=()=>({eval2_unk:"資料不足",v2_hour_general_ok:"○ 可拍",state_outside:"🕒 非建議時段"});' +
   'const esc=(s)=>String(s);const listSep=()=>" · ";' +
   'const v2SubjectCardRow=(spotId,localDate)=>((v2SubjectCards.places||{})[spotId]||{})[localDate]||null;' +
   'return {v2HourSubjectCell};')();
@@ -77,9 +77,9 @@ test('CL-UI-94 (1): 雲海 fit hour → green ✓chip (same source as the chip r
   assert.ok(row.hours.fit[hh].includes('cloud_sea'), 'the row the chip renders from carries the fit');
 });
 
-test('CL-UI-94 (2): 一般小時 → 灰「○ 一般拍攝」；霧小時 →「✗ 短原因」', () => {
+test('CL-UI-94 (2): 一般小時 → 灰「○ 可拍」；霧小時 →「✗ 短原因」', () => {
   const ok = cellOf(okAnchor);
-  assert.equal(ok.html, '<span class="subj-ok">○ 一般拍攝</span>', 'general hour = grey pill');
+  assert.equal(ok.html, '<span class="subj-ok">○ 可拍</span>', 'general hour = grey pill');
   assert.equal(ok.cls, 'subj-ok-row');
   const [fpid, fdate, fhh, metric] = failAnchor;
   const fail = cellOf(failAnchor);
@@ -120,7 +120,7 @@ test('CL-UI-94 (3): status column retired — three-column anatomy 時間｜適�
   assert.ok(legend.includes('clui94_legend_fit') && legend.includes('v2_hour_general_ok'), 'legend = chip/○/✗/🕒 tokens');
   assert.ok(!legend.includes('state_ok') && !legend.includes('state_bad') && !legend.includes('eval2_unk'), 'no retired verdict words in the legend');
   // grey pill + ✗ semantics in CSS (green chip stays green)
-  assert.match(cssSource, /\.subj-ok \{[^}]*color:var\(--cl-text-2\)/, '○ 一般拍攝 is grey, not amber');
+  assert.match(cssSource, /\.subj-ok \{[^}]*color:var\(--cl-text-2\)/, '○ 可拍 is grey, not amber');
   assert.match(cssSource, /\.td-subjects\.subj-ok-row \{ background: color-mix\(in srgb, var\(--cl-grey-text\)/, 'general row tint is grey');
   assert.match(cssSource, /\.subj-chip \{[^}]*color:var\(--cl-green-text\)/, '✓chip keeps the green contract');
 });
@@ -139,6 +139,6 @@ test('CL-UI-96 (4): 歷史 is told by the past-row tint alone — no （已過�
   assert.ok(!appSource.includes('clui94_past'), 'clui94_past i18n key retired from all three dicts');
 });
 
-test('CL-UI-96 (5): cache-bust advanced — index.html serves app.js + app.css at ?v=clui98', () => {
-  assert.equal((indexSource.match(/\?v=clui98/g) || []).length, 2, 'app.js + app.css both at clui98');
+test('CL-UI-96 (5): cache-bust advanced — index.html serves app.js + app.css at ?v=clui99', () => {
+  assert.equal((indexSource.match(/\?v=clui99/g) || []).length, 2, 'app.js + app.css both at clui99');
 });

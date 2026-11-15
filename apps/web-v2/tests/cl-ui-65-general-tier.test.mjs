@@ -31,7 +31,7 @@ const createSpotCardBlock = grab('function createSpotCard', 'function distanceTo
 
 const helperCode = grab('const V2_SUBJECT_CARDS_FILE', '// CL-UI-26: every 不符 verdict');
 const tierDict = {
-  'v2_general_shooting': '一般拍攝',
+  'v2_general_shooting': '可拍',
   'v2_tier_shootable': '○ 可拍',
   'v2_tier_not_recommended': '✗ 不宜',
 };
@@ -84,7 +84,7 @@ test('CL-UI-65 (1): every derived row carries tier + general_baseline (corpus-wi
 
 test('CL-UI-65 (2): three-tier second line renders per tier', () => {
   const h = makeHelpers(artifact);
-  // shootable tier line: ○可拍 · 一般拍攝
+  // shootable tier line: ○可拍 · 可拍
   const shootable = grab('const scSecondLine=', 'const opportunityName=');
   assert.ok(shootable.includes('v2-verdict-mid'), 'shootable tier uses the mid verdict style');
   assert.ok(shootable.includes('v2_tier_shootable') && shootable.includes('v2_general_shooting'));
@@ -96,10 +96,10 @@ test('CL-UI-65 (2): three-tier second line renders per tier', () => {
     'old ok-line retired');
   // helper semantics
   const row = {general_baseline: {ok: false, reason_short: {'zh-TW': '雨', en: 'rain', ja: '雨'}}};
-  assert.equal(h.v2GeneralLineText(row, 'zh-TW'), '一般拍攝 · ✗ 不宜 · 雨');
-  assert.equal(h.v2GeneralLineText(row, 'en'), '一般拍攝 · ✗ 不宜 · rain');
+  assert.equal(h.v2GeneralLineText(row, 'zh-TW'), '可拍 · ✗ 不宜 · 雨');
+  assert.equal(h.v2GeneralLineText(row, 'en'), '可拍 · ✗ 不宜 · rain');
   assert.equal(h.v2GeneralLineText({general_baseline: {ok: true, reason_short: null}}, 'zh-TW'),
-    '一般拍攝 · ○ 可拍');
+    '可拍 · ○ 可拍');
   assert.equal(h.v2GeneralLineText(null, 'zh-TW'), '');
   assert.equal(h.v2GeneralLineText({}, 'zh-TW'), '');
 });
@@ -120,7 +120,7 @@ test('CL-UI-65 (4): chips never include the general subject', () => {
   for (const days of Object.values(artifact.places)) {
     for (const row of Object.values(days)) {
       for (const s of row.suitable) {
-        assert.ok(!['一般拍攝', '一般'].includes(s.subject_short['zh-TW']),
+        assert.ok(!['可拍', '一般'].includes(s.subject_short['zh-TW']),
           `general subject leaked into chips: ${s.subject_short['zh-TW']}`);
       }
     }
@@ -133,6 +133,6 @@ test('CL-UI-65 (4): chips never include the general subject', () => {
 test('CL-UI-65 (5): mid-verdict style exists and stamps advanced to clui75', () => {
   const css = readFileSync(join(ROOT, 'assets', 'app.css'), 'utf8');
   assert.match(css, /\.v2-verdict-mid\s*{\s*color:/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui98/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui98/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui99/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui99/);
 });

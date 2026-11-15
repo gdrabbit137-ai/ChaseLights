@@ -43,7 +43,7 @@ test('CL-UI-94/43 i: the 適合題材 cell IS the hourly verdict — the status 
   const rowBlock=grab('(spot.hourly_forecast||[])','decorateWeatherTimeline(spot');
   // CL-UI-94: no status cell at all — the placeholder td and the mobile
   // status span are gone; the subject cell (subject-cards hours) is the
-  // single truth (✓chip / ○ 一般拍攝 / ✗短原因).
+  // single truth (✓chip / ○ 可拍 / ✗短原因).
   assert.ok(!rowBlock.includes('<td>${esc(d().eval2_unk)}</td>'),'no placeholder status cell');
   assert.ok(!rowBlock.includes('timeline-mobile-status'),'no mobile status span');
   assert.ok(!appSource.includes('th_status:</th>')&&!rowBlock.includes('d().th_status'),'no 狀態 header in the hourly table');
