@@ -183,6 +183,40 @@ def condition_verdict(condition, values, astro_row, month=None,
         return "PASS", "OWNER_DECLARED_PRESENCE"
     if metric == "venue_open_window":
         return venue_open_verdict(condition, local_start_min)
+    if metric == "cloud_base_height":
+        # CL-DATA-71: viewpoint-relative cloud-base window for the
+        # cloud-sea/雲瀑/霧海/琉璃光 families. The observation is the
+        # pipeline's existing LCL proxy cell (lcl_height_m_agl, metres
+        # above the viewpoint grid ground, derived from 2 m temperature
+        # and dew point by the batch adapter); the contract threshold is
+        # either the place's catalog-recorded band (between) or the
+        # DEM−200 rule (lt viewpoint elevation − 200, the CL-DATA-12
+        # cloud-sea-family convention). The viewpoint elevation is bound
+        # onto the condition by the batch runner (camera altitude_m,
+        # else the V1 spot-catalog DEM elevation); a missing elevation
+        # means the viewpoint-relative claim is unverified — propagate
+        # UNKNOWN, never a fabricated comparison.
+        elevation = condition.get("viewpoint_elevation_m")
+        if not isinstance(elevation, (int, float)) or isinstance(elevation, bool):
+            return "UNKNOWN", "VIEWPOINT_ELEVATION_UNKNOWN"
+        if operator not in ("lt", "lte", "gt", "gte", "between"):
+            return "UNKNOWN", "NON_NUMERIC_OPERATOR"
+        if operator == "between" and (not isinstance(threshold, list)
+                                      or len(threshold) != 2):
+            return "UNKNOWN", "INVALID_THRESHOLD"
+        cell = values.get("lcl_height_m_agl")
+        if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
+            return "UNKNOWN", "CELL_NOT_AVAILABLE"
+        value = cell.get("value")
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            return "UNKNOWN", "CELL_VALUE_INVALID"
+        try:
+            passed = compare(float(value), operator, threshold)
+        except Exception:
+            return "UNKNOWN", "INVALID_THRESHOLD"
+        detail = (f"CLOUD_BASE_HEIGHT(lcl_proxy={round(float(value))}m,"
+                  f"viewpoint={round(float(elevation))}m)")
+        return ("PASS" if passed else "FAIL"), detail
     if metric == "light_direction":
         # CL-DATA-13: month-calibrated light-direction arc. The contract
         # declares `sectors` — 12 monthly {arc_center_deg, arc_half_width_deg}
@@ -289,6 +323,12 @@ def condition_value(condition, values, astro_row):
         return None
     if metric in DECLARED_PASS_METRICS:
         return "declared"
+    if metric == "cloud_base_height":
+        # CL-DATA-71: display the LCL proxy the window was judged on.
+        cell = values.get("lcl_height_m_agl")
+        if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
+            return None
+        return boolean_value_label(cell.get("value"))
     if metric == "light_direction":
         # display the observation the arc was judged on
         return astro_row.get("sun_azimuth_deg")
@@ -435,6 +475,36 @@ OWNER_RULING_COORDINATE_SUBJECTS = {
 V1_WEATHER_FILES = ("tw_weather.json", "jp_weather.json", "us_weather.json")
 
 
+def v1_place_elevations():
+    """CL-DATA-71: viewpoint elevations from the V1 spot catalog DEM.
+
+    The V1 weather snapshots record each spot's curated ``elevation`` when
+    verified and the Open-Meteo grid DEM elevation (``api_elevation``,
+    Copernicus DEM) of the coordinate always; the spot catalog is the DEM
+    source of record for viewpoint-relative thresholds. Curated elevation
+    wins, DEM fallback otherwise; spots absent from the snapshots resolve
+    to None (the verdict then propagates UNKNOWN honestly).
+    """
+    elevations = {}
+    for name in V1_WEATHER_FILES:
+        path = ROOT / name
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for spot in data.get("spots") or []:
+            spot_id = spot.get("spot_id")
+            elevation = spot.get("elevation")
+            if elevation is None:
+                elevation = spot.get("api_elevation")
+            if (spot_id and isinstance(elevation, (int, float))
+                    and not isinstance(elevation, bool) and elevation > 0):
+                elevations.setdefault(spot_id, float(elevation))
+    return elevations
+
+
 def v1_place_coordinates():
     """Place-level coordinates carried by the V1 weather snapshots."""
     coords = {}
@@ -507,6 +577,8 @@ def main():
     places_index = json.loads((ROOT / "data/v2/indexes/research/place-index.json")
                               .read_text(encoding="utf-8"))
     names = {p["place_id"]: p.get("name_i18n") or {} for p in places_index["places"]}
+    # CL-DATA-71: catalog DEM elevations for viewpoint-relative conditions.
+    place_elevations = v1_place_elevations()
 
     by_coordinate = {}
     skipped = []
@@ -645,6 +717,20 @@ def main():
             for _cond in conditions_eval:
                 if _cond.get("metric") == "light_direction":
                     _cond["view_azimuth_deg"] = view_az_deg
+            # CL-DATA-71: bind the viewpoint elevation onto every
+            # cloud_base_height condition — camera_context altitude_m when
+            # web-verified, else the V1 spot-catalog DEM elevation. Nothing
+            # binds when neither source has the place: the verdict then
+            # propagates UNKNOWN (VIEWPOINT_ELEVATION_UNKNOWN).
+            camera_alt = next(
+                (c.get("altitude_m") for c in doc.get("camera_contexts", [])
+                 if isinstance(c.get("altitude_m"), (int, float))
+                 and not isinstance(c.get("altitude_m"), bool)), None)
+            if camera_alt is None:
+                camera_alt = place_elevations.get(doc["place_id"])
+            for _cond in conditions_eval:
+                if _cond.get("metric") == "cloud_base_height":
+                    _cond["viewpoint_elevation_m"] = camera_alt
             days = {}
             # CL-DATA-56: per-condition verdict counts, keyed by local day.
             # The published hours rows carry only the ROLE-GATED failed/
