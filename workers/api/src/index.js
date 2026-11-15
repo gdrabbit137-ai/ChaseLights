@@ -14,7 +14,7 @@ const RATE_LIMITS = {
 function rateClass(path, method) {
   if (
     method === "GET" &&
-    /^\/(auth\/me$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$|feedback$|admin\/feedback$)/.test(path)
+    /^\/(auth\/me$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$|feedback$|feedback\/config$|admin\/feedback$)/.test(path)
   ) return "read";
   if (/^\/auth\/(line|google)\/callback$|^\/auth\/mock\/start$|^\/auth\/refresh$/.test(path)) return "auth";
   return "write";
@@ -704,6 +704,12 @@ export default {
     if (path === "/favorites") return handleFavorites(request, env, url);
 
     // --- feedback channel (CL-DATA-70, gray-released) ---
+    // CL-UI-100: the gray-release probe the shell reads before mounting any
+    // rating UI — 200 with the flag value always (clients treat any non-200,
+    // e.g. a 404 from a pre-config deployment, as "disabled").
+    if (path === "/feedback/config" && request.method === "GET") {
+      return json(request, 200, { enabled: await feedbackEnabled(env) });
+    }
     if (path === "/feedback" && (request.method === "GET")) {
       if (!(await feedbackEnabled(env))) return json(request, 403, { error: "feedback disabled" });
       return handleFeedback(request, env, url);

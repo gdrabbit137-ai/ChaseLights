@@ -224,6 +224,79 @@ export function maskName(displayName) {
   return n.slice(0, 2) + "**";
 }
 
+// ---------------------------------------------------------------------------
+// CL-UI-100 (DESIGN-7 Stage 2): short-code masked display name 「山風·#4F2」.
+// The mask stays the first two characters; a base36 short code hashed from the
+// user id makes same-named members tellable without ever exposing the account.
+// Adaptive width: starts at 4 characters; when another user with the SAME
+// display name shares the same code prefix, the code grows one character at a
+// time until the pair is distinguishable (collision check runs against D1 —
+// the logic lives here in the Worker, the client only renders masked_name).
+// ---------------------------------------------------------------------------
+const CODE_CHARS = "0123456789abcdefghijklmnopqrstuvwxyz";
+async function shortCodeFull(userId) {
+  const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("cl-fb-code:" + userId));
+  const hex = [...new Uint8Array(d)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  let n = BigInt("0x" + hex);
+  let s = "";
+  while (s.length < 12) {
+    s = CODE_CHARS[Number(n % 36n)] + s;
+    n /= 36n;
+  }
+  return s;
+}
+
+// Exported for tests: the deterministic code basis the masked names build on.
+export async function shortCode36(userId, len = 4) {
+  return (await shortCodeFull(userId)).slice(0, Math.max(1, Math.min(12, len)));
+}
+
+async function usersWithNameCodes(env, name) {
+  try {
+    const { results } = await env.DB.prepare(
+      "SELECT device_id FROM users WHERE display_name = ?1"
+    ).bind(name).all();
+    const codes = new Map();
+    for (const r of results || []) codes.set(r.device_id, await shortCodeFull(r.device_id));
+    return codes;
+  } catch {
+    return new Map();
+  }
+}
+
+function maskedFromCodes(name, userId, codes) {
+  const mine = codes.get(userId);
+  if (!mine) return null; // user row missing → client falls back to 「攝影者」
+  let len = 4;
+  while (len < 8 && [...codes.entries()].some(([id, c]) => id !== userId && c.slice(0, len) === mine.slice(0, len))) len += 1;
+  return `${name.slice(0, 2)}·#${mine.slice(0, len)}`;
+}
+
+export async function maskedDisplayName(env, userId, displayName) {
+  const n = String(displayName || "").trim();
+  if (!n) return null;
+  const codes = await usersWithNameCodes(env, n);
+  return maskedFromCodes(n, userId, codes);
+}
+
+// Batch form for comment/admin lists: one name-group query per distinct
+// display name, every visible row gets its collision-checked masked name.
+async function maskedNameMap(env, rows) {
+  const out = new Map();
+  const names = new Map();
+  for (const r of rows) {
+    const n = String(r.display_name || "").trim();
+    if (!n || !r.user_id) { out.set(r.user_id, null); continue; }
+    if (!names.has(n)) names.set(n, new Set());
+    names.get(n).add(r.user_id);
+  }
+  for (const [n, ids] of names) {
+    const codes = await usersWithNameCodes(env, n);
+    for (const id of ids) out.set(id, maskedFromCodes(n, id, codes));
+  }
+  return out;
+}
+
 function publicRating(row) {
   let pl = {};
   try { pl = JSON.parse(row.payload || "{}"); } catch { pl = {}; }
@@ -259,13 +332,18 @@ export async function handleFeedback(req, env, url) {
         `SELECT id, user_id, place_id, type, status, payload, created_at, updated_at
          FROM feedback WHERE user_id = ?1 AND place_id = ?2 AND type = 'rating' LIMIT 1`
       ).bind(session.sub, placeId).first();
-      return jsonOk(req, { rating: row ? publicRating(row) : null });
+      if (!row) return jsonOk(req, { rating: null });
+      const user = await env.DB.prepare("SELECT display_name FROM users WHERE device_id = ?1").bind(session.sub).first();
+      const maskedName = await maskedDisplayName(env, session.sub, user && user.display_name);
+      return jsonOk(req, { rating: { ...publicRating(row), maskedName } });
     }
     const { results } = await env.DB.prepare(
       `SELECT id, user_id, place_id, type, status, payload, created_at, updated_at
        FROM feedback WHERE user_id = ?1 AND type = 'rating' ORDER BY created_at DESC`
     ).bind(session.sub).all();
-    return jsonOk(req, { ratings: (results || []).map(publicRating) });
+    const user = await env.DB.prepare("SELECT display_name FROM users WHERE device_id = ?1").bind(session.sub).first();
+    const maskedName = await maskedDisplayName(env, session.sub, user && user.display_name);
+    return jsonOk(req, { ratings: (results || []).map((r) => ({ ...publicRating(r), maskedName })) });
   }
 
   if (!placeId) return jsonErr(req, 400, "place_id required");
@@ -279,17 +357,31 @@ export async function handleFeedback(req, env, url) {
   const agg = aggregateFromRows(results || [], prior);
 
   const commentRows = await env.DB.prepare(
-    `SELECT f.payload, f.created_at, u.display_name FROM feedback f
+    `SELECT f.user_id, f.payload, f.created_at, u.display_name FROM feedback f
      LEFT JOIN users u ON u.device_id = f.user_id
      WHERE f.type = 'comment' AND f.place_id = ?1 AND f.status = 'ok'
      ORDER BY f.created_at DESC LIMIT ${COMMENT_LIST_LIMIT}`
   ).bind(placeId).all();
+  // CL-UI-100: the masked list rows carry the commenter's own L/P when they
+  // also rated the place (mockup 「山風·#4F2 · L4·P5 · 文字」), and the
+  // short-code masked name is computed here in the Worker.
+  const voteRows = await env.DB.prepare(
+    `SELECT user_id, payload FROM feedback WHERE type = 'rating' AND place_id = ?1 AND status = 'ok'`
+  ).bind(placeId).all();
+  const lpByUser = new Map();
+  for (const r of voteRows.results || []) {
+    let pl = {};
+    try { pl = JSON.parse(r.payload || "{}"); } catch { pl = {}; }
+    if (typeof pl.l === "number" || typeof pl.p === "number") lpByUser.set(r.user_id, { l: pl.l ?? null, p: pl.p ?? null });
+  }
+  const masked = await maskedNameMap(env, commentRows.results || []);
   const comments = (commentRows.results || []).map((r) => {
     let pl = {};
     try { pl = JSON.parse(r.payload || "{}"); } catch { pl = {}; }
     return {
       message: pl.comment_text || "",
-      maskedName: maskName(r.display_name),
+      maskedName: masked.get(r.user_id) || null,
+      lp: lpByUser.get(r.user_id) || null,
       trustLevel: pl.trust_level || null,
       createdAt: r.created_at,
     };
@@ -535,6 +627,7 @@ export async function handleAdminFeedbackList(req, env, url) {
   const countRow = await env.DB.prepare(
     `SELECT COUNT(*) AS n FROM feedback${where ? where.replace(" f.", " ").replace("f.status", "status") : ""}`
   ).bind().first();
+  const masked = await maskedNameMap(env, results || []);
   const items = (results || []).map((r) => {
     let pl = {};
     try { pl = JSON.parse(r.payload || "{}"); } catch { pl = {}; }
@@ -542,7 +635,8 @@ export async function handleAdminFeedbackList(req, env, url) {
     try { const h = JSON.parse(r.name_history || "[]"); if (Array.isArray(h)) history = h; } catch { history = []; }
     return {
       id: r.id, type: r.type, placeId: r.place_id, status: r.status,
-      maskedName: maskName(r.display_name),
+      // CL-UI-100: same short-code masked name the public surface shows
+      maskedName: masked.get(r.user_id) || maskName(r.display_name),
       // owner ruling (Stage 1): rename audit readable by admins in the queue
       nameHistory: history,
       trustLevel: pl.trust_level || null,
