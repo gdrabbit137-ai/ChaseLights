@@ -23,7 +23,7 @@ import {
   PROVIDERS, providerCredentials, oauthUserKey, makeTokens, getSession,
   cookieHeader, SESSION_COOKIE, REFRESH_COOKIE, authSecret, MERGE_SQL, verifyJWT,
 } from "./auth.js";
-import { runNotifyCron } from "./notify.js";
+import { runNotifyCron, validateCustomConditions, parseCustomConditions } from "./notify.js";
 
 // CL-API-03: rule limits by member level (402 = upgrade semantics).
 const NOTIFY_LIMITS = { free: 3, paid: 30 };
@@ -420,7 +420,8 @@ async function handleAuthProfile(req, env) {
 // CL-API-03 notification engine — rules, Telegram binding, web-push skeleton
 // ---------------------------------------------------------------------------
 
-// Rules endpoints are JWT-only (no legacy anonymous fallback).
+// Rules endpoints are JWT-only (no legacy anonymous fallback); CL-UI-99
+// custom-conditions validation lives in notify.js next to the engine.
 async function requireSession(req, env) {
   const session = await getSession(req, env);
   if (!session || !session.sub) return null;
@@ -440,9 +441,14 @@ async function handleNotifyRules(req, env) {
 
   if (req.method === "GET") {
     const { results } = await env.DB.prepare(
-      "SELECT id, place_id, opportunity_id, channel, min_advance_hours, enabled, created_at FROM notify_rules WHERE user_id = ?1 ORDER BY created_at DESC"
+      "SELECT id, place_id, opportunity_id, channel, min_advance_hours, custom_conditions, enabled, created_at FROM notify_rules WHERE user_id = ?1 ORDER BY created_at DESC"
     ).bind(uid).all();
-    return json(req, 200, { userId: uid, level, rules: results || [] });
+    // CL-UI-99: custom_conditions round-trips as a parsed object (null = subject mode).
+    const rules = (results || []).map((r) => {
+      const cc = parseCustomConditions(r.custom_conditions);
+      return cc ? { ...r, custom_conditions: cc } : r;
+    });
+    return json(req, 200, { userId: uid, level, rules });
   }
 
   if (req.method === "POST") {
@@ -456,6 +462,14 @@ async function handleNotifyRules(req, env) {
     if (!Number.isFinite(advance) || advance < 0 || advance > 72) return json(req, 400, { error: "minAdvanceHours must be 0..72" });
     advance = Math.round(advance);
 
+    // CL-UI-99: optional custom-conditions payload — custom mode. Mutually
+    // exclusive with the subject mode (opportunityId): exactly one of the two.
+    const ccRes = validateCustomConditions(body ? (body.customConditions != null ? body.customConditions : body.custom_conditions) : null);
+    if (!ccRes.ok) return json(req, 400, { error: ccRes.error });
+    if (ccRes.cc && opportunityId) {
+      return json(req, 400, { error: "customConditions and opportunityId are mutually exclusive (subject mode or custom mode)" });
+    }
+
     const limit = NOTIFY_LIMITS[level] || NOTIFY_LIMITS.free;
     const row = await env.DB.prepare("SELECT COUNT(*) AS n FROM notify_rules WHERE user_id = ?1").bind(uid).first();
     const count = row ? row.n : 0;
@@ -465,10 +479,13 @@ async function handleNotifyRules(req, env) {
 
     const id = btoa(crypto.getRandomValues(new Uint8Array(12)).reduce((s, b) => s + String.fromCharCode(b), ""))
       .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    const ccJson = ccRes.cc ? JSON.stringify(ccRes.cc) : null;
     await env.DB.prepare(
-      "INSERT INTO notify_rules (id, user_id, place_id, opportunity_id, channel, min_advance_hours) VALUES (?1, ?2, ?3, ?4, ?5, ?6)"
-    ).bind(id, uid, placeId, opportunityId, channel, advance).run();
-    return json(req, 200, { ok: true, rule: { id, placeId, opportunityId, channel, minAdvanceHours: advance }, count: count + 1, limit });
+      "INSERT INTO notify_rules (id, user_id, place_id, opportunity_id, channel, min_advance_hours, custom_conditions) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)"
+    ).bind(id, uid, placeId, opportunityId, channel, advance, ccJson).run();
+    const rule = { id, placeId, opportunityId, channel, minAdvanceHours: advance };
+    if (ccRes.cc) rule.customConditions = ccRes.cc;
+    return json(req, 200, { ok: true, rule, count: count + 1, limit });
   }
   return json(req, 405, { error: "method not allowed" });
 }
