@@ -1594,6 +1594,10 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // buttons inside the card — a click on them must not open the place
       // modal (same guard the keyboard handler already applies).
       const card=document.createElement('div');card.className='card';card.tabIndex=0;card.setAttribute('role','button');card.onclick=e=>{if(e.target.closest&&e.target.closest('a,button,input,select,summary'))return;openWeatherModal(spot,metric);};card.onkeydown=e=>{if(e.target.closest('a,button,input,select,summary'))return;if(e.key==='Enter'||e.key===' '){e.preventDefault();openWeatherModal(spot,metric);}};
+      // CL-UI-100: tag the card with its place id so assets/feedback-ui.js can
+      // mount the rating chip without its own bundle walk (chip itself renders
+      // from the live /api/v1/feedback aggregate, gray-gated).
+      card.dataset.placeId=spot.spot_id||'';
       const noViable=!!metric.no_viable_opportunity;const researchPending=!!metric.research_pending||!spot.opportunities?.length;
       const fav=favorites.includes(spot.spot_id);const scenes=spot.scenes||[];const visibleScenes=scenes.slice(0,4);// CL-UI-77: env-type line is plain non-interactive text (城市 · 山岳) —
       // visibly layered under the interactive subject chips (夜景: 時段 🔔);
@@ -2131,6 +2135,9 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       activePlaceSpot=spot;activePlaceSummary=summaryMetric;
       const overlay=document.getElementById('place-modal-overlay');
       const body=document.getElementById('place-modal-body');
+      // CL-UI-100: the subject panel carries the place id for the evaluation
+      // section (assets/feedback-ui.js reads it when the overlay opens).
+      overlay.dataset.placeId=spot.spot_id||'';
       const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');
       document.getElementById('place-modal-spot-name').textContent=`📍 ${spotName(spot)}${showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?` (${spot.name_local})`:''}`;
       const opportunities=spot.opportunities||[];
@@ -2335,6 +2342,9 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     }
     async function openWeatherModal(spot,summaryMetric){
       const seq=++modalLoadSeq;
+      // CL-UI-100: the forecast modal carries the place id for the evaluation
+      // section (assets/feedback-ui.js reads it when the overlay opens).
+      document.getElementById('modal-overlay').dataset.placeId=spot.spot_id||'';
       document.getElementById('modal-overlay').style.display='flex';syncModalScrollLock();document.getElementById('modal-spot-name').innerText=`🌦️ ${spotName(spot)} — ${d().weather_link.replace(/^🌦️\s*/, '')}`;document.getElementById('modal-summary').innerText=d().detail_loading;document.getElementById('timeline-band').innerHTML='';document.getElementById('timeline-groups').innerHTML='';document.getElementById('timeline-mobile').innerHTML='';
       await loadWeatherModal(spot,summaryMetric,seq,0);
     }

@@ -1,0 +1,164 @@
+/* CL-UI-100 (DESIGN-7 Stage 2): place rating + report/comment UGC channel UI
+   for the V1 shell. Implements data/v2/audits/design-mockups/mockup-rating.html
+   (task/DESIGN-4 head ddbf4bcfc) verbatim: rating chip on the card head, the
+   evaluation block (L/P axes + masked-name comment list) in the forecast modal
+   and the subject panel, plus the rate / report / feedback submission modals.
+
+   Self-contained on purpose (member-auth.js / guest-comment.js precedent): the
+   heavily test-pinned assets/app.css is never edited. Every rule is scoped
+   under .clfb (the root class of every element this widget injects), so no
+   shell selector is disturbed. Colors come from the shared :root token layer
+   — no new hex outside :root (CL-UI-85 contract). The cold-start box keeps the
+   mockup geometry but is class-renamed .fbx-empty because app.css already owns
+   .empty. Overlays toggle the [hidden] attribute with an explicit guard rule
+   (CL-UI-47: an author display rule must never beat [hidden]). */
+
+.clfb{font-family:var(--cl-font);color:var(--cl-text-1);font-size:var(--cl-fs-14);line-height:1.5;-webkit-font-smoothing:antialiased;text-align:left}
+.clfb button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.clfb a{color:var(--cl-blue);text-decoration:none}
+.clfb a:hover{text-decoration:underline}
+
+/* ── card rating chip (card head, next to the tier badge) — not rendered below the gate ── */
+span.clfb.r-chip{display:inline-flex;align-items:center;gap:2px;height:20px;padding:0 7px;flex:none;
+  border-radius:999px;background:var(--cl-bg-2);border:1px solid var(--cl-border);
+  font-family:var(--cl-mono);font-size:11px;color:var(--cl-text-2);cursor:pointer;white-space:nowrap}
+span.clfb.r-chip:hover{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+span.clfb.r-chip b{color:var(--cl-amber-text);font-weight:600}
+
+/* ── fact | rating divider (owner ruling: separate columns) ── */
+.clfb .fact-sep{display:flex;align-items:center;gap:var(--cl-sp-2);margin:var(--cl-sp-3) 0 var(--cl-sp-2);
+  font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.clfb .fact-sep::before,.clfb .fact-sep::after{content:'';flex:1;height:1px;background:var(--cl-border)}
+
+/* ── evaluation block (DR7 §5.2) ── */
+.clfb .rbox{padding:var(--cl-sp-3);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);background:var(--cl-bg-2)}
+.clfb .rbox .r-t{display:flex;align-items:baseline;gap:var(--cl-sp-2);margin-bottom:var(--cl-sp-2)}
+.clfb .rbox .r-t .lbl{font-size:var(--cl-fs-13);font-weight:600}
+.clfb .axis{display:flex;align-items:center;gap:var(--cl-sp-2);height:26px}
+.clfb .axis .an{flex:none;width:88px;font-size:var(--cl-fs-12);color:var(--cl-text-2)}
+.clfb .axis .an b{color:var(--cl-text-1)}
+.clfb .scale{display:flex;gap:3px;flex:1;align-items:center}
+.clfb .scale i{flex:1;height:8px;border-radius:2px;background:var(--cl-bg-3)}
+.clfb .scale i.fill{background:var(--cl-amber)}
+.clfb .axis .av{flex:none;width:40px;text-align:right;font-family:var(--cl-mono);font-size:var(--cl-fs-13);color:var(--cl-text-1)}
+.clfb .axis .av small{color:var(--cl-text-3);font-size:10px}
+.clfb .rstat{display:flex;flex-wrap:wrap;gap:var(--cl-sp-2);margin-top:var(--cl-sp-2);font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.clfb .rstat .k{color:var(--cl-text-1);font-family:var(--cl-mono)}
+.clfb .rev{margin-top:var(--cl-sp-2);padding-top:var(--cl-sp-2);border-top:1px solid var(--cl-border)}
+.clfb .rev .row{display:flex;gap:6px;font-size:var(--cl-fs-12);color:var(--cl-text-2);padding:3px 0;min-width:0}
+.clfb .rev .who{flex:none;color:var(--cl-text-3)}
+.clfb .rev .lp{flex:none;font-family:var(--cl-mono);font-size:11px;color:var(--cl-amber-text)}
+.clfb .rev .txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.clfb .mine{margin-top:var(--cl-sp-2);padding:var(--cl-sp-2) var(--cl-sp-3);border-radius:var(--cl-r-xs);
+  background:var(--cl-green-bg);border:1px solid var(--cl-green-border);display:flex;align-items:center;gap:var(--cl-sp-2);font-size:var(--cl-fs-12);flex-wrap:wrap}
+.clfb .mine .mk{color:var(--cl-green-text);font-weight:600;flex:none}
+.clfb .mine .mv{font-family:var(--cl-mono);color:var(--cl-text-1)}
+.clfb .mine .edit{margin-left:auto;color:var(--cl-text-2);font-size:var(--cl-fs-12);text-decoration:underline;text-underline-offset:2px}
+.clfb .mine .edit:hover{color:var(--cl-text-1)}
+.clfb .mine .del{color:var(--cl-text-3);font-size:var(--cl-fs-12);text-decoration:underline;text-underline-offset:2px}
+.clfb .mine .del:hover{color:var(--cl-red-text)}
+.clfb .racts{display:flex;gap:var(--cl-sp-2);margin-top:var(--cl-sp-3)}
+.clfb .racts button{flex:1;height:36px;border-radius:var(--cl-r-sm);font-size:var(--cl-fs-13);font-weight:600;
+  border:1px solid var(--cl-border-strong);background:var(--cl-bg-3);color:var(--cl-text-1)}
+.clfb .racts button:hover{background:var(--cl-bg-2)}
+.clfb .racts .b-rate:hover{border-color:var(--cl-amber-border);color:var(--cl-amber-text)}
+/* cold start (renamed: app.css owns .empty) */
+.clfb .fbx-empty{margin-top:var(--cl-sp-2);padding:var(--cl-sp-3);border:1px dashed var(--cl-border-strong);border-radius:var(--cl-r-sm);text-align:center;background:var(--cl-bg-1)}
+.clfb .fbx-empty .e1{font-size:var(--cl-fs-13);color:var(--cl-text-2);font-weight:600}
+.clfb .fbx-empty .e2{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-top:2px}
+.clfb .fbx-empty button{margin-top:var(--cl-sp-2);height:30px;padding:0 14px;border-radius:999px;
+  background:var(--cl-bg-3);border:1px solid var(--cl-border-strong);color:var(--cl-amber-text);font-size:var(--cl-fs-12);font-weight:600}
+.clfb .fbx-empty button:hover{background:var(--cl-bg-2)}
+
+/* ── overlays + modal shell (mockup .overlay/.modal, renamed to dodge app.css) ── */
+.clfb-overlay{position:fixed;inset:0;background:rgba(4,7,14,.72);backdrop-filter:blur(3px);
+  display:none;align-items:flex-start;justify-content:center;z-index:9500;padding:var(--cl-sp-6) var(--cl-sp-4);overflow-y:auto}
+.clfb-overlay[hidden]{display:none!important}
+.clfb-overlay.open{display:flex}
+.clfb-modal{width:100%;max-width:560px;background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-lg);
+  padding:var(--cl-sp-5);box-shadow:var(--cl-shadow-3)}
+.clfb .m-head{display:flex;align-items:flex-start;gap:var(--cl-sp-3);margin-bottom:var(--cl-sp-2)}
+.clfb .m-head .name{font-size:var(--cl-fs-16);font-weight:600}
+.clfb .m-head .sub{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-top:2px}
+.clfb .m-head .close{margin-left:auto;width:36px;height:36px;border-radius:var(--cl-r-sm);border:1px solid var(--cl-border);
+  background:var(--cl-bg-2);color:var(--cl-text-2);font-size:14px;flex:none}
+.clfb .m-head .close:hover{background:var(--cl-bg-3);color:var(--cl-text-1)}
+
+/* ── rate submission modal ── */
+.clfb .ctx{display:flex;align-items:center;gap:var(--cl-sp-2);flex-wrap:wrap;margin-bottom:var(--cl-sp-3);
+  padding:var(--cl-sp-2) var(--cl-sp-3);background:var(--cl-bg-2);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);font-size:var(--cl-fs-12)}
+.clfb .ctx .g{font-weight:600;color:var(--cl-text-1)}
+.clfb .ctx .dt{font-family:var(--cl-mono);color:var(--cl-text-2)}
+.clfb .qaxis{margin-bottom:var(--cl-sp-4)}
+.clfb .qaxis .qh{display:flex;align-items:baseline;gap:var(--cl-sp-2);margin-bottom:6px}
+.clfb .qaxis .qh .qn{font-size:var(--cl-fs-14);font-weight:600}
+.clfb .qaxis .qh .qd{font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.clfb .qaxis .qh .qhint{margin-left:auto;font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-amber-text)}
+.clfb .levs{display:flex;gap:6px}
+.clfb .lev{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:52px;padding:6px 0 0;
+  border-radius:var(--cl-r-sm);border:1px solid var(--cl-border);background:var(--cl-bg-2);
+  color:var(--cl-text-2);font-size:var(--cl-fs-12);user-select:none}
+.clfb .lev:hover{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+.clfb .lev.sel{background:var(--cl-amber-bg);border-color:var(--cl-amber-border);border-width:1.5px;color:var(--cl-amber-text);font-weight:600}
+.clfb .lev .dots{letter-spacing:2px;font-size:11px}
+.clfb .txt-note{width:100%;height:64px;margin:var(--cl-sp-1) 0 var(--cl-sp-3);padding:var(--cl-sp-2) var(--cl-sp-3);
+  background:var(--cl-bg-2);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);color:var(--cl-text-1);
+  font-family:inherit;font-size:var(--cl-fs-13);resize:none;box-sizing:border-box}
+.clfb .txt-note:focus{outline:none;border-color:var(--cl-border-strong)}
+.clfb .txt-note::placeholder{color:var(--cl-text-3)}
+.clfb .anon{display:flex;align-items:center;gap:6px;font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-bottom:var(--cl-sp-3)}
+.clfb .anon .who{color:var(--cl-text-2)}
+.clfb .submit{width:100%;height:var(--cl-btn-h);border-radius:var(--cl-r-sm);background:var(--cl-bg-3);
+  border:1px solid var(--cl-border-strong);color:var(--cl-text-3);font-size:var(--cl-fs-14);font-weight:600;cursor:not-allowed}
+.clfb .submit.ready{background:var(--cl-amber);border-color:var(--cl-amber);color:#1A1206;cursor:pointer}
+.clfb .submit.ready:hover{background:var(--cl-amber-text)}
+.clfb .done{padding:var(--cl-sp-4);border:1px solid var(--cl-green-border);background:var(--cl-green-bg);border-radius:var(--cl-r-md);text-align:center}
+.clfb .done.amber{border-color:var(--cl-amber-border);background:var(--cl-amber-bg)}
+.clfb .done .d1{color:var(--cl-green-text);font-weight:600;font-size:var(--cl-fs-14)}
+.clfb .done.amber .d1{color:var(--cl-amber-text)}
+.clfb .done .d2{font-family:var(--cl-mono);color:var(--cl-text-1);font-size:var(--cl-fs-15);margin:var(--cl-sp-2) 0}
+.clfb .done .d3{font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+.clfb .done button{margin-top:var(--cl-sp-3);height:34px;padding:0 16px;border-radius:var(--cl-r-sm);
+  border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-1);font-size:var(--cl-fs-13)}
+.clfb .fbx-error{font-size:var(--cl-fs-12);color:var(--cl-red-text);margin-bottom:var(--cl-sp-2);min-height:0}
+
+/* ── report modal: issue types (six-way single choice) ── */
+.clfb .types{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:var(--cl-sp-3)}
+.clfb .type{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:var(--cl-sp-2) var(--cl-sp-3);height:56px;
+  border-radius:var(--cl-r-sm);border:1px solid var(--cl-border);background:var(--cl-bg-2);color:var(--cl-text-2);text-align:left}
+.clfb .type:hover{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+.clfb .type.sel{background:var(--cl-amber-bg);border-color:var(--cl-amber-border);border-width:1.5px;color:var(--cl-amber-text)}
+.clfb .type .ic{font-size:15px}
+.clfb .type .nm{font-size:var(--cl-fs-12);font-weight:600}
+.clfb .type .en{font-size:10px;color:var(--cl-text-3)}
+.clfb .type.sel .en{color:var(--cl-amber-text)}
+.clfb .fix-input{width:100%;height:36px;margin-bottom:var(--cl-sp-3);padding:0 var(--cl-sp-3);
+  background:var(--cl-bg-2);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);color:var(--cl-text-1);
+  font-family:inherit;font-size:var(--cl-fs-13);box-sizing:border-box}
+.clfb .fix-input:focus{outline:none;border-color:var(--cl-border-strong)}
+
+/* ── not signed in ── */
+.clfb .needlogin{padding:var(--cl-sp-4);border:1px dashed var(--cl-border-strong);border-radius:var(--cl-r-md);text-align:center}
+.clfb .needlogin .n1{font-size:var(--cl-fs-20)}
+.clfb .needlogin .n2{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-top:var(--cl-sp-1)}
+.clfb .needlogin .oauth{display:flex;gap:var(--cl-sp-2);justify-content:center;margin-top:var(--cl-sp-3)}
+.clfb .needlogin .oauth a{display:inline-flex;align-items:center;height:var(--cl-btn-h);padding:0 18px;border-radius:var(--cl-r-sm);font-size:var(--cl-fs-13);font-weight:600;
+  border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-1)}
+.clfb .needlogin .oauth a:hover{background:var(--cl-bg-3);text-decoration:none}
+
+/* ── footer UGC entry (same slot as the retired CL-UI-52 💬 留言 button) ── */
+.clfb.foot-ugc{display:inline-flex}
+.clfb.foot-ugc button{height:34px;padding:0 18px;border-radius:999px;border:1px solid var(--cl-border);
+  background:var(--cl-bg-1);color:var(--cl-text-2);font-size:var(--cl-fs-13)}
+.clfb.foot-ugc button:hover{background:var(--cl-bg-2);color:var(--cl-text-1);border-color:var(--cl-border-strong)}
+
+/* ── 390 rhythm (mirrors the mockup vp390 rules; the shell's own media query carries the width) ── */
+@media (max-width:640px){
+  .clfb .types{grid-template-columns:1fr 1fr}
+  .clfb .levs{flex-wrap:wrap}
+  .clfb .lev{flex:1 1 30%}
+  .clfb .axis .an{width:74px}
+  .clfb-modal{padding:var(--cl-sp-4)}
+  .clfb-overlay{padding:0}
+  .clfb-overlay .clfb-modal{max-width:390px;min-height:100vh;border-radius:0}
+}

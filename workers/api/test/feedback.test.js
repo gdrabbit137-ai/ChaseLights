@@ -6,7 +6,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import worker from "../src/index.js";
-import { aggregateFromRows, maskName, computeTrustLevel, FEEDBACK_CONSTANTS } from "../src/feedback.js";
+import { aggregateFromRows, maskName, maskedDisplayName, shortCode36, computeTrustLevel, FEEDBACK_CONSTANTS } from "../src/feedback.js";
 import { signJWT } from "../src/auth.js";
 
 const DAY = 86_400_000;
@@ -95,7 +95,17 @@ function makeFeedbackEnv(opts = {}) {
         .filter((r) => r.type === "comment" && r.status === status && (place === undefined || r.place_id === place))
         .sort((a, b) => dbTime(b.created_at) - dbTime(a.created_at))
         .slice(offset, offset + limit)
-        .map((r) => ({ payload: r.payload, created_at: r.created_at, display_name: (t.users.get(r.user_id) || {}).display_name || null }));
+        .map((r) => ({ user_id: r.user_id, payload: r.payload, created_at: r.created_at, display_name: (t.users.get(r.user_id) || {}).display_name || null }));
+    }
+    // CL-UI-100: L/P of the commenter's own ok rating on the same place
+    if (/SELECT user_id, payload FROM feedback WHERE type = 'rating' AND place_id = \?1 AND status = 'ok'/.test(sql)) {
+      return t.feedback
+        .filter((r) => r.type === "rating" && r.place_id === args[0] && r.status === "ok")
+        .map((r) => ({ user_id: r.user_id, payload: r.payload }));
+    }
+    // CL-UI-100: display-name group for the short-code collision check
+    if (/SELECT device_id FROM users WHERE display_name = \?1$/.test(sql)) {
+      return [...t.users.values()].filter((u) => u.display_name === args[0]).map((u) => ({ device_id: u.device_id }));
     }
     // comment count for a place
     if (/COUNT\(\*\) AS n FROM feedback WHERE type = 'comment' AND place_id = \?1 AND status = 'ok'/.test(sql)) {
@@ -443,7 +453,7 @@ test("comment/report: first-review pending → admin approve makes public, maske
   assert.equal(list.count, 2);
   assert.equal(list.items.length, 2);
   const commentItem = list.items.find((i) => i.type === "comment");
-  assert.equal(commentItem.maskedName, "晨曦**");
+  assert.equal(commentItem.maskedName, `晨曦·#${await shortCode36("u1", 4)}`);
   assert.ok(!JSON.stringify(list.items).includes("p:line") && !JSON.stringify(list.items).includes("u1@"));
   assert.ok(list.items.every((i) => !("userId" in i) && !("user_id" in i)));
 
@@ -465,7 +475,7 @@ test("comment/report: first-review pending → admin approve makes public, maske
   const agg = await (await worker.fetch(makeReq("/feedback?place_id=tw-001"), env, {})).json();
   assert.equal(agg.nComments, 1);
   assert.equal(agg.comments[0].message, "雲海值得但機位只有一個");
-  assert.equal(agg.comments[0].maskedName, "晨曦**");
+  assert.equal(agg.comments[0].maskedName, `晨曦·#${await shortCode36("u1", 4)}`);
   assert.ok(!JSON.stringify(agg).includes("座標偏移"));
 
   // review bookkeeping + bad actions
@@ -642,7 +652,7 @@ test("aggregate end-to-end GET: prior + weights + cold-start + public comments",
   assert.equal(agg.nLast30, 3);
   assert.equal(agg.nComments, 1); // pending comment stays hidden
   assert.equal(agg.comments.length, 1);
-  assert.equal(agg.comments[0].maskedName, "晨曦**");
+  assert.equal(agg.comments[0].maskedName, `晨曦·#${await shortCode36("m1", 4)}`);
   assert.equal(agg.comments[0].message, "機位只有一個");
 
   // unknown place → honest cold start, no fabricated numbers
@@ -686,4 +696,70 @@ test("tier pipeline untouched: feedback module exports no tier symbols and const
   assert.equal(FEEDBACK_CONSTANTS.DISPLAY_MIN_EFF, 2.0);
   assert.equal(FEEDBACK_CONSTANTS.DISPLAY_MIN_RAW, 3);
   assert.equal(FEEDBACK_CONSTANTS.T0_24H_VOTE_CAP, 3);
+});
+
+// ---------------------------------------------------------------- CL-UI-100 (DESIGN-7 Stage 2, shell UI)
+test("CL-UI-100: /feedback/config exposes the gray flag with 200 even when off", async () => {
+  const { env } = makeFeedbackEnv();
+  const off = await worker.fetch(makeReq("/feedback/config"), env, {});
+  assert.equal(off.status, 200);
+  assert.deepEqual(await off.json(), { enabled: false });
+  await enableFlag(env, true);
+  const on = await worker.fetch(makeReq("/feedback/config"), env, {});
+  assert.deepEqual(await on.json(), { enabled: true });
+});
+
+test("CL-UI-100: masked display name — 4-char code, same-name collision extends, unnamed → null", async () => {
+  const { env, t } = makeFeedbackEnv();
+  t.users.set("a1", { device_id: "a1", level: "free", created_at: stamp(Date.now() - 60 * DAY), display_name: "山風" });
+  t.users.set("a2", { device_id: "a2", level: "free", created_at: stamp(Date.now() - 60 * DAY), display_name: "山風" });
+  const c1 = await shortCode36("a1", 8);
+  const c2 = await shortCode36("a2", 8);
+  const m1 = await maskedDisplayName(env, "a1", "山風");
+  const m2 = await maskedDisplayName(env, "a2", "山風");
+  assert.match(m1, /^山風·#[0-9a-z]+$/);
+  assert.notEqual(m1, m2); // same display name, still tellable apart
+  const n1 = m1.split("#")[1];
+  const n2 = m2.split("#")[1];
+  if (c1.slice(0, 4) === c2.slice(0, 4)) {
+    assert.ok(n1.length > 4, `collision must extend the code beyond 4 (got ${n1})`);
+    assert.notEqual(n1, n2);
+  } else {
+    assert.equal(n1, c1.slice(0, 4));
+    assert.equal(n2, c2.slice(0, 4));
+  }
+  // different display names never collide even with equal code prefixes
+  t.users.set("b1", { device_id: "b1", level: "free", created_at: stamp(Date.now() - 60 * DAY), display_name: "雲端" });
+  const m3 = await maskedDisplayName(env, "b1", "雲端");
+  assert.equal(m3, `雲端·#${(await shortCode36("b1", 8)).slice(0, 4)}`);
+  // no display name → null (the client shows the 攝影者 fallback)
+  assert.equal(await maskedDisplayName(env, "n1", ""), null);
+  assert.equal(await maskedDisplayName(env, "n1", null), null);
+});
+
+test("CL-UI-100: aggregate comment rows carry the commenter's own L/P when they rated", async () => {
+  const { env, t } = makeFeedbackEnv();
+  await enableFlag(env);
+  t.users.set("lp1", { device_id: "lp1", level: "free", created_at: stamp(Date.now() - 60 * DAY), display_name: "山風旅人" });
+  t.users.set("lp2", { device_id: "lp2", level: "free", created_at: stamp(Date.now() - 60 * DAY), display_name: "海線" });
+  seedRow(t, { user: "lp1", place: "tw-001", type: "rating", ageDays: 1, payload: { l: 4, p: 5, weight: 1, trust_level: "t1", source: "app", ip_cluster: "c", device_hash: "d" } });
+  seedRow(t, { user: "lp1", place: "tw-001", type: "comment", ageDays: 0.5, payload: { comment_text: "機位在北側", trust_level: "t1" } });
+  seedRow(t, { user: "lp2", place: "tw-001", type: "comment", ageDays: 0.6, payload: { comment_text: "還沒評分", trust_level: "t0" } });
+  const agg = await (await worker.fetch(makeReq("/feedback?place_id=tw-001"), env, {})).json();
+  const mine = agg.comments.find((c) => c.message === "機位在北側");
+  assert.deepEqual(mine.lp, { l: 4, p: 5 });
+  const other = agg.comments.find((c) => c.message === "還沒評分");
+  assert.equal(other.lp, null);
+  assert.equal(other.maskedName, `海線·#${await shortCode36("lp2", 4)}`);
+});
+
+test("CL-UI-100: mine=1 responses carry the member's own masked name", async () => {
+  const { env, t } = makeFeedbackEnv();
+  await enableFlag(env);
+  t.users.set("me1", { device_id: "me1", level: "free", created_at: stamp(Date.now() - 60 * DAY), display_name: "晨曦之光" });
+  const tok = await tokenFor("me1");
+  await worker.fetch(makeReq("/feedback", { method: "POST", headers: { Authorization: `Bearer ${tok}` }, body: JSON.stringify({ type: "rating", placeId: "tw-001", l: 4, p: 5 }) }), env, {});
+  const mine = await (await worker.fetch(makeReq("/feedback?mine=1&place_id=tw-001", { headers: { Authorization: `Bearer ${tok}` } }), env, {})).json();
+  assert.equal(mine.rating.l, 4);
+  assert.equal(mine.rating.maskedName, `晨曦·#${await shortCode36("me1", 4)}`);
 });
