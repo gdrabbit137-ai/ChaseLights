@@ -43,6 +43,7 @@ EVAL_METRICS = [
     "moon_target_separation_deg", "wind_speed_850hpa", "wind_speed_600hpa",
     "temperature_delta_850_925_c", "temperature_delta_700_600_c",
     "water_surface_state", "seasonal_state", "river_flow_state",
+    "water_reflection_state",
     "landform_present",
 ]
 
@@ -334,6 +335,12 @@ A["harbor"]["city_night_window"] = ("還沒暗到夜景好看，港區的燈火�
 A["harbor"]["water_surface_state"] = ("水面狀態不佳，倒影拍不成",
                                       "The water surface is wrong — no reflections to shoot",
                                       "水面の状態が良くなく、反射が撮れません")
+# CL-DATA-72 batch A: the derived three-level water_reflection_state — only
+# "unfit" vetoes, so the failure word speaks for the unfit level (wind chop,
+# rain, or icing risk).
+A["harbor"]["water_reflection_state"] = ("風浪把水面吹皺，倒影拍不成",
+                                         "Wind chop has ruined the surface — no reflections to shoot",
+                                         "風波で水面がざわつき、反射が撮れません")
 
 # Coast / beach / cape viewpoints.
 A["coast"]["precipitation"] = ("雨太大，海邊視線一片模糊",
@@ -410,6 +417,11 @@ A["lake"]["wind_speed_10m"] = ("風太大，湖面不平，倒影拍不成",
 A["lake"]["water_surface_state"] = ("水面狀態不佳，倒影拍不成",
                                     "The water surface is wrong — no reflections to shoot",
                                     "水面の状態が良くなく、反射が撮れません")
+# CL-DATA-72 batch A: derived water_reflection_state (mirror/shootable/unfit);
+# the word covers the unfit level (wind chop / rain / freezing).
+A["lake"]["water_reflection_state"] = ("風浪把水面吹皺，倒影拍不成",
+                                       "Wind chop has ruined the surface — no reflections to shoot",
+                                       "風波で水面がざわつき、反射が撮れません")
 A["lake"]["sunset_window"] = ("現在不在日落時段，湖面染色的時刻不對",
                               "Outside the sunset window — the lake is not catching color now",
                               "日の入りの時間帯ではなく、湖面が色づきません")
@@ -636,6 +648,10 @@ A["default"]["temperature_delta_700_600_c"] = A["default"]["temperature_delta_85
 A["default"]["water_surface_state"] = ("水面狀態不佳",
                                        "The water surface is not right",
                                        "水面の状態が良くありません")
+# CL-DATA-72 batch A: derived water_reflection_state — only "unfit" vetoes.
+A["default"]["water_reflection_state"] = ("水面不平靜，倒影拍不成",
+                                          "The water surface is too disturbed — no reflections to shoot",
+                                          "水面がざわついていて、反射が撮れません")
 A["default"]["seasonal_state"] = ("目前不是合適的季節",
                                   "Not the right season yet",
                                   "まだ適した季節ではありません")
