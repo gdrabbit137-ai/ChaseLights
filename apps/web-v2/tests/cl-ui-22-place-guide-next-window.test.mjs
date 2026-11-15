@@ -49,8 +49,9 @@ test('CL-UI-22 (c): no other live.next_good rendering path skips the re-anchor',
   // (modalSummaryData) with the banner it fed.
   const reads=[...appSource.matchAll(/(opp\.live&&opp\.live\.next_good)|(best\.live&&best\.live\.next_good)|(live\.next_good\?live\.next_good\.local)/g)].map(m=>m.index);
   // CL-UI-75: the strip-badge wiring's read is retired — createSpotCard's is
-  // the only remaining read, and it feeds v2NextWindowLocal (asserted above).
-  assert.equal(reads.length,1,'unexpected number of live.next_good reads');
+  // one read; CL-UI-95 adds the second: v2DaySubHtml's per-subject next
+  // window (今天題材判定 row) — also fed through v2NextWindowLocal.
+  assert.equal(reads.length,2,'unexpected number of live.next_good reads');
   for(const idx of reads){
     const windowText=appSource.slice(idx-200,idx+800);
     assert.match(windowText,/v2NextWindowLocal/,`next_good read at ${idx} must feed v2NextWindowLocal`);
