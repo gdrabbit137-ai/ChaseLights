@@ -12,9 +12,18 @@ Honesty contract (owner-ratified evaluation semantics):
   thresholds are calibrated against real shoot outcomes.
 - REQUIRED-tier condition FAIL at an hour -> UNFAVORABLE for that hour.
   Any REQUIRED UNKNOWN -> NOT_EVALUABLE. Otherwise GUIDANCE_SATISFIED.
-- Known-honest gaps stay UNKNOWN: water_surface_state and seasonal_state have
-  no live observation source (propagate_unknown); landform_present is the
-  owner-declared static presence (deterministic PASS).
+- Known-honest gaps stay UNKNOWN: water_surface_state (tide-decided shoreline
+  subjects — CL-DATA-72 batch A item 4) has no live observation source
+  (propagate_unknown); landform_present is the owner-declared static presence
+  (deterministic PASS).
+- CL-DATA-72 batch A bridges the two former no-source metrics:
+  * seasonal_state is now computed from data/v2/seasonal-calendar.json
+    (current_season first, typical_window fallback, neither -> UNKNOWN) —
+    CL-COND-A8.
+  * reflection contracts evaluate the DERIVED water_reflection_state
+    (wind/precipitation/temperature proxy: mirror / shootable / unfit) —
+    CL-COND-A7; tide-decided shoreline subjects keep water_surface_state and
+    degrade to NOT_EVALUABLE honestly.
 - Provider provenance (URL, SHA256, retrieval time, grid point) is carried for
   every place; freshness is bounded by the pilot policy (6h -> STALE).
 
@@ -105,7 +114,12 @@ def eval_conditions_for(contract):
         return conditions
     return conditions + [GATE_CONDITION]
 DECLARED_PASS_METRICS = {"landform_present"}
-NO_SOURCE_METRICS = {"water_surface_state", "seasonal_state"}
+# CL-DATA-72 batch A: seasonal_state leaves NO_SOURCE_METRICS — the verdict is
+# now computed from data/v2/seasonal-calendar.json (CL-COND-A8, deterministic
+# date-window matching). water_surface_state stays a known-honest gap: the
+# tide-decided shoreline subjects (天空之鏡/潮汐決定型, e.g. tw-015 高美濕地)
+# keep it REQUIRED and degrade to NOT_EVALUABLE (CL-COND-A7 owner ruling).
+NO_SOURCE_METRICS = {"water_surface_state"}
 # Display-only local clocks (approximate; Place index time_zone is UNKNOWN).
 # CL-UI-24: offset = local time − UTC, so western (negative-longitude) zones
 # are NEGATIVE (America/Los_Angeles −8, Denver −7, New_York −5, Anchorage −9).
@@ -137,6 +151,97 @@ def static_timezone(lat, lon):
     # 0 rendered UTC as if it were local. Callers keep the hour arithmetic
     # on offset 0 but label the place timezone_display UNKNOWN with nulls.
     return None, None
+
+
+# ---------------------------------------------------------------------------
+# CL-DATA-72 batch A — CL-COND-A8: seasonal-window bridge (data/v2/audits/
+# challenger-15-conditions-audit.md A8). seasonal_state was hard-coded into
+# NO_SOURCE_METRICS while data/v2/seasonal-calendar.json sits in the repo with
+# owner-maintained typical windows (and sourced current-season live windows):
+# 764/764 evaluations were UNKNOWN and every flower-season subject was
+# NOT_EVALUABLE on otherwise-good days. The window verdict is a deterministic
+# calendar-date match — no live observation source is needed.
+#
+# Hemisphere/latitude semantics: calendar windows are PER-SPOT owner-maintained
+# entries in the spot's own local calendar (e.g. 北半球 12-05~01-15 落羽松窗);
+# the evaluator matches them against the hour's LOCAL date, so the
+# northern/southern distinction lives entirely in the owner data — no global
+# hemisphere flip is hard-coded here, and a future southern-hemisphere spot is
+# simply maintained with its own local windows. Window endpoints are inclusive
+# MM-DD pairs; a window whose start > end wraps across New Year.
+SEASONAL_CALENDAR_PATH = ROOT / "data/v2/seasonal-calendar.json"
+
+
+def load_seasonal_calendar():
+    """Map opportunity_id -> [seasonal entry, ...] from seasonal-calendar.json.
+
+    Fail-closed per the calendar's own _meta rule: a current_season entry
+    without source_url + retrieved_at is ignored (never trusted as a live
+    window), leaving the climatological typical window.
+    """
+    try:
+        data = json.loads(SEASONAL_CALENDAR_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    by_spot = {}
+    for entry in data.get("entries") or []:
+        current = entry.get("current_season")
+        if current and not (current.get("start") and current.get("end")
+                            and current.get("source_url")
+                            and current.get("retrieved_at")):
+            current = None  # fail-closed: unsourced "live" windows are ignored
+        by_spot_entry = {
+            "plant_id": entry.get("plant_id"),
+            "typical_window": entry.get("typical_window"),
+            "current_season": current,
+        }
+        for spot in entry.get("spots") or []:
+            by_spot.setdefault(spot, []).append(by_spot_entry)
+    return by_spot
+
+
+def _mmdd_inside(md, window):
+    """Inclusive MM-DD window membership, wrap-aware across New Year."""
+    start, end = window.get("start"), window.get("end")
+    if not (isinstance(start, str) and isinstance(end, str)
+            and len(start) == 5 and len(end) == 5):
+        return False
+    if start <= end:
+        return start <= md <= end
+    return md >= start or md <= end
+
+
+def seasonal_window_verdict(entries, local_date):
+    """CL-COND-A8 verdict for one hour's local date: window_open/closed.
+
+    current_season (sourced live window, full dates) takes precedence over
+    typical_window (climatological MM-DD); either matching = window_open.
+    Neither matches = window_closed (FAIL — the hour is honestly unfavorable,
+    no longer an UNKNOWN that blinds the whole subject). Fail-closed: a
+    current_season without source_url + retrieved_at is never trusted (the
+    calendar's own _meta rule), regardless of the caller.
+    """
+    if local_date is None:
+        return "UNKNOWN", "LOCAL_DATE_UNAVAILABLE"
+    date_iso = local_date.isoformat()
+    md = date_iso[5:]
+    typical_open = None
+    for entry in entries or []:
+        current = entry.get("current_season")
+        if (current and current.get("source_url") and current.get("retrieved_at")
+                and current["start"] <= date_iso <= current["end"]):
+            return "PASS", (f"SEASONAL_WINDOW_OPEN(current_season "
+                            f"{current['start']}~{current['end']}, "
+                            f"plant={entry.get('plant_id')})")
+        typical = entry.get("typical_window")
+        if typical and typical_open is None and _mmdd_inside(md, typical):
+            typical_open = (f"SEASONAL_WINDOW_OPEN(typical "
+                            f"{typical['start']}~{typical['end']}, "
+                            f"plant={entry.get('plant_id')})")
+    if typical_open is not None:
+        return "PASS", typical_open
+    plant = ",".join(sorted({e.get("plant_id") or "?" for e in entries or []}))
+    return "FAIL", f"SEASONAL_WINDOW_CLOSED({date_iso} outside {plant})"
 
 
 def venue_open_verdict(condition, local_start_min):
@@ -172,7 +277,7 @@ def venue_open_verdict(condition, local_start_min):
 
 
 def condition_verdict(condition, values, astro_row, month=None,
-                      local_start_min=None):
+                      local_start_min=None, local_date=None):
     """Return (verdict, detail) with verdict in PASS/FAIL/UNKNOWN."""
     metric = condition["metric"]
     operator = condition.get("operator")
@@ -181,6 +286,38 @@ def condition_verdict(condition, values, astro_row, month=None,
         return "UNKNOWN", "NO_LIVE_OBSERVATION_SOURCE"
     if metric in DECLARED_PASS_METRICS:
         return "PASS", "OWNER_DECLARED_PRESENCE"
+    if metric == "seasonal_state":
+        # CL-DATA-72 batch A / CL-COND-A8: deterministic seasonal-window
+        # verdict from seasonal-calendar.json (current_season first, typical
+        # fallback, neither -> UNKNOWN). The contract threshold is the display
+        # value "window_open" (eq); anything else fails closed as malformed.
+        if operator != "eq" or threshold != "window_open":
+            return "UNKNOWN", "UNSUPPORTED_SEASONAL_THRESHOLD"
+        if not condition.get("seasonal_entries"):
+            return "UNKNOWN", "NO_SEASONAL_CALENDAR_ENTRY"
+        return seasonal_window_verdict(condition.get("seasonal_entries"),
+                                       local_date)
+    if metric == "water_reflection_state":
+        # CL-DATA-72 batch A / CL-COND-A7: the reflection family evaluates the
+        # DERIVED surface-state proxy (water_reflection_state: mirror /
+        # shootable / unfit) that the batch runner computes per hour from wind,
+        # precipitation history and air temperature. The contract carries no
+        # threshold (operator "none"): only the "unfit" level vetoes —
+        # mirror/shootable both satisfy the condition.
+        cell = values.get("water_reflection_state") if isinstance(values, dict) else None
+        if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
+            return "UNKNOWN", "REFLECTION_STATE_DERIVATION_UNAVAILABLE"
+        level = cell.get("value")
+        if level not in ("mirror", "shootable", "unfit"):
+            return "UNKNOWN", "REFLECTION_STATE_INVALID_LEVEL"
+        if operator in ("none", None, "neq"):
+            passed = level != "unfit" if operator in (None, "none") \
+                else level != threshold
+        elif operator == "eq":
+            passed = level == threshold
+        else:
+            return "UNKNOWN", "NON_NUMERIC_OPERATOR"
+        return ("PASS" if passed else "FAIL"), f"WATER_REFLECTION_STATE({level})"
     if metric == "venue_open_window":
         return venue_open_verdict(condition, local_start_min)
     if metric == "cloud_base_height":
@@ -246,6 +383,29 @@ def condition_verdict(condition, values, astro_row, month=None,
                   f"{sector['arc_half_width_deg']}deg, diff={round(diff, 1)})")
         return ("PASS" if diff <= float(sector["arc_half_width_deg"])
                 else "FAIL"), detail
+    if metric == "moon_illumination_fraction":
+        # CL-DATA-72 batch A / CL-COND-A3: a moon BELOW the horizon cannot
+        # illuminate the sky — the phase fraction of an unseen moon (jp-021-P02
+        # 2026-11-19 02:00-05:00: moon -18 to -50 deg, proxy 0, yet vetoed by
+        # 0.52-0.81 illumination) must never gate the hour. The gate stays
+        # active only while the moon is up; below the horizon it passes
+        # outright. An unknown moon altitude falls through to the generic gate
+        # (value None -> UNKNOWN), never a fabricated PASS.
+        alt = astro_row.get("moon_altitude") if isinstance(astro_row, dict) else None
+        if isinstance(alt, (int, float)) and not isinstance(alt, bool) and alt < 0:
+            return "PASS", "MOON_BELOW_HORIZON_PASS"
+    if metric == "moon_target_separation_deg":
+        # CL-DATA-72 batch A / C3 (fail-closed sentinel): astro_hourly reports
+        # 999 when the moon is below the horizon. It must never be compared as
+        # a real 999-degree separation (the old permanent-PASS); when this
+        # branch is reached the condition is actually being judged, so the
+        # sentinel degrades to NOT_EVALUABLE. (With the M2/M3/M5 alternation
+        # below, a met moon_altitude anchor stands this condition down to PASS
+        # BEFORE judging — see moon_alternation_states.)
+        value = astro_row.get(metric) if isinstance(astro_row, dict) else None
+        if value is not None and not isinstance(value, bool) \
+                and float(value) >= 900.0:
+            return "UNKNOWN", "MOON_BELOW_HORIZON_SENTINEL_NOT_EVALUABLE"
     if metric in ASTRO_METRICS:
         # CL-DATA-24: an optional per-condition `phase` constraint ("dawn" or
         # "dusk") keeps a symmetric window metric (blue/golden hour) on the
@@ -311,7 +471,7 @@ def boolean_value_label(value):
     return value
 
 
-def condition_value(condition, values, astro_row):
+def condition_value(condition, values, astro_row, local_date=None):
     """Observation used for the verdict, for live display (not a score).
 
     Boolean observations are published as 'satisfied'/'unsatisfied' (never a
@@ -323,6 +483,13 @@ def condition_value(condition, values, astro_row):
         return None
     if metric in DECLARED_PASS_METRICS:
         return "declared"
+    if metric == "seasonal_state":
+        # CL-COND-A8: display the resolved window value (window_open /
+        # window_closed / None when not computable) — the contract's own
+        # rationale documents this display value.
+        verdict, _detail = seasonal_window_verdict(
+            condition.get("seasonal_entries") or [], local_date)
+        return {"PASS": "window_open", "FAIL": "window_closed"}.get(verdict)
     if metric == "cloud_base_height":
         # CL-DATA-71: display the LCL proxy the window was judged on.
         cell = values.get("lcl_height_m_agl")
@@ -355,6 +522,149 @@ def hour_status(roles, verdicts):
     if unknowns:
         return "NOT_EVALUABLE", fails, unknowns
     return "GUIDANCE_SATISFIED", fails, unknowns
+
+
+# CL-DATA-72 batch A / CL-COND-A4 (audit A3+A4): the night-sky moon condition
+# set is an ALTERNATION, not a flat AND — templates/night_sky.json marks M3
+# (moon_target_separation_deg >= 40) and M5 (moon_illuminance_proxy <= 0.15)
+# with activate_when {template_ref: M2, mode: when_not_met}: M2 (moon_altitude
+# < 0, the moon below the horizon) is the preferred state, and when it is NOT
+# met (moon up) the pair (M3, M5) takes over. Flat ANDing them (the old
+# behaviour) vetoed moon-up/far-from-core hours (audit A4: moon 5 deg,
+# separation 86.7 deg, M3 PASS not credited) and, via B2, moon-below-horizon
+# hours (audit A3). The evaluator now applies the alternation:
+#   anchor (moon_altitude < 0) PASS  -> moon down: the moon-constraint set is
+#                                       satisfied; M3/M5 stand down (PASS).
+#   anchor FAIL                      -> moon up: M3/M5 keep their own verdicts
+#                                       (M2's FAIL no longer gates — it was
+#                                       only the selector).
+#   anchor UNKNOWN                   -> propagate UNKNOWN (honest).
+# Applies to night_sky contracts and to the blue_tears copies of the same
+# moon set (template-less genre); a contract without a moon_altitude anchor is
+# evaluated flat, exactly as before.
+MOON_ALTERNATION_DEPENDENTS = ("moon_target_separation_deg",
+                               "moon_illuminance_proxy")
+
+
+def moon_alternation(conditions):
+    """Return (anchor_condition_id, [dependent_condition_id, ...]) or None.
+
+    The anchor is the contract's moon_altitude condition with operator lt and
+    threshold <= 0 (the M2 semantics); dependents are the M3/M5 metrics that
+    templates declare activate_when M2 when_not_met.
+    """
+    anchor = next((c for c in conditions
+                   if c.get("metric") == "moon_altitude"
+                   and c.get("operator") == "lt"
+                   and isinstance(c.get("threshold"), (int, float))
+                   and not isinstance(c.get("threshold"), bool)
+                   and c["threshold"] <= 0), None)
+    if anchor is None:
+        return None
+    deps = [c["id"] for c in conditions
+            if c.get("metric") in MOON_ALTERNATION_DEPENDENTS]
+    return (anchor["id"], deps)
+
+
+def apply_moon_alternation(states, alternation):
+    """Rewrite the alternation verdicts (in place) for one hour.
+
+    anchor PASS (moon below horizon): the moon-constraint set is satisfied —
+    dependents stand down to PASS (moon 999 separation sentinel is never
+    judged on those hours). anchor FAIL (moon up): the anchor was only the
+    selector, so its own FAIL is neutralized and the dependents' real verdicts
+    (separation / illuminance proxy) gate instead. anchor UNKNOWN propagates.
+    """
+    if not alternation:
+        return
+    anchor_id, deps = alternation
+    anchor_state = states.get(anchor_id)
+    if anchor_state == "PASS":
+        for dep in deps:
+            states[dep] = "PASS"
+    elif anchor_state == "FAIL":
+        states[anchor_id] = "PASS"
+        # dependents keep their own evaluated verdicts
+    elif anchor_state == "UNKNOWN":
+        for dep in deps:
+            states[dep] = "UNKNOWN"
+
+
+# CL-DATA-72 batch A — CL-COND-A7 (owner ruling, batch-A item 4): the
+# reflection family's water-surface state is DERIVED per hour from the forecast
+# cells the pipeline already fetches — wind speed, precipitation and 2 m air
+# temperature — instead of staying a permanent no-source UNKNOWN that blinded
+# 47 REQUIRED contracts (whole-genre NOT_EVALUABLE, 5 satisfied days in the
+# entire bundle). Levels (owner-decreed three-state scale):
+#   mirror    鏡面: wind <= 1.5 m/s, no rain now AND no measurable rain in the
+#             past 2-6 h (>= 2 h of history is required to claim it), air temp
+#             > 0 °C — the highest-probability specular water.
+#   shootable 可拍: wind <= 3 m/s and near-no-rain (< 0.2 mm/h) — ripples OK,
+#             reflections still form.
+#   unfit     不宜: wind > 3 m/s, or rain >= 0.2 mm/h, or air temp <= 0 °C
+#             (icing risk — honestly annotated 可能結冰 in the copy layer).
+# Marine wave height ( > 0.3 m -> unfit) has NO connected source in the batch
+# adapter; the gap is documented in the metric-vocabulary entry instead of a
+# fabricated 0. Tide-decided shoreline subjects (高美濕地 etc.) do NOT use
+# this proxy at all — their contracts keep water_surface_state (no-source,
+# honest NOT_EVALUABLE, 拍攝指南 需查潮汐表).
+REFLECTION_MIRROR_MAX_WIND_MS = 1.5
+REFLECTION_SHOOTABLE_MAX_WIND_MS = 3.0
+REFLECTION_RAIN_MM = 0.2
+REFLECTION_DRY_TRACE_MM = 0.05
+REFLECTION_MIN_HISTORY_HOURS = 2
+REFLECTION_HISTORY_WINDOW_HOURS = 6
+
+
+def water_reflection_levels(hours):
+    """Per-hour derived water_reflection_state cells, aligned with `hours`.
+
+    Fail-closed: any hour missing a usable wind or precipitation cell gets an
+    UNKNOWN cell (the condition then degrades to REFLECTION_STATE_DERIVATION_
+    UNAVAILABLE, never a fabricated level). Temperature only decides between
+    "unfit by icing" and the wind/rain scale; an unknown temperature simply
+    cannot certify mirror (it stays shootable/unfit by wind+rain).
+    """
+    levels = []
+    precip_history = []
+    for hour_row in hours:
+        values = hour_row.get("values") or {}
+
+        def _cell(name, _values=values):
+            cell = _values.get(name)
+            if (isinstance(cell, dict) and cell.get("state") == "AVAILABLE"
+                    and isinstance(cell.get("value"), (int, float))
+                    and not isinstance(cell.get("value"), bool)):
+                return float(cell["value"])
+            return None
+
+        wind = _cell("wind_speed_10m")
+        precip = _cell("precipitation")
+        temp = _cell("temperature_2m")
+        if wind is None or precip is None:
+            levels.append({"state": "UNKNOWN", "value": None})
+            precip_history.append(None)
+            continue
+        history = [p for p in precip_history[-REFLECTION_HISTORY_WINDOW_HOURS:]
+                   if p is not None]
+        dry_recent = (len(history) >= REFLECTION_MIN_HISTORY_HOURS
+                      and max(history) <= REFLECTION_DRY_TRACE_MM)
+        if temp is not None and temp <= 0.0:
+            level = "unfit"  # icing risk (可能結冰) — honest annotate in copy
+        elif wind > REFLECTION_SHOOTABLE_MAX_WIND_MS or precip >= REFLECTION_RAIN_MM:
+            level = "unfit"
+        elif (wind <= REFLECTION_MIRROR_MAX_WIND_MS and precip == 0.0
+                and dry_recent and temp is not None and temp > 0.0):
+            # mirror needs a certified > 0 deg air temperature; an unknown
+            # temperature cannot certify it and stays "shootable" at most
+            level = "mirror"
+        elif wind <= REFLECTION_SHOOTABLE_MAX_WIND_MS and precip < REFLECTION_RAIN_MM:
+            level = "shootable"
+        else:
+            level = "unfit"
+        levels.append({"state": "AVAILABLE", "value": level})
+        precip_history.append(precip)
+    return levels
 
 
 def conditions_day_rows(condition_by_id, counts_by_cid, total):
@@ -393,7 +703,8 @@ def conditions_day_rows(condition_by_id, counts_by_cid, total):
 
 
 def detail_hour_rows(hour_row, local_stamp, status, conditions_eval,
-                     astro_row, states, precise_local, precise_off):
+                     astro_row, states, precise_local, precise_off,
+                     local_date=None):
     """CL-INT-91: details rows for one hour bucket.
 
     Every good_hour stamp the summary emits must key a details row (the
@@ -410,7 +721,8 @@ def detail_hour_rows(hour_row, local_stamp, status, conditions_eval,
          "tier": c.get("condition_tier") or "MAIN", "role": c.get("role"),
          "operator": c.get("operator") or "none",
          "threshold": c.get("threshold"),
-         "value": condition_value(c, hour_row["values"], astro_row),
+         "value": condition_value(c, hour_row["values"], astro_row,
+                                  local_date=local_date),
          "verdict": states[c["id"]]}
         for c in conditions_eval]
     rows = [{
@@ -579,6 +891,9 @@ def main():
     names = {p["place_id"]: p.get("name_i18n") or {} for p in places_index["places"]}
     # CL-DATA-71: catalog DEM elevations for viewpoint-relative conditions.
     place_elevations = v1_place_elevations()
+    # CL-DATA-72 batch A / CL-COND-A8: seasonal-calendar windows for the
+    # seasonal_state bridge.
+    seasonal_by_spot = load_seasonal_calendar()
 
     by_coordinate = {}
     skipped = []
@@ -690,6 +1005,13 @@ def main():
                         for doc in group["opportunities"]
                         for c in doc["condition_contract"]["conditions"])
         hours = artifact["hours"]
+        # CL-DATA-72 batch A / CL-COND-A7: derive the per-hour
+        # water_reflection_state proxy once per coordinate group and attach it
+        # to the shared hour rows (idempotent — every reflection opportunity of
+        # the group reads the same cells).
+        reflection_levels = water_reflection_levels(hours)
+        for hour_row, level in zip(hours, reflection_levels):
+            hour_row["values"]["water_reflection_state"] = level
         place_out = {"place_id": None, "coordinate": [lat, lon],
                      "coordinate_source": group["source"],
                      "timezone_display": dict(tz_display),
@@ -731,6 +1053,15 @@ def main():
             for _cond in conditions_eval:
                 if _cond.get("metric") == "cloud_base_height":
                     _cond["viewpoint_elevation_m"] = camera_alt
+            # CL-DATA-72 batch A / CL-COND-A8: bind the opportunity's
+            # seasonal-calendar entries onto every seasonal_state condition
+            # (same binding pattern as light_direction/cloud_base_height).
+            # CL-COND-A4: resolve the moon alternation (anchor + dependents)
+            # once per contract.
+            for _cond in conditions_eval:
+                if _cond.get("metric") == "seasonal_state":
+                    _cond["seasonal_entries"] = seasonal_by_spot.get(oid) or []
+            alternation = moon_alternation(conditions_eval)
             days = {}
             # CL-DATA-56: per-condition verdict counts, keyed by local day.
             # The published hours rows carry only the ROLE-GATED failed/
@@ -751,12 +1082,18 @@ def main():
                 local_bucket_start = at + timedelta(hours=local_offset)
                 local_start_min = (local_bucket_start.hour * 60
                                    + local_bucket_start.minute)
+                local_date = local_bucket_start.date()
                 for condition in conditions_eval:
                     states[condition["id"]] = condition_verdict(
                         condition, hour_row["values"], astro_row,
                         month=at.month,
-                        local_start_min=local_start_min)[0]
+                        local_start_min=local_start_min,
+                        local_date=local_date)[0]
                     roles[condition["id"]] = condition.get("role")
+                # CL-COND-A4: apply the M2/M3/M5 moon alternation BEFORE the
+                # role gate — a met anchor stands the dependents down, a failed
+                # anchor hands the gate to them.
+                apply_moon_alternation(states, alternation)
                 status, fails, unknowns = hour_status(roles, states)
                 local_stamp = at + timedelta(hours=local_offset)
                 day_key = local_stamp.date().isoformat()
@@ -811,7 +1148,8 @@ def main():
                 hour_ctxs.append((at, hour_row, astro_row, states, status))
                 for row in detail_hour_rows(
                         hour_row, local_stamp, status, conditions_eval,
-                        astro_row, states, precise_local, precise_off):
+                        astro_row, states, precise_local, precise_off,
+                        local_date=local_date):
                     entry.setdefault("detail_hours", []).append(row)
             day_out = []
             condition_by_id = {c["id"]: c for c in conditions_eval}
@@ -848,6 +1186,7 @@ def main():
                 if ctx is None:
                     return None
                 snap_at, snap_row, snap_astro, snap_states, snap_status = ctx
+                snap_local_date = (snap_at + timedelta(hours=local_offset)).date()
                 return {
                     "utc": snap_row["valid_at_utc"],
                     "local": (snap_at + timedelta(hours=local_offset)).strftime("%Y-%m-%d %H:%M"),
@@ -857,7 +1196,8 @@ def main():
                          "tier": c.get("condition_tier") or "MAIN", "role": c.get("role"),
                          "operator": c.get("operator") or "none",
                          "threshold": c.get("threshold"),
-                         "value": condition_value(c, snap_row["values"], snap_astro),
+                         "value": condition_value(c, snap_row["values"], snap_astro,
+                                                  local_date=snap_local_date),
                          "verdict": snap_states[c["id"]]}
                         for c in conditions_eval],
                 }
@@ -967,17 +1307,25 @@ def main():
         },
         "limitations_i18n": {
             "zh-TW": "評估結果為 GUIDANCE 参考：門檻為 provisional/approved 題材模板值，"
-                     "未經實拍校準，永不構成 FAVORABLE 保證。湖面狀態與花季窗口暫無即時"
-                     "觀測來源（標記 UNKNOWN）。天氣為網格預報，不代表拍攝點實況。",
+                     "未經實拍校準，永不構成 FAVORABLE 保證。花季窗口由 seasonal-calendar"
+                     ".json 例年窗/今年實況窗計算（owner 維護）；倒影題材水面狀態由風速/降水/"
+                     "氣溫派生三級（鏡面/可拍/不宜），潮汐決定型岸邊景點（天空之鏡類）誠實降級"
+                     "為不可評估、拍攝前請自行查潮汐表。天氣為網格預報，不代表拍攝點實況。",
             "en": "Results are GUIDANCE only: thresholds are provisional/approved "
                   "genre-template values, not calibrated against real shoots, and never "
-                  "constitute a FAVORABLE guarantee. Water-surface state and seasonal "
-                  "windows have no live observation source (UNKNOWN). Weather is grid "
-                  "forecast data, not on-site conditions.",
+                  "constitute a FAVORABLE guarantee. Seasonal windows are computed from "
+                  "seasonal-calendar.json (owner-maintained typical/current-season "
+                  "windows); the reflection water-surface state is a derived three-level "
+                  "proxy (mirror/shootable/unfit) from wind, precipitation and air "
+                  "temperature, and tide-decided shoreline subjects degrade honestly to "
+                  "not-evaluatable — check the tide table yourself before shooting. "
+                  "Weather is grid forecast data, not on-site conditions.",
             "ja": "評価結果はGUIDANCE参考値です: 閾値は暫定/承認済みテンプレート値で、"
-                  "実写検証されておらず、FAVORABLE保証にはなりません。水面状態と開花"
-                  "窗口は観測ソースがなくUNKNOWN。天気はグリッド予報であり現地実況では"
-                  "ありません。",
+                  "実写検証されておらず、FAVORABLE保証にはなりません。開花窗口は"
+                  "seasonal-calendar.json（例年窓・当年窓、owner管理）から算出。水面状態は"
+                  "風速・降水・気温からの3段階派生（鏡面/撮影可/不適）。潮位で決まる海岸"
+                  "被写体は誠実にnot_evaluatableへ降格 — 撮影前に干潮表を自身で確認して"
+                  "ください。天気はグリッド予報であり現地実況ではありません。",
         },
         "place_count": len(places_out),
         "opportunity_count": sum(len(p["opportunities"]) for p in places_out),

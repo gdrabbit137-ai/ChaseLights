@@ -140,7 +140,9 @@ class ResearchIndexTests(unittest.TestCase):
             # restore). CL-DATA-32 later re-pinned tw-010-P01 (008ab85ff) when
             # the golden-window upgrade gave way to sunrise_time_window MAIN.
             '69b832accfc8c0438a50e51689c4e7c40765e9f4',
-            'b801dd4eba545a76879828b25e869f3c45df33ac',
+            # CL-DATA-72: b801dd4eb left the set — its last holder us-065-P01
+            # was re-pinned to 19e936548 by the batch-A sunset/reflection wave
+            # repin (blob+sha256 verified on the merged tree).
             # CL-DATA-15 (merged side): owner-verified elevation corrections
             # (Paiyun Lodge 3,402 m / Datun 1,092 m / Zhushan 2,451 m;
             # Hehuan 3,417 m confirmed) — tw-001-P02/tw-019-P04/tw-024-P02/
@@ -210,8 +212,9 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-52: the 27 JP intake records (jp-065..jp-091) carry their
             # authorship bytes on the task branch, tree-verified at c507251b3e.
             'c507251b3e3fb09d6a5bd16abe04a8beb2aee7ed',
-            # CL-DATA-52 repin: jp-078-P01 legacy_tide bytes tree-verified at 4d56532dd.
-            '4d56532ddf843a345f28560f8ad85a461d51dc4f',
+            # CL-DATA-52 repin: jp-078-P01 legacy_tide bytes tree-verified at
+            # 4d56532dd — CL-DATA-72: that entry left the set, jp-078-P01 was
+            # re-pinned to 19e936548 by the batch-A wave repin.
             # CL-DATA-53: the 40 US intake wave repinned us contracts to ef5b1042a
             # (stage-2 legacy regen commit, tree-verified).
             'ef5b1042a5a86ea99e3bd6a477ed79ce5f62cf4e',
@@ -223,8 +226,9 @@ class ResearchIndexTests(unittest.TestCase):
             '0ab54271b600c0466dcca8dda2fc4a4a42c54680',
             # CL-DATA-58: the three round11 water_surface_state/ICE1 records
             # (us-123/us-132/us-143-P01) repinned to 8393d5b3d (contract commit;
-            # blob+sha256 verified on the merged tree).
-            '8393d5b3d4612c04b57d583a694094f77f78696c',
+            # blob+sha256 verified on the merged tree) — CL-DATA-72: that entry
+            # left the set, all three were re-pinned to a0ad3da55 by the
+            # reflection-contract closure (operator 'none').
             # CL-DATA-64: the 13 new-subject-family records repinned to 5adb3ace7
             # (viewpoint/subject contract commit; blob+sha256 verified on the task tree).
             '5adb3ace77808544f95f9e4ef3b751cf9938f964',
@@ -269,18 +273,25 @@ class ResearchIndexTests(unittest.TestCase):
             # (tw-217..tw-227, 11 contracts) carry their authorship bytes on
             # the wave7 intake commit (blob+sha256 verified on the task tree).
             'ea49e822dd7d75e3102e5ce1a949025e9b57f0ac',
-            # CL-DATA-71: the 13 viewpoint-relative cloud_base_height records
-            # re-pinned to the contract commit carrying the new bytes
-            # (catalog band for tw-128-P01, DEM-200 derived for the rest;
-            # blob+sha256 tree-verified on the task branch).
-            'f21a8cdc2f450f9c8b5dab21ab8f1e16485b3e52',
+            # CL-DATA-72: batch-A + CL-DATA-71 merged-tree re-anchors.
+            # 19e936548 = the merge carrying the batch-A sunset T3 QUALITY /
+            # reflection-rename contract bytes plus the CL-DATA-71 catch-up
+            # (113 records re-pinned by the closure repin; blob+sha256 and
+            # git-show provenance verified on the merged tree).
+            '19e9365487c8ac46048cdc9c5e1eea2d50406e41',
+            # a0ad3da55 = the batch-A closure commit: the 46 reflection-family
+            # contracts moved to operator 'none' (only 'unfit' vetoes).
+            'a0ad3da5583a35268522435276a04d6a0252a159',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
-        # CL-INT-83: tw-026-P01 anchored to the provenance commit carrying
-        # the CL-DATA-18 AI-verified fill bytes (union with CL-INT-82/85).
-        self.assertEqual('2af08fb9eec9994ab5862197c4a0d8a45587e440',p01['commit_sha'])
-        # CL-DATA-18: bytes = the AI-verified geometry/light-window fill state
-        self.assertEqual('87d380a1025bb6ec710bed8f2f95a93871dda477',p01['blob_sha'])
+        # CL-DATA-72: tw-026-P01 canonical evolved past the 2026-11-02 owner
+        # ruling (sunset T3 QUALITY wave); re-anchored to the merged-tree
+        # commit carrying the verified bytes (fixture+manifest re-anchored in
+        # lockstep; the 2af08fb9 provenance commit remains the fixture
+        # manifest's historical pointer).
+        self.assertEqual('19e9365487c8ac46048cdc9c5e1eea2d50406e41',p01['commit_sha'])
+        # CL-DATA-72: bytes = the evolved sunset-template state (e085b2a0)
+        self.assertEqual('e085b2a0e3e64f746d44ced4e4fb20c1001853f3',p01['blob_sha'])
 
     def test_all_place_names_exact_source_spans_without_new_translation(self):
         count=0

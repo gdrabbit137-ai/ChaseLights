@@ -12,12 +12,17 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and canonical sources remain source pinned (CL-DATA-66 wave7: 460 places / 692 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'b5d8ee48b4eb909fe911bdcf487811e62b0b9b7f4d7cdd8c675759bc4b180d80'); // re-measured CL-DATA-69 (regen re-anchored to 1d788759b) (title rename regen re-anchored to index-creating commit 1d788759b)
-  assert.equal(sha256(rawCatalog),'df2c402e801d1dcf7e5e80dbd70d42280da65f1549d84355e60b28738f7e443a'); // re-measured CL-DATA-69 (regen re-anchored to 1d788759b)
+  assert.equal(sha256(rawIndex),'3fc90a9fa868124d0d084f7f746b3c617367a786dbe3a15a6b2cb4d36715affa'); // re-measured CL-DATA-72 (merged-tree regen: research_index --git-provenance + build_web_catalog, source commit anchored to the regen commit a0e7a2454 per CL-CI-31c)
+  assert.equal(sha256(rawCatalog),'25a77eb33a2cada3c77423b382cfee554a9136a414791e47a5124122a60adad0'); // re-measured CL-DATA-72 (merged-tree regen, source commit a0e7a2454)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,692);assert.equal(source.places.length,460); // re-anchored CL-DATA-66 wave7 (tw-217..227)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
+  // CL-DATA-72: owner-ruled contract evolution (sunset T3 QUALITY c9e65a2c1 +
+  // reflection contract a0ad3da55) moved these canonicals past their W2
+  // review-freeze bytes; per the CL-DATA-57 pattern the index row (built from
+  // the source-lock canonical pins) must match the LIVE canonical bytes.
+  const evolvedCanonical=['tw-016-P01','tw-026-P01','tw-026-P02','tw-082-P01'];
   for(const row of index.place_index.opportunities){
     const basename=row.opportunity_id+'.json';
     let bytes;
@@ -26,8 +31,8 @@ test('W2 index and canonical sources remain source pinned (CL-DATA-66 wave7: 460
     // the canonical record evolved via the owner-rule semantic correction
     // (sunset_window promoted REQUIRED/MAIN). Its index row must match the
     // live canonical bytes, not the frozen fixture.
-    if(row.opportunity_id==='tw-016-P01'){
-      readPinned(basename);
+    if(evolvedCanonical.includes(row.opportunity_id)){
+      if(pinnedOriginal.includes(row.opportunity_id)) readPinned(basename);
       bytes=readFileSync(new URL(`../../../data/v2/opportunities/${basename}`,import.meta.url));
     }else if(pinnedOriginal.includes(row.opportunity_id)){
       readPinned(basename);
