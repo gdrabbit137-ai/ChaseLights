@@ -40,21 +40,22 @@ jobs:
       - run: python -m pip install requests
       - run: python -m unittest -v test_cams_aod_weathergrid.py test_weathergrid_ui_polish.py
 
-  live-publish:
+  live-publish-tw:
     if: github.event_name != 'pull_request'
     needs: contract-tests
     runs-on: ubuntu-latest
-    # CL-CI-09: the CL-CI-08 ReadTimeout retry (up to 6 attempts x 300s read
-    # timeout + backoff per batch) trades a fast crash for a long but legitimate
-    # refresh; 15 minutes let the job-timeout cancel it mid-run. The publish
-    # step itself stays short — 30 minutes gives the fetch retry chain room
-    # to complete instead of being silently cancelled and leaving stale data.
-    # CL-DATA-07: the refresh now fetches BOTH tw and us (CL-WG-13 widened the
-    # tw window to ~150 request batches, and us adds ~145 more); a polite 8s
-    # batch delay plus 8 retries (CL-DATA-07: a 2s delay exhausted the
-    # Open-Meteo free-tier quota mid-run with a 429) put the expected wall
-    # clock near 50 minutes, so the window is 75.
-    timeout-minutes: 75
+    # CL-CI-38 root cause of the recurring ingest red: Open-Meteo counts
+    # location-calls (a 60-location batch = 60 calls) against the free-tier
+    # quota of the runner's IP — ~5k/hour and ~10k/day. The old 8s batch
+    # delay pulled ~450 calls/min, blew through the hourly ~5k after ~11
+    # minutes, and the whole tw sweep died on a 429. A 48s batch delay
+    # sustains ~75 calls/min (~4.5k/hour), just under the hourly ceiling.
+    # CL-CI-09: the CL-CI-08 ReadTimeout retry (up to 8 attempts x 300s read
+    # timeout + backoff per batch) trades a fast crash for a long but
+    # legitimate refresh; the window gives the fetch retry chain room to
+    # complete instead of being silently cancelled, leaving stale data.
+    # ~150 batches x 48s is ~2h; 300 minutes covers retry bursts on top.
+    timeout-minutes: 300
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
@@ -65,29 +66,13 @@ jobs:
         with:
           python-version: "3.10"
       - run: python -m pip install requests
-      - name: Fetch CAMS Global AOD via Open-Meteo
+      - name: Fetch CAMS Global AOD (tw) via Open-Meteo
         run: |
           python cams_aod_weathergrid.py \
             --forecast-hours 120 \
-            --batch-delay-s 8 \
+            --batch-delay-s 48 \
             --retries 8 \
             --output-dir cams_aod_output
-          # CL-DATA-07: us region (125–70.5°W / 25–49.5°N) same CAMS pipeline.
-          # Non-fatal: the Open-Meteo free tier enforces a daily request
-          # quota (~10k location-calls) that both full-width sweeps cannot
-          # always fit; a quota-limited day publishes tw only and the next
-          # scheduled run retries us. Never let the us failure kill the tw
-          # refresh.
-          if python cams_aod_weathergrid.py \
-            --region us \
-            --forecast-hours 120 \
-            --batch-delay-s 8 \
-            --retries 8 \
-            --output-dir cams_aod_output_us; then
-            echo "us CAMS fetch succeeded"
-          else
-            echo "::warning::us CAMS fetch failed (likely free-tier quota); publishing tw only"
-          fi
       - name: Validate live bundle
         run: |
           python - <<'PY'
@@ -114,8 +99,63 @@ jobs:
               "provider_cells":qc["returned_provider_cell_count"],
           },indent=2))
           PY
+      - name: Publish AOD browser bundle (tw)
+        run: |
+          mkdir -p weathergrid
+          cp cams_aod_output/cams_global_tw_aod_browser.json weathergrid/cams_global_tw_aod_browser.json
+          cp cams_aod_output/cams_global_tw_aod_qc.json weathergrid/cams_global_tw_aod_qc.json
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add weathergrid/cams_global_tw_aod_browser.json weathergrid/cams_global_tw_aod_qc.json
+          if git diff --cached --quiet; then
+            echo "CAMS tw AOD WeatherGrid unchanged."
+            exit 0
+          fi
+          git commit -m "Auto-update CAMS AOD WeatherGrid (tw) [skip ci]"
+          for i in {1..5}; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cams-aod-weathergrid-tw
+          path: cams_aod_output/
+          retention-days: 7
+
+  live-publish-us:
+    if: github.event_name != 'pull_request'
+    needs: contract-tests
+    runs-on: ubuntu-latest
+    # CL-CI-38: the us sweep runs in its OWN job on its OWN runner, so it
+    # gets a fresh per-IP daily quota (~10k location-calls). Previously the
+    # tw (~9k) and us (~8.7k) sweeps shared one runner IP: together they
+    # exceeded the free-tier daily quota and the us fetch was guaranteed to
+    # 429 — and on quota-heavy days the failure surfaced mid-tw too. Rate
+    # limiting matches live-publish-tw (48s delay ≈ 75 calls/min under the
+    # ~5k/hour ceiling); ~145 batches x 48s is ~2h.
+    timeout-minutes: 300
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - run: python -m pip install requests
+      - name: Fetch CAMS Global AOD (us) via Open-Meteo
+        run: |
+          python cams_aod_weathergrid.py \
+            --region us \
+            --forecast-hours 120 \
+            --batch-delay-s 48 \
+            --retries 8 \
+            --output-dir cams_aod_output_us
       - name: Validate live us bundle
-        if: hashFiles('cams_aod_output_us/cams_global_us_aod_browser.json') != ''
         run: |
           python - <<'PY'
           import json
@@ -148,17 +188,11 @@ jobs:
               "provider_cells":qc["returned_provider_cell_count"],
           },indent=2))
           PY
-      - name: Publish AOD browser bundle
+      - name: Publish AOD browser bundle (us)
         run: |
           mkdir -p weathergrid
-          cp cams_aod_output/cams_global_tw_aod_browser.json weathergrid/cams_global_tw_aod_browser.json
-          cp cams_aod_output/cams_global_tw_aod_qc.json weathergrid/cams_global_tw_aod_qc.json
-          # CL-DATA-07: publish the us bundle only when this run produced one
-          # (quota-limited days publish tw only — honest degradation).
-          if [ -f cams_aod_output_us/cams_global_us_aod_browser.json ]; then
-            cp cams_aod_output_us/cams_global_us_aod_browser.json weathergrid/cams_global_us_aod_browser.json
-            cp cams_aod_output_us/cams_global_us_aod_qc.json weathergrid/cams_global_us_aod_qc.json
-          fi
+          cp cams_aod_output_us/cams_global_us_aod_browser.json weathergrid/cams_global_us_aod_browser.json
+          cp cams_aod_output_us/cams_global_us_aod_qc.json weathergrid/cams_global_us_aod_qc.json
           # CL-DATA-07: keep the us coverage manifest (the us region layer
           # list) in sync with the actually-published us bundles.
           python build_weathergrid_coverage_browser.py \
@@ -166,15 +200,12 @@ jobs:
             --output weathergrid/weathergrid_coverage_us_browser.json
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add weathergrid/cams_global_tw_aod_browser.json weathergrid/cams_global_tw_aod_qc.json weathergrid/weathergrid_coverage_us_browser.json
-          for f in weathergrid/cams_global_us_aod_browser.json weathergrid/cams_global_us_aod_qc.json; do
-            if [ -f "$f" ]; then git add "$f"; fi
-          done
+          git add weathergrid/cams_global_us_aod_browser.json weathergrid/cams_global_us_aod_qc.json weathergrid/weathergrid_coverage_us_browser.json
           if git diff --cached --quiet; then
-            echo "CAMS AOD WeatherGrid unchanged."
+            echo "CAMS us AOD WeatherGrid unchanged."
             exit 0
           fi
-          git commit -m "Auto-update CAMS AOD WeatherGrid [skip ci]"
+          git commit -m "Auto-update CAMS AOD WeatherGrid (us) [skip ci]"
           for i in {1..5}; do
             if git pull --rebase origin main && git push origin HEAD:main; then
               exit 0
@@ -184,6 +215,6 @@ jobs:
           exit 1
       - uses: actions/upload-artifact@v4
         with:
-          name: cams-aod-weathergrid
-          path: cams_aod_output/
+          name: cams-aod-weathergrid-us
+          path: cams_aod_output_us/
           retention-days: 7

@@ -256,9 +256,11 @@ class WeatherGridUiPolishTests(unittest.TestCase):
                 self.html,
             )
 
-        # CL-UI-37: explicit stamp pin for the weather-map.js language-carry
-        # change (bumped bclwg27 -> bclwg28 in the same commit).
-        self.assertIn("assets/weather-map.js?v=bclwg34", self.html)
+        # CL-CI-38: the bclwg34 literal pin rotted as soon as the stamp was
+        # bumped again (bclwg34 -> bclwg36), turning every scheduled CAMS run
+        # red at contract-tests before the ingest could even start. The
+        # contract is enforced by the stamp-consistency checks below; no
+        # literal pin.
         for asset in ("weather-map.css", "weather-map.js", "weather-map-regions.js"):
             found = stamps(asset)
             self.assertTrue(

@@ -152,6 +152,17 @@ def fetch_responses(
             time.sleep(max(retry_after, 5.0 * 2**attempt))
         if response is None:
             raise RuntimeError("fetch_responses: retry loop never produced a response")
+        if response.status_code == 429:
+            # CL-CI-38: fail closed, but name the real cause — after the full
+            # retry chain a 429 means the Open-Meteo free-tier quota (hourly
+            # ~5k / daily ~10k location-calls per IP) is exhausted, not a
+            # transient blip. Resume with --state-file instead of retrying
+            # blind inside the same quota window.
+            raise RuntimeError(
+                "Open-Meteo returned 429 after the full retry chain: "
+                "free-tier hourly/daily location-call quota exhausted "
+                f"(batch of {len(batch)} locations)"
+            )
         response.raise_for_status()
         payload = response.json()
         items = payload if isinstance(payload, list) else [payload]
