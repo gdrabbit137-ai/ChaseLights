@@ -1,0 +1,138 @@
+{
+  "template_id": "star_trails",
+  "version": "0.1",
+  "status": "defined",
+  "title_i18n": {
+    "zh-TW": "星軌",
+    "en": "Star trails",
+    "ja": "星の軌跡"
+  },
+  "definition_i18n": {
+    "zh-TW": "星軌拍攝題材（night_sky 星空基層變體）：引用 night_sky 條件（天文暗 B1／總雲 B3／AOD B4 同源）＋無月（月照 ≤15%，比星空基層 50% 更嚴——長曝連續曝光吃不起月光）＋連續晴窗 ≥2h（新派生條件 clear_streak_hours：星軌是一張連續長曝，中段雲帶直接毀片，否決的是連續性而非單時雲量，CHALLENGER-15 報告語義）。",
+    "en": "Star-trail subject (a variant of the night_sky starry base layer): carries the night_sky conditions (astronomical darkness B1 / total cloud B3 / AOD B4, same-source) + no moon (illumination <= 15%, tighter than the 50% starry base - a continuous multi-hour exposure cannot afford moonlight) + a continuous clear window >= 2 h (new derived condition clear_streak_hours: a star-trail stack is one continuous exposure and a mid-stack cloud band ruins it, so the veto is CONTINUITY not single-hour cloud, per the CHALLENGER-15 report semantics).",
+    "ja": "星景撮影題材（night_sky 星空基層の変体）：night_sky 条件を引用（天文暗 B1／全雲量 B3／AOD B4 同源）＋無月（月照 ≤15%。星空基層の50%より厳しい — 連続長秒露光は月光を許容できない）＋連続晴れ窓 ≥2h（新派生条件 clear_streak_hours：星景は1枚の連続長秒露光で、途中の雲帯が1枚を台無しにする。否決対象は単時刻の雲量ではなく連続性、CHALLENGER-15 報告の意味論）。"
+  },
+  "instantiated_by": [],
+  "params": [],
+  "conditions": [
+    {
+      "template_ref": "B1",
+      "metric": "astronomical_darkness",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "none",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "天文暮光窗（太陽仰角 ≤−18°）：night_sky B1 同源引用——星軌是長曝主體，天文暗是對比前提（次小時取樣，任一取樣成立）。",
+        "en": "Astronomical darkness window (sun elevation <= -18 deg): carried over from night_sky B1 - a long-exposure subject whose contrast prerequisite is a fully dark sky (sub-hour sampled; any sample qualifies).",
+        "ja": "天文薄明窓（太陽高度 ≤−18°）：night_sky B1 同源引用 — 長秒露光の主題で、完全暗がコントラストの前提（サブアワー・サンプリング、1サンプルでも成立）。"
+      },
+      "binding": null,
+      "threshold": null,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "B2",
+      "metric": "moon_illumination_fraction",
+      "role": "REQUIRED",
+      "domain": "ASTRONOMY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "無月＝月照 ≤15%（月下自動成立，MOON_BELOW_HORIZON_PASS，CL-DATA-72 batch A 同語義）：星軌是一張連續數小時的長曝，月光在整個疊加過程持續注光——細月也要 ≤15% 才能保住軌跡對比。比 night_sky 基層（50%）嚴是刻意的。",
+        "en": "No moon = illumination <= 15% (passes outright below the horizon, MOON_BELOW_HORIZON_PASS, CL-DATA-72 batch-A semantics): a star-trail stack pours light for hours of continuous exposure - even a thin moon needs <= 15% to preserve trail contrast. Deliberately tighter than the 50% night_sky base.",
+        "ja": "無月＝月照 ≤15%（地平線下では自動成立、MOON_BELOW_HORIZON_PASS、CL-DATA-72 batch A 同語義）：星景は数時間の連続露光で月光が一晩中注がれる — 細い月でも ≤15% が軌跡コントラストを保つ。night_sky 基層（50%）より意図的に厳しい。"
+      },
+      "binding": null,
+      "threshold": 0.15,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "B3",
+      "metric": "cloud_cover_total",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "總雲量 ≤20%：night_sky B3 同源引用——任何雲帶都蓋星點（單時判據；跨小時的連續性由 B5 分擔）。",
+        "en": "Total cloud <= 20%: carried over from night_sky B3 - any cloud band covers stars (single-hour criterion; the cross-hour continuity is carried by B5).",
+        "ja": "全雲量 ≤20%：night_sky B3 同源引用 — 雲帯は星点を覆う（単時刻判準。時間をまたぐ連続性は B5 が担う）。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_total_percent",
+        "role": "MID"
+      },
+      "threshold": 20,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "B4",
+      "metric": "aod_550nm",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "AOD ≤0.3：night_sky B4 同源引用——氣溶膠消光吃掉星點對比。",
+        "en": "AOD <= 0.3: carried over from night_sky B4 - aerosol extinction eats stellar contrast.",
+        "ja": "AOD ≤0.3：night_sky B4 同源引用 — エアロゾル消光が星の対比を減らす。"
+      },
+      "binding": {
+        "dataset": "cams_global",
+        "field": "aerosol_optical_depth_550nm",
+        "role": "AEROSOL"
+      },
+      "threshold": 0.3,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "B5",
+      "metric": "clear_streak_hours",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "gte",
+      "unit": "h",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "連續晴窗 ≥2h（新派生條件 clear_streak_hours，CHALLENGER-15 報告的連續性語義）：星軌是一張連續長曝——以當小時往前連續 cloud_cover_total ≤20% 的小時數判定；缺雲欄位誠實斷裂（該小時 UNKNOWN、計數歸零），缺口永不計入晴窗。短於 2h 的小時對疊加拍攝誠實降級。",
+        "en": "Continuous clear window >= 2 h (new derived condition clear_streak_hours, the CHALLENGER-15 report's continuity semantics): a star-trail stack is one continuous exposure - judged as the hours of consecutive cloud_cover_total <= 20% ending at the current hour; a missing cloud cell breaks the streak honestly (UNKNOWN cell, count reset) and a gap is never counted as clear time. An hour with < 2 h of streak degrades honestly for stacking.",
+        "ja": "連続晴れ窓 ≥2h（新派生条件 clear_streak_hours、CHALLENGER-15 報告の連続性意味論）：星景は1枚の連続長秒露光 — 当該時刻まで連続で全雲量 ≤20% の時間数で判定。雲欄欠損は誠実に途切れ（UNKNOWN、計数リセット）、欠損部は晴れ時間に数えない。2h未満の時間はスタックに対し誠実に降格。"
+      },
+      "binding": null,
+      "threshold": 2.0,
+      "genre_scope": null
+    }
+  ],
+  "owner_review": "CL-DATA-74 owner-approved data pack 2026-11-16: star-trail variant of the night_sky starry base (B1/B3/B4 same-source), moon <= 15%, plus the new continuous-clear-window >= 2 h probe (CHALLENGER-15 continuity semantics)."
+}

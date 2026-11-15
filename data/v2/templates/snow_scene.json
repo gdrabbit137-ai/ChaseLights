@@ -1,0 +1,116 @@
+{
+  "template_id": "snow_scene",
+  "version": "0.1",
+  "status": "defined",
+  "title_i18n": {
+    "zh-TW": "雪景",
+    "en": "Snow scene",
+    "ja": "雪景色"
+  },
+  "definition_i18n": {
+    "zh-TW": "雪地場景拍攝題材：地面有雪（降雪中 snowfall>0 或積雪 snow_depth>0 的 OR 語義由派生層摺疊）＋氣溫 ≤1°C（雪不化）＋能見度 ≥3 km（雪中可拍，白牆/暴雪否決）＋季節窗（seasonal-calendar 橋）。掛載對象限雪線點。",
+    "en": "Snow-ground scene: ground snow present (the snowfall>0 OR snow_depth>0 OR-semantics collapsed in the derived layer) + air temp <= 1 C (no melt) + visibility >= 3 km (shootable in snow; whiteout/blizzard vetoes) + a season window (seasonal-calendar bridge). Mounted on snow-line spots only.",
+    "ja": "雪地面の撮影題材：地面に雪がある（snowfall>0 または snow_depth>0 の OR 意味論は派生層で畳む）＋気温 ≤1°C（融けない）＋視程 ≥3 km（雪中撮影可、ホワイトアウトは否決）＋季節窓（seasonal-calendar ブリッジ）。雪線ポイントのみにマウント。"
+  },
+  "instantiated_by": [],
+  "params": [],
+  "conditions": [
+    {
+      "template_ref": "S1",
+      "metric": "snow_cover_state",
+      "role": "REQUIRED",
+      "domain": "HYDROLOGY",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "none",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "地面有雪（派生三級 snow_cover_state：snowing/snow_covered/none；僅 none 否決）。票面語義「snowfall>0 或 snow_depth>0」由派生層摺疊為單一狀態——OR，不是 AND；降雪中地面未積也成立。兩個雪欄位皆缺 → 誠實 not_evaluatable（fail-closed）。",
+        "en": "Ground snow (derived three-level snow_cover_state: snowing/snow_covered/none; only 'none' vetoes). The ticket OR semantics (snowfall > 0 OR snow_depth > 0) collapses into this single state - an OR, not an AND; falling snow with a bare ground still qualifies. Both snow fields missing -> honestly not_evaluatable (fail-closed).",
+        "ja": "地面の雪（派生3段階 snow_cover_state：snowing/snow_covered/none；none のみ否決）。OR 意味論は派生層で単一状態に畳む—ANDではなくOR。降雪中で積雪なしでも成立。両雪欄欠損は誠実に not_evaluatable（fail-closed）。"
+      },
+      "binding": null,
+      "threshold": null,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "S2",
+      "metric": "temperature_2m",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "°C",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "氣溫 ≤1°C：雪面不融化——氣溫高於 1°C 時積雪迅速消融、雪面濕暗反光失格；1°C 給融雪反光的邊際餘量。provisional。",
+        "en": "Air temp <= 1 C: the snowpack stays frozen - above 1 C lying snow melts fast and a wet, dark surface loses the snow look; 1 C keeps a marginal band for refreezing-melt surfaces. Provisional.",
+        "ja": "気温 ≤1°C：雪面が融けない — 1°C超では積雪が急速に融け湿った暗い面になり雪景色が失格。1°Cは再凍結・融解の境界の余裕。暫定値。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "temperature_2m_c",
+        "role": "MID"
+      },
+      "threshold": 1.0,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "S3",
+      "metric": "visibility",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "gte",
+      "unit": "km",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "能見度 ≥3 km：雪中可拍的界線——暴雪/白牆（ホワイトアウト）否決，飄雪本身不否決（雪中拍攝反而是氛圍加分；jp-047 樹氷語義同源）。",
+        "en": "Visibility >= 3 km: the shootable-in-snow line - blizzard/whiteout vetoes, falling snow itself does not (shooting in falling snow is atmosphere-positive; same semantics as the jp-047 snow-monster gate).",
+        "ja": "視程 ≥3 km：雪中撮影可の境界 — 吹雪・ホワイトアウトは否決、降雪自体は否決しない（雪中撮影はむしろ雰囲気加点。jp-047 樹氷と同語義）。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "visibility_km",
+        "role": "MID"
+      },
+      "threshold": 3.0,
+      "genre_scope": null
+    },
+    {
+      "template_ref": "S4",
+      "metric": "seasonal_state",
+      "role": "REQUIRED",
+      "domain": "SEASON_TIME",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "eq",
+      "unit": null,
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "computed",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "季節窗判定（window_open/window_closed，例年窗讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：雪季窗是本題材的硬性約束——非雪季時 snow_depth 派生雖可獨立否決，窗判定提供第零道語義閘。",
+        "en": "Seasonal-window verdict (window_open/window_closed; typical window from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): the snow-season window is the hard constraint - off-season, the snow_depth derivation vetoes on its own, but the window provides the semantic gate of record.",
+        "ja": "季節窓判定（window_open/window_closed。例年窓は seasonal-calendar.json から、実況優先、両方なければ誠実に not_evaluatable）：雪季窓は本題材のハード制約。雪季外は snow_depth 派生が独立に否決するが、窓判定が意味論の正門を提供する。"
+      },
+      "binding": null,
+      "threshold": "window_open",
+      "genre_scope": null
+    }
+  ],
+  "owner_review": "CL-DATA-74 owner-approved data pack 2026-11-16: snow gates per ticket (snow OR + temp <= 1 C + visibility >= 3 km + season window). Mounted on snow-line spots (合歡山/武陵/福壽山/富士山五合目以上/優勝美地類)."
+}
