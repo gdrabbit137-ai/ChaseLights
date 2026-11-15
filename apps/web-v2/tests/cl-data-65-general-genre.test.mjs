@@ -18,9 +18,9 @@ test('CL-DATA-65 (a): V2_GENRES carries the three-language general label', () =>
     const dictBlock = block.slice(block.indexOf(lang), block.indexOf(lang) + 600);
     assert.match(dictBlock, /general:'/);
   }
-  assert.equal(template.title_i18n['zh-TW'], '一般拍攝');
-  assert.equal(template.title_i18n.en, 'General shooting');
-  assert.equal(template.title_i18n.ja, '一般撮影');
+  assert.equal(template.title_i18n['zh-TW'], '可拍');
+  assert.equal(template.title_i18n.en, 'Shootable');
+  assert.equal(template.title_i18n.ja, '撮影可');
 });
 
 test('CL-DATA-65 (b): the general genre chip is visually distinct from curated genres', () => {
