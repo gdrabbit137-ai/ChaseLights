@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" role="img" aria-label="案2 adaptive 前景層">
+  <!-- ============================================================
+       案 2「燈塔光束」· Android adaptive icon 前景層
+       規格：108dp 畫布；內容收在中心 66dp 安全圓內；
+       光束允許帶透明漸層（裝飾性出血可接受，主體不出圈）。
+       ============================================================ -->
+  <defs>
+    <linearGradient id="fbeam2" x1="67" y1="44" x2="40" y2="43" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4ADE80" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#4ADE80" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- 光束 -->
+  <path d="M67 44 L40 40 L40 52 Z" fill="url(#fbeam2)"/>
+  <!-- 星點 -->
+  <circle cx="86" cy="30" r="1.4" fill="#A7F3D0" opacity="0.8"/>
+  <circle cx="90" cy="38" r="1" fill="#A7F3D0" opacity="0.6"/>
+  <!-- 岬角 -->
+  <path d="M36 78 L60 64 L72 68 L72 78 Z" fill="#14532D" opacity="0.6"/>
+  <path d="M46 78 L66 68 L72 70 L72 78 Z" fill="#166534"/>
+  <!-- 燈塔 -->
+  <path d="M64 68 L65.4 54 L68.6 54 L70 68 Z" fill="#FFFFFF"/>
+  <rect x="62.6" y="50" width="8.8" height="4.4" rx="0.8" fill="#166534"/>
+  <circle cx="67" cy="51.6" r="2" fill="#4ADE80"/>
+  <path d="M61.6 50 L72.4 50 L67 46 Z" fill="#FFFFFF"/>
+</svg>

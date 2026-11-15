@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ChaseLights logo 案3：逐光軌跡">
+  <!-- ============================================================
+       ChaseLights DESIGN-8 · logo 案 3/3「逐光軌跡」
+       主題：追逐燈火 — 追光者的腳蹤沿稜線逐點升向最亮的那顆星
+       色系：深色底 #0B0F1A→#0D1A12 ＋ 綠語義 #22C55E/#4ADE80
+       16px 模擬：斜向亮點列＋大星芒仍可辨
+       ============================================================ -->
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0B0F1A"/>
+      <stop offset="1" stop-color="#0D1A12"/>
+    </linearGradient>
+    <radialGradient id="glow3" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22C55E" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#22C55E" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="sq3"><rect width="512" height="512" rx="96"/></clipPath>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg3)"/>
+  <g clip-path="url(#sq3)">
+    <circle cx="352" cy="176" r="120" fill="url(#glow3)"/>
+    <!-- 追光軌跡：虛線曲線（光點足跡） -->
+    <path d="M110 400 C 180 370 210 330 250 285 S 320 230 352 190" fill="none"
+          stroke="#22C55E" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 30" opacity="0.35"/>
+    <!-- 逐級升亮的足點 -->
+    <circle cx="128" cy="392" r="14" fill="#22C55E" opacity="0.8"/>
+    <circle cx="208" cy="330" r="18" fill="#22C55E"/>
+    <circle cx="272" cy="272" r="22" fill="#4ADE80"/>
+    <circle cx="312" cy="236" r="12" fill="#4ADE80" opacity="0.85"/>
+    <!-- 終點星芒 -->
+    <path d="M352 112 Q359 169 416 176 Q359 183 352 240 Q345 183 288 176 Q345 169 352 112 Z" fill="#4ADE80"/>
+    <path d="M352 142 Q355 173 386 176 Q355 179 352 210 Q349 179 318 176 Q349 173 352 142 Z" fill="#ECFDF5" opacity="0.95"/>
+    <!-- 稜線：後層 / 前層 -->
+    <path d="M0 430 L130 376 L260 420 L390 374 L512 412 V512 H0 Z" fill="#14532D" opacity="0.5"/>
+    <path d="M0 466 L170 420 L330 452 L512 436 V512 H0 Z" fill="#166534"/>
+  </g>
+</svg>

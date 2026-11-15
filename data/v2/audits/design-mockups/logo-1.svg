@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ChaseLights logo 案1：稜線初光">
+  <!-- ============================================================
+       ChaseLights DESIGN-8 · logo 案 1/3「稜線初光」
+       主題：追逐燈火 — 山稜線＋峰頂星芒（4 翼 sparkle，16px 仍可辨）
+       色系：深色底 #0B0F1A→#0D1B12 ＋ 綠語義 #22C55E/#4ADE80
+       結構：背景漸層 / 星芒 / 雙層稜線 — 3 個主形狀，favicon 安全
+       ============================================================ -->
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0B0F1A"/>
+      <stop offset="1" stop-color="#0D1B12"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22C55E" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#22C55E" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="sq1"><rect width="512" height="512" rx="96"/></clipPath>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg1)"/>
+  <g clip-path="url(#sq1)">
+    <circle cx="290" cy="170" r="150" fill="url(#glow1)"/>
+    <!-- 主星芒：4 翼 sparkle（凹邊曲線，16px 縮小仍是亮點＋十字） -->
+    <path d="M290 92 Q298 162 368 170 Q298 178 290 248 Q282 178 212 170 Q282 162 290 92 Z" fill="#4ADE80"/>
+    <path d="M290 128 Q294 166 332 170 Q294 174 290 212 Q286 174 248 170 Q286 166 290 128 Z" fill="#ECFDF5" opacity="0.95"/>
+    <!-- 副星芒 -->
+    <path d="M150 212 Q153 237 178 240 Q153 243 150 268 Q147 243 122 240 Q147 237 150 212 Z" fill="#22C55E" opacity="0.9"/>
+    <!-- 山稜線：後層 / 前層 -->
+    <path d="M0 352 L110 268 L200 330 L296 268 L392 334 L470 288 L512 316 V512 H0 Z" fill="#14532D" opacity="0.55"/>
+    <path d="M0 404 L96 336 L188 398 L282 340 L372 402 L452 356 L512 384 V512 H0 Z" fill="#166534"/>
+    <!-- 地平光帶 -->
+    <rect x="0" y="496" width="512" height="8" fill="#22C55E" opacity="0.4"/>
+  </g>
+</svg>
