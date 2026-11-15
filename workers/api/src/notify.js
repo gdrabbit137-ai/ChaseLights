@@ -9,6 +9,138 @@ import { sendPush } from "./push.js";
 
 export const MATCH_WINDOW_H = 24;
 
+// ---------------------------------------------------------------------------
+// CL-UI-99: custom-conditions mode. A rule may carry a custom_conditions JSON
+// payload (nullable custom_conditions column) instead of an opportunity_id.
+// The engine then judges PLACE-LEVEL hourly weather values (KV distilled
+// rec.hourly rows from the W1 weather_details hourly_forecast) against the
+// user parameters — same window/lead-time semantics as subject mode.
+// Parameter contract (all optional; absent = no constraint):
+//   cloud_low_max / cloud_mid_max / cloud_high_max : % 0..100 (>=100 = none)
+//   precip_max_mmh    : mm/h 0..200
+//   visibility_min_km : km 0..50 (<=0 = none)
+//   wind_max_ms       : m/s 0..75
+//   window_start/window_end : "HH:MM" both-or-none (midnight wrap allowed)
+//   lead_minutes      : int 0..4320 (fallback: min_advance_hours * 60)
+// ---------------------------------------------------------------------------
+const CC_NUM_LIMITS = {
+  cloud_low_max: [0, 100],
+  cloud_mid_max: [0, 100],
+  cloud_high_max: [0, 100],
+  precip_max_mmh: [0, 200],
+  visibility_min_km: [0, 50],
+  wind_max_ms: [0, 75],
+};
+const CC_HM_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+// Contract validation for POST /notify/rules. Returns {ok, cc} where cc is
+// the normalized payload (or null when the input is absent/empty).
+export function validateCustomConditions(input) {
+  if (input == null) return { ok: true, cc: null };
+  if (typeof input !== "object" || Array.isArray(input)) {
+    return { ok: false, error: "customConditions must be an object" };
+  }
+  const out = {};
+  for (const [k, [lo, hi]] of Object.entries(CC_NUM_LIMITS)) {
+    const v = input[k];
+    if (v === undefined || v === null) continue;
+    const n = Number(v);
+    if (!Number.isFinite(n) || n < lo || n > hi) {
+      return { ok: false, error: `customConditions.${k} must be a number ${lo}..${hi}` };
+    }
+    out[k] = n;
+  }
+  for (const k of ["window_start", "window_end"]) {
+    const v = input[k];
+    if (v === undefined || v === null) continue;
+    if (typeof v !== "string" || !CC_HM_RE.test(v)) {
+      return { ok: false, error: `customConditions.${k} must be an HH:MM string` };
+    }
+    out[k] = v;
+  }
+  if ((out.window_start != null) !== (out.window_end != null)) {
+    return { ok: false, error: "customConditions window needs both window_start and window_end" };
+  }
+  const lead = input.lead_minutes;
+  if (lead !== undefined && lead !== null) {
+    const n = Number(lead);
+    if (!Number.isInteger(n) || n < 0 || n > 4320) {
+      return { ok: false, error: "customConditions.lead_minutes must be an integer 0..4320" };
+    }
+    out.lead_minutes = n;
+  }
+  return { ok: true, cc: Object.keys(out).length ? out : null };
+}
+
+// Safe parse for stored rows: JSON string, object passthrough, else null.
+export function parseCustomConditions(v) {
+  if (v == null) return null;
+  if (typeof v === "object") {
+    return Array.isArray(v) ? null : v;
+  }
+  if (typeof v !== "string" || !v.trim()) return null;
+  try {
+    const o = JSON.parse(v);
+    return o && typeof o === "object" && !Array.isArray(o) ? o : null;
+  } catch {
+    return null;
+  }
+}
+
+// Inclusive HH:MM window membership; start > end wraps midnight.
+export function hourInWindow(hour, start, end) {
+  if (typeof hour !== "string" || !CC_HM_RE.test(hour)) return false;
+  if (typeof start !== "string" || typeof end !== "string") return true; // no window = whole day
+  if (!CC_HM_RE.test(start) || !CC_HM_RE.test(end)) return true;
+  return start <= end ? hour >= start && hour <= end : hour >= start || hour <= end;
+}
+
+// One hour row {local_date, hour, values:{...}} vs the parameter blob.
+// A set constraint whose value is MISSING fails the hour honestly (no
+// fabricated match from absent data); an unset/lenient constraint never
+// rejects (cloud >=100% and visibility <=0 km are treated as unconstrained).
+export function customHourMatches(values, cc) {
+  if (!cc) return false;
+  const v = values && typeof values === "object" ? values : {};
+  const num = (x) => (typeof x === "number" && Number.isFinite(x) ? x : null);
+  for (const [k, metric, op] of [
+    ["cloud_low_max", "cloud_low", "lte"],
+    ["cloud_mid_max", "cloud_mid", "lte"],
+    ["cloud_high_max", "cloud_high", "lte"],
+    ["precip_max_mmh", "precipitation", "lte"],
+    ["visibility_min_km", "visibility", "gte"],
+    ["wind_max_ms", "wind", "lte"],
+  ]) {
+    const limit = num(cc[k]);
+    if (limit == null) continue;
+    if (op === "lte" && metric.startsWith("cloud") && limit >= 100) continue; // lenient default
+    if (op === "gte" && metric === "visibility" && limit <= 0) continue; // lenient default
+    const val = num(v[metric]);
+    if (val == null) return false; // constraint set but data missing -> no match
+    if (op === "lte" ? val > limit : val < limit) return false;
+  }
+  return true;
+}
+
+// Earliest qualifying hour in [now + leadMinutes, now + 24h]. Mirrors
+// findNextWindow semantics (same slot time convention, same MATCH_WINDOW_H).
+export function findNextCustomWindow(hourly, cc, nowMs, leadMinutes) {
+  if (!cc || !Array.isArray(hourly)) return null;
+  const earliest = nowMs + (leadMinutes || 0) * 60_000;
+  const latest = nowMs + MATCH_WINDOW_H * 3_600_000;
+  let best = null;
+  for (const row of hourly) {
+    if (!row || typeof row.local_date !== "string" || typeof row.hour !== "string") continue;
+    if (!hourInWindow(row.hour, cc.window_start, cc.window_end)) continue;
+    if (!customHourMatches(row.values, cc)) continue;
+    const t = slotTimeMs(row.local_date, row.hour);
+    if (t >= earliest && t <= latest && (!best || t < best.t)) {
+      best = { t, local_date: row.local_date, hour: row.hour, opportunity_id: null };
+    }
+  }
+  return best;
+}
+
 export function slotTimeMs(localDate, hour) {
   // KV distilled hours are "HH:MM" strings (spot-local, GMT+8 convention);
   // ints (legacy) are accepted as whole hours.
@@ -60,6 +192,14 @@ export function buildMessage(rec, win) {
   return `📸 ChaseLights 攝影通知\n${place}｜${name}\n${when}`;
 }
 
+// CL-UI-99: custom-mode message — no thresholds/operators ever echoed; the
+// summary the user sees on the card already carries their own parameters.
+export function buildCustomMessage(rec, win) {
+  const place = placeDisplayName(rec);
+  const when = `${win.local_date} ${win.hour}（GMT+8）起天氣符合您的自訂條件，預計 24 小時內。`;
+  return `📸 ChaseLights 攝影通知\n${place}｜自訂條件\n${when}`;
+}
+
 export async function sendTelegram(env, chatId, text) {
   if (!env.TG_BOT_TOKEN) return { ok: false, error: "TG_BOT_TOKEN not set" };
   const res = await fetch(`https://api.telegram.org/bot${env.TG_BOT_TOKEN}/sendMessage`, {
@@ -106,7 +246,7 @@ export async function pollTelegramBindings(env) {
 // Cron body: bindings -> enabled rules -> match next-24h windows -> dedupe (notify_log PK)
 // -> deliver via the rule's channel. Returns a plain summary for logs/tests.
 export async function runNotifyCron(env, nowMs = Date.now()) {
-  const summary = { checkedAt: new Date(nowMs).toISOString(), bindings: null, rules_scanned: 0, matches: 0, sent: 0, skipped_dupe: 0, undelivered: 0, errors: [] };
+  const summary = { checkedAt: new Date(nowMs).toISOString(), bindings: null, rules_scanned: 0, matches: 0, sent: 0, skipped_dupe: 0, custom_skipped: 0, undelivered: 0, errors: [] };
   try {
     summary.bindings = await pollTelegramBindings(env);
   } catch (e) {
@@ -116,7 +256,7 @@ export async function runNotifyCron(env, nowMs = Date.now()) {
   let rules = [];
   try {
     ({ results: rules } = await env.DB.prepare(
-      "SELECT r.id, r.user_id, r.place_id, r.opportunity_id, r.channel, r.min_advance_hours FROM notify_rules r WHERE r.enabled = 1"
+      "SELECT r.id, r.user_id, r.place_id, r.opportunity_id, r.channel, r.min_advance_hours, r.custom_conditions FROM notify_rules r WHERE r.enabled = 1"
     ).all());
   } catch (e) {
     summary.errors.push(`rules: ${e && e.message}`);
@@ -131,7 +271,21 @@ export async function runNotifyCron(env, nowMs = Date.now()) {
     } catch { rec = null; }
     if (!rec) continue;
 
-    const win = findNextWindow(rec.subjects, rule.opportunity_id, nowMs, rule.min_advance_hours);
+    // CL-UI-99: a rule carrying a custom_conditions payload runs in CUSTOM
+    // mode (place-level hourly judgment); otherwise legacy subject mode.
+    // The two modes are mutually exclusive — custom wins if both ever appear.
+    const cc = parseCustomConditions(rule.custom_conditions);
+    let win;
+    if (cc) {
+      if (!Array.isArray(rec.hourly) || !rec.hourly.length) {
+        summary.custom_skipped += 1; // hourly data not synced yet — honest skip
+        continue;
+      }
+      const leadMin = Number.isFinite(cc.lead_minutes) ? cc.lead_minutes : (rule.min_advance_hours || 0) * 60;
+      win = findNextCustomWindow(rec.hourly, cc, nowMs, leadMin);
+    } else {
+      win = findNextWindow(rec.subjects, rule.opportunity_id, nowMs, rule.min_advance_hours);
+    }
     if (!win) continue;
     const key = windowKey(win);
     summary.matches += 1;
@@ -161,7 +315,7 @@ export async function runNotifyCron(env, nowMs = Date.now()) {
     if (rule.channel === "push") {
       // CL-APP-03: APP push via FCM HTTP v1. Fail-closed on missing service
       // account secret — record undelivered, log to console, never throw.
-      const msg = buildMessage(rec, win);
+      const msg = cc ? buildCustomMessage(rec, win) : buildMessage(rec, win);
       const title = msg.split("\n")[0];
       const bodyText = msg.split("\n").slice(1).join("\n");
       const sa = env.FCM_SERVICE_ACCOUNT_JSON;
@@ -223,7 +377,7 @@ export async function runNotifyCron(env, nowMs = Date.now()) {
 
     let result;
     try {
-      result = await sendTelegram(env, binding.chat_id, buildMessage(rec, win));
+      result = await sendTelegram(env, binding.chat_id, cc ? buildCustomMessage(rec, win) : buildMessage(rec, win));
     } catch (e) {
       result = { ok: false, error: e && e.message };
     }

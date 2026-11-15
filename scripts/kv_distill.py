@@ -4,12 +4,25 @@
 Contract: the APP/API layer never carries thresholds, operators, or condition
 formulas — only verdicts and qualifying windows. Unknown days are kept honest.
 
+CL-UI-99: with --weather-dir, each place record additionally gains an
+"hourly" list of SLIM raw weather rows (cloud low/mid/high %, precipitation
+mm/h, visibility km, wind m/s) distilled from the W1 weather_details
+hourly_forecast. Raw VALUES only — never thresholds/operators — and rows
+already elapsed (is_past) are dropped. Missing/malformed weather files
+degrade to verdict-only records (custom-conditions rules then honestly
+never match; they are never fabricated).
+
 Output: one JSON file with {"index":..., "places":{place_id: record}} for the
 CI step to upload to Cloudflare KV (key v1:evals:<place_id> / v1:evals:index).
 """
 import json, sys, os
+from pathlib import Path
 
 STATES = {"GUIDANCE_SATISFIED", "UNFAVORABLE", "NOT_EVALUABLE"}
+
+# CL-UI-99: hourly_forecast fields -> custom-condition metric names.
+HOURLY_FIELDS = ("c_low", "c_mid", "c_high", "precipitation", "visibility", "wind")
+HOURLY_METRICS = ("cloud_low", "cloud_mid", "cloud_high", "precipitation", "visibility", "wind")
 
 
 def norm_hour(h):
@@ -47,7 +60,52 @@ def distill_place(place, generated_at):
     }
 
 
-def main(src, out):
+def slim_hourly_row(hour):
+    """CL-UI-99: one hourly_forecast row -> {local_date, hour, values{...}}.
+
+    Only the raw fields the custom-condition engine reads; falsy numerics
+    (0 precipitation, 0 cloud) are kept, missing ones dropped honestly.
+    """
+    if not isinstance(hour, dict):
+        return None
+    local_date = hour.get("local_date")
+    time_s = hour.get("time")
+    if not isinstance(local_date, str) or not isinstance(time_s, str) or " " not in time_s:
+        return None
+    values = {}
+    for field, metric in zip(HOURLY_FIELDS, HOURLY_METRICS):
+        v = hour.get(field)
+        if isinstance(v, (int, float)) and not isinstance(v, bool):
+            values[metric] = round(float(v), 2)
+    if not values:
+        return None
+    return {"local_date": local_date, "hour": time_s.split(" ", 1)[1], "values": values}
+
+
+def attach_hourly(places, weather_dir):
+    """Merge slim per-hour weather rows into place records (fail-soft per place)."""
+    merged = 0
+    for place_id, rec in places.items():
+        path = Path(weather_dir) / place_id.split("-", 1)[0] / f"{place_id}.json"
+        try:
+            doc = json.loads(path.read_bytes().decode("utf-8"))
+            hours = (doc.get("spot") or {}).get("hourly_forecast") or []
+        except (ValueError, OSError, AttributeError):
+            continue  # no weather file -> verdict-only record
+        rows = []
+        for h in hours:
+            if isinstance(h, dict) and h.get("is_past"):
+                continue
+            row = slim_hourly_row(h)
+            if row:
+                rows.append(row)
+        if rows:
+            rec["hourly"] = rows
+            merged += 1
+    return merged
+
+
+def main(src, out, weather_dir=None):
     with open(src, encoding="utf-8") as f:
         bundle = json.load(f)
     generated_at = bundle["generated_at"]
@@ -62,6 +120,9 @@ def main(src, out):
     for p in bundle["places"]:
         if p.get("opportunities") is not None:
             places[p["place_id"]] = distill_place(p, generated_at)
+    if weather_dir:
+        merged = attach_hourly(places, weather_dir)
+        print(f"hourly rows merged for {merged}/{len(places)} places from {weather_dir}")
     with open(out, "w", encoding="utf-8") as f:
         json.dump({"index": index, "places": places}, f, ensure_ascii=False, separators=(",", ":"))
     # fail-closed sanity: no forbidden keys anywhere
@@ -73,4 +134,6 @@ def main(src, out):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    if len(sys.argv) not in (3, 5):
+        raise SystemExit("usage: kv_distill.py <evaluations.json> <out.json> [--weather-dir <weather_details>]")
+    main(sys.argv[1], sys.argv[2], sys.argv[4] if len(sys.argv) == 5 and sys.argv[3] == "--weather-dir" else None)

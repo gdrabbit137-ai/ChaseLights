@@ -101,6 +101,28 @@
     .rem-switch::before{content:"";position:absolute;inset:-12px} /* invisible 44px-class touch target */
     .rem-switch.rem-on{background:var(--cl-green-bg);border-color:var(--cl-green-border)}
     .rem-switch.rem-on::after{left:18px;background:var(--cl-green)}
+    /* ── CL-UI-99: 自訂條件表單（第三層選「自訂條件…」時展開）────────── */
+    .rem-cc-panel{margin-top:var(--cl-sp-3);border:1px solid var(--cl-border);border-radius:var(--cl-r-md);
+      padding:var(--cl-sp-3) var(--cl-sp-4);background:var(--cl-bg-2)}
+    .rem-cc-panel[hidden]{display:none}
+    .rem-cc-title{margin:0 0 var(--cl-sp-2);font-size:var(--cl-fs-12);color:var(--cl-text-2)}
+    .rem-cc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--cl-sp-2) var(--cl-sp-3)}
+    .rem-cc-field{display:flex;flex-direction:column;gap:2px;min-width:0}
+    .rem-cc-name{font-size:var(--cl-fs-12);color:var(--cl-text-2);font-weight:600}
+    .rem-cc-field input{height:32px;min-height:32px;padding:0 8px;border-radius:var(--cl-r-xs);
+      border:1px solid var(--cl-border-strong);background:var(--cl-bg-1);color:var(--cl-text-1);
+      font-size:var(--cl-fs-13);width:100%;box-sizing:border-box}
+    .rem-cc-field input:focus{outline:1.5px solid var(--cl-green-border);outline-offset:0}
+    .rem-cc-hint{font-size:11px;color:var(--cl-text-3);line-height:1.35}
+    .rem-cc-window{display:flex;align-items:center;gap:6px}
+    .rem-cc-window .rem-cc-dash{color:var(--cl-text-3);flex:none}
+    .rem-cc-window input{height:32px;min-height:32px;padding:0 6px;border-radius:var(--cl-r-xs);
+      border:1px solid var(--cl-border-strong);background:var(--cl-bg-1);color:var(--cl-text-1);
+      font-size:var(--cl-fs-13);min-width:0;flex:1;box-sizing:border-box}
+    /* 提醒卡第三行：自訂條件摘要（mono，muted — 詳細氣象屬 expanded 層的語意不進卡片敘事） */
+    .rem-line3{margin-top:2px;min-width:0}
+    .rem-cc-summary{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-3);
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
     /* ── 空狀態（design-system §9：dashed 框＋圖示＋主張＋動作鈕）── */
     .rem-empty{display:flex;flex-direction:column;align-items:center;gap:var(--cl-sp-2);
       padding:var(--cl-sp-6) var(--cl-sp-4);background:var(--cl-bg-1);
@@ -189,6 +211,56 @@
         <span class="rem-arrow" aria-hidden="true">→</span>
         <select id="rem-subject" aria-label="題材"></select>
       </div>
+      <!-- CL-UI-99: 自訂條件表單 — 第三層選「自訂條件…」時展開（五組參數、寬鬆預設、口語說明） -->
+      <div class="rem-cc-panel" id="rem-custom-panel" hidden>
+        <p class="rem-cc-title" id="rem-cc-title"></p>
+        <div class="rem-cc-grid">
+          <label class="rem-cc-field" for="rem-cc-low">
+            <span class="rem-cc-name"></span>
+            <input id="rem-cc-low" type="number" inputmode="decimal" min="0" max="100" step="1" aria-label="低雲門檻">
+            <small class="rem-cc-hint" id="rem-cc-hint-low"></small>
+          </label>
+          <label class="rem-cc-field" for="rem-cc-mid">
+            <span class="rem-cc-name"></span>
+            <input id="rem-cc-mid" type="number" inputmode="decimal" min="0" max="100" step="1" aria-label="中雲門檻">
+            <small class="rem-cc-hint" id="rem-cc-hint-mid"></small>
+          </label>
+          <label class="rem-cc-field" for="rem-cc-high">
+            <span class="rem-cc-name"></span>
+            <input id="rem-cc-high" type="number" inputmode="decimal" min="0" max="100" step="1" aria-label="高雲門檻">
+            <small class="rem-cc-hint" id="rem-cc-hint-high"></small>
+          </label>
+          <label class="rem-cc-field" for="rem-cc-precip">
+            <span class="rem-cc-name"></span>
+            <input id="rem-cc-precip" type="number" inputmode="decimal" min="0" max="200" step="0.5" aria-label="降水上限">
+            <small class="rem-cc-hint" id="rem-cc-hint-precip"></small>
+          </label>
+          <label class="rem-cc-field" for="rem-cc-vis">
+            <span class="rem-cc-name"></span>
+            <input id="rem-cc-vis" type="number" inputmode="decimal" min="0" max="50" step="0.5" aria-label="能見度下限">
+            <small class="rem-cc-hint" id="rem-cc-hint-vis"></small>
+          </label>
+          <label class="rem-cc-field" for="rem-cc-wind">
+            <span class="rem-cc-name"></span>
+            <input id="rem-cc-wind" type="number" inputmode="decimal" min="0" max="75" step="0.5" aria-label="風速上限">
+            <small class="rem-cc-hint" id="rem-cc-hint-wind"></small>
+          </label>
+          <div class="rem-cc-field">
+            <span class="rem-cc-name" id="rem-cc-window-label"></span>
+            <div class="rem-cc-window">
+              <input id="rem-cc-start" type="time" aria-label="時間窗起">
+              <span class="rem-cc-dash" aria-hidden="true">–</span>
+              <input id="rem-cc-end" type="time" aria-label="時間窗訖">
+            </div>
+            <small class="rem-cc-hint" id="rem-cc-hint-window"></small>
+          </div>
+          <label class="rem-cc-field" for="rem-cc-lead">
+            <span class="rem-cc-name"></span>
+            <input id="rem-cc-lead" type="number" inputmode="numeric" min="0" max="4320" step="10" aria-label="提前量">
+            <small class="rem-cc-hint" id="rem-cc-hint-lead"></small>
+          </label>
+        </div>
+      </div>
       <input id="rem-search" class="rem-search" type="search" autocomplete="off">
       <ul id="rem-results" class="rem-results"></ul>
       <div class="rem-preview" id="rem-preview" hidden>
@@ -216,6 +288,6 @@
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui81"></script>
   <script src="./assets/reminders-client.js?v=clui83"></script>
-  <script src="./assets/reminders-page.js?v=clui90"></script>
+  <script src="./assets/reminders-page.js?v=clui99"></script>
 </body>
 </html>
