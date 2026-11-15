@@ -42,7 +42,7 @@ test('CL-CI-13 A2: modal_subtitle is a {p}/{f} template — the stale 72h copy i
 });
 
 test('CL-CI-13 A3: index.html bumps the app.js cache-bust stamp to clui49',()=>{
-  assert.match(indexSource,/assets\/app\.js\?v=clui100/);
+  assert.match(indexSource,/assets\/app\.js\?v=clui101/);
   assert.ok(!indexSource.includes('assets/app.js?v=clui33'));
 });
 
@@ -55,7 +55,7 @@ const subtitleBlock=grab('const HOURLY_WINDOW_DEFAULT','function applyStaticI18n
 function makeHarness(stubs){
   const timeouts=stubs.timeouts||[];
   const elements={};
-  const makeEl=()=>({innerText:'',innerHTML:'',style:{display:stubs.overlayOpen===false?'none':'flex'},
+  const makeEl=()=>({innerText:'',innerHTML:'',style:{display:stubs.overlayOpen===false?'none':'flex'},dataset:{},
     handlers:{},addEventListener(t,f){this.handlers[t]=f;},trigger(){this.handlers.click&&this.handlers.click();}});
   const getElementById=id=>elements[id]||(elements[id]=makeEl());
   const document={

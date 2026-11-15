@@ -186,7 +186,7 @@ test('CL-UI-90 (7) token discipline — zero hardcoded colors in the page styles
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui99/);
   assert.doesNotMatch(remHtml, /reminders-page\.js\?v=clui75/);
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui62/);
-  assert.match(remHtml, /assets\/app\.css\?v=clui100/);
+  assert.match(remHtml, /assets\/app\.css\?v=clui101/);
 });
 
 // ---- (8) headless 1280/390 screenshots vs mockup (raw CDP, no playwright) --
