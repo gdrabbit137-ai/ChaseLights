@@ -1,8 +1,8 @@
 # CL-DATA-24 全庫景點機械評分（catalog scoring）
 
-評分範圍：466 places × 705 opportunities（全數來自庫內契約；唯讀分析）。
+評分範圍：466 places × 722 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`b87fe9ef9b53de36…`（重跑可驗證確定性）。
+輸入指紋：`cb56d7a8fe27b76f…`（重跑可驗證確定性）。
 
 - 全庫加權均分：**3.91 / 5**；中位數：**3.95 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**284** 個，不虛構分數）。
 - 區域分布：jp=94, tw=222, us=150
@@ -52,7 +52,7 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | 447 | `us-116` | 威皮歐山谷晨光 | us | 1 | **None** | 4/5/5.0/5/unknown | us-115 (42.04) |
 | 448 | `us-117` | 馬卡普燈塔日出 | us | 1 | **None** | 5/5/4.0/5/unknown | us-118 (57.44) |
 | 449 | `us-118` | 邦載管道夕照 | us | 1 | **None** | 5/5/5.0/5/unknown | us-117 (57.44) |
-| 450 | `us-121` | 比克斯比溪橋（大瑟爾） | us | 1 | **None** | 5/5/2.5/5/unknown | us-122 (32.43) |
+| 450 | `us-121` | 比克斯比溪橋（大瑟爾） | us | 2 | **None** | 4.5/5/2.5/5/unknown | us-122 (32.43) |
 | 451 | `us-124` | 瓦爾迪茲基石峽谷瀑布 | us | 1 | **None** | 5/5/3.0/5/unknown | us-110 (29.04) |
 | 452 | `us-132` | 太浩湖盆景岩 | us | 1 | **None** | 5/5/2.5/5/unknown | us-008 (153.1) |
 | 453 | `us-134` | 使徒群島海蝕洞（冰洞） | us | 1 | **None** | 4/5/2.5/5/unknown | us-105 (340.6) |

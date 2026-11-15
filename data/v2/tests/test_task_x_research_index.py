@@ -53,7 +53,10 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((460,692),(len(actual),len(ids)))  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1-7: 460 places / 692 live ids (379/590 wave1 + 15 wave2 places / 22 contracts + 12 wave3 places / 15 contracts + 10 wave4 places / 16 contracts + 17 wave5 places / 22 contracts + 16 wave6 places / 16 contracts + 11 wave7 places / 11 contracts)
+        # CL-DATA-74 re-anchor (merged tree): 460 places / 709 live ids
+        # (692 + the 17 five-genre mount contracts: alpenglow x5,
+        # snow_scene x5, firefly x2, star_trails x2, moonlit_scene x3).
+        self.assertEqual((460,709),(len(actual),len(ids)))  # CL-INT-135 step2 re-anchor + CL-DATA-66 wave1-7: 460 places / 692 live ids (379/590 wave1 + 15 wave2 places / 22 contracts + 12 wave3 places / 15 contracts + 10 wave4 places / 16 contracts + 17 wave5 places / 22 contracts + 16 wave6 places / 16 contracts + 11 wave7 places / 11 contracts) + CL-DATA-74: +17 five-genre mounts = 709
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -282,6 +285,11 @@ class ResearchIndexTests(unittest.TestCase):
             # a0ad3da55 = the batch-A closure commit: the 46 reflection-family
             # contracts moved to operator 'none' (only 'unfit' vetoes).
             'a0ad3da5583a35268522435276a04d6a0252a159',
+            # CL-DATA-74: the 17 five-genre mount contracts (alpenglow x5,
+            # snow_scene x5, firefly x2, star_trails x2, moonlit_scene x3)
+            # carry their authorship bytes on the mount commit — blob+sha256
+            # verified on the task tree.
+            '1f806b4439ff69f3a792fa2f25a3fa234756d19c',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-DATA-72: tw-026-P01 canonical evolved past the 2026-11-02 owner
