@@ -282,6 +282,11 @@ class ResearchIndexTests(unittest.TestCase):
             # a0ad3da55 = the batch-A closure commit: the 46 reflection-family
             # contracts moved to operator 'none' (only 'unfit' vetoes).
             'a0ad3da5583a35268522435276a04d6a0252a159',
+            # CL-DATA-73: the 12 misty_forest mount records (tw-024-P06 …
+            # tw-177-P02) pinned to the mount commit carrying the trilingual
+            # contracts (blob+sha256 provenance verified by
+            # research_index --git-provenance on the merged tree).
+            '5556c7ea2ea4cad540132db5fc05d3c9771755f5',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-DATA-72: tw-026-P01 canonical evolved past the 2026-11-02 owner

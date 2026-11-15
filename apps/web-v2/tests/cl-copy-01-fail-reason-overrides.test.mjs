@@ -94,7 +94,10 @@ test('CL-COPY-01 (4): ja lines contain zero simplified-form hanzi', () => {
       seen.add(e.ja);
     }
   }
-  // Simplified forms that must never leak into Japanese copy.
-  const bad = '汉济证没汇银时后风关辉乐坚图圆场宫实宁宝对导恶战户扩择摊据权无词说谈论员阅简环让农动华变单贝车马龙鸟点发电东蓝难';
+  // Simplified forms that must never leak into Japanese copy. 点 is NOT in the
+  // list: it is Japanese-standard shinjitai (露点温度 is the JMA dew-point term,
+  // 時点/重点 are ordinary Japanese) — mapping 點→点 is a simplified-only rule,
+  // so flagging 点 would false-positive legitimate Japanese.
+  const bad = '汉济证没汇银时后风关辉乐坚图圆场宫实宁宝对导恶战户扩择摊据权无词说谈论员阅简环让农动华变单贝车马龙鸟发电东蓝难';
   for (const t of seen) for (const ch of bad) assert.ok(!t.includes(ch), `simplified '${ch}' leaked into: ${t}`);
 });

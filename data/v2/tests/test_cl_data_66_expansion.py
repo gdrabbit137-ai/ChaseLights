@@ -271,7 +271,7 @@ class TestContracts(unittest.TestCase):
         self._validate(WAVE1_CONTRACTS)
 
     def test_all_wave2_contracts_exist_and_validate(self):
-        self.assertEqual(len(WAVE2_CONTRACTS), 22)
+        self.assertEqual(len(WAVE2_CONTRACTS), 23)  # CL-DATA-73 re-anchor: 22 -> 23 (tw-151-P02 內洞 misty_forest mount rides the wave2 range)
         self._validate(WAVE2_CONTRACTS)
 
     def test_all_wave3_contracts_exist_and_validate(self):
@@ -279,7 +279,7 @@ class TestContracts(unittest.TestCase):
         self._validate(WAVE3_CONTRACTS)
 
     def test_all_wave4_contracts_exist_and_validate(self):
-        self.assertEqual(len(WAVE4_CONTRACTS), 16)
+        self.assertEqual(len(WAVE4_CONTRACTS), 17)  # CL-DATA-73 re-anchor: 16 -> 17 (tw-177-P02 特富野古道 misty_forest mount rides the wave4 range)
         self._validate(WAVE4_CONTRACTS)
 
     def test_unique_condition_ids(self):
@@ -318,7 +318,15 @@ class TestContracts(unittest.TestCase):
         self.assertEqual(len(ids), 103)  # 22 wave1 + 15 wave2 + 12 wave3 + 10 wave4 + 17 wave5 + 16 wave6 + 11 wave7
         for oid in WAVE1_CONTRACTS + WAVE2_CONTRACTS + WAVE3_CONTRACTS + WAVE4_CONTRACTS:
             doc = load(f"data/v2/opportunities/{oid}.json")
-            refs = doc["evidence_claims"][0]["evidence_refs"]
+            claim = doc["evidence_claims"][0]
+            if claim["audit_status"] == "UNKNOWN" and not claim["evidence_refs"]:
+                # CL-DATA-73: misty_forest mounts (tw-151-P02 / tw-177-P02)
+                # ride inside the wave ranges and carry no web-evidence refs
+                # by design (honest no-evidence-yet, owner ticket directive) —
+                # require the honest marker instead of a fabricated citation.
+                self.assertIn("CL-DATA-73", claim.get("scope_note", ""), oid)
+                continue
+            refs = claim["evidence_refs"]
             self.assertTrue(refs and refs[0] in ids, refs)
 
     def test_honest_null_elevations(self):
@@ -488,7 +496,7 @@ class TestRuntime(unittest.TestCase):
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
         self.assertEqual(len(cat["places"]), 460)
-        self.assertEqual(len(cat["opportunities"]), 692)
+        self.assertEqual(len(cat["opportunities"]), 704)  # CL-DATA-73 re-anchor: 692 -> 704 (+12 misty_forest, measured on the merged tree)
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(WAVE1_CONTRACTS) <= oids)
         self.assertTrue(set(WAVE2_CONTRACTS) <= oids)

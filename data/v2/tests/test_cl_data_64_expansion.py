@@ -227,7 +227,7 @@ class TestRuntime(unittest.TestCase):
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
         self.assertEqual(len(cat["places"]), 460)  # CL-DATA-66 wave7 re-anchor: 460 places
-        self.assertEqual(len(cat["opportunities"]), 692)  # CL-DATA-66 wave1-7 re-anchor (86 places / 132 contracts)
+        self.assertEqual(len(cat["opportunities"]), 704)  # CL-DATA-73 re-anchor: 692 -> 704 (+12 misty_forest, measured on the merged tree)
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(NEW_CONTRACTS) <= oids)
 
