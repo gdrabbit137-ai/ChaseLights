@@ -42,6 +42,7 @@
       ro_elev: '海拔（DEM 自動）', ro_tz: '時區自動', ro_pending: '落釘後自動帶入',
       ro_elev_outlier: '海拔異常（超出 −450～8,849 m）——請確認座標',
       create: '建立私人點', update: '更新私人點',
+      reason_name: '請先輸入景點名稱', reason_pin: '請先落釘或輸入經緯度',
       done1: '✓ 私人點已建立', done1_edit: '✓ 已更新', done_deferred: '已建立·氣象資料明日更新（每日抓取額度誠實排隊）',
       cc_title: '掛題材·自訂條件', cc_sub: 'CL-UI-99 已上線引擎——五組參數同規格',
       p_low: '低雲門檻（%）', p_mid: '中雲門檻（%）', p_high: '高雲門檻（%）', p_precip: '降水上限（mm/h）',
@@ -56,8 +57,9 @@
       nl1: '登入後才能使用私人點', nl2: '新增／編輯／提名私人景點是會員功能；私人點只出現在你的帳號。',
       login_cta: '登入以繼續', close: '關閉',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
-            ai_hint: '撮りたい条件を一文で説明', ai_ph: '例：明け方に雲海が見たい。雨は嫌。できれば4時半〜7時', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 調整してから送信してください', ai_fail: '解析に失敗しました。手動で設定してください。',
-            ai_hint: '用一句話描述你要的拍攝條件', ai_ph: '例如：清晨要能看到雲海，不要下雨，最好四點半到七點', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請微調後送出', ai_fail: '解析失敗，請手動設定。',
+      ai_hint: '用一句話描述你要的拍攝條件', ai_ph: '例如：清晨要能看到雲海，不要下雨，最好四點半到七點', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請微調後送出', ai_fail: '解析失敗，請手動設定。',
+      geo_btn: '📍 使用我的目前位置', geo_note: '為何需要位置：僅用於填入此新景點的座標，不會追蹤你的行蹤。', geo_working: '取得位置中…',
+      geo_denied: '無法取得位置：定位權限被拒絕。請改用點圖落釘或直接鍵入經緯度。', geo_timeout: '取得位置逾時。請改用點圖落釘或直接鍵入經緯度。', geo_error: '無法取得位置。請改用點圖落釘或直接鍵入經緯度。',
       copy_genre: '複製官方題材改（起點）', copy_genre_none: '不複製', copy_genre_hint: '選一個官方題材當起點，再微調單一參數',
       adv_toggle: '進階：原始數值輸入',
       lat_lng: 'lat/lng', elev_m: 'm',
@@ -77,6 +79,7 @@
       ro_elev: 'Elevation (auto DEM)', ro_tz: 'Timezone (auto)', ro_pending: 'auto-filled after pinning',
       ro_elev_outlier: 'Elevation outlier (outside −450…8,849 m) — check the coordinates',
       create: 'Create place', update: 'Save changes',
+      reason_name: 'Enter a place name first', reason_pin: 'Pin on the map or enter lat/lng first',
       done1: '✓ Place created', done1_edit: '✓ Saved', done_deferred: 'Created · weather data updates tomorrow (honest daily-fetch queue)',
       cc_title: 'Subject & custom conditions', cc_sub: 'Live CL-UI-99 engine — same five parameter groups',
       p_low: 'Low-cloud threshold (%)', p_mid: 'Mid-cloud threshold (%)', p_high: 'High-cloud threshold (%)', p_precip: 'Precip cap (mm/h)',
@@ -91,7 +94,9 @@
       nl1: 'Log in to use custom places', nl2: 'Adding / editing / nominating is member-only; places appear only on your account.',
       login_cta: 'Log in to continue', close: 'Close',
       sem_cloud: 'Cloud', sem_fog: 'Fog', sem_rain: 'Rain',
-            ai_hint: 'Describe the conditions you want in one sentence', ai_ph: 'e.g. I want to see a cloud sea at dawn, no rain, ideally 4:30-7:00', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — tweak, then submit', ai_fail: 'Parsing failed — please set the conditions manually.',
+      ai_hint: 'Describe the conditions you want in one sentence', ai_ph: 'e.g. I want to see a cloud sea at dawn, no rain, ideally 4:30-7:00', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — tweak, then submit', ai_fail: 'Parsing failed — please set the conditions manually.',
+      geo_btn: '📍 Use my current location', geo_note: 'Why we need it: only to fill in this place’s coordinates — your movements are never tracked.', geo_working: 'Getting your location…',
+      geo_denied: 'Could not get your location: permission denied. Please pin on the map or type lat/lng manually.', geo_timeout: 'Getting your location timed out. Please pin on the map or type lat/lng manually.', geo_error: 'Could not get your location. Please pin on the map or type lat/lng manually.',
       copy_genre: 'Copy an official genre template (starter)', copy_genre_none: 'No copy', copy_genre_hint: 'Pick an official genre as the starting point, then tweak a single parameter',
       adv_toggle: 'Advanced: raw numeric inputs',
       lat_lng: 'lat/lng', elev_m: 'm',
@@ -111,6 +116,7 @@
       ro_elev: '標高（DEM 自動）', ro_tz: 'タイムゾーン（自動）', ro_pending: 'ピン配置後に自動入力',
       ro_elev_outlier: '標高が異常（−450〜8,849 m 外）— 座標を確認してください',
       create: '作成', update: '変更を保存',
+      reason_name: '先に名称を入力してください', reason_pin: 'ピン配置か緯度経度の入力が必要です',
       done1: '✓ 作成しました', done1_edit: '✓ 保存しました', done_deferred: '作成済み・気象データは明日更新（毎日取得枠の正直な待機）',
       cc_title: '題材・カスタム条件', cc_sub: '稼働中の CL-UI-99 エンジン — 同じ 5 パラメータ群',
       p_low: '低雲しきい値（%）', p_mid: '中雲しきい値（%）', p_high: '高雲しきい値（%）', p_precip: '降水上限（mm/h）',
@@ -125,6 +131,9 @@
       nl1: '自作スポットにはログインが必要', nl2: '追加／編集／推薦は会員機能；自作スポットは自分のアカウントにのみ表示されます。',
       login_cta: 'ログインして続行', close: '閉じる',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
+      ai_hint: '撮りたい条件を一文で説明', ai_ph: '例：明け方に雲海が見たい。雨は嫌。できれば4時半〜7時', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 調整してから送信してください', ai_fail: '解析に失敗しました。手動で設定してください。',
+      geo_btn: '📍 現在地を使う', geo_note: '位置情報の使い道：このスポットの座標を入力するためだけ。現在地は追跡しません。', geo_working: '現在地を取得中…',
+      geo_denied: '位置を取得できませんでした：権限が拒否されました。地図クリックまたは手動入力をご利用ください。', geo_timeout: '位置の取得がタイムアウトしました。地図クリックまたは手動入力をご利用ください。', geo_error: '位置を取得できませんでした。地図クリックまたは手動入力をご利用ください。',
       copy_genre: '公式題材をコピーして改造（出発点）', copy_genre_none: 'コピーしない', copy_genre_hint: '公式題材を出発点に選び、1つのパラメータだけ調整します',
       adv_toggle: '高度：生の数値入力',
       lat_lng: 'lat/lng', elev_m: 'm',
@@ -489,9 +498,22 @@
       '<div class="cl-cp-fld" style="margin-bottom:0"><label>lat</label><input class="inp" id="cl-cp-lat" inputmode="decimal" placeholder="24.8225" style="font-family:var(--cl-mono)" value="' + esc(place ? place.lat : '') + '"></div>' +
       '<div class="cl-cp-fld" style="margin-bottom:0"><label>lng</label><input class="inp" id="cl-cp-lng" inputmode="decimal" placeholder="121.7675" style="font-family:var(--cl-mono)" value="' + esc(place ? place.lng : '') + '"></div>' +
       '</div>' +
+      '<div class="cl-cp-geo-row"><button type="button" class="cl-cp-geo-btn" id="cl-cp-geo-btn">' + esc(t().geo_btn) + '</button>' +
+      '<span class="cl-cp-geo-note">' + esc(t().geo_note) + '</span></div>' +
+      '<div class="cl-cp-geo-status" id="cl-cp-geo-status" role="status" aria-live="polite"></div>' +
       '<div class="cl-cp-ro" id="cl-cp-ro"></div></div>' +
       '<button type="button" class="cl-cp-submit" id="cl-cp-submit">' + esc(isEdit ? t().update : t().create) + '</button>');
     wireClose();
+    // patch-2: the name field is the FIRST field and auto-focuses (owner bug:
+    // on a short window the field was clipped and the user could not see why
+    // 「建立私人點」 stayed disabled). focus() also scrolls it into view.
+    var nm = els.overlay.querySelector('#cl-cp-name');
+    if (nm) {
+      nm.focus();
+      // disabled reason lives ON the button (not just grayed-out): recompute
+      // on every keystroke, pin change and geo fill
+      nm.addEventListener('input', updateSubmitState);
+    }
     var pk = els.overlay.querySelector('#cl-cp-pinpick');
     pk.addEventListener('click', function (e) {
       var r = pk.getBoundingClientRect();
@@ -508,9 +530,68 @@
         state.pin = { lat: els.overlay.querySelector('#cl-cp-lat').value.trim(), lng: els.overlay.querySelector('#cl-cp-lng').value.trim() };
         refreshPin();
       });
+      els.overlay.querySelector(sel).addEventListener('input', updateSubmitState);
     });
     els.overlay.querySelector('#cl-cp-submit').addEventListener('click', submitAdd);
+    var gb = els.overlay.querySelector('#cl-cp-geo-btn');
+    if (gb) gb.addEventListener('click', useMyLocation);
     refreshPin();
+  }
+  // 📍 current location — one implementation (web-v2, this file). The browser
+  // Geolocation API works in the APP WebView over https; inside the Capacitor
+  // native shell the @capacitor/geolocation plugin (registered in apps/mobile)
+  // takes precedence when present — never a second copy in the mobile shell.
+  function geoGetPosition(opts) {
+    if (typeof window.__clcpGeo === 'function') return window.__clcpGeo(opts); // test seam
+    var cap = window.Capacitor;
+    if (cap && cap.isNativePlatform && cap.isNativePlatform() && cap.Plugins && cap.Plugins.Geolocation) {
+      return cap.Plugins.Geolocation.getCurrentPosition(opts);
+    }
+    if (!navigator.geolocation) return Promise.reject({ code: 0, message: 'geolocation unavailable' });
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject, opts);
+    });
+  }
+  function useMyLocation() {
+    var btn = els.overlay.querySelector('#cl-cp-geo-btn');
+    if (!btn || btn.disabled) return;
+    var status = els.overlay.querySelector('#cl-cp-geo-status');
+    btn.disabled = true;
+    if (status) status.textContent = t().geo_working;
+    geoGetPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }).then(function (pos) {
+      if (!els.overlay.classList.contains('open')) return;
+      var c = pos && pos.coords;
+      var lat = c && Number(c.latitude), lng = c && Number(c.longitude);
+      if (!isFinite(lat) || !isFinite(lng)) throw { code: 0 };
+      els.overlay.querySelector('#cl-cp-lat').value = lat.toFixed(4);
+      els.overlay.querySelector('#cl-cp-lng').value = lng.toFixed(4);
+      state.pin = { lat: lat.toFixed(4), lng: lng.toFixed(4) };
+      if (status) status.textContent = '';
+      refreshPin(); // fills the map mark + auto DEM/timezone + submit-ready
+      var b2 = els.overlay.querySelector('#cl-cp-geo-btn'); if (b2) b2.disabled = false;
+    }).catch(function (err) {
+      if (!els.overlay.classList.contains('open')) return;
+      var st = els.overlay.querySelector('#cl-cp-geo-status');
+      var msg = err && err.code === 1 ? t().geo_denied : err && err.code === 3 ? t().geo_timeout : t().geo_error;
+      if (st) st.textContent = msg; // honest failure — manual pin/lat-lng stays
+      var b2 = els.overlay.querySelector('#cl-cp-geo-btn'); if (b2) b2.disabled = false;
+    });
+  }
+  // patch-2: the disabled submit button SHOWS the reason (「請先輸入景點名稱」/
+  // 「請先落釘或輸入經緯度」) instead of just graying out — the owner could not
+  // see a hidden name field, so a gray button with no explanation read as a
+  // dead end. ready = name AND finite lat/lng.
+  function updateSubmitState() {
+    var su = els.overlay.querySelector('#cl-cp-submit');
+    if (!su) return;
+    var nameEl = els.overlay.querySelector('#cl-cp-name');
+    var name = nameEl ? nameEl.value.trim() : '';
+    var latEl = els.overlay.querySelector('#cl-cp-lat'), lngEl = els.overlay.querySelector('#cl-cp-lng');
+    var lat = latEl ? parseFloat(latEl.value) : NaN, lng = lngEl ? parseFloat(lngEl.value) : NaN;
+    var ok = !!name && isFinite(lat) && isFinite(lng);
+    su.classList.toggle('ready', ok);
+    su.style.cursor = ok ? 'pointer' : 'not-allowed';
+    su.textContent = ok ? (state.editing ? t().update : t().create) : (!name ? t().reason_name : t().reason_pin);
   }
   function pinXY() {
     if (!state.pin) return null;
@@ -527,13 +608,11 @@
       ro.innerHTML = '<span class="pill">🏔 <span>' + esc(t().ro_elev) + '</span> <b id="cl-cp-elev">…</b></span>' +
         '<span class="pill">🕐 <span>' + esc(t().ro_tz) + '</span> <b id="cl-cp-tz">…</b></span>';
       lookupPinInfo();
-      var su = els.overlay.querySelector('#cl-cp-submit');
-      su.classList.add('ready'); su.style.cursor = 'pointer';
+      updateSubmitState();
     } else {
       pk.innerHTML = '<span class="cl-cp-pin-hint">' + esc(t().ro_pending) + '</span>';
       ro.innerHTML = '<span class="pill" style="color:var(--cl-text-3)">🏔 🕐 ' + esc(t().ro_pending) + '</span>';
-      var su2 = els.overlay.querySelector('#cl-cp-submit');
-      su2.classList.remove('ready'); su2.style.cursor = 'not-allowed';
+      updateSubmitState();
     }
   }
   function lookupPinInfo() {
