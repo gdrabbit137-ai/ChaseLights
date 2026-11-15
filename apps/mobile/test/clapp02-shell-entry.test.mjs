@@ -5,7 +5,7 @@
 import {test} from "node:test";
 import assert from "node:assert/strict";
 import {createPullToRefresh, fetchCloudDigest} from "../../web-v2/pull-refresh.mjs";
-import {AUTH_START_ENDPOINTS, AUTH_ME_ENDPOINT, parseMember, fetchMember} from "../../web-v2/shell-auth.mjs";
+import {AUTH_START_ENDPOINTS, AUTH_ME_ENDPOINT, parseMember, fetchMember, resetAuthRefreshState, MEMBER_TRANSIENT} from "../../web-v2/shell-auth.mjs";
 import {readFileSync} from "node:fs";
 import {fileURLToPath} from "node:url";
 import {dirname, join} from "node:path";
@@ -57,5 +57,14 @@ test("登入入口：/auth/me 回應渲染會員名稱，未登入時顯示登�
   const none = parseMember(await emptyRes().json());
   assert.equal(none, null);
   assert.equal(parseMember({display_name: "  "}), null);
-  assert.deepEqual(await fetchMember(async () => ({ok: false})), null);
+  // CL-API-07: unknown non-401 failures are transient — current state is kept,
+  // never flipped to signed-out; a 401 (after failed silent refresh) is the
+  // fail-closed path that yields null.
+  resetAuthRefreshState();
+  assert.deepEqual(await fetchMember(async () => ({ok: false})), MEMBER_TRANSIENT);
+  resetAuthRefreshState();
+  assert.equal(await fetchMember(async () => ({ok: false, status: 401, json: async () => ({error: "unauthorized"})})), null);
+  resetAuthRefreshState();
+  assert.equal(await fetchMember(async () => { throw new Error("offline"); }), MEMBER_TRANSIENT);
+  resetAuthRefreshState();
 });
