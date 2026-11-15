@@ -126,7 +126,7 @@ select.sel{height:var(--control-h);padding:0 var(--sp-3);background:var(--bg-2);
 #shell.vp390 .grid{grid-template-columns:1fr;gap:var(--sp-2)}
 .card{background:var(--bg-1);border:1px solid var(--border);border-radius:var(--r-md);
   padding:var(--sp-4);display:flex;flex-direction:column;min-width:0;
-  content-visibility:auto;contain-intrinsic-size:auto 190px; /* 460 卡效能：離屏卡片不排版 */ }
+  content-visibility:auto;contain-intrinsic-size:auto 220px; /* 460 卡效能：離屏卡片不排版（DESIGN-6 實高 ~219px） */ }
 #shell.vp390 .card{padding:var(--sp-3);border-radius:var(--r-sm)}
 .card:hover{border-color:var(--border-strong)}
 .card-head{display:flex;align-items:center;gap:var(--sp-2);margin-bottom:var(--sp-2)}
@@ -160,6 +160,69 @@ select.sel{height:var(--control-h);padding:0 var(--sp-3);background:var(--bg-2);
 .acts .btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;height:30px;
   border-radius:var(--r-xs);border:1px solid var(--border);background:var(--bg-2);font-size:var(--fs-12);color:var(--text-2);white-space:nowrap}
 .acts .btn:hover{background:var(--bg-3);color:var(--text-1);border-color:var(--border-strong)}
+
+/* ── DESIGN-6：卡片本體＝預報速覽 ─────────────────────── */
+/* 今日 24h 迷你色帶（與詳情彈窗/預報頁同源）— 已過時段 35% 透明 */
+.band{display:flex;gap:2px;height:12px;margin:var(--sp-2) 0}
+.band i{flex:1;min-width:2px;border-radius:2px;background:var(--bg-3)}
+.band i.ok{background:var(--green)}.band i.mid{background:var(--amber)}.band i.bad{background:var(--red)}
+.band i.past{opacity:.32}
+/* 現在狀態行 — 徽章=判定（頭部），此行=原因＋時間，不重複語義 */
+.nowline{display:flex;align-items:center;gap:6px;height:20px;font-size:var(--fs-12);color:var(--text-2);min-width:0;white-space:nowrap;overflow:hidden}
+.nowline .st{font-weight:600;flex:none}
+.nowline.t-shoot .st{color:var(--amber-text)}
+.nowline.t-rec .st{color:var(--green-text)}
+.nowline.t-no .st{color:var(--red-text)}
+.nowline .nx{color:var(--text-3);overflow:hidden;text-overflow:ellipsis}
+.nowline .nx b{font-family:var(--mono);font-weight:600;color:var(--text-1)}
+
+/* ── 題材面板（DESIGN-6：三鈕之「題材」開啟；原詳情彈窗題材內容前進至此）── */
+.overlay{position:fixed;inset:0;background:rgba(4,7,14,.72);backdrop-filter:blur(3px);
+  display:none;align-items:flex-start;justify-content:center;z-index:90;padding:var(--sp-6) var(--sp-4);overflow-y:auto}
+.overlay.open{display:flex}
+.modal{width:100%;max-width:560px;background:var(--bg-1);border:1px solid var(--border-strong);border-radius:var(--r-lg);
+  padding:var(--sp-5);box-shadow:0 24px 80px rgba(0,0,0,.7)}
+.m-head{display:flex;align-items:flex-start;gap:var(--sp-3);margin-bottom:var(--sp-2)}
+.m-head .name{font-size:var(--fs-16);font-weight:600}
+.m-head .sub{font-size:var(--fs-12);color:var(--text-3);margin-top:2px}
+.m-head .close{margin-left:auto;width:36px;height:36px;border-radius:var(--r-sm);border:1px solid var(--border);
+  background:var(--bg-2);color:var(--text-2);font-size:14px;flex:none}
+.m-head .close:hover{background:var(--bg-3);color:var(--text-1)}
+/* 逐題材一摺：摘要行＝題材名＋8 日窗 mini＋🔔；展開＝8 日格＋條件＋位置＋指南 */
+.subj{border:1px solid var(--border);border-radius:var(--r-md);background:var(--bg-2);margin-bottom:var(--sp-2);overflow:hidden}
+.subj>summary{display:flex;align-items:center;gap:var(--sp-2);padding:0 var(--sp-3);height:42px;cursor:pointer;list-style:none;font-size:var(--fs-14);font-weight:600}
+.subj>summary::-webkit-details-marker{display:none}
+.subj>summary .chev{color:var(--text-3);font-size:11px;transition:transform .15s}
+.subj[open]>summary .chev{transform:rotate(90deg)}
+.mini8{display:flex;gap:2px;margin-left:auto}
+.mini8 i{width:8px;height:14px;border-radius:2px;background:var(--bg-3)}
+.mini8 i.ok{background:var(--green)}.mini8 i.mid{background:var(--amber)}.mini8 i.bad{background:var(--red)}
+.subj .bell{color:var(--text-3);font-size:12px;flex:none}
+.subj .bell:hover{color:var(--amber)}
+.subj .pbody{padding:var(--sp-2) var(--sp-3) var(--sp-3);font-size:var(--fs-13);color:var(--text-2)}
+.d8{display:flex;gap:4px;margin-bottom:var(--sp-3)}
+.d8 .d{flex:1;display:flex;flex-direction:column;gap:2px;align-items:center;padding:4px 0;border-radius:var(--r-xs);
+  background:var(--bg-1);border:1px solid var(--border)}
+.d8 .d .dd{font-size:10px;color:var(--text-3);font-family:var(--mono)}
+.d8 .d.ok{background:var(--green-bg);border-color:var(--green-border)}.d8 .d.ok .dd{color:var(--green-text)}
+.d8 .d.mid{background:var(--amber-bg);border-color:var(--amber-border)}.d8 .d.mid .dd{color:var(--amber-text)}
+.d8 .d.bad{background:var(--red-bg);border-color:var(--red-border)}.d8 .d.bad .dd{color:var(--red-text)}
+.c-row{display:flex;gap:var(--sp-2);padding:2px 0;align-items:baseline}
+.c-row .k{flex:none;width:40px;font-size:var(--fs-12);font-weight:600}
+.c-row .k.req{color:var(--green-text)}.c-row .k.boost{color:var(--amber-text)}.c-row .k.pen{color:var(--red-text)}
+.p-kv{display:flex;gap:var(--sp-3);flex-wrap:wrap;margin:var(--sp-2) 0}
+.p-kv .col{display:flex;flex-direction:column;gap:1px}
+.p-kv .k{font-size:var(--fs-12);color:var(--text-3)}
+.p-kv .v{font-family:var(--mono);font-size:var(--fs-12);color:var(--text-1)}
+.m-tips{list-style:none;display:flex;flex-direction:column;gap:4px}
+.m-tips li{display:flex;gap:6px;font-size:var(--fs-13);color:var(--text-2)}
+.m-tips li::before{content:'·';color:var(--text-3);font-weight:600}
+#shell.vp390 ~ .overlay, .overlay.p390{padding:0}
+.overlay.p390 .modal{max-width:390px;min-height:100vh;border-radius:0}
+/* 390：卡片節奏 — 色帶滿寬、nowline 允許換行為兩行 */
+#shell.vp390 .band{height:14px}
+#shell.vp390 .nowline{white-space:normal;height:auto;line-height:1.4}
+#shell.vp390 .card{contain-intrinsic-size:auto 212px}
 
 .load-note{margin:var(--sp-5) auto 0;text-align:center;font-size:var(--fs-12);color:var(--text-3)}
 
@@ -284,10 +347,12 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
       </table>
       <h4 data-i18n="notes_card">卡片解剖</h4>
       <table>
-        <tr><td>三層資訊架構</td><td>頭：名稱 14/600 ＋ tier 徽章 ＋ ★（收藏）。身：逐題材行「短名 時段 🔔」（一行一題材，可拍/不宜行取代徽章堆疊）。腳：環境 pills（海拔/溫度/日出）＋三鈕。列表頁=3 秒決策層。</td></tr>
-        <tr><td>徽章精簡</td><td>DR1 P2-7 — 14 字綠 badge＋三顆綠 chip 堆疊改為逐題材單行；語義由行首色點（綠/黃/紅）承載，不再連續綠色閱讀。</td></tr>
-        <tr><td>✗ 短原因單行</td><td>DR2 規則 — 一卡一行主狀態；「✗ 厚雲」用 fail_reason_short 詞典短詞（真實值），長句留在詳情彈窗。</td></tr>
-        <tr><td>○ 一般拍攝行</td><td>DR2 1.3 去重規則 — 「○ 一般拍攝」僅在無 curated 題材符合時顯示（琥珀色），與 ✓推薦 互斥，不與 ✗並列。</td></tr>
+        <tr><td>DESIGN-6 owner 提案</td><td>①三鈕左一「天氣預報」改「題材」，開啟拍攝題材資訊面板（題材清單＋8 日窗/條件/位置/指南，即原詳情彈窗題材內容）；②卡片本體由「天氣預報」內容取代現行速覽 — 24h 色帶/逐時資訊直接上卡片（owner 卡片截圖：○可拍徽章＋「○可拍：窗已過·今日仍可拍」＋海拔/太陽/凝結/溫度 pills＋三鈕）。</td></tr>
+        <tr><td>DESIGN-6 設計師版本（採用）</td><td><b>owner 原案 vs 設計師建議</b>：原案「24h 色帶＋逐題材行」並存 — 色帶與逐題材行同為「今天什麼時段能拍」的兩種編碼，在同一張卡上重複語義且 390px 高度爆表。<b>設計師合併</b>：卡片本體＝一條預報速覽 — 24h 迷你色帶（同源詳情彈窗/預報頁，已過時段 35% 淡化）＋單行「現在狀態」（窗已過·今日仍可拍／✓符合中／✗短因）＋「下一個 HH:MM 題材」；逐題材行（時段/條件/位置/指南）整體降級進「題材」面板 — 色帶回答「今天節奏」，面板回答「我專攻的題材哪天幾點」。取捨：卡片不再逐題材掃描，換取每卡省 ~52px×3 行與零重複；掃描需求由 tier tabs＋色帶承擔。若 owner 仍要逐題材行，可作為色帶下方一條可收合 disclosure（+26px），不改色帶。</td></tr>
+        <tr><td>層級關係（去重）</td><td>頭部 tier 徽章＝判定（✓/○/✗，單一真相，沿用 DESIGN-5 時間感知）；色帶＝逐時分布（徽章的 why，視覺不重複文字）；狀態行＝判定原因＋下一時刻（文字補色帶之不足）；凝結(LCL) pill 與雲海/低雲條件同源但用途不同（環境 vs 題材門檻），各自只出現一次。同一語義絕不兩處文字渲染（DR「single truth per row」延伸到卡面）。</td></tr>
+        <tr><td>卡片高度</td><td>1280：~190→~205px（色帶 12px＋狀態行 20px 取代 2–3 行逐題材 78px，pills 3→4 顆 +22px）；390：同構 ~208px（色帶 14px、狀態行可換兩行）。content-visibility:auto 保留，contain-intrinsic-size 同步 190→205/208px — 離屏佔位估值與實高偏差 <10%，捲軸不跳。</td></tr>
+        <tr><td>三層資訊架構（更新）</td><td>頭：名稱 14/600 ＋ tier 徽章 ＋ ★。身：預報速覽（24h 色帶＋狀態行）。腳：環境 pills（海拔/太陽/凝結/溫度，owner 截圖規格）＋三鈕 題材｜地圖｜天氣圖。列表頁仍是 3 秒決策層；知識查詢移入題材面板。</td></tr>
+        <tr><td>題材面板</td><td>560px 彈窗（390 全螢幕）：逐題材 &lt;details&gt; — 摘要行＝題材名＋8 日窗 mini 條＋🔔；展開＝8 日格（✓/○/✗ 三色同源）＋條件（必須/加分/扣分）＋拍攝位置＋指南。○可拍卡僅列「一般拍攝」一項；✗ 卡同樣開一般拍攝面板，顯示原因詞典對應門檻。Esc／背板／✕ 關閉；390 轉 fullscreen。</td></tr>
         <tr><td>grid stretch 對齊</td><td>DR1 P2-8 — align-items stretch＋acts margin-top:auto，15 張卡底緣成一直線；卡間 24px（390px 降 8px）。</td></tr>
       </table>
       <h4 data-i18n="notes_token">色階 · 字級 · 間距 token</h4>
@@ -308,6 +373,9 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
   </details>
 </div>
 
+<!-- DESIGN-6：題材面板（卡片三鈕「題材」開啟） -->
+<div class="overlay" id="subj-overlay"><div class="modal"></div></div>
+
 <script>
 /* ── 三語詞典（UI 標籤）────────────────────────────────── */
 const I18N={
@@ -315,26 +383,35 @@ const I18N={
   login:'登入',member_name:'晨曦旅人',avatar_ch:'晨',menu_fav:'我的最愛',menu_rem:'提醒清單',menu_profile:'會員資料',menu_logout:'登出',
   page_title:'📍 今天去哪裡拍？',result_meta:'依最近可拍時段 · 460 個景點',today:'今天',
   t_rec:'推薦',t_shoot:'可拍',t_no:'不宜',t_all:'全部',load_note:'已顯示 15 / 460 · 向下滾動虛擬載入其餘卡片（content-visibility 離屏不排版）',
-  btn_fcst:'天氣預報',btn_map:'地圖',btn_grid:'天氣圖',notes_title:'設計說明 — 設計決策 × design-review 對應',
+  btn_subject:'題材',btn_map:'地圖',btn_grid:'天氣圖',notes_title:'設計說明 — 設計決策 × design-review 對應',
+  band_tip:'今日 24h 可拍色帶（綠=推薦 · 黃=可拍 · 紅=不宜 · 淡=已過）',
+  now_active:'符合中',now_wpass:'窗已過 · 今日仍可拍',next:'下一個',tomorrow:'明日',
+  p_elev:'海拔',p_sun:'太陽（日出）',p_lcl:'凝結（LCL）',p_temp:'溫度',
+  m_sub:'拍攝題材 · 8 日窗 / 條件 / 位置 / 指南',m_8d:'8 日窗',m_loc:'拍攝位置',req:'必須',boost:'加分',pen:'扣分',
   notes_layout:'版面重排',notes_card:'卡片解剖',notes_token:'色階 · 字級 · 間距 token',notes_perf:'460 卡列表效能',
-  data_src:'資料樣例：subject-cards 評估層真實值（2026-11-16 · 460 景點：✓223 / ○234 / ✗3；題材短名 21 種、fail_reason_short 詞典）。海拔/溫度/日出為示意值。視窗切換鈕僅改變容器寬度以示範 390px 節奏。',
-  gen_ok:'一般拍攝'},
+  data_src:'資料樣例：subject-cards 評估層真實值（2026-11-16 · 460 景點：✓223 / ○234 / ✗3；題材短名 21 種、fail_reason_short 詞典）。海拔/太陽/凝結/溫度與 8 日窗為示意值。視窗切換鈕僅改變容器寬度以示範 390px 節奏。'},
  en:{nav_cards:'Cards',nav_weathermap:'Weather map',nav_reminders:'Reminders',opt_region:'All regions',opt_sort:'By next shootable window',
   login:'Log in',member_name:'Dawn Chaser',avatar_ch:'D',menu_fav:'Favorites',menu_rem:'Reminders',menu_profile:'Account',menu_logout:'Log out',
   page_title:'📍 Where to shoot today?',result_meta:'By next shootable window · 460 places',today:'Today',
   t_rec:'Recommended',t_shoot:'Shootable',t_no:'Not advised',t_all:'All',load_note:'Showing 15 / 460 · scroll to virtual-load the rest (content-visibility offscreen skip)',
-  btn_fcst:'Forecast',btn_map:'Map',btn_grid:'Weather grid',notes_title:'Design notes — decisions × design-review findings',
+  btn_subject:'Subjects',btn_map:'Map',btn_grid:'Weather grid',notes_title:'Design notes — decisions × design-review findings',
+  band_tip:'Today 24h shootable band (green=recommended · amber=shootable · red=not advised · faded=past)',
+  now_active:'Matching now',now_wpass:'Window passed · still shootable today',next:'Next',tomorrow:'Tomorrow',
+  p_elev:'Elevation',p_sun:'Sun (sunrise)',p_lcl:'Condensation (LCL)',p_temp:'Temperature',
+  m_sub:'Subjects · 8-day windows / conditions / location / guide',m_8d:'8-day windows',m_loc:'Location',req:'Required',boost:'Booster',pen:'Penalty',
   notes_layout:'Layout',notes_card:'Card anatomy',notes_token:'Color · type · spacing tokens',notes_perf:'460-card list performance',
-  data_src:'Data samples: real subject-cards evaluation layer (2026-11-16 · 460 places: ✓223 / ○234 / ✗3; 21 genre short names, fail_reason_short dict). Elevation/temp/sunrise are illustrative. The viewport toggle only changes container width to demo the 390px rhythm.',
-  gen_ok:'General shooting'},
+  data_src:'Data samples: real subject-cards evaluation layer (2026-11-16 · 460 places: ✓223 / ○234 / ✗3; 21 genre short names, fail_reason_short dict). Elevation/sun/LCL/temp and 8-day windows are illustrative. The viewport toggle only changes container width to demo the 390px rhythm.'},
  ja:{nav_cards:'カード',nav_weathermap:'天気マップ',nav_reminders:'撮影リマインダー',opt_region:'全地域',opt_sort:'撮影可能時間順',
   login:'ログイン',member_name:'暁の旅人',avatar_ch:'暁',menu_fav:'お気に入り',menu_rem:'リマインド一覧',menu_profile:'会員情報',menu_logout:'ログアウト',
   page_title:'📍 今日はどこで撮る？',result_meta:'次の撮影可能時間順 · 460 スポット',today:'今日',
   t_rec:'推薦',t_shoot:'撮影可',t_no:'不適',t_all:'すべて',load_note:'15 / 460 表示中 · スクロールで仮想ロード（content-visibility）',
-  btn_fcst:'天気予報',btn_map:'地図',btn_grid:'天気マップ',notes_title:'デザインメモ — 決定事項 × design-review 対応',
+  btn_subject:'題材',btn_map:'地図',btn_grid:'天気マップ',notes_title:'デザインメモ — 決定事項 × design-review 対応',
+  band_tip:'本日 24h 撮影バンド（緑=推薦・黄=撮影可・赤=不適・薄=経過）',
+  now_active:'現在適格',now_wpass:'窓は終了・本日も撮影可',next:'次の',tomorrow:'明日',
+  p_elev:'標高',p_sun:'太陽（日の出）',p_lcl:'凝結（LCL）',p_temp:'気温',
+  m_sub:'撮影題材・8日窓／条件／位置／ガイド',m_8d:'8日窓',m_loc:'撮影位置',req:'必須',boost:'加点',pen:'減点',
   notes_layout:'レイアウト',notes_card:'カード構造',notes_token:'カラー・文字・余白トークン',notes_perf:'460カードのパフォーマンス',
-  data_src:'データ例：subject-cards 評価層の実値（2026-11-16 · 460 スポット：✓223 / ○234 / ✗3）。標高・気温・日の出はダミー。',
-  gen_ok:'一般撮影'}
+  data_src:'データ例：subject-cards 評価層の実値（2026-11-16 · 460 スポット：✓223 / ○234 / ✗3）。標高・太陽・LCL・気温と 8 日窓はダミー。'}
 };
 /* 真實題材短名（subject-cards dictionaries.genre_short_names，21 種） */
 const G={
@@ -353,38 +430,55 @@ const FR={visibility:['霧','fog','霧'],precipitation:['雨','rain','雨'],clou
  relative_humidity_925hpa:['濕度不合','humidity not in range','湿度が適域外'],wind_speed_10m:['風強','strong wind','強風'],
  temperature_2m:['氣溫不合','temperature out of range','気温が適域外'],light_window:['非日照時段','outside daylight hours','日照時間帯外']};
 
-/* 真實 place-day 資料（2026-11-16，subject-cards-20261112T202312Z）＋示意環境值 */
+/* 真實 place-day 資料（2026-11-16，subject-cards-20261112T202312Z）＋示意環境值
+   DESIGN-6：b=今日 24h 色帶（r/a/g/.，與詳情彈窗/預報頁同源）；env=[海拔,太陽,凝結(LCL),溫度]；
+   note：active=符合中 / wpass=窗已過·今日仍可拍 / no=✗短因；nx=[時刻,題材,'+1'=明日] */
 const CARDS=[
  {id:'tw-034',n:['崇德','Chongde','崇徳'],rg:['花蓮縣 秀林鄉','Xiulin, Hualien','花蓮県秀林郷'],tier:'rec',
-  s:[['sunrise','05:35–06:00'],['overlook','08:00–09:00'],['mountain_view','16:25']],env:['15 m','24°C','05:35']},
+  s:[['sunrise','05:35–06:00'],['overlook','08:00–09:00'],['mountain_view','16:25']],env:['15 m','05:35','1,200 m','24°C'],
+  b:'rrrrrggaggaaaaaagaarrrrr',note:'wpass',nx:['16:25','mountain_view']},
  {id:'tw-032',n:['見晴懷古步道','Jianqing Historic Trail','見晴懐古歩道'],rg:['宜蘭縣 太平山','Taipingshan, Yilan','宜蘭県太平山'],tier:'rec',
-  s:[['overcast_soft','06:00–08:00'],['overlook','09:00'],['cloud_sea','12:00–15:00']],env:['1,900 m','13°C','05:40']},
+  s:[['overcast_soft','06:00–08:00'],['overlook','09:00'],['cloud_sea','12:00–15:00']],env:['1,900 m','05:40','900 m','13°C'],
+  b:'rrrrrrggaaaagggaaaarrrrr',note:'wpass',nx:['12:00','cloud_sea']},
  {id:'tw-033',n:['粉鳥林','Fenniaolin Fish Harbor','粉鳥林漁港'],rg:['宜蘭縣 南澳','Nan’ao, Yilan','宜蘭県南澳'],tier:'rec',
-  s:[['sunrise','05:35–06:00']],env:['5 m','24°C','05:35']},
+  s:[['sunrise','05:35–06:00']],env:['5 m','05:35','1,500 m','24°C'],
+  b:'rrrrrgaaaaaaaaaaararrrrr',note:'wpass',nx:['05:35','sunrise','+1']},
  {id:'tw-027',n:['田寮月世界','Tianliao Moon World','田寮月世界'],rg:['高雄市 田寮區','Tianliao, Kaohsiung','高雄市田寮区'],tier:'rec',
-  s:[['geological_landform','06:00–16:45'],['night_sky','18:00']],env:['60 m','25°C','05:44']},
+  s:[['geological_landform','06:00–16:45'],['night_sky','18:00']],env:['60 m','05:44','2,000 m','25°C'],
+  b:'rrrrrrgggggggggggagrrrrr',note:'active',nx:['18:00','night_sky']},
  {id:'jp-011',n:['東京鐵塔','Tokyo Tower','東京タワー'],rg:['東京都 港區','Minato, Tokyo','東京都港区'],tier:'rec',
-  s:[['overlook','06:00–16:00'],['city_night','00:00–04:00']],env:['150 m','14°C','06:04']},
+  s:[['overlook','06:00–16:00'],['city_night','00:00–04:00 · 19:00–23:00']],env:['150 m','06:04','1,800 m','14°C'],
+  b:'ggggaaggggggggggaaaggggg',note:'active',nx:['19:00','city_night']},
  {id:'jp-035',n:['福岡塔','Fukuoka Tower','福岡タワー'],rg:['福岡縣 福岡市','Fukuoka City','福岡市早良区'],tier:'rec',
-  s:[['blue_hour_city','06:15 · 17:35'],['city_night','19:00–23:00'],['overlook','16:00']],env:['123 m','15°C','06:52']},
+  s:[['blue_hour_city','06:15 · 17:35'],['city_night','19:00–23:00'],['overlook','16:00']],env:['123 m','06:52','1,000 m','15°C'],
+  b:'aaaaagaaaaaaaaaaggagggga',note:'wpass',nx:['16:00','overlook']},
  {id:'jp-045',n:['地球岬展望台','Cape Chikyu Observatory','地球岬展望台'],rg:['北海道 室蘭市','Muroran, Hokkaido','北海道室蘭市'],tier:'rec',
-  s:[['sunset','15:30–16:00'],['overlook','06:00–07:00 · 13:00–15:00']],env:['120 m','9°C','06:25']},
+  s:[['sunset','15:30–16:00'],['overlook','06:00–07:00 · 13:00–15:00']],env:['120 m','06:25','800 m','9°C'],
+  b:'aaaaaagaaaaaaggggaarrrrr',note:'active',nx:['15:30','sunset']},
  {id:'jp-018',n:['名古屋城','Nagoya Castle','名古屋城'],rg:['愛知縣 名古屋市','Nagoya, Aichi','名古屋市中区'],tier:'rec',
-  s:[['golden_hour','08:00–16:10'],['city_night','00:00–05:00 · 19:00–23:00']],env:['20 m','13°C','06:21']},
+  s:[['golden_hour','08:00–16:10'],['city_night','00:00–05:00 · 19:00–23:00']],env:['20 m','06:21','1,500 m','13°C'],
+  b:'gggggaaaggggggggaaagggga',note:'active',nx:['19:00','city_night']},
  {id:'jp-027',n:['神戶六甲山','Mt. Rokko, Kobe','六甲山（神戸）'],rg:['兵庫縣 神戶市','Kobe, Hyōgo','神戸市灘区'],tier:'rec',
-  s:[['overlook','07:00–16:00'],['city_night','04:00 · 23:00']],env:['700 m','8°C','06:22']},
+  s:[['overlook','07:00–16:00'],['city_night','04:00 · 23:00']],env:['700 m','06:22','1,100 m','8°C'],
+  b:'ggggagggggggggggaaarrrgg',note:'active',nx:['23:00','city_night']},
  {id:'jp-001',n:['美瑛青池','Shirogane Blue Pond','美瑛青い池'],rg:['北海道 美瑛町','Biei, Hokkaido','北海道美瑛町'],tier:'shoot',
-  s:[],ok:['08:00–11:00'],no:[['06:00','relative_humidity_925hpa']],env:['500 m','6°C','06:27']},
+  s:[],ok:['08:00–11:00'],no:[['06:00','relative_humidity_925hpa']],env:['500 m','06:27','700 m','6°C'],
+  b:'rrrrraaaaaaaaaaaarrrrrrr',note:'wpass',nx:['08:00','general','+1']},
  {id:'jp-003',n:['釧路濕原','Kushiro Wetland','釧路湿原'],rg:['北海道 釧路市','Kushiro, Hokkaido','北海道釧路市'],tier:'shoot',
-  s:[],ok:['06:00–16:00'],no:[],env:['5 m','8°C','06:16']},
+  s:[],ok:['06:00–16:00'],no:[],env:['5 m','06:16','600 m','8°C'],
+  b:'aaaaaaaaaaaaaaaaaaarrrrr',note:'active',nx:['16:00','general']},
  {id:'jp-010',n:['大石公園','Oishi Park','大石公園'],rg:['山梨縣 富士河口湖','Fujikawaguchiko, Yamanashi','山梨県富士河口湖町'],tier:'shoot',
-  s:[],ok:['05:00–16:00'],no:[['17:00','visibility']],env:['900 m','9°C','06:19']},
+  s:[],ok:['05:00–16:00'],no:[['17:00','visibility']],env:['900 m','06:19','2,000 m','9°C'],
+  b:'rrrrraaaaaaaaaaarrrrrrrr',note:'active',nx:['16:00','general']},
  {id:'jp-002',n:['旭岳','Mt. Asahi','旭岳'],rg:['北海道 東川町','Higashikawa, Hokkaido','北海道東川町'],tier:'no',
-  s:[],noDom:'cloud_cover_mid',noNight:'visibility',env:['1,600 m','2°C','06:26']},
+  s:[],noDom:'cloud_cover_mid',noNight:'visibility',env:['1,600 m','06:26','400 m','2°C'],
+  b:'rrrrrrrrrrrrrrrrrrrrrrrr',note:'no',nx:['05:00','general','+1']},
  {id:'jp-069',n:['美瑛拼布之路','Biei Patchwork Road','美瑛・パッチワークの路'],rg:['北海道 美瑛町','Biei, Hokkaido','北海道美瑛町'],tier:'no',
-  s:[],noDom:'cloud_cover_low',env:['200 m','6°C','06:27']},
+  s:[],noDom:'cloud_cover_low',env:['200 m','06:27','1,200 m','6°C'],
+  b:'rrrrrrrrrrrrrrrrrrrrrrrr',note:'no',nx:['05:00','general','+1']},
  {id:'us-158',n:['哈丁冰原','Harding Icefield','ハーディング氷原'],rg:['阿拉斯加 奇奈峽灣','Kenai Fjords, AK','ケナイフィヨルド'],tier:'no',
-  s:[],noDom:'precipitation',env:['900 m','1°C','08:55']}
+  s:[],noDom:'precipitation',env:['900 m','08:55','300 m','1°C'],
+  b:'rrrrrrrrrrrrrrrrrrrrrrrr',note:'no',nx:['08:55','general','+1']}
 ];
 const CHIPS=['mountain_view','sunrise','sunset','blue_hour','city_night','night_sky','cloud_sea','golden_hour','geological_landform','overlook','reflection','waterfall','snow_ice','overcast_soft','tidal','blue_tears','seasonal_plant','drift_ice','volcanic_glow','snow_ice_night','general'];
 
@@ -394,26 +488,93 @@ const g=k=>(G[k]||[k,k,k])[lang==='zh-TW'?0:lang==='en'?1:2];
 const fr=k=>(FR[k]||[k,k,k])[lang==='zh-TW'?0:lang==='en'?1:2];
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 
+/* 題材面板資料（示意：8 日窗/條件/位置/指南 — 原詳情彈窗題材內容，DESIGN-6 前進至卡片「題材」鈕） */
+const SUBJ_META={
+ sunrise:{req:['太陽高度 −4°~6°','Sun altitude −4°~6°','太陽高度 −4°〜6°'],boost:['東側地平線開闊','Open eastern horizon','東側の開けた地平線'],pen:['低雲 >60%','Low cloud >60%','低雲 >60%'],
+  loc:['24.03N 121.62E · 朝東','24.03N 121.62E · facing E','24.03N 121.62E・東向き'],tip:['日出前 30 分到定位','Be in place 30 min before sunrise','日の出 30 分前に定位']},
+ overlook:{req:['能見度 ≥10 km','Visibility ≥10 km','視程 ≥10 km'],boost:['通透度高氣壓','High pressure, clear air','高気圧・クリア'],pen:['霧/霾','Fog / haze','霧・霾'],
+  loc:['制高點 · 全向','High point · all aspects','高点・全方向'],tip:['中午光硬，宜順光俯拍','Midday light is harsh — shoot with the sun','正午は順光の俯瞰が有利']},
+ mountain_view:{req:['能見度 ≥15 km','Visibility ≥15 km','視程 ≥15 km'],boost:['雨後通透','Clear air after rain','雨上がりの透明度'],pen:['中雲 >70%','Mid cloud >70%','中雲 >70%'],
+  loc:['24.03N 121.62E · 朝西','24.03N 121.62E · facing W','24.03N 121.62E・西向き'],tip:['傍晚逆光出層次','Backlight at dusk adds depth','夕暮れの逆光が奥行を出す']},
+ cloud_sea:{req:['低雲 80–100% 且 海拔高於 LCL','Low cloud 80–100% above LCL','低雲 80〜100%・LCL 以上'],boost:['夜間輻射冷卻','Night radiative cooling','夜間放射冷却'],pen:['高雲滿','High cloud full','上層雲満載'],
+  loc:['1,900 m · 朝山谷','1,900 m · facing valley','1,900 m・谷向き'],tip:['日出後 1 小時最盛','Peak 1 h after sunrise','日の出後 1 時間がピーク']},
+ overcast_soft:{req:['總雲量 70–90%','Total cloud 70–90%','雲量 70〜90%'],boost:['均勻層雲','Even stratiform deck','均質な層雲'],pen:['降水','Precipitation','降水'],
+  loc:['步道沿線','Along the trail','歩道沿い'],tip:['柔光適合林內細節','Soft light suits forest detail','柔光は森のディテール向き']},
+ geological_landform:{req:['日照時段','Daylight hours','日照時間帯'],boost:['斜射光強化紋理','Raking light boosts texture','斜光で質感が立つ'],pen:['頂光正午','Overhead noon light','真上の正午光'],
+  loc:['24.03N 120.29E · 環形','24.03N 120.29E · ring view','24.03N 120.29E・環状'],tip:['惡地宜乾季後','Badlands best after dry spell','惡地は乾季後が良い']},
+ night_sky:{req:['月相 <20% 且 夜間','Moon <20%, night','月齢 <20%・夜間'],boost:['無月夜','Moonless night','月なし夜'],pen:['雲量 >30%','Cloud >30%','雲量 >30%'],
+  loc:['24.03N 120.29E · 南向','24.03N 120.29E · facing S','24.03N 120.29E・南向き'],tip:['入夜後 2 小時銀河窗口','Milky Way ~2 h after dusk','日没 2 時間後に銀河']},
+ city_night:{req:['夜間','Night hours','夜間'],boost:['雨後濕地面反射','Wet ground reflections after rain','雨上がりの反射'],pen:['霾 >AQI 100','Haze AQI >100','霾 AQI >100'],
+  loc:['市中心 · 高點','City core · elevated','市街・高所'],tip:['藍調時分平衡天光','Balance sky at blue hour','ブルーアワーで空と調和']},
+ blue_hour_city:{req:['太陽 −4°~−6°','Sun −4°~−6°','太陽 −4°〜−6°'],boost:['晴朗西側','Clear western sky','西側晴れ'],pen:['厚雲','Thick cloud','厚い雲'],
+  loc:['朝西高點','Elevated, facing W','西向き高所'],tip:['早晚各一次，各約 20 分','Twice daily, ~20 min each','朝夕各 20 分']},
+ sunset:{req:['太陽 6°~−4°','Sun 6°~−4°','太陽 6°〜−4°'],boost:['西側雲隙','Gaps in western cloud','西の雲隙'],pen:['西側厚雲滿','Solid thick cloud W','西側の厚雲'],
+  loc:['海岬 · 朝西','Cape · facing W','海岬・西向き'],tip:['日落後 10 分燒雲最紅','Burnt clouds redden ~10 min after set','日没 10 分後に焼け雲']},
+ golden_hour:{req:['太陽 <15°','Sun <15°','太陽 <15°'],boost:['大氣懸浮微粒適量','Moderate aerosol haze','適度なエアロゾル'],pen:['雨','Rain','雨'],
+  loc:['建物南面','South face of structure','建物南面'],tip:['晨昏各一次','Once each morning and evening','朝夕各一回']},
+ general:{req:['能見度 ≥5 km · 無降水','Visibility ≥5 km, no precip','視程 ≥5 km・降水なし'],boost:['多雲透光','Broken cloud, some sun','雲間に光'],pen:['強風','Strong wind','強風'],
+  loc:['全域','Anywhere on site','区域内全域'],tip:['以一般基線評估','Evaluated on the general baseline','一般基線で評価']}};
+const D8_BASE=['ok','ok','mid','ok','ok','bad','mid','ok']; /* 示意 8 日窗：ok=✓ mid=○ bad=✗ */
+
+function bandHTML(c){
+  const NOW=11;
+  return '<div class="band" title="'+t().band_tip+'">'+c.b.split('').map((ch,h)=>
+    ch==='.'?'<i></i>':`<i class="${ch==='g'?'ok':ch==='a'?'mid':'bad'}${h<NOW?' past':''}"></i>`).join('')+'</div>';
+}
+function nowlineHTML(c){
+  const nx=c.nx?(c.nx[2]?(t().tomorrow+' '):'')+`<b>${c.nx[0]}</b>${c.nx[1]?' '+g(c.nx[1]):''}`:'';
+  let st='';
+  if(c.note==='active')st=`<span class="st">${c.tier==='rec'?'✓':'○'} ${t().now_active}</span>`;
+  else if(c.note==='wpass')st=`<span class="st">${t().now_wpass}</span>`;
+  else st=`<span class="st">✗ ${fr(c.noDom)}</span>`;
+  return `<div class="nowline t-${c.tier}">${st}${nx?`<span class="nx">${t().next} ${nx}</span>`:''}</div>`;
+}
+function subjListFor(c){
+  if(c.tier==='rec')return c.s.map(x=>x[0]);
+  return ['general'];
+}
+function modalHTML(c){
+  const L=lang==='zh-TW'?0:lang==='en'?1:2;
+  const names=subjListFor(c);
+  return `<div class="m-head"><div><div class="name">${esc(c.n[L])}</div><div class="sub">${c.rg[L]} · ${t().m_sub}</div></div>
+    <button class="close" id="m-close">✕</button></div>`+
+  names.map((k,i)=>{
+    const m=SUBJ_META[k]||SUBJ_META.general;
+    const d8=D8_BASE.map((v,j)=>D8_BASE[(j+i)%8]);
+    const cells=d8.map((v,j)=>`<div class="d ${v}"><span class="dd">${'SMTWTFS'[ (new Date(2026,10,15).getDay()+j)%7 ]}</span></div>`).join('');
+    return `<details class="subj"${i===0?' open':''}><summary><span class="chev">▸</span><span>${g(k)}</span>
+      <span class="mini8" title="${t().m_8d}">${d8.map(v=>`<i class="${v}"></i>`).join('')}</span><span class="bell" title="remind">🔔</span></summary>
+      <div class="pbody">
+        <div class="d8" title="${t().m_8d}">${cells}</div>
+        <div class="c-row"><span class="k req">${t().req}</span><span>${m.req[L]}</span></div>
+        <div class="c-row"><span class="k boost">${t().boost}</span><span>${m.boost[L]}</span></div>
+        <div class="c-row"><span class="k pen">${t().pen}</span><span>${m.pen[L]}</span></div>
+        <div class="p-kv"><span class="col"><span class="k">${t().m_loc}</span><span class="v">${m.loc[L]}</span></span></div>
+        <ul class="m-tips"><li>${m.tip[L]}</li></ul>
+      </div></details>`;
+  }).join('');
+}
+let mCard=null;
+function openModal(c){mCard=c;
+  const ov=document.getElementById('subj-overlay');
+  ov.querySelector('.modal').innerHTML=modalHTML(c);
+  ov.classList.toggle('p390',document.getElementById('shell').classList.contains('vp390'));
+  ov.classList.add('open');
+  document.getElementById('m-close').onclick=()=>ov.classList.remove('open');
+}
 function cardHTML(c){
-  const tierBadge={rec:`<span class="tier tier-rec">✓ ${lang==='en'?t().t_rec:lang==='ja'?'推薦':'推薦'}</span>`,
+  const tierBadge={rec:`<span class="tier tier-rec">✓ ${lang==='en'?'Recommended':'推薦'}</span>`,
     shoot:`<span class="tier tier-shoot">○ ${t().t_shoot}</span>`,
     no:`<span class="tier tier-no">✗ ${t().t_no}</span>`}[c.tier];
-  let body='';
-  if(c.tier==='rec'){
-    body=c.s.map(([gg,w])=>`<div class="subj-row"><span class="dot"></span><span class="g">${g(gg)}</span><span class="w">${w}</span><span class="bell" title="remind">🔔</span></div>`).join('');
-  }else if(c.tier==='shoot'){
-    body=`<div class="gen-line ok-mark"><span>○</span><span>${t().gen_ok}</span><span class="w" style="font-family:var(--mono);font-size:12px;color:var(--text-2)">${c.ok.join(' · ')}</span></div>`
-      +(c.no&&c.no.length?`<div class="no-line" style="color:var(--text-3)">✗ ${c.no.map(([h,r])=>`${g('')?'':''}<span style="font-family:var(--mono);font-size:12px">${h}</span> ${fr(r)}`).join(' · ')}</div>`:'');
-  }else{
-    body=`<div class="no-line"><span>✗</span><span style="font-weight:600">${fr(c.noDom)}</span>${c.noNight?`<span class="w" style="color:var(--text-3);font-family:var(--mono);font-size:12px">00:00–22:00 ${fr(c.noNight)}</span>`:''}</div>`;
-  }
-  return `<div class="card">
+  const P=t();
+  return `<div class="card" data-id="${c.id}">
     <div class="card-head"><span class="name">${esc(c.n[lang==='zh-TW'?0:lang==='en'?1:2])}</span>${tierBadge}<span class="star fav">★</span></div>
     <div class="region">${c.rg[lang==='zh-TW'?0:lang==='en'?1:2]}</div>
-    ${body}
-    <div class="pills"><span class="pill">⛰ <b>${c.env[0]}</b></span><span class="pill">🌡 <b>${c.env[1]}</b></span><span class="pill">🌅 <b>${c.env[2]}</b></span></div>
+    ${bandHTML(c)}
+    ${nowlineHTML(c)}
+    <div class="pills"><span class="pill" title="${P.p_elev}">⛰ <b>${c.env[0]}</b></span><span class="pill" title="${P.p_sun}">☀ <b>${c.env[1]}</b></span><span class="pill" title="${P.p_lcl}">💧 <b>${c.env[2]}</b></span><span class="pill" title="${P.p_temp}">🌡 <b>${c.env[3]}</b></span></div>
     <div class="acts">
-      <button class="btn">🌦️ ${t().btn_fcst}</button>
+      <button class="btn b-subj">🎞 ${t().btn_subject}</button>
       <button class="btn">📍 ${t().btn_map}</button>
       <button class="btn">🗺️ ${t().btn_grid}</button>
     </div>
@@ -444,6 +605,15 @@ document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.cl
   const m={'t-rec':'rec','t-shoot':'shoot','t-no':'no'}[b.className.split(' ').find(c=>c.startsWith('t-')&&c!=='tab')];
   document.getElementById('grid').innerHTML=CARDS.filter(c=>!m||c.tier===m).map(cardHTML).join('')||`<p class="load-note">${t().load_note}</p>`;});
 document.getElementById('chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(b)b.classList.toggle('on');});
+/* DESIGN-6：卡片「題材」鈕 → 題材面板 */
+document.getElementById('grid').addEventListener('click',e=>{
+  const b=e.target.closest('.b-subj');if(!b)return;
+  const c=CARDS.find(x=>x.id===b.closest('.card').dataset.id);if(c)openModal(c);});
+document.getElementById('subj-overlay').addEventListener('click',e=>{
+  if(e.target.id==='subj-overlay')e.target.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('subj-overlay').classList.remove('open');});
+/* 語言切換時若面板開啟，同步重繪 */
+document.getElementById('lang-grp').addEventListener('click',()=>{if(mCard&&document.getElementById('subj-overlay').classList.contains('open'))openModal(mCard);});
 </script>
 </body>
 </html>
