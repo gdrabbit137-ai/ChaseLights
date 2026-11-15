@@ -384,9 +384,18 @@ def main(argv=None):
     if args.place_id:
         targets = [p for p in targets if p in args.place_id]
     report = {'mounted': [], 'skipped': {}, 'bytes': {}}
+    # Idempotency: skip a place once ANY misty_forest opportunity exists for
+    # it (the CL-DATA-73 admit rerun re-enters main() and must never mount a
+    # second batch).
+    already = {d['place_id'] for d in docs.values()
+               if (d.get('condition_contract') or {}).get('genre_template')
+               == 'misty_forest'}
     for pid in targets:
         if pid not in by_id:
             report['skipped'][pid] = 'place_not_found'
+            continue
+        if pid in already:
+            report['skipped'][pid] = 'misty_forest_already_mounted'
             continue
         oid_candidate = f"{pid}-{next_suffix(docs, pid)}"
         out = CANONICAL / f'{oid_candidate}.json'
