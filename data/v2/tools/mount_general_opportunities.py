@@ -64,15 +64,15 @@ GEOMETRY_NOTE = "Inherited from the place's existing canonical opportunity geome
 CLASSIFICATION_BASIS = "general_genre_auto_mount_v0.1"
 
 DESC_I18N = {
-    "zh-TW": ("一般拍攝題材（owner 裁決 2026-11-10 零題材兜底）：主體不被遮擋（能見度足夠）、"
-              "無大雨大霧即可拍攝。此為可拍性下限保證，非策展題材；顯示層以「一般拍攝」標籤區分。"),
-    "en": ("General shooting subject (CL-DATA-65 zero-curated-subject fallback, owner ruling "
-           "2026-11-10): the subject is unobstructed (adequate visibility) and shootable "
+    "zh-TW": ("可拍題材（owner 裁決 2026-11-10 零題材兜底；CL-DATA-69 文案統一改名）：主體不被遮擋（能見度足夠）、"
+              "無大雨大霧即可拍攝。此為可拍性下限保證，非策展題材；顯示層以「可拍」標籤區分。"),
+    "en": ("Shootable subject (CL-DATA-65 zero-curated-subject fallback, owner ruling "
+           "2026-11-10; title renamed per CL-DATA-69 copy unification): the subject is unobstructed (adequate visibility) and shootable "
            "without heavy rain or heavy fog. This is a shootability floor, not a curated "
-           "genre; the display layer labels it General shooting."),
-    "ja": ("一般撮影題材（2026-11-10 オーナー裁定によるゼロ題材フォールバック）：主題が遮られず"
+           "genre; the display layer labels it Shootable."),
+    "ja": ("撮影可題材（2026-11-10 オーナー裁定によるゼロ題材フォールバック、CL-DATA-69 文案統一による改名）：主題が遮られず"
            "（視程十分）、大雨・濃霧がなければ撮影できる。撮影可能性の下限保証であり、"
-           "キュレーション題材ではない。表示層は「一般撮影」ラベルで区別する。"),
+           "キュレーション題材ではない。表示層は「撮影可」ラベルで区別する。"),
 }
 
 SCALE_I18N = {
@@ -196,9 +196,9 @@ def build_general_opportunity(place, docs, place_id, imported_at):
         'revision': 1,
         'lifecycle_status': 'draft',
         'name_i18n': {
-            'zh-TW': f'{zh_name}・一般拍攝',
-            'en': f'{name.get("en") or zh_name} · General shooting',
-            'ja': f'{name.get("ja") or zh_name}・一般撮影',
+            'zh-TW': f'{zh_name}・可拍',
+            'en': f'{name.get("en") or zh_name} · Shootable',
+            'ja': f'{name.get("ja") or zh_name}・撮影可',
         },
         'description_i18n': {
             'zh-TW': DESC_I18N['zh-TW'] + '能見度門檻：' + scale_note['zh-TW'] + '。',
@@ -214,9 +214,9 @@ def build_general_opportunity(place, docs, place_id, imported_at):
         'targets': [{
             'id': f'SG-{oid}-01', 'kind': 'multi_component',
             'name_i18n': {
-                'zh-TW': f'{zh_name}（一般拍攝）',
-                'en': f'{name.get("en") or zh_name} (general shooting)',
-                'ja': f'{name.get("ja") or zh_name}（一般撮影）',
+                'zh-TW': f'{zh_name}（可拍）',
+                'en': f'{name.get("en") or zh_name} (shootable)',
+                'ja': f'{name.get("ja") or zh_name}（撮影可）',
             },
             'geometry': geo(), 'phenomenon_model_id': None,
             'evidence_refs': [], 'components': [],
