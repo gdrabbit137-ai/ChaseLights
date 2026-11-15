@@ -172,8 +172,8 @@ test('CL-UI-93 C2: the page stays OUT of the site nav (direct URL, owner ruling)
 test('CL-UI-93 C3: cache-bust stamp bumped for the genre-eval.js rewrite', () => {
   assert.match(html, /assets\/genre-eval\.js\?v=clui95/);
   // Shared shells keep their pinned stamps (CL-INT-176: main's app.css stamp
-  // already advanced to clui96 via CL-INT-175 — merge keeps the main-side pin).
-  assert.match(html, /assets\/app\.css\?v=clui96/);
+  // already advanced to clui97 via CL-INT-175 — merge keeps the main-side pin).
+  assert.match(html, /assets\/app\.css\?v=clui97/);
   assert.match(html, /assets\/member-auth\.js\?v=clui81/);
   assert.match(html, /assets\/favorites-client\.js\?v=clui82/);
 });

@@ -2,8 +2,9 @@
 // 雲海 chip 矛盾): the hourly status column is RETIRED. The 適合題材 cell IS
 // the single-truth verdict (same source as the chips — subject-cards hours):
 // 任一題材符合 → 綠 ✓chip；題材皆不符但一般基準過 → 灰「○ 一般拍攝」；
-// 一般也不過 →「✗ 短原因」。歷史 folds into the time column as small
-// （已過） text. New column anatomy: 時間｜適合題材｜口語化氣象 (＋⋯).
+// 一般也不過 →「✗ 短原因」。歷史 is told by the past-row tint alone (CL-UI-96;
+// the （已過） small text was retired). New column anatomy:
+// 時間｜適合題材｜口語化氣象 (＋⋯).
 // Source assertions + extracted pure helper on the committed artifact, per
 // the established V1-shell test pattern.
 import test from 'node:test';
@@ -124,23 +125,20 @@ test('CL-UI-94 (3): status column retired — three-column anatomy 時間｜適�
   assert.match(cssSource, /\.subj-chip \{[^}]*color:var\(--cl-green-text\)/, '✓chip keeps the green contract');
 });
 
-test('CL-UI-94 (4): 歷史 folds into the time column — small （已過）, never a separate status tag', () => {
+test('CL-UI-96 (4): 歷史 is told by the past-row tint alone — no （已過） small text', () => {
   const rowIdx = appSource.indexOf('rowsHtml.push(`<tr class=');
   const row = appSource.slice(rowIdx, rowIdx + 1600);
-  assert.ok(row.includes('<span class="tag-past">${esc(d().clui94_past)}</span>'), '（已過） small text in the time cell');
+  assert.ok(appSource.includes("const rowClass=isBest?'best-row':(isPast?'past-row':'');"), 'past hours keep the past-row class');
+  assert.ok(!row.includes('clui94_past') && !row.includes('tag-past'), '（已過） small text removed from the time cell');
   assert.ok(!row.includes('d().tag_past'), '歷史 tag retired from the hourly rows');
   const cardIdx = appSource.indexOf("card.className=`timeline-mobile-card");
   const card = appSource.slice(cardIdx, cardIdx + 3200);
-  assert.ok(card.includes('${esc(d().clui94_past)}'), 'mobile card folds （已過） into the time too');
-  for (const lang of ['zh-TW', 'en', 'ja']) {
-    assert.equal(appSource.split("clui94_past:'").length - 1, 3, 'clui94_past in all three dicts');
-    break;
-  }
-  assert.ok(appSource.includes("clui94_past:'（已過）'"), 'zh-TW wording');
-  assert.ok(appSource.includes("clui94_past:'(past)'"), 'en wording');
-  assert.ok(appSource.includes("clui94_past:'（経過）'"), 'ja wording');
+  assert.ok(!card.includes('clui94_past') && !card.includes('tag-past'), 'mobile card time carries no （已過） label either');
+  assert.ok(cssSource.includes('.terminal-table tr.past-row { color: var(--cl-grey) !important; background: var(--cl-bg-0); }'), 'desktop past-row stays greyed');
+  assert.ok(cssSource.includes('.timeline-mobile-card.past-row { opacity: .58; background: var(--cl-bg-0); }'), 'mobile past cards stay faded');
+  assert.ok(!appSource.includes('clui94_past'), 'clui94_past i18n key retired from all three dicts');
 });
 
-test('CL-UI-94 (5): cache-bust advanced — index.html serves app.js + app.css at ?v=clui96', () => {
-  assert.equal((indexSource.match(/\?v=clui96/g) || []).length, 2, 'app.js + app.css both at clui96');
+test('CL-UI-96 (5): cache-bust advanced — index.html serves app.js + app.css at ?v=clui97', () => {
+  assert.equal((indexSource.match(/\?v=clui97/g) || []).length, 2, 'app.js + app.css both at clui97');
 });

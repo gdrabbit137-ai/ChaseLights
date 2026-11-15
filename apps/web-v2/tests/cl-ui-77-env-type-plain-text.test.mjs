@@ -41,7 +41,7 @@ test('CL-UI-77 (3): subject reminder rows keep their interactive anatomy', () =>
   assert.match(appJs, /cl-rem-btn cl-rem-compact/);
 });
 
-test('CL-UI-77 (4): cache-bust bumped to clui96 on the homepage', () => {
-  assert.match(indexHtml, /assets\/app\.js\?v=clui96/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui96/);
+test('CL-UI-77 (4): cache-bust bumped to clui97 on the homepage', () => {
+  assert.match(indexHtml, /assets\/app\.js\?v=clui97/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui97/);
 });

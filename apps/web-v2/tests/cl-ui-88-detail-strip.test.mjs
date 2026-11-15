@@ -73,7 +73,7 @@ test('CL-UI-88 (1): strip CSS — content-sized cells, no ellipsis, fade hints +
   // Quick-view panel carries the tier semantics (green when recommended).
   assert.match(cssSource, /\.place-quick-view\.quick-ok\{background:color-mix\(in srgb, var\(--cl-green\) 10%, transparent\);border-color:color-mix\(in srgb, var\(--cl-green\) 55%, transparent\)\}/);
   // Cache-bust: the served homepage carries the new stamp.
-  assert.equal((indexSource.match(/\?v=clui96/g) || []).length, 2, 'app.js + app.css both at clui96');
+  assert.equal((indexSource.match(/\?v=clui97/g) || []).length, 2, 'app.js + app.css both at clui97');
 });
 
 test('CL-UI-88 (2): strip wiring — tooltip + .sel + per-block drag init in app.js', () => {
