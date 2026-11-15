@@ -8,7 +8,12 @@ import {fileURLToPath} from 'node:url';
 // geometry/light-window records (owner ruling 2026-11-06: AI fact-check with
 // source URL+date replaces human review). Original human-review bytes:
 // 3682e14ec5ed7eb4b78d2b7a47d0b43c1b836c98 (git history).
-export const W2_SHA = "2af08fb9eec9994ab5862197c4a0d8a45587e440";
+// CL-INT-188: canonical evolved past the 2026-11-02 owner ruling (CL-DATA-72
+// sunset T3 QUALITY / reflection wave, source-lock re-pin 19e936548);
+// fixture+manifest re-anchored to the live canonical bytes per the
+// CL-DATA-57/4becb13b2 pattern; the pre-wave bytes (2af08fb9/87d380a1)
+// remain reachable through git history.
+export const W2_SHA = "19e9365487c8ac46048cdc9c5e1eea2d50406e41";
 export const fixtureDirectory = fileURLToPath(new URL('./fixtures/worker2/', import.meta.url));
 export const manifest = JSON.parse(readFileSync(resolve(fixtureDirectory, 'manifest.json'), 'utf8'));
 export function gitBlob(buffer) {

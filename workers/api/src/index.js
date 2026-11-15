@@ -14,7 +14,7 @@ const RATE_LIMITS = {
 function rateClass(path, method) {
   if (
     method === "GET" &&
-    /^\/(auth\/me$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$|feedback$|feedback\/config$|admin\/feedback$)/.test(path)
+    /^\/(auth\/me$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$|feedback$|feedback\/config$|admin\/feedback$|custom_places$|conditions\/parse$)/.test(path)
   ) return "read";
   if (/^\/auth\/(line|google)\/callback$|^\/auth\/mock\/start$|^\/auth\/refresh$/.test(path)) return "auth";
   return "write";
@@ -28,6 +28,12 @@ import {
   handleFeedback, handleFeedbackSubmit, handleFeedbackDelete,
   handleAdminFeedbackList, handleAdminFeedbackReview, feedbackEnabled,
 } from "./feedback.js";
+// CL-APP-06: custom places (private points) — CRUD + nomination + low-priority fetch queue.
+import {
+  handleCustomPlaces, handleCustomPlaceItem, handleCustomPlaceNominate,
+  handleCustomPlacePinInfo, processCustomFetchQueue,
+  handleConditionsParse, handleConditionsParseConfig,
+} from "./custom-places.js";
 
 // CL-API-03: rule limits by member level (402 = upgrade semantics).
 // CL-DATA-70 owner ruling (Stage 1): grading column users.member_level
@@ -703,6 +709,24 @@ export default {
 
     if (path === "/favorites") return handleFavorites(request, env, url);
 
+    // --- custom places (CL-APP-06, member-only private points) ---
+    if (path === "/conditions/parse" && request.method === "GET") {
+      return handleConditionsParseConfig(request, env);
+    }
+    if (path === "/conditions/parse" && request.method === "POST") {
+      return handleConditionsParse(request, env);
+    }
+    if (path === "/custom_places/pin_info" && request.method === "GET") {
+      return handleCustomPlacePinInfo(request, env, url);
+    }
+    if (path === "/custom_places") return handleCustomPlaces(request, env);
+    {
+      const cpm = path.match(/^\/custom_places\/([\w-]+)$/);
+      if (cpm && request.method === "PATCH") return handleCustomPlaceItem(request, env, cpm[1]);
+      if (cpm && request.method === "DELETE") return handleCustomPlaceItem(request, env, cpm[1]);
+      if (cpm && request.method === "POST") return handleCustomPlaceNominate(request, env, cpm[1]);
+    }
+
     // --- feedback channel (CL-DATA-70, gray-released) ---
     // CL-UI-100: the gray-release probe the shell reads before mounting any
     // rating UI — 200 with the flag value always (clients treat any non-200,
@@ -771,5 +795,9 @@ export default {
   // per rule+window (notify_log PK dedupe).
   async scheduled(event, env, ctx) {
     ctx.waitUntil(runNotifyCron(env).then((s) => console.log("[notify-cron]", JSON.stringify(s))).catch((e) => console.error("[notify-cron]", e && e.message)));
+    // CL-APP-06: custom places ride the SAME cron but a DEDICATED low-priority
+    // queue (batch-capped; global 70% brake downshifts 10%, 90% hard-stops
+    // non-core refreshes — never the notify engine, which is the paid core).
+    ctx.waitUntil(processCustomFetchQueue(env).then((s) => console.log("[custom-places-queue]", JSON.stringify(s))).catch((e) => console.error("[custom-places-queue]", e && e.message)));
   },
 };
