@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChaseLights — 資料來源與授權</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon-180.png">
+  <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
+  <link rel="stylesheet" href="./assets/app.css?v=clui102">
+  <style>
+    /* CL-UI-101: 資料來源與授權 page — commercial-compliance attribution hub.
+       License names stay in their ORIGINAL language (CC BY 4.0 / ODbL /
+       政府資料開放授權條款 …) per the ticket; descriptions are trilingual.
+       Same shell recipe as reminders.html (rem-header / rem-panel anatomy),
+       all colors/radii/spacing reference the live --cl-* tokens (app.css
+       :root) — no color redefinition here. */
+    .src-header{max-width:760px;margin:0 auto;padding:var(--cl-sp-5) var(--cl-sp-4) 0}
+    .src-title-row{display:flex;align-items:baseline;gap:var(--cl-sp-3);flex-wrap:wrap}
+    .src-title-row h1{margin:0;font-size:var(--cl-fs-20);font-weight:600;color:var(--cl-text-1);white-space:nowrap}
+    .src-title-row .src-lang{margin-left:auto}
+    .src-lang .control-dropdown{height:var(--cl-control-h)}
+    .src-wrap{max-width:760px;margin:0 auto;padding:var(--cl-sp-4) var(--cl-sp-4) 80px}
+    .src-panel{background:var(--cl-bg-1);border:1px solid var(--cl-border);border-radius:var(--cl-r-md);
+      padding:var(--cl-sp-4);margin-bottom:var(--cl-sp-4)}
+    .src-panel h2{margin:0 0 var(--cl-sp-3);font-size:var(--cl-fs-14);font-weight:600;color:var(--cl-text-1)}
+    .src-intro{margin:0 0 var(--cl-sp-4);font-size:var(--cl-fs-13);color:var(--cl-text-2);line-height:1.6}
+    .src-list{list-style:none;margin:0;padding:0}
+    .src-card{padding:var(--cl-sp-3) 0;border-bottom:1px solid var(--cl-border);min-width:0}
+    .src-list .src-card:last-child{border-bottom:none;padding-bottom:0}
+    .src-card-head{display:flex;align-items:center;gap:var(--cl-sp-2);flex-wrap:wrap;min-width:0}
+    .src-name{font-size:var(--cl-fs-14);font-weight:600;color:var(--cl-text-1)}
+    .src-license{display:inline-flex;align-items:center;height:var(--cl-chip-h);padding:0 var(--cl-sp-2);flex:none;
+      border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);background:var(--cl-bg-1);
+      font-size:var(--cl-fs-12);color:var(--cl-text-2);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .src-desc{margin:var(--cl-sp-2) 0 0;font-size:var(--cl-fs-13);color:var(--cl-text-2);line-height:1.6}
+    .src-attr{margin:var(--cl-sp-2) 0 0;font-size:var(--cl-fs-12);color:var(--cl-text-3);line-height:1.5}
+    .src-attr .src-attr-label{font-weight:600}
+    .src-quote{font-family:var(--cl-mono);color:var(--cl-text-2)}
+    .src-links{margin:var(--cl-sp-2) 0 0;display:flex;gap:var(--cl-sp-2);flex-wrap:wrap}
+    .src-links a{display:inline-block;height:30px;line-height:28px;padding:0 10px;border-radius:var(--cl-r-xs);
+      border:1px solid var(--cl-border);background:var(--cl-bg-2);color:var(--cl-text-2);
+      font-size:var(--cl-fs-12);text-decoration:none;white-space:nowrap}
+    .src-links a:hover{background:var(--cl-bg-3);color:var(--cl-text-1);border-color:var(--cl-border-strong)}
+    .src-foot-note{margin:0;font-size:var(--cl-fs-12);color:var(--cl-text-3);line-height:1.5}
+    /* 免責聲明面板：虛線框提醒這是需要整段閱讀的注意事項 */
+    .src-disclaimer{border-style:dashed;border-color:var(--cl-border-strong)}
+    .src-disclaimer ul{list-style:disc;margin:0;padding-left:1.4em}
+    .src-disclaimer li{font-size:var(--cl-fs-13);color:var(--cl-text-2);line-height:1.6;margin-bottom:var(--cl-sp-2)}
+    .src-disclaimer li:last-child{margin-bottom:0}
+    /* 390 節奏：標題列縱排、卡片頭允許換行（觸控目標維持 44px 級距由連結 min-height 承擔） */
+    @media (max-width: 390px) {
+      .src-title-row .src-lang{margin-left:0}
+      .src-card-head{align-items:flex-start;flex-direction:column;gap:var(--cl-sp-1)}
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="全站導覽">
+    <div class="site-nav-inner">
+      <a class="site-nav-brand" href="./index.html">📸 ChaseLights</a>
+      <div class="site-nav-links">
+        <a class="site-nav-item" data-nav-target="cards" href="./index.html" data-i18n="nav_cards">卡片</a>
+        <a class="site-nav-item" data-nav-target="weather" href="./weather-map.html" data-i18n="nav_weathermap">天氣圖</a>
+        <a class="site-nav-item" data-nav-target="reminders" href="./reminders.html" data-i18n="nav_reminders">提醒</a>
+        <div class="site-nav-more" data-member-area>
+          <span class="site-nav-item" data-member-name hidden>會員</span>
+          <button class="site-nav-more-btn" type="button" data-member-toggle
+                  aria-haspopup="true" aria-expanded="false" data-ma-i18n="ma_login" hidden>登入</button>
+          <button class="site-nav-more-btn" type="button" data-member-logout
+                  data-ma-i18n="ma_logout" hidden>登出</button>
+          <div class="site-nav-menu" data-member-menu hidden>
+            <a data-ma-line href="/api/v1/auth/line/start" data-ma-i18n="ma_line">使用 LINE 登入</a>
+            <a data-ma-google href="/api/v1/auth/google/start" data-ma-i18n="ma_google">使用 Google 登入</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <header class="src-header">
+    <div class="src-title-row">
+      <h1>📑 <span id="page-title" data-si18n="src_page_title">資料來源與授權</span></h1>
+      <span class="src-lang">
+        <select id="lang-select" class="control-dropdown lang-dropdown" aria-label="語言">
+          <option value="zh-TW" selected>🌐 繁體中文</option>
+          <option value="en">🌐 English</option>
+          <option value="ja">🌐 日本語</option>
+        </select>
+      </span>
+    </div>
+  </header>
+
+  <main class="src-wrap">
+    <p class="src-intro" data-si18n="src_intro">ChaseLights 匯整多個公開資料來源提供攝影氣象服務。本頁列出各資料來源、其授權名稱（保留原文）與依各授權要求的署名文案；若你將本站內容轉用於其他用途，請一併遵守下方各來源的授權條款。</p>
+
+    <section class="src-panel" aria-labelledby="src-list-title">
+      <h2 id="src-list-title" data-si18n="src_list_title">資料來源清單</h2>
+      <ul class="src-list">
+        <li class="src-card">
+          <div class="src-card-head"><span class="src-name">Open-Meteo</span><span class="src-license">CC BY 4.0</span></div>
+          <p class="src-desc" data-si18n="src_om_desc">逐時天氣預報與空氣品質資料（GFS、ICON 等模型經 Open-Meteo API 取得；空品圖層來自 CAMS，經 Open-Meteo Air Quality API 取得）。Open-Meteo 免費層採 CC BY 4.0 授權；本站與 Open-Meteo 的商業使用授權洽談進行中，洽談完成前以 CC BY 4.0 署名使用。</p>
+          <p class="src-attr"><span class="src-attr-label" data-si18n="src_attr_label">署名</span>：<span class="src-quote">Weather data by Open-Meteo.com (CC BY 4.0)</span></p>
+          <div class="src-links"><a href="https://open-meteo.com/" rel="noopener" target="_blank">open-meteo.com</a></div>
+        </li>
+        <li class="src-card">
+          <div class="src-card-head"><span class="src-name">CAMS（Copernicus Atmosphere Monitoring Service）</span><span class="src-license">CAMS Data Licence (Copernicus)</span></div>
+          <p class="src-desc" data-si18n="src_cams_desc">大氣成分資料：AOD 550 nm 與 PM2.5 空氣品質圖層（經 Open-Meteo Air Quality API 取得），依 Copernicus 計畫的 CAMS 資料授權使用。</p>
+          <p class="src-attr"><span class="src-attr-label" data-si18n="src_attr_label">署名</span>：<span class="src-quote">Contains modified Copernicus Atmosphere Monitoring Service information</span></p>
+          <div class="src-links"><a href="https://atmosphere.copernicus.eu/" rel="noopener" target="_blank">atmosphere.copernicus.eu</a></div>
+        </li>
+        <li class="src-card">
+          <div class="src-card-head"><span class="src-name">交通部中央氣象署（CWA）</span><span class="src-license">政府資料開放授權條款—1.0版</span></div>
+          <p class="src-desc" data-si18n="src_cwa_desc">台灣地區的官方氣象觀測與預報資料（自動氣象站、雷達、衛星雲圖等），依政府資料開放授權條款—1.0版利用，須以明顯位置標註來源。</p>
+          <p class="src-attr"><span class="src-attr-label" data-si18n="src_attr_label">署名</span>：<span class="src-quote" data-si18n="src_cwa_attr">資料來源：交通部中央氣象署</span></p>
+          <div class="src-links"><a href="https://www.cwa.gov.tw/" rel="noopener" target="_blank">cwa.gov.tw</a> <a href="https://data.gov.tw/license" rel="noopener" target="_blank" data-si18n="src_cwa_license_link">授權條款全文（data.gov.tw）</a></div>
+        </li>
+        <li class="src-card">
+          <div class="src-card-head"><span class="src-name">日本氣象廳（JMA／気象庁）</span><span class="src-license">気象庁ホームページ利用条件（出典表示）</span></div>
+          <p class="src-desc" data-si18n="src_jma_desc">日本地區的官方氣象資料（JMA MSM 區域模式預報、實況觀測），依気象庁ホームページの利用条件使用，並標示出典。</p>
+          <p class="src-attr"><span class="src-attr-label" data-si18n="src_attr_label">署名</span>：<span class="src-quote" data-si18n="src_jma_attr">出典：気象庁（JMA）</span></p>
+          <div class="src-links"><a href="https://www.jma.go.jp/jma/index.html" rel="noopener" target="_blank">jma.go.jp</a></div>
+        </li>
+        <li class="src-card">
+          <div class="src-card-head"><span class="src-name">Himawari-9（JAXA／JMA）</span><span class="src-license">JAXA／JMA 利用条件（出典表示）</span></div>
+          <p class="src-desc" data-si18n="src_h9_desc">向日葵 9 號（ひまわり9号）衛星雲遮罩與雲頂高度實況，由 JAXA 與 JMA 提供；為觀測／反演資料，非預報。</p>
+          <p class="src-attr"><span class="src-attr-label" data-si18n="src_attr_label">署名</span>：<span class="src-quote">Himawari-9 imagery courtesy of JAXA and JMA</span></p>
+          <div class="src-links"><a href="https://www.eorc.jaxa.jp/ptree/" rel="noopener" target="_blank">eorc.jaxa.jp/ptree</a> <a href="https://www.data.jma.go.jp/mscweb/" rel="noopener" target="_blank">data.jma.go.jp/mscweb</a></div>
+        </li>
+        <li class="src-card">
+          <div class="src-card-head"><span class="src-name">NOAA / USGS</span><span class="src-license">Public Domain（美國政府作品）</span></div>
+          <p class="src-desc" data-si18n="src_noaa_desc">美國官方氣象與地質資料：GFS 全球預報（NOAA/NCEP）、地震與地形資料（USGS）。美國政府作品屬公有領域，無署名義務；本站仍標示來源以利查證。</p>
+          <p class="src-attr"><span class="src-attr-label" data-si18n="src_attr_label">署名</span>：<span class="src-quote" data-si18n="src_noaa_attr">資料來源：NOAA／USGS</span></p>
+          <div class="src-links"><a href="https://www.noaa.gov/" rel="noopener" target="_blank">noaa.gov</a> <a href="https://www.usgs.gov/" rel="noopener" target="_blank">usgs.gov</a></div>
+        </li>
+        <li class="src-card">
+          <div class="src-card-head"><span class="src-name">Wikipedia（維基百科）</span><span class="src-license">CC BY-SA 4.0</span></div>
+          <p class="src-desc" data-si18n="src_wiki_desc">部分景點背景介紹引用維基百科內容，採「署名—相同方式分享」授權；轉用時須標示出典，改作內容須以相同或相容授權分享。</p>
+          <p class="src-attr"><span class="src-attr-label" data-si18n="src_attr_label">署名</span>：<span class="src-quote" data-si18n="src_wiki_attr">內容引用自 Wikipedia（CC BY-SA 4.0）</span></p>
+          <div class="src-links"><a href="https://www.wikipedia.org/" rel="noopener" target="_blank">wikipedia.org</a> <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener" target="_blank">CC BY-SA 4.0</a></div>
+        </li>
+        <li class="src-card">
+          <div class="src-card-head"><span class="src-name">OpenStreetMap</span><span class="src-license">ODbL 1.0</span></div>
+          <p class="src-desc" data-si18n="src_osm_desc">地圖底圖與地理座標參考（WeatherGrid 底圖以 MapLibre ＋ OpenFreeMap 取用 OpenStreetMap 資料），採開放資料庫授權（ODbL）；衍生資料庫須以相同授權公開。</p>
+          <p class="src-attr"><span class="src-attr-label" data-si18n="src_attr_label">署名</span>：<span class="src-quote">© OpenStreetMap contributors</span></p>
+          <div class="src-links"><a href="https://www.openstreetmap.org/copyright" rel="noopener" target="_blank">openstreetmap.org/copyright</a></div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="src-panel src-disclaimer" aria-labelledby="src-disclaimer-title">
+      <h2 id="src-disclaimer-title" data-si18n="src_disclaimer_title">免責聲明</h2>
+      <ul>
+        <li data-si18n="src_disclaimer_1">本站所有氣象、空品與天文資料（含預報與觀測）僅供參考，可能延遲、錯誤或缺漏；實際天候請以中央氣象署、気象庁、NOAA 等官方即時發布為準。</li>
+        <li data-si18n="src_disclaimer_2">本站不對因使用本站資料或建議而產生的任何損失或風險負責；是否前往拍攝、路線與時程安排，由拍攝者自行判斷。</li>
+        <li data-si18n="src_disclaimer_3">夜間、山區、海邊或離島拍攝具有一定風險（落石、瘋狗浪、結冰、迷路等）；出發前請評估天候與自身裝備，拍攝安全自負。</li>
+      </ul>
+    </section>
+
+    <p class="src-foot-note" data-si18n="src_foot_note">各授權之完整條款與最新版本，以各來源官方網站公告為準。</p>
+  </main>
+
+  <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
+  <footer class="site-footer">
+    <a class="site-footer-link" href="./sources.html" data-sf-i18n="sf_sources">資料來源與授權</a>
+    <span class="site-footer-note" data-sf-i18n="sf_note">氣象資料僅供參考，拍攝安全請自行評估。</span>
+  </footer>
+  <script src="./assets/site-footer.js?v=sf01"></script>
+
+  <script src="./assets/site-nav.js"></script>
+  <script src="./assets/member-auth.js?v=clui81"></script>
+  <script>
+    /* CL-UI-101: trilingual pack for the sources page — self-contained (the
+       page never loads app.js, mirroring the self-contained-widget rule).
+       License NAMES are lang-invariant originals; only descriptions /
+       attribution lead-ins translate. zh-TW is the static markup default;
+       en / ja live in SRC_I18N. Language resolution mirrors CL-UI-35
+       precedence: URL ?lang= wins over the shared chaselights_lang key. */
+    (function () {
+      'use strict';
+      var NAV_I18N = {
+        nav_cards: { en: 'Cards', ja: 'カード' },
+        nav_weathermap: { en: 'Weather map', ja: '天気マップ' },
+        nav_reminders: { en: 'Reminders', ja: 'リマインダー' }
+      };
+      var SRC_I18N = {
+        src_page_title: { en: 'Data Sources & Licenses', ja: 'データソースとライセンス' },
+        src_intro: {
+          en: 'ChaseLights combines several open data sources to provide photography-weather information. This page lists each source, its license (name kept in the original language) and the attribution line required by that license. If you reuse ChaseLights content elsewhere, please also follow each source\u2019s license terms below.',
+          ja: 'ChaseLights は複数の公開データソースを組み合わせて撮影向け気象情報を提供しています。本ページでは各データソース、そのライセンス名（原文表記）およびライセンスが求めるクレジット表記を一覧にしています。ChaseLights の内容を他の用途に再利用する場合は、各ソースのライセンス条件にも従ってください。'
+        },
+        src_list_title: { en: 'Source list', ja: 'データソース一覧' },
+        src_attr_label: { en: 'Attribution', ja: 'クレジット' },
+        src_om_desc: {
+          en: 'Hourly weather-forecast and air-quality data (GFS, ICON and other models via the Open-Meteo API; the air-quality layers come from CAMS via the Open-Meteo Air Quality API). Open-Meteo\u2019s free tier is licensed under CC BY 4.0; our commercial licensing arrangement with Open-Meteo is in progress, and until it is completed the data is used with CC BY 4.0 attribution.',
+          ja: '時間別の天気予報・大気質データ（GFS・ICON などのモデルを Open-Meteo API 経由で取得。大気質レイヤーは CAMS 由来で Open-Meteo Air Quality API 経由）。Open-Meteo の無料利用は CC BY 4.0 ライセンスで、当サイトと Open-Meteo の商用ライセンス交渉は進行中です。完了までは CC BY 4.0 のクレジット表示で利用しています。'
+        },
+        src_cams_desc: {
+          en: 'Atmospheric composition data: the AOD 550 nm and PM2.5 air-quality layers (retrieved via the Open-Meteo Air Quality API), used under the CAMS data licence of the Copernicus programme.',
+          ja: '大気成分データ：AOD 550nm と PM2.5 の大気質レイヤー（Open-Meteo Air Quality API 経由で取得）。Copernicus プログラムの CAMS データライセンスに基づき利用。'
+        },
+        src_cwa_desc: {
+          en: 'Official weather observations and forecasts for Taiwan (automatic weather stations, radar, satellite imagery, etc.), used under Taiwan\u2019s Open Government Data License (version 1.0), which requires clearly visible source attribution.',
+          ja: '台湾地区の公式気象観測・予報データ（自動気象観測、レーダー、衛星雲画像など）。政府資料開放授權條款—1.0版（政府オープンデータライセンス）に基づき利用し、目立つ位置に出典を表示する必要があります。'
+        },
+        src_cwa_attr: { en: 'Data source: Central Weather Administration (Taiwan)', ja: '資料出典：交通部中央気象署' },
+        src_cwa_license_link: { en: 'Full license text (data.gov.tw)', ja: 'ライセンス全文（data.gov.tw）' },
+        src_jma_desc: {
+          en: 'Official meteorological data for Japan (JMA MSM regional-model forecasts and live observations), used under the JMA website terms of use with source attribution.',
+          ja: '日本地区の公式気象データ（JMA MSM 区域モデル予報、実況観測）。気象庁ホームページの利用条件に基づき、出典を表示して利用。'
+        },
+        src_jma_attr: { en: 'Source: Japan Meteorological Agency (JMA)', ja: '出典：気象庁（JMA）' },
+        src_h9_desc: {
+          en: 'Himawari-9 satellite cloud mask and cloud-top-height observations, provided by JAXA and JMA; these are observation / retrieval data, not forecasts.',
+          ja: 'ひまわり9号（Himawari-9）の衛星雲マスクと雲頂高度実況。JAXA と JMA により提供。観測・反演データであり、予報ではありません。'
+        },
+        src_noaa_desc: {
+          en: 'U.S. official meteorological and geological data: the GFS global forecast (NOAA/NCEP) and earthquake / terrain data (USGS). U.S. government works are public domain with no attribution requirement; we still credit the sources for verifiability.',
+          ja: '米国の公式気象・地質データ：GFS 全球予報（NOAA/NCEP）、地震・地形データ（USGS）。米国政府の作品はパブリックドメインでクレジット義務はありませんが、検証しやすいよう出典を表示しています。'
+        },
+        src_noaa_attr: { en: 'Data source: NOAA / USGS', ja: '資料出典：NOAA／USGS' },
+        src_wiki_desc: {
+          en: 'Some place-background descriptions quote Wikipedia content under the Attribution-ShareAlike license; reuse must credit the source, and adaptations must be shared under the same or a compatible license.',
+          ja: '一部の撮影スポットの背景紹介はウィキペディアの内容を引用しており、「表示—継承」ライセンスで提供されています。再利用時は出典を表示し、改変内容は同一または互換性のあるライセンスで共有する必要があります。'
+        },
+        src_wiki_attr: { en: 'Content quoted from Wikipedia (CC BY-SA 4.0)', ja: '内容は Wikipedia（CC BY-SA 4.0）から引用' },
+        src_osm_desc: {
+          en: 'Map basemap and geographic coordinate reference (the WeatherGrid basemap uses OpenStreetMap data via MapLibre + OpenFreeMap), licensed under the Open Database License (ODbL); derived databases must be published under the same license.',
+          ja: '地図ベースマップと地理座標の参照（WeatherGrid のベースマップは MapLibre ＋ OpenFreeMap 経由で OpenStreetMap データを利用）。オープンデータベースライセンス（ODbL）で、派生データベースは同一ライセンスで公開する必要があります。'
+        },
+        src_disclaimer_title: { en: 'Disclaimer', ja: '免責事項' },
+        src_disclaimer_1: {
+          en: 'All weather, air-quality and astronomy data on this site (forecasts and observations alike) is for reference only and may be delayed, wrong or incomplete; for actual conditions rely on the official real-time releases of the Central Weather Administration, the JMA, NOAA and others.',
+          ja: '本サイトの気象・大気質・天文データ（予報・実況の双方）は参考情報であり、遅延・誤差・欠落の可能性があります。実際の天候は中央気象署、気象庁、NOAA などの公式発表をご確認ください。'
+        },
+        src_disclaimer_2: {
+          en: 'ChaseLights accepts no liability for any loss or risk arising from the use of its data or suggestions; the decision to go shooting, and route and schedule planning, rests with the photographer.',
+          ja: '本サイトのデータや提案の利用により生じるいかなる損害・リスクについても責任を負いません。撮影に出向くかどうか、ルートや日程の計画は撮影者ご自身の判断でお願いします。'
+        },
+        src_disclaimer_3: {
+          en: 'Shooting at night, in mountains, by the sea or on outlying islands carries real risks (rockfall, rogue waves, icing, getting lost); assess weather and your own gear before setting out \u2014 your shooting safety is your own responsibility.',
+          ja: '夜間・山岳・海辺・離島での撮影には実際のリスク（落石、突然の高波、凍結、遭難など）が伴います。出発前に天候と装備を確認し、撮影時の安全はご自身の責任で管理してください。'
+        },
+        src_foot_note: {
+          en: 'For the full terms and the latest version of each license, see the official website of the respective source.',
+          ja: '各ライセンスの全文と最新版については、各ソースの公式ウェブサイトをご確認ください。'
+        }
+      };
+      var TITLES = {
+        'zh-TW': 'ChaseLights — 資料來源與授權',
+        'en': 'ChaseLights — Data Sources & Licenses',
+        'ja': 'ChaseLights — データソースとライセンス'
+      };
+      function lang() {
+        try {
+          var u = new URLSearchParams(location.search).get('lang');
+          if (u === 'en' || u === 'ja' || u === 'zh-TW') return u;
+        } catch (e) { /* URLSearchParams unavailable */ }
+        try {
+          var v = localStorage.getItem('chaselights_lang');
+          if (v === 'en' || v === 'ja' || v === 'zh-TW') return v;
+        } catch (e) { /* private mode */ }
+        return 'zh-TW';
+      }
+      function t(dict, k, l) { var e = dict[k]; return e ? (e[l] || '') : ''; }
+      function apply() {
+        var l = lang();
+        document.documentElement.setAttribute('lang', l);
+        var sel = document.getElementById('lang-select');
+        if (sel) sel.value = l;
+        var nav = document.querySelectorAll('.site-nav-links .site-nav-item[data-i18n]');
+        for (var i = 0; i < nav.length; i++) {
+          var v = t(NAV_I18N, nav[i].getAttribute('data-i18n'), l);
+          if (v) nav[i].textContent = v;
+        }
+        var nodes = document.querySelectorAll('[data-si18n]');
+        for (var j = 0; j < nodes.length; j++) {
+          var el = nodes[j];
+          if (!el.dataset.siZh) el.dataset.siZh = el.textContent;
+          el.textContent = t(SRC_I18N, el.getAttribute('data-si18n'), l) || el.dataset.siZh;
+        }
+        document.title = TITLES[l] || TITLES['zh-TW'];
+      }
+      apply();
+      document.getElementById('lang-select').addEventListener('change', function () {
+        try { localStorage.setItem('chaselights_lang', this.value); } catch (e) { /* private mode */ }
+        apply();
+      });
+      window.addEventListener('storage', function (e) {
+        if (!e.key || e.key === 'chaselights_lang') apply();
+      });
+    })();
+  </script>
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7a3bb8a3c6ee4fcc83d5e941e0ab291e"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
