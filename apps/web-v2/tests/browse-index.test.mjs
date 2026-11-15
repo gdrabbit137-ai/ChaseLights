@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and canonical sources remain source pinned (CL-DATA-66 wave7: 460 places / 692 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'08340ba6ebbbdb5e9525657653b3eab862133ca3bcb2b185ee9ddddcfff6fb13'); // re-measured CL-DATA-72 (merged-tree regen: research_index --git-provenance + build_web_catalog after the batch-A contract edits and the CL-DATA-71 56630d7d6 semantic merge)
-  assert.equal(sha256(rawCatalog),'6b09cf5515524541b53a0bc6b228828820c99943ecee12b3a3f4cb79e1d49775'); // re-measured CL-DATA-72 (merged-tree regen)
+  assert.equal(sha256(rawIndex),'3fc90a9fa868124d0d084f7f746b3c617367a786dbe3a15a6b2cb4d36715affa'); // re-measured CL-DATA-72 (merged-tree regen: research_index --git-provenance + build_web_catalog, source commit anchored to the regen commit a0e7a2454 per CL-CI-31c)
+  assert.equal(sha256(rawCatalog),'25a77eb33a2cada3c77423b382cfee554a9136a414791e47a5124122a60adad0'); // re-measured CL-DATA-72 (merged-tree regen, source commit a0e7a2454)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,692);assert.equal(source.places.length,460); // re-anchored CL-DATA-66 wave7 (tw-217..227)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
