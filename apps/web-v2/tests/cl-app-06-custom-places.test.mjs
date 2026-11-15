@@ -25,8 +25,8 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 
 // ------------------------------------------------------------- (1) source
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06/);
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06b/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06b/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   assert.match(htmlSource, /assets\/app\.js\?v=clui101/);
 });
@@ -51,6 +51,14 @@ test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () =>
   assert.match(jsSource, /chaselights:auth/);
   // test seam used by this harness (stubbed network)
   assert.match(jsSource, /__clcpFetch/);
+  // 📍 current-location: browser Geolocation API + Capacitor plugin fallback,
+  // one implementation, honest no-tracking note, bounded timeout
+  assert.match(jsSource, /__clcpGeo/);
+  assert.match(jsSource, /useMyLocation/);
+  assert.match(jsSource, /navigator\.geolocation\.getCurrentPosition\(resolve, reject, opts\)/);
+  assert.match(jsSource, /cap\.Plugins\.Geolocation/);
+  assert.match(jsSource, /timeout: 10000/);
+  assert.match(jsSource, /不會追蹤你的行蹤|never tracked|追跡しません/);
 });
 
 test('CL-APP-06 (1c): gray identity CSS never borrows the ✓○✗ semantic colors', () => {
@@ -68,9 +76,11 @@ test('CL-APP-06 (1c): gray identity CSS never borrows the ✓○✗ semantic col
 test('CL-APP-06 (1d): tri-lingual dictionary parity in the asset', () => {
   const keys = ['priv_badge', 'v_all', 'v_official', 'v_private', 'trial_expired', 'trial_note',
     'deferred_note', 'm_edit', 'm_cc', 'm_nom', 'm_del', 'add_title', 'ro_elev', 'ro_tz',
-    'nom_title', 'del_title', 'count_fmt'];
+    'nom_title', 'del_title', 'count_fmt',
+    // 📍 current-location copy must exist in ALL three dictionaries
+    'geo_btn', 'geo_note', 'geo_working', 'geo_denied', 'geo_timeout', 'geo_error'];
   for (const lang of ['zh-TW', 'en', 'ja']) {
-    const block = jsSource.slice(jsSource.indexOf(`'${lang}':`), jsSource.indexOf(`'${lang}':`) + 4000);
+    const block = jsSource.slice(jsSource.indexOf(`'${lang}':`), jsSource.indexOf(`'${lang}':`) + 8000);
     for (const key of keys) assert.ok(new RegExp(`\\b${key}:`).test(block), `${lang} missing ${key}`);
   }
 });
@@ -487,5 +497,103 @@ test('CL-APP-06 (2i): ✨ one-sentence AI parse fills the semantic selects (AI o
   assert.equal(probe.wind, '5');
   assert.match(probe.note, /80%/);
 });
+test('CL-APP-06 (2j): 📍 current location — success fills lat/lng + drops the map mark + submit-ready', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    document.querySelector('.cl-cp-add-btn').click();
+    await new Promise(r => setTimeout(r, 200));
+    const ov = document.querySelector('.cl-cp-overlay');
+    const btn = ov.querySelector('#cl-cp-geo-btn');
+    const note = ov.querySelector('.cl-cp-geo-note');
+    const btnCs = getComputedStyle(btn);
+    // mock geolocation: honest browser-API-shaped success (Web and the
+    // Capacitor plugin both resolve { coords: { latitude, longitude } })
+    window.__clcpGeo = (opts) => {
+      window.__clcpGeoOpts = opts;
+      return Promise.resolve({ coords: { latitude: 24.82252, longitude: 121.76748 } });
+    };
+    btn.click();
+    await new Promise(r => setTimeout(r, 300));
+    const lat = ov.querySelector('#cl-cp-lat').value, lng = ov.querySelector('#cl-cp-lng').value;
+    const mark = !!ov.querySelector('.cl-cp-pinmark');
+    const submitReady = ov.querySelector('#cl-cp-submit').classList.contains('ready');
+    const status = ov.querySelector('#cl-cp-geo-status').textContent;
+    const opts = window.__clcpGeoOpts;
+    return { btnLabel: btn.textContent.trim(), btnVisible: btnCs.display !== 'none',
+      noteVisible: getComputedStyle(note).display !== 'none', noteText: note.textContent,
+      lat, lng, mark, submitReady, status, hadTimeout: !!opts && opts.timeout > 0,
+      latLngEditable: !ov.querySelector('#cl-cp-lat').disabled };
+  })()`);
+  assert.match(probe.btnLabel, /使用我的目前位置/);
+  assert.equal(probe.btnVisible, true);
+  assert.equal(probe.noteVisible, true, 'permission-explanation note renders');
+  assert.match(probe.noteText, /不會追蹤/, 'honest why-we-need-it note');
+  assert.equal(probe.lat, '24.8225', 'coords fill the lat input');
+  assert.equal(probe.lng, '121.7675', 'coords fill the lng input');
+  assert.equal(probe.mark, true, 'map preview marks the coordinate');
+  assert.equal(probe.submitReady, true);
+  assert.equal(probe.status, '', 'no error text on success');
+  assert.equal(probe.hadTimeout, true, 'request is bounded by a timeout');
+  assert.equal(probe.latLngEditable, true, 'manual input stays available');
+});
+
+test('CL-APP-06 (2k): 📍 denied → honest message, falls back to manual pin/lat-lng', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    document.querySelector('.cl-cp-add-btn').click();
+    await new Promise(r => setTimeout(r, 200));
+    const ov = document.querySelector('.cl-cp-overlay');
+    window.__clcpGeo = () => Promise.reject({ code: 1, message: 'permission denied' });
+    const btn = ov.querySelector('#cl-cp-geo-btn');
+    btn.click();
+    await new Promise(r => setTimeout(r, 300));
+    const status = ov.querySelector('#cl-cp-geo-status').textContent;
+    const lat = ov.querySelector('#cl-cp-lat').value, lng = ov.querySelector('#cl-cp-lng').value;
+    // manual path still works end-to-end: type lat/lng → pin + submit-ready
+    ov.querySelector('#cl-cp-lat').value = '24.8225';
+    ov.querySelector('#cl-cp-lng').value = '121.7675';
+    ov.querySelector('#cl-cp-lng').dispatchEvent(new Event('change'));
+    await new Promise(r => setTimeout(r, 150));
+    return { status, lat, lng, mark: !!ov.querySelector('.cl-cp-pinmark'),
+      submitReady: ov.querySelector('#cl-cp-submit').classList.contains('ready'),
+      btnReEnabled: !ov.querySelector('#cl-cp-geo-btn').disabled };
+  })()`);
+  assert.match(probe.status, /定位權限被拒絕/, 'honest permission-denied message');
+  assert.equal(probe.lat, '', 'no fabricated coordinates on denial');
+  assert.equal(probe.lng, '');
+  assert.equal(probe.btnReEnabled, true);
+  assert.equal(probe.mark, true, 'manual lat/lng entry still drops the pin');
+  assert.equal(probe.submitReady, true, 'manual entry reaches submit-ready');
+});
+
+test('CL-APP-06 (2l): 📍 timeout → honest message, manual input survives', async () => {
+  await bootBrowser();
+  await setViewport(390, 844, true);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    document.querySelector('.cl-cp-add-btn').click();
+    await new Promise(r => setTimeout(r, 200));
+    const ov = document.querySelector('.cl-cp-overlay');
+    window.__clcpGeo = () => Promise.reject({ code: 3, message: 'timeout' });
+    ov.querySelector('#cl-cp-geo-btn').click();
+    await new Promise(r => setTimeout(r, 300));
+    const status = ov.querySelector('#cl-cp-geo-status').textContent;
+    const btn = ov.querySelector('#cl-cp-geo-btn');
+    return { status, mark: !!ov.querySelector('.cl-cp-pinmark'),
+      btnVisible: getComputedStyle(btn).display !== 'none',
+      btnReEnabled: !btn.disabled,
+      statusVisible: getComputedStyle(ov.querySelector('#cl-cp-geo-status')).display !== 'none' };
+  })()`);
+  assert.match(probe.status, /逾時/, 'honest timeout message');
+  assert.equal(probe.mark, false, 'no pin fabricated on timeout');
+  assert.equal(probe.btnVisible, true, 'geo button stays visible on mobile');
+  assert.equal(probe.btnReEnabled, true);
+  assert.equal(probe.statusVisible, true, 'status text is computed-visible');
+});
+
 test('CL-APP-06 (2g): browser teardown', async () => { await teardownBrowser(); });
 

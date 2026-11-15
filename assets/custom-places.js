@@ -56,8 +56,9 @@
       nl1: '登入後才能使用私人點', nl2: '新增／編輯／提名私人景點是會員功能；私人點只出現在你的帳號。',
       login_cta: '登入以繼續', close: '關閉',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
-            ai_hint: '撮りたい条件を一文で説明', ai_ph: '例：明け方に雲海が見たい。雨は嫌。できれば4時半〜7時', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 調整してから送信してください', ai_fail: '解析に失敗しました。手動で設定してください。',
-            ai_hint: '用一句話描述你要的拍攝條件', ai_ph: '例如：清晨要能看到雲海，不要下雨，最好四點半到七點', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請微調後送出', ai_fail: '解析失敗，請手動設定。',
+      ai_hint: '用一句話描述你要的拍攝條件', ai_ph: '例如：清晨要能看到雲海，不要下雨，最好四點半到七點', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請微調後送出', ai_fail: '解析失敗，請手動設定。',
+      geo_btn: '📍 使用我的目前位置', geo_note: '為何需要位置：僅用於填入此新景點的座標，不會追蹤你的行蹤。', geo_working: '取得位置中…',
+      geo_denied: '無法取得位置：定位權限被拒絕。請改用點圖落釘或直接鍵入經緯度。', geo_timeout: '取得位置逾時。請改用點圖落釘或直接鍵入經緯度。', geo_error: '無法取得位置。請改用點圖落釘或直接鍵入經緯度。',
       copy_genre: '複製官方題材改（起點）', copy_genre_none: '不複製', copy_genre_hint: '選一個官方題材當起點，再微調單一參數',
       adv_toggle: '進階：原始數值輸入',
       lat_lng: 'lat/lng', elev_m: 'm',
@@ -91,7 +92,9 @@
       nl1: 'Log in to use custom places', nl2: 'Adding / editing / nominating is member-only; places appear only on your account.',
       login_cta: 'Log in to continue', close: 'Close',
       sem_cloud: 'Cloud', sem_fog: 'Fog', sem_rain: 'Rain',
-            ai_hint: 'Describe the conditions you want in one sentence', ai_ph: 'e.g. I want to see a cloud sea at dawn, no rain, ideally 4:30-7:00', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — tweak, then submit', ai_fail: 'Parsing failed — please set the conditions manually.',
+      ai_hint: 'Describe the conditions you want in one sentence', ai_ph: 'e.g. I want to see a cloud sea at dawn, no rain, ideally 4:30-7:00', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — tweak, then submit', ai_fail: 'Parsing failed — please set the conditions manually.',
+      geo_btn: '📍 Use my current location', geo_note: 'Why we need it: only to fill in this place’s coordinates — your movements are never tracked.', geo_working: 'Getting your location…',
+      geo_denied: 'Could not get your location: permission denied. Please pin on the map or type lat/lng manually.', geo_timeout: 'Getting your location timed out. Please pin on the map or type lat/lng manually.', geo_error: 'Could not get your location. Please pin on the map or type lat/lng manually.',
       copy_genre: 'Copy an official genre template (starter)', copy_genre_none: 'No copy', copy_genre_hint: 'Pick an official genre as the starting point, then tweak a single parameter',
       adv_toggle: 'Advanced: raw numeric inputs',
       lat_lng: 'lat/lng', elev_m: 'm',
@@ -125,6 +128,9 @@
       nl1: '自作スポットにはログインが必要', nl2: '追加／編集／推薦は会員機能；自作スポットは自分のアカウントにのみ表示されます。',
       login_cta: 'ログインして続行', close: '閉じる',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
+      ai_hint: '撮りたい条件を一文で説明', ai_ph: '例：明け方に雲海が見たい。雨は嫌。できれば4時半〜7時', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 調整してから送信してください', ai_fail: '解析に失敗しました。手動で設定してください。',
+      geo_btn: '📍 現在地を使う', geo_note: '位置情報の使い道：このスポットの座標を入力するためだけ。現在地は追跡しません。', geo_working: '現在地を取得中…',
+      geo_denied: '位置を取得できませんでした：権限が拒否されました。地図クリックまたは手動入力をご利用ください。', geo_timeout: '位置の取得がタイムアウトしました。地図クリックまたは手動入力をご利用ください。', geo_error: '位置を取得できませんでした。地図クリックまたは手動入力をご利用ください。',
       copy_genre: '公式題材をコピーして改造（出発点）', copy_genre_none: 'コピーしない', copy_genre_hint: '公式題材を出発点に選び、1つのパラメータだけ調整します',
       adv_toggle: '高度：生の数値入力',
       lat_lng: 'lat/lng', elev_m: 'm',
@@ -489,6 +495,9 @@
       '<div class="cl-cp-fld" style="margin-bottom:0"><label>lat</label><input class="inp" id="cl-cp-lat" inputmode="decimal" placeholder="24.8225" style="font-family:var(--cl-mono)" value="' + esc(place ? place.lat : '') + '"></div>' +
       '<div class="cl-cp-fld" style="margin-bottom:0"><label>lng</label><input class="inp" id="cl-cp-lng" inputmode="decimal" placeholder="121.7675" style="font-family:var(--cl-mono)" value="' + esc(place ? place.lng : '') + '"></div>' +
       '</div>' +
+      '<div class="cl-cp-geo-row"><button type="button" class="cl-cp-geo-btn" id="cl-cp-geo-btn">' + esc(t().geo_btn) + '</button>' +
+      '<span class="cl-cp-geo-note">' + esc(t().geo_note) + '</span></div>' +
+      '<div class="cl-cp-geo-status" id="cl-cp-geo-status" role="status" aria-live="polite"></div>' +
       '<div class="cl-cp-ro" id="cl-cp-ro"></div></div>' +
       '<button type="button" class="cl-cp-submit" id="cl-cp-submit">' + esc(isEdit ? t().update : t().create) + '</button>');
     wireClose();
@@ -510,7 +519,49 @@
       });
     });
     els.overlay.querySelector('#cl-cp-submit').addEventListener('click', submitAdd);
+    var gb = els.overlay.querySelector('#cl-cp-geo-btn');
+    if (gb) gb.addEventListener('click', useMyLocation);
     refreshPin();
+  }
+  // 📍 current location — one implementation (web-v2, this file). The browser
+  // Geolocation API works in the APP WebView over https; inside the Capacitor
+  // native shell the @capacitor/geolocation plugin (registered in apps/mobile)
+  // takes precedence when present — never a second copy in the mobile shell.
+  function geoGetPosition(opts) {
+    if (typeof window.__clcpGeo === 'function') return window.__clcpGeo(opts); // test seam
+    var cap = window.Capacitor;
+    if (cap && cap.isNativePlatform && cap.isNativePlatform() && cap.Plugins && cap.Plugins.Geolocation) {
+      return cap.Plugins.Geolocation.getCurrentPosition(opts);
+    }
+    if (!navigator.geolocation) return Promise.reject({ code: 0, message: 'geolocation unavailable' });
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject, opts);
+    });
+  }
+  function useMyLocation() {
+    var btn = els.overlay.querySelector('#cl-cp-geo-btn');
+    if (!btn || btn.disabled) return;
+    var status = els.overlay.querySelector('#cl-cp-geo-status');
+    btn.disabled = true;
+    if (status) status.textContent = t().geo_working;
+    geoGetPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }).then(function (pos) {
+      if (!els.overlay.classList.contains('open')) return;
+      var c = pos && pos.coords;
+      var lat = c && Number(c.latitude), lng = c && Number(c.longitude);
+      if (!isFinite(lat) || !isFinite(lng)) throw { code: 0 };
+      els.overlay.querySelector('#cl-cp-lat').value = lat.toFixed(4);
+      els.overlay.querySelector('#cl-cp-lng').value = lng.toFixed(4);
+      state.pin = { lat: lat.toFixed(4), lng: lng.toFixed(4) };
+      if (status) status.textContent = '';
+      refreshPin(); // fills the map mark + auto DEM/timezone + submit-ready
+      var b2 = els.overlay.querySelector('#cl-cp-geo-btn'); if (b2) b2.disabled = false;
+    }).catch(function (err) {
+      if (!els.overlay.classList.contains('open')) return;
+      var st = els.overlay.querySelector('#cl-cp-geo-status');
+      var msg = err && err.code === 1 ? t().geo_denied : err && err.code === 3 ? t().geo_timeout : t().geo_error;
+      if (st) st.textContent = msg; // honest failure — manual pin/lat-lng stays
+      var b2 = els.overlay.querySelector('#cl-cp-geo-btn'); if (b2) b2.disabled = false;
+    });
   }
   function pinXY() {
     if (!state.pin) return null;
