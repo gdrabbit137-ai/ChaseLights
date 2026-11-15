@@ -31,8 +31,9 @@ test('CL-UI-67 (1): place-guide modal render path no longer emits the redundant 
   assert.doesNotMatch(v2PlaceBlock,/v2-now/);
   assert.doesNotMatch(v2PlaceBlock,/v2-next/);
   assert.doesNotMatch(v2PlaceBlock,/v2-title/);
-  // The eval block now renders ONLY the strip (self-explaining).
-  assert.match(v2PlaceBlock,/el\.innerHTML=`<div class="v2-eval-block">\$\{dayHtml\}<\/div>`;/);
+  // The eval block renders the strip + the CL-UI-95 今天題材判定 row
+  // (v2DaySubHtml directly BELOW the strip).
+  assert.match(v2PlaceBlock,/el\.innerHTML=`<div class="v2-eval-block">\$\{dayHtml\}\$\{v2DaySubHtml\(spot,opp\)\}<\/div>`;/);
 });
 
 test('CL-UI-67 (2): per-subject current verdict line removed from the modal cards',()=>{
@@ -103,6 +104,6 @@ test('CL-UI-67 (4): compact strip cells — no 🎯 next-window badge anywhere (
 
 test('CL-UI-67 (5): cache-bust stamp bumped for the edited app.js/app.css',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui96/);
-  assert.match(index,/assets\/app\.css\?v=clui96/);
+  assert.match(index,/assets\/app\.js\?v=clui97/);
+  assert.match(index,/assets\/app\.css\?v=clui97/);
 });

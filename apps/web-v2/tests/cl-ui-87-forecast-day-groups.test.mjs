@@ -72,10 +72,15 @@ test('CL-UI-87 (1): one day-group <details> per local_date, selected day opens b
 test('CL-UI-87 (2): 24h mini band over the selected day — semantic cells + best white frame', () => {
   const bandCode = grab('const bandRows=', 'const dayLabelOf=');
   assert.match(bandCode, /dayMap\.get\(selectedDate\)\|\|\[\]/, 'band reads the selected day only');
-  assert.match(bandCode, /class="\$\{cls\}\$\{best\}"/, 'per-hour semantic cell');
-  assert.match(bandCode, /b\.kind==='fit'\?'rec':b\.kind==='general'\?'shoot':b\.kind==='fail'\?'no':'na'/, 'fit→green / general→amber / fail→grey / outside→dark');
-  assert.match(bandCode, /v2WmHours\.size&&v2WmHours\.has\(item\.time\.slice\(-5\)\)\?' best':''/, 'best hours = the CL-UI-81 v2-effective set');
-  assert.match(bandCode, /<span>00:00<\/span><span>06:00<\/span><span>12:00<\/span><span>18:00<\/span><span>23:00<\/span>/, 'mockup band-label stamps');
+  // CL-UI-95: the cells/best-frame/band-label anatomy moved into the SHARED
+  // v2BandHtml (the place-modal quick view renders the same builder), the
+  // call site only feeds rows + the CL-UI-81 v2-effective best set.
+  assert.match(bandCode, /bandEl\.innerHTML=bandRows\.length\?v2BandHtml\(bandRows,spot,v2WmHours\):''/, 'band built by the shared v2BandHtml');
+  const bandFn = grab('function v2BandHtml', 'function v2QuickViewHtml');
+  assert.match(bandFn, /class="\$\{cls\}\$\{best\}"/, 'per-hour semantic cell');
+  assert.match(bandFn, /b\.kind==='fit'\?'rec':b\.kind==='general'\?'shoot':b\.kind==='fail'\?'no':'na'/, 'fit→green / general→amber / fail→grey / outside→dark');
+  assert.match(bandFn, /bestSet&&bestSet\.size&&bestSet\.has\(item\.time\.slice\(-5\)\)\?' best':''/, 'best hours = the CL-UI-81 v2-effective set');
+  assert.match(bandFn, /<span>00:00<\/span><span>06:00<\/span><span>12:00<\/span><span>18:00<\/span><span>23:00<\/span>/, 'mockup band-label stamps');
   const best = cssSource.match(/\.timeline-band \.band i\.best \{[^}]*\}/);
   assert.match(best[0], /inset 0 0 0 1\.5px var\(--cl-white\)/, 'white inset frame via token');
   const band = cssSource.match(/\.timeline-band \.band \{[^}]*\}/);
@@ -170,10 +175,10 @@ test('CL-UI-94 (7): status column retired — no painter write path into the hou
 });
 
 // ---- (8) tokens + stamps ----
-test('CL-UI-87 (8): --cl-* tokens only + clui96 stamps + scroll/probe compat', () => {
+test('CL-UI-87 (8): --cl-* tokens only + clui97 stamps + scroll/probe compat', () => {
   const clui87css = cssSource.slice(cssSource.indexOf('===== CL-UI-87'), cssSource.indexOf('#timeline-mobile .tbl-390'));
   assert.doesNotMatch(clui87css.replace(/\/\*[^*]*\*\//g, ''), /#[0-9A-Fa-f]{3,8}\b/, 'no hardcoded hex in the new CSS (token layer only)');
-  assert.equal((indexSource.match(/\?v=clui96/g) || []).length, 2, 'app.js + app.css at clui96');
+  assert.equal((indexSource.match(/\?v=clui97/g) || []).length, 2, 'app.js + app.css at clui97');
   // the now-anchor scroll keeps working against the new container
   const scroll = grab('function scrollWeatherModalToCurrent', '// ---- CL-UI-34');
   assert.match(scroll, /getElementById\('timeline-groups'\)/, 'desktop anchor lookup on the groups container');

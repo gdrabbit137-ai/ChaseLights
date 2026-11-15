@@ -45,8 +45,11 @@ test('CL-UI-75 (1): the 🎯 下一個符合時段 badge is retired at every bre
   assert.match(appSource,
     /v2DayStripHtml\(days,labels,spot\.timezone,spot,opp\.genre_template\|\|'',opp\.opportunity_id\)/);
   assert.ok(!appSource.includes('v2DayStripHtml(days,labels,spot.timezone,spot,opp.genre_template||\'\',opp.opportunity_id,nextNote'));
-  // The next-window info is the quick view's job: the 今日速覽 window line survives.
-  assert.ok(appSource.includes('quick-window'), 'quick-view window line intact');
+  // The next-window info is the quick view's job: the 「現在去會怎樣」
+  // next-matching-moment line survives (CL-UI-95 renamed the window line;
+  // the status-level quick-window class is retired with it).
+  assert.ok(appSource.includes('q-next') && appSource.includes('v2_quick_next'),
+    'quick-view next-matching-moment line intact');
 });
 
 test('CL-UI-75 (2): compact cell copy — ✓n badge / ✗short-reason / abbreviated window', () => {
@@ -131,8 +134,8 @@ test('CL-UI-75 (3): strip layout CSS — one horizontal row, no wrap tier', () =
   const mobile = cssSource.slice(cssSource.indexOf('@media (max-width:390px)'), cssSource.indexOf('@media (max-width:390px)') + 600);
   assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:3px 5px;gap:2px\}/);
   assert.doesNotMatch(mobile, /flex:1 1/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui96/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui96/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui97/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui97/);
 });
 
 // ---- (4) real-browser probe: 390px and desktop -------------------------------

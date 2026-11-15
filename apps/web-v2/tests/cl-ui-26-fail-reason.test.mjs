@@ -107,6 +107,6 @@ test('CL-UI-32: low-cloud fail reason copy pinned in all three languages',()=>{
 
 test('CL-UI-26 (6): cache-bust stamp bumped for the edited app.js',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui96/);
-  assert.match(index,/assets\/app\.css\?v=clui96/);
+  assert.match(index,/assets\/app\.js\?v=clui97/);
+  assert.match(index,/assets\/app\.css\?v=clui97/);
 });
