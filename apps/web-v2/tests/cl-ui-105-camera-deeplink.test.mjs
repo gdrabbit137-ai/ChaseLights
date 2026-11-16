@@ -101,6 +101,8 @@ async function bootBrowser() {
   baseURL = `http://127.0.0.1:${server.address().port}/weather-map.html`;
   chrome = spawn(BROWSER, [
     '--headless=new','--disable-gpu','--no-sandbox','--disable-dev-shm-usage',
+      // CL-UI-109: newer Chrome headless needs software WebGL for the MapLibre LIVE probes
+      '--enable-unsafe-swiftshader','--use-angle=swiftshader',
     '--no-first-run','--remote-debugging-port=0',
     '--window-size=390,844',
     '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'clui105cam-')), 'about:blank'],
