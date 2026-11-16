@@ -95,7 +95,8 @@
       wm_sheet_close_aria:'關閉列表',
       wm_dim_hint:'地圖已收成預覽 · 點此返回',
       wm_sheet_sort:'排序 依可拍%',
-      wm_sheet_n:'{n} 筆'
+      wm_sheet_n:'{n} 筆',
+      wm_layer_sheet_close_aria:'關閉圖層選單'
     },
     'en':{
       nav_cards:'Cards',nav_weathermap:'Weather map',nav_more_tools:'More tools ▾',nav_genre_eval:'Genre assessment',nav_field_intake:'Field check',nav_reminders:'Reminders',
@@ -142,7 +143,8 @@
       wm_sheet_close_aria:'Close list',
       wm_dim_hint:'Map shrunk to preview · tap to restore',
       wm_sheet_sort:'Sort by shootable %',
-      wm_sheet_n:'{n} places'
+      wm_sheet_n:'{n} places',
+      wm_layer_sheet_close_aria:'Close layer menu'
     },
     'ja':{
       nav_cards:'カード',nav_weathermap:'天気マップ',nav_more_tools:'その他のツール ▾',nav_genre_eval:'題材評価',nav_field_intake:'実写検証',nav_reminders:'リマインダー',
@@ -189,7 +191,8 @@
       wm_sheet_close_aria:'一覧を閉じる',
       wm_dim_hint:'地図はプレビュー中・タップで戻る',
       wm_sheet_sort:'撮影可能率で並び替え',
-      wm_sheet_n:'{n} 件'
+      wm_sheet_n:'{n} 件',
+      wm_layer_sheet_close_aria:'レイヤーメニューを閉じる'
     }
   };
 
@@ -5660,6 +5663,7 @@
   let wmDetailSpotId=null;
   let wmDockExpanded=false;   // CL-UI-102 DESIGN-9: mobile band expanded state
   let wmSheetOpen=false;      // CL-UI-102 DESIGN-10: bottom sheet state
+  let wmLayerSheetOpen=false; // CL-UI-103: 圖層選單 sheet state（三者互斥）
   let wmSheetRenderKey=null;
 
   function wmD(){ return WM_STATIC[WM_LANG] || WM_STATIC['zh-TW']; }
@@ -5694,17 +5698,26 @@
   }
 
   // ── 圖層切換 ×4（mockup layer-chips；驅動既有 layer-select 同一路徑）──
+  // CL-UI-103: 同一份 chips 同時餵兩個 host — 桌面是地圖左上 overlay 列
+  // （#layer-chips），390 手機收進圖層 sheet 網格（#wm-ls-chips）；並同步
+  // 收合態單 pill 的「目前圖層」標籤。
   function renderWmLayerChips(){
-    const host=$('layer-chips');
-    if(!host) return;
+    const hosts=[$('layer-chips'),$('wm-ls-chips')].filter(Boolean);
+    if(!hosts.length) return;
     const avail=availableLayerKeys();
-    host.innerHTML=WM_PHOTO_LAYERS.map(key=>{
+    const html=WM_PHOTO_LAYERS.map(key=>{
       const cfg=layerConfig[key];
       const ok=avail.includes(key);
       const cls=`wm-chip${state.layer===key?' on':''}${ok?'':' off'}`;
       const label=`${WM_PHOTO_ICONS[key]} ${escapeHtml(wmT(cfg.label))}`;
       return `<button type="button" class="${cls}" data-wm-layer="${key}"${ok?'':` aria-disabled="true" title="${escapeHtml(wmD().wm_layer_unavailable)}"`}>${label}</button>`;
     }).join('');
+    hosts.forEach(host=>{ host.innerHTML=html; });
+    const pillLabel=$('layer-sheet-label');
+    if(pillLabel){
+      const icon=WM_PHOTO_ICONS[state.layer]||'';
+      pillLabel.textContent=`${icon} ${wmT(layerConfig[state.layer].label)}`.trim();
+    }
   }
 
   // ── 景點側欄（地區分組＋狀態點＋mono 取樣值）──
@@ -5981,11 +5994,19 @@
       // sheet (mobile); the old floating .wm-side panel is desktop-only.
       sideToggle.addEventListener('click',()=>wmOpenSheet());
     }
+    const layerBtn=$('layer-sheet-btn');
+    if(layerBtn){
+      // CL-UI-103: 收合態單 pill → 展開圖層 sheet（與列表 sheet 同構）。
+      layerBtn.addEventListener('click',()=>wmOpenLayerSheet());
+    }
     const tlBar=$('wm-tl-bar');
     if(tlBar){
       // CL-UI-102 DESIGN-9: 點細帶＝展開/收合完整日/時格（固定位置，不拖曳）；
       // 展開時把選中 pill/格捲入可視區（audit F2/F7）。
+      // CL-UI-103: 三者互斥 — 展開細帶先收列表 sheet／圖層 sheet。
       tlBar.addEventListener('click',()=>{
+        if(wmSheetOpen) wmCloseSheet();
+        if(wmLayerSheetOpen) wmCloseLayerSheet();
         wmDockExpanded=!wmDockExpanded;
         tlBar.setAttribute('aria-expanded',wmDockExpanded?'true':'false');
         const dock=$('wm-timeline-dock');
@@ -6000,11 +6021,38 @@
       });
     }
     const sheetHost=$('wm-sheet');
+    const layerSheetHost=$('wm-layer-sheet');
     const dimHost=$('wm-map-dim');
-    [sheetHost,dimHost].forEach(host=>{
+    [sheetHost,layerSheetHost,dimHost].forEach(host=>{
       if(!host) return;
       host.addEventListener('click',e=>{
+        // CL-UI-103: dim hint / ✕ 收掉「目前開啟的那個」sheet（互斥下只會開一個）。
         if(e.target.closest('[data-wm-act="sheet-close"]')){ wmCloseSheet(); return; }
+        if(e.target.closest('[data-wm-act="layer-sheet-close"]')){ wmCloseLayerSheet(); return; }
+        if(e.target.closest('[data-wm-act="layer-details"]')){
+          // 詳細入口：收圖層 sheet 回復地圖全幅，展開 inspector 的圖層詳細並捲到定位。
+          wmCloseLayerSheet();
+          const detailsToggle=$('layer-details-toggle');
+          if(detailsToggle && detailsToggle.getAttribute('aria-expanded')!=='true') detailsToggle.click();
+          const lp=$('layer-panel');
+          if(lp) lp.scrollIntoView({block:'start'});
+          return;
+        }
+        // CL-UI-103: sheet 內 chips 網格 — 與 #layer-chips 同一路徑；選定即收
+        // sheet 回復地圖全幅（DESIGN-10 列選同款節奏）。
+        const chip=e.target.closest('[data-wm-layer]');
+        if(chip && layerSheetHost.contains(chip)){
+          if(chip.classList.contains('off')) return;
+          state.layer=chip.dataset.wmLayer;
+          const layerSelect=$('layer-select');
+          if(layerSelect) layerSelect.value=state.layer;
+          syncWindVectorDefault();
+          const windToggle=$('wind-vector-toggle');
+          if(windToggle) windToggle.checked=state.windVectors;
+          wmCloseLayerSheet();
+          renderAll();
+          return;
+        }
         const row=e.target.closest('[data-wm-sheet-spot]');
         if(row){
           // 選列＝選景點並自動收 sheet 回復地圖全幅＋迷你卡（DESIGN-10）。
@@ -6047,6 +6095,35 @@
       el.addEventListener('pointercancel',()=>{
         if(sheetEl){ sheetEl.style.transition=''; sheetEl.style.transform=''; }
         wmSheetDragY=null; wmSheetDragDy=0;
+      });
+    });
+    // CL-UI-103: 圖層 sheet 的 grab 下拉收起（同款手勢，收自己的 sheet）。
+    const lsGrab=$('wm-layer-sheet-grab');
+    const lsHead=$('wm-layer-sheet-head');
+    const lsSheet=$('wm-layer-sheet');
+    let wmLsDragY=null,wmLsDragDy=0;
+    [lsGrab,lsHead].forEach(el=>{
+      if(!el) return;
+      el.addEventListener('pointerdown',e=>{
+        if(e.target.closest('button,input')) return;
+        wmLsDragY=e.clientY; wmLsDragDy=0;
+        if(lsSheet) lsSheet.style.transition='none';
+        try{ el.setPointerCapture(e.pointerId); }catch(_){}
+      });
+      el.addEventListener('pointermove',e=>{
+        if(wmLsDragY===null||!lsSheet) return;
+        wmLsDragDy=Math.max(0,e.clientY-wmLsDragY);
+        lsSheet.style.transform=`translateY(${wmLsDragDy}px)`;
+      });
+      el.addEventListener('pointerup',()=>{
+        if(wmLsDragY===null) return;
+        if(lsSheet){ lsSheet.style.transition=''; lsSheet.style.transform=''; }
+        if(wmLsDragDy>80) wmCloseLayerSheet();
+        wmLsDragY=null; wmLsDragDy=0;
+      });
+      el.addEventListener('pointercancel',()=>{
+        if(lsSheet){ lsSheet.style.transition=''; lsSheet.style.transform=''; }
+        wmLsDragY=null; wmLsDragDy=0;
       });
     });
     const dayRow=$('wm-day-row');
@@ -6122,6 +6199,7 @@
       wmCloseMini();
       wmCloseDetail();
       if(wmSheetOpen) wmCloseSheet();
+      if(wmLayerSheetOpen) wmCloseLayerSheet();
     });
     try{
       window.addEventListener('online',()=>{ wmSideRenderKey=null; renderWmSide(); });
@@ -6144,6 +6222,10 @@
       renderWmSheet();
     }else{
       wmSheetRenderKey=null;
+    }
+    // CL-UI-103: 圖層 sheet 開啟中也要貼合首屏高度（resize / 換列時）。
+    if(wmLayerSheetOpen){
+      wmFitSheetPanel();
     }
     wmRestoreSession();
   }
@@ -6199,7 +6281,7 @@
   // 換行下把底帶推出視窗）。
   function wmFitSheetPanel(){
     const panel=document.querySelector('.map-panel');
-    if(!panel || !wmSheetOpen || !wmIsMobileShell()) return;
+    if(!panel || (!wmSheetOpen && !wmLayerSheetOpen) || !wmIsMobileShell()) return;
     const header=document.querySelector('.weather-header');
     let headerBottom=0;
     try{ headerBottom=header?.getBoundingClientRect().bottom||0; }catch(_){}
@@ -6209,13 +6291,15 @@
 
   function wmOpenSheet(){
     if(wmSheetOpen || !wmIsMobileShell()) return;
+    // CL-UI-103: 三者互斥 — 開列表 sheet 先收圖層 sheet。
+    if(wmLayerSheetOpen) wmCloseLayerSheet();
     wmSheetOpen=true;
     const panel=document.querySelector('.map-panel');
     const sheet=$('wm-sheet');
     const dim=$('wm-map-dim');
     const btn=$('side-toggle');
     if(panel) panel.classList.add('sheet-open');
-    if(sheet) sheet.setAttribute('aria-hidden','false');
+    if(sheet){ sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); }
     if(dim) dim.hidden=false;
     if(btn) btn.setAttribute('aria-expanded','true');
     wmCloseMini();
@@ -6234,7 +6318,54 @@
     const dim=$('wm-map-dim');
     const btn=$('side-toggle');
     if(panel){ panel.classList.remove('sheet-open'); panel.style.height=''; }
-    if(sheet){ sheet.setAttribute('aria-hidden','true'); sheet.style.transform=''; }
+    if(sheet){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); sheet.style.transform=''; }
+    if(dim) dim.hidden=true;
+    if(btn) btn.setAttribute('aria-expanded','false');
+    wmRelocateDockForSheet(false);
+  }
+
+  // ── CL-UI-103: 圖層選單 bottom sheet（與 DESIGN-10 列表 sheet 同構）──
+  // 收合態＝地圖左上單 pill（#layer-sheet-btn，標籤跟隨目前圖層）；展開態＝
+  // sheet 內 chips 網格＋圖例三行＋「詳細」入口，地圖壓暗收成上緣預覽條
+  // （同款）。與時間軸細帶／列表 sheet 三者互斥開啟（開一個收其他）。
+  function wmCollapseTimelineBand(){
+    if(!wmDockExpanded) return;
+    wmDockExpanded=false;
+    const dock=$('wm-timeline-dock');
+    const tlBar=$('wm-tl-bar');
+    if(dock) dock.classList.remove('expanded');
+    if(tlBar) tlBar.setAttribute('aria-expanded','false');
+  }
+
+  function wmOpenLayerSheet(){
+    if(wmLayerSheetOpen || !wmIsMobileShell()) return;
+    // 三者互斥：開圖層 sheet 先收列表 sheet 與時間軸細帶。
+    if(wmSheetOpen) wmCloseSheet();
+    wmCollapseTimelineBand();
+    wmLayerSheetOpen=true;
+    const panel=document.querySelector('.map-panel');
+    const sheet=$('wm-layer-sheet');
+    const dim=$('wm-map-dim');
+    const btn=$('layer-sheet-btn');
+    if(panel) panel.classList.add('sheet-open');
+    if(sheet){ sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); }
+    if(dim) dim.hidden=false;
+    if(btn) btn.setAttribute('aria-expanded','true');
+    wmCloseMini();
+    wmRelocateDockForSheet(true);
+    wmFitSheetPanel();
+    renderWmLayerChips();
+  }
+
+  function wmCloseLayerSheet(){
+    if(!wmLayerSheetOpen) return;
+    wmLayerSheetOpen=false;
+    const panel=document.querySelector('.map-panel');
+    const sheet=$('wm-layer-sheet');
+    const dim=$('wm-map-dim');
+    const btn=$('layer-sheet-btn');
+    if(panel){ panel.classList.remove('sheet-open'); panel.style.height=''; }
+    if(sheet){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); sheet.style.transform=''; }
     if(dim) dim.hidden=true;
     if(btn) btn.setAttribute('aria-expanded','false');
     wmRelocateDockForSheet(false);

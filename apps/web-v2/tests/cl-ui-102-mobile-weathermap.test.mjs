@@ -47,10 +47,10 @@ test('CL-UI-102: weather-map.html carries the tl-bar, bottom sheet and map-dim m
   assert.ok(WG_HTML.includes('wm_dim_hint'), '點此返回 pill is i18n-wired');
 });
 
-test('CL-UI-102: cache-bust stamps bumped to bclwg37 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg37/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg37/);
-  assert.ok(!/weather-map\.js\?v=bclwg36/.test(WG_HTML), 'old js stamp must not linger');
+test('CL-UI-102: cache-bust stamps bumped to bclwg38 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg38/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg38/);
+  assert.ok(!/weather-map\.js\?v=bclwg37/.test(WG_HTML), 'old js stamp must not linger');
 });
 
 // ---------------------------------------------------------------------------
@@ -139,10 +139,13 @@ test('CL-UI-102 DESIGN-10: shootable % is a deterministic recompute; row color s
 // ---------------------------------------------------------------------------
 // 5. Fatal F1: quick chips must never sit under the list button
 // ---------------------------------------------------------------------------
-test('CL-UI-102 F1: chips yield to the list button on mobile (elementFromPoint must hit the chip)', () => {
+test('CL-UI-102 F1 (re-anchored by CL-UI-103): quick chips live in the layer sheet on mobile — the overlay row collapses to the single pill and can never sit under the list button', () => {
   const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
-  assert.match(mobileBlock, /\.wm-ctl\{right:112px/, 'chips container keeps a right margin = button width');
-  assert.match(mobileBlock, /max-width:calc\(100% - var\(--cl-sp-3\) - 112px\)/, 'chips wrap before the button column');
+  assert.match(mobileBlock, /\.wm-ctl\{display:none\}/, 'CL-UI-103: overlay chips row is collapsed into the layer pill on mobile');
+  assert.match(mobileBlock, /#layer-sheet-btn\{left:var\(--cl-sp-3\);right:auto\}/, 'collapsed state = one layer pill at top-left (list button stays top-right)');
+  assert.match(mobileBlock, /\.map-panel\.sheet-open #wm-layer-sheet\.open\{display:flex/, 'expanded state = layer bottom sheet, same shell as the list sheet');
+  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px){'));
+  assert.match(desktopBlock, /\.wm-sheet-btn\{display:none\}/, 'desktop keeps the overlay chips row (no pill) — 1280 zero-change');
 });
 
 // ---------------------------------------------------------------------------
