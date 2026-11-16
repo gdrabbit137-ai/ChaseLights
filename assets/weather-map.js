@@ -6118,9 +6118,37 @@
   }
 
   // ── 事件接線（delegated，一次註冊）──
+  // CL-UI-109 (P3-5): 44px 觸控命中補償 — 控制列/地圖容器 overflow 裁切使
+  // 純 CSS ::after 外擴不可靠，改以 capture-phase 命中補償：點擊座標落在
+  // 目標視覺矩形外擴至 ≥44px 的範圍內（且未直接命中）時改派目標 click。
+  // 視覺零改動；行動殼限定（1280 桌面零改動）。
+  let wmHitCompWireDone=false;
+  function wmWireHitCompensation(){
+    if(wmHitCompWireDone) return;
+    wmHitCompWireDone=true;
+    const TARGETS=['time-play','reset-view','layer-sheet-btn','data-info-open'];
+    document.addEventListener('click',e=>{
+      if(!e.isTrusted && !e.__wmProbe) return;   // 只補償真實/探針點擊，程式 el.click() 不重派
+      if(!wmIsMobileShell()) return;
+      for(const id of TARGETS){
+        const el=document.getElementById(id);
+        if(!el||el===e.target||(e.target&&el.contains(e.target))) continue;
+        const r=el.getBoundingClientRect();
+        if(!r.width||!r.height) continue;
+        const gx=Math.max(0,44-r.width)/2, gy=Math.max(0,44-r.height)/2;
+        if(e.clientX>=r.left-gx&&e.clientX<=r.right+gx&&e.clientY>=r.top-gy&&e.clientY<=r.bottom+gy){
+          e.stopImmediatePropagation();
+          el.click();
+          return;
+        }
+      }
+    },true);
+  }
+
   function wmInitOverlays(){
     if(wmOverlayWired) return;
     wmOverlayWired=true;
+    wmWireHitCompensation();   // CL-UI-109 (P3-5): 44px 觸控命中補償（視覺零改動）
     // CL-UI-104: put the timeline dock in its shell home (mobile: fixed ops
     // tray; desktop: floating over the map bottom). Idempotent.
     wmPlaceDockForShell();
