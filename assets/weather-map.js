@@ -6162,8 +6162,11 @@
       if(!host) return;
       host.addEventListener('click',e=>{
         // CL-UI-103: dim hint / ✕ 收掉「目前開啟的那個」sheet（互斥下只會開一個）。
-        if(e.target.closest('[data-wm-act="sheet-close"]')){ wmCloseSheet(); return; }
-        if(e.target.closest('[data-wm-act="layer-sheet-close"]')){ wmCloseLayerSheet(); return; }
+        // CL-UI-109 (P2-1)：dim hint pill「點此返回」不再綁死列表 sheet —
+        // 互斥下僅一個 sheet 開啟，收掉「目前開啟的那個」，圖層 sheet 的
+        // 返回 pill 也必須可用（sheet 間互斥但返回鈕各 sheet 獨立可用）。
+        if(e.target.closest('[data-wm-act="sheet-close"]')){ if(wmLayerSheetOpen) wmCloseLayerSheet(); else wmCloseSheet(); return; }
+        if(e.target.closest('[data-wm-act="layer-sheet-close"]')){ if(wmSheetOpen) wmCloseSheet(); else wmCloseLayerSheet(); return; }
         if(e.target.closest('[data-wm-act="layer-details"]')){
           // 詳細入口：收圖層 sheet 回復地圖全幅，展開 inspector 的圖層詳細並捲到定位。
           // CL-UI-105: 行動版 inspector 預設收合 — 「詳細」＝使用者明確要求，持續展開。
@@ -6468,6 +6471,13 @@
     panel.style.height='';
   }
 
+  // CL-UI-109 (P3-6): .wm-ops 的 wm-dock-open 是細帶展開的暫態類別 —
+  // 所有收合路徑（關 sheet／收細帶）都同步復位，避免殘留多佔 42px 地圖高度。
+  function wmSyncOpsDockOpen(){
+    const opsTray=document.querySelector('.wm-ops');
+    if(opsTray) opsTray.classList.toggle('wm-dock-open',wmDockExpanded&&wmIsMobileShell());
+  }
+
   function wmOpenSheet(){
     if(wmSheetOpen || !wmIsMobileShell()) return;
     // CL-UI-103: 三者互斥 — 開列表 sheet 先收圖層 sheet。
@@ -6500,6 +6510,7 @@
     if(sheet){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); sheet.style.transform=''; }
     if(dim) dim.hidden=true;
     if(btn) btn.setAttribute('aria-expanded','false');
+    wmSyncOpsDockOpen();
     wmRelocateDockForSheet(false);
   }
 
@@ -6514,6 +6525,7 @@
     const tlBar=$('wm-tl-bar');
     if(dock) dock.classList.remove('expanded');
     if(tlBar) tlBar.setAttribute('aria-expanded','false');
+    wmSyncOpsDockOpen();
   }
 
   function wmOpenLayerSheet(){
@@ -6550,6 +6562,7 @@
     if(sheet){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); sheet.style.transform=''; }
     if(dim) dim.hidden=true;
     if(btn) btn.setAttribute('aria-expanded','false');
+    wmSyncOpsDockOpen();
     wmRelocateDockForSheet(false);
   }
 
