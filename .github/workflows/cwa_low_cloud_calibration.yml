@@ -167,7 +167,10 @@ jobs:
           # auto-commit below is based on the latest scheduled auto-updates
           # (weathergrid/calibration files) and the final pull --rebase
           # cannot hit a stale-base conflict.
-          git fetch origin main
+          # actions/checkout fetches with depth=1, which leaves rebase
+          # without a merge-base (add/add conflicts). Unshallow first so
+          # the rebase and the final pull --rebase can resolve properly.
+          git fetch --unshallow origin main 2>/dev/null || git fetch origin main
           git rebase origin/main
 
           python cwa_cloud_calibration_history.py \
