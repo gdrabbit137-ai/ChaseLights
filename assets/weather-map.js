@@ -78,6 +78,7 @@
       wm_dialog_p5:'台灣地區的顯示範圍對齊中央氣象署官方衛星雲圖（約 105–145°E、5–40°N，西太平洋）。GFS 0.25° 為主源時整個範圍用同一份預報全幅渲染，不會出現接合縫；ICON 與 CAMS 亦提供同範圍的全幅選項。切到區域高解析模型（CWA WRF 3 km、JMA MSM、Himawari-9）時，只在該模型自己的涵蓋範圍內繪製，範圍外誠實留白，不代表晴朗。',
       wm_dialog_p6:'每個來源使用自己的資料邊界、網格解析度與時間語意；Himawari-9 為單張最新觀測，其餘模型為預報時間軸。衛星觀測採最近鄰呈現；預報的畫面內插只改善顯示連續性，不增加原始資料的真實解析度。',
       wm_dialog_p7:'底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。',
+      wm_cov_outline:'顯示目前資料來源範圍（預設關閉）',
       wm_side_title:'景點列表',
       wm_offline_badge:'📴 離線 · 上次資料 {t}',
       wm_layer_unavailable:'此地區目前資料源未提供此圖層',
@@ -126,6 +127,7 @@
       wm_dialog_p5:'The Taiwan display range aligns with the Central Weather Administration\'s official satellite imagery (about 105–145°E, 5–40°N, western Pacific). With GFS 0.25° as the main source the whole range is rendered from one forecast full-frame with no stitching seams; ICON and CAMS also offer same-range full-frame options. When switching to regional high-resolution models (CWA WRF 3 km, JMA MSM, Himawari-9), rendering stays inside that model\'s own coverage and the outside is honestly blank — it does not mean clear.',
       wm_dialog_p6:'Each source keeps its own data boundary, grid resolution and time semantics; Himawari-9 is a single latest observation while the other models are forecast timelines. Satellite observations use nearest-neighbor presentation; forecast display interpolation only improves visual continuity and does not add real resolution to the underlying data.',
       wm_dialog_p7:'The basemap uses MapLibre + OpenFreeMap; if the external basemap cannot load, WeatherGrid automatically falls back to the existing Canvas lat/lon grid without affecting GFS layers or spot sampling.',
+      wm_cov_outline:'Show the current data-source coverage box (off by default)',
       wm_side_title:'Places',
       wm_offline_badge:'📴 Offline · last data {t}',
       wm_layer_unavailable:'Not offered by the current sources in this region',
@@ -174,6 +176,7 @@
       wm_dialog_p5:'台湾地域の表示範囲は中央気象署の公式衛星雲図に揃えています（約 105–145°E、5–40°N、西太平洋）。GFS 0.25° が主ソースの場合、範囲全体を同一の予報フルフレームで描画し、継ぎ目は出ません。ICON と CAMS も同範囲のフルフレームを提供します。地域高解像度モデル（CWA WRF 3 km・JMA MSM・Himawari-9）へ切替時は、そのモデル自身のカバー範囲内のみ描画し、範囲外は正直に空白です。晴れを意味しません。',
       wm_dialog_p6:'各ソースは独自のデータ境界・グリッド解像度・時間語意を持ちます。Himawari-9 は単一の最新観測、他のモデルは予報タイムラインです。衛星観測は最近隣表示。予報の表示補間は見た目の連続性を改善するだけで、元データの実解像度は増えません。',
       wm_dialog_p7:'背景地図は MapLibre + OpenFreeMap を使用します。外部の背景地図が読み込めない場合、WeatherGrid は既存の Canvas 経緯度グリッドへ自動的に戻り、GFS レイヤーとスポットサンプリングには影響しません。',
+      wm_cov_outline:'現在のデータソース範囲の枠を表示（既定はオフ）',
       wm_side_title:'スポット一覧',
       wm_offline_badge:'📴 オフライン · 前回データ {t}',
       wm_layer_unavailable:'この地域の現在のデータソースでは提供されていません',
@@ -491,8 +494,6 @@
     '（游標查值）':' (cursor readout)'
 ,
     '展開／收合完整圖例刻度':'Expand/collapse the full legend ticks'
-,
-    '虛線＝目前資料來源範圍':'Dashed = current data-source coverage'
 ,
     '觀測時間':'Observation time'
 ,
@@ -877,8 +878,6 @@
 ,
     '展開／收合完整圖例刻度':'凡例の全目盛りを展開／折りたたむ'
 ,
-    '虛線＝目前資料來源範圍':'破線＝現在のデータソース範囲'
-,
     '觀測時間':'観測時刻'
 ,
     '預報時間':'予報時刻'
@@ -1212,6 +1211,12 @@
     windUvSidecarState:'idle',
     timelinePlaying:false,
     timelineTimer:null,
+    // CL-UI-108 (owner): the "current data-source coverage" outline drawn by
+    // drawProviderBoundary() is an internal/debug aid users do not need.
+    // Removed from the default render; kept behind an opt-in switch in the
+    // ⓘ data dialog (default OFF) so debugging the regional-model bboxes
+    // still works without any change to the drawn map.
+    showCoverageOutline:false,
     spotHitTargets:[],
     pngManifest:null,
     pngImages:new Map(),
@@ -3158,6 +3163,20 @@
     const close=$('data-info-close');
     if(!dialog || !open || !close) return;
 
+    // CL-UI-108 (owner): the data-source coverage outline is opt-in ONLY.
+    // The switch lives in this ⓘ dialog, defaults OFF, and re-renders the
+    // data canvas immediately when toggled (the outline is canvas-drawn by
+    // drawProviderBoundary on top of the active layer).
+    const coverageToggle=$('data-info-coverage-toggle');
+    if(coverageToggle && !coverageToggle.dataset.wired){
+      coverageToggle.dataset.wired='1';
+      coverageToggle.checked=Boolean(state.showCoverageOutline);
+      coverageToggle.addEventListener('change',()=>{
+        state.showCoverageOutline=coverageToggle.checked;
+        if(state.data) renderAll();
+      });
+    }
+
     open.addEventListener('click',()=>{
       wmRenderDataInfoMeta();
       if(typeof dialog.showModal==='function') dialog.showModal();
@@ -4029,6 +4048,11 @@
   }
 
   function drawProviderBoundary(data){
+    // CL-UI-108 (owner): the dashed "current data-source coverage" box is an
+    // internal aid users never asked for — not drawn by default. The opt-in
+    // display switch lives in the ⓘ data dialog (state.showCoverageOutline,
+    // default OFF); when off this is a strict no-op for every layer/model.
+    if(!state.showCoverageOutline) return;
     const b=normalizeViewBbox(data?.bbox);
     if(!b) return;
     const points=[
@@ -5474,7 +5498,6 @@
       <div class="legend-expanded"${state.legendExpanded?'':' hidden'}>${expandedLabels}
         ${thresholdKey}
       </div>
-      <div class="coverage-outline-key">${wmT('虛線＝目前資料來源範圍')}</div>
       ${windKey}
       ${coverageKey}`;
     const toggle=$('legend').querySelector('.legend-toggle');
@@ -5731,6 +5754,7 @@
       sourceKind: activeDataset(state.layer)?.source_kind || 'forecast',
       observationTime: state.himawariData?.observation?.time_coverage_end || null,
       modelMode: state.modelMode,
+      showCoverageOutline: state.showCoverageOutline,
       timelineModel: timelineDataset()?.model || null,
       pngPrerender: (() => {
         const d = pngFrameDecision(activeDataset(state.layer), state.layer, frame(), state.pngManifest);

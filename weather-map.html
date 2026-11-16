@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg43">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg44">
 </head>
 <body>
   <nav class="site-nav" aria-label="全站導覽">
@@ -292,6 +292,11 @@
         <p data-i18n="wm_dialog_p5">台灣地區的顯示範圍對齊中央氣象署官方衛星雲圖（約 105–145°E、5–40°N，西太平洋）。GFS 0.25° 為主源時整個範圍用同一份預報全幅渲染，不會出現接合縫；ICON 與 CAMS 亦提供同範圍的全幅選項。切到區域高解析模型（CWA WRF 3 km、JMA MSM、Himawari-9）時，只在該模型自己的涵蓋範圍內繪製，範圍外誠實留白，不代表晴朗。</p>
         <p data-i18n="wm_dialog_p6">每個來源使用自己的資料邊界、網格解析度與時間語意；Himawari-9 為單張最新觀測，其餘模型為預報時間軸。衛星觀測採最近鄰呈現；預報的畫面內插只改善顯示連續性，不增加原始資料的真實解析度。</p>
         <p data-i18n="wm_dialog_p7">底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。</p>
+        <!-- CL-UI-108: 資料來源範圍虛線預設不繪製；僅在 ⓘ 彈出內保留為預設關閉的顯示選項（除錯用） -->
+        <label class="data-info-coverage-toggle">
+          <input id="data-info-coverage-toggle" type="checkbox">
+          <span data-i18n="wm_cov_outline">顯示目前資料來源範圍（預設關閉）</span>
+        </label>
       </div>
     </div>
   </dialog>
@@ -302,7 +307,7 @@
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui103"></script>
   <script src="./assets/favorites-client.js?v=clui82"></script>
-  <script src="./assets/weather-map.js?v=bclwg43"></script>
+  <script src="./assets/weather-map.js?v=bclwg44"></script>
   <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
   <footer class="site-footer">
     <a class="site-footer-link" href="./sources.html" data-sf-i18n="sf_sources">資料來源與授權</a>

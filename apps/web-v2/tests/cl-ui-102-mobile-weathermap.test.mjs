@@ -47,9 +47,9 @@ test('CL-UI-102: weather-map.html carries the tl-bar, bottom sheet and map-dim m
   assert.ok(WG_HTML.includes('wm_dim_hint'), '點此返回 pill is i18n-wired');
 });
 
-test('CL-UI-102: cache-bust stamps bumped to bclwg43 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg43/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg43/);
+test('CL-UI-102: cache-bust stamps bumped to bclwg44 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg44/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg44/);
   assert.ok(!/weather-map\.js\?v=bclwg38/.test(WG_HTML), 'old js stamp must not linger');
 });
 
