@@ -328,7 +328,10 @@ test('layer dropdown labels are clean and use notes live in the detail panel (CL
   const labelFnStart = js.indexOf('function photographyLayerLabel(key)');
   const labelFnEnd = js.indexOf('return labels[key]', labelFnStart);
   const labelBlock = js.slice(labelFnStart, labelFnEnd);
-  assert.ok(labelBlock.includes("'🌫️ 山霧'"), 'low-cloud dropdown label must be 山霧');
+  // CL-UI-102 (audit F6) supersedes the CL-WG-08 山霧 pin: one data column
+  // keeps ONE name — dropdown and quick chips both read 低雲 (山霧 wording
+  // stays in the conditions note only).
+  assert.ok(labelBlock.includes("'☁️ 低雲'"), 'low-cloud dropdown label must be 低雲 (CL-UI-102: chips/dropdown one name)');
   assert.ok(labelBlock.includes("'🌤️ 高雲'"), 'high-cloud dropdown label must be 高雲');
   assert.ok(labelBlock.includes("'☀️ 短波'"), 'shortwave dropdown label must be 短波');
   assert.ok(!labelBlock.includes('霞光'), 'dropdown labels must not carry use annotations');

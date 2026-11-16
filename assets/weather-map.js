@@ -89,7 +89,13 @@
       wm_no_camera_zones:'此景點尚未建立拍攝位置（機位）資料。',
       wm_no_data_short:'無資料',
       wm_day_today:'今天',wm_day_tomorrow:'明天',wm_day_after:'後天',
-      wm_band_ok:'此時刻有可繪資料',wm_band_no:'此時刻目前資料源無此圖層'
+      wm_band_ok:'此時刻有可繪資料',wm_band_no:'此時刻目前資料源無此圖層',
+      wm_tl_now:'目前所選',
+      wm_sheet_search:'搜尋名稱或編號',
+      wm_sheet_close_aria:'關閉列表',
+      wm_dim_hint:'地圖已收成預覽 · 點此返回',
+      wm_sheet_sort:'排序 依可拍%',
+      wm_sheet_n:'{n} 筆'
     },
     'en':{
       nav_cards:'Cards',nav_weathermap:'Weather map',nav_more_tools:'More tools ▾',nav_genre_eval:'Genre assessment',nav_field_intake:'Field check',nav_reminders:'Reminders',
@@ -130,7 +136,13 @@
       wm_no_camera_zones:'No camera positions registered for this spot yet.',
       wm_no_data_short:'no data',
       wm_day_today:'Today',wm_day_tomorrow:'Tomorrow',wm_day_after:'Day after',
-      wm_band_ok:'Data available at this time',wm_band_no:'No data for this layer at this time'
+      wm_band_ok:'Data available at this time',wm_band_no:'No data for this layer at this time',
+      wm_tl_now:'Selected',
+      wm_sheet_search:'Search name or code',
+      wm_sheet_close_aria:'Close list',
+      wm_dim_hint:'Map shrunk to preview · tap to restore',
+      wm_sheet_sort:'Sort by shootable %',
+      wm_sheet_n:'{n} places'
     },
     'ja':{
       nav_cards:'カード',nav_weathermap:'天気マップ',nav_more_tools:'その他のツール ▾',nav_genre_eval:'題材評価',nav_field_intake:'実写検証',nav_reminders:'リマインダー',
@@ -171,7 +183,13 @@
       wm_no_camera_zones:'このスポットにはまだ撮影ポジションが登録されていません。',
       wm_no_data_short:'データなし',
       wm_day_today:'今日',wm_day_tomorrow:'明日',wm_day_after:'明後日',
-      wm_band_ok:'この時刻は描画可能なデータあり',wm_band_no:'この時刻はこのレイヤーのデータなし'
+      wm_band_ok:'この時刻は描画可能なデータあり',wm_band_no:'この時刻はこのレイヤーのデータなし',
+      wm_tl_now:'選択中',
+      wm_sheet_search:'名前かコードで検索',
+      wm_sheet_close_aria:'一覧を閉じる',
+      wm_dim_hint:'地図はプレビュー中・タップで戻る',
+      wm_sheet_sort:'撮影可能率で並び替え',
+      wm_sheet_n:'{n} 件'
     }
   };
 
@@ -479,7 +497,7 @@
 ,
     '播放':'Play'
 ,
-    '先選景點。題材 coverage 會同時標示 Camera / Subject / Environment。':'Pick a spot first. Subject coverage lists Camera / Subject / Environment together.'
+    '先選景點。題材涵蓋會同時標示 機位／主體／環境。':'Pick a spot first. Subject coverage lists camera / subject / environment together.'
 ,
     'Live WeatherGrid 已載入，subject-aware coverage bundle 背景載入中…':'Live WeatherGrid loaded; subject-aware coverage bundle loading in background…'
 ,
@@ -487,13 +505,23 @@
 ,
     '⚠ 此景點尚未進入 B120/B121 coverage migration；目前不能宣稱所有題材的相機與被攝主體均已涵蓋。':'⚠ This spot has not entered the B120/B121 coverage migration; camera and subject coverage for all subjects cannot be claimed yet.'
 ,
-    '已建立 coverage：{a} / {b} 個題材；其中 {c} 個仍不完整。':'Coverage built: {a} / {b} subjects; {c} still incomplete.'
+    '題材涵蓋 {a} / {b} 個；其中 {c} 個仍在補齊。':'Subject coverage {a} / {b}; {c} still being completed.'
+,
+    '遷移完成 {a} / {b} 個題材':'Migration complete {a} / {b} subjects'
+,
+    '圖例色階上限 {a}':'legend scale tops out at {a}'
+,
+    '風向箭頭已顯示（風速色階此時段無可繪資料）':'Wind-direction arrows are shown (no drawable wind-speed color field this hour)'
+,
+    'Himawari-9 觀測載入中，目前畫面暫以 {p} 呈現。':'Himawari-9 observation is still loading; the map is temporarily rendered from {p}.'
+,
+    '機位 {a} · 主體 {b} · 環境 {c}':'Camera {a} · Subject {b} · Environment {c}'
 ,
     '✓ 目前 WeatherGrid bbox 可涵蓋已建立的題材視野。':'✓ The current WeatherGrid bbox covers the built subject viewports.'
 ,
     '⚠ 目前 WeatherGrid bbox 無法完整涵蓋已建立題材視野。':'⚠ The current WeatherGrid bbox cannot fully cover the built subject viewports.'
 ,
-    '選擇單一題材可檢查 Camera / Subject / Environment。':'Pick a single subject to inspect Camera / Subject / Environment.'
+    '選擇單一題材可檢查 機位／主體／環境。':'Pick a single subject to inspect camera / subject / environment.'
 ,
     '✓ 當前氣象資料涵蓋題材 viewport。':'✓ Current weather data covers the subject viewport.'
 ,
@@ -848,7 +876,7 @@
 ,
     '播放':'再生'
 ,
-    '先選景點。題材 coverage 會同時標示 Camera / Subject / Environment。':'先にスポットを選択。題材 coverage は Camera / Subject / Environment を同時に示します。'
+    '先選景點。題材涵蓋會同時標示 機位／主體／環境。':'先にスポットを選択。題材カバーは 機位／主題／環境 を同時に示します。'
 ,
     'Live WeatherGrid 已載入，subject-aware coverage bundle 背景載入中…':'Live WeatherGrid を読み込み済み。subject-aware coverage bundle をバックグラウンドで読み込み中…'
 ,
@@ -856,13 +884,23 @@
 ,
     '⚠ 此景點尚未進入 B120/B121 coverage migration；目前不能宣稱所有題材的相機與被攝主體均已涵蓋。':'⚠ このスポットはまだ B120/B121 coverage migration に入っていません。全題材のカメラと被写体のカバーは現時点で主張できません。'
 ,
-    '已建立 coverage：{a} / {b} 個題材；其中 {c} 個仍不完整。':'作成済み coverage: {a} / {b} 題材。うち {c} 件が未完成です。'
+    '題材涵蓋 {a} / {b} 個；其中 {c} 個仍在補齊。':'題材カバー {a} / {b} 件。うち {c} 件を補完中です。'
+,
+    '遷移完成 {a} / {b} 個題材':'移行完了 {a} / {b} 題材'
+,
+    '圖例色階上限 {a}':'凡例スケール上限 {a}'
+,
+    '風向箭頭已顯示（風速色階此時段無可繪資料）':'風向矢印は表示中（この時刻の風速カラーフィールドは描画データなし）'
+,
+    'Himawari-9 觀測載入中，目前畫面暫以 {p} 呈現。':'「Himawari-9」観測を読み込み中。現在の画面は一時的に {p} で描画されています。'
+,
+    '機位 {a} · 主體 {b} · 環境 {c}':'機位 {a} · 主題 {b} · 環境 {c}'
 ,
     '✓ 目前 WeatherGrid bbox 可涵蓋已建立的題材視野。':'✓ 現在の WeatherGrid bbox は作成済みの題材ビューポートをカバーします。'
 ,
     '⚠ 目前 WeatherGrid bbox 無法完整涵蓋已建立題材視野。':'⚠ 現在の WeatherGrid bbox は作成済みの題材ビューポートを完全にはカバーできません。'
 ,
-    '選擇單一題材可檢查 Camera / Subject / Environment。':'単一の題材を選ぶと Camera / Subject / Environment を確認できます。'
+    '選擇單一題材可檢查 機位／主體／環境。':'単一の題材を選ぶと 機位／主題／環境 を確認できます。'
 ,
     '✓ 當前氣象資料涵蓋題材 viewport。':'✓ 現在の気象データは題材 viewport をカバーします。'
 ,
@@ -923,6 +961,9 @@
       if(typeof v==='string'&&v) el.textContent=v;
       const aria=el.getAttribute('data-i18n-aria');
       if(aria&&dict[aria]) el.setAttribute('aria-label',dict[aria]);
+      // CL-UI-102: placeholder i18n for the bottom-sheet search input.
+      const ph=el.getAttribute('data-i18n-ph');
+      if(ph&&dict[ph]) el.setAttribute('placeholder',dict[ph]);
     });
   }
   applyStaticI18n();
@@ -1695,6 +1736,33 @@
   // 畫出黃色虛線（含 EEZ/離島段），與雲量配色場撞色、被誤讀成資料等值線。
   // 樣式載入後把這些線圖層整層設 visibility:none；地形、地名標籤、道路、
   // 水系一概保留。未知樣式形狀 fail-open（不動任何圖層、不阻塞地圖）。
+  // CL-UI-102 (audit F16): mobile-only basemap label-density mute — the
+  // multi-script sea/water name labels stack four lines deep at 390px and
+  // bleed through the translucent chips. Only sea/water LABEL symbol layers
+  // are hidden, and only when the shell is mobile at load; desktop keeps
+  // every label. Unknown style shapes fail-open (no-op, never blocks).
+  function hideBasemapLabelNoise(map){
+    try{
+      if(!window.matchMedia('(max-width:768px)').matches) return 0;
+      const style=map.getStyle();
+      if(!style || !Array.isArray(style.layers)) return 0;
+      let hidden=0;
+      for(const layer of style.layers){
+        if(!layer || layer.type!=='symbol') continue;
+        const id=String(layer.id||'');
+        const src=String(layer['source-layer']||'');
+        const isWaterName=/(water|sea|ocean)[_-]?name/i.test(id)||/(water|sea|ocean)[_-]?name/i.test(src)
+          || /^sea|^ocean/i.test(id)|| /^sea|^ocean/i.test(src);
+        if(!isWaterName) continue;
+        map.setLayoutProperty(layer.id,'visibility','none');
+        hidden++;
+      }
+      return hidden;
+    }catch(err){
+      console.warn('WeatherGrid label-density mute unavailable',err);
+      return 0;
+    }
+  }
   function hideBoundaryLineLayers(map){
     try{
       const style=map.getStyle();
@@ -1889,6 +1957,7 @@
         // CL-WG-06/07/10 region confinement is unchanged.
         applyCameraLimits({preserveCamera:true});
         hideBoundaryLineLayers(map);
+        hideBasemapLabelNoise(map);
         renderAll();
       });
       map.on('move',()=>{
@@ -2852,7 +2921,10 @@
   function photographyLayerLabel(key){
     const labels={
       total_cloud_percent:'☁️ 全雲量',
-      low_cloud_percent:'🌫️ 山霧',
+      // CL-UI-102 (audit F6): one data column keeps ONE name — the dropdown
+      // and the quick chips both read 低雲; the 山霧 wording stays in the
+      // conditions note below, never as a second layer name.
+      low_cloud_percent:'☁️ 低雲',
       mid_cloud_percent:'☁️ 中雲',
       high_cloud_percent:'🌤️ 高雲',
       precip_rate_mm_h:'🌧️ 即時降雨',
@@ -2937,6 +3009,7 @@
         : layers[0];
     }
     stopTimelinePlayback();
+    wmPersistSession();
     refreshModelControls();
     setViewBbox(timeline.bbox,{animate:true,maxZoom:8});
     renderAll();
@@ -3168,6 +3241,7 @@
     state.opportunityId = '';
     refreshOpportunityOptions();
     updateLocateSpotButton();
+    wmPersistSession();
     renderAll();
   }
 
@@ -5070,7 +5144,13 @@
     $('layer-summary').textContent=wmT(cfg.label);
     $('layer-range').textContent=min==null
       ? wmT('畫面資料範圍：—')
-      : wmT('畫面資料範圍：{a} – {b}',{a:formatValue(min,state.layer),b:formatValue(max,state.layer)});
+      : wmT('畫面資料範圍：{a} – {b}',{a:formatValue(min,state.layer),b:formatValue(max,state.layer)})
+        // CL-UI-102 (audit F14): the panel range (actual on-screen data) and
+        // the legend's palette domain must never read as two contradicting
+        // "ranges" — when they differ, say both from the same sentence.
+        +(Number.isFinite(cfg?.domain?.[1]) && Math.abs(cfg.domain[1]-max)>1e-9
+          ? ' · '+wmT('圖例色階上限 {a}',{a:formatValue(cfg.domain[1],state.layer)})
+          : '');
     let providerRole='GFS';
     if(usingHimawari) providerRole=wmT('Himawari-9 AHI · 觀測');
     else if(usingJma) providerRole='JMA MSM 5 km';
@@ -5085,9 +5165,16 @@
       const showCoverageNote=cloudLayers.has(state.layer);
       coverageNote.hidden=!showCoverageNote;
       if(showCoverageNote){
-        coverageNote.textContent=state.modelMode==='auto'
-          ? wmT('空白區＝目前 {p} 無資料，不代表晴朗；切換雲層時自動預報可能改用不同模型。',{p:coverageProvider})
-          : wmT('空白區＝目前 {p} 無資料，不代表晴朗。',{p:coverageProvider});
+        // CL-UI-102 (audit F17): the note must be model-aware. When the user
+        // selected Himawari but the observation bundle has not arrived yet,
+        // say so explicitly instead of quoting a stale GFS-only warning.
+        if(state.modelMode==='himawari' && !state.himawariData){
+          coverageNote.textContent=wmT('Himawari-9 觀測載入中，目前畫面暫以 {p} 呈現。',{p:coverageProvider});
+        }else{
+          coverageNote.textContent=state.modelMode==='auto'
+            ? wmT('空白區＝目前 {p} 無資料，不代表晴朗；切換雲層時自動預報可能改用不同模型。',{p:coverageProvider})
+            : wmT('空白區＝目前 {p} 無資料，不代表晴朗。',{p:coverageProvider});
+        }
       }
     }
     const unitText=usingHimawari && state.layer==='cloud_top_height_m'
@@ -5150,14 +5237,31 @@
     if(usingViirs && point){
       viirsQualityHtml=`<div>${wmT('每日原始 DNB：含雲污染，非無雲合成；無逐格品質旗標')}</div>`;
     }
-    $('spot-details').innerHTML=point
-      ? `<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>${wmT('取樣：')}${sampleMethod}</div>${viirsQualityHtml}`
-      : '<div>'+wmT('可從下拉選單或地圖上的景點點位選取。')+'</div>';
+    // CL-UI-102 (audit F12): on phones the engineering copy (coordinates,
+    // sampling method, fog/haze diagnostic) collapses into a single「詳細」
+    // accordion instead of three always-visible technical lines. Desktop
+    // (>=769px) keeps the existing layout byte-for-byte (1280 zero-change).
+    const wmMobileShell=window.matchMedia('(max-width:768px)').matches;
     const environmentHost=$('spot-environment');
-    if(environmentHost){
-      const environmentHtml=fogHazeDiagnosticHtml(point);
-      environmentHost.hidden=!environmentHtml;
-      environmentHost.innerHTML=environmentHtml;
+    const envHtml=fogHazeDiagnosticHtml(point);
+    if(point){
+      const detailBody=`<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>${wmT('取樣：')}${sampleMethod}</div>${viirsQualityHtml}${envHtml?`<div class="environment-diagnostic">${envHtml}</div>`:''}`;
+      if(wmMobileShell){
+        $('spot-details').innerHTML=`<details class="wm-panel-acc"><summary>${escapeHtml(wmT('詳細'))}</summary><div class="acc-body">${detailBody}</div></details>`;
+        if(environmentHost){ environmentHost.hidden=true; environmentHost.innerHTML=''; }
+      }else{
+        $('spot-details').innerHTML=`<div>${point.lat.toFixed(4)}°, ${point.lon.toFixed(4)}° · ${escapeHtml(point.label)}</div><div>${wmT('取樣：')}${sampleMethod}</div>${viirsQualityHtml}`;
+        if(environmentHost){
+          environmentHost.hidden=!envHtml;
+          environmentHost.innerHTML=envHtml;
+        }
+      }
+    }else{
+      $('spot-details').innerHTML='<div>'+wmT('可從下拉選單或地圖上的景點點位選取。')+'</div>';
+      if(environmentHost){
+        environmentHost.hidden=!envHtml;
+        environmentHost.innerHTML=envHtml;
+      }
     }
 
     updateLegend(cfg);
@@ -5332,7 +5436,7 @@
   function updateCoverageStatus(){
     const host=$('coverage-status');
     if(!state.spotId){
-      host.innerHTML='<div>'+wmT('先選景點。題材 coverage 會同時標示 Camera / Subject / Environment。')+'</div>';
+      host.innerHTML='<div>'+wmT('先選景點。題材涵蓋會同時標示 機位／主體／環境。')+'</div>';
       return;
     }
 
@@ -5360,11 +5464,18 @@
       const allComplete=Boolean(group.all_topics_complete);
       const union=unionViewport(group.opportunities);
       const providerOk=union ? providerCoversBbox(union) : false;
+      // CL-UI-102 (audit F11): no internal-state leakage — the English pipeline
+      // badge never leaves the page; an incomplete
+      // migration shows no badge at all (the count line below stays honest),
+      // and the count wording is product copy, not pipeline jargon.
+      const badge=allComplete
+        ? `<div><span class="coverage-badge ok">${escapeHtml(wmT('遷移完成 {a} / {b} 個題材',{a:migrated,b:total}))}</span></div>`
+        : '';
       host.innerHTML=`
-        <div>${allComplete?`<span class="coverage-badge ok">遷移完成 ${migrated}/${total}（資料仍為 provisional）</span>`:'<span class="coverage-badge provisional">partial migration</span>'}</div>
-        <div>${wmT('已建立 coverage：{a} / {b} 個題材；其中 {c} 個仍不完整。',{a:migrated,b:total,c:incomplete})}</div>
+        ${badge}
+        <div>${wmT('題材涵蓋 {a} / {b} 個；其中 {c} 個仍在補齊。',{a:migrated,b:total,c:incomplete})}</div>
         <div>${providerOk?wmT('✓ 目前 WeatherGrid bbox 可涵蓋已建立的題材視野。'):wmT('⚠ 目前 WeatherGrid bbox 無法完整涵蓋已建立題材視野。')}</div>
-        <div>${wmT('選擇單一題材可檢查 Camera / Subject / Environment。')}</div>`;
+        <div>${wmT('選擇單一題材可檢查 機位／主體／環境。')}</div>`;
       return;
     }
 
@@ -5373,7 +5484,7 @@
     const warnings=(op.warnings||[]).map(e=>`<div class="warn">△ ${escapeHtml(e)}</div>`).join('');
     host.innerHTML=`
       <div>${statusBadge(op)} <strong>${escapeHtml(op.name_zh||op.opportunity_id)}</strong></div>
-      <div>Camera ${(op.camera_zones||[]).length} · Subject ${(op.subject_geometries||[]).length} · Environment ${(op.environment_geometries||[]).length}</div>
+      <div>${wmT('機位 {a} · 主體 {b} · 環境 {c}',{a:(op.camera_zones||[]).length,b:(op.subject_geometries||[]).length,c:(op.environment_geometries||[]).length})}</div>
       ${(!op.subject_geometries||op.subject_geometries.length===0)?'<div class="warn">未建立方位資料，僅顯示機位（不以全向環冒充主體扇）。</div>':''}
       <div>${providerOk?wmT('✓ 當前氣象資料涵蓋題材 viewport。'):wmT('⚠ 題材 viewport 超出當前氣象資料範圍；空白區不可視為晴朗。')}</div>
       ${op.note?`<div>${escapeHtml(op.note)}</div>`:''}
@@ -5436,11 +5547,20 @@
     // active, and the field could not be drawn). Show an honest degraded
     // status instead of a green checkmark decoupled from the visible canvas.
     if(!state.lastDataRendered){
-      setQcSummary('warn','資料層未顯示');
-      const reason=!state.mapReady
-        ? wmT('底圖逾時，資料層未顯示')
-        : wmT('資料層未顯示（此圖層無可繪資料）');
-      host.innerHTML='<div class="warn">⚠ '+escapeHtml(reason)+'</div>'+regionalModelNoteHtml();
+      // CL-UI-102 (audit F15): the QC badge must never contradict what is on
+      // the canvas — when the wind-direction arrows DID render but the color
+      // field did not, say exactly that instead of a blanket「資料層未顯示」.
+      const vectorsDrawn=(state.lastWindVectorCount||0)>0;
+      if(vectorsDrawn){
+        setQcSummary('warn','風向箭頭已顯示 · 風速色階未顯示');
+        host.innerHTML='<div class="warn">⚠ '+escapeHtml(wmT('風向箭頭已顯示（風速色階此時段無可繪資料）'))+'</div>'+regionalModelNoteHtml();
+      }else{
+        setQcSummary('warn','資料層未顯示');
+        const reason=!state.mapReady
+          ? wmT('底圖逾時，資料層未顯示')
+          : wmT('資料層未顯示（此圖層無可繪資料）');
+        host.innerHTML='<div class="warn">⚠ '+escapeHtml(reason)+'</div>'+regionalModelNoteHtml();
+      }
       return;
     }
     if(isObservationMode()){
@@ -5538,6 +5658,9 @@
   let wmDockTodayKey=null;
   let wmMiniMoveHooked=false;
   let wmDetailSpotId=null;
+  let wmDockExpanded=false;   // CL-UI-102 DESIGN-9: mobile band expanded state
+  let wmSheetOpen=false;      // CL-UI-102 DESIGN-10: bottom sheet state
+  let wmSheetRenderKey=null;
 
   function wmD(){ return WM_STATIC[WM_LANG] || WM_STATIC['zh-TW']; }
 
@@ -5653,7 +5776,7 @@
       <div class="wm-mini-head"><span class="wm-mini-name">${escapeHtml(spot.name)}</span>
         <span class="wm-tier ${cov.badge}">${escapeHtml(wmCovBadgeText(cov.badge))}</span>
         <button type="button" class="wm-mini-x" data-wm-act="close" aria-label="${escapeHtml(D.wm_close_btn)}">✕</button></div>
-      <div class="wm-mini-region">${escapeHtml(wmRegionName())} · ${spot.lat.toFixed(3)}, ${spot.lon.toFixed(3)}</div>
+      <div class="wm-mini-region">${escapeHtml(wmRegionName())}</div>
       <div class="wm-mini-win"><span class="wm-dot ${cov.dot}" aria-hidden="true"></span><span class="mono">${fTime} · ${escapeHtml(wmT(layerConfig[state.layer].label))} ${wmSampleText(spot,state.layer)}</span></div>
       <div class="wm-mini-pills">${WM_PHOTO_LAYERS.map(key=>`<span class="wm-pill">${WM_PHOTO_ICONS[key]} <b class="mono">${wmSampleText(spot,key)}</b></span>`).join('')}</div>
       <div class="wm-mini-acts">
@@ -5697,8 +5820,10 @@
       tier.className=`wm-tier ${cov.badge}`;
       tier.textContent=wmCovBadgeText(cov.badge);
     }
+    // CL-UI-102 (audit F12): coordinates live in the camera-positions
+    // accordion (「詳細」摺疊), not on the modal headline.
     const regionHost=$('wm-modal-region');
-    if(regionHost) regionHost.textContent=`${wmRegionName()} · ${spot.lat.toFixed(4)}°, ${spot.lon.toFixed(4)}°`;
+    if(regionHost) regionHost.textContent=wmRegionName();
     const rows=WM_PHOTO_LAYERS.map(key=>{
       const value=samplePointValue({lat:spot.lat,lon:spot.lon},key);
       const ok=Number.isFinite(value);
@@ -5714,13 +5839,16 @@
       const migrated=Number(group.coverage_entry_count ?? group.opportunities.length);
       const total=Number(group.catalog_opportunity_count ?? group.opportunities.length);
       const incomplete=group.opportunities.filter(x=>!x.complete).length;
-      covHtml=`<div>${escapeHtml(wmT('已建立 coverage：{a} / {b} 個題材；其中 {c} 個仍不完整。',{a:migrated,b:total,c:incomplete}))}</div>`;
+      covHtml=`<div>${escapeHtml(wmT('題材涵蓋 {a} / {b} 個；其中 {c} 個仍在補齊。',{a:migrated,b:total,c:incomplete}))}</div>`;
     }
     const zones=(group?.opportunities||[]).flatMap(op=>op.camera_zones||[]).filter(z=>z&&z.name);
-    const zoneList=zones.length
-      ? zones.slice(0,6).map(z=>`<div>📍 ${escapeHtml(z.name)}</div>`).join('')
-        +(zones.length>6?`<div>… +${zones.length-6}</div>`:'')
-      : `<div>${escapeHtml(D.wm_no_camera_zones)}</div>`;
+    const zoneList=(Number.isFinite(spot.lat)&&Number.isFinite(spot.lon)
+        ? `<div class="mono">${spot.lat.toFixed(4)}°, ${spot.lon.toFixed(4)}°</div>`
+        : '')
+      + (zones.length
+        ? zones.slice(0,6).map(z=>`<div>📍 ${escapeHtml(z.name)}</div>`).join('')
+          +(zones.length>6?`<div>… +${zones.length-6}</div>`:'')
+        : `<div>${escapeHtml(D.wm_no_camera_zones)}</div>`);
     const body=$('wm-modal-body');
     if(body){
       body.innerHTML=`
@@ -5798,6 +5926,16 @@
     }).join('');
     // today / now auto-centering: only on actual selection changes, so the
     // user's manual horizontal browsing is never yanked back mid-drag.
+    // CL-UI-102 DESIGN-9: the collapsed-band summary tracks the selection and
+    // the expanded state survives re-renders (rows re-built every pass).
+    dock.classList.toggle('expanded',Boolean(wmDockExpanded));
+    const tlSel=$('wm-tl-sel');
+    if(tlSel){
+      if(curFrame){
+        try{ tlSel.textContent=`${mmdd(curFrame.valid_time_utc)} · ${hmFmt.format(new Date(curFrame.valid_time_utc))}`; }
+        catch(_){ tlSel.textContent='—'; }
+      }else{ tlSel.textContent='—'; }
+    }
     const renderKey=`${state.frameIndex}|${frames.length}|${state.modelMode}|${state.layer}|${dayOrder.length}`;
     if(renderKey===wmDockRenderKey) return;
     wmDockRenderKey=renderKey;
@@ -5838,10 +5976,79 @@
       });
     }
     const sideToggle=$('side-toggle');
-    const side=$('wm-side');
-    if(sideToggle && side){
-      sideToggle.addEventListener('click',()=>side.classList.toggle('open'));
+    if(sideToggle){
+      // CL-UI-102 DESIGN-10: the list button opens the full-width bottom
+      // sheet (mobile); the old floating .wm-side panel is desktop-only.
+      sideToggle.addEventListener('click',()=>wmOpenSheet());
     }
+    const tlBar=$('wm-tl-bar');
+    if(tlBar){
+      // CL-UI-102 DESIGN-9: 點細帶＝展開/收合完整日/時格（固定位置，不拖曳）；
+      // 展開時把選中 pill/格捲入可視區（audit F2/F7）。
+      tlBar.addEventListener('click',()=>{
+        wmDockExpanded=!wmDockExpanded;
+        tlBar.setAttribute('aria-expanded',wmDockExpanded?'true':'false');
+        const dock=$('wm-timeline-dock');
+        if(dock) dock.classList.toggle('expanded',wmDockExpanded);
+        if(wmDockExpanded){
+          const selPill=$('wm-day-row')?.querySelector('.sel');
+          if(selPill) selPill.scrollIntoView({inline:'center',block:'nearest'});
+          const hourRowEl=$('wm-hour-row');
+          const selCell=hourRowEl?.querySelector('.sel')||hourRowEl?.querySelector('.now');
+          if(selCell) selCell.scrollIntoView({inline:'center',block:'nearest'});
+        }
+      });
+    }
+    const sheetHost=$('wm-sheet');
+    const dimHost=$('wm-map-dim');
+    [sheetHost,dimHost].forEach(host=>{
+      if(!host) return;
+      host.addEventListener('click',e=>{
+        if(e.target.closest('[data-wm-act="sheet-close"]')){ wmCloseSheet(); return; }
+        const row=e.target.closest('[data-wm-sheet-spot]');
+        if(row){
+          // 選列＝選景點並自動收 sheet 回復地圖全幅＋迷你卡（DESIGN-10）。
+          const spotId=row.dataset.wmSheetSpot;
+          wmCloseSheet();
+          const spotSelect=$('spot-select');
+          if(spotSelect) spotSelect.value=spotId;
+          selectSpot(spotId);
+          wmOpenMini(spotId);
+        }
+      });
+    });
+    const sheetSearch=$('wm-sheet-search');
+    if(sheetSearch){
+      sheetSearch.addEventListener('input',()=>{ wmSheetRenderKey=null; renderWmSheet(); });
+    }
+    const grabEl=$('wm-sheet-grab');
+    const sheetHead=$('wm-sheet-head');
+    const sheetEl=$('wm-sheet');
+    let wmSheetDragY=null,wmSheetDragDy=0;
+    [grabEl,sheetHead].forEach(el=>{
+      if(!el) return;
+      el.addEventListener('pointerdown',e=>{
+        if(e.target.closest('button,input')) return;
+        wmSheetDragY=e.clientY; wmSheetDragDy=0;
+        if(sheetEl) sheetEl.style.transition='none';
+        try{ el.setPointerCapture(e.pointerId); }catch(_){}
+      });
+      el.addEventListener('pointermove',e=>{
+        if(wmSheetDragY===null||!sheetEl) return;
+        wmSheetDragDy=Math.max(0,e.clientY-wmSheetDragY);
+        sheetEl.style.transform=`translateY(${wmSheetDragDy}px)`;
+      });
+      el.addEventListener('pointerup',()=>{
+        if(wmSheetDragY===null) return;
+        if(sheetEl){ sheetEl.style.transition=''; sheetEl.style.transform=''; }
+        if(wmSheetDragDy>80) wmCloseSheet();
+        wmSheetDragY=null; wmSheetDragDy=0;
+      });
+      el.addEventListener('pointercancel',()=>{
+        if(sheetEl){ sheetEl.style.transition=''; sheetEl.style.transform=''; }
+        wmSheetDragY=null; wmSheetDragDy=0;
+      });
+    });
     const dayRow=$('wm-day-row');
     if(dayRow){
       dayRow.addEventListener('click',e=>{
@@ -5858,6 +6065,9 @@
             return Number.isFinite(d)&&d<bd?i:best;
           },idxs[0]);
         }
+        // CL-UI-102 DESIGN-9: 選定即收合 — picking a day/hour collapses the
+        // expanded band again (fixed position, never dragged).
+        wmDockExpanded=false;
         stopTimelinePlayback();
         setFrameIndex(target);
       });
@@ -5867,6 +6077,7 @@
       hourRow.addEventListener('click',e=>{
         const b=e.target.closest('[data-wm-frame]');
         if(!b) return;
+        wmDockExpanded=false;
         stopTimelinePlayback();
         setFrameIndex(Number(b.dataset.wmFrame));
       });
@@ -5910,6 +6121,7 @@
       if(e.key!=='Escape') return;
       wmCloseMini();
       wmCloseDetail();
+      if(wmSheetOpen) wmCloseSheet();
     });
     try{
       window.addEventListener('online',()=>{ wmSideRenderKey=null; renderWmSide(); });
@@ -5925,10 +6137,202 @@
     renderWmSide();
     if(wmDetailSpotId && !selectedSpot()) wmCloseDetail();
     renderWmMini();
+    // CL-UI-102: bottom sheet re-render (query / frame / layer changes) and
+    // cross-page session restore (F18).
+    if(wmSheetOpen){
+      wmFitSheetPanel();
+      renderWmSheet();
+    }else{
+      wmSheetRenderKey=null;
+    }
+    wmRestoreSession();
   }
+
+  // ===== CL-UI-102: DESIGN-9 collapsible timeline + DESIGN-10 bottom sheet ==
+  // Spec sources: origin/task/DESIGN-3 head fdae38022 mockup-weathermap.html
+  // (DESIGN-9 32px collapsed band / DESIGN-10 full-width bottom sheet) and
+  // origin/task/CHALLENGER-16 head 5acec1a57 (mobile 390 audit, 20 findings).
+  // Everything below is mobile-only (<=768px): desktop (>=769px) keeps the
+  // right side panel and the always-open timeline dock byte-for-byte
+  // (1280 regression: zero change). Camera behavior stays CL-UI-59.
+
+  function wmIsMobileShell(){ return window.matchMedia('(max-width:768px)').matches; }
+
+  // Deterministic display heuristic (same spirit as the DESIGN-10 mockup's
+  // data-src note): the % is recomputed from the CURRENT layer sample at the
+  // CURRENT frame — a display-layer ranking aid, not evaluator output. The
+  // row COLOR comes from the same coverage-tier source as the status dot,
+  // so one row never carries two contradicting verdicts.
+  function wmShootPct(spot){
+    // A spot with no subject coverage gets no fabricated ranking value —
+    // honest '—' instead of a layer-value heuristic that would clash with
+    // the 待研究 tier color in the same row (single-truth ruling).
+    const cov=wmSpotCoverage(spot.spot_id);
+    if(cov.dot==='off') return null;
+    const v=samplePointValue({lat:spot.lat,lon:spot.lon},state.layer);
+    if(!Number.isFinite(v)) return null;
+    let p=null;
+    if(state.layer==='low_cloud_percent') p=100-v;
+    else if(state.layer==='visibility_km') p=v/24.1*100;
+    else if(state.layer==='wind_speed_10m_m_s') p=100-v*4;
+    else if(state.layer==='precip_rate_mm_h') p=100-v*20;
+    if(p==null) return null;
+    return Math.max(0,Math.min(99,Math.round(p)));
+  }
+
+  // DESIGN-10: when the sheet opens the dock (already collapsed to the 32px
+  // band) moves from the map overlay into the flow below the sheet — 地圖條 /
+  // sheet / 時間帶各佔各列，零互疊；關閉時搬回 map-wrap 原位（桌面永遠不觸發）。
+  function wmRelocateDockForSheet(open){
+    const dock=$('wm-timeline-dock');
+    const wrap=document.querySelector('.map-wrap');
+    const panel=document.querySelector('.map-panel');
+    if(!dock||!wrap||!panel) return;
+    if(open){
+      panel.insertBefore(dock,panel.querySelector('.time-navigator'));
+    }else{
+      wrap.insertBefore(dock,$('wm-mini'));
+    }
+  }
+
+  // stage 高度動態貼合首屏（mockup fitStage 規格：寫死高度會在窄版 header
+  // 換行下把底帶推出視窗）。
+  function wmFitSheetPanel(){
+    const panel=document.querySelector('.map-panel');
+    if(!panel || !wmSheetOpen || !wmIsMobileShell()) return;
+    const header=document.querySelector('.weather-header');
+    let headerBottom=0;
+    try{ headerBottom=header?.getBoundingClientRect().bottom||0; }catch(_){}
+    const h=Math.max(420,window.innerHeight-headerBottom-22);
+    panel.style.height=`${Math.round(h)}px`;
+  }
+
+  function wmOpenSheet(){
+    if(wmSheetOpen || !wmIsMobileShell()) return;
+    wmSheetOpen=true;
+    const panel=document.querySelector('.map-panel');
+    const sheet=$('wm-sheet');
+    const dim=$('wm-map-dim');
+    const btn=$('side-toggle');
+    if(panel) panel.classList.add('sheet-open');
+    if(sheet) sheet.setAttribute('aria-hidden','false');
+    if(dim) dim.hidden=false;
+    if(btn) btn.setAttribute('aria-expanded','true');
+    wmCloseMini();
+    wmDockExpanded=false;
+    wmRelocateDockForSheet(true);
+    wmFitSheetPanel();
+    wmSheetRenderKey=null;
+    renderWmSheet();
+  }
+
+  function wmCloseSheet(){
+    if(!wmSheetOpen) return;
+    wmSheetOpen=false;
+    const panel=document.querySelector('.map-panel');
+    const sheet=$('wm-sheet');
+    const dim=$('wm-map-dim');
+    const btn=$('side-toggle');
+    if(panel){ panel.classList.remove('sheet-open'); panel.style.height=''; }
+    if(sheet){ sheet.setAttribute('aria-hidden','true'); sheet.style.transform=''; }
+    if(dim) dim.hidden=true;
+    if(btn) btn.setAttribute('aria-expanded','false');
+    wmRelocateDockForSheet(false);
+  }
+
+  function renderWmSheet(){
+    const sheet=$('wm-sheet');
+    const list=$('wm-sheet-list');
+    if(!sheet||!list) return;
+    const D=wmD();
+    const spots=state.data?.spots||[];
+    const query=($('wm-sheet-search')?.value||'').trim().toLowerCase();
+    const f=frame();
+    const hm=Number.isFinite(Date.parse(f?.valid_time_utc||''))?formatTaipeiTime(f.valid_time_utc):'—';
+    const key=[state.region,state.frameIndex,state.layer,spots.length,query].join('|');
+    if(key===wmSheetRenderKey) return;
+    wmSheetRenderKey=key;
+    const regionName=wmRegionName();
+    const rows=spots.map(spot=>{
+      const cov=wmSpotCoverage(spot.spot_id);
+      return {spot,cov,pct:wmShootPct(spot)};
+    }).filter(r=>!query||`${r.spot.name} ${r.spot.spot_id} ${regionName}`.toLowerCase().includes(query));
+    rows.sort((a,b)=>((b.pct??-1)-(a.pct??-1))||String(a.spot.name).localeCompare(String(b.spot.name),'zh-Hant'));
+    // 列=狀態點＋名稱＋meta（地區；raw id 不出頁面，audit F12）＋可拍% mono；
+    // % 色彩與列首狀態點同一 tier 來源（DESIGN-10 語義契約）。
+    list.innerHTML=rows.map(({spot,cov,pct})=>
+      `<button type="button" class="wm-sheet-row${state.spotId===spot.spot_id?' sel':''}" data-wm-sheet-spot="${escapeHtml(spot.spot_id)}">`
+      +`<span class="wm-dot ${cov.dot}" aria-hidden="true"></span>`
+      +`<span class="grow"><span class="r-name">${escapeHtml(spot.name)}</span>`
+      +`<span class="r-meta">${escapeHtml(regionName)}</span></span>`
+      +`<span class="r-pct mono ${cov.dot==='ok'?'wm-p-hi':(cov.dot==='soft'?'wm-p-mid':'wm-p-lo')}">${pct==null?'—':pct+'%'}</span>`
+      +`</button>`).join('');
+    const count=$('wm-sheet-count');
+    if(count) count.textContent=String(D.wm_sheet_n||'{n}').replace('{n}',String(rows.length));
+    const sort=$('wm-sheet-sort');
+    if(sort) sort.innerHTML=`${escapeHtml(D.wm_sheet_sort)} · <span class="mono">${escapeHtml(hm)}</span>`;
+  }
+
+  // ── F18：跨頁往返把 spot/model 一併帶回（region 已有既有機制）──
+  const WM_SESSION_KEY='chaselights_wm_session_v1';
+  let wmSessionRestored=false;
+  let wmSessionTries=0;
+  let wmRestoreBusy=false;
+
+  function wmPersistSession(){
+    try{
+      window.localStorage.setItem(WM_SESSION_KEY,JSON.stringify({
+        spot:state.spotId||null,model:state.modelMode,region:state.region
+      }));
+    }catch(_){ /* best-effort */ }
+  }
+
+  function wmRestoreSession(){
+    if(wmSessionRestored || wmRestoreBusy) return;
+    if(!state.data) return;
+    let saved=null;
+    try{ saved=JSON.parse(window.localStorage.getItem(WM_SESSION_KEY)||'null'); }catch(_){}
+    const dl=state.deepLink||{};
+    if(!saved){ wmSessionRestored=true; return; }
+    let pendingWork=false;
+    // An explicit deep-link spot still wins over the session memory.
+    if(!dl.spot && saved.spot && !state.spotId){
+      const exists=(state.data.spots||[]).some(s=>s.spot_id===saved.spot);
+      if(exists){
+        wmRestoreBusy=true;
+        try{
+          const spotSelect=$('spot-select');
+          if(spotSelect) spotSelect.value=saved.spot;
+          selectSpot(saved.spot);
+        }finally{ wmRestoreBusy=false; }
+      }else{
+        // PNG-stub first paint carries 0 spots — wait for the full bundle
+        // instead of giving up (the stub path would otherwise strand the spot).
+        pendingWork=true;
+      }
+    }
+    if(wmSessionRestored || wmRestoreBusy) return;
+    if(!dl.spot && saved.model && saved.model!==state.modelMode){
+      if(modelDataset(saved.model)){
+        wmRestoreBusy=true;
+        try{ switchModel(saved.model); }finally{ wmRestoreBusy=false; }
+        return;
+      }
+      pendingWork=true;
+    }
+    if(pendingWork){
+      wmSessionTries+=1;
+      if(wmSessionTries>15) wmSessionRestored=true;   // offline/dead model: stop retrying
+      return;
+    }
+    wmSessionRestored=true;
+  }
+
+  window.addEventListener('pagehide',()=>{ if(state.data) wmPersistSession(); });
 
   window.addEventListener('resize',()=>{
     if(state.map) state.map.resize();
+    wmFitSheetPanel();
     renderAll();
   });
   load().catch(err=>{

@@ -41,9 +41,11 @@ test('QC panel labels: regional-product honest-blank note on every updateQc path
     'CL-WG-14 regional-product wording');
   assert.doesNotMatch(JS, /gfsFillNoteHtml|混合來源/,
     'the mixed-source fill note must be gone');
+  // CL-UI-102 (audit F15) re-anchor: 6 -> 7 — the wind-arrows-rendered
+  // honesty path added its own regional-product note append.
   const qcHostAppends = JS.match(/regionalModelNoteHtml\(\)/g) || [];
-  assert.equal(qcHostAppends.length, 6,
-    'definition + all five updateQc output paths append the regional-product note (CL-WG-18 added the data-not-rendered honesty path)');
+  assert.equal(qcHostAppends.length, 7,
+    'definition + all six updateQc output paths append the regional-product note (CL-WG-18 data-not-rendered + CL-UI-102 F15 arrows-rendered)');
 });
 
 test('single-source mode keeps the region clipped render and camera confined to the widened bbox', () => {

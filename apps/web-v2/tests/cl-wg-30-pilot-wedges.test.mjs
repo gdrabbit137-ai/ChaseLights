@@ -31,9 +31,14 @@ test('CL-WG-30: spot label carries layer short name with the sampled value', () 
   );
 });
 
-test('CL-WG-30: full-migration badge is honest (provisional data stated)', () => {
-  assert.match(JS, /遷移完成 \$\{migrated\}\/\$\{total\}（資料仍為 provisional）/);
+// CL-UI-102 (audit F11) re-anchors the wording: the full-migration badge stays
+// honest but no longer leaks the English pipeline word "provisional" —
+// localized 「遷移完成 {a} / {b} 個題材」 via wmT, incomplete migrations show no
+// badge at all (the count line below carries the status).
+test('CL-WG-30: full-migration badge is honest (localized, provisional word localized too)', () => {
+  assert.match(JS, /wmT\('遷移完成 \{a\} \/ \{b\} 個題材'/);
   assert.doesNotMatch(JS, /all topics covered/);
+  assert.doesNotMatch(JS, /partial migration/);
 });
 
 test('CL-WG-30: no-azimuth topics state camera-only honestly', () => {
@@ -59,6 +64,6 @@ test('CL-WG-30: sectors_monthly wedges resolve the current month', () => {
 });
 
 test('CL-WG-30: cache-bust stamp bumped to bclwg34 in the same ticket', () => {
-  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg36/);
-  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg36/);
+  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg37/);
+  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg37/);
 });
