@@ -5962,6 +5962,9 @@
   function wmInitOverlays(){
     if(wmOverlayWired) return;
     wmOverlayWired=true;
+    // CL-UI-104: put the timeline dock in its shell home (mobile: fixed ops
+    // tray; desktop: floating over the map bottom). Idempotent.
+    wmPlaceDockForShell();
     const chips=$('layer-chips');
     if(chips){
       chips.addEventListener('click',e=>{
@@ -6262,31 +6265,43 @@
     return Math.max(0,Math.min(99,Math.round(p)));
   }
 
-  // DESIGN-10: when the sheet opens the dock (already collapsed to the 32px
-  // band) moves from the map overlay into the flow below the sheet — 地圖條 /
-  // sheet / 時間帶各佔各列，零互疊；關閉時搬回 map-wrap 原位（桌面永遠不觸發）。
-  function wmRelocateDockForSheet(open){
+  // CL-UI-104: the dock lives in the fixed operations tray (.wm-ops, before
+  // the forecast slider) on the mobile shell in BOTH states — sheet-open
+  // re-flows it below the sheet purely in CSS (`.wm-ops` display:contents),
+  // so no DOM move is needed while a sheet is open. Desktop keeps the dock
+  // floating over the map bottom inside .map-wrap (1280 zero-change).
+  function wmPlaceDockForShell(){
     const dock=$('wm-timeline-dock');
     const wrap=document.querySelector('.map-wrap');
-    const panel=document.querySelector('.map-panel');
-    if(!dock||!wrap||!panel) return;
-    if(open){
-      panel.insertBefore(dock,panel.querySelector('.time-navigator'));
-    }else{
+    const ops=document.querySelector('.wm-ops');
+    if(!dock||!wrap||!ops) return;
+    if(wmIsMobileShell()){
+      const tn=ops.querySelector('.time-navigator');
+      if(tn && dock.parentElement!==ops) ops.insertBefore(dock,tn);
+    }else if(dock.parentElement!==wrap){
       wrap.insertBefore(dock,$('wm-mini'));
     }
   }
 
+  // DESIGN-10: when the sheet opens the dock (already collapsed to the 32px
+  // band) moves from the map overlay into the flow below the sheet — 地圖條 /
+  // sheet / 時間帶各佔各列，零互疊；關閉時搬回 map-wrap 原位（桌面永遠不觸發）。
+  // CL-UI-104: placement is shell-driven now (wmPlaceDockForShell) — the tray
+  // position is the mobile home in both sheet states; the sheet-open re-flow
+  // happens in CSS via .wm-ops display:contents.
+  function wmRelocateDockForSheet(open){
+    wmPlaceDockForShell();
+  }
+
   // stage 高度動態貼合首屏（mockup fitStage 規格：寫死高度會在窄版 header
   // 換行下把底帶推出視窗）。
+  // CL-UI-104: the 100dvh fixed shell sizes .map-panel through flex
+  // (body 100dvh + overflow hidden), so an explicit pixel height would fight
+  // the flex layout — the fit pass now only clears any stale inline height.
   function wmFitSheetPanel(){
     const panel=document.querySelector('.map-panel');
     if(!panel || (!wmSheetOpen && !wmLayerSheetOpen) || !wmIsMobileShell()) return;
-    const header=document.querySelector('.weather-header');
-    let headerBottom=0;
-    try{ headerBottom=header?.getBoundingClientRect().bottom||0; }catch(_){}
-    const h=Math.max(420,window.innerHeight-headerBottom-22);
-    panel.style.height=`${Math.round(h)}px`;
+    panel.style.height='';
   }
 
   function wmOpenSheet(){
@@ -6463,6 +6478,7 @@
 
   window.addEventListener('resize',()=>{
     if(state.map) state.map.resize();
+    wmPlaceDockForShell();
     wmFitSheetPanel();
     renderAll();
   });

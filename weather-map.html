@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg38">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg39">
 </head>
 <body>
   <nav class="site-nav" aria-label="全站導覽">
@@ -60,43 +60,6 @@
 
   <main class="weather-layout">
     <section class="map-panel">
-      <div class="control-bar">
-        <div id="region-switch" class="region-switch" role="tablist" aria-label="地區切換"></div>
-        <label class="model-control advanced-control">
-          <span data-i18n="wm_model_caption">進階 · 資料來源</span>
-          <select id="model-select">
-            <option value="auto" data-i18n="wm_model_auto">自動預報</option>
-            <option value="himawari" data-i18n="wm_model_himawari">觀測 · Himawari-9 2 km</option>
-            <option value="jma">JMA MSM 5 km</option>
-            <option value="cwa">CWA WRF 3 km</option>
-            <option value="icon">ICON Global</option>
-            <option value="gfs">GFS 0.25°</option>
-            <option value="cams" data-i18n="wm_model_cams">CAMS Global · 霧霾</option>
-          </select>
-        </label>
-        <label class="layer-control primary-control">
-          <span data-i18n="wm_layer_caption">攝影圖層</span>
-          <select id="layer-select"></select>
-        </label>
-        <label class="opacity-control">
-          <span class="opacity-caption"><span id="opacity-title" data-i18n="wm_opacity_caption">圖層顯示強度</span> · <strong id="opacity-label">62%</strong></span>
-          <input id="opacity-slider" type="range" min="0" max="100" value="62" step="1" aria-label="圖層顯示強度">
-        </label>
-        <label class="spot-control">
-          <span data-i18n="wm_spot_caption">景點</span>
-          <select id="spot-select">
-            <option value="" data-i18n="wm_spot_all">全部景點</option>
-          </select>
-          <button id="locate-spot" class="map-reset-button" type="button" disabled aria-label="把地圖畫面中心定位到所選景點" data-i18n-aria="wm_locate_aria">◎ <span data-i18n="wm_locate_text">定位景點</span></button>
-        </label>
-        <label id="opportunity-control" class="opportunity-control">
-          <span data-i18n="wm_opp_caption">題材</span>
-          <select id="opportunity-select" disabled>
-            <option value="" data-i18n="wm_opp_placeholder">先選景點</option>
-          </select>
-        </label>
-      </div>
-
       <div class="map-wrap">
         <div id="weather-basemap" aria-label="WeatherGrid cartographic basemap"></div>
         <canvas id="weather-canvas" width="1200" height="820" aria-label="WeatherGrid weather overlay"></canvas>
@@ -181,6 +144,47 @@
         <div class="wm-ls-foot"><button type="button" class="wm-btn" data-wm-act="layer-details" data-i18n="wm_details">詳細</button></div>
       </section>
 
+      <!-- CL-UI-104: 固定操作區 .wm-ops — 控制列＋預報滑桿（＋JS 放入的時間軸細帶）
+           固定在下方、內部捲動；上方地圖區固定不隨頁面捲動。桌面此 wrapper 以
+           display:contents 消除，map-panel 補 flex+order 保持原版面（1280 零改動）。 -->
+      <div class="wm-ops">
+      <div class="control-bar">
+        <div id="region-switch" class="region-switch" role="tablist" aria-label="地區切換"></div>
+        <label class="model-control advanced-control">
+          <span data-i18n="wm_model_caption">進階 · 資料來源</span>
+          <select id="model-select">
+            <option value="auto" data-i18n="wm_model_auto">自動預報</option>
+            <option value="himawari" data-i18n="wm_model_himawari">觀測 · Himawari-9 2 km</option>
+            <option value="jma">JMA MSM 5 km</option>
+            <option value="cwa">CWA WRF 3 km</option>
+            <option value="icon">ICON Global</option>
+            <option value="gfs">GFS 0.25°</option>
+            <option value="cams" data-i18n="wm_model_cams">CAMS Global · 霧霾</option>
+          </select>
+        </label>
+        <label class="layer-control primary-control">
+          <span data-i18n="wm_layer_caption">攝影圖層</span>
+          <select id="layer-select"></select>
+        </label>
+        <label class="opacity-control">
+          <span class="opacity-caption"><span id="opacity-title" data-i18n="wm_opacity_caption">圖層顯示強度</span> · <strong id="opacity-label">62%</strong></span>
+          <input id="opacity-slider" type="range" min="0" max="100" value="62" step="1" aria-label="圖層顯示強度">
+        </label>
+        <label class="spot-control">
+          <span data-i18n="wm_spot_caption">景點</span>
+          <select id="spot-select">
+            <option value="" data-i18n="wm_spot_all">全部景點</option>
+          </select>
+          <button id="locate-spot" class="map-reset-button" type="button" disabled aria-label="把地圖畫面中心定位到所選景點" data-i18n-aria="wm_locate_aria">◎ <span data-i18n="wm_locate_text">定位景點</span></button>
+        </label>
+        <label id="opportunity-control" class="opportunity-control">
+          <span data-i18n="wm_opp_caption">題材</span>
+          <select id="opportunity-select" disabled>
+            <option value="" data-i18n="wm_opp_placeholder">先選景點</option>
+          </select>
+        </label>
+      </div>
+
       <div class="time-navigator" aria-label="資料時間控制">
         <button id="time-prev" type="button" aria-label="前一個預報時間">◀</button>
         <div class="time-range">
@@ -191,6 +195,7 @@
         <button id="time-next" type="button" aria-label="下一個預報時間">▶</button>
         <button id="time-play" type="button" aria-pressed="false" data-i18n="wm_time_play">播放</button>
       </div>
+      </div><!-- /.wm-ops -->
     </section>
 
     <aside class="inspector">
@@ -291,7 +296,7 @@
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui103"></script>
   <script src="./assets/favorites-client.js?v=clui82"></script>
-  <script src="./assets/weather-map.js?v=bclwg38"></script>
+  <script src="./assets/weather-map.js?v=bclwg39"></script>
   <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
   <footer class="site-footer">
     <a class="site-footer-link" href="./sources.html" data-sf-i18n="sf_sources">資料來源與授權</a>
