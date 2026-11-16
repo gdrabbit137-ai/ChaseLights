@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg36">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg37">
 </head>
 <body>
   <nav class="site-nav" aria-label="全站導覽">
@@ -123,11 +123,41 @@
           <div class="wm-side-body" id="wm-side-body"></div>
         </aside>
         <div id="wm-timeline-dock" class="wm-timeline-dock" hidden>
+          <!-- CL-UI-102 DESIGN-9: 390 collapsible band (collapsed by default,
+               32px strip = current selection + caret; expands the day/hour
+               rows in place; selecting a time collapses again). Desktop
+               (>=769px) hides the band and keeps the always-open rows. -->
+          <button type="button" id="wm-tl-bar" class="wm-tl-bar" aria-expanded="false" aria-controls="wm-day-row">
+            <span data-i18n="wm_tl_now">目前所選</span>
+            <span class="mono" id="wm-tl-sel">—</span>
+            <span class="caret" aria-hidden="true">▲</span>
+          </button>
           <div class="wm-day-row" id="wm-day-row"></div>
           <div class="wm-hour-row" id="wm-hour-row"></div>
         </div>
         <div id="wm-mini" class="wm-mini" hidden></div>
+        <!-- CL-UI-102 DESIGN-9: sheet 開啟時地圖壓暗縮成上緣預覽條（點此返回） -->
+        <div id="wm-map-dim" class="wm-map-dim" hidden>
+          <button type="button" class="wm-dim-hint" data-wm-act="sheet-close" data-i18n="wm_dim_hint">地圖已收成預覽 · 點此返回</button>
+        </div>
       </div>
+
+      <!-- CL-UI-102 DESIGN-10: 390 景點列表＝全寬 bottom sheet（搜尋＋依可拍%
+           排序＋grab 下拉收起＋✕/Esc；選列即選景點並收 sheet 回復地圖全幅）。
+           1280 桌面維持右側 wm-side 側欄零改動，本 section 在 >=769px 隱藏。 -->
+      <section id="wm-sheet" class="wm-sheet" role="dialog" aria-modal="false" aria-hidden="true" aria-label="景點列表">
+        <div class="wm-sheet-grab" id="wm-sheet-grab" title="下拉收起"><span class="bar"></span></div>
+        <div class="wm-sheet-head" id="wm-sheet-head">
+          <span class="t" data-i18n="wm_side_title">景點列表</span>
+          <span class="count" id="wm-sheet-count"></span>
+          <button type="button" class="x" data-wm-act="sheet-close" aria-label="關閉列表" data-i18n-aria="wm_sheet_close_aria">✕</button>
+        </div>
+        <div class="wm-sheet-tools">
+          <input class="wm-sheet-search" id="wm-sheet-search" data-i18n-ph="wm_sheet_search" placeholder="搜尋名稱或編號" autocomplete="off">
+          <span class="wm-sheet-sort" id="wm-sheet-sort">排序 依可拍% · <span class="mono">—</span></span>
+        </div>
+        <div class="wm-sheet-list" id="wm-sheet-list"></div>
+      </section>
 
       <div class="time-navigator" aria-label="資料時間控制">
         <button id="time-prev" type="button" aria-label="前一個預報時間">◀</button>
@@ -239,7 +269,7 @@
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui103"></script>
   <script src="./assets/favorites-client.js?v=clui82"></script>
-  <script src="./assets/weather-map.js?v=bclwg36"></script>
+  <script src="./assets/weather-map.js?v=bclwg37"></script>
   <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
   <footer class="site-footer">
     <a class="site-footer-link" href="./sources.html" data-sf-i18n="sf_sources">資料來源與授權</a>
