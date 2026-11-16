@@ -73,9 +73,12 @@ test('CL-WG-27: weather-map.css consumes the variable on desktop AND mobile, no 
   // CL-UI-102 re-anchor: the DESIGN-10 sheet-open preview strip intentionally
   // drops the aspect ratio (flex strip >=120px) — it is excluded from the
   // base-rule aspect contract, not a fixed ratio.
+  // CL-UI-104 re-anchor: the 100dvh app-shell mobile rule (.map-wrap
+  // order:0;flex:1 1 0 — the map area fills the fixed top region) also
+  // intentionally drops the ratio; it is a layout-mode rule, not a ratio.
   const wrapRules = [...MAP_CSS.matchAll(/.{0,60}\.map-wrap\{[^}]*\}/gs)]
     .map(m => m[0])
-    .filter(rule => !rule.includes('sheet-open'));
+    .filter(rule => !rule.includes('sheet-open') && !rule.includes('flex:1 1 0'));
   assert.ok(wrapRules.length >= 2, 'desktop + mobile .map-wrap rules expected');
   for (const rule of wrapRules) {
     assert.match(rule, /aspect-ratio:var\(--wg-map-aspect/);
@@ -124,8 +127,8 @@ test('CL-WG-27: aspect-matched container fit shows the full tw bbox with no hori
 });
 
 test('CL-WG-27: weather-map.html stamps bumped to bclwg34 in the same ticket', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg38/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg38/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg39/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg39/);
   assert.match(WG_HTML, /assets\/weather-map-regions\.js\?v=bclwg30/);
   assert.ok(!/weather-map\.js\?v=bclwg28/.test(WG_HTML), 'old js stamp must be replaced');
   assert.ok(!/weather-map-regions\.js\?v=bclwg13/.test(WG_HTML), 'old regions stamp must be replaced');
