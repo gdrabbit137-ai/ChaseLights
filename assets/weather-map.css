@@ -521,11 +521,108 @@ body{padding:18px}
   .wm-side{display:none}
   .wm-side.open{display:flex}
   .wm-sheet-btn{display:inline-flex}
-  .map-wrap .legend{display:none}
+  /* CL-UI-102 F14/F20: compact legend (palette-derived gradient bar) shows on
+     mobile whenever a data layer is active — also the 晴 vs 無資料 cue for hi.
+     It sits above the collapsed timeline band; sheet-open hides it again. */
+  .map-wrap .legend{display:block;bottom:56px}
+  .map-panel.sheet-open .map-wrap .legend{display:none}
   .wm-modal{margin:3vh 8px;border-radius:var(--cl-r-md)}
+
+  /* ── CL-UI-102 F1：chips 列右緣讓位「景點列表」鈕（mockup .ctl-tl right 規格）；
+       降雨率 chip 中心 elementFromPoint 必須命中自身 ── */
+  .wm-ctl{right:112px;max-width:calc(100% - var(--cl-sp-3) - 112px)}
+  .map-panel.sheet-open .wm-ctl,
+  .map-panel.sheet-open .wm-mini{display:none}
+
+  /* ── CL-UI-102（audit F4/F5）定位鈕 hack 移除：正常 in-flow pill（≥44px、dark）── */
+  #locate-spot{position:static;width:100%;height:44px;padding:6px 12px;font-size:.72rem;margin-top:4px}
+
+  /* ── CL-UI-102（audit F4）44px 觸控目標 ── */
+  .wm-chip{height:44px}
+  #weather-basemap .maplibregl-ctrl-group button{width:44px;height:44px}
+  #weather-basemap .maplibregl-ctrl-group .maplibregl-ctrl-icon{background-size:28px 28px}
+  .layer-details-toggle{min-height:44px}
+  .wm-mini-x{width:44px;height:44px;font-size:16px}
+  .wm-sheet-head .x{width:44px;height:44px}
+  /* CL-UI-102（audit F16）zoom 控制改 dark theme（僅手機；桌面白面板不動） */
+  #weather-basemap .maplibregl-ctrl-group{background:rgba(15,23,42,.92);border:1px solid #263244;box-shadow:none}
+  #weather-basemap .maplibregl-ctrl-group button .maplibregl-ctrl-icon{filter:invert(1) brightness(1.4)}
+  #weather-basemap .maplibregl-ctrl-group button + button{border-top:1px solid #263244}
+
+  /* ── CL-UI-102 DESIGN-9：時間軸收摺細帶（32px；點開才浮出日/時格）── */
+  .wm-tl-bar{display:flex;align-items:center;gap:var(--cl-sp-2);width:100%;min-height:32px;padding:4px 2px;
+    border:0;background:none;color:var(--cl-text-2);font:inherit;font-size:var(--cl-fs-13);cursor:pointer;text-align:left}
+  .wm-tl-bar .caret{margin-left:auto;color:var(--cl-text-3);font-size:12px;transition:transform .15s}
+  .wm-timeline-dock.expanded .wm-tl-bar .caret{transform:rotate(180deg)}
+  .wm-timeline-dock .wm-day-row,.wm-timeline-dock .wm-hour-row{display:none}
+  .wm-timeline-dock.expanded .wm-day-row,.wm-timeline-dock.expanded .wm-hour-row{display:flex}
+  .wm-timeline-dock{padding:var(--cl-sp-1) var(--cl-sp-2)}
+  .wm-timeline-dock.expanded{padding:var(--cl-sp-2) var(--cl-sp-2) var(--cl-sp-1)}
+  /* 死區清除（audit F2）：scrollport 內容可捲到完整可點，右緣留可點 padding */
+  .wm-day-row,.wm-hour-row{scroll-padding-right:8px;padding-right:8px}
+
+  /* ── CL-UI-102 DESIGN-10：sheet 開啟＝地圖壓暗縮成上緣預覽條＋各佔各列零互疊 ── */
+  .map-panel.sheet-open{display:flex;flex-direction:column}
+  .map-panel.sheet-open .control-bar{display:none}
+  .map-panel.sheet-open .map-wrap{flex:1 1 auto;min-height:120px;aspect-ratio:auto}
+  .map-panel.sheet-open #wm-sheet{display:flex;flex:0 0 66.7%;min-height:0}
+  .map-panel.sheet-open .time-navigator{flex:none}
+  .map-panel.sheet-open #wm-timeline-dock{position:relative;inset:auto;left:auto;right:auto;bottom:auto;flex:none;
+    border-radius:0;border-left:0;border-right:0;border-bottom:0;box-shadow:none}
+  .wm-map-dim{position:absolute;inset:0;z-index:25;display:flex;align-items:center;justify-content:center;
+    background:rgba(4,6,12,.55)}
+  .wm-map-dim[hidden]{display:none}
+  .map-panel.sheet-open .wm-sheet-btn{display:none}
+  .wm-dim-hint{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 14px;border-radius:999px;
+    background:var(--cl-ctl-bg-94);border:1px solid var(--cl-border-strong);color:var(--cl-text-1);
+    font:inherit;font-size:var(--cl-fs-12);font-weight:600;cursor:pointer;box-shadow:var(--cl-shadow-2)}
+
+  /* ── CL-UI-102 DESIGN-10：景點列表全寬 bottom sheet ── */
+  .wm-sheet{display:none;flex-direction:column;background:var(--cl-bg-1);
+    border-top:1px solid var(--cl-border-strong);border-radius:var(--cl-r-lg) var(--cl-r-lg) 0 0;
+    box-shadow:var(--cl-shadow-3);min-height:0;transition:transform .18s ease;color:var(--cl-text-1)}
+  .wm-sheet-grab{flex:none;display:flex;justify-content:center;padding:10px 0 6px;cursor:grab;touch-action:none}
+  .wm-sheet-grab .bar{width:44px;height:4px;border-radius:2px;background:var(--cl-border-strong)}
+  .wm-sheet-head{flex:none;display:flex;align-items:center;gap:var(--cl-sp-2);padding:0 var(--cl-sp-4) var(--cl-sp-2)}
+  .wm-sheet-head .t{font-size:15px;font-weight:600}
+  .wm-sheet-head .count{font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+  .wm-sheet-head .x{margin-left:auto;width:44px;height:44px;border-radius:var(--cl-r-sm);
+    border:1px solid var(--cl-border);background:var(--cl-bg-2);color:var(--cl-text-3);font-size:14px;cursor:pointer}
+  .wm-sheet-tools{flex:none;display:flex;align-items:center;gap:var(--cl-sp-2);padding:0 var(--cl-sp-4) var(--cl-sp-2)}
+  .wm-sheet-search{flex:1;min-width:0;height:44px;padding:0 var(--cl-sp-3);border-radius:var(--cl-r-sm);
+    border:1px solid var(--cl-border);background:var(--cl-bg-2);color:var(--cl-text-1);font-size:var(--cl-fs-13);font-family:inherit}
+  .wm-sheet-search::placeholder{color:var(--cl-text-3)}
+  .wm-sheet-search:focus{outline:none;border-color:var(--cl-border-strong)}
+  .wm-sheet-sort{display:flex;align-items:center;height:44px;padding:0 var(--cl-sp-1);font-size:var(--cl-fs-12);
+    color:var(--cl-text-3);white-space:nowrap;flex:none}
+  .wm-sheet-sort .mono{color:var(--cl-text-2)}
+  .wm-sheet-list{flex:1 1 0;min-height:0;overflow-y:auto;padding:0 var(--cl-sp-2) var(--cl-sp-3);
+    scrollbar-width:thin;scrollbar-color:var(--cl-border-strong) transparent}
+  .wm-sheet-row{display:flex;align-items:center;gap:var(--cl-sp-2);width:100%;text-align:left;padding:10px var(--cl-sp-2);
+    border:0;border-radius:var(--cl-r-sm);background:none;color:inherit;font:inherit;cursor:pointer;min-width:0}
+  .wm-sheet-row:hover{background:var(--cl-bg-2)}
+  .wm-sheet-row.sel{background:var(--cl-bg-3)}
+  .wm-sheet-row .grow{flex:1;min-width:0}
+  .wm-sheet-row .r-name{display:block;font-size:var(--cl-fs-14);font-weight:600;color:var(--cl-text-1);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .wm-sheet-row .r-meta{display:block;font-size:var(--cl-fs-12);color:var(--cl-text-3);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .wm-sheet-row .r-pct{flex:none;min-width:48px;text-align:right;font-size:var(--cl-fs-14)}
+  .wm-p-hi{color:var(--cl-green-text)}.wm-p-mid{color:var(--cl-amber-text)}.wm-p-lo{color:var(--cl-red-text)}
+
+  /* 詳細摺疊（audit F12：座標/取樣/診斷收進摺疊） */
+  .wm-panel-acc{border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);margin-top:6px}
+  .wm-panel-acc summary{padding:8px var(--cl-sp-2);font-size:.72rem;font-weight:600;color:#94a3b8;cursor:pointer;list-style:none}
+  .wm-panel-acc summary::before{content:"▸ ";color:#64748b}
+  .wm-panel-acc[open] summary::before{content:"▾ "}
+  .wm-panel-acc .acc-body{padding:0 var(--cl-sp-2) 8px;font-size:.72rem;color:#cbd5e1;line-height:1.5}
 }
 @media (min-width:769px){
   .wm-side{display:flex}
   .wm-sheet-btn{display:none}
+  /* CL-UI-102 DESIGN-9/10：桌面 1280 零改動——收摺細帶與 bottom sheet 只存在於 ≤768 */
+  .wm-tl-bar{display:none}
+  .wm-sheet{display:none}
+  .wm-map-dim{display:none}
 }
 

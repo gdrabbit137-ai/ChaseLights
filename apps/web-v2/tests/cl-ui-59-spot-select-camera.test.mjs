@@ -13,7 +13,7 @@
 //   3. #locate-spot exists in weather-map.html, starts disabled, is wired in
 //      initControls, and gets its disabled state from updateLocateSpotButton.
 //   4. i18n keys wm_locate_aria/wm_locate_text exist in all three dictionaries.
-//   5. Cache-bust: weather-map.js bumped to bclwg36 in weather-map.html.
+//   5. Cache-bust: weather-map.js bumped to bclwg37 in weather-map.html.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
@@ -52,7 +52,8 @@ test('CL-UI-59: selectSpot only updates data panel — no camera reposition, no 
   const slice = grab(MAP_JS, 'function selectSpot(', 'function locateSpot(');
   const factory = buildFn(slice,
     ['state', 'refreshOpportunityOptions', 'updateLocateSpotButton', 'renderAll',
-     'fitCoverageBbox', 'zoomToSpot', 'selectedCoverageGroup', 'unionViewport', 'selectedSpot'],
+     'fitCoverageBbox', 'zoomToSpot', 'selectedCoverageGroup', 'unionViewport', 'selectedSpot',
+     'wmPersistSession'],
     '; return selectSpot;');
   const { calls, spy } = spySpots();
   const state = { spotId: '', opportunityId: 'prev', view: { leftlon: 1 } };
@@ -65,7 +66,8 @@ test('CL-UI-59: selectSpot only updates data panel — no camera reposition, no 
     spy('zoomToSpot'),
     spy('selectedCoverageGroup'),
     spy('unionViewport'),
-    spy('selectedSpot')
+    spy('selectedSpot'),
+    spy('wmPersistSession')
   );
 
   // Select a spot: camera helpers must stay silent.
@@ -166,8 +168,8 @@ test('CL-UI-59: wm_locate_aria / wm_locate_text exist in zh-TW, en, ja', () => {
 // ---------------------------------------------------------------------------
 // 5. Cache-bust
 // ---------------------------------------------------------------------------
-test('CL-UI-59: weather-map.js stamp bumped to bclwg36 in the same ticket', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg36/);
+test('CL-UI-59: weather-map.js stamp bumped to bclwg37 in the same ticket', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg37/);
   assert.ok(!/assets\/weather-map\.js\?v=bclwg34/.test(WG_HTML), 'old js stamp must not linger');
   assert.match(MAP_JS, /CL-UI-59/);
 });
