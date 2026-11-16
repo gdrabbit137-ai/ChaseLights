@@ -3156,6 +3156,7 @@
       syncWindVectorDefault();
       windToggle.checked=state.windVectors;
       renderAll();
+      wmFlashInspector();   // CL-UI-105: 換圖層 → inspector 短暫展開提醒
     });
 
     const opacitySlider=$('opacity-slider');
@@ -5977,6 +5978,7 @@
         const windToggle=$('wind-vector-toggle');
         if(windToggle) windToggle.checked=state.windVectors;
         renderAll();
+        wmFlashInspector();   // CL-UI-105: 換圖層 → inspector 短暫展開提醒
       });
     }
     const sideBody=$('wm-side-body');
@@ -6014,6 +6016,9 @@
         tlBar.setAttribute('aria-expanded',wmDockExpanded?'true':'false');
         const dock=$('wm-timeline-dock');
         if(dock) dock.classList.toggle('expanded',wmDockExpanded);
+        // CL-UI-105: 細帶展開時操作區改排全寬列（grid 區域重排）
+        const opsTray=document.querySelector('.wm-ops');
+        if(opsTray) opsTray.classList.toggle('wm-dock-open',wmDockExpanded&&wmIsMobileShell());
         if(wmDockExpanded){
           const selPill=$('wm-day-row')?.querySelector('.sel');
           if(selPill) selPill.scrollIntoView({inline:'center',block:'nearest'});
@@ -6034,7 +6039,9 @@
         if(e.target.closest('[data-wm-act="layer-sheet-close"]')){ wmCloseLayerSheet(); return; }
         if(e.target.closest('[data-wm-act="layer-details"]')){
           // 詳細入口：收圖層 sheet 回復地圖全幅，展開 inspector 的圖層詳細並捲到定位。
+          // CL-UI-105: 行動版 inspector 預設收合 — 「詳細」＝使用者明確要求，持續展開。
           wmCloseLayerSheet();
+          wmInspectorVisible(true,true);
           const detailsToggle=$('layer-details-toggle');
           if(detailsToggle && detailsToggle.getAttribute('aria-expanded')!=='true') detailsToggle.click();
           const lp=$('layer-panel');
@@ -6054,6 +6061,7 @@
           if(windToggle) windToggle.checked=state.windVectors;
           wmCloseLayerSheet();
           renderAll();
+          wmFlashInspector();   // CL-UI-105: 換圖層 → inspector 短暫展開提醒
           return;
         }
         const row=e.target.closest('[data-wm-sheet-spot]');
@@ -6283,6 +6291,35 @@
     }
   }
 
+  // CL-UI-105: 行動版 inspector（目前圖層）預設收合 — 只有兩條展開路徑：
+  //   flash: 換圖層時短暫展開（2.6s 後自動收回；sheet 開啟中或使用者已持續展開時不打擾）；
+  //   sticky: 圖層 sheet 的「詳細」＝使用者明確要求，持續展開。
+  // 桌面 ≥769 永遠清掉行動版收合類別（1280 零改動）。
+  let wmInspFlashTimer=null;
+  function wmInspectorVisible(show,sticky){
+    const insp=document.querySelector('.inspector');
+    if(!insp) return;
+    if(wmInspFlashTimer){ clearTimeout(wmInspFlashTimer); wmInspFlashTimer=null; }
+    if(!wmIsMobileShell()){
+      insp.classList.remove('wm-insp-show','wm-insp-sticky');
+      return;
+    }
+    insp.classList.toggle('wm-insp-sticky',Boolean(show&&sticky));
+    insp.classList.toggle('wm-insp-show',Boolean(show));
+    if(show&&!sticky){
+      wmInspFlashTimer=setTimeout(()=>{
+        wmInspFlashTimer=null;
+        insp.classList.remove('wm-insp-show');
+      },2600);
+    }
+  }
+  function wmFlashInspector(){
+    if(wmSheetOpen||wmLayerSheetOpen) return;   // sheet 開啟中不被 flash 推擠版面
+    const insp=document.querySelector('.inspector');
+    if(insp&&insp.classList.contains('wm-insp-sticky')) return; // 已持續展開，維持
+    wmInspectorVisible(true,false);
+  }
+
   // DESIGN-10: when the sheet opens the dock (already collapsed to the 32px
   // band) moves from the map overlay into the flow below the sheet — 地圖條 /
   // sheet / 時間帶各佔各列，零互疊；關閉時搬回 map-wrap 原位（桌面永遠不觸發）。
@@ -6480,6 +6517,7 @@
     if(state.map) state.map.resize();
     wmPlaceDockForShell();
     wmFitSheetPanel();
+    if(!wmIsMobileShell()) wmInspectorVisible(false,false);   // CL-UI-105: 桌面清行動版收合類別
     renderAll();
   });
   load().catch(err=>{

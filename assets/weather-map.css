@@ -656,21 +656,45 @@ body{padding:18px}
   .map-panel{flex:1 1 0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
   /* 地圖區：aspect 讓位給 flex 填滿（sheet 開啟時同一格變預覽條） */
   .map-wrap{order:0;flex:1 1 0;min-height:120px;aspect-ratio:auto;touch-action:none}
-  /* 固定操作區：細帶 → 預報滑桿 → 控制列（水平捲動帶），全部 44px 級觸控目標 */
-  .wm-ops{order:1;flex:0 1 auto;min-height:0;max-height:47dvh;display:flex;flex-direction:column;
-    gap:8px;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}
-  .wm-ops .wm-timeline-dock{order:1;position:static;inset:auto;flex:none}
-  .wm-ops .time-navigator{order:2;flex:none;padding-top:0}
-  .wm-ops .control-bar{order:3;flex:none;margin-bottom:2px;display:flex;flex-direction:row;
-    align-items:flex-end;gap:8px;overflow-x:auto;padding-bottom:2px}
-  .wm-ops .control-bar>label{flex:0 0 auto;width:150px}
-  .wm-ops .control-bar>.layer-control{width:180px}
-  .wm-ops .control-bar>.opacity-control{width:215px}
+  /* ── CL-UI-105：操作區壓扁（預設總高目標 ≤180px）──
+       第一行＝細帶＋預報滑桿合併（左：目前所選細帶／中：滑桿／右：播放鈕，44px 級）；
+       第二行＝控制列壓成 44px 單行（caption 改行內小字、各控制項水平捲動可達）。
+       細帶展開時（JS 同步 .wm-dock-open）細帶列跨全寬，滑桿／控制列各退一行。 */
+  .wm-ops{order:1;flex:0 1 auto;min-height:0;max-height:47dvh;display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;grid-auto-rows:min-content;
+    align-items:center;column-gap:8px;
+    overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}
+  .wm-ops .wm-timeline-dock{order:1;grid-row:1;grid-column:1;position:static;inset:auto;min-width:0}
+  .wm-ops .wm-timeline-dock.expanded,.wm-ops.wm-dock-open .wm-timeline-dock{grid-column:1/-1}
+  .wm-ops .time-navigator{order:2;grid-row:1;grid-column:2/-1;display:grid;
+    grid-template-columns:minmax(0,1fr) auto;align-items:center;min-height:44px;padding-top:0}
+  .wm-ops.wm-dock-open .time-navigator{grid-row:2;grid-column:1/-1}
+  .wm-ops .control-bar{order:3;grid-row:2;grid-column:1/-1;margin-bottom:2px;display:flex;flex-direction:row;
+    align-items:center;gap:8px;height:44px;overflow-x:auto;padding-bottom:0}
+  .wm-ops.wm-dock-open .control-bar{grid-row:3}
+  .wm-ops .control-bar>label{flex:0 0 auto;display:flex;flex-direction:row;align-items:center;
+    gap:4px;margin:0}
+  .wm-ops .control-bar>label>span{font-size:.62rem;font-weight:700;color:var(--cl-text-3);
+    white-space:nowrap}
+  .wm-ops .control-bar select{width:auto;height:38px;min-height:38px;padding:4px 8px;font-size:.75rem}
+  .wm-ops .control-bar>.layer-control>select{min-width:104px}
+  .wm-ops .control-bar>.model-control>select{min-width:96px}
+  .wm-ops .control-bar>.spot-control>select{min-width:96px}
+  .wm-ops .control-bar>.opportunity-control>select{min-width:96px}
+  .wm-ops .control-bar>.opacity-control{display:flex!important;flex-direction:row;align-items:center;
+    gap:6px;width:auto;min-height:0}
+  .wm-ops .control-bar>.opacity-control input[type=range]{width:96px;flex:0 0 auto;margin:0}
+  .wm-ops .control-bar #locate-spot{width:auto;height:38px;margin-top:0}
+  /* 合併行收納：時刻標籤/刻度帶由左側細帶承擔，左右進退鈕手機不佔位（滑桿即步進） */
+  .wm-ops .time-navigator>#time-prev,.wm-ops .time-navigator>#time-next,
+  .wm-ops .time-label,.wm-ops .time-navigator .timeline{display:none}
   .wm-ops .region-switch{flex:0 0 auto;width:auto;display:flex;gap:8px}
   .wm-ops .region-card{width:100px;flex:0 0 auto}
-  /* 目前圖層（＋選景點後的景點/題材 panel）：固定底部、內部捲動 */
-  .inspector{flex:0 1 auto;min-height:0;max-height:26dvh;overflow-y:auto;overscroll-behavior:contain;
-    display:flex;flex-direction:column;gap:10px}
+  /* CL-UI-105：目前圖層 inspector 行動版預設收合 — 換圖層短暫展開（wm-insp-show，
+     JS 2.6s 自動收回）／圖層 sheet「詳細」＝持續展開（wm-insp-sticky）；桌面零改動 */
+  .inspector{display:none}
+  .inspector.wm-insp-show{display:flex;flex:0 1 auto;min-height:0;max-height:26dvh;
+    overflow-y:auto;overscroll-behavior:contain;flex-direction:column;gap:10px}
   /* sheet 開啟：操作區 display:contents → 細帶/滑桿改排 sheet 下方
      （地圖預覽條 / sheet / 細帶 / 滑桿 各佔各列，sheet 不蓋地圖） */
   .map-panel.sheet-open .wm-ops{display:contents}

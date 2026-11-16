@@ -127,8 +127,8 @@ test('CL-WG-27: aspect-matched container fit shows the full tw bbox with no hori
 });
 
 test('CL-WG-27: weather-map.html stamps bumped to bclwg34 in the same ticket', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg39/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg39/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg40/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg40/);
   assert.match(WG_HTML, /assets\/weather-map-regions\.js\?v=bclwg30/);
   assert.ok(!/weather-map\.js\?v=bclwg28/.test(WG_HTML), 'old js stamp must be replaced');
   assert.ok(!/weather-map-regions\.js\?v=bclwg13/.test(WG_HTML), 'old regions stamp must be replaced');
