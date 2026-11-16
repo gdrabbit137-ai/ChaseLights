@@ -16,7 +16,11 @@
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
-  const MAPLIBRE_MODULE = 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
+  // CL-UI-109 (P2-3): unpkg CDN 依賴本地化 — maplibre-gl 6.11.2 vendor 進 repo
+  // （assets/vendor/，含 maplibre-gl-shared.mjs 分塊），不再依賴第三方 CDN 單點。
+  // 動態 import 的相對路徑以 document.baseURI 錨定（classic script 的 import()
+  // 會相對 script URL 解析，頁根相對路徑 assets/vendor/ 兩種解析都落在同一處）。
+  const MAPLIBRE_MODULE = new URL('assets/vendor/maplibre-gl.mjs', document.baseURI).href;
   const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
   // ===== CL-UI-37: language context carried across pages =====
   // URL ?lang= wins over localStorage (same precedence as assets/app.js
@@ -204,6 +208,8 @@
     '底圖載入中…':'Loading basemap…'
 ,
     '底圖逾時 · Canvas fallback':'Basemap timed out · Canvas fallback'
+,
+    '圖資載入失敗 · Canvas fallback':'Basemap failed to load · Canvas fallback'
 ,
     '底圖離線 · Canvas fallback':'Basemap offline · Canvas fallback'
 ,
@@ -587,6 +593,8 @@
     '底圖載入中…':'背景地図を読み込み中…'
 ,
     '底圖逾時 · Canvas fallback':'背景地図がタイムアウト · Canvas フォールバック'
+,
+    '圖資載入失敗 · Canvas fallback':'図版の読み込みに失敗 · Canvas フォールバック'
 ,
     '底圖離線 · Canvas fallback':'背景地図がオフライン · Canvas フォールバック'
 ,
@@ -1185,6 +1193,8 @@
     frameAnchorTouched:false,
     // CL-WG-18: honest QC — true only when draw() actually painted the layer.
     lastDataRendered:false,
+    // CL-UI-109 (P2-4): 欄位繪製當下的真實畫布 alpha 複核（見 canvasHasFieldPaint）
+    lastCanvasPainted:false,
     layer:'low_cloud_percent',
     spotId:'',
     opportunityId:'',
@@ -1767,7 +1777,8 @@
   // every label. Unknown style shapes fail-open (no-op, never blocks).
   function hideBasemapLabelNoise(map){
     try{
-      if(!window.matchMedia('(max-width:768px)').matches) return 0;
+      // CL-UI-109 (P2-2): min(w,h)≤768 才藏海名 label（橫向手機也算行動殼）
+      if(!window.matchMedia('(max-width:768px),(max-height:768px)').matches) return 0;
       const style=map.getStyle();
       if(!style || !Array.isArray(style.layers)) return 0;
       let hidden=0;
@@ -1972,9 +1983,9 @@
         try{ map.remove(); }catch(_){}
         state.map=null;
         canvas.style.pointerEvents='auto';
-        setBasemapStatus('fallback',wmT('底圖逾時 · Canvas fallback'));
+        setBasemapStatus('fallback',wmT('圖資載入失敗 · Canvas fallback'));
         renderAll();
-      },8000);
+      },4000);   // CL-UI-109 (P2-3): 8s → 4s，慢網更快落入誠實 fallback
 
       map.on('load',()=>{
         try{ window.__weatherGridMap=map; }catch(_){}
@@ -3272,8 +3283,7 @@
       syncWindVectorDefault();
       windToggle.checked=state.windVectors;
       renderAll();
-      wmFlashInspector();   // CL-UI-105: 換圖層 → inspector 短暫展開提醒
-    });
+    });   // CL-UI-109 (P2-4): 換圖層不再 flash inspector（過渡期間版面狀態一致，預設收合）
 
     const opacitySlider=$('opacity-slider');
     opacitySlider.value=Math.round(state.weatherOpacity*100);
@@ -4104,6 +4114,9 @@
       fieldDrawn=drawBilinearSubcells(data,vals,cfg,visibleView);
     }
     state.lastDataRendered=fieldDrawn>0;
+    // CL-UI-109 (P2-4): 此刻畫布僅含欄位（畫布已於繪製前清空、grid／景點未疊），
+    // 真實複核 alpha — 之後 QC 徽章以此對齊實際繪製狀態。
+    state.lastCanvasPainted=canvasHasFieldPaint();
     ctx.restore();
 
     if(!isObservationMode() && (cfg.palette==='cloud'||cfg.palette==='cloudLow')){
@@ -5372,7 +5385,7 @@
     // sampling method, fog/haze diagnostic) collapses into a single「詳細」
     // accordion instead of three always-visible technical lines. Desktop
     // (>=769px) keeps the existing layout byte-for-byte (1280 zero-change).
-    const wmMobileShell=window.matchMedia('(max-width:768px)').matches;
+    const wmMobileShell=window.matchMedia('(max-width:768px),(max-height:768px)').matches;   // CL-UI-109: min(w,h)≤768
     const environmentHost=$('spot-environment');
     const envHtml=fogHazeDiagnosticHtml(point);
     if(point){
@@ -5629,6 +5642,24 @@
     return wmT(messages[flag] || '此圖層有資料品質提示，請搭配相鄰時段與其他模型判讀。');
   }
 
+  // CL-UI-109 (P2-4): 真實偵測 canvas 狀態 — fail-closed 的時序旗標會在切層
+  // 過渡期與畫布矛盾（欄位已繪、徽章仍說「資料層未顯示」）。在欄位繪製完成、
+  // 尚未疊上 grid／景點的時間點做 64×64 下採樣 alpha 掃描，複核畫布是否真的
+  // 有欄位像素；與旗標聯合判斷（任一為真即視為已繪）。
+  function canvasHasFieldPaint(){
+    try{
+      if(!canvas||!canvas.width||!canvas.height) return false;
+      const w=64,h=64;
+      const off=document.createElement('canvas');
+      off.width=w; off.height=h;
+      const octx=off.getContext('2d');
+      octx.drawImage(canvas,0,0,w,h);
+      const px=octx.getImageData(0,0,w,h).data;
+      for(let i=3;i<px.length;i+=4*7){ if(px[i]>0) return true; }
+      return false;
+    }catch(_){ return false; }
+  }
+
   function setQcSummary(tone,text){
     const summary=$('qc-summary');
     if(!summary) return;
@@ -5676,7 +5707,7 @@
     // actually render this frame (e.g. basemap timed out, Canvas fallback
     // active, and the field could not be drawn). Show an honest degraded
     // status instead of a green checkmark decoupled from the visible canvas.
-    if(!state.lastDataRendered){
+    if(!state.lastDataRendered && !state.lastCanvasPainted){
       // CL-UI-102 (audit F15): the QC badge must never contradict what is on
       // the canvas — when the wind-direction arrows DID render but the color
       // field did not, say exactly that instead of a blanket「資料層未顯示」.
@@ -6087,9 +6118,37 @@
   }
 
   // ── 事件接線（delegated，一次註冊）──
+  // CL-UI-109 (P3-5): 44px 觸控命中補償 — 控制列/地圖容器 overflow 裁切使
+  // 純 CSS ::after 外擴不可靠，改以 capture-phase 命中補償：點擊座標落在
+  // 目標視覺矩形外擴至 ≥44px 的範圍內（且未直接命中）時改派目標 click。
+  // 視覺零改動；行動殼限定（1280 桌面零改動）。
+  let wmHitCompWireDone=false;
+  function wmWireHitCompensation(){
+    if(wmHitCompWireDone) return;
+    wmHitCompWireDone=true;
+    const TARGETS=['time-play','reset-view','layer-sheet-btn','data-info-open'];
+    document.addEventListener('click',e=>{
+      if(!e.isTrusted && !e.__wmProbe) return;   // 只補償真實/探針點擊，程式 el.click() 不重派
+      if(!wmIsMobileShell()) return;
+      for(const id of TARGETS){
+        const el=document.getElementById(id);
+        if(!el||el===e.target||(e.target&&el.contains(e.target))) continue;
+        const r=el.getBoundingClientRect();
+        if(!r.width||!r.height) continue;
+        const gx=Math.max(0,44-r.width)/2, gy=Math.max(0,44-r.height)/2;
+        if(e.clientX>=r.left-gx&&e.clientX<=r.right+gx&&e.clientY>=r.top-gy&&e.clientY<=r.bottom+gy){
+          e.stopImmediatePropagation();
+          el.click();
+          return;
+        }
+      }
+    },true);
+  }
+
   function wmInitOverlays(){
     if(wmOverlayWired) return;
     wmOverlayWired=true;
+    wmWireHitCompensation();   // CL-UI-109 (P3-5): 44px 觸控命中補償（視覺零改動）
     // CL-UI-104: put the timeline dock in its shell home (mobile: fixed ops
     // tray; desktop: floating over the map bottom). Idempotent.
     wmPlaceDockForShell();
@@ -6105,7 +6164,7 @@
         const windToggle=$('wind-vector-toggle');
         if(windToggle) windToggle.checked=state.windVectors;
         renderAll();
-        wmFlashInspector();   // CL-UI-105: 換圖層 → inspector 短暫展開提醒
+        // CL-UI-109 (P2-4): 換圖層不再 flash inspector — 過渡期間版面狀態一致
       });
     }
     const sideBody=$('wm-side-body');
@@ -6162,8 +6221,11 @@
       if(!host) return;
       host.addEventListener('click',e=>{
         // CL-UI-103: dim hint / ✕ 收掉「目前開啟的那個」sheet（互斥下只會開一個）。
-        if(e.target.closest('[data-wm-act="sheet-close"]')){ wmCloseSheet(); return; }
-        if(e.target.closest('[data-wm-act="layer-sheet-close"]')){ wmCloseLayerSheet(); return; }
+        // CL-UI-109 (P2-1)：dim hint pill「點此返回」不再綁死列表 sheet —
+        // 互斥下僅一個 sheet 開啟，收掉「目前開啟的那個」，圖層 sheet 的
+        // 返回 pill 也必須可用（sheet 間互斥但返回鈕各 sheet 獨立可用）。
+        if(e.target.closest('[data-wm-act="sheet-close"]')){ if(wmLayerSheetOpen) wmCloseLayerSheet(); else wmCloseSheet(); return; }
+        if(e.target.closest('[data-wm-act="layer-sheet-close"]')){ if(wmSheetOpen) wmCloseSheet(); else wmCloseLayerSheet(); return; }
         if(e.target.closest('[data-wm-act="layer-details"]')){
           // 詳細入口：收圖層 sheet 回復地圖全幅，展開 inspector 的圖層詳細並捲到定位。
           // CL-UI-105: 行動版 inspector 預設收合 — 「詳細」＝使用者明確要求，持續展開。
@@ -6188,7 +6250,7 @@
           if(windToggle) windToggle.checked=state.windVectors;
           wmCloseLayerSheet();
           renderAll();
-          wmFlashInspector();   // CL-UI-105: 換圖層 → inspector 短暫展開提醒
+          // CL-UI-109 (P2-4): 換圖層不再 flash inspector — 過渡期間版面狀態一致
           return;
         }
         const row=e.target.closest('[data-wm-sheet-spot]');
@@ -6376,7 +6438,7 @@
   // right side panel and the always-open timeline dock byte-for-byte
   // (1280 regression: zero change). Camera behavior stays CL-UI-59.
 
-  function wmIsMobileShell(){ return window.matchMedia('(max-width:768px)').matches; }
+  function wmIsMobileShell(){ return window.matchMedia('(max-width:768px),(max-height:768px)').matches; }   // CL-UI-109: min(w,h)≤768（橫向手機也走 APP 版面）
 
   // Deterministic display heuristic (same spirit as the DESIGN-10 mockup's
   // data-src note): the % is recomputed from the CURRENT layer sample at the
@@ -6468,6 +6530,13 @@
     panel.style.height='';
   }
 
+  // CL-UI-109 (P3-6): .wm-ops 的 wm-dock-open 是細帶展開的暫態類別 —
+  // 所有收合路徑（關 sheet／收細帶）都同步復位，避免殘留多佔 42px 地圖高度。
+  function wmSyncOpsDockOpen(){
+    const opsTray=document.querySelector('.wm-ops');
+    if(opsTray) opsTray.classList.toggle('wm-dock-open',wmDockExpanded&&wmIsMobileShell());
+  }
+
   function wmOpenSheet(){
     if(wmSheetOpen || !wmIsMobileShell()) return;
     // CL-UI-103: 三者互斥 — 開列表 sheet 先收圖層 sheet。
@@ -6500,6 +6569,7 @@
     if(sheet){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); sheet.style.transform=''; }
     if(dim) dim.hidden=true;
     if(btn) btn.setAttribute('aria-expanded','false');
+    wmSyncOpsDockOpen();
     wmRelocateDockForSheet(false);
   }
 
@@ -6514,6 +6584,7 @@
     const tlBar=$('wm-tl-bar');
     if(dock) dock.classList.remove('expanded');
     if(tlBar) tlBar.setAttribute('aria-expanded','false');
+    wmSyncOpsDockOpen();
   }
 
   function wmOpenLayerSheet(){
@@ -6550,6 +6621,7 @@
     if(sheet){ sheet.classList.remove('open'); sheet.setAttribute('aria-hidden','true'); sheet.style.transform=''; }
     if(dim) dim.hidden=true;
     if(btn) btn.setAttribute('aria-expanded','false');
+    wmSyncOpsDockOpen();
     wmRelocateDockForSheet(false);
   }
 

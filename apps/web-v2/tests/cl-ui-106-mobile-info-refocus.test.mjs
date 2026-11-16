@@ -41,12 +41,12 @@ test('CL-UI-106 source: markup carries the ⓘ meta host and the layer-sheet mod
     legendAt = sheet.indexOf('wm-ls-legend');
   assert.ok(chipsAt !== -1 && modelAt !== -1 && legendAt !== -1, 'sheet anatomy intact');
   assert.ok(chipsAt < modelAt && modelAt < legendAt, 'model row sits between chips and legend');
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg44/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg44/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg45/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg45/);
 });
 
 test('CL-UI-106 CSS (mobile): title block + model chip + cycle line + footer retired, ⓘ kept top-right', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /\.weather-header \.header-title-line\{display:none\}/,
     'WeatherGrid Preview title block retired on the mobile shell');
   assert.match(mobileBlock, /\.weather-header \.source-pill,\.weather-header \.source-mobile-summary\{display:none\}/,
@@ -58,12 +58,12 @@ test('CL-UI-106 CSS (mobile): title block + model chip + cycle line + footer ret
   assert.match(mobileBlock, /\.data-info-meta\{/, 'ⓘ dialog meta block styling present');
   assert.match(mobileBlock, /\.wm-ls-model\{flex:none/, 'layer sheet model row styling present');
   // no leak outside the mobile block (1280 zero-change)
-  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px){'));
+  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.ok(!/\.header-title-line\{display:none/.test(beforeMobile), 'no title-block retirement leak');
   assert.ok(!/site-footer\{display:none/.test(beforeMobile), 'no footer retirement leak');
   assert.ok(!/\.data-info-meta\{/.test(beforeMobile), 'no meta styling leak');
   assert.ok(!/\.wm-ls-model\{/.test(beforeMobile), 'no model-row styling leak');
-  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px){'));
+  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px) and (min-height:769px){'));
   assert.ok(!desktopBlock.includes('site-footer'), 'desktop footer untouched');
 });
 

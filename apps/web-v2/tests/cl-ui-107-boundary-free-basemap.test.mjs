@@ -121,9 +121,9 @@ test('CL-UI-107: hide runs on load AND on styledata (late style mutations covere
     'styledata handler re-applies the boundary hide');
 });
 
-test('CL-UI-107: weather-map.html stamps bumped to bclwg44 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg44/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg44/);
+test('CL-UI-107: weather-map.html stamps bumped to bclwg45 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg45/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg45/);
   assert.ok(!/weather-map\.js\?v=bclwg42/.test(WG_HTML), 'old js stamp must not linger');
 });
 
@@ -166,6 +166,8 @@ async function bootBrowser() {
     baseURL = `http://127.0.0.1:${server.address().port}/`;
     chrome = spawn(BROWSER, [
       '--headless=new','--disable-gpu','--no-sandbox','--disable-dev-shm-usage',
+      // CL-UI-109: newer Chrome headless needs software WebGL for the MapLibre LIVE probes
+      '--enable-unsafe-swiftshader','--use-angle=swiftshader',
       '--no-first-run','--remote-debugging-port=0',
       '--window-size=390,844',
       '--user-data-dir=' + fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'clui107-')), 'about:blank'],
