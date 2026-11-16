@@ -56,10 +56,10 @@ test('CL-UI-104: weather-map.html puts the control bar and time navigator inside
   assert.ok(panel.indexOf('id="wm-sheet"') < panel.indexOf('class="wm-ops"'), 'list sheet is a panel flex sibling');
 });
 
-test('CL-UI-104: cache-bust stamps bumped to bclwg41 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg41/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg41/);
-  assert.ok(!/weather-map\.(js|css)\?v=bclwg39/.test(WG_HTML), 'old stamp must not linger');
+test('CL-UI-104: cache-bust stamps bumped to bclwg42 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg42/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg42/);
+  assert.ok(!/weather-map\.(js|css)\?v=bclwg41/.test(WG_HTML), 'old stamp must not linger');
 });
 
 // ---------------------------------------------------------------------------
@@ -363,9 +363,11 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true, tag: '390
     assert.ok(p.map.h >= 0.28 * p.innerH, `map area keeps a substantial fixed slice (${p.map.h}px)`);
     assert.ok(p.map.b <= p.ops.t + 1, 'map area sits fully above the operations tray');
     // CL-UI-105: the inspector is collapsed by default on mobile — the tray
-    // runs down to the footer and 目前圖層 reserves no viewport height.
+    // runs down to the page bottom (CL-UI-106: no footer block below it) and
+    // 目前圖層 reserves no viewport height.
     assert.equal(p.insp.h, 0, 'inspector collapsed by default (no reserved slice)');
-    assert.ok(p.ops.b <= p.footer.t + 1, 'tray sits directly above the footer');
+    assert.equal(p.footer.h, 0, 'CL-UI-106: site-footer retired on the mobile shell (sources.html covers it)');
+    assert.ok(p.ops.b <= p.innerH + 1, 'tray sits above the bottom edge (no footer block below)');
     assert.ok(p.ops.h <= 180, `operations tray stays within the 180px budget (${p.ops.h}px)`);
     assert.equal(p.dockHost, 'ops', 'timeline band lives in the operations tray (not floating over the map)');
     assert.ok(p.slider.t >= p.map.b - 2 && p.slider.b <= p.innerH, '預報滑桿 is reachable in the fixed tray');

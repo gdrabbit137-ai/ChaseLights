@@ -406,6 +406,12 @@
 ,
     '模型起報 ':'Model cycle '
 ,
+    '模型':'Model'
+,
+    '起報時間':'Init time'
+,
+    '解析度':'Resolution'
+,
     '年度 ':'Annual '
 ,
     '更新 ':'Updated '
@@ -784,6 +790,12 @@
     '資料更新 ':'データ更新 '
 ,
     '模型起報 ':'モデル起報 '
+,
+    '模型':'モデル'
+,
+    '起報時間':'起報時刻'
+,
+    '解析度':'解像度'
 ,
     '年度 ':'年次 '
 ,
@@ -3098,6 +3110,32 @@
     renderAll();
   }
 
+  // CL-UI-106（owner）: the mobile shell drops the top info block (title +
+  // model chip + cycle line). Its 模型/起報時間/解析度 facts surface here,
+  // inside the ⓘ dialog — filled only on the mobile shell (1280 zero change).
+  let wmDataInfoMeta=null;
+  function wmRenderDataInfoMeta(){
+    const host=$('data-info-meta');
+    if(!host) return;
+    if(!wmIsMobileShell() || !wmDataInfoMeta){ host.hidden=true; host.textContent=''; return; }
+    host.hidden=false;
+    host.textContent='';
+    const rows=[
+      [wmT('模型'),wmDataInfoMeta.model],
+      [wmT('起報時間'),wmDataInfoMeta.cycle],
+      [wmT('解析度'),wmDataInfoMeta.resolution]
+    ];
+    for(const [label,value] of rows){
+      const line=document.createElement('div');
+      line.className='data-info-meta-line';
+      const key=document.createElement('b');
+      key.textContent=label;
+      line.appendChild(key);
+      line.appendChild(document.createTextNode(value||'—'));
+      host.appendChild(line);
+    }
+  }
+
   function initDataInfoDialog(){
     const dialog=$('data-info-dialog');
     const open=$('data-info-open');
@@ -3105,6 +3143,7 @@
     if(!dialog || !open || !close) return;
 
     open.addEventListener('click',()=>{
+      wmRenderDataInfoMeta();
       if(typeof dialog.showModal==='function') dialog.showModal();
       else dialog.setAttribute('open','');
     });
@@ -5172,6 +5211,12 @@
             : `${wmT('起報 ')}${cycleDisplay.replace(' TST','')} · ${compactResolution}${compactCadence}`);
       }
     }
+    // CL-UI-106: stash the 模型/起報時間/解析度 facts for the ⓘ dialog
+    const wmInfoCycle=usingHimawari
+      ? `${wmT('衛星觀測 ')}${formatTaipeiTime(f.valid_time_utc)} TST`
+      : (usingViirs?cycleText:cycleDisplay);
+    wmDataInfoMeta={model:status.textContent,cycle:wmInfoCycle,resolution};
+    wmRenderDataInfoMeta();
     const attributionHost=$('source-attribution');
     if(usingHimawari){
       attributionHost.textContent=wmT('衛星觀測：JMA Himawari-9 / AHI · Distribution: NOAA NODD / AWS Open Data');
@@ -6449,6 +6494,9 @@
     wmRelocateDockForSheet(true);
     wmFitSheetPanel();
     renderWmLayerChips();
+    // CL-UI-106: 圖層 sheet 模型列 — 頂部模型 chip 退場後的保留入口
+    const modelRow=$('wm-ls-model');
+    if(modelRow) modelRow.textContent=`${wmT('模型')}：${($('source-state').textContent||'—')}`;
   }
 
   function wmCloseLayerSheet(){
