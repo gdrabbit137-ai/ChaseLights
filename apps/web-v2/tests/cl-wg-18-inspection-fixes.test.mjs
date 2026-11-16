@@ -81,12 +81,14 @@ test('QC panel never claims 資料正常 when the data layer did not render', ()
     /return drawn;/);
   // updateQc shows the honest degraded status instead of ✓.
   const qcBody = grab(JS, 'function updateQc(){', 'function renderAll(){');
-  assert.match(qcBody, /if\(!state\.lastDataRendered\)\{/,
-    'QC checks the actual render state before any ✓ claim');
+  // CL-UI-109 (P2-4): the gate now combines the draw flag with the real-canvas
+  // probe (state.lastCanvasPainted) so the badge can never contradict the canvas.
+  assert.match(qcBody, /if\(!state\.lastDataRendered && !state\.lastCanvasPainted\)\{/,
+    'QC checks the actual render state (flag + real canvas probe) before any ✓ claim');
   assert.match(qcBody, /setQcSummary\('warn','資料層未顯示'\)/);
   assert.match(qcBody, /底圖逾時，資料層未顯示/,
     'basemap-timeout fallback wording is honest about the data layer');
-  assert.ok(!/✓ 資料正常/.test(qcBody.split('!state.lastDataRendered')[1]?.split('if(isObservationMode())')[0] || ''),
+  assert.ok(!/✓ 資料正常/.test(qcBody.split('!state.lastCanvasPainted')[1]?.split('if(isObservationMode())')[0] || ''),
     'the honesty branch itself contains no ✓ claim');
 });
 
