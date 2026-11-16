@@ -218,6 +218,18 @@ details.notes code{font-family:var(--mono);font-size:11px;background:var(--bg-2)
 details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:var(--sp-3)}
 
 /* ── 390：側欄收進 bottom sheet ─────────────────────── */
+/* 時間軸遮圖重設計（DESIGN-9 · owner 澄清：固定位置不拖曳）— 390px 收摺式：
+   預設貼地圖底部僅一條細帶（目前所選時間＋展開箭頭），點開才向上浮出完整日/時格；台灣本島完全不擋 */
+.tl-bar{display:none}
+.shell390 .tl-bar{display:flex;align-items:center;gap:var(--sp-2);width:100%;min-height:32px;padding:7px 2px;text-align:left;
+  font-size:var(--fs-13);color:var(--text-2)}
+.shell390 .tl-bar + .day-row{margin-top:var(--sp-2)}
+.shell390 .day-row,.shell390 .hour-row{display:none}
+.shell390 .timeline-dock.expanded{padding-bottom:var(--sp-2)}
+.shell390 .timeline-dock.expanded .day-row,.shell390 .timeline-dock.expanded .hour-row{display:flex}
+.shell390 .tl-bar .caret{margin-left:auto;color:var(--text-3);font-size:12px;transition:transform .15s}
+.shell390 .timeline-dock.expanded .tl-bar .caret{transform:rotate(180deg)}
+.shell390 .tl-bar .mono{font-family:var(--mono);color:var(--text-1)}
 .sheet-btn{position:absolute;top:var(--sp-4);right:var(--sp-4);z-index:35;display:none;height:var(--control-h);padding:0 var(--sp-3);
   border-radius:var(--r-sm);border:1px solid var(--border-strong);background:rgba(17,24,39,.9);color:var(--text-1);font-size:var(--fs-13);font-weight:600}
 .shell390 .side{display:none}
@@ -334,7 +346,12 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
   <button class="sheet-btn" id="sheet-btn" data-i18n="side_title">景點列表</button>
 
   <!-- 底部：日期列＋小時軸（today/now 自動置中） -->
-  <div class="timeline-dock">
+  <div class="timeline-dock" id="tl-dock">
+    <button class="tl-bar" id="tl-bar" aria-expanded="false">
+      <span data-i18n="tl_now">目前所選</span>
+      <span class="mono" id="tl-sel">11/16 · 05:00</span>
+      <span class="caret">▲</span>
+    </button>
     <div class="day-row" id="day-row"></div>
     <div class="hour-row" id="hour-row"></div>
   </div>
@@ -389,6 +406,7 @@ details.notes .data-src{font-size:var(--fs-12);color:var(--text-3);margin-top:va
         <tr><td>小時軸 24 格</td><td>同規則：now 自動置中、選中格 bg-3 加框；每格下緣 3px 色帶 = 該小時全站據點 fit 比例的微縮（綠/黃/灰混合示意）— 掃描用，不是逐點值。</td></tr>
         <tr><td>時間語義</td><td>頁首 GMT+8；拍攝視窗一律 spot-local＋相對日詞；數值一律 mono。</td></tr>
         <tr><td>離線（design-system §9）</td><td>mockup-bar「線上/離線」示範：離線時側欄頂掛「顯示上次資料」badge（含快照時間），地圖層改用最後快照且時間軸鎖在快照小時。</td></tr>
+        <tr><td>390 時間軸收摺（DESIGN-9 定案）</td><td>owner 截圖問題：完整日/時浮層常駐蓋住地圖下半（台灣南半被擋）。owner 澄清：<b>固定位置、不可拖曳</b>。兩案取<b>①收摺式</b>：預設僅貼地圖底部一條 32px 細帶（目前所選「11/16 · 06:00」＋展開箭頭），點開才向上浮出完整日/時格，選定即收合 — 常態下台灣本島 100% 可見；浮出格只佔用「本來就會被蓋」的瞬間。落選的②下移出圖（時間軸移到地圖與圖層區之間）雖完全零遮擋，但 390px 縱向要付出地圖高度 ~110px 的永久成本 — 觀雲是看圖的頁面，地圖高度是主資產；且跳離地圖上下文的時間控制會弱化「選時間→看圖變化」的直接操作感。細帶語義：僅摘要不新增控制（點帶=展開，非快捷換日），避免同一位置兩種互動。<b>1280px 不變</b>：完整軸常駐（桌面無此遮擋問題）。</td></tr>
       </table>
       <p class="data-src" data-i18n="data_src">資料樣例：8 個真實 place（subject-cards，tier 為 2026-11-16 評估層真實值）；圖層數值（雲量%/能見度km/風速）為示意；底圖為抽象 SVG 非實測投影。視窗切換鈕示範 390px 節奏（側欄→bottom sheet、圖例讓位）。</p>
     </div>
@@ -405,7 +423,7 @@ const I18N={
   ly_cloud:'低雲',ly_vis:'能見度',ly_wind:'風',ly_prec:'降水',
   lg_min:'晴',lg_max:'遮天',
   mini_detail:'詳情',mini_remind:'🔔 提醒',mini_locate:'📍 定位',
-  today:'今天',btn_fcst:'🌦️ 天氣預報',btn_eval:'🌗 題材評估',btn_locate:'📍 定位景點',
+  today:'今天',tl_now:'目前所選',btn_fcst:'🌦️ 天氣預報',btn_eval:'🌗 題材評估',btn_locate:'📍 定位景點',
   m_cond:'條件 ×4',m_guide:'拍攝位置與指南',m_guide_d:'拍攝位置：主步道觀景平台（海拔 1,900 m）。指南：晨光前 20 分到定位，偏光鏡可壓低雲層反差。',
   notes_title:'設計說明 — 設計決策 × design-review 對應',notes_map:'地圖版面',notes_spot:'景點互動',notes_time:'時間控制',
   data_src:'資料樣例：8 個真實 place（subject-cards，tier 為 2026-11-16 評估層真實值）；圖層數值（雲量%/能見度km/風速）為示意；底圖為抽象 SVG 非實測投影。視窗切換鈕示範 390px 節奏（側欄→bottom sheet、圖例讓位）。'},
@@ -416,7 +434,7 @@ const I18N={
   ly_cloud:'Low cloud',ly_vis:'Visibility',ly_wind:'Wind',ly_prec:'Precip',
   lg_min:'Clear',lg_max:'Overcast',
   mini_detail:'Detail',mini_remind:'🔔 Remind',mini_locate:'📍 Locate',
-  today:'Today',btn_fcst:'🌦️ Forecast',btn_eval:'🌗 Genre eval',btn_locate:'📍 Locate spot',
+  today:'Today',tl_now:'Selected',btn_fcst:'🌦️ Forecast',btn_eval:'🌗 Genre eval',btn_locate:'📍 Locate spot',
   m_cond:'Conditions ×4',m_guide:'Shooting spot & guide',m_guide_d:'Spot: main trail viewing platform (1,900 m). Guide: be in position 20 min before first light; a polarizer tames cloud contrast.',
   notes_title:'Design notes — decisions × design-review findings',notes_map:'Map layout',notes_spot:'Spot interaction',notes_time:'Time controls',
   data_src:'Samples: 8 real places (subject-cards, real 2026-11-16 tiers); layer values are illustrative; basemap is an abstract SVG, not a real projection.'},
@@ -427,7 +445,7 @@ const I18N={
   ly_cloud:'低雲',ly_vis:'視程',ly_wind:'風',ly_prec:'降水',
   lg_min:'快晴',lg_max:'曇天',
   mini_detail:'詳細',mini_remind:'🔔 リマインド',mini_locate:'📍 現在地表示',
-  today:'今日',btn_fcst:'🌦️ 天気予報',btn_eval:'🌗 題材評価',btn_locate:'📍 スポットを中心に',
+  today:'今日',tl_now:'選択中',btn_fcst:'🌦️ 天気予報',btn_eval:'🌗 題材評価',btn_locate:'📍 スポットを中心に',
   m_cond:'条件 ×4',m_guide:'撮影ポジションとガイド',m_guide_d:'撮影位置：メイン遊歩道の展望台（標高 1,900 m）。ガイド：夜明け 20 分前に定位。偏光フィルターで雲のコントラストを抑える。',
   notes_title:'デザインメモ — 決定事項 × design-review 対応',notes_map:'マップ配置',notes_spot:'スポット操作',notes_time:'時間コントロール',
   data_src:'データ例：実スポット 8 件（subject-cards、2026-11-16 の実 tier）。レイヤー数値は例示。底図は抽象 SVG。'}
@@ -580,6 +598,11 @@ const DAYS=[
  {d:['11/18 後天','11/18 Wed','11/18 明後日'],s:['多雲','Partly cloudy','所により曇']},
  {d:['11/19 大後天','11/19 Thu','11/19 3日後'],s:['雨','Rain','雨']}
 ];
+/* 收摺細帶：目前所選 摘要（僅 390 顯示；DESIGN-9） */
+function updateTlBar(){
+  const el=document.getElementById('tl-sel');
+  if(el)el.textContent=`${DAYS[daySel].d[L()].split(' ')[0]} · ${String(hourSel).padStart(2,'0')}:00`;
+}
 function renderDays(){
   const row=document.getElementById('day-row');
   row.innerHTML=DAYS.map((d,i)=>`
@@ -587,6 +610,7 @@ function renderDays(){
       <span class="l1">${d.d[L()]}</span><span class="l2">${d.s[L()]}</span>
     </button>`).join('');
   const sel=row.children[daySel];sel&&sel.scrollIntoView({inline:'center',block:'nearest'});
+  updateTlBar();
 }
 const HOURS=Array.from({length:24},(_,h)=>h);
 /* 示意色帶：該小時全站 fit 比例（綠/黃/灰混合） */
@@ -602,6 +626,7 @@ function renderHours(){
       <span class="h">${String(h).padStart(2,'0')}:00</span><span class="band" style="background:${bandFor(h)}"></span>
     </button>`).join('');
   const sel=row.children[6];sel&&sel.scrollIntoView({inline:'center',block:'nearest'});
+  updateTlBar();
 }
 /* ── 事件 ── */
 document.getElementById('layers').addEventListener('click',e=>{
@@ -618,9 +643,17 @@ document.getElementById('side-body').addEventListener('click',e=>{
 });
 document.getElementById('day-row').addEventListener('click',e=>{
   const b=e.target.closest('[data-day]');if(!b)return;daySel=+b.dataset.day;renderDays();
+  document.getElementById('tl-dock').classList.remove('expanded');document.getElementById('tl-bar').setAttribute('aria-expanded','false');
 });
 document.getElementById('hour-row').addEventListener('click',e=>{
   const b=e.target.closest('[data-hour]');if(!b)return;hourSel=+b.dataset.hour;renderHours();
+  document.getElementById('tl-dock').classList.remove('expanded');document.getElementById('tl-bar').setAttribute('aria-expanded','false');
+});
+/* 收摺式時間軸（僅 390）：點細帶展開/收合完整日/時格 — 固定位置，不拖曳（DESIGN-9 owner 澄清） */
+document.getElementById('tl-bar').addEventListener('click',()=>{
+  const open=document.getElementById('tl-dock').classList.toggle('expanded');
+  document.getElementById('tl-bar').setAttribute('aria-expanded',String(open));
+  if(open){const sel=document.querySelector('#day-row .day-pill.sel');sel&&sel.scrollIntoView({inline:'center',block:'nearest'});}
 });
 document.getElementById('sheet-btn').addEventListener('click',()=>document.getElementById('side').classList.toggle('open'));
 document.getElementById('m-close').addEventListener('click',()=>document.getElementById('overlay').classList.remove('open'));
