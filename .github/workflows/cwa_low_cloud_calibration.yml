@@ -37,7 +37,7 @@ permissions:
 jobs:
   replay:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - name: Checkout candidate
         uses: actions/checkout@v4
@@ -91,9 +91,27 @@ jobs:
           index=0
           while IFS= read -r slot; do
             out="/tmp/himawari-cal-${index}"
-            python himawari9_weathergrid_browser_bundle.py \
-              --slot-utc "$slot" \
-              --output-dir "$out"
+            # NOAA NODD publishes AHI-L2-FLDK-Clouds products roughly 10-20
+            # minutes after the observation slot, so a just-completed CWA
+            # slot is routinely raced. Retry the exact slot with backoff and
+            # fail closed only once the retry budget is exhausted.
+            attempt=1
+            max_attempts=6
+            while true; do
+              if python himawari9_weathergrid_browser_bundle.py \
+                --slot-utc "$slot" \
+                --output-dir "$out"
+              then
+                break
+              fi
+              if [[ "$attempt" -ge "$max_attempts" ]]; then
+                echo "Himawari cloud products for slot $slot unavailable after $max_attempts attempts."
+                exit 1
+              fi
+              echo "Attempt $attempt for slot $slot failed; retrying in 180s."
+              attempt=$((attempt + 1))
+              sleep 180
+            done
             index=$((index + 1))
           done < /tmp/cwa-calibration-slots.txt
           test "$index" -ge 2
