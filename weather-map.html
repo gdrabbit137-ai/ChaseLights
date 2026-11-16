@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg41">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg42">
 </head>
 <body>
   <nav class="site-nav" aria-label="全站導覽">
@@ -136,6 +136,8 @@
           <button type="button" class="x" data-wm-act="layer-sheet-close" aria-label="關閉圖層選單" data-i18n-aria="wm_layer_sheet_close_aria">✕</button>
         </div>
         <div class="wm-ls-chips" id="wm-ls-chips"></div>
+        <!-- CL-UI-106: 圖層 sheet 模型列 — 頂部模型 chip 退場後，模型資訊在此保留一份 -->
+        <div class="wm-ls-model" id="wm-ls-model"></div>
         <div class="wm-ls-legend"><div class="coverage-key">
           <span><i class="coverage-swatch camera"></i>Camera</span>
           <span><i class="coverage-swatch subject"></i>Subject</span>
@@ -281,6 +283,8 @@
         <button id="data-info-close" type="button" aria-label="關閉資料說明" data-i18n-aria="wm_dialog_close">✕</button>
       </div>
       <div class="data-info-body">
+        <!-- CL-UI-106: 行動版頂部資訊塊退場後，模型/起報時間/解析度收進本彈出（僅 ≤768 填充） -->
+        <div id="data-info-meta" class="data-info-meta" hidden></div>
         <p data-i18n="wm_dialog_p1">目前已加入 Himawari-9 衛星觀測，以及 JMA MSM 5 km、CWA WRF 3 km、ICON Global 與 GFS 預報。「自動預報」採攝影優先、依圖層與有效時間選擇可用來源：優先使用可提供該圖層的區域模型，再以全球模型備援；Himawari-9 不會被自動混入預報模式。CWA M-A0064 實際 GRIB 驗證未發現原生低／中／高雲量，因此不以壓力層相對濕度冒充雲量。</p>
         <p data-i18n="wm_dialog_p2">CAMS Global 提供 AOD 550 nm 與 PM2.5 攝影環境圖層，資料經 Open-Meteo Air Quality API 取得。CAMS Global 原生約 45 km / 3 小時、約每 12 小時更新；WeatherGrid 的 0.4° 顯示格是取樣／呈現網格，不代表提高原生解析度。AOD 是整層大氣的氣膠光學厚度；PM2.5 是近地面細懸浮微粒質量濃度，兩者物理意義不同，也不會單獨被當成霧。</p>
         <p data-i18n="wm_dialog_p3">Himawari-9 提供衛星雲遮罩與雲頂高度實況。這些是觀測／反演資料，不會標示成預報低／中／高雲百分比；雲頂高度缺值也不會被當成 0 m。</p>
@@ -298,7 +302,7 @@
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui103"></script>
   <script src="./assets/favorites-client.js?v=clui82"></script>
-  <script src="./assets/weather-map.js?v=bclwg41"></script>
+  <script src="./assets/weather-map.js?v=bclwg42"></script>
   <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
   <footer class="site-footer">
     <a class="site-footer-link" href="./sources.html" data-sf-i18n="sf_sources">資料來源與授權</a>

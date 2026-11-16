@@ -627,6 +627,8 @@ body{padding:18px}
   .wm-ls-legend .coverage-key{margin-top:0;font-size:.72rem}
   .wm-ls-foot{flex:none;padding:0 var(--cl-sp-4) var(--cl-sp-3)}
   .wm-ls-foot .wm-btn{width:100%;height:44px}
+  /* CL-UI-106: 圖層 sheet 模型列（頂部模型 chip 退場後的保留入口） */
+  .wm-ls-model{flex:none;padding:0 var(--cl-sp-4) var(--cl-sp-1);font-size:.72rem;color:var(--cl-text-2)}
 
   /* 詳細摺疊（audit F12：座標/取樣/診斷收進摺疊） */
   .wm-panel-acc{border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);margin-top:6px}
@@ -727,6 +729,20 @@ body{padding:18px}
   .map-panel.sheet-open .wm-timeline-dock{order:2}
   .map-panel.sheet-open .time-navigator{order:3;padding-top:8px}
   #wm-sheet,#wm-layer-sheet{order:1}
+
+  /* ── CL-UI-106（owner）：頂部資訊塊退場 — WeatherGrid Preview 標題、模型
+       chip、起報資訊行收進右上「ⓘ 資料」彈出（data-info-dialog 內
+       模型/起報時間/解析度列）與圖層 sheet 模型列；頁尾資料來源／免責行退場
+       （sources.html 已涵蓋，地圖頁不再重複）。地圖區因此獲得高度。 ── */
+  .weather-header{margin:0 0 4px;padding-bottom:0;border-bottom:0}
+  .weather-header .header-title-line{display:none}
+  .weather-header .source-pill,.weather-header .source-mobile-summary{display:none}
+  .source-meta{display:flex;justify-content:flex-end;width:100%;min-width:0}
+  .data-info-button{margin-top:0}
+  .data-info-meta{margin:0 0 12px;padding:8px 10px;border:1px solid #334155;border-radius:8px;
+    background:#0b1220;font-size:.74rem;line-height:1.55}
+  .data-info-meta-line b{color:#7dd3fc;font-weight:800;margin-right:6px}
+  body .site-footer{display:none}
 }
 @media (min-width:769px){
   .wm-side{display:flex}
