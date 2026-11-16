@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg37">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg38">
 </head>
 <body>
   <nav class="site-nav" aria-label="全站導覽">
@@ -112,6 +112,9 @@
         <div class="wm-ctl" aria-label="攝影圖層快速切換">
           <div id="layer-chips" class="layer-chips"></div>
         </div>
+        <!-- CL-UI-103: 收合態僅存一顆圖層 pill（左上）；展開＝#wm-layer-sheet
+             bottom sheet，與時間軸細帶／列表 sheet 三者互斥開啟。1280 隱藏。 -->
+        <button id="layer-sheet-btn" class="wm-sheet-btn" type="button" aria-expanded="false" aria-controls="wm-layer-sheet"><span id="layer-sheet-label">攝影圖層</span></button>
         <button id="side-toggle" class="wm-sheet-btn" type="button" data-i18n="wm_side_title">景點列表</button>
         <aside id="wm-side" class="wm-side" aria-label="景點列表">
           <div class="wm-side-head">
@@ -157,6 +160,25 @@
           <span class="wm-sheet-sort" id="wm-sheet-sort">排序 依可拍% · <span class="mono">—</span></span>
         </div>
         <div class="wm-sheet-list" id="wm-sheet-list"></div>
+      </section>
+
+      <!-- CL-UI-103: 390 圖層選單＝bottom sheet（與 DESIGN-10 列表 sheet 同構）：
+           chips 網格＋圖例三行（Camera/Subject/Environment）＋「詳細」入口；
+           開啟時地圖壓暗收成上緣預覽條（同款），與時間軸細帶／列表 sheet 互斥。
+           1280 桌面維持地圖左上 chips 列零改動，本 section 在 >=769px 隱藏。 -->
+      <section id="wm-layer-sheet" class="wm-sheet" role="dialog" aria-modal="false" aria-hidden="true" aria-label="攝影圖層" data-i18n-aria="wm_layer_caption">
+        <div class="wm-sheet-grab" id="wm-layer-sheet-grab" title="下拉收起"><span class="bar"></span></div>
+        <div class="wm-sheet-head" id="wm-layer-sheet-head">
+          <span class="t" data-i18n="wm_layer_caption">攝影圖層</span>
+          <button type="button" class="x" data-wm-act="layer-sheet-close" aria-label="關閉圖層選單" data-i18n-aria="wm_layer_sheet_close_aria">✕</button>
+        </div>
+        <div class="wm-ls-chips" id="wm-ls-chips"></div>
+        <div class="wm-ls-legend"><div class="coverage-key">
+          <span><i class="coverage-swatch camera"></i>Camera</span>
+          <span><i class="coverage-swatch subject"></i>Subject</span>
+          <span><i class="coverage-swatch environment"></i>Environment</span>
+        </div></div>
+        <div class="wm-ls-foot"><button type="button" class="wm-btn" data-wm-act="layer-details" data-i18n="wm_details">詳細</button></div>
       </section>
 
       <div class="time-navigator" aria-label="資料時間控制">
@@ -269,7 +291,7 @@
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui103"></script>
   <script src="./assets/favorites-client.js?v=clui82"></script>
-  <script src="./assets/weather-map.js?v=bclwg37"></script>
+  <script src="./assets/weather-map.js?v=bclwg38"></script>
   <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
   <footer class="site-footer">
     <a class="site-footer-link" href="./sources.html" data-sf-i18n="sf_sources">資料來源與授權</a>

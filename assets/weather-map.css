@@ -523,8 +523,11 @@ body{padding:18px}
   .wm-sheet-btn{display:inline-flex}
   /* CL-UI-102 F14/F20: compact legend (palette-derived gradient bar) shows on
      mobile whenever a data layer is active — also the 晴 vs 無資料 cue for hi.
-     It sits above the collapsed timeline band; sheet-open hides it again. */
-  .map-wrap .legend{display:block;bottom:56px}
+     It sits above the collapsed timeline band; sheet-open hides it again.
+     CL-UI-103: top:auto — the base .map-wrap .legend sets top:52px (under the
+     chips row); keeping it on mobile stretched the legend into a full-height
+     dark panel over Taiwan's left half (owner-reported open-state). */
+  .map-wrap .legend{display:block;top:auto;bottom:56px}
   .map-panel.sheet-open .map-wrap .legend{display:none}
   .wm-modal{margin:3vh 8px;border-radius:var(--cl-r-md)}
 
@@ -565,7 +568,7 @@ body{padding:18px}
   .map-panel.sheet-open{display:flex;flex-direction:column}
   .map-panel.sheet-open .control-bar{display:none}
   .map-panel.sheet-open .map-wrap{flex:1 1 auto;min-height:120px;aspect-ratio:auto}
-  .map-panel.sheet-open #wm-sheet{display:flex;flex:0 0 66.7%;min-height:0}
+  .map-panel.sheet-open #wm-sheet.open{display:flex;flex:0 0 66.7%;min-height:0}
   .map-panel.sheet-open .time-navigator{flex:none}
   .map-panel.sheet-open #wm-timeline-dock{position:relative;inset:auto;left:auto;right:auto;bottom:auto;flex:none;
     border-radius:0;border-left:0;border-right:0;border-bottom:0;box-shadow:none}
@@ -609,6 +612,21 @@ body{padding:18px}
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .wm-sheet-row .r-pct{flex:none;min-width:48px;text-align:right;font-size:var(--cl-fs-14)}
   .wm-p-hi{color:var(--cl-green-text)}.wm-p-mid{color:var(--cl-amber-text)}.wm-p-lo{color:var(--cl-red-text)}
+
+  /* ── CL-UI-103：圖層選單開啟態修復 — 收合＝單 pill（左上），展開＝bottom sheet
+       （與 DESIGN-10 列表 sheet 同構：chips 網格＋圖例三行＋詳細入口）。
+       chips/圖例不再直接鋪在地圖上蓋住台灣左半；三者（時間軸細帶／列表 sheet／
+       圖層 sheet）互斥開啟；1280 桌面地圖左上 chips 列零改動。 ── */
+  .wm-ctl{display:none}
+  #layer-sheet-btn{left:var(--cl-sp-3);right:auto}
+  .map-panel.sheet-open #wm-layer-sheet.open{display:flex;flex:0 0 auto;max-height:58%}
+  .wm-ls-chips{flex:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--cl-sp-2);
+    padding:0 var(--cl-sp-4) var(--cl-sp-1)}
+  .wm-ls-chips .wm-chip{width:100%;justify-content:center}
+  .wm-ls-legend{flex:none;padding:var(--cl-sp-2) var(--cl-sp-4);border-top:1px solid var(--cl-border)}
+  .wm-ls-legend .coverage-key{margin-top:0;font-size:.72rem}
+  .wm-ls-foot{flex:none;padding:0 var(--cl-sp-4) var(--cl-sp-3)}
+  .wm-ls-foot .wm-btn{width:100%;height:44px}
 
   /* 詳細摺疊（audit F12：座標/取樣/診斷收進摺疊） */
   .wm-panel-acc{border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);margin-top:6px}
