@@ -1185,6 +1185,8 @@
     frameAnchorTouched:false,
     // CL-WG-18: honest QC — true only when draw() actually painted the layer.
     lastDataRendered:false,
+    // CL-UI-109 (P2-4): 欄位繪製當下的真實畫布 alpha 複核（見 canvasHasFieldPaint）
+    lastCanvasPainted:false,
     layer:'low_cloud_percent',
     spotId:'',
     opportunityId:'',
@@ -3272,8 +3274,7 @@
       syncWindVectorDefault();
       windToggle.checked=state.windVectors;
       renderAll();
-      wmFlashInspector();   // CL-UI-105: 換圖層 → inspector 短暫展開提醒
-    });
+    });   // CL-UI-109 (P2-4): 換圖層不再 flash inspector（過渡期間版面狀態一致，預設收合）
 
     const opacitySlider=$('opacity-slider');
     opacitySlider.value=Math.round(state.weatherOpacity*100);
@@ -4104,6 +4105,9 @@
       fieldDrawn=drawBilinearSubcells(data,vals,cfg,visibleView);
     }
     state.lastDataRendered=fieldDrawn>0;
+    // CL-UI-109 (P2-4): 此刻畫布僅含欄位（畫布已於繪製前清空、grid／景點未疊），
+    // 真實複核 alpha — 之後 QC 徽章以此對齊實際繪製狀態。
+    state.lastCanvasPainted=canvasHasFieldPaint();
     ctx.restore();
 
     if(!isObservationMode() && (cfg.palette==='cloud'||cfg.palette==='cloudLow')){
@@ -5629,6 +5633,24 @@
     return wmT(messages[flag] || '此圖層有資料品質提示，請搭配相鄰時段與其他模型判讀。');
   }
 
+  // CL-UI-109 (P2-4): 真實偵測 canvas 狀態 — fail-closed 的時序旗標會在切層
+  // 過渡期與畫布矛盾（欄位已繪、徽章仍說「資料層未顯示」）。在欄位繪製完成、
+  // 尚未疊上 grid／景點的時間點做 64×64 下採樣 alpha 掃描，複核畫布是否真的
+  // 有欄位像素；與旗標聯合判斷（任一為真即視為已繪）。
+  function canvasHasFieldPaint(){
+    try{
+      if(!canvas||!canvas.width||!canvas.height) return false;
+      const w=64,h=64;
+      const off=document.createElement('canvas');
+      off.width=w; off.height=h;
+      const octx=off.getContext('2d');
+      octx.drawImage(canvas,0,0,w,h);
+      const px=octx.getImageData(0,0,w,h).data;
+      for(let i=3;i<px.length;i+=4*7){ if(px[i]>0) return true; }
+      return false;
+    }catch(_){ return false; }
+  }
+
   function setQcSummary(tone,text){
     const summary=$('qc-summary');
     if(!summary) return;
@@ -5676,7 +5698,7 @@
     // actually render this frame (e.g. basemap timed out, Canvas fallback
     // active, and the field could not be drawn). Show an honest degraded
     // status instead of a green checkmark decoupled from the visible canvas.
-    if(!state.lastDataRendered){
+    if(!state.lastDataRendered && !state.lastCanvasPainted){
       // CL-UI-102 (audit F15): the QC badge must never contradict what is on
       // the canvas — when the wind-direction arrows DID render but the color
       // field did not, say exactly that instead of a blanket「資料層未顯示」.
@@ -6105,7 +6127,7 @@
         const windToggle=$('wind-vector-toggle');
         if(windToggle) windToggle.checked=state.windVectors;
         renderAll();
-        wmFlashInspector();   // CL-UI-105: 換圖層 → inspector 短暫展開提醒
+        // CL-UI-109 (P2-4): 換圖層不再 flash inspector — 過渡期間版面狀態一致
       });
     }
     const sideBody=$('wm-side-body');
@@ -6191,7 +6213,7 @@
           if(windToggle) windToggle.checked=state.windVectors;
           wmCloseLayerSheet();
           renderAll();
-          wmFlashInspector();   // CL-UI-105: 換圖層 → inspector 短暫展開提醒
+          // CL-UI-109 (P2-4): 換圖層不再 flash inspector — 過渡期間版面狀態一致
           return;
         }
         const row=e.target.closest('[data-wm-sheet-spot]');

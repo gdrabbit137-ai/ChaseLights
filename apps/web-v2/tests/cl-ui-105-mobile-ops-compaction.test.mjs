@@ -79,13 +79,14 @@ test('CL-UI-105 JS: inspector 收合 — 換圖層短暫展開（flash）、詳�
   const flash = grab(MAP_JS, 'function wmFlashInspector(){', '  // DESIGN-10: when the sheet opens');
   assert.ok(flash.includes('if(wmSheetOpen||wmLayerSheetOpen) return;'), 'sheet open → no flash reflow');
   assert.ok(flash.includes("contains('wm-insp-sticky')"), 'sticky state survives layer-change flashes');
-  // three layer-change sites flash the inspector
+  // CL-UI-109 (P2-4): 換圖層不再 flash inspector — 過渡期間版面狀態一致
+  // （三個切層入口都不得再呼叫 wmFlashInspector）。
   const selectHook = grab(MAP_JS, "layerSelect.addEventListener('change'", "const opacitySlider=");
-  assert.ok(selectHook.includes('wmFlashInspector();'), 'layer select change → flash');
+  assert.ok(!selectHook.includes('wmFlashInspector();'), 'layer select change → NO flash (CL-UI-109)');
   const sheetChipHook = grab(MAP_JS, 'const chip=e.target.closest(\'[data-wm-layer]\');', 'const row=e.target.closest(\'[data-wm-sheet-spot]\');');
-  assert.ok(sheetChipHook.includes('wmFlashInspector();'), 'layer-sheet chip pick → flash');
-  assert.ok(grab(MAP_JS, 'const chips=$(\'layer-chips\');', 'const sideBody=$(\'wm-side-body\');').includes('wmFlashInspector();'),
-    'map chips pick → flash');
+  assert.ok(!sheetChipHook.includes('wmFlashInspector();'), 'layer-sheet chip pick → NO flash (CL-UI-109)');
+  assert.ok(!grab(MAP_JS, 'const chips=$(\'layer-chips\');', 'const sideBody=$(\'wm-side-body\');').includes('wmFlashInspector();'),
+    'map chips pick → NO flash (CL-UI-109)');
   // 詳細 opens the collapsed inspector persistently
   const details = grab(MAP_JS, '[data-wm-act="layer-details"]', 'const detailsToggle=');
   assert.ok(details.includes('wmInspectorVisible(true,true);'), '詳細 → sticky inspector');
@@ -255,11 +256,12 @@ test('CL-UI-105 (2a) 390px: map ≥60% viewport; ops ≤180px; merged row + 44px
 });
 
 // ---- (2b) 390: 換圖層短暫展開 → 自動收回；詳細 → 持續展開；細帶展開重排 ----
-test('CL-UI-105 (2b) 390px: layer change flashes the collapsed inspector; 詳細 keeps it; band expand re-flows', async () => {
+test('CL-UI-105/109 (2b) 390px: layer change does NOT flash the collapsed inspector (CL-UI-109); 詳細 keeps it; band expand re-flows', async () => {
   await bootBrowser();
   await setViewport(390, 844, true);
   await loadPage();
-  // flash: layer change shows the inspector briefly (2.6s), then auto-hides
+  // CL-UI-109 (P2-4): layer change must NOT flash the inspector — the layout
+  // state stays consistent during the transition (inspector stays collapsed).
   const flash = await evaljs(`(async () => {
     const sel=document.querySelector('#layer-select');
     const opts=[...sel.options].map(o=>o.value);
@@ -269,18 +271,12 @@ test('CL-UI-105 (2b) 390px: layer change flashes the collapsed inspector; 詳細
     sel.dispatchEvent(new Event('change',{bubbles:true}));
     await new Promise(r=>setTimeout(r,300));
     const ins=document.querySelector('.inspector');
-    const shown=ins.classList.contains('wm-insp-show');
-    const disp=getComputedStyle(ins).display;
-    await new Promise(r=>setTimeout(r,3100));
-    return {shown,disp,autoHidden:!ins.classList.contains('wm-insp-show'),
-      after:getComputedStyle(ins).display,sticky:ins.classList.contains('wm-insp-sticky')};
+    return {shown:ins.classList.contains('wm-insp-show'),
+      disp:getComputedStyle(ins).display,sticky:ins.classList.contains('wm-insp-sticky')};
   })()`);
   if (!flash.skip) {
-    assert.equal(flash.shown, true, '換圖層 → inspector 短暫展開');
-    assert.equal(flash.disp, 'flex', 'flash 期間 inspector 可見');
-    assert.equal(flash.sticky, false, 'flash 不帶 sticky');
-    assert.equal(flash.autoHidden, true, 'flash 自動收回');
-    assert.equal(flash.after, 'none', '收回後回到收合態');
+    assert.equal(flash.shown, false, '換圖層 → inspector 不再短暫展開（CL-UI-109）');
+    assert.equal(flash.sticky, false, '切層不帶 sticky');
   }
   // sticky: 圖層 sheet 的「詳細」＝持續展開（使用者明確要求）
   const sticky = await evaljs(`(async () => {
