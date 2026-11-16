@@ -16,7 +16,9 @@
   const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
-  const MAPLIBRE_MODULE = 'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs';
+  // CL-UI-109 (P2-3): unpkg CDN 依賴本地化 — maplibre-gl 6.11.2 vendor 進 repo
+  // （assets/vendor/，含 maplibre-gl-shared.mjs 分塊），不再依賴第三方 CDN 單點。
+  const MAPLIBRE_MODULE = './assets/vendor/maplibre-gl.mjs';
   const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
   // ===== CL-UI-37: language context carried across pages =====
   // URL ?lang= wins over localStorage (same precedence as assets/app.js
@@ -204,6 +206,8 @@
     '底圖載入中…':'Loading basemap…'
 ,
     '底圖逾時 · Canvas fallback':'Basemap timed out · Canvas fallback'
+,
+    '圖資載入失敗 · Canvas fallback':'Basemap failed to load · Canvas fallback'
 ,
     '底圖離線 · Canvas fallback':'Basemap offline · Canvas fallback'
 ,
@@ -587,6 +591,8 @@
     '底圖載入中…':'背景地図を読み込み中…'
 ,
     '底圖逾時 · Canvas fallback':'背景地図がタイムアウト · Canvas フォールバック'
+,
+    '圖資載入失敗 · Canvas fallback':'図版の読み込みに失敗 · Canvas フォールバック'
 ,
     '底圖離線 · Canvas fallback':'背景地図がオフライン · Canvas フォールバック'
 ,
@@ -1974,9 +1980,9 @@
         try{ map.remove(); }catch(_){}
         state.map=null;
         canvas.style.pointerEvents='auto';
-        setBasemapStatus('fallback',wmT('底圖逾時 · Canvas fallback'));
+        setBasemapStatus('fallback',wmT('圖資載入失敗 · Canvas fallback'));
         renderAll();
-      },8000);
+      },4000);   // CL-UI-109 (P2-3): 8s → 4s，慢網更快落入誠實 fallback
 
       map.on('load',()=>{
         try{ window.__weatherGridMap=map; }catch(_){}
