@@ -49,6 +49,8 @@ body{padding:18px}
 .region-card-name{font-weight:800}
 .region-card-sub{font-size:.6rem;color:#94a3b8;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .region-card.active .region-card-sub{color:#7dd3fc}
+/* CL-UI-105（owner）：地區下拉只存在於行動版操作區；桌面五大卡零改動 */
+.region-select{display:none}
 
 .map-reset-button{position:absolute;z-index:7;right:50px;top:10px;border:1px solid #475569;
   border-radius:999px;padding:6px 10px;background:rgba(15,23,42,.88);color:#bae6fd;
@@ -208,10 +210,8 @@ body{padding:18px}
   }
   #weather-basemap .maplibregl-ctrl-group button{width:34px;height:34px}
   #weather-basemap .maplibregl-ctrl-group .maplibregl-ctrl-icon{background-size:22px 22px}
-  #weather-basemap .maplibregl-ctrl-attrib{font-size:.55rem;max-width:220px}
-  #weather-basemap .maplibregl-ctrl-attrib.maplibregl-compact{
-    min-height:26px;min-width:26px;border-radius:999px
-  }
+  /* CL-UI-105（owner）：OpenFreeMap/OpenMapTiles 歸屬小字規則上移到 ≤768 區塊
+     （統一一份；此處不再重複釘 font/max-width） */
   .basemap-status{
     left:8px;top:8px;max-width:min(230px,72%);padding:3px 7px;font-size:.61rem;
     /* CL-WG-18: the fallback badge text ("底圖逾時 · Canvas fallback") must
@@ -654,8 +654,13 @@ body{padding:18px}
   /* CL-UI-104: margin:0 必要——基礎規則的 margin:0 auto 會停用 column flex 的
      cross-stretch，讓版面被內容撐到 1277px 寬（水平溢出、地圖跑出畫面右緣）。 */
   .map-panel{flex:1 1 0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
-  /* 地圖區：aspect 讓位給 flex 填滿（sheet 開啟時同一格變預覽條） */
-  .map-wrap{order:0;flex:1 1 0;min-height:120px;aspect-ratio:auto;touch-action:none}
+  /* 地圖區：aspect 讓位給 flex 填滿（sheet 開啟時同一格變預覽條）。
+     CL-UI-105（owner）：.map-wrap 不再掛 touch-action:none——頁面不捲動由
+     html/body overflow:hidden 負責，地圖 pan/zoom 手勢交還 MapLibre 自己的
+     handler（其 canvas container 依啟用的 handler 自帶 touch-action，此處再
+     顯式釘 none 當雙保險）。真機拖曳平移由真實 touch 斷言覆蓋。 */
+  .map-wrap{order:0;flex:1 1 0;min-height:120px;aspect-ratio:auto}
+  .map-wrap .maplibregl-canvas-container,.map-wrap #weather-canvas{touch-action:none}
   /* ── CL-UI-105：操作區壓扁（預設總高目標 ≤180px）──
        第一行＝細帶＋預報滑桿合併（左：目前所選細帶／中：滑桿／右：播放鈕，44px 級）；
        第二行＝控制列壓成 44px 單行（caption 改行內小字、各控制項水平捲動可達）。
@@ -690,6 +695,27 @@ body{padding:18px}
   .wm-ops .time-label,.wm-ops .time-navigator .timeline{display:none}
   .wm-ops .region-switch{flex:0 0 auto;width:auto;display:flex;gap:8px}
   .wm-ops .region-card{width:100px;flex:0 0 auto}
+  /* CL-UI-105（owner 追加裁決）：地區選擇五大卡 → 單行下拉；景點列表入口移除
+     （地圖釘點照常可點開迷你卡）。下拉放控制列首位，卡片列行動版退場。 */
+  .wm-ops .region-switch{display:none}
+  .wm-ops .region-select{display:block;width:118px;height:38px;font-size:.75rem}
+  .wm-ops .control-bar>.region-select{flex:0 0 auto;width:118px;min-width:118px;height:38px;
+    padding:4px 8px;font-size:.75rem}
+  .map-wrap #side-toggle{display:none}
+  /* CL-UI-105（owner）：OpenFreeMap/OpenMapTiles 圖資歸屬縮到地圖下緣小字
+     （右下角、半透明小字、單行；MapLibre 6 compact 歸屬初始為展開白框 →
+     一律小字化。ID 前綴壓過 MapLibre 自帶 compact 規則） */
+  .map-wrap .maplibregl-ctrl-bottom-right{margin:0}
+  #weather-basemap .maplibregl-ctrl-attrib{font-size:.52rem;line-height:1.2;
+    background:hsla(0,0%,100%,.68);color:#1e293b;margin:0 3px 3px 0;padding:1px 6px;
+    border-radius:8px;max-width:76vw;box-shadow:none;overflow:hidden}
+  #weather-basemap .maplibregl-ctrl-attrib.maplibregl-compact{min-height:0;min-width:0;
+    border-radius:8px;padding:1px 6px}
+  #weather-basemap .maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-inner{
+    display:block !important;font-size:.52rem}
+  #weather-basemap .maplibregl-ctrl-attrib .maplibregl-ctrl-attrib-button{display:none !important}
+  /* CL-UI-105（owner）：資料來源標籤不在天氣圖旁（ready 徽章退場；載入/錯誤仍顯示） */
+  .map-wrap .basemap-status.ready{display:none}
   /* CL-UI-105：目前圖層 inspector 行動版預設收合 — 換圖層短暫展開（wm-insp-show，
      JS 2.6s 自動收回）／圖層 sheet「詳細」＝持續展開（wm-insp-sticky）；桌面零改動 */
   .inspector{display:none}

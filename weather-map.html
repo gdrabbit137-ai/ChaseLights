@@ -15,7 +15,7 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.css">
   <link rel="stylesheet" href="./assets/site-nav.css?v=clui62">
-  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg40">
+  <link rel="stylesheet" href="./assets/weather-map.css?v=bclwg41">
 </head>
 <body>
   <nav class="site-nav" aria-label="全站導覽">
@@ -149,6 +149,8 @@
            display:contents 消除，map-panel 補 flex+order 保持原版面（1280 零改動）。 -->
       <div class="wm-ops">
       <div class="control-bar">
+        <!-- CL-UI-105（owner）：行動版地區選擇 = 單行下拉（五大卡行動版退場） -->
+        <select id="region-select" class="region-select" aria-label="地區切換"></select>
         <div id="region-switch" class="region-switch" role="tablist" aria-label="地區切換"></div>
         <label class="model-control advanced-control">
           <span data-i18n="wm_model_caption">進階 · 資料來源</span>
@@ -296,7 +298,7 @@
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui103"></script>
   <script src="./assets/favorites-client.js?v=clui82"></script>
-  <script src="./assets/weather-map.js?v=bclwg40"></script>
+  <script src="./assets/weather-map.js?v=bclwg41"></script>
   <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
   <footer class="site-footer">
     <a class="site-footer-link" href="./sources.html" data-sf-i18n="sf_sources">資料來源與授權</a>

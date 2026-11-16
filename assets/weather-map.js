@@ -1907,7 +1907,13 @@
     setBasemapStatus('loading',wmT('底圖載入中…'));
     try{
       const maplibregl=await import(MAPLIBRE_MODULE);
-      const b=normalizeViewBbox(state.data.bbox);
+      // CL-UI-105（owner）：初始相機必須落在地區 bbox。PNG stub / 異常資料缺
+      // bbox 時 normalizeViewBbox 會回 null，建構子 center 變 NaN → MapLibre
+      // 落回預設 [0,0]（幾內亞/肯亞一帶）——加上 state.view 與地區 bbox 兩層
+      // 後備，無 ?spot= 時一律以台灣（地區預設 bounds）為初始定位。
+      const b=normalizeViewBbox(state.data.bbox)
+        ||normalizeViewBbox(state.view)
+        ||normalizeViewBbox(regionBbox());
       const map=new maplibregl.Map({
         container:'weather-basemap',
         style:BASEMAP_STYLE,
@@ -2491,6 +2497,17 @@
           // CL-WG-19: the deferred spot deep-link part lands with the full
           // bundle (the PNG-stub first paint carries no spots).
           applyDeepLinkSpotEntry();
+          // CL-UI-105（owner）：?spot= 跨頁帶回只帶回合法值——bundle 到齊後
+          // 仍解析不到該 id（形狀合法但不存在）時，把 spot 參數從 URL 撤下，
+          // 相機維持地區預設 bounds（fail-closed，不拋錯）。
+          {
+            const dlAfterBundle=state.deepLink;
+            if(dlAfterBundle && dlAfterBundle.spot && !state.deepLinkSpotApplied){
+              dlAfterBundle.spot=null;
+              dlAfterBundle.urlKeys=(dlAfterBundle.urlKeys||[]).filter(k=>k!=='spot');
+              syncDeepLinkUrl(state.region,{keepEntryKeys:true});
+            }
+          }
           // Enhancement bundles are loaded by activateRegion's normal tail
           // (source==='live' && baselineLoaded), so nothing extra here.
         })();
@@ -2576,6 +2593,15 @@
     }).join('');
     for(const card of host.querySelectorAll('button[data-region]')){
       card.addEventListener('click', () => switchRegion(card.dataset.region));
+    }
+    // CL-UI-105（owner）：行動版地區下拉與卡片列同一資料源（label 字典），
+    // 每次重渲同步 selected 值；桌面 select 隱藏、值同步無副作用。
+    const regionSelect=$('region-select');
+    if(regionSelect){
+      regionSelect.innerHTML = window.WeatherMapRegions.REGION_ORDER.map(id =>
+        `<option value="${id}"${id===state.region?' selected':''}>`+
+        `${escapeHtml(labels[id]['zh-TW'])}</option>`).join('');
+      regionSelect.value=state.region;
     }
   }
 
@@ -2722,6 +2748,14 @@
     if(!state.deepLinkSpotApplied){
       // No spot camera pending (no spot param, unknown id, or spots not on
       // disk yet) — still publish the entry state for verification.
+      // CL-UI-105（owner）：?spot= 只帶回合法值 — spots 已在盤上仍找不到該
+      // id（形狀合法但不存在）＝非法參數，把 spot 從 URL 撤下；PNG-stub 首
+      // 繪（spots 空）時保留，等 bundle 後到的那次重試再裁決。
+      if(dl.spot && (state.data?.spots||[]).length){
+        dl.spot=null;
+        dl.urlKeys=(dl.urlKeys||[]).filter(k=>k!=='spot');
+        syncDeepLinkUrl(state.region,{keepEntryKeys:true});
+      }
       window.__weatherGridDeepLink = {
         applied:true,
         region:state.region,
@@ -3099,6 +3133,14 @@
   }
 
   function initControls(){
+    // CL-UI-105（owner）：行動版地區下拉——change 即切區；值由 renderRegionCards
+    // 同步（桌面五大卡行為不變，此 select 桌面 display:none）。
+    const regionSelect=$('region-select');
+    if(regionSelect){
+      regionSelect.addEventListener('change',()=>{
+        if(regionSelect.value && regionSelect.value!==state.region) switchRegion(regionSelect.value);
+      });
+    }
     const modelSelect=$('model-select');
     modelSelect.addEventListener('change',()=>switchModel(modelSelect.value));
 

@@ -6,8 +6,11 @@
 //       the sheet-open preview strip state) is fixed and flex-fills; the fixed
 //       operations tray (.wm-ops: 時間軸細帶 → 預報滑桿 → 控制列) and the
 //       .inspector (目前圖層) sit below and scroll INTERNALLY, never the page.
-//   (2) 「頁面捲動」與「地圖手勢」徹底分離: .map-wrap carries touch-action:none —
-//       map pan/zoom gestures keep working and can never scroll the page.
+//   (2) 「頁面捲動」與「地圖手勢」徹底分離: the page never scrolls (100dvh +
+//       overflow hidden) and the map area's gestures are owned by MapLibre's
+//       own canvas handler (CL-UI-105: .map-wrap no longer carries
+//       touch-action:none — MapLibre's canvas container owns touch-action, so
+//       real-device pan/zoom works while the page still cannot scroll).
 //   (3) Sheets (列表/圖層/時間軸展開) rise out of the operations area and occupy
 //       its height — the map area is never covered (sheet-open re-flows the
 //       tray via display:contents: 地圖預覽條 / sheet / 細帶 / 滑桿 各佔各列).
@@ -53,9 +56,9 @@ test('CL-UI-104: weather-map.html puts the control bar and time navigator inside
   assert.ok(panel.indexOf('id="wm-sheet"') < panel.indexOf('class="wm-ops"'), 'list sheet is a panel flex sibling');
 });
 
-test('CL-UI-104: cache-bust stamps bumped to bclwg40 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg40/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg40/);
+test('CL-UI-104: cache-bust stamps bumped to bclwg41 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg41/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg41/);
   assert.ok(!/weather-map\.(js|css)\?v=bclwg39/.test(WG_HTML), 'old stamp must not linger');
 });
 
@@ -68,8 +71,10 @@ test('CL-UI-104 CSS (mobile): 100dvh shell — body overflow hidden, flex column
     'the page itself never scrolls on this page at this breakpoint');
   assert.match(mobileBlock, /body\{display:flex;flex-direction:column\}/);
   assert.match(mobileBlock, /\.map-panel\{flex:1 1 0;min-height:0;display:flex;flex-direction:column;overflow:hidden\}/);
-  assert.match(mobileBlock, /\.map-wrap\{order:0;flex:1 1 0;min-height:120px;aspect-ratio:auto;touch-action:none\}/,
-    'the fixed map area flex-fills and owns its gestures (touch-action:none)');
+  assert.match(mobileBlock, /\.map-wrap\{order:0;flex:1 1 0;min-height:120px;aspect-ratio:auto\}/,
+    'the fixed map area flex-fills (touch-action owned by the MapLibre canvas, not the wrapper)');
+  assert.match(mobileBlock, /\.map-wrap \.maplibregl-canvas-container,\.map-wrap #weather-canvas\{touch-action:none\}/,
+    'CL-UI-105: MapLibre canvas container + overlay canvas own the gestures (pan/zoom live, page cannot scroll)');
   // CL-UI-105 re-anchor: the tray is a compact grid — merged band+slider row,
   // then a 44px single-row control strip (total ops height target ≤180px).
   assert.match(mobileBlock, /\.wm-ops\{order:1;flex:0 1 auto;min-height:0;max-height:47dvh;display:grid/);
@@ -264,7 +269,7 @@ const LAYOUT_PROBE = `(() => {
     docScrollH:document.documentElement.scrollHeight,
     bodyOverflowY:cs(document.body).overflowY,
     scrollY:window.scrollY,
-    map:r(wrap), mapTouchAction:cs(wrap).touchAction,
+    map:r(wrap), mapTouchAction:wrap?cs(wrap.querySelector('.maplibregl-canvas-container')||wrap).touchAction:cs(wrap).touchAction,
     ops:r(ops), opsOverflowY:cs(ops).overflowY,
     opsScrollable:ops.scrollHeight>ops.clientHeight,
     panel:r(panel), insp:r(ins),
@@ -344,7 +349,17 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true, tag: '390
     assert.equal(p.bodyOverflowY, 'hidden', 'body overflow hidden — the page itself cannot scroll');
     assert.ok(p.docScrollH <= p.innerH + 1, `document never overflows the viewport (scrollH ${p.docScrollH} vs ${p.innerH})`);
     assert.equal(p.scrollY, 0, 'page stays at scroll 0');
-    assert.equal(p.mapTouchAction, 'none', 'map gestures are owned by the map area (touch-action:none)');
+    // CL-UI-105: gestures are owned by the MapLibre canvas container — wait for
+    // the basemap to boot so the computed touch-action is meaningful here.
+    const mapTouch = await evaljs(`new Promise(resolve=>{
+      const t0=Date.now();
+      const iv=setInterval(()=>{
+        const cc=document.querySelector('.map-wrap .maplibregl-canvas-container');
+        if(cc){clearInterval(iv);resolve(getComputedStyle(cc).touchAction);}
+        else if(Date.now()-t0>20000){clearInterval(iv);resolve('no-canvas');}
+      },200);
+    })`);
+    assert.equal(mapTouch, 'none', 'map gestures are owned by the MapLibre canvas container (touch-action:none — pan/zoom live, page cannot scroll)');
     assert.ok(p.map.h >= 0.28 * p.innerH, `map area keeps a substantial fixed slice (${p.map.h}px)`);
     assert.ok(p.map.b <= p.ops.t + 1, 'map area sits fully above the operations tray');
     // CL-UI-105: the inspector is collapsed by default on mobile — the tray
@@ -358,14 +373,22 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true, tag: '390
     const still = await evaljs(`window.scrollTo(0,600); new Promise(r=>setTimeout(()=>r(window.scrollY),150))`);
     assert.equal(still, 0, 'window.scrollTo cannot move the page');
     // tray reachability: the control strip scrolls INTERNALLY, controls reachable
+    // CL-UI-105 (owner): 地區選擇 is the single-row dropdown now; the five big
+    // cards are retired on mobile and the dropdown leads the control row.
     const reach = await evaljs(`(() => {
       const ops=document.querySelector('.wm-ops');
       ops.scrollTop=ops.scrollHeight;
-      const region=document.querySelector('.region-switch');
-      const rc=region.getBoundingClientRect();
-      return {scrolled:ops.scrollTop, regionIn:rc.top>=0 && rc.bottom<=window.innerHeight};
+      const sel=document.querySelector('#region-select');
+      const cards=document.querySelector('.region-switch');
+      const rc=sel.getBoundingClientRect();
+      return {scrolled:ops.scrollTop, regionIn:rc.top>=0 && rc.bottom<=window.innerHeight,
+        regionW:Math.round(rc.width), cardsHidden:getComputedStyle(cards).display==='none',
+        cardCount:cards.querySelectorAll('.region-card').length};
     })()`);
-    assert.ok(reach.regionIn, '控制列 (region cards) reachable by scrolling the tray internally');
+    assert.ok(reach.regionIn, '地區下拉 reachable in the fixed tray');
+    assert.ok(reach.regionW >= 100, `地區下拉 is a usable single-row dropdown (${reach.regionW}px)`);
+    assert.equal(reach.cardsHidden, true, '五大卡 retired on mobile (dropdown replaces them)');
+    assert.equal(reach.cardCount, 5, 'card row still rendered for desktop (hidden, not removed)');
     await evaljs(`document.querySelector('.wm-ops').scrollTop=0`);
   });
 }
@@ -394,34 +417,26 @@ test('CL-UI-104 (4b) 390px: a real touch drag on the map pans the map and never 
   assert.equal(p2.bodyOverflowY, 'hidden');
 });
 
-// ---- (4c) mobile 390: sheets rise from the operations area ------------------
-test('CL-UI-104 (4c) 390px: list sheet occupies the ops area, map keeps a visible preview strip', async () => {
+// ---- (4c) mobile 390: CL-UI-105 (owner) 景點列表入口 removed from the shell ----
+test('CL-UI-104 (4c) 390px: 景點列表 entry is removed from the ops shell (spot pins keep the mini card)', async () => {
   await bootBrowser();
   await setViewport(390, 844, true);
   await loadPage();
   await send('Page.bringToFront');
   await waitDataReady();
-  let p = await evaljs(LAYOUT_PROBE);
-  // open the list sheet via the real 景點列表 button (map top-right pill)
-  await realClickAt(Math.round((p.sheetBtn.l + p.sheetBtn.r) / 2), Math.round((p.sheetBtn.t + p.sheetBtn.b) / 2));
-  await new Promise(r => setTimeout(r, 400));
-  let s = await evaljs(SHEET_PROBE);
-  console.log('4c probe:', JSON.stringify(s));
-  assert.equal(s.sheetOpen, true, 'sheet-open shell toggled');
-  assert.equal(s.listVisible, true, 'list sheet visible');
-  assert.equal(s.dimShown, true, 'map dims into the preview strip state');
-  assert.ok(s.sheetBelowStrip, 'the sheet never covers the map area (starts below the strip)');
-  assert.ok(s.mapH >= 100, `map keeps a visible preview strip (${s.mapH}px)`);
-  assert.equal(s.layerVisible, false, 'the two sheets stay mutually exclusive');
-  assert.equal(s.listBtnVisible, false, 'open state hides the pill buttons (established sheet shell)');
-  // close via the dim hint (地圖已收成預覽 · 點此返回)
-  const dimBtn = await evaljs(`(() => { const b=document.querySelector('.wm-dim-hint');
-    const r=b.getBoundingClientRect(); return [Math.round(r.left+r.width/2), Math.round(r.top+r.height/2)]; })()`);
-  await realClickAt(dimBtn[0], dimBtn[1]);
-  await new Promise(r => setTimeout(r, 400));
-  s = await evaljs(SHEET_PROBE);
-  assert.equal(s.sheetOpen, false, 'dim-hint closes the sheet');
-  assert.equal(s.dimShown, false, 'dim removed');
+  const p = await evaljs(LAYOUT_PROBE);
+  // the entry pill is gone (display:none), the layer pill stays
+  assert.ok(p.sheetBtn.h === 0, `景點列表 pill hidden (${p.sheetBtn.h}px)`);
+  assert.ok(p.layerPill.h > 0, '攝影圖層 pill stays reachable');
+  // the list sheet is therefore unreachable on the mobile shell: no sheet-open
+  // shell state and no dim on a fresh load
+  const s = await evaljs(SHEET_PROBE);
+  assert.equal(s.sheetOpen, false, 'no sheet-open shell state without an entry');
+  assert.equal(s.dimShown, false, 'no dim on a fresh load');
+  // the sheet DOM stays (desktop markup untouched); only the entry is removed
+  const markup = await evaljs(`(() => ({sheet:!!document.querySelector('#wm-sheet'),
+    mini:!!document.querySelector('#wm-mini')}))()`);
+  assert.equal(markup.sheet, true, '#wm-sheet markup retained (entry-only removal)');
 });
 
 test('CL-UI-104 (4c2) 390px: layer sheet + timeline band expand stay below the map area', async () => {
