@@ -18,7 +18,9 @@
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
   // CL-UI-109 (P2-3): unpkg CDN 依賴本地化 — maplibre-gl 6.11.2 vendor 進 repo
   // （assets/vendor/，含 maplibre-gl-shared.mjs 分塊），不再依賴第三方 CDN 單點。
-  const MAPLIBRE_MODULE = './assets/vendor/maplibre-gl.mjs';
+  // 動態 import 的相對路徑以 document.baseURI 錨定（classic script 的 import()
+  // 會相對 script URL 解析，頁根相對路徑 assets/vendor/ 兩種解析都落在同一處）。
+  const MAPLIBRE_MODULE = new URL('assets/vendor/maplibre-gl.mjs', document.baseURI).href;
   const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
   // ===== CL-UI-37: language context carried across pages =====
   // URL ?lang= wins over localStorage (same precedence as assets/app.js
