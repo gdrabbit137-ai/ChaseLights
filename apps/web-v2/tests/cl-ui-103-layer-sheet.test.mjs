@@ -49,9 +49,9 @@ test('CL-UI-103: weather-map.html carries the layer pill and the layer bottom sh
   assert.ok(legendRows.includes('coverage-swatch environment'), 'Environment legend row');
 });
 
-test('CL-UI-103: cache-bust stamps bumped to bclwg44 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg44/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg44/);
+test('CL-UI-103: cache-bust stamps bumped to bclwg45 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg45/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg45/);
 });
 
 // ---------------------------------------------------------------------------
@@ -127,7 +127,7 @@ test('CL-UI-103: sheet chips share the overlay path (layer-select → renderAll)
 // 6. CSS: collapsed pill / expanded sheet / sheet contents — mobile only
 // ---------------------------------------------------------------------------
 test('CL-UI-103 CSS: mobile collapses the overlay chips into the pill; the sheet carries grid + legend + 詳細', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /\.wm-ctl\{display:none\}/, 'no chips block painted over the map on mobile');
   assert.match(mobileBlock, /#layer-sheet-btn\{left:var\(--cl-sp-3\);right:auto\}/, 'single pill at top-left');
   assert.match(mobileBlock, /\.map-panel\.sheet-open #wm-layer-sheet\.open\{display:flex;flex:0 0 auto/, 'layer sheet opens inside the shared sheet-open shell');
@@ -138,7 +138,7 @@ test('CL-UI-103 CSS: mobile collapses the overlay chips into the pill; the sheet
   // 圖例不再被 top:52px+bottom:56px 拉伸成蓋住台灣左半的深色大面板
   assert.match(mobileBlock, /\.map-wrap \.legend\{display:block;top:auto;bottom:56px\}/, 'compact legend stays a small box above the band (no vertical stretch)');
   // the sheet chrome must not leak outside the mobile block (1280 zero-change)
-  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px){'));
+  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.ok(!/\.wm-ls-/.test(beforeMobile), 'no layer-sheet chrome leaks outside the mobile block');
   assert.ok(!/#layer-sheet-btn\{left/.test(beforeMobile), 'no pill position leak outside the mobile block');
 });
@@ -147,7 +147,7 @@ test('CL-UI-103 CSS: mobile collapses the overlay chips into the pill; the sheet
 // 7. Desktop 1280 zero-change + camera untouched
 // ---------------------------------------------------------------------------
 test('CL-UI-103: desktop (>=769px) keeps the overlay chips row and hides pill/sheet (zero change)', () => {
-  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px){'));
+  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px) and (min-height:769px){'));
   assert.match(desktopBlock, /\.wm-sheet-btn\{display:none\}/, 'no pill on desktop (covers #layer-sheet-btn via its class)');
   assert.match(desktopBlock, /\.wm-sheet\{display:none\}/, 'both sheets hidden on desktop');
   assert.match(desktopBlock, /\.wm-map-dim\{display:none\}/, 'no dim on desktop');

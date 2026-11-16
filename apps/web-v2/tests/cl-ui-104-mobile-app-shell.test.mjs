@@ -56,9 +56,9 @@ test('CL-UI-104: weather-map.html puts the control bar and time navigator inside
   assert.ok(panel.indexOf('id="wm-sheet"') < panel.indexOf('class="wm-ops"'), 'list sheet is a panel flex sibling');
 });
 
-test('CL-UI-104: cache-bust stamps bumped to bclwg44 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg44/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg44/);
+test('CL-UI-104: cache-bust stamps bumped to bclwg45 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg45/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg45/);
   assert.ok(!/weather-map\.(js|css)\?v=bclwg41/.test(WG_HTML), 'old stamp must not linger');
 });
 
@@ -66,7 +66,7 @@ test('CL-UI-104: cache-bust stamps bumped to bclwg44 in weather-map.html', () =>
 // 2. CSS: 100dvh app shell — page never scrolls, map area fixed, tray fixed
 // ---------------------------------------------------------------------------
 test('CL-UI-104 CSS (mobile): 100dvh shell — body overflow hidden, flex column, map area flex-fills', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /html,body\{height:100dvh;overflow:hidden;overscroll-behavior:none\}/,
     'the page itself never scrolls on this page at this breakpoint');
   assert.match(mobileBlock, /body\{display:flex;flex-direction:column\}/);
@@ -96,13 +96,13 @@ test('CL-UI-104 CSS (mobile): 100dvh shell — body overflow hidden, flex column
   assert.match(mobileBlock, /\.inspector\.wm-insp-show\{display:flex/,
     'the collapsed inspector has an explicit show state for flash/sticky');
   // the shell chrome must not leak outside the mobile block (1280 zero-change)
-  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px){'));
+  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.ok(!beforeMobile.includes('100dvh'), 'no app-shell height/overflow leak outside the mobile block');
   assert.ok(!/\.wm-ops\{/.test(beforeMobile), 'no .wm-ops rule leak outside the mobile block');
 });
 
 test('CL-UI-104 CSS (mobile): sheets rise out of the operations area — tray re-flows, map never covered', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /\.map-panel\.sheet-open \.wm-ops\{display:contents\}/,
     'sheet-open promotes the tray rows into the panel flex column');
   assert.match(mobileBlock, /\.map-panel\.sheet-open \.wm-timeline-dock\{order:2\}/, '細帶 below the sheet');
@@ -111,7 +111,7 @@ test('CL-UI-104 CSS (mobile): sheets rise out of the operations area — tray re
 });
 
 test('CL-UI-104 CSS (desktop): the .wm-ops wrapper is layout-neutral and map-panel repaints the original order', () => {
-  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px){'));
+  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px) and (min-height:769px){'));
   assert.match(desktopBlock, /\.map-panel\{display:flex;flex-direction:column\}/);
   assert.match(desktopBlock, /\.wm-ops\{display:contents\}/, 'tray wrapper vanishes from desktop layout');
   assert.match(desktopBlock, /\.map-panel \.control-bar\{order:-1\}/, '控制列 paints above the map as before');

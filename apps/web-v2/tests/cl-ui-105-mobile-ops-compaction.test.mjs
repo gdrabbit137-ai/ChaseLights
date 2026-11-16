@@ -35,13 +35,13 @@ function grab(src, start, end) {
 // ---------------------------------------------------------------------------
 // 1. Source pins: CSS compaction + JS inspector collapse + stamps
 // ---------------------------------------------------------------------------
-test('CL-UI-105 source: cache-bust stamps bumped to bclwg44 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg44/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg44/);
+test('CL-UI-105 source: cache-bust stamps bumped to bclwg45 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg45/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg45/);
 });
 
 test('CL-UI-105 CSS: 細帶＋滑桿合併一行；控制列 44px 單行；inspector 預設收合（僅 ≤768）', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   // merged first row: band in column 1, the forecast slider row spans the rest
   assert.match(mobileBlock, /\.wm-ops \.wm-timeline-dock\{order:1;grid-row:1;grid-column:1;/,
     '細帶 occupies the left column of the merged row');
@@ -63,10 +63,10 @@ test('CL-UI-105 CSS: 細帶＋滑桿合併一行；控制列 44px 單行；inspe
   assert.match(mobileBlock, /\.wm-ops\.wm-dock-open \.time-navigator\{grid-row:2;grid-column:1\/-1\}/);
   assert.match(mobileBlock, /\.wm-ops\.wm-dock-open \.control-bar\{grid-row:3\}/);
   // no leak outside the mobile block (1280 zero-change)
-  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px){'));
+  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.ok(!beforeMobile.includes('wm-insp-show'), 'no inspector collapse leak outside the mobile block');
   assert.ok(!beforeMobile.includes('wm-dock-open'), 'no dock-open re-flow leak outside the mobile block');
-  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px){'));
+  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px) and (min-height:769px){'));
   assert.ok(!desktopBlock.includes('.inspector{display:none'), 'desktop inspector untouched');
 });
 

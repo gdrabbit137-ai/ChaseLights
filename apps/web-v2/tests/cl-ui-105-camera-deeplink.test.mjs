@@ -59,7 +59,7 @@ test('CL-UI-105 camera JS: an illegal ?spot= id is dropped from the URL (fail-cl
 });
 
 test('CL-UI-105 CSS: attribution shrinks to bottom-edge small text; ready source badge off the map', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /#weather-basemap \.maplibregl-ctrl-attrib\{font-size:\.52rem/,
     'attribution is bottom-edge small text (MapLibre 6 starts compact controls EXPANDED)');
   assert.match(mobileBlock, /#weather-basemap \.maplibregl-ctrl-attrib \.maplibregl-ctrl-attrib-inner\{\s*\n\s*display:block !important;font-size:\.52rem\}/,
@@ -68,7 +68,7 @@ test('CL-UI-105 CSS: attribution shrinks to bottom-edge small text; ready source
     'the ⓘ expander is retired (small text is always visible)');
   assert.match(mobileBlock, /\.map-wrap \.basemap-status\.ready\{display:none\}/,
     'the ready source badge (MapLibre · OpenFreeMap) leaves the map area');
-  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px){'));
+  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.ok(!beforeMobile.includes('maplibregl-ctrl-attrib{font-size'),
     'no attribution small-text rule leak outside the mobile block (the ≤720 duplicates retired)');
 });
