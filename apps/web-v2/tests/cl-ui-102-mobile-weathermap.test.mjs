@@ -81,12 +81,12 @@ test('CL-UI-102 DESIGN-9: band expands in place, collapses on selection, scrolls
 });
 
 test('CL-UI-102 DESIGN-9: band is mobile-only — desktop keeps the always-open dock', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /\.wm-tl-bar\{display:flex/, 'mobile shows the band');
   assert.match(mobileBlock, /\.wm-timeline-dock \.wm-day-row,\.wm-timeline-dock \.wm-hour-row\{display:none\}/,
     'collapsed band hides the rows by default');
   assert.match(mobileBlock, /\.wm-timeline-dock\.expanded \.wm-day-row/, 'expanding shows the rows');
-  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px){'));
+  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px) and (min-height:769px){'));
   assert.match(desktopBlock, /\.wm-tl-bar\{display:none\}/, 'desktop hides the band (1280 zero-change)');
 });
 
@@ -140,11 +140,11 @@ test('CL-UI-102 DESIGN-10: shootable % is a deterministic recompute; row color s
 // 5. Fatal F1: quick chips must never sit under the list button
 // ---------------------------------------------------------------------------
 test('CL-UI-102 F1 (re-anchored by CL-UI-103): quick chips live in the layer sheet on mobile — the overlay row collapses to the single pill and can never sit under the list button', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /\.wm-ctl\{display:none\}/, 'CL-UI-103: overlay chips row is collapsed into the layer pill on mobile');
   assert.match(mobileBlock, /#layer-sheet-btn\{left:var\(--cl-sp-3\);right:auto\}/, 'collapsed state = one layer pill at top-left (list button stays top-right)');
   assert.match(mobileBlock, /\.map-panel\.sheet-open #wm-layer-sheet\.open\{display:flex/, 'expanded state = layer bottom sheet, same shell as the list sheet');
-  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px){'));
+  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px) and (min-height:769px){'));
   assert.match(desktopBlock, /\.wm-sheet-btn\{display:none\}/, 'desktop keeps the overlay chips row (no pill) — 1280 zero-change');
 });
 
@@ -152,7 +152,7 @@ test('CL-UI-102 F1 (re-anchored by CL-UI-103): quick chips live in the layer she
 // 6. Locate button hack removed (audit F5); 44px touch targets (audit F4)
 // ---------------------------------------------------------------------------
 test('CL-UI-102: locate pill becomes a normal in-flow 44px button on mobile', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /#locate-spot\{position:static/, 'no absolute page-top hack on mobile');
   assert.match(mobileBlock, /#locate-spot\{position:static;width:100%;height:44px/, '44px pill');
   assert.match(mobileBlock, /\.wm-chip\{height:44px\}/, 'chips 44px');
@@ -165,7 +165,7 @@ test('CL-UI-102: locate pill becomes a normal in-flow 44px button on mobile', ()
 // 7. Dead zone + range honesty
 // ---------------------------------------------------------------------------
 test('CL-UI-102: scrollport keeps a clickable right padding (dead-zone fix)', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /scroll-padding-right:8px/, 'scroll-padding so the last pill can fully center');
   assert.match(mobileBlock, /padding-right:8px/, 'visible padding, not painted-over dead area');
 });
@@ -195,7 +195,7 @@ test('CL-UI-102 F12: raw coordinates and engineering copy stay out of display su
 });
 
 test('CL-UI-102 F14/F20: compact legend shows on mobile; panel range and legend scale are one sentence', () => {
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /\.map-wrap \.legend\{display:block/, 'mobile shows the palette-derived compact legend');
   assert.match(mobileBlock, /bottom:56px/, 'legend sits above the collapsed band');
   assert.match(mobileBlock, /\.map-panel\.sheet-open \.map-wrap \.legend\{display:none\}/, 'legend yields when the sheet opens');
@@ -203,7 +203,7 @@ test('CL-UI-102 F14/F20: compact legend shows on mobile; panel range and legend 
 });
 
 test('CL-UI-102 F15: QC badge never contradicts rendered wind arrows', () => {
-  const qc = grab(MAP_JS, 'if(!state.lastDataRendered){', 'if(isObservationMode()){');
+  const qc = grab(MAP_JS, 'if(!state.lastDataRendered && !state.lastCanvasPainted){', 'if(isObservationMode()){');
   assert.ok(qc.includes('lastWindVectorCount'), 'checks whether arrows actually rendered');
   assert.ok(qc.includes('風向箭頭已顯示'), 'two-part wording instead of a blanket 資料層未顯示');
 });
@@ -212,11 +212,11 @@ test('CL-UI-102 F16: mobile basemap noise muted; desktop untouched', () => {
   assert.ok(MAP_JS.includes('function hideBasemapLabelNoise('), 'sea/water label mute exists');
   assert.ok(MAP_JS.includes("hideBasemapLabelNoise(map);"), 'wired next to the boundary mute');
   const mute = grab(MAP_JS, 'function hideBasemapLabelNoise(', 'function hideBoundaryLineLayers(');
-  assert.ok(mute.includes("matchMedia('(max-width:768px)')"), 'mute is mobile-only');
-  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px){'));
+  assert.ok(mute.includes("matchMedia('(max-width:768px),(max-height:768px)')"), 'mute is mobile-only (CL-UI-109: min(w,h)<=768)');
+  const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /\.maplibregl-ctrl-group\{background:rgba\(15,23,42,\.92\)/, 'dark zoom control on mobile');
   assert.ok(!/@media \(min-width:769px\)[\s\S]*maplibregl-ctrl-group\{background:rgba\(15,23,42/.test(
-    MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px){'))), 'desktop zoom control keeps the stock theme');
+    MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px) and (min-height:769px){'))), 'desktop zoom control keeps the stock theme');
 });
 
 test('CL-UI-102 F18: cross-page roundtrip restores spot + model; deep link still wins', () => {
@@ -233,12 +233,12 @@ test('CL-UI-102 F18: cross-page roundtrip restores spot + model; deep link still
 // 9. Desktop 1280 zero-change guard
 // ---------------------------------------------------------------------------
 test('CL-UI-102: desktop (>=769px) gets no sheet / band / dim / dark-zoom changes', () => {
-  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px){'));
+  const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px) and (min-height:769px){'));
   assert.match(desktopBlock, /\.wm-sheet\{display:none\}/);
   assert.match(desktopBlock, /\.wm-map-dim\{display:none\}/);
   assert.match(desktopBlock, /\.wm-tl-bar\{display:none\}/);
   // The sheet/band CSS lives ONLY inside the mobile media query.
-  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px){'));
+  const beforeMobile = MAP_CSS.slice(0, MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.ok(!/\.wm-sheet-grab/.test(beforeMobile), 'no sheet chrome leaks outside the mobile block');
   assert.ok(!/\.wm-tl-bar/.test(beforeMobile), 'no band chrome leaks outside the mobile block');
 });

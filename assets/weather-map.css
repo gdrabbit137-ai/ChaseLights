@@ -517,8 +517,11 @@ body{padding:18px}
 .wm-modal-acts{display:flex;gap:var(--cl-sp-2);margin-top:var(--cl-sp-3)}
 .wm-modal-acts .wm-btn{height:var(--cl-btn-h);font-size:var(--cl-fs-13)}
 
-/* ── ≤768：側欄收 bottom sheet、圖例讓位（mockup @media 768 規格）── */
-@media (max-width:768px){
+/* ── ≤768：側欄收 bottom sheet、圖例讓位（mockup @media 768 規格）──
+   CL-UI-109 (P2-2)：判斷軸改 min(w,h)≤768 — 橫向手機（844×390）也走
+   手機版 APP 式固定版面；桌面塊改為 (min-width:769) and (min-height:769)
+   （兩者互為補集，1280 桌面零改動）。 */
+@media (max-width:768px),(max-height:768px){
   .wm-side{display:none}
   .wm-side.open{display:flex}
   .wm-sheet-btn{display:inline-flex}
@@ -745,7 +748,7 @@ body{padding:18px}
   .data-info-meta-line b{color:#7dd3fc;font-weight:800;margin-right:6px}
   body .site-footer{display:none}
 }
-@media (min-width:769px){
+@media (min-width:769px) and (min-height:769px){
   .wm-side{display:flex}
   .wm-sheet-btn{display:none}
   /* CL-UI-102 DESIGN-9/10：桌面 1280 零改動——收摺細帶與 bottom sheet 只存在於 ≤768 */

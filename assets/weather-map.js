@@ -1777,7 +1777,8 @@
   // every label. Unknown style shapes fail-open (no-op, never blocks).
   function hideBasemapLabelNoise(map){
     try{
-      if(!window.matchMedia('(max-width:768px)').matches) return 0;
+      // CL-UI-109 (P2-2): min(w,h)≤768 才藏海名 label（橫向手機也算行動殼）
+      if(!window.matchMedia('(max-width:768px),(max-height:768px)').matches) return 0;
       const style=map.getStyle();
       if(!style || !Array.isArray(style.layers)) return 0;
       let hidden=0;
@@ -5384,7 +5385,7 @@
     // sampling method, fog/haze diagnostic) collapses into a single「詳細」
     // accordion instead of three always-visible technical lines. Desktop
     // (>=769px) keeps the existing layout byte-for-byte (1280 zero-change).
-    const wmMobileShell=window.matchMedia('(max-width:768px)').matches;
+    const wmMobileShell=window.matchMedia('(max-width:768px),(max-height:768px)').matches;   // CL-UI-109: min(w,h)≤768
     const environmentHost=$('spot-environment');
     const envHtml=fogHazeDiagnosticHtml(point);
     if(point){
@@ -6409,7 +6410,7 @@
   // right side panel and the always-open timeline dock byte-for-byte
   // (1280 regression: zero change). Camera behavior stays CL-UI-59.
 
-  function wmIsMobileShell(){ return window.matchMedia('(max-width:768px)').matches; }
+  function wmIsMobileShell(){ return window.matchMedia('(max-width:768px),(max-height:768px)').matches; }   // CL-UI-109: min(w,h)≤768（橫向手機也走 APP 版面）
 
   // Deterministic display heuristic (same spirit as the DESIGN-10 mockup's
   // data-src note): the % is recomputed from the CURRENT layer sample at the
