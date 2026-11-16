@@ -1746,11 +1746,15 @@
     map.setMaxZoom(window.WeatherMapRegions.CAMERA_MAX_ZOOM);
   }
 
-  // CL-WG-25: 底圖行政邊界線隱藏。OpenFreeMap liberty 樣式的 boundary_2 /
-  // boundary_3 / boundary_disputed 圖層（source-layer "boundary"）會在海面上
-  // 畫出黃色虛線（含 EEZ/離島段），與雲量配色場撞色、被誤讀成資料等值線。
-  // 樣式載入後把這些線圖層整層設 visibility:none；地形、地名標籤、道路、
-  // 水系一概保留。未知樣式形狀 fail-open（不動任何圖層、不阻塞地圖）。
+  // CL-WG-25 + CL-UI-107: 底圖行政邊界「全面」隱藏。OpenFreeMap liberty 樣式
+  // 的 boundary_2 / boundary_3 / boundary_disputed 圖層（source-layer
+  // "boundary"）會在海面上畫出黃色虛線（含中國沿海/省份段），與雲量配色場
+  // 撞色、被誤讀成資料等值線。攝影地圖不需要任何行政區界——因此不只 disputed，
+  // 只要是 boundary/admin/disputed 類圖層（不限 line 型別、不限 id 命名，
+  // source-layer 也納入比對）一律 visibility:none。樣式載入後（load）與任何
+  // styledata 之後都會重新套用，防範樣式遲到變異；比對成功的圖層若已是 none
+  // 就跳過（冪等，避免 styledata 重入迴圈）。地形、地名標籤、道路、水系一概
+  // 保留。未知樣式形狀 fail-open（不動任何圖層、不阻塞地圖）。
   // CL-UI-102 (audit F16): mobile-only basemap label-density mute — the
   // multi-script sea/water name labels stack four lines deep at 390px and
   // bleed through the translucent chips. Only sea/water LABEL symbol layers
@@ -1784,12 +1788,20 @@
       if(!style || !Array.isArray(style.layers)) return 0;
       let hidden=0;
       for(const layer of style.layers){
-        if(!layer || layer.type!=='line') continue;
+        if(!layer) continue;
         const id=String(layer.id||'');
-        const isBoundary=/^boundary/.test(id)
-          || /boundary|disputed/.test(id)
-          || layer['source-layer']==='boundary';
+        const src=String(layer['source-layer']||'');
+        // CL-UI-107: match by id AND source-layer, any layer type —
+        // admin boundary tiles are not required to keep a "boundary*" id.
+        const isBoundary=/boundary|disputed/i.test(id)
+          || /admin/i.test(id)
+          || src==='boundary'
+          || /boundary|admin/i.test(src);
         if(!isBoundary) continue;
+        // Idempotency guard: re-running after a styledata event must not
+        // mutate again, or setLayoutProperty would re-trigger styledata
+        // forever. A layer already 'none' is skipped.
+        if(((layer.layout||{}).visibility)==='none') continue;
         map.setLayoutProperty(id,'visibility','none');
         hidden++;
       }
@@ -1981,6 +1993,10 @@
         hideBasemapLabelNoise(map);
         renderAll();
       });
+      // CL-UI-107: re-apply after ANY style mutation (late tile-metadata
+      // updates, style reloads). hideBoundaryLineLayers is idempotent, so
+      // this cannot loop.
+      map.on('styledata',()=>{ hideBoundaryLineLayers(map); });
       map.on('move',()=>{
         if(!state.mapReady) return;
         // CL-WG-24: live camera hook for headless verification (same spirit
