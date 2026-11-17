@@ -3201,7 +3201,13 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         let mark='✗';let text=reason;
         if(day.state==='GUIDANCE_SATISFIED'){mark='';text=goodList;}
         else if(!reason&&eligUnknown){mark='—';text=d().v2_season_unknown;}
-        else if(!reason&&winPartial){mark='○';text=(winPartial==='light_window'?d().v2_win_partial_golden:d().v2_win_partial)+(goodList?' '+goodList:'');}
+        // CL-UI-110b (owner): a PARTIAL window renders the SAME anatomy as
+        // the best-window cell — ○ + the qualifying window hours
+        // (formatHourSegments). The 「非黃金光線」 semantics are DEMOTED to the
+        // cell tooltip (aria/title, line below) and the 題材判定 row — the
+        // word never shares the visible hour line again (single anatomy).
+        // pass_hours=0 keeps 「✗ 非日照時段」 (handled by the reason branch).
+        else if(!reason&&winPartial){mark='○';text=goodList||(winPartial==='light_window'?d().v2_win_partial_golden:d().v2_win_partial);}
         else if(!reason){mark='';text=lab;}
         const aria=(day.state==='GUIDANCE_SATISFIED')
           ?`${title} ${d().eval2_hours} ${hours}${fullList?` · ${fullList}`:''}`
