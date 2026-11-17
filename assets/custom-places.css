@@ -66,6 +66,11 @@
 .cl-cp-cc-chip{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:999px;flex:none;
   background:var(--cl-bg-2);border:1px dashed var(--cl-border-strong);color:var(--cl-grey-text);font-size:11px;flex:none}
 .cl-cp-cc-txt{font-family:var(--cl-mono);font-size:11px;color:var(--cl-text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* CL-APP-08: shared-fetch tag 「與 ○○○ 共用資料」 — gray identity (never a
+   semantic ✓○✗ color), muted plain text like the environment attributes */
+.cl-cp-share-tag{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--cl-text-2);min-width:0;padding-top:4px}
+.cl-cp-share-tag .st-ic{flex:none}
+.cl-cp-share-tag .st-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* trial-expired: gray card, honest 試用期滿, upgrade CTA — data kept, evaluation stopped */
 .cl-cp-card.cl-cp-expired{opacity:.72}
 .cl-cp-expired-note{font-size:12px;color:var(--cl-text-3);padding-top:2px}

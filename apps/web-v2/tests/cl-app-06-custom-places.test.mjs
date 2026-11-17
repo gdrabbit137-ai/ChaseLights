@@ -25,8 +25,9 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 
 // ------------------------------------------------------------- (1) source
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06d/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06d/);
+  // CL-APP-08: clapp06d -> clapp08a (shared-fetch tag + 獨立重新抓取 menu item)
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp08a/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp08a/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
   assert.match(htmlSource, /assets\/app\.js\?v=clui111/);
@@ -60,6 +61,30 @@ test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () =>
   assert.match(jsSource, /cap\.Plugins\.Geolocation/);
   assert.match(jsSource, /timeout: 10000/);
   assert.match(jsSource, /不會追蹤你的行蹤|never tracked|追跡しません/);
+});
+
+// ------------------------------------------------- (1d) CL-APP-08 grid dedup
+test('CL-APP-08 (1d): shared-fetch tag 「與 ○○○ 共用資料」 + 獨立重新抓取 escape hatch', () => {
+  // the shared tag: gray identity, rendered from the API's sharing info
+  assert.match(jsSource, /shareTagText/);
+  assert.match(jsSource, /share_one[\s\S]{0,60}與 \{n\} 共用資料/);
+  assert.match(jsSource, /share_many[\s\S]{0,60}共用資料/);
+  assert.match(jsSource, /cl-cp-share-tag/);
+  // tri-lingual parity for the tag + the escape-hatch menu item (anchored to
+  // each language block, not just anywhere in the file)
+  for (const lang of ["'zh-TW': {", "'en': {", "'ja': {"]) {
+    const rx = new RegExp(`${lang.replace(/[-']/g, (c) => '\\' + c)}[\\s\\S]{0,3200}m_refetch`);
+    assert.match(jsSource, rx, `${lang} carries the 獨立重新抓取 menu item`);
+    const rx2 = new RegExp(`${lang.replace(/[-']/g, (c) => '\\' + c)}[\\s\\S]{0,3200}refetch_done`);
+    assert.match(jsSource, rx2, `${lang} carries the refetch toast copy`);
+  }
+  assert.match(jsSource, /m_refetch/);
+  assert.match(jsSource, /refetchIndependent/);
+  assert.match(jsSource, /\/refetch/, 'calls the POST /custom_places/:id/refetch endpoint');
+  // gray identity: the tag never borrows the ✓○✗ semantic colors
+  const tag = cssSource.slice(cssSource.indexOf('.cl-cp-share-tag'), cssSource.indexOf('.cl-cp-card.cl-cp-expired'));
+  assert.match(tag, /var\(--cl-text-2\)/);
+  assert.doesNotMatch(tag, /--cl-(green|amber|red)-text/);
 });
 
 test('CL-APP-06 (1c): gray identity CSS never borrows the ✓○✗ semantic colors', () => {
@@ -223,10 +248,14 @@ async function bootBrowser() {
                 { id: 'cp1', name: '霧社水庫西岸岔路', lat: 23.9412, lng: 121.1523, elevation: 1150, timezone: 'Asia/Taipei',
                   customConditions: { cloud_low_max: 15, visibility_min_km: 12, window_start: '04:30', window_end: '07:00' },
                   status: 'active', createdAt: '', updatedAt: '',
+                  sharing: { groupId: 'g:cp1', representativeId: 'cp1', isRepresentative: true, shareMode: 'auto',
+                    sharedWith: [{ id: 'cp2', name: '礁溪自家陽台展望' }] },
                   evaluation: { tier: 'rec', reason: null, window: '2026-11-16 05:00', evaluatedAt: '2026-11-15T10:00:00Z', private: true },
                   refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
                 { id: 'cp2', name: '礁溪自家陽台展望', lat: 24.8225, lng: 121.7675, elevation: 80, timezone: 'Asia/Taipei',
                   customConditions: null, status: 'active', createdAt: '', updatedAt: '',
+                  sharing: { groupId: 'g:cp1', representativeId: 'cp1', isRepresentative: false, shareMode: 'auto',
+                    sharedWith: [{ id: 'cp1', name: '霧社水庫西岸岔路' }] },
                   evaluation: { tier: 'shoot', reason: null, window: '2026-11-16 06:00', evaluatedAt: '2026-11-15T10:00:00Z', private: true },
                   refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
                 { id: 'cp3', name: '苫小牧西港堤防燈點', lat: 42.6389, lng: 141.3556, elevation: 3, timezone: 'Asia/Tokyo',
@@ -357,8 +386,26 @@ test('CL-APP-06 (2b): private card anatomy — gray badge computed style + tier 
   assert.match(probe.tier, /✓/, 'rec private card carries the ✓ tier');
   assert.match(probe.window, /05:00/, 'rec window rides the card');
   assert.match(probe.cc, /低雲≤15/, 'CL-UI-99 condition summary (only tuned params)');
-  assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit', 'nom']);
+  // CL-APP-08: the ⋯ menu gains the 🔄 獨立重新抓取 escape hatch item
+  assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit', 'nom', 'refetch']);
   assert.equal(probe.menuOpen, 'block', '⋯ menu opens');
+  // CL-APP-08: cp2 (grouped with cp1) shows the shared-data tag, computed-visible
+  const probe2 = await evaljs(`(() => {
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
+    if (!card) return { error: 'no cp2 card' };
+    const tag = card.querySelector('.cl-cp-share-tag');
+    if (!tag) return { error: 'no share tag' };
+    const r = tag.getBoundingClientRect();
+    const cs = getComputedStyle(tag);
+    return {
+      text: tag.textContent,
+      visible: r.width > 0 && r.height > 0 && cs.display !== 'none' && cs.visibility !== 'hidden',
+      color: cs.color,
+    };
+  })()`);
+  assert.match(probe2.text, /與 霧社水庫西岸岔路 共用資料/);
+  assert.equal(probe2.visible, true, 'the share tag is COMPUTED-visible on the card');
+  assert.equal(probe2.color, 'rgb(168, 179, 194)', 'share tag stays gray-identity (--cl-text-2), never a semantic color');
   // patch-3: the menu is portaled OUT of the card to document.body (fixed)
   assert.equal(probe.menuParentIsBody, true, '⋯ menu lives on document.body — outside the card boundary');
   assert.equal(probe.menuPos, 'fixed', '⋯ menu is position:fixed — card overflow can never clip it');
@@ -761,7 +808,9 @@ test('CL-APP-06 (1f, patch-3): ⋯ menu renders OUT of the card — portal + fix
   assert.doesNotMatch(jsSource, /<span class="cl-cp-menu">/, 'the card markup no longer embeds the menu');
   // flip-up when near the viewport bottom
   assert.match(jsSource, /向上展開/, 'flip-up branch documented');
-  assert.match(jsSource, /top \+ mh > window\.innerHeight - margin && r\.top - gap - mh >= margin/,
+  // CL-APP-08 re-anchor: the flip-up condition now compares against
+  // bottomLimit (innerHeight minus the fixed bottom site-nav band)
+  assert.match(jsSource, /top \+ mh > bottomLimit - margin && r\.top - gap - mh >= margin/,
     'opens upward when the menu would overflow the viewport bottom AND there is room above');
   // scroll events do not bubble → capture-phase listener closes on ANY scroller
   assert.match(jsSource, /addEventListener\('scroll',[\s\S]{0,120}, true\)/, 'scroll closes the open menu (capture)');
@@ -805,7 +854,10 @@ test('CL-APP-06 (2o, patch-3): 390 viewport, card near the page footer — menu 
     `menu flipped up (bottom ${probe.menuBottom} ≤ trigger top ${probe.triggerTop})`);
   assert.ok(probe.menuTop >= 0, 'flipped menu still starts inside the viewport');
   assert.ok(probe.menuRight <= probe.winW + 1 && probe.menuLeft >= 0, 'menu fits the 390px width');
-  assert.equal(probe.items.length, 4);
+  // CL-APP-08: five items — the 🔄 獨立重新抓取 escape hatch joins the menu
+  assert.equal(probe.items.length, 5);
+  if (process.env.CLDBG) console.log("DBG-2o", JSON.stringify({ winH: probe.winH, menuTop: probe.menuTop, menuBottom: probe.menuBottom, triggerTop: probe.triggerTop, items: probe.items }));
+  if (process.env.CLDBG) console.log("DBG-2o-hit", await evaljs(`(() => { const del = document.querySelector('#cl-cp-menu [data-cp-act="del"]'); const r = del.getBoundingClientRect(); const el = document.elementFromPoint(r.left + r.width/2, r.top + r.height/2); return JSON.stringify({ tag: el.tagName, cls: el.className && el.className.toString().slice(0,80), id: el.id, txt: (el.textContent||'').slice(0,40) }); })()`));
   for (const it of probe.items) {
     assert.ok(it.h >= 43, `${it.act} touch target ≥44px (got ${it.h})`);
     assert.ok(it.top >= 0 && it.bottom <= probe.winH + 1 && it.left >= 0 && it.right <= probe.winW + 1,
