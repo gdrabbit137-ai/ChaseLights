@@ -54,6 +54,7 @@ test('CL-UI-75 (1): the 🎯 下一個符合時段 badge is retired at every bre
 
 test('CL-UI-75 (2): compact cell copy — ✓n badge / ✗short-reason / abbreviated window', () => {
   const helperCode = grab('function compactHourSegmentsText', 'function v2ContractThreshold')
+    + grab('function v2MetricName', '// CL-COPY-01: handwritten')
     + grab('function v2DominantFailMetric', 'function v2DayStripHtml')
     + grab('function v2DayStripHtml', '// CL-UI-64: top');
   const prelude = `
@@ -134,7 +135,7 @@ test('CL-UI-75 (3): strip layout CSS — one horizontal row, no wrap tier', () =
   const mobile = cssSource.slice(cssSource.indexOf('@media (max-width:390px)'), cssSource.indexOf('@media (max-width:390px)') + 600);
   assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:3px 5px;gap:2px\}/);
   assert.doesNotMatch(mobile, /flex:1 1/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui102/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui110/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
 });
 
@@ -147,6 +148,7 @@ const BROWSER = process.env.CHROMIUM_EXECUTABLE
 // extracted function, styled by the REAL app.css — no test-only CSS.
 const stripHtml = (() => {
   const helperCode = grab('function compactHourSegmentsText', 'function v2ContractThreshold')
+    + grab('function v2MetricName', '// CL-COPY-01: handwritten')
     + grab('function v2DominantFailMetric', 'function v2DayStripHtml')
     + grab('function v2DayStripHtml', '// CL-UI-64: top');
   const prelude = `
