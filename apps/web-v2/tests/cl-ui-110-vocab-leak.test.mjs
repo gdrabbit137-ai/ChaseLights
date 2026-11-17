@@ -112,8 +112,11 @@ test('CL-UI-110 (3): narrow-window PARTIAL semantics in the 8-day strip', () => 
   ]};
   const cellW = cellsOf(fns.v2DayStripHtml([dayWin], ['後天'], 'Asia/Taipei', {spot_id: 'tw-002'}, 'cloud_sea', 'tw-002-P01'))[0] || '';
   assert.ok(cellW.includes('○'), 'partial-window day renders ○');
-  assert.ok(cellW.includes('可拍（非黃金光線）'), 'owner wording for the light-window variant');
-  assert.ok(cellW.includes('06–07'), 'in-cell window guidance (qualifying hours)');
+  // CL-UI-110b (owner): the visible cell text is the window hours ALONE —
+  // the same anatomy as the best-window cell. 「可拍（非黃金光線）」 lives
+  // ONLY in the tooltip (title/aria), never in the visible hour line.
+  assert.equal(textOf(cellW), '○06–07', 'PARTIAL cell shows ○ + the window hours (standard anatomy)');
+  assert.ok(cellW.includes('○ 可拍（非黃金光線）'), 'off-peak wording demoted to the tooltip/aria');
   // pass_hours=0 → the whole day is out: ✗非日照時段 stays.
   const dayZero = {local_date: '2026-11-20', state: 'UNFAVORABLE', good_hours: [], conditions: [
     {metric: 'light_window', day_verdict: 'FAIL', pass_hours: 0},
@@ -150,5 +153,5 @@ test('CL-UI-110 (4): layered quick-view wording — chip states the general base
 
 test('CL-UI-110 (5): cache-bust stamp advanced for app.js', () => {
   const indexSource = readFileSync(join(WEB, 'index.html'), 'utf8');
-  assert.match(indexSource, /assets\/app\.js\?v=clui110/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui111/);
 });
