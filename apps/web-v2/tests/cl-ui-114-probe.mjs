@@ -44,7 +44,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 async function waitFor(expr, ms = 45000) { const dl = Date.now() + ms; while (Date.now() < dl) { if (await evaljs('!!(' + expr + ')')) return; await sleep(400); } throw new Error('timeout ' + expr); }
 
 await send('Page.enable'); await send('Runtime.enable');
-for (const q of ['', '?wgBasemapDark=1', '?wgBasemapDim=1', '?wgBasemapDark=1&wgBasemapDim=1']) {
+for (const q of ['', '?wgBasemapDark=1', '?wgBasemapDim=1', '?wgBasemapWindy=1', '?wgBasemapDark=1&wgBasemapDim=1']) {
   await send('Page.navigate', { url: `${base}weather-map.html${q}` });
   await waitFor("window.__weatherGridMap && document.querySelector('#basemap-status') && /ready/.test(document.querySelector('#basemap-status').className)");
   await sleep(2500);
@@ -56,6 +56,7 @@ for (const q of ['', '?wgBasemapDark=1', '?wgBasemapDim=1', '?wgBasemapDark=1&wg
       styleName: (typeof s.name==='string'? s.name : 'n/a'),
       hasHillshade: !!hs, hillshadeSrc: hs && hs.source,
       hasTerrarium: !!(s.sources && s.sources['clui114-terrarium']),
+      tintApplied: (function(){ try { var b=s.layers && s.layers.find(function(l){return l.id==='background';}); return b ? (b.paint && b.paint['background-color']) : null; } catch(e){ return 'err'; } })(),
       filter: (m.getContainer() && m.getContainer().style.filter) || '(none)',
       canvasInsideContainer: !!(m.getContainer() && m.getContainer().querySelector('canvas'))
     });

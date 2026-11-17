@@ -10,7 +10,7 @@
 //      brightness(0.55) saturate(0.75)，只作用於底圖容器（雲層 canvas 在
 //      容器之外，不受濾鏡影響——雲層可讀性由視覺 A/B 截圖評註）。
 //  (4) 應用時機：'load' 與 'styledata' 都呼叫（冪等；與 CL-UI-107 同點）。
-//  (5) cache-bust stamp 進到 bclwg47（本票改了 weather-map.js）。
+//  (5) cache-bust stamp 進到 bclwg48（本票改了 weather-map.js）。
 // Run: node --test apps/web-v2/tests/cl-ui-114-basemap-ab-flag.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -28,7 +28,7 @@ test('CL-UI-114: 預設樣式仍是 liberty 亮色底圖（不動預設）', () 
   assert.ok(a !== -1, 'BASEMAP_STYLE declaration missing');
   assert.ok(MAP_JS.includes("const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';"));
   // 樣式選擇：flag 關閉 → BASEMAP_STYLE
-  assert.ok(MAP_JS.includes('style:CLUI114_FLAGS.dark ? CLUI114_DARK_STYLE : BASEMAP_STYLE,'));
+  assert.ok(MAP_JS.includes('style:(CLUI114_FLAGS.dark||CLUI114_FLAGS.windy) ? CLUI114_DARK_STYLE : BASEMAP_STYLE,'));
 });
 
 test('CL-UI-114: 方案 A — fiord 深色樣式 + Terrarium raster-dem hillshade 參數', () => {
@@ -59,11 +59,11 @@ test('CL-UI-114: 應用時機 load + styledata，且 flag 關閉時 no-op 冪等
   // 冪等：source 已存在即跳過
   assert.ok(MAP_JS.includes("if (map.getSource('clui114-terrarium')) return;"));
   // 預設短路：兩 flag 皆關直接 return，不碰任何樣式
-  assert.ok(MAP_JS.includes('if (!CLUI114_FLAGS.dark && !CLUI114_FLAGS.dim) return;'));
+  assert.ok(MAP_JS.includes('if (!CLUI114_FLAGS.dark && !CLUI114_FLAGS.dim && !CLUI114_FLAGS.windy) return;'));
 });
 
-test('CL-UI-114: cache-bust stamp bclwg47（js+css+vendor 三處）', () => {
-  const stamps = WG_HTML.match(/\?v=bclwg47/g) || [];
-  assert.ok(stamps.length >= 3, `expected >=3 bclwg47 stamps in weather-map.html, got ${stamps.length}`);
+test('CL-UI-114: cache-bust stamp bclwg48（js+css+vendor 三處）', () => {
+  const stamps = WG_HTML.match(/\?v=bclwg48/g) || [];
+  assert.ok(stamps.length >= 3, `expected >=3 bclwg48 stamps in weather-map.html, got ${stamps.length}`);
   assert.ok(!WG_HTML.includes('bclwg46'), 'stale bclwg46 stamp left in weather-map.html');
 });

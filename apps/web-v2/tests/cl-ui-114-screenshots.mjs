@@ -101,6 +101,7 @@ const VARIANTS = [
   { tag: 'current', url: 'weather-map.html' },
   { tag: 'a-dark-hillshade', url: 'weather-map.html?wgBasemapDark=1' },
   { tag: 'b-dim-filter', url: 'weather-map.html?wgBasemapDim=1' },
+  { tag: 'c-windy', url: 'weather-map.html?wgBasemapWindy=1' },
 ];
 const VIEWPORTS = [{ w: 1280, h: 900, tag: '1280' }, { w: 390, h: 844, tag: '390' }];
 

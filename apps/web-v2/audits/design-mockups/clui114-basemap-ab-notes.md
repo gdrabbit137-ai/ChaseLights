@@ -16,6 +16,35 @@ Date: 2026-11-17 · branch task/CL-UI-104（worktree D:/tmp/clui104b-wt）· fea
 
 啟用方式（驗證用 URL flag，預設不開）：`weather-map.html?wgBasemapDark=1`（案 A）、`?wgBasemapDim=1`（案 B）。
 
+## 追加：方案 C（Windy 風格，owner 貼圖指定）`?wgBasemapWindy=1`
+
+fiord 深色底圖＋OpenMapTiles landcover/landuse 深綠 tint（background 陸地基底 #1C3B2A、landcover_wood #205232、park #1E4A2F、landuse_residential #25382C、water 深藍 #152A45）＋與方案 A 同一組 Terrarium hillshade（315°/0.55）。雲層 canvas 不套任何濾鏡，白灰雲保持最突出。
+
+| 案 | 台灣全幅 1280 | 台灣全幅 390 | 山區 z10 1280 | 山區 z10 390 |
+|---|---|---|---|---|
+| 方案 C（Windy 風格） | clui114-c-windy-tw-full-1280.png | clui114-c-windy-tw-full-390.png | clui114-c-windy-mountain-z10-1280.png | clui114-c-windy-mountain-z10-390.png |
+
+四案並列對照：`clui114-compare4-tw-full-390.png`（四案 390 全幅）、`clui114-compare4-mountain-z10-1280.png`（四案 z10 山區）。
+
+### 方案 C 雲層可讀性評註（p90 雲帶 vs p10 底圖亮度，同區域同雲資料跨案比較）
+
+| 區域／案 | 雲帶 p90 | 底圖 p10 | Δ | 判讀 |
+|---|---|---|---|---|
+| 山區 z10 1280 — C | 148.1 | 84.1 | 64.0 | 四案最佳：山脊受光/背光面立體可辨，陸地深綠與灰白雲色相分離，雲帶邊界最清楚 |
+| 山區 z10 1280 — A | 155.4 | 93.6 | 61.8 | 地形光影同 C，但陸地仍是 fiord 藍灰，綠色植被感較弱 |
+| 山區 z10 1280 — 現行 | 226.4 | 209.2 | 17.3 | 白雲疊亮色地形，對比最弱、無地形起伏 |
+| 山區 z10 1280 — B | 172.5 | 132.8 | 39.7 | 整體暗化但雲同被暗化、地形仍平面 |
+| 台灣全幅 390 — C | 126.5 | 38.8 | 87.7 | 深藍海＋深綠陸地（涵蓋框外日韓/東南亞陸地植被色明顯），白灰雲帶最突出 |
+| 台灣全幅 390 — A | 137.9 | 63.1 | 74.8 | 深色但陸海皆藍灰色調，區域感較弱 |
+
+### 方案 C 觀察
+
+1. 滿足 owner 指定的四要素：深藍海（water #152A45）、深綠陸地（植被 tint）、地形光影（Terrarium hillshade）、衛星實況雲白灰最突出（不套濾鏡）。
+2. z10 山區：地形立體感與方案 A 相同（同一 hillshade），加上深綠植被色後台灣本島輪廓與海岸線更清楚；雲帶 Δ 四案最大。
+3. 限制：模型涵蓋框內陸地會被低雲 canvas（62% 強度）半透明覆蓋，tint 呈現略被沖淡——這是資料層既定行為，四案皆同；涵蓋框外陸地即見完整深綠。
+4. 代價同方案 A：fiord 標籤配色改變＋Terrarium DEM 圖磚外部依賴；另 land tint 在 fiord 樣式重載後由 styledata 重入冪等回套。
+
+
 ## 雲層可讀性評註（低雲／雨色帶對比，實測像素亮度）
 
 | 區域／案 | 雲帶亮度 | 底圖亮度 | 對比 Δ | 判讀 |
