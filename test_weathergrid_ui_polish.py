@@ -91,8 +91,14 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("自動模式：依圖層選優先模型", self.js)
 
     def test_model_boundary_is_drawn(self):
+        # CL-UI-108 (owner): the dashed coverage outline is an internal debug
+        # aid — not drawn by default; opt-in switch lives in the ⓘ data
+        # dialog (state.showCoverageOutline, default OFF).
         self.assertIn("function drawProviderBoundary(data)", self.js)
-        self.assertIn("虛線＝目前資料來源範圍", self.js)
+        self.assertIn("if(!state.showCoverageOutline) return;", self.js)
+        self.assertIn("showCoverageOutline:false", self.js)
+        # the old on-by-default dashed box must never come back
+        self.assertNotIn("虛線＝目前資料來源範圍", self.js)
 
     def test_mobile_layout_respects_safe_area_and_keeps_two_column_controls(self):
         self.assertIn("viewport-fit=cover", self.html)
@@ -125,13 +131,17 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         # same CSS variable as desktop (tw 1.033 default fallback).
         self.assertIn(".map-wrap{aspect-ratio:var(--wg-map-aspect", self.css)
         self.assertIn("min-width:132px;max-width:44%", self.css)
-        self.assertIn(".coverage-outline-key{display:none}", self.css)
+        # CL-UI-108: the coverage-outline legend key was removed with the
+        # outline itself (opt-in debug aid) — must not creep back.
+        self.assertNotIn(".coverage-outline-key", self.css)
 
     def test_cloud_percent_palette_has_explicit_50_percent_hinge(self):
         self.assertIn("CLOUD_PERCENT_BREAKS=[0,20,40,50,70,85,100]", self.palette)
         self.assertIn("scale:'cloud_percent'", self.palette)
         self.assertIn("function cloudColorFor(value,bands)", self.palette)
-        self.assertIn("50% 雲量分界", self.js)
+        # CL-UI-113: the 50% legend key died with the contour removal — the
+        # hinge now lives only in the legend-bar midline marker (.cloud-midline).
+        self.assertNotIn("50% 雲量分界", self.js)
         self.assertIn("cloud-midline", self.css)
 
     def test_cloud_overlay_never_fully_hides_basemap(self):
@@ -142,9 +152,11 @@ class WeatherGridUiPolishTests(unittest.TestCase):
         self.assertIn("雲層顯示強度", self.js)
 
     def test_forecast_cloud_map_draws_50_percent_contour_and_selected_value(self):
-        self.assertIn("function drawCloudThresholdContour(", self.js)
-        self.assertIn("drawCloudThresholdContour(data,vals,50,visibleView)", self.js)
-        self.assertIn("!isObservationMode() && (cfg.palette==='cloud'||cfg.palette==='cloudLow')", self.js)
+        # CL-UI-113: the 50% contour draw was removed entirely (owner root
+        # cause of the recurring yellow-dash reports) — anti-regression pin.
+        self.assertNotIn("function drawCloudThresholdContour(", self.js)
+        self.assertNotIn("drawCloudThresholdContour(data,vals,50,visibleView)", self.js)
+        self.assertIn("(selectedCfg?.palette==='cloud'||selectedCfg?.palette==='cloudLow') && !isObservationMode()", self.js)
         self.assertIn("selectedLabel=", self.js)
         self.assertIn("formatValue(value,state.layer)", self.js)
 
