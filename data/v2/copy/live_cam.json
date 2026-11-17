@@ -1,0 +1,50 @@
+{
+ "schema_version": "live_cam_v1",
+ "source_label_i18n": {
+  "zh-TW": "交通部觀光署北觀處",
+  "en": "North Coast & Guanyinshan National Scenic Area Administration, MOTC",
+  "ja": "交通部観光署 北海岸及観音山国家風景区管理処"
+ },
+ "stream_format": "youtube_live",
+ "stream_format_note": "查證結論（CL-UI-111）：六支皆為交通部觀光署北觀處官方 YouTube 24/7 直播（頻道「北觀國家風景區管理處」，titles 帶 Live Camera / 即時影像，yt oembed 2026-11-17 驗證），非 HLS／攝影機原始串流；依 owner 裁示以官方 YouTube iframe 內嵌播放（點擊才載，零預載），面板另附「在 YouTube 開啟」新視窗備用連結。",
+ "entries": {
+  "tw-008": {
+   "video_id": "gNWeZsaqD98",
+   "thumb_url": "https://i.ytimg.com/vi/gNWeZsaqD98/hqdefault.jpg",
+   "watch_url": "https://www.youtube.com/watch?v=gNWeZsaqD98",
+   "official_page": "https://www.northguan-nsa.gov.tw/user/Article.aspx?Lang=1&SNo=04008475",
+   "title_at_verification": "[4K] 觀音山即時影像 Guanyinshan Live Camera"
+  },
+  "tw-010": {
+   "video_id": "2SiZ6VUKbZI",
+   "thumb_url": "https://i.ytimg.com/vi/2SiZ6VUKbZI/hqdefault.jpg",
+   "watch_url": "https://www.youtube.com/watch?v=2SiZ6VUKbZI",
+   "official_page": "https://www.northguan-nsa.gov.tw/user/Article.aspx?Lang=1&SNo=04007412",
+   "title_at_verification": "[4K] 和平島公園即時影像 Heping Island Park Live Camera"
+  },
+  "tw-073": {
+   "video_id": "Wefj3zbl-tI",
+   "thumb_url": "https://i.ytimg.com/vi/Wefj3zbl-tI/hqdefault.jpg",
+   "watch_url": "https://www.youtube.com/watch?v=Wefj3zbl-tI",
+   "official_page": "https://www.northguan-nsa.gov.tw/user/Article.aspx?Lang=1&SNo=04008476",
+   "title_at_verification": "老梅綠石槽即時影像 Laomei Green Reef Live Camera"
+  },
+  "tw-074": {
+   "video_id": "ZjuY4qKaj40",
+   "thumb_url": "https://i.ytimg.com/vi/ZjuY4qKaj40/hqdefault.jpg",
+   "watch_url": "https://www.youtube.com/watch?v=ZjuY4qKaj40",
+   "official_page": "https://www.northguan-nsa.gov.tw/user/Article.aspx?Lang=1&SNo=04007411",
+   "title_at_verification": "[4K] 野柳地質公園即時影像 Yehliu Geopark Live Camera"
+  },
+  "tw-161": {
+   "video_id": "CJ8FA10bg3E",
+   "thumb_url": "https://i.ytimg.com/vi/CJ8FA10bg3E/hqdefault.jpg",
+   "watch_url": "https://www.youtube.com/watch?v=CJ8FA10bg3E",
+   "official_page": "https://www.northguan-nsa.gov.tw/user/Article.aspx?Lang=1&SNo=04007854",
+   "title_at_verification": "[4K] 中角灣即時影像 Jhongjiao Bay Live Camera"
+  }
+ },
+ "pending_entries": {
+  "notes": "白沙灣（新北石門）在北觀處有官方直播（[4K] 白沙灣即時影像 Baisha Bay Live Camera，video_id FbB8WDUXXqU，官網 SNo=04007410），但尚未收錄為 catalog 景點（無 place_id；data/v2/audits/subject-lists/new-candidates-v2.json 列為未收編 candidate），故本映射檔無法掛載；待 catalog 收編取得 place_id 後補進 entries。"
+ }
+}

@@ -147,6 +147,24 @@
     </div>
   </div>
 
+  <!-- CL-UI-111: in-app live-camera panel. The iframe is created by app.js
+       ONLY at click-time (zero preload); closing the panel drops it. -->
+  <div class="modal-overlay live-modal-overlay" id="live-modal-overlay" onclick="closeLiveModal(event)">
+    <div class="modal live-modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title" id="live-modal-title">🔴 即時影像</div>
+        <button class="close-btn" onclick="closeLiveModal()" data-i18n-aria-label="close_live" aria-label="關閉即時影像">&times;</button>
+      </div>
+      <div class="live-modal-body">
+        <div class="live-frame-host" id="live-frame-host"></div>
+        <div class="live-modal-footer">
+          <span class="live-source-label" id="live-source-label"></span>
+          <a class="live-open-yt" id="live-open-yt" href="#" target="_blank" rel="noopener noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="./assets/site-nav.js?v=clui41"></script>
   <script src="./assets/app.js?v=clui111"></script>
   <!-- CL-UI-100: rating chip / evaluation section / rate·report·comment flows. -->
