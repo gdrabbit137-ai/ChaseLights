@@ -111,12 +111,11 @@ test('CL-UI-34 (5): index.html carries the collapsed panel, cards untouched, sta
   assert.ok(modalStart>0&&panelAt>modalStart&&panelAt<modalEnd);
   assert.doesNotMatch(htmlSource.slice(0,modalStart),/modal-provenance/);
   assert.ok(!htmlSource.includes('?v=clui39'),'stamp must be bumped');
-  // CL-UI-53B: site-nav.css advanced to clui62 (one stamp on index.html).
-  // CL-API-05: member-auth.js advanced to clui65 (CL-UI-55), so only site-nav.css still
-  // carries a clui62 stamp on index.html.
-  assert.equal((htmlSource.match(/\?v=clui62/g)||[]).length,1,'site-nav stamp stays at clui62');
+  // CL-UI-116: site-nav.css + member-auth.js share the clui116 masthead generation
+  // (two stamps of that generation on index.html; CL-API-05-era stamps retired).
+  assert.equal((htmlSource.match(/\?v=clui116/g)||[]).length,2,'site-nav.css + member-auth.js at clui116 (CL-UI-116)');
   // CL-UI-73: app.js + app.css advanced to clui102; member-auth.js stays at clui81 (CL-UI-60 refresh).
-  assert.equal((htmlSource.match(/\?v=clui103/g)||[]).length,1,'member-auth.js alone at clui103 (CL-APP-07 bump)');
+  assert.equal((htmlSource.match(/\?v=clui103/g)||[]).length,0,'no stale clui103 member-auth stamp (CL-UI-116)');
   // CL-UI-61→CL-UI-69: reminders-client.js advanced past clui75 (CL-APP-03) to clui83 (CL-API-07).
   assert.match(htmlSource,/reminders-client\.js\?v=clui83/,'reminders-client stamp bumped to clui83');
   // CL-UI-73: app.js + app.css advanced to clui102; reminders-client.js stays at clui83.

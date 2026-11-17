@@ -34,6 +34,17 @@
   display: inline-flex;
   align-items: center;
 }
+
+/* CL-UI-116: CL-APP-05 案5 主峰金頂 brand SVG replaces the camera emoji.
+   24px tile sits vertically centered against the wordmark (inline-flex). */
+.site-nav-logo {
+  width: 24px;
+  height: 24px;
+  display: block;
+  flex: none;
+  border-radius: 6px;
+  margin-right: 2px;
+}
 .site-nav-links {
   display: flex;
   align-items: center;
