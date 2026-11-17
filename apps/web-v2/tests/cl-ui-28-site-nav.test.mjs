@@ -20,6 +20,7 @@ const wgHtml = read('weather-map.html');
 const genreHtml = read('genre-eval.html');
 const fieldHtml = read('field-intake.html');
 const remHtml = read('reminders.html');
+const sourcesHtml = read('sources.html');
 const appJs = read('assets/app.js');
 const wgJs = read('assets/weather-map.js');
 const navCss = read('assets/site-nav.css');
@@ -34,12 +35,14 @@ function normalized(html) {
   return navBlock(html).replace(/ data-active="page"/g, '');
 }
 
-test('CL-UI-28 (1): all five pages share ONE identical site-nav DOM', () => {
-  const pages = [indexHtml, wgHtml, genreHtml, fieldHtml, remHtml];
+test('CL-UI-28 (1): all six pages share ONE identical site-nav DOM', () => {
+  const pages = [indexHtml, wgHtml, genreHtml, fieldHtml, remHtml, sourcesHtml];
   const norm = pages.map(normalized);
   assert.equal(norm[1], norm[0], 'weather-map.html nav DOM matches index');
   assert.equal(norm[2], norm[0], 'genre-eval.html nav DOM matches index');
   assert.equal(norm[3], norm[0], 'field-intake.html nav DOM matches index');
+  assert.equal(norm[4], norm[0], 'reminders.html nav DOM matches index');
+  assert.equal(norm[5], norm[0], 'sources.html nav DOM matches index');
   for (const html of pages) {
     const nav = navBlock(html);
     assert.match(nav, /data-nav-target="cards"/);
@@ -140,12 +143,42 @@ test('CL-UI-28 (8): nav i18n keys exist in all three dictionaries', () => {
 });
 
 test('CL-UI-28 (9): index.html stamps tracked (CL-UI-73: app.js/app.css at clui102)', () => {
-  // CL-UI-53B: site-nav.css advanced to clui62 (site-nav.js stays clui41).
-  assert.match(indexHtml, /assets\/site-nav\.css\?v=clui62/);
+  // CL-UI-116: site-nav.css advanced to clui116 (brand-logo swap).
+  assert.match(indexHtml, /assets\/site-nav\.css\?v=clui116/);
+  assert.doesNotMatch(indexHtml, /site-nav\.css\?v=clui62/);
   assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
   assert.match(indexHtml, /assets\/app\.js\?v=clui111/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui102/);
   assert.doesNotMatch(indexHtml, /clui29/);
+});
+
+test('CL-UI-116: every shell-page header carries the CL-APP-05 brand SVG (emoji retired)', () => {
+  const pages = { 'index.html': indexHtml, 'weather-map.html': wgHtml, 'genre-eval.html': genreHtml,
+    'field-intake.html': fieldHtml, 'reminders.html': remHtml, 'sources.html': sourcesHtml };
+  for (const [page, html] of Object.entries(pages)) {
+    const nav = navBlock(html);
+    assert.match(nav, /<a class="site-nav-brand" href="\.\/index\.html"><img class="site-nav-logo" src="\.\/assets\/brand\/brand-512\.svg" alt="" width="24" height="24"> ChaseLights<\/a>/,
+      `${page} brand link uses the brand SVG next to the wordmark`);
+    assert.doesNotMatch(nav, /📸/, `${page} nav no longer carries the camera emoji`);
+    // Cache-bust: the masthead assets ride the same generation on every page.
+    assert.match(html, /site-nav\.css\?v=clui116/, `${page} site-nav.css stamp bumped`);
+    assert.match(html, /member-auth\.js\?v=clui116/, `${page} member-auth.js stamp bumped`);
+  }
+  assert.ok(navCss.includes('.site-nav-logo {'), 'site-nav.css ships the logo sizing rule');
+  assert.match(navCss, /\.site-nav-logo \{\s*\n\s*width: 24px;\s*\n\s*height: 24px;/,
+    'logo renders ~24px tall, vertically centered by the inline-flex brand link');
+  // APP shell (the Capacitor WebView loads apps/web-v2): the masthead brand
+  // mark drops the ◉ placeholder and shows the same 案5 artwork, embedded as
+  // a styles.css data-URI so the offline www fallback still renders it.
+  const shellHtml = read('apps/web-v2/index.html');
+  const shellCss = read('apps/web-v2/styles.css');
+  assert.doesNotMatch(shellHtml, /brand-mark[^>]*>◉/, 'APP shell top drops the ◉ placeholder');
+  assert.match(shellHtml, /<span class="brand-mark" aria-hidden="true"><\/span>/);
+  assert.match(shellHtml, /styles\.css\?v=clui116/, 'APP shell styles.css cache-busted');
+  assert.match(shellCss, /\.brand-mark\{width:34px;height:34px;display:block;border-radius:8px;background:url\("data:image\/svg\+xml,/,
+    'APP shell brand mark paints the brand SVG at 34px');
+  assert.match(shellCss, /\.brand-mark\{width:24px;height:24px\}/, 'mobile brand mark scales to 24px');
+  assert.ok(shellCss.includes('%3Csvg'), 'styles.css embeds the brand SVG data URI');
 });
 
 test('CL-UI-28 (10): weather-map.js stamp bumped in weather-map.html (same commit)', () => {
