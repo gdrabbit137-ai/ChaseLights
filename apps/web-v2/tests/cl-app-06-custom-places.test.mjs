@@ -25,8 +25,10 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 
 // ------------------------------------------------------------- (1) source
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06d/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06d/);
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06f/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06f/);
+  // patch-4: the vendored maplibre CSS is linked (pin-picker mini-map)
+  assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
   assert.match(htmlSource, /assets\/app\.js\?v=clui111/);
@@ -43,8 +45,10 @@ test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () =>
   // per-user daily fetch budget honesty (owner layer 3)
   assert.match(jsSource, /fetchDeferred/);
   assert.match(jsSource, /明日更新|updates tomorrow|明日更新/);
-  // nomination → review queue; soft delete (30-day revive) copy
-  assert.match(jsSource, /nomModal/);
+  // patch-6 (owner ruling): 提名升級官方 is GONE — no nominate modal, menu
+  // item or dict key may remain in the asset; backend endpoint is kept but
+  // no longer exposed anywhere in the UI
+  assert.doesNotMatch(jsSource, /nomModal|m_nom|nom_title|nom_btn|cl-cp-nom/);
   assert.match(jsSource, /30 天|30 days|30 日/);
   // member gating: signed-out users get the login notice, never a silent action
   assert.match(jsSource, /needLoginModal/);
@@ -95,12 +99,17 @@ test('CL-APP-06 (1c-2, patch-2): the modal is height-bounded + internally scroll
 
 test('CL-APP-06 (1d): tri-lingual dictionary parity in the asset', () => {
   const keys = ['priv_badge', 'v_all', 'v_official', 'v_private', 'trial_expired', 'trial_note',
-    'deferred_note', 'm_edit', 'm_cc', 'm_nom', 'm_del', 'add_title', 'ro_elev', 'ro_tz',
-    'nom_title', 'del_title', 'count_fmt',
+    'deferred_note', 'm_edit', 'm_cc', 'm_del', 'add_title', 'ro_elev', 'ro_tz',
+    'del_title', 'count_fmt',
     // 📍 current-location copy must exist in ALL three dictionaries
     'geo_btn', 'geo_note', 'geo_working', 'geo_denied', 'geo_timeout', 'geo_error',
     // patch-2: disabled-button reason copy must exist in ALL three dictionaries
-    'reason_name', 'reason_pin'];
+    'reason_name', 'reason_pin',
+    // patch-4: mini-map honest loading copy; patch-5: conflict + months copy
+    'pin_map_loading', 'ai_conflict', 'p_months', 'p_months_hint',
+    // patch-7: private-card forecast popup (quick view / 8-day strip / subjects)
+    'qv_title', 'qv_quick', 'qv_days', 'qv_no_data', 'qv_no_data_note', 'qv_subjects',
+    'qv_subject_custom', 'qv_baseline', 'qv_entry', 'qv_load_fail', 'qv_gen'];
   for (const lang of ['zh-TW', 'en', 'ja']) {
     const block = jsSource.slice(jsSource.indexOf(`'${lang}':`), jsSource.indexOf(`'${lang}':`) + 8000);
     for (const key of keys) assert.ok(new RegExp(`\\b${key}:`).test(block), `${lang} missing ${key}`);
@@ -198,10 +207,26 @@ async function bootBrowser() {
     // state is pushed via the chaselights:auth broadcast after load.
     await send('Page.enable');
     await send('Page.addScriptToEvaluateOnNewDocument', { source: `
+      // patch-4: pin-picker mini-map is DISABLED in this harness (deterministic
+      // schematic fallback) — the real-MapLibre path is covered by test (2r)
+      // which clears this flag at runtime.
+      window.__clcpMapLibre = false;
       window.__clcpFetch = function (path, opts) {
         if (path.indexOf('/api/v1/custom_places/pin_info') === 0) {
           return Promise.resolve({ ok: true, status: 200, json: function () {
             return Promise.resolve({ ok: true, elevation: 80, timezone: 'Asia/Taipei', utcOffsetSeconds: 28800, elevationOutlier: false });
+          } });
+        }
+        // patch-7: the private-card forecast popup reads the stored eval
+        if (path === '/api/v1/custom_places/cp1/eval') {
+          const hourly = [];
+          // day 1: 05:00 clean (cc window 04:30–07:00, cloud_low_max 15) ✓
+          hourly.push({ local_date: '2026-11-16', hour: '05:00', values: { cloud_low: 10, cloud_mid: 20, cloud_high: 30, precipitation: 0, visibility: 20000, wind: 2 } });
+          hourly.push({ local_date: '2026-11-16', hour: '06:00', values: { cloud_low: 12, cloud_mid: 20, cloud_high: 30, precipitation: 0, visibility: 20000, wind: 2 } });
+          // day 2: low cloud blows the custom threshold (✗), baseline still ✓
+          for (const h of ['00:00','05:00','10:00','18:00']) hourly.push({ local_date: '2026-11-17', hour: h, values: { cloud_low: 90, cloud_mid: 20, cloud_high: 30, precipitation: 0, visibility: 20000, wind: 2 } });
+          return Promise.resolve({ ok: true, status: 200, json: function () {
+            return Promise.resolve({ ok: true, id: 'cp1', private: true, hourly: hourly, generatedAt: '2026-11-15T10:00:00Z', elevation: 1150, timezone: 'Asia/Taipei' });
           } });
         }
         if (path === '/api/v1/conditions/parse') {
@@ -357,7 +382,7 @@ test('CL-APP-06 (2b): private card anatomy — gray badge computed style + tier 
   assert.match(probe.tier, /✓/, 'rec private card carries the ✓ tier');
   assert.match(probe.window, /05:00/, 'rec window rides the card');
   assert.match(probe.cc, /低雲≤15/, 'CL-UI-99 condition summary (only tuned params)');
-  assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit', 'nom']);
+  assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit'], 'patch-6: menu is 編輯／掛題材·條件／刪除');
   assert.equal(probe.menuOpen, 'block', '⋯ menu opens');
   // patch-3: the menu is portaled OUT of the card to document.body (fixed)
   assert.equal(probe.menuParentIsBody, true, '⋯ menu lives on document.body — outside the card boundary');
@@ -744,6 +769,66 @@ test('CL-APP-06 (2n, patch-2): 390×768 small window — same fix on the mobile 
   assert.match(probe.btnAfter, /建立私人點/);
 });
 
+test('CL-APP-06 (2r, patch-5): 1280×768 EDIT modal after a scrolled tall modal — top fields not clipped, body locked, no horizontal overflow, menu = 3 items (patch-6)', async () => {
+  await bootBrowser();
+  await setViewport(1280, 768, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const out = {};
+    // step 1 — repro precondition: open the TALL conditions modal, scroll to
+    // its bottom (patch-5 architecture: the tall overflow lives INSIDE the
+    // modal; the overlay only scrolls when the modal itself exceeds the
+    // viewport — scroll whichever scroller actually overflows), close it
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
+    card.querySelector('.cl-cp-more').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const ov = document.querySelector('.cl-cp-overlay');
+    const tallModal = ov.querySelector('.cl-cp-modal');
+    tallModal.scrollTop = tallModal.scrollHeight;
+    ov.scrollTop = ov.scrollHeight;
+    await new Promise(r => setTimeout(r, 50));
+    out.overlayScrollPersisted = (tallModal.scrollTop > 0) || (ov.scrollTop > 0);
+    out.bodyLockedWhileOpen = document.body.classList.contains('cl-cp-lock');
+    ov.querySelector('[data-cp-close]').click();
+    await new Promise(r => setTimeout(r, 100));
+    out.bodyUnlockedAfterClose = !document.body.classList.contains('cl-cp-lock');
+    // step 2 — owner's exact case: open the EDIT modal right after
+    card.querySelector('.cl-cp-more').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="edit"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const modal = ov.querySelector('.cl-cp-modal');
+    const mr = modal.getBoundingClientRect();
+    out.bodyLocked = document.body.classList.contains('cl-cp-lock');
+    out.modalTop = mr.top; out.modalBottom = mr.bottom;
+    out.hScroll = modal.scrollWidth > modal.clientWidth;
+    out.hOffenders = [...modal.querySelectorAll('*')].filter(el => el.scrollWidth > el.clientWidth + 1).slice(0, 10).map(el => el.tagName + '.' + el.className + ' sw=' + el.scrollWidth + ' cw=' + el.clientWidth + ' kids=' + [...el.children].map(k => k.tagName + '.' + k.className + ':' + Math.round(k.getBoundingClientRect().width) + 'w/sw' + k.scrollWidth).join('|'));
+    const vis = (el) => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.bottom <= window.innerHeight + 1 && r.height > 0; };
+    const name = ov.querySelector('#cl-cp-name'), pin = ov.querySelector('#cl-cp-pinpick'), btn = ov.querySelector('#cl-cp-submit');
+    out.nameVisible = vis(name);
+    out.pinVisible = vis(pin);
+    out.submitVisible = vis(btn);
+    if (!out.submitVisible) { // reachable via the modal's INTERNAL scroll
+      modal.scrollTop = modal.scrollHeight;
+      await new Promise(r => setTimeout(r, 100));
+      out.submitVisible = vis(btn);
+      out.submitViaInnerScroll = true; }
+    out.menuActs = [...document.querySelectorAll('#cl-cp-menu [data-cp-act]')].map(b => b.getAttribute('data-cp-act'));
+    return out;
+  })()`);
+  assert.equal(probe.bodyLockedWhileOpen, true, 'body scroll is locked while a modal is open');
+  assert.equal(probe.bodyUnlockedAfterClose, true, 'body scroll unlocks on close');
+  assert.equal(probe.bodyLocked, true);
+  assert.ok(probe.overlayScrollPersisted, 'repro precondition: the tall modal left the overlay scrolled');
+  assert.ok(probe.modalTop >= -1 && probe.modalBottom <= 769,
+    `edit modal inside the 1280×768 window (top=${probe.modalTop}, bottom=${probe.modalBottom})`);
+  assert.equal(probe.hScroll, false, 'no horizontal overflow inside the modal (offenders: ' + JSON.stringify(probe.hOffenders) + ')');
+  assert.ok(probe.nameVisible, 'name field visible at the top of the edit modal');
+  assert.ok(probe.pinVisible, 'pin-picker area visible');
+  assert.ok(probe.submitVisible, 'submit/update button visible (viewport or inner scroll)');
+  assert.deepEqual(probe.menuActs.sort(), ['cc', 'del', 'edit'], 'patch-6: menu = 編輯／掛題材·條件／刪除');
+});
+
 test('CL-APP-06 (1f, patch-3): ⋯ menu renders OUT of the card — portal + fixed + flip-up + 44px + scroll-close', () => {
   // owner bug: the dropdown's 3rd item 「掛題材·條件」 was clipped in half —
   // the menu was position:absolute INSIDE the card, whose content-visibility
@@ -805,7 +890,7 @@ test('CL-APP-06 (2o, patch-3): 390 viewport, card near the page footer — menu 
     `menu flipped up (bottom ${probe.menuBottom} ≤ trigger top ${probe.triggerTop})`);
   assert.ok(probe.menuTop >= 0, 'flipped menu still starts inside the viewport');
   assert.ok(probe.menuRight <= probe.winW + 1 && probe.menuLeft >= 0, 'menu fits the 390px width');
-  assert.equal(probe.items.length, 4);
+  assert.equal(probe.items.length, 3, 'patch-6: menu is 編輯／掛題材·條件／刪除');
   for (const it of probe.items) {
     assert.ok(it.h >= 43, `${it.act} touch target ≥44px (got ${it.h})`);
     assert.ok(it.top >= 0 && it.bottom <= probe.winH + 1 && it.left >= 0 && it.right <= probe.winW + 1,
@@ -858,6 +943,256 @@ test('CL-APP-06 (2q, patch-3): the open menu closes on scroll (any scroller) and
   assert.equal(probe.open2, true, 'the ⋯ trigger reopens the menu');
   assert.ok(probe.topAfter > 0, 'the reopened menu is re-anchored under the trigger (fixed position)');
   assert.equal(probe.afterOutside, false, 'outside click closes the menu');
+});
+
+test('CL-APP-06 (1g, patch-4/5): mini-map deferred-init contract + ticket-language-free conditions copy + months plumbing', () => {
+  // patch-4 root cause: init inside a hidden/zero-size container breaks the
+  // tile/marker layout — init MUST wait for a visible, sized container.
+  assert.match(jsSource, /getBoundingClientRect\(\)[\s\S]{0,120}width > 8 && r\.height > 8/,
+    'init waits for a non-zero box (never initializes into a hidden container)');
+  assert.match(jsSource, /requestAnimationFrame\(waitBox\)/);
+  assert.match(jsSource, /map\.resize\(\)/, 'second brace: resize after load');
+  assert.match(jsSource, /assets\/vendor\/maplibre-gl\.mjs/, 'the VENDORED module — no CDN');
+  assert.match(jsSource, /draggable: true/);
+  assert.match(jsSource, /marker\.on\('dragend'/, 'dragging the pin syncs the lat/lng fields');
+  assert.match(jsSource, /teardownMiniMap\(\); \/\/ patch-4: the GL context must not leak across modals/,
+    'closing the modal removes the GL context');
+  assert.match(jsSource, /wireSchematicPinDrop/, 'honest schematic fallback on module/tile failure');
+  // patch-5 ①: ticket/engineering language is OUT of every user-visible string
+  for (const m of jsSource.matchAll(/'(zh-TW|en|ja)':\s*\{[\s\S]*?\n    \}/g)) {
+    assert.doesNotMatch(m[0], /CL-[A-Z]+-?\d*/, `dictionary ${m[1]} must not carry ticket numbers`);
+  }
+  // patch-5 ③: conflict path — the AI applies nothing, the user picks
+  assert.match(jsSource, /if \(s\.conflict\)[\s\S]{0,200}ai_conflict\.replace\('\{m\}', s\.conflict\)/);
+  assert.match(jsSource, /ai_conflict: '⚠ 條件矛盾：\{m\}——請擇一，AI 未套用任何值。'/);
+  // patch-5 ②: the example copy is conflict-free (single time window)
+  assert.match(jsSource, /ai_ph: '例如：清晨要能看到雲海，不要下雨，最好六點前'/);
+  // patch-5 ④: months multi-select, default all-year, seasonal starters prefill
+  assert.match(jsSource, /p_months: '適用月份'/);
+  assert.match(jsSource, /id="cl-cp-cc-months"/);
+  assert.match(jsSource, /out\.months = months\.sort/, 'readCc emits the sorted months array');
+  assert.match(jsSource, /snow_scene: \{[\s\S]{0,120}months: \[12, 1, 2\]/, '雪景 starter prefills its season months');
+  assert.match(jsSource, /seasonal_plant: \{[\s\S]{0,120}months: \[3, 4\]/, '櫻花 starter prefills its season months');
+  assert.match(cssSource, /\.cl-cp-cc-months\{display:flex;flex-wrap:wrap/);
+});
+
+test('CL-APP-06 (2r, patch-4): real mini-map — DEFERRED init after the modal is visible, marker = lat/lng, drag syncs the fields', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    // re-enable the REAL maplibre path for this test only
+    delete window.__clcpMapLibre;
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
+    card.querySelector('.cl-cp-more').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="edit"]').click();
+    // wait for the map instance (created only after the container has a box)
+    const t0 = Date.now();
+    while (!window.__clCpMiniMap && Date.now() - t0 < 10000) await new Promise(r => setTimeout(r, 100));
+    const map = window.__clCpMiniMap;
+    if (!map) return { error: 'mini-map never initialized' };
+    const boxAtInit = document.getElementById('cl-cp-pinpick').getBoundingClientRect();
+    await new Promise(res => { if (map.loaded()) res(); else map.once('load', res); });
+    const t1 = Date.now();
+    while (!map.loaded() && Date.now() - t1 < 15000) await new Promise(r => setTimeout(r, 200));
+    const marker = window.__clCpMiniMapMarker;
+    const ll = marker && marker.getLngLat();
+    const out = {
+      boxW: boxAtInit.width, boxH: boxAtInit.height,
+      styleLoaded: map.isStyleLoaded(), allTilesLoaded: map.loaded(),
+      markerLat: ll && ll.lat, markerLng: ll && ll.lng,
+      draggable: true,
+    };
+    // drag the marker (simulated dragend at a new coordinate) → fields sync
+    marker.setLngLat([121.55, 24.65]);
+    marker.fire('dragend');
+    await new Promise(r => setTimeout(r, 300));
+    const ov = document.querySelector('.cl-cp-overlay');
+    out.latAfterDrag = ov.querySelector('#cl-cp-lat').value;
+    out.lngAfterDrag = ov.querySelector('#cl-cp-lng').value;
+    // manual lat/lng entry moves the marker back
+    ov.querySelector('#cl-cp-lat').value = '24.8225';
+    ov.querySelector('#cl-cp-lng').value = '121.7675';
+    ov.querySelector('#cl-cp-lng').dispatchEvent(new Event('change'));
+    await new Promise(r => setTimeout(r, 400));
+    const ll2 = marker.getLngLat();
+    out.markerAfterInput = [Number(ll2.lat.toFixed(4)), Number(ll2.lng.toFixed(4))];
+    // closing the modal tears the GL context down
+    ov.querySelector('[data-cp-close]').click();
+    await new Promise(r => setTimeout(r, 150));
+    out.mapRemoved = !window.__clCpMiniMap;
+    return out;
+  })()`);
+  assert.ok(probe.boxW > 8 && probe.boxH > 8, 'the container HAS a size at init (root-cause guard)');
+  assert.equal(probe.styleLoaded, true, 'the vendored maplibre style loads');
+  assert.equal(probe.allTilesLoaded, true, 'basemap tiles finished loading');
+  assert.ok(Math.abs(probe.markerLat - 24.8225) < 0.01 && Math.abs(probe.markerLng - 121.7675) < 0.01,
+    'the edit modal marker sits at the place lat/lng (got ' + probe.markerLat + ',' + probe.markerLng + ')');
+  assert.equal(probe.latAfterDrag, '24.6500', 'dragging the pin syncs the lat field');
+  assert.equal(probe.lngAfterDrag, '121.5500', 'dragging the pin syncs the lng field');
+  assert.deepEqual(probe.markerAfterInput, [24.8225, 121.7675], 'manual input moves the marker (two-way)');
+  assert.equal(probe.mapRemoved, true, 'GL context removed on close');
+});
+
+test('CL-APP-06 (2s, patch-5): conditions modal — no ticket language, conflict AI branch, 適用月份 chips + seasonal starter prefill', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
+    card.querySelector('.cl-cp-more').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const ov = document.querySelector('.cl-cp-overlay');
+    const out = {};
+    // ① ticket/engineering language is gone from the visible modal text
+    out.text = ov.textContent;
+    out.ticketFree = !/CL-[A-Z]+-\\d+/.test(out.text);
+    // ④ months chips: 12 checkboxes, none preselected (all-year default)
+    const mo = [...ov.querySelectorAll('#cl-cp-cc-months input')];
+    out.monthCount = mo.length;
+    out.monthsDefault = mo.filter(b => b.checked).length;
+    mo.find(b => b.value === '1').checked = true;
+    mo.find(b => b.value === '2').checked = true;
+    mo.find(b => b.value === '12').checked = true;
+    mo.find(b => b.value === '12').dispatchEvent(new Event('change'));
+    out.previewMonths = ov.querySelector('#cl-cp-cc-prev').textContent;
+    // ④ seasonal starter prefills months + preview
+    const gs = ov.querySelector('#cl-cp-cc-genre');
+    gs.value = 'seasonal_plant';
+    gs.dispatchEvent(new Event('change'));
+    await new Promise(r => setTimeout(r, 100));
+    out.sakuraMonths = [...ov.querySelectorAll('#cl-cp-cc-months input:checked')].map(b => Number(b.value));
+    out.previewAfterStarter = ov.querySelector('#cl-cp-cc-prev').textContent;
+    // ③ AI conflict: stub a conflicting parse → honest note, NOTHING applied
+    const realFetch = window.__clcpFetch;
+    window.__clcpFetch = (path, opts) => {
+      if (path === '/api/v1/conditions/parse' && opts && opts.method === 'POST') {
+        return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ ok: true, suggestions: { cloud: 'min', fog: 'none', rain: 'no', wind_max_ms: null, window_start: null, window_end: null, lead_minutes: null, conflict: '兩個時間窗不重疊，請擇一', confidence: 0.9 } }) });
+      }
+      return realFetch(path, opts);
+    };
+    const prevBefore = ov.querySelector('#cl-cp-cc-prev').textContent;
+    ov.querySelector('#cl-cp-ai-text').value = '凌晨兩點也要雲海，而且只要清晨五點';
+    ov.querySelector('#cl-cp-ai-go').click();
+    await new Promise(r => setTimeout(r, 400));
+    out.conflictNote = ov.querySelector('#cl-cp-ai-note').textContent;
+    out.cloudAfterConflict = ov.querySelector('#cl-cp-sem-cloud').value;
+    out.winStartAfterConflict = ov.querySelector('#cl-cp-cc-start').value;
+    out.previewUnchanged = ov.querySelector('#cl-cp-cc-prev').textContent === prevBefore;
+    window.__clcpFetch = realFetch;
+    return out;
+  })()`);
+  assert.equal(probe.ticketFree, true, 'no CL-* ticket numbers anywhere in the modal text');
+  assert.equal(probe.monthCount, 12, '12 month chips');
+  assert.equal(probe.monthsDefault, 0, 'default = all year (none checked)');
+  assert.match(probe.previewMonths, /1–2,12/, 'preview prints the compacted month window');
+  assert.deepEqual(probe.sakuraMonths, [3, 4], '櫻花 starter prefills its seasonal months');
+  assert.match(probe.previewAfterStarter, /月 3–4/);
+  assert.match(probe.conflictNote, /條件矛盾/, 'honest conflict message');
+  assert.match(probe.conflictNote, /請擇一/);
+  assert.equal(probe.cloudAfterConflict, 'any', 'the conflict did NOT change the cloud select (unchanged from the 櫻花 starter = any)');
+  assert.equal(probe.winStartAfterConflict, '06:00', 'the conflict did NOT touch the time window (the 櫻花 starter\'s 06:00 survives)');
+  assert.equal(probe.previewUnchanged, true, 'the preview is untouched by a conflicting parse');
+});
+
+test('CL-APP-06 (1h, patch-7): private-card click → forecast popup — source contract (parity with official cards)', () => {
+  // card body click opens the popup; buttons/links (⋯, upgrade CTA) never do
+  assert.match(jsSource, /e\.target\.closest\('button, a, input, select'\)\) return;\s*\n\s*forecastModal\(p\);/);
+  assert.match(jsSource, /e\.key === 'Enter' \|\| e\.key === ' '.*forecastModal\(p\)/s, 'keyboard parity: Enter/Space open the popup');
+  // the popup renders ONLY stored data — the eval endpoint, never a new fetch
+  assert.match(jsSource, /API \+ '\/' \+ p\.id \+ '\/eval'/);
+  // the hour matcher mirrors the worker exactly (lenient defaults + missing-value honesty)
+  assert.match(jsSource, /limit >= 100\) continue;/);
+  assert.match(jsSource, /limit <= 0\) continue;/);
+  assert.match(jsSource, /if \(val == null\) return false;/);
+  // 8-day grid: honest ─ for uncovered days, M/D labels
+  assert.match(jsSource, /qv_no_data_note/);
+  assert.match(jsSource, /day\.date\.slice\(5\)\.replace\('-', '\/'\)/);
+  // per-subject rows: 自訂條件 first (when attached) + the general baseline
+  assert.match(jsSource, /subjects\.push\(\{ name: t\(\)\.qv_subject_custom, cond: cc \}\)/);
+  assert.match(jsSource, /CP_GENERAL_BASELINE = \{ precip_max_mmh: 2, visibility_min_km: 3, wind_max_ms: 10 \}/);
+  // 題材 panel entry: the user's custom conditions open the conditions panel
+  assert.match(jsSource, /entry\.addEventListener\('click', function \(\) \{ ccModal\(p\); \}\)/);
+  // close button + endpoint wiring on the worker side
+  assert.match(cssSource, /\.cl-cp-qv-strip\{display:grid;grid-template-columns:repeat\(8/);
+  const workerSrc = readFileSync(join(WEB, 'workers', 'api', 'src', 'custom-places.js'), 'utf8');
+  assert.match(workerSrc, /export async function handleCustomPlaceEval/);
+  assert.match(workerSrc, /v1:evals:custom:\$\{placeId\}/);
+  const idxSrc = readFileSync(join(WEB, 'workers', 'api', 'src', 'index.js'), 'utf8');
+  assert.match(idxSrc, /custom_places\\\/\(\[\\w-\]\+\)\\\/eval/);
+});
+
+test('CL-APP-06 (2t, patch-7): clicking a private card opens the forecast popup — quick view, 8-day strip, per-subject rows, 題材 entry; ⋯ still opens the menu', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const out = {};
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
+    // ⋯ must NOT open the popup (menu parity from patch-3 is preserved)
+    card.querySelector('.cl-cp-more').click();
+    await new Promise(r => setTimeout(r, 100));
+    out.menuOpensNotPopup = document.querySelector('#cl-cp-menu').classList.contains('open') && !document.querySelector('.cl-cp-overlay').classList.contains('open');
+    document.body.click(); // close menu
+    await new Promise(r => setTimeout(r, 50));
+    // card-body click → forecast popup
+    card.querySelector('.cl-cp-card-name').click();
+    await new Promise(r => setTimeout(r, 250));
+    const ov = document.querySelector('.cl-cp-overlay');
+    out.popupOpens = ov.classList.contains('open');
+    out.quickLine = ov.querySelector('.cl-cp-qv-quick') && ov.querySelector('.cl-cp-qv-quick').textContent;
+    out.name = ov.querySelector('.cl-cp-m-head .name').textContent;
+    // wait for the eval fetch to land
+    const t0 = Date.now();
+    while (ov.querySelector('#cl-cp-qv-days .cl-cp-qv-loading') && Date.now() - t0 < 5000) await new Promise(r => setTimeout(r, 100));
+    const cells = [...ov.querySelectorAll('#cl-cp-qv-days .cl-cp-qv-cell')];
+    out.cellCount = cells.length;
+    out.day1 = cells[0] && cells[0].className + ':' + cells[0].textContent;
+    out.day2 = cells[1] && cells[1].className + ':' + cells[1].textContent;
+    out.day8 = cells[7] && cells[7].className + ':' + cells[7].textContent;
+    out.day8Title = cells[7] && cells[7].getAttribute('title');
+    const rows = [...ov.querySelectorAll('.cl-cp-qv-row')].map(r => ({
+      name: r.querySelector('.cl-cp-qv-row-name').textContent,
+      day1: r.querySelector('.cl-cp-qv-cell').className + ':' + r.querySelector('.cl-cp-qv-cell').textContent,
+      day2: r.querySelectorAll('.cl-cp-qv-cell')[1].className + ':' + r.querySelectorAll('.cl-cp-qv-cell')[1].textContent,
+    }));
+    out.subjectRows = rows;
+    // 題材 panel entry opens the conditions panel (user's custom conditions there)
+    ov.querySelector('#cl-cp-qv-subject-entry').click();
+    await new Promise(r => setTimeout(r, 250));
+    out.subjectPanelTitle = ov.querySelector('.cl-cp-m-head .name') && ov.querySelector('.cl-cp-m-head .name').textContent;
+    // ✕ closes
+    ov.querySelector('[data-cp-close]').click();
+    await new Promise(r => setTimeout(r, 100));
+    out.closed = !ov.classList.contains('open');
+    // keyboard parity: Enter on the card opens the popup again
+    card.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    await new Promise(r => setTimeout(r, 150));
+    out.keyboardOpens = ov.classList.contains('open');
+    ov.querySelector('[data-cp-close]').click();
+    return out;
+  })()`);
+  assert.equal(probe.menuOpensNotPopup, true, '⋯ opens the menu, not the popup');
+  assert.equal(probe.popupOpens, true, 'card click opens the forecast popup');
+  assert.match(probe.name, /霧社水庫西岸岔路/);
+  assert.match(probe.quickLine, /現在去會怎樣/);
+  assert.match(probe.quickLine, /✓/, 'tier badge rides the quick line');
+  assert.match(probe.quickLine, /2026-11-16 05:00/, 'next window rides the quick line');
+  assert.equal(probe.cellCount, 8, 'the strip is always 8 days');
+  assert.match(probe.day1, /ok.*11\/16.*✓/, 'day 1: conditions met (05:00 clean air)');
+  assert.match(probe.day2, /bad.*11\/17.*✗/, 'day 2: low cloud blows the custom threshold');
+  assert.match(probe.day8, /none.*─/, 'day 8: honest ─ — the ~48h feed does not cover it');
+  assert.match(probe.day8Title, /尚無資料/, 'the ─ explains itself');
+  assert.equal(probe.subjectRows.length, 2, '自訂條件 + 一般基準 rows');
+  assert.match(probe.subjectRows[0].name, /自訂條件/);
+  assert.match(probe.subjectRows[0].day1, /ok.*✓/);
+  assert.match(probe.subjectRows[0].day2, /bad.*✗/, 'custom row: day 2 fails the tuned cloud threshold');
+  assert.match(probe.subjectRows[1].name, /一般基準/);
+  assert.match(probe.subjectRows[1].day2, /ok.*✓/, 'baseline row: day 2 is shootable (90% low cloud only fails the custom threshold)');
+  assert.match(probe.subjectPanelTitle, /掛題材·自訂條件/, '題材 entry opens the conditions panel');
+  assert.equal(probe.closed, true, '✕ closes the popup');
+  assert.equal(probe.keyboardOpens, true, 'Enter on the card opens the popup');
 });
 
 test('CL-APP-06 (2g): browser teardown', async () => { await teardownBrowser(); });
