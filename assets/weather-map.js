@@ -493,13 +493,13 @@
 ,
     '北 360°':'N 360°'
 ,
-    '50% 雲量分界':'50% cloud boundary'
-,
     '箭頭＝風去向':'arrow = wind blowing toward'
 ,
     '（游標查值）':' (cursor readout)'
 ,
     '展開／收合完整圖例刻度':'Expand/collapse the full legend ticks'
+,
+    '資料說明':'Data info'
 ,
     '觀測時間':'Observation time'
 ,
@@ -878,13 +878,13 @@
 ,
     '北 360°':'北 360°'
 ,
-    '50% 雲量分界':'50% 雲量境界'
-,
     '箭頭＝風去向':'矢印＝風の向かう先'
 ,
     '（游標查值）':'（カーソル照合）'
 ,
     '展開／收合完整圖例刻度':'凡例の全目盛りを展開／折りたたむ'
+,
+    '資料說明':'データ解説'
 ,
     '觀測時間':'観測時刻'
 ,
@@ -3193,6 +3193,17 @@
       if(typeof dialog.showModal==='function') dialog.showModal();
       else dialog.setAttribute('open','');
     });
+    // CL-UI-112（owner）: the mobile shell retires the top-right ⓘ row; the ⓘ
+    // lives in the bottom-left legend title row now. Delegated on #legend
+    // (updateLegend() re-renders the box innerHTML on every data pass).
+    const legendHost=$('legend');
+    if(legendHost && !legendHost.dataset.infoWired){
+      legendHost.dataset.infoWired='1';
+      legendHost.addEventListener('click',ev=>{
+        if(!ev.target.closest || !ev.target.closest('.legend-info')) return;
+        open.click();
+      });
+    }
     close.addEventListener('click',()=>{
       if(typeof dialog.close==='function') dialog.close();
       else dialog.removeAttribute('open');
@@ -3905,116 +3916,16 @@
     return drawn;
   }
 
-  // CL-WG-26: contour zoom gate. At low zoom levels the grid resolution
-  // cannot support a 50% contour line — the dash degenerates into dense
-  // dotted noise (e.g. ICON/GFS low-cloud field hovering ~50% over open
-  // sea). The contour is drawn only when the camera zoom is >= 6 AND each
-  // grid cell measures >= 10px on screen; below the gate the legend keeps
-  // the 50% boundary key with a trilingual "please zoom in" hint.
-  const CONTOUR_MIN_ZOOM=6;
-  const CONTOUR_MIN_CELL_PX=10;
-  function cloudContourGateAllowed(zoom,cellPx){
-    // No live camera (Canvas fallback / pre-map frames): keep the previous
-    // always-draw behavior — the fallback view is a fixed region fit, not a
-    // zoomable camera, so the noise scenario does not apply.
-    if(!Number.isFinite(zoom)||!Number.isFinite(cellPx)) return true;
-    return zoom>=CONTOUR_MIN_ZOOM && cellPx>=CONTOUR_MIN_CELL_PX;
-  }
-
-  function contourCrossing(p1,p2,v1,v2,threshold){
-    if(!Number.isFinite(v1) || !Number.isFinite(v2) || v1===v2) return null;
-    const a=v1-threshold,b=v2-threshold;
-    if((a<0 && b<0) || (a>0 && b>0)) return null;
-    const t=(threshold-v1)/(v2-v1);
-    if(t<0 || t>1) return null;
-    return {
-      lon:p1.lon+(p2.lon-p1.lon)*t,
-      lat:p1.lat+(p2.lat-p1.lat)*t
-    };
-  }
-
-  function drawCloudThresholdContour(data,vals,threshold,visibleView){
-    if(!vals || !vals.length) return; // values still loading (PNG stub path)
-    const rows=data.grid.rows, cols=data.grid.cols;
-    const lats=data.grid.latitudes, lons=data.grid.longitudes;
-    if(rows<2 || cols<2) return;
-
-    ctx.save();
-    ctx.strokeStyle='rgba(254,240,138,.68)';
-    ctx.lineWidth=1.15;
-    ctx.setLineDash([2,3]);
-    ctx.lineCap='round';
-
-    const strokeSegment=(a,b)=>{
-      const pa=project(a.lon,a.lat),pb=project(b.lon,b.lat);
-      ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);ctx.stroke();
-    };
-
-    for(let r=0;r<rows-1;r++){
-      for(let c=0;c<cols-1;c++){
-        const lon0=lons[c],lon1=lons[c+1],lat0=lats[r],lat1=lats[r+1];
-        const left=Math.min(lon0,lon1),right=Math.max(lon0,lon1);
-        const bottom=Math.min(lat0,lat1),top=Math.max(lat0,lat1);
-        if(right<visibleView.leftlon || left>visibleView.rightlon ||
-           top<visibleView.bottomlat || bottom>visibleView.toplat) continue;
-
-        const q00=vals[r*cols+c],q10=vals[r*cols+c+1];
-        const q01=vals[(r+1)*cols+c],q11=vals[(r+1)*cols+c+1];
-        if([q00,q10,q01,q11].some(v=>!Number.isFinite(v))) continue;
-
-        const p00={lon:lon0,lat:lat0},p10={lon:lon1,lat:lat0};
-        const p01={lon:lon0,lat:lat1},p11={lon:lon1,lat:lat1};
-        const candidates=[
-          contourCrossing(p00,p10,q00,q10,threshold),
-          contourCrossing(p10,p11,q10,q11,threshold),
-          contourCrossing(p11,p01,q11,q01,threshold),
-          contourCrossing(p01,p00,q01,q00,threshold)
-        ].filter(Boolean);
-        const crossings=[];
-        for(const point of candidates){
-          if(!crossings.some(other=>
-            Math.abs(other.lon-point.lon)<1e-9 && Math.abs(other.lat-point.lat)<1e-9
-          )) crossings.push(point);
-        }
-
-        if(crossings.length===2){
-          strokeSegment(crossings[0],crossings[1]);
-        }else if(crossings.length===4){
-          const center=(q00+q10+q01+q11)/4;
-          if(center>=threshold){
-            strokeSegment(crossings[0],crossings[3]);
-            strokeSegment(crossings[1],crossings[2]);
-          }else{
-            strokeSegment(crossings[0],crossings[1]);
-            strokeSegment(crossings[2],crossings[3]);
-          }
-        }
-      }
-    }
-    ctx.restore();
-  }
-
-  // CL-WG-26: live camera probe for the contour gate. cellPx is the larger
-  // on-screen pixel dimension of one grid cell at the map center.
-  function cloudContourGateState(data){
-    const hasMap=state.mapReady&&state.map;
-    if(!hasMap) return {allowed:true,cellPx:null,zoom:null};
-    const zoom=state.map.getZoom();
-    let cellPx=null;
-    const grid=data?.grid;
-    if(grid?.longitudes?.length>1&&grid?.latitudes?.length>1){
-      const stepLon=Math.abs(grid.longitudes[1]-grid.longitudes[0]);
-      const stepLat=Math.abs(grid.latitudes[1]-grid.latitudes[0]);
-      const center=state.map.getCenter();
-      const p1=state.map.project([center.lng-stepLon/2,center.lat-stepLat/2]);
-      const p2=state.map.project([center.lng+stepLon/2,center.lat+stepLat/2]);
-      cellPx=Math.max(Math.abs(p2.x-p1.x),Math.abs(p2.y-p1.y));
-    }
-    return {allowed:cloudContourGateAllowed(zoom,cellPx),cellPx,zoom};
-  }
-  function shouldDrawCloudContour(data){
-    return cloudContourGateState(data).allowed;
-  }
+  // CL-UI-113: the CL-WG-26 50% cloud threshold contour (yellow dashed
+  // canvas stroke over open sea) is REMOVED. Owner root-cause ruling: three
+  // consecutive reports (CL-WG-25, CL-UI-107, CL-UI-113) read the dashed
+  // yellow shapes over open sea as basemap noise / admin boundaries —
+  // A/B headless proof (hide every style layer candidate: boundary_2/3,
+  // boundary_disputed, park, park_outline) showed the dashes persist and
+  // vanish only when this canvas contour is disabled. Its zoom gate only
+  // suppressed the <6 zoom degenerate case; at zoom>=6 over open sea the
+  // marching-squares contours still read as polygon "boundary" noise.
+  // The 50% hinge stays legible via the legend gradient + cursor readout.
 
   function drawCircularDirectionSubcells(data,directions,speeds,cfg,visibleView){
     const rows=data.grid.rows, cols=data.grid.cols;
@@ -4119,15 +4030,9 @@
     state.lastCanvasPainted=canvasHasFieldPaint();
     ctx.restore();
 
-    if(!isObservationMode() && (cfg.palette==='cloud'||cfg.palette==='cloudLow')){
-      // CL-WG-26: only draw the 50% contour when the zoom level supports it.
-      const gate=cloudContourGateState(data);
-      try{ window.__weatherGridContourGate={...gate,layer:state.layer}; }catch(_){}
-      if(gate.allowed){
-        drawCloudThresholdContour(data,vals,50,visibleView);
-      }
-    }
-    refreshCloudThresholdKey();
+    // CL-UI-113: the 50% threshold contour draw was removed (owner root
+    // cause of the recurring "yellow dashed line" reports); the gate probe
+    // hook is retired with it. See the note above drawCircularDirectionSubcells.
 
     drawProviderBoundary(data);
     if(!state.mapReady) drawGrid();
@@ -5413,37 +5318,8 @@
     updateCoverageStatus();
     updateQc();
   }
-  // CL-WG-26: the 50% threshold key is trilingual and, below the contour
-  // zoom gate, keeps the explanation but appends a "please zoom in" hint.
-  const CLOUD_THRESHOLD_LABELS={
-    'zh-TW':'50% 雲量分界',
-    'en':'50% cloud boundary',
-    'ja':'50% 雲量境界'
-  };
-  const CLOUD_THRESHOLD_ZOOM_HINTS={
-    'zh-TW':'請放大檢視',
-    'en':'Zoom in to view the contour',
-    'ja':'拡大してご覧ください'
-  };
-  function cloudThresholdKeyHtml(data){
-    const lang=weatherMapNoteLang();
-    const gated=!cloudContourGateState(data).allowed;
-    return {
-      gated,
-      html:`<div class="cloud-threshold-key" id="cloud-threshold-key" data-zoom-gated="${gated}"><span class="cloud-threshold-swatch"></span>${CLOUD_THRESHOLD_LABELS[lang]}${gated?` <span class="cloud-threshold-hint">（${CLOUD_THRESHOLD_ZOOM_HINTS[lang]}）</span>`:''}</div>`
-    };
-  }
-  // Zoom events redraw the map via draw(); the legend key follows the same
-  // gate in real time (only touches the DOM when the gate state flips).
-  function refreshCloudThresholdKey(){
-    const host=document.getElementById('cloud-threshold-key');
-    if(!host) return;
-    const next=cloudThresholdKeyHtml(activeDataset(state.layer));
-    if(host.dataset.zoomGated===String(next.gated)) return;
-    const wrap=document.createElement('div');
-    wrap.innerHTML=next.html;
-    host.replaceWith(wrap.firstElementChild);
-  }
+  // CL-UI-113: the CL-WG-26 50% threshold legend key (and its zoom hint) is
+  // retired together with the contour draw it annotated.
 
   // CL-WG-28: redesigned legend (owner ruling — Windy has no legend and that
   // is a long-running user complaint there, so OUR legend is a differentiator,
@@ -5488,9 +5364,8 @@
     }else{
       barGradient=`linear-gradient(90deg,${stopValues.map(v=>colorFor(v,cfg)).join(',')})`;
     }
-    // CL-WG-28: the 50% cloud hinge keeps its one-line key (PM ruling item 3);
-    // everything else collapse-worthy lives in the expanded panel.
-    const thresholdKey=isCloud?cloudThresholdKeyHtml(activeDataset(state.layer)).html:'';
+    // CL-UI-113: the CL-WG-26 one-line 50% key was retired with the contour
+    // draw it annotated; everything else collapse-worthy lives in the panel.
     const expandedLabels=isCloud
       ? `<div class="cloud-legend-labels">${cloudLegendLabels()}</div>`
       : `<div class="legend-row">${labels.map(v=>`<span>${escapeHtml(v)}</span>`).join('')}</div>`;
@@ -5503,13 +5378,12 @@
         <span><i class="coverage-swatch environment"></i>Environment</span>
       </div>` : '';
     $('legend').innerHTML=`
-      <strong>${wmT(cfg.label)}</strong>
+      <div class="legend-title"><strong>${wmT(cfg.label)}</strong><button type="button" class="legend-info" aria-label="${wmT('資料說明')}" title="${wmT('資料說明')}">ⓘ</button></div>
       <button type="button" class="legend-toggle" aria-expanded="${state.legendExpanded?'true':'false'}" aria-label="${wmT('展開／收合完整圖例刻度')}">
         <span class="legend-bar${isCloud?' cloud-percent':''}" style="background:${barGradient}">${isCloud?'<span class="cloud-midline" aria-hidden="true"></span>':''}</span>
         <span class="legend-compact-labels"><span>${escapeHtml(labels[0])}</span><span>${escapeHtml(labels[labels.length-1])}</span></span>
       </button>
       <div class="legend-expanded"${state.legendExpanded?'':' hidden'}>${expandedLabels}
-        ${thresholdKey}
       </div>
       ${windKey}
       ${coverageKey}`;

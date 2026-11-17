@@ -92,7 +92,7 @@ test('CL-UI-109 P2-3: maplibre vendored (no unpkg), timeout 4s, honest fallback 
   assert.ok(en.includes("'圖資載入失敗 · Canvas fallback':'Basemap failed to load · Canvas fallback'"), 'en entry');
   const ja = MAP_JS.slice(MAP_JS.indexOf("'ja':{"), MAP_JS.indexOf("'ja':{") + 20000);
   assert.ok(ja.includes("'圖資載入失敗 · Canvas fallback':'図版の読み込みに失敗 · Canvas フォールバック'"), 'ja entry');
-  assert.match(WG_HTML, /assets\/vendor\/maplibre-gl\.css\?v=bclwg45/);
+  assert.match(WG_HTML, /assets\/vendor\/maplibre-gl\.css\?v=bclwg46/);
 });
 
 test('CL-UI-109 P2-2: layout axis is min(w,h)<=768 (landscape phones get the app shell)', () => {
@@ -122,9 +122,9 @@ test('CL-UI-109 P3-5: 44px hit-area expansion (visual unchanged) lives inside th
   assert.ok(!desktopBlock.includes("::after{content:'';position:absolute;inset:-"), 'no hit-area rules on desktop');
 });
 
-test('CL-UI-109 stamp: weather-map.html bumped to bclwg45 (js+css+vendor css)', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg45/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg45/);
+test('CL-UI-109 stamp: weather-map.html bumped to bclwg46 (js+css+vendor css)', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg46/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg46/);
   assert.ok(!/bclwg44/.test(WG_HTML), 'old stamp must not linger');
 });
 
@@ -274,14 +274,14 @@ test('CL-UI-109 (live 390): P3-5 hit-area expanders land real clicks just outsid
     };
     const play=fire(document.querySelector('#time-play'));
     const reset=fire(document.querySelector('#reset-view'));
-    const info=fire(document.querySelector('#data-info-open'));
+    // CL-UI-112: #data-info-open retired from the mobile shell (ⓘ moved into
+    // the legend title row) — no longer a hit-compensation target/probe.
     const band=fire(document.querySelector('#layer-sheet-btn'));
-    return {play,reset,info,band};
+    return {play,reset,band};
   })()`);
   console.error('[clui109 hit]', JSON.stringify(out));
   assert.equal(out.play, true, '#time-play hit extends past its visual box');
   assert.equal(out.reset, true, '#reset-view hit extends past its visual box');
-  assert.equal(out.info, true, '#data-info-open hit extends past its visual box');
 });
 
 test('CL-UI-109 (live 844×390): P2-2 landscape gets the APP shell — no scroll, no title block, dock in-flow', async () => {

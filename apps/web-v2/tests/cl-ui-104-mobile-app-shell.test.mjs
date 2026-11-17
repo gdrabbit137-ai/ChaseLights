@@ -56,9 +56,9 @@ test('CL-UI-104: weather-map.html puts the control bar and time navigator inside
   assert.ok(panel.indexOf('id="wm-sheet"') < panel.indexOf('class="wm-ops"'), 'list sheet is a panel flex sibling');
 });
 
-test('CL-UI-104: cache-bust stamps bumped to bclwg45 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg45/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg45/);
+test('CL-UI-104: cache-bust stamps bumped to bclwg46 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg46/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg46/);
   assert.ok(!/weather-map\.(js|css)\?v=bclwg41/.test(WG_HTML), 'old stamp must not linger');
 });
 

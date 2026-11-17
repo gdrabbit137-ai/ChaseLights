@@ -20,7 +20,7 @@ const palette = require_(path.join(REPO, 'assets/weather-map-palette.js'));
 
 // ---------- shared palette pins (single render source) ----------
 test('palette module exports PALETTE_VERSION and pinned cloud bands', () => {
-  assert.equal(palette.PALETTE_VERSION, 'wg21-p1');
+  assert.equal(palette.PALETTE_VERSION, 'wg22-clui113');
   assert.deepEqual(palette.CLOUD_PERCENT_BREAKS, [0, 20, 40, 50, 70, 85, 100]);
   assert.equal(palette.CLOUD_MAX_OVERLAY_ALPHA, .78);
 });
@@ -43,18 +43,20 @@ test('pinned colors: low cloud uses the slate gray-blue variant ramp', () => {
   const low = palette.LAYER_RENDER_CONFIG.low_cloud_percent;
   assert.equal(low.palette, 'cloudLow');
   assert.equal(palette.cloudColorFor(0, palette.LOW_CLOUD_PERCENT_BANDS), 'hsl(205 62% 48%)');
-  assert.equal(palette.cloudColorFor(55, palette.LOW_CLOUD_PERCENT_BANDS), 'hsl(202 24% 79%)');
-  assert.equal(palette.cloudColorFor(100, palette.LOW_CLOUD_PERCENT_BANDS), 'hsl(200 12% 92%)');
-  assert.equal(palette.colorFor(30, low), 'hsl(204 50% 60%)');
-  assert.equal(palette.cellOpacityFor(50, low), .55);
+  assert.equal(palette.cloudColorFor(55, palette.LOW_CLOUD_PERCENT_BANDS), 'hsl(204 40% 74%)');
+  assert.equal(palette.cloudColorFor(100, palette.LOW_CLOUD_PERCENT_BANDS), 'hsl(204 28% 89%)');
+  assert.equal(palette.colorFor(30, low), 'hsl(204 56% 56%)');
+  assert.equal(palette.cellOpacityFor(50, low), .66);
 });
 
 test('pinned opacities: cloud hinge at 50% and visibility falloff', () => {
   const cloud = palette.LAYER_RENDER_CONFIG.low_cloud_percent;
   const vis = palette.LAYER_RENDER_CONFIG.visibility_km;
+  // CL-UI-113: low cloud carries its own denser ladder now.
   assert.equal(palette.cellOpacityFor(0, cloud), .02);
-  assert.equal(palette.cellOpacityFor(20, cloud), .12);
-  assert.equal(palette.cellOpacityFor(50, cloud), .55);
+  assert.equal(palette.cellOpacityFor(20, cloud), .16);
+  assert.equal(palette.cellOpacityFor(50, cloud), .66);
+  assert.equal(palette.LOW_CLOUD_MAX_OVERLAY_ALPHA, .9);
   assert.equal(palette.cellOpacityFor(100, cloud), 1);
   assert.equal(palette.cellOpacityFor(null, cloud), .08);
   // visibility: t=0 -> .08+.92 = 1 ; t=1 -> .08
@@ -78,11 +80,11 @@ test('pinned RGB: hsl strings convert to the canonical 8-bit colors', () => {
   assert.deepEqual(rgbForTest('hsl(207 16% 91%)'), [228, 232, 236]);
   assert.deepEqual(rgbForTest('hsl(206 8% 97%)'), [247, 247, 248]);
   assert.deepEqual(rgbForTest('hsl(205 62% 48%)'), [47, 135, 198]);
-  assert.deepEqual(rgbForTest('hsl(204 50% 60%)'), [102, 163, 204]);
-  assert.deepEqual(rgbForTest('hsl(203 34% 70%)'), [152, 185, 205]);
-  assert.deepEqual(rgbForTest('hsl(202 24% 79%)'), [189, 205, 214]);
-  assert.deepEqual(rgbForTest('hsl(201 16% 87%)'), [217, 223, 227]);
-  assert.deepEqual(rgbForTest('hsl(200 12% 92%)'), [232, 235, 237]);
+  assert.deepEqual(rgbForTest('hsl(204 56% 56%)'), [80, 155, 206]);
+  assert.deepEqual(rgbForTest('hsl(204 46% 66%)'), [128, 176, 208]);
+  assert.deepEqual(rgbForTest('hsl(204 40% 74%)'), [162, 194, 215]);
+  assert.deepEqual(rgbForTest('hsl(204 32% 82%)'), [194, 212, 224]);
+  assert.deepEqual(rgbForTest('hsl(204 28% 89%)'), [219, 229, 235]);
 });
 
 // ---------- weather-map.js layerConfig single-source assertion ----------

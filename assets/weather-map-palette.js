@@ -10,7 +10,7 @@
   // Bump whenever any color/opacity formula or band table below changes.
   // Changing this invalidates every published PNG frame (frontend falls back
   // to JSON rendering until a new manifest with the matching version ships).
-  const PALETTE_VERSION = 'wg21-p1';
+  const PALETTE_VERSION = 'wg22-clui113';
 
   // One provider-independent forecast cloud scale keeps JMA, CWA, ICON and
   // GFS directly comparable. Observation layers keep separate semantics.
@@ -30,18 +30,28 @@
   // CL-WG-21: low cloud keeps a gray-blue (slate) base tone — same monotonic
   // lightness ladder, slightly darker/duller than total cloud at every stop so
   // the layers stay kin but distinguishable (Windy low-cloud convention).
+  // CL-UI-113: owner A/B ruling — the pale tail (50%+) washed into the light
+  // basemap sea (white cloud vs pale-blue sea were near-indistinguishable).
+  // Saturation raised through the light end and the cloudLow opacity ladder
+  // separated out (denser cap) so overcast cells read as solid, not haze.
   const LOW_CLOUD_PERCENT_BANDS=[
     {min:0,max:20,color:'hsl(205 62% 48%)'},
-    {min:20,max:40,color:'hsl(204 50% 60%)'},
-    {min:40,max:50,color:'hsl(203 34% 70%)'},
-    {min:50,max:70,color:'hsl(202 24% 79%)'},
-    {min:70,max:85,color:'hsl(201 16% 87%)'},
-    {min:85,max:100,color:'hsl(200 12% 92%)'}
+    {min:20,max:40,color:'hsl(204 56% 56%)'},
+    {min:40,max:50,color:'hsl(204 46% 66%)'},
+    {min:50,max:70,color:'hsl(204 40% 74%)'},
+    {min:70,max:85,color:'hsl(204 32% 82%)'},
+    {min:85,max:100,color:'hsl(204 28% 89%)'}
   ];
   const CLOUD_OPACITY_STOPS=[
     [0,.02],[20,.12],[40,.32],[50,.55],[70,.72],[85,.88],[100,1]
   ];
+  // CL-UI-113: cloudLow-only opacity ladder — stronger presence than the
+  // shared cloud ladder (which total cloud keeps unchanged).
+  const LOW_CLOUD_OPACITY_STOPS=[
+    [0,.02],[20,.16],[40,.4],[50,.66],[70,.82],[85,.94],[100,1]
+  ];
   const CLOUD_MAX_OVERLAY_ALPHA=.78;
+  const LOW_CLOUD_MAX_OVERLAY_ALPHA=.9;
 
   function normalizedValue(value,cfg){
     if(value == null || !Number.isFinite(value)) return 0;
@@ -89,7 +99,9 @@
   }
 
   function layerOpacityCap(cfg){
-    return cfg.palette==='cloud' || cfg.palette==='cloudLow' ? CLOUD_MAX_OVERLAY_ALPHA : 1;
+    // CL-UI-113: cloudLow gets its own denser cap; total cloud keeps .78.
+    if(cfg.palette==='cloudLow') return LOW_CLOUD_MAX_OVERLAY_ALPHA;
+    return cfg.palette==='cloud' ? CLOUD_MAX_OVERLAY_ALPHA : 1;
   }
 
   function cellOpacityFor(value,cfg){
@@ -100,7 +112,11 @@
     const t=normalizedValue(value,cfg);
     if(cfg.palette==='cloudMask') return value>=.5 ? .84 : 0;
     if(cfg.palette==='cloudHeight') return .28 + .72*t;
-    if(cfg.palette==='cloud' || cfg.palette==='cloudLow'){
+    if(cfg.palette==='cloudLow'){
+      // CL-UI-113: dedicated denser ladder for the low-cloud layer.
+      return interpolateStops(value,LOW_CLOUD_OPACITY_STOPS);
+    }
+    if(cfg.palette==='cloud'){
       // Low percentages recede quickly; 50% becomes an explicit visual hinge.
       return interpolateStops(value,CLOUD_OPACITY_STOPS);
     }
@@ -244,7 +260,9 @@
     CLOUD_PERCENT_BANDS,
     LOW_CLOUD_PERCENT_BANDS,
     CLOUD_OPACITY_STOPS,
+    LOW_CLOUD_OPACITY_STOPS,
     CLOUD_MAX_OVERLAY_ALPHA,
+    LOW_CLOUD_MAX_OVERLAY_ALPHA,
     normalizedValue,
     normalizedPiecewise,
     interpolateStops,

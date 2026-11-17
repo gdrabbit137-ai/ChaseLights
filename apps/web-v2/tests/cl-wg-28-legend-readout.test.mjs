@@ -44,8 +44,7 @@ test('CL-WG-28 legend content derives from the palette module, never hand-copied
   assert.match(JS, /\$\('legend'\)\.hidden=!hasData/);
 });
 
-test('CL-WG-28 cloud 50% hinge keeps its one-line key + midline marker', () => {
-  assert.match(JS, /50% 雲量分界/);
+test('CL-WG-28 cloud 50% hinge keeps its midline marker (key retired in CL-UI-113)', () => {
   assert.match(JS, /<span class="cloud-midline" aria-hidden="true"><\/span>/);
   assert.match(CSS, /\.cloud-midline\{position:absolute;left:50%/);
 });

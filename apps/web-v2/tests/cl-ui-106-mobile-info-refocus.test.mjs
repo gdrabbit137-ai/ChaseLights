@@ -41,18 +41,22 @@ test('CL-UI-106 source: markup carries the ⓘ meta host and the layer-sheet mod
     legendAt = sheet.indexOf('wm-ls-legend');
   assert.ok(chipsAt !== -1 && modelAt !== -1 && legendAt !== -1, 'sheet anatomy intact');
   assert.ok(chipsAt < modelAt && modelAt < legendAt, 'model row sits between chips and legend');
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg45/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg45/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg46/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg46/);
 });
 
-test('CL-UI-106 CSS (mobile): title block + model chip + cycle line + footer retired, ⓘ kept top-right', () => {
+test('CL-UI-106 CSS (mobile): title block + model chip + cycle line + footer retired (CL-UI-112: ⓘ row retired too, ⓘ lives in the legend)', () => {
   const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   assert.match(mobileBlock, /\.weather-header \.header-title-line\{display:none\}/,
     'WeatherGrid Preview title block retired on the mobile shell');
   assert.match(mobileBlock, /\.weather-header \.source-pill,\.weather-header \.source-mobile-summary\{display:none\}/,
     'model chip + cycle line retired on the mobile shell');
-  assert.match(mobileBlock, /\.source-meta\{display:flex;justify-content:flex-end;width:100%;min-width:0\}/,
-    'ⓘ 資料 button alone, aligned right (右上)');
+  assert.match(mobileBlock, /\.weather-header\{display:none\}/,
+    'CL-UI-112: the whole header row (ⓘ 資料 alone, aligned right) retired');
+  assert.match(mobileBlock, /\.legend-info\{display:inline-flex/,
+    'CL-UI-112: ⓘ moved into the legend title row');
+  assert.match(mobileBlock, /#reset-view\{position:absolute;left:auto;right:8px/,
+    'CL-UI-112: ↺ 模型範圍 leaves the map top-right (zoom-only there)');
   assert.match(mobileBlock, /body \.site-footer\{display:none\}/,
     'site-footer (sources link + disclaimer) retired on the mobile shell');
   assert.match(mobileBlock, /\.data-info-meta\{/, 'ⓘ dialog meta block styling present');
@@ -63,8 +67,10 @@ test('CL-UI-106 CSS (mobile): title block + model chip + cycle line + footer ret
   assert.ok(!/site-footer\{display:none/.test(beforeMobile), 'no footer retirement leak');
   assert.ok(!/\.data-info-meta\{/.test(beforeMobile), 'no meta styling leak');
   assert.ok(!/\.wm-ls-model\{/.test(beforeMobile), 'no model-row styling leak');
+  assert.ok(!/\.legend-info\{display:inline-flex/.test(beforeMobile), 'no legend-ⓘ reveal leak (desktop keeps .legend-info{display:none})');
   const desktopBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (min-width:769px) and (min-height:769px){'));
   assert.ok(!desktopBlock.includes('site-footer'), 'desktop footer untouched');
+  assert.ok(!desktopBlock.includes('legend-info'), 'desktop legend carries no ⓘ');
 });
 
 test('CL-UI-106 JS: ⓘ dialog fills 模型/起報時間/解析度 (mobile only) and the layer sheet fills the model row', () => {
@@ -78,6 +84,11 @@ test('CL-UI-106 JS: ⓘ dialog fills 模型/起報時間/解析度 (mobile only)
   const open = MAP_JS.slice(MAP_JS.indexOf('open.addEventListener(\'click\''),
     MAP_JS.indexOf('close.addEventListener(\'click\''));
   assert.ok(open.includes('wmRenderDataInfoMeta();'), 'opening the ⓘ dialog (re)renders the meta rows');
+  // CL-UI-112: the legend title ⓘ opens the SAME dialog (delegated on #legend)
+  const dlgWire = MAP_JS.slice(MAP_JS.indexOf('function initDataInfoDialog(){'),
+    MAP_JS.indexOf('function syncInspectorVisibility(){'));
+  assert.ok(dlgWire.includes("ev.target.closest('.legend-info')"), 'legend ⓘ delegation wired into initDataInfoDialog');
+  assert.ok(dlgWire.includes("open.click()"), 'legend ⓘ reuses the header ⓘ open path');
   // stash site: updateSourceMeta feeds the latest facts
   const stash = MAP_JS.slice(MAP_JS.indexOf('CL-UI-106: stash the'),
     MAP_JS.indexOf('const attributionHost='));
@@ -222,14 +233,18 @@ const SHELL_PROBE = `(() => {
     pill:r($('#source-state')),
     summary:r($('#source-mobile-summary')),
     infoBtn:r($('#data-info-open')),
+    legendInfo:r($('.legend-info')),
+    legend:r($('#legend')),
+    reset:r($('#reset-view')),
+    zoom:r($('#weather-basemap .maplibregl-ctrl-top-right')),
     footer:r($('.site-footer')),
     mapPct:wrap?+(wrap.getBoundingClientRect().height/window.innerHeight).toFixed(4):null,
     modelRowText:($('#wm-ls-model')||{}).textContent||null,
   };
 })()`;
 
-// ---- (2a) 390: no top info block, no footer, ⓘ stays top-right, map ≥60% ----
-test('CL-UI-106 (2a) 390px: title/chip/cycle/footer retired; ⓘ alone top-right; map ≥60% viewport', async () => {
+// ---- (2a) 390: no top info block, no footer, ⓘ row retired (CL-UI-112: ⓘ lives in the legend), map ≥60% ----
+test('CL-UI-106 (2a) 390px: title/chip/cycle/footer retired; ⓘ row gone (ⓘ in the legend title); map ≥60% viewport', async () => {
   await bootBrowser();
   await setViewport(390, 844, true);
   await loadPage();
@@ -241,10 +256,18 @@ test('CL-UI-106 (2a) 390px: title/chip/cycle/footer retired; ⓘ alone top-right
   assert.equal(p.pill.h, 0, `model chip (AUTO·…) retired (${p.pill && p.pill.h}px)`);
   assert.equal(p.summary.h, 0, `cycle/info line retired (${p.summary && p.summary.h}px)`);
   assert.equal(p.footer.h, 0, '資料來源/免責 footer rows retired');
-  // ⓘ 資料 stays alone at the top-right of the map header
-  assert.ok(p.infoBtn.h > 0, 'ⓘ 資料 button stays reachable');
-  assert.ok(p.infoBtn.rr >= p.innerW - 130, `ⓘ 資料 hugs the right edge (right=${p.infoBtn.rr}/${p.innerW})`);
-  assert.ok(p.infoBtn.t <= 160, `ⓘ 資料 stays at the top (${p.infoBtn.t}px)`);
+  // CL-UI-112: the standalone top-right ⓘ 資料 row is retired with the header
+  assert.equal(p.infoBtn.h, 0, 'ⓘ 資料 standalone top-right row retired (header display:none)');
+  // …and the ⓘ lives inside the bottom-left legend title row instead
+  assert.ok(p.legendInfo && p.legendInfo.h > 0, 'legend title ⓘ present and reachable');
+  assert.ok(p.legendInfo.l >= p.legend.l && p.legendInfo.rr <= p.legend.rr + 1,
+    'legend ⓘ sits inside the legend box');
+  // CL-UI-112: the map top-right carries ONLY the zoom (+/−) group — the ↺
+  // reset pill moved to the bottom-right
+  assert.ok(p.zoom && p.zoom.h > 0 && p.zoom.rr >= p.innerW - 60,
+    `zoom group hugs the top-right (right=${p.zoom && p.zoom.rr}/${p.innerW})`);
+  assert.ok(p.reset && p.reset.h > 0 && p.reset.t > p.zoom.b,
+    `reset pill is below the zoom group (t=${p.reset && p.reset.t})`);
   // 地圖區獲得高度 — CL-UI-105 contract still holds (re-measured)
   assert.ok(p.mapPct >= 0.60, `地圖區 ≥60% 視高 (實測 ${(p.mapPct * 100).toFixed(1)}%)`);
 });
@@ -257,8 +280,9 @@ test('CL-UI-106 (2b) 390px: ⓘ dialog shows model/init/resolution; layer sheet 
   await send('Page.bringToFront');
   await waitDataReady();
   const p = await evaljs(SHELL_PROBE);
-  // open the ⓘ dialog with a real click
-  await realClickAt(Math.round((p.infoBtn.l + p.infoBtn.rr) / 2), Math.round((p.infoBtn.t + p.infoBtn.b) / 2));
+  // open the ⓘ dialog with a real click on the legend title ⓘ (CL-UI-112)
+  assert.ok(p.legendInfo && p.legendInfo.h > 0, 'legend title ⓘ reachable before the click');
+  await realClickAt(Math.round((p.legendInfo.l + p.legendInfo.rr) / 2), Math.round((p.legendInfo.t + p.legendInfo.b) / 2));
   await new Promise(r => setTimeout(r, 300));
   const meta = await evaljs(`(() => {
     const d=document.querySelector('#data-info-dialog'), host=document.querySelector('#data-info-meta');

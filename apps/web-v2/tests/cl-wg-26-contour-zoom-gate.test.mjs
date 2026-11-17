@@ -1,10 +1,20 @@
-// CL-WG-26: contour zoom gate.
-// The 50% cloud contour (rgba(254,240,138) dash) degenerates into dense
-// dotted noise at low zoom levels when the low-cloud field hovers near 50%
-// over open sea (CL-WG-25 diagnosis). Gate: the contour is drawn only when
-// the camera zoom is >= 6 AND one grid cell measures >= 10px on screen.
-// Below the gate the legend keeps the 50% key with a trilingual zoom hint,
-// and zoom changes flip the legend key in real time (draw() runs on 'move').
+// CL-UI-113 (supersedes CL-WG-26): the 50% cloud threshold contour is REMOVED.
+// Root cause (owner, third report in the series CL-WG-25 -> CL-UI-107 ->
+// CL-UI-113): the yellow dashed rgba(254,240,138) canvas contour over open
+// sea kept being read as basemap noise / an admin boundary. Headless A/B
+// proved no style layer draws it (boundary_2/3, boundary_disputed, park,
+// park_outline all hidden -> dashes persist; contour disabled -> dashes gone)
+// and the zoom gate only suppressed the <6 zoom degenerate case.
+// Contract now:
+//  (1) No contour code may return: no drawCloudThresholdContour /
+//      contourCrossing / cloudContourGate* / CONTOUR_MIN_* / the yellow
+//      stroke color / the __weatherGridContourGate hook anywhere.
+//  (2) The legend 50% key and its CSS are retired.
+//  (3) The cell painters' source adjacency (used by cl-wg-18 grabs) stays
+//      intact: drawBilinearSubcells is immediately followed by
+//      drawCircularDirectionSubcells.
+//  (4) Live assertion (five model layers x the owner-report viewpoint):
+//      apps/web-v2/tests/cl-ui-113-yellow-dash-free.test.mjs.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -14,6 +24,7 @@ const ROOT = path.resolve(import.meta.dirname, '../../..');
 const JS = fs.readFileSync(path.join(ROOT, 'assets/weather-map.js'), 'utf8');
 const CSS = fs.readFileSync(path.join(ROOT, 'assets/weather-map.css'), 'utf8');
 const HTML = fs.readFileSync(path.join(ROOT, 'weather-map.html'), 'utf8');
+const PALETTE = fs.readFileSync(path.join(ROOT, 'assets/weather-map-palette.js'), 'utf8');
 
 function grab(src, startMarker, endMarker) {
   const a = src.indexOf(startMarker);
@@ -23,60 +34,60 @@ function grab(src, startMarker, endMarker) {
   return src.slice(a, b);
 }
 
-test('gate constants and decision rule: zoom>=6 AND cellPx>=10', () => {
-  assert.match(JS, /const CONTOUR_MIN_ZOOM=6;/);
-  assert.match(JS, /const CONTOUR_MIN_CELL_PX=10;/);
-  const src = grab(JS, 'const CONTOUR_MIN_ZOOM=6;', 'function contourCrossing(');
-  const fn = new Function(`${src}\n  return cloudContourGateAllowed;`)();
-  // Low zoom / small cells: gate closed.
-  assert.equal(fn(5, 11.4), false, 'zoom<6 hides the contour even if cells are big');
-  assert.equal(fn(6, 4.5), false, 'cellPx<10 hides the contour even if zoom>=6');
-  assert.equal(fn(5.9, 2), false);
-  // Gate open only when both criteria hold.
-  assert.equal(fn(6, 10), true);
-  assert.equal(fn(8, 11.4), true);
-  // Canvas fallback (no live camera): previous always-draw behavior.
-  assert.equal(fn(null, null), true, 'missing camera keeps pre-gate behavior');
-  assert.equal(fn(NaN, 12), true);
+test('CL-UI-113: no contour drawing code remains in weather-map.js', () => {
+  for (const banned of [
+    'drawCloudThresholdContour',
+    'contourCrossing',
+    'cloudContourGateAllowed',
+    'cloudContourGateState',
+    'shouldDrawCloudContour',
+    'CONTOUR_MIN_ZOOM',
+    'CONTOUR_MIN_CELL_PX',
+    'window.__weatherGridContourGate',
+    'rgba(254,240,138',
+    'setLineDash([2,3])',
+    'refreshCloudThresholdKey',
+    'cloudThresholdKeyHtml',
+    'CLOUD_THRESHOLD_LABELS',
+    'CLOUD_THRESHOLD_ZOOM_HINTS'
+  ]) {
+    assert.ok(!JS.includes(banned), `contour remnant must be gone: ${banned}`);
+  }
 });
 
-test('contour drawing in draw() is gated by the live camera probe', () => {
-  assert.match(JS, /function cloudContourGateState\(data\)/);
-  assert.match(JS, /function shouldDrawCloudContour\(data\)/);
-  assert.match(JS, /state\.map\.project\(\[center\.lng-stepLon\/2,center\.lat-stepLat\/2\]\)/,
-    'cellPx comes from the real MapLibre projection at the map center');
-  assert.match(JS, /const gate=cloudContourGateState\(data\);\s*try\{ window\.__weatherGridContourGate=\{\.\.\.gate,layer:state\.layer\}; \}catch\(_\)\{\}\s*if\(gate\.allowed\)\{\s*drawCloudThresholdContour\(data,vals,50,visibleView\);/,
-    'draw() skips drawCloudThresholdContour below the gate');
+test('CL-UI-113: the 50% legend key and its CSS are retired', () => {
+  assert.ok(!JS.includes('50% 雲量分界'), 'zh key gone');
+  assert.ok(!JS.includes('50% cloud boundary'), 'en key gone');
+  assert.ok(!JS.includes('50% 雲量境界'), 'ja key gone');
+  assert.ok(!JS.includes('請放大檢視'), 'zh hint gone');
+  assert.ok(!CSS.includes('cloud-threshold-key'), 'css key rules gone');
+  assert.ok(!CSS.includes('cloud-threshold-swatch'), 'css swatch rules gone');
+  // The CL-WG-28 midline marker on the gradient bar is NOT part of the
+  // contour feature and must survive.
+  assert.match(JS, /<span class="cloud-midline" aria-hidden="true"><\/span>/);
 });
 
-test('legend: trilingual 50% key with zoom hint below the gate', () => {
-  assert.match(JS, /CLOUD_THRESHOLD_LABELS=\{\s*'zh-TW':'50% 雲量分界',\s*'en':'50% cloud boundary',\s*'ja':'50% 雲量境界'\s*\}/);
-  assert.match(JS, /CLOUD_THRESHOLD_ZOOM_HINTS=\{\s*'zh-TW':'請放大檢視',\s*'en':'Zoom in to view the contour',\s*'ja':'拡大してご覧ください'\s*\}/);
-  // No simplified han in the ja copy.
-  const jaHint = JS.match(/'ja':'拡大してご覧ください'/);
-  assert.ok(jaHint, 'ja hint present');
-  assert.match(JS, /const thresholdKey=isCloud\?cloudThresholdKeyHtml\(activeDataset\(state\.layer\)\)\.html:'';/,
-    'updateLegend renders the gated trilingual key (CL-INT-80: inside the CL-WG-28 legend-expanded panel)');
-  assert.match(JS, /data-zoom-gated="\$\{gated\}"/);
-  assert.match(CSS, /\.cloud-threshold-hint\{color:#cbd5e1/);
-});
-
-test('zoom changes flip the legend key in real time (draw() wiring)', () => {
+test('CL-UI-113: cell-painter source adjacency intact (cl-wg-18 grab markers)', () => {
+  const src = grab(JS, 'function drawBilinearSubcells(', 'function drawCircularDirectionSubcells(');
+  assert.match(src, /return drawn;/);
+  const direction = grab(JS, 'function drawCircularDirectionSubcells(', 'function drawProviderBoundary(');
+  assert.match(direction, /return drawn;/);
+  // The draw() flow keeps its honest render-state probes (CL-UI-109 P2-4).
   const drawBody = grab(JS, 'function draw(){', 'function windVectorStep(){');
-  assert.match(drawBody, /refreshCloudThresholdKey\(\);/,
-    'draw() (fired by map.on("move") on every camera change) refreshes the legend key');
-  const refreshBody = grab(JS, 'function refreshCloudThresholdKey(){', 'function updateLegend(cfg){');
-  assert.match(refreshBody, /host\.dataset\.zoomGated===String\(next\.gated\)/,
-    'the DOM is only touched when the gate state flips');
-  assert.match(refreshBody, /host\.replaceWith\(wrap\.firstElementChild\);/);
-  assert.match(JS, /map\.on\('move',\(\)=>\{[\s\S]*?draw\(\);/,
-    'map zoom/move events re-run draw(), which re-evaluates the gate');
-  assert.match(JS, /window\.__weatherGridContourGate=/,
-    'live gate hook for headless verification (same spirit as __weatherGridCamera)');
+  assert.match(drawBody, /state\.lastCanvasPainted=canvasHasFieldPaint\(\);/);
 });
 
-test('cache-bust stamps bumped in the same ticket (?v=bclwg34)', () => {
-  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg45/);
-  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg45/);
-  assert.doesNotMatch(HTML, /weather-map\.js\?v=bclwg28/);
+test('CL-UI-113: cache-bust stamps bumped (?v=bclwg46)', () => {
+  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg46/);
+  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg46/);
+  assert.doesNotMatch(HTML, /weather-map\.js\?v=bclwg45/);
+});
+
+test('CL-UI-113: palette module carries the cloudLow contrast ladder', () => {
+  // New saturated light-end bands + dedicated denser opacity ladder/cap.
+  assert.match(PALETTE, /LOW_CLOUD_OPACITY_STOPS/);
+  assert.match(PALETTE, /LOW_CLOUD_MAX_OVERLAY_ALPHA=\.\d+/);
+  assert.match(PALETTE, /hsl\(204 40% 74%\)/, '50-70 band saturated');
+  assert.match(PALETTE, /hsl\(204 28% 89%\)/, '85-100 band saturated');
+  assert.match(PALETTE, /PALETTE_VERSION = 'wg22-clui113'/);
 });
