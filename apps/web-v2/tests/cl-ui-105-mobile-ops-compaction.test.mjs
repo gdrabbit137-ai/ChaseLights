@@ -35,9 +35,9 @@ function grab(src, start, end) {
 // ---------------------------------------------------------------------------
 // 1. Source pins: CSS compaction + JS inspector collapse + stamps
 // ---------------------------------------------------------------------------
-test('CL-UI-105 source: cache-bust stamps bumped to bclwg46 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg46/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg46/);
+test('CL-UI-105 source: cache-bust stamps bumped to bclwg48 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg48/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg48/);
 });
 
 test('CL-UI-105 CSS: 細帶＋滑桿合併一行；控制列 44px 單行；inspector 預設收合（僅 ≤768）', () => {

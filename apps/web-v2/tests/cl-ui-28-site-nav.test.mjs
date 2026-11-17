@@ -182,6 +182,6 @@ test('CL-UI-116: every shell-page header carries the CL-APP-05 brand SVG (emoji 
 });
 
 test('CL-UI-28 (10): weather-map.js stamp bumped in weather-map.html (same commit)', () => {
-  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg46/);
+  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg48/);
   assert.doesNotMatch(wgHtml, /bclwg23|bclwg24/);
 });
