@@ -144,7 +144,8 @@ test('CL-UI-64 (2): quick view is 「現在去會怎樣」 — tier chip / band 
 });
 
 test('CL-UI-68 (3): 8-day strip — info written INSIDE the cell (two lines), no hover/title carrier', () => {
-  const helperCode = grab('function v2DominantFailMetric', 'function ensureV2Detail');
+  const helperCode = grab('function v2MetricName', '// CL-COPY-01: handwritten')
+    + grab('function v2DominantFailMetric', 'function ensureV2Detail');
   const prelude = `
     const V2_EVAL_METRICS={'zh-TW':{precipitation:'降水',visibility:'能見度',cloud_cover_low:'低雲'},en:{},ja:{}};
     const V2_FAIL_PRIORITY=['precipitation','visibility','cloud_cover_low'];
@@ -272,6 +273,6 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
     assert.ok(!rule.includes('text-overflow:ellipsis') && !rule.includes('overflow:hidden'),
       'CL-UI-88: the slot string is never ellipsis-truncated: ' + rule);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui102/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui110/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
 });
