@@ -75,7 +75,7 @@ test('QC panel never claims 資料正常 when the data layer did not render', ()
   // Cell painters return how many cells they drew.
   assert.match(grab(JS, 'function drawNearestCells(', 'function drawBilinearSubcells('),
     /return drawn;/);
-  assert.match(grab(JS, 'function drawBilinearSubcells(', 'function contourCrossing('),
+  assert.match(grab(JS, 'function drawBilinearSubcells(', 'function drawCircularDirectionSubcells('),
     /return drawn;/);
   assert.match(grab(JS, 'function drawCircularDirectionSubcells(', 'function drawProviderBoundary('),
     /return drawn;/);

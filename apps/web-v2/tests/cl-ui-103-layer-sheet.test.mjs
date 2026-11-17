@@ -49,9 +49,9 @@ test('CL-UI-103: weather-map.html carries the layer pill and the layer bottom sh
   assert.ok(legendRows.includes('coverage-swatch environment'), 'Environment legend row');
 });
 
-test('CL-UI-103: cache-bust stamps bumped to bclwg45 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg45/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg45/);
+test('CL-UI-103: cache-bust stamps bumped to bclwg46 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg46/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg46/);
 });
 
 // ---------------------------------------------------------------------------

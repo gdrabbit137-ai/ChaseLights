@@ -123,11 +123,11 @@ test('CL-UI-108: ⓘ dialog carries the default-off coverage toggle with triling
 });
 
 // ---------------------------------------------------------------------------
-// 4. Cache-bust stamps bumped (bclwg43 -> bclwg45)
+// 4. Cache-bust stamps bumped (bclwg43 -> bclwg46)
 // ---------------------------------------------------------------------------
-test('CL-UI-108: weather-map.html stamps bumped to bclwg45', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg45/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg45/);
+test('CL-UI-108: weather-map.html stamps bumped to bclwg46', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg46/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg46/);
   assert.ok(!/bclwg43/.test(WG_HTML), 'old stamp must not linger');
 });
 
