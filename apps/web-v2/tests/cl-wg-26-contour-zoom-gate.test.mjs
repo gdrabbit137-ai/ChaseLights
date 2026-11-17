@@ -77,9 +77,9 @@ test('CL-UI-113: cell-painter source adjacency intact (cl-wg-18 grab markers)', 
   assert.match(drawBody, /state\.lastCanvasPainted=canvasHasFieldPaint\(\);/);
 });
 
-test('CL-UI-113: cache-bust stamps bumped (?v=bclwg46)', () => {
-  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg46/);
-  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg46/);
+test('CL-UI-113: cache-bust stamps bumped (?v=bclwg47)', () => {
+  assert.match(HTML, /assets\/weather-map\.js\?v=bclwg47/);
+  assert.match(HTML, /assets\/weather-map\.css\?v=bclwg47/);
   assert.doesNotMatch(HTML, /weather-map\.js\?v=bclwg45/);
 });
 

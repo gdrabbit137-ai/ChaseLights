@@ -41,8 +41,8 @@ test('CL-UI-106 source: markup carries the ⓘ meta host and the layer-sheet mod
     legendAt = sheet.indexOf('wm-ls-legend');
   assert.ok(chipsAt !== -1 && modelAt !== -1 && legendAt !== -1, 'sheet anatomy intact');
   assert.ok(chipsAt < modelAt && modelAt < legendAt, 'model row sits between chips and legend');
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg46/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg46/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg47/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg47/);
 });
 
 test('CL-UI-106 CSS (mobile): title block + model chip + cycle line + footer retired (CL-UI-112: ⓘ row retired too, ⓘ lives in the legend)', () => {

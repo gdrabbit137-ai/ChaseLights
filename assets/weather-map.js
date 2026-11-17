@@ -22,6 +22,66 @@
   // 會相對 script URL 解析，頁根相對路徑 assets/vendor/ 兩種解析都落在同一處）。
   const MAPLIBRE_MODULE = new URL('assets/vendor/maplibre-gl.mjs', document.baseURI).href;
   const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
+  // ===== CL-UI-114: 深色底圖地形改善 A/B（feature-flag 預設關閉，owner 裁示前
+  // 不切換預設）=====
+  // 方案 A：OpenFreeMap fiord（深色）底圖 + AWS Terrarium DEM hillshade 層，
+  //   URL ?wgBasemapDark=1 啟用。hillshade 參數針對深色底圖調校：
+  //   illumination 315°（西北光，山脊向光面亮、背光面暗）、exaggeration 0.55、
+  //   highlight 半透明白（深色下山脊可辨）、shadow 深色不遮雲層（hillshade 層
+  //   在 symbol 之下、雲層 canvas 之上層級不受影響——雲層畫在 map 容器上方的
+  //   2D canvas，hillshade 只是底圖內圖層）。
+  // 方案 B：現行亮色底圖（liberty）+ CSS 暗化濾鏡 brightness(.55)/saturate(.75)，
+  //   URL ?wgBasemapDim=1 啟用。濾鏡只作用於底圖容器，不影響雲層 canvas。
+  const CLUI114_DARK_STYLE = 'https://tiles.openfreemap.org/styles/fiord';
+  const CLUI114_TERRARIUM_TILES = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png';
+  const CLUI114_FLAGS = (() => {
+    try {
+      const q = new URLSearchParams(window.location.search);
+      return {
+        dark: q.get('wgBasemapDark') === '1',
+        dim: q.get('wgBasemapDim') === '1'
+      };
+    } catch (_) { return { dark: false, dim: false }; }
+  })();
+  // 方案 A：加入 raster-dem source + hillshade 圖層。插入在第一個 symbol
+  // （label）圖層之前，讓地名標籤維持在最上層；找不到 symbol 圖層則附加到頂。
+  function clui114ApplyHillshade(map){
+    if (map.getSource('clui114-terrarium')) return;
+    map.addSource('clui114-terrarium', {
+      type: 'raster-dem',
+      tiles: [CLUI114_TERRARIUM_TILES],
+      encoding: 'terrarium',
+      tileSize: 256,
+      maxzoom: 13
+    });
+    const layers = (map.getStyle() && map.getStyle().layers) || [];
+    const firstSymbol = layers.find((l) => l && l.type === 'symbol');
+    const layer = {
+      id: 'clui114-hillshade',
+      type: 'hillshade',
+      source: 'clui114-terrarium',
+      layout: { visibility: 'visible' },
+      paint: {
+        'hillshade-illumination-direction': 315,
+        'hillshade-exaggeration': 0.55,
+        'hillshade-highlight-color': 'rgba(255,255,255,0.42)',
+        'hillshade-shadow-color': 'rgba(8,14,24,0.85)',
+        'hillshade-accent-color': 'rgba(30,44,66,0.55)'
+      }
+    };
+    if (firstSymbol && firstSymbol.id) map.addLayer(layer, firstSymbol.id);
+    else map.addLayer(layer);
+  }
+  // 方案 A+B 共用入口（load/styledata 後重入皆冪等）：改寫底圖樣式、疊
+  // hillshade、套暗化濾鏡。預設（兩 flag 皆關）完全不動任何樣式。
+  function clui114ApplyBasemapAB(map){
+    if (!CLUI114_FLAGS.dark && !CLUI114_FLAGS.dim) return;
+    if (CLUI114_FLAGS.dark) clui114ApplyHillshade(map);
+    if (CLUI114_FLAGS.dim){
+      const c = map.getContainer();
+      if (c) c.style.filter = 'brightness(0.55) saturate(0.75)';
+    }
+  }
   // ===== CL-UI-37: language context carried across pages =====
   // URL ?lang= wins over localStorage (same precedence as assets/app.js
   // CL-UI-35); the resolved value is written back to the shared
@@ -1956,7 +2016,7 @@
         ||normalizeViewBbox(regionBbox());
       const map=new maplibregl.Map({
         container:'weather-basemap',
-        style:BASEMAP_STYLE,
+        style:CLUI114_FLAGS.dark ? CLUI114_DARK_STYLE : BASEMAP_STYLE,
         center:[(b.leftlon+b.rightlon)/2,(b.bottomlat+b.toplat)/2],
         zoom:5.4,
         bearing:0,
@@ -2007,12 +2067,13 @@
         applyCameraLimits({preserveCamera:true});
         hideBoundaryLineLayers(map);
         hideBasemapLabelNoise(map);
+        clui114ApplyBasemapAB(map);   // CL-UI-114: A/B 深色底圖（flag 關閉時 no-op）
         renderAll();
       });
       // CL-UI-107: re-apply after ANY style mutation (late tile-metadata
       // updates, style reloads). hideBoundaryLineLayers is idempotent, so
       // this cannot loop.
-      map.on('styledata',()=>{ hideBoundaryLineLayers(map); });
+      map.on('styledata',()=>{ hideBoundaryLineLayers(map); clui114ApplyBasemapAB(map); });
       map.on('move',()=>{
         if(!state.mapReady) return;
         // CL-WG-24: live camera hook for headless verification (same spirit
