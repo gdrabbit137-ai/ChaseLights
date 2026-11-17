@@ -25,8 +25,8 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 
 // ------------------------------------------------------------- (1) source
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06c/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06c/);
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06d/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06d/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
   assert.match(htmlSource, /assets\/app\.js\?v=clui111/);
@@ -336,7 +336,7 @@ test('CL-APP-06 (2b): private card anatomy — gray badge computed style + tier 
     const more = card.querySelector('.cl-cp-more');
     const r = more.getBoundingClientRect();
     more.click();
-    const menu = card.querySelector('.cl-cp-menu');
+    const menu = document.getElementById('cl-cp-menu');
     const acts = [...menu.querySelectorAll('[data-cp-act]')].map(b => b.getAttribute('data-cp-act'));
     const menuOpen = getComputedStyle(menu).display;
     return {
@@ -346,6 +346,8 @@ test('CL-APP-06 (2b): private card anatomy — gray badge computed style + tier 
       window: card.querySelector('.cl-cp-window') && card.querySelector('.cl-cp-window').textContent,
       cc: card.querySelector('.cl-cp-cc-txt') && card.querySelector('.cl-cp-cc-txt').textContent,
       acts, menuOpen,
+      menuParentIsBody: menu.parentNode === document.body,
+      menuPos: getComputedStyle(menu).position,
     };
   })()`);
   assert.match(probe.badgeText, /私人/);
@@ -357,6 +359,9 @@ test('CL-APP-06 (2b): private card anatomy — gray badge computed style + tier 
   assert.match(probe.cc, /低雲≤15/, 'CL-UI-99 condition summary (only tuned params)');
   assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit', 'nom']);
   assert.equal(probe.menuOpen, 'block', '⋯ menu opens');
+  // patch-3: the menu is portaled OUT of the card to document.body (fixed)
+  assert.equal(probe.menuParentIsBody, true, '⋯ menu lives on document.body — outside the card boundary');
+  assert.equal(probe.menuPos, 'fixed', '⋯ menu is position:fixed — card overflow can never clip it');
 });
 
 test('CL-APP-06 (2c): trial-expired card is gray + honest 試用期滿 + upgrade CTA; deferred card honest note', async () => {
@@ -472,7 +477,7 @@ test('CL-APP-06 (2h): conditions modal — semantic selects, transparent mapping
   const probe = await evaljs(`(async () => {
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
     card.querySelector('.cl-cp-more').click();
-    card.querySelector('[data-cp-act="cc"]').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
     await new Promise(r => setTimeout(r, 200));
     const ov = document.querySelector('.cl-cp-overlay');
     const sel = ov.querySelector('#cl-cp-sem-cloud');
@@ -516,7 +521,7 @@ test('CL-APP-06 (2i): ✨ one-sentence AI parse fills the semantic selects (AI o
   const probe = await evaljs(`(async () => {
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
     card.querySelector('.cl-cp-more').click();
-    card.querySelector('[data-cp-act="cc"]').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
     await new Promise(r => setTimeout(r, 250));
     const ov = document.querySelector('.cl-cp-overlay');
     const ai = ov.querySelector('#cl-cp-ai');
@@ -737,6 +742,122 @@ test('CL-APP-06 (2n, patch-2): 390×768 small window — same fix on the mobile 
   assert.match(probe.btnNameOnly, /請先落釘或輸入經緯度/, 'after the name, the button explains the NEXT missing step');
   assert.equal(probe.readyAfter, true);
   assert.match(probe.btnAfter, /建立私人點/);
+});
+
+test('CL-APP-06 (1f, patch-3): ⋯ menu renders OUT of the card — portal + fixed + flip-up + 44px + scroll-close', () => {
+  // owner bug: the dropdown's 3rd item 「掛題材·條件」 was clipped in half —
+  // the menu was position:absolute INSIDE the card, whose content-visibility
+  // (paint containment) and the container overflow clipped it.
+  const menuCss = cssSource.slice(cssSource.indexOf('.cl-cp-menu{'));
+  assert.match(menuCss, /position:fixed/, 'menu is position:fixed — out of every clipping ancestor');
+  assert.match(menuCss, /max-height:\s*calc\(100vh\s*-\s*16px\)/, 'never taller than the viewport');
+  assert.match(menuCss, /overflow-y:\s*auto/, 'extreme short windows scroll internally instead of clipping');
+  assert.match(menuCss, /\.cl-cp-menu button\{[^}]*min-height:44px/, 'menu items are ≥44px touch targets');
+  // the 22px ⋯ glyph keeps its look but carries a centered 44px hit area
+  assert.match(cssSource, /\.cl-cp-more::after\{[^}]*width:44px;height:44px/, '⋯ trigger touch target expanded to 44px');
+  // portal: one shared menu appended to document.body, NOT card markup
+  assert.match(jsSource, /document\.body\.appendChild\(m\)/);
+  assert.match(jsSource, /id = 'cl-cp-menu'/);
+  assert.doesNotMatch(jsSource, /<span class="cl-cp-menu">/, 'the card markup no longer embeds the menu');
+  // flip-up when near the viewport bottom
+  assert.match(jsSource, /向上展開/, 'flip-up branch documented');
+  assert.match(jsSource, /top \+ mh > window\.innerHeight - margin && r\.top - gap - mh >= margin/,
+    'opens upward when the menu would overflow the viewport bottom AND there is room above');
+  // scroll events do not bubble → capture-phase listener closes on ANY scroller
+  assert.match(jsSource, /addEventListener\('scroll',[\s\S]{0,120}, true\)/, 'scroll closes the open menu (capture)');
+  assert.match(jsSource, /window\.addEventListener\('resize'/, 'resize closes the open menu');
+  // outside click still closes
+  assert.match(jsSource, /\.cl-cp-menu, \.cl-cp-more/);
+});
+
+test('CL-APP-06 (2o, patch-3): 390 viewport, card near the page footer — menu escapes the card, every item visible, 「掛題材·條件」 real-clickable', async () => {
+  await bootBrowser();
+  await setViewport(390, 844, true);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
+    card.scrollIntoView({ block: 'end' }); // card bottom pinned to the viewport bottom — the owner's footer case
+    await new Promise(r => setTimeout(r, 300));
+    const more = card.querySelector('.cl-cp-more');
+    more.click();
+    await new Promise(r => setTimeout(r, 100));
+    const menu = document.getElementById('cl-cp-menu');
+    const mr = menu.getBoundingClientRect();
+    const moreR = more.getBoundingClientRect();
+    const items = [...menu.querySelectorAll('[data-cp-act]')].map(b => {
+      const ir = b.getBoundingClientRect();
+      const hit = document.elementFromPoint(ir.left + ir.width / 2, ir.top + ir.height / 2);
+      return { act: b.getAttribute('data-cp-act'), text: b.textContent.trim(), h: ir.height,
+        top: ir.top, bottom: ir.bottom, left: ir.left, right: ir.right,
+        clickable: hit === b || (hit && b.contains(hit)) };
+    });
+    return { inBody: menu.parentNode === document.body, pos: getComputedStyle(menu).position,
+      open: menu.classList.contains('open'),
+      triggerTop: moreR.top, triggerBottom: moreR.bottom,
+      menuTop: mr.top, menuBottom: mr.bottom, menuRight: mr.right, menuLeft: mr.left,
+      winH: window.innerHeight, winW: window.innerWidth, items };
+  })()`);
+  assert.equal(probe.inBody, true, 'menu is portaled to document.body — outside the card');
+  assert.equal(probe.pos, 'fixed');
+  assert.equal(probe.open, true);
+  // flip-UP: the trigger sits near the viewport bottom, so the menu opens above it
+  assert.ok(probe.menuBottom <= probe.triggerTop + 1,
+    `menu flipped up (bottom ${probe.menuBottom} ≤ trigger top ${probe.triggerTop})`);
+  assert.ok(probe.menuTop >= 0, 'flipped menu still starts inside the viewport');
+  assert.ok(probe.menuRight <= probe.winW + 1 && probe.menuLeft >= 0, 'menu fits the 390px width');
+  assert.equal(probe.items.length, 4);
+  for (const it of probe.items) {
+    assert.ok(it.h >= 43, `${it.act} touch target ≥44px (got ${it.h})`);
+    assert.ok(it.top >= 0 && it.bottom <= probe.winH + 1 && it.left >= 0 && it.right <= probe.winW + 1,
+      `${it.act} fully inside the viewport — never clipped`);
+    assert.equal(it.clickable, true, `${it.act} is the top hit target at its own center`);
+  }
+  const cc = probe.items.find(x => x.act === 'cc');
+  assert.match(cc.text, /掛題材/, 'the owner-clipped 「掛題材·條件」 item is present and labeled');
+  // REAL input click (not el.click()) on the formerly clipped item opens its modal
+  const c = await evaljs(`(() => { const b = document.querySelector('#cl-cp-menu [data-cp-act="cc"]');
+    const r = b.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; })()`);
+  await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: c.x, y: c.y, button: 'left', clickCount: 1, buttons: 1 });
+  await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: c.x, y: c.y, button: 'left', clickCount: 1, buttons: 1 });
+  await new Promise(r => setTimeout(r, 250));
+  const after = await evaljs(`(() => {
+    const ov = document.querySelector('.cl-cp-overlay');
+    return { open: ov.classList.contains('open'),
+      title: ov.querySelector('.cl-cp-m-head .name') && ov.querySelector('.cl-cp-m-head .name').textContent,
+      menuClosed: !document.getElementById('cl-cp-menu').classList.contains('open') };
+  })()`);
+  assert.equal(after.open, true, 'a REAL CDP click on the formerly clipped item opens the 掛題材 modal');
+  assert.match(after.title, /掛題材|題材/);
+  assert.equal(after.menuClosed, true, 'the menu closes after an action');
+});
+
+test('CL-APP-06 (2q, patch-3): the open menu closes on scroll (any scroller) and on outside click, then reopens', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
+    card.querySelector('.cl-cp-more').click();
+    await new Promise(r => setTimeout(r, 100));
+    const menu = document.getElementById('cl-cp-menu');
+    const open1 = menu.classList.contains('open');
+    window.scrollTo(0, 60); // a REAL page scroll — capture-phase listener must close it
+    await new Promise(r => setTimeout(r, 150));
+    const afterScroll = menu.classList.contains('open');
+    card.querySelector('.cl-cp-more').click(); // reopen at the new anchor
+    await new Promise(r => setTimeout(r, 100));
+    const open2 = menu.classList.contains('open');
+    const topAfter = menu.getBoundingClientRect().top; // re-anchored, not stale
+    document.body.click(); // outside click closes
+    await new Promise(r => setTimeout(r, 100));
+    const afterOutside = menu.classList.contains('open');
+    return { open1, afterScroll, open2, topAfter, afterOutside };
+  })()`);
+  assert.equal(probe.open1, true);
+  assert.equal(probe.afterScroll, false, 'scroll closes the open menu');
+  assert.equal(probe.open2, true, 'the ⋯ trigger reopens the menu');
+  assert.ok(probe.topAfter > 0, 'the reopened menu is re-anchored under the trigger (fixed position)');
+  assert.equal(probe.afterOutside, false, 'outside click closes the menu');
 });
 
 test('CL-APP-06 (2g): browser teardown', async () => { await teardownBrowser(); });

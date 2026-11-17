@@ -35,13 +35,20 @@
   font-size:12px;font-weight:600}
 .cl-cp-coord{font-family:var(--cl-mono);font-size:12px;color:var(--cl-text-3)}
 .cl-cp-more{width:22px;height:22px;border-radius:var(--cl-r-xs);flex:none;color:var(--cl-text-3);font-size:14px;line-height:1;
-  display:inline-flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;padding:0}
+  display:inline-flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;padding:0;position:relative}
+/* patch-3: the 22px glyph keeps its visual size, but the TOUCH TARGET is a
+   centered 44px hit area (owner rule: touch ≥44px — no visual change). */
+.cl-cp-more::after{content:'';position:absolute;left:50%;top:50%;width:44px;height:44px;transform:translate(-50%,-50%)}
 .cl-cp-more:hover{color:var(--cl-text-1);background:var(--cl-bg-2)}
-.cl-cp-menu{position:absolute;top:44px;right:10px;min-width:170px;background:var(--cl-bg-1);
+/* patch-3: the ⋯ menu is ONE shared menu PORTALED to document.body and
+   position:fixed under the ⋯ trigger (top/left set by custom-places.js) —
+   the card's content-visibility/paint containment and the container overflow
+   can no longer clip the dropdown; near the viewport bottom it flips up. */
+.cl-cp-menu{position:fixed;top:0;left:0;min-width:170px;max-height:calc(100vh - 16px);overflow-y:auto;background:var(--cl-bg-1);
   border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-sm);box-shadow:var(--cl-shadow-3);
-  padding:var(--cl-sp-1);display:none;z-index:40}
+  padding:var(--cl-sp-1);display:none;z-index:120;box-sizing:border-box}
 .cl-cp-menu.open{display:block}
-.cl-cp-menu button{display:flex;width:100%;align-items:center;gap:8px;height:34px;padding:0 10px;border-radius:var(--cl-r-xs);
+.cl-cp-menu button{display:flex;width:100%;align-items:center;gap:8px;min-height:44px;box-sizing:border-box;padding:0 10px;border-radius:var(--cl-r-xs);
   color:var(--cl-text-2);font-size:13px;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit}
 .cl-cp-menu button:hover{background:var(--cl-bg-2);color:var(--cl-text-1)}
 .cl-cp-menu .cm-ic{width:18px;text-align:center;flex:none}

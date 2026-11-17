@@ -140,7 +140,7 @@
     },
   };
 
-  var state = { member: null, data: null, view: 'all', loading: false, overlay: null, pin: null, editing: null };
+  var state = { member: null, data: null, view: 'all', loading: false, overlay: null, pin: null, editing: null, menuPlace: null, menuTrigger: null };
   var els = {};
 
   function t() { return T[currentLang()] || T['zh-TW']; }
@@ -367,15 +367,11 @@
         '</div>' +
         '<div class="cl-cp-coord">' + esc(p.lat) + ', ' + esc(p.lng) + (p.elevation != null ? ' · ' + esc(p.elevation) + ' m' : '') + (p.timezone ? ' · ' + esc(p.timezone) : '') + '</div>' +
       '</div>' +
-      '<button type="button" class="cl-cp-more" aria-label="⋯" aria-haspopup="true">⋯</button>' +
-      '<span class="cl-cp-menu">' +
-        '<button type="button" data-cp-act="edit"><span class="cm-ic">✎</span>' + esc(t().m_edit.replace(/^\S+\s*/, '')) + '</button>' +
-        '<button type="button" data-cp-act="cc"><span class="cm-ic">🎞</span>' + esc(t().m_cc.replace(/^\S+\s*/, '')) + '</button>' +
-        '<span class="cm-sep"></span>' +
-        '<button type="button" data-cp-act="nom"><span class="cm-ic">⬆</span>' + esc(t().m_nom.replace(/^\S+\s*/, '')) + '</button>' +
-        '<span class="cm-sep"></span>' +
-        '<button type="button" data-cp-act="del" class="danger"><span class="cm-ic">🗑</span>' + esc(t().m_del.replace(/^\S+\s*/, '')) + '</button>' +
-      '</span>';
+      // patch-3: the menu markup moved OUT of the card — one shared menu is
+      // portaled to document.body (ensureMenu) and position:fixed under the
+      // ⋯ trigger, so the card's content-visibility/paint containment and the
+      // container overflow can never clip the dropdown again.
+      '<button type="button" class="cl-cp-more" aria-label="⋯" aria-haspopup="menu" aria-expanded="false">⋯</button>';
     var body = '';
     if (expired) {
       body = '<div class="cl-cp-expired-note">🔒 ' + esc(t().trial_note) + '</div>' +
@@ -393,35 +389,98 @@
     var ccLine = ccSummary(p.customConditions, lang)
       ? '<div class="cl-cp-cc-line"><span class="cl-cp-cc-chip">🎚</span><span class="cl-cp-cc-txt">' + esc(ccSummary(p.customConditions, lang)) + '</span></div>' : '';
     card.innerHTML = '<div style="display:flex;align-items:flex-start;gap:8px;min-width:0">' + head + '</div>' + body + ccLine;
-    // ⋯ menu wiring (open/close + actions)
-    var more = card.querySelector('.cl-cp-more'), menu = card.querySelector('.cl-cp-menu');
+    // ⋯ menu (patch-3): one shared menu portaled to document.body, anchored
+    // position:fixed under the trigger — the card boundary can never clip it.
+    var more = card.querySelector('.cl-cp-more');
     more.addEventListener('click', function (e) {
       e.stopPropagation();
-      var wasOpen = menu.classList.contains('open');
-      document.querySelectorAll('.cl-cp-menu.open').forEach(function (x) { x.classList.remove('open'); });
-      if (!wasOpen) menu.classList.add('open');
+      var m = ensureMenu();
+      var wasOpen = m.classList.contains('open') && state.menuPlace && state.menuPlace.id === p.id;
+      closeMenu();
+      if (!wasOpen) openMenuFor(p, more);
     });
+    // the expired-card CTA (data-cp-act="upgrade") is card body content —
+    // the portaled menu can no longer handle it by bubbling, so wire it here.
     card.addEventListener('click', function (e) {
-      if (e.target.closest('.cl-cp-more') || e.target.closest('.cl-cp-menu')) return;
-      document.querySelectorAll('.cl-cp-menu.open').forEach(function (x) { x.classList.remove('open'); });
-    });
-    menu.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-cp-act]'); if (!b) return;
-      e.stopPropagation();
-      menu.classList.remove('open');
-      var act = b.getAttribute('data-cp-act');
-      if (!state.member) { needLoginModal(); return; }
-      if (act === 'edit') addModal(p);
-      else if (act === 'cc') ccModal(p);
-      else if (act === 'nom') nomModal(p);
-      else if (act === 'del') delModal(p);
-      else if (act === 'upgrade') toast(t().trial_cta);
+      if (e.target.closest('[data-cp-act="upgrade"]')) { e.stopPropagation(); toast(t().trial_cta); }
     });
   }
+  // ───── patch-3: the ⋯ menu — one fixed-position menu portaled to body ─────
+  var MENU_LABELS = { edit: 'm_edit', cc: 'm_cc', nom: 'm_nom', del: 'm_del' };
+  function ensureMenu() {
+    if (els.menu) return els.menu;
+    var m = document.createElement('div');
+    m.id = 'cl-cp-menu';
+    m.className = 'cl-cp-menu';
+    m.setAttribute('role', 'menu');
+    m.innerHTML =
+      '<button type="button" role="menuitem" data-cp-act="edit"><span class="cm-ic">✎</span><span class="cm-txt"></span></button>' +
+      '<button type="button" role="menuitem" data-cp-act="cc"><span class="cm-ic">🎞</span><span class="cm-txt"></span></button>' +
+      '<span class="cm-sep"></span>' +
+      '<button type="button" role="menuitem" data-cp-act="nom"><span class="cm-ic">⬆</span><span class="cm-txt"></span></button>' +
+      '<span class="cm-sep"></span>' +
+      '<button type="button" role="menuitem" data-cp-act="del" class="danger"><span class="cm-ic">🗑</span><span class="cm-txt"></span></button>';
+    m.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-cp-act]');
+      if (!b) return;
+      e.stopPropagation();
+      var place = state.menuPlace;
+      closeMenu();
+      if (!state.member) { needLoginModal(); return; }
+      if (!place) return;
+      var act = b.getAttribute('data-cp-act');
+      if (act === 'edit') addModal(place);
+      else if (act === 'cc') ccModal(place);
+      else if (act === 'nom') nomModal(place);
+      else if (act === 'del') delModal(place);
+    });
+    document.body.appendChild(m);
+    els.menu = m;
+    return m;
+  }
+  function openMenuFor(place, more) {
+    var m = ensureMenu();
+    // labels re-render on every open (language may have changed since)
+    m.querySelectorAll('[data-cp-act]').forEach(function (b) {
+      var key = MENU_LABELS[b.getAttribute('data-cp-act')];
+      var span = b.querySelector('.cm-txt');
+      if (span) span.textContent = t()[key].replace(/^\S+\s*/, '');
+    });
+    state.menuPlace = place;
+    state.menuTrigger = more;
+    more.setAttribute('aria-expanded', 'true');
+    positionMenu(m, more);
+  }
+  // position:fixed under the trigger, right-aligned to it; near the viewport
+  // bottom (or in a short window) it flips UP so no item is ever clipped;
+  // clamped inside the viewport on both axes. Measured while visibility:hidden.
+  function positionMenu(m, more) {
+    m.style.visibility = 'hidden';
+    m.classList.add('open');
+    var r = more.getBoundingClientRect();
+    var mw = m.offsetWidth, mh = m.offsetHeight;
+    var gap = 6, margin = 8;
+    var top = r.bottom + gap;
+    if (top + mh > window.innerHeight - margin && r.top - gap - mh >= margin) top = r.top - gap - mh; // 靠近螢幕下緣 → 向上展開
+    top = Math.max(margin, Math.min(top, Math.max(margin, window.innerHeight - margin - mh)));
+    var left = r.right - mw;
+    left = Math.max(margin, Math.min(left, Math.max(margin, window.innerWidth - margin - mw)));
+    m.style.top = top + 'px';
+    m.style.left = left + 'px';
+    m.style.visibility = '';
+  }
+  function closeMenu() {
+    if (state.menuTrigger) { state.menuTrigger.setAttribute('aria-expanded', 'false'); state.menuTrigger = null; }
+    state.menuPlace = null;
+    if (els.menu) { els.menu.classList.remove('open'); els.menu.style.visibility = ''; }
+  }
+  // scroll events do NOT bubble — capture phase catches the page scroller AND
+  // every inner scroller; resize likewise dismisses (the anchor has moved).
+  document.addEventListener('scroll', function () { if (els.menu && els.menu.classList.contains('open')) closeMenu(); }, true);
+  window.addEventListener('resize', function () { if (els.menu && els.menu.classList.contains('open')) closeMenu(); });
+
   document.addEventListener('click', function (e) {
-    if (!e.target.closest || !e.target.closest('.cl-cp-menu, .cl-cp-more')) {
-      document.querySelectorAll('.cl-cp-menu.open').forEach(function (x) { x.classList.remove('open'); });
-    }
+    if (!e.target.closest || !e.target.closest('.cl-cp-menu, .cl-cp-more')) closeMenu();
   });
 
   // honest counters must follow app.js re-renders (language switches, filter
