@@ -92,7 +92,7 @@ test('CL-UI-109 P2-3: maplibre vendored (no unpkg), timeout 4s, honest fallback 
   assert.ok(en.includes("'圖資載入失敗 · Canvas fallback':'Basemap failed to load · Canvas fallback'"), 'en entry');
   const ja = MAP_JS.slice(MAP_JS.indexOf("'ja':{"), MAP_JS.indexOf("'ja':{") + 20000);
   assert.ok(ja.includes("'圖資載入失敗 · Canvas fallback':'図版の読み込みに失敗 · Canvas フォールバック'"), 'ja entry');
-  assert.match(WG_HTML, /assets\/vendor\/maplibre-gl\.css\?v=bclwg48/);
+  assert.match(WG_HTML, /assets\/vendor\/maplibre-gl\.css\?v=bclwg49/);
 });
 
 test('CL-UI-109 P2-2: layout axis is min(w,h)<=768 (landscape phones get the app shell)', () => {
@@ -122,9 +122,9 @@ test('CL-UI-109 P3-5: 44px hit-area expansion (visual unchanged) lives inside th
   assert.ok(!desktopBlock.includes("::after{content:'';position:absolute;inset:-"), 'no hit-area rules on desktop');
 });
 
-test('CL-UI-109 stamp: weather-map.html bumped to bclwg48 (js+css+vendor css)', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg48/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg48/);
+test('CL-UI-109 stamp: weather-map.html bumped to bclwg49 (js+css+vendor css)', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg49/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg49/);
   assert.ok(!/bclwg44/.test(WG_HTML), 'old stamp must not linger');
 });
 

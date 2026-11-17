@@ -121,9 +121,9 @@ test('CL-UI-107: hide runs on load AND on styledata (late style mutations covere
     'styledata handler re-applies the boundary hide');
 });
 
-test('CL-UI-107: weather-map.html stamps bumped to bclwg48 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg48/);
-  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg48/);
+test('CL-UI-107: weather-map.html stamps bumped to bclwg49 in weather-map.html', () => {
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg49/);
+  assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg49/);
   assert.ok(!/weather-map\.js\?v=bclwg42/.test(WG_HTML), 'old js stamp must not linger');
 });
 

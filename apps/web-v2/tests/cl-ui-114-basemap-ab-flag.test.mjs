@@ -1,7 +1,8 @@
-// CL-UI-114: 深色底圖地形改善 A/B（feature-flag 預設關閉，owner 裁示前不切換）。
+// CL-UI-114 / CL-UI-117: 深色底圖地形改善。方案 C（Windy 風格）已自 CL-UI-117
+// 起設為預設（windy 預設 true）。
 // Contract:
-//  (1) 預設（無 URL flag）行為完全不變：仍載入 OpenFreeMap liberty 亮色樣式，
-//      不加 raster-dem/hillshade、不套 CSS 濾鏡 —— 既有測試與線上使用者零影響。
+//  (1) 預設（無 URL flag）＝方案 C：OpenFreeMap fiord 深色樣式；
+//      ?wgBasemapLight=1 逃生口回 liberty 亮色（無 hillshade、無 tint、無濾鏡）。
 //  (2) 方案 A（?wgBasemapDark=1）：樣式切換為 OpenFreeMap fiord（深色），
 //      疊 AWS Terrarium raster-dem source（encoding:terrarium）＋ hillshade
 //      圖層（illumination 315°、exaggeration 0.55、半透明 highlight，深色下
@@ -10,7 +11,7 @@
 //      brightness(0.55) saturate(0.75)，只作用於底圖容器（雲層 canvas 在
 //      容器之外，不受濾鏡影響——雲層可讀性由視覺 A/B 截圖評註）。
 //  (4) 應用時機：'load' 與 'styledata' 都呼叫（冪等；與 CL-UI-107 同點）。
-//  (5) cache-bust stamp 進到 bclwg48（本票改了 weather-map.js）。
+//  (5) cache-bust stamp 進到 bclwg49（本票改了 weather-map.js）。
 // Run: node --test apps/web-v2/tests/cl-ui-114-basemap-ab-flag.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -23,12 +24,12 @@ const ROOT = path.join(path.dirname(require.resolve('../../../assets/weather-map
 const MAP_JS = fs.readFileSync(path.join(ROOT, 'assets/weather-map.js'), 'utf8');
 const WG_HTML = fs.readFileSync(path.join(ROOT, 'weather-map.html'), 'utf8');
 
-test('CL-UI-114: 預設樣式仍是 liberty 亮色底圖（不動預設）', () => {
+test('CL-UI-117: 預設樣式為 fiord 深色；liberty 僅 ?wgBasemapLight=1 逃生口', () => {
   const a = MAP_JS.indexOf("const BASEMAP_STYLE =");
   assert.ok(a !== -1, 'BASEMAP_STYLE declaration missing');
   assert.ok(MAP_JS.includes("const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';"));
-  // 樣式選擇：flag 關閉 → BASEMAP_STYLE
-  assert.ok(MAP_JS.includes('style:(CLUI114_FLAGS.dark||CLUI114_FLAGS.windy) ? CLUI114_DARK_STYLE : BASEMAP_STYLE,'));
+  // 樣式選擇：預設 → fiord；light 逃生口 → liberty
+  assert.ok(MAP_JS.includes('style:CLUI114_FLAGS.light ? BASEMAP_STYLE : CLUI114_DARK_STYLE,'));
 });
 
 test('CL-UI-114: 方案 A — fiord 深色樣式 + Terrarium raster-dem hillshade 參數', () => {
@@ -54,16 +55,16 @@ test('CL-UI-114: 方案 B — 底圖容器 CSS 暗化濾鏡 brightness(0.55) sat
 });
 
 test('CL-UI-114: 應用時機 load + styledata，且 flag 關閉時 no-op 冪等', () => {
-  assert.ok(MAP_JS.includes('clui114ApplyBasemapAB(map);   // CL-UI-114'));
+  assert.ok(MAP_JS.includes('clui114ApplyBasemapAB(map);   // CL-UI-117'));
   assert.ok(MAP_JS.includes("map.on('styledata',()=>{ hideBoundaryLineLayers(map); clui114ApplyBasemapAB(map); });"));
   // 冪等：source 已存在即跳過
   assert.ok(MAP_JS.includes("if (map.getSource('clui114-terrarium')) return;"));
-  // 預設短路：兩 flag 皆關直接 return，不碰任何樣式
-  assert.ok(MAP_JS.includes('if (!CLUI114_FLAGS.dark && !CLUI114_FLAGS.dim && !CLUI114_FLAGS.windy) return;'));
+  // 逃生口：light flag 直接 return，回亮色預設
+  assert.ok(MAP_JS.includes('if (CLUI114_FLAGS.light) return;'));
 });
 
-test('CL-UI-114: cache-bust stamp bclwg48（js+css+vendor 三處）', () => {
-  const stamps = WG_HTML.match(/\?v=bclwg48/g) || [];
-  assert.ok(stamps.length >= 3, `expected >=3 bclwg48 stamps in weather-map.html, got ${stamps.length}`);
+test('CL-UI-114: cache-bust stamp bclwg49（js+css+vendor 三處）', () => {
+  const stamps = WG_HTML.match(/\?v=bclwg49/g) || [];
+  assert.ok(stamps.length >= 3, `expected >=3 bclwg49 stamps in weather-map.html, got ${stamps.length}`);
   assert.ok(!WG_HTML.includes('bclwg46'), 'stale bclwg46 stamp left in weather-map.html');
 });

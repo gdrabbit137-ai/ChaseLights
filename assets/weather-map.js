@@ -22,31 +22,33 @@
   // 會相對 script URL 解析，頁根相對路徑 assets/vendor/ 兩種解析都落在同一處）。
   const MAPLIBRE_MODULE = new URL('assets/vendor/maplibre-gl.mjs', document.baseURI).href;
   const BASEMAP_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
-  // ===== CL-UI-114: 深色底圖地形改善 A/B（feature-flag 預設關閉，owner 裁示前
-  // 不切換預設）=====
+  // ===== CL-UI-114 / CL-UI-117: 底圖方案 C（Windy 風格）設為預設 =====
   // 方案 A：OpenFreeMap fiord（深色）底圖 + AWS Terrarium DEM hillshade 層，
-  //   URL ?wgBasemapDark=1 啟用。hillshade 參數針對深色底圖調校：
+  //   URL ?wgBasemapDark=1 額外啟用（已含於方案 C 預設）。hillshade 參數針對
+  //   深色底圖調校：
   //   illumination 315°（西北光，山脊向光面亮、背光面暗）、exaggeration 0.55、
   //   highlight 半透明白（深色下山脊可辨）、shadow 深色不遮雲層（hillshade 層
   //   在 symbol 之下、雲層 canvas 之上層級不受影響——雲層畫在 map 容器上方的
   //   2D canvas，hillshade 只是底圖內圖層）。
   // 方案 B：現行亮色底圖（liberty）+ CSS 暗化濾鏡 brightness(.55)/saturate(.75)，
   //   URL ?wgBasemapDim=1 啟用。濾鏡只作用於底圖容器，不影響雲層 canvas。
-  // 方案 C（Windy 風格，owner 貼圖指定）：fiord 深色底圖 + landcover/landuse
-  //   深綠 tint（植被色陸地）+ 同方案 A 的 Terrarium hillshade（地形光影，
-  //   台灣立體清晰）+ 雲層 canvas 維持白灰（不套濾鏡，雲對比最突出）。
-  //   URL ?wgBasemapWindy=1 啟用。
+  // 方案 C（Windy 風格，owner 貼圖指定；CL-UI-117 起設為預設）：fiord 深色底圖 +
+  //   landcover/landuse 深綠 tint（植被色陸地）+ 同方案 A 的 Terrarium hillshade
+  //   （地形光影，台灣立體清晰）+ 雲層 canvas 維持白灰（不套濾鏡，雲對比最突出）。
+  //   ?wgBasemapWindy=1 保留（等效於預設）；?wgBasemapLight=1 為逃生口，
+  //   回到 liberty 亮色底圖（無 hillshade、無 tint、無濾鏡）。
   const CLUI114_DARK_STYLE = 'https://tiles.openfreemap.org/styles/fiord';
   const CLUI114_TERRARIUM_TILES = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png';
   const CLUI114_FLAGS = (() => {
     try {
       const q = new URLSearchParams(window.location.search);
       return {
+        light: q.get('wgBasemapLight') === '1',
         dark: q.get('wgBasemapDark') === '1',
         dim: q.get('wgBasemapDim') === '1',
-        windy: q.get('wgBasemapWindy') === '1'
+        windy: q.get('wgBasemapLight') !== '1'
       };
-    } catch (_) { return { dark: false, dim: false, windy: false }; }
+    } catch (_) { return { light: false, dark: false, dim: false, windy: true }; }
   })();
   // 方案 A：加入 raster-dem source + hillshade 圖層。插入在第一個 symbol
   // （label）圖層之前，讓地名標籤維持在最上層；找不到 symbol 圖層則附加到頂。
@@ -101,9 +103,10 @@
     }
   }
   // 方案 A+B+C 共用入口（load/styledata 後重入皆冪等）：改寫底圖樣式、疊
-  // hillshade、套深綠 land tint、套暗化濾鏡。預設（三 flag 皆關）完全不動任何樣式。
+  // hillshade、套深綠 land tint、套暗化濾鏡。CL-UI-117 起：預設＝方案 C；
+  // ?wgBasemapLight=1 逃生口直接 return（亮色 liberty、無 hillshade/tint/濾鏡）。
   function clui114ApplyBasemapAB(map){
-    if (!CLUI114_FLAGS.dark && !CLUI114_FLAGS.dim && !CLUI114_FLAGS.windy) return;
+    if (CLUI114_FLAGS.light) return;
     if (CLUI114_FLAGS.dark||CLUI114_FLAGS.windy) clui114ApplyHillshade(map);
     if (CLUI114_FLAGS.windy) clui114ApplyLandTint(map);
     if (CLUI114_FLAGS.dim){
@@ -2045,7 +2048,7 @@
         ||normalizeViewBbox(regionBbox());
       const map=new maplibregl.Map({
         container:'weather-basemap',
-        style:(CLUI114_FLAGS.dark||CLUI114_FLAGS.windy) ? CLUI114_DARK_STYLE : BASEMAP_STYLE,
+        style:CLUI114_FLAGS.light ? BASEMAP_STYLE : CLUI114_DARK_STYLE,
         center:[(b.leftlon+b.rightlon)/2,(b.bottomlat+b.toplat)/2],
         zoom:5.4,
         bearing:0,
@@ -2096,7 +2099,7 @@
         applyCameraLimits({preserveCamera:true});
         hideBoundaryLineLayers(map);
         hideBasemapLabelNoise(map);
-        clui114ApplyBasemapAB(map);   // CL-UI-114: A/B/C 深色底圖（flag 關閉時 no-op）
+        clui114ApplyBasemapAB(map);   // CL-UI-117: 方案 C 預設（?wgBasemapLight=1 逃生口）
         renderAll();
       });
       // CL-UI-107: re-apply after ANY style mutation (late tile-metadata
