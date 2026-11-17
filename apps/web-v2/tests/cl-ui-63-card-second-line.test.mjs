@@ -44,7 +44,8 @@ test('CL-UI-63 (1): subject-cards layer loads inside the existing evaluations fe
   // the card verdict; a load failure degrades to chip-less lines, never a
   // blocked render.
   assert.match(appSource,
-    /\.then\(j=>\{v2EvalBundle=j;return Promise\.all\(\[ensureFailOverrides\(\),ensureSubjectCards\(\)\]\)\.then\(\(\)=>j\);\}\)/);
+    /\.then\(j=>\{v2EvalBundle=j;return Promise\.all\(\[ensureFailOverrides\(\),ensureSubjectCards\(\),ensureLiveCams\(\)\]\)\.then\(\(\)=>j\);\}\)/,
+    'CL-UI-111: ensureLiveCams joins the same gated Promise.all (single paint)');
   assert.match(appSource, /fetch\('\.\/data\/v2\/evaluations\/'\+V2_SUBJECT_CARDS_FILE,\{cache:'no-cache'\}\)/);
   assert.ok(helperCode.includes(`'${ARTIFACT_FILE}'`), 'artifact filename pinned');
   // fetch failure resets the promise and yields null — same fail-open-to-null
@@ -201,7 +202,7 @@ test('CL-UI-63 (8): artifact rows join back to the artifact dictionary (zh/en/ja
 });
 
 test('CL-UI-63 (9): cache-bust stamps advanced to clui75', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui110/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui111/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
   assert.ok(!indexSource.includes('clui69'), 'stale stamps fully retired');
 });
