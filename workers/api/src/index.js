@@ -34,7 +34,10 @@ import {
   handleCustomPlaces, handleCustomPlaceItem, handleCustomPlaceNominate,
   handleCustomPlacePinInfo, processCustomFetchQueue,
   handleConditionsParse, handleConditionsParseConfig,
+  handleCustomPlaceRefetch,
 } from "./custom-places.js";
+// CL-APP-08: private-place grid dedup — background one-shot re-group sweep.
+import { regroupExistingPlaces } from "./place-groups.js";
 
 // CL-API-03: rule limits by member level (402 = upgrade semantics).
 // CL-DATA-70 owner ruling (Stage 1): grading column users.member_level
@@ -1036,6 +1039,10 @@ export default {
       if (cpm && request.method === "PATCH") return handleCustomPlaceItem(request, env, cpm[1]);
       if (cpm && request.method === "DELETE") return handleCustomPlaceItem(request, env, cpm[1]);
       if (cpm && request.method === "POST") return handleCustomPlaceNominate(request, env, cpm[1]);
+      // CL-APP-08 escape hatch: 「獨立重新抓取」 — detach from the shared
+      // group and queue a solo refetch (counts 1 quota).
+      const cpr = path.match(/^\/custom_places\/([\w-]+)\/refetch$/);
+      if (cpr && request.method === "POST") return handleCustomPlaceRefetch(request, env, cpr[1]);
     }
 
     // --- feedback channel (CL-DATA-70, gray-released) ---
@@ -1116,5 +1123,9 @@ export default {
     // queue (batch-capped; global 70% brake downshifts 10%, 90% hard-stops
     // non-core refreshes — never the notify engine, which is the paid core).
     ctx.waitUntil(processCustomFetchQueue(env).then((s) => console.log("[custom-places-queue]", JSON.stringify(s))).catch((e) => console.error("[custom-places-queue]", e && e.message)));
+    // CL-APP-08: the one-shot background re-group of EXISTING private places
+    // (migration rule 5). KV-guarded to run once; queues NO fetch and bumps
+    // NO counter — grouping is a bookkeeping change, not a data change.
+    ctx.waitUntil(regroupExistingPlaces(env).then((s) => s && s.skipped ? null : console.log("[custom-places-regroup]", JSON.stringify(s))).catch((e) => console.error("[custom-places-regroup]", e && e.message)));
   },
 };
