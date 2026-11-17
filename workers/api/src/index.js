@@ -32,6 +32,7 @@ import {
 // CL-APP-06: custom places (private points) — CRUD + nomination + low-priority fetch queue.
 import {
   handleCustomPlaces, handleCustomPlaceItem, handleCustomPlaceNominate,
+  handleCustomPlaceEval,
   handleCustomPlacePinInfo, processCustomFetchQueue,
   handleConditionsParse, handleConditionsParseConfig,
 } from "./custom-places.js";
@@ -1036,6 +1037,11 @@ export default {
       if (cpm && request.method === "PATCH") return handleCustomPlaceItem(request, env, cpm[1]);
       if (cpm && request.method === "DELETE") return handleCustomPlaceItem(request, env, cpm[1]);
       if (cpm && request.method === "POST") return handleCustomPlaceNominate(request, env, cpm[1]);
+    }
+    {
+      // patch-7: private-card forecast popup reads the stored eval (read-only)
+      const cpe = path.match(/^\/custom_places\/([\w-]+)\/eval$/);
+      if (cpe && request.method === "GET") return handleCustomPlaceEval(request, env, cpe[1]);
     }
 
     // --- feedback channel (CL-DATA-70, gray-released) ---

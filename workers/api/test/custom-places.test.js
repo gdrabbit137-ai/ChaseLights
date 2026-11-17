@@ -275,6 +275,63 @@ test("dominantFailWord: largest violation share wins; visibility floor direction
   assert.equal(dominantFailWord(hourly, { visibility_min_km: 3, cloud_low_max: 90 }, now), "霧");
   assert.equal(dominantFailWord(hourly, { cloud_low_max: 90 }, now), "低雲");
 });
+// ------------------------------------------ patch-5 ④: 適用月份 month window
+import { validateCustomConditions, findNextCustomWindow } from "../src/notify.js";
+test("patch-5 ④: months validation — 1..12 ints, dedupe+sort, empty rejected (omit = all year)", () => {
+  assert.deepEqual(validateCustomConditions({ months: [4, 3, 4] }).cc.months, [3, 4]);
+  assert.deepEqual(validateCustomConditions({}).cc, null);
+  assert.equal(validateCustomConditions({ months: [] }).ok, false);
+  assert.equal(validateCustomConditions({ months: [13] }).ok, false);
+  assert.equal(validateCustomConditions({ months: [0] }).ok, false);
+  assert.equal(validateCustomConditions({ months: [3.5] }).ok, false);
+  assert.equal(validateCustomConditions({ months: "3" }).ok, false);
+});
+test("patch-5 ④: month window — findNextCustomWindow skips out-of-month rows; evaluateCustomPlace reports honest 非適用月份 (never a weather word)", () => {
+  const now = Date.parse("2026-11-15T12:00:00+08:00");
+  const hourly = [];
+  for (let i = 0; i < 24; i++) hourly.push({ local_date: "2026-11-15", hour: `${String(i).padStart(2, "0")}:00`, values: { cloud_low: 10, precipitation: 0, visibility: 20, wind: 2 } });
+  // month included → rec even though other params would pass anyway
+  const inWin = findNextCustomWindow(hourly, { cloud_low_max: 50, months: [11] }, now, 0);
+  assert.ok(inWin && /2026-11-15 \d\d:00/.test(inWin.window || `${inWin.local_date} ${inWin.hour}`));
+  // month excluded → null + honest eligibility reason, NOT 低雲/雨 etc.
+  assert.equal(findNextCustomWindow(hourly, { cloud_low_max: 50, months: [6] }, now, 0), null);
+  const e = evaluateCustomPlace({ cloud_low_max: 50, months: [6] }, { hourly }, now);
+  assert.equal(e.tier, "no");
+  assert.equal(e.reason, "非適用月份");
+});
+// ----------------------------------- patch-7: private-card forecast popup endpoint
+test("patch-7: GET /custom_places/:id/eval — owner-only stored eval; queued 404 honest; trial-expired 403", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "u1", "paid");
+  const t = await mint(env, "u1");
+  const add = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "私點", lat: 24.8, lng: 121.7 }) }), env, {});
+  assert.equal(add.status, 200);
+  const id = (await add.json()).id;
+  // no stored eval yet → honest 404 with fetchQueued (never fabricated rows)
+  const none = await worker.fetch(makeReq(`/custom_places/${id}/eval`, { headers: hdr(t) }), env, {});
+  assert.equal(none.status, 404);
+  assert.equal((await none.json()).fetchQueued, true);
+  // stored eval → 200 with the SAME hourly the tier engine reads
+  const hourly = [{ local_date: "2026-01-01", hour: "05:00", values: { cloud_low: 10, precipitation: 0, visibility: 20000, wind: 2 } }];
+  env.EVALS._store.set(`v1:evals:custom:${id}`, JSON.stringify({ place_id: id, hourly, generated_at: "2026-01-01T00:00:00Z", elevation: 80, timezone: "Asia/Taipei" }));
+  const ok = await worker.fetch(makeReq(`/custom_places/${id}/eval`, { headers: hdr(t) }), env, {});
+  assert.equal(ok.status, 200);
+  const ob = await ok.json();
+  assert.equal(ob.ok, true);
+  assert.deepEqual(ob.hourly, hourly);
+  assert.equal(ob.generatedAt, "2026-01-01T00:00:00Z");
+  assert.equal(ob.timezone, "Asia/Taipei");
+  // another member's place simply does not exist (same CRUD rule as PATCH/DELETE)
+  seedUser(db, "u2", "paid");
+  const t2 = await mint(env, "u2");
+  const other = await worker.fetch(makeReq(`/custom_places/${id}/eval`, { headers: hdr(t2) }), env, {});
+  assert.equal(other.status, 404);
+  // trial expired → evaluation stopped (data kept), honest 403
+  db._tables.users.set("u1", { device_id: "u1", level: "free", created_at: dbStamp(NOW - TRIAL_DAYS * DAY) });
+  const t1b = await mint(env, "u1");
+  const expired = await worker.fetch(makeReq(`/custom_places/${id}/eval`, { headers: hdr(t1b) }), env, {});
+  assert.equal(expired.status, 403);
+});
 test("energySaverLevel: top-1% daily / persistent top-0.1% every-2-days / normal", () => {
   const users = {}; for (let i = 0; i < 200; i++) users[`u${i}`] = { count: 300 - i };
   assert.equal(energySaverLevel(users, "u0").level, "every-2-days");  // top 0.1%
@@ -697,6 +754,17 @@ test("conditions/parse: trilingual inputs → strict schema suggestions; violati
   assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, confidence: 1.5 }).ok, false);
   assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, lead_minutes: -1 }).ok, false);
   assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, lead_minutes: null }).ok, true);
+  // patch-5 ③: conflict — non-overlapping windows come back as conflict text
+  // with NO concrete window; conflict + window together is a schema violation.
+  const CONFLICT = { ...GOOD_SUGGESTION, window_start: null, window_end: null, conflict: "兩個時間窗不重疊，請擇一" };
+  const c = validateParseSuggestions(CONFLICT);
+  assert.equal(c.ok, true);
+  assert.equal(c.suggestions.conflict, "兩個時間窗不重疊，請擇一");
+  assert.equal(c.suggestions.window_start, undefined);
+  assert.equal(validateParseSuggestions({ ...CONFLICT, window_start: "04:30", window_end: "07:00" }).ok, false, "conflict excludes a concrete window");
+  assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, conflict: "x".repeat(201) }).ok, false);
+  assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, conflict: "   " }).ok, false);
+  assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, conflict: 5 }).ok, false);
   // per-user 10/day budget: 3 used so far → 7 more pass, the 11th 403s
   const restore2 = await stubFetch(llmResponse(GOOD_SUGGESTION));
   try {

@@ -215,6 +215,15 @@ export function evaluateCustomPlace(cc, rec, nowMs = Date.now()) {
   if (cc) {
     const win = findNextCustomWindow(hourly, cc, nowMs, 0);
     if (win) return { tier: "rec", reason: null, window: `${win.local_date} ${win.hour}` };
+    // patch-5 ④: when a month window is set and NO hour in the next-24h
+    // horizon falls inside it, the honest dominant reason is the month
+    // window itself — never a weather word (non-applicable month is an
+    // eligibility fact, not a daily weather failure).
+    if (Array.isArray(cc.months) && cc.months.length &&
+        !hourly.some((r) => r && typeof r.local_date === "string" &&
+          cc.months.includes(Number(r.local_date.slice(5, 7))))) {
+      return { tier: "no", reason: "非適用月份", window: null };
+    }
     return { tier: "no", reason: dominantFailWord(hourly, cc, nowMs), window: null };
   }
   // no conditions: lenient general baseline
@@ -599,6 +608,48 @@ export async function handleCustomPlaceItem(req, env, placeId) {
 }
 
 // ---------------------------------------------------------------------------
+// patch-7 (owner ruling): private-place card click parity with official cards.
+// Clicking a private card opens a forecast popup; THIS endpoint feeds it with
+// the SAME stored eval (v1:evals:custom:<id>) the tier engine reads —
+// owner-only, read-only, zero new fetch quota (the popup renders data that
+// already exists). A place still queued (first fetch deferred) or one whose
+// evaluation stopped (trial expired) answers honestly; the popup shows the
+// reason verbatim instead of fabricating rows.
+// ---------------------------------------------------------------------------
+export async function handleCustomPlaceEval(req, env, placeId) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const uid = session.sub;
+  // Trial-expiry is materialized lazily by the list sweep; the popup must
+  // honour the same boundary the moment it passes (evaluation stopped,
+  // data kept) instead of relying on a list visit that may never come.
+  const user = await env.DB.prepare(
+    "SELECT device_id, level, created_at FROM users WHERE device_id = ?1"
+  ).bind(uid).first();
+  if (!user) return json(req, 401, { error: "session user not found" });
+  const level = user.level || "free";
+  const row = await env.DB.prepare(
+    "SELECT id, user_id, name, lat, lng, elevation, timezone, custom_conditions, status, created_at FROM custom_places WHERE id = ?1"
+  ).bind(placeId).first();
+  // another member's place simply does not exist for you (same CRUD rule)
+  if (!row || row.user_id !== uid) return json(req, 404, { error: "place not found" });
+  if (row.status === "trial_expired" ||
+      (level === "free" && !(await freeAsPaidFlag(env)) && trialState(user).expired)) {
+    return json(req, 403, { error: "evaluation stopped (trial expired); your data is kept" });
+  }
+  let rec = null;
+  try { rec = await env.EVALS.get(`v1:evals:custom:${placeId}`, "json"); } catch { rec = null; }
+  if (!rec || !Array.isArray(rec.hourly) || !rec.hourly.length) {
+    return json(req, 404, { error: "no evaluation yet", fetchQueued: true });
+  }
+  return json(req, 200, {
+    ok: true, id: placeId, private: true,
+    hourly: rec.hourly, generatedAt: rec.generated_at || null,
+    elevation: rec.elevation ?? null, timezone: rec.timezone ?? null,
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Nomination (⬆ 提名升級官方): one click → the EXISTING feedback review
 // queue, type='report' with payload.routing_key='nomination' so admin
 // triage can filter nomination tickets. Fail-closed: duplicates and
@@ -703,9 +754,20 @@ export function validateParseSuggestions(body) {
   if (Number.isFinite(Number(body.wind_max_ms)) && body.wind_max_ms != null) out.wind_max_ms = Number(body.wind_max_ms);
   const hm = /^([01]\d|2[0-3]):[0-5]\d$/;
   if (body.window_start != null || body.window_end != null) {
-    if (typeof body.window_start !== 'string' || typeof body.window_end !== 'string') return { ok: false };
+    if (typeof body.window_start !== "string" || typeof body.window_end !== "string") return { ok: false };
     if (!hm.test(body.window_start) || !hm.test(body.window_end)) return { ok: false };
     out.window_start = body.window_start; out.window_end = body.window_end;
+  }
+  // patch-5 ③: conflict — when the text demands incompatible conditions
+  // (e.g. non-overlapping time windows), the LLM sets window keys null and
+  // returns a SHORT user-language conflict message instead. The UI applies
+  // nothing and asks the user to pick one (解析結果必經確認).
+  if (body.conflict != null) {
+    if (typeof body.conflict !== "string" || !body.conflict.trim() || body.conflict.length > 200) {
+      return { ok: false };
+    }
+    if (out.window_start != null) return { ok: false }; // conflict excludes a concrete window
+    out.conflict = body.conflict.trim();
   }
   const conf = Number(body.confidence);
   if (!Number.isFinite(conf) || conf < 0 || conf > 1) return { ok: false };
@@ -719,8 +781,13 @@ const PARSE_SYSTEM_PROMPT =
   'cloud ("min"|"half"|"any" — how much low cloud the photographer tolerates), ' +
   'fog ("none"|"thin"|"any"), rain ("no"|"drizzle"|"any"), ' +
   'wind_max_ms (number|null, m/s), window_start and window_end ("HH:MM" strings or null, local shooting window), ' +
-  'lead_minutes (integer|null), confidence (0..1). ' +
-  'Interpret the text in ANY language. Never invent keys. Numbers must respect the stated units.';
+  'lead_minutes (integer|null), conflict (string|null), confidence (0..1). ' +
+  'Interpret the text in ANY language. Never invent keys. Numbers must respect the stated units. ' +
+  'MULTIPLE time windows in the text are INTERSECTED: use only the overlapping span. ' +
+  'If the requested conditions CONTRADICT each other and have no valid overlap (e.g. two non-overlapping windows), ' +
+  'set window_start/window_end to null and put a SHORT (<200 chars) message in conflict — ' +
+  'written in the USER\'S OWN language — telling them the conditions conflict and to pick one. ' +
+  'Otherwise conflict must be null.';
 
 export async function conditionsParseConfig(env) {
   return { enabled: Boolean(env.LLM_API_KEY) };
