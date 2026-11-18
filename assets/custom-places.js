@@ -36,7 +36,7 @@
       add_btn: '新增私人景點', quota_lbl: '私人點', quota_owner: '無限',
       count_fmt: '共 {n} 個官方景點＋你的 {m} 個私人點',
       count_fmt_zero: '共 {n} 個官方景點（尚未建立私人點）',
-      tier_rec: '✓ 條件窗', tier_shoot: '○ 可拍', tier_no: '✗', tier_pending: '⏳ 排隊中',
+      tier_rec: '✓ 推薦', tier_shoot: '○ 可拍', tier_no: '✗ 不宜', tier_pending: '⏳ 排隊中',
       trial_expired: '試用期滿', trial_note: '評估已停止（資料保留）', trial_cta: '升級 Premium 恢復使用',
       deferred_note: '已建立·氣象資料明日更新',
       m_edit: '✎ 編輯', m_cc: '🎞 掛題材·條件', m_del: '🗑 刪除',
@@ -59,9 +59,10 @@
       // patch-7: private-card forecast popup (same card-click interaction as official cards)
       qv_title: '預報速覽', qv_quick: '現在去會怎樣', qv_days: '8 日概況', qv_no_data: '─',
       qv_no_data_note: '此日尚無資料（資料僅涵蓋未來約 2 日）', qv_subjects: '逐題材判定',
-      qv_subject_custom: '自訂條件', qv_baseline: '一般基準', qv_entry: '🎞 題材',
+      qv_subject_custom: '自訂條件', qv_general: '可拍', qv_entry: '🎞 題材',
       qv_load_fail: '預報資料暫時無法載入——可能仍在排隊抓取（明日更新）。',
       qv_gen: '符合 {n}/{t} 小時',
+      cond_n: '條件 ×{n}', cond_required: '成立條件',
       cc_prev: '摘要預覽：', cc_prev_none: '（未調任何參數＝一般基準）', cc_submit: '套用到此點',
       cc_done1: '✓ 條件已套用', cc_none: '（僅一般基準）',
       // patch-8: theme list manager (multiple condition groups per place)
@@ -91,7 +92,7 @@
       add_btn: 'Add custom place', quota_lbl: 'Custom places', quota_owner: 'Unlimited',
       count_fmt: '{n} official places + your {m} custom places',
       count_fmt_zero: '{n} official places (no custom places yet)',
-      tier_rec: '✓ Window', tier_shoot: '○ Shootable', tier_no: '✗', tier_pending: '⏳ Queued',
+      tier_rec: '✓ Recommended', tier_shoot: '○ Shootable', tier_no: '✗ Not recommended', tier_pending: '⏳ Queued',
       trial_expired: 'Trial ended', trial_note: 'Evaluation stopped (data kept)', trial_cta: 'Upgrade to Premium to resume',
       deferred_note: 'Created · weather data updates tomorrow',
       m_edit: '✎ Edit', m_cc: '🎞 Subject & conditions', m_del: '🗑 Delete',
@@ -113,9 +114,10 @@
       p_months: 'Applicable months', p_months_hint: 'None selected = all year; when set, only those months are evaluated (the cron honours the month window)',
       qv_title: 'Forecast quick view', qv_quick: 'If I go now', qv_days: '8-day outlook', qv_no_data: '─',
       qv_no_data_note: 'No data for this day yet (data covers about the next 2 days)', qv_subjects: 'Per-subject verdicts',
-      qv_subject_custom: 'Custom conditions', qv_baseline: 'General baseline', qv_entry: '🎞 Subjects',
+      qv_subject_custom: 'Custom conditions', qv_general: 'Shootable', qv_entry: '🎞 Subjects',
       qv_load_fail: 'Forecast data is temporarily unavailable — the fetch may still be queued (updates tomorrow).',
       qv_gen: '{n}/{t} hours met',
+      cond_n: 'Conditions ×{n}', cond_required: 'Required conditions',
       cc_prev: 'Summary: ', cc_prev_none: '(nothing tuned = general baseline)', cc_submit: 'Apply to this place',
       cc_done1: '✓ Conditions applied', cc_none: '(general baseline only)',
       // patch-8: theme list manager (multiple condition groups per place)
@@ -145,7 +147,7 @@
       add_btn: '自作スポットを追加', quota_lbl: '自作スポット', quota_owner: '無制限',
       count_fmt: '公式 {n} スポット＋あなたの自作 {m} スポット',
       count_fmt_zero: '公式 {n} スポット（自作スポットはまだありません）',
-      tier_rec: '✓ 条件窓', tier_shoot: '○ 撮影可', tier_no: '✗', tier_pending: '⏳ 待機中',
+      tier_rec: '✓ 推薦', tier_shoot: '○ 撮影可', tier_no: '✗ 非推奨', tier_pending: '⏳ 待機中',
       trial_expired: 'トライアル期限切れ', trial_note: '評価停止中（データは保持）', trial_cta: 'Premiumへアップグレードで再開',
       deferred_note: '作成済み・気象データは明日更新',
       m_edit: '✎ 編集', m_cc: '🎞 題材・条件', m_del: '🗑 削除',
@@ -167,9 +169,10 @@
       p_months: '適用月', p_months_hint: '未選択＝通年；選択するとその月のみ判定（cron も月窓を尊重）',
       qv_title: '予報クイックビュー', qv_quick: '今すぐ行くと', qv_days: '8日間の概況', qv_no_data: '─',
       qv_no_data_note: 'この日はまだデータなし（データは今後約2日分）', qv_subjects: '題材別判定',
-      qv_subject_custom: 'カスタム条件', qv_baseline: '一般基準', qv_entry: '🎞 題材',
+      qv_subject_custom: 'カスタム条件', qv_general: '撮影可', qv_entry: '🎞 題材',
       qv_load_fail: '予報データを取得できません——取得待ちの可能性があります（明日更新）。',
       qv_gen: '{n}/{t} 時間適合',
+      cond_n: '条件 ×{n}', cond_required: '成立条件',
       cc_prev: 'サマリー：', cc_prev_none: '（未調整＝一般基準）', cc_submit: 'このスポットに適用',
       cc_done1: '✓ 条件を適用しました', cc_none: '（一般基準のみ）',
       // patch-8: theme list manager (multiple condition groups per place)
@@ -261,7 +264,7 @@
   // a previous tall modal's scrollTop otherwise persists, clipping the short
   // edit modal's first fields above the viewport. Body scroll is locked while
   // a modal is open (the page must not scroll behind the overlay).
-  function openOverlay(html) { ensureHosts(); var m = els.overlay.querySelector('.cl-cp-modal'); m.innerHTML = html; els.overlay.classList.add('open'); els.overlay.scrollTop = 0; m.scrollTop = 0; document.body.classList.add('cl-cp-lock'); }
+  function openOverlay(html, extraCls) { ensureHosts(); var m = els.overlay.querySelector('.cl-cp-modal'); m.classList.remove('cl-cp-qv-modal'); if (extraCls) m.classList.add(extraCls); m.innerHTML = html; els.overlay.classList.add('open'); els.overlay.scrollTop = 0; m.scrollTop = 0; document.body.classList.add('cl-cp-lock'); }
   function closeOverlay() {
     if (!els.overlay) return;
     els.overlay.classList.remove('open');
@@ -402,6 +405,66 @@
       if (v) return v;
     }
     return (g && g.name) || '';
+  }
+  // ── patch-9 (owner ruling): the legacy migration named the old single blob
+  // 「題材 1」 — a system placeholder that must never reach the UI. A group
+  // with NO user-facing name (nameI18n absent) carrying that placeholder falls
+  // back to the USER's genre: exact-match the set against the official genre
+  // starters (the picker such sets were created from) and use that genre's
+  // tri-lingual short name (e.g. 星光窗的夜空 starter → 「星空」); a set that
+  // was tweaked beyond the starter reads 「自訂條件」. A user who literally
+  // renamed a group to 「題材 1」 (nameI18n present) keeps their name.
+  function cpLegacyPlaceholder(g) {
+    if (!g) return false;
+    var i18n = g.nameI18n;
+    if (i18n && typeof i18n === 'object' && Object.keys(i18n).length) return false;
+    return String(g.name || '') === '題材 1';
+  }
+  function themeDisplayName(g) {
+    if (cpLegacyPlaceholder(g)) {
+      var key = cpStarterKeyFor(g && g.conditions);
+      var names = key ? genreShortNames() : null;
+      return (names && names[key]) || t().qv_subject_custom;
+    }
+    return themeName(g);
+  }
+  // canonical form: lenient defaults never constrain (same rules as
+  // cpHourMatches / ccSummary); months sort-joined for stable compare
+  function cpCcCanonical(cc) {
+    var out = {};
+    if (!cc) return out;
+    if (cc.cloud_low_max != null && cc.cloud_low_max < 100) out.cloud_low_max = Number(cc.cloud_low_max);
+    if (cc.cloud_mid_max != null && cc.cloud_mid_max < 100) out.cloud_mid_max = Number(cc.cloud_mid_max);
+    if (cc.cloud_high_max != null && cc.cloud_high_max < 100) out.cloud_high_max = Number(cc.cloud_high_max);
+    if (cc.precip_max_mmh != null && cc.precip_max_mmh < 200) out.precip_max_mmh = Number(cc.precip_max_mmh);
+    if (cc.visibility_min_km != null && cc.visibility_min_km > 0) out.visibility_min_km = Number(cc.visibility_min_km);
+    if (cc.wind_max_ms != null) out.wind_max_ms = Number(cc.wind_max_ms);
+    if (cc.window_start && cc.window_end) { out.window_start = cc.window_start; out.window_end = cc.window_end; }
+    if (Array.isArray(cc.months) && cc.months.length) out.months = cc.months.slice().sort(function (a, b) { return a - b; }).join(',');
+    if (cc.lead_minutes != null) out.lead_minutes = Number(cc.lead_minutes);
+    return out;
+  }
+  function cpCcSame(a, b) {
+    var ca = cpCcCanonical(a), cb = cpCcCanonical(b);
+    var ka = Object.keys(ca);
+    if (ka.length !== Object.keys(cb).length) return false;
+    for (var i = 0; i < ka.length; i++) if (ca[ka[i]] !== cb[ka[i]]) return false;
+    return true;
+  }
+  function cpStarterKeyFor(cc) {
+    if (!cc) return null;
+    for (var k in CC_GENRE_STARTERS) {
+      var s = CC_GENRE_STARTERS[k];
+      if (cpCcSame(cc, {
+        cloud_low_max: CC_SEMANTIC.cloud.values[s.cloud],
+        visibility_min_km: CC_SEMANTIC.fog.values[s.fog],
+        precip_max_mmh: CC_SEMANTIC.rain.values[s.rain],
+        window_start: s.window ? s.window[0] : null,
+        window_end: s.window ? s.window[1] : null,
+        months: Array.isArray(s.months) ? s.months.slice() : null,
+      })) return k;
+    }
+    return null;
   }
   // patch-8: ONE subject-row anatomy everywhere (official card parity) —
   // tier badge + group name + next window / short reason, never a divergent chip
@@ -586,7 +649,7 @@
           headBadge +
           '<span class="cl-cp-priv-badge">◉ ' + esc(expired ? t().trial_expired : t().priv_badge) + '</span>' +
         '</div>' +
-        '<div class="cl-cp-coord">' + esc(p.lat) + ', ' + esc(p.lng) + (p.elevation != null ? ' · ' + esc(p.elevation) + ' m' : '') + (p.timezone ? ' · ' + esc(p.timezone) : '') + '</div>' +
+        '<div class="cl-cp-coord">' + esc(cpMetaLine(p)) + '</div>' +
       '</div>' +
       // patch-3: the menu markup moved OUT of the card — one shared menu is
       // portaled to document.body (ensureMenu) and position:fixed under the
@@ -598,15 +661,19 @@
     if (!expired && !(ev.tier === 'pending' && p.fetchDeferred)) {
       groups.forEach(function (g) {
         var ge = g.evaluation || {};
-        if (ge.tier === 'rec') rows.push(cpCardRow('rec', themeName(g), ge.window));
-        else if (ge.tier === 'shoot') rows.push(cpCardRow('shoot', themeName(g), ge.window, t().th_row_shoot));
-        else if (ge.tier === 'no') rows.push(cpCardRow('no', themeName(g), null, ge.reason || ''));
-        else rows.push(cpCardRow('shoot', themeName(g), null, t().tier_pending));
+        if (ge.tier === 'rec') rows.push(cpCardRow('rec', themeDisplayName(g), ge.window));
+        else if (ge.tier === 'shoot') rows.push(cpCardRow('shoot', themeDisplayName(g), ge.window, t().th_row_shoot));
+        else if (ge.tier === 'no') rows.push(cpCardRow('no', themeDisplayName(g), null, ge.reason || ''));
+        else rows.push(cpCardRow('shoot', themeDisplayName(g), null, t().tier_pending));
       });
-      if (groups.length && ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_baseline, ev.window, t().th_row_shoot));
+      // patch-9 (owner ruling): the 「一般基準」 row was dual-truth residue —
+      // a general-baseline row rendered BESIDE the per-subject rows reads as a
+      // second verdict source. Removed: the per-subject rows are the single
+      // truth; the general baseline survives only where NO subject rows exist
+      // (no groups → the single 可拍 row below, one verdict one surface).
       if (!groups.length) {
         if (ev.tier === 'rec') rows.push(cpCardRow('rec', t().qv_subject_custom, ev.window));
-        else if (ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_baseline, ev.window, t().th_row_shoot));
+        else if (ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_general, ev.window, t().th_row_shoot));
         else rows.push('<div style="font-size:13px;color:var(--cl-red-text)">' + esc(t().tier_no) + ' <span style="font-weight:600">' + esc(ev.reason || '') + '</span></div>');
       }
     }
@@ -660,7 +727,8 @@
   // panel. The hour matcher mirrors the worker's customHourMatches/hourInWindow
   // EXACTLY (same lenient defaults, missing-value fails honestly) so the
   // popup can never disagree with the card tier.
-  var CP_GENERAL_BASELINE = { precip_max_mmh: 2, visibility_min_km: 3, wind_max_ms: 10 };
+  // (patch-9: the separate general-baseline row and its constant were removed
+  // with the dual-truth ruling — the per-subject rows are the single truth.)
   function cpHourInWindow(hour, start, end) {
     if (typeof hour !== 'string' || !/^([01]\d|2[0-3]):[0-5]\d$/.test(hour)) return false;
     if (typeof start !== 'string' || typeof end !== 'string') return true; // no window = whole day
@@ -686,13 +754,72 @@
     }
     return true;
   }
+  // ── patch-9 (owner ruling): the raw 「25.0682, 121.5794 · 13 m · Asia/Taipei」
+  // header line leaked the full-precision coordinates and the raw IANA zone.
+  // ONE meta-line anatomy everywhere (card sub-line + popup header), same
+  // convention as the official modal: coordinates at 3 decimals (location
+  // identity, not surveying precision), elevation in metres, the zone as the
+  // GMT±n abbreviation (tzAbbrLabel convention — never a bare IANA string).
+  function cpTzLabel(tz) {
+    if (!tz) return '';
+    if (/^GMT[+-]/.test(String(tz))) return String(tz); // already the convention
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', { timeZone: String(tz), timeZoneName: 'shortOffset' }).formatToParts(new Date());
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].type === 'timeZoneName' && /^GMT/.test(parts[i].value)) return parts[i].value;
+      }
+    } catch (e) { /* unknown zone → honest omit */ }
+    return '';
+  }
+  function cpMetaLine(p) {
+    var lat = Number(p.lat), lng = Number(p.lng);
+    var parts = [];
+    if (isFinite(lat) && isFinite(lng)) parts.push(lat.toFixed(3) + ', ' + lng.toFixed(3));
+    if (p.elevation != null) parts.push(p.elevation + ' m');
+    var tz = cpTzLabel(p.timezone);
+    if (tz) parts.push(tz);
+    return parts.join(' · ');
+  }
+  // ── patch-9: the popup's per-subject condition collapse — official
+  // 「條件 ×{n}」 anatomy (summary count + the condition rows grouped by
+  // role). Private sets have REQUIRED-type constraints only (must-not-exceed
+  // limits + the window), so the collapse shows the 成立條件 group and omits
+  // the 加分/扣分 groups exactly like the official collapse omits empty ones.
+  var CP_COND_LABELS = {
+    'zh-TW': { cloud_low: '低雲', cloud_mid: '中雲', cloud_high: '高雲', precip: '降水', vis: '能見度', wind: '風速', window: '時窗', months: '適用月份' },
+    'en': { cloud_low: 'Low cloud', cloud_mid: 'Mid cloud', cloud_high: 'High cloud', precip: 'Precip', vis: 'Visibility', wind: 'Wind', window: 'Time window', months: 'Applicable months' },
+    'ja': { cloud_low: '低雲', cloud_mid: '中雲', cloud_high: '高雲', precip: '降水', vis: '視程', wind: '風速', window: '時間帯', months: '適用月' },
+  };
+  function cpCondRows(cc, lang) {
+    if (!cc) return [];
+    var L = CP_COND_LABELS[lang] || CP_COND_LABELS['zh-TW'];
+    var rows = [];
+    function add(label, value) { rows.push({ label: label, value: value }); }
+    if (cc.cloud_low_max != null && cc.cloud_low_max < 100) add(L.cloud_low, '≤ ' + cc.cloud_low_max + '%');
+    if (cc.cloud_mid_max != null && cc.cloud_mid_max < 100) add(L.cloud_mid, '≤ ' + cc.cloud_mid_max + '%');
+    if (cc.cloud_high_max != null && cc.cloud_high_max < 100) add(L.cloud_high, '≤ ' + cc.cloud_high_max + '%');
+    if (cc.precip_max_mmh != null) add(L.precip, '≤ ' + cc.precip_max_mmh + ' mm/h');
+    if (cc.visibility_min_km != null && cc.visibility_min_km > 0) add(L.vis, '≥ ' + cc.visibility_min_km + ' km');
+    if (cc.wind_max_ms != null) add(L.wind, '≤ ' + cc.wind_max_ms + ' m/s');
+    if (cc.window_start && cc.window_end) add(L.window, cc.window_start + '–' + cc.window_end);
+    if (Array.isArray(cc.months) && cc.months.length) add(L.months, fmtMonths(cc.months));
+    return rows;
+  }
+  function cpCondDetails(cc) {
+    var rows = cpCondRows(cc, currentLang());
+    if (!rows.length) return '';
+    return '<details class="cl-cp-qv-cond"><summary>' + esc(t().cond_n.replace('{n}', String(rows.length))) + '</summary>' +
+      '<div class="cl-cp-cond-group">' + esc(t().cond_required) + '</div>' +
+      rows.map(function (r) {
+        return '<div class="cl-cp-cond-row"><b>' + esc(r.label) + '</b><span>' + esc(r.value) + '</span></div>';
+      }).join('') + '</details>';
+  }
   function forecastModal(p) {
     var ev = p.evaluation || {};
     var html =
       '<div class="cl-cp-m-head"><div><div class="name">📍 ' + esc(p.name) + '</div>' +
-      '<div class="sub">' + esc(p.lat) + ', ' + esc(p.lng) +
-      (p.elevation != null ? ' · ' + esc(p.elevation) + ' m' : '') +
-      (p.timezone ? ' · ' + esc(p.timezone) : '') + '</div></div>' +
+      // patch-9: official meta-line anatomy (coords @3dp · elevation · GMT±n)
+      '<div class="sub">' + esc(cpMetaLine(p)) + '</div></div>' +
       '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
       '<div class="cl-cp-qv-quick"><span class="k">' + esc(t().qv_quick) + '</span>' + tierBadge(p) +
       (ev.window ? ' <span class="cl-cp-window">' + esc(ev.window) + '</span>' : '') +
@@ -703,7 +830,7 @@
       '<div id="cl-cp-qv-subjects"><div class="cl-cp-qv-loading">…</div></div>' +
       '<div class="cl-cp-qv-actions"><button type="button" class="cl-cp-btn" id="cl-cp-qv-subject-entry">' +
       esc(t().qv_entry) + '</button></div>';
-    openOverlay(html);
+    openOverlay(html, 'cl-cp-qv-modal'); // patch-9: the popup follows its content (no full-height stretch)
     wireClose(); // patch-7: the ✕ closes the popup like every other modal
     var entry = els.overlay.querySelector('#cl-cp-qv-subject-entry');
     if (entry) entry.addEventListener('click', function () { ccModal(p); });
@@ -765,20 +892,29 @@
     var days = qvDayGrid(hourly);
     daysEl.innerHTML = days.map(function (day) { return qvDayCell(day, cc); }).join('');
     // patch-8: ONE row per theme group (named, each judged with its own
-    // conditions incl. its own month window) + the general baseline row.
+    // conditions incl. its own month window).
     // Legacy fallback: a place with the old single blob and no migrated
     // groups keeps the 自訂條件 row.
+    // patch-9: ONE truth — per-subject rows only. The trailing 「一般基準」
+    // row was dual-truth residue (owner ruling) and is gone; a place with no
+    // sets at all renders the honest empty note instead of a baseline row.
     var subjects = [];
     var groups = Array.isArray(p.themeGroups) ? p.themeGroups : [];
     if (groups.length) {
-      groups.forEach(function (g) { subjects.push({ name: themeName(g), cond: g.conditions || null }); });
+      groups.forEach(function (g) { subjects.push({ name: themeDisplayName(g), cond: g.conditions || null }); });
     } else if (cc) {
       subjects.push({ name: t().qv_subject_custom, cond: cc });
     }
-    subjects.push({ name: t().qv_baseline, cond: CP_GENERAL_BASELINE });
+    if (!subjects.length) {
+      subjEl.innerHTML = '<div class="cl-cp-qv-none">' + esc(t().th_empty) + '</div>';
+      return;
+    }
     subjEl.innerHTML = subjects.map(function (s) {
       return '<div class="cl-cp-qv-row"><span class="cl-cp-qv-row-name">' + esc(s.name) + '</span>' +
-        '<div class="cl-cp-qv-strip cl-cp-qv-row-strip">' + days.map(function (day) { return qvDayCell(day, s.cond); }).join('') + '</div></div>';
+        '<div class="cl-cp-qv-row-main">' +
+        '<div class="cl-cp-qv-strip cl-cp-qv-row-strip">' + days.map(function (day) { return qvDayCell(day, s.cond); }).join('') + '</div>' +
+        cpCondDetails(s.cond) +
+        '</div></div>';
     }).join('');
   }
   // ───── patch-3: the ⋯ menu — one fixed-position menu portaled to body ─────
@@ -1426,7 +1562,7 @@
       var tail = ge.tier === 'no' && ge.reason ? ' · ' + ge.reason : (ge.tier === 'rec' && ge.window ? ' · ' + ge.window : '');
       return '<div class="cl-cp-theme-row" data-theme-id="' + esc(g.id) + '">' +
         '<span class="cl-cp-tier ' + bcls + '">' + bg + '</span>' +
-        '<div class="cl-cp-theme-info"><div class="n">' + esc(themeName(g)) + '</div>' +
+        '<div class="cl-cp-theme-info"><div class="n">' + esc(themeDisplayName(g)) + '</div>' +
         '<div class="s">' + esc((ccSummary(g.conditions, lang) || '—') + tail) + '</div></div>' +
         '<div class="cl-cp-theme-acts">' +
         '<button type="button" data-cp-th-act="edit" aria-label="✎ 編輯">✎</button>' +
