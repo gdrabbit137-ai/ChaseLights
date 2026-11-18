@@ -62,6 +62,13 @@
 /* toast inherits .cl-cp-toast; multi-line warnings need pre-line */
 .cl-cp-toast{white-space:pre-line}
 
+/* CL-APP-09b: the editor opens from INSIDE the place-modal (題材面板) and the
+   place modal paints at z=1000 — at the shared z=90 the form rendered BEHIND
+   it (unusable from the owner's exact path). This asset's sheet always floats
+   above any host modal; toast (own element, inline z from subject-sets.js)
+   follows so 403-cap / success notices stay visible over the place modal. */
+.cl-ss-overlay{z-index:1100}
+
 /* mobile: keep rows single-column and touch targets ≥44px */
 @media (max-width:768px){
   .cl-ss-row{padding:10px}
