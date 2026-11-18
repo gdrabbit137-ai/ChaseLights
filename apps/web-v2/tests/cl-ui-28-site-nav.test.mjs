@@ -143,12 +143,12 @@ test('CL-UI-28 (9): index.html stamps tracked (CL-UI-73: app.js/app.css at clui1
   // CL-UI-53B: site-nav.css advanced to clui62 (site-nav.js stays clui41).
   assert.match(indexHtml, /assets\/site-nav\.css\?v=clui62/);
   assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui111/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui112/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui102/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });
 
 test('CL-UI-28 (10): weather-map.js stamp bumped in weather-map.html (same commit)', () => {
-  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg46/);
+  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg47/);
   assert.doesNotMatch(wgHtml, /bclwg23|bclwg24/);
 });

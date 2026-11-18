@@ -178,7 +178,7 @@ test('CL-UI-94 (7): status column retired — no painter write path into the hou
 test('CL-UI-87 (8): --cl-* tokens only + clui102 stamps + scroll/probe compat', () => {
   const clui87css = cssSource.slice(cssSource.indexOf('===== CL-UI-87'), cssSource.indexOf('#timeline-mobile .tbl-390'));
   assert.doesNotMatch(clui87css.replace(/\/\*[^*]*\*\//g, ''), /#[0-9A-Fa-f]{3,8}\b/, 'no hardcoded hex in the new CSS (token layer only)');
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stay at clui102; app.js advanced to clui111 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stay at clui102; app.js advanced to clui112 (CL-UI-110)');
   // the now-anchor scroll keeps working against the new container
   const scroll = grab('function scrollWeatherModalToCurrent', '// ---- CL-UI-34');
   assert.match(scroll, /getElementById\('timeline-groups'\)/, 'desktop anchor lookup on the groups container');
