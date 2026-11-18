@@ -25,6 +25,11 @@
 //     (it never blocks an add).
 // Results only — thresholds/formulas never leave this module's own domain,
 // and user-facing copy is tri-lingual everywhere.
+// CL-APP-08: private-place grid dedup (owner-approved conservative version)
+import {
+  findGroupFor, joinGroup, leaveGroup, representativeOf, fanOutGroupEval,
+  getGroupRecord, regroupExistingPlaces,
+} from "./place-groups.js";
 import { validateCustomConditions, parseCustomConditions, findNextCustomWindow, slotTimeMs } from "./notify.js";
 
 export const TRIAL_DAYS = 90;
@@ -482,7 +487,30 @@ export async function refreshIntervalFor(env, uid, nowMs = Date.now()) {
 // CRUD handlers. All endpoints are JWT-member-only (custom places are a
 // member feature — the mockup's 未登入 state blocks every action).
 // ---------------------------------------------------------------------------
-export async function handleCustomPlaces(req, env) {
+// ---------------------------------------------------------------------------
+// CL-APP-08: member-facing shared-fetch info. sharedWith = the OTHER members
+// of this place's group (names from the group KV record), representativeId
+// tells who performs the shared fetch. Trial-expired members keep showing
+// their tag; archived rows never appear in the listing anyway.
+// ---------------------------------------------------------------------------
+export async function sharingInfoFor(env, row, siblings = []) {
+  if (!row.group_id) return null;
+  const rec = await getGroupRecord(env, row.group_id);
+  const siblingNames = new Map(siblings.filter((s) => s.id !== row.id && s.group_id === row.group_id).map((s) => [s.id, s.name]));
+  const members = (rec && Array.isArray(rec.members) ? rec.members : [...siblingNames].map(([id, name]) => ({ id, name })));
+  const sharedWith = members
+    .filter((m) => m.id !== row.id)
+    .map((m) => ({ id: m.id, name: siblingNames.get(m.id) || m.name }));
+  return {
+    groupId: row.group_id,
+    representativeId: (rec && rec.representativeId) || null,
+    isRepresentative: !rec || rec.representativeId === row.id,
+    sharedWith,
+    shareMode: row.share_mode || "auto",
+  };
+}
+
+export async function handleCustomPlaces(req, env, opts = {}) {
   const session = await requireSession(req, env);
   if (!session) return json(req, 401, { error: "JWT session required" });
   const uid = session.sub;
@@ -510,7 +538,7 @@ export async function handleCustomPlaces(req, env) {
     }
     const cap = capFor(level, trial.expired, fap);
     const { results } = await env.DB.prepare(
-      "SELECT id, user_id, name, lat, lng, elevation, timezone, custom_conditions, status, created_at, updated_at FROM custom_places WHERE user_id = ?1 AND status != 'archived' ORDER BY created_at DESC"
+      "SELECT id, user_id, name, lat, lng, elevation, timezone, custom_conditions, status, group_id, share_mode, created_at, updated_at FROM custom_places WHERE user_id = ?1 AND status != 'archived' ORDER BY created_at DESC"
     ).bind(uid).all();
     const places = [];
     for (const row of results || []) {
@@ -544,6 +572,9 @@ export async function handleCustomPlaces(req, env) {
         // same-source tier) + the per-place 5-group quota honestly
         themeGroups,
         themes: { used: themeGroups.length, cap: MAX_THEMES_PER_PLACE },
+        // CL-APP-08: shared-fetch info for the member-facing
+        // 「與 ○○○ 共用資料」 tag (group members of the SAME user only).
+        sharing: row.group_id ? await sharingInfoFor(env, row, results || []) : null,
         createdAt: row.created_at, updatedAt: row.updated_at,
         evaluation: { ...evaluation, evaluatedAt: (rec && rec.generated_at) || null, private: true },
         refresh: { intervalHours, label, energySaver },
@@ -552,12 +583,16 @@ export async function handleCustomPlaces(req, env) {
     }
     const globalState = await globalUsageState(env);
     const degraded = globalState.hard;
+    // CL-APP-08 quota counting: a group counts as ONE point. Ungrouped
+    // places count 1 each; grouped places collapse into their group key.
+    const groupKeys = new Set((results || []).map((r) => r.group_id || r.id));
+    const quotaUsed = groupKeys.size;
     return json(req, 200, {
       ok: true,
       userId: uid,
       level: effectiveLevel,
       trial: { expired: trial.expired, expiresAt: trial.expiresAt ? new Date(trial.expiresAt).toISOString() : null },
-      quota: { used: places.length, cap: cap === Infinity ? null : cap },
+      quota: { used: quotaUsed, cap: cap === Infinity ? null : cap },
       degraded,
       degradedMessage: degraded ? pickMsg("degraded") : null,
       places,
@@ -627,8 +662,11 @@ export async function handleCustomPlaces(req, env) {
     }
 
     if (reviveRow) {
+      // CL-APP-08: a revived place starts fresh as independent-auto — its
+      // old group memberships were dissolved at delete; re-grouping happens
+      // on the next background sweep (no new fetch is charged for it).
       await env.DB.prepare(
-        "UPDATE custom_places SET status = 'active', name = ?2, deleted_at = NULL, updated_at = datetime('now') WHERE id = ?1"
+        "UPDATE custom_places SET status = 'active', name = ?2, deleted_at = NULL, group_id = NULL, share_mode = 'auto', updated_at = datetime('now') WHERE id = ?1"
       ).bind(reviveRow.id, name).run();
       const after = dailyAdds + 1;
       return json(req, 200, {
@@ -656,15 +694,50 @@ export async function handleCustomPlaces(req, env) {
     await env.DB.prepare(
       "INSERT INTO custom_places (id, user_id, name, lat, lng, elevation, timezone, custom_conditions) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)"
     ).bind(id, uid, name, lat, lng, elevation, timezone, ccRes.cc ? JSON.stringify(ccRes.cc) : null).run();
-    // Owner-ruled layer 3: the first fetch is LOW priority — never immediate.
-    await env.DB.prepare(
-      "INSERT INTO custom_fetch_queue (place_id, user_id, reason, priority) VALUES (?1, ?2, 'new', 20) ON CONFLICT(place_id) DO NOTHING"
-    ).bind(id, uid).run();
+    // CL-APP-08 grid dedup: before queueing the first fetch, try to join an
+    // existing group of the SAME member (distance <1 km + elev diff <30 m +
+    // 500 m relief ≤100 m + no ridge/gully crossing). A DEM-sourced
+    // elevation is REQUIRED to even try — without it the point stays
+    // independent (fail-closed). Joining reuses the representative's data
+    // verbatim (no fetch, no quota charge); if the representative has no
+    // data yet, its queued fetch fans out to the whole group.
+    let grouping = null;
+    if (elevation != null) {
+      const found = await findGroupFor(env, { id, user_id: uid, lat, lng, elevation }, opts);
+      if (found) {
+        const rep = await env.DB.prepare(
+          "SELECT id, name, group_id FROM custom_places WHERE id = ?1 AND status = 'active'"
+        ).bind(found.representativeId).first();
+        if (rep && rep.id !== id) {
+          const joined = await joinGroup(env, { id, name }, rep);
+          grouping = { groupId: joined.groupId, representativeId: rep.id };
+          try {
+            const repEval = await env.EVALS.get(`v1:evals:custom:${rep.id}`, "json");
+            if (repEval && repEval.hourly && repEval.hourly.length) {
+              await env.EVALS.put(`v1:evals:custom:${id}`, JSON.stringify({
+                ...repEval,
+                place_id: id, private: true, name,
+                lat, lng, elevation, timezone,
+                shared_from: rep.id, shared_group: joined.groupId,
+                generated_at: new Date().toISOString(),
+              }));
+            }
+          } catch { /* seeding is best-effort; the rep's next fetch fans out */ }
+        }
+      }
+    }
+    if (!grouping) {
+      // Owner-ruled layer 3: the first fetch is LOW priority — never immediate.
+      await env.DB.prepare(
+        "INSERT INTO custom_fetch_queue (place_id, user_id, reason, priority) VALUES (?1, ?2, 'new', 20) ON CONFLICT(place_id) DO NOTHING"
+      ).bind(id, uid).run();
+    }
     const globalState = await globalUsageState(env);
     const dailyAddsAfter = dailyAdds + 1;
     return json(req, 200, {
       ok: true, id,
       place: { id, name, lat, lng, elevation, timezone, customConditions: ccRes.cc, status: "active" },
+      grouping,
       quota: { used: activeCount + 1, cap: cap === Infinity ? null : cap },
       dailyAdds: dailyAddsAfter, dailyRemaining: Math.max(0, DAILY_ADD_LIMIT - dailyAddsAfter),
       reminder: dailyAddsAfter >= DAILY_ADD_REMINDER_AT ? pickMsg("daily_add_reminder") : null,
@@ -682,7 +755,7 @@ export async function handleCustomPlaceItem(req, env, placeId) {
   if (!session) return json(req, 401, { error: "JWT session required" });
   const uid = session.sub;
   const row = await env.DB.prepare(
-    "SELECT id, user_id, name, lat, lng, elevation, timezone, custom_conditions, status, created_at FROM custom_places WHERE id = ?1"
+    "SELECT id, user_id, name, lat, lng, elevation, timezone, custom_conditions, status, group_id, share_mode, created_at FROM custom_places WHERE id = ?1"
   ).bind(placeId).first();
   // CRUD permission: another member's place simply does not exist for you.
   if (!row || row.user_id !== uid) return json(req, 404, { error: "place not found" });
@@ -707,6 +780,13 @@ export async function handleCustomPlaceItem(req, env, placeId) {
       updates.push(`lng = ?${binds.length + 1}`); binds.push(lng);
       reFetch = true;
       updates.push(`elevation = NULL, timezone = NULL`);
+      // CL-APP-08: moving a point invalidates the terrain relation with its
+      // old group — the place detaches (fails closed to independent) and its
+      // next refetch re-evaluates grouping honestly. Escape-hatch semantics:
+      // share_mode='independent' survives until the member opts back in.
+      if (row.group_id) {
+        try { await leaveGroup(env, { id: placeId, group_id: row.group_id }); } catch { /* detach is best-effort */ }
+      }
     }
     if (body.customConditions !== undefined || body.custom_conditions !== undefined) {
       const ccRes = validateCustomConditions(body.customConditions != null ? body.customConditions : body.custom_conditions);
@@ -729,6 +809,11 @@ export async function handleCustomPlaceItem(req, env, placeId) {
   if (req.method === "DELETE") {
     // Owner-ruled soft delete: archived + deleted_at. Re-adding the same
     // coords within 30 days revives the row (existing data, no new fetch).
+    // CL-APP-08: an archived point also leaves its fetch group (the group
+    // promotes the next-oldest active member or dissolves).
+    if (row.group_id) {
+      try { await leaveGroup(env, { id: placeId, group_id: row.group_id }); } catch { /* detach is best-effort */ }
+    }
     await env.DB.prepare(
       "UPDATE custom_places SET status = 'archived', deleted_at = datetime('now'), updated_at = datetime('now') WHERE id = ?1"
     ).bind(placeId).run();
@@ -889,6 +974,76 @@ export async function handleCustomPlaceThemeItem(req, env, placeId, themeId) {
   }
 
   return json(req, 405, { error: "method not allowed" });
+}
+
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const uid = session.sub;
+  const row = await env.DB.prepare(
+// CL-APP-08 escape hatch (owner ruling): 「獨立重新抓取」. One click detaches
+// the point from its fetch group (share_mode → 'independent', group_id →
+// NULL) and queues a SOLO refetch that costs 1 quota (1 user-budget unit +
+// 1 global-usage unit when it actually runs — the queue processor bumps
+// them, exactly like a first fetch). The detached point never auto-rejoins:
+// only the background re-group sweep may group an 'auto'-mode place.
+// ---------------------------------------------------------------------------
+export const REFETCH_MESSAGES = {
+  detached: {
+    "zh-TW": "已脫離共組，獨立重新抓取排隊中（計 1 點配額）。",
+    "en": "Detached from the shared group — solo refetch queued (counts as 1 quota point).",
+    "ja": "共有グループを解除し、単独再取得を待ち列に入れました（1ポイント消費）。",
+  },
+  queued: {
+    "zh-TW": "獨立重新抓取排隊中（計 1 點配額）。",
+    "en": "Solo refetch queued (counts as 1 quota point).",
+    "ja": "単独再取得を待ち列に入れました（1ポイント消費）。",
+  },
+};
+
+export async function handleCustomPlaceRefetch(req, env, placeId) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const uid = session.sub;
+  const row = await env.DB.prepare(
+    "SELECT id, user_id, name, status, group_id, share_mode FROM custom_places WHERE id = ?1"
+  ).bind(placeId).first();
+  if (!row || row.user_id !== uid) return json(req, 404, { error: "place not found" });
+  if (row.status !== "active") {
+    return json(req, 403, {
+      error: row.status === "trial_expired" ? "trial expired — refetch unavailable" : "archived place cannot refetch",
+      message: {
+        "zh-TW": row.status === "trial_expired" ? "試用期滿的自訂點無法重新抓取；升級後即可。" : "已刪除的自訂點無法重新抓取。",
+        "en": row.status === "trial_expired" ? "A trial-expired place cannot refetch; upgrade to resume." : "A deleted place cannot refetch.",
+        "ja": row.status === "trial_expired" ? "トライアル期限切れのスポットは再取得できません。アップグレード後に可能です。" : "削除済みスポットは再取得できません。",
+      },
+    });
+  }
+  let detached = false;
+  if (row.group_id) {
+    const r = await leaveGroup(env, { id: row.id, group_id: row.group_id });
+    detached = !!(r && r.left);
+  }
+  // Solo refetch: HIGH-ish priority within the low-priority queue (10 < 20)
+  // so an explicit member action is not stuck behind bulk adds.
+  await env.DB.prepare(
+    "INSERT INTO custom_fetch_queue (place_id, user_id, reason, priority) VALUES (?1, ?2, 'refresh', 10) ON CONFLICT(place_id) DO UPDATE SET reason = 'refresh', status = 'pending', priority = 10, updated_at = datetime('now')"
+  ).bind(placeId, uid).run();
+  const activeRow = await env.DB.prepare(
+    "SELECT COUNT(*) AS n FROM custom_places WHERE user_id = ?1 AND status != 'archived'"
+  ).bind(uid).first();
+  const user = await env.DB.prepare("SELECT level, created_at FROM users WHERE device_id = ?1").bind(uid).first();
+  const level = (user && user.level) || "free";
+  const trial = trialState(user);
+  const fap = level === "free" ? await freeAsPaidFlag(env) : false;
+  const cap = capFor(level, trial.expired, fap);
+  return json(req, 200, {
+    ok: true,
+    id: placeId,
+    detached,
+    shareMode: "independent",
+    message: detached ? REFETCH_MESSAGES.detached : REFETCH_MESSAGES.queued,
+    quota: { used: activeRow ? activeRow.n : null, cap: cap === Infinity ? null : cap },
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -1159,10 +1314,25 @@ export async function processCustomFetchQueue(env, nowMs = Date.now(), opts = {}
 
   for (const q of due) {
     const row = await env.DB.prepare(
-      "SELECT id, user_id, name, lat, lng, status, custom_conditions FROM custom_places WHERE id = ?1"
+      "SELECT id, user_id, name, lat, lng, status, custom_conditions, group_id, share_mode FROM custom_places WHERE id = ?1"
     ).bind(q.place_id).first();
     if (!row) { await env.DB.prepare("UPDATE custom_fetch_queue SET status = 'done', updated_at = datetime('now') WHERE place_id = ?1").bind(q.place_id).run(); continue; }
     if (row.status !== "active") { summary.skipped_inactive += 1; await env.DB.prepare("UPDATE custom_fetch_queue SET status = 'done', updated_at = datetime('now') WHERE place_id = ?1").bind(q.place_id).run(); continue; }
+    // CL-APP-08 grid dedup: a grouped place NEVER fetches on its own — its
+    // entry is marked done and the group's REPRESENTATIVE gets (or keeps) a
+    // pending queue entry; the rep's single fetch fans out to every member.
+    // No quota is charged for the redirect (the rep's fetch charges once).
+    if (row.group_id && row.share_mode === "auto") {
+      const rep = await representativeOf(env, row);
+      if (rep && rep.id !== row.id) {
+        await env.DB.prepare(
+          "INSERT INTO custom_fetch_queue (place_id, user_id, reason, priority) VALUES (?1, ?2, 'refresh', 20) ON CONFLICT(place_id) DO UPDATE SET status = 'pending', updated_at = datetime('now')"
+        ).bind(rep.id, rep.user_id).run();
+        summary.skipped_shared = (summary.skipped_shared || 0) + 1;
+        await env.DB.prepare("UPDATE custom_fetch_queue SET status = 'done', updated_at = datetime('now') WHERE place_id = ?1").bind(row.id).run();
+        continue;
+      }
+    }
     if (globalState.hard && q.reason === "refresh" && !opts.ignoreBrake) { summary.skipped_brake += 1; continue; }
 
     // Owner-ruled layer 3: per-user daily fetch budget. Over-budget entries
@@ -1209,11 +1379,17 @@ export async function processCustomFetchQueue(env, nowMs = Date.now(), opts = {}
       await env.DB.prepare(
         "UPDATE custom_places SET elevation = ?2, timezone = ?3, updated_at = datetime('now') WHERE id = ?1 AND status = 'active'"
       ).bind(row.id, elevation, timezone).run();
-      await env.EVALS.put(`v1:evals:custom:${row.id}`, JSON.stringify({
+      const evalBody = {
         place_id: row.id, private: true, name: row.name,
         lat: row.lat, lng: row.lng, elevation, timezone,
         hourly, generated_at: new Date(nowMs).toISOString(),
-      }));
+      };
+      await env.EVALS.put(`v1:evals:custom:${row.id}`, JSON.stringify(evalBody));
+      // CL-APP-08: one fetch serves the WHOLE group — every active member
+      // gets its own eval record with the member's own lat/lng/elevation
+      // (judgment inputs untouched) and the identical raw hourly grid.
+      const fanned = await fanOutGroupEval(env, { ...row, group_id: row.group_id }, evalBody, nowMs);
+      if (fanned) summary.fanned_out = (summary.fanned_out || 0) + fanned;
       await bumpGlobalUsage(env, 1, nowMs);
       await bumpUserFetch(env, row.user_id, 1, nowMs);
       const c = registry[row.user_id];

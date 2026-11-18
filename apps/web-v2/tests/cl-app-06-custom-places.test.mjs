@@ -25,10 +25,10 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 
 // ------------------------------------------------------------- (1) source
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
-  // patch-8: clapp06f -> clapp06g (only the touched custom-places assets; the
-  // vendored maplibre CSS keeps its own stamp — per-file cache-bust rule)
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06g/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06g/);
+  // CL-INT-206 merge: clapp06g (patch-8) + clapp08a (shared-fetch tag) ->
+  // clapp08b on the merged tree (per-file cache-bust rule, monotonic)
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp08b/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
@@ -82,6 +82,30 @@ test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () =>
   assert.match(jsSource, /cap\.Plugins\.Geolocation/);
   assert.match(jsSource, /timeout: 10000/);
   assert.match(jsSource, /不會追蹤你的行蹤|never tracked|追跡しません/);
+});
+
+// ------------------------------------------------- (1d) CL-APP-08 grid dedup
+test('CL-APP-08 (1d): shared-fetch tag 「與 ○○○ 共用資料」 + 獨立重新抓取 escape hatch', () => {
+  // the shared tag: gray identity, rendered from the API's sharing info
+  assert.match(jsSource, /shareTagText/);
+  assert.match(jsSource, /share_one[\s\S]{0,60}與 \{n\} 共用資料/);
+  assert.match(jsSource, /share_many[\s\S]{0,60}共用資料/);
+  assert.match(jsSource, /cl-cp-share-tag/);
+  // tri-lingual parity for the tag + the escape-hatch menu item (anchored to
+  // each language block, not just anywhere in the file)
+  for (const lang of ["'zh-TW': {", "'en': {", "'ja': {"]) {
+    const rx = new RegExp(`${lang.replace(/[-']/g, (c) => '\\' + c)}[\\s\\S]{0,3200}m_refetch`);
+    assert.match(jsSource, rx, `${lang} carries the 獨立重新抓取 menu item`);
+    const rx2 = new RegExp(`${lang.replace(/[-']/g, (c) => '\\' + c)}[\\s\\S]{0,3200}refetch_done`);
+    assert.match(jsSource, rx2, `${lang} carries the refetch toast copy`);
+  }
+  assert.match(jsSource, /m_refetch/);
+  assert.match(jsSource, /refetchIndependent/);
+  assert.match(jsSource, /\/refetch/, 'calls the POST /custom_places/:id/refetch endpoint');
+  // gray identity: the tag never borrows the ✓○✗ semantic colors
+  const tag = cssSource.slice(cssSource.indexOf('.cl-cp-share-tag'), cssSource.indexOf('.cl-cp-card.cl-cp-expired'));
+  assert.match(tag, /var\(--cl-text-2\)/);
+  assert.doesNotMatch(tag, /--cl-(green|amber|red)-text/);
 });
 
 test('CL-APP-06 (1c): gray identity CSS never borrows the ✓○✗ semantic colors', () => {
@@ -271,6 +295,15 @@ async function bootBrowser() {
           refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: true, fetchDueAt: '2026-11-16 00:05:00' },
       ];
       var __cpThemeCap = 5;
+      // CL-APP-08: shared-fetch groups (same-member grid dedup) — cp1 is the
+      // group representative, cp2 rides its fetch; the card shows the
+      // 「與 ○○○ 共用資料」 tag from the list payload's sharing field.
+      var __cpShare = {
+        cp1: { groupId: 'g:cp1', representativeId: 'cp1', isRepresentative: true, shareMode: 'auto',
+          sharedWith: [{ id: 'cp2', name: '礁溪自家陽台展望' }] },
+        cp2: { groupId: 'g:cp1', representativeId: 'cp1', isRepresentative: false, shareMode: 'auto',
+          sharedWith: [{ id: 'cp1', name: '霧社水庫西岸岔路' }] },
+      };
       window.__cpThemes = __cpThemes; // test seam: the harness inspects the store
       window.__clcpFetch = function (path, opts) {
         if (path.indexOf('/api/v1/custom_places/pin_info') === 0) {
@@ -307,7 +340,8 @@ async function bootBrowser() {
             degraded: false, degradedMessage: null,
             places: __cpPlaces.map(function (p) {
               var g = __cpThemes.filter(function (t) { return t.placeId === p.id; });
-              return Object.assign({}, p, { themeGroups: g, themes: { used: g.length, cap: __cpThemeCap } });
+              return Object.assign({}, p, { themeGroups: g, themes: { used: g.length, cap: __cpThemeCap },
+                sharing: __cpShare[p.id] || null });
             }),
           });
         } });
@@ -477,8 +511,25 @@ test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject ro
   assert.equal(probe.cp2Baseline.length, 1, 'no groups → the baseline row (legacy anatomy preserved)');
   assert.equal(probe.cp2Baseline[0].tier, '○');
   assert.match(probe.cp2Baseline[0].window, /2026-11-16 06:00/);
-  assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit'], 'patch-6: menu is 編輯／掛題材·條件／刪除');
+  assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit', 'refetch'], 'menu is 編輯／掛題材·條件／🔄 獨立重新抓取／刪除 (nom removed patch-8, refetch added CL-APP-08)');
   assert.equal(probe.menuOpen, 'block', '⋯ menu opens');
+  // CL-APP-08: cp2 (grouped with cp1) shows the shared-data tag, computed-visible
+  const probe2 = await evaljs(`(() => {
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
+    if (!card) return { error: 'no cp2 card' };
+    const tag = card.querySelector('.cl-cp-share-tag');
+    if (!tag) return { error: 'no share tag' };
+    const r = tag.getBoundingClientRect();
+    const cs = getComputedStyle(tag);
+    return {
+      text: tag.textContent,
+      visible: r.width > 0 && r.height > 0 && cs.display !== 'none' && cs.visibility !== 'hidden',
+      color: cs.color,
+    };
+  })()`);
+  assert.match(probe2.text, /與 霧社水庫西岸岔路 共用資料/);
+  assert.equal(probe2.visible, true, 'the share tag is COMPUTED-visible on the card');
+  assert.equal(probe2.color, 'rgb(168, 179, 194)', 'share tag stays gray-identity (--cl-text-2), never a semantic color');
   // patch-3: the menu is portaled OUT of the card to document.body (fixed)
   assert.equal(probe.menuParentIsBody, true, '⋯ menu lives on document.body — outside the card boundary');
   assert.equal(probe.menuPos, 'fixed', '⋯ menu is position:fixed — card overflow can never clip it');
@@ -975,7 +1026,9 @@ test('CL-APP-06 (1f, patch-3): ⋯ menu renders OUT of the card — portal + fix
   assert.doesNotMatch(jsSource, /<span class="cl-cp-menu">/, 'the card markup no longer embeds the menu');
   // flip-up when near the viewport bottom
   assert.match(jsSource, /向上展開/, 'flip-up branch documented');
-  assert.match(jsSource, /top \+ mh > window\.innerHeight - margin && r\.top - gap - mh >= margin/,
+  // CL-APP-08 re-anchor: the flip-up condition now compares against
+  // bottomLimit (innerHeight minus the fixed bottom site-nav band)
+  assert.match(jsSource, /top \+ mh > bottomLimit - margin && r\.top - gap - mh >= margin/,
     'opens upward when the menu would overflow the viewport bottom AND there is room above');
   // scroll events do not bubble → capture-phase listener closes on ANY scroller
   assert.match(jsSource, /addEventListener\('scroll',[\s\S]{0,120}, true\)/, 'scroll closes the open menu (capture)');
@@ -1019,7 +1072,10 @@ test('CL-APP-06 (2o, patch-3): 390 viewport, card near the page footer — menu 
     `menu flipped up (bottom ${probe.menuBottom} ≤ trigger top ${probe.triggerTop})`);
   assert.ok(probe.menuTop >= 0, 'flipped menu still starts inside the viewport');
   assert.ok(probe.menuRight <= probe.winW + 1 && probe.menuLeft >= 0, 'menu fits the 390px width');
-  assert.equal(probe.items.length, 3, 'patch-6: menu is 編輯／掛題材·條件／刪除');
+  // CL-INT-206 merge: four items — 編輯／掛題材·條件／🔄 獨立重新抓取／刪除
+  assert.equal(probe.items.length, 4, 'menu is 編輯／掛題材·條件／獨立重新抓取／刪除');
+  if (process.env.CLDBG) console.log("DBG-2o", JSON.stringify({ winH: probe.winH, menuTop: probe.menuTop, menuBottom: probe.menuBottom, triggerTop: probe.triggerTop, items: probe.items }));
+  if (process.env.CLDBG) console.log("DBG-2o-hit", await evaljs(`(() => { const del = document.querySelector('#cl-cp-menu [data-cp-act="del"]'); const r = del.getBoundingClientRect(); const el = document.elementFromPoint(r.left + r.width/2, r.top + r.height/2); return JSON.stringify({ tag: el.tagName, cls: el.className && el.className.toString().slice(0,80), id: el.id, txt: (el.textContent||'').slice(0,40) }); })()`));
   for (const it of probe.items) {
     assert.ok(it.h >= 43, `${it.act} touch target ≥44px (got ${it.h})`);
     assert.ok(it.top >= 0 && it.bottom <= probe.winH + 1 && it.left >= 0 && it.right <= probe.winW + 1,

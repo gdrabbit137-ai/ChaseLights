@@ -39,7 +39,9 @@
       tier_rec: '✓ 條件窗', tier_shoot: '○ 可拍', tier_no: '✗', tier_pending: '⏳ 排隊中',
       trial_expired: '試用期滿', trial_note: '評估已停止（資料保留）', trial_cta: '升級 Premium 恢復使用',
       deferred_note: '已建立·氣象資料明日更新',
-      m_edit: '✎ 編輯', m_cc: '🎞 掛題材·條件', m_del: '🗑 刪除',
+      m_refetch: '🔄 獨立重新抓取',
+      share_one: '與 {n} 共用資料', share_many: '與 {n} 等 {c} 處共用資料',
+      refetch_done: '已脫離共組，獨立重新抓取排隊中（計 1 點配額）。',
       add_title: '新增私人景點', add_edit_title: '編輯私人景點', add_sub: '名稱 → 地圖釘點 → 自動海拔／時區',
       qd_name: '名稱', qd_name_ph: '例如：礁溪自家陽台展望', qd_pin: '地圖釘點（點圖落釘，或直接鍵入經緯度）',
       qd_pin_hint: '全球任意經緯度皆可（海洋／極區亦可）；拖曳地圖釘或點圖落釘，與 lat/lng 雙向同步',
@@ -89,7 +91,9 @@
       tier_rec: '✓ Window', tier_shoot: '○ Shootable', tier_no: '✗', tier_pending: '⏳ Queued',
       trial_expired: 'Trial ended', trial_note: 'Evaluation stopped (data kept)', trial_cta: 'Upgrade to Premium to resume',
       deferred_note: 'Created · weather data updates tomorrow',
-      m_edit: '✎ Edit', m_cc: '🎞 Subject & conditions', m_del: '🗑 Delete',
+      m_refetch: '🔄 Refetch independently',
+      share_one: 'Shares data with {n}', share_many: 'Shares data with {n} +{c} more',
+      refetch_done: 'Detached from the shared group — solo refetch queued (counts as 1 quota point).',
       add_title: 'Add a custom place', add_edit_title: 'Edit custom place', add_sub: 'Name → pin on map → auto elevation/timezone',
       qd_name: 'Name', qd_name_ph: 'e.g. My rooftop terrace, Jiaoxi', qd_pin: 'Pin on map (click to drop, or type lat/lng)',
       qd_pin_hint: 'Any lat/lng worldwide (oceans/poles included); drag the pin or click the map — two-way sync with lat/lng',
@@ -138,7 +142,9 @@
       tier_rec: '✓ 条件窓', tier_shoot: '○ 撮影可', tier_no: '✗', tier_pending: '⏳ 待機中',
       trial_expired: 'トライアル期限切れ', trial_note: '評価停止中（データは保持）', trial_cta: 'Premiumへアップグレードで再開',
       deferred_note: '作成済み・気象データは明日更新',
-      m_edit: '✎ 編集', m_cc: '🎞 題材・条件', m_del: '🗑 削除',
+      m_refetch: '🔄 個別に再取得',
+      share_one: '{n} とデータ共有', share_many: '{n} ほか{c}件とデータ共有',
+      refetch_done: '共有グループを解除し、単独再取得を待ち列に入れました（1ポイント消費）。',
       add_title: '自作スポットを追加', add_edit_title: '自作スポットを編集', add_sub: '名称 → ピン配置 → 標高／タイムゾーン自動',
       qd_name: '名称', qd_name_ph: '例：自宅ベランダの展望（礁渓）', qd_pin: '地図でピン配置（クリック、または緯度経度を直接入力）',
       qd_pin_hint: '全球任意の緯度経度（海洋・極域も可）；ピンをドラッグまたは地図クリック、緯度経度と双方向同期',
@@ -401,6 +407,16 @@
       '<span class="cl-cp-row-name" style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(name) + '</span>' +
       right + '</div>';
   }
+  // CL-APP-08: 「與 ○○○ 共用資料」 label text — one other member name, or
+  // the first name + the rest counted. Empty when ungrouped (no tag).
+  function shareTagText(sharing, lang) {
+    if (!sharing || !sharing.sharedWith || !sharing.sharedWith.length) return '';
+    var names = sharing.sharedWith.map(function (m) { return m.name; }).filter(Boolean);
+    if (!names.length) return '';
+    var L = T[lang] || T['zh-TW'];
+    if (names.length === 1) return L.share_one.replace('{n}', names[0]);
+    return L.share_many.replace('{n}', names[0]).replace('{c}', names.length - 1);
+  }
   function ccSummary(cc, lang) {
     if (!cc) return '';
     var parts = [];
@@ -491,7 +507,10 @@
     } else {
       body = '<div class="cl-cp-deferred-note">⏳ ' + esc(t().tier_pending) + '</div>';
     }
-    card.innerHTML = '<div style="display:flex;align-items:flex-start;gap:8px;min-width:0">' + head + '</div>' + body;
+    // CL-APP-08: shared-fetch tag (gray identity — never a semantic color)
+    var shareLine = shareTagText(p.sharing, lang)
+      ? '<div class="cl-cp-share-tag"><span class="st-ic">🔗</span><span class="st-txt">' + esc(shareTagText(p.sharing, lang)) + '</span></div>' : '';
+        card.innerHTML = '<div style="display:flex;align-items:flex-start;gap:8px;min-width:0">' + head + '</div>' + body + shareLine;
     // ⋯ menu (patch-3): one shared menu portaled to document.body, anchored
     // position:fixed under the trigger — the card boundary can never clip it.
     var more = card.querySelector('.cl-cp-more');
@@ -649,7 +668,7 @@
     }).join('');
   }
   // ───── patch-3: the ⋯ menu — one fixed-position menu portaled to body ─────
-  var MENU_LABELS = { edit: 'm_edit', cc: 'm_cc', del: 'm_del' };
+  var MENU_LABELS = { edit: 'm_edit', cc: 'm_cc', refetch: 'm_refetch', del: 'm_del' };
   function ensureMenu() {
     if (els.menu) return els.menu;
     var m = document.createElement('div');
@@ -659,6 +678,7 @@
     m.innerHTML =
       '<button type="button" role="menuitem" data-cp-act="edit"><span class="cm-ic">✎</span><span class="cm-txt"></span></button>' +
       '<button type="button" role="menuitem" data-cp-act="cc"><span class="cm-ic">🎞</span><span class="cm-txt"></span></button>' +
+      '<button type="button" role="menuitem" data-cp-act="refetch"><span class="cm-ic">🔄</span><span class="cm-txt"></span></button>' +
       '<span class="cm-sep"></span>' +
       '<button type="button" role="menuitem" data-cp-act="del" class="danger"><span class="cm-ic">🗑</span><span class="cm-txt"></span></button>';
     m.addEventListener('click', function (e) {
@@ -672,11 +692,23 @@
       var act = b.getAttribute('data-cp-act');
       if (act === 'edit') addModal(place);
       else if (act === 'cc') ccModal(place);
+      else if (act === 'refetch') refetchIndependent(place);
       else if (act === 'del') delModal(place);
     });
     document.body.appendChild(m);
     els.menu = m;
     return m;
+  }
+  // CL-APP-08 escape hatch: 「獨立重新抓取」 — detach from the shared fetch
+  // group and queue a SOLO refetch (costs 1 quota). The server returns the
+  // tri-lingual honest message; the client toasts it and refreshes.
+  function refetchIndependent(place) {
+    api(API + '/' + encodeURIComponent(place.id) + '/refetch', { method: 'POST' }).then(function (res) {
+      res.json().then(function (body) {
+        toast((body && body.message && (body.message[currentLang()] || body.message['zh-TW'])) || t().refetch_done);
+        refresh();
+      });
+    }).catch(function () { toast(t().refetch_done); refresh(); });
   }
   function openMenuFor(place, more) {
     var m = ensureMenu();
@@ -694,15 +726,28 @@
   // position:fixed under the trigger, right-aligned to it; near the viewport
   // bottom (or in a short window) it flips UP so no item is ever clipped;
   // clamped inside the viewport on both axes. Measured while visibility:hidden.
+  // CL-APP-08: the taller five-item menu must also clear the FIXED BOTTOM
+  // site-nav (≤640px layout) — the effective viewport bottom shrinks by the
+  // nav band when it overlays the page.
   function positionMenu(m, more) {
+    var navBand = 0;
+    try {
+      var nav = document.querySelector('.site-nav');
+      if (nav) {
+        var ns = getComputedStyle(nav);
+        var nr = nav.getBoundingClientRect();
+        if (ns.position === 'fixed' && nr.bottom > 0 && nr.top < window.innerHeight) navBand = window.innerHeight - nr.top;
+      }
+    } catch (e) { navBand = 0; }
+    var bottomLimit = window.innerHeight - navBand;
     m.style.visibility = 'hidden';
     m.classList.add('open');
     var r = more.getBoundingClientRect();
     var mw = m.offsetWidth, mh = m.offsetHeight;
     var gap = 6, margin = 8;
     var top = r.bottom + gap;
-    if (top + mh > window.innerHeight - margin && r.top - gap - mh >= margin) top = r.top - gap - mh; // 靠近螢幕下緣 → 向上展開
-    top = Math.max(margin, Math.min(top, Math.max(margin, window.innerHeight - margin - mh)));
+    if (top + mh > bottomLimit - margin && r.top - gap - mh >= margin) top = r.top - gap - mh; // 靠近螢幕下緣 → 向上展開
+    top = Math.max(margin, Math.min(top, Math.max(margin, bottomLimit - margin - mh)));
     var left = r.right - mw;
     left = Math.max(margin, Math.min(left, Math.max(margin, window.innerWidth - margin - mw)));
     m.style.top = top + 'px';

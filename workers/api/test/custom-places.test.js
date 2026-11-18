@@ -24,6 +24,11 @@ import {
   MAX_THEMES_PER_PLACE, validateThemeInput, validateThemeNameInput,
   evaluateThemeGroups, aggregateEvaluation,
 } from "../src/custom-places.js";
+// CL-APP-08: private-place grid dedup (owner-approved conservative version)
+import {
+  analyzeTerrain, haversineM, regroupExistingPlaces,
+  SHARE_MAX_DIST_M, SHARE_MAX_ELEV_DIFF_M, SHARE_MAX_RELIEF_M, RIDGE_DETECT_M,
+} from "../src/place-groups.js";
 import { signJWT } from "../src/auth.js";
 
 const DAY = 24 * 3_600_000;
@@ -42,15 +47,20 @@ function parseAssignments(sql, args) {
     if (/^deleted_at = NULL$/i.test(p)) { updates.deleted_at = null; continue; }
     if (/^elevation = NULL$/i.test(p)) { updates.elevation = null; continue; }
     if (/^timezone = NULL$/i.test(p)) { updates.timezone = null; continue; }
+    if (/^group_id = NULL$/i.test(p)) { updates.group_id = null; continue; }
+    const lit = p.match(/^(\w+) = '(\w+)'$/);
+    if (lit) { updates[lit[1]] = lit[2]; continue; }
     const m = p.match(/^(\w+) = \?(\d+)$/);
     if (m) updates[m[1]] = args[Number(m[2]) - 1];
-    const lit = p.match(/^status = '(\w+)'$/);
-    if (lit) updates.status = lit[1];
     const del = p.match(/^deleted_at = datetime\('now'\)$/);
     if (del) updates.deleted_at = dbStamp(NOW);
   }
   return updates;
 }
+// The place_id of a queue INSERT: the first bound arg (?1) — for the refetch
+// and rep-redirect statements that is the row's own id.
+function placeIdOf(sql, args) { return args[0]; }
+
 function makeMockD1() {
   const t = { users: new Map(), custom_places: [], custom_place_themes: [], custom_fetch_queue: new Map(), feedback: [] };
   const inPlace = (row) => {
@@ -101,15 +111,18 @@ function runSql(t, sql, args, db) {
   }
   if (/INSERT INTO custom_places/.test(sql)) {
     const [id, uid, name, lat, lng, elevation, timezone, cc] = args;
-    t.custom_places.push({ id, user_id: uid, name, lat, lng, elevation, timezone, custom_conditions: cc, status: "active", created_at: dbStamp(NOW), updated_at: dbStamp(NOW), deleted_at: null });
+    t.custom_places.push({ id, user_id: uid, name, lat, lng, elevation, timezone, custom_conditions: cc, status: "active", group_id: null, share_mode: "auto", created_at: dbStamp(NOW), updated_at: dbStamp(NOW), deleted_at: null });
     return { meta: { changes: 1 } };
   }
   if (/INSERT INTO custom_fetch_queue/.test(sql)) {
-    const [placeId, uid] = args;
-    const priority = /priority\) VALUES/.test(sql) ? args[3] : 20;
-    const reason = /'new'/.test(sql) ? "new" : (/reason = 'refresh'/.test(sql) ? "refresh" : args[2] || "new");
-    if (t.custom_fetch_queue.has(placeId) && /DO NOTHING/.test(sql)) return { meta: { changes: 0 } };
-    t.custom_fetch_queue.set(placeId, { place_id: placeId, user_id: uid, reason, priority: priority ?? 20, due_at: dbStamp(NOW), status: "pending", updated_at: dbStamp(NOW) });
+    // reason/priority may be literals in the SQL text (refetch / rep redirect)
+    const lit = sql.match(/VALUES \(\?1, \?2, '(\w+)', (\d+)\)/);
+    const priority = lit ? Number(lit[2]) : (/priority\) VALUES/.test(sql) ? args[3] : 20);
+    const reason = lit ? lit[1] : (/'new'/.test(sql) ? "new" : (/reason = 'refresh'/.test(sql) ? "refresh" : args[2] || "new"));
+    if (t.custom_fetch_queue.has(placeIdOf(sql, args)) && /DO NOTHING/.test(sql)) return { meta: { changes: 0 } };
+    const pid = placeIdOf(sql, args);
+    const existed = t.custom_fetch_queue.get(pid);
+    t.custom_fetch_queue.set(pid, { place_id: pid, user_id: existed ? existed.user_id : args[1], reason, priority: priority ?? 20, due_at: dbStamp(NOW), status: "pending", updated_at: dbStamp(NOW) });
     return { meta: { changes: 1 } };
   }
   if (/INSERT INTO feedback/.test(sql)) {
@@ -162,6 +175,8 @@ function runFirst(t, sql, args) {
     const r = t.custom_place_themes.find((x) => x.id === args[0] && x.place_id === args[1]);
     return Promise.resolve(r || null);
   }
+  const u2 = sql.match(/SELECT level, created_at FROM users/);
+  if (u2) { const row = t.users.get(args[0]); return Promise.resolve(row || null); }
   if (/COUNT\(\*\) AS n FROM custom_places WHERE user_id = \?1 AND created_at/.test(sql)) {
     const cutoff = /start of day/.test(sql) ? cutoffIso(0, true) : cutoffIso(1);
     return Promise.resolve({ n: t.custom_places.filter((r) => r.user_id === args[0] && r.created_at >= cutoff).length });
@@ -187,7 +202,25 @@ function runFirst(t, sql, args) {
       && x.status === "archived" && x.deleted_at && x.deleted_at >= cutoff);
     return Promise.resolve(r ? { id: r.id } : null);
   }
-  if (/SELECT id, user_id, name/.test(sql) || (/SELECT id, user_id/.test(sql) && /FROM custom_places WHERE id = \?1/.test(sql))) {
+  // Generic custom_places row lookup by id (item PATCH/DELETE, refetch, rep
+  // lookup, regroup re-read). Optional "AND status = 'active'" gate honored.
+  if (/FROM custom_places WHERE id = \?1( AND status = 'active')?$/.test(sql.trim())) {
+    const r = t.custom_places.find((x) => x.id === args[0] && (/AND status = 'active'$/.test(sql) ? x.status === "active" : true));
+    return Promise.resolve(r || null);
+  }
+  // CL-APP-08: group-member queries (rep promote / representative fallback).
+  if (/FROM custom_places WHERE group_id = \?1 AND id != \?2 AND status = 'active' AND share_mode = 'auto' ORDER BY created_at ASC LIMIT 1/.test(sql)) {
+    const r = t.custom_places.find((x) => x.group_id === args[0] && x.id !== args[1] && x.status === "active" && x.share_mode === "auto")
+      || t.custom_places.filter((x) => x.group_id === args[0] && x.id !== args[1] && x.status === "active" && x.share_mode === "auto")
+        .sort((a, b) => a.created_at.localeCompare(b.created_at))[0];
+    return Promise.resolve(r || null);
+  }
+  if (/FROM custom_places WHERE group_id = \?1 AND status = 'active' AND share_mode = 'auto' ORDER BY created_at ASC LIMIT 1/.test(sql)) {
+    const r = t.custom_places.filter((x) => x.group_id === args[0] && x.status === "active" && x.share_mode === "auto")
+      .sort((a, b) => a.created_at.localeCompare(b.created_at))[0];
+    return Promise.resolve(r || null);
+  }
+  if (/SELECT id, user_id, name/.test(sql) && /FROM custom_places WHERE id = \?1/.test(sql)) {
     const r = t.custom_places.find((x) => x.id === args[0]);
     return Promise.resolve(r || null);
   }
@@ -224,6 +257,26 @@ function runAll(t, sql, args) {
       .sort((a, b) => b.created_at.localeCompare(a.created_at));
     return Promise.resolve({ results: rows });
   }
+  // CL-APP-08: same-user dedup candidates for a new/ungrouped place.
+  if (/FROM custom_places WHERE user_id = \?1 AND id != \?2 AND status = 'active' AND share_mode = 'auto' AND lat BETWEEN/.test(sql)) {
+    const rows = t.custom_places.filter((r) => r.user_id === args[0] && r.id !== args[1]
+      && r.status === "active" && r.share_mode === "auto"
+      && r.lat >= args[2] && r.lat <= args[3] && r.lng >= args[4] && r.lng <= args[5])
+      .sort((a, b) => a.created_at.localeCompare(b.created_at));
+    return Promise.resolve({ results: rows });
+  }
+  // CL-APP-08: fan-out members of a group (active, auto mode).
+  if (/FROM custom_places WHERE group_id = \?1 AND id != \?2 AND status = 'active' AND share_mode = 'auto'$/.test(sql.trim())) {
+    const rows = t.custom_places.filter((r) => r.group_id === args[0] && r.id !== args[1] && r.status === "active" && r.share_mode === "auto");
+    return Promise.resolve({ results: rows });
+  }
+  // CL-APP-08: the background re-group sweep input (ungrouped active places).
+  if (/FROM custom_places WHERE status = 'active' AND share_mode = 'auto' AND group_id IS NULL ORDER BY user_id, created_at ASC LIMIT/.test(sql)) {
+    const rows = t.custom_places.filter((r) => r.status === "active" && r.share_mode === "auto" && r.group_id == null)
+      .sort((a, b) => a.user_id.localeCompare(b.user_id) || a.created_at.localeCompare(b.created_at))
+      .slice(0, args[0]);
+    return Promise.resolve({ results: rows });
+  }
   if (/FROM custom_fetch_queue q WHERE q.status = 'pending'/.test(sql)) {
     const cutoff = dbStamp(MOCKNOW ?? NOW);
     const rows = [...t.custom_fetch_queue.values()]
@@ -240,6 +293,7 @@ function makeEnv(opts = {}) {
   const kv = {
     get: async (k, type) => { const v = store.has(k) ? store.get(k) : null; return v !== null && type === "json" ? JSON.parse(v) : v; },
     put: async (k, v) => { store.set(k, v); },
+    delete: async (k) => { store.delete(k); },
     _store: store,
   };
   const db = opts.db || makeMockD1();
@@ -977,3 +1031,274 @@ test("conditions/parse: trilingual inputs → strict schema suggestions; violati
     assert.match(body.message["zh-TW"], /每日 10 次/);
   } finally { restore2(); }
 });
+
+// ===========================================================================
+// CL-APP-08: private-place grid dedup (owner-approved conservative version).
+// Share ONE Open-Meteo grid fetch when: distance <1 km AND DEM elev diff
+// <30 m AND 500 m-ring relief ≤100 m AND no ridge/gully crossing. A group
+// counts as ONE quota point; judgment inputs stay per-place; escape hatch =
+// manual 「獨立重新抓取」 (detach + solo refetch = 1 quota); background
+// migration re-groups existing places with NO fetch and NO charge.
+// ===========================================================================
+
+// Synthetic DEMs (injectable via the fetch seam — no real network in tests).
+// Flat pocket: everything at 80 m.
+const flatElev = async (points) => points.map(() => 80);
+// Knife ridge: a wall at lat 24.802 within ±100 m of lng 121.700 only — the
+// 500 m ring stays flat (its off-corridor points miss the wall), but the
+// segment midpoint lands ON the wall. Represents a ridge line between the
+// two points that a shared grid fetch would paper over.
+const ridgeElev = async (points) => points.map(([lat, lng]) =>
+  (Math.abs(lat - 24.802) < 0.0003 && Math.abs(lng - 121.7) < 0.001 ? 200 : 80));
+// The same wall as a GULLY (dips instead of rises) — 谷口 also forbids sharing.
+// Centered on the 谷口 test pair (24.81/24.814 × 121.71).
+const gullyElev = async (points) => points.map(([lat, lng]) =>
+  (Math.abs(lat - 24.812) < 0.0003 && Math.abs(lng - 121.71) < 0.001 ? 0 : 80));
+
+test("CL-APP-08 pure terrain: same-group pocket passes; ridge/gully/relief/elev-diff all fail-closed", () => {
+  assert.ok(haversineM(24.8, 121.7, 24.804, 121.7) < SHARE_MAX_DIST_M, "pair distance < 1 km");
+  // flat pocket: ring ~80 m everywhere (both endpoints included), segment flat, elev diff 10
+  const flat = analyzeTerrain({ elevA: 80, elevB: 90, ring: [80, 80, 81, 80, 80, 79, 80, 80, 80, 90], segment: [85, 85, 85] });
+  assert.equal(flat.relief500, 11);
+  assert.ok(flat.relief500 <= SHARE_MAX_RELIEF_M);
+  assert.ok(flat.elevDiff < SHARE_MAX_ELEV_DIFF_M);
+  assert.equal(flat.crossRidge, false);
+  assert.equal(flat.canShare, true);
+  // 跨稜線: an intermediate sample rises ≥ RIDGE_DETECT_M above BOTH endpoints
+  const ridge = analyzeTerrain({ elevA: 80, elevB: 82, ring: [80, 80, 81, 80, 82, 80, 80, 80, 80, 82], segment: [82, 200, 82] });
+  assert.equal(ridge.crossRidge, true);
+  assert.equal(ridge.canShare, false);
+  // 谷口: an intermediate sample dips ≥ RIDGE_DETECT_M below BOTH endpoints
+  const gully = analyzeTerrain({ elevA: 80, elevB: 82, ring: [80, 80, 81, 80, 82, 80, 80, 80, 80, 82], segment: [82, 0, 82] });
+  assert.equal(gully.crossRidge, true);
+  assert.equal(gully.canShare, false);
+  // relief over the 100 m cap kills the share even without a ridge
+  const rough = analyzeTerrain({ elevA: 80, elevB: 80, ring: [80, 80, 200, 80, 80, 80, 80, 80, 80, 80], segment: [80, 80, 80] });
+  assert.ok(rough.relief500 > SHARE_MAX_RELIEF_M);
+  assert.equal(rough.canShare, false);
+  // 海拔差 31 m: over the 30 m gate even on a flat pocket
+  const diff31 = analyzeTerrain({ elevA: 80, elevB: 111, ring: [80, 80, 81, 80, 81, 80, 80, 80, 80, 111], segment: [95, 95, 95] });
+  assert.ok(diff31.elevDiff >= SHARE_MAX_ELEV_DIFF_M);
+  assert.equal(diff31.canShare, false);
+  // degenerate input (no DEM numbers) → null, never a silent share
+  assert.equal(analyzeTerrain({}), null);
+});
+
+async function demFetchStub(dem) {
+  // route DEM (elevation API) calls to the synthetic surface; forecast calls
+  // to a generic Open-Meteo payload (only used when a fetch actually runs).
+  const day = new Date(NOW + DAY).toISOString().slice(0, 10);
+  const omPayload = {
+    elevation: 80, timezone: "Asia/Taipei",
+    hourly: { time: [`${day}T05:00`], cloud_cover_low: [10], cloud_cover_mid: [10], cloud_cover_high: [10],
+      precipitation: [0], visibility: [20], wind_speed_10m: [2] },
+  };
+  const real = globalThis.fetch;
+  let omCalls = 0;
+  globalThis.fetch = async (url) => {
+    if (/elevation/.test(String(url))) {
+      const u = new URL(url);
+      const lats = u.searchParams.get("latitude").split(",").map(Number);
+      const lngs = u.searchParams.get("longitude").split(",").map(Number);
+      return { ok: true, json: async () => ({ elevation: await dem(lats.map((la, i) => [la, lngs[i]])) }) };
+    }
+    omCalls += 1;
+    return { ok: true, json: async () => omPayload };
+  };
+  return () => { globalThis.fetch = real; return omCalls; };
+}
+
+test("CL-APP-08 same-group: new point <1 km joins the member's group — ONE fetch, ONE quota point, own DEM inputs", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "g8", "paid");
+  const t = await mint(env, "g8");
+  const restore = await demFetchStub(flatElev);
+  let aId, bId;
+  try {
+    const ra = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "A 點", lat: 24.8, lng: 121.7, elevation: 80 }) }), env, {});
+    aId = (await ra.json()).id;
+    assert.ok(db._tables.custom_fetch_queue.has(aId), "first ungrouped point queues a fetch");
+    const rb = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "B 點", lat: 24.804, lng: 121.7, elevation: 80 }) }), env, {});
+    const rbBody = await rb.json();
+    bId = rbBody.id;
+    assert.ok(rbBody.grouping, "flat pocket <1 km → grouped");
+    assert.equal(rbBody.grouping.representativeId, aId, "earliest place is the representative");
+    assert.equal(db._tables.custom_fetch_queue.has(bId), false, "grouped point reuses the rep's data — NO new fetch");
+    assert.equal(db._tables.custom_places.find((x) => x.id === bId).group_id, `g:${aId}`);
+  } finally { restore(); }
+
+  // quota counting: 2 places, 1 group → quota.used = 1 (同組只算 1 點)
+  const list = await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {});
+  const lb = await list.json();
+  assert.equal(lb.places.length, 2);
+  assert.equal(lb.quota.used, 1, "a group counts as ONE quota point");
+  const bPlace = lb.places.find((p) => p.id === bId);
+  assert.ok(bPlace.sharing);
+  assert.match(bPlace.sharing.sharedWith[0].name, /A 點/);
+  assert.equal(bPlace.sharing.isRepresentative, false);
+  const aPlace = lb.places.find((p) => p.id === aId);
+  assert.equal(aPlace.sharing.isRepresentative, true);
+
+  // the representative's single fetch fans out to the whole group; the
+  // judgment side keeps B's OWN lat/lng/elevation (rule 4)
+  let omCalls = 0;
+  const restore2 = await demFetchStub(async () => { omCalls += 1; return 80; });
+  try {
+    const s = await processCustomFetchQueue(env, NOW, { batch: 10 });
+    assert.equal(s.processed, 1, "only the representative fetches");
+    assert.equal(s.fanned_out, 1, "one fan-out member");
+    assert.equal(omCalls, 0, "no DEM calls during queue processing");
+  } finally { restore2(); }
+  const recB = JSON.parse(env.EVALS._store.get(`v1:evals:custom:${bId}`));
+  const recA = JSON.parse(env.EVALS._store.get(`v1:evals:custom:${aId}`));
+  assert.deepEqual(recB.hourly, recA.hourly, "shared raw grid verbatim");
+  assert.deepEqual([recB.lat, recB.lng, recB.elevation], [24.804, 121.7, 80], "B keeps its OWN DEM lat/lng/elevation");
+  assert.equal(recB.shared_from, aId);
+  assert.equal(await userFetchCount(env, "g8", NOW), 1, "ONE user-budget unit for the whole group");
+  assert.equal((await globalUsageState(env)).count, 1, "ONE global-usage unit for the whole group");
+});
+
+test("CL-APP-08 cross-ridge + 谷口 + 海拔差31m: each pair stays independent — own fetch, own quota", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "g8x", "paid");
+  const t = await mint(env, "g8x");
+  const restore = await demFetchStub(ridgeElev);
+  let c1, c2;
+  try {
+    const r1 = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "稜線北", lat: 24.8, lng: 121.7, elevation: 80 }) }), env, {});
+    c1 = (await r1.json()).id;
+    const r2 = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "稜線南", lat: 24.804, lng: 121.7, elevation: 80 }) }), env, {});
+    c2 = (await r2.json()).id;
+  } finally { restore(); }
+  assert.equal(db._tables.custom_places.find((x) => x.id === c2).group_id, null, "跨稜線強制不共用");
+  assert.ok(db._tables.custom_fetch_queue.has(c2), "independent point queues its own fetch");
+
+  // 谷口 variant
+  const restore3 = await demFetchStub(gullyElev);
+  let v2;
+  try {
+    const r1 = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "谷口上", lat: 24.81, lng: 121.71, elevation: 80 }) }), env, {});
+    const r2 = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "谷口下", lat: 24.814, lng: 121.71, elevation: 80 }) }), env, {});
+    v2 = (await r2.json()).id;
+  } finally { restore3(); }
+  assert.equal(db._tables.custom_places.find((x) => x.id === v2).group_id, null, "谷口強制不共用");
+
+  // 海拔差 31 m on a flat pocket — over the 30 m gate
+  const restore4 = await demFetchStub(flatElev);
+  let e2;
+  try {
+    await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "低點", lat: 24.82, lng: 121.72, elevation: 80 }) }), env, {});
+    const r2 = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "高點", lat: 24.824, lng: 121.72, elevation: 111 }) }), env, {});
+    e2 = (await r2.json()).id;
+  } finally { restore4(); }
+  assert.equal(db._tables.custom_places.find((x) => x.id === e2).group_id, null, "海拔差 31 m ≥ 30 m → 不共用");
+
+  // quota: six independent points (three rejected pairs) = six quota points
+  const list = await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {});
+  assert.equal((await list.json()).quota.used, 6, "no group → each point counts 1");
+});
+
+test("CL-APP-08 escape hatch: 獨立重新抓取 detaches the point and refetches solo for 1 quota", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "g8e", "paid");
+  const t = await mint(env, "g8e");
+  const restore = await demFetchStub(flatElev);
+  let aId, bId;
+  try {
+    aId = (await (await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "主點", lat: 24.8, lng: 121.7, elevation: 80 }) }), env, {})).json()).id;
+    bId = (await (await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "副點", lat: 24.804, lng: 121.7, elevation: 80 }) }), env, {})).json()).id;
+    assert.ok(db._tables.custom_places.find((x) => x.id === bId).group_id, "grouped before the escape hatch");
+    const rf = await worker.fetch(makeReq(`/custom_places/${bId}/refetch`, { method: "POST", headers: hdr(t) }), env, {});
+    assert.equal(rf.status, 200);
+    const rb = await rf.json();
+    assert.equal(rb.detached, true);
+    assert.equal(rb.shareMode, "independent");
+    assert.match(rb.message["zh-TW"], /計 1 點配額/);
+    const brow = db._tables.custom_places.find((x) => x.id === bId);
+    assert.equal(brow.group_id, null, "detached from the group");
+    assert.equal(brow.share_mode, "independent", "never auto-rejoins");
+    const q = db._tables.custom_fetch_queue.get(bId);
+    assert.equal(q.reason, "refresh");
+    assert.equal(q.priority, 10, "explicit member action rides ahead of bulk adds");
+    assert.ok(db._tables.custom_fetch_queue.get(aId).status === "pending", "rep keeps its own queued fetch");
+  } finally { restore(); }
+
+  // both points fetch SOLO now — 2 forecast fetches, 2 quota units
+  const restore2 = await demFetchStub(flatElev);
+  let summary;
+  try {
+    summary = await processCustomFetchQueue(env, NOW, { batch: 10 });
+  } finally {
+    const forecastCalls = restore2(); // demFetchStub returns the forecast-call count
+    assert.equal(forecastCalls, 2, "two solo forecast fetches");
+  }
+  assert.equal(summary.processed, 2, "detached point fetches on its own");
+  assert.equal(await userFetchCount(env, "g8e", NOW), 2, "escape hatch costs 1 quota (2 total for 2 solo points)");
+  const list = await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {});
+  const lb = await list.json();
+  assert.equal(lb.quota.used, 2, "no group → 2 quota points");
+  assert.equal(lb.places.find((p) => p.id === bId).sharing, null, "independent point carries no shared tag");
+
+  // anonymous / cross-user refetch is not a thing
+  const anon = await worker.fetch(makeReq(`/custom_places/${bId}/refetch`, { method: "POST" }), env, {});
+  assert.equal(anon.status, 401);
+});
+
+test("CL-APP-08 rep deletion promotes the next-oldest member; the group keeps serving", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "g8p", "paid");
+  const t = await mint(env, "g8p");
+  const restore = await demFetchStub(flatElev);
+  let aId, bId;
+  try {
+    aId = (await (await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "先建", lat: 24.8, lng: 121.7, elevation: 80 }) }), env, {})).json()).id;
+    bId = (await (await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "後建", lat: 24.804, lng: 121.7, elevation: 80 }) }), env, {})).json()).id;
+  } finally { restore(); }
+  await worker.fetch(makeReq(`/custom_places/${aId}`, { method: "DELETE", headers: hdr(t) }), env, {});
+  const rec = JSON.parse(env.EVALS._store.get(`v1:cp:group:g:${aId}`));
+  assert.equal(rec.representativeId, bId, "earliest remaining active member promoted");
+  const list = await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {});
+  const lb = await list.json();
+  const bPlace = lb.places.find((p) => p.id === bId);
+  assert.equal(bPlace.sharing.representativeId, bId);
+  assert.equal(bPlace.sharing.sharedWith.length, 0, "no other member left to tag");
+  assert.equal(lb.quota.used, 1, "the surviving group still counts 1");
+});
+
+test("CL-APP-08 migration: existing places re-group in the background — no fetch, no quota charge, once-only", async () => {
+  const { env, db } = makeEnv();
+  const day = dbStamp(NOW - 5 * DAY);
+  // u-m: A(rep candidate, older) + B flat pocket <1 km, same elevation.
+  // u-o: another member with the SAME coords — privacy: never cross-user.
+  // u-i: an escape-hatch (independent) member — excluded from the sweep.
+  db._tables.custom_places.push(
+    { id: "mA", user_id: "u-m", name: "A", lat: 24.8, lng: 121.7, elevation: 80, timezone: null, custom_conditions: null, status: "active", group_id: null, share_mode: "auto", created_at: day, updated_at: day, deleted_at: null },
+    { id: "mB", user_id: "u-m", name: "B", lat: 24.804, lng: 121.7, elevation: 80, timezone: null, custom_conditions: null, status: "active", group_id: null, share_mode: "auto", created_at: dbStamp(NOW - 4 * DAY), updated_at: day, deleted_at: null },
+    { id: "mO", user_id: "u-o", name: "O", lat: 24.8, lng: 121.7, elevation: 80, timezone: null, custom_conditions: null, status: "active", group_id: null, share_mode: "auto", created_at: day, updated_at: day, deleted_at: null },
+    { id: "mI", user_id: "u-i", name: "I", lat: 24.9, lng: 121.9, elevation: 80, timezone: null, custom_conditions: null, status: "active", group_id: null, share_mode: "independent", created_at: day, updated_at: day, deleted_at: null },
+  );
+  let demCalls = 0;
+  const s = await regroupExistingPlaces(env, {
+    fetchElev: async (pts) => { demCalls += 1; return flatElev(pts); },
+  });
+  assert.equal(s.grouped, 1, "one flat pocket grouped");
+  assert.ok(demCalls >= 1, "DEM check ran (not a coords-only grouping)");
+  const aRow = db._tables.custom_places.find((x) => x.id === "mA");
+  const bRow = db._tables.custom_places.find((x) => x.id === "mB");
+  const oRow = db._tables.custom_places.find((x) => x.id === "mO");
+  const iRow = db._tables.custom_places.find((x) => x.id === "mI");
+  assert.equal(aRow.group_id, `g:mA`, "earliest place carries the group key");
+  assert.equal(bRow.group_id, `g:mA`);
+  assert.equal(oRow.group_id, null, "跨會員不共用 (per-user privacy)");
+  assert.equal(iRow.group_id, null, "escape-hatch point never regroups");
+  const rec = JSON.parse(env.EVALS._store.get("v1:cp:group:g:mA"));
+  assert.equal(rec.representativeId, "mA");
+  assert.equal(db._tables.custom_fetch_queue.size, 0, "migration queues NO fetch");
+  assert.equal(await userFetchCount(env, "u-m"), 0, "migration charges NO quota");
+  assert.equal((await globalUsageState(env)).count, 0, "migration charges NO global usage");
+  assert.ok(env.EVALS._store.get("v1:cp:regroup:done"), "once-only guard written");
+
+  const again = await regroupExistingPlaces(env, { fetchElev: flatElev });
+  assert.equal(again.skipped, true, "second run is a no-op (rule 5: re-group ONCE)");
+});
+
