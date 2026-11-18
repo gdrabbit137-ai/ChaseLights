@@ -6,7 +6,7 @@
    Design contract (design-review-8 §1 + owner rulings):
    - single list: private points ride the SAME card grid and tier semantics —
      the ONLY differences are the gray 「私人」 badge, the ⋯ menu
-     (✎編輯／🎞掛題材·條件／⬆提名升級官方／🗑刪除) and the 全部｜官方｜私人
+     (✎編輯／🎞掛題材·條件／🗑刪除 — patch-6 removed 提名升級官方) and the 全部｜官方｜私人
      view switch next to the region/tier filters;
    - gray identity: badge/pin NEVER borrow ✓○✗ semantic colors;
    - honest counts: 「共 N 官方＋你的 M 私人點」, 全部 = 官方 + 私人;
@@ -19,12 +19,16 @@
      READ-ONLY, auto-resolved — the user never types either);
    - conditions = CL-UI-99 five parameter groups, same schema/validation;
    - delete = red confirm dialog; soft delete (revivable within 30 days);
-   - nomination = ⋯ menu → review queue (feedback routing_key=nomination). */
+   - soft delete keeps data 30 days (same-coordinate revive). */
 (function () {
   'use strict';
   var API = '/api/v1/custom_places';
   var VIEW_KEY = 'chaselights_cp_view';
   var LANGS = ['zh-TW', 'en', 'ja'];
+  // patch-4 (CL-APP-06): real basemap in the pin picker — the same vendored
+  // maplibre-gl 6.11.2 module weather-map.js already ships (assets/vendor/,
+  // no unpkg CDN). Relative chunk imports resolve inside assets/vendor/.
+  var MAPLIBRE_MODULE = new URL('assets/vendor/maplibre-gl.mjs', document.baseURI).href;
 
   var T = {
     'zh-TW': {
@@ -35,29 +39,42 @@
       tier_rec: '✓ 條件窗', tier_shoot: '○ 可拍', tier_no: '✗', tier_pending: '⏳ 排隊中',
       trial_expired: '試用期滿', trial_note: '評估已停止（資料保留）', trial_cta: '升級 Premium 恢復使用',
       deferred_note: '已建立·氣象資料明日更新',
-      m_edit: '✎ 編輯', m_cc: '🎞 掛題材·條件', m_nom: '⬆ 提名升級官方', m_del: '🗑 刪除',
+      m_edit: '✎ 編輯', m_cc: '🎞 掛題材·條件', m_del: '🗑 刪除',
       add_title: '新增私人景點', add_edit_title: '編輯私人景點', add_sub: '名稱 → 地圖釘點 → 自動海拔／時區',
       qd_name: '名稱', qd_name_ph: '例如：礁溪自家陽台展望', qd_pin: '地圖釘點（點圖落釘，或直接鍵入經緯度）',
-      qd_pin_hint: '全球任意經緯度皆可（海洋／極區亦可）；lat/lng 雙向同步',
+      qd_pin_hint: '全球任意經緯度皆可（海洋／極區亦可）；拖曳地圖釘或點圖落釘，與 lat/lng 雙向同步',
+      pin_map_loading: '底圖載入中…（載入失敗會退回格線模式）',
       ro_elev: '海拔（DEM 自動）', ro_tz: '時區自動', ro_pending: '落釘後自動帶入',
       ro_elev_outlier: '海拔異常（超出 −450～8,849 m）——請確認座標',
       create: '建立私人點', update: '更新私人點',
       reason_name: '請先輸入景點名稱', reason_pin: '請先落釘或輸入經緯度',
       done1: '✓ 私人點已建立', done1_edit: '✓ 已更新', done_deferred: '已建立·氣象資料明日更新（每日抓取額度誠實排隊）',
-      cc_title: '掛題材·自訂條件', cc_sub: 'CL-UI-99 已上線引擎——五組參數同規格',
+      cc_title: '掛題材·自訂條件', cc_sub: '自訂條件',
       p_low: '低雲門檻（%）', p_mid: '中雲門檻（%）', p_high: '高雲門檻（%）', p_precip: '降水上限（mm/h）',
       p_vis: '能見度下限（km）', p_wind: '風速上限（m/s）', p_window: '時間窗', p_lead: '提前量（分鐘）',
+      p_months: '適用月份', p_months_hint: '不選＝全年適用；選取後只有該月份會判定（cron 同步月份窗）',
+      // patch-7: private-card forecast popup (same card-click interaction as official cards)
+      qv_title: '預報速覽', qv_quick: '現在去會怎樣', qv_days: '8 日概況', qv_no_data: '─',
+      qv_no_data_note: '此日尚無資料（資料僅涵蓋未來約 2 日）', qv_subjects: '逐題材判定',
+      qv_subject_custom: '自訂條件', qv_baseline: '一般基準', qv_entry: '🎞 題材',
+      qv_load_fail: '預報資料暫時無法載入——可能仍在排隊抓取（明日更新）。',
+      qv_gen: '符合 {n}/{t} 小時',
       cc_prev: '摘要預覽：', cc_prev_none: '（未調任何參數＝一般基準）', cc_submit: '套用到此點',
       cc_done1: '✓ 條件已套用', cc_none: '（僅一般基準）',
-      nom_title: '提名升級官方', nom_sub: '提名後進審核佇列；通過＝升格官方景點',
-      nom_ctx: '審核：位置驗證／去重／命名規範／季節窗。不通過退回私人（附原因），點仍在你的列表。',
-      nom_btn: '一鍵提名', nom_done1: '✓ 已提名 · 審核佇列', nom_done3: '審核結果可於狀態查看；通過後評分／提醒／最愛隨帶轉官方。',
+      // patch-8: theme list manager (multiple condition groups per place)
+      th_title: '掛題材·條件', th_sub: '題材列表', th_add: '＋ 新增題材', th_cap_note: '已達上限 5 組（刪除一組後可再新增）',
+      th_empty: '尚未掛任何題材——此點以一般基準判定。', th_count: '{n}/{c} 組',
+      th_name: '題材名稱', th_name_ph: '例如：清晨雲海窗', th_name_required: '請先輸入題材名稱',
+      th_del_title: '刪除此題材組？',
+      th_create: '新增題材', th_save: '儲存題材', th_done1: '✓ 題材已儲存', th_deleted: '✓ 題材已刪除',
+      th_row_shoot: '○ 可拍',
+      qv_month_note: '非適用月份',
       del_title: '刪除此私人點？', del_warn: '資料保留 30 天：30 日內在同一座標重新新增會直接復活（不重抓）。',
       del_confirm: '🗑 刪除私人點', del_cancel: '取消',
-      nl1: '登入後才能使用私人點', nl2: '新增／編輯／提名私人景點是會員功能；私人點只出現在你的帳號。',
+      nl1: '登入後才能使用私人點', nl2: '新增／編輯私人景點是會員功能；私人點只出現在你的帳號。',
       login_cta: '登入以繼續', close: '關閉',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
-      ai_hint: '用一句話描述你要的拍攝條件', ai_ph: '例如：清晨要能看到雲海，不要下雨，最好四點半到七點', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請微調後送出', ai_fail: '解析失敗，請手動設定。',
+      ai_hint: '用一句話描述你要的拍攝條件', ai_ph: '例如：清晨要能看到雲海，不要下雨，最好六點前', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請確認後再送出', ai_conflict: '⚠ 條件矛盾：{m}——請擇一，AI 未套用任何值。', ai_fail: '解析失敗，請手動設定。',
       geo_btn: '📍 使用我的目前位置', geo_note: '為何需要位置：僅用於填入此新景點的座標，不會追蹤你的行蹤。', geo_working: '取得位置中…',
       geo_denied: '無法取得位置：定位權限被拒絕。請改用點圖落釘或直接鍵入經緯度。', geo_timeout: '取得位置逾時。請改用點圖落釘或直接鍵入經緯度。', geo_error: '無法取得位置。請改用點圖落釘或直接鍵入經緯度。',
       copy_genre: '複製官方題材改（起點）', copy_genre_none: '不複製', copy_genre_hint: '選一個官方題材當起點，再微調單一參數',
@@ -72,29 +89,41 @@
       tier_rec: '✓ Window', tier_shoot: '○ Shootable', tier_no: '✗', tier_pending: '⏳ Queued',
       trial_expired: 'Trial ended', trial_note: 'Evaluation stopped (data kept)', trial_cta: 'Upgrade to Premium to resume',
       deferred_note: 'Created · weather data updates tomorrow',
-      m_edit: '✎ Edit', m_cc: '🎞 Subject & conditions', m_nom: '⬆ Nominate as official', m_del: '🗑 Delete',
+      m_edit: '✎ Edit', m_cc: '🎞 Subject & conditions', m_del: '🗑 Delete',
       add_title: 'Add a custom place', add_edit_title: 'Edit custom place', add_sub: 'Name → pin on map → auto elevation/timezone',
       qd_name: 'Name', qd_name_ph: 'e.g. My rooftop terrace, Jiaoxi', qd_pin: 'Pin on map (click to drop, or type lat/lng)',
-      qd_pin_hint: 'Any latitude/longitude worldwide (ocean and polar included); lat/lng sync both ways',
+      qd_pin_hint: 'Any lat/lng worldwide (oceans/poles included); drag the pin or click the map — two-way sync with lat/lng',
+      pin_map_loading: 'Loading basemap… (falls back to the grid mode if it fails)',
       ro_elev: 'Elevation (auto DEM)', ro_tz: 'Timezone (auto)', ro_pending: 'auto-filled after pinning',
       ro_elev_outlier: 'Elevation outlier (outside −450…8,849 m) — check the coordinates',
       create: 'Create place', update: 'Save changes',
       reason_name: 'Enter a place name first', reason_pin: 'Pin on the map or enter lat/lng first',
       done1: '✓ Place created', done1_edit: '✓ Saved', done_deferred: 'Created · weather data updates tomorrow (honest daily-fetch queue)',
-      cc_title: 'Subject & custom conditions', cc_sub: 'Live CL-UI-99 engine — same five parameter groups',
+      cc_title: 'Subject & custom conditions', cc_sub: 'Custom conditions',
       p_low: 'Low-cloud threshold (%)', p_mid: 'Mid-cloud threshold (%)', p_high: 'High-cloud threshold (%)', p_precip: 'Precip cap (mm/h)',
       p_vis: 'Visibility floor (km)', p_wind: 'Wind cap (m/s)', p_window: 'Time window', p_lead: 'Lead time (min)',
+      p_months: 'Applicable months', p_months_hint: 'None selected = all year; when set, only those months are evaluated (the cron honours the month window)',
+      qv_title: 'Forecast quick view', qv_quick: 'If I go now', qv_days: '8-day outlook', qv_no_data: '─',
+      qv_no_data_note: 'No data for this day yet (data covers about the next 2 days)', qv_subjects: 'Per-subject verdicts',
+      qv_subject_custom: 'Custom conditions', qv_baseline: 'General baseline', qv_entry: '🎞 Subjects',
+      qv_load_fail: 'Forecast data is temporarily unavailable — the fetch may still be queued (updates tomorrow).',
+      qv_gen: '{n}/{t} hours met',
       cc_prev: 'Summary: ', cc_prev_none: '(nothing tuned = general baseline)', cc_submit: 'Apply to this place',
       cc_done1: '✓ Conditions applied', cc_none: '(general baseline only)',
-      nom_title: 'Nominate as official', nom_sub: 'Nominations enter the review queue; approval promotes it to official',
-      nom_ctx: 'Review gates: location / dedupe / naming / season window. Rejected = back to private (with a reason); the place stays yours.',
-      nom_btn: 'Nominate now', nom_done1: '✓ Nominated · review queue', nom_done3: 'Check status here; ratings/reminders/favorites carry over when approved.',
+      // patch-8: theme list manager (multiple condition groups per place)
+      th_title: 'Subject & conditions', th_sub: 'Subject groups', th_add: '＋ Add a group', th_cap_note: 'Cap of 5 groups reached (delete one to add more)',
+      th_empty: 'No subject group attached yet — this place is judged by the general baseline.', th_count: '{n}/{c} groups',
+      th_name: 'Group name', th_name_ph: 'e.g. Dawn cloud-sea window', th_name_required: 'Enter a group name first',
+      th_del_title: 'Delete this group?',
+      th_create: 'Add group', th_save: 'Save group', th_done1: '✓ Group saved', th_deleted: '✓ Group deleted',
+      th_row_shoot: '○ Shootable',
+      qv_month_note: 'Not an applicable month',
       del_title: 'Delete this custom place?', del_warn: 'Data is kept 30 days: re-adding the same coordinates within 30 days revives it (no new fetch).',
       del_confirm: '🗑 Delete place', del_cancel: 'Cancel',
-      nl1: 'Log in to use custom places', nl2: 'Adding / editing / nominating is member-only; places appear only on your account.',
+      nl1: 'Log in to use custom places', nl2: 'Adding / editing is member-only; places appear only on your account.',
       login_cta: 'Log in to continue', close: 'Close',
       sem_cloud: 'Cloud', sem_fog: 'Fog', sem_rain: 'Rain',
-      ai_hint: 'Describe the conditions you want in one sentence', ai_ph: 'e.g. I want to see a cloud sea at dawn, no rain, ideally 4:30-7:00', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — tweak, then submit', ai_fail: 'Parsing failed — please set the conditions manually.',
+      ai_hint: 'Describe the conditions you want in one sentence', ai_ph: 'e.g. I want a cloud sea at dawn, no rain, ideally before 06:00', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — review, then submit', ai_conflict: '⚠ Conflicting conditions: {m} — pick one; the AI applied nothing.', ai_fail: 'Parsing failed — please set the conditions manually.',
       geo_btn: '📍 Use my current location', geo_note: 'Why we need it: only to fill in this place’s coordinates — your movements are never tracked.', geo_working: 'Getting your location…',
       geo_denied: 'Could not get your location: permission denied. Please pin on the map or type lat/lng manually.', geo_timeout: 'Getting your location timed out. Please pin on the map or type lat/lng manually.', geo_error: 'Could not get your location. Please pin on the map or type lat/lng manually.',
       copy_genre: 'Copy an official genre template (starter)', copy_genre_none: 'No copy', copy_genre_hint: 'Pick an official genre as the starting point, then tweak a single parameter',
@@ -109,29 +138,41 @@
       tier_rec: '✓ 条件窓', tier_shoot: '○ 撮影可', tier_no: '✗', tier_pending: '⏳ 待機中',
       trial_expired: 'トライアル期限切れ', trial_note: '評価停止中（データは保持）', trial_cta: 'Premiumへアップグレードで再開',
       deferred_note: '作成済み・気象データは明日更新',
-      m_edit: '✎ 編集', m_cc: '🎞 題材・条件', m_nom: '⬆ 公式へ推薦', m_del: '🗑 削除',
+      m_edit: '✎ 編集', m_cc: '🎞 題材・条件', m_del: '🗑 削除',
       add_title: '自作スポットを追加', add_edit_title: '自作スポットを編集', add_sub: '名称 → ピン配置 → 標高／タイムゾーン自動',
       qd_name: '名称', qd_name_ph: '例：自宅ベランダの展望（礁渓）', qd_pin: '地図でピン配置（クリック、または緯度経度を直接入力）',
-      qd_pin_hint: '世界中の緯度経度に対応（海上・極域も可）；lat/lng は双方向同期',
+      qd_pin_hint: '全球任意の緯度経度（海洋・極域も可）；ピンをドラッグまたは地図クリック、緯度経度と双方向同期',
+      pin_map_loading: 'ベースマップ読み込み中…（失敗時はグリッドに切替）',
       ro_elev: '標高（DEM 自動）', ro_tz: 'タイムゾーン（自動）', ro_pending: 'ピン配置後に自動入力',
       ro_elev_outlier: '標高が異常（−450〜8,849 m 外）— 座標を確認してください',
       create: '作成', update: '変更を保存',
       reason_name: '先に名称を入力してください', reason_pin: 'ピン配置か緯度経度の入力が必要です',
       done1: '✓ 作成しました', done1_edit: '✓ 保存しました', done_deferred: '作成済み・気象データは明日更新（毎日取得枠の正直な待機）',
-      cc_title: '題材・カスタム条件', cc_sub: '稼働中の CL-UI-99 エンジン — 同じ 5 パラメータ群',
+      cc_title: '題材・カスタム条件', cc_sub: 'カスタム条件',
       p_low: '低雲しきい値（%）', p_mid: '中雲しきい値（%）', p_high: '高雲しきい値（%）', p_precip: '降水上限（mm/h）',
       p_vis: '視程下限（km）', p_wind: '風速上限（m/s）', p_window: '時間帯', p_lead: '通知の余裕（分）',
+      p_months: '適用月', p_months_hint: '未選択＝通年；選択するとその月のみ判定（cron も月窓を尊重）',
+      qv_title: '予報クイックビュー', qv_quick: '今すぐ行くと', qv_days: '8日間の概況', qv_no_data: '─',
+      qv_no_data_note: 'この日はまだデータなし（データは今後約2日分）', qv_subjects: '題材別判定',
+      qv_subject_custom: 'カスタム条件', qv_baseline: '一般基準', qv_entry: '🎞 題材',
+      qv_load_fail: '予報データを取得できません——取得待ちの可能性があります（明日更新）。',
+      qv_gen: '{n}/{t} 時間適合',
       cc_prev: 'サマリー：', cc_prev_none: '（未調整＝一般基準）', cc_submit: 'このスポットに適用',
       cc_done1: '✓ 条件を適用しました', cc_none: '（一般基準のみ）',
-      nom_title: '公式へ推薦', nom_sub: '推薦するとレビュー待ち列に入り、承認で公式スポットに昇格',
-      nom_ctx: '審査：位置確認／重複除去／命名規則／季節窓。不承認は自作に戻る（理由付）— スポットはリストに残ります。',
-      nom_btn: '推薦する', nom_done1: '✓ 推薦済み · 審査列', nom_done3: '結果は状態で確認できます；承認後は評価／リマインド／お気に入りが公式へ引き継がれます。',
+      // patch-8: theme list manager (multiple condition groups per place)
+      th_title: '題材・条件', th_sub: '題材グループ', th_add: '＋ 題材を追加', th_cap_note: '上限5件に達しました（削除後に追加できます）',
+      th_empty: '題材グループはまだありません——一般基準で判定します。', th_count: '{n}/{c} 件',
+      th_name: '題材名', th_name_ph: '例：明け方の雲海窓', th_name_required: '先に題材名を入力してください',
+      th_del_title: 'この題材グループを削除？',
+      th_create: '題材を追加', th_save: '保存', th_done1: '✓ 保存しました', th_deleted: '✓ 削除しました',
+      th_row_shoot: '○ 撮影可',
+      qv_month_note: '適用月外',
       del_title: 'この自作スポットを削除？', del_warn: 'データは 30 日保持：30 日以内に同じ座標を再追加すると復活します（再取得なし）。',
       del_confirm: '🗑 削除する', del_cancel: 'キャンセル',
-      nl1: '自作スポットにはログインが必要', nl2: '追加／編集／推薦は会員機能；自作スポットは自分のアカウントにのみ表示されます。',
+      nl1: '自作スポットにはログインが必要', nl2: '追加／編集は会員機能；自作スポットは自分のアカウントにのみ表示されます。',
       login_cta: 'ログインして続行', close: '閉じる',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
-      ai_hint: '撮りたい条件を一文で説明', ai_ph: '例：明け方に雲海が見たい。雨は嫌。できれば4時半〜7時', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 調整してから送信してください', ai_fail: '解析に失敗しました。手動で設定してください。',
+      ai_hint: '撮りたい条件を一文で説明', ai_ph: '例：明け方に雲海が見たい。雨は嫌。できれば6時まで', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 確認してから送信してください', ai_conflict: '⚠ 条件が矛盾しています：{m} — どちらかを選択してください（AIは未適用）。', ai_fail: '解析に失敗しました。手動で設定してください。',
       geo_btn: '📍 現在地を使う', geo_note: '位置情報の使い道：このスポットの座標を入力するためだけ。現在地は追跡しません。', geo_working: '現在地を取得中…',
       geo_denied: '位置を取得できませんでした：権限が拒否されました。地図クリックまたは手動入力をご利用ください。', geo_timeout: '位置の取得がタイムアウトしました。地図クリックまたは手動入力をご利用ください。', geo_error: '位置を取得できませんでした。地図クリックまたは手動入力をご利用ください。',
       copy_genre: '公式題材をコピーして改造（出発点）', copy_genre_none: 'コピーしない', copy_genre_hint: '公式題材を出発点に選び、1つのパラメータだけ調整します',
@@ -140,7 +181,8 @@
     },
   };
 
-  var state = { member: null, data: null, view: 'all', loading: false, overlay: null, pin: null, editing: null, menuPlace: null, menuTrigger: null };
+  var state = { member: null, data: null, view: 'all', loading: false, overlay: null, pin: null, editing: null, menuPlace: null, menuTrigger: null,
+    pinMapToken: 0, miniMap: null, miniMapReady: false, miniMapMarker: null, pinSource: null };
   var els = {};
 
   function t() { return T[currentLang()] || T['zh-TW']; }
@@ -200,8 +242,17 @@
     }
   }
 
-  function openOverlay(html) { ensureHosts(); els.overlay.querySelector('.cl-cp-modal').innerHTML = html; els.overlay.classList.add('open'); }
-  function closeOverlay() { if (els.overlay) els.overlay.classList.remove('open'); }
+  // patch-5: each modal opens at the TOP — the overlay is its own scroller and
+  // a previous tall modal's scrollTop otherwise persists, clipping the short
+  // edit modal's first fields above the viewport. Body scroll is locked while
+  // a modal is open (the page must not scroll behind the overlay).
+  function openOverlay(html) { ensureHosts(); var m = els.overlay.querySelector('.cl-cp-modal'); m.innerHTML = html; els.overlay.classList.add('open'); els.overlay.scrollTop = 0; m.scrollTop = 0; document.body.classList.add('cl-cp-lock'); }
+  function closeOverlay() {
+    if (!els.overlay) return;
+    els.overlay.classList.remove('open');
+    document.body.classList.remove('cl-cp-lock');
+    teardownMiniMap(); // patch-4: the GL context must not leak across modals
+  }
 
   // ───────────────────────────── data ─────────────────────────────
   function refresh() {
@@ -327,6 +378,29 @@
     var m = map[ev.tier] || map.pending;
     return '<span class="cl-cp-tier ' + m[0] + '">' + esc(m[1]) + '</span>';
   }
+  // patch-8: group display name — the i18n object wins in the current language,
+  // falling back to the zh-TW anchor `name` (unreviewed copies never invent words)
+  function themeName(g) {
+    var i18n = g && g.nameI18n;
+    if (i18n && typeof i18n === 'object') {
+      var v = i18n[currentLang()] || i18n['zh-TW'] || i18n['en'];
+      if (v) return v;
+    }
+    return (g && g.name) || '';
+  }
+  // patch-8: ONE subject-row anatomy everywhere (official card parity) —
+  // tier badge + group name + next window / short reason, never a divergent chip
+  function cpCardRow(tier, name, window, tail) {
+    var badges = { rec: ['cl-cp-tier-rec', '✓'], shoot: ['cl-cp-tier-shoot', '○'], no: ['cl-cp-tier-no', '✗'] };
+    var b = badges[tier] || badges.no;
+    var right = window
+      ? '<span class="cl-cp-window" style="flex:1;text-align:right">' + esc(window) + '</span>'
+      : (tail ? '<span style="flex:1;text-align:right;color:var(--cl-red-text);font-weight:600">' + esc(tail) + '</span>' : '');
+    return '<div class="cl-subject-row" style="display:flex;align-items:center;gap:8px;height:26px;font-size:13px">' +
+      '<span class="cl-cp-tier ' + b[0] + '">' + b[1] + '</span>' +
+      '<span class="cl-cp-row-name" style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(name) + '</span>' +
+      right + '</div>';
+  }
   function ccSummary(cc, lang) {
     if (!cc) return '';
     var parts = [];
@@ -338,7 +412,18 @@
     if (cc.visibility_min_km != null) parts.push((lang === 'en' ? 'vis≥' : '能見度≥') + cc.visibility_min_km);
     if (cc.wind_max_ms != null) parts.push('風≤' + cc.wind_max_ms);
     if (cc.window_start && cc.window_end) parts.push(cc.window_start + '–' + cc.window_end);
+    if (Array.isArray(cc.months) && cc.months.length) parts.push((lang === 'en' ? 'months ' : '月 ') + fmtMonths(cc.months));
     return parts.join('・');
+  }
+  // 1,2,3 / 12,1,2 → compact "1–3" ranges (list stays honest, no invented words)
+  function fmtMonths(ms) {
+    var parts = [], s = ms[0], prev = ms[0];
+    for (var i = 1; i <= ms.length; i++) {
+      if (i < ms.length && ms[i] === prev + 1) { prev = ms[i]; continue; }
+      parts.push(s === prev ? String(s) : s + '–' + prev);
+      s = prev = ms[i];
+    }
+    return parts.join(',');
   }
   function buildPrivateCard(p) {
     var card = document.createElement('div');
@@ -358,11 +443,17 @@
     var expired = p.status === 'trial_expired';
     card.classList.toggle('cl-cp-expired', expired);
     var lang = currentLang();
+    // patch-8 (owner ruling): the temporary 「✓ 條件窗」chip is REPLACED by
+    // per-subject tier badges from the SAME source — one row per theme group,
+    // the official subject-row anatomy (badge + name + window/reason). The
+    // place-level chip survives only where no subject rows exist (pending /
+    // trial-expired states).
+    var headBadge = (expired || ev.tier === 'pending') ? tierBadge(p) : '';
     var head =
       '<div class="spot-title-group">' +
         '<div class="card-head-line" style="display:flex;align-items:center;gap:8px;min-width:0">' +
           '<span class="cl-cp-card-name" style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(p.name) + '</span>' +
-          tierBadge(p) +
+          headBadge +
           '<span class="cl-cp-priv-badge">◉ ' + esc(expired ? t().trial_expired : t().priv_badge) + '</span>' +
         '</div>' +
         '<div class="cl-cp-coord">' + esc(p.lat) + ', ' + esc(p.lng) + (p.elevation != null ? ' · ' + esc(p.elevation) + ' m' : '') + (p.timezone ? ' · ' + esc(p.timezone) : '') + '</div>' +
@@ -372,23 +463,35 @@
       // ⋯ trigger, so the card's content-visibility/paint containment and the
       // container overflow can never clip the dropdown again.
       '<button type="button" class="cl-cp-more" aria-label="⋯" aria-haspopup="menu" aria-expanded="false">⋯</button>';
-    var body = '';
+    var groups = Array.isArray(p.themeGroups) ? p.themeGroups : [];
+    var rows = [];
+    if (!expired && !(ev.tier === 'pending' && p.fetchDeferred)) {
+      groups.forEach(function (g) {
+        var ge = g.evaluation || {};
+        if (ge.tier === 'rec') rows.push(cpCardRow('rec', themeName(g), ge.window));
+        else if (ge.tier === 'shoot') rows.push(cpCardRow('shoot', themeName(g), ge.window, t().th_row_shoot));
+        else if (ge.tier === 'no') rows.push(cpCardRow('no', themeName(g), null, ge.reason || ''));
+        else rows.push(cpCardRow('shoot', themeName(g), null, t().tier_pending));
+      });
+      if (groups.length && ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_baseline, ev.window, t().th_row_shoot));
+      if (!groups.length) {
+        if (ev.tier === 'rec') rows.push(cpCardRow('rec', t().qv_subject_custom, ev.window));
+        else if (ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_baseline, ev.window, t().th_row_shoot));
+        else rows.push('<div style="font-size:13px;color:var(--cl-red-text)">' + esc(t().tier_no) + ' <span style="font-weight:600">' + esc(ev.reason || '') + '</span></div>');
+      }
+    }
+    var body;
     if (expired) {
       body = '<div class="cl-cp-expired-note">🔒 ' + esc(t().trial_note) + '</div>' +
         '<button type="button" class="cl-cp-expired-cta" data-cp-act="upgrade">⬆ ' + esc(t().trial_cta) + '</button>';
     } else if (ev.tier === 'pending' && p.fetchDeferred) {
       body = '<div class="cl-cp-deferred-note">⏳ ' + esc(t().deferred_note) + '</div>';
-    } else if (ev.tier === 'rec' || ev.tier === 'shoot') {
-      body = '<div class="cl-subject-row" style="display:flex;align-items:center;gap:8px;height:26px;font-size:13px">' +
-        '<span class="cl-cp-window" style="flex:1">' + esc(ev.window || '') + '</span></div>';
-    } else if (ev.tier === 'no') {
-      body = '<div style="font-size:13px;color:var(--cl-red-text)">' + esc(t().tier_no) + ' <span style="font-weight:600">' + esc(ev.reason || '') + '</span></div>';
+    } else if (rows.length) {
+      body = rows.join('');
     } else {
       body = '<div class="cl-cp-deferred-note">⏳ ' + esc(t().tier_pending) + '</div>';
     }
-    var ccLine = ccSummary(p.customConditions, lang)
-      ? '<div class="cl-cp-cc-line"><span class="cl-cp-cc-chip">🎚</span><span class="cl-cp-cc-txt">' + esc(ccSummary(p.customConditions, lang)) + '</span></div>' : '';
-    card.innerHTML = '<div style="display:flex;align-items:flex-start;gap:8px;min-width:0">' + head + '</div>' + body + ccLine;
+    card.innerHTML = '<div style="display:flex;align-items:flex-start;gap:8px;min-width:0">' + head + '</div>' + body;
     // ⋯ menu (patch-3): one shared menu portaled to document.body, anchored
     // position:fixed under the trigger — the card boundary can never clip it.
     var more = card.querySelector('.cl-cp-more');
@@ -404,9 +507,149 @@
     card.addEventListener('click', function (e) {
       if (e.target.closest('[data-cp-act="upgrade"]')) { e.stopPropagation(); toast(t().trial_cta); }
     });
+    // patch-7 (owner ruling): private cards get the SAME card-click surface as
+    // official cards — clicking the card body (not ⋯, not a button/link)
+    // opens the forecast popup (quick view / 8-day strip / per-subject rows).
+    card.addEventListener('click', function (e) {
+      if (e.target.closest('button, a, input, select')) return;
+      forecastModal(p);
+    });
+    card.addEventListener('keydown', function (e) {
+      if (e.target.closest('button, a, input, select')) return;
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); forecastModal(p); }
+    });
+  }
+  // ───── patch-7: private-card forecast popup (official-card click parity) ─────
+  // The popup renders ONLY data the worker already fetched (stored eval):
+  // quick view (tier/window/reason) + an 8-day strip (honest ─ for days the
+  // ~48h feed doesn't cover) + per-subject rows (the user's custom conditions
+  // and the general baseline), plus a 「題材」 entry that opens the conditions
+  // panel. The hour matcher mirrors the worker's customHourMatches/hourInWindow
+  // EXACTLY (same lenient defaults, missing-value fails honestly) so the
+  // popup can never disagree with the card tier.
+  var CP_GENERAL_BASELINE = { precip_max_mmh: 2, visibility_min_km: 3, wind_max_ms: 10 };
+  function cpHourInWindow(hour, start, end) {
+    if (typeof hour !== 'string' || !/^([01]\d|2[0-3]):[0-5]\d$/.test(hour)) return false;
+    if (typeof start !== 'string' || typeof end !== 'string') return true; // no window = whole day
+    if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(start) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(end)) return true;
+    return start <= end ? (hour >= start && hour <= end) : (hour >= start || hour <= end);
+  }
+  function cpHourMatches(values, cc) {
+    if (!cc) return false;
+    var v = values && typeof values === 'object' ? values : {};
+    var rows = [
+      ['cloud_low_max', 'cloud_low'], ['cloud_mid_max', 'cloud_mid'], ['cloud_high_max', 'cloud_high'],
+      ['precip_max_mmh', 'precipitation'], ['visibility_min_km', 'visibility'], ['wind_max_ms', 'wind'],
+    ];
+    for (var i = 0; i < rows.length; i++) {
+      var limit = Number(cc[rows[i][0]]);
+      if (!isFinite(limit)) continue;
+      if (rows[i][1].indexOf('cloud') === 0 && limit >= 100) continue; // lenient default
+      if (rows[i][1] === 'visibility' && limit <= 0) continue;        // lenient default
+      var val = v[rows[i][1]];
+      val = (typeof val === 'number' && isFinite(val)) ? val : null;
+      if (val == null) return false; // constraint set but data missing → no match
+      if (rows[i][0] === 'visibility_min_km' ? val < limit : val > limit) return false;
+    }
+    return true;
+  }
+  function forecastModal(p) {
+    var ev = p.evaluation || {};
+    var html =
+      '<div class="cl-cp-m-head"><div><div class="name">📍 ' + esc(p.name) + '</div>' +
+      '<div class="sub">' + esc(p.lat) + ', ' + esc(p.lng) +
+      (p.elevation != null ? ' · ' + esc(p.elevation) + ' m' : '') +
+      (p.timezone ? ' · ' + esc(p.timezone) : '') + '</div></div>' +
+      '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
+      '<div class="cl-cp-qv-quick"><span class="k">' + esc(t().qv_quick) + '</span>' + tierBadge(p) +
+      (ev.window ? ' <span class="cl-cp-window">' + esc(ev.window) + '</span>' : '') +
+      (ev.reason ? ' <span class="cl-cp-qv-reason">' + esc(ev.reason) + '</span>' : '') + '</div>' +
+      '<div class="cl-cp-qv-sec">' + esc(t().qv_days) + '</div>' +
+      '<div class="cl-cp-qv-strip" id="cl-cp-qv-days"><div class="cl-cp-qv-loading">…</div></div>' +
+      '<div class="cl-cp-qv-sec">' + esc(t().qv_subjects) + '</div>' +
+      '<div id="cl-cp-qv-subjects"><div class="cl-cp-qv-loading">…</div></div>' +
+      '<div class="cl-cp-qv-actions"><button type="button" class="cl-cp-btn" id="cl-cp-qv-subject-entry">' +
+      esc(t().qv_entry) + '</button></div>';
+    openOverlay(html);
+    wireClose(); // patch-7: the ✕ closes the popup like every other modal
+    var entry = els.overlay.querySelector('#cl-cp-qv-subject-entry');
+    if (entry) entry.addEventListener('click', function () { ccModal(p); });
+    api(API + '/' + p.id + '/eval')
+      .then(function (res) { return res.json().then(function (body) { return { status: res.status, body: body }; }); })
+      .then(function (r) {
+      if (!els.overlay.classList.contains('open')) return; // closed meanwhile
+      var daysEl = els.overlay.querySelector('#cl-cp-qv-days'), subjEl = els.overlay.querySelector('#cl-cp-qv-subjects');
+      if (!daysEl) return;
+      if (r.status === 200 && r.body && r.body.ok && Array.isArray(r.body.hourly) && r.body.hourly.length) {
+        renderForecast(p, r.body.hourly, daysEl, subjEl);
+      } else {
+        daysEl.innerHTML = '<div class="cl-cp-qv-none">' + esc(t().qv_load_fail) + '</div>';
+        if (subjEl) subjEl.innerHTML = '<div class="cl-cp-qv-none">' + esc(t().qv_load_fail) + '</div>';
+      }
+    });
+  }
+  function qvDayGrid(hourly) {
+    // 8 calendar days starting at the feed's first local_date (honest today);
+    // days with no rows render as ─ with the title explaining why.
+    var days = [], seen = {}, first = null;
+    hourly.forEach(function (row) {
+      if (!row || typeof row.local_date !== 'string') return;
+      if (!first) first = row.local_date;
+      seen[row.local_date] = true;
+    });
+    if (!first) return [];
+    var base = first.split('-').map(Number);
+    var d = new Date(Date.UTC(base[0], base[1] - 1, base[2]));
+    for (var i = 0; i < 8; i++) {
+      var iso = d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0') + '-' + String(d.getUTCDate()).padStart(2, '0');
+      days.push({ date: iso, rows: seen[iso] ? hourly.filter(function (r) { return r.local_date === iso; }) : null });
+      d.setUTCDate(d.getUTCDate() + 1);
+    }
+    return days;
+  }
+  function qvDayCell(day, cc) {
+    var label = day.date.slice(5).replace('-', '/'); // M/D — place-local dates only
+    if (!day.rows || !day.rows.length) return '<div class="cl-cp-qv-cell none" title="' + esc(t().qv_no_data_note) + '"><span class="d">' + esc(label) + '</span><span class="v">' + esc(t().qv_no_data) + '</span></div>';
+    // patch-8 ⑤: a whole day outside the group's 適用月份 is honest ─ with the
+    // eligibility note — never a fabricated weather ✗ (same rule as the worker)
+    if (cc && Array.isArray(cc.months) && cc.months.length && cc.months.indexOf(Number(day.date.slice(5, 7))) < 0) {
+      return '<div class="cl-cp-qv-cell none" title="' + esc(t().qv_month_note) + '"><span class="d">' + esc(label) + '</span><span class="v">' + esc(t().qv_no_data) + '</span></div>';
+    }
+    var met = 0, total = 0;
+    day.rows.forEach(function (row) {
+      if (!row || typeof row.hour !== 'string') return;
+      if (!cpHourInWindow(row.hour, cc && cc.window_start, cc && cc.window_end)) return;
+      total += 1;
+      if (cpHourMatches(row.values, cc)) met += 1;
+    });
+    var v = total === 0 ? t().qv_no_data : (met > 0 ? '✓' : '✗');
+    var cls = total === 0 ? 'none' : (met > 0 ? 'ok' : 'bad');
+    var title = total === 0 ? t().qv_no_data_note : t().qv_gen.replace('{n}', met).replace('{t}', total);
+    return '<div class="cl-cp-qv-cell ' + cls + '" title="' + esc(title) + '"><span class="d">' + esc(label) + '</span><span class="v">' + esc(v) + '</span></div>';
+  }
+  function renderForecast(p, hourly, daysEl, subjEl) {
+    var cc = p.customConditions || null;
+    var days = qvDayGrid(hourly);
+    daysEl.innerHTML = days.map(function (day) { return qvDayCell(day, cc); }).join('');
+    // patch-8: ONE row per theme group (named, each judged with its own
+    // conditions incl. its own month window) + the general baseline row.
+    // Legacy fallback: a place with the old single blob and no migrated
+    // groups keeps the 自訂條件 row.
+    var subjects = [];
+    var groups = Array.isArray(p.themeGroups) ? p.themeGroups : [];
+    if (groups.length) {
+      groups.forEach(function (g) { subjects.push({ name: themeName(g), cond: g.conditions || null }); });
+    } else if (cc) {
+      subjects.push({ name: t().qv_subject_custom, cond: cc });
+    }
+    subjects.push({ name: t().qv_baseline, cond: CP_GENERAL_BASELINE });
+    subjEl.innerHTML = subjects.map(function (s) {
+      return '<div class="cl-cp-qv-row"><span class="cl-cp-qv-row-name">' + esc(s.name) + '</span>' +
+        '<div class="cl-cp-qv-strip cl-cp-qv-row-strip">' + days.map(function (day) { return qvDayCell(day, s.cond); }).join('') + '</div></div>';
+    }).join('');
   }
   // ───── patch-3: the ⋯ menu — one fixed-position menu portaled to body ─────
-  var MENU_LABELS = { edit: 'm_edit', cc: 'm_cc', nom: 'm_nom', del: 'm_del' };
+  var MENU_LABELS = { edit: 'm_edit', cc: 'm_cc', del: 'm_del' };
   function ensureMenu() {
     if (els.menu) return els.menu;
     var m = document.createElement('div');
@@ -416,8 +659,6 @@
     m.innerHTML =
       '<button type="button" role="menuitem" data-cp-act="edit"><span class="cm-ic">✎</span><span class="cm-txt"></span></button>' +
       '<button type="button" role="menuitem" data-cp-act="cc"><span class="cm-ic">🎞</span><span class="cm-txt"></span></button>' +
-      '<span class="cm-sep"></span>' +
-      '<button type="button" role="menuitem" data-cp-act="nom"><span class="cm-ic">⬆</span><span class="cm-txt"></span></button>' +
       '<span class="cm-sep"></span>' +
       '<button type="button" role="menuitem" data-cp-act="del" class="danger"><span class="cm-ic">🗑</span><span class="cm-txt"></span></button>';
     m.addEventListener('click', function (e) {
@@ -431,7 +672,6 @@
       var act = b.getAttribute('data-cp-act');
       if (act === 'edit') addModal(place);
       else if (act === 'cc') ccModal(place);
-      else if (act === 'nom') nomModal(place);
       else if (act === 'del') delModal(place);
     });
     document.body.appendChild(m);
@@ -573,17 +813,7 @@
       // on every keystroke, pin change and geo fill
       nm.addEventListener('input', updateSubmitState);
     }
-    var pk = els.overlay.querySelector('#cl-cp-pinpick');
-    pk.addEventListener('click', function (e) {
-      var r = pk.getBoundingClientRect();
-      // schematic frame: lat 84..-84, lng -180..180 (full world strip)
-      var lat = (84 - (e.clientY - r.top) / r.height * 168);
-      var lng = (-180 + (e.clientX - r.left) / r.width * 360);
-      els.overlay.querySelector('#cl-cp-lat').value = lat.toFixed(4);
-      els.overlay.querySelector('#cl-cp-lng').value = lng.toFixed(4);
-      state.pin = { lat: lat.toFixed(4), lng: lng.toFixed(4) };
-      refreshPin();
-    });
+    setupPinPicker(els.overlay.querySelector('#cl-cp-pinpick'));
     ['#cl-cp-lat', '#cl-cp-lng'].forEach(function (sel) {
       els.overlay.querySelector(sel).addEventListener('change', function () {
         state.pin = { lat: els.overlay.querySelector('#cl-cp-lat').value.trim(), lng: els.overlay.querySelector('#cl-cp-lng').value.trim() };
@@ -594,6 +824,108 @@
     els.overlay.querySelector('#cl-cp-submit').addEventListener('click', submitAdd);
     var gb = els.overlay.querySelector('#cl-cp-geo-btn');
     if (gb) gb.addEventListener('click', useMyLocation);
+    refreshPin();
+  }
+
+  // ── patch-4: real mini-map in the pin picker ────────────────────────────
+  // Owner bug (patch-4): the picker was a bare schematic graticule. It now
+  // renders a REAL MapLibre basemap (vendored module, same as weather-map).
+  // ROOT-CAUSE GUARD: MapLibre initialized inside a hidden/zero-size container
+  // lays out tiles and markers broken (the reported 空 grid + misplaced pin).
+  // So init is DEFERRED until the modal is visibly open and the container has
+  // a non-zero box (rAF poll), then the map is created; a late resize() runs
+  // on 'load' as a second brace. Any failure (module/tiles/network, 4s cap)
+  // falls back HONESTLY to the old schematic graticule — pin drop always
+  // stays possible (click-to-drop + manual lat/lng both survive offline).
+  function setupPinPicker(pk) {
+    pk.innerHTML = '<span class="cl-cp-pin-hint">' + esc(t().pin_map_loading) + '</span>';
+    var token = ++state.pinMapToken;
+    var el = pk;
+    if (window.__clcpMapLibre === false) { wireSchematicPinDrop(el); refreshPin(); return; } // test seam: force schematic
+    var pollStart = Date.now();
+    (function waitBox() {
+      if (token !== state.pinMapToken) return; // modal closed/replaced
+      var r = el.getBoundingClientRect();
+      var open = els.overlay.classList.contains('open');
+      if (open && r.width > 8 && r.height > 8) { initMiniMap(el, token); return; }
+      if (Date.now() - pollStart > 1500) { wireSchematicPinDrop(el); refreshPin(); return; }
+      requestAnimationFrame(waitBox);
+    })();
+  }
+  function initMiniMap(el, token) {
+    import(MAPLIBRE_MODULE).then(function (maplibregl) {
+      if (token !== state.pinMapToken || !els.overlay.classList.contains('open')) return;
+      var pin = state.pin && isFinite(Number(state.pin.lat)) && isFinite(Number(state.pin.lng))
+        ? [Number(state.pin.lng), Number(state.pin.lat)] : null;
+      var map = new maplibregl.Map({
+        container: el,
+        style: 'https://tiles.openfreemap.org/styles/liberty',
+        center: pin || [121.0, 23.8],
+        zoom: pin ? 11 : 5.6,
+        bearing: 0, pitch: 0,
+        dragRotate: false, touchPitch: false,
+        attributionControl: { compact: true }
+      });
+      state.miniMap = map;
+      state.miniMapReady = false;
+      state.miniMapMarker = null;
+      try { window.__clCpMiniMap = map; } catch (_) {}
+      var failT = setTimeout(function () {
+        if (token !== state.pinMapToken || state.miniMapReady) return;
+        teardownMiniMap(); wireSchematicPinDrop(el); refreshPin();
+      }, 4000);
+      map.on('load', function () {
+        if (token !== state.pinMapToken) return;
+        clearTimeout(failT);
+        state.miniMapReady = true;
+        map.resize(); // container may have settled after init — re-measure
+        refreshPin(); // drop the marker at the current pin (or the honest hint)
+      });
+      // click-to-drop: clicking anywhere sets the pin there (same contract
+      // as the schematic picker, now in real coordinates)
+      map.on('click', function (e) {
+        applyPin(e.lngLat.lat, e.lngLat.lng, 'map');
+      });
+      map.on('error', function () { /* individual tile errors are non-fatal */ });
+    }).catch(function () {
+      if (token !== state.pinMapToken) return;
+      wireSchematicPinDrop(el); refreshPin();
+    });
+  }
+  // schematic fallback (pre-patch-4 behaviour): graticule CSS on the container,
+  // click → linear lat/lng mapping over the full-world frame
+  function wireSchematicPinDrop(pk) {
+    teardownMiniMap();
+    pk.classList.add('schematic');
+    pk.innerHTML = '';
+    if (pk._clcpSchematic) return;
+    pk._clcpSchematic = true;
+    pk.addEventListener('click', function (e) {
+      var r = pk.getBoundingClientRect();
+      var lat = (84 - (e.clientY - r.top) / r.height * 168);
+      var lng = (-180 + (e.clientX - r.left) / r.width * 360);
+      applyPin(lat, lng, 'schematic');
+    });
+  }
+  function teardownMiniMap() {
+    if (state.miniMap) {
+      try { state.miniMap.remove(); } catch (_) {}
+      state.miniMap = null; state.miniMapReady = false; state.miniMapMarker = null;
+    }
+    try { delete window.__clCpMiniMap; } catch (_) { window.__clCpMiniMap = undefined; }
+  }
+  // single pin-mutation entry point — map click, marker drag, geo fill,
+  // schematic click and manual typing all funnel through here
+  function applyPin(lat, lng, source) {
+    lat = Number(lat); lng = Number(lng);
+    if (!isFinite(lat) || !isFinite(lng)) return;
+    state.pin = { lat: lat.toFixed(4), lng: lng.toFixed(4) };
+    state.pinSource = source || 'input';
+    var latEl = els.overlay.querySelector('#cl-cp-lat'), lngEl = els.overlay.querySelector('#cl-cp-lng');
+    if (latEl) latEl.value = state.pin.lat;
+    if (lngEl) lngEl.value = state.pin.lng;
+    updateSubmitState();
+    if (source === 'map' || source === 'schematic') lookupPinInfo();
     refreshPin();
   }
   // 📍 current location — one implementation (web-v2, this file). The browser
@@ -622,11 +954,8 @@
       var c = pos && pos.coords;
       var lat = c && Number(c.latitude), lng = c && Number(c.longitude);
       if (!isFinite(lat) || !isFinite(lng)) throw { code: 0 };
-      els.overlay.querySelector('#cl-cp-lat').value = lat.toFixed(4);
-      els.overlay.querySelector('#cl-cp-lng').value = lng.toFixed(4);
-      state.pin = { lat: lat.toFixed(4), lng: lng.toFixed(4) };
+      applyPin(lat, lng, 'geo'); // fills the map mark + auto DEM/timezone + submit-ready
       if (status) status.textContent = '';
-      refreshPin(); // fills the map mark + auto DEM/timezone + submit-ready
       var b2 = els.overlay.querySelector('#cl-cp-geo-btn'); if (b2) b2.disabled = false;
     }).catch(function (err) {
       if (!els.overlay.classList.contains('open')) return;
@@ -663,15 +992,58 @@
     var ro = els.overlay.querySelector('#cl-cp-ro');
     var xy = pinXY();
     if (xy) {
-      pk.innerHTML = '<span class="cl-cp-pinmark" style="left:' + xy.left.toFixed(1) + '%;top:' + Math.max(2, Math.min(98, xy.top)).toFixed(1) + '%"></span>';
+      // patch-4: with a live mini-map the pin is a draggable MapLibre marker
+      // (two-way: marker dragend and map click both re-sync lat/lng); the
+      // schematic overlay span is only for the fallback graticule mode.
+      if (state.miniMap && state.miniMapReady) {
+        syncMiniMapMarker(Number(state.pin.lng), Number(state.pin.lat));
+        // manual/geo pin: bring the map to it (marker drags keep the camera)
+        if (state.pinSource !== 'map') state.miniMap.jumpTo({ center: [Number(state.pin.lng), Number(state.pin.lat)] });
+      } else if (pk && pk.classList.contains('schematic')) {
+        pk.innerHTML = '<span class="cl-cp-pinmark" style="left:' + xy.left.toFixed(1) + '%;top:' + Math.max(2, Math.min(98, xy.top)).toFixed(1) + '%"></span>';
+      }
       ro.innerHTML = '<span class="pill">🏔 <span>' + esc(t().ro_elev) + '</span> <b id="cl-cp-elev">…</b></span>' +
         '<span class="pill">🕐 <span>' + esc(t().ro_tz) + '</span> <b id="cl-cp-tz">…</b></span>';
       lookupPinInfo();
       updateSubmitState();
     } else {
-      pk.innerHTML = '<span class="cl-cp-pin-hint">' + esc(t().ro_pending) + '</span>';
+      if (pk && state.miniMap && state.miniMapReady) removeMiniMapMarker();
+      else if (pk) pk.innerHTML = '<span class="cl-cp-pin-hint">' + esc(t().ro_pending) + '</span>';
       ro.innerHTML = '<span class="pill" style="color:var(--cl-text-3)">🏔 🕐 ' + esc(t().ro_pending) + '</span>';
       updateSubmitState();
+    }
+  }
+  function syncMiniMapMarker(lng, lat) {
+    var map = state.miniMap;
+    if (!map || !state.miniMapReady) return;
+    if (!state.miniMapMarker) {
+      var maplibregl = map.constructor && window.__clCpMiniMapLibre;
+      if (!maplibregl) { // marker created lazily via stored module ref
+        import(MAPLIBRE_MODULE).then(function (m) {
+          window.__clCpMiniMapLibre = m;
+          if (state.miniMap === map) { state.miniMapMarker = makeMiniMarker(m, map); syncMiniMapMarker(lng, lat); }
+        });
+        return;
+      }
+      state.miniMapMarker = makeMiniMarker(maplibregl, map);
+    }
+    state.miniMapMarker.setLngLat([lng, lat]);
+    state.miniMapMarker.addTo(map);
+    try { window.__clCpMiniMapMarker = state.miniMapMarker; } catch (_) {} // test seam
+  }
+  function makeMiniMarker(maplibregl, map) {
+    var marker = new maplibregl.Marker({ draggable: true });
+    // 拖曳地圖釘同步欄位（owner 驗收項）：dragend → fields + DEM/tz relookup
+    marker.on('dragend', function () {
+      var ll = marker.getLngLat();
+      if (els.overlay.classList.contains('open')) applyPin(ll.lat, ll.lng, 'map');
+    });
+    return marker;
+  }
+  function removeMiniMapMarker() {
+    if (state.miniMapMarker) {
+      try { state.miniMapMarker.remove(); } catch (_) {}
+      state.miniMapMarker = null;
     }
   }
   function lookupPinInfo() {
@@ -781,6 +1153,13 @@
     forest: { cloud: 'any', fog: 'thin', rain: 'drizzle', window: ['06:00', '16:00'] },
     geology: { cloud: 'half', fog: 'thin', rain: 'no', window: ['06:00', '18:00'] },
     lake: { cloud: 'half', fog: 'thin', rain: 'no', window: ['05:30', '18:00'] },
+    // patch-5 ④: seasonal starters prefill the 適用月份 multi-select (months
+    // left out = all year). Same schema as the worker's custom_conditions blob.
+    snow_scene: { cloud: 'any', fog: 'thin', rain: 'drizzle', window: ['06:00', '17:00'], months: [12, 1, 2] },
+    snow_ice: { cloud: 'any', fog: 'thin', rain: 'drizzle', window: ['08:00', '16:00'], months: [12, 1, 2] },
+    seasonal_plant: { cloud: 'any', fog: 'thin', rain: 'no', window: ['06:00', '18:00'], months: [3, 4] },
+    firefly: { cloud: 'any', fog: 'thin', rain: 'drizzle', window: ['19:00', '22:00'], months: [4, 5] },
+    drift_ice: { cloud: 'any', fog: 'thin', rain: 'no', window: ['08:00', '16:00'], months: [1, 2] },
   };
   function semanticValue(axis, val) {
     var m = CC_SEMANTIC[axis];
@@ -830,6 +1209,13 @@
         .then(function (r) {
           if (r.status === 200 && r.body && r.body.ok) {
             var s = r.body.suggestions || {};
+            // patch-5 ③: conflicting conditions — the AI applied NOTHING and
+            // the honest conflict message asks the user to pick one. The form
+            // keeps whatever the user had set before (never half-filled).
+            if (s.conflict) {
+              note.textContent = t().ai_conflict.replace('{m}', s.conflict);
+              return;
+            }
             var fill = { cloud: '#cl-cp-sem-cloud', fog: '#cl-cp-sem-fog', rain: '#cl-cp-sem-rain' };
             Object.keys(fill).forEach(function (axis) {
               var sel = els.overlay.querySelector(fill[axis]);
@@ -850,10 +1236,95 @@
     });
   }
 
-  // conditions modal — CL-UI-99 five parameter groups (same schema as
-  // notify_rules.custom_conditions; the worker re-validates)
+  // ─── patch-8: 「掛題材·條件」 = theme LIST manager (multi-group per place) ───
+  // Up to 5 condition groups per place (worker cap); each group = name_i18n +
+  // the CL-UI-99 blob (months inside). Duplicate names are NOT blocked (owner
+  // ruling). CRUD never refetches — the weather is fetched once per place and
+  // every group judges the SAME stored hourly rows.
   function ccModal(place) {
-    var cc = place.customConditions || {};
+    var groups = Array.isArray(place.themeGroups) ? place.themeGroups : [];
+    var used = groups.length;
+    var cap = (place.themes && place.themes.cap) || 5;
+    var lang = currentLang();
+    var rows = groups.map(function (g) {
+      var ge = g.evaluation || {};
+      var bcls = ge.tier === 'rec' ? 'cl-cp-tier-rec' : ge.tier === 'shoot' ? 'cl-cp-tier-shoot' : ge.tier === 'no' ? 'cl-cp-tier-no' : 'cl-cp-tier-pending';
+      var bg = ge.tier === 'rec' ? '✓' : ge.tier === 'shoot' ? '○' : ge.tier === 'no' ? '✗' : '⏳';
+      var tail = ge.tier === 'no' && ge.reason ? ' · ' + ge.reason : (ge.tier === 'rec' && ge.window ? ' · ' + ge.window : '');
+      return '<div class="cl-cp-theme-row" data-theme-id="' + esc(g.id) + '">' +
+        '<span class="cl-cp-tier ' + bcls + '">' + bg + '</span>' +
+        '<div class="cl-cp-theme-info"><div class="n">' + esc(themeName(g)) + '</div>' +
+        '<div class="s">' + esc((ccSummary(g.conditions, lang) || '—') + tail) + '</div></div>' +
+        '<div class="cl-cp-theme-acts">' +
+        '<button type="button" data-cp-th-act="edit" aria-label="✎ 編輯">✎</button>' +
+        '<button type="button" data-cp-th-act="del" class="danger" aria-label="🗑 刪除">🗑</button>' +
+        '</div></div>';
+    }).join('');
+    var addArea = used >= cap
+      ? '<div class="cl-cp-th-cap">' + esc(t().th_cap_note) + '</div>'
+      : '<button type="button" class="cl-cp-btn" id="cl-cp-th-add">' + esc(t().th_add) + '</button>';
+    openOverlay(
+      '<div class="cl-cp-m-head"><div><div class="name">🎞 ' + esc(t().th_title) + '</div>' +
+      '<div class="sub">' + esc(t().th_sub) + ' · ' + esc(place.name) + '</div></div>' +
+      '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
+      '<div class="cl-cp-th-count">' + esc(t().th_count.replace('{n}', used).replace('{c}', cap)) + '</div>' +
+      (rows || '<div class="cl-cp-th-empty">' + esc(t().th_empty) + '</div>') +
+      addArea);
+    wireClose();
+    var add = els.overlay.querySelector('#cl-cp-th-add');
+    if (add) add.addEventListener('click', function () { themeFormModal(place, null); });
+    els.overlay.querySelectorAll('.cl-cp-theme-row').forEach(function (row) {
+      var gid = row.getAttribute('data-theme-id');
+      var g = groups.find(function (x) { return x.id === gid; });
+      if (!g) return;
+      var e = row.querySelector('[data-cp-th-act="edit"]');
+      if (e) e.addEventListener('click', function () { themeFormModal(place, g); });
+      var d = row.querySelector('[data-cp-th-act="del"]');
+      if (d) d.addEventListener('click', function () { delThemeModal(place, g); });
+    });
+  }
+  // after a theme CRUD succeeds the list reopens from the REFRESHED data —
+  // poll until the group set differs from the snapshot (never a stale modal)
+  function waitThemeList(place, beforeIds) {
+    var t0 = Date.now();
+    (window.__dbg3 = window.__dbg3 || []).push('wait start before=' + beforeIds);
+    (function poll() {
+      var p = privatePlaces().find(function (x) { return x.id === place.id; });
+      var ids = p ? (p.themeGroups || []).map(function (g) { return g.id; }).join(',') : null;
+      (window.__dbg3 = window.__dbg3 || []).push('poll p=' + (p ? p.id : 'null') + ' ids=' + ids + ' before=' + beforeIds + ' data=' + (!!state.data));
+    if (p && ids !== beforeIds) { (window.__dbg3 = window.__dbg3 || []).push('REOPEN'); ccModal(p); return; }
+      if (Date.now() - t0 > 5000) return; // honest stop — the next render refreshes the list
+      setTimeout(poll, 120);
+    })();
+  }
+  function delThemeModal(place, theme) {
+    openOverlay(
+      '<div class="cl-cp-m-head"><div><div class="name">' + esc(t().th_del_title) + '</div></div>' +
+      '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
+      '<div class="cl-cp-delbox"><div class="d1">🗑 ' + esc(themeName(theme)) + '</div>' +
+      '<div class="cl-cp-delacts"><button type="button" class="cancel" id="cl-cp-th-del-cancel">' + esc(t().del_cancel) + '</button>' +
+      '<button type="button" class="confirm" id="cl-cp-th-del-confirm">🗑 ' + esc(t().m_del.replace(/^\S+\s*/, '')) + '</button></div></div>');
+    wireClose();
+    els.overlay.querySelector('#cl-cp-th-del-cancel').addEventListener('click', closeOverlay);
+    els.overlay.querySelector('#cl-cp-th-del-confirm').addEventListener('click', function () {
+      var beforeIds = (place.themeGroups || []).map(function (g) { return g.id; }).join(',');
+      api(API + '/' + place.id + '/themes/' + theme.id, { method: 'DELETE' })
+        .then(function (res) { return res.json().then(function (body) { return { status: res.status, body: body }; }); })
+        .then(function (r) {
+          if (r.status !== 200) { toast((r.body && r.body.error) || ('HTTP ' + r.status)); return; }
+          toast(t().th_deleted);
+          refresh();
+          closeOverlay();
+          waitThemeList(place, beforeIds);
+        });
+    });
+  }
+  // per-theme form — CL-UI-99 five parameter groups (same schema as
+  // notify_rules.custom_conditions; the worker re-validates) + the group name
+  // (name_i18n: the current language writes its own entry, other locales are
+  // preserved on rename; the zh-TW anchor `name` carries the fallback)
+  function themeFormModal(place, theme) {
+    var cc = (theme && theme.conditions) || {};
     function v(k) { return cc[k] == null ? '' : String(cc[k]); }
     var lang = currentLang();
     var genreNames = genreShortNames();
@@ -873,9 +1344,11 @@
         '</select><span class="cl-cp-sem-map" id="cl-cp-sem-map-' + axis + '">→ ' + esc(semanticMappedLabel(axis, cur)) + '</span></div></div>';
     };
     openOverlay(
-      '<div class="cl-cp-m-head"><div><div class="name">🎞 ' + esc(t().cc_title) + '</div>' +
-      '<div class="sub">' + esc(t().cc_sub) + ' · ' + esc(place.name) + '</div></div>' +
+      '<div class="cl-cp-m-head"><div><div class="name">' + (theme ? '✎ ' : '＋ ') + esc(t().th_title) + '</div>' +
+      '<div class="sub">' + esc(t().th_name) + ' · ' + esc(place.name) + '</div></div>' +
       '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
+      '<div class="cl-cp-fld"><label>' + esc(t().th_name) + '</label>' +
+      '<input class="inp" id="cl-cp-theme-name" maxlength="40" placeholder="' + esc(t().th_name_ph) + '" value="' + esc(theme ? themeName(theme) : '') + '"></div>' +
       (aiEnabled ? aiParseBlock() : '') +
       '<div class="cl-cp-cc-params">' +
       semSel('cloud', t().sem_cloud) +
@@ -885,6 +1358,9 @@
       '<input id="cl-cp-cc-start" value="' + esc(v('window_start')) + '" placeholder="04:30" style="flex:1"><span style="color:var(--cl-text-3)">–</span>' +
       '<input id="cl-cp-cc-end" value="' + esc(v('window_end')) + '" placeholder="07:00" style="flex:1"></div>' +
       '<div class="hint">HH:MM</div></div>' +
+      '<div class="cl-cp-ccp wide" id="cl-cp-cc-months-wrap"><label>' + esc(t().p_months) + '</label>' +
+      '<div class="cl-cp-cc-months" id="cl-cp-cc-months">' + monthsHtml(cc.months) + '</div>' +
+      '<div class="hint">' + esc(t().p_months_hint) + '</div></div>' +
       '</div>' +
       '<div class="cl-cp-fld" style="margin-bottom:8px"><label>' + esc(t().copy_genre) + '</label>' +
       '<select id="cl-cp-cc-genre" class="inp"><option value="">— ' + esc(t().copy_genre_none) + ' —</option>' + genreOpts + '</select>' +
@@ -900,7 +1376,7 @@
       ccp('cl-cp-cc-lead', t().p_lead, v('lead_minutes')) +
       '</div></details>' +
       '<div class="cl-cp-cc-preview"><span style="color:var(--cl-text-3)">' + esc(t().cc_prev) + '</span><span class="k" id="cl-cp-cc-prev">' + esc(ccSummary(cc, lang) || t().cc_prev_none) + '</span></div>' +
-      '<button type="button" class="cl-cp-submit ready" id="cl-cp-cc-submit" style="cursor:pointer">' + esc(t().cc_submit) + '</button>');
+      '<button type="button" class="cl-cp-submit" id="cl-cp-cc-submit">' + esc(t().th_create) + '</button>');
     wireClose();
     if (aiEnabled) wireAiParse();
     var sync = function () {
@@ -929,6 +1405,13 @@
         els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
       });
     });
+    // patch-5 ④: 適用月份 chips update the preview too
+    var monthsWrap = els.overlay.querySelector('#cl-cp-cc-months');
+    if (monthsWrap) monthsWrap.querySelectorAll('input[type="checkbox"]').forEach(function (b) {
+      b.addEventListener('change', function () {
+        els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
+      });
+    });
     var genreSel = els.overlay.querySelector('#cl-cp-cc-genre');
     if (genreSel) genreSel.addEventListener('change', function () {
       var starter = CC_GENRE_STARTERS[genreSel.value];
@@ -939,22 +1422,50 @@
       });
       els.overlay.querySelector('#cl-cp-cc-start').value = starter.window[0];
       els.overlay.querySelector('#cl-cp-cc-end').value = starter.window[1];
+      // patch-5 ④: seasonal starters prefill the 適用月份 chips (snow/櫻花類)
+      var monthsWrap = els.overlay.querySelector('#cl-cp-cc-months');
+      if (monthsWrap) {
+        var want = Array.isArray(starter.months) ? starter.months : [];
+        monthsWrap.querySelectorAll('input[type="checkbox"]').forEach(function (b) {
+          b.checked = want.indexOf(Number(b.value)) >= 0;
+        });
+      }
       sync();
     });
-    els.overlay.querySelector('#cl-cp-cc-submit').addEventListener('click', function () {
-      var payload = { customConditions: readCc() };
-      api(API + '/' + place.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    // disabled-reason pattern (patch-2 family): the submit button PRINTS what
+    // is missing — a group needs a name before it can be saved
+    var nameInput = els.overlay.querySelector('#cl-cp-theme-name');
+    var submitBtn = els.overlay.querySelector('#cl-cp-cc-submit');
+    var syncSubmit = function () {
+      var ok = !!(nameInput && nameInput.value.trim());
+      submitBtn.classList.toggle('ready', ok);
+      submitBtn.style.cursor = ok ? 'pointer' : 'not-allowed';
+      submitBtn.textContent = ok ? (theme ? t().th_save : t().th_create) : t().th_name_required;
+    };
+    if (nameInput) nameInput.addEventListener('input', syncSubmit);
+    syncSubmit();
+    submitBtn.addEventListener('click', function () {
+      var name = nameInput ? nameInput.value.trim() : '';
+      if (!name) return; // honest reason already printed on the button
+      var i18n = Object.assign({}, (theme && theme.nameI18n) || {});
+      i18n[currentLang()] = name;
+      var payload = { name: name, nameI18n: i18n, conditions: readCc() };
+      var beforeIds = (place.themeGroups || []).map(function (g) { return g.id; }).join(',');
+      var url = theme ? API + '/' + place.id + '/themes/' + theme.id : API + '/' + place.id + '/themes';
+      api(url, { method: theme ? 'PATCH' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
         .then(function (res) { return res.json().then(function (body) { return { status: res.status, body: body }; }); })
         .then(function (r) {
-          if (r.status !== 200) { toast((r.body && r.body.error) || ('HTTP ' + r.status)); return; }
-          openOverlay('<div class="cl-cp-m-head"><div><div class="name">' + esc(place.name) + '</div></div>' +
-            '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
-            '<div class="cl-cp-done"><div class="d1">' + esc(t().cc_done1) + '</div>' +
-            '<div class="d2">' + esc(ccSummary(readCc(), currentLang()) || t().cc_none) + '</div>' +
-            '<button type="button" id="cl-cp-done-btn">' + esc(t().close) + '</button></div>');
-          wireClose();
-          var dn = els.overlay.querySelector('#cl-cp-done-btn'); if (dn) dn.addEventListener('click', closeOverlay);
+          if (r.status !== 200) {
+            // honest server copy (cap / validation) verbatim — never a silent refusal
+            var msg = r.body && r.body.message && (r.body.message[currentLang()] || r.body.message['zh-TW']);
+            toast(msg || (r.body && r.body.error) || ('HTTP ' + r.status));
+            return;
+          }
+          toast(t().th_done1);
+          (window.__dbg3 = window.__dbg3 || []).push('submit-ok');
           refresh();
+          closeOverlay();
+          waitThemeList(place, beforeIds);
         });
     });
   }
@@ -979,13 +1490,24 @@
     // trilingual genre short names (21 general genres) — hardcoded copy of
     // the subject-cards dictionary so the starter picker needs no fetch
     return {
-      'zh-TW': { mountain_view: '山景', overlook: '眺望', sunrise: '日出', sunset: '夕陽', golden: '金光', city_night: '夜景', night_sky: '星空', cloud_sea: '雲海', overcast_soft: '陰柔光', blue_hour: '藍調', sky_glow: '彩霞', fog_mist: '霧景', reflection: '倒影', sunbeam: '光束', milky_way: '銀河', long_exposure: '長曝', city_view: '城市景觀', coast: '海岸', forest: '森林', geology: '地質', lake: '湖景' },
-      'en': { mountain_view: 'Mountain view', overlook: 'Overlook', sunrise: 'Sunrise', sunset: 'Sunset', golden: 'Golden hour', city_night: 'City night', night_sky: 'Night sky', cloud_sea: 'Cloud sea', overcast_soft: 'Soft overcast', blue_hour: 'Blue hour', sky_glow: 'Sky glow', fog_mist: 'Fog', reflection: 'Reflection', sunbeam: 'Sunbeam', milky_way: 'Milky Way', long_exposure: 'Long exposure', city_view: 'City view', coast: 'Coast', forest: 'Forest', geology: 'Geology', lake: 'Lake' },
-      'ja': { mountain_view: '山景', overlook: '眺望', sunrise: '日の出', sunset: '夕景', golden: 'ゴールデン', city_night: '夜景', night_sky: '星空', cloud_sea: '雲海', overcast_soft: '柔光', blue_hour: 'ブルーアワー', sky_glow: '彩霞', fog_mist: '霧', reflection: '反射', sunbeam: '光束', milky_way: '天の川', long_exposure: '長曝', city_view: '都市景観', coast: '海岸', forest: '森', geology: '地質', lake: '湖' },
+      'zh-TW': { mountain_view: '山景', overlook: '眺望', sunrise: '日出', sunset: '夕陽', golden: '金光', city_night: '夜景', night_sky: '星空', cloud_sea: '雲海', overcast_soft: '陰柔光', blue_hour: '藍調', sky_glow: '彩霞', fog_mist: '霧景', reflection: '倒影', sunbeam: '光束', milky_way: '銀河', long_exposure: '長曝', city_view: '城市景觀', coast: '海岸', forest: '森林', geology: '地質', lake: '湖景', snow_scene: '雪景', snow_ice: '冰雪', seasonal_plant: '櫻花', firefly: '螢火蟲', drift_ice: '流冰' },
+      'en': { mountain_view: 'Mountain view', overlook: 'Overlook', sunrise: 'Sunrise', sunset: 'Sunset', golden: 'Golden hour', city_night: 'City night', night_sky: 'Night sky', cloud_sea: 'Cloud sea', overcast_soft: 'Soft overcast', blue_hour: 'Blue hour', sky_glow: 'Sky glow', fog_mist: 'Fog', reflection: 'Reflection', sunbeam: 'Sunbeam', milky_way: 'Milky Way', long_exposure: 'Long exposure', city_view: 'City view', coast: 'Coast', forest: 'Forest', geology: 'Geology', lake: 'Lake', snow_scene: 'Snow scene', snow_ice: 'Ice & snow', seasonal_plant: 'Cherry blossom', firefly: 'Fireflies', drift_ice: 'Drift ice' },
+      'ja': { mountain_view: '山景', overlook: '眺望', sunrise: '日の出', sunset: '夕景', golden: 'ゴールデン', city_night: '夜景', night_sky: '星空', cloud_sea: '雲海', overcast_soft: '柔光', blue_hour: 'ブルーアワー', sky_glow: '彩霞', fog_mist: '霧', reflection: '反射', sunbeam: '光束', milky_way: '天の川', long_exposure: '長曝', city_view: '都市景観', coast: '海岸', forest: '森', geology: '地質', lake: '湖', snow_scene: '雪景色', snow_ice: '氷雪', seasonal_plant: '桜', firefly: '蛍', drift_ice: '流氷' },
     }[currentLang()] || {};
   }
   function ccp(id, label, val) {
     return '<div class="cl-cp-ccp"><label>' + esc(label) + '</label><input id="' + id + '" inputmode="decimal" value="' + esc(val) + '"></div>';
+  }
+  // patch-5 ④: 適用月份 12-chip multi-select. Default (none checked) = all
+  // year; seasonal genre starters prefill their months. Value 1..12.
+  function monthsHtml(selected) {
+    var sel = Array.isArray(selected) ? selected : [];
+    var out = '';
+    for (var m = 1; m <= 12; m++) {
+      out += '<label class="cl-cp-mo"><input type="checkbox" id="cl-cp-cc-m' + m + '" value="' + m + '"' +
+        (sel.indexOf(m) >= 0 ? ' checked' : '') + '>' + m + '月</label>';
+    }
+    return out;
   }
   function readCc() {
     var num = function (id) { var v = els.overlay.querySelector('#' + id).value.trim(); if (!v) return null; var n = Number(v); return isFinite(n) ? n : null; };
@@ -995,35 +1517,16 @@
     });
     var ws = els.overlay.querySelector('#cl-cp-cc-start').value.trim(), we = els.overlay.querySelector('#cl-cp-cc-end').value.trim();
     if (ws && we && /^\d\d:\d\d$/.test(ws) && /^\d\d:\d\d$/.test(we)) { out.window_start = ws; out.window_end = we; }
+    var monthsWrap = els.overlay.querySelector('#cl-cp-cc-months');
+    if (monthsWrap) {
+      var months = [].slice.call(monthsWrap.querySelectorAll('input[type="checkbox"]:checked'))
+        .map(function (b) { return Number(b.value); }).filter(function (n) { return n >= 1 && n <= 12; });
+      if (months.length) out.months = months.sort(function (a, b) { return a - b; });
+    }
     var lead = num('cl-cp-cc-lead'); if (lead != null && Number.isInteger(lead)) out.lead_minutes = lead;
     return out;
   }
 
-  function nomModal(place) {
-    openOverlay(
-      '<div class="cl-cp-m-head"><div><div class="name">⬆ ' + esc(t().nom_title) + '</div>' +
-      '<div class="sub">' + esc(t().nom_sub) + '</div></div>' +
-      '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
-      '<div style="padding:8px 12px;background:var(--cl-bg-2);border:1px solid var(--cl-border);border-radius:8px;margin-bottom:12px;font-size:12px">' +
-      '<b>' + esc(place.name) + '</b> <span class="cl-cp-coord">' + esc(place.lat) + ', ' + esc(place.lng) + '</span> ◉ ' + esc(t().priv_badge) + ' → 🌐 ' + esc(t().v_official) + '</div>' +
-      '<p style="font-size:12px;color:var(--cl-text-2);margin-bottom:12px">' + esc(t().nom_ctx) + '</p>' +
-      '<button type="button" class="cl-cp-submit ready" id="cl-cp-nom-submit" style="cursor:pointer">' + esc(t().nom_btn) + '</button>');
-    wireClose();
-    els.overlay.querySelector('#cl-cp-nom-submit').addEventListener('click', function () {
-      api(API + '/' + place.id, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })
-        .then(function (res) { return res.json().then(function (body) { return { status: res.status, body: body }; }); })
-        .then(function (r) {
-          if (r.status !== 200) { toast(r.body && r.body.message || (r.body && r.body.error) || ('HTTP ' + r.status)); return; }
-          openOverlay('<div class="cl-cp-m-head"><div><div class="name">' + esc(place.name) + '</div></div>' +
-            '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
-            '<div class="cl-cp-done amber"><div class="d1">' + esc(t().nom_done1) + '</div>' +
-            '<div class="d3">' + esc(t().nom_done3) + '</div>' +
-            '<button type="button" id="cl-cp-done-btn">' + esc(t().close) + '</button></div>');
-          wireClose();
-          var dn = els.overlay.querySelector('#cl-cp-done-btn'); if (dn) dn.addEventListener('click', closeOverlay);
-        });
-    });
-  }
 
   function delModal(place) {
     openOverlay(
@@ -1076,7 +1579,15 @@
 
   window.ChaseLightsCustomPlaces = {
     refresh: refresh,
-    state: function () { return JSON.parse(JSON.stringify(state)); },
+    state: function () {
+      // patch-4: the GL map/marker are DOM objects — copy only data fields
+      var s = {};
+      for (var k in state) {
+        if (k === 'miniMap' || k === 'miniMapMarker' || k === 'overlay') continue;
+        s[k] = state[k];
+      }
+      return JSON.parse(JSON.stringify(s));
+    },
     setView: function (v) { if (['all', 'official', 'private'].indexOf(v) >= 0) { state.view = v; render(); } },
   };
 })();

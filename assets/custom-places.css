@@ -46,7 +46,11 @@
    can no longer clip the dropdown; near the viewport bottom it flips up. */
 .cl-cp-menu{position:fixed;top:0;left:0;min-width:170px;max-height:calc(100vh - 16px);overflow-y:auto;background:var(--cl-bg-1);
   border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-sm);box-shadow:var(--cl-shadow-3);
-  padding:var(--cl-sp-1);display:none;z-index:120;box-sizing:border-box}
+  padding:var(--cl-sp-1);display:none;z-index:430;box-sizing:border-box}
+/* patch-7/z-fix: the mobile .site-nav bottom bar is fixed z-index:400 (CL-UI-28)
+   — a 3-item menu flipped up next to the footer puts its 刪除 item under the
+   bar, which swallowed real taps (elementFromPoint → site-nav-links). The menu
+   must layer ABOVE the nav (400), its submenu (401) and the admin sheet (420). */
 .cl-cp-menu.open{display:block}
 .cl-cp-menu button{display:flex;width:100%;align-items:center;gap:8px;min-height:44px;box-sizing:border-box;padding:0 10px;border-radius:var(--cl-r-xs);
   color:var(--cl-text-2);font-size:13px;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit}
@@ -89,9 +93,15 @@ body[data-cp-view="private"] #spots-container > *:not(.cl-cp-card){display:none 
 .cl-cp-overlay{position:fixed;inset:0;background:rgba(4,7,14,.72);backdrop-filter:blur(3px);
   display:none;align-items:flex-start;justify-content:center;z-index:90;padding:var(--cl-sp-6) var(--cl-sp-4);overflow-y:auto}
 .cl-cp-overlay.open{display:flex}
-.cl-cp-modal{width:100%;max-width:560px;max-height:calc(100vh - var(--cl-sp-6) * 2);overflow-y:auto;box-sizing:border-box;
+.cl-cp-modal{width:100%;max-width:560px;max-height:calc(100vh - var(--cl-sp-6) * 2);overflow-y:auto;overflow-x:hidden;box-sizing:border-box;
   background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);
   border-radius:var(--cl-r-lg);padding:var(--cl-sp-5);box-shadow:var(--cl-shadow-3)}
+/* patch-5: while a modal is open the page itself must not scroll behind the
+   overlay (owner: 「頁面容器捲動不對」); JS toggles this class on <body>. */
+body.cl-cp-lock{overflow:hidden}
+/* patch-5: nothing inside the modal may force horizontal overflow (the owner
+   saw a horizontal scrollbar at the modal's bottom) */
+.cl-cp-modal .inp{width:100%;min-width:0;box-sizing:border-box}
 .cl-cp-m-head{display:flex;align-items:flex-start;gap:var(--cl-sp-3);margin-bottom:var(--cl-sp-3)}
 .cl-cp-m-head .name{font-size:16px;font-weight:600}
 .cl-cp-m-head .sub{font-size:12px;color:var(--cl-text-3);margin-top:2px}
@@ -100,6 +110,7 @@ body[data-cp-view="private"] #spots-container > *:not(.cl-cp-card){display:none 
 .cl-cp-fld{margin-bottom:var(--cl-sp-3)}
 .cl-cp-fld label{display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--cl-text-2)}
 .cl-cp-fld .inp{width:100%;height:36px;padding:0 var(--cl-sp-3);background:var(--cl-bg-2);border:1px solid var(--cl-border);
+  box-sizing:border-box; /* patch-5: width:100% + padding/border must not overflow the field row (the owner's horizontal scrollbar) */
   border-radius:var(--cl-r-sm);color:var(--cl-text-1);font-family:inherit;font-size:13px}
 .cl-cp-fld .inp:focus{outline:none;border-color:var(--cl-border-strong)}
 .cl-cp-fld .inp::placeholder{color:var(--cl-text-3)}
@@ -109,14 +120,18 @@ body[data-cp-view="private"] #spots-container > *:not(.cl-cp-card){display:none 
   background:var(--cl-bg-2);font-size:12px;color:var(--cl-text-3)}
 .cl-cp-ro .pill b{color:var(--cl-text-1);font-weight:400;font-family:var(--cl-mono)}
 .cl-cp-pinpick{position:relative;height:170px;border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);cursor:crosshair;
-  background:linear-gradient(180deg,#0E1422,#0B101C);overflow:hidden;margin-bottom:6px;
-  background-image:linear-gradient(rgba(107,118,134,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(107,118,134,.14) 1px,transparent 1px);
-  background-size:25% 33.4%}
+  overflow:hidden;margin-bottom:6px}
 .cl-cp-pinmark{position:absolute;width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%);
   background:var(--cl-grey);box-shadow:0 0 0 2px var(--cl-bg-0),0 0 0 4px var(--cl-grey-text);pointer-events:none}
 .cl-cp-pinmark::after{content:'';position:absolute;left:50%;top:100%;transform:translate(-50%,2px);
   width:0;height:0;border:5px solid transparent;border-top-color:var(--cl-grey)}
 .cl-cp-pin-hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--cl-text-3);font-size:11px;pointer-events:none}
+/* patch-4: real mini-map mode — the vendored MapLibre canvas fills the box;
+   schematic graticule styling applies only in the fallback mode */
+.cl-cp-pinpick.schematic{background:linear-gradient(180deg,#0E1422,#0B101C);
+  background-image:linear-gradient(rgba(107,118,134,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(107,118,134,.14) 1px,transparent 1px);
+  background-size:25% 33.4%}
+.cl-cp-pinpick .maplibregl-canvas{border-radius:inherit}
 .cl-cp-f-row{display:flex;gap:var(--cl-sp-2)}
 .cl-cp-f-row .cl-cp-fld{flex:1;min-width:0}
 /* 📍 current-location row: action button + the honest why-we-need-it note */
@@ -165,7 +180,52 @@ body[data-cp-view="private"] #spots-container > *:not(.cl-cp-card){display:none 
 .cl-cp-ai-btn:hover{background:var(--cl-bg-3);border-color:var(--cl-grey-text)}
 .cl-cp-ai-note{font-size:12px;color:var(--cl-text-2);margin-top:4px;min-height:16px}
 .cl-cp-cc-preview{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--cl-text-2);margin-bottom:var(--cl-sp-3)}
+/* patch-5 ④: 適用月份 12-chip multi-select (44px rows not needed — desktop-style
+   checkboxes; keep ≥24px hit rows and wrap on 390) */
+.cl-cp-cc-months{display:flex;flex-wrap:wrap;gap:4px}
+.cl-cp-cc-months .cl-cp-mo{display:inline-flex;align-items:center;gap:3px;height:26px;padding:0 7px;border-radius:999px;
+  border:1px solid var(--cl-border);background:var(--cl-bg-1);font-size:11px;color:var(--cl-text-2);cursor:pointer;user-select:none}
+.cl-cp-cc-months .cl-cp-mo:has(input:checked){border-color:var(--cl-text-3);color:var(--cl-text-1);font-weight:600}
+.cl-cp-cc-months input{accent-color:var(--cl-text-3)}
 .cl-cp-cc-preview .k{font-family:var(--cl-mono);color:var(--cl-amber-text)}
+/* patch-7: private-card forecast popup — quick view line, 8-day strip and
+   per-subject rows; cells share the modal's internal scroll (never overflow) */
+.cl-cp-qv-quick{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:var(--cl-sp-3);min-width:0}
+.cl-cp-qv-quick .k{color:var(--cl-text-3);font-size:12px;white-space:nowrap}
+.cl-cp-qv-reason{color:var(--cl-red-text);font-size:12px}
+.cl-cp-qv-sec{font-size:12px;color:var(--cl-text-3);margin:var(--cl-sp-3) 0 4px}
+.cl-cp-qv-strip{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px}
+.cl-cp-qv-cell{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0;border-radius:var(--cl-r-sm);
+  border:1px solid var(--cl-border);background:var(--cl-bg-2);font-size:11px;color:var(--cl-text-2)}
+.cl-cp-qv-cell .v{font-size:12px;font-weight:600}
+.cl-cp-qv-cell.ok .v{color:var(--cl-green-text)}
+.cl-cp-qv-cell.bad .v{color:var(--cl-red-text)}
+.cl-cp-qv-cell.none .v{color:var(--cl-text-3)}
+.cl-cp-qv-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;min-width:0}
+.cl-cp-qv-row-name{flex:0 0 auto;font-size:12px;color:var(--cl-text-1);max-width:88px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl-cp-qv-row-strip{flex:1;min-width:0}
+.cl-cp-qv-none{font-size:12px;color:var(--cl-text-3);padding:var(--cl-sp-2) 0}
+.cl-cp-qv-loading{font-size:12px;color:var(--cl-text-3);padding:var(--cl-sp-2) 0}
+.cl-cp-qv-actions{display:flex;justify-content:flex-end;margin-top:var(--cl-sp-3)}
+.cl-cp-qv-actions button{height:36px;padding:0 14px;border-radius:var(--cl-r-sm);border:1px solid var(--cl-border-strong);
+  background:var(--cl-bg-2);color:var(--cl-text-1);font-size:13px;cursor:pointer}
+.cl-cp-qv-actions button:hover{background:var(--cl-bg-3);border-color:var(--cl-grey-text)}
+/* patch-8: theme list manager rows — each group = tier badge + name + summary;
+   card per-group rows reuse cl-cp-row-name (official subject-row anatomy) */
+.cl-cp-theme-row{display:flex;align-items:center;gap:8px;padding:9px 10px;margin-bottom:6px;
+  border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);background:var(--cl-bg-2)}
+.cl-cp-theme-info{flex:1;min-width:0}
+.cl-cp-theme-info .n{font-size:13px;font-weight:600;color:var(--cl-text-1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl-cp-theme-info .s{font-size:11px;color:var(--cl-text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
+.cl-cp-theme-acts{display:flex;gap:4px;flex:0 0 auto}
+.cl-cp-theme-acts button{width:38px;height:38px;border-radius:var(--cl-r-sm);border:1px solid var(--cl-border-strong);
+  background:var(--cl-bg-1);color:var(--cl-text-1);font-size:14px;cursor:pointer}
+.cl-cp-theme-acts button:hover{background:var(--cl-bg-3)}
+.cl-cp-theme-acts button.danger:hover{background:var(--cl-red-bg);border-color:var(--cl-red-border);color:var(--cl-red-text)}
+.cl-cp-th-count{font-size:11px;color:var(--cl-text-3);margin-bottom:var(--cl-sp-2)}
+.cl-cp-th-empty{font-size:12px;color:var(--cl-text-3);padding:var(--cl-sp-2) 0}
+.cl-cp-th-cap{font-size:12px;color:var(--cl-text-3);padding:var(--cl-sp-2) 0;text-align:center}
+.cl-cp-row-name{max-width:42%}
 /* delete confirm — the menu's ONLY red item */
 .cl-cp-delbox{padding:var(--cl-sp-4);border:1px solid var(--cl-red-border);background:var(--cl-red-bg);border-radius:var(--cl-r-md)}
 .cl-cp-delbox .d1{color:var(--cl-red-text);font-weight:600;font-size:14px}

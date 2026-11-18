@@ -25,8 +25,11 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 
 // ------------------------------------------------------------- (1) source
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06d/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06d/);
+  // patch-8: clapp06f -> clapp06g (only the touched custom-places assets; the
+  // vendored maplibre CSS keeps its own stamp — per-file cache-bust rule)
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp06g/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp06g/);
+  assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
   assert.match(htmlSource, /assets\/app\.js\?v=clui111/);
@@ -43,8 +46,10 @@ test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () =>
   // per-user daily fetch budget honesty (owner layer 3)
   assert.match(jsSource, /fetchDeferred/);
   assert.match(jsSource, /明日更新|updates tomorrow|明日更新/);
-  // nomination → review queue; soft delete (30-day revive) copy
-  assert.match(jsSource, /nomModal/);
+  // patch-6 (owner ruling): 提名升級官方 is GONE — no nominate modal, menu
+  // item or dict key may remain in the asset; backend endpoint is kept but
+  // no longer exposed anywhere in the UI
+  assert.doesNotMatch(jsSource, /nomModal|m_nom|nom_title|nom_btn|cl-cp-nom/);
   assert.match(jsSource, /30 天|30 days|30 日/);
   // member gating: signed-out users get the login notice, never a silent action
   assert.match(jsSource, /needLoginModal/);
@@ -52,6 +57,23 @@ test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () =>
   assert.match(jsSource, /chaselights:auth/);
   // test seam used by this harness (stubbed network)
   assert.match(jsSource, /__clcpFetch/);
+  // patch-8: multi-theme — list manager, per-place cap 5, dup names NOT blocked,
+  // per-group card rows in the official subject-row anatomy, theme CRUD endpoints
+  assert.match(jsSource, /themeGroups/);
+  assert.match(jsSource, /cl-cp-theme-row/);
+  assert.match(jsSource, /\/themes/, 'theme CRUD endpoints are called by the manager');
+  assert.match(jsSource, /waitThemeList/);
+  assert.match(jsSource, /th_cap_note/);
+  assert.match(jsSource, /th_name_required/);
+  assert.match(jsSource, /cap\) \|\| 5/, 'the UI honours the worker-reported 5-group cap');
+  const workerSrc8 = readFileSync(join(WEB, 'workers', 'api', 'src', 'custom-places.js'), 'utf8');
+  assert.match(workerSrc8, /MAX_THEMES_PER_PLACE = 5/);
+  assert.match(workerSrc8, /handleCustomPlaceThemes/);
+  assert.match(workerSrc8, /loadThemeGroups/);
+  assert.match(workerSrc8, /題材 1/, 'legacy single set migrates into ONE named group');
+  assert.match(workerSrc8, /evaluateThemeGroups/);
+  assert.match(workerSrc8, /aggregateEvaluation/);
+  assert.match(readFileSync(join(WEB, 'migrations', '0012_custom_place_themes.sql'), 'utf8'), /CREATE TABLE IF NOT EXISTS custom_place_themes/);
   // 📍 current-location: browser Geolocation API + Capacitor plugin fallback,
   // one implementation, honest no-tracking note, bounded timeout
   assert.match(jsSource, /__clcpGeo/);
@@ -95,12 +117,21 @@ test('CL-APP-06 (1c-2, patch-2): the modal is height-bounded + internally scroll
 
 test('CL-APP-06 (1d): tri-lingual dictionary parity in the asset', () => {
   const keys = ['priv_badge', 'v_all', 'v_official', 'v_private', 'trial_expired', 'trial_note',
-    'deferred_note', 'm_edit', 'm_cc', 'm_nom', 'm_del', 'add_title', 'ro_elev', 'ro_tz',
-    'nom_title', 'del_title', 'count_fmt',
+    'deferred_note', 'm_edit', 'm_cc', 'm_del', 'add_title', 'ro_elev', 'ro_tz',
+    'del_title', 'count_fmt',
     // 📍 current-location copy must exist in ALL three dictionaries
     'geo_btn', 'geo_note', 'geo_working', 'geo_denied', 'geo_timeout', 'geo_error',
     // patch-2: disabled-button reason copy must exist in ALL three dictionaries
-    'reason_name', 'reason_pin'];
+    'reason_name', 'reason_pin',
+    // patch-4: mini-map honest loading copy; patch-5: conflict + months copy
+    'pin_map_loading', 'ai_conflict', 'p_months', 'p_months_hint',
+    // patch-7: private-card forecast popup (quick view / 8-day strip / subjects)
+    'qv_title', 'qv_quick', 'qv_days', 'qv_no_data', 'qv_no_data_note', 'qv_subjects',
+    'qv_subject_custom', 'qv_baseline', 'qv_entry', 'qv_load_fail', 'qv_gen',
+    // patch-8: theme list manager + per-theme form (trilingual)
+    'th_title', 'th_sub', 'th_add', 'th_cap_note', 'th_empty', 'th_count',
+    'th_name', 'th_name_ph', 'th_name_required', 'th_del_title',
+    'th_create', 'th_save', 'th_done1', 'th_deleted', 'th_row_shoot', 'qv_month_note'];
   for (const lang of ['zh-TW', 'en', 'ja']) {
     const block = jsSource.slice(jsSource.indexOf(`'${lang}':`), jsSource.indexOf(`'${lang}':`) + 8000);
     for (const key of keys) assert.ok(new RegExp(`\\b${key}:`).test(block), `${lang} missing ${key}`);
@@ -125,8 +156,8 @@ test('CL-APP-06 (1e): conditions form — semantic dropdowns with transparent ha
   // ③ advanced raw numeric inputs stay (power user), collapsed by default
   assert.match(jsSource, /cl-cp-cc-advanced/);
   assert.match(jsSource, /adv_toggle/);
-  // the form still submits CONCRETE values only
-  assert.match(jsSource, /payload = \{ customConditions: readCc\(\) \}/);
+  // patch-8: the form submits a THEME GROUP — name + i18n + concrete conditions
+  assert.match(jsSource, /payload = \{ name: name, nameI18n: i18n, conditions: readCc\(\) \}/);
 });
 
 const BROWSER = process.env.CHROMIUM_EXECUTABLE
@@ -198,10 +229,65 @@ async function bootBrowser() {
     // state is pushed via the chaselights:auth broadcast after load.
     await send('Page.enable');
     await send('Page.addScriptToEvaluateOnNewDocument', { source: `
+      // patch-4: pin-picker mini-map is DISABLED in this harness (deterministic
+      // schematic fallback) — the real-MapLibre path is covered by test (2r)
+      // which clears this flag at runtime.
+      window.__clcpMapLibre = false;
+      // patch-8: per-place theme groups (multi-theme) — a small in-memory
+      // CRUD store the manager modal exercises end-to-end (create / rename /
+      // delete / duplicate names all pass through the real client paths)
+      var __cpThemes = [
+        { id: 'tg1', placeId: 'cp1', name: '雲海窗', nameI18n: { 'zh-TW': '雲海窗' },
+          conditions: { cloud_low_max: 15, window_start: '04:30', window_end: '07:00' },
+          evaluation: { tier: 'rec', reason: null, window: '2026-11-16 05:00' } },
+        { id: 'tg3', placeId: 'cp3', name: '風平窗', nameI18n: null,
+          conditions: { wind_max_ms: 5 },
+          evaluation: { tier: 'no', reason: '風強', window: null } },
+      ];
+      var __cpThemeSeq = 0;
+      var __cpPlaces = [
+        { id: 'cp1', name: '霧社水庫西岸岔路', lat: 23.9412, lng: 121.1523, elevation: 1150, timezone: 'Asia/Taipei',
+          customConditions: { cloud_low_max: 15, visibility_min_km: 12, window_start: '04:30', window_end: '07:00' },
+          status: 'active', createdAt: '', updatedAt: '',
+          evaluation: { tier: 'rec', reason: null, window: '2026-11-16 05:00', evaluatedAt: '2026-11-15T10:00:00Z', private: true },
+          refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
+        { id: 'cp2', name: '礁溪自家陽台展望', lat: 24.8225, lng: 121.7675, elevation: 80, timezone: 'Asia/Taipei',
+          customConditions: null,
+          status: 'active', createdAt: '', updatedAt: '',
+          evaluation: { tier: 'shoot', reason: null, window: '2026-11-16 06:00', evaluatedAt: '2026-11-15T10:00:00Z', private: true },
+          refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
+        { id: 'cp3', name: '苫小牧西港堤防燈點', lat: 42.6389, lng: 141.3556, elevation: 3, timezone: 'Asia/Tokyo',
+          customConditions: { wind_max_ms: 5 },
+          status: 'active', createdAt: '', updatedAt: '',
+          evaluation: { tier: 'no', reason: '風強', window: null, evaluatedAt: '2026-11-15T10:00:00Z', private: true },
+          refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
+        { id: 'cp4', name: '試用期滿的點', lat: 35.0, lng: 138.0, elevation: 100, timezone: 'Asia/Tokyo',
+          customConditions: null, status: 'trial_expired', createdAt: '', updatedAt: '',
+          evaluation: { tier: 'pending', reason: null, window: null, evaluatedAt: null, private: true },
+          refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
+        { id: 'cp5', name: '明日補抓的點', lat: 25.0, lng: 122.0, elevation: null, timezone: null,
+          customConditions: null, status: 'active', createdAt: '', updatedAt: '',
+          evaluation: { tier: 'pending', reason: null, window: null, evaluatedAt: null, private: true },
+          refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: true, fetchDueAt: '2026-11-16 00:05:00' },
+      ];
+      var __cpThemeCap = 5;
+      window.__cpThemes = __cpThemes; // test seam: the harness inspects the store
       window.__clcpFetch = function (path, opts) {
         if (path.indexOf('/api/v1/custom_places/pin_info') === 0) {
           return Promise.resolve({ ok: true, status: 200, json: function () {
             return Promise.resolve({ ok: true, elevation: 80, timezone: 'Asia/Taipei', utcOffsetSeconds: 28800, elevationOutlier: false });
+          } });
+        }
+        // patch-7: the private-card forecast popup reads the stored eval
+        if (path === '/api/v1/custom_places/cp1/eval') {
+          const hourly = [];
+          // day 1: 05:00 clean (cc window 04:30–07:00, cloud_low_max 15) ✓
+          hourly.push({ local_date: '2026-11-16', hour: '05:00', values: { cloud_low: 10, cloud_mid: 20, cloud_high: 30, precipitation: 0, visibility: 20000, wind: 2 } });
+          hourly.push({ local_date: '2026-11-16', hour: '06:00', values: { cloud_low: 12, cloud_mid: 20, cloud_high: 30, precipitation: 0, visibility: 20000, wind: 2 } });
+          // day 2: low cloud blows the custom threshold (✗), baseline still ✓
+          for (const h of ['00:00','05:00','10:00','18:00']) hourly.push({ local_date: '2026-11-17', hour: h, values: { cloud_low: 90, cloud_mid: 20, cloud_high: 30, precipitation: 0, visibility: 20000, wind: 2 } });
+          return Promise.resolve({ ok: true, status: 200, json: function () {
+            return Promise.resolve({ ok: true, id: 'cp1', private: true, hourly: hourly, generatedAt: '2026-11-15T10:00:00Z', elevation: 1150, timezone: 'Asia/Taipei' });
           } });
         }
         if (path === '/api/v1/conditions/parse') {
@@ -212,40 +298,46 @@ async function bootBrowser() {
           }
           return Promise.resolve({ ok: true, status: 200, json: function () { return Promise.resolve({ ok: true, enabled: true }); } });
         }
-        if (path === '/api/v1/custom_places') {
-          return Promise.resolve({ ok: true, status: 200, json: function () {
-            return Promise.resolve({
-              ok: true, userId: 'u1', level: 'paid',
-              trial: { expired: false, expiresAt: null },
-              quota: { used: 3, cap: 50 },
-              degraded: false, degradedMessage: null,
-              places: [
-                { id: 'cp1', name: '霧社水庫西岸岔路', lat: 23.9412, lng: 121.1523, elevation: 1150, timezone: 'Asia/Taipei',
-                  customConditions: { cloud_low_max: 15, visibility_min_km: 12, window_start: '04:30', window_end: '07:00' },
-                  status: 'active', createdAt: '', updatedAt: '',
-                  evaluation: { tier: 'rec', reason: null, window: '2026-11-16 05:00', evaluatedAt: '2026-11-15T10:00:00Z', private: true },
-                  refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
-                { id: 'cp2', name: '礁溪自家陽台展望', lat: 24.8225, lng: 121.7675, elevation: 80, timezone: 'Asia/Taipei',
-                  customConditions: null, status: 'active', createdAt: '', updatedAt: '',
-                  evaluation: { tier: 'shoot', reason: null, window: '2026-11-16 06:00', evaluatedAt: '2026-11-15T10:00:00Z', private: true },
-                  refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
-                { id: 'cp3', name: '苫小牧西港堤防燈點', lat: 42.6389, lng: 141.3556, elevation: 3, timezone: 'Asia/Tokyo',
-                  customConditions: { wind_max_ms: 5 }, status: 'active', createdAt: '', updatedAt: '',
-                  evaluation: { tier: 'no', reason: '風強', window: null, evaluatedAt: '2026-11-15T10:00:00Z', private: true },
-                  refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
-                { id: 'cp4', name: '試用期滿的點', lat: 35.0, lng: 138.0, elevation: 100, timezone: 'Asia/Tokyo',
-                  customConditions: null, status: 'trial_expired', createdAt: '', updatedAt: '',
-                  evaluation: { tier: 'pending', reason: null, window: null, evaluatedAt: null, private: true },
-                  refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
-                { id: 'cp5', name: '明日補抓的點', lat: 25.0, lng: 122.0, elevation: null, timezone: null,
-                  customConditions: null, status: 'active', createdAt: '', updatedAt: '',
-                  evaluation: { tier: 'pending', reason: null, window: null, evaluatedAt: null, private: true },
-                  refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: true, fetchDueAt: '2026-11-16 00:05:00' },
-              ],
-            });
-          } });
-        }
-        return Promise.resolve({ ok: false, status: 404, json: function () { return Promise.resolve({ error: 'stub 404' }); } });
+      if (path === '/api/v1/custom_places') {
+        return Promise.resolve({ ok: true, status: 200, json: function () {
+          return Promise.resolve({
+            ok: true, userId: 'u1', level: 'paid',
+            trial: { expired: false, expiresAt: null },
+            quota: { used: 5, cap: 50 },
+            degraded: false, degradedMessage: null,
+            places: __cpPlaces.map(function (p) {
+              var g = __cpThemes.filter(function (t) { return t.placeId === p.id; });
+              return Object.assign({}, p, { themeGroups: g, themes: { used: g.length, cap: __cpThemeCap } });
+            }),
+          });
+        } });
+      }
+      // patch-8 theme CRUD (the real client paths hit these)
+      var mThemes = path.match(/^\\/api\\/v1\\/custom_places\\/([\\w-]+)\\/themes$/);
+      if (mThemes && opts && opts.method === 'POST') {
+        return Promise.resolve(opts.body ? JSON.parse(opts.body) : {}).then(function (payload) {
+          if (__cpThemes.filter(function (t) { return t.placeId === mThemes[1]; }).length >= __cpThemeCap) {
+            return Promise.resolve({ ok: true, status: 403, json: function () { return Promise.resolve({ error: 'theme group limit reached', reason: 'theme_cap', cap: __cpThemeCap, message: { 'zh-TW': '每個私人點最多 5 組題材。既有題材會保留，刪除後即可再新增。' } }); } });
+          }
+          var id = 'tg-new-' + (++__cpThemeSeq);
+          var g = { id: id, placeId: mThemes[1], name: payload.name, nameI18n: payload.nameI18n || null,
+            conditions: payload.conditions || {}, evaluation: { tier: 'shoot', reason: null, window: '2026-11-16 06:00' } };
+          __cpThemes.push(g);
+          return { ok: true, status: 200, json: function () { return Promise.resolve({ ok: true, id: id, theme: g, themes: { used: __cpThemes.filter(function (t) { return t.placeId === mThemes[1]; }).length, cap: __cpThemeCap } }); } };
+        });
+      }
+      var mThemeItem = path.match(/^\\/api\\/v1\\/custom_places\\/([\\w-]+)\\/themes\\/([\\w-]+)$/);
+      if (mThemeItem && opts && (opts.method === 'PATCH' || opts.method === 'DELETE')) {
+        var idx = __cpThemes.findIndex(function (t) { return t.id === mThemeItem[2]; });
+        if (idx < 0) return Promise.resolve({ ok: true, status: 404, json: function () { return Promise.resolve({ error: 'theme not found' }); } });
+        if (opts.method === 'DELETE') __cpThemes.splice(idx, 1);
+        else { return Promise.resolve(opts.body ? JSON.parse(opts.body) : {}).then(function (payload) {
+          __cpThemes[idx] = Object.assign(__cpThemes[idx], payload, { id: mThemeItem[2] });
+          return { ok: true, status: 200, json: function () { return Promise.resolve({ ok: true, id: mThemeItem[2] }); } };
+        }); }
+        return Promise.resolve({ ok: true, status: 200, json: function () { return Promise.resolve({ ok: true, deleted: mThemeItem[2] }); } });
+      }
+      return Promise.resolve({ ok: false, status: 404, json: function () { return Promise.resolve({ error: 'stub 404' }); } });
       };
     ` });
   })().catch(e => { ready = null; throw e; });
@@ -315,7 +407,7 @@ test('CL-APP-06 (2a): honest count + quota chip + view-tab count identity (全�
       chipVisible: chip ? getComputedStyle(chip).display !== 'none' : false };
   })()`);
   assert.ok(probe.chipVisible, 'quota chip visible for a member');
-  assert.match(probe.chip, /3\/50/, 'quota chip shows used/cap honestly');
+  assert.match(probe.chip, /5\/50/, 'quota chip shows used/cap honestly');
   assert.match(probe.chip, /Premium/);
   assert.match(probe.count, /官方/, 'count line is the honest 共 N 官方＋M 私人點 identity');
   const allTab = probe.tabs.find(x => x.key === 'all'), offTab = probe.tabs.find(x => x.key === 'official'), privTab = probe.tabs.find(x => x.key === 'private');
@@ -324,7 +416,7 @@ test('CL-APP-06 (2a): honest count + quota chip + view-tab count identity (全�
   assert.ok(privTab.n >= 5);
 });
 
-test('CL-APP-06 (2b): private card anatomy — gray badge computed style + tier + ⋯ menu opens', async () => {
+test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject rows (official anatomy) + ⋯ menu opens', async () => {
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
@@ -333,19 +425,36 @@ test('CL-APP-06 (2b): private card anatomy — gray badge computed style + tier 
     if (!card) return { error: 'no cp1 card' };
     const badge = card.querySelector('.cl-cp-priv-badge');
     const cs = badge ? getComputedStyle(badge) : null;
+    // patch-8: the temporary 「✓ 條件窗」 chip is GONE in rec state — per-group
+    // subject rows carry the tier badges from the same source
+    const rows = [...card.querySelectorAll('.cl-subject-row')].map(r => ({
+      tier: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').textContent,
+      tierCls: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').className,
+      name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
+      window: r.querySelector('.cl-cp-window') && r.querySelector('.cl-cp-window').textContent,
+    }));
+    const c3 = document.querySelector('.cl-cp-card[data-cp-id="cp3"]');
+    const c2 = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
     const more = card.querySelector('.cl-cp-more');
-    const r = more.getBoundingClientRect();
     more.click();
     const menu = document.getElementById('cl-cp-menu');
     const acts = [...menu.querySelectorAll('[data-cp-act]')].map(b => b.getAttribute('data-cp-act'));
-    const menuOpen = getComputedStyle(menu).display;
     return {
       badgeText: badge && badge.textContent,
       color: cs && cs.color, bg: cs && cs.backgroundColor,
-      tier: card.querySelector('.cl-cp-tier') && card.querySelector('.cl-cp-tier').textContent,
-      window: card.querySelector('.cl-cp-window') && card.querySelector('.cl-cp-window').textContent,
-      cc: card.querySelector('.cl-cp-cc-txt') && card.querySelector('.cl-cp-cc-txt').textContent,
-      acts, menuOpen,
+      headTierGone: !card.querySelector('.spot-title-group .cl-cp-tier'),
+      rows, noCcLine: !card.querySelector('.cl-cp-cc-line'),
+      cp3Rows: c3 ? [...c3.querySelectorAll('.cl-subject-row')].map(r => ({
+        tier: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').textContent,
+        name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
+        reason: r.textContent.includes('風強'),
+      })) : [],
+      cp2Baseline: c2 ? [...c2.querySelectorAll('.cl-subject-row')].map(r => ({
+        tier: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').textContent,
+        name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
+        window: r.querySelector('.cl-cp-window') && r.querySelector('.cl-cp-window').textContent,
+      })) : [],
+      acts, menuOpen: getComputedStyle(menu).display,
       menuParentIsBody: menu.parentNode === document.body,
       menuPos: getComputedStyle(menu).position,
     };
@@ -354,10 +463,21 @@ test('CL-APP-06 (2b): private card anatomy — gray badge computed style + tier 
   // gray identity: the badge color must be the neutral --cl-grey family
   // (#98A4B3 = 152,164,179), NEVER the green/amber/red semantic tokens
   assert.equal(probe.color, 'rgb(152, 164, 179)', `badge color must be --cl-grey-text, got ${probe.color}`);
-  assert.match(probe.tier, /✓/, 'rec private card carries the ✓ tier');
-  assert.match(probe.window, /05:00/, 'rec window rides the card');
-  assert.match(probe.cc, /低雲≤15/, 'CL-UI-99 condition summary (only tuned params)');
-  assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit', 'nom']);
+  assert.equal(probe.headTierGone, true, 'patch-8: the generic 「✓ 條件窗」chip is replaced by per-group tier rows');
+  assert.equal(probe.noCcLine, true, 'the single 🎚 summary line is replaced by the per-group rows');
+  assert.equal(probe.rows.length, 1, 'cp1 carries ONE theme group');
+  assert.equal(probe.rows[0].tier, '✓', 'per-group tier badge ✓ (same source as the worker tier)');
+  assert.match(probe.rows[0].tierCls, /cl-cp-tier-rec/);
+  assert.match(probe.rows[0].name, /雲海窗/, 'official subject-row anatomy: the group name rides the row');
+  assert.match(probe.rows[0].window, /2026-11-16 05:00/, 'the group next window rides the row');
+  assert.equal(probe.cp3Rows.length, 1);
+  assert.equal(probe.cp3Rows[0].tier, '✗', 'a failing group shows ✗ with its short reason');
+  assert.match(probe.cp3Rows[0].name, /風平窗/);
+  assert.equal(probe.cp3Rows[0].reason, true);
+  assert.equal(probe.cp2Baseline.length, 1, 'no groups → the baseline row (legacy anatomy preserved)');
+  assert.equal(probe.cp2Baseline[0].tier, '○');
+  assert.match(probe.cp2Baseline[0].window, /2026-11-16 06:00/);
+  assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit'], 'patch-6: menu is 編輯／掛題材·條件／刪除');
   assert.equal(probe.menuOpen, 'block', '⋯ menu opens');
   // patch-3: the menu is portaled OUT of the card to document.body (fixed)
   assert.equal(probe.menuParentIsBody, true, '⋯ menu lives on document.body — outside the card boundary');
@@ -470,7 +590,7 @@ test('CL-APP-06 (2f): headless screenshots at 1280/390 for the mockup comparison
   shots.push(await capture(join(WEB, 'apps', 'web-v2', 'tests', 'logs', 'cl-app-06-390.png')));
   assert.equal(shots.length, 2);
 });
-test('CL-APP-06 (2h): conditions modal — semantic selects, transparent mapping, genre starter, advanced inputs', async () => {
+test('CL-APP-06 (2h, patch-8): 「掛題材·條件」 = LIST manager — groups with tiers; add form carries the name field, semantic selects, transparent mapping, genre starter, advanced inputs', async () => {
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
@@ -478,12 +598,27 @@ test('CL-APP-06 (2h): conditions modal — semantic selects, transparent mapping
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
     card.querySelector('.cl-cp-more').click();
     document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
-    await new Promise(r => setTimeout(r, 200));
+    await new Promise(r => setTimeout(r, 250));
     const ov = document.querySelector('.cl-cp-overlay');
+    const out = {};
+    // the LIST manager: 1 group with its tier + honest count
+    out.listOpen = ov.classList.contains('open');
+    out.listTitle = ov.querySelector('.cl-cp-m-head .name').textContent;
+    out.count = ov.querySelector('.cl-cp-th-count').textContent;
+    out.groupRow = ov.querySelector('.cl-cp-theme-row') && {
+      name: ov.querySelector('.cl-cp-theme-row .cl-cp-theme-info .n').textContent,
+      tier: ov.querySelector('.cl-cp-theme-row .cl-cp-tier').textContent,
+    };
+    // the EDIT form: name field FIRST, prefilled from the stored group
+    const editBtn = ov.querySelector('.cl-cp-theme-row [data-cp-th-act="edit"]');
+    editBtn.click();
+    await new Promise(r => setTimeout(r, 200));
+    out.formTitle = ov.querySelector('.cl-cp-m-head .name').textContent;
+    out.nameFieldFirst = ov.querySelector('.cl-cp-modal').querySelector('input') === ov.querySelector('#cl-cp-theme-name');
+    out.namePrefill = ov.querySelector('#cl-cp-theme-name').value;
     const sel = ov.querySelector('#cl-cp-sem-cloud');
     const map0 = ov.querySelector('#cl-cp-sem-map-cloud').textContent;
     const low0 = ov.querySelector('#cl-cp-cc-low').value;
-    // change cloud → mapped label + concrete advanced input update
     sel.value = 'half';
     sel.dispatchEvent(new Event('change'));
     await new Promise(r => setTimeout(r, 100));
@@ -491,7 +626,6 @@ test('CL-APP-06 (2h): conditions modal — semantic selects, transparent mapping
     const low1 = ov.querySelector('#cl-cp-cc-low').value;
     const prev = ov.querySelector('#cl-cp-cc-prev').textContent;
     const genreOptions = ov.querySelectorAll('#cl-cp-cc-genre option').length;
-    // genre starter prefills semantics + window
     const gs = ov.querySelector('#cl-cp-cc-genre');
     gs.value = 'cloud_sea';
     gs.dispatchEvent(new Event('change'));
@@ -499,11 +633,23 @@ test('CL-APP-06 (2h): conditions modal — semantic selects, transparent mapping
     const starterCloud = ov.querySelector('#cl-cp-sem-cloud').value;
     const starterWin = [ov.querySelector('#cl-cp-cc-start').value, ov.querySelector('#cl-cp-cc-end').value];
     const advanced = ov.querySelector('.cl-cp-cc-advanced');
-    return { open: ov.classList.contains('open'), semCount: ov.querySelectorAll('.cl-cp-sem-select').length,
-      map0, low0, map1, low1, prev, genreOptions, starterCloud, starterWin, advancedOpenDefault: advanced.open };
+    Object.assign(out, { map0, low0, map1, low1, prev, genreOptions, starterCloud, starterWin, advancedOpenDefault: advanced.open });
+    // disabled-reason pattern: clearing the name → the button prints it
+    out.btnBefore = (function () { const nm = ov.querySelector('#cl-cp-theme-name'); nm.value = ''; nm.dispatchEvent(new Event('input')); return ov.querySelector('#cl-cp-cc-submit').textContent; })();
+    const nm = ov.querySelector('#cl-cp-theme-name');
+    nm.value = '星光窗';
+    nm.dispatchEvent(new Event('input'));
+    out.btnAfter = ov.querySelector('#cl-cp-cc-submit').textContent;
+    return out;
   })()`);
-  assert.equal(probe.open, true);
-  assert.equal(probe.semCount, 3, 'three semantic dropdowns (cloud/fog/rain)');
+  assert.equal(probe.listOpen, true);
+  assert.match(probe.listTitle, /掛題材/);
+  assert.match(probe.count, /1\/5/, 'honest group count against the 5 cap');
+  assert.match(probe.groupRow.name, /雲海窗/);
+  assert.equal(probe.groupRow.tier, '✓', 'the list row carries the same-source per-group tier');
+  assert.match(probe.formTitle, /✎/, 'the edit form opens from the list row');
+  assert.equal(probe.nameFieldFirst, true, 'the group name is the FIRST field');
+  assert.match(probe.namePrefill, /雲海窗/, 'the stored group name prefills');
   assert.match(probe.map0, /低雲 ≤20%/, 'transparent mapped value shown (15% rounds to the 越少越好 tier)');
   assert.equal(probe.low0, '15', 'advanced input keeps the actual stored concrete value');
   assert.match(probe.map1, /低雲 ≤50%/);
@@ -513,6 +659,8 @@ test('CL-APP-06 (2h): conditions modal — semantic selects, transparent mapping
   assert.equal(probe.starterCloud, 'min', '雲海 starter applies');
   assert.deepEqual(probe.starterWin, ['04:30', '07:00']);
   assert.equal(probe.advancedOpenDefault, false, 'advanced raw inputs collapsed by default');
+  assert.match(probe.btnBefore, /請先輸入題材名稱/, 'the disabled button shows the reason on itself');
+  assert.match(probe.btnAfter, /儲存題材/, 'typing the name readies the button');
 });
 test('CL-APP-06 (2i): ✨ one-sentence AI parse fills the semantic selects (AI only translates — concrete values still submitted)', async () => {
   await bootBrowser();
@@ -524,6 +672,10 @@ test('CL-APP-06 (2i): ✨ one-sentence AI parse fills the semantic selects (AI o
     document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
     await new Promise(r => setTimeout(r, 250));
     const ov = document.querySelector('.cl-cp-overlay');
+    // cp2 has NO groups — the list shows the honest empty state, then the add form
+    if (!ov.querySelector('.cl-cp-th-empty')) return { error: 'empty-state note absent' };
+    ov.querySelector('#cl-cp-th-add').click();
+    await new Promise(r => setTimeout(r, 250));
     const ai = ov.querySelector('#cl-cp-ai');
     if (!ai) return { error: 'AI entry absent although the stub reports enabled' };
     ov.querySelector('#cl-cp-ai-text').value = 'I want a cloud sea at dawn, no rain, 04:30-07:00, wind under 5';
@@ -744,6 +896,68 @@ test('CL-APP-06 (2n, patch-2): 390×768 small window — same fix on the mobile 
   assert.match(probe.btnAfter, /建立私人點/);
 });
 
+test('CL-APP-06 (2r, patch-5): 1280×768 EDIT modal after a scrolled tall modal — top fields not clipped, body locked, no horizontal overflow, menu = 3 items (patch-6)', async () => {
+  await bootBrowser();
+  await setViewport(1280, 768, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const out = {};
+    // step 1 — repro precondition: open the TALL theme form, scroll to
+    // its bottom (patch-5 architecture: the tall overflow lives INSIDE the
+    // modal; the overlay only scrolls when the modal itself exceeds the
+    // viewport — scroll whichever scroller actually overflows), close it
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
+    card.querySelector('.cl-cp-more').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const ov = document.querySelector('.cl-cp-overlay');
+    ov.querySelector('.cl-cp-theme-row [data-cp-th-act="edit"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const tallModal = ov.querySelector('.cl-cp-modal');
+    tallModal.scrollTop = tallModal.scrollHeight;
+    ov.scrollTop = ov.scrollHeight;
+    await new Promise(r => setTimeout(r, 50));
+    out.overlayScrollPersisted = (tallModal.scrollTop > 0) || (ov.scrollTop > 0);
+    out.bodyLockedWhileOpen = document.body.classList.contains('cl-cp-lock');
+    ov.querySelector('[data-cp-close]').click();
+    await new Promise(r => setTimeout(r, 100));
+    out.bodyUnlockedAfterClose = !document.body.classList.contains('cl-cp-lock');
+    // step 2 — owner's exact case: open the EDIT modal right after
+    card.querySelector('.cl-cp-more').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="edit"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const modal = ov.querySelector('.cl-cp-modal');
+    const mr = modal.getBoundingClientRect();
+    out.bodyLocked = document.body.classList.contains('cl-cp-lock');
+    out.modalTop = mr.top; out.modalBottom = mr.bottom;
+    out.hScroll = modal.scrollWidth > modal.clientWidth;
+    out.hOffenders = [...modal.querySelectorAll('*')].filter(el => el.scrollWidth > el.clientWidth + 1).slice(0, 10).map(el => el.tagName + '.' + el.className + ' sw=' + el.scrollWidth + ' cw=' + el.clientWidth + ' kids=' + [...el.children].map(k => k.tagName + '.' + k.className + ':' + Math.round(k.getBoundingClientRect().width) + 'w/sw' + k.scrollWidth).join('|'));
+    const vis = (el) => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.bottom <= window.innerHeight + 1 && r.height > 0; };
+    const name = ov.querySelector('#cl-cp-name'), pin = ov.querySelector('#cl-cp-pinpick'), btn = ov.querySelector('#cl-cp-submit');
+    out.nameVisible = vis(name);
+    out.pinVisible = vis(pin);
+    out.submitVisible = vis(btn);
+    if (!out.submitVisible) { // reachable via the modal's INTERNAL scroll
+      modal.scrollTop = modal.scrollHeight;
+      await new Promise(r => setTimeout(r, 100));
+      out.submitVisible = vis(btn);
+      out.submitViaInnerScroll = true; }
+    out.menuActs = [...document.querySelectorAll('#cl-cp-menu [data-cp-act]')].map(b => b.getAttribute('data-cp-act'));
+    return out;
+  })()`);
+  assert.equal(probe.bodyLockedWhileOpen, true, 'body scroll is locked while a modal is open');
+  assert.equal(probe.bodyUnlockedAfterClose, true, 'body scroll unlocks on close');
+  assert.equal(probe.bodyLocked, true);
+  assert.ok(probe.overlayScrollPersisted, 'repro precondition: the tall modal left the overlay scrolled');
+  assert.ok(probe.modalTop >= -1 && probe.modalBottom <= 769,
+    `edit modal inside the 1280×768 window (top=${probe.modalTop}, bottom=${probe.modalBottom})`);
+  assert.equal(probe.hScroll, false, 'no horizontal overflow inside the modal (offenders: ' + JSON.stringify(probe.hOffenders) + ')');
+  assert.ok(probe.nameVisible, 'name field visible at the top of the edit modal');
+  assert.ok(probe.pinVisible, 'pin-picker area visible');
+  assert.ok(probe.submitVisible, 'submit/update button visible (viewport or inner scroll)');
+  assert.deepEqual(probe.menuActs.sort(), ['cc', 'del', 'edit'], 'patch-6: menu = 編輯／掛題材·條件／刪除');
+});
+
 test('CL-APP-06 (1f, patch-3): ⋯ menu renders OUT of the card — portal + fixed + flip-up + 44px + scroll-close', () => {
   // owner bug: the dropdown's 3rd item 「掛題材·條件」 was clipped in half —
   // the menu was position:absolute INSIDE the card, whose content-visibility
@@ -805,7 +1019,7 @@ test('CL-APP-06 (2o, patch-3): 390 viewport, card near the page footer — menu 
     `menu flipped up (bottom ${probe.menuBottom} ≤ trigger top ${probe.triggerTop})`);
   assert.ok(probe.menuTop >= 0, 'flipped menu still starts inside the viewport');
   assert.ok(probe.menuRight <= probe.winW + 1 && probe.menuLeft >= 0, 'menu fits the 390px width');
-  assert.equal(probe.items.length, 4);
+  assert.equal(probe.items.length, 3, 'patch-6: menu is 編輯／掛題材·條件／刪除');
   for (const it of probe.items) {
     assert.ok(it.h >= 43, `${it.act} touch target ≥44px (got ${it.h})`);
     assert.ok(it.top >= 0 && it.bottom <= probe.winH + 1 && it.left >= 0 && it.right <= probe.winW + 1,
@@ -858,6 +1072,325 @@ test('CL-APP-06 (2q, patch-3): the open menu closes on scroll (any scroller) and
   assert.equal(probe.open2, true, 'the ⋯ trigger reopens the menu');
   assert.ok(probe.topAfter > 0, 'the reopened menu is re-anchored under the trigger (fixed position)');
   assert.equal(probe.afterOutside, false, 'outside click closes the menu');
+});
+
+test('CL-APP-06 (1g, patch-4/5): mini-map deferred-init contract + ticket-language-free conditions copy + months plumbing', () => {
+  // patch-4 root cause: init inside a hidden/zero-size container breaks the
+  // tile/marker layout — init MUST wait for a visible, sized container.
+  assert.match(jsSource, /getBoundingClientRect\(\)[\s\S]{0,120}width > 8 && r\.height > 8/,
+    'init waits for a non-zero box (never initializes into a hidden container)');
+  assert.match(jsSource, /requestAnimationFrame\(waitBox\)/);
+  assert.match(jsSource, /map\.resize\(\)/, 'second brace: resize after load');
+  assert.match(jsSource, /assets\/vendor\/maplibre-gl\.mjs/, 'the VENDORED module — no CDN');
+  assert.match(jsSource, /draggable: true/);
+  assert.match(jsSource, /marker\.on\('dragend'/, 'dragging the pin syncs the lat/lng fields');
+  assert.match(jsSource, /teardownMiniMap\(\); \/\/ patch-4: the GL context must not leak across modals/,
+    'closing the modal removes the GL context');
+  assert.match(jsSource, /wireSchematicPinDrop/, 'honest schematic fallback on module/tile failure');
+  // patch-5 ①: ticket/engineering language is OUT of every user-visible string
+  for (const m of jsSource.matchAll(/'(zh-TW|en|ja)':\s*\{[\s\S]*?\n    \}/g)) {
+    assert.doesNotMatch(m[0], /CL-[A-Z]+-?\d*/, `dictionary ${m[1]} must not carry ticket numbers`);
+  }
+  // patch-5 ③: conflict path — the AI applies nothing, the user picks
+  assert.match(jsSource, /if \(s\.conflict\)[\s\S]{0,200}ai_conflict\.replace\('\{m\}', s\.conflict\)/);
+  assert.match(jsSource, /ai_conflict: '⚠ 條件矛盾：\{m\}——請擇一，AI 未套用任何值。'/);
+  // patch-5 ②: the example copy is conflict-free (single time window)
+  assert.match(jsSource, /ai_ph: '例如：清晨要能看到雲海，不要下雨，最好六點前'/);
+  // patch-5 ④: months multi-select, default all-year, seasonal starters prefill
+  assert.match(jsSource, /p_months: '適用月份'/);
+  assert.match(jsSource, /id="cl-cp-cc-months"/);
+  assert.match(jsSource, /out\.months = months\.sort/, 'readCc emits the sorted months array');
+  assert.match(jsSource, /snow_scene: \{[\s\S]{0,120}months: \[12, 1, 2\]/, '雪景 starter prefills its season months');
+  assert.match(jsSource, /seasonal_plant: \{[\s\S]{0,120}months: \[3, 4\]/, '櫻花 starter prefills its season months');
+  assert.match(cssSource, /\.cl-cp-cc-months\{display:flex;flex-wrap:wrap/);
+});
+
+test('CL-APP-06 (2r, patch-4): real mini-map — DEFERRED init after the modal is visible, marker = lat/lng, drag syncs the fields', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    // re-enable the REAL maplibre path for this test only
+    delete window.__clcpMapLibre;
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
+    card.querySelector('.cl-cp-more').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="edit"]').click();
+    // wait for the map instance (created only after the container has a box)
+    const t0 = Date.now();
+    while (!window.__clCpMiniMap && Date.now() - t0 < 10000) await new Promise(r => setTimeout(r, 100));
+    const map = window.__clCpMiniMap;
+    if (!map) return { error: 'mini-map never initialized' };
+    const boxAtInit = document.getElementById('cl-cp-pinpick').getBoundingClientRect();
+    await new Promise(res => { if (map.loaded()) res(); else map.once('load', res); });
+    const t1 = Date.now();
+    while (!map.loaded() && Date.now() - t1 < 15000) await new Promise(r => setTimeout(r, 200));
+    const marker = window.__clCpMiniMapMarker;
+    const ll = marker && marker.getLngLat();
+    const out = {
+      boxW: boxAtInit.width, boxH: boxAtInit.height,
+      styleLoaded: map.isStyleLoaded(), allTilesLoaded: map.loaded(),
+      markerLat: ll && ll.lat, markerLng: ll && ll.lng,
+      draggable: true,
+    };
+    // drag the marker (simulated dragend at a new coordinate) → fields sync
+    marker.setLngLat([121.55, 24.65]);
+    marker.fire('dragend');
+    await new Promise(r => setTimeout(r, 300));
+    const ov = document.querySelector('.cl-cp-overlay');
+    out.latAfterDrag = ov.querySelector('#cl-cp-lat').value;
+    out.lngAfterDrag = ov.querySelector('#cl-cp-lng').value;
+    // manual lat/lng entry moves the marker back
+    ov.querySelector('#cl-cp-lat').value = '24.8225';
+    ov.querySelector('#cl-cp-lng').value = '121.7675';
+    ov.querySelector('#cl-cp-lng').dispatchEvent(new Event('change'));
+    await new Promise(r => setTimeout(r, 400));
+    const ll2 = marker.getLngLat();
+    out.markerAfterInput = [Number(ll2.lat.toFixed(4)), Number(ll2.lng.toFixed(4))];
+    // closing the modal tears the GL context down
+    ov.querySelector('[data-cp-close]').click();
+    await new Promise(r => setTimeout(r, 150));
+    out.mapRemoved = !window.__clCpMiniMap;
+    return out;
+  })()`);
+  assert.ok(probe.boxW > 8 && probe.boxH > 8, 'the container HAS a size at init (root-cause guard)');
+  assert.equal(probe.styleLoaded, true, 'the vendored maplibre style loads');
+  assert.equal(probe.allTilesLoaded, true, 'basemap tiles finished loading');
+  assert.ok(Math.abs(probe.markerLat - 24.8225) < 0.01 && Math.abs(probe.markerLng - 121.7675) < 0.01,
+    'the edit modal marker sits at the place lat/lng (got ' + probe.markerLat + ',' + probe.markerLng + ')');
+  assert.equal(probe.latAfterDrag, '24.6500', 'dragging the pin syncs the lat field');
+  assert.equal(probe.lngAfterDrag, '121.5500', 'dragging the pin syncs the lng field');
+  assert.deepEqual(probe.markerAfterInput, [24.8225, 121.7675], 'manual input moves the marker (two-way)');
+  assert.equal(probe.mapRemoved, true, 'GL context removed on close');
+});
+
+test('CL-APP-06 (2s, patch-5): conditions modal — no ticket language, conflict AI branch, 適用月份 chips + seasonal starter prefill', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
+    card.querySelector('.cl-cp-more').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const ov = document.querySelector('.cl-cp-overlay');
+    ov.querySelector('.cl-cp-theme-row [data-cp-th-act="edit"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const out = {};
+    // ① ticket/engineering language is gone from the visible modal text
+    out.text = ov.textContent;
+    out.ticketFree = !/CL-[A-Z]+-\\d+/.test(out.text);
+    // ④ months chips: 12 checkboxes, none preselected (all-year default)
+    const mo = [...ov.querySelectorAll('#cl-cp-cc-months input')];
+    out.monthCount = mo.length;
+    out.monthsDefault = mo.filter(b => b.checked).length;
+    mo.find(b => b.value === '1').checked = true;
+    mo.find(b => b.value === '2').checked = true;
+    mo.find(b => b.value === '12').checked = true;
+    mo.find(b => b.value === '12').dispatchEvent(new Event('change'));
+    out.previewMonths = ov.querySelector('#cl-cp-cc-prev').textContent;
+    // ④ seasonal starter prefills months + preview
+    const gs = ov.querySelector('#cl-cp-cc-genre');
+    gs.value = 'seasonal_plant';
+    gs.dispatchEvent(new Event('change'));
+    await new Promise(r => setTimeout(r, 100));
+    out.sakuraMonths = [...ov.querySelectorAll('#cl-cp-cc-months input:checked')].map(b => Number(b.value));
+    out.previewAfterStarter = ov.querySelector('#cl-cp-cc-prev').textContent;
+    // ③ AI conflict: stub a conflicting parse → honest note, NOTHING applied
+    const realFetch = window.__clcpFetch;
+    window.__clcpFetch = (path, opts) => {
+      if (path === '/api/v1/conditions/parse' && opts && opts.method === 'POST') {
+        return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({ ok: true, suggestions: { cloud: 'min', fog: 'none', rain: 'no', wind_max_ms: null, window_start: null, window_end: null, lead_minutes: null, conflict: '兩個時間窗不重疊，請擇一', confidence: 0.9 } }) });
+      }
+      return realFetch(path, opts);
+    };
+    const prevBefore = ov.querySelector('#cl-cp-cc-prev').textContent;
+    ov.querySelector('#cl-cp-ai-text').value = '凌晨兩點也要雲海，而且只要清晨五點';
+    ov.querySelector('#cl-cp-ai-go').click();
+    await new Promise(r => setTimeout(r, 400));
+    out.conflictNote = ov.querySelector('#cl-cp-ai-note').textContent;
+    out.cloudAfterConflict = ov.querySelector('#cl-cp-sem-cloud').value;
+    out.winStartAfterConflict = ov.querySelector('#cl-cp-cc-start').value;
+    out.previewUnchanged = ov.querySelector('#cl-cp-cc-prev').textContent === prevBefore;
+    window.__clcpFetch = realFetch;
+    return out;
+  })()`);
+  assert.equal(probe.ticketFree, true, 'no CL-* ticket numbers anywhere in the modal text');
+  assert.equal(probe.monthCount, 12, '12 month chips');
+  assert.equal(probe.monthsDefault, 0, 'default = all year (none checked)');
+  assert.match(probe.previewMonths, /1–2,12/, 'preview prints the compacted month window');
+  assert.deepEqual(probe.sakuraMonths, [3, 4], '櫻花 starter prefills its seasonal months');
+  assert.match(probe.previewAfterStarter, /月 3–4/);
+  assert.match(probe.conflictNote, /條件矛盾/, 'honest conflict message');
+  assert.match(probe.conflictNote, /請擇一/);
+  assert.equal(probe.cloudAfterConflict, 'any', 'the conflict did NOT change the cloud select (unchanged from the 櫻花 starter = any)');
+  assert.equal(probe.winStartAfterConflict, '06:00', 'the conflict did NOT touch the time window (the 櫻花 starter\'s 06:00 survives)');
+  assert.equal(probe.previewUnchanged, true, 'the preview is untouched by a conflicting parse');
+});
+
+test('CL-APP-06 (1h, patch-7): private-card click → forecast popup — source contract (parity with official cards)', () => {
+  // card body click opens the popup; buttons/links (⋯, upgrade CTA) never do
+  assert.match(jsSource, /e\.target\.closest\('button, a, input, select'\)\) return;\s*\n\s*forecastModal\(p\);/);
+  assert.match(jsSource, /e\.key === 'Enter' \|\| e\.key === ' '.*forecastModal\(p\)/s, 'keyboard parity: Enter/Space open the popup');
+  // the popup renders ONLY stored data — the eval endpoint, never a new fetch
+  assert.match(jsSource, /API \+ '\/' \+ p\.id \+ '\/eval'/);
+  // the hour matcher mirrors the worker exactly (lenient defaults + missing-value honesty)
+  assert.match(jsSource, /limit >= 100\) continue;/);
+  assert.match(jsSource, /limit <= 0\) continue;/);
+  assert.match(jsSource, /if \(val == null\) return false;/);
+  // 8-day grid: honest ─ for uncovered days, M/D labels
+  assert.match(jsSource, /qv_no_data_note/);
+  assert.match(jsSource, /day\.date\.slice\(5\)\.replace\('-', '\/'\)/);
+  // patch-8: per-subject rows — ONE row per theme group (named) + the baseline
+  assert.match(jsSource, /groups\.forEach\(function \(g\) \{ subjects\.push\(\{ name: themeName\(g\), cond: g\.conditions \|\| null \}\); \}\)/);
+  assert.match(jsSource, /CP_GENERAL_BASELINE = \{ precip_max_mmh: 2, visibility_min_km: 3, wind_max_ms: 10 \}/);
+  // 題材 panel entry: the user's custom conditions open the conditions panel
+  assert.match(jsSource, /entry\.addEventListener\('click', function \(\) \{ ccModal\(p\); \}\)/);
+  // close button + endpoint wiring on the worker side
+  assert.match(cssSource, /\.cl-cp-qv-strip\{display:grid;grid-template-columns:repeat\(8/);
+  const workerSrc = readFileSync(join(WEB, 'workers', 'api', 'src', 'custom-places.js'), 'utf8');
+  assert.match(workerSrc, /export async function handleCustomPlaceEval/);
+  assert.match(workerSrc, /v1:evals:custom:\$\{placeId\}/);
+  const idxSrc = readFileSync(join(WEB, 'workers', 'api', 'src', 'index.js'), 'utf8');
+  assert.match(idxSrc, /custom_places\\\/\(\[\\w-\]\+\)\\\/eval/);
+});
+
+test('CL-APP-06 (2t, patch-7): clicking a private card opens the forecast popup — quick view, 8-day strip, per-subject rows, 題材 entry; ⋯ still opens the menu', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const out = {};
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
+    // ⋯ must NOT open the popup (menu parity from patch-3 is preserved)
+    card.querySelector('.cl-cp-more').click();
+    await new Promise(r => setTimeout(r, 100));
+    out.menuOpensNotPopup = document.querySelector('#cl-cp-menu').classList.contains('open') && !document.querySelector('.cl-cp-overlay').classList.contains('open');
+    document.body.click(); // close menu
+    await new Promise(r => setTimeout(r, 50));
+    // card-body click → forecast popup
+    card.querySelector('.cl-cp-card-name').click();
+    await new Promise(r => setTimeout(r, 250));
+    const ov = document.querySelector('.cl-cp-overlay');
+    out.popupOpens = ov.classList.contains('open');
+    out.quickLine = ov.querySelector('.cl-cp-qv-quick') && ov.querySelector('.cl-cp-qv-quick').textContent;
+    out.name = ov.querySelector('.cl-cp-m-head .name').textContent;
+    // wait for the eval fetch to land
+    const t0 = Date.now();
+    while (ov.querySelector('#cl-cp-qv-days .cl-cp-qv-loading') && Date.now() - t0 < 5000) await new Promise(r => setTimeout(r, 100));
+    const cells = [...ov.querySelectorAll('#cl-cp-qv-days .cl-cp-qv-cell')];
+    out.cellCount = cells.length;
+    out.day1 = cells[0] && cells[0].className + ':' + cells[0].textContent;
+    out.day2 = cells[1] && cells[1].className + ':' + cells[1].textContent;
+    out.day8 = cells[7] && cells[7].className + ':' + cells[7].textContent;
+    out.day8Title = cells[7] && cells[7].getAttribute('title');
+    const rows = [...ov.querySelectorAll('.cl-cp-qv-row')].map(r => ({
+      name: r.querySelector('.cl-cp-qv-row-name').textContent,
+      day1: r.querySelector('.cl-cp-qv-cell').className + ':' + r.querySelector('.cl-cp-qv-cell').textContent,
+      day2: r.querySelectorAll('.cl-cp-qv-cell')[1].className + ':' + r.querySelectorAll('.cl-cp-qv-cell')[1].textContent,
+    }));
+    out.subjectRows = rows;
+    // 題材 panel entry opens the conditions panel (user's custom conditions there)
+    ov.querySelector('#cl-cp-qv-subject-entry').click();
+    await new Promise(r => setTimeout(r, 250));
+    out.subjectPanelTitle = ov.querySelector('.cl-cp-m-head .name') && ov.querySelector('.cl-cp-m-head .name').textContent;
+    // ✕ closes
+    ov.querySelector('[data-cp-close]').click();
+    await new Promise(r => setTimeout(r, 100));
+    out.closed = !ov.classList.contains('open');
+    // keyboard parity: Enter on the card opens the popup again
+    card.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    await new Promise(r => setTimeout(r, 150));
+    out.keyboardOpens = ov.classList.contains('open');
+    ov.querySelector('[data-cp-close]').click();
+    return out;
+  })()`);
+  assert.equal(probe.menuOpensNotPopup, true, '⋯ opens the menu, not the popup');
+  assert.equal(probe.popupOpens, true, 'card click opens the forecast popup');
+  assert.match(probe.name, /霧社水庫西岸岔路/);
+  assert.match(probe.quickLine, /現在去會怎樣/);
+  assert.match(probe.quickLine, /✓/, 'tier badge rides the quick line');
+  assert.match(probe.quickLine, /2026-11-16 05:00/, 'next window rides the quick line');
+  assert.equal(probe.cellCount, 8, 'the strip is always 8 days');
+  assert.match(probe.day1, /ok.*11\/16.*✓/, 'day 1: conditions met (05:00 clean air)');
+  assert.match(probe.day2, /bad.*11\/17.*✗/, 'day 2: low cloud blows the custom threshold');
+  assert.match(probe.day8, /none.*─/, 'day 8: honest ─ — the ~48h feed does not cover it');
+  assert.match(probe.day8Title, /尚無資料/, 'the ─ explains itself');
+  assert.equal(probe.subjectRows.length, 2, '雲海窗 group row + 一般基準 row');
+  assert.match(probe.subjectRows[0].name, /雲海窗/, 'the theme GROUP name is the row name (official subject-row anatomy)');
+  assert.match(probe.subjectRows[0].day1, /ok.*✓/);
+  assert.match(probe.subjectRows[0].day2, /bad.*✗/, 'group row: day 2 fails the tuned cloud threshold');
+  assert.match(probe.subjectRows[1].name, /一般基準/);
+  assert.match(probe.subjectRows[1].day2, /ok.*✓/, 'baseline row: day 2 is shootable (90% low cloud only fails the custom threshold)');
+  assert.match(probe.subjectPanelTitle, /掛題材|題材/, '題材 entry opens the theme list manager');
+  assert.equal(probe.closed, true, '✕ closes the popup');
+  assert.equal(probe.keyboardOpens, true, 'Enter on the card opens the popup');
+});
+
+test('CL-APP-06 (2u, patch-8): theme manager CRUD — create (dup names NOT blocked) rides the real POST path; delete reopens the refreshed list', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const out = {};
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]'); // no groups yet
+    card.querySelector('.cl-cp-more').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const ov = document.querySelector('.cl-cp-overlay');
+    out.emptyNote = !!ov.querySelector('.cl-cp-th-empty');
+    // create group #1 through the real form → real POST /themes
+    ov.querySelector('#cl-cp-th-add').click();
+    await new Promise(r => setTimeout(r, 200));
+    let nm = ov.querySelector('#cl-cp-theme-name');
+    nm.value = '星光窗';
+    nm.dispatchEvent(new Event('input'));
+    ov.querySelector('#cl-cp-cc-precip').value = '0.2';
+    ov.querySelector('#cl-cp-cc-precip').dispatchEvent(new Event('change'));
+    ov.querySelector('#cl-cp-cc-submit').click();
+    // waitThemeList polls until the refreshed list reopens
+    const t0 = Date.now();
+    while (!ov.querySelector('.cl-cp-theme-row') && Date.now() - t0 < 6000) await new Promise(r => setTimeout(r, 150));
+    out.listAfterCreate = {
+      title: ov.querySelector('.cl-cp-m-head .name').textContent,
+      count: ov.querySelector('.cl-cp-th-count').textContent,
+      rows: [...ov.querySelectorAll('.cl-cp-theme-row .cl-cp-theme-info .n')].map(n => n.textContent),
+    };
+    // create #2 with the SAME name — duplicate names are NOT blocked
+    ov.querySelector('#cl-cp-th-add').click();
+    await new Promise(r => setTimeout(r, 200));
+    nm = ov.querySelector('#cl-cp-theme-name');
+    nm.value = '星光窗';
+    nm.dispatchEvent(new Event('input'));
+    ov.querySelector('#cl-cp-cc-wind').value = '5';
+    ov.querySelector('#cl-cp-cc-wind').dispatchEvent(new Event('change'));
+    ov.querySelector('#cl-cp-cc-submit').click();
+    const t1 = Date.now();
+    while (ov.querySelectorAll('.cl-cp-theme-row').length < 2 && Date.now() - t1 < 6000) await new Promise(r => setTimeout(r, 150));
+    out.dupRows = [...ov.querySelectorAll('.cl-cp-theme-row .cl-cp-theme-info .n')].map(n => n.textContent);
+    // delete the FIRST group → honest toast + refreshed list back to 1
+    window.__cpThemes_snapshot = JSON.parse(JSON.stringify(window.__cpThemes));
+    ov.querySelector('.cl-cp-theme-row [data-cp-th-act="del"]').click();
+    await new Promise(r => setTimeout(r, 200));
+    ov.querySelector('#cl-cp-th-del-confirm').click();
+    const t2 = Date.now();
+    // the confirm modal has NO theme rows — wait until the LIST modal reopens
+    // (th-count present) AND the surviving row count is ≤1, not just rows ≤1
+    while ((ov.querySelectorAll('.cl-cp-theme-row').length > 1 || !ov.querySelector('.cl-cp-th-count')) && Date.now() - t2 < 6000) await new Promise(r => setTimeout(r, 150));
+    out.afterDelete = {
+      toast: document.querySelector('.cl-cp-toast').textContent,
+      rows: [...ov.querySelectorAll('.cl-cp-theme-row .cl-cp-theme-info .n')].map(n => n.textContent),
+      count: ov.querySelector('.cl-cp-th-count').textContent,
+    };
+    return out;
+  })()`);
+  assert.equal(probe.emptyNote, true, 'the empty list explains itself (general baseline)');
+  assert.match(probe.listAfterCreate.count, /1\/5/, 'honest count after the create');
+  assert.deepEqual(probe.listAfterCreate.rows, ['星光窗']);
+  assert.equal(probe.dupRows.length, 2, 'duplicate name is NOT blocked — both groups saved');
+  assert.ok(probe.dupRows.every(n => n === '星光窗'));
+  assert.match(probe.afterDelete.toast, /已刪除/, 'honest deletion toast');
+  assert.deepEqual(probe.afterDelete.rows, ['星光窗'], 'exactly one group survives the delete');
+  assert.match(probe.afterDelete.count, /1\/5/);
 });
 
 test('CL-APP-06 (2g): browser teardown', async () => { await teardownBrowser(); });

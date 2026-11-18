@@ -21,6 +21,8 @@ import {
   DEDUP_WINDOW_DAYS,  roundCoord, dedupeKey, trialState, capFor,
   evaluateCustomPlace, dominantFailWord, energySaverLevel,
   processCustomFetchQueue, globalUsageState, userFetchCount,
+  MAX_THEMES_PER_PLACE, validateThemeInput, validateThemeNameInput,
+  evaluateThemeGroups, aggregateEvaluation,
 } from "../src/custom-places.js";
 import { signJWT } from "../src/auth.js";
 
@@ -50,7 +52,7 @@ function parseAssignments(sql, args) {
   return updates;
 }
 function makeMockD1() {
-  const t = { users: new Map(), custom_places: [], custom_fetch_queue: new Map(), feedback: [] };
+  const t = { users: new Map(), custom_places: [], custom_place_themes: [], custom_fetch_queue: new Map(), feedback: [] };
   const inPlace = (row) => {
     t.custom_places.push(row);
     return { meta: { changes: 1 } };
@@ -73,6 +75,30 @@ function cutoffIso(days, startOfDay = false) {
   return dbStamp(d.getTime());
 }
 function runSql(t, sql, args, db) {
+  if (/INSERT INTO custom_place_themes/.test(sql)) {
+    // two shapes: full insert (?1..?6 with name_i18n) and the lazy-backfill
+    // insert (?1..?5 without it — column order id, place_id, user_id, name, conditions)
+    const withI18n = /name_i18n/.test(sql);
+    t.custom_place_themes.push({
+      id: args[0], place_id: args[1], user_id: args[2], name: args[3],
+      name_i18n: withI18n ? args[4] : null,
+      conditions: withI18n ? args[5] : args[4],
+      created_at: dbStamp(NOW), updated_at: dbStamp(NOW),
+    });
+    return { meta: { changes: 1 } };
+  }
+  if (/UPDATE custom_place_themes SET/.test(sql)) {
+    const upd = parseAssignments(sql, args);
+    const th = t.custom_place_themes.find((x) => x.id === args[0]);
+    if (!th) return { meta: { changes: 0 } };
+    Object.assign(th, upd);
+    return { meta: { changes: 1 } };
+  }
+  if (/DELETE FROM custom_place_themes/.test(sql)) {
+    const before = t.custom_place_themes.length;
+    t.custom_place_themes = t.custom_place_themes.filter((x) => x.id !== args[0]);
+    return { meta: { changes: before - t.custom_place_themes.length } };
+  }
   if (/INSERT INTO custom_places/.test(sql)) {
     const [id, uid, name, lat, lng, elevation, timezone, cc] = args;
     t.custom_places.push({ id, user_id: uid, name, lat, lng, elevation, timezone, custom_conditions: cc, status: "active", created_at: dbStamp(NOW), updated_at: dbStamp(NOW), deleted_at: null });
@@ -129,6 +155,13 @@ function runSql(t, sql, args, db) {
 function runFirst(t, sql, args) {
   const u = sql.match(/SELECT device_id, level, created_at FROM users/);
   if (u) { const row = t.users.get(args[0]); return Promise.resolve(row || null); }
+  if (/SELECT COUNT\(\*\) AS n FROM custom_place_themes/.test(sql)) {
+    return Promise.resolve({ n: t.custom_place_themes.filter((r) => r.place_id === args[0]).length });
+  }
+  if (/FROM custom_place_themes WHERE id = \?1 AND place_id = \?2/.test(sql)) {
+    const r = t.custom_place_themes.find((x) => x.id === args[0] && x.place_id === args[1]);
+    return Promise.resolve(r || null);
+  }
   if (/COUNT\(\*\) AS n FROM custom_places WHERE user_id = \?1 AND created_at/.test(sql)) {
     const cutoff = /start of day/.test(sql) ? cutoffIso(0, true) : cutoffIso(1);
     return Promise.resolve({ n: t.custom_places.filter((r) => r.user_id === args[0] && r.created_at >= cutoff).length });
@@ -154,7 +187,7 @@ function runFirst(t, sql, args) {
       && x.status === "archived" && x.deleted_at && x.deleted_at >= cutoff);
     return Promise.resolve(r ? { id: r.id } : null);
   }
-  if (/SELECT id, user_id, name/.test(sql) && /FROM custom_places WHERE id = \?1/.test(sql)) {
+  if (/SELECT id, user_id, name/.test(sql) || (/SELECT id, user_id/.test(sql) && /FROM custom_places WHERE id = \?1/.test(sql))) {
     const r = t.custom_places.find((x) => x.id === args[0]);
     return Promise.resolve(r || null);
   }
@@ -181,6 +214,11 @@ function runFirst(t, sql, args) {
   return Promise.resolve(null);
 }
 function runAll(t, sql, args) {
+  if (/FROM custom_place_themes WHERE place_id = \?1/.test(sql)) {
+    const rows = t.custom_place_themes.filter((r) => r.place_id === args[0])
+      .sort((a, b) => a.created_at.localeCompare(b.created_at) || a.id.localeCompare(b.id));
+    return Promise.resolve({ results: rows });
+  }
   if (/FROM custom_places WHERE user_id = \?1 AND status != 'archived' ORDER BY created_at DESC/.test(sql)) {
     const rows = t.custom_places.filter((r) => r.user_id === args[0] && r.status !== "archived")
       .sort((a, b) => b.created_at.localeCompare(a.created_at));
@@ -274,6 +312,223 @@ test("dominantFailWord: largest violation share wins; visibility floor direction
   hourly.push({ local_date: "2026-11-16", hour: "09:00", values: { cloud_low: 95, cloud_mid: 5, cloud_high: 5, precipitation: 0, visibility: 20, wind: 2 } });
   assert.equal(dominantFailWord(hourly, { visibility_min_km: 3, cloud_low_max: 90 }, now), "霧");
   assert.equal(dominantFailWord(hourly, { cloud_low_max: 90 }, now), "低雲");
+});
+// ------------------------------------------ patch-5 ④: 適用月份 month window
+import { validateCustomConditions, findNextCustomWindow } from "../src/notify.js";
+test("patch-5 ④: months validation — 1..12 ints, dedupe+sort, empty rejected (omit = all year)", () => {
+  assert.deepEqual(validateCustomConditions({ months: [4, 3, 4] }).cc.months, [3, 4]);
+  assert.deepEqual(validateCustomConditions({}).cc, null);
+  assert.equal(validateCustomConditions({ months: [] }).ok, false);
+  assert.equal(validateCustomConditions({ months: [13] }).ok, false);
+  assert.equal(validateCustomConditions({ months: [0] }).ok, false);
+  assert.equal(validateCustomConditions({ months: [3.5] }).ok, false);
+  assert.equal(validateCustomConditions({ months: "3" }).ok, false);
+});
+test("patch-5 ④: month window — findNextCustomWindow skips out-of-month rows; evaluateCustomPlace reports honest 非適用月份 (never a weather word)", () => {
+  const now = Date.parse("2026-11-15T12:00:00+08:00");
+  const hourly = [];
+  for (let i = 0; i < 24; i++) hourly.push({ local_date: "2026-11-15", hour: `${String(i).padStart(2, "0")}:00`, values: { cloud_low: 10, precipitation: 0, visibility: 20, wind: 2 } });
+  // month included → rec even though other params would pass anyway
+  const inWin = findNextCustomWindow(hourly, { cloud_low_max: 50, months: [11] }, now, 0);
+  assert.ok(inWin && /2026-11-15 \d\d:00/.test(inWin.window || `${inWin.local_date} ${inWin.hour}`));
+  // month excluded → null + honest eligibility reason, NOT 低雲/雨 etc.
+  assert.equal(findNextCustomWindow(hourly, { cloud_low_max: 50, months: [6] }, now, 0), null);
+  const e = evaluateCustomPlace({ cloud_low_max: 50, months: [6] }, { hourly }, now);
+  assert.equal(e.tier, "no");
+  assert.equal(e.reason, "非適用月份");
+});
+// ----------------------------------- patch-7: private-card forecast popup endpoint
+test("patch-7: GET /custom_places/:id/eval — owner-only stored eval; queued 404 honest; trial-expired 403", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "u1", "paid");
+  const t = await mint(env, "u1");
+  const add = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "私點", lat: 24.8, lng: 121.7 }) }), env, {});
+  assert.equal(add.status, 200);
+  const id = (await add.json()).id;
+  // no stored eval yet → honest 404 with fetchQueued (never fabricated rows)
+  const none = await worker.fetch(makeReq(`/custom_places/${id}/eval`, { headers: hdr(t) }), env, {});
+  assert.equal(none.status, 404);
+  assert.equal((await none.json()).fetchQueued, true);
+  // stored eval → 200 with the SAME hourly the tier engine reads
+  const hourly = [{ local_date: "2026-01-01", hour: "05:00", values: { cloud_low: 10, precipitation: 0, visibility: 20000, wind: 2 } }];
+  env.EVALS._store.set(`v1:evals:custom:${id}`, JSON.stringify({ place_id: id, hourly, generated_at: "2026-01-01T00:00:00Z", elevation: 80, timezone: "Asia/Taipei" }));
+  const ok = await worker.fetch(makeReq(`/custom_places/${id}/eval`, { headers: hdr(t) }), env, {});
+  assert.equal(ok.status, 200);
+  const ob = await ok.json();
+  assert.equal(ob.ok, true);
+  assert.deepEqual(ob.hourly, hourly);
+  assert.equal(ob.generatedAt, "2026-01-01T00:00:00Z");
+  assert.equal(ob.timezone, "Asia/Taipei");
+  // another member's place simply does not exist (same CRUD rule as PATCH/DELETE)
+  seedUser(db, "u2", "paid");
+  const t2 = await mint(env, "u2");
+  const other = await worker.fetch(makeReq(`/custom_places/${id}/eval`, { headers: hdr(t2) }), env, {});
+  assert.equal(other.status, 404);
+  // trial expired → evaluation stopped (data kept), honest 403
+  db._tables.users.set("u1", { device_id: "u1", level: "free", created_at: dbStamp(NOW - TRIAL_DAYS * DAY) });
+  const t1b = await mint(env, "u1");
+  const expired = await worker.fetch(makeReq(`/custom_places/${id}/eval`, { headers: hdr(t1b) }), env, {});
+  assert.equal(expired.status, 403);
+});
+
+// --------------------------- patch-8: multi-theme condition groups per place
+const themeDay = new Date(NOW + DAY).toISOString().slice(0, 10); // tomorrow — inside the 24h judgment horizon
+const themeHourly = () => {
+  const out = [];
+  for (let i = 0; i < 24; i++) {
+    out.push({ local_date: themeDay, hour: `${String(i).padStart(2, "0")}:00`,
+      values: { cloud_low: 10, cloud_mid: 20, cloud_high: 30, precipitation: 0, visibility: 20, wind: 2 } });
+  }
+  return out;
+};
+
+test("patch-8: theme CRUD — create rides GET with per-group tiers; PATCH renames + re-sets conditions; DELETE removes; duplicate names NOT blocked; NO fetch, NO quota", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "m8", "paid");
+  const t = await mint(env, "m8");
+  const c = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "私點", lat: 24.8, lng: 121.7 }) }), env, {});
+  const id = (await c.json()).id;
+  env.EVALS._store.set(`v1:evals:custom:${id}`, JSON.stringify({ place_id: id, hourly: themeHourly(), generated_at: "2026-11-15T00:00:00Z" }));
+
+  // create ×2 with the SAME name — duplicate names are deliberately NOT blocked
+  const p1 = { name: "雲海窗", nameI18n: { "zh-TW": "雲海窗", en: "Cloud sea" }, conditions: { cloud_low_max: 20, window_start: "04:30", window_end: "07:00" } };
+  const r1 = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify(p1) }), env, {});
+  assert.equal(r1.status, 200);
+  const b1 = await r1.json();
+  assert.equal(b1.themes.used, 1);
+  const r2 = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "雲海窗", conditions: { cloud_low_max: 50 } }) }), env, {});
+  assert.equal(r2.status, 200, "duplicate name is NOT blocked (owner ruling)");
+  const b2 = await r2.json();
+  assert.notEqual(b2.id, b1.id);
+  assert.equal(b2.themes.used, 2);
+
+  // GET: both groups ride the list payload with same-source per-group tiers
+  const list = await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {});
+  const lb = await list.json();
+  const place = lb.places.find((p) => p.id === id);
+  assert.equal(place.themeGroups.length, 2);
+  assert.equal(place.themes.used, 2);
+  assert.equal(place.themes.cap, MAX_THEMES_PER_PLACE);
+  const gFirst = place.themeGroups.find((g) => g.id === b1.id);
+  assert.equal(gFirst.name, "雲海窗");
+  assert.deepEqual(gFirst.nameI18n, { "zh-TW": "雲海窗", en: "Cloud sea" });
+  assert.equal(gFirst.evaluation.tier, "rec", "per-group tier from the SAME evaluateCustomPlace machinery");
+  assert.match(gFirst.evaluation.window, new RegExp(`${themeDay} 0\\d:00`));
+  assert.equal(place.themeGroups[0].evaluation.tier, "rec");
+  assert.equal(place.evaluation.tier, "rec", "aggregate: any rec → rec");
+
+  // PATCH: rename + re-set conditions; then the tier follows the new blob
+  const tid1 = b1.id;
+  const up = await worker.fetch(makeReq(`/custom_places/${id}/themes/${tid1}`, { method: "PATCH", headers: hdr(t), body: JSON.stringify({ name: "星空窗", conditions: { cloud_low_max: 10 } }) }), env, {});
+  assert.equal(up.status, 200);
+  const list2 = await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {});
+  const lb2 = await list2.json();
+  const g1 = lb2.places.find((p) => p.id === id).themeGroups.find((g) => g.id === tid1);
+  assert.equal(g1.name, "星空窗");
+  assert.equal(g1.evaluation.tier, "rec", "10% low cloud ≤ the 20%-clean hour → still rec");
+
+  // DELETE removes the group
+  const del = await worker.fetch(makeReq(`/custom_places/${id}/themes/${tid1}`, { method: "DELETE", headers: hdr(t) }), env, {});
+  assert.equal(del.status, 200);
+  const list3 = await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {});
+  const lb3 = await list3.json();
+  assert.equal(lb3.places.find((p) => p.id === id).themeGroups.length, 1);
+
+  // NO fetch, NO quota: theme CRUD never touches the queue or the daily budget
+  // (the ONE 'new' entry was created with the place itself — it never grows)
+  assert.equal(db._tables.custom_fetch_queue.size, 1, "only the place's own first-fetch entry exists");
+  assert.equal(await userFetchCount(env, "m8"), 0, "the daily fetch budget is NOT consumed");
+  const usage = await globalUsageState(env);
+  assert.equal(usage.count, 0, "the global fetch counter is NOT consumed");
+
+  // another member's place/theme simply does not exist
+  seedUser(db, "m9", "paid");
+  const t9 = await mint(env, "m9");
+  const other = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t9), body: JSON.stringify({ name: "X", conditions: { cloud_low_max: 20 } }) }), env, {});
+  assert.equal(other.status, 404);
+  const other2 = await worker.fetch(makeReq(`/custom_places/${id}/themes/${tid1}`, { method: "DELETE", headers: hdr(t9) }), env, {});
+  assert.equal(other2.status, 404);
+});
+
+test("patch-8: cap 5 groups per place → the 6th is 403 theme_cap; validation honest (name required, non-empty conditions)", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "m8c", "paid");
+  const t = await mint(env, "m8c");
+  const c = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "私點", lat: 24.8, lng: 121.7 }) }), env, {});
+  const id = (await c.json()).id;
+  for (let i = 0; i < MAX_THEMES_PER_PLACE; i++) {
+    const r = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify({ name: `g${i}`, conditions: { cloud_low_max: 20 } }) }), env, {});
+    assert.equal(r.status, 200, `theme #${i + 1}`);
+  }
+  const over = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "g6", conditions: { cloud_low_max: 20 } }) }), env, {});
+  assert.equal(over.status, 403);
+  const ob = await over.json();
+  assert.equal(ob.reason, "theme_cap");
+  assert.equal(ob.cap, 5);
+  assert.match(ob.message["zh-TW"], /最多 5 組/);
+  // honest validation
+  const noName = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify({ conditions: { cloud_low_max: 20 } }) }), env, {});
+  assert.equal(noName.status, 400);
+  assert.match((await noName.json()).message["zh-TW"], /題材名稱/);
+  const noCc = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "X" }) }), env, {});
+  assert.equal(noCc.status, 400);
+  assert.match((await noCc.json()).message["zh-TW"], /至少設定一組條件/);
+  const badCc = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "X", conditions: { cloud_low_max: 999 } }) }), env, {});
+  assert.equal(badCc.status, 400);
+  // DELETE one → the cap frees up again
+  const tid = db._tables.custom_place_themes[0].id;
+  await worker.fetch(makeReq(`/custom_places/${id}/themes/${tid}`, { method: "DELETE", headers: hdr(t) }), env, {});
+  const again = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "g6", conditions: { cloud_low_max: 20 } }) }), env, {});
+  assert.equal(again.status, 200, "after a delete the 6th add passes");
+});
+
+test("patch-8: legacy single set migrates to ONE group (lazy backfill); aggregate = voted reason when nothing rec/shoots", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "m8l", "paid");
+  const t = await mint(env, "m8l");
+  const c = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "私點", lat: 24.8, lng: 121.7, customConditions: { cloud_low_max: 20, months: [11] } }) }), env, {});
+  assert.equal(c.status, 200);
+  const list = await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {});
+  const lb = await list.json();
+  const place = lb.places[0];
+  // migration: the single blob became ONE named group with the same conditions
+  assert.equal(place.themeGroups.length, 1);
+  assert.equal(place.themeGroups[0].name, "題材 1");
+  assert.deepEqual(place.themeGroups[0].conditions, { cloud_low_max: 20, months: [11] });
+  assert.equal(db._tables.custom_place_themes.length, 1, "the lazy backfill wrote the row (idempotent)");
+  assert.ok(place.customConditions && typeof place.customConditions === "object", "legacy blob still readable");
+  // idempotent: a second GET does NOT duplicate the group
+  const list2 = await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {});
+  assert.equal((await list2.json()).places[0].themeGroups.length, 1);
+
+  // aggregate: nothing rec/shoots → voted dominant reason (no single-group bias)
+  const now = NOW;
+  const rec = { hourly: themeHourly() };
+  const ev = evaluateThemeGroups([
+    { id: "a", name: "A", conditions: { cloud_low_max: 5 } },
+    { id: "b", name: "B", conditions: { cloud_low_max: 5 } },
+    { id: "c", name: "C", conditions: { visibility_min_km: 25 } },
+  ], rec, now);
+  assert.equal(ev[0].evaluation.tier, "no");
+  assert.equal(ev[0].evaluation.reason, "低雲");
+  const agg = aggregateEvaluation([...ev.map((g) => g.evaluation), evaluateCustomPlace(null, rec, now)]);
+  assert.equal(agg.tier, "shoot", "the lenient baseline still passes themeHourly — the place verdict is ○可拍 even when the tuned groups fail");
+  // pure vote (no baseline row): 2×低雲 outvote 1×霧
+  const aggVote = aggregateEvaluation(ev.map((g) => g.evaluation));
+  assert.equal(aggVote.tier, "no");
+  assert.equal(aggVote.reason, "低雲", "2×低雲 outvote 1×霧");
+  // rec windows: the EARLIEST qualifying window wins
+  const recs = [
+    { tier: "rec", reason: null, window: "2026-11-16 07:00" },
+    { tier: "rec", reason: null, window: "2026-11-16 05:00" },
+  ];
+  assert.equal(aggregateEvaluation(recs).window, "2026-11-16 05:00");
+  // shoot when no rec but the baseline passes
+  assert.equal(aggregateEvaluation([{ tier: "no", reason: "低雲" }, { tier: "shoot", reason: null, window: "2026-11-16 06:00" }]).tier, "shoot");
+  // validator shape
+  assert.equal(validateThemeInput(null).ok, false);
+  assert.equal(validateThemeInput({ name: "  ", conditions: { cloud_low_max: 20 } }).ok, false);
+  assert.deepEqual(validateThemeNameInput("名字", { fr: "drop me", "zh-TW": "保留" }).nameI18n, { "zh-TW": "保留" });
 });
 test("energySaverLevel: top-1% daily / persistent top-0.1% every-2-days / normal", () => {
   const users = {}; for (let i = 0; i < 200; i++) users[`u${i}`] = { count: 300 - i };
@@ -697,6 +952,17 @@ test("conditions/parse: trilingual inputs → strict schema suggestions; violati
   assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, confidence: 1.5 }).ok, false);
   assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, lead_minutes: -1 }).ok, false);
   assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, lead_minutes: null }).ok, true);
+  // patch-5 ③: conflict — non-overlapping windows come back as conflict text
+  // with NO concrete window; conflict + window together is a schema violation.
+  const CONFLICT = { ...GOOD_SUGGESTION, window_start: null, window_end: null, conflict: "兩個時間窗不重疊，請擇一" };
+  const c = validateParseSuggestions(CONFLICT);
+  assert.equal(c.ok, true);
+  assert.equal(c.suggestions.conflict, "兩個時間窗不重疊，請擇一");
+  assert.equal(c.suggestions.window_start, undefined);
+  assert.equal(validateParseSuggestions({ ...CONFLICT, window_start: "04:30", window_end: "07:00" }).ok, false, "conflict excludes a concrete window");
+  assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, conflict: "x".repeat(201) }).ok, false);
+  assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, conflict: "   " }).ok, false);
+  assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, conflict: 5 }).ok, false);
   // per-user 10/day budget: 3 used so far → 7 more pass, the 11th 403s
   const restore2 = await stubFetch(llmResponse(GOOD_SUGGESTION));
   try {

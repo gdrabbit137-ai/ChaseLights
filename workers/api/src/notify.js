@@ -69,6 +69,20 @@ export function validateCustomConditions(input) {
     }
     out.lead_minutes = n;
   }
+  // patch-5 ④: months — array of ints 1..12 (multi-select). Absent/empty =
+  // all year (the owner's default). Duplicates collapse; order is normalized.
+  if (input.months !== undefined && input.months !== null) {
+    if (!Array.isArray(input.months) || !input.months.length) {
+      return { ok: false, error: "customConditions.months must be a non-empty array of 1..12 (omit for all year)" };
+    }
+    const ms = [...new Set(input.months.map(Number))];
+    for (const m of ms) {
+      if (!Number.isInteger(m) || m < 1 || m > 12) {
+        return { ok: false, error: "customConditions.months entries must be integers 1..12" };
+      }
+    }
+    out.months = ms.sort((a, b) => a - b);
+  }
   return { ok: true, cc: Object.keys(out).length ? out : null };
 }
 
@@ -128,9 +142,14 @@ export function findNextCustomWindow(hourly, cc, nowMs, leadMinutes) {
   if (!cc || !Array.isArray(hourly)) return null;
   const earliest = nowMs + (leadMinutes || 0) * 60_000;
   const latest = nowMs + MATCH_WINDOW_H * 3_600_000;
+  // patch-5 ④: month window — rows outside the selected months are skipped
+  // (empty months = all year); both the cron and evaluateCustomPlace use this
+  // one hook, so 通知 and tier always honour the same month window.
+  const months = Array.isArray(cc.months) && cc.months.length ? new Set(cc.months) : null;
   let best = null;
   for (const row of hourly) {
     if (!row || typeof row.local_date !== "string" || typeof row.hour !== "string") continue;
+    if (months && !months.has(Number(row.local_date.slice(5, 7)))) continue;
     if (!hourInWindow(row.hour, cc.window_start, cc.window_end)) continue;
     if (!customHourMatches(row.values, cc)) continue;
     const t = slotTimeMs(row.local_date, row.hour);
