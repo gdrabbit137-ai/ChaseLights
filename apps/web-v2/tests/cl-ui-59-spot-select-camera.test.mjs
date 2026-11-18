@@ -169,7 +169,7 @@ test('CL-UI-59: wm_locate_aria / wm_locate_text exist in zh-TW, en, ja', () => {
 // 5. Cache-bust
 // ---------------------------------------------------------------------------
 test('CL-UI-59: weather-map.js stamp bumped to bclwg49 in the same ticket', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg49/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg50/);
   assert.ok(!/assets\/weather-map\.js\?v=bclwg34/.test(WG_HTML), 'old js stamp must not linger');
   assert.match(MAP_JS, /CL-UI-59/);
 });

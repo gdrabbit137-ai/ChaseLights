@@ -123,7 +123,7 @@ test('CL-UI-109 P3-5: 44px hit-area expansion (visual unchanged) lives inside th
 });
 
 test('CL-UI-109 stamp: weather-map.html bumped to bclwg49 (js+css+vendor css)', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg49/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg50/);
   assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg49/);
   assert.ok(!/bclwg44/.test(WG_HTML), 'old stamp must not linger');
 });

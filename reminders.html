@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChaseLights — 提醒清單</title>
+  <title>ChaseLights — 我的</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
@@ -159,6 +159,83 @@
       .rem-acts .rem-edit-btn,.rem-acts .rem-del{height:44px;min-height:44px}
       .rem-results button{min-height:44px}
     }
+    /* ── CL-APP-09 追加3：我的分頁（我的提醒／我的題材）＋我的題材管理區 ── */
+    .rem-tabs{display:flex;gap:var(--cl-sp-2);margin-top:var(--cl-sp-3)}
+    .rem-tab{height:var(--cl-control-h);min-height:44px;padding:0 var(--cl-sp-4);border:1px solid var(--cl-border);
+      border-radius:999px;background:transparent;color:var(--cl-text-3);font-weight:500;cursor:pointer}
+    .rem-tab.on{border:1.5px solid var(--cl-border-strong);color:var(--cl-text-1);font-weight:600;background:var(--cl-bg-1)}
+    .rem-count-row{max-width:760px;margin:var(--cl-sp-3) auto 0;padding:0 var(--cl-sp-4);color:var(--cl-text-3);font-size:var(--cl-fs-13)}
+    .sslib-wrap{display:flex;flex-direction:column;gap:var(--cl-sp-3)}
+    .sslib-head{display:flex;gap:var(--cl-sp-3);align-items:center;flex-wrap:wrap}
+    .sslib-title{font-size:var(--cl-fs-20);font-weight:700;color:var(--cl-text-1)}
+    .sslib-desc{font-size:var(--cl-fs-13);color:var(--cl-text-3)}
+    .sslib-quota{margin-left:auto;font-size:var(--cl-fs-12);color:var(--cl-text-3);font-family:var(--cl-mono)}
+    .sslib-add{height:var(--cl-btn-h);min-height:44px;padding:0 var(--cl-sp-4);border-radius:999px;border:1.5px solid var(--cl-border-strong);
+      background:transparent;color:var(--cl-text-1);font-weight:600;cursor:pointer}
+    .sslib-group{border:1px solid var(--cl-border);border-radius:var(--cl-r-md);padding:var(--cl-sp-3) var(--cl-sp-4);background:var(--cl-bg-1)}
+    .sslib-group-head{display:flex;gap:var(--cl-sp-2);align-items:center;margin-bottom:var(--cl-sp-2)}
+    .sslib-place-name{font-weight:600;color:var(--cl-text-1)}
+    .sslib-count{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+    .sslib-group-add{margin-left:auto;height:32px;min-height:44px;padding:0 var(--cl-sp-3);border-radius:var(--cl-r-xs);border:1px solid var(--cl-border-strong);
+      background:transparent;color:var(--cl-text-1);cursor:pointer}
+    .sslib-row{display:flex;gap:var(--cl-sp-2);align-items:center;flex-wrap:wrap;padding:var(--cl-sp-2) 0;border-top:1px solid var(--cl-border);cursor:pointer}
+    .sslib-row-name{font-weight:500;color:var(--cl-text-1)}
+    .sslib-row-sum{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+    .sslib-row-actions{margin-left:auto;display:flex;gap:var(--cl-sp-2)}
+    .sslib-act{height:32px;min-height:44px;padding:0 var(--cl-sp-3);border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);
+      background:transparent;color:var(--cl-text-1);cursor:pointer}
+    .sslib-act-del{color:var(--cl-red-text)}
+    .sslib-act-del.sslib-armed{border-color:var(--cl-red-border);background:var(--cl-red-bg);color:var(--cl-red-text);font-weight:600}
+    .sslib-badge{font-size:var(--cl-fs-12);padding:1px var(--cl-sp-2);border-radius:var(--cl-r-xs);border:1px solid var(--cl-border-strong);color:var(--cl-grey-text)}
+    .sslib-badge-priv{color:var(--cl-grey-text)}
+    .sslib-empty,.sslib-login{border:1px solid var(--cl-border);border-radius:var(--cl-r-md);padding:var(--cl-sp-5);color:var(--cl-text-3);font-size:var(--cl-fs-14)}
+    .sslib-empty .t{color:var(--cl-text-1);font-weight:600;margin-bottom:var(--cl-sp-2)}
+    .sslib-loading{color:var(--cl-text-3);font-size:var(--cl-fs-13)}
+    /* 條件表單 overlay（CL-APP-06 彈窗契約：永不高於視窗＋內部捲動） */
+    .sslib-overlay{position:fixed;inset:0;background:color-mix(in srgb, var(--cl-bg-1) 72%, black);display:none;z-index:1000}
+    .sslib-overlay.open{display:flex;align-items:center;justify-content:center;padding:var(--cl-sp-4)}
+    .sslib-modal{background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-md);
+      max-width:640px;width:100%;max-height:calc(100vh - 2*var(--cl-sp-4));box-sizing:border-box;overflow-y:auto;padding:var(--cl-sp-5)}
+    body.sslib-lock{overflow:hidden}
+    .sslib-m-head{display:flex;gap:var(--cl-sp-3);align-items:flex-start;margin-bottom:var(--cl-sp-4)}
+    .sslib-m-head .name{font-size:var(--cl-fs-20);font-weight:700;color:var(--cl-text-1)}
+    .sslib-m-head .sub{font-size:var(--cl-fs-12);color:var(--cl-text-3);font-family:var(--cl-mono)}
+    .sslib-close{margin-left:auto;height:var(--cl-control-h);min-height:44px;min-width:44px;border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);background:transparent;color:var(--cl-text-1);cursor:pointer}
+    .sslib-fld{display:flex;flex-direction:column;gap:4px;margin-bottom:var(--cl-sp-3)}
+    .sslib-fld label{font-size:var(--cl-fs-13);color:var(--cl-text-3)}
+    .sslib-fld .hint{font-size:var(--cl-fs-12);color:var(--cl-text-3)}
+    .sslib-inp,.sslib-sel,.sslib-search{height:var(--cl-control-h);border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-sm);
+      background:var(--cl-bg-1);color:var(--cl-text-1);padding:0 var(--cl-sp-2)}
+    .sslib-inp:focus,.sslib-sel:focus,.sslib-search:focus{outline:1.5px solid var(--cl-border-strong)}
+    .sslib-sem-wrap{display:flex;gap:var(--cl-sp-2);align-items:center;flex-wrap:wrap}
+    .sslib-sem-map{font-size:var(--cl-fs-12);color:var(--cl-text-3);font-family:var(--cl-mono)}
+    .sslib-params{display:grid;grid-template-columns:1fr 1fr;gap:var(--cl-sp-2) var(--cl-sp-3)}
+    .sslib-fld.wide{grid-column:1 / -1}
+    .sslib-win{display:flex;gap:var(--cl-sp-2);align-items:center}
+    .sslib-win input{height:var(--cl-control-h);flex:1;border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-sm);background:var(--cl-bg-1);color:var(--cl-text-1)}
+    .sslib-months{display:flex;gap:var(--cl-sp-2);flex-wrap:wrap}
+    .sslib-mo{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--cl-border);border-radius:var(--cl-r-xs);padding:0 var(--cl-sp-2);height:32px;min-height:44px;color:var(--cl-text-1)}
+    .sslib-advanced summary{cursor:pointer;color:var(--cl-text-3);height:44px;display:flex;align-items:center}
+    .sslib-preview{font-size:var(--cl-fs-12);color:var(--cl-text-3);margin-bottom:var(--cl-sp-3)}
+    .sslib-preview .k{color:var(--cl-text-1);font-family:var(--cl-mono)}
+    .sslib-submit{height:var(--cl-btn-h);min-height:44px;width:100%;border:none;border-radius:var(--cl-r-md);
+      background:var(--cl-green-text);color:var(--cl-bg-1);font-weight:600;cursor:pointer}
+    .sslib-toast{position:fixed;left:50%;bottom:calc(64px + var(--cl-sp-3));transform:translateX(-50%) translateY(8px);
+      background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-md);padding:var(--cl-sp-2) var(--cl-sp-4);
+      color:var(--cl-text-1);font-size:var(--cl-fs-13);opacity:0;pointer-events:none;transition:opacity .2s;max-width:min(92vw,480px);z-index:1001;white-space:pre-line}
+    .sslib-toast.show{opacity:1}
+    /* 選景點 picker */
+    .sslib-pick-sec{font-size:var(--cl-fs-13);color:var(--cl-text-3);margin:var(--cl-sp-3) 0 var(--cl-sp-2)}
+    .sslib-pick-list{display:flex;flex-direction:column;gap:var(--cl-sp-2);max-height:220px;overflow-y:auto}
+    .sslib-pick-item{display:flex;gap:var(--cl-sp-2);align-items:center;height:var(--cl-control-h);min-height:44px;padding:0 var(--cl-sp-3);
+      border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);background:transparent;color:var(--cl-text-1);cursor:pointer;text-align:left}
+    .sslib-pick-item:hover{border-color:var(--cl-border-strong)}
+    .sslib-pick-none{color:var(--cl-text-3);font-size:var(--cl-fs-13);padding:var(--cl-sp-2) 0}
+    @media (max-width: 480px) {
+      .sslib-params{grid-template-columns:1fr}
+      .sslib-quota{margin-left:0;width:100%}
+      .sslib-row-actions{margin-left:0;width:100%}
+    }
   </style>
 </head>
 <body>
@@ -169,7 +246,7 @@
       <div class="site-nav-links">
         <a class="site-nav-item" data-nav-target="cards" href="./index.html" data-i18n="nav_cards">卡片</a>
         <a class="site-nav-item" data-nav-target="weather" href="./weather-map.html" data-i18n="nav_weathermap">天氣圖</a>
-        <a class="site-nav-item" data-nav-target="reminders" data-active="page" href="./reminders.html" data-i18n="nav_reminders">提醒</a>
+        <a class="site-nav-item" data-nav-target="reminders" data-active="page" href="./reminders.html" data-i18n="nav_my">我的</a>
         <div class="site-nav-more" data-member-area>
           <span class="site-nav-item" data-member-name hidden>會員</span>
           <button class="site-nav-more-btn" type="button" data-member-toggle
@@ -188,8 +265,7 @@
 
   <header class="rem-header">
     <div class="rem-title-row">
-      <h1>🔔 <span id="page-title">拍攝提醒</span></h1>
-      <span class="rem-count" id="rem-count"></span>
+      <h1>👤 <span id="page-title">我的</span></h1>
       <span class="rem-lang">
         <select id="lang-select" class="control-dropdown lang-dropdown" aria-label="語言">
           <option value="zh-TW" selected>🌐 繁體中文</option>
@@ -198,8 +274,19 @@
         </select>
       </span>
     </div>
+    <!-- CL-APP-09 追加3: the 提醒 page is now the 我的 page — two sections:
+         我的提醒 (the original reminder list, untouched) + 我的題材 (new
+         management area rendered by subject-sets-library.js). -->
+    <div class="rem-tabs" role="tablist" aria-label="我的分區">
+      <button type="button" class="rem-tab" id="tab-reminders" data-my-tab="reminders" role="tab"
+              aria-selected="true" data-i18n="my_rem_tab">我的提醒</button>
+      <button type="button" class="rem-tab" id="tab-subjects" data-my-tab="subjects" role="tab"
+              aria-selected="false" data-i18n="my_subj_tab">我的題材</button>
+    </div>
   </header>
 
+  <div id="sec-reminders">
+    <div class="rem-count-row"><span class="rem-count" id="rem-count"></span></div>
   <div class="rem-wrap">
     <section class="rem-panel" id="rem-login-panel" hidden>
       <div class="rem-login" id="rem-login-body"></div>
@@ -287,11 +374,18 @@
 
     <p id="rem-state" class="rem-state"></p>
   </div>
+  </div><!-- /sec-reminders -->
+
+  <!-- CL-APP-09 追加3: 我的題材 section — rendered by subject-sets-library.js -->
+  <div id="sec-subjects" hidden>
+    <div class="rem-wrap sslib-wrap" id="ss-lib-root"></div>
+  </div>
 
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui116"></script>
   <script src="./assets/reminders-client.js?v=clui83"></script>
-  <script src="./assets/reminders-page.js?v=clui99"></script>
+  <script src="./assets/reminders-page.js?v=clui100"></script>
+  <script src="./assets/subject-sets-library.js?v=clapp09b"></script>
   <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
   <footer class="site-footer">
     <a class="site-footer-link" href="./sources.html" data-sf-i18n="sf_sources">資料來源與授權</a>

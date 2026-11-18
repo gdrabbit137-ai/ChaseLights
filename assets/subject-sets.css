@@ -1,0 +1,70 @@
+/* CL-APP-09: 自訂題材 on official spots — gray identity only (never ✓○✗
+   semantic colors), same visual language as the private-card gray layer.
+   Token-only colors: no hex outside :root (CL-UI-85 scan). */
+
+/* ⋯ trigger on official cards (sits next to ★; a button, so the card's own
+   click guard ignores it) */
+.cl-ss-more{width:28px;height:28px;margin-left:6px;border-radius:999px;border:1px solid var(--cl-border);
+  background:var(--cl-bg-2);color:var(--cl-text-2);font-size:14px;line-height:1;cursor:pointer;flex:none;font-family:inherit}
+.cl-ss-more:hover{color:var(--cl-text-1);background:var(--cl-bg-3)}
+
+/* shared portal menu (same pattern as the private-card ⋯ menu) */
+.cl-ss-menu{position:fixed;min-width:170px;background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);
+  border-radius:var(--cl-r-md);box-shadow:var(--cl-shadow-3);padding:6px;display:none;z-index:95}
+.cl-ss-menu.open{display:block}
+.cl-ss-menu button{display:flex;align-items:center;width:100%;min-height:44px;padding:0 10px;border:0;border-radius:var(--cl-r-sm);
+  background:transparent;color:var(--cl-text-1);font-size:13px;cursor:pointer;text-align:left;font-family:inherit}
+.cl-ss-menu button:hover{background:var(--cl-bg-2)}
+
+/* panel section (place modal / 題材面板) */
+.cl-ss-section{margin-top:var(--cl-sp-4);border:1px dashed var(--cl-border-strong);border-radius:var(--cl-r-md);
+  padding:var(--cl-sp-3);background:var(--cl-bg-2)}
+.cl-ss-head{display:flex;align-items:center;gap:var(--cl-sp-2);flex-wrap:wrap;margin-bottom:var(--cl-sp-2)}
+.cl-ss-head-title{font-size:13px;font-weight:600;color:var(--cl-text-1)}
+.cl-ss-quota{font-family:var(--cl-mono);font-size:11px;color:var(--cl-text-3)}
+.cl-ss-add{margin-left:auto;display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:999px;
+  border:1px solid var(--cl-border-strong);background:var(--cl-bg-1);color:var(--cl-text-1);font-size:12px;cursor:pointer;font-family:inherit}
+.cl-ss-add:hover{background:var(--cl-bg-3)}
+.cl-ss-rows{display:flex;flex-direction:column;gap:var(--cl-sp-3)}
+.cl-ss-loading,.cl-ss-empty,.cl-ss-login{font-size:12px;color:var(--cl-text-3)}
+
+/* one custom set row — SAME row anatomy as official opportunity cards */
+.cl-ss-row{border:1px solid var(--cl-border);border-radius:var(--cl-r-md);padding:var(--cl-sp-3);background:var(--cl-bg-1)}
+.cl-ss-row .opportunity-head{margin-bottom:4px}
+.cl-ss-badge{display:inline-flex;align-items:center;height:18px;padding:0 8px;margin-left:2px;border-radius:999px;flex:none;
+  background:var(--cl-bg-2);border:1px dashed var(--cl-border-strong);color:var(--cl-grey-text);font-size:11px;vertical-align:middle}
+.cl-ss-badge-stale{border-style:solid;color:var(--cl-text-2)}
+.cl-ss-strip{display:flex;flex-direction:column;gap:2px;margin-top:2px}
+.cl-ss-nonote{font-size:12px;color:var(--cl-text-3);margin-top:2px}
+.cl-ss-meta{display:flex;gap:var(--cl-sp-3);flex-wrap:wrap;font-size:12px;color:var(--cl-text-3);margin-top:4px}
+.cl-ss-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.cl-ss-act{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;
+  border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-2);font-size:12px;cursor:pointer;font-family:inherit}
+.cl-ss-act:hover{color:var(--cl-text-1);background:var(--cl-bg-3)}
+.cl-ss-act-del:hover{color:var(--cl-text-1)}
+
+/* diff vs official (fork semantics) */
+.cl-ss-diff summary{font-size:12px;color:var(--cl-text-3);cursor:pointer;list-style:none}
+.cl-ss-diff-body{margin-top:4px;display:flex;flex-direction:column;gap:2px}
+.cl-ss-diff-row{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--cl-text-2);align-items:baseline}
+.cl-ss-diff-metric{font-family:var(--cl-mono);color:var(--cl-text-3)}
+.cl-ss-diff-warn .cl-ss-diff-flag{color:var(--cl-grey-text);border:1px dashed var(--cl-border-strong);border-radius:999px;padding:0 6px;font-size:11px}
+.cl-ss-diff-none{font-size:12px;color:var(--cl-text-3)}
+
+/* editor ±30% advisory (warn, never block) */
+.cl-ss-warn{display:none;flex-direction:column;gap:2px;margin-bottom:var(--cl-sp-2)}
+.cl-ss-warn-line{font-size:12px;color:var(--cl-grey-text)}
+
+/* free-at-cap gray upgrade card (owner spec §3 — 灰度樣式) */
+.cl-ss-upgrade{display:flex;align-items:center;min-height:44px;padding:8px 12px;border-radius:var(--cl-r-md);
+  border:1px dashed var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-2);font-size:12px}
+
+/* toast inherits .cl-cp-toast; multi-line warnings need pre-line */
+.cl-cp-toast{white-space:pre-line}
+
+/* mobile: keep rows single-column and touch targets ≥44px */
+@media (max-width:768px){
+  .cl-ss-row{padding:10px}
+  .cl-ss-act{min-height:44px}
+  .cl-ss-more{width:32px;height:32px}
+}

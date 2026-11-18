@@ -170,7 +170,7 @@ test('CL-UI-93 C2: the page stays OUT of the site nav (direct URL, owner ruling)
 });
 
 test('CL-UI-93 C3: cache-bust stamp bumped for the genre-eval.js rewrite', () => {
-  assert.match(html, /assets\/genre-eval\.js\?v=clui95/);
+  assert.match(html, /assets\/genre-eval\.js\?v=clui96/);
   // Shared shells keep their pinned stamps (CL-INT-176: main's app.css stamp
   // already advanced to clui102 via CL-INT-175 — merge keeps the main-side pin).
   assert.match(html, /assets\/app\.css\?v=clui102/);
@@ -181,7 +181,7 @@ test('CL-UI-93 C3: cache-bust stamp bumped for the genre-eval.js rewrite', () =>
 test('CL-UI-93 C4: the mockup day-cell copy pack is trilingual and label-clean', () => {
   for (const key of ['tab_ok', 'tab_no', 'tab_unk', 'tab_all', 'unk_suffix', 'unk_note',
     'today', 'today_v', 'th_metric', 'cond_loading', 'r_tw', 'r_jp', 'r_us',
-    'nav_cards', 'nav_weathermap', 'nav_reminders', 'nav_more_tools', 'nav_genre_eval', 'nav_field_intake']) {
+    'nav_cards', 'nav_weathermap', 'nav_my', 'nav_more_tools', 'nav_genre_eval', 'nav_field_intake']) {
     const re = new RegExp(`${key}: '[^']*'`, 'g');
     const hits = js.match(re) || [];
     assert.equal(hits.length, 3, `${key} exists in all three dictionaries`);

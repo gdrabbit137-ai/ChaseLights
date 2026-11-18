@@ -59,7 +59,7 @@ test('CL-UI-79 (1): source contract — 560px subject-panel modal, max-content g
   assert.doesNotMatch(appSource, /<a class="place-hourly-link"/);
   assert.match(appSource, /id="place-hourly-btn"/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui111/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui112/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
 });
 
@@ -70,6 +70,7 @@ const BROWSER = process.env.CHROMIUM_EXECUTABLE
 
 const stripHtml = (() => {
   const helperCode = grab('function compactHourSegmentsText', 'function v2ContractThreshold')
+    + grab('function v2MetricName', '// CL-COPY-01:')
     + grab('function v2DominantFailMetric', 'function v2DayStripHtml')
     + grab('function v2DayStripHtml', '// CL-UI-64: top');
   const prelude = `

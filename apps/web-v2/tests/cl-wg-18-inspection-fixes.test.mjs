@@ -129,10 +129,13 @@ test('390px: basemap badge and region-card-sub wrap instead of mid-word ellipsis
 });
 
 test('cache-bust pins for weather-map.js/.css move together with content changes', () => {
+  // CL-APP-09: stamps are PER-FILE (house rule — bump only the changed asset).
+  // The nav rename touched weather-map.js only → js=47, css stays 46.
   const pins = [...HTML.matchAll(/(weather-map\.(?:js|css))\?v=(bclwg\d+)/g)].map(m => [m[1], m[2]]);
   assert.equal(pins.length, 2, 'both weather-map asset pins exist');
-  const versions = pins.map(([, v]) => v);
-  assert.equal(versions[0], versions[1], 'js and css pins are bumped together');
-  assert.ok(Number(versions[0].replace('bclwg', '')) >= 19,
-    `pins advanced past the CL-WG-18 content change (got ${versions[0]})`);
+  const byFile = Object.fromEntries(pins);
+  assert.ok(Number(byFile['weather-map.js'].replace('bclwg', '')) >= 47,
+    `weather-map.js stamp advanced past the CL-APP-09 nav rename (got ${byFile['weather-map.js']})`);
+  assert.ok(Number(byFile['weather-map.css'].replace('bclwg', '')) >= 46,
+    `weather-map.css stamp at its floor (got ${byFile['weather-map.css']})`);
 });

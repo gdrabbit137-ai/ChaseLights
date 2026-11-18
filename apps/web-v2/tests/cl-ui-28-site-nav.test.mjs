@@ -124,10 +124,11 @@ test('CL-UI-28 (7): page toolbars stay below the nav (nav = switching only)', ()
 });
 
 test('CL-UI-28 (8): nav i18n keys exist in all three dictionaries', () => {
-  // CL-UI-58: the reminders page mirrors the nav keys it renders.
+  // CL-APP-09: the reminders nav item was renamed 「我的」 (nav_my) — the
+  // reminders page mirrors the nav keys it renders.
   const navSources = [appJs, read('assets/genre-eval.js'), read('assets/field-intake.js'), read('assets/reminders-page.js')];
   for (const src of navSources) {
-    for (const key of ['nav_cards', 'nav_weathermap', 'nav_reminders']) {
+    for (const key of ['nav_cards', 'nav_weathermap', 'nav_my']) {
       assert.match(src, new RegExp(`${key}:`), `${key} present`);
     }
   }
@@ -147,7 +148,7 @@ test('CL-UI-28 (9): index.html stamps tracked (CL-UI-73: app.js/app.css at clui1
   assert.match(indexHtml, /assets\/site-nav\.css\?v=clui116/);
   assert.doesNotMatch(indexHtml, /site-nav\.css\?v=clui62/);
   assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui111/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui112/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui102/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });
@@ -182,6 +183,6 @@ test('CL-UI-116: every shell-page header carries the CL-APP-05 brand SVG (emoji 
 });
 
 test('CL-UI-28 (10): weather-map.js stamp bumped in weather-map.html (same commit)', () => {
-  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg49/);
+  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg50/);
   assert.doesNotMatch(wgHtml, /bclwg23|bclwg24/);
 });

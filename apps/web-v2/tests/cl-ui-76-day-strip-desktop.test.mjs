@@ -56,7 +56,7 @@ test('CL-UI-76 (1): desktop tier CSS — content-sized cells, mobile content-siz
   assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:3px 5px;gap:2px\}/);
   assert.doesNotMatch(mobile, /min-width:90/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui111/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui112/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
 });
 
@@ -69,6 +69,7 @@ const BROWSER = process.env.CHROMIUM_EXECUTABLE
 // extracted function, styled by the REAL app.css — no test-only CSS.
 const stripHtml = (() => {
   const helperCode = grab('function compactHourSegmentsText', 'function v2ContractThreshold')
+    + grab('function v2MetricName', '// CL-COPY-01:')
     + grab('function v2DominantFailMetric', 'function v2DayStripHtml')
     + grab('function v2DayStripHtml', '// CL-UI-64: top');
   const prelude = `

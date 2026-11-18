@@ -31,7 +31,7 @@
 
   var I18N = {
     'zh-TW': {
-      page_title: '提醒清單', nav_cards: '卡片', nav_weathermap: '天氣圖', nav_reminders: '提醒',
+      page_title: '我的', nav_cards: '卡片', nav_weathermap: '天氣圖', nav_my: '我的', my_rem_tab: '我的提醒', my_subj_tab: '我的題材',
       rem_list_title: '我的提醒',
       rem_add_title: '＋ 新增提醒',
       rem_add_btn: '加入提醒',
@@ -80,7 +80,7 @@
       rem_cc_invalid: '自訂條件數值超出範圍，請再檢查。'
     },
     'en': {
-      page_title: 'Reminders', nav_cards: 'Cards', nav_weathermap: 'Weather map', nav_reminders: 'Reminders',
+      page_title: 'My Library', nav_cards: 'Cards', nav_weathermap: 'Weather map', nav_my: 'My Library', my_rem_tab: 'My reminders', my_subj_tab: 'My subjects',
       rem_list_title: 'My reminders',
       rem_add_title: '＋ New reminder',
       rem_add_btn: 'Add reminder',
@@ -129,7 +129,7 @@
       rem_cc_invalid: 'Some custom-condition values are out of range — please check.'
     },
     'ja': {
-      page_title: 'リマインダー', nav_cards: 'カード', nav_weathermap: '天気マップ', nav_reminders: 'リマインダー',
+      page_title: 'マイライブラリ', nav_cards: 'カード', nav_weathermap: '天気マップ', nav_my: 'マイライブラリ', my_rem_tab: 'マイリマインダー', my_subj_tab: 'マイ題材',
       rem_list_title: 'リマインダー一覧',
       rem_add_title: '＋ リマインド追加',
       rem_add_btn: 'リマインドに追加',

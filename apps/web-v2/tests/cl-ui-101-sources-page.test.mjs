@@ -94,7 +94,7 @@ test('CL-UI-101 (4): sources page trilingual — nav + page keys in en/ja, zh-TW
   assert.ok(navM, 'NAV_I18N block present');
   const srcM = srcHtml.match(/var SRC_I18N = \{[\s\S]*?\n      \};/);
   assert.ok(srcM, 'SRC_I18N block present');
-  for (const key of ['nav_cards', 'nav_weathermap', 'nav_reminders']) {
+  for (const key of ['nav_cards', 'nav_weathermap', 'nav_my']) {
     assert.match(navM[0], new RegExp(`${key}: \\{ en: '[^']+', ja: '[^']+' \\}`), `${key} en+ja`);
   }
   const keyRe = /(\w+): \{ en: '((?:[^'\\]|\\.)*)', ja: '((?:[^'\\]|\\.)*)' \}/g;
@@ -155,7 +155,7 @@ test('CL-UI-101 (6): site-footer.js — self-contained trilingual pack, no app.j
   assert.match(footerJs, /chaselights_lang/);
   assert.match(footerJs, /'@media \(max-width:390px\)/, '390px rhythm in the injected style');
   // Never edits app.js — no stamp bump needed for app assets this ticket.
-  assert.match(indexHtml, /assets\/app\.js\?v=clui111/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui112/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui102/);
 });
 
