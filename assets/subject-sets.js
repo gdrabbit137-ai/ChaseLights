@@ -112,7 +112,7 @@
     },
   };
 
-  var state = { member: null, contracts: null, contractsPromise: null, panelSig: '', evalCache: {} };
+  var state = { member: null, contracts: null, contractsPromise: null, panelSig: '', evalCache: {}, dirty: false };
   var els = {};
 
   function t() { return T[currentLang()] || T['zh-TW']; }
@@ -136,6 +136,7 @@
   function toast(msg) {
     if (!els.toast) {
       els.toast = document.createElement('div'); els.toast.className = 'cl-cp-toast'; els.toast.setAttribute('role', 'status');
+      els.toast.style.zIndex = '1100'; /* CL-APP-09b: must paint above the place modal (z 1000) */
       document.body.appendChild(els.toast);
     }
     els.toast.textContent = typeof msg === 'string' ? msg : (msg && msg[currentLang()]) || '';
@@ -252,7 +253,12 @@
     var btn = e.target.closest('.cl-ss-more');
     if (btn) {
       e.stopPropagation();
-      var pid = btn.closest('[data-spot-id]') ? (btn.closest('[data-spot-id]').dataset.spotId) : (btn.dataset.placeId || '');
+      // CL-APP-09b: the homepage cards carry data-place-id (NOT data-spot-id)
+      // and decorateCards never stamps the button, so the old lookup always
+      // resolved pid='' and the ＋加自訂題材 item was a silent no-op. Read
+      // whichever id attribute the card ancestor actually carries.
+      var host = btn.closest('[data-spot-id]') || btn.closest('[data-place-id]');
+      var pid = host ? (host.dataset.spotId || host.dataset.placeId || '') : (btn.dataset.placeId || '');
       if (els.menu && els.menu.classList.contains('open') && btn.getAttribute('aria-expanded') === 'true') closeMenu();
       else openCardMenu(btn, pid);
       return;
@@ -266,16 +272,77 @@
   function ensureOverlay() {
     if (els.overlay) return;
     els.overlay = document.createElement('div');
-    els.overlay.className = 'cl-cp-overlay';
+    // CL-APP-09b marker: only THIS asset's sheet gets the keyboard-aware fit
+    // (custom-places.js owns the same shared classes — leave its sheet alone).
+    els.overlay.className = 'cl-cp-overlay cl-ss-overlay';
     els.overlay.innerHTML = '<div class="cl-cp-modal"></div>';
     els.overlay.addEventListener('click', function (e) { if (e.target === els.overlay) closeOverlay(); });
     document.body.appendChild(els.overlay);
+  }
+  // CL-APP-09b (owner iPhone repro): the iOS keyboard shrinks the VISUAL
+  // viewport while 100vh (the ≤700px sheet's min/max-height) keeps measuring
+  // the LAYOUT viewport. The editor (~842px tall at 390) fits inside 100vh,
+  // so the sheet never scrolls internally — with the keyboard up everything
+  // below the visible band (條件表單 / 適用月份 / 送出鈕) was unreachable and
+  // the user was stuck on the name field. Fit the OPEN sheet to the visual
+  // viewport on every resize/scroll: the band becomes exactly the visible
+  // region, the content overflows it, and internal scrolling reaches the
+  // submit button. No visualViewport (old engines) → the CSS sheet stands.
+  function fitOverlay() {
+    if (!els.overlay || !els.overlay.classList.contains('open')) return;
+    var vv = window.visualViewport;
+    if (!vv || typeof vv.height !== 'number') return;
+    var modal = els.overlay.querySelector('.cl-cp-modal');
+    var full = Math.round(window.innerHeight);
+    var h = Math.round(vv.height);
+    var off = Math.max(0, Math.round(vv.offsetTop || 0));
+    if (h >= full && off === 0) {
+      // keyboard closed (and desktop): hand the sheet back to the CSS rules
+      els.overlay.style.top = '';
+      els.overlay.style.height = '';
+      if (modal) { modal.style.minHeight = ''; modal.style.maxHeight = ''; }
+      return;
+    }
+    els.overlay.style.top = off + 'px';
+    els.overlay.style.height = h + 'px';
+    if (modal) { modal.style.minHeight = h + 'px'; modal.style.maxHeight = h + 'px'; }
+    var ae = document.activeElement;
+    if (ae && els.overlay.contains(ae)) {
+      try { ae.scrollIntoView({ block: 'nearest' }); } catch (e) { /* old engine */ }
+    }
+  }
+  function attachViewportFit() {
+    var vv = window.visualViewport;
+    if (!vv || els._vvFit) return;
+    els._vvFit = function () { fitOverlay(); };
+    try {
+      vv.addEventListener('resize', els._vvFit);
+      vv.addEventListener('scroll', els._vvFit);
+    } catch (e) { els._vvFit = null; }
+  }
+  function detachViewportFit() {
+    var vv = window.visualViewport;
+    if (vv && els._vvFit) {
+      try {
+        vv.removeEventListener('resize', els._vvFit);
+        vv.removeEventListener('scroll', els._vvFit);
+      } catch (e) { /* already gone */ }
+    }
+    els._vvFit = null;
+    if (els.overlay) {
+      els.overlay.style.top = '';
+      els.overlay.style.height = '';
+      var modal = els.overlay.querySelector('.cl-cp-modal');
+      if (modal) { modal.style.minHeight = ''; modal.style.maxHeight = ''; }
+    }
   }
   function openOverlay(html) {
     ensureOverlay();
     els.overlay.querySelector('.cl-cp-modal').innerHTML = html;
     els.overlay.classList.add('open');
     document.body.classList.add('cl-cp-lock');
+    attachViewportFit();
+    fitOverlay();
     var first = els.overlay.querySelector('input, select, button.cl-cp-submit');
     if (first) { try { first.focus({ preventScroll: true }); } catch (e) { try { first.focus(); } catch (e2) { } } }
   }
@@ -283,6 +350,7 @@
     if (!els.overlay) return;
     els.overlay.classList.remove('open');
     document.body.classList.remove('cl-cp-lock');
+    detachViewportFit();
   }
   function wireClose() {
     els.overlay.querySelectorAll('[data-ss-close]').forEach(function (b) {
@@ -535,6 +603,7 @@
               return t().warn_pct.replace('{m}', w.metric).replace('{o}', fmtNum(w.official)).replace('{v}', fmtNum(w.value));
             });
             toast((mode.set ? t().done1_edit : t().done1) + (warnTxt.length ? '\n' + warnTxt.join('\n') : ''));
+            state.dirty = true; /* CL-APP-09b: the list must refresh NOW */
             closeOverlay();
             renderPanels();
           })
@@ -683,10 +752,14 @@
     if (!host) return;
     var sig = host.placeId + '|' + currentLang() + '|' + (state.member ? state.member.displayName || '1' : 'out');
     var section = host.body.querySelector('.cl-ss-section');
-    if (section && section.dataset.ssSig === sig && section._ssSig2 === host.body.childElementCount) {
+    // CL-APP-09b: a create/update/reset/delete must show up IMMEDIATELY — the
+    // signature guard (same panel still open) would otherwise skip the
+    // re-render and the new set stayed invisible until the panel was reopened.
+    if (section && !state.dirty && section.dataset.ssSig === sig && section._ssSig2 === host.body.childElementCount) {
       // same panel still open; refresh verdicts only if data changed
       return;
     }
+    state.dirty = false;
     if (!section) {
       section = document.createElement('div');
       section.className = 'cl-ss-section';
@@ -782,7 +855,7 @@
               body: JSON.stringify({ reset_to_official: true }),
             }).then(function (r) { return r.json().then(function (bd) { return { status: r.status, body: bd }; }); })
               .then(function (r) {
-                if (r.status === 200) { toast(t().reset_note); renderPanels(); }
+                if (r.status === 200) { state.dirty = true; toast(t().reset_note); renderPanels(); }
                 else toast((r.body && r.body.error) || 'HTTP ' + r.status);
               });
           });
@@ -798,7 +871,7 @@
                 body: JSON.stringify({ base_conditions: mapOfficialToCc(c), base_rev: c.revision || null }),
               }).then(function (r) { return r.json().then(function (bd) { return { status: r.status, body: bd }; }); })
                 .then(function (r) {
-                  if (r.status === 200) { toast(t().sync_note); renderPanels(); }
+                  if (r.status === 200) { state.dirty = true; toast(t().sync_note); renderPanels(); }
                   else toast((r.body && r.body.error) || 'HTTP ' + r.status);
                 });
             });
@@ -807,7 +880,7 @@
           api(API + '/' + id, { method: 'DELETE' })
             .then(function (r) { return r.json().then(function (bd) { return { status: r.status, body: bd }; }); })
             .then(function (r) {
-              if (r.status === 200) { renderPanels(); }
+              if (r.status === 200) { state.dirty = true; renderPanels(); }
               else toast((r.body && r.body.error) || 'HTTP ' + r.status);
             }).catch(function () { toast('network'); });
         }
