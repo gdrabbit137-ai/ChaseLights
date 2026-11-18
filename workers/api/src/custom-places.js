@@ -39,6 +39,14 @@ export const DEDUP_WINDOW_DAYS = 30;
 export const COORD_PRECISION = 3;            // 0.001° dedupe key
 export const NOMINATION_THROTTLE_DAYS = 7;
 export const NAME_MAX_LEN = 60;
+// patch-8 (owner ruling): ONE private point may carry MULTIPLE condition
+// groups (custom themes) — each with its own name (i18n) + the CL-UI-99
+// conditions blob (months live inside it). Cap = 5 groups per place. The
+// fetch quota does NOT scale with groups: weather is fetched ONCE per place
+// and every group judges the SAME stored hourly rows, so theme CRUD never
+// enqueues a fetch and never consumes the daily fetch budget.
+export const MAX_THEMES_PER_PLACE = 5;
+export const THEME_NAME_MAX_LEN = 40;
 // Quota insurance (design-review-8 §2.2): 1 custom place ≈ 1.0 Open-Meteo
 // call per refresh. The daily budget counts only CUSTOM-PLACE calls — the
 // official pipeline is budgeted separately by the data layer.
@@ -129,6 +137,22 @@ export const MESSAGES = {
     "zh-TW": "資料更新延遲：全站自訂點用量接近額度上限，首次抓取暫緩（資料保留，不會遺失）。",
     "en": "Data refresh delayed: site-wide custom-place usage is near the quota — first fetches are postponed (data is kept, nothing is lost).",
     "ja": "データ更新が遅延しています：サイト全体の自作スポット使用量が上限に近づいています。初回取得は延期されます（データは保持されます）。",
+  },
+  // patch-8: per-place theme-group cap + input honesty
+  theme_cap: {
+    "zh-TW": "每個私人點最多 5 組題材。既有題材會保留，刪除後即可再新增。",
+    "en": "A place holds at most 5 subject groups. Existing ones are kept — delete one to add more.",
+    "ja": "1スポットの題材グループは最大5件です。既存は保持され、削除後に追加できます。",
+  },
+  theme_name_required: {
+    "zh-TW": "請先輸入題材名稱。",
+    "en": "Enter a subject name first.",
+    "ja": "先に題材名を入力してください。",
+  },
+  theme_conditions_required: {
+    "zh-TW": "請至少設定一組條件（未調整＝一般基準，不需要另掛一組）。",
+    "en": "Set at least one condition (nothing tuned = the general baseline, which needs no extra group).",
+    "ja": "条件を1つ以上設定してください（未調整＝一般基準のため、別グループは不要です）。",
   },
 };
 
@@ -274,6 +298,111 @@ export function failWordLocalized(metric, lang) {
 }
 
 // ---------------------------------------------------------------------------
+// patch-8: MULTIPLE condition groups per private point.
+//   validateThemeInput     — name (required, ≤40 chars) + optional i18n object
+//                            + non-empty CL-UI-99 conditions blob (months ride
+//                            inside it — the same schema notify validates);
+//   evaluateThemeGroups    — ONE evaluation per group with the SAME
+//                            evaluateCustomPlace machinery (same-source tiers);
+//   aggregateEvaluation    — the place-level verdict: rec if ANY group matches
+//                            within 24h (earliest window), else shoot if the
+//                            lenient baseline passes, else no with a VOTED
+//                            dominant reason (no single-group bias).
+// Theme CRUD never enqueues a fetch: every group judges the same stored
+// hourly rows — the fetch quota is per-PLACE, counted once.
+// ---------------------------------------------------------------------------
+export function validateThemeNameInput(name, nameI18nRaw) {
+  const n = clampText(name, THEME_NAME_MAX_LEN);
+  if (!n) return { ok: false, error: "theme name required", messageKey: "theme_name_required" };
+  let nameI18n = null;
+  if (nameI18nRaw != null) {
+    if (typeof nameI18nRaw !== "object" || Array.isArray(nameI18nRaw)) {
+      return { ok: false, error: "nameI18n must be an object" };
+    }
+    const out = {};
+    for (const [k, v] of Object.entries(nameI18nRaw)) {
+      if (!["zh-TW", "en", "ja"].includes(k)) continue; // unknown locales are dropped, never stored
+      const s = clampText(v, THEME_NAME_MAX_LEN);
+      if (s) out[k] = s;
+    }
+    nameI18n = Object.keys(out).length ? out : null;
+  }
+  return { ok: true, name: n, nameI18n };
+}
+
+export function validateThemeInput(body) {
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return { ok: false, error: "body required" };
+  }
+  const nameCheck = validateThemeNameInput(body.name, body.nameI18n != null ? body.nameI18n : body.name_i18n);
+  if (!nameCheck.ok) return nameCheck;
+  const ccRes = validateCustomConditions(body.conditions != null ? body.conditions : body.customConditions);
+  if (!ccRes.ok) return { ok: false, error: ccRes.error };
+  if (!ccRes.cc) return { ok: false, error: "conditions required", messageKey: "theme_conditions_required" };
+  return { ok: true, name: nameCheck.name, nameI18n: nameCheck.nameI18n, conditions: ccRes.cc };
+}
+
+export function evaluateThemeGroups(groups, rec, nowMs = Date.now()) {
+  return (groups || []).map((g) => ({
+    id: g.id, name: g.name, nameI18n: g.nameI18n || null, conditions: g.conditions || null,
+    evaluation: evaluateCustomPlace(g.conditions, rec, nowMs),
+  }));
+}
+
+export function aggregateEvaluation(evalList) {
+  const items = (evalList || []).filter(Boolean);
+  if (!items.length) return { tier: "pending", reason: null, window: null };
+  // every input still queued (first fetch deferred) → the honest pending state
+  if (items.every((e) => e.tier === "pending")) {
+    return { tier: "pending", reason: null, window: null };
+  }
+  const recs = items.filter((e) => e.tier === "rec" && e.window);
+  if (recs.length) {
+    // earliest qualifying window wins (same 「next window」 semantics as a card)
+    const best = recs.reduce((a, b) => (String(b.window) < String(a.window) ? b : a));
+    return { tier: "rec", reason: null, window: best.window };
+  }
+  if (items.some((e) => e.tier === "shoot")) {
+    const shoot = items.find((e) => e.tier === "shoot");
+    return { tier: "shoot", reason: null, window: shoot.window };
+  }
+  const reasons = items.map((e) => e.reason).filter(Boolean);
+  const counts = new Map();
+  for (const r of reasons) counts.set(r, (counts.get(r) || 0) + 1);
+  let reason = null;
+  for (const [r, n] of counts) if (!reason || n > counts.get(reason)) reason = r;
+  return { tier: "no", reason, window: null };
+}
+
+// Load a place's theme groups WITH the legacy-single-set migration built in:
+// a place whose custom_conditions blob is set but has NO group rows yet gets
+// that blob migrated into one group (「題材 1」) — idempotent, lazy, and
+// byte-compatible with the 0012 SQL backfill. Never throws (best-effort).
+export async function loadThemeGroups(env, placeRow) {
+  let rows = [];
+  try {
+    ({ results: rows } = await env.DB.prepare(
+      "SELECT id, place_id, user_id, name, name_i18n, conditions FROM custom_place_themes WHERE place_id = ?1 ORDER BY created_at ASC, id ASC"
+    ).bind(placeRow.id).all());
+  } catch { rows = []; }
+  rows = rows || [];
+  if (!rows.length && placeRow.custom_conditions) {
+    const id = randomId();
+    try {
+      await env.DB.prepare(
+        "INSERT INTO custom_place_themes (id, place_id, user_id, name, conditions) VALUES (?1, ?2, ?3, ?4, ?5)"
+      ).bind(id, placeRow.id, placeRow.user_id, "題材 1", placeRow.custom_conditions).run();
+      rows = [{ id, place_id: placeRow.id, name: "題材 1", name_i18n: null, conditions: placeRow.custom_conditions }];
+    } catch { /* migration is best-effort; the legacy blob still evaluates */ }
+  }
+  return rows.map((r) => ({
+    id: r.id, name: r.name,
+    nameI18n: parseCustomConditions(r.name_i18n),
+    conditions: parseCustomConditions(r.conditions),
+  }));
+}
+
+// ---------------------------------------------------------------------------
 // Global quota counters (KV): v1:cp:global:<yyyymmdd> = {count}, plus a
 // degraded flag consumed by clients for honest 「資料更新延遲」 labels.
 // ---------------------------------------------------------------------------
@@ -381,7 +510,7 @@ export async function handleCustomPlaces(req, env) {
     }
     const cap = capFor(level, trial.expired, fap);
     const { results } = await env.DB.prepare(
-      "SELECT id, name, lat, lng, elevation, timezone, custom_conditions, status, created_at, updated_at FROM custom_places WHERE user_id = ?1 AND status != 'archived' ORDER BY created_at DESC"
+      "SELECT id, user_id, name, lat, lng, elevation, timezone, custom_conditions, status, created_at, updated_at FROM custom_places WHERE user_id = ?1 AND status != 'archived' ORDER BY created_at DESC"
     ).bind(uid).all();
     const places = [];
     for (const row of results || []) {
@@ -389,7 +518,13 @@ export async function handleCustomPlaces(req, env) {
       try { cc = parseCustomConditions(row.custom_conditions); } catch { cc = null; }
       let rec = null;
       try { rec = await env.EVALS.get(`v1:evals:custom:${row.id}`, "json"); } catch { rec = null; }
-      const evaluation = evaluateCustomPlace(cc, rec);
+      // patch-8: per-GROUP evaluations (same-source tiers, one row per theme)
+      // + the aggregate place verdict. The lenient baseline ALWAYS rides along
+      // as the general row — a rec group's window only covers its own hours.
+      const groups = await loadThemeGroups(env, row);
+      const themeGroups = evaluateThemeGroups(groups, rec);
+      const baselineEval = evaluateCustomPlace(null, rec);
+      const evaluation = aggregateEvaluation([...themeGroups.map((g) => g.evaluation), baselineEval]);
       const { intervalHours, label, energySaver } = await refreshIntervalFor(env, uid);
       // Owner-ruled layer 3 honesty: a point whose first fetch is deferred to
       // the next day (per-user daily budget) reports it — never fabricated data.
@@ -405,6 +540,10 @@ export async function handleCustomPlaces(req, env) {
         id: row.id, name: row.name, lat: row.lat, lng: row.lng,
         elevation: row.elevation, timezone: row.timezone,
         customConditions: cc, status: row.status,
+        // patch-8: every group rides the list payload (each with its own
+        // same-source tier) + the per-place 5-group quota honestly
+        themeGroups,
+        themes: { used: themeGroups.length, cap: MAX_THEMES_PER_PLACE },
         createdAt: row.created_at, updatedAt: row.updated_at,
         evaluation: { ...evaluation, evaluatedAt: (rec && rec.generated_at) || null, private: true },
         refresh: { intervalHours, label, energySaver },
@@ -647,6 +786,109 @@ export async function handleCustomPlaceEval(req, env, placeId) {
     hourly: rec.hourly, generatedAt: rec.generated_at || null,
     elevation: rec.elevation ?? null, timezone: rec.timezone ?? null,
   });
+}
+
+// ---------------------------------------------------------------------------
+// patch-8: per-place condition-group CRUD (multi-theme). Routes:
+//   POST   /custom_places/:id/themes          — create a group (cap 5, dup
+//                                               names NOT blocked, NO fetch)
+//   PATCH  /custom_places/:id/themes/:tid     — rename / re-set conditions
+//   DELETE /custom_places/:id/themes/:tid     — remove the group (hard delete
+//                                               of a group — the PLACE keeps
+//                                               its own soft-delete revive
+//                                               semantics; groups are user
+//                                               objects, not weather data)
+// All 404 for another member's place (same CRUD permission rule) and none of
+// them touches the fetch queue or any quota counter — the weather is fetched
+// ONCE per place and every group judges the same stored hourly rows.
+// ---------------------------------------------------------------------------
+export async function handleCustomPlaceThemes(req, env, placeId) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const uid = session.sub;
+  const row = await env.DB.prepare(
+    "SELECT id, user_id, status FROM custom_places WHERE id = ?1"
+  ).bind(placeId).first();
+  if (!row || row.user_id !== uid) return json(req, 404, { error: "place not found" });
+  if (req.method !== "POST") return json(req, 405, { error: "method not allowed" });
+
+  const body = await req.json().catch(() => null);
+  const check = validateThemeInput(body);
+  if (!check.ok) {
+    return json(req, 400, { error: check.error, message: check.messageKey ? pickMsg(check.messageKey) : null });
+  }
+  const countRow = await env.DB.prepare(
+    "SELECT COUNT(*) AS n FROM custom_place_themes WHERE place_id = ?1"
+  ).bind(placeId).first();
+  const used = countRow ? countRow.n : 0;
+  if (used >= MAX_THEMES_PER_PLACE) {
+    return json(req, 403, {
+      error: "theme group limit reached", reason: "theme_cap",
+      cap: MAX_THEMES_PER_PLACE, message: pickMsg("theme_cap"),
+    });
+  }
+  const id = randomId();
+  await env.DB.prepare(
+    "INSERT INTO custom_place_themes (id, place_id, user_id, name, name_i18n, conditions) VALUES (?1, ?2, ?3, ?4, ?5, ?6)"
+  ).bind(id, placeId, uid, check.name, check.nameI18n ? JSON.stringify(check.nameI18n) : null, JSON.stringify(check.conditions)).run();
+  return json(req, 200, {
+    ok: true, id, placeId,
+    theme: { id, name: check.name, nameI18n: check.nameI18n, conditions: check.conditions },
+    themes: { used: used + 1, cap: MAX_THEMES_PER_PLACE },
+  });
+}
+
+export async function handleCustomPlaceThemeItem(req, env, placeId, themeId) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+  const uid = session.sub;
+  const row = await env.DB.prepare(
+    "SELECT id, user_id, status FROM custom_places WHERE id = ?1"
+  ).bind(placeId).first();
+  if (!row || row.user_id !== uid) return json(req, 404, { error: "place not found" });
+  const theme = await env.DB.prepare(
+    "SELECT id, place_id, user_id, name, name_i18n, conditions FROM custom_place_themes WHERE id = ?1 AND place_id = ?2"
+  ).bind(themeId, placeId).first();
+  if (!theme || theme.user_id !== uid) return json(req, 404, { error: "theme not found" });
+
+  if (req.method === "PATCH") {
+    const body = await req.json().catch(() => null);
+    if (!body || typeof body !== "object") return json(req, 400, { error: "body required" });
+    const updates = [];
+    const binds = [themeId];
+    if (body.name !== undefined || body.nameI18n !== undefined || body.name_i18n !== undefined) {
+      // rename: name required (the display anchor); i18n replaces wholesale
+      const merged = {
+        name: body.name !== undefined ? body.name : theme.name,
+        nameI18n: body.nameI18n !== undefined ? body.nameI18n
+          : body.name_i18n !== undefined ? body.name_i18n
+          : theme.name_i18n ? parseCustomConditions(theme.name_i18n) : undefined,
+      };
+      const check = validateThemeNameInput(merged.name, merged.nameI18n);
+      if (!check.ok) {
+        return json(req, 400, { error: check.error, message: check.messageKey ? pickMsg(check.messageKey) : null });
+      }
+      updates.push(`name = ?${binds.length + 1}`); binds.push(check.name);
+      updates.push(`name_i18n = ?${binds.length + 1}`); binds.push(check.nameI18n ? JSON.stringify(check.nameI18n) : null);
+    }
+    if (body.conditions !== undefined || body.customConditions !== undefined) {
+      const ccRes = validateCustomConditions(body.conditions != null ? body.conditions : body.customConditions);
+      if (!ccRes.ok) return json(req, 400, { error: ccRes.error });
+      if (!ccRes.cc) return json(req, 400, { error: "conditions required", message: pickMsg("theme_conditions_required") });
+      updates.push(`conditions = ?${binds.length + 1}`); binds.push(JSON.stringify(ccRes.cc));
+    }
+    if (!updates.length) return json(req, 400, { error: "nothing to update (name / conditions)" });
+    updates.push("updated_at = datetime('now')");
+    await env.DB.prepare(`UPDATE custom_place_themes SET ${updates.join(", ")} WHERE id = ?1`).bind(...binds).run();
+    return json(req, 200, { ok: true, id: themeId, placeId });
+  }
+
+  if (req.method === "DELETE") {
+    await env.DB.prepare("DELETE FROM custom_place_themes WHERE id = ?1").bind(themeId).run();
+    return json(req, 200, { ok: true, deleted: themeId, placeId });
+  }
+
+  return json(req, 405, { error: "method not allowed" });
 }
 
 // ---------------------------------------------------------------------------

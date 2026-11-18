@@ -32,7 +32,7 @@ import {
 // CL-APP-06: custom places (private points) — CRUD + nomination + low-priority fetch queue.
 import {
   handleCustomPlaces, handleCustomPlaceItem, handleCustomPlaceNominate,
-  handleCustomPlaceEval,
+  handleCustomPlaceEval, handleCustomPlaceThemes, handleCustomPlaceThemeItem,
   handleCustomPlacePinInfo, processCustomFetchQueue,
   handleConditionsParse, handleConditionsParseConfig,
 } from "./custom-places.js";
@@ -1048,6 +1048,14 @@ export default {
       // patch-7: private-card forecast popup reads the stored eval (read-only)
       const cpe = path.match(/^\/custom_places\/([\w-]+)\/eval$/);
       if (cpe && request.method === "GET") return handleCustomPlaceEval(request, env, cpe[1]);
+    }
+    {
+      // patch-8: per-place condition-group CRUD (multi-theme) — no fetch, no quota
+      const cpt = path.match(/^\/custom_places\/([\w-]+)\/themes$/);
+      if (cpt && request.method === "POST") return handleCustomPlaceThemes(request, env, cpt[1]);
+      const cpti = path.match(/^\/custom_places\/([\w-]+)\/themes\/([\w-]+)$/);
+      if (cpti && request.method === "PATCH") return handleCustomPlaceThemeItem(request, env, cpti[1], cpti[2]);
+      if (cpti && request.method === "DELETE") return handleCustomPlaceThemeItem(request, env, cpti[1], cpti[2]);
     }
 
     // --- subject sets (CL-APP-09, member-defined subjects on OFFICIAL spots) ---

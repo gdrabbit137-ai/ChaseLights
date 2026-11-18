@@ -61,6 +61,14 @@
       qv_gen: '符合 {n}/{t} 小時',
       cc_prev: '摘要預覽：', cc_prev_none: '（未調任何參數＝一般基準）', cc_submit: '套用到此點',
       cc_done1: '✓ 條件已套用', cc_none: '（僅一般基準）',
+      // patch-8: theme list manager (multiple condition groups per place)
+      th_title: '掛題材·條件', th_sub: '題材列表', th_add: '＋ 新增題材', th_cap_note: '已達上限 5 組（刪除一組後可再新增）',
+      th_empty: '尚未掛任何題材——此點以一般基準判定。', th_count: '{n}/{c} 組',
+      th_name: '題材名稱', th_name_ph: '例如：清晨雲海窗', th_name_required: '請先輸入題材名稱',
+      th_del_title: '刪除此題材組？',
+      th_create: '新增題材', th_save: '儲存題材', th_done1: '✓ 題材已儲存', th_deleted: '✓ 題材已刪除',
+      th_row_shoot: '○ 可拍',
+      qv_month_note: '非適用月份',
       del_title: '刪除此私人點？', del_warn: '資料保留 30 天：30 日內在同一座標重新新增會直接復活（不重抓）。',
       del_confirm: '🗑 刪除私人點', del_cancel: '取消',
       nl1: '登入後才能使用私人點', nl2: '新增／編輯私人景點是會員功能；私人點只出現在你的帳號。',
@@ -102,6 +110,14 @@
       qv_gen: '{n}/{t} hours met',
       cc_prev: 'Summary: ', cc_prev_none: '(nothing tuned = general baseline)', cc_submit: 'Apply to this place',
       cc_done1: '✓ Conditions applied', cc_none: '(general baseline only)',
+      // patch-8: theme list manager (multiple condition groups per place)
+      th_title: 'Subject & conditions', th_sub: 'Subject groups', th_add: '＋ Add a group', th_cap_note: 'Cap of 5 groups reached (delete one to add more)',
+      th_empty: 'No subject group attached yet — this place is judged by the general baseline.', th_count: '{n}/{c} groups',
+      th_name: 'Group name', th_name_ph: 'e.g. Dawn cloud-sea window', th_name_required: 'Enter a group name first',
+      th_del_title: 'Delete this group?',
+      th_create: 'Add group', th_save: 'Save group', th_done1: '✓ Group saved', th_deleted: '✓ Group deleted',
+      th_row_shoot: '○ Shootable',
+      qv_month_note: 'Not an applicable month',
       del_title: 'Delete this custom place?', del_warn: 'Data is kept 30 days: re-adding the same coordinates within 30 days revives it (no new fetch).',
       del_confirm: '🗑 Delete place', del_cancel: 'Cancel',
       nl1: 'Log in to use custom places', nl2: 'Adding / editing is member-only; places appear only on your account.',
@@ -143,6 +159,14 @@
       qv_gen: '{n}/{t} 時間適合',
       cc_prev: 'サマリー：', cc_prev_none: '（未調整＝一般基準）', cc_submit: 'このスポットに適用',
       cc_done1: '✓ 条件を適用しました', cc_none: '（一般基準のみ）',
+      // patch-8: theme list manager (multiple condition groups per place)
+      th_title: '題材・条件', th_sub: '題材グループ', th_add: '＋ 題材を追加', th_cap_note: '上限5件に達しました（削除後に追加できます）',
+      th_empty: '題材グループはまだありません——一般基準で判定します。', th_count: '{n}/{c} 件',
+      th_name: '題材名', th_name_ph: '例：明け方の雲海窓', th_name_required: '先に題材名を入力してください',
+      th_del_title: 'この題材グループを削除？',
+      th_create: '題材を追加', th_save: '保存', th_done1: '✓ 保存しました', th_deleted: '✓ 削除しました',
+      th_row_shoot: '○ 撮影可',
+      qv_month_note: '適用月外',
       del_title: 'この自作スポットを削除？', del_warn: 'データは 30 日保持：30 日以内に同じ座標を再追加すると復活します（再取得なし）。',
       del_confirm: '🗑 削除する', del_cancel: 'キャンセル',
       nl1: '自作スポットにはログインが必要', nl2: '追加／編集は会員機能；自作スポットは自分のアカウントにのみ表示されます。',
@@ -354,6 +378,29 @@
     var m = map[ev.tier] || map.pending;
     return '<span class="cl-cp-tier ' + m[0] + '">' + esc(m[1]) + '</span>';
   }
+  // patch-8: group display name — the i18n object wins in the current language,
+  // falling back to the zh-TW anchor `name` (unreviewed copies never invent words)
+  function themeName(g) {
+    var i18n = g && g.nameI18n;
+    if (i18n && typeof i18n === 'object') {
+      var v = i18n[currentLang()] || i18n['zh-TW'] || i18n['en'];
+      if (v) return v;
+    }
+    return (g && g.name) || '';
+  }
+  // patch-8: ONE subject-row anatomy everywhere (official card parity) —
+  // tier badge + group name + next window / short reason, never a divergent chip
+  function cpCardRow(tier, name, window, tail) {
+    var badges = { rec: ['cl-cp-tier-rec', '✓'], shoot: ['cl-cp-tier-shoot', '○'], no: ['cl-cp-tier-no', '✗'] };
+    var b = badges[tier] || badges.no;
+    var right = window
+      ? '<span class="cl-cp-window" style="flex:1;text-align:right">' + esc(window) + '</span>'
+      : (tail ? '<span style="flex:1;text-align:right;color:var(--cl-red-text);font-weight:600">' + esc(tail) + '</span>' : '');
+    return '<div class="cl-subject-row" style="display:flex;align-items:center;gap:8px;height:26px;font-size:13px">' +
+      '<span class="cl-cp-tier ' + b[0] + '">' + b[1] + '</span>' +
+      '<span class="cl-cp-row-name" style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(name) + '</span>' +
+      right + '</div>';
+  }
   function ccSummary(cc, lang) {
     if (!cc) return '';
     var parts = [];
@@ -396,11 +443,17 @@
     var expired = p.status === 'trial_expired';
     card.classList.toggle('cl-cp-expired', expired);
     var lang = currentLang();
+    // patch-8 (owner ruling): the temporary 「✓ 條件窗」chip is REPLACED by
+    // per-subject tier badges from the SAME source — one row per theme group,
+    // the official subject-row anatomy (badge + name + window/reason). The
+    // place-level chip survives only where no subject rows exist (pending /
+    // trial-expired states).
+    var headBadge = (expired || ev.tier === 'pending') ? tierBadge(p) : '';
     var head =
       '<div class="spot-title-group">' +
         '<div class="card-head-line" style="display:flex;align-items:center;gap:8px;min-width:0">' +
           '<span class="cl-cp-card-name" style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(p.name) + '</span>' +
-          tierBadge(p) +
+          headBadge +
           '<span class="cl-cp-priv-badge">◉ ' + esc(expired ? t().trial_expired : t().priv_badge) + '</span>' +
         '</div>' +
         '<div class="cl-cp-coord">' + esc(p.lat) + ', ' + esc(p.lng) + (p.elevation != null ? ' · ' + esc(p.elevation) + ' m' : '') + (p.timezone ? ' · ' + esc(p.timezone) : '') + '</div>' +
@@ -410,23 +463,35 @@
       // ⋯ trigger, so the card's content-visibility/paint containment and the
       // container overflow can never clip the dropdown again.
       '<button type="button" class="cl-cp-more" aria-label="⋯" aria-haspopup="menu" aria-expanded="false">⋯</button>';
-    var body = '';
+    var groups = Array.isArray(p.themeGroups) ? p.themeGroups : [];
+    var rows = [];
+    if (!expired && !(ev.tier === 'pending' && p.fetchDeferred)) {
+      groups.forEach(function (g) {
+        var ge = g.evaluation || {};
+        if (ge.tier === 'rec') rows.push(cpCardRow('rec', themeName(g), ge.window));
+        else if (ge.tier === 'shoot') rows.push(cpCardRow('shoot', themeName(g), ge.window, t().th_row_shoot));
+        else if (ge.tier === 'no') rows.push(cpCardRow('no', themeName(g), null, ge.reason || ''));
+        else rows.push(cpCardRow('shoot', themeName(g), null, t().tier_pending));
+      });
+      if (groups.length && ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_baseline, ev.window, t().th_row_shoot));
+      if (!groups.length) {
+        if (ev.tier === 'rec') rows.push(cpCardRow('rec', t().qv_subject_custom, ev.window));
+        else if (ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_baseline, ev.window, t().th_row_shoot));
+        else rows.push('<div style="font-size:13px;color:var(--cl-red-text)">' + esc(t().tier_no) + ' <span style="font-weight:600">' + esc(ev.reason || '') + '</span></div>');
+      }
+    }
+    var body;
     if (expired) {
       body = '<div class="cl-cp-expired-note">🔒 ' + esc(t().trial_note) + '</div>' +
         '<button type="button" class="cl-cp-expired-cta" data-cp-act="upgrade">⬆ ' + esc(t().trial_cta) + '</button>';
     } else if (ev.tier === 'pending' && p.fetchDeferred) {
       body = '<div class="cl-cp-deferred-note">⏳ ' + esc(t().deferred_note) + '</div>';
-    } else if (ev.tier === 'rec' || ev.tier === 'shoot') {
-      body = '<div class="cl-subject-row" style="display:flex;align-items:center;gap:8px;height:26px;font-size:13px">' +
-        '<span class="cl-cp-window" style="flex:1">' + esc(ev.window || '') + '</span></div>';
-    } else if (ev.tier === 'no') {
-      body = '<div style="font-size:13px;color:var(--cl-red-text)">' + esc(t().tier_no) + ' <span style="font-weight:600">' + esc(ev.reason || '') + '</span></div>';
+    } else if (rows.length) {
+      body = rows.join('');
     } else {
       body = '<div class="cl-cp-deferred-note">⏳ ' + esc(t().tier_pending) + '</div>';
     }
-    var ccLine = ccSummary(p.customConditions, lang)
-      ? '<div class="cl-cp-cc-line"><span class="cl-cp-cc-chip">🎚</span><span class="cl-cp-cc-txt">' + esc(ccSummary(p.customConditions, lang)) + '</span></div>' : '';
-    card.innerHTML = '<div style="display:flex;align-items:flex-start;gap:8px;min-width:0">' + head + '</div>' + body + ccLine;
+    card.innerHTML = '<div style="display:flex;align-items:flex-start;gap:8px;min-width:0">' + head + '</div>' + body;
     // ⋯ menu (patch-3): one shared menu portaled to document.body, anchored
     // position:fixed under the trigger — the card boundary can never clip it.
     var more = card.querySelector('.cl-cp-more');
@@ -545,6 +610,11 @@
   function qvDayCell(day, cc) {
     var label = day.date.slice(5).replace('-', '/'); // M/D — place-local dates only
     if (!day.rows || !day.rows.length) return '<div class="cl-cp-qv-cell none" title="' + esc(t().qv_no_data_note) + '"><span class="d">' + esc(label) + '</span><span class="v">' + esc(t().qv_no_data) + '</span></div>';
+    // patch-8 ⑤: a whole day outside the group's 適用月份 is honest ─ with the
+    // eligibility note — never a fabricated weather ✗ (same rule as the worker)
+    if (cc && Array.isArray(cc.months) && cc.months.length && cc.months.indexOf(Number(day.date.slice(5, 7))) < 0) {
+      return '<div class="cl-cp-qv-cell none" title="' + esc(t().qv_month_note) + '"><span class="d">' + esc(label) + '</span><span class="v">' + esc(t().qv_no_data) + '</span></div>';
+    }
     var met = 0, total = 0;
     day.rows.forEach(function (row) {
       if (!row || typeof row.hour !== 'string') return;
@@ -561,8 +631,17 @@
     var cc = p.customConditions || null;
     var days = qvDayGrid(hourly);
     daysEl.innerHTML = days.map(function (day) { return qvDayCell(day, cc); }).join('');
+    // patch-8: ONE row per theme group (named, each judged with its own
+    // conditions incl. its own month window) + the general baseline row.
+    // Legacy fallback: a place with the old single blob and no migrated
+    // groups keeps the 自訂條件 row.
     var subjects = [];
-    if (cc) subjects.push({ name: t().qv_subject_custom, cond: cc });
+    var groups = Array.isArray(p.themeGroups) ? p.themeGroups : [];
+    if (groups.length) {
+      groups.forEach(function (g) { subjects.push({ name: themeName(g), cond: g.conditions || null }); });
+    } else if (cc) {
+      subjects.push({ name: t().qv_subject_custom, cond: cc });
+    }
     subjects.push({ name: t().qv_baseline, cond: CP_GENERAL_BASELINE });
     subjEl.innerHTML = subjects.map(function (s) {
       return '<div class="cl-cp-qv-row"><span class="cl-cp-qv-row-name">' + esc(s.name) + '</span>' +
@@ -1157,10 +1236,95 @@
     });
   }
 
-  // conditions modal — CL-UI-99 five parameter groups (same schema as
-  // notify_rules.custom_conditions; the worker re-validates)
+  // ─── patch-8: 「掛題材·條件」 = theme LIST manager (multi-group per place) ───
+  // Up to 5 condition groups per place (worker cap); each group = name_i18n +
+  // the CL-UI-99 blob (months inside). Duplicate names are NOT blocked (owner
+  // ruling). CRUD never refetches — the weather is fetched once per place and
+  // every group judges the SAME stored hourly rows.
   function ccModal(place) {
-    var cc = place.customConditions || {};
+    var groups = Array.isArray(place.themeGroups) ? place.themeGroups : [];
+    var used = groups.length;
+    var cap = (place.themes && place.themes.cap) || 5;
+    var lang = currentLang();
+    var rows = groups.map(function (g) {
+      var ge = g.evaluation || {};
+      var bcls = ge.tier === 'rec' ? 'cl-cp-tier-rec' : ge.tier === 'shoot' ? 'cl-cp-tier-shoot' : ge.tier === 'no' ? 'cl-cp-tier-no' : 'cl-cp-tier-pending';
+      var bg = ge.tier === 'rec' ? '✓' : ge.tier === 'shoot' ? '○' : ge.tier === 'no' ? '✗' : '⏳';
+      var tail = ge.tier === 'no' && ge.reason ? ' · ' + ge.reason : (ge.tier === 'rec' && ge.window ? ' · ' + ge.window : '');
+      return '<div class="cl-cp-theme-row" data-theme-id="' + esc(g.id) + '">' +
+        '<span class="cl-cp-tier ' + bcls + '">' + bg + '</span>' +
+        '<div class="cl-cp-theme-info"><div class="n">' + esc(themeName(g)) + '</div>' +
+        '<div class="s">' + esc((ccSummary(g.conditions, lang) || '—') + tail) + '</div></div>' +
+        '<div class="cl-cp-theme-acts">' +
+        '<button type="button" data-cp-th-act="edit" aria-label="✎ 編輯">✎</button>' +
+        '<button type="button" data-cp-th-act="del" class="danger" aria-label="🗑 刪除">🗑</button>' +
+        '</div></div>';
+    }).join('');
+    var addArea = used >= cap
+      ? '<div class="cl-cp-th-cap">' + esc(t().th_cap_note) + '</div>'
+      : '<button type="button" class="cl-cp-btn" id="cl-cp-th-add">' + esc(t().th_add) + '</button>';
+    openOverlay(
+      '<div class="cl-cp-m-head"><div><div class="name">🎞 ' + esc(t().th_title) + '</div>' +
+      '<div class="sub">' + esc(t().th_sub) + ' · ' + esc(place.name) + '</div></div>' +
+      '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
+      '<div class="cl-cp-th-count">' + esc(t().th_count.replace('{n}', used).replace('{c}', cap)) + '</div>' +
+      (rows || '<div class="cl-cp-th-empty">' + esc(t().th_empty) + '</div>') +
+      addArea);
+    wireClose();
+    var add = els.overlay.querySelector('#cl-cp-th-add');
+    if (add) add.addEventListener('click', function () { themeFormModal(place, null); });
+    els.overlay.querySelectorAll('.cl-cp-theme-row').forEach(function (row) {
+      var gid = row.getAttribute('data-theme-id');
+      var g = groups.find(function (x) { return x.id === gid; });
+      if (!g) return;
+      var e = row.querySelector('[data-cp-th-act="edit"]');
+      if (e) e.addEventListener('click', function () { themeFormModal(place, g); });
+      var d = row.querySelector('[data-cp-th-act="del"]');
+      if (d) d.addEventListener('click', function () { delThemeModal(place, g); });
+    });
+  }
+  // after a theme CRUD succeeds the list reopens from the REFRESHED data —
+  // poll until the group set differs from the snapshot (never a stale modal)
+  function waitThemeList(place, beforeIds) {
+    var t0 = Date.now();
+    (window.__dbg3 = window.__dbg3 || []).push('wait start before=' + beforeIds);
+    (function poll() {
+      var p = privatePlaces().find(function (x) { return x.id === place.id; });
+      var ids = p ? (p.themeGroups || []).map(function (g) { return g.id; }).join(',') : null;
+      (window.__dbg3 = window.__dbg3 || []).push('poll p=' + (p ? p.id : 'null') + ' ids=' + ids + ' before=' + beforeIds + ' data=' + (!!state.data));
+    if (p && ids !== beforeIds) { (window.__dbg3 = window.__dbg3 || []).push('REOPEN'); ccModal(p); return; }
+      if (Date.now() - t0 > 5000) return; // honest stop — the next render refreshes the list
+      setTimeout(poll, 120);
+    })();
+  }
+  function delThemeModal(place, theme) {
+    openOverlay(
+      '<div class="cl-cp-m-head"><div><div class="name">' + esc(t().th_del_title) + '</div></div>' +
+      '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
+      '<div class="cl-cp-delbox"><div class="d1">🗑 ' + esc(themeName(theme)) + '</div>' +
+      '<div class="cl-cp-delacts"><button type="button" class="cancel" id="cl-cp-th-del-cancel">' + esc(t().del_cancel) + '</button>' +
+      '<button type="button" class="confirm" id="cl-cp-th-del-confirm">🗑 ' + esc(t().m_del.replace(/^\S+\s*/, '')) + '</button></div></div>');
+    wireClose();
+    els.overlay.querySelector('#cl-cp-th-del-cancel').addEventListener('click', closeOverlay);
+    els.overlay.querySelector('#cl-cp-th-del-confirm').addEventListener('click', function () {
+      var beforeIds = (place.themeGroups || []).map(function (g) { return g.id; }).join(',');
+      api(API + '/' + place.id + '/themes/' + theme.id, { method: 'DELETE' })
+        .then(function (res) { return res.json().then(function (body) { return { status: res.status, body: body }; }); })
+        .then(function (r) {
+          if (r.status !== 200) { toast((r.body && r.body.error) || ('HTTP ' + r.status)); return; }
+          toast(t().th_deleted);
+          refresh();
+          closeOverlay();
+          waitThemeList(place, beforeIds);
+        });
+    });
+  }
+  // per-theme form — CL-UI-99 five parameter groups (same schema as
+  // notify_rules.custom_conditions; the worker re-validates) + the group name
+  // (name_i18n: the current language writes its own entry, other locales are
+  // preserved on rename; the zh-TW anchor `name` carries the fallback)
+  function themeFormModal(place, theme) {
+    var cc = (theme && theme.conditions) || {};
     function v(k) { return cc[k] == null ? '' : String(cc[k]); }
     var lang = currentLang();
     var genreNames = genreShortNames();
@@ -1180,9 +1344,11 @@
         '</select><span class="cl-cp-sem-map" id="cl-cp-sem-map-' + axis + '">→ ' + esc(semanticMappedLabel(axis, cur)) + '</span></div></div>';
     };
     openOverlay(
-      '<div class="cl-cp-m-head"><div><div class="name">🎞 ' + esc(t().cc_title) + '</div>' +
-      '<div class="sub">' + esc(t().cc_sub) + ' · ' + esc(place.name) + '</div></div>' +
+      '<div class="cl-cp-m-head"><div><div class="name">' + (theme ? '✎ ' : '＋ ') + esc(t().th_title) + '</div>' +
+      '<div class="sub">' + esc(t().th_name) + ' · ' + esc(place.name) + '</div></div>' +
       '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
+      '<div class="cl-cp-fld"><label>' + esc(t().th_name) + '</label>' +
+      '<input class="inp" id="cl-cp-theme-name" maxlength="40" placeholder="' + esc(t().th_name_ph) + '" value="' + esc(theme ? themeName(theme) : '') + '"></div>' +
       (aiEnabled ? aiParseBlock() : '') +
       '<div class="cl-cp-cc-params">' +
       semSel('cloud', t().sem_cloud) +
@@ -1210,7 +1376,7 @@
       ccp('cl-cp-cc-lead', t().p_lead, v('lead_minutes')) +
       '</div></details>' +
       '<div class="cl-cp-cc-preview"><span style="color:var(--cl-text-3)">' + esc(t().cc_prev) + '</span><span class="k" id="cl-cp-cc-prev">' + esc(ccSummary(cc, lang) || t().cc_prev_none) + '</span></div>' +
-      '<button type="button" class="cl-cp-submit ready" id="cl-cp-cc-submit" style="cursor:pointer">' + esc(t().cc_submit) + '</button>');
+      '<button type="button" class="cl-cp-submit" id="cl-cp-cc-submit">' + esc(t().th_create) + '</button>');
     wireClose();
     if (aiEnabled) wireAiParse();
     var sync = function () {
@@ -1266,20 +1432,40 @@
       }
       sync();
     });
-    els.overlay.querySelector('#cl-cp-cc-submit').addEventListener('click', function () {
-      var payload = { customConditions: readCc() };
-      api(API + '/' + place.id, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    // disabled-reason pattern (patch-2 family): the submit button PRINTS what
+    // is missing — a group needs a name before it can be saved
+    var nameInput = els.overlay.querySelector('#cl-cp-theme-name');
+    var submitBtn = els.overlay.querySelector('#cl-cp-cc-submit');
+    var syncSubmit = function () {
+      var ok = !!(nameInput && nameInput.value.trim());
+      submitBtn.classList.toggle('ready', ok);
+      submitBtn.style.cursor = ok ? 'pointer' : 'not-allowed';
+      submitBtn.textContent = ok ? (theme ? t().th_save : t().th_create) : t().th_name_required;
+    };
+    if (nameInput) nameInput.addEventListener('input', syncSubmit);
+    syncSubmit();
+    submitBtn.addEventListener('click', function () {
+      var name = nameInput ? nameInput.value.trim() : '';
+      if (!name) return; // honest reason already printed on the button
+      var i18n = Object.assign({}, (theme && theme.nameI18n) || {});
+      i18n[currentLang()] = name;
+      var payload = { name: name, nameI18n: i18n, conditions: readCc() };
+      var beforeIds = (place.themeGroups || []).map(function (g) { return g.id; }).join(',');
+      var url = theme ? API + '/' + place.id + '/themes/' + theme.id : API + '/' + place.id + '/themes';
+      api(url, { method: theme ? 'PATCH' : 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
         .then(function (res) { return res.json().then(function (body) { return { status: res.status, body: body }; }); })
         .then(function (r) {
-          if (r.status !== 200) { toast((r.body && r.body.error) || ('HTTP ' + r.status)); return; }
-          openOverlay('<div class="cl-cp-m-head"><div><div class="name">' + esc(place.name) + '</div></div>' +
-            '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
-            '<div class="cl-cp-done"><div class="d1">' + esc(t().cc_done1) + '</div>' +
-            '<div class="d2">' + esc(ccSummary(readCc(), currentLang()) || t().cc_none) + '</div>' +
-            '<button type="button" id="cl-cp-done-btn">' + esc(t().close) + '</button></div>');
-          wireClose();
-          var dn = els.overlay.querySelector('#cl-cp-done-btn'); if (dn) dn.addEventListener('click', closeOverlay);
+          if (r.status !== 200) {
+            // honest server copy (cap / validation) verbatim — never a silent refusal
+            var msg = r.body && r.body.message && (r.body.message[currentLang()] || r.body.message['zh-TW']);
+            toast(msg || (r.body && r.body.error) || ('HTTP ' + r.status));
+            return;
+          }
+          toast(t().th_done1);
+          (window.__dbg3 = window.__dbg3 || []).push('submit-ok');
           refresh();
+          closeOverlay();
+          waitThemeList(place, beforeIds);
         });
     });
   }
