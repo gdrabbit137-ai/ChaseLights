@@ -976,10 +976,6 @@ export async function handleCustomPlaceThemeItem(req, env, placeId, themeId) {
   return json(req, 405, { error: "method not allowed" });
 }
 
-  const session = await requireSession(req, env);
-  if (!session) return json(req, 401, { error: "JWT session required" });
-  const uid = session.sub;
-  const row = await env.DB.prepare(
 // CL-APP-08 escape hatch (owner ruling): 「獨立重新抓取」. One click detaches
 // the point from its fetch group (share_mode → 'independent', group_id →
 // NULL) and queues a SOLO refetch that costs 1 quota (1 user-budget unit +

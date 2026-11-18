@@ -1006,7 +1006,7 @@ test('CL-APP-06 (2r, patch-5): 1280×768 EDIT modal after a scrolled tall modal 
   assert.ok(probe.nameVisible, 'name field visible at the top of the edit modal');
   assert.ok(probe.pinVisible, 'pin-picker area visible');
   assert.ok(probe.submitVisible, 'submit/update button visible (viewport or inner scroll)');
-  assert.deepEqual(probe.menuActs.sort(), ['cc', 'del', 'edit'], 'patch-6: menu = 編輯／掛題材·條件／刪除');
+  assert.deepEqual(probe.menuActs.sort(), ['cc', 'del', 'edit', 'refetch'], 'menu = 編輯／掛題材·條件／🔄 獨立重新抓取／刪除 (CL-APP-08 + patch-8)');
 });
 
 test('CL-APP-06 (1f, patch-3): ⋯ menu renders OUT of the card — portal + fixed + flip-up + 44px + scroll-close', () => {
