@@ -14,7 +14,7 @@ const RATE_LIMITS = {
 function rateClass(path, method) {
   if (
     method === "GET" &&
-    /^\/(auth\/me$|auth\/config$|auth\/link\/status$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$|feedback$|feedback\/config$|admin\/feedback$|custom_places$|conditions\/parse$)/.test(path)
+    /^\/(auth\/me$|auth\/config$|auth\/link\/status$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$|feedback$|feedback\/config$|admin\/feedback$|custom_places$|conditions\/parse$|subject_sets$|subject_sets\/eval$|subject_sets\/eval_batch$)/.test(path)
   ) return "read";
   if (/^\/auth\/(line|google|apple)\/callback$|^\/auth\/mock\/start$|^\/auth\/refresh$/.test(path)) return "auth";
   return "write";
@@ -36,6 +36,11 @@ import {
   handleCustomPlacePinInfo, processCustomFetchQueue,
   handleConditionsParse, handleConditionsParseConfig,
 } from "./custom-places.js";
+// CL-APP-09: subject sets — user-defined condition sets (自訂題材) on OFFICIAL spots.
+import {
+  handleSubjectSetsList, handleSubjectSetCreate, handleSubjectSetItem,
+  handleSubjectSetsEval, handleSubjectSetsEvalBatch,
+} from "./subject-sets.js";
 
 // CL-API-03: rule limits by member level (402 = upgrade semantics).
 // CL-DATA-70 owner ruling (Stage 1): grading column users.member_level
@@ -169,6 +174,7 @@ const LINK_MERGE_STEPS = [
   { sql: "UPDATE notify_rules SET user_id = ?1 WHERE user_id = ?2", cleanup: null }, // PK is a random id: no conflicts, all kept
   { sql: "UPDATE OR IGNORE feedback SET user_id = ?1 WHERE user_id = ?2", cleanup: "DELETE FROM feedback WHERE user_id = ?1" },
   { sql: "UPDATE OR IGNORE custom_places SET user_id = ?1 WHERE user_id = ?2", cleanup: "DELETE FROM custom_places WHERE user_id = ?1", optional: true },
+  { sql: "UPDATE OR IGNORE custom_subject_sets SET user_id = ?1 WHERE user_id = ?2", cleanup: "DELETE FROM custom_subject_sets WHERE user_id = ?1", optional: true },
   { sql: "UPDATE OR IGNORE push_tokens SET user_device_id = ?1 WHERE user_device_id = ?2", cleanup: null },
 ];
 
@@ -1042,6 +1048,27 @@ export default {
       // patch-7: private-card forecast popup reads the stored eval (read-only)
       const cpe = path.match(/^\/custom_places\/([\w-]+)\/eval$/);
       if (cpe && request.method === "GET") return handleCustomPlaceEval(request, env, cpe[1]);
+    }
+
+    // --- subject sets (CL-APP-09, member-defined subjects on OFFICIAL spots) ---
+    // NOTE: /subject_sets/eval and /subject_sets/eval_batch must be matched
+    // BEFORE the generic /<id> route.
+    if (path === "/subject_sets/eval_batch" && request.method === "GET") {
+      return handleSubjectSetsEvalBatch(request, env, url);
+    }
+    if (path === "/subject_sets/eval" && request.method === "GET") {
+      return handleSubjectSetsEval(request, env, url);
+    }
+    if (path === "/subject_sets" && request.method === "GET") {
+      return handleSubjectSetsList(request, env, url);
+    }
+    if (path === "/subject_sets" && request.method === "POST") {
+      return handleSubjectSetCreate(request, env);
+    }
+    {
+      const ssm = path.match(/^\/subject_sets\/([\w-]+)$/);
+      if (ssm && request.method === "PATCH") return handleSubjectSetItem(request, env, ssm[1]);
+      if (ssm && request.method === "DELETE") return handleSubjectSetItem(request, env, ssm[1]);
     }
 
     // --- feedback channel (CL-DATA-70, gray-released) ---
