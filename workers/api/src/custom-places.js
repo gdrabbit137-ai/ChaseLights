@@ -30,7 +30,7 @@ import {
   findGroupFor, joinGroup, leaveGroup, representativeOf, fanOutGroupEval,
   getGroupRecord, regroupExistingPlaces,
 } from "./place-groups.js";
-import { validateCustomConditions, parseCustomConditions, findNextCustomWindow, slotTimeMs } from "./notify.js";
+import { validateCustomConditions, parseCustomConditions, findNextCustomWindow, slotTimeMs, placeCtxFromRec, validateWindowSegment } from "./notify.js";
 
 export const TRIAL_DAYS = 90;
 export const CAPS = { freeTrial: 3, freeExpired: 0, paid: 50 };
@@ -241,8 +241,9 @@ export function evaluateCustomPlace(cc, rec, nowMs = Date.now()) {
     return { tier: "pending", reason: null, window: null };
   }
   const hourly = rec.hourly;
+  const placeCtx = placeCtxFromRec(rec);
   if (cc) {
-    const win = findNextCustomWindow(hourly, cc, nowMs, 0);
+    const win = findNextCustomWindow(hourly, cc, nowMs, 0, placeCtx);
     if (win) return { tier: "rec", reason: null, window: `${win.local_date} ${win.hour}` };
     // patch-5 ④: when a month window is set and NO hour in the next-24h
     // horizon falls inside it, the honest dominant reason is the month
@@ -256,7 +257,7 @@ export function evaluateCustomPlace(cc, rec, nowMs = Date.now()) {
     return { tier: "no", reason: dominantFailWord(hourly, cc, nowMs), window: null };
   }
   // no conditions: lenient general baseline
-  const win = findNextCustomWindow(hourly, { ...GENERAL_BASELINE }, nowMs, 0);
+  const win = findNextCustomWindow(hourly, { ...GENERAL_BASELINE }, nowMs, 0, placeCtx);
   if (win) return { tier: "shoot", reason: null, window: `${win.local_date} ${win.hour}` };
   return { tier: "no", reason: dominantFailWord(hourly, GENERAL_BASELINE, nowMs), window: null };
 }
@@ -1145,11 +1146,26 @@ export function validateParseSuggestions(body) {
     out[k] = n;
   }
   if (Number.isFinite(Number(body.wind_max_ms)) && body.wind_max_ms != null) out.wind_max_ms = Number(body.wind_max_ms);
-  const hm = /^([01]\d|2[0-3]):[0-5]\d$/;
-  if (body.window_start != null || body.window_end != null) {
-    if (typeof body.window_start !== "string" || typeof body.window_end !== "string") return { ok: false };
-    if (!hm.test(body.window_start) || !hm.test(body.window_end)) return { ok: false };
-    out.window_start = body.window_start; out.window_end = body.window_end;
+  // patch-2 (owner steer): the LLM may return the multi-segment windows array
+  // (fixed + sun-anchored segments, ≤2) or the legacy flat window_start/end.
+  // Both never appear together; conflict excludes any concrete window.
+  if (body.windows != null && (body.window_start != null || body.window_end != null)) return { ok: false };
+  if (body.windows != null) {
+    if (!Array.isArray(body.windows) || body.windows.length > 2) return { ok: false };
+    const segs = [];
+    for (const s of body.windows) {
+      const v = validateWindowSegment(s);
+      if (!v.ok) return { ok: false };
+      segs.push(v.seg);
+    }
+    out.windows = segs;
+  } else {
+    const hm = /^([01]\d|2[0-3]):[0-5]\d$/;
+    if (body.window_start != null || body.window_end != null) {
+      if (typeof body.window_start !== "string" || typeof body.window_end !== "string") return { ok: false };
+      if (!hm.test(body.window_start) || !hm.test(body.window_end)) return { ok: false };
+      out.window_start = body.window_start; out.window_end = body.window_end;
+    }
   }
   // patch-5 ③: conflict — when the text demands incompatible conditions
   // (e.g. non-overlapping time windows), the LLM sets window keys null and
@@ -1159,7 +1175,7 @@ export function validateParseSuggestions(body) {
     if (typeof body.conflict !== "string" || !body.conflict.trim() || body.conflict.length > 200) {
       return { ok: false };
     }
-    if (out.window_start != null) return { ok: false }; // conflict excludes a concrete window
+    if (out.window_start != null || out.windows != null) return { ok: false }; // conflict excludes a concrete window
     out.conflict = body.conflict.trim();
   }
   const conf = Number(body.confidence);
@@ -1173,14 +1189,27 @@ const PARSE_SYSTEM_PROMPT =
   'Output STRICT JSON only, with exactly these keys: ' +
   'cloud ("min"|"half"|"any" — how much low cloud the photographer tolerates), ' +
   'fog ("none"|"thin"|"any"), rain ("no"|"drizzle"|"any"), ' +
-  'wind_max_ms (number|null, m/s), window_start and window_end ("HH:MM" strings or null, local shooting window), ' +
+  'wind_max_ms (number|null, m/s), ' +
+  'windows (array of 0..2 time-window SEGMENTS; empty array when the text names no time window), ' +
   'lead_minutes (integer|null), conflict (string|null), confidence (0..1). ' +
-  'Interpret the text in ANY language. Never invent keys. Numbers must respect the stated units. ' +
-  'MULTIPLE time windows in the text are INTERSECTED: use only the overlapping span. ' +
-  'If the requested conditions CONTRADICT each other and have no valid overlap (e.g. two non-overlapping windows), ' +
-  'set window_start/window_end to null and put a SHORT (<200 chars) message in conflict — ' +
+  'Each window segment is an object {type, start, end, offset_minutes} with type one of: ' +
+  '"fixed" (BOTH start and end required, "HH:MM" strings, offset_minutes must be null) — ' +
+  'a concrete local clock span; ' +
+  '"before_sunrise" | "after_sunrise" | "before_sunset" | "after_sunset" (SUN-ANCHORED: ' +
+  'offset_minutes = integer minutes relative to the anchor event, null = 0; start/end must be null). ' +
+  'ANCHOR RULE (critical): phrases like 日出前/日出後/日落前/日落後, before/after sunrise or sunset, ' +
+  '夜深到天亮前 must become SUN-ANCHORED segments — NEVER convert them into fixed clock times, ' +
+  'because real sunrise/sunset shift with the seasons and the app expands them per day. ' +
+  'offset_minutes sign: before_sunrise -30 means "end 30 minutes before sunrise"; ' +
+  'after_sunrise 30 means "start 30 minutes after sunrise". ' +
+  'TWO time spans in the text (清晨與傍晚 / twice a day / dawn AND dusk / blue hour morning and evening) ' +
+  'become TWO segments in ONE windows array — never merge them into one wide window. ' +
+  'MULTIPLE overlapping constraints on ONE span are INTERSECTED into that one segment. ' +
+  'If the requested conditions CONTRADICT each other and have no valid overlap, ' +
+  'set windows to [] and put a SHORT (<200 chars) message in conflict — ' +
   'written in the USER\'S OWN language — telling them the conditions conflict and to pick one. ' +
-  'Otherwise conflict must be null.';
+  'Otherwise conflict must be null. ' +
+  'Interpret the text in ANY language. Never invent keys. Numbers must respect the stated units.';
 
 export async function conditionsParseConfig(env) {
   return { enabled: Boolean(env.LLM_API_KEY) };
@@ -1189,6 +1218,25 @@ export async function conditionsParseConfig(env) {
 export async function handleConditionsParseConfig(req, env) {
   const cfg = await conditionsParseConfig(env);
   return json(req, 200, { ok: true, enabled: cfg.enabled });
+}
+
+// Provider ruling (owner): the parse LLM rides OpenRouter (LLM_API_KEY is an
+// OpenRouter key; google/gemini-2.5-flash was picked for multilingual + strict
+// JSON). The model name is KV-swappable (v1:cparse:model) for zero-code swaps,
+// with env.LLM_MODEL as the deploy-time override and the constant as fallback.
+// 2026-11-18 root cause of 「解析功能無法用」: the handler called Google's
+// generativelanguage endpoint with the OpenRouter key — every live call 401'd
+// into the generic 502. OpenRouter's chat/completions is the actual contract.
+const PARSE_MODEL_KV_KEY = 'v1:cparse:model';
+const PARSE_DEFAULT_MODEL = 'google/gemini-2.5-flash';
+const PARSE_UPSTREAM = 'https://openrouter.ai/api/v1/chat/completions';
+
+export async function conditionsParseModel(env) {
+  let m = null;
+  try { m = await env.EVALS.get(PARSE_MODEL_KV_KEY); } catch { /* KV hiccups must not kill the feature */ }
+  if (typeof m === 'string' && m.trim()) return m.trim();
+  if (typeof env.LLM_MODEL === 'string' && env.LLM_MODEL.trim()) return env.LLM_MODEL.trim();
+  return PARSE_DEFAULT_MODEL;
 }
 
 export async function handleConditionsParse(req, env) {
@@ -1211,33 +1259,52 @@ export async function handleConditionsParse(req, env) {
     return json(req, 403, { ok: false, error: 'daily parse limit reached', limit: PARSE_DAILY_LIMIT, message: PARSE_MESSAGES.limit });
   }
 
-  const model = env.LLM_MODEL || 'gemini-2.0-flash';
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(env.LLM_API_KEY)}`;
+  const model = await conditionsParseModel(env);
   let parsed = null;
   try {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 15_000);
-    const res = await fetch(url, {
+    const res = await fetch(PARSE_UPSTREAM, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${env.LLM_API_KEY}`,
+        'HTTP-Referer': 'https://chaselights.app',
+        'X-Title': 'ChaseLights',
+      },
       signal: controller.signal,
       body: JSON.stringify({
-        systemInstruction: { parts: [{ text: PARSE_SYSTEM_PROMPT }] },
-        contents: [{ role: 'user', parts: [{ text }] }],
-        generationConfig: { temperature: 0, responseMimeType: 'application/json' },
+        model,
+        messages: [
+          { role: 'system', content: PARSE_SYSTEM_PROMPT },
+          { role: 'user', content: text },
+        ],
+        temperature: 0,
+        response_format: { type: 'json_object' },
       }),
     });
     clearTimeout(timer);
-    if (!res.ok) throw new Error(`LLM HTTP ${res.status}`);
+    if (!res.ok) {
+      const snippet = (await res.text().catch(() => '')).replace(/\s+/g, ' ').slice(0, 200);
+      throw new Error(`LLM HTTP ${res.status}: ${snippet}`);
+    }
     const data = await res.json();
-    const text0 = data && data.candidates && data.candidates[0] && data.candidates[0].content &&
-      data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text;
-    parsed = typeof text0 === 'string' ? JSON.parse(text0) : null;
-  } catch {
-    return json(req, 502, { ok: false, error: 'parse failed', message: PARSE_MESSAGES.fail });
+    const content = data && data.choices && data.choices[0] && data.choices[0].message &&
+      data.choices[0].message.content;
+    parsed = typeof content === 'string' ? JSON.parse(content) : null;
+  } catch (e) {
+    // fail-closed with a CONCRETE reason: the tri-lingual user message stays
+    // stable, but detail (status/upstream snippet, key never included) rides
+    // both the response and the console log so debugging needs no guessing.
+    const detail = e && e.name === 'AbortError' ? 'LLM timeout (15s)' : String(e && e.message || e).slice(0, 200);
+    try { console.error('[conditions/parse] upstream failed:', detail); } catch { /* log is best-effort */ }
+    return json(req, 502, { ok: false, error: 'parse failed', detail, message: PARSE_MESSAGES.fail });
   }
   const check = validateParseSuggestions(parsed);
-  if (!check.ok) return json(req, 422, { ok: false, error: 'schema violation', message: PARSE_MESSAGES.fail });
+  if (!check.ok) {
+    try { console.error('[conditions/parse] schema violation:', JSON.stringify(parsed).slice(0, 200)); } catch { /* best-effort */ }
+    return json(req, 422, { ok: false, error: 'schema violation', detail: 'model output violated the strict suggestion schema', message: PARSE_MESSAGES.fail });
+  }
   try { await env.EVALS.put(key, JSON.stringify({ count: used + 1 })); } catch { /* best-effort */ }
   return json(req, 200, { ok: true, suggestions: check.suggestions });
 }

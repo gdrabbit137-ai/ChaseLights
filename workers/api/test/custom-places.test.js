@@ -961,9 +961,18 @@ test("layer 3: a normal 50-point member is unaffected (50 ≤ 60)", async () => 
 import { validateParseSuggestions, PARSE_DAILY_LIMIT } from "../src/custom-places.js";
 
 const GOOD_SUGGESTION = { cloud: "min", fog: "none", rain: "no", wind_max_ms: 5, window_start: "04:30", window_end: "07:00", lead_minutes: 45, confidence: 0.8 };
-function llmResponse(obj) {
-  return async () => ({ ok: true, json: async () => ({ candidates: [{ content: { parts: [{ text: JSON.stringify(obj) }] } }] }) });
+// CL-APP-09 patch-2: the LLM contract is OpenRouter chat/completions — the
+// response rides choices[0].message.content (the old generativelanguage
+// candidates shape is GONE: the provider mismatch was the live outage).
+const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+function llmResponse(obj, opts = {}) {
+  return async (url, init) => {
+    llmCalls.push({ url: String(url), init });
+    if (opts.status) return { ok: false, status: opts.status, text: async () => opts.body || "upstream boom" };
+    return { ok: true, json: async () => ({ choices: [{ message: { content: JSON.stringify(obj) } }] }) };
+  };
 }
+let llmCalls = [];
 
 test("conditions/parse: config disabled without the key (fail-closed); POST 503s honestly", async () => {
   const { env, db } = makeEnv();
@@ -975,6 +984,44 @@ test("conditions/parse: config disabled without the key (fail-closed); POST 503s
   const post = await worker.fetch(makeReq("/conditions/parse", { method: "POST", headers: hdr(t), body: JSON.stringify({ text: "清晨雲海不要雨" }) }), env, {});
   assert.equal(post.status, 503);
   assert.match((await post.json()).message["zh-TW"], /尚未啟用|金鑰/);
+});
+
+test("conditions/parse: rides OpenRouter chat/completions with the Bearer key + KV/env/default model; upstream failure carries a CONCRETE detail (fail-closed, never silent)", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "u11", "paid");
+  const t = await mint(env, "u11");
+  env.LLM_API_KEY = "TEST-KEY";
+  llmCalls = [];
+  const restore = await stubFetch(llmResponse(GOOD_SUGGESTION));
+  try {
+    const res = await worker.fetch(makeReq("/conditions/parse", { method: "POST", headers: hdr(t), body: JSON.stringify({ text: "x" }) }), env, {});
+    assert.equal(res.status, 200);
+    assert.equal(llmCalls.length, 1);
+    assert.equal(llmCalls[0].url, OPENROUTER_URL, "the provider contract is OpenRouter (the generativelanguage mismatch was the live outage)");
+    const sent = JSON.parse(llmCalls[0].init.body);
+    assert.equal(sent.model, "google/gemini-2.5-flash", "default model when KV/env hold nothing");
+    assert.equal(llmCalls[0].init.headers.Authorization, "Bearer TEST-KEY");
+    assert.ok(sent.messages.some((m) => m.role === "system" && /before_sunrise/.test(m.content)), "the prompt teaches the anchor window schema");
+  } finally { restore(); }
+  // KV model swap (zero-code ruling): KV wins over the default
+  env.EVALS._store.set("v1:cparse:model", "google/gemini-3-flash");
+  llmCalls = [];
+  const restore2 = await stubFetch(llmResponse(GOOD_SUGGESTION));
+  try {
+    await worker.fetch(makeReq("/conditions/parse", { method: "POST", headers: hdr(t), body: JSON.stringify({ text: "x" }) }), env, {});
+    assert.equal(JSON.parse(llmCalls[0].init.body).model, "google/gemini-3-flash");
+  } finally { restore2(); env.EVALS._store.delete("v1:cparse:model"); }
+  // upstream auth failure: 502 with a CONCRETE detail (status + snippet), key never included
+  llmCalls = [];
+  const restore3 = await stubFetch(llmResponse(GOOD_SUGGESTION, { status: 401, body: '{"error":"Invalid API key"}' }));
+  try {
+    const res = await worker.fetch(makeReq("/conditions/parse", { method: "POST", headers: hdr(t), body: JSON.stringify({ text: "x" }) }), env, {});
+    assert.equal(res.status, 502);
+    const b = await res.json();
+    assert.match(b.detail, /LLM HTTP 401/);
+    assert.match(b.detail, /Invalid API key/, "the upstream snippet makes diagnosis possible without wrangler tail");
+    assert.ok(!/TEST-KEY/.test(JSON.stringify(b)), "the credential never leaks into the response");
+  } finally { restore3(); }
 });
 
 test("conditions/parse: trilingual inputs → strict schema suggestions; violations rejected; limit 10/day", async () => {
@@ -1006,6 +1053,19 @@ test("conditions/parse: trilingual inputs → strict schema suggestions; violati
   assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, confidence: 1.5 }).ok, false);
   assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, lead_minutes: -1 }).ok, false);
   assert.equal(validateParseSuggestions({ ...GOOD_SUGGESTION, lead_minutes: null }).ok, true);
+  // patch-2: the windows ARRAY form (anchor + multi-segment) validates through
+  // the SAME segment contract the condition schema enforces
+  const WINDOWS_OK = { cloud: "any", fog: "any", rain: "no", windows: [
+    { type: "before_sunrise", offset_minutes: -30 },
+    { type: "fixed", start: "17:00", end: "18:40" },
+  ], confidence: 0.7 };
+  const wv = validateParseSuggestions(WINDOWS_OK);
+  assert.equal(wv.ok, true);
+  assert.deepEqual(wv.suggestions.windows, WINDOWS_OK.windows);
+  assert.equal(validateParseSuggestions({ ...WINDOWS_OK, windows: [...WINDOWS_OK.windows, { type: "after_sunset" }] }).ok, false, ">2 segments violate");
+  assert.equal(validateParseSuggestions({ ...WINDOWS_OK, windows: [{ type: "before_sunrise", end: "06:00" }] }).ok, false, "anchor + forbidden bound violates");
+  assert.equal(validateParseSuggestions({ ...WINDOWS_OK, window_start: "05:00", window_end: "06:00" }).ok, false, "windows + flat fields together violate");
+  assert.equal(validateParseSuggestions({ ...WINDOWS_OK, conflict: "請擇一" }).ok, false, "conflict excludes concrete windows");
   // patch-5 ③: conflict — non-overlapping windows come back as conflict text
   // with NO concrete window; conflict + window together is a schema violation.
   const CONFLICT = { ...GOOD_SUGGESTION, window_start: null, window_end: null, conflict: "兩個時間窗不重疊，請擇一" };

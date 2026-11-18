@@ -27,8 +27,10 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
   // CL-INT-206 merge: clapp06g (patch-8) + clapp08a (shared-fetch tag) ->
   // clapp08b on the merged tree (per-file cache-bust rule, monotonic)
+  // CL-APP-09 patch-2: custom-places.js changed -> clapp08c (css untouched -> keeps clapp08b)
   assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp08b/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp08b/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp08c/);
+  assert.doesNotMatch(htmlSource, /assets\/custom-places\.js\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
@@ -682,7 +684,8 @@ test('CL-APP-06 (2h, patch-8): 「掛題材·條件」 = LIST manager — groups
     gs.dispatchEvent(new Event('change'));
     await new Promise(r => setTimeout(r, 100));
     const starterCloud = ov.querySelector('#cl-cp-sem-cloud').value;
-    const starterWin = [ov.querySelector('#cl-cp-cc-start').value, ov.querySelector('#cl-cp-cc-end').value];
+    // CL-APP-09 patch-2: the window editor is now segment-based (#cl-cp-ws0-*)
+    const starterWin = [ov.querySelector('#cl-cp-ws0-start').value, ov.querySelector('#cl-cp-ws0-end').value];
     const advanced = ov.querySelector('.cl-cp-cc-advanced');
     Object.assign(out, { map0, low0, map1, low1, prev, genreOptions, starterCloud, starterWin, advancedOpenDefault: advanced.open });
     // disabled-reason pattern: clearing the name → the button prints it
@@ -738,7 +741,7 @@ test('CL-APP-06 (2i): ✨ one-sentence AI parse fills the semantic selects (AI o
       fog: ov.querySelector('#cl-cp-sem-fog').value,
       rain: ov.querySelector('#cl-cp-sem-rain').value,
       mapCloud: ov.querySelector('#cl-cp-sem-map-cloud').textContent,
-      win: [ov.querySelector('#cl-cp-cc-start').value, ov.querySelector('#cl-cp-cc-end').value],
+      win: [ov.querySelector('#cl-cp-ws0-start').value, ov.querySelector('#cl-cp-ws0-end').value],
       wind: ov.querySelector('#cl-cp-cc-wind').value,
       note,
     };
@@ -1151,7 +1154,8 @@ test('CL-APP-06 (1g, patch-4/5): mini-map deferred-init contract + ticket-langua
   assert.match(jsSource, /if \(s\.conflict\)[\s\S]{0,200}ai_conflict\.replace\('\{m\}', s\.conflict\)/);
   assert.match(jsSource, /ai_conflict: '⚠ 條件矛盾：\{m\}——請擇一，AI 未套用任何值。'/);
   // patch-5 ②: the example copy is conflict-free (single time window)
-  assert.match(jsSource, /ai_ph: '例如：清晨要能看到雲海，不要下雨，最好六點前'/);
+  // CL-APP-09 patch-2: the example speaks in the photographer's voice (cloud-sea at dawn IS the deck window)
+  assert.match(jsSource, /ai_ph: '例如：清晨六點前要有雲海，不要下雨，風要小，能見度要好'/);
   // patch-5 ④: months multi-select, default all-year, seasonal starters prefill
   assert.match(jsSource, /p_months: '適用月份'/);
   assert.match(jsSource, /id="cl-cp-cc-months"/);
@@ -1265,7 +1269,7 @@ test('CL-APP-06 (2s, patch-5): conditions modal — no ticket language, conflict
     await new Promise(r => setTimeout(r, 400));
     out.conflictNote = ov.querySelector('#cl-cp-ai-note').textContent;
     out.cloudAfterConflict = ov.querySelector('#cl-cp-sem-cloud').value;
-    out.winStartAfterConflict = ov.querySelector('#cl-cp-cc-start').value;
+    out.winStartAfterConflict = ov.querySelector('#cl-cp-ws0-start').value;
     out.previewUnchanged = ov.querySelector('#cl-cp-cc-prev').textContent === prevBefore;
     window.__clcpFetch = realFetch;
     return out;

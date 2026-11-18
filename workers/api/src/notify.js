@@ -6,6 +6,7 @@
 // int). This v1 matches them on the site-wide GMT+8 convention; JP (UTC+9)
 // spots may drift up to 1h inside the match window — follow-up: per-spot tz.
 import { sendPush } from "./push.js";
+import { sunTimesForDate } from "./solar.js";
 
 export const MATCH_WINDOW_H = 24;
 
@@ -83,7 +84,150 @@ export function validateCustomConditions(input) {
     }
     out.months = ms.sort((a, b) => a - b);
   }
+  // ------------------------------------------------------------------
+  // CL-APP-09 patch-2 (owner steer): ANCHOR + MULTI-SEGMENT time windows.
+  //   windows: array of 1..2 segments { type, start?, end?, offset_minutes? }
+  //     type: fixed | before_sunrise | after_sunrise | before_sunset |
+  //           after_sunset
+  //     fixed       → start+end HH:MM BOTH required; offset_minutes forbidden
+  //     before_*    → optional offset_minutes (shifts the anchor END bound)
+  //                   and optional start (narrows the window start); end
+  //                   forbidden (the anchor IS the end bound)
+  //     after_*     → mirror: optional offset_minutes + optional end; start
+  //                   forbidden (the anchor IS the start bound)
+  //   offset_minutes: integer -720..720 (absent = 0). The engine expands the
+  //   anchor with the place's REAL sun times per row's local date (solar.js),
+  //   so a set saved in winter still tracks the later summer sunrise.
+  // Back-compat: a cc WITHOUT windows but WITH window_start/window_end keeps
+  // the legacy single fixed segment; mixing windows with the flat fields is
+  // rejected (ambiguous payload, fail-closed). The legacy FLAT anchor form
+  // (window_type+offset_minutes, no start/end) is still accepted as a single
+  // segment; narrowing an anchor needs the windows array.
+  // ------------------------------------------------------------------
+  const wt = input.window_type;
+  if (wt !== undefined) {
+    if (!WINDOW_TYPES.includes(wt)) return { ok: false, error: `customConditions.window_type must be one of ${WINDOW_TYPES.join("|")}` };
+  }
+  const flatOff = input.offset_minutes;
+  if (flatOff !== undefined && flatOff !== null) {
+    if (!Number.isInteger(flatOff) || flatOff < -720 || flatOff > 720) {
+      return { ok: false, error: "customConditions.offset_minutes must be an integer -720..720" };
+    }
+  }
+  if (input.windows != null) {
+    if (wt !== undefined || input.window_start != null || input.window_end != null || flatOff != null) {
+      return { ok: false, error: "customConditions.windows excludes the flat window fields (window_type/window_start/window_end/offset_minutes)" };
+    }
+    if (!Array.isArray(input.windows) || !input.windows.length || input.windows.length > 2) {
+      return { ok: false, error: "customConditions.windows must be an array of 1..2 segments" };
+    }
+    const segs = [];
+    for (const s of input.windows) {
+      const v = validateWindowSegment(s);
+      if (!v.ok) return { ok: false, error: `customConditions.windows: ${v.error}` };
+      segs.push(v.seg);
+    }
+    out.windows = segs;
+  } else if (wt !== undefined) {
+    if (wt === "fixed") return { ok: false, error: "customConditions: a flat fixed window uses window_start/window_end without window_type" };
+    if (input.window_start != null || input.window_end != null) {
+      return { ok: false, error: `customConditions: anchor window_type ${wt} cannot carry flat start/end bounds — use the windows array to narrow an anchor` };
+    }
+    out.windows = [validateWindowSegment({ type: wt, offset_minutes: flatOff != null ? flatOff : 0 }).seg];
+  }
   return { ok: true, cc: Object.keys(out).length ? out : null };
+}
+
+export const WINDOW_TYPES = ["fixed", "before_sunrise", "after_sunrise", "before_sunset", "after_sunset"];
+
+// One {type,start,end,offset_minutes} segment. Returns {ok, seg} | {ok:false,error}.
+export function validateWindowSegment(s) {
+  if (!s || typeof s !== "object" || Array.isArray(s)) return { ok: false, error: "segment must be an object" };
+  const type = s.type != null ? s.type : "fixed";
+  if (!WINDOW_TYPES.includes(type)) return { ok: false, error: `type must be one of ${WINDOW_TYPES.join("|")}` };
+  const seg = { type };
+  if (type === "fixed") {
+    if (s.offset_minutes != null) return { ok: false, error: "fixed segments take start/end, not offset_minutes" };
+    if (typeof s.start !== "string" || typeof s.end !== "string" || !CC_HM_RE.test(s.start) || !CC_HM_RE.test(s.end)) {
+      return { ok: false, error: "fixed segments need both start and end as HH:MM strings" };
+    }
+    seg.start = s.start;
+    seg.end = s.end;
+    return { ok: true, seg };
+  }
+  if (s.offset_minutes != null) {
+    const n = s.offset_minutes;
+    if (!Number.isInteger(n) || n < -720 || n > 720) return { ok: false, error: "offset_minutes must be an integer -720..720" };
+    seg.offset_minutes = n;
+  }
+  if (type.startsWith("before_")) {
+    if (s.end != null) return { ok: false, error: `${type} has no end (the sun anchor IS the end); use start to narrow the window start` };
+    if (s.start != null) {
+      if (typeof s.start !== "string" || !CC_HM_RE.test(s.start)) return { ok: false, error: "start must be an HH:MM string" };
+      seg.start = s.start;
+    }
+  } else {
+    if (s.start != null) return { ok: false, error: `${type} has no start (the sun anchor IS the start); use end to narrow the window end` };
+    if (s.end != null) {
+      if (typeof s.end !== "string" || !CC_HM_RE.test(s.end)) return { ok: false, error: "end must be an HH:MM string" };
+      seg.end = s.end;
+    }
+  }
+  return { ok: true, seg };
+}
+
+// The cc's window segments, normalized: windows array wins; legacy flat
+// window_type/window_start/window_end/offset_minutes maps to one segment;
+// legacy flat fixed bounds (no window_type) map to one fixed segment.
+export function segmentsOf(cc) {
+  if (!cc || typeof cc !== "object") return null;
+  if (Array.isArray(cc.windows) && cc.windows.length) return cc.windows;
+  if (cc.window_type && cc.window_type !== "fixed") {
+    return [{ type: cc.window_type, start: cc.window_start, end: cc.window_end, offset_minutes: cc.offset_minutes != null ? cc.offset_minutes : 0 }];
+  }
+  if (cc.window_start != null || cc.window_end != null) {
+    return [{ type: "fixed", start: cc.window_start, end: cc.window_end }];
+  }
+  return null; // no window constraint
+}
+
+// Anchor segment → concrete [start,end] HH:MM for ONE row local date, using
+// the place's REAL sun times (solar.js). Returns null when the segment cannot
+// resolve (no place coordinates / polar day-night): the caller must treat it
+// as "no match", never as "whole day" (fail-closed, no fabricated window).
+export function resolveSegmentBounds(seg, localDate, placeCtx) {
+  if (!seg || typeof seg !== "object") return null;
+  if (seg.type === "fixed") {
+    return { start: seg.start || null, end: seg.end || null };
+  }
+  if (!placeCtx || !Number.isFinite(placeCtx.lat) || !Number.isFinite(placeCtx.lng)) return null;
+  const sun = sunTimesForDate(localDate, placeCtx.lat, placeCtx.lng, placeCtx.utcOffsetHours);
+  if (!sun) return null;
+  const off = Number.isFinite(seg.offset_minutes) ? seg.offset_minutes : 0;
+  const anchorMin = seg.type.endsWith("sunrise") ? sun.sunriseMin : sun.sunsetMin;
+  const norm = (x) => ((Math.round(x) % 1440) + 1440) % 1440;
+  const toHM = (x) => `${String(Math.floor(x / 60)).padStart(2, "0")}:${String(x % 60).padStart(2, "0")}`;
+  if (seg.type.startsWith("before_")) {
+    return { start: seg.start || "00:00", end: toHM(norm(anchorMin + off)), anchorHM: toHM(norm(anchorMin)) };
+  }
+  return { start: toHM(norm(anchorMin + off)), end: seg.end || "23:59", anchorHM: toHM(norm(anchorMin)) };
+}
+
+// Does ONE hour row pass the cc's window segments (ANY segment passes)? This
+// is the multi-segment replacement for the raw hourInWindow gate: fixed
+// segments behave exactly as before; anchor segments expand per the row's
+// local date with real sun times. Unresolvable anchor segments never match
+// (fail-closed: a window we cannot resolve must not silently become all-day).
+export function hourPassesWindows(row, cc, placeCtx = null) {
+  const segs = segmentsOf(cc);
+  if (!segs) return true; // no window constraint at all
+  if (!row || typeof row.local_date !== "string" || typeof row.hour !== "string") return false;
+  for (const seg of segs) {
+    const b = resolveSegmentBounds(seg, row.local_date, placeCtx);
+    if (!b) continue; // unresolvable (missing coords / polar) — never matches
+    if (hourInWindow(row.hour, b.start, b.end)) return true;
+  }
+  return false;
 }
 
 // Safe parse for stored rows: JSON string, object passthrough, else null.
@@ -136,9 +280,10 @@ export function customHourMatches(values, cc) {
   return true;
 }
 
-// Earliest qualifying hour in [now + leadMinutes, now + 24h]. Mirrors
-// findNextWindow semantics (same slot time convention, same MATCH_WINDOW_H).
-export function findNextCustomWindow(hourly, cc, nowMs, leadMinutes) {
+// Earliest qualifying hour in [now + leadMinutes, now + MATCH_WINDOW_H].
+// placeCtx ({lat,lng,utcOffsetHours}) lets ANCHOR window segments expand with
+// real sun times; anchor rows are honest no-matches when it is missing.
+export function findNextCustomWindow(hourly, cc, nowMs, leadMinutes, placeCtx = null) {
   if (!cc || !Array.isArray(hourly)) return null;
   const earliest = nowMs + (leadMinutes || 0) * 60_000;
   const latest = nowMs + MATCH_WINDOW_H * 3_600_000;
@@ -150,7 +295,7 @@ export function findNextCustomWindow(hourly, cc, nowMs, leadMinutes) {
   for (const row of hourly) {
     if (!row || typeof row.local_date !== "string" || typeof row.hour !== "string") continue;
     if (months && !months.has(Number(row.local_date.slice(5, 7)))) continue;
-    if (!hourInWindow(row.hour, cc.window_start, cc.window_end)) continue;
+    if (!hourPassesWindows(row, cc, placeCtx)) continue;
     if (!customHourMatches(row.values, cc)) continue;
     const t = slotTimeMs(row.local_date, row.hour);
     if (t >= earliest && t <= latest && (!best || t < best.t)) {
@@ -158,6 +303,27 @@ export function findNextCustomWindow(hourly, cc, nowMs, leadMinutes) {
     }
   }
   return best;
+}
+
+// Judgment context from an eval KV record: lat/lng (+ tz offset) drive the
+// anchor-window expansion. Custom-place records carry lat/lng/timezone; the
+// official distilled records gain lat/lng/utc_offset_hours (kv_distill).
+export function placeCtxFromRec(rec) {
+  if (!rec || typeof rec !== "object") return null;
+  const lat = Number(rec.lat), lng = Number(rec.lng);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  let utcOffsetHours = 8;
+  if (Number.isFinite(rec.utc_offset_hours)) utcOffsetHours = Number(rec.utc_offset_hours);
+  else if (typeof rec.timezone === "string" && rec.timezone) {
+    try {
+      const parts = new Intl.DateTimeFormat("en-US", { timeZone: rec.timezone, timeZoneName: "shortOffset" })
+        .formatToParts(new Date());
+      const name = (parts.find((p) => p.type === "timeZoneName") || {}).value || "";
+      const m = /GMT([+-])(\d{1,2})(?::(\d{2}))?/.exec(name);
+      if (m) utcOffsetHours = (m[1] === "-" ? -1 : 1) * (Number(m[2]) + Number(m[3] || 0) / 60);
+    } catch { /* unknown tz keeps the +8 baseline */ }
+  }
+  return { lat, lng, utcOffsetHours };
 }
 
 export function slotTimeMs(localDate, hour) {
@@ -301,7 +467,7 @@ export async function runNotifyCron(env, nowMs = Date.now()) {
         continue;
       }
       const leadMin = Number.isFinite(cc.lead_minutes) ? cc.lead_minutes : (rule.min_advance_hours || 0) * 60;
-      win = findNextCustomWindow(rec.hourly, cc, nowMs, leadMin);
+      win = findNextCustomWindow(rec.hourly, cc, nowMs, leadMin, placeCtxFromRec(rec));
     } else {
       win = findNextWindow(rec.subjects, rule.opportunity_id, nowMs, rule.min_advance_hours);
     }

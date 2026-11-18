@@ -34,7 +34,7 @@
       free_cap_note: '免費會員自訂題材全站總量 5 組、每日新增 5 組；升級 Premium 後每個景點 5 組、無總量上限。',
       login_note: '登入後可在此建立自訂題材', login_cta: '登入以繼續',
       months_all: '全年', months_fmt: '適用月份：{m}', next_win: '下一窗：',
-      no_win: '今日無下一窗', fail_no_data: '評估資料尚未涵蓋', fail_month: '非適用月份',
+      no_win: '今日無下一窗', fail_no_data: '評估資料尚未涵蓋', fail_month: '非適用月份', fail_wp: '時段待座標同步',
       day_ok: '符合', day_bad: '未符', hours_lbl: '符合時數',
       diff_title: '與官方模板差異', diff_none: '（自建條件，非官方模板 fork）',
       diff_official: '官方', diff_mine: '此組', diff_warn: '超出官方門檻 ±30%（僅提示，不阻擋）',
@@ -45,6 +45,9 @@
       p_low: '低雲門檻（%）', p_mid: '中雲門檻（%）', p_high: '高雲門檻（%）', p_precip: '降水上限（mm/h）',
       p_vis: '能見度下限（km）', p_wind: '風速上限（m/s）', p_window: '時間窗', p_months: '適用月份',
       p_months_hint: '不選＝全年適用；選取後只有該月份會判定',
+      wt_fixed: '固定時段', wt_bs: '日出前（每日動態）', wt_as: '日出後（每日動態）', wt_bd: '日落前（每日動態）', wt_ads: '日落後（每日動態）',
+      win_off: '錨點偏移（分鐘，可負）', win_add2: '＋ 加第二段', win_rm: '移除此段', win_hint: '錨點型以當日實際日出／日落動態展開，冬天夏天不同',
+      win_before: '{t} 前', win_from: '{t} 起',
       cc_prev: '摘要預覽：', cc_prev_none: '（未調任何參數）', ed_submit: '建立此題材組', ed_submit_edit: '儲存變更',
       warn_pct: '⚠ {m}：官方 {o} → 此組 {v}，超出 ±30%（已照存，不阻擋）',
       done1: '✓ 自訂題材已建立', done1_edit: '✓ 已更新',
@@ -62,7 +65,7 @@
       free_cap_note: 'Free members hold 5 custom-subject sets in TOTAL and can add 5 per day; Premium unlocks 5 per place with no total cap.',
       login_note: 'Sign in to create custom subjects here', login_cta: 'Sign in to continue',
       months_all: 'All year', months_fmt: 'Months: {m}', next_win: 'Next window:',
-      no_win: 'No next window today', fail_no_data: 'Evaluation data not yet covering', fail_month: 'Outside applicable months',
+      no_win: 'No next window today', fail_no_data: 'Evaluation data not yet covering', fail_month: 'Outside applicable months', fail_wp: 'Window pending place sync',
       day_ok: 'Meets', day_bad: 'Misses', hours_lbl: 'Qualifying hours',
       diff_title: 'Diff vs official template', diff_none: '(built from scratch — not a template fork)',
       diff_official: 'Official', diff_mine: 'This set', diff_warn: 'Beyond ±30% of the official threshold (advisory only)',
@@ -73,6 +76,9 @@
       p_low: 'Low-cloud cap (%)', p_mid: 'Mid-cloud cap (%)', p_high: 'High-cloud cap (%)', p_precip: 'Precip cap (mm/h)',
       p_vis: 'Visibility min (km)', p_wind: 'Wind cap (m/s)', p_window: 'Time window', p_months: 'Applicable months',
       p_months_hint: 'None = all year; when set, only those months are judged',
+      wt_fixed: 'Fixed span', wt_bs: 'Before sunrise (daily dynamic)', wt_as: 'After sunrise (daily dynamic)', wt_bd: 'Before sunset (daily dynamic)', wt_ads: 'After sunset (daily dynamic)',
+      win_off: 'Anchor offset (minutes, may be negative)', win_add2: '＋ Add a second span', win_rm: 'Remove this span', win_hint: 'Anchor spans expand with each day\u2019s REAL sunrise/sunset — winter and summer differ',
+      win_before: 'before {t}', win_from: 'from {t}',
       cc_prev: 'Summary:', cc_prev_none: '(no parameters set)', ed_submit: 'Create this set', ed_submit_edit: 'Save changes',
       warn_pct: '⚠ {m}: official {o} → set {v}, beyond ±30% (saved anyway)',
       done1: '✓ Custom subject created', done1_edit: '✓ Updated',
@@ -90,7 +96,7 @@
       free_cap_note: '無料會員は自作題材の合計5件・1日5件まで追加可能；Premiumなら1か所5件・合計上限なし。',
       login_note: 'ログインすると自作題材を作成できます', login_cta: 'ログインして続行',
       months_all: '通年', months_fmt: '適用月：{m}', next_win: '次は：',
-      no_win: '本日これ以上なし', fail_no_data: '判定データはまだありません', fail_month: '適用月外',
+      no_win: '本日これ以上なし', fail_no_data: '判定データはまだありません', fail_month: '適用月外', fail_wp: '時間帯は座標同期待ち',
       day_ok: '適合', day_bad: '未達成', hours_lbl: '適合時間数',
       diff_title: '公式テンプレとの差分', diff_none: '（自作条件・フォークなし）',
       diff_official: '公式', diff_mine: 'この組', diff_warn: '公式しきい値の±30%外（保存は可能）',
@@ -101,6 +107,9 @@
       p_low: '下層雲しきい値（%）', p_mid: '中層雲しきい値（%）', p_high: '上層雲しきい値（%）', p_precip: '降水上限（mm/h）',
       p_vis: '視程下限（km）', p_wind: '風速上限（m/s）', p_window: '時間帯', p_months: '適用月',
       p_months_hint: '未選択＝通年；選択するとその月のみ判定',
+      wt_fixed: '固定時間帯', wt_bs: '日の出前（毎日動的）', wt_as: '日の出後（毎日動的）', wt_bd: '日の入前（毎日動的）', wt_ads: '日の入後（毎日動的）',
+      win_off: 'アンカーオフセット（分・負可）', win_add2: '＋ 2つ目を追加', win_rm: 'この枠を削除', win_hint: 'アンカーは当日の実際の日の出入りから毎日展開（季節で変わる）',
+      win_before: '{t} まで', win_from: '{t} から',
       cc_prev: 'サマリー：', cc_prev_none: '（未設定）', ed_submit: 'この題材を作成', ed_submit_edit: '変更を保存',
       warn_pct: '⚠ {m}：公式 {o} → この組 {v}、±30%外（保存可）',
       done1: '✓ 自作題材を作成しました', done1_edit: '✓ 保存しました',
@@ -366,9 +375,9 @@
     cloud: {
       key: 'cloud_low_max',
       options: {
-        'zh-TW': [['any', '不限', null], ['clear', '晴（低雲 ≤15%）', 15], ['partly', '少雲（低雲 ≤40%）', 40], ['cloudy', '多雲也可（低雲 ≤70%）', 70]],
-        'en': [['any', 'Any', null], ['clear', 'Clear (low ≤15%)', 15], ['partly', 'Partly cloudy (low ≤40%)', 40], ['cloudy', 'Cloudy OK (low ≤70%)', 70]],
-        'ja': [['any', '指定なし', null], ['clear', '晴れ（下層雲 ≤15%）', 15], ['partly', '雲少なめ（下層雲 ≤40%）', 40], ['cloudy', '曇り可（下層雲 ≤70%）', 70]],
+        'zh-TW': [['any', '不在乎', null], ['clear', '晴（低雲 ≤15%）', 15], ['partly', '少雲（低雲 ≤40%）', 40], ['cloudy', '多雲也可（低雲 ≤70%）', 70]],
+        'en': [['any', "Don't care", null], ['clear', 'Clear (low ≤15%)', 15], ['partly', 'Partly cloudy (low ≤40%)', 40], ['cloudy', 'Cloudy OK (low ≤70%)', 70]],
+        'ja': [['any', 'こだわらない', null], ['clear', '晴れ（下層雲 ≤15%）', 15], ['partly', '雲少なめ（下層雲 ≤40%）', 40], ['cloudy', '曇り可（下層雲 ≤70%）', 70]],
       },
       values: { any: null, clear: 15, partly: 40, cloudy: 70 },
     },
@@ -411,6 +420,123 @@
     for (var i = 0; i < opts.length; i++) if (opts[i][0] === val) return opts[i][2];
     return '';
   }
+  // ─── CL-APP-09 patch-2: ANCHOR + MULTI-SEGMENT time windows ───
+  // Segments: fixed (start–end) | before_sunrise/after_sunrise/before_sunset/
+  // after_sunset (offset_minutes). ≤2 segments; ANY segment passes an hour.
+  // The ENGINE (worker solar.js) expands anchors with the place's REAL sun
+  // times per day — 冬天/夏至 give different windows by design.
+  var WTYPES = ['fixed', 'before_sunrise', 'after_sunrise', 'before_sunset', 'after_sunset'];
+  function wtLabel(type) {
+    return { fixed: t().wt_fixed, before_sunrise: t().wt_bs, after_sunrise: t().wt_as, before_sunset: t().wt_bd, after_sunset: t().wt_ads }[type] || '';
+  }
+  function windowSegsOf(cc) {
+    if (cc && Array.isArray(cc.windows) && cc.windows.length) return cc.windows;
+    if (cc && cc.window_start && cc.window_end) return [{ type: 'fixed', start: cc.window_start, end: cc.window_end }];
+    return [{ type: 'fixed', start: '', end: '' }];
+  }
+  function winSegSummary(seg, lang) {
+    if (!seg || !seg.type || seg.type === 'fixed') {
+      return (seg && seg.start ? seg.start : '?') + '–' + (seg && seg.end ? seg.end : '?');
+    }
+    var lbl = wtLabel(seg.type).replace(/（.*?）/, '').replace(/ \(daily dynamic\)/, '');
+    var off = (seg.offset_minutes != null && seg.offset_minutes !== 0)
+      ? ((seg.offset_minutes > 0 ? '+' : '−') + Math.abs(seg.offset_minutes) + (lang === 'zh-TW' ? '分' : lang === 'ja' ? '分' : 'min'))
+      : '';
+    return lbl + off;
+  }
+  // Editor: segments state lives in-memory so type switches can re-render the
+  // fields without losing the other segment's values.
+  function renderWinArea() {
+    var host = els.overlay.querySelector('#cl-ss-win-area');
+    if (!host) return;
+    host.innerHTML = winAreaHtml();
+    wireWinArea();
+  }
+  function winAreaHtml() {
+    var out = '';
+    for (var i = 0; i < winState.length; i++) out += winSegHtml(i, winState[i]);
+    out += (winState.length < 2 ? '<button type="button" class="cl-ss-act" id="cl-ss-win-add">' + esc(t().win_add2) + '</button>' : '') +
+      '<div class="hint">' + esc(t().win_hint) + '</div>';
+    return out;
+  }
+  function winSegHtml(i, seg) {
+    var idp = 'cl-ss-ws' + i;
+    var typeSel = '<select id="' + idp + '-type" class="inp" style="flex:0 0 auto">' +
+      WTYPES.map(function (w) { return '<option value="' + w + '"' + (w === seg.type ? ' selected' : '') + '>' + esc(wtLabel(w)) + '</option>'; }).join('') +
+      '</select>';
+    var fields;
+    if (seg.type === 'fixed') {
+      fields = '<input id="' + idp + '-start" value="' + esc(seg.start || '') + '" placeholder="04:30" style="flex:1">' +
+        '<span style="color:var(--cl-text-3)">–</span>' +
+        '<input id="' + idp + '-end" value="' + esc(seg.end || '') + '" placeholder="07:00" style="flex:1">';
+    } else {
+      var res = (winResolved && winResolved[i] && winResolved[i].start) ? ' · ' + relLabel(winResolvedDay) + ' ' +
+        (seg.type.indexOf('before_') === 0
+          ? t().win_before.replace('{t}', winResolved[i].end)
+          : t().win_from.replace('{t}', winResolved[i].start)) : '';
+      fields = '<input id="' + idp + '-off" inputmode="numeric" value="' + esc(seg.offset_minutes != null ? String(seg.offset_minutes) : '') + '" placeholder="0" style="flex:0 0 90px">' +
+        '<span class="hint" style="flex:1">' + esc(t().win_off) + esc(res) + '</span>';
+    }
+    return '<div class="cl-ss-winseg" data-ss-ws="' + i + '" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' + typeSel + fields +
+      (i === 1 ? '<button type="button" class="cl-ss-act cl-ss-act-del" id="cl-ss-win-rm" aria-label="' + esc(t().win_rm) + '">✕</button>' : '') +
+      '</div>';
+  }
+  function readWinState() {
+    // pull current input values into winState (survives partial re-renders)
+    var segs = [];
+    for (var i = 0; i < 2; i++) {
+      var typeEl = els.overlay.querySelector('#cl-ss-ws' + i + '-type');
+      if (!typeEl) { if (winState[i]) segs.push(winState[i]); continue; }
+      var type = typeEl.value;
+      if (type === 'fixed') {
+        var s = (els.overlay.querySelector('#cl-ss-ws' + i + '-start') || {}).value || '';
+        var e = (els.overlay.querySelector('#cl-ss-ws' + i + '-end') || {}).value || '';
+        segs.push({ type: 'fixed', start: s.trim(), end: e.trim() });
+      } else {
+        var offEl = els.overlay.querySelector('#cl-ss-ws' + i + '-off');
+        var off = offEl && offEl.value.trim() !== '' ? parseInt(offEl.value, 10) : 0;
+        segs.push({ type: type, offset_minutes: isFinite(off) ? off : 0 });
+      }
+    }
+    return segs;
+  }
+  function wireWinArea() {
+    var addBtn = els.overlay.querySelector('#cl-ss-win-add');
+    if (addBtn) addBtn.addEventListener('click', function () {
+      winState = readWinState();
+      if (winState.length < 2) winState.push({ type: 'fixed', start: '', end: '' });
+      renderWinArea();
+      winRefreshPrev();
+    });
+    var rmBtn = els.overlay.querySelector('#cl-ss-win-rm');
+    if (rmBtn) rmBtn.addEventListener('click', function () {
+      winState = readWinState().slice(0, 1);
+      renderWinArea();
+      winRefreshPrev();
+    });
+    [0, 1].forEach(function (i) {
+      var typeEl = els.overlay.querySelector('#cl-ss-ws' + i + '-type');
+      if (!typeEl) return;
+      typeEl.addEventListener('change', function () {
+        winState = readWinState();
+        winState[i] = typeEl.value === 'fixed' ? { type: 'fixed', start: '', end: '' } : { type: typeEl.value, offset_minutes: 0 };
+        renderWinArea();
+        winRefreshPrev();
+      });
+      ['start', 'end', 'off'].forEach(function (f) {
+        var el = els.overlay.querySelector('#cl-ss-ws' + i + '-' + f);
+        if (el) el.addEventListener('change', winRefreshPrev);
+      });
+    });
+  }
+  var winState = [{ type: 'fixed', start: '', end: '' }];
+  var winResolved = null, winResolvedDay = null;
+  // the win editor lives at MODULE scope but the preview refresh is editor-local;
+  // the editor registers its refreshPrev here (patch-2 fix: a bare refreshPrev
+  // reference in wireWinArea threw at attach and killed every later wiring)
+  var winPrevHook = null;
+  function winRefreshPrev() { if (winPrevHook) winPrevHook(); }
+
   function currentSemantic(axis, cc) {
     var m = CC_SEMANTIC[axis]; if (!m) return 'any';
     var val = cc && cc[m.key];
@@ -429,7 +555,11 @@
     if (cc.precip_max_mmh != null) parts.push((zh ? '雨≤' : ja ? '雨≤' : 'rain≤') + cc.precip_max_mmh + 'mm/h');
     if (cc.visibility_min_km != null) parts.push((zh ? '能見度≥' : ja ? '視程≥' : 'vis≥') + cc.visibility_min_km + 'km');
     if (cc.wind_max_ms != null) parts.push((zh ? '風≤' : ja ? '風≤' : 'wind≤') + cc.wind_max_ms + 'm/s');
-    if (cc.window_start && cc.window_end) parts.push(cc.window_start + '–' + cc.window_end);
+    if (Array.isArray(cc.windows) && cc.windows.length) {
+      parts.push(cc.windows.map(function (s) { return winSegSummary(s, lang); }).join('＋'));
+    } else if (cc.window_start && cc.window_end) {
+      parts.push(cc.window_start + '–' + cc.window_end);
+    }
     if (Array.isArray(cc.months) && cc.months.length) parts.push((zh ? '月份' : ja ? '月' : 'months') + ':' + cc.months.join(','));
     return parts.join(' · ');
   }
@@ -439,8 +569,20 @@
     ['cl-ss-cc-low:cloud_low_max', 'cl-ss-cc-mid:cloud_mid_max', 'cl-ss-cc-high:cloud_high_max', 'cl-ss-cc-precip:precip_max_mmh', 'cl-ss-cc-vis:visibility_min_km', 'cl-ss-cc-wind:wind_max_ms'].forEach(function (pair) {
       var parts = pair.split(':'); var n = num(parts[0]); if (n != null) out[parts[1]] = n;
     });
-    var ws = els.overlay.querySelector('#cl-ss-cc-start').value.trim(), we = els.overlay.querySelector('#cl-ss-cc-end').value.trim();
-    if (ws && we && /^\d\d:\d\d$/.test(ws) && /^\d\d:\d\d$/.test(we)) { out.window_start = ws; out.window_end = we; }
+    // window segments → cc schema. A single filled fixed segment keeps the
+    // legacy flat fields (backward-compatible reads everywhere); anything
+    // anchor-shaped or a second segment rides the windows array (≤2, ANY
+    // segment passes an hour; the worker re-validates).
+    var segs = readWinState().filter(function (s) {
+      return s.type === 'fixed' ? (s.start && s.end) : true;
+    });
+    if (segs.length === 1 && segs[0].type === 'fixed' && /^\d\d:\d\d$/.test(segs[0].start) && /^\d\d:\d\d$/.test(segs[0].end)) {
+      out.window_start = segs[0].start; out.window_end = segs[0].end;
+    } else if (segs.length) {
+      out.windows = segs.map(function (s) {
+        return s.type === 'fixed' ? { type: 'fixed', start: s.start, end: s.end } : { type: s.type, offset_minutes: s.offset_minutes || 0 };
+      });
+    }
     var monthsWrap = els.overlay.querySelector('#cl-ss-cc-months');
     if (monthsWrap) {
       var months = [].slice.call(monthsWrap.querySelectorAll('input[type="checkbox"]:checked'))
@@ -461,6 +603,10 @@
     var baseCc = Object.assign({}, set.baseConditions || {});
     var templateId = set.templateId || '';
     var lang = currentLang();
+    // segment state for the window area (anchor + multi-segment editor)
+    winState = windowSegsOf(cc).slice(0, 2);
+    winResolved = (mode.ev && Array.isArray(mode.ev.windowResolved)) ? mode.ev.windowResolved : null;
+    winResolvedDay = (winResolved && mode.ev && mode.ev.window) ? mode.ev.window.local_date : null;
     loadContracts().then(function () {
       var opts = contractsForPlace(mode.placeId).map(function (c) {
         return '<option value="' + esc(c.opportunity_id) + '"' + (c.opportunity_id === templateId ? ' selected' : '') + '>' + esc(contractName(c)) + '</option>';
@@ -488,10 +634,9 @@
         semSel('cloud', t().sem_cloud) +
         semSel('fog', t().sem_fog) +
         semSel('rain', t().sem_rain) +
-        '<div class="cl-cp-ccp wide"><label>' + esc(t().p_window) + '</label><div style="display:flex;gap:6px;align-items:center">' +
-        '<input id="cl-ss-cc-start" value="' + esc(v('window_start')) + '" placeholder="04:30" style="flex:1"><span style="color:var(--cl-text-3)">–</span>' +
-        '<input id="cl-ss-cc-end" value="' + esc(v('window_end')) + '" placeholder="07:00" style="flex:1"></div>' +
-        '<div class="hint">HH:MM</div></div>' +
+        '<div class="cl-cp-ccp wide"><label>' + esc(t().p_window) + '</label>' +
+        '<div id="cl-ss-win-area"></div>' +
+        '</div>' +
         '<div class="cl-cp-ccp wide"><label>' + esc(t().p_months) + '</label>' +
         '<div class="cl-cp-cc-months" id="cl-ss-cc-months">' + monthsHtml(set.months) + '</div>' +
         '<div class="hint">' + esc(t().p_months_hint) + '</div></div>' +
@@ -509,6 +654,8 @@
         '<div class="cl-ss-warn" id="cl-ss-warn" role="status" aria-live="polite"></div>' +
         '<button type="button" class="cl-cp-submit ready" id="cl-ss-submit" style="cursor:pointer">' + esc(mode.set ? t().ed_submit_edit : t().ed_submit) + '</button>');
       wireClose();
+      winPrevHook = refreshPrev; // patch-2: the win editor's preview hook
+      renderWinArea();
       var nameInput = els.overlay.querySelector('#cl-ss-name');
       if (nameInput) nameInput.focus({ preventScroll: true });
       var forkSel = els.overlay.querySelector('#cl-ss-fork');
@@ -699,6 +846,37 @@
       '<span class="v2-badge ' + cls + '">' + esc(ok ? t().day_ok : t().day_bad) + '</span>' +
       '<span class="v2-hours">' + esc(t().hours_lbl) + ' ' + hoursN + (seg ? ' · ' + esc(seg) : '') + '</span></div>';
   }
+  // Resolved-bound line for anchor window sets. Returns null when the verdict
+  // carries no resolvable anchor data (then the hour merge stays as before).
+  function dynamicWindowLine(ev) {
+    var wr = ev && Array.isArray(ev.windowResolved) ? ev.windowResolved : null;
+    if (!wr || !wr.length) return null;
+    var spans = [];
+    var label = '';
+    var hasAnchor = false;
+    var lang = currentLang(), zh = lang === 'zh-TW', ja = lang === 'ja';
+    for (var i = 0; i < wr.length; i++) {
+      var s = wr[i];
+      if (!s || !s.start || !s.end) continue; // unresolved segment — honest skip
+      var span;
+      if (!s.type || s.type === 'fixed') {
+        span = s.start === s.end ? s.start : s.start + '–' + s.end;
+      } else {
+        hasAnchor = true;
+        label = label || wtLabel(s.type);
+        if (s.type.indexOf('before_') === 0 && s.start === '00:00') {
+          span = zh ? s.end + ' 前' : ja ? s.end + ' まで' : 'before ' + s.end;
+        } else if (s.type.indexOf('after_') === 0 && s.end === '23:59') {
+          span = zh ? s.start + ' 起' : ja ? s.start + ' から' : 'from ' + s.start;
+        } else {
+          span = s.start === s.end ? s.start : s.start + '–' + s.end;
+        }
+      }
+      spans.push(span);
+    }
+    if (!spans.length || !hasAnchor) return null;
+    return { label: label, spans: spans.join('＋') };
+  }
   function setRowHtml(set, ev) {
     var stale = set.templateId && set.baseRev != null && (function () {
       var c = contractFor(set.templateId);
@@ -709,9 +887,20 @@
     var tier = ev ? ev.tier : null;
     var windowLine = '';
     if (ev && ev.window && ev.window.hours && ev.window.hours.length) {
-      windowLine = t().next_win + relLabel(ev.window.local_date) + ' ' + mergeHours(ev.window.hours);
+      // CL-APP-09 patch-2: anchor segments carry the RESOLVED real sun bounds
+      // (windowResolved from the engine) — 「下一窗 今天 日出前（每日動態）·05:10 前」;
+      // two-segment sets read 「下一窗 今天 05:00–06:00＋17:30–18:40（每日動態）」.
+      var dyn = dynamicWindowLine(ev);
+      if (dyn) {
+        windowLine = t().next_win + relLabel(ev.window.local_date) + ' ' +
+          (dyn.label ? dyn.label + '（每日動態）·' + dyn.spans : dyn.spans + '（每日動態）');
+      } else {
+        windowLine = t().next_win + relLabel(ev.window.local_date) + ' ' + mergeHours(ev.window.hours);
+      }
     } else if (ev && ev.tier === 'no') {
-      windowLine = ev.failReason === '非適用月份' ? t().fail_month : t().no_win;
+      windowLine = ev.failReason === '非適用月份' ? t().fail_month
+        : ev.failReason === '時段待座標同步' ? t().fail_wp
+        : t().no_win;
     } else if (!ev) {
       windowLine = t().fail_no_data;
     }
@@ -814,6 +1003,7 @@
         if (evalRes.status === 200 && evalRes.body && Array.isArray(evalRes.body.sets)) {
           evalRes.body.sets.forEach(function (s) { evById[s.id] = s; });
         }
+        state.lastEvalById = evById; // the edit flow reuses the verdict for the anchor hint
         var sets = data.sets || [];
         if (!sets.length) {
           rows.innerHTML = '<div class="cl-ss-empty">' + esc(t().cc_prev_none) + '</div>';
@@ -843,7 +1033,7 @@
           loadContracts().then(function () {
             api(API + '?place_id=' + encodeURIComponent(placeId)).then(function (r) { return r.json(); }).then(function (data) {
               var set = (data.sets || []).find(function (s) { return s.id === id; });
-              if (set) editorModal({ placeId: placeId, set: set });
+              if (set) editorModal({ placeId: placeId, set: set, ev: (state.lastEvalById || {})[id] || null });
             });
           });
         } else if (act === 'reset') {

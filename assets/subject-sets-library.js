@@ -47,6 +47,8 @@
       p_low: '低雲門檻（%）', p_mid: '中雲門檻（%）', p_high: '高雲門檻（%）',
       p_precip: '降水上限（mm/h）', p_vis: '能見度下限（km）', p_wind: '風速上限（m/s）',
       p_window: '時間窗', p_months: '適用月份', p_months_hint: '不選＝全年適用；選取後只有該月份會判定',
+      wt_fixed: '固定時段', wt_bs: '日出前（每日動態）', wt_as: '日出後（每日動態）', wt_bd: '日落前（每日動態）', wt_ads: '日落後（每日動態）',
+      win_off: '錨點偏移（分鐘，可負）', win_add2: '＋ 加第二段', win_rm: '移除此段', win_hint: '錨點型以當日實際日出／日落動態展開，冬天夏天不同',
       cc_prev: '摘要預覽：', cc_prev_none: '（未調任何參數）',
       ed_submit: '建立此題材組', ed_submit_edit: '儲存變更',
       done_saved: '✓ 已儲存', done_deleted: '✓ 已刪除', err_net: '連線失敗，請稍後再試',
@@ -70,6 +72,8 @@
       p_low: 'Low-cloud cap (%)', p_mid: 'Mid-cloud cap (%)', p_high: 'High-cloud cap (%)',
       p_precip: 'Precip cap (mm/h)', p_vis: 'Visibility min (km)', p_wind: 'Wind cap (m/s)',
       p_window: 'Time window', p_months: 'Applicable months', p_months_hint: 'None = all year; when set, only those months are judged',
+      wt_fixed: 'Fixed span', wt_bs: 'Before sunrise (daily dynamic)', wt_as: 'After sunrise (daily dynamic)', wt_bd: 'Before sunset (daily dynamic)', wt_ads: 'After sunset (daily dynamic)',
+      win_off: 'Anchor offset (minutes, may be negative)', win_add2: '＋ Add a second span', win_rm: 'Remove this span', win_hint: 'Anchor spans expand with each day\u2019s REAL sunrise/sunset — winter and summer differ',
       cc_prev: 'Summary:', cc_prev_none: '(no parameters set)',
       ed_submit: 'Create this set', ed_submit_edit: 'Save changes',
       done_saved: '✓ Saved', done_deleted: '✓ Deleted', err_net: 'Network error — try again later',
@@ -93,6 +97,8 @@
       p_low: '下層雲しきい値（%）', p_mid: '中層雲しきい値（%）', p_high: '上層雲しきい値（%）',
       p_precip: '降水上限（mm/h）', p_vis: '視程下限（km）', p_wind: '風速上限（m/s）',
       p_window: '時間帯', p_months: '適用月', p_months_hint: '未選択＝通年；選択するとその月のみ判定',
+      wt_fixed: '固定時間帯', wt_bs: '日の出前（毎日動的）', wt_as: '日の出後（毎日動的）', wt_bd: '日の入前（毎日動的）', wt_ads: '日の入後（毎日動的）',
+      win_off: 'アンカーオフセット（分・負可）', win_add2: '＋ 2つ目を追加', win_rm: 'この枠を削除', win_hint: 'アンカーは当日の実際の日の出入りから毎日展開（季節で変わる）',
       cc_prev: 'サマリー：', cc_prev_none: '（未設定）',
       ed_submit: 'この題材を作成', ed_submit_edit: '変更を保存',
       done_saved: '✓ 保存しました', done_deleted: '✓ 削除しました', err_net: '通信エラー — 後でお試しください',
@@ -142,7 +148,11 @@
     if (cc.precip_max_mmh != null) parts.push((zh ? '雨≤' : ja ? '雨≤' : 'rain≤') + cc.precip_max_mmh + 'mm/h');
     if (cc.visibility_min_km != null) parts.push((zh ? '能見度≥' : ja ? '視程≥' : 'vis≥') + cc.visibility_min_km + 'km');
     if (cc.wind_max_ms != null) parts.push((zh ? '風≤' : ja ? '風≤' : 'wind≤') + cc.wind_max_ms + 'm/s');
-    if (cc.window_start && cc.window_end) parts.push(cc.window_start + '–' + cc.window_end);
+    if (Array.isArray(cc.windows) && cc.windows.length) {
+      parts.push(cc.windows.map(function (s) { return winSegSummary(s, lang); }).join('＋'));
+    } else if (cc.window_start && cc.window_end) {
+      parts.push(cc.window_start + '–' + cc.window_end);
+    }
     if (Array.isArray(cc.months) && cc.months.length) parts.push((zh ? '月份' : ja ? '月' : 'months') + ':' + cc.months.join(','));
     return parts.join(' · ');
   }
@@ -480,9 +490,9 @@
     cloud: {
       key: 'cloud_low_max',
       options: {
-        'zh-TW': [['any', '不限', null], ['clear', '晴（低雲 ≤15%）', 15], ['partly', '少雲（低雲 ≤40%）', 40], ['cloudy', '多雲也可（低雲 ≤70%）', 70]],
-        'en': [['any', 'Any', null], ['clear', 'Clear (low ≤15%)', 15], ['partly', 'Partly cloudy (low ≤40%)', 40], ['cloudy', 'Cloudy OK (low ≤70%)', 70]],
-        'ja': [['any', '指定なし', null], ['clear', '晴れ（下層雲 ≤15%）', 15], ['partly', '雲少なめ（下層雲 ≤40%）', 40], ['cloudy', '曇り可（下層雲 ≤70%）', 70]],
+        'zh-TW': [['any', '不在乎', null], ['clear', '晴（低雲 ≤15%）', 15], ['partly', '少雲（低雲 ≤40%）', 40], ['cloudy', '多雲也可（低雲 ≤70%）', 70]],
+        'en': [['any', "Don't care", null], ['clear', 'Clear (low ≤15%)', 15], ['partly', 'Partly cloudy (low ≤40%)', 40], ['cloudy', 'Cloudy OK (low ≤70%)', 70]],
+        'ja': [['any', 'こだわらない', null], ['clear', '晴れ（下層雲 ≤15%）', 15], ['partly', '雲少なめ（下層雲 ≤40%）', 40], ['cloudy', '曇り可（下層雲 ≤70%）', 70]],
       },
       values: { any: null, clear: 15, partly: 40, cloudy: 70 },
     },
@@ -524,6 +534,109 @@
     for (var i = 0; i < entries.length; i++) if (entries[i] !== 'any' && m.values[entries[i]] === val) return entries[i];
     return 'any';
   }
+  // ─── CL-APP-09 patch-2: anchor + multi-segment windows (library editor) ───
+  var WTYPES = ['fixed', 'before_sunrise', 'after_sunrise', 'before_sunset', 'after_sunset'];
+  function wtLabel(type) {
+    return { fixed: t().wt_fixed, before_sunrise: t().wt_bs, after_sunrise: t().wt_as, before_sunset: t().wt_bd, after_sunset: t().wt_ads }[type] || '';
+  }
+  function winSegSummary(seg, lang) {
+    if (!seg || !seg.type || seg.type === 'fixed') {
+      return (seg && seg.start ? seg.start : '?') + '–' + (seg && seg.end ? seg.end : '?');
+    }
+    var lbl = wtLabel(seg.type).replace(/（.*?）/, '').replace(/ \(daily dynamic\)/, '');
+    var off = (seg.offset_minutes != null && seg.offset_minutes !== 0)
+      ? ((seg.offset_minutes > 0 ? '+' : '−') + Math.abs(seg.offset_minutes) + (lang === 'zh-TW' ? '分' : lang === 'ja' ? '分' : 'min'))
+      : '';
+    return lbl + off;
+  }
+  var libWinState = [{ type: 'fixed', start: '', end: '' }];
+  // same hook pattern as subject-sets.js: libWireWinArea sits at module scope,
+  // the editor's refreshPrev is local — register it per open (patch-2 fix)
+  var libWinPrevHook = null;
+  function libWinRefreshPrev() { if (libWinPrevHook) libWinPrevHook(); }
+  function libWindowSegsOf(cc) {
+    if (cc && Array.isArray(cc.windows) && cc.windows.length) return cc.windows;
+    if (cc && cc.window_start && cc.window_end) return [{ type: 'fixed', start: cc.window_start, end: cc.window_end }];
+    return [{ type: 'fixed', start: '', end: '' }];
+  }
+  function libRenderWinArea() {
+    var host = document.querySelector('#sslib-win-area');
+    if (!host) return;
+    host.innerHTML = libWinAreaHtml();
+    libWireWinArea();
+  }
+  function libWinAreaHtml() {
+    var out = '';
+    for (var i = 0; i < libWinState.length; i++) out += libWinSegHtml(i, libWinState[i]);
+    out += (libWinState.length < 2 ? '<button type="button" class="sslib-act" id="sslib-win-add">' + esc(t().win_add2) + '</button>' : '') +
+      '<div class="hint">' + esc(t().win_hint) + '</div>';
+    return out;
+  }
+  function libWinSegHtml(i, seg) {
+    var idp = 'sslib-ws' + i;
+    var typeSel = '<select id="' + idp + '-type" class="sslib-sel">' +
+      WTYPES.map(function (w) { return '<option value="' + w + '"' + (w === seg.type ? ' selected' : '') + '>' + esc(wtLabel(w)) + '</option>'; }).join('') +
+      '</select>';
+    var fields;
+    if (seg.type === 'fixed') {
+      fields = '<input id="' + idp + '-start" type="time" value="' + esc(seg.start || '') + '"><span class="sslib-dash" aria-hidden="true">–</span>' +
+        '<input id="' + idp + '-end" type="time" value="' + esc(seg.end || '') + '">';
+    } else {
+      fields = '<input id="' + idp + '-off" inputmode="numeric" value="' + esc(seg.offset_minutes != null ? String(seg.offset_minutes) : '') + '" placeholder="0" style="max-width:90px">' +
+        '<span class="hint" style="flex:1">' + esc(t().win_off) + '</span>';
+    }
+    return '<div class="sslib-winseg" data-sslib-ws="' + i + '" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' + typeSel + fields +
+      (i === 1 ? '<button type="button" class="sslib-act sslib-del" id="sslib-win-rm" aria-label="' + esc(t().win_rm) + '">✕</button>' : '') +
+      '</div>';
+  }
+  function libReadWinState() {
+    var ov = document.getElementById('sslib-overlay');
+    var segs = [];
+    for (var i = 0; i < 2; i++) {
+      var typeEl = ov.querySelector('#sslib-ws' + i + '-type');
+      if (!typeEl) { if (libWinState[i]) segs.push(libWinState[i]); continue; }
+      if (typeEl.value === 'fixed') {
+        var s = (ov.querySelector('#sslib-ws' + i + '-start') || {}).value || '';
+        var e = (ov.querySelector('#sslib-ws' + i + '-end') || {}).value || '';
+        segs.push({ type: 'fixed', start: String(s).trim(), end: String(e).trim() });
+      } else {
+        var offEl = ov.querySelector('#sslib-ws' + i + '-off');
+        var off = offEl && offEl.value.trim() !== '' ? parseInt(offEl.value, 10) : 0;
+        segs.push({ type: typeEl.value, offset_minutes: isFinite(off) ? off : 0 });
+      }
+    }
+    return segs;
+  }
+  function libWireWinArea() {
+    var ov = document.getElementById('sslib-overlay');
+    var addBtn = ov.querySelector('#sslib-win-add');
+    if (addBtn) addBtn.addEventListener('click', function () {
+      libWinState = libReadWinState();
+      if (libWinState.length < 2) libWinState.push({ type: 'fixed', start: '', end: '' });
+      libRenderWinArea();
+      libWinRefreshPrev();
+    });
+    var rmBtn = ov.querySelector('#sslib-win-rm');
+    if (rmBtn) rmBtn.addEventListener('click', function () {
+      libWinState = libReadWinState().slice(0, 1);
+      libRenderWinArea();
+      libWinRefreshPrev();
+    });
+    [0, 1].forEach(function (i) {
+      var typeEl = ov.querySelector('#sslib-ws' + i + '-type');
+      if (!typeEl) return;
+      typeEl.addEventListener('change', function () {
+        libWinState = libReadWinState();
+        libWinState[i] = typeEl.value === 'fixed' ? { type: 'fixed', start: '', end: '' } : { type: typeEl.value, offset_minutes: 0 };
+        libRenderWinArea();
+        libWinRefreshPrev();
+      });
+      ['start', 'end', 'off'].forEach(function (f) {
+        var el = ov.querySelector('#sslib-ws' + i + '-' + f);
+        if (el) el.addEventListener('change', libWinRefreshPrev);
+      });
+    });
+  }
   function monthsHtml(selected) {
     var sel = Array.isArray(selected) ? selected : [];
     var out = '';
@@ -541,8 +654,14 @@
     ['sslib-cc-low:cloud_low_max', 'sslib-cc-mid:cloud_mid_max', 'sslib-cc-high:cloud_high_max', 'sslib-cc-precip:precip_max_mmh', 'sslib-cc-vis:visibility_min_km', 'sslib-cc-wind:wind_max_ms'].forEach(function (pair) {
       var parts = pair.split(':'); var n = num(parts[0]); if (n != null) out[parts[1]] = n;
     });
-    var ws = (ov.querySelector('#sslib-cc-start') || {}).value || '', we = (ov.querySelector('#sslib-cc-end') || {}).value || '';
-    if (ws && we && /^\d\d:\d\d$/.test(ws) && /^\d\d:\d\d$/.test(we)) { out.window_start = ws; out.window_end = we; }
+    var wsSeg = libReadWinState().filter(function (s) { return s.type === 'fixed' ? (s.start && s.end) : true; });
+    if (wsSeg.length === 1 && wsSeg[0].type === 'fixed' && /^\d\d:\d\d$/.test(wsSeg[0].start) && /^\d\d:\d\d$/.test(wsSeg[0].end)) {
+      out.window_start = wsSeg[0].start; out.window_end = wsSeg[0].end;
+    } else if (wsSeg.length) {
+      out.windows = wsSeg.map(function (s) {
+        return s.type === 'fixed' ? { type: 'fixed', start: s.start, end: s.end } : { type: s.type, offset_minutes: s.offset_minutes || 0 };
+      });
+    }
     var monthsWrap = ov.querySelector('#sslib-cc-months');
     if (monthsWrap) {
       var months = [].slice.call(monthsWrap.querySelectorAll('input[type="checkbox"]:checked'))
@@ -554,6 +673,7 @@
   function openEditor(placeId, set) {
     var lg = currentLang();
     var cc = Object.assign({}, (set && set.conditions) || {});
+    libWinState = libWindowSegsOf(cc).slice(0, 2);
     var semSel = function (axis, label) {
       var m = CC_SEMANTIC[axis];
       var o = m.options[lg] || m.options['zh-TW'];
@@ -575,9 +695,7 @@
       semSel('cloud', t().sem_cloud) +
       semSel('fog', t().sem_fog) +
       semSel('rain', t().sem_rain) +
-      '<div class="sslib-fld wide"><label>' + esc(t().p_window) + '</label><div class="sslib-win">' +
-      '<input id="sslib-cc-start" type="time" value="' + esc(v('window_start')) + '"><span class="sslib-dash" aria-hidden="true">–</span>' +
-      '<input id="sslib-cc-end" type="time" value="' + esc(v('window_end')) + '"></div></div>' +
+      '<div class="sslib-fld wide"><label>' + esc(t().p_window) + '</label><div id="sslib-win-area"></div></div>' +
       '<div class="sslib-fld wide"><label>' + esc(t().p_months) + '</label>' +
       '<div class="sslib-months" id="sslib-cc-months">' + monthsHtml((set && set.months) || []) + '</div>' +
       '<div class="hint">' + esc(t().p_months_hint) + '</div></div>' +
@@ -596,6 +714,8 @@
     );
     var ov = document.getElementById('sslib-overlay');
     ov.querySelectorAll('[data-sslib-close]').forEach(function (b) { b.addEventListener('click', closeOverlay); });
+    libWinPrevHook = refreshPrev; // patch-2: the win editor's preview hook
+    libRenderWinArea();
     var nameInput = ov.querySelector('#sslib-name');
     if (nameInput) nameInput.focus({ preventScroll: true });
     function refreshPrev() {

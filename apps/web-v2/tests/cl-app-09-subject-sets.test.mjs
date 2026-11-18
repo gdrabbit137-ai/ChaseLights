@@ -33,9 +33,9 @@ function grab(src, start, end) {
 }
 
 // ---------------------------------------------------------------- registration
-test("index.html registers subject-sets css+js+list-loader (css+js re-stamped clapp09c for the keyboard-fit patch, list stays clapp09b)", () => {
+test("index.html registers subject-sets css+js+list-loader (css keeps clapp09c, js re-stamped clapp09d for the anchor-window patch, list stays clapp09b)", () => {
   assert.match(html, /assets\/subject-sets\.css\?v=clapp09c/);
-  assert.match(html, /<script src="\.\/assets\/subject-sets\.js\?v=clapp09c"><\/script>/);
+  assert.match(html, /<script src="\.\/assets\/subject-sets\.js\?v=clapp09d"><\/script>/);
   assert.doesNotMatch(html, /assets\/subject-sets\.(js|css)\?v=clapp09b/); // the old stamps must be gone
   // 追加2②: the card-list lazy loader rides the same page
   assert.match(html, /<script src="\.\/assets\/subject-sets-list\.js\?v=clapp09b"><\/script>/);

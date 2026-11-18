@@ -77,8 +77,10 @@
       nl1: '登入後才能使用私人點', nl2: '新增／編輯私人景點是會員功能；私人點只出現在你的帳號。',
       login_cta: '登入以繼續', close: '關閉',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
-      ai_hint: '用一句話描述你要的拍攝條件', ai_ph: '例如：清晨要能看到雲海，不要下雨，最好六點前', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請確認後再送出', ai_conflict: '⚠ 條件矛盾：{m}——請擇一，AI 未套用任何值。', ai_fail: '解析失敗，請手動設定。',
+      ai_hint: '用一句話描述你要的拍攝條件（AI 只翻譯成條件，不判斷好壞）', ai_ph: '例如：清晨六點前要有雲海，不要下雨，風要小，能見度要好', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請確認後再送出', ai_conflict: '⚠ 條件矛盾：{m}——請擇一，AI 未套用任何值。', ai_fail: '解析失敗，請手動設定。',
       geo_btn: '📍 使用我的目前位置', geo_note: '為何需要位置：僅用於填入此新景點的座標，不會追蹤你的行蹤。', geo_working: '取得位置中…',
+      wt_fixed: '固定時段', wt_bs: '日出前（每日動態）', wt_as: '日出後（每日動態）', wt_bd: '日落前（每日動態）', wt_ads: '日落後（每日動態）',
+      win_off: '錨點偏移（分鐘，可負）', win_add2: '＋ 加第二段', win_rm: '移除此段', win_hint: '錨點型以當日實際日出／日落動態展開，冬天夏天不同',
       geo_denied: '無法取得位置：定位權限被拒絕。請改用點圖落釘或直接鍵入經緯度。', geo_timeout: '取得位置逾時。請改用點圖落釘或直接鍵入經緯度。', geo_error: '無法取得位置。請改用點圖落釘或直接鍵入經緯度。',
       copy_genre: '複製官方題材改（起點）', copy_genre_none: '不複製', copy_genre_hint: '選一個官方題材當起點，再微調單一參數',
       adv_toggle: '進階：原始數值輸入',
@@ -129,8 +131,10 @@
       nl1: 'Log in to use custom places', nl2: 'Adding / editing is member-only; places appear only on your account.',
       login_cta: 'Log in to continue', close: 'Close',
       sem_cloud: 'Cloud', sem_fog: 'Fog', sem_rain: 'Rain',
-      ai_hint: 'Describe the conditions you want in one sentence', ai_ph: 'e.g. I want a cloud sea at dawn, no rain, ideally before 06:00', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — review, then submit', ai_conflict: '⚠ Conflicting conditions: {m} — pick one; the AI applied nothing.', ai_fail: 'Parsing failed — please set the conditions manually.',
+      ai_hint: 'Describe the shot you want in one sentence (the AI only translates it into conditions — it never judges)', ai_ph: 'e.g. cloud sea before 06:00, no rain, light wind, good visibility', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — review, then submit', ai_conflict: '⚠ Conflicting conditions: {m} — pick one; the AI applied nothing.', ai_fail: 'Parsing failed — please set the conditions manually.',
       geo_btn: '📍 Use my current location', geo_note: 'Why we need it: only to fill in this place’s coordinates — your movements are never tracked.', geo_working: 'Getting your location…',
+      wt_fixed: 'Fixed span', wt_bs: 'Before sunrise (daily dynamic)', wt_as: 'After sunrise (daily dynamic)', wt_bd: 'Before sunset (daily dynamic)', wt_ads: 'After sunset (daily dynamic)',
+      win_off: 'Anchor offset (minutes, may be negative)', win_add2: '＋ Add a second span', win_rm: 'Remove this span', win_hint: 'Anchor spans expand with each day\u2019s REAL sunrise/sunset — winter and summer differ',
       geo_denied: 'Could not get your location: permission denied. Please pin on the map or type lat/lng manually.', geo_timeout: 'Getting your location timed out. Please pin on the map or type lat/lng manually.', geo_error: 'Could not get your location. Please pin on the map or type lat/lng manually.',
       copy_genre: 'Copy an official genre template (starter)', copy_genre_none: 'No copy', copy_genre_hint: 'Pick an official genre as the starting point, then tweak a single parameter',
       adv_toggle: 'Advanced: raw numeric inputs',
@@ -181,8 +185,10 @@
       nl1: '自作スポットにはログインが必要', nl2: '追加／編集は会員機能；自作スポットは自分のアカウントにのみ表示されます。',
       login_cta: 'ログインして続行', close: '閉じる',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
-      ai_hint: '撮りたい条件を一文で説明', ai_ph: '例：明け方に雲海が見たい。雨は嫌。できれば6時まで', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 確認してから送信してください', ai_conflict: '⚠ 条件が矛盾しています：{m} — どちらかを選択してください（AIは未適用）。', ai_fail: '解析に失敗しました。手動で設定してください。',
+      ai_hint: '撮りたい条件を一文で説明（AIは条件への翻訳のみ・良し悪しは判断しない）', ai_ph: '例：6時までに雲海。雨は嫌。風は弱め。視程は良い', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 確認してから送信してください', ai_conflict: '⚠ 条件が矛盾しています：{m} — どちらかを選択してください（AIは未適用）。', ai_fail: '解析に失敗しました。手動で設定してください。',
       geo_btn: '📍 現在地を使う', geo_note: '位置情報の使い道：このスポットの座標を入力するためだけ。現在地は追跡しません。', geo_working: '現在地を取得中…',
+      wt_fixed: '固定時間帯', wt_bs: '日の出前（毎日動的）', wt_as: '日の出後（毎日動的）', wt_bd: '日の入前（毎日動的）', wt_ads: '日の入後（毎日動的）',
+      win_off: 'アンカーオフセット（分・負可）', win_add2: '＋ 2つ目を追加', win_rm: 'この枠を削除', win_hint: 'アンカーは当日の実際の日の出入りから毎日展開（季節で変わる）',
       geo_denied: '位置を取得できませんでした：権限が拒否されました。地図クリックまたは手動入力をご利用ください。', geo_timeout: '位置の取得がタイムアウトしました。地図クリックまたは手動入力をご利用ください。', geo_error: '位置を取得できませんでした。地図クリックまたは手動入力をご利用ください。',
       copy_genre: '公式題材をコピーして改造（出発点）', copy_genre_none: 'コピーしない', copy_genre_hint: '公式題材を出発点に選び、1つのパラメータだけ調整します',
       adv_toggle: '高度：生の数値入力',
@@ -430,7 +436,11 @@
     if (cc.precip_max_mmh != null) parts.push((lang === 'en' ? 'precip≤' : '降水≤') + cc.precip_max_mmh);
     if (cc.visibility_min_km != null) parts.push((lang === 'en' ? 'vis≥' : '能見度≥') + cc.visibility_min_km);
     if (cc.wind_max_ms != null) parts.push('風≤' + cc.wind_max_ms);
-    if (cc.window_start && cc.window_end) parts.push(cc.window_start + '–' + cc.window_end);
+    if (Array.isArray(cc.windows) && cc.windows.length) {
+      parts.push(cc.windows.map(function (s) { return cpWinSegSummary(s, lang); }).join('＋'));
+    } else if (cc.window_start && cc.window_end) {
+      parts.push(cc.window_start + '–' + cc.window_end);
+    }
     if (Array.isArray(cc.months) && cc.months.length) parts.push((lang === 'en' ? 'months ' : '月 ') + fmtMonths(cc.months));
     return parts.join('・');
   }
@@ -443,6 +453,107 @@
       s = prev = ms[i];
     }
     return parts.join(',');
+  }
+  // CL-APP-09 patch-2: anchor + multi-segment window editor (private-place
+  // theme form). Same schema/semantics as the subject-sets editors.
+  function cpWtLabel(type) {
+    return { fixed: t().wt_fixed, before_sunrise: t().wt_bs, after_sunrise: t().wt_as, before_sunset: t().wt_bd, after_sunset: t().wt_ads }[type] || '';
+  }
+  function cpWinSegSummary(seg, lang) {
+    if (!seg || !seg.type || seg.type === 'fixed') {
+      return (seg && seg.start ? seg.start : '?') + '–' + (seg && seg.end ? seg.end : '?');
+    }
+    var lbl = cpWtLabel(seg.type).replace(/（.*?）/, '').replace(/ \(daily dynamic\)/, '');
+    var off = (seg.offset_minutes != null && seg.offset_minutes !== 0)
+      ? ((seg.offset_minutes > 0 ? '+' : '−') + Math.abs(seg.offset_minutes) + (lang === 'zh-TW' ? '分' : lang === 'ja' ? '分' : 'min'))
+      : '';
+    return lbl + off;
+  }
+  var cpWTYPES = ['fixed', 'before_sunrise', 'after_sunrise', 'before_sunset', 'after_sunset'];
+  var cpWinState = [{ type: 'fixed', start: '', end: '' }];
+  function cpWindowSegsOf(cc) {
+    if (cc && Array.isArray(cc.windows) && cc.windows.length) return cc.windows;
+    if (cc && cc.window_start && cc.window_end) return [{ type: 'fixed', start: cc.window_start, end: cc.window_end }];
+    return [{ type: 'fixed', start: '', end: '' }];
+  }
+  function cpRenderWinArea() {
+    var host = els.overlay ? els.overlay.querySelector('#cl-cp-win-area') : null;
+    if (!host) return;
+    host.innerHTML = cpWinAreaHtml();
+    cpWireWinArea();
+  }
+  function cpWinAreaHtml() {
+    var out = '';
+    for (var i = 0; i < cpWinState.length; i++) out += cpWinSegHtml(i, cpWinState[i]);
+    out += (cpWinState.length < 2 ? '<button type="button" class="cl-ss-act" id="cl-cp-win-add">' + esc(t().win_add2) + '</button>' : '') +
+      '<div class="hint">' + esc(t().win_hint) + '</div>';
+    return out;
+  }
+  function cpWinSegHtml(i, seg) {
+    var idp = 'cl-cp-ws' + i;
+    var typeSel = '<select id="' + idp + '-type" class="inp" style="flex:0 0 auto">' +
+      cpWTYPES.map(function (w) { return '<option value="' + w + '"' + (w === seg.type ? ' selected' : '') + '>' + esc(cpWtLabel(w)) + '</option>'; }).join('') +
+      '</select>';
+    var fields;
+    if (seg.type === 'fixed') {
+      fields = '<input id="' + idp + '-start" value="' + esc(seg.start || '') + '" placeholder="04:30" style="flex:1">' +
+        '<span style="color:var(--cl-text-3)">–</span>' +
+        '<input id="' + idp + '-end" value="' + esc(seg.end || '') + '" placeholder="07:00" style="flex:1">';
+    } else {
+      fields = '<input id="' + idp + '-off" inputmode="numeric" value="' + esc(seg.offset_minutes != null ? String(seg.offset_minutes) : '') + '" placeholder="0" style="flex:0 0 90px">' +
+        '<span class="hint" style="flex:1">' + esc(t().win_off) + '</span>';
+    }
+    return '<div class="cl-cp-winseg" data-cp-ws="' + i + '" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' + typeSel + fields +
+      (i === 1 ? '<button type="button" class="cl-ss-act cl-ss-act-del" id="cl-cp-win-rm" aria-label="' + esc(t().win_rm) + '">✕</button>' : '') +
+      '</div>';
+  }
+  function cpReadWinState() {
+    var segs = [];
+    for (var i = 0; i < 2; i++) {
+      var typeEl = els.overlay.querySelector('#cl-cp-ws' + i + '-type');
+      if (!typeEl) { if (cpWinState[i]) segs.push(cpWinState[i]); continue; }
+      if (typeEl.value === 'fixed') {
+        var s = (els.overlay.querySelector('#cl-cp-ws' + i + '-start') || {}).value || '';
+        var e = (els.overlay.querySelector('#cl-cp-ws' + i + '-end') || {}).value || '';
+        segs.push({ type: 'fixed', start: String(s).trim(), end: String(e).trim() });
+      } else {
+        var offEl = els.overlay.querySelector('#cl-cp-ws' + i + '-off');
+        var off = offEl && offEl.value.trim() !== '' ? parseInt(offEl.value, 10) : 0;
+        segs.push({ type: typeEl.value, offset_minutes: isFinite(off) ? off : 0 });
+      }
+    }
+    return segs;
+  }
+  function cpWireWinArea() {
+    var addBtn = els.overlay.querySelector('#cl-cp-win-add');
+    if (addBtn) addBtn.addEventListener('click', function () {
+      cpWinState = cpReadWinState();
+      if (cpWinState.length < 2) cpWinState.push({ type: 'fixed', start: '', end: '' });
+      cpRenderWinArea();
+      els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
+    });
+    var rmBtn = els.overlay.querySelector('#cl-cp-win-rm');
+    if (rmBtn) rmBtn.addEventListener('click', function () {
+      cpWinState = cpReadWinState().slice(0, 1);
+      cpRenderWinArea();
+      els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
+    });
+    [0, 1].forEach(function (i) {
+      var typeEl = els.overlay.querySelector('#cl-cp-ws' + i + '-type');
+      if (!typeEl) return;
+      typeEl.addEventListener('change', function () {
+        cpWinState = cpReadWinState();
+        cpWinState[i] = typeEl.value === 'fixed' ? { type: 'fixed', start: '', end: '' } : { type: typeEl.value, offset_minutes: 0 };
+        cpRenderWinArea();
+        els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
+      });
+      ['start', 'end', 'off'].forEach(function (f) {
+        var el = els.overlay.querySelector('#cl-cp-ws' + i + '-' + f);
+        if (el) el.addEventListener('change', function () {
+          els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
+        });
+      });
+    });
   }
   function buildPrivateCard(p) {
     var card = document.createElement('div');
@@ -1151,9 +1262,9 @@
     cloud: {
       key: 'cloud_low_max',
       options: {
-        'zh-TW': [['min', '越少越好', '低雲 ≤20%'], ['half', '半晴半雲', '低雲 ≤50%'], ['any', '多雲也行', '不限']],
-        'en': [['min', 'As little as possible', 'low cloud ≤20%'], ['half', 'Half sun, half cloud', 'low cloud ≤50%'], ['any', 'Cloudy is fine', 'no limit']],
-        'ja': [['min', 'できるだけ少ない', '低雲 ≤20%'], ['half', '半分晴れ半分雲', '低雲 ≤50%'], ['any', '曇りでも可', '制限なし']],
+        'zh-TW': [['min', '越少越好', '低雲 ≤20%'], ['half', '半晴半雲', '低雲 ≤50%'], ['any', '不在乎', '不帶雲量條件']],
+        'en': [['min', 'As little as possible', 'low cloud ≤20%'], ['half', 'Half sun, half cloud', 'low cloud ≤50%'], ['any', "Don't care", 'no cloud condition']],
+        'ja': [['min', 'できるだけ少ない', '低雲 ≤20%'], ['half', '半分晴れ半分雲', '低雲 ≤50%'], ['any', 'こだわらない', '雲の条件なし']],
       },
       values: { min: 20, half: 50, any: 100 },
     },
@@ -1270,14 +1381,28 @@
               if (sel && s[axis]) { sel.value = s[axis]; sel.dispatchEvent(new Event('change')); }
             });
             if (s.wind_max_ms != null) { var w = els.overlay.querySelector('#cl-cp-cc-wind'); if (w) w.value = String(s.wind_max_ms); }
-            if (s.window_start) { els.overlay.querySelector('#cl-cp-cc-start').value = s.window_start; els.overlay.querySelector('#cl-cp-cc-end').value = s.window_end || ''; }
+            // patch-2: the AI may return the windows array (anchor/multi) — fill
+            // the segment editor; a legacy flat window fills segment 0 fixed.
+            if (Array.isArray(s.windows) && s.windows.length) {
+              cpWinState = s.windows.slice(0, 2).map(function (seg) {
+                return seg.type === 'fixed' ? { type: 'fixed', start: seg.start || '', end: seg.end || '' } : { type: seg.type, offset_minutes: seg.offset_minutes || 0 };
+              });
+              cpRenderWinArea();
+            } else if (s.window_start) {
+              cpWinState = [{ type: 'fixed', start: s.window_start, end: s.window_end || '' }];
+              cpRenderWinArea();
+            }
             if (s.lead_minutes != null) { var l = els.overlay.querySelector('#cl-cp-cc-lead'); if (l) l.value = String(s.lead_minutes); }
             els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
             var conf = Math.round((s.confidence || 0) * 100);
             note.textContent = t().ai_done.replace('{c}', conf);
           } else {
             var msg = r.body && r.body.message && (r.body.message[currentLang()] || r.body.message['zh-TW']);
-            note.textContent = msg || t().ai_fail;
+            // fail-closed CONCRETE reason (patch-2): the tri-lingual message
+            // stays stable, but the upstream detail (status/snippet) surfaces
+            // so a broken key/model is visible instead of a silent 解析失敗.
+            var detail = r.body && r.body.detail;
+            note.textContent = msg || (detail ? '⚠ ' + detail : t().ai_fail);
           }
         })
         .catch(function () { note.textContent = t().ai_fail; });
@@ -1373,6 +1498,7 @@
   // preserved on rename; the zh-TW anchor `name` carries the fallback)
   function themeFormModal(place, theme) {
     var cc = (theme && theme.conditions) || {};
+    cpWinState = cpWindowSegsOf(cc).slice(0, 2);
     function v(k) { return cc[k] == null ? '' : String(cc[k]); }
     var lang = currentLang();
     var genreNames = genreShortNames();
@@ -1398,21 +1524,23 @@
       '<div class="cl-cp-fld"><label>' + esc(t().th_name) + '</label>' +
       '<input class="inp" id="cl-cp-theme-name" maxlength="40" placeholder="' + esc(t().th_name_ph) + '" value="' + esc(theme ? themeName(theme) : '') + '"></div>' +
       (aiEnabled ? aiParseBlock() : '') +
+      // CL-APP-09 patch-2 item ④ (owner): 複製官方題材 sits right BELOW the AI
+      // parse block and ABOVE the manual condition options — it is a starter
+      // picker, not a parameter group.
+      '<div class="cl-cp-fld" style="margin-bottom:8px"><label>' + esc(t().copy_genre) + '</label>' +
+      '<select id="cl-cp-cc-genre" class="inp"><option value="">— ' + esc(t().copy_genre_none) + ' —</option>' + genreOpts + '</select>' +
+      '<div class="hint">' + esc(t().copy_genre_hint) + '</div></div>' +
       '<div class="cl-cp-cc-params">' +
       semSel('cloud', t().sem_cloud) +
       semSel('fog', t().sem_fog) +
       semSel('rain', t().sem_rain) +
-      '<div class="cl-cp-ccp wide"><label>' + esc(t().p_window) + '</label><div style="display:flex;gap:6px;align-items:center">' +
-      '<input id="cl-cp-cc-start" value="' + esc(v('window_start')) + '" placeholder="04:30" style="flex:1"><span style="color:var(--cl-text-3)">–</span>' +
-      '<input id="cl-cp-cc-end" value="' + esc(v('window_end')) + '" placeholder="07:00" style="flex:1"></div>' +
-      '<div class="hint">HH:MM</div></div>' +
+      '<div class="cl-cp-ccp wide"><label>' + esc(t().p_window) + '</label>' +
+      '<div id="cl-cp-win-area"></div>' +
+      '</div>' +
       '<div class="cl-cp-ccp wide" id="cl-cp-cc-months-wrap"><label>' + esc(t().p_months) + '</label>' +
       '<div class="cl-cp-cc-months" id="cl-cp-cc-months">' + monthsHtml(cc.months) + '</div>' +
       '<div class="hint">' + esc(t().p_months_hint) + '</div></div>' +
       '</div>' +
-      '<div class="cl-cp-fld" style="margin-bottom:8px"><label>' + esc(t().copy_genre) + '</label>' +
-      '<select id="cl-cp-cc-genre" class="inp"><option value="">— ' + esc(t().copy_genre_none) + ' —</option>' + genreOpts + '</select>' +
-      '<div class="hint">' + esc(t().copy_genre_hint) + '</div></div>' +
       '<details class="cl-cp-cc-advanced" id="cl-cp-cc-adv"><summary>' + esc(t().adv_toggle) + '</summary>' +
       '<div class="cl-cp-cc-params" style="margin-top:8px">' +
       ccp('cl-cp-cc-low', t().p_low, v('cloud_low_max')) +
@@ -1427,6 +1555,7 @@
       '<button type="button" class="cl-cp-submit" id="cl-cp-cc-submit">' + esc(t().th_create) + '</button>');
     wireClose();
     if (aiEnabled) wireAiParse();
+    cpRenderWinArea();
     var sync = function () {
       // semantic → concrete: write the mapped value into the advanced input
       // (the advanced inputs stay the single source of truth) and refresh
@@ -1468,8 +1597,9 @@
         var sel = els.overlay.querySelector('#cl-cp-sem-' + axis);
         if (sel && starter[axis]) sel.value = starter[axis];
       });
-      els.overlay.querySelector('#cl-cp-cc-start').value = starter.window[0];
-      els.overlay.querySelector('#cl-cp-cc-end').value = starter.window[1];
+      // patch-2: the starter's window fills SEGMENT 0 (keep it a fixed span)
+      cpWinState = [{ type: 'fixed', start: starter.window[0], end: starter.window[1] }];
+      cpRenderWinArea();
       // patch-5 ④: seasonal starters prefill the 適用月份 chips (snow/櫻花類)
       var monthsWrap = els.overlay.querySelector('#cl-cp-cc-months');
       if (monthsWrap) {
@@ -1563,8 +1693,15 @@
     ['cl-cp-cc-low:cloud_low_max', 'cl-cp-cc-mid:cloud_mid_max', 'cl-cp-cc-high:cloud_high_max', 'cl-cp-cc-precip:precip_max_mmh', 'cl-cp-cc-vis:visibility_min_km', 'cl-cp-cc-wind:wind_max_ms'].forEach(function (pair) {
       var parts = pair.split(':'); var n = num(parts[0]); if (n != null) out[parts[1]] = n;
     });
-    var ws = els.overlay.querySelector('#cl-cp-cc-start').value.trim(), we = els.overlay.querySelector('#cl-cp-cc-end').value.trim();
-    if (ws && we && /^\d\d:\d\d$/.test(ws) && /^\d\d:\d\d$/.test(we)) { out.window_start = ws; out.window_end = we; }
+    // window segments → cc schema (same rule as the subject-sets editors)
+    var segs = cpReadWinState().filter(function (s) { return s.type === 'fixed' ? (s.start && s.end) : true; });
+    if (segs.length === 1 && segs[0].type === 'fixed' && /^\d\d:\d\d$/.test(segs[0].start) && /^\d\d:\d\d$/.test(segs[0].end)) {
+      out.window_start = segs[0].start; out.window_end = segs[0].end;
+    } else if (segs.length) {
+      out.windows = segs.map(function (s) {
+        return s.type === 'fixed' ? { type: 'fixed', start: s.start, end: s.end } : { type: s.type, offset_minutes: s.offset_minutes || 0 };
+      });
+    }
     var monthsWrap = els.overlay.querySelector('#cl-cp-cc-months');
     if (monthsWrap) {
       var months = [].slice.call(monthsWrap.querySelectorAll('input[type="checkbox"]:checked'))
