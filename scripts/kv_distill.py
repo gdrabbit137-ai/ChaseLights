@@ -52,12 +52,27 @@ def distill_opportunity(opp):
 
 
 def distill_place(place, generated_at):
-    return {
+    rec = {
         "place_id": place["place_id"],
         "name_i18n": place.get("name_i18n", {}),
         "generated_at": generated_at,
         "subjects": [distill_opportunity(o) for o in place.get("opportunities", [])],
     }
+    # CL-APP-09 patch-2: coordinates + tz offset ride the record so the
+    # worker's sun-anchored windows (before_sunrise/after_sunset …) can expand
+    # with the place's REAL per-day sun times. Raw inputs only, no thresholds.
+    coord = place.get("coordinate") or []
+    if isinstance(coord, (list, tuple)) and len(coord) == 2:
+        try:
+            rec["lat"], rec["lng"] = float(coord[0]), float(coord[1])
+        except (TypeError, ValueError):
+            pass
+    tzd = place.get("timezone_display") or {}
+    if isinstance(tzd, dict):
+        off = tzd.get("utc_offset_hours")
+        if isinstance(off, (int, float)) and not isinstance(off, bool):
+            rec["utc_offset_hours"] = float(off)
+    return rec
 
 
 def slim_hourly_row(hour):

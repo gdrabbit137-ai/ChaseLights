@@ -40,7 +40,7 @@
 //     (client lazy-loads visible cards first, see draft/assets/subject-sets-list.js).
 // Results only — thresholds/formulas never leave this module's own domain,
 // and user-facing copy is tri-lingual everywhere.
-import { validateCustomConditions, parseCustomConditions, customHourMatches, hourInWindow } from "./notify.js";
+import { validateCustomConditions, parseCustomConditions, customHourMatches, hourInWindow, hourPassesWindows, segmentsOf, resolveSegmentBounds, placeCtxFromRec } from "./notify.js";
 import { dominantFailWord, NAME_MAX_LEN } from "./custom-places.js";
 
 export const CAP_PLACE = 5;       // per-place cap — paid AND free (owner ∞)
@@ -56,6 +56,11 @@ export const DEFAULT_MAX_BATCH_SETS = 100;    // sets per batch response (20×5)
 export const DEFAULT_MAX_KV_WRITES_USER_DAY = 40; // ≈25 users saturate 1000/day
 export const MAX_IDS_PER_BATCH_REQUEST = 200; // URL sanity ceiling
 export const VERDICT_CACHE_TTL_S = 6 * 3_600; // grid regen changes the key anyway
+
+// Honest fail word for an ANCHOR window that cannot resolve yet (official
+// place coordinates ride the daily KV distill; until the first sync after
+// this ships, an anchor set matches nothing and says WHY — never all-day).
+export const FAIL_WORD_WINDOW_PENDING = "時段待座標同步";
 
 export const MESSAGES = {
   place_cap: {
@@ -480,9 +485,9 @@ export async function evaluatePlaceSets(env, uid, placeId, rows) {
         continue;
       }
     }
-    const verdict = evaluateSet(row, hourly);
+    const verdict = evaluateSet(row, hourly, placeCtxFromRec(rec));
     verdicts.push(verdict);
-    if (key) misses.push({ key, verdict: { tier: verdict.tier, window: verdict.window, failReason: verdict.failReason, days: verdict.days } });
+    if (key) misses.push({ key, verdict: { tier: verdict.tier, window: verdict.window, failReason: verdict.failReason, days: verdict.days, windowResolved: verdict.windowResolved } });
   }
   // incremental charge, one D1 upsert per write (metering costs ZERO KV
   // writes): once the day's budget is exhausted the remaining writes are
@@ -579,22 +584,25 @@ export async function handleSubjectSetsEvalBatch(req, env, url) {
   });
 }
 
-export function evaluateSet(row, hourly) {
+export function evaluateSet(row, hourly, placeCtx = null) {
   const cc = parseCustomConditions(row.conditions) || {};
   const months = parseCustomConditions(row.months) || [];
   if (months.length) cc.months = months;
+  const segs = segmentsOf(cc) || [];
+  const hasAnchor = segs.some((s) => s && s.type && s.type !== "fixed");
   if (!hourly.length) {
     return { id: row.id, name: row.name, months, tier: "pending", window: null, failReason: null, days: [] };
   }
   // per-day rollup in the SAME anatomy as official subject rows: hours that
-  // match the engine (month window + parameter blob) form the day's hours.
+  // match the engine (month window + parameter blob + ANY time segment) form
+  // the day's hours. Anchor segments expand with the place's REAL sun times
+  // per local date (solar.js); an anchor that cannot resolve (coords not yet
+  // synced / polar day-night) matches NOTHING — honest, never all-day.
   const byDay = new Map();
   for (const r of hourly) {
     if (!r || typeof r.local_date !== "string" || typeof r.hour !== "string") continue;
     if (months.length && !months.includes(Number(r.local_date.slice(5, 7)))) continue;
-    // the SAME engine semantics as findNextCustomWindow: the set's own time
-    // window (HH:MM, midnight wrap allowed) gates the hour too
-    if (!hourInWindow(r.hour, cc.window_start, cc.window_end)) continue;
+    if (!hourPassesWindows(r, cc, placeCtx)) continue;
     if (!customHourMatches(r.values, cc)) continue;
     if (!byDay.has(r.local_date)) byDay.set(r.local_date, []);
     byDay.get(r.local_date).push(r.hour);
@@ -610,12 +618,24 @@ export function evaluateSet(row, hourly) {
     const anyMonthHour = months.length
       ? hourly.some((r) => r && typeof r.local_date === "string" && months.includes(Number(r.local_date.slice(5, 7))))
       : true;
-    failReason = months.length && !anyMonthHour ? "非適用月份" : dominantFailWord(hourly, cc);
+    failReason = months.length && !anyMonthHour ? "非適用月份"
+      : hasAnchor && !placeCtx ? FAIL_WORD_WINDOW_PENDING
+      : dominantFailWord(hourly, cc);
   }
   const nextDay = days.find((d) => d.hours.length);
   const window = nextDay ? { local_date: nextDay.local_date, hours: nextDay.hours } : null;
+  // 「每日動態」 display data: the REAL resolved segment bounds for the
+  // window day (sun-anchored segments differ winter vs summer). Fixed
+  // segments ride along so mixed two-segment sets render one line.
+  let windowResolved = null;
+  if (nextDay && segs.length && (hasAnchor || segs.length > 1)) {
+    windowResolved = segs.map((s) => {
+      const b = resolveSegmentBounds(s, nextDay.local_date, placeCtx);
+      return b ? { type: s.type || "fixed", start: b.start, end: b.end } : { type: s.type || "fixed", start: null, end: null };
+    });
+  }
   const tier = days.length ? "rec" : "no";
-  return { id: row.id, name: row.name, months, tier, window, failReason, days };
+  return { id: row.id, name: row.name, months, tier, window, failReason, days, windowResolved };
 }
 
 // Same id shape as custom_places (base36, unguessable per user row).

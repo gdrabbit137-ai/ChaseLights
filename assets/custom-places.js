@@ -36,7 +36,7 @@
       add_btn: '新增私人景點', quota_lbl: '私人點', quota_owner: '無限',
       count_fmt: '共 {n} 個官方景點＋你的 {m} 個私人點',
       count_fmt_zero: '共 {n} 個官方景點（尚未建立私人點）',
-      tier_rec: '✓ 條件窗', tier_shoot: '○ 可拍', tier_no: '✗', tier_pending: '⏳ 排隊中',
+      tier_rec: '✓ 推薦', tier_shoot: '○ 可拍', tier_no: '✗ 不宜', tier_pending: '⏳ 排隊中',
       trial_expired: '試用期滿', trial_note: '評估已停止（資料保留）', trial_cta: '升級 Premium 恢復使用',
       deferred_note: '已建立·氣象資料明日更新',
       m_edit: '✎ 編輯', m_cc: '🎞 掛題材·條件', m_del: '🗑 刪除',
@@ -59,9 +59,10 @@
       // patch-7: private-card forecast popup (same card-click interaction as official cards)
       qv_title: '預報速覽', qv_quick: '現在去會怎樣', qv_days: '8 日概況', qv_no_data: '─',
       qv_no_data_note: '此日尚無資料（資料僅涵蓋未來約 2 日）', qv_subjects: '逐題材判定',
-      qv_subject_custom: '自訂條件', qv_baseline: '一般基準', qv_entry: '🎞 題材',
+      qv_subject_custom: '自訂條件', qv_general: '可拍', qv_entry: '🎞 題材',
       qv_load_fail: '預報資料暫時無法載入——可能仍在排隊抓取（明日更新）。',
       qv_gen: '符合 {n}/{t} 小時',
+      cond_n: '條件 ×{n}', cond_required: '成立條件',
       cc_prev: '摘要預覽：', cc_prev_none: '（未調任何參數＝一般基準）', cc_submit: '套用到此點',
       cc_done1: '✓ 條件已套用', cc_none: '（僅一般基準）',
       // patch-8: theme list manager (multiple condition groups per place)
@@ -77,8 +78,10 @@
       nl1: '登入後才能使用私人點', nl2: '新增／編輯私人景點是會員功能；私人點只出現在你的帳號。',
       login_cta: '登入以繼續', close: '關閉',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
-      ai_hint: '用一句話描述你要的拍攝條件', ai_ph: '例如：清晨要能看到雲海，不要下雨，最好六點前', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請確認後再送出', ai_conflict: '⚠ 條件矛盾：{m}——請擇一，AI 未套用任何值。', ai_fail: '解析失敗，請手動設定。',
+      ai_hint: '用一句話描述你要的拍攝條件（AI 只翻譯成條件，不判斷好壞）', ai_ph: '例如：清晨六點前要有雲海，不要下雨，風要小，能見度要好', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請確認後再送出', ai_conflict: '⚠ 條件矛盾：{m}——請擇一，AI 未套用任何值。', ai_fail: '解析失敗，請手動設定。',
       geo_btn: '📍 使用我的目前位置', geo_note: '為何需要位置：僅用於填入此新景點的座標，不會追蹤你的行蹤。', geo_working: '取得位置中…',
+      wt_fixed: '固定時段', wt_bs: '日出前（每日動態）', wt_as: '日出後（每日動態）', wt_bd: '日落前（每日動態）', wt_ads: '日落後（每日動態）',
+      win_off: '錨點偏移（分鐘，可負）', win_add2: '＋ 加第二段', win_rm: '移除此段', win_hint: '錨點型以當日實際日出／日落動態展開，冬天夏天不同',
       geo_denied: '無法取得位置：定位權限被拒絕。請改用點圖落釘或直接鍵入經緯度。', geo_timeout: '取得位置逾時。請改用點圖落釘或直接鍵入經緯度。', geo_error: '無法取得位置。請改用點圖落釘或直接鍵入經緯度。',
       copy_genre: '複製官方題材改（起點）', copy_genre_none: '不複製', copy_genre_hint: '選一個官方題材當起點，再微調單一參數',
       adv_toggle: '進階：原始數值輸入',
@@ -89,7 +92,7 @@
       add_btn: 'Add custom place', quota_lbl: 'Custom places', quota_owner: 'Unlimited',
       count_fmt: '{n} official places + your {m} custom places',
       count_fmt_zero: '{n} official places (no custom places yet)',
-      tier_rec: '✓ Window', tier_shoot: '○ Shootable', tier_no: '✗', tier_pending: '⏳ Queued',
+      tier_rec: '✓ Recommended', tier_shoot: '○ Shootable', tier_no: '✗ Not recommended', tier_pending: '⏳ Queued',
       trial_expired: 'Trial ended', trial_note: 'Evaluation stopped (data kept)', trial_cta: 'Upgrade to Premium to resume',
       deferred_note: 'Created · weather data updates tomorrow',
       m_edit: '✎ Edit', m_cc: '🎞 Subject & conditions', m_del: '🗑 Delete',
@@ -111,9 +114,10 @@
       p_months: 'Applicable months', p_months_hint: 'None selected = all year; when set, only those months are evaluated (the cron honours the month window)',
       qv_title: 'Forecast quick view', qv_quick: 'If I go now', qv_days: '8-day outlook', qv_no_data: '─',
       qv_no_data_note: 'No data for this day yet (data covers about the next 2 days)', qv_subjects: 'Per-subject verdicts',
-      qv_subject_custom: 'Custom conditions', qv_baseline: 'General baseline', qv_entry: '🎞 Subjects',
+      qv_subject_custom: 'Custom conditions', qv_general: 'Shootable', qv_entry: '🎞 Subjects',
       qv_load_fail: 'Forecast data is temporarily unavailable — the fetch may still be queued (updates tomorrow).',
       qv_gen: '{n}/{t} hours met',
+      cond_n: 'Conditions ×{n}', cond_required: 'Required conditions',
       cc_prev: 'Summary: ', cc_prev_none: '(nothing tuned = general baseline)', cc_submit: 'Apply to this place',
       cc_done1: '✓ Conditions applied', cc_none: '(general baseline only)',
       // patch-8: theme list manager (multiple condition groups per place)
@@ -129,8 +133,10 @@
       nl1: 'Log in to use custom places', nl2: 'Adding / editing is member-only; places appear only on your account.',
       login_cta: 'Log in to continue', close: 'Close',
       sem_cloud: 'Cloud', sem_fog: 'Fog', sem_rain: 'Rain',
-      ai_hint: 'Describe the conditions you want in one sentence', ai_ph: 'e.g. I want a cloud sea at dawn, no rain, ideally before 06:00', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — review, then submit', ai_conflict: '⚠ Conflicting conditions: {m} — pick one; the AI applied nothing.', ai_fail: 'Parsing failed — please set the conditions manually.',
+      ai_hint: 'Describe the shot you want in one sentence (the AI only translates it into conditions — it never judges)', ai_ph: 'e.g. cloud sea before 06:00, no rain, light wind, good visibility', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — review, then submit', ai_conflict: '⚠ Conflicting conditions: {m} — pick one; the AI applied nothing.', ai_fail: 'Parsing failed — please set the conditions manually.',
       geo_btn: '📍 Use my current location', geo_note: 'Why we need it: only to fill in this place’s coordinates — your movements are never tracked.', geo_working: 'Getting your location…',
+      wt_fixed: 'Fixed span', wt_bs: 'Before sunrise (daily dynamic)', wt_as: 'After sunrise (daily dynamic)', wt_bd: 'Before sunset (daily dynamic)', wt_ads: 'After sunset (daily dynamic)',
+      win_off: 'Anchor offset (minutes, may be negative)', win_add2: '＋ Add a second span', win_rm: 'Remove this span', win_hint: 'Anchor spans expand with each day\u2019s REAL sunrise/sunset — winter and summer differ',
       geo_denied: 'Could not get your location: permission denied. Please pin on the map or type lat/lng manually.', geo_timeout: 'Getting your location timed out. Please pin on the map or type lat/lng manually.', geo_error: 'Could not get your location. Please pin on the map or type lat/lng manually.',
       copy_genre: 'Copy an official genre template (starter)', copy_genre_none: 'No copy', copy_genre_hint: 'Pick an official genre as the starting point, then tweak a single parameter',
       adv_toggle: 'Advanced: raw numeric inputs',
@@ -141,7 +147,7 @@
       add_btn: '自作スポットを追加', quota_lbl: '自作スポット', quota_owner: '無制限',
       count_fmt: '公式 {n} スポット＋あなたの自作 {m} スポット',
       count_fmt_zero: '公式 {n} スポット（自作スポットはまだありません）',
-      tier_rec: '✓ 条件窓', tier_shoot: '○ 撮影可', tier_no: '✗', tier_pending: '⏳ 待機中',
+      tier_rec: '✓ 推薦', tier_shoot: '○ 撮影可', tier_no: '✗ 非推奨', tier_pending: '⏳ 待機中',
       trial_expired: 'トライアル期限切れ', trial_note: '評価停止中（データは保持）', trial_cta: 'Premiumへアップグレードで再開',
       deferred_note: '作成済み・気象データは明日更新',
       m_edit: '✎ 編集', m_cc: '🎞 題材・条件', m_del: '🗑 削除',
@@ -163,9 +169,10 @@
       p_months: '適用月', p_months_hint: '未選択＝通年；選択するとその月のみ判定（cron も月窓を尊重）',
       qv_title: '予報クイックビュー', qv_quick: '今すぐ行くと', qv_days: '8日間の概況', qv_no_data: '─',
       qv_no_data_note: 'この日はまだデータなし（データは今後約2日分）', qv_subjects: '題材別判定',
-      qv_subject_custom: 'カスタム条件', qv_baseline: '一般基準', qv_entry: '🎞 題材',
+      qv_subject_custom: 'カスタム条件', qv_general: '撮影可', qv_entry: '🎞 題材',
       qv_load_fail: '予報データを取得できません——取得待ちの可能性があります（明日更新）。',
       qv_gen: '{n}/{t} 時間適合',
+      cond_n: '条件 ×{n}', cond_required: '成立条件',
       cc_prev: 'サマリー：', cc_prev_none: '（未調整＝一般基準）', cc_submit: 'このスポットに適用',
       cc_done1: '✓ 条件を適用しました', cc_none: '（一般基準のみ）',
       // patch-8: theme list manager (multiple condition groups per place)
@@ -181,8 +188,10 @@
       nl1: '自作スポットにはログインが必要', nl2: '追加／編集は会員機能；自作スポットは自分のアカウントにのみ表示されます。',
       login_cta: 'ログインして続行', close: '閉じる',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
-      ai_hint: '撮りたい条件を一文で説明', ai_ph: '例：明け方に雲海が見たい。雨は嫌。できれば6時まで', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 確認してから送信してください', ai_conflict: '⚠ 条件が矛盾しています：{m} — どちらかを選択してください（AIは未適用）。', ai_fail: '解析に失敗しました。手動で設定してください。',
+      ai_hint: '撮りたい条件を一文で説明（AIは条件への翻訳のみ・良し悪しは判断しない）', ai_ph: '例：6時までに雲海。雨は嫌。風は弱め。視程は良い', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 確認してから送信してください', ai_conflict: '⚠ 条件が矛盾しています：{m} — どちらかを選択してください（AIは未適用）。', ai_fail: '解析に失敗しました。手動で設定してください。',
       geo_btn: '📍 現在地を使う', geo_note: '位置情報の使い道：このスポットの座標を入力するためだけ。現在地は追跡しません。', geo_working: '現在地を取得中…',
+      wt_fixed: '固定時間帯', wt_bs: '日の出前（毎日動的）', wt_as: '日の出後（毎日動的）', wt_bd: '日の入前（毎日動的）', wt_ads: '日の入後（毎日動的）',
+      win_off: 'アンカーオフセット（分・負可）', win_add2: '＋ 2つ目を追加', win_rm: 'この枠を削除', win_hint: 'アンカーは当日の実際の日の出入りから毎日展開（季節で変わる）',
       geo_denied: '位置を取得できませんでした：権限が拒否されました。地図クリックまたは手動入力をご利用ください。', geo_timeout: '位置の取得がタイムアウトしました。地図クリックまたは手動入力をご利用ください。', geo_error: '位置を取得できませんでした。地図クリックまたは手動入力をご利用ください。',
       copy_genre: '公式題材をコピーして改造（出発点）', copy_genre_none: 'コピーしない', copy_genre_hint: '公式題材を出発点に選び、1つのパラメータだけ調整します',
       adv_toggle: '高度：生の数値入力',
@@ -255,7 +264,7 @@
   // a previous tall modal's scrollTop otherwise persists, clipping the short
   // edit modal's first fields above the viewport. Body scroll is locked while
   // a modal is open (the page must not scroll behind the overlay).
-  function openOverlay(html) { ensureHosts(); var m = els.overlay.querySelector('.cl-cp-modal'); m.innerHTML = html; els.overlay.classList.add('open'); els.overlay.scrollTop = 0; m.scrollTop = 0; document.body.classList.add('cl-cp-lock'); }
+  function openOverlay(html, extraCls) { ensureHosts(); var m = els.overlay.querySelector('.cl-cp-modal'); m.classList.remove('cl-cp-qv-modal'); if (extraCls) m.classList.add(extraCls); m.innerHTML = html; els.overlay.classList.add('open'); els.overlay.scrollTop = 0; m.scrollTop = 0; document.body.classList.add('cl-cp-lock'); }
   function closeOverlay() {
     if (!els.overlay) return;
     els.overlay.classList.remove('open');
@@ -397,6 +406,66 @@
     }
     return (g && g.name) || '';
   }
+  // ── patch-9 (owner ruling): the legacy migration named the old single blob
+  // 「題材 1」 — a system placeholder that must never reach the UI. A group
+  // with NO user-facing name (nameI18n absent) carrying that placeholder falls
+  // back to the USER's genre: exact-match the set against the official genre
+  // starters (the picker such sets were created from) and use that genre's
+  // tri-lingual short name (e.g. 星光窗的夜空 starter → 「星空」); a set that
+  // was tweaked beyond the starter reads 「自訂條件」. A user who literally
+  // renamed a group to 「題材 1」 (nameI18n present) keeps their name.
+  function cpLegacyPlaceholder(g) {
+    if (!g) return false;
+    var i18n = g.nameI18n;
+    if (i18n && typeof i18n === 'object' && Object.keys(i18n).length) return false;
+    return String(g.name || '') === '題材 1';
+  }
+  function themeDisplayName(g) {
+    if (cpLegacyPlaceholder(g)) {
+      var key = cpStarterKeyFor(g && g.conditions);
+      var names = key ? genreShortNames() : null;
+      return (names && names[key]) || t().qv_subject_custom;
+    }
+    return themeName(g);
+  }
+  // canonical form: lenient defaults never constrain (same rules as
+  // cpHourMatches / ccSummary); months sort-joined for stable compare
+  function cpCcCanonical(cc) {
+    var out = {};
+    if (!cc) return out;
+    if (cc.cloud_low_max != null && cc.cloud_low_max < 100) out.cloud_low_max = Number(cc.cloud_low_max);
+    if (cc.cloud_mid_max != null && cc.cloud_mid_max < 100) out.cloud_mid_max = Number(cc.cloud_mid_max);
+    if (cc.cloud_high_max != null && cc.cloud_high_max < 100) out.cloud_high_max = Number(cc.cloud_high_max);
+    if (cc.precip_max_mmh != null && cc.precip_max_mmh < 200) out.precip_max_mmh = Number(cc.precip_max_mmh);
+    if (cc.visibility_min_km != null && cc.visibility_min_km > 0) out.visibility_min_km = Number(cc.visibility_min_km);
+    if (cc.wind_max_ms != null) out.wind_max_ms = Number(cc.wind_max_ms);
+    if (cc.window_start && cc.window_end) { out.window_start = cc.window_start; out.window_end = cc.window_end; }
+    if (Array.isArray(cc.months) && cc.months.length) out.months = cc.months.slice().sort(function (a, b) { return a - b; }).join(',');
+    if (cc.lead_minutes != null) out.lead_minutes = Number(cc.lead_minutes);
+    return out;
+  }
+  function cpCcSame(a, b) {
+    var ca = cpCcCanonical(a), cb = cpCcCanonical(b);
+    var ka = Object.keys(ca);
+    if (ka.length !== Object.keys(cb).length) return false;
+    for (var i = 0; i < ka.length; i++) if (ca[ka[i]] !== cb[ka[i]]) return false;
+    return true;
+  }
+  function cpStarterKeyFor(cc) {
+    if (!cc) return null;
+    for (var k in CC_GENRE_STARTERS) {
+      var s = CC_GENRE_STARTERS[k];
+      if (cpCcSame(cc, {
+        cloud_low_max: CC_SEMANTIC.cloud.values[s.cloud],
+        visibility_min_km: CC_SEMANTIC.fog.values[s.fog],
+        precip_max_mmh: CC_SEMANTIC.rain.values[s.rain],
+        window_start: s.window ? s.window[0] : null,
+        window_end: s.window ? s.window[1] : null,
+        months: Array.isArray(s.months) ? s.months.slice() : null,
+      })) return k;
+    }
+    return null;
+  }
   // patch-8: ONE subject-row anatomy everywhere (official card parity) —
   // tier badge + group name + next window / short reason, never a divergent chip
   function cpCardRow(tier, name, window, tail) {
@@ -430,7 +499,11 @@
     if (cc.precip_max_mmh != null) parts.push((lang === 'en' ? 'precip≤' : '降水≤') + cc.precip_max_mmh);
     if (cc.visibility_min_km != null) parts.push((lang === 'en' ? 'vis≥' : '能見度≥') + cc.visibility_min_km);
     if (cc.wind_max_ms != null) parts.push('風≤' + cc.wind_max_ms);
-    if (cc.window_start && cc.window_end) parts.push(cc.window_start + '–' + cc.window_end);
+    if (Array.isArray(cc.windows) && cc.windows.length) {
+      parts.push(cc.windows.map(function (s) { return cpWinSegSummary(s, lang); }).join('＋'));
+    } else if (cc.window_start && cc.window_end) {
+      parts.push(cc.window_start + '–' + cc.window_end);
+    }
     if (Array.isArray(cc.months) && cc.months.length) parts.push((lang === 'en' ? 'months ' : '月 ') + fmtMonths(cc.months));
     return parts.join('・');
   }
@@ -443,6 +516,107 @@
       s = prev = ms[i];
     }
     return parts.join(',');
+  }
+  // CL-APP-09 patch-2: anchor + multi-segment window editor (private-place
+  // theme form). Same schema/semantics as the subject-sets editors.
+  function cpWtLabel(type) {
+    return { fixed: t().wt_fixed, before_sunrise: t().wt_bs, after_sunrise: t().wt_as, before_sunset: t().wt_bd, after_sunset: t().wt_ads }[type] || '';
+  }
+  function cpWinSegSummary(seg, lang) {
+    if (!seg || !seg.type || seg.type === 'fixed') {
+      return (seg && seg.start ? seg.start : '?') + '–' + (seg && seg.end ? seg.end : '?');
+    }
+    var lbl = cpWtLabel(seg.type).replace(/（.*?）/, '').replace(/ \(daily dynamic\)/, '');
+    var off = (seg.offset_minutes != null && seg.offset_minutes !== 0)
+      ? ((seg.offset_minutes > 0 ? '+' : '−') + Math.abs(seg.offset_minutes) + (lang === 'zh-TW' ? '分' : lang === 'ja' ? '分' : 'min'))
+      : '';
+    return lbl + off;
+  }
+  var cpWTYPES = ['fixed', 'before_sunrise', 'after_sunrise', 'before_sunset', 'after_sunset'];
+  var cpWinState = [{ type: 'fixed', start: '', end: '' }];
+  function cpWindowSegsOf(cc) {
+    if (cc && Array.isArray(cc.windows) && cc.windows.length) return cc.windows;
+    if (cc && cc.window_start && cc.window_end) return [{ type: 'fixed', start: cc.window_start, end: cc.window_end }];
+    return [{ type: 'fixed', start: '', end: '' }];
+  }
+  function cpRenderWinArea() {
+    var host = els.overlay ? els.overlay.querySelector('#cl-cp-win-area') : null;
+    if (!host) return;
+    host.innerHTML = cpWinAreaHtml();
+    cpWireWinArea();
+  }
+  function cpWinAreaHtml() {
+    var out = '';
+    for (var i = 0; i < cpWinState.length; i++) out += cpWinSegHtml(i, cpWinState[i]);
+    out += (cpWinState.length < 2 ? '<button type="button" class="cl-ss-act" id="cl-cp-win-add">' + esc(t().win_add2) + '</button>' : '') +
+      '<div class="hint">' + esc(t().win_hint) + '</div>';
+    return out;
+  }
+  function cpWinSegHtml(i, seg) {
+    var idp = 'cl-cp-ws' + i;
+    var typeSel = '<select id="' + idp + '-type" class="inp" style="flex:0 0 auto">' +
+      cpWTYPES.map(function (w) { return '<option value="' + w + '"' + (w === seg.type ? ' selected' : '') + '>' + esc(cpWtLabel(w)) + '</option>'; }).join('') +
+      '</select>';
+    var fields;
+    if (seg.type === 'fixed') {
+      fields = '<input id="' + idp + '-start" value="' + esc(seg.start || '') + '" placeholder="04:30" style="flex:1">' +
+        '<span style="color:var(--cl-text-3)">–</span>' +
+        '<input id="' + idp + '-end" value="' + esc(seg.end || '') + '" placeholder="07:00" style="flex:1">';
+    } else {
+      fields = '<input id="' + idp + '-off" inputmode="numeric" value="' + esc(seg.offset_minutes != null ? String(seg.offset_minutes) : '') + '" placeholder="0" style="flex:0 0 90px">' +
+        '<span class="hint" style="flex:1">' + esc(t().win_off) + '</span>';
+    }
+    return '<div class="cl-cp-winseg" data-cp-ws="' + i + '" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' + typeSel + fields +
+      (i === 1 ? '<button type="button" class="cl-ss-act cl-ss-act-del" id="cl-cp-win-rm" aria-label="' + esc(t().win_rm) + '">✕</button>' : '') +
+      '</div>';
+  }
+  function cpReadWinState() {
+    var segs = [];
+    for (var i = 0; i < 2; i++) {
+      var typeEl = els.overlay.querySelector('#cl-cp-ws' + i + '-type');
+      if (!typeEl) { if (cpWinState[i]) segs.push(cpWinState[i]); continue; }
+      if (typeEl.value === 'fixed') {
+        var s = (els.overlay.querySelector('#cl-cp-ws' + i + '-start') || {}).value || '';
+        var e = (els.overlay.querySelector('#cl-cp-ws' + i + '-end') || {}).value || '';
+        segs.push({ type: 'fixed', start: String(s).trim(), end: String(e).trim() });
+      } else {
+        var offEl = els.overlay.querySelector('#cl-cp-ws' + i + '-off');
+        var off = offEl && offEl.value.trim() !== '' ? parseInt(offEl.value, 10) : 0;
+        segs.push({ type: typeEl.value, offset_minutes: isFinite(off) ? off : 0 });
+      }
+    }
+    return segs;
+  }
+  function cpWireWinArea() {
+    var addBtn = els.overlay.querySelector('#cl-cp-win-add');
+    if (addBtn) addBtn.addEventListener('click', function () {
+      cpWinState = cpReadWinState();
+      if (cpWinState.length < 2) cpWinState.push({ type: 'fixed', start: '', end: '' });
+      cpRenderWinArea();
+      els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
+    });
+    var rmBtn = els.overlay.querySelector('#cl-cp-win-rm');
+    if (rmBtn) rmBtn.addEventListener('click', function () {
+      cpWinState = cpReadWinState().slice(0, 1);
+      cpRenderWinArea();
+      els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
+    });
+    [0, 1].forEach(function (i) {
+      var typeEl = els.overlay.querySelector('#cl-cp-ws' + i + '-type');
+      if (!typeEl) return;
+      typeEl.addEventListener('change', function () {
+        cpWinState = cpReadWinState();
+        cpWinState[i] = typeEl.value === 'fixed' ? { type: 'fixed', start: '', end: '' } : { type: typeEl.value, offset_minutes: 0 };
+        cpRenderWinArea();
+        els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
+      });
+      ['start', 'end', 'off'].forEach(function (f) {
+        var el = els.overlay.querySelector('#cl-cp-ws' + i + '-' + f);
+        if (el) el.addEventListener('change', function () {
+          els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
+        });
+      });
+    });
   }
   function buildPrivateCard(p) {
     var card = document.createElement('div');
@@ -475,7 +649,7 @@
           headBadge +
           '<span class="cl-cp-priv-badge">◉ ' + esc(expired ? t().trial_expired : t().priv_badge) + '</span>' +
         '</div>' +
-        '<div class="cl-cp-coord">' + esc(p.lat) + ', ' + esc(p.lng) + (p.elevation != null ? ' · ' + esc(p.elevation) + ' m' : '') + (p.timezone ? ' · ' + esc(p.timezone) : '') + '</div>' +
+        '<div class="cl-cp-coord">' + esc(cpMetaLine(p)) + '</div>' +
       '</div>' +
       // patch-3: the menu markup moved OUT of the card — one shared menu is
       // portaled to document.body (ensureMenu) and position:fixed under the
@@ -487,15 +661,19 @@
     if (!expired && !(ev.tier === 'pending' && p.fetchDeferred)) {
       groups.forEach(function (g) {
         var ge = g.evaluation || {};
-        if (ge.tier === 'rec') rows.push(cpCardRow('rec', themeName(g), ge.window));
-        else if (ge.tier === 'shoot') rows.push(cpCardRow('shoot', themeName(g), ge.window, t().th_row_shoot));
-        else if (ge.tier === 'no') rows.push(cpCardRow('no', themeName(g), null, ge.reason || ''));
-        else rows.push(cpCardRow('shoot', themeName(g), null, t().tier_pending));
+        if (ge.tier === 'rec') rows.push(cpCardRow('rec', themeDisplayName(g), ge.window));
+        else if (ge.tier === 'shoot') rows.push(cpCardRow('shoot', themeDisplayName(g), ge.window, t().th_row_shoot));
+        else if (ge.tier === 'no') rows.push(cpCardRow('no', themeDisplayName(g), null, ge.reason || ''));
+        else rows.push(cpCardRow('shoot', themeDisplayName(g), null, t().tier_pending));
       });
-      if (groups.length && ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_baseline, ev.window, t().th_row_shoot));
+      // patch-9 (owner ruling): the 「一般基準」 row was dual-truth residue —
+      // a general-baseline row rendered BESIDE the per-subject rows reads as a
+      // second verdict source. Removed: the per-subject rows are the single
+      // truth; the general baseline survives only where NO subject rows exist
+      // (no groups → the single 可拍 row below, one verdict one surface).
       if (!groups.length) {
         if (ev.tier === 'rec') rows.push(cpCardRow('rec', t().qv_subject_custom, ev.window));
-        else if (ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_baseline, ev.window, t().th_row_shoot));
+        else if (ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_general, ev.window, t().th_row_shoot));
         else rows.push('<div style="font-size:13px;color:var(--cl-red-text)">' + esc(t().tier_no) + ' <span style="font-weight:600">' + esc(ev.reason || '') + '</span></div>');
       }
     }
@@ -549,7 +727,8 @@
   // panel. The hour matcher mirrors the worker's customHourMatches/hourInWindow
   // EXACTLY (same lenient defaults, missing-value fails honestly) so the
   // popup can never disagree with the card tier.
-  var CP_GENERAL_BASELINE = { precip_max_mmh: 2, visibility_min_km: 3, wind_max_ms: 10 };
+  // (patch-9: the separate general-baseline row and its constant were removed
+  // with the dual-truth ruling — the per-subject rows are the single truth.)
   function cpHourInWindow(hour, start, end) {
     if (typeof hour !== 'string' || !/^([01]\d|2[0-3]):[0-5]\d$/.test(hour)) return false;
     if (typeof start !== 'string' || typeof end !== 'string') return true; // no window = whole day
@@ -575,13 +754,72 @@
     }
     return true;
   }
+  // ── patch-9 (owner ruling): the raw 「25.0682, 121.5794 · 13 m · Asia/Taipei」
+  // header line leaked the full-precision coordinates and the raw IANA zone.
+  // ONE meta-line anatomy everywhere (card sub-line + popup header), same
+  // convention as the official modal: coordinates at 3 decimals (location
+  // identity, not surveying precision), elevation in metres, the zone as the
+  // GMT±n abbreviation (tzAbbrLabel convention — never a bare IANA string).
+  function cpTzLabel(tz) {
+    if (!tz) return '';
+    if (/^GMT[+-]/.test(String(tz))) return String(tz); // already the convention
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', { timeZone: String(tz), timeZoneName: 'shortOffset' }).formatToParts(new Date());
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].type === 'timeZoneName' && /^GMT/.test(parts[i].value)) return parts[i].value;
+      }
+    } catch (e) { /* unknown zone → honest omit */ }
+    return '';
+  }
+  function cpMetaLine(p) {
+    var lat = Number(p.lat), lng = Number(p.lng);
+    var parts = [];
+    if (isFinite(lat) && isFinite(lng)) parts.push(lat.toFixed(3) + ', ' + lng.toFixed(3));
+    if (p.elevation != null) parts.push(p.elevation + ' m');
+    var tz = cpTzLabel(p.timezone);
+    if (tz) parts.push(tz);
+    return parts.join(' · ');
+  }
+  // ── patch-9: the popup's per-subject condition collapse — official
+  // 「條件 ×{n}」 anatomy (summary count + the condition rows grouped by
+  // role). Private sets have REQUIRED-type constraints only (must-not-exceed
+  // limits + the window), so the collapse shows the 成立條件 group and omits
+  // the 加分/扣分 groups exactly like the official collapse omits empty ones.
+  var CP_COND_LABELS = {
+    'zh-TW': { cloud_low: '低雲', cloud_mid: '中雲', cloud_high: '高雲', precip: '降水', vis: '能見度', wind: '風速', window: '時窗', months: '適用月份' },
+    'en': { cloud_low: 'Low cloud', cloud_mid: 'Mid cloud', cloud_high: 'High cloud', precip: 'Precip', vis: 'Visibility', wind: 'Wind', window: 'Time window', months: 'Applicable months' },
+    'ja': { cloud_low: '低雲', cloud_mid: '中雲', cloud_high: '高雲', precip: '降水', vis: '視程', wind: '風速', window: '時間帯', months: '適用月' },
+  };
+  function cpCondRows(cc, lang) {
+    if (!cc) return [];
+    var L = CP_COND_LABELS[lang] || CP_COND_LABELS['zh-TW'];
+    var rows = [];
+    function add(label, value) { rows.push({ label: label, value: value }); }
+    if (cc.cloud_low_max != null && cc.cloud_low_max < 100) add(L.cloud_low, '≤ ' + cc.cloud_low_max + '%');
+    if (cc.cloud_mid_max != null && cc.cloud_mid_max < 100) add(L.cloud_mid, '≤ ' + cc.cloud_mid_max + '%');
+    if (cc.cloud_high_max != null && cc.cloud_high_max < 100) add(L.cloud_high, '≤ ' + cc.cloud_high_max + '%');
+    if (cc.precip_max_mmh != null) add(L.precip, '≤ ' + cc.precip_max_mmh + ' mm/h');
+    if (cc.visibility_min_km != null && cc.visibility_min_km > 0) add(L.vis, '≥ ' + cc.visibility_min_km + ' km');
+    if (cc.wind_max_ms != null) add(L.wind, '≤ ' + cc.wind_max_ms + ' m/s');
+    if (cc.window_start && cc.window_end) add(L.window, cc.window_start + '–' + cc.window_end);
+    if (Array.isArray(cc.months) && cc.months.length) add(L.months, fmtMonths(cc.months));
+    return rows;
+  }
+  function cpCondDetails(cc) {
+    var rows = cpCondRows(cc, currentLang());
+    if (!rows.length) return '';
+    return '<details class="cl-cp-qv-cond"><summary>' + esc(t().cond_n.replace('{n}', String(rows.length))) + '</summary>' +
+      '<div class="cl-cp-cond-group">' + esc(t().cond_required) + '</div>' +
+      rows.map(function (r) {
+        return '<div class="cl-cp-cond-row"><b>' + esc(r.label) + '</b><span>' + esc(r.value) + '</span></div>';
+      }).join('') + '</details>';
+  }
   function forecastModal(p) {
     var ev = p.evaluation || {};
     var html =
       '<div class="cl-cp-m-head"><div><div class="name">📍 ' + esc(p.name) + '</div>' +
-      '<div class="sub">' + esc(p.lat) + ', ' + esc(p.lng) +
-      (p.elevation != null ? ' · ' + esc(p.elevation) + ' m' : '') +
-      (p.timezone ? ' · ' + esc(p.timezone) : '') + '</div></div>' +
+      // patch-9: official meta-line anatomy (coords @3dp · elevation · GMT±n)
+      '<div class="sub">' + esc(cpMetaLine(p)) + '</div></div>' +
       '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
       '<div class="cl-cp-qv-quick"><span class="k">' + esc(t().qv_quick) + '</span>' + tierBadge(p) +
       (ev.window ? ' <span class="cl-cp-window">' + esc(ev.window) + '</span>' : '') +
@@ -592,7 +830,7 @@
       '<div id="cl-cp-qv-subjects"><div class="cl-cp-qv-loading">…</div></div>' +
       '<div class="cl-cp-qv-actions"><button type="button" class="cl-cp-btn" id="cl-cp-qv-subject-entry">' +
       esc(t().qv_entry) + '</button></div>';
-    openOverlay(html);
+    openOverlay(html, 'cl-cp-qv-modal'); // patch-9: the popup follows its content (no full-height stretch)
     wireClose(); // patch-7: the ✕ closes the popup like every other modal
     var entry = els.overlay.querySelector('#cl-cp-qv-subject-entry');
     if (entry) entry.addEventListener('click', function () { ccModal(p); });
@@ -654,20 +892,29 @@
     var days = qvDayGrid(hourly);
     daysEl.innerHTML = days.map(function (day) { return qvDayCell(day, cc); }).join('');
     // patch-8: ONE row per theme group (named, each judged with its own
-    // conditions incl. its own month window) + the general baseline row.
+    // conditions incl. its own month window).
     // Legacy fallback: a place with the old single blob and no migrated
     // groups keeps the 自訂條件 row.
+    // patch-9: ONE truth — per-subject rows only. The trailing 「一般基準」
+    // row was dual-truth residue (owner ruling) and is gone; a place with no
+    // sets at all renders the honest empty note instead of a baseline row.
     var subjects = [];
     var groups = Array.isArray(p.themeGroups) ? p.themeGroups : [];
     if (groups.length) {
-      groups.forEach(function (g) { subjects.push({ name: themeName(g), cond: g.conditions || null }); });
+      groups.forEach(function (g) { subjects.push({ name: themeDisplayName(g), cond: g.conditions || null }); });
     } else if (cc) {
       subjects.push({ name: t().qv_subject_custom, cond: cc });
     }
-    subjects.push({ name: t().qv_baseline, cond: CP_GENERAL_BASELINE });
+    if (!subjects.length) {
+      subjEl.innerHTML = '<div class="cl-cp-qv-none">' + esc(t().th_empty) + '</div>';
+      return;
+    }
     subjEl.innerHTML = subjects.map(function (s) {
       return '<div class="cl-cp-qv-row"><span class="cl-cp-qv-row-name">' + esc(s.name) + '</span>' +
-        '<div class="cl-cp-qv-strip cl-cp-qv-row-strip">' + days.map(function (day) { return qvDayCell(day, s.cond); }).join('') + '</div></div>';
+        '<div class="cl-cp-qv-row-main">' +
+        '<div class="cl-cp-qv-strip cl-cp-qv-row-strip">' + days.map(function (day) { return qvDayCell(day, s.cond); }).join('') + '</div>' +
+        cpCondDetails(s.cond) +
+        '</div></div>';
     }).join('');
   }
   // ───── patch-3: the ⋯ menu — one fixed-position menu portaled to body ─────
@@ -1151,9 +1398,9 @@
     cloud: {
       key: 'cloud_low_max',
       options: {
-        'zh-TW': [['min', '越少越好', '低雲 ≤20%'], ['half', '半晴半雲', '低雲 ≤50%'], ['any', '多雲也行', '不限']],
-        'en': [['min', 'As little as possible', 'low cloud ≤20%'], ['half', 'Half sun, half cloud', 'low cloud ≤50%'], ['any', 'Cloudy is fine', 'no limit']],
-        'ja': [['min', 'できるだけ少ない', '低雲 ≤20%'], ['half', '半分晴れ半分雲', '低雲 ≤50%'], ['any', '曇りでも可', '制限なし']],
+        'zh-TW': [['min', '越少越好', '低雲 ≤20%'], ['half', '半晴半雲', '低雲 ≤50%'], ['any', '不在乎', '不帶雲量條件']],
+        'en': [['min', 'As little as possible', 'low cloud ≤20%'], ['half', 'Half sun, half cloud', 'low cloud ≤50%'], ['any', "Don't care", 'no cloud condition']],
+        'ja': [['min', 'できるだけ少ない', '低雲 ≤20%'], ['half', '半分晴れ半分雲', '低雲 ≤50%'], ['any', 'こだわらない', '雲の条件なし']],
       },
       values: { min: 20, half: 50, any: 100 },
     },
@@ -1270,14 +1517,28 @@
               if (sel && s[axis]) { sel.value = s[axis]; sel.dispatchEvent(new Event('change')); }
             });
             if (s.wind_max_ms != null) { var w = els.overlay.querySelector('#cl-cp-cc-wind'); if (w) w.value = String(s.wind_max_ms); }
-            if (s.window_start) { els.overlay.querySelector('#cl-cp-cc-start').value = s.window_start; els.overlay.querySelector('#cl-cp-cc-end').value = s.window_end || ''; }
+            // patch-2: the AI may return the windows array (anchor/multi) — fill
+            // the segment editor; a legacy flat window fills segment 0 fixed.
+            if (Array.isArray(s.windows) && s.windows.length) {
+              cpWinState = s.windows.slice(0, 2).map(function (seg) {
+                return seg.type === 'fixed' ? { type: 'fixed', start: seg.start || '', end: seg.end || '' } : { type: seg.type, offset_minutes: seg.offset_minutes || 0 };
+              });
+              cpRenderWinArea();
+            } else if (s.window_start) {
+              cpWinState = [{ type: 'fixed', start: s.window_start, end: s.window_end || '' }];
+              cpRenderWinArea();
+            }
             if (s.lead_minutes != null) { var l = els.overlay.querySelector('#cl-cp-cc-lead'); if (l) l.value = String(s.lead_minutes); }
             els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
             var conf = Math.round((s.confidence || 0) * 100);
             note.textContent = t().ai_done.replace('{c}', conf);
           } else {
             var msg = r.body && r.body.message && (r.body.message[currentLang()] || r.body.message['zh-TW']);
-            note.textContent = msg || t().ai_fail;
+            // fail-closed CONCRETE reason (patch-2): the tri-lingual message
+            // stays stable, but the upstream detail (status/snippet) surfaces
+            // so a broken key/model is visible instead of a silent 解析失敗.
+            var detail = r.body && r.body.detail;
+            note.textContent = msg || (detail ? '⚠ ' + detail : t().ai_fail);
           }
         })
         .catch(function () { note.textContent = t().ai_fail; });
@@ -1301,7 +1562,7 @@
       var tail = ge.tier === 'no' && ge.reason ? ' · ' + ge.reason : (ge.tier === 'rec' && ge.window ? ' · ' + ge.window : '');
       return '<div class="cl-cp-theme-row" data-theme-id="' + esc(g.id) + '">' +
         '<span class="cl-cp-tier ' + bcls + '">' + bg + '</span>' +
-        '<div class="cl-cp-theme-info"><div class="n">' + esc(themeName(g)) + '</div>' +
+        '<div class="cl-cp-theme-info"><div class="n">' + esc(themeDisplayName(g)) + '</div>' +
         '<div class="s">' + esc((ccSummary(g.conditions, lang) || '—') + tail) + '</div></div>' +
         '<div class="cl-cp-theme-acts">' +
         '<button type="button" data-cp-th-act="edit" aria-label="✎ 編輯">✎</button>' +
@@ -1373,6 +1634,7 @@
   // preserved on rename; the zh-TW anchor `name` carries the fallback)
   function themeFormModal(place, theme) {
     var cc = (theme && theme.conditions) || {};
+    cpWinState = cpWindowSegsOf(cc).slice(0, 2);
     function v(k) { return cc[k] == null ? '' : String(cc[k]); }
     var lang = currentLang();
     var genreNames = genreShortNames();
@@ -1398,21 +1660,23 @@
       '<div class="cl-cp-fld"><label>' + esc(t().th_name) + '</label>' +
       '<input class="inp" id="cl-cp-theme-name" maxlength="40" placeholder="' + esc(t().th_name_ph) + '" value="' + esc(theme ? themeName(theme) : '') + '"></div>' +
       (aiEnabled ? aiParseBlock() : '') +
+      // CL-APP-09 patch-2 item ④ (owner): 複製官方題材 sits right BELOW the AI
+      // parse block and ABOVE the manual condition options — it is a starter
+      // picker, not a parameter group.
+      '<div class="cl-cp-fld" style="margin-bottom:8px"><label>' + esc(t().copy_genre) + '</label>' +
+      '<select id="cl-cp-cc-genre" class="inp"><option value="">— ' + esc(t().copy_genre_none) + ' —</option>' + genreOpts + '</select>' +
+      '<div class="hint">' + esc(t().copy_genre_hint) + '</div></div>' +
       '<div class="cl-cp-cc-params">' +
       semSel('cloud', t().sem_cloud) +
       semSel('fog', t().sem_fog) +
       semSel('rain', t().sem_rain) +
-      '<div class="cl-cp-ccp wide"><label>' + esc(t().p_window) + '</label><div style="display:flex;gap:6px;align-items:center">' +
-      '<input id="cl-cp-cc-start" value="' + esc(v('window_start')) + '" placeholder="04:30" style="flex:1"><span style="color:var(--cl-text-3)">–</span>' +
-      '<input id="cl-cp-cc-end" value="' + esc(v('window_end')) + '" placeholder="07:00" style="flex:1"></div>' +
-      '<div class="hint">HH:MM</div></div>' +
+      '<div class="cl-cp-ccp wide"><label>' + esc(t().p_window) + '</label>' +
+      '<div id="cl-cp-win-area"></div>' +
+      '</div>' +
       '<div class="cl-cp-ccp wide" id="cl-cp-cc-months-wrap"><label>' + esc(t().p_months) + '</label>' +
       '<div class="cl-cp-cc-months" id="cl-cp-cc-months">' + monthsHtml(cc.months) + '</div>' +
       '<div class="hint">' + esc(t().p_months_hint) + '</div></div>' +
       '</div>' +
-      '<div class="cl-cp-fld" style="margin-bottom:8px"><label>' + esc(t().copy_genre) + '</label>' +
-      '<select id="cl-cp-cc-genre" class="inp"><option value="">— ' + esc(t().copy_genre_none) + ' —</option>' + genreOpts + '</select>' +
-      '<div class="hint">' + esc(t().copy_genre_hint) + '</div></div>' +
       '<details class="cl-cp-cc-advanced" id="cl-cp-cc-adv"><summary>' + esc(t().adv_toggle) + '</summary>' +
       '<div class="cl-cp-cc-params" style="margin-top:8px">' +
       ccp('cl-cp-cc-low', t().p_low, v('cloud_low_max')) +
@@ -1427,6 +1691,7 @@
       '<button type="button" class="cl-cp-submit" id="cl-cp-cc-submit">' + esc(t().th_create) + '</button>');
     wireClose();
     if (aiEnabled) wireAiParse();
+    cpRenderWinArea();
     var sync = function () {
       // semantic → concrete: write the mapped value into the advanced input
       // (the advanced inputs stay the single source of truth) and refresh
@@ -1468,8 +1733,9 @@
         var sel = els.overlay.querySelector('#cl-cp-sem-' + axis);
         if (sel && starter[axis]) sel.value = starter[axis];
       });
-      els.overlay.querySelector('#cl-cp-cc-start').value = starter.window[0];
-      els.overlay.querySelector('#cl-cp-cc-end').value = starter.window[1];
+      // patch-2: the starter's window fills SEGMENT 0 (keep it a fixed span)
+      cpWinState = [{ type: 'fixed', start: starter.window[0], end: starter.window[1] }];
+      cpRenderWinArea();
       // patch-5 ④: seasonal starters prefill the 適用月份 chips (snow/櫻花類)
       var monthsWrap = els.overlay.querySelector('#cl-cp-cc-months');
       if (monthsWrap) {
@@ -1563,8 +1829,15 @@
     ['cl-cp-cc-low:cloud_low_max', 'cl-cp-cc-mid:cloud_mid_max', 'cl-cp-cc-high:cloud_high_max', 'cl-cp-cc-precip:precip_max_mmh', 'cl-cp-cc-vis:visibility_min_km', 'cl-cp-cc-wind:wind_max_ms'].forEach(function (pair) {
       var parts = pair.split(':'); var n = num(parts[0]); if (n != null) out[parts[1]] = n;
     });
-    var ws = els.overlay.querySelector('#cl-cp-cc-start').value.trim(), we = els.overlay.querySelector('#cl-cp-cc-end').value.trim();
-    if (ws && we && /^\d\d:\d\d$/.test(ws) && /^\d\d:\d\d$/.test(we)) { out.window_start = ws; out.window_end = we; }
+    // window segments → cc schema (same rule as the subject-sets editors)
+    var segs = cpReadWinState().filter(function (s) { return s.type === 'fixed' ? (s.start && s.end) : true; });
+    if (segs.length === 1 && segs[0].type === 'fixed' && /^\d\d:\d\d$/.test(segs[0].start) && /^\d\d:\d\d$/.test(segs[0].end)) {
+      out.window_start = segs[0].start; out.window_end = segs[0].end;
+    } else if (segs.length) {
+      out.windows = segs.map(function (s) {
+        return s.type === 'fixed' ? { type: 'fixed', start: s.start, end: s.end } : { type: s.type, offset_minutes: s.offset_minutes || 0 };
+      });
+    }
     var monthsWrap = els.overlay.querySelector('#cl-cp-cc-months');
     if (monthsWrap) {
       var months = [].slice.call(monthsWrap.querySelectorAll('input[type="checkbox"]:checked'))

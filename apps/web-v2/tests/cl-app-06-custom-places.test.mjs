@@ -26,9 +26,11 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 // ------------------------------------------------------------- (1) source
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
   // CL-INT-206 merge: clapp06g (patch-8) + clapp08a (shared-fetch tag) ->
-  // clapp08b on the merged tree (per-file cache-bust rule, monotonic)
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp08b/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp08b/);
+  // clapp08b on the merged tree; CL-APP-09-p3 (popup anatomy) -> clapp09d
+  // (per-file cache-bust rule, monotonic)
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09d/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09d/);
+  assert.doesNotMatch(htmlSource, /custom-places\.(css|js)\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
@@ -151,7 +153,10 @@ test('CL-APP-06 (1d): tri-lingual dictionary parity in the asset', () => {
     'pin_map_loading', 'ai_conflict', 'p_months', 'p_months_hint',
     // patch-7: private-card forecast popup (quick view / 8-day strip / subjects)
     'qv_title', 'qv_quick', 'qv_days', 'qv_no_data', 'qv_no_data_note', 'qv_subjects',
-    'qv_subject_custom', 'qv_baseline', 'qv_entry', 'qv_load_fail', 'qv_gen',
+    // patch-9: qv_baseline removed (dual-truth residue); qv_general + the
+    // official 「條件 ×{n}」 collapse copy are tri-lingual
+    'qv_subject_custom', 'qv_general', 'qv_entry', 'qv_load_fail', 'qv_gen',
+    'cond_n', 'cond_required',
     // patch-8: theme list manager + per-theme form (trilingual)
     'th_title', 'th_sub', 'th_add', 'th_cap_note', 'th_empty', 'th_count',
     'th_name', 'th_name_ph', 'th_name_required', 'th_del_title',
@@ -267,6 +272,12 @@ async function bootBrowser() {
         { id: 'tg3', placeId: 'cp3', name: '風平窗', nameI18n: null,
           conditions: { wind_max_ms: 5 },
           evaluation: { tier: 'no', reason: '風強', window: null } },
+        // patch-9: a LEGACY group — the worker's lazy migration auto-named the
+        // old single blob 「題材 1」 with no nameI18n. Display must never show
+        // the placeholder: this set is an EXACT night_sky starter match → 星空.
+        { id: 'tg9', placeId: 'cp6', name: '題材 1', nameI18n: null,
+          conditions: { cloud_low_max: 20, visibility_min_km: 10, precip_max_mmh: 0.2, window_start: '21:00', window_end: '03:00' },
+          evaluation: { tier: 'rec', reason: null, window: '2026-11-16 21:00' } },
       ];
       var __cpThemeSeq = 0;
       var __cpPlaces = [
@@ -293,6 +304,11 @@ async function bootBrowser() {
           customConditions: null, status: 'active', createdAt: '', updatedAt: '',
           evaluation: { tier: 'pending', reason: null, window: null, evaluatedAt: null, private: true },
           refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: true, fetchDueAt: '2026-11-16 00:05:00' },
+        // patch-9: carries the legacy auto-named group (see __cpThemes tg9)
+        { id: 'cp6', name: '合歡北峰瞭望台', lat: 24.14, lng: 121.27, elevation: 3200, timezone: 'Asia/Taipei',
+          customConditions: null, status: 'active', createdAt: '', updatedAt: '',
+          evaluation: { tier: 'rec', reason: null, window: '2026-11-16 21:00', evaluatedAt: '2026-11-15T10:00:00Z', private: true },
+          refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
       ];
       var __cpThemeCap = 5;
       // CL-APP-08: shared-fetch groups (same-member grid dedup) — cp1 is the
@@ -469,6 +485,7 @@ test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject ro
     }));
     const c3 = document.querySelector('.cl-cp-card[data-cp-id="cp3"]');
     const c2 = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
+    const c6 = document.querySelector('.cl-cp-card[data-cp-id="cp6"]');
     const more = card.querySelector('.cl-cp-more');
     more.click();
     const menu = document.getElementById('cl-cp-menu');
@@ -488,6 +505,12 @@ test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject ro
         name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
         window: r.querySelector('.cl-cp-window') && r.querySelector('.cl-cp-window').textContent,
       })) : [],
+      // patch-9: the legacy 「題材 1」 group renders the USER's genre name
+      cp6Rows: c6 ? [...c6.querySelectorAll('.cl-subject-row')].map(r => ({
+        tier: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').textContent,
+        name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
+      })) : [],
+      cp6Coord: c6 ? (c6.querySelector('.cl-cp-coord') || {}).textContent : null,
       acts, menuOpen: getComputedStyle(menu).display,
       menuParentIsBody: menu.parentNode === document.body,
       menuPos: getComputedStyle(menu).position,
@@ -511,6 +534,17 @@ test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject ro
   assert.equal(probe.cp2Baseline.length, 1, 'no groups → the baseline row (legacy anatomy preserved)');
   assert.equal(probe.cp2Baseline[0].tier, '○');
   assert.match(probe.cp2Baseline[0].window, /2026-11-16 06:00/);
+  // patch-9: the legacy auto-named group shows the user's GENRE (exact
+  // night_sky starter match → 星空), never the 「題材 1」 migration placeholder
+  assert.equal(probe.cp6Rows.length, 1);
+  assert.equal(probe.cp6Rows[0].tier, '✓');
+  assert.match(probe.cp6Rows[0].name, /^星空$/, 'legacy 「題材 1」 renders as the matched genre short name');
+  assert.doesNotMatch(probe.cp6Rows[0].name, /題材 1/);
+  // patch-9: the card sub-line uses the same official meta anatomy
+  assert.match(probe.cp6Coord, /24\.140, 121\.270/);
+  assert.match(probe.cp6Coord, /3200 m/);
+  assert.match(probe.cp6Coord, /GMT\+8/);
+  assert.doesNotMatch(probe.cp6Coord, /Asia\/Taipei/);
   assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit', 'refetch'], 'menu is 編輯／掛題材·條件／🔄 獨立重新抓取／刪除 (nom removed patch-8, refetch added CL-APP-08)');
   assert.equal(probe.menuOpen, 'block', '⋯ menu opens');
   // CL-APP-08: cp2 (grouped with cp1) shows the shared-data tag, computed-visible
@@ -682,7 +716,8 @@ test('CL-APP-06 (2h, patch-8): 「掛題材·條件」 = LIST manager — groups
     gs.dispatchEvent(new Event('change'));
     await new Promise(r => setTimeout(r, 100));
     const starterCloud = ov.querySelector('#cl-cp-sem-cloud').value;
-    const starterWin = [ov.querySelector('#cl-cp-cc-start').value, ov.querySelector('#cl-cp-cc-end').value];
+    // CL-APP-09 patch-2: the window editor is now segment-based (#cl-cp-ws0-*)
+    const starterWin = [ov.querySelector('#cl-cp-ws0-start').value, ov.querySelector('#cl-cp-ws0-end').value];
     const advanced = ov.querySelector('.cl-cp-cc-advanced');
     Object.assign(out, { map0, low0, map1, low1, prev, genreOptions, starterCloud, starterWin, advancedOpenDefault: advanced.open });
     // disabled-reason pattern: clearing the name → the button prints it
@@ -738,7 +773,7 @@ test('CL-APP-06 (2i): ✨ one-sentence AI parse fills the semantic selects (AI o
       fog: ov.querySelector('#cl-cp-sem-fog').value,
       rain: ov.querySelector('#cl-cp-sem-rain').value,
       mapCloud: ov.querySelector('#cl-cp-sem-map-cloud').textContent,
-      win: [ov.querySelector('#cl-cp-cc-start').value, ov.querySelector('#cl-cp-cc-end').value],
+      win: [ov.querySelector('#cl-cp-ws0-start').value, ov.querySelector('#cl-cp-ws0-end').value],
       wind: ov.querySelector('#cl-cp-cc-wind').value,
       note,
     };
@@ -1151,7 +1186,8 @@ test('CL-APP-06 (1g, patch-4/5): mini-map deferred-init contract + ticket-langua
   assert.match(jsSource, /if \(s\.conflict\)[\s\S]{0,200}ai_conflict\.replace\('\{m\}', s\.conflict\)/);
   assert.match(jsSource, /ai_conflict: '⚠ 條件矛盾：\{m\}——請擇一，AI 未套用任何值。'/);
   // patch-5 ②: the example copy is conflict-free (single time window)
-  assert.match(jsSource, /ai_ph: '例如：清晨要能看到雲海，不要下雨，最好六點前'/);
+  // CL-APP-09 patch-2: the example speaks in the photographer's voice (cloud-sea at dawn IS the deck window)
+  assert.match(jsSource, /ai_ph: '例如：清晨六點前要有雲海，不要下雨，風要小，能見度要好'/);
   // patch-5 ④: months multi-select, default all-year, seasonal starters prefill
   assert.match(jsSource, /p_months: '適用月份'/);
   assert.match(jsSource, /id="cl-cp-cc-months"/);
@@ -1265,7 +1301,7 @@ test('CL-APP-06 (2s, patch-5): conditions modal — no ticket language, conflict
     await new Promise(r => setTimeout(r, 400));
     out.conflictNote = ov.querySelector('#cl-cp-ai-note').textContent;
     out.cloudAfterConflict = ov.querySelector('#cl-cp-sem-cloud').value;
-    out.winStartAfterConflict = ov.querySelector('#cl-cp-cc-start').value;
+    out.winStartAfterConflict = ov.querySelector('#cl-cp-ws0-start').value;
     out.previewUnchanged = ov.querySelector('#cl-cp-cc-prev').textContent === prevBefore;
     window.__clcpFetch = realFetch;
     return out;
@@ -1296,9 +1332,26 @@ test('CL-APP-06 (1h, patch-7): private-card click → forecast popup — source 
   // 8-day grid: honest ─ for uncovered days, M/D labels
   assert.match(jsSource, /qv_no_data_note/);
   assert.match(jsSource, /day\.date\.slice\(5\)\.replace\('-', '\/'\)/);
-  // patch-8: per-subject rows — ONE row per theme group (named) + the baseline
-  assert.match(jsSource, /groups\.forEach\(function \(g\) \{ subjects\.push\(\{ name: themeName\(g\), cond: g\.conditions \|\| null \}\); \}\)/);
-  assert.match(jsSource, /CP_GENERAL_BASELINE = \{ precip_max_mmh: 2, visibility_min_km: 3, wind_max_ms: 10 \}/);
+  // patch-8/9: per-subject rows — ONE row per theme group (named with the
+  // USER's name; the legacy 「題材 1」 migration placeholder falls back to the
+  // genre short name / 自訂條件) — and NO separate general-baseline row.
+  assert.match(jsSource, /groups\.forEach\(function \(g\) \{ subjects\.push\(\{ name: themeDisplayName\(g\), cond: g\.conditions \|\| null \}\); \}\)/);
+  assert.doesNotMatch(jsSource, /qv_baseline/, 'the 「一般基準」 dual-truth label is swept from the asset');
+  assert.doesNotMatch(jsSource, /CP_GENERAL_BASELINE/, 'the baseline constant is gone');
+  // patch-9: the popup rides the official 「條件 ×{n}」 collapse (summary +
+  // 成立條件 rows); a set with no active constraints renders no collapse
+  assert.match(jsSource, /function cpCondDetails\(cc\)/);
+  assert.match(jsSource, /cond_n\.replace\('\{n\}'/);
+  assert.match(jsSource, /cl-cp-qv-cond/);
+  // patch-9: official meta-line anatomy — coords at 3 decimals, GMT±n zone
+  assert.match(jsSource, /function cpMetaLine\(p\)/);
+  assert.match(jsSource, /toFixed\(3\)/);
+  assert.match(jsSource, /function cpTzLabel\(tz\)/);
+  assert.match(jsSource, /shortOffset/);
+  assert.doesNotMatch(jsSource, /esc\(p\.lat\)/, 'raw full-precision coords never render');
+  // patch-9: the popup (and only the popup) opts out of the 100vh sheet stretch
+  assert.match(jsSource, /openOverlay\(html, 'cl-cp-qv-modal'\)/);
+  assert.match(cssSource, /\.cl-cp-overlay \.cl-cp-modal\.cl-cp-qv-modal\{min-height:auto\}/);
   // 題材 panel entry: the user's custom conditions open the conditions panel
   assert.match(jsSource, /entry\.addEventListener\('click', function \(\) \{ ccModal\(p\); \}\)/);
   // close button + endpoint wiring on the worker side
@@ -1345,6 +1398,17 @@ test('CL-APP-06 (2t, patch-7): clicking a private card opens the forecast popup 
       day2: r.querySelectorAll('.cl-cp-qv-cell')[1].className + ':' + r.querySelectorAll('.cl-cp-qv-cell')[1].textContent,
     }));
     out.subjectRows = rows;
+    // patch-9: official meta-line anatomy in the popup header
+    out.headerSub = ov.querySelector('.cl-cp-m-head .sub') && ov.querySelector('.cl-cp-m-head .sub').textContent;
+    // patch-9: the official 「條件 ×{n}」 collapse under each subject row
+    const cond = ov.querySelector('.cl-cp-qv-cond');
+    out.condSummary = cond ? cond.querySelector('summary').textContent : null;
+    if (cond) {
+      cond.setAttribute('open', '');
+      out.condGroup = cond.querySelector('.cl-cp-cond-group') && cond.querySelector('.cl-cp-cond-group').textContent;
+      out.condRows = [...cond.querySelectorAll('.cl-cp-cond-row')].map(r => r.textContent);
+    }
+    out.qvModalCls = ov.querySelector('.cl-cp-modal').className;
     // 題材 panel entry opens the conditions panel (user's custom conditions there)
     ov.querySelector('#cl-cp-qv-subject-entry').click();
     await new Promise(r => setTimeout(r, 250));
@@ -1371,15 +1435,53 @@ test('CL-APP-06 (2t, patch-7): clicking a private card opens the forecast popup 
   assert.match(probe.day2, /bad.*11\/17.*✗/, 'day 2: low cloud blows the custom threshold');
   assert.match(probe.day8, /none.*─/, 'day 8: honest ─ — the ~48h feed does not cover it');
   assert.match(probe.day8Title, /尚無資料/, 'the ─ explains itself');
-  assert.equal(probe.subjectRows.length, 2, '雲海窗 group row + 一般基準 row');
+  // patch-9: ONE truth — the per-subject rows only; the separate 「一般基準」
+  // row (dual-truth residue) is gone.
+  assert.equal(probe.subjectRows.length, 1, '雲海窗 group row — no 一般基準 row beside it');
   assert.match(probe.subjectRows[0].name, /雲海窗/, 'the theme GROUP name is the row name (official subject-row anatomy)');
   assert.match(probe.subjectRows[0].day1, /ok.*✓/);
   assert.match(probe.subjectRows[0].day2, /bad.*✗/, 'group row: day 2 fails the tuned cloud threshold');
-  assert.match(probe.subjectRows[1].name, /一般基準/);
-  assert.match(probe.subjectRows[1].day2, /ok.*✓/, 'baseline row: day 2 is shootable (90% low cloud only fails the custom threshold)');
+  // patch-9: official meta-line anatomy — 3-decimal coords · elevation · GMT±n
+  assert.match(probe.headerSub, /23\.941, 121\.152/, 'coords at 3 decimals (never full precision)');
+  assert.match(probe.headerSub, /1150 m/, 'elevation rides the meta line');
+  assert.match(probe.headerSub, /GMT\+8/, 'the zone renders as GMT±n, never the raw IANA string');
+  assert.doesNotMatch(probe.headerSub, /Asia\/Taipei/);
+  // patch-9: the official 「條件 ×{n}」 collapse (成立條件 rows)
+  assert.match(probe.condSummary, /條件 ×2/, '低雲 + 時窗 = two active conditions');
+  assert.match(probe.condGroup, /成立條件/, 'REQUIRED-role group label (official condition-list semantics)');
+  assert.equal(probe.condRows.length, 2);
+  assert.match(probe.condRows[0], /低雲/);
+  assert.match(probe.condRows[0], /≤ 15%/);
+  assert.match(probe.condRows[1], /時窗/);
+  assert.match(probe.condRows[1], /04:30–07:00/);
+  assert.match(probe.qvModalCls, /cl-cp-qv-modal/, 'the popup carries the content-height class');
   assert.match(probe.subjectPanelTitle, /掛題材|題材/, '題材 entry opens the theme list manager');
   assert.equal(probe.closed, true, '✕ closes the popup');
   assert.equal(probe.keyboardOpens, true, 'Enter on the card opens the popup');
+});
+
+test('CL-APP-09-p3: at 390 the forecast popup height follows its content (never a full blank sheet)', async () => {
+  await bootBrowser();
+  await setViewport(390, 844, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
+    card.querySelector('.cl-cp-card-name').click();
+    await new Promise(r => setTimeout(r, 250));
+    const ov = document.querySelector('.cl-cp-overlay');
+    const m = ov.querySelector('.cl-cp-modal');
+    const t0 = Date.now();
+    while (m.querySelector('#cl-cp-qv-days .cl-cp-qv-loading') && Date.now() - t0 < 5000) await new Promise(r => setTimeout(r, 100));
+    await new Promise(r => setTimeout(r, 150));
+    const mr = m.getBoundingClientRect();
+    const cs = getComputedStyle(m);
+    // the editor sheet (no cl-cp-qv-modal class) must keep the 100vh keyboard fit
+    return { h: Math.round(mr.height), vh: window.innerHeight, cls: m.className, minH: cs.minHeight };
+  })()`);
+  assert.match(probe.cls, /cl-cp-qv-modal/);
+  assert.ok(probe.h <= probe.vh - 40,
+    `popup height ${probe.h}px must follow the content (viewport ${probe.vh}px — no full-height stretch)`);
+  assert.ok(probe.h > 200, 'the popup still renders its full anatomy');
 });
 
 test('CL-APP-06 (2u, patch-8): theme manager CRUD — create (dup names NOT blocked) rides the real POST path; delete reopens the refreshed list', async () => {

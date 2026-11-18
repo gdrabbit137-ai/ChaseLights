@@ -206,9 +206,20 @@ body.cl-cp-lock{overflow:hidden}
 .cl-cp-qv-cell.ok .v{color:var(--cl-green-text)}
 .cl-cp-qv-cell.bad .v{color:var(--cl-red-text)}
 .cl-cp-qv-cell.none .v{color:var(--cl-text-3)}
-.cl-cp-qv-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;min-width:0}
+.cl-cp-qv-row{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px;min-width:0}
 .cl-cp-qv-row-name{flex:0 0 auto;font-size:12px;color:var(--cl-text-1);max-width:88px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cl-cp-qv-row-strip{flex:1;min-width:0}
+/* patch-9: the official 「條件 ×{n}」 collapse under each subject row —
+   official anatomy (count summary → role group → threshold rows) */
+.cl-cp-qv-row-main{flex:1;min-width:0}
+.cl-cp-qv-cond{margin-top:3px}
+.cl-cp-qv-cond summary{cursor:pointer;list-style:none;font-size:12px;color:var(--cl-text-3);padding:2px 0}
+.cl-cp-qv-cond summary::-webkit-details-marker{display:none}
+.cl-cp-qv-cond summary::before{content:'▸ ';color:var(--cl-text-3)}
+.cl-cp-qv-cond[open] summary::before{content:'▾ '}
+.cl-cp-cond-group{font-size:11px;color:var(--cl-text-3);margin:2px 0}
+.cl-cp-cond-row{font-size:12px;color:var(--cl-text-2);padding:1px 0}
+.cl-cp-cond-row b{font-weight:600;color:var(--cl-text-1);margin-right:6px}
 .cl-cp-qv-none{font-size:12px;color:var(--cl-text-3);padding:var(--cl-sp-2) 0}
 .cl-cp-qv-loading{font-size:12px;color:var(--cl-text-3);padding:var(--cl-sp-2) 0}
 .cl-cp-qv-actions{display:flex;justify-content:flex-end;margin-top:var(--cl-sp-3)}
@@ -257,4 +268,8 @@ body.cl-cp-lock{overflow:hidden}
      keeps the name field and the submit button reachable */
   .cl-cp-overlay{padding:0}
   .cl-cp-overlay .cl-cp-modal{max-width:390px;min-height:100vh;max-height:100vh;border-radius:0}
+  /* patch-9 (owner ruling): the forecast popup follows its content — a short
+     quick-view must not stretch into a full blank screen. The editor sheet
+     keeps the 100vh keyboard fit (CL-APP-09b). */
+  .cl-cp-overlay .cl-cp-modal.cl-cp-qv-modal{min-height:auto}
 }

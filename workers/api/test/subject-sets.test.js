@@ -410,3 +410,83 @@ test("verdictCacheKey folds the forecast generation in (stale verdicts impossibl
   assert.notEqual(k1, k2);
   assert.match(k1, /^v1:ssc:tw-014:/);
 });
+
+// --------------------------------------------------------------------- ⛅ CL-APP-09 patch-2: anchor + multi-segment windows
+test("windows schema: two-segment anchor/mixed accepted by POST /subject_sets; >2 / bad shape / flat mixing rejected", async () => {
+  const { env } = makeEnv();
+  seedUser(env.DB, "u20", "paid");
+  const token = await mint(env, "u20");
+  let placeSeq = 0;
+  const mk = (conditions, name = "W") => createSet(env, token, { place_id: `tw-01${++placeSeq}`, name, conditions });
+  // ① blue-hour two-segment anchor pair (owner example) — accepted, stored verbatim
+  const ok = await mk({ windows: [
+    { type: "before_sunrise", offset_minutes: -30 },
+    { type: "after_sunset", offset_minutes: -20 },
+  ] });
+  assert.equal(ok.status, 200);
+  assert.deepEqual((await ok.json()).set.conditions.windows, [
+    { type: "before_sunrise", offset_minutes: -30 },
+    { type: "after_sunset", offset_minutes: -20 },
+  ]);
+  // ② mixed fixed + anchor
+  assert.equal((await mk({ windows: [{ type: "fixed", start: "05:00", end: "06:00" }, { type: "before_sunset", offset_minutes: 15 }] })).status, 200);
+  // ③ single anchor segment accepted
+  assert.equal((await mk({ windows: [{ type: "before_sunrise" }] })).status, 200);
+  // ④ more than 2 segments → rejected
+  assert.equal((await mk({ windows: [{ type: "before_sunrise" }, { type: "after_sunset" }, { type: "fixed", start: "05:00", end: "06:00" }] })).status, 400);
+  // ⑤ fixed segment missing a bound → rejected
+  assert.equal((await mk({ windows: [{ type: "fixed", start: "05:00" }] })).status, 400);
+  // ⑥ anchor carrying the forbidden complement → rejected
+  assert.equal((await mk({ windows: [{ type: "before_sunrise", end: "06:00" }] })).status, 400);
+  // ⑦ windows mixed with flat window fields → rejected (ambiguous)
+  assert.equal((await mk({ windows: [{ type: "before_sunrise" }], window_start: "05:00", window_end: "06:00" })).status, 400);
+  // ⑧ flat anchor form still accepted (legacy single segment)
+  const flat = await mk({ window_type: "after_sunrise", offset_minutes: 20 });
+  assert.equal(flat.status, 200);
+  assert.deepEqual((await flat.json()).set.conditions.windows, [{ type: "after_sunrise", offset_minutes: 20 }]);
+  // ⑨ legacy plain fixed bounds still accepted untouched
+  const legacy = await mk({ cloud_low_max: 20, window_start: "04:30", window_end: "07:00" }, "L");
+  assert.equal(legacy.status, 200);
+  assert.equal((await legacy.json()).set.conditions.windows, undefined);
+  // ⑩ offset out of range → rejected
+  assert.equal((await mk({ windows: [{ type: "before_sunrise", offset_minutes: 721 }] })).status, 400);
+});
+
+test("evaluateSet: anchor windows expand with REAL sun times — winter/summer differ; ANY of two segments passes; unresolved anchor is honest", async () => {
+  const ctx = { lat: 25.033, lng: 121.5654, utcOffsetHours: 8 };
+  const mkRow = (id, conditions) => ({ id, name: "N", conditions: JSON.stringify(conditions), months: JSON.stringify([]) });
+  const hours = (dates) => dates.flatMap(([d, hs]) => hs.map((h) => ({ local_date: d, hour: h, values: { cloud_low: 10, precipitation: 0, visibility: 20, wind: 3 } })));
+  // 台北 winter sunrise ≈ 06:23, summer ≈ 05:10 (03:xx for 06-21). Before-sunrise
+  // rows: 05:00 is INSIDE in summer (sun ~05:05... use 04:00 in/05:59 out for
+  // winter), and the SAME fixed set of hour strings must flip across seasons.
+  const row = mkRow("s1", { windows: [{ type: "before_sunrise" }] });
+  const winter = evaluateSet(row, hours([["2026-12-03", ["05:00", "06:00", "07:00"]]]), ctx);
+  // winter sunrise 06:23 → window [00:00, 06:23]: 05:00/06:00 pass, 07:00 out
+  assert.equal(winter.tier, "rec");
+  assert.deepEqual(winter.window, { local_date: "2026-12-03", hours: ["05:00", "06:00"] });
+  const summer = evaluateSet(row, hours([["2026-06-21", ["04:00", "05:00", "06:00"]]]), ctx);
+  assert.equal(summer.tier, "rec", "04:00/05:00 sit before the ~05:05 summer sunrise");
+  assert.ok(summer.window.hours.every((h) => h <= "05:00"), "summer: only pre-sunrise hours pass");
+  assert.deepEqual(summer.window.hours, ["04:00", "05:00"]);
+  // windowResolved carries the REAL resolved bounds for the next window day
+  assert.equal(winter.windowResolved[0].type, "before_sunrise");
+  assert.equal(winter.windowResolved[0].end, "06:23");
+  assert.equal(summer.windowResolved[0].end, "05:05");
+  // ② mixed two segments: either passes (blue hour morning AND evening)
+  const mixed = evaluateSet(mkRow("s2", { windows: [
+    { type: "before_sunrise", offset_minutes: -30 },
+    { type: "after_sunset", offset_minutes: -20 },
+  ] }), hours([["2026-12-03", ["05:30", "12:00", "16:45"]]]), ctx);
+  // winter sunset 17:03 → after_sunset-20 = 16:43 → 16:45 in; before_sunrise-30 = 05:53 → 05:30 in
+  assert.equal(mixed.tier, "rec");
+  assert.deepEqual(mixed.window.hours, ["05:30", "16:45"]);
+  assert.equal(mixed.windowResolved.length, 2);
+  // ③ unresolved anchor (no coords yet): matches NOTHING with an honest reason
+  const pending = evaluateSet(mkRow("s3", { windows: [{ type: "before_sunrise" }] }), hours([["2026-12-03", ["05:00"]]]), null);
+  assert.equal(pending.tier, "no");
+  assert.equal(pending.failReason, "時段待座標同步");
+  // ④ offset shifts the anchor bound (before_sunrise -30 ends 30 min early)
+  const off = evaluateSet(mkRow("s4", { windows: [{ type: "before_sunrise", offset_minutes: -30 }] }), hours([["2026-12-03", ["05:50", "06:00"]]]), ctx);
+  assert.equal(off.tier, "rec");
+  assert.deepEqual(off.window.hours, ["05:50"], "06:00 is past 05:53 (sunrise 06:23 − 30)");
+});
