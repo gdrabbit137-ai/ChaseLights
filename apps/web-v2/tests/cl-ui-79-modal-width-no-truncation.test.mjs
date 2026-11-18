@@ -70,6 +70,7 @@ const BROWSER = process.env.CHROMIUM_EXECUTABLE
 
 const stripHtml = (() => {
   const helperCode = grab('function compactHourSegmentsText', 'function v2ContractThreshold')
+    + grab('function v2MetricName', '// CL-COPY-01:')
     + grab('function v2DominantFailMetric', 'function v2DayStripHtml')
     + grab('function v2DayStripHtml', '// CL-UI-64: top');
   const prelude = `

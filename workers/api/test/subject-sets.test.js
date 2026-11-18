@@ -14,6 +14,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   CAP_PLACE, CAP_TOTAL_FREE, DAILY_ADD_LIMIT, capPlaceFor, capTotalFor, capsPayload,
+  dailyAddCappedFor,
   handleSubjectSetCreate, handleSubjectSetsEval, handleSubjectSetsEvalBatch,
   evaluateSet, verdictCacheKey, DEFAULT_MAX_BATCH_PLACES, DEFAULT_MAX_BATCH_SETS,
   DEFAULT_MAX_KV_WRITES_USER_DAY, MAX_IDS_PER_BATCH_REQUEST,
@@ -198,7 +199,7 @@ test("create: paid 5 per place — 6th (older rows seeded so the daily throttle 
   assert.deepEqual(b.caps, { place: 5, total: null }); // paid has NO total cap
 });
 
-test("create: paid daily add throttle 5 — the 6th same-UTC-day creation is 403 daily_add (anti-churn, owner exempt)", async () => {
+test("create: paid has NO daily add throttle — the 6th same-UTC-day creation passes (FREE-only throttle, owner ruling 微調)", async () => {
   const { env } = makeEnv();
   seedUser(env.DB, "u5", "paid");
   const token = await mint(env, "u5");
@@ -207,9 +208,10 @@ test("create: paid daily add throttle 5 — the 6th same-UTC-day creation is 403
     assert.equal(r.status, 200);
   }
   const sixth = await createSet(env, token, { place_id: "tw-030", name: "d6", conditions: CC_OK });
-  assert.equal(sixth.status, 403);
-  const b = await sixth.json();
-  assert.equal(b.message._t, "daily_add");
+  assert.equal(sixth.status, 200, "paid is never day-throttled (daily add cap is FREE-only)");
+  // and the free-as-paid flag lifts it identically
+  assert.equal(dailyAddCappedFor("paid", false), false);
+  assert.equal(dailyAddCappedFor("free", true), false);
 });
 
 test("create: free TOTAL cap 5 — a 6th set (older rows seeded, daily adds unused) 403 total_cap", async () => {

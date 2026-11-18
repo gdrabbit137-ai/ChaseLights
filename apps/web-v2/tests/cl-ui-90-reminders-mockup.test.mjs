@@ -24,8 +24,8 @@ const bundle = JSON.parse(read('apps/web-v2/evaluations-latest.json'));
 
 // ---- (1) page anatomy pins (mockup 逐字對應) -------------------------------
 test('CL-UI-90 (1) reminders.html carries the mockup add-flow anatomy', () => {
-  // title row + count
-  assert.match(remHtml, /<h1>🔔 <span id="page-title">/);
+  // title row + count (CL-APP-09: the page is now 「我的」 — icon 👤)
+  assert.match(remHtml, /<h1>👤 <span id="page-title">/);
   assert.match(remHtml, /id="rem-count"/);
   // three-tier flow with arrow indicators + parallel keyword search
   assert.match(remHtml, /class="rem-add-flow"/);

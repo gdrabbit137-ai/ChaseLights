@@ -7,10 +7,12 @@
 //   - caps (owner ruling, 追加2 ① + FINAL 收斂): every place carries up to
 //     5 sets per user (paid AND free), owner unlimited, and there is NO
 //     system-wide total cap for paid; the free tier is bounded by a
-//     5-set TOTAL plus a 5-per-day add throttle:
+//     5-set TOTAL plus a 5-per-day add throttle (owner wording:
+//     「Free 的總量5組，每天新增的上限也是5組」 — the daily add limit
+//     applies ONLY to free; paid/owner are never throttled by it):
 //       per official place  5 sets per user (paid / free / free-as-paid)
 //       free total          5 sets across all places
-//       daily add           5 new sets per UTC day (non-owner, anti-churn)
+//       daily add           5 new sets per UTC day (FREE ONLY — paid ∞)
 //       owner               unlimited
 //     over-cap is FAIL-CLOSED 403 with the concrete numbers + upgrade
 //     guidance (the client renders the gray upgrade card);
@@ -43,7 +45,7 @@ import { dominantFailWord, NAME_MAX_LEN } from "./custom-places.js";
 
 export const CAP_PLACE = 5;       // per-place cap — paid AND free (owner ∞)
 export const CAP_TOTAL_FREE = 5;  // final ruling: free TOTAL across all places
-export const DAILY_ADD_LIMIT = 5; // final ruling: max 5 NEW sets per UTC day (non-owner)
+export const DAILY_ADD_LIMIT = 5; // final ruling: max 5 NEW sets per UTC day (FREE tier only)
 export const THIRTY_PCT = 0.3;
 export const NAME_LEN_LIMIT = NAME_MAX_LEN;
 
@@ -102,11 +104,13 @@ async function requireSession(req, env) {
   return session && session.sub ? session : null;
 }
 
-// Owner ruling 追加2 ① + FINAL caps ruling (合流收斂 2026-11-18): per place
+// Owner ruling 追加2 ① + FINAL caps ruling (合流收斂 2026-11-18 + 微調: the
+// daily-add throttle is FREE-ONLY — owner re-worded it as 「Free 的總量5組，
+// 每天新增的上限也是5組」, so paid/owner are never day-throttled): per place
 // 5 sets for EVERY member level (paid AND free), owner unlimited; the free
 // trial is bounded by a TOTAL of 5 sets system-wide plus a 5-per-day add
 // throttle (anti-churn, same shape as the custom-places daily brake).
-// Paid has NO total cap (追加2 ① cancelled the 20-set total).
+// Paid has NO total cap and NO daily add cap (追加2 ① cancelled the 20-set total).
 export function capPlaceFor(level, freeAsPaid) {
   if (level === "owner") return Infinity;
   return CAP_PLACE;
@@ -114,6 +118,11 @@ export function capPlaceFor(level, freeAsPaid) {
 export function capTotalFor(level, freeAsPaid) {
   if (level === "owner" || level === "paid" || freeAsPaid) return Infinity;
   return CAP_TOTAL_FREE;
+}
+// The daily-add throttle applies ONLY to the free tier (same predicate as the
+// total cap: paid / owner / free-as-paid are never throttled).
+export function dailyAddCappedFor(level, freeAsPaid) {
+  return capTotalFor(level, freeAsPaid) !== Infinity;
 }
 // JSON-safe caps payload — Infinity serializes as null and every client reads
 // null as 「無上限」 (the custom-places quota convention, one source of truth).
@@ -256,20 +265,23 @@ export async function handleSubjectSetCreate(req, env) {
   const caps = capsPayload(level, freeAsPaid);
   const counts = await countsFor(env, uid, placeId);
   if (level !== "owner") {
-    // FINAL ruling: daily add throttle FIRST (anti-churn, honest 403) —
+    // FINAL ruling (微調): daily add throttle is FREE-ONLY — paid/owner are
+    // never day-throttled (owner: 「Free 的總量5組，每天新增的上限也是5組」).
     // counts today's CREATED rows (created_at 'YYYY-MM-DD HH:MM:SS' UTC).
-    const dayStart = utcDayKey() + " 00:00:00";
-    const today = await env.DB.prepare(
-      "SELECT COUNT(*) AS n FROM custom_subject_sets WHERE user_id = ?1 AND created_at >= ?2"
-    ).bind(uid, dayStart).first();
-    const dailyAdds = (today && today.n) || 0;
-    if (dailyAdds >= DAILY_ADD_LIMIT) {
-      return json(req, 403, {
-        error: "daily add limit reached",
-        reason: "daily_add",
-        message: Object.assign({}, pickMsg("daily_add"), { _t: "daily_add" }),
-        counts, caps,
-      });
+    if (dailyAddCappedFor(level, freeAsPaid)) {
+      const dayStart = utcDayKey() + " 00:00:00";
+      const today = await env.DB.prepare(
+        "SELECT COUNT(*) AS n FROM custom_subject_sets WHERE user_id = ?1 AND created_at >= ?2"
+      ).bind(uid, dayStart).first();
+      const dailyAdds = (today && today.n) || 0;
+      if (dailyAdds >= DAILY_ADD_LIMIT) {
+        return json(req, 403, {
+          error: "daily add limit reached",
+          reason: "daily_add",
+          message: Object.assign({}, pickMsg("daily_add"), { _t: "daily_add" }),
+          counts, caps,
+        });
+      }
     }
     // free trial: TOTAL cap across all places (paid/owner unlimited)
     const capTotal = capTotalFor(level, freeAsPaid);

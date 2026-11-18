@@ -121,10 +121,11 @@ test('CL-UI-28 (7): page toolbars stay below the nav (nav = switching only)', ()
 });
 
 test('CL-UI-28 (8): nav i18n keys exist in all three dictionaries', () => {
-  // CL-UI-58: the reminders page mirrors the nav keys it renders.
+  // CL-APP-09: the reminders nav item was renamed 「我的」 (nav_my) — the
+  // reminders page mirrors the nav keys it renders.
   const navSources = [appJs, read('assets/genre-eval.js'), read('assets/field-intake.js'), read('assets/reminders-page.js')];
   for (const src of navSources) {
-    for (const key of ['nav_cards', 'nav_weathermap', 'nav_reminders']) {
+    for (const key of ['nav_cards', 'nav_weathermap', 'nav_my']) {
       assert.match(src, new RegExp(`${key}:`), `${key} present`);
     }
   }

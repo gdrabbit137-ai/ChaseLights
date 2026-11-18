@@ -140,10 +140,11 @@ test('CL-UI-69 (5): the reminder icon is 🔔 only (owner ruling) — compact to
   assert.match(appCss, /\.cl-rem-btn\.cl-rem-compact\{margin-left:auto;gap:0;padding:3px 7px;min-height:26px/);
   assert.match(appCss, /\.cl-rem-btn\.cl-rem-compact:not\(\.cl-rem-on\)\{filter:grayscale\(1\);opacity:\.5\}/);
   assert.match(appCss, /\.cl-rem-btn\.cl-rem-compact\.cl-rem-on\{background:color-mix\(in srgb, var\(--cl-green\) 16%, transparent\)\}/);
-  // Reminders list name (owner ruling): 提醒清單 / Reminders / リマインダー.
+  // Reminders list name (owner ruling + CL-APP-09 rename): the page title is
+  // now 「我的」/ My Library / マイライブラリ.
   assert.deepEqual([...remPage.matchAll(/page_title: '([^']*)'/g)].map(m => m[1]),
-    ['提醒清單', 'Reminders', 'リマインダー']);
-  assert.match(remHtml, /<title>ChaseLights — 提醒清單<\/title>/);
+    ['我的', 'My Library', 'マイライブラリ']);
+  assert.match(remHtml, /<title>ChaseLights — 我的<\/title>/);
 });
 
 test('CL-UI-69 (6): 390px row rules ship and the page serves the bumped stamps', () => {
