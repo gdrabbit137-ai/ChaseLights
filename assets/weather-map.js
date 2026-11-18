@@ -55,7 +55,7 @@
 
   const WM_STATIC={
     'zh-TW':{
-      nav_cards:'卡片',nav_weathermap:'天氣圖',nav_more_tools:'更多工具 ▾',nav_genre_eval:'題材評估',nav_field_intake:'實拍驗證',nav_reminders:'提醒',
+      nav_cards:'卡片',nav_weathermap:'天氣圖',nav_more_tools:'更多工具 ▾',nav_genre_eval:'題材評估',nav_field_intake:'實拍驗證',nav_my:'我的',
       wm_subtitle:'可切換 Himawari-9 衛星觀測、JMA MSM / CWA WRF / ICON / GFS 預報，以及 CAMS 攝影環境圖層 · 各來源保留自己的語意、範圍與時間',
       wm_source_loading:'載入中…',wm_source_mobile_loading:'資料載入中…',
       wm_info_long:'資料說明',wm_info_short:'資料',
@@ -104,7 +104,7 @@
       wm_layer_sheet_close_aria:'關閉圖層選單'
     },
     'en':{
-      nav_cards:'Cards',nav_weathermap:'Weather map',nav_more_tools:'More tools ▾',nav_genre_eval:'Genre assessment',nav_field_intake:'Field check',nav_reminders:'Reminders',
+      nav_cards:'Cards',nav_weathermap:'Weather map',nav_more_tools:'More tools ▾',nav_genre_eval:'Genre assessment',nav_field_intake:'Field check',nav_my:'My Library',
       wm_subtitle:'Switch between Himawari-9 satellite observations, JMA MSM / CWA WRF / ICON / GFS forecasts, and CAMS photography-environment layers · each source keeps its own semantics, coverage and timing',
       wm_source_loading:'Loading…',wm_source_mobile_loading:'Loading data…',
       wm_info_long:'Data notes',wm_info_short:'Data',
@@ -153,7 +153,7 @@
       wm_layer_sheet_close_aria:'Close layer menu'
     },
     'ja':{
-      nav_cards:'カード',nav_weathermap:'天気マップ',nav_more_tools:'その他のツール ▾',nav_genre_eval:'題材評価',nav_field_intake:'実写検証',nav_reminders:'リマインダー',
+      nav_cards:'カード',nav_weathermap:'天気マップ',nav_more_tools:'その他のツール ▾',nav_genre_eval:'題材評価',nav_field_intake:'実写検証',nav_my:'マイライブラリ',
       wm_subtitle:'Himawari-9 衛星観測、JMA MSM / CWA WRF / ICON / GFS 予報、CAMS 撮影環境レイヤーを切り替えられます · 各ソースは独自の語意・範囲・時間を保持します',
       wm_source_loading:'読み込み中…',wm_source_mobile_loading:'データを読み込み中…',
       wm_info_long:'データ説明',wm_info_short:'データ',
