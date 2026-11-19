@@ -53,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((460,721),(len(actual),len(ids)))  # CL-INT-192 re-anchor: 704 -> 721 (+17 five-genre live ids, measured on the merged tree)
+        self.assertEqual((459,720),(len(actual),len(ids)))  # CL-DATA-76 re-anchor: 460/721 − us-111 retired (id reserved) = 459/720 (measured on the task tree)
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -78,9 +78,7 @@ class ResearchIndexTests(unittest.TestCase):
             'a38356bd36eacbd7f81fa962e251aa21fb48a6fa',  # CL-INT-114 merged-tree regen
             '21198c9cc91e00cdd3df8daea76aac46bf9fb45b',  # CL-DATA-36 batch2
             '1bf8e398e20ebbc76be1157d98bd8dc188216746',  # CL-DATA-37 batch3
-            '23f1bb6c0a90964067d885c3783c99c87a902b86',  # southern-Japan jp records (CL-INT-112 merged-tree state)
-            # (3eb466432 holder retired: its records moved to the CL-DATA-75
-            #  wave re-pin 4ac19a2c6 / c44a18d69 — owner spec §1 contract wave.)
+            '4ac19a2c6d207a39642a7e4e42f53a7e023ba9ff',  # CL-DATA-75 Phase 0 stage A (SS1 four logic fixes): 115 records re-pinned here — supersedes the former CL-INT-112 southern-Japan (23f1bb6c) and 3eb46643 contract-commit holders
             # CL-INT-83: the 8 CL-DATA-18 AI-verified fill records
             # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
             # tw-026-P01/tw-026-P02/us-057-P01) anchored to the provenance
@@ -104,12 +102,6 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-INT-116 merged tree: batch5 (CL-DATA-39) records kept at the
             # main-side regen commit — evidence_refs intact, bytes verified.
             '7a77bea62a609a861b725288f53036e10b750ac9',
-            # CL-DATA-75 (2026-11-20): owner spec §1 four-logic-fix wave — 125
-            # contracts re-pinned to the wave commit 4ac19a2c6, and the two
-            # follow-up re-anchors (jp-010-P01 owner-ruling notes, tw-016-P01
-            # binding-null convention) to c44a18d69.
-            '4ac19a2c6d207a39642a7e4e42f53a7e023ba9ff',
-            'c44a18d69dfbdac6d348dbae9ed9845cfdd6de17',
             # CL-DATA-09: tw-027-P02 re-pinned to the task-branch commit adding
             # the contract-level city_night_window condition (civil darkness
             # <= -6 deg; TIME_SPECIALIZATION §3 misplacement, owner ruling
@@ -129,8 +121,7 @@ class ResearchIndexTests(unittest.TestCase):
             # the touched records to the contract commits, and the three
             # migration-skeleton tidal records were restored to their
             # reviewed-main bytes (commit 86cc3d9bd).
-            'd57d40f8966631783f1385908659bd8c1b82adbd',
-            '86cc3d9bdfaaac110f65361ac77df744cdd4cfa1',
+            'a99fc03cff62cb544dc8c6759eb6045336c701ac',  # CL-DATA-76 stage B re-pin: 98 Gemini-audit contract edits + 3 carriers (101 records) — supersedes the former CL-DATA-12 tidal-restore (d57d40f8/86cc3d9b) holders
             # CL-DATA-13: the touched records' bytes changed (view_azimuth
             # backfill + light_direction pilot contracts) and their blob pins
             # were re-anchored below, but the W2 provenance commit_sha of each
@@ -228,9 +219,9 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-DATA-54: the 13 contract-fix wave records repinned to e6603751b
             # (scoped evaluations regen commit; bytes unchanged since stage-4).
             'e6603751b8571025b9db78d405dbdd65c55476ea',
-            # CL-DATA-57: the two sunset-window promotion records repinned to
-            # 0ab54271b — retired by CL-DATA-75: both records re-pinned to the
-            # §1 wave commits (4ac19a2c6 / c44a18d69) below.
+            # CL-DATA-57: the two sunset-window promotion records were repinned to
+            # 0ab54271b — CL-DATA-75 stage A later re-pinned them to 4ac19a2c6
+            # (entry above), so the 0ab54271b holder left the set.
             # CL-DATA-58: the three round11 water_surface_state/ICE1 records
             # (us-123/us-132/us-143-P01) repinned to 8393d5b3d (contract commit;
             # blob+sha256 verified on the merged tree) — CL-DATA-72: that entry
@@ -245,8 +236,9 @@ class ResearchIndexTests(unittest.TestCase):
             # (final task commit carrying the needs_review navigation bytes;
             # superseded by the CL-DATA-69 re-pin below).
             'a923ee67a3f3edc6c1c258661d8aeedd78a85e18',
-            # CL-DATA-67: jp-049-P01/jp-065-P01 civil light_window repin
-            # 86b3fa825 — retired by CL-DATA-75 (§1 wave re-pin below).
+            # CL-DATA-67: jp-049-P01/jp-065-P01 gained the civil light_window and were
+            # repinned to 86b3fa825 — CL-DATA-75 stage A later re-pinned them to
+            # 4ac19a2c6 (entry above), so the 86b3fa825 holder left the set.
             # CL-DATA-66 wave1: the 37 scoreless Tier-A intake records
             # (tw-125..tw-146) carry their authorship bytes on the task branch —
             # 36 records to fc2e04510 (the intake commit) and tw-141-P01's
@@ -326,7 +318,7 @@ class ResearchIndexTests(unittest.TestCase):
                     self.assertEqual(p['name_i18n'][lang],original[source['start']:source['end']])
                     self.assertEqual(source['value'],p['name_i18n'][lang])
             self.assertEqual('PENDING',p['semantic_review'])
-        self.assertEqual(1380,count)  # 460 places x 3 (CL-DATA-66 wave7 re-anchor: 460 places x 3 = 1380 name spans)
+        self.assertEqual(1377,count)  # 459 places x 3 (CL-DATA-76 re-anchor: 459 places x 3 = 1377 name spans after us-111 retirement)
 
     def test_missing_name_locale_and_foreign_place_source_fail(self):
         bad=copy.deepcopy(self.index);bad['places'][0]['name_i18n'].pop('ja')

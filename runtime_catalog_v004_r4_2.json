@@ -14,10 +14,10 @@
   "runtime_catalog_v004_r4_2_b35_liyu_subjects.json"
  ],
  "counts": {
-  "spots": 473,
-  "opportunities": 726,
-  "condition_variants": 741,
-  "profile_viewpoint_relations": 732
+  "spots": 472,
+  "opportunities": 725,
+  "condition_variants": 740,
+  "profile_viewpoint_relations": 731
  },
  "spots": [
   {
@@ -46321,105 +46321,6 @@
        "coord_confidence": "high",
        "elevation_m": null,
        "coordinate_source": "regions.py spot tuple (us-110)",
-       "verification_status": "cl_data_25_web_verified_2026_11_07",
-       "geometry_type": "area",
-       "geometry_extent_m": 300,
-       "geometry_note": "CL-DATA-25 admission: web-verified place anchor (sources in research_sources); exact tripod position and access not field-surveyed."
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "spot_id": "us-111",
-   "canonical_name": "Brooks Falls – Falls and Brooks River",
-   "product_status": "KEEP",
-   "product_review_stage": "R4_2_CL_DATA_25_DISCOVERY_ADMISSION",
-   "research_sources": [
-    {
-     "authority": "CL-DATA-23 discovery shortlist + CL-DATA-25 web verification (AI, owner ruling 2026-11-07 rubric >=3.8 direct admission)",
-     "url": "https://github.com/",
-     "verified_on": "2026-11-07",
-     "supports": "regions.py spot tuple (us-111). Verified on 2026-11-07; exact tripod position and access not field-surveyed."
-    }
-   ],
-   "opportunities": [
-    {
-     "opportunity_id": "us-111-01",
-     "spot_id": "us-111",
-     "name_zh": "布魯克斯瀑布階梯水景",
-     "legacy_theme": "waterfall",
-     "name_i18n": {
-      "zh-TW": "布魯克斯瀑布階梯水景",
-      "en": "Brooks Falls water staircase",
-      "ja": "ブルックス滝の段状水流"
-     },
-     "best_time": "布魯克斯瀑布階梯水景",
-     "best_time_i18n": {
-      "zh-TW": "本題材尚未核定特定拍攝時段；實際成立與否以當日評估資料為準",
-      "en": "No specific shooting window has been verified for this subject; whether it forms is judged from the day's evaluation data.",
-      "ja": "この題材の特定の撮影時間帯はまだ確認されていません。成立するかは当日の評価データで判断します。"
-     },
-     "mode": "area_opportunity",
-     "sampling_topology": "local_area",
-     "geometry_required": false,
-     "opportunity_confidence": "medium",
-     "formula_status": "needs_waterfall_flow_mist_module",
-     "formula_version": "v0.04-cl-data-25-legacy-us-111-01",
-     "formula_confidence": 50,
-     "best_season": "全年候選，實際成立與否以當日資料為準",
-     "best_season_i18n": {
-      "zh-TW": "全年候選，實際成立與否以當日資料為準",
-      "en": "Year-round candidate; actual validity follows the day's data.",
-      "ja": "通年候補。成立は当日データ次第。"
-     },
-     "condition_variants": [
-      {
-       "variant_id": "VAR-514",
-       "variant_name": "布魯克斯瀑布階梯水景",
-       "hard_gates": "眺望點合法可達且安全；官方封閉/營運停止時不成立",
-       "required_conditions": "以 V2 契約條件為準（draft/provisional，未校準）",
-       "boosters": "布魯克斯河沿斷層跌落的階梯瀑布：水量判據由 72h 累積雨量映射；夏季棕熊在瀑布捕鮭是季節性生態主體，實際可遇性由現場公告與野生動物狀態決定，不納入即時評估判據",
-       "penalties": "惡劣天候、能見度差、營運/季節窗外",
-       "formula_status": "needs_waterfall_flow_mist_module",
-       "variant_name_i18n": {
-        "zh-TW": "布魯克斯瀑布階梯水景",
-        "en": "Brooks Falls water staircase",
-        "ja": "ブルックス滝の段状水流"
-       },
-       "required_conditions_i18n": {
-        "zh-TW": "以 V2 契約條件為準（draft/provisional，未校準）",
-        "en": "Judged by the V2 contract conditions (draft/provisional, uncalibrated).",
-        "ja": "V2契約の条件に従う（draft/provisional、未校正）。"
-       },
-       "boosters_i18n": {
-        "zh-TW": "布魯克斯河沿斷層跌落的階梯瀑布：水量判據由 72h 累積雨量映射；夏季棕熊在瀑布捕鮭是季節性生態主體，實際可遇性由現場公告與野生動物狀態決定，不納入即時評估判據。",
-        "en": "The Brooks River drops over a terrace fault in stepped falls; flow is judged by the trailing-72h-rain mapped state. Summer brown bears fishing the falls are a seasonal ecological subject whose presence on the day is decided on site and is deliberately not part of the live evaluation criteria.",
-        "ja": "ブルックス川が断層で段状に落ちる滝。水量は直前72h累積雨量による状態で判定。夏の熊の鮭漁は季節の生態主体で、当日の遭遇可否は現地判断のためライブ評価基準に含めない。"
-       },
-       "penalties_i18n": {
-        "zh-TW": "惡劣天候、能見度差、營運/季節窗外",
-        "en": "Severe weather, poor visibility, outside operating/season window.",
-        "ja": "悪天候、視程不良、営業・季節窓外。"
-       }
-      }
-     ],
-     "viewpoints": [
-      {
-       "viewpoint_id": "us-111-VP01",
-       "relation_role": "reference",
-       "sort_order": 1,
-       "name": "Brooks Falls – Falls and Brooks River",
-       "name_i18n": {
-        "zh-TW": "Brooks Falls – Falls and Brooks River",
-        "en": "Brooks Falls – Falls and Brooks River",
-        "ja": "Brooks Falls – Falls and Brooks River"
-       },
-       "lat": 58.555,
-       "lon": -155.7915,
-       "coord_confidence": "high",
-       "elevation_m": null,
-       "coordinate_source": "regions.py spot tuple (us-111)",
        "verification_status": "cl_data_25_web_verified_2026_11_07",
        "geometry_type": "area",
        "geometry_extent_m": 300,

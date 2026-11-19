@@ -1,0 +1,71 @@
+CL-DATA-76 verdict comparison — before/after evaluations (zero-real-regression check)
+=====================================================================================
+Date: 2026-11-20 (finisher K)
+BEFORE baseline: c44a18d69 (CL-DATA-75 Phase 0 base, branch point) apps/web-v2/evaluations-latest.json
+AFTER: task/CL-DATA-76 head (stage A contracts -> stage B us-111 retirement -> stage C index rebuild
+       -> stage D count-pin re-anchors), final spliced/regenerated bundle.
+
+World counts (BEFORE -> AFTER)
+------------------------------
+evaluations-latest.json   places 460 -> 459 (us-111 retired, PRODUCT_RETIRED skip; id reserved)
+                          opportunities 719 -> 719 (net: -us-111-P01, +tw-060-P01)
+web catalog.v2.json       460/721 -> 459/720
+runtime catalog           473/726 -> 472/725 spots/opportunities
+manifest us region        160 -> 159 spots
+migration skeletons       (473,726) -> (472,725)
+
+Structural zero-regression checks (programmatic, full bundle)
+-------------------------------------------------------------
+1. condition_contract_sha256 changed: 96 opportunities — ALL map to stage-A contract edits
+   (owner Gemini-audit rulings + second audit wave + unit normalization) or the retirement wave.
+2. Condition-set (metric/tier/role) changed WITHOUT a contract sha change: 0 — no verdict
+   structure drifted outside the edited contracts.
+3. Opportunity membership delta is exactly {+tw-060-P01, -us-111-P01}; place membership delta
+   exactly {-us-111}. No other place entered/left the bundle.
+4. All remaining day-state differences between BEFORE and AFTER sit on records whose contract
+   sha is unchanged AND whose provider run was refreshed to the newer cycle (BEFORE day window
+   starts 2026-11-15/16, AFTER starts 2026-11-20) — weather-cycle drift, not contract drift.
+
+Owner-ruling records: before/after day verdicts (8-day window)
+--------------------------------------------------------------
+tw-059-P01  (tide-decided rebuild, CL-COND-A7)
+  BEFORE: days=8 states={NOT_EVALUABLE: 8} good_hours_total=0   (legacy_mountain_view placeholder)
+  AFTER : days=8 states={UNFAVORABLE: 8} good_hours_total=0     (real tidal contract; water_surface_state
+         UNKNOWN hours degrade honestly to not_evaluatable at hour level)
+tw-060-P01  (tide-decided rebuild, CL-COND-A7)
+  BEFORE: absent (placeholder never evaluated)
+  AFTER : days=8 states={UNFAVORABLE: 8} good_hours_total=0 (honest tidal degradation; enters bundle)
+tw-073-P01  (Laomei green reef: seasonal-calendar 2-5月 registered + tide gate)
+  BEFORE: days=8 states={UNFAVORABLE: 8} good_hours_total=0
+  AFTER : days=8 states={UNFAVORABLE: 8} good_hours_total=0 (structure now seasonal+tide gated; window
+         closed at this cycle, honest)
+tw-074-P01  (label sunrise -> geological_landform family)
+  BEFORE: days=8 states={UNFAVORABLE: 3, GUIDANCE_SATISFIED: 5} good_hours_total=27
+  AFTER : days=8 states={UNFAVORABLE: 5, GUIDANCE_SATISFIED: 3} good_hours_total=33
+tw-076-P01  (mountain_view -> sunrise template; low-cloud 35 REQUIRED, mid-cloud demoted)
+  BEFORE: days=8 states={UNFAVORABLE: 8} good_hours_total=0    (mid-cloud [30,60] vetoed clear sunrises)
+  AFTER : days=8 states={GUIDANCE_SATISFIED: 2, UNFAVORABLE: 6} good_hours_total=2 (defect fixed:
+         clear-coast sunrise days now qualify)
+tw-076-P02  (galactic-core semantics kept — owner did not rule; no verdict change)
+  BEFORE: days=8 states={UNFAVORABLE: 8} good_hours_total=0
+  AFTER : days=8 states={UNFAVORABLE: 8} good_hours_total=0
+tw-078-P01  (Kinmen Jiangong Isle: official ebb-tide landing window + golden-hour anchor)
+  BEFORE: days=8 states={NOT_EVALUABLE: 8} good_hours_total=0   (legacy_mountain_view placeholder)
+  AFTER : days=8 states={UNFAVORABLE: 8} good_hours_total=0     (real contract; tide/hours honest)
+jp-021-P01 / jp-021-P02  (Shinhotaka stargazing official season binding)
+  jp-021-P01 BEFORE: {UNFAVORABLE: 6, GUIDANCE_SATISFIED: 2} gh=2 -> AFTER: {UNFAVORABLE: 7,
+             GUIDANCE_SATISFIED: 1} gh=10 (seasonal_state now gates; weather cycle also refreshed)
+  jp-021-P02 BEFORE: {UNFAVORABLE: 8} -> AFTER: {UNFAVORABLE: 8}
+us-111-P01  (Brooks Falls — RETIRED per owner ruling 2026-11-20)
+  BEFORE: days=8 states={NOT_EVALUABLE: 5, UNFAVORABLE: 3} good_hours_total=0
+  AFTER : removed from bundle (PRODUCT_RETIRED); regions.py tuple + contract file kept, id reserved
+          in manifest retired_spot_ids; weakness row disposition 已裁撤.
+
+Test gates at this head
+-----------------------
+- 14 count-pin re-anchors (CL-DATA-23/51/52/53/64/66 + migration skeletons): 138 passed, 1589 subtests.
+- test_task_x_research_index (CHASELIGHTS_W1_SPEC_ROOT=specs/v2): 18 passed, 6 subtests (~21 min).
+- Full data/v2 python suite: see commit message of this ticket's final test commit for the measured result.
+
+Conclusion: every verdict delta traces to (a) an owner-ruled contract edit, (b) the us-111
+retirement splice, or (c) the newer weather cycle. No unexplained regression.

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-060-P01",
   "place_id": "tw-060",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "雙心石滬完整形態",
@@ -115,10 +115,10 @@
       {
         "id": "C-tw-060-P01-01",
         "role": "REQUIRED",
-        "domain": "ASTRONOMY",
+        "domain": "HYDROLOGY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_reflection",
+        "metric": "water_surface_state",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,15 +127,75 @@
           "tw-060-P01-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "潮汐決定型（CL-COND-A7 慣例）：雙心石滬完整形態只在乾潮露出（漲潮淹沒滬石）。V2 評估層尚無潮汐資料源——誠實 propagate unknown（fail-closed → NOT_EVALUABLE）；legacy 管線已接 tide_state（low_exposure）。拍攝指南：出發前查澎湖潮汐表。",
+          "en": "Tide-decided subject (CL-COND-A7 convention): the full double-heart fish-weir form shows only at low tide (the rising tide submerges the stones). The V2 evaluation layer has no tide data source - honest propagate unknown (fail-closed -> NOT_EVALUABLE); the legacy pipeline already carries tide_state (low_exposure). Shooting guide: check the Penghu tide table first.",
+          "ja": "潮位決定型（CL-COND-A7 慣例）：双心石滬の完全な形は干潮時だけ現れる（満潮で石が水没）。V2評価層に潮汐データソースがない — 誠実に propagate unknown（fail-closed → NOT_EVALUABLE）；legacy パイプラインは tide_state を実装済み（low_exposure）。撮影ガイド：出発前に澎湖の干潮表を確認。"
         },
-        "validation_status": "provisional"
+        "notes_i18n": {
+          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決：補真實條件或誠實標記）：legacy_reflection 佔位由潮汐決定語義取代；V2 誠實 not_evaluatable，legacy tide_state 繼續供卡片判讀。",
+          "en": "2026-11-20 CL-DATA-76 (owner ruling: fill real conditions or label honestly): the legacy_reflection placeholder is replaced by the tide-decided semantics; V2 stays honestly not_evaluatable, and the legacy tide_state module keeps feeding the card verdict.",
+          "ja": "2026-11-20 CL-DATA-76（オーナー裁定）：legacy_reflection のプレースホルダを潮位決定の意味に置換；V2 は誠実に not_evaluatable、legacy tide_state が継続。"
+        }
+      },
+      {
+        "id": "C-tw-060-P01-02",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-060-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "民用光線窗（civil，太陽仰角 > −6°）：石滬攝影是全日題材，夜間一律不符合（CL-DATA-11 同源定義）。",
+          "en": "Civil light window (sun elevation > -6 deg): the fish-weir shoot is an all-day subject; night hours never qualify (CL-DATA-11 same-source definition).",
+          "ja": "市民光ウィンドウ（太陽高度 > -6°）：石滬撮影は終日題材であり、夜間は一律成立しない（CL-DATA-11 同源定義）。"
+        }
+      },
+      {
+        "id": "C-tw-060-P01-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lte",
+        "threshold": 0.3,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-060-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "SHOOT",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "拍攝時降雨 <0.3 mm/h：既審通用門檻。",
+          "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold.",
+          "ja": "撮影時の降水<0.3mm/h。既承認閾値。"
+        }
       }
     ],
-    "recommendation_policy_version": null
+    "recommendation_policy_version": null,
+    "genre_template": "tidal",
+    "template_version": "tidal-v0.1"
   },
   "evidence_claims": [
     {

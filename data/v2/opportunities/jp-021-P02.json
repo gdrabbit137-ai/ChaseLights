@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-021-P02",
   "place_id": "jp-021",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "西穗高口限定星空觀賞便・北阿爾卑斯星空",
@@ -369,6 +369,36 @@
           "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：月光雙軌：月照閘 ≤0.25 取代照度代理（月下時本條件自動成立——評估器對月下月亮的月照一律放行）。",
           "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
           "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
+        }
+      },
+      {
+        "id": "C-jp-021-P02-OP1",
+        "role": "REQUIRED",
+        "domain": "SEASON_TIME",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "seasonal_state",
+        "operator": "eq",
+        "threshold": "window_open",
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-021-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "西穗高口展望台夜間僅在官方「星空観賞便」特別營運日開放（2026 秋季 10/2-4、10/9-12、10/30-11/3、11/6-8，夜間 18:00–21:00，第2纜車特別運行；春季 5/3-5 已結束）。季節窗引擎以日期窗匹配（10-02〜11-08 為官方營運季粗窗超集——精確營運日由 legacy shinhotaka access provider 把關）；窗外的夜空條件再好也不成立（纜車夜間不運行）。",
+          "en": "The Nishihotakaguchi observation deck opens at night only on the official stargazing-service dates (2026 autumn: Oct 2-4, Oct 9-12, Oct 30-Nov 3, Nov 6-8, 18:00-21:00, second ropeway special service; the spring service May 3-5 has ended). The seasonal-window engine matches by date window (10-02..11-08 is the coarse official season superset - the exact service dates are enforced by the legacy shinhotaka access provider); outside the window the night-sky conditions do not matter because the ropeway does not run at night.",
+          "ja": "西穂高口展望台が夜間開放されるのは公式の「星空観賞便」特別運行日のみ（2026年秋：10/2-4、10/9-12、10/30-11/3、11/6-8、18:00-21:00、第2ロープウェイ特別運行；春の5/3-5は終了）。季節窓エンジンは日付窓で照合（10-02〜11-08 は公式営業季の粗い上位集合——正確な営業日は legacy の shinhotaka access provider が担保）；窓外は星空条件が良くても成立しない（夜間は運行しない）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決：綁西穗高口特別營業日曆）。官方營業資訊來源：https://shinhotaka-ropeway.jp/play/ （2026 運行計畫）。legacy 層 shinhotaka_access.py 已登錄官方 2026 日期集並要求當窗即時營運確認。",
+          "en": "2026-11-20 CL-DATA-76 (owner ruling: bind the Nishihotakaguchi special-operation calendar). Official operation source: https://shinhotaka-ropeway.jp/play/ (2026 service plan). The legacy layer (shinhotaka_access.py) already carries the official 2026 date set and requires a same-window live operation confirmation.",
+          "ja": "2026-11-20 CL-DATA-76（オーナー裁定：西穂高口特別営業カレンダーに紐付け）。公式営業情報：https://shinhotaka-ropeway.jp/play/ （2026 運行計画）。legacy 層（shinhotaka_access.py）は公式 2026 日付セットと同窓のライブ運行確認を実装済み。"
         }
       }
     ]

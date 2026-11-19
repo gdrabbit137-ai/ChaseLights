@@ -2,12 +2,12 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-078-P01",
   "place_id": "tw-078",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "建功嶼退潮石板道景觀",
-    "en": "建功嶼退潮石板道景觀",
-    "ja": "建功嶼退潮石板道景觀"
+    "en": "Jiangong Islet tidal stone causeway",
+    "ja": "建功嶼の干潮時に現れる石板道"
   },
   "description_i18n": {
     "zh-TW": "建功嶼退潮石板道景觀（V1 最佳時段：官方可登島退潮窗口；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
@@ -115,10 +115,10 @@
       {
         "id": "C-tw-078-P01-01",
         "role": "REQUIRED",
-        "domain": "ASTRONOMY",
+        "domain": "HYDROLOGY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_mountain_view",
+        "metric": "water_surface_state",
         "operator": "none",
         "threshold": null,
         "unit": null,
@@ -127,12 +127,70 @@
           "tw-078-P01-claim-01"
         ],
         "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "CL-DATA-20（2026-11-06）：本筆標記為潮汐主導題材（genre_template=tidal）。支配條件是潮汐（摩西分海／退潮石板道），非天氣；系統現無潮汐資料源，誠實 not_evaluatable 待潮汐模組實作後再建契約，不提供天氣契約以免誤導（2026-11-01 既定語意）。",
-          "en": "CL-DATA-20 (2026-11-06): this subject is tidal-governed (genre_template=tidal). The governing condition is the tide (Moses sea-parting / exposed flagstone causeway), not weather; the system has no tidal data source, so it is honestly not_evaluatable until a tidal module is implemented - no weather contract is offered to avoid misleading (established 2026-11-01 semantics).",
-          "ja": "CL-DATA-20（2026-11-06）：本件は潮汐支配の題材（genre_template=tidal）。支配的条件は潮汐（モーゼの海割り／干潮で石畳道が露出）であり天気ではない。潮汐データソースが現状ないため、潮汐モジュール実装までは誠実に not_evaluatable。誤解を避けるため気象契約は提供しない（2026-11-01の既定語義）。"
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "潮汐決定型（CL-COND-A7 慣例）：金門縣政府依潮汐公布每日建議登島時段（乾潮前後約 ±30 分，石板道僅乾潮露出）；漲潮淹沒即封閉，日落後禁止登島。V2 評估層尚無潮汐資料源——誠實 propagate unknown（fail-closed → NOT_EVALUABLE）；legacy 管線已接 tide_state（low_access_window）。拍攝指南：查金門觀光旅遊網建功嶼潮汐表與現場公告。",
+          "en": "Tide-decided subject (CL-COND-A7 convention): the Kinmen County Government publishes a daily recommended landing window keyed to the tide (about +/- 30 minutes around low tide; the stone causeway shows only at ebb); the rising tide closes it and landing is prohibited after sunset. The V2 evaluation layer has no tide data source - honest propagate unknown (fail-closed -> NOT_EVALUABLE); the legacy pipeline already carries tide_state (low_access_window). Shooting guide: check the Kinmen travel site tide table and on-site notices.",
+          "ja": "潮位決定型（CL-COND-A7 慣例）：金門県政府は潮汐に応じて毎日の上島推奨時刻を公表（干潮前後約±30分、石板道は干潮時のみ現れる）；満潮で閉鎖、日の入り後の上島は禁止。V2評価層に潮汐データソースがない — 誠実に propagate unknown（fail-closed → NOT_EVALUABLE）；legacy パイプラインは tide_state を実装済み（low_access_window）。撮影ガイド：金門観光旅遊網の建功嶼潮汐表と現地告知を確認。"
         },
-        "validation_status": "provisional"
+        "notes_i18n": {
+          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決）：legacy_mountain_view 佔位取代為官方乾潮登島窗＋黃金時段錨點。來源：金門觀光旅遊網建功嶼潮汐頁 https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal",
+          "en": "2026-11-20 CL-DATA-76 (owner ruling): the legacy_mountain_view placeholder is replaced by the official low-tide landing window plus a golden-hour anchor. Source: Kinmen travel site Jiangong Islet tide page https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal",
+          "ja": "2026-11-20 CL-DATA-76（オーナー裁定）：legacy_mountain_view のプレースホルダを公式干潮上島窓＋ゴールデンアワーの錨に置換。出典：金門観光旅遊網 建功嶼潮汐ページ https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal"
+        }
+      },
+      {
+        "id": "C-tw-078-P01-02",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "golden_hour_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-078-P01-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "computed",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "黃金時段錨點：官方規定日落後禁止登島，拍攝窗必須在日落前的黃金光線內；夕陽金光灑在潮間帶與石板道是本題材的招牌畫面。",
+          "en": "Golden-hour anchor: landing is prohibited after sunset by the official rule, so the shoot must sit inside the golden light before sunset; golden light over the tidal flats and the stone causeway is the subject's signature frame.",
+          "ja": "ゴールデンアワーの錨：公式規則で日の入り後の上島は禁止——撮影は日の入り前の黄金光の中に限る。潮間帯と石板道に差す金色の光が本題材の代表作。"
+        }
+      },
+      {
+        "id": "C-tw-078-P01-03",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lte",
+        "threshold": 0.3,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-078-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "SHOOT",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "拍攝時降雨 <0.3 mm/h：既審通用門檻；雨中石板道濕滑。",
+          "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold; the wet stone causeway is slippery.",
+          "ja": "撮影時の降水<0.3mm/h。既承認閾値。雨の石板道は滑りやすい。"
+        }
       }
     ],
     "recommendation_policy_version": null,
