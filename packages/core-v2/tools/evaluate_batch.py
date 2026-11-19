@@ -577,11 +577,16 @@ def condition_value(condition, values, astro_row, local_date=None):
     if metric in DECLARED_PASS_METRICS:
         return "declared"
     if metric == "river_flow_state":
-        # CL-DATA-77: display the derived level the verdict judged on.
+        # CL-DATA-77: display the derived level the verdict judged on; a
+        # legacy boolean cell (pre-derivation shape) still maps to the
+        # satisfied/unsatisfied enum like any other boolean observation.
         cell = values.get("river_flow_state")
         if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
             return None
-        return cell.get("value")
+        value = cell.get("value")
+        if isinstance(value, bool):
+            return boolean_value_label(value)
+        return value
     if metric == "spring_tide_state":
         # CL-DATA-77: display the boolean the verdict judged on (the UI maps
         # it to the satisfied/unsatisfied enum, never a raw boolean).

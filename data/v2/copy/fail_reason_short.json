@@ -362,7 +362,8 @@
     "legacy_reflection",
     "fog_state",
     "soft_light_window",
-    "morning_window"
+    "morning_window",
+    "spring_tide_state"
   ],
   "dominant_reason_rule": {
     "zh-TW": "同日同地多題材失敗時，主導原因＝各失敗題材「最核心被違反條件」的票數最高者。每個失敗題材（該日 state=UNFAVORABLE）先依此順序選出一個核心違反 metric：(1) day_verdict=FAIL 的條件中 metric_priority 最前者（同分時 REQUIRED 優於 QUALITY、MAIN 優於其他 tier、再取契約宣告順序）；(2) 無 FAIL 時取 REQUIRED+MAIN 的 UNKNOWN；(3) 再無則取 pass_hours=0 的 PARTIAL；都不是則該題材不投票。窗類條件（sunrise/sunset/golden/blue/city_night_window、light_window、astronomical_darkness、daylight_window）在窗有發生（pass_hours>0）時不投票——窗內失敗的主因是天氣，主導詞必為天氣短詞（卡片並以「下一個符合時段」帶出窗口導引）；僅當窗未發生（pass_hours=0）且無天氣類條件 FAIL/PARTIAL 時才投票，用中性詞「非拍攝時段」。資格類條件（seasonal_state/landform_present/light_direction）屬單題材資格，不參與日層投票，其原因只留在題材展開區。得票最高者為主導原因；同票取 metric_priority 較前者；再同取 metric id 字序。該日全數符合（suitable）或全數無法評估時 dominant_reason=null。",
