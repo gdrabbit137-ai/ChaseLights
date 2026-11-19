@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-030-P01",
   "place_id": "jp-030",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "鳴門渦之道・鳴門海峽漩渦",
@@ -117,26 +117,52 @@
     "status": "draft",
     "conditions": [
       {
-        "id": "C-jp-030-P01-01",
+        "id": "C-jp-030-P01-02",
         "role": "REQUIRED",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_long_exposure",
+        "metric": "spring_tide_state",
         "operator": "none",
         "threshold": null,
         "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
-          "jp-030-P01-claim-01"
+          "jp-030-P01-claim-02"
         ],
         "model_binding": null,
         "notes_i18n": {
-          "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-          "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-          "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+          "zh-TW": "大潮帶：朔望（新月/滿月）前後約±2.7 天，以月照亮率 ≤8% 或 ≥92% 為天文代理。官方口徑：鳴門漩渦以大潮（新月與滿月的隔日及其周邊日）最盛，春（3月下旬–4月下旬）與秋（9月下旬–10月下旬）規模最大；潮流最速（見頃）時刻依官方潮見表（uzunomichi.jp/tide-calendar），本條件只判「是否大潮帶」，精確時段請查官方潮見表。",
+          "en": "Spring-tide band: within ~±2.7 days of syzygy (new/full moon), proxied astronomically by moon illumination <=8% or >=92%. Official wording: Naruto whirlpools peak on spring-tide days (the day after new/full moon and neighbours), largest in late Mar-Apr and late Sep-Oct; exact best hours follow the official tide table (uzunomichi.jp/tide-calendar) — this condition only judges spring-tide days.",
+          "ja": "大潮帯：朔望（新月/満月）前後約±2.7日で、月照率 ≤8% または ≥92% を天文代理とする。公式見解：鳴門の渦潮は大潮（新月・満月の1日あたりとその周辺日）に最も大きく、春（3月下旬–4月下旬）と秋（9月下旬–10月下旬）が見頃。最速時刻は公式潮見表（uzunomichi.jp/tide-calendar）を確認のこと。本条件は大潮日か否かのみ判定する。"
         },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional"
+      },
+      {
+        "id": "C-jp-030-P01-03",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-030-P01-claim-03"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "日照時段窗（太陽在地平線上）：渦之道為戶外步道（官方開放時間 09:00–17:00/18:00，見存取資訊），夜間無法觀測漩渦；CL-DATA-77 收緊——觀景題材須綁日光窗。",
+          "en": "Daylight window (sun above horizon): the Uzunomichi is an outdoor walkway (official hours 09:00-17:00/18:00, see access notes) — whirlpools cannot be observed at night.",
+          "ja": "日照時間帯（太陽が地平線上）：渦の道は屋外遊歩道（公式時間 09:00–17:00/18:00、アクセス情報参照）。夜間は渦潮を観測できない。"
+        },
+        "validation_status": "provisional",
+        "threshold_source": "computed",
+        "calibration_status": "provisional"
       }
     ],
     "recommendation_policy_version": null
@@ -150,6 +176,24 @@
       ],
       "audit_status": "UNKNOWN",
       "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+    },
+    {
+      "claim_id": "jp-030-P01-claim-02",
+      "claim_type": "condition_threshold",
+      "evidence_refs": [
+        "e-d77-naruto-spring-tide"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "CL-DATA-77 audit 2026-11-20: spring-tide proxy thresholds (illumination <=8% / >=92%, ~syzygy +/-2.7d) are provisional, pending calibration against shoot outcomes; the syzygy-spring-tide relation and Naruto spring-tide emphasis are official/public: https://www.uzunomichi.jp/tide-calendar/ (spring-tide days marked red; viewing +/-2h around peak current), https://www.naruto-kankou.jp/uzu/ (spring tide +/-2h guideline), https://www.pref.tokushima.lg.jp/japanese/tourism/spot/uzushio (largest on spring tides in spring/autumn), https://tabi.jtb.or.jp/res/360024- (spring tide = the day after new/full moon at Naruto). Exact best hours remain official-tide-table semantics (check before shoot); no fabricated hourly tide curve is shipped."
+    },
+    {
+      "claim_id": "jp-030-P01-claim-03",
+      "claim_type": "existence",
+      "evidence_refs": [
+        "e-d35-access-uzunomichi-tokushima"
+      ],
+      "audit_status": "OK",
+      "scope_note": "CL-DATA-77 2026-11-20: daylight gate derived from the facility being an outdoor walkway with official opening hours (already evidenced by e-d35-access-uzunomichi-tokushima; https://www.uzunomichi.jp/)."
     }
   ],
   "readiness": {

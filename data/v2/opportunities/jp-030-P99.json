@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-030-P99",
   "place_id": "jp-030",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "鳴門海峽漩渦・可拍",
@@ -29,11 +29,11 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "inherited_from_place_opportunity_geometry",
+        "derivation_method": "inherited_from_place_opportunity_geometry CL-DATA-77 2026-11-20: point kept as the walkway-deck reference (consistent with ja.wikipedia 渦の道 entrance 34.237833,134.647889 + the ~450m deck along the Onaruto Bridge girder; the point sits in the deck/deck-end zone above the whirlpool area — representative, not a surveyed spot).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "representative",
       "evidence_refs": [],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
@@ -63,12 +63,12 @@
         "geojson": {
           "type": "Point",
           "coordinates": [
-            134.651,
-            34.24
+            134.645725,
+            34.2370252
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "inherited_from_place_opportunity_geometry",
+        "derivation_method": "CL-DATA-77 2026-11-20: whirlpool band anchor = Hadaka-jima (裸島) OSM Nominatim node 34.2370252,134.6457250; JTB national tourism resource entry states the largest whirlpools appear on the east side of Hadaka-jima — the strait waters east of it are the target area.",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
@@ -83,13 +83,15 @@
       "camera_context_id": "CZ-jp-030-P99-01",
       "target_id": "SG-jp-030-P99-01",
       "type": "foreground_background",
-      "geometry_mode": "unknown",
-      "azimuth_deg": null,
+      "geometry_mode": "static_verified",
+      "azimuth_deg": 236,
       "elevation_deg": null,
       "distance_m": null,
-      "evidence_refs": [],
-      "derivation_method": null,
-      "uncertainty_note": "Inherited from the place's existing canonical opportunity geometry (provisional)."
+      "evidence_refs": [
+        "e-d77-geo-jp-030-P99"
+      ],
+      "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=236 deg (dist ~0.6 km) — SW from the deck over the strait toward the Hadaka-jima-east whirlpool band.",
+      "uncertainty_note": "PARTIAL: the deck looks DOWN on the strait (45 m) and whirlpools form across a wide band; azimuth is the dominant whirlpool-bearing anchor only."
     }
   ],
   "navigation_targets": [
@@ -115,6 +117,15 @@
       "evidence_refs": [],
       "audit_status": "UNKNOWN",
       "scope_note": "CL-DATA-65 general-genre auto-mount from the canonical place record; no independent photographic evidence attached yet."
+    },
+    {
+      "claim_id": "jp-030-P99-claim-77geo",
+      "claim_type": "camera_location",
+      "evidence_refs": [
+        "e-d77-geo-jp-030-P99"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "CL-DATA-77 2026-11-20: 裸島 OSM https://www.openstreetmap.org/search?query=%E8%A3%B8%E5%B3%B6%20%E9%B3%A9%E9%96%80; JTB https://tabi.jtb.or.jp/res/360024- (一番大きな渦は裸島の東側に見られる); 渦の道 entrance https://ja.wikipedia.org/wiki/%E6%B8%A6%E3%81%AE%E9%81%93 (34.237833,134.647889). Bearing 236 deg computed geodesically."
     }
   ],
   "readiness": {

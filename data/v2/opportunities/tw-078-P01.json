@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-078-P01",
   "place_id": "tw-078",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "建功嶼退潮石板道景觀",
@@ -29,11 +29,11 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-77 2026-11-20: point kept as the causeway-east-end reference (no conflict: OSM 建功嶼 island node 24.4273629,118.2999844 lies ~0.46 km west — the stone causeway runs west from the Kinmen shore to the island).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "representative",
       "evidence_refs": [],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
@@ -59,16 +59,16 @@
       },
       "geometry": {
         "kind": "point",
-        "status": "provisional",
+        "status": "verified",
         "geojson": {
           "type": "Point",
           "coordinates": [
-            118.304369,
-            24.426386
+            118.2999844,
+            24.4273629
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "CL-DATA-77 2026-11-20: 建功嶼 (Jiangong Islet) OSM Nominatim node 24.4273629,118.2999844.",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
@@ -83,13 +83,15 @@
       "camera_context_id": "CZ-tw-078-P01-01",
       "target_id": "SG-tw-078-P01-01",
       "type": "foreground_background",
-      "geometry_mode": "unknown",
-      "azimuth_deg": 270,
+      "geometry_mode": "static_verified",
+      "azimuth_deg": 284,
       "elevation_deg": null,
       "distance_m": null,
-      "evidence_refs": [],
-      "derivation_method": "legacy_weather_details_v1_view_azimuth_backfill",
-      "uncertainty_note": "CL-DATA-13 backfill: legacy V1 weather_details view_azimuth 270 (north=0, clockwise); view_tolerance 80.0 (legacy spot-level, camera-pan width, not a hard arc). Original note: Imported V1 reference; angles and distance unknown."
+      "evidence_refs": [
+        "e-d77-geo-tw-078-P01"
+      ],
+      "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=284 deg (dist ~0.46 km) — west along the stone causeway to the islet; replaces the legacy V1 weather_details azimuth 270 (CL-DATA-13 backfill), which sits within the same wide tolerance band.",
+      "uncertainty_note": "Wide tolerance: the causeway curves and the composition includes the islet AND its baroque gate; the legacy 270 and computed 284 agree within ~14 deg."
     }
   ],
   "navigation_targets": [
@@ -146,6 +148,15 @@
       "evidence_refs": [],
       "audit_status": "UNKNOWN",
       "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+    },
+    {
+      "claim_id": "tw-078-P01-claim-77geo",
+      "claim_type": "target_geometry",
+      "evidence_refs": [
+        "e-d77-geo-tw-078-P01"
+      ],
+      "audit_status": "OK",
+      "scope_note": "CL-DATA-77 2026-11-20: 建功嶼 OSM https://www.openstreetmap.org/search?query=%E5%BB%BA%E5%8A%9F%E5%B6%BC. Bearing 284 deg computed geodesically; legacy 270 documented as consistent-within-tolerance."
     }
   ],
   "readiness": {

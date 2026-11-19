@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-075-P02",
   "place_id": "us-075",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "retired",
   "name_i18n": {
     "zh-TW": "Discovery Park・West Point Lighthouse＋海岸／日落",
@@ -29,11 +29,11 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-77 2026-11-20: point kept as the park-level reference (within Discovery Park; no conflict with Wikipedia/Seattle-Parks data); the lighthouse viewing is from the South Beach Trail ~2.3 km west of this point.",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "representative",
       "evidence_refs": [],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
@@ -59,16 +59,16 @@
       },
       "geometry": {
         "kind": "point",
-        "status": "provisional",
+        "status": "verified",
         "geojson": {
           "type": "Point",
           "coordinates": [
-            -122.4055,
-            47.6573
+            -122.4357299,
+            47.6619755
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "CL-DATA-77 2026-11-20: West Point Light verified — OSM Nominatim node 47.6619755,-122.4357299 agrees with Wikipedia infobox 47.66167,-122.43556 and lighthousefriends.com 47.66198,-122.43574.",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
@@ -83,13 +83,15 @@
       "camera_context_id": "CZ-us-075-P02-01",
       "target_id": "SG-us-075-P02-01",
       "type": "foreground_background",
-      "geometry_mode": "unknown",
-      "azimuth_deg": null,
+      "geometry_mode": "static_verified",
+      "azimuth_deg": 283,
       "elevation_deg": null,
       "distance_m": null,
-      "evidence_refs": [],
-      "derivation_method": null,
-      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+      "evidence_refs": [
+        "e-d77-geo-us-075-P02"
+      ],
+      "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=283 deg (dist ~2.3 km) from the park reference point to the verified West Point Light.",
+      "uncertainty_note": "Camera is the park reference point, not the beach photo spot; azimuth is the park-to-lighthouse bearing (wide tolerance), exact foreground (beach/tide pools) varies."
     }
   ],
   "navigation_targets": [
@@ -281,6 +283,15 @@
       "evidence_refs": [],
       "audit_status": "UNKNOWN",
       "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+    },
+    {
+      "claim_id": "us-075-P02-claim-77geo",
+      "claim_type": "target_geometry",
+      "evidence_refs": [
+        "e-d77-geo-us-075-P02"
+      ],
+      "audit_status": "OK",
+      "scope_note": "CL-DATA-77 2026-11-20: target West Point Light OSM https://www.openstreetmap.org/search?query=West%20Point%20Lighthouse%20Seattle; Wikipedia https://en.wikipedia.org/wiki/West_Point_Light; lighthousefriends.com/light.asp?ID=33. Bearing 283 deg computed geodesically."
     }
   ],
   "readiness": {

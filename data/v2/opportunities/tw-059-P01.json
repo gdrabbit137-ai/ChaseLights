@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-059-P01",
   "place_id": "tw-059",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "奎壁山摩西分海",
@@ -29,11 +29,11 @@
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-77 2026-11-20: point kept (no conflict with OSM 奎壁山 node 23.6002068,119.6711631, ~60 m away; the viewpoint is the beach at the foot of the hill).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
-      "verification_status": "provisional",
+      "verification_status": "representative",
       "evidence_refs": [],
       "access_notes_i18n": {
         "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
@@ -59,16 +59,16 @@
       },
       "geometry": {
         "kind": "point",
-        "status": "provisional",
+        "status": "verified",
         "geojson": {
           "type": "Point",
           "coordinates": [
-            119.67137,
-            23.59968
+            119.6755232,
+            23.5992506
           ]
         },
         "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
+        "derivation_method": "CL-DATA-77 2026-11-20: 赤嶼 (Chi Yu islet, the Moses-parting seawall target) OSM Nominatim node 23.5992506,119.6755232 (北寮, 澎湖).",
         "source_geometry_revision": null,
         "reason_if_absent": null
       },
@@ -83,13 +83,15 @@
       "camera_context_id": "CZ-tw-059-P01-01",
       "target_id": "SG-tw-059-P01-01",
       "type": "foreground_background",
-      "geometry_mode": "unknown",
-      "azimuth_deg": null,
+      "geometry_mode": "static_verified",
+      "azimuth_deg": 96,
       "elevation_deg": null,
       "distance_m": null,
-      "evidence_refs": [],
-      "derivation_method": null,
-      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+      "evidence_refs": [
+        "e-d77-geo-tw-059-P01"
+      ],
+      "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=96 deg (dist ~0.4 km) — east from the Kueibishan beach across the tide-exposed tombolo to Chi Yu; the parting path is this E-NE line.",
+      "uncertainty_note": "Wide tolerance: the tombolo path curves slightly; azimuth is the beach-to-islet dominant bearing."
     }
   ],
   "navigation_targets": [
@@ -146,6 +148,15 @@
       "evidence_refs": [],
       "audit_status": "UNKNOWN",
       "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+    },
+    {
+      "claim_id": "tw-059-P01-claim-77geo",
+      "claim_type": "target_geometry",
+      "evidence_refs": [
+        "e-d77-geo-tw-059-P01"
+      ],
+      "audit_status": "OK",
+      "scope_note": "CL-DATA-77 2026-11-20: 赤嶼 OSM https://www.openstreetmap.org/search?query=%E8%B5%A4%E5%B6%BC; 奎壁山 OSM https://www.openstreetmap.org/search?query=%E5%A5%8E%E5%A3%81%E5%B1%B1. Bearing 96 deg computed geodesically."
     }
   ],
   "readiness": {
