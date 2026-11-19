@@ -2,11 +2,11 @@
 
 評分範圍：466 places × 734 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`d693f8e50aa47188…`（重跑可驗證確定性）。
+輸入指紋：`78bf9a53efe95a6e…`（重跑可驗證確定性）。
 
 - 全庫加權均分：**3.92 / 5**；中位數：**3.95 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**284** 個，不虛構分數）。
 - 區域分布：jp=94, tw=222, us=150
-- 弱點清單筆數：低 weather_light **13**、低 verifiability **10**、5km 群聚 **50**。
+- 弱點清單筆數：低 weather_light **10**、低 verifiability **10**、5km 群聚 **50**。
 
 ## 五維判定規則（機械、可重跑）
 
@@ -80,9 +80,6 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | `jp-081-P01` | jp-081 | 2 |
 | `jp-083-P01` | jp-083 | 2 |
 | `jp-091-P01` | jp-091 | 2 |
-| `tw-059-P01` | tw-059 | 1 |
-| `tw-060-P01` | tw-060 | 1 |
-| `tw-078-P01` | tw-078 | 1 |
 | `tw-082-P01` | tw-082 | 2 |
 | `tw-151-P01` | tw-151 | 2 |
 | `tw-224-P01` | tw-224 | 2 |
@@ -93,9 +90,9 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 | opportunity | place | 分數 | 缺口 |
 |---|---|---|---|
 | `jp-030-P99` | jp-030 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
-| `tw-059-P01` | tw-059 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
-| `tw-060-P01` | tw-060 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
-| `tw-078-P01` | tw-078 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
+| `tw-059-P01` | tw-059 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
+| `tw-060-P01` | tw-060 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
+| `tw-078-P01` | tw-078 | 2.0 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `us-075-P01` | us-075 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `us-075-P02` | us-075 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `us-076-P01` | us-076 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
@@ -151,7 +148,7 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 - 雷尼爾山國家公園（us-012，最近 0.08 km）、雷尼爾山・天堂區（us-081，最近 2.02 km）、雷尼爾山・倒影湖（us-082，最近 0.08 km）
 - 奧林匹克國家公園（us-019，最近 0.05 km）、紅寶石海灘（us-085，最近 0.05 km）
 - 西雅圖太空針塔（us-024，最近 0.88 km）、西雅圖派克市場（us-026，最近 1.33 km）、Kerry Park（us-071，最近 1.1 km）、金色花園公園（us-072，最近 4.06 km）、阿爾基海灘公園（us-073，最近 2.04 km）、煤氣廠公園（us-074，最近 2.6 km）、us-075（us-075，最近 4.06 km）、us-076（us-076，最近 2.04 km）、us-077（us-077，最近 2.61 km）、默特爾・愛德華茲公園（us-078，最近 0.88 km）
-- 卡特邁國家公園（us-059，最近 0.04 km）、布魯克斯瀑布・鮭魚道水景（us-111，最近 0.04 km）
+- 卡特邁國家公園（us-059，最近 0.04 km）、us-111（us-111，最近 0.04 km）
 - 藝術家角（us-092，最近 2.65 km）、畫湖（us-093，最近 2.65 km）
 - 哈雷茂茂火山口夜空（us-112，最近 0.38 km）、基勞亞口熔岩紅光夜拍（基勞亞展望台）（us-161，最近 0.38 km）、那胡庫熔岩管（瑟斯頓熔岩洞）（us-162，最近 0.41 km）、基勞亞伊奇火山口熔岩地表（us-163，最近 0.41 km）
 - 老忠實間歇泉（黃石）（us-159，最近 2.03 km）、牽牛花溫泉池（黃石上間歇泉盆地）（us-160，最近 2.03 km）

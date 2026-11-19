@@ -474,8 +474,8 @@ class TestContracts(unittest.TestCase):
 class TestRuntime(unittest.TestCase):
     def test_runtime_catalog_counts(self):
         cat = load("runtime_catalog_v004_r4_2.json")
-        self.assertEqual(cat["counts"]["spots"], 473)
-        self.assertEqual(cat["counts"]["opportunities"], 726)
+        self.assertEqual(cat["counts"]["spots"], 472)  # us-111 retired (CL-DATA-76)
+        self.assertEqual(cat["counts"]["opportunities"], 725)  # us-111 retired (CL-DATA-76)
 
     def test_manifest_region_ends(self):
         mf = load("runtime_catalog_manifest_r4_2.json")
@@ -489,14 +489,14 @@ class TestRuntime(unittest.TestCase):
         ids = {p["place_id"] for p in ev["places"]}
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
-        self.assertEqual(ev["place_count"], 460)  # CL-CI-36 re-anchor: cron drops the 6 CL-DATA-62-retired places (tw-068/083/084, us-075/076/077; -13 opps, PRODUCT_RETIRED is honest); CL-CI-36 dedup fix removes duplicate multi-coordinate-group rows (tw-002/us-005/us-011/us-013 listed twice); 465/697 -> 460/690
+        self.assertEqual(ev["place_count"], 459)  # CL-CI-36 re-anchor: 6 CL-DATA-62-retired + us-111 retired (CL-DATA-76, PRODUCT_RETIRED splice) -> 460 -> 459
         self.assertEqual(ev["opportunity_count"], 719)  # CL-INT-192 re-anchor: 702 -> 719 (merged tree: +17 five-genre mounts evaluated, eligible contracts)
         self.assertEqual(ev["forecast_hours"], 168)
 
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
-        self.assertEqual(len(cat["places"]), 460)
-        self.assertEqual(len(cat["opportunities"]), 721)  # CL-INT-192 re-anchor: 704 -> 721 (+17 five-genre, measured on the merged tree)
+        self.assertEqual(len(cat["places"]), 459)  # CL-DATA-76 re-anchor: 460 − us-111 retired = 459
+        self.assertEqual(len(cat["opportunities"]), 720)  # CL-DATA-76 re-anchor: 721 − us-111 = 720 (measured)
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(WAVE1_CONTRACTS) <= oids)
         self.assertTrue(set(WAVE2_CONTRACTS) <= oids)
