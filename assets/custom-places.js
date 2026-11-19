@@ -79,13 +79,13 @@
       nl1: '登入後才能使用私人點', nl2: '新增／編輯私人景點是會員功能；私人點只出現在你的帳號。',
       login_cta: '登入以繼續', close: '關閉',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
-      ai_hint: '用一句話描述你要的拍攝條件（AI 只翻譯成條件，不判斷好壞）', ai_ph: '例如：清晨六點前要有雲海，不要下雨，風要小，能見度要好', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請確認後再送出', ai_conflict: '⚠ 條件矛盾：{m}——請擇一，AI 未套用任何值。', ai_fail: '解析失敗，請手動設定。',
+      ai_hint: '用一句話描述你要的拍攝條件（AI 只翻譯成條件，不判斷好壞）', ai_ph: '例如：清晨六點前要有雲海，不要下雨，風要小，能見度要好', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI 建議（信賴度 {c}%）——請確認後再送出', ai_conflict: '⚠ AI 未套用任何值：{m}', ai_fail: '解析失敗，請手動設定。',
       geo_btn: '📍 使用我的目前位置', geo_note: '為何需要位置：僅用於填入此新景點的座標，不會追蹤你的行蹤。', geo_working: '取得位置中…',
       wt_fixed: '固定時段', wt_bs: '日出前（每日動態）', wt_as: '日出後（每日動態）', wt_bd: '日落前（每日動態）', wt_ads: '日落後（每日動態）',
       win_off: '錨點偏移（分鐘，可負）', win_add2: '＋ 加第二段', win_rm: '移除此段', win_hint: '錨點型以當日實際日出／日落動態展開，冬天夏天不同',
       geo_denied: '無法取得位置：定位權限被拒絕。請改用點圖落釘或直接鍵入經緯度。', geo_timeout: '取得位置逾時。請改用點圖落釘或直接鍵入經緯度。', geo_error: '無法取得位置。請改用點圖落釘或直接鍵入經緯度。',
       copy_genre: '複製官方題材改（起點）', copy_genre_none: '不複製', copy_genre_hint: '選一個官方題材當起點，再微調單一參數',
-      adv_toggle: '進階：原始數值輸入',
+      adv_toggle: '進階：原始數值輸入', p_lowmin: '低雲下限 ≥%（越多越好）', win_span: '窗長（分鐘，留空＝整段動態）',
       lat_lng: 'lat/lng', elev_m: 'm',
     },
     'en': {
@@ -135,13 +135,13 @@
       nl1: 'Log in to use custom places', nl2: 'Adding / editing is member-only; places appear only on your account.',
       login_cta: 'Log in to continue', close: 'Close',
       sem_cloud: 'Cloud', sem_fog: 'Fog', sem_rain: 'Rain',
-      ai_hint: 'Describe the shot you want in one sentence (the AI only translates it into conditions — it never judges)', ai_ph: 'e.g. cloud sea before 06:00, no rain, light wind, good visibility', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — review, then submit', ai_conflict: '⚠ Conflicting conditions: {m} — pick one; the AI applied nothing.', ai_fail: 'Parsing failed — please set the conditions manually.',
+      ai_hint: 'Describe the shot you want in one sentence (the AI only translates it into conditions — it never judges)', ai_ph: 'e.g. cloud sea before 06:00, no rain, light wind, good visibility', ai_btn: 'Parse', ai_working: 'Parsing…', ai_done: '✓ AI suggestion (confidence {c}%) — review, then submit', ai_conflict: '⚠ The AI applied nothing: {m}', ai_fail: 'Parsing failed — please set the conditions manually.',
       geo_btn: '📍 Use my current location', geo_note: 'Why we need it: only to fill in this place’s coordinates — your movements are never tracked.', geo_working: 'Getting your location…',
       wt_fixed: 'Fixed span', wt_bs: 'Before sunrise (daily dynamic)', wt_as: 'After sunrise (daily dynamic)', wt_bd: 'Before sunset (daily dynamic)', wt_ads: 'After sunset (daily dynamic)',
       win_off: 'Anchor offset (minutes, may be negative)', win_add2: '＋ Add a second span', win_rm: 'Remove this span', win_hint: 'Anchor spans expand with each day\u2019s REAL sunrise/sunset — winter and summer differ',
       geo_denied: 'Could not get your location: permission denied. Please pin on the map or type lat/lng manually.', geo_timeout: 'Getting your location timed out. Please pin on the map or type lat/lng manually.', geo_error: 'Could not get your location. Please pin on the map or type lat/lng manually.',
       copy_genre: 'Copy an official genre template (starter)', copy_genre_none: 'No copy', copy_genre_hint: 'Pick an official genre as the starting point, then tweak a single parameter',
-      adv_toggle: 'Advanced: raw numeric inputs',
+      adv_toggle: 'Advanced: raw numeric inputs', p_lowmin: 'Low-cloud floor ≥% (the more the better)', win_span: 'Span (minutes; empty = full dynamic span)',
       lat_lng: 'lat/lng', elev_m: 'm',
     },
     'ja': {
@@ -191,13 +191,13 @@
       nl1: '自作スポットにはログインが必要', nl2: '追加／編集は会員機能；自作スポットは自分のアカウントにのみ表示されます。',
       login_cta: 'ログインして続行', close: '閉じる',
       sem_cloud: '雲量', sem_fog: '霧', sem_rain: '雨',
-      ai_hint: '撮りたい条件を一文で説明（AIは条件への翻訳のみ・良し悪しは判断しない）', ai_ph: '例：6時までに雲海。雨は嫌。風は弱め。視程は良い', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 確認してから送信してください', ai_conflict: '⚠ 条件が矛盾しています：{m} — どちらかを選択してください（AIは未適用）。', ai_fail: '解析に失敗しました。手動で設定してください。',
+      ai_hint: '撮りたい条件を一文で説明（AIは条件への翻訳のみ・良し悪しは判断しない）', ai_ph: '例：6時までに雲海。雨は嫌。風は弱め。視程は良い', ai_btn: '解析', ai_working: '解析中…', ai_done: '✓ AI提案（信頼度 {c}%）— 確認してから送信してください', ai_conflict: '⚠ AIは未適用：{m}', ai_fail: '解析に失敗しました。手動で設定してください。',
       geo_btn: '📍 現在地を使う', geo_note: '位置情報の使い道：このスポットの座標を入力するためだけ。現在地は追跡しません。', geo_working: '現在地を取得中…',
       wt_fixed: '固定時間帯', wt_bs: '日の出前（毎日動的）', wt_as: '日の出後（毎日動的）', wt_bd: '日の入前（毎日動的）', wt_ads: '日の入後（毎日動的）',
       win_off: 'アンカーオフセット（分・負可）', win_add2: '＋ 2つ目を追加', win_rm: 'この枠を削除', win_hint: 'アンカーは当日の実際の日の出入りから毎日展開（季節で変わる）',
       geo_denied: '位置を取得できませんでした：権限が拒否されました。地図クリックまたは手動入力をご利用ください。', geo_timeout: '位置の取得がタイムアウトしました。地図クリックまたは手動入力をご利用ください。', geo_error: '位置を取得できませんでした。地図クリックまたは手動入力をご利用ください。',
       copy_genre: '公式題材をコピーして改造（出発点）', copy_genre_none: 'コピーしない', copy_genre_hint: '公式題材を出発点に選び、1つのパラメータだけ調整します',
-      adv_toggle: '高度：生の数値入力',
+      adv_toggle: '高度：生の数値入力', p_lowmin: '低雲下限 ≥%（多いほうが良い）', win_span: '枠の長さ（分・空欄＝全体）',
       lat_lng: 'lat/lng', elev_m: 'm',
     },
   };
@@ -439,6 +439,10 @@
     if (cc.cloud_low_max != null && cc.cloud_low_max < 100) out.cloud_low_max = Number(cc.cloud_low_max);
     if (cc.cloud_mid_max != null && cc.cloud_mid_max < 100) out.cloud_mid_max = Number(cc.cloud_mid_max);
     if (cc.cloud_high_max != null && cc.cloud_high_max < 100) out.cloud_high_max = Number(cc.cloud_high_max);
+    // patch-5 ⑤: the _min counterpart keys (>0 = actually constraining)
+    if (cc.cloud_low_min != null && cc.cloud_low_min > 0) out.cloud_low_min = Number(cc.cloud_low_min);
+    if (cc.cloud_mid_min != null && cc.cloud_mid_min > 0) out.cloud_mid_min = Number(cc.cloud_mid_min);
+    if (cc.cloud_high_min != null && cc.cloud_high_min > 0) out.cloud_high_min = Number(cc.cloud_high_min);
     if (cc.precip_max_mmh != null && cc.precip_max_mmh < 200) out.precip_max_mmh = Number(cc.precip_max_mmh);
     if (cc.visibility_min_km != null && cc.visibility_min_km > 0) out.visibility_min_km = Number(cc.visibility_min_km);
     if (cc.wind_max_ms != null) out.wind_max_ms = Number(cc.wind_max_ms);
@@ -458,14 +462,19 @@
     if (!cc) return null;
     for (var k in CC_GENRE_STARTERS) {
       var s = CC_GENRE_STARTERS[k];
-      if (cpCcSame(cc, {
-        cloud_low_max: CC_SEMANTIC.cloud.values[s.cloud],
-        visibility_min_km: CC_SEMANTIC.fog.values[s.fog],
-        precip_max_mmh: CC_SEMANTIC.rain.values[s.rain],
-        window_start: s.window ? s.window[0] : null,
-        window_end: s.window ? s.window[1] : null,
-        months: Array.isArray(s.months) ? s.months.slice() : null,
-      })) return k;
+      // patch-5 ⑤: the 'more' starter direction maps to cloud_low_min (the
+      // _min counterpart), everything else stays a cloud_low_max seed.
+      if (cpCcSame(cc, Object.assign(
+        { visibility_min_km: CC_SEMANTIC.fog.values[s.fog], precip_max_mmh: CC_SEMANTIC.rain.values[s.rain] },
+        s.cloud === 'more'
+          ? { cloud_low_min: CC_SEMANTIC.cloud.values.more }
+          : { cloud_low_max: CC_SEMANTIC.cloud.values[s.cloud] },
+        {
+          window_start: s.window ? s.window[0] : null,
+          window_end: s.window ? s.window[1] : null,
+          months: Array.isArray(s.months) ? s.months.slice() : null,
+        }
+      ))) return k;
     }
     return null;
   }
@@ -499,6 +508,10 @@
     if (cc.cloud_low_max != null && cc.cloud_low_max < 100) parts.push((lang === 'en' ? 'low≤' : lang === 'ja' ? '低雲≤' : '低雲≤') + cc.cloud_low_max + '%');
     if (cc.cloud_mid_max != null && cc.cloud_mid_max < 100) parts.push('中雲≤' + cc.cloud_mid_max + '%');
     if (cc.cloud_high_max != null && cc.cloud_high_max < 100) parts.push('高雲≤' + cc.cloud_high_max + '%');
+    // patch-5 ⑤: the 越多越好 direction reads as a floor
+    if (cc.cloud_low_min != null && cc.cloud_low_min > 0) parts.push((lang === 'en' ? 'low≥' : '低雲≥') + cc.cloud_low_min + '%');
+    if (cc.cloud_mid_min != null && cc.cloud_mid_min > 0) parts.push((lang === 'en' ? 'mid≥' : '中雲≥') + cc.cloud_mid_min + '%');
+    if (cc.cloud_high_min != null && cc.cloud_high_min > 0) parts.push((lang === 'en' ? 'high≥' : '高雲≥') + cc.cloud_high_min + '%');
     if (cc.precip_max_mmh != null) parts.push((lang === 'en' ? 'precip≤' : '降水≤') + cc.precip_max_mmh);
     if (cc.visibility_min_km != null) parts.push((lang === 'en' ? 'vis≥' : '能見度≥') + cc.visibility_min_km);
     if (cc.wind_max_ms != null) parts.push('風≤' + cc.wind_max_ms);
@@ -533,7 +546,11 @@
     var off = (seg.offset_minutes != null && seg.offset_minutes !== 0)
       ? ((seg.offset_minutes > 0 ? '+' : '−') + Math.abs(seg.offset_minutes) + (lang === 'zh-TW' ? '分' : lang === 'ja' ? '分' : 'min'))
       : '';
-    return lbl + off;
+    // patch-5 ⑤: a short-window span is part of the honest label
+    var span = (seg.span_minutes != null && seg.span_minutes > 0)
+      ? '·' + seg.span_minutes + (lang === 'zh-TW' ? '分窗' : lang === 'ja' ? '分窓' : 'min window')
+      : '';
+    return lbl + off + span;
   }
   var cpWTYPES = ['fixed', 'before_sunrise', 'after_sunrise', 'before_sunset', 'after_sunset'];
   var cpWinState = [{ type: 'fixed', start: '', end: '' }];
@@ -566,8 +583,10 @@
         '<span style="color:var(--cl-text-3)">–</span>' +
         '<input id="' + idp + '-end" value="' + esc(seg.end || '') + '" placeholder="07:00" style="flex:1">';
     } else {
-      fields = '<input id="' + idp + '-off" inputmode="numeric" value="' + esc(seg.offset_minutes != null ? String(seg.offset_minutes) : '') + '" placeholder="0" style="flex:0 0 90px">' +
-        '<span class="hint" style="flex:1">' + esc(t().win_off) + '</span>';
+      fields = '<input id="' + idp + '-off" inputmode="numeric" value="' + esc(seg.offset_minutes != null ? String(seg.offset_minutes) : '') + '" placeholder="0" style="flex:0 0 70px">' +
+        '<span class="hint" style="flex:0 0 auto">' + esc(t().win_off) + '</span>' +
+        '<input id="' + idp + '-span" inputmode="numeric" value="' + esc(seg.span_minutes != null ? String(seg.span_minutes) : '') + '" placeholder="— " style="flex:0 0 70px" aria-label="' + esc(t().win_span) + '">' +
+        '<span class="hint" style="flex:0 0 auto">' + esc(t().win_span) + '</span>';
     }
     return '<div class="cl-cp-winseg" data-cp-ws="' + i + '" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' + typeSel + fields +
       (i === 1 ? '<button type="button" class="cl-ss-act cl-ss-act-del" id="cl-cp-win-rm" aria-label="' + esc(t().win_rm) + '">✕</button>' : '') +
@@ -583,9 +602,16 @@
         var e = (els.overlay.querySelector('#cl-cp-ws' + i + '-end') || {}).value || '';
         segs.push({ type: 'fixed', start: String(s).trim(), end: String(e).trim() });
       } else {
-        var offEl = els.overlay.querySelector('#cl-cp-ws' + i + '-off');
+        var idp = 'cl-cp-ws' + i;
+        var offEl = els.overlay.querySelector('#' + idp + '-off');
         var off = offEl && offEl.value.trim() !== '' ? parseInt(offEl.value, 10) : 0;
-        segs.push({ type: typeEl.value, offset_minutes: isFinite(off) ? off : 0 });
+        var s = { type: typeEl.value, offset_minutes: isFinite(off) ? off : 0 };
+        // patch-5 ⑤: span survives round-trip when the stored segment carried one
+        var spanEl = els.overlay.querySelector('#' + idp + '-span');
+        var span = spanEl && spanEl.value.trim() !== '' ? parseInt(spanEl.value, 10) : NaN;
+        if (isFinite(span) && span > 0) s.span_minutes = span;
+        else if (cpWinState[i] && cpWinState[i].span_minutes != null && spanEl && spanEl.value.trim() === '') s.span_minutes = cpWinState[i].span_minutes;
+        segs.push(s);
       }
     }
     return segs;
@@ -613,7 +639,7 @@
         cpRenderWinArea();
         els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
       });
-      ['start', 'end', 'off'].forEach(function (f) {
+      ['start', 'end', 'off', 'span'].forEach(function (f) {
         var el = els.overlay.querySelector('#cl-cp-ws' + i + '-' + f);
         if (el) el.addEventListener('change', function () {
           els.overlay.querySelector('#cl-cp-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
@@ -743,17 +769,19 @@
     var v = values && typeof values === 'object' ? values : {};
     var rows = [
       ['cloud_low_max', 'cloud_low'], ['cloud_mid_max', 'cloud_mid'], ['cloud_high_max', 'cloud_high'],
+      ['cloud_low_min', 'cloud_low'], ['cloud_mid_min', 'cloud_mid'], ['cloud_high_min', 'cloud_high'],
       ['precip_max_mmh', 'precipitation'], ['visibility_min_km', 'visibility'], ['wind_max_ms', 'wind'],
     ];
     for (var i = 0; i < rows.length; i++) {
       var limit = Number(cc[rows[i][0]]);
       if (!isFinite(limit)) continue;
-      if (rows[i][1].indexOf('cloud') === 0 && limit >= 100) continue; // lenient default
-      if (rows[i][1] === 'visibility' && limit <= 0) continue;        // lenient default
+      var isFloor = rows[i][0].indexOf('_min') > 0 || rows[i][0] === 'visibility_min_km';
+      if (!isFloor && rows[i][1].indexOf('cloud') === 0 && limit >= 100) continue; // lenient default
+      if (isFloor && limit <= 0) continue;                                          // lenient default
       var val = v[rows[i][1]];
       val = (typeof val === 'number' && isFinite(val)) ? val : null;
       if (val == null) return false; // constraint set but data missing → no match
-      if (rows[i][0] === 'visibility_min_km' ? val < limit : val > limit) return false;
+      if (isFloor ? val < limit : val > limit) return false;
     }
     return true;
   }
@@ -803,6 +831,10 @@
     if (cc.cloud_low_max != null && cc.cloud_low_max < 100) add('cloud_cover_low', 'lte', cc.cloud_low_max, '%');
     if (cc.cloud_mid_max != null && cc.cloud_mid_max < 100) add('cloud_cover_mid', 'lte', cc.cloud_mid_max, '%');
     if (cc.cloud_high_max != null && cc.cloud_high_max < 100) add('cloud_cover_mid_and_high', 'lte', cc.cloud_high_max, '%');
+    // patch-5 ⑤: the floor direction (cloud-sea-style 越多越好)
+    if (cc.cloud_low_min != null && cc.cloud_low_min > 0) add('cloud_cover_low', 'gte', cc.cloud_low_min, '%');
+    if (cc.cloud_mid_min != null && cc.cloud_mid_min > 0) add('cloud_cover_mid', 'gte', cc.cloud_mid_min, '%');
+    if (cc.cloud_high_min != null && cc.cloud_high_min > 0) add('cloud_cover_high', 'gte', cc.cloud_high_min, '%');
     if (cc.precip_max_mmh != null) add('precipitation', 'lte', cc.precip_max_mmh, 'mm/h');
     if (cc.visibility_min_km != null && cc.visibility_min_km > 0) add('visibility', 'gte', cc.visibility_min_km, 'km');
     if (cc.wind_max_ms != null) add('wind_speed_10m', 'lte', cc.wind_max_ms, 'm/s');
@@ -838,13 +870,14 @@
   // the synthetic rows are judged by the SAME rules the worker used for the
   // card tier — one hour truth, no second verdict source.
   var CP_GENERAL_BASELINE = { precip_max_mmh: 2, visibility_min_km: 3, wind_max_ms: 10 }; // mirror of GENERAL_BASELINE
-  var CP_FAIL_METRIC = { cloud_low_max: 'cloud_cover_low', cloud_mid_max: 'cloud_cover_mid', cloud_high_max: 'cloud_cover_mid_and_high', precip_max_mmh: 'precipitation', visibility_min_km: 'visibility', wind_max_ms: 'wind_speed_10m' };
-  var CP_FAIL_PRIORITY = ['precip_max_mmh', 'visibility_min_km', 'cloud_low_max', 'cloud_mid_max', 'cloud_high_max', 'wind_max_ms'];
-  var CP_METRIC_OF = { cloud_low_max: 'cloud_low', cloud_mid_max: 'cloud_mid', cloud_high_max: 'cloud_high', precip_max_mmh: 'precipitation', visibility_min_km: 'visibility', wind_max_ms: 'wind' };
+  var CP_FAIL_METRIC = { cloud_low_max: 'cloud_cover_low', cloud_mid_max: 'cloud_cover_mid', cloud_high_max: 'cloud_cover_mid_and_high', cloud_low_min: 'cloud_cover_low', cloud_mid_min: 'cloud_cover_mid', cloud_high_min: 'cloud_cover_high', precip_max_mmh: 'precipitation', visibility_min_km: 'visibility', wind_max_ms: 'wind_speed_10m' };
+  var CP_FAIL_PRIORITY = ['precip_max_mmh', 'visibility_min_km', 'cloud_low_max', 'cloud_mid_max', 'cloud_high_max', 'cloud_low_min', 'cloud_mid_min', 'cloud_high_min', 'wind_max_ms'];
+  var CP_METRIC_OF = { cloud_low_max: 'cloud_low', cloud_mid_max: 'cloud_mid', cloud_high_max: 'cloud_high', cloud_low_min: 'cloud_low', cloud_mid_min: 'cloud_mid', cloud_high_min: 'cloud_high', precip_max_mmh: 'precipitation', visibility_min_km: 'visibility', wind_max_ms: 'wind' };
   function cpConstraintActive(k, cc) {
     if (!cc || cc[k] == null) return false;
     var n = Number(cc[k]);
     if (!isFinite(n)) return false;
+    if (k.indexOf('_min') > 0) return n > 0;   // patch-5 ⑤ floors: >0 = constraining
     if (k.indexOf('cloud') === 0 && n >= 100) return false; // lenient default
     if (k === 'visibility_min_km' && n <= 0) return false;   // lenient default
     return true;
@@ -861,7 +894,8 @@
         if (!cpConstraintActive(k, cc)) continue;
         var raw = v[CP_METRIC_OF[k]];
         var val = (typeof raw === 'number' && isFinite(raw)) ? raw : null;
-        if (val == null || (k === 'visibility_min_km' ? val < Number(cc[k]) : val > Number(cc[k]))) return CP_FAIL_METRIC[k];
+        var isFloor = k.indexOf('_min') > 0 || k === 'visibility_min_km';
+        if (val == null || (isFloor ? val < Number(cc[k]) : val > Number(cc[k]))) return CP_FAIL_METRIC[k];
       }
     }
     return null;
@@ -1681,11 +1715,15 @@
     cloud: {
       key: 'cloud_low_max',
       options: {
-        'zh-TW': [['min', '越少越好', '低雲 ≤20%'], ['half', '半晴半雲', '低雲 ≤50%'], ['any', '不在乎', '不帶雲量條件']],
-        'en': [['min', 'As little as possible', 'low cloud ≤20%'], ['half', 'Half sun, half cloud', 'low cloud ≤50%'], ['any', "Don't care", 'no cloud condition']],
-        'ja': [['min', 'できるだけ少ない', '低雲 ≤20%'], ['half', '半分晴れ半分雲', '低雲 ≤50%'], ['any', 'こだわらない', '雲の条件なし']],
+        'zh-TW': [['min', '越少越好', '低雲 ≤20%'], ['half', '半晴半雲', '低雲 ≤50%'], ['any', '不在乎', '不帶雲量條件'], ['more', '越多越好', '低雲 ≥70%']],
+        'en': [['min', 'As little as possible', 'low cloud ≤20%'], ['half', 'Half sun, half cloud', 'low cloud ≤50%'], ['any', "Don't care", 'no cloud condition'], ['more', 'The more the better', 'low cloud ≥70%']],
+        'ja': [['min', 'できるだけ少ない', '低雲 ≤20%'], ['half', '半分晴れ半分雲', '低雲 ≤50%'], ['any', 'こだわらない', '雲の条件なし'], ['more', '多いほうが良い', '低雲 ≥70%']],
       },
-      values: { min: 20, half: 50, any: 100 },
+      // patch-5 ⑤: 'more' maps to cloud_low_min (the _min counterpart of the
+      // _max keys — the same direction the worker schema/engine gained), so a
+      // cloud-sea-style preference can be configured manually without the
+      // engine pretending to know cloud-base height.
+      values: { min: 20, half: 50, any: 100, more: 70 },
     },
     fog: {
       key: 'visibility_min_km',
@@ -1717,7 +1755,7 @@
     golden: { cloud: 'half', fog: 'thin', rain: 'no', window: ['05:00', '07:00'] },
     city_night: { cloud: 'any', fog: 'thin', rain: 'no', window: ['19:00', '23:00'] },
     night_sky: { cloud: 'min', fog: 'none', rain: 'no', window: ['21:00', '03:00'] },
-    cloud_sea: { cloud: 'min', fog: 'any', rain: 'no', window: ['04:30', '07:00'] },
+    cloud_sea: { cloud: 'more', fog: 'any', rain: 'no', window: ['04:30', '07:00'] },
     overcast_soft: { cloud: 'any', fog: 'thin', rain: 'drizzle', window: ['06:00', '17:00'] },
     blue_hour: { cloud: 'half', fog: 'thin', rain: 'no', window: ['04:40', '05:40'] },
     sky_glow: { cloud: 'half', fog: 'thin', rain: 'no', window: ['17:30', '19:00'] },
@@ -1804,7 +1842,9 @@
             // the segment editor; a legacy flat window fills segment 0 fixed.
             if (Array.isArray(s.windows) && s.windows.length) {
               cpWinState = s.windows.slice(0, 2).map(function (seg) {
-                return seg.type === 'fixed' ? { type: 'fixed', start: seg.start || '', end: seg.end || '' } : { type: seg.type, offset_minutes: seg.offset_minutes || 0 };
+                var st = seg.type === 'fixed' ? { type: 'fixed', start: seg.start || '', end: seg.end || '' } : { type: seg.type, offset_minutes: seg.offset_minutes || 0 };
+                if (seg.type !== 'fixed' && seg.span_minutes != null && seg.span_minutes > 0) st.span_minutes = seg.span_minutes;
+                return st;
               });
               cpRenderWinArea();
             } else if (s.window_start) {
@@ -1963,6 +2003,7 @@
       '<details class="cl-cp-cc-advanced" id="cl-cp-cc-adv"><summary>' + esc(t().adv_toggle) + '</summary>' +
       '<div class="cl-cp-cc-params" style="margin-top:8px">' +
       ccp('cl-cp-cc-low', t().p_low, v('cloud_low_max')) +
+      ccp('cl-cp-cc-lowmin', t().p_lowmin, v('cloud_low_min')) +
       ccp('cl-cp-cc-mid', t().p_mid, v('cloud_mid_max')) +
       ccp('cl-cp-cc-high', t().p_high, v('cloud_high_max')) +
       ccp('cl-cp-cc-precip', t().p_precip, v('precip_max_mmh')) +
@@ -1984,8 +2025,15 @@
         if (!sel) return;
         var val = sel.value;
         els.overlay.querySelector('#cl-cp-sem-map-' + axis).textContent = '→ ' + semanticMappedLabel(axis, val);
+        // patch-5 ⑤: 'more' routes to the _min floor input; every other cloud
+        // value clears the floor (the two directions never both constrain)
+        var lowmin = els.overlay.querySelector('#cl-cp-cc-lowmin');
         var target = { cloud: '#cl-cp-cc-low', fog: '#cl-cp-cc-vis', rain: '#cl-cp-cc-precip' }[axis];
         var inp = els.overlay.querySelector(target);
+        if (axis === 'cloud' && lowmin) {
+          if (val === 'more') { lowmin.value = String(CC_SEMANTIC.cloud.values.more); if (inp) inp.value = ''; return; }
+          lowmin.value = '';
+        }
         if (!inp) return;
         var mapped = semanticValue(axis, val);
         inp.value = mapped == null ? '' : String(mapped);
@@ -2068,6 +2116,8 @@
   }
   function currentSemantic(axis, cc) {
     var m = CC_SEMANTIC[axis]; if (!m) return 'any';
+    // patch-5 ⑤: the 越多越好 floor direction is recognized from cloud_low_min
+    if (axis === 'cloud' && cc && cc.cloud_low_min != null && Number(cc.cloud_low_min) >= m.values.more) return 'more';
     var val = cc && cc[m.key];
     var best = 'any';
     var entries = Object.keys(m.values);
@@ -2109,7 +2159,7 @@
   function readCc() {
     var num = function (id) { var v = els.overlay.querySelector('#' + id).value.trim(); if (!v) return null; var n = Number(v); return isFinite(n) ? n : null; };
     var out = {};
-    ['cl-cp-cc-low:cloud_low_max', 'cl-cp-cc-mid:cloud_mid_max', 'cl-cp-cc-high:cloud_high_max', 'cl-cp-cc-precip:precip_max_mmh', 'cl-cp-cc-vis:visibility_min_km', 'cl-cp-cc-wind:wind_max_ms'].forEach(function (pair) {
+    ['cl-cp-cc-low:cloud_low_max', 'cl-cp-cc-lowmin:cloud_low_min', 'cl-cp-cc-mid:cloud_mid_max', 'cl-cp-cc-high:cloud_high_max', 'cl-cp-cc-precip:precip_max_mmh', 'cl-cp-cc-vis:visibility_min_km', 'cl-cp-cc-wind:wind_max_ms'].forEach(function (pair) {
       var parts = pair.split(':'); var n = num(parts[0]); if (n != null) out[parts[1]] = n;
     });
     // window segments → cc schema (same rule as the subject-sets editors)
@@ -2118,7 +2168,11 @@
       out.window_start = segs[0].start; out.window_end = segs[0].end;
     } else if (segs.length) {
       out.windows = segs.map(function (s) {
-        return s.type === 'fixed' ? { type: 'fixed', start: s.start, end: s.end } : { type: s.type, offset_minutes: s.offset_minutes || 0 };
+        if (s.type === 'fixed') return { type: 'fixed', start: s.start, end: s.end };
+        // patch-5 ⑤: the short-window span rides through to the worker schema
+        var w = { type: s.type, offset_minutes: s.offset_minutes || 0 };
+        if (s.span_minutes != null && s.span_minutes > 0) w.span_minutes = s.span_minutes;
+        return w;
       });
     }
     var monthsWrap = els.overlay.querySelector('#cl-cp-cc-months');

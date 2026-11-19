@@ -18,6 +18,9 @@ export const MATCH_WINDOW_H = 24;
 // user parameters — same window/lead-time semantics as subject mode.
 // Parameter contract (all optional; absent = no constraint):
 //   cloud_low_max / cloud_mid_max / cloud_high_max : % 0..100 (>=100 = none)
+//   cloud_low_min / cloud_mid_min / cloud_high_min : % 0..100 (<=0 = none) —
+//     patch-5 ⑤: the 越多越好 direction (cloud-sea-style decks judged from the
+//     same flat hourly % grid; the viewpoint-height nuance stays official-genre)
 //   precip_max_mmh    : mm/h 0..200
 //   visibility_min_km : km 0..50 (<=0 = none)
 //   wind_max_ms       : m/s 0..75
@@ -28,6 +31,9 @@ const CC_NUM_LIMITS = {
   cloud_low_max: [0, 100],
   cloud_mid_max: [0, 100],
   cloud_high_max: [0, 100],
+  cloud_low_min: [0, 100],
+  cloud_mid_min: [0, 100],
+  cloud_high_min: [0, 100],
   precip_max_mmh: [0, 200],
   visibility_min_km: [0, 50],
   wind_max_ms: [0, 75],
@@ -148,6 +154,7 @@ export function validateWindowSegment(s) {
   const seg = { type };
   if (type === "fixed") {
     if (s.offset_minutes != null) return { ok: false, error: "fixed segments take start/end, not offset_minutes" };
+    if (s.span_minutes != null) return { ok: false, error: "fixed segments take start/end, not span_minutes" };
     if (typeof s.start !== "string" || typeof s.end !== "string" || !CC_HM_RE.test(s.start) || !CC_HM_RE.test(s.end)) {
       return { ok: false, error: "fixed segments need both start and end as HH:MM strings" };
     }
@@ -159,6 +166,19 @@ export function validateWindowSegment(s) {
     const n = s.offset_minutes;
     if (!Number.isInteger(n) || n < -720 || n > 720) return { ok: false, error: "offset_minutes must be an integer -720..720" };
     seg.offset_minutes = n;
+  }
+  // CL-APP-09 patch-5 ⑤: optional SHORT-WINDOW span for anchor segments —
+  // before_* ends at the anchor bound and spans span_minutes BACK; after_*
+  // starts at the anchor bound and spans span_minutes FORWARD. This is how a
+  // golden-hour phrase (霞光/金色 ±30 min around the sun event) becomes ONE
+  // short sun-anchored window instead of two full-day spans. Mutually
+  // exclusive with the fixed-clock narrowing bound (fail-closed ambiguity).
+  if (s.span_minutes != null) {
+    const sp = s.span_minutes;
+    if (!Number.isInteger(sp) || sp < 1 || sp > 720) return { ok: false, error: "span_minutes must be an integer 1..720" };
+    if (type.startsWith("before_") && s.start != null) return { ok: false, error: "span_minutes excludes a fixed start on a before_* anchor (the span IS the start)" };
+    if (!type.startsWith("before_") && s.end != null) return { ok: false, error: "span_minutes excludes a fixed end on an after_* anchor (the span IS the end)" };
+    seg.span_minutes = sp;
   }
   if (type.startsWith("before_")) {
     if (s.end != null) return { ok: false, error: `${type} has no end (the sun anchor IS the end); use start to narrow the window start` };
@@ -208,9 +228,18 @@ export function resolveSegmentBounds(seg, localDate, placeCtx) {
   const norm = (x) => ((Math.round(x) % 1440) + 1440) % 1440;
   const toHM = (x) => `${String(Math.floor(x / 60)).padStart(2, "0")}:${String(x % 60).padStart(2, "0")}`;
   if (seg.type.startsWith("before_")) {
-    return { start: seg.start || "00:00", end: toHM(norm(anchorMin + off)), anchorHM: toHM(norm(anchorMin)) };
+    // patch-5 ⑤: span_minutes makes the SHORT window [anchor+off−span, anchor+off];
+    // without it the legacy full-span start (00:00 or the fixed narrowing start) holds.
+    const start = Number.isFinite(seg.span_minutes)
+      ? toHM(norm(anchorMin + off - seg.span_minutes))
+      : (seg.start || "00:00");
+    return { start, end: toHM(norm(anchorMin + off)), anchorHM: toHM(norm(anchorMin)) };
   }
-  return { start: toHM(norm(anchorMin + off)), end: seg.end || "23:59", anchorHM: toHM(norm(anchorMin)) };
+  const startHM = toHM(norm(anchorMin + off));
+  const end = Number.isFinite(seg.span_minutes)
+    ? toHM(norm(anchorMin + off + seg.span_minutes))
+    : (seg.end || "23:59");
+  return { start: startHM, end, anchorHM: toHM(norm(anchorMin)) };
 }
 
 // Does ONE hour row pass the cc's window segments (ANY segment passes)? This
@@ -261,17 +290,22 @@ export function customHourMatches(values, cc) {
   if (!cc) return false;
   const v = values && typeof values === "object" ? values : {};
   const num = (x) => (typeof x === "number" && Number.isFinite(x) ? x : null);
-  for (const [k, metric, op] of [
+  const rows = [
     ["cloud_low_max", "cloud_low", "lte"],
     ["cloud_mid_max", "cloud_mid", "lte"],
     ["cloud_high_max", "cloud_high", "lte"],
+    ["cloud_low_min", "cloud_low", "gte"],
+    ["cloud_mid_min", "cloud_mid", "gte"],
+    ["cloud_high_min", "cloud_high", "gte"],
     ["precip_max_mmh", "precipitation", "lte"],
     ["visibility_min_km", "visibility", "gte"],
     ["wind_max_ms", "wind", "lte"],
-  ]) {
+  ];
+  for (const [k, metric, op] of rows) {
     const limit = num(cc[k]);
     if (limit == null) continue;
     if (op === "lte" && metric.startsWith("cloud") && limit >= 100) continue; // lenient default
+    if (op === "gte" && metric.startsWith("cloud") && limit <= 0) continue; // patch-5 ⑤ lenient default
     if (op === "gte" && metric === "visibility" && limit <= 0) continue; // lenient default
     const val = num(v[metric]);
     if (val == null) return false; // constraint set but data missing -> no match

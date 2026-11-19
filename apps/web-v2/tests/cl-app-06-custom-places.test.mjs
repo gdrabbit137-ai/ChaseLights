@@ -27,10 +27,12 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
   // CL-INT-206 merge: clapp06g (patch-8) + clapp08a (shared-fetch tag) ->
   // clapp08b on the merged tree; CL-APP-09-p3 (popup anatomy) -> clapp09d;
-  // CL-APP-09 patch-4 (popup rides the official renderers) -> clapp09e
-  // (per-file cache-bust rule, monotonic)
+  // CL-APP-09 patch-4 (popup rides the official renderers) -> clapp09e;
+  // patch-5 (semantic guard + 越多越好 floor) -> clapp09f (JS only, per-file
+  // cache-bust rule, monotonic — the CSS is untouched this ticket)
   assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09e/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09e/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09f/);
+  assert.doesNotMatch(htmlSource, /custom-places\.js\?v=clapp09e/);
   assert.doesNotMatch(htmlSource, /custom-places\.(css|js)\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
@@ -756,7 +758,7 @@ test('CL-APP-06 (2h, patch-8): 「掛題材·條件」 = LIST manager — groups
   assert.equal(probe.low1, '50', 'changing the semantic select writes the mapped concrete value');
   assert.match(probe.prev, /低雲≤50/, 'preview updates from the mapped value');
   assert.ok(probe.genreOptions >= 22, '21 genre starters + the empty option');
-  assert.equal(probe.starterCloud, 'min', '雲海 starter applies');
+  assert.equal(probe.starterCloud, 'more', '雲海 starter applies (patch-5: the CORRECT 低雲厚 direction)');
   assert.deepEqual(probe.starterWin, ['04:30', '07:00']);
   assert.equal(probe.advancedOpenDefault, false, 'advanced raw inputs collapsed by default');
   assert.match(probe.btnBefore, /請先輸入題材名稱/, 'the disabled button shows the reason on itself');
@@ -1208,9 +1210,12 @@ test('CL-APP-06 (1g, patch-4/5): mini-map deferred-init contract + ticket-langua
       assert.doesNotMatch(m[0], /CL-[A-Z]+-?\d*/, `dictionary ${lang} must not carry ticket numbers`);
     }
   })();
-  // patch-5 ③: conflict path — the AI applies nothing, the user picks
+  // patch-5 ③: conflict path — the AI applies nothing; patch-5 semantic guard:
+  // the prefix is neutral (the cloud-sea advice is NOT a "pick one" conflict)
   assert.match(jsSource, /if \(s\.conflict\)[\s\S]{0,200}ai_conflict\.replace\('\{m\}', s\.conflict\)/);
-  assert.match(jsSource, /ai_conflict: '⚠ 條件矛盾：\{m\}——請擇一，AI 未套用任何值。'/);
+  assert.match(jsSource, /ai_conflict: '⚠ AI 未套用任何值：\{m\}'/);
+  assert.match(jsSource, /ai_conflict: '⚠ The AI applied nothing: \{m\}'/);
+  assert.match(jsSource, /ai_conflict: '⚠ AIは未適用：\{m\}'/);
   // patch-5 ②: the example copy is conflict-free (single time window)
   // CL-APP-09 patch-2: the example speaks in the photographer's voice (cloud-sea at dawn IS the deck window)
   assert.match(jsSource, /ai_ph: '例如：清晨六點前要有雲海，不要下雨，風要小，能見度要好'/);
@@ -1338,11 +1343,64 @@ test('CL-APP-06 (2s, patch-5): conditions modal — no ticket language, conflict
   assert.match(probe.previewMonths, /1–2,12/, 'preview prints the compacted month window');
   assert.deepEqual(probe.sakuraMonths, [3, 4], '櫻花 starter prefills its seasonal months');
   assert.match(probe.previewAfterStarter, /月 3–4/);
-  assert.match(probe.conflictNote, /條件矛盾/, 'honest conflict message');
-  assert.match(probe.conflictNote, /請擇一/);
+  assert.match(probe.conflictNote, /AI 未套用任何值/, 'honest conflict message (neutral prefix)');
+  assert.match(probe.conflictNote, /請擇一/, "the mock's own conflict text survives");
   assert.equal(probe.cloudAfterConflict, 'any', 'the conflict did NOT change the cloud select (unchanged from the 櫻花 starter = any)');
   assert.equal(probe.winStartAfterConflict, '06:00', 'the conflict did NOT touch the time window (the 櫻花 starter\'s 06:00 survives)');
   assert.equal(probe.previewUnchanged, true, 'the preview is untouched by a conflicting parse');
+});
+
+test('CL-APP-06 (2v, patch-5): 越多越好 floor direction (dropdown → _min input → preview) + the span editor input', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const probe = await evaljs(`(async () => {
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
+    card.querySelector('.cl-cp-more').click();
+    document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const ov = document.querySelector('.cl-cp-overlay');
+    ov.querySelector('.cl-cp-theme-row [data-cp-th-act="edit"]').click();
+    await new Promise(r => setTimeout(r, 250));
+    const out = {};
+    // ① the 越多越好 option exists and routes to the _min floor input
+    const cloudSel = ov.querySelector('#cl-cp-sem-cloud');
+    out.moreOption = [...cloudSel.options].some(o => o.value === 'more');
+    cloudSel.value = 'more';
+    cloudSel.dispatchEvent(new Event('change'));
+    await new Promise(r => setTimeout(r, 100));
+    out.mapLabel = ov.querySelector('#cl-cp-sem-map-cloud').textContent;
+    out.lowAfterMore = ov.querySelector('#cl-cp-cc-low').value;
+    out.lowMinAfterMore = ov.querySelector('#cl-cp-cc-lowmin').value;
+    out.previewFloor = ov.querySelector('#cl-cp-cc-prev').textContent;
+    // ② the other direction clears the floor (the two never both constrain)
+    cloudSel.value = 'half';
+    cloudSel.dispatchEvent(new Event('change'));
+    await new Promise(r => setTimeout(r, 100));
+    out.lowAfterHalf = ov.querySelector('#cl-cp-cc-low').value;
+    out.lowMinAfterHalf = ov.querySelector('#cl-cp-cc-lowmin').value;
+    // ③ anchor segment gains the span input; the preview shows the short window
+    const ws0type = ov.querySelector('#cl-cp-ws0-type');
+    ws0type.value = 'before_sunset';
+    ws0type.dispatchEvent(new Event('change'));
+    await new Promise(r => setTimeout(r, 100));
+    out.spanInput = !!ov.querySelector('#cl-cp-ws0-span');
+    const spanEl = ov.querySelector('#cl-cp-ws0-span');
+    spanEl.value = '60';
+    spanEl.dispatchEvent(new Event('change'));
+    await new Promise(r => setTimeout(r, 100));
+    out.previewSpan = ov.querySelector('#cl-cp-cc-prev').textContent;
+    return out;
+  })()`);
+  assert.equal(probe.moreOption, true, 'the 越多越好 option exists on the cloud dropdown');
+  assert.match(probe.mapLabel, /低雲 ≥70%/, 'the transparent mapping shows the floor value');
+  assert.equal(probe.lowAfterMore, '', 'the floor does NOT write the _max input');
+  assert.equal(probe.lowMinAfterMore, '70', 'the floor writes cloud_low_min');
+  assert.match(probe.previewFloor, /低雲≥70%/, 'the preview reads as a floor');
+  assert.equal(probe.lowAfterHalf, '50', 'the 越少越好 direction still writes the _max input');
+  assert.equal(probe.lowMinAfterHalf, '', 'switching direction clears the floor');
+  assert.equal(probe.spanInput, true, 'anchor segments expose the span input');
+  assert.match(probe.previewSpan, /日落前.*60分窗/, 'the preview shows the short golden window');
 });
 
 test('CL-APP-06 (1h, patch-7→patch-4): private-card click → forecast popup rides the OFFICIAL renderer (source contract)', () => {

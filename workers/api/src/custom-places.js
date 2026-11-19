@@ -277,7 +277,9 @@ export function dominantFailWord(hourly, cc, nowMs = Date.now()) {
     ["cloud_low_max", "cloud_low"], ["cloud_mid_max", "cloud_mid"],
     ["cloud_high_max", "cloud_high"], ["precip_max_mmh", "precipitation"],
     ["visibility_min_km", "visibility"], ["wind_max_ms", "wind"],
+    ["cloud_low_min", "cloud_low"], ["cloud_mid_min", "cloud_mid"], ["cloud_high_min", "cloud_high"],
   ];
+  const gteParam = (p) => p === "visibility_min_km" || p.endsWith("_min");
   let best = null;
   for (const [param, metric] of pairs) {
     const limit = cc && cc[param] != null ? Number(cc[param]) : null;
@@ -288,7 +290,7 @@ export function dominantFailWord(hourly, cc, nowMs = Date.now()) {
       if (v == null || !Number.isFinite(Number(v))) continue;
       counted += 1;
       const val = Number(v);
-      if ((param === "visibility_min_km" && val < limit) || (param !== "visibility_min_km" && val > limit)) violations += 1;
+      if (gteParam(param) ? val < limit : val > limit) violations += 1;
     }
     if (!counted) continue;
     const share = violations / counted;
@@ -1158,7 +1160,10 @@ export function validateParseSuggestions(body) {
       if (!v.ok) return { ok: false };
       segs.push(v.seg);
     }
-    out.windows = segs;
+    // patch-5 semantic guard: an EMPTY windows array is "no concrete window"
+    // (the cloud-sea advice shape is conflict + empty windows) — only a
+    // NON-empty array counts as a concrete window and excludes conflict.
+    if (segs.length) out.windows = segs;
   } else {
     const hm = /^([01]\d|2[0-3]):[0-5]\d$/;
     if (body.window_start != null || body.window_end != null) {
@@ -1192,11 +1197,14 @@ const PARSE_SYSTEM_PROMPT =
   'wind_max_ms (number|null, m/s), ' +
   'windows (array of 0..2 time-window SEGMENTS; empty array when the text names no time window), ' +
   'lead_minutes (integer|null), conflict (string|null), confidence (0..1). ' +
-  'Each window segment is an object {type, start, end, offset_minutes} with type one of: ' +
-  '"fixed" (BOTH start and end required, "HH:MM" strings, offset_minutes must be null) — ' +
+  'Each window segment is an object {type, start, end, offset_minutes, span_minutes} with type one of: ' +
+  '"fixed" (BOTH start and end required, "HH:MM" strings, offset_minutes and span_minutes must be null) — ' +
   'a concrete local clock span; ' +
   '"before_sunrise" | "after_sunrise" | "before_sunset" | "after_sunset" (SUN-ANCHORED: ' +
   'offset_minutes = integer minutes relative to the anchor event, null = 0; start/end must be null). ' +
+  'span_minutes (optional, integer 1..720) makes a SHORT window hugging the anchor: for a before_* ' +
+  'segment the window ends at the anchor bound and spans that many minutes BACK; for an after_* ' +
+  'segment it starts at the anchor bound and spans FORWARD. ' +
   'ANCHOR RULE (critical): phrases like 日出前/日出後/日落前/日落後, before/after sunrise or sunset, ' +
   '夜深到天亮前 must become SUN-ANCHORED segments — NEVER convert them into fixed clock times, ' +
   'because real sunrise/sunset shift with the seasons and the app expands them per day. ' +
@@ -1204,6 +1212,24 @@ const PARSE_SYSTEM_PROMPT =
   'after_sunrise 30 means "start 30 minutes after sunrise". ' +
   'TWO time spans in the text (清晨與傍晚 / twice a day / dawn AND dusk / blue hour morning and evening) ' +
   'become TWO segments in ONE windows array — never merge them into one wide window. ' +
+  'GOLDEN-LIGHT RULE (owner ruling, patch-5): a golden/glow phrase — 金色/黃金/霞光/曙光/golden hour/第一道金光 — ' +
+  'means the sun-event moment itself: emit exactly ONE short sun-anchored segment within ±30 minutes of the ' +
+  'anchor — morning golden = {type:"after_sunrise", offset_minutes:-30, span_minutes:60} (window ' +
+  'sunrise−30…sunrise+30); evening golden = {type:"before_sunset", offset_minutes:30, span_minutes:60} ' +
+  '(window sunset−30…sunset+30). NEVER answer a golden phrase with two whole-period segments ' +
+  '(e.g. before_sunrise + after_sunset) and never with a full-day span — pick the ONE anchor the text ' +
+  'names (morning words → sunrise, evening words → sunset); when the text names neither, prefer the ' +
+  'sunset anchor for 霞光/晚霞-like words and the sunrise anchor for 曙光/朝霞-like words. ' +
+  'CLOUD-SEA GUARD (owner ruling, patch-5): 雲海/海霧/sea of clouds/雲の海-type phrases describe a cloud ' +
+  'DECK SITTING BELOW THE VIEWPOINT — this engine cannot express that (its cloud values are flat ' +
+  'percentages at one grid point, no cloud-base-height formula). Do NOT encode it as a maximum-cloud ' +
+  'condition (never cloud "min"/≤20%) and do NOT invent an inverted trick either: keep cloud "any" ' +
+  '(keep any GENUINELY stated constraints like rain/wind/visibility), leave windows empty unless the ' +
+  'text itself names a concrete time span, and put a SHORT (<200 chars) message in conflict — written ' +
+  'in the USER\'S OWN language — honestly advising them to attach the official 雲海 (cloud sea) genre ' +
+  'instead, e.g. zh-TW 「自訂條件引擎無法表達雲海（雲海需低雲層厚且低於拍攝點），請改掛官方『雲海』題材」, ' +
+  'en "Custom conditions cannot express a cloud sea (the deck must sit below the viewpoint) — please ' +
+  'attach the official Cloud-sea genre instead.", ja 「自訂條件では雲海を表現できません（低雲が撮影点より下に厚く必要）公式の『雲海』題材をご利用ください」. ' +
   'MULTIPLE overlapping constraints on ONE span are INTERSECTED into that one segment. ' +
   'If the requested conditions CONTRADICT each other and have no valid overlap, ' +
   'set windows to [] and put a SHORT (<200 chars) message in conflict — ' +
