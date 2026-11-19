@@ -26,9 +26,14 @@ Readiness：研究成熟度 R1（evidence_review），仍有 GEOMETRY_GAP 與 RE
 ### REQUIRED
 
 - 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold 0.6；GUIDANCE）
-- 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold [30, 60]；GUIDANCE）
 - 2026-11-01 manager 依既有已審模板訂立，未校準。（threshold 0.2；GUIDANCE）
+- 2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：低雲 ≤30%。（threshold 30；GUIDANCE）
+- 2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：能見度 ≥15 km。（threshold 15；GUIDANCE）
 - 2026-11-10 CL-DATA-57：sunset_window 升為 REQUIRED——可見光夕照題材不得在黃金窗外成立（深夜不得因天氣門檻通過而判為符合）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。（threshold unknown；GUIDANCE）
+
+### QUALITY
+
+- 2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：cloud_cover_mid [30,60] 必須 → 加分項（BONUS）。（threshold [30, 60]；GUIDANCE）
 
 
 ### 進入警告（不影響攝影條件）

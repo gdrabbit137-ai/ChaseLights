@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and canonical sources remain source pinned (CL-INT-192 merged regen: 460 places / 721 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'0f0843e37543653f2f070063a3aa4702d50a327d8c793586f39133054db682be'); // re-measured CL-INT-192 (merged-tree full regen a6b3c0e68: 73+74 mounts, index_revision 8a7951c9 per CL-CI-31c)
-  assert.equal(sha256(rawCatalog),'595ce9f400ead8adb4bbd8882ec345429e5bf5eded7f2e0cd77e52c65598505e'); // re-measured CL-INT-192 (merged-tree full regen a6b3c0e68, index_revision 8a7951c9)
+  assert.equal(sha256(rawIndex),'b2eaee5564ddd244a4637a4445be385c91e12d14371a2256ecd29d9ee2e39660'); // re-measured CL-DATA-75 (§1 contract wave: 125 contracts, index_revision d802e3f3)
+  assert.equal(sha256(rawCatalog),'eb28c32f6ec1311b022b3ccf4e810a9a26b523b0eb45d9d2987fbdb33ed5e787'); // re-measured CL-DATA-75 (§1 contract wave, index_revision d802e3f3)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,721);assert.equal(source.places.length,460); // re-anchored CL-INT-192 (+12 misty_forest +17 five-genre)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];

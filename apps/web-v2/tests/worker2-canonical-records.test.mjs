@@ -27,9 +27,11 @@ test('original Worker 2 canonical records preserve research-only semantics', () 
   assert.equal(catalog.camera_zones.length, 3);
   assert.equal(catalog.subject_geometries.length, 3);
   assert.equal(catalog.view_relations.length, 3);
-  // tw-016-P01 manager contract 4 conditions (2dc05b3cc) + tw-026-P01/P02
-  // sunset-template contracts rebuilt under the 2026-11-02 owner ruling (5 each)
-  assert.equal(catalog.conditions.length, 14);
+  // tw-016-P01 manager contract 4 conditions (2dc05b3cc) grew to 6 under
+  // CL-DATA-75 (owner spec §1.1: mid-cloud gate demoted to BONUS, low-cloud +
+  // visibility REQUIRED added); tw-026-P01/P02 sunset-template contracts
+  // rebuilt under the 2026-11-02 owner ruling (5 each)
+  assert.equal(catalog.conditions.length, 16);
   assert.equal(catalog.access_advisories.length, 0);
   assert.ok(catalog.conditions.every(c => c.domain !== "ACCESS_SAFETY"));
   assert.equal(catalog.evidence.length, 21);

@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-087-P01",
   "place_id": "us-087",
-  "revision": 4,
+  "revision": 5,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Hurricane Ridge・Olympic Mountains 山岳層次／雲海",
@@ -146,7 +146,7 @@
       },
       {
         "id": "C-us-087-P01-02",
-        "role": "REQUIRED",
+        "role": "QUALITY",
         "domain": "WEATHER",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -163,13 +163,18 @@
         ],
         "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent|role:MID",
         "validation_status": "provisional",
-        "condition_tier": "MAIN",
+        "condition_tier": "BONUS",
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "完全無雲＝沒有層次；山腰雲帶（中雲 30–60%）形成層疊分明的畫面。",
-          "en": "A cloudless sky has no layering; mid-level cloud bands on the mountainsides (30-60%) build the stacked composition.",
-          "ja": "雲がなければ層はない。山腹の雲帯（中層雲30-60%）が重なりのある構図を作る。"
+          "zh-TW": "中雲 30–60% 帶來層次感，但只是加分——晴空萬里同樣是絕佳山景（owner 規格 §1.1：移除必須，避免晴空被誤殺）。",
+          "en": "Mid-cloud 30-60% adds layering, but as a bonus only - a cloudless clear sky is equally a superb mountain vista (owner spec section 1.1: the gate is removed so clear skies are no longer killed).",
+          "ja": "中層雲30〜60%は画面に重なりを与えるが加点にとどめる——雲一つない晴空も優れた山景（オーナー仕様書 §1.1：必須を撤去し晴空の誤殺を防ぐ）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：cloud_cover_mid [30,60] 必須 → 加分項（BONUS）。",
+          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): cloud_cover_mid [30,60] demoted from REQUIRED gate to QUALITY/BONUS.",
+          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：cloud_cover_mid [30,60] を必須から加点（BONUS）へ降格。"
         }
       },
       {
@@ -280,6 +285,66 @@
           "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 1590 m）− 200 m = 1390 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
           "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 1590 m) - 200 m = 1390 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
           "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 1590 m）− 200 m = 1390 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+        }
+      },
+      {
+        "id": "C-us-087-P01-05",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "lte",
+        "threshold": 30,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-087-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "低雲罩頂就沒有山景：低雲 ≤30%（僅高層薄雲或晴空時山體清晰可辨）；中雲層次感改列加分項，不再否決晴空。",
+          "en": "A low deck over the mountains kills the vista: low cloud <= 30% (the ridgelines stay legible under a clear or only high-thin sky); mid-cloud layering is a bonus, never a veto.",
+          "ja": "低層雲が山頂を覆えば眺望は成立しない：下層雲≤30%（晴または上層の薄雲のみならず稜線が明瞭）。中層雲の重なりは加点項とし、晴空を否決しない。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：低雲 ≤30%。",
+          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): Added REQUIRED: low cloud <= 30%.",
+          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：必須条件を追加：下層雲≤30%。"
+        }
+      },
+      {
+        "id": "C-us-087-P01-06",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "visibility",
+        "operator": "gte",
+        "threshold": 15,
+        "unit": "km",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-087-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "山景的價值在看得遠：能見度 ≥15 km，霧霾把遠山吃掉時直接否決（owner 規格 §1.1 標準值）。",
+          "en": "The value of a mountain vista is distance: visibility >= 15 km; haze that swallows the far ridges vetoes the hour outright (owner-spec section 1.1 standard value).",
+          "ja": "山景の価値は遠くまで見えること：視程≥15 km。ヘイズが遠山を飲み込む場合は否決（オーナー仕様書 §1.1 の標準値）。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：能見度 ≥15 km。",
+          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): Added REQUIRED: visibility >= 15 km.",
+          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：必須条件を追加：視程≥15 km。"
         }
       }
     ]

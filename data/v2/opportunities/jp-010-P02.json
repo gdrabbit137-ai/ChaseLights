@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-010-P02",
   "place_id": "jp-010",
-  "revision": 4,
+  "revision": 5,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "大石公園・逆さ富士",
@@ -119,31 +119,6 @@
     "template_version": "reflection-v0.1",
     "recommendation_policy_version": null,
     "conditions": [
-      {
-        "id": "C-jp-010-P02-01",
-        "role": "REQUIRED",
-        "domain": "SEASON_TIME",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "seasonal_state",
-        "operator": "eq",
-        "threshold": "window_open",
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-010-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "季節窗判定：evaluation 取值為 window_open / window_closed（由 seasonal-calendar.json 的例年窗與今年實況窗對拍日曆得出；實況優先，兩者皆缺時誠實 not_evaluatable）。",
-          "en": "Seasonal-window verdict: the evaluation value is window_open / window_closed (resolved by matching the calendar date against typical and current-season windows in seasonal-calendar.json; observed takes precedence, and with neither present the genre is honestly not_evaluatable).",
-          "ja": "季節窓判定：評価値は window_open/window_closed（seasonal-calendar.json の例年窓・当年窓と日付の突き合わせで決定。実況優先、どちらも欠ければ誠実に not_evaluatable）。"
-        }
-      },
       {
         "id": "C-jp-010-P02-02",
         "role": "REQUIRED",
@@ -342,9 +317,9 @@
           "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-          "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
-          "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
+          "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。\n2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：移除季節窗必須（全年可拍——逆さ富士的成立條件是湖面平靜與富士可見，不是花季；owner 規格 §1.4：避免對照空值季節窗）。",
+          "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.\n2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): seasonal window gate removed (year-round subject: the reverse-Fuji lives on calm water and a visible Fuji, not a bloom season; owner spec section 1.4 - avoids referencing an empty seasonal field).",
+          "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。\n2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：季節窓の必須を撤去（通年撮影可——逆さ富士は湖面の静けさと富士の可視で成立し、花の季節ではない。オーナー仕様書 §1.4：空の季節欄参照を回避）。"
         }
       }
     ]

@@ -27,15 +27,20 @@ const PINNED = {
   'tw-027-P02': {
     windowMetric: 'city_night_window',
     moonCluster: false,
-    revision: 4, // CL-INT-112: revision bumped by CL-DATA-36 batch2 access-verification (e-d36 evidence refs)
+    revision: 5, // CL-DATA-75: revision bumped again by the owner-spec §1.2 moon any_of wave (4 → 5)
   },
   'tw-035-P05': { windowMetric: 'astronomical_darkness', moonCluster: true },
   'tw-036-P02': { windowMetric: 'astronomical_darkness', moonCluster: true },
   'tw-038-P02': { windowMetric: 'astronomical_darkness', moonCluster: true },
 };
+// CL-DATA-75 (owner spec §1.2, 2026-11-20): the milky-way moon gate is the
+// any_of dual-track — moon_altitude < 0 OR (illumination <= 0.25 AND
+// separation >= 45). The old moon_illuminance_proxy gate is REPLACED by the
+// spec's raw illumination gate (moon-down hours auto-pass via the evaluator's
+// moon-below-horizon override), so the cluster metric set changes accordingly.
 const MOON_CLUSTER = new Set([
   'moon_illumination_fraction', 'moon_altitude',
-  'moon_target_separation_deg', 'moon_illuminance_proxy',
+  'moon_target_separation_deg',
 ]);
 
 function loadContract(oid) {
@@ -80,7 +85,7 @@ test('CL-DATA-09: tw-027-P02 provenance records the owner ruling in source-lock'
     path.join(repo, 'data/v2/indexes/research/source-lock.json'), 'utf8'));
   const rec = lock.canonical_records.find(r => r.opportunity_id === 'tw-027-P02');
   assert.ok(rec, 'tw-027-P02 is a pinned canonical record');
-  assert.equal(rec.commit_sha, '21198c9cc91e00cdd3df8daea76aac46bf9fb45b'); // CL-INT-112: record re-pinned by CL-DATA-36 batch2 (ruling bytes carried forward)
+  assert.equal(rec.commit_sha, '4ac19a2c6d207a39642a7e4e42f53a7e023ba9ff'); // CL-DATA-75: record re-pinned with the §1.2 wave (bytes unchanged since CL-INT-112 semantics; commit moved with the wave re-pin)
   assert.ok(/CL-DATA-09/.test(lock.repin_note_cl_data_09_20261105),
     'repin revision note records the ruling');
 });

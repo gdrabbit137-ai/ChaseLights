@@ -1,6 +1,6 @@
 {
   "template_id": "mountain_view",
-  "version": "0.1",
+  "version": "0.2",
   "status": "defined",
   "title_i18n": {
     "zh-TW": "山景展望",
@@ -40,20 +40,20 @@
     {
       "template_ref": "T2",
       "metric": "cloud_cover_mid",
-      "role": "REQUIRED",
+      "role": "QUALITY",
       "domain": "WEATHER",
       "evaluation_mode": "GUIDANCE",
       "capability": "CONDITIONS",
-      "condition_tier": "MAIN",
+      "condition_tier": "BONUS",
       "operator": "between",
       "unit": "%",
       "unknown_policy": "propagate_unknown",
       "threshold_source": "formula_derived",
       "calibration_status": "provisional",
       "rationale_i18n": {
-        "zh-TW": "完全無雲＝沒有層次；山腰雲帶（中雲 30–60%）形成層疊分明的畫面。",
-        "en": "A cloudless sky has no layering; mid-level cloud bands on the mountainsides (30-60%) build the stacked composition.",
-        "ja": "雲がなければ層はない。山腹の雲帯（中層雲30-60%）が重なりのある構図を作る。"
+        "zh-TW": "中雲 30–60% 帶來層次感，但只是加分——晴空萬里同樣是絕佳山景（owner 規格 §1.1：移除必須，避免晴空被誤殺）。",
+        "en": "Mid-cloud 30-60% adds layering, but as a bonus only - a cloudless clear sky is equally a superb mountain vista (owner spec section 1.1: the gate is removed so clear skies are no longer killed).",
+        "ja": "中層雲30〜60%は画面に重なりを与えるが加点にとどめる——雲一つない晴空も優れた山景（オーナー仕様書 §1.1：必須を撤去し晴空の誤殺を防ぐ）。"
       },
       "binding": {
         "dataset": "gfs_0p25",
@@ -110,11 +110,66 @@
       },
       "binding": null,
       "threshold": null
+    },
+    {
+      "template_ref": "T5",
+      "metric": "cloud_cover_low",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "lte",
+      "unit": "%",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "低雲罩頂就沒有山景：低雲 ≤30%（僅高層薄雲或晴空時山體清晰可辨）；中雲層次感改列加分項，不再否決晴空。",
+        "en": "A low deck over the mountains kills the vista: low cloud <= 30% (the ridgelines stay legible under a clear or only high-thin sky); mid-cloud layering is a bonus, never a veto.",
+        "ja": "低層雲が山頂を覆えば眺望は成立しない：下層雲≤30%（晴または上層の薄雲のみならず稜線が明瞭）。中層雲の重なりは加点項とし、晴空を否決しない。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "cloud_cover_low_percent",
+        "role": "MID"
+      },
+      "threshold": 30
+    },
+    {
+      "template_ref": "T6",
+      "metric": "visibility",
+      "role": "REQUIRED",
+      "domain": "WEATHER",
+      "evaluation_mode": "GUIDANCE",
+      "capability": "CONDITIONS",
+      "condition_tier": "MAIN",
+      "operator": "gte",
+      "unit": "km",
+      "unknown_policy": "propagate_unknown",
+      "threshold_source": "formula_derived",
+      "calibration_status": "provisional",
+      "rationale_i18n": {
+        "zh-TW": "山景的價值在看得遠：能見度 ≥15 km，霧霾把遠山吃掉時直接否決（owner 規格 §1.1 標準值）。",
+        "en": "The value of a mountain vista is distance: visibility >= 15 km; haze that swallows the far ridges vetoes the hour outright (owner-spec section 1.1 standard value).",
+        "ja": "山景の価値は遠くまで見えること：視程≥15 km。ヘイズが遠山を飲み込む場合は否決（オーナー仕様書 §1.1 の標準値）。"
+      },
+      "binding": {
+        "dataset": "gfs_0p25",
+        "field": "visibility_km",
+        "role": "MID"
+      },
+      "threshold": 15
     }
   ],
   "definition_i18n": {
     "zh-TW": "從高處展望、畫面含多層山稜或遠山的山景；涵蓋層疊群山語意，不推定雲海或彩霞（那些是獨立題材）。",
     "en": "A high-vantage mountain view whose frame contains multiple mountain ridges or distant ranges; covers the layered-ridges reading; cloud sea and colorful clouds are separate genres.",
     "ja": "高所から望み、多層の尾根や遠くの山並みを含む山景；雲海や彩雲は別題材。"
+  },
+  "revision_note_i18n": {
+    "zh-TW": "v0.2（2026-11-20 CL-DATA-75，owner 規格 §1.1）：T2 中雲必須降為加分項（BONUS）；新增 T5 低雲 ≤30% 與 T6 能見度 ≥15 km 必須——晴空不再被誤殺。",
+    "en": "v0.2 (2026-11-20 CL-DATA-75, owner spec section 1.1): T2 mid-cloud demoted to BONUS; added T5 low cloud <= 30% and T6 visibility >= 15 km REQUIRED - clear skies are no longer killed.",
+    "ja": "v0.2（2026-11-20 CL-DATA-75、オーナー仕様書 §1.1）：T2 中層雲を加点へ降格。T5 下層雲≤30% と T6 視程≥15 km を必須として追加——晴空の誤殺を解消。"
   }
 }

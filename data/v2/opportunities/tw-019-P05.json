@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-019-P05",
   "place_id": "tw-019",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "合歡主峰高山星空／銀河",
@@ -225,7 +225,7 @@
       },
       {
         "id": "C-tw-019-P05-05",
-        "role": "REQUIRED",
+        "role": "QUALITY",
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
@@ -239,15 +239,20 @@
         ],
         "model_binding": null,
         "validation_status": "provisional",
-        "condition_tier": "MAIN",
+        "condition_tier": "BONUS",
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "銀河核心高度 ≥10°：10° 已脫離地平線附近最重的霾與大氣消光。春季（2–4 月）核心整夜仰角偏低，10° 保留東向開闊景點的低角銀河拍攝窗；東方有地形遮蔽的景點日後可依地平線資料調高。核心在地平線下的季節銀河河層不成立——僅影響銀河判定，星空基層照常評估。",
-          "en": "Galactic core altitude >= 10 deg: 10 deg already clears the heaviest haze and atmospheric extinction near the horizon. In spring (Feb-Apr) the core stays low all night, so 10 deg keeps the low-altitude Milky-Way window open for east-open spots; spots with obstructed eastern horizons can be raised later once horizon data exists. In seasons when the core stays below the horizon the Milky-Way layer fails; only the Milky-Way verdict is affected, the starry base is still evaluated.",
-          "ja": "銀河中心高度≥10度。10度で地平線近くの最も強い霾と大気減光を外れる。春（2〜4月）は中心が終夜低いため、10度とすることで東向きに開けた地点の低仰角銀河の窓を残す。東側に遮蔽のある地点は後日、地平線データで引き上げ可能。中心が地平線下の季節は銀河層不成立——銀河判定のみに影響し、星空基層は通常通り評価。"
+          "zh-TW": "銀河核心仰角僅作加分項（owner 規格 §1.2）：冬季核心低於地平線不封殺星空；核心高懸的夏夜畫面更佳，作為品質層訊號。",
+          "en": "Galactic-core altitude is a bonus signal only (owner spec section 1.2): in winter the core sits below the horizon and must never veto the starry sky; a high summer core simply makes the frame better.",
+          "ja": "銀河中心の高度は加点信号に過ぎない（オーナー仕様書 §1.2）：冬は中心が地平線下でも星空を否決しない。夏の高仰角は画面をより良くするだけ。"
         },
-        "genre_scope": "milky_way"
+        "genre_scope": "milky_way",
+        "notes_i18n": {
+          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：galactic_core ≥20 硬門檻移除，改 BONUS 加分項。",
+          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): galactic-core >= 20 hard gate removed, demoted to QUALITY/BONUS.",
+          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：galactic_core ≥20 の必須門檻を撤去し、加点（BONUS）へ。"
+        }
       },
       {
         "id": "C-tw-019-P05-06",
@@ -283,7 +288,7 @@
         "capability": "CONDITIONS",
         "metric": "moon_target_separation_deg",
         "operator": "gte",
-        "threshold": 40,
+        "threshold": 45,
         "unit": "°",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
@@ -295,14 +300,19 @@
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "月亮離銀河核心 ≥40°：細月升起但夠遠時銀河帶仍可拍；目標＝銀河核心（lunar_ephemeris 輸出）。僅在月亮升起時啟用（M2 未成立時）。",
-          "en": "Moon at least 40 deg from the galactic core: with a thin moon up but far from the core the galactic band stays shootable; target = galactic core (from lunar_ephemeris). Active only while the moon is up (when M2 is not met).",
-          "ja": "月が銀河中心から≥40度。細い月でも中心から遠ければ銀河帯は撮れる。対象＝銀河中心（lunar_ephemeris出力）。月が昇っている間のみ有効（M2未成立時）。"
+          "zh-TW": "月亮離銀河核心 ≥45°（owner 規格 §1.2）：細月升起但夠遠時銀河帶仍可拍；僅在月亮升起時啟用（月光 any_of 第二軌——月下 OR（細月 ∧ 夠遠））。",
+          "en": "Moon at least 45 deg from the galactic core (owner spec section 1.2): with a thin moon up but far from the core the galactic band stays shootable; active only while the moon is up (track 2 of the moonlight any_of: moon down OR (crescent AND far)).",
+          "ja": "月が銀河中心から≥45度（オーナー仕様書 §1.2）：細い月でも遠ければ銀河帯は撮れる。月が昇っている間のみ有効（月光any_of第2軌道——月が沈む OR（細月∧遠い））。"
         },
         "genre_scope": "milky_way",
         "modifier_activation": {
           "when_condition": "C-tw-019-P05-06",
           "mode": "when_not_met"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：分離門檻 40°→45°（any_of 第二軌成員）。",
+          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): separation threshold 40 deg -> 45 deg (track-2 member of the any_of).",
+          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：分離閾値40°→45°（any_of第2軌道の構成要素）。"
         }
       },
       {
@@ -311,9 +321,9 @@
         "domain": "ASTRONOMY",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "moon_illuminance_proxy",
+        "metric": "moon_illumination_fraction",
         "operator": "lte",
-        "threshold": 0.15,
+        "threshold": 0.25,
         "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
@@ -325,14 +335,19 @@
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "月光照度代理 ≤0.15（月照×sin 月高）：補上重構時遺漏的月亮亮度天花板——凸月即使離核心 ≥40°，灑出的天光仍壓低銀河對比。0.15 約當「半月需在 18° 以下、20% 細月可到 50°+」的組合空間；三個月判據（M2/M3/M5）共同構成月亮約束，全部 provisional、校準第一優先。",
-          "en": "Moon illuminance proxy <= 0.15 (illumination x sin(altitude)): closes the moon-brightness ceiling lost in the restructure - a gibbous moon even >=40 deg from the core still washes out galactic contrast. 0.15 corresponds roughly to 'half moon below 18 deg, or a 20% crescent anywhere up to 50 deg'. Together M2/M3/M5 form the moon constraint set; all provisional, first calibration priority.",
-          "ja": "月光照度代理≤0.15（照度率×sin高度）。再構成時に欠けた月輝度の上限を補完。凸月は中心から≥40度でも銀河コントラストを下げる。0.15はおおよそ「半月は高度18度以下、20%の細月なら50度以上」に相当。M2/M3/M5で月の制約セットを構成。全てprovisional・較正最優先。"
+          "zh-TW": "月光 any_of 第二軌（owner 規格 §1.2）：月亮升起時須為細月（月照 ≤25%）且離銀河核心 ≥45°；月亮在地平線下（仰角 <0）時由 M2 錨點成立、本軌不適用。取代原先的照度代理閘（實作細節見 evaluate_batch M2/M3 交替邏輯）。",
+          "en": "Track 2 of the moonlight any_of (owner spec section 1.2): while the moon is up it must be a crescent (illumination <= 0.25) AND at least 45 deg from the galactic core; with the moon below the horizon the M2 anchor satisfies the set and this track does not apply. Replaces the old illuminance-proxy gate (see the M2/M3 alternation in evaluate_batch).",
+          "ja": "月光any_ofの第2軌道（オーナー仕様書 §1.2）：月が昇っている間は細い月（月照≤0.25）かつ銀河中心から≥45度を要する。月が地平線下ならM2アンカーが成立し本軌道は適用されない。旧の照度プロキシゲートを置き換え（evaluate_batch の M2/M3 交替ロジック参照）。"
         },
         "genre_scope": "milky_way",
         "modifier_activation": {
           "when_condition": "C-tw-019-P05-06",
           "mode": "when_not_met"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：月光雙軌：月照閘 ≤0.25 取代照度代理（月下時本條件自動成立——評估器對月下月亮的月照一律放行）。",
+          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
+          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
         }
       }
     ]

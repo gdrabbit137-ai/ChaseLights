@@ -264,9 +264,10 @@ class CrosswalkGate(unittest.TestCase):
     def test_access_warning_outside_photography_conditions(self):
         expected_conditions = {
             # Owner ruling 2026-11-02: tw-026-P01/P02 rebuilt from the
-            # review-revised xlsx (sunset template); tw-016-P01 keeps its
-            # 2026-11-01 manager-reviewed mountain_view contract.
-            "tw-016-P01": 4, "tw-026-P01": 5, "tw-026-P02": 5,
+            # review-revised xlsx (sunset template); tw-016-P01 grew to 6
+            # conditions under CL-DATA-75 (owner spec §1.1: mid-cloud gate
+            # demoted to BONUS, low-cloud + visibility REQUIRED added).
+            "tw-016-P01": 6, "tw-026-P01": 5, "tw-026-P02": 5,
         }
         for oid, doc in self.docs.items():
             with self.subTest(opportunity=oid):
@@ -283,7 +284,7 @@ class CrosswalkGate(unittest.TestCase):
                 self.assertNotEqual("verified", doc["navigation_targets"][0]["status"])
 
     def test_crosswalk_excludes_access_as_scoring_gate(self):
-        expected_conditions = {"tw-016-P01": 4, "tw-026-P01": 5, "tw-026-P02": 5}
+        expected_conditions = {"tw-016-P01": 6, "tw-026-P01": 5, "tw-026-P02": 5}  # CL-DATA-75: tw-016 +2 conditions
         for oid, doc in self.docs.items():
             filename = next(name for name in CROSSWALK_FILES if oid in name)
             rows = self.rows[filename]
