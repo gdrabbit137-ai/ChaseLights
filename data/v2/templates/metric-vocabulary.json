@@ -1,5 +1,5 @@
 {
-  "version": "0.11",
+  "version": "0.12",
   "note": "Metric vocabulary for genre condition templates. Condition metrics are unit-normalized ids; bindings map a metric to dataset fields (field naming follows DATA_SOURCE_TIERING_SPEC manifest style: name + unit suffix). '+' joins the fields a derived metric consumes.",
   "metrics": {
     "relative_humidity_925hpa": {
@@ -516,6 +516,17 @@
           "role": "MID"
         }
       ]
+    },
+    "spring_tide_state": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "大潮帶狀態（CL-DATA-77，鳴門漩渦類）：朔望（新月/滿月）前後約 ±2.7 天為大潮帶，以月照亮率 ≤8% 或 ≥92% 為純天文代理（月相驅動大潮，無需潮汐源）。官方口徑（鳴門）：大潮＝新月與滿月的隔日及其周邊日；潮流最速時刻仍依官方潮見表（本指標只判日帶）。",
+        "en": "Spring-tide band state (CL-DATA-77, Naruto-whirlpool class): ~±2.7 days around syzygy (new/full moon), proxied purely astronomically by moon illumination <=8% or >=92% (the moon phase drives spring tides — no tide source needed). Official Naruto wording: spring tide = the day after new/full moon and neighbours; exact peak-current hours remain official-tide-table semantics (this metric judges the day band only).",
+        "ja": "大潮帯状態（CL-DATA-77、鳴門渦潮クラス）：朔望（新月/満月）前後約±2.7日を大潮帯とし、月照率 ≤8% または ≥92% の純天文代理で判定（月相が大潮を駆動するため潮汐源は不要）。公式の鳴門口徑：大潮＝新月・満月の1日あたりとその周辺日。最速時刻は公式潮見表のまま（本指標は日帯のみ判定）。"
+      }
     }
   },
   "changelog": [

@@ -242,6 +242,47 @@ def fetch_place(lat, lon, forecast_hours):
     }
 
 
+def fetch_trailing_precipitation(lat, lon, past_hours=72):
+    """Trailing hourly precipitation series (CL-DATA-77 river_flow_state).
+
+    One lightweight forecast call with `past_hours` + `forecast_hours=1`: the
+    axis is `past_hours` history hours followed by the current hour, so the
+    returned list is exactly the `past_hours` hourly precipitation values that
+    END at the hour before the horizon start. The batch runner concatenates
+    this series with the horizon precipitation cells and derives exact
+    trailing-72h windows for every horizon hour (no extrapolation).
+
+    Fail-closed: any missing/non-numeric hourly value stays None in the
+    series; windows containing None degrade to UNKNOWN downstream — never a
+    fabricated zero. Raises FetchFailure on provider/shape errors like every
+    other adapter call.
+    """
+    if not isinstance(past_hours, int) or past_hours < 1 or past_hours > 92:
+        raise ValueError(f"past_hours must be 1..92, got {past_hours!r}")
+    params = {
+        "latitude": f"{lat:.6f}", "longitude": f"{lon:.6f}",
+        "hourly": "precipitation", "past_hours": str(past_hours),
+        "forecast_hours": "1", "timezone": "GMT", "timeformat": "unixtime",
+        "precipitation_unit": "mm",
+    }
+    payload, url, sha = _get_json(FORECAST_URL, params)
+    hourly = payload.get("hourly") or {}
+    times = hourly.get("time")
+    series = hourly.get("precipitation")
+    if not isinstance(times, list) or not isinstance(series, list):
+        raise FetchFailure("INVALID_TRAILING_AXIS")
+    if len(times) != past_hours + 1 or len(series) != past_hours + 1:
+        raise FetchFailure("TRAILING_AXIS_LENGTH_MISMATCH")
+    values = []
+    for value in series[:past_hours]:
+        if isinstance(value, bool) or not isinstance(value, (int, float)) \
+                or not math.isfinite(value):
+            values.append(None)
+        else:
+            values.append(float(value))
+    return values, url, sha
+
+
 def _at(hourly, key, index):
     series = hourly.get(key)
     if not isinstance(series, list) or index >= len(series):

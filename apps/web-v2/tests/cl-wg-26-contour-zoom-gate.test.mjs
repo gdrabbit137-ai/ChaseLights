@@ -89,5 +89,5 @@ test('CL-UI-113: palette module carries the cloudLow contrast ladder', () => {
   assert.match(PALETTE, /LOW_CLOUD_MAX_OVERLAY_ALPHA=\.\d+/);
   assert.match(PALETTE, /hsl\(204 40% 74%\)/, '50-70 band saturated');
   assert.match(PALETTE, /hsl\(204 28% 89%\)/, '85-100 band saturated');
-  assert.match(PALETTE, /PALETTE_VERSION = 'wg22-clui113'/);
+  assert.match(PALETTE, /PALETTE_VERSION = 'wg22-clui117'/);
 });

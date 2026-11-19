@@ -128,6 +128,11 @@ DECLARED_PASS_METRICS = {"landform_present"}
 # tide-decided shoreline subjects (天空之鏡/潮汐決定型, e.g. tw-015 高美濕地)
 # keep it REQUIRED and degrade to NOT_EVALUABLE (CL-COND-A7 owner ruling).
 NO_SOURCE_METRICS = {"water_surface_state"}
+# CL-DATA-77: spring-tide band proxy thresholds (jp-030-P01 whirlpools) —
+# syzygy (new/full moon) drives spring tides; the band is ~syzygy ±2.7 days,
+# proxied by moon illumination <=8% or >=92% (provisional, astro-only input).
+SPRING_TIDE_ILLUM_MAX = 0.08
+SPRING_TIDE_ILLUM_MIN = 0.92
 # Display-only local clocks (approximate; Place index time_zone is UNKNOWN).
 # CL-UI-24: offset = local time − UTC, so western (negative-longitude) zones
 # are NEGATIVE (America/Los_Angeles −8, Denver −7, New_York −5, Anchorage −9).
@@ -326,6 +331,42 @@ def condition_verdict(condition, values, astro_row, month=None,
         else:
             return "UNKNOWN", "NON_NUMERIC_OPERATOR"
         return ("PASS" if passed else "FAIL"), f"WATER_REFLECTION_STATE({level})"
+    if metric == "river_flow_state":
+        # CL-DATA-77: the derived trailing-72h-precipitation level (waterfall
+        # template T1; see river_flow_levels). operator "none" (threshold
+        # null): mid/high satisfy the shootable window, "low" (dry 72h)
+        # vetoes; very high is a caution note, not an exclusion. Malformed
+        # operator or an unavailable derived cell degrades to UNKNOWN —
+        # never a fabricated flow verdict.
+        cell = values.get("river_flow_state") if isinstance(values, dict) else None
+        if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
+            return "UNKNOWN", "RIVER_FLOW_STATE_DERIVATION_UNAVAILABLE"
+        level = cell.get("value")
+        if level not in RIVER_FLOW_LEVELS:
+            return "UNKNOWN", "RIVER_FLOW_STATE_INVALID_LEVEL"
+        if operator not in ("none", None):
+            return "UNKNOWN", "UNSUPPORTED_RIVER_FLOW_OPERATOR"
+        passed = level != "low"
+        return ("PASS" if passed else "FAIL"), f"RIVER_FLOW_STATE({level})"
+    if metric == "spring_tide_state":
+        # CL-DATA-77: spring-tide band proxy (jp-030-P01 Naruto whirlpools).
+        # Spring tides follow syzygy (new/full moon); the band spans ~±2.7
+        # days around syzygy, proxied by the moon illumination fraction
+        # (<=8% or >=92%). Pure astro input — no new provider, no fabricated
+        # tide curve; the official tide-table best hours stay a documented
+        # check-yourself semantic (claim jp-030-P01-claim-02). An unknown
+        # illumination propagates UNKNOWN (fail-closed).
+        illum = (astro_row.get("moon_illumination_fraction")
+                 if isinstance(astro_row, dict) else None)
+        if not isinstance(illum, (int, float)) or isinstance(illum, bool):
+            return "UNKNOWN", "MOON_ILLUMINATION_UNAVAILABLE"
+        if operator not in ("none", None):
+            return "UNKNOWN", "UNSUPPORTED_SPRING_TIDE_OPERATOR"
+        in_band = (float(illum) <= SPRING_TIDE_ILLUM_MAX
+                   or float(illum) >= SPRING_TIDE_ILLUM_MIN)
+        detail = (f"SPRING_TIDE(illum={round(float(illum), 3)}, band "
+                  f"<= {SPRING_TIDE_ILLUM_MAX} or >= {SPRING_TIDE_ILLUM_MIN})")
+        return ("PASS" if in_band else "FAIL"), detail
     if metric == "fog_state":
         # CL-DATA-73: the misty-forest decisive condition evaluates the DERIVED
         # fog-state cell (fog / forming / not_forming / no_fog). The owner
@@ -535,9 +576,23 @@ def condition_value(condition, values, astro_row, local_date=None):
         return None
     if metric in DECLARED_PASS_METRICS:
         return "declared"
+    if metric == "river_flow_state":
+        # CL-DATA-77: display the derived level the verdict judged on.
+        cell = values.get("river_flow_state")
+        if not isinstance(cell, dict) or cell.get("state") != "AVAILABLE":
+            return None
+        return cell.get("value")
+    if metric == "spring_tide_state":
+        # CL-DATA-77: display the boolean the verdict judged on (the UI maps
+        # it to the satisfied/unsatisfied enum, never a raw boolean).
+        illum = (astro_row.get("moon_illumination_fraction")
+                 if isinstance(astro_row, dict) else None)
+        if not isinstance(illum, (int, float)) or isinstance(illum, bool):
+            return None
+        return (float(illum) <= SPRING_TIDE_ILLUM_MAX
+                or float(illum) >= SPRING_TIDE_ILLUM_MIN)
     if metric == "seasonal_state":
         # CL-COND-A8: display the resolved window value (window_open /
-        # window_closed / None when not computable) — the contract's own
         # rationale documents this display value.
         verdict, _detail = seasonal_window_verdict(
             condition.get("seasonal_entries") or [], local_date)
@@ -722,6 +777,62 @@ def water_reflection_levels(hours):
             level = "unfit"
         levels.append({"state": "AVAILABLE", "value": level})
         precip_history.append(precip)
+    return levels
+
+
+# CL-DATA-77: river flow state for the waterfall family — the decisive
+# condition the waterfall template (data/v2/templates/waterfall.json T1)
+# already declares: river_flow_state is DERIVED per hour from the trailing
+# 72h accumulated precipitation (provisional mapping <5 mm low, 5-40 mid,
+# >40 high, pending real-shoot calibration). The mapping was drafted in the
+# template but never wired into the evaluator, which left every
+# genre_template=waterfall contract permanently NOT_EVALUABLE
+# (METRIC_NOT_MAPPED -> REQUIRED UNKNOWN). Levels follow the template
+# rationale: mid/high are the shootable window; very high (>40 mm) is a
+# caution note, not an exclusion — only a dry (<5 mm) 72h window vetoes.
+RIVER_FLOW_TRAILING_HOURS = 72
+RIVER_FLOW_LOW_MM = 5.0
+RIVER_FLOW_HIGH_MM = 40.0
+RIVER_FLOW_LEVELS = ("low", "mid", "high")
+
+
+def river_flow_levels(hours, trailing_past_mm):
+    """Per-hour derived river_flow_state cells, aligned with `hours`.
+
+    `trailing_past_mm` is the adapter's trailing hourly precipitation series
+    (RIVER_FLOW_TRAILING_HOURS values ending at the hour before the horizon
+    start) or None when the past-window fetch failed (fail-closed: every hour
+    then degrades to UNKNOWN, never a fabricated flow level). The full series
+    (past + in-horizon) makes every window EXACT — no extrapolation; a window
+    containing a missing cell degrades that hour to UNKNOWN.
+    """
+    levels = []
+    series = list(trailing_past_mm or [])
+    if series is None:
+        series = []
+    for hour_row in hours:
+        values = hour_row.get("values") or {}
+        cell = values.get("precipitation")
+        if (isinstance(cell, dict) and cell.get("state") == "AVAILABLE"
+                and isinstance(cell.get("value"), (int, float))
+                and not isinstance(cell.get("value"), bool)
+                and cell["value"] >= 0):
+            series.append(float(cell["value"]))
+        else:
+            series.append(None)
+        window = series[-RIVER_FLOW_TRAILING_HOURS:]
+        if len(window) < RIVER_FLOW_TRAILING_HOURS \
+                or any(v is None for v in window):
+            levels.append({"state": "UNKNOWN", "value": None})
+            continue
+        trailing = sum(window)
+        if trailing < RIVER_FLOW_LOW_MM:
+            level = "low"
+        elif trailing <= RIVER_FLOW_HIGH_MM:
+            level = "mid"
+        else:
+            level = "high"
+        levels.append({"state": "AVAILABLE", "value": level})
     return levels
 
 
@@ -1201,6 +1312,7 @@ def main():
                           "status": "DISPLAY_APPROXIMATION"}
             local_offset = offset
         need_moon = any("moon" in c["metric"] or "galactic" in c["metric"]
+                        or "spring_tide" in c["metric"]
                         for doc in group["opportunities"]
                         for c in doc["condition_contract"]["conditions"])
         hours = artifact["hours"]
@@ -1228,6 +1340,21 @@ def main():
         streak_levels = clear_streak_levels(hours)
         for hour_row, streak in zip(hours, streak_levels):
             hour_row["values"]["clear_streak_hours"] = streak
+        # CL-DATA-77: derive the river_flow_state for the waterfall family
+        # once per coordinate group — one trailing-72h-precipitation fetch,
+        # fail-closed to UNKNOWN cells when the past-window fetch fails.
+        needs_flow = any(c["metric"] == "river_flow_state"
+                         for doc in group["opportunities"]
+                         for c in doc["condition_contract"]["conditions"])
+        if needs_flow:
+            try:
+                trailing_past, _t_url, _t_sha = adapter.fetch_trailing_precipitation(
+                    lat, lon, RIVER_FLOW_TRAILING_HOURS)
+            except adapter.FetchFailure:
+                trailing_past = None
+            flow_levels = river_flow_levels(hours, trailing_past)
+            for hour_row, flow in zip(hours, flow_levels):
+                hour_row["values"]["river_flow_state"] = flow
         place_out = {"place_id": None, "coordinate": [lat, lon],
                      "coordinate_source": group["source"],
                      "timezone_display": dict(tz_display),
@@ -1525,8 +1652,8 @@ def main():
             "zh-TW": "評估結果為 GUIDANCE 参考：門檻為 provisional/approved 題材模板值，"
                      "未經實拍校準，永不構成 FAVORABLE 保證。花季窗口由 seasonal-calendar"
                      ".json 例年窗/今年實況窗計算（owner 維護）；倒影題材水面狀態由風速/降水/"
-                     "氣溫派生三級（鏡面/可拍/不宜），潮汐決定型岸邊景點（天空之鏡類）誠實降級"
-                     "為不可評估、拍攝前請自行查潮汐表。天氣為網格預報，不代表拍攝點實況。",
+                     "氣溫派生三級（鏡面/可拍/不宜），瀑布題材水量由過去 72h 累積雨量派生三級（枯水/平水/豐水，provisional 映射），潮汐決定型岸邊景點（天空之鏡類）誠實降級"
+                     "為不可評估、拍攝前請自行查潮汐表。鳴門漩渦題材的大潮帶由朔望天文代理判定，精確潮流時刻請查官方潮見表。天氣為網格預報，不代表拍攝點實況。",
             "en": "Results are GUIDANCE only: thresholds are provisional/approved "
                   "genre-template values, not calibrated against real shoots, and never "
                   "constitute a FAVORABLE guarantee. Seasonal windows are computed from "
@@ -1535,13 +1662,19 @@ def main():
                   "proxy (mirror/shootable/unfit) from wind, precipitation and air "
                   "temperature, and tide-decided shoreline subjects degrade honestly to "
                   "not-evaluatable — check the tide table yourself before shooting. "
+                  "Waterfall flow state is a derived three-level proxy (low/mid/high) "
+                  "from the trailing 72h accumulated precipitation, and the Naruto "
+                  "whirlpool spring-tide band is judged from the syzygy astronomy proxy "
+                  "(exact current hours: official tide table). "
                   "Weather is grid forecast data, not on-site conditions.",
             "ja": "評価結果はGUIDANCE参考値です: 閾値は暫定/承認済みテンプレート値で、"
                   "実写検証されておらず、FAVORABLE保証にはなりません。開花窗口は"
                   "seasonal-calendar.json（例年窓・当年窓、owner管理）から算出。水面状態は"
                   "風速・降水・気温からの3段階派生（鏡面/撮影可/不適）。潮位で決まる海岸"
                   "被写体は誠実にnot_evaluatableへ降格 — 撮影前に干潮表を自身で確認して"
-                  "ください。天気はグリッド予報であり現地実況ではありません。",
+                  "ください。滝の水量状態は直前72h累積雨量からの3段階派生（low/mid/high）、"
+                  "鳴門渦潮の大潮帯は朔望の天文代理で判定（正確な時刻は公式潮見表）。"
+                  "天気はグリッド予報であり現地実況ではありません。",
         },
         "place_count": len(places_out),
         "opportunity_count": sum(len(p["opportunities"]) for p in places_out),
