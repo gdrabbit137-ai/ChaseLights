@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "us-003-P02",
   "place_id": "us-003",
-  "revision": 1,
+  "revision": 2,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "Upper Antelope Canyon・季節性直射光束",
@@ -213,6 +213,36 @@
           "zh-TW": "AOD ≤0.6：適度氣溶膠暖化光線但 >0.6 時太陽盤面與主體輪廓被吞沒（與 mountain_view/sunset 同一上限，同一物理）。",
           "en": "AOD <= 0.6: moderate aerosols warm the light but beyond 0.6 the solar disc and subject silhouettes are swallowed (same ceiling as mountain_view/sunset, same physics).",
           "ja": "AOD≤0.6。適度なエアロゾルは光を暖色化するが、0.6超では太陽面と輪郭が埋没（mountain_view/sunsetと同一上限）。"
+        }
+      },
+      {
+        "id": "C-us-003-P02-05",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "lte",
+        "threshold": 40,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "us-003-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "金色時刻要讓低角度光斜灑進畫面：低雲 ≤40%；厚低雲把斜光整層擋掉就不成立。",
+          "en": "Golden hour needs the low-angle light to rake across the scene: low cloud <= 40%; a thick low deck blocks the rake and the hour fails.",
+          "ja": "ゴールデンアワーは低角度の光が斜めに差し込むことを要する：下層雲≤40%。厚い下層雲は光を遮り不成立。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：低雲 ≤40%。",
+          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): Added REQUIRED: low cloud <= 40%.",
+          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：必須条件を追加：下層雲≤40%。"
         }
       }
     ]
