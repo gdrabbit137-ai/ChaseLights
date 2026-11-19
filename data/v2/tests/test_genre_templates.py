@@ -186,7 +186,14 @@ class ExpansionTests(unittest.TestCase):
                     self.assertEqual(e.get(key), c.get(key), f'{opp}/{c["id"]}/{key}')
             meta = expanded['condition_contract']
             self.assertEqual(meta['genre_template'], template_id)
-            self.assertEqual(meta['template_version'], f'{template_id}-v0.1')
+            # CL-DATA-75: mountain_view revved to v0.2 (owner spec §1.1 — the
+            # mid-cloud gate demoted to BONUS, low-cloud + visibility added);
+            # the registry version is read off the template file itself so a
+            # future rev re-anchors here instead of rotting this pin.
+            template_version = json.loads(
+                (TEMPLATES / f'{template_id}.json').read_text(encoding='utf-8')
+            )['version']
+            self.assertEqual(meta['template_version'], f'{template_id}-v{template_version}')
 
     def test_expanded_model_binding_strings_lint(self):
         expanded = self._expand('cloud_sea', 'tw-001-P02', {'viewpoint_altitude_m': 1090})
