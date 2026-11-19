@@ -22,12 +22,9 @@ const cssSource = readFileSync(join(WEB, 'assets', 'app.css'), 'utf8');
 const indexSource = readFileSync(join(WEB, 'index.html'), 'utf8');
 
 test('CL-UI-98 (1): card body untouched — click opens the FORECAST modal', () => {
-  // The card surface click + keyboard activation route to openWeatherModal
-  // (CL-APP-09 patch-6: the private bridge swaps the targets; officials keep
-  // the openWeatherModal default via cpOpenCard).
-  assert.match(appSource, /const cpOpenCard=\(opts&&opts\.openCard\)\|\|openWeatherModal;/);
-  assert.match(appSource, /card\.onclick=e=>\{if\(e\.target\.closest&&e\.target\.closest\('a,button,input,select,summary'\)\)return;cpOpenCard\(spot,metric\);\};/);
-  assert.match(appSource, /if\(e\.key==='Enter'\|\|e\.key===' '\)\{e\.preventDefault\(\);cpOpenCard\(spot,metric\);\}/);
+  // The card surface click + keyboard activation route to openWeatherModal.
+  assert.match(appSource, /card\.onclick=e=>\{if\(e\.target\.closest&&e\.target\.closest\('a,button,input,select,summary'\)\)return;openWeatherModal\(spot,metric\);\};/);
+  assert.match(appSource, /if\(e\.key==='Enter'\|\|e\.key===' '\)\{e\.preventDefault\(\);openWeatherModal\(spot,metric\);\}/);
   // The forecast modal is the card-click surface: band + hourly table keep
   // their existing hosts; the 速覽 section rides the same shell.
   assert.match(indexSource, /id="modal-quick-view-body"/);
@@ -42,7 +39,7 @@ test('CL-UI-98 (2): bottom-left button 「題材」 opens the subject panel', ()
   // The card footer button renders the new copy and opens openPlaceModal.
   assert.match(appSource, /toolButtonAttrs\(d\(\)\.v2_subject_link\)/);
   assert.match(appSource, /toolButtonInner\(d\(\)\.v2_subject_link\)/);
-  assert.match(appSource, /card\.querySelector\('\[data-weather\]'\)\.onclick=e=>\{e\.preventDefault\(\);e\.stopPropagation\(\);cpOpenPlace\(spot,metric\);\};/);
+  assert.match(appSource, /card\.querySelector\('\[data-weather\]'\)\.onclick=e=>\{e\.preventDefault\(\);e\.stopPropagation\(\);openPlaceModal\(spot,metric\);\};/);
   // The weather modal title still reads the (retained) forecast label.
   assert.match(appSource, /weather_link:'🌦️ 天氣預報'/);
 });
@@ -66,6 +63,6 @@ test('CL-UI-98 (4): component single-source — one v2BandHtml, one quick-view p
   assert.equal((appSource.match(/function mountQuickView\(/g) || []).length, 1);
   assert.ok(!appSource.includes('quickHost'));
   // Cache-bust bumped in the same ticket.
-  assert.match(indexSource, /assets\/app\.js\?v=clui114/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui117/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
 });

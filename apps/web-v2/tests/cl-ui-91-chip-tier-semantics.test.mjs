@@ -64,16 +64,7 @@ assert.ok(dateKeys.length >= 5, 'artifact carries a multi-day window');
 // committed row); the app's verdict fallback covers any later partial day.
 const fullDates = dateKeys.filter(d =>
   Object.values(artifact.places).every(tree => tree[d] && tree[d].tier));
-// CL-DATA-75: a scoped splice (CL-UI-25 recipe) between scheduled refreshes
-// legitimately shrinks the every-place intersection (each splice evaluates
-// only its affected places, so the intersection = the overlap of the two run
-// windows). Floor = 3 here; the next scheduled full refresh restores >= 5.
-// The per-place invariant below stays the real gate: every place still
-// carries its own >= 5-day window.
-const minPerPlace = Math.min(...Object.values(artifact.places)
-  .map(tree => Object.keys(tree).length));
-assert.ok(minPerPlace >= 5, 'every place carries a >=5-day window');
-assert.ok(fullDates.length >= 3, 'artifact carries >=3 full-coverage dates (scoped-splice floor; scheduled refresh restores >=5)');
+assert.ok(fullDates.length >= 5, 'artifact carries >=5 full-coverage dates');
 const subjectKeys = new Set();
 for (const days of Object.values(artifact.places)) {
   for (const row of Object.values(days)) {
@@ -227,7 +218,7 @@ test('CL-UI-91 (8): the empty state keys off the actual result count only', () =
 });
 
 test('CL-UI-91 (9): cache-bust stamp — app.js + app.css advanced to clui102', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui114/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui117/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stamps; app.js alone advanced to clui114 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stamps; app.js alone advanced to clui117 (CL-UI-110)');
 });

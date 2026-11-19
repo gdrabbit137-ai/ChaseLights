@@ -152,8 +152,11 @@ class MountedOpportunityTests(unittest.TestCase):
         self.assertEqual(prov['review_status'], 'pending')
         self.assertEqual(prov['source_catalog'], 'general_genre_mount_v0.1')
         geo = self.doc['camera_contexts'][0]['geometry']
-        self.assertEqual(geo['derivation_method'],
-                         'inherited_from_place_opportunity_geometry')
+        # CL-DATA-77 re-anchor: the inherited provenance line is kept and the
+        # azimuth/whirlpool-band verification appends its audit trail behind it.
+        self.assertTrue(geo['derivation_method'].startswith(
+            'inherited_from_place_opportunity_geometry'))
+        self.assertIn('CL-DATA-77', geo['derivation_method'])
         self.assertEqual(geo['status'], 'provisional')
 
     def test_no_overwrite_idempotent(self):

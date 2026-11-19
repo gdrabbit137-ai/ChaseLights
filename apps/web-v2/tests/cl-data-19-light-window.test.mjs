@@ -144,10 +144,15 @@ test('CL-DATA-19: review-gated fixtures and legacy stubs stay byte-identical', (
       `${oid} (task-s review-gated) untouched`);
     assert.ok(!readFileSync(path.join(oppDir, `${oid}.json`), 'utf8').includes('CL-DATA-19'));
   }
-  for (const oid of ['tw-059-P01', 'tw-060-P01', 'tw-078-P01', 'jp-030-P01']) {
+  for (const oid of ['tw-059-P01', 'tw-060-P01', 'tw-078-P01']) {
     const doc = loadContract(oid);
     assert.equal(doc.condition_contract.conditions.length, 1);
     assert.ok(doc.condition_contract.conditions[0].metric.startsWith('legacy_'));
     assert.ok(!readFileSync(path.join(oppDir, `${oid}.json`), 'utf8').includes('CL-DATA-19'));
   }
+  // CL-DATA-77: jp-030-P01 (鳴門渦潮) carries the owner-ruled spring_tide_state
+  // syzygy gate stacked on its legacy light_window — no longer a 1-condition record.
+  const naruto = loadContract('jp-030-P01');
+  assert.deepEqual(naruto.condition_contract.conditions.map(c => c.metric),
+    ['spring_tide_state', 'light_window']);
 });

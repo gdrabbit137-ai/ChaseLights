@@ -129,8 +129,8 @@ test('CL-UI-111 (S6): css — dot uses the contract red token, lazy-player shell
   assert.match(cssSource, /\.live-thumb-entry-img img \{[\s\S]*?width: 100%;\s*\n\s*height: 100%;\s*\n\s*object-fit: cover;/);
 });
 
-test('CL-UI-111 (S7): cache-bust stamp bumped to clui114', () => {
-  assert.match(htmlSource, /assets\/app\.js\?v=clui114/);
+test('CL-UI-111 (S7): cache-bust stamp bumped to clui117', () => {
+  assert.match(htmlSource, /assets\/app\.js\?v=clui117/);
   assert.doesNotMatch(htmlSource, /clui110/);
 });
 

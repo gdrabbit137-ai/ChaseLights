@@ -2,7 +2,7 @@
   "schema_version": "2.1.0",
   "opportunity_id": "jp-041-P01",
   "place_id": "jp-041",
-  "revision": 3,
+  "revision": 4,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "知床流氷接岸（プユニ岬）",
@@ -120,26 +120,76 @@
     "recommendation_policy_version": null,
     "conditions": [
       {
-        "id": "C-jp-041-P01-01",
+        "id": "C-jp-041-P01-02",
         "role": "REQUIRED",
-        "domain": "WEATHER",
+        "domain": "SEASON_TIME",
         "evaluation_mode": "GUIDANCE",
         "capability": "CONDITIONS",
-        "metric": "legacy_drift_ice",
+        "metric": "seasonal_state",
+        "operator": "eq",
+        "threshold": "window_open",
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-041-P01-claim-02"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "流冰季窗：知床（斜里町/烏托羅）流冰約 1/20 前後初現、1 月下旬–2 月初接岸、2 月中旬–3 月上旬最安定、3 月中旬後逐漸離岸（1992–2002 斜里町平均：初日 1/20、接岸初日 1/22、海明け 4/1）。季節窗由 seasonal-calendar 橋判定；接岸實況無即時觀測源——出發前請自行查氣象廳流冰速報／現場公告（誠實缺口）。",
+          "en": "Drift-ice season window: at Shiretoko (Shari/Utoro) drift ice first appears ~Jan 20, reaches the coast late Jan-early Feb, is most stable mid-Feb to early Mar, and leaves from mid-Mar (1992-2002 Shari-town averages: first ice 1/20, shore contact 1/22, ice gone ~4/1). Judged via the seasonal-calendar bridge; live shore-contact status has NO observation source — check the JMA drift-ice bulletin before going (honest gap).",
+          "ja": "流氷季節窓：知床（斜里町/ウトロ）では流氷は例年1/20前後に初現、1月下旬–2月上旬に接岸、2月中旬–3月上旬が最も安定し、3月中旬以降に離岸（1992–2002 斜里町平均：初日1/20、接岸初日1/22、海明け4/1）。季節窓は季節カレンダー橋で判定。接岸実況は観測源なし — 出発前に気象庁流氷情報を確認（誠実な欠落）。"
+        },
+        "validation_status": "provisional",
+        "threshold_source": "evidence_review",
+        "calibration_status": "provisional"
+      },
+      {
+        "id": "C-jp-041-P01-03",
+        "role": "REQUIRED",
+        "domain": "ASTRONOMY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "light_window",
         "operator": "none",
         "threshold": null,
         "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
-          "jp-041-P01-claim-01"
+          "jp-041-P01-claim-03"
         ],
         "model_binding": null,
         "notes_i18n": {
-          "zh-TW": "CL-DATA-25（2026-11-07）：本筆標記為流氷主導題材（genre_template=drift_ice）。支配條件是海冰接岸與否（風向/海況/海冰分佈），非天氣；系統現無海冰資料源，誠實 not_evaluatable（fail-closed）待海冰模組實作後再建契約，不提供天氣契約以免誤導（同 CL-DATA-20 潮汐語意）。季節窗（1月下旬–3月）已在 seasonal-calendar 供參考。",
-          "en": "CL-DATA-25 (2026-11-07): drift-ice-governed subject (genre_template=drift_ice). The governing condition is whether sea ice is onshore (wind/sea state/ice distribution), not weather; the system has no sea-ice data source, so it is honestly not_evaluatable (fail-closed) until a sea-ice module exists - no weather contract is offered to avoid misleading (same semantics as the CL-DATA-20 tidal pattern). The seasonal window (late Jan-Mar) is in seasonal-calendar for reference.",
-          "ja": "CL-DATA-25（2026-11-07）：流氷支配の題材（genre_template=drift_ice）。支配的条件は海氷の接岸有無（風向・海況・海氷分布）で天気ではない。海氷データソースが現状ないため誠実に not_evaluatable（fail-closed）。潮汐型（CL-DATA-20）と同じ語義。気象契約は誤解を避けるため提供しない。季節窓（1月下旬〜3月）は seasonal-calendar 参照。"
+          "zh-TW": "日照時段窗：接岸景觀屬日間拍攝題材（P02 已涵蓋朝景）。",
+          "en": "Daylight window: shore-ice scenery is a daytime subject (P02 covers dawn).",
+          "ja": "日照時間帯：接岸景観は日中の撮影対象（朝景はP02）。"
         },
-        "validation_status": "provisional"
+        "validation_status": "provisional",
+        "threshold_source": "computed",
+        "calibration_status": "provisional"
+      },
+      {
+        "id": "C-jp-041-P01-04",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lte",
+        "threshold": 0.3,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-041-P01-claim-03"
+        ],
+        "model_binding": null,
+        "notes_i18n": {
+          "zh-TW": "拍攝時降雨 ≤0.3 mm/h（通用已審門檻）：降雪/降雨時視線與裝備皆差。",
+          "en": "Shoot-time precipitation <=0.3 mm/h (reviewed generic threshold).",
+          "ja": "撮影時降水 <=0.3 mm/h（既承認の一般閾値）。"
+        },
+        "validation_status": "provisional",
+        "threshold_source": "evidence_review",
+        "calibration_status": "approved"
       }
     ]
   },
@@ -153,6 +203,24 @@
       ],
       "audit_status": "UNKNOWN",
       "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+    },
+    {
+      "claim_id": "jp-041-P01-claim-02",
+      "claim_type": "seasonality",
+      "evidence_refs": [
+        "e-d77-shiretoko-drift-ice"
+      ],
+      "audit_status": "PARTIAL",
+      "scope_note": "CL-DATA-77 audit 2026-11-20: drift-ice season window 01-20..03-15 from public stats/reports — https://www.bonshome.sakura.ne.jp/ice.html (1992-2002 Shari-town averages: first ice 1/20, shore contact 1/22, ice gone 4/1; Shari has no JMA observatory), https://hokkaido.env.go.jp/blog/page_00432.html (recent seasons: shore contact late Jan-early Feb, ice lingers to mid-Mar), https://www.nap-camp.com/mag/103789 (most stable mid-Feb to early Mar). Live shore-contact has no forecast source — honestly not modeled."
+    },
+    {
+      "claim_id": "jp-041-P01-claim-03",
+      "claim_type": "condition_threshold",
+      "evidence_refs": [
+        "e-d77-shiretoko-drift-ice"
+      ],
+      "audit_status": "OK",
+      "scope_note": "CL-DATA-77 2026-11-20: daylight + generic precipitation thresholds carried from reviewed genre templates."
     }
   ],
   "readiness": {
