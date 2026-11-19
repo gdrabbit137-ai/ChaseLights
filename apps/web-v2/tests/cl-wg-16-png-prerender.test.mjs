@@ -20,7 +20,7 @@ const palette = require_(path.join(REPO, 'assets/weather-map-palette.js'));
 
 // ---------- shared palette pins (single render source) ----------
 test('palette module exports PALETTE_VERSION and pinned cloud bands', () => {
-  assert.equal(palette.PALETTE_VERSION, 'wg22-clui117');
+  assert.equal(palette.PALETTE_VERSION, 'wg22-clui113');
   assert.deepEqual(palette.CLOUD_PERCENT_BREAKS, [0, 20, 40, 50, 70, 85, 100]);
   assert.equal(palette.CLOUD_MAX_OVERLAY_ALPHA, .78);
 });
