@@ -139,9 +139,9 @@
           "ja": "潮位決定型（CL-COND-A7 慣例）：金門県政府は潮汐に応じて毎日の上島推奨時刻を公表（干潮前後約±30分、石板道は干潮時のみ現れる）；満潮で閉鎖、日の入り後の上島は禁止。V2評価層に潮汐データソースがない — 誠実に propagate unknown（fail-closed → NOT_EVALUABLE）；legacy パイプラインは tide_state を実装済み（low_access_window）。撮影ガイド：金門観光旅遊網の建功嶼潮汐表と現地告知を確認。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決）：legacy_mountain_view 佔位取代為官方乾潮登島窗＋黃金時段錨點。來源：金門觀光旅遊網建功嶼潮汐頁 https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal",
-          "en": "2026-11-20 CL-DATA-76 (owner ruling): the legacy_mountain_view placeholder is replaced by the official low-tide landing window plus a golden-hour anchor. Source: Kinmen travel site Jiangong Islet tide page https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal",
-          "ja": "2026-11-20 CL-DATA-76（オーナー裁定）：legacy_mountain_view のプレースホルダを公式干潮上島窓＋ゴールデンアワーの錨に置換。出典：金門観光旅遊網 建功嶼潮汐ページ https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal"
+          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決）：legacy_mountain_view 佔位取代為官方乾潮登島窗＋黃金時段錨點。來源：金門觀光旅遊網建功嶼潮汐頁 https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | 2026-11-20 CL-INT-212 整合：本契約為語義合併——CL-DATA-76 的真實條件組（潮汐/光窗/降水）＋ CL-DATA-77 的實測幾何與方位；資料值以最新裁決版（CL-DATA-77）為準。",
+          "en": "2026-11-20 CL-DATA-76 (owner ruling): the legacy_mountain_view placeholder is replaced by the official low-tide landing window plus a golden-hour anchor. Source: Kinmen travel site Jiangong Islet tide page https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | 2026-11-20 CL-INT-212 integration: semantic merge - CL-DATA-76 real condition set (tide/light-window/precipitation) + CL-DATA-77 verified geometry and azimuth; data values follow the latest adjudicated version (CL-DATA-77).",
+          "ja": "2026-11-20 CL-DATA-76（オーナー裁定）：legacy_mountain_view のプレースホルダを公式干潮上島窓＋ゴールデンアワーの錨に置換。出典：金門観光旅遊網 建功嶼潮汐ページ https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | 2026-11-20 CL-INT-212 統合：意味論マージ — CL-DATA-76 の実条件セット（潮汐/光窓/降水）＋ CL-DATA-77 の検証済み幾何・方位；データ値は最新裁定版（CL-DATA-77）に従う。"
         }
       },
       {
@@ -229,9 +229,6 @@
     "source_revision": "v1-spot-tw-078",
     "imported_at": "2026-10-21T20:51:45Z",
     "review_status": "pending",
-    "reviewed_by": null,
-    "notes_i18n": {
-      "zh-TW": "2026-11-20 CL-INT-212 merge: semantic merge of CL-DATA-76 (real condition set: tide-decided water_surface_state + civil light_window + precipitation gate) and CL-DATA-77 (verified camera/target geometry + azimuth). Data values take the latest adjudicated version (CL-DATA-77); condition set carried from CL-DATA-76."
-    }
+    "reviewed_by": null
   }
 }

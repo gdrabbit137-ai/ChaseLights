@@ -139,9 +139,9 @@
           "ja": "潮位決定型（CL-COND-A7 慣例）：双心石滬の完全な形は干潮時だけ現れる（満潮で石が水没）。V2評価層に潮汐データソースがない — 誠実に propagate unknown（fail-closed → NOT_EVALUABLE）；legacy パイプラインは tide_state を実装済み（low_exposure）。撮影ガイド：出発前に澎湖の干潮表を確認。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決：補真實條件或誠實標記）：legacy_reflection 佔位由潮汐決定語義取代；V2 誠實 not_evaluatable，legacy tide_state 繼續供卡片判讀。",
-          "en": "2026-11-20 CL-DATA-76 (owner ruling: fill real conditions or label honestly): the legacy_reflection placeholder is replaced by the tide-decided semantics; V2 stays honestly not_evaluatable, and the legacy tide_state module keeps feeding the card verdict.",
-          "ja": "2026-11-20 CL-DATA-76（オーナー裁定）：legacy_reflection のプレースホルダを潮位決定の意味に置換；V2 は誠実に not_evaluatable、legacy tide_state が継続。"
+          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決：補真實條件或誠實標記）：legacy_reflection 佔位由潮汐決定語義取代；V2 誠實 not_evaluatable，legacy tide_state 繼續供卡片判讀。 | 2026-11-20 CL-INT-212 整合：本契約為語義合併——CL-DATA-76 的真實條件組（潮汐/光窗/降水）＋ CL-DATA-77 的實測幾何與方位；資料值以最新裁決版（CL-DATA-77）為準。",
+          "en": "2026-11-20 CL-DATA-76 (owner ruling: fill real conditions or label honestly): the legacy_reflection placeholder is replaced by the tide-decided semantics; V2 stays honestly not_evaluatable, and the legacy tide_state module keeps feeding the card verdict. | 2026-11-20 CL-INT-212 integration: semantic merge - CL-DATA-76 real condition set (tide/light-window/precipitation) + CL-DATA-77 verified geometry and azimuth; data values follow the latest adjudicated version (CL-DATA-77).",
+          "ja": "2026-11-20 CL-DATA-76（オーナー裁定）：legacy_reflection のプレースホルダを潮位決定の意味に置換；V2 は誠実に not_evaluatable、legacy tide_state が継続。 | 2026-11-20 CL-INT-212 統合：意味論マージ — CL-DATA-76 の実条件セット（潮汐/光窓/降水）＋ CL-DATA-77 の検証済み幾何・方位；データ値は最新裁定版（CL-DATA-77）に従う。"
         }
       },
       {
@@ -229,9 +229,6 @@
     "source_revision": "v1-spot-tw-060",
     "imported_at": "2026-10-21T20:51:45Z",
     "review_status": "pending",
-    "reviewed_by": null,
-    "notes_i18n": {
-      "zh-TW": "2026-11-20 CL-INT-212 merge: semantic merge of CL-DATA-76 (real condition set: tide-decided water_surface_state + civil light_window + precipitation gate) and CL-DATA-77 (verified camera/target geometry + azimuth). Data values take the latest adjudicated version (CL-DATA-77); condition set carried from CL-DATA-76."
-    }
+    "reviewed_by": null
   }
 }
