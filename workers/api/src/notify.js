@@ -454,6 +454,13 @@ export async function runNotifyCron(env, nowMs = Date.now()) {
     try {
       rec = await env.EVALS.get(`v1:evals:${rule.place_id}`, "json");
     } catch { rec = null; }
+    // CL-APP-09 patch-4: private-place reminders — a rule saved from a
+    // private-point subject-row bell judges the SAME stored eval grid the
+    // popup renders (v1:evals:custom:<id>); without this fallback the bell
+    // would create a rule the cron can never fire (a dead control).
+    if (!rec) {
+      try { rec = await env.EVALS.get(`v1:evals:custom:${rule.place_id}`, "json"); } catch { rec = null; }
+    }
     if (!rec) continue;
 
     // CL-UI-99: a rule carrying a custom_conditions payload runs in CUSTOM
