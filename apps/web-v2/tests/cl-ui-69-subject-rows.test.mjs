@@ -32,12 +32,14 @@ const i18nDict = grab('const i18nDict = {', 'const categoryKeys = {');
 
 // ---- extracted pure helpers (real source, stubbed surroundings) ----
 function makeRowHelpers() {
-  let entries = grab('const scEntries=', 'const clSubjBell=');
+  let entries = grab('const scEntries=', 'const clSubjectRowHtml=');
   // The card source runs the builder as an IIFE over the in-scope scRow; the
   // extracted test wrapper takes the row as a parameter instead.
   entries = entries.replace('const scEntries=(()=>{', 'const scEntries=(scRow)=>(()=>{');
   assert.ok(entries.startsWith('const scEntries=(scRow)'), 'extraction rewrap applied');
-  const rowHtml = grab('const clSubjectRowHtml=', 'const clSubjectExtra=');
+  // CL-APP-09 patch-4: the row anatomy lives in the SHARED clSubjectRowLine
+  // builder (card + private-point popup render through it) — extract that.
+  const rowHtml = grab('function clSubjectRowLine', 'function clTierRowLine');
   const fmt = grab('function formatHourSegments', 'function v2ContractThreshold');
   const prelude = `
     let currentLang='zh-TW';
@@ -51,18 +53,20 @@ function makeRowHelpers() {
   `;
   return new Function(
     prelude + entries + rowHtml +
-    'return {scEntries,clSubjectRowHtml,formatHourSegments};')();
+    'return {scEntries,clSubjectRowHtml:clSubjectRowLine,formatHourSegments};')();
 }
 
 test('CL-UI-69 (1): per-subject rows replace the second-line chips when the layer is loaded', () => {
   // Rows come from the SAME subject-cards row the verdict consumes.
   assert.match(createSpotCardBlock, /const scRow=\(v2Evaluated&&v2Best\.day\)\?v2SubjectCardRow\(spot\.spot_id,v2Best\.day\.local_date\):null;/);
-  // Row anatomy: 短名: HH:MM–HH:MM + line-end bell.
+  // Row anatomy: 短名: HH:MM–HH:MM + line-end bell — pinned on the SHARED
+  // clSubjectRowLine builder (CL-APP-09 patch-4: card + popup, one anatomy).
+  const rowLineBlock = grab('function clSubjectRowLine', 'function clTierRowLine');
   assert.match(createSpotCardBlock, /class="cl-subject-rows"/);
-  assert.match(createSpotCardBlock, /cl-subject-row\$\{hidden\?' cl-subject-extra':''\}/);
-  assert.match(createSpotCardBlock, /<span class="cl-subject-name">\$\{esc\(entry\.name\)\}<\/span><span class="cl-subject-colon">\$\{colonSep\(\)\}<\/span><span class="cl-subject-window">\$\{esc\(formatHourSegments\(entry\.window\)\)\}<\/span>\$\{clSubjBell\}<\/div>/);
+  assert.match(rowLineBlock, /cl-subject-row\$\{hidden\?' cl-subject-extra':''\}/);
+  assert.match(rowLineBlock, /<span class="cl-subject-name">\$\{esc\(entry&&entry\.name\)\}<\/span><span class="cl-subject-colon">\$\{colonSep\(\)\}<\/span><span class="cl-subject-window">\$\{win\}<\/span>\$\{bell\}<\/div>/);
   // Compact bell mount point: the client (notify_rules contract) owns state.
-  assert.match(createSpotCardBlock, /class="cl-rem-btn cl-rem-compact" data-rem-place="\$\{esc\(spot\.spot_id\)\}" data-rem-compact="1"/);
+  assert.match(rowLineBlock, /class="cl-rem-btn cl-rem-compact" data-rem-place="\$\{esc\(spotId\)\}"[^>]*data-rem-compact="1"/);
   // At most 3 visible rows + +N fold; extras start hidden.
   assert.match(createSpotCardBlock, /clSubjectExtra=scEntries\.slice\(3\)/);
   assert.match(createSpotCardBlock, /scEntries\.slice\(0,3\)\.map/);
@@ -149,8 +153,8 @@ test('CL-UI-69 (5): the reminder icon is 🔔 only (owner ruling) — compact to
 
 test('CL-UI-69 (6): 390px row rules ship and the page serves the bumped stamps', () => {
   assert.match(appCss, /@media \(max-width:390px\)\{\n  \.cl-subject-row\{font-size:\.74rem\}/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui112/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui113/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
-  assert.match(indexSource, /assets\/reminders-client\.js\?v=clui83/);
+  assert.match(indexSource, /assets\/reminders-client\.js\?v=clui84/);
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui100/);
 });

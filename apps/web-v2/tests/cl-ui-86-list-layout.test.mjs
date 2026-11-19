@@ -95,8 +95,10 @@ test('CL-UI-86 (4): subject rows get the mockup scan-line anatomy (green dot, mo
   assert.match(win, /font-family:\s*var\(--cl-mono\)/);
   assert.match(win, /color:\s*var\(--cl-text-2\)/);
   assert.doesNotMatch(win, /var\(--cl-blue\)/);
-  // The pinned render expression (CL-UI-69 anatomy) is untouched.
-  assert.match(createSpotCardBlock, /<span class="cl-subject-name">\$\{esc\(entry\.name\)\}<\/span><span class="cl-subject-colon">\$\{colonSep\(\)\}<\/span><span class="cl-subject-window">/);
+  // The pinned render expression (CL-UI-69 anatomy) is untouched — CL-APP-09
+  // patch-4: it lives in the SHARED clSubjectRowLine builder now.
+  const rowLineBlock = appSource.slice(appSource.indexOf('function clSubjectRowLine'), appSource.indexOf('function clTierRowLine'));
+  assert.match(rowLineBlock, /<span class="cl-subject-name">\$\{esc\(entry&&entry\.name\)\}<\/span><span class="cl-subject-colon">\$\{colonSep\(\)\}<\/span><span class="cl-subject-window">/);
 });
 
 // ---- (5) env pills + three equal bottom buttons ----
@@ -182,6 +184,6 @@ test('CL-UI-86 (9): CL-UI-84 cache-first wiring intact and cache-bust at clui102
   assert.ok(appSource.includes("if(!v2EvalBundle&&clui84FilterCache){"), 'failure branch keeps the cached bar');
   assert.ok(appSource.includes('clui84RenderTabsFromCounts(clui84FilterCache.tier_counts)'), 'cached counts repaint the tabs');
   assert.ok(appSource.includes('saveFilterCache(rowsAll);'), 'settled render persists the bar state');
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stay at clui102; app.js advanced to clui112 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stay at clui102; app.js advanced to clui113 (CL-UI-110)');
   assert.doesNotMatch(indexSource, /\?v=clui90\b/, 'old generation retired');
 });

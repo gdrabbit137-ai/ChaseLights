@@ -140,5 +140,5 @@ test('CL-UI-96 (4): 歷史 is told by the past-row tint alone — no （已過�
 });
 
 test('CL-UI-96 (5): cache-bust advanced — index.html serves app.js + app.css at ?v=clui102', () => {
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stay at clui102; app.js advanced to clui112 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stay at clui102; app.js advanced to clui113 (CL-UI-110)');
 });

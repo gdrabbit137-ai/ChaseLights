@@ -63,7 +63,9 @@ test('CL-UI-51 (d): clean photographer-facing copy passes through untouched',()=
 });
 
 test('CL-UI-51 (e): wiring — the modal 說明 row renders only filtered rationale',()=>{
-  const condBlock=grab('const v2Groups=v2c?','if(c.role===\'REQUIRED\')');
+  // CL-APP-09 patch-4: the fold is ONE shared builder (v2CondFoldHtml) —
+  // the panel AND the private-point popup render rationale through it.
+  const condBlock=grab('function v2CondFoldHtml','function openPlaceModal');
   assert.match(condBlock,/v2PublicRationale\(c\.rationale_i18n\)/);
   // The raw localeText(c.rationale_i18n) render is gone.
   assert.doesNotMatch(condBlock,/v2-why">\$\{esc\(localeText\(c\.rationale_i18n\)\)\}/);

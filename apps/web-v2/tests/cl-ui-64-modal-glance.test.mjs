@@ -205,14 +205,19 @@ test('CL-UI-68 (3): 8-day strip — info written INSIDE the cell (two lines), no
 });
 
 test('CL-UI-64 (4): 拍攝條件/成立條件 collapses into an accordion (default closed, 條件 ×N)', () => {
-  assert.match(appSource, /<details class="v2-cond-details"><summary class="v2-cond-summary">\$\{esc\(d\(\)\.v2_cond_count\)\.replace\('\{n\}',String\(v2CondCount\)\)\}/);
+  // CL-APP-09 patch-4: the fold markup lives in the SHARED v2CondFoldHtml
+  // builder (panel + private-point popup render through it), so the pins
+  // anchor there — the summary count still uses the i18n key.
+  const fold = grab('function v2CondFoldHtml', 'function openPlaceModal');
+  assert.match(fold, /<details class="v2-cond-details"><summary class="v2-cond-summary">\$\{esc\(t\.v2_cond_count\)\.replace\('\{n\}',String\(v2CondCount\)\)\}/);
   // Default collapsed: the markup never opens the details.
   assert.ok(!/<details class="v2-cond-details"[^>]*open/.test(appSource));
-  assert.match(appSource, /const v2CondCount=v2c\?\(\(v2c\.conditions\|\|\[\]\)\.length\):0;/);
+  assert.match(fold, /const v2CondCount=list\.length;/);
   // The long metric narrative (v2-why) stays inside the accordion.
-  const block = grab('const v2CondHtml=v2c?', 'return `<div class="opportunity-card');
   assert.ok(appSource.includes('v2-why'), 'why-lines remain in the collapsed layer');
-  assert.ok(block.includes('</details>'));
+  assert.ok(fold.includes('</details>'));
+  // The place panel still renders the fold through the shared builder.
+  assert.match(appSource, /const v2CondHtml=v2CondFoldHtml\(v2c\?v2c\.conditions:null\);/);
 });
 
 test('CL-UI-64 (5): bottom hourly-forecast control stays on-page (CL-UI-79 owner ruling)', () => {
@@ -273,6 +278,6 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
     assert.ok(!rule.includes('text-overflow:ellipsis') && !rule.includes('overflow:hidden'),
       'CL-UI-88: the slot string is never ellipsis-truncated: ' + rule);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui112/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui113/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
 });

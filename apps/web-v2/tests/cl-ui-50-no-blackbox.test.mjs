@@ -27,7 +27,10 @@ test('CL-UI-50: eval2_unverified key exists in all three dictionaries', () => {
 });
 
 test('CL-UI-50: NOT_EVALUABLE day with all-UNKNOWN conditions maps to the missing-input reason', () => {
-  const slice = grab('function v2NotEvaluatableReasonKey', 'function createSpotCard');
+  // CL-APP-09 patch-4: createSpotCard moved behind the shared row builders —
+  // the slice ends at clSubjectRowLine so the extraction covers ONLY
+  // v2NotEvaluatableReasonKey.
+  const slice = grab('function v2NotEvaluatableReasonKey', 'function clSubjectRowLine');
   const fn = new Function(`return (${slice.replace(/^function v2NotEvaluatableReasonKey\(day\)\{/, 'function(day){')})`);
   const keyOf = fn();
   assert.equal(keyOf({ conditions: [{ day_verdict: 'UNKNOWN' }, { day_verdict: 'UNKNOWN' }] }), 'eval2_unverified');

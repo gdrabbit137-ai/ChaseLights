@@ -66,7 +66,9 @@ test('CL-UI-110b (1): strip — a PARTIAL window shows the window hours alone, w
 });
 
 test('CL-UI-110b (2): card — every per-subject row is 「短名： HH:MM–HH:MM 🔔」, PARTIAL windows included', () => {
-  const slice = grab('const clSubjBell=', '// CL-DATA-68: a TODAY shootable');
+  // CL-APP-09 patch-4: the row builder is the SHARED clSubjectRowLine (the
+  // private-point popup renders its subject rows through the same function).
+  const slice = grab('function clSubjectRowLine', '// CL-UI-91: the tier identity row');
   const prelude = `
     let currentLang='zh-TW';
     const esc=${esc.toString()};
@@ -74,17 +76,20 @@ test('CL-UI-110b (2): card — every per-subject row is 「短名： HH:MM–HH:
     const listSep=()=>'、';
     const spot={spot_id:'tw-002'};
   `;
-  const fns = new Function(prelude + grab('function formatHourSegments', 'function compactHourSegmentsText') + slice + ';return {clSubjectRowHtml,clTierRowHtml};')();
+  const fns = new Function(prelude + grab('function formatHourSegments', 'function compactHourSegmentsText') + slice + ';return {clSubjectRowLine};')();
   // A curated PARTIAL-window subject row and a plain best-subject row share
   // the exact same anatomy: name → colon → formatHourSegments window → bell.
-  const row = fns.clSubjectRowHtml({name: '夕照', window: win}, false);
+  const row = fns.clSubjectRowLine({name: '夕照', window: win}, 'tw-002', false);
   assert.match(row, /<span class="cl-subject-name">夕照<\/span><span class="cl-subject-colon">：<\/span><span class="cl-subject-window">06:10–06:50<\/span>/,
     'card row anatomy: 短名： HH:MM–HH:MM');
   assert.match(row, /cl-rem-btn/, 'card row keeps the 🔔 slot');
   assert.ok(!row.includes('非黃金光線'), 'the card row never injects the off-peak word');
-  // Fallback (CL-UI-71) and tier rows (CL-UI-91) ride the same clSubjectRowHtml.
-  const fb = fns.clSubjectRowHtml({name: '○ 可拍', window: win}, false);
+  // Fallback (CL-UI-71) rows ride the same builder; a preformatted stamp
+  // (private-point popup rows) wins over the segment list.
+  const fb = fns.clSubjectRowLine({name: '○ 可拍', window: win}, 'tw-002', false);
   assert.match(fb, /<span class="cl-subject-window">06:10–06:50<\/span>/, 'fallback rows use the same window format');
+  const stamped = fns.clSubjectRowLine({name: '雲海窗', stamp: '11/16 05:00'}, 'cp1', false);
+  assert.match(stamped, /<span class="cl-subject-window">11\/16 05:00<\/span>/, 'stamp rows keep the SAME row anatomy');
 });
 
 test('CL-UI-110b (3): modal — 題材判定 carries the off-peak word as SUPPLEMENTARY text, never a separate hour anatomy', () => {
@@ -123,14 +128,15 @@ test('CL-UI-110b (4): the word is never concatenated with hours in any visible s
   const stripBlock = grab('function v2DayStripHtml', '// CL-UI-64: top');
   assert.ok(stripBlock.includes("text=goodList||(winPartial==='light_window'?d().v2_win_partial_golden:d().v2_win_partial)"),
     'PARTIAL cell text = window hours (word only as an empty-hours fallback)');
-  // Card row anatomy unchanged — single-truth window format via formatHourSegments.
-  assert.ok(appSource.includes('<span class="cl-subject-window">${esc(formatHourSegments(entry.window))}</span>'),
+  // Card row anatomy unchanged — single-truth window format via formatHourSegments
+  // (now inside the shared clSubjectRowLine builder, CL-APP-09 patch-4).
+  assert.ok(appSource.includes("entry&&entry.stamp!=null?esc(entry.stamp):esc(formatHourSegments((entry&&entry.window)||[]))"),
     'card per-subject row keeps the standard window format');
   // pass_hours=0 word is still routed by the reason path (✗ 非日照時段).
   assert.ok(appSource.includes("const words=dicts.fail_reason_short||{};"), 'fail-short word path intact');
 });
 
 test('CL-UI-110b (5): cache-bust stamp advanced for app.js', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui112/);
-  assert.equal((indexSource.match(/\?v=clui112/g) || []).length, 1, 'app.js alone at clui112');
+  assert.match(indexSource, /assets\/app\.js\?v=clui113/);
+  assert.equal((indexSource.match(/\?v=clui113/g) || []).length, 1, 'app.js alone at clui113');
 });
