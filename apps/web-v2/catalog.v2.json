@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "a6b3c0e68f712f6a3efd415c701d5ed9270a9feb",
-  "source_index_revision": "sha256:8a7951c9c5613d0821e20223294012f94c55936aa538348922dab3bc7e8ae45f",
+  "source_index_commit_sha": "f808f099784ca48f876e0557b8fae8000c3d616b",
+  "source_index_revision": "sha256:9ab97dc8d36077c02ab5e7d904c27ce22c349eb298c1041f38836211ca85127a",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "a0ad3da5583a35268522435276a04d6a0252a159",
@@ -259,16 +259,16 @@
       "revision": 4
     },
     "jp-030-P01": {
-      "source_commit_sha": "1bf8e398e20ebbc76be1157d98bd8dc188216746",
+      "source_commit_sha": "c9bb00f009cbe4914cf4a4c28055d0b731f27901",
       "source_path": "data/v2/opportunities/jp-030-P01.json",
-      "source_blob_sha": "c5d8279b05b5506f1e293054cece493978532de5",
-      "revision": 2
+      "source_blob_sha": "942529421fa227f3a31376c0d883b4c8e98157c3",
+      "revision": 4
     },
     "jp-030-P99": {
-      "source_commit_sha": "a923ee67a3f3edc6c1c258661d8aeedd78a85e18",
+      "source_commit_sha": "c9bb00f009cbe4914cf4a4c28055d0b731f27901",
       "source_path": "data/v2/opportunities/jp-030-P99.json",
-      "source_blob_sha": "cb98f2950da1b13431006259f169e1496ccc02b1",
-      "revision": 2
+      "source_blob_sha": "a90ead264e314e469976c7fbd64b0deba430eb82",
+      "revision": 3
     },
     "jp-031-P02": {
       "source_commit_sha": "1bf8e398e20ebbc76be1157d98bd8dc188216746",
@@ -373,10 +373,10 @@
       "revision": 2
     },
     "jp-041-P01": {
-      "source_commit_sha": "1bf8e398e20ebbc76be1157d98bd8dc188216746",
+      "source_commit_sha": "c9bb00f009cbe4914cf4a4c28055d0b731f27901",
       "source_path": "data/v2/opportunities/jp-041-P01.json",
-      "source_blob_sha": "c6e940c6dd9aa281ea7315cccc806858636a0153",
-      "revision": 3
+      "source_blob_sha": "af466fbdaecdd70c4df0b0de184434b2d668060a",
+      "revision": 4
     },
     "jp-041-P02": {
       "source_commit_sha": "a34cd15819a1b01702d6d38408524e444ca84906",
@@ -1765,16 +1765,16 @@
       "revision": 1
     },
     "tw-059-P01": {
-      "source_commit_sha": "a4f803a7106816773ef5a2f659271c656b873bd7",
+      "source_commit_sha": "c9bb00f009cbe4914cf4a4c28055d0b731f27901",
       "source_path": "data/v2/opportunities/tw-059-P01.json",
-      "source_blob_sha": "b44613dfb1460bdd3aa9b823d738e69b70b86013",
-      "revision": 2
+      "source_blob_sha": "b37212f90bda71745071d168167712021b480a03",
+      "revision": 3
     },
     "tw-060-P01": {
-      "source_commit_sha": "86cc3d9bdfaaac110f65361ac77df744cdd4cfa1",
+      "source_commit_sha": "c9bb00f009cbe4914cf4a4c28055d0b731f27901",
       "source_path": "data/v2/opportunities/tw-060-P01.json",
-      "source_blob_sha": "094c6ad8ad467698d973466158e06862d6ca818d",
-      "revision": 1
+      "source_blob_sha": "2090512c885ebd0dc2d01af983f98b7ecbbb9d78",
+      "revision": 2
     },
     "tw-060-P02": {
       "source_commit_sha": "19e9365487c8ac46048cdc9c5e1eea2d50406e41",
@@ -1921,10 +1921,10 @@
       "revision": 2
     },
     "tw-078-P01": {
-      "source_commit_sha": "a4f803a7106816773ef5a2f659271c656b873bd7",
+      "source_commit_sha": "c9bb00f009cbe4914cf4a4c28055d0b731f27901",
       "source_path": "data/v2/opportunities/tw-078-P01.json",
-      "source_blob_sha": "58e42477f77d4ef2c09374ce9e50fec749122d11",
-      "revision": 2
+      "source_blob_sha": "3af9982ee7616bd45c87ac313105556b5c4bf282",
+      "revision": 3
     },
     "tw-079-P01": {
       "source_commit_sha": "19e9365487c8ac46048cdc9c5e1eea2d50406e41",
@@ -28016,7 +28016,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "jp-030-P01",
       "place_id": "jp-030",
-      "revision": 2,
+      "revision": 4,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "鳴門渦之道・鳴門海峽漩渦",
@@ -28131,29 +28131,56 @@
         "status": "draft",
         "conditions": [
           {
-            "id": "C-jp-030-P01-01",
+            "id": "C-jp-030-P01-02",
             "role": "REQUIRED",
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
-            "metric": "legacy_long_exposure",
+            "metric": "spring_tide_state",
             "operator": "none",
             "threshold": null,
             "unit": null,
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
-              "jp-030-P01-claim-01"
+              "jp-030-P01-claim-02"
             ],
             "model_binding": null,
             "notes_i18n": {
-              "zh-TW": "由 V1 主題對應的暫定條件；實際閾值待研究核實。",
-              "en": "Provisional condition mapped from the V1 theme; thresholds pending research.",
-              "ja": "V1テーマから対応した暫定条件。閾値は研究待ち。"
+              "zh-TW": "大潮帶：朔望（新月/滿月）前後約±2.7 天，以月照亮率 ≤8% 或 ≥92% 為天文代理。官方口徑：鳴門漩渦以大潮（新月與滿月的隔日及其周邊日）最盛，春（3月下旬–4月下旬）與秋（9月下旬–10月下旬）規模最大；潮流最速（見頃）時刻依官方潮見表（uzunomichi.jp/tide-calendar），本條件只判「是否大潮帶」，精確時段請查官方潮見表。",
+              "en": "Spring-tide band: within ~±2.7 days of syzygy (new/full moon), proxied astronomically by moon illumination <=8% or >=92%. Official wording: Naruto whirlpools peak on spring-tide days (the day after new/full moon and neighbours), largest in late Mar-Apr and late Sep-Oct; exact best hours follow the official tide table (uzunomichi.jp/tide-calendar) — this condition only judges spring-tide days.",
+              "ja": "大潮帯：朔望（新月/満月）前後約±2.7日で、月照率 ≤8% または ≥92% を天文代理とする。公式見解：鳴門の渦潮は大潮（新月・満月の1日あたりとその周辺日）に最も大きく、春（3月下旬–4月下旬）と秋（9月下旬–10月下旬）が見頃。最速時刻は公式潮見表（uzunomichi.jp/tide-calendar）を確認のこと。本条件は大潮日か否かのみ判定する。"
             },
-            "validation_status": "provisional"
+            "validation_status": "provisional",
+            "threshold_source": "evidence_review",
+            "calibration_status": "provisional"
+          },
+          {
+            "id": "C-jp-030-P01-03",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-030-P01-claim-03"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "日照時段窗（太陽在地平線上）：渦之道為戶外步道（官方開放時間 09:00–17:00/18:00，見存取資訊），夜間無法觀測漩渦；CL-DATA-77 收緊——觀景題材須綁日光窗。",
+              "en": "Daylight window (sun above horizon): the Uzunomichi is an outdoor walkway (official hours 09:00-17:00/18:00, see access notes) — whirlpools cannot be observed at night.",
+              "ja": "日照時間帯（太陽が地平線上）：渦の道は屋外遊歩道（公式時間 09:00–17:00/18:00、アクセス情報参照）。夜間は渦潮を観測できない。"
+            },
+            "validation_status": "provisional",
+            "threshold_source": "computed",
+            "calibration_status": "provisional"
           }
         ],
-        "recommendation_policy_version": null
+        "recommendation_policy_version": null,
+        "genre_template": "tidal"
       },
       "evidence_claims": [
         {
@@ -28164,6 +28191,24 @@
           ],
           "audit_status": "UNKNOWN",
           "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+        },
+        {
+          "claim_id": "jp-030-P01-claim-02",
+          "claim_type": "condition_threshold",
+          "evidence_refs": [
+            "e-d77-naruto-spring-tide"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "CL-DATA-77 audit 2026-11-20: spring-tide proxy thresholds (illumination <=8% / >=92%, ~syzygy +/-2.7d) are provisional, pending calibration against shoot outcomes; the syzygy-spring-tide relation and Naruto spring-tide emphasis are official/public: https://www.uzunomichi.jp/tide-calendar/ (spring-tide days marked red; viewing +/-2h around peak current), https://www.naruto-kankou.jp/uzu/ (spring tide +/-2h guideline), https://www.pref.tokushima.lg.jp/japanese/tourism/spot/uzushio (largest on spring tides in spring/autumn), https://tabi.jtb.or.jp/res/360024- (spring tide = the day after new/full moon at Naruto). Exact best hours remain official-tide-table semantics (check before shoot); no fabricated hourly tide curve is shipped."
+        },
+        {
+          "claim_id": "jp-030-P01-claim-03",
+          "claim_type": "existence",
+          "evidence_refs": [
+            "e-d35-access-uzunomichi-tokushima"
+          ],
+          "audit_status": "OK",
+          "scope_note": "CL-DATA-77 2026-11-20: daylight gate derived from the facility being an outdoor walkway with official opening hours (already evidenced by e-d35-access-uzunomichi-tokushima; https://www.uzunomichi.jp/)."
         }
       ],
       "readiness": {
@@ -28185,7 +28230,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "jp-030-P99",
       "place_id": "jp-030",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "鳴門海峽漩渦・可拍",
@@ -28212,11 +28257,11 @@
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "inherited_from_place_opportunity_geometry",
+            "derivation_method": "inherited_from_place_opportunity_geometry CL-DATA-77 2026-11-20: point kept as the walkway-deck reference (consistent with ja.wikipedia 渦の道 entrance 34.237833,134.647889 + the ~450m deck along the Onaruto Bridge girder; the point sits in the deck/deck-end zone above the whirlpool area — representative, not a surveyed spot).",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
-          "verification_status": "provisional",
+          "verification_status": "representative",
           "evidence_refs": [],
           "access_notes_i18n": {
             "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
@@ -28246,12 +28291,12 @@
             "geojson": {
               "type": "Point",
               "coordinates": [
-                134.651,
-                34.24
+                134.645725,
+                34.2370252
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "inherited_from_place_opportunity_geometry",
+            "derivation_method": "CL-DATA-77 2026-11-20: whirlpool band anchor = Hadaka-jima (裸島) OSM Nominatim node 34.2370252,134.6457250; JTB national tourism resource entry states the largest whirlpools appear on the east side of Hadaka-jima — the strait waters east of it are the target area.",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
@@ -28266,13 +28311,15 @@
           "camera_context_id": "CZ-jp-030-P99-01",
           "target_id": "SG-jp-030-P99-01",
           "type": "foreground_background",
-          "geometry_mode": "unknown",
-          "azimuth_deg": null,
+          "geometry_mode": "static_verified",
+          "azimuth_deg": 236,
           "elevation_deg": null,
           "distance_m": null,
-          "evidence_refs": [],
-          "derivation_method": null,
-          "uncertainty_note": "Inherited from the place's existing canonical opportunity geometry (provisional)."
+          "evidence_refs": [
+            "e-d77-geo-jp-030-P99"
+          ],
+          "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=236 deg (dist ~0.6 km) — SW from the deck over the strait toward the Hadaka-jima-east whirlpool band.",
+          "uncertainty_note": "PARTIAL: the deck looks DOWN on the strait (45 m) and whirlpools form across a wide band; azimuth is the dominant whirlpool-bearing anchor only."
         }
       ],
       "navigation_targets": [
@@ -28298,6 +28345,15 @@
           "evidence_refs": [],
           "audit_status": "UNKNOWN",
           "scope_note": "CL-DATA-65 general-genre auto-mount from the canonical place record; no independent photographic evidence attached yet."
+        },
+        {
+          "claim_id": "jp-030-P99-claim-77geo",
+          "claim_type": "camera_location",
+          "evidence_refs": [
+            "e-d77-geo-jp-030-P99"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "CL-DATA-77 2026-11-20: 裸島 OSM https://www.openstreetmap.org/search?query=%E8%A3%B8%E5%B3%B6%20%E9%B3%A9%E9%96%80; JTB https://tabi.jtb.or.jp/res/360024- (一番大きな渦は裸島の東側に見られる); 渦の道 entrance https://ja.wikipedia.org/wiki/%E6%B8%A6%E3%81%AE%E9%81%93 (34.237833,134.647889). Bearing 236 deg computed geodesically."
         }
       ],
       "readiness": {
@@ -33510,7 +33566,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "jp-041-P01",
       "place_id": "jp-041",
-      "revision": 3,
+      "revision": 4,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "知床流氷接岸（プユニ岬）",
@@ -33628,26 +33684,76 @@
         "recommendation_policy_version": null,
         "conditions": [
           {
-            "id": "C-jp-041-P01-01",
+            "id": "C-jp-041-P01-02",
             "role": "REQUIRED",
-            "domain": "WEATHER",
+            "domain": "SEASON_TIME",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
-            "metric": "legacy_drift_ice",
+            "metric": "seasonal_state",
+            "operator": "eq",
+            "threshold": "window_open",
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-041-P01-claim-02"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "流冰季窗：知床（斜里町/烏托羅）流冰約 1/20 前後初現、1 月下旬–2 月初接岸、2 月中旬–3 月上旬最安定、3 月中旬後逐漸離岸（1992–2002 斜里町平均：初日 1/20、接岸初日 1/22、海明け 4/1）。季節窗由 seasonal-calendar 橋判定；接岸實況無即時觀測源——出發前請自行查氣象廳流冰速報／現場公告（誠實缺口）。",
+              "en": "Drift-ice season window: at Shiretoko (Shari/Utoro) drift ice first appears ~Jan 20, reaches the coast late Jan-early Feb, is most stable mid-Feb to early Mar, and leaves from mid-Mar (1992-2002 Shari-town averages: first ice 1/20, shore contact 1/22, ice gone ~4/1). Judged via the seasonal-calendar bridge; live shore-contact status has NO observation source — check the JMA drift-ice bulletin before going (honest gap).",
+              "ja": "流氷季節窓：知床（斜里町/ウトロ）では流氷は例年1/20前後に初現、1月下旬–2月上旬に接岸、2月中旬–3月上旬が最も安定し、3月中旬以降に離岸（1992–2002 斜里町平均：初日1/20、接岸初日1/22、海明け4/1）。季節窓は季節カレンダー橋で判定。接岸実況は観測源なし — 出発前に気象庁流氷情報を確認（誠実な欠落）。"
+            },
+            "validation_status": "provisional",
+            "threshold_source": "evidence_review",
+            "calibration_status": "provisional"
+          },
+          {
+            "id": "C-jp-041-P01-03",
+            "role": "REQUIRED",
+            "domain": "ASTRONOMY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "light_window",
             "operator": "none",
             "threshold": null,
             "unit": null,
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
-              "jp-041-P01-claim-01"
+              "jp-041-P01-claim-03"
             ],
             "model_binding": null,
             "notes_i18n": {
-              "zh-TW": "CL-DATA-25（2026-11-07）：本筆標記為流氷主導題材（genre_template=drift_ice）。支配條件是海冰接岸與否（風向/海況/海冰分佈），非天氣；系統現無海冰資料源，誠實 not_evaluatable（fail-closed）待海冰模組實作後再建契約，不提供天氣契約以免誤導（同 CL-DATA-20 潮汐語意）。季節窗（1月下旬–3月）已在 seasonal-calendar 供參考。",
-              "en": "CL-DATA-25 (2026-11-07): drift-ice-governed subject (genre_template=drift_ice). The governing condition is whether sea ice is onshore (wind/sea state/ice distribution), not weather; the system has no sea-ice data source, so it is honestly not_evaluatable (fail-closed) until a sea-ice module exists - no weather contract is offered to avoid misleading (same semantics as the CL-DATA-20 tidal pattern). The seasonal window (late Jan-Mar) is in seasonal-calendar for reference.",
-              "ja": "CL-DATA-25（2026-11-07）：流氷支配の題材（genre_template=drift_ice）。支配的条件は海氷の接岸有無（風向・海況・海氷分布）で天気ではない。海氷データソースが現状ないため誠実に not_evaluatable（fail-closed）。潮汐型（CL-DATA-20）と同じ語義。気象契約は誤解を避けるため提供しない。季節窓（1月下旬〜3月）は seasonal-calendar 参照。"
+              "zh-TW": "日照時段窗：接岸景觀屬日間拍攝題材（P02 已涵蓋朝景）。",
+              "en": "Daylight window: shore-ice scenery is a daytime subject (P02 covers dawn).",
+              "ja": "日照時間帯：接岸景観は日中の撮影対象（朝景はP02）。"
             },
-            "validation_status": "provisional"
+            "validation_status": "provisional",
+            "threshold_source": "computed",
+            "calibration_status": "provisional"
+          },
+          {
+            "id": "C-jp-041-P01-04",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lte",
+            "threshold": 0.3,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-041-P01-claim-03"
+            ],
+            "model_binding": null,
+            "notes_i18n": {
+              "zh-TW": "拍攝時降雨 ≤0.3 mm/h（通用已審門檻）：降雪/降雨時視線與裝備皆差。",
+              "en": "Shoot-time precipitation <=0.3 mm/h (reviewed generic threshold).",
+              "ja": "撮影時降水 <=0.3 mm/h（既承認の一般閾値）。"
+            },
+            "validation_status": "provisional",
+            "threshold_source": "evidence_review",
+            "calibration_status": "approved"
           }
         ]
       },
@@ -33661,6 +33767,24 @@
           ],
           "audit_status": "UNKNOWN",
           "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 2 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+        },
+        {
+          "claim_id": "jp-041-P01-claim-02",
+          "claim_type": "seasonality",
+          "evidence_refs": [
+            "e-d77-shiretoko-drift-ice"
+          ],
+          "audit_status": "PARTIAL",
+          "scope_note": "CL-DATA-77 audit 2026-11-20: drift-ice season window 01-20..03-15 from public stats/reports — https://www.bonshome.sakura.ne.jp/ice.html (1992-2002 Shari-town averages: first ice 1/20, shore contact 1/22, ice gone 4/1; Shari has no JMA observatory), https://hokkaido.env.go.jp/blog/page_00432.html (recent seasons: shore contact late Jan-early Feb, ice lingers to mid-Mar), https://www.nap-camp.com/mag/103789 (most stable mid-Feb to early Mar). Live shore-contact has no forecast source — honestly not modeled."
+        },
+        {
+          "claim_id": "jp-041-P01-claim-03",
+          "claim_type": "condition_threshold",
+          "evidence_refs": [
+            "e-d77-shiretoko-drift-ice"
+          ],
+          "audit_status": "OK",
+          "scope_note": "CL-DATA-77 2026-11-20: daylight + generic precipitation thresholds carried from reviewed genre templates."
         }
       ],
       "readiness": {
@@ -102473,7 +102597,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-059-P01",
       "place_id": "tw-059",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "奎壁山摩西分海",
@@ -102500,11 +102624,11 @@
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "imported_from_v1_viewpoint_reference",
+            "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-77 2026-11-20: point kept (no conflict with OSM 奎壁山 node 23.6002068,119.6711631, ~60 m away; the viewpoint is the beach at the foot of the hill).",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
-          "verification_status": "provisional",
+          "verification_status": "representative",
           "evidence_refs": [],
           "access_notes_i18n": {
             "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
@@ -102530,16 +102654,16 @@
           },
           "geometry": {
             "kind": "point",
-            "status": "provisional",
+            "status": "verified",
             "geojson": {
               "type": "Point",
               "coordinates": [
-                119.67137,
-                23.59968
+                119.6755232,
+                23.5992506
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "imported_from_v1_viewpoint_reference",
+            "derivation_method": "CL-DATA-77 2026-11-20: 赤嶼 (Chi Yu islet, the Moses-parting seawall target) OSM Nominatim node 23.5992506,119.6755232 (北寮, 澎湖).",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
@@ -102554,13 +102678,15 @@
           "camera_context_id": "CZ-tw-059-P01-01",
           "target_id": "SG-tw-059-P01-01",
           "type": "foreground_background",
-          "geometry_mode": "unknown",
-          "azimuth_deg": null,
+          "geometry_mode": "static_verified",
+          "azimuth_deg": 96,
           "elevation_deg": null,
           "distance_m": null,
-          "evidence_refs": [],
-          "derivation_method": null,
-          "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+          "evidence_refs": [
+            "e-d77-geo-tw-059-P01"
+          ],
+          "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=96 deg (dist ~0.4 km) — east from the Kueibishan beach across the tide-exposed tombolo to Chi Yu; the parting path is this E-NE line.",
+          "uncertainty_note": "Wide tolerance: the tombolo path curves slightly; azimuth is the beach-to-islet dominant bearing."
         }
       ],
       "navigation_targets": [
@@ -102617,6 +102743,15 @@
           "evidence_refs": [],
           "audit_status": "UNKNOWN",
           "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+        },
+        {
+          "claim_id": "tw-059-P01-claim-77geo",
+          "claim_type": "target_geometry",
+          "evidence_refs": [
+            "e-d77-geo-tw-059-P01"
+          ],
+          "audit_status": "OK",
+          "scope_note": "CL-DATA-77 2026-11-20: 赤嶼 OSM https://www.openstreetmap.org/search?query=%E8%B5%A4%E5%B6%BC; 奎壁山 OSM https://www.openstreetmap.org/search?query=%E5%A5%8E%E5%A3%81%E5%B1%B1. Bearing 96 deg computed geodesically."
         }
       ],
       "readiness": {
@@ -102638,7 +102773,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-060-P01",
       "place_id": "tw-060",
-      "revision": 1,
+      "revision": 2,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "雙心石滬完整形態",
@@ -102656,16 +102791,16 @@
           "kind": "area",
           "geometry": {
             "kind": "point",
-            "status": "provisional",
+            "status": "verified",
             "geojson": {
               "type": "Point",
               "coordinates": [
-                119.44697,
-                23.22022
+                119.4465494,
+                23.2194319
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "imported_from_v1_viewpoint_reference",
+            "derivation_method": "CL-DATA-77 %s: camera CORRECTED from the on-weir point (23.22022,119.44697 — the OSM weir node itself, in the water) to the verified shore viewpoint 雙心石滬觀景台 OSM Nominatim node 23.2194319,119.4465494 (澎36, 七美東湖村); evaluation coordinate moves with it (~90 m south — negligible for the weather grid).",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
@@ -102695,16 +102830,16 @@
           },
           "geometry": {
             "kind": "point",
-            "status": "provisional",
+            "status": "verified",
             "geojson": {
               "type": "Point",
               "coordinates": [
-                119.44697,
-                23.22022
+                119.4469833,
+                23.2202075
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "imported_from_v1_viewpoint_reference",
+            "derivation_method": "CL-DATA-77 2026-11-20: 雙心石滬 (Double-Heart stone weir) OSM Nominatim node 23.2202075,119.4469833 — matches the corrected camera-90m-north geometry.",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
@@ -102719,13 +102854,15 @@
           "camera_context_id": "CZ-tw-060-P01-01",
           "target_id": "SG-tw-060-P01-01",
           "type": "foreground_background",
-          "geometry_mode": "unknown",
-          "azimuth_deg": null,
+          "geometry_mode": "static_verified",
+          "azimuth_deg": 27,
           "elevation_deg": null,
           "distance_m": null,
-          "evidence_refs": [],
-          "derivation_method": null,
-          "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+          "evidence_refs": [
+            "e-d77-geo-tw-060-P01"
+          ],
+          "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=27 deg (dist ~0.1 km) — NNE from the shore platform down to the double-heart weir below.",
+          "uncertainty_note": "Short-baseline bearing (~100 m): azimuth is sensitive to the exact platform spot; tolerance kept wide."
         }
       ],
       "navigation_targets": [
@@ -102780,6 +102917,15 @@
           "evidence_refs": [],
           "audit_status": "UNKNOWN",
           "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+        },
+        {
+          "claim_id": "tw-060-P01-claim-77geo",
+          "claim_type": "target_geometry",
+          "evidence_refs": [
+            "e-d77-geo-tw-060-P01"
+          ],
+          "audit_status": "OK",
+          "scope_note": "CL-DATA-77 2026-11-20: 觀景台 OSM https://www.openstreetmap.org/search?query=%E9%9B%99%E5%BF%83%E7%9F%B3%E6%BB%AC%E8%A7%80%E6%99%AF%E5%8F%B0; 石滬 OSM https://www.openstreetmap.org/search?query=%E9%9B%99%E5%BF%83%E7%9F%B3%E6%BB%AC. Bearing 27 deg computed geodesically."
         }
       ],
       "readiness": {
@@ -109616,7 +109762,7 @@
       "schema_version": "2.1.0",
       "opportunity_id": "tw-078-P01",
       "place_id": "tw-078",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "建功嶼退潮石板道景觀",
@@ -109643,11 +109789,11 @@
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "imported_from_v1_viewpoint_reference",
+            "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-77 2026-11-20: point kept as the causeway-east-end reference (no conflict: OSM 建功嶼 island node 24.4273629,118.2999844 lies ~0.46 km west — the stone causeway runs west from the Kinmen shore to the island).",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
-          "verification_status": "provisional",
+          "verification_status": "representative",
           "evidence_refs": [],
           "access_notes_i18n": {
             "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
@@ -109673,16 +109819,16 @@
           },
           "geometry": {
             "kind": "point",
-            "status": "provisional",
+            "status": "verified",
             "geojson": {
               "type": "Point",
               "coordinates": [
-                118.304369,
-                24.426386
+                118.2999844,
+                24.4273629
               ]
             },
             "uncertainty_m": null,
-            "derivation_method": "imported_from_v1_viewpoint_reference",
+            "derivation_method": "CL-DATA-77 2026-11-20: 建功嶼 (Jiangong Islet) OSM Nominatim node 24.4273629,118.2999844.",
             "source_geometry_revision": null,
             "reason_if_absent": null
           },
@@ -109697,13 +109843,15 @@
           "camera_context_id": "CZ-tw-078-P01-01",
           "target_id": "SG-tw-078-P01-01",
           "type": "foreground_background",
-          "geometry_mode": "unknown",
-          "azimuth_deg": 270,
+          "geometry_mode": "static_verified",
+          "azimuth_deg": 284,
           "elevation_deg": null,
           "distance_m": null,
-          "evidence_refs": [],
-          "derivation_method": "legacy_weather_details_v1_view_azimuth_backfill",
-          "uncertainty_note": "CL-DATA-13 backfill: legacy V1 weather_details view_azimuth 270 (north=0, clockwise); view_tolerance 80.0 (legacy spot-level, camera-pan width, not a hard arc). Original note: Imported V1 reference; angles and distance unknown."
+          "evidence_refs": [
+            "e-d77-geo-tw-078-P01"
+          ],
+          "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=284 deg (dist ~0.46 km) — west along the stone causeway to the islet; replaces the legacy V1 weather_details azimuth 270 (CL-DATA-13 backfill), which sits within the same wide tolerance band.",
+          "uncertainty_note": "Wide tolerance: the causeway curves and the composition includes the islet AND its baroque gate; the legacy 270 and computed 284 agree within ~14 deg."
         }
       ],
       "navigation_targets": [
@@ -109760,6 +109908,15 @@
           "evidence_refs": [],
           "audit_status": "UNKNOWN",
           "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+        },
+        {
+          "claim_id": "tw-078-P01-claim-77geo",
+          "claim_type": "target_geometry",
+          "evidence_refs": [
+            "e-d77-geo-tw-078-P01"
+          ],
+          "audit_status": "OK",
+          "scope_note": "CL-DATA-77 2026-11-20: 建功嶼 OSM https://www.openstreetmap.org/search?query=%E5%BB%BA%E5%8A%9F%E5%B6%BC. Bearing 284 deg computed geodesically; legacy 270 documented as consistent-within-tolerance."
         }
       ],
       "readiness": {

@@ -9,7 +9,7 @@
   "differentiation": 15,
   "scenic_beauty": 20
  },
- "inputs_fingerprint_sha256": "c9c100cfc4032cca56111e839591dde8741e32d40b930d564fc207f669ac1db9",
+ "inputs_fingerprint_sha256": "98b0ab30375a5ae59b44dd8f9f24a339029367114a668bc58227fb4cbc8e1036",
  "summary": {
   "places": 466,
   "opportunities": 734,
@@ -24,7 +24,7 @@
    "us": 150
   },
   "weakness_counts": {
-   "low_weather_light_opportunities": 13,
+   "low_weather_light_opportunities": 11,
    "low_verifiability_opportunities": 10,
    "clusters_within_5km": 50
   }
@@ -91,6 +91,40 @@
    "coords": [
     60.1782633,
     -149.6494389
+   ]
+  },
+  {
+   "place_id": "jp-041",
+   "name_zh": "知床ウトロ流氷（プユニ岬）",
+   "region": "jp",
+   "n_opportunities": 2,
+   "opportunity_ids": [
+    "jp-041-P01",
+    "jp-041-P02"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 5,
+    "verifiability": 3.25,
+    "differentiation": 5,
+    "scenic_beauty": 5
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 1,
+    "top": 1,
+    "distinct_evidence_hosts": [
+     "hokkaidodo.jp",
+     "www.mapion.co.jp"
+    ]
+   },
+   "weighted_total": 4.4,
+   "nearest_place": "jp-006",
+   "nearest_km": 72.19,
+   "coords": [
+    44.0958,
+    145.0093
    ]
   },
   {
@@ -4411,6 +4445,38 @@
    ]
   },
   {
+   "place_id": "tw-060",
+   "name_zh": "七美雙心石滬",
+   "region": "tw",
+   "n_opportunities": 3,
+   "opportunity_ids": [
+    "tw-060-P01",
+    "tw-060-P02",
+    "tw-060-P03"
+   ],
+   "rubric": {
+    "subject_strength": 4,
+    "weather_light_dependency": 3.67,
+    "verifiability": 3.0,
+    "differentiation": 5,
+    "scenic_beauty": 3
+   },
+   "scenic_beauty_evidence": {
+    "s1": 0,
+    "s2": 1,
+    "s3": 0,
+    "top": 0,
+    "distinct_evidence_hosts": []
+   },
+   "weighted_total": 3.68,
+   "nearest_place": "tw-117",
+   "nearest_km": 33.27,
+   "coords": [
+    23.2194319,
+    119.4465494
+   ]
+  },
+  {
    "place_id": "tw-041",
    "name_zh": "雪山主峰",
    "region": "tw",
@@ -4577,38 +4643,6 @@
    ]
   },
   {
-   "place_id": "tw-060",
-   "name_zh": "七美雙心石滬",
-   "region": "tw",
-   "n_opportunities": 3,
-   "opportunity_ids": [
-    "tw-060-P01",
-    "tw-060-P02",
-    "tw-060-P03"
-   ],
-   "rubric": {
-    "subject_strength": 4,
-    "weather_light_dependency": 3.67,
-    "verifiability": 2.67,
-    "differentiation": 5,
-    "scenic_beauty": 3
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 0,
-    "top": 0,
-    "distinct_evidence_hosts": []
-   },
-   "weighted_total": 3.62,
-   "nearest_place": "tw-117",
-   "nearest_km": 33.17,
-   "coords": [
-    23.22022,
-    119.44697
-   ]
-  },
-  {
    "place_id": "tw-085",
    "name_zh": "南子吝步道",
    "region": "tw",
@@ -4638,40 +4672,6 @@
    "coords": [
     25.1201398,
     121.887539
-   ]
-  },
-  {
-   "place_id": "jp-041",
-   "name_zh": "知床ウトロ流氷（プユニ岬）",
-   "region": "jp",
-   "n_opportunities": 2,
-   "opportunity_ids": [
-    "jp-041-P01",
-    "jp-041-P02"
-   ],
-   "rubric": {
-    "subject_strength": 3,
-    "weather_light_dependency": 3,
-    "verifiability": 2.5,
-    "differentiation": 5,
-    "scenic_beauty": 5
-   },
-   "scenic_beauty_evidence": {
-    "s1": 0,
-    "s2": 1,
-    "s3": 1,
-    "top": 1,
-    "distinct_evidence_hosts": [
-     "hokkaidodo.jp",
-     "www.mapion.co.jp"
-    ]
-   },
-   "weighted_total": 3.6,
-   "nearest_place": "jp-006",
-   "nearest_km": 72.19,
-   "coords": [
-    44.0958,
-    145.0093
    ]
   },
   {
@@ -6668,9 +6668,9 @@
     "jp-030-P99"
    ],
    "rubric": {
-    "subject_strength": 3,
-    "weather_light_dependency": 3,
-    "verifiability": 2.0,
+    "subject_strength": 3.5,
+    "weather_light_dependency": 5,
+    "verifiability": 2.75,
     "differentiation": 5,
     "scenic_beauty": "unknown"
    },
@@ -15554,13 +15554,12 @@
    "opportunity_id": "jp-030-P01",
    "place_id": "jp-030",
    "scores": {
-    "subject_strength": 2,
-    "weather_light_dependency": 1,
-    "verifiability": 2.5
+    "subject_strength": 3,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
    },
    "verif_gaps": [
-    "geometry_not_verified",
-    "conditions_missing_claim_or_threshold_source"
+    "geometry_not_verified"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -15836,13 +15835,12 @@
    "opportunity_id": "jp-041-P01",
    "place_id": "jp-041",
    "scores": {
-    "subject_strength": 1,
-    "weather_light_dependency": 1,
-    "verifiability": 2.5
+    "subject_strength": 3,
+    "weather_light_dependency": 5,
+    "verifiability": 4.0
    },
    "verif_gaps": [
-    "geometry_not_verified",
-    "conditions_missing_claim_or_threshold_source"
+    "geometry_not_verified"
    ],
    "canonical_locked": true,
    "lifecycle_status": "draft"
@@ -19166,10 +19164,9 @@
    "scores": {
     "subject_strength": 2,
     "weather_light_dependency": 1,
-    "verifiability": 1.0
+    "verifiability": 2.0
    },
    "verif_gaps": [
-    "geometry_not_verified",
     "targets_missing_evidence_refs",
     "conditions_missing_claim_or_threshold_source",
     "access_note_placeholder"
@@ -25583,18 +25580,6 @@
  "weakness_lists": {
   "low_weather_light": [
    {
-    "opportunity_id": "jp-030-P01",
-    "place_id": "jp-030",
-    "score": 1,
-    "recommendation": "改題材"
-   },
-   {
-    "opportunity_id": "jp-041-P01",
-    "place_id": "jp-041",
-    "score": 1,
-    "recommendation": "改題材"
-   },
-   {
     "opportunity_id": "jp-070-P01",
     "place_id": "jp-070",
     "score": 2,
@@ -25688,9 +25673,8 @@
    {
     "opportunity_id": "tw-060-P01",
     "place_id": "tw-060",
-    "score": 1.0,
+    "score": 2.0,
     "gaps": [
-     "geometry_not_verified",
      "targets_missing_evidence_refs",
      "conditions_missing_claim_or_threshold_source",
      "access_note_placeholder"

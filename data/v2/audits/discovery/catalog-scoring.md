@@ -2,11 +2,11 @@
 
 評分範圍：466 places × 734 opportunities（全數來自庫內契約；唯讀分析）。
 Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / differentiation 15 / scenic_beauty 20（CL-DATA-26 owner ruling 2026-11-07：safe_access 移除、scenic_beauty 20）。
-輸入指紋：`c9c100cfc4032cca…`（重跑可驗證確定性）。
+輸入指紋：`98b0ab30375a5ae5…`（重跑可驗證確定性）。
 
 - 全庫加權均分：**3.91 / 5**；中位數：**3.95 / 5**（僅計 scenic_beauty 有庫內證據的景點；scenic_beauty 無證據者誠實標 unknown＝**284** 個，不虛構分數）。
 - 區域分布：jp=94, tw=222, us=150
-- 弱點清單筆數：低 weather_light **13**、低 verifiability **10**、5km 群聚 **50**。
+- 弱點清單筆數：低 weather_light **11**、低 verifiability **10**、5km 群聚 **50**。
 
 ## 五維判定規則（機械、可重跑）
 
@@ -26,24 +26,24 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 |---|---|---|---|---|---|---|
 | 1 | `jp-044` | 十二湖・青池 | jp | 1 | **4.5** | 5/5/2.5/5/5 |
 | 2 | `us-107` | 出口冰河・冰河舌谷景 | us | 1 | **4.45** | 5/5/5.0/4/3 |
-| 3 | `jp-051` | 嚴島神社・宮島大鳥居 | jp | 1 | **4.4** | 5/5/3.0/5/4 |
-| 4 | `us-055` | 威朗格利-聖埃利亞斯國家公園 | us | 2 | **4.4** | 5/5/4.0/5/3 |
-| 5 | `us-086` | 里亞爾托海灘／牆中洞 | us | 1 | **4.4** | 5/5/4.0/5/3 |
-| 6 | `us-101` | 雷神之井 | us | 1 | **4.4** | 5/5/4.0/5/3 |
-| 7 | `us-102` | 摩特諾瑪瀑布 | us | 1 | **4.4** | 5/5/4.0/5/3 |
-| 8 | `us-103` | 干草堆岩・坎農海灘 | us | 1 | **4.4** | 5/5/4.0/5/3 |
-| 9 | `jp-048` | 北山崎（三陸断崖） | jp | 2 | **4.38** | 4.5/5/2.5/5/5 |
-| 10 | `jp-002` | 旭岳 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
-| 11 | `jp-052` | 備中松山城・雲海（天空の城） | jp | 1 | **4.3** | 5/5/2.5/5/4 |
-| 12 | `jp-072` | 白川鄉合掌村 | jp | 1 | **4.3** | 5/5/2.5/5/4 |
-| 13 | `us-021` | 峽谷地國家公園 梅薩拱門 | us | 1 | **4.3** | 5/5/3.5/5/3 |
-| 14 | `us-029` | 白沙國家公園 | us | 1 | **4.3** | 5/5/3.5/5/3 |
-| 15 | `us-031` | 落磯山國家公園 | us | 1 | **4.3** | 5/5/3.5/5/3 |
-| 16 | `us-060` | 冰河灣國家公園 | us | 2 | **4.3** | 5/5/3.5/5/3 |
-| 17 | `us-069` | 克拉克湖國家公園 | us | 1 | **4.3** | 5/5/3.5/5/3 |
-| 18 | `us-087` | 颶風嶺 | us | 1 | **4.3** | 5/5/3.5/5/3 |
-| 19 | `us-088` | 霍雨林 | us | 1 | **4.3** | 5/5/3.5/5/3 |
-| 20 | `us-014` | 死亡谷國家公園 | us | 3 | **4.28** | 4.67/5/3.83/5/3 |
+| 3 | `jp-041` | 知床ウトロ流氷（プユニ岬） | jp | 2 | **4.4** | 4/5/3.25/5/5 |
+| 4 | `jp-051` | 嚴島神社・宮島大鳥居 | jp | 1 | **4.4** | 5/5/3.0/5/4 |
+| 5 | `us-055` | 威朗格利-聖埃利亞斯國家公園 | us | 2 | **4.4** | 5/5/4.0/5/3 |
+| 6 | `us-086` | 里亞爾托海灘／牆中洞 | us | 1 | **4.4** | 5/5/4.0/5/3 |
+| 7 | `us-101` | 雷神之井 | us | 1 | **4.4** | 5/5/4.0/5/3 |
+| 8 | `us-102` | 摩特諾瑪瀑布 | us | 1 | **4.4** | 5/5/4.0/5/3 |
+| 9 | `us-103` | 干草堆岩・坎農海灘 | us | 1 | **4.4** | 5/5/4.0/5/3 |
+| 10 | `jp-048` | 北山崎（三陸断崖） | jp | 2 | **4.38** | 4.5/5/2.5/5/5 |
+| 11 | `jp-002` | 旭岳 | jp | 1 | **4.3** | 5/5/3.5/5/3 |
+| 12 | `jp-052` | 備中松山城・雲海（天空の城） | jp | 1 | **4.3** | 5/5/2.5/5/4 |
+| 13 | `jp-072` | 白川鄉合掌村 | jp | 1 | **4.3** | 5/5/2.5/5/4 |
+| 14 | `us-021` | 峽谷地國家公園 梅薩拱門 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 15 | `us-029` | 白沙國家公園 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 16 | `us-031` | 落磯山國家公園 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 17 | `us-060` | 冰河灣國家公園 | us | 2 | **4.3** | 5/5/3.5/5/3 |
+| 18 | `us-069` | 克拉克湖國家公園 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 19 | `us-087` | 颶風嶺 | us | 1 | **4.3** | 5/5/3.5/5/3 |
+| 20 | `us-088` | 霍雨林 | us | 1 | **4.3** | 5/5/3.5/5/3 |
 
 ### Bottom 20
 
@@ -74,8 +74,6 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 
 | opportunity | place | 分數 |
 |---|---|---|
-| `jp-030-P01` | jp-030 | 1 |
-| `jp-041-P01` | jp-041 | 1 |
 | `jp-070-P01` | jp-070 | 2 |
 | `jp-081-P01` | jp-081 | 2 |
 | `jp-083-P01` | jp-083 | 2 |
@@ -94,7 +92,7 @@ Rubric 權重（v2）：subject 25 / weather_light 20 / verifiability 20 / diffe
 |---|---|---|---|
 | `jp-030-P99` | jp-030 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `tw-059-P01` | tw-059 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
-| `tw-060-P01` | tw-060 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
+| `tw-060-P01` | tw-060 | 2.0 | targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
 | `tw-078-P01` | tw-078 | 1.0 | geometry_not_verified, targets_missing_evidence_refs, conditions_missing_claim_or_threshold_source, access_note_placeholder |
 | `us-075-P01` | us-075 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
 | `us-075-P02` | us-075 | 1.5 | geometry_not_verified, targets_missing_evidence_refs, access_note_placeholder |
