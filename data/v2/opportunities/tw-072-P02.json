@@ -2,12 +2,12 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-072-P02",
   "place_id": "tw-072",
-  "revision": 5,
+  "revision": 6,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "南雅奇岩夕照雲霞",
-    "en": "南雅奇岩夕照雲霞",
-    "ja": "南雅奇岩夕照雲霞"
+    "en": "Nanya Rock sunset glow clouds",
+    "ja": "南雅奇岩の夕焼け雲"
   },
   "description_i18n": {
     "zh-TW": "南雅奇岩夕照雲霞（V1 最佳時段：日落前後；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
@@ -120,31 +120,6 @@
     "recommendation_policy_version": null,
     "conditions": [
       {
-        "id": "C-tw-072-P02-01",
-        "role": "REQUIRED",
-        "domain": "SUBJECT_STATE",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "landform_present",
-        "operator": "none",
-        "threshold": null,
-        "unit": "level",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-072-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "evidence_review",
-        "calibration_status": "approved",
-        "rationale_i18n": {
-          "zh-TW": "靜態主體存在性由機會定義聲明（owner 於景點建立時確認），非即時評估。propagate_unknown 保底。",
-          "en": "Presence of the static subject is declared by the opportunity definition (confirmed by the owner at spot creation), not evaluated live. propagate_unknown as fallback.",
-          "ja": "静的主体的存在は機会定義側で宣言（オーナーが登録時に確認）。ライブ評価ではない。propagate_unknown でフォールバック。"
-        }
-      },
-      {
         "id": "C-tw-072-P02-02",
         "role": "REQUIRED",
         "domain": "WEATHER",
@@ -209,7 +184,7 @@
         "metric": "aod_550nm",
         "operator": "lte",
         "threshold": 0.4,
-        "unit": "AOD",
+        "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "tw-072-P02-claim-01"

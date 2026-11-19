@@ -2,12 +2,12 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-076-P01",
   "place_id": "tw-076",
-  "revision": 4,
+  "revision": 5,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "龍磐草原海岸日出",
-    "en": "龍磐草原海岸日出",
-    "ja": "龍磐草原海岸日出"
+    "en": "Longpan grassland coastal sunrise",
+    "ja": "龍磐パークの海岸の日の出"
   },
   "description_i18n": {
     "zh-TW": "龍磐草原海岸日出（V1 最佳時段：日出前後；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
@@ -115,8 +115,8 @@
   "condition_contract": {
     "contract_id": "CC-tw-076-P01-v1",
     "status": "draft",
-    "genre_template": "mountain_view",
-    "template_version": "mountain_view-v0.1",
+    "genre_template": "sunrise",
+    "template_version": "sunrise-v0.1",
     "recommendation_policy_version": null,
     "conditions": [
       {
@@ -167,14 +167,14 @@
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "中雲 30–60% 帶來層次感，但只是加分——晴空萬里同樣是絕佳山景（owner 規格 §1.1：移除必須，避免晴空被誤殺）。",
-          "en": "Mid-cloud 30-60% adds layering, but as a bonus only - a cloudless clear sky is equally a superb mountain vista (owner spec section 1.1: the gate is removed so clear skies are no longer killed).",
-          "ja": "中層雲30〜60%は画面に重なりを与えるが加点にとどめる——雲一つない晴空も優れた山景（オーナー仕様書 §1.1：必須を撤去し晴空の誤殺を防ぐ）。"
+          "zh-TW": "中雲 30–60% 為天空加層次與色彩，但只是加分——太平洋海平線的晴空日出同樣是絕佳畫面（晴天不誤殺）。",
+          "en": "Mid-cloud 30-60% adds layering and colour to the sky, but as a bonus only - a clear-sky sunrise over the Pacific sea horizon is equally superb (clear skies are never vetoed).",
+          "ja": "中層雲30〜60%は空に重なりと色を添えるが加点にとどめる——太平洋海平線の晴空の日の出も優れた画面（晴空を誤殺しない）。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：cloud_cover_mid [30,60] 必須 → 加分項（BONUS）。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): cloud_cover_mid [30,60] demoted from REQUIRED gate to QUALITY/BONUS.",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：cloud_cover_mid [30,60] を必須から加点（BONUS）へ降格。"
+          "zh-TW": "2026-11-20 CL-DATA-75（owner 規格 §1）必須 → 加分（BONUS）；2026-11-20 CL-DATA-76 rationale 隨海岸語義改寫。",
+          "en": "2026-11-20 CL-DATA-75 (owner spec section 1) demoted from REQUIRED gate to QUALITY/BONUS; 2026-11-20 CL-DATA-76 rewrote the rationale to the coastal semantics.",
+          "ja": "2026-11-20 CL-DATA-75（オーナー仕様 §1）で必須から加点へ；2026-11-20 CL-DATA-76 で rationale を海岸語義に書き直し。"
         }
       },
       {
@@ -197,9 +197,9 @@
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "拍攝受影響下限。",
-          "en": "Minimum before the shoot is impaired.",
-          "ja": "撮影に支障が出る前の下限。"
+          "zh-TW": "拍攝受影響下限：降水 >0.2 mm/h 時草原步道濕滑、鏡面受雨點干擾。",
+          "en": "Minimum before the shoot is impaired: above 0.2 mm/h the grassland trail turns slippery and raindrops disturb the scene.",
+          "ja": "撮影に支障が出る前の下限：0.2mm/h超では草原の歩道が滑り、雨粒が画面を乱す。"
         }
       },
       {
@@ -221,14 +221,14 @@
         "condition_tier": "MAIN",
         "threshold_source": "computed",
         "rationale_i18n": {
-          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch m）：龍磐草原海岸日出——補 sunrise_time_window MAIN；移除 sunset MODIFIER（名稱語義是日出）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-          "en": "2026-11-06 CL-DATA-12 full audit (batch m): Longpan grassland coastal sunrise - adds sunrise_time_window MAIN; the sunset MODIFIER is removed (the name semantics are sunrise). Semantic correction; layering parity gate exempt, documented here.",
-          "ja": "2026-11-06 CL-DATA-12 全面監査（batch m）：龍磐草原の海岸日の出——sunrise_time_window MAIN を追加；sunset MODIFIER は削除（名称語義は日の出）。 意味修正のため layering parity ゲートは免除。"
+          "zh-TW": "天文窗＝日出時刻 ±40 分（座標＋日期計算）。龍磐草原面向太平洋海平線、無地形遮擋，天文日出即實際見日。",
+          "en": "Astronomy window = sunrise time +/- 40 minutes (from coordinates and date). The Longpan grassland faces the open Pacific sea horizon with no terrain occlusion, so the astronomical sunrise matches the visible one.",
+          "ja": "天文ウィンドウ＝日の出時刻±40分。龍磐草原は太平洋の海平線を望み地形遮蔽がないため、天文日の出が実際の見えと一致する。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-06 CL-DATA-12 全面稽查（batch m）：龍磐草原海岸日出——補 sunrise_time_window MAIN；移除 sunset MODIFIER（名稱語義是日出）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-          "en": "2026-11-06 CL-DATA-12 full audit (batch m): Longpan grassland coastal sunrise - adds sunrise_time_window MAIN; the sunset MODIFIER is removed (the name semantics are sunrise). Semantic correction; layering parity gate exempt, documented here.",
-          "ja": "2026-11-06 CL-DATA-12 全面監査（batch m）：龍磐草原の海岸日の出——sunrise_time_window MAIN を追加；sunset MODIFIER は削除（名称語義は日の出）。 意味修正のため layering parity ゲートは免除。"
+          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決）：龍磐為臨太平洋海崖草原題材，模板由 mountain_view 對齊 sunrise 家族（與 tw-080-P01 同族）；低雲必須門檻 30%→35%（owner 裁決值）；各條件 rationale 改寫為海岸日出語義，非山岳雲層邏輯。",
+          "en": "2026-11-20 CL-DATA-76 (owner ruling): Longpan is a Pacific sea-cliff grassland subject - the template moves from mountain_view to the sunrise family (aligned with tw-080-P01); the REQUIRED low-cloud gate 30% -> 35% (owner-ruled value); all rationales rewritten to coastal-sunrise semantics, not mountain-cloud logic.",
+          "ja": "2026-11-20 CL-DATA-76（オーナー裁定）：龍磐は太平洋海崖の草原題材。テンプレートを mountain_view から sunrise 家族へ（tw-080-P01 と同族整合）；低層雲の必須閾値 30%→35%（オーナー裁定値）；全 rationale を海岸日の出の意味に書き直し（山岳雲ロジックではない）。"
         }
       },
       {
@@ -239,7 +239,7 @@
         "capability": "CONDITIONS",
         "metric": "cloud_cover_low",
         "operator": "lte",
-        "threshold": 30,
+        "threshold": 35,
         "unit": "%",
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
@@ -251,14 +251,14 @@
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "低雲罩頂就沒有山景：低雲 ≤30%（僅高層薄雲或晴空時山體清晰可辨）；中雲層次感改列加分項，不再否決晴空。",
-          "en": "A low deck over the mountains kills the vista: low cloud <= 30% (the ridgelines stay legible under a clear or only high-thin sky); mid-cloud layering is a bonus, never a veto.",
-          "ja": "低層雲が山頂を覆えば眺望は成立しない：下層雲≤30%（晴または上層の薄雲のみならず稜線が明瞭）。中層雲の重なりは加点項とし、晴空を否決しない。"
+          "zh-TW": "日出方位的低雲直接擋住海平線上的太陽；35% 仍允許塊狀低雲——碎雲反而是為日出上色的主角。這是臨海草原的日出判據，不是山岳雲層邏輯。",
+          "en": "Low cloud in the sunrise-azimuth sector blocks the sun over the sea horizon directly; 35% still allows broken low cloud, which is what actually paints the colour. This is a coastal-grassland sunrise criterion, not mountain-cloud logic.",
+          "ja": "日の出方位の扇形領域の低雲は海平線上の太陽を直接遮る。35%は塊状の低雲を許容し、色を生む主役。これは臨海草原の日の出判定であり、山岳雲ロジックではない。"
         },
         "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：低雲 ≤30%。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): Added REQUIRED: low cloud <= 30%.",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：必須条件を追加：下層雲≤30%。"
+          "zh-TW": "2026-11-20 CL-DATA-75 §1 新增必須（≤30%）；同日 CL-DATA-76（owner 裁決）調整為 ≤35% 並隨模板對齊 sunrise 家族。",
+          "en": "2026-11-20 CL-DATA-75 section 1 added the REQUIRED gate (<=30%); same day CL-DATA-76 (owner ruling) moved it to <=35% as part of the sunrise-family alignment.",
+          "ja": "2026-11-20 CL-DATA-75 §1 で必須追加（≤30%）；同日 CL-DATA-76（オーナー裁定）で ≤35% に調整し sunrise 家族へ整合。"
         }
       },
       {
@@ -281,9 +281,9 @@
         "threshold_source": "formula_derived",
         "calibration_status": "provisional",
         "rationale_i18n": {
-          "zh-TW": "山景的價值在看得遠：能見度 ≥15 km，霧霾把遠山吃掉時直接否決（owner 規格 §1.1 標準值）。",
-          "en": "The value of a mountain vista is distance: visibility >= 15 km; haze that swallows the far ridges vetoes the hour outright (owner-spec section 1.1 standard value).",
-          "ja": "山景の価値は遠くまで見えること：視程≥15 km。ヘイズが遠山を飲み込む場合は否決（オーナー仕様書 §1.1 の標準値）。"
+          "zh-TW": "面向海平線的日出需要通透空氣：能見度 ≥15 km，霧霾吞掉海平線與遠處海崖輪廓時直接否決。",
+          "en": "A sunrise facing the sea horizon needs transparent air: visibility >= 15 km; haze that swallows the sea-horizon line and the distant sea cliffs vetoes the hour outright.",
+          "ja": "海平線を望む日の出には透明な空気が要る：視程≥15 km。ヘイズが海平線と遠い海崖の輪郭を飲み込む場合は否決。"
         },
         "notes_i18n": {
           "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：能見度 ≥15 km。",

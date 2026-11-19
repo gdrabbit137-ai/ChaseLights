@@ -2,12 +2,12 @@
   "schema_version": "2.1.0",
   "opportunity_id": "tw-074-P02",
   "place_id": "tw-074",
-  "revision": 2,
+  "revision": 3,
   "lifecycle_status": "draft",
   "name_i18n": {
     "zh-TW": "野柳蕈狀岩與燭台石群紋理",
-    "en": "野柳蕈狀岩與燭台石群紋理",
-    "ja": "野柳蕈狀岩與燭台石群紋理"
+    "en": "Yehliu mushroom rocks and candle rock textures",
+    "ja": "野柳のキノコ岩と燭台石のテクスチャ"
   },
   "description_i18n": {
     "zh-TW": "野柳蕈狀岩與燭台石群紋理（V1 最佳時段：園區開放時段；斜光或陰天柔光；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
@@ -116,36 +116,6 @@
     "recommendation_policy_version": null,
     "conditions": [
       {
-        "id": "C-tw-074-P02-01",
-        "role": "REQUIRED",
-        "domain": "SUBJECT_STATE",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "landform_present",
-        "operator": "none",
-        "threshold": null,
-        "unit": "level",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-074-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "evidence_review",
-        "calibration_status": "approved",
-        "rationale_i18n": {
-          "zh-TW": "靜態主體存在性由機會定義聲明（owner 於景點建立時確認），非即時評估。propagate_unknown 保底。",
-          "en": "Presence of the static subject is declared by the opportunity definition (confirmed by the owner at spot creation), not evaluated live. propagate_unknown as fallback.",
-          "ja": "静的主体的存在は機会定義側で宣言（オーナーが登録時に確認）。ライブ評価ではない。propagate_unknown でフォールバック。"
-        },
-        "notes_i18n": {
-          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
-        }
-      },
-      {
         "id": "C-tw-074-P02-02",
         "role": "REQUIRED",
         "domain": "WEATHER",
@@ -214,7 +184,7 @@
         "metric": "aod_550nm",
         "operator": "lte",
         "threshold": 0.4,
-        "unit": "AOD",
+        "unit": null,
         "unknown_policy": "propagate_unknown",
         "claim_refs": [
           "tw-074-P02-claim-01"
