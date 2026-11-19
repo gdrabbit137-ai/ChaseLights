@@ -79,7 +79,8 @@ class ResearchIndexTests(unittest.TestCase):
             '21198c9cc91e00cdd3df8daea76aac46bf9fb45b',  # CL-DATA-36 batch2
             '1bf8e398e20ebbc76be1157d98bd8dc188216746',  # CL-DATA-37 batch3
             '23f1bb6c0a90964067d885c3783c99c87a902b86',  # southern-Japan jp records (CL-INT-112 merged-tree state)
-            '3eb466432807185bc8b9271d006666b72d1fa406',
+            # (3eb466432 holder retired: its records moved to the CL-DATA-75
+            #  wave re-pin 4ac19a2c6 / c44a18d69 — owner spec §1 contract wave.)
             # CL-INT-83: the 8 CL-DATA-18 AI-verified fill records
             # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
             # tw-026-P01/tw-026-P02/us-057-P01) anchored to the provenance
@@ -103,6 +104,12 @@ class ResearchIndexTests(unittest.TestCase):
             # CL-INT-116 merged tree: batch5 (CL-DATA-39) records kept at the
             # main-side regen commit — evidence_refs intact, bytes verified.
             '7a77bea62a609a861b725288f53036e10b750ac9',
+            # CL-DATA-75 (2026-11-20): owner spec §1 four-logic-fix wave — 125
+            # contracts re-pinned to the wave commit 4ac19a2c6, and the two
+            # follow-up re-anchors (jp-010-P01 owner-ruling notes, tw-016-P01
+            # binding-null convention) to c44a18d69.
+            '4ac19a2c6d207a39642a7e4e42f53a7e023ba9ff',
+            'c44a18d69dfbdac6d348dbae9ed9845cfdd6de17',
             # CL-DATA-09: tw-027-P02 re-pinned to the task-branch commit adding
             # the contract-level city_night_window condition (civil darkness
             # <= -6 deg; TIME_SPECIALIZATION §3 misplacement, owner ruling
@@ -222,8 +229,8 @@ class ResearchIndexTests(unittest.TestCase):
             # (scoped evaluations regen commit; bytes unchanged since stage-4).
             'e6603751b8571025b9db78d405dbdd65c55476ea',
             # CL-DATA-57: the two sunset-window promotion records repinned to
-            # 0ab54271b (contract commit; blob+sha256 verified on the task branch).
-            '0ab54271b600c0466dcca8dda2fc4a4a42c54680',
+            # 0ab54271b — retired by CL-DATA-75: both records re-pinned to the
+            # §1 wave commits (4ac19a2c6 / c44a18d69) below.
             # CL-DATA-58: the three round11 water_surface_state/ICE1 records
             # (us-123/us-132/us-143-P01) repinned to 8393d5b3d (contract commit;
             # blob+sha256 verified on the merged tree) — CL-DATA-72: that entry
@@ -238,10 +245,8 @@ class ResearchIndexTests(unittest.TestCase):
             # (final task commit carrying the needs_review navigation bytes;
             # superseded by the CL-DATA-69 re-pin below).
             'a923ee67a3f3edc6c1c258661d8aeedd78a85e18',
-            # CL-DATA-67: jp-049-P01/jp-065-P01 gain the civil light_window
-            # (sunset_window MODIFIER never vetoed night hours) repinned to
-            # 86b3fa825 (contract commit; blob+sha256 verified on the task tree).
-            '86b3fa825bf1ffaff6e9f20cd9f50c265deda514',
+            # CL-DATA-67: jp-049-P01/jp-065-P01 civil light_window repin
+            # 86b3fa825 — retired by CL-DATA-75 (§1 wave re-pin below).
             # CL-DATA-66 wave1: the 37 scoreless Tier-A intake records
             # (tw-125..tw-146) carry their authorship bytes on the task branch —
             # 36 records to fc2e04510 (the intake commit) and tw-141-P01's
