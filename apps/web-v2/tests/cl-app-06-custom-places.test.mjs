@@ -26,15 +26,16 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 // ------------------------------------------------------------- (1) source
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
   // CL-INT-206 merge: clapp06g (patch-8) + clapp08a (shared-fetch tag) ->
-  // clapp08b on the merged tree; CL-APP-09-p3 (popup anatomy) -> clapp09d
+  // clapp08b on the merged tree; CL-APP-09-p3 (popup anatomy) -> clapp09d;
+  // CL-APP-09 patch-4 (popup rides the official renderers) -> clapp09e
   // (per-file cache-bust rule, monotonic)
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09d/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09d/);
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09e/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09e/);
   assert.doesNotMatch(htmlSource, /custom-places\.(css|js)\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
-  assert.match(htmlSource, /assets\/app\.js\?v=clui112/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui113/);
 });
 
 test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () => {
@@ -327,14 +328,27 @@ async function bootBrowser() {
             return Promise.resolve({ ok: true, elevation: 80, timezone: 'Asia/Taipei', utcOffsetSeconds: 28800, elevationOutlier: false });
           } });
         }
-        // patch-7: the private-card forecast popup reads the stored eval
+        // patch-7: the private-card forecast popup reads the stored eval.
+        // patch-4: the fixture's hourly grid is DATE-ANCHORED to the real
+        // spot-local today (the official quick view renders the page-selected
+        // date = today), with clean-air hours inside the group's 04:30–07:00
+        // window and low cloud everywhere else — deterministic verdicts:
+        // today's strip cell stays ✓ (fit hours exist), the next day ✗低雲,
+        // day 8 honest 資料不足, and the tier chip is ✓/○ depending on how
+        // much of the fit window is still remaining at run time.
         if (path === '/api/v1/custom_places/cp1/eval') {
+          const pad = (n) => String(n).padStart(2, '0');
+          const d0 = new Date(Date.now() + 8 * 3600e3);
+          const iso = (off) => new Date(d0.getTime() + off * 86400e3).toISOString().slice(0, 10);
           const hourly = [];
-          // day 1: 05:00 clean (cc window 04:30–07:00, cloud_low_max 15) ✓
-          hourly.push({ local_date: '2026-11-16', hour: '05:00', values: { cloud_low: 10, cloud_mid: 20, cloud_high: 30, precipitation: 0, visibility: 20000, wind: 2 } });
-          hourly.push({ local_date: '2026-11-16', hour: '06:00', values: { cloud_low: 12, cloud_mid: 20, cloud_high: 30, precipitation: 0, visibility: 20000, wind: 2 } });
-          // day 2: low cloud blows the custom threshold (✗), baseline still ✓
-          for (const h of ['00:00','05:00','10:00','18:00']) hourly.push({ local_date: '2026-11-17', hour: h, values: { cloud_low: 90, cloud_mid: 20, cloud_high: 30, precipitation: 0, visibility: 20000, wind: 2 } });
+          for (let day = 0; day < 2; day++) {
+            for (let h = 0; h < 24; h++) {
+              const clean = day === 0 && h >= 5 && h <= 7; // inside the 04:30–07:00 group window, TODAY only
+              hourly.push({ local_date: iso(day), hour: pad(h) + ':00', values: {
+                cloud_low: clean ? 10 : 90, cloud_mid: 20, cloud_high: 30,
+                precipitation: 0, visibility: 20000, wind: 2 } });
+            }
+          }
           return Promise.resolve({ ok: true, status: 200, json: function () {
             return Promise.resolve({ ok: true, id: 'cp1', private: true, hourly: hourly, generatedAt: '2026-11-15T10:00:00Z', elevation: 1150, timezone: 'Asia/Taipei' });
           } });
@@ -1178,10 +1192,22 @@ test('CL-APP-06 (1g, patch-4/5): mini-map deferred-init contract + ticket-langua
   assert.match(jsSource, /teardownMiniMap\(\); \/\/ patch-4: the GL context must not leak across modals/,
     'closing the modal removes the GL context');
   assert.match(jsSource, /wireSchematicPinDrop/, 'honest schematic fallback on module/tile failure');
-  // patch-5 ①: ticket/engineering language is OUT of every user-visible string
-  for (const m of jsSource.matchAll(/'(zh-TW|en|ja)':\s*\{[\s\S]*?\n    \}/g)) {
-    assert.doesNotMatch(m[0], /CL-[A-Z]+-?\d*/, `dictionary ${m[1]} must not carry ticket numbers`);
-  }
+  // patch-5 ①: ticket/engineering language is OUT of every user-visible string.
+  // patch-4: the scan covers the tri-lingual T pack region only (declared at
+  // `var T = {` and closed before the popup helpers) — the popup helper
+  // dictionaries carry NO user-visible copy beyond fixed labels, and source
+  // comments with ticket ids are not user-visible strings.
+  (function () {
+    const tStart = jsSource.indexOf('var T = {');
+    const tEnd = jsSource.indexOf('\n  };', tStart);
+    assert.ok(tStart >= 0 && tEnd > tStart, 'the T pack block is locatable');
+    const pack = jsSource.slice(tStart, tEnd);
+    for (const lang of ['zh-TW', 'en', 'ja']) {
+      const m = pack.match(new RegExp(`'${lang}':\\s*\\{[\\s\\S]*?\\n    \\}`));
+      assert.ok(m, `the ${lang} pack block is locatable`);
+      assert.doesNotMatch(m[0], /CL-[A-Z]+-?\d*/, `dictionary ${lang} must not carry ticket numbers`);
+    }
+  })();
   // patch-5 ③: conflict path — the AI applies nothing, the user picks
   assert.match(jsSource, /if \(s\.conflict\)[\s\S]{0,200}ai_conflict\.replace\('\{m\}', s\.conflict\)/);
   assert.match(jsSource, /ai_conflict: '⚠ 條件矛盾：\{m\}——請擇一，AI 未套用任何值。'/);
@@ -1319,30 +1345,36 @@ test('CL-APP-06 (2s, patch-5): conditions modal — no ticket language, conflict
   assert.equal(probe.previewUnchanged, true, 'the preview is untouched by a conflicting parse');
 });
 
-test('CL-APP-06 (1h, patch-7): private-card click → forecast popup — source contract (parity with official cards)', () => {
+test('CL-APP-06 (1h, patch-7→patch-4): private-card click → forecast popup rides the OFFICIAL renderer (source contract)', () => {
   // card body click opens the popup; buttons/links (⋯, upgrade CTA) never do
   assert.match(jsSource, /e\.target\.closest\('button, a, input, select'\)\) return;\s*\n\s*forecastModal\(p\);/);
   assert.match(jsSource, /e\.key === 'Enter' \|\| e\.key === ' '.*forecastModal\(p\)/s, 'keyboard parity: Enter/Space open the popup');
   // the popup renders ONLY stored data — the eval endpoint, never a new fetch
   assert.match(jsSource, /API \+ '\/' \+ p\.id \+ '\/eval'/);
+  // patch-4 ROOT FIX: the popup does NOT grow its own anatomy — every block
+  // is the OFFICIAL renderer through the app.js bridge (window.CLForecastRenderers)
+  assert.match(jsSource, /window\.CLForecastRenderers/);
+  assert.match(jsSource, /br\.quickView\(host, data\.spot\)/, '速覽 rides the official mountQuickView pipeline');
+  assert.match(jsSource, /br\.stripHtml\(data\.days/, '8 日方框 rides the official v2DayStripHtml');
+  assert.match(jsSource, /br\.daySub\(data\.spot, opp\)/, '今天題材判定 rides the official v2DaySubHtml');
+  assert.match(jsSource, /br\.subjectRow\(\{ name: nm, stamp: stamp, cc: g\.cond \}/, '逐題材行 rides the official cl-subject-row builder');
+  assert.match(jsSource, /br\.condFold\(conds, extra\)/, '條件摺疊 rides the official v2CondFoldHtml');
+  assert.match(jsSource, /br\.registerSyntheticRows\(p\.id, data\.tree/, 'private verdicts feed the SAME subject-cards row pipeline');
+  assert.match(jsSource, /br\.ensureCards\(\)/, 'synthetic rows register AFTER the derived artifact loads');
+  // the retired private mini-strip anatomy is swept from the asset
+  assert.doesNotMatch(jsSource, /cl-cp-qv-strip|qvDayCell|qvDayGrid|renderForecast|cl-cp-qv-row|cl-cp-qv-cond|cl-cp-qv-quick/,
+    'the popup never renders its own 8-cell mini strip / own rows / own fold / own quick line');
   // the hour matcher mirrors the worker exactly (lenient defaults + missing-value honesty)
   assert.match(jsSource, /limit >= 100\) continue;/);
   assert.match(jsSource, /limit <= 0\) continue;/);
   assert.match(jsSource, /if \(val == null\) return false;/);
-  // 8-day grid: honest ─ for uncovered days, M/D labels
-  assert.match(jsSource, /qv_no_data_note/);
-  assert.match(jsSource, /day\.date\.slice\(5\)\.replace\('-', '\/'\)/);
-  // patch-8/9: per-subject rows — ONE row per theme group (named with the
-  // USER's name; the legacy 「題材 1」 migration placeholder falls back to the
-  // genre short name / 自訂條件) — and NO separate general-baseline row.
-  assert.match(jsSource, /groups\.forEach\(function \(g\) \{ subjects\.push\(\{ name: themeDisplayName\(g\), cond: g\.conditions \|\| null \}\); \}\)/);
-  assert.doesNotMatch(jsSource, /qv_baseline/, 'the 「一般基準」 dual-truth label is swept from the asset');
-  assert.doesNotMatch(jsSource, /CP_GENERAL_BASELINE/, 'the baseline constant is gone');
-  // patch-9: the popup rides the official 「條件 ×{n}」 collapse (summary +
-  // 成立條件 rows); a set with no active constraints renders no collapse
-  assert.match(jsSource, /function cpCondDetails\(cc\)/);
-  assert.match(jsSource, /cond_n\.replace\('\{n\}'/);
-  assert.match(jsSource, /cl-cp-qv-cond/);
+  // anchor windows expand client-side with the SAME solar math (mirror, kept in sync by test)
+  assert.match(jsSource, /BEGIN SOLAR MIRROR \(workers\/api\/src\/solar\.js/);
+  assert.match(jsSource, /END SOLAR MIRROR/);
+  assert.match(jsSource, /if \(!b\) continue; \/\/ unresolvable/, 'unresolvable anchor windows never match (fail-closed, never whole-day)');
+  // honest fallbacks: honest 資料不足 days + no fabricated sections
+  assert.match(jsSource, /qv_load_fail/);
+  assert.doesNotMatch(jsSource, /guide_details|research-details/, 'a private point has NO researched guide — the section stays absent');
   // patch-9: official meta-line anatomy — coords at 3 decimals, GMT±n zone
   assert.match(jsSource, /function cpMetaLine\(p\)/);
   assert.match(jsSource, /toFixed\(3\)/);
@@ -1354,16 +1386,29 @@ test('CL-APP-06 (1h, patch-7): private-card click → forecast popup — source 
   assert.match(cssSource, /\.cl-cp-overlay \.cl-cp-modal\.cl-cp-qv-modal\{min-height:auto\}/);
   // 題材 panel entry: the user's custom conditions open the conditions panel
   assert.match(jsSource, /entry\.addEventListener\('click', function \(\) \{ ccModal\(p\); \}\)/);
-  // close button + endpoint wiring on the worker side
-  assert.match(cssSource, /\.cl-cp-qv-strip\{display:grid;grid-template-columns:repeat\(8/);
+  // 🔔 is REAL for private points: the bell carries the rule's own conditions
+  // (custom-mode rule) and the worker cron reaches the private eval KV
+  assert.match(jsSource, /cc: g\.cond/, 'subject-row bells pass the group conditions (the data-rem-cc attribute lives in the shared app.js builder)');
+  const remSrc = readFileSync(join(WEB, 'assets', 'reminders-client.js'), 'utf8');
+  assert.match(remSrc, /data-rem-cc/);
+  assert.match(remSrc, /customConditions: cc/, 'the client posts a CUSTOM-mode rule (mutually exclusive with opportunityId)');
+  assert.match(remSrc, /opportunityId: oppId \|\| undefined/);
+  const notifySrc = readFileSync(join(WEB, 'workers', 'api', 'src', 'notify.js'), 'utf8');
+  assert.match(notifySrc, /v1:evals:custom:\$\{rule\.place_id\}/, 'the cron falls back to the private eval KV — the bell is never a dead rule');
+  // worker endpoint wiring on the popup side
   const workerSrc = readFileSync(join(WEB, 'workers', 'api', 'src', 'custom-places.js'), 'utf8');
   assert.match(workerSrc, /export async function handleCustomPlaceEval/);
   assert.match(workerSrc, /v1:evals:custom:\$\{placeId\}/);
   const idxSrc = readFileSync(join(WEB, 'workers', 'api', 'src', 'index.js'), 'utf8');
   assert.match(idxSrc, /custom_places\\\/\(\[\\w-\]\+\)\\\/eval/);
+  // the shared official builders exist in app.js (one implementation, two hosts)
+  const appSrc = readFileSync(join(WEB, 'assets', 'app.js'), 'utf8');
+  assert.match(appSrc, /function v2CondFoldHtml\(conditions,extraHtml\)/);
+  assert.match(appSrc, /function clSubjectRowLine\(entry,spotId,hidden\)/);
+  assert.match(appSrc, /window\.CLForecastRenderers=\{/);
 });
 
-test('CL-APP-06 (2t, patch-7): clicking a private card opens the forecast popup — quick view, 8-day strip, per-subject rows, 題材 entry; ⋯ still opens the menu', async () => {
+test('CL-APP-06 (2t, patch-4): clicking a private card opens the forecast popup — OFFICIAL anatomy (quick view + 8-day strip + subject rows + condition fold); ⋯ still opens the menu', async () => {
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
@@ -1381,33 +1426,48 @@ test('CL-APP-06 (2t, patch-7): clicking a private card opens the forecast popup 
     await new Promise(r => setTimeout(r, 250));
     const ov = document.querySelector('.cl-cp-overlay');
     out.popupOpens = ov.classList.contains('open');
-    out.quickLine = ov.querySelector('.cl-cp-qv-quick') && ov.querySelector('.cl-cp-qv-quick').textContent;
     out.name = ov.querySelector('.cl-cp-m-head .name').textContent;
-    // wait for the eval fetch to land
+    // wait for the eval fetch + the derived artifact to land (loading gone)
     const t0 = Date.now();
-    while (ov.querySelector('#cl-cp-qv-days .cl-cp-qv-loading') && Date.now() - t0 < 5000) await new Promise(r => setTimeout(r, 100));
-    const cells = [...ov.querySelectorAll('#cl-cp-qv-days .cl-cp-qv-cell')];
+    while (ov.querySelector('#cl-cp-qv-days .cl-cp-qv-loading') && Date.now() - t0 < 8000) await new Promise(r => setTimeout(r, 100));
+    // ── 速覽 rides the OFFICIAL place-quick-view anatomy (mountQuickView)
+    const qv = ov.querySelector('#cl-cp-qv-host');
+    out.qvSection = !!ov.querySelector('.place-quick-view.modal-quick-view');
+    out.qvTitle = qv.querySelector('.q-t') && qv.querySelector('.q-t').textContent;
+    out.qvChip = qv.querySelector('.q-chip') && qv.querySelector('.q-chip').textContent;
+    out.qvChipTier = qv.querySelector('.q-chip') && qv.querySelector('.q-chip').getAttribute('data-tier');
+    out.bandCells = qv.querySelectorAll('.quick-band .band i').length;
+    out.qvNext = qv.querySelector('.q-next') && qv.querySelector('.q-next').textContent;
+    out.qvWx = qv.querySelector('.q-wx') && qv.querySelector('.q-wx').textContent;
+    // ── 8 日方框 rides the OFFICIAL v2-strip-cell anatomy (one strip, never
+    //    a per-subject 8-cell mini strip)
+    const cells = [...ov.querySelectorAll('#cl-cp-qv-days .v2-strip-cell')];
     out.cellCount = cells.length;
-    out.day1 = cells[0] && cells[0].className + ':' + cells[0].textContent;
-    out.day2 = cells[1] && cells[1].className + ':' + cells[1].textContent;
-    out.day8 = cells[7] && cells[7].className + ':' + cells[7].textContent;
-    out.day8Title = cells[7] && cells[7].getAttribute('title');
-    const rows = [...ov.querySelectorAll('.cl-cp-qv-row')].map(r => ({
-      name: r.querySelector('.cl-cp-qv-row-name').textContent,
-      day1: r.querySelector('.cl-cp-qv-cell').className + ':' + r.querySelector('.cl-cp-qv-cell').textContent,
-      day2: r.querySelectorAll('.cl-cp-qv-cell')[1].className + ':' + r.querySelectorAll('.cl-cp-qv-cell')[1].textContent,
+    out.cellCls = [...new Set(cells.map(c => c.className.replace(/ sel| dragging/g, '')))];
+    out.day1 = cells[0] && (cells[0].className + ' | ' + cells[0].textContent);
+    out.day2 = cells[1] && (cells[1].className + ' | ' + cells[1].textContent);
+    out.day8 = cells[7] && (cells[7].className + ' | ' + cells[7].textContent);
+    // 今天題材判定 rides the official v2-day-sub anatomy
+    out.daySub = ov.querySelector('#cl-cp-qv-days .v2-day-sub') && ov.querySelector('#cl-cp-qv-days .v2-day-sub').textContent;
+    // ── 逐題材行 rides the OFFICIAL cl-subject-row anatomy (短名 + stamp + 🔔)
+    const rows = [...ov.querySelectorAll('#cl-cp-qv-subjects .cl-subject-row')].map(r => ({
+      name: r.querySelector('.cl-subject-name').textContent,
+      window: r.querySelector('.cl-subject-window').textContent,
+      bell: !!r.querySelector('.cl-rem-btn.cl-rem-compact'),
+      bellPlace: r.querySelector('.cl-rem-btn') && r.querySelector('.cl-rem-btn').getAttribute('data-rem-place'),
+      bellCc: r.querySelector('.cl-rem-btn') && r.querySelector('.cl-rem-btn').getAttribute('data-rem-cc'),
     }));
     out.subjectRows = rows;
-    // patch-9: official meta-line anatomy in the popup header
-    out.headerSub = ov.querySelector('.cl-cp-m-head .sub') && ov.querySelector('.cl-cp-m-head .sub').textContent;
-    // patch-9: the official 「條件 ×{n}」 collapse under each subject row
-    const cond = ov.querySelector('.cl-cp-qv-cond');
+    // ── 條件摺疊 rides the OFFICIAL v2-cond-details anatomy (必須 group)
+    const cond = ov.querySelector('#cl-cp-qv-subjects .v2-cond-details');
     out.condSummary = cond ? cond.querySelector('summary').textContent : null;
     if (cond) {
       cond.setAttribute('open', '');
-      out.condGroup = cond.querySelector('.cl-cp-cond-group') && cond.querySelector('.cl-cp-cond-group').textContent;
-      out.condRows = [...cond.querySelectorAll('.cl-cp-cond-row')].map(r => r.textContent);
+      out.condGroup = [...cond.querySelectorAll('.v2-cond-group .research-label')].map(l => l.textContent);
+      out.condRows = [...cond.querySelectorAll('.v2-cond')].map(r => r.textContent);
     }
+    // no fabricated sections: a private point has NO guide block
+    out.noGuide = !ov.querySelector('#cl-cp-qv-subjects .research-details, #cl-cp-qv-subjects .cl-cp-guide');
     out.qvModalCls = ov.querySelector('.cl-cp-modal').className;
     // 題材 panel entry opens the conditions panel (user's custom conditions there)
     ov.querySelector('#cl-cp-qv-subject-entry').click();
@@ -1427,33 +1487,36 @@ test('CL-APP-06 (2t, patch-7): clicking a private card opens the forecast popup 
   assert.equal(probe.menuOpensNotPopup, true, '⋯ opens the menu, not the popup');
   assert.equal(probe.popupOpens, true, 'card click opens the forecast popup');
   assert.match(probe.name, /霧社水庫西岸岔路/);
-  assert.match(probe.quickLine, /現在去會怎樣/);
-  assert.match(probe.quickLine, /✓/, 'tier badge rides the quick line');
-  assert.match(probe.quickLine, /2026-11-16 05:00/, 'next window rides the quick line');
+  // ── official quick-view anatomy: title + tier chip + 24h band + next/wx
+  assert.equal(probe.qvSection, true, 'the quick view rides the OFFICIAL place-quick-view section');
+  assert.match(probe.qvTitle, /現在去會怎樣/);
+  assert.match(probe.qvChip, /(✓|○)/, 'the chip is the official time-aware tier (✓推薦 or ○可拍·窗已過)');
+  assert.ok(['ok', 'mid'].includes(probe.qvChipTier), 'chip tier is a valid official level for a clean-air place');
+  assert.equal(probe.bandCells, 24, 'the 24h mini band renders the selected day via the SHARED v2BandHtml');
+  // ── official 8-day strip anatomy: one strip, honest cells
   assert.equal(probe.cellCount, 8, 'the strip is always 8 days');
-  assert.match(probe.day1, /ok.*11\/16.*✓/, 'day 1: conditions met (05:00 clean air)');
-  assert.match(probe.day2, /bad.*11\/17.*✗/, 'day 2: low cloud blows the custom threshold');
-  assert.match(probe.day8, /none.*─/, 'day 8: honest ─ — the ~48h feed does not cover it');
-  assert.match(probe.day8Title, /尚無資料/, 'the ─ explains itself');
-  // patch-9: ONE truth — the per-subject rows only; the separate 「一般基準」
-  // row (dual-truth residue) is gone.
-  assert.equal(probe.subjectRows.length, 1, '雲海窗 group row — no 一般基準 row beside it');
-  assert.match(probe.subjectRows[0].name, /雲海窗/, 'the theme GROUP name is the row name (official subject-row anatomy)');
-  assert.match(probe.subjectRows[0].day1, /ok.*✓/);
-  assert.match(probe.subjectRows[0].day2, /bad.*✗/, 'group row: day 2 fails the tuned cloud threshold');
-  // patch-9: official meta-line anatomy — 3-decimal coords · elevation · GMT±n
-  assert.match(probe.headerSub, /23\.941, 121\.152/, 'coords at 3 decimals (never full precision)');
-  assert.match(probe.headerSub, /1150 m/, 'elevation rides the meta line');
-  assert.match(probe.headerSub, /GMT\+8/, 'the zone renders as GMT±n, never the raw IANA string');
-  assert.doesNotMatch(probe.headerSub, /Asia\/Taipei/);
-  // patch-9: the official 「條件 ×{n}」 collapse (成立條件 rows)
-  assert.match(probe.condSummary, /條件 ×2/, '低雲 + 時窗 = two active conditions');
-  assert.match(probe.condGroup, /成立條件/, 'REQUIRED-role group label (official condition-list semantics)');
+  assert.match(probe.day1, /v2-ok/, 'day 1: fit hours exist inside the group window → ✓ cell');
+  assert.match(probe.day2, /v2-bad/, 'day 2: the group fails on low cloud → ✗ cell');
+  assert.match(probe.day2, /低雲/, 'the ✗ word comes from the bundle fail dictionary (single truth)');
+  assert.match(probe.day8, /v2-unk/, 'day 8: honest 資料不足 — the ~48h feed does not cover it');
+  assert.match(probe.daySub || '', /今天題材判定/, '今天題材判定 rides the official v2-day-sub row');
+  // ── official subject-row anatomy: 短名 + next window stamp + 🔔
+  assert.equal(probe.subjectRows.length, 1, 'ONE row per theme group');
+  assert.match(probe.subjectRows[0].name, /雲海窗/);
+  assert.match(probe.subjectRows[0].window, /11\/16 05:00/, 'the window slot carries the official next-window stamp format');
+  assert.equal(probe.subjectRows[0].bell, true, 'the row-end 🔔 is the reminder bell (official anatomy)');
+  assert.equal(probe.subjectRows[0].bellPlace, 'cp1');
+  assert.ok(probe.subjectRows[0].bellCc, 'the bell carries the group conditions (custom-mode rule — never a dead rule)');
+  // ── official condition fold anatomy: 必須 group + threshold rows + 時窗 label row
+  assert.match(probe.condSummary, /條件 ×1/, 'one metric constraint (低雲 ≤15%); the window is a label row, not a fake metric');
+  assert.equal(probe.condGroup.length, 1, 'the REQUIRED group only — private sets carry no booster/penalty roles');
+  assert.match(probe.condGroup[0], /成立條件/, 'the REQUIRED group label (official semantics)');
   assert.equal(probe.condRows.length, 2);
   assert.match(probe.condRows[0], /低雲/);
-  assert.match(probe.condRows[0], /≤ 15%/);
+  assert.match(probe.condRows[0], /≤\s*15\s*%/);
   assert.match(probe.condRows[1], /時窗/);
   assert.match(probe.condRows[1], /04:30–07:00/);
+  assert.equal(probe.noGuide, true, 'no fabricated 攝影指南 for a private point (honest absence)');
   assert.match(probe.qvModalCls, /cl-cp-qv-modal/, 'the popup carries the content-height class');
   assert.match(probe.subjectPanelTitle, /掛題材|題材/, '題材 entry opens the theme list manager');
   assert.equal(probe.closed, true, '✕ closes the popup');

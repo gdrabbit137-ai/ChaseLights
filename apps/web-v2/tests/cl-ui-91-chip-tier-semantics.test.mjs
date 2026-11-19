@@ -161,6 +161,10 @@ test('CL-UI-91 (4): chip display boost reorders without dropping rows (forward-c
 });
 
 test('CL-UI-91 (5): the no-window cards render ONE tier row through the same anatomy', () => {
+  // CL-APP-09 patch-4: clSubjectRowHtml/clTierRowHtml delegate to the SHARED
+  // clSubjectRowLine/clTierRowLine builders — extract them too so the
+  // delegation resolves in the extracted scope.
+  const lineFns = grab('function clSubjectRowLine', 'function createSpotCard');
   const slice = grab('const scEntries=', 'const clNoWinStamp=');
   const prelude = `
     let currentLang='zh-TW';
@@ -172,7 +176,7 @@ test('CL-UI-91 (5): the no-window cards render ONE tier row through the same ana
     const spot={spot_id:'tw-001'};
     const scRow=null;const scTier=null;const scTierNote='';
   `;
-  const fn = new Function(prelude + slice + 'return {clTierRowHtml};')();
+  const fn = new Function(prelude + lineFns + slice + 'return {clTierRowHtml};')();
   const html = fn.clTierRowHtml('✗ 不宜 · 夜間雲量過高', '明天 04:00', 'tw-001-P01');
   assert.ok(html.includes('cl-subject-rows') && html.includes('cl-subject-row'), html);
   assert.ok(html.includes('cl-subject-name">✗ 不宜 · 夜間雲量過高</span>'), html);
@@ -214,7 +218,7 @@ test('CL-UI-91 (8): the empty state keys off the actual result count only', () =
 });
 
 test('CL-UI-91 (9): cache-bust stamp — app.js + app.css advanced to clui102', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui112/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui113/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stamps; app.js alone advanced to clui112 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stamps; app.js alone advanced to clui113 (CL-UI-110)');
 });

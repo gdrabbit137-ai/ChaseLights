@@ -62,6 +62,7 @@
       qv_subject_custom: '自訂條件', qv_general: '可拍', qv_entry: '🎞 題材',
       qv_load_fail: '預報資料暫時無法載入——可能仍在排隊抓取（明日更新）。',
       qv_gen: '符合 {n}/{t} 小時',
+      qv_win_passed: '窗已過·今日仍可拍',
       cond_n: '條件 ×{n}', cond_required: '成立條件',
       cc_prev: '摘要預覽：', cc_prev_none: '（未調任何參數＝一般基準）', cc_submit: '套用到此點',
       cc_done1: '✓ 條件已套用', cc_none: '（僅一般基準）',
@@ -117,6 +118,7 @@
       qv_subject_custom: 'Custom conditions', qv_general: 'Shootable', qv_entry: '🎞 Subjects',
       qv_load_fail: 'Forecast data is temporarily unavailable — the fetch may still be queued (updates tomorrow).',
       qv_gen: '{n}/{t} hours met',
+      qv_win_passed: 'windows passed · still shootable today',
       cond_n: 'Conditions ×{n}', cond_required: 'Required conditions',
       cc_prev: 'Summary: ', cc_prev_none: '(nothing tuned = general baseline)', cc_submit: 'Apply to this place',
       cc_done1: '✓ Conditions applied', cc_none: '(general baseline only)',
@@ -172,6 +174,7 @@
       qv_subject_custom: 'カスタム条件', qv_general: '撮影可', qv_entry: '🎞 題材',
       qv_load_fail: '予報データを取得できません——取得待ちの可能性があります（明日更新）。',
       qv_gen: '{n}/{t} 時間適合',
+      qv_win_passed: '撮影窓は終了・本日は撮影可',
       cond_n: '条件 ×{n}', cond_required: '成立条件',
       cc_prev: 'サマリー：', cc_prev_none: '（未調整＝一般基準）', cc_submit: 'このスポットに適用',
       cc_done1: '✓ 条件を適用しました', cc_none: '（一般基準のみ）',
@@ -780,52 +783,396 @@
     if (tz) parts.push(tz);
     return parts.join(' · ');
   }
-  // ── patch-9: the popup's per-subject condition collapse — official
-  // 「條件 ×{n}」 anatomy (summary count + the condition rows grouped by
-  // role). Private sets have REQUIRED-type constraints only (must-not-exceed
-  // limits + the window), so the collapse shows the 成立條件 group and omits
-  // the 加分/扣分 groups exactly like the official collapse omits empty ones.
+  // ── patch-4 (CL-APP-09): the popup's condition fold rides the OFFICIAL
+  // builder (v2CondFoldHtml via the app.js bridge). Private sets carry
+  // REQUIRED-type weather constraints only, so the fold shows the 成立條件
+  // group and omits the 加分/扣分 groups exactly like the official fold omits
+  // empty ones; the time window / applicable months ride extra label rows —
+  // they are not weather metrics and never masquerade as internal metric ids.
   var CP_COND_LABELS = {
     'zh-TW': { cloud_low: '低雲', cloud_mid: '中雲', cloud_high: '高雲', precip: '降水', vis: '能見度', wind: '風速', window: '時窗', months: '適用月份' },
     'en': { cloud_low: 'Low cloud', cloud_mid: 'Mid cloud', cloud_high: 'High cloud', precip: 'Precip', vis: 'Visibility', wind: 'Wind', window: 'Time window', months: 'Applicable months' },
     'ja': { cloud_low: '低雲', cloud_mid: '中雲', cloud_high: '高雲', precip: '降水', vis: '視程', wind: '風速', window: '時間帯', months: '適用月' },
   };
-  function cpCondRows(cc, lang) {
-    if (!cc) return [];
+  // the user's constraints in the OFFICIAL contract condition shape (real
+  // metric ids only — v2MetricName resolves them from the shared registry)
+  function cpFoldMetricConditions(cc) {
+    var out = [];
+    function add(metric, op, th, unit) { out.push({ metric: metric, operator: op, threshold: th, unit: unit, role: 'REQUIRED' }); }
+    if (!cc) return out;
+    if (cc.cloud_low_max != null && cc.cloud_low_max < 100) add('cloud_cover_low', 'lte', cc.cloud_low_max, '%');
+    if (cc.cloud_mid_max != null && cc.cloud_mid_max < 100) add('cloud_cover_mid', 'lte', cc.cloud_mid_max, '%');
+    if (cc.cloud_high_max != null && cc.cloud_high_max < 100) add('cloud_cover_mid_and_high', 'lte', cc.cloud_high_max, '%');
+    if (cc.precip_max_mmh != null) add('precipitation', 'lte', cc.precip_max_mmh, 'mm/h');
+    if (cc.visibility_min_km != null && cc.visibility_min_km > 0) add('visibility', 'gte', cc.visibility_min_km, 'km');
+    if (cc.wind_max_ms != null) add('wind_speed_10m', 'lte', cc.wind_max_ms, 'm/s');
+    return out;
+  }
+  function cpFoldExtraRows(cc, lang) {
+    if (!cc) return '';
     var L = CP_COND_LABELS[lang] || CP_COND_LABELS['zh-TW'];
-    var rows = [];
-    function add(label, value) { rows.push({ label: label, value: value }); }
-    if (cc.cloud_low_max != null && cc.cloud_low_max < 100) add(L.cloud_low, '≤ ' + cc.cloud_low_max + '%');
-    if (cc.cloud_mid_max != null && cc.cloud_mid_max < 100) add(L.cloud_mid, '≤ ' + cc.cloud_mid_max + '%');
-    if (cc.cloud_high_max != null && cc.cloud_high_max < 100) add(L.cloud_high, '≤ ' + cc.cloud_high_max + '%');
-    if (cc.precip_max_mmh != null) add(L.precip, '≤ ' + cc.precip_max_mmh + ' mm/h');
-    if (cc.visibility_min_km != null && cc.visibility_min_km > 0) add(L.vis, '≥ ' + cc.visibility_min_km + ' km');
-    if (cc.wind_max_ms != null) add(L.wind, '≤ ' + cc.wind_max_ms + ' m/s');
-    if (cc.window_start && cc.window_end) add(L.window, cc.window_start + '–' + cc.window_end);
-    if (Array.isArray(cc.months) && cc.months.length) add(L.months, fmtMonths(cc.months));
+    var rows = '';
+    var win = null;
+    if (Array.isArray(cc.windows) && cc.windows.length) win = cc.windows.map(function (s) { return cpWinSegSummary(s, lang); }).join('＋');
+    else if (cc.window_start && cc.window_end) win = cc.window_start + '–' + cc.window_end;
+    if (win) rows += '<div class="v2-cond"><b>' + esc(L.window) + '</b> <span class="v2-th">' + esc(win) + '</span></div>';
+    if (Array.isArray(cc.months) && cc.months.length) rows += '<div class="v2-cond"><b>' + esc(L.months) + '</b> <span class="v2-th">' + esc(fmtMonths(cc.months)) + '</span></div>';
     return rows;
   }
-  function cpCondDetails(cc) {
-    var rows = cpCondRows(cc, currentLang());
-    if (!rows.length) return '';
-    return '<details class="cl-cp-qv-cond"><summary>' + esc(t().cond_n.replace('{n}', String(rows.length))) + '</summary>' +
-      '<div class="cl-cp-cond-group">' + esc(t().cond_required) + '</div>' +
-      rows.map(function (r) {
-        return '<div class="cl-cp-cond-row"><b>' + esc(r.label) + '</b><span>' + esc(r.value) + '</span></div>';
-      }).join('') + '</details>';
+  // ───── patch-4 (CL-APP-09): the popup REUSES the official forecast popup ─────
+  // renderer through the app.js bridge (window.CLForecastRenderers). The
+  // popup no longer grows its own anatomy: the private place's stored eval is
+  // CONVERTED into the official renderer INPUTS (synthetic subject-cards rows
+  // with the SAME structure the card tier consumes + synthetic evaluation
+  // days), so every block is the same HTML the official surfaces render:
+  //   速覽「現在去會怎樣」+ 24h mini band  → mountQuickView (official)
+  //   8 日方框 + 今天題材判定              → v2DayStripHtml/v2DaySubHtml
+  //   逐題材行＝短名＋下一個窗時刻＋🔔      → clSubjectRowLine (ONE anatomy,
+  //                                          never a per-day 8-cell mini strip)
+  //   條件摺疊（必須/加分/扣分）            → v2CondFoldHtml (official)
+  // Honest fallbacks: no hourly grid → no 24h band + honest 資料不足 days;
+  // no researched guide content for a private point → the 攝影指南 section
+  // stays ABSENT (never fabricated); anchor windows that cannot resolve
+  // never match (fail-closed mirror of the worker).
+  // ── patch-4 matcher mirrors (workers/api/src/notify.js + custom-places.js):
+  // the synthetic rows are judged by the SAME rules the worker used for the
+  // card tier — one hour truth, no second verdict source.
+  var CP_GENERAL_BASELINE = { precip_max_mmh: 2, visibility_min_km: 3, wind_max_ms: 10 }; // mirror of GENERAL_BASELINE
+  var CP_FAIL_METRIC = { cloud_low_max: 'cloud_cover_low', cloud_mid_max: 'cloud_cover_mid', cloud_high_max: 'cloud_cover_mid_and_high', precip_max_mmh: 'precipitation', visibility_min_km: 'visibility', wind_max_ms: 'wind_speed_10m' };
+  var CP_FAIL_PRIORITY = ['precip_max_mmh', 'visibility_min_km', 'cloud_low_max', 'cloud_mid_max', 'cloud_high_max', 'wind_max_ms'];
+  var CP_METRIC_OF = { cloud_low_max: 'cloud_low', cloud_mid_max: 'cloud_mid', cloud_high_max: 'cloud_high', precip_max_mmh: 'precipitation', visibility_min_km: 'visibility', wind_max_ms: 'wind' };
+  function cpConstraintActive(k, cc) {
+    if (!cc || cc[k] == null) return false;
+    var n = Number(cc[k]);
+    if (!isFinite(n)) return false;
+    if (k.indexOf('cloud') === 0 && n >= 100) return false; // lenient default
+    if (k === 'visibility_min_km' && n <= 0) return false;   // lenient default
+    return true;
+  }
+  // first failing constraint (official fail-priority order) → its metric id,
+  // so the SHORT word comes from the bundle's fail_reason_short dictionary
+  // through the bridge — never a duplicated word table here.
+  function cpFirstFailMetric(values, groups) {
+    var v = values && typeof values === 'object' ? values : {};
+    for (var i = 0; i < CP_FAIL_PRIORITY.length; i++) {
+      var k = CP_FAIL_PRIORITY[i];
+      for (var j = 0; j < groups.length; j++) {
+        var cc = groups[j].cond;
+        if (!cpConstraintActive(k, cc)) continue;
+        var raw = v[CP_METRIC_OF[k]];
+        var val = (typeof raw === 'number' && isFinite(raw)) ? raw : null;
+        if (val == null || (k === 'visibility_min_km' ? val < Number(cc[k]) : val > Number(cc[k]))) return CP_FAIL_METRIC[k];
+      }
+    }
+    return null;
+  }
+  /* BEGIN SOLAR MIRROR (workers/api/src/solar.js — keep in sync; the test
+     imports the worker module and compares both on sample dates) */
+  var CP_S_RAD = Math.PI / 180, CP_S_DEG = 180 / Math.PI;
+  function cpJulianDay0UT(y, m, d) { if (m <= 2) { y -= 1; m += 12; } var a = Math.floor(y / 100); var b = 2 - a + Math.floor(a / 4); return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + b - 1524.5; }
+  function cpSolarGeom(jd) {
+    var T = (jd - 2451545.0) / 36525;
+    var L0 = (280.46646 + T * (36000.76983 + T * 0.0003032)) % 360;
+    var M = 357.52911 + T * (35999.05029 - 0.0001537 * T);
+    var e = 0.016708634 - T * (0.000042037 + 0.0000001267 * T);
+    var Mr = M * CP_S_RAD;
+    var C = (Math.sin(Mr) * (1.914602 - T * (0.004817 + 0.000014 * T)) + Math.sin(2 * Mr) * (0.019993 - 0.000101 * T) + Math.sin(3 * Mr) * 0.000289);
+    var trueLong = L0 + C;
+    var omega = 125.04 - 1934.136 * T;
+    var lambda = trueLong - 0.00569 - 0.00478 * Math.sin(omega * CP_S_RAD);
+    var eps0 = 23 + (26 + (21.448 - T * (46.815 + T * (0.00059 - T * 0.001813))) / 60) / 60;
+    var eps = eps0 + 0.00256 * Math.cos(omega * CP_S_RAD);
+    var decl = Math.asin(Math.sin(eps * CP_S_RAD) * Math.sin(lambda * CP_S_RAD)) * CP_S_DEG;
+    var yv = Math.tan(eps * CP_S_RAD / 2) * Math.tan(eps * CP_S_RAD / 2);
+    var L0r = L0 * CP_S_RAD;
+    var eqtime = 4 * CP_S_DEG * (yv * Math.sin(2 * L0r) - 2 * e * Math.sin(Mr) + 4 * e * yv * Math.sin(Mr) * Math.cos(2 * L0r) - 0.5 * yv * yv * Math.sin(4 * L0r) - 1.25 * e * e * Math.sin(2 * Mr));
+    return { decl: decl, eqtime: eqtime };
+  }
+  function cpSunTimesForDate(localDate, lat, lng, utcOffsetHours) {
+    var md = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(localDate || ''));
+    if (!md) return null;
+    var phi = Number(lat), lngv = Number(lng);
+    if (lat == null || lng == null || !isFinite(phi) || !isFinite(lngv) || Math.abs(phi) > 90 || Math.abs(lngv) > 180) return null;
+    var y = Number(md[1]), m = Number(md[2]), d = Number(md[3]);
+    var offMin = (isFinite(utcOffsetHours) ? utcOffsetHours : 8) * 60;
+    var jdNoon = cpJulianDay0UT(y, m, d) + (12 * 60 - offMin) / 1440;
+    var g = cpSolarGeom(jdNoon);
+    var cosH = (Math.cos(90.833 * CP_S_RAD) - Math.sin(phi * CP_S_RAD) * Math.sin(g.decl * CP_S_RAD)) / (Math.cos(phi * CP_S_RAD) * Math.cos(g.decl * CP_S_RAD));
+    if (cosH > 1 || cosH < -1) return null; // polar: sun never crosses the horizon
+    var H = Math.acos(cosH) * CP_S_DEG;
+    var solarNoonUT = 720 - 4 * lngv - g.eqtime;
+    var riseUT = solarNoonUT - 4 * H, setUT = solarNoonUT + 4 * H;
+    var norm = function (x) { return ((x % 1440) + 1440) % 1440; };
+    return { sunriseMin: Math.round(norm(riseUT + offMin)), sunsetMin: Math.round(norm(setUT + offMin)) };
+  }
+  /* END SOLAR MIRROR */
+  // mirror of notify.js resolveSegmentBounds: a sun-anchored segment expands
+  // with the place's REAL sun times per row date; unresolvable → null → the
+  // hour never matches (fail-closed, never "whole day").
+  function cpResolveSegment(seg, localDate, placeCtx) {
+    if (!seg || typeof seg !== 'object') return null;
+    if (seg.type === 'fixed') return { start: seg.start || null, end: seg.end || null };
+    if (!placeCtx || !isFinite(placeCtx.lat) || !isFinite(placeCtx.lng)) return null;
+    var sun = cpSunTimesForDate(localDate, placeCtx.lat, placeCtx.lng, placeCtx.utcOffsetHours);
+    if (!sun) return null;
+    var off = isFinite(seg.offset_minutes) ? seg.offset_minutes : 0;
+    var anchorMin = /sunrise$/.test(String(seg.type)) ? sun.sunriseMin : sun.sunsetMin;
+    var norm = function (x) { return ((Math.round(x) % 1440) + 1440) % 1440; };
+    var toHM = function (x) { return String(Math.floor(x / 60)).padStart(2, '0') + ':' + String(x % 60).padStart(2, '0'); };
+    if (/^before_/.test(String(seg.type))) return { start: seg.start || '00:00', end: toHM(norm(anchorMin + off)), anchorHM: toHM(norm(anchorMin)) };
+    return { start: toHM(norm(anchorMin + off)), end: seg.end || '23:59', anchorHM: toHM(norm(anchorMin)) };
+  }
+  // mirror of notify.js segmentsOf + hourPassesWindows
+  function cpSegmentsOf(cc) {
+    if (!cc || typeof cc !== 'object') return null;
+    if (Array.isArray(cc.windows) && cc.windows.length) return cc.windows;
+    if (cc.window_type && cc.window_type !== 'fixed') {
+      return [{ type: cc.window_type, start: cc.window_start, end: cc.window_end, offset_minutes: cc.offset_minutes != null ? cc.offset_minutes : 0 }];
+    }
+    if (cc.window_start != null || cc.window_end != null) return [{ type: 'fixed', start: cc.window_start, end: cc.window_end }];
+    return null;
+  }
+  function cpHourPassesWindows(hour, localDate, cc, placeCtx) {
+    var segs = cpSegmentsOf(cc);
+    if (!segs) return true; // no window constraint
+    if (typeof hour !== 'string' || typeof localDate !== 'string' || !/^([01]\d|2[0-3]):[0-5]\d$/.test(hour)) return false;
+    for (var i = 0; i < segs.length; i++) {
+      var b = cpResolveSegment(segs[i], localDate, placeCtx);
+      if (!b) continue; // unresolvable — never matches
+      if (cpHourInWindow(hour, b.start, b.end)) return true;
+    }
+    return false;
+  }
+  // mirror of placeCtxFromRec: GMT±n from the IANA zone (Intl), +8 baseline
+  function cpTzOffsetHours(tz) {
+    if (!tz) return 8;
+    try {
+      var parts = new Intl.DateTimeFormat('en-US', { timeZone: String(tz), timeZoneName: 'shortOffset' }).formatToParts(new Date());
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].type === 'timeZoneName') {
+          var m = /GMT([+-])(\d{1,2})(?::(\d{2}))?/.exec(parts[i].value);
+          if (m) return (m[1] === '-' ? -1 : 1) * (Number(m[2]) + Number(m[3] || 0) / 60);
+        }
+      }
+    } catch (e) { /* unknown zone keeps the +8 baseline */ }
+    return 8;
+  }
+  function cpPopupDates(hourly, count) {
+    var first = null;
+    hourly.forEach(function (r) { if (!first && r && typeof r.local_date === 'string') first = r.local_date; });
+    if (!first) return [];
+    var base = first.split('-').map(Number);
+    var dt = new Date(Date.UTC(base[0], base[1] - 1, base[2]));
+    var out = [];
+    for (var i = 0; i < count; i++) {
+      out.push(dt.getUTCFullYear() + '-' + String(dt.getUTCMonth() + 1).padStart(2, '0') + '-' + String(dt.getUTCDate()).padStart(2, '0'));
+      dt.setUTCDate(dt.getUTCDate() + 1);
+    }
+    return out;
+  }
+  // the popup's subject list: the user's theme groups, or the legacy single
+  // blob, or — for a place with no conditions at all — the implicit general
+  // floor group (the SAME judgment the worker's place tier used).
+  function cpPopupGroups(p) {
+    var groups = [];
+    var gs = Array.isArray(p.themeGroups) ? p.themeGroups : [];
+    gs.forEach(function (g) {
+      groups.push({ key: 'cp:' + (g.id || g.name), name: themeDisplayName(g), cond: g.conditions || null, eval: g.evaluation || null });
+    });
+    if (!groups.length && p.customConditions) {
+      groups.push({ key: 'cp:legacy', name: t().qv_subject_custom, cond: p.customConditions, eval: p.evaluation || null });
+    }
+    if (!groups.length) {
+      groups.push({ key: 'cp:baseline', name: t().qv_general, cond: CP_GENERAL_BASELINE, eval: p.evaluation || null, baseline: true });
+    }
+    return groups;
+  }
+  // THE adapter: stored eval + the user's conditions → official renderer
+  // inputs (synthetic subject-cards rows keyed by local_date + synthetic
+  // evaluation day entries + an official-shaped spot with an official-shaped
+  // hourly forecast). Time-aware tier: TODAY counts only remaining hours.
+  function cpSyntheticRows(p, payload, br) {
+    var hourly = (payload && payload.hourly) || [];
+    var tz = (payload && payload.timezone) || p.timezone || 'UTC';
+    var ctx = { lat: Number(p.lat), lng: Number(p.lng), utcOffsetHours: cpTzOffsetHours(tz) };
+    var groups = cpPopupGroups(p);
+    var dates = cpPopupDates(hourly, 8);
+    var words = br ? br.failWords() : {};
+    var genreNames = {};
+    groups.forEach(function (g) { genreNames[g.key] = { 'zh-TW': g.name }; });
+    var byDate = {};
+    hourly.forEach(function (r) {
+      if (!r || typeof r.local_date !== 'string' || typeof r.hour !== 'string') return;
+      (byDate[r.local_date] = byDate[r.local_date] || []).push(r);
+    });
+    var tree = {}, days = [];
+    dates.forEach(function (date) {
+      var rowsD = byDate[date] || [];
+      if (!rowsD.length) {
+        // honest ─: the ~48h feed does not cover this day
+        days.push({ local_date: date, state: 'NOT_EVALUABLE', good_hours: [], conditions: [], hour_counts: {} });
+        return;
+      }
+      var fitByHour = {}, okHours = [], noByHour = {};
+      groups.forEach(function (g) { g._hours = []; });
+      rowsD.forEach(function (r) {
+        var hh = r.hour;
+        var matched = false;
+        groups.forEach(function (g) {
+          if (!g.cond) return;
+          // patch-8 ⑤: a whole day outside the group's 適用月份 is honest ─
+          if (Array.isArray(g.cond.months) && g.cond.months.length && g.cond.months.indexOf(Number(date.slice(5, 7))) < 0) return;
+          if (!cpHourPassesWindows(r.hour, date, g.cond, ctx)) return;
+          if (!cpHourMatches(r.values, g.cond)) return;
+          matched = true;
+          (fitByHour[hh] = fitByHour[hh] || []).push(g.key);
+          g._hours.push(hh);
+        });
+        if (!matched) {
+          // the failing word is honest REGARDLESS of the baseline: the hour
+          // failed the user's curated group even when the general floor still
+          // passes (subject-layer ✗低雲 next to place-layer ○可拍 is the
+          // official two-layer semantics, not a contradiction)
+          var fm = cpFirstFailMetric(r.values, groups);
+          if (fm) noByHour[hh] = fm;
+          if (cpHourMatches(r.values, CP_GENERAL_BASELINE)) okHours.push(hh);
+        }
+      });
+      var nowMin = br ? br.nowMinutes(tz) : null;
+      var today = br ? br.localDate(tz, 0) : null;
+      var isToday = date === today;
+      var eff = function (list) {
+        if (!isToday || nowMin == null) return list;
+        return list.filter(function (tm) { var m = /^([01]\d|2[0-3]):([0-5]\d)$/.exec(tm); return m && (Number(m[1]) * 60 + Number(m[2])) >= nowMin; });
+      };
+      var allFit = Object.keys(fitByHour).sort();
+      var eAllFit = eff(allFit), eOk = eff(okHours.slice().sort());
+      var tier, tierReason = null, domReason = null;
+      if (eAllFit.length) {
+        tier = 'recommend';
+      } else if (eOk.length) {
+        tier = 'shootable';
+        // CL-DATA-68 time-aware note (official wording): today whose curated
+        // windows have ALL passed still reads ○ 可拍 — with the note.
+        if (isToday && allFit.length) tierReason = { 'zh-TW': t().qv_win_passed };
+      } else {
+        tier = 'not_recommended';
+        var ids = Object.keys(noByHour).map(function (h) { return noByHour[h]; });
+        var dom = null;
+        for (var i = 0; i < CP_FAIL_PRIORITY.length && !dom; i++) {
+          var mid = CP_FAIL_METRIC[CP_FAIL_PRIORITY[i]];
+          if (ids.indexOf(mid) >= 0) dom = mid;
+        }
+        if (dom && words[dom]) domReason = { 'zh-TW': words[dom]['zh-TW'] || '' };
+        else if (p.evaluation && p.evaluation.reason) domReason = { 'zh-TW': p.evaluation.reason };
+      }
+      var suitable = [];
+      groups.forEach(function (g) {
+        if (g.baseline || !g._hours.length) return;
+        suitable.push({ subject_short: { 'zh-TW': g.name }, window: g._hours.slice().sort() });
+      });
+      if (!suitable.length && eOk.length) {
+        // CL-UI-71 fallback anatomy: the general floor as the synthetic entry
+        suitable.push({ subject_short: { 'zh-TW': t().qv_general }, window: okHours.slice().sort() });
+      }
+      var gbFail = cpFirstFailMetric(null, [{ cond: CP_GENERAL_BASELINE }]);
+      var gbWord = (gbFail && words[gbFail]) ? (words[gbFail]['zh-TW'] || '') : '';
+      var failCond = null;
+      (function () {
+        for (var i = 0; i < CP_FAIL_PRIORITY.length && !failCond; i++) {
+          var mid = CP_FAIL_METRIC[CP_FAIL_PRIORITY[i]];
+          var found = false;
+          for (var h in noByHour) if (noByHour[h] === mid) { found = true; break; }
+          if (found) failCond = { metric: mid, day_verdict: 'FAIL' };
+        }
+      })();
+      tree[date] = {
+        tier: tier, tier_reason: tierReason, dominant_reason: domReason,
+        suitable: suitable,
+        general_baseline: { ok: eOk.length > 0, reason_short: gbWord ? { 'zh-TW': gbWord } : null },
+        hours: { fit: fitByHour, ok: okHours.slice().sort(), na: [], no: noByHour, unk: [] },
+        status: allFit.length ? 'ok' : 'failed',
+      };
+      days.push({
+        local_date: date,
+        state: allFit.length ? 'GUIDANCE_SATISFIED' : 'UNFAVORABLE',
+        good_hours: allFit,
+        conditions: failCond ? [failCond] : [],
+        hour_counts: { GUIDANCE_SATISFIED: allFit.length },
+      });
+    });
+    var spot = {
+      spot_id: p.id, name: p.name, timezone: tz,
+      elevation: p.elevation != null ? p.elevation : (payload && payload.elevation),
+      lat: p.lat, lng: p.lng,
+      hourly_forecast: hourly.map(function (r) {
+        return {
+          time: r.local_date + 'T' + r.hour, local_date: r.local_date,
+          c_low: r.values && r.values.cloud_low, c_mid: r.values && r.values.cloud_mid, c_high: r.values && r.values.cloud_high,
+          visibility: r.values && r.values.visibility, wind: r.values && r.values.wind,
+        };
+      }),
+    };
+    return { tz: tz, tree: tree, days: days, spot: spot, genreNames: genreNames, groups: groups };
+  }
+  // 逐題材行 — ONE official anatomy per subject (短名 + next window + 🔔);
+  // rows render from the WORKER's stored per-group evaluation (the card's
+  // single truth), refined when the eval payload confirms the same verdicts.
+  function renderPopupSubjects(p) {
+    var br = window.CLForecastRenderers;
+    if (!br) return;
+    var host = els.overlay.querySelector('#cl-cp-qv-subjects');
+    if (!host) return;
+    var tz = p.timezone || 'UTC';
+    var groups = cpPopupGroups(p);
+    var rows = groups.map(function (g) {
+      var ge = g.eval || {};
+      var stamp = ge.window ? br.nextStamp(ge.window, tz) : '';
+      var nm = g.name;
+      if (ge.tier === 'no' && ge.reason) nm = nm + ' · ' + ge.reason;
+      else if (ge.tier === 'pending') nm = nm + ' · ' + t().tier_pending;
+      return br.subjectRow({ name: nm, stamp: stamp, cc: g.cond }, p.id, false);
+    }).join('');
+    var folds = groups.map(function (g) {
+      var conds = cpFoldMetricConditions(g.cond);
+      var extra = cpFoldExtraRows(g.cond, currentLang());
+      if (!conds.length && !extra) return '';
+      return br.condFold(conds, extra);
+    }).join('');
+    host.innerHTML = '<div class="cl-subject-rows">' + rows + '</div>' + folds;
+  }
+  function cpPaintPopup(p, payload) {
+    var br = window.CLForecastRenderers;
+    if (!br) return;
+    br.ensureCards().then(function () {
+      if (!els.overlay.classList.contains('open')) return; // closed meanwhile
+      var data = cpSyntheticRows(p, payload, br);
+      br.registerSyntheticRows(p.id, data.tree, data.genreNames);
+      // 速覽「現在去會怎樣」 — the OFFICIAL mountQuickView pipeline (same
+      // v2QuickViewHtml → shared v2BandHtml + plain-weather as official cards)
+      var host = els.overlay.querySelector('#cl-cp-qv-host');
+      if (host) br.quickView(host, data.spot);
+      // 8 日方框 + 今天題材判定 — the OFFICIAL strip/day-sub builders
+      var stripHost = els.overlay.querySelector('#cl-cp-qv-days');
+      if (stripHost) {
+        var opp = { opportunity_id: null, genre_template: 'custom', days: data.days, live: null };
+        stripHost.innerHTML = br.stripHtml(data.days, br.dayLabels(data.tz, data.days.length), data.tz, data.spot, 'custom', null) +
+          br.daySub(data.spot, opp);
+        br.wireStrip(stripHost.querySelector('.v2-day-strip'));
+      }
+    });
   }
   function forecastModal(p) {
-    var ev = p.evaluation || {};
     var html =
       '<div class="cl-cp-m-head"><div><div class="name">📍 ' + esc(p.name) + '</div>' +
       // patch-9: official meta-line anatomy (coords @3dp · elevation · GMT±n)
       '<div class="sub">' + esc(cpMetaLine(p)) + '</div></div>' +
       '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
-      '<div class="cl-cp-qv-quick"><span class="k">' + esc(t().qv_quick) + '</span>' + tierBadge(p) +
-      (ev.window ? ' <span class="cl-cp-window">' + esc(ev.window) + '</span>' : '') +
-      (ev.reason ? ' <span class="cl-cp-qv-reason">' + esc(ev.reason) + '</span>' : '') + '</div>' +
+      // patch-4: the quick view rides the OFFICIAL place-quick-view anatomy
+      // (mountQuickView fills it; no band without hourly data — honest omit)
+      '<section class="place-quick-view modal-quick-view" aria-label="' + esc(t().qv_quick) + '"><div class="quick-view-body" id="cl-cp-qv-host"><span class="quick-none">…</span></div></section>' +
       '<div class="cl-cp-qv-sec">' + esc(t().qv_days) + '</div>' +
-      '<div class="cl-cp-qv-strip" id="cl-cp-qv-days"><div class="cl-cp-qv-loading">…</div></div>' +
+      '<div id="cl-cp-qv-days"><div class="cl-cp-qv-loading">…</div></div>' +
       '<div class="cl-cp-qv-sec">' + esc(t().qv_subjects) + '</div>' +
       '<div id="cl-cp-qv-subjects"><div class="cl-cp-qv-loading">…</div></div>' +
       '<div class="cl-cp-qv-actions"><button type="button" class="cl-cp-btn" id="cl-cp-qv-subject-entry">' +
@@ -834,6 +1181,9 @@
     wireClose(); // patch-7: the ✕ closes the popup like every other modal
     var entry = els.overlay.querySelector('#cl-cp-qv-subject-entry');
     if (entry) entry.addEventListener('click', function () { ccModal(p); });
+    // 逐題材行 render FIRST from the worker's stored per-group evaluation
+    // (the card's single truth) — the eval payload then confirms/refines.
+    renderPopupSubjects(p);
     api(API + '/' + p.id + '/eval')
       .then(function (res) { return res.json().then(function (body) { return { status: res.status, body: body }; }); })
       .then(function (r) {
@@ -841,81 +1191,14 @@
       var daysEl = els.overlay.querySelector('#cl-cp-qv-days'), subjEl = els.overlay.querySelector('#cl-cp-qv-subjects');
       if (!daysEl) return;
       if (r.status === 200 && r.body && r.body.ok && Array.isArray(r.body.hourly) && r.body.hourly.length) {
-        renderForecast(p, r.body.hourly, daysEl, subjEl);
+        cpPaintPopup(p, r.body);
       } else {
+        // honest: eval still queued / trial stopped — the subject rows keep
+        // the worker's verdict; the strip names the missing data instead of
+        // rendering invented days.
         daysEl.innerHTML = '<div class="cl-cp-qv-none">' + esc(t().qv_load_fail) + '</div>';
-        if (subjEl) subjEl.innerHTML = '<div class="cl-cp-qv-none">' + esc(t().qv_load_fail) + '</div>';
       }
     });
-  }
-  function qvDayGrid(hourly) {
-    // 8 calendar days starting at the feed's first local_date (honest today);
-    // days with no rows render as ─ with the title explaining why.
-    var days = [], seen = {}, first = null;
-    hourly.forEach(function (row) {
-      if (!row || typeof row.local_date !== 'string') return;
-      if (!first) first = row.local_date;
-      seen[row.local_date] = true;
-    });
-    if (!first) return [];
-    var base = first.split('-').map(Number);
-    var d = new Date(Date.UTC(base[0], base[1] - 1, base[2]));
-    for (var i = 0; i < 8; i++) {
-      var iso = d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0') + '-' + String(d.getUTCDate()).padStart(2, '0');
-      days.push({ date: iso, rows: seen[iso] ? hourly.filter(function (r) { return r.local_date === iso; }) : null });
-      d.setUTCDate(d.getUTCDate() + 1);
-    }
-    return days;
-  }
-  function qvDayCell(day, cc) {
-    var label = day.date.slice(5).replace('-', '/'); // M/D — place-local dates only
-    if (!day.rows || !day.rows.length) return '<div class="cl-cp-qv-cell none" title="' + esc(t().qv_no_data_note) + '"><span class="d">' + esc(label) + '</span><span class="v">' + esc(t().qv_no_data) + '</span></div>';
-    // patch-8 ⑤: a whole day outside the group's 適用月份 is honest ─ with the
-    // eligibility note — never a fabricated weather ✗ (same rule as the worker)
-    if (cc && Array.isArray(cc.months) && cc.months.length && cc.months.indexOf(Number(day.date.slice(5, 7))) < 0) {
-      return '<div class="cl-cp-qv-cell none" title="' + esc(t().qv_month_note) + '"><span class="d">' + esc(label) + '</span><span class="v">' + esc(t().qv_no_data) + '</span></div>';
-    }
-    var met = 0, total = 0;
-    day.rows.forEach(function (row) {
-      if (!row || typeof row.hour !== 'string') return;
-      if (!cpHourInWindow(row.hour, cc && cc.window_start, cc && cc.window_end)) return;
-      total += 1;
-      if (cpHourMatches(row.values, cc)) met += 1;
-    });
-    var v = total === 0 ? t().qv_no_data : (met > 0 ? '✓' : '✗');
-    var cls = total === 0 ? 'none' : (met > 0 ? 'ok' : 'bad');
-    var title = total === 0 ? t().qv_no_data_note : t().qv_gen.replace('{n}', met).replace('{t}', total);
-    return '<div class="cl-cp-qv-cell ' + cls + '" title="' + esc(title) + '"><span class="d">' + esc(label) + '</span><span class="v">' + esc(v) + '</span></div>';
-  }
-  function renderForecast(p, hourly, daysEl, subjEl) {
-    var cc = p.customConditions || null;
-    var days = qvDayGrid(hourly);
-    daysEl.innerHTML = days.map(function (day) { return qvDayCell(day, cc); }).join('');
-    // patch-8: ONE row per theme group (named, each judged with its own
-    // conditions incl. its own month window).
-    // Legacy fallback: a place with the old single blob and no migrated
-    // groups keeps the 自訂條件 row.
-    // patch-9: ONE truth — per-subject rows only. The trailing 「一般基準」
-    // row was dual-truth residue (owner ruling) and is gone; a place with no
-    // sets at all renders the honest empty note instead of a baseline row.
-    var subjects = [];
-    var groups = Array.isArray(p.themeGroups) ? p.themeGroups : [];
-    if (groups.length) {
-      groups.forEach(function (g) { subjects.push({ name: themeDisplayName(g), cond: g.conditions || null }); });
-    } else if (cc) {
-      subjects.push({ name: t().qv_subject_custom, cond: cc });
-    }
-    if (!subjects.length) {
-      subjEl.innerHTML = '<div class="cl-cp-qv-none">' + esc(t().th_empty) + '</div>';
-      return;
-    }
-    subjEl.innerHTML = subjects.map(function (s) {
-      return '<div class="cl-cp-qv-row"><span class="cl-cp-qv-row-name">' + esc(s.name) + '</span>' +
-        '<div class="cl-cp-qv-row-main">' +
-        '<div class="cl-cp-qv-strip cl-cp-qv-row-strip">' + days.map(function (day) { return qvDayCell(day, s.cond); }).join('') + '</div>' +
-        cpCondDetails(s.cond) +
-        '</div></div>';
-    }).join('');
   }
   // ───── patch-3: the ⋯ menu — one fixed-position menu portaled to body ─────
   var MENU_LABELS = { edit: 'm_edit', cc: 'm_cc', refetch: 'm_refetch', del: 'm_del' };

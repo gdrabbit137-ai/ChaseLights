@@ -96,7 +96,11 @@ body[data-cp-view="private"] #spots-container > *:not(.cl-cp-card){display:none 
    overlay's own padding and scrolls INTERNALLY — fully visible at any window
    height; the name field stays the first field and auto-focuses. */
 .cl-cp-overlay{position:fixed;inset:0;background:rgba(4,7,14,.72);backdrop-filter:blur(3px);
-  display:none;align-items:flex-start;justify-content:center;z-index:90;padding:var(--cl-sp-6) var(--cl-sp-4);overflow-y:auto}
+  display:none;align-items:flex-start;justify-content:center;z-index:1000;padding:var(--cl-sp-6) var(--cl-sp-4);overflow-y:auto}
+/* patch-4/z-fix: z 90 sat UNDER the sticky filter shell (z 120) — the popup's
+   top half was hidden behind the opaque filter bar (owner 實測: the popup read
+   as 「跟一般卡不同」). It now layers with the official modal family (modal
+   overlay z 1000; the subject-sets editor sheet stays above at z 1100). */
 .cl-cp-overlay.open{display:flex}
 .cl-cp-modal{width:100%;max-width:560px;max-height:calc(100vh - var(--cl-sp-6) * 2);overflow-y:auto;overflow-x:hidden;box-sizing:border-box;
   background:var(--cl-bg-1);border:1px solid var(--cl-border-strong);
@@ -193,39 +197,24 @@ body.cl-cp-lock{overflow:hidden}
 .cl-cp-cc-months .cl-cp-mo:has(input:checked){border-color:var(--cl-text-3);color:var(--cl-text-1);font-weight:600}
 .cl-cp-cc-months input{accent-color:var(--cl-text-3)}
 .cl-cp-cc-preview .k{font-family:var(--cl-mono);color:var(--cl-amber-text)}
-/* patch-7: private-card forecast popup — quick view line, 8-day strip and
-   per-subject rows; cells share the modal's internal scroll (never overflow) */
-.cl-cp-qv-quick{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:var(--cl-sp-3);min-width:0}
-.cl-cp-qv-quick .k{color:var(--cl-text-3);font-size:12px;white-space:nowrap}
-.cl-cp-qv-reason{color:var(--cl-red-text);font-size:12px}
+/* patch-7→patch-4: private-card forecast popup — the popup REUSES the
+   official forecast-popup renderers (quick view / 8-day strip / subject rows /
+   condition fold all come from app.css classes through the app.js bridge);
+   only the popup's own section labels, honest none/loading lines and the
+   題材 entry action remain private. */
 .cl-cp-qv-sec{font-size:12px;color:var(--cl-text-3);margin:var(--cl-sp-3) 0 4px}
-.cl-cp-qv-strip{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px}
-.cl-cp-qv-cell{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0;border-radius:var(--cl-r-sm);
-  border:1px solid var(--cl-border);background:var(--cl-bg-2);font-size:11px;color:var(--cl-text-2)}
-.cl-cp-qv-cell .v{font-size:12px;font-weight:600}
-.cl-cp-qv-cell.ok .v{color:var(--cl-green-text)}
-.cl-cp-qv-cell.bad .v{color:var(--cl-red-text)}
-.cl-cp-qv-cell.none .v{color:var(--cl-text-3)}
-.cl-cp-qv-row{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px;min-width:0}
-.cl-cp-qv-row-name{flex:0 0 auto;font-size:12px;color:var(--cl-text-1);max-width:88px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cl-cp-qv-row-strip{flex:1;min-width:0}
-/* patch-9: the official 「條件 ×{n}」 collapse under each subject row —
-   official anatomy (count summary → role group → threshold rows) */
-.cl-cp-qv-row-main{flex:1;min-width:0}
-.cl-cp-qv-cond{margin-top:3px}
-.cl-cp-qv-cond summary{cursor:pointer;list-style:none;font-size:12px;color:var(--cl-text-3);padding:2px 0}
-.cl-cp-qv-cond summary::-webkit-details-marker{display:none}
-.cl-cp-qv-cond summary::before{content:'▸ ';color:var(--cl-text-3)}
-.cl-cp-qv-cond[open] summary::before{content:'▾ '}
-.cl-cp-cond-group{font-size:11px;color:var(--cl-text-3);margin:2px 0}
-.cl-cp-cond-row{font-size:12px;color:var(--cl-text-2);padding:1px 0}
-.cl-cp-cond-row b{font-weight:600;color:var(--cl-text-1);margin-right:6px}
 .cl-cp-qv-none{font-size:12px;color:var(--cl-text-3);padding:var(--cl-sp-2) 0}
 .cl-cp-qv-loading{font-size:12px;color:var(--cl-text-3);padding:var(--cl-sp-2) 0}
 .cl-cp-qv-actions{display:flex;justify-content:flex-end;margin-top:var(--cl-sp-3)}
 .cl-cp-qv-actions button{height:36px;padding:0 14px;border-radius:var(--cl-r-sm);border:1px solid var(--cl-border-strong);
   background:var(--cl-bg-2);color:var(--cl-text-1);font-size:13px;cursor:pointer}
 .cl-cp-qv-actions button:hover{background:var(--cl-bg-3);border-color:var(--cl-grey-text)}
+/* patch-4: the popup reuses the official block classes (.place-quick-view,
+   .v2-day-strip, .cl-subject-row, .v2-cond-details) — inside the private
+   modal they must not inherit the page-level modal paddings that clash */
+.cl-cp-overlay .place-quick-view{margin:var(--cl-sp-2) 0}
+.cl-cp-overlay .v2-day-strip{margin:6px 0 2px}
+.cl-cp-overlay .v2-cond-details{margin-top:6px}
 /* patch-8: theme list manager rows — each group = tier badge + name + summary;
    card per-group rows reuse cl-cp-row-name (official subject-row anatomy) */
 .cl-cp-theme-row{display:flex;align-items:center;gap:8px;padding:9px 10px;margin-bottom:6px;
@@ -253,7 +242,7 @@ body.cl-cp-lock{overflow:hidden}
 .cl-cp-delacts .confirm{background:var(--cl-red-bg);border-color:var(--cl-red-border);color:var(--cl-red-text)}
 .cl-cp-delacts .confirm:hover{background:rgba(239,68,68,.2)}
 /* honest toast (limits / reminders / 429) */
-.cl-cp-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:95;
+.cl-cp-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:1010;
   max-width:min(480px,90vw);padding:10px 16px;border-radius:var(--cl-r-md);background:var(--cl-bg-1);
   border:1px solid var(--cl-border-strong);color:var(--cl-text-1);font-size:13px;box-shadow:var(--cl-shadow-3);display:none}
 .cl-cp-toast.show{display:block}

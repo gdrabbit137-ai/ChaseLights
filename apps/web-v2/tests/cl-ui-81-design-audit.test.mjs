@@ -110,6 +110,6 @@ test('CL-UI-81 (5) P1-4: syncDayButtons renders both segments and reuses honest 
 });
 
 test('CL-UI-81 (6) cache-bust: index.html serves app.js + app.css at ?v=clui102', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui112/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui113/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
 });

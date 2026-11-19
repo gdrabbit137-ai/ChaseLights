@@ -158,11 +158,27 @@
     return mePromise;
   }
 
-  function createRule(placeId, oppId) {
+  // ---- custom-conditions mode (CL-APP-09 patch-4): a bell that carries a
+  // data-rem-cc payload (private-point subject rows ride it) creates a
+  // CUSTOM-mode rule — the worker's cron judges the rule's own conditions
+  // against the place's stored hourly grid (v1:evals:custom:<id>), so a
+  // private-point reminder is REAL, never a dead rule. Mutually exclusive
+  // with the subject mode (opportunityId), same as the worker validates.
+  function ccOf(btn) {
+    var raw = btn.getAttribute('data-rem-cc');
+    if (!raw) return null;
+    try { var v = JSON.parse(decodeURIComponent(raw)); return (v && typeof v === 'object' && !Array.isArray(v)) ? v : null; }
+    catch (e) { return null; }
+  }
+
+  function createRule(placeId, oppId, cc) {
+    var body = cc
+      ? { placeId: placeId, channel: 'push', minAdvanceHours: 24, customConditions: cc }
+      : { placeId: placeId, opportunityId: oppId || undefined, channel: 'push', minAdvanceHours: 24 };
     return fetch(RULES_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ placeId: placeId, opportunityId: oppId || undefined, channel: 'push', minAdvanceHours: 24 })
+      body: JSON.stringify(body)
     }).then(function (r) { return r.json().then(function (b) { return { status: r.status, body: b }; }); });
   }
 
@@ -212,7 +228,7 @@
     var rule = ruleFor(state.rules, placeOf(btn), oppOf(btn));
     state.busy[key] = true;
     if (btn) btn.setAttribute('data-rem-busy', '1');
-    var work = rule ? deleteRule(rule.id) : createRule(placeId, oppId);
+    var work = rule ? deleteRule(rule.id) : createRule(placeId, oppId, ccOf(btn));
     work.then(function (res) {
       if (res && res.status === 401) { state.signedIn = false; showNotice('rem_login'); return; }
       if (res && res.status === 402) { showNotice('rem_limit'); return; }

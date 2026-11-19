@@ -148,7 +148,7 @@ test('CL-UI-28 (9): index.html stamps tracked (CL-UI-73: app.js/app.css at clui1
   assert.match(indexHtml, /assets\/site-nav\.css\?v=clui116/);
   assert.doesNotMatch(indexHtml, /site-nav\.css\?v=clui62/);
   assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui112/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui113/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui102/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });

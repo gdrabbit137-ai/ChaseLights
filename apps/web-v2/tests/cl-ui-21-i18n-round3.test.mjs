@@ -121,8 +121,13 @@ test('CL-UI-21 C3: no full-width separators remain in en rendering paths',()=>{
     assert.ok(!re.test(appSource),key+' still hardcodes ：');
   }
   assert.ok(appSource.includes('${esc(d().guide_required)}${colonSep()}'));
-  // v2-group labels too (3 sites)
-  assert.ok(appSource.split('${esc(d().guide_required)}${colonSep()}').length>=3);
+  // v2-group labels too — the place-panel fold renders through the SHARED
+  // v2CondFoldHtml builder (CL-APP-09 patch-4 bridge), which labels its groups
+  // with its own t dict; its site counts alongside the d().-dict sites.
+  assert.ok(
+    appSource.split('${esc(d().guide_required)}${colonSep()}').length - 1
+    + appSource.split('${esc(t.guide_required)}${colonSep()}').length - 1 >= 2,
+    'guide_required label keeps a language-aware colon at every site (direct + bridge renderer)');
   assert.ok(!appSource.includes("${esc(viewpoints.join('／'))}"));
   assert.ok(appSource.includes("${esc(viewpoints.join(slashSep()))}"));
   // live reference-hour stamp uses parens() (en half-width) + short stamp

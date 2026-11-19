@@ -32,13 +32,19 @@ const artifact = JSON.parse(readFileSync(join(ROOT, 'data', 'v2', 'evaluations',
 
 // ---- extracted fallback builder (real source, stubbed surroundings) ----
 function makeFallback() {
-  const rowHtml = grab('const clSubjectRowHtml=', 'const clSubjectExtra=');
+  // CL-APP-09 patch-4: clSubjectRowHtml delegates to the SHARED
+  // clSubjectRowLine builder — extract the builder too so the delegation
+  // resolves in the extracted scope (the card passes its spot_id through).
+  const rowHtml = grab('function clSubjectRowLine', 'function clTierRowLine');
   // The card runs the builder as an IIFE over the in-scope card vars; the
   // extracted test wrapper takes them as parameters instead (cl-ui-69 style).
   let fallback = grab('const clFallbackRows=', 'const v2Summary=');
   fallback = fallback.replace('const clFallbackRows=(()=>{',
     'const evaluated=(v2Evaluated,v2Best,clSubjectRows,scTierReason,scRow)=>{');
   fallback = fallback.replace(/\}\)\(\);\s*$/, '};');
+  // the card-local clSubjectRowHtml wrapper is out of scope here — the
+  // extracted fallback calls the shared builder directly (same args).
+  fallback = fallback.replace(/clSubjectRowHtml\(/g, 'clSubjectRowLine(');
   assert.ok(fallback.startsWith('const evaluated='), 'extraction rewrap applied');
   const fmt = grab('function formatHourSegments', 'function v2ContractThreshold');
   const prelude = `
@@ -49,6 +55,7 @@ function makeFallback() {
     const colonSep=()=>'：';
     const listSep=()=>'、';
     const clSubjBell='<button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="tw-002" data-rem-compact="1"></button>';
+    const spot={spot_id:'tw-002'};
     ${fmt}
   `;
   return new Function(prelude + rowHtml + fallback +
@@ -146,7 +153,7 @@ test('CL-UI-71 (5): the old 「本日最佳題材」 render path is retired from
 });
 
 test('CL-UI-71 (6): cache-bust stamp — app.js advanced to clui102 (app.css follows at clui102 per CL-UI-72)', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui112/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui113/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
   assert.ok(!indexSource.includes('app.js?v=clui75'), 'stale app.js stamp retired');
 });

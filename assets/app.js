@@ -1589,6 +1589,22 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       if(conds.length&&conds.every(c=>c&&c.day_verdict==='UNKNOWN'))return 'eval2_unverified';
       return null;
     }
+    // CL-APP-09 patch-4 (single anatomy): the card's per-subject row
+    // (「短名: HH:MM–HH:MM 🔔」) is ONE shared builder — createSpotCard and
+    // the private-point forecast popup (window.CLForecastRenderers) both
+    // render through it, so a popup subject row can never grow its own
+    // anatomy. entry.stamp (a preformatted next-window string) wins over the
+    // window segment list when the caller has a validated stamp.
+    function clSubjectRowLine(entry,spotId,hidden){
+      const bell=`<button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="${esc(spotId)}"${entry&&entry.cc?` data-rem-cc="${esc(encodeURIComponent(JSON.stringify(entry.cc)))}"`:''} data-rem-compact="1"></button>`;
+      const win=entry&&entry.stamp!=null?esc(entry.stamp):esc(formatHourSegments((entry&&entry.window)||[]));
+      return `<div class="cl-subject-row${hidden?' cl-subject-extra':''}"${hidden?' hidden':''}><span class="cl-subject-name">${esc(entry&&entry.name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window">${win}</span>${bell}</div>`;
+    }
+    // CL-UI-91: the tier identity row — tier (+ short note) in the name slot,
+    // the next qualifying window stamp in the window slot, ONE row anatomy.
+    function clTierRowLine(name,stamp,spotId,oppId){
+      return `<div class="cl-subject-rows"><div class="cl-subject-row"><span class="cl-subject-name">${esc(name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window">${esc(stamp||'')}</span><button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="${esc(spotId)}"${oppId?` data-rem-opp="${esc(oppId)}"`:''}></button></div></div>`;
+    }
     function createSpotCard(spot,metric){
       // CL-UI-69: the per-subject row bell and the fold button are real
       // buttons inside the card — a click on them must not open the place
@@ -1660,13 +1676,12 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // tier is not_recommended. The retired 「本日最佳題材」 line is gone:
       // every card in a list shows one format.
       const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;const key=canon(tris);if(!seen.has(key))seen.set(key,{name:tris[currentLang]||tris['zh-TW']||'',window:[]});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
-      const clSubjBell=`<button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="${esc(spot.spot_id)}" data-rem-compact="1"></button>`;
-      const clSubjectRowHtml=(entry,hidden)=>`<div class="cl-subject-row${hidden?' cl-subject-extra':''}"${hidden?' hidden':''}><span class="cl-subject-name">${esc(entry.name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window">${esc(formatHourSegments(entry.window))}</span>${clSubjBell}</div>`;
+      const clSubjectRowHtml=(entry,hidden)=>clSubjectRowLine(entry,spot.spot_id,hidden);
       // CL-UI-91 (owner): tier rows ride the SAME cl-subject-row anatomy —
       // tier + short note in the name slot, the next qualifying window stamp
       // in the window slot (empty honestly when none is known) — never a
       // separate format.
-      const clTierRowHtml=(name,stamp,opp)=>`<div class="cl-subject-rows"><div class="cl-subject-row"><span class="cl-subject-name">${esc(name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window">${stamp}</span><button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="${esc(spot.spot_id)}"${opp?` data-rem-opp="${esc(opp)}"`:''}></button></div></div>`;
+      const clTierRowHtml=(name,stamp,opp)=>clTierRowLine(name,stamp,spot.spot_id,opp);
       // CL-DATA-68: a TODAY shootable/not_recommended row whose curated
       // windows have ALL passed must not re-exhibit their past stamps as
       // if still shootable — the card renders the tier note line
@@ -1678,7 +1693,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const scPassedNote=(scTier==='shootable'||scTier==='not_recommended')&&scTierNote&&scEntries.length>0;
       // CL-UI-91: the no-window tier identity is ONE row — tier (+ short
       // note/reason) with the next qualifying window stamp in the window slot.
-      const clNoWinStamp=(v2Best&&v2Best.nextLocal)?esc(nextWindowStamp(v2Best.nextLocal,spot.timezone)):'';
+      const clNoWinStamp=(v2Best&&v2Best.nextLocal)?nextWindowStamp(v2Best.nextLocal,spot.timezone):'';
       const clNoWinName=(scTier==='shootable')?(d().v2_tier_shootable+(scTierNote?' · '+scTierNote:'')):(d().v2_tier_not_recommended+(scTierReason?' · '+scTierReason:''));
       const clSubjectRows=scPassedNote?clTierRowHtml(clNoWinName,clNoWinStamp,v2Best&&v2Best.oppId):(()=>{if(scEntries.length===0)return '';return `<div class="cl-subject-rows">${scEntries.slice(0,3).map(e=>clSubjectRowHtml(e,false)).join('')}${clSubjectExtra.map(e=>clSubjectRowHtml(e,true)).join('')}${clSubjectMoreBtn}</div>`;})();
       // CL-UI-91: the standalone 📅 本日無符合題材 line leaves the
@@ -2147,6 +2162,31 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       if(!text)return '';
       return /(待證據|尚無足夠證據|待驗證|待氣候驗證|研究中|needs[_ -]?research|provisional|pending|unknown)/i.test(text)?'':text;
     }
+    // CL-APP-09 patch-4: the 「條件 ×N」 fold is ONE shared builder — the
+    // place panel renders it per opportunity AND the private-point forecast
+    // popup renders its custom constraints through the SAME function
+    // (window.CLForecastRenderers.condFold), so the fold anatomy (summary
+    // count + 必須/加分/扣分 groups, empty groups omitted) can never diverge.
+    // extraHtml (private only) appends non-metric label rows (時窗/適用月份)
+    // into the 成立條件 group with the SAME row markup.
+    function v2CondFoldHtml(conditions,extraHtml){
+      const t=d();
+      const list=(conditions||[]);
+      if(!list.length)return '';
+      const v2Groups={required:[],booster:[],penalty:[]};
+      list.forEach(c=>{
+        // CL-UI-51: rationale passes the internal-copy filter; a withheld
+        // rationale renders no line at all rather than an empty one.
+        const why=v2PublicRationale(c.rationale_i18n);
+        const item=`<div class="v2-cond" data-metric="${esc(c.metric)}"><b>${esc(v2MetricName(c.metric))}</b> <span class="v2-th">${esc(v2ContractThreshold(c))}${c.unit?' '+esc(c.unit):''}</span>${why?`<div class="v2-why">${esc(why)}</div>`:''}</div>`;
+        if(c.role==='REQUIRED')v2Groups.required.push(item);
+        else if(c.role==='BLOCKER')v2Groups.penalty.push(item);
+        else v2Groups.booster.push(item);
+      });
+      const v2CondCount=list.length;
+      const reqGroup=`<div class="v2-cond-group"><span class="research-label">${esc(t.guide_required)}${colonSep()}</span></div>${v2Groups.required.join('')}${extraHtml||''}`;
+      return `<details class="v2-cond-details"><summary class="v2-cond-summary">${esc(t.v2_cond_count).replace('{n}',String(v2CondCount))}<span class="v2-cond-caret" aria-hidden="true">▸</span></summary><div class="v2-conditions"><div class="research-label">${esc(t.v2_conditions_from)}</div>${v2Groups.required.length||extraHtml?reqGroup:''}${v2Groups.booster.length?`<div class="v2-cond-group"><span class="research-label">${esc(t.guide_boosters)}${colonSep()}</span></div>${v2Groups.booster.join('')}`:''}${v2Groups.penalty.length?`<div class="v2-cond-group"><span class="research-label">${esc(t.guide_penalties)}${colonSep()}</span></div>${v2Groups.penalty.join('')}`:''}</div></details>`;
+    }
     function openPlaceModal(spot,summaryMetric){
       activePlaceSpot=spot;activePlaceSummary=summaryMetric;
       const overlay=document.getElementById('place-modal-overlay');
@@ -2225,18 +2265,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         const localizationNote=suppressedLocalizedGuide?`<div class="association-note">${esc(d().guide_translation_limited)}</div>`:'';
         const guideBody=`${guideRows.join('')}${variants}${localizationNote}`;
         const v2c=v2Contract(op.opportunity_id);
-        const v2Groups=v2c?{required:[],booster:[],penalty:[]}:{};
-        if(v2c)(v2c.conditions||[]).forEach(c=>{
-          // CL-UI-51: rationale passes the internal-copy filter; a withheld
-          // rationale renders no line at all rather than an empty one.
-          const why=v2PublicRationale(c.rationale_i18n);
-          const item=`<div class="v2-cond" data-metric="${esc(c.metric)}"><b>${esc(v2MetricName(c.metric))}</b> <span class="v2-th">${esc(v2ContractThreshold(c))}${c.unit?' '+esc(c.unit):''}</span>${why?`<div class="v2-why">${esc(why)}</div>`:''}</div>`;
-          if(c.role==='REQUIRED')v2Groups.required.push(item);
-          else if(c.role==='BLOCKER')v2Groups.penalty.push(item);
-          else v2Groups.booster.push(item);
-        });
-        const v2CondCount=v2c?((v2c.conditions||[]).length):0;
-        const v2CondHtml=v2c?`<details class="v2-cond-details"><summary class="v2-cond-summary">${esc(d().v2_cond_count).replace('{n}',String(v2CondCount))}<span class="v2-cond-caret" aria-hidden="true">▸</span></summary><div class="v2-conditions"><div class="research-label">${esc(d().v2_conditions_from)}</div>${v2Groups.required.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_required)}${colonSep()}</span></div>${v2Groups.required.join('')}`:''}${v2Groups.booster.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_boosters)}${colonSep()}</span></div>${v2Groups.booster.join('')}`:''}${v2Groups.penalty.length?`<div class="v2-cond-group"><span class="research-label">${esc(d().guide_penalties)}${colonSep()}</span></div>${v2Groups.penalty.join('')}`:''}</div></details>`:'';
+        const v2CondHtml=v2CondFoldHtml(v2c?v2c.conditions:null);
         return `<div class="opportunity-card${guideOnly?' opportunity-card-guide':''}">
           <div class="opportunity-head"><div class="opportunity-title">${esc(modalSubject)}${v2c?` <span class="v2-genre-chip${v2c.genre_template==='general'?' v2-genre-chip-general':''}">${esc(v2GenreName(v2c.genre_template))}</span>`:''}</div></div>
           <div class="v2-eval" data-opp="${esc(op.opportunity_id)}"></div>
@@ -3688,6 +3717,51 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       });
     }
     async function cleanupOldCaches(){try{if(!('caches'in window))return;const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('chaselights-')&&k!==CACHE_NAME).map(k=>caches.delete(k)));}catch{}}
+    // CL-APP-09 patch-4: the official popup renderer bridge. The private-point
+    // forecast popup (assets/custom-places.js) must NOT grow its own anatomy —
+    // it converts the private eval into the official renderer INPUTS
+    // (synthetic subject-cards rows + synthetic evaluation days) and renders
+    // every block through the SAME functions the official surfaces use:
+    // mountQuickView (速覽「現在去會怎樣」+ 24h mini band + next moment),
+    // v2DayStripHtml/v2DaySubHtml (8 日方框 + 今天題材判定),
+    // v2CondFoldHtml (條件 ×N 摺疊), clSubjectRowLine/clTierRowLine
+    // (逐題材行＝短名＋窗時刻＋🔔), and nextWindowStamp (official stamp
+    // format). registerSyntheticRows feeds the derived-layer row lookup
+    // (v2SubjectCardRow) so the SAME single-truth pipeline decides every
+    // verdict — the popup never computes a second truth.
+    window.CLForecastRenderers={
+      ensureCards:ensureSubjectCards,
+      quickView:function(host,spot){mountQuickView(host,spot);},
+      dayLabels:function(tz,n){return evalDayLabels(tz,n);},
+      // bridge key avoids the retired CL-UI-45 strip identifier (cl-ui-46 (1)
+      // retired-pin regex); the key still exposes the official v2DayStripHtml
+      // builder.
+      stripHtml:function(days,labels,tz,spot,genre,oppId){return v2DayStripHtml(days,labels,tz,spot,genre,oppId);},
+      daySub:function(spot,opp){return v2DaySubHtml(spot,opp);},
+      wireStrip:function(el){if(!el)return;initDragScroll(el);centerSel(el);},
+      condFold:function(conditions,extraHtml){return v2CondFoldHtml(conditions,extraHtml);},
+      localDate:function(tz,offset){return localDateString(tz,offset||0);},
+      nowMinutes:function(tz){return localNowMinutes(tz);},
+      subjectRow:function(entry,placeId,hidden){return clSubjectRowLine(entry,placeId,hidden);},
+      tierRow:function(name,stamp,placeId,oppId){return clTierRowLine(name,stamp,placeId,oppId);},
+      nextStamp:function(s,tz){return nextWindowStamp(s,tz);},
+      failWords:function(){const dict=v2SubjectCards&&v2SubjectCards.dictionaries&&v2SubjectCards.dictionaries.fail_reason_short||{};return dict;},
+      // Synthetic derived-layer rows for ONE private place id. Official
+      // catalog ids never collide (private ids are opaque worker ids), and
+      // custom subject short names register into the runtime genre dictionary
+      // so the shared band/row lookup resolves them like any curated subject.
+      registerSyntheticRows:function(placeId,tree,genreNames){
+        try{
+          if(!v2SubjectCards)v2SubjectCards={places:{},dictionaries:{genre_short_names:{},fail_reason_short:{}}};
+          if(!v2SubjectCards.places)v2SubjectCards.places={};
+          v2SubjectCards.places[placeId]=Object.assign({},v2SubjectCards.places[placeId]||{},tree);
+          if(genreNames&&Object.keys(genreNames).length){
+            const dicts=v2SubjectCards.dictionaries=v2SubjectCards.dictionaries||{};
+            dicts.genre_short_names=Object.assign({},dicts.genre_short_names||{},genreNames);
+          }
+        }catch(e){/* fail-closed: without rows the popup renders honest none */}
+      },
+    };
     function initializeApp(){cleanupOldCaches();applyStaticI18n();renderSubNav();syncDayButtons();updateNavRegionLinks();
       // CL-UI-46: picker wiring — trigger toggles, overlay/Esc/outside-click
       // close, arrow keys walk the option list. Replaces the CL-UI-45 strip
