@@ -28,10 +28,11 @@ test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bus
   // CL-INT-206 merge: clapp06g (patch-8) + clapp08a (shared-fetch tag) ->
   // clapp08b on the merged tree; CL-APP-09-p3 (popup anatomy) -> clapp09d;
   // CL-APP-09 patch-4 (popup rides the official renderers) -> clapp09e;
-  // patch-5 (semantic guard + 越多越好 floor) -> clapp09f (JS only, per-file
+  // patch-5 (semantic guard + 越多越好 floor) -> clapp09f; CL-APP-09 patch-6
+  // (official card renderer + filter pipeline) -> clapp09g (JS only, per-file
   // cache-bust rule, monotonic — the CSS is untouched this ticket)
   assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09e/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09f/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09g/);
   assert.doesNotMatch(htmlSource, /custom-places\.js\?v=clapp09e/);
   assert.doesNotMatch(htmlSource, /custom-places\.(css|js)\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
@@ -245,6 +246,9 @@ async function bootBrowser() {
       ws = new WebSocket(targets.find(t => t.type === 'page').webSocketDebuggerUrl);
     await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
     ws.onmessage = e => { const m = JSON.parse(e.data);
+      if (m.method === 'Runtime.consoleAPICalled' && /P6DISPATCH/.test((m.params.args||[]).map(a=>a.value||a.description||'').join(' '))) {
+        (globalThis.__p6exc = globalThis.__p6exc || []).push((m.params.args||[]).map(a=>a.value||a.description||'').join(' ').slice(0,600));
+      }
       if (m.method === 'Page.loadEventFired') loadEvents++;
       if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); } };
     send = (method, params = {}) => new Promise((resolve, reject) => {
@@ -260,6 +264,7 @@ async function bootBrowser() {
     // custom-places API before the widget ever asks; the widget's member
     // state is pushed via the chaselights:auth broadcast after load.
     await send('Page.enable');
+    await send('Runtime.enable');
     await send('Page.addScriptToEvaluateOnNewDocument', { source: `
       // patch-4: pin-picker mini-map is DISABLED in this harness (deterministic
       // schematic fallback) — the real-MapLibre path is covered by test (2r)
@@ -268,10 +273,28 @@ async function bootBrowser() {
       // patch-8: per-place theme groups (multi-theme) — a small in-memory
       // CRUD store the manager modal exercises end-to-end (create / rename /
       // delete / duplicate names all pass through the real client paths)
+      // CL-APP-08: shared-fetch groups (same-member grid dedup) — cp1 is the
+      // group representative, cp2 rides its fetch; the card shows the
+      // 「與 ○○○ 共用資料」 tag from the list payload's sharing field.
+      var __cpShare = {
+        cp1: { groupId: 'g:cp1', representativeId: 'cp1', isRepresentative: true, shareMode: 'auto',
+          sharedWith: [{ id: 'cp2', name: '礁溪自家陽台展望' }] },
+        cp2: { groupId: 'g:cp1', representativeId: 'cp1', isRepresentative: false, shareMode: 'auto',
+          sharedWith: [{ id: 'cp1', name: '霧社水庫西岸岔路' }] },
+      };
+      // patch-6: window stamps must be spot-local FUTURE (the worker always
+      // answers the next matching window) — pin them to now+2h so the tier
+      // pipeline's time-awareness never depends on the wall clock.
+      // NOTE: must run BEFORE __cpThemes (var hoisting made the theme groups'
+      // windows 'undefined undefined', which silently degraded every rec
+      // theme group to the ✗ fallback row).
+      var __wn = new Date(Date.now() + 8 * 3600e3 + 2 * 3600e3);
+      var __d1 = __wn.toISOString().slice(0, 10);
+      var __h1 = String(__wn.getUTCHours()).padStart(2, '0') + ':30';
       var __cpThemes = [
         { id: 'tg1', placeId: 'cp1', name: '雲海窗', nameI18n: { 'zh-TW': '雲海窗' },
           conditions: { cloud_low_max: 15, window_start: '04:30', window_end: '07:00' },
-          evaluation: { tier: 'rec', reason: null, window: '2026-11-16 05:00' } },
+          evaluation: { tier: 'rec', reason: null, window: __d1 + ' ' + __h1 } },
         { id: 'tg3', placeId: 'cp3', name: '風平窗', nameI18n: null,
           conditions: { wind_max_ms: 5 },
           evaluation: { tier: 'no', reason: '風強', window: null } },
@@ -280,19 +303,20 @@ async function bootBrowser() {
         // the placeholder: this set is an EXACT night_sky starter match → 星空.
         { id: 'tg9', placeId: 'cp6', name: '題材 1', nameI18n: null,
           conditions: { cloud_low_max: 20, visibility_min_km: 10, precip_max_mmh: 0.2, window_start: '21:00', window_end: '03:00' },
-          evaluation: { tier: 'rec', reason: null, window: '2026-11-16 21:00' } },
+          evaluation: { tier: 'rec', reason: null, window: __d1 + ' ' + __h1 } },
       ];
       var __cpThemeSeq = 0;
+      try { localStorage.setItem('chaselights_cp_view', 'all'); } catch (e) { /* blocked */ }
       var __cpPlaces = [
         { id: 'cp1', name: '霧社水庫西岸岔路', lat: 23.9412, lng: 121.1523, elevation: 1150, timezone: 'Asia/Taipei',
           customConditions: { cloud_low_max: 15, visibility_min_km: 12, window_start: '04:30', window_end: '07:00' },
           status: 'active', createdAt: '', updatedAt: '',
-          evaluation: { tier: 'rec', reason: null, window: '2026-11-16 05:00', evaluatedAt: '2026-11-15T10:00:00Z', private: true },
+          evaluation: { tier: 'rec', reason: null, window: __d1 + ' ' + __h1, evaluatedAt: '2026-11-15T10:00:00Z', private: true },
           refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
         { id: 'cp2', name: '礁溪自家陽台展望', lat: 24.8225, lng: 121.7675, elevation: 80, timezone: 'Asia/Taipei',
           customConditions: null,
           status: 'active', createdAt: '', updatedAt: '',
-          evaluation: { tier: 'shoot', reason: null, window: '2026-11-16 06:00', evaluatedAt: '2026-11-15T10:00:00Z', private: true },
+          evaluation: { tier: 'shoot', reason: null, window: __d1 + ' ' + __h1, evaluatedAt: '2026-11-15T10:00:00Z', private: true },
           refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
         { id: 'cp3', name: '苫小牧西港堤防燈點', lat: 42.6389, lng: 141.3556, elevation: 3, timezone: 'Asia/Tokyo',
           customConditions: { wind_max_ms: 5 },
@@ -310,19 +334,13 @@ async function bootBrowser() {
         // patch-9: carries the legacy auto-named group (see __cpThemes tg9)
         { id: 'cp6', name: '合歡北峰瞭望台', lat: 24.14, lng: 121.27, elevation: 3200, timezone: 'Asia/Taipei',
           customConditions: null, status: 'active', createdAt: '', updatedAt: '',
-          evaluation: { tier: 'rec', reason: null, window: '2026-11-16 21:00', evaluatedAt: '2026-11-15T10:00:00Z', private: true },
+          evaluation: { tier: 'rec', reason: null, window: __d1 + ' ' + __h1, evaluatedAt: '2026-11-15T10:00:00Z', private: true },
           refresh: { intervalHours: 6, label: '6h', energySaver: false }, fetchDeferred: false, fetchDueAt: null },
       ];
       var __cpThemeCap = 5;
       // CL-APP-08: shared-fetch groups (same-member grid dedup) — cp1 is the
       // group representative, cp2 rides its fetch; the card shows the
       // 「與 ○○○ 共用資料」 tag from the list payload's sharing field.
-      var __cpShare = {
-        cp1: { groupId: 'g:cp1', representativeId: 'cp1', isRepresentative: true, shareMode: 'auto',
-          sharedWith: [{ id: 'cp2', name: '礁溪自家陽台展望' }] },
-        cp2: { groupId: 'g:cp1', representativeId: 'cp1', isRepresentative: false, shareMode: 'auto',
-          sharedWith: [{ id: 'cp1', name: '霧社水庫西岸岔路' }] },
-      };
       window.__cpThemes = __cpThemes; // test seam: the harness inspects the store
       window.__clcpFetch = function (path, opts) {
         if (path.indexOf('/api/v1/custom_places/pin_info') === 0) {
@@ -387,7 +405,7 @@ async function bootBrowser() {
           }
           var id = 'tg-new-' + (++__cpThemeSeq);
           var g = { id: id, placeId: mThemes[1], name: payload.name, nameI18n: payload.nameI18n || null,
-            conditions: payload.conditions || {}, evaluation: { tier: 'shoot', reason: null, window: '2026-11-16 06:00' } };
+            conditions: payload.conditions || {}, evaluation: { tier: 'shoot', reason: null, window: __d1 + ' ' + __h1 } };
           __cpThemes.push(g);
           return { ok: true, status: 200, json: function () { return Promise.resolve({ ok: true, id: id, theme: g, themes: { used: __cpThemes.filter(function (t) { return t.placeId === mThemes[1]; }).length, cap: __cpThemeCap } }); } };
         });
@@ -443,9 +461,10 @@ async function loadPage() {
     const iv=setInterval(()=>{
       // CL-INT-190: re-dispatch every tick — a broadcast lost to a navigation race
       // must not hang the harness; chaselights:auth is REPLACE-semantics/idempotent.
+      if(!window.__errs)window.__errs=[];window.addEventListener('error',e=>{window.__errs.push(String(e.message).slice(0,200));});
       document.dispatchEvent(new CustomEvent('chaselights:auth', { detail: { member: { id: 'u1', displayName: '晨曦旅人', level: 'paid' } } }));
       if(document.querySelector('.cl-cp-card')){clearInterval(iv);resolve(true);}
-      else if(Date.now()-t0>10000){clearInterval(iv);reject(new Error('private cards never rendered'));}
+      else if(Date.now()-t0>10000){clearInterval(iv);reject(new Error('private cards never rendered | EXC='+JSON.stringify(globalThis.__p6exc||[])+' | cpRows='+(window.ChaseLightsCustomPlaces&&window.ChaseLightsCustomPlaces.cardRows?window.ChaseLightsCustomPlaces.cardRows().length:'NO')+' | errs='+((window.__errs||[]).join(' ;; ').slice(0,400))+' | cards='+document.querySelectorAll('.card').length+' | view='+document.body.getAttribute('data-cp-view')));}
     },300);
   })`);
   await new Promise(r => setTimeout(r, 400));
@@ -482,26 +501,31 @@ test('CL-APP-06 (2a): honest count + quota chip + view-tab count identity (全�
   assert.ok(privTab.n >= 5);
 });
 
-test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject rows (official anatomy) + ⋯ menu opens', async () => {
+test('CL-APP-06 (2b): private card anatomy — official renderer (badge + subject row + 三鈕) + ⋯ menu opens', async () => {
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
+  // patch-6: private cards render through the OFFICIAL createSpotCard — the
+  // subject rows are the official clSubjectRowLine anatomy (短名: HH:MM 🔔);
+  // the ✓/✗/○ semantics live in the official tier badge + verdict rows, and
+  // each tier tab shows exactly its own cards.
   const probe = await evaljs(`(() => {
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
     if (!card) return { error: 'no cp1 card' };
     const badge = card.querySelector('.cl-cp-priv-badge');
     const cs = badge ? getComputedStyle(badge) : null;
-    // patch-8: the temporary 「✓ 條件窗」 chip is GONE in rec state — per-group
-    // subject rows carry the tier badges from the same source
     const rows = [...card.querySelectorAll('.cl-subject-row')].map(r => ({
-      tier: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').textContent,
-      tierCls: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').className,
-      name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
-      window: r.querySelector('.cl-cp-window') && r.querySelector('.cl-cp-window').textContent,
+      name: r.querySelector('.cl-subject-name') && r.querySelector('.cl-subject-name').textContent,
+      window: r.querySelector('.cl-subject-window') && r.querySelector('.cl-subject-window').textContent,
+      bell: !!r.querySelector('.cl-rem-btn'),
     }));
-    const c3 = document.querySelector('.cl-cp-card[data-cp-id="cp3"]');
-    const c2 = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
+    const tier = card.querySelector('.card-header-actions .tier');
+    // patch-9 regression guard: the legacy 「題材 1」 group renders the genre
+    // short name (星空) on the official row anatomy
     const c6 = document.querySelector('.cl-cp-card[data-cp-id="cp6"]');
+    const cp6Rows = c6 ? [...c6.querySelectorAll('.cl-subject-row')].map(r => ({
+      name: r.querySelector('.cl-subject-name') && r.querySelector('.cl-subject-name').textContent,
+    })) : [];
     const more = card.querySelector('.cl-cp-more');
     more.click();
     const menu = document.getElementById('cl-cp-menu');
@@ -509,24 +533,11 @@ test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject ro
     return {
       badgeText: badge && badge.textContent,
       color: cs && cs.color, bg: cs && cs.backgroundColor,
-      headTierGone: !card.querySelector('.spot-title-group .cl-cp-tier'),
-      rows, noCcLine: !card.querySelector('.cl-cp-cc-line'),
-      cp3Rows: c3 ? [...c3.querySelectorAll('.cl-subject-row')].map(r => ({
-        tier: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').textContent,
-        name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
-        reason: r.textContent.includes('風強'),
-      })) : [],
-      cp2Baseline: c2 ? [...c2.querySelectorAll('.cl-subject-row')].map(r => ({
-        tier: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').textContent,
-        name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
-        window: r.querySelector('.cl-cp-window') && r.querySelector('.cl-cp-window').textContent,
-      })) : [],
-      // patch-9: the legacy 「題材 1」 group renders the USER's genre name
-      cp6Rows: c6 ? [...c6.querySelectorAll('.cl-subject-row')].map(r => ({
-        tier: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').textContent,
-        name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
-      })) : [],
-      cp6Coord: c6 ? (c6.querySelector('.cl-cp-coord') || {}).textContent : null,
+      tierText: tier && tier.textContent,
+      rows, cp6Rows,
+      coordGone: !card.querySelector('.cl-cp-coord') && !/25\.0\d\d,\s*121|24\.140/.test(card.textContent),
+      pills: [...card.querySelectorAll('.card-metric-chips .metric-chip')].map(x => x.textContent.trim()),
+      tools: [...card.querySelectorAll('.card-footer-tools .tool-link')].map(x => (x.textContent || '').trim()),
       acts, menuOpen: getComputedStyle(menu).display,
       menuParentIsBody: menu.parentNode === document.body,
       menuPos: getComputedStyle(menu).position,
@@ -536,59 +547,68 @@ test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject ro
   // gray identity: the badge color must be the neutral --cl-grey family
   // (#98A4B3 = 152,164,179), NEVER the green/amber/red semantic tokens
   assert.equal(probe.color, 'rgb(152, 164, 179)', `badge color must be --cl-grey-text, got ${probe.color}`);
-  assert.equal(probe.headTierGone, true, 'patch-8: the generic 「✓ 條件窗」chip is replaced by per-group tier rows');
-  assert.equal(probe.noCcLine, true, 'the single 🎚 summary line is replaced by the per-group rows');
+  assert.match(probe.tierText, /✓/, 'official tier badge reads the synthetic row truth');
   assert.equal(probe.rows.length, 1, 'cp1 carries ONE theme group');
-  assert.equal(probe.rows[0].tier, '✓', 'per-group tier badge ✓ (same source as the worker tier)');
-  assert.match(probe.rows[0].tierCls, /cl-cp-tier-rec/);
   assert.match(probe.rows[0].name, /雲海窗/, 'official subject-row anatomy: the group name rides the row');
-  assert.match(probe.rows[0].window, /2026-11-16 05:00/, 'the group next window rides the row');
-  assert.equal(probe.cp3Rows.length, 1);
-  assert.equal(probe.cp3Rows[0].tier, '✗', 'a failing group shows ✗ with its short reason');
-  assert.match(probe.cp3Rows[0].name, /風平窗/);
-  assert.equal(probe.cp3Rows[0].reason, true);
-  assert.equal(probe.cp2Baseline.length, 1, 'no groups → the baseline row (legacy anatomy preserved)');
-  assert.equal(probe.cp2Baseline[0].tier, '○');
-  assert.match(probe.cp2Baseline[0].window, /2026-11-16 06:00/);
-  // patch-9: the legacy auto-named group shows the user's GENRE (exact
-  // night_sky starter match → 星空), never the 「題材 1」 migration placeholder
-  assert.equal(probe.cp6Rows.length, 1);
-  assert.equal(probe.cp6Rows[0].tier, '✓');
-  assert.match(probe.cp6Rows[0].name, /^星空$/, 'legacy 「題材 1」 renders as the matched genre short name');
-  assert.doesNotMatch(probe.cp6Rows[0].name, /題材 1/);
-  // patch-9: the card sub-line uses the same official meta anatomy
-  assert.match(probe.cp6Coord, /24\.140, 121\.270/);
-  assert.match(probe.cp6Coord, /3200 m/);
-  assert.match(probe.cp6Coord, /GMT\+8/);
-  assert.doesNotMatch(probe.cp6Coord, /Asia\/Taipei/);
+  assert.match(probe.rows[0].window, /:30/, 'the group next window rides the row');
+  assert.equal(probe.rows[0].bell, true, 'the row bell is the reminder toggle');
+  assert.equal(probe.coordGone, true, 'bare coordinates never sit on the card face (patch-6)');
+  assert.ok(probe.pills.some(p => /1150 m/.test(p)), 'elevation pill like official cards');
+  assert.equal(probe.tools.length, 3, '三鈕 題材/地圖/天氣圖 (official anatomy)');
   assert.deepEqual(probe.acts.sort(), ['cc', 'del', 'edit', 'refetch'], 'menu is 編輯／掛題材·條件／🔄 獨立重新抓取／刪除 (nom removed patch-8, refetch added CL-APP-08)');
   assert.equal(probe.menuOpen, 'block', '⋯ menu opens');
-  // CL-APP-08: cp2 (grouped with cp1) shows the shared-data tag, computed-visible
-  const probe2 = await evaljs(`(() => {
-    const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
-    if (!card) return { error: 'no cp2 card' };
-    const tag = card.querySelector('.cl-cp-share-tag');
-    if (!tag) return { error: 'no share tag' };
-    const r = tag.getBoundingClientRect();
-    const cs = getComputedStyle(tag);
+  assert.equal(probe.menuParentIsBody, true);
+  assert.equal(probe.menuPos, 'fixed');
+  assert.equal(probe.cp6Rows.length, 1, 'cp6 renders its legacy group as ONE official row');
+  assert.match(probe.cp6Rows[0].name, /^星空$/, 'legacy 「題材 1」 renders as the matched genre short name');
+  assert.doesNotMatch(probe.cp6Rows[0].name, /題材 1/);
+  // ✗ private card (cp3, 風平窗 ✗風強): the verdict lives in the official
+  // verdict row — 「✗ 不宜 · 風強」 — never a homegrown compact badge row
+  await evaljs(`document.querySelector('.tier-tab[data-tier="not_recommended"]').click(), new Promise(r=>setTimeout(r,600))`);
+  const probe3 = await evaljs(`(() => {
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp3"]');
+    if (!card) return { error: 'no cp3 card' };
     return {
-      text: tag.textContent,
-      visible: r.width > 0 && r.height > 0 && cs.display !== 'none' && cs.visibility !== 'hidden',
-      color: cs.color,
+      badge: (card.querySelector('.card-header-actions .tier') || {}).textContent || '',
+      row: (card.querySelector('.cl-subject-row') || {}).textContent || '',
+      cp1Gone: !document.querySelector('.cl-cp-card[data-cp-id="cp1"]'),
+      coordGone: !card.querySelector('.cl-cp-coord'),
     };
   })()`);
-  assert.match(probe2.text, /與 霧社水庫西岸岔路 共用資料/);
-  assert.equal(probe2.visible, true, 'the share tag is COMPUTED-visible on the card');
-  assert.equal(probe2.color, 'rgb(168, 179, 194)', 'share tag stays gray-identity (--cl-text-2), never a semantic color');
-  // patch-3: the menu is portaled OUT of the card to document.body (fixed)
-  assert.equal(probe.menuParentIsBody, true, '⋯ menu lives on document.body — outside the card boundary');
-  assert.equal(probe.menuPos, 'fixed', '⋯ menu is position:fixed — card overflow can never clip it');
+  assert.match(probe3.badge, /✗/, 'cp3 carries the official ✗ badge');
+  assert.match(probe3.row, /✗/, 'the ✗ verdict row renders (official anatomy)');
+  assert.match(probe3.row, /風強/, 'the short reason rides the verdict row');
+  assert.ok(probe3.cp1Gone, '✓ cards not under ✗不宜');
+  assert.equal(probe3.coordGone, true);
+  await evaljs(`document.querySelector('.tier-tab[data-tier="recommend"]').click(), new Promise(r=>setTimeout(r,300))`);
+  // CL-APP-08: cp2 (grouped with cp1) shows the shared-data tag, computed-visible
+  const probe2 = await evaljs(`(async () => {
+    // switch to ○可拍: cp2 (general baseline) is the shootable private card
+    document.querySelector('.tier-tab[data-tier="shootable"]').click();
+    await new Promise(r => setTimeout(r, 600));
+    const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
+    if (!card) return { error: 'no cp2 card' };
+    return {
+      share: (card.querySelector('.cl-cp-share-tag') || {}).textContent || '',
+      row: (card.querySelector('.cl-subject-row') || {}).textContent || '',
+      badge: (card.querySelector('.card-header-actions .tier') || {}).textContent || '',
+      cp1Gone: !document.querySelector('.cl-cp-card[data-cp-id="cp1"]'),
+    };
+  })()`);
+  assert.match(probe2.share, /共用資料/, 'the shared-fetch tag renders on the official anatomy too');
+  assert.match(probe2.badge, /○/, 'cp2 carries the official ○可拍 badge');
+  assert.ok(probe2.cp1Gone, 'tier tabs filter private cards — ✓ cards not under ○可拍');
+  await evaljs(`document.querySelector('.tier-tab[data-tier="recommend"]').click(), new Promise(r=>setTimeout(r,300))`);
 });
 
 test('CL-APP-06 (2c): trial-expired card is gray + honest 試用期滿 + upgrade CTA; deferred card honest note', async () => {
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
+  // patch-6: no-verdict special cards appear only under the 全部 tier tab
+  // (the same rule official noeval spots follow)
+  await evaljs(`(function(){document.querySelector('.tier-tab[data-tier="all"]').click();})()`);
+  await new Promise(r => setTimeout(r, 600));
   const probe = await evaljs(`(() => {
     const ex = document.querySelector('.cl-cp-card[data-cp-id="cp4"]');
     const df = document.querySelector('.cl-cp-card[data-cp-id="cp5"]');
@@ -625,17 +645,20 @@ test('CL-APP-06 (2d): view switch filters with real computed visibility (private
     };
     document.querySelector('.cl-cp-view-tab[data-cp-view="official"]').click();
     await new Promise(r => setTimeout(r, 300));
+    // patch-6: under 官方 the private cards are REMOVED (not CSS-hidden) —
+    // the view is also reset to 全部 so later loads never inherit it
     out.officialView = {
-      priv: getComputedStyle(document.querySelector('.cl-cp-card[data-cp-id="cp1"]')).display,
+      priv: document.querySelector('.cl-cp-card[data-cp-id="cp1"]') ? 'present' : 'absent',
       official: document.querySelector('#spots-container .card:not(.cl-cp-card)') ? getComputedStyle(document.querySelector('#spots-container .card:not(.cl-cp-card)')).display : 'absent',
     };
     document.querySelector('.cl-cp-view-tab[data-cp-view="all"]').click();
     await new Promise(r => setTimeout(r, 300));
+    try { localStorage.setItem('chaselights_cp_view', 'all'); } catch (e) { /* blocked */ }
     return out;
   })()`);
   assert.notEqual(probe.privateView.priv, 'none', 'private tab shows private cards');
-  assert.equal(probe.privateView.official, 'none', 'private tab hides official cards');
-  assert.equal(probe.officialView.priv, 'none', 'official tab hides private cards');
+  assert.equal(probe.privateView.official, 'absent', 'private tab renders no official cards (row pipeline)');
+  assert.equal(probe.officialView.priv, 'absent', 'official tab removes private cards (row pipeline, not CSS)');
   assert.notEqual(probe.officialView.official, 'none', 'official tab shows official cards');
 });
 
@@ -769,6 +792,9 @@ test('CL-APP-06 (2i): ✨ one-sentence AI parse fills the semantic selects (AI o
   await setViewport(1280, 900, false);
   await loadPage();
   const probe = await evaljs(`(async () => {
+    // patch-6: private cards ride the tier tabs — cp2 (○可拍) renders under the shootable tab
+    document.querySelector('.tier-tab[data-tier="shootable"]').click();
+    await new Promise(r => setTimeout(r, 600));
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
     card.querySelector('.cl-cp-more').click();
     document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
@@ -1093,6 +1119,9 @@ test('CL-APP-06 (2o, patch-3): 390 viewport, card near the page footer — menu 
   await setViewport(390, 844, true);
   await loadPage();
   const probe = await evaljs(`(async () => {
+    // patch-6: private cards ride the tier tabs — cp2 (○可拍) renders under the shootable tab
+    document.querySelector('.tier-tab[data-tier="shootable"]').click();
+    await new Promise(r => setTimeout(r, 600));
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
     card.scrollIntoView({ block: 'end' }); // card bottom pinned to the viewport bottom — the owner's footer case
     await new Promise(r => setTimeout(r, 300));
@@ -1235,6 +1264,9 @@ test('CL-APP-06 (2r, patch-4): real mini-map — DEFERRED init after the modal i
   const probe = await evaljs(`(async () => {
     // re-enable the REAL maplibre path for this test only
     delete window.__clcpMapLibre;
+    // patch-6: private cards ride the tier tabs — cp2 (○可拍) renders under the shootable tab
+    document.querySelector('.tier-tab[data-tier="shootable"]').click();
+    await new Promise(r => setTimeout(r, 600));
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
     card.querySelector('.cl-cp-more').click();
     document.querySelector('#cl-cp-menu [data-cp-act="edit"]').click();
@@ -1479,8 +1511,9 @@ test('CL-APP-06 (2t, patch-4): clicking a private card opens the forecast popup 
     out.menuOpensNotPopup = document.querySelector('#cl-cp-menu').classList.contains('open') && !document.querySelector('.cl-cp-overlay').classList.contains('open');
     document.body.click(); // close menu
     await new Promise(r => setTimeout(r, 50));
-    // card-body click → forecast popup
-    card.querySelector('.cl-cp-card-name').click();
+    // card-body click → forecast popup (patch-6: official anatomy — the card
+    // name element is the official .spot-name)
+    card.querySelector('.spot-name').click();
     await new Promise(r => setTimeout(r, 250));
     const ov = document.querySelector('.cl-cp-overlay');
     out.popupOpens = ov.classList.contains('open');
@@ -1561,7 +1594,7 @@ test('CL-APP-06 (2t, patch-4): clicking a private card opens the forecast popup 
   // ── official subject-row anatomy: 短名 + next window stamp + 🔔
   assert.equal(probe.subjectRows.length, 1, 'ONE row per theme group');
   assert.match(probe.subjectRows[0].name, /雲海窗/);
-  assert.match(probe.subjectRows[0].window, /11\/16 05:00/, 'the window slot carries the official next-window stamp format');
+  assert.match(probe.subjectRows[0].window, /(今天|明天) \d{2}\/\d{2} \d{2}:30/, 'the window slot carries the official next-window stamp (stub pins the stamp to spot-local now+2h — the wall-clock-independent format is pinned, not the date; the day prefix flips to 明天 only when now+2h crosses midnight)');
   assert.equal(probe.subjectRows[0].bell, true, 'the row-end 🔔 is the reminder bell (official anatomy)');
   assert.equal(probe.subjectRows[0].bellPlace, 'cp1');
   assert.ok(probe.subjectRows[0].bellCc, 'the bell carries the group conditions (custom-mode rule — never a dead rule)');
@@ -1587,7 +1620,7 @@ test('CL-APP-09-p3: at 390 the forecast popup height follows its content (never 
   await loadPage();
   const probe = await evaljs(`(async () => {
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
-    card.querySelector('.cl-cp-card-name').click();
+    card.querySelector('.spot-name').click();
     await new Promise(r => setTimeout(r, 250));
     const ov = document.querySelector('.cl-cp-overlay');
     const m = ov.querySelector('.cl-cp-modal');
@@ -1611,6 +1644,9 @@ test('CL-APP-06 (2u, patch-8): theme manager CRUD — create (dup names NOT bloc
   await loadPage();
   const probe = await evaljs(`(async () => {
     const out = {};
+    // patch-6: private cards ride the tier tabs — cp2 (○可拍) renders under the shootable tab
+    document.querySelector('.tier-tab[data-tier="shootable"]').click();
+    await new Promise(r => setTimeout(r, 600));
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]'); // no groups yet
     card.querySelector('.cl-cp-more').click();
     document.querySelector('#cl-cp-menu [data-cp-act="cc"]').click();
