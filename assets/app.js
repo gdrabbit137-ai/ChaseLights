@@ -1622,6 +1622,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // from the live /api/v1/feedback aggregate, gray-gated). Private points
       // are outside the rating catalog — no placeId, no rating chip mount.
       card.dataset.placeId=cp?'':(spot.spot_id||'');
+      if(cp){card.classList.add('cl-cp-card');card.setAttribute('data-cp-id',spot.spot_id);}
       const noViable=!!metric.no_viable_opportunity;const researchPending=!!metric.research_pending||!spot.opportunities?.length;
       const fav=favorites.includes(spot.spot_id);const scenes=spot.scenes||[];const visibleScenes=scenes.slice(0,4);// CL-UI-77: env-type line is plain non-interactive text (城市 · 山岳) —
       // visibly layered under the interactive subject chips (夜景: 時段 🔔);
@@ -1776,6 +1777,10 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       if(clLiveBtn)clLiveBtn.onclick=e=>{e.preventDefault();e.stopPropagation();openLiveModal(spot);};
       const scMoreBtn=card.querySelector('[data-sc-more]');
       if(scMoreBtn){scMoreBtn.onclick=e=>{e.stopPropagation();const extras=card.querySelectorAll('.cl-subject-extra');const open=scMoreBtn.getAttribute('aria-expanded')==='true';extras.forEach(el=>{el.hidden=open;});scMoreBtn.setAttribute('aria-expanded',open?'false':'true');scMoreBtn.textContent=open?d().clui69_more_subjects.replace('{n}',clSubjectExtra.length):d().clui69_less;};}
+      // CL-APP-09 patch-6: private cards attach their private-only extras (the
+      // ⋯ menu trigger) AFTER the official anatomy mounts — the official
+      // renderer owns the anatomy, the opts hook owns only the additions.
+      if(cp&&opts&&typeof opts.postMount==='function'){try{opts.postMount(card);}catch(e){/* fail-closed: card renders without the private extras */}}
       return card;
     }
 
@@ -1823,7 +1828,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     function appendSpotRows(target,rows,mode){
       const sortMode=mode||currentSortMode;
       if(sortMode!=='region'){
-        rows.forEach(({spot,metric})=>target.appendChild(createSpotCard(spot,metric)));
+        rows.forEach(row=>target.appendChild(createSpotCard(row.spot,row.metric,row.cpOpts)));
         return;
       }
       const grouped=new Map(),ungrouped=[];
@@ -1840,10 +1845,10 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         const heading=document.createElement('div');heading.className='spot-region-heading';
         heading.innerHTML=`<span>${esc(adminAreaGroupLabel(group.key))}</span><span class="spot-region-count">${esc(d().region_group_count.replace('{n}',groupRows.length))}</span>`;
         const grid=document.createElement('div');grid.className='spot-region-grid';
-        groupRows.forEach(({spot,metric})=>grid.appendChild(createSpotCard(spot,metric)));
+        groupRows.forEach(row=>grid.appendChild(createSpotCard(row.spot,row.metric,row.cpOpts)));
         section.append(heading,grid);target.appendChild(section);
       });
-      ungrouped.forEach(({spot,metric})=>target.appendChild(createSpotCard(spot,metric)));
+      ungrouped.forEach(row=>target.appendChild(createSpotCard(row.spot,row.metric,row.cpOpts)));
     }
 
     // CL-UI-60: the no-eval group summary names the spots missing evaluation
@@ -2112,14 +2117,14 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       }
       if(sparseFeatured){
         container.appendChild(buildLateNightBanner(d().late_night_banner_sparse));
-        [...viableRows].sort(lateNightHoursCompare).forEach(({spot,metric})=>container.appendChild(createSpotCard(spot,metric)));
+        [...viableRows].sort(lateNightHoursCompare).forEach(row=>container.appendChild(createSpotCard(row.spot,row.metric,row.cpOpts)));
       }else if(lateNightTomorrowRows){
         container.appendChild(buildLateNightBanner(d().late_night_banner,true));
         dayOffsetOverride=1;
         try{
           lateNightTomorrowRows.forEach(row=>{row.metric=getMetric(row.spot);});
           lateNightTomorrowRows.forEach(({spot,metric})=>{
-            const card=createSpotCard(spot,metric);
+            const card=createSpotCard(spot,metric,row.cpOpts);
             card.querySelector('.spot-title-group').insertAdjacentHTML('afterbegin',`<span class="tomorrow-badge">${esc(d().tomorrow_badge)}</span>`);
             container.appendChild(card);
           });

@@ -301,6 +301,164 @@
     return c ? c.querySelectorAll('.card:not(.cl-cp-card)').length : 0;
   }
   function privatePlaces() { return (state.data && state.data.places) || []; }
+  // ───── patch-6: private points ride the OFFICIAL card renderer + filter
+  // pipeline (owner ruling). The official app.js owns the card anatomy and
+  // the tier tabs/chip counts/filters; this module only CONVERTS the stored
+  // custom-set evaluations into the official pipeline's INPUTS:
+  //   cpCardInfo(p)   → synthetic subject-cards rows (tree) + synthetic
+  //                     evaluation days, registered via registerSyntheticRows
+  //                     (so v2PlaceForSpot → v2BestForSpot → v2SubjectCardRow
+  //                     → clui66SpotTier decide the verdict ONCE — the SAME
+  //                     truth the card badge, the tier-tab counts and the
+  //                     filters consume; never a second judgment source),
+  //   cardRows()      → {spot, metric} rows for filterAndRender (registered
+  //                     lazily from the CURRENT state.data, so chip counts
+  //                     and cards can never come from different data
+  //                     versions),
+  //   createCard      → the official createSpotCard via the CLForecastRenderers
+  //                     bridge (identical anatomy; ◉私人 badge + forecast-popup
+  //                     targets are the ONLY private differences).
+  // Special states (trial-expired / pending) keep their honest dedicated cards
+  // and appear only under the 全部 tier tab (no verdict exists — same rule as
+  // official noeval spots).
+  function bridgeActive() {
+    return !!(window.CLForecastRenderers && window.CLForecastRenderers.createCard &&
+              window.CLForecastRenderers.localDate);
+  }
+  function isSpecialCard(p) {
+    return p.status === 'trial_expired' || (p.evaluation || {}).tier === 'pending';
+  }
+  function cpActiveTier() {
+    var el = document.querySelector('#tier-tabs .tier-tab.active');
+    return (el && el.getAttribute('data-tier')) || 'recommend';
+  }
+  function cpStamps(winStr) {
+    var out = [], rx = /(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})/g, m, s = String(winStr || '');
+    while ((m = rx.exec(s))) out.push({ date: m[1], hhmm: m[2] });
+    return out;
+  }
+  function cpSynthMetric() {
+    return { theme: 'custom', temp: null, cloud_base_agl: null, sun_azimuth: null, sun_elevation: null,
+      moon_illumination: null, opportunity_id: '', opportunity_name: '', indicator_key: '',
+      no_viable_opportunity: false, research_pending: false };
+  }
+  function cpCardInfo(p) {
+    var br = window.CLForecastRenderers;
+    if (!br || !br.localDate) return null;
+    var ev = p.evaluation || {};
+    if (ev.tier === 'pending') return null;
+    var tz = p.timezone || 'Asia/Taipei';
+    var today = br.localDate(tz, 0);
+    var groups = cpPopupGroups(p);
+    var tree = {}, anyShoot = null, noReasons = [];
+    groups.forEach(function (g) {
+      var ge = g.eval || {};
+      if (ge.tier === 'rec') {
+        var st = cpStamps(ge.window)[0];
+        if (!st) return; // honest: window not yet resolvable → no synthetic row
+        var t = tree[st.date] = tree[st.date] || { tier: 'recommend', good_hours: [], suitable: [] };
+        t.good_hours.push(st.hhmm);
+        t.suitable.push({ subject_short: { 'zh-TW': themeDisplayName(g) }, window: [st.hhmm], cc: g.cond || null });
+      } else if (ge.tier === 'shoot') { if (!anyShoot) anyShoot = ge; }
+      else if (ge.tier === 'no' && ge.reason) noReasons.push(ge.reason);
+    });
+    var keys = Object.keys(tree).sort();
+    var days;
+    if (keys.length) {
+      // curated ✓ windows win (same aggregate rule as the worker's
+      // aggregateEvaluation: any ✓ subject counts the place into ✓推薦)
+      days = keys.map(function (d) {
+        tree[d].good_hours.sort();
+        return { local_date: d, state: 'GUIDANCE_SATISFIED', good_hours: tree[d].good_hours.slice(),
+          hour_counts: { GUIDANCE_SATISFIED: tree[d].good_hours.length } };
+      });
+    } else if (anyShoot) {
+      // ○可拍 — the general floor passes with no curated window (CL-UI-71
+      // fallback anatomy renders the official 「○ 可拍」 row)
+      var sh = cpStamps(anyShoot.window)[0];
+      var hours = sh ? [sh.hhmm] : [];
+      tree[today] = { tier: 'shootable', good_hours: hours, suitable: [] };
+      days = [{ local_date: today, state: hours.length ? 'GUIDANCE_SATISFIED' : 'UNFAVORABLE',
+        good_hours: hours, hour_counts: { GUIDANCE_SATISFIED: hours.length } }];
+    } else {
+      // ✗不宜 — the short reason (dominant fail word) rides the row as
+      // tier_reason; the official card anatomy renders 「✗ 不宜 · 雨」
+      var reason = noReasons[0] || ev.reason || '';
+      tree[today] = { tier: 'not_recommended', tier_reason: reason ? { 'zh-TW': reason } : null, good_hours: [], suitable: [] };
+      days = [{ local_date: today, state: 'UNFAVORABLE', good_hours: [], hour_counts: {} }];
+    }
+    br.registerSyntheticRows(p.id, tree, {}, days);
+    var spot = {
+      spot_id: p.id,
+      name_i18n: { 'zh-TW': p.name, 'en': p.name, 'ja': p.name }, name_local: p.name,
+      category: '__private__', admin_areas: [],
+      lat: Number(p.lat), lon: Number(p.lng),
+      elevation: p.elevation != null ? Number(p.elevation) : null,
+      timezone: tz, scenes: [],
+      opportunities: [{ opportunity_id: 'cp:' + p.id, genre_template: 'custom', days: days, live: {} }],
+      navigation_target: { status: 'verified', lat: Number(p.lat), lon: Number(p.lng) },
+    };
+    return { spot: spot, metric: cpSynthMetric() };
+  }
+  // the interaction targets + badge the official renderer needs for private
+  // cards (card body/題材 both open the private forecast popup — its quick
+  // view + strip + subject rows are the private place modal)
+  function cpCardOpts(p) {
+    return {
+      private: true,
+      badgeHtml: '<span class="cl-cp-priv-badge">◉ ' + esc(t().priv_badge) + '</span>',
+      openCard: function () { forecastModal(p); },
+      openPlace: function () { forecastModal(p); },
+      // patch-6: the ⋯ menu trigger rides the official card-header-actions
+      // row — appended AFTER the official anatomy mounts (postMount hook),
+      // same portaled-menu wiring as the special-state cards (patch-3).
+      postMount: function (card) {
+        var act = card.querySelector('.card-header-actions');
+        if (act && !card.querySelector('.cl-cp-more')) {
+          var more = document.createElement('button');
+          more.type = 'button';
+          more.className = 'cl-cp-more';
+          more.setAttribute('aria-label', '⋯');
+          more.setAttribute('aria-haspopup', 'menu');
+          more.setAttribute('aria-expanded', 'false');
+          more.textContent = '⋯';
+          act.appendChild(more);
+          more.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var m = ensureMenu();
+            var wasOpen = m.classList.contains('open') && state.menuPlace && state.menuPlace.id === p.id;
+            closeMenu();
+            if (!wasOpen) openMenuFor(p, more);
+          });
+        }
+        // CL-APP-08: shared-fetch tag — the official anatomy carries it too
+        // (gray identity, after the meta rows / before the footer tools).
+        var share = shareTagText(p.sharing, currentLang());
+        if (share && !card.querySelector('.cl-cp-share-tag')) {
+          var meta = card.querySelector('.card-secondary-meta') || card.querySelector('.shooting-summary');
+          if (meta) {
+            var tag = document.createElement('div');
+            tag.className = 'cl-cp-share-tag';
+            tag.innerHTML = '<span class="st-ic">🔗</span><span class="st-txt"></span>';
+            tag.querySelector('.st-txt').textContent = share;
+            meta.insertAdjacentElement('afterend', tag);
+          }
+        }
+      },
+    };
+  }
+  // the rows app.js merges into rowsAll — one filter pipeline for both lists
+  function cardRows() {
+    var out = [];
+    if (!state.member || !state.data) return out;
+    privatePlaces().forEach(function (p) {
+      if (isSpecialCard(p)) return;
+      var info = cpCardInfo(p);
+      if (!info) return;
+      out.push({ spot: info.spot, metric: info.metric, cp: true, cpOpts: cpCardOpts(p) });
+    });
+    return out;
+  }
 
   function render() {
     ensureHosts();
@@ -342,6 +500,10 @@
       }
     }
     renderPrivateCards(places);
+    // patch-6: every data/view/language change re-runs the OFFICIAL filter
+    // pass — the tier-tab counts, the tier/subject filters and the private
+    // cards re-derive from THIS state.data in one pass (same data version).
+    try { document.dispatchEvent(new CustomEvent('chaselights:cp-data')); } catch (e) { console.warn('P6DISPATCH-ERR', e && e.message, e && e.stack); }
   }
   function restoreSavedView() {
     try {
@@ -353,14 +515,18 @@
   function appendPrivateCards(places) {
     var container = document.getElementById('spots-container');
     if (!container) return;
+    // patch-6: app.js renders the NORMAL private cards (official renderer, no
+    // special marker) — this module's own append/sync only manages the
+    // special-state cards (data-cp-special) in bridge mode.
+    var scope = bridgeActive() ? '.cl-cp-card[data-cp-special]' : '.cl-cp-card';
     var keep = {};
     places.forEach(function (p) { keep[p.id] = true; });
     // remove stale cards
-    container.querySelectorAll('.cl-cp-card').forEach(function (card) {
+    container.querySelectorAll(scope).forEach(function (card) {
       if (!keep[card.getAttribute('data-cp-id')]) card.remove();
     });
     var existing = {};
-    container.querySelectorAll('.cl-cp-card').forEach(function (card) { existing[card.getAttribute('data-cp-id')] = true; });
+    container.querySelectorAll(scope).forEach(function (card) { existing[card.getAttribute('data-cp-id')] = true; });
     places.forEach(function (p) {
       if (existing[p.id]) { updatePrivateCard(p); return; }
       container.appendChild(buildPrivateCard(p));
@@ -371,9 +537,31 @@
       document.querySelectorAll('#spots-container .cl-cp-card').forEach(function (card) { card.remove(); });
       return;
     }
+    if (bridgeActive()) {
+      // patch-6: the official renderer renders the NORMAL cards (cardRows →
+      // app.js filterAndRender); this module only appends the special-state
+      // cards, and only under the 全部 tier tab — no verdict exists there,
+      // the same rule official noeval spots follow.
+      var specials = places.filter(isSpecialCard);
+      if (cpActiveTier() !== 'all') specials = [];
+      appendPrivateCards(specials);
+      return;
+    }
     appendPrivateCards(places);
   }
   function syncPrivateCards(places) {
+    if (bridgeActive()) {
+      // same special-only rule as renderPrivateCards; the observer re-runs
+      // this after every official rebuild so the set stays exact.
+      var specials = places.filter(isSpecialCard);
+      if (cpActiveTier() !== 'all') specials = [];
+      if (!specials.length) {
+        if (containerHasSpecialCards()) { removeSpecialCards(); }
+        return;
+      }
+      appendPrivateCards(specials);
+      return;
+    }
     // observer-safe incremental sync: same set + same signatures → no DOM write
     var container = document.getElementById('spots-container');
     if (!container) return;
@@ -391,6 +579,15 @@
     }
     if (same) return;
     appendPrivateCards(places);
+  }
+
+  // special-state card set helpers (bridge mode keeps ONLY these in the DOM)
+  var CP_SPECIAL_SEL = '.cl-cp-card[data-cp-special]';
+  function containerHasSpecialCards() {
+    return !!document.querySelector(CP_SPECIAL_SEL);
+  }
+  function removeSpecialCards() {
+    document.querySelectorAll(CP_SPECIAL_SEL).forEach(function (card) { card.remove(); });
   }
 
   function tierBadge(p) {
@@ -478,19 +675,8 @@
     }
     return null;
   }
-  // patch-8: ONE subject-row anatomy everywhere (official card parity) —
-  // tier badge + group name + next window / short reason, never a divergent chip
-  function cpCardRow(tier, name, window, tail) {
-    var badges = { rec: ['cl-cp-tier-rec', '✓'], shoot: ['cl-cp-tier-shoot', '○'], no: ['cl-cp-tier-no', '✗'] };
-    var b = badges[tier] || badges.no;
-    var right = window
-      ? '<span class="cl-cp-window" style="flex:1;text-align:right">' + esc(window) + '</span>'
-      : (tail ? '<span style="flex:1;text-align:right;color:var(--cl-red-text);font-weight:600">' + esc(tail) + '</span>' : '');
-    return '<div class="cl-subject-row" style="display:flex;align-items:center;gap:8px;height:26px;font-size:13px">' +
-      '<span class="cl-cp-tier ' + b[0] + '">' + b[1] + '</span>' +
-      '<span class="cl-cp-row-name" style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(name) + '</span>' +
-      right + '</div>';
-  }
+  // patch-6: cpCardRow (the homegrown compact card-row anatomy) is RETIRED —
+  // private verdicts render through the OFFICIAL createSpotCard pipeline.
   // CL-APP-08: 「與 ○○○ 共用資料」 label text — one other member name, or
   // the first name + the rest counted. Empty when ungrouped (no tag).
   function shareTagText(sharing, lang) {
@@ -648,9 +834,48 @@
     });
   }
   function buildPrivateCard(p) {
+    // patch-6: normal states render through the OFFICIAL createSpotCard (the
+    // CLForecastRenderers bridge) — identical anatomy to official cards; the
+    // ◉私人 badge, the ⋯ menu trigger and the forecast-popup targets are the
+    // only private differences. Special states (trial-expired / pending) keep
+    // the dedicated honest card below.
+    if (bridgeActive() && !isSpecialCard(p)) {
+      var info = cpCardInfo(p);
+      if (info) {
+        var brCard = window.CLForecastRenderers.createCard(info.spot, info.metric, cpCardOpts(p));
+        if (brCard) {
+          brCard.classList.add('cl-cp-card');
+          brCard.setAttribute('data-cp-id', p.id);
+          brCard._cpSig = JSON.stringify(p);
+          // ⋯ menu (patch-3 anatomy unchanged): one shared menu portaled to
+          // body, position:fixed under the trigger — the trigger rides the
+          // official card-header-actions row.
+          var act = brCard.querySelector('.card-header-actions');
+          if (act) {
+            var more = document.createElement('button');
+            more.type = 'button';
+            more.className = 'cl-cp-more';
+            more.setAttribute('aria-label', '⋯');
+            more.setAttribute('aria-haspopup', 'menu');
+            more.setAttribute('aria-expanded', 'false');
+            more.textContent = '⋯';
+            act.appendChild(more);
+            more.addEventListener('click', function (e) {
+              e.stopPropagation();
+              var m = ensureMenu();
+              var wasOpen = m.classList.contains('open') && state.menuPlace && state.menuPlace.id === p.id;
+              closeMenu();
+              if (!wasOpen) openMenuFor(p, more);
+            });
+          }
+          return brCard;
+        }
+      }
+    }
     var card = document.createElement('div');
     card.className = 'card cl-cp-card';
     card.setAttribute('data-cp-id', p.id);
+    card.setAttribute('data-cp-special', '1');
     card.tabIndex = 0;
     updatePrivateCard(p, card);
     return card;
@@ -658,6 +883,14 @@
   function updatePrivateCard(p, card) {
     card = card || document.querySelector('#spots-container .cl-cp-card[data-cp-id="' + CSS.escape(p.id) + '"]');
     if (!card) return;
+    // patch-6: bridge cards cannot innerHTML-rewrite (they are official-anatomy
+    // DOM) — replace the node when the data signature changes.
+    if (bridgeActive() && !isSpecialCard(p)) {
+      if (card._cpSig === JSON.stringify(p)) return;
+      var fresh = buildPrivateCard(p);
+      if (fresh && card.parentNode) card.parentNode.replaceChild(fresh, card);
+      return;
+    }
     var sig = JSON.stringify(p);
     if (card._cpSig === sig) return; // identical data → no innerHTML rewrite (the
     card._cpSig = sig;               // container MutationObserver watches these cards)
@@ -665,11 +898,6 @@
     var expired = p.status === 'trial_expired';
     card.classList.toggle('cl-cp-expired', expired);
     var lang = currentLang();
-    // patch-8 (owner ruling): the temporary 「✓ 條件窗」chip is REPLACED by
-    // per-subject tier badges from the SAME source — one row per theme group,
-    // the official subject-row anatomy (badge + name + window/reason). The
-    // place-level chip survives only where no subject rows exist (pending /
-    // trial-expired states).
     var headBadge = (expired || ev.tier === 'pending') ? tierBadge(p) : '';
     var head =
       '<div class="spot-title-group">' +
@@ -678,42 +906,23 @@
           headBadge +
           '<span class="cl-cp-priv-badge">◉ ' + esc(expired ? t().trial_expired : t().priv_badge) + '</span>' +
         '</div>' +
-        '<div class="cl-cp-coord">' + esc(cpMetaLine(p)) + '</div>' +
       '</div>' +
       // patch-3: the menu markup moved OUT of the card — one shared menu is
       // portaled to document.body (ensureMenu) and position:fixed under the
       // ⋯ trigger, so the card's content-visibility/paint containment and the
       // container overflow can never clip the dropdown again.
       '<button type="button" class="cl-cp-more" aria-label="⋯" aria-haspopup="menu" aria-expanded="false">⋯</button>';
-    var groups = Array.isArray(p.themeGroups) ? p.themeGroups : [];
-    var rows = [];
-    if (!expired && !(ev.tier === 'pending' && p.fetchDeferred)) {
-      groups.forEach(function (g) {
-        var ge = g.evaluation || {};
-        if (ge.tier === 'rec') rows.push(cpCardRow('rec', themeDisplayName(g), ge.window));
-        else if (ge.tier === 'shoot') rows.push(cpCardRow('shoot', themeDisplayName(g), ge.window, t().th_row_shoot));
-        else if (ge.tier === 'no') rows.push(cpCardRow('no', themeDisplayName(g), null, ge.reason || ''));
-        else rows.push(cpCardRow('shoot', themeDisplayName(g), null, t().tier_pending));
-      });
-      // patch-9 (owner ruling): the 「一般基準」 row was dual-truth residue —
-      // a general-baseline row rendered BESIDE the per-subject rows reads as a
-      // second verdict source. Removed: the per-subject rows are the single
-      // truth; the general baseline survives only where NO subject rows exist
-      // (no groups → the single 可拍 row below, one verdict one surface).
-      if (!groups.length) {
-        if (ev.tier === 'rec') rows.push(cpCardRow('rec', t().qv_subject_custom, ev.window));
-        else if (ev.tier === 'shoot') rows.push(cpCardRow('shoot', t().qv_general, ev.window, t().th_row_shoot));
-        else rows.push('<div style="font-size:13px;color:var(--cl-red-text)">' + esc(t().tier_no) + ' <span style="font-weight:600">' + esc(ev.reason || '') + '</span></div>');
-      }
-    }
+    // patch-6: the homegrown per-group row builder (cpCardRow, the compact
+    // ✗+短因 mini anatomy) is RETIRED — verdicts render ONLY through the
+    // official renderer. This legacy path now serves the special states and
+    // the cache-skew fallback (old app.js without the bridge) with the honest
+    // pending note.
     var body;
     if (expired) {
       body = '<div class="cl-cp-expired-note">🔒 ' + esc(t().trial_note) + '</div>' +
         '<button type="button" class="cl-cp-expired-cta" data-cp-act="upgrade">⬆ ' + esc(t().trial_cta) + '</button>';
     } else if (ev.tier === 'pending' && p.fetchDeferred) {
       body = '<div class="cl-cp-deferred-note">⏳ ' + esc(t().deferred_note) + '</div>';
-    } else if (rows.length) {
-      body = rows.join('');
     } else {
       body = '<div class="cl-cp-deferred-note">⏳ ' + esc(t().tier_pending) + '</div>';
     }
@@ -2237,6 +2446,10 @@
 
   window.ChaseLightsCustomPlaces = {
     refresh: refresh,
+    // patch-6: the {spot, metric, cpOpts} rows app.js's filterAndRender
+    // merges into rowsAll — one filter pipeline (tier tabs/chip counts/
+    // filters) for official AND private places.
+    cardRows: cardRows,
     state: function () {
       // patch-4: the GL map/marker are DOM objects — copy only data fields
       var s = {};
