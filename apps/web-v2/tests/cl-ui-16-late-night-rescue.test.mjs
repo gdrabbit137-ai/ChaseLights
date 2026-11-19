@@ -29,7 +29,7 @@ test('CL-UI-16 (a): sparse featured mode — flat hours-desc list under the thre
   assert.match(filterAndRenderBlock,
     /if\(sparseFeatured\)\{[^}]*buildLateNightBanner\(d\(\)\.late_night_banner_sparse\)[\s\S]*?\}\s*else if\(lateNightTomorrowRows\)\{/);
   assert.match(filterAndRenderBlock,
-    /\[\.\.\.viableRows\]\.sort\(lateNightHoursCompare\)\.forEach\(\(\{spot,metric\}\)=>container\.appendChild\(createSpotCard\(spot,metric\)\)\);/);
+    /\[\.\.\.viableRows\]\.sort\(lateNightHoursCompare\)\.forEach\(row=>container\.appendChild\(createSpotCard\(row\.spot,row\.metric,row\.cpOpts\)\)\);/);
   // The comparator is hours desc (qualifying hours high→low) with a
   // geographic tiebreak — a pure, test-executable function.
   assert.match(compareBlock,/const av=v2HoursSortValue\(a\.spot\),bv=v2HoursSortValue\(b\.spot\);/);

@@ -1605,15 +1605,24 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     function clTierRowLine(name,stamp,spotId,oppId){
       return `<div class="cl-subject-rows"><div class="cl-subject-row"><span class="cl-subject-name">${esc(name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window">${esc(stamp||'')}</span><button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="${esc(spotId)}"${oppId?` data-rem-opp="${esc(oppId)}"`:''}></button></div></div>`;
     }
-    function createSpotCard(spot,metric){
+    function createSpotCard(spot,metric,opts){
+      // CL-APP-09 patch-6: private points render through THIS renderer too —
+      // opts.private swaps only the interaction targets (private forecast
+      // popup) and adds the ◉私人 badge; the anatomy (tier badge, subject
+      // rows, pills, tool buttons) is the official one by construction.
+      const cp=!!(opts&&opts.private);
+      const cpOpenCard=(opts&&opts.openCard)||openWeatherModal;
+      const cpOpenPlace=(opts&&opts.openPlace)||openPlaceModal;
       // CL-UI-69: the per-subject row bell and the fold button are real
       // buttons inside the card — a click on them must not open the place
       // modal (same guard the keyboard handler already applies).
-      const card=document.createElement('div');card.className='card';card.tabIndex=0;card.setAttribute('role','button');card.onclick=e=>{if(e.target.closest&&e.target.closest('a,button,input,select,summary'))return;openWeatherModal(spot,metric);};card.onkeydown=e=>{if(e.target.closest('a,button,input,select,summary'))return;if(e.key==='Enter'||e.key===' '){e.preventDefault();openWeatherModal(spot,metric);}};
+      const card=document.createElement('div');card.className='card';card.tabIndex=0;card.setAttribute('role','button');card.onclick=e=>{if(e.target.closest&&e.target.closest('a,button,input,select,summary'))return;cpOpenCard(spot,metric);};card.onkeydown=e=>{if(e.target.closest('a,button,input,select,summary'))return;if(e.key==='Enter'||e.key===' '){e.preventDefault();cpOpenCard(spot,metric);}};
       // CL-UI-100: tag the card with its place id so assets/feedback-ui.js can
       // mount the rating chip without its own bundle walk (chip itself renders
-      // from the live /api/v1/feedback aggregate, gray-gated).
-      card.dataset.placeId=spot.spot_id||'';
+      // from the live /api/v1/feedback aggregate, gray-gated). Private points
+      // are outside the rating catalog — no placeId, no rating chip mount.
+      card.dataset.placeId=cp?'':(spot.spot_id||'');
+      if(cp){card.classList.add('cl-cp-card');card.setAttribute('data-cp-id',spot.spot_id);}
       const noViable=!!metric.no_viable_opportunity;const researchPending=!!metric.research_pending||!spot.opportunities?.length;
       const fav=favorites.includes(spot.spot_id);const scenes=spot.scenes||[];const visibleScenes=scenes.slice(0,4);// CL-UI-77: env-type line is plain non-interactive text (城市 · 山岳) —
       // visibly layered under the interactive subject chips (夜景: 時段 🔔);
@@ -1675,7 +1684,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // shootable or the layer is unavailable), the ✗不宜·短因 row when the
       // tier is not_recommended. The retired 「本日最佳題材」 line is gone:
       // every card in a list shows one format.
-      const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;const key=canon(tris);if(!seen.has(key))seen.set(key,{name:tris[currentLang]||tris['zh-TW']||'',window:[]});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
+      const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;const key=canon(tris);if(!seen.has(key))seen.set(key,{name:tris[currentLang]||tris['zh-TW']||'',window:[],cc:s.cc||null});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
       const clSubjectRowHtml=(entry,hidden)=>clSubjectRowLine(entry,spot.spot_id,hidden);
       // CL-UI-91 (owner): tier rows ride the SAME cl-subject-row anatomy —
       // tier + short note in the name slot, the next qualifying window stamp
@@ -1762,12 +1771,16 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // page header already carries the unified GMT clock, so the row only
       // repeated on every card. If a multi-timezone card list is ever needed,
       // restore a tzAbbrLabel()-based label here (see fmtWindow()).
-      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div><div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div></div><div class="card-header-actions"><span class="tier tier-${clBadgeTier}">${esc(clBadgeLabel)}</span><button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button></div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${clSummaryHtml||clFallbackRows||clNoWinRow||v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${clElevPill}${clSunPill}${compactMetrics}${distanceChip}</span></div>${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().v2_subject_link)}>${toolButtonInner(d().v2_subject_link)}</a>${navTool}<a href="${weatherMapDeepLinkUrl(spot)}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a>${liveCamBtnHtml(spot)}</div></div>`;
-      card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';card.querySelector('[data-fav]').onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();openPlaceModal(spot,metric);};
+      card.innerHTML=`<div><div class="card-header"><div class="spot-title-group"><span class="spot-name"></span><div class="spot-local-name"></div>${cp?'':`<div style="margin-top:4px"><span class="category-tag">${esc(spotAdminAreas(spot).map(adminAreaLabel).join(" · ")||categoryLabel(spot.category))}</span></div>`}</div></div><div class="card-header-actions">${cp?((opts&&opts.badgeHtml)||''):''}<span class="tier tier-${clBadgeTier}">${esc(clBadgeLabel)}</span>${cp?'':`<button class="fav-btn ${fav?'active':''}" data-fav aria-label="${esc(d().favorite_label)}">★</button>`}</div></div><div class="tags-wrapper">${scenePills}${sceneMore}</div><div class="shooting-summary">${clSummaryHtml||clFallbackRows||clNoWinRow||v2Summary||`<div class="theme-winner">📷 ${esc(opportunityName)}</div>`}</div>${reasonHtml?`<div class="recommendation-reasons">${reasonHtml}</div>`:''}<div class="card-secondary-meta"><div class="card-quick-meta"><span class="card-metric-chips">${clElevPill}${clSunPill}${compactMetrics}${distanceChip}</span></div>${astro?`<div class="info-row card-meta-row card-meta-astro">${astro}</div>`:''}${darkSky?`<div class="info-row card-meta-row card-meta-dark">${darkSky}</div>`:''}${access?`<div class="info-row access-note card-meta-row card-meta-access" title="${esc(access)}">⏰ ${esc(access)}</div>`:''}</div></div><div class="card-footer-tools" data-tools><div></div><div><a href="#" class="tool-link" data-weather${toolButtonAttrs(d().v2_subject_link)}>${toolButtonInner(d().v2_subject_link)}</a>${navTool}<a href="${weatherMapDeepLinkUrl(spot)}" target="_blank" rel="noopener noreferrer" class="tool-link"${toolButtonAttrs(d().radar_link)}>${toolButtonInner(d().radar_link)}</a>${liveCamBtnHtml(spot)}</div></div>`;
+      card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';const favBtnEl=card.querySelector('[data-fav]');if(favBtnEl)favBtnEl.onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();cpOpenPlace(spot,metric);};
       const clLiveBtn=card.querySelector('[data-live-btn]');
       if(clLiveBtn)clLiveBtn.onclick=e=>{e.preventDefault();e.stopPropagation();openLiveModal(spot);};
       const scMoreBtn=card.querySelector('[data-sc-more]');
       if(scMoreBtn){scMoreBtn.onclick=e=>{e.stopPropagation();const extras=card.querySelectorAll('.cl-subject-extra');const open=scMoreBtn.getAttribute('aria-expanded')==='true';extras.forEach(el=>{el.hidden=open;});scMoreBtn.setAttribute('aria-expanded',open?'false':'true');scMoreBtn.textContent=open?d().clui69_more_subjects.replace('{n}',clSubjectExtra.length):d().clui69_less;};}
+      // CL-APP-09 patch-6: private cards attach their private-only extras (the
+      // ⋯ menu trigger) AFTER the official anatomy mounts — the official
+      // renderer owns the anatomy, the opts hook owns only the additions.
+      if(cp&&opts&&typeof opts.postMount==='function'){try{opts.postMount(card);}catch(e){/* fail-closed: card renders without the private extras */}}
       return card;
     }
 
@@ -1815,7 +1828,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     function appendSpotRows(target,rows,mode){
       const sortMode=mode||currentSortMode;
       if(sortMode!=='region'){
-        rows.forEach(({spot,metric})=>target.appendChild(createSpotCard(spot,metric)));
+        rows.forEach(row=>target.appendChild(createSpotCard(row.spot,row.metric,row.cpOpts)));
         return;
       }
       const grouped=new Map(),ungrouped=[];
@@ -1832,10 +1845,10 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         const heading=document.createElement('div');heading.className='spot-region-heading';
         heading.innerHTML=`<span>${esc(adminAreaGroupLabel(group.key))}</span><span class="spot-region-count">${esc(d().region_group_count.replace('{n}',groupRows.length))}</span>`;
         const grid=document.createElement('div');grid.className='spot-region-grid';
-        groupRows.forEach(({spot,metric})=>grid.appendChild(createSpotCard(spot,metric)));
+        groupRows.forEach(row=>grid.appendChild(createSpotCard(row.spot,row.metric,row.cpOpts)));
         section.append(heading,grid);target.appendChild(section);
       });
-      ungrouped.forEach(({spot,metric})=>target.appendChild(createSpotCard(spot,metric)));
+      ungrouped.forEach(row=>target.appendChild(createSpotCard(row.spot,row.metric,row.cpOpts)));
     }
 
     // CL-UI-60: the no-eval group summary names the spots missing evaluation
@@ -2013,6 +2026,19 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         });
       }
       const rowsAll=[];for(const spot of filtered){const metric=getMetric(spot);if(metric)rowsAll.push({spot,metric,distance:null});}
+      // CL-APP-09 patch-6: private points ride the SAME row pipeline — one
+      // truth for the tier tabs' chip counts, the tier/subject filters and the
+      // card verdicts (cardRows() lazily registers the private synthetic
+      // rows/places from the CURRENT state.data, so counts and cards can never
+      // be computed from different data versions). View tabs compose:
+      // 官方 = officials only, 私人 = private only, 全部 = both.
+      const cpView=document.body.getAttribute('data-cp-view')||'all';
+      let cpRows=(window.ChaseLightsCustomPlaces&&window.ChaseLightsCustomPlaces.cardRows)?window.ChaseLightsCustomPlaces.cardRows():[];
+      if(currentSearch)cpRows=cpRows.filter(r=>String(r.spot&&r.spot.name_local||'').toLocaleLowerCase().includes(currentSearch));
+      if(currentAdminAreas.size)cpRows=[];
+      if(cpView==='official')cpRows=[];
+      if(cpView==='private')rowsAll.length=0;
+      rowsAll.push(...cpRows);
       // CL-UI-84: bundle fetch failed (429/offline) after the cached bar is
       // painted — keep the cached tab/chip/day counts and label them
       // honestly; never collapse the bar into zero counts.
@@ -2091,14 +2117,14 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       }
       if(sparseFeatured){
         container.appendChild(buildLateNightBanner(d().late_night_banner_sparse));
-        [...viableRows].sort(lateNightHoursCompare).forEach(({spot,metric})=>container.appendChild(createSpotCard(spot,metric)));
+        [...viableRows].sort(lateNightHoursCompare).forEach(row=>container.appendChild(createSpotCard(row.spot,row.metric,row.cpOpts)));
       }else if(lateNightTomorrowRows){
         container.appendChild(buildLateNightBanner(d().late_night_banner,true));
         dayOffsetOverride=1;
         try{
           lateNightTomorrowRows.forEach(row=>{row.metric=getMetric(row.spot);});
           lateNightTomorrowRows.forEach(({spot,metric})=>{
-            const card=createSpotCard(spot,metric);
+            const card=createSpotCard(spot,metric,row.cpOpts);
             card.querySelector('.spot-title-group').insertAdjacentHTML('afterbegin',`<span class="tomorrow-badge">${esc(d().tomorrow_badge)}</span>`);
             container.appendChild(card);
           });
@@ -2878,6 +2904,13 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     // name is pinned by the CL-UI-62 data-layer tests; a regen updates both.
     const V2_SUBJECT_CARDS_FILE='subject-cards-20261112T202312Z.json';
     let v2SubjectCards=null, v2SubjectCardsPromise=null;
+    // CL-APP-09 patch-6: synthetic v2 bundle places for PRIVATE points —
+    // registered from the worker's stored custom-set evaluations so the SAME
+    // single-truth pipeline (v2PlaceForSpot → v2BestForSpot → v2SubjectCardRow
+    // → clui66SpotTier) decides the private card's verdict, the tier-tab
+    // counts and the tier/subject filters. Official catalog ids never collide
+    // (private ids are opaque worker ids).
+    let v2SyntheticPlaces={};
     function ensureSubjectCards(){
       if(!v2SubjectCardsPromise){
         v2SubjectCardsPromise=fetch('./data/v2/evaluations/'+V2_SUBJECT_CARDS_FILE,{cache:'no-cache'})
@@ -3190,7 +3223,9 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     // CL-UI-12: shared verdict helpers — the grouping key and the card read the
     // same V2 day-state through the same functions.
     function v2PlaceForSpot(spot){
-      return (v2EvalBundle&&(v2EvalBundle.places||[]).find(p=>p.place_id===spot.spot_id))||null;
+      const inBundle=v2EvalBundle&&(v2EvalBundle.places||[]).find(p=>p.place_id===spot.spot_id);
+      if(inBundle)return inBundle;
+      return (v2SyntheticPlaces&&v2SyntheticPlaces[spot.spot_id])||null;
     }
     function v2SpotDayVerdict(spot){
       const place=v2PlaceForSpot(spot);
@@ -3750,7 +3785,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // catalog ids never collide (private ids are opaque worker ids), and
       // custom subject short names register into the runtime genre dictionary
       // so the shared band/row lookup resolves them like any curated subject.
-      registerSyntheticRows:function(placeId,tree,genreNames){
+      registerSyntheticRows:function(placeId,tree,genreNames,days){
         try{
           if(!v2SubjectCards)v2SubjectCards={places:{},dictionaries:{genre_short_names:{},fail_reason_short:{}}};
           if(!v2SubjectCards.places)v2SubjectCards.places={};
@@ -3759,10 +3794,24 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
             const dicts=v2SubjectCards.dictionaries=v2SubjectCards.dictionaries||{};
             dicts.genre_short_names=Object.assign({},dicts.genre_short_names||{},genreNames);
           }
+          // CL-APP-09 patch-6: the private card pipeline also needs a synthetic
+          // BUNDLE place (v2PlaceForSpot → v2BestForSpot reads day rows). days
+          // carry the official day shape ({local_date,state,good_hours,
+          // hour_counts}); without them the place deregisters (fail-closed).
+          if(Array.isArray(days)&&days.length){
+            v2SyntheticPlaces[placeId]={place_id:placeId,opportunities:[{opportunity_id:'cp:'+placeId,genre_template:'custom',days:days}]};
+          }else if(v2SyntheticPlaces[placeId])delete v2SyntheticPlaces[placeId];
         }catch(e){/* fail-closed: without rows the popup renders honest none */}
       },
+      // CL-APP-09 patch-6: private CARDS render through the official card
+      // renderer — one anatomy for official and private cards on every list.
+      createCard:function(spot,metric,opts){return createSpotCard(spot,metric,opts);},
     };
     function initializeApp(){cleanupOldCaches();applyStaticI18n();renderSubNav();syncDayButtons();updateNavRegionLinks();
+      // CL-APP-09 patch-6: private data/view changes re-run the SAME filter
+      // pass — tier-tab counts, tier filters and private cards re-derive from
+      // one data version (custom-places.js dispatches after every refresh).
+      document.addEventListener('chaselights:cp-data',function(){if(currentData)filterAndRender();});
       // CL-UI-46: picker wiring — trigger toggles, overlay/Esc/outside-click
       // close, arrow keys walk the option list. Replaces the CL-UI-45 strip
       // scroll/resize listeners.

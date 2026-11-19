@@ -18,8 +18,10 @@ const subjectList = read("assets/subject-sets-list.js");
 // ---------------------------------------------------------------- registration
 test("patch-2: cache-bust stamps bumped for every touched asset (per-file rule)", () => {
   // CL-APP-09-p3 lands on top: the popup-anatomy commit re-stamps BOTH
-  // custom-places assets to clapp09e (monotonic per-file rule; patch-4)
-  assert.match(html, /assets\/custom-places\.js\?v=clapp09e/);
+  // custom-places assets to clapp09e (monotonic per-file rule; patch-4);
+  // patch-5 re-stamps the JS only (clapp09f); patch-6 -> clapp09g
+  assert.match(html, /assets\/custom-places\.js\?v=clapp09g/);
+  assert.doesNotMatch(html, /assets\/custom-places\.js\?v=clapp09e/);
   assert.match(html, /assets\/subject-sets\.js\?v=clapp09d/);
   assert.doesNotMatch(html, /assets\/custom-places\.js\?v=clapp08b/);
   assert.doesNotMatch(html, /assets\/subject-sets\.js\?v=clapp09c/);
@@ -150,4 +152,46 @@ test("winSegSummary (extracted): anchor labels compress to 「日出前−30分�
   assert.equal(fn({ type: "fixed", start: "04:30", end: "07:00" }, "zh-TW"), "04:30–07:00");
   assert.equal(fn({ type: "before_sunrise", offset_minutes: -30 }, "zh-TW"), "日出前−30分");
   assert.equal(fn({ type: "after_sunset" }, "zh-TW"), "日落後");
+});
+
+// ============================================ CL-APP-09 patch-5 (semantic guard)
+test("patch-5 ⑤: the 雲量 dropdown carries 越多越好 (低雲 ≥70% → cloud_low_min) in three languages", () => {
+  const cpCloud = customPlaces.slice(customPlaces.indexOf("cloud: {"), customPlaces.indexOf("fog: {"));
+  assert.match(cpCloud, /\['more', '越多越好', '低雲 ≥70%'\]/, "zh-TW");
+  assert.match(cpCloud, /\['more', 'The more the better', 'low cloud ≥70%'\]/, "en");
+  assert.match(cpCloud, /\['more', '多いほうが良い', '低雲 ≥70%'\]/, "ja");
+  assert.match(cpCloud, /values: \{ min: 20, half: 50, any: 100, more: 70 \}/);
+  // the floor direction rides the dedicated _min input (never the _max input)
+  assert.match(customPlaces, /cl-cp-cc-lowmin:cloud_low_min/, "readCc picks up the floor input");
+  assert.match(customPlaces, /cl-cp-cc-lowmin/, "the advanced floor input exists");
+  assert.match(customPlaces, /p_lowmin/);
+  assert.match(customPlaces, /if \(axis === 'cloud' && lowmin\)/, "the 'more' route is explicit in sync()");
+  assert.match(customPlaces, /cloud_low_min/, "the mirrors recognize the floor key");
+  // the same direction exists in the worker schema + judging engine
+  const notifySrc = read("workers/api/src/notify.js");
+  assert.match(notifySrc, /cloud_low_min: \[0, 100\]/);
+  assert.match(notifySrc, /\["cloud_low_min", "cloud_low", "gte"\]/);
+  assert.match(notifySrc, /\["cloud_mid_min", "cloud_mid", "gte"\]/);
+  assert.match(notifySrc, /\["cloud_high_min", "cloud_high", "gte"\]/);
+  // the cloud_sea starter points the CORRECT direction (owner: 雲海需低雲厚)
+  assert.match(customPlaces, /cloud_sea: \{ cloud: 'more'/, "the starter no longer encodes 低雲≤20%");
+  assert.match(customPlaces, /s\.cloud === 'more'\s*\n?\s*\? \{ cloud_low_min/, "starter matching maps 'more' to the floor");
+});
+
+test("patch-5 ⑤: span_minutes — the ±30-min golden short window rides the whole chain", () => {
+  const workerCp = read("workers/api/src/custom-places.js");
+  // the guarded parse prompt teaches the golden shape + the cloud-sea guard
+  assert.match(workerCp, /GOLDEN-LIGHT RULE/);
+  assert.match(workerCp, /CLOUD-SEA GUARD/);
+  assert.match(workerCp, /span_minutes/);
+  // the segment editor carries the span input; readCc + the AI fill pass it through
+  assert.match(customPlaces, /idp \+ '-span'/, "the span input renders per anchor segment");
+  assert.match(customPlaces, /s\.span_minutes = span/, "readCc emits span_minutes");
+  assert.match(customPlaces, /st\.span_minutes = seg\.span_minutes/, "the AI parse fill keeps the span");
+  assert.match(customPlaces, /win_span/);
+  // the engine expands the span with real sun times (worker side)
+  const notifySrc = read("workers/api/src/notify.js");
+  assert.match(notifySrc, /span_minutes must be an integer 1\.\.720/, "span bounds are validated fail-closed");
+  assert.match(notifySrc, /anchorMin \+ off - seg\.span_minutes/, "before_* spans BACK from the anchor bound");
+  assert.match(notifySrc, /anchorMin \+ off \+ seg\.span_minutes/, "after_* spans FORWARD from the anchor bound");
 });

@@ -10,7 +10,11 @@ import worker from "../src/index.js";
 import {
   validateCustomConditions, parseCustomConditions, hourInWindow,
   customHourMatches, findNextCustomWindow, runNotifyCron, buildCustomMessage,
+  resolveSegmentBounds,
 } from "../src/notify.js";
+import { sunTimesForDate } from "../src/solar.js";
+
+const toHM = (x) => `${String(Math.floor(x / 60)).padStart(2, "0")}:${String(x % 60).padStart(2, "0")}`;
 import { signJWT } from "../src/auth.js";
 
 const HOUR = 3_600_000;
@@ -75,6 +79,54 @@ test("customHourMatches: per-parameter boundaries + lenient defaults + honest mi
   // unset params never constrain
   assert.equal(customHourMatches({}, {}), true);
   assert.equal(customHourMatches({}, null), false);
+});
+
+// CL-APP-09 patch-5 ⑤: the 越多越好 floor direction — cloud_low/mid/high_min.
+test("patch-5 ⑤: cloud _min schema + engine (the floor direction)", () => {
+  assert.equal(validateCustomConditions({ cloud_low_min: 70 }).ok, true);
+  assert.equal(validateCustomConditions({ cloud_mid_min: 30, cloud_high_min: 10 }).ok, true);
+  assert.equal(validateCustomConditions({ cloud_low_min: -1 }).ok, false);
+  assert.equal(validateCustomConditions({ cloud_low_min: 101 }).ok, false);
+  // matches: cloud_low at/above the floor passes (inclusive), below fails
+  assert.equal(customHourMatches({ cloud_low: 85 }, { cloud_low_min: 70 }), true);
+  assert.equal(customHourMatches({ cloud_low: 70 }, { cloud_low_min: 70 }), true);
+  assert.equal(customHourMatches({ cloud_low: 69.9 }, { cloud_low_min: 70 }), false);
+  assert.equal(customHourMatches({ cloud_mid: 30, cloud_high: 10 }, { cloud_mid_min: 30, cloud_high_min: 10 }), true);
+  assert.equal(customHourMatches({ cloud_mid: 29.9 }, { cloud_mid_min: 30 }), false);
+  // the two directions compose (a floor + a ceiling on different layers)
+  assert.equal(customHourMatches({ cloud_low: 90, cloud_high: 20 }, { cloud_low_min: 70, cloud_high_max: 50 }), true);
+  // lenient default: a floor ≤0 never constrains even when data is missing
+  assert.equal(customHourMatches({}, { cloud_low_min: 0 }), true);
+  // a set floor with MISSING data fails the hour honestly
+  assert.equal(customHourMatches({}, { cloud_low_min: 70 }), false);
+});
+
+// CL-APP-09 patch-5 ⑤: span_minutes — the ±30-min golden-hour short window.
+test("patch-5 ⑤: anchor span_minutes validation + expansion (golden ±30min shape)", async () => {
+  // the golden shapes the guarded parse emits validate
+  assert.equal(validateCustomConditions({ windows: [{ type: "before_sunset", offset_minutes: 30, span_minutes: 60 }] }).ok, true);
+  assert.equal(validateCustomConditions({ windows: [{ type: "after_sunrise", offset_minutes: -30, span_minutes: 60 }] }).ok, true);
+  // fail-closed: span out of range / combined with the narrowing bound / on fixed
+  assert.equal(validateCustomConditions({ windows: [{ type: "before_sunset", span_minutes: 0 }] }).ok, false);
+  assert.equal(validateCustomConditions({ windows: [{ type: "before_sunset", span_minutes: 721 }] }).ok, false);
+  assert.equal(validateCustomConditions({ windows: [{ type: "before_sunset", offset_minutes: 30, span_minutes: 60, start: "16:00" }] }).ok, false);
+  assert.equal(validateCustomConditions({ windows: [{ type: "after_sunrise", offset_minutes: -30, span_minutes: 60, end: "06:30" }] }).ok, false);
+  assert.equal(validateCustomConditions({ windows: [{ type: "fixed", start: "04:00", end: "06:00", span_minutes: 60 }] }).ok, false);
+  // expansion: an evening golden segment resolves to sunset−30 … sunset+30
+  // (the anchor bound keeps offset semantics: end = anchor+30, span back 60)
+  const cc = validateCustomConditions({ windows: [{ type: "before_sunset", offset_minutes: 30, span_minutes: 60 }] }).cc;
+  const b = resolveSegmentBounds(cc.windows[0], "2026-11-10", { lat: 25.03, lng: 121.56, utcOffsetHours: 8 });
+  const sun = sunTimesForDate("2026-11-10", 25.03, 121.56, 8);
+  assert.equal(b.start, toHM(sun.sunsetMin - 30), "span BACK from the anchor end bound = sunset−30");
+  assert.equal(b.end, toHM(sun.sunsetMin + 30), "the anchor end bound = sunset+30");
+  const cc2 = validateCustomConditions({ windows: [{ type: "after_sunrise", offset_minutes: -30, span_minutes: 60 }] }).cc;
+  const b2 = resolveSegmentBounds(cc2.windows[0], "2026-11-10", { lat: 25.03, lng: 121.56, utcOffsetHours: 8 });
+  assert.equal(b2.start, toHM(sun.sunriseMin - 30), "morning golden starts sunrise−30");
+  assert.equal(b2.end, toHM(sun.sunriseMin + 30), "morning golden ends sunrise+30");
+  // legacy behavior unchanged without a span
+  const cc3 = validateCustomConditions({ windows: [{ type: "before_sunset", offset_minutes: 0 }] }).cc;
+  const b3 = resolveSegmentBounds(cc3.windows[0], "2026-11-10", { lat: 25.03, lng: 121.56, utcOffsetHours: 8 });
+  assert.equal(b3.start, "00:00", "no span = the legacy full-span start");
 });
 
 test("findNextCustomWindow: earliest inside 24h honoring lead minutes + window", () => {

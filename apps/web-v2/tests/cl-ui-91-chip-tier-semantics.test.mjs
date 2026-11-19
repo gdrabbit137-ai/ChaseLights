@@ -218,7 +218,7 @@ test('CL-UI-91 (8): the empty state keys off the actual result count only', () =
 });
 
 test('CL-UI-91 (9): cache-bust stamp — app.js + app.css advanced to clui102', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui113/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui114/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stamps; app.js alone advanced to clui113 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stamps; app.js alone advanced to clui114 (CL-UI-110)');
 });

@@ -29,7 +29,7 @@ test('CL-UI-12 (a): grouping key shares the card verdict source (V2 day-state)',
   assert.match(filterAndRenderBlock,/v2SpotDayVerdict\(row\.spot\)/);
   // Same verdict helpers the card consumes: v2PlaceForSpot + v2BestForSpot.
   assert.match(v2VerdictBlock,/function v2SpotDayVerdict\(spot\)\{\s*const place=v2PlaceForSpot\(spot\);\s*if\(!place\)return 'noeval';\s*const best=v2BestForSpot\(place,spot\.timezone\);\s*if\(!best\)return 'noeval';\s*return best\.hours>0\?'viable':'deferred';\s*\}/);
-  assert.match(v2VerdictBlock,/function v2PlaceForSpot\(spot\)\{\s*return \(v2EvalBundle&&\(v2EvalBundle\.places\|\|\[\]\)\.find\(p=>p\.place_id===spot\.spot_id\)\)\|\|null;\s*\}/);
+  assert.match(v2VerdictBlock,/function v2PlaceForSpot\(spot\)\{\s*const inBundle=v2EvalBundle&&\(v2EvalBundle\.places\|\|\[\]\)\.find\(p=>p\.place_id===spot\.spot_id\);\s*if\(inBundle\)return inBundle;\s*return \(v2SyntheticPlaces&&v2SyntheticPlaces\[spot\.spot_id\]\)\|\|null;\s*\}/);
   // Three explicit buckets; the deferred group keeps its own sorting via
   // appendSpotRows and never receives a viable card.
   assert.match(filterAndRenderBlock,/const viableRows=\[\],deferredRows=\[\],noEvalRows=\[\];/);

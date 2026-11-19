@@ -156,5 +156,5 @@ test('CL-UI-89 (7): 詳細氣象 strip never truncates — content-sized flex ce
 });
 
 test('CL-UI-89 (8): cache-bust stamp advanced to clui102', () => {
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stay at clui102; app.js advanced to clui113 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stay at clui102; app.js advanced to clui114 (CL-UI-110)');
 });

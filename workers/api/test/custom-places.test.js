@@ -1092,6 +1092,81 @@ test("conditions/parse: trilingual inputs → strict schema suggestions; violati
   } finally { restore2(); }
 });
 
+// CL-APP-09 patch-5: AI-parse SEMANTIC GUARD (owner field-tested 「金色雲海」:
+// the old prompt let the model answer 低雲≤20% + 日出前/日落後 whole-period two
+// windows — the cloud direction was INVERTED (a cloud sea needs the low deck
+// THICK) and the windows were far too wide). The guard lives in the prompt;
+// these three mock-LLM cases assert the shapes the guarded prompt must
+// produce, and that the handler propagates them honestly.
+const CLOUD_SEA_ADVICE_ZH = "自訂條件引擎無法表達雲海（雲海需低雲層厚且低於拍攝點），請改掛官方『雲海』題材";
+test("conditions/parse patch-5: semantic guard — 金色雲海/雲海 → honest official-genre advice (NO inverted cloud), 霞光 → ONE ±30min sun-anchored span", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "u12", "paid");
+  const t = await mint(env, "u12");
+  env.LLM_API_KEY = "TEST-KEY";
+  // the prompt itself must TEACH the guard (the enforcement layer for a live LLM)
+  {
+    llmCalls = [];
+    const restore = await stubFetch(llmResponse(GOOD_SUGGESTION));
+    try {
+      await worker.fetch(makeReq("/conditions/parse", { method: "POST", headers: hdr(t), body: JSON.stringify({ text: "x" }) }), env, {});
+      const prompt = JSON.parse(llmCalls[0].init.body).messages.find((m) => m.role === "system").content;
+      assert.match(prompt, /CLOUD-SEA GUARD/, "the prompt carries the cloud-sea guard");
+      assert.match(prompt, /雲海/, "the guard names the cloud-sea phrase class");
+      assert.match(prompt, /GOLDEN-LIGHT RULE/, "the prompt carries the golden-light rule");
+      assert.match(prompt, /span_minutes/, "the prompt teaches the short-window span");
+    } finally { restore(); }
+  }
+  // ① 金色雲海: cloud stays 'any' (never 低雲≤20%), NO windows, honest advice in conflict
+  {
+    llmCalls = [];
+    const restore = await stubFetch(llmResponse({ cloud: "any", fog: "any", rain: "no", wind_max_ms: null, windows: [], lead_minutes: null, conflict: CLOUD_SEA_ADVICE_ZH, confidence: 0.6 }));
+    try {
+      const res = await worker.fetch(makeReq("/conditions/parse", { method: "POST", headers: hdr(t), body: JSON.stringify({ text: "金色雲海" }) }), env, {});
+      assert.equal(res.status, 200);
+      const s = (await res.json()).suggestions;
+      assert.equal(s.cloud, "any", "the cloud direction is NEVER inverted into a maximum");
+      assert.notEqual(s.cloud, "min");
+      assert.equal(s.windows, undefined, "no windows ride along with the advice");
+      assert.match(s.conflict, /雲海/, "the honest advice names the official genre");
+      assert.match(s.conflict, /官方/);
+    } finally { restore(); }
+  }
+  // ② 霞光: ONE sun-anchored segment, ±30 min of the anchor — never two spans
+  {
+    llmCalls = [];
+    const GOLDEN = { cloud: "half", fog: "thin", rain: "no", windows: [{ type: "before_sunset", offset_minutes: 30, span_minutes: 60 }], confidence: 0.8 };
+    const restore = await stubFetch(llmResponse(GOLDEN));
+    try {
+      const res = await worker.fetch(makeReq("/conditions/parse", { method: "POST", headers: hdr(t), body: JSON.stringify({ text: "今天傍晚想要霞光" }) }), env, {});
+      assert.equal(res.status, 200);
+      const s = (await res.json()).suggestions;
+      assert.equal(s.windows.length, 1, "exactly ONE segment (the two-span disease is dead)");
+      assert.equal(s.windows[0].type, "before_sunset");
+      assert.equal(Math.abs(s.windows[0].offset_minutes), 30, "the anchor bound sits ±30 min of the sun event");
+      assert.equal(s.windows[0].span_minutes, 60, "a short ±30 window around the anchor, never a full day");
+    } finally { restore(); }
+  }
+  // ③ 雲海: same honest advice channel, tri-lingually (owner language zh-TW here)
+  {
+    llmCalls = [];
+    const restore = await stubFetch(llmResponse({ cloud: "any", fog: "any", rain: "any", windows: [], conflict: CLOUD_SEA_ADVICE_ZH, confidence: 0.55 }));
+    try {
+      const res = await worker.fetch(makeReq("/conditions/parse", { method: "POST", headers: hdr(t), body: JSON.stringify({ text: "清晨雲海" }) }), env, {});
+      assert.equal(res.status, 200);
+      const s = (await res.json()).suggestions;
+      assert.match(s.conflict, /請改掛官方/, "honest advice, never a hard-forced condition set");
+      assert.equal(s.cloud, "any");
+    } finally { restore(); }
+  }
+  // the span contract itself: valid ±30 golden shape passes; malformed spans fail-closed
+  const ok = validateParseSuggestions({ cloud: "any", fog: "any", rain: "any", windows: [{ type: "after_sunrise", offset_minutes: -30, span_minutes: 60 }], confidence: 0.7 });
+  assert.equal(ok.ok, true, "morning golden shape validates");
+  assert.equal(validateParseSuggestions({ cloud: "any", fog: "any", rain: "any", windows: [{ type: "before_sunset", offset_minutes: 30, span_minutes: 60, start: "16:00" }], confidence: 0.7 }).ok, false, "span + fixed narrowing start violate");
+  assert.equal(validateParseSuggestions({ cloud: "any", fog: "any", rain: "any", windows: [{ type: "after_sunrise", offset_minutes: -30, span_minutes: 7200 }], confidence: 0.7 }).ok, false, "span beyond 720 violates");
+  assert.equal(validateParseSuggestions({ cloud: "any", fog: "any", rain: "any", windows: [{ type: "fixed", start: "04:00", end: "06:00", span_minutes: 60 }], confidence: 0.7 }).ok, false, "span on a fixed segment violates");
+});
+
 // ===========================================================================
 // CL-APP-08: private-place grid dedup (owner-approved conservative version).
 // Share ONE Open-Meteo grid fetch when: distance <1 km AND DEM elev diff

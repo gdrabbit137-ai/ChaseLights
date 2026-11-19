@@ -107,7 +107,7 @@ test('CL-UI-29: the external radarUrl() helper is removed and the card anchor de
 
 test('CL-UI-29: 天氣預報 stays the in-page modal (not a duplicate deep link)', () => {
   assert.ok(appSource.includes("data-weather"), 'weather button still opens the modal');
-  assert.ok(appSource.includes('openWeatherModal(spot,metric)'), 'weather button handler opens openWeatherModal');
+  assert.ok(appSource.includes('cpOpenCard=(opts&&opts.openCard)||openWeatherModal'), 'weather button handler opens openWeatherModal');
 });
 
 test('CL-UI-29: radar_link label reads 天氣圖 in all three languages', () => {
@@ -121,6 +121,6 @@ test('CL-UI-29: radar_link label reads 天氣圖 in all three languages', () => 
 });
 
 test('CL-UI-29: homepage cache-bust stamp bumped to clui41', () => {
-  assert.ok(indexSource.includes('app.js?v=clui113'), 'index.html must carry the current app.js stamp');
+  assert.ok(indexSource.includes('app.js?v=clui114'), 'index.html must carry the current app.js stamp');
   assert.ok(!indexSource.includes('?v=clui30'), 'stale clui30 stamp must be gone');
 });
