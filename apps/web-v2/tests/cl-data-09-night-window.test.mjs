@@ -17,6 +17,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -85,7 +86,13 @@ test('CL-DATA-09: tw-027-P02 provenance records the owner ruling in source-lock'
     path.join(repo, 'data/v2/indexes/research/source-lock.json'), 'utf8'));
   const rec = lock.canonical_records.find(r => r.opportunity_id === 'tw-027-P02');
   assert.ok(rec, 'tw-027-P02 is a pinned canonical record');
-  assert.equal(rec.commit_sha, '4ac19a2c6d207a39642a7e4e42f53a7e023ba9ff'); // CL-DATA-75: record re-pinned with the §1.2 wave (bytes unchanged since CL-INT-112 semantics; commit moved with the wave re-pin)
+  // CL-DATA-80: dynamic byte-pin — the pinned commit must still serve the
+  // exact pinned bytes (provenance guarantee; a hardcoded commit_sha rots on
+  // every mechanical repin wave like this ticket's 734-contract re-pin).
+  const served = execFileSync('git', ['show', `${rec.commit_sha}:data/v2/opportunities/tw-027-P02.json`],
+    {cwd: repo, maxBuffer: 1 << 24}).toString();
+  assert.ok(/CL-DATA-09/.test(served),
+    'tw-027-P02 pinned bytes still carry the owner ruling (CL-DATA-09)');
   assert.ok(/CL-DATA-09/.test(lock.repin_note_cl_data_09_20261105),
     'repin revision note records the ruling');
 });

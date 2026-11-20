@@ -20,8 +20,8 @@ test('original Worker 2 canonical records preserve research-only semantics', () 
   assert.deepEqual(missing, [], 'WORKER2_DATA_DIR must contain all three original files');
   const originals = readOriginals(directory);
   assert.deepEqual(originals.map(x => x.opportunity_id), ids);
-  assert.ok(originals.every(x => x.schema_version === '2.1.0'));
-  const catalog = importV21Catalog({schema_version:'2.1.0', opportunities:originals});
+  assert.ok(originals.every(x => x.schema_version === '2.2.0')); // CL-DATA-80: quality_engine_v2 regen re-anchored fixtures to schema v2.2 (additive windows/conditions_v2; semantics unchanged)
+  const catalog = importV21Catalog({schema_version:'2.2.0', opportunities:originals});
   assert.equal(catalog.opportunities.length, 3);
   assert.equal(catalog.places.length, 2);
   assert.equal(catalog.camera_zones.length, 3);

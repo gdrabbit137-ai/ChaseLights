@@ -2,7 +2,10 @@ import {normalizeCatalog} from './model.mjs';
 import {projectV21} from './v21-adapter.mjs';
 
 // Defensive reader only. Worker 1's JSON Schema remains the sole canonical validator.
-export const SUPPORTED_OPPORTUNITY_SCHEMA = '2.1.0';
+// CL-DATA-80: 2.2.0 adds the quality-engine derived views (windows /
+// conditions_v2) to condition_contract; 2.1.0 documents stay readable.
+export const SUPPORTED_OPPORTUNITY_SCHEMAS = ['2.1.0', '2.2.0'];
+export const SUPPORTED_OPPORTUNITY_SCHEMA = '2.2.0';
 export class CatalogImportError extends Error {
   constructor(code, details='') { super(code + (details ? ': ' + details : '')); this.name='CatalogImportError'; this.code=code; }
 }
@@ -10,7 +13,7 @@ const isObject = x => x !== null && typeof x === 'object' && !Array.isArray(x);
 const hasThree = x => isObject(x) && ['zh-TW','en','ja'].every(k=>typeof x[k]==='string' && x[k].trim());
 function assertOpportunity(doc) {
   if (!isObject(doc)) throw new CatalogImportError('INVALID_SCHEMA','opportunity is not an object');
-  if (doc.schema_version !== SUPPORTED_OPPORTUNITY_SCHEMA) throw new CatalogImportError('SCHEMA_MISMATCH',String(doc.schema_version ?? 'missing'));
+  if (!SUPPORTED_OPPORTUNITY_SCHEMAS.includes(doc.schema_version)) throw new CatalogImportError('SCHEMA_MISMATCH',String(doc.schema_version ?? 'missing'));
   const textKeys=['opportunity_id','place_id','lifecycle_status'];
   if (!textKeys.every(k=>typeof doc[k]==='string' && doc[k].trim()) || !Number.isInteger(doc.revision) || doc.revision<1 || !hasThree(doc.name_i18n)) throw new CatalogImportError('INVALID_SCHEMA','identity/revision/localization');
   if (!Array.isArray(doc.camera_contexts) || !doc.camera_contexts.length || !Array.isArray(doc.targets) || !doc.targets.length || !Array.isArray(doc.observation_relations) || !Array.isArray(doc.navigation_targets) || !Array.isArray(doc.evidence_claims)) throw new CatalogImportError('INVALID_SCHEMA','camera/target/relation/navigation/evidence');
@@ -29,7 +32,7 @@ export function importV21Catalog(input) {
   const source=isObject(input?.data) ? input.data : input;
   const docs=Array.isArray(source) ? source : Array.isArray(source.opportunities) ? source.opportunities : [source];
   if (!docs.length || docs.length===1 && docs[0]===source && !('schema_version' in source)) throw new CatalogImportError('NO_DATA');
-  if (isObject(source) && source.schema_version != null && source.schema_version!==SUPPORTED_OPPORTUNITY_SCHEMA) throw new CatalogImportError('SCHEMA_MISMATCH',String(source.schema_version));
+  if (isObject(source) && source.schema_version != null && !SUPPORTED_OPPORTUNITY_SCHEMAS.includes(source.schema_version)) throw new CatalogImportError('SCHEMA_MISMATCH',String(source.schema_version));
   for (const doc of docs) assertOpportunity(doc);
   if (source.places != null && !Array.isArray(source.places)) throw new CatalogImportError('INVALID_SCHEMA','places');
   for (const place of source.places || [])

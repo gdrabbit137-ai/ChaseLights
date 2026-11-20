@@ -11,7 +11,7 @@ const GAP_LABELS = {
  STALE_DATA:["資料可能過期","Potentially stale data","データが古い可能性"]
 };
 const localeText = values => Object.fromEntries(["zh-TW","en","ja"].map((key,i)=>[key,values[i]]));
-const isV21 = doc => doc && doc.schema_version === "2.1.0" && Array.isArray(doc.camera_contexts) && Array.isArray(doc.targets);
+const isV21 = doc => doc && (doc.schema_version === "2.1.0" || doc.schema_version === "2.2.0") && Array.isArray(doc.camera_contexts) && Array.isArray(doc.targets);
 const scopedId = (doc,id) => doc.opportunity_id + "/" + id;
 const list = value => Array.isArray(value) ? value : [];
 export function projectV21(input) {
@@ -39,7 +39,9 @@ export function projectV21(input) {
    if (nav.length===1) output.opportunities[output.opportunities.length-1].navigation_target=nav[0];
    else output.opportunities[output.opportunities.length-1].navigation_target={status:nav.length?"multiple_access_routes":"needs_review"};
    const contract=doc.condition_contract||{};
-   output.condition_contracts.push({contract_id:contract.contract_id,opportunity_id:doc.opportunity_id,status:contract.status});
+   // CL-DATA-80 (schema v2.2): pass the quality-engine derived views through
+   // untouched; the adapter never re-derives or re-scores them.
+   output.condition_contracts.push({contract_id:contract.contract_id,opportunity_id:doc.opportunity_id,status:contract.status,genre_template:contract.genre_template??null,windows:contract.windows??null,conditions_v2:contract.conditions_v2??null,s_rank:contract.s_rank??null});
    for (const c of list(contract.conditions)) {
      // Defensive migration for older W2 records. Access restrictions are
      // independent warnings, never weather/photography scoring conditions.

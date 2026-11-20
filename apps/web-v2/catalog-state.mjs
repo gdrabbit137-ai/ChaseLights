@@ -1,5 +1,5 @@
 // Operational UI state only; this does not extend W1's canonical contract.
-import {importV21Catalog, SUPPORTED_OPPORTUNITY_SCHEMA} from './catalog-loader.mjs';
+import {importV21Catalog, SUPPORTED_OPPORTUNITY_SCHEMAS} from './catalog-loader.mjs';
 import {placeId} from './model.mjs';
 
 export function createCatalogState({fetchImpl = (...args) => fetch(...args),
@@ -21,7 +21,7 @@ export function createCatalogState({fetchImpl = (...args) => fetch(...args),
     const input = JSON.parse(text);
     const payload = input?.data ?? input;
     // Empty transport is an operational state, never a schema-valid document.
-    if (payload?.schema_version != null && payload.schema_version !== SUPPORTED_OPPORTUNITY_SCHEMA) {
+    if (payload?.schema_version != null && !SUPPORTED_OPPORTUNITY_SCHEMAS.includes(payload.schema_version)) {
       clear('invalid'); return;
     }
     if (payload === null || Array.isArray(payload) && !payload.length ||
