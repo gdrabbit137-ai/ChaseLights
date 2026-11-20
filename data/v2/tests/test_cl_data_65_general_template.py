@@ -20,7 +20,7 @@ import apply_template as at  # noqa: E402
 import mount_general_opportunities as mg  # noqa: E402
 
 TEMPLATES = ROOT / 'data/v2/templates'
-SCHEMA = ROOT / 'specs/v2/schema/opportunity-v2.1.schema.json'
+SCHEMA = ROOT / 'specs/v2/schema/opportunity-v2.2.0.schema.json'
 P99 = ROOT / 'data/v2/opportunities/jp-030-P99.json'
 
 
