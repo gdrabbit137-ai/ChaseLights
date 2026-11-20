@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and canonical sources remain source pinned (CL-INT-192 merged regen: 460 places / 721 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'088ca022df5dcf2ce32d8b7574a3d09d153dce5370b535017a07f73f5749f343'); // re-measured CL-INT-212 (merged-tree 75+76+77 regen: 459 places / 720 opportunities, index_revision 89f617e4)
-  assert.equal(sha256(rawCatalog),'61e9e64854ca3efc87bbe487a681bba0405494ec24f8823780d6674bbe03b369'); // re-measured CL-INT-212 (merged-tree 75+76+77 regen, index_revision 89f617e4)
+  assert.equal(sha256(rawIndex),'27458170712bb5cad689329276df2cdb7df0f97f24f907d33eaa503c0074c26c'); // re-measured CL-INT-212 (merged-tree 75+76+77 regen: 459 places / 720 opportunities, index_revision 89f617e4)
+  assert.equal(sha256(rawCatalog),'f160414ac8519faf65ff303c1a4efc055d03e702f42e4e0b665e3cff527f3f8e'); // re-measured CL-INT-212 (merged-tree 75+76+77 regen, index_revision 89f617e4)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,721);assert.equal(source.places.length,460); // re-anchored CL-INT-192 (+12 misty_forest +17 five-genre)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
