@@ -3,7 +3,7 @@
 Ticket: task/CL-DATA-81（base: origin/main b9aa52a0e）
 Date: 2026-11-20
 
-## Stage A — contract edits (commit 1206636cb)
+## Stage A — contract edits (commits 1206636cb + revert 6a75e76da)
 
 1. **海景日出補能見度**（jp-008-P01 松島双観山 / tw-072-P01 南雅 / tw-075-P01 外澳）：
    各新增 REQUIRED `visibility >= 15 km`（gfs_0p25|visibility_km|MID）＋ REQUIRED
@@ -24,13 +24,10 @@ Date: 2026-11-20
    jp-070/081/083/091/tw-151/tw-224＝已收緊（評估層 river_flow_state 派生）；
    tw-082-P01＝過期誤報結案（CL-DATA-72 batch A 已派生水面狀態）；
    us-111-P01＝已裁撤（CL-DATA-76）。僅加註不重算分數（審計快照）。
-4. **jp-002–jp-022 題材名 en/ja**（20 筆原為 zh-TW 複製字串）：web 查證地景
-   （じゃらん/rurubu/環境省/福島縣/青森縣/MLIT tagengo：双観山＝塩釜湾＋松島湾の丘、
-   日の出は金華山方向；中瀬沼展望台＝磐梯山背景；休屋＝十和田湖畔・乙女の像；
-   細岡展望台＝釧路川蛇行・夕日；姿見の池＝旭岳姿見駅・火山景；弁天島＝浜名湖
-   赤鳥居；西穂高口＝標高2,156m 展望台・星空観賞便；弥彦山＝越後平野・日本海）後翻譯。
-   ja 全部為自然日文（無簡體/繁中混排，如 灣→湾、鐵塔→タワー、景色語序重排）；
-   en 為原生句式。
+4. **jp-002–jp-022 題材名 en/ja 翻譯**：本票先做了 20 筆（web 查證地景後翻譯），
+   owner 範圍凍結裁定（2026-11-20）後自本票移除——revert commit 6a75e76da 恢復原
+   zh-TW 複製字串與 revision，改為獨立純 metadata 票（只跑 schema 驗證、跳過氣象
+   全量重算）。查證素材留存於 git 歷史（stage A commit 1206636cb）。
 
 ## Stage B — re-pin + regen chain (commits …)
 
