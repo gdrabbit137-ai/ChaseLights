@@ -31,12 +31,18 @@ jobs:
         run: |
           python - <<'PY'
           import json, jsonschema
-          schema = json.load(open('specs/v2/schema/evaluation-bundle-v0.1.schema.json', encoding='utf-8'))
+          schema = json.load(open('specs/v2/schema/evaluation-bundle-v0.2.0.schema.json', encoding='utf-8'))
           bundle = json.load(open('apps/web-v2/evaluations-latest.json', encoding='utf-8'))
           errors = list(jsonschema.Draft202012Validator(schema).iter_errors(bundle))
           assert not errors, errors[:3]
           assert bundle['guidance_only'] is True and bundle['live_recommendation'] is False
-          print('bundle OK:', bundle['place_count'], 'places /', bundle['opportunity_count'], 'opportunities')
+          # CL-DATA-80 fail-closed: every evaluated opportunity declares which
+          # engine produced it and carries the 168h published horizon.
+          assert bundle['forecast_hours'] == 168, bundle['forecast_hours']
+          engines = {o.get('engine') for p in bundle['places'] for o in p['opportunities']}
+          assert engines <= {'quality_engine_v2', 'legacy_boolean'} and None not in engines, engines
+          assert 'quality_engine_v2' in engines, engines
+          print('bundle OK:', bundle['place_count'], 'places /', bundle['opportunity_count'], 'opportunities; engines:', sorted(engines))
           PY
       - name: Regenerate subject-cards from the same bundle (CL-UI-70)
         # CHALLENGER-13 P6: the derived subject-cards layer (chips / card

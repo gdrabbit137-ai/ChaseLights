@@ -148,7 +148,7 @@ class BundleShapeTests(unittest.TestCase):
     def test_generated_bundle_validates(self):
         import json
         import jsonschema
-        schema = json.loads((ROOT / "specs/v2/schema/evaluation-bundle-v0.1.schema.json")
+        schema = json.loads((ROOT / "specs/v2/schema/evaluation-bundle-v0.2.0.schema.json")
                             .read_text(encoding="utf-8"))
         bundle_path = ROOT / "apps/web-v2/evaluations-latest.json"
         if not bundle_path.exists():

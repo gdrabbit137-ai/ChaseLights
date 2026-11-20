@@ -52,7 +52,7 @@ from astro_hourly import (  # noqa: E402
     sun_events_span, window_pass_profiles)
 import quality_engine  # noqa: E402  CL-DATA-80 QUALITY scoring engine (v2)
 
-BUNDLE_VERSION = "0.1.0"
+BUNDLE_VERSION = "0.2.0"  # CL-DATA-80: quality-engine fields (engine/s_rank/good_hours_v2)
 ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blue_hour_window",
                  "golden_hour_window", "astronomical_darkness",
                  "moon_illumination_fraction", "moon_altitude",
