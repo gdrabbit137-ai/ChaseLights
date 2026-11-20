@@ -1,0 +1,50 @@
+{
+  "tag": "seasonal_foliage",
+  "schema": "quality-v2",
+  "version": "1.0",
+  "status": "defined",
+  "source": "data/v2/audits/spec-quality-engine.md §5 (owner-frozen 2026-11-20); gates per §1 + owner rulings",
+  "note": "seasonal windows are per-place (set at instantiation); zero quality-critical weather gates",
+  "windows": {
+    "time_of_day": [
+      "civil_daylight"
+    ],
+    "seasonal": null
+  },
+  "conditions": {
+    "required": [],
+    "quality": [
+      {
+        "metric": "cloud_cover",
+        "weight": 2.0,
+        "abcd": [
+          10,
+          40,
+          75,
+          95
+        ]
+      },
+      {
+        "metric": "wind_speed_10m",
+        "weight": 2.0,
+        "abcd": [
+          0,
+          0,
+          1.5,
+          5.0
+        ]
+      },
+      {
+        "metric": "golden_hour_match",
+        "weight": 1.5,
+        "abcd": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "bonus_window": "golden_hour"
+      }
+    ]
+  }
+}

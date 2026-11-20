@@ -1,0 +1,88 @@
+{
+  "tag": "astrophotography",
+  "schema": "quality-v2",
+  "version": "1.0",
+  "status": "defined",
+  "source": "data/v2/audits/spec-quality-engine.md §5 (owner-frozen 2026-11-20); gates per §1 + owner rulings",
+  "note": "§1.2 owner ruling: moonlight gate = any_of (moon below horizon OR dim-and-far); galactic_core hard gate removed -> QUALITY bonus",
+  "windows": {
+    "time_of_day": [
+      "astronomical_darkness"
+    ],
+    "seasonal": null
+  },
+  "conditions": {
+    "required": [
+      {
+        "any_of": [
+          {
+            "metric": "moon_altitude_deg",
+            "op": "lt",
+            "value": 0
+          },
+          {
+            "all_of": [
+              {
+                "metric": "moon_illumination",
+                "op": "lte",
+                "value": 0.25
+              },
+              {
+                "metric": "moon_target_separation_deg",
+                "op": "gte",
+                "value": 45
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "metric": "cloud_cover",
+        "op": "lte",
+        "value": 20
+      }
+    ],
+    "quality": [
+      {
+        "metric": "cloud_cover",
+        "weight": 3.0,
+        "abcd": [
+          0,
+          0,
+          5,
+          20
+        ]
+      },
+      {
+        "metric": "moon_illumination",
+        "weight": 2.5,
+        "abcd": [
+          0,
+          0,
+          0.05,
+          0.35
+        ]
+      },
+      {
+        "metric": "galactic_core_altitude_deg",
+        "weight": 1.5,
+        "abcd": [
+          0,
+          25,
+          "inf",
+          "inf"
+        ]
+      },
+      {
+        "metric": "aerosol_optical_depth",
+        "weight": 1.5,
+        "abcd": [
+          0,
+          0,
+          0.1,
+          0.3
+        ]
+      }
+    ]
+  }
+}
