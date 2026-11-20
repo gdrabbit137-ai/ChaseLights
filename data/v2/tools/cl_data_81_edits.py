@@ -1,4 +1,4 @@
-"""CL-DATA-81 — contract edits driver (four owner-ruled stages).
+"""CL-DATA-81 — contract edits driver (three owner-ruled stages; jp-002-022 name translations moved OUT to a separate metadata ticket per owner ruling 2026-11-20).
 
 1. Sea-view sunrise visibility gate (jp-008-P01 / tw-072-P01 / tw-075-P01):
    add REQUIRED visibility >= 15 km + REQUIRED aod_550nm <= 0.4, aligned with
@@ -28,49 +28,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 OPP = ROOT / "data/v2/opportunities"
-
-NAMES: dict[str, tuple[str, str]] = {
-    "jp-002-P01": ("Asahidake volcanic alpine scenery around Sugatami Pond",
-                   "姿見の池周辺の旭岳火山の高山風景"),
-    "jp-003-P01": ("Sunset over the Kushiro River wetlands from Hosooka Observatory",
-                   "細岡展望台から望む釧路川湿原の夕景"),
-    "jp-004-P01": ("Twin-bay city view from Mount Hakodate, dusk to night",
-                   "函館山の暮色から夜にかけての双湾の街並み"),
-    "jp-005-P02": ("Otaru Canal at dusk: gas lamps and lit warehouses",
-                   "小樽運河の夕暮れ、ガス灯と倉庫の灯り"),
-    "jp-006-P01": ("Lake Mashū blue from the First Observatory",
-                   "摩周湖第一展望台・摩周ブルーの湖面"),
-    "jp-007-P01": ("Lake Towada shoreline at Yasumiya",
-                   "休屋の湖畔・十和田湖の眺め"),
-    "jp-008-P01": ("Sunrise over the Matsushima islands from Sōkanyama",
-                   "双観山・松島湾の島々と朝日"),
-    "jp-009-P01": ("Lake Nakasenuma and Mount Bandai from the observation deck",
-                   "中瀬沼展望台・中瀬沼と磐梯山"),
-    "jp-010-P02": ("Upside-down Fuji at Oishi Park",
-                   "大石公園・逆さ富士"),
-    "jp-011-P01": ("Tokyo Tower Main Deck: daytime city panorama",
-                   "東京タワー大展望台・東京の街の昼のパノラマ"),
-    "jp-011-P02": ("Tokyo Tower Main Deck: city night view",
-                   "東京タワー大展望台・東京の夜景"),
-    "jp-013-P01": ("Lake Suwa sunset from Tateishi Park",
-                   "立石公園・諏訪湖の夕景"),
-    "jp-016-P02": ("Yamashita Park: Yokohama Port night lights on the water",
-                   "山下公園・横浜港の夜景と水面の光"),
-    "jp-019-P01": ("Bentenjima Seaside Park: sunset over Lake Hamana",
-                   "弁天島海浜公園・浜名湖の夕景"),
-    "jp-020-P01": ("Osanbashi Pier rooftop: Minato Mirai night view",
-                   "大さん橋屋上・みなとみらいの夜景"),
-    "jp-021-P01": ("Nishi-Hodaka Station observatory: 360° North Alps panorama",
-                   "西穂高口展望台・北アルプス360度の山並み"),
-    "jp-021-P02": ("Night-ropeway stargazing at Nishi-Hodaka: North Alps starry sky",
-                   "西穂高口限定星空観賞便・北アルプスの星空"),
-    "jp-022-P01": ("Yahiko hilltop park: Echigo Plain and Sea of Japan panorama",
-                   "弥彦山山頂公園・越後平野と日本海のパノラマ"),
-    "jp-022-P02": ("Sea of Japan sunset from Yahiko hilltop park",
-                   "弥彦山山頂公園・日本海に沈む夕日"),
-    "jp-022-P03": ("Yahiko night view & star cruise: lights over the Echigo Plain",
-                   "弥彦山山頂公園・越後平野の夜景と星空クルーズ"),
-}
 
 VIS_AOD: dict[str, dict] = {
     "jp-008-P01": {
@@ -215,21 +172,8 @@ def dedup_moon(d: dict) -> list[str]:
     return sorted(ids)
 
 
-def rename(d: dict) -> list[str]:
-    en, ja = NAMES[d["opportunity_id"]]
-    n = d["name_i18n"]
-    changed = []
-    if n.get("en") != en:
-        n["en"] = en
-        changed.append("en")
-    if n.get("ja") != ja:
-        n["ja"] = ja
-        changed.append("ja")
-    return changed
-
-
 def main() -> int:
-    stats = {"vis_aod": {}, "moon_dedup": {}, "renamed": []}
+    stats = {"vis_aod": {}, "moon_dedup": {}, }
     # stage 1 + note
     for oid in VIS_AOD:
         d = load(oid)
@@ -257,14 +201,6 @@ def main() -> int:
             d["revision"] = int(d.get("revision") or 1) + 1
             save(d)
             stats["moon_dedup"][d["opportunity_id"]] = ids
-    # stage 4 names
-    for oid in NAMES:
-        d = load(oid)
-        changed = rename(d)
-        if changed:
-            d["revision"] = int(d.get("revision") or 1) + 1
-            save(d)
-            stats["renamed"].append(oid)
     print(json.dumps(stats, ensure_ascii=False))
     return 0
 
