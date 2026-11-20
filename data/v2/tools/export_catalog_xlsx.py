@@ -86,6 +86,37 @@ METRICS = {
 ROLES = {'REQUIRED': '成立條件', 'QUALITY': '加分條件', 'BLOCKER': '不利條件'}
 OP_SYMBOL = {'lte': '≤', 'gte': '≥', 'lt': '<', 'gt': '>'}
 
+# CL-DATA-81: the astrophotography moonlight gate is an any_of dual-track set
+# (owner spec §1.2) — the contract layer stores it as the M2 anchor plus the
+# track-2 pair. The export renders it as ONE row 「月下 OR (月照≤X ∧ 分離≥Y)」
+# instead of flat-tiling three REQUIRED rows.
+MOON_TRACK_METRICS = ('moon_altitude', 'moon_target_separation_deg',
+                      'moon_illumination_fraction')
+
+
+def split_moon_any_of(conds):
+    """Return (anchor, sep, illum, rest) when the any_of moonlight set is
+    present, else None."""
+    anchor = sep = illum = None
+    rest = []
+    for c in conds:
+        if (c.get('role') == 'REQUIRED' and c.get('metric') == 'moon_altitude'
+                and c.get('operator') == 'lt' and c.get('threshold') == 0):
+            anchor = c
+        elif (c.get('role') == 'REQUIRED'
+                and c.get('metric') == 'moon_target_separation_deg'
+                and c.get('operator') == 'gte'):
+            sep = c
+        elif (c.get('role') == 'REQUIRED'
+                and c.get('metric') == 'moon_illumination_fraction'
+                and c.get('operator') == 'lte' and c.get('threshold') == 0.25):
+            illum = c
+        else:
+            rest.append(c)
+    if anchor and sep and illum:
+        return anchor, sep, illum, rest
+    return None
+
 COUNTRY_SHEETS = {
     'tw': ('台灣',),
     'jp': ('日本',),
@@ -210,7 +241,19 @@ def main() -> int:
                 else:
                     genre = '（未分類）'
                 conds = (con or {}).get('conditions') or []
-                if not conds:
+                moon = split_moon_any_of(conds)
+                if moon:
+                    anchor, sep, illum, rest = moon
+                    threshold = (f'月下 OR（月照≤{illum.get("threshold")}'
+                                 f' ∧ 分離≥{sep.get("threshold")}°）')
+                    rationale = '；'.join(
+                        (c.get('rationale_i18n') or {}).get('zh-TW', '')
+                        for c in (anchor, sep, illum) if c.get('rationale_i18n'))
+                    ws.append([pid, pname, oid, oname, genre,
+                               ROLES['REQUIRED'], '月光雙軌（any_of）',
+                               threshold, rationale])
+                    conds = rest
+                if not conds and not moon:
                     ws.append([pid, pname, oid, oname, genre, '（無條件契約）', '', '', ''])
                     continue
                 for c in conds:
