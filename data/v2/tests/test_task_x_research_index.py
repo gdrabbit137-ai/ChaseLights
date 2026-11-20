@@ -237,7 +237,11 @@ class ResearchIndexTests(unittest.TestCase):
             # general-template title rename (可拍/Shootable/撮影可, v0.2).
             # (final task commit carrying the needs_review navigation bytes;
             # superseded by the CL-DATA-69 re-pin below).
-            'a923ee67a3f3edc6c1c258661d8aeedd78a85e18',
+            # CL-INT-212 merged tree: the CL-DATA-69 holder left the set —
+            # jp-030-P99/jp-030-P01/jp-041-P01 and the six us-075/076/077
+            # records were re-pinned to the CL-DATA-77 regen commit c9bb00f009
+            # (full 168h batch on 77's branch; bytes tree-verified at HEAD).
+            'c9bb00f009cbe4914cf4a4c28055d0b731f27901',
             # CL-DATA-67: jp-049-P01/jp-065-P01 gained the civil light_window and were
             # repinned to 86b3fa825 — CL-DATA-75 stage A later re-pinned them to
             # 4ac19a2c6 (entry above), so the 86b3fa825 holder left the set.
