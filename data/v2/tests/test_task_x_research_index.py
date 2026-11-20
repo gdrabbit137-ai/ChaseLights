@@ -122,6 +122,8 @@ class ResearchIndexTests(unittest.TestCase):
             # migration-skeleton tidal records were restored to their
             # reviewed-main bytes (commit 86cc3d9bd).
             'a99fc03cff62cb544dc8c6759eb6045336c701ac',  # CL-DATA-76 stage B re-pin: 98 Gemini-audit contract edits + 3 carriers (101 records) — supersedes the former CL-DATA-12 tidal-restore (d57d40f8/86cc3d9b) holders
+            'c44a18d69dfbdac6d348dbae9ed9845cfdd6de17',  # CL-INT-212 restore: 2 remaining 75-lineage holders re-pointed to CL-DATA-75 stage B (fixture re-anchor commit) — per-record provenance preserved through the three-way merge
+            '92f93feb0e96c9b30843942065027d391eef7706',  # CL-INT-212 semantic merge: tw-059-P01/tw-060-P01/tw-078-P01 (new bytes = CL-DATA-76 condition sets spliced into CL-DATA-77 verified geometry/azimuth; schema-validated at the merge commit)
             # CL-DATA-13: the touched records' bytes changed (view_azimuth
             # backfill + light_direction pilot contracts) and their blob pins
             # were re-anchored below, but the W2 provenance commit_sha of each
