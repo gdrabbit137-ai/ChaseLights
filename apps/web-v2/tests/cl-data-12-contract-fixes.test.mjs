@@ -148,16 +148,19 @@ test('CL-DATA-12 H/I/J: window-role semantics pinned', () => {
   assert.equal(yehliu.find(c => c.metric === 'sunrise_time_window').role, 'QUALITY');
 });
 
-test('CL-DATA-12 N: tidal subjects are honestly not_evaluatable (fail-closed)', () => {
+test('CL-DATA-12 N: tidal subjects are tide-decided honest contracts (CL-DATA-76 stage A supersede)', () => {
   for (const oid of ['tw-059-P01', 'tw-060-P01', 'tw-078-P01']) {
     const doc = loadContract(oid);
-    const legacy = doc.condition_contract.conditions;
-    assert.equal(legacy.length, 1, `${oid} keeps a single legacy placeholder`);
-    assert.ok(legacy[0].metric.startsWith('legacy_'), `${oid} no fabricated weather gates`);
-    assert.equal(legacy[0].unknown_policy, 'propagate_unknown');
-    // The migration-skeleton drift guard pins these un-applied records byte
-    // for byte, so the tidal ruling is recorded in the source-lock repin note
-    // instead of inside the record.
+    const conds = doc.condition_contract.conditions;
+    // CL-INT-212 re-anchor: CL-DATA-76 rebuilt the legacy tidal placeholders as
+    // real 3-condition contracts (water_surface_state + window + precipitation);
+    // the live verdict rides water_surface_state (tide-decided), fail-closed.
+    assert.equal(conds.length, 3, `${oid} carries the CL-DATA-76 tide-decided contract`);
+    assert.ok(conds.some(c => c.metric === 'water_surface_state'),
+      `${oid} tide verdict rides water_surface_state`);
+    assert.ok(!conds.some(c => c.metric.startsWith('legacy_')),
+      `${oid} no fabricated weather gates`);
+    // The byte guard now protects the CL-DATA-76 rebuilt bytes (no CL-DATA-12 markers).
     assert.ok(!readFileSync(path.join(oppDir, `${oid}.json`), 'utf8').includes('CL-DATA-12'),
       `${oid} bytes untouched (migration archive identity)`);
   }
@@ -186,8 +189,8 @@ test('CL-DATA-12 revision/provenance sweep: every touched record cites the ticke
   for (const oid of IDS) {
     const doc = loadContract(oid);
     const touched = doc.condition_contract.conditions.some(
-      c => (c.notes_i18n?.['zh-TW'] || '').includes('CL-DATA-12'));
-    assert.ok(touched, `${oid} carries a CL-DATA-12 condition note`);
+      c => /CL-DATA-\d+/.test(c.notes_i18n?.['zh-TW'] || ''));
+    assert.ok(touched, `${oid} carries a CL-DATA ticket condition note (CL-DATA-12 or its superseding ticket)`);
     assert.ok(doc.revision >= 2, `${oid} revision bumped`);
   }
 });

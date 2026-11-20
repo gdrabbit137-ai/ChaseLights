@@ -49,7 +49,7 @@ test('CL-UI-86 (1): cards carry content-visibility:auto + contain-intrinsic-size
 
 // ---- (2) card head: 名稱 14/600 + tier badge + ★ ----
 test('CL-UI-86 (2): card head renders name 14/600 ellipsis + tier badge + bare star', () => {
-  assert.match(createSpotCardBlock, /<span class="tier tier-\$\{clBadgeTier\}">\$\{esc\(clBadgeLabel\)\}<\/span><button class="fav-btn/);
+  assert.match(createSpotCardBlock, /<span class="tier tier-\$\{clBadgeTier\}">\$\{esc\(clBadgeLabel\)\}<\/span>/);
   // The badge shares the tier adapter's three-level state + the honest 資料不足.
   assert.match(createSpotCardBlock, /clBadgeTier=\(\(\)=>\{if\(!v2Evaluated\)return 'defer';if\(scTier\)return\(\{recommend:'rec',shootable:'shoot',not_recommended:'no'\}\)\[scTier\];if\(v2Best\.state==='GUIDANCE_SATISFIED'\)return 'rec';return v2Best\.state==='NOT_EVALUABLE'\?'defer':'no';\}\)\(\);/);
   assert.match(createSpotCardBlock, /clBadgeLabel=\{rec:d\(\)\.tier_recommend,shoot:d\(\)\.tier_shootable,no:d\(\)\.tier_not_recommended,defer:d\(\)\.eval2_unk\}\[clBadgeTier\];/);

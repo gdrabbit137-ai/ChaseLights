@@ -74,7 +74,7 @@ test('CL-UI-69 (1): per-subject rows replace the second-line chips when the laye
   assert.match(createSpotCardBlock, /clui69_more_subjects\.replace\('\{n\}',clSubjectExtra\.length\)/);
   // The fold toggle never opens the place modal.
   assert.match(createSpotCardBlock, /scMoreBtn\.onclick=e=>\{e\.stopPropagation\(\);/);
-  assert.match(createSpotCardBlock, /card\.onclick=e=>\{if\(e\.target\.closest&&e\.target\.closest\('a,button,input,select,summary'\)\)return;openWeatherModal\(spot,metric\);\};/);
+  assert.match(createSpotCardBlock, /card\.onclick=e=>\{if\(e\.target\.closest&&e\.target\.closest\('a,button,input,select,summary'\)\)return;cpOpenCard\(spot,metric\);\};/);
   // The row summary wins over the fallback lines when the layer is loaded.
   // CL-UI-71: the fallback is the SAME row format (clFallbackRows), never the
   // retired CL-UI-63 second line.

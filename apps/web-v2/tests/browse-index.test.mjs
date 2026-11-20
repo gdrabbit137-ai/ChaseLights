@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and canonical sources remain source pinned (CL-INT-192 merged regen: 460 places / 721 opportunities)',()=>{
+test('W2 index and canonical sources remain source pinned (CL-INT-212 merged regen: 459 places / 720 opportunities)',()=>{
   assert.equal(sha256(rawIndex),'27458170712bb5cad689329276df2cdb7df0f97f24f907d33eaa503c0074c26c'); // re-measured CL-INT-212 (merged-tree 75+76+77 regen: 459 places / 720 opportunities, index_revision 89f617e4)
   assert.equal(sha256(rawCatalog),'f160414ac8519faf65ff303c1a4efc055d03e702f42e4e0b665e3cff527f3f8e'); // re-measured CL-INT-212 (merged-tree 75+76+77 regen, index_revision 89f617e4)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,721);assert.equal(source.places.length,460); // re-anchored CL-INT-192 (+12 misty_forest +17 five-genre)
+  assert.equal(source.opportunities.length,720);assert.equal(source.places.length,459); // re-anchored CL-INT-212 (us-111 retired, jp-030-P01 evaluates with CL-DATA-77 geometry)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   // CL-DATA-72: owner-ruled contract evolution (sunset T3 QUALITY c9e65a2c1 +
@@ -54,7 +54,7 @@ test('partial multilingual name search and topic OR filter only matching opportu
   assert.equal(browse(index,catalog,{search:' OiShI '}).length,1);
   assert.equal(browse(index,catalog,{search:'井仔脚'}).length,1);
   assert.equal(browse(index,catalog,{search:'[.*]'}).length,0);
-  assert.equal(browse(index,catalog,{search:'  '}).length,460); // re-anchored CL-DATA-66 wave7 (460 places)
+  assert.equal(browse(index,catalog,{search:'  '}).length,459); // re-anchored CL-INT-212 (us-111 retired)
   const both=browse(index,catalog,{topicIds:['topic:sunset','topic:colorful-clouds']});
   assert.deepEqual(both.map(x=>x.place.place_id),['tw-148','tw-161','tw-150','us-155','tw-026','tw-162','tw-166','us-156','tw-137','tw-168','tw-138','tw-139','tw-169','tw-142','tw-143','tw-171','tw-153','us-121','tw-216','tw-178','tw-156','tw-186','tw-188','tw-191','tw-147','tw-006','tw-157','tw-194','tw-195','tw-159']); // re-anchored CL-DATA-66 wave7 (460 places; sunset OR colorful-clouds; wave7 adds no sunset/colorful-clouds contracts)
   assert.deepEqual(both[0].opportunities.map(x=>x.opportunity_id),['tw-148-P02']); // re-anchored CL-DATA-66 wave3 (tw-148 leads the sunset OR colorful-clouds list)

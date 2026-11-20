@@ -73,8 +73,10 @@ test('CL-DATA-11: 南雅奇岩夕照雲霞 moved to golden_hour with a REQUIRED 
   assert.equal(gw[0].condition_tier, 'MAIN');
   assert.ok((gw[0].notes_i18n?.['zh-TW'] || '').includes('CL-DATA-11'));
   assert.ok(doc.revision >= 2);
-  // the geological subject semantics stay declared
-  assert.ok(contract.conditions.some(c => c.metric === 'landform_present'));
+  // the geological subject semantics: CL-DATA-76 stage A (owner ruling) dropped
+  // landform_present from tw-072-P02 (template misplacement correction) — the
+  // geological condition no longer applies to a golden-hour sky subject.
+  assert.ok(!contract.conditions.some(c => c.metric === 'landform_present'));
 });
 
 test('CL-DATA-11: sunset-named subjects with no window now carry REQUIRED sunset_window', () => {

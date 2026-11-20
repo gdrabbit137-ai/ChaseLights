@@ -30,7 +30,7 @@ test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bus
   // CL-APP-09 patch-4 (popup rides the official renderers) -> clapp09e
   // (per-file cache-bust rule, monotonic)
   assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09e/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09e/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09g/); // CL-APP-09 patch-5/6 stamp advance (CL-INT-212 re-anchor)
   assert.doesNotMatch(htmlSource, /custom-places\.(css|js)\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)

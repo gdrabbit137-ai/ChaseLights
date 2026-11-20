@@ -199,7 +199,7 @@ test('CL-UI-100: index.html mounts the widget with the bumped clui102 stamps', (
 });
 
 test('CL-UI-100: app.js carries exactly the three additive place-id hooks', () => {
-  assert.ok(appSource.includes("card.dataset.placeId=spot.spot_id||'';"));
+  assert.ok(appSource.includes("card.dataset.placeId=cp?'':(spot.spot_id||'')"), 'place-id hook kept (CL-APP-09 patch-6 bridge form)');
   assert.ok(appSource.includes("document.getElementById('modal-overlay').dataset.placeId=spot.spot_id||'';"));
   assert.ok(appSource.includes("overlay.dataset.placeId=spot.spot_id||'';"));
   assert.equal((appSource.match(/dataset\.placeId/g) || []).length, 3, 'hook surface stays minimal');

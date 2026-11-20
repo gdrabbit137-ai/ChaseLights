@@ -107,7 +107,7 @@ test('CL-UI-29: the external radarUrl() helper is removed and the card anchor de
 
 test('CL-UI-29: 天氣預報 stays the in-page modal (not a duplicate deep link)', () => {
   assert.ok(appSource.includes("data-weather"), 'weather button still opens the modal');
-  assert.ok(appSource.includes('openWeatherModal(spot,metric)'), 'weather button handler opens openWeatherModal');
+  assert.ok(appSource.includes('cpOpenPlace(spot,metric)'), 'weather button handler opens the place modal (CL-APP-09 patch-6 bridge)');
 });
 
 test('CL-UI-29: radar_link label reads 天氣圖 in all three languages', () => {

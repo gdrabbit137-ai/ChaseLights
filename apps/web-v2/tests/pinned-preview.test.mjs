@@ -14,8 +14,8 @@ test('default catalog retains the original pinned P01 source and research-only p
   assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha, '19e9365487c8ac46048cdc9c5e1eea2d50406e41'); // CL-DATA-72: canonical evolved past the 2026-11-02 owner ruling (sunset T3 QUALITY c9e65a2c1 wave, source-lock re-pin 19e936548) — fixture+manifest re-anchored to live bytes per the CL-DATA-57/4becb13b2 pattern
   assert.equal(catalog.source_pins['tw-026-P01'].source_blob_sha,
     manifest.files.find(file => file.source_path === 'data/v2/opportunities/tw-026-P01.json').blob_sha);
-  assert.equal(catalog.opportunities.length,721); // re-anchored CL-INT-192 (+12 misty_forest +17 five-genre)
-  assert.equal(catalog.places.length,460); // re-anchored CL-DATA-66 wave7 (460 places)
+  assert.equal(catalog.opportunities.length,720); // re-anchored CL-INT-212 (us-111 retired, jp-030-P01 evaluates)
+  assert.equal(catalog.places.length,459); // re-anchored CL-INT-212 (us-111 retired)
   assert.deepEqual(preview.opportunities, [readPinned('tw-026-P01.json')]);
 });
 

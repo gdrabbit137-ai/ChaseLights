@@ -146,8 +146,10 @@ test('CL-DATA-19: review-gated fixtures and legacy stubs stay byte-identical', (
   }
   for (const oid of ['tw-059-P01', 'tw-060-P01', 'tw-078-P01']) {
     const doc = loadContract(oid);
-    assert.equal(doc.condition_contract.conditions.length, 1);
-    assert.ok(doc.condition_contract.conditions[0].metric.startsWith('legacy_'));
+    // CL-INT-212 re-anchor: CL-DATA-76 stage A rebuilt these legacy stubs as
+    // real tide-decided contracts (3 conditions, verdict rides water_surface_state).
+    assert.equal(doc.condition_contract.conditions.length, 3);
+    assert.ok(doc.condition_contract.conditions.some(c => c.metric === 'water_surface_state'));
     assert.ok(!readFileSync(path.join(oppDir, `${oid}.json`), 'utf8').includes('CL-DATA-19'));
   }
   // CL-DATA-77: jp-030-P01 (鳴門渦潮) carries the owner-ruled spring_tide_state

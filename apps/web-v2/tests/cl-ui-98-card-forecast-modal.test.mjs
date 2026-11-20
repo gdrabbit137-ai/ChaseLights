@@ -22,9 +22,10 @@ const cssSource = readFileSync(join(WEB, 'assets', 'app.css'), 'utf8');
 const indexSource = readFileSync(join(WEB, 'index.html'), 'utf8');
 
 test('CL-UI-98 (1): card body untouched — click opens the FORECAST modal', () => {
-  // The card surface click + keyboard activation route to openWeatherModal.
-  assert.match(appSource, /card\.onclick=e=>\{if\(e\.target\.closest&&e\.target\.closest\('a,button,input,select,summary'\)\)return;openWeatherModal\(spot,metric\);\};/);
-  assert.match(appSource, /if\(e\.key==='Enter'\|\|e\.key===' '\)\{e\.preventDefault\(\);openWeatherModal\(spot,metric\);\}/);
+  // The card surface click + keyboard activation route to the official card
+  // popup bridge (CL-APP-09 patch-6: cpOpenCard wraps openWeatherModal).
+  assert.match(appSource, /card\.onclick=e=>\{if\(e\.target\.closest&&e\.target\.closest\('a,button,input,select,summary'\)\)return;cpOpenCard\(spot,metric\);\};/);
+  assert.match(appSource, /if\(e\.key==='Enter'\|\|e\.key===' '\)\{e\.preventDefault\(\);cpOpenCard\(spot,metric\);\}/);
   // The forecast modal is the card-click surface: band + hourly table keep
   // their existing hosts; the 速覽 section rides the same shell.
   assert.match(indexSource, /id="modal-quick-view-body"/);
@@ -36,10 +37,10 @@ test('CL-UI-98 (2): bottom-left button 「題材」 opens the subject panel', ()
   assert.match(appSource, /v2_subject_link:'🎞 題材'/);
   assert.match(appSource, /v2_subject_link:'🎞 Subjects'/);
   assert.match(appSource, /v2_subject_link:'🎞 題材'/);
-  // The card footer button renders the new copy and opens openPlaceModal.
+  // The card footer button renders the new copy and opens the subject panel (CL-APP-09 patch-6 bridge).
   assert.match(appSource, /toolButtonAttrs\(d\(\)\.v2_subject_link\)/);
   assert.match(appSource, /toolButtonInner\(d\(\)\.v2_subject_link\)/);
-  assert.match(appSource, /card\.querySelector\('\[data-weather\]'\)\.onclick=e=>\{e\.preventDefault\(\);e\.stopPropagation\(\);openPlaceModal\(spot,metric\);\};/);
+  assert.match(appSource, /card\.querySelector\('\[data-weather\]'\)\.onclick=e=>\{e\.preventDefault\(\);e\.stopPropagation\(\);cpOpenPlace\(spot,metric\);\};/);
   // The weather modal title still reads the (retained) forecast label.
   assert.match(appSource, /weather_link:'🌦️ 天氣預報'/);
 });
