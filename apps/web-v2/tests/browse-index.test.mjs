@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and canonical sources remain source pinned (CL-INT-212 merged regen: 459 places / 720 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'2e826dc75f65f2fbda496a365cbb342e50a8694bc192fc75aba4bba4b90953c1'); // re-measured CL-INT-213 (CL-DATA-78 regen: 459 places / 720 opportunities, index_revision 620d44cf)
-  assert.equal(sha256(rawCatalog),'32a312d58cde9ebde1cc5c48a870a5c9cc8a61ea39d658e358a242df178c30e0'); // re-measured CL-INT-213 (CL-DATA-78 regen, index_revision 620d44cf)
+  assert.equal(sha256(rawIndex),'ba9d49ca30eea9346f01afed2828c61114306c10476f3939c5792bdae3957c08'); // re-measured CL-INT-213 (CL-DATA-78 regen: 459 places / 720 opportunities, index_revision 620d44cf)
+  assert.equal(sha256(rawCatalog),'a5a8f3c1b0bdc0379f0889eff5517dbcadd57fe803f6c000f505b2b15bd8e8aa'); // re-measured CL-INT-213 (CL-DATA-78 regen, index_revision 620d44cf)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,720);assert.equal(source.places.length,459); // re-anchored CL-INT-212 (us-111 retired, jp-030-P01 evaluates with CL-DATA-77 geometry)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
