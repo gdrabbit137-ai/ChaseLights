@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "jp-037-P02",
  "place_id": "jp-037",
  "revision": 3,
@@ -277,7 +277,51 @@
      "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（camera_context web-verified altitude_m 1088 m）− 200 m = 888 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "sunrise"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-jp-037-P02-02",
+     "metric": "cloud_cover_low",
+     "op": "lte",
+     "value": 55
+    },
+    {
+     "id": "C-jp-037-P02-04",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.3
+    },
+    {
+     "id": "C-jp-037-P02-CB1",
+     "metric": "cloud_base_height",
+     "op": "lt",
+     "value": 888
+    }
+   ],
+   "quality": [
+    {
+     "id": "C-jp-037-P02-03",
+     "metric": "cloud_cover_mid_and_high",
+     "weight": 3.0,
+     "ideal": [
+      25,
+      65
+     ],
+     "acceptable": [
+      5,
+      85
+     ],
+     "provisional": false
+    }
+   ]
+  }
  },
  "evidence_claims": [
   {

@@ -81,7 +81,7 @@ class Batch04Gate(unittest.TestCase):
                         encoding="utf-8").splitlines() if line.strip()]
                     for id_ in IDS}
         cls.review = (DATA / "reviews/worker2_batch04_human_zh-TW.md").read_text(encoding="utf-8")
-        schema = read_json(ROOT / "specs/v2/schema/opportunity-v2.1.schema.json")
+        schema = read_json(ROOT / "specs/v2/schema/opportunity-v2.2.0.schema.json")
         Draft202012Validator.check_schema(schema)
         cls.validator = Draft202012Validator(schema, format_checker=FormatChecker())
 
@@ -90,7 +90,7 @@ class Batch04Gate(unittest.TestCase):
         self.assertEqual(len(IDS), len({doc["place_id"] for doc in self.docs.values()}))
         for id_, doc in self.docs.items():
             with self.subTest(id=id_):
-                self.assertEqual("2.1.0", doc["schema_version"])
+                self.assertEqual("2.2.0", doc["schema_version"])  # CL-DATA-80: schema v2.2 regen (additive windows/conditions_v2)
                 self.assertEqual(id_, doc["opportunity_id"])
                 self.assertEqual(id_.split("-P")[0], doc["place_id"])
                 errors = sorted(e.message for e in self.validator.iter_errors(doc))

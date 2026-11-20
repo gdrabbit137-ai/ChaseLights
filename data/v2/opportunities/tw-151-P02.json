@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "tw-151-P02",
  "place_id": "tw-151",
  "revision": 1,
@@ -265,7 +265,42 @@
      "ja": "夜窓＝天文暗（太陽高度 ≤−18°）：人工光・天光の下ではホタルの光は見えない — 完全な暗夜が観察窓（サブアワー・サンプリング、1サンプルでも成立）。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "astro_darkness"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-tw-151-P02-F2",
+     "metric": "moon_illumination_fraction",
+     "op": "lte",
+     "value": 0.3
+    },
+    {
+     "id": "C-tw-151-P02-F3",
+     "metric": "relative_humidity_2m",
+     "op": "gte",
+     "value": 85.0
+    },
+    {
+     "id": "C-tw-151-P02-F4",
+     "metric": "temperature_2m",
+     "op": "gte",
+     "value": 15.0
+    },
+    {
+     "id": "C-tw-151-P02-F5",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.2
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

@@ -38,7 +38,7 @@ test('three Opportunity records preserve two distinct Place IDs',()=>{
  assert.equal(catalog.places.length,2);assert.equal(catalog.opportunities.length,3);assert.equal(catalog.evaluations.length,0);
 });
 test('invalid version, no data and missing translations fail closed',()=>{
- const a=doc();a.schema_version='2.2.0';fails(a,'SCHEMA_MISMATCH');
+ const a=doc();a.schema_version='9.0.0';fails(a,'SCHEMA_MISMATCH'); // CL-DATA-80: 2.2.0 is a supported schema now, so the fail-closed probe uses 9.0.0
  fails({schema_version:'2.1.0',opportunities:[]},'NO_DATA');
  const b=doc();delete b.name_i18n.en;fails(b,'INVALID_SCHEMA');
 });

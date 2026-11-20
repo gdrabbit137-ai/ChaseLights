@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "tw-148-P02",
  "place_id": "tw-148",
  "revision": 1,
@@ -247,7 +247,51 @@
      "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "sunset"
+   ],
+   "seasonal": null
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-tw-148-P02-02",
+     "metric": "cloud_cover_low",
+     "op": "lte",
+     "value": 55
+    },
+    {
+     "id": "C-tw-148-P02-04",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.3
+    },
+    {
+     "id": "C-tw-148-P02-05",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.6
+    }
+   ],
+   "quality": [
+    {
+     "id": "C-tw-148-P02-03",
+     "metric": "cloud_cover_mid_and_high",
+     "weight": 3.0,
+     "ideal": [
+      25,
+      65
+     ],
+     "acceptable": [
+      5,
+      85
+     ],
+     "provisional": false
+    }
+   ]
+  }
  },
  "evidence_claims": [
   {

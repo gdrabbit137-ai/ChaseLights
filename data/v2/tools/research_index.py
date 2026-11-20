@@ -18,7 +18,7 @@ INDEX = DATA / 'indexes/research'
 LANGS = ('zh-TW', 'en', 'ja')
 KINDS = ('place-index', 'date-query', 'topic-index', 'local-preferences',
          'browse-query', 'sort-capabilities')
-W1_COMMIT = 'b56632b090aa79c28806f30b10aed79cbb0cfb31'
+W1_COMMIT = '168d2981e3628e26a151ad1d7a0a6c67671b07dd'  # CL-DATA-80 stage 4a: W1 pin re-anchor
 
 
 def read(path):

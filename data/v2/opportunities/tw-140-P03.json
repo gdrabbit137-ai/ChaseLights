@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "tw-140-P03",
  "place_id": "tw-140",
  "revision": 1,
@@ -240,7 +240,42 @@
      "ja": "連続晴れ窓 ≥2h（新派生条件 clear_streak_hours、CHALLENGER-15 報告の連続性意味論）：星景は1枚の連続長秒露光 — 当該時刻まで連続で全雲量 ≤20% の時間数で判定。雲欄欠損は誠実に途切れ（UNKNOWN、計数リセット）、欠損部は晴れ時間に数えない。2h未満の時間はスタックに対し誠実に降格。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "astro_darkness"
+   ],
+   "seasonal": null
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-tw-140-P03-B2",
+     "metric": "moon_illumination_fraction",
+     "op": "lte",
+     "value": 0.15
+    },
+    {
+     "id": "C-tw-140-P03-B3",
+     "metric": "cloud_cover_total",
+     "op": "lte",
+     "value": 20
+    },
+    {
+     "id": "C-tw-140-P03-B4",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.3
+    },
+    {
+     "id": "C-tw-140-P03-B5",
+     "metric": "clear_streak_hours",
+     "op": "gte",
+     "value": 2.0
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

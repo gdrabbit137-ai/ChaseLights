@@ -410,8 +410,20 @@ class EngineBypassTests(unittest.TestCase):
             self.assertNotIn("abcd", blob, path.name)
 
     def test_engine_module_not_imported_by_evaluator(self):
+        # CL-DATA-80 / CL-INT-214 re-anchor: the QUALITY engine is now wired
+        # into evaluate_batch for bundle annotations (engine / s_rank /
+        # good_hours_v2). Engine bypass = the OFFICIAL contract verdicts
+        # (status/failed/unknown) are computed independently of qe; engine
+        # output must only feed best_s_quality -> s_rank. Assert that:
+        import re
         eb_src = (ROOT / "packages/core-v2/tools/evaluate_batch.py").read_text(encoding="utf-8")
-        self.assertNotIn("quality_engine", eb_src)
+        verdict_uses = [ln for ln in eb_src.splitlines()
+                        if "quality_engine" in ln
+                        and re.search(r"\b(status|failed|unknown)\s*=", ln)]
+        self.assertEqual([], verdict_uses, verdict_uses)
+        qe_uses = [ln.strip() for ln in eb_src.splitlines() if re.search(r"\bqe\[", ln)]
+        self.assertTrue(qe_uses, "engine output must exist but only as annotation input")
+        self.assertTrue(all(("s_quality" in ln or "eligible" in ln) for ln in qe_uses), qe_uses)
 
 
 if __name__ == "__main__":

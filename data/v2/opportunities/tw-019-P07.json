@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "tw-019-P07",
  "place_id": "tw-019",
  "revision": 1,
@@ -219,7 +219,34 @@
      "ja": "季節窓判定（window_open/window_closed。例年窓 12-01~02-28 は seasonal-calendar.json から、実況優先、両方なければ誠実に not_evaluatable）：季節窓は本題材のハード制約（CL-DATA-74 オーナー承認データパック）。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-tw-019-P07-S1",
+     "metric": "snow_cover_state",
+     "op": "derived_state",
+     "value": null
+    },
+    {
+     "id": "C-tw-019-P07-S2",
+     "metric": "temperature_2m",
+     "op": "lte",
+     "value": 1.0
+    },
+    {
+     "id": "C-tw-019-P07-S3",
+     "metric": "visibility",
+     "op": "gte",
+     "value": 3.0
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

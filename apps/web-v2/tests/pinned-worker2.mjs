@@ -13,7 +13,7 @@ import {fileURLToPath} from 'node:url';
 // fixture+manifest re-anchored to the live canonical bytes per the
 // CL-DATA-57/4becb13b2 pattern; the pre-wave bytes (2af08fb9/87d380a1)
 // remain reachable through git history.
-export const W2_SHA = "19e9365487c8ac46048cdc9c5e1eea2d50406e41";
+export const W2_SHA = "24b3a4e2a6e77ca37ef88a067e1f3736be59cbc6";
 export const fixtureDirectory = fileURLToPath(new URL('./fixtures/worker2/', import.meta.url));
 export const manifest = JSON.parse(readFileSync(resolve(fixtureDirectory, 'manifest.json'), 'utf8'));
 export function gitBlob(buffer) {

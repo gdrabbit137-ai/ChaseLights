@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "jp-057-P01",
  "place_id": "jp-057",
  "revision": 2,
@@ -273,7 +273,43 @@
      "ja": "2026-11-12 CL-DATA-68：round16 チャレンジャー指摘（jp-057-P01 22:00〜23:00はロープウェイ最終21:00と矛盾・中）の修正。チケット指示によりロープウェイ営業窓へ制限。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "city_night",
+    "venue_open"
+   ],
+   "seasonal": null
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-jp-057-P01-01",
+     "metric": "cloud_cover_total",
+     "op": "lte",
+     "value": 30
+    },
+    {
+     "id": "C-jp-057-P01-02",
+     "metric": "visibility",
+     "op": "gte",
+     "value": 10
+    },
+    {
+     "id": "C-jp-057-P01-03",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.2
+    },
+    {
+     "id": "C-jp-057-P01-04",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.5
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

@@ -11,7 +11,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
 DATA = ROOT / "data" / "v2"
-SCHEMA = ROOT / "specs" / "v2" / "schema" / "opportunity-v2.1.schema.json"
+SCHEMA = ROOT / "specs" / "v2" / "schema" / "opportunity-v2.2.0.schema.json"  # CL-DATA-80: v2.2 regen
 IDS = ("tw-016-P01", "tw-026-P01", "tw-026-P02")
 CROSSWALK_FILES = tuple(sorted((
     "worker2_batch03_tw-016-P01.jsonl",
@@ -195,7 +195,7 @@ class CrosswalkGate(unittest.TestCase):
         for oid, doc in self.docs.items():
             with self.subTest(oid=oid):
                 self.assertEqual(oid, doc["opportunity_id"])
-                self.assertEqual("2.1.0", doc["schema_version"])
+                self.assertEqual("2.2.0", doc["schema_version"])  # CL-DATA-80: schema v2.2 regen (additive windows/conditions_v2)
                 self.assertEqual("R1", doc["readiness"]["research_level"])
                 # CL-DATA-18 re-anchor: tw-026-P01/P02 GEOMETRY_GAP resolved by
                 # AI-verified fills; tw-016-P01 keeps the honest geometry gap.

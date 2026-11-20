@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "us-121-P02",
  "place_id": "us-121",
  "revision": 1,
@@ -218,7 +218,43 @@
      "ja": "降水 <0.2 mm/h：撮影への影響なし（既承認の一般閾値。夜間の尾根・海岸の滑りはアクセス安全が担う）。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [],
+   "seasonal": null
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-us-121-P02-M1",
+     "metric": "moon_illumination_fraction",
+     "op": "gte",
+     "value": 0.85
+    },
+    {
+     "id": "C-us-121-P02-M2",
+     "metric": "moon_altitude",
+     "op": "between",
+     "value": [
+      5,
+      30
+     ]
+    },
+    {
+     "id": "C-us-121-P02-M3",
+     "metric": "cloud_cover_total",
+     "op": "lte",
+     "value": 30
+    },
+    {
+     "id": "C-us-121-P02-M4",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.2
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

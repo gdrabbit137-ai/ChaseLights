@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "tw-183-P02",
  "place_id": "tw-183",
  "revision": 1,
@@ -215,7 +215,30 @@
      "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。契約作成時に組み込み（CL-DATA-19 監査の語義）。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "civil_daylight"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-tw-183-P02-02",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.2
+    },
+    {
+     "id": "C-tw-183-P02-03",
+     "metric": "wind_speed_10m",
+     "op": "lt",
+     "value": 5
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

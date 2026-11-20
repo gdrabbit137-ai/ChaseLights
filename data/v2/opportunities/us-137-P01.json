@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "us-137-P01",
  "place_id": "us-137",
  "revision": 1,
@@ -215,7 +215,30 @@
      "ja": "季節営業窓（MODIFIER 較正）：ゴージ・トレイルは毎年約11月中旬〜4月中旬に閉鎖（NY State Parks の年度公告優先、典型窓約04-15〜11-10。MODIFIER のみで較正中、暦未登録時は誠実に unknown）。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "civil_daylight"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-us-137-P01-01",
+     "metric": "river_flow_state",
+     "op": "derived_state",
+     "value": null
+    },
+    {
+     "id": "C-us-137-P01-02",
+     "metric": "precipitation",
+     "op": "lte",
+     "value": 0.3
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

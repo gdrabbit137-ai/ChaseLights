@@ -12,8 +12,12 @@ from jsonschema import Draft202012Validator, FormatChecker
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def load_schema():
-    schema = json.loads((ROOT / "schema/opportunity-v2.1.schema.json").read_text(encoding="utf-8"))
+def load_schema(version=None):
+    if version == "2.2.0":
+        path = "schema/opportunity-v2.2.0.schema.json"
+    else:
+        path = "schema/opportunity-v2.1.schema.json"
+    schema = json.loads((ROOT / path).read_text(encoding="utf-8"))
     Draft202012Validator.check_schema(schema)
     return schema
 
@@ -70,7 +74,8 @@ def validate_references(document):
 
 
 def validate_record(document, schema=None):
-    schema = schema if schema is not None else load_schema()
+    schema = (schema if schema is not None
+              else load_schema(document.get("schema_version")))
     validator = Draft202012Validator(schema, format_checker=FormatChecker())
     errors = [f"schema:{'/'.join(map(str, e.absolute_path)) or '$'}: {e.message}"
               for e in validator.iter_errors(document)]

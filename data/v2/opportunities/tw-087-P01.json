@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "tw-087-P01",
  "place_id": "tw-087",
  "revision": 2,
@@ -395,7 +395,83 @@
      "ja": "2026-11-05 オーナー裁定＋確認（CL-DATA-11）：「月光のない夜、雲海は見えない」の後、月光の例外は撤回——light_window の唯一の語義は市民光（太陽高度 > -6°）で、夜間は一律成立せず、月照指標は使用しない。threshold_source=computed。意味修正のため layering parity ゲートは本レコードを免除し、変更はこのリビジョンノートに記録。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "civil_daylight"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-tw-087-P01-01",
+     "metric": "relative_humidity_925hpa",
+     "op": "gte",
+     "value": 85
+    },
+    {
+     "id": "C-tw-087-P01-02",
+     "metric": "relative_humidity_850hpa",
+     "op": "gte",
+     "value": 55
+    },
+    {
+     "id": "C-tw-087-P01-03",
+     "metric": "lcl_height_m_agl",
+     "op": "lt",
+     "value": 2250
+    },
+    {
+     "id": "C-tw-087-P01-04",
+     "metric": "cloud_cover_low",
+     "op": "gte",
+     "value": 60
+    },
+    {
+     "id": "C-tw-087-P01-05",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.4
+    },
+    {
+     "id": "C-tw-087-P01-06",
+     "metric": "visibility",
+     "op": "gte",
+     "value": 1
+    }
+   ],
+   "quality": [
+    {
+     "id": "C-tw-087-P01-07",
+     "metric": "temperature_delta_850_925_c",
+     "weight": 1.0,
+     "ideal": [
+      0.0,
+      null
+     ],
+     "acceptable": [
+      0.0,
+      null
+     ],
+     "provisional": true
+    },
+    {
+     "id": "C-tw-087-P01-08",
+     "metric": "wind_speed_850hpa",
+     "weight": 1.0,
+     "ideal": [
+      0.0,
+      12.0
+     ],
+     "acceptable": [
+      0.0,
+      18.0
+     ],
+     "provisional": true
+    }
+   ]
+  }
  },
  "evidence_claims": [
   {

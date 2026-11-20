@@ -50,8 +50,9 @@ from adapters.threshold_observations import METRIC_FIELDS, compare  # noqa: E402
 from astro_hourly import (  # noqa: E402
     ASTRO_SAMPLING_PROVENANCE, WINDOW_SAMPLE_OFFSETS, hour_observations,
     sun_events_span, window_pass_profiles)
+import quality_engine  # noqa: E402  CL-DATA-80 QUALITY scoring engine (v2)
 
-BUNDLE_VERSION = "0.1.0"
+BUNDLE_VERSION = "0.2.0"  # CL-DATA-80: quality-engine fields (engine/s_rank/good_hours_v2)
 ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blue_hour_window",
                  "golden_hour_window", "astronomical_darkness",
                  "moon_illumination_fraction", "moon_altitude",
@@ -1218,6 +1219,12 @@ def main():
     # 72h horizon whenever a scoped regen (CL-DATA-25/26) omitted the flag —
     # the scheduled 168h semantics were lost in the artifact without any error.
     parser.add_argument("--forecast-hours", type=int, default=None)
+    # CL-DATA-80: --legacy-engine is the escape hatch back to the pre-v2
+    # boolean path (GUIDANCE_SATISFIED/UNFAVORABLE with no quality score).
+    # Default is the QUALITY engine (Gatekeeper -> S_quality -> tier).
+    parser.add_argument("--legacy-engine", action="store_true",
+                        help="evaluate with the legacy boolean path only "
+                             "(no S_quality/tier_v2/s_rank fields)")
     arguments = parser.parse_args()
     PUBLISHED_HORIZON_HOURS = 168  # CL-DATA-06: 7-day semantics (CAMS ceiling)
     if arguments.forecast_hours is None:
@@ -1243,6 +1250,18 @@ def main():
     # CL-DATA-72 batch A / CL-COND-A8: seasonal-calendar windows for the
     # seasonal_state bridge.
     seasonal_by_spot = load_seasonal_calendar()
+    # CL-DATA-80: place AGLI for S_rank = AGLI^0.35 * S_quality^0.65. The dual
+    # board (AGLI-L landscape + AGLI-P photography) is averaged into the single
+    # AGLI the engine spec formula uses; places with no AGLI (scoring paused)
+    # carry s_rank = null honestly, never a fabricated score.
+    agli_by_place = {}
+    _agli_path = ROOT / "data/v2/audits/agli/agli-final.json"
+    if _agli_path.exists():
+        for p in (json.loads(_agli_path.read_text(encoding="utf-8"))
+                  .get("places") or []):
+            l, pp = p.get("agli_l"), p.get("agli_p")
+            if isinstance(l, (int, float)) and isinstance(pp, (int, float)):
+                agli_by_place[p["place_id"]] = round((float(l) + float(pp)) / 2.0, 1)
 
     by_coordinate = {}
     skipped = []
@@ -1445,6 +1464,12 @@ def main():
                 if _cond.get("metric") == "seasonal_state":
                     _cond["seasonal_entries"] = seasonal_by_spot.get(oid) or []
             alternation = moon_alternation(conditions_eval)
+            # CL-DATA-80: engine selection is PER CONTRACT — migrated contracts
+            # run the QUALITY engine unless --legacy-engine; an unmigrated
+            # contract (defensive) silently keeps the legacy boolean path.
+            engine_v2 = (not arguments.legacy_engine
+                         and isinstance(contract.get("conditions_v2"), dict))
+            best_s_quality = None
             days = {}
             # CL-DATA-56: per-condition verdict counts, keyed by local day.
             # The published hours rows carry only the ROLE-GATED failed/
@@ -1517,6 +1542,15 @@ def main():
                                                  + timedelta(minutes=off)
                                                  ).strftime("%H:%M")
                                 break
+                qe = None
+                if engine_v2:
+                    qe = quality_engine.evaluate_hour(
+                        contract.get("conditions_v2"), states,
+                        hour_row["values"], astro_row,
+                        status == "GUIDANCE_SATISFIED")
+                    if qe["eligible"] and (best_s_quality is None
+                                           or qe["s_quality"] > best_s_quality):
+                        best_s_quality = qe["s_quality"]
                 entry["hours"].append({
                     "utc": hour_row["valid_at_utc"],
                     "local": local_stamp.strftime("%H:%M"),
@@ -1524,6 +1558,10 @@ def main():
                     "status": status,
                     "failed": fails,
                     "unknown": unknowns,
+                    # CL-DATA-80: eligible hours only — ineligible hours carry
+                    # no score fields (G=0 -> S_quality=0 by spec §4, tier ✗).
+                    **({"s_quality": qe["s_quality"], "tier_v2": qe["tier"]}
+                       if qe and qe["eligible"] else {}),
                 })
                 for cid, state in states.items():
                     day_verdict_counts.setdefault(day_key, {}).setdefault(
@@ -1562,6 +1600,16 @@ def main():
                     "good_hours": [h.get("local_precise") or h["local"]
                                    for h in hours_out
                                    if h["status"] == "GUIDANCE_SATISFIED"],
+                    # CL-DATA-80: per-hour QUALITY-engine scores for the same
+                    # eligible buckets (additive; legacy consumers read
+                    # good_hours unchanged).
+                    **({"good_hours_v2": [
+                        {"local": h.get("local_precise") or h["local"],
+                         "s_quality": h["s_quality"], "tier_v2": h["tier_v2"]}
+                        for h in hours_out
+                        if h["status"] == "GUIDANCE_SATISFIED"
+                        and "s_quality" in h]}
+                       if engine_v2 else {}),
                     "hour_counts": counts,
                     "conditions": conditions_day,
                 })
@@ -1594,6 +1642,18 @@ def main():
                 "genre_template": contract.get("genre_template"),
                 "condition_contract_id": contract.get("contract_id"),
                 "condition_contract_sha256": contract_sha,
+                # CL-DATA-80: which evaluation engine produced this record.
+                "engine": ("legacy_boolean" if not engine_v2
+                           else "quality_engine_v2"),
+                # S_rank = AGLI^0.35 * S_quality_best^0.65 (spec §4) over the
+                # eligible hours of the 168h window; null when the place has no
+                # AGLI (scoring paused) or no eligible hour.
+                "s_rank": ({
+                    "agli": agli_by_place.get(doc["place_id"]),
+                    "s_quality_best": best_s_quality,
+                    "value": quality_engine.s_rank(
+                        agli_by_place.get(doc["place_id"]), best_s_quality),
+                } if engine_v2 and best_s_quality is not None else None),
                 "days": day_out,
                 "live": live,
             })

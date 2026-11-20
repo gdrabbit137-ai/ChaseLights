@@ -1,429 +1,491 @@
 {
-  "schema_version": "2.1.0",
-  "opportunity_id": "jp-021-P02",
-  "place_id": "jp-021",
-  "revision": 3,
-  "lifecycle_status": "draft",
-  "name_i18n": {
+ "schema_version": "2.2.0",
+ "opportunity_id": "jp-021-P02",
+ "place_id": "jp-021",
+ "revision": 3,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "西穗高口限定星空觀賞便・北阿爾卑斯星空",
+  "en": "西穗高口限定星空觀賞便・北阿爾卑斯星空",
+  "ja": "西穗高口限定星空觀賞便・北阿爾卑斯星空"
+ },
+ "description_i18n": {
+  "zh-TW": "西穗高口限定星空觀賞便・北阿爾卑斯星空（V1 最佳時段：僅官方星空觀賞便營運夜晚（景點當地時間／JST；2026 秋季下行最終 21:00）；V1 季節：僅官方當年度星空觀賞便指定日期；不得把一般晴朗夜晚視為可進入。V1 遷移骨架；內容待第二輪研究完善。）",
+  "en": "西穗高口限定星空觀賞便・北阿爾卑斯星空 (V1 best time: 僅官方星空觀賞便營運夜晚（景點當地時間／JST；2026 秋季下行最終 21:00）; V1 season: 僅官方當年度星空觀賞便指定日期；不得把一般晴朗夜晚視為可進入 V1 migration skeleton; content to be refined in round 2.)",
+  "ja": "西穗高口限定星空觀賞便・北阿爾卑斯星空（V1ベスト時間帯: 僅官方星空觀賞便營運夜晚（景點當地時間／JST；2026 秋季下行最終 21:00）；V1季節: 僅官方當年度星空觀賞便指定日期；不得把一般晴朗夜晚視為可進入。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-021-P02-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      137.60158,
+      36.268335
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "西穗高口山頂區須搭乘新穗高纜車；營運可能因惡劣天候或定期維修停駛。夜間僅官方年度「星空觀賞便」指定日期可進入，不可把一般晴朗夜晚視為可達。",
+    "en": "The Nishi-Hotakaguchi summit area depends on Shinhotaka Ropeway operation, which may be suspended for adverse weather or maintenance. Night access is limited to official annual Stargazing Service dates; ordinary clear nights are not assumed accessible.",
+    "ja": "西穂高口の山頂エリアは新穂高ロープウェイの運行が前提で、悪天候や点検で運休する場合があります。夜間入場は公式の年間「星空観賞便」実施日に限り、通常の晴天夜を入場可能とは扱いません。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動。",
+    "en": "Follow on-site safety guidance.",
+    "ja": "現地の安全指示に従ってください。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-021-P02-01",
+   "kind": "multi_component",
+   "name_i18n": {
     "zh-TW": "西穗高口限定星空觀賞便・北阿爾卑斯星空",
     "en": "西穗高口限定星空觀賞便・北阿爾卑斯星空",
     "ja": "西穗高口限定星空觀賞便・北阿爾卑斯星空"
-  },
-  "description_i18n": {
-    "zh-TW": "西穗高口限定星空觀賞便・北阿爾卑斯星空（V1 最佳時段：僅官方星空觀賞便營運夜晚（景點當地時間／JST；2026 秋季下行最終 21:00）；V1 季節：僅官方當年度星空觀賞便指定日期；不得把一般晴朗夜晚視為可進入。V1 遷移骨架；內容待第二輪研究完善。）",
-    "en": "西穗高口限定星空觀賞便・北阿爾卑斯星空 (V1 best time: 僅官方星空觀賞便營運夜晚（景點當地時間／JST；2026 秋季下行最終 21:00）; V1 season: 僅官方當年度星空觀賞便指定日期；不得把一般晴朗夜晚視為可進入 V1 migration skeleton; content to be refined in round 2.)",
-    "ja": "西穗高口限定星空觀賞便・北阿爾卑斯星空（V1ベスト時間帯: 僅官方星空觀賞便營運夜晚（景點當地時間／JST；2026 秋季下行最終 21:00）；V1季節: 僅官方當年度星空觀賞便指定日期；不得把一般晴朗夜晚視為可進入。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
-  },
-  "camera_contexts": [
-    {
-      "id": "CZ-jp-021-P02-01",
-      "kind": "area",
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            137.60158,
-            36.268335
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "verification_status": "provisional",
-      "evidence_refs": [],
-      "access_notes_i18n": {
-        "zh-TW": "西穗高口山頂區須搭乘新穗高纜車；營運可能因惡劣天候或定期維修停駛。夜間僅官方年度「星空觀賞便」指定日期可進入，不可把一般晴朗夜晚視為可達。",
-        "en": "The Nishi-Hotakaguchi summit area depends on Shinhotaka Ropeway operation, which may be suspended for adverse weather or maintenance. Night access is limited to official annual Stargazing Service dates; ordinary clear nights are not assumed accessible.",
-        "ja": "西穂高口の山頂エリアは新穂高ロープウェイの運行が前提で、悪天候や点検で運休する場合があります。夜間入場は公式の年間「星空観賞便」実施日に限り、通常の晴天夜を入場可能とは扱いません。"
-      },
-      "safety_notes_i18n": {
-        "zh-TW": "請依現場安全指示行動。",
-        "en": "Follow on-site safety guidance.",
-        "ja": "現地の安全指示に従ってください。"
-      },
-      "altitude_m": null
-    }
-  ],
-  "targets": [
-    {
-      "id": "SG-jp-021-P02-01",
-      "kind": "multi_component",
-      "name_i18n": {
-        "zh-TW": "西穗高口限定星空觀賞便・北阿爾卑斯星空",
-        "en": "西穗高口限定星空觀賞便・北阿爾卑斯星空",
-        "ja": "西穗高口限定星空觀賞便・北阿爾卑斯星空"
-      },
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            137.60158,
-            36.268335
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "phenomenon_model_id": null,
-      "evidence_refs": [],
-      "components": []
-    }
-  ],
-  "observation_relations": [
-    {
-      "id": "VR-jp-021-P02-01",
-      "camera_context_id": "CZ-jp-021-P02-01",
-      "target_id": "SG-jp-021-P02-01",
-      "type": "foreground_background",
-      "geometry_mode": "unknown",
-      "azimuth_deg": null,
-      "elevation_deg": null,
-      "distance_m": null,
-      "evidence_refs": [],
-      "derivation_method": null,
-      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
-    }
-  ],
-  "navigation_targets": [
-    {
-      "id": "NAV-jp-021-P02-01",
-      "status": "needs_review",
-      "target_type": "other",
-      "lat": 36.268335,
-      "lon": 137.60158,
-      "label_i18n": {
-        "zh-TW": "新穗高纜車山麓進入點待查證",
-        "en": "Shinhotaka Ropeway base access pending verification",
-        "ja": "新穂高ロープウェイ山麓アクセスは確認待ち"
-      },
-      "evidence_refs": [],
-      "confidence": "low"
-    }
-  ],
-  "condition_contract": {
-    "contract_id": "CC-jp-021-P02-v1",
-    "status": "draft",
-    "genre_template": "night_sky",
-    "template_version": "night_sky-v0.4",
-    "recommendation_policy_version": null,
-    "conditions": [
-      {
-        "id": "C-jp-021-P02-01",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "astronomical_darkness",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-021-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "天文暮光窗（太陽高度 ≤ -18°）：星星對比的天文前提。",
-          "en": "Astronomical darkness window (sun elevation <= -18 deg): the astronomical prerequisite for stellar contrast.",
-          "ja": "天文暮色帯（太陽高度≤-18度）。恒星コントラストの天文的前提。"
-        },
-        "genre_scope": "starry_sky",
-        "notes_i18n": {
-          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
-        }
-      },
-      {
-        "id": "C-jp-021-P02-02",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "moon_illumination_fraction",
-        "operator": "lte",
-        "threshold": 0.5,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-021-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "月照 ≤50%（星空基層）：半月以下時亮星與星軌仍可拍；比銀河層（細月）寬鬆是刻意的分層。",
-          "en": "Moon illumination <= 50% (starry base): bright stars and star trails remain shootable at half moon or less; deliberately looser than the Milky-Way layer (crescent).",
-          "ja": "月照度≤50%（星空基層）。半月以下なら明るい星や星軌は撮れる。銀河層（細月）より意図的に緩い。"
-        },
-        "genre_scope": "starry_sky",
-        "notes_i18n": {
-          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
-        }
-      },
-      {
-        "id": "C-jp-021-P02-03",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "cloud_cover_total",
-        "operator": "lte",
-        "threshold": 20,
-        "unit": "%",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-021-P02-claim-01"
-        ],
-        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "總雲量 ≤20%：星空是長曝主體，任何雲帶都蓋星點。",
-          "en": "Total cloud <= 20%: long exposures make any cloud band cover stars.",
-          "ja": "全雲量≤20%。長時間露光では雲帯が星を覆う。"
-        },
-        "genre_scope": "starry_sky",
-        "notes_i18n": {
-          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
-        }
-      },
-      {
-        "id": "C-jp-021-P02-04",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "aod_550nm",
-        "operator": "lte",
-        "threshold": 0.3,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-021-P02-claim-01"
-        ],
-        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "AOD ≤0.3：氣溶膠消光吃掉星點對比，與銀河層同一上限。",
-          "en": "AOD <= 0.3: aerosol extinction eats stellar contrast; same ceiling as the Milky-Way layer.",
-          "ja": "AOD≤0.3。エアロゾル消光は星のコントラストを減らす。銀河層と同じ上限。"
-        },
-        "genre_scope": "starry_sky",
-        "notes_i18n": {
-          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
-        }
-      },
-      {
-        "id": "C-jp-021-P02-05",
-        "role": "QUALITY",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "galactic_core_altitude",
-        "operator": "gte",
-        "threshold": 20,
-        "unit": "°",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-021-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "BONUS",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "銀河核心仰角僅作加分項（owner 規格 §1.2）：冬季核心低於地平線不封殺星空；核心高懸的夏夜畫面更佳，作為品質層訊號。",
-          "en": "Galactic-core altitude is a bonus signal only (owner spec section 1.2): in winter the core sits below the horizon and must never veto the starry sky; a high summer core simply makes the frame better.",
-          "ja": "銀河中心の高度は加点信号に過ぎない（オーナー仕様書 §1.2）：冬は中心が地平線下でも星空を否決しない。夏の高仰角は画面をより良くするだけ。"
-        },
-        "genre_scope": "milky_way",
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：galactic_core ≥20 硬門檻移除，改 BONUS 加分項。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): galactic-core >= 20 hard gate removed, demoted to QUALITY/BONUS.",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：galactic_core ≥20 の必須門檻を撤去し、加点（BONUS）へ。"
-        }
-      },
-      {
-        "id": "C-jp-021-P02-06",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "moon_altitude",
-        "operator": "lt",
-        "threshold": 0,
-        "unit": "°",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-021-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "月亮在地平線下（<0°）：上層的首選狀態；月亮升起時改由 M3（離核心夠遠）判定。",
-          "en": "Moon below the horizon (<0 deg): the preferred upper-layer state; when the moon is up, M3 (far from the core) takes over.",
-          "ja": "月が地平線下（<0度）。上層の望ましい状態。月が昇っている場合はM3（中心から十分遠い）が判定を引き継ぐ。"
-        },
-        "genre_scope": "milky_way",
-        "notes_i18n": {
-          "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-          "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-          "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
-        }
-      },
-      {
-        "id": "C-jp-021-P02-07",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "moon_target_separation_deg",
-        "operator": "gte",
-        "threshold": 45,
-        "unit": "°",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-021-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "月亮離銀河核心 ≥45°（owner 規格 §1.2）：細月升起但夠遠時銀河帶仍可拍；僅在月亮升起時啟用（月光 any_of 第二軌——月下 OR（細月 ∧ 夠遠））。",
-          "en": "Moon at least 45 deg from the galactic core (owner spec section 1.2): with a thin moon up but far from the core the galactic band stays shootable; active only while the moon is up (track 2 of the moonlight any_of: moon down OR (crescent AND far)).",
-          "ja": "月が銀河中心から≥45度（オーナー仕様書 §1.2）：細い月でも遠ければ銀河帯は撮れる。月が昇っている間のみ有効（月光any_of第2軌道——月が沈む OR（細月∧遠い））。"
-        },
-        "modifier_activation": {
-          "mode": "when_not_met",
-          "when_condition": "C-jp-021-P02-06"
-        },
-        "genre_scope": "milky_way",
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：分離門檻 40°→45°（any_of 第二軌成員）。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): separation threshold 40 deg -> 45 deg (track-2 member of the any_of).",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：分離閾値40°→45°（any_of第2軌道の構成要素）。"
-        }
-      },
-      {
-        "id": "C-jp-021-P02-08",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "moon_illumination_fraction",
-        "operator": "lte",
-        "threshold": 0.25,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-021-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "月光 any_of 第二軌（owner 規格 §1.2）：月亮升起時須為細月（月照 ≤25%）且離銀河核心 ≥45°；月亮在地平線下（仰角 <0）時由 M2 錨點成立、本軌不適用。取代原先的照度代理閘（實作細節見 evaluate_batch M2/M3 交替邏輯）。",
-          "en": "Track 2 of the moonlight any_of (owner spec section 1.2): while the moon is up it must be a crescent (illumination <= 0.25) AND at least 45 deg from the galactic core; with the moon below the horizon the M2 anchor satisfies the set and this track does not apply. Replaces the old illuminance-proxy gate (see the M2/M3 alternation in evaluate_batch).",
-          "ja": "月光any_ofの第2軌道（オーナー仕様書 §1.2）：月が昇っている間は細い月（月照≤0.25）かつ銀河中心から≥45度を要する。月が地平線下ならM2アンカーが成立し本軌道は適用されない。旧の照度プロキシゲートを置き換え（evaluate_batch の M2/M3 交替ロジック参照）。"
-        },
-        "modifier_activation": {
-          "mode": "when_not_met",
-          "when_condition": "C-jp-021-P02-06"
-        },
-        "genre_scope": "milky_way",
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：月光雙軌：月照閘 ≤0.25 取代照度代理（月下時本條件自動成立——評估器對月下月亮的月照一律放行）。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
-        }
-      },
-      {
-        "id": "C-jp-021-P02-OP1",
-        "role": "REQUIRED",
-        "domain": "SEASON_TIME",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "seasonal_state",
-        "operator": "eq",
-        "threshold": "window_open",
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-021-P02-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "evidence_review",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "西穗高口展望台夜間僅在官方「星空観賞便」特別營運日開放（2026 秋季 10/2-4、10/9-12、10/30-11/3、11/6-8，夜間 18:00–21:00，第2纜車特別運行；春季 5/3-5 已結束）。季節窗引擎以日期窗匹配（10-02〜11-08 為官方營運季粗窗超集——精確營運日由 legacy shinhotaka access provider 把關）；窗外的夜空條件再好也不成立（纜車夜間不運行）。",
-          "en": "The Nishihotakaguchi observation deck opens at night only on the official stargazing-service dates (2026 autumn: Oct 2-4, Oct 9-12, Oct 30-Nov 3, Nov 6-8, 18:00-21:00, second ropeway special service; the spring service May 3-5 has ended). The seasonal-window engine matches by date window (10-02..11-08 is the coarse official season superset - the exact service dates are enforced by the legacy shinhotaka access provider); outside the window the night-sky conditions do not matter because the ropeway does not run at night.",
-          "ja": "西穂高口展望台が夜間開放されるのは公式の「星空観賞便」特別運行日のみ（2026年秋：10/2-4、10/9-12、10/30-11/3、11/6-8、18:00-21:00、第2ロープウェイ特別運行；春の5/3-5は終了）。季節窓エンジンは日付窓で照合（10-02〜11-08 は公式営業季の粗い上位集合——正確な営業日は legacy の shinhotaka access provider が担保）；窓外は星空条件が良くても成立しない（夜間は運行しない）。"
-        },
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決：綁西穗高口特別營業日曆）。官方營業資訊來源：https://shinhotaka-ropeway.jp/play/ （2026 運行計畫）。legacy 層 shinhotaka_access.py 已登錄官方 2026 日期集並要求當窗即時營運確認。",
-          "en": "2026-11-20 CL-DATA-76 (owner ruling: bind the Nishihotakaguchi special-operation calendar). Official operation source: https://shinhotaka-ropeway.jp/play/ (2026 service plan). The legacy layer (shinhotaka_access.py) already carries the official 2026 date set and requires a same-window live operation confirmation.",
-          "ja": "2026-11-20 CL-DATA-76（オーナー裁定：西穂高口特別営業カレンダーに紐付け）。公式営業情報：https://shinhotaka-ropeway.jp/play/ （2026 運行計画）。legacy 層（shinhotaka_access.py）は公式 2026 日付セットと同窓のライブ運行確認を実装済み。"
-        }
-      }
-    ]
-  },
-  "evidence_claims": [
-    {
-      "claim_id": "jp-021-P02-claim-01",
-      "claim_type": "existence",
-      "evidence_refs": [],
-      "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
-    }
-  ],
-  "readiness": {
-    "research_level": "R0",
-    "gaps": [
-      "RESEARCH_GAP",
-      "GEOMETRY_GAP"
-    ]
-  },
-  "provenance": {
-    "source_catalog": "runtime_catalog_v004_r4_2.json",
-    "source_revision": "v1-spot-jp-021",
-    "imported_at": "2026-10-21T20:51:45Z",
-    "review_status": "pending",
-    "reviewed_by": null
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      137.60158,
+      36.268335
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
   }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-021-P02-01",
+   "camera_context_id": "CZ-jp-021-P02-01",
+   "target_id": "SG-jp-021-P02-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-021-P02-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 36.268335,
+   "lon": 137.60158,
+   "label_i18n": {
+    "zh-TW": "新穗高纜車山麓進入點待查證",
+    "en": "Shinhotaka Ropeway base access pending verification",
+    "ja": "新穂高ロープウェイ山麓アクセスは確認待ち"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-021-P02-v1",
+  "status": "draft",
+  "genre_template": "night_sky",
+  "template_version": "night_sky-v0.4",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-021-P02-01",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "astronomical_darkness",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-021-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "天文暮光窗（太陽高度 ≤ -18°）：星星對比的天文前提。",
+     "en": "Astronomical darkness window (sun elevation <= -18 deg): the astronomical prerequisite for stellar contrast.",
+     "ja": "天文暮色帯（太陽高度≤-18度）。恒星コントラストの天文的前提。"
+    },
+    "genre_scope": "starry_sky",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-jp-021-P02-02",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_illumination_fraction",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-021-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月照 ≤50%（星空基層）：半月以下時亮星與星軌仍可拍；比銀河層（細月）寬鬆是刻意的分層。",
+     "en": "Moon illumination <= 50% (starry base): bright stars and star trails remain shootable at half moon or less; deliberately looser than the Milky-Way layer (crescent).",
+     "ja": "月照度≤50%（星空基層）。半月以下なら明るい星や星軌は撮れる。銀河層（細月）より意図的に緩い。"
+    },
+    "genre_scope": "starry_sky",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-jp-021-P02-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 20,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-021-P02-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "總雲量 ≤20%：星空是長曝主體，任何雲帶都蓋星點。",
+     "en": "Total cloud <= 20%: long exposures make any cloud band cover stars.",
+     "ja": "全雲量≤20%。長時間露光では雲帯が星を覆う。"
+    },
+    "genre_scope": "starry_sky",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-jp-021-P02-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.3,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-021-P02-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD ≤0.3：氣溶膠消光吃掉星點對比，與銀河層同一上限。",
+     "en": "AOD <= 0.3: aerosol extinction eats stellar contrast; same ceiling as the Milky-Way layer.",
+     "ja": "AOD≤0.3。エアロゾル消光は星のコントラストを減らす。銀河層と同じ上限。"
+    },
+    "genre_scope": "starry_sky",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-jp-021-P02-05",
+    "role": "QUALITY",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "galactic_core_altitude",
+    "operator": "gte",
+    "threshold": 20,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-021-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "BONUS",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "銀河核心仰角僅作加分項（owner 規格 §1.2）：冬季核心低於地平線不封殺星空；核心高懸的夏夜畫面更佳，作為品質層訊號。",
+     "en": "Galactic-core altitude is a bonus signal only (owner spec section 1.2): in winter the core sits below the horizon and must never veto the starry sky; a high summer core simply makes the frame better.",
+     "ja": "銀河中心の高度は加点信号に過ぎない（オーナー仕様書 §1.2）：冬は中心が地平線下でも星空を否決しない。夏の高仰角は画面をより良くするだけ。"
+    },
+    "genre_scope": "milky_way",
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：galactic_core ≥20 硬門檻移除，改 BONUS 加分項。",
+     "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): galactic-core >= 20 hard gate removed, demoted to QUALITY/BONUS.",
+     "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：galactic_core ≥20 の必須門檻を撤去し、加点（BONUS）へ。"
+    }
+   },
+   {
+    "id": "C-jp-021-P02-06",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_altitude",
+    "operator": "lt",
+    "threshold": 0,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-021-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月亮在地平線下（<0°）：上層的首選狀態；月亮升起時改由 M3（離核心夠遠）判定。",
+     "en": "Moon below the horizon (<0 deg): the preferred upper-layer state; when the moon is up, M3 (far from the core) takes over.",
+     "ja": "月が地平線下（<0度）。上層の望ましい状態。月が昇っている場合はM3（中心から十分遠い）が判定を引き継ぐ。"
+    },
+    "genre_scope": "milky_way",
+    "notes_i18n": {
+     "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
+     "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
+     "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+    }
+   },
+   {
+    "id": "C-jp-021-P02-07",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_target_separation_deg",
+    "operator": "gte",
+    "threshold": 45,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-021-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月亮離銀河核心 ≥45°（owner 規格 §1.2）：細月升起但夠遠時銀河帶仍可拍；僅在月亮升起時啟用（月光 any_of 第二軌——月下 OR（細月 ∧ 夠遠））。",
+     "en": "Moon at least 45 deg from the galactic core (owner spec section 1.2): with a thin moon up but far from the core the galactic band stays shootable; active only while the moon is up (track 2 of the moonlight any_of: moon down OR (crescent AND far)).",
+     "ja": "月が銀河中心から≥45度（オーナー仕様書 §1.2）：細い月でも遠ければ銀河帯は撮れる。月が昇っている間のみ有効（月光any_of第2軌道——月が沈む OR（細月∧遠い））。"
+    },
+    "modifier_activation": {
+     "mode": "when_not_met",
+     "when_condition": "C-jp-021-P02-06"
+    },
+    "genre_scope": "milky_way",
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：分離門檻 40°→45°（any_of 第二軌成員）。",
+     "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): separation threshold 40 deg -> 45 deg (track-2 member of the any_of).",
+     "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：分離閾値40°→45°（any_of第2軌道の構成要素）。"
+    }
+   },
+   {
+    "id": "C-jp-021-P02-08",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_illumination_fraction",
+    "operator": "lte",
+    "threshold": 0.25,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-021-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月光 any_of 第二軌（owner 規格 §1.2）：月亮升起時須為細月（月照 ≤25%）且離銀河核心 ≥45°；月亮在地平線下（仰角 <0）時由 M2 錨點成立、本軌不適用。取代原先的照度代理閘（實作細節見 evaluate_batch M2/M3 交替邏輯）。",
+     "en": "Track 2 of the moonlight any_of (owner spec section 1.2): while the moon is up it must be a crescent (illumination <= 0.25) AND at least 45 deg from the galactic core; with the moon below the horizon the M2 anchor satisfies the set and this track does not apply. Replaces the old illuminance-proxy gate (see the M2/M3 alternation in evaluate_batch).",
+     "ja": "月光any_ofの第2軌道（オーナー仕様書 §1.2）：月が昇っている間は細い月（月照≤0.25）かつ銀河中心から≥45度を要する。月が地平線下ならM2アンカーが成立し本軌道は適用されない。旧の照度プロキシゲートを置き換え（evaluate_batch の M2/M3 交替ロジック参照）。"
+    },
+    "modifier_activation": {
+     "mode": "when_not_met",
+     "when_condition": "C-jp-021-P02-06"
+    },
+    "genre_scope": "milky_way",
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：月光雙軌：月照閘 ≤0.25 取代照度代理（月下時本條件自動成立——評估器對月下月亮的月照一律放行）。",
+     "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
+     "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
+    }
+   },
+   {
+    "id": "C-jp-021-P02-OP1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-021-P02-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "evidence_review",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "西穗高口展望台夜間僅在官方「星空観賞便」特別營運日開放（2026 秋季 10/2-4、10/9-12、10/30-11/3、11/6-8，夜間 18:00–21:00，第2纜車特別運行；春季 5/3-5 已結束）。季節窗引擎以日期窗匹配（10-02〜11-08 為官方營運季粗窗超集——精確營運日由 legacy shinhotaka access provider 把關）；窗外的夜空條件再好也不成立（纜車夜間不運行）。",
+     "en": "The Nishihotakaguchi observation deck opens at night only on the official stargazing-service dates (2026 autumn: Oct 2-4, Oct 9-12, Oct 30-Nov 3, Nov 6-8, 18:00-21:00, second ropeway special service; the spring service May 3-5 has ended). The seasonal-window engine matches by date window (10-02..11-08 is the coarse official season superset - the exact service dates are enforced by the legacy shinhotaka access provider); outside the window the night-sky conditions do not matter because the ropeway does not run at night.",
+     "ja": "西穂高口展望台が夜間開放されるのは公式の「星空観賞便」特別運行日のみ（2026年秋：10/2-4、10/9-12、10/30-11/3、11/6-8、18:00-21:00、第2ロープウェイ特別運行；春の5/3-5は終了）。季節窓エンジンは日付窓で照合（10-02〜11-08 は公式営業季の粗い上位集合——正確な営業日は legacy の shinhotaka access provider が担保）；窓外は星空条件が良くても成立しない（夜間は運行しない）。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決：綁西穗高口特別營業日曆）。官方營業資訊來源：https://shinhotaka-ropeway.jp/play/ （2026 運行計畫）。legacy 層 shinhotaka_access.py 已登錄官方 2026 日期集並要求當窗即時營運確認。",
+     "en": "2026-11-20 CL-DATA-76 (owner ruling: bind the Nishihotakaguchi special-operation calendar). Official operation source: https://shinhotaka-ropeway.jp/play/ (2026 service plan). The legacy layer (shinhotaka_access.py) already carries the official 2026 date set and requires a same-window live operation confirmation.",
+     "ja": "2026-11-20 CL-DATA-76（オーナー裁定：西穂高口特別営業カレンダーに紐付け）。公式営業情報：https://shinhotaka-ropeway.jp/play/ （2026 運行計画）。legacy 層（shinhotaka_access.py）は公式 2026 日付セットと同窓のライブ運行確認を実装済み。"
+    }
+   }
+  ],
+  "windows": {
+   "time_of_day": [
+    "astro_darkness"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-jp-021-P02-02",
+     "metric": "moon_illumination_fraction",
+     "op": "lte",
+     "value": 0.5
+    },
+    {
+     "id": "C-jp-021-P02-03",
+     "metric": "cloud_cover_total",
+     "op": "lte",
+     "value": 20
+    },
+    {
+     "id": "C-jp-021-P02-04",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.3
+    },
+    {
+     "id": "C-jp-021-P02-06",
+     "metric": "moon_altitude",
+     "op": "lt",
+     "value": 0
+    },
+    {
+     "id": "C-jp-021-P02-07",
+     "metric": "moon_target_separation_deg",
+     "op": "gte",
+     "value": 45
+    },
+    {
+     "id": "C-jp-021-P02-08",
+     "metric": "moon_illumination_fraction",
+     "op": "lte",
+     "value": 0.25
+    }
+   ],
+   "quality": [
+    {
+     "id": "C-jp-021-P02-05",
+     "metric": "galactic_core_altitude",
+     "weight": 1.5,
+     "ideal": [
+      null,
+      null
+     ],
+     "acceptable": [
+      25,
+      null
+     ],
+     "provisional": false
+    }
+   ]
+  }
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-021-P02-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+  }
+ ],
+ "readiness": {
+  "research_level": "R0",
+  "gaps": [
+   "RESEARCH_GAP",
+   "GEOMETRY_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-021",
+  "imported_at": "2026-10-21T20:51:45Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
 }

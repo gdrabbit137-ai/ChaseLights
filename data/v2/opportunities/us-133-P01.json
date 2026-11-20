@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "us-133-P01",
  "place_id": "us-133",
  "revision": 1,
@@ -275,7 +275,42 @@
      "ja": "季節営業窓（MODIFIER 較正）：ホワイトマウンテン・ロードは冬季閉鎖、車行可能の典型窓は約05-20〜11-15（USFS の現地案内優先。MODIFIER のみで較正中、暦未登録時は誠実に unknown、不成立にしない）。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "civil_daylight"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-us-133-P01-01",
+     "metric": "visibility",
+     "op": "gte",
+     "value": 8
+    },
+    {
+     "id": "C-us-133-P01-02",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.4
+    },
+    {
+     "id": "C-us-133-P01-03",
+     "metric": "cloud_cover_low",
+     "op": "lte",
+     "value": 30
+    },
+    {
+     "id": "C-us-133-P01-04",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.2
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {
