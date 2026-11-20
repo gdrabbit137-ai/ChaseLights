@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "tw-209-P01",
  "place_id": "tw-209",
  "revision": 1,
@@ -240,7 +240,42 @@
      "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。夜間ライトアップの主題には暗い空が必要で、昼間は気象条件が全て通過しても成立しない。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "city_night"
+   ],
+   "seasonal": null
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-tw-209-P01-01",
+     "metric": "cloud_cover_total",
+     "op": "lte",
+     "value": 30
+    },
+    {
+     "id": "C-tw-209-P01-02",
+     "metric": "visibility",
+     "op": "gte",
+     "value": 10
+    },
+    {
+     "id": "C-tw-209-P01-03",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.2
+    },
+    {
+     "id": "C-tw-209-P01-04",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.5
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

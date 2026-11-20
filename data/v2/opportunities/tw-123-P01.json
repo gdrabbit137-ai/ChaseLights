@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "tw-123-P01",
  "place_id": "tw-123",
  "revision": 1,
@@ -380,7 +380,76 @@
      "ja": "近岸のうねり（ボーナス、誠実に uncertain）。夜光虫は波の擾乱で発光するが、うねりデータソースがないためスコアリングしない。現地判断用。ローボートの人為擾乱でも発光しうる。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "astro_darkness"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-tw-123-P01-02",
+     "metric": "moon_illumination_fraction",
+     "op": "lte",
+     "value": 0.5
+    },
+    {
+     "id": "C-tw-123-P01-03",
+     "metric": "cloud_cover_total",
+     "op": "lte",
+     "value": 20
+    },
+    {
+     "id": "C-tw-123-P01-04",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.3
+    },
+    {
+     "id": "C-tw-123-P01-06",
+     "metric": "moon_altitude",
+     "op": "lt",
+     "value": 0
+    },
+    {
+     "id": "C-tw-123-P01-07",
+     "metric": "moon_target_separation_deg",
+     "op": "gte",
+     "value": 40
+    },
+    {
+     "id": "C-tw-123-P01-08",
+     "metric": "moon_illuminance_proxy",
+     "op": "lte",
+     "value": 0.15
+    },
+    {
+     "id": "C-tw-123-P01-N1",
+     "metric": "noctiluca_concentration",
+     "op": "derived_state",
+     "value": null
+    }
+   ],
+   "quality": [
+    {
+     "id": "C-tw-123-P01-B1",
+     "metric": "nearshore_surf_state",
+     "weight": 1.0,
+     "ideal": [
+      1,
+      1
+     ],
+     "acceptable": [
+      0,
+      1
+     ],
+     "provisional": true,
+     "kind": "binary"
+    }
+   ]
+  }
  },
  "evidence_claims": [
   {

@@ -1,234 +1,257 @@
 {
-  "schema_version": "2.1.0",
-  "opportunity_id": "tw-078-P01",
-  "place_id": "tw-078",
-  "revision": 4,
-  "lifecycle_status": "draft",
-  "name_i18n": {
+ "schema_version": "2.2.0",
+ "opportunity_id": "tw-078-P01",
+ "place_id": "tw-078",
+ "revision": 4,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "建功嶼退潮石板道景觀",
+  "en": "建功嶼退潮石板道景觀",
+  "ja": "建功嶼退潮石板道景觀"
+ },
+ "description_i18n": {
+  "zh-TW": "建功嶼退潮石板道景觀（V1 最佳時段：官方可登島退潮窗口；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
+  "en": "建功嶼退潮石板道景觀 (V1 best time: 官方可登島退潮窗口; V1 season: 全年 V1 migration skeleton; content to be refined in round 2.)",
+  "ja": "建功嶼退潮石板道景觀（V1ベスト時間帯: 官方可登島退潮窗口；V1季節: 全年。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-078-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      118.304369,
+      24.426386
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-77 2026-11-20: point kept as the causeway-east-end reference (no conflict: OSM 建功嶼 island node 24.4273629,118.2999844 lies ~0.46 km west — the stone causeway runs west from the Kinmen shore to the island).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "representative",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+    "en": "Access information not yet verified; follow on-site notices and rules.",
+    "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動。",
+    "en": "Follow on-site safety guidance.",
+    "ja": "現地の安全指示に従ってください。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-078-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
     "zh-TW": "建功嶼退潮石板道景觀",
     "en": "建功嶼退潮石板道景觀",
     "ja": "建功嶼退潮石板道景觀"
-  },
-  "description_i18n": {
-    "zh-TW": "建功嶼退潮石板道景觀（V1 最佳時段：官方可登島退潮窗口；V1 季節：全年。V1 遷移骨架；內容待第二輪研究完善。）",
-    "en": "建功嶼退潮石板道景觀 (V1 best time: 官方可登島退潮窗口; V1 season: 全年 V1 migration skeleton; content to be refined in round 2.)",
-    "ja": "建功嶼退潮石板道景觀（V1ベスト時間帯: 官方可登島退潮窗口；V1季節: 全年。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
-  },
-  "camera_contexts": [
-    {
-      "id": "CZ-tw-078-P01-01",
-      "kind": "area",
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            118.304369,
-            24.426386
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-77 2026-11-20: point kept as the causeway-east-end reference (no conflict: OSM 建功嶼 island node 24.4273629,118.2999844 lies ~0.46 km west — the stone causeway runs west from the Kinmen shore to the island).",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "verification_status": "representative",
-      "evidence_refs": [],
-      "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
-      },
-      "safety_notes_i18n": {
-        "zh-TW": "請依現場安全指示行動。",
-        "en": "Follow on-site safety guidance.",
-        "ja": "現地の安全指示に従ってください。"
-      },
-      "altitude_m": null
-    }
-  ],
-  "targets": [
-    {
-      "id": "SG-tw-078-P01-01",
-      "kind": "multi_component",
-      "name_i18n": {
-        "zh-TW": "建功嶼退潮石板道景觀",
-        "en": "建功嶼退潮石板道景觀",
-        "ja": "建功嶼退潮石板道景觀"
-      },
-      "geometry": {
-        "kind": "point",
-        "status": "verified",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            118.2999844,
-            24.4273629
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "CL-DATA-77 2026-11-20: 建功嶼 (Jiangong Islet) OSM Nominatim node 24.4273629,118.2999844.",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "phenomenon_model_id": null,
-      "evidence_refs": [],
-      "components": []
-    }
-  ],
-  "observation_relations": [
-    {
-      "id": "VR-tw-078-P01-01",
-      "camera_context_id": "CZ-tw-078-P01-01",
-      "target_id": "SG-tw-078-P01-01",
-      "type": "foreground_background",
-      "geometry_mode": "static_verified",
-      "azimuth_deg": 284,
-      "elevation_deg": null,
-      "distance_m": null,
-      "evidence_refs": [
-        "e-d77-geo-tw-078-P01"
-      ],
-      "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=284 deg (dist ~0.46 km) — west along the stone causeway to the islet; replaces the legacy V1 weather_details azimuth 270 (CL-DATA-13 backfill), which sits within the same wide tolerance band.",
-      "uncertainty_note": "Wide tolerance: the causeway curves and the composition includes the islet AND its baroque gate; the legacy 270 and computed 284 agree within ~14 deg."
-    }
-  ],
-  "navigation_targets": [
-    {
-      "id": "NAV-tw-078-P01-01",
-      "status": "needs_review",
-      "target_type": "other",
-      "lat": 24.426386,
-      "lon": 118.304369,
-      "label_i18n": {
-        "zh-TW": "建功嶼／退潮石板道",
-        "en": "Jiangong Islet · Tidal Causeway",
-        "ja": "建功嶼・干潮石畳道"
-      },
-      "evidence_refs": [],
-      "confidence": "low"
-    }
-  ],
-  "condition_contract": {
-    "contract_id": "CC-tw-078-P01-v1",
-    "status": "draft",
-    "conditions": [
-      {
-        "id": "C-tw-078-P01-01",
-        "role": "REQUIRED",
-        "domain": "HYDROLOGY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "water_surface_state",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-078-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "evidence_review",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "潮汐決定型（CL-COND-A7 慣例）：金門縣政府依潮汐公布每日建議登島時段（乾潮前後約 ±30 分，石板道僅乾潮露出）；漲潮淹沒即封閉，日落後禁止登島。V2 評估層尚無潮汐資料源——誠實 propagate unknown（fail-closed → NOT_EVALUABLE）；legacy 管線已接 tide_state（low_access_window）。拍攝指南：查金門觀光旅遊網建功嶼潮汐表與現場公告。",
-          "en": "Tide-decided subject (CL-COND-A7 convention): the Kinmen County Government publishes a daily recommended landing window keyed to the tide (about +/- 30 minutes around low tide; the stone causeway shows only at ebb); the rising tide closes it and landing is prohibited after sunset. The V2 evaluation layer has no tide data source - honest propagate unknown (fail-closed -> NOT_EVALUABLE); the legacy pipeline already carries tide_state (low_access_window). Shooting guide: check the Kinmen travel site tide table and on-site notices.",
-          "ja": "潮位決定型（CL-COND-A7 慣例）：金門県政府は潮汐に応じて毎日の上島推奨時刻を公表（干潮前後約±30分、石板道は干潮時のみ現れる）；満潮で閉鎖、日の入り後の上島は禁止。V2評価層に潮汐データソースがない — 誠実に propagate unknown（fail-closed → NOT_EVALUABLE）；legacy パイプラインは tide_state を実装済み（low_access_window）。撮影ガイド：金門観光旅遊網の建功嶼潮汐表と現地告知を確認。"
-        },
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決）：legacy_mountain_view 佔位取代為官方乾潮登島窗＋黃金時段錨點。來源：金門觀光旅遊網建功嶼潮汐頁 https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | 2026-11-20 CL-INT-212 整合：本契約為語義合併——CL-DATA-76 的真實條件組（潮汐/光窗/降水）＋ CL-DATA-77 的實測幾何與方位；資料值以最新裁決版（CL-DATA-77）為準。",
-          "en": "2026-11-20 CL-DATA-76 (owner ruling): the legacy_mountain_view placeholder is replaced by the official low-tide landing window plus a golden-hour anchor. Source: Kinmen travel site Jiangong Islet tide page https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | 2026-11-20 CL-INT-212 integration: semantic merge - CL-DATA-76 real condition set (tide/light-window/precipitation) + CL-DATA-77 verified geometry and azimuth; data values follow the latest adjudicated version (CL-DATA-77).",
-          "ja": "2026-11-20 CL-DATA-76（オーナー裁定）：legacy_mountain_view のプレースホルダを公式干潮上島窓＋ゴールデンアワーの錨に置換。出典：金門観光旅遊網 建功嶼潮汐ページ https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | 2026-11-20 CL-INT-212 統合：意味論マージ — CL-DATA-76 の実条件セット（潮汐/光窓/降水）＋ CL-DATA-77 の検証済み幾何・方位；データ値は最新裁定版（CL-DATA-77）に従う。"
-        }
-      },
-      {
-        "id": "C-tw-078-P01-02",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "golden_hour_window",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-078-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "黃金時段錨點：官方規定日落後禁止登島，拍攝窗必須在日落前的黃金光線內；夕陽金光灑在潮間帶與石板道是本題材的招牌畫面。",
-          "en": "Golden-hour anchor: landing is prohibited after sunset by the official rule, so the shoot must sit inside the golden light before sunset; golden light over the tidal flats and the stone causeway is the subject's signature frame.",
-          "ja": "ゴールデンアワーの錨：公式規則で日の入り後の上島は禁止——撮影は日の入り前の黄金光の中に限る。潮間帯と石板道に差す金色の光が本題材の代表作。"
-        }
-      },
-      {
-        "id": "C-tw-078-P01-03",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "precipitation",
-        "operator": "lte",
-        "threshold": 0.3,
-        "unit": "mm/h",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-078-P01-claim-01"
-        ],
-        "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
-        "validation_status": "provisional",
-        "condition_tier": "SHOOT",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "拍攝時降雨 <0.3 mm/h：既審通用門檻；雨中石板道濕滑。",
-          "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold; the wet stone causeway is slippery.",
-          "ja": "撮影時の降水<0.3mm/h。既承認閾値。雨の石板道は滑りやすい。"
-        }
-      }
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      118.2999844,
+      24.4273629
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-77 2026-11-20: 建功嶼 (Jiangong Islet) OSM Nominatim node 24.4273629,118.2999844.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-078-P01-01",
+   "camera_context_id": "CZ-tw-078-P01-01",
+   "target_id": "SG-tw-078-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "static_verified",
+   "azimuth_deg": 284,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [
+    "e-d77-geo-tw-078-P01"
+   ],
+   "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=284 deg (dist ~0.46 km) — west along the stone causeway to the islet; replaces the legacy V1 weather_details azimuth 270 (CL-DATA-13 backfill), which sits within the same wide tolerance band.",
+   "uncertainty_note": "Wide tolerance: the causeway curves and the composition includes the islet AND its baroque gate; the legacy 270 and computed 284 agree within ~14 deg."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-078-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 24.426386,
+   "lon": 118.304369,
+   "label_i18n": {
+    "zh-TW": "建功嶼／退潮石板道",
+    "en": "Jiangong Islet · Tidal Causeway",
+    "ja": "建功嶼・干潮石畳道"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-078-P01-v1",
+  "status": "draft",
+  "conditions": [
+   {
+    "id": "C-tw-078-P01-01",
+    "role": "REQUIRED",
+    "domain": "HYDROLOGY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "water_surface_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-078-P01-claim-01"
     ],
-    "recommendation_policy_version": null,
-    "genre_template": "tidal",
-    "template_version": "tidal-v0.1"
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "evidence_review",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "潮汐決定型（CL-COND-A7 慣例）：金門縣政府依潮汐公布每日建議登島時段（乾潮前後約 ±30 分，石板道僅乾潮露出）；漲潮淹沒即封閉，日落後禁止登島。V2 評估層尚無潮汐資料源——誠實 propagate unknown（fail-closed → NOT_EVALUABLE）；legacy 管線已接 tide_state（low_access_window）。拍攝指南：查金門觀光旅遊網建功嶼潮汐表與現場公告。",
+     "en": "Tide-decided subject (CL-COND-A7 convention): the Kinmen County Government publishes a daily recommended landing window keyed to the tide (about +/- 30 minutes around low tide; the stone causeway shows only at ebb); the rising tide closes it and landing is prohibited after sunset. The V2 evaluation layer has no tide data source - honest propagate unknown (fail-closed -> NOT_EVALUABLE); the legacy pipeline already carries tide_state (low_access_window). Shooting guide: check the Kinmen travel site tide table and on-site notices.",
+     "ja": "潮位決定型（CL-COND-A7 慣例）：金門県政府は潮汐に応じて毎日の上島推奨時刻を公表（干潮前後約±30分、石板道は干潮時のみ現れる）；満潮で閉鎖、日の入り後の上島は禁止。V2評価層に潮汐データソースがない — 誠実に propagate unknown（fail-closed → NOT_EVALUABLE）；legacy パイプラインは tide_state を実装済み（low_access_window）。撮影ガイド：金門観光旅遊網の建功嶼潮汐表と現地告知を確認。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決）：legacy_mountain_view 佔位取代為官方乾潮登島窗＋黃金時段錨點。來源：金門觀光旅遊網建功嶼潮汐頁 https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | 2026-11-20 CL-INT-212 整合：本契約為語義合併——CL-DATA-76 的真實條件組（潮汐/光窗/降水）＋ CL-DATA-77 的實測幾何與方位；資料值以最新裁決版（CL-DATA-77）為準。",
+     "en": "2026-11-20 CL-DATA-76 (owner ruling): the legacy_mountain_view placeholder is replaced by the official low-tide landing window plus a golden-hour anchor. Source: Kinmen travel site Jiangong Islet tide page https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | 2026-11-20 CL-INT-212 integration: semantic merge - CL-DATA-76 real condition set (tide/light-window/precipitation) + CL-DATA-77 verified geometry and azimuth; data values follow the latest adjudicated version (CL-DATA-77).",
+     "ja": "2026-11-20 CL-DATA-76（オーナー裁定）：legacy_mountain_view のプレースホルダを公式干潮上島窓＋ゴールデンアワーの錨に置換。出典：金門観光旅遊網 建功嶼潮汐ページ https://www.kinmen.travel/zh-tw/guide/jiangongyu-islet-tidal | 2026-11-20 CL-INT-212 統合：意味論マージ — CL-DATA-76 の実条件セット（潮汐/光窓/降水）＋ CL-DATA-77 の検証済み幾何・方位；データ値は最新裁定版（CL-DATA-77）に従う。"
+    }
+   },
+   {
+    "id": "C-tw-078-P01-02",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "golden_hour_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-078-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "黃金時段錨點：官方規定日落後禁止登島，拍攝窗必須在日落前的黃金光線內；夕陽金光灑在潮間帶與石板道是本題材的招牌畫面。",
+     "en": "Golden-hour anchor: landing is prohibited after sunset by the official rule, so the shoot must sit inside the golden light before sunset; golden light over the tidal flats and the stone causeway is the subject's signature frame.",
+     "ja": "ゴールデンアワーの錨：公式規則で日の入り後の上島は禁止——撮影は日の入り前の黄金光の中に限る。潮間帯と石板道に差す金色の光が本題材の代表作。"
+    }
+   },
+   {
+    "id": "C-tw-078-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lte",
+    "threshold": 0.3,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-078-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "SHOOT",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "拍攝時降雨 <0.3 mm/h：既審通用門檻；雨中石板道濕滑。",
+     "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold; the wet stone causeway is slippery.",
+     "ja": "撮影時の降水<0.3mm/h。既承認閾値。雨の石板道は滑りやすい。"
+    }
+   }
+  ],
+  "recommendation_policy_version": null,
+  "genre_template": "tidal",
+  "template_version": "tidal-v0.1",
+  "windows": {
+   "time_of_day": [
+    "golden_hour"
+   ],
+   "seasonal": null
   },
-  "evidence_claims": [
+  "conditions_v2": {
+   "required": [
     {
-      "claim_id": "tw-078-P01-claim-01",
-      "claim_type": "existence",
-      "evidence_refs": [],
-      "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+     "id": "C-tw-078-P01-01",
+     "metric": "water_surface_state",
+     "op": "derived_state",
+     "value": null
     },
     {
-      "claim_id": "tw-078-P01-claim-77geo",
-      "claim_type": "target_geometry",
-      "evidence_refs": [
-        "e-d77-geo-tw-078-P01"
-      ],
-      "audit_status": "OK",
-      "scope_note": "CL-DATA-77 2026-11-20: 建功嶼 OSM https://www.openstreetmap.org/search?query=%E5%BB%BA%E5%8A%9F%E5%B6%BC. Bearing 284 deg computed geodesically; legacy 270 documented as consistent-within-tolerance."
+     "id": "C-tw-078-P01-03",
+     "metric": "precipitation",
+     "op": "lte",
+     "value": 0.3
     }
-  ],
-  "readiness": {
-    "research_level": "R0",
-    "gaps": [
-      "RESEARCH_GAP",
-      "GEOMETRY_GAP"
-    ]
-  },
-  "provenance": {
-    "source_catalog": "runtime_catalog_v004_r4_2.json",
-    "source_revision": "v1-spot-tw-078",
-    "imported_at": "2026-10-21T20:51:45Z",
-    "review_status": "pending",
-    "reviewed_by": null
+   ],
+   "quality": []
   }
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-078-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+  },
+  {
+   "claim_id": "tw-078-P01-claim-77geo",
+   "claim_type": "target_geometry",
+   "evidence_refs": [
+    "e-d77-geo-tw-078-P01"
+   ],
+   "audit_status": "OK",
+   "scope_note": "CL-DATA-77 2026-11-20: 建功嶼 OSM https://www.openstreetmap.org/search?query=%E5%BB%BA%E5%8A%9F%E5%B6%BC. Bearing 284 deg computed geodesically; legacy 270 documented as consistent-within-tolerance."
+  }
+ ],
+ "readiness": {
+  "research_level": "R0",
+  "gaps": [
+   "RESEARCH_GAP",
+   "GEOMETRY_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-tw-078",
+  "imported_at": "2026-10-21T20:51:45Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
 }

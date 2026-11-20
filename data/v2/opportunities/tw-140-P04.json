@@ -1,292 +1,322 @@
 {
-  "schema_version": "2.1.0",
-  "opportunity_id": "tw-140-P04",
-  "place_id": "tw-140",
-  "revision": 1,
-  "lifecycle_status": "draft",
-  "name_i18n": {
-    "zh-TW": "太平山迷霧森林",
-    "en": "Taipingshan misty forest",
-    "ja": "太平山の霧の森"
-  },
-  "description_i18n": {
-    "zh-TW": "太平山森林遊樂區的霧林帶——東北季風季晨霧沿中海拔稜谷翻進林間。霧是主角：能見度 50–500 m、微風、晨窗優先；與太平山雲海題材（望遠雲層）錯位——本點拍的是人在霧林裡的樹影。",
-    "en": "The fog belt of Taipingshan NRA — monsoon-season morning mist rolls over the mid-elevation ridges into the woods. The fog IS the subject: 50-500 m visibility, calm wind, morning window priority; disjoint from the cloud-sea subject (this shoots tree silhouettes inside the fog).",
-    "ja": "太平山森林遊楽区の霧林帯——季節風の朝、中標高の尾根から林へ霧が流れ込む。霧が主役：視程50-500m、微風、朝の窓を優先。雲海被写体とは別物（この題材は霧の中の樹影）。"
-  },
-  "camera_contexts": [
-    {
-      "id": "CZ-tw-140-P04-01",
-      "kind": "area",
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            121.6228895,
-            24.5242406
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "inherited_from_place_opportunity_geometry",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "verification_status": "provisional",
-      "evidence_refs": [],
-      "access_notes_i18n": {
-        "zh-TW": "存取資訊沿用該遊樂區／步道既有入口記錄；清晨拍霧請先確認入園與道路開放時間。",
-        "en": "Access reuses the recreation area / trail's existing entrance records; confirm park entry and road opening hours before pre-dawn fog shoots.",
-        "ja": "アクセスは当該遊楽区・遊歩道の既存入口情報に従う。早朝の霧撮影の前に入園・道路開放時間を確認すること。"
-      },
-      "safety_notes_i18n": {
-        "zh-TW": "霧中能見度低，請結伴、穿亮色衣物並攜照明；濕滑步道小心。",
-        "en": "Visibility inside fog is low: hike in company, wear bright clothing, carry a light; beware slippery trail sections.",
-        "ja": "霧中は視界が悪い。同行者を連れ、目立つ服装とライトを携行し、滑りやすい遊歩道に注意すること。"
-      },
-      "altitude_m": null
-    }
-  ],
-  "targets": [
-    {
-      "id": "SG-tw-140-P04-01",
-      "kind": "multi_component",
-      "name_i18n": {
-        "zh-TW": "太平山迷霧森林（霧）",
-        "en": "Taipingshan misty forest (fog)",
-        "ja": "太平山の霧の森（霧）"
-      },
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            121.6228895,
-            24.5242406
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "inherited_from_place_opportunity_geometry",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "phenomenon_model_id": null,
-      "evidence_refs": [],
-      "components": []
-    }
-  ],
-  "observation_relations": [
-    {
-      "id": "VR-tw-140-P04-01",
-      "camera_context_id": "CZ-tw-140-P04-01",
-      "target_id": "SG-tw-140-P04-01",
-      "type": "foreground_background",
-      "geometry_mode": "unknown",
-      "azimuth_deg": null,
-      "elevation_deg": null,
-      "distance_m": null,
-      "evidence_refs": [],
-      "derivation_method": null,
-      "uncertainty_note": "Inherited from the place's existing canonical opportunity geometry (provisional)."
-    }
-  ],
-  "navigation_targets": [
-    {
-      "id": "NAV-tw-140-P04-01",
-      "status": "needs_review",
-      "target_type": "other",
-      "lat": 24.5242406,
-      "lon": 121.6228895,
-      "label_i18n": {
-        "zh-TW": "太平山森林遊樂區",
-        "en": "Taipingshan National Forest Recreation Area",
-        "ja": "太平山国家森林遊楽区"
-      },
-      "evidence_refs": [],
-      "confidence": "low"
-    }
-  ],
-  "evidence_claims": [
-    {
-      "claim_id": "tw-140-P04-claim-01",
-      "claim_type": "existence",
-      "evidence_refs": [],
-      "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-73 misty-forest mount from the canonical place record; owner-approved fog-subject genre (CL-DATA-73 ticket directive); no independent photographic evidence attached yet."
-    }
-  ],
-  "readiness": {
-    "research_level": "R0",
-    "gaps": [
-      "RESEARCH_GAP",
-      "GEOMETRY_GAP"
-    ]
-  },
-  "provenance": {
-    "source_catalog": "misty_forest_mount_v0.1",
-    "source_revision": "mount-misty-tw-140-from-tw-140-P01",
-    "imported_at": "2026-11-16T00:00:00Z",
-    "review_status": "pending",
-    "reviewed_by": null
-  },
-  "condition_contract": {
-    "contract_id": "CC-tw-140-P04-v1",
-    "status": "draft",
-    "genre_template": "misty_forest",
-    "recommendation_policy_version": null,
-    "conditions": [
-      {
-        "id": "C-tw-140-P04-01",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "fog_state",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-140-P04-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "決勝條件（反轉，owner 核可 2026-11-16）：霧是主角，能見度必須低。二擇一（ANY 語義）：能見度 50–500 m（霧正在發生），或 RH≥95% 且溫露差 <1°C（霧形成中，能見度尚未落進霧帶但飽和邊緣已具備）。能見度 >1 km → 明確「無霧」失敗。能見度缺欄時誠實 UNKNOWN，絕不虛構判定。",
-          "en": "Decisive condition (INVERTED, owner-approved 2026-11-16): the fog is the subject, so visibility must be LOW. EITHER branch satisfies (owner ANY semantics): visibility 50-500 m (fog happening), or RH >= 95% with dew-point spread < 1 deg C (fog forming - visibility not yet inside the fog band but the saturation edge is present). Visibility > 1 km is an explicit no-fog failure. A missing visibility cell degrades honestly to UNKNOWN, never a fabricated verdict.",
-          "ja": "決定条件（反転、オーナー承認 2026-11-16）：霧が主役なので視程は低くなければならない。いずれか一方で成立（ANY 意味論）：視程50-500m（霧が発生中）、または RH95%以上かつ温度露点差1℃未満（霧が形成中——視程はまだ霧帯に入っていないが飽和縁は十分）。視程1km超は明確な「無霧」失敗。視程欠損時は誠実にUNKNOWN。"
-        }
-      },
-      {
-        "id": "C-tw-140-P04-02",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "soft_light_window",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-140-P04-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "柔和散射光（必要條件）：小時桶每一瞬間都必須在民用光線內（>−6°）——夜間一律不成立（看不見樹）；且桶內存在太陽高度角 ≤10° 的晨昏斜射取樣（斜光存在才成立；冬季 (−6°,10°] 帶寬不足一小時，採「整桶民用光＋桶內有斜光」語義，卡片以該精確時刻標記）。高角度陽光直穿林冠變硬光，不成立。threshold_source=computed，純太陽幾何。",
-          "en": "Soft scattered light (necessary condition): EVERY instant of the hour bucket must be inside civil light (> -6 deg) - night hours never qualify (the trees cannot be seen); AND the bucket must contain at least one sampled instant with sun elevation <= 10 deg (slant light present; the midwinter (-6,10] band is shorter than one hour, so the semantics read whole-bucket civil light + slant sample present, and the card stamps that precise instant). High-angle sun punching through the canopy is harsh light and does not qualify. threshold_source=computed, pure solar geometry.",
-          "ja": "柔らかい散乱光（必要条件）：バケット内の全時点が市民光内（>-6°）であること——夜間は一律不成立（木が見えない）；かつ桶内に太陽高度10°以下の斜光サンプルが存在すること（冬季の帯幅は1時間未満のため「全桶市民光＋斜光サンプルあり」の意味論。カードはその精確時刻を刻む）。高角度の陽光は林冠を硬く貫き不成立。threshold_source=computed、純粋な太陽幾何。"
-        }
-      },
-      {
-        "id": "C-tw-140-P04-03",
-        "role": "QUALITY",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "morning_window",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-140-P04-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MODIFIER",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "晨窗（優先窗，加分項）：日出後 1–3 小時是森林輻射霧最濃、光線斜射最佳的重疊段；此窗成立時拍攝優先度最高，但屬 MODIFIER——不單獨否決（夜間已由 L1 排除）。極區無日出事件時誠實 UNKNOWN。",
-          "en": "Morning window (PRIORITY, advisory): the 1-3 h after sunrise is where radiation fog is thickest and slant light best - the highest-priority shooting overlap; MODIFIER tier, never a lone veto (night is already excluded by L1). Polar no-sunrise spans degrade honestly to UNKNOWN.",
-          "ja": "朝の窓（優先窓、加点項）：日の出後1-3時間は放射霧が最も濃く斜光が最良の重なり；成立時は最優先だが MODIFIER——単独では否決しない（夜間はL1が排除）。極域で日の出がない場合は誠実にUNKNOWN。"
-        }
-      },
-      {
-        "id": "C-tw-140-P04-04",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "precipitation",
-        "operator": "lt",
-        "threshold": 0.2,
-        "unit": "mm/h",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-140-P04-claim-01"
-        ],
-        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "無雨 <0.2 mm/h：雨會把霧沖成水幕、打濕鏡頭與步道，也代表系統性降水在吃掉霧的層結（沿用已審門檻 0.2）。",
-          "en": "No rain < 0.2 mm/h: rain washes the fog into a water curtain, soaks lens and trail, and marks synoptic precipitation eating the fog layer (carried-over reviewed threshold 0.2).",
-          "ja": "無雨 <0.2mm/h：雨は霧を水幕に変え、レンズや遊歩道を濡らし、霧の層構造を崩す系統性降水の兆し（既審閾値0.2を踏襲）。"
-        }
-      },
-      {
-        "id": "C-tw-140-P04-05",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "wind_speed_10m",
-        "operator": "lte",
-        "threshold": 3.0,
-        "unit": "m/s",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-140-P04-claim-01"
-        ],
-        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "風 ≤3 m/s：風是霧的侵蝕媒介——風吹散霧，林間霧幕隨風速上升快速消散；3 m/s 為 provisional，霧林帶地形風場較穩時可依點差異化。",
-          "en": "Wind <= 3 m/s: wind erodes fog - gusts disperse the forest fog veil, which decays fast as wind rises; 3 m/s is provisional and may be differentiated per spot where the fog-forest terrain wind field is steadier.",
-          "ja": "風3m/s以下：風は霧を侵食する——風が霧の幕を散らし、風速上昇とともに林内の霧は急速に消える。3m/sは暫定値で、霧林帯の地形風が穏定な地点では差別化可。"
-        }
-      },
-      {
-        "id": "C-tw-140-P04-06",
-        "role": "REQUIRED",
-        "domain": "SEASON_TIME",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "seasonal_state",
-        "operator": "eq",
-        "threshold": "window_open",
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-140-P04-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "季節窗（必要條件）：高濕季節才穩定出現輻射／平流霧——台灣 12–4 月最穩（東北季風高濕＋晨間輻射冷卻）；照 seasonal-calendar 例年窗對拍（實況窗優先，兩者皆缺時誠實 not_evaluatable）。",
-          "en": "Seasonal window (necessary condition): radiation/advection fog is only reliable in the high-humidity season - Taiwan Dec-Apr most stable (monsoon moisture + morning radiative cooling); judged against the seasonal-calendar typical window (current-season live window takes precedence; with neither present the genre is honestly not_evaluatable).",
-          "ja": "季節窓（必要条件）：放射霧・移流霧は高湿季節にのみ安定——台湾は12-4月が最も安定（モンスーン湿気＋朝の放射冷却）；季節カレンダーの例年窓と突き合わせ（実況窓優先、両方欠ければ誠実にnot_evaluatable）。"
-        }
-      }
-    ]
+ "schema_version": "2.2.0",
+ "opportunity_id": "tw-140-P04",
+ "place_id": "tw-140",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "太平山迷霧森林",
+  "en": "Taipingshan misty forest",
+  "ja": "太平山の霧の森"
+ },
+ "description_i18n": {
+  "zh-TW": "太平山森林遊樂區的霧林帶——東北季風季晨霧沿中海拔稜谷翻進林間。霧是主角：能見度 50–500 m、微風、晨窗優先；與太平山雲海題材（望遠雲層）錯位——本點拍的是人在霧林裡的樹影。",
+  "en": "The fog belt of Taipingshan NRA — monsoon-season morning mist rolls over the mid-elevation ridges into the woods. The fog IS the subject: 50-500 m visibility, calm wind, morning window priority; disjoint from the cloud-sea subject (this shoots tree silhouettes inside the fog).",
+  "ja": "太平山森林遊楽区の霧林帯——季節風の朝、中標高の尾根から林へ霧が流れ込む。霧が主役：視程50-500m、微風、朝の窓を優先。雲海被写体とは別物（この題材は霧の中の樹影）。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-140-P04-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.6228895,
+      24.5242406
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "inherited_from_place_opportunity_geometry",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "存取資訊沿用該遊樂區／步道既有入口記錄；清晨拍霧請先確認入園與道路開放時間。",
+    "en": "Access reuses the recreation area / trail's existing entrance records; confirm park entry and road opening hours before pre-dawn fog shoots.",
+    "ja": "アクセスは当該遊楽区・遊歩道の既存入口情報に従う。早朝の霧撮影の前に入園・道路開放時間を確認すること。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "霧中能見度低，請結伴、穿亮色衣物並攜照明；濕滑步道小心。",
+    "en": "Visibility inside fog is low: hike in company, wear bright clothing, carry a light; beware slippery trail sections.",
+    "ja": "霧中は視界が悪い。同行者を連れ、目立つ服装とライトを携行し、滑りやすい遊歩道に注意すること。"
+   },
+   "altitude_m": null
   }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-140-P04-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "太平山迷霧森林（霧）",
+    "en": "Taipingshan misty forest (fog)",
+    "ja": "太平山の霧の森（霧）"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.6228895,
+      24.5242406
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "inherited_from_place_opportunity_geometry",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-140-P04-01",
+   "camera_context_id": "CZ-tw-140-P04-01",
+   "target_id": "SG-tw-140-P04-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Inherited from the place's existing canonical opportunity geometry (provisional)."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-140-P04-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 24.5242406,
+   "lon": 121.6228895,
+   "label_i18n": {
+    "zh-TW": "太平山森林遊樂區",
+    "en": "Taipingshan National Forest Recreation Area",
+    "ja": "太平山国家森林遊楽区"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "evidence_claims": [
+  {
+   "claim_id": "tw-140-P04-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-73 misty-forest mount from the canonical place record; owner-approved fog-subject genre (CL-DATA-73 ticket directive); no independent photographic evidence attached yet."
+  }
+ ],
+ "readiness": {
+  "research_level": "R0",
+  "gaps": [
+   "RESEARCH_GAP",
+   "GEOMETRY_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "misty_forest_mount_v0.1",
+  "source_revision": "mount-misty-tw-140-from-tw-140-P01",
+  "imported_at": "2026-11-16T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ },
+ "condition_contract": {
+  "contract_id": "CC-tw-140-P04-v1",
+  "status": "draft",
+  "genre_template": "misty_forest",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-140-P04-01",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "fog_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-140-P04-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "決勝條件（反轉，owner 核可 2026-11-16）：霧是主角，能見度必須低。二擇一（ANY 語義）：能見度 50–500 m（霧正在發生），或 RH≥95% 且溫露差 <1°C（霧形成中，能見度尚未落進霧帶但飽和邊緣已具備）。能見度 >1 km → 明確「無霧」失敗。能見度缺欄時誠實 UNKNOWN，絕不虛構判定。",
+     "en": "Decisive condition (INVERTED, owner-approved 2026-11-16): the fog is the subject, so visibility must be LOW. EITHER branch satisfies (owner ANY semantics): visibility 50-500 m (fog happening), or RH >= 95% with dew-point spread < 1 deg C (fog forming - visibility not yet inside the fog band but the saturation edge is present). Visibility > 1 km is an explicit no-fog failure. A missing visibility cell degrades honestly to UNKNOWN, never a fabricated verdict.",
+     "ja": "決定条件（反転、オーナー承認 2026-11-16）：霧が主役なので視程は低くなければならない。いずれか一方で成立（ANY 意味論）：視程50-500m（霧が発生中）、または RH95%以上かつ温度露点差1℃未満（霧が形成中——視程はまだ霧帯に入っていないが飽和縁は十分）。視程1km超は明確な「無霧」失敗。視程欠損時は誠実にUNKNOWN。"
+    }
+   },
+   {
+    "id": "C-tw-140-P04-02",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "soft_light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-140-P04-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "柔和散射光（必要條件）：小時桶每一瞬間都必須在民用光線內（>−6°）——夜間一律不成立（看不見樹）；且桶內存在太陽高度角 ≤10° 的晨昏斜射取樣（斜光存在才成立；冬季 (−6°,10°] 帶寬不足一小時，採「整桶民用光＋桶內有斜光」語義，卡片以該精確時刻標記）。高角度陽光直穿林冠變硬光，不成立。threshold_source=computed，純太陽幾何。",
+     "en": "Soft scattered light (necessary condition): EVERY instant of the hour bucket must be inside civil light (> -6 deg) - night hours never qualify (the trees cannot be seen); AND the bucket must contain at least one sampled instant with sun elevation <= 10 deg (slant light present; the midwinter (-6,10] band is shorter than one hour, so the semantics read whole-bucket civil light + slant sample present, and the card stamps that precise instant). High-angle sun punching through the canopy is harsh light and does not qualify. threshold_source=computed, pure solar geometry.",
+     "ja": "柔らかい散乱光（必要条件）：バケット内の全時点が市民光内（>-6°）であること——夜間は一律不成立（木が見えない）；かつ桶内に太陽高度10°以下の斜光サンプルが存在すること（冬季の帯幅は1時間未満のため「全桶市民光＋斜光サンプルあり」の意味論。カードはその精確時刻を刻む）。高角度の陽光は林冠を硬く貫き不成立。threshold_source=computed、純粋な太陽幾何。"
+    }
+   },
+   {
+    "id": "C-tw-140-P04-03",
+    "role": "QUALITY",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "morning_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-140-P04-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "晨窗（優先窗，加分項）：日出後 1–3 小時是森林輻射霧最濃、光線斜射最佳的重疊段；此窗成立時拍攝優先度最高，但屬 MODIFIER——不單獨否決（夜間已由 L1 排除）。極區無日出事件時誠實 UNKNOWN。",
+     "en": "Morning window (PRIORITY, advisory): the 1-3 h after sunrise is where radiation fog is thickest and slant light best - the highest-priority shooting overlap; MODIFIER tier, never a lone veto (night is already excluded by L1). Polar no-sunrise spans degrade honestly to UNKNOWN.",
+     "ja": "朝の窓（優先窓、加点項）：日の出後1-3時間は放射霧が最も濃く斜光が最良の重なり；成立時は最優先だが MODIFIER——単独では否決しない（夜間はL1が排除）。極域で日の出がない場合は誠実にUNKNOWN。"
+    }
+   },
+   {
+    "id": "C-tw-140-P04-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-140-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "無雨 <0.2 mm/h：雨會把霧沖成水幕、打濕鏡頭與步道，也代表系統性降水在吃掉霧的層結（沿用已審門檻 0.2）。",
+     "en": "No rain < 0.2 mm/h: rain washes the fog into a water curtain, soaks lens and trail, and marks synoptic precipitation eating the fog layer (carried-over reviewed threshold 0.2).",
+     "ja": "無雨 <0.2mm/h：雨は霧を水幕に変え、レンズや遊歩道を濡らし、霧の層構造を崩す系統性降水の兆し（既審閾値0.2を踏襲）。"
+    }
+   },
+   {
+    "id": "C-tw-140-P04-05",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "wind_speed_10m",
+    "operator": "lte",
+    "threshold": 3.0,
+    "unit": "m/s",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-140-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "風 ≤3 m/s：風是霧的侵蝕媒介——風吹散霧，林間霧幕隨風速上升快速消散；3 m/s 為 provisional，霧林帶地形風場較穩時可依點差異化。",
+     "en": "Wind <= 3 m/s: wind erodes fog - gusts disperse the forest fog veil, which decays fast as wind rises; 3 m/s is provisional and may be differentiated per spot where the fog-forest terrain wind field is steadier.",
+     "ja": "風3m/s以下：風は霧を侵食する——風が霧の幕を散らし、風速上昇とともに林内の霧は急速に消える。3m/sは暫定値で、霧林帯の地形風が穏定な地点では差別化可。"
+    }
+   },
+   {
+    "id": "C-tw-140-P04-06",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-140-P04-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗（必要條件）：高濕季節才穩定出現輻射／平流霧——台灣 12–4 月最穩（東北季風高濕＋晨間輻射冷卻）；照 seasonal-calendar 例年窗對拍（實況窗優先，兩者皆缺時誠實 not_evaluatable）。",
+     "en": "Seasonal window (necessary condition): radiation/advection fog is only reliable in the high-humidity season - Taiwan Dec-Apr most stable (monsoon moisture + morning radiative cooling); judged against the seasonal-calendar typical window (current-season live window takes precedence; with neither present the genre is honestly not_evaluatable).",
+     "ja": "季節窓（必要条件）：放射霧・移流霧は高湿季節にのみ安定——台湾は12-4月が最も安定（モンスーン湿気＋朝の放射冷却）；季節カレンダーの例年窓と突き合わせ（実況窓優先、両方欠ければ誠実にnot_evaluatable）。"
+    }
+   }
+  ],
+  "windows": {
+   "time_of_day": [
+    "soft_light",
+    "morning"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-tw-140-P04-01",
+     "metric": "fog_state",
+     "op": "derived_state",
+     "value": null
+    },
+    {
+     "id": "C-tw-140-P04-04",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.2
+    },
+    {
+     "id": "C-tw-140-P04-05",
+     "metric": "wind_speed_10m",
+     "op": "lte",
+     "value": 3.0
+    }
+   ],
+   "quality": []
+  }
+ }
 }

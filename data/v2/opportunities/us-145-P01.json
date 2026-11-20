@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "us-145-P01",
  "place_id": "us-145",
  "revision": 1,
@@ -215,7 +215,31 @@
      "ja": "必要な光の窓：全日型の可視光題材（峡谷の滝）は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、CL-DATA-19 全日題材窓規則により追加、夜間は一律不成立）。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "golden_hour",
+    "civil_daylight"
+   ],
+   "seasonal": null
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-us-145-P01-01",
+     "metric": "river_flow_state",
+     "op": "derived_state",
+     "value": null
+    },
+    {
+     "id": "C-us-145-P01-02",
+     "metric": "precipitation",
+     "op": "lte",
+     "value": 0.3
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

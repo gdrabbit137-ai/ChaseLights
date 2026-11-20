@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "jp-038-P02",
  "place_id": "jp-038",
  "revision": 2,
@@ -215,7 +215,30 @@
      "ja": "夜間ライトアップの時間窓。人工光の夜間題材であり、昼間時間帯は決して成立しない。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "city_night"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-jp-038-P02-02",
+     "metric": "visibility",
+     "op": "gte",
+     "value": 3.0
+    },
+    {
+     "id": "C-jp-038-P02-03",
+     "metric": "wind_speed_10m",
+     "op": "lt",
+     "value": 15.0
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

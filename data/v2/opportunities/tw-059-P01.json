@@ -1,234 +1,257 @@
 {
-  "schema_version": "2.1.0",
-  "opportunity_id": "tw-059-P01",
-  "place_id": "tw-059",
-  "revision": 4,
-  "lifecycle_status": "draft",
-  "name_i18n": {
+ "schema_version": "2.2.0",
+ "opportunity_id": "tw-059-P01",
+ "place_id": "tw-059",
+ "revision": 4,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "奎壁山摩西分海",
+  "en": "奎壁山摩西分海",
+  "ja": "奎壁山摩西分海"
+ },
+ "description_i18n": {
+  "zh-TW": "奎壁山摩西分海（V1 最佳時段：low_tide_window。V1 遷移骨架；內容待第二輪研究完善。）",
+  "en": "奎壁山摩西分海 (V1 best time: low_tide_window V1 migration skeleton; content to be refined in round 2.)",
+  "ja": "奎壁山摩西分海（V1ベスト時間帯: low_tide_window。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-059-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      119.67137,
+      23.59968
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-77 2026-11-20: point kept (no conflict with OSM 奎壁山 node 23.6002068,119.6711631, ~60 m away; the viewpoint is the beach at the foot of the hill).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "representative",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
+    "en": "Access information not yet verified; follow on-site notices and rules.",
+    "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動。",
+    "en": "Follow on-site safety guidance.",
+    "ja": "現地の安全指示に従ってください。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-059-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
     "zh-TW": "奎壁山摩西分海",
     "en": "奎壁山摩西分海",
     "ja": "奎壁山摩西分海"
-  },
-  "description_i18n": {
-    "zh-TW": "奎壁山摩西分海（V1 最佳時段：low_tide_window。V1 遷移骨架；內容待第二輪研究完善。）",
-    "en": "奎壁山摩西分海 (V1 best time: low_tide_window V1 migration skeleton; content to be refined in round 2.)",
-    "ja": "奎壁山摩西分海（V1ベスト時間帯: low_tide_window。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
-  },
-  "camera_contexts": [
-    {
-      "id": "CZ-tw-059-P01-01",
-      "kind": "area",
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            119.67137,
-            23.59968
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-77 2026-11-20: point kept (no conflict with OSM 奎壁山 node 23.6002068,119.6711631, ~60 m away; the viewpoint is the beach at the foot of the hill).",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "verification_status": "representative",
-      "evidence_refs": [],
-      "access_notes_i18n": {
-        "zh-TW": "存取資訊尚未核實；請依現場公告與規定。",
-        "en": "Access information not yet verified; follow on-site notices and rules.",
-        "ja": "アクセス情報は未確認。現地の告知と規定に従ってください。"
-      },
-      "safety_notes_i18n": {
-        "zh-TW": "請依現場安全指示行動。",
-        "en": "Follow on-site safety guidance.",
-        "ja": "現地の安全指示に従ってください。"
-      },
-      "altitude_m": null
-    }
-  ],
-  "targets": [
-    {
-      "id": "SG-tw-059-P01-01",
-      "kind": "multi_component",
-      "name_i18n": {
-        "zh-TW": "奎壁山摩西分海",
-        "en": "奎壁山摩西分海",
-        "ja": "奎壁山摩西分海"
-      },
-      "geometry": {
-        "kind": "point",
-        "status": "verified",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            119.6755232,
-            23.5992506
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "CL-DATA-77 2026-11-20: 赤嶼 (Chi Yu islet, the Moses-parting seawall target) OSM Nominatim node 23.5992506,119.6755232 (北寮, 澎湖).",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "phenomenon_model_id": null,
-      "evidence_refs": [],
-      "components": []
-    }
-  ],
-  "observation_relations": [
-    {
-      "id": "VR-tw-059-P01-01",
-      "camera_context_id": "CZ-tw-059-P01-01",
-      "target_id": "SG-tw-059-P01-01",
-      "type": "foreground_background",
-      "geometry_mode": "static_verified",
-      "azimuth_deg": 96,
-      "elevation_deg": null,
-      "distance_m": null,
-      "evidence_refs": [
-        "e-d77-geo-tw-059-P01"
-      ],
-      "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=96 deg (dist ~0.4 km) — east from the Kueibishan beach across the tide-exposed tombolo to Chi Yu; the parting path is this E-NE line.",
-      "uncertainty_note": "Wide tolerance: the tombolo path curves slightly; azimuth is the beach-to-islet dominant bearing."
-    }
-  ],
-  "navigation_targets": [
-    {
-      "id": "NAV-tw-059-P01-01",
-      "status": "needs_review",
-      "target_type": "other",
-      "lat": 23.59968,
-      "lon": 119.67137,
-      "label_i18n": {
-        "zh-TW": "奎壁山",
-        "en": "Kuibishan Moses Sea Parting",
-        "ja": "奎壁山モーゼの海割り"
-      },
-      "evidence_refs": [],
-      "confidence": "low"
-    }
-  ],
-  "condition_contract": {
-    "contract_id": "CC-tw-059-P01-v1",
-    "status": "draft",
-    "conditions": [
-      {
-        "id": "C-tw-059-P01-01",
-        "role": "REQUIRED",
-        "domain": "HYDROLOGY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "water_surface_state",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-059-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "evidence_review",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "潮汐決定型（CL-COND-A7 慣例）：摩西分海步道僅在乾潮前後露出，漲潮淹沒即封閉（過去有遊客受困救援案例）。V2 評估層尚無潮汐資料源——誠實 propagate unknown（fail-closed → NOT_EVALUABLE）；legacy 管線已接 tide_state（low_exposure_strict，相對潮位 percentile ≤30%）。拍攝指南：出發前查潮汐表與現場公告，勿憑目測冒險登踏。",
-          "en": "Tide-decided subject (CL-COND-A7 convention): the Moses-parting causeway is exposed only around low tide and the rising tide closes it (past rescue incidents). The V2 evaluation layer has no tide data source - honest propagate unknown (fail-closed -> NOT_EVALUABLE); the legacy pipeline already carries tide_state (low_exposure_strict, relative sea-level percentile <= 30%). Shooting guide: check the tide table and on-site notices; never judge by eye.",
-          "ja": "潮位決定型（CL-COND-A7 慣例）：モーゼ分海の歩道は干潮前後だけ露出し、満潮で閉鎖（過去に救助事例）。V2評価層に潮汐データソースがない — 誠実に propagate unknown（fail-closed → NOT_EVALUABLE）；legacy パイプラインは tide_state を実装済み（low_exposure_strict、相対潮位パーセンタイル≤30%）。撮影ガイド：干潮表と現地告知を確認し、目測で判断しない。"
-        },
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決：補真實條件或誠實標記）：CL-DATA-20 的「待潮汐模組再建契約」語義由本契約取代——真實條件即潮汐決定語義，V2 誠實 not_evaluatable，legacy tide_state 繼續供卡片判讀。 | 2026-11-20 CL-INT-212 整合：本契約為語義合併——CL-DATA-76 的真實條件組（潮汐/光窗/降水）＋ CL-DATA-77 的實測幾何與方位；資料值以最新裁決版（CL-DATA-77）為準。",
-          "en": "2026-11-20 CL-DATA-76 (owner ruling: fill real conditions or label honestly): this contract supersedes the CL-DATA-20 'wait for a tide module' stance - the real condition IS the tide-decided semantics, V2 stays honestly not_evaluatable, and the legacy tide_state module keeps feeding the card verdict. | 2026-11-20 CL-INT-212 integration: semantic merge - CL-DATA-76 real condition set (tide/light-window/precipitation) + CL-DATA-77 verified geometry and azimuth; data values follow the latest adjudicated version (CL-DATA-77).",
-          "ja": "2026-11-20 CL-DATA-76（オーナー裁定：実条件の補完または誠実な標記）：本契約は CL-DATA-20 の「潮汐モジュール待ち」方針を置き換える——実条件とは潮位決定の意味であり、V2 は誠実に not_evaluatable、legacy tide_state がカード判定を継続。 | 2026-11-20 CL-INT-212 統合：意味論マージ — CL-DATA-76 の実条件セット（潮汐/光窓/降水）＋ CL-DATA-77 の検証済み幾何・方位；データ値は最新裁定版（CL-DATA-77）に従う。"
-        }
-      },
-      {
-        "id": "C-tw-059-P01-02",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "light_window",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-059-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "民用光線窗（civil，太陽仰角 > −6°）：分海步道攝影是全日題材，夜間一律不符合（CL-DATA-11 同源定義）。",
-          "en": "Civil light window (sun elevation > -6 deg): the causeway shoot is an all-day subject; night hours never qualify (CL-DATA-11 same-source definition).",
-          "ja": "市民光ウィンドウ（太陽高度 > -6°）：分海歩道の撮影は終日題材であり、夜間は一律成立しない（CL-DATA-11 同源定義）。"
-        }
-      },
-      {
-        "id": "C-tw-059-P01-03",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "precipitation",
-        "operator": "lt",
-        "threshold": 0.3,
-        "unit": "mm/h",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "tw-059-P01-claim-01"
-        ],
-        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
-        "validation_status": "provisional",
-        "condition_tier": "SHOOT",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "拍攝時降雨 <0.3 mm/h：既審通用門檻；雨中潮間帶岩面濕滑。",
-          "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold; wet intertidal rock is slippery in rain.",
-          "ja": "撮影時の降水<0.3mm/h。既承認閾値。雨の潮間帯岩面は滑りやすい。"
-        }
-      }
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "verified",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      119.6755232,
+      23.5992506
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-77 2026-11-20: 赤嶼 (Chi Yu islet, the Moses-parting seawall target) OSM Nominatim node 23.5992506,119.6755232 (北寮, 澎湖).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-059-P01-01",
+   "camera_context_id": "CZ-tw-059-P01-01",
+   "target_id": "SG-tw-059-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "static_verified",
+   "azimuth_deg": 96,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [
+    "e-d77-geo-tw-059-P01"
+   ],
+   "derivation_method": "CL-DATA-77 web verification 2026-11-20: azimuth = initial great-circle bearing (WGS84 geodesic, north=0 clockwise) from the verified camera point to the verified target point, computed with a spherical earth (R=6371km); OSM Nominatim nodes retrieved 2026-11-20. Result: az=96 deg (dist ~0.4 km) — east from the Kueibishan beach across the tide-exposed tombolo to Chi Yu; the parting path is this E-NE line.",
+   "uncertainty_note": "Wide tolerance: the tombolo path curves slightly; azimuth is the beach-to-islet dominant bearing."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-059-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 23.59968,
+   "lon": 119.67137,
+   "label_i18n": {
+    "zh-TW": "奎壁山",
+    "en": "Kuibishan Moses Sea Parting",
+    "ja": "奎壁山モーゼの海割り"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-059-P01-v1",
+  "status": "draft",
+  "conditions": [
+   {
+    "id": "C-tw-059-P01-01",
+    "role": "REQUIRED",
+    "domain": "HYDROLOGY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "water_surface_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-059-P01-claim-01"
     ],
-    "recommendation_policy_version": null,
-    "genre_template": "tidal",
-    "template_version": "tidal-v0.1"
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "evidence_review",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "潮汐決定型（CL-COND-A7 慣例）：摩西分海步道僅在乾潮前後露出，漲潮淹沒即封閉（過去有遊客受困救援案例）。V2 評估層尚無潮汐資料源——誠實 propagate unknown（fail-closed → NOT_EVALUABLE）；legacy 管線已接 tide_state（low_exposure_strict，相對潮位 percentile ≤30%）。拍攝指南：出發前查潮汐表與現場公告，勿憑目測冒險登踏。",
+     "en": "Tide-decided subject (CL-COND-A7 convention): the Moses-parting causeway is exposed only around low tide and the rising tide closes it (past rescue incidents). The V2 evaluation layer has no tide data source - honest propagate unknown (fail-closed -> NOT_EVALUABLE); the legacy pipeline already carries tide_state (low_exposure_strict, relative sea-level percentile <= 30%). Shooting guide: check the tide table and on-site notices; never judge by eye.",
+     "ja": "潮位決定型（CL-COND-A7 慣例）：モーゼ分海の歩道は干潮前後だけ露出し、満潮で閉鎖（過去に救助事例）。V2評価層に潮汐データソースがない — 誠実に propagate unknown（fail-closed → NOT_EVALUABLE）；legacy パイプラインは tide_state を実装済み（low_exposure_strict、相対潮位パーセンタイル≤30%）。撮影ガイド：干潮表と現地告知を確認し、目測で判断しない。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-76（owner 裁決：補真實條件或誠實標記）：CL-DATA-20 的「待潮汐模組再建契約」語義由本契約取代——真實條件即潮汐決定語義，V2 誠實 not_evaluatable，legacy tide_state 繼續供卡片判讀。 | 2026-11-20 CL-INT-212 整合：本契約為語義合併——CL-DATA-76 的真實條件組（潮汐/光窗/降水）＋ CL-DATA-77 的實測幾何與方位；資料值以最新裁決版（CL-DATA-77）為準。",
+     "en": "2026-11-20 CL-DATA-76 (owner ruling: fill real conditions or label honestly): this contract supersedes the CL-DATA-20 'wait for a tide module' stance - the real condition IS the tide-decided semantics, V2 stays honestly not_evaluatable, and the legacy tide_state module keeps feeding the card verdict. | 2026-11-20 CL-INT-212 integration: semantic merge - CL-DATA-76 real condition set (tide/light-window/precipitation) + CL-DATA-77 verified geometry and azimuth; data values follow the latest adjudicated version (CL-DATA-77).",
+     "ja": "2026-11-20 CL-DATA-76（オーナー裁定：実条件の補完または誠実な標記）：本契約は CL-DATA-20 の「潮汐モジュール待ち」方針を置き換える——実条件とは潮位決定の意味であり、V2 は誠実に not_evaluatable、legacy tide_state がカード判定を継続。 | 2026-11-20 CL-INT-212 統合：意味論マージ — CL-DATA-76 の実条件セット（潮汐/光窓/降水）＋ CL-DATA-77 の検証済み幾何・方位；データ値は最新裁定版（CL-DATA-77）に従う。"
+    }
+   },
+   {
+    "id": "C-tw-059-P01-02",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-059-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "民用光線窗（civil，太陽仰角 > −6°）：分海步道攝影是全日題材，夜間一律不符合（CL-DATA-11 同源定義）。",
+     "en": "Civil light window (sun elevation > -6 deg): the causeway shoot is an all-day subject; night hours never qualify (CL-DATA-11 same-source definition).",
+     "ja": "市民光ウィンドウ（太陽高度 > -6°）：分海歩道の撮影は終日題材であり、夜間は一律成立しない（CL-DATA-11 同源定義）。"
+    }
+   },
+   {
+    "id": "C-tw-059-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.3,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-059-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "SHOOT",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "拍攝時降雨 <0.3 mm/h：既審通用門檻；雨中潮間帶岩面濕滑。",
+     "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold; wet intertidal rock is slippery in rain.",
+     "ja": "撮影時の降水<0.3mm/h。既承認閾値。雨の潮間帯岩面は滑りやすい。"
+    }
+   }
+  ],
+  "recommendation_policy_version": null,
+  "genre_template": "tidal",
+  "template_version": "tidal-v0.1",
+  "windows": {
+   "time_of_day": [
+    "civil_daylight"
+   ],
+   "seasonal": null
   },
-  "evidence_claims": [
+  "conditions_v2": {
+   "required": [
     {
-      "claim_id": "tw-059-P01-claim-01",
-      "claim_type": "existence",
-      "evidence_refs": [],
-      "audit_status": "UNKNOWN",
-      "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+     "id": "C-tw-059-P01-01",
+     "metric": "water_surface_state",
+     "op": "derived_state",
+     "value": null
     },
     {
-      "claim_id": "tw-059-P01-claim-77geo",
-      "claim_type": "target_geometry",
-      "evidence_refs": [
-        "e-d77-geo-tw-059-P01"
-      ],
-      "audit_status": "OK",
-      "scope_note": "CL-DATA-77 2026-11-20: 赤嶼 OSM https://www.openstreetmap.org/search?query=%E8%B5%A4%E5%B6%BC; 奎壁山 OSM https://www.openstreetmap.org/search?query=%E5%A5%8E%E5%A3%81%E5%B1%B1. Bearing 96 deg computed geodesically."
+     "id": "C-tw-059-P01-03",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.3
     }
-  ],
-  "readiness": {
-    "research_level": "R0",
-    "gaps": [
-      "RESEARCH_GAP",
-      "GEOMETRY_GAP"
-    ]
-  },
-  "provenance": {
-    "source_catalog": "runtime_catalog_v004_r4_2.json",
-    "source_revision": "v1-spot-tw-059",
-    "imported_at": "2026-10-21T20:51:45Z",
-    "review_status": "pending",
-    "reviewed_by": null
+   ],
+   "quality": []
   }
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-059-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Skeleton import from V1 catalog; no independent evidence attached yet."
+  },
+  {
+   "claim_id": "tw-059-P01-claim-77geo",
+   "claim_type": "target_geometry",
+   "evidence_refs": [
+    "e-d77-geo-tw-059-P01"
+   ],
+   "audit_status": "OK",
+   "scope_note": "CL-DATA-77 2026-11-20: 赤嶼 OSM https://www.openstreetmap.org/search?query=%E8%B5%A4%E5%B6%BC; 奎壁山 OSM https://www.openstreetmap.org/search?query=%E5%A5%8E%E5%A3%81%E5%B1%B1. Bearing 96 deg computed geodesically."
+  }
+ ],
+ "readiness": {
+  "research_level": "R0",
+  "gaps": [
+   "RESEARCH_GAP",
+   "GEOMETRY_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-tw-059",
+  "imported_at": "2026-10-21T20:51:45Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
 }

@@ -1,375 +1,437 @@
 {
-  "schema_version": "2.1.0",
-  "opportunity_id": "jp-089-P01",
-  "place_id": "jp-089",
-  "revision": 2,
-  "lifecycle_status": "draft",
-  "name_i18n": {
+ "schema_version": "2.2.0",
+ "opportunity_id": "jp-089-P01",
+ "place_id": "jp-089",
+ "revision": 2,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "阿智村夜空銀河",
+  "en": "Achi Village Milky Way night",
+  "ja": "阿智村の銀河の夜空"
+ },
+ "description_i18n": {
+  "zh-TW": "環境省星空調查連續評定日本第一的村域夜空（ja.wikipedia；観光季 4–9月有「星空観光便」等營運企劃但星空契約本身全年成立）；與既有 jp 星空點（北海道/東北）地理錯位。",
+  "en": "Rated Japan's clearest skies by the MoE national survey (ja.wikipedia; the 4-9月 stargazing programmes are operating plans while the star-sky contract holds year-round); geographically disjoint from existing Hokkaido/Tohoku night-sky spots.",
+  "ja": "環境省の星空調査で日本一に輝く村域の夜空（ja.wikipedia；4〜9月の観光企画は運営情報で星空契約自体は通年）。既存の北海道・東北の星空点とは地理的に別。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-089-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      137.8474,
+      35.5066
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 阿智村（環境省「星のうみ」認定日本一星空，昼神溫泉一帶）；座標 medium（村域・晝神溫泉對位）; source URLs: https://ja.wikipedia.org/wiki/%E9%98%BF%E6%99%BA%E6%9D%91). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "環境省星空調查連續評定日本第一的村域夜空（ja.wikipedia；観光季 4–9月有「星空観光便」等營運企劃但星空契約本身全年成立）；與既有 jp 星空點（北海道/東北）地理錯位。（開放/營運狀態以現場公告為準。）",
+    "en": "Rated Japan's clearest skies by the MoE national survey (ja.wikipedia; the 4-9月 stargazing programmes are operating plans while the star-sky contract holds year-round); geographically disjoint from existing Hokkaido/Tohoku night-sky spots. (Opening/operating status follows on-site notices.)",
+    "ja": "環境省の星空調査で日本一に輝く村域の夜空（ja.wikipedia；4〜9月の観光企画は運営情報で星空契約自体は通年）。既存の北海道・東北の星空点とは地理的に別。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 800.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-089-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
     "zh-TW": "阿智村夜空銀河",
     "en": "Achi Village Milky Way night",
     "ja": "阿智村の銀河の夜空"
-  },
-  "description_i18n": {
-    "zh-TW": "環境省星空調查連續評定日本第一的村域夜空（ja.wikipedia；観光季 4–9月有「星空観光便」等營運企劃但星空契約本身全年成立）；與既有 jp 星空點（北海道/東北）地理錯位。",
-    "en": "Rated Japan's clearest skies by the MoE national survey (ja.wikipedia; the 4-9月 stargazing programmes are operating plans while the star-sky contract holds year-round); geographically disjoint from existing Hokkaido/Tohoku night-sky spots.",
-    "ja": "環境省の星空調査で日本一に輝く村域の夜空（ja.wikipedia；4〜9月の観光企画は運営情報で星空契約自体は通年）。既存の北海道・東北の星空点とは地理的に別。"
-  },
-  "camera_contexts": [
-    {
-      "id": "CZ-jp-089-P01-01",
-      "kind": "area",
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            137.8474,
-            35.5066
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 阿智村（環境省「星のうみ」認定日本一星空，昼神溫泉一帶）；座標 medium（村域・晝神溫泉對位）; source URLs: https://ja.wikipedia.org/wiki/%E9%98%BF%E6%99%BA%E6%9D%91). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "verification_status": "provisional",
-      "evidence_refs": [],
-      "access_notes_i18n": {
-        "zh-TW": "環境省星空調查連續評定日本第一的村域夜空（ja.wikipedia；観光季 4–9月有「星空観光便」等營運企劃但星空契約本身全年成立）；與既有 jp 星空點（北海道/東北）地理錯位。（開放/營運狀態以現場公告為準。）",
-        "en": "Rated Japan's clearest skies by the MoE national survey (ja.wikipedia; the 4-9月 stargazing programmes are operating plans while the star-sky contract holds year-round); geographically disjoint from existing Hokkaido/Tohoku night-sky spots. (Opening/operating status follows on-site notices.)",
-        "ja": "環境省の星空調査で日本一に輝く村域の夜空（ja.wikipedia；4〜9月の観光企画は運営情報で星空契約自体は通年）。既存の北海道・東北の星空点とは地理的に別。（開放・営業状況は現地の案内に従う。）"
-      },
-      "safety_notes_i18n": {
-        "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
-        "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
-        "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
-      },
-      "altitude_m": 800.0
-    }
-  ],
-  "targets": [
-    {
-      "id": "SG-jp-089-P01-01",
-      "kind": "multi_component",
-      "name_i18n": {
-        "zh-TW": "阿智村夜空銀河",
-        "en": "Achi Village Milky Way night",
-        "ja": "阿智村の銀河の夜空"
-      },
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            137.8474,
-            35.5066
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 阿智村（環境省「星のうみ」認定日本一星空，昼神溫泉一帶）；座標 medium（村域・晝神溫泉對位）; source URLs: https://ja.wikipedia.org/wiki/%E9%98%BF%E6%99%BA%E6%9D%91). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "phenomenon_model_id": null,
-      "evidence_refs": [],
-      "components": []
-    }
-  ],
-  "observation_relations": [
-    {
-      "id": "VR-jp-089-P01-01",
-      "camera_context_id": "CZ-jp-089-P01-01",
-      "target_id": "SG-jp-089-P01-01",
-      "type": "foreground_background",
-      "geometry_mode": "unknown",
-      "azimuth_deg": null,
-      "elevation_deg": null,
-      "distance_m": null,
-      "evidence_refs": [],
-      "derivation_method": null,
-      "uncertainty_note": "CL-DATA-25 admission reference; angles and distance unknown pending field survey."
-    }
-  ],
-  "navigation_targets": [
-    {
-      "id": "NAV-jp-089-P01-01",
-      "status": "needs_review",
-      "target_type": "other",
-      "lat": 35.5066,
-      "lon": 137.8474,
-      "label_i18n": {
-        "zh-TW": "阿智村",
-        "en": "Achi Village (Japan's #1 Starry Sky)",
-        "ja": "阿智村"
-      },
-      "evidence_refs": [],
-      "confidence": "low"
-    }
-  ],
-  "condition_contract": {
-    "contract_id": "CC-jp-089-P01-v1",
-    "status": "draft",
-    "genre_template": "night_sky",
-    "template_version": "night_sky-v0.1",
-    "recommendation_policy_version": null,
-    "conditions": [
-      {
-        "id": "C-jp-089-P01-LW1",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "astronomical_darkness",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-089-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "天文暮光窗（太陽高度 ≤ -18°）：星星對比的天文前提。",
-          "en": "Astronomical darkness window (sun elevation <= -18 deg): the astronomical prerequisite for stellar contrast.",
-          "ja": "天文暮色帯（太陽高度≤-18度）。恒星コントラストの天文的前提。"
-        },
-        "genre_scope": "starry_sky"
-      },
-      {
-        "id": "C-jp-089-P01-02",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "moon_illumination_fraction",
-        "operator": "lte",
-        "threshold": 0.5,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-089-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "月照 ≤50%（星空基層）：半月以下時亮星與星軌仍可拍；比銀河層（細月）寬鬆是刻意的分層。",
-          "en": "Moon illumination <= 50% (starry base): bright stars and star trails remain shootable at half moon or less; deliberately looser than the Milky-Way layer (crescent).",
-          "ja": "月照度≤50%（星空基層）。半月以下なら明るい星や星軌は撮れる。銀河層（細月）より意図的に緩い。"
-        },
-        "genre_scope": "starry_sky"
-      },
-      {
-        "id": "C-jp-089-P01-03",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "cloud_cover_total",
-        "operator": "lte",
-        "threshold": 20,
-        "unit": "%",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-089-P01-claim-01"
-        ],
-        "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "總雲量 ≤20%：星空是長曝主體，任何雲帶都蓋星點。",
-          "en": "Total cloud <= 20%: long exposures make any cloud band cover stars.",
-          "ja": "全雲量≤20%。長時間露光では雲帯が星を覆う。"
-        },
-        "genre_scope": "starry_sky"
-      },
-      {
-        "id": "C-jp-089-P01-04",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "aod_550nm",
-        "operator": "lte",
-        "threshold": 0.3,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-089-P01-claim-01"
-        ],
-        "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "AOD ≤0.3：氣溶膠消光吃掉星點對比，與銀河層同一上限。",
-          "en": "AOD <= 0.3: aerosol extinction eats stellar contrast; same ceiling as the Milky-Way layer.",
-          "ja": "AOD≤0.3。エアロゾル消光は星のコントラストを減らす。銀河層と同じ上限。"
-        },
-        "genre_scope": "starry_sky"
-      },
-      {
-        "id": "C-jp-089-P01-05",
-        "role": "QUALITY",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "galactic_core_altitude",
-        "operator": "gte",
-        "threshold": 10,
-        "unit": "°",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-089-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "BONUS",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "銀河核心仰角僅作加分項（owner 規格 §1.2）：冬季核心低於地平線不封殺星空；核心高懸的夏夜畫面更佳，作為品質層訊號。",
-          "en": "Galactic-core altitude is a bonus signal only (owner spec section 1.2): in winter the core sits below the horizon and must never veto the starry sky; a high summer core simply makes the frame better.",
-          "ja": "銀河中心の高度は加点信号に過ぎない（オーナー仕様書 §1.2）：冬は中心が地平線下でも星空を否決しない。夏の高仰角は画面をより良くするだけ。"
-        },
-        "genre_scope": "milky_way",
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：galactic_core ≥20 硬門檻移除，改 BONUS 加分項。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): galactic-core >= 20 hard gate removed, demoted to QUALITY/BONUS.",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：galactic_core ≥20 の必須門檻を撤去し、加点（BONUS）へ。"
-        }
-      },
-      {
-        "id": "C-jp-089-P01-06",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "moon_altitude",
-        "operator": "lt",
-        "threshold": 0,
-        "unit": "°",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-089-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "月亮在地平線下（<0°）：上層的首選狀態；月亮升起時改由 M3（離核心夠遠）判定。",
-          "en": "Moon below the horizon (<0 deg): the preferred upper-layer state; when the moon is up, M3 (far from the core) takes over.",
-          "ja": "月が地平線下（<0度）。上層の望ましい状態。月が昇っている場合はM3（中心から十分遠い）が判定を引き継ぐ。"
-        },
-        "genre_scope": "milky_way"
-      },
-      {
-        "id": "C-jp-089-P01-07",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "moon_target_separation_deg",
-        "operator": "gte",
-        "threshold": 45,
-        "unit": "°",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-089-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "月亮離銀河核心 ≥45°（owner 規格 §1.2）：細月升起但夠遠時銀河帶仍可拍；僅在月亮升起時啟用（月光 any_of 第二軌——月下 OR（細月 ∧ 夠遠））。",
-          "en": "Moon at least 45 deg from the galactic core (owner spec section 1.2): with a thin moon up but far from the core the galactic band stays shootable; active only while the moon is up (track 2 of the moonlight any_of: moon down OR (crescent AND far)).",
-          "ja": "月が銀河中心から≥45度（オーナー仕様書 §1.2）：細い月でも遠ければ銀河帯は撮れる。月が昇っている間のみ有効（月光any_of第2軌道——月が沈む OR（細月∧遠い））。"
-        },
-        "genre_scope": "milky_way",
-        "modifier_activation": {
-          "when_condition": "C-jp-022-P03-06",
-          "mode": "when_not_met"
-        },
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：分離門檻 40°→45°（any_of 第二軌成員）。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): separation threshold 40 deg -> 45 deg (track-2 member of the any_of).",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：分離閾値40°→45°（any_of第2軌道の構成要素）。"
-        }
-      },
-      {
-        "id": "C-jp-089-P01-08",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "moon_illumination_fraction",
-        "operator": "lte",
-        "threshold": 0.25,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-089-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "月光 any_of 第二軌（owner 規格 §1.2）：月亮升起時須為細月（月照 ≤25%）且離銀河核心 ≥45°；月亮在地平線下（仰角 <0）時由 M2 錨點成立、本軌不適用。取代原先的照度代理閘（實作細節見 evaluate_batch M2/M3 交替邏輯）。",
-          "en": "Track 2 of the moonlight any_of (owner spec section 1.2): while the moon is up it must be a crescent (illumination <= 0.25) AND at least 45 deg from the galactic core; with the moon below the horizon the M2 anchor satisfies the set and this track does not apply. Replaces the old illuminance-proxy gate (see the M2/M3 alternation in evaluate_batch).",
-          "ja": "月光any_ofの第2軌道（オーナー仕様書 §1.2）：月が昇っている間は細い月（月照≤0.25）かつ銀河中心から≥45度を要する。月が地平線下ならM2アンカーが成立し本軌道は適用されない。旧の照度プロキシゲートを置き換え（evaluate_batch の M2/M3 交替ロジック参照）。"
-        },
-        "genre_scope": "milky_way",
-        "modifier_activation": {
-          "when_condition": "C-jp-022-P03-06",
-          "mode": "when_not_met"
-        },
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：月光雙軌：月照閘 ≤0.25 取代照度代理（月下時本條件自動成立——評估器對月下月亮的月照一律放行）。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
-        }
-      }
-    ]
-  },
-  "evidence_claims": [
-    {
-      "claim_id": "jp-089-P01-claim-01",
-      "claim_type": "existence",
-      "evidence_refs": [
-        "e-d52-web-aichi-village-stars"
-      ],
-      "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-52 admission (PM-judgment GROWTH-ONLY, 5km dedupe, owner intake 2026-11-09); coordinates/elevation web-verified 2026-11-07 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration."
-    }
-  ],
-  "readiness": {
-    "research_level": "R1",
-    "gaps": [
-      "RESEARCH_GAP"
-    ]
-  },
-  "provenance": {
-    "source_catalog": "CL-DATA-23 discovery shortlist (CL-DATA-25 admission)",
-    "source_revision": "cl-data-23:cl-data-52:aichi-village-stars",
-    "imported_at": "2026-11-07T00:00:00Z",
-    "review_status": "pending",
-    "reviewed_by": null
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      137.8474,
+      35.5066
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-52 admission web verification 2026-11-09 (ja.wikipedia 阿智村（環境省「星のうみ」認定日本一星空，昼神溫泉一帶）；座標 medium（村域・晝神溫泉對位）; source URLs: https://ja.wikipedia.org/wiki/%E9%98%BF%E6%99%BA%E6%9D%91). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
   }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-089-P01-01",
+   "camera_context_id": "CZ-jp-089-P01-01",
+   "target_id": "SG-jp-089-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-25 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-089-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 35.5066,
+   "lon": 137.8474,
+   "label_i18n": {
+    "zh-TW": "阿智村",
+    "en": "Achi Village (Japan's #1 Starry Sky)",
+    "ja": "阿智村"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-089-P01-v1",
+  "status": "draft",
+  "genre_template": "night_sky",
+  "template_version": "night_sky-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-jp-089-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "astronomical_darkness",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-089-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "天文暮光窗（太陽高度 ≤ -18°）：星星對比的天文前提。",
+     "en": "Astronomical darkness window (sun elevation <= -18 deg): the astronomical prerequisite for stellar contrast.",
+     "ja": "天文暮色帯（太陽高度≤-18度）。恒星コントラストの天文的前提。"
+    },
+    "genre_scope": "starry_sky"
+   },
+   {
+    "id": "C-jp-089-P01-02",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_illumination_fraction",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-089-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月照 ≤50%（星空基層）：半月以下時亮星與星軌仍可拍；比銀河層（細月）寬鬆是刻意的分層。",
+     "en": "Moon illumination <= 50% (starry base): bright stars and star trails remain shootable at half moon or less; deliberately looser than the Milky-Way layer (crescent).",
+     "ja": "月照度≤50%（星空基層）。半月以下なら明るい星や星軌は撮れる。銀河層（細月）より意図的に緩い。"
+    },
+    "genre_scope": "starry_sky"
+   },
+   {
+    "id": "C-jp-089-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 20,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-089-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "總雲量 ≤20%：星空是長曝主體，任何雲帶都蓋星點。",
+     "en": "Total cloud <= 20%: long exposures make any cloud band cover stars.",
+     "ja": "全雲量≤20%。長時間露光では雲帯が星を覆う。"
+    },
+    "genre_scope": "starry_sky"
+   },
+   {
+    "id": "C-jp-089-P01-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.3,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-089-P01-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD ≤0.3：氣溶膠消光吃掉星點對比，與銀河層同一上限。",
+     "en": "AOD <= 0.3: aerosol extinction eats stellar contrast; same ceiling as the Milky-Way layer.",
+     "ja": "AOD≤0.3。エアロゾル消光は星のコントラストを減らす。銀河層と同じ上限。"
+    },
+    "genre_scope": "starry_sky"
+   },
+   {
+    "id": "C-jp-089-P01-05",
+    "role": "QUALITY",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "galactic_core_altitude",
+    "operator": "gte",
+    "threshold": 10,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-089-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "BONUS",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "銀河核心仰角僅作加分項（owner 規格 §1.2）：冬季核心低於地平線不封殺星空；核心高懸的夏夜畫面更佳，作為品質層訊號。",
+     "en": "Galactic-core altitude is a bonus signal only (owner spec section 1.2): in winter the core sits below the horizon and must never veto the starry sky; a high summer core simply makes the frame better.",
+     "ja": "銀河中心の高度は加点信号に過ぎない（オーナー仕様書 §1.2）：冬は中心が地平線下でも星空を否決しない。夏の高仰角は画面をより良くするだけ。"
+    },
+    "genre_scope": "milky_way",
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：galactic_core ≥20 硬門檻移除，改 BONUS 加分項。",
+     "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): galactic-core >= 20 hard gate removed, demoted to QUALITY/BONUS.",
+     "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：galactic_core ≥20 の必須門檻を撤去し、加点（BONUS）へ。"
+    }
+   },
+   {
+    "id": "C-jp-089-P01-06",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_altitude",
+    "operator": "lt",
+    "threshold": 0,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-089-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月亮在地平線下（<0°）：上層的首選狀態；月亮升起時改由 M3（離核心夠遠）判定。",
+     "en": "Moon below the horizon (<0 deg): the preferred upper-layer state; when the moon is up, M3 (far from the core) takes over.",
+     "ja": "月が地平線下（<0度）。上層の望ましい状態。月が昇っている場合はM3（中心から十分遠い）が判定を引き継ぐ。"
+    },
+    "genre_scope": "milky_way"
+   },
+   {
+    "id": "C-jp-089-P01-07",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_target_separation_deg",
+    "operator": "gte",
+    "threshold": 45,
+    "unit": "°",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-089-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月亮離銀河核心 ≥45°（owner 規格 §1.2）：細月升起但夠遠時銀河帶仍可拍；僅在月亮升起時啟用（月光 any_of 第二軌——月下 OR（細月 ∧ 夠遠））。",
+     "en": "Moon at least 45 deg from the galactic core (owner spec section 1.2): with a thin moon up but far from the core the galactic band stays shootable; active only while the moon is up (track 2 of the moonlight any_of: moon down OR (crescent AND far)).",
+     "ja": "月が銀河中心から≥45度（オーナー仕様書 §1.2）：細い月でも遠ければ銀河帯は撮れる。月が昇っている間のみ有効（月光any_of第2軌道——月が沈む OR（細月∧遠い））。"
+    },
+    "genre_scope": "milky_way",
+    "modifier_activation": {
+     "when_condition": "C-jp-022-P03-06",
+     "mode": "when_not_met"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：分離門檻 40°→45°（any_of 第二軌成員）。",
+     "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): separation threshold 40 deg -> 45 deg (track-2 member of the any_of).",
+     "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：分離閾値40°→45°（any_of第2軌道の構成要素）。"
+    }
+   },
+   {
+    "id": "C-jp-089-P01-08",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_illumination_fraction",
+    "operator": "lte",
+    "threshold": 0.25,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-089-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月光 any_of 第二軌（owner 規格 §1.2）：月亮升起時須為細月（月照 ≤25%）且離銀河核心 ≥45°；月亮在地平線下（仰角 <0）時由 M2 錨點成立、本軌不適用。取代原先的照度代理閘（實作細節見 evaluate_batch M2/M3 交替邏輯）。",
+     "en": "Track 2 of the moonlight any_of (owner spec section 1.2): while the moon is up it must be a crescent (illumination <= 0.25) AND at least 45 deg from the galactic core; with the moon below the horizon the M2 anchor satisfies the set and this track does not apply. Replaces the old illuminance-proxy gate (see the M2/M3 alternation in evaluate_batch).",
+     "ja": "月光any_ofの第2軌道（オーナー仕様書 §1.2）：月が昇っている間は細い月（月照≤0.25）かつ銀河中心から≥45度を要する。月が地平線下ならM2アンカーが成立し本軌道は適用されない。旧の照度プロキシゲートを置き換え（evaluate_batch の M2/M3 交替ロジック参照）。"
+    },
+    "genre_scope": "milky_way",
+    "modifier_activation": {
+     "when_condition": "C-jp-022-P03-06",
+     "mode": "when_not_met"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：月光雙軌：月照閘 ≤0.25 取代照度代理（月下時本條件自動成立——評估器對月下月亮的月照一律放行）。",
+     "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
+     "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
+    }
+   }
+  ],
+  "windows": {
+   "time_of_day": [
+    "astro_darkness"
+   ],
+   "seasonal": null
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-jp-089-P01-02",
+     "metric": "moon_illumination_fraction",
+     "op": "lte",
+     "value": 0.5
+    },
+    {
+     "id": "C-jp-089-P01-03",
+     "metric": "cloud_cover_total",
+     "op": "lte",
+     "value": 20
+    },
+    {
+     "id": "C-jp-089-P01-04",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.3
+    },
+    {
+     "id": "C-jp-089-P01-06",
+     "metric": "moon_altitude",
+     "op": "lt",
+     "value": 0
+    },
+    {
+     "id": "C-jp-089-P01-07",
+     "metric": "moon_target_separation_deg",
+     "op": "gte",
+     "value": 45
+    },
+    {
+     "id": "C-jp-089-P01-08",
+     "metric": "moon_illumination_fraction",
+     "op": "lte",
+     "value": 0.25
+    }
+   ],
+   "quality": [
+    {
+     "id": "C-jp-089-P01-05",
+     "metric": "galactic_core_altitude",
+     "weight": 1.5,
+     "ideal": [
+      null,
+      null
+     ],
+     "acceptable": [
+      25,
+      null
+     ],
+     "provisional": false
+    }
+   ]
+  }
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-089-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d52-web-aichi-village-stars"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-52 admission (PM-judgment GROWTH-ONLY, 5km dedupe, owner intake 2026-11-09); coordinates/elevation web-verified 2026-11-07 (sources in camera derivation_method and data/v2/audits/cl-data-25_web_evidence.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-23 discovery shortlist (CL-DATA-25 admission)",
+  "source_revision": "cl-data-23:cl-data-52:aichi-village-stars",
+  "imported_at": "2026-11-07T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
 }

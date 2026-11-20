@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "jp-078-P01",
  "place_id": "jp-078",
  "revision": 1,
@@ -278,7 +278,57 @@
      "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "civil_daylight"
+   ],
+   "seasonal": null
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-jp-078-P01-T1",
+     "metric": "legacy_tide",
+     "op": "derived_state",
+     "value": null
+    },
+    {
+     "id": "C-jp-078-P01-01",
+     "metric": "wind_speed_10m",
+     "op": "lte",
+     "value": 2
+    },
+    {
+     "id": "C-jp-078-P01-02",
+     "metric": "water_surface_state",
+     "op": "derived_state",
+     "value": null
+    },
+    {
+     "id": "C-jp-078-P01-03",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.2
+    }
+   ],
+   "quality": [
+    {
+     "id": "C-jp-078-P01-04",
+     "metric": "cloud_cover_total",
+     "weight": 1.5,
+     "ideal": [
+      20,
+      50
+     ],
+     "acceptable": [
+      0,
+      75
+     ],
+     "provisional": false
+    }
+   ]
+  }
  },
  "evidence_claims": [
   {

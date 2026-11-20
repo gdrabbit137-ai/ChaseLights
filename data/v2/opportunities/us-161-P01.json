@@ -1,5 +1,5 @@
 {
- "schema_version": "2.1.0",
+ "schema_version": "2.2.0",
  "opportunity_id": "us-161-P01",
  "place_id": "us-161",
  "revision": 1,
@@ -273,7 +273,51 @@
      "ja": "権威ソース: https://www.usgs.gov/volcanoes/Kilauea/volcano-updates (2026-11-10 検証)。"
     }
    }
-  ]
+  ],
+  "windows": {
+   "time_of_day": [
+    "city_night"
+   ],
+   "seasonal": null
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-us-161-P01-01",
+     "metric": "cloud_cover_total",
+     "op": "lte",
+     "value": 30
+    },
+    {
+     "id": "C-us-161-P01-02",
+     "metric": "visibility",
+     "op": "gte",
+     "value": 10
+    },
+    {
+     "id": "C-us-161-P01-03",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.2
+    },
+    {
+     "id": "C-us-161-P01-04",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.5
+    },
+    {
+     "id": "C-us-161-P01-VA1",
+     "metric": "volcanic_activity",
+     "op": "in",
+     "value": [
+      "erupting",
+      "lava-lake"
+     ]
+    }
+   ],
+   "quality": []
+  }
  },
  "evidence_claims": [
   {

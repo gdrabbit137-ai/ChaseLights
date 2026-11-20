@@ -1,214 +1,231 @@
 {
-  "schema_version": "2.1.0",
-  "opportunity_id": "jp-030-P01",
-  "place_id": "jp-030",
-  "revision": 4,
-  "lifecycle_status": "draft",
-  "name_i18n": {
+ "schema_version": "2.2.0",
+ "opportunity_id": "jp-030-P01",
+ "place_id": "jp-030",
+ "revision": 4,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "鳴門渦之道・鳴門海峽漩渦",
+  "en": "鳴門渦之道・鳴門海峽漩渦",
+  "ja": "鳴門渦之道・鳴門海峽漩渦"
+ },
+ "description_i18n": {
+  "zh-TW": "鳴門渦之道・鳴門海峽漩渦（V1 最佳時段：僅官方潮見表所示滿／乾潮附近且渦之道實際開放時（JST）；V1 季節：全年皆可能；春季3月下旬–4月下旬與秋季9月下旬–10月下旬大潮通常更具規模，但仍依當日官方潮見。V1 遷移骨架；內容待第二輪研究完善。）",
+  "en": "鳴門渦之道・鳴門海峽漩渦 (V1 best time: 僅官方潮見表所示滿／乾潮附近且渦之道實際開放時（JST）; V1 season: 全年皆可能；春季3月下旬–4月下旬與秋季9月下旬–10月下旬大潮通常更具規模，但仍依當日官方潮見 V1 migration skeleton; content to be refined in round 2.)",
+  "ja": "鳴門渦之道・鳴門海峽漩渦（V1ベスト時間帯: 僅官方潮見表所示滿／乾潮附近且渦之道實際開放時（JST）；V1季節: 全年皆可能；春季3月下旬–4月下旬與秋季9月下旬–10月下旬大潮通常更具規模，但仍依當日官方潮見。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-jp-030-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      134.651,
+      34.24
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [
+    "e-d35-access-uzunomichi-tokushima"
+   ],
+   "access_notes_i18n": {
+    "zh-TW": "位於德島縣鳴門市（德島縣立「渦の道」官方頁）。官方資訊：營業時間 夏季（3–9月）09:00–18:00（最終入場17:30）、冬季（10–2月）09:00–17:00（16:30）、GW/暑假期間 08:00–19:00；休館日為 6、9、12、3月第2個星期一（7/20–8/31無休）；票價大人510日元、中小生410/250日元；自駕由鳴門北 IC 5分，停車場小客車200台（1日420日元）、巴士20台；JR鳴門站轉市營巴士約20分。漩渦屬潮汐現象，最盛期依潮汐表為主（官方頁同時提供大鳴門橋展望台與觀潮船資訊）。",
+    "en": "Naruto, Tokushima (official Tokushima Prefecture Uzunomichi page). Official info: summer (Mar-Sep) 09:00-18:00 (entry till 17:30), winter (Oct-Feb) 09:00-17:00 (16:30), GW/summer holidays 08:00-19:00; closed the 2nd Monday of Jun/Sep/Dec/Mar (no closure 7/20-8/31). Fees: adults 510 yen, junior/senior-high 410, elementary 250. Access: 5 min from Naruto-Kita IC, parking 200 cars (420 yen/day) and 20 buses; ~20 min city bus from JR Naruto Station. The whirlpools are tidal phenomena — best timing follows the tide table (official page also lists Onaruto Bridge observatory and cruise-boat info).",
+    "ja": "徳島県鳴門市（徳島県立「渦の道」公式ページ）。公式情報：夏季（3〜9月）09:00〜18:00（入場17:30まで）、冬季（10〜2月）09:00〜17:00（16:30）、GWと夏休みは08:00〜19:00。休館日は6・9・12・3月の第2月曜（7/20〜8/31は無休）。料金：大人510円、中高生410円、小学生250円。アクセスは鳴門北ICから5分、駐車場は乗用車200台（1日420円）・バス20台。JR鳴門駅から市営バス約20分。渦潮は潮汐現象のためベストタイミングは潮見表による（公式ページに展望台・観潮船情報もあり）。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動。",
+    "en": "Follow on-site safety guidance.",
+    "ja": "現地の安全指示に従ってください。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-jp-030-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
     "zh-TW": "鳴門渦之道・鳴門海峽漩渦",
     "en": "鳴門渦之道・鳴門海峽漩渦",
     "ja": "鳴門渦之道・鳴門海峽漩渦"
-  },
-  "description_i18n": {
-    "zh-TW": "鳴門渦之道・鳴門海峽漩渦（V1 最佳時段：僅官方潮見表所示滿／乾潮附近且渦之道實際開放時（JST）；V1 季節：全年皆可能；春季3月下旬–4月下旬與秋季9月下旬–10月下旬大潮通常更具規模，但仍依當日官方潮見。V1 遷移骨架；內容待第二輪研究完善。）",
-    "en": "鳴門渦之道・鳴門海峽漩渦 (V1 best time: 僅官方潮見表所示滿／乾潮附近且渦之道實際開放時（JST）; V1 season: 全年皆可能；春季3月下旬–4月下旬與秋季9月下旬–10月下旬大潮通常更具規模，但仍依當日官方潮見 V1 migration skeleton; content to be refined in round 2.)",
-    "ja": "鳴門渦之道・鳴門海峽漩渦（V1ベスト時間帯: 僅官方潮見表所示滿／乾潮附近且渦之道實際開放時（JST）；V1季節: 全年皆可能；春季3月下旬–4月下旬與秋季9月下旬–10月下旬大潮通常更具規模，但仍依當日官方潮見。V1移行スケルトン。内容は第2ラウンドで精緻化予定。）"
-  },
-  "camera_contexts": [
-    {
-      "id": "CZ-jp-030-P01-01",
-      "kind": "area",
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            134.651,
-            34.24
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "verification_status": "provisional",
-      "evidence_refs": [
-        "e-d35-access-uzunomichi-tokushima"
-      ],
-      "access_notes_i18n": {
-        "zh-TW": "位於德島縣鳴門市（德島縣立「渦の道」官方頁）。官方資訊：營業時間 夏季（3–9月）09:00–18:00（最終入場17:30）、冬季（10–2月）09:00–17:00（16:30）、GW/暑假期間 08:00–19:00；休館日為 6、9、12、3月第2個星期一（7/20–8/31無休）；票價大人510日元、中小生410/250日元；自駕由鳴門北 IC 5分，停車場小客車200台（1日420日元）、巴士20台；JR鳴門站轉市營巴士約20分。漩渦屬潮汐現象，最盛期依潮汐表為主（官方頁同時提供大鳴門橋展望台與觀潮船資訊）。",
-        "en": "Naruto, Tokushima (official Tokushima Prefecture Uzunomichi page). Official info: summer (Mar-Sep) 09:00-18:00 (entry till 17:30), winter (Oct-Feb) 09:00-17:00 (16:30), GW/summer holidays 08:00-19:00; closed the 2nd Monday of Jun/Sep/Dec/Mar (no closure 7/20-8/31). Fees: adults 510 yen, junior/senior-high 410, elementary 250. Access: 5 min from Naruto-Kita IC, parking 200 cars (420 yen/day) and 20 buses; ~20 min city bus from JR Naruto Station. The whirlpools are tidal phenomena — best timing follows the tide table (official page also lists Onaruto Bridge observatory and cruise-boat info).",
-        "ja": "徳島県鳴門市（徳島県立「渦の道」公式ページ）。公式情報：夏季（3〜9月）09:00〜18:00（入場17:30まで）、冬季（10〜2月）09:00〜17:00（16:30）、GWと夏休みは08:00〜19:00。休館日は6・9・12・3月の第2月曜（7/20〜8/31は無休）。料金：大人510円、中高生410円、小学生250円。アクセスは鳴門北ICから5分、駐車場は乗用車200台（1日420円）・バス20台。JR鳴門駅から市営バス約20分。渦潮は潮汐現象のためベストタイミングは潮見表による（公式ページに展望台・観潮船情報もあり）。"
-      },
-      "safety_notes_i18n": {
-        "zh-TW": "請依現場安全指示行動。",
-        "en": "Follow on-site safety guidance.",
-        "ja": "現地の安全指示に従ってください。"
-      },
-      "altitude_m": null
-    }
-  ],
-  "targets": [
-    {
-      "id": "SG-jp-030-P01-01",
-      "kind": "multi_component",
-      "name_i18n": {
-        "zh-TW": "鳴門渦之道・鳴門海峽漩渦",
-        "en": "鳴門渦之道・鳴門海峽漩渦",
-        "ja": "鳴門渦之道・鳴門海峽漩渦"
-      },
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            134.651,
-            34.24
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "imported_from_v1_viewpoint_reference",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "phenomenon_model_id": null,
-      "evidence_refs": [
-        "e-d35-access-uzunomichi-tokushima"
-      ],
-      "components": []
-    }
-  ],
-  "observation_relations": [
-    {
-      "id": "VR-jp-030-P01-01",
-      "camera_context_id": "CZ-jp-030-P01-01",
-      "target_id": "SG-jp-030-P01-01",
-      "type": "foreground_background",
-      "geometry_mode": "unknown",
-      "azimuth_deg": null,
-      "elevation_deg": null,
-      "distance_m": null,
-      "evidence_refs": [],
-      "derivation_method": null,
-      "uncertainty_note": "Imported V1 reference; angles and distance unknown."
-    }
-  ],
-  "navigation_targets": [
-    {
-      "id": "NAV-jp-030-P01-01",
-      "status": "needs_review",
-      "target_type": "other",
-      "lat": 34.24,
-      "lon": 134.651,
-      "label_i18n": {
-        "zh-TW": "鳴門海峽漩渦",
-        "en": "Naruto Whirlpools",
-        "ja": "鳴門海峡"
-      },
-      "evidence_refs": [],
-      "confidence": "low"
-    }
-  ],
-  "condition_contract": {
-    "contract_id": "CC-jp-030-P01-v1",
-    "status": "draft",
-    "conditions": [
-      {
-        "id": "C-jp-030-P01-02",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "spring_tide_state",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-030-P01-claim-02"
-        ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "大潮帶：朔望（新月/滿月）前後約±2.7 天，以月照亮率 ≤8% 或 ≥92% 為天文代理。官方口徑：鳴門漩渦以大潮（新月與滿月的隔日及其周邊日）最盛，春（3月下旬–4月下旬）與秋（9月下旬–10月下旬）規模最大；潮流最速（見頃）時刻依官方潮見表（uzunomichi.jp/tide-calendar），本條件只判「是否大潮帶」，精確時段請查官方潮見表。",
-          "en": "Spring-tide band: within ~±2.7 days of syzygy (new/full moon), proxied astronomically by moon illumination <=8% or >=92%. Official wording: Naruto whirlpools peak on spring-tide days (the day after new/full moon and neighbours), largest in late Mar-Apr and late Sep-Oct; exact best hours follow the official tide table (uzunomichi.jp/tide-calendar) — this condition only judges spring-tide days.",
-          "ja": "大潮帯：朔望（新月/満月）前後約±2.7日で、月照率 ≤8% または ≥92% を天文代理とする。公式見解：鳴門の渦潮は大潮（新月・満月の1日あたりとその周辺日）に最も大きく、春（3月下旬–4月下旬）と秋（9月下旬–10月下旬）が見頃。最速時刻は公式潮見表（uzunomichi.jp/tide-calendar）を確認のこと。本条件は大潮日か否かのみ判定する。"
-        },
-        "validation_status": "provisional",
-        "threshold_source": "evidence_review",
-        "calibration_status": "provisional"
-      },
-      {
-        "id": "C-jp-030-P01-03",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "light_window",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "jp-030-P01-claim-03"
-        ],
-        "model_binding": null,
-        "notes_i18n": {
-          "zh-TW": "日照時段窗（太陽在地平線上）：渦之道為戶外步道（官方開放時間 09:00–17:00/18:00，見存取資訊），夜間無法觀測漩渦；CL-DATA-77 收緊——觀景題材須綁日光窗。",
-          "en": "Daylight window (sun above horizon): the Uzunomichi is an outdoor walkway (official hours 09:00-17:00/18:00, see access notes) — whirlpools cannot be observed at night.",
-          "ja": "日照時間帯（太陽が地平線上）：渦の道は屋外遊歩道（公式時間 09:00–17:00/18:00、アクセス情報参照）。夜間は渦潮を観測できない。"
-        },
-        "validation_status": "provisional",
-        "threshold_source": "computed",
-        "calibration_status": "provisional"
-      }
-    ],
-    "recommendation_policy_version": null,
-    "genre_template": "tidal"
-  },
-  "evidence_claims": [
-    {
-      "claim_id": "jp-030-P01-claim-01",
-      "claim_type": "existence",
-      "evidence_refs": [
-        "e-d35-access-uzunomichi-tokushima"
-      ],
-      "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      134.651,
+      34.24
+     ]
     },
-    {
-      "claim_id": "jp-030-P01-claim-02",
-      "claim_type": "condition_threshold",
-      "evidence_refs": [
-        "e-d77-naruto-spring-tide"
-      ],
-      "audit_status": "PARTIAL",
-      "scope_note": "CL-DATA-77 audit 2026-11-20: spring-tide proxy thresholds (illumination <=8% / >=92%, ~syzygy +/-2.7d) are provisional, pending calibration against shoot outcomes; the syzygy-spring-tide relation and Naruto spring-tide emphasis are official/public: https://www.uzunomichi.jp/tide-calendar/ (spring-tide days marked red; viewing +/-2h around peak current), https://www.naruto-kankou.jp/uzu/ (spring tide +/-2h guideline), https://www.pref.tokushima.lg.jp/japanese/tourism/spot/uzushio (largest on spring tides in spring/autumn), https://tabi.jtb.or.jp/res/360024- (spring tide = the day after new/full moon at Naruto). Exact best hours remain official-tide-table semantics (check before shoot); no fabricated hourly tide curve is shipped."
-    },
-    {
-      "claim_id": "jp-030-P01-claim-03",
-      "claim_type": "existence",
-      "evidence_refs": [
-        "e-d35-access-uzunomichi-tokushima"
-      ],
-      "audit_status": "OK",
-      "scope_note": "CL-DATA-77 2026-11-20: daylight gate derived from the facility being an outdoor walkway with official opening hours (already evidenced by e-d35-access-uzunomichi-tokushima; https://www.uzunomichi.jp/)."
-    }
-  ],
-  "readiness": {
-    "research_level": "R0",
-    "gaps": [
-      "RESEARCH_GAP",
-      "GEOMETRY_GAP"
-    ]
-  },
-  "provenance": {
-    "source_catalog": "runtime_catalog_v004_r4_2.json",
-    "source_revision": "v1-spot-jp-030",
-    "imported_at": "2026-10-21T20:51:45Z",
-    "review_status": "pending",
-    "reviewed_by": null
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [
+    "e-d35-access-uzunomichi-tokushima"
+   ],
+   "components": []
   }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-jp-030-P01-01",
+   "camera_context_id": "CZ-jp-030-P01-01",
+   "target_id": "SG-jp-030-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-jp-030-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 34.24,
+   "lon": 134.651,
+   "label_i18n": {
+    "zh-TW": "鳴門海峽漩渦",
+    "en": "Naruto Whirlpools",
+    "ja": "鳴門海峡"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-jp-030-P01-v1",
+  "status": "draft",
+  "conditions": [
+   {
+    "id": "C-jp-030-P01-02",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "spring_tide_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-030-P01-claim-02"
+    ],
+    "model_binding": null,
+    "notes_i18n": {
+     "zh-TW": "大潮帶：朔望（新月/滿月）前後約±2.7 天，以月照亮率 ≤8% 或 ≥92% 為天文代理。官方口徑：鳴門漩渦以大潮（新月與滿月的隔日及其周邊日）最盛，春（3月下旬–4月下旬）與秋（9月下旬–10月下旬）規模最大；潮流最速（見頃）時刻依官方潮見表（uzunomichi.jp/tide-calendar），本條件只判「是否大潮帶」，精確時段請查官方潮見表。",
+     "en": "Spring-tide band: within ~±2.7 days of syzygy (new/full moon), proxied astronomically by moon illumination <=8% or >=92%. Official wording: Naruto whirlpools peak on spring-tide days (the day after new/full moon and neighbours), largest in late Mar-Apr and late Sep-Oct; exact best hours follow the official tide table (uzunomichi.jp/tide-calendar) — this condition only judges spring-tide days.",
+     "ja": "大潮帯：朔望（新月/満月）前後約±2.7日で、月照率 ≤8% または ≥92% を天文代理とする。公式見解：鳴門の渦潮は大潮（新月・満月の1日あたりとその周辺日）に最も大きく、春（3月下旬–4月下旬）と秋（9月下旬–10月下旬）が見頃。最速時刻は公式潮見表（uzunomichi.jp/tide-calendar）を確認のこと。本条件は大潮日か否かのみ判定する。"
+    },
+    "validation_status": "provisional",
+    "threshold_source": "evidence_review",
+    "calibration_status": "provisional"
+   },
+   {
+    "id": "C-jp-030-P01-03",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-030-P01-claim-03"
+    ],
+    "model_binding": null,
+    "notes_i18n": {
+     "zh-TW": "日照時段窗（太陽在地平線上）：渦之道為戶外步道（官方開放時間 09:00–17:00/18:00，見存取資訊），夜間無法觀測漩渦；CL-DATA-77 收緊——觀景題材須綁日光窗。",
+     "en": "Daylight window (sun above horizon): the Uzunomichi is an outdoor walkway (official hours 09:00-17:00/18:00, see access notes) — whirlpools cannot be observed at night.",
+     "ja": "日照時間帯（太陽が地平線上）：渦の道は屋外遊歩道（公式時間 09:00–17:00/18:00、アクセス情報参照）。夜間は渦潮を観測できない。"
+    },
+    "validation_status": "provisional",
+    "threshold_source": "computed",
+    "calibration_status": "provisional"
+   }
+  ],
+  "recommendation_policy_version": null,
+  "genre_template": "tidal",
+  "windows": {
+   "time_of_day": [
+    "civil_daylight"
+   ],
+   "seasonal": null
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-jp-030-P01-02",
+     "metric": "spring_tide_state",
+     "op": "derived_state",
+     "value": null
+    }
+   ],
+   "quality": []
+  }
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "jp-030-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d35-access-uzunomichi-tokushima"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-35 batch1 access verification 2026-11-08: transport/parking/trailhead/hours/closures verified against authoritative sources (URLs in data/v2/audits/verification-batches/batch1-progress.json and camera derivation_method); 1 source(s). Unverifiable details remain honestly unknown; private/restricted areas flagged in access notes."
+  },
+  {
+   "claim_id": "jp-030-P01-claim-02",
+   "claim_type": "condition_threshold",
+   "evidence_refs": [
+    "e-d77-naruto-spring-tide"
+   ],
+   "audit_status": "PARTIAL",
+   "scope_note": "CL-DATA-77 audit 2026-11-20: spring-tide proxy thresholds (illumination <=8% / >=92%, ~syzygy +/-2.7d) are provisional, pending calibration against shoot outcomes; the syzygy-spring-tide relation and Naruto spring-tide emphasis are official/public: https://www.uzunomichi.jp/tide-calendar/ (spring-tide days marked red; viewing +/-2h around peak current), https://www.naruto-kankou.jp/uzu/ (spring tide +/-2h guideline), https://www.pref.tokushima.lg.jp/japanese/tourism/spot/uzushio (largest on spring tides in spring/autumn), https://tabi.jtb.or.jp/res/360024- (spring tide = the day after new/full moon at Naruto). Exact best hours remain official-tide-table semantics (check before shoot); no fabricated hourly tide curve is shipped."
+  },
+  {
+   "claim_id": "jp-030-P01-claim-03",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d35-access-uzunomichi-tokushima"
+   ],
+   "audit_status": "OK",
+   "scope_note": "CL-DATA-77 2026-11-20: daylight gate derived from the facility being an outdoor walkway with official opening hours (already evidenced by e-d35-access-uzunomichi-tokushima; https://www.uzunomichi.jp/)."
+  }
+ ],
+ "readiness": {
+  "research_level": "R0",
+  "gaps": [
+   "RESEARCH_GAP",
+   "GEOMETRY_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-jp-030",
+  "imported_at": "2026-10-21T20:51:45Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
 }

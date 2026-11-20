@@ -1,309 +1,344 @@
 {
-  "schema_version": "2.1.0",
-  "opportunity_id": "us-134-P01",
-  "place_id": "us-134",
-  "revision": 2,
-  "lifecycle_status": "draft",
-  "name_i18n": {
+ "schema_version": "2.2.0",
+ "opportunity_id": "us-134-P01",
+ "place_id": "us-134",
+ "revision": 2,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "使徒群島冰洞冰簾",
+  "en": "Apostle Islands icicle caves",
+  "ja": "アポストル群島の氷洞"
+ },
+ "description_i18n": {
+  "zh-TW": "僅當蘇必略湖冰層足厚，NPS 才開放冰洞路線（通常1–3月，年度公佈）——季節窗追蹤官方案件而非保證；冰簾/冰錐洞穴景觀；與既有 us 五大湖點（尼加拉瀑布）題材錯位——本點為湖冰洞。",
+  "en": "The ice-cave route opens only when Lake Superior ice is thick enough (typically Jan-Mar, dates yearly announced by NPS) - the window tracks the official opening, never a guarantee; disjoint from the Niagara subject.",
+  "ja": "スペリオル湖の氷が十分に厚い時のみNPSが氷洞路線を開放（例年1〜3月、年度公表）。氷瀑の洞窟景観。ナイアガラとは題材が別。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-us-134-P01-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -90.9978,
+      46.7389
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-53 admission web verification 2026-11-09 (NPS Apostle Islands（Meyers Beach 冰洞路線，蘇必略湖面約183 m；座標 medium（岸線對位））; source URLs: https://www.nps.gov/apis/learn/nature/ice-caves.htm). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [],
+   "access_notes_i18n": {
+    "zh-TW": "僅當蘇必略湖冰層足厚，NPS 才開放冰洞路線（通常1–3月，年度公佈）——季節窗追蹤官方案件而非保證；冰簾/冰錐洞穴景觀；與既有 us 五大湖點（尼加拉瀑布）題材錯位——本點為湖冰洞。（開放/營運狀態以現場公告為準。）",
+    "en": "The ice-cave route opens only when Lake Superior ice is thick enough (typically Jan-Mar, dates yearly announced by NPS) - the window tracks the official opening, never a guarantee; disjoint from the Niagara subject. (Opening/operating status follows on-site notices.)",
+    "ja": "スペリオル湖の氷が十分に厚い時のみNPSが氷洞路線を開放（例年1〜3月、年度公表）。氷瀑の洞窟景観。ナイアガラとは題材が別。（開放・営業状況は現地の案内に従う。）"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
+    "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
+    "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
+   },
+   "altitude_m": 183.0
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-us-134-P01-01",
+   "kind": "multi_component",
+   "name_i18n": {
     "zh-TW": "使徒群島冰洞冰簾",
     "en": "Apostle Islands icicle caves",
     "ja": "アポストル群島の氷洞"
-  },
-  "description_i18n": {
-    "zh-TW": "僅當蘇必略湖冰層足厚，NPS 才開放冰洞路線（通常1–3月，年度公佈）——季節窗追蹤官方案件而非保證；冰簾/冰錐洞穴景觀；與既有 us 五大湖點（尼加拉瀑布）題材錯位——本點為湖冰洞。",
-    "en": "The ice-cave route opens only when Lake Superior ice is thick enough (typically Jan-Mar, dates yearly announced by NPS) - the window tracks the official opening, never a guarantee; disjoint from the Niagara subject.",
-    "ja": "スペリオル湖の氷が十分に厚い時のみNPSが氷洞路線を開放（例年1〜3月、年度公表）。氷瀑の洞窟景観。ナイアガラとは題材が別。"
-  },
-  "camera_contexts": [
-    {
-      "id": "CZ-us-134-P01-01",
-      "kind": "area",
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            -90.9978,
-            46.7389
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "CL-DATA-53 admission web verification 2026-11-09 (NPS Apostle Islands（Meyers Beach 冰洞路線，蘇必略湖面約183 m；座標 medium（岸線對位））; source URLs: https://www.nps.gov/apis/learn/nature/ice-caves.htm). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "verification_status": "provisional",
-      "evidence_refs": [],
-      "access_notes_i18n": {
-        "zh-TW": "僅當蘇必略湖冰層足厚，NPS 才開放冰洞路線（通常1–3月，年度公佈）——季節窗追蹤官方案件而非保證；冰簾/冰錐洞穴景觀；與既有 us 五大湖點（尼加拉瀑布）題材錯位——本點為湖冰洞。（開放/營運狀態以現場公告為準。）",
-        "en": "The ice-cave route opens only when Lake Superior ice is thick enough (typically Jan-Mar, dates yearly announced by NPS) - the window tracks the official opening, never a guarantee; disjoint from the Niagara subject. (Opening/operating status follows on-site notices.)",
-        "ja": "スペリオル湖の氷が十分に厚い時のみNPSが氷洞路線を開放（例年1〜3月、年度公表）。氷瀑の洞窟景観。ナイアガラとは題材が別。（開放・営業状況は現地の案内に従う。）"
-      },
-      "safety_notes_i18n": {
-        "zh-TW": "請依現場安全指示行動；夜間/冬季天候險惡時請勿冒進。",
-        "en": "Follow on-site safety guidance; do not push on in severe night/winter weather.",
-        "ja": "現地の安全指示に従う。夜間・冬季の悪天候では無理をしない。"
-      },
-      "altitude_m": 183.0
-    }
-  ],
-  "targets": [
-    {
-      "id": "SG-us-134-P01-01",
-      "kind": "multi_component",
-      "name_i18n": {
-        "zh-TW": "使徒群島冰洞冰簾",
-        "en": "Apostle Islands icicle caves",
-        "ja": "アポストル群島の氷洞"
-      },
-      "geometry": {
-        "kind": "point",
-        "status": "provisional",
-        "geojson": {
-          "type": "Point",
-          "coordinates": [
-            -90.9978,
-            46.7389
-          ]
-        },
-        "uncertainty_m": null,
-        "derivation_method": "CL-DATA-53 admission web verification 2026-11-09 (NPS Apostle Islands（Meyers Beach 冰洞路線，蘇必略湖面約183 m；座標 medium（岸線對位））; source URLs: https://www.nps.gov/apis/learn/nature/ice-caves.htm). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
-        "source_geometry_revision": null,
-        "reason_if_absent": null
-      },
-      "phenomenon_model_id": null,
-      "evidence_refs": [],
-      "components": []
-    }
-  ],
-  "observation_relations": [
-    {
-      "id": "VR-us-134-P01-01",
-      "camera_context_id": "CZ-us-134-P01-01",
-      "target_id": "SG-us-134-P01-01",
-      "type": "foreground_background",
-      "geometry_mode": "unknown",
-      "azimuth_deg": null,
-      "elevation_deg": null,
-      "distance_m": null,
-      "evidence_refs": [],
-      "derivation_method": null,
-      "uncertainty_note": "CL-DATA-25 admission reference; angles and distance unknown pending field survey."
-    }
-  ],
-  "navigation_targets": [
-    {
-      "id": "NAV-us-134-P01-01",
-      "status": "needs_review",
-      "target_type": "other",
-      "lat": 46.7389,
-      "lon": -90.9978,
-      "label_i18n": {
-        "zh-TW": "Meyers Beach ice caves",
-        "en": "Apostle Islands sea caves (ice caves)",
-        "ja": "Meyers Beach ice caves"
-      },
-      "evidence_refs": [],
-      "confidence": "low"
-    }
-  ],
-  "condition_contract": {
-    "contract_id": "CC-us-134-P01-v1",
-    "status": "draft",
-    "genre_template": "snow_ice",
-    "template_version": "snow_ice-v0.1",
-    "recommendation_policy_version": null,
-    "conditions": [
-      {
-        "id": "C-us-134-P01-S1",
-        "role": "REQUIRED",
-        "domain": "SEASON_TIME",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "seasonal_state",
-        "operator": "eq",
-        "threshold": "window_open",
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "us-134-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "季節窗判定（window_open/window_closed，例年窗 01-01–03-15 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：本題材受營運期/季節窗硬性約束（CL-DATA-25 建置時即帶窗）。",
-          "en": "Seasonal-window verdict (window_open/window_closed; typical window 01-01-03-15 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): this subject is hard-gated by an operating/season window (built in at CL-DATA-25 admission).",
-          "ja": "季節窓判定（window_open/window_closed。例年窓 01-01〜03-15 は seasonal-calendar.json から、実況優先、両方欠ければ誠実に not_evaluatable）。本題材は営業期・季節窓でハード制約（CL-DATA-25 作成時に組み込み）。"
-        }
-      },
-      {
-        "id": "C-us-134-P01-02",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "visibility",
-        "operator": "gte",
-        "threshold": 3.0,
-        "unit": "km",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "us-134-P01-claim-01"
-        ],
-        "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "能見度 ≥3 km：否決條件是暴雪/白牆；降雪本身不否決（飄雪中的冰洞反而是加分）。",
-          "en": "Visibility >= 3 km: the veto condition is blizzard/whiteout; falling snow itself is not a veto (ice caves in falling snow are a bonus).",
-          "ja": "視程≥3km。否決条件は吹雪・ホワイトアウト。降雪自体は否決しない（降雪中の氷洞はむしろ好条件）。"
-        }
-      },
-      {
-        "id": "C-us-134-P01-03",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "wind_speed_10m",
-        "operator": "lte",
-        "threshold": 7.0,
-        "unit": "m/s",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "us-134-P01-claim-01"
-        ],
-        "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "冰雪環境收緊風速：≤7 m/s（原 15 m/s 過寬——大風吹雪既毀雪面也站不穩腳架，owner 規格 §1.3）。",
-          "en": "Tighten wind for snow & ice: <= 7 m/s (the old 15 m/s was far too loose - blowing snow destroys the surface and no tripod stands in it; owner spec section 1.3).",
-          "ja": "雪氷環境では風速を引き締める：≤7 m/s（従来の15 m/sは緩すぎ——吹雪は雪面を荒らし脚も立たない。オーナー仕様書 §1.3）。"
-        },
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：風速上限 15→7 m/s。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): wind ceiling 15 -> 7 m/s.",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：風速上限15→7 m/s。"
-        }
-      },
-      {
-        "id": "C-us-134-P01-LW1",
-        "role": "REQUIRED",
-        "domain": "ASTRONOMY",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "light_window",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "us-134-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "時間窗（必要條件）：日間冰洞拍攝只在民用光（太陽仰角 > −6°）內成立",
-          "en": "Time window (necessary condition): daytime ice-cave shooting qualifies only in civil light (sun elevation > -6 deg)",
-          "ja": "時間窓（必要条件）。日中の氷洞撮影は市民光（太陽高度>−6°）内でのみ成立"
-        }
-      },
-      {
-        "id": "C-us-134-P01-04",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "precipitation",
-        "operator": "lt",
-        "threshold": 0.2,
-        "unit": "mm/h",
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "us-134-P01-claim-01"
-        ],
-        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "formula_derived",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "排除降雨：降水 ≥0.2 mm/h 時濕雪與器材風險，否決（owner 規格 §1.3）。",
-          "en": "Rain excluded: at precipitation >= 0.2 mm/h wet snow and gear risk veto the hour (owner spec section 1.3).",
-          "ja": "降雨の除外：降水≥0.2 mm/hでは濡れ雪と機材リスクにより否決（オーナー仕様書 §1.3）。"
-        },
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：排除降雨（<0.2 mm/h）。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): Added REQUIRED: rain excluded (< 0.2 mm/h).",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：必須条件を追加：降雨の除外（<0.2 mm/h）。"
-        }
-      },
-      {
-        "id": "C-us-134-P01-05",
-        "role": "REQUIRED",
-        "domain": "WEATHER",
-        "evaluation_mode": "GUIDANCE",
-        "capability": "CONDITIONS",
-        "metric": "snow_cover_state",
-        "operator": "none",
-        "threshold": null,
-        "unit": null,
-        "unknown_policy": "propagate_unknown",
-        "claim_refs": [
-          "us-134-P01-claim-01"
-        ],
-        "model_binding": null,
-        "validation_status": "provisional",
-        "condition_tier": "MAIN",
-        "threshold_source": "computed",
-        "calibration_status": "provisional",
-        "rationale_i18n": {
-          "zh-TW": "有雪才成立：雪深 >0 或降雪 >0（以 CL-DATA-74 派生三態 snowing/snow_covered/none 實作 OR 語義；原始 snow_depth_cm 數值門檻待 Phase 1 ETL 標準化）。",
-          "en": "Snow must be present: snow depth > 0 OR snowfall > 0 (implemented via the CL-DATA-74 derived state snowing/snow_covered/none, which collapses the OR; the raw snow_depth_cm gate lands with the Phase 1 ETL standardisation).",
-          "ja": "雪があることが前提：雪深>0 または降雪>0（CL-DATA-74 の派生状態 snowing/snow_covered/none でORを実装。素の snow_depth_cm 閾値は Phase 1 の ETL 標準化で導入）。"
-        },
-        "notes_i18n": {
-          "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：有雪（雪深>0 或降雪>0 的派生狀態）。",
-          "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): Added REQUIRED: snow present (derived state of depth>0 OR falling snow).",
-          "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：必須条件を追加：雪の存在（雪深>0または降雪>0の派生状態）。"
-        }
-      }
-    ]
-  },
-  "evidence_claims": [
-    {
-      "claim_id": "us-134-P01-claim-01",
-      "claim_type": "existence",
-      "evidence_refs": [
-        "e-d53-web-apostle-ice-caves"
-      ],
-      "audit_status": "UNKNOWN",
-      "scope_note": "CL-DATA-53 admission (PM-judgment GROWTH-ONLY 2026-11-09, 5km dedupe, owner Gemini US list); coordinates/elevation web-verified 2026-11-09 (sources in camera derivation_method and data/v2/audits/cl-data-53_web_evidence.json); thresholds provisional pending real-shoot calibration."
-    }
-  ],
-  "readiness": {
-    "research_level": "R1",
-    "gaps": [
-      "RESEARCH_GAP"
-    ]
-  },
-  "provenance": {
-    "source_catalog": "CL-DATA-23 discovery shortlist (CL-DATA-25 admission)",
-    "source_revision": "cl-data-23:cl-data-53:apostle-ice-caves",
-    "imported_at": "2026-11-07T00:00:00Z",
-    "review_status": "pending",
-    "reviewed_by": null
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      -90.9978,
+      46.7389
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "CL-DATA-53 admission web verification 2026-11-09 (NPS Apostle Islands（Meyers Beach 冰洞路線，蘇必略湖面約183 m；座標 medium（岸線對位））; source URLs: https://www.nps.gov/apis/learn/nature/ice-caves.htm). CL-DATA-23 dossier coordinate was approx - corrected/confirmed as stated.",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [],
+   "components": []
   }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-us-134-P01-01",
+   "camera_context_id": "CZ-us-134-P01-01",
+   "target_id": "SG-us-134-P01-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "CL-DATA-25 admission reference; angles and distance unknown pending field survey."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-us-134-P01-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 46.7389,
+   "lon": -90.9978,
+   "label_i18n": {
+    "zh-TW": "Meyers Beach ice caves",
+    "en": "Apostle Islands sea caves (ice caves)",
+    "ja": "Meyers Beach ice caves"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-us-134-P01-v1",
+  "status": "draft",
+  "genre_template": "snow_ice",
+  "template_version": "snow_ice-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-us-134-P01-S1",
+    "role": "REQUIRED",
+    "domain": "SEASON_TIME",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "seasonal_state",
+    "operator": "eq",
+    "threshold": "window_open",
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-134-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "季節窗判定（window_open/window_closed，例年窗 01-01–03-15 讀自 seasonal-calendar.json，實況優先，兩者皆缺時誠實 not_evaluatable）：本題材受營運期/季節窗硬性約束（CL-DATA-25 建置時即帶窗）。",
+     "en": "Seasonal-window verdict (window_open/window_closed; typical window 01-01-03-15 from seasonal-calendar.json, observed takes precedence, neither present = honestly not_evaluatable): this subject is hard-gated by an operating/season window (built in at CL-DATA-25 admission).",
+     "ja": "季節窓判定（window_open/window_closed。例年窓 01-01〜03-15 は seasonal-calendar.json から、実況優先、両方欠ければ誠実に not_evaluatable）。本題材は営業期・季節窓でハード制約（CL-DATA-25 作成時に組み込み）。"
+    }
+   },
+   {
+    "id": "C-us-134-P01-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 3.0,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-134-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥3 km：否決條件是暴雪/白牆；降雪本身不否決（飄雪中的冰洞反而是加分）。",
+     "en": "Visibility >= 3 km: the veto condition is blizzard/whiteout; falling snow itself is not a veto (ice caves in falling snow are a bonus).",
+     "ja": "視程≥3km。否決条件は吹雪・ホワイトアウト。降雪自体は否決しない（降雪中の氷洞はむしろ好条件）。"
+    }
+   },
+   {
+    "id": "C-us-134-P01-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "wind_speed_10m",
+    "operator": "lte",
+    "threshold": 7.0,
+    "unit": "m/s",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-134-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:wind_speed_10m_m_s|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "冰雪環境收緊風速：≤7 m/s（原 15 m/s 過寬——大風吹雪既毀雪面也站不穩腳架，owner 規格 §1.3）。",
+     "en": "Tighten wind for snow & ice: <= 7 m/s (the old 15 m/s was far too loose - blowing snow destroys the surface and no tripod stands in it; owner spec section 1.3).",
+     "ja": "雪氷環境では風速を引き締める：≤7 m/s（従来の15 m/sは緩すぎ——吹雪は雪面を荒らし脚も立たない。オーナー仕様書 §1.3）。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：風速上限 15→7 m/s。",
+     "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): wind ceiling 15 -> 7 m/s.",
+     "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：風速上限15→7 m/s。"
+    }
+   },
+   {
+    "id": "C-us-134-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-134-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "時間窗（必要條件）：日間冰洞拍攝只在民用光（太陽仰角 > −6°）內成立",
+     "en": "Time window (necessary condition): daytime ice-cave shooting qualifies only in civil light (sun elevation > -6 deg)",
+     "ja": "時間窓（必要条件）。日中の氷洞撮影は市民光（太陽高度>−6°）内でのみ成立"
+    }
+   },
+   {
+    "id": "C-us-134-P01-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-134-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "排除降雨：降水 ≥0.2 mm/h 時濕雪與器材風險，否決（owner 規格 §1.3）。",
+     "en": "Rain excluded: at precipitation >= 0.2 mm/h wet snow and gear risk veto the hour (owner spec section 1.3).",
+     "ja": "降雨の除外：降水≥0.2 mm/hでは濡れ雪と機材リスクにより否決（オーナー仕様書 §1.3）。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：排除降雨（<0.2 mm/h）。",
+     "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): Added REQUIRED: rain excluded (< 0.2 mm/h).",
+     "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：必須条件を追加：降雨の除外（<0.2 mm/h）。"
+    }
+   },
+   {
+    "id": "C-us-134-P01-05",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "snow_cover_state",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "us-134-P01-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "有雪才成立：雪深 >0 或降雪 >0（以 CL-DATA-74 派生三態 snowing/snow_covered/none 實作 OR 語義；原始 snow_depth_cm 數值門檻待 Phase 1 ETL 標準化）。",
+     "en": "Snow must be present: snow depth > 0 OR snowfall > 0 (implemented via the CL-DATA-74 derived state snowing/snow_covered/none, which collapses the OR; the raw snow_depth_cm gate lands with the Phase 1 ETL standardisation).",
+     "ja": "雪があることが前提：雪深>0 または降雪>0（CL-DATA-74 の派生状態 snowing/snow_covered/none でORを実装。素の snow_depth_cm 閾値は Phase 1 の ETL 標準化で導入）。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：有雪（雪深>0 或降雪>0 的派生狀態）。",
+     "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): Added REQUIRED: snow present (derived state of depth>0 OR falling snow).",
+     "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：必須条件を追加：雪の存在（雪深>0または降雪>0の派生状態）。"
+    }
+   }
+  ],
+  "windows": {
+   "time_of_day": [
+    "civil_daylight"
+   ],
+   "seasonal": "calendar"
+  },
+  "conditions_v2": {
+   "required": [
+    {
+     "id": "C-us-134-P01-02",
+     "metric": "visibility",
+     "op": "gte",
+     "value": 3.0
+    },
+    {
+     "id": "C-us-134-P01-03",
+     "metric": "wind_speed_10m",
+     "op": "lte",
+     "value": 7.0
+    },
+    {
+     "id": "C-us-134-P01-04",
+     "metric": "precipitation",
+     "op": "lt",
+     "value": 0.2
+    },
+    {
+     "id": "C-us-134-P01-05",
+     "metric": "snow_cover_state",
+     "op": "derived_state",
+     "value": null
+    }
+   ],
+   "quality": []
+  }
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "us-134-P01-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d53-web-apostle-ice-caves"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "CL-DATA-53 admission (PM-judgment GROWTH-ONLY 2026-11-09, 5km dedupe, owner Gemini US list); coordinates/elevation web-verified 2026-11-09 (sources in camera derivation_method and data/v2/audits/cl-data-53_web_evidence.json); thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "CL-DATA-23 discovery shortlist (CL-DATA-25 admission)",
+  "source_revision": "cl-data-23:cl-data-53:apostle-ice-caves",
+  "imported_at": "2026-11-07T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
 }
