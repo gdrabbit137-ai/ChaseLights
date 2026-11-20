@@ -424,7 +424,12 @@ def main():
             ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
                 "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
                     (root / "apps/web-v2/tests").glob("*.test.mjs"))]], None, False, True,
-                {"min_tests": 771}),  # CL-DATA-68 re-anchor 600->771 (measured on task/CL-DATA-68: 771 pass / 0 fail in three disjoint slices 458+224+89, node v26, one CL-UI-78 CDP batch flake green singly); CL-CI-37 (CL-CI-36 pattern): exact pin kept rotting red on every test-adding merge (last red: CL-UI-87/88/89 +20 -> 620); replaced with a growth-tolerant floor — equality is still enforced in aggregate by the pass+skip==tests gate and min 771 catches unregistered-file drops
+                {"min_tests": 771,
+                 # CL-INT-215: the full node suite measures ~25+ min on Windows-local
+                 # (task-required single-call >=1500s); the 180s default only fits CI
+                 # ubuntu. Raised per the CL-CI-33 local-timeout class so the local
+                 # harness is not red on group timeout.
+                 "timeout": 1800}),  # CL-DATA-68 re-anchor 600->771 (measured on task/CL-DATA-68: 771 pass / 0 fail in three disjoint slices 458+224+89, node v26, one CL-UI-78 CDP batch flake green singly); CL-CI-37 (CL-CI-36 pattern): exact pin kept rotting red on every test-adding merge (last red: CL-UI-87/88/89 +20 -> 620); replaced with a growth-tolerant floor — equality is still enforced in aggregate by the pass+skip==tests gate and min 771 catches unregistered-file drops
         # 2026-11-08 CL-CI-26: CL-UI-47 +5 real-hit-target tests -> w4-node=514 (CI-observed on merged tree 313feebe4, node v26 --test-isolation=none, 514 pass / 0 fail)
         # 2026-11-08 CL-INT-92: +3 hour-list-cap regression tests -> w4-node=516 on this base (measured locally: 516 pass / 3 pre-existing failures identical to pristine origin/main baseline: CL-COPY-01 coverage, CL-DATA-19 x2)
         # 2026-11-08 CL-CI-27: the 3 'pre-existing failures' were NOT pre-existing —

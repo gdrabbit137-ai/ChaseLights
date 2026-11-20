@@ -92,12 +92,15 @@ def main(argv=None):
     if not files:
         print("FAIL: no valid fixtures found", file=sys.stderr)
         return 2
-    schema = load_schema()
+    # CL-INT-215 fix: select the schema per record by its schema_version
+    # (CL-DATA-80 mixed-schema tree: v2.1.0 fixtures + v2.2.0 migrated
+    # contracts). The pre-fix main() pinned load_schema() (v2.1) for every
+    # file, reding all 734 migrated contracts on the merged tree.
     failed = False
     for path in files:
         try:
             record = json.loads(path.read_text(encoding="utf-8"))
-            errors = validate_record(record, schema)
+            errors = validate_record(record)
         except (OSError, ValueError) as exc:
             errors = [str(exc)]
         if errors:
