@@ -457,22 +457,6 @@
         "ja": "1時間降雪量 cm/h（CL-DATA-74 雪景家族）。モデルが提供しない場合 cell は UNAVAILABLE、派生指標は fail-closed。"
       }
     },
-    "snow_depth": {
-      "unit": "m",
-      "domain": "WEATHER",
-      "bindings": [
-        {
-          "dataset": "gfs_0p25",
-          "field": "snow_depth_m",
-          "role": "MID"
-        }
-      ],
-      "note_i18n": {
-        "zh-TW": "積雪深 m（CL-DATA-74 雪景家族）。模型未提供時 cell UNAVAILABLE，派生指標 fail-closed。",
-        "en": "Snow depth m (CL-DATA-74 snow_scene family). Cells stay UNAVAILABLE when the model omits it; derived metrics fail closed.",
-        "ja": "積雪深 m（CL-DATA-74 雪景家族）。モデルが提供しない場合 cell は UNAVAILABLE、派生指標は fail-closed。"
-      }
-    },
     "snow_cover_state": {
       "unit": null,
       "domain": "HYDROLOGY",
@@ -527,6 +511,117 @@
         "en": "Spring-tide band state (CL-DATA-77, Naruto-whirlpool class): ~±2.7 days around syzygy (new/full moon), proxied purely astronomically by moon illumination <=8% or >=92% (the moon phase drives spring tides — no tide source needed). Official Naruto wording: spring tide = the day after new/full moon and neighbours; exact peak-current hours remain official-tide-table semantics (this metric judges the day band only).",
         "ja": "大潮帯状態（CL-DATA-77、鳴門渦潮クラス）：朔望（新月/満月）前後約±2.7日を大潮帯とし、月照率 ≤8% または ≥92% の純天文代理で判定（月相が大潮を駆動するため潮汐源は不要）。公式の鳴門口徑：大潮＝新月・満月の1日あたりとその周辺日。最速時刻は公式潮見表のまま（本指標は日帯のみ判定）。"
       }
+    },
+    "snow_depth_cm": {
+      "unit": "cm",
+      "domain": "WEATHER",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "snow_depth_cm",
+          "role": "MID"
+        }
+      ],
+      "note_i18n": {
+        "zh-TW": "積雪深 cm（CL-DATA-74 雪景家族；CL-DATA-78 Phase 1 ETL 標準單位，Open-Meteo 原始 m ×100）。模型未提供時 cell UNAVAILABLE，派生指標 fail-closed。",
+        "en": "Snow depth cm (CL-DATA-74 snow_scene family; CL-DATA-78 Phase 1 ETL standard unit, Open-Meteo raw m * 100). Cells stay UNAVAILABLE when the model omits it; derived metrics fail closed.",
+        "ja": "積雪深 cm（CL-DATA-74 雪景家族。CL-DATA-78 Phase 1 ETL 標準単位、Open-Meteo の生 m ×100）。モデルが提供しない場合 cell は UNAVAILABLE、派生指標は fail-closed。"
+      }
+    },
+    "visibility_km": {
+      "unit": "km",
+      "domain": "WEATHER",
+      "kind": "alias",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "visibility_km",
+          "role": "MID"
+        }
+      ],
+      "note_i18n": {
+        "zh-TW": "規格標準名（CL-DATA-78 §2）＝legacy metric `visibility`（擷取時已 m→km）Phase 2/3 契約遷移用別名。",
+        "en": "Spec-standard name (CL-DATA-78 §2) = legacy metric `visibility` (擷取時已 m→km); Phase 2/3 contract-migration alias.",
+        "ja": "規格標準名（CL-DATA-78 §2）＝legacy metric `visibility`（擷取時已 m→km）。Phase 2/3 の契約移行用エイリアス。"
+      }
+    },
+    "cloud_cover_mid_high": {
+      "unit": "%",
+      "domain": "WEATHER",
+      "kind": "alias",
+      "bindings": [
+        {
+          "dataset": "gfs_0p25",
+          "field": "cloud_cover_mid_percent+cloud_cover_high_percent",
+          "role": "MID"
+        }
+      ],
+      "note_i18n": {
+        "zh-TW": "規格標準名（CL-DATA-78 §2）＝legacy metric `cloud_cover_mid_and_high`（max(mid, high) 最差層）Phase 2/3 契約遷移用別名。",
+        "en": "Spec-standard name (CL-DATA-78 §2) = legacy metric `cloud_cover_mid_and_high` (max(mid, high) 最差層); Phase 2/3 contract-migration alias.",
+        "ja": "規格標準名（CL-DATA-78 §2）＝legacy metric `cloud_cover_mid_and_high`（max(mid, high) 最差層）。Phase 2/3 の契約移行用エイリアス。"
+      }
+    },
+    "aerosol_optical_depth": {
+      "unit": null,
+      "domain": "WEATHER",
+      "kind": "alias",
+      "bindings": [
+        {
+          "dataset": "cams_global",
+          "field": "aerosol_optical_depth_550nm",
+          "role": "AEROSOL"
+        }
+      ],
+      "note_i18n": {
+        "zh-TW": "規格標準名（CL-DATA-78 §2）＝legacy metric `aod_550nm`（CAMS 550nm）Phase 2/3 契約遷移用別名。",
+        "en": "Spec-standard name (CL-DATA-78 §2) = legacy metric `aod_550nm` (CAMS 550nm); Phase 2/3 contract-migration alias.",
+        "ja": "規格標準名（CL-DATA-78 §2）＝legacy metric `aod_550nm`（CAMS 550nm）。Phase 2/3 の契約移行用エイリアス。"
+      }
+    },
+    "moon_altitude_deg": {
+      "unit": "°",
+      "domain": "ASTRONOMY",
+      "kind": "alias",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "規格標準名（CL-DATA-78 §2）＝legacy metric `moon_altitude`（）Phase 2/3 契約遷移用別名。",
+        "en": "Spec-standard name (CL-DATA-78 §2) = legacy metric `moon_altitude` (); Phase 2/3 contract-migration alias.",
+        "ja": "規格標準名（CL-DATA-78 §2）＝legacy metric `moon_altitude`（）。Phase 2/3 の契約移行用エイリアス。"
+      }
+    },
+    "moon_illumination": {
+      "unit": null,
+      "domain": "ASTRONOMY",
+      "kind": "alias",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "規格標準名（CL-DATA-78 §2）＝legacy metric `moon_illumination_fraction`（）Phase 2/3 契約遷移用別名。",
+        "en": "Spec-standard name (CL-DATA-78 §2) = legacy metric `moon_illumination_fraction` (); Phase 2/3 contract-migration alias.",
+        "ja": "規格標準名（CL-DATA-78 §2）＝legacy metric `moon_illumination_fraction`（）。Phase 2/3 の契約移行用エイリアス。"
+      }
+    },
+    "galactic_core_altitude_deg": {
+      "unit": "°",
+      "domain": "ASTRONOMY",
+      "kind": "alias",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "規格標準名（CL-DATA-78 §2）＝legacy metric `galactic_core_altitude`（銀河核心 RA 266.42°／Dec -29.0°）Phase 2/3 契約遷移用別名。",
+        "en": "Spec-standard name (CL-DATA-78 §2) = legacy metric `galactic_core_altitude` (銀河核心 RA 266.42°／Dec -29.0°); Phase 2/3 contract-migration alias.",
+        "ja": "規格標準名（CL-DATA-78 §2）＝legacy metric `galactic_core_altitude`（銀河核心 RA 266.42°／Dec -29.0°）。Phase 2/3 の契約移行用エイリアス。"
+      }
+    },
+    "moon_azimuth_deg": {
+      "unit": "°",
+      "domain": "ASTRONOMY",
+      "kind": "computed",
+      "bindings": [],
+      "note_i18n": {
+        "zh-TW": "月亮方位角（CL-DATA-78 Phase 1）：moon_target_separation_deg 的視線分支以 observation_relations 的 view azimuth 與月方位角的方位面夾角計算月亮-目標夾角；view azimuth 未知時 fail-closed 傳 UNKNOWN。",
+        "en": "Moon azimuth (CL-DATA-78 Phase 1): the view-azimuth branch of moon_target_separation_deg uses the azimuth-plane angle between the observation-relations view azimuth and the moon azimuth; a missing view azimuth propagates UNKNOWN (fail-closed).",
+        "ja": "月の方位角（CL-DATA-78 Phase 1）。moon_target_separation_deg の視線分岐は観測関係の方位と月方位の方位面角度を使用し、方位未知時は UNKNOWN（fail-closed）。"
+      }
     }
   },
   "changelog": [
@@ -541,6 +636,7 @@
     "0.10 2026-11-15: add water_reflection_state (CL-DATA-72 batch A / CHALLENGER-15 A7: reflection water-surface state derived by the evaluator from wind, precipitation history and air temperature — mirror/shootable/unfit three levels; tide-decided shoreline subjects keep water_surface_state fail-closed with a check-the-tide-table shooting guide)",
     "0.11 2026-11-16: add fog_state (CL-DATA-73 misty-forest decisive condition, owner-approved visibility inversion: evaluator-derived fog/forming/not_forming/no_fog levels; fog+forming satisfy the owner ANY semantics), soft_light_window (sun elevation in (-6,+10] every sampled instant, night never qualifies) and morning_window (1-3 h after sunrise, PRIORITY advisory)",
     "0.11 2026-11-16 (CL-DATA-74): add alpenglow_window (日照金山 civil-band window), snowfall/snow_depth (snow-line fields), snow_cover_state (derived ground-state enum), clear_streak_hours (star-trail continuous-clear probe)",
-    "0.11b 2026-11-16 (CL-DATA-74): register temperature_2m and relative_humidity_2m (2 m near-ground fields used by the firefly/snow_scene templates; previously contract-only, not vocabulary-registered)"
+    "0.11b 2026-11-16 (CL-DATA-74): register temperature_2m and relative_humidity_2m (2 m near-ground fields used by the firefly/snow_scene templates; previously contract-only, not vocabulary-registered)",
+    "0.12 2026-11-20 (CL-DATA-78 Phase 1): snow_depth renamed to snow_depth_cm (m->cm rescale, Open-Meteo raw m * 100); spec-standard alias keys registered per spec-quality-engine.md §2 (visibility_km, cloud_cover_mid_high, aerosol_optical_depth, moon_altitude_deg, moon_illumination, galactic_core_altitude_deg) plus moon_azimuth_deg (view-azimuth moon-target separation branch, fail-closed)"
   ]
 }

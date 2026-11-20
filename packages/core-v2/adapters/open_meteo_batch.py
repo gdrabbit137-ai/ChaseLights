@@ -171,7 +171,15 @@ def fetch_place(lat, lon, forecast_hours):
             # snow_depth m). Cells stay UNAVAILABLE when the provider omits
             # them — fail-closed downstream, never zero-filled.
             "snowfall": _cell(_at(hourly, "snowfall", index), "cm", minimum=0),
-            "snow_depth": _cell(_at(hourly, "snow_depth", index), "m", minimum=0),
+            # CL-DATA-78 Phase 1 ETL standard (spec-quality-engine.md Â§2):
+            # Open-Meteo snow_depth is metres; the standard key is cm
+            # (value * 100). Replaces the legacy metre-valued `snow_depth`
+            # cell — no numeric contract threshold ever referenced the old
+            # field (CL-DATA-75 unit audit), the snow_cover_state derivation
+            # is a >0 gate and unit-invariant.
+            "snow_depth_cm": _cell(
+                None if _at(hourly, "snow_depth", index) is None
+                else _at(hourly, "snow_depth", index) * 100.0, "cm", minimum=0),
             "relative_humidity_925hpa": _cell(_at(hourly, "relative_humidity_925hPa", index), "%", minimum=0, maximum=100),
             "relative_humidity_850hpa": _cell(_at(hourly, "relative_humidity_850hPa", index), "%", minimum=0, maximum=100),
             "wind_speed_850hpa": _cell(_at(hourly, "wind_speed_850hPa", index), "m/s", minimum=0),
@@ -229,6 +237,7 @@ def fetch_place(lat, lon, forecast_hours):
         "notes": {
             "visibility": "Open-Meteo returns metres; normalized to km to match metric-vocabulary",
             "lcl_height_m_agl": "125*(T2m-Td2m) parcel approximation, metres above ground",
+            "snow_depth_cm": "Open-Meteo snow_depth metres * 100; CL-DATA-78 Phase 1 standard key",
             "cloud_cover_mid_and_high": "max(mid, high) worst-layer",
             "temperature_delta_850_925_c": "T850-T925 inversion indicator",
             "temperature_delta_850_700_c": "T850-T700 inversion indicator (mid elevations)",
