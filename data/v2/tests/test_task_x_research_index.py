@@ -65,245 +65,27 @@ class ResearchIndexTests(unittest.TestCase):
             self.assertEqual((pin['opportunity_id'],d['place_id'],d['revision']),
                              (d['opportunity_id'],d['place_id'],d['revision']))
         self.assertEqual({
-            # CL-DATA-02 owner ruling 2026-11-02: the six review-gated records
-            # re-pinned to the ruling data commit 76e926d16 (rollback pointer
-            # for the original human-review contracts: 34cb70f39 and earlier).
-            '34cb70f39f8d959e9b68cfa3a6768a74cb29de99',
-            # CL-INT-114 re-anchor (batches 2/3/4 chain integrated): batch1's
-            # 1abb6b0e records were re-pinned by CL-DATA-36 batch2 (21198c9c)
-            # and CL-DATA-37 batch3 (1bf8e398); the CL-UI-20 b97f7bb8,
-            # CL-DATA-15 c90f5671 and CL-INT-89 2cd38d86 holders were
-            # re-pinned by the batch chain (the 1718a575/95fcf956/008ab85f
-            # lineage SHAs remain pinned for their untouched records).
-            'a38356bd36eacbd7f81fa962e251aa21fb48a6fa',  # CL-INT-114 merged-tree regen
-            '21198c9cc91e00cdd3df8daea76aac46bf9fb45b',  # CL-DATA-36 batch2
-            '1bf8e398e20ebbc76be1157d98bd8dc188216746',  # CL-DATA-37 batch3
-            '4ac19a2c6d207a39642a7e4e42f53a7e023ba9ff',  # CL-DATA-75 Phase 0 stage A (SS1 four logic fixes): 115 records re-pinned here — supersedes the former CL-INT-112 southern-Japan (23f1bb6c) and 3eb46643 contract-commit holders
-            # CL-INT-83: the 8 CL-DATA-18 AI-verified fill records
-            # (tw-034-P02/tw-036-P01/tw-082-P01/jp-010-P01/us-071-P01/
-            # tw-026-P01/tw-026-P02/us-057-P01) anchored to the provenance
-            # commit 2af08fb9e — merged checkout bytes verified byte-identical
-            # to the branch fills (union with CL-INT-82/85/86 main).
-            '2af08fb9eec9994ab5862197c4a0d8a45587e440',
-            # CL-DATA-04: three new owner-defined records pinned to the
-            # owner-definition data commit. (tw-086-P02 — the last holder of
-            # cebb9689 — was byte-changed and re-pinned by CL-DATA-16, so the
-            # cebb9689 pin left the set.)
-            # CL-UI-20 round-2: 63 high-exposure subject records re-pinned to
-            # the task-branch commit carrying verified en/ja subject names
-            # (tw-036-P01 / tw-082-P01 keep their review-gated round-1 pins).
-            # CL-UI-25: 22 city_night contracts re-pinned to the task-branch
-            # commit adding the contract-level city_night_window condition
-            # (mirrors the CL-UI-23 evaluation-layer gate semantics).
-            # CL-INT-116: the four non-batch5 holders of 6a420db5 stay;
-            # the 68 batch5 records were restored to main-side bytes
-            # (CL-DATA-39 kept, not reverted) and re-pinned to 7a77bea62.
-            '6a420db5100bb184f655b4b765d29fdf3494588d',
-            # CL-INT-116 merged tree: batch5 (CL-DATA-39) records kept at the
-            # main-side regen commit — evidence_refs intact, bytes verified.
-            '7a77bea62a609a861b725288f53036e10b750ac9',
-            # CL-DATA-09: tw-027-P02 re-pinned to the task-branch commit adding
-            # the contract-level city_night_window condition (civil darkness
-            # <= -6 deg; TIME_SPECIALIZATION §3 misplacement, owner ruling
-            # 2026-11-05, CL-UI-25 same-source definition). CL-DATA-12 later
-            # re-pinned those records (batch e moon-triple removal, civil
-            # twilight only) to d57d40f89 — see below.
-            # CL-UI-36: rationale_i18n review-note strip re-pinned the affected
-            # canonical records to the task-branch commit holding the new bytes.
-            # (dce2f6ed0812... retired by CL-DATA-19: its last six records
-            # jp-007-P01/tw-045-P02/tw-054-P01/tw-056-P02/tw-082-P02/us-069-P01
-            # gained the civil light_window and were re-pinned to e261cc9817e.
-            # 4e51267ba... retired by CL-DATA-68: its last holders
-            # jp-034-P01/jp-034-P02/jp-036-P03/jp-057-P01/jp-090-P01 were
-            # re-pinned to c9bf04c40 by the round16 Kyushu contract fixes.)
-            'c9bf04c40acd8b023322efbe3e034c10517c733c',
-            # CL-DATA-12: wave-1 semantic corrections (batches A–O) re-pinned
-            # the touched records to the contract commits, and the three
-            # migration-skeleton tidal records were restored to their
-            # reviewed-main bytes (commit 86cc3d9bd).
-            'a99fc03cff62cb544dc8c6759eb6045336c701ac',  # CL-DATA-76 stage B re-pin: 98 Gemini-audit contract edits + 3 carriers (101 records) — supersedes the former CL-DATA-12 tidal-restore (d57d40f8/86cc3d9b) holders
-            'c44a18d69dfbdac6d348dbae9ed9845cfdd6de17',  # CL-INT-212 restore: 2 remaining 75-lineage holders re-pointed to CL-DATA-75 stage B (fixture re-anchor commit) — per-record provenance preserved through the three-way merge
-            '92f93feb0e96c9b30843942065027d391eef7706',  # CL-INT-212 semantic merge: tw-059-P01/tw-060-P01/tw-078-P01 (new bytes = CL-DATA-76 condition sets spliced into CL-DATA-77 verified geometry/azimuth; schema-validated at the merge commit)
-            # CL-DATA-13: the touched records' bytes changed (view_azimuth
-            # backfill + light_direction pilot contracts) and their blob pins
-            # were re-anchored below, but the W2 provenance commit_sha of each
-            # record is preserved (bytes live at the recorded provenance
-            # commits' successors; the blob pins carry the new state).
-            # CL-DATA-14 merge (3682e14ec): 10 records byte-changed by the
-            # CL-PHOTO-02 audit corrections (seasonal_state unions etc.) and
-            # 37 stale commit_sha provenance pointers (CL-CI-14 latent)
-            # re-pointed to the merge commit carrying the verified bytes.
-            '8024532fdfd00d32fb5d44335d2feb634d50a2de',  # CL-DATA-62 retirement merge re-pin (was 3682e14ec pre-retirement)
-            # CL-CI-22 merged-tree re-anchor: per-record pins from the merged
-            # CL-DATA-24/25/26 branches (69b832acc dusk-phase repin,
-            # 64685ff7d tw-017-P03 blue-hour note, 2cd38d860 CL-INT-89 pin
-            # restore). CL-DATA-32 later re-pinned tw-010-P01 (008ab85ff) when
-            # the golden-window upgrade gave way to sunrise_time_window MAIN.
-            '69b832accfc8c0438a50e51689c4e7c40765e9f4',
-            # CL-DATA-72: b801dd4eb left the set — its last holder us-065-P01
-            # was re-pinned to 19e936548 by the batch-A sunset/reflection wave
-            # repin (blob+sha256 verified on the merged tree).
-            # CL-DATA-15 (merged side): owner-verified elevation corrections
-            # (Paiyun Lodge 3,402 m / Datun 1,092 m / Zhushan 2,451 m;
-            # Hehuan 3,417 m confirmed) — tw-001-P02/tw-019-P04/tw-024-P02/
-            # tw-040-P04 byte-changed on main after CL-DATA-16 forked and
-            # remain re-pinned to the task-branch commit carrying those
-            # corrections (union merge, CL-INT-81).
-            # CL-DATA-20: 18 tailored contracts + 3 byte-changed records
-            # (tw-059-P01/tw-078-P01 tidal genre, tw-016-P01 summit geometry)
-            # pinned to the data commit.
-            'a4f803a7106816773ef5a2f659271c656b873bd7',
-            # CL-DATA-19: 126 mid-latitude all-day contracts gained a civil
-            # light_window (REQUIRED/MAIN, sun elevation > -6 deg, CL-DATA-11
-            # same-source definition); canonical records re-pinned to the
-            # contract commit holding the new bytes.
-            'e261cc9817e720d852bd5aee9b1b555edd253d8c',
-            # CL-INT-78 merge (7a290aa08 -> re-pointed at the CL-INT-86
-            # re-merge db04b94f3): the CL-DATA-17 US coordinate/elevation
-            # records re-pointed to the merge commit carrying the merged
-            # verified bytes (union with CL-DATA-19 re-pins).
-            'db04b94f3a0a6e78bff000e3c97ffb80fee2daf5',
-            # CL-DATA-25: 37 admitted discovery contracts (25 places) pinned
-            # to the admission commit carrying the evidence-ref + renumber bytes.
-            'a34cd15819a1b01702d6d38408524e444ca84906',
-            # CL-DATA-25R: tw-098 渭水之丘／櫻花陵園 (rubric v2 3.8) admitted;
-            # its two canonical records pinned to the 25R stage-1 data commit.
-            'd587d0d8c31dee9853e53207a00e9cbd7a1940e7',
-            # CL-DATA-28: subject-name vs qualifying-hours fixes — tw-008-P01
-            # (city_night_window -> blue_hour_window phase=dusk, Mt. Guanyin/
-            # Bitan precedent) and tw-010-P02 (golden_hour_window -> REQUIRED/
-            # MAIN dawn/dusk window, tw-010-P01 CL-DATA-26 precedent) re-pinned
-            # to the contract commit carrying the new bytes.
-            
-            # CL-DATA-32: 14 southern-Japan admitted discovery contracts
-            # (jp-051..jp-064, PM-judgment admission) pinned to the admission
-            # commit carrying the evidence-ref + revision-2 bytes.
-            'dda29699705dcdf9ced993bca06316e1085a15e9',
-            # CL-INT-103 union: tw-034-P02 re-pinned to the CL-DATA-33 light_window
-            # revision commit (git-show verifiable at the merged tree HEAD).
-            '1edb5ced42e689cbf29dc523ebe6028d4a72f936',
-            # CL-INT-116 merged tree: us-091-P01 carries CL-DATA-41 WSDOT edits
-            # unioned with CL-DATA-39 batch5 evidence (new bytes exist only at
-            # the merge commit, tree-verifiable at HEAD).
-            'c7b41c7c99e6a7cf73f1e90363a1fcfbe51fbed9',
-            # CL-DATA-40: us-002-P01 daylight_window access-time condition
-            # (merged from origin/main, bytes at the CL-DATA-40 data commit).
-            'c0c6114b0bfbae0afc28b1b5c0f128d3aa41b982',
-            # CL-DATA-42: 14 US-mainland expansion admitted contracts
-            # (us-097..us-106, PM-judgment admission, GROWTH-ONLY) pinned to
-            # the stage-1 admission commit carrying the new bytes.
-            '3dcf271879ea1ffde447f88d3870a68a09ef6d68',
-            # CL-DATA-43: 12 Alaska+Hawaii expansion admitted contracts
-            # (us-107..us-118, PM-judgment admission, GROWTH-ONLY) pinned to
-            # the stage-1c admission commit carrying the new bytes.
-            'c832d9112e8ba813b65c184a2fafb17a7f5b3643',
-            # CL-DATA-50: 7 contract-fix records (jp-056/058/059 light_window;
-            # us-040/046/055/057 threshold+copy fixes) pinned to the scoped-regen
-            # commit carrying the new bytes (2026-11-09, blob+sha256 verified).
-            'd3e019433a7516773f39c764ab09fe70810dec25',
-            # CL-DATA-51 merged-tree re-anchor: the 22 TW intake records carry
-            # their authorship bytes on the task branch — tw-099-P01 to
-            # affcdf391e (stage 4), the other 20 to 0246bb4496 (stage 4b),
-            # and tw-113-P01's light-window re-run to 433d59401a (stage 6 repin;
-            # blob+sha256 verified on the merged tree).
-            'affcdf391e49a43a606d7dd7e567aedf58e02f34',
-            '0246bb4496f82b11678ec06550f51b29099c3e41',
-            '433d59401adf3727780b2af331426169bd81c40c',
-            # CL-DATA-52: the 27 JP intake records (jp-065..jp-091) carry their
-            # authorship bytes on the task branch, tree-verified at c507251b3e.
-            'c507251b3e3fb09d6a5bd16abe04a8beb2aee7ed',
-            # CL-DATA-52 repin: jp-078-P01 legacy_tide bytes tree-verified at
-            # 4d56532dd — CL-DATA-72: that entry left the set, jp-078-P01 was
-            # re-pinned to 19e936548 by the batch-A wave repin.
-            # CL-DATA-53: the 40 US intake wave repinned us contracts to ef5b1042a
-            # (stage-2 legacy regen commit, tree-verified).
-            'ef5b1042a5a86ea99e3bd6a477ed79ce5f62cf4e',
-            # CL-DATA-54: the 13 contract-fix wave records repinned to e6603751b
-            # (scoped evaluations regen commit; bytes unchanged since stage-4).
-            'e6603751b8571025b9db78d405dbdd65c55476ea',
-            # CL-DATA-57: the two sunset-window promotion records were repinned to
-            # 0ab54271b — CL-DATA-75 stage A later re-pinned them to 4ac19a2c6
-            # (entry above), so the 0ab54271b holder left the set.
-            # CL-DATA-58: the three round11 water_surface_state/ICE1 records
-            # (us-123/us-132/us-143-P01) repinned to 8393d5b3d (contract commit;
-            # blob+sha256 verified on the merged tree) — CL-DATA-72: that entry
-            # left the set, all three were re-pinned to a0ad3da55 by the
-            # reflection-contract closure (operator 'none').
-            # CL-DATA-64: the 13 new-subject-family records repinned to 5adb3ace7
-            # (viewpoint/subject contract commit; blob+sha256 verified on the task tree).
-            '5adb3ace77808544f95f9e4ef3b751cf9938f964',
-            # CL-DATA-65: jp-030-P99 general-genre mount pinned to 5b3e29dea;
-            # CL-DATA-69: the same record re-pinned to a923ee67a after the
-            # general-template title rename (可拍/Shootable/撮影可, v0.2).
-            # (final task commit carrying the needs_review navigation bytes;
-            # superseded by the CL-DATA-69 re-pin below).
-            # CL-INT-212 merged tree: the CL-DATA-69 holder left the set —
-            # jp-030-P99/jp-030-P01/jp-041-P01 and the six us-075/076/077
-            # records were re-pinned to the CL-DATA-77 regen commit c9bb00f009
-            # (full 168h batch on 77's branch; bytes tree-verified at HEAD).
-            'c9bb00f009cbe4914cf4a4c28055d0b731f27901',
-            # CL-DATA-67: jp-049-P01/jp-065-P01 gained the civil light_window and were
-            # repinned to 86b3fa825 — CL-DATA-75 stage A later re-pinned them to
-            # 4ac19a2c6 (entry above), so the 86b3fa825 holder left the set.
-            # CL-DATA-66 wave1: the 37 scoreless Tier-A intake records
-            # (tw-125..tw-146) carry their authorship bytes on the task branch —
-            # 36 records to fc2e04510 (the intake commit) and tw-141-P01's
-            # seasonal_state dedupe rebuild to 3f209b051
-            # (blob+sha256 verified on the merged tree).
-            '3f209b05184c05e639e6b64da3c4117bce8c8373',
-            'fc2e04510bfa40b6e378a17ae38de178137b8d55',
-            # CL-DATA-66 wave2: the scoreless Tier-A intake records
-            # (tw-147..tw-161, 22 contracts) carry their authorship bytes on
-            # the wave2 intake commit (blob+sha256 verified on the task tree).
-            '3c3ba44107275c380b299781127d9ef995d14407',
-            # CL-DATA-66 wave3: the scoreless Tier-A intake records
-            # (tw-162..tw-173, 15 contracts) carry their authorship bytes on
-            # the wave3 intake commit (blob+sha256 verified on the task tree).
-            '6c0d7c7517e5f17a56f6f6b1e4100bb0804eb14a',
-            # CL-DATA-66 wave4: the scoreless Tier-A intake records
-            # (tw-174..tw-183, 16 contracts) carry their authorship bytes on
-            # the wave4 intake commit (blob+sha256 verified on the task tree).
-            '427e2119904d0a7753f3d40eb6761ae5560f1507',
-            # CL-DATA-66 wave5: the scoreless Tier-A intake records
-            # (tw-184..tw-200, 22 contracts) carry their authorship bytes on
-            # the wave5 intake commit (blob+sha256 verified on the task tree).
-            '2a3b99d073b06e63b2d566aec6b6182882f80eae',
-            # CL-DATA-66 wave6: the scoreless Tier-A intake records
-            # (tw-201..tw-216, 16 contracts) carry their authorship bytes on
-            # the wave6 intake commit (blob+sha256 verified on the task tree).
-            '6e87b92f4894bf03a470cc075d32085ee03821ad',
-            # CL-DATA-66 wave7: the scoreless Tier-A intake records
-            # (tw-217..tw-227, 11 contracts) carry their authorship bytes on
-            # the wave7 intake commit (blob+sha256 verified on the task tree).
-            'ea49e822dd7d75e3102e5ce1a949025e9b57f0ac',
-            # CL-DATA-72: batch-A + CL-DATA-71 merged-tree re-anchors.
-            # 19e936548 = the merge carrying the batch-A sunset T3 QUALITY /
-            # reflection-rename contract bytes plus the CL-DATA-71 catch-up
-            # (113 records re-pinned by the closure repin; blob+sha256 and
-            # git-show provenance verified on the merged tree).
-            '19e9365487c8ac46048cdc9c5e1eea2d50406e41',
-            # a0ad3da55 = the batch-A closure commit: the 46 reflection-family
-            # contracts moved to operator 'none' (only 'unfit' vetoes).
-            'a0ad3da5583a35268522435276a04d6a0252a159',
-            # CL-DATA-73: the 12 misty_forest mount records (tw-024-P07 …
-            # tw-177-P02) pinned to the mount commit carrying the trilingual
-            # contracts (blob+sha256 provenance verified by
-            # research_index --git-provenance on the merged tree).
-            '5556c7ea2ea4cad540132db5fc05d3c9771755f5',
-                    # CL-INT-192: CL-DATA-74 five-genre mounts (commit-verified bytes)
-            '1f806b4439ff69f3a792fa2f25a3fa234756d19c',
-            # CL-INT-192 step-2 merge: renumbered CL-DATA-73 misty records re-pinned at the merge commit (tree-verified)
-            '24d40b5d1f6d0287a0cf4675a0b2fe0090e001f0',
-}, {p['commit_sha'] for p in self.lock['canonical_records']})
+            # CL-INT-215 re-anchor: CL-DATA-80's contract v2.2.0 mechanical
+            # migration byte-changed all 734 canonical contracts and re-pinned
+            # every record's commit_sha to the stage-5 data commit 24b3a4e2a
+            # (repin_canonical convention: commit tree bytes == record bytes,
+            # verified per-record blob+sha256 above). The historical
+            # per-record holder lineage is superseded by the migration commit;
+            # the set therefore collapses to the single migration holder.
+            '24b3a4e2a6e77ca37ef88a067e1f3736be59cbc6',
+        }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-DATA-72: tw-026-P01 canonical evolved past the 2026-11-02 owner
         # ruling (sunset T3 QUALITY wave); re-anchored to the merged-tree
         # commit carrying the verified bytes (fixture+manifest re-anchored in
         # lockstep; the 2af08fb9 provenance commit remains the fixture
         # manifest's historical pointer).
-        self.assertEqual('19e9365487c8ac46048cdc9c5e1eea2d50406e41',p01['commit_sha'])
         # CL-DATA-72: bytes = the evolved sunset-template state (e085b2a0)
-        self.assertEqual('e085b2a0e3e64f746d44ced4e4fb20c1001853f3',p01['blob_sha'])
+        # CL-INT-215 re-anchor: CL-DATA-80 contract v2.2.0 migration byte-
+        # changed tw-026-P01 and re-pinned it to the stage-5 commit 24b3a4e2a
+        # (blob aed94df4 = migrated windows/conditions_v2 bytes).
+        self.assertEqual('24b3a4e2a6e77ca37ef88a067e1f3736be59cbc6',p01['commit_sha'])
+        self.assertEqual('aed94df43d5f523ad4c0570f466d66707a3683e1',p01['blob_sha'])
 
     def test_all_place_names_exact_source_spans_without_new_translation(self):
         count=0
