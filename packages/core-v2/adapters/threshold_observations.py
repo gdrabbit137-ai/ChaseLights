@@ -46,9 +46,20 @@ METRIC_FIELDS = {
     # landing; rows without the field resolve to UNKNOWN, never a fabricated
     # comparison.
     "snowfall": "snowfall",
-    "snow_depth": "snow_depth",
+    # CL-DATA-78 Phase 1 ETL standard (spec-quality-engine.md §2): the
+    # snow-depth cell is now cm (Open-Meteo m * 100). The legacy metre-valued
+    # metric name is NOT aliased — no numeric contract threshold ever
+    # referenced it (CL-DATA-75 unit audit), so aliasing would silently
+    # misread any future m-calibrated threshold.
+    "snow_depth_cm": "snow_depth_cm",
     "snow_cover_state": "snow_cover_state",
     "clear_streak_hours": "clear_streak_hours",
+    # CL-DATA-78 Phase 1 spec-standard metric-name aliases (§2): contracts
+    # may be migrated to these names in Phase 2/3; the legacy names above
+    # keep resolving to the same raw cells so no serving contract changes.
+    "visibility_km": "visibility",
+    "cloud_cover_mid_high": "cloud_cover_mid_and_high",
+    "aerosol_optical_depth": "aod_550nm",
 }
 
 

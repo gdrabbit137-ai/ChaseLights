@@ -57,6 +57,10 @@ ASTRO_METRICS = {"sun_azimuth_deg", "sunrise_time_window", "sunset_window", "blu
                  "moon_illumination_fraction", "moon_altitude",
                  "moon_target_separation_deg", "moon_illuminance_proxy",
                  "galactic_core_altitude", "city_night_window",
+                 # CL-DATA-78 Phase 1 spec-standard astro key aliases (§2)
+                 # plus moon_azimuth_deg (view-azimuth separation branch).
+                 "moon_azimuth_deg", "moon_altitude_deg",
+                 "moon_illumination", "galactic_core_altitude_deg",
                  "light_window", "daylight_window",
                  # CL-DATA-73: misty-forest soft-light + morning windows.
                  "soft_light_window", "morning_window",
@@ -488,6 +492,36 @@ def condition_verdict(condition, values, astro_row, month=None,
         if isinstance(alt, (int, float)) and not isinstance(alt, bool) and alt < 0:
             return "PASS", "MOON_BELOW_HORIZON_PASS"
     if metric == "moon_target_separation_deg":
+        # CL-DATA-78 Phase 1 (spec-quality-engine.md §2): the spec's 月亮-目標夾
+        # angle is the moon vs the SUBJECT'S VIEWING DIRECTION. When the batch
+        # runner resolved a view azimuth from the opportunity's observation
+        # relations (bound below alongside light_direction), the separation is
+        # the cyclic azimuth-plane difference between the moon azimuth and the
+        # view azimuth — fail-closed: an unknown moon azimuth propagates
+        # UNKNOWN (never a fabricated angle); below-horizon moons pass via
+        # the same MOON_BELOW_HORIZON semantics as the illumination gate (the
+        # alternation anchor stands the whole moon set down anyway).
+        # Contracts WITHOUT a resolvable view azimuth keep the legacy
+        # galactic-core-target separation value below (unchanged behaviour —
+        # zero verdict drift for the 34 serving contracts; the target stays
+        # the galactic core per the metric-vocabulary note).
+        view_az = condition.get("view_azimuth_deg")
+        if isinstance(view_az, (int, float)) and not isinstance(view_az, bool):
+            alt = astro_row.get("moon_altitude") if isinstance(astro_row, dict) else None
+            if isinstance(alt, (int, float)) and not isinstance(alt, bool) and alt < 0:
+                return "PASS", "MOON_BELOW_HORIZON_PASS"
+            moon_az = astro_row.get("moon_azimuth_deg") if isinstance(astro_row, dict) else None
+            if not isinstance(moon_az, (int, float)) or isinstance(moon_az, bool):
+                return "UNKNOWN", "MOON_AZIMUTH_UNKNOWN"
+            diff = abs(float(moon_az) - float(view_az)) % 360.0
+            diff = min(diff, 360.0 - diff)
+            try:
+                passed = compare(diff, operator, threshold)
+            except Exception:
+                return "UNKNOWN", "INVALID_THRESHOLD"
+            detail = (f"MOON_TARGET_SEPARATION(view_az={round(float(view_az), 1)}, "
+                      f"moon_az={round(float(moon_az), 1)}, sep={round(diff, 1)})")
+            return ("PASS" if passed else "FAIL"), detail
         # CL-DATA-72 batch A / C3 (fail-closed sentinel): astro_hourly reports
         # 999 when the moon is below the horizon. It must never be compared as
         # a real 999-degree separation (the old permanent-PASS); when this
@@ -912,7 +946,7 @@ def _cell_value(values, name):
 # is collapsed into one displayable level so the flat-AND contract list never
 # demands both at once:
 #   snowing      降雪中: snowfall > 0 cm/h (falling snow, ground may be bare)
-#   snow_covered 積雪: snow_depth > 0 m while not snowing (lying snow)
+#   snow_covered 積雪: snow_depth_cm > 0 while not snowing (lying snow)
 #   none         無雪: neither field shows snow
 # Fail-closed: BOTH snow cells missing -> UNKNOWN cell (never fabricated "no
 # snow"); one available cell is enough to certify the "none"/"snowing" states
@@ -931,7 +965,7 @@ def snow_cover_levels(hours):
             return None
 
         snowfall = _cell("snowfall")
-        depth = _cell("snow_depth")
+        depth = _cell("snow_depth_cm")
         if snowfall is None and depth is None:
             levels.append({"state": "UNKNOWN", "value": None})
             continue
@@ -1385,7 +1419,8 @@ def main():
                 (r["azimuth_deg"] for r in doc.get("observation_relations", [])
                  if r.get("azimuth_deg") is not None), None)
             for _cond in conditions_eval:
-                if _cond.get("metric") == "light_direction":
+                if _cond.get("metric") in ("light_direction",
+                                           "moon_target_separation_deg"):
                     _cond["view_azimuth_deg"] = view_az_deg
             # CL-DATA-71: bind the viewpoint elevation onto every
             # cloud_base_height condition — camera_context altitude_m when

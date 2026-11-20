@@ -368,4 +368,14 @@ def moon_observation(dt_utc, lat, lon):
         "moon_target_separation_deg": separation,
         "moon_illuminance_proxy": proxy,
         "galactic_core_altitude": core_altitude,
+        # CL-DATA-78 Phase 1 ETL standard keys (spec-quality-engine.md Â§2):
+        # spec-name aliases over the same computed values; the legacy keys
+        # above stay the serving contract until the Phase 2/3 migration.
+        # moon_azimuth_deg enables the view-azimuth moon-target separation
+        # branch in evaluate_batch (moon vs the subject's actual viewing
+        # direction, not the galactic core).
+        "moon_azimuth_deg": lunar.get("moon_azimuth_deg"),
+        "moon_altitude_deg": altitude,
+        "moon_illumination": illumination,
+        "galactic_core_altitude_deg": core_altitude,
     }

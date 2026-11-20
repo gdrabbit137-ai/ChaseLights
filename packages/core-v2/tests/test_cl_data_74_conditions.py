@@ -5,7 +5,7 @@
   the band sits within the sunset +-40 min window (evening side).
 - snow_cover_state: the derived three-level ground enum (snowing /
   snow_covered / none) collapses the ticket OR semantics (snowfall > 0 OR
-  snow_depth > 0); both snow fields missing -> fail-closed UNKNOWN.
+  snow_depth_cm > 0); both snow fields missing -> fail-closed UNKNOWN.
 - clear_streak_hours: the continuous-clear probe (CHALLENGER-15 continuity
   semantics) for star_trails — streak ending at the current hour, gaps never
   counted, missing cells break the streak honestly.
@@ -84,30 +84,30 @@ class SnowCoverStateTests(unittest.TestCase):
     COND = {"metric": "snow_cover_state", "operator": "none", "threshold": None}
 
     def test_or_semantics_collapsed(self):
-        # snowfall > 0 (snowing) OR snow_depth > 0 (snow_covered) — one is
+        # snowfall > 0 (snowing) OR snow_depth_cm > 0 (snow_covered) — one is
         # enough; never both required.
         self.assertEqual(
-            eb.snow_cover_levels([hour_row(snowfall=0.4, snow_depth=0.0)])[0]["value"],
+            eb.snow_cover_levels([hour_row(snowfall=0.4, snow_depth_cm=0.0)])[0]["value"],
             "snowing")
         self.assertEqual(
-            eb.snow_cover_levels([hour_row(snowfall=0.0, snow_depth=0.35)])[0]["value"],
+            eb.snow_cover_levels([hour_row(snowfall=0.0, snow_depth_cm=35.0)])[0]["value"],
             "snow_covered")
         self.assertEqual(
-            eb.snow_cover_levels([hour_row(snowfall=0.0, snow_depth=0.0)])[0]["value"],
+            eb.snow_cover_levels([hour_row(snowfall=0.0, snow_depth_cm=0.0)])[0]["value"],
             "none")
         self.assertEqual(
-            eb.snow_cover_levels([hour_row(snowfall=1.2, snow_depth=0.8)])[0]["value"],
+            eb.snow_cover_levels([hour_row(snowfall=1.2, snow_depth_cm=80.0)])[0]["value"],
             "snowing")
 
     def test_depth_only_row_never_claims_snowing(self):
         # a depth-only row cannot speak for snowfall — a 0 depth with no
         # snowfall cell is "none", not a fabricated "snowing".
         self.assertEqual(
-            eb.snow_cover_levels([hour_row(snow_depth=0.0)])[0]["value"], "none")
+            eb.snow_cover_levels([hour_row(snow_depth_cm=0.0)])[0]["value"], "none")
 
     def test_both_fields_missing_fail_closed(self):
         cells = eb.snow_cover_levels([{"values": {"snowfall": {"state": "UNAVAILABLE"},
-                                                  "snow_depth": {"state": "UNAVAILABLE"}}}])
+                                                  "snow_depth_cm": {"state": "UNAVAILABLE"}}}])
         self.assertEqual(cells[0]["state"], "UNKNOWN")
         self.assertEqual(
             eb.condition_verdict(dict(self.COND), {}, {})[1],
@@ -278,7 +278,7 @@ class TemplateRegistryTests(unittest.TestCase):
         import json
         vocab = json.loads((ROOT / "data/v2/templates/metric-vocabulary.json")
                            .read_text(encoding="utf-8"))
-        for metric in ("alpenglow_window", "snowfall", "snow_depth",
+        for metric in ("alpenglow_window", "snowfall", "snow_depth_cm",
                        "snow_cover_state", "clear_streak_hours",
                        "temperature_2m", "relative_humidity_2m"):
             self.assertIn(metric, vocab["metrics"], metric)
