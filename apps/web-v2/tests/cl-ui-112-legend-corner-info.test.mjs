@@ -101,7 +101,7 @@ async function bootBrowser() {
     '--enable-unsafe-swiftshader','--use-angle=swiftshader',
     '--no-first-run','--remote-debugging-port=0',
     '--window-size=1280,900',
-    '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'clui117-')), 'about:blank'],
+    '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'clui118-')), 'about:blank'],
     {stdio: ['ignore', 'ignore', 'pipe']});
   const wsUrl = await new Promise((resolve, reject) => {
     let buf = '';

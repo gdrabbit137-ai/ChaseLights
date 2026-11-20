@@ -35,7 +35,7 @@ test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bus
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
-  assert.match(htmlSource, /assets\/app\.js\?v=clui117/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui118/);
 });
 
 test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () => {

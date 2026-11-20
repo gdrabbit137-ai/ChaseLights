@@ -193,7 +193,7 @@ test('CL-UI-66 (8): syncContextUrl writes tier/subject/sort next to lang/region/
 
 const resolveFilterState = (urlSearch) => {
   const f = new Function([
-    `const VALID_SORT_MODES=['region','hours_desc','next_window','distance_near','distance_far'];`,
+    `const VALID_SORT_MODES=['region','hours_desc','next_window','srank_desc','distance_near','distance_far'];`,
     `const location={search:${JSON.stringify(urlSearch)}};`,
     `let currentSortMode='region';`,
     grab('const VALID_TIERS=', 'let userLocation=null;'),
@@ -277,7 +277,7 @@ test('CL-UI-66 (15): index.html carries the tab/chip hosts, the next_window sort
   assert.match(indexSource, /id="tier-tabs"/);
   assert.match(indexSource, /id="subject-chips"/);
   assert.match(indexSource, /<option value="next_window" data-i18n="sort_next_window">/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui117/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui118/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
 });
 
