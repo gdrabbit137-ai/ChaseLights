@@ -12,7 +12,7 @@ const locales=['zh-TW','en','ja'];
 test('declared source commit survives projection without promoting research or persisting across imports',()=>{
   const projected=importV21Catalog(defaultCatalog);
   assert.equal(projected.metadata.source_commit_sha,null);
-  assert.equal(projected.metadata.source_pins['tw-026-P01'].source_commit_sha,'24b3a4e2a6e77ca37ef88a067e1f3736be59cbc6'); // CL-DATA-72: canonical evolved past the 2026-11-02 owner ruling (sunset T3 QUALITY wave); W2_SHA remains the fixture manifest provenance commit
+  assert.equal(projected.metadata.source_pins['tw-026-P01'].source_commit_sha,'d69686982be4ff2f65f033a5df0b106b3f8e6d68'); // CL-DATA-72: canonical evolved past the 2026-11-02 owner ruling (sunset T3 QUALITY wave); W2_SHA remains the fixture manifest provenance commit
   assert.equal(projected.metadata.research_only,true);
   assert.deepEqual(projected.evaluations,[]);
   assert.equal(importV21Catalog(records[0]).metadata.source_commit_sha,null);

@@ -11,7 +11,7 @@ const catalog = JSON.parse(readFileSync(new URL('../catalog.v2.json', import.met
 test('default catalog retains the original pinned P01 source and research-only publication', () => {
   const original = catalog.opportunities.find(o => o.opportunity_id === 'tw-026-P01');
   assert.deepEqual(original, readPinned('tw-026-P01.json'));
-  assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha, '24b3a4e2a6e77ca37ef88a067e1f3736be59cbc6'); // CL-DATA-80: quality_engine_v2 regen — fixture+manifest re-anchored to live bytes per the CL-DATA-57/4becb13b2 pattern // CL-DATA-72: canonical evolved past the 2026-11-02 owner ruling (sunset T3 QUALITY c9e65a2c1 wave, source-lock re-pin 19e936548) — fixture+manifest re-anchored to live bytes per the CL-DATA-57/4becb13b2 pattern
+  assert.equal(catalog.source_pins['tw-026-P01'].source_commit_sha, 'd69686982be4ff2f65f033a5df0b106b3f8e6d68'); // CL-DATA-80: quality_engine_v2 regen — fixture+manifest re-anchored to live bytes per the CL-DATA-57/4becb13b2 pattern // CL-DATA-72: canonical evolved past the 2026-11-02 owner ruling (sunset T3 QUALITY c9e65a2c1 wave, source-lock re-pin 19e936548) — fixture+manifest re-anchored to live bytes per the CL-DATA-57/4becb13b2 pattern
   assert.equal(catalog.source_pins['tw-026-P01'].source_blob_sha,
     manifest.files.find(file => file.source_path === 'data/v2/opportunities/tw-026-P01.json').blob_sha);
   assert.equal(catalog.opportunities.length,720); // re-anchored CL-INT-212 (us-111 retired, jp-030-P01 evaluates)

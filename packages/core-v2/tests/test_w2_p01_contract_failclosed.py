@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent
 # The fixture filename is historical. Its bytes are the canonical record at
 # the CL-DATA-02 owner-ruling W2 rebuild (2026-11-02), not the earlier W2
 # revision named in that filename.
-W2_SOURCE_COMMIT = "24b3a4e2a6e77ca37ef88a067e1f3736be59cbc6"
+W2_SOURCE_COMMIT = "d69686982be4ff2f65f033a5df0b106b3f8e6d68"
 FIXTURE = ROOT / "fixtures" / "tw-026-P01.w2-fe52720.json"
 # CL-DATA-14 merge re-anchor: fixture re-synced to the merged-tree canonical
 # bytes (CL-DATA-13 view_azimuth backfill semantics), blob re-measured.
