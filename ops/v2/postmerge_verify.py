@@ -330,8 +330,8 @@ def verify_main(root, lock):
     # byte-pinned to their W2 sources.
     if (catalog.get("source_index_revision") != index_manifest["index_revision"] or
             catalog.get("source_index_commit_sha") != browse_source or
-            len(catalog.get("places", [])) != 460
-            or len(catalog.get("opportunities", [])) != 721):  # CL-INT-192 merged re-anchor: 460/692 -> 460/721 (CL-DATA-73 misty_forest 12 + CL-DATA-74 five-genre 17 mounts + merged-tree regen a6b3c0e68, measured on the merged tree; prior: CL-INT-139 460/692)
+            len(catalog.get("places", [])) != 459
+            or len(catalog.get("opportunities", [])) != 720):  # CL-INT-192 merged re-anchor: 460/692 -> 460/721 (CL-DATA-73 misty_forest 12 + CL-DATA-74 five-genre 17 mounts + merged-tree regen a6b3c0e68, measured on the merged tree; prior: CL-INT-139 460/692). CL-INT-215 re-anchor: 460/721 -> 459/720 (measured on the merged tree cb2362185 AND on pristine origin/main — the catalog world legitimately moved to 459 places / 720 opportunities before this merge; stale-count class per CL-CI-37).
         raise ValueError("W4 catalog is not the admitted W2 index")
     for row in catalog["opportunities"]:
         oid = row["opportunity_id"]
