@@ -293,7 +293,7 @@ class SeasonalGateTests(unittest.TestCase):
 class MountedContractTests(unittest.TestCase):
     def test_all_12_mounted_contracts_exist_and_validate(self):
         from jsonschema import Draft202012Validator
-        schema = json.loads((ROOT / "specs/v2/schema/opportunity-v2.1.schema.json")
+        schema = json.loads((ROOT / "specs/v2/schema/opportunity-v2.2.0.schema.json")
                             .read_text(encoding="utf-8"))
         validator = Draft202012Validator(schema)
         for oid in MOUNTED:

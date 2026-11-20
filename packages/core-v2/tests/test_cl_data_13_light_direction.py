@@ -93,7 +93,7 @@ class LightDirectionMonthSectorTests(unittest.TestCase):
 
 class LightDirectionContractTests(unittest.TestCase):
     schema = json.loads(
-        (ROOT / "specs/v2/schema/opportunity-v2.1.schema.json").read_text(encoding="utf-8"))
+        (ROOT / "specs/v2/schema/opportunity-v2.2.0.schema.json").read_text(encoding="utf-8"))
 
     def test_pilot_contracts_valid_and_sectored(self):
         for oid in ("tw-003-P01", "tw-001-P01"):
