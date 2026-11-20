@@ -1,0 +1,55 @@
+{
+  "tag": "overcast_soft_light",
+  "schema": "quality-v2",
+  "version": "1.0",
+  "status": "defined",
+  "source": "data/v2/audits/spec-quality-engine.md §5 (owner-frozen 2026-11-20); gates per §1 + owner rulings",
+  "note": "cloud_present_min owner ruling (越多越好 direction): heavy overcast is the point, so >=70% is a gate",
+  "windows": {
+    "time_of_day": [
+      "civil_daylight"
+    ],
+    "seasonal": null
+  },
+  "conditions": {
+    "required": [
+      {
+        "metric": "cloud_cover",
+        "op": "gte",
+        "value": 70
+      }
+    ],
+    "quality": [
+      {
+        "metric": "cloud_cover",
+        "weight": 3.0,
+        "abcd": [
+          70,
+          85,
+          100,
+          100
+        ]
+      },
+      {
+        "metric": "wind_speed_10m",
+        "weight": 2.0,
+        "abcd": [
+          0,
+          0,
+          1.5,
+          4.5
+        ]
+      },
+      {
+        "metric": "precipitation",
+        "weight": 1.5,
+        "abcd": [
+          0,
+          0,
+          0.1,
+          0.5
+        ]
+      }
+    ]
+  }
+}

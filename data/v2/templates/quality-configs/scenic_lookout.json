@@ -1,0 +1,49 @@
+{
+  "tag": "scenic_lookout",
+  "schema": "quality-v2",
+  "version": "1.0",
+  "status": "defined",
+  "source": "data/v2/audits/spec-quality-engine.md §5 (owner-frozen 2026-11-20); gates per §1 + owner rulings",
+  "note": "pure-visibility genre; gates stay in per-place contracts",
+  "windows": {
+    "time_of_day": [
+      "civil_daylight"
+    ],
+    "seasonal": null
+  },
+  "conditions": {
+    "required": [],
+    "quality": [
+      {
+        "metric": "visibility_km",
+        "weight": 3.0,
+        "abcd": [
+          15,
+          35,
+          "inf",
+          "inf"
+        ]
+      },
+      {
+        "metric": "aerosol_optical_depth",
+        "weight": 2.0,
+        "abcd": [
+          0,
+          0,
+          0.12,
+          0.4
+        ]
+      },
+      {
+        "metric": "cloud_cover_low",
+        "weight": 1.5,
+        "abcd": [
+          0,
+          0,
+          10,
+          30
+        ]
+      }
+    ]
+  }
+}

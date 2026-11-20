@@ -1,0 +1,71 @@
+{
+  "tag": "mountain_vista",
+  "schema": "quality-v2",
+  "version": "1.0",
+  "status": "defined",
+  "source": "data/v2/audits/spec-quality-engine.md §5 (owner-frozen 2026-11-20); gates per §1 + owner rulings",
+  "note": "§1.1: mid-cloud mandatory cap removed -> QUALITY bonus; visibility>=15 + low cloud<=30 required",
+  "windows": {
+    "time_of_day": [
+      "civil_daylight"
+    ],
+    "seasonal": null
+  },
+  "conditions": {
+    "required": [
+      {
+        "metric": "visibility_km",
+        "op": "gte",
+        "value": 15.0
+      },
+      {
+        "metric": "cloud_cover_low",
+        "op": "lte",
+        "value": 30
+      }
+    ],
+    "quality": [
+      {
+        "metric": "cloud_cover_mid",
+        "weight": 2.0,
+        "abcd": [
+          0,
+          20,
+          50,
+          75
+        ]
+      },
+      {
+        "metric": "visibility_km",
+        "weight": 2.0,
+        "abcd": [
+          15,
+          30,
+          "inf",
+          "inf"
+        ]
+      },
+      {
+        "metric": "golden_hour_match",
+        "weight": 1.5,
+        "abcd": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "bonus_window": "golden_hour"
+      },
+      {
+        "metric": "aerosol_optical_depth",
+        "weight": 1.0,
+        "abcd": [
+          0,
+          0,
+          0.15,
+          0.5
+        ]
+      }
+    ]
+  }
+}
