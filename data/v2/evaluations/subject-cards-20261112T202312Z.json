@@ -13,19 +13,19 @@
    "same_run": "generated only from the bundle run the evaluations-details carry (asserted fail-fast, CHALLENGER-14/A)"
   },
   "rule_version": "1.1",
-  "source_bundle": "evaluations-latest.json",
-  "source_bundle_sha256": "4464b06d84766bc42d6892680ea04fb38b9be7a87c5c65c4fa1a53c5732356a1",
+  "source_bundle": "bundle-20261119T235916Z.json",
+  "source_bundle_sha256": "c2b3db461d44506310d1e0ae24b0f4a04eeaae44057a7d8fa456174e1fbb5451",
   "tier_semantics": {
    "civil_light": {
     "rule": "CL-DATA-68 minute-level window boundaries (civil -6 deg et al.) computed from the place coordinate + NOAA/Meeus altitude chain, cached once per place-day; civil-light judgments use the interval intersection, the hourly grid instant stays the honest fallback when the geometry yields no boundary",
     "source": "packages/models-v2/civil_twilight.py solar_day_windows"
    },
-   "evaluated_at": "2026-11-19T19:32:08Z",
+   "evaluated_at": "2026-11-19T23:59:16Z",
    "rule": "CL-DATA-68 time-aware tier (owner-approved): today rows judge the REMAINING period after tier_evaluated_at — recommend when a curated subject window still has qualifying minutes ahead (window end = minute-level sun-elevation window interval, capped by the last qualified hour bucket); shootable (「窗已過·今日仍可拍」) when every curated window passed or never matched but the remaining-period general baseline passes; not_recommended (short remaining reason) when the remaining baseline also fails; no known remaining hour stays honest-null. Cross-day rows keep the full-day rules (tier_basis=full_day).",
    "rule_version": "1.0"
   },
   "weather_snapshot": "subject-cards-weather-input.json",
-  "weather_snapshot_sha256": "d841170cfd3f9e6ec735a8b6b3200899f5775d2c539cddc2d85777e043f9e5f1"
+  "weather_snapshot_sha256": "abbe40218462207bb7c6881e79543e17b8f24e4890e3dbd9cea15f5d865cf66f"
  },
  "dictionaries": {
   "fail_reason_short": {
@@ -2461,17 +2461,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "rain",
+     "ja": "雨",
+     "zh-TW": "雨"
     }
    },
    "2026-11-21": {
@@ -4020,9 +4024,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -65750,9 +65758,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "fog",
-      "ja": "霧",
-      "zh-TW": "霧"
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
      }
     },
     "status": "failed",
@@ -73346,9 +73354,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -75947,9 +75959,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -83305,9 +83321,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "fog",
-      "ja": "霧",
-      "zh-TW": "霧"
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
      }
     },
     "status": "failed",
@@ -84065,9 +84081,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "fog",
-      "ja": "霧",
-      "zh-TW": "霧"
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
      }
     },
     "status": "failed",
@@ -84075,9 +84091,9 @@
     "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "fog",
-     "ja": "霧",
-     "zh-TW": "霧"
+     "en": "rain",
+     "ja": "雨",
+     "zh-TW": "雨"
     }
    },
    "2026-11-21": {
@@ -90952,9 +90968,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -92169,9 +92189,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -92777,9 +92801,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "fog",
-      "ja": "霧",
-      "zh-TW": "霧"
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
      }
     },
     "status": "clear",
@@ -102372,9 +102396,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -103359,9 +103387,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -111406,9 +111438,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "fog",
-      "ja": "霧",
-      "zh-TW": "霧"
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
      }
     },
     "status": "failed",
@@ -115263,9 +115295,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -126105,9 +126141,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "fog",
-      "ja": "霧",
-      "zh-TW": "霧"
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
      }
     },
     "status": "failed",
@@ -126115,9 +126151,9 @@
     "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "fog",
-     "ja": "霧",
-     "zh-TW": "霧"
+     "en": "rain",
+     "ja": "雨",
+     "zh-TW": "雨"
     }
    },
    "2026-11-21": {
@@ -132146,9 +132182,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -134030,9 +134070,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -160353,9 +160397,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "fog",
-      "ja": "霧",
-      "zh-TW": "霧"
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
      }
     },
     "status": "failed",
@@ -161516,9 +161560,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -168208,9 +168256,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-21": {
     "civil_light": {
@@ -184494,9 +184546,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "fog",
-      "ja": "霧",
-      "zh-TW": "霧"
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
      }
     },
     "status": "failed",
@@ -184504,9 +184556,9 @@
     "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "fog",
-     "ja": "霧",
-     "zh-TW": "霧"
+     "en": "rain",
+     "ja": "雨",
+     "zh-TW": "雨"
     }
    },
    "2026-11-21": {
@@ -195629,17 +195681,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "fog",
+      "ja": "霧",
+      "zh-TW": "霧"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "fog",
+     "ja": "霧",
+     "zh-TW": "霧"
     }
    },
    "2026-11-20": {
@@ -205282,9 +205338,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -207598,8 +207658,12 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "clear",
     "suitable": [
@@ -207619,9 +207683,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -209523,8 +209591,12 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "clear",
     "suitable": [
@@ -209544,9 +209616,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -210023,8 +210099,12 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "clear",
     "suitable": [
@@ -210647,17 +210727,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
     }
    },
    "2026-11-20": {
@@ -211097,17 +211181,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
     }
    },
    "2026-11-20": {
@@ -211764,8 +211852,12 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "clear",
     "suitable": [
@@ -211785,9 +211877,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -213238,9 +213334,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "rain",
-      "ja": "雨",
-      "zh-TW": "雨"
+      "en": "fog",
+      "ja": "霧",
+      "zh-TW": "霧"
      }
     },
     "status": "failed",
@@ -213248,9 +213344,9 @@
     "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "rain",
-     "ja": "雨",
-     "zh-TW": "雨"
+     "en": "fog",
+     "ja": "霧",
+     "zh-TW": "霧"
     }
    },
    "2026-11-20": {
@@ -214262,17 +214358,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "rain",
+     "ja": "雨",
+     "zh-TW": "雨"
     }
    },
    "2026-11-20": {
@@ -215904,8 +216004,12 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "fog",
+      "ja": "霧",
+      "zh-TW": "霧"
+     }
     },
     "status": "failed",
     "suitable": [
@@ -219304,9 +219408,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -221128,17 +221236,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "rain",
+      "ja": "雨",
+      "zh-TW": "雨"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "rain",
+     "ja": "雨",
+     "zh-TW": "雨"
     }
    },
    "2026-11-20": {
@@ -226226,9 +226338,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -233125,9 +233241,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -237415,8 +237535,12 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "failed",
     "suitable": [
@@ -237436,9 +237560,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -238060,8 +238188,12 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "clear",
     "suitable": [
@@ -238081,9 +238213,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -240691,8 +240827,12 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "clear",
     "suitable": [
@@ -240712,9 +240852,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -241205,8 +241349,12 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "clear",
     "suitable": [
@@ -241226,9 +241374,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -242438,9 +242590,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "rain",
-      "ja": "雨",
-      "zh-TW": "雨"
+      "en": "fog",
+      "ja": "霧",
+      "zh-TW": "霧"
      }
     },
     "status": "failed",
@@ -242448,9 +242600,9 @@
     "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "rain",
-     "ja": "雨",
-     "zh-TW": "雨"
+     "en": "fog",
+     "ja": "霧",
+     "zh-TW": "霧"
     }
    },
    "2026-11-20": {
@@ -251259,17 +251411,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
     }
    },
    "2026-11-20": {
@@ -251689,17 +251845,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
     }
    },
    "2026-11-20": {
@@ -256431,9 +256591,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "rain",
-      "ja": "雨",
-      "zh-TW": "雨"
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
      }
     },
     "status": "failed",
@@ -256441,9 +256601,9 @@
     "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "rain",
-     "ja": "雨",
-     "zh-TW": "雨"
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
     }
    },
    "2026-11-20": {
@@ -257058,17 +257218,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
     }
    },
    "2026-11-20": {
@@ -257525,9 +257689,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -258054,9 +258222,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -258644,17 +258816,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
     }
    },
    "2026-11-20": {
@@ -259246,17 +259422,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
     }
    },
    "2026-11-20": {
@@ -268775,17 +268955,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "fog",
+      "ja": "霧",
+      "zh-TW": "霧"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "fog",
+     "ja": "霧",
+     "zh-TW": "霧"
     }
    },
    "2026-11-20": {
@@ -269853,9 +270037,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "shootable",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "windows passed · still shootable today",
+     "ja": "撮影窓は終了・本日は撮影可",
+     "zh-TW": "窗已過·今日仍可拍"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -270376,8 +270564,12 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "clear",
     "suitable": [
@@ -270397,9 +270589,13 @@
       ]
      }
     ],
-    "tier": "recommend",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
-    "tier_reason": null
+    "tier_reason": {
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
+    }
    },
    "2026-11-20": {
     "civil_light": {
@@ -270891,17 +271087,21 @@
      "unk": []
     },
     "remaining_baseline": {
-     "ok": true,
-     "reason_short": null
+     "ok": false,
+     "reason_short": {
+      "en": "outside daylight hours",
+      "ja": "日照時間帯外",
+      "zh-TW": "非日照時段"
+     }
     },
     "status": "failed",
     "suitable": [],
-    "tier": "shootable",
+    "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "windows passed · still shootable today",
-     "ja": "撮影窓は終了・本日は撮影可",
-     "zh-TW": "窗已過·今日仍可拍"
+     "en": "outside daylight hours",
+     "ja": "日照時間帯外",
+     "zh-TW": "非日照時段"
     }
    },
    "2026-11-20": {
@@ -271442,9 +271642,9 @@
     "remaining_baseline": {
      "ok": false,
      "reason_short": {
-      "en": "rain",
-      "ja": "雨",
-      "zh-TW": "雨"
+      "en": "fog",
+      "ja": "霧",
+      "zh-TW": "霧"
      }
     },
     "status": "failed",
@@ -271452,9 +271652,9 @@
     "tier": "not_recommended",
     "tier_basis": "remaining",
     "tier_reason": {
-     "en": "rain",
-     "ja": "雨",
-     "zh-TW": "雨"
+     "en": "fog",
+     "ja": "霧",
+     "zh-TW": "霧"
     }
    },
    "2026-11-20": {
@@ -275596,5 +275796,5 @@
  },
  "schema_version": "1.4",
  "ticket": "CL-UI-62",
- "tier_evaluated_at": "2026-11-19T19:32:08Z"
+ "tier_evaluated_at": "2026-11-19T23:59:16Z"
 }
