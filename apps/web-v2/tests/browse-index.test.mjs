@@ -11,11 +11,11 @@ const rawCatalog=readFileSync(new URL('../catalog.v2.json',import.meta.url));
 const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21Catalog(source);
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
-test('W2 index and canonical sources remain source pinned (CL-INT-212 merged regen: 459 places / 720 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'b12fb5a342d71a19c6fdde8494d4ba12a69437d27601e85b807dfa1e07055de9'); // re-measured CL-INT-216 (CL-DATA-81 canonical collapse + scheduled regen; live bytes of origin/main)
-  assert.equal(sha256(rawCatalog),'2fa9eed05c4d75d7d0706a671c37a842b2ca70db0e90a4a046ff5b97850a0679'); // re-measured CL-INT-216 (same regen chain; live bytes of origin/main)
+test('W2 index and canonical sources remain source pinned (CL-INT-212 merged regen: 459 places / 721 opportunities)',()=>{
+  assert.equal(sha256(rawIndex),'3efcd6c68eb2ea59ea44342bdccbf00da8ed1201c69ccfd37496879a23f8ddeb'); // re-measured CL-I18N-01 (CL-DATA-84C added tw-001-P04 -> 721 opportunities; live bytes of origin/main)
+  assert.equal(sha256(rawCatalog),'6110d16cfed8fe888d8732045987add41b2190fdec6ac0542569e8bc5bbaa46c'); // re-measured CL-I18N-01 (same regen chain; live bytes of origin/main)
   assert.equal(validateBrowseIndex(index,catalog),index);
-  assert.equal(source.opportunities.length,720);assert.equal(source.places.length,459); // re-anchored CL-INT-212 (us-111 retired, jp-030-P01 evaluates with CL-DATA-77 geometry)
+  assert.equal(source.opportunities.length,721);assert.equal(source.places.length,459); // re-anchored CL-INT-212 (us-111 retired, jp-030-P01 evaluates with CL-DATA-77 geometry)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
   const reviewedTaskS=['tw-034-P02','tw-036-P01','tw-082-P01','jp-010-P01','us-071-P01'];
   // CL-DATA-72: owner-ruled contract evolution (sunset T3 QUALITY c9e65a2c1 +
