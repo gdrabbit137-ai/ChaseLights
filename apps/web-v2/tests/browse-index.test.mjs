@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and canonical sources remain source pinned (CL-INT-212 merged regen: 459 places / 720 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'685cd133b102be3a29473b4feeb4b5043369fc9e7c6faeaa270b830db77f80e3'); // re-measured CL-INT-217 regen drift (CL-INT-216 pin was stale on origin/main; live bytes of origin/main)
-  assert.equal(sha256(rawCatalog),'3583798b76a79ff2bf6b0c567884b905e2913005738b520e8339cf8524f455c2'); // re-measured CL-INT-217 regen drift (same chain; live bytes of origin/main)
+  assert.equal(sha256(rawIndex),'b12fb5a342d71a19c6fdde8494d4ba12a69437d27601e85b807dfa1e07055de9'); // re-measured CL-INT-216 (CL-DATA-81 canonical collapse + scheduled regen; live bytes of origin/main)
+  assert.equal(sha256(rawCatalog),'2fa9eed05c4d75d7d0706a671c37a842b2ca70db0e90a4a046ff5b97850a0679'); // re-measured CL-INT-216 (same regen chain; live bytes of origin/main)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,720);assert.equal(source.places.length,459); // re-anchored CL-INT-212 (us-111 retired, jp-030-P01 evaluates with CL-DATA-77 geometry)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];
@@ -22,7 +22,11 @@ test('W2 index and canonical sources remain source pinned (CL-INT-212 merged reg
   // reflection contract a0ad3da55) moved these canonicals past their W2
   // review-freeze bytes; per the CL-DATA-57 pattern the index row (built from
   // the source-lock canonical pins) must match the LIVE canonical bytes.
-  const evolvedCanonical=['tw-016-P01','tw-026-P01','tw-026-P02','tw-082-P01'];
+  const evolvedCanonical=['tw-016-P01','tw-026-P01','tw-026-P02','tw-082-P01','jp-010-P01'];
+  // CL-DATA-83: jp-010-P01 evolved past its task-s review bytes via the owner-
+  // ruled semantic correction (REQUIRED civil light_window, CL-DATA-19 missed
+  // follow-up); its index row must match the LIVE canonical bytes, per the
+  // same CL-DATA-57/CL-DATA-72 pattern as the other evolved canonicals.
   for(const row of index.place_index.opportunities){
     const basename=row.opportunity_id+'.json';
     let bytes;

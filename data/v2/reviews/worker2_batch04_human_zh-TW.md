@@ -154,6 +154,8 @@ Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 
 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 30；GUIDANCE）
 - 2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：能見度 ≥15 km（富士山可見的前提）。
 2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold 15；GUIDANCE）
+- 2026-11-21 CL-DATA-83 補遺：CL-DATA-19 全面稽查漏補，新增必須：light_window 民用光線窗（太陽仰角 > −6°，threshold_source=computed，與其他日間題材同源）。花海與富士山剪影皆需可見光，夜間一律不符合。
+2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。（threshold unknown；GUIDANCE）
 
 
 ### Evidence（source claims only）

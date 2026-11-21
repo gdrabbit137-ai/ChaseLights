@@ -78,6 +78,12 @@ class ResearchIndexTests(unittest.TestCase):
             # identity per record verified above, so 20596766f joins the
             # holder set.
             '20596766f5db7e5160e40d5e6557748a71cd6d67',
+            # CL-DATA-83 re-anchor: jp-010-P01 gains the REQUIRED civil
+            # light_window (CL-DATA-19 missed follow-up) and is re-pinned to
+            # 6d8863e8c (civil_daylight window projection commit);
+            # blob+sha256 identity per record verified above, so the new
+            # holder joins the set.
+            '6d8863e8c316deb08e38caf8278eb4fe189893d4',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-DATA-72: tw-026-P01 canonical evolved past the 2026-11-02 owner
