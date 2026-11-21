@@ -147,6 +147,6 @@ test('CL-UI-82 (8): height/scan tokens + raw cap kept OUT of the card face', () 
   assert.ok(cardBlock.includes('${visCellHtml(item.visibility)}'), 'details vis uses the short cap cell (tooltip, never the full cap text)');
   assert.ok(!cardBlock.includes('visibilityText(item.visibility)'), 'full cap string never rendered on the card');
   // cache-bust advanced
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui at clui102 (app.js advanced to clui118, CL-UI-110)');
-  assert.equal((indexSource.match(/\?v=clui118/g) || []).length,1, 'app.js cache-bust at clui118 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui at clui102 (app.js + app.css advanced to clui119) (app.js advanced to clui118, CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui119/g) || []).length,2, 'app.js + app.css cache-bust at clui119 (CL-UI-118b)');
 });

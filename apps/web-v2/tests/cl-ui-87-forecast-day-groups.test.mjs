@@ -136,11 +136,11 @@ test('CL-UI-87 (4): raw values only in the expandable kv row; open state survive
 });
 
 // ---- (5) na collapse (n1c) ----
-test('CL-UI-87 (5): 時段外 hours collapse into one line — never a per-hour row', () => {
+test('CL-UI-87 (5): 時段外 hours collapse into ONE toggle line — the hours render hidden, expandable (CL-UI-118b)', () => {
   assert.match(hourLoop, /const isNa=subjCell\.kind==='outside';/, 'collapse source = the subject-cards na bucket');
-  assert.match(hourLoop, /na\.push\(hh\)/, 'collapsed hours collected, no row emitted');
+  assert.match(hourLoop, /na\.push\(hh\)/, 'collapsed hours collected (and emitted as hidden na-detail rows)');
   const naCode = grab('const naHtml=', 'const det=document.createElement');
-  assert.match(naCode, /na\.length\?`<tr class="na-row"><td colspan="4"><span>\$\{esc\(d\(\)\.state_outside\)\}<\/span> · <span class="mono">\$\{esc\(formatHourSegments\(na\)\)\}<\/span><\/td><\/tr>`:''/, 'one collapsed line with the compressed hour segments');
+  assert.match(naCode, /na\.length\?`<tr class="na-row"><td colspan="4"><button type="button" class="na-toggle" aria-expanded="\$\{naOpen\?'true':'false'\}"><span>\$\{esc\(d\(\)\.state_outside\)\}<\/span> · <span class="mono">\$\{esc\(formatHourSegments\(na\)\)\}<\/span><span class="na-hint">/, 'one collapsed TOGGLE line with the compressed hour segments + count/expand hint (CL-UI-118b)');
   assert.match(cssSource, /#timeline-groups tr\.na-row > td \{ height: 32px; color: var\(--cl-text-3\); font-size: var\(--cl-fs-12\); \}/, '32px honest grey line');
   // CL-UI-94: the mobile na card shows the neutral 🕒 word itself — no
   // 資料不足 status placeholder anywhere
@@ -178,7 +178,7 @@ test('CL-UI-94 (7): status column retired — no painter write path into the hou
 test('CL-UI-87 (8): --cl-* tokens only + clui102 stamps + scroll/probe compat', () => {
   const clui87css = cssSource.slice(cssSource.indexOf('===== CL-UI-87'), cssSource.indexOf('#timeline-mobile .tbl-390'));
   assert.doesNotMatch(clui87css.replace(/\/\*[^*]*\*\//g, ''), /#[0-9A-Fa-f]{3,8}\b/, 'no hardcoded hex in the new CSS (token layer only)');
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stay at clui102; app.js advanced to clui118 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui stays at clui102 (app.js + app.css advanced to clui119); app.js advanced to clui118 (CL-UI-110)');
   // the now-anchor scroll keeps working against the new container
   const scroll = grab('function scrollWeatherModalToCurrent', '// ---- CL-UI-34');
   assert.match(scroll, /getElementById\('timeline-groups'\)/, 'desktop anchor lookup on the groups container');
