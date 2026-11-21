@@ -17,7 +17,7 @@ before(async()=>{
   const build=resolve(process.env.V2_BUILD_DIR);const root=resolve(build,'public');
   manifest=JSON.parse(await readFile(resolve(build,'build-manifest.json'),'utf8'));
   assert.equal(manifest.status,'PASS');assert.equal(manifest.deployment_allowed,false);
-  assert.equal(Object.keys(manifest.files).length,29); // 20 runtime files + 9 locale sidecars (CL-I18N-01: 3 languages x ui/taxonomy/catalog, packaged so locale-loader.mjs keeps its ../../locales/ resolution)
+  assert.equal(Object.keys(manifest.files).length,30); // 21 runtime files (incl. locale-loader.mjs) + 9 locale sidecars (CL-I18N-01: 3 languages x ui/taxonomy/catalog, packaged so locale-loader.mjs keeps its ../../locales/ resolution)
   for(const [file,sha] of Object.entries(manifest.files)){
     const bytes=await readFile(resolve(root,file));
     assert.equal(createHash('sha256').update(bytes).digest('hex'),sha,file+' manifest bytes differ');
