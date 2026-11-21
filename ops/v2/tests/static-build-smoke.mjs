@@ -17,7 +17,7 @@ before(async()=>{
   const build=resolve(process.env.V2_BUILD_DIR);const root=resolve(build,'public');
   manifest=JSON.parse(await readFile(resolve(build,'build-manifest.json'),'utf8'));
   assert.equal(manifest.status,'PASS');assert.equal(manifest.deployment_allowed,false);
-  assert.equal(Object.keys(manifest.files).length,20); // 17 + pull-refresh.mjs/shell-auth.mjs (CL-INT-137B) + favorites-client.mjs (CL-UI-55; 19->20 measured on this tree)
+  assert.equal(Object.keys(manifest.files).length,29); // 20 runtime files + 9 locale sidecars (CL-I18N-01: 3 languages x ui/taxonomy/catalog, packaged so locale-loader.mjs keeps its ../../locales/ resolution)
   for(const [file,sha] of Object.entries(manifest.files)){
     const bytes=await readFile(resolve(root,file));
     assert.equal(createHash('sha256').update(bytes).digest('hex'),sha,file+' manifest bytes differ');
@@ -25,7 +25,7 @@ before(async()=>{
   catalog=JSON.parse(await readFile(resolve(root,'apps/web-v2/catalog.v2.json'),'utf8'));
   assert.equal(catalog.research_only,true);assert.equal(catalog.forecast_available,false);
   assert.equal(catalog.selected_date_recommendation_eligible,false);assert.deepEqual(catalog.evaluations,[]);
-  assert.equal(catalog.opportunities.length,720); // 459 places / 720 opportunities (CL-INT-215 re-anchor: 721/460 -> 720/459 measured on the merged tree AND pristine origin/main — stale-count class CL-CI-37 after the pre-existing us-111 retirement world move)
+  assert.equal(catalog.opportunities.length,721); // CL-I18N-01 re-anchor: CL-DATA-84C added tw-001-P04 (city night) -> 459 places / 721 opportunities
   assert.equal(catalog.places.length,459);
   opportunity=catalog.opportunities.find(x=>x.opportunity_id==='tw-026-P01');
   assert.ok(opportunity,'The canonical P01 record must be in the packaged bundle');

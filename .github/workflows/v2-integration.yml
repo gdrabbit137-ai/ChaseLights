@@ -129,6 +129,13 @@ jobs:
             /viirs_nightlights_weathergrid.py
             /yahiko_access.py
             /scripts/
+            # CL-I18N-01: locale sidecars and the i18n glossary are read by
+            # build_static.py's packaged locales mirror and by the i18n static
+            # checks; absent from the sparse tree -> static-build ENOENT
+            # (locales/en/catalog.json) and 6 candidate-build-browser fails.
+            /locales/
+            /i18n/
+            /test_i18n_sidecar_static.py
             /weathergrid/
             /specs/v2/
             /data/v2/
