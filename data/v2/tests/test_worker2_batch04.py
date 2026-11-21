@@ -31,14 +31,16 @@ EXPECTED = {
     "tw-082-P01": ("WEATHER", "HYDROLOGY", "WEATHER", "WEATHER"),
     "tw-036-P01": ("ASTRONOMY", "WEATHER", "WEATHER", "WEATHER"),
     "tw-034-P02": ("WEATHER", "WEATHER", "WEATHER", "WEATHER", "ASTRONOMY"),  # CL-INT-103: +1 civil light_window (CL-DATA-33 union revision)
-    "jp-010-P01": ("SEASON_TIME", "WEATHER", "WEATHER", "WEATHER", "WEATHER"),  # CL-DATA-75: +low cloud +visibility
+    "jp-010-P01": ("SEASON_TIME", "WEATHER", "WEATHER", "WEATHER", "WEATHER",
+                   "ASTRONOMY"),  # CL-DATA-75: +low cloud +visibility; CL-DATA-83: +civil light_window
     "us-071-P01": ("ASTRONOMY", "WEATHER", "WEATHER", "WEATHER"),
 }
 EXPECTED_ROLES = {
     "tw-082-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "QUALITY"),
     "tw-036-P01": ("REQUIRED", "REQUIRED", "QUALITY", "REQUIRED"),
     "tw-034-P02": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),  # CL-INT-103: +1 civil light_window (CL-DATA-33 owner-approved union revision)
-    "jp-010-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),  # CL-DATA-75
+    "jp-010-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED",
+                   "REQUIRED"),  # CL-DATA-75; CL-DATA-83: +civil light_window
     "us-071-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),
 }
 # Subjects whose conditions were rebuilt under the 2026-11-02 owner ruling
@@ -211,7 +213,7 @@ class Batch04Gate(unittest.TestCase):
 
     def test_04_crosswalk_exact_coverage_and_negative_conflict(self):
         expected_rows = {"tw-082-P01": 35, "tw-036-P01": 35, "tw-034-P02": 35,
-                         "jp-010-P01": 38, "us-071-P01": 35}  # CL-DATA-75: +2 conditions = +6 crosswalk rows
+                         "jp-010-P01": 41, "us-071-P01": 35}  # CL-DATA-75: +2 conditions = +6 crosswalk rows; CL-DATA-83: +1 civil light_window = +3 rows
         for id_, doc in self.docs.items():
             rows = self.rows[id_]
             with self.subTest(id=id_):
