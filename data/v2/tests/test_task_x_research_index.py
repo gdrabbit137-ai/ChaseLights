@@ -73,6 +73,11 @@ class ResearchIndexTests(unittest.TestCase):
             # per-record holder lineage is superseded by the migration commit;
             # the set therefore collapses to the single migration holder.
             'd69686982be4ff2f65f033a5df0b106b3f8e6d68',
+            # CL-INT-217 re-anchor: CL-DATA-82 re-pinned the 20 jp-002~022
+            # name_i18n-restored records to stage commit 20596766f; blob+sha256
+            # identity per record verified above, so 20596766f joins the
+            # holder set.
+            '20596766f5db7e5160e40d5e6557748a71cd6d67',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-DATA-72: tw-026-P01 canonical evolved past the 2026-11-02 owner
