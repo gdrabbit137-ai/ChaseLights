@@ -2364,7 +2364,11 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const overlay=document.getElementById('live-modal-overlay');
       if(!overlay)return;
       document.getElementById('live-modal-title').textContent=`🔴 ${d().live_panel_title} · ${spotName(spot)}`;
-      document.getElementById('live-source-label').textContent=d().live_source_label;
+      // CL-UI-119: attribution is per-entry (agencies differ — 北觀處 vs
+      // 陽明山國家公園管理處); the entry's own trilingual label wins, the
+      // dictionary label stays the fallback for entries without one.
+      const perEntrySource=(cam.source_label_i18n&&((cam.source_label_i18n[currentLang])||cam.source_label_i18n['zh-TW']))||null;
+      document.getElementById('live-source-label').textContent=perEntrySource||d().live_source_label;
       const yt=document.getElementById('live-open-yt');
       yt.href=cam.watch_url||`https://www.youtube.com/watch?v=${encodeURIComponent(cam.video_id)}`;
       yt.textContent=d().live_open_youtube;

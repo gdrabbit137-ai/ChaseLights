@@ -9,6 +9,9 @@
 // same-source thumbnail entry. Data: data/v2/copy/live_cam.json
 // (place_id → video_id/thumb/watch/official page), verified against the
 // 北觀處 official site + YouTube oembed on 2026-11-17.
+// CL-UI-119: tw-001 大屯山 joins with the 陽明山國家公園管理處 official live
+// stream (YMSNP 即時影像專區, verified 2026-11-21); attribution moved to
+// per-entry source_label_i18n because the two agencies differ.
 //
 // Run: node --test apps/web-v2/tests/cl-ui-111-live-cam.test.mjs
 import test from 'node:test';
@@ -28,9 +31,9 @@ const cssSource = readFileSync(join(WEB, 'assets', 'app.css'), 'utf8');
 const htmlSource = readFileSync(join(WEB, 'index.html'), 'utf8');
 const camData = JSON.parse(readFileSync(join(WEB, 'data', 'v2', 'copy', 'live_cam.json'), 'utf8'));
 
-const CAM_IDS = ['tw-008', 'tw-010', 'tw-073', 'tw-074', 'tw-161'];
+const CAM_IDS = ['tw-001', 'tw-008', 'tw-010', 'tw-073', 'tw-074', 'tw-161'];
 
-test('CL-UI-111 (D): live_cam.json — verified mapping, honest pending note', () => {
+test('CL-UI-111/119 (D): live_cam.json — verified mapping, per-entry attribution, honest pending note', () => {
   assert.equal(camData.stream_format, 'youtube_live', '查證結論：串流形式＝YouTube live（非 HLS）');
   for (const id of CAM_IDS) {
     const e = camData.entries[id];
@@ -38,7 +41,25 @@ test('CL-UI-111 (D): live_cam.json — verified mapping, honest pending note', (
     assert.match(e.video_id, /^[A-Za-z0-9_-]{11}$/, `${id} video_id must be a YouTube id`);
     assert.match(e.thumb_url, new RegExp(`i\\.ytimg\\.com/vi/${e.video_id}/hqdefault\\.jpg`));
     assert.match(e.watch_url, new RegExp(`youtube\\.com/watch\\?v=${e.video_id}`));
-    assert.match(e.official_page, /northguan-nsa\.gov\.tw/, `${id} keeps the 北觀處 official page`);
+    // CL-UI-119: provenance per entry — official page + verification date.
+    assert.ok(e.official_page && e.official_page.startsWith('https://'), `${id} keeps an official page`);
+    assert.match(e.verified_at, /^\d{4}-\d{2}-\d{2}$/, `${id} records the verification date`);
+    if (id === 'tw-001') {
+      assert.match(e.official_page, /ymsnp\.gov\.tw/, 'tw-001 keeps the 陽明山國家公園管理處 official page');
+      assert.match(e.note, /大屯山主峰/, 'tw-001 carries the honest camera-location note');
+    } else {
+      assert.match(e.official_page, /northguan-nsa\.gov\.tw/, `${id} keeps the 北觀處 official page`);
+    }
+    // Per-entry attribution (agencies differ): trilingual, complete display string.
+    assert.ok(e.source_label_i18n, `${id} has a per-entry source_label_i18n`);
+    for (const lang of ['zh-TW', 'en', 'ja']) {
+      const label = e.source_label_i18n[lang];
+      assert.ok(label && label.length > 0, `${id} ${lang} attribution label`);
+      assert.match(label, /^(影像來源：|Live camera: |映像提供：)/, `${id} ${lang} label carries the prefix`);
+    }
+    assert.match(e.source_label_i18n['zh-TW'],
+      id === 'tw-001' ? /陽明山國家公園管理處/ : /交通部觀光署北觀處/,
+      `${id} attribution names the right agency`);
   }
   assert.equal(Object.keys(camData.entries).length, CAM_IDS.length, 'no unmapped extra entries');
   // 白沙灣 has an official stream but NO catalog place_id yet — recorded, not mapped.
@@ -99,8 +120,12 @@ test('CL-UI-111 (S4): in-app panel — zero-preload iframe, attribution, fallbac
     'official YouTube embed, in-app (never a YouTube-app redirect)');
   assert.match(appSource, /allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"/,
     'fullscreen rides the native iframe button');
-  assert.match(appSource, /document\.getElementById\('live-source-label'\)\.textContent=d\(\)\.live_source_label;/,
-    '署名 lives under the player');
+  // CL-UI-119: per-entry attribution — the entry's own trilingual label wins,
+  // the dictionary label stays the fallback for entries without one.
+  assert.match(appSource, /const perEntrySource=\(cam\.source_label_i18n&&\(\(cam\.source_label_i18n\[currentLang\]\)\|\|cam\.source_label_i18n\['zh-TW'\]\)\)\|\|null;/,
+    'per-entry source label resolved currentLang → zh-TW');
+  assert.match(appSource, /document\.getElementById\('live-source-label'\)\.textContent=perEntrySource\|\|d\(\)\.live_source_label;/,
+    '署名 lives under the player (per-entry label, dict fallback)');
   assert.match(appSource, /yt\.href=cam\.watch_url\|\|`https:\/\/www\.youtube\.com\/watch\?v=\$\{encodeURIComponent\(cam\.video_id\)\}`;\s*\n\s*yt\.textContent=d\(\)\.live_open_youtube;/,
     '在 YouTube 開啟 fallback link');
   // Closing the panel unloads the stream.
@@ -129,8 +154,8 @@ test('CL-UI-111 (S6): css — dot uses the contract red token, lazy-player shell
   assert.match(cssSource, /\.live-thumb-entry-img img \{[\s\S]*?width: 100%;\s*\n\s*height: 100%;\s*\n\s*object-fit: cover;/);
 });
 
-test('CL-UI-111 (S7): cache-bust stamp bumped to clui118', () => {
-  assert.match(htmlSource, /assets\/app\.js\?v=clui118/);
+test('CL-UI-111 (S7): cache-bust stamp bumped to clui119', () => {
+  assert.match(htmlSource, /assets\/app\.js\?v=clui119/);
   assert.doesNotMatch(htmlSource, /clui110/);
 });
 
@@ -389,6 +414,31 @@ test('CL-UI-111 (H2): LIVE click opens the in-app panel — embed iframe + attri
     assert.equal(closed.display, 'none');
     assert.equal(closed.hostHTML, '');
     assert.equal(closed.iframes, 0, 'no iframe survives the panel close');
+  }
+});
+
+test('CL-UI-119 (H2b): tw-001 大屯山 — 陽明山國家公園管理處 per-entry attribution renders', async () => {
+  await bootBrowser();
+  {
+    await loadPage();
+    const openRes = await evaljs(`(() => {
+      const live=[...document.querySelectorAll('.card [data-live-btn]')]
+        .find(b=>b.getAttribute('data-live-place')==='tw-001');
+      if(!live)return {error:'no tw-001 live button'};
+      live.click();
+      const ov=document.getElementById('live-modal-overlay');
+      const frame=document.querySelector('#live-frame-host iframe.live-frame');
+      return {
+        visible: ov && ov.style.display==='flex',
+        src: frame?frame.getAttribute('src'):null,
+        label: document.getElementById('live-source-label').textContent
+      };
+    })()`);
+    assert.equal(openRes.visible, true, 'tw-001 panel opens in-app');
+    assert.match(openRes.src, /www\.youtube\.com\/embed\/6ghffcNt3Nw/, 'YMSNP official YouTube embed');
+    assert.equal(openRes.label, '影像來源：陽明山國家公園管理處',
+      'per-entry attribution shows the 陽明山 agency, not 北觀處');
+    await evaljs(`closeLiveModal();`);
   }
 });
 
