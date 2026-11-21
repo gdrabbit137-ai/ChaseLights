@@ -12,6 +12,10 @@
 // CL-UI-119: tw-001 大屯山 joins with the 陽明山國家公園管理處 official live
 // stream (YMSNP 即時影像專區, verified 2026-11-21); attribution moved to
 // per-entry source_label_i18n because the two agencies differ.
+// CL-UI-120: tw-002 象山／tw-179 碧山巖／tw-005 大稻埕碼頭 join with the
+// 臺北市政府觀光傳播局 official channel 「Taipei Travel Live Cam 台北觀光即時
+// 影像」 (@taipeitravelofficial, verified 2026-11-21); the channel rotates
+// 24/7 live video_ids, so tw-005 carries the current isLive:true id.
 //
 // Run: node --test apps/web-v2/tests/cl-ui-111-live-cam.test.mjs
 import test from 'node:test';
@@ -31,7 +35,7 @@ const cssSource = readFileSync(join(WEB, 'assets', 'app.css'), 'utf8');
 const htmlSource = readFileSync(join(WEB, 'index.html'), 'utf8');
 const camData = JSON.parse(readFileSync(join(WEB, 'data', 'v2', 'copy', 'live_cam.json'), 'utf8'));
 
-const CAM_IDS = ['tw-001', 'tw-008', 'tw-010', 'tw-073', 'tw-074', 'tw-161'];
+const CAM_IDS = ['tw-001', 'tw-002', 'tw-005', 'tw-008', 'tw-010', 'tw-073', 'tw-074', 'tw-161', 'tw-179'];
 
 test('CL-UI-111/119 (D): live_cam.json — verified mapping, per-entry attribution, honest pending note', () => {
   assert.equal(camData.stream_format, 'youtube_live', '查證結論：串流形式＝YouTube live（非 HLS）');
@@ -47,8 +51,21 @@ test('CL-UI-111/119 (D): live_cam.json — verified mapping, per-entry attributi
     if (id === 'tw-001') {
       assert.match(e.official_page, /ymsnp\.gov\.tw/, 'tw-001 keeps the 陽明山國家公園管理處 official page');
       assert.match(e.note, /大屯山主峰/, 'tw-001 carries the honest camera-location note');
+    } else if (id === 'tw-002' || id === 'tw-179' || id === 'tw-005') {
+      // CL-UI-120: Taipei City DoIT official channel is the provenance page.
+      assert.match(e.official_page, /youtube\.com\/@taipeitravelofficial/,
+        `${id} keeps the Taipei Travel Live Cam official channel page`);
     } else {
       assert.match(e.official_page, /northguan-nsa\.gov\.tw/, `${id} keeps the 北觀處 official page`);
+    }
+    // CL-UI-120: the three Taipei City DoIT entries pin their verified video ids.
+    if (id === 'tw-002') assert.equal(e.video_id, 'z_fY1pj1VBw');
+    if (id === 'tw-179') assert.equal(e.video_id, 'uvwfYzwY8tg');
+    if (id === 'tw-005') {
+      assert.equal(e.video_id, 'Ndo_8RuefH4',
+        'tw-005 carries the CURRENT isLive:true 大稻埕 id (3Sf6rJgyObs ended 2026-07-10)');
+      assert.match(e.note, /3Sf6rJgyObs/, 'tw-005 note honestly records the rotated id');
+      assert.match(e.note, /isLiveNow:false/);
     }
     // Per-entry attribution (agencies differ): trilingual, complete display string.
     assert.ok(e.source_label_i18n, `${id} has a per-entry source_label_i18n`);
@@ -58,8 +75,16 @@ test('CL-UI-111/119 (D): live_cam.json — verified mapping, per-entry attributi
       assert.match(label, /^(影像來源：|Live camera: |映像提供：)/, `${id} ${lang} label carries the prefix`);
     }
     assert.match(e.source_label_i18n['zh-TW'],
-      id === 'tw-001' ? /陽明山國家公園管理處/ : /交通部觀光署北觀處/,
+      id === 'tw-001' ? /陽明山國家公園管理處/
+        : (id === 'tw-002' || id === 'tw-179' || id === 'tw-005') ? /臺北市政府觀光傳播局/
+        : /交通部觀光署北觀處/,
       `${id} attribution names the right agency`);
+    // CL-UI-120: the English attribution uses the agency's own full name.
+    if (id === 'tw-002' || id === 'tw-179' || id === 'tw-005') {
+      assert.match(e.source_label_i18n.en,
+        /Taipei City Government Department of Information and Tourism/,
+        `${id} en attribution names Taipei City Government DoIT`);
+    }
   }
   assert.equal(Object.keys(camData.entries).length, CAM_IDS.length, 'no unmapped extra entries');
   // 白沙灣 has an official stream but NO catalog place_id yet — recorded, not mapped.
@@ -438,6 +463,31 @@ test('CL-UI-119 (H2b): tw-001 大屯山 — 陽明山國家公園管理處 per-e
     assert.match(openRes.src, /www\.youtube\.com\/embed\/6ghffcNt3Nw/, 'YMSNP official YouTube embed');
     assert.equal(openRes.label, '影像來源：陽明山國家公園管理處',
       'per-entry attribution shows the 陽明山 agency, not 北觀處');
+    await evaljs(`closeLiveModal();`);
+  }
+});
+
+test('CL-UI-120 (H2c): tw-002 象山 — 臺北市政府觀光傳播局 per-entry attribution renders', async () => {
+  await bootBrowser();
+  {
+    await loadPage();
+    const openRes = await evaljs(`(() => {
+      const live=[...document.querySelectorAll('.card [data-live-btn]')]
+        .find(b=>b.getAttribute('data-live-place')==='tw-002');
+      if(!live)return {error:'no tw-002 live button'};
+      live.click();
+      const ov=document.getElementById('live-modal-overlay');
+      const frame=document.querySelector('#live-frame-host iframe.live-frame');
+      return {
+        visible: ov && ov.style.display==='flex',
+        src: frame?frame.getAttribute('src'):null,
+        label: document.getElementById('live-source-label').textContent
+      };
+    })()`);
+    assert.equal(openRes.visible, true, 'tw-002 panel opens in-app');
+    assert.match(openRes.src, /www\.youtube\.com\/embed\/z_fY1pj1VBw/, 'Taipei City DoIT official YouTube embed');
+    assert.equal(openRes.label, '影像來源：臺北市政府觀光傳播局',
+      'per-entry attribution shows the Taipei City DoIT agency, not 北觀處');
     await evaljs(`closeLiveModal();`);
   }
 });
