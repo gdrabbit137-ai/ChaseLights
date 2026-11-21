@@ -30,7 +30,7 @@ test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bus
   // CL-APP-09 patch-4 (popup rides the official renderers) -> clapp09e
   // (per-file cache-bust rule, monotonic)
   assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09e/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09g/); // CL-APP-09 patch-5/6 stamp advance (CL-INT-212 re-anchor)
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09h/); // CL-APP-09 patch-5/6 stamp advance (CL-INT-212 re-anchor)
   assert.doesNotMatch(htmlSource, /custom-places\.(css|js)\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
@@ -199,66 +199,8 @@ let loadEvents = 0; // Page.loadEventFired counter (CL-INT-190: evaluate may lan
 const nextId = (() => { let id = 0; return () => ++id; })();
 const pending = new Map();
 
-async function bootBrowser() {
-  if (ready) return ready;
-  ready = (async () => {
-    const MIME = { '.html': 'text/html', '.mjs': 'text/javascript', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml', '.ico': 'image/x-icon' };
-    server = createServer((req, res) => {
-      const p = req.url.split('?')[0].replace(/\/+$/, '') || '/';
-      const file = join(WEB, p === '/' ? 'index.html' : p.slice(1));
-      try {
-        const body = readFileSync(file);
-        res.writeHead(200, { 'content-type': MIME[file.slice(file.lastIndexOf('.'))] || 'application/octet-stream' });
-        res.end(body);
-      } catch { res.writeHead(404); res.end('not found'); }
-    });
-    await new Promise(r => server.listen(0, '127.0.0.1', r));
-    baseURL = `http://127.0.0.1:${server.address().port}/`;
-    chrome = spawn(BROWSER, [
-      '--headless=new', '--disable-gpu', '--no-sandbox', '--disable-dev-shm-usage',
-      '--no-first-run', '--remote-debugging-port=0',
-      '--window-size=1280,900',
-      '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'clapp06-')), 'about:blank'],
-      { stdio: ['ignore', 'ignore', 'pipe'] });
-      const wsUrl = await new Promise((resolve, reject) => {
-      let buf = '';
-      let loopLast = Date.now(); const loopStart = loopLast;
-      const timer = setInterval(() => {
-        const now = Date.now();
-        if (now - loopLast < 1500 && now - loopStart > 60000) { clearInterval(timer); reject(new Error('no devtools endpoint')); }
-        loopLast = now;
-      }, 250);
-      chrome.stderr.on('data', d => { buf += d;
-        const m = buf.match(/DevTools listening on (ws:\/\/\S+)/);
-        if (m) { clearInterval(timer); resolve(m[1]); } });
-      chrome.on('error', e => reject(new Error('spawn: ' + e.message)));
-    });
-    const dbgHost = wsUrl.match(/ws:\/\/([^/]+)/)[1];
-    let targets = [];
-    for (let i = 0; i < 40; ++i) {
-      targets = await (await fetch(`http://${dbgHost}/json/list`)).json();
-      if (targets.some(t => t.type === 'page')) break;
-      await new Promise(r => setTimeout(r, 250));
-    }
-      ws = new WebSocket(targets.find(t => t.type === 'page').webSocketDebuggerUrl);
-    await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
-    ws.onmessage = e => { const m = JSON.parse(e.data);
-      if (m.method === 'Page.loadEventFired') loadEvents++;
-      if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); } };
-    send = (method, params = {}) => new Promise((resolve, reject) => {
-      const i = nextId(); pending.set(i, m => m.error ? reject(new Error(m.error.message)) : resolve(m.result));
-      ws.send(JSON.stringify({ id: i, method, params }));
-    });
-      evaljs = async (expr) => {
-      const r = await send('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true });
-      if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || 'page error');
-      return r.result?.result?.value ?? r.result?.value;
-    };
-    // The stub rides every navigation: window.__clcpFetch answers the
-    // custom-places API before the widget ever asks; the widget's member
-    // state is pushed via the chaselights:auth broadcast after load.
-    await send('Page.enable');
-    await send('Page.addScriptToEvaluateOnNewDocument', { source: `
+const CP_PAGE_STUB = `try { localStorage.removeItem('chaselights_cp_view'); } catch (e) { /* storage blocked */ }
+      
       // patch-4: pin-picker mini-map is DISABLED in this harness (deterministic
       // schematic fallback) — the real-MapLibre path is covered by test (2r)
       // which clears this flag at runtime.
@@ -403,7 +345,68 @@ async function bootBrowser() {
       }
       return Promise.resolve({ ok: false, status: 404, json: function () { return Promise.resolve({ error: 'stub 404' }); } });
       };
-    ` });
+    `;
+
+async function bootBrowser() {
+  if (ready) return ready;
+  ready = (async () => {
+    const MIME = { '.html': 'text/html', '.mjs': 'text/javascript', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml', '.ico': 'image/x-icon' };
+    server = createServer((req, res) => {
+      const p = req.url.split('?')[0].replace(/\/+$/, '') || '/';
+      const file = join(WEB, p === '/' ? 'index.html' : p.slice(1));
+      try {
+        const body = readFileSync(file);
+        res.writeHead(200, { 'content-type': MIME[file.slice(file.lastIndexOf('.'))] || 'application/octet-stream' });
+        res.end(body);
+      } catch { res.writeHead(404); res.end('not found'); }
+    });
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
+    baseURL = `http://127.0.0.1:${server.address().port}/`;
+    chrome = spawn(BROWSER, [
+      '--headless=new', '--disable-gpu', '--no-sandbox', '--disable-dev-shm-usage',
+      '--no-first-run', '--remote-debugging-port=0',
+      '--window-size=1280,900',
+      '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'clapp06-')), 'about:blank'],
+      { stdio: ['ignore', 'ignore', 'pipe'] });
+      const wsUrl = await new Promise((resolve, reject) => {
+      let buf = '';
+      let loopLast = Date.now(); const loopStart = loopLast;
+      const timer = setInterval(() => {
+        const now = Date.now();
+        if (now - loopLast < 1500 && now - loopStart > 60000) { clearInterval(timer); reject(new Error('no devtools endpoint')); }
+        loopLast = now;
+      }, 250);
+      chrome.stderr.on('data', d => { buf += d;
+        const m = buf.match(/DevTools listening on (ws:\/\/\S+)/);
+        if (m) { clearInterval(timer); resolve(m[1]); } });
+      chrome.on('error', e => reject(new Error('spawn: ' + e.message)));
+    });
+    const dbgHost = wsUrl.match(/ws:\/\/([^/]+)/)[1];
+    let targets = [];
+    for (let i = 0; i < 40; ++i) {
+      targets = await (await fetch(`http://${dbgHost}/json/list`)).json();
+      if (targets.some(t => t.type === 'page')) break;
+      await new Promise(r => setTimeout(r, 250));
+    }
+      ws = new WebSocket(targets.find(t => t.type === 'page').webSocketDebuggerUrl);
+    await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
+    ws.onmessage = e => { const m = JSON.parse(e.data);
+      if (m.method === 'Page.loadEventFired') loadEvents++;
+      if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); } };
+    send = (method, params = {}) => new Promise((resolve, reject) => {
+      const i = nextId(); pending.set(i, m => m.error ? reject(new Error(m.error.message)) : resolve(m.result));
+      ws.send(JSON.stringify({ id: i, method, params }));
+    });
+      evaljs = async (expr) => {
+      const r = await send('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true });
+      if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || 'page error');
+      return r.result?.result?.value ?? r.result?.value;
+    };
+    // The stub rides every navigation: window.__clcpFetch answers the
+    // custom-places API before the widget ever asks; the widget's member
+    // state is pushed via the chaselights:auth broadcast after load.
+    await send('Page.enable');
+    await send('Page.addScriptToEvaluateOnNewDocument', { source: CP_PAGE_STUB });
   })().catch(e => { ready = null; throw e; });
   return ready;
 }
@@ -421,6 +424,12 @@ async function setViewport(width, height, mobile) {
 }
 async function loadPage() {
   const before = loadEvents;
+  // CL-CI-38 root fix: the init-script registration does NOT survive past the
+  // first navigation on this harness — every later document ran without the
+  // stub (window.__clcpFetch undefined → real fetch → private cards never
+  // rendered; the CL-APP-09b harness re-registers before each navigate for
+  // the same reason). Re-send the stub before EVERY navigation.
+  await send('Page.addScriptToEvaluateOnNewDocument', { source: CP_PAGE_STUB });
   await send('Page.navigate', { url: baseURL });
   await new Promise((resolve,reject)=>{
     const t0=Date.now();
@@ -443,7 +452,10 @@ async function loadPage() {
       // must not hang the harness; chaselights:auth is REPLACE-semantics/idempotent.
       document.dispatchEvent(new CustomEvent('chaselights:auth', { detail: { member: { id: 'u1', displayName: '晨曦旅人', level: 'paid' } } }));
       if(document.querySelector('.cl-cp-card')){clearInterval(iv);resolve(true);}
-      else if(Date.now()-t0>10000){clearInterval(iv);reject(new Error('private cards never rendered'));}
+      // CL-CI-38: late navigations in a long-lived chrome accumulate maplibre
+      // instances — the post-auth private-card render can take >10s under that
+      // load. The broadcast is idempotent, so a longer window is honest.
+      else if(Date.now()-t0>25000){clearInterval(iv);reject(new Error('private cards never rendered'));}
     },300);
   })`);
   await new Promise(r => setTimeout(r, 400));
@@ -484,6 +496,12 @@ test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject ro
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
+  // CL-CI-38: private cards ride the official tier-tab pipeline (patch-6) —
+  // non-✓推薦 points render only under their own tab / 全部. Switch first.
+  await evaljs(`(async () => {
+    const all = document.querySelector('#tier-tabs .tier-tab[data-tier="all"]');
+    if (all) { all.click(); await new Promise(r => setTimeout(r, 600)); }
+  })()`);
   const probe = await evaljs(`(() => {
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
     if (!card) return { error: 'no cp1 card' };
@@ -587,6 +605,12 @@ test('CL-APP-06 (2c): trial-expired card is gray + honest 試用期滿 + upgrade
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
+  // CL-CI-38: patch-6 renders special-state cards (no verdict) ONLY under the
+  // 全部 tier tab — same rule as official noeval spots. Switch to 全部 first.
+  await evaljs(`(async () => {
+    const all = document.querySelector('#tier-tabs .tier-tab[data-tier="all"]');
+    if (all) { all.click(); await new Promise(r => setTimeout(r, 600)); }
+  })()`);
   const probe = await evaljs(`(() => {
     const ex = document.querySelector('.cl-cp-card[data-cp-id="cp4"]');
     const df = document.querySelector('.cl-cp-card[data-cp-id="cp5"]');
@@ -623,8 +647,12 @@ test('CL-APP-06 (2d): view switch filters with real computed visibility (private
     };
     document.querySelector('.cl-cp-view-tab[data-cp-view="official"]').click();
     await new Promise(r => setTimeout(r, 300));
+    // CL-CI-38: the patch-6 bridge REMOVES private cards in official view
+    // (app.js rebuilds the container from the filtered rows) — absent reads
+    // as hidden, same intent as the pre-bridge display:none CSS.
+    const privInOfficial = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
     out.officialView = {
-      priv: getComputedStyle(document.querySelector('.cl-cp-card[data-cp-id="cp1"]')).display,
+      priv: privInOfficial ? getComputedStyle(privInOfficial).display : 'absent',
       official: document.querySelector('#spots-container .card:not(.cl-cp-card)') ? getComputedStyle(document.querySelector('#spots-container .card:not(.cl-cp-card)')).display : 'absent',
     };
     document.querySelector('.cl-cp-view-tab[data-cp-view="all"]').click();
@@ -632,8 +660,13 @@ test('CL-APP-06 (2d): view switch filters with real computed visibility (private
     return out;
   })()`);
   assert.notEqual(probe.privateView.priv, 'none', 'private tab shows private cards');
-  assert.equal(probe.privateView.official, 'none', 'private tab hides official cards');
-  assert.equal(probe.officialView.priv, 'none', 'official tab hides private cards');
+  // CL-CI-38: the patch-6 filter pipeline rebuilds the container per view —
+  // officials in the private view are REMOVED, which reads as hidden.
+  assert.ok(probe.privateView.official === 'none' || probe.privateView.official === 'absent', 'private tab hides official cards (hidden or removed)');
+  // CL-CI-38: the patch-6 bridge removes private cards in official view —
+  // 'absent' is the honest hidden state (same intent as the pre-bridge
+  // display:none CSS pin).
+  assert.ok(probe.officialView.priv === 'none' || probe.officialView.priv === 'absent', 'official tab hides private cards (hidden or removed)');
   assert.notEqual(probe.officialView.official, 'none', 'official tab shows official cards');
 });
 
@@ -756,7 +789,9 @@ test('CL-APP-06 (2h, patch-8): 「掛題材·條件」 = LIST manager — groups
   assert.equal(probe.low1, '50', 'changing the semantic select writes the mapped concrete value');
   assert.match(probe.prev, /低雲≤50/, 'preview updates from the mapped value');
   assert.ok(probe.genreOptions >= 22, '21 genre starters + the empty option');
-  assert.equal(probe.starterCloud, 'min', '雲海 starter applies');
+  // CL-CI-38: patch-5 fixed the 雲海 starter direction — low cloud 越多越好
+  // (cloud_low_min), so the semantic select prefills 'more', not 'min'.
+  assert.equal(probe.starterCloud, 'more', '雲海 starter applies');
   assert.deepEqual(probe.starterWin, ['04:30', '07:00']);
   assert.equal(probe.advancedOpenDefault, false, 'advanced raw inputs collapsed by default');
   assert.match(probe.btnBefore, /請先輸入題材名稱/, 'the disabled button shows the reason on itself');
@@ -766,6 +801,12 @@ test('CL-APP-06 (2i): ✨ one-sentence AI parse fills the semantic selects (AI o
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
+  // CL-CI-38: private cards ride the official tier-tab pipeline (patch-6) —
+  // non-✓推薦 points render only under their own tab / 全部. Switch first.
+  await evaljs(`(async () => {
+    const all = document.querySelector('#tier-tabs .tier-tab[data-tier="all"]');
+    if (all) { all.click(); await new Promise(r => setTimeout(r, 600)); }
+  })()`);
   const probe = await evaljs(`(async () => {
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
     card.querySelector('.cl-cp-more').click();
@@ -1090,6 +1131,12 @@ test('CL-APP-06 (2o, patch-3): 390 viewport, card near the page footer — menu 
   await bootBrowser();
   await setViewport(390, 844, true);
   await loadPage();
+  // CL-CI-38: private cards ride the official tier-tab pipeline (patch-6) —
+  // non-✓推薦 points render only under their own tab / 全部. Switch first.
+  await evaljs(`(async () => {
+    const all = document.querySelector('#tier-tabs .tier-tab[data-tier="all"]');
+    if (all) { all.click(); await new Promise(r => setTimeout(r, 600)); }
+  })()`);
   const probe = await evaljs(`(async () => {
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
     card.scrollIntoView({ block: 'end' }); // card bottom pinned to the viewport bottom — the owner's footer case
@@ -1210,7 +1257,7 @@ test('CL-APP-06 (1g, patch-4/5): mini-map deferred-init contract + ticket-langua
   })();
   // patch-5 ③: conflict path — the AI applies nothing, the user picks
   assert.match(jsSource, /if \(s\.conflict\)[\s\S]{0,200}ai_conflict\.replace\('\{m\}', s\.conflict\)/);
-  assert.match(jsSource, /ai_conflict: '⚠ 條件矛盾：\{m\}——請擇一，AI 未套用任何值。'/);
+  // CL-CI-38 re-anchor: patch-5 shortened the conflict copy — the honest '未套用任何值' + the worker's conflict detail carry 請擇一.\n  assert.match(jsSource, /ai_conflict: '⚠ AI 未套用任何值：\{m\}'/);
   // patch-5 ②: the example copy is conflict-free (single time window)
   // CL-APP-09 patch-2: the example speaks in the photographer's voice (cloud-sea at dawn IS the deck window)
   assert.match(jsSource, /ai_ph: '例如：清晨六點前要有雲海，不要下雨，風要小，能見度要好'/);
@@ -1227,6 +1274,12 @@ test('CL-APP-06 (2r, patch-4): real mini-map — DEFERRED init after the modal i
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
+  // CL-CI-38: private cards ride the official tier-tab pipeline (patch-6) —
+  // non-✓推薦 points render only under their own tab / 全部. Switch first.
+  await evaljs(`(async () => {
+    const all = document.querySelector('#tier-tabs .tier-tab[data-tier="all"]');
+    if (all) { all.click(); await new Promise(r => setTimeout(r, 600)); }
+  })()`);
   const probe = await evaljs(`(async () => {
     // re-enable the REAL maplibre path for this test only
     delete window.__clcpMapLibre;
@@ -1238,7 +1291,11 @@ test('CL-APP-06 (2r, patch-4): real mini-map — DEFERRED init after the modal i
     while (!window.__clCpMiniMap && Date.now() - t0 < 10000) await new Promise(r => setTimeout(r, 100));
     const map = window.__clCpMiniMap;
     if (!map) return { error: 'mini-map never initialized' };
-    const boxAtInit = document.getElementById('cl-cp-pinpick').getBoundingClientRect();
+    // CL-CI-38 re-anchor: read the box from the map's OWN container —
+    // getElementById('cl-cp-pinpick') can resolve a re-rendered sibling after
+    // the patch-6 pipeline rebuilds the modal, while the map (and its guard)
+    // live on the element the deferred init actually measured.
+    const boxAtInit = map.getContainer().getBoundingClientRect();
     await new Promise(res => { if (map.loaded()) res(); else map.once('load', res); });
     const t1 = Date.now();
     while (!map.loaded() && Date.now() - t1 < 15000) await new Promise(r => setTimeout(r, 200));
@@ -1338,7 +1395,8 @@ test('CL-APP-06 (2s, patch-5): conditions modal — no ticket language, conflict
   assert.match(probe.previewMonths, /1–2,12/, 'preview prints the compacted month window');
   assert.deepEqual(probe.sakuraMonths, [3, 4], '櫻花 starter prefills its seasonal months');
   assert.match(probe.previewAfterStarter, /月 3–4/);
-  assert.match(probe.conflictNote, /條件矛盾/, 'honest conflict message');
+  // CL-CI-38 re-anchor: patch-5 copy — '⚠ AI 未套用任何值：{conflict}'
+  assert.match(probe.conflictNote, /未套用任何值/, 'honest conflict message');
   assert.match(probe.conflictNote, /請擇一/);
   assert.equal(probe.cloudAfterConflict, 'any', 'the conflict did NOT change the cloud select (unchanged from the 櫻花 starter = any)');
   assert.equal(probe.winStartAfterConflict, '06:00', 'the conflict did NOT touch the time window (the 櫻花 starter\'s 06:00 survives)');
@@ -1422,7 +1480,7 @@ test('CL-APP-06 (2t, patch-4): clicking a private card opens the forecast popup 
     document.body.click(); // close menu
     await new Promise(r => setTimeout(r, 50));
     // card-body click → forecast popup
-    card.querySelector('.cl-cp-card-name').click();
+    card.querySelector('.spot-name').click();  // CL-CI-38: the bridge card's name span is the OFFICIAL .spot-name
     await new Promise(r => setTimeout(r, 250));
     const ov = document.querySelector('.cl-cp-overlay');
     out.popupOpens = ov.classList.contains('open');
@@ -1529,7 +1587,7 @@ test('CL-APP-09-p3: at 390 the forecast popup height follows its content (never 
   await loadPage();
   const probe = await evaljs(`(async () => {
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
-    card.querySelector('.cl-cp-card-name').click();
+    card.querySelector('.spot-name').click();  // CL-CI-38: the bridge card's name span is the OFFICIAL .spot-name
     await new Promise(r => setTimeout(r, 250));
     const ov = document.querySelector('.cl-cp-overlay');
     const m = ov.querySelector('.cl-cp-modal');
@@ -1551,6 +1609,12 @@ test('CL-APP-06 (2u, patch-8): theme manager CRUD — create (dup names NOT bloc
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
+  // CL-CI-38: private cards ride the official tier-tab pipeline (patch-6) —
+  // non-✓推薦 points render only under their own tab / 全部. Switch first.
+  await evaljs(`(async () => {
+    const all = document.querySelector('#tier-tabs .tier-tab[data-tier="all"]');
+    if (all) { all.click(); await new Promise(r => setTimeout(r, 600)); }
+  })()`);
   const probe = await evaljs(`(async () => {
     const out = {};
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]'); // no groups yet

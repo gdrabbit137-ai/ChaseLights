@@ -59,22 +59,23 @@ test('CL-APP-09p6 (1a): app.js — the official renderer + pipeline accept priva
   assert.match(htmlSource, /assets\/app\.js\?v=clui119/); // CL-UI-110/111 stamp advance (CL-INT-212 re-anchor)
 });
 
-test('CL-APP-09p6 (1b): custom-places.js — cards render via the bridge; the coordinate subtitle and the compact ✗ row are gone', () => {
+test('CL-APP-09p6 (1b): custom-places.js — cards render via the bridge; patch-9 coord line rides the card, homegrown ✗ row stays retired', () => {
   assert.match(cpSource, /CLForecastRenderers\.createCard/);
   assert.match(cpSource, /cardRows/);
   assert.match(cpSource, /chaselights:cp-data/);
   // the homegrown compact card row (✗ + 雨 on its own mini anatomy) is retired
   assert.doesNotMatch(cpSource, /function cpCardRow\(/);
-  // bare coordinates never sit on a card face again (popup header keeps the
-  // patch-3 owner-approved meta line — exactly one cpMetaLine call site)
-  assert.doesNotMatch(cpSource, /cl-cp-coord/);
+  // CL-CI-38 re-anchor: the patch-9 coord meta line (coords @3dp · elevation
+  // · GMT±n) rides the CARD face via postMount (same anatomy the cl-app-06
+  // (2b) pin requires); the popup header keeps the patch-3 cpMetaLine.
+  assert.match(cpSource, /cl-cp-coord/);
   assert.equal((cpSource.match(/cpMetaLine\(/g) || []).length, 2, 'cpMetaLine survives only as the popup meta line (def + call)');
   // trial-expired / pending special states keep their honest dedicated cards
   // (no verdict exists → they ride the 全部 tab only)
   assert.match(cpSource, /function isSpecialCard/);
   assert.match(cpSource, /cpActiveTier/);
   // stamps
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09g/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09h/);
   assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09e/);
 });
 
@@ -285,7 +286,7 @@ test('CL-APP-09p6 (2c): 私人 view shows private cards only, filtered by the SA
   await evaljs(`(function(){var b=document.querySelector('.cl-cp-view-tab[data-cp-view="all"]');b.click();})()`);
 });
 
-test('CL-APP-09p6 (2d): the private card carries the OFFICIAL anatomy — no coordinate subtitle, official ✗ verdict row', async () => {
+test('CL-APP-09p6 (2d): the private card carries the OFFICIAL anatomy — patch-9 coord line + per-group tier rows', async () => {
   await loadPage();
   // the ✗ card only exists under the 全部 tier tab (that is the fix working)
   await evaljs(`(function(){document.querySelector('.tier-tab[data-tier="all"]').click();})()`);
@@ -313,11 +314,26 @@ test('CL-APP-09p6 (2d): the private card carries the OFFICIAL anatomy — no coo
   assert.ok(probe.a.rowText.includes('城市景觀'), 'subject short name rides the row');
   assert.ok(probe.a.pills.some(p => /13 m/.test(p)), 'elevation pill like official cards');
   assert.equal(probe.a.tools.length, 3, 'three tool buttons (題材/地圖/天氣圖)');
-  assert.ok(!probe.a.coord, 'NO bare coordinates on the card face');
-  assert.ok(probe.a.noCompactTierRow, 'no homegrown compact badge row');
+  // CL-CI-38 re-anchor: the patch-9 coord meta line (coords @3dp · elevation
+  // · GMT±n) rides the card face — same anatomy the cl-app-06 (2b) pin
+  // requires for private cards.
+  assert.ok(probe.a.coord, 'patch-9 coord meta line rides the card face');
+  // CL-CI-38 re-anchor: the per-group tier row badge (.cl-cp-tier inside the
+  // official subject row) is the patch-8 owner-ruled anatomy — the RETIRED
+  // thing was the standalone header chip (.spot-title-group .cl-cp-tier).
+  const tierInRow = await evaljs(`(() => {
+    const find=n=>[...document.querySelectorAll('#spots-container .cl-cp-card')].find(c=>(c.textContent||'').includes(n));
+    const a=find('上班大樓天台');
+    if (!a) return { err: 'no card' };
+    const row = a.querySelector('.cl-subject-row');
+    return { inRow: !!(row && row.querySelector('.cl-cp-tier')),
+      inHead: !!a.querySelector('.spot-title-group .cl-cp-tier') };
+  })()`);
+  assert.equal(tierInRow.inRow, true, 'per-group tier badge rides the subject ROW (patch-8)');
+  assert.equal(tierInRow.inHead, false, 'no standalone header chip (the retired compact row stays retired)');
   assert.match(probe.b.tier, /✗/, '✗ private card badge = official ✗');
   assert.ok(/雨/.test(probe.b.rowText || (probe.b.rowText || '')), '✗ verdict + short reason live in the official verdict row');
-  assert.ok(!probe.b.coord, 'NO bare coordinates on the ✗ card either');
+  assert.ok(probe.b.coord, 'patch-9 coord meta line rides the ✗ card face too');
 });
 
 test('CL-APP-09p6 (2e): 390 side-by-side screenshot — official vs private card anatomy parity', async () => {

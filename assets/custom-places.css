@@ -231,6 +231,8 @@ body.cl-cp-lock{overflow:hidden}
 .cl-cp-th-empty{font-size:12px;color:var(--cl-text-3);padding:var(--cl-sp-2) 0}
 .cl-cp-th-cap{font-size:12px;color:var(--cl-text-3);padding:var(--cl-sp-2) 0;text-align:center}
 .cl-cp-row-name{max-width:42%}
++/* CL-CI-38: the ✗/shoot tail word on a private card per-group row */
++.cl-cp-row-tail{flex:1;text-align:right;color:var(--cl-red-text);font-weight:600;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* delete confirm — the menu's ONLY red item */
 .cl-cp-delbox{padding:var(--cl-sp-4);border:1px solid var(--cl-red-border);background:var(--cl-red-bg);border-radius:var(--cl-r-md)}
 .cl-cp-delbox .d1{color:var(--cl-red-text);font-weight:600;font-size:14px}

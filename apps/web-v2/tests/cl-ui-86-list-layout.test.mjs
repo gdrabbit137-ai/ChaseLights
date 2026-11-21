@@ -98,7 +98,7 @@ test('CL-UI-86 (4): subject rows get the mockup scan-line anatomy (green dot, mo
   // The pinned render expression (CL-UI-69 anatomy) is untouched — CL-APP-09
   // patch-4: it lives in the SHARED clSubjectRowLine builder now.
   const rowLineBlock = appSource.slice(appSource.indexOf('function clSubjectRowLine'), appSource.indexOf('function clTierRowLine'));
-  assert.match(rowLineBlock, /<span class="cl-subject-name">\$\{esc\(entry&&entry\.name\)\}<\/span><span class="cl-subject-colon">\$\{colonSep\(\)\}<\/span><span class="cl-subject-window">/);
+  assert.match(rowLineBlock, /<span class="cl-subject-name\$\{cpName\}">\$\{esc\(entry&&entry\.name\)\}<\/span><span class="cl-subject-colon">\$\{colonSep\(\)\}<\/span><span class="cl-subject-window\$\{cpName\?' cl-cp-window':''\}">/);
 });
 
 // ---- (5) env pills + three equal bottom buttons ----

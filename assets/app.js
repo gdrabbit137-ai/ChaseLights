@@ -1599,7 +1599,14 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     function clSubjectRowLine(entry,spotId,hidden){
       const bell=`<button type="button" class="cl-rem-btn cl-rem-compact" data-rem-place="${esc(spotId)}"${entry&&entry.cc?` data-rem-cc="${esc(encodeURIComponent(JSON.stringify(entry.cc)))}"`:''} data-rem-compact="1"></button>`;
       const win=entry&&entry.stamp!=null?esc(entry.stamp):esc(formatHourSegments((entry&&entry.window)||[]));
-      return `<div class="cl-subject-row${hidden?' cl-subject-extra':''}"${hidden?' hidden':''}><span class="cl-subject-name">${esc(entry&&entry.name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window">${win}</span>${bell}</div>`;
+      // CL-CI-38: a private point's per-group card row carries the WORKER's
+      // stored group verdict as a tier badge (patch-8 owner-ruled per-group
+      // rows ride the official anatomy — badge + name + window/tail + 🔔).
+      // Official curated rows pass no cpTierCls and render byte-identical.
+      const cpTier=(entry&&entry.cpTierCls)?`<span class="cl-cp-tier ${esc(entry.cpTierCls)}">${esc(entry.cpMark||'')}</span>`:'';
+      const cpName=(entry&&entry.cpRowName)?' cl-cp-row-name':'';
+      const cpTail=(entry&&entry.cpTail)?`<span class="cl-cp-row-tail">${esc(entry.cpTail)}</span>`:'';
+      return `<div class="cl-subject-row${hidden?' cl-subject-extra':''}"${hidden?' hidden':''}>${cpTier}<span class="cl-subject-name${cpName}">${esc(entry&&entry.name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window${cpName?' cl-cp-window':''}">${win}</span>${cpTail}${bell}</div>`;
     }
     // CL-UI-91: the tier identity row — tier (+ short note) in the name slot,
     // the next qualifying window stamp in the window slot, ONE row anatomy.
@@ -1685,7 +1692,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // shootable or the layer is unavailable), the ✗不宜·短因 row when the
       // tier is not_recommended. The retired 「本日最佳題材」 line is gone:
       // every card in a list shows one format.
-      const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;const key=canon(tris);if(!seen.has(key))seen.set(key,{name:tris[currentLang]||tris['zh-TW']||'',window:[],cc:s.cc||null});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
+      const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;const key=canon(tris);if(!seen.has(key))seen.set(key,{name:tris[currentLang]||tris['zh-TW']||'',window:[],cc:s.cc||null,cpTierCls:s.cpTierCls||null,cpMark:s.cpMark||null,cpTail:s.cpTail||null,cpRowName:!!s.cpRowName,stamp:s.stamp||null});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
       const clSubjectRowHtml=(entry,hidden)=>clSubjectRowLine(entry,spot.spot_id,hidden);
       // CL-UI-91 (owner): tier rows ride the SAME cl-subject-row anatomy —
       // tier + short note in the name slot, the next qualifying window stamp
@@ -1700,7 +1707,8 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // stamp rows.
       const clSubjectExtra=scEntries.slice(3);
       const clSubjectMoreBtn=clSubjectExtra.length?`<button type="button" class="cl-subject-more" data-sc-more aria-expanded="false">${esc(d().clui69_more_subjects.replace('{n}',clSubjectExtra.length))}</button>`:'';
-      const scPassedNote=(scTier==='shootable'||scTier==='not_recommended')&&scTierNote&&scEntries.length>0;
+      const scHasCpRows=scEntries.some(e=>e&&e.cpTierCls);
+      const scPassedNote=(scTier==='shootable'||scTier==='not_recommended')&&scTierNote&&scEntries.length>0&&!scHasCpRows;
       // CL-UI-91: the no-window tier identity is ONE row — tier (+ short
       // note/reason) with the next qualifying window stamp in the window slot.
       const clNoWinStamp=(v2Best&&v2Best.nextLocal)?nextWindowStamp(v2Best.nextLocal,spot.timezone):'';

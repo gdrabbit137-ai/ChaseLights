@@ -68,6 +68,10 @@ jobs:
             # (w4-node); missing here fails that file at module load in CI
             # (11 tests unregistered -> 600-11+1 file-fail = 590 total).
             /reminders.html
+            # CL-CI-38: sources.html is read at module load by
+            # cl-ui-28-site-nav.test.mjs and cl-ui-101-sources-page.test.mjs
+            # (w4-node); missing here fails BOTH files with ENOENT
+            /sources.html
             # CL-CI-37: cl-ui-58-reminders.test.mjs reads
             # workers/api/src/index.js and cl-ui-57-favorites-isolation-profile
             # .test.mjs reads workers/api/src/{index,auth}.js plus pins the
