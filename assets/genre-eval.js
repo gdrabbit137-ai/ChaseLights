@@ -66,7 +66,7 @@
      三語包，和 reminders-page.js 同一做法），只用 metric id 對照，不重複造詞。 */
   const GENRE_SHORT = {
     blue_hour_city: {'zh-TW':'藍調','en':'Blue hour','ja':'ブルーアワー'},
-    blue_tears: {'zh-TW':'藍眼淚','en':'Blue tears','ja':'藍眼淚'},
+    blue_tears: {'zh-TW':'藍眼淚','en':'Blue tears','ja':'青の涙'},
     city_night: {'zh-TW':'夜景','en':'City night','ja':'夜景'},
     cloud_sea: {'zh-TW':'雲海','en':'Cloud sea','ja':'雲海'},
     drift_ice: {'zh-TW':'流冰','en':'Drift ice','ja':'流氷'},
