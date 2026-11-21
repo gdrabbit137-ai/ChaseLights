@@ -6,7 +6,7 @@
   "ja": "交通部観光署 北海岸及観音山国家風景区管理処"
  },
  "stream_format": "youtube_live",
- "stream_format_note": "查證結論（CL-UI-111／CL-UI-119）：六支皆為機關官方 YouTube 24/7 直播（非 HLS／攝影機原始串流），依 owner 裁示以官方 YouTube iframe 內嵌播放（點擊才載，零預載），面板另附「在 YouTube 開啟」新視窗備用連結。tw-008／tw-010／tw-073／tw-074／tw-161：北觀國家風景區管理處官方頻道（titles 帶 Live Camera／即時影像，oembed 2026-11-17 驗證）。tw-001（大屯山）：陽明山國家公園管理處官方頻道「陽明山國家公園管理處INFO」（@ymsnpinfo），oembed 2026-11-21 驗證，watch 頁 isLive:true＋hlsManifestUrl，為 YMSNP 官網即時影像專區唯一照向大屯山主峰（助航站）的直播。來源機關不同：署名改為 per-entry source_label_i18n（每筆三語完整顯示字串），頂層欄位僅供未標註 entry 之 fallback。",
+ "stream_format_note": "查證結論（CL-UI-111／CL-UI-119／CL-UI-120）：九支皆為機關官方 YouTube 24/7 直播（非 HLS／攝影機原始串流），依 owner 裁示以官方 YouTube iframe 內嵌播放（點擊才載，零預載），面板另附「在 YouTube 開啟」新視窗備用連結。tw-008／tw-010／tw-073／tw-074／tw-161：北觀國家風景區管理處官方頻道（titles 帶 Live Camera／即時影像，oembed 2026-11-17 驗證）。tw-001（大屯山）：陽明山國家公園管理處官方頻道「陽明山國家公園管理處INFO」（@ymsnpinfo），oembed 2026-11-21 驗證，watch 頁 isLive:true＋hlsManifestUrl，為 YMSNP 官網即時影像專區唯一照向大屯山主峰（助航站）的直播。tw-002（象山）／tw-179（碧山巖）／tw-005（大稻埕碼頭）：臺北市政府觀光傳播局官方頻道「Taipei Travel Live Cam 台北觀光即時影像」（@taipeitravelofficial，channelId UCJLjpq7pTJRbP3vtx0LxB9Q），oembed＋watch 頁 isLive:true 於 2026-11-21 驗證；該頻道的 24/7 直播會換檔輪替 video_id（同一攝影機換新直播 ID），掛載時以查證當下仍 isLive:true 的 ID 為準（詳見各 entry note），線路退役需重查替換。來源機關不同：署名改為 per-entry source_label_i18n（每筆三語完整顯示字串），頂層欄位僅供未標註 entry 之 fallback。",
  "entries": {
   "tw-001": {
    "video_id": "6ghffcNt3Nw",
@@ -86,6 +86,48 @@
     "en": "Live camera: North Coast & Guanyinshan National Scenic Area Administration, MOTC",
     "ja": "映像提供：交通部観光署 北海岸及観音山国家風景区管理処"
    }
+  },
+  "tw-002": {
+   "video_id": "z_fY1pj1VBw",
+   "thumb_url": "https://i.ytimg.com/vi/z_fY1pj1VBw/hqdefault.jpg",
+   "watch_url": "https://www.youtube.com/watch?v=z_fY1pj1VBw",
+   "official_page": "https://www.youtube.com/@taipeitravelofficial",
+   "title_at_verification": "【Taipei Live Cam】象山看台北 - 4K即時影像 | Overlooking Taipei at the top of Xiangshan | 象山から望む台北 | Taipei 101",
+   "verified_at": "2026-11-21",
+   "source_label_i18n": {
+    "zh-TW": "影像來源：臺北市政府觀光傳播局",
+    "en": "Live camera: Taipei City Government Department of Information and Tourism",
+    "ja": "映像提供：台北市観光伝播局"
+   },
+   "note": "臺北市政府觀光傳播局官方頻道「Taipei Travel Live Cam 台北觀光即時影像」（@taipeitravelofficial）的象山六巨石攝影平台 4K 直播，畫面望向台北 101／台北盆地；oembed＋watch 頁 isLive:true 於 2026-11-21 驗證。"
+  },
+  "tw-179": {
+   "video_id": "uvwfYzwY8tg",
+   "thumb_url": "https://i.ytimg.com/vi/uvwfYzwY8tg/hqdefault.jpg",
+   "watch_url": "https://www.youtube.com/watch?v=uvwfYzwY8tg",
+   "official_page": "https://www.youtube.com/@taipeitravelofficial",
+   "title_at_verification": "【Taipei Live Cam】碧山巖 - 4K即時影像 | Bishan Temple | 碧山巌開漳聖王廟 | TAIPEI 101",
+   "verified_at": "2026-11-21",
+   "source_label_i18n": {
+    "zh-TW": "影像來源：臺北市政府觀光傳播局",
+    "en": "Live camera: Taipei City Government Department of Information and Tourism",
+    "ja": "映像提供：台北市観光伝播局"
+   },
+   "note": "臺北市政府觀光傳播局官方頻道的碧山巖（開漳聖王廟）4K 直播，畫面俯瞰台北盆地夜景；oembed＋watch 頁 isLive:true 於 2026-11-21 驗證。"
+  },
+  "tw-005": {
+   "video_id": "Ndo_8RuefH4",
+   "thumb_url": "https://i.ytimg.com/vi/Ndo_8RuefH4/hqdefault.jpg",
+   "watch_url": "https://www.youtube.com/watch?v=Ndo_8RuefH4",
+   "official_page": "https://www.youtube.com/@taipeitravelofficial",
+   "title_at_verification": "【Taipei Live Cam】大稻埕碼頭 - 4K即時影像 | Taipei Dadaocheng Wharf | 台北大稲埕埠頭",
+   "verified_at": "2026-11-21",
+   "source_label_i18n": {
+    "zh-TW": "影像來源：臺北市政府觀光傳播局",
+    "en": "Live camera: Taipei City Government Department of Information and Tourism",
+    "ja": "映像提供：台北市観光伝播局"
+   },
+   "note": "臺北市政府觀光傳播局官方頻道的大稻埕碼頭（淡水河畔）4K 直播。注意：該頻道 24/7 直播會輪替 video_id——查證指定的 3Sf6rJgyObs 已於 2026-07-10 結束（watch 頁 isLiveNow:false），掛載時改用頻道直播頁（/@taipeitravelofficial/streams）查得、當下 isLive:true 的 Ndo_8RuefH4（oembed 2026-11-21 驗證）；線路退役需重查替換。"
   }
  },
  "pending_entries": {
