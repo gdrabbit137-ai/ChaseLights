@@ -1,0 +1,273 @@
+{
+  "genre_templates": {
+    "alpenglow": "アルペングロー（山暉き）",
+    "blue_hour_city": "都市ブルーアワー",
+    "city_night": "都市夜景",
+    "cloud_sea": "雲海",
+    "firefly": "ホタル",
+    "general": "撮影可",
+    "geological_landform": "地質地形（峡谷／アーチ／奇岩）",
+    "golden_hour": "ゴールデンアワー",
+    "misty_forest": "霧の森",
+    "moonlit_scene": "月光景観",
+    "mountain_view": "山の展望",
+    "night_sky": "星空",
+    "overcast_soft": "曇天柔光",
+    "overlook": "眺望",
+    "reflection": "水面反射",
+    "seasonal_plant": "季節の植物景",
+    "snow_scene": "雪景色",
+    "star_trails": "星の軌跡",
+    "sunrise": "日の出（汎用）",
+    "sunset": "夕景（汎用）",
+    "waterfall": "滝（水量型）"
+  },
+  "metrics": {
+    "cloud_cover_low": {
+      "label": "下層雲",
+      "unit": "%"
+    },
+    "cloud_cover_mid_and_high": {
+      "label": "中上層雲",
+      "unit": "%"
+    },
+    "cloud_cover_total": {
+      "label": "雲量",
+      "unit": "%"
+    },
+    "wind_speed_10m": {
+      "label": "風速",
+      "unit": "m/s"
+    },
+    "wind_speed_850hpa": {
+      "label": "850hPa風速",
+      "unit": "m/s"
+    },
+    "precipitation": {
+      "label": "降水",
+      "unit": "mm"
+    },
+    "aod_550nm": {
+      "label": "エアロゾル光学的厚度",
+      "unit": ""
+    },
+    "visibility": {
+      "label": "視程",
+      "unit": "km"
+    },
+    "relative_humidity_2m": {
+      "label": "相対湿度",
+      "unit": "%"
+    },
+    "relative_humidity_925hpa": {
+      "label": "925hPa湿度",
+      "unit": "%"
+    },
+    "relative_humidity_850hpa": {
+      "label": "850hPa湿度",
+      "unit": "%"
+    },
+    "temperature_2m": {
+      "label": "気温",
+      "unit": "°C"
+    },
+    "temperature_delta_850_925_c": {
+      "label": "逆転指標",
+      "unit": "°C"
+    },
+    "lcl_height_m_agl": {
+      "label": "雲底高度(LCL)",
+      "unit": "m"
+    },
+    "cloud_base_height": {
+      "label": "雲底高度窓",
+      "unit": "m"
+    },
+    "sunrise_time_window": {
+      "label": "日の出窓",
+      "unit": ""
+    },
+    "sunset_window": {
+      "label": "日没窓",
+      "unit": ""
+    },
+    "blue_hour_window": {
+      "label": "ブルーアワー窓",
+      "unit": ""
+    },
+    "golden_hour_window": {
+      "label": "ゴールデンアワー窓",
+      "unit": ""
+    },
+    "astronomical_darkness": {
+      "label": "天文学的暗闇",
+      "unit": ""
+    },
+    "moon_altitude": {
+      "label": "月高度",
+      "unit": "°"
+    },
+    "moon_illumination_fraction": {
+      "label": "月照率",
+      "unit": "%"
+    },
+    "moon_target_separation_deg": {
+      "label": "月と対象の角距離",
+      "unit": "°"
+    },
+    "moon_illuminance_proxy": {
+      "label": "月照強度",
+      "unit": ""
+    },
+    "galactic_core_altitude": {
+      "label": "銀河中心高度",
+      "unit": "°"
+    },
+    "seasonal_state": {
+      "label": "季節状態",
+      "unit": ""
+    },
+    "water_surface_state": {
+      "label": "水面状態",
+      "unit": ""
+    },
+    "water_reflection_state": {
+      "label": "水面の静けさ",
+      "unit": ""
+    },
+    "landform_present": {
+      "label": "地形存在",
+      "unit": ""
+    },
+    "river_flow_state": {
+      "label": "河川流量状態",
+      "unit": ""
+    },
+    "spring_tide_state": {
+      "label": "大潮帯の外",
+      "unit": ""
+    },
+    "venue_open_window": {
+      "label": "営業時間窓",
+      "unit": ""
+    },
+    "fog_state": {
+      "label": "霧状態",
+      "unit": ""
+    },
+    "soft_light_window": {
+      "label": "柔光窓",
+      "unit": ""
+    },
+    "morning_window": {
+      "label": "朝の窓",
+      "unit": ""
+    },
+    "city_night_window": {
+      "label": "撮影時間帯外",
+      "unit": ""
+    },
+    "daylight_window": {
+      "label": "撮影時間帯外",
+      "unit": ""
+    },
+    "cloud_cover_mid": {
+      "label": "中層雲",
+      "unit": "%"
+    },
+    "legacy_drift_ice": {
+      "label": "流氷なし",
+      "unit": ""
+    },
+    "legacy_long_exposure": {
+      "label": "長時間露出の条件外",
+      "unit": ""
+    },
+    "legacy_mountain_view": {
+      "label": "条件が満たされず",
+      "unit": ""
+    },
+    "legacy_reflection": {
+      "label": "条件が満たされず",
+      "unit": ""
+    },
+    "legacy_tide": {
+      "label": "潮位が適域外",
+      "unit": ""
+    },
+    "light_direction": {
+      "label": "光の向きが悪い",
+      "unit": ""
+    },
+    "light_window": {
+      "label": "日照時間帯外",
+      "unit": ""
+    },
+    "moonrise_moonset_separation_h": {
+      "label": "月の位置",
+      "unit": "h"
+    },
+    "nearshore_surf_state": {
+      "label": "うねり",
+      "unit": ""
+    },
+    "noctiluca_concentration": {
+      "label": "夜光虫が少ない",
+      "unit": ""
+    },
+    "relative_humidity_600hpa": {
+      "label": "湿度が適域外",
+      "unit": "%"
+    },
+    "relative_humidity_700hpa": {
+      "label": "湿度が適域外",
+      "unit": "%"
+    },
+    "temperature_delta_700_600_c": {
+      "label": "大気条件外",
+      "unit": "°C"
+    },
+    "temperature_delta_850_700_c": {
+      "label": "大気条件外",
+      "unit": "°C"
+    },
+    "volcanic_activity": {
+      "label": "火山の条件外",
+      "unit": ""
+    },
+    "wind_speed_600hpa": {
+      "label": "強風",
+      "unit": "m/s"
+    },
+    "wind_speed_700hpa": {
+      "label": "強風",
+      "unit": "m/s"
+    },
+    "alpenglow_window": {
+      "label": "アルペングロー帯外",
+      "unit": ""
+    },
+    "clear_streak_hours": {
+      "label": "晴れ窓不足",
+      "unit": ""
+    },
+    "snow_cover_state": {
+      "label": "雪なし",
+      "unit": ""
+    },
+    "snow_depth": {
+      "label": "積雪なし",
+      "unit": ""
+    },
+    "snowfall": {
+      "label": "降雪なし",
+      "unit": ""
+    }
+  },
+  "status_terms": {
+    "REQUIRED": "必須",
+    "QUALITY": "加点",
+    "BLOCKER": "阻害",
+    "UNKNOWN": "未確認"
+  }
+}

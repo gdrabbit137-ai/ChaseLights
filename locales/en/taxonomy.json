@@ -1,0 +1,273 @@
+{
+  "genre_templates": {
+    "alpenglow": "Alpenglow",
+    "blue_hour_city": "City blue hour",
+    "city_night": "City night view",
+    "cloud_sea": "Cloud sea",
+    "firefly": "Firefly",
+    "general": "Shootable",
+    "geological_landform": "Geological landform (canyon / arch / rock formations)",
+    "golden_hour": "Golden hour",
+    "misty_forest": "Misty Forest",
+    "moonlit_scene": "Moonlit scene",
+    "mountain_view": "Mountain view",
+    "night_sky": "Night sky",
+    "overcast_soft": "Overcast soft light",
+    "overlook": "Overlook",
+    "reflection": "Water reflection",
+    "seasonal_plant": "Seasonal plant scene",
+    "snow_scene": "Snow scene",
+    "star_trails": "Star trails",
+    "sunrise": "Sunrise (generic)",
+    "sunset": "Sunset (generic)",
+    "waterfall": "Waterfall (flow-based)"
+  },
+  "metrics": {
+    "cloud_cover_low": {
+      "label": "Low cloud",
+      "unit": "%"
+    },
+    "cloud_cover_mid_and_high": {
+      "label": "Mid+high cloud",
+      "unit": "%"
+    },
+    "cloud_cover_total": {
+      "label": "Total cloud",
+      "unit": "%"
+    },
+    "wind_speed_10m": {
+      "label": "Wind",
+      "unit": "m/s"
+    },
+    "wind_speed_850hpa": {
+      "label": "850hPa wind",
+      "unit": "m/s"
+    },
+    "precipitation": {
+      "label": "Precipitation",
+      "unit": "mm"
+    },
+    "aod_550nm": {
+      "label": "Aerosol optical depth",
+      "unit": ""
+    },
+    "visibility": {
+      "label": "Visibility",
+      "unit": "km"
+    },
+    "relative_humidity_2m": {
+      "label": "Humidity",
+      "unit": "%"
+    },
+    "relative_humidity_925hpa": {
+      "label": "925hPa humidity",
+      "unit": "%"
+    },
+    "relative_humidity_850hpa": {
+      "label": "850hPa humidity",
+      "unit": "%"
+    },
+    "temperature_2m": {
+      "label": "Temperature",
+      "unit": "°C"
+    },
+    "temperature_delta_850_925_c": {
+      "label": "Inversion index",
+      "unit": "°C"
+    },
+    "lcl_height_m_agl": {
+      "label": "Cloud base (LCL)",
+      "unit": "m"
+    },
+    "cloud_base_height": {
+      "label": "Cloud base window",
+      "unit": "m"
+    },
+    "sunrise_time_window": {
+      "label": "Sunrise window",
+      "unit": ""
+    },
+    "sunset_window": {
+      "label": "Sunset window",
+      "unit": ""
+    },
+    "blue_hour_window": {
+      "label": "Blue hour window",
+      "unit": ""
+    },
+    "golden_hour_window": {
+      "label": "Golden hour window",
+      "unit": ""
+    },
+    "astronomical_darkness": {
+      "label": "Astronomical darkness",
+      "unit": ""
+    },
+    "moon_altitude": {
+      "label": "Moon altitude",
+      "unit": "°"
+    },
+    "moon_illumination_fraction": {
+      "label": "Moon illumination",
+      "unit": "%"
+    },
+    "moon_target_separation_deg": {
+      "label": "Moon separation",
+      "unit": "°"
+    },
+    "moon_illuminance_proxy": {
+      "label": "Moon illumination proxy",
+      "unit": ""
+    },
+    "galactic_core_altitude": {
+      "label": "Galactic core altitude",
+      "unit": "°"
+    },
+    "seasonal_state": {
+      "label": "Seasonal state",
+      "unit": ""
+    },
+    "water_surface_state": {
+      "label": "Water surface state",
+      "unit": ""
+    },
+    "water_reflection_state": {
+      "label": "Water reflection state",
+      "unit": ""
+    },
+    "landform_present": {
+      "label": "Landform present",
+      "unit": ""
+    },
+    "river_flow_state": {
+      "label": "River flow state",
+      "unit": ""
+    },
+    "spring_tide_state": {
+      "label": "outside the spring-tide band",
+      "unit": ""
+    },
+    "venue_open_window": {
+      "label": "Venue open window",
+      "unit": ""
+    },
+    "fog_state": {
+      "label": "Fog state",
+      "unit": ""
+    },
+    "soft_light_window": {
+      "label": "Soft light window",
+      "unit": ""
+    },
+    "morning_window": {
+      "label": "Morning window",
+      "unit": ""
+    },
+    "city_night_window": {
+      "label": "outside shooting window",
+      "unit": ""
+    },
+    "daylight_window": {
+      "label": "outside shooting window",
+      "unit": ""
+    },
+    "cloud_cover_mid": {
+      "label": "Mid cloud",
+      "unit": "%"
+    },
+    "legacy_drift_ice": {
+      "label": "no drift ice",
+      "unit": ""
+    },
+    "legacy_long_exposure": {
+      "label": "long-exposure conditions off",
+      "unit": ""
+    },
+    "legacy_mountain_view": {
+      "label": "conditions not met",
+      "unit": ""
+    },
+    "legacy_reflection": {
+      "label": "conditions not met",
+      "unit": ""
+    },
+    "legacy_tide": {
+      "label": "tide not in range",
+      "unit": ""
+    },
+    "light_direction": {
+      "label": "wrong light direction",
+      "unit": ""
+    },
+    "light_window": {
+      "label": "outside daylight hours",
+      "unit": ""
+    },
+    "moonrise_moonset_separation_h": {
+      "label": "moon position",
+      "unit": "h"
+    },
+    "nearshore_surf_state": {
+      "label": "heavy surf",
+      "unit": ""
+    },
+    "noctiluca_concentration": {
+      "label": "bioluminescence too sparse",
+      "unit": ""
+    },
+    "relative_humidity_600hpa": {
+      "label": "humidity not in range",
+      "unit": "%"
+    },
+    "relative_humidity_700hpa": {
+      "label": "humidity not in range",
+      "unit": "%"
+    },
+    "temperature_delta_700_600_c": {
+      "label": "atmosphere not in range",
+      "unit": "°C"
+    },
+    "temperature_delta_850_700_c": {
+      "label": "atmosphere not in range",
+      "unit": "°C"
+    },
+    "volcanic_activity": {
+      "label": "volcanic conditions off",
+      "unit": ""
+    },
+    "wind_speed_600hpa": {
+      "label": "strong wind",
+      "unit": "m/s"
+    },
+    "wind_speed_700hpa": {
+      "label": "strong wind",
+      "unit": "m/s"
+    },
+    "alpenglow_window": {
+      "label": "outside alpenglow band",
+      "unit": ""
+    },
+    "clear_streak_hours": {
+      "label": "clear window too short",
+      "unit": ""
+    },
+    "snow_cover_state": {
+      "label": "no snow",
+      "unit": ""
+    },
+    "snow_depth": {
+      "label": "no snow cover",
+      "unit": ""
+    },
+    "snowfall": {
+      "label": "no snowfall",
+      "unit": ""
+    }
+  },
+  "status_terms": {
+    "REQUIRED": "Required",
+    "QUALITY": "Quality",
+    "BLOCKER": "Blocker",
+    "UNKNOWN": "Unknown"
+  }
+}

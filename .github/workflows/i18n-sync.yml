@@ -1,0 +1,93 @@
+name: i18n-sync
+
+# CL-I18N-01: locale sidecar + incremental AI translation pipeline.
+# Deliberately isolated from the weather forecast pipeline: this workflow never
+# runs an evaluation, never touches condition thresholds and never re-pins the
+# canonical source lock. It only fires when human-readable source text changes.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "locales/**"
+      - "i18n/**"
+      - "data/v2/opportunities/**"
+      - "data/v2/copy/**"
+      - "data/v2/templates/**"
+      - "apps/web-v2/catalog.v2.json"
+      - "scripts/i18n_*.py"
+      - ".github/workflows/i18n-sync.yml"
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Comma-separated opportunity ids (empty = all changed)"
+        required: false
+        default: ""
+      offline:
+        description: "Run with the stub provider (no API call)"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: i18n-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Extract locale sidecar from canonical sources
+        run: python scripts/i18n_extract.py
+
+      - name: Incremental translation sync
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          ARGS=""
+          if [ -n "${{ github.event.inputs.only }}" ]; then ARGS="--only ${{ github.event.inputs.only }}"; fi
+          if [ "${{ github.event.inputs.offline }}" = "true" ]; then ARGS="$ARGS --offline"; fi
+          if [ -z "$GEMINI_API_KEY" ] && [ -z "$OPENROUTER_API_KEY" ]; then
+            echo "::notice::No translation API key configured; running offline stub (no-op on canonical strings)."
+            ARGS="$ARGS --offline"
+          fi
+          python scripts/i18n_sync.py $ARGS
+
+      - name: Static QA (key parity + long-locale title length)
+        run: python scripts/i18n_check.py
+
+      - name: Fail on non-empty review queue
+        run: |
+          python - <<'PY'
+          import json, sys
+          q = json.load(open("i18n/review_queue.json", encoding="utf-8"))
+          items = q.get("items", [])
+          if items:
+              print(f"review_queue has {len(items)} item(s) needing human review:")
+              for it in items[:10]:
+                  print(" -", it.get("opportunity_id"), it.get("review_reason"))
+              sys.exit(1)
+          print("review_queue empty")
+          PY
+
+      - name: Commit updated sidecar
+        run: |
+          git config user.name "chaselights-i18n-bot"
+          git config user.email "i18n-bot@chaselights.app"
+          git add locales i18n
+          if git diff --cached --quiet; then
+            echo "no locale changes"
+          else
+            git commit -m "CL-I18N-01: incremental locale sync"
+            git push
+          fi

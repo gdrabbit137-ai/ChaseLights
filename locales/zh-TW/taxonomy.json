@@ -1,0 +1,273 @@
+{
+  "genre_templates": {
+    "alpenglow": "日照金山",
+    "blue_hour_city": "城市藍調",
+    "city_night": "城市夜景",
+    "cloud_sea": "雲海",
+    "firefly": "螢火蟲",
+    "general": "可拍",
+    "geological_landform": "地質地景（峽谷／拱門／奇岩）",
+    "golden_hour": "金色時刻",
+    "misty_forest": "迷霧森林",
+    "moonlit_scene": "月光地景",
+    "mountain_view": "山景展望",
+    "night_sky": "星空",
+    "overcast_soft": "陰天柔光",
+    "overlook": "眺望",
+    "reflection": "水面倒影",
+    "seasonal_plant": "季節植物景",
+    "snow_scene": "雪景",
+    "star_trails": "星軌",
+    "sunrise": "日出（通用）",
+    "sunset": "日落（通用）",
+    "waterfall": "瀑布（水量型）"
+  },
+  "metrics": {
+    "cloud_cover_low": {
+      "label": "低雲",
+      "unit": "%"
+    },
+    "cloud_cover_mid_and_high": {
+      "label": "中高雲",
+      "unit": "%"
+    },
+    "cloud_cover_total": {
+      "label": "總雲量",
+      "unit": "%"
+    },
+    "wind_speed_10m": {
+      "label": "風速",
+      "unit": "m/s"
+    },
+    "wind_speed_850hpa": {
+      "label": "850hPa風速",
+      "unit": "m/s"
+    },
+    "precipitation": {
+      "label": "降水",
+      "unit": "mm"
+    },
+    "aod_550nm": {
+      "label": "氣膠光學厚度",
+      "unit": ""
+    },
+    "visibility": {
+      "label": "能見度",
+      "unit": "km"
+    },
+    "relative_humidity_2m": {
+      "label": "相對濕度",
+      "unit": "%"
+    },
+    "relative_humidity_925hpa": {
+      "label": "925hPa濕度",
+      "unit": "%"
+    },
+    "relative_humidity_850hpa": {
+      "label": "850hPa濕度",
+      "unit": "%"
+    },
+    "temperature_2m": {
+      "label": "氣溫",
+      "unit": "°C"
+    },
+    "temperature_delta_850_925_c": {
+      "label": "逆溫指標",
+      "unit": "°C"
+    },
+    "lcl_height_m_agl": {
+      "label": "雲底高度(LCL)",
+      "unit": "m"
+    },
+    "cloud_base_height": {
+      "label": "雲底高度窗",
+      "unit": "m"
+    },
+    "sunrise_time_window": {
+      "label": "日出窗口",
+      "unit": ""
+    },
+    "sunset_window": {
+      "label": "日落窗口",
+      "unit": ""
+    },
+    "blue_hour_window": {
+      "label": "藍調窗口",
+      "unit": ""
+    },
+    "golden_hour_window": {
+      "label": "黃金時刻窗",
+      "unit": ""
+    },
+    "astronomical_darkness": {
+      "label": "天文黑暗",
+      "unit": ""
+    },
+    "moon_altitude": {
+      "label": "月高角",
+      "unit": "°"
+    },
+    "moon_illumination_fraction": {
+      "label": "月照亮百分比",
+      "unit": "%"
+    },
+    "moon_target_separation_deg": {
+      "label": "月目標角距",
+      "unit": "°"
+    },
+    "moon_illuminance_proxy": {
+      "label": "月照強度",
+      "unit": ""
+    },
+    "galactic_core_altitude": {
+      "label": "銀河核心高度",
+      "unit": "°"
+    },
+    "seasonal_state": {
+      "label": "花季狀態",
+      "unit": ""
+    },
+    "water_surface_state": {
+      "label": "水面狀態",
+      "unit": ""
+    },
+    "water_reflection_state": {
+      "label": "水面平靜度",
+      "unit": ""
+    },
+    "landform_present": {
+      "label": "地形存在",
+      "unit": ""
+    },
+    "river_flow_state": {
+      "label": "河川流量狀態",
+      "unit": ""
+    },
+    "spring_tide_state": {
+      "label": "非大潮帶",
+      "unit": ""
+    },
+    "venue_open_window": {
+      "label": "營業時間窗",
+      "unit": ""
+    },
+    "fog_state": {
+      "label": "霧狀態",
+      "unit": ""
+    },
+    "soft_light_window": {
+      "label": "柔光時窗",
+      "unit": ""
+    },
+    "morning_window": {
+      "label": "晨窗",
+      "unit": ""
+    },
+    "city_night_window": {
+      "label": "非拍攝時段",
+      "unit": ""
+    },
+    "daylight_window": {
+      "label": "非拍攝時段",
+      "unit": ""
+    },
+    "cloud_cover_mid": {
+      "label": "中雲",
+      "unit": "%"
+    },
+    "legacy_drift_ice": {
+      "label": "無流冰",
+      "unit": ""
+    },
+    "legacy_long_exposure": {
+      "label": "長曝條件",
+      "unit": ""
+    },
+    "legacy_mountain_view": {
+      "label": "條件不合",
+      "unit": ""
+    },
+    "legacy_reflection": {
+      "label": "條件不合",
+      "unit": ""
+    },
+    "legacy_tide": {
+      "label": "潮位不合",
+      "unit": ""
+    },
+    "light_direction": {
+      "label": "光向不合",
+      "unit": ""
+    },
+    "light_window": {
+      "label": "非日照時段",
+      "unit": ""
+    },
+    "moonrise_moonset_separation_h": {
+      "label": "月位置",
+      "unit": "h"
+    },
+    "nearshore_surf_state": {
+      "label": "浪大",
+      "unit": ""
+    },
+    "noctiluca_concentration": {
+      "label": "藻量不足",
+      "unit": ""
+    },
+    "relative_humidity_600hpa": {
+      "label": "濕度不合",
+      "unit": "%"
+    },
+    "relative_humidity_700hpa": {
+      "label": "濕度不合",
+      "unit": "%"
+    },
+    "temperature_delta_700_600_c": {
+      "label": "大氣不合",
+      "unit": "°C"
+    },
+    "temperature_delta_850_700_c": {
+      "label": "大氣不合",
+      "unit": "°C"
+    },
+    "volcanic_activity": {
+      "label": "火山條件",
+      "unit": ""
+    },
+    "wind_speed_600hpa": {
+      "label": "風強",
+      "unit": "m/s"
+    },
+    "wind_speed_700hpa": {
+      "label": "風強",
+      "unit": "m/s"
+    },
+    "alpenglow_window": {
+      "label": "非金山窗",
+      "unit": ""
+    },
+    "clear_streak_hours": {
+      "label": "晴窗不足",
+      "unit": ""
+    },
+    "snow_cover_state": {
+      "label": "無雪",
+      "unit": ""
+    },
+    "snow_depth": {
+      "label": "無積雪",
+      "unit": ""
+    },
+    "snowfall": {
+      "label": "無降雪",
+      "unit": ""
+    }
+  },
+  "status_terms": {
+    "REQUIRED": "必須",
+    "QUALITY": "加分",
+    "BLOCKER": "直接失敗",
+    "UNKNOWN": "待確認"
+  }
+}
