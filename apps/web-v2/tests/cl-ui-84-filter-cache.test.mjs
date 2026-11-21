@@ -146,6 +146,6 @@ test('CL-UI-84 (7): cache_last_data exists in zh-TW / en / ja', () => {
 
 // ---- 8. cache-bust stamp bumped and pinned ----
 test('CL-UI-84 (8): index.html serves app.js + app.css at clui102', () => {
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui stays at clui102 (app.js + app.css advanced to clui119); app.js advanced to clui118 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui stays at clui102 (app.js + app.css advanced to clui120); app.js advanced to clui118 (CL-UI-110)');
   assert.ok(!indexSource.includes('clui87'), 'no stale clui87 stamp left on the homepage');
 });

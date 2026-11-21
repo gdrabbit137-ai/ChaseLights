@@ -2380,7 +2380,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const yt=document.getElementById('live-open-yt');
       yt.href=cam.watch_url||`https://www.youtube.com/watch?v=${encodeURIComponent(cam.video_id)}`;
       yt.textContent=d().live_open_youtube;
-      document.getElementById('live-frame-host').innerHTML=`<iframe class="live-frame" src="https://www.youtube.com/embed/${encodeURIComponent(cam.video_id)}?autoplay=1&rel=0" title="${esc(d().live_panel_title)} · ${esc(spotName(spot))}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+      document.getElementById('live-frame-host').innerHTML=`<iframe class="live-frame" src="https://www.youtube.com/embed/${encodeURIComponent(cam.video_id)}?autoplay=1&mute=1&rel=0" title="${esc(d().live_panel_title)} · ${esc(spotName(spot))}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
       overlay.style.display='flex';syncModalScrollLock();
     }
     function closeLiveModal(e){

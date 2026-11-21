@@ -141,8 +141,12 @@ test('CL-UI-111 (S4): in-app panel — zero-preload iframe, attribution, fallbac
   // no static iframe exists in index.html.
   assert.doesNotMatch(htmlSource, /<iframe/i, 'index.html must not ship any iframe');
   assert.match(appSource, /function openLiveModal\(spot\)\{\s*\n\s*const cam=liveCamFor\(spot\.spot_id\);\s*\n\s*if\(!cam\)return;/);
-  assert.match(appSource, /document\.getElementById\('live-frame-host'\)\.innerHTML=`<iframe class="live-frame" src="https:\/\/www\.youtube\.com\/embed\/\$\{encodeURIComponent\(cam\.video_id\)\}\?autoplay=1&rel=0"/,
+  assert.match(appSource, /document\.getElementById\('live-frame-host'\)\.innerHTML=`<iframe class="live-frame" src="https:\/\/www\.youtube\.com\/embed\/\$\{encodeURIComponent\(cam\.video_id\)\}\?autoplay=1&mute=1&rel=0"/,
     'official YouTube embed, in-app (never a YouTube-app redirect)');
+  // INT-204 owner ruling: click LIVE plays immediately (autoplay) with sound
+  // OFF until the user unmutes (mute=1 keeps browser autoplay policy happy).
+  assert.match(appSource, /src="https:\/\/www\.youtube\.com\/embed\/\$\{encodeURIComponent\(cam\.video_id\)\}\?autoplay=1&mute=1&rel=0"/,
+    'live modal iframe src carries autoplay=1 and mute=1');
   assert.match(appSource, /allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"/,
     'fullscreen rides the native iframe button');
   // CL-UI-119: per-entry attribution — the entry's own trilingual label wins,
@@ -180,7 +184,7 @@ test('CL-UI-111 (S6): css — dot uses the contract red token, lazy-player shell
 });
 
 test('CL-UI-111 (S7): cache-bust stamp bumped to clui118', () => {
-  assert.match(htmlSource, /assets\/app\.js\?v=clui119/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui120/);
   assert.doesNotMatch(htmlSource, /clui110/);
 });
 
