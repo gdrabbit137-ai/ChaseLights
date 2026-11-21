@@ -350,17 +350,30 @@
     var tz = p.timezone || 'Asia/Taipei';
     var today = br.localDate(tz, 0);
     var groups = cpPopupGroups(p);
-    var tree = {}, anyShoot = null, noReasons = [];
+    var tree = {}, anyShoot = null, noReasons = [], noEntries = [], shootEntries = [];
     groups.forEach(function (g) {
       var ge = g.eval || {};
       if (ge.tier === 'rec') {
         var st = cpStamps(ge.window)[0];
         if (!st) return; // honest: window not yet resolvable → no synthetic row
-        var t = tree[st.date] = tree[st.date] || { tier: 'recommend', good_hours: [], suitable: [] };
-        t.good_hours.push(st.hhmm);
-        t.suitable.push({ subject_short: { 'zh-TW': themeDisplayName(g) }, window: [st.hhmm], cc: g.cond || null });
-      } else if (ge.tier === 'shoot') { if (!anyShoot) anyShoot = ge; }
-      else if (ge.tier === 'no' && ge.reason) noReasons.push(ge.reason);
+        var node = tree[st.date] = tree[st.date] || { tier: 'recommend', good_hours: [], suitable: [] };
+        node.good_hours.push(st.hhmm);
+        // CL-CI-38: the card per-group row carries the WORKER's stored group
+        // verdict (patch-8 owner-ruled anatomy) — badge + name + full window
+        // stamp, rendered by the official clSubjectRowLine via cpTierCls.
+        node.suitable.push({ subject_short: { 'zh-TW': themeDisplayName(g) }, window: [st.hhmm], cc: g.cond || null,
+          stamp: ge.window, cpTierCls: 'cl-cp-tier-rec', cpMark: '✓', cpRowName: true });
+      } else if (ge.tier === 'shoot') {
+        if (!anyShoot) anyShoot = ge;
+        var st2 = cpStamps(ge.window)[0];
+        if (st2) shootEntries.push({ subject_short: { 'zh-TW': themeDisplayName(g) }, window: [st2.hhmm], cc: g.cond || null,
+          stamp: ge.window, cpTierCls: 'cl-cp-tier-shoot', cpMark: '○', cpTail: t().th_row_shoot, cpRowName: true });
+      }
+      else if (ge.tier === 'no' && ge.reason) {
+        noReasons.push(ge.reason);
+        noEntries.push({ subject_short: { 'zh-TW': themeDisplayName(g) }, window: [],
+          cpTierCls: 'cl-cp-tier-no', cpMark: '✗', cpTail: ge.reason, cpRowName: true });
+      }
     });
     var keys = Object.keys(tree).sort();
     var days;
@@ -377,14 +390,16 @@
       // fallback anatomy renders the official 「○ 可拍」 row)
       var sh = cpStamps(anyShoot.window)[0];
       var hours = sh ? [sh.hhmm] : [];
-      tree[today] = { tier: 'shootable', good_hours: hours, suitable: [] };
+      tree[today] = { tier: 'shootable', good_hours: hours, suitable: shootEntries.slice() };
+      tree[today].suitable.push({ subject_short: { 'zh-TW': t().qv_general }, window: hours.slice(),
+        stamp: anyShoot.window || null, cpTierCls: 'cl-cp-tier-shoot', cpMark: '○', cpRowName: true });
       days = [{ local_date: today, state: hours.length ? 'GUIDANCE_SATISFIED' : 'UNFAVORABLE',
         good_hours: hours, hour_counts: { GUIDANCE_SATISFIED: hours.length } }];
     } else {
       // ✗不宜 — the short reason (dominant fail word) rides the row as
       // tier_reason; the official card anatomy renders 「✗ 不宜 · 雨」
       var reason = noReasons[0] || ev.reason || '';
-      tree[today] = { tier: 'not_recommended', tier_reason: reason ? { 'zh-TW': reason } : null, good_hours: [], suitable: [] };
+      tree[today] = { tier: 'not_recommended', tier_reason: reason ? { 'zh-TW': reason } : null, good_hours: [], suitable: noEntries };
       days = [{ local_date: today, state: 'UNFAVORABLE', good_hours: [], hour_counts: {} }];
     }
     br.registerSyntheticRows(p.id, tree, {}, days);
@@ -430,6 +445,27 @@
             closeMenu();
             if (!wasOpen) openMenuFor(p, more);
           });
+        }
+        // CL-CI-38: the patch-3 coord line (lat/lng · elevation · GMT±n) rides
+        // the bridge card too — the official anatomy has no coord row, and a
+        // private point's coordinates are the card's navigation info.
+        if (!card.querySelector('.cl-cp-coord')) {
+          var metaEl = card.querySelector('.card-secondary-meta');
+          if (metaEl) {
+            var coord = document.createElement('div');
+            coord.className = 'cl-cp-coord';
+            var cpTz = p.timezone || 'Asia/Taipei';
+            var gmt = 'GMT';
+            try {
+              var parts = new Intl.DateTimeFormat('en-US', { timeZone: cpTz, timeZoneName: 'shortOffset' }).formatToParts(new Date());
+              var tp = parts.filter(function (x) { return x.type === 'timeZoneName'; })[0];
+              if (tp && tp.value) gmt = tp.value;
+            } catch (e3) { /* honest GMT without offset */ }
+            coord.textContent = Number(p.lat).toFixed(3) + ', ' + Number(p.lng).toFixed(3) +
+              (p.elevation != null ? ' · ' + Number(p.elevation) + ' m' : '') +
+              (p.timezone ? ' · ' + gmt : '');
+            metaEl.appendChild(coord);
+          }
         }
         // CL-APP-08: shared-fetch tag — the official anatomy carries it too
         // (gray identity, after the meta rows / before the footer tools).

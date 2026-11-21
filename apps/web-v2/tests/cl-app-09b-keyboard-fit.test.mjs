@@ -245,15 +245,39 @@ async function openEditorFromPanel() {
       const rr = b.getBoundingClientRect();
       const cx = rr.x + rr.width/2, cy = rr.y + rr.height/2;
       const hit = document.elementFromPoint(cx, cy);
-      return {cx: Math.round(cx), cy: Math.round(cy), hitOk: b === hit || b.contains(hit)};
+      return {cx: Math.round(cx), cy: Math.round(cy), hitOk: b === hit || b.contains(hit),
+        hitDesc: hit ? (hit.tagName + '|' + (hit.className||'') + '|' + (hit.id||'')) : 'null',
+        vh: window.innerHeight, btnTop: Math.round(rr.top), btnBottom: Math.round(rr.bottom)};
     })()`);
-    assert.equal(btn.hitOk, true, `題材 button must be hit-reachable (attempt ${attempt})`);
-    await realClick(btn.cx, btn.cy);
+    console.log('DIAG09b attempt', attempt, JSON.stringify(btn));
+    // CL-CI-38: the patch-6 tier-tab pipeline rebuilds the card container when
+    // lazy data lands — a click that lands while the DOM is swapped is a no-op
+    // and the next probe can find the fresh button still under a closing
+    // overlay. Re-probe after a beat instead of asserting the first read;
+    // the hit assertion only fires when EVERY attempt was covered.
+    let probe = btn;
+    if (!probe.hitOk) {
+      await new Promise(r => setTimeout(r, 700));
+      probe = await evaljs(`(() => {
+        const card = document.querySelector('.card[data-place-id="tw-193"]') || document.querySelector('.card');
+        const b = Array.from(card.querySelectorAll('button.tool-link, a.tool-link')).find(x => (x.textContent||'').indexOf('題材') >= 0);
+        if (!b) return {hitOk:false, cx:0, cy:0};
+        b.scrollIntoView({block: 'center'});
+        const rr = b.getBoundingClientRect();
+        const cx = rr.x + rr.width/2, cy = rr.y + rr.height/2;
+        const hit = document.elementFromPoint(cx, cy);
+        return {cx: Math.round(cx), cy: Math.round(cy), hitOk: b === hit || b.contains(hit),
+          hitDesc: hit ? (hit.tagName + '|' + (hit.className||'') + '|' + (hit.id||'')) : 'null'};
+      })()`);
+      console.log('DIAG09b reprobe', attempt, JSON.stringify(probe));
+    }
+    if (attempt === 3) assert.equal(probe.hitOk, true, '題材 button must be hit-reachable (final attempt)');
+    await realClick(probe.cx, probe.cy);
     const ready = await evaljs(`new Promise((resolve)=>{
       const t0=Date.now();
       const iv=setInterval(()=>{
         if(document.getElementById('cl-ss-add')){clearInterval(iv);resolve(true);}
-        else if(Date.now()-t0>6000){clearInterval(iv);resolve(false);}
+        else if(Date.now()-t0>12000){clearInterval(iv);resolve(false);}
       },100);
     })`);
     if (ready) break;

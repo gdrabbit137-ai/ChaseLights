@@ -64,7 +64,11 @@ test('CL-UI-69 (1): per-subject rows replace the second-line chips when the laye
   const rowLineBlock = grab('function clSubjectRowLine', 'function clTierRowLine');
   assert.match(createSpotCardBlock, /class="cl-subject-rows"/);
   assert.match(rowLineBlock, /cl-subject-row\$\{hidden\?' cl-subject-extra':''\}/);
-  assert.match(rowLineBlock, /<span class="cl-subject-name">\$\{esc\(entry&&entry\.name\)\}<\/span><span class="cl-subject-colon">\$\{colonSep\(\)\}<\/span><span class="cl-subject-window">\$\{win\}<\/span>\$\{bell\}<\/div>/);
+  // CL-CI-38 re-anchor: the shared builder grew the optional private-point
+  // per-group slots (cpTier badge / cl-cp-window / cpTail). Official rows
+  // pass none of them, so the rendered anatomy is byte-identical; the pin
+  // now asserts the template WITH its optional slots in place.
+  assert.match(rowLineBlock, /<span class="cl-subject-name\$\{cpName\}">\$\{esc\(entry&&entry\.name\)\}<\/span><span class="cl-subject-colon">\$\{colonSep\(\)\}<\/span><span class="cl-subject-window\$\{cpName\?' cl-cp-window':''\}">\$\{win\}<\/span>\$\{cpTail\}\$\{bell\}<\/div>/);
   // Compact bell mount point: the client (notify_rules contract) owns state.
   assert.match(rowLineBlock, /class="cl-rem-btn cl-rem-compact" data-rem-place="\$\{esc\(spotId\)\}"[^>]*data-rem-compact="1"/);
   // At most 3 visible rows + +N fold; extras start hidden.
@@ -153,7 +157,7 @@ test('CL-UI-69 (5): the reminder icon is 🔔 only (owner ruling) — compact to
 
 test('CL-UI-69 (6): 390px row rules ship and the page serves the bumped stamps', () => {
   assert.match(appCss, /@media \(max-width:390px\)\{\n  \.cl-subject-row\{font-size:\.74rem\}/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui118/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui119/);
   assert.match(indexSource, /assets\/app\.css\?v=clui102/);
   assert.match(indexSource, /assets\/reminders-client\.js\?v=clui84/);
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui100/);
