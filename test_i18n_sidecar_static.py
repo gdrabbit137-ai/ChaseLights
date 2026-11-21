@@ -43,6 +43,17 @@ def test_qa_script_passes():
     assert out.returncode == 0, out.stdout + out.stderr
 
 
+def test_reextract_preserves_sub_landmarks():
+    """A re-extract must never wipe resolved sub_landmark anchors."""
+    before = json.loads((ROOT / "locales/en/catalog.json").read_text(encoding="utf-8"))
+    anchors = {pid: v.get("sub_landmarks") for pid, v in before["places"].items() if v.get("sub_landmarks")}
+    subprocess.run([sys.executable, str(ROOT / "scripts/i18n_extract.py")],
+                   check=True, capture_output=True, cwd=str(ROOT))
+    after = json.loads((ROOT / "locales/en/catalog.json").read_text(encoding="utf-8"))
+    for pid, sub in anchors.items():
+        assert after["places"][pid].get("sub_landmarks") == sub, f"anchors lost for {pid}"
+
+
 def test_glossary_and_lock_present():
     g = json.loads((ROOT / "i18n/glossary.json").read_text(encoding="utf-8"))
     assert "霞池" in g["terms"]

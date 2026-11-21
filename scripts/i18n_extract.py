@@ -125,24 +125,39 @@ def build_catalog(root: Path) -> dict:
         short = json.loads(sp.read_text(encoding="utf-8")).get("genres", {})
     out = {}
     for lang in LOCALES:
+        prior = {}
+        prior_path = ROOT / "locales" / lang / "catalog.json"
+        if prior_path.exists():
+            try:
+                prior = json.loads(prior_path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                prior = {}
+        prior_places = prior.get("places") or {}
+        prior_opps = prior.get("opportunities") or {}
         place_out = {}
         for pid, p in places.items():
             name = (p.get("name_i18n") or {}).get(lang) or (p.get("name_i18n") or {}).get("en", "")
             aliases = (p.get("aliases_i18n") or {}).get(lang) or []
+            prev = prior_places.get(pid) or {}
             place_out[pid] = {
                 "name": name,
                 "aliases": aliases,
-                "sub_landmarks": {},
+                # sub_landmarks are resolved anchors; never wiped by a re-extract
+                "sub_landmarks": prev.get("sub_landmarks") or {},
             }
         opp_out = {}
         for oid, o in opps.items():
             gid = (o.get("condition_contract") or {}).get("genre_template", "")
             s = (short.get(gid) or {}).get(lang) if isinstance(short.get(gid), dict) else None
+            prev = prior_opps.get(oid) or {}
+            # zh-TW always follows the canonical source; target languages keep the
+            # last translated value until i18n_sync.py refreshes it.
+            keep = lang != "zh-TW"
             opp_out[oid] = {
-                "name": (o.get("name_i18n") or {}).get(lang) or (o.get("name_i18n") or {}).get("en", ""),
-                "short_name": s or "",
-                "description": (o.get("description_i18n") or {}).get(lang) or "",
-                "seasonal_note": "",
+                "name": (prev.get("name") if keep else None) or (o.get("name_i18n") or {}).get(lang) or (o.get("name_i18n") or {}).get("en", ""),
+                "short_name": s or prev.get("short_name") or "",
+                "description": (prev.get("description") if keep else None) or (o.get("description_i18n") or {}).get(lang) or "",
+                "seasonal_note": prev.get("seasonal_note") or "",
             }
         out[lang] = {"places": place_out, "opportunities": opp_out}
     return out
