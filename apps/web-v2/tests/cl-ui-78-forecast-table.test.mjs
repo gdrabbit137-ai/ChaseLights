@@ -71,7 +71,7 @@ test('CL-UI-78 (2): wmDayBanner renders 11 月 14 日 週六 style labels per la
 
 test('CL-UI-87 re-anchor (3): rows carry hour-only stamps; one day-group <details> opens each local date', () => {
   const loopIdx = appSource.indexOf('for(const item of wmList){');
-  const loop = appSource.slice(loopIdx, loopIdx + 4200);
+  const loop = appSource.slice(loopIdx, loopIdx + 5200);
   // hour-only stamp on the desktop row and the mobile card
   assert.ok(loop.includes('const hh=item.time.slice(-5)'), 'row time is HH:MM only');
   assert.ok(loop.includes('<td class="hr">${esc(hh)}'), 'desktop time cell is HH:MM only');
