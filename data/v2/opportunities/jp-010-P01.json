@@ -2,7 +2,7 @@
  "schema_version": "2.2.0",
  "opportunity_id": "jp-010-P01",
  "place_id": "jp-010",
- "revision": 3,
+ "revision": 4,
  "lifecycle_status": "evidence_review",
  "name_i18n": {
   "zh-TW": "河口湖大石公園季節植栽與富士山",
@@ -269,6 +269,36 @@
      "zh-TW": "2026-11-20 CL-DATA-75（owner《攝影題材規則重構與 QUALITY 計分引擎規格書》§1）：新增必須：能見度 ≥15 km（富士山可見的前提）。\n2026-11-02 owner（Richard）裁決覆寫 worker2 人審 gate，改採審查修訂條件（provisional，未校準）；原人審研究契約見 git 歷史 34cb70f39 之前版本。",
      "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): Added REQUIRED: visibility >= 15 km (the precondition for seeing Fuji at all). 2026-11-02 owner (Richard) ruling superseding the worker2 human-review gate, adopting review-revised conditions (provisional, not calibrated); the pre-ruling human-review contract lives in git history before 34cb70f39.",
      "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：必須条件を追加：視程≥15 km（富士の可視の前提）。\n2026-11-02 owner（Richard）裁定により worker2 の人審ゲートを置き換え、審査改訂条件（provisional・未校正）を採用。裁定前の人審契約は git 履歴 34cb70f39 より前を参照。"
+    }
+   },
+   {
+    "id": "C-jp-010-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-010-P01-condition-1"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "光線窗（必要條件）：整小時每一時點太陽仰角都必須 > −6°（民用光線，CL-DATA-11 同源定義，與其他日間題材同源）。花海與富士山剪影皆需可見光——夜間無光可拍，一律不符合。",
+     "en": "Light window (REQUIRED): sun elevation must exceed -6 deg at every instant of the hour (civil light, CL-DATA-11 same-source definition, same source as other daytime subjects). Flower fields and the Fuji silhouette both need visible light - night hours never qualify.",
+     "ja": "光の窓（必須条件）：当該時間帯の全時点で太陽高度 > −6°（市民光、CL-DATA-11 同源定義、他の昼間題材と同源）。花畑と富士山のシルエットは可視光が要る——夜間は一律成立しない。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-21 CL-DATA-83 補遺：CL-DATA-19 全面稽查漏補（同批 seasonal_plant 契約已補者比照辦理），於契約層新增必要光線窗（civil，太陽仰角 > −6°，threshold_source=computed）。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
+     "en": "2026-11-21 CL-DATA-83 follow-up: missed by the CL-DATA-19 full audit (treated like the sibling seasonal_plant contracts already fixed); REQUIRED light window added at CONTRACT level (civil, sun elevation > -6 deg, threshold_source=computed). Semantic correction; layering parity gate exempt, documented here.",
+     "ja": "2026-11-21 CL-DATA-83 補遺：CL-DATA-19 全面監査の漏れ（既に修正済みの同批 seasonal_plant 契約に準拠）、契約層に必要な光の窓を追加（市民光、太陽高度 > −6°、threshold_source=computed）。意味修正のため layering parity ゲートは免除。"
     }
    }
   ],
