@@ -1,0 +1,324 @@
+{
+ "schema_version": "2.1.0",
+ "opportunity_id": "tw-001-P04",
+ "place_id": "tw-001",
+ "revision": 1,
+ "lifecycle_status": "draft",
+ "name_i18n": {
+  "zh-TW": "大屯山俯瞰台北盆地城市夜景",
+  "en": "Datunshan: Taipei Basin city night view",
+  "ja": "大屯山から望む台北盆地の夜景"
+ },
+ "description_i18n": {
+  "zh-TW": "自大屯山助航站前平台俯瞰台北盆地夜景：淡水河兩岸與台北市區燈海、觀音山剪影。夜間光害條件下的城市夜景題材；能見度與總雲量為主要判據，需民用暮光後（太陽高度 ≤ −6°）方可拍攝。",
+  "en": "City night view over the Taipei Basin from the platform in front of the Datunshan navigation station: light fields across the Tamsui River and downtown Taipei, with the Guanyin Mountain silhouette. A city-night subject under light-pollution conditions; visibility and total cloud cover are the main criteria, and shooting requires after civil dusk (sun <= -6 deg).",
+  "ja": "大屯山助航站前の展望台から台北盆地の夜景を望む。淡水河両岸と台北市街の灯海、観音山のシルエット。夜間光害下の都市夜景題材。視程と全雲量が主な判準で、市民薄明後（太陽高度 ≤ −6°）に撮影可能。"
+ },
+ "camera_contexts": [
+  {
+   "id": "CZ-tw-001-P04-01",
+   "kind": "area",
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.52244,
+      25.17614
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference CL-DATA-35 2026-11-08: geometry re-checked against official/Wikimedia coordinates for the named feature; no conflicting authoritative coordinate found in this pass (see batch1-progress.json).",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "verification_status": "provisional",
+   "evidence_refs": [
+    "e-d35-access-datunshan-ymsnp"
+   ],
+   "access_notes_i18n": {
+    "zh-TW": "位於陽明山國家公園（全年開放）。依陽明山管理處公告，大屯山車道自2020-08-10起全日禁止汽機車進入（公務及緊急車輛除外），須將車輛停放鄰近停車場後步行上主峰；建議搭乘捷運劍潭站轉紅5、台北站轉260/1717或北投站轉230/小9至陽明山，再轉108公車至二子坪站。山頂助航站及三角點位置非開放區域（軍事管制），觀景以助航站前平台為主。夜間拍攝請攜照明並依園區安全指示。",
+    "en": "In Yangmingshan National Park (open year-round). Per park HQ notice, the Datun Mountain roadway has been closed to private motor vehicles 24h since 2020-08-10 (official/emergency vehicles excepted); park nearby and walk up. Bus routes: MRT Jiantan + Red5, Taipei Station + 260/1717, or Beitou + 230/Xiao9 to Yangmingshan, then bus 108 to Erziping stop. The summit navigation-aid station and triangulation point are a restricted military area; shooting is done from the platform in front. Bring lights for night sessions and follow park safety guidance.",
+    "ja": "陽明山国家公園内（通年開放）。同公園の告知により、大屯山車道は2020-08-10から終日自家用車・二輪の進入禁止（公務・緊急車両を除く）。近隣駐車場に停車し徒歩で登る。捷運剣潭駅からバス紅5、台北駅から260/1717、北投駅から230/小9で陽明山へ、108番バスで二子坪下車。山頂の助航站（航空支援施設）と三角点は軍事管理のため立入不可で、手前の展望プラットフォームから撮影。夜間は照明を携行し園区の安全指示に従う。"
+   },
+   "safety_notes_i18n": {
+    "zh-TW": "請依現場安全指示行動。",
+    "en": "Follow on-site safety guidance.",
+    "ja": "現地の安全指示に従ってください。"
+   },
+   "altitude_m": null
+  }
+ ],
+ "targets": [
+  {
+   "id": "SG-tw-001-P04-01",
+   "kind": "multi_component",
+   "name_i18n": {
+    "zh-TW": "大屯山俯瞰台北盆地城市夜景",
+    "en": "Datunshan: Taipei Basin city night view",
+    "ja": "大屯山から望む台北盆地の夜景"
+   },
+   "geometry": {
+    "kind": "point",
+    "status": "provisional",
+    "geojson": {
+     "type": "Point",
+     "coordinates": [
+      121.52244,
+      25.17614
+     ]
+    },
+    "uncertainty_m": null,
+    "derivation_method": "imported_from_v1_viewpoint_reference",
+    "source_geometry_revision": null,
+    "reason_if_absent": null
+   },
+   "phenomenon_model_id": null,
+   "evidence_refs": [
+    "e-d35-access-datunshan-ymsnp"
+   ],
+   "components": []
+  }
+ ],
+ "observation_relations": [
+  {
+   "id": "VR-tw-001-P04-01",
+   "camera_context_id": "CZ-tw-001-P04-01",
+   "target_id": "SG-tw-001-P04-01",
+   "type": "foreground_background",
+   "geometry_mode": "unknown",
+   "azimuth_deg": null,
+   "elevation_deg": null,
+   "distance_m": null,
+   "evidence_refs": [],
+   "derivation_method": null,
+   "uncertainty_note": "Imported V1 reference; angles and distance unknown."
+  }
+ ],
+ "navigation_targets": [
+  {
+   "id": "NAV-tw-001-P04-01",
+   "status": "needs_review",
+   "target_type": "other",
+   "lat": 25.17614,
+   "lon": 121.52244,
+   "label_i18n": {
+    "zh-TW": "大屯山助航站",
+    "en": "Datunshan Navigation Station",
+    "ja": "大屯山助航駅"
+   },
+   "evidence_refs": [],
+   "confidence": "low"
+  }
+ ],
+ "condition_contract": {
+  "contract_id": "CC-tw-001-P04-v1",
+  "status": "draft",
+  "genre_template": "city_night",
+  "template_version": "city_night-v0.1",
+  "recommendation_policy_version": null,
+  "conditions": [
+   {
+    "id": "C-tw-001-P04-01",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "city_night_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-001-P04-claim-01"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "時間窗＝整小時太陽仰角 ≤ −6°（民用暮光後）。城市夜景需黑暗天空；白天時段即使天氣全過也不成立。",
+     "en": "Time window = the whole hour bucket with sun elevation <= -6 deg (after civil dusk). A city-night subject needs a dark sky; a daytime hour cannot qualify even if every weather condition passes.",
+     "ja": "時間窓＝1時間全体で太陽高度 ≤ −6°（市民薄明後）。都市夜景には暗い空が必要で、昼間は気象条件が全て通過しても成立しない。"
+    }
+   },
+   {
+    "id": "C-tw-001-P04-02",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_total",
+    "operator": "lte",
+    "threshold": 30,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-001-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_total_percent|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "總雲量 ≤30%：盆地燈海需低雲量才能透出；30% 以上大片雲會吃掉市區燈光與河面反光（與 tw-006-P03 夜景基準一致）。",
+     "en": "Total cloud <= 30%: the basin light field needs a mostly clear sky; above 30% broad cloud swallows the city lights and river reflections (same baseline as tw-006-P03).",
+     "ja": "全雲量 ≤30%。盆地の灯海は雲が少ないほど透ける。30%超の広い雲は市街の灯りと河面の反射を隠す（tw-006-P03と同一基準）。"
+    }
+   },
+   {
+    "id": "C-tw-001-P04-03",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 10,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-001-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度 ≥10 km：夜間霧霾讓遠處燈火糊化，能見度是夜景清晰度的主要代理（夜間無 AOD 觀測，以能見度為主判據）。",
+     "en": "Visibility >= 10 km: night haze smears distant lights, so visibility is the main proxy for night clarity (no nighttime AOD observation; visibility is the primary criterion).",
+     "ja": "視程≥10km。夜間の煙霾は遠方の灯りをぼかす。夜間AOD観測がないため視程を主判準とする。"
+    }
+   },
+   {
+    "id": "C-tw-001-P04-04",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "precipitation",
+    "operator": "lt",
+    "threshold": 0.2,
+    "unit": "mm/h",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-001-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "降雨受影響；0.2 mm/h 以下不受影響（與 tw-006-P03 相同門檻）。",
+     "en": "Rain interferes; below 0.2 mm/h is fine (same as tw-006-P03).",
+     "ja": "雨は影響。0.2mm/h未満なら問題なし（tw-006-P03と同じ）。"
+    }
+   },
+   {
+    "id": "C-tw-001-P04-05",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-001-P04-claim-01"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "AOD ≤0.5 為加分項：白天溶膠厚度指示夜間煙霾殘留程度；僅為傾向指標，不否決（夜間對應性未校準）。",
+     "en": "AOD <= 0.5 is a bonus: daytime aerosol thickness hints at residual night haze; a tendency indicator only, never a veto (night correspondence uncalibrated).",
+     "ja": "AOD≤0.5は加点。昼間のエアロゾル厚は夜間煙霾の残存の目安。傾向指標のみで否決しない（夜間対応は未較正）。"
+    }
+   },
+   {
+    "id": "C-tw-001-P04-06",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_low",
+    "operator": "lte",
+    "threshold": 40,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-001-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_low|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "低雲量 ≤40%：低雲牆會直接蓋住盆地燈海與觀音山剪影，是夜景可拍性的硬閘。",
+     "en": "Low cloud <= 40%: a low deck physically covers the basin light field and the Guanyin silhouette — a hard gate for city nights.",
+     "ja": "下層雲量≤40%。下層雲が盆地の灯海と観音山のシルエットを覆うため、夜景成立の必須条件。"
+    }
+   },
+   {
+    "id": "C-tw-001-P04-07",
+    "role": "QUALITY",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_illumination_fraction",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-001-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:moon_illumination_fraction|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月照比例 ≤0.5 為品質項：月光過強會把城市燈光的明暗對比洗平（滿月尤其明顯），越暗越有利。不否決，只扣分。",
+     "en": "Moon illumination <= 0.5 as a quality term: strong moonlight flattens the light-to-dark contrast of city lights (full moon especially). It never vetoes, only scores lower.",
+     "ja": "月照率≤0.5は品質項。月光が強いと市街灯の明暗コントラストが平坦になる（満月で顕著）。否決せず減点のみ。"
+    }
+   }
+  ]
+ },
+ "evidence_claims": [
+  {
+   "claim_id": "tw-001-P04-claim-01",
+   "claim_type": "existence",
+   "evidence_refs": [
+    "e-d35-access-datunshan-ymsnp"
+   ],
+   "audit_status": "UNKNOWN",
+   "scope_note": "Derived from tw-001-P03 (V1 catalog) night segment; split into city_night template per CL-DATA-84C. Thresholds provisional pending real-shoot calibration."
+  }
+ ],
+ "readiness": {
+  "research_level": "R1",
+  "gaps": [
+   "GEOMETRY_GAP",
+   "RESEARCH_GAP"
+  ]
+ },
+ "provenance": {
+  "source_catalog": "runtime_catalog_v004_r4_2.json",
+  "source_revision": "v1-spot-tw-001",
+  "imported_at": "2026-11-22T00:00:00Z",
+  "review_status": "pending",
+  "reviewed_by": null
+ }
+}

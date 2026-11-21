@@ -41,10 +41,10 @@ class TestClData24CatalogScoring(unittest.TestCase):
         assert rep["rubric_weights"]["scenic_beauty"] == 20
         s = rep["summary"]
         assert s["places"] == 466, f"expected 400 places, got {s['places']}"
-        assert s["opportunities"] == 734, f"expected 734 opportunities, got {s['opportunities']}"  # CL-INT-192 re-anchor: 717 -> 734 (CL-DATA-74 five-genre 17 mounts on the merged regen a6b3c0e68)
-        assert s["canonical_locked_opportunities"] == 734  # CL-INT-192 re-anchor: 717 -> 734 (CL-DATA-74 five-genre 17 mounts)
+        assert s["opportunities"] == 735, f"expected 735 opportunities, got {s['opportunities']}"  # CL-INT-192 re-anchor: 717 -> 734 (CL-DATA-74 five-genre 17 mounts on the merged regen a6b3c0e68)
+        assert s["canonical_locked_opportunities"] == 735  # CL-DATA-84C: tw-001-P04 admitted to the canonical lock
         assert len(rep["ranking"]) == 466
-        assert len(rep["opportunity_scores"]) == 734  # CL-INT-192 re-anchor: 717 -> 734 (CL-DATA-74 five-genre 17 mounts)
+        assert len(rep["opportunity_scores"]) == 735  # CL-INT-192 re-anchor: 717 -> 734 (CL-DATA-74 five-genre 17 mounts)
         assert s["places_with_unknown_scenic_beauty"] == sum(
             1 for p in rep["ranking"] if p["rubric"]["scenic_beauty"] == "unknown")
         # weighted totals in valid range (None = honest unknown), ranking ordered by (total, id)
