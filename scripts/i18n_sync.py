@@ -101,10 +101,14 @@ def source_entries(root: Path) -> dict:
     """Collect zh-TW source text per opportunity with parent context."""
     catalog = load_json(root / "apps/web-v2/catalog.v2.json")
     places = {p["place_id"]: p for p in catalog.get("places", [])}
+    # Only shipped opportunities (retired skeletons still live in data/v2/opportunities)
+    shipped = {o["opportunity_id"] for o in catalog.get("opportunities", [])}
     entries = {}
     for p in sorted((root / "data/v2/opportunities").glob("*.json")):
         d = load_json(p)
         oid = d.get("opportunity_id")
+        if oid not in shipped:
+            continue
         pid = d.get("place_id")
         cc = d.get("condition_contract") or {}
         name = (d.get("name_i18n") or {}).get(SOURCE_LANG, "")
