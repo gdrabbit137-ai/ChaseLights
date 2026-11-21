@@ -22,7 +22,7 @@ const oppDir = path.join(repo, 'data', 'v2', 'opportunities');
 
 const IDS = {
   overlook: 29, mountain_view: 39, reflection: 26, // re-anchored CL-INT-103 union: overlook +1 (CL-DATA-33 tw-034-P02 light_window joins the CL-DATA-19 marker sweep)
-  overcast_soft: 17, geological_landform: 15, seasonal_plant: 12,
+  overcast_soft: 17, geological_landform: 15, seasonal_plant: 13, // re-anchored INT-204: seasonal_plant +1 (CL-DATA-83 follow-up jp-010-P01 light_window — the CL-DATA-19 full audit missed it)
 };
 
 function loadContract(oid) {
@@ -108,7 +108,7 @@ test('CL-DATA-19: exactly 138 windowed contracts cite the marker, by genre', () 
     const w = doc.condition_contract?.conditions?.find(c => c.metric === 'light_window');
     return w && (w.notes_i18n?.['zh-TW'] || '').includes('CL-DATA-19');
   });
-  assert.equal(cl19.length, 138); // CL-DATA-66 direct-build tw-125..183 + CL-DATA-64 jp-092..095/us-159..163 excluded (authored at revision 1 with the convention note)
+  assert.equal(cl19.length, 139); // re-anchored INT-204: 138 +1 (CL-DATA-83 follow-up jp-010-P01 light_window; CL-DATA-66 direct-build tw-125..183 + CL-DATA-64 jp-092..095/us-159..163 excluded)
   const byGenre = {};
   for (const r of cl19) {
     const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));
@@ -138,7 +138,9 @@ test('CL-DATA-19: night genres and already-windowed contracts untouched', () => 
 
 test('CL-DATA-19: review-gated fixtures and legacy stubs stay byte-identical', () => {
   // CL-INT-103: tw-034-P02 now carries the owner-approved CL-DATA-33 civil light_window — moved out of the untouched set.
-  for (const oid of ['jp-010-P01', 'tw-082-P01']) {
+  // INT-204: jp-010-P01 moved out too — CL-DATA-83 follow-up added its REQUIRED light_window under the
+  // owner's 2026-11-02 ruling superseding the worker2 human-review gate (batch04 fixtures re-anchored by DATA-83).
+  for (const oid of ['tw-082-P01']) {
     const doc = loadContract(oid);
     assert.ok(!doc.condition_contract.conditions.some(c => c.metric === 'light_window'),
       `${oid} (task-s review-gated) untouched`);
