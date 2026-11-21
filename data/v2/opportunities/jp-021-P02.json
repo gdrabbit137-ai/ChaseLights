@@ -369,6 +369,36 @@
           "en": "2026-11-20 CL-DATA-76 (owner ruling: bind the Nishihotakaguchi special-operation calendar). Official operation source: https://shinhotaka-ropeway.jp/play/ (2026 service plan). The legacy layer (shinhotaka_access.py) already carries the official 2026 date set and requires a same-window live operation confirmation.",
           "ja": "2026-11-20 CL-DATA-76（オーナー裁定：西穂高口特別営業カレンダーに紐付け）。公式営業情報：https://shinhotaka-ropeway.jp/play/ （2026 運行計画）。legacy 層（shinhotaka_access.py）は公式 2026 日付セットと同窓のライブ運行確認を実装済み。"
         }
+      },
+      {
+        "id": "C-jp-021-P02-P1",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-021-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+          "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+          "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+          "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+          "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+        }
       }
     ],
     "windows": {
@@ -408,6 +438,12 @@
           "metric": "moon_illumination_fraction",
           "op": "lte",
           "value": 0.25
+        },
+        {
+          "id": "C-jp-021-P02-P12",
+          "metric": "precipitation",
+          "op": "lt",
+          "value": 0.2
         }
       ],
       "quality": [

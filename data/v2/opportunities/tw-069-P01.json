@@ -245,6 +245,36 @@
      "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
      "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
     }
+   },
+   {
+    "id": "C-tw-069-P01-V1",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 15,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-069-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+     "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+     "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+     "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+     "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+    }
    }
   ],
   "windows": {
@@ -266,6 +296,12 @@
      "metric": "precipitation",
      "op": "lt",
      "value": 0.3
+    },
+    {
+     "id": "C-tw-069-P01-V12",
+     "metric": "visibility",
+     "op": "gte",
+     "value": 15
     }
    ],
    "quality": [

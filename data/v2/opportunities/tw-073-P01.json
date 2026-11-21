@@ -280,6 +280,36 @@
      "en": "2026-11-20 CL-DATA-76 (owner second-audit ruling): Laomei gains a low-tide +/- 2 h gate (the rising tide submerging the reef makes shooting pointless). The tide-decided semantics ride on water_surface_state (the established CL-COND-A7 tide-decided pattern); the legacy tide_state module already covers this opportunity.",
      "ja": "2026-11-20 CL-DATA-76（オーナー第二監査裁定）：老梅に干潮前後±2時間の閾値を追加（満潮で水没すれば不適）。潮位決定の意味は water_surface_state で担う（CL-COND-A7 の既存パターン）；legacy tide_state は既に本機会点をカバー。"
     }
+   },
+   {
+    "id": "C-tw-073-P01-V1",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "visibility",
+    "operator": "gte",
+    "threshold": 15,
+    "unit": "km",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-073-P01-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+     "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+     "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+     "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+     "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+    }
    }
   ],
   "windows": {
@@ -307,6 +337,12 @@
      "metric": "water_surface_state",
      "op": "derived_state",
      "value": null
+    },
+    {
+     "id": "C-tw-073-P01-V12",
+     "metric": "visibility",
+     "op": "gte",
+     "value": 15
     }
    ],
    "quality": [

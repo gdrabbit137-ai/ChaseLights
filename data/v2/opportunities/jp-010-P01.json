@@ -300,6 +300,40 @@
      "en": "2026-11-21 CL-DATA-83 follow-up: missed by the CL-DATA-19 full audit; added REQUIRED civil light window (sun elevation > -6 deg, threshold_source=computed, same source as other daytime subjects). Flower fields and the Fuji silhouette both need visible light; night hours never qualify.\n2026-11-02 owner (Richard) ruling superseding the worker2 human-review gate, adopting review-revised conditions (provisional, not calibrated); the pre-ruling human-review contract lives in git history before 34cb70f39.",
      "ja": "2026-11-21 CL-DATA-83 補遺：CL-DATA-19 全面監査の漏れ；必須の光の窓を追加（市民光、太陽高度 > −6°、threshold_source=computed、他の昼間題材と同源）。花畑と富士山のシルエットは可視光が要り、夜間は一律成立しない。\n2026-11-02 owner（Richard）裁定により worker2 の人審ゲートを置き換え、審査改訂条件（provisional・未校正）を採用。裁定前の人審契約は git 履歴 34cb70f39 より前を参照。"
     }
+   },
+   {
+    "id": "C-jp-010-P01-A1",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "aod_550nm",
+    "operator": "lte",
+    "threshold": 0.6,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "jp-010-P01-existence",
+     "jp-010-P01-camera",
+     "jp-010-P01-navigation",
+     "jp-010-P01-condition-1",
+     "jp-010-P01-condition-2"
+    ],
+    "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "氣溶膠光學厚度 ≤0.6：霾害重時空氣中的散射會吃掉遠景對比（與同地點 jp-010-P02 一致）。",
+     "en": "AOD <= 0.6: heavy haze scatters away far-field contrast (matches jp-010-P02 at the same place).",
+     "ja": "AOD≤0.6。強い霞は遠景のコントラストを失わせる（同一地点 jp-010-P02 と整合）。"
+    },
+    "notes_i18n": {
+     "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+     "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+     "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+    }
    }
   ],
   "windows": {
@@ -333,6 +367,12 @@
      "metric": "visibility",
      "op": "gte",
      "value": 15
+    },
+    {
+     "id": "C-jp-010-P01-A12",
+     "metric": "aod_550nm",
+     "op": "lte",
+     "value": 0.6
     }
    ],
    "quality": []

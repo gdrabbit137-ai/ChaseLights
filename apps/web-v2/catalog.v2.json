@@ -19901,6 +19901,40 @@
               "en": "2026-11-21 CL-DATA-83 follow-up: missed by the CL-DATA-19 full audit; added REQUIRED civil light window (sun elevation > -6 deg, threshold_source=computed, same source as other daytime subjects). Flower fields and the Fuji silhouette both need visible light; night hours never qualify.\n2026-11-02 owner (Richard) ruling superseding the worker2 human-review gate, adopting review-revised conditions (provisional, not calibrated); the pre-ruling human-review contract lives in git history before 34cb70f39.",
               "ja": "2026-11-21 CL-DATA-83 補遺：CL-DATA-19 全面監査の漏れ；必須の光の窓を追加（市民光、太陽高度 > −6°、threshold_source=computed、他の昼間題材と同源）。花畑と富士山のシルエットは可視光が要り、夜間は一律成立しない。\n2026-11-02 owner（Richard）裁定により worker2 の人審ゲートを置き換え、審査改訂条件（provisional・未校正）を採用。裁定前の人審契約は git 履歴 34cb70f39 より前を参照。"
             }
+          },
+          {
+            "id": "C-jp-010-P01-A1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "aod_550nm",
+            "operator": "lte",
+            "threshold": 0.6,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-010-P01-existence",
+              "jp-010-P01-camera",
+              "jp-010-P01-navigation",
+              "jp-010-P01-condition-1",
+              "jp-010-P01-condition-2"
+            ],
+            "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "氣溶膠光學厚度 ≤0.6：霾害重時空氣中的散射會吃掉遠景對比（與同地點 jp-010-P02 一致）。",
+              "en": "AOD <= 0.6: heavy haze scatters away far-field contrast (matches jp-010-P02 at the same place).",
+              "ja": "AOD≤0.6。強い霞は遠景のコントラストを失わせる（同一地点 jp-010-P02 と整合）。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -19934,6 +19968,12 @@
               "metric": "visibility",
               "op": "gte",
               "value": 15
+            },
+            {
+              "id": "C-jp-010-P01-A12",
+              "metric": "aod_550nm",
+              "op": "lte",
+              "value": 0.6
             }
           ],
           "quality": []
@@ -20326,6 +20366,66 @@
               "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.\n2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): seasonal window gate removed (year-round subject: the reverse-Fuji lives on calm water and a visible Fuji, not a bloom season; owner spec section 1.4 - avoids referencing an empty seasonal field).",
               "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。\n2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：季節窓の必須を撤去（通年撮影可——逆さ富士は湖面の静けさと富士の可視で成立し、花の季節ではない。オーナー仕様書 §1.4：空の季節欄参照を回避）。"
             }
+          },
+          {
+            "id": "C-jp-010-P02-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-010-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
+          },
+          {
+            "id": "C-jp-010-P02-CL1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "cloud_cover_low",
+            "operator": "lte",
+            "threshold": 30,
+            "unit": "%",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-010-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "低雲量 ≤30%：低雲牆會直接遮住山體／遠景，這是「無風好天」之外的必要閘門。",
+              "en": "Low cloud <= 30%: a low deck physically hides the mountain / far view — a necessary gate beyond calm winds.",
+              "ja": "下層雲量≤30%。下層雲が山体・遠景を隠すため、無風好天だけでは不十分。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -20360,6 +20460,18 @@
               "metric": "water_reflection_state",
               "op": "derived_state",
               "value": null
+            },
+            {
+              "id": "C-jp-010-P02-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
+            },
+            {
+              "id": "C-jp-010-P02-CL",
+              "metric": "cloud_cover_low",
+              "op": "lte",
+              "value": 30
             }
           ],
           "quality": [
@@ -21887,6 +21999,36 @@
               "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
               "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
             }
+          },
+          {
+            "id": "C-jp-013-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-013-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -21914,6 +22056,12 @@
               "metric": "aod_550nm",
               "op": "lte",
               "value": 0.6
+            },
+            {
+              "id": "C-jp-013-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -23482,6 +23630,36 @@
               "en": "2026-11-06 CL-DATA-12 full audit (batch c): this subject carries water/harbor/lake reflection semantics, so calm wind is a prerequisite - added wind_speed_10m <=2 m/s as REQUIRED/MAIN (tw-045 high-mountain lake night-sky reflection relaxed to <=3). Audit source: CL-DATA-12 full audit found reflection subjects missing the wind gate. Semantic correction; layering parity gate exempt, documented here.",
               "ja": "2026-11-06 CL-DATA-12 全面監査（batch c）：本題材は水面／港池／湖面の反射・鏡面を含み、無風が成立前提——wind_speed_10m <=2 m/s を REQUIRED/MAIN で追加（tw-045 高山湖の夜空反射は <=3 に緩和）。監査源：CL-DATA-12 全面監査。 意味修正のため layering parity ゲートは免除。"
             }
+          },
+          {
+            "id": "C-jp-016-P02-WS1",
+            "role": "REQUIRED",
+            "domain": "HYDROLOGY",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "water_reflection_state",
+            "operator": "none",
+            "threshold": null,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-016-P02-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "rationale_i18n": {
+              "zh-TW": "水面狀態（鏡面／可拍／不可拍）：港口夜景靠水面倒影成景，水面被風擾亂或水質混濁時應剔除。",
+              "en": "Water-surface state (mirror / shootable / unfit): the harbour night scene lives on the water reflection; a wind-ruffled or turbid surface must be excluded.",
+              "ja": "水面状態（鏡面／撮影可／不可）。港湾夜景は水面反射が主役で、風波や濁りは除外すべき。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            },
+            "calibration_status": "provisional"
           }
         ],
         "windows": {
@@ -23515,6 +23693,12 @@
               "metric": "wind_speed_10m",
               "op": "lte",
               "value": 2
+            },
+            {
+              "id": "C-jp-016-P02-WS",
+              "metric": "water_reflection_state",
+              "op": "derived_state",
+              "value": null
             }
           ],
           "quality": [
@@ -25118,6 +25302,36 @@
               "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
               "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
             }
+          },
+          {
+            "id": "C-jp-019-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-019-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -25145,6 +25359,12 @@
               "metric": "aod_550nm",
               "op": "lte",
               "value": 0.6
+            },
+            {
+              "id": "C-jp-019-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -26268,6 +26488,36 @@
               "en": "2026-11-20 CL-DATA-76 (owner ruling: bind the Nishihotakaguchi special-operation calendar). Official operation source: https://shinhotaka-ropeway.jp/play/ (2026 service plan). The legacy layer (shinhotaka_access.py) already carries the official 2026 date set and requires a same-window live operation confirmation.",
               "ja": "2026-11-20 CL-DATA-76（オーナー裁定：西穂高口特別営業カレンダーに紐付け）。公式営業情報：https://shinhotaka-ropeway.jp/play/ （2026 運行計画）。legacy 層（shinhotaka_access.py）は公式 2026 日付セットと同窓のライブ運行確認を実装済み。"
             }
+          },
+          {
+            "id": "C-jp-021-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-021-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -26307,6 +26557,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-jp-021-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -26991,6 +27247,36 @@
               "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
               "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
             }
+          },
+          {
+            "id": "C-jp-022-P02-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-022-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -27018,6 +27304,12 @@
               "metric": "aod_550nm",
               "op": "lte",
               "value": 0.6
+            },
+            {
+              "id": "C-jp-022-P02-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -27383,13 +27675,73 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-jp-022-P03-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-022-P03-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
+          },
+          {
+            "id": "C-jp-022-P03-OP1",
+            "role": "REQUIRED",
+            "domain": "SEASON_TIME",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "seasonal_state",
+            "operator": "eq",
+            "threshold": "window_open",
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-022-P03-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "evidence_review",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "夜景＆星空クルーズ限定夜間營運季節：非營運期間纜車不開，夜空再好也上不去。",
+              "en": "Night-cruise operating season: outside it the ropeway does not run at night, so the best sky is unreachable.",
+              "ja": "夜景＆星空クルーズの夜間運行シーズン。期間外はロープウェイが動かず、星空が良くても行けない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
           "time_of_day": [
             "astro_darkness"
           ],
-          "seasonal": null
+          "seasonal": "calendar"
         },
         "conditions_v2": {
           "required": [
@@ -27422,6 +27774,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-jp-022-P03-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -27687,6 +28045,66 @@
               "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
               "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
             }
+          },
+          {
+            "id": "C-jp-023-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-023-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
+          },
+          {
+            "id": "C-jp-023-P01-A1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "aod_550nm",
+            "operator": "lte",
+            "threshold": 0.6,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-023-P01-claim-01"
+            ],
+            "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "氣溶膠光學厚度 ≤0.6：霾害重時空氣中的散射會吃掉遠景對比（與同地點 jp-010-P02 一致）。",
+              "en": "AOD <= 0.6: heavy haze scatters away far-field contrast (matches jp-010-P02 at the same place).",
+              "ja": "AOD≤0.6。強い霞は遠景のコントラストを失わせる（同一地点 jp-010-P02 と整合）。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -27708,6 +28126,18 @@
               "metric": "wind_speed_10m",
               "op": "lt",
               "value": 5
+            },
+            {
+              "id": "C-jp-023-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
+            },
+            {
+              "id": "C-jp-023-P01-A12",
+              "metric": "aod_550nm",
+              "op": "lte",
+              "value": 0.6
             }
           ],
           "quality": []
@@ -28727,73 +29157,106 @@
       "condition_contract": {
         "contract_id": "CC-jp-026-P01-v1",
         "status": "draft",
-        "genre_template": "geological_landform",
-        "template_version": "geological_landform-v0.1",
+        "genre_template": "golden_hour",
+        "template_version": "golden_hour-v0.1",
         "recommendation_policy_version": null,
         "conditions": [
           {
-            "id": "C-jp-026-P01-01",
-            "role": "REQUIRED",
-            "domain": "SUBJECT_STATE",
+            "id": "C-jp-026-P01-GH1",
+            "role": "QUALITY",
+            "domain": "WEATHER",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
-            "metric": "landform_present",
-            "operator": "none",
-            "threshold": null,
-            "unit": "level",
+            "metric": "cloud_cover_mid",
+            "operator": "between",
+            "threshold": [
+              30,
+              60
+            ],
+            "unit": "%",
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
               "jp-026-P01-claim-01"
             ],
-            "model_binding": null,
+            "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent|role:MID",
             "validation_status": "provisional",
-            "condition_tier": "MAIN",
-            "threshold_source": "evidence_review",
-            "calibration_status": "approved",
+            "condition_tier": "BONUS",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "靜態主體存在性由機會定義聲明（owner 於景點建立時確認），非即時評估。propagate_unknown 保底。",
-              "en": "Presence of the static subject is declared by the opportunity definition (confirmed by the owner at spot creation), not evaluated live. propagate_unknown as fallback.",
-              "ja": "静的主体的存在は機会定義側で宣言（オーナーが登録時に確認）。ライブ評価ではない。propagate_unknown でフォールバック。"
+              "zh-TW": "中雲 30–60% 給廣場全景明暗節奏，但只是加分——晴空同樣成立（owner 規格 §1.1 同源修正）。",
+              "en": "Mid-cloud 30-60% gives the plaza panorama its light rhythm, as a bonus only - a clear sky also qualifies (same-source fix as owner spec section 1.1).",
+              "ja": "中層雲30〜60%は広場の全景に明暗のリズムを与えるが加点にとどめる——晴空でも成立（オーナー仕様書 §1.1 同源の修正）。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
             }
           },
           {
-            "id": "C-jp-026-P01-02",
+            "id": "C-jp-026-P01-GH2",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 10.0,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-026-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度 ≥10 km：全景價值就在看得遠，霧霾直接否決。",
+              "en": "Visibility ≥10 km: the whole point of a vista is distance; haze vetoes it.",
+              "ja": "視程10km以上：眺望の価値は遠くまで見えることにあり、ヘイズは直接否決。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
+            }
+          },
+          {
+            "id": "C-jp-026-P01-GH3",
             "role": "REQUIRED",
             "domain": "WEATHER",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
             "metric": "precipitation",
-            "operator": "lte",
-            "threshold": 0.3,
+            "operator": "lt",
+            "threshold": 0.2,
             "unit": "mm/h",
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
               "jp-026-P01-claim-01"
             ],
-            "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
             "validation_status": "provisional",
-            "condition_tier": "SHOOT",
-            "threshold_source": "evidence_review",
-            "calibration_status": "approved",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "拍攝時降雨 <0.3 mm/h：既審通用門檻。岩質地景拍攝忌雨（滑、濕反射、水霧模糊紋理）。",
-              "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold. Rain hurts rock-landform shooting (slippery, wet glare, mist blurring texture).",
-              "ja": "撮影時の降水<0.3mm/h。既承認閾値。雨は岩質撮影に悪影響（滑り・濡れ反射・水煙で質感不明瞭）。"
+              "zh-TW": "降水 >0.2 mm/h 時拍攝與器材都受影響，否決。",
+              "en": "Above 0.2 mm/h shooting and gear suffer; reject.",
+              "ja": "降水0.2mm/h超は撮影も機材も難航するため否決。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
             }
           },
           {
-            "id": "C-jp-026-P01-03",
-            "role": "QUALITY",
+            "id": "C-jp-026-P01-GH4",
+            "role": "REQUIRED",
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
@@ -28807,52 +29270,22 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "BONUS",
+            "condition_tier": "MAIN",
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。",
-              "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
-              "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
+              "zh-TW": "金色時刻窗為必要（owner 規格 §1：皇居廣場全景改歸 golden_hour 題材）：低角度金光定義本題材，正午不再觸發；晨昏雙向皆可。",
+              "en": "The golden-hour window is REQUIRED (owner spec section 1: the Kokyo Gaien plaza panorama re-genred to golden_hour): low-angle golden light defines the subject, noon no longer qualifies; morning and evening both qualify.",
+              "ja": "ゴールデンアワーの窓は必須（オーナー仕様書 §1：皇居前広場の全景は golden_hour 題材へ再分類）：低角度の金色光が本題材を定義し、正午は不成立。朝夕どちらも可。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
             }
           },
           {
-            "id": "C-jp-026-P01-04",
-            "role": "QUALITY",
-            "domain": "WEATHER",
-            "evaluation_mode": "GUIDANCE",
-            "capability": "CONDITIONS",
-            "metric": "aod_550nm",
-            "operator": "lte",
-            "threshold": 0.4,
-            "unit": null,
-            "unknown_policy": "propagate_unknown",
-            "claim_refs": [
-              "jp-026-P01-claim-01"
-            ],
-            "model_binding": "dataset:cams_global|field:aod_550nm|role:AEROSOL",
-            "validation_status": "provisional",
-            "condition_tier": "BONUS",
-            "threshold_source": "evidence_review",
-            "calibration_status": "provisional",
-            "rationale_i18n": {
-              "zh-TW": "遠眺型地景（峽谷對岸、山層間）需要高透明度；AOD ≤0.4 為加分參考（沿用已審門檻）。近景地景不受此影響。",
-              "en": "Distant landform views (across canyon, between ridges) need high transparency; AOD <= 0.4 is a bonus reference (carried-over threshold). Close-up subjects unaffected.",
-              "ja": "遠景型地景（峡谷対岸、尾根越し）は透明度が要。AOD<=0.4を参考加点。近景地形は影響なし。"
-            },
-            "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
-            }
-          },
-          {
-            "id": "C-jp-026-P01-LW1",
+            "id": "C-jp-026-P01-GH5",
             "role": "REQUIRED",
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
@@ -28871,14 +29304,44 @@
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+              "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+              "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
+            }
+          },
+          {
+            "id": "C-jp-026-P01-GH6",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "cloud_cover_low",
+            "operator": "lte",
+            "threshold": 40,
+            "unit": "%",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-026-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "金色時刻要讓低角度光斜灑進畫面：低雲 ≤40%；厚低雲把斜光整層擋掉就不成立。",
+              "en": "Golden hour needs the low-angle light to rake across the scene: low cloud <= 40%; a thick low deck blocks the rake and the hour fails.",
+              "ja": "ゴールデンアワーは低角度の光が斜めに差し込むことを要する：下層雲≤40%。厚い下層雲は光を遮り不成立。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
             }
           }
         ],
@@ -28892,32 +29355,38 @@
         "conditions_v2": {
           "required": [
             {
-              "id": "C-jp-026-P01-01",
-              "metric": "landform_present",
-              "op": "derived_state",
-              "value": null
+              "id": "C-jp-026-P01-GHV3",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 10.0
             },
             {
-              "id": "C-jp-026-P01-02",
+              "id": "C-jp-026-P01-GHV4",
               "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
+            },
+            {
+              "id": "C-jp-026-P01-GHV5",
+              "metric": "cloud_cover_low",
               "op": "lte",
-              "value": 0.3
+              "value": 40
             }
           ],
           "quality": [
             {
-              "id": "C-jp-026-P01-04",
-              "metric": "aod_550nm",
+              "id": "C-jp-026-P01-GHQ1",
+              "metric": "cloud_cover_mid",
               "weight": 1.0,
               "ideal": [
-                0,
-                0.15
+                30.0,
+                60.0
               ],
               "acceptable": [
-                0,
-                0.5
+                15.0,
+                75.0
               ],
-              "provisional": false
+              "provisional": true
             }
           ]
         }
@@ -37745,6 +38214,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-jp-042-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-042-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -37784,6 +38283,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-jp-042-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -55378,6 +55883,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-jp-089-P01-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-089-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -55417,6 +55952,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-jp-089-P01-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -55813,6 +56354,36 @@
               "en": "2026-11-12 CL-DATA-68: fix for the round16 challenger finding on jp-090-P01 (seasonal misplacement, high); typical window 12-01-06-30 per challenger evidence (nap-camp.com/mag/112850, tabirai.net 0000552).",
               "ja": "2026-11-12 CL-DATA-68：round16 チャレンジャー指摘（jp-090-P01 季節錯置・高）の修正。例年窓 12-01〜06-30 は挑戦者証拠（nap-camp.com/mag/112850、tabirai.net 0000552）による。"
             }
+          },
+          {
+            "id": "C-jp-090-P01-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "jp-090-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -55852,6 +56423,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-jp-090-P01-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -74212,6 +74789,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-019-P05-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-019-P05-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -74251,6 +74858,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-019-P05-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -81771,6 +82384,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-024-P05-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-024-P05-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -81810,6 +82453,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-024-P05-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -101695,6 +102344,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-040-P06-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-040-P06-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -101734,6 +102413,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-040-P06-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -108922,6 +109607,36 @@
               "en": "2026-11-06 CL-DATA-12 full audit (batch c): this subject carries water/harbor/lake reflection semantics, so calm wind is a prerequisite - added wind_speed_10m <=3 m/s as REQUIRED/MAIN (tw-045 high-mountain lake night-sky reflection relaxed to <=3). Audit source: CL-DATA-12 full audit found reflection subjects missing the wind gate. Semantic correction; layering parity gate exempt, documented here.",
               "ja": "2026-11-06 CL-DATA-12 全面監査（batch c）：本題材は水面／港池／湖面の反射・鏡面を含み、無風が成立前提——wind_speed_10m <=3 m/s を REQUIRED/MAIN で追加（tw-045 高山湖の夜空反射は <=3 に緩和）。監査源：CL-DATA-12 全面監査。 意味修正のため layering parity ゲートは免除。"
             }
+          },
+          {
+            "id": "C-tw-045-P03-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-045-P03-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -108967,6 +109682,12 @@
               "metric": "wind_speed_10m",
               "op": "lte",
               "value": 3
+            },
+            {
+              "id": "C-tw-045-P03-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -120947,6 +121668,36 @@
               "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
               "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
             }
+          },
+          {
+            "id": "C-tw-064-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-064-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -120974,6 +121725,12 @@
               "metric": "aod_550nm",
               "op": "lte",
               "value": 0.6
+            },
+            {
+              "id": "C-tw-064-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -121575,6 +122332,36 @@
               "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
               "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
             }
+          },
+          {
+            "id": "C-tw-065-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-065-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -121602,6 +122389,12 @@
               "metric": "aod_550nm",
               "op": "lte",
               "value": 0.6
+            },
+            {
+              "id": "C-tw-065-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -121765,73 +122558,106 @@
       "condition_contract": {
         "contract_id": "CC-tw-066-P01-v1",
         "status": "draft",
-        "genre_template": "geological_landform",
-        "template_version": "geological_landform-v0.1",
+        "genre_template": "golden_hour",
+        "template_version": "golden_hour-v0.1",
         "recommendation_policy_version": null,
         "conditions": [
           {
-            "id": "C-tw-066-P01-01",
-            "role": "REQUIRED",
-            "domain": "SUBJECT_STATE",
+            "id": "C-tw-066-P01-GH1",
+            "role": "QUALITY",
+            "domain": "WEATHER",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
-            "metric": "landform_present",
-            "operator": "none",
-            "threshold": null,
-            "unit": "level",
+            "metric": "cloud_cover_mid",
+            "operator": "between",
+            "threshold": [
+              30,
+              60
+            ],
+            "unit": "%",
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
               "tw-066-P01-claim-01"
             ],
-            "model_binding": null,
+            "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent|role:MID",
             "validation_status": "provisional",
-            "condition_tier": "MAIN",
-            "threshold_source": "evidence_review",
-            "calibration_status": "approved",
+            "condition_tier": "BONUS",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "靜態主體存在性由機會定義聲明（owner 於景點建立時確認），非即時評估。propagate_unknown 保底。",
-              "en": "Presence of the static subject is declared by the opportunity definition (confirmed by the owner at spot creation), not evaluated live. propagate_unknown as fallback.",
-              "ja": "静的主体的存在は機会定義側で宣言（オーナーが登録時に確認）。ライブ評価ではない。propagate_unknown でフォールバック。"
+              "zh-TW": "中雲 30–60% 給廣場全景明暗節奏，但只是加分——晴空同樣成立（owner 規格 §1.1 同源修正）。",
+              "en": "Mid-cloud 30-60% gives the plaza panorama its light rhythm, as a bonus only - a clear sky also qualifies (same-source fix as owner spec section 1.1).",
+              "ja": "中層雲30〜60%は広場の全景に明暗のリズムを与えるが加点にとどめる——晴空でも成立（オーナー仕様書 §1.1 同源の修正）。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
             }
           },
           {
-            "id": "C-tw-066-P01-02",
+            "id": "C-tw-066-P01-GH2",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 10.0,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-066-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度 ≥10 km：全景價值就在看得遠，霧霾直接否決。",
+              "en": "Visibility ≥10 km: the whole point of a vista is distance; haze vetoes it.",
+              "ja": "視程10km以上：眺望の価値は遠くまで見えることにあり、ヘイズは直接否決。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
+            }
+          },
+          {
+            "id": "C-tw-066-P01-GH3",
             "role": "REQUIRED",
             "domain": "WEATHER",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
             "metric": "precipitation",
-            "operator": "lte",
-            "threshold": 0.3,
+            "operator": "lt",
+            "threshold": 0.2,
             "unit": "mm/h",
             "unknown_policy": "propagate_unknown",
             "claim_refs": [
               "tw-066-P01-claim-01"
             ],
-            "model_binding": "dataset:gfs_0p25|field:precipitation_mm_h|role:MID",
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
             "validation_status": "provisional",
-            "condition_tier": "SHOOT",
-            "threshold_source": "evidence_review",
-            "calibration_status": "approved",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "拍攝時降雨 <0.3 mm/h：既審通用門檻。岩質地景拍攝忌雨（滑、濕反射、水霧模糊紋理）。",
-              "en": "Precipitation < 0.3 mm/h at shoot time: reviewed generic threshold. Rain hurts rock-landform shooting (slippery, wet glare, mist blurring texture).",
-              "ja": "撮影時の降水<0.3mm/h。既承認閾値。雨は岩質撮影に悪影響（滑り・濡れ反射・水煙で質感不明瞭）。"
+              "zh-TW": "降水 >0.2 mm/h 時拍攝與器材都受影響，否決。",
+              "en": "Above 0.2 mm/h shooting and gear suffer; reject.",
+              "ja": "降水0.2mm/h超は撮影も機材も難航するため否決。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
             }
           },
           {
-            "id": "C-tw-066-P01-03",
-            "role": "QUALITY",
+            "id": "C-tw-066-P01-GH4",
+            "role": "REQUIRED",
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
             "capability": "CONDITIONS",
@@ -121845,52 +122671,22 @@
             ],
             "model_binding": null,
             "validation_status": "provisional",
-            "condition_tier": "BONUS",
+            "condition_tier": "MAIN",
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "低角度直射光強化岩層紋理與色彩（ sedimentary layers、拱門逆光）——加分項，非必要。",
-              "en": "Low-angle direct light strengthens rock texture and color (sedimentary layers, backlit arches) — bonus, not required.",
-              "ja": "低角度直射光は岩の質感と色を強調（堆積層、逆光のアーチ）——加点項目、必須ではない。"
+              "zh-TW": "金色時刻窗為必要（owner 規格 §1：皇居廣場全景改歸 golden_hour 題材）：低角度金光定義本題材，正午不再觸發；晨昏雙向皆可。",
+              "en": "The golden-hour window is REQUIRED (owner spec section 1: the Kokyo Gaien plaza panorama re-genred to golden_hour): low-angle golden light defines the subject, noon no longer qualifies; morning and evening both qualify.",
+              "ja": "ゴールデンアワーの窓は必須（オーナー仕様書 §1：皇居前広場の全景は golden_hour 題材へ再分類）：低角度の金色光が本題材を定義し、正午は不成立。朝夕どちらも可。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
             }
           },
           {
-            "id": "C-tw-066-P01-04",
-            "role": "QUALITY",
-            "domain": "WEATHER",
-            "evaluation_mode": "GUIDANCE",
-            "capability": "CONDITIONS",
-            "metric": "aod_550nm",
-            "operator": "lte",
-            "threshold": 0.4,
-            "unit": null,
-            "unknown_policy": "propagate_unknown",
-            "claim_refs": [
-              "tw-066-P01-claim-01"
-            ],
-            "model_binding": "dataset:cams_global|field:aod_550nm|role:AEROSOL",
-            "validation_status": "provisional",
-            "condition_tier": "BONUS",
-            "threshold_source": "evidence_review",
-            "calibration_status": "provisional",
-            "rationale_i18n": {
-              "zh-TW": "遠眺型地景（峽谷對岸、山層間）需要高透明度；AOD ≤0.4 為加分參考（沿用已審門檻）。近景地景不受此影響。",
-              "en": "Distant landform views (across canyon, between ridges) need high transparency; AOD <= 0.4 is a bonus reference (carried-over threshold). Close-up subjects unaffected.",
-              "ja": "遠景型地景（峡谷対岸、尾根越し）は透明度が要。AOD<=0.4を参考加点。近景地形は影響なし。"
-            },
-            "notes_i18n": {
-              "zh-TW": "2026-11-01 manager 依既有已審模板訂立，未校準。",
-              "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
-              "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
-            }
-          },
-          {
-            "id": "C-tw-066-P01-LW1",
+            "id": "C-tw-066-P01-GH5",
             "role": "REQUIRED",
             "domain": "ASTRONOMY",
             "evaluation_mode": "GUIDANCE",
@@ -121909,14 +122705,44 @@
             "threshold_source": "computed",
             "calibration_status": "provisional",
             "rationale_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "必要光線窗：全日可見光題材只在民用光（太陽仰角 > −6°）內成立（CL-DATA-11 同源定義；夜間一律不符合）。場區營業時間另見存取資訊。",
+              "en": "Required light window: an all-day visible-light subject only qualifies in civil light (sun elevation > -6 deg; CL-DATA-11 same-source definition; night hours never qualify). Site opening hours are noted in the access notes.",
+              "ja": "必要な光の窓：全日型の可視光題材は市民光（太陽高度 > -6°）の時間帯でのみ成立（CL-DATA-11 同源定義、夜間は一律不成立）。施設の開場時間はアクセス情報を参照。"
             },
             "notes_i18n": {
-              "zh-TW": "2026-11-06 CL-DATA-19 全面稽查：中緯度全日題材補 light_window（civil，太陽仰角 > −6°，CL-DATA-11 同源定義；夜間一律不符合）。得月樓（tw-062-P01）抽查實證：夜間無光線仍通過天氣門檻——全日題材需必要光線窗。本筆為語意修正，layering parity gate 豁免，理由記於本註記。",
-              "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.",
-              "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。"
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
+            }
+          },
+          {
+            "id": "C-tw-066-P01-GH6",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "cloud_cover_low",
+            "operator": "lte",
+            "threshold": 40,
+            "unit": "%",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-066-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "金色時刻要讓低角度光斜灑進畫面：低雲 ≤40%；厚低雲把斜光整層擋掉就不成立。",
+              "en": "Golden hour needs the low-angle light to rake across the scene: low cloud <= 40%; a thick low deck blocks the rake and the hour fails.",
+              "ja": "ゴールデンアワーは低角度の光が斜めに差し込むことを要する：下層雲≤40%。厚い下層雲は光を遮り不成立。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 裁決：人文建築（社殿／燈塔）由 geological_landform 改歸 golden_hour 光影模板，條件沿用 golden_hour 標準組。",
+              "en": "Owner ruling 2026-11-22: heritage architecture (shrine hall / lighthouse) reclassified from geological_landform to the golden_hour light template, using the canonical golden_hour condition set.",
+              "ja": "2026-11-22 オーナー裁定：人文建築（社殿・灯台）を geological_landform から golden_hour へ再分類し、golden_hour 標準条件を適用。"
             }
           }
         ],
@@ -121930,32 +122756,38 @@
         "conditions_v2": {
           "required": [
             {
-              "id": "C-tw-066-P01-01",
-              "metric": "landform_present",
-              "op": "derived_state",
-              "value": null
+              "id": "C-tw-066-P01-GHV3",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 10.0
             },
             {
-              "id": "C-tw-066-P01-02",
+              "id": "C-tw-066-P01-GHV4",
               "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
+            },
+            {
+              "id": "C-tw-066-P01-GHV5",
+              "metric": "cloud_cover_low",
               "op": "lte",
-              "value": 0.3
+              "value": 40
             }
           ],
           "quality": [
             {
-              "id": "C-tw-066-P01-04",
-              "metric": "aod_550nm",
+              "id": "C-tw-066-P01-GHQ1",
+              "metric": "cloud_cover_mid",
               "weight": 1.0,
               "ideal": [
-                0,
-                0.15
+                30.0,
+                60.0
               ],
               "acceptable": [
-                0,
-                0.5
+                15.0,
+                75.0
               ],
-              "provisional": false
+              "provisional": true
             }
           ]
         }
@@ -122238,6 +123070,36 @@
               "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
               "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
             }
+          },
+          {
+            "id": "C-tw-067-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-067-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -122265,6 +123127,12 @@
               "metric": "aod_550nm",
               "op": "lte",
               "value": 0.6
+            },
+            {
+              "id": "C-tw-067-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -122558,6 +123426,36 @@
               "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
               "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
             }
+          },
+          {
+            "id": "C-tw-069-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-069-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -122579,6 +123477,12 @@
               "metric": "precipitation",
               "op": "lt",
               "value": 0.3
+            },
+            {
+              "id": "C-tw-069-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -122877,6 +123781,36 @@
               "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
               "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
             }
+          },
+          {
+            "id": "C-tw-070-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-070-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -122904,6 +123838,12 @@
               "metric": "aod_550nm",
               "op": "lte",
               "value": 0.6
+            },
+            {
+              "id": "C-tw-070-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -123275,6 +124215,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-070-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-070-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -123314,6 +124284,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-070-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -123587,6 +124563,36 @@
               "en": "Precipitation just needs to stay very low; light rain does not affect a seascape shoot.",
               "ja": "降水量は十分に低ければよい。海景では小雨でも撮影に支障はない。"
             }
+          },
+          {
+            "id": "C-tw-071-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-071-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -123608,6 +124614,12 @@
               "metric": "precipitation",
               "op": "lt",
               "value": 0.3
+            },
+            {
+              "id": "C-tw-071-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -123906,6 +124918,36 @@
               "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
               "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
             }
+          },
+          {
+            "id": "C-tw-071-P02-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-071-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -123933,6 +124975,12 @@
               "metric": "aod_550nm",
               "op": "lte",
               "value": 0.6
+            },
+            {
+              "id": "C-tw-071-P02-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -124956,6 +126004,36 @@
               "en": "2026-11-20 CL-DATA-76 (owner second-audit ruling): Laomei gains a low-tide +/- 2 h gate (the rising tide submerging the reef makes shooting pointless). The tide-decided semantics ride on water_surface_state (the established CL-COND-A7 tide-decided pattern); the legacy tide_state module already covers this opportunity.",
               "ja": "2026-11-20 CL-DATA-76（オーナー第二監査裁定）：老梅に干潮前後±2時間の閾値を追加（満潮で水没すれば不適）。潮位決定の意味は water_surface_state で担う（CL-COND-A7 の既存パターン）；legacy tide_state は既に本機会点をカバー。"
             }
+          },
+          {
+            "id": "C-tw-073-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-073-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -124983,6 +126061,12 @@
               "metric": "water_surface_state",
               "op": "derived_state",
               "value": null
+            },
+            {
+              "id": "C-tw-073-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -125177,63 +126261,6 @@
             }
           },
           {
-            "id": "C-tw-074-P01-02",
-            "role": "REQUIRED",
-            "domain": "WEATHER",
-            "evaluation_mode": "GUIDANCE",
-            "capability": "CONDITIONS",
-            "metric": "cloud_cover_low",
-            "operator": "lte",
-            "threshold": 55,
-            "unit": "%",
-            "unknown_policy": "propagate_unknown",
-            "claim_refs": [
-              "tw-074-P01-claim-01"
-            ],
-            "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
-            "validation_status": "provisional",
-            "condition_tier": "MAIN",
-            "threshold_source": "formula_derived",
-            "calibration_status": "provisional",
-            "rationale_i18n": {
-              "zh-TW": "日出方位扇形的低雲直接擋太陽；55% 允許塊狀雲——塊狀雲反而是上色主角。海上景點扇形取海平線方位，山嶺景點取山脊方位；雲海等疊加判據不在此模板內（activate_when/merge 各自掛）。",
-              "en": "Low cloud in the sunrise-azimuth sector blocks the sun directly; 55% still allows broken cloud, which is what actually paints the colour. Coastal spots pick the sea-horizon sector, mountain spots the ridge sector; cloud-sea and other overlays are not part of this template (attached per spot via activate_when/merge).",
-              "ja": "日の出方位の扇形領域の低雲は太陽を直接遮る。55%は塊状雲を許容し、色を生む主役。海上spotは海平線方位、山岳spotは稜線方位。雲海等の重ね掛けはこのテンプレート外（activate_when/mergeで追加）。"
-            },
-            "binding": {
-              "strategy": "nearest_gridpoint",
-              "gridpoint_selector": "sun_azimuth_sector"
-            }
-          },
-          {
-            "id": "C-tw-074-P01-03",
-            "role": "QUALITY",
-            "domain": "WEATHER",
-            "evaluation_mode": "GUIDANCE",
-            "capability": "CONDITIONS",
-            "metric": "cloud_cover_mid_and_high",
-            "operator": "between",
-            "threshold": [
-              20,
-              70
-            ],
-            "unit": "%",
-            "unknown_policy": "propagate_unknown",
-            "claim_refs": [
-              "tw-074-P01-claim-01"
-            ],
-            "model_binding": "dataset:gfs_0p25|field:cloud_cover_mid_percent+cloud_cover_high_percent|role:MID",
-            "validation_status": "provisional",
-            "condition_tier": "MODIFIER",
-            "threshold_source": "formula_derived",
-            "calibration_status": "provisional",
-            "rationale_i18n": {
-              "zh-TW": "中高雲是日出彩色的染料：全晴只有金黃、全陰無色彩；20–70% 區間加分。指標由管線以 mid+high 求和推導。",
-              "en": "Mid and high cloud are the dyes of sunrise colour: clear skies give plain gold and overcast gives none; the 20-70% band earns the bonus. The pipeline derives the metric as mid plus high cloud.",
-              "ja": "中層・上層の雲は日の出の色彩の染料：快晴はただの金色、完全な曇天は色彩なし。20-70%の帯で加点。指標はmid+highの和として導出。"
-            }
-          },
-          {
             "id": "C-tw-074-P01-04",
             "role": "REQUIRED",
             "domain": "WEATHER",
@@ -125286,6 +126313,66 @@
               "en": "2026-11-06 CL-DATA-12 full audit (batch m): Yehliu Queen's Head is a daytime-opening-hours subject - sunrise MAIN downgraded to MODIFIER, and a civil light_window (sun elevation > -6 deg) is added as the daylight window (approximating park opening hours: shootable only while lit). Semantic correction; layering parity gate exempt, documented here.",
               "ja": "2026-11-06 CL-DATA-12 全面監査（batch m）：野柳女王頭は昼間開放の題材——日の出 MAIN を MODIFIER に降格し、light_window（市民光、太陽高度 > -6°）を日中窓として追加（園の開放時間に近似：光がある昼間のみ撮影可能）。 意味修正のため layering parity ゲートは免除。"
             }
+          },
+          {
+            "id": "C-tw-074-P01-LF1",
+            "role": "REQUIRED",
+            "domain": "SUBJECT_STATE",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "landform_present",
+            "operator": "none",
+            "threshold": null,
+            "unit": "level",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-074-P01-claim-01"
+            ],
+            "model_binding": null,
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "evidence_review",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "地景存在性（地形紋理可辨）：地質地景題材的核心，缺失時整段判定無意義。",
+              "en": "Landform presence (readable geological texture): the core of a geological-landform subject.",
+              "ja": "地形の存在（地質テクスチャの判読可否）。地質地形題材の中核。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
+          },
+          {
+            "id": "C-tw-074-P01-A1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "aod_550nm",
+            "operator": "lte",
+            "threshold": 0.6,
+            "unit": null,
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-074-P01-claim-01"
+            ],
+            "model_binding": "dataset:cams_global|field:aerosol_optical_depth_550nm|role:AEROSOL",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "氣溶膠光學厚度 ≤0.6：霾害重時空氣中的散射會吃掉遠景對比（與同地點 jp-010-P02 一致）。",
+              "en": "AOD <= 0.6: heavy haze scatters away far-field contrast (matches jp-010-P02 at the same place).",
+              "ja": "AOD≤0.6。強い霞は遠景のコントラストを失わせる（同一地点 jp-010-P02 と整合）。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -125298,34 +126385,25 @@
         "conditions_v2": {
           "required": [
             {
-              "id": "C-tw-074-P01-02",
-              "metric": "cloud_cover_low",
-              "op": "lte",
-              "value": 55
-            },
-            {
               "id": "C-tw-074-P01-04",
               "metric": "precipitation",
               "op": "lt",
               "value": 0.3
+            },
+            {
+              "id": "C-tw-074-P01-LF",
+              "metric": "landform_present",
+              "op": "derived_state",
+              "value": null
+            },
+            {
+              "id": "C-tw-074-P01-A12",
+              "metric": "aod_550nm",
+              "op": "lte",
+              "value": 0.6
             }
           ],
-          "quality": [
-            {
-              "id": "C-tw-074-P01-03",
-              "metric": "cloud_cover_mid_and_high",
-              "weight": 2.0,
-              "ideal": [
-                20,
-                50
-              ],
-              "acceptable": [
-                0,
-                75
-              ],
-              "provisional": false
-            }
-          ]
+          "quality": []
         }
       },
       "evidence_claims": [
@@ -126710,6 +127788,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-076-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-076-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -126749,6 +127857,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-076-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -127042,6 +128156,36 @@
               "en": "Established 2026-11-01 by the manager from already-reviewed template values; not calibrated.",
               "ja": "2026-11-01、マネージャーが承認済みテンプレート値に基づき設定。未校正。"
             }
+          },
+          {
+            "id": "C-tw-077-P01-V1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "visibility",
+            "operator": "gte",
+            "threshold": 15,
+            "unit": "km",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-077-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+              "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+              "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -127063,6 +128207,12 @@
               "metric": "precipitation",
               "op": "lt",
               "value": 0.3
+            },
+            {
+              "id": "C-tw-077-P01-V12",
+              "metric": "visibility",
+              "op": "gte",
+              "value": 15
             }
           ],
           "quality": [
@@ -128375,6 +129525,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-080-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-080-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -128414,6 +129594,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-080-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -136734,6 +137920,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-091-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-091-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -136773,6 +137989,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-091-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -137986,6 +139208,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-093-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-093-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -138025,6 +139277,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-093-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -138662,6 +139920,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-094-P01-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-094-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -138701,6 +139989,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-094-P01-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -139067,6 +140361,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-095-P01-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-095-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -139106,6 +140430,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-095-P01-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -160668,6 +161998,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-140-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-140-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -160707,6 +162067,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-140-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -163718,6 +165084,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-tw-144-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "tw-144-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -163757,6 +165153,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-tw-144-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -200354,6 +201756,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-001-P03-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-001-P03-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -200393,6 +201825,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-001-P03-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -202458,6 +203896,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-005-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-005-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -202497,6 +203965,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-005-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -203181,6 +204655,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-006-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-006-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -203220,6 +204724,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-006-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -207893,6 +209403,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-014-P03-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-014-P03-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -207932,6 +209472,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-014-P03-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -210338,6 +211884,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-018-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-018-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -210377,6 +211953,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-018-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -240077,6 +241659,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-097-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-097-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -240116,6 +241728,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-097-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -241802,6 +243420,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-100-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-100-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -241841,6 +243489,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-100-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -244379,6 +246033,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-106-P02-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-106-P02-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -244418,6 +246102,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-106-P02-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -245204,6 +246894,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-108-P01-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-108-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -245243,6 +246963,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-108-P01-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -246353,6 +248079,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-112-P01-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-112-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -246392,6 +248148,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-112-P01-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -247439,6 +249201,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-115-P01-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-115-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -247478,6 +249270,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-115-P01-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -258678,6 +260476,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-149-P01-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-149-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -258717,6 +260545,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-149-P01-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [
@@ -260318,6 +262152,36 @@
               "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
               "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
             }
+          },
+          {
+            "id": "C-us-153-P01-P1",
+            "role": "REQUIRED",
+            "domain": "WEATHER",
+            "evaluation_mode": "GUIDANCE",
+            "capability": "CONDITIONS",
+            "metric": "precipitation",
+            "operator": "lt",
+            "threshold": 0.2,
+            "unit": "mm/h",
+            "unknown_policy": "propagate_unknown",
+            "claim_refs": [
+              "us-153-P01-claim-01"
+            ],
+            "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+            "validation_status": "provisional",
+            "condition_tier": "MAIN",
+            "threshold_source": "formula_derived",
+            "calibration_status": "provisional",
+            "rationale_i18n": {
+              "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+              "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+              "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+            },
+            "notes_i18n": {
+              "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+              "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+              "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+            }
           }
         ],
         "windows": {
@@ -260357,6 +262221,12 @@
               "metric": "moon_illumination_fraction",
               "op": "lte",
               "value": 0.25
+            },
+            {
+              "id": "C-us-153-P01-P12",
+              "metric": "precipitation",
+              "op": "lt",
+              "value": 0.2
             }
           ],
           "quality": [

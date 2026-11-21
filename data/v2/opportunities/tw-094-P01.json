@@ -319,6 +319,36 @@
           "en": "2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): moon dual-track: illumination gate <= 0.25 replaces the illuminance proxy (a moon below the horizon auto-passes this condition by the evaluator's moon-down override).",
           "ja": "2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：月光二段構え：月照ゲート≤0.25が照度プロキシを置換（月が地平線下なら評価器の月下オーバーライドで自動成立）。"
         }
+      },
+      {
+        "id": "C-tw-094-P01-P1",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "precipitation",
+        "operator": "lt",
+        "threshold": 0.2,
+        "unit": "mm/h",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "tw-094-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:precipitation_rate_mm_h|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "降水 <0.2 mm/h：網格低雲量再低，局地陣雨也會毀掉整段星空；星空題材一律加硬門檻。",
+          "en": "Precipitation < 0.2 mm/h: even with a low grid cloud cover, a local shower ruins the whole star session.",
+          "ja": "降水<0.2mm/h。グリッド雲量が低くても局地のにわか雨で星空は成立しない。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+          "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+          "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+        }
       }
     ],
     "windows": {
@@ -358,6 +388,12 @@
           "metric": "moon_illumination_fraction",
           "op": "lte",
           "value": 0.25
+        },
+        {
+          "id": "C-tw-094-P01-P12",
+          "metric": "precipitation",
+          "op": "lt",
+          "value": 0.2
         }
       ],
       "quality": [

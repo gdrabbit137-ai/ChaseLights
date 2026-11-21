@@ -297,6 +297,36 @@
           "en": "2026-11-06 CL-DATA-12 full audit (batch c): this subject carries water/harbor/lake reflection semantics, so calm wind is a prerequisite - added wind_speed_10m <=2 m/s as REQUIRED/MAIN (tw-045 high-mountain lake night-sky reflection relaxed to <=3). Audit source: CL-DATA-12 full audit found reflection subjects missing the wind gate. Semantic correction; layering parity gate exempt, documented here.",
           "ja": "2026-11-06 CL-DATA-12 全面監査（batch c）：本題材は水面／港池／湖面の反射・鏡面を含み、無風が成立前提——wind_speed_10m <=2 m/s を REQUIRED/MAIN で追加（tw-045 高山湖の夜空反射は <=3 に緩和）。監査源：CL-DATA-12 全面監査。 意味修正のため layering parity ゲートは免除。"
         }
+      },
+      {
+        "id": "C-jp-016-P02-WS1",
+        "role": "REQUIRED",
+        "domain": "HYDROLOGY",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "water_reflection_state",
+        "operator": "none",
+        "threshold": null,
+        "unit": null,
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-016-P02-claim-01"
+        ],
+        "model_binding": null,
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "rationale_i18n": {
+          "zh-TW": "水面狀態（鏡面／可拍／不可拍）：港口夜景靠水面倒影成景，水面被風擾亂或水質混濁時應剔除。",
+          "en": "Water-surface state (mirror / shootable / unfit): the harbour night scene lives on the water reflection; a wind-ruffled or turbid surface must be excluded.",
+          "ja": "水面状態（鏡面／撮影可／不可）。港湾夜景は水面反射が主役で、風波や濁りは除外すべき。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+          "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+          "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+        },
+        "calibration_status": "provisional"
       }
     ],
     "windows": {
@@ -330,6 +360,12 @@
           "metric": "wind_speed_10m",
           "op": "lte",
           "value": 2
+        },
+        {
+          "id": "C-jp-016-P02-WS",
+          "metric": "water_reflection_state",
+          "op": "derived_state",
+          "value": null
         }
       ],
       "quality": [

@@ -321,6 +321,66 @@
           "en": "2026-11-06 CL-DATA-19 full audit: mid-latitude all-day subject gains a civil light_window (sun elevation > -6 deg, CL-DATA-11 same-source definition; night hours never qualify). Spotted via tw-062-P01: night hours passed the weather gates although there is no light to shoot in. Semantic correction; layering parity gate exempt, documented here.\n2026-11-20 CL-DATA-75 (owner spec “Photography-genre rule refactor & QUALITY scoring engine” §1): seasonal window gate removed (year-round subject: the reverse-Fuji lives on calm water and a visible Fuji, not a bloom season; owner spec section 1.4 - avoids referencing an empty seasonal field).",
           "ja": "2026-11-06 CL-DATA-19 全面監査：中緯度の全日題材に light_window を追加（市民光、太陽高度 > -6°、CL-DATA-11 同源定義；夜間は一律成立しない）。tw-062-P01（得月樓）の抽查で実証：夜間に光がないのに気象ゲートを通過——全日題材には必要な光の窓が要る。意味修正のため layering parity ゲートは免除。\n2026-11-20 CL-DATA-75（オーナー仕様書「撮影題材ルール再構築とQUALITY計分エンジン」§1）：季節窓の必須を撤去（通年撮影可——逆さ富士は湖面の静けさと富士の可視で成立し、花の季節ではない。オーナー仕様書 §1.4：空の季節欄参照を回避）。"
         }
+      },
+      {
+        "id": "C-jp-010-P02-V1",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "visibility",
+        "operator": "gte",
+        "threshold": 15,
+        "unit": "km",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-010-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+          "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+          "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+          "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+          "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+        }
+      },
+      {
+        "id": "C-jp-010-P02-CL1",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "cloud_cover_low",
+        "operator": "lte",
+        "threshold": 30,
+        "unit": "%",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-010-P02-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:cloud_cover_low_percent|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "低雲量 ≤30%：低雲牆會直接遮住山體／遠景，這是「無風好天」之外的必要閘門。",
+          "en": "Low cloud <= 30%: a low deck physically hides the mountain / far view — a necessary gate beyond calm winds.",
+          "ja": "下層雲量≤30%。下層雲が山体・遠景を隠すため、無風好天だけでは不十分。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+          "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+          "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+        }
       }
     ],
     "windows": {
@@ -355,6 +415,18 @@
           "metric": "water_reflection_state",
           "op": "derived_state",
           "value": null
+        },
+        {
+          "id": "C-jp-010-P02-V12",
+          "metric": "visibility",
+          "op": "gte",
+          "value": 15
+        },
+        {
+          "id": "C-jp-010-P02-CL",
+          "metric": "cloud_cover_low",
+          "op": "lte",
+          "value": 30
         }
       ],
       "quality": [

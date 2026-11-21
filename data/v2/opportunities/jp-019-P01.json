@@ -250,6 +250,36 @@
           "en": "Moderate haze scatters and enriches red-orange tones, but above AOD 0.6 the solar disc and horizon silhouette are swallowed (same limit as mountain_view, same physics of atmospheric perspective).",
           "ja": "適度な煙霾は赤橙色を強めるが、AOD>0.6では太陽面と地平線の輪郭が呑まれる（mountain_viewと同じ上限、大気遠近法と同じ物理）。"
         }
+      },
+      {
+        "id": "C-jp-019-P01-V1",
+        "role": "REQUIRED",
+        "domain": "WEATHER",
+        "evaluation_mode": "GUIDANCE",
+        "capability": "CONDITIONS",
+        "metric": "visibility",
+        "operator": "gte",
+        "threshold": 15,
+        "unit": "km",
+        "unknown_policy": "propagate_unknown",
+        "claim_refs": [
+          "jp-019-P01-claim-01"
+        ],
+        "model_binding": "dataset:gfs_0p25|field:visibility_km|role:MID",
+        "validation_status": "provisional",
+        "condition_tier": "MAIN",
+        "threshold_source": "formula_derived",
+        "calibration_status": "provisional",
+        "rationale_i18n": {
+          "zh-TW": "能見度門檻（與 sunrise 基準一致）：海霧／平流霧或沿海霾時遠景糊成一片，光有雲量與無雨仍會誤推。",
+          "en": "Visibility gate aligned with the sunrise baseline: sea fog / advection fog or coastal haze blurs the far view even when cloud cover and rain look benign.",
+          "ja": "視程の門檻（sunrise 基準と同一）。海霧・移流霧・沿岸の霞で遠景が潰れるため、雲量と無雨だけでは誤推になる。"
+        },
+        "notes_i18n": {
+          "zh-TW": "2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。",
+          "en": "Added/corrected by the 2026-11-22 owner ticket (condition re-audit); provisional, uncalibrated.",
+          "ja": "2026-11-22 オーナーチケット（撮影条件再監査）による追加・修正。暫定・未校正。"
+        }
       }
     ],
     "windows": {
@@ -277,6 +307,12 @@
           "metric": "aod_550nm",
           "op": "lte",
           "value": 0.6
+        },
+        {
+          "id": "C-jp-019-P01-V12",
+          "metric": "visibility",
+          "op": "gte",
+          "value": 15
         }
       ],
       "quality": [
