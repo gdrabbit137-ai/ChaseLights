@@ -87,7 +87,18 @@ jobs:
           git add locales i18n
           if git diff --cached --quiet; then
             echo "no locale changes"
-          else
-            git commit -m "CL-I18N-01: incremental locale sync"
-            git push
+            exit 0
           fi
+          git commit -m "CL-I18N-01: incremental locale sync"
+          # main moves fast (scheduled weather/data jobs); rebase and retry.
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase origin/main || { git rebase --abort; git checkout --theirs locales i18n 2>/dev/null || true; }
+            if git push origin HEAD:main; then
+              echo "pushed on attempt $i"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "::error::could not push locale sync after 5 attempts"
+          exit 1
