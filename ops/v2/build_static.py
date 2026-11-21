@@ -13,7 +13,7 @@ from postmerge_verify import verify_main
 RUNTIME_FILES = ('index.html', 'styles.css', 'app.mjs', 'model.mjs',
                  'catalog-loader.mjs', 'catalog-state.mjs', 'v21-adapter.mjs',
                  'browse-index.mjs', 'bundle-digests.mjs', 'browse-index.v2.json', 'catalog.v2.json',
-                 'pull-refresh.mjs', 'shell-auth.mjs',
+                 'pull-refresh.mjs', 'shell-auth.mjs', 'locale-loader.mjs',
                  'favorites-client.mjs',
                  'weather-pilot.html', 'weather-pilot.mjs', 'weather-pilot-tw036.json',
                  'solar-pilot.html', 'solar-pilot.mjs', 'solar-window-tw036.json')
@@ -68,13 +68,31 @@ def build(root, output):
     public.mkdir(parents=True)
     for name, content in files.items():
         (public / name).write_bytes(content)
+    # CL-I18N-01: locale sidecars live at repo root and are resolved by
+    # locale-loader.mjs via ../../locales/ from apps/web-v2/; mirror them into
+    # the build so the packaged app keeps the same relative resolution.
+    locale_files = {}
+    for path in git(root, 'ls-tree', '-r', '--name-only', head, 'locales/').decode().split('\n'):
+        if not path.strip():
+            continue
+        content = git(root, 'show', head + ':' + path)
+        source = root / path
+        if source.is_symlink() or source.read_bytes() != content:
+            raise ValueError('Dirty/symlink locale source: ' + path)
+        locale_files[path] = content
+    for path, content in locale_files.items():
+        target = output / 'public' / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(content)
     report = {'status': 'PASS', 'source_commit_sha': head, 'mode': 'RESEARCH_ONLY',
               'source_index_commit_sha': catalog.get('source_index_commit_sha'),
               'base_path': '/apps/web-v2/', 'public_directory': 'public',
               'deployment_allowed': False, 'live_forecast_eligible': False,
               'owner_trees': provenance['owner_trees'],
-              'files': {f'apps/web-v2/{n}': hashlib.sha256(b).hexdigest()
-                        for n, b in files.items()}}
+              'files': {**{f'apps/web-v2/{n}': hashlib.sha256(b).hexdigest()
+                           for n, b in files.items()},
+                        **{n: hashlib.sha256(b).hexdigest()
+                           for n, b in locale_files.items()}}}
     (output / 'build-manifest.json').write_text(json.dumps(report, indent=2) + '\n')
     return report
 
