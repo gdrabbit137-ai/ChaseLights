@@ -42,7 +42,7 @@ class TestClData24CatalogScoring(unittest.TestCase):
         s = rep["summary"]
         assert s["places"] == 466, f"expected 400 places, got {s['places']}"
         assert s["opportunities"] == 735, f"expected 735 opportunities, got {s['opportunities']}"  # CL-INT-192 re-anchor: 717 -> 734 (CL-DATA-74 five-genre 17 mounts on the merged regen a6b3c0e68)
-        assert s["canonical_locked_opportunities"] == 734  # canonical lock covers research-signed records only; new mounts (CL-DATA-84C tw-001-P04) are scored but not yet locked
+        assert s["canonical_locked_opportunities"] == 735  # CL-DATA-84C: tw-001-P04 admitted to the canonical lock
         assert len(rep["ranking"]) == 466
         assert len(rep["opportunity_scores"]) == 735  # CL-INT-192 re-anchor: 717 -> 734 (CL-DATA-74 five-genre 17 mounts)
         assert s["places_with_unknown_scenic_beauty"] == sum(

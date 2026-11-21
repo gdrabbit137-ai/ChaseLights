@@ -243,6 +243,56 @@
      "en": "AOD <= 0.5 is a bonus: daytime aerosol thickness hints at residual night haze; a tendency indicator only, never a veto (night correspondence uncalibrated).",
      "ja": "AOD≤0.5は加点。昼間のエアロゾル厚は夜間煙霾の残存の目安。傾向指標のみで否決しない（夜間対応は未較正）。"
     }
+   },
+   {
+    "id": "C-tw-001-P04-06",
+    "role": "REQUIRED",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "cloud_cover_low",
+    "operator": "lte",
+    "threshold": 40,
+    "unit": "%",
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-001-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:cloud_cover_low|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "低雲量 ≤40%：低雲牆會直接蓋住盆地燈海與觀音山剪影，是夜景可拍性的硬閘。",
+     "en": "Low cloud <= 40%: a low deck physically covers the basin light field and the Guanyin silhouette — a hard gate for city nights.",
+     "ja": "下層雲量≤40%。下層雲が盆地の灯海と観音山のシルエットを覆うため、夜景成立の必須条件。"
+    }
+   },
+   {
+    "id": "C-tw-001-P04-07",
+    "role": "QUALITY",
+    "domain": "WEATHER",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "moon_illumination_fraction",
+    "operator": "lte",
+    "threshold": 0.5,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-001-P04-claim-01"
+    ],
+    "model_binding": "dataset:gfs_0p25|field:moon_illumination_fraction|role:MID",
+    "validation_status": "provisional",
+    "condition_tier": "MODIFIER",
+    "threshold_source": "formula_derived",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "月照比例 ≤0.5 為品質項：月光過強會把城市燈光的明暗對比洗平（滿月尤其明顯），越暗越有利。不否決，只扣分。",
+     "en": "Moon illumination <= 0.5 as a quality term: strong moonlight flattens the light-to-dark contrast of city lights (full moon especially). It never vetoes, only scores lower.",
+     "ja": "月照率≤0.5は品質項。月光が強いと市街灯の明暗コントラストが平坦になる（満月で顕著）。否決せず減点のみ。"
+    }
    }
   ]
  },
