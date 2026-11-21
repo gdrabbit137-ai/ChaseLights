@@ -53,7 +53,7 @@ class ResearchIndexTests(unittest.TestCase):
         ids=[b['opportunity_id'] for b in self.index['opportunities']]
         self.assertEqual(expected_places,set(actual));self.assertEqual(len(actual),len(set(actual)))
         self.assertEqual(set(self.docs),set(ids));self.assertEqual(len(ids),len(set(ids)))
-        self.assertEqual((459,720),(len(actual),len(ids)))  # CL-DATA-76 re-anchor: 460/721 − us-111 retired (id reserved) = 459/720 (measured on the task tree)
+        self.assertEqual((459,721),(len(actual),len(ids)))  # CL-DATA-84C re-anchor: 459/720 + tw-001-P04 city_night = 459/721
         self.assertEqual(3,sum(b['place_id']=='tw-026' for b in self.index['opportunities']))
 
     def test_real_canonical_blob_sha256_identity_and_revision(self):
@@ -83,7 +83,8 @@ class ResearchIndexTests(unittest.TestCase):
             # 6d8863e8c (civil_daylight window projection commit);
             # blob+sha256 identity per record verified above, so the new
             # holder joins the set.
-            '6d8863e8c316deb08e38caf8278eb4fe189893d4',
+            '6df0e93f9c400cc4c36de5215390bbfdee627426',  # CL-DATA-84 contract fixes
+            '5820c6e14701416cba2e80f44f531f53319dd858',  # CL-DATA-84C tw-001-P04
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-DATA-72: tw-026-P01 canonical evolved past the 2026-11-02 owner
@@ -186,7 +187,7 @@ class ResearchIndexTests(unittest.TestCase):
         self.assertTrue(classified <= set(self.docs))
         # Unevidenced opportunities stay honestly unclassified (recorded), never force-fitted.
         self.assertEqual(sorted(set(self.docs)-classified),self.status['unclassified_opportunity_ids'])
-        self.assertEqual(184,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # 45 (CL-INT-135) + 37 wave1 + 22 wave2 + 15 wave3 + 16 wave4 + 22 wave5 + 16 wave6 + 11 wave7 classified contracts
+        self.assertEqual(185,sum(len(b['topic_ids']) for b in self.topics['opportunity_topics']))  # 45 (CL-INT-135) + 37 wave1 + 22 wave2 + 15 wave3 + 16 wave4 + 22 wave5 + 16 wave6 + 11 wave7 classified contracts
         self.assertEqual(len(self.docs)-len(classified),len(self.status['unclassified_opportunity_ids']))
         by_id={b['opportunity_id']:set(b['topic_ids']) for b in self.topics['opportunity_topics']}
         self.assertEqual({'topic:mountain-landscape','topic:flowers'},by_id['jp-010-P01'])
