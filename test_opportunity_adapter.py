@@ -1516,12 +1516,12 @@ def test_adapter_integrity():
     assert "<script>" not in index_html
     assert 'id="theme-nav"' not in frontend_source
     assert 'id="scene-nav"' not in frontend_source
-    assert 'id="discovery-title"' in frontend_source
-    assert 'id="place-search"' in frontend_source
+    assert "getElementById('discovery-title')" in frontend_source
+    assert "getElementById('place-search')" in frontend_source
     assert "FILTER_UI_VERSION='3'" in frontend_source
     assert "return day.all||null" in frontend_source
 
-    assert 'id="place-modal-overlay"' in frontend_source
+    assert "getElementById('place-modal-overlay')" in frontend_source
     # CL-UI-69: the card click now guards against in-card buttons before opening
     # (CL-APP-09 patch-6 pin-drift: the dispatch rides the cpOpenCard bridge —
     # private cards override it to the forecast popup; officials keep

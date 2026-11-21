@@ -136,7 +136,7 @@ test('CL-UI-75 (3): strip layout CSS — one horizontal row, no wrap tier', () =
   assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:3px 5px;gap:2px\}/);
   assert.doesNotMatch(mobile, /flex:1 1/);
   assert.match(indexSource, /assets\/app\.js\?v=clui119/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui102/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui119/);
 });
 
 // ---- (4) real-browser probe: 390px and desktop -------------------------------

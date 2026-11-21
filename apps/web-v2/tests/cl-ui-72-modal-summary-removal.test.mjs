@@ -57,5 +57,5 @@ test('CL-UI-72 (4): the daily strip keeps its concise two-line format',()=>{
 
 test('CL-UI-72 (5): cache-bust bumped in the same commit',()=>{
   assert.match(htmlSource,/assets\/app\.js\?v=clui119/);
-  assert.match(htmlSource,/assets\/app\.css\?v=clui102/);
+  assert.match(htmlSource,/assets\/app\.css\?v=clui119/);
 });

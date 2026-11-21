@@ -279,5 +279,5 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
       'CL-UI-88: the slot string is never ellipsis-truncated: ' + rule);
   }
   assert.match(indexSource, /assets\/app\.js\?v=clui119/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui102/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui119/);
 });

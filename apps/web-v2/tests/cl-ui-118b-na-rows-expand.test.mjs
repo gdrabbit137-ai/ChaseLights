@@ -1,0 +1,442 @@
+// CL-UI-118b (owner實測 CL-UI-118): the collapsed 「非建議時段」 row was a data
+// black hole — it showed 「非建議時段 · 23:00」 with NO expand control, so the
+// hourly rows for the whole na window (e.g. 23:00–04:00) were invisible and
+// unclickable. Fix contract:
+//  (1) The na-row is a REAL toggle (a <button> filling the row): the exact
+//      collapsed copy is 「非建議時段 · <segments>（N 小時）——點擊展開」; a click
+//      expands the hidden per-hour rows, clicking again collapses (the hint
+//      swaps to 點擊收合, aria-expanded tracks the state).
+//  (2) Every expanded na hour keeps the SAME four-column anatomy as the
+//      general rows (mono time / single-truth verdict pill via
+//      v2HourSubjectCell / ONE plain-language reason / ⋯ kv row) — and the
+//      reason follows the fail_reason convention: the na bucket is built
+//      ONLY from night hours (build_subject_cards hourly_general_rows), so
+//      the single main reason is the artifact dictionary's light_window word
+//      (「非日照時段」), referenced by metric id, never duplicated; a missing
+//      dictionary entry fails closed to the honest dash (—), never a raw
+//      metric name (CHALLENGER-18 leak class).
+//  (3) Real-hit regression (headless Chrome, real hit-testing): at 1280 the
+//      toggle is the hit target (elementFromPoint) and a REAL CDP click
+//      expands/collapses; the ⋯ buttons inside the revealed rows open the kv
+//      detail rows exactly like a general row. At 390 the table is the
+//      mobile-card layout — every na hour is already its own card, so the
+//      contract there is "no na-row, per-hour cards keep time + 🕒 word".
+// Run: node --test apps/web-v2/tests/cl-ui-118b-na-rows-expand.test.mjs
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {createServer} from 'node:http';
+import {readFileSync} from 'node:fs';
+import {mkdtempSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {dirname, join} from 'node:path';
+import {tmpdir} from 'node:os';
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const WEB = join(HERE, '..', '..', '..');
+const appSource = readFileSync(join(WEB, 'assets', 'app.js'), 'utf8');
+const cssSource = readFileSync(join(WEB, 'assets', 'app.css'), 'utf8');
+const htmlSource = readFileSync(join(WEB, 'index.html'), 'utf8');
+
+// CL-CI-36 discipline: the subject-cards artifact filename is read from the
+// app.js pointer (never a literal), and the expected reason word is derived
+// from the CURRENT artifact's fail_reason_short dictionary at runtime.
+const cardsFile = (appSource.match(/V2_SUBJECT_CARDS_FILE='([^']+)'/) || [])[1];
+assert.ok(cardsFile, 'subject-cards artifact pointer found in app.js');
+const cards = JSON.parse(readFileSync(join(WEB, 'data', 'v2', 'evaluations', cardsFile), 'utf8'));
+const naReasonZh = (cards.dictionaries.fail_reason_short.light_window || {})['zh-TW'];
+assert.ok(naReasonZh && !/\w+_\w+/.test(naReasonZh), `artifact light_window word is user language, got ${naReasonZh}`);
+
+const grab = (start, end) => {
+  const a = appSource.indexOf(start);
+  assert.ok(a >= 0, `grab slice ${start} → ${end}`);
+  return appSource.slice(a, appSource.indexOf(end, a));
+};
+const hourLoop = grab('for(const item of wmList){', 'const naHtml=');
+const naCode = grab('const naHtml=', 'const det=document.createElement');
+const handler = grab('groupsEl.onclick=', 'clui87LastSelDate=selectedDate;');
+
+test('CL-UI-118b (1): collapsed na-row copy — 「非建議時段 · <segments>（N 小時）——點擊展開」 as a real button', () => {
+  assert.match(naCode, /<button type="button" class="na-toggle" aria-expanded="\$\{naOpen\?'true':'false'\}">/,
+    'the collapsed line is a real button with tracked expanded state');
+  assert.match(naCode, /<span>\$\{esc\(d\(\)\.state_outside\)\}<\/span> · <span class="mono">\$\{esc\(formatHourSegments\(na\)\)\}<\/span>/,
+    '「非建議時段 · <compressed segments>」 headline preserved');
+  assert.match(naCode, /<span class="na-hint">\$\{esc\(\(naOpen\?d\(\)\.clui118b_na_collapse:d\(\)\.clui118b_na_expand\)\.replace\('\{n\}',na\.length\)\)\}<\/span>/,
+    '（N 小時）——點擊展開／點擊收合 hint rides the state, count = na hours');
+  // the expanded state is the detail rows' own hidden state (kvRestoreOpen),
+  // so a re-render restores it exactly like the general ⋯ kv rows
+  assert.ok(appSource.includes("const naOpen=na.length>0&&na.some(naHh=>kvRestoreOpen.has(wmDate+'|'+naHh));"),
+    'expanded state derives from the persisted kv open set');
+  assert.match(appSource, /naDetailRows\.join\(''\)\.replace\(\/§CLUI118NA§\/g,naOpen\?'':' hidden'\)/,
+    'the hourly rows start hidden (group-scoped) and open together with the toggle');
+});
+
+test('CL-UI-118b (2): expanded na hours share the general-row anatomy (verdict pill + single reason + ⋯ kv)', () => {
+  assert.match(hourLoop, /naDetailRows\.push\(`<tr class="na-detail-row\$\{isPast\?' past-row':''\}" data-v2t="\$\{esc\(naDetKey\)\}"§CLUI118NA§><td class="hr">\$\{esc\(hh\)\}<\/td>/,
+    'mono time cell with the past-row tint, same as general rows');
+  assert.match(hourLoop, /<td class="subj td-subjects \$\{subjCell\.cls\}">\$\{subjCell\.html\}<\/td>/,
+    'single-truth verdict cell — the SAME v2HourSubjectCell output, never a re-derived word');
+  assert.match(hourLoop, /<td class="wx">\$\{esc\(naReasonWord\)\|\|'—'\}<\/td>/,
+    'one plain-language reason, fail-closed to the honest dash');
+  assert.match(hourLoop, /<button type="button" class="clui87-more" aria-expanded="\$\{naDetOpen\?'true':'false'\}" title="\$\{esc\(d\(\)\.clui82_details\)\}">⋯<\/button>/,
+    'the ⋯ toggle button, identical wiring');
+  assert.match(hourLoop, /<tr class="detail" data-h="\$\{esc\(naDetKey\)\}"\$\{naDetOpen\?'':' hidden'\}><td colspan="4">\$\{kvHtml\(item,astro\)\}<\/td><\/tr>/,
+    'kv raw-value row behind ⋯, same capture contract');
+  // the single reason is the artifact dictionary's light_window word —
+  // referenced by metric id, never duplicated, never a raw key fallback
+  assert.match(appSource, /const naReasonWord=\(\(\)=>\{const w=\(\(v2SubjectCards&&v2SubjectCards\.dictionaries\)\|\|\{\}\)\.fail_reason_short\|\|\{\};const t=w\.light_window;return \(t&&\(t\[currentLang\]\|\|t\['zh-TW'\]\)\)\|\|'';\}\)\(\);/,
+    'reason word sourced from the artifact fail_reason_short.light_window');
+  assert.ok(!hourLoop.includes("w.light_window||'light_window'"), 'no raw metric-name fallback (CHALLENGER-18 class)');
+  // hidden rows actually reach the DOM inside the same day-group tbody
+  assert.match(appSource, /\$\{rowsHtml\.join\(''\)\}\$\{naHtml\}\$\{naDetailRows\.join\(''\)\.replace\(\/§CLUI118NA§\/g,naOpen\?'':' hidden'\)\}/,
+    'na detail rows render after the collapsed toggle line');
+});
+
+test('CL-UI-118b (3): the toggle handler expands/collapses the hidden rows and keeps the ⋯ buttons in sync', () => {
+  assert.match(handler, /const naBtn=e\.target\.closest\('button\.na-toggle'\);/,
+    'na-toggle handled by the shared groupsEl click handler');
+  assert.match(handler, /while\(n&&\(n\.classList\.contains\('na-detail-row'\)\|\|n\.classList\.contains\('detail'\)\)\)\{/,
+    'the toggle walks exactly its own na pair rows');
+  assert.match(handler, /n\.removeAttribute\('hidden'\);if\(kvBtn\)\{kvBtn\.setAttribute\('aria-expanded','true'\);kvBtn\.textContent='▴';\}/,
+    'expand un-hides the rows and syncs the ⋯ buttons');
+  assert.match(handler, /n\.setAttribute\('hidden',''\);if\(kvBtn\)\{kvBtn\.setAttribute\('aria-expanded','false'\);kvBtn\.textContent='⋯';\}/,
+    'collapse re-hides the rows and syncs the ⋯ buttons');
+  assert.match(handler, /naBtn\.setAttribute\('aria-expanded',naShown\?'false':'true'\);/,
+    'aria-expanded flips with the toggle');
+  assert.match(handler, /\(naShown\?d\(\)\.clui118b_na_expand:d\(\)\.clui118b_na_collapse\)\.replace\('\{n\}',naCount\)/,
+    'the hint swaps 展開↔收合 with the real row count');
+});
+
+test('CL-UI-118b (4): trilingual copy + honest wording + CSS wiring + stamps', () => {
+  for (const key of ['clui118b_na_expand', 'clui118b_na_collapse']) {
+    const occurrences = (appSource.match(new RegExp(`${key}:'`, 'g')) || []).length;
+    assert.ok(occurrences >= 3, `${key} present in all three language dictionaries (${occurrences})`);
+  }
+  assert.ok(!/clui118b_na_\w+:'[^']*(?:internal|provisional|CL-UI|待證據|研究中)/.test(appSource),
+    'user language only — no ticket ids or engineering wording');
+  assert.match(cssSource, /#timeline-groups tr\.na-row \.na-toggle \{ display: block; width: 100%; text-align: left; padding: 0; background: none; border: none; color: inherit; font: inherit; cursor: pointer; \}/,
+    'the button fills the row — the whole collapsed line is the hit target');
+  assert.match(cssSource, /#timeline-groups tr\.na-detail-row\[hidden\] \{ display: none; \}/,
+    'explicit hidden guard (CL-UI-47 class: author rules never defeat [hidden])');
+  assert.match(cssSource, /#timeline-groups tr\.na-row > td \{ height: 32px; color: var\(--cl-text-3\); font-size: var\(--cl-fs-12\); \}/,
+    'the 32px honest grey line survives');
+  // cache-bust: this ticket bumped BOTH stamps it edited
+  assert.match(htmlSource, /assets\/app\.js\?v=clui119/);
+  assert.match(htmlSource, /assets\/app\.css\?v=clui119/);
+  for (const page of ['genre-eval.html', 'reminders.html', 'sources.html']) {
+    const src = readFileSync(join(WEB, page), 'utf8');
+    assert.match(src, /assets\/app\.css\?v=clui119/, `${page} carries the bumped app.css stamp`);
+  }
+});
+
+// ---- (5) real-hit headless checks --------------------------------------------
+const BROWSER = process.env.CHROMIUM_EXECUTABLE
+  || process.env.CHROME_PATH
+  || (process.platform === 'win32' ? 'C:/Program Files/Google/Chrome/Application/chrome.exe' : '/usr/bin/chromium');
+
+let server, baseURL, chrome, ws, send, evaljs, ready;
+const nextId = (() => { let id = 0; return () => ++id; })();
+const pending = new Map();
+
+// CL-UI-90 harness rule: lazy boot, never a root test.before()
+async function bootBrowser() {
+  if (ready) return ready;
+  ready = (async () => {
+    const MIME = {'.html':'text/html','.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.svg':'image/svg+xml'};
+    server = createServer((req, res) => {
+      const p = req.url.split('?')[0].replace(/\/+$/, '') || '/';
+      const file = join(WEB, p === '/' ? 'index.html' : p.slice(1));
+      try { const body = readFileSync(file);
+        res.writeHead(200, {'content-type': MIME[file.slice(file.lastIndexOf('.'))] || 'application/octet-stream'});
+        res.end(body);
+      } catch { res.writeHead(404); res.end('not found'); }
+    });
+    await new Promise(r => server.listen(0, '127.0.0.1', r));
+    baseURL = `http://127.0.0.1:${server.address().port}/`;
+    chrome = spawn(BROWSER, [
+      '--headless=new','--disable-gpu','--no-sandbox','--disable-dev-shm-usage',
+      '--enable-unsafe-swiftshader','--use-angle=swiftshader',
+      '--no-first-run','--remote-debugging-port=0',
+      '--window-size=1280,900',
+      '--user-data-dir=' + mkdtempSync(join(tmpdir(), 'clui118b-')), 'about:blank'],
+      {stdio: ['ignore','ignore','pipe']});
+    const wsUrl = await new Promise((resolve, reject) => {
+      let buf = '';
+      let loopLast = Date.now(); const loopStart = loopLast;
+      const t = setInterval(() => {
+        const now = Date.now();
+        if (now - loopLast < 1500 && now - loopStart > 60000) {
+          clearInterval(t); reject(new Error('no devtools endpoint'));
+        }
+        loopLast = now;
+      }, 250);
+      chrome.stderr.on('data', d => { buf += d;
+        const m = buf.match(/DevTools listening on (ws:\/\/\S+)/);
+        if (m) { clearInterval(t); resolve(m[1]); } });
+      chrome.on('error', e => reject(new Error('spawn: ' + e.message)));
+    });
+    const dbgHost = wsUrl.match(/ws:\/\/([^/]+)/)[1];
+    let targets = [];
+    for (let i = 0; i < 40; ++i) {
+      targets = await (await fetch(`http://${dbgHost}/json/list`)).json();
+      if (targets.some(t => t.type === 'page')) break;
+      await new Promise(r => setTimeout(r, 250));
+    }
+    ws = new WebSocket(targets.find(t => t.type === 'page').webSocketDebuggerUrl);
+    await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
+    ws.onmessage = e => { const m = JSON.parse(e.data);
+      if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); } };
+    send = (method, params = {}) => new Promise((resolve, reject) => {
+      const i = nextId(); pending.set(i, m => m.error ? reject(new Error(m.error.message)) : resolve(m.result));
+      ws.send(JSON.stringify({id: i, method, params}));
+    });
+    evaljs = async (expr) => {
+      const r = await send('Runtime.evaluate', {expression: expr, returnByValue: true, awaitPromise: true});
+      if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || 'page error');
+      return r.result?.result?.value ?? r.result?.value;
+    };
+  })().catch(e => { ready = null; throw e; });
+  return ready;
+}
+
+function teardownBrowser() {
+  return Promise.all([
+    (async () => { try { ws?.close(); } catch {} })(),
+    (async () => { try { chrome?.kill(); } catch {} })(),
+    (async () => { try { await new Promise(r => server?.close(r)); } catch {} })()
+  ]);
+}
+
+async function setViewport(width, height, mobile) {
+  await send('Emulation.setDeviceMetricsOverride',
+    {width, height, deviceScaleFactor: 1, mobile});
+}
+
+async function loadPage() {
+  await send('Page.enable');
+  await send('Page.navigate', {url: baseURL});
+  await evaljs(`new Promise((resolve,reject)=>{
+    const t0=Date.now();
+    const iv=setInterval(()=>{
+      if(document.querySelector('.card')){clearInterval(iv);resolve(true);}
+      else if(Date.now()-t0>20000){clearInterval(iv);reject(new Error('cards never rendered'));}
+    },100);
+  })`);
+  await evaljs(`new Promise(r=>{const t=setInterval(()=>{if(document.readyState==='complete'){clearInterval(t);r(1)}},50)})`);
+  await new Promise(r => setTimeout(r, 500));
+}
+
+async function realClick(cx, cy) {
+  for (const type of ['mousePressed', 'mouseReleased']) {
+    await send('Input.dispatchMouseEvent', {type, x: cx, y: cy, button: 'left', clickCount: 1});
+  }
+  await new Promise(r => setTimeout(r, 400));
+}
+
+async function closeWeatherModal() {
+  await evaljs(`document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));`);
+  await new Promise(r => setTimeout(r, 250));
+}
+
+// Opens the weather modal card by card until one whose hourly table carries a
+// collapsed na-row (the modal is left OPEN for the caller). CL-UI-102 rule:
+// scrollIntoView + re-measure before every real click — off-viewport clicks
+// go nowhere and are a harness bug, not a product bug.
+async function findNaRow(maxCards = 8) {
+  const n = await evaljs(`document.querySelectorAll('.card').length`);
+  for (let i = 0; i < Math.min(n, maxCards); i++) {
+    const pt = await evaljs(`(() => {
+      const card = document.querySelectorAll('.card')[${i}];
+      if (!card) return null;
+      card.scrollIntoView({block: 'center'});
+      const r = card.getBoundingClientRect();
+      return {x: r.left + r.width / 2, y: r.top + r.height / 2};
+    })()`);
+    if (!pt) break;
+    await realClick(pt.x, pt.y);
+    const ok = await evaljs(`new Promise((resolve)=>{
+      const t0=Date.now();
+      const iv=setInterval(()=>{
+        const modal=document.getElementById('modal-overlay');
+        if(modal&&modal.style.display==='flex'&&document.querySelector('#timeline-groups tr.na-row')){clearInterval(iv);resolve(true);}
+        else if(Date.now()-t0>15000){clearInterval(iv);resolve(false);}
+      },100);
+    })`);
+    if (ok) return pt;
+    await closeWeatherModal();
+  }
+  return null;
+}
+
+// Centers the na-row toggle in the modal scroll container and probes the real
+// hit target (CL-UI-102: scrollIntoView + re-measure before every realClick).
+// The probe also reports WHICH day-group holds the toggle, so the row-state
+// queries can be scoped to that group (a modal spans 8 day-groups).
+async function naToggleProbe() {
+  return evaljs(`(() => {
+    const row = document.querySelector('#timeline-groups details[open] tr.na-row') || document.querySelector('#timeline-groups tr.na-row');
+    if (!row) return {error: 'no na-row'};
+    const det = row.closest('details');
+    if (det && !det.open) {
+      const s = det.querySelector('summary');
+      const sr = s.getBoundingClientRect();
+      return {needOpen: true, cx: sr.left + sr.width / 2, cy: sr.top + sr.height / 2};
+    }
+    row.scrollIntoView({block: 'center'});
+    const btn = row.querySelector('button.na-toggle');
+    const r = btn.getBoundingClientRect();
+    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    const el = document.elementFromPoint(cx, cy);
+    return {
+      cx, cy, detDate: det ? det.dataset.date : null,
+      expanded: btn.getAttribute('aria-expanded'),
+      hint: btn.querySelector('.na-hint')?.textContent ?? null,
+      hit: el ? {tag: el.tagName, cls: String(el.className), inside: btn.contains(el) || el === btn} : null
+    };
+  })()`);
+}
+
+async function naRowsState(detDate) {
+  return evaljs(`(() => {
+    const detDate = ${JSON.stringify(detDate)};
+    const det = detDate ? document.querySelector('#timeline-groups details[data-date="' + detDate + '"]') : null;
+    const scope = det || document.querySelector('#timeline-groups');
+    const rows = Array.from(scope.querySelectorAll('tr.na-detail-row'));
+    return {
+      total: rows.length,
+      visible: rows.filter(r => !r.hasAttribute('hidden')).length,
+      kvs: Array.from(scope.querySelectorAll('tr.na-detail-row + tr.detail')).length,
+      kvsVisible: Array.from(scope.querySelectorAll('tr.na-detail-row + tr.detail')).filter(r => !r.hasAttribute('hidden')).length,
+      anatomy: rows.map(r => ({
+        hr: (r.querySelector('td.hr')?.textContent || '').trim(),
+        na: r.querySelector('td.subj .subj-na')?.textContent || null,
+        wx: (r.querySelector('td.wx')?.textContent || '').trim(),
+        hasMore: !!r.querySelector('button.clui87-more')
+      }))
+    };
+  })()`);
+}
+
+test('CL-UI-118b (5a): 1280 — real hit expands the na-row, revealed rows keep the general anatomy, ⋯ opens the kv row, real click collapses', async () => {
+  await bootBrowser();
+  await setViewport(1280, 900, false);
+  await loadPage();
+  const card = await findNaRow();
+  assert.ok(card, 'at least one card whose modal carries a collapsed na-row');
+  // CL-CI-37: a real click landing while handlers are still wiring is a timing
+  // miss, not a regression — re-probe and re-click before requiring the modal.
+  let probe = null;
+  for (let attempt = 0; attempt < 3 && !(probe && probe.hit && probe.hit.inside); attempt++) {
+    probe = await naToggleProbe();
+    if (probe && probe.needOpen) {
+      // the day-group holding the na-row is closed — open it with a real click
+      await realClick(probe.cx, probe.cy);
+      probe = await naToggleProbe();
+    }
+    if (!probe || probe.error) { await new Promise(r => setTimeout(r, 500)); continue; }
+  }
+  assert.ok(probe && probe.hit && probe.hit.inside, `elementFromPoint must hit the toggle itself, got ${probe && probe.hit ? probe.hit.tag + '.' + probe.hit.cls : JSON.stringify(probe)}`);
+  assert.equal(probe.expanded, 'false');
+  assert.match(probe.hint, /點擊展開/);
+  const before = await naRowsState(probe.detDate);
+  assert.ok(before.total > 0, 'hidden per-hour rows exist in the DOM');
+  assert.equal(before.visible, 0, 'collapsed by default — no per-hour row visible');
+  assert.equal(before.kvs, before.total, 'each na hour carries its own ⋯ kv pair');
+
+  // real CDP click → expand
+  await realClick(probe.cx, probe.cy);
+  const afterExpand = await naRowsState(probe.detDate);
+  assert.equal(afterExpand.visible, before.total, 'real click reveals EVERY hidden na hour');
+  assert.ok(afterExpand.anatomy.length === afterExpand.visible);
+  for (const a of afterExpand.anatomy) {
+    assert.match(a.hr, /^\d{2}:\d{2}$/, 'mono HH:MM time cell');
+    assert.ok(a.na && a.na.includes('非建議時段'), `single-truth verdict pill, got ${a.na}`);
+    assert.equal(a.wx, naReasonZh, `single plain-language reason = artifact light_window word, got ${a.wx}`);
+    assert.ok(a.hasMore, '⋯ button present on every expanded na row');
+  }
+  const probeOpen = await naToggleProbe();
+  assert.equal(probeOpen.expanded, 'true');
+  assert.match(probeOpen.hint, /點擊收合/);
+  assert.match(probeOpen.hint, /（\d+ 小時）/, 'count of na hours stated');
+
+  // the ⋯ button inside a revealed row works like a general row — after the
+  // block expand the kv rows are open, so a real ⋯ click CLOSES it
+  const kvOpened = await evaljs(`(() => {
+    const row = document.querySelector('#timeline-groups tr.na-detail-row:not([hidden])');
+    if (!row) return {ok: false};
+    row.scrollIntoView({block: 'center'});
+    const btn = row.querySelector('button.clui87-more');
+    const r = btn.getBoundingClientRect();
+    return {ok: true, cx: r.left + r.width / 2, cy: r.top + r.height / 2, hidden: row.nextElementSibling.hasAttribute('hidden')};
+  })()`);
+  assert.ok(kvOpened.ok, 'revealed na row present for the kv probe');
+  assert.equal(kvOpened.hidden, false, 'after the block expand the kv row is open (toggle semantics)');
+  await realClick(kvOpened.cx, kvOpened.cy);
+  const kvState = await evaljs(`(() => {
+    const row = document.querySelector('#timeline-groups tr.na-detail-row:not([hidden])');
+    return {kvHidden: row.nextElementSibling.hasAttribute('hidden'), kvCols: row.nextElementSibling.querySelector('td').getAttribute('colspan')};
+  })()`);
+  assert.equal(kvState.kvHidden, true, 'real ⋯ click closes the kv row like on a general row');
+  assert.equal(kvState.kvCols, '4', 'kv detail spans the 4-column anatomy');
+
+  // real click again → collapse
+  const probe2 = await naToggleProbe();
+  await realClick(probe2.cx, probe2.cy);
+  const afterCollapse = await naRowsState(probe.detDate);
+  assert.equal(afterCollapse.visible, 0, 'second real click collapses every row again');
+  const probeClosed = await naToggleProbe();
+  assert.equal(probeClosed.expanded, 'false');
+  assert.match(probeClosed.hint, /點擊展開/);
+});
+
+test('CL-UI-118b (5b): 390 — the table switches to mobile cards: every na hour is its own visible card (time + 🕒), no na-row', async () => {
+  await bootBrowser();
+  await setViewport(390, 844, true);
+  await loadPage();
+  await findNaRow();
+  const state = await evaljs(`(() => {
+    const table = document.getElementById('timeline-groups');
+    const wrap = table ? (table.closest('.timeline-table-wrap') || table) : null;
+    return {
+      tableDisplay: wrap ? getComputedStyle(wrap).display : 'absent',
+      naRows: document.querySelectorAll('#timeline-groups tr.na-row').length,
+      naCards: Array.from(document.querySelectorAll('.timeline-mobile-card')).filter(c => c.querySelector('.tm-subj-na')).map(c => ({
+        time: (c.querySelector('.timeline-mobile-time')?.textContent || '').trim(),
+        word: (c.querySelector('.tm-subj-na')?.textContent || '').trim()
+      })),
+      mobileCards: document.querySelectorAll('.timeline-mobile-card').length
+    };
+  })()`);
+  assert.ok(state.mobileCards > 0, 'mobile hour cards rendered');
+  assert.equal(state.tableDisplay, 'none', '≤768px the hourly table wrap is display:none — the collapsed na-row is not part of the mobile layout');
+  assert.ok(state.naCards.length > 0, 'na hours render as per-hour mobile cards — hourly data is never hidden on mobile');
+  for (const c of state.naCards) {
+    assert.match(c.time, /^\d{2}:\d{2}/, 'mobile na card carries its hour');
+    assert.ok(c.word.includes('非建議時段'), 'mobile na card keeps the neutral 🕒 word');
+  }
+  // real hit: a mobile na card is a real hit target (CL-UI-102: scroll the
+  // card into the modal's scroll container, settle, re-measure, hit-test;
+  // probe several cards in OPEN day-groups so a card parked under the sticky
+  // summary/close bar never greenwashes the miss)
+  const hit = await evaljs(`new Promise((resolve) => {
+    (async () => {
+      const cards = Array.from(document.querySelectorAll('.timeline-mobile-card'))
+        .filter(c => c.querySelector('.tm-subj-na'))
+        .filter(c => { const d = c.closest('details'); return !d || d.open; });
+      const results = [];
+      for (const card of cards.slice(0, 8)) {
+        card.scrollIntoView({block: 'center'});
+        await new Promise(r => setTimeout(r, 150));
+        const r = card.getBoundingClientRect();
+        const el = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        const inside = !!(el && (card.contains(el) || el === card));
+        results.push({inside, hit: el ? el.tagName + '.' + String(el.className).slice(0, 40) : null});
+        if (inside) { resolve({inside: true, probed: results.length}); return; }
+      }
+      resolve({inside: false, results, probed: results.length});
+    })();
+  })`);
+  assert.ok(hit.inside, `mobile na card is a real hit target, got ${JSON.stringify(hit)}`);
+});
+
+test('CL-UI-118b (6): browser teardown', async () => { await teardownBrowser(); });

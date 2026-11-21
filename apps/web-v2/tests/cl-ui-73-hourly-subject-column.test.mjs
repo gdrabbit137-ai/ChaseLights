@@ -74,7 +74,7 @@ test('CL-UI-73/94 (1): tri-lingual column header + the column rides first after 
   // row cell: the subjects <td> is the verdict source (subject-cards hours);
   // the retired painter cannot contradict it (no cells[1] writes anywhere).
   const rowIdx = appSource.indexOf('rowsHtml.push(`<tr class=');// CL-UI-87: the row build lives in the per-group hour loop
-  const row = appSource.slice(rowIdx, rowIdx + 2400);
+  const row = appSource.slice(rowIdx, rowIdx + 3200);
   assert.ok(row.includes('<td class="subj td-subjects ${subjCell.cls}">${subjCell.html}</td>'), 'subjects <td>');
   assert.ok(!row.includes('eval2_unk'), 'no status placeholder cell in the row');
   // CL-UI-82: the mobile card carries the subject on the mainline (能拍：題材名)
@@ -168,5 +168,5 @@ test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui102 stamps', (
     assert.ok(cssSource.includes(cls), `css has ${cls}`);
   }
   assert.match(indexSource, /assets\/app\.js\?v=clui119/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui102/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui119/);
 });

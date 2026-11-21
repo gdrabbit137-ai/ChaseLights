@@ -12,8 +12,8 @@ const index=JSON.parse(rawIndex),source=JSON.parse(rawCatalog),catalog=importV21
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 const blob=bytes=>createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 test('W2 index and canonical sources remain source pinned (CL-INT-212 merged regen: 459 places / 720 opportunities)',()=>{
-  assert.equal(sha256(rawIndex),'3bcabcce07c6003fe9bd8c07818c5c77cf4fe809b919ad1b8c356a516f7459f6'); // re-measured CL-INT-216 (CL-DATA-81 canonical collapse + scheduled regen; live bytes of origin/main)
-  assert.equal(sha256(rawCatalog),'a55848b756f607c50f64f8bde49e8ad2e51f6117d3e9d3da05da717a5fc101cc'); // re-measured CL-INT-216 (same regen chain; live bytes of origin/main)
+  assert.equal(sha256(rawIndex),'685cd133b102be3a29473b4feeb4b5043369fc9e7c6faeaa270b830db77f80e3'); // re-measured CL-INT-217 regen drift (CL-INT-216 pin was stale on origin/main; live bytes of origin/main)
+  assert.equal(sha256(rawCatalog),'3583798b76a79ff2bf6b0c567884b905e2913005738b520e8339cf8524f455c2'); // re-measured CL-INT-217 regen drift (same chain; live bytes of origin/main)
   assert.equal(validateBrowseIndex(index,catalog),index);
   assert.equal(source.opportunities.length,720);assert.equal(source.places.length,459); // re-anchored CL-INT-212 (us-111 retired, jp-030-P01 evaluates with CL-DATA-77 geometry)
   const pinnedOriginal=['tw-016-P01','tw-026-P01','tw-026-P02'];

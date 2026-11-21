@@ -184,6 +184,6 @@ test('CL-UI-86 (9): CL-UI-84 cache-first wiring intact and cache-bust at clui102
   assert.ok(appSource.includes("if(!v2EvalBundle&&clui84FilterCache){"), 'failure branch keeps the cached bar');
   assert.ok(appSource.includes('clui84RenderTabsFromCounts(clui84FilterCache.tier_counts)'), 'cached counts repaint the tabs');
   assert.ok(appSource.includes('saveFilterCache(rowsAll);'), 'settled render persists the bar state');
-  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,3, 'app.css + feedback-ui stay at clui102; app.js advanced to clui119 (CL-UI-110)');
+  assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui stays at clui102 (app.js + app.css advanced to clui119); app.js advanced to clui118 (CL-UI-110)');
   assert.doesNotMatch(indexSource, /\?v=clui90\b/, 'old generation retired');
 });
