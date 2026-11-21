@@ -271,8 +271,8 @@
         "start": 3,
         "end": 7,
         "value": "大石公園",
-        "source_commit_sha": "6d8863e8c316deb08e38caf8278eb4fe189893d4",
-        "source_blob_sha": "253e79453be26f2a37b0b5eba6c5687ee08e2126"
+        "source_commit_sha": "fbcae0c94fa7f8430365af4f88850b8a979a1a6e",
+        "source_blob_sha": "8ace453610e9888084f0dd6ba2de8723604f0296"
       },
       "en": {
         "opportunity_id": "jp-010-P01",
@@ -280,8 +280,8 @@
         "start": 36,
         "end": 46,
         "value": "Oishi Park",
-        "source_commit_sha": "6d8863e8c316deb08e38caf8278eb4fe189893d4",
-        "source_blob_sha": "253e79453be26f2a37b0b5eba6c5687ee08e2126"
+        "source_commit_sha": "fbcae0c94fa7f8430365af4f88850b8a979a1a6e",
+        "source_blob_sha": "8ace453610e9888084f0dd6ba2de8723604f0296"
       },
       "ja": {
         "opportunity_id": "jp-010-P01",
@@ -289,8 +289,8 @@
         "start": 0,
         "end": 4,
         "value": "大石公園",
-        "source_commit_sha": "6d8863e8c316deb08e38caf8278eb4fe189893d4",
-        "source_blob_sha": "253e79453be26f2a37b0b5eba6c5687ee08e2126"
+        "source_commit_sha": "fbcae0c94fa7f8430365af4f88850b8a979a1a6e",
+        "source_blob_sha": "8ace453610e9888084f0dd6ba2de8723604f0296"
       }
     },
     "jp-011": {
@@ -17671,6 +17671,43 @@
         "data/v2/opportunities/tw-001-P03.json#/camera_contexts/0/safety_notes_i18n"
       ],
       "navigation_ref": "data/v2/opportunities/tw-001-P03.json#/navigation_targets"
+    },
+    "tw-001-P04": {
+      "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
+      "classification": {
+        "topic_ids": [
+          "topic:cityscape"
+        ],
+        "canonical_pointers": [
+          "/targets/0/name_i18n",
+          "/description_i18n"
+        ],
+        "evidence_claim_id": "tw-001-P04-claim-01",
+        "evidence_refs": [
+          "e-d35-access-datunshan-ymsnp"
+        ],
+        "classification_basis": "derived_from=tw-001-P03 night segment; CL-DATA-84C"
+      },
+      "classification_excerpts": {
+        "/targets/0/name_i18n": {
+          "zh-TW": "大屯山俯瞰台北盆地城市夜景",
+          "en": "Datunshan: Taipei Basin city night view",
+          "ja": "大屯山から望む台北盆地の夜景"
+        },
+        "/description_i18n": {
+          "zh-TW": "自大屯山助航站前平台俯瞰台北盆地夜景：淡水河兩岸與台北市區燈海、觀音山剪影。夜間光害條件下的城市夜景題材；能見度與總雲量為主要判據，需民用暮光後（太陽高度 ≤ −6°）方可拍攝。",
+          "en": "City night view over the Taipei Basin from the platform in front of the Datunshan navigation station: light fields across the Tamsui River and downtown Taipei, with the Guanyin Mountain silhouette. A city-night subject under light-pollution conditions; visibility and total cloud cover are the main criteria, and shooting requires after civil dusk (sun <= -6 deg).",
+          "ja": "大屯山助航站前の展望台から台北盆地の夜景を望む。淡水河両岸と台北市街の灯海、観音山のシルエット。夜間光害下の都市夜景題材。視程と全雲量が主な判準で、市民薄明後（太陽高度 ≤ −6°）に撮影可能。"
+        }
+      },
+      "description_ref": "data/v2/opportunities/tw-001-P04.json#/description_i18n",
+      "access_advisory_refs": [
+        "data/v2/opportunities/tw-001-P04.json#/camera_contexts/0/access_notes_i18n"
+      ],
+      "safety_refs": [
+        "data/v2/opportunities/tw-001-P04.json#/camera_contexts/0/safety_notes_i18n"
+      ],
+      "navigation_ref": "data/v2/opportunities/tw-001-P04.json#/navigation_targets"
     },
     "tw-002-P01": {
       "classification_method": "CURATED_CANONICAL_TARGET_AND_EXISTENCE_EVIDENCE",
