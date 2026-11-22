@@ -115,7 +115,7 @@ const catalogState=createCatalogState({onChange:data=>{Object.assign(state,data)
 try {const saved=localStorage.getItem("chaselights-v2-locale");if(LOCALES.includes(saved))state.locale=saved;}catch{}
 const queryLang=resolveLangFromQuery(location.search);if(LOCALES.includes(queryLang))state.locale=queryLang;
 $("language").value=state.locale;
-$("language").addEventListener("change",e=>{state.locale=e.target.value;try{localStorage.setItem("chaselights-v2-locale",state.locale);}catch{}render();});
+$("language").addEventListener("change",e=>{state.locale=e.target.value;try{localStorage.setItem("chaselights-v2-locale",state.locale);}catch{}render();const lang=state.locale;void loadLocaleFor(lang).then(ok=>{if(ok&&state.locale===lang)render();});});
 $("search").addEventListener("input",()=>{renderPlaces();renderDetail();});
 $("clear-search").addEventListener("click",()=>{$("search").value="";renderPlaces();renderDetail();$("search").focus();});
 $("clear-filters").addEventListener("click",()=>{$("search").value="";selectedTopics.clear();render();});
@@ -660,4 +660,9 @@ void refreshMember();
 // CL-UI-55: bootstrap favorites sync (upload local favorites, pull cloud list).
 void refreshFavorites();
 // CL-I18N-01: load the locale sidecar after first paint; missing keys keep the embedded copy.
-(async()=>{try{const sidecar=await loadLocaleSidecar(state.locale);if(sidecar&&applyUiCopy(copy,state.locale,sidecar))render();}catch{}})();
+// The sidecar must be applied to the language it was fetched for: a late
+// resolve after the user switches language must never pour zh-TW copy into
+// copy.en (the candidate smoke caught exactly that race).
+const localeSidecars=new Map();
+async function loadLocaleFor(lang){if(localeSidecars.has(lang))return true;try{const sidecar=await loadLocaleSidecar(lang);if(sidecar&&applyUiCopy(copy,lang,sidecar)){localeSidecars.set(lang,sidecar);return true;}}catch{}return false;}
+(async()=>{const lang=state.locale;const ok=await loadLocaleFor(lang);if(ok&&state.locale===lang)render();})();
