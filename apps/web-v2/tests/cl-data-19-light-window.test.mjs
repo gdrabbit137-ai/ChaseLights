@@ -22,7 +22,7 @@ const oppDir = path.join(repo, 'data', 'v2', 'opportunities');
 
 const IDS = {
   overlook: 29, mountain_view: 39, reflection: 26, // re-anchored CL-INT-103 union: overlook +1 (CL-DATA-33 tw-034-P02 light_window joins the CL-DATA-19 marker sweep)
-  overcast_soft: 17, geological_landform: 15, seasonal_plant: 13, // re-anchored INT-204: seasonal_plant +1 (CL-DATA-83 follow-up jp-010-P01 light_window — the CL-DATA-19 full audit missed it)
+  overcast_soft: 17, geological_landform: 13, seasonal_plant: 13, // CL-FIX-02: geological_landform 15->13 — jp-026-P01 (出雲大社) and tw-066-P01 (東引燈塔) moved to golden_hour under the 2026-11-22 owner ruling; INT-204 re-anchor: seasonal_plant +1 (CL-DATA-83 follow-up jp-010-P01 light_window)
 };
 
 function loadContract(oid) {
@@ -45,7 +45,7 @@ test('CL-DATA-19: 得月樓 (tw-062-P01) carries a REQUIRED civil light_window',
   assert.ok(doc.revision >= 4, 'revision bumped');
 });
 
-test('CL-DATA-19: exactly 138 windowed contracts cite the marker, by genre', () => {
+test('CL-DATA-19: 137 contracts keep a REQUIRED civil light_window, by genre (structural wave roster)', () => {
   const counts = {};
   let total = 0;
   for (const f of ['tw-062-P01', 'us-026-P02', 'jp-007-P01']) {
@@ -80,43 +80,48 @@ test('CL-DATA-19: exactly 138 windowed contracts cite the marker, by genre', () 
     const w = doc.condition_contract.conditions.find(c => c.metric === 'light_window');
     assert.ok(w && (w.notes_i18n?.['zh-TW'] || '').includes('CL-DATA-19'), `${oid} carries the CL-DATA-19 window`);
   }
-  // authoritative sweep: count every contract whose light_window cites CL-DATA-19
+  // CL-FIX-02: the wave is now counted STRUCTURALLY — `light_window` present with
+  // role REQUIRED — over the frozen roster in
+  // data/v2/tests/fixtures/cl-data-19-wave.json. The old sweep counted the
+  // "CL-DATA-19" marker inside notes_i18n, which is not a property of the
+  // contract: when jp-026-P01 / tw-066-P01 were reclassified to golden_hour
+  // (2026-11-22 owner ruling) their notes were rewritten to record the ruling,
+  // the marker vanished, and the total silently drifted 139 -> 137 with no
+  // defect behind it. The roster pins which contracts the wave touched; the
+  // structure is what the assertions check.
   const fs = readFileSync(path.join(repo, 'data', 'v2', 'indexes', 'research', 'source-lock.json'), 'utf8');
   const lock = JSON.parse(fs);
   assert.ok((lock.repin_note_cl_data_19_20261106 || '').includes('124'), 'source-lock repin note records the CL-DATA-19 wave');
-  const cl19 = lock.canonical_records.filter(r => {
-    // CL-DATA-51 direct-build records (tw-099..tw-120) carry the CL-DATA-19
-    // window convention from authorship (single-wave revision 1) — they are
-    // not part of the CL-DATA-19 revision-bump wave and stay out of this sweep.
-    if (/^tw-(099|10[0-9]|11[0-9]|120)-P\d+$/.test(r.opportunity_id)) return false;
-    // CL-DATA-52 direct-build records (jp-065..jp-091) carry the CL-DATA-19
-    // window convention from authorship (single-wave revision 1) — not part of
-    // the CL-DATA-19 revision-bump wave, same rationale as the tw-099..120 exclusion.
-    if (/^jp-(0(6[5-9]|7\d|8\d|9[01]))-P\d+$/.test(r.opportunity_id)) return false;
-    // CL-DATA-53 direct-build records (us-119..us-158) carry the CL-DATA-19
-    // window convention from authorship (single-wave revision 1), same rationale.
-    if (/^us-(1(1[89]|2\d|3\d|4\d|5[0-8]))-P\d+$/.test(r.opportunity_id)) return false;
-    // CL-DATA-64 direct-build records (jp-092..095 geothermal, us-159..163
-    // volcanic/landform except the night-glow us-161) carry the CL-DATA-19
-    // window convention from authorship (single-wave revision 1), same
-    // rationale as the tw-099..120/jp-065..091/us-119..158 exclusions.
-    if (/^(jp-09[2-5]-P\d+$|us-(159|160|162|163)-P\d+$)/.test(r.opportunity_id)) return false;
-    // CL-DATA-66 direct-build records (tw-125..tw-227) carry the CL-DATA-19
-    // window convention from authorship (single-wave revision 1), same rationale.
-    if (/^tw-(1(2[5-9]|[3-9]\d)|2(0\d|1\d|2[0-7]))-P\d+$/.test(r.opportunity_id)) return false;
-    const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));
-    const w = doc.condition_contract?.conditions?.find(c => c.metric === 'light_window');
-    return w && (w.notes_i18n?.['zh-TW'] || '').includes('CL-DATA-19');
-  });
-  assert.equal(cl19.length, 139); // re-anchored INT-204: 138 +1 (CL-DATA-83 follow-up jp-010-P01 light_window; CL-DATA-66 direct-build tw-125..183 + CL-DATA-64 jp-092..095/us-159..163 excluded)
+  const roster = JSON.parse(readFileSync(
+    path.join(repo, 'data', 'v2', 'tests', 'fixtures', 'cl-data-19-wave.json'), 'utf8'));
+  assert.equal(roster.opportunity_ids.length, 137,
+    'CL-DATA-19 roster is pinned at 137 contracts (was 139 before the 2026-11-22 reclassification)');
+  const byPath = new Map(lock.canonical_records.map(r => [r.opportunity_id, r.path]));
   const byGenre = {};
-  for (const r of cl19) {
-    const doc = JSON.parse(readFileSync(path.join(repo, r.path), 'utf8'));
+  for (const oid of roster.opportunity_ids) {
+    const rel = byPath.get(oid);
+    assert.ok(rel, `${oid} left the canonical source lock`);
+    const doc = JSON.parse(readFileSync(path.join(repo, rel), 'utf8'));
+    const w = doc.condition_contract.conditions.find(c => c.metric === 'light_window');
+    assert.ok(w, `${oid} lost its light_window`);
+    assert.equal(w.role, 'REQUIRED', `${oid} light_window must stay REQUIRED`);
     const gt = doc.condition_contract.genre_template;
+    assert.ok(Object.prototype.hasOwnProperty.call(IDS, gt), `${oid} left an in-scope genre (${gt})`);
     byGenre[gt] = (byGenre[gt] || 0) + 1;
-    assert.equal(doc.revision >= 2, true, `${r.opportunity_id} revision bumped`);
+    assert.equal(doc.revision >= 2, true, `${oid} revision bumped`);
   }
   assert.deepEqual(byGenre, IDS);
+  // 2026-11-22 owner ruling: 出雲大社 (jp-026-P01) and 東引燈塔 (tw-066-P01) are
+  // human-architecture subjects and moved geological_landform -> golden_hour.
+  // They keep a REQUIRED civil light_window; only the genre and the note text
+  // changed, which is why they are asserted here instead of the roster above.
+  for (const oid of ['jp-026-P01', 'tw-066-P01']) {
+    const doc = loadContract(oid);
+    assert.equal(doc.condition_contract.genre_template, 'golden_hour', `${oid} reclassified to golden_hour`);
+    const w = doc.condition_contract.conditions.find(c => c.metric === 'light_window');
+    assert.ok(w && w.role === 'REQUIRED', `${oid} keeps a REQUIRED light_window`);
+    assert.ok((w.notes_i18n?.['zh-TW'] || '').includes('golden_hour'), `${oid} notes record the reclassification`);
+  }
 });
 
 test('CL-DATA-19: night genres and already-windowed contracts untouched', () => {
