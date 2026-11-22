@@ -58,6 +58,10 @@ jobs:
             /packages/models-v2/
             /apps/web-v2/
             /ops/v2/
+            # CL-FIX-01: build_static.py packages the repo-root locale sidecars;
+            # without /locales/ in the sparse tree it dies with ENOENT on
+            # locales/en/catalog.json.
+            /locales/
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'

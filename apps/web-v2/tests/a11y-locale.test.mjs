@@ -6,6 +6,10 @@ import vm from 'node:vm';
 import {createCatalogState} from '../catalog-state.mjs';
 import {consumeAuthError as realConsumeAuthError, authErrorMessage as realAuthErrorMessage,
   consumeLinkResult as realConsumeLinkResult, linkResultMessage as realLinkResultMessage} from '../shell-auth.mjs';
+// CL-FIX-01: the sandbox strips every `import` line, so each symbol app.mjs
+// imports must be handed in explicitly. locale-loader.mjs owns
+// resolveLangFromQuery; hand in the real implementation rather than a fake.
+import {resolveLangFromQuery as realResolveLangFromQuery} from '../locale-loader.mjs';
 
 const app = readFileSync(fileURLToPath(new URL('../app.mjs',import.meta.url)), 'utf8');
 const html = readFileSync(fileURLToPath(new URL('../index.html',import.meta.url)), 'utf8');
@@ -49,6 +53,12 @@ function mountApp() {
     fetchCloudDigest:async()=>null,fetchMember:async()=>null,
     // CL-API-05 auth-error notice runs at module load and reads the address bar.
     URLSearchParams,
+    resolveLangFromQuery: realResolveLangFromQuery,
+    // CL-FIX-01: the locale sidecar loader is optional at runtime (missing keys
+    // keep the embedded copy). The sandbox gets honest no-op stubs so the
+    // language-switch path stays synchronous and testable.
+    loadLocaleSidecar: async()=>null,
+    applyUiCopy: ()=>false,
     consumeAuthError:realConsumeAuthError,
     authErrorMessage:realAuthErrorMessage,
     // CL-APP-07: the link_result notice also runs at module load.
@@ -60,6 +70,7 @@ function mountApp() {
     // CL-UI-55 favorites module stubs (imports are stripped above).
     createFavoritesClient:()=>({toggle:async()=>[],syncLocal:async()=>[],fetchCloud:async()=>[]}),
     localFavorites:()=>[],persistLocalFavorites:()=>{},favoritesFallbackMessage:()=>'',
+    location:{search:''},
     window:{location:{search:''},history:{replaceState(){}}},
     console,Intl,Date,Set,Map
   },{timeout:2000});
