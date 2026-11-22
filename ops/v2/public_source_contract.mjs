@@ -9,7 +9,13 @@ export const requiredRuntimeFiles=['index.html','styles.css','app.mjs','model.mj
 // CL-CI-37: favorites-client.mjs is the 20th RUNTIME_FILES entry in
 // build_static.py (CL-UI-55) — it ships in candidate build manifests, so it must
 // be in the allowed list here or validateManifest fails closed on every smoke.
-export const optionalRuntimeFiles=['bundle-digests.mjs','pull-refresh.mjs','shell-auth.mjs','favorites-client.mjs','weather-pilot.html','weather-pilot.mjs','weather-pilot-tw036.json','solar-pilot.html','solar-pilot.mjs','solar-window-tw036.json'];
+export const optionalRuntimeFiles=['bundle-digests.mjs','pull-refresh.mjs','shell-auth.mjs','favorites-client.mjs','locale-loader.mjs','weather-pilot.html','weather-pilot.mjs','weather-pilot-tw036.json','solar-pilot.html','solar-pilot.mjs','solar-window-tw036.json'];
+// CL-FIX-01: build_static.py also packages the repo-root locale sidecars
+// (locales/<lang>/{ui,taxonomy,catalog}.json) so locale-loader.mjs keeps its
+// ../../locales/ resolution inside the package. Those keys are not
+// apps/web-v2 runtime files; admit only that exact shape and keep every
+// other unknown key failing closed.
+export const localeFilePattern=/^locales\/[A-Za-z]{2}(?:-[A-Za-z]{2,4})?\/(?:ui|taxonomy|catalog)\.json$/;
 export const runtimeFiles=[...requiredRuntimeFiles,...optionalRuntimeFiles];
 export function validateManifest(manifest){
   assert.equal(manifest.status,'PASS');
@@ -20,7 +26,10 @@ export function validateManifest(manifest){
   assert.match(manifest.source_index_commit_sha,/^[a-f0-9]{40}$/);
   const keys=Object.keys(manifest.files);
   for(const f of requiredRuntimeFiles)assert.ok(keys.includes('apps/web-v2/'+f),'manifest missing required runtime file: '+f);
-  for(const key of keys)assert.ok(runtimeFiles.includes(key.slice('apps/web-v2/'.length)),'manifest declares unknown runtime file: '+key);
+  for(const key of keys){
+    if(key.startsWith('locales/')){assert.match(key,localeFilePattern,'manifest declares an unexpected locale file: '+key);continue;}
+    assert.ok(runtimeFiles.includes(key.slice('apps/web-v2/'.length)),'manifest declares unknown runtime file: '+key);
+  }
   for(const hash of Object.values(manifest.files))assert.match(hash,/^[a-f0-9]{64}$/);
   return manifest;
 }
