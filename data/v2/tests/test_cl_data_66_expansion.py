@@ -496,7 +496,7 @@ class TestRuntime(unittest.TestCase):
     def test_web_catalog_regenerated(self):
         cat = load("apps/web-v2/catalog.v2.json")
         self.assertEqual(len(cat["places"]), 459)  # CL-DATA-76 re-anchor: 460 − us-111 retired = 459
-        self.assertEqual(len(cat["opportunities"]), 720)  # CL-DATA-76 re-anchor: 721 − us-111 = 720 (measured)
+        self.assertEqual(len(cat["opportunities"]), 721)  # CL-FIX-03 re-anchor: CL-DATA-84C added tw-001-P04 (city night) -> 459 places / 721 opportunities
         oids = {o["opportunity_id"] for o in cat["opportunities"]}
         self.assertTrue(set(WAVE1_CONTRACTS) <= oids)
         self.assertTrue(set(WAVE2_CONTRACTS) <= oids)

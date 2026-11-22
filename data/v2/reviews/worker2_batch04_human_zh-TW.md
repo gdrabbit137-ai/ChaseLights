@@ -169,6 +169,11 @@ Readiness：R1、evidence_review；GEOMETRY_GAP／RESEARCH_GAP；不提供 Live 
 
 ---
 
+### CL-DATA-84 補記（自動對帳：契約註記同步）
+
+- 2026-11-22 owner 票（攝影條件複核）補齊/修正；provisional，未校準。
+
+
 ## us-071-P01 Kerry Park 西雅圖天際線暮色
 
 西雅圖市公園局官方介紹 Kerry Park 可看城市天際線、艾略特灣及太空針塔，雷尼爾山只有部分天氣可見，日落前後城市燈光亦為攝影題材。

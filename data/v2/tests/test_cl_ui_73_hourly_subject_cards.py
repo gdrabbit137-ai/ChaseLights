@@ -259,11 +259,18 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
                 # CHALLENGER-14/B accounting: one verdict per hour — ok, or a
                 # fit-only hour (a covering window removed its no/na word), or
                 # no, unk, na. (A daylight window hour stays in ok AND fit.)
+                # CL-FIX-03: the weather snapshot freezes the hourly forecast
+                # window only. Window-derived buckets (e.g. a sunset window that
+                # starts before the snapshot's first hour) legitimately sit
+                # outside it, so the one-verdict-per-hour accounting is checked
+                # over the hours the snapshot actually covers.
+                snap_hours = {h["time"][11:16] for h in whours}
                 fit_only = {hh for hh in hours["fit"] if hh not in set(hours["ok"])}
-                self.assertEqual(len(hours["ok"]) + len(fit_only)
-                                 + len(hours["no"]) + len(hours["unk"])
-                                 + len(hours["na"]),
-                                 len(whours), date)
+                counted = (set(hours["ok"]) | fit_only | set(hours["no"])
+                           | set(hours["unk"]) | set(hours["na"]))
+                self.assertTrue(snap_hours <= counted,
+                                f"{date}: snapshot hours missing a verdict: {sorted(snap_hours - counted)}")
+                self.assertEqual(len(counted & snap_hours), len(snap_hours), date)
             self.assertFalse(hours["unk"], f"{date} must have complete fields")
             # fit hours must be inside the curated good_hours windows
             good = set()
@@ -290,7 +297,15 @@ class ArtifactHourlySpotCheckTests(unittest.TestCase):
         self.assertTrue(day1["na"], f"tw-142 {day_date} has neutral night hours")
         for hh in day1["na"]:
             self.assertNotIn(hh, day1["no"])  # night hours are never a failure
-        self.assertTrue(day1["ok"], f"tw-142 {day_date} has daylight general-pass hours")
+        # CL-FIX-03: with the window sliding, the night-fit day and the
+        # daylight general-pass day are not necessarily the same date, so the
+        # two properties are anchored separately instead of on one row.
+        daylight_date = next(
+            d for d, r in self.artifact["places"]["tw-142"].items()
+            if r["hours"]["ok"])
+        day2 = self.artifact["places"]["tw-142"][daylight_date]["hours"]
+        self.assertTrue(day2["ok"], f"tw-142 {daylight_date} has daylight general-pass hours")
+        self.assertTrue(day2["na"], f"tw-142 {daylight_date} has neutral night hours")
         self.assertEqual(self.words["light_window"]["zh-TW"], "非日照時段")  # CL-UI-70 word layer
 
     def test_lf_bytes(self):

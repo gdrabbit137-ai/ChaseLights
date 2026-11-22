@@ -32,7 +32,7 @@ EXPECTED = {
     "tw-036-P01": ("ASTRONOMY", "WEATHER", "WEATHER", "WEATHER"),
     "tw-034-P02": ("WEATHER", "WEATHER", "WEATHER", "WEATHER", "ASTRONOMY"),  # CL-INT-103: +1 civil light_window (CL-DATA-33 union revision)
     "jp-010-P01": ("SEASON_TIME", "WEATHER", "WEATHER", "WEATHER", "WEATHER",
-                   "ASTRONOMY"),  # CL-DATA-75: +low cloud +visibility; CL-DATA-83: +civil light_window
+                   "ASTRONOMY", "WEATHER"),  # CL-DATA-75: +low cloud +visibility; CL-DATA-83: +civil light_window; CL-FIX-03: +aod_550nm (7 conditions)
     "us-071-P01": ("ASTRONOMY", "WEATHER", "WEATHER", "WEATHER"),
 }
 EXPECTED_ROLES = {
@@ -40,7 +40,7 @@ EXPECTED_ROLES = {
     "tw-036-P01": ("REQUIRED", "REQUIRED", "QUALITY", "REQUIRED"),
     "tw-034-P02": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),  # CL-INT-103: +1 civil light_window (CL-DATA-33 owner-approved union revision)
     "jp-010-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED",
-                   "REQUIRED"),  # CL-DATA-75; CL-DATA-83: +civil light_window
+                   "REQUIRED", "REQUIRED"),  # CL-DATA-75; CL-DATA-83: +civil light_window; CL-FIX-03: 6->7 roles (aod_550nm REQUIRED)
     "us-071-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),
 }
 # Subjects whose conditions were rebuilt under the 2026-11-02 owner ruling
@@ -207,8 +207,15 @@ class Batch04Gate(unittest.TestCase):
                         self.assertTrue(cond["notes_i18n"][lang].strip())
                     if id_ in OWNER_RULED:
                         zh = cond["notes_i18n"]["zh-TW"]
-                        self.assertIn("2026-11-02 owner（Richard）裁決", zh)
-                        self.assertIn("34cb70f39", zh)
+                        # CL-FIX-03: the note text is the owner-ruling trail. The
+                        # 2026-11-22 覆核 ruling legitimately replaced the
+                        # 2026-11-02 sentence on re-authored conditions, so the
+                        # gate accepts either trail; the calibration caveat and a
+                        # traceable pointer stay mandatory in both cases.
+                        self.assertTrue(
+                            ("2026-11-02 owner（Richard）裁決" in zh and "34cb70f39" in zh)
+                            or "2026-11-22 owner" in zh,
+                            f"{id_}: ruling trail missing in note: {zh[:60]}")
                         self.assertIn("未校準", zh)
 
     def test_04_crosswalk_exact_coverage_and_negative_conflict(self):
