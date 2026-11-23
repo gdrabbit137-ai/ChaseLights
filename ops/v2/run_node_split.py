@@ -46,10 +46,10 @@ def classify(paths):
     return unit, browser
 
 
-def run(node, files, extra):
+def run(node, files, extra, test_timeout="120000"):
     if not files:
         return 0, ""
-    cmd = [node, "--test", "--test-isolation=none", "--test-timeout=120000",
+    cmd = [node, "--test", "--test-isolation=none", f"--test-timeout={test_timeout}",
            "--test-reporter=tap", *extra, *files]
     proc = subprocess.run(cmd, capture_output=True, text=True)
     return proc.returncode, proc.stdout
@@ -81,7 +81,10 @@ def main(argv):
     browser_rc = 0
     browser_chunks = []
     for path in browser:
-        rc, out = run(node, [path], ["--test-concurrency=1"])
+        # CDP files render MapLibre through SwiftShader on the CI runner; the
+        # browser tests there legitimately take longer than the unit budget, and
+        # a killed test surfaces as `cancelled` (indistinguishable from an abort).
+        rc, out = run(node, [path], ["--test-concurrency=1"], test_timeout="300000")
         browser_rc = browser_rc or rc
         browser_chunks.append(out)
     rc_browser = browser_rc
