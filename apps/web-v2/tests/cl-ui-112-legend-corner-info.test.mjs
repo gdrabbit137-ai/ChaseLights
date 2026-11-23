@@ -272,3 +272,12 @@ test('CL-UI-112 (2c) 1280px: zero change — header ⓘ kept, legend has no ⓘ 
 });
 
 test('CL-UI-112 (2d): browser teardown', async () => { await teardownBrowser(); });
+
+
+// CL-CI-40: release the browser, the CDP socket and the static server even when a
+// test aborts or fails. Without a file-level hook the old "teardown" TEST only ran
+// if every earlier test completed, so one hang left a Chrome process behind and the
+// runner eventually reported the remaining cases as `cancelled` (OOM).
+test.after(async () => {
+  try { await teardownBrowser(); } catch (_) { /* already gone */ }
+});

@@ -256,3 +256,12 @@ test('CL-UI-107 LIVE: five model layers each render a boundary-free basemap', { 
     assert.deepEqual(p.visibleIds, [], `${mode}: no visible boundary-class layers`);
   }
 });
+
+
+// CL-CI-40: release the browser, the CDP socket and the static server even when a
+// test aborts or fails. Without a file-level hook the old "teardown" TEST only ran
+// if every earlier test completed, so one hang left a Chrome process behind and the
+// runner eventually reported the remaining cases as `cancelled` (OOM).
+test.after(async () => {
+  try { await teardownBrowser(); } catch (_) { /* already gone */ }
+});

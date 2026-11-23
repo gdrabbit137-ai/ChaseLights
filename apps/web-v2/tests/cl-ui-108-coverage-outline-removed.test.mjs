@@ -379,3 +379,12 @@ test('CL-UI-108 LIVE: five model layers draw no data-source coverage outline by 
     await evaljs(`window.__clui108Ref = null;`);
   }
 });
+
+
+// CL-CI-40: release the browser, the CDP socket and the static server even when a
+// test aborts or fails. Without a file-level hook the old "teardown" TEST only ran
+// if every earlier test completed, so one hang left a Chrome process behind and the
+// runner eventually reported the remaining cases as `cancelled` (OOM).
+test.after(async () => {
+  try { await teardownBrowser(); } catch (_) { /* already gone */ }
+});

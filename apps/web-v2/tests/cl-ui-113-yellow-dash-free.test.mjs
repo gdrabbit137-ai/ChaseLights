@@ -165,3 +165,12 @@ test('CL-UI-113 LIVE: five model layers, owner viewpoint, zero contour-yellow da
       `${mode}: no contour-yellow dashed pixels in the open-sea region (got ${scan.contourYellow})`);
   }
 });
+
+
+// CL-CI-40: release the browser, the CDP socket and the static server even when a
+// test aborts or fails. Without a file-level hook the old "teardown" TEST only ran
+// if every earlier test completed, so one hang left a Chrome process behind and the
+// runner eventually reported the remaining cases as `cancelled` (OOM).
+test.after(async () => {
+  try { await teardownBrowser(); } catch (_) { /* already gone */ }
+});

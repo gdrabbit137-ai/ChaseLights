@@ -223,3 +223,12 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true}, {name: '
 }
 // Lazy-init cleanup: the browser shuts down once the (2) loop has finished.
 test('CL-UI-47 (3): browser teardown', async () => { await teardownBrowser(); });
+
+
+// CL-CI-40: release the browser, the CDP socket and the static server even when a
+// test aborts or fails. Without a file-level hook the old "teardown" TEST only ran
+// if every earlier test completed, so one hang left a Chrome process behind and the
+// runner eventually reported the remaining cases as `cancelled` (OOM).
+test.after(async () => {
+  try { await teardownBrowser(); } catch (_) { /* already gone */ }
+});
