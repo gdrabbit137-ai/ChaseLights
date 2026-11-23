@@ -242,6 +242,51 @@ async function closeWeatherModal() {
 // collapsed na-row (the modal is left OPEN for the caller). CL-UI-102 rule:
 // scrollIntoView + re-measure before every real click — off-viewport clicks
 // go nowhere and are a harness bug, not a product bug.
+// CL-CI-41 (B): read-only diagnostics. When a CI-only failure says "nothing
+// rendered", print WHAT the page actually got — the fetch URLs, their HTTP
+// status and the container's shape — so the next decision is evidence-based.
+// It prints and returns; it never asserts, never skips and never alters a check.
+const DIAG_URL_RE = /evaluations-latest|subject-cards|opportunity-contracts|catalog\.v2/;
+async function printRenderDiagnostics(label) {
+  let info;
+  try {
+    info = await evaljs(`(async () => {
+      const res = [...performance.getEntriesByType('resource')].map(e => e.name)
+        .filter(n => /evaluations-latest|subject-cards|opportunity-contracts|catalog[.]v2/.test(n))
+        .slice(0, 6);
+      const probes = [];
+      for (const u of res) {
+        try {
+          const r = await fetch(u, {cache: 'no-store'});
+          const body = await r.text();
+          probes.push({url: u, status: r.status, ok: r.ok, bytes: body.length});
+        } catch (e) { probes.push({url: u, error: String((e && e.message) || e)}); }
+      }
+      const tg = document.getElementById('timeline-groups');
+      const tm = document.getElementById('timeline-mobile');
+      const state = document.querySelector('#data-state, [data-state]');
+      return {
+        cards: document.querySelectorAll('.card').length,
+        probes,
+        timelineGroupsChildren: tg ? tg.childElementCount : null,
+        timelineGroupsHtmlLen: tg ? tg.innerHTML.length : null,
+        timelineMobileChildren: tm ? tm.childElementCount : null,
+        mobileCards: document.querySelectorAll('.timeline-mobile-card').length,
+        naRows: document.querySelectorAll('#timeline-groups tr.na-row').length,
+        dataState: state ? (state.dataset.state || null) : null,
+        dataStatus: state ? (state.dataset.status || null) : null,
+        modalOpen: (() => { const m = document.getElementById('modal-overlay'); return !!(m && m.style.display === 'flex'); })(),
+      };
+    })()`);
+  } catch (e) {
+    info = { diagnosticError: String((e && e.message) || e) };
+  }
+  const line = 'CL-CI-41 DIAG ' + label + ' ' + JSON.stringify(info);
+  console.log(line);
+  try { test.diagnostic?.(line); } catch (_) {}
+  return info;
+}
+
 async function findNaRow(maxCards = 8) {
   const n = await evaljs(`document.querySelectorAll('.card').length`);
   for (let i = 0; i < Math.min(n, maxCards); i++) {
@@ -322,6 +367,7 @@ test('CL-UI-118b (5a): 1280 — real hit expands the na-row, revealed rows keep 
   await setViewport(1280, 900, false);
   await loadPage();
   const card = await findNaRow();
+  if (!card) await printRenderDiagnostics('5a-no-na-row');
   assert.ok(card, 'at least one card whose modal carries a collapsed na-row');
   // CL-CI-37: a real click landing while handlers are still wiring is a timing
   // miss, not a regression — re-probe and re-click before requiring the modal.
@@ -414,6 +460,7 @@ test('CL-UI-118b (5b): 390 — the table switches to mobile cards: every na hour
       mobileCards: document.querySelectorAll('.timeline-mobile-card').length
     };
   })()`);
+  if (!(state.mobileCards > 0)) await printRenderDiagnostics('5b-no-mobile-cards');
   assert.ok(state.mobileCards > 0, 'mobile hour cards rendered');
   assert.equal(state.tableDisplay, 'none', '≤768px the hourly table wrap is display:none — the collapsed na-row is not part of the mobile layout');
   assert.ok(state.naCards.length > 0, 'na hours render as per-hour mobile cards — hourly data is never hidden on mobile');
