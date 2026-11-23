@@ -421,8 +421,11 @@ def main():
                 "packages/core-v2/tools/evaluate_condition_contract.py",
                 "packages/core-v2/adapters/threshold_observations.py"],
                 None, False, False),
-            ("w4-node", ["node", "--test", "--test-isolation=none", "--test-timeout=120000",
-                "--test-reporter=tap",                *[str(p.relative_to(root)) for p in sorted(
+            # CL-CI-39: unit files stay parallel; the CDP/Chromium files are
+            # classified at run time and executed one at a time (a 2-core runner
+            # cannot host four headless Chromes without blowing the 120s budget).
+            ("w4-node", [sys.executable, "ops/v2/run_node_split.py",
+                *[str(p.relative_to(root)) for p in sorted(
                     (root / "apps/web-v2/tests").glob("*.test.mjs"))]], None, False, True,
                 {"min_tests": 771,
                  # CL-INT-215: the full node suite measures ~25+ min on Windows-local

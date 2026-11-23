@@ -299,6 +299,8 @@
     'en':{
     '底圖載入中…':'Loading basemap…'
 ,
+    '此環境不支援 WebGL，地圖無法顯示；請改用支援 WebGL 的瀏覽器。':'This environment has no WebGL, so the map cannot be drawn. Please use a browser with WebGL enabled.'
+,
     '底圖逾時 · Canvas fallback':'Basemap timed out · Canvas fallback'
 ,
     '圖資載入失敗 · Canvas fallback':'Basemap failed to load · Canvas fallback'
@@ -683,6 +685,8 @@
     },
     'ja':{
     '底圖載入中…':'背景地図を読み込み中…'
+,
+    '此環境不支援 WebGL，地圖無法顯示；請改用支援 WebGL 的瀏覽器。':'この環境では WebGL が使えないため、地図を表示できません。WebGL 対応のブラウザをご利用ください。'
 ,
     '底圖逾時 · Canvas fallback':'背景地図がタイムアウト · Canvas フォールバック'
 ,
@@ -2035,8 +2039,41 @@
     }
   }
 
+  // CL-CI-39: MapLibre needs a WebGL context. Headless CI Chromium (and any
+  // device with WebGL disabled) returns null from getContext('webgl'), and the
+  // old code constructed the map unconditionally: the exception left
+  // #weather-basemap at 0 height, so the zoom/reset controls never laid out and
+  // the page silently lost its whole map area. Probe once and render an honest
+  // fallback panel instead of a zero-height hole.
+  function webglAvailable(){
+    try{
+      const c=document.createElement('canvas');
+      return !!(c.getContext('webgl2')||c.getContext('webgl')||c.getContext('experimental-webgl'));
+    }catch(_){ return false; }
+  }
+  function showWebglFallback(){
+    const wrap=document.querySelector('.map-wrap');
+    if(!wrap||wrap.dataset.webgl==='unsupported')return;
+    wrap.dataset.webgl='unsupported';
+    const host=document.getElementById('weather-basemap');
+    if(host){
+      const box=document.createElement('div');
+      box.className='wm-webgl-fallback';
+      box.setAttribute('role','status');
+      box.textContent=wmT('此環境不支援 WebGL，地圖無法顯示；請改用支援 WebGL 的瀏覽器。');
+      host.appendChild(box);
+    }
+    const status=document.getElementById('basemap-status');
+    if(status)status.hidden=true;
+    const reset=document.getElementById('reset-view');
+    if(reset)reset.hidden=true;
+    const locate=document.getElementById('locate-spot');
+    if(locate)locate.hidden=true;
+    console.warn('[weather-map] WebGL unavailable; rendering the explicit fallback panel');
+  }
   async function initBasemap(){
     setBasemapStatus('loading',wmT('底圖載入中…'));
+    if(!webglAvailable()){ showWebglFallback(); return; }
     try{
       const maplibregl=await import(MAPLIBRE_MODULE);
       // CL-UI-105（owner）：初始相機必須落在地區 bbox。PNG stub / 異常資料缺

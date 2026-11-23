@@ -1699,6 +1699,16 @@
     var token = ++state.pinMapToken;
     var el = pk;
     if (window.__clcpMapLibre === false) { wireSchematicPinDrop(el); refreshPin(); return; } // test seam: force schematic
+    // CL-CI-39: no WebGL -> never construct the mini-map (MapLibre throws and
+    // leaves a zero-size canvas). Fall back to the schematic pin picker that the
+    // 4s timeout path already uses, and expose the state for the acceptance test.
+    if (!clcpWebglAvailable()) {
+      try { window.__clCpMiniMapFallback = true; } catch (_) {}
+      wireSchematicPinDrop(el);
+      el.setAttribute('data-minimap', 'unsupported');
+      refreshPin();
+      return;
+    }
     var pollStart = Date.now();
     (function waitBox() {
       if (token !== state.pinMapToken) return; // modal closed/replaced
@@ -1708,6 +1718,12 @@
       if (Date.now() - pollStart > 1500) { wireSchematicPinDrop(el); refreshPin(); return; }
       requestAnimationFrame(waitBox);
     })();
+  }
+  function clcpWebglAvailable() {
+    try {
+      var c = document.createElement('canvas');
+      return !!(c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl'));
+    } catch (_) { return false; }
   }
   function initMiniMap(el, token) {
     import(MAPLIBRE_MODULE).then(function (maplibregl) {

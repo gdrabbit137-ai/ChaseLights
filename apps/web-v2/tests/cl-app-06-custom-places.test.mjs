@@ -1286,9 +1286,19 @@ test('CL-APP-06 (2r, patch-4): real mini-map — DEFERRED init after the modal i
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
     card.querySelector('.cl-cp-more').click();
     document.querySelector('#cl-cp-menu [data-cp-act="edit"]').click();
-    // wait for the map instance (created only after the container has a box)
+    // wait for the map instance (created only after the container has a box) —
+    // or for the explicit no-WebGL fallback (CL-CI-39: headless CI has no GL
+    // context, so MapLibre must not be constructed at all).
     const t0 = Date.now();
-    while (!window.__clCpMiniMap && Date.now() - t0 < 10000) await new Promise(r => setTimeout(r, 100));
+    while (!window.__clCpMiniMap && !window.__clCpMiniMapFallback && Date.now() - t0 < 10000)
+      await new Promise(r => setTimeout(r, 100));
+    if (window.__clCpMiniMapFallback) {
+      const el = document.querySelector('#cl-cp-pinpick');
+      const b = el.getBoundingClientRect();
+      return { fallback: true, boxW: b.width, boxH: b.height,
+               marked: el.getAttribute('data-minimap'),
+               text: (document.querySelector('.cl-cp-overlay') || document).textContent };
+    }
     const map = window.__clCpMiniMap;
     if (!map) return { error: 'mini-map never initialized' };
     // CL-CI-38 re-anchor: read the box from the map's OWN container —
@@ -1327,6 +1337,16 @@ test('CL-APP-06 (2r, patch-4): real mini-map — DEFERRED init after the modal i
     out.mapRemoved = !window.__clCpMiniMap;
     return out;
   })()`);
+  if (probe.fallback) {
+    // CL-CI-39: without WebGL the product renders the schematic pin picker
+    // instead of a zero-size MapLibre canvas. Assert that contract explicitly
+    // (never skip): the picker is laid out, marked unsupported, and the modal
+    // stays usable.
+    assert.equal(probe.marked, 'unsupported', 'no-WebGL: the pin picker is marked unsupported');
+    assert.ok(probe.boxW > 8 && probe.boxH > 8, 'no-WebGL: the schematic pin picker is laid out');
+    assert.match(probe.text, /緯度|lat/i, 'no-WebGL: the lat/lng fields stay usable');
+    return;
+  }
   assert.ok(probe.boxW > 8 && probe.boxH > 8, 'the container HAS a size at init (root-cause guard)');
   assert.equal(probe.styleLoaded, true, 'the vendored maplibre style loads');
   assert.equal(probe.allTilesLoaded, true, 'basemap tiles finished loading');

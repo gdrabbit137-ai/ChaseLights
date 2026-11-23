@@ -240,6 +240,9 @@ const SHELL_PROBE = `(() => {
     footer:r($('.site-footer')),
     mapPct:wrap?+(wrap.getBoundingClientRect().height/window.innerHeight).toFixed(4):null,
     modelRowText:($('#wm-ls-model')||{}).textContent||null,
+    // CL-CI-39: the shell renders an explicit fallback when WebGL is missing
+    webglState:wrap?wrap.dataset.webgl||null:null,
+    fallback:r($('.wm-webgl-fallback')),
   };
 })()`;
 
@@ -262,12 +265,22 @@ test('CL-UI-106 (2a) 390px: title/chip/cycle/footer retired; ⓘ row gone (ⓘ i
   assert.ok(p.legendInfo && p.legendInfo.h > 0, 'legend title ⓘ present and reachable');
   assert.ok(p.legendInfo.l >= p.legend.l && p.legendInfo.rr <= p.legend.rr + 1,
     'legend ⓘ sits inside the legend box');
-  // CL-UI-112: the map top-right carries ONLY the zoom (+/−) group — the ↺
-  // reset pill moved to the bottom-right
-  assert.ok(p.zoom && p.zoom.h > 0 && p.zoom.rr >= p.innerW - 60,
-    `zoom group hugs the top-right (right=${p.zoom && p.zoom.rr}/${p.innerW})`);
-  assert.ok(p.reset && p.reset.h > 0 && p.reset.t > p.zoom.b,
-    `reset pill is below the zoom group (t=${p.reset && p.reset.t})`);
+  // CL-CI-39: headless CI has no WebGL context, so MapLibre never mounts and the
+  // zoom control group cannot exist. The contract then is the explicit fallback:
+  // the map area keeps its reserved height and the panel says why.
+  if (p.webglState === 'unsupported') {
+    assert.ok(p.fallback && p.fallback.h > 0,
+      'no-WebGL: the explicit fallback panel renders inside the map area');
+    assert.equal(p.reset.h, 0, 'no-WebGL: the reset pill is hidden (nothing to reset)');
+    assert.ok(p.mapPct >= 0.6, `no-WebGL: the map area still reserves >=60% viewport (${p.mapPct})`);
+  } else {
+    // CL-UI-112: the map top-right carries ONLY the zoom (+/−) group — the ↺
+    // reset pill moved to the bottom-right
+    assert.ok(p.zoom && p.zoom.h > 0 && p.zoom.rr >= p.innerW - 60,
+      `zoom group hugs the top-right (right=${p.zoom && p.zoom.rr}/${p.innerW})`);
+    assert.ok(p.reset && p.reset.h > 0 && p.reset.t > p.zoom.b,
+      `reset pill is below the zoom group (t=${p.reset && p.reset.t})`);
+  }
   // 地圖區獲得高度 — CL-UI-105 contract still holds (re-measured)
   assert.ok(p.mapPct >= 0.60, `地圖區 ≥60% 視高 (實測 ${(p.mapPct * 100).toFixed(1)}%)`);
 });
