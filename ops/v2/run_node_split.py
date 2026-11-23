@@ -74,7 +74,18 @@ def main(argv):
     # build; CI uses the setup-node one on PATH.
     node = os.environ.get("NODE_BIN") or shutil.which("node") or "node"
     rc_unit, out_unit = run(node, unit, [])
-    rc_browser, out_browser = run(node, browser, ["--test-concurrency=1"])
+    # One process per browser file: these files own a Chrome child and a CDP
+    # socket, and a single shared process lets one file's leftover handle abort
+    # the next one (node reports the aborted cases as `cancelled`, which the gate
+    # then cannot account for). Process-per-file also keeps them serial.
+    browser_rc = 0
+    browser_chunks = []
+    for path in browser:
+        rc, out = run(node, [path], ["--test-concurrency=1"])
+        browser_rc = browser_rc or rc
+        browser_chunks.append(out)
+    rc_browser = browser_rc
+    out_browser = "\n".join(browser_chunks)
 
     total = {k: 0 for k in SUMMARY_KEYS}
     for out in (out_unit, out_browser):
@@ -85,7 +96,12 @@ def main(argv):
     # One merged summary, emitted exactly once for the gate.
     for key in ("tests", "suites", "pass", "fail", "cancelled", "skipped", "todo"):
         print(f"# {key} {total[key]}")
-    return 0 if (rc_unit == 0 and rc_browser == 0) else 1
+    # A cancelled case is an aborted test, never a pass: fail the group so the
+    # gate cannot mistake an aborted browser file for success.
+    ok = rc_unit == 0 and rc_browser == 0 and total["cancelled"] == 0 and total["fail"] == 0
+    if total["cancelled"]:
+        print(f"# cancelled-cases {total['cancelled']} (aborted, counted as failure)")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":
