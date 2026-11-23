@@ -288,27 +288,46 @@ async function printRenderDiagnostics(label) {
 }
 
 async function findNaRow(maxCards = 8) {
+  // CL-CI-41 (A): the CI DIAG proved the data is fully loaded (three bundles,
+  // HTTP 200, full byte counts) while `modalOpen` stayed false — the real-click
+  // landed before the card's handlers were wired, so the modal never opened and
+  // the timeline stayed empty. Re-measure and re-click the SAME card (CL-CI-37
+  // pattern, already used by 5a) instead of walking on after a missed click.
   const n = await evaljs(`document.querySelectorAll('.card').length`);
   for (let i = 0; i < Math.min(n, maxCards); i++) {
-    const pt = await evaljs(`(() => {
-      const card = document.querySelectorAll('.card')[${i}];
-      if (!card) return null;
-      card.scrollIntoView({block: 'center'});
-      const r = card.getBoundingClientRect();
-      return {x: r.left + r.width / 2, y: r.top + r.height / 2};
-    })()`);
-    if (!pt) break;
-    await realClick(pt.x, pt.y);
-    const ok = await evaljs(`new Promise((resolve)=>{
-      const t0=Date.now();
-      const iv=setInterval(()=>{
-        const modal=document.getElementById('modal-overlay');
-        if(modal&&modal.style.display==='flex'&&document.querySelector('#timeline-groups tr.na-row')){clearInterval(iv);resolve(true);}
-        else if(Date.now()-t0>15000){clearInterval(iv);resolve(false);}
-      },100);
-    })`);
-    if (ok) return pt;
-    await closeWeatherModal();
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      // scrollIntoView + fresh centre on EVERY attempt: the first click can
+      // scroll the list (or the modal can shift it), which invalidates the old
+      // coordinates.
+      const pt = await evaljs(`(() => {
+        const card = document.querySelectorAll('.card')[${i}];
+        if (!card) return null;
+        card.scrollIntoView({block: 'center'});
+        const r = card.getBoundingClientRect();
+        return {x: r.left + r.width / 2, y: r.top + r.height / 2};
+      })()`);
+      if (!pt) return null;
+      await realClick(pt.x, pt.y);
+      const opened = await evaljs(`new Promise((resolve)=>{
+        const t0=Date.now();
+        const iv=setInterval(()=>{
+          const m=document.getElementById('modal-overlay');
+          if(m&&m.style.display==='flex'){clearInterval(iv);resolve(true);}
+          else if(Date.now()-t0>4000){clearInterval(iv);resolve(false);}
+        },100);
+      })`);
+      if (!opened) continue; // re-measure + re-click the same card
+      const hasRow = await evaljs(`new Promise((resolve)=>{
+        const t0=Date.now();
+        const iv=setInterval(()=>{
+          if(document.querySelector('#timeline-groups tr.na-row')){clearInterval(iv);resolve(true);}
+          else if(Date.now()-t0>15000){clearInterval(iv);resolve(false);}
+        },100);
+      })`);
+      if (hasRow) return pt;
+      await closeWeatherModal();
+      break; // modal opened but this card genuinely has no na-row
+    }
   }
   return null;
 }
