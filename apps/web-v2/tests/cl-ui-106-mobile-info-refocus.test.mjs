@@ -253,6 +253,14 @@ test('CL-UI-106 (2a) 390px: title/chip/cycle/footer retired; ⓘ row gone (ⓘ i
   await loadPage();
   await send('Page.bringToFront');
   await waitDataReady();
+  // CL-CI-41 (F): the legend row is painted after the data settles, so a loaded
+  // runner could measure it before it exists (CI read legendInfo height 0 while
+  // the same build shows 22px locally). Wait for it instead of assuming a frame.
+  await evaljs(`new Promise((resolve)=>{const t0=Date.now();const iv=setInterval(()=>{
+    const el=document.querySelector('.legend-info');
+    if(el && el.getBoundingClientRect().height>0){clearInterval(iv);resolve(1);}
+    else if(Date.now()-t0>20000){clearInterval(iv);resolve(0);}
+  },200)})`);
   const p = await evaljs(SHELL_PROBE);
   assert.equal(p.title.h, 0, `WeatherGrid Preview title block retired (${p.title && p.title.h}px)`);
   assert.equal(p.subtitle.h, 0, 'subtitle retired with the title block');
@@ -262,7 +270,7 @@ test('CL-UI-106 (2a) 390px: title/chip/cycle/footer retired; ⓘ row gone (ⓘ i
   // CL-UI-112: the standalone top-right ⓘ 資料 row is retired with the header
   assert.equal(p.infoBtn.h, 0, 'ⓘ 資料 standalone top-right row retired (header display:none)');
   // …and the ⓘ lives inside the bottom-left legend title row instead
-  assert.ok(p.legendInfo && p.legendInfo.h > 0, 'legend title ⓘ present and reachable');
+  assert.ok(p.legendInfo && p.legendInfo.h > 0, `legend title ⓘ present and reachable (legendInfo=${JSON.stringify(p.legendInfo)} legend=${JSON.stringify(p.legend)} webgl=${p.webglState})`);
   assert.ok(p.legendInfo.l >= p.legend.l && p.legendInfo.rr <= p.legend.rr + 1,
     'legend ⓘ sits inside the legend box');
   // CL-CI-39: headless CI has no WebGL context, so MapLibre never mounts and the
