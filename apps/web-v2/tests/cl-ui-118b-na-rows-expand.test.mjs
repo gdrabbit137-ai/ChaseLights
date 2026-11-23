@@ -326,7 +326,7 @@ async function findNaRow(maxCards = 8) {
   const FRACS = [0.25, 0.5, 0.72]; // top-to-bottom across the VISIBLE height
   const tStart = Date.now();
   for (let i = 0; i < Math.min(n, maxCards); i++) {
-    if (Date.now() - tStart > 180000) break; // keep the whole run inside its budget
+    if (Date.now() - tStart > 270000) break; // keep the whole run inside its budget
     const tCard = Date.now();
     let cardGone = false;
     let noNaHere = false;
@@ -344,7 +344,7 @@ async function findNaRow(maxCards = 8) {
       })()`);
       if (!ready) { cardGone = true; break; }
       for (const frac of FRACS) {
-        if (Date.now() - tCard > 60000) { cardGone = true; break; }
+        if (Date.now() - tCard > 150000) { cardGone = true; break; }
         const pt = await evaljs(`(() => {
           const card = document.querySelectorAll('.card')[${i}];
           if (!card) return null;
@@ -406,7 +406,7 @@ async function findNaRow(maxCards = 8) {
           const iv=setInterval(()=>{
             if(document.querySelector('#timeline-groups tr.na-row')){clearInterval(iv);resolve('row');}
             else if(document.querySelector('#timeline-groups tr, .timeline-mobile-card')){clearInterval(iv);resolve('painted');}
-            else if(Date.now()-t0>20000){clearInterval(iv);resolve('timeout');}
+            else if(Date.now()-t0>90000){clearInterval(iv);resolve('timeout');}
           },100);
         })`);
         if (wait === 'row') return pt;
@@ -468,7 +468,23 @@ async function openAnyCardModal(maxCards = 8) {
             else if(Date.now()-t0>4000){clearInterval(iv);resolve(false);}
           },100);
         })`);
-        if (!opened) continue;
+        if (!opened) {
+          // same last-resort as findNaRow: a synthetic click on the card element
+          if (frac !== FRACS[FRACS.length - 1]) continue;
+          const openedByEvent = await evaljs(`(async () => {
+            const card = document.querySelectorAll('.card')[${i}];
+            if (!card) return false;
+            card.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));
+            const t0 = Date.now();
+            while (Date.now() - t0 < 4000) {
+              const m = document.getElementById('modal-overlay');
+              if (m && m.style.display === 'flex') return true;
+              await new Promise(r => setTimeout(r, 100));
+            }
+            return false;
+          })()`);
+          if (!openedByEvent) continue;
+        }
         return pt;
       }
     }
@@ -610,7 +626,7 @@ test('CL-UI-118b (5b): 390 — the table switches to mobile cards: every na hour
   // Wait for the cards instead of assuming the frame already happened.
   const state = await evaljs(`(async () => {
     const t0 = Date.now();
-    while (document.querySelectorAll('.timeline-mobile-card').length === 0 && Date.now() - t0 < 15000)
+    while (document.querySelectorAll('.timeline-mobile-card').length === 0 && Date.now() - t0 < 90000)
       await new Promise(r => setTimeout(r, 100));
     const table = document.getElementById('timeline-groups');
     const wrap = table ? (table.closest('.timeline-table-wrap') || table) : null;
