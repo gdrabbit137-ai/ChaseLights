@@ -262,6 +262,23 @@ async function printRenderDiagnostics(label) {
           probes.push({url: u, status: r.status, ok: r.ok, bytes: body.length});
         } catch (e) { probes.push({url: u, error: String((e && e.message) || e)}); }
       }
+      // CL-CI-41 (B2): with the data confirmed loaded, the open question is why a
+      // real click leaves modalOpen false. Record the geometry of the first card
+      // and WHAT actually sits at its centre — an overlay, an off-screen rect or a
+      // mis-measured coordinate all produce the same silent miss.
+      const c0 = document.querySelectorAll('.card')[0];
+      const r0 = c0 ? c0.getBoundingClientRect() : null;
+      const hit0 = r0 ? document.elementFromPoint(r0.left + r0.width / 2, r0.top + r0.height / 2) : null;
+      const geom = {
+        viewport: {w: window.innerWidth, h: window.innerHeight, dpr: window.devicePixelRatio},
+        scrollY: window.scrollY,
+        bodyScrollHeight: document.body.scrollHeight,
+        firstCard: r0 ? {x: Math.round(r0.left), y: Math.round(r0.top), w: Math.round(r0.width), h: Math.round(r0.height)} : null,
+        hitAtFirstCardCentre: hit0 ? (hit0.tagName + '.' + (hit0.className || '').toString().slice(0, 60)) : null,
+        hitIsCard: !!(hit0 && hit0.classList && hit0.classList.contains('card')),
+        cardCursor: c0 ? getComputedStyle(c0).cursor : null,
+        cardPointerEvents: c0 ? getComputedStyle(c0).pointerEvents : null,
+      };
       const tg = document.getElementById('timeline-groups');
       const tm = document.getElementById('timeline-mobile');
       const state = document.querySelector('#data-state, [data-state]');
@@ -276,6 +293,7 @@ async function printRenderDiagnostics(label) {
         dataState: state ? (state.dataset.state || null) : null,
         dataStatus: state ? (state.dataset.status || null) : null,
         modalOpen: (() => { const m = document.getElementById('modal-overlay'); return !!(m && m.style.display === 'flex'); })(),
+        geom,
       };
     })()`);
   } catch (e) {
