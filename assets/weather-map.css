@@ -791,7 +791,12 @@ body{padding:18px}
 /* CL-CI-39: explicit no-WebGL state. The wrap keeps its aspect-ratio (so the
    layout still reserves the map area) and the panel explains the gap instead of
    leaving a 0-height hole behind. */
-.wm-webgl-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  padding:24px;text-align:center;font-size:14px;line-height:1.6;color:#c9d4e3;background:#07101f}
+/* The notice is a strip at the top of the map area, not a full cover: the 2D
+   weather overlay (#weather-canvas) is independent of WebGL and must keep
+   rendering (CL-UI-108 hashes its pixels), so only the basemap is missing. */
+.wm-webgl-fallback{position:absolute;top:0;left:0;right:0;z-index:3;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:8px 12px;text-align:center;font-size:12px;line-height:1.5;
+  color:#c9d4e3;background:rgba(7,16,31,.92);border-bottom:1px solid #263244;
+  pointer-events:none}
 .map-wrap[data-webgl="unsupported"] #weather-basemap{position:absolute;inset:0;height:100%}
-.map-wrap[data-webgl="unsupported"] #weather-canvas{display:none}

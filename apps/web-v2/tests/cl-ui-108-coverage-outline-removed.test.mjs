@@ -327,6 +327,28 @@ test('CL-UI-108 LIVE: five model layers draw no data-source coverage outline by 
     const px = await evaljs(OUTLINE_PIXELS);
     assert.equal(px.hits, 0, `${mode}: zero data-source-coverage outline pixels`);
     // (c) legend DOM carries no 虛線 note.
+    // CL-CI-39: headless CI has no WebGL, so MapLibre cannot mount and the 2D
+    // overlay's outline A/B probe has nothing to redraw against. Assert the
+    // documented degraded state explicitly instead of a blind skip.
+    const webglState = await evaljs(`(() => {
+      const w = document.querySelector('.map-wrap');
+      return w ? (w.dataset.webgl || null) : null;
+    })()`);
+    if (webglState === 'unsupported') {
+      const degraded = await evaljs(`(() => {
+        const strip = document.querySelector('.wm-webgl-fallback');
+        const cv = document.getElementById('weather-canvas');
+        const r = cv && cv.getBoundingClientRect();
+        return { strip: !!strip, stripText: strip && strip.textContent,
+                 canvasW: r && r.width, canvasH: r && r.height };
+      })()`);
+      assert.equal(degraded.strip, true, 'no-WebGL: the basemap gap is explained to the user');
+      assert.match(degraded.stripText || '', /WebGL/, 'no-WebGL: the notice names the cause');
+      assert.ok(degraded.canvasW > 0 && degraded.canvasH > 0,
+        'no-WebGL: the 2D weather overlay still owns its box');
+      t.diagnostic('no-WebGL: outline A/B probe not applicable (basemap absent)');
+      return;
+    }
     const legend = await evaljs(`(() => {
       const l = document.getElementById('legend');
       return { outlineKey: !!l.querySelector('.coverage-outline-key'),
