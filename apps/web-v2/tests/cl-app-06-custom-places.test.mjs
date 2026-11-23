@@ -1139,7 +1139,21 @@ test('CL-APP-06 (2o, patch-3): 390 viewport, card near the page footer — menu 
   })()`);
   const probe = await evaljs(`(async () => {
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp2"]');
+    const frame = () => new Promise(r => requestAnimationFrame(() => r()));
     card.scrollIntoView({ block: 'end' }); // card bottom pinned to the viewport bottom — the owner's footer case
+    await frame(); await frame();
+    // CL-CI-41 (G): scrollIntoView is unreliable on the CI runner (measured a
+    // trigger at top 0 after a block:'end' scroll, i.e. the page never moved), so
+    // correct against the window and re-measure before opening the menu — the
+    // flip-up contract only means something when the trigger really is at the
+    // bottom. Up to 3 corrections; the last window position is what gets asserted.
+    for (let i = 0; i < 3; i++) {
+      const tb = card.querySelector('.cl-cp-more').getBoundingClientRect();
+      const dy = (window.innerHeight - 24) - tb.bottom;
+      if (Math.abs(dy) <= 2) break;
+      window.scrollBy(0, dy);
+      await frame(); await frame();
+    }
     await new Promise(r => setTimeout(r, 300));
     const more = card.querySelector('.cl-cp-more');
     more.click();
