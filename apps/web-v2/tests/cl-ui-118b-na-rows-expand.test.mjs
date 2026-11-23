@@ -497,22 +497,55 @@ async function openAnyCardModal(maxCards = 8) {
 // The probe also reports WHICH day-group holds the toggle, so the row-state
 // queries can be scoped to that group (a modal spans 8 day-groups).
 async function naToggleProbe() {
-  return evaljs(`(() => {
+  return evaljs(`(async () => {
+    const frame = () => new Promise(r => requestAnimationFrame(() => r()));
+    // CL-CI-41 (D4): scrollIntoView({block:'center'}) is unreliable on the CI
+    // runner (measured card y=-425, toggle y=-850 while the element was supposed
+    // to be centred), so every target is additionally corrected through its own
+    // scrollable ancestor and then re-measured before it is clicked.
+    const bringIntoView = async (el) => {
+      el.scrollIntoView({block: 'center'});
+      let p = el.parentElement;
+      while (p && p !== document.body) {
+        const st = getComputedStyle(p);
+        if (/(auto|scroll)/.test(st.overflowY) && p.scrollHeight > p.clientHeight) {
+          const er = el.getBoundingClientRect(), pr = p.getBoundingClientRect();
+          if (er.top < pr.top || er.bottom > pr.bottom) p.scrollTop += (er.top - pr.top) - (pr.height - er.height) / 2;
+          break;
+        }
+        p = p.parentElement;
+      }
+      const er = el.getBoundingClientRect();
+      const dy = (window.innerHeight / 2) - (er.top + er.height / 2);
+      if (Math.abs(dy) > 1 && p === document.body) window.scrollBy(0, dy);
+      await frame(); await frame();
+    };
+    const centre = (el) => {
+      const r = el.getBoundingClientRect();
+      const top = Math.max(r.top, 0), bot = Math.min(r.bottom, window.innerHeight);
+      if (bot - top < 4) return null;
+      return {
+        cx: Math.min(Math.max(r.left + r.width / 2, 0), Math.max(window.innerWidth - 1, 0)),
+        cy: top + (bot - top) / 2
+      };
+    };
     const row = document.querySelector('#timeline-groups details[open] tr.na-row') || document.querySelector('#timeline-groups tr.na-row');
     if (!row) return {error: 'no na-row'};
     const det = row.closest('details');
     if (det && !det.open) {
-      const s = det.querySelector('summary');
-      const sr = s.getBoundingClientRect();
-      return {needOpen: true, cx: sr.left + sr.width / 2, cy: sr.top + sr.height / 2};
+      const sum = det.querySelector('summary');
+      await bringIntoView(sum);
+      const p = centre(sum);
+      if (!p) return {needOpen: true, cx: 0, cy: -1, offscreen: true};
+      return {needOpen: true, cx: p.cx, cy: p.cy};
     }
-    row.scrollIntoView({block: 'center'});
     const btn = row.querySelector('button.na-toggle');
-    const r = btn.getBoundingClientRect();
-    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-    const el = document.elementFromPoint(cx, cy);
+    await bringIntoView(btn);
+    const p = centre(btn);
+    if (!p) return {error: 'na-toggle offscreen', cx: 0, cy: -1};
+    const el = document.elementFromPoint(p.cx, p.cy);
     return {
-      cx, cy, detDate: det ? det.dataset.date : null,
+      cx: p.cx, cy: p.cy, detDate: det ? det.dataset.date : null,
       expanded: btn.getAttribute('aria-expanded'),
       hint: btn.querySelector('.na-hint')?.textContent ?? null,
       hit: el ? {tag: el.tagName, cls: String(el.className), inside: btn.contains(el) || el === btn} : null
@@ -554,7 +587,11 @@ test('CL-UI-118b (5a): 1280 — real hit expands the na-row, revealed rows keep 
   for (let attempt = 0; attempt < 3 && !(probe && probe.hit && probe.hit.inside); attempt++) {
     probe = await naToggleProbe();
     if (probe && probe.needOpen) {
-      // the day-group holding the na-row is closed — open it with a real click
+      // the day-group holding the na-row is closed — open it with a real click.
+      // CL-CI-41 (D4): skip the click when the summary is still off-screen (the
+      // probe already tried to bring it into view); clicking a negative y is a
+      // guaranteed miss that also wastes an attempt.
+      if (probe.offscreen || probe.cy < 0) { await new Promise(r => setTimeout(r, 300)); continue; }
       await realClick(probe.cx, probe.cy);
       probe = await naToggleProbe();
     }
@@ -654,9 +691,18 @@ test('CL-UI-118b (5b): 390 — the table switches to mobile cards: every na hour
   // summary/close bar never greenwashes the miss)
   const hit = await evaljs(`new Promise((resolve) => {
     (async () => {
-      const cards = Array.from(document.querySelectorAll('.timeline-mobile-card'))
-        .filter(c => c.querySelector('.tm-subj-na'))
-        .filter(c => { const d = c.closest('details'); return !d || d.open; });
+      // CL-CI-41 (D5): whether a day-group starts open depends on the render, so
+      // the open-group filter could leave an EMPTY candidate list (probed: 0) and
+      // fail an otherwise-correct modal. Open the first group that holds an na card
+      // before filtering — the assertion still targets the na CARD's hit area.
+      const allNa = Array.from(document.querySelectorAll('.timeline-mobile-card'))
+        .filter(c => c.querySelector('.tm-subj-na'));
+      const anyOpen = allNa.some(c => { const d = c.closest('details'); return !d || d.open; });
+      if (!anyOpen && allNa.length) {
+        const d = allNa[0].closest('details');
+        if (d) { d.open = true; await new Promise(r => setTimeout(r, 250)); }
+      }
+      const cards = allNa.filter(c => { const d = c.closest('details'); return !d || d.open; });
       const results = [];
       for (const card of cards.slice(0, 8)) {
         card.scrollIntoView({block: 'center'});

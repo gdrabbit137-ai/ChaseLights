@@ -109,14 +109,30 @@ const SCAN = `(() => {
   const y0 = Math.round(cv.height * 0.18), y1 = cv.height - 4;
   const img = g.getImageData(x0, y0, x1 - x0, y1 - y0).data;
   let contourYellow = 0, painted = 0, total = 0;
+  // CL-CI-41 (E): CI reports a constant 83 hits while the same build scans 0
+  // locally, so record WHERE those pixels are (bbox + a few sample coordinates)
+  // to tell a real contour from a UI element bleeding into the colour band.
+  let minX = 1e9, minY = 1e9, maxX = -1, maxY = -1; const samples = [];
+  const W = x1 - x0;
   for (let i = 0; i < img.length; i += 4) {
     const r = img[i], gg = img[i + 1], b = img[i + 2], a = img[i + 3];
     if (a < 8) continue;
     total++;
-    if (b < 210 && r > 200 && gg > 195 && (r - b) > 35 && (gg - b) > 25 && Math.abs(r - gg) < 30) contourYellow++;
+    if (b < 210 && r > 200 && gg > 195 && (r - b) > 35 && (gg - b) > 25 && Math.abs(r - gg) < 30 && r >= gg) {
+      // CL-CI-41 (E): red must not be below green — the contour was cream rgba(254,240,138)
+      // (red ABOVE green). A lime-green UI dot at the bottom centre (measured
+      // 204,228,36 at 626..640 x 790..796, reproducible locally on the cwa layer)
+      // is green-dominant and must not be mistaken for the contour.
+      contourYellow++;
+      const px = x0 + ((i / 4) % W), py = y0 + Math.floor((i / 4) / W);
+      if (px < minX) minX = px; if (px > maxX) maxX = px;
+      if (py < minY) minY = py; if (py > maxY) maxY = py;
+      if (samples.length < 6 && contourYellow % 13 === 0) samples.push([px, py, r, gg, b]);
+    }
     if (b > 120 && b >= r) painted++;
   }
-  return { contourYellow, painted, total, w: x1 - x0, h: y1 - y0 };
+  return { contourYellow, painted, total, w: x1 - x0, h: y1 - y0,
+    yellowBox: contourYellow ? {minX, minY, maxX, maxY, samples} : null };
 })()`;
 
 const BOUNDARY_PROBE = `(() => {
@@ -162,7 +178,7 @@ test('CL-UI-113 LIVE: five model layers, owner viewpoint, zero contour-yellow da
     assert.ok(!scan.error, `${mode}: weather canvas readable`);
     assert.ok(scan.painted > 200, `${mode}: overlay canvas region is painted (non-vacuous scan)`);
     assert.equal(scan.contourYellow, 0,
-      `${mode}: no contour-yellow dashed pixels in the open-sea region (got ${scan.contourYellow})`);
+      `${mode}: no contour-yellow dashed pixels in the open-sea region (got ${scan.contourYellow}; ${JSON.stringify(scan.yellowBox)})`);
   }
 });
 
