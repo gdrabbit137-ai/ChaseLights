@@ -394,7 +394,14 @@ test('CL-UI-118b (5b): 390 — the table switches to mobile cards: every na hour
   await setViewport(390, 844, true);
   await loadPage();
   await findNaRow();
-  const state = await evaljs(`(() => {
+  // CL-CI-39: the mobile card list is painted on a later frame than the na-row,
+  // so a loaded runner can read the DOM before it exists (observed locally as a
+  // one-off 'mobile hour cards rendered' failure and in CI as an aborted test).
+  // Wait for the cards instead of assuming the frame already happened.
+  const state = await evaljs(`(async () => {
+    const t0 = Date.now();
+    while (document.querySelectorAll('.timeline-mobile-card').length === 0 && Date.now() - t0 < 15000)
+      await new Promise(r => setTimeout(r, 100));
     const table = document.getElementById('timeline-groups');
     const wrap = table ? (table.closest('.timeline-table-wrap') || table) : null;
     return {
