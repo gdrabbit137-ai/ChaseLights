@@ -3839,8 +3839,20 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
           // CL-DATA-06: show the full 7-day evaluation window — CL-UI-64 as a
           // compact strip, CL-UI-68 as text-in-cell boxes (day label + verdict/
           // segment text) instead of the previous 8 long rows.
-          const days=opp.days.slice(0,DAY_KEYS.length);
-          const labels=evalDayLabels(spot.timezone,DAY_KEYS.length);
+          // CL-UI-124 (owner bug 2026-11-24): the bundle keeps PAST days in
+          // opp.days, so slicing from index 0 shifted every label — 今天 showed
+          // a five-day-old row (all hours already passed → the absurd 「✓0」)
+          // and 11/29 showed tomorrow's six hours. Align by DATE, drop the days
+          // the bundle cannot cover, and never label a past row as today.
+          const tzStrip=spot.timezone||'UTC';
+          const labelsAll=evalDayLabels(tzStrip,DAY_KEYS.length);
+          const days=[],labels=[];
+          for(let _i=0;_i<DAY_KEYS.length;_i++){
+            const _d=v2DayForOffset(opp,_i,tzStrip);
+            if(!_d)continue;
+            days.push(_d);labels.push(labelsAll[_i]);
+          }
+          if(!days.length){el.innerHTML=`<div class="v2-eval-block"><div class="v2-note">${esc(d().eval2_none)}</div></div>`;return;}
           // CL-UI-75 (owner ruling): the 「下一個符合時段」 in-cell badge
           // is retired at every breakpoint — the strip is the per-day
           // assessment and the next-window info is carried by the 今日速覽
