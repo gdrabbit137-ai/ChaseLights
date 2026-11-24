@@ -62,7 +62,7 @@ test('CL-APP-09p6 (1a): app.js — the official renderer + pipeline accept priva
     'the currentData guard runs before the container wipe');
   assert.match(appSource, /if\(clui121Loading&&clui121Loading\.style\.display!=='none'\)clui121Loading\.style\.display='none';/);
   // cache-bust: this ticket's stamps
-  assert.match(htmlSource, /assets\/app\.js\?v=clui122/); // CL-UI-110/111 stamp advance (CL-INT-212 re-anchor)
+  assert.match(htmlSource, /assets\/app\.js\?v=clui123/); // CL-UI-110/111 stamp advance (CL-INT-212 re-anchor)
 });
 
 test('CL-APP-09p6 (1b): custom-places.js — cards render via the bridge; patch-9 coord line rides the card, homegrown ✗ row stays retired', () => {
@@ -308,17 +308,21 @@ test('CL-UI-122 (2f): a ✗-only private point still renders in the 私人 view 
     const c=document.getElementById('spots-container');
     const visible=[...c.querySelectorAll('.card')].filter(x=>x.offsetParent!==null||getComputedStyle(x).display!=='none');
     const open=[...c.querySelectorAll('details')].map(d=>d.open);
+    const details=c.querySelectorAll('details').length;
     return { view: document.body.getAttribute('data-cp-view'),
       activeTier: (document.querySelector('.tier-tab.active')||{}).getAttribute('data-tier'),
       visible: visible.length, names: visible.map(x=>x.querySelector('.cl-cp-card-name,.spot-name')?.textContent||''),
-      open, empty: !!c.querySelector('.empty-state') };
+      open, details, empty: !!c.querySelector('.empty-state') };
   })()`);
   assert.equal(probe.view, 'private');
   assert.equal(probe.activeTier, 'all', 'CL-UI-122: the 私人 view falls back to the 全部 tier when the active tier has no private point');
   assert.ok(probe.visible >= 1, 'the ✗ private card is rendered and visible in the 私人 view');
   assert.ok(probe.names.some(n => /公司/.test(n)), 'the ✗ private card is the one rendered');
   assert.ok(!probe.empty, 'no empty-state placeholder for a private view that has a private point');
-  assert.ok(probe.open.every(Boolean), 'CL-UI-122: the deferred group renders expanded in the 私人 view');
+  // CL-UI-122: the 私人 view's CSS hides every direct child that is not a
+  // .cl-cp-card, so the private rows must render FLAT (no <details> wrapper).
+  assert.equal(probe.details, 0, 'CL-UI-122: private rows render flat in the 私人 view (no hidden <details> wrapper)');
+  assert.ok(probe.visible >= 1, 'CL-UI-122: the private card is actually visible in the 私人 view');
   // restore the fixture for the tests that follow (same browser page)
   await evaljs(`(function(){ window.__clcpPlaces = window.__clcpPlacesAll; window.__clcpPlacesAll = null; if(window.ChaseLightsCustomPlaces) window.ChaseLightsCustomPlaces.refresh(); var b=document.querySelector('.cl-cp-view-tab[data-cp-view="all"]'); if(b) b.click(); })()`);
   await new Promise(r => setTimeout(r, 500));

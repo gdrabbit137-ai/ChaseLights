@@ -2165,24 +2165,32 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         appendSpotRows(container,viableRows);
       }
 
-      // CL-UI-122: in the 私人 view the user came to see their OWN points — a
-      // collapsed deferred group hid the only private card behind a summary
-      // line (owner: 「私人 1」 but no card). Private view renders expanded.
+      // CL-UI-122: the 私人 view's CSS hides every direct child that is not a
+      // .cl-cp-card (body[data-cp-view="private"] #spots-container > *:not(.cl-cp-card)),
+      // so a private card wrapped in the deferred <details> was hidden — the
+      // count said 「私人 1」 while the list looked empty. In the private view the
+      // private rows render FLAT, straight into the container.
       if(deferredRows.length){
-        const details=document.createElement('details');details.className='deferred-group';
-        if(cpView==='private')details.open=true;
-        const summary=document.createElement('summary');summary.textContent=d().no_viable_group.replace('{n}',deferredRows.length);
-        const grid=document.createElement('div');grid.className='deferred-grid';
-        appendSpotRows(grid,deferredRows);
-        details.append(summary,grid);container.appendChild(details);
+        if(cpView==='private'){
+          appendSpotRows(container,deferredRows);
+        }else{
+          const details=document.createElement('details');details.className='deferred-group';
+          const summary=document.createElement('summary');summary.textContent=d().no_viable_group.replace('{n}',deferredRows.length);
+          const grid=document.createElement('div');grid.className='deferred-grid';
+          appendSpotRows(grid,deferredRows);
+          details.append(summary,grid);container.appendChild(details);
+        }
       }
       if(noEvalRows.length){
-        const details=document.createElement('details');details.className='deferred-group no-eval-group';
-        if(cpView==='private')details.open=true;
-        const summary=document.createElement('summary');const fallbackLabel=d().no_eval_group.replace('{n}',noEvalRows.length);summary.textContent=noEvalGroupSummary(noEvalRows,fallbackLabel);
-        const grid=document.createElement('div');grid.className='deferred-grid';
-        appendSpotRows(grid,noEvalRows);
-        details.append(summary,grid);container.appendChild(details);
+        if(cpView==='private'){
+          appendSpotRows(container,noEvalRows);
+        }else{
+          const details=document.createElement('details');details.className='deferred-group no-eval-group';
+          const summary=document.createElement('summary');const fallbackLabel=d().no_eval_group.replace('{n}',noEvalRows.length);summary.textContent=noEvalGroupSummary(noEvalRows,fallbackLabel);
+          const grid=document.createElement('div');grid.className='deferred-grid';
+          appendSpotRows(grid,noEvalRows);
+          details.append(summary,grid);container.appendChild(details);
+        }
       }
       // CL-UI-11: persist the settled gated render so the next full reload can
       // boot instantly from it (see loadRenderSnapshot).

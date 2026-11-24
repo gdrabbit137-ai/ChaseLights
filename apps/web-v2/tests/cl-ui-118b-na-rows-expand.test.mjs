@@ -121,7 +121,7 @@ test('CL-UI-118b (4): trilingual copy + honest wording + CSS wiring + stamps', (
   assert.match(cssSource, /#timeline-groups tr\.na-row > td \{ height: 32px; color: var\(--cl-text-3\); font-size: var\(--cl-fs-12\); \}/,
     'the 32px honest grey line survives');
   // cache-bust: this ticket bumped BOTH stamps it edited
-  assert.match(htmlSource, /assets\/app\.js\?v=clui122/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui123/);
   assert.match(htmlSource, /assets\/app\.css\?v=clui120/);
   for (const page of ['genre-eval.html', 'reminders.html', 'sources.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
