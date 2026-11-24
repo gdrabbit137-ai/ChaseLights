@@ -75,8 +75,10 @@ test('CL-UI-90 (4) visual layer only — API contract untouched', () => {
   assert.match(pageJs, /method: 'DELETE'/);
   // no new API surface: no fetch() outside the four known endpoints
   const urls = [...pageJs.matchAll(/['"](\/api\/[^'"]+)['"]/g)].map(m => m[1]);
+  // CL-UX-01 Part B: one reviewed endpoint added (the member schedule defaults).
   assert.deepEqual([...new Set(urls)].sort(),
-    ['/api/v1/auth/google/start', '/api/v1/auth/line/start', '/api/v1/auth/me', '/api/v1/notify/rules']);
+    ['/api/v1/auth/google/start', '/api/v1/auth/line/start', '/api/v1/auth/me',
+     '/api/v1/notify/defaults', '/api/v1/notify/rules']);
   assert.doesNotMatch(clientJs, /CL-UI-90/); // client byte-untouched by this ticket
 });
 
@@ -183,7 +185,7 @@ test('CL-UI-90 (7) token discipline — zero hardcoded colors in the page styles
     assert.ok(style.includes(`var(${tok})`), `page styles use ${tok}`);
   }
   // cache-bust bump is scoped to the reminders page
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui100/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui127/);
   assert.doesNotMatch(remHtml, /reminders-page\.js\?v=clui75/);
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui116/);
   assert.match(remHtml, /assets\/app\.css\?v=clui121/);

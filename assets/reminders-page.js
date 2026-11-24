@@ -420,9 +420,14 @@
     } catch (e) { return 'UTC'; }
   }
   function tIn(key, lg) { var p = I18N[lg] || I18N['zh-TW']; return p[key] || I18N['zh-TW'][key] || ''; }
+  // CL-UX-01 Part B: the API's canonical values are 'every_n_days' | 'weekdays'
+  // (workers/api/src/notify.js validateSchedule REJECTS anything else with 400).
+  // Reads tolerate the short aliases; writes always emit the canonical spelling.
   function modeOf(v) {
     var s = String(v == null ? '' : v).toLowerCase();
-    return (s === 'weekdays' || s === 'weekly' || s === 'days') ? 'weekdays' : 'every_n';
+    if (s === 'weekdays' || s === 'weekly' || s === 'days') return 'weekdays';
+    if (s === 'every_n_days' || s === 'every_n' || s === 'every') return 'every_n_days';
+    return 'every_n_days';
   }
   function csvDays(v) {
     var out = [];
@@ -451,7 +456,7 @@
     return n;
   }
   function blankDefaults() {
-    return { schedule_mode: 'every_n', schedule_every_n: 3, schedule_weekdays: '', send_time: '20:00',
+    return { schedule_mode: 'every_n_days', schedule_every_n: 3, schedule_weekdays: '', send_time: '20:00',
       lead_days: 3, target_weekdays: '', min_tier: 'recommend', channel: 'push', tz: browserTz() };
   }
   // Server payload -> the shape the controls expect (null = unset -> built-in).

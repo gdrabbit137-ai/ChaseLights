@@ -37,7 +37,7 @@ test('CL-UI-99 (1): custom-conditions form markup, stamps, worker contract wirin
   // Every hint slot is wired for the colloquial explanation.
   assert.equal((remHtml.match(/class="rem-cc-hint" id="rem-cc-hint-/g) || []).length, 8);
   // Stamp bump is scoped to the reminders page script only.
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui100/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui127/);
   assert.doesNotMatch(remHtml, /reminders-page\.js\?v=clui90/);
   // Page CSS stays token-only (no hex outside :root).
   const style = remHtml.slice(remHtml.indexOf('<style>'), remHtml.indexOf('</style>'));
@@ -57,8 +57,13 @@ test('CL-UI-99 (1): custom-conditions form markup, stamps, worker contract wirin
   // rejects the both-modes body, and the GET/cron select carries the column.
   assert.match(workerJs, /const ccRes = validateCustomConditions\(/);
   assert.match(workerJs, /customConditions and opportunityId are mutually exclusive/);
-  assert.match(workerJs, /INSERT INTO notify_rules \(id, user_id, place_id, opportunity_id, channel, min_advance_hours, custom_conditions\)/);
-  assert.match(workerJs, /custom_conditions, enabled, created_at FROM notify_rules WHERE user_id/);
+  // CL-UX-01 Part B: the INSERT grew the schedule columns; custom_conditions keeps
+  // riding the same statement (the custom-conditions contract is unchanged).
+  assert.match(workerJs, /INSERT INTO notify_rules \(id, user_id, place_id, opportunity_id, channel, min_advance_hours, custom_conditions, /);
+  assert.match(workerJs, /VALUES \(\?1, \?2, \?3, \?4, \?5, \?6, \?7, \?8, \?9, \?10, \?11, \?12, \?13, \?14, \?15\)/);
+  // CL-UX-01 Part B: the list SELECT carries the schedule columns at the end; the
+  // custom_conditions column and the ownership filter are unchanged.
+  assert.match(workerJs, /custom_conditions, enabled, created_at, " \+\n\s+"schedule_mode, schedule_every_n, schedule_weekdays, send_time, lead_days, target_weekdays, min_tier, tz, last_sent_at " \+\n\s+"FROM notify_rules WHERE user_id/);
   assert.match(notifyJs, /FROM notify_rules r WHERE r\.enabled = 1[\s\S]*?custom_conditions/);
   assert.match(notifyJs, /export function validateCustomConditions/);
 });

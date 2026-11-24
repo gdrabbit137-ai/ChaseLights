@@ -287,3 +287,14 @@ test('CL-UX-01: inherited fields are marked （預設）, overridden ones are no
   assert.equal(line, '每 2 天 06:00 · 看未來 3 天（預設） · 只看週六日 · 僅✓推薦（預設）');
   assert.equal(JSON.stringify(S.csvDays('6,0,6,9,x')), '[0,6]', 'CSV input is sanitized to 0..6, sorted, deduped');
 });
+
+test('CL-UX-01 (6): the page only WRITES the API-canonical schedule_mode values', () => {
+  // The worker rejects anything but 'every_n_days' | 'weekdays' with a 400 —
+  // a frontend that writes the short alias 'every_n' silently breaks saving.
+  const page = PAGE_JS;
+  assert.ok(page.includes("'every_n_days'"), 'canonical every_n_days spelling is used');
+  assert.ok(!/schedule_mode:\s*'every_n'/.test(page), "no bare 'every_n' is ever written to the API");
+  assert.ok(!/schedule_mode:\s*'weekly'/.test(page), "no 'weekly' alias is ever written to the API");
+  // reads stay tolerant, writes stay canonical
+  assert.match(page, /s === 'every_n_days' \|\| s === 'every_n'/);
+});
