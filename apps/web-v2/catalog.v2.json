@@ -3,8 +3,8 @@
   "research_only": true,
   "forecast_available": false,
   "selected_date_recommendation_eligible": false,
-  "source_index_commit_sha": "70ca6185199ea6a8c0bcb154dbaa7f27f568d310",
-  "source_index_revision": "sha256:1f152daf9baee031e8b6681e60b38bcdb2c2bf2da437ae8fbe542f5a84d14c50",
+  "source_index_commit_sha": "b9b34c8f8e9ed02896cf618cebf56663b5ab062a",
+  "source_index_revision": "sha256:67d7730f669dc7610326f6c172ce7be5b03e159064dae3b10f3bbb8fd1ae7604",
   "source_pins": {
     "jp-001-P01": {
       "source_commit_sha": "d69686982be4ff2f65f033a5df0b106b3f8e6d68",
@@ -1957,9 +1957,9 @@
       "revision": 2
     },
     "tw-082-P01": {
-      "source_commit_sha": "7f115e939aa277ca3df7003ac0910ae0ec802326",
+      "source_commit_sha": "405466719bbe11cf25bb4f2a50879913d51a0e94",
       "source_path": "data/v2/opportunities/tw-082-P01.json",
-      "source_blob_sha": "46192bffaba42a6b3b462be5c5e51dc1ed304260",
+      "source_blob_sha": "d7fb93a2c6e2e224c4e8a4165d4bf5869391a8de",
       "revision": 3
     },
     "tw-082-P02": {
@@ -130642,7 +130642,9 @@
           }
         ],
         "windows": {
-          "time_of_day": [],
+          "time_of_day": [
+            "civil_daylight"
+          ],
           "seasonal": null
         },
         "conditions_v2": {
@@ -130664,12 +130666,6 @@
               "metric": "precipitation",
               "op": "lt",
               "value": 0.2
-            },
-            {
-              "id": "C-tw-082-P01-LW1",
-              "metric": "light_window",
-              "op": "required",
-              "value": null
             }
           ],
           "quality": [
