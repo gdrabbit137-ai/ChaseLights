@@ -33,6 +33,11 @@
   var T = {
     'zh-TW': {
       priv_badge: '私人', v_all: '不限來源', v_official: '官方', v_private: '私人',
+      wx_no_subject: '尚未設定題材', wx_no_subject_note: '這個點還沒掛題材，所以不給拍攝判定。以下是當地天氣。',
+      wx_vis: '能見度', wx_temp: '氣溫', wx_wx: '天氣',
+      wmo_clear: '晴', wmo_mostly_clear: '晴時多雲', wmo_partly: '多雲', wmo_overcast: '陰',
+      wmo_fog: '霧', wmo_drizzle: '毛毛雨', wmo_rain: '雨', wmo_snow: '雪', wmo_showers: '陣雨',
+      wmo_snow_showers: '陣雪', wmo_thunder: '雷雨',
       add_btn: '新增私人景點', quota_lbl: '私人點', quota_owner: '無限',
       count_fmt: '共 {n} 個官方景點＋你的 {m} 個私人點',
       count_fmt_zero: '共 {n} 個官方景點（尚未建立私人點）',
@@ -90,6 +95,11 @@
     },
     'en': {
       priv_badge: 'Private', v_all: 'All sources', v_official: 'Official', v_private: 'Private',
+      wx_no_subject: 'No subject set', wx_no_subject_note: 'No subject is attached to this place, so there is no shooting verdict. Local weather below.',
+      wx_vis: 'Visibility', wx_temp: 'Temp', wx_wx: 'Weather',
+      wmo_clear: 'Clear', wmo_mostly_clear: 'Mostly clear', wmo_partly: 'Partly cloudy', wmo_overcast: 'Overcast',
+      wmo_fog: 'Fog', wmo_drizzle: 'Drizzle', wmo_rain: 'Rain', wmo_snow: 'Snow', wmo_showers: 'Showers',
+      wmo_snow_showers: 'Snow showers', wmo_thunder: 'Thunderstorm',
       add_btn: 'Add custom place', quota_lbl: 'Custom places', quota_owner: 'Unlimited',
       count_fmt: '{n} official places + your {m} custom places',
       count_fmt_zero: '{n} official places (no custom places yet)',
@@ -146,6 +156,11 @@
     },
     'ja': {
       priv_badge: '自作', v_all: 'すべて', v_official: '公式', v_private: '自作',
+      wx_no_subject: '題材が未設定', wx_no_subject_note: 'このスポットには題材がないため、撮影判定は行いません。以下は現地の天気です。',
+      wx_vis: '視程', wx_temp: '気温', wx_wx: '天気',
+      wmo_clear: '晴れ', wmo_mostly_clear: '晴れ時々曇り', wmo_partly: '曇り', wmo_overcast: '本曇り',
+      wmo_fog: '霧', wmo_drizzle: '霧雨', wmo_rain: '雨', wmo_snow: '雪', wmo_showers: 'にわか雨',
+      wmo_snow_showers: 'にわか雪', wmo_thunder: '雷雨',
       add_btn: '自作スポットを追加', quota_lbl: '自作スポット', quota_owner: '無制限',
       count_fmt: '公式 {n} スポット＋あなたの自作 {m} スポット',
       count_fmt_zero: '公式 {n} スポット（自作スポットはまだありません）',
@@ -326,7 +341,7 @@
               window.CLForecastRenderers.localDate);
   }
   function isSpecialCard(p) {
-    return p.status === 'trial_expired' || (p.evaluation || {}).tier === 'pending';
+    return p.status === 'trial_expired' || (p.evaluation || {}).tier === 'pending' || cpHasNoThemes(p);
   }
   function cpActiveTier() {
     var el = document.querySelector('#tier-tabs .tier-tab.active');
@@ -925,6 +940,13 @@
               if (!wasOpen) openMenuFor(p, more);
             });
           }
+          // CL-APP-12: every place carries weather + temperature, subject or not
+          var wxHtml0 = cpWeatherLineHtml(p.weather);
+          if (wxHtml0) {
+            var metaBox = brCard.querySelector('.card-secondary-meta');
+            if (metaBox) metaBox.insertAdjacentHTML('beforeend', wxHtml0);
+            else brCard.insertAdjacentHTML('beforeend', wxHtml0);
+          }
           return brCard;
         }
       }
@@ -975,7 +997,12 @@
     // the cache-skew fallback (old app.js without the bridge) with the honest
     // pending note.
     var body;
-    if (expired) {
+    if (!expired && cpHasNoThemes(p)) {
+      // owner ruling: no subject → 「尚未設定題材」 + weather facts, never a verdict
+      body = '<div class="cl-cp-none-note">🎞 ' + esc(t().wx_no_subject) + '</div>' +
+        cpWeatherLineHtml(p.weather) +
+        '<button type="button" class="cl-cp-none-cta" data-cp-act="add-theme">' + esc(t().th_add) + '</button>';
+    } else if (expired) {
       body = '<div class="cl-cp-expired-note">🔒 ' + esc(t().trial_note) + '</div>' +
         '<button type="button" class="cl-cp-expired-cta" data-cp-act="upgrade">⬆ ' + esc(t().trial_cta) + '</button>';
     } else if (ev.tier === 'pending' && p.fetchDeferred) {
@@ -1000,7 +1027,9 @@
     // the expired-card CTA (data-cp-act="upgrade") is card body content —
     // the portaled menu can no longer handle it by bubbling, so wire it here.
     card.addEventListener('click', function (e) {
-      if (e.target.closest('[data-cp-act="upgrade"]')) { e.stopPropagation(); toast(t().trial_cta); }
+      if (e.target.closest('[data-cp-act="upgrade"]')) { e.stopPropagation(); toast(t().trial_cta); return; }
+      // CL-APP-12: the zero-subject card's ＋新增題材 CTA
+      if (e.target.closest('[data-cp-act="add-theme"]')) { e.stopPropagation(); ccModal(p); }
     });
     // patch-7 (owner ruling): private cards get the SAME card-click surface as
     // official cards — clicking the card body (not ⋯, not a button/link)
@@ -1067,6 +1096,83 @@
       }
     } catch (e) { /* unknown zone → honest omit */ }
     return '';
+  }
+  // ───── CL-APP-12 (owner ruling 2026-11-24): weather on EVERY card ─────
+  // A place with no subject gets 「尚未設定題材」 + visibility / WMO weather /
+  // today's temperature range instead of a verdict it cannot support; a place
+  // WITH subjects shows the same weather line underneath its verdict.
+  function cpHasNoThemes(p) {
+    var gs = (p && Array.isArray(p.themeGroups)) ? p.themeGroups : [];
+    return !gs.length && !(p && p.customConditions);
+  }
+  function cpWmoWord(code) {
+    var L = t();
+    if (code == null || !Number.isFinite(Number(code))) return '';
+    var c = Number(code);
+    if (c === 0) return L.wmo_clear;
+    if (c === 1) return L.wmo_mostly_clear;
+    if (c === 2) return L.wmo_partly;
+    if (c === 3) return L.wmo_overcast;
+    if (c === 45 || c === 48) return L.wmo_fog;
+    if (c >= 51 && c <= 57) return L.wmo_drizzle;
+    if (c >= 61 && c <= 67) return L.wmo_rain;
+    if (c >= 71 && c <= 77) return L.wmo_snow;
+    if (c >= 80 && c <= 82) return L.wmo_showers;
+    if (c === 85 || c === 86) return L.wmo_snow_showers;
+    if (c >= 95) return L.wmo_thunder;
+    return '';
+  }
+  // same shape the worker's weatherSummary emits; the popup recomputes from the
+  // stored hourly grid when the payload carries temperature (older records
+  // predate the fetch fields and simply stay silent about temp).
+  function cpWeatherFromPayload(payload, tz) {
+    var rows = (payload && Array.isArray(payload.hourly)) ? payload.hourly : [];
+    if (!rows.length) return null;
+    var today = rows[0].local_date;
+    try {
+      today = new Intl.DateTimeFormat('en-CA', { timeZone: tz || 'UTC', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+    } catch (e) { /* keep the row's own date */ }
+    var day = rows.filter(function (r) { return r && r.local_date === today; });
+    if (!day.length) day = rows.filter(function (r) { return r && r.local_date === rows[0].local_date; });
+    var pick = function (k) {
+      return day.map(function (r) { return (r.values || {})[k]; })
+        .filter(function (v) { return v != null && isFinite(Number(v)); }).map(Number);
+    };
+    var temps = pick('temp'), vis = pick('visibility'), codes = pick('weather_code');
+    if (!temps.length && !vis.length && !codes.length) return null;
+    var code = null;
+    if (codes.length) {
+      var freq = {}, best = null;
+      codes.forEach(function (c) { freq[c] = (freq[c] || 0) + 1; });
+      Object.keys(freq).forEach(function (c) {
+        var n = freq[c];
+        if (!best || n > best.n || (n === best.n && Number(c) > Number(best.c))) best = { c: Number(c), n: n };
+      });
+      code = best ? best.c : null;
+    }
+    return {
+      date: (day[0] && day[0].local_date) || null,
+      temp_min: temps.length ? Math.min.apply(null, temps) : null,
+      temp_max: temps.length ? Math.max.apply(null, temps) : null,
+      visibility_min_m: vis.length ? Math.min.apply(null, vis) : null,
+      visibility_max_m: vis.length ? Math.max.apply(null, vis) : null,
+      weather_code: code,
+    };
+  }
+  function cpWeatherLineHtml(w) {
+    if (!w) return '';
+    var parts = [];
+    var wx = cpWmoWord(w.weather_code);
+    if (wx) parts.push('☁ ' + esc(wx));
+    if (w.visibility_min_m != null && w.visibility_max_m != null) {
+      var v1 = Math.round(w.visibility_min_m / 1000), v2 = Math.round(w.visibility_max_m / 1000);
+      parts.push('👁 ' + esc(t().wx_vis) + ' ' + (v1 === v2 ? String(v1) : v1 + '–' + v2) + ' km');
+    }
+    if (w.temp_min != null && w.temp_max != null) {
+      parts.push('🌡 ' + esc(t().wx_temp) + ' ' + Math.round(w.temp_min) + '–' + Math.round(w.temp_max) + '°C');
+    }
+    if (!parts.length) return '';
+    return '<div class="cl-cp-wx">' + parts.map(function (x) { return '<span class="cl-cp-wx-i">' + x + '</span>'; }).join('') + '</div>';
   }
   function cpMetaLine(p) {
     var lat = Number(p.lat), lng = Number(p.lng);
@@ -1462,6 +1568,33 @@
       }
     });
   }
+  // CL-APP-12 (owner ruling): a place with no subject has no verdict to show —
+  // the popup degrades to 「尚未設定題材」 + the local weather facts, and offers
+  // the same ＋新增題材 entry instead of a fabricated ✗/○ row.
+  function cpPaintNoSubjectPopup(p) {
+    var host = els.overlay.querySelector('#cl-cp-qv-host');
+    var daysEl = els.overlay.querySelector('#cl-cp-qv-days');
+    var subjEl = els.overlay.querySelector('#cl-cp-qv-subjects');
+    var paint = function (w) {
+      if (host) host.innerHTML = '<div class="cl-cp-none-face"><div class="cl-cp-none-title">🎞 ' + esc(t().wx_no_subject) + '</div>' +
+        '<div class="cl-cp-none-sub">' + esc(t().wx_no_subject_note) + '</div>' + cpWeatherLineHtml(w) + '</div>';
+      if (daysEl) daysEl.innerHTML = '';
+      if (subjEl) subjEl.innerHTML = '<button type="button" class="cl-cp-btn" id="cl-cp-none-add">' + esc(t().th_add) + '</button>';
+      var add = els.overlay.querySelector('#cl-cp-none-add');
+      if (add) add.addEventListener('click', function () { closeOverlay(); ccModal(p); });
+    };
+    paint(p.weather || null);
+    // fresher numbers when the stored grid already carries them
+    api(API + '/' + p.id + '/eval')
+      .then(function (res) { return res.json(); })
+      .then(function (body) {
+        if (!els.overlay.classList.contains('open')) return;
+        if (body && body.ok && Array.isArray(body.hourly) && body.hourly.length) {
+          paint(cpWeatherFromPayload(body, body.timezone || p.timezone) || p.weather || null);
+        }
+      })
+      .catch(function () { /* keep the list-payload numbers */ });
+  }
   function forecastModal(p) {
     var html =
       '<div class="cl-cp-m-head"><div><div class="name">📍 ' + esc(p.name) + '</div>' +
@@ -1479,6 +1612,7 @@
       esc(t().qv_entry) + '</button></div>';
     openOverlay(html, 'cl-cp-qv-modal'); // patch-9: the popup follows its content (no full-height stretch)
     wireClose(); // patch-7: the ✕ closes the popup like every other modal
+    if (cpHasNoThemes(p)) { cpPaintNoSubjectPopup(p); return; }
     var entry = els.overlay.querySelector('#cl-cp-qv-subject-entry');
     if (entry) entry.addEventListener('click', function () { ccModal(p); });
     // 逐題材行 render FIRST from the worker's stored per-group evaluation

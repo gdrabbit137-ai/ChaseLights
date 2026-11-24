@@ -268,3 +268,15 @@ body.cl-cp-lock{overflow:hidden}
      keyboard fit above) */
   .cl-cp-overlay .cl-cp-modal.cl-cp-list-modal{min-height:auto}
 }
+
+/* CL-APP-12 (owner ruling): weather line on EVERY private card + the honest
+   zero-subject face (no verdict it cannot support). */
+.cl-cp-wx{display:flex;flex-wrap:wrap;gap:6px 10px;margin:6px 0 2px;font-size:12px;color:var(--cl-text-2)}
+.cl-cp-wx-i{white-space:nowrap;background:var(--cl-bg-2);border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);padding:2px 7px}
+.cl-cp-none-note{font-size:13px;color:var(--cl-text-1);margin:2px 0 4px}
+.cl-cp-none-cta{margin-top:8px;padding:8px 12px;border-radius:var(--cl-r-md);border:1px solid var(--cl-border-strong);
+  background:var(--cl-bg-2);color:var(--cl-text-1);font-size:13px;cursor:pointer}
+.cl-cp-none-cta:hover{background:var(--cl-bg-1)}
+.cl-cp-none-face{padding:10px 2px 4px}
+.cl-cp-none-title{font-size:15px;font-weight:600;color:var(--cl-text-1)}
+.cl-cp-none-sub{margin-top:4px;font-size:12px;line-height:1.5;color:var(--cl-text-2)}

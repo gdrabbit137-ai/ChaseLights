@@ -580,6 +580,7 @@ export async function handleCustomPlaces(req, env, opts = {}) {
         sharing: row.group_id ? await sharingInfoFor(env, row, results || []) : null,
         createdAt: row.created_at, updatedAt: row.updated_at,
         evaluation: { ...evaluation, evaluatedAt: (rec && rec.generated_at) || null, private: true },
+        weather: weatherSummary(rec, row.timezone),
         refresh: { intervalHours, label, energySaver },
         fetchDeferred, fetchDueAt,
       });
@@ -1395,7 +1396,45 @@ export async function handleCustomPlacePinInfo(req, env, url) {
 //                  never sees a dead point; honest degraded labels everywhere)
 // ---------------------------------------------------------------------------
 export const QUEUE_BATCH = 20;
-const OM_HOURLY = "cloud_cover_low,cloud_cover_mid,cloud_cover_high,precipitation,visibility,wind_speed_10m";
+const OM_HOURLY = "cloud_cover_low,cloud_cover_mid,cloud_cover_high,precipitation,visibility,wind_speed_10m,temperature_2m,weather_code";
+
+// Owner ruling (2026-11-24): every card shows weather + temperature, and a
+// place with no subject shows 「尚未設定題材」 plus visibility / WMO weather /
+// today's temperature range — never a verdict it cannot support. Pure function
+// so the list handler and the popup read the SAME numbers.
+export function weatherSummary(rec, tz, nowMs = Date.now()) {
+  const rows = (rec && Array.isArray(rec.hourly)) ? rec.hourly : [];
+  if (!rows.length) return null;
+  // "today" in the place's own timezone (falls back to the record's first day)
+  let today = null;
+  try {
+    today = new Intl.DateTimeFormat("en-CA", { timeZone: tz || "UTC", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(nowMs));
+  } catch { today = null; }
+  let day = today ? rows.filter((r) => r && r.local_date === today) : [];
+  if (!day.length) day = rows.filter((r) => r && r.local_date === rows[0].local_date);
+  const nums = (pick) => day.map((r) => (r.values ? pick(r.values) : null)).filter((v) => v != null && Number.isFinite(Number(v))).map(Number);
+  const temps = nums((v) => v.temp);
+  const vis = nums((v) => v.visibility);
+  const codes = day.filter((r) => r && r.values && r.values.weather_code != null).map((r) => Number(r.values.weather_code));
+  // WMO dominant code — the day's most frequent code; ties go to the more
+  // severe one (higher code = wetter/rougher), never a fabricated "clear".
+  let code = null;
+  if (codes.length) {
+    const freq = new Map();
+    codes.forEach((c) => freq.set(c, (freq.get(c) || 0) + 1));
+    let best = null;
+    freq.forEach((n, c) => { if (!best || n > best.n || (n === best.n && c > best.c)) best = { c, n }; });
+    code = best.c;
+  }
+  return {
+    date: (day[0] && day[0].local_date) || null,
+    temp_min: temps.length ? Math.min(...temps) : null,
+    temp_max: temps.length ? Math.max(...temps) : null,
+    visibility_min_m: vis.length ? Math.min(...vis) : null,
+    visibility_max_m: vis.length ? Math.max(...vis) : null,
+    weather_code: code,
+  };
+}
 
 export async function processCustomFetchQueue(env, nowMs = Date.now(), opts = {}) {
   const summary = { processed: 0, failed: 0, skipped_brake: 0, skipped_inactive: 0, done: [] };
@@ -1478,6 +1517,8 @@ export async function processCustomFetchQueue(env, nowMs = Date.now(), opts = {}
             precipitation: num((h.precipitation || [])[i]),
             visibility: num((h.visibility || [])[i]),
             wind: num((h.wind_speed_10m || [])[i]),
+            temp: num((h.temperature_2m || [])[i]),
+            weather_code: num((h.weather_code || [])[i]),
           },
         };
       });

@@ -81,8 +81,8 @@ test('CL-APP-09p6 (1b): custom-places.js — cards render via the bridge; patch-
   assert.match(cpSource, /function isSpecialCard/);
   assert.match(cpSource, /cpActiveTier/);
   // stamps
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09j/);
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09f/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09k/);
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09g/);
 });
 
 // --------------------------------------------------- (2) headless behavior
@@ -403,6 +403,50 @@ test('CL-APP-09p6 (2e): 390 side-by-side screenshot — official vs private card
   })()`);
   assert.equal(probe.priv.header, probe.off.header, 'both cards share the official header anatomy');
   assert.ok(probe.priv.tools >= 2, 'private card carries the official tool-button row');
+});
+
+test('CL-APP-12 (2g): a zero-subject place shows 「尚未設定題材」 + weather (WMO/visibility/temp), never a verdict', async () => {
+  await loadPage();
+  // owner ruling 2026-11-24: no subject → no shooting verdict at all; the card
+  // carries the local weather instead (weather applies to EVERY place).
+  await evaljs(`(function(){
+    window.__clcpPlacesAll = window.__clcpPlaces.slice();
+    window.__clcpPlaces = [{ id:'cpc', name:'公司', lat:25.05, lng:121.55, elevation:13, timezone:'Asia/Taipei',
+      customConditions:null, status:'active', createdAt:'', updatedAt:'', fetchDeferred:false,
+      themeGroups: [],
+      weather:{ date:null, temp_min:14.2, temp_max:21.6, visibility_min_m:8000, visibility_max_m:24000, weather_code:3 },
+      evaluation:{ tier:'no', reason:'風強', window:null } }];
+    if(window.ChaseLightsCustomPlaces) window.ChaseLightsCustomPlaces.refresh();
+  })()`);
+  await new Promise(r => setTimeout(r, 800));
+  await evaljs(`(function(){var b=document.querySelector('.cl-cp-view-tab[data-cp-view="private"]');b.click();})()`);
+  await new Promise(r => setTimeout(r, 800));
+  const card = await evaljs(`(() => {
+    const c=document.querySelector('#spots-container .cl-cp-card[data-cp-id="cpc"]');
+    return c ? { text:c.textContent.replace(/\s+/g,' '), cta:!!c.querySelector('[data-cp-act="add-theme"]') } : null;
+  })()`);
+  assert.ok(card, 'the zero-subject private card renders');
+  assert.match(card.text, /尚未設定題材/, 'the card names the missing subject state');
+  assert.match(card.text, /陰/, 'WMO code 3 reads 陰 (never a raw number)');
+  assert.match(card.text, /8–24 km/, 'visibility range rides the card');
+  assert.match(card.text, /14–22°C/, "today's temperature range rides the card");
+  assert.ok(!/風強|不宜/.test(card.text), 'no verdict / fail word on a place that has no subject');
+  assert.ok(card.cta, 'the card offers ＋新增題材');
+  // the popup degrades the same way instead of fabricating ✗/○ rows
+  await evaljs(`(function(){var c=document.querySelector('#spots-container .cl-cp-card[data-cp-id="cpc"]');c.click();})()`);
+  await new Promise(r => setTimeout(r, 600));
+  const pop = await evaljs(`(() => { const o=document.querySelector('.cl-cp-overlay');
+    return { open:o.classList.contains('open'), face:!!o.querySelector('.cl-cp-none-face'),
+      text:o.textContent.replace(/\s+/g,' '), add:!!o.querySelector('#cl-cp-none-add') }; })()`);
+  assert.ok(pop.open && pop.face, 'the popup shows the honest no-subject face');
+  assert.match(pop.text, /尚未設定題材/);
+  assert.ok(!/一般基準|不宜/.test(pop.text), 'no baseline verdict row survives in the popup');
+  assert.ok(pop.add, 'the popup offers ＋新增題材');
+  await evaljs(`(function(){document.querySelector('.cl-cp-overlay [data-cp-close]').click();
+    window.__clcpPlaces = window.__clcpPlacesAll; window.__clcpPlacesAll = null;
+    if(window.ChaseLightsCustomPlaces) window.ChaseLightsCustomPlaces.refresh();
+    var b=document.querySelector('.cl-cp-view-tab[data-cp-view="all"]'); if(b) b.click();})()`);
+  await new Promise(r => setTimeout(r, 500));
 });
 
 test.after(() => teardownBrowser());
