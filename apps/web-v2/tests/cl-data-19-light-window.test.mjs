@@ -145,11 +145,16 @@ test('CL-DATA-19: review-gated fixtures and legacy stubs stay byte-identical', (
   // CL-INT-103: tw-034-P02 now carries the owner-approved CL-DATA-33 civil light_window — moved out of the untouched set.
   // INT-204: jp-010-P01 moved out too — CL-DATA-83 follow-up added its REQUIRED light_window under the
   // owner's 2026-11-02 ruling superseding the worker2 human-review gate (batch04 fixtures re-anchored by DATA-83).
-  for (const oid of ['tw-082-P01']) {
-    const doc = loadContract(oid);
-    assert.ok(!doc.condition_contract.conditions.some(c => c.metric === 'light_window'),
-      `${oid} (task-s review-gated) untouched`);
-    assert.ok(!readFileSync(path.join(oppDir, `${oid}.json`), 'utf8').includes('CL-DATA-19'));
+  // CL-UX-01 Part A (owner 2026-11-24): tw-082-P01 LEFT the untouched set — the
+  // 鯉魚潭 reflection subject gained the SAME civil light_window (it was showing
+  // a 00:00–05:00 night window), recorded under its own CL-UX-01 marker rather
+  // than this ticket's. tw-007-P02 (夜間光雕) and us-012-P01 (sunrise_time_window)
+  // stay exempt — see packages/core-v2/tests/test_cl_ux_01_part_a_reflection_light.py.
+  {
+    const doc = loadContract('tw-082-P01');
+    assert.ok(doc.condition_contract.conditions.some(c => c.metric === 'light_window'),
+      'tw-082-P01 carries the civil light_window (CL-UX-01 Part A)');
+    assert.ok(!readFileSync(path.join(oppDir, 'tw-082-P01.json'), 'utf8').includes('CL-DATA-19'));
   }
   for (const oid of ['tw-059-P01', 'tw-060-P01', 'tw-078-P01']) {
     const doc = loadContract(oid);

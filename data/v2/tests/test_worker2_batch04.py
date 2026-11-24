@@ -28,7 +28,7 @@ EXPECTED = {
     # 2026-11-02 owner ruling: the four xlsx-rebuilt subjects (tw-082/tw-034/
     # jp-010/us-071) adopt the review-revised template contracts; tw-036-P01
     # keeps its 2026-11-01 manager-reviewed sunrise contract.
-    "tw-082-P01": ("WEATHER", "HYDROLOGY", "WEATHER", "WEATHER"),
+    "tw-082-P01": ("WEATHER", "HYDROLOGY", "WEATHER", "WEATHER", "ASTRONOMY"),  # CL-UX-01: +1 civil light_window (night hours no longer qualify)
     "tw-036-P01": ("ASTRONOMY", "WEATHER", "WEATHER", "WEATHER"),
     "tw-034-P02": ("WEATHER", "WEATHER", "WEATHER", "WEATHER", "ASTRONOMY"),  # CL-INT-103: +1 civil light_window (CL-DATA-33 union revision)
     "jp-010-P01": ("SEASON_TIME", "WEATHER", "WEATHER", "WEATHER", "WEATHER",
@@ -36,7 +36,7 @@ EXPECTED = {
     "us-071-P01": ("ASTRONOMY", "WEATHER", "WEATHER", "WEATHER"),
 }
 EXPECTED_ROLES = {
-    "tw-082-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "QUALITY"),
+    "tw-082-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "QUALITY", "REQUIRED"),  # CL-UX-01: +1 civil light_window
     "tw-036-P01": ("REQUIRED", "REQUIRED", "QUALITY", "REQUIRED"),
     "tw-034-P02": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED"),  # CL-INT-103: +1 civil light_window (CL-DATA-33 owner-approved union revision)
     "jp-010-P01": ("REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED", "REQUIRED",
@@ -254,7 +254,15 @@ class Batch04Gate(unittest.TestCase):
                 self.assertIn(doc["camera_contexts"][0]["access_notes_i18n"]["zh-TW"], section)
                 self.assertIn(doc["camera_contexts"][0]["safety_notes_i18n"]["zh-TW"], section)
                 for cond in doc["condition_contract"]["conditions"]:
-                    self.assertIn(cond["notes_i18n"]["zh-TW"], section)
+                    note = cond["notes_i18n"]["zh-TW"]
+                    if "CL-UX-01" in note:
+                        # CL-UX-01 Part A (2026-11-24) added this condition AFTER
+                        # this frozen batch04 human-review document was written —
+                        # a frozen artifact cannot carry a later addition. The
+                        # addition's own trail is gated by
+                        # packages/core-v2/tests/test_cl_ux_01_part_a_reflection_light.py.
+                        continue
+                    self.assertIn(note, section)
         preview = read_json(DATA / "previews/tw-026-P01.research-only.v21.json")
         self.assertEqual(["tw-026-P01"], [v["opportunity_id"] for v in preview["opportunities"]])
         self.assertIs(preview["research_only"], True)

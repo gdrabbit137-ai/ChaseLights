@@ -2,7 +2,7 @@
  "schema_version": "2.2.0",
  "opportunity_id": "tw-082-P01",
  "place_id": "tw-082",
- "revision": 2,
+ "revision": 3,
  "lifecycle_status": "evidence_review",
  "name_i18n": {
   "zh-TW": "鯉魚潭湖光與水面倒影",
@@ -243,6 +243,36 @@
      "en": "On 2026-11-02 the owner (Richard) ruled to override the worker2 human-review gate and adopt the review-revised conditions (provisional, not calibrated); the original human-review research contract is preserved in git history at/before 34cb70f39.",
      "ja": "2026-11-02、オーナー（Richard）の裁定によりworker2の人間レビューゲートを覆し、審査改訂条件を採用（暫定・未校正）。元の人間レビュー研究契約はgit履歴の34cb70f39以前のバージョンに保存されている。"
     }
+   },
+   {
+    "id": "C-tw-082-P01-LW1",
+    "role": "REQUIRED",
+    "domain": "ASTRONOMY",
+    "evaluation_mode": "GUIDANCE",
+    "capability": "CONDITIONS",
+    "metric": "light_window",
+    "operator": "none",
+    "threshold": null,
+    "unit": null,
+    "unknown_policy": "propagate_unknown",
+    "claim_refs": [
+     "tw-082-P01-condition-1"
+    ],
+    "model_binding": null,
+    "validation_status": "provisional",
+    "condition_tier": "MAIN",
+    "threshold_source": "computed",
+    "calibration_status": "provisional",
+    "rationale_i18n": {
+     "zh-TW": "必要光線窗（CL-UX-01 Part A, owner ruling 2026-11-24）：倒影題材只在有光的時段成立——每小時桶內每個取樣點太陽仰角 > −6°（民用光，約日出前／日落後 30 分鐘）才計入，夜間時段一律不符合。與雲海（CL-DATA-11）同源定義；連續白天時段不切分黃金窗口。",
+     "en": "Required light window (CL-UX-01 Part A, owner ruling 2026-11-24): a reflection subject only qualifies while there is light — every sampled instant of the hour bucket must have sun elevation > -6 deg (civil light, roughly 30 min before sunrise / after sunset); night hours never qualify. Same-source definition as the cloud-sea subjects (CL-DATA-11); the continuous daylight window is not split.",
+     "ja": "必要な光の窓（CL-UX-01 Part A、オーナー裁定 2026-11-24）：反射題材は光のある時間帯でのみ成立——1時間バケット内の各サンプル点で太陽高度が −6° 超（市民光、日の出前／日没後およそ30分）である必要があり、夜間は一律不成立。雲海題材（CL-DATA-11）と同源定義。昼間の連続した時間帯を分割しない。"
+    },
+    "notes_i18n": {
+     "zh-TW": "本條件沿用 2026-11-02 owner（Richard）裁決所採用的 review 修訂條件契約（原研究契約保存於 git 34cb70f39 之前）。2026-11-24 CL-UX-01 Part A 追加必要民用光線窗：倒影題材在夜間（太陽仰角 ≤ −6°）一律不成立，白天為連續區間、不切黃金窗。暫定、未校準（provisional, 未校準）。",
+     "en": "This condition rides the review-revised contract adopted by the 2026-11-02 owner (Richard) ruling (the original research contract is preserved in git before 34cb70f39). CL-UX-01 Part A (2026-11-24) adds the required civil light window: a reflection subject never qualifies at night (sun elevation <= -6 deg), and the daytime run stays continuous with no golden-hour split. Provisional, not calibrated.",
+     "ja": "本条件は 2026-11-02 のオーナー（Richard）裁定で採用された review 改訂条件契約に沿う（元の研究契約は git 34cb70f39 以前に保存）。2026-11-24 CL-UX-01 Part A で必要市民光の窓を追加：反射題材は夜間（太陽高度 ≤ −6°）では一律不成立、昼間は連続した区間でゴールデンアワー分割なし。暫定・未校準。"
+    }
    }
   ],
   "windows": {
@@ -268,6 +298,12 @@
      "metric": "precipitation",
      "op": "lt",
      "value": 0.2
+    },
+    {
+     "id": "C-tw-082-P01-LW1",
+     "metric": "light_window",
+     "op": "required",
+     "value": null
     }
    ],
    "quality": [
@@ -349,6 +385,6 @@
   "source_revision": "v2-w2-batch04-20261013",
   "imported_at": "2026-10-13T15:36:00Z",
   "review_status": "reviewed",
-  "reviewed_by": "AI-verification 2026-11-06 — owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review); coordinate sources: https://media.taiwan.net.tw/en-us/portal/travel/details/attraction_a15010300h_000001 + sibling tw-082-P02.json"
+  "reviewed_by": "AI-verification 2026-11-06 — owner ruling 2026-11-06 (AI fact-check with source URL+date replaces human review); coordinate sources: https://media.taiwan.net.tw/en-us/portal/travel/details/attraction_a15010300h_000001 + sibling tw-082-P02.json | CL-UX-01 Part A 2026-11-24: added the civil light_window (sun elevation > -6 deg) so night hours (00:00-05:00) can no longer qualify a daytime reflection subject; tw-007-P02 (night light-sculpture) stays exempt, us-012-P01 keeps sunrise_time_window."
  }
 }
