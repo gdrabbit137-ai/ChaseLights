@@ -504,3 +504,72 @@ test("defaults endpoints: GET empty -> PUT persists -> rules list carries defaul
   assert.equal(list.rules.length, 1);
   assert.equal(list.rules[0].schedule_mode, "every_n_days");
 });
+
+// ---------------------------------------------------------------- CL-UX-01 (15/16)
+// 進階玩家路徑：彈性排程 ＋ custom_conditions 自訂條件（owner 2026-11-24 要求補的
+// 組合測試）。主人自己釘的 hourly 門檻要跟排程門檻、出景日篩選、整併一起成立。
+test("CL-UX-01 (15): a scheduled custom-conditions rule consolidates with a subject rule", async () => {
+  const NOW_MS = Date.parse("2026-11-26T20:05:00+08:00"); // Thursday, 20:05 local
+  const { env, db } = makeEnv({
+    kv: {
+      "v1:evals:tw-cx": JSON.stringify({
+        place_id: "tw-cx", name_i18n: { "zh-TW": "自訂點" }, timezone: "Asia/Taipei",
+        hourly: [{ local_date: "2026-11-28", hour: "05:00", // Saturday
+          values: { cloud_low: 10, cloud_mid: 10, cloud_high: 10, precipitation: 0, visibility: 20, wind: 2 } }],
+      }),
+      "v1:evals:tw-sub": JSON.stringify({
+        place_id: "tw-sub", name_i18n: { "zh-TW": "合歡山" },
+        subjects: [{ opportunity_id: "cloud-sea", name_i18n: { "zh-TW": "雲海" },
+          days: [{ local_date: "2026-11-28", verdict: "GUIDANCE_SATISFIED", hours: ["05:00"] }] }],
+      }),
+    },
+  });
+  const t = db._tables;
+  t.telegram_bindings.set("u1", { chat_id: "123", status: "active" });
+  const sched = {
+    user_id: "u1", channel: "telegram", min_advance_hours: 0, enabled: 1,
+    schedule_mode: "weekdays", schedule_weekdays: "4", send_time: "20:00",
+    lead_days: 3, target_weekdays: "6", min_tier: "recommend", tz: "Asia/Taipei",
+  };
+  t.notify_rules.push({ id: "r-cx", place_id: "tw-cx", opportunity_id: null,
+    custom_conditions: JSON.stringify({ cloud_low_max: 30 }), ...sched });
+  t.notify_rules.push({ id: "r-sub", place_id: "tw-sub", opportunity_id: "cloud-sea",
+    custom_conditions: null, ...sched });
+
+  const { summary, sends } = await cronWith(env, NOW_MS);
+
+  assert.equal(sends.length, 1, "one consolidated message, not one per rule");
+  const body = String(sends[0].init.body);
+  assert.ok(body.includes("自訂點"), "the custom-conditions place rides the summary");
+  assert.ok(body.includes("合歡山"), "the subject place rides the same summary");
+  const rows = [...t.notify_log.values()];
+  assert.equal(rows.length, 2, "one ledger row per rule");
+  assert.equal(new Set(rows.map((r) => r.batch_id)).size, 1, "both rows share one batch_id");
+  assert.ok(summary.messages_sent >= 1);
+});
+
+test("CL-UX-01 (16): a custom-conditions rule that never matches stays silent", async () => {
+  const NOW_MS = Date.parse("2026-11-26T20:05:00+08:00");
+  const { env, db } = makeEnv({
+    kv: {
+      "v1:evals:tw-cx": JSON.stringify({
+        place_id: "tw-cx", name_i18n: { "zh-TW": "自訂點" }, timezone: "Asia/Taipei",
+        hourly: [{ local_date: "2026-11-28", hour: "05:00",
+          values: { cloud_low: 100, cloud_mid: 100, cloud_high: 100, precipitation: 5, visibility: 2, wind: 12 } }],
+      }),
+    },
+  });
+  const t = db._tables;
+  t.telegram_bindings.set("u1", { chat_id: "123", status: "active" });
+  t.notify_rules.push({ id: "r-cx", user_id: "u1", place_id: "tw-cx", opportunity_id: null,
+    channel: "telegram", min_advance_hours: 0, enabled: 1,
+    custom_conditions: JSON.stringify({ cloud_low_max: 10, precipitation_max: 0 }),
+    schedule_mode: "weekdays", schedule_weekdays: "4", send_time: "20:00",
+    lead_days: 3, target_weekdays: null, min_tier: "recommend", tz: "Asia/Taipei" });
+
+  const { summary, sends } = await cronWith(env, NOW_MS);
+
+  assert.equal(sends.length, 0, "no empty notification is ever sent");
+  assert.equal(t.notify_log.size, 0, "silence leaves no ledger row (nothing to dedupe)");
+  assert.ok(summary.silent_skipped >= 1, "the reason is counted, not swallowed");
+});
