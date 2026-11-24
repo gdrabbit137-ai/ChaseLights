@@ -48,6 +48,7 @@ function parseAssignments(sql, args) {
     if (/^elevation = NULL$/i.test(p)) { updates.elevation = null; continue; }
     if (/^timezone = NULL$/i.test(p)) { updates.timezone = null; continue; }
     if (/^group_id = NULL$/i.test(p)) { updates.group_id = null; continue; }
+    if (/^custom_conditions = NULL$/i.test(p)) { updates.custom_conditions = null; continue; }
     const lit = p.match(/^(\w+) = '(\w+)'$/);
     if (lit) { updates[lit[1]] = lit[2]; continue; }
     const m = p.match(/^(\w+) = \?(\d+)$/);
@@ -534,6 +535,47 @@ test("patch-8: cap 5 groups per place → the 6th is 403 theme_cap; validation h
   await worker.fetch(makeReq(`/custom_places/${id}/themes/${tid}`, { method: "DELETE", headers: hdr(t) }), env, {});
   const again = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "g6", conditions: { cloud_low_max: 20 } }) }), env, {});
   assert.equal(again.status, 200, "after a delete the 6th add passes");
+});
+
+test("CL-APP-10: deleting the LAST theme group does NOT resurrect the legacy blob as a 山景 group", async () => {
+  const { env, db } = makeEnv();
+  seedUser(db, "m10", "paid");
+  const t = await mint(env, "m10");
+  // created WITH a legacy blob → the lazy backfill turns it into one group
+  const c = await worker.fetch(makeReq("/custom_places", { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "私點", lat: 24.8, lng: 121.7, customConditions: { cloud_low_max: 20, window_start: "05:00", window_end: "07:00" } }) }), env, {});
+  const id = (await c.json()).id;
+  env.EVALS._store.set(`v1:evals:custom:${id}`, JSON.stringify({ place_id: id, hourly: themeHourly(), generated_at: "2026-11-15T00:00:00Z" }));
+  const list1 = await (await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {})).json();
+  const p1 = list1.places.find((p) => p.id === id);
+  assert.equal(p1.themeGroups.length, 1, "the legacy blob became one group");
+  const gid = p1.themeGroups[0].id;
+
+  // delete that only group
+  const del = await worker.fetch(makeReq(`/custom_places/${id}/themes/${gid}`, { method: "DELETE", headers: hdr(t) }), env, {});
+  assert.equal(del.status, 200);
+  const delBody = await del.json();
+  assert.equal(delBody.themes.used, 0, "the response reports zero groups left");
+
+  // the next GET must NOT re-create a group from the stale blob
+  const list2 = await (await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {})).json();
+  const p2 = list2.places.find((p) => p.id === id);
+  assert.equal(p2.themeGroups.length, 0, "no group resurrected after deleting the last one");
+  assert.equal(p2.customConditions, null, "the legacy blob was cleared with the last group");
+  assert.equal(p2.themes.used, 0);
+  // the place-level verdict keeps the lenient baseline (○可拍) — the DATA
+  // semantics are unchanged; the CLIENT renders a zero-theme place as its own
+  // 「尚未設定題材」 card instead of a verdict row.
+  assert.equal(p2.evaluation.tier, "shoot", "no subjects → the general baseline still answers");
+  assert.equal(db._tables.custom_place_themes.length, 0, "no theme row was written back");
+
+  // deleting a NON-last group must keep the blob untouched (nothing to clear)
+  const mk = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "雲海窗", conditions: { cloud_low_max: 20 } }) }), env, {});
+  assert.equal(mk.status, 200);
+  const mk2 = await worker.fetch(makeReq(`/custom_places/${id}/themes`, { method: "POST", headers: hdr(t), body: JSON.stringify({ name: "星空窗", conditions: { cloud_low_max: 10 } }) }), env, {});
+  const g2 = (await mk2.json()).id;
+  await worker.fetch(makeReq(`/custom_places/${id}/themes/${g2}`, { method: "DELETE", headers: hdr(t) }), env, {});
+  const list3 = await (await worker.fetch(makeReq("/custom_places", { headers: hdr(t) }), env, {})).json();
+  assert.equal(list3.places.find((p) => p.id === id).themeGroups.length, 1, "the remaining group survives");
 });
 
 test("patch-8: legacy single set migrates to ONE group (lazy backfill); aggregate = voted reason when nothing rec/shoots", async () => {

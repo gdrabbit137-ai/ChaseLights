@@ -973,7 +973,25 @@ export async function handleCustomPlaceThemeItem(req, env, placeId, themeId) {
 
   if (req.method === "DELETE") {
     await env.DB.prepare("DELETE FROM custom_place_themes WHERE id = ?1").bind(themeId).run();
-    return json(req, 200, { ok: true, deleted: themeId, placeId });
+    // CL-APP-10: deleting the LAST group must clear the legacy single-blob
+    // column, otherwise loadThemeGroups() lazily "migrates" that blob back into
+    // a group on the very next GET — the owner deleted a subject and a 山景
+    // group reappeared. The blob is only a pre-groups storage format; once the
+    // user has managed groups and removed them all, the place honestly has no
+    // subject at all.
+    const left = await env.DB.prepare(
+      "SELECT COUNT(*) AS n FROM custom_place_themes WHERE place_id = ?1"
+    ).bind(placeId).first();
+    const remaining = left && typeof left.n === "number" ? left.n : 0;
+    if (remaining === 0) {
+      await env.DB.prepare(
+        "UPDATE custom_places SET custom_conditions = NULL, updated_at = datetime('now') WHERE id = ?1"
+      ).bind(placeId).run();
+    }
+    return json(req, 200, {
+      ok: true, deleted: themeId, placeId,
+      themes: { used: remaining, cap: MAX_THEMES_PER_PLACE },
+    });
   }
 
   return json(req, 405, { error: "method not allowed" });
