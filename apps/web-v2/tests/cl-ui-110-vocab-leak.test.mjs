@@ -153,5 +153,5 @@ test('CL-UI-110 (4): layered quick-view wording — chip states the general base
 
 test('CL-UI-110 (5): cache-bust stamp advanced for app.js', () => {
   const indexSource = readFileSync(join(WEB, 'index.html'), 'utf8');
-  assert.match(indexSource, /assets\/app\.js\?v=clui121/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui122/);
 });

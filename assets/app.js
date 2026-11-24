@@ -2165,8 +2165,12 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         appendSpotRows(container,viableRows);
       }
 
+      // CL-UI-122: in the 私人 view the user came to see their OWN points — a
+      // collapsed deferred group hid the only private card behind a summary
+      // line (owner: 「私人 1」 but no card). Private view renders expanded.
       if(deferredRows.length){
         const details=document.createElement('details');details.className='deferred-group';
+        if(cpView==='private')details.open=true;
         const summary=document.createElement('summary');summary.textContent=d().no_viable_group.replace('{n}',deferredRows.length);
         const grid=document.createElement('div');grid.className='deferred-grid';
         appendSpotRows(grid,deferredRows);
@@ -2174,6 +2178,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       }
       if(noEvalRows.length){
         const details=document.createElement('details');details.className='deferred-group no-eval-group';
+        if(cpView==='private')details.open=true;
         const summary=document.createElement('summary');const fallbackLabel=d().no_eval_group.replace('{n}',noEvalRows.length);summary.textContent=noEvalGroupSummary(noEvalRows,fallbackLabel);
         const grid=document.createElement('div');grid.className='deferred-grid';
         appendSpotRows(grid,noEvalRows);

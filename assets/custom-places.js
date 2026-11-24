@@ -332,6 +332,24 @@
     var el = document.querySelector('#tier-tabs .tier-tab.active');
     return (el && el.getAttribute('data-tier')) || 'recommend';
   }
+  // CL-UI-122: the 私人 view keeps the official tier tab — when that tab has no
+  // private place at all (e.g. the only private point is ✗不宜 while ✓推薦 is
+  // active) the list rendered empty and the owner saw 「私人 1」 with no card.
+  // Fall back to the 全部 tier so the private points are always reachable.
+  function cpTierHasPrivate(tierKey) {
+    if (tierKey === 'all') return true;
+    var map = { recommend: 'rec', shootable: 'shoot', not_recommended: 'no' };
+    var want = map[tierKey];
+    if (!want) return false;
+    return privatePlaces().some(function (p) { return ((p.evaluation || {}).tier) === want; });
+  }
+  function cpEnsurePrivateTier() {
+    if (state.view !== 'private' || !state.data) return;
+    var act = cpActiveTier();
+    if (act === 'all' || cpTierHasPrivate(act)) return;
+    var allTab = document.querySelector('#tier-tabs .tier-tab[data-tier="all"]');
+    if (allTab && !allTab.classList.contains('active')) allTab.click();
+  }
   function cpStamps(winStr) {
     var out = [], rx = /(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})/g, m, s = String(winStr || '');
     while ((m = rx.exec(s))) out.push({ date: m[1], hhmm: m[2] });
@@ -536,6 +554,9 @@
       }
     }
     renderPrivateCards(places);
+    // CL-UI-122: a private view whose active tier holds no private point must
+    // not render an empty list — fall back to the 全部 tier.
+    cpEnsurePrivateTier();
     // patch-6: every data/view/language change re-runs the OFFICIAL filter
     // pass — the tier-tab counts, the tier/subject filters and the private
     // cards re-derive from THIS state.data in one pass (same data version).
