@@ -55,8 +55,14 @@ test('CL-APP-09p6 (1a): app.js — the official renderer + pipeline accept priva
   assert.match(appSource, /chaselights:cp-data/);
   // the card's private subject rows keep the custom-condition reminder bell
   assert.match(appSource, /cc:s\.cc\|\|null/);
+  // CL-UI-121: the private-view filter pass must never wipe the list before the
+  // data guard, and a completed render must retire the first-load splash — the
+  // owner saw 「正在獲取攝影氣象數據...」 sitting on top of a rendered list.
+  assert.ok(appSource.indexOf("if(!currentData)return;") < appSource.indexOf("container.innerHTML='';"),
+    'the currentData guard runs before the container wipe');
+  assert.match(appSource, /if\(clui121Loading&&clui121Loading\.style\.display!=='none'\)clui121Loading\.style\.display='none';/);
   // cache-bust: this ticket's stamps
-  assert.match(htmlSource, /assets\/app\.js\?v=clui120/); // CL-UI-110/111 stamp advance (CL-INT-212 re-anchor)
+  assert.match(htmlSource, /assets\/app\.js\?v=clui121/); // CL-UI-110/111 stamp advance (CL-INT-212 re-anchor)
 });
 
 test('CL-APP-09p6 (1b): custom-places.js — cards render via the bridge; patch-9 coord line rides the card, homegrown ✗ row stays retired', () => {
@@ -272,6 +278,8 @@ test('CL-APP-09p6 (2c): 私人 view shows private cards only, filtered by the SA
     return { names, officials: visible.filter(c=>!c.classList.contains('cl-cp-card')).length };
   })()`);
   assert.equal(probe.officials, 0, '私人 view renders no official cards');
+  assert.equal(await evaljs(`document.getElementById('loading').style.display`), 'none',
+    'CL-UI-121: the first-load splash is retired after the private render pass');
   assert.ok(probe.names.some(n => /上班大樓天台|公司/.test(n)), 'private cards render in the 私人 view');
   // switch tier to ✗不宜 → only cpb (公司) remains
   await evaljs(`(function(){var b=document.querySelector('.tier-tab[data-tier="not_recommended"]');b.click();})()`);

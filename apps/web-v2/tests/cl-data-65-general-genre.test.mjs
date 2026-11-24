@@ -35,5 +35,5 @@ test('CL-DATA-65 (c): cache-bust stamps bumped for app.js/app.css', () => {
   // CL-INT-183 semantic stamp merge: CL-DATA-69 base pinned clui98, CL-UI-98
   // later bumped main to clui102 — the pin follows the highest landed stamp.
   assert.match(htmlSource, /assets\/app\.css\?v=clui120/);
-  assert.match(htmlSource, /assets\/app\.js\?v=clui120/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui121/);
 });

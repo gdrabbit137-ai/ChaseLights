@@ -2032,7 +2032,12 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
 
     function filterAndRender(){
       syncFilterHighlights();
-      const container=document.getElementById('spots-container');container.innerHTML='';if(!currentData)return;
+      const container=document.getElementById('spots-container');
+      // CL-UI-121: the guard must run BEFORE the wipe — a private-place event
+      // (chaselights:cp-data) can reach this function while the summary data is
+      // still null, and wiping first left an empty list under a loading splash.
+      if(!currentData)return;
+      container.innerHTML='';
       renderAdminFilter();
       let filtered=categoryBaseSpots();
       if(currentAdminAreas.size){
@@ -2082,6 +2087,12 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       if(currentTier!=='all')tierRows=tierRows.filter(row=>clui66SpotTier(row.spot)===currentTier);
       // CL-UI-91: the chip narrows only the ✓推薦 layer (see clui91ChipFilterPass).
       if(currentSubject!=='all')tierRows=tierRows.filter(clui91ChipFilterPass);
+      // CL-UI-121: any completed render pass means the data is in — the
+      // first-load splash must never outlive it (owner saw 「正在獲取攝影氣象
+      // 數據...」 sitting on top of a rendered list: a first visit with no
+      // snapshot hid the splash only on later loads).
+      const clui121Loading=document.getElementById('loading');
+      if(clui121Loading&&clui121Loading.style.display!=='none')clui121Loading.style.display='none';
       const effSort=clui66EffectiveSort();
       sortRows(tierRows,effSort);
       // CL-UI-91: chip display-ordering for the chip-independent tiers
