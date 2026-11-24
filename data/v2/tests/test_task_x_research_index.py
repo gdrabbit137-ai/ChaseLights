@@ -87,6 +87,11 @@ class ResearchIndexTests(unittest.TestCase):
             # the 51 touched records to 280b12cbd, so the CL-DATA-84 (6df0e93f9)
             # and CL-DATA-84C (5820c6e14) holders no longer hold any record.
             '280b12cbd0ae1d911c314c9e5dc186235bf61a76',  # CL-DATA-85 conditions_v2 required resync (blob+sha256 identity verified above)
+            # CL-UX-01 Part A re-anchor: tw-082-P01 gains the REQUIRED civil
+            # light_window (a reflection subject must not qualify at night) and
+            # is re-pinned to 405466719 (blob+sha256 identity per record
+            # verified above), so the new holder joins the set.
+            '405466719bbe11cf25bb4f2a50879913d51a0e94',
         }, {p['commit_sha'] for p in self.lock['canonical_records']})
         p01=next(p for p in self.lock['canonical_records'] if p['opportunity_id']=='tw-026-P01')
         # CL-DATA-72: tw-026-P01 canonical evolved past the 2026-11-02 owner

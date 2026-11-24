@@ -81,7 +81,7 @@ test('CL-APP-09p6 (1b): custom-places.js — cards render via the bridge; patch-
   assert.match(cpSource, /function isSpecialCard/);
   assert.match(cpSource, /cpActiveTier/);
   // stamps
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09k/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09l/);
   assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09g/);
 });
 

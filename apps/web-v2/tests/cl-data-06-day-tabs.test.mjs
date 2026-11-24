@@ -92,7 +92,10 @@ test('CL-DATA-06 E2: modal summary and place-guide eval render all seven days',(
   const modal=grab('function modalSummaryData','function modalDayRow');
   assert.ok(modal.includes('DAY_KEYS.map'));
   const guide=grab('CL-DATA-06: show the full 7-day evaluation window','const labels=evalDayLabels');
-  assert.ok(guide.includes('opp.days.slice(0,DAY_KEYS.length)'));
+  // CL-UI-124: the guide block must resolve each cell by DATE — the old
+  // opp.days.slice() paired past rows with today's labels.
+  assert.ok(guide.includes('v2DayForOffset(opp,_i,tzStrip)'), 'cells resolve their day by date');
+  assert.ok(!guide.includes('opp.days.slice(0,DAY_KEYS.length)'), 'no index slice');
 });
 
 test('CL-DATA-06 E3: the weather modal day switch offers all seven tabs',()=>{

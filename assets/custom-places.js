@@ -997,7 +997,14 @@
     // the cache-skew fallback (old app.js without the bridge) with the honest
     // pending note.
     var body;
-    if (!expired && cpHasNoThemes(p)) {
+    // CL-UX-01 keeper: the honest data states WIN over the zero-subject face — a
+    // place still queued for its first fetch must keep saying 「明早更新」, not
+    // 「尚未設定題材」 (it has no subjects yet BECAUSE it has no data).
+    if (!expired && ev.tier === 'pending') {
+      body = p.fetchDeferred
+        ? '<div class="cl-cp-deferred-note">⏳ ' + esc(t().deferred_note) + '</div>'
+        : '<div class="cl-cp-deferred-note">⏳ ' + esc(t().tier_pending) + '</div>';
+    } else if (!expired && cpHasNoThemes(p)) {
       // owner ruling: no subject → 「尚未設定題材」 + weather facts, never a verdict
       body = '<div class="cl-cp-none-note">🎞 ' + esc(t().wx_no_subject) + '</div>' +
         cpWeatherLineHtml(p.weather) +

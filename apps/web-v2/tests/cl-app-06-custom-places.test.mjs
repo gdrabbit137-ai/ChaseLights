@@ -30,7 +30,7 @@ test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bus
   // CL-APP-09 patch-4 (popup rides the official renderers) -> clapp09g
   // (per-file cache-bust rule, monotonic)
   assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09g/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09k/); // CL-APP-09 patch-5/6 stamp advance (CL-INT-212 re-anchor)
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09l/); // CL-APP-09 patch-5/6 stamp advance (CL-INT-212 re-anchor)
   assert.doesNotMatch(htmlSource, /custom-places\.(css|js)\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
@@ -532,6 +532,7 @@ test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject ro
         name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
         reason: r.textContent.includes('風強'),
       })) : [],
+      cp2None: c2 ? c2.textContent.includes('尚未設定題材') : false,
       cp2Baseline: c2 ? [...c2.querySelectorAll('.cl-subject-row')].map(r => ({
         tier: r.querySelector('.cl-cp-tier') && r.querySelector('.cl-cp-tier').textContent,
         name: r.querySelector('.cl-cp-row-name') && r.querySelector('.cl-cp-row-name').textContent,
@@ -563,9 +564,11 @@ test('CL-APP-06 (2b): private card anatomy — gray badge + PER-GROUP subject ro
   assert.equal(probe.cp3Rows[0].tier, '✗', 'a failing group shows ✗ with its short reason');
   assert.match(probe.cp3Rows[0].name, /風平窗/);
   assert.equal(probe.cp3Rows[0].reason, true);
-  assert.equal(probe.cp2Baseline.length, 1, 'no groups → the baseline row (legacy anatomy preserved)');
-  assert.equal(probe.cp2Baseline[0].tier, '○');
-  assert.match(probe.cp2Baseline[0].window, /2026-11-16 06:00/);
+  // CL-APP-12 (owner ruling 2026-11-24): a place with NO theme groups has no
+  // subject to judge — the card shows 「尚未設定題材」 instead of a fabricated
+  // baseline ○/✗ row.
+  assert.equal(probe.cp2Baseline.length, 0, 'no groups → NO subject row is invented');
+  assert.equal(probe.cp2None, true, 'the zero-subject card names the state (尚未設定題材)');
   // patch-9: the legacy auto-named group shows the user's GENRE (exact
   // night_sky starter match → 星空), never the 「題材 1」 migration placeholder
   assert.equal(probe.cp6Rows.length, 1);

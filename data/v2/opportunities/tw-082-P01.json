@@ -276,7 +276,9 @@
    }
   ],
   "windows": {
-   "time_of_day": [],
+   "time_of_day": [
+    "civil_daylight"
+   ],
    "seasonal": null
   },
   "conditions_v2": {
@@ -298,12 +300,6 @@
      "metric": "precipitation",
      "op": "lt",
      "value": 0.2
-    },
-    {
-     "id": "C-tw-082-P01-LW1",
-     "metric": "light_window",
-     "op": "required",
-     "value": null
     }
    ],
    "quality": [

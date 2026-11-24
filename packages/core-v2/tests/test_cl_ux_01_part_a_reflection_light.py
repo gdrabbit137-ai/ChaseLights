@@ -42,9 +42,12 @@ class ReflectionLightWindowTests(unittest.TestCase):
         self.assertEqual(lw["role"], "REQUIRED")
         self.assertEqual(lw["domain"], "ASTRONOMY")
         self.assertEqual(lw["operator"], "none")
-        # the derived view must agree (CL-DATA-85 contract)
+        # the derived view expresses the light gate as a WINDOW, not a required
+        # entry (the migrator's canonical shape — same as every other
+        # light_window subject, e.g. jp-001-P01)
+        self.assertIn("civil_daylight", cc["windows"]["time_of_day"])
         v2_required = [c["metric"] for c in cc["conditions_v2"]["required"]]
-        self.assertIn("light_window", v2_required)
+        self.assertNotIn("light_window", v2_required)
 
     def test_revision_advanced(self):
         d = contract("tw-082-P01")
