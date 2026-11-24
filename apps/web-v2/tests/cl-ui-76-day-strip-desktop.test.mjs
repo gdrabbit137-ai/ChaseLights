@@ -56,8 +56,8 @@ test('CL-UI-76 (1): desktop tier CSS — content-sized cells, mobile content-siz
   assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:3px 5px;gap:2px\}/);
   assert.doesNotMatch(mobile, /min-width:90/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui124/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui120/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui125/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui121/);
 });
 
 // ---- (2) real-browser probe: desktop 1280px and mobile 390px ----------------
@@ -205,6 +205,10 @@ const PROBE = `(() => {
     truncated: texts.filter(t => t.truncated).map(t => t.text),
     multiLine: texts.filter(t => t.lines > 1).map(t => t.text),
     firstText: texts[0]?.text,
+    // CL-UI-125: a met cell carries ONE ✓ and no hour window under it
+    metCells: cells.filter(c => c.querySelector('.v2-strip-mark')).length,
+    metWithText: cells.filter(c => c.querySelector('.v2-strip-mark') && c.querySelector('.v2-strip-text')).length,
+    passedCells: cells.filter(c => c.classList.contains('v2-ok-past')).length,
   };
 })()`;
 
@@ -222,7 +226,10 @@ for (const vp of [{name: 'desktop 1280px', w: 1280, h: 900, mobile: false, shot:
     assert.equal(probe.oneRow, true, 'every cell sits on ONE row');
     assert.equal(probe.truncated.length, 0, `no text is ellipsis-truncated (got ${JSON.stringify(probe.truncated)})`);
     assert.equal(probe.multiLine.length, 0, `no text wraps to a second line (got ${JSON.stringify(probe.multiLine)})`);
-    assert.equal(probe.firstText, '06–13', 'abbreviated window intact');
+    // CL-UI-125 (owner ruling): met cells carry ONE ✓ and no hour window
+    assert.ok(probe.metCells >= 1, 'at least one met cell carries the check mark');
+    assert.equal(probe.metWithText, 0, 'no hour window under a met cell');
+    assert.ok(probe.passedCells >= 0, 'passed cells are classed, not annotated');
     if (vp.w >= 768) {
       assert.ok(probe.minCell >= 90, `desktop cells are content-sized >=90px (min ${probe.minCell}px)`);
       // CL-UI-79: no upper cap — cells grow to their text's max-content

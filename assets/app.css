@@ -2484,6 +2484,13 @@
 .v2-strip-day{white-space:nowrap}
 .v2-strip-text{white-space:nowrap;line-height:1.25}
 .v2-strip-hours{font-weight:600;letter-spacing:.02em;color:inherit}
+/* CL-UI-125: the day-strip check mark — green while the window is ahead, grey
+   once today's hours have passed. No hour count rides the mark. */
+.v2-strip-mark{font-weight:700;line-height:1;font-size:1rem}
+/* still ahead → green check; already passed → grey check (owner ruling) */
+.v2-strip-cell.v2-ok .v2-strip-mark{color:var(--cl-green)}
+.v2-strip-cell.v2-ok-past{opacity:.72}
+.v2-strip-cell.v2-ok-past .v2-strip-mark{color:var(--cl-text-3)}
 .v2-strip-cell.v2-ok .v2-strip-text{color:var(--cl-green-text)}
 .v2-strip-cell.v2-bad .v2-strip-text{color:var(--cl-red-text)}
 .v2-strip-cell.v2-unk .v2-strip-text{color:var(--cl-amber-text)}

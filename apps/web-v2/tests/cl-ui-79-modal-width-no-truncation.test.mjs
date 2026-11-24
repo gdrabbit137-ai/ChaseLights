@@ -59,8 +59,8 @@ test('CL-UI-79 (1): source contract — 560px subject-panel modal, max-content g
   assert.doesNotMatch(appSource, /<a class="place-hourly-link"/);
   assert.match(appSource, /id="place-hourly-btn"/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui124/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui120/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui125/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui121/);
 });
 
 // ---- (2) real-browser probe: 1280 / 1024 / 768 / 390 ------------------------
@@ -196,7 +196,7 @@ const PROBE = `(() => {
   const cells = [...strip.querySelectorAll('.v2-strip-cell')];
   const tops = new Set(cells.map(c => c.offsetTop));
   const widths = cells.map(c => c.offsetWidth);
-  const clipped = [...strip.querySelectorAll('.v2-strip-cell, .v2-strip-day, .v2-strip-text, .v2-strip-hours')]
+  const clipped = [...strip.querySelectorAll('.v2-strip-cell, .v2-strip-day, .v2-strip-text, .v2-strip-mark')]
     .filter(el => el.scrollWidth > el.clientWidth).map(el => el.textContent);
   return {
     modalWidth: modal.offsetWidth,

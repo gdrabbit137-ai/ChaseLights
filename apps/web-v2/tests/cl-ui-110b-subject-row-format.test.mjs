@@ -59,7 +59,10 @@ test('CL-UI-110b (1): strip — a PARTIAL window shows the window hours alone, w
   const cellP = cellsOf(fns.v2DayStripHtml([dayPartial], ['明天'], 'Asia/Taipei', {spot_id: 'tw-002'}, 'cloud_sea', 'tw-002-P01'))[0] || '';
   const cellB = cellsOf(fns.v2DayStripHtml([dayBest], ['明天'], 'Asia/Taipei', {spot_id: 'tw-002'}, 'cloud_sea', 'tw-002-P01'))[0] || '';
   assert.equal(stripTextOf(cellP), '○06:10–06:50', 'PARTIAL cell visible text = ○ + the window hours (best-window anatomy)');
-  assert.equal(stripTextOf(cellB), '06:10–06:50', 'best-window cell visible text = the window hours');
+  // CL-UI-125 (owner ruling): a met cell is the check mark alone — the window
+  // hours move to the tooltip/aria instead of a second line in the cell.
+  assert.equal(stripTextOf(cellB), '', 'met cell shows no window text');
+  assert.ok(stripTitleOf(cellB).includes('06:10–06:50'), 'the window hours survive in the tooltip/aria');
   assert.ok(!cellP.match(/<span class="v2-strip-text">[^<]*非黃金光線/), '「非黃金光線」 never shares the visible hour line');
   assert.ok(stripTitleOf(cellP).includes('○ 可拍（非黃金光線）'), 'off-peak wording demoted to the cell tooltip/aria');
   assert.ok(!stripTitleOf(cellB).includes('非黃金光線'), 'best window keeps its clean tooltip');
@@ -137,7 +140,7 @@ test('CL-UI-110b (4): the word is never concatenated with hours in any visible s
 });
 
 test('CL-UI-110b (5): cache-bust stamp advanced for app.js', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui124/);
-  assert.equal((indexSource.match(/\?v=clui120/g) || []).length, 1, 'app.css at clui120 (CL-UI-118b); app.js advanced to clui124 (CL-UI-122)');
-  assert.match(indexSource, /assets\/app\.js\?v=clui124/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui125/);
+  assert.equal((indexSource.match(/\?v=clui121/g) || []).length, 1, 'app.css at clui120 (CL-UI-118b); app.js advanced to clui125 (CL-UI-122)');
+  assert.match(indexSource, /assets\/app\.js\?v=clui125/);
 });

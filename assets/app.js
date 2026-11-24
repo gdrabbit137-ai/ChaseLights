@@ -3471,10 +3471,17 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         const aria=(day.state==='GUIDANCE_SATISFIED')
           ?`${title} ${d().eval2_hours} ${hours}${fullList?` · ${fullList}`:''}`
           :(reason?`${title} ${lab}·${reason}`:(winPartial?`${title} ○ ${winPartial==='light_window'?d().v2_win_partial_golden:d().v2_win_partial}`:(eligUnknown?`${title} — ${d().v2_season_unknown}`:`${title} ${lab}`)));
-        const hoursBadge=(day.state==='GUIDANCE_SATISFIED')?`<span class="v2-strip-hours">✓${hours}</span>`:'';
-        const cellText=mark?(mark+text):text;
+        // CL-UI-125 (owner ruling 2026-11-24): a satisfying day shows ONE check
+        // mark — green while the window is still ahead, grey once its hours have
+        // passed. No hour count after the mark and no hour list under it (a
+        // multi-window day like 06–08 + 10–14 has no honest one-line form).
+        const isOkDay=day.state==='GUIDANCE_SATISFIED';
+        const okPast=isOkDay&&hours===0;
+        if(isOkDay){mark='✓';text='';}
+        const hoursBadge=isOkDay?`<span class="v2-strip-mark" aria-hidden="true">✓</span>`:'';
+        const cellText=isOkDay?'':(mark?(mark+text):text);
         const sel=(i===selectedDayOffset())?' sel':'';
-        return `<button type="button" class="v2-strip-cell ${cls}${sel}" data-idx="${i}" data-label="${esc(title)}" data-verdict="${esc(lab)}" data-reason="${esc(reason)}" data-hours="${hours}" title="${esc(aria)}" aria-label="${esc(aria)}"><span class="v2-strip-day">${esc(title)}</span>${hoursBadge}<span class="v2-strip-text">${esc(cellText)}</span></button>`;
+        return `<button type="button" class="v2-strip-cell ${cls}${okPast?' v2-ok-past':''}${sel}" data-idx="${i}" data-label="${esc(title)}" data-verdict="${esc(lab)}" data-reason="${esc(reason)}" data-hours="${hours}" title="${esc(aria)}" aria-label="${esc(aria)}"><span class="v2-strip-day">${esc(title)}</span>${hoursBadge}${cellText?`<span class="v2-strip-text">${esc(cellText)}</span>`:''}</button>`;
       }).join('');
       return `<div class="v2-day-strip" role="group">${cells}</div>`;
     }

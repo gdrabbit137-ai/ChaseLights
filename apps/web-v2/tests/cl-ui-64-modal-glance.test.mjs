@@ -181,10 +181,13 @@ test('CL-UI-68 (3): 8-day strip — info written INSIDE the cell (two lines), no
   // met = ✓n qualifying-hours badge + abbreviated window, unmet = ✗short
   // reason, unknown = the honest label. No hover/title carrier, no
   // click-to-reveal note, no 🎯 badge (CL-UI-75 owner ruling).
-  assert.ok(html.includes('<span class="v2-strip-hours">✓1</span>'),
-    'met cell: qualifying-hour badge, not a sentence');
-  assert.ok(html.includes('<span class="v2-strip-text">17:00</span>'),
-    'met cell: lone whole-hour stamp keeps its full form');
+  // CL-UI-125 (owner ruling): a met cell is ONE check mark — no hour count and
+  // no hour list underneath (06–08 + 10–14 has no honest one-line form).
+  assert.ok(html.includes('<span class="v2-strip-mark" aria-hidden="true">✓</span>'),
+    'met cell: a single check mark');
+  assert.ok(!html.includes('v2-strip-hours'), 'no ✓n badge on any cell');
+  assert.ok(!html.includes('<span class="v2-strip-text">17:00</span>'),
+    'no hour stamp under a met cell');
   assert.ok(html.includes('<span class="v2-strip-text">✗降水</span>'),
     'unmet cell text: ✗short reason');
   assert.ok(html.includes('<span class="v2-strip-text">資料不足</span>'),
@@ -251,7 +254,7 @@ test('CL-UI-64 (6): i18n keys exist in all three dictionaries', () => {
 
 test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped', () => {
   for (const cls of ['.place-quick-view', '.q-chip', '.q-next', '.v2-day-strip',
-    '.v2-strip-cell', '.v2-strip-text', '.v2-strip-hours', '.v2-cond-details',
+    '.v2-strip-cell', '.v2-strip-text', '.v2-strip-mark', '.v2-cond-details',
     '.v2-cond-details[open]', '.place-hourly-link']) {
     assert.ok(appCss.includes(cls), 'css missing ' + cls);
   }
@@ -278,6 +281,6 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
     assert.ok(!rule.includes('text-overflow:ellipsis') && !rule.includes('overflow:hidden'),
       'CL-UI-88: the slot string is never ellipsis-truncated: ' + rule);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui124/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui120/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui125/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui121/);
 });

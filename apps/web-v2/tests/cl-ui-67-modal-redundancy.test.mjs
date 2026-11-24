@@ -94,16 +94,18 @@ test('CL-UI-67 (4): compact strip cells — no 🎯 next-window badge anywhere (
   // In-cell text is compact: met = ✓n hours badge + abbreviated window;
   // unmet = ✗short-reason; a lone whole-hour stamp keeps 17:00, a range
   // compresses to 06–08.
-  assert.ok(cells[1].includes('<span class="v2-strip-hours">✓1</span>'),'hours badge, not a sentence');
-  assert.ok(cells[1].includes('<span class="v2-strip-text">17:00</span>'),'lone stamp keeps its full form');
-  assert.ok(cells[2].includes('<span class="v2-strip-hours">✓3</span>'),'hours badge on the second met cell');
-  assert.ok(cells[2].includes('<span class="v2-strip-text">06–08</span>'),'range window abbreviated 06:00–08:00 → 06–08');
+  // CL-UI-125 (owner ruling): met = one ✓, no hour count, no hour list.
+  assert.ok(cells[1].includes('<span class="v2-strip-mark" aria-hidden="true">✓</span>'),'check mark, not a sentence');
+  assert.ok(!cells[1].includes('v2-strip-hours'),'no hours badge');
+  assert.ok(!cells[1].includes('v2-strip-text'),'no window text under the mark');
+  assert.ok(cells[2].includes('<span class="v2-strip-mark" aria-hidden="true">✓</span>'),'check mark on the second met cell');
+  assert.ok(!cells[2].includes('v2-strip-text'),'no window under the second mark either');
   assert.ok(cells[0].includes('<span class="v2-strip-text">未符</span>'),'unmet cell text present');
   assert.ok(!cells[0].includes('✗'),'no reason word on the stub — the plain label stays');
 });
 
 test('CL-UI-67 (5): cache-bust stamp bumped for the edited app.js/app.css',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui124/);
-  assert.match(index,/assets\/app\.css\?v=clui120/);
+  assert.match(index,/assets\/app\.js\?v=clui125/);
+  assert.match(index,/assets\/app\.css\?v=clui121/);
 });

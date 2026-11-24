@@ -93,11 +93,12 @@ test('CL-UI-75 (2): compact cell copy — ✓n badge / ✗short-reason / abbrevi
   const html = fns.v2DayStripHtml(days, ['今天', '明天', '後天'], 'Asia/Taipei', {spot_id: 'jp-003'}, 'cloud_sea', 'jp-003-P01');
   const cells = html.match(/<button[\s\S]*?<\/button>/g) || [];
   assert.equal(cells.length, 3);
-  // Met: ✓n badge (never the 符合時數 n sentence) + abbreviated window.
-  assert.ok(cells[0].includes('<span class="v2-strip-hours">✓8</span>'), 'badge-form hours, not a sentence');
-  assert.ok(cells[0].includes('<span class="v2-strip-text">06–13</span>'), 'window abbreviated 06:00–13:00 → 06–13');
-  const metText=(cells[0].match(/<span class="v2-strip-text">([^<]*)<\/span>/)||[])[1]||'';
-  assert.ok(!metText.includes('符合時數'), 'the 符合時數 wording stays out of the cell text');
+  // CL-UI-125 (owner ruling): met = ONE check mark, no hour count and no hour
+  // window under it — a multi-window day (06–08 + 10–14) has no one-line form.
+  assert.ok(cells[0].includes('<span class="v2-strip-mark" aria-hidden="true">✓</span>'), 'one check mark');
+  assert.ok(!cells[0].includes('v2-strip-hours'), 'no ✓n badge');
+  assert.ok(!cells[0].includes('v2-strip-text'), 'no hour window under the mark');
+  assert.ok(!cells[0].includes('<span class="v2-strip-text">'), 'no in-cell wording at all (the aria still carries 符合時數)');
   // Unmet: ✗short-reason. Unknown: the honest label.
   assert.ok(cells[1].includes('<span class="v2-strip-text">✗低雲</span>'), 'unmet cell: ✗short-reason');
   assert.ok(cells[2].includes('<span class="v2-strip-text">資料不足</span>'), 'unknown cell: honest label');
@@ -112,6 +113,45 @@ test('CL-UI-75 (2): compact cell copy — ✓n badge / ✗short-reason / abbrevi
   // aria-label keeps the FULL unabbreviated wording (screen-reader parity).
   assert.match(html, /aria-label="今天 符合時數 8 · 06:00–13:00"/);
   assert.match(html, /aria-label="明天 未符·低雲"/);
+});
+
+test('CL-UI-125 (2b): grey check for a day whose hours already passed, green while ahead', () => {
+  // Owner ruling 2026-11-24: 打勾沒有時數；時間已過用灰色，時間還沒過用綠色。
+  const helperCode = grab('function compactHourSegmentsText', 'function v2ContractThreshold')
+    + grab('function v2MetricName', '// CL-COPY-01: handwritten')
+    + grab('function v2DominantFailMetric', 'function v2DayStripHtml')
+    + grab('function v2DayStripHtml', '// CL-UI-64: top');
+  const prelude = `
+    const V2_EVAL_METRICS={'zh-TW':{cloud_cover_low:'低雲'},en:{},ja:{}};
+    const V2_FAIL_PRIORITY=['cloud_cover_low'];
+    let currentLang='zh-TW';
+    const v2SubjectCardRow=()=>null;
+    const v2SubjectCardShortReason=()=>('');
+    const v2SubjectCardShorts=()=>[];
+    const localDateString=()=>'2026-11-24';
+    const selectedDayOffset=()=>0;
+    const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const d=()=>({eval2_hours:'符合時數',eval2_ok:'符合',eval2_bad:'未符',eval2_unk:'資料不足'});
+    const listSep=()=>'、';
+    const formatHourSegments=list=>((list||[]).slice().sort().join('–')||'');
+    const v2EffectiveHours=(day)=>((day&&day.good_hours)||[]);
+    const v2BestForSpot=null;
+  `;
+  const fns = new Function(prelude + helperCode + ';return {v2DayStripHtml};')();
+  const days = [
+    {local_date: '2026-11-24', state: 'GUIDANCE_SATISFIED', good_hours: [], conditions: []},        // 今天的時段已過
+    {local_date: '2026-11-25', state: 'GUIDANCE_SATISFIED', good_hours: ['06:00', '07:00'], conditions: []}, // 還沒到
+  ];
+  const html = fns.v2DayStripHtml(days, ['今天', '明天'], 'Asia/Taipei', {spot_id: 'jp-003'}, 'cloud_sea', 'jp-003-P01');
+  const cells = html.match(/<button[\s\S]*?<\/button>/g) || [];
+  assert.equal(cells.length, 2);
+  assert.ok(cells[0].includes('v2-ok-past'), 'a day whose hours already passed is rendered as PASSED');
+  assert.ok(!cells[1].includes('v2-ok-past'), 'a day still ahead is not marked as passed');
+  // both carry the same single mark — the colour, not a count, tells them apart
+  assert.equal((cells[0].match(/v2-strip-mark" aria-hidden="true">✓/g) || []).length, 1);
+  assert.equal((cells[1].match(/v2-strip-mark" aria-hidden="true">✓/g) || []).length, 1);
+  assert.ok(!/v2-strip-hours/.test(html), 'no hour count rides the mark');
+  assert.ok(!/v2-strip-text/.test(html), 'no hour window under the mark');
 });
 
 test('CL-UI-75 (3): strip layout CSS — one horizontal row, no wrap tier', () => {
@@ -135,8 +175,8 @@ test('CL-UI-75 (3): strip layout CSS — one horizontal row, no wrap tier', () =
   const mobile = cssSource.slice(cssSource.indexOf('@media (max-width:390px)'), cssSource.indexOf('@media (max-width:390px)') + 600);
   assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:3px 5px;gap:2px\}/);
   assert.doesNotMatch(mobile, /flex:1 1/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui124/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui120/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui125/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui121/);
 });
 
 // ---- (4) real-browser probe: 390px and desktop -------------------------------
@@ -283,8 +323,9 @@ const PROBE = `(() => {
     overflow: strip.scrollWidth > strip.clientWidth,
     stripW: strip.clientWidth,
     scrollW: strip.scrollWidth,
-    firstText: cells[0].querySelector('.v2-strip-text').textContent,
-    firstBadge: cells[0].querySelector('.v2-strip-hours')?.textContent || null,
+    firstText: cells[0].querySelector('.v2-strip-text')?.textContent ?? null,
+    firstMark: cells[0].querySelector('.v2-strip-mark')?.textContent || null,
+    firstPast: cells[0].classList.contains('v2-ok-past'),
     anyBadge: !!strip.querySelector('.v2-strip-next'),
   };
 })()`;
@@ -306,8 +347,8 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true, shot: 'cl
     assert.ok(probe.maxWidth >= 46, `cells keep a comfortable touch width (min ${probe.maxWidth}px)`);
     assert.ok(probe.maxTextHeight <= 20, `no one-character-per-line squeeze: text stays single-line (got ${probe.maxTextHeight}px)`);
     assert.equal(probe.anyBadge, false, 'no 🎯 badge in the rendered strip');
-    assert.equal(probe.firstBadge, '✓8', 'badge-form hours on the met cell');
-    assert.equal(probe.firstText, '06–13', 'abbreviated window');
+    assert.equal(probe.firstMark, '✓', 'a single check mark on the met cell');
+    assert.equal(probe.firstText, null, 'no hour window under the mark');
     console.log(vp.shot + ' probe: ' + JSON.stringify(probe));
     // CL-UI-75/88: at 390px the eight content-sized cells may exceed the
     // container — the strip slides horizontally (fade hints + drag); the hard

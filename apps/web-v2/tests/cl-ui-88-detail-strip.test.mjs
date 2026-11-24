@@ -74,8 +74,8 @@ test('CL-UI-88 (1): strip CSS — content-sized cells, no ellipsis, fade hints +
   assert.match(cssSource, /\.place-quick-view\.quick-ok\{background:color-mix\(in srgb, var\(--cl-green\) 10%, transparent\);border-color:color-mix\(in srgb, var\(--cl-green\) 55%, transparent\)\}/);
   // Cache-bust: the served homepage carries the new stamp.
   assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui stays at clui102 (app.js + app.css advanced to clui120) (app.js advanced to clui118, CL-UI-110)');
-  assert.equal((indexSource.match(/\?v=clui120/g) || []).length,1, 'app.css at clui120 (CL-UI-118b); app.js advanced to clui124 (CL-UI-122)');
-  assert.match(indexSource, /assets\/app\.js\?v=clui124/);
+  assert.equal((indexSource.match(/\?v=clui121/g) || []).length,1, 'app.css at clui120 (CL-UI-118b); app.js advanced to clui125 (CL-UI-122)');
+  assert.match(indexSource, /assets\/app\.js\?v=clui125/);
 });
 
 test('CL-UI-88 (2): strip wiring — tooltip + .sel + per-block drag init in app.js', () => {
@@ -154,7 +154,10 @@ test('CL-UI-88 (3): extracted v2DayStripHtml — compact slot + full tooltip + .
   const cells = html.match(/<button[\s\S]*?<\/button>/g) || [];
   assert.equal(cells.length, 8);
   // 時段字串永不截斷：compact 「01–05」 (no minute colon) in the cell text…
-  assert.ok(cells[0].includes('<span class="v2-strip-text">01–06</span>'), 'compact slot form 01–06');
+  // CL-UI-125 (owner ruling): the met cell carries ONE ✓ and no hour line —
+  // the compact slot survives in the tooltip instead.
+  assert.ok(cells[0].includes('<span class="v2-strip-mark" aria-hidden="true">✓</span>'), 'met cell carries the single check mark');
+  assert.ok(!cells[0].includes('v2-strip-text'), 'no hour line under the mark');
   // …and the FULL unabbreviated segments ride the tooltip with the aria copy.
   assert.ok(cells[0].includes('title="今天 符合時數 6 · 01:00–06:00"'), 'full segments in tooltip');
   assert.ok(cells[0].includes('aria-label="今天 符合時數 6 · 01:00–06:00"'), 'aria parity');
@@ -305,11 +308,20 @@ for (const vp of [{name: 'desktop 1280px', w: 1280, h: 900, mobile: false, shot:
         `two-side fade hint on every strip: ${mask}`);
     }
     if (vp.w < 768) {
-      assert.ok(probe.scrollable[0].sw > probe.scrollable[0].cw, 'the date row slides horizontally at 390 (scrollWidth > clientWidth)');
-      assert.ok(probe.indep.afterA > 0 && probe.indep.afterA <= 80, `strip A slid to its own offset (${probe.indep.afterA})`);
-      assert.equal(probe.indep.afterB, probe.indep.before, 'strip B never moved with A');
-      assert.ok(probe.indep.bSlide > 0, 'strip B slides on its own');
-      assert.equal(probe.indep.aHeld, probe.indep.afterA, 'strip A holds its position while B slides');
+      // CL-UI-125: with the hour line gone the eight cells may FIT at 390px —
+      // sliding is then unnecessary (the fade hint stays for when it does not).
+      assert.ok(probe.scrollable[0].sw >= probe.scrollable[0].cw, 'the date row never clips: it fits or slides');
+      const slides = probe.scrollable[0].sw > probe.scrollable[0].cw;
+      if (!slides) {
+        // CL-UI-125: eight ✓-only cells fit a 390px row, so there is nothing to
+        // slide — independence is vacuous, not violated.
+        assert.equal(probe.indep.afterA, 0, 'a fitting strip needs no horizontal offset');
+      } else {
+        assert.ok(probe.indep.afterA > 0 && probe.indep.afterA <= 80, `strip A slid to its own offset (${probe.indep.afterA})`);
+        assert.equal(probe.indep.afterB, probe.indep.before, 'strip B never moved with A');
+        assert.ok(probe.indep.bSlide > 0, 'strip B slides on its own');
+        assert.equal(probe.indep.aHeld, probe.indep.afterA, 'strip A holds its position while B slides');
+      }
     }
     console.log(vp.shot + ' probe: ' + JSON.stringify(probe));
     // Visual evidence screenshot (not committed).
