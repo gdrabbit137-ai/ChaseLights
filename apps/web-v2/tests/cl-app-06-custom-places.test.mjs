@@ -27,10 +27,10 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
   // CL-INT-206 merge: clapp06g (patch-8) + clapp08a (shared-fetch tag) ->
   // clapp08b on the merged tree; CL-APP-09-p3 (popup anatomy) -> clapp09d;
-  // CL-APP-09 patch-4 (popup rides the official renderers) -> clapp09e
+  // CL-APP-09 patch-4 (popup rides the official renderers) -> clapp09f
   // (per-file cache-bust rule, monotonic)
-  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09e/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09i/); // CL-APP-09 patch-5/6 stamp advance (CL-INT-212 re-anchor)
+  assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09f/);
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09j/); // CL-APP-09 patch-5/6 stamp advance (CL-INT-212 re-anchor)
   assert.doesNotMatch(htmlSource, /custom-places\.(css|js)\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)

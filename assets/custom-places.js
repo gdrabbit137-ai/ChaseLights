@@ -32,7 +32,7 @@
 
   var T = {
     'zh-TW': {
-      priv_badge: '私人', v_all: '全部', v_official: '官方', v_private: '私人',
+      priv_badge: '私人', v_all: '不限來源', v_official: '官方', v_private: '私人',
       add_btn: '新增私人景點', quota_lbl: '私人點', quota_owner: '無限',
       count_fmt: '共 {n} 個官方景點＋你的 {m} 個私人點',
       count_fmt_zero: '共 {n} 個官方景點（尚未建立私人點）',
@@ -59,7 +59,7 @@
       // patch-7: private-card forecast popup (same card-click interaction as official cards)
       qv_title: '預報速覽', qv_quick: '現在去會怎樣', qv_days: '8 日概況', qv_no_data: '─',
       qv_no_data_note: '此日尚無資料（資料僅涵蓋未來約 2 日）', qv_subjects: '逐題材判定',
-      qv_subject_custom: '自訂條件', qv_general: '可拍', qv_entry: '🎞 題材',
+      qv_subject_custom: '自訂條件', qv_general: '可拍', qv_general_base: '一般基準', qv_entry: '🎞 題材',
       qv_load_fail: '預報資料暫時無法載入——可能仍在排隊抓取（明日更新）。',
       qv_gen: '符合 {n}/{t} 小時',
       qv_win_passed: '窗已過·今日仍可拍',
@@ -89,7 +89,7 @@
       lat_lng: 'lat/lng', elev_m: 'm',
     },
     'en': {
-      priv_badge: 'Private', v_all: 'All', v_official: 'Official', v_private: 'Private',
+      priv_badge: 'Private', v_all: 'All sources', v_official: 'Official', v_private: 'Private',
       add_btn: 'Add custom place', quota_lbl: 'Custom places', quota_owner: 'Unlimited',
       count_fmt: '{n} official places + your {m} custom places',
       count_fmt_zero: '{n} official places (no custom places yet)',
@@ -115,7 +115,7 @@
       p_months: 'Applicable months', p_months_hint: 'None selected = all year; when set, only those months are evaluated (the cron honours the month window)',
       qv_title: 'Forecast quick view', qv_quick: 'If I go now', qv_days: '8-day outlook', qv_no_data: '─',
       qv_no_data_note: 'No data for this day yet (data covers about the next 2 days)', qv_subjects: 'Per-subject verdicts',
-      qv_subject_custom: 'Custom conditions', qv_general: 'Shootable', qv_entry: '🎞 Subjects',
+      qv_subject_custom: 'Custom conditions', qv_general: 'Shootable', qv_general_base: 'General baseline', qv_entry: '🎞 Subjects',
       qv_load_fail: 'Forecast data is temporarily unavailable — the fetch may still be queued (updates tomorrow).',
       qv_gen: '{n}/{t} hours met',
       qv_win_passed: 'windows passed · still shootable today',
@@ -171,7 +171,7 @@
       p_months: '適用月', p_months_hint: '未選択＝通年；選択するとその月のみ判定（cron も月窓を尊重）',
       qv_title: '予報クイックビュー', qv_quick: '今すぐ行くと', qv_days: '8日間の概況', qv_no_data: '─',
       qv_no_data_note: 'この日はまだデータなし（データは今後約2日分）', qv_subjects: '題材別判定',
-      qv_subject_custom: 'カスタム条件', qv_general: '撮影可', qv_entry: '🎞 題材',
+      qv_subject_custom: 'カスタム条件', qv_general: '撮影可', qv_general_base: '一般基準', qv_entry: '🎞 題材',
       qv_load_fail: '予報データを取得できません——取得待ちの可能性があります（明日更新）。',
       qv_gen: '{n}/{t} 時間適合',
       qv_win_passed: '撮影窓は終了・本日は撮影可',
@@ -1283,7 +1283,7 @@
       groups.push({ key: 'cp:legacy', name: t().qv_subject_custom, cond: p.customConditions, eval: p.evaluation || null });
     }
     if (!groups.length) {
-      groups.push({ key: 'cp:baseline', name: t().qv_general, cond: CP_GENERAL_BASELINE, eval: p.evaluation || null, baseline: true });
+      groups.push({ key: 'cp:baseline', name: t().qv_general_base, cond: CP_GENERAL_BASELINE, eval: p.evaluation || null, baseline: true });
     }
     return groups;
   }
@@ -2183,7 +2183,7 @@
       '<button type="button" class="close" data-cp-close aria-label="' + esc(t().close) + '">✕</button></div>' +
       '<div class="cl-cp-th-count">' + esc(t().th_count.replace('{n}', used).replace('{c}', cap)) + '</div>' +
       (rows || '<div class="cl-cp-th-empty">' + esc(t().th_empty) + '</div>') +
-      addArea);
+      addArea, 'cl-cp-list-modal');
     wireClose();
     var add = els.overlay.querySelector('#cl-cp-th-add');
     if (add) add.addEventListener('click', function () { themeFormModal(place, null); });

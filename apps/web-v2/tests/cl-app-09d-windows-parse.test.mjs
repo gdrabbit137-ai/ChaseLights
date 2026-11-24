@@ -18,14 +18,14 @@ const subjectList = read("assets/subject-sets-list.js");
 // ---------------------------------------------------------------- registration
 test("patch-2: cache-bust stamps bumped for every touched asset (per-file rule)", () => {
   // CL-APP-09-p3 lands on top: the popup-anatomy commit re-stamps BOTH
-  // custom-places assets to clapp09e (monotonic per-file rule; patch-4);
+  // custom-places assets to clapp09f (monotonic per-file rule; patch-4);
   // patch-5 re-stamps the JS only (clapp09f); patch-6 -> clapp09h
-  assert.match(html, /assets\/custom-places\.js\?v=clapp09i/);
-  assert.doesNotMatch(html, /assets\/custom-places\.js\?v=clapp09e/);
+  assert.match(html, /assets\/custom-places\.js\?v=clapp09j/);
+  assert.doesNotMatch(html, /assets\/custom-places\.js\?v=clapp09f/);
   assert.match(html, /assets\/subject-sets\.js\?v=clapp09d/);
   assert.doesNotMatch(html, /assets\/custom-places\.js\?v=clapp08b/);
   assert.doesNotMatch(html, /assets\/subject-sets\.js\?v=clapp09c/);
-  assert.match(html, /assets\/custom-places\.css\?v=clapp09e/);
+  assert.match(html, /assets\/custom-places\.css\?v=clapp09f/);
   assert.doesNotMatch(html, /custom-places\.(css|js)\?v=clapp08b/);
   assert.match(remindersHtml, /assets\/subject-sets-library\.js\?v=clapp09d/);
   assert.match(subjectList, /追加2/);

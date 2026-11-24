@@ -263,4 +263,8 @@ body.cl-cp-lock{overflow:hidden}
      quick-view must not stretch into a full blank screen. The editor sheet
      keeps the 100vh keyboard fit (CL-APP-09b). */
   .cl-cp-overlay .cl-cp-modal.cl-cp-qv-modal{min-height:auto}
+  /* CL-UI-123: the subject LIST follows its content as well — a 0/5 list must
+     not stretch into a full blank screen (the editor sheet keeps the 100vh
+     keyboard fit above) */
+  .cl-cp-overlay .cl-cp-modal.cl-cp-list-modal{min-height:auto}
 }
