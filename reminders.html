@@ -125,6 +125,9 @@
     .rem-line3{margin-top:2px;min-width:0}
     .rem-cc-summary{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-3);
       overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+    /* CL-UX-01 Part B: 排程摘要同款 mono/muted，語意獨立於自訂條件那一行 */
+    .rem-sched-summary{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-3);
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
     /* ── 空狀態（design-system §9：dashed 框＋圖示＋主張＋動作鈕）── */
     .rem-empty{display:flex;flex-direction:column;align-items:center;gap:var(--cl-sp-2);
       padding:var(--cl-sp-6) var(--cl-sp-4);background:var(--cl-bg-1);
@@ -235,6 +238,61 @@
       .sslib-params{grid-template-columns:1fr}
       .sslib-quota{margin-left:0;width:100%}
       .sslib-row-actions{margin-left:0;width:100%}
+    }
+    /* ── CL-UX-01 Part B：預設提醒規則面板＋單點覆寫面板 ─────────────
+       同一組控制項（data-f 契約）用在預設面板與卡片內覆寫面板，讀值/寫值
+       共用 reminders-page.js 的 readSchedule/writeSchedule。 */
+    .rem-def-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:var(--cl-sp-3) var(--cl-sp-4)}
+    .rem-def-field{display:flex;flex-direction:column;gap:6px;min-width:0}
+    .rem-def-name{font-size:var(--cl-fs-12);color:var(--cl-text-2);font-weight:600}
+    .rem-def-opt{display:flex;align-items:center;gap:6px;font-size:var(--cl-fs-13);color:var(--cl-text-1);
+      min-height:32px;cursor:pointer}
+    .rem-def-opt input[type="radio"]{accent-color:var(--cl-green)}
+    .rem-def-field select{height:32px;padding:0 8px;border-radius:var(--cl-r-xs);border:1px solid var(--cl-border-strong);
+      background:var(--cl-bg-2);color:var(--cl-text-1);font-size:var(--cl-fs-13)}
+    .rem-def-wds{display:flex;flex-wrap:wrap;gap:4px}
+    .rem-def-wd{display:inline-flex;align-items:center;gap:4px;height:32px;min-height:32px;padding:0 8px;
+      border:1px solid var(--cl-border);border-radius:var(--cl-r-xs);background:var(--cl-bg-2);
+      color:var(--cl-text-1);font-size:var(--cl-fs-12);cursor:pointer}
+    .rem-def-wd input{accent-color:var(--cl-green);margin:0}
+    .rem-def-wd:has(input:checked){border-color:var(--cl-green-border);background:var(--cl-green-bg)}
+    .rem-def-wd:has(input:disabled){opacity:.45;cursor:default}
+    .rem-def-field input[type="time"]{height:32px;min-height:32px;padding:0 8px;border-radius:var(--cl-r-xs);
+      border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-1);
+      font-size:var(--cl-fs-13);width:100%;box-sizing:border-box}
+    .rem-def-summary{margin:var(--cl-sp-3) 0 0;font-family:var(--cl-mono);font-size:var(--cl-fs-12);
+      color:var(--cl-text-2);line-height:1.5}
+    .rem-def-acts{display:flex;gap:var(--cl-sp-2);margin-top:var(--cl-sp-3)}
+    /* 面板內的動作鈕（.rem-add-btn/.rem-edit-btn 在別處是子選擇器限定，這裡補齊） */
+    .rem-def-acts .rem-add-btn,.rem-ovr-acts .rem-add-btn{height:var(--cl-btn-h);min-height:36px;
+      padding:0 var(--cl-sp-4);border-radius:var(--cl-r-xs);border:1px solid var(--cl-border-strong);
+      background:var(--cl-bg-3);color:var(--cl-text-1);font-size:var(--cl-fs-13);font-weight:600;
+      white-space:nowrap;cursor:pointer}
+    .rem-def-acts .rem-add-btn:hover,.rem-ovr-acts .rem-add-btn:hover{background:var(--cl-bg-2)}
+    .rem-ovr-acts .rem-edit-btn{height:var(--cl-btn-h);min-height:36px;padding:0 var(--cl-sp-4);
+      border-radius:var(--cl-r-xs);border:1px solid var(--cl-border);background:var(--cl-bg-2);
+      color:var(--cl-text-2);font-size:var(--cl-fs-13);white-space:nowrap;cursor:pointer}
+    .rem-ovr-acts .rem-edit-btn:hover{background:var(--cl-bg-3);color:var(--cl-text-1);
+      border-color:var(--cl-border-strong)}
+    /* 卡片內覆寫面板：卡片轉 flex-wrap，面板整列獨占 */
+    .rem-card{flex-wrap:wrap}
+    .rem-ovr{flex:0 0 100%;margin-top:var(--cl-sp-3);padding-top:var(--cl-sp-3);
+      border-top:1px solid var(--cl-border)}
+    .rem-ovr[hidden]{display:none}
+    .rem-ovr-acts{display:flex;gap:var(--cl-sp-2);margin-top:var(--cl-sp-3);flex-wrap:wrap}
+    @media (max-width: 480px) {
+      .rem-def-grid{grid-template-columns:1fr}
+      .rem-ovr-acts .rem-add-btn,.rem-ovr-acts .rem-edit-btn{min-height:44px}
+      .rem-def-acts .rem-add-btn{min-height:44px;width:100%}
+      .rem-def-wd{min-height:44px}
+      /* 4 顆動作鈕在窄幅會把主文壓成細條：主文整列、動作鈕橫排在下方 */
+      .rem-main{flex:1 1 100%}
+      .rem-acts{flex-direction:row;flex-wrap:wrap;width:100%;justify-content:flex-end;
+        align-items:center;gap:var(--cl-sp-2)}
+      .rem-acts .rem-edit-btn,.rem-acts .rem-del{height:36px;min-height:36px}
+      /* 排程摘要句在窄幅換行，不讓「僅✓推薦」被省略號吃掉 */
+      .rem-sched-summary{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.45}
     }
   </style>
 </head>
@@ -361,6 +419,86 @@
       <p class="rem-hint" id="rem-flow-hint"></p>
     </section>
 
+    <!-- CL-UX-01 Part B: 預設提醒規則 — new reminders inherit these settings;
+         each card below can override them inline (修改此點規則). Controls share
+         the data-f contract read by reminders-page.js readSchedule/writeSchedule. -->
+    <section class="rem-panel" id="rem-def-panel" aria-labelledby="rem-def-title">
+      <h2 id="rem-def-title">預設提醒規則</h2>
+      <p class="rem-hint" id="rem-def-intro"></p>
+      <div class="rem-def-grid">
+        <div class="rem-def-field">
+          <span class="rem-def-name" id="rem-def-l-freq"></span>
+          <label class="rem-def-opt">
+            <input type="radio" name="rem-def-mode" data-f="mode" data-v="every_n" value="every_n" checked>
+            <span id="rem-def-l-every"></span>
+            <select id="rem-def-every" data-f="every_n" aria-label="每隔幾天">
+              <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
+              <option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option>
+            </select>
+          </label>
+          <label class="rem-def-opt">
+            <input type="radio" name="rem-def-mode" data-f="mode" data-v="weekdays" value="weekdays">
+            <span id="rem-def-l-weekdays"></span>
+          </label>
+          <div class="rem-def-wds" id="rem-def-wd-group">
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="0"><span class="rem-wd-t">日</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="1"><span class="rem-wd-t">一</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="2"><span class="rem-wd-t">二</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="3"><span class="rem-wd-t">三</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="4"><span class="rem-wd-t">四</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="5"><span class="rem-wd-t">五</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="6"><span class="rem-wd-t">六</span></label>
+          </div>
+        </div>
+        <label class="rem-def-field" for="rem-def-time">
+          <span class="rem-def-name" id="rem-def-l-time"></span>
+          <input id="rem-def-time" data-f="time" type="time" step="60" value="20:00">
+        </label>
+        <label class="rem-def-field" for="rem-def-lead">
+          <span class="rem-def-name" id="rem-def-l-lead"></span>
+          <select id="rem-def-lead" data-f="lead">
+            <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
+            <option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option>
+          </select>
+        </label>
+        <div class="rem-def-field">
+          <span class="rem-def-name" id="rem-def-l-target"></span>
+          <label class="rem-def-opt">
+            <input type="radio" name="rem-def-target" data-f="target_mode" data-v="any" value="any" checked>
+            <span id="rem-def-l-target-any"></span>
+          </label>
+          <label class="rem-def-opt">
+            <input type="radio" name="rem-def-target" data-f="target_mode" data-v="only" value="only">
+            <span id="rem-def-l-target-only"></span>
+          </label>
+          <div class="rem-def-wds" id="rem-def-twd-group">
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="0"><span class="rem-wd-t">日</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="1"><span class="rem-wd-t">一</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="2"><span class="rem-wd-t">二</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="3"><span class="rem-wd-t">三</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="4"><span class="rem-wd-t">四</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="5"><span class="rem-wd-t">五</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="6"><span class="rem-wd-t">六</span></label>
+          </div>
+        </div>
+        <div class="rem-def-field">
+          <span class="rem-def-name" id="rem-def-l-tier"></span>
+          <label class="rem-def-opt">
+            <input type="radio" name="rem-def-tier" data-f="min_tier" data-v="recommend" value="recommend" checked>
+            <span id="rem-def-l-recommend"></span>
+          </label>
+          <label class="rem-def-opt">
+            <input type="radio" name="rem-def-tier" data-f="min_tier" data-v="shootable" value="shootable">
+            <span id="rem-def-l-shootable"></span>
+          </label>
+        </div>
+      </div>
+      <p class="rem-def-summary" id="rem-def-summary" role="status"></p>
+      <div class="rem-def-acts">
+        <button type="button" id="rem-def-save" class="rem-add-btn">儲存</button>
+      </div>
+    </section>
+
     <section class="rem-panel" id="rem-list-panel" hidden>
       <h2 id="rem-list-title"></h2>
       <div id="rem-list"></div>
@@ -383,8 +521,8 @@
 
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui116"></script>
-  <script src="./assets/reminders-client.js?v=clui84"></script>
-  <script src="./assets/reminders-page.js?v=clui100"></script>
+  <script src="./assets/reminders-client.js?v=clui126"></script>
+  <script src="./assets/reminders-page.js?v=clui127"></script>
   <script src="./assets/subject-sets-library.js?v=clapp09d"></script>
   <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
   <footer class="site-footer">

@@ -19,6 +19,7 @@
   'use strict';
 
   var RULES_ENDPOINT = '/api/v1/notify/rules';
+  var DEFAULTS_ENDPOINT = '/api/v1/notify/defaults';
   var ME_ENDPOINT = '/api/v1/auth/me';
   var CATALOG_URL = './apps/web-v2/evaluations-latest.json';
   var REGIONS = [
@@ -77,7 +78,37 @@
       rem_cc_hint_window: '只在這個時段推播，起訖可跨午夜',
       rem_cc_hint_lead: '條件成立前這麼多分鐘通知你出發',
       rem_col_advance_min: '提前 {n} 分',
-      rem_cc_invalid: '自訂條件數值超出範圍，請再檢查。'
+      rem_cc_invalid: '自訂條件數值超出範圍，請再檢查。',
+      // CL-UX-01 Part B: 預設提醒規則＋單點覆寫（新鍵，既有鍵不動）
+      rem_def_title: '預設提醒規則',
+      rem_def_intro: '新提醒沿用這裡的設定；下方每一張提醒卡都可以個別覆寫。',
+      rem_def_freq: '發送頻率',
+      rem_def_mode_every: '每隔 N 天',
+      rem_def_mode_weekdays: '指定每星期幾',
+      rem_def_days: '星期',
+      rem_def_send_time: '發送時間',
+      rem_def_lead: '預報展望天數',
+      rem_def_target: '目標出景日',
+      rem_def_target_any: '不限星期',
+      rem_def_target_only: '只篩選',
+      rem_def_tier: '達標門檻',
+      rem_def_tier_recommend: '僅✓推薦',
+      rem_def_tier_shootable: '包含○可拍',
+      rem_def_save: '儲存',
+      rem_def_saved: '已儲存預設提醒規則。',
+      rem_def_err: '預設規則暫時無法儲存，請稍後再試。',
+      rem_def_loading: '正在載入預設規則…',
+      rem_def_inherited: '（預設）',
+      rem_def_every_n: '每 {n} 天',
+      rem_def_weekly: '每週{d}',
+      rem_def_lookahead: '看未來 {n} 天',
+      rem_def_target_days: '只看週{d}',
+      rem_def_no_days: '未選星期',
+      rem_edit_rule: '修改此點規則',
+      rem_def_save_rule: '儲存此點規則',
+      rem_def_reset: '恢復預設',
+      rem_def_rule_saved: '已更新此點規則。',
+      rem_def_rule_reset: '已恢復沿用預設規則。'
     },
     'en': {
       page_title: 'My Library', nav_cards: 'Cards', nav_weathermap: 'Weather map', nav_my: 'My Library', my_rem_tab: 'My reminders', my_subj_tab: 'My subjects',
@@ -126,7 +157,37 @@
       rem_cc_hint_window: 'Only notifies inside this window; it may cross midnight',
       rem_cc_hint_lead: 'You are notified this many minutes before conditions are met',
       rem_col_advance_min: '{n} min in advance',
-      rem_cc_invalid: 'Some custom-condition values are out of range — please check.'
+      rem_cc_invalid: 'Some custom-condition values are out of range — please check.',
+      // CL-UX-01 Part B: default reminder rule + per-rule override
+      rem_def_title: 'Default reminder rule',
+      rem_def_intro: 'New reminders inherit these settings; any card below can override them.',
+      rem_def_freq: 'Frequency',
+      rem_def_mode_every: 'Every N days',
+      rem_def_mode_weekdays: 'On chosen weekdays',
+      rem_def_days: 'Weekdays',
+      rem_def_send_time: 'Send time',
+      rem_def_lead: 'Forecast look-ahead',
+      rem_def_target: 'Target shooting day',
+      rem_def_target_any: 'Any weekday',
+      rem_def_target_only: 'Filter only',
+      rem_def_tier: 'Qualifying tier',
+      rem_def_tier_recommend: '✓ Recommended only',
+      rem_def_tier_shootable: 'Include ○ Shootable',
+      rem_def_save: 'Save',
+      rem_def_saved: 'Default reminder rule saved.',
+      rem_def_err: 'The default rule could not be saved; please try again later.',
+      rem_def_loading: 'Loading the default rule…',
+      rem_def_inherited: '(default)',
+      rem_def_every_n: 'Every {n} days',
+      rem_def_weekly: 'Every {d}',
+      rem_def_lookahead: 'Looking {n} days ahead',
+      rem_def_target_days: 'Only {d}',
+      rem_def_no_days: 'No weekday chosen',
+      rem_edit_rule: 'Edit this rule',
+      rem_def_save_rule: 'Save this rule',
+      rem_def_reset: 'Reset to default',
+      rem_def_rule_saved: 'This rule was updated.',
+      rem_def_rule_reset: 'This rule follows the default again.'
     },
     'ja': {
       page_title: 'マイライブラリ', nav_cards: 'カード', nav_weathermap: '天気マップ', nav_my: 'マイライブラリ', my_rem_tab: 'マイリマインダー', my_subj_tab: 'マイ題材',
@@ -175,11 +236,41 @@
       rem_cc_hint_window: 'この時間帯内のみ通知。開始終了は日跨み可',
       rem_cc_hint_lead: '条件成立のこの分数前に通知します',
       rem_col_advance_min: '{n} 分前に通知',
-      rem_cc_invalid: 'カスタム条件の値が範囲外です。確認してください。'
+      rem_cc_invalid: 'カスタム条件の値が範囲外です。確認してください。',
+      // CL-UX-01 Part B: 既定リマインダールール＋個別上書き
+      rem_def_title: '既定のリマインダールール',
+      rem_def_intro: '新しいリマインダーはこの設定を引き継ぎます。下の各カードで個別に上書きできます。',
+      rem_def_freq: '通知の頻度',
+      rem_def_mode_every: 'N 日ごと',
+      rem_def_mode_weekdays: '曜日を指定',
+      rem_def_days: '曜日',
+      rem_def_send_time: '通知時刻',
+      rem_def_lead: '予報の見通し日数',
+      rem_def_target: '狙う撮影日',
+      rem_def_target_any: '曜日の指定なし',
+      rem_def_target_only: '絞り込む',
+      rem_def_tier: '成立ライン',
+      rem_def_tier_recommend: '✓おすすめのみ',
+      rem_def_tier_shootable: '○撮影可も含む',
+      rem_def_save: '保存',
+      rem_def_saved: '既定のリマインダールールを保存しました。',
+      rem_def_err: '既定ルールを保存できませんでした。しばらくしてから再試行してください。',
+      rem_def_loading: '既定ルールを読み込み中…',
+      rem_def_inherited: '（既定）',
+      rem_def_every_n: '{n} 日ごと',
+      rem_def_weekly: '毎週{d}',
+      rem_def_lookahead: '今後 {n} 日先まで',
+      rem_def_target_days: '{d}のみ',
+      rem_def_no_days: '曜日未選択',
+      rem_edit_rule: 'このルールを変更',
+      rem_def_save_rule: 'このルールを保存',
+      rem_def_reset: '既定に戻す',
+      rem_def_rule_saved: 'このルールを更新しました。',
+      rem_def_rule_reset: '既定ルールを引き継ぐ設定に戻しました。'
     }
   };
 
-  var state = { lang: 'zh-TW', catalog: [], rules: [], signedIn: null };
+  var state = { lang: 'zh-TW', catalog: [], rules: [], signedIn: null, defaults: null };
 
   function lang() {
     var sel = document.getElementById('lang-select');
@@ -303,6 +394,227 @@
   }
   function trimNum(n) { return String(Math.round(n * 100) / 100); }
 
+  // ---- CL-UX-01 Part B: default schedule + per-rule override ----
+  // One control group (the data-f contract in reminders.html and in the card
+  // panels built by scheduleControlsHtml) is read back by readSchedule and
+  // written by writeSchedule, so the defaults panel and every rule's inline
+  // panel share exactly one implementation.
+  //
+  // Contract: schedule_weekdays / target_weekdays are CSV of 0..6 (0=Sunday),
+  // send_time is 'HH:MM' in the USER's timezone, so every write carries
+  // tz = Intl.DateTimeFormat().resolvedOptions().timeZone. null on a rule
+  // means "inherit the user default" (and null in a defaults PUT means
+  // "unset" — the backend falls back to its built-in schedule).
+  var SCHEDULE_FIELDS = ['schedule_mode', 'schedule_every_n', 'schedule_weekdays',
+    'send_time', 'lead_days', 'target_weekdays', 'min_tier'];
+  var WD_NAMES = {
+    'zh-TW': ['日', '一', '二', '三', '四', '五', '六'],
+    'en': ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    'ja': ['日', '月', '火', '水', '木', '金', '土']
+  };
+
+  function browserTz() {
+    try {
+      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      return tz || 'UTC';
+    } catch (e) { return 'UTC'; }
+  }
+  function tIn(key, lg) { var p = I18N[lg] || I18N['zh-TW']; return p[key] || I18N['zh-TW'][key] || ''; }
+  function modeOf(v) {
+    var s = String(v == null ? '' : v).toLowerCase();
+    return (s === 'weekdays' || s === 'weekly' || s === 'days') ? 'weekdays' : 'every_n';
+  }
+  function csvDays(v) {
+    var out = [];
+    String(v == null ? '' : v).split(',').forEach(function (part) {
+      var n = parseInt(String(part).trim(), 10);
+      if (n >= 0 && n <= 6 && out.indexOf(n) < 0) out.push(n);
+    });
+    out.sort(function (a, b) { return a - b; });
+    return out;
+  }
+  // Display order runs Monday → Sunday (owner wording: 「只看週六日」 reads
+  // 六 then 日), while the payload CSV stays numeric-sorted 0..6. compact=true
+  // drops the 、 separator — the owner's target-day wording 「只看週六日」.
+  var WD_DISPLAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
+  function dayNames(days, lg, compact) {
+    var names = WD_NAMES[lg] || WD_NAMES['zh-TW'];
+    var ordered = (days || []).slice().sort(function (a, b) {
+      return WD_DISPLAY_ORDER.indexOf(a) - WD_DISPLAY_ORDER.indexOf(b);
+    });
+    var sep = lg === 'en' ? ', ' : (compact ? '' : '、');
+    return ordered.map(function (d) { return names[d]; }).join(sep);
+  }
+  function clampInt(v, lo, hi, fallback) {
+    var n = parseInt(v, 10);
+    if (!Number.isFinite(n) || n < lo || n > hi) return fallback;
+    return n;
+  }
+  function blankDefaults() {
+    return { schedule_mode: 'every_n', schedule_every_n: 3, schedule_weekdays: '', send_time: '20:00',
+      lead_days: 3, target_weekdays: '', min_tier: 'recommend', channel: 'push', tz: browserTz() };
+  }
+  // Server payload -> the shape the controls expect (null = unset -> built-in).
+  function mergeDefaults(d) {
+    var out = blankDefaults();
+    if (d && typeof d === 'object') {
+      for (var i = 0; i < SCHEDULE_FIELDS.length; i++) {
+        var k = SCHEDULE_FIELDS[i];
+        if (d[k] !== null && d[k] !== undefined && String(d[k]).trim() !== '') out[k] = d[k];
+      }
+      if (d.channel) out.channel = d.channel;
+      if (d.tz) out.tz = d.tz;
+    }
+    out.schedule_mode = modeOf(out.schedule_mode);
+    out.schedule_every_n = clampInt(out.schedule_every_n, 1, 7, 3);
+    out.lead_days = clampInt(out.lead_days, 1, 7, 3);
+    out.send_time = CC_HM_RE.test(String(out.send_time)) ? String(out.send_time) : '20:00';
+    out.schedule_weekdays = csvDays(out.schedule_weekdays).join(',');
+    out.target_weekdays = csvDays(out.target_weekdays).join(',');
+    out.min_tier = String(out.min_tier) === 'shootable' ? 'shootable' : 'recommend';
+    return out;
+  }
+  function defOf() { return state.defaults || blankDefaults(); }
+
+  function scNode(root, field) { return root ? root.querySelector('[data-f="' + field + '"]') : null; }
+  function scNodes(root, field) { return root ? root.querySelectorAll('[data-f="' + field + '"]') : []; }
+  function scRadio(root, field) {
+    var el = root ? root.querySelector('[data-f="' + field + '"]:checked') : null;
+    return el ? el.getAttribute('data-v') : '';
+  }
+  function checkedDays(root, field) {
+    var els = scNodes(root, field), out = [];
+    for (var i = 0; i < els.length; i++) {
+      if (!els[i].checked) continue;
+      var n = parseInt(els[i].value, 10);
+      if (n >= 0 && n <= 6 && out.indexOf(n) < 0) out.push(n);
+    }
+    out.sort(function (a, b) { return a - b; });
+    return out;
+  }
+  // Sanitized write payload. Nulls mark the axis that this mode does not use
+  // (backend: null clears the override / falls back to the user default).
+  function readSchedule(root) {
+    var mode = modeOf(scRadio(root, 'mode') || 'every_n');
+    var everyEl = scNode(root, 'every_n');
+    var timeEl = scNode(root, 'time');
+    var leadEl = scNode(root, 'lead');
+    var targetOnly = scRadio(root, 'target_mode') === 'only';
+    var wd = checkedDays(root, 'wd');
+    var twd = targetOnly ? checkedDays(root, 'twd') : [];
+    return {
+      schedule_mode: mode,
+      schedule_every_n: mode === 'weekdays' ? null : clampInt(everyEl && everyEl.value, 1, 7, 3),
+      schedule_weekdays: mode === 'weekdays' ? wd.join(',') : null,
+      send_time: CC_HM_RE.test(String(timeEl && timeEl.value)) ? timeEl.value : '20:00',
+      lead_days: clampInt(leadEl && leadEl.value, 1, 7, 3),
+      target_weekdays: twd.length ? twd.join(',') : null,
+      min_tier: scRadio(root, 'min_tier') === 'shootable' ? 'shootable' : 'recommend',
+      tz: browserTz()
+    };
+  }
+  function setRadio(root, field, val) {
+    var els = scNodes(root, field);
+    for (var i = 0; i < els.length; i++) els[i].checked = els[i].getAttribute('data-v') === val;
+  }
+  function setDays(root, field, csv) {
+    var days = csvDays(csv), els = scNodes(root, field);
+    for (var i = 0; i < els.length; i++) els[i].checked = days.indexOf(parseInt(els[i].value, 10)) >= 0;
+  }
+  function writeSchedule(root, sch) {
+    if (!root) return;
+    var s = sch || blankDefaults();
+    setRadio(root, 'mode', modeOf(s.schedule_mode));
+    var everyEl = scNode(root, 'every_n');
+    if (everyEl) everyEl.value = String(clampInt(s.schedule_every_n, 1, 7, 3));
+    setDays(root, 'wd', s.schedule_weekdays);
+    var timeEl = scNode(root, 'time');
+    if (timeEl) timeEl.value = CC_HM_RE.test(String(s.send_time)) ? s.send_time : '20:00';
+    var leadEl = scNode(root, 'lead');
+    if (leadEl) leadEl.value = String(clampInt(s.lead_days, 1, 7, 3));
+    var twd = csvDays(s.target_weekdays);
+    setRadio(root, 'target_mode', twd.length ? 'only' : 'any');
+    setDays(root, 'twd', twd.join(','));
+    setRadio(root, 'min_tier', String(s.min_tier) === 'shootable' ? 'shootable' : 'recommend');
+    syncModes(root);
+  }
+  // The two frequency modes and the two target modes are mutually exclusive —
+  // only the live group stays operable (the other keeps its values).
+  function syncModes(root) {
+    if (!root) return;
+    var weekdays = modeOf(scRadio(root, 'mode') || 'every_n') === 'weekdays';
+    var everyEl = scNode(root, 'every_n');
+    if (everyEl) everyEl.disabled = weekdays;
+    var wds = scNodes(root, 'wd');
+    for (var i = 0; i < wds.length; i++) wds[i].disabled = !weekdays;
+    var only = scRadio(root, 'target_mode') === 'only';
+    var twds = scNodes(root, 'twd');
+    for (var j = 0; j < twds.length; j++) twds[j].disabled = !only;
+  }
+  function applyWeekdayLabels(root) {
+    if (!root) return;
+    var names = WD_NAMES[state.lang] || WD_NAMES['zh-TW'];
+    ['wd', 'twd'].forEach(function (field) {
+      var els = scNodes(root, field);
+      for (var i = 0; i < els.length; i++) {
+        var lbl = els[i].parentNode ? els[i].parentNode.querySelector('.rem-wd-t') : null;
+        if (lbl) lbl.textContent = names[parseInt(els[i].value, 10)] || '';
+      }
+    });
+  }
+
+  // Plain-language summary fragments (owner example:
+  // 「每週四、五 20:00 · 看未來 3 天 · 只看週六日 · 僅✓推薦」).
+  function scheduleParts(sch, lg) {
+    var s = sch || {};
+    var parts = [];
+    var time = CC_HM_RE.test(String(s.send_time)) ? s.send_time : '20:00';
+    if (modeOf(s.schedule_mode) === 'weekdays') {
+      var wd = csvDays(s.schedule_weekdays);
+      parts.push({
+        text: wd.length
+          ? tIn('rem_def_weekly', lg).replace('{d}', dayNames(wd, lg)) + ' ' + time
+          : tIn('rem_def_no_days', lg) + ' ' + time,
+        fields: ['schedule_mode', 'schedule_weekdays', 'send_time']
+      });
+    } else {
+      parts.push({
+        text: tIn('rem_def_every_n', lg).replace('{n}', String(clampInt(s.schedule_every_n, 1, 7, 3))) + ' ' + time,
+        fields: ['schedule_mode', 'schedule_every_n', 'send_time']
+      });
+    }
+    parts.push({ text: tIn('rem_def_lookahead', lg).replace('{n}', String(clampInt(s.lead_days, 1, 7, 3))), fields: ['lead_days'] });
+    var twd = csvDays(s.target_weekdays);
+    if (twd.length) parts.push({ text: tIn('rem_def_target_days', lg).replace('{d}', dayNames(twd, lg, true)), fields: ['target_weekdays'] });
+    parts.push({ text: tIn(String(s.min_tier) === 'shootable' ? 'rem_def_tier_shootable' : 'rem_def_tier_recommend', lg), fields: ['min_tier'] });
+    return parts;
+  }
+  // inherited = { field: true } for rule fields that fall back to the default.
+  // A partially-inheriting rule marks just the inherited fragments 「（預設）」;
+  // a rule that overrides nothing carries the suffix once at the end.
+  function scheduleSummary(sch, lg, inherited) {
+    var parts = scheduleParts(sch, lg);
+    var inh = inherited || {};
+    function owned(p) { return p.fields.every(function (f) { return !!inh[f]; }); }
+    var allInherited = parts.length > 0 && parts.every(owned);
+    var suffix = tIn('rem_def_inherited', lg);
+    var texts = parts.map(function (p) { return (owned(p) && !allInherited) ? p.text + suffix : p.text; });
+    return texts.join(' · ') + (allInherited ? ' ' + suffix : '');
+  }
+  // Effective schedule of a rule = its own field, else the user default.
+  function effectiveSchedule(rule, def) {
+    var base = def || blankDefaults();
+    var out = {}, inh = {};
+    for (var i = 0; i < SCHEDULE_FIELDS.length; i++) {
+      var f = SCHEDULE_FIELDS[i];
+      var raw = rule ? rule[f] : null;
+      var has = raw !== null && raw !== undefined && String(raw).trim() !== '';
+      inh[f] = !has;
+      out[f] = has ? raw : base[f];
+    }
+    return { schedule: mergeDefaults(out), inherited: inh };
+  }
+
   // ---- next-trigger / unfit-streak derivation (CL-UI-90 mockup anatomy) ----
   // Pure client-side derivation from the SAME evaluations bundle the page
   // already loads for the picker — no new API, no data-layer change.
@@ -423,7 +735,12 @@
       if (r.status === 401) { state.signedIn = false; state.rules = []; return; }
       if (!r.ok) throw new Error('HTTP ' + r.status);
       state.signedIn = true;
-      return r.json().then(function (b) { state.rules = (b && b.rules) || []; });
+      return r.json().then(function (b) {
+        state.rules = (b && b.rules) || [];
+        // The rules payload also carries the user defaults — keep the panel in
+        // sync without a second round-trip (CL-UX-01 Part B).
+        if (b && b.defaults) state.defaults = mergeDefaults(b.defaults);
+      });
     });
   }
   function patchRule(id, enabled) {
@@ -448,6 +765,36 @@
     }).then(function (r) { return r.json().then(function (b) { return { status: r.status, body: b }; }); });
   }
 
+  // CL-UX-01 Part B: the user's default schedule (GET) and its single write
+  // path (PUT). Both carry tz from the browser — send_time is user-local.
+  function fetchDefaults() {
+    return fetch(DEFAULTS_ENDPOINT, { headers: { Accept: 'application/json' } }).then(function (r) {
+      if (r.status === 401) throw new Error('HTTP 401');
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (b) {
+      state.defaults = mergeDefaults(b && b.defaults);
+      return state.defaults;
+    });
+  }
+  function saveDefaults() {
+    var panel = document.getElementById('rem-def-panel');
+    var payload = readSchedule(panel);
+    payload.channel = 'push';
+    return fetch(DEFAULTS_ENDPOINT, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (r) { return r.json().then(function (b) { return { status: r.status, body: b }; }); });
+  }
+  function patchRuleSchedule(id, payload) {
+    return fetch(RULES_ENDPOINT + '/' + encodeURIComponent(id), {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (r) { return r.json().then(function (b) { return { status: r.status, body: b }; }); });
+  }
+
   // ---- rendering ----
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -465,6 +812,162 @@
       subjName = subj ? nameOf(subj.name_i18n, state.lang) : rule.opportunity_id;
     }
     return { placeName: placeName, subjName: subjName };
+  }
+
+  // ---- CL-UX-01 Part B: defaults panel + per-rule override panel ----
+  function setText(id, key) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = t(key);
+  }
+  var ovrSeq = 0;
+  function wdBoxesHtml(field) {
+    var labels = WD_NAMES[state.lang] || WD_NAMES['zh-TW'];
+    var out = '';
+    for (var d = 0; d <= 6; d++) {
+      out += '<label class="rem-def-wd"><input type="checkbox" data-f="' + field + '" value="' + d + '">' +
+        '<span class="rem-wd-t">' + esc(labels[d]) + '</span></label>';
+    }
+    return out;
+  }
+  function numOptionsHtml() {
+    var out = '';
+    for (var n = 1; n <= 7; n++) out += '<option value="' + n + '">' + n + '</option>';
+    return out;
+  }
+  // The same control group as the defaults panel; labels are [data-l] keys
+  // filled by localizeLabels so a panel follows the language switcher.
+  function scheduleControlsHtml() {
+    var ns = 'rem-ovr-' + (++ovrSeq);
+    return '<div class="rem-def-grid">' +
+      '<div class="rem-def-field">' +
+        '<span class="rem-def-name" data-l="rem_def_freq"></span>' +
+        '<label class="rem-def-opt"><input type="radio" name="' + ns + '-mode" data-f="mode" data-v="every_n" value="every_n">' +
+          '<span data-l="rem_def_mode_every"></span><select data-f="every_n">' + numOptionsHtml() + '</select></label>' +
+        '<label class="rem-def-opt"><input type="radio" name="' + ns + '-mode" data-f="mode" data-v="weekdays" value="weekdays">' +
+          '<span data-l="rem_def_mode_weekdays"></span></label>' +
+        '<div class="rem-def-wds">' + wdBoxesHtml('wd') + '</div>' +
+      '</div>' +
+      '<label class="rem-def-field"><span class="rem-def-name" data-l="rem_def_send_time"></span>' +
+        '<input type="time" step="60" data-f="time"></label>' +
+      '<label class="rem-def-field"><span class="rem-def-name" data-l="rem_def_lead"></span>' +
+        '<select data-f="lead">' + numOptionsHtml() + '</select></label>' +
+      '<div class="rem-def-field">' +
+        '<span class="rem-def-name" data-l="rem_def_target"></span>' +
+        '<label class="rem-def-opt"><input type="radio" name="' + ns + '-target" data-f="target_mode" data-v="any" value="any">' +
+          '<span data-l="rem_def_target_any"></span></label>' +
+        '<label class="rem-def-opt"><input type="radio" name="' + ns + '-target" data-f="target_mode" data-v="only" value="only">' +
+          '<span data-l="rem_def_target_only"></span></label>' +
+        '<div class="rem-def-wds">' + wdBoxesHtml('twd') + '</div>' +
+      '</div>' +
+      '<div class="rem-def-field">' +
+        '<span class="rem-def-name" data-l="rem_def_tier"></span>' +
+        '<label class="rem-def-opt"><input type="radio" name="' + ns + '-tier" data-f="min_tier" data-v="recommend" value="recommend">' +
+          '<span data-l="rem_def_tier_recommend"></span></label>' +
+        '<label class="rem-def-opt"><input type="radio" name="' + ns + '-tier" data-f="min_tier" data-v="shootable" value="shootable">' +
+          '<span data-l="rem_def_tier_shootable"></span></label>' +
+      '</div></div>';
+  }
+  function localizeLabels(root) {
+    if (!root) return;
+    var els = root.querySelectorAll('[data-l]');
+    for (var i = 0; i < els.length; i++) {
+      var k = els[i].getAttribute('data-l');
+      if (t(k)) els[i].textContent = t(k);
+    }
+  }
+  function updateDefaultsSummary() {
+    var panel = document.getElementById('rem-def-panel');
+    var out = document.getElementById('rem-def-summary');
+    if (!panel || !out || !state.defaults) return;
+    out.textContent = scheduleSummary(readSchedule(panel), state.lang, {});
+  }
+  function updateOvrSummary(pnl) {
+    if (!pnl) return;
+    var out = pnl.querySelector('[data-ovr-summary]');
+    if (out) out.textContent = scheduleSummary(readSchedule(pnl), state.lang, {});
+  }
+  function renderDefaults() {
+    var panel = document.getElementById('rem-def-panel');
+    if (!panel) return;
+    // Non-DOM test stubs expose a plain object here — labels are the only
+    // thing they can take, so stop before touching the control tree.
+    if (typeof panel.querySelector !== 'function' || typeof panel.querySelectorAll !== 'function') return;
+    setText('rem-def-title', 'rem_def_title');
+    setText('rem-def-intro', 'rem_def_intro');
+    setText('rem-def-l-freq', 'rem_def_freq');
+    setText('rem-def-l-every', 'rem_def_mode_every');
+    setText('rem-def-l-weekdays', 'rem_def_mode_weekdays');
+    setText('rem-def-l-time', 'rem_def_send_time');
+    setText('rem-def-l-lead', 'rem_def_lead');
+    setText('rem-def-l-target', 'rem_def_target');
+    setText('rem-def-l-target-any', 'rem_def_target_any');
+    setText('rem-def-l-target-only', 'rem_def_target_only');
+    setText('rem-def-l-tier', 'rem_def_tier');
+    setText('rem-def-l-recommend', 'rem_def_tier_recommend');
+    setText('rem-def-l-shootable', 'rem_def_tier_shootable');
+    setText('rem-def-save', 'rem_def_save');
+    applyWeekdayLabels(panel);
+    var out = document.getElementById('rem-def-summary');
+    if (!state.defaults) {
+      if (out) out.textContent = t('rem_def_loading');
+      return;
+    }
+    // Write only when the server payload object changes — a language switch
+    // re-renders labels without stomping the user's in-progress edits.
+    if (panel._src !== state.defaults) { writeSchedule(panel, state.defaults); panel._src = state.defaults; }
+    syncModes(panel);
+    updateDefaultsSummary();
+  }
+  function focusRuleId() {
+    try { return new URLSearchParams(window.location.search).get('focus'); } catch (e) { return null; }
+  }
+  // ./reminders.html?focus=<rule id> — the card bell's 「修改此點規則」 deep
+  // link: scroll to that card and open its override panel.
+  var focusedOnce = false;
+  function applyFocusParam() {
+    var id = focusRuleId();
+    if (!id || focusedOnce) return;
+    var cards = document.querySelectorAll('#rem-list .rem-card');
+    for (var i = 0; i < cards.length; i++) {
+      if (cards[i].getAttribute('data-rule-id') !== id) continue;
+      var pnl = cards[i].querySelector('[data-rem-ovr]');
+      if (pnl) { pnl.hidden = false; syncModes(pnl); updateOvrSummary(pnl); }
+      focusedOnce = true;
+      try { cards[i].scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      catch (e) { cards[i].scrollIntoView(); }
+      return;
+    }
+  }
+  // 儲存此點規則: PATCH concrete values for every field (+ tz).
+  function saveRuleSchedule(ruleId, pnl) {
+    if (!pnl) return;
+    var payload = readSchedule(pnl);
+    patchRuleSchedule(ruleId, payload).then(function (res) {
+      if (res && res.status === 401) { state.signedIn = false; renderAll(); return; }
+      if (!res || !res.body || res.body.ok !== true) { showNotice('rem_err'); return; }
+      var next = (res.body && res.body.rule) ? res.body.rule : payload;
+      state.rules = state.rules.map(function (r) { return r.id === ruleId ? Object.assign({}, r, next) : r; });
+      showNotice('rem_def_rule_saved');
+      renderList();
+      if (window.ChaseLightsReminders) window.ChaseLightsReminders.refresh();
+    }).catch(function () { showNotice('rem_err'); });
+  }
+  // 恢復預設: explicit nulls clear every override so the rule inherits the
+  // user default again (backend contract: null = inherit).
+  function resetRuleSchedule(ruleId) {
+    var cleared = {
+      schedule_mode: null, schedule_every_n: null, schedule_weekdays: null,
+      send_time: null, lead_days: null, target_weekdays: null, min_tier: null,
+      tz: browserTz()
+    };
+    patchRuleSchedule(ruleId, cleared).then(function (res) {
+      if (res && res.status === 401) { state.signedIn = false; renderAll(); return; }
+      if (!res || !res.body || res.body.ok !== true) { showNotice('rem_err'); return; }
+      state.rules = state.rules.map(function (r) { return r.id === ruleId ? Object.assign({}, r, cleared) : r; });
+      showNotice('rem_def_rule_reset');
+      renderList();
+      if (window.ChaseLightsReminders) window.ChaseLightsReminders.refresh();
+    }).catch(function () { showNotice('rem_err'); });
   }
 
   function renderList() {
@@ -494,6 +997,10 @@
         ? esc(t('rem_col_advance_min').replace('{n}', String(cc.lead_minutes != null ? cc.lead_minutes : 60)))
         : esc(t('rem_col_advance').replace('{n}', String(rule.min_advance_hours != null ? rule.min_advance_hours : 24)));
       var summary = cc ? customSummary(cc, state.lang) : '';
+      // CL-UX-01 Part B: effective schedule line (rule value, else default)
+      // with 「（預設）」 on whatever the rule inherits.
+      var eff = effectiveSchedule(rule, defOf());
+      var schSummary = scheduleSummary(eff.schedule, state.lang, eff.inherited);
       return '<div class="rem-card' + (on ? '' : ' rem-off') + '" data-rule-id="' + esc(rule.id) + '">' +
         '<div class="rem-main">' +
         '<div class="rem-line1"><span class="rem-place">' + esc(names.placeName) + '</span>' +
@@ -502,15 +1009,42 @@
         advance + '</span>' +
         nextStatusHtml(rule) +
         '</div>' +
+        '<div class="rem-line3"><span class="rem-sched-summary" data-rem-sched-summary>' + esc(schSummary) + '</span></div>' +
         (summary ? '<div class="rem-line3"><span class="rem-cc-summary">' + esc(summary) + '</span></div>' : '') +
         '</div>' +
         '<div class="rem-acts">' +
         '<button type="button" class="rem-switch' + (on ? ' rem-on' : '') + '" data-rem-toggle role="switch"' +
         ' aria-checked="' + (on ? 'true' : 'false') + '" aria-label="' + esc(on ? t('rem_enabled') : t('rem_disabled')) + '"></button>' +
+        '<button type="button" class="rem-edit-btn" data-rem-sched>' + esc(t('rem_edit_rule')) + '</button>' +
         '<button type="button" class="rem-edit-btn" data-rem-edit>' + esc(t('rem_edit')) + '</button>' +
         '<button type="button" class="rem-del" data-rem-delete>' + esc(t('rem_delete')) + '</button>' +
-        '</div></div>';
+        '</div>' +
+        '<div class="rem-ovr" data-rem-ovr hidden>' +
+        '<p class="rem-cc-title">' + esc(t('rem_edit_rule')) + '</p>' +
+        scheduleControlsHtml() +
+        '<p class="rem-def-summary" data-ovr-summary></p>' +
+        '<div class="rem-ovr-acts">' +
+        '<button type="button" class="rem-add-btn" data-rem-sched-save>' + esc(t('rem_def_save_rule')) + '</button>' +
+        '<button type="button" class="rem-edit-btn" data-rem-sched-reset>' + esc(t('rem_def_reset')) + '</button>' +
+        '</div></div>' +
+        '</div>';
     }).join('');
+    // Prefill each override panel with the rule's EFFECTIVE values. A stub
+    // list element (tests) cannot be queried — skip the post-pass there.
+    if (typeof list.querySelectorAll !== 'function' || typeof list.querySelector !== 'function') return;
+    var cards = list.querySelectorAll('.rem-card');
+    for (var ci = 0; ci < cards.length; ci++) {
+      var pnl = cards[ci].querySelector('[data-rem-ovr]');
+      if (!pnl) continue;
+      var rid = cards[ci].getAttribute('data-rule-id');
+      var target = null;
+      for (var ri = 0; ri < state.rules.length; ri++) if (state.rules[ri].id === rid) target = state.rules[ri];
+      localizeLabels(pnl);
+      applyWeekdayLabels(pnl);
+      writeSchedule(pnl, effectiveSchedule(target, defOf()).schedule);
+      updateOvrSummary(pnl);
+    }
+    applyFocusParam();
   }
 
   function renderLoginPanel() {
@@ -692,6 +1226,7 @@
     var state0 = document.getElementById('rem-state');
     if (state0 && !notice) state0.textContent = state.signedIn === null ? t('rem_loading') : '';
     renderLoginPanel();
+    renderDefaults();
     renderList();
     renderQuickAdd();
   }
@@ -703,6 +1238,36 @@
       try { localStorage.setItem('chaselights_lang', state.lang); } catch (e) { /* private mode */ }
       renderAll();
     });
+    // CL-UX-01 Part B: defaults panel — live summary + mode exclusivity + save.
+    var defPanel = document.getElementById('rem-def-panel');
+    if (defPanel) {
+      defPanel.addEventListener('change', function () { syncModes(defPanel); updateDefaultsSummary(); });
+      defPanel.addEventListener('input', function () { updateDefaultsSummary(); });
+    }
+    var defSave = document.getElementById('rem-def-save');
+    if (defSave) defSave.addEventListener('click', function () {
+      if (state.signedIn === false) { showNotice('rem_login_prompt'); return; }
+      saveDefaults().then(function (res) {
+        if (res && res.status === 401) { state.signedIn = false; renderAll(); return; }
+        if (!res || !res.body || res.body.ok !== true) { showNotice('rem_def_err'); return; }
+        state.defaults = mergeDefaults((res.body && res.body.defaults) || readSchedule(defPanel));
+        showNotice('rem_def_saved');
+        renderDefaults();
+        // Every inherited card line now shows the new default values.
+        renderList();
+        if (window.ChaseLightsReminders) window.ChaseLightsReminders.refresh();
+      }).catch(function () { showNotice('rem_def_err'); });
+    });
+    // A rule's override panel keeps its own one-line summary live.
+    var remListEl = document.getElementById('rem-list');
+    function ovrChanged(e) {
+      var pnl = e.target && e.target.closest ? e.target.closest('[data-rem-ovr]') : null;
+      if (!pnl) return;
+      syncModes(pnl);
+      updateOvrSummary(pnl);
+    }
+    remListEl.addEventListener('change', ovrChanged);
+    remListEl.addEventListener('input', ovrChanged);
     document.getElementById('rem-region').addEventListener('change', function () { renderPlaceOptions(); renderPreview(); });
     document.getElementById('rem-place').addEventListener('change', function () { renderSubjectOptions(); renderPreview(); });
     document.getElementById('rem-subject').addEventListener('change', function () {
@@ -731,6 +1296,23 @@
       var row = e.target.closest ? e.target.closest('.rem-card') : null;
       if (!row) return;
       var ruleId = row.getAttribute('data-rule-id');
+      // CL-UX-01 Part B: per-rule schedule override panel
+      if (e.target.matches && e.target.matches('[data-rem-sched]')) {
+        var ovr = row.querySelector('[data-rem-ovr]');
+        if (ovr) {
+          ovr.hidden = !ovr.hidden;
+          if (!ovr.hidden) { syncModes(ovr); updateOvrSummary(ovr); }
+        }
+        return;
+      }
+      if (e.target.matches && e.target.matches('[data-rem-sched-save]')) {
+        saveRuleSchedule(ruleId, row.querySelector('[data-rem-ovr]'));
+        return;
+      }
+      if (e.target.matches && e.target.matches('[data-rem-sched-reset]')) {
+        resetRuleSchedule(ruleId);
+        return;
+      }
       if (e.target.matches && e.target.matches('[data-rem-delete]')) {
         deleteRule(ruleId).then(function (res) {
           if (!res || !res.body || res.body.ok !== true) { showNotice('rem_err'); return; }
@@ -846,9 +1428,15 @@
     // then fetch rules ONLY while signed in. Signed-out visitors get the
     // 「請先登入」 panel with the login buttons — never the sync-error wording.
     checkSignedIn().then(function (signed) {
-      renderAll();
-      if (!signed) return null;
-      return reload();
+      if (!signed) {
+        // Signed-out visitors still see a usable panel (built-in defaults).
+        state.defaults = state.defaults || blankDefaults();
+        renderAll();
+        return null;
+      }
+      // Defaults first: every card summary shows rule value or the default.
+      return fetchDefaults().catch(function () { state.defaults = state.defaults || blankDefaults(); })
+        .then(function () { renderAll(); return reload(); });
     }).catch(function () {
       // Only a signed-in rules failure reaches here as a sync error; the
       // signed-out branch renders the login panel instead (CL-UI-61).
@@ -882,6 +1470,24 @@
     renderCustomPanel: renderCustomPanel,
     renderSubjectOptions: renderSubjectOptions,
     CC_CUSTOM_ID: CC_CUSTOM_ID,
-    CC_DEFAULTS: CC_DEFAULTS
+    CC_DEFAULTS: CC_DEFAULTS,
+    // CL-UX-01 Part B: default schedule + per-rule override
+    fetchDefaults: fetchDefaults,
+    saveDefaults: saveDefaults,
+    patchRuleSchedule: patchRuleSchedule,
+    readSchedule: readSchedule,
+    writeSchedule: writeSchedule,
+    syncModes: syncModes,
+    mergeDefaults: mergeDefaults,
+    blankDefaults: blankDefaults,
+    effectiveSchedule: effectiveSchedule,
+    scheduleSummary: scheduleSummary,
+    scheduleParts: scheduleParts,
+    browserTz: browserTz,
+    renderDefaults: renderDefaults,
+    applyFocusParam: applyFocusParam,
+    saveRuleSchedule: saveRuleSchedule,
+    resetRuleSchedule: resetRuleSchedule,
+    WD_NAMES: WD_NAMES
   };
 })();

@@ -76,9 +76,16 @@ test('CL-UI-58 (2): client wires the real notify_rules contract (POST/PATCH/DELE
   const post = await rem._internals.createRule('tw-001', 'tw-001-P01');
   assert.equal(post.status, 200);
   const postCall = calls.find(c => c.method === 'POST');
-  assert.deepEqual(JSON.parse(postCall.body), {
-    placeId: 'tw-001', opportunityId: 'tw-001-P01', channel: 'push', minAdvanceHours: 24
-  });
+  // CL-UX-01 Part B: the body carries the browser timezone so the server can
+  // resolve the user's inherited send_time; the rest of the contract is intact.
+  const postBody = JSON.parse(postCall.body);
+  assert.equal(postBody.placeId, 'tw-001');
+  assert.equal(postBody.opportunityId, 'tw-001-P01');
+  assert.equal(postBody.channel, 'push');
+  assert.equal(postBody.minAdvanceHours, 24);
+  assert.equal(typeof postBody.tz, 'string');
+  assert.ok(postBody.tz.length > 0, 'tz rides along (IANA string)');
+  assert.equal(postBody.schedule_mode, undefined, 'no schedule fields -> inherits the user default');
   assert.equal(postCall.url, '/api/v1/notify/rules');
   assert.equal(postCall.body.indexOf('channel'), postCall.body.indexOf('channel'), 'body is a JSON string');
 
@@ -241,8 +248,8 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui116/);
   assert.match(remHtml, /assets\/app\.css\?v=clui121/);
   assert.match(remHtml, /assets\/member-auth\.js\?v=clui116/);
-  assert.match(remHtml, /assets\/reminders-client\.js\?v=clui84/);
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui100/);
+  assert.match(remHtml, /assets\/reminders-client\.js\?v=clui126/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui127/);
   // Login panel + login deep links present (OAuth 302 anchors, per CL-UI-53).
   assert.match(remHtml, /rem-login-panel/);
   assert.match(pageJs, /\/api\/v1\/auth\/line\/start/);
@@ -251,7 +258,7 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /max-width: 390px/);
   assert.match(remHtml, /min-height:44px|min-height: 44px/);
   // The homepage loads the card-side client and carries the bumped stamps.
-  assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui84/);
+  assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui126/);
   assert.match(indexHtml, /assets\/app\.js\?v=clui125/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui121/);
 });

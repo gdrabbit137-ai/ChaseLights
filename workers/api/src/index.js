@@ -14,7 +14,7 @@ const RATE_LIMITS = {
 function rateClass(path, method) {
   if (
     method === "GET" &&
-    /^\/(auth\/me$|auth\/config$|auth\/link\/status$|favorites$|notify\/rules$|evaluations$|catalog\/digests$|health$|feedback$|feedback\/config$|admin\/feedback$|custom_places$|conditions\/parse$|subject_sets$|subject_sets\/eval$|subject_sets\/eval_batch$)/.test(path)
+    /^\/(auth\/me$|auth\/config$|auth\/link\/status$|favorites$|notify\/rules$|notify\/defaults$|evaluations$|catalog\/digests$|health$|feedback$|feedback\/config$|admin\/feedback$|custom_places$|conditions\/parse$|subject_sets$|subject_sets\/eval$|subject_sets\/eval_batch$)/.test(path)
   ) return "read";
   if (/^\/auth\/(line|google|apple)\/callback$|^\/auth\/mock\/start$|^\/auth\/refresh$/.test(path)) return "auth";
   return "write";
@@ -24,7 +24,7 @@ import {
   cookieHeader, SESSION_COOKIE, REFRESH_COOKIE, authSecret, MERGE_SQL, verifyJWT,
   appleClientSecret, verifyAppleIdToken, resolvePrimaryDeviceId,
 } from "./auth.js";
-import { runNotifyCron, validateCustomConditions, parseCustomConditions } from "./notify.js";
+import { runNotifyCron, validateCustomConditions, parseCustomConditions, validateScheduleFields } from "./notify.js";
 import {
   handleFeedback, handleFeedbackSubmit, handleFeedbackDelete,
   handleAdminFeedbackList, handleAdminFeedbackReview, feedbackEnabled,
@@ -692,6 +692,31 @@ const NOTIFY_RULE_LIMIT_MESSAGES = {
   },
 };
 
+// CL-UX-01: the member's schedule defaults row (NULL when never saved). A
+// missing table (migration not applied yet) reads as "no defaults" rather than
+// failing the endpoint.
+async function loadNotifyDefaults(env, uid) {
+  try {
+    const row = await env.DB.prepare(
+      "SELECT schedule_mode, schedule_every_n, schedule_weekdays, send_time, lead_days, target_weekdays, min_tier, channel, tz FROM notify_defaults WHERE user_id = ?1"
+    ).bind(uid).first();
+    return row || null;
+  } catch {
+    return null;
+  }
+}
+
+// camelCase echo of the schedule fields supplied at creation (response only).
+function scheduleEcho(fields) {
+  const map = {
+    schedule_mode: "scheduleMode", schedule_every_n: "scheduleEveryN", schedule_weekdays: "scheduleWeekdays",
+    send_time: "sendTime", lead_days: "leadDays", target_weekdays: "targetWeekdays", min_tier: "minTier", tz: "tz",
+  };
+  const out = {};
+  for (const [k, camel] of Object.entries(map)) if (fields[k] != null) out[camel] = fields[k];
+  return out;
+}
+
 async function handleNotifyRules(req, env) {
   const session = await requireSession(req, env);
   if (!session) return json(req, 401, { error: "JWT session required" });
@@ -700,14 +725,19 @@ async function handleNotifyRules(req, env) {
 
   if (req.method === "GET") {
     const { results } = await env.DB.prepare(
-      "SELECT id, place_id, opportunity_id, channel, min_advance_hours, custom_conditions, enabled, created_at FROM notify_rules WHERE user_id = ?1 ORDER BY created_at DESC"
+      "SELECT id, place_id, opportunity_id, channel, min_advance_hours, custom_conditions, enabled, created_at, " +
+      "schedule_mode, schedule_every_n, schedule_weekdays, send_time, lead_days, target_weekdays, min_tier, tz, last_sent_at " +
+      "FROM notify_rules WHERE user_id = ?1 ORDER BY created_at DESC"
     ).bind(uid).all();
     // CL-UI-99: custom_conditions round-trips as a parsed object (null = subject mode).
     const rules = (results || []).map((r) => {
       const cc = parseCustomConditions(r.custom_conditions);
       return cc ? { ...r, custom_conditions: cc } : r;
     });
-    return json(req, 200, { userId: uid, level, rules });
+    // CL-UX-01: the caller's effective defaults travel with the list so the
+    // reminders UI can render "inherit" vs "override" honestly.
+    const defaults = await loadNotifyDefaults(env, uid);
+    return json(req, 200, { userId: uid, level, rules, defaults: defaults || null });
   }
 
   if (req.method === "POST") {
@@ -728,6 +758,12 @@ async function handleNotifyRules(req, env) {
     if (ccRes.cc && opportunityId) {
       return json(req, 400, { error: "customConditions and opportunityId are mutually exclusive (subject mode or custom mode)" });
     }
+
+    // CL-UX-01 Part B: optional schedule fields. Absent = NULL = inherit from
+    // the member's notify_defaults row (and all-NULL keeps the legacy engine).
+    const schRes = validateScheduleFields(body || {});
+    if (!schRes.ok) return json(req, 400, { error: schRes.error });
+    const sf = schRes.fields || {};
 
     const freeAsPaid = level !== "owner" && level !== "paid" ? await memberFreeAsPaid(env) : false;
     const effLevel = effectiveMemberLevel(level, freeAsPaid);
@@ -751,13 +787,74 @@ async function handleNotifyRules(req, env) {
       .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
     const ccJson = ccRes.cc ? JSON.stringify(ccRes.cc) : null;
     await env.DB.prepare(
-      "INSERT INTO notify_rules (id, user_id, place_id, opportunity_id, channel, min_advance_hours, custom_conditions) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)"
-    ).bind(id, uid, placeId, opportunityId, channel, advance, ccJson).run();
+      "INSERT INTO notify_rules (id, user_id, place_id, opportunity_id, channel, min_advance_hours, custom_conditions, " +
+      "schedule_mode, schedule_every_n, schedule_weekdays, send_time, lead_days, target_weekdays, min_tier, tz) " +
+      "VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15)"
+    ).bind(
+      id, uid, placeId, opportunityId, channel, advance, ccJson,
+      sf.schedule_mode != null ? sf.schedule_mode : null,
+      sf.schedule_every_n != null ? sf.schedule_every_n : null,
+      sf.schedule_weekdays != null ? sf.schedule_weekdays : null,
+      sf.send_time != null ? sf.send_time : null,
+      sf.lead_days != null ? sf.lead_days : null,
+      sf.target_weekdays != null ? sf.target_weekdays : null,
+      sf.min_tier != null ? sf.min_tier : null,
+      sf.tz != null ? sf.tz : null
+    ).run();
     const rule = { id, placeId, opportunityId, channel, minAdvanceHours: advance };
     if (ccRes.cc) rule.customConditions = ccRes.cc;
+    const sched = scheduleEcho(sf);
+    if (Object.keys(sched).length) rule.schedule = sched;
     return json(req, 200, { ok: true, rule, count: count + 1, limit });
   }
   return json(req, 405, { error: "method not allowed" });
+}
+
+// CL-UX-01 Part B: per-member schedule defaults.
+// GET  /notify/defaults — the caller's row (null when never saved).
+// PUT  /notify/defaults — validate then upsert; absent field = NULL = inherit
+// for every rule of this member. JWT only, same helper as the rules routes.
+async function handleNotifyDefaults(req, env) {
+  const session = await requireSession(req, env);
+  if (!session) return json(req, 401, { error: "JWT session required" });
+
+  if (req.method === "GET") {
+    const defaults = await loadNotifyDefaults(env, session.sub);
+    return json(req, 200, { ok: true, defaults: defaults || null });
+  }
+  if (req.method !== "PUT" && req.method !== "POST") return json(req, 405, { error: "method not allowed" });
+
+  const body = await req.json().catch(() => null);
+  if (!body || typeof body !== "object" || Array.isArray(body)) return json(req, 400, { error: "body required" });
+  const v = validateScheduleFields(body);
+  if (!v.ok) return json(req, 400, { error: v.error });
+  const f = v.fields || {};
+  let channel = null;
+  if (body.channel !== undefined && body.channel !== null && body.channel !== "") {
+    channel = String(body.channel);
+    if (!NOTIFY_CHANNELS.has(channel)) return json(req, 400, { error: "channel must be push, telegram or web_push" });
+  }
+
+  await env.DB.prepare(
+    "INSERT INTO notify_defaults (user_id, schedule_mode, schedule_every_n, schedule_weekdays, send_time, lead_days, target_weekdays, min_tier, channel, tz, updated_at) " +
+    "VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, datetime('now')) " +
+    "ON CONFLICT(user_id) DO UPDATE SET schedule_mode = ?2, schedule_every_n = ?3, schedule_weekdays = ?4, send_time = ?5, " +
+    "lead_days = ?6, target_weekdays = ?7, min_tier = ?8, channel = ?9, tz = ?10, updated_at = datetime('now')"
+  ).bind(
+    session.sub,
+    f.schedule_mode != null ? f.schedule_mode : null,
+    f.schedule_every_n != null ? f.schedule_every_n : null,
+    f.schedule_weekdays != null ? f.schedule_weekdays : null,
+    f.send_time != null ? f.send_time : null,
+    f.lead_days != null ? f.lead_days : null,
+    f.target_weekdays != null ? f.target_weekdays : null,
+    f.min_tier != null ? f.min_tier : null,
+    channel,
+    f.tz != null ? f.tz : null
+  ).run();
+
+  const defaults = await loadNotifyDefaults(env, session.sub);
+  return json(req, 200, { ok: true, defaults: defaults || null });
 }
 
 async function handleNotifyRuleDelete(req, env, ruleId) {
@@ -1119,6 +1216,7 @@ export default {
 
     // --- notify engine (CL-API-03, JWT-only) ---
     if (path === "/notify/rules") return handleNotifyRules(request, env);
+    if (path === "/notify/defaults") return handleNotifyDefaults(request, env);
     {
       const dm = path.match(/^\/notify\/rules\/([\w-]+)$/);
       if (dm && request.method === "DELETE") return handleNotifyRuleDelete(request, env, dm[1]);

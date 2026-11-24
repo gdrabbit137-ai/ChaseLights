@@ -37,7 +37,11 @@
       rem_saved: '已加入提醒，條件符合時將透過 APP 推播通知。',
       rem_removed: '已移除提醒。',
       rem_err: '提醒暫時無法同步，請稍後再試。',
-      rem_limit: '提醒數量已達方案上限，請先移除部分提醒。'
+      rem_limit: '提醒數量已達方案上限，請先移除部分提醒。',
+      // CL-UX-01 Part B: one-tap bell → default rule + dismissible bottom bar
+      rem_bar_applied: '已套用預設提醒規則',
+      rem_edit_rule: '修改此點規則',
+      rem_bar_ok: '知道了'
     },
     'en': {
       rem_add: '🔔 Add reminder',
@@ -48,7 +52,11 @@
       rem_saved: 'Reminder added — you will be notified via app push when conditions qualify.',
       rem_removed: 'Reminder removed.',
       rem_err: 'Reminders could not be synced right now; please try again later.',
-      rem_limit: 'Reminder limit reached for your plan — remove some reminders first.'
+      rem_limit: 'Reminder limit reached for your plan — remove some reminders first.',
+      // CL-UX-01 Part B: one-tap bell → default rule + dismissible bottom bar
+      rem_bar_applied: 'Default reminder rule applied',
+      rem_edit_rule: 'Edit this rule',
+      rem_bar_ok: 'Got it'
     },
     'ja': {
       rem_add: '🔔 リマインダー追加',
@@ -59,7 +67,11 @@
       rem_saved: 'リマインダーを追加しました。条件が揃うとアプリのプッシュ通知でお知らせします。',
       rem_removed: 'リマインダーを削除しました。',
       rem_err: 'リマインダーを同期できませんでした。しばらくしてから再試行してください。',
-      rem_limit: 'リマインダー数がプランの上限に達しました。先に一部を削除してください。'
+      rem_limit: 'リマインダー数がプランの上限に達しました。先に一部を削除してください。',
+      // CL-UX-01 Part B: one-tap bell → default rule + dismissible bottom bar
+      rem_bar_applied: '既定のリマインダールールを適用しました',
+      rem_edit_rule: 'このルールを変更',
+      rem_bar_ok: '了解'
     }
   };
 
@@ -88,6 +100,53 @@
       noticeTimer = setTimeout(function () { if (notice) notice.hidden = true; }, 6000);
     } catch (e) { /* no body yet — notices are best-effort */ }
   }
+
+  // ---- CL-UX-01 Part B: tz + the post-add bottom bar ----
+  // send_time on the server is 'HH:MM' in the USER's own timezone, so every
+  // rule write carries the browser's IANA zone. The bell POST sends NO
+  // schedule fields — the rule inherits the user's default server-side.
+  function browserTz() {
+    try {
+      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      return tz || 'UTC';
+    } catch (e) { return 'UTC'; }
+  }
+  function escHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  // Lightweight dismissible bottom bar (index.html has no CSS hook for this
+  // module, so the bar styles itself inline like .rem-notice above).
+  var bar = null;
+  function hideRuleBar() { if (bar) { bar.style.display = 'none'; bar.hidden = true; } }
+  function showRuleBar(ruleId) {
+    try {
+      if (!bar) {
+        bar = document.createElement('div');
+        bar.className = 'rem-bar';
+        bar.setAttribute('role', 'status');
+        bar.style.cssText = 'position:fixed;bottom:64px;left:12px;right:12px;margin:0 auto;max-width:420px;' +
+          'display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid #475569;' +
+          'background:#111827;color:#e2e8f0;font-size:13px;border-radius:8px;z-index:10002';
+        document.body.appendChild(bar);
+      }
+      var href = './reminders.html' + (ruleId ? '?focus=' + encodeURIComponent(String(ruleId)) : '');
+      bar.innerHTML =
+        '<span class="rem-bar-text" style="flex:1;min-width:0">' + escHtml(t('rem_bar_applied')) + '</span>' +
+        '<a class="rem-bar-edit" href="' + escHtml(href) + '" style="flex:none;color:#7dd3fc;text-decoration:none;' +
+          'border:1px solid #475569;border-radius:6px;padding:4px 8px;font-size:12px">' + escHtml(t('rem_edit_rule')) + '</a>' +
+        '<button type="button" class="rem-bar-ok" style="flex:none;background:transparent;border:1px solid #475569;' +
+          'border-radius:6px;padding:4px 8px;color:#e2e8f0;font-size:12px;cursor:pointer">' + escHtml(t('rem_bar_ok')) + '</button>';
+      bar.style.display = 'flex';
+      bar.hidden = false;
+    } catch (e) { /* no body yet — the bar is best-effort */ }
+  }
+  document.addEventListener('click', function (e) {
+    var okBtn = e.target && e.target.closest ? e.target.closest('.rem-bar-ok') : null;
+    if (okBtn) { e.preventDefault(); hideRuleBar(); }
+  });
 
   // ---- state ----
   // rulesByKey: "placeId|oppId" -> rule object (oppId '' = any-subject rule).
@@ -172,9 +231,11 @@
   }
 
   function createRule(placeId, oppId, cc) {
+    // tz rides along so the server resolves the inherited send_time against
+    // the user's own timezone; no schedule fields here (inherit the default).
     var body = cc
-      ? { placeId: placeId, channel: 'push', minAdvanceHours: 24, customConditions: cc }
-      : { placeId: placeId, opportunityId: oppId || undefined, channel: 'push', minAdvanceHours: 24 };
+      ? { placeId: placeId, channel: 'push', minAdvanceHours: 24, tz: browserTz(), customConditions: cc }
+      : { placeId: placeId, opportunityId: oppId || undefined, channel: 'push', minAdvanceHours: 24, tz: browserTz() };
     return fetch(RULES_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -234,6 +295,14 @@
       if (res && res.status === 402) { showNotice('rem_limit'); return; }
       if (!res || !res.body || res.body.ok !== true) { showNotice('rem_err'); return; }
       showNotice(rule ? 'rem_removed' : 'rem_saved');
+      if (rule) {
+        hideRuleBar();
+      } else {
+        // One-tap add: the rule now runs on the user's default schedule, so
+        // offer the shortcut into its per-rule override panel.
+        var created = res.body && res.body.rule;
+        showRuleBar(created ? created.id : null);
+      }
       return refresh();
     }).catch(function () {
       showNotice('rem_err');
@@ -285,6 +354,9 @@
     reindex: reindex,
     t: t,
     lang: lang,
+    showRuleBar: showRuleBar,
+    hideRuleBar: hideRuleBar,
+    browserTz: browserTz,
     _internals: { fetchRules: fetchRules, checkSignedIn: checkSignedIn, createRule: createRule, deleteRule: deleteRule, onCardClick: onCardClick }
   };
 })();
