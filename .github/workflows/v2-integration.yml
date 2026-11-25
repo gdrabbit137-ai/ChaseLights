@@ -65,6 +65,10 @@ jobs:
             /NAVIGATION_SPEC_R4_2.md
             /CNAME
             /index.html
+            # CL-PAGES-01: 404.html is part of the publish whitelist; absent
+            # from the checkout it silently drops out of dist and the build
+            # contract reds (it also keeps index.html fallback off the site).
+            /404.html
             # CL-PAGES-01: the publish contract (ops/pages/test_build_dist.py)
             # builds dist/ from this checkout; without ops/pages the step dies
             # with ENOENT instead of guarding the whitelist.
