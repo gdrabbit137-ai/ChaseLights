@@ -37,6 +37,7 @@ permissions:
 jobs:
   publish-weathergrid:
     runs-on: ubuntu-latest
+    if: false  # CL-PAGES-09: superseded by chaselights-data-workers
     # CL-CI-02: GFS (5 regions) + ICON (5 regions) + CWA + publish now needs
     # ~45+ min; the previous 45-min job budget cancelled the run mid-ICON
     # fetch, so nothing was published after 11/03. 90 min gives headroom.

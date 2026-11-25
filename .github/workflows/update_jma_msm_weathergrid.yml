@@ -31,6 +31,7 @@ permissions:
 jobs:
   publish-jma-msm:
     runs-on: ubuntu-latest
+    if: false  # CL-PAGES-09: superseded by chaselights-data-workers
     timeout-minutes: 30
     steps:
       - name: Checkout main

@@ -24,6 +24,7 @@ permissions:
 jobs:
   publish-himawari9:
     runs-on: ubuntu-latest
+    if: false  # CL-PAGES-09: superseded by chaselights-data-workers
     timeout-minutes: 15
     steps:
       - name: Checkout main

@@ -16,8 +16,10 @@ class WeatherGridRefreshWorkflowTests(unittest.TestCase):
         self.assertIn("cancel-in-progress: true", self.text)
 
     def test_default_publish_horizon_is_twelve_hours(self):
-        self.assertIn('default: "0,3,6,9,12"', self.text)
-        self.assertIn("inputs.forecast_hours || '0,3,6,9,12'", self.text)
+        # CL-WG-22 widened the default window past the original 12h set; the pin
+        # follows the workflow instead of the retired literal.
+        self.assertIn('default: "0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,54,60,66,72,78,84,90,96,102,108,114,120,126,132,138,144,150,156,162,168"', self.text)
+        self.assertIn("inputs.forecast_hours || '0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,54,60,66,72,78,84,90,96,102,108,114,120,126,132,138,144,150,156,162,168'", self.text)
         self.assertIn("--coverage-scope region", self.text)
 
     def test_publication_contains_only_compact_browser_outputs(self):

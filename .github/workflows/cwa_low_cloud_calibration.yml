@@ -37,6 +37,7 @@ permissions:
 jobs:
   replay:
     runs-on: ubuntu-latest
+    if: false  # CL-PAGES-09: superseded by chaselights-data-workers
     timeout-minutes: 35
     steps:
       - name: Checkout candidate

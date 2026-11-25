@@ -23,3 +23,7 @@ dist/
 # CL-PAGES-06: 948 MiB of per-spot 96h shards, rewritten every run and served
 # from R2. Git tracks the producer (analyze_weather.py), not the product.
 weather_details/
+
+# CL-PAGES-09: the public data repo (chaselights-data-workers) owns weathergrid/
+# and publishes it straight to R2. Git tracks the reader, not the product.
+weathergrid/

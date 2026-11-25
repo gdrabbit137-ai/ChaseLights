@@ -32,6 +32,7 @@ permissions:
 jobs:
   contract-tests:
     runs-on: ubuntu-latest
+    if: false  # CL-PAGES-09: superseded by chaselights-data-workers
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -41,7 +42,7 @@ jobs:
       - run: python -m unittest -v test_cams_aod_weathergrid.py test_weathergrid_ui_polish.py
 
   live-publish-tw:
-    if: github.event_name != 'pull_request'
+    if: false && (github.event_name != 'pull_request')  # CL-PAGES-09: superseded by chaselights-data-workers
     needs: contract-tests
     runs-on: ubuntu-latest
     # CL-CI-38 root cause of the recurring ingest red: Open-Meteo counts
@@ -126,7 +127,7 @@ jobs:
           retention-days: 7
 
   live-publish-us:
-    if: github.event_name != 'pull_request'
+    if: false && (github.event_name != 'pull_request')  # CL-PAGES-09: superseded by chaselights-data-workers
     needs: contract-tests
     runs-on: ubuntu-latest
     # CL-CI-38: the us sweep runs in its OWN job on its OWN runner, so it

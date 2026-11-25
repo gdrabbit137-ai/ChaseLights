@@ -145,12 +145,12 @@ def test_full_mode_carries_the_data_plane():
     r = run(["--full", "--dry-run"])
     assert r.returncode == 0, r.stderr
     entries = [ln.strip() for ln in r.stdout.splitlines() if ln.strip()]
-    assert has(entries, "weathergrid"), "--full manifest is missing weathergrid"
-    # CL-PAGES-06: weather_details/ is no longer tracked (948 MiB of per-spot
-    # shards published straight to R2), so no build mode can carry it. Pinning
-    # its absence keeps a rollback deployment honest: the modal reads
-    # ./weather_details/… which only data.chaselights.app serves.
+    # CL-PAGES-06/09: both heavy trees left git for R2 (weathergrid/ is owned by
+    # the public data repo, weather_details/ by the scheduled refresh). No build
+    # mode can carry what git does not track, and pinning their absence keeps a
+    # rollback deployment honest: the page reads them from data.chaselights.app.
     assert not has(entries, "weather_details"), "--full manifest must not ship weather_details"
+    assert not has(entries, "weathergrid"), "--full manifest must not ship weathergrid"
 
 
 def test_manifest_has_no_engineering_paths():
