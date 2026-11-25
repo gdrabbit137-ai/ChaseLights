@@ -17,7 +17,11 @@ permissions:
 
 jobs:
   evaluate:
-    runs-on: ubuntu-latest
+    # CL-PAGES-07: the heavy refreshes can run on Richard's Windows box
+    # (C:\actions-runner-chaselights) without spending hosted minutes. Unset
+    # repository variable CL_RUNNER = current behaviour (ubuntu-latest), so this
+    # is a one-keystroke rollback rather than a rewrite.
+    runs-on: ${{ vars.CL_RUNNER || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
