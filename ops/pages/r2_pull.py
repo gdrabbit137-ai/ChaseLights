@@ -65,7 +65,12 @@ def main() -> int:
     ap.add_argument("--force", action="store_true", help="re-download files that already exist")
     args = ap.parse_args()
 
-    prefix = args.prefix if args.prefix.endswith("/") else args.prefix + "/"
+    # A prefix ending in a filename is a request for exactly that key: appending
+    # "/" turned weathergrid/gfs_tw_weather_browser.json into a directory prefix
+    # that matches nothing.
+    prefix = args.prefix
+    if not prefix.endswith("/") and "." not in prefix.rsplit("/", 1)[-1]:
+        prefix += "/"
     bucket = os.environ.get("R2_BUCKET", "chaselights-data")
     s3 = client()
 
