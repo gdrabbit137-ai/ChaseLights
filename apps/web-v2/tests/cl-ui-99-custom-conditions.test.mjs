@@ -37,7 +37,7 @@ test('CL-UI-99 (1): custom-conditions form markup, stamps, worker contract wirin
   // Every hint slot is wired for the colloquial explanation.
   assert.equal((remHtml.match(/class="rem-cc-hint" id="rem-cc-hint-/g) || []).length, 8);
   // Stamp bump is scoped to the reminders page script only.
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui127/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui128/);
   assert.doesNotMatch(remHtml, /reminders-page\.js\?v=clui90/);
   // Page CSS stays token-only (no hex outside :root).
   const style = remHtml.slice(remHtml.indexOf('<style>'), remHtml.indexOf('</style>'));
@@ -185,7 +185,8 @@ test('CL-UI-99 (4): panel behavior — custom entry, defaults, sanitized payload
   el('rem-cc-start').value = '25:99';
   assert.equal(pg.collectCustomConditions(), null);
 
-  // Custom-mode cards render the one-line summary (line3) and minute advance.
+  // Custom-mode cards render the condition summary (line3) plus the schedule
+  // summary sentence. CL-UX-02 removed the legacy 「提前 N 分」 fragment.
   pg.state.rules = [{ id: 'r9', place_id: 'tw-001', opportunity_id: null, channel: 'push',
     min_advance_hours: 24, enabled: 1,
     custom_conditions: { cloud_low_max: 20, visibility_min_km: 10, window_start: '05:00', window_end: '07:00', lead_minutes: 45 } }];
@@ -193,12 +194,15 @@ test('CL-UI-99 (4): panel behavior — custom entry, defaults, sanitized payload
   const html = el('rem-list').innerHTML;
   assert.match(html, /<span class="rem-subject-chip">自訂條件<\/span>/);
   assert.match(html, /class="rem-cc-summary">低雲≤20%・能見度≥10km・05:00–07:00</);
-  assert.match(html, /提前 45 分/);
+  assert.match(html, /data-rem-sched-summary/);
+  assert.doesNotMatch(html, /提前 45 分/);
   assert.match(html, /符合自訂條件時推播/);
   // Subject-mode cards keep the CL-UI-90 anatomy (no line3).
   pg.state.rules = [{ id: 'r1', place_id: 'tw-001', opportunity_id: 'tw-001-P01', channel: 'push', min_advance_hours: 24, enabled: 1 }];
   pg.renderList();
   assert.match(el('rem-list').innerHTML, /<span class="rem-subject-chip">雲海<\/span>/);
   assert.doesNotMatch(el('rem-list').innerHTML, /rem-cc-summary/);
-  assert.match(el('rem-list').innerHTML, /提前 24 小時/);
+  // CL-UX-02: the schedule summary sentence replaces the advance fragment.
+  assert.match(el('rem-list').innerHTML, /data-rem-sched-summary/);
+  assert.doesNotMatch(el('rem-list').innerHTML, /提前 24 小時/);
 });

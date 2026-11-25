@@ -88,6 +88,8 @@
       rem_def_days: '星期',
       rem_def_send_time: '發送時間',
       rem_def_lead: '預報展望天數',
+      rem_def_lead_opt: '{n} 天',
+      rem_def_modify: '修改預設',
       rem_def_target: '目標出景日',
       rem_def_target_any: '不限星期',
       rem_def_target_only: '只篩選',
@@ -167,6 +169,8 @@
       rem_def_days: 'Weekdays',
       rem_def_send_time: 'Send time',
       rem_def_lead: 'Forecast look-ahead',
+      rem_def_lead_opt: '{n}d',
+      rem_def_modify: 'Modify default',
       rem_def_target: 'Target shooting day',
       rem_def_target_any: 'Any weekday',
       rem_def_target_only: 'Filter only',
@@ -246,6 +250,8 @@
       rem_def_days: '曜日',
       rem_def_send_time: '通知時刻',
       rem_def_lead: '予報の見通し日数',
+      rem_def_lead_opt: '{n}日',
+      rem_def_modify: '既定を変更',
       rem_def_target: '狙う撮影日',
       rem_def_target_any: '曜日の指定なし',
       rem_def_target_only: '絞り込む',
@@ -487,6 +493,34 @@
     var el = root ? root.querySelector('[data-f="' + field + '"]:checked') : null;
     return el ? el.getAttribute('data-v') : '';
   }
+  // CL-UX-02: look-ahead is a row of quick capsules (1/3/5/7) backed by a
+  // hidden input so a non-preset value (2/4/6) still survives a round-trip.
+  function readLead(root) {
+    var els = scNodes(root, 'lead');
+    for (var i = 0; i < els.length; i++) {
+      if (els[i].type === 'radio' && els[i].checked) return els[i].value;
+    }
+    for (var j = 0; j < els.length; j++) {
+      if (els[j].type !== 'radio') return els[j].value;
+    }
+    return null;
+  }
+  function writeLead(root, n) {
+    var v = String(clampInt(n, 1, 7, 3));
+    var els = scNodes(root, 'lead');
+    for (var i = 0; i < els.length; i++) {
+      if (els[i].type === 'radio') els[i].checked = els[i].value === v;
+      else els[i].value = v;
+    }
+  }
+  function applyLeadLabels(root) {
+    if (!root) return;
+    var els = root.querySelectorAll('[data-lead-t]');
+    for (var i = 0; i < els.length; i++) {
+      var n = els[i].getAttribute('data-lead-t');
+      els[i].textContent = tIn('rem_def_lead_opt', state.lang).replace('{n}', n);
+    }
+  }
   function checkedDays(root, field) {
     var els = scNodes(root, field), out = [];
     for (var i = 0; i < els.length; i++) {
@@ -503,7 +537,6 @@
     var mode = modeOf(scRadio(root, 'mode') || 'every_n');
     var everyEl = scNode(root, 'every_n');
     var timeEl = scNode(root, 'time');
-    var leadEl = scNode(root, 'lead');
     var targetOnly = scRadio(root, 'target_mode') === 'only';
     var wd = checkedDays(root, 'wd');
     var twd = targetOnly ? checkedDays(root, 'twd') : [];
@@ -512,7 +545,7 @@
       schedule_every_n: mode === 'weekdays' ? null : clampInt(everyEl && everyEl.value, 1, 7, 3),
       schedule_weekdays: mode === 'weekdays' ? wd.join(',') : null,
       send_time: CC_HM_RE.test(String(timeEl && timeEl.value)) ? timeEl.value : '20:00',
-      lead_days: clampInt(leadEl && leadEl.value, 1, 7, 3),
+      lead_days: clampInt(readLead(root), 1, 7, 3),
       target_weekdays: twd.length ? twd.join(',') : null,
       min_tier: scRadio(root, 'min_tier') === 'shootable' ? 'shootable' : 'recommend',
       tz: browserTz()
@@ -535,8 +568,7 @@
     setDays(root, 'wd', s.schedule_weekdays);
     var timeEl = scNode(root, 'time');
     if (timeEl) timeEl.value = CC_HM_RE.test(String(s.send_time)) ? s.send_time : '20:00';
-    var leadEl = scNode(root, 'lead');
-    if (leadEl) leadEl.value = String(clampInt(s.lead_days, 1, 7, 3));
+    writeLead(root, s.lead_days);
     var twd = csvDays(s.target_weekdays);
     setRadio(root, 'target_mode', twd.length ? 'only' : 'any');
     setDays(root, 'twd', twd.join(','));
@@ -552,9 +584,15 @@
     if (everyEl) everyEl.disabled = weekdays;
     var wds = scNodes(root, 'wd');
     for (var i = 0; i < wds.length; i++) wds[i].disabled = !weekdays;
+    // CL-UX-02: the capsule row only expands for the mode that uses it —
+    // 指定每星期幾 for sending, 只篩選 for the target day.
+    var wdGroup = root.querySelector('[data-wd-group="wd"]');
+    if (wdGroup) wdGroup.hidden = !weekdays;
     var only = scRadio(root, 'target_mode') === 'only';
     var twds = scNodes(root, 'twd');
     for (var j = 0; j < twds.length; j++) twds[j].disabled = !only;
+    var twdGroup = root.querySelector('[data-wd-group="twd"]');
+    if (twdGroup) twdGroup.hidden = !only;
   }
   function applyWeekdayLabels(root) {
     if (!root) return;
@@ -834,6 +872,16 @@
     }
     return out;
   }
+  // CL-UX-02: quick look-ahead capsules shared by the defaults panel and the
+  // per-card override panel (same data-f="lead" contract as the weekday axes).
+  function leadCapsulesHtml(ns) {
+    var out = '';
+    [1, 3, 5, 7].forEach(function (n) {
+      out += '<label class="rem-def-lead"><input type="radio" name="' + ns + '-lead" data-f="lead" value="' + n + '">' +
+        '<span data-lead-t="' + n + '"></span></label>';
+    });
+    return out;
+  }
   function numOptionsHtml() {
     var out = '';
     for (var n = 1; n <= 7; n++) out += '<option value="' + n + '">' + n + '</option>';
@@ -850,19 +898,20 @@
           '<span data-l="rem_def_mode_every"></span><select data-f="every_n">' + numOptionsHtml() + '</select></label>' +
         '<label class="rem-def-opt"><input type="radio" name="' + ns + '-mode" data-f="mode" data-v="weekdays" value="weekdays">' +
           '<span data-l="rem_def_mode_weekdays"></span></label>' +
-        '<div class="rem-def-wds">' + wdBoxesHtml('wd') + '</div>' +
+        '<div class="rem-def-wds" data-wd-group="wd" hidden>' + wdBoxesHtml('wd') + '</div>' +
       '</div>' +
       '<label class="rem-def-field"><span class="rem-def-name" data-l="rem_def_send_time"></span>' +
         '<input type="time" step="60" data-f="time"></label>' +
-      '<label class="rem-def-field"><span class="rem-def-name" data-l="rem_def_lead"></span>' +
-        '<select data-f="lead">' + numOptionsHtml() + '</select></label>' +
+      '<div class="rem-def-field"><span class="rem-def-name" data-l="rem_def_lead"></span>' +
+        '<div class="rem-def-leads" role="radiogroup">' + leadCapsulesHtml(ns) + '</div>' +
+        '<input type="hidden" data-f="lead"></div>' +
       '<div class="rem-def-field">' +
         '<span class="rem-def-name" data-l="rem_def_target"></span>' +
         '<label class="rem-def-opt"><input type="radio" name="' + ns + '-target" data-f="target_mode" data-v="any" value="any">' +
           '<span data-l="rem_def_target_any"></span></label>' +
         '<label class="rem-def-opt"><input type="radio" name="' + ns + '-target" data-f="target_mode" data-v="only" value="only">' +
           '<span data-l="rem_def_target_only"></span></label>' +
-        '<div class="rem-def-wds">' + wdBoxesHtml('twd') + '</div>' +
+        '<div class="rem-def-wds" data-wd-group="twd" hidden>' + wdBoxesHtml('twd') + '</div>' +
       '</div>' +
       '<div class="rem-def-field">' +
         '<span class="rem-def-name" data-l="rem_def_tier"></span>' +
@@ -911,7 +960,9 @@
     setText('rem-def-l-recommend', 'rem_def_tier_recommend');
     setText('rem-def-l-shootable', 'rem_def_tier_shootable');
     setText('rem-def-save', 'rem_def_save');
+    setText('rem-def-toggle', 'rem_def_modify');
     applyWeekdayLabels(panel);
+    applyLeadLabels(panel);
     var out = document.getElementById('rem-def-summary');
     if (!state.defaults) {
       if (out) out.textContent = t('rem_def_loading');
@@ -996,11 +1047,9 @@
       var on = !!rule.enabled;
       var region = regionName(regionOfPlace(rule.place_id), state.lang);
       var cc = ccOf(rule);
-      // CL-UI-99: custom-mode cards carry a one-line condition summary; the
-      // advance label switches to minutes (lead_minutes) in custom mode.
-      var advance = cc
-        ? esc(t('rem_col_advance_min').replace('{n}', String(cc.lead_minutes != null ? cc.lead_minutes : 60)))
-        : esc(t('rem_col_advance').replace('{n}', String(rule.min_advance_hours != null ? rule.min_advance_hours : 24)));
+      // CL-UI-99: custom-mode cards carry a one-line condition summary.
+      // CL-UX-02: the legacy 「提前 N 小時」 fragment is gone — the schedule
+      // summary line below is the single trigger narrative on the card.
       var summary = cc ? customSummary(cc, state.lang) : '';
       // CL-UX-01 Part B: effective schedule line (rule value, else default)
       // with 「（預設）」 on whatever the rule inherits.
@@ -1010,8 +1059,7 @@
         '<div class="rem-main">' +
         '<div class="rem-line1"><span class="rem-place">' + esc(names.placeName) + '</span>' +
         '<span class="rem-subject-chip">' + esc(names.subjName) + '</span></div>' +
-        '<div class="rem-line2"><span class="rem-region">' + esc(region) + ' · ' + esc(t('rem_col_channel')) + ' · ' +
-        advance + '</span>' +
+        '<div class="rem-line2"><span class="rem-region">' + esc(region) + '</span>' +
         nextStatusHtml(rule) +
         '</div>' +
         '<div class="rem-line3"><span class="rem-sched-summary" data-rem-sched-summary>' + esc(schSummary) + '</span></div>' +
@@ -1046,6 +1094,7 @@
       for (var ri = 0; ri < state.rules.length; ri++) if (state.rules[ri].id === rid) target = state.rules[ri];
       localizeLabels(pnl);
       applyWeekdayLabels(pnl);
+      applyLeadLabels(pnl);
       writeSchedule(pnl, effectiveSchedule(target, defOf()).schedule);
       updateOvrSummary(pnl);
     }
@@ -1249,6 +1298,16 @@
       defPanel.addEventListener('change', function () { syncModes(defPanel); updateDefaultsSummary(); });
       defPanel.addEventListener('input', function () { updateDefaultsSummary(); });
     }
+    // CL-UX-02: defaults collapse to a summary row; 修改預設 expands the panel.
+    var defToggle = document.getElementById('rem-def-toggle');
+    if (defToggle) defToggle.addEventListener('click', function () {
+      var body = document.getElementById('rem-def-body');
+      if (!body) return;
+      var opening = !!body.hidden;
+      body.hidden = !opening;
+      defToggle.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      if (opening) { syncModes(defPanel); updateDefaultsSummary(); }
+    });
     var defSave = document.getElementById('rem-def-save');
     if (defSave) defSave.addEventListener('click', function () {
       if (state.signedIn === false) { showNotice('rem_login_prompt'); return; }

@@ -197,14 +197,15 @@ test('CL-UI-58 (6): page list rendering — names, channel, advance, toggle, del
   pg.state.signedIn = true;
   pg.renderList();
   const html = el('rem-list').innerHTML;
-  // CL-UI-90 re-anchor: card anatomy is place + subject chip (line 1),
-  // region · channel · advance + mono next-trigger (line 2), and a
-  // switch/edit/delete action column.
+  // CL-UX-02: card anatomy is place + subject chip (line 1), region +
+  // next-trigger (line 2), the schedule summary sentence (line 3), and a
+  // switch/edit/delete action column. The legacy 「提前 N 小時」/channel
+  // fragment is gone — the schedule summary is the single trigger narrative.
   assert.match(html, /class="rem-card" data-rule-id="r1"/);
   assert.match(html, /<span class="rem-place">合歡山<\/span>/);
   assert.match(html, /<span class="rem-subject-chip">雲海<\/span>/);
-  assert.match(html, /App 推播/);
-  assert.match(html, /提前 24 小時/);
+  assert.match(html, /class="rem-sched-summary" data-rem-sched-summary/);
+  assert.doesNotMatch(html, /提前 24 小時/);
   assert.match(html, /class="rem-next"/);
   assert.match(html, /data-rem-toggle role="switch" aria-checked="true"/);
   assert.match(html, /data-rem-edit/);
@@ -214,7 +215,9 @@ test('CL-UI-58 (6): page list rendering — names, channel, advance, toggle, del
   pg.state.rules = [{ id: 'r1', place_id: 'tw-001', opportunity_id: null, channel: 'telegram', min_advance_hours: 12, enabled: 0 }];
   pg.renderList();
   assert.match(el('rem-list').innerHTML, /該景點全部題材/);
-  assert.match(el('rem-list').innerHTML, /提前 12 小時/);
+  // CL-UX-02: the legacy advance fragment is gone; the schedule summary stays.
+  assert.match(el('rem-list').innerHTML, /data-rem-sched-summary/);
+  assert.doesNotMatch(el('rem-list').innerHTML, /提前 12 小時/);
   assert.match(el('rem-list').innerHTML, /class="rem-card rem-off"/);
   assert.match(el('rem-list').innerHTML, /aria-checked="false"/);
   assert.match(el('rem-list').innerHTML, /class="rem-next rem-next-off"/);
@@ -249,7 +252,7 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /assets\/app\.css\?v=clui121/);
   assert.match(remHtml, /assets\/member-auth\.js\?v=clui116/);
   assert.match(remHtml, /assets\/reminders-client\.js\?v=clui126/);
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui127/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui128/);
   // Login panel + login deep links present (OAuth 302 anchors, per CL-UI-53).
   assert.match(remHtml, /rem-login-panel/);
   assert.match(pageJs, /\/api\/v1\/auth\/line\/start/);

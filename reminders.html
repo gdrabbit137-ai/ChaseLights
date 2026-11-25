@@ -251,13 +251,44 @@
     .rem-def-opt input[type="radio"]{accent-color:var(--cl-green)}
     .rem-def-field select{height:32px;padding:0 8px;border-radius:var(--cl-r-xs);border:1px solid var(--cl-border-strong);
       background:var(--cl-bg-2);color:var(--cl-text-1);font-size:var(--cl-fs-13)}
-    .rem-def-wds{display:flex;flex-wrap:wrap;gap:4px}
-    .rem-def-wd{display:inline-flex;align-items:center;gap:4px;height:32px;min-height:32px;padding:0 8px;
-      border:1px solid var(--cl-border);border-radius:var(--cl-r-xs);background:var(--cl-bg-2);
-      color:var(--cl-text-1);font-size:var(--cl-fs-12);cursor:pointer}
-    .rem-def-wd input{accent-color:var(--cl-green);margin:0}
-    .rem-def-wd:has(input:checked){border-color:var(--cl-green-border);background:var(--cl-green-bg)}
+    /* CL-UX-02: one row of seven equal-width capsules — no square box, no
+       tick glyph. Selected = bright green fill; unselected = dark outline.
+       The checkbox stays in the DOM (a11y/contract) but is visually hidden. */
+    .rem-def-wds{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+    .rem-def-wds[hidden]{display:none}
+    .rem-def-wd{position:relative;display:inline-flex;align-items:center;justify-content:center;
+      height:36px;min-height:36px;padding:0;border:1px solid var(--cl-border-strong);border-radius:999px;
+      background:transparent;color:var(--cl-text-2);font-size:var(--cl-fs-12);cursor:pointer;
+      text-align:center;overflow:hidden;white-space:nowrap}
+    .rem-def-wd input{position:absolute;width:1px;height:1px;opacity:0;margin:0;pointer-events:none}
+    .rem-def-wd:has(input:checked){background:var(--cl-green);border-color:var(--cl-green);
+      color:var(--cl-bg-0);font-weight:600}
+    .rem-def-wd:has(input:focus-visible){outline:2px solid var(--cl-green-border);outline-offset:2px}
     .rem-def-wd:has(input:disabled){opacity:.45;cursor:default}
+    /* CL-UX-02: look-ahead quick capsules (1 / 3 / 5 / 7 days) */
+    .rem-def-leads{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+    .rem-def-lead{position:relative;display:inline-flex;align-items:center;justify-content:center;
+      height:36px;min-height:36px;padding:0;border:1px solid var(--cl-border-strong);border-radius:999px;
+      background:transparent;color:var(--cl-text-2);font-size:var(--cl-fs-12);cursor:pointer;
+      text-align:center;white-space:nowrap}
+    .rem-def-lead input{position:absolute;width:1px;height:1px;opacity:0;margin:0;pointer-events:none}
+    .rem-def-lead:has(input:checked){background:var(--cl-green);border-color:var(--cl-green);
+      color:var(--cl-bg-0);font-weight:600}
+    .rem-def-lead:has(input:focus-visible){outline:2px solid var(--cl-green-border);outline-offset:2px}
+    /* CL-UX-02: collapsible defaults — summary row + 修改預設, panel hidden */
+    .rem-def-head{display:flex;align-items:center;gap:var(--cl-sp-3);flex-wrap:wrap}
+    .rem-def-head h2{margin:0}
+    .rem-def-toggle{margin-left:auto;height:32px;min-height:32px;padding:0 var(--cl-sp-3);border-radius:999px;
+      border:1px solid var(--cl-border-strong);background:transparent;color:var(--cl-text-1);
+      font-size:var(--cl-fs-12);font-weight:600;cursor:pointer;white-space:nowrap}
+    .rem-def-toggle:hover{background:var(--cl-bg-2)}
+    .rem-def-body[hidden]{display:none}
+    .rem-def-body{margin-top:var(--cl-sp-3)}
+    /* CL-UX-02: iOS standalone top safe area — pad the header and mask the
+       status-bar strip so scrolling text never sits under the clock. */
+    .rem-header{padding-top:calc(var(--cl-sp-5) + env(safe-area-inset-top, 0px))}
+    .cl-safe-top-mask{position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top, 0px);
+      background:var(--cl-bg-0);z-index:9000;pointer-events:none}
     .rem-def-field input[type="time"]{height:32px;min-height:32px;padding:0 8px;border-radius:var(--cl-r-xs);
       border:1px solid var(--cl-border-strong);background:var(--cl-bg-2);color:var(--cl-text-1);
       font-size:var(--cl-fs-13);width:100%;box-sizing:border-box}
@@ -297,6 +328,10 @@
   </style>
 </head>
 <body>
+
+  <!-- CL-UX-02: iOS standalone top safe area — mask the status-bar strip so
+       scrolled text never collides with the clock. Height is 0 elsewhere. -->
+  <div class="cl-safe-top-mask" aria-hidden="true"></div>
 
   <nav class="site-nav" aria-label="全站導覽">
     <div class="site-nav-inner">
@@ -419,11 +454,28 @@
       <p class="rem-hint" id="rem-flow-hint"></p>
     </section>
 
-    <!-- CL-UX-01 Part B: 預設提醒規則 — new reminders inherit these settings;
-         each card below can override them inline (修改此點規則). Controls share
-         the data-f contract read by reminders-page.js readSchedule/writeSchedule. -->
+    <!-- CL-UX-02: 我的提醒 first — the tracked list is what the owner opens the
+         page for. The defaults panel sits below it and collapses to a summary
+         row + 修改預設 (CL-UX-01 Part B controls unchanged underneath). -->
+    <section class="rem-panel" id="rem-list-panel" hidden>
+      <h2 id="rem-list-title"></h2>
+      <div id="rem-list"></div>
+      <div class="rem-empty" id="rem-empty" hidden>
+        <span class="rem-e-ic" aria-hidden="true">🔔</span>
+        <span class="rem-e-t" id="rem-empty-title"></span>
+        <span class="rem-e-d" id="rem-empty-desc"></span>
+        <button class="rem-e-btn" id="rem-empty-add" type="button"></button>
+      </div>
+    </section>
+
     <section class="rem-panel" id="rem-def-panel" aria-labelledby="rem-def-title">
-      <h2 id="rem-def-title">預設提醒規則</h2>
+      <div class="rem-def-head">
+        <h2 id="rem-def-title">預設提醒規則</h2>
+        <button class="rem-def-toggle" id="rem-def-toggle" type="button"
+          aria-expanded="false" aria-controls="rem-def-body" data-l="rem_def_modify"></button>
+      </div>
+      <p class="rem-def-summary" id="rem-def-summary" role="status"></p>
+      <div class="rem-def-body" id="rem-def-body" hidden>
       <p class="rem-hint" id="rem-def-intro"></p>
       <div class="rem-def-grid">
         <div class="rem-def-field">
@@ -440,7 +492,7 @@
             <input type="radio" name="rem-def-mode" data-f="mode" data-v="weekdays" value="weekdays">
             <span id="rem-def-l-weekdays"></span>
           </label>
-          <div class="rem-def-wds" id="rem-def-wd-group">
+          <div class="rem-def-wds" id="rem-def-wd-group" data-wd-group="wd" hidden>
             <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="0"><span class="rem-wd-t">日</span></label>
             <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="1"><span class="rem-wd-t">一</span></label>
             <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="2"><span class="rem-wd-t">二</span></label>
@@ -454,13 +506,18 @@
           <span class="rem-def-name" id="rem-def-l-time"></span>
           <input id="rem-def-time" data-f="time" type="time" step="60" value="20:00">
         </label>
-        <label class="rem-def-field" for="rem-def-lead">
+        <div class="rem-def-field">
           <span class="rem-def-name" id="rem-def-l-lead"></span>
-          <select id="rem-def-lead" data-f="lead">
-            <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
-            <option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option>
-          </select>
-        </label>
+          <!-- CL-UX-02: one row of quick capsules instead of a system dropdown.
+               The hidden input keeps the exact value (2/4/6 stay representable). -->
+          <div class="rem-def-leads" role="radiogroup" aria-labelledby="rem-def-l-lead">
+            <label class="rem-def-lead"><input type="radio" name="rem-def-lead" data-f="lead" value="1"><span data-lead-t="1"></span></label>
+            <label class="rem-def-lead"><input type="radio" name="rem-def-lead" data-f="lead" value="3"><span data-lead-t="3"></span></label>
+            <label class="rem-def-lead"><input type="radio" name="rem-def-lead" data-f="lead" value="5"><span data-lead-t="5"></span></label>
+            <label class="rem-def-lead"><input type="radio" name="rem-def-lead" data-f="lead" value="7"><span data-lead-t="7"></span></label>
+          </div>
+          <input type="hidden" id="rem-def-lead" data-f="lead" value="3">
+        </div>
         <div class="rem-def-field">
           <span class="rem-def-name" id="rem-def-l-target"></span>
           <label class="rem-def-opt">
@@ -471,7 +528,7 @@
             <input type="radio" name="rem-def-target" data-f="target_mode" data-v="only" value="only">
             <span id="rem-def-l-target-only"></span>
           </label>
-          <div class="rem-def-wds" id="rem-def-twd-group">
+          <div class="rem-def-wds" id="rem-def-twd-group" data-wd-group="twd" hidden>
             <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="0"><span class="rem-wd-t">日</span></label>
             <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="1"><span class="rem-wd-t">一</span></label>
             <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="2"><span class="rem-wd-t">二</span></label>
@@ -493,21 +550,10 @@
           </label>
         </div>
       </div>
-      <p class="rem-def-summary" id="rem-def-summary" role="status"></p>
       <div class="rem-def-acts">
         <button type="button" id="rem-def-save" class="rem-add-btn">儲存</button>
       </div>
-    </section>
-
-    <section class="rem-panel" id="rem-list-panel" hidden>
-      <h2 id="rem-list-title"></h2>
-      <div id="rem-list"></div>
-      <div class="rem-empty" id="rem-empty" hidden>
-        <span class="rem-e-ic" aria-hidden="true">🔔</span>
-        <span class="rem-e-t" id="rem-empty-title"></span>
-        <span class="rem-e-d" id="rem-empty-desc"></span>
-        <button class="rem-e-btn" id="rem-empty-add" type="button"></button>
-      </div>
+      </div><!-- /rem-def-body -->
     </section>
 
     <p id="rem-state" class="rem-state"></p>
@@ -522,7 +568,7 @@
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui116"></script>
   <script src="./assets/reminders-client.js?v=clui126"></script>
-  <script src="./assets/reminders-page.js?v=clui127"></script>
+  <script src="./assets/reminders-page.js?v=clui128"></script>
   <script src="./assets/subject-sets-library.js?v=clapp09d"></script>
   <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
   <footer class="site-footer">

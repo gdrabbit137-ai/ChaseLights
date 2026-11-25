@@ -32,13 +32,15 @@ const CLIENT_JS = fs.readFileSync(path.join(ROOT, 'assets/reminders-client.js'),
 // ---------------------------------------------------------------------------
 // 1. Markup: 預設提醒規則 section (anchor + time input + both weekday axes)
 // ---------------------------------------------------------------------------
-test('CL-UX-01: reminders.html carries the 預設提醒規則 section above the rules list', () => {
+test('CL-UX-01: reminders.html carries the 預設提醒規則 section below the rules list', () => {
+  // CL-UX-02 reordered the page: the tracked list now comes first, the
+  // defaults panel collapses underneath it.
   assert.ok(HTML.includes('id="rem-def-panel"'), 'defaults section anchor');
   assert.match(HTML, /id="rem-def-title"[^>]*>預設提醒規則</, 'section title');
   const defAt = HTML.indexOf('id="rem-def-panel"');
   const listAt = HTML.indexOf('id="rem-list-panel"');
   assert.ok(defAt > 0 && listAt > 0, 'both panels exist');
-  assert.ok(defAt < listAt, 'defaults section renders ABOVE the existing rules list');
+  assert.ok(listAt < defAt, 'the rules list renders ABOVE the defaults panel');
 });
 
 test('CL-UX-01: the defaults panel exposes time / frequency / lead / target / tier controls', () => {
