@@ -249,6 +249,10 @@ test('loadPngManifest: rejects non-schema / malformed manifests', async () => {
   const fn = new Function('holder', `
     const window = { location: { search: '' } };
     const fetch = (...a) => holder.fetchImpl(...a);
+    // CL-PAGES-04: the page loads assets/data-base.js before weather-map.js, so
+    // clUrl() is always defined at runtime. Mirror that here — an undefined
+    // clUrl used to throw inside loadPngManifest and the catch returned null.
+    const clUrl = (u) => u;
     ${body}
     return loadPngManifest;
   `)(holder);
