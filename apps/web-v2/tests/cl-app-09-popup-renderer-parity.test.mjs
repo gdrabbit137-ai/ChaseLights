@@ -65,8 +65,12 @@ test('CL-APP-09-p4 (1): the client solar mirror matches workers/api/src/solar.js
 // ------------------------------------------------------- (2) cron KV fallback
 test('CL-APP-09-p4 (2): the notify cron reaches the PRIVATE eval KV (v1:evals:custom:<id>)', async () => {
   const { runNotifyCron } = await import('file:///' + join(WEB, 'workers', 'api', 'src', 'notify.js').replace(/\\/g, '/'));
-  const d0 = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);
-  const hh = String(new Date(Date.now() + 8 * 3600e3 + 3600e3).getUTCHours()).padStart(2, '0') + ':00';
+  // One instant for date AND hour. Deriving them separately made the fixture
+  // point at "today 00:00" between 23:00 and 00:00 Taipei — a slot in the past —
+  // so the cron correctly declined and this test red-lit CI only at night.
+  const next = new Date(Date.now() + 8 * 3600e3 + 3600e3);
+  const d0 = next.toISOString().slice(0, 10);
+  const hh = String(next.getUTCHours()).padStart(2, '0') + ':00';
   const customRec = {
     place_id: 'cp-parity-1', private: true, name: '霧社水庫西岸岔路', lat: 23.9412, lng: 121.1523,
     elevation: 1150, timezone: 'Asia/Taipei',

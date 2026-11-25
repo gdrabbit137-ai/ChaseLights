@@ -1597,7 +1597,7 @@ test('CL-APP-06 (2t, patch-4): clicking a private card opens the forecast popup 
   // ── official quick-view anatomy: title + tier chip + 24h band + next/wx
   assert.equal(probe.qvSection, true, 'the quick view rides the OFFICIAL place-quick-view section');
   assert.match(probe.qvTitle, /現在去會怎樣/);
-  assert.match(probe.qvChip, /(✓|○)/, 'the chip is the official time-aware tier (✓推薦 or ○可拍·窗已過)');
+  assert.match(probe.qvChip, /(✓|○)/, `the chip is the official time-aware tier (✓推薦 or ○可拍·窗已過); got ${JSON.stringify(probe.qvChip)} tier=${JSON.stringify(probe.qvChipTier)}`);
   assert.ok(['ok', 'mid'].includes(probe.qvChipTier), 'chip tier is a valid official level for a clean-air place');
   assert.equal(probe.bandCells, 24, 'the 24h mini band renders the selected day via the SHARED v2BandHtml');
   // ── official 8-day strip anatomy: one strip, honest cells
