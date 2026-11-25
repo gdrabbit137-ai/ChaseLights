@@ -145,8 +145,12 @@ def test_full_mode_carries_the_data_plane():
     r = run(["--full", "--dry-run"])
     assert r.returncode == 0, r.stderr
     entries = [ln.strip() for ln in r.stdout.splitlines() if ln.strip()]
-    for want in ("weathergrid", "weather_details"):
-        assert has(entries, want), f"--full manifest is missing {want}"
+    assert has(entries, "weathergrid"), "--full manifest is missing weathergrid"
+    # CL-PAGES-06: weather_details/ is no longer tracked (948 MiB of per-spot
+    # shards published straight to R2), so no build mode can carry it. Pinning
+    # its absence keeps a rollback deployment honest: the modal reads
+    # ./weather_details/… which only data.chaselights.app serves.
+    assert not has(entries, "weather_details"), "--full manifest must not ship weather_details"
 
 
 def test_manifest_has_no_engineering_paths():
