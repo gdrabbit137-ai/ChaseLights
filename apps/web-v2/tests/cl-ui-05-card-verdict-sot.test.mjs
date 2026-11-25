@@ -87,8 +87,11 @@ test('CL-UI-05 (c): eval2_none (not generated) and eval2_unk (NOT_EVALUABLE) sta
     /day\.state==='GUIDANCE_SATISFIED'\?d\(\)\.eval2_ok:day\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk:d\(\)\.eval2_bad/);
   // Card honours the same split: NOT_EVALUABLE shows eval2_unk, an evaluated
   // day without qualifying hours shows the day-aware v2_none copy (v2NoneSubjectKey).
+  // CL-UI-126: both card surfaces render it through the one shared helper.
   const summary=cardBlock('const v2Summary=(v2Best&&!v2Best.hours)?','const reasonHtml=');
-  assert.match(summary,/v2Best\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk:d\(\)\[v2NoneSubjectKey\(\)\]/);
+  assert.match(summary,/\$\{v2NoWindowLine\(spot,v2Best\)\}/);
+  const noneLine=cardBlock('function v2NoWindowLine','// Place names are the one intentional');
+  assert.match(noneLine,/best\.state==='NOT_EVALUABLE'\?t\.eval2_unk:t\[v2NoneSubjectKey\(\)\]/);
   // i18n: the not-generated copy is date-scoped and distinct from the
   // NOT_EVALUABLE label in every supported locale.
   const i18n=cardBlock("const i18nDict = {","const categoryKeys = {");
@@ -108,8 +111,12 @@ test('CL-UI-05 (d): next qualifying window shows when live.next_good exists',()=
   // The card's no-qualifying-hours summary renders the wired next window and
   // falls back to pure copy when there is none.
   const summary=cardBlock('const v2Summary=(v2Best&&!v2Best.hours)?','const reasonHtml=');
-  assert.match(summary,
-    /v2Best\.nextLocal\?` · \$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(nextWindowStamp\(v2Best\.nextLocal,spot\.timezone\)\)\}<\/b>`:''/);
+  assert.match(summary,/\$\{v2NoWindowLine\(spot,v2Best\)\}/);
+  const noneLine=cardBlock('function v2NoWindowLine','// Place names are the one intentional');
+  assert.match(noneLine,/const stamp=best\.nextLocal\?nextWindowStamp\(best\.nextLocal,spot&&spot\.timezone\):'';/);
+  assert.match(noneLine,/\$\{stamp\?` · \$\{esc\(t\.v2_next_window\)\}<b>\$\{esc\(stamp\)\}<\/b>`:''\}/);
+  // falls back to pure copy when there is none
+  assert.match(noneLine,/return `📅 \$\{esc\(none\)\}\$\{stamp\?/);
   // CL-UI-75 (owner ruling): the day-strip's 🎯 next-window wiring (and the
   // badge) is retired at every breakpoint — the strip call takes no note.
   assert.ok(!appSource.includes('nextNote') && !appSource.includes('v2-strip-next'));

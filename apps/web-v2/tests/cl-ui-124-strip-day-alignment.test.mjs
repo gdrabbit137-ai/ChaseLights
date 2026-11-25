@@ -19,12 +19,16 @@ const bundle = JSON.parse(readFileSync(join(WEB, 'apps', 'web-v2', 'evaluations-
 test('CL-UI-124 (1): the modal strip aligns days by DATE, never by array index', () => {
   assert.ok(!/opp\.days\.slice\(0,\s*DAY_KEYS\.length\)/.test(appSource),
     'the index slice that shifted every label is gone');
-  assert.match(appSource, /const _d=v2DayForOffset\(opp,_i,tzStrip\);/,
-    'each cell resolves its own day by date offset');
-  assert.match(appSource, /days\.push\(_d\);labels\.push\(labelsAll\[_i\]\);/,
+  // CL-UI-126: both day-list surfaces now go through ONE normaliser
+  // (modalDays: local today..today+6, past rows dropped, duplicate
+  // local_date collapsed) instead of each resolving offsets inline.
+  assert.match(appSource, /function modalDays\(days,todayKey\)\{[\s\S]{0,900}DAY_KEYS\.forEach/,
+    'the normaliser builds one slot per tab key');
+  const strip = appSource.slice(appSource.indexOf('const aligned=modalDays(opp.days,localDateString(tzStrip,0));'));
+  assert.match(strip, /aligned\.forEach\(\(_d,_i\)=>\{\s*\n\s*if\(!_d\)return;/,
+    'a day the bundle cannot cover is skipped instead of being borrowed from the tail');
+  assert.match(strip, /days\.push\(_d\);labels\.push\(labelsAll\[_i\]\);/, 
     'the day and its label are pushed together (they cannot drift apart)');
-  assert.match(appSource, /if\(!_d\)continue;/,
-    'a day the bundle cannot cover is dropped instead of borrowed from the tail');
 });
 
 test('CL-UI-124 (2): v2DayForOffset resolves by local_date first, and only then falls back', () => {

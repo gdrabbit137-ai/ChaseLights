@@ -90,11 +90,14 @@ test('CL-DATA-06 E1: evalDayLabels covers day 0-6 (relative words, then MM/DD)',
 
 test('CL-DATA-06 E2: modal summary and place-guide eval render all seven days',()=>{
   const modal=grab('function modalSummaryData','function modalDayRow');
-  assert.ok(modal.includes('DAY_KEYS.map'));
+  // CL-UI-126: the summary rows come from the ONE 7-slot normaliser (which
+  // walks DAY_KEYS), and the labels from the same chain the tabs use.
+  assert.ok(modal.includes('modalDays(opp.days'), 'rows come from the 7-day normaliser');
+  assert.ok(modal.includes('evalDayLabels(tz,DAY_KEYS.length)'), 'labels follow the day-key chain');
   const guide=grab('CL-DATA-06: show the full 7-day evaluation window','const labels=evalDayLabels');
-  // CL-UI-124: the guide block must resolve each cell by DATE — the old
+  // CL-UI-124/126: the guide block must resolve each cell by DATE — the old
   // opp.days.slice() paired past rows with today's labels.
-  assert.ok(guide.includes('v2DayForOffset(opp,_i,tzStrip)'), 'cells resolve their day by date');
+  assert.ok(guide.includes('modalDays(opp.days,localDateString(tzStrip,0))'), 'cells resolve their day by date');
   assert.ok(!guide.includes('opp.days.slice(0,DAY_KEYS.length)'), 'no index slice');
 });
 

@@ -227,8 +227,16 @@ test('CL-UI-18 C1: i18n — yesterday label in all three dictionaries; 改期 co
 
 test('CL-UI-18 C2: modal summary consumes date-anchored day rows and labels',()=>{
   const modalBlock=grab('function modalSummaryData','function modalDayRow');
-  assert.match(modalBlock,/v2DayForOffset\(opp,i,tz\)/);
-  assert.match(modalBlock,/v2DayLabel\(info&&info\.date,tz,i\)/);
+  // CL-UI-126: both the rows and the labels now come from ONE normaliser and
+  // ONE label chain (the same the date tabs use) — the old inline
+  // v2DayForOffset/v2DayLabel pair is gone, and the anchoring contract is
+  // asserted (today..today+6, past dropped) in cl-ui-126-modal-days.test.
+  assert.match(modalBlock,/modalDays\(opp\.days,localDateString\(tz\|\|'UTC',0\)\)/,
+    'day rows come from the local-today normaliser');
+  assert.match(modalBlock,/evalDayLabels\(tz,DAY_KEYS\.length\)/,
+    'labels are the same chain the date tabs above the list use');
+  assert.ok(!/v2DayLabel\(info&&info\.date,tz,i\)/.test(modalBlock),
+    'the label no longer re-derives from a possibly-past row date');
 });
 
 test('CL-UI-18 C3: cards and sort consume date-anchored day rows',()=>{

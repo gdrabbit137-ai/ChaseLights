@@ -1569,7 +1569,14 @@
       var stripHost = els.overlay.querySelector('#cl-cp-qv-days');
       if (stripHost) {
         var opp = { opportunity_id: null, genre_template: 'custom', days: data.days, live: null };
-        stripHost.innerHTML = br.stripHtml(data.days, br.dayLabels(data.tz, data.days.length), data.tz, data.spot, 'custom', null) +
+        // CL-UI-126: the popup's strip reads the SAME 7-day normaliser as the
+        // official modal (today..today+6; past rows dropped, duplicate
+        // local_date collapsed) — never a positional slice of the eval days.
+        var aligned = br.modalDays(data.days, br.localDate(data.tz, 0));
+        var labs = br.dayLabels(data.tz, aligned.length);
+        var sd = [], sl = [];
+        aligned.forEach(function (d, i) { if (!d) return; sd.push(d); sl.push(labs[i]); });
+        stripHost.innerHTML = br.stripHtml(sd, sl, data.tz, data.spot, 'custom', null) +
           br.daySub(data.spot, opp);
         br.wireStrip(stripHost.querySelector('.v2-day-strip'));
       }
@@ -2138,7 +2145,7 @@
     cloud: {
       key: 'cloud_low_max',
       options: {
-        'zh-TW': [['min', '越少越好', '低雲 ≤20%'], ['half', '半晴半雲', '低雲 ≤50%'], ['any', '不在乎', '不帶雲量條件'], ['more', '越多越好', '低雲 ≥70%']],
+        'zh-TW': [['min', '越少越好', '低雲 ≤20%'], ['half', '半晴半雲', '低雲 ≤50%'], ['any', '不限', '不帶雲量條件'], ['more', '越多越好', '低雲 ≥70%']],
         'en': [['min', 'As little as possible', 'low cloud ≤20%'], ['half', 'Half sun, half cloud', 'low cloud ≤50%'], ['any', "Don't care", 'no cloud condition'], ['more', 'The more the better', 'low cloud ≥70%']],
         'ja': [['min', 'できるだけ少ない', '低雲 ≤20%'], ['half', '半分晴れ半分雲', '低雲 ≤50%'], ['any', 'こだわらない', '雲の条件なし'], ['more', '多いほうが良い', '低雲 ≥70%']],
       },

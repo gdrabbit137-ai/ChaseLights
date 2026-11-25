@@ -24,9 +24,17 @@
     .rem-title-row{display:flex;align-items:baseline;gap:var(--cl-sp-3);flex-wrap:wrap}
     .rem-title-row h1{white-space:nowrap}
     .rem-title-row h1{margin:0;font-size:var(--cl-fs-20);font-weight:600;color:var(--cl-text-1)}
-    .rem-title-row .rem-lang{margin-left:auto}
     .rem-count{font-size:var(--cl-fs-13);color:var(--cl-text-3);white-space:nowrap}
-    .rem-lang .control-dropdown{height:var(--cl-control-h)}
+    /* CL-UI-126: the language switcher rides the TOP NAVBAR (one instance of
+       #lang-select; the page header no longer carries a duplicate). */
+    .site-nav-lang{display:inline-flex;align-items:center;flex:none}
+    .site-nav-lang .lang-dropdown{height:32px;min-height:32px;padding:0 8px;border-radius:8px;
+      background:var(--cl-bg-3);color:var(--cl-text-1);border:1px solid var(--cl-border-strong);font-size:.82rem;font-weight:600}
+    @media (max-width: 768px) {
+      /* logo-only brand keeps the bottom bar from overflowing at 390px */
+      .site-nav-brand{font-size:0}
+      .site-nav-lang .lang-dropdown{max-width:80px;font-size:.72rem;padding:0 2px}
+    }
     .rem-wrap{max-width:760px;margin:0 auto;padding:var(--cl-sp-4) var(--cl-sp-4) 80px}
     .rem-panel{background:var(--cl-bg-1);border:1px solid var(--cl-border);border-radius:var(--cl-r-md);
       padding:var(--cl-sp-4);margin-bottom:var(--cl-sp-4)}
@@ -203,6 +211,13 @@
     .sslib-m-head{display:flex;gap:var(--cl-sp-3);align-items:flex-start;margin-bottom:var(--cl-sp-4)}
     .sslib-m-head .name{font-size:var(--cl-fs-20);font-weight:700;color:var(--cl-text-1)}
     .sslib-m-head .sub{font-size:var(--cl-fs-12);color:var(--cl-text-3);font-family:var(--cl-mono)}
+    /* CL-UI-126: picker region switcher (台灣/日本/美國/阿拉斯加/夏威夷) */
+    .sslib-region{display:flex;gap:var(--cl-sp-2);flex-wrap:wrap;margin:0 0 var(--cl-sp-3)}
+    .sslib-region-btn{height:32px;min-height:32px;padding:0 var(--cl-sp-3);border-radius:999px;
+      border:1px solid var(--cl-border);background:var(--cl-bg-2);color:var(--cl-text-2);
+      font-size:var(--cl-fs-12);white-space:nowrap;cursor:pointer}
+    .sslib-region-btn:hover{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+    .sslib-region-btn.on{border-color:var(--cl-green);background:var(--cl-bg-3);color:var(--cl-text-1);font-weight:600}
     .sslib-close{margin-left:auto;height:var(--cl-control-h);min-height:44px;min-width:44px;border:1px solid var(--cl-border);border-radius:var(--cl-r-sm);background:transparent;color:var(--cl-text-1);cursor:pointer}
     .sslib-fld{display:flex;flex-direction:column;gap:4px;margin-bottom:var(--cl-sp-3)}
     .sslib-fld label{font-size:var(--cl-fs-13);color:var(--cl-text-3)}
@@ -340,6 +355,13 @@
         <a class="site-nav-item" data-nav-target="cards" href="./index.html" data-i18n="nav_cards">卡片</a>
         <a class="site-nav-item" data-nav-target="weather" href="./weather-map.html" data-i18n="nav_weathermap">天氣圖</a>
         <a class="site-nav-item" data-nav-target="reminders" data-active="page" href="./reminders.html" data-i18n="nav_my">我的</a>
+        <span class="site-nav-lang"><!-- CL-UI-126 (owner report): the language switcher
+             lives in the top navbar — ONE instance of the same #lang-select control
+             (the page header no longer carries a second one). --><select id="lang-select" class="control-dropdown lang-dropdown" aria-label="語言">
+            <option value="zh-TW" selected>🌐 繁體中文</option>
+            <option value="en">🌐 English</option>
+            <option value="ja">🌐 日本語</option>
+          </select></span>
         <div class="site-nav-more" data-member-area>
           <span class="site-nav-item" data-member-name hidden>會員</span>
           <button class="site-nav-more-btn" type="button" data-member-toggle
@@ -359,13 +381,6 @@
   <header class="rem-header">
     <div class="rem-title-row">
       <h1>👤 <span id="page-title">我的</span></h1>
-      <span class="rem-lang">
-        <select id="lang-select" class="control-dropdown lang-dropdown" aria-label="語言">
-          <option value="zh-TW" selected>🌐 繁體中文</option>
-          <option value="en">🌐 English</option>
-          <option value="ja">🌐 日本語</option>
-        </select>
-      </span>
     </div>
     <!-- CL-APP-09 追加3: the 提醒 page is now the 我的 page — two sections:
          我的提醒 (the original reminder list, untouched) + 我的題材 (new

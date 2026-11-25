@@ -1462,7 +1462,9 @@ test('CL-APP-06 (1h, patch-7→patch-4): private-card click → forecast popup r
   // is the OFFICIAL renderer through the app.js bridge (window.CLForecastRenderers)
   assert.match(jsSource, /window\.CLForecastRenderers/);
   assert.match(jsSource, /br\.quickView\(host, data\.spot\)/, '速覽 rides the official mountQuickView pipeline');
-  assert.match(jsSource, /br\.stripHtml\(data\.days/, '8 日方框 rides the official v2DayStripHtml');
+  assert.match(jsSource, /br\.stripHtml\(sd, sl/, '8 日方框 rides the official v2DayStripHtml (days normalised by modalDays)');
+  assert.match(jsSource, /br\.modalDays\(data\.days, br\.localDate\(data\.tz, 0\)\)/,
+    'CL-UI-126: the popup strip uses the modal 7-day normaliser, not a raw slice');
   assert.match(jsSource, /br\.daySub\(data\.spot, opp\)/, '今天題材判定 rides the official v2DaySubHtml');
   assert.match(jsSource, /br\.subjectRow\(\{ name: nm, stamp: stamp, cc: g\.cond \}/, '逐題材行 rides the official cl-subject-row builder');
   assert.match(jsSource, /br\.condFold\(conds, extra\)/, '條件摺疊 rides the official v2CondFoldHtml');

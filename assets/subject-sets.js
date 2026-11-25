@@ -27,7 +27,7 @@
 
   var T = {
     'zh-TW': {
-      sec_title: '我的自訂題材', add_btn: '＋ 加自訂題材',
+      sec_title: '我的自訂題材', add_btn: '＋ 加自訂題材', empty_note: '尚無自訂題材',
       badge: '自訂', stale_badge: '官方已更新可同步',
       quota_fmt: '此景點 {p}/{pc} 組', quota_owner: '此景點 {p} 組（無上限）',
       quota_free: '此景點 {p}/{pc} 組 · 全站 {t}/{tc} 組 · 每日新增 {d} 組',
@@ -48,7 +48,7 @@
       wt_fixed: '固定時段', wt_bs: '日出前（每日動態）', wt_as: '日出後（每日動態）', wt_bd: '日落前（每日動態）', wt_ads: '日落後（每日動態）',
       win_off: '錨點偏移（分鐘，可負）', win_add2: '＋ 加第二段', win_rm: '移除此段', win_hint: '錨點型以當日實際日出／日落動態展開，冬天夏天不同',
       win_before: '{t} 前', win_from: '{t} 起',
-      cc_prev: '摘要預覽：', cc_prev_none: '（未調任何參數）', ed_submit: '建立此題材組', ed_submit_edit: '儲存變更',
+      cc_prev: '摘要預覽：', ed_submit: '建立此題材組', ed_submit_edit: '儲存變更',
       warn_pct: '⚠ {m}：官方 {o} → 此組 {v}，超出 ±30%（已照存，不阻擋）',
       done1: '✓ 自訂題材已建立', done1_edit: '✓ 已更新',
       del_title: '刪除此自訂題材？', del_confirm: '🗑 刪除', del_cancel: '取消',
@@ -58,7 +58,7 @@
       reset_note: '✓ 已重設回官方門檻', sync_note: '✓ 已同步官方更新', close: '關閉',
     },
     en: {
-      sec_title: 'My custom subjects', add_btn: '＋ Custom subject',
+      sec_title: 'My custom subjects', add_btn: '＋ Custom subject', empty_note: 'No custom subjects yet',
       badge: 'Custom', stale_badge: 'Official template updated — sync available',
       quota_fmt: 'Here {p}/{pc}', quota_owner: 'Here {p} (unlimited)',
       quota_free: 'Here {p}/{pc} · {t}/{tc} total · {d} new per day',
@@ -79,7 +79,7 @@
       wt_fixed: 'Fixed span', wt_bs: 'Before sunrise (daily dynamic)', wt_as: 'After sunrise (daily dynamic)', wt_bd: 'Before sunset (daily dynamic)', wt_ads: 'After sunset (daily dynamic)',
       win_off: 'Anchor offset (minutes, may be negative)', win_add2: '＋ Add a second span', win_rm: 'Remove this span', win_hint: 'Anchor spans expand with each day\u2019s REAL sunrise/sunset — winter and summer differ',
       win_before: 'before {t}', win_from: 'from {t}',
-      cc_prev: 'Summary:', cc_prev_none: '(no parameters set)', ed_submit: 'Create this set', ed_submit_edit: 'Save changes',
+      cc_prev: 'Summary:', ed_submit: 'Create this set', ed_submit_edit: 'Save changes',
       warn_pct: '⚠ {m}: official {o} → set {v}, beyond ±30% (saved anyway)',
       done1: '✓ Custom subject created', done1_edit: '✓ Updated',
       del_title: 'Delete this custom subject?', del_confirm: '🗑 Delete', del_cancel: 'Cancel',
@@ -89,7 +89,7 @@
       reset_note: '✓ Reset to official thresholds', sync_note: '✓ Official update synced', close: 'Close',
     },
     ja: {
-      sec_title: '自作題材', add_btn: '＋ 自作題材を追加',
+      sec_title: '自作題材', add_btn: '＋ 自作題材を追加', empty_note: '自作題材はまだありません',
       badge: '自作', stale_badge: '公式テンプレ更新あり・同期可能',
       quota_fmt: 'ここ {p}/{pc} 件', quota_owner: 'ここ {p} 件（無制限）',
       quota_free: 'ここ {p}/{pc} 件 · 合計 {t}/{tc} 件 · 1日{d}件まで追加',
@@ -110,7 +110,7 @@
       wt_fixed: '固定時間帯', wt_bs: '日の出前（毎日動的）', wt_as: '日の出後（毎日動的）', wt_bd: '日の入前（毎日動的）', wt_ads: '日の入後（毎日動的）',
       win_off: 'アンカーオフセット（分・負可）', win_add2: '＋ 2つ目を追加', win_rm: 'この枠を削除', win_hint: 'アンカーは当日の実際の日の出入りから毎日展開（季節で変わる）',
       win_before: '{t} まで', win_from: '{t} から',
-      cc_prev: 'サマリー：', cc_prev_none: '（未設定）', ed_submit: 'この題材を作成', ed_submit_edit: '変更を保存',
+      cc_prev: 'サマリー：', ed_submit: 'この題材を作成', ed_submit_edit: '変更を保存',
       warn_pct: '⚠ {m}：公式 {o} → この組 {v}、±30%外（保存可）',
       done1: '✓ 自作題材を作成しました', done1_edit: '✓ 保存しました',
       del_title: 'この自作題材を削除？', del_confirm: '🗑 削除', del_cancel: 'キャンセル',
@@ -375,7 +375,7 @@
     cloud: {
       key: 'cloud_low_max',
       options: {
-        'zh-TW': [['any', '不在乎', null], ['clear', '晴（低雲 ≤15%）', 15], ['partly', '少雲（低雲 ≤40%）', 40], ['cloudy', '多雲也可（低雲 ≤70%）', 70]],
+        'zh-TW': [['any', '不限', null], ['clear', '晴（低雲 ≤15%）', 15], ['partly', '少雲（低雲 ≤40%）', 40], ['cloudy', '多雲也可（低雲 ≤70%）', 70]],
         'en': [['any', "Don't care", null], ['clear', 'Clear (low ≤15%)', 15], ['partly', 'Partly cloudy (low ≤40%)', 40], ['cloudy', 'Cloudy OK (low ≤70%)', 70]],
         'ja': [['any', 'こだわらない', null], ['clear', '晴れ（下層雲 ≤15%）', 15], ['partly', '雲少なめ（下層雲 ≤40%）', 40], ['cloudy', '曇り可（下層雲 ≤70%）', 70]],
       },
@@ -622,9 +622,14 @@
           '</select><span class="cl-cp-sem-map" id="cl-ss-sem-map-' + axis + '">→ ' + esc(semanticMappedLabel(axis, cur)) + '</span></div></div>';
       };
       function v(k) { return cc[k] == null ? '' : String(cc[k]); }
+      // CL-UI-126 (owner report): the create form opened with an engineering
+      // subtitle 「（未調任何參數）」 and repeated it at the footer. Both are
+      // gone: the subtitle only renders once there IS a summary to show, and
+      // the footer preview stays hidden until a parameter is set.
+      var headSub = ccSummary(cc, lang);
       openOverlay(
         '<div class="cl-cp-m-head"><div><div class="name">' + esc(mode.set ? t().ed_title_edit : t().ed_title) + '</div>' +
-        '<div class="sub">' + esc(ccSummary(cc, lang) || t().cc_prev_none) + '</div></div>' +
+        (headSub ? '<div class="sub">' + esc(headSub) + '</div>' : '') + '</div>' +
         '<button type="button" class="close" data-ss-close aria-label="' + esc(t().close) + '">✕</button></div>' +
         '<div class="cl-cp-fld"><label>' + esc(t().ed_name) + '</label>' +
         '<input id="cl-ss-name" class="inp" maxlength="60" value="' + esc(set.name || '') + '" placeholder="' + esc(t().ed_name_ph) + '"></div>' +
@@ -650,7 +655,7 @@
         '<div class="cl-cp-ccp"><label>' + esc(t().p_vis) + '</label><input id="cl-ss-cc-vis" inputmode="decimal" value="' + esc(v('visibility_min_km')) + '"></div>' +
         '<div class="cl-cp-ccp"><label>' + esc(t().p_wind) + '</label><input id="cl-ss-cc-wind" inputmode="decimal" value="' + esc(v('wind_max_ms')) + '"></div>' +
         '</div></details>' +
-        '<div class="cl-cp-cc-preview"><span style="color:var(--cl-text-3)">' + esc(t().cc_prev) + '</span><span class="k" id="cl-ss-cc-prev">' + esc(ccSummary(cc, lang) || t().cc_prev_none) + '</span></div>' +
+        '<div class="cl-cp-cc-preview"' + (headSub ? '' : ' hidden') + '><span style="color:var(--cl-text-3)">' + esc(t().cc_prev) + '</span><span class="k" id="cl-ss-cc-prev">' + esc(headSub) + '</span></div>' +
         '<div class="cl-ss-warn" id="cl-ss-warn" role="status" aria-live="polite"></div>' +
         '<button type="button" class="cl-cp-submit ready" id="cl-ss-submit" style="cursor:pointer">' + esc(mode.set ? t().ed_submit_edit : t().ed_submit) + '</button>');
       wireClose();
@@ -674,7 +679,15 @@
         refreshPrev();
       }
       function refreshPrev() {
-        els.overlay.querySelector('#cl-ss-cc-prev').textContent = ccSummary(readCc(), currentLang()) || t().cc_prev_none;
+        // CL-UI-126: no 「（未調任何參數）」 placeholder — an empty summary
+        // hides the preview row instead of printing engineering text.
+        var s = ccSummary(readCc(), currentLang());
+        var k = els.overlay.querySelector('#cl-ss-cc-prev');
+        if (k) {
+          k.textContent = s;
+          var row = k.closest('.cl-cp-cc-preview');
+          if (row) row.hidden = !s;
+        }
         refreshWarn();
       }
       function refreshWarn() {
@@ -1006,7 +1019,7 @@
         state.lastEvalById = evById; // the edit flow reuses the verdict for the anchor hint
         var sets = data.sets || [];
         if (!sets.length) {
-          rows.innerHTML = '<div class="cl-ss-empty">' + esc(t().cc_prev_none) + '</div>';
+          rows.innerHTML = '<div class="cl-ss-empty">' + esc(t().empty_note) + '</div>';
         } else {
           rows.innerHTML = sets.map(function (s) { return setRowHtml(s, evById[s.id]); }).join('');
           wireRowActions(rows, host.placeId);
