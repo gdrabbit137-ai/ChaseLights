@@ -19,3 +19,7 @@ google-services.json
 
 # CL-PAGES-01: whitelist publish output (ops/pages/build_dist.sh)
 dist/
+
+# CL-PAGES-06: 948 MiB of per-spot 96h shards, rewritten every run and served
+# from R2. Git tracks the producer (analyze_weather.py), not the product.
+weather_details/

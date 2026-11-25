@@ -8,7 +8,19 @@
  * working, which is what makes the cut-over reversible.
  */
 (function () {
-  var base = typeof window.CL_DATA_BASE === 'string' ? window.CL_DATA_BASE.replace(/\/+$/, '') : '';
+  // Decided here, not by an inline <script> in the HTML: the legacy page
+  // contract forbids inline scripts in index.html (test_opportunity_adapter
+  // asserts `"<script>" not in index_html`). Local dev and the browser
+  // harnesses serve the data plane themselves, so loopback stays same-origin;
+  // every deployed host — pages.dev previews included — reads R2.
+  var overridden = Object.prototype.hasOwnProperty.call(window, 'CL_DATA_BASE');
+  var raw = overridden
+    ? window.CL_DATA_BASE
+    : (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname)
+        ? ''
+        : 'https://data.chaselights.app');
+  window.CL_DATA_BASE = typeof raw === 'string' ? raw : '';
+  var base = window.CL_DATA_BASE.replace(/\/+$/, '');
   window.clUrl = function (url) {
     if (!base || typeof url !== 'string') return url;
     if (url.charAt(0) !== '.' || url.charAt(1) !== '/') return url; // absolute / already external

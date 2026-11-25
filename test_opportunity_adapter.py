@@ -1625,7 +1625,12 @@ def test_adapter_integrity():
     assert 'details_name = f"{region}_weather_details.json"' not in analyze_weather_src
 
     update_weather_workflow = Path(".github/workflows/update_weather.yml").read_text(encoding="utf-8")
-    assert "git add tw_weather.json jp_weather.json us_weather.json weather_details/" in update_weather_workflow
+    assert "git add tw_weather.json jp_weather.json us_weather.json" in update_weather_workflow
+    # CL-PAGES-06: the 948 MiB per-spot shard tree is published to R2 by this
+    # workflow and never committed — committing it again would re-add the whole
+    # tree to git history on every 6h refresh.
+    assert "us_weather.json weather_details/" not in update_weather_workflow
+    assert "--only weather_details --from-disk" in update_weather_workflow
     assert "git rm -f --ignore-unmatch tw_weather_details.json jp_weather_details.json us_weather_details.json" in update_weather_workflow
     assert "git rm -f --ignore-unmatch usa_weather.json" in update_weather_workflow
 
