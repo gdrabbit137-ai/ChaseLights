@@ -31,7 +31,7 @@ indexes + `evaluations-details/`); full = 2,054 files / ~1.35 GiB.
 
 | Entry | Why |
 | --- | --- |
-| 6 root HTML shells + `CNAME` | the pages themselves |
+| 6 root HTML shells + `CNAME` + `404.html` | the pages themselves; `404.html` uses absolute `/assets/` URLs because it is served at any path depth |
 | `assets/` | JS/CSS/brand/vendor bundles |
 | `locales/` | zh-TW / en / ja copy |
 | `data/v2/copy/` | `fail_reason_overrides.json`, `live_cam.json` (fetched by `assets/app.js`) |

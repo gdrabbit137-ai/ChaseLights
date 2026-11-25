@@ -59,6 +59,7 @@ MAX_FILES="${DIST_MAX_FILES:-20000}"
 # named (directly or as a directory) never reaches dist.
 SITE_FILES=(
   index.html
+  404.html
   reminders.html
   weather-map.html
   genre-eval.html

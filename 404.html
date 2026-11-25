@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>404 — ChaseLights</title>
+  <meta name="robots" content="noindex">
+  <!-- Absolute URLs on purpose: this file is served for ANY missing path
+       (/a/b/c), so "./assets/..." would resolve against the broken path and
+       the stylesheet would 404 too. -->
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/app.css?v=clui121">
+  <style>
+    .nf-wrap{max-width:560px;margin:0 auto;padding:calc(var(--cl-sp-6) + env(safe-area-inset-top,0px)) var(--cl-sp-4) var(--cl-sp-6);
+      text-align:center;color:var(--cl-text-1)}
+    .nf-code{font-family:var(--cl-mono);font-size:var(--cl-fs-20);color:var(--cl-text-3);letter-spacing:.08em;margin:0 0 var(--cl-sp-3)}
+    .nf-title{font-size:1.25rem;font-weight:700;margin:0 0 var(--cl-sp-2)}
+    .nf-desc{margin:0 0 var(--cl-sp-5);color:var(--cl-text-2);line-height:1.6}
+    .nf-links{display:flex;flex-wrap:wrap;gap:var(--cl-sp-2);justify-content:center}
+    .nf-links a{display:inline-flex;align-items:center;justify-content:center;height:var(--cl-btn-h);min-height:44px;
+      padding:0 var(--cl-sp-4);border-radius:var(--cl-r-xs);border:1px solid var(--cl-border-strong);
+      color:var(--cl-text-1);text-decoration:none;font-size:var(--cl-fs-13)}
+    .nf-links a.primary{border-color:var(--cl-green);background:var(--cl-green);color:var(--cl-bg-0);font-weight:600}
+  </style>
+</head>
+<body>
+  <main class="nf-wrap">
+    <p class="nf-code">404</p>
+    <h1 class="nf-title">找不到這個頁面</h1>
+    <p class="nf-desc">這個網址可能已經搬家，或景點代號有誤。<br>回到首頁重新選一個景點吧。</p>
+    <nav class="nf-links">
+      <a class="primary" href="/index.html">回首頁</a>
+      <a href="/weather-map.html">天氣地圖</a>
+      <a href="/reminders.html">我的提醒</a>
+    </nav>
+  </main>
+  <script src="/assets/site-footer.js?v=sf01" defer></script>
+</body>
+</html>

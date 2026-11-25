@@ -29,6 +29,7 @@ SCRIPT = os.path.join("ops", "pages", "build_dist.sh")
 # assets/*.js + the shell documents' script tags).
 REQUIRED = [
     "index.html",
+    "404.html",
     "reminders.html",
     "weather-map.html",
     "genre-eval.html",
@@ -142,6 +143,11 @@ def test_light_build_on_disk():
         assert os.path.isdir(os.path.join(out, "apps", "web-v2", "evaluations-details"))
         for rel in FORBIDDEN + [".manifest.tmp"]:
             assert not os.path.exists(os.path.join(out, rel)), f"leaked {rel}"
+        # 404 is served at any depth, so its asset URLs must be absolute.
+        nf = os.path.join(out, "404.html")
+        assert os.path.isfile(nf), "404.html missing from dist"
+        html = open(nf, encoding="utf-8").read()
+        assert 'href="/assets/app.css' in html, "404.html must use /assets/ (absolute), never ./assets/"
         # --light must not drag the heavy data dirs along
         for rel in ("weathergrid", "weather_details"):
             assert not os.path.exists(os.path.join(out, rel)), f"--light emitted {rel}"
