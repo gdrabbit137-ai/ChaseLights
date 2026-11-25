@@ -17,6 +17,14 @@ bash ops/pages/build_dist.sh --out DIR
 Exit codes: `0` ok, `2` forbidden engineering path leaked, `3` a file hit the
 25 MiB Cloudflare per-file ceiling, `4` the dist exceeded 20,000 files.
 
+The copy source is `git ls-files` — **tracked files only**. The working tree
+carries ~2 GB of generated, uncommitted tiles under `weathergrid/` and
+`weather_details/`; a directory copy would ship them, so the script resolves the
+whitelist against the index instead and copies file by file.
+
+Measured sizes: `--light` = 533 files / 160.6 MiB (HTML + assets + locales +
+indexes + `evaluations-details/`); full = 2,054 files / ~1.35 GiB.
+
 `_headers` (Cloudflare Pages header config) is copied to the output root.
 
 ### What ships

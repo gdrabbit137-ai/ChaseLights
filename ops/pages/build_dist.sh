@@ -7,10 +7,14 @@
 # static site actually fetches, and refuses to emit a dist that still carries
 # any engineering path.
 #
+# The copy source is `git ls-files`, not the working tree: generated but
+# uncommitted artefacts (weathergrid/ and weather_details/ carry ~2 GB of them
+# locally) must never leak into a deployment.
+#
 # Usage:
 #   bash ops/pages/build_dist.sh                # full site (incl. weathergrid/ + weather_details/)
 #   bash ops/pages/build_dist.sh --light        # skip the heavy data dirs (fast local/CI contract runs)
-#   bash ops/pages/build_dist.sh --dry-run      # print the resolved manifest, copy nothing
+#   bash ops/pages/build_dist.sh --dry-run      # print the resolved file list, copy nothing
 #   bash ops/pages/build_dist.sh --out DIR      # alternative output dir (default: <repo>/dist)
 #
 # Exit codes:
@@ -28,6 +32,9 @@ shopt -s nullglob
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+# Native tools (git on MSYS) do not translate /d/... paths — hand them the
+# Windows form when cygpath is available, keep the POSIX form everywhere else.
+ROOT_GIT="$(cygpath -m "$ROOT" 2>/dev/null || printf '%s' "$ROOT")"
 
 OUT=""
 LIGHT=0
@@ -96,7 +103,12 @@ FORBIDDEN=(
   .hermes.md
 )
 
-manifest() {
+if ! git -C "$ROOT_GIT" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "build_dist: $ROOT is not a git work tree" >&2
+  exit 64
+fi
+
+entries() {
   local f
   for f in "${SITE_FILES[@]}"; do
     [ -f "$ROOT/$f" ] && printf '%s\n' "$f"
@@ -121,8 +133,26 @@ manifest() {
   printf '_headers\n'
 }
 
+# Tracked files only. A directory entry expands to its recursive tracked list.
+resolve_files() {
+  local e n
+  while IFS= read -r e; do
+    [ -z "$e" ] && continue
+    if [ "$e" = "_headers" ]; then
+      printf '%s\n' "_headers"
+      continue
+    fi
+    n=$(git -C "$ROOT_GIT" ls-files -z -- "${e%/}" | tr -cd '\0' | wc -c | tr -d ' ')
+    if [ "$n" -eq 0 ]; then
+      echo "build_dist: WARN whitelist entry has no tracked files: $e" >&2
+      continue
+    fi
+    git -C "$ROOT_GIT" ls-files -z -- "${e%/}" | tr '\0' '\n'
+  done < <(entries)
+}
+
 if [ "$DRY" -eq 1 ]; then
-  manifest | sort
+  resolve_files | sort -u
   exit 0
 fi
 
@@ -130,27 +160,15 @@ fi
 rm -rf "$OUT"
 mkdir -p "$OUT"
 
-copy_entry() {
-  local rel="$1"
-  local src="$ROOT/${rel%/}"
-  local dst="$OUT/${rel%/}"
-  if [ -d "$src" ]; then
-    mkdir -p "$dst"
-    cp -R "$src/." "$dst/"
-  elif [ -f "$src" ]; then
-    mkdir -p "$(dirname "$dst")"
-    cp -p "$src" "$dst"
-  fi
-}
-
-manifest | sort -u > "$OUT/.manifest.tmp"
-N_ENTRIES=0
+resolve_files | sort -u > "$OUT/.files.tmp"
 while IFS= read -r rel; do
+  [ -z "$rel" ] && continue
   [ "$rel" = "_headers" ] && continue
-  copy_entry "$rel"
-  N_ENTRIES=$((N_ENTRIES + 1))
-done < "$OUT/.manifest.tmp"
-rm -f "$OUT/.manifest.tmp"
+  dst="$OUT/$rel"
+  mkdir -p "$(dirname "$dst")"
+  cp -p "$ROOT/$rel" "$dst"
+done < "$OUT/.files.tmp"
+rm -f "$OUT/.files.tmp"
 
 cp -p "$SCRIPT_DIR/_headers" "$OUT/_headers"
 
@@ -194,8 +212,8 @@ if [ "$N_FILES" -gt "$MAX_FILES" ]; then
   exit 4
 fi
 
-printf 'build_dist: OK  entries=%d files=%d size=%.1f MiB (%.2f GiB) warn_near_limit=%d light=%d\n' \
-  "$N_ENTRIES" "$N_FILES" \
+printf 'build_dist: OK  files=%d size=%.1f MiB (%.2f GiB) warn_near_limit=%d light=%d\n' \
+  "$N_FILES" \
   "$(awk -v b="$TOTAL" 'BEGIN{printf "%.1f", b/1048576}')" \
   "$(awk -v b="$TOTAL" 'BEGIN{printf "%.2f", b/1073741824}')" \
   "$WARNED" "$LIGHT"
