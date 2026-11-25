@@ -23,11 +23,11 @@
   var ME_ENDPOINT = '/api/v1/auth/me';
   var CATALOG_URL = './apps/web-v2/evaluations-latest.json';
   var REGIONS = [
-    { id: 'tw', flag: '🇹🇼' },
-    { id: 'jp', flag: '🇯🇵' },
-    { id: 'us', flag: '🇺🇸' },
-    { id: 'ak', flag: '🇺🇸' },
-    { id: 'hi', flag: '🇺🇸' }
+    { id: 'tw', flag: '🇹🇼', name: { 'zh-TW': '台灣', en: 'Taiwan', ja: '台湾' } },
+    { id: 'jp', flag: '🇯🇵', name: { 'zh-TW': '日本', en: 'Japan', ja: '日本' } },
+    { id: 'us', flag: '🇺🇸', name: { 'zh-TW': '美國', en: 'US', ja: 'アメリカ' } },
+    { id: 'ak', flag: '🇺🇸', name: { 'zh-TW': '阿拉斯加', en: 'Alaska', ja: 'アラスカ' } },
+    { id: 'hi', flag: '🇺🇸', name: { 'zh-TW': '夏威夷', en: 'Hawaii', ja: 'ハワイ' } }
   ];
 
   var I18N = {
@@ -289,7 +289,7 @@
   // Pure helpers (unit-tested via source extraction).
   function regionOfPlace(placeId) { return String(placeId || '').split('-')[0]; }
   function regionName(regionId, lg) {
-    for (var i = 0; i < REGIONS.length; i++) if (REGIONS[i].id === regionId) return REGIONS[i].flag + ' ' + regionId.toUpperCase();
+    for (var i = 0; i < REGIONS.length; i++) if (REGIONS[i].id === regionId) return REGIONS[i].flag + ' ' + nameOf(REGIONS[i].name, lg);
     return regionId;
   }
   function nameOf(i18n, lg) {
