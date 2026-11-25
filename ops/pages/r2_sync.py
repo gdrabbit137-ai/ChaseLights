@@ -172,6 +172,8 @@ def main() -> int:
     ap.add_argument("--dry-run", action="store_true", help="list only (default)")
     ap.add_argument("--prune", action="store_true", help="delete bucket keys with no local file")
     ap.add_argument("--only", choices=PREFIXES, action="append", default=None)
+    ap.add_argument("--files-from", default=None,
+                    help="newline-separated repo-relative paths to sync (default: all tracked)")
     ap.add_argument("--bucket", default=os.environ.get("R2_BUCKET", DEFAULT_BUCKET))
     ap.add_argument("--endpoint", default=os.environ.get(
         "R2_ENDPOINT", f"https://{DEFAULT_ACCOUNT}.r2.cloudflarestorage.com"))
@@ -180,7 +182,15 @@ def main() -> int:
     args = ap.parse_args()
 
     only = tuple(args.only) if args.only else PREFIXES
-    rows = plan(only)
+    if args.files_from:
+        wanted = [ln.strip() for ln in open(args.files_from, encoding="utf-8") if ln.strip()]
+        wanted = [w for w in wanted if w.startswith(PREFIXES)]
+        present = {rel: path for rel, path in iter_files(only)}
+        rows = [{"key": w, "path": present[w], "size": os.path.getsize(present[w]),
+                 "content_type": content_type(w), "cache_control": cache_control(w)}
+                for w in wanted if w in present]
+    else:
+        rows = plan(only)
     total_bytes = sum(r["size"] for r in rows)
 
     by_cache: dict[str, int] = {}

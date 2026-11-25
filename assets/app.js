@@ -2153,8 +2153,11 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         dayOffsetOverride=1;
         try{
           lateNightTomorrowRows.forEach(row=>{row.metric=getMetric(row.spot);});
-          lateNightTomorrowRows.forEach(({spot,metric})=>{
-            const card=createSpotCard(spot,metric,row.cpOpts);
+          lateNightTomorrowRows.forEach(({spot,metric,cpOpts})=>{
+            // CL-CI-42: the destructuring dropped `row` while the body still
+            // read row.cpOpts — ReferenceError on every tier switch that hits
+            // the late-night-tomorrow branch (i.e. the 全部 tab).
+            const card=createSpotCard(spot,metric,cpOpts);
             card.querySelector('.spot-title-group').insertAdjacentHTML('afterbegin',`<span class="tomorrow-badge">${esc(d().tomorrow_badge)}</span>`);
             container.appendChild(card);
           });

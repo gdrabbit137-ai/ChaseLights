@@ -184,7 +184,7 @@ test('CL-UI-111 (S6): css — dot uses the contract red token, lazy-player shell
 });
 
 test('CL-UI-111 (S7): cache-bust stamp bumped to clui118', () => {
-  assert.match(htmlSource, /assets\/app\.js\?v=clui126/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui127/);
   assert.doesNotMatch(htmlSource, /clui110/);
 });
 
@@ -350,7 +350,14 @@ async function loadPage(width = 1280, height = 900, mobile = false) {
     if(all){all.click();return 'clicked';}
     return 'no-tabs';
   })()`);
-  await new Promise(r => setTimeout(r, 400));
+  // CL-CI-42: the tier-tab click re-renders the grid (filterAndRender clears
+  // innerHTML first). A fixed 400 ms sleep could land inside that window and
+  // the probe then read 0 cards. Wait until the card count is non-zero AND
+  // stable across two samples instead.
+  await evaljs(`new Promise((resolve)=>{let last=-1,same=0;const t0=Date.now();
+    const iv=setInterval(()=>{const n=document.querySelectorAll('.card').length;
+      if(n>0&&n===last)same++;else same=0;last=n;
+      if(same>=2||Date.now()-t0>20000){clearInterval(iv);resolve(n);}},120);})`);
 }
 
 test('CL-UI-111 (H1): cards with a camera get the 4th LIVE button; without keep 3', async () => {

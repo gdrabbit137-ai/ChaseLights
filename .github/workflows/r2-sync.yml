@@ -1,0 +1,83 @@
+name: R2 data sync
+
+# CL-PAGES-05: the heavy weather artefacts (weathergrid/ + weather_details/) are
+# served from Cloudflare R2. The scheduled producers still commit them to git
+# today, so this workflow mirrors whatever landed on main into the bucket —
+# incrementally, using the push diff, so a routine tile refresh uploads a few
+# files instead of the whole 1.2 GiB.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "weathergrid/**"
+      - "weather_details/**"
+      - "ops/pages/r2_sync.py"
+      - ".github/workflows/r2-sync.yml"
+  workflow_dispatch:
+    inputs:
+      full:
+        description: "Upload every tracked file (slow, ~1.2 GiB)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: r2-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Mirror weather data into R2
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install boto3
+        run: python -m pip install --quiet 'boto3>=1.34'
+
+      - name: Resolve changed paths
+        id: changed
+        run: |
+          if [ "${{ inputs.full }}" = "true" ]; then
+            python ops/pages/r2_sync.py --dry-run > /dev/null
+            echo "mode=full" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" \
+            -- weathergrid weather_details > /tmp/changed.txt || true
+          # a force-push or a missing parent gives an empty range: fall back to full
+          if [ ! -s /tmp/changed.txt ]; then
+            echo "mode=full" >> "$GITHUB_OUTPUT"
+          else
+            wc -l < /tmp/changed.txt | xargs echo "changed files:"
+            echo "mode=changed" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload to R2
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: chaselights-data
+          R2_ENDPOINT: https://218303e56b40f3bc72f70bcc975fda64.r2.cloudflarestorage.com
+        run: |
+          if [ "${{ steps.changed.outputs.mode }}" = "changed" ]; then
+            python ops/pages/r2_sync.py --apply --files-from /tmp/changed.txt
+          else
+            python ops/pages/r2_sync.py --apply
+          fi
+
+      - name: Verify a known object
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' https://data.chaselights.app/weathergrid/index.json)
+          echo "weathergrid/index.json -> $code"
+          test "$code" = "200"
