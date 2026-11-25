@@ -1,0 +1,55 @@
+# Cloudflare Pages headers for the ChaseLights static origin.
+# Copied into dist/ by ops/pages/build_dist.sh; Pages reads it at the output root.
+# Keep it token-free: this file is served as configuration, never as a page.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(self), camera=(), microphone=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Versioned bundles: the ?v= stamp is the cache key, so the file body is immutable.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Places / opportunities indexes: rewritten by the scheduled data runs.
+/data/*
+  Cache-Control: public, max-age=300
+
+/apps/web-v2/*
+  Cache-Control: public, max-age=300
+
+/weathergrid/*
+  Cache-Control: public, max-age=600
+
+/weather_details/*
+  Cache-Control: public, max-age=300
+
+/tw_weather.json
+  Cache-Control: public, max-age=300
+
+/jp_weather.json
+  Cache-Control: public, max-age=300
+
+/us_weather.json
+  Cache-Control: public, max-age=300
+
+# Shell documents must revalidate so a new deploy is visible immediately.
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/reminders.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/weather-map.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/genre-eval.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/field-intake.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/sources.html
+  Cache-Control: public, max-age=0, must-revalidate
