@@ -104,6 +104,15 @@ def has(entries: list[str], want: str) -> bool:
 RESULTS: list[tuple[bool, str, str]] = []
 
 
+def test_script_is_lf_only():
+    """The build runs on Linux: a CRLF shebang line makes bash die with
+    `set: pipefail\\r: invalid option name` (measured on the first Cloudflare
+    Pages build)."""
+    for rel in ("ops/pages/build_dist.sh", "ops/pages/_headers"):
+        raw = open(os.path.join(REPO, rel), "rb").read()
+        assert b"\r" not in raw, f"{rel} must be LF-only (found CR)"
+
+
 def check(name: str, fn):
     tmp = None
     try:
@@ -181,6 +190,7 @@ def test_file_count_ceiling_aborts():
 
 
 def main() -> int:
+    check("script and headers are LF-only", test_script_is_lf_only)
     check("manifest carries the runtime surface", test_manifest_has_runtime_surface)
     check("manifest carries no engineering paths", test_manifest_has_no_engineering_paths)
     check("--light build lands on disk without leaks", test_light_build_on_disk)
