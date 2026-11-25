@@ -35,7 +35,6 @@ REQUIRED = [
     "genre-eval.html",
     "field-intake.html",
     "sources.html",
-    "CNAME",
     "assets/app.js",
     "assets/reminders-page.js",
     "assets/weather-map.js",
@@ -156,7 +155,7 @@ def test_light_build_on_disk():
         r = run(["--light", "--out", out])
         assert r.returncode == 0, f"build failed ({r.returncode}): {r.stderr}"
         assert "build_dist: OK" in r.stdout, r.stdout
-        for rel in ["index.html", "reminders.html", "CNAME", "_headers",
+        for rel in ["index.html", "reminders.html", "_headers",
                     os.path.join("assets", "app.js"),
                     os.path.join("assets", "reminders-page.js"),
                     os.path.join("data", "v2", "copy", "live_cam.json"),

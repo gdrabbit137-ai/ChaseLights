@@ -65,7 +65,6 @@ SITE_FILES=(
   genre-eval.html
   field-intake.html
   sources.html
-  CNAME
 )
 SITE_DIRS=(
   assets
