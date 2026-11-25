@@ -1302,7 +1302,11 @@
       if (view) state.view = view;
     } catch (_) { /* bbox mirror is best-effort */ }
     if (state.mapReady && state.map) {
-      state.map.jumpTo({ center: cam.center.slice(), zoom: cam.zoom });
+      // REGION_CAMERA_DEFAULTS stores [lat, lon]; MapLibre's center is
+      // [lng, lat]. Passing it through unswapped threw
+      // 'Invalid LngLat latitude value' and the camera never landed, so
+      // ?region=tw opened on the whole of East Asia.
+      state.map.jumpTo({ center: [cam.center[1], cam.center[0]], zoom: cam.zoom });
     }
     return true;
   }
