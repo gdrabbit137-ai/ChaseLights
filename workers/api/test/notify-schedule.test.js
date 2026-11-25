@@ -573,3 +573,70 @@ test("CL-UX-01 (16): a custom-conditions rule that never matches stays silent", 
   assert.equal(t.notify_log.size, 0, "silence leaves no ledger row (nothing to dedupe)");
   assert.ok(summary.silent_skipped >= 1, "the reason is counted, not swallowed");
 });
+
+// The owner asked for the full advanced-player path in one case: a cadence
+// (every N days) that unlocks a NON-ROUND send time (20:15) and judges the
+// owner's own hourly thresholds — cadence gate, bucket dedupe, lead_days
+// horizon, target_weekdays filter and the custom thresholds must all hold at
+// the same time. Two 30-minute ticks on the same day must never double-send.
+test("CL-UX-01 (17): every_n cadence + 20:15 bucket + custom_conditions fires once, then waits", async () => {
+  const { env, db } = makeEnv({
+    kv: {
+      "v1:evals:tw-cx": JSON.stringify({
+        place_id: "tw-cx", name_i18n: { "zh-TW": "自訂點" }, timezone: "Asia/Taipei",
+        hourly: [
+          // Friday — fails the owner's thresholds (cloud_low 80 > 30).
+          { local_date: "2026-11-27", hour: "05:00",
+            values: { cloud_low: 80, cloud_mid: 10, cloud_high: 10, precipitation: 0, visibility: 20, wind: 2 } },
+          // Saturday — passes, and Saturday is the only 目標出景日.
+          { local_date: "2026-11-28", hour: "05:00",
+            values: { cloud_low: 20, cloud_mid: 10, cloud_high: 10, precipitation: 0, visibility: 15, wind: 2 } },
+          // Sunday — passes the thresholds but is NOT a 目標出景日.
+          { local_date: "2026-11-29", hour: "04:00",
+            values: { cloud_low: 15, cloud_mid: 10, cloud_high: 10, precipitation: 0, visibility: 18, wind: 1 } },
+        ],
+      }),
+    },
+  });
+  const t = db._tables;
+  t.telegram_bindings.set("u1", { chat_id: "123", status: "active" });
+  t.notify_rules.push({
+    id: "r-adv", user_id: "u1", place_id: "tw-cx", opportunity_id: null,
+    channel: "telegram", min_advance_hours: 0, enabled: 1,
+    custom_conditions: JSON.stringify({ cloud_low_max: 30, visibility_min_km: 10 }),
+    schedule_mode: "every_n_days", schedule_every_n: 3, schedule_weekdays: null,
+    send_time: "20:15", lead_days: 3, target_weekdays: "6", min_tier: "recommend",
+    tz: "Asia/Taipei", last_sent_at: null,
+  });
+
+  // First tick: 20:20 local — past 20:15, cadence open (never sent).
+  const first = await cronWith(env, T("2026-11-26T20:20:00+08:00"));
+  assert.equal(first.sends.length, 1, "the 20:15 bucket fires on the first tick past it");
+  const body = String(first.sends[0].init.body);
+  assert.ok(body.includes("自訂點"), "the custom-conditions place rides the message");
+  assert.ok(body.includes("2026-11-28 05:00"), "the earliest matching hour inside the horizon wins");
+  assert.ok(!body.includes("2026-11-27"), "the threshold-failing Friday hour is filtered out");
+  assert.ok(!body.includes("2026-11-29"), "a passing hour outside 目標出景日 is filtered out");
+  const rows = [...t.notify_log.values()];
+  assert.equal(rows.length, 1, "one ledger row for the cadence day");
+  assert.equal(rows[0].window_start, "2026-11-26", "the bucket is the local cadence day");
+  assert.ok(t.notify_rules[0].last_sent_at, "last_sent_at is stamped after the send");
+
+  // Second tick 30 minutes later, same local day: the cadence gate holds.
+  const second = await cronWith(env, T("2026-11-26T20:50:00+08:00"));
+  assert.equal(second.sends.length, 0, "a second tick on the same day never re-sends");
+  assert.equal(t.notify_log.size, 1, "no second ledger row");
+  assert.ok(second.summary.schedule_not_due >= 1, "the cadence block is counted");
+
+  // Next day (diff = 1 < 3): still gated.
+  const third = await cronWith(env, T("2026-11-27T20:20:00+08:00"));
+  assert.equal(third.sends.length, 0, "every_n=3 does not fire the day after");
+  assert.ok(third.summary.schedule_not_due >= 1);
+
+  // Day 3 (diff = 3): the cadence releases, but the only matching hour is now
+  // in the past, so the rule stays SILENT rather than sending an empty push.
+  const fourth = await cronWith(env, T("2026-11-29T20:20:00+08:00"));
+  assert.equal(fourth.sends.length, 0, "cadence open but no future matching hour => silence");
+  assert.ok(fourth.summary.silent_skipped >= 1, "the silence is counted, not swallowed");
+  assert.equal(t.notify_log.size, 1, "silence writes no ledger row");
+});
