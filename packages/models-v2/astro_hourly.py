@@ -53,6 +53,37 @@ from lunar_ephemeris import (  # noqa: E402
 
 SUNRISE_HALF_WIDTH_MIN = 40
 SUNSET_HALF_WIDTH_MIN = 40
+
+# ---------------------------------------------------------------------------
+# HARD PHYSICAL LOCAL-CLOCK GUARDS (sunrise / sunset families)
+#
+# The +/-40 min proximity test alone is NOT a physical invariant: it only asks
+# "is this sample near a crossing", so any slip in the LOCAL clock — a wrong
+# sign on utc_offset_seconds, a DST assumption, an unresolved timezone falling
+# back to 0, an events list computed for another coordinate group, or a display
+# layer re-basing an already-local stamp — publishes a "sunrise" hour in the
+# middle of the afternoon. 七星潭 (tw-036) rendering a 15:00-16:00 sunrise
+# window is exactly that class of failure, and it cannot be argued away with
+# numbers: a user who reads "sunrise at 15:00" stops trusting every other value
+# on the card.  The clock guard is therefore enforced HERE, in the engine that
+# produces the verdicts, not in the UI.
+#
+# A sample of the sunrise family qualifies only when ALL THREE hold:
+#   1. it is within +/-SUNRISE_HALF_WIDTH_MIN of the rising crossing,
+#   2. its LOCAL clock time (spot timezone, threaded in as utc_offset_seconds)
+#      falls inside SUNRISE_LOCAL_GUARD / SUNSET_LOCAL_GUARD,
+#   3. the sun's azimuth at that instant is in the family's horizon quadrant
+#      (rising = east, setting = west) — the direct geometric cross-check that
+#      catches a mislabelled or mis-sourced crossing.
+# The guards are wide enough for every latitude where the family is shootable
+# (mid-latitude winter mornings ~07:00, summer evenings ~19:00) and narrow
+# enough that a mid-day or mid-afternoon stamp can never pass.
+# ---------------------------------------------------------------------------
+SUNRISE_LOCAL_GUARD = (4 * 60 + 30, 8 * 60 + 30)     # 04:30-08:30 local
+SUNSET_LOCAL_GUARD = (16 * 60, 19 * 60 + 30)         # 16:00-19:30 local
+SUNRISE_AZIMUTH_QUADRANT = (45.0, 135.0)             # eastern horizon
+SUNSET_AZIMUTH_QUADRANT = (225.0, 315.0)             # western horizon
+
 BLUE_LOW_DEG = -8.0
 BLUE_HIGH_DEG = -4.0
 GOLDEN_LOW_DEG = -6.0
@@ -160,6 +191,45 @@ def _sun_azimuth(dt_utc, lat, lon):
     return value if 0.0 <= value <= 360.0 else None
 
 
+def _local_offset_seconds(lat, lon, utc_offset_seconds=None):
+    """Local-clock offset (seconds, local = UTC + offset) for the guard.
+
+    The caller that knows the spot's real timezone MUST thread it in
+    (evaluate_batch passes the same utc_offset it labels the hours with).
+    When it is omitted we fall back to the longitude's mean-solar offset —
+    within ~1 h of civil time at every spot, which is a sound basis for a
+    4-hour-wide physical guard and never silently assumes UTC (a UTC default
+    would have blocked every real sunrise east of Greenwich)."""
+    if utc_offset_seconds is not None:
+        try:
+            return float(utc_offset_seconds)
+        except (TypeError, ValueError):
+            pass
+    return float(lon) / 15.0 * 3600.0
+
+
+def _local_minute_of_day(epoch_s, offset_s):
+    """Local wall-clock minute (0-1440) of an absolute UTC epoch."""
+    return (((epoch_s + offset_s) % 86400.0) + 86400.0) % 86400.0 / 60.0
+
+
+def _in_local_guard(epoch_s, offset_s, guard):
+    """True when the instant's LOCAL clock time falls inside `guard`.
+
+    `guard` is a (start_minute, end_minute) pair in local minutes; a pair that
+    wraps midnight (start > end) is handled so a future guard can never be
+    silently inverted."""
+    local_min = _local_minute_of_day(epoch_s, offset_s)
+    start, end = guard
+    if start <= end:
+        return start <= local_min <= end
+    return local_min >= start or local_min <= end
+
+
+def _azimuth_in_quadrant(az_deg, quadrant):
+    return az_deg is not None and quadrant[0] <= az_deg <= quadrant[1]
+
+
 def sun_events_span(lat, lon, start_epoch, end_epoch, step_s=600):
     """All sunrise/sunset crossings in [start, end] at step resolution,
     linearly interpolated to the crossing second. Compute once per place/span;
@@ -197,7 +267,7 @@ def _bucket_altitudes(dt_utc, lat, lon, events=None):
     return samples, altitudes, events
 
 
-def window_pass_profiles(dt_utc, lat, lon, events=None):
+def window_pass_profiles(dt_utc, lat, lon, events=None, utc_offset_seconds=None):
     """CL-DATA-31: per-sample pass booleans for every sub-hour window metric,
     over the SAME [dt, dt+60min) bucket and WINDOW_SAMPLE_OFFSETS grid that
     hour_observations aggregates with any()/all(). A bucket qualifies when ANY
@@ -207,11 +277,16 @@ def window_pass_profiles(dt_utc, lat, lon, events=None):
     only opens 05:25 (sun still below −10° at 05:00; challenger audit
     2026-11-08). The evaluator uses the profiles to stamp a qualifying bucket
     at its EARLIEST passing sample instead of the bucket start, so a
-    qualifying-hour label never claims light earlier than the window provides."""
+    qualifying-hour label never claims light earlier than the window provides.
+
+    `utc_offset_seconds` is the spot's local-minus-UTC offset; it feeds the hard
+    physical guards on the sunrise/sunset families (see SUNRISE_LOCAL_GUARD).
+    """
     if events is None:
         epoch0 = dt_utc.timestamp()
         events = sun_events_span(lat, lon, epoch0 - 86400, epoch0 + 86400)
     samples, altitudes, events = _bucket_altitudes(dt_utc, lat, lon, events)
+    guard_offset_s = _local_offset_seconds(lat, lon, utc_offset_seconds)
     profiles = {
         "astronomical_darkness": [a <= DARKNESS_MAX_DEG for a in altitudes],
         "city_night_window": [a <= CITY_NIGHT_MAX_DEG for a in altitudes],
@@ -250,10 +325,11 @@ def window_pass_profiles(dt_utc, lat, lon, events=None):
         "sunrise_time_window": [False] * len(samples),
         "sunset_window": [False] * len(samples),
     }
-    for key, kind, half in (("sunrise_time_window", "sunrise",
-                             SUNRISE_HALF_WIDTH_MIN * 60),
-                            ("sunset_window", "sunset",
-                             SUNSET_HALF_WIDTH_MIN * 60)):
+    for key, kind, half, clock_guard, az_quadrant in (
+            ("sunrise_time_window", "sunrise", SUNRISE_HALF_WIDTH_MIN * 60,
+             SUNRISE_LOCAL_GUARD, SUNRISE_AZIMUTH_QUADRANT),
+            ("sunset_window", "sunset", SUNSET_HALF_WIDTH_MIN * 60,
+             SUNSET_LOCAL_GUARD, SUNSET_AZIMUTH_QUADRANT)):
         for i, t in enumerate(samples):
             best = None
             for event_t, event_kind in events:
@@ -261,7 +337,23 @@ def window_pass_profiles(dt_utc, lat, lon, events=None):
                     delta = abs(event_t - t)
                     if best is None or delta < best:
                         best = delta
-            profiles[key][i] = best is not None and best <= half
+            # (1) proximity to the crossing of this family.
+            if best is None or best > half:
+                continue
+            # (2) hard local-clock guard — a sunrise can only ever happen in
+            # the local morning, a sunset only in the local evening. This is
+            # the invariant that makes a "15:00 sunrise" impossible regardless
+            # of any offset/label slip upstream.
+            if not _in_local_guard(t, guard_offset_s, clock_guard):
+                continue
+            # (3) azimuth quadrant sanity — the sun rises in the east and sets
+            # in the west at every latitude; an out-of-quadrant azimuth means
+            # the crossing we matched is not the one the clock claims.
+            if not _azimuth_in_quadrant(
+                    _sun_azimuth(datetime.fromtimestamp(t, timezone.utc),
+                                 lat, lon), az_quadrant):
+                continue
+            profiles[key][i] = True
     # CL-DATA-73: morning window membership. A sample qualifies when the
     # rising crossing it belongs to (the latest sunrise at or before the
     # sample) precedes it by 1-3 h; the events list is already sorted, so a
@@ -282,7 +374,8 @@ def window_pass_profiles(dt_utc, lat, lon, events=None):
     return profiles
 
 
-def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
+def hour_observations(dt_utc, lat, lon, events=None, need_moon=False,
+                      utc_offset_seconds=None):
     """Astronomy metric values for one hour bucket. `events` is the precomputed
     sun_events_span list for this coordinate (computed once per place when
     omitted). Window metrics are evaluated by SUB-HOUR INTERVAL SAMPLING over
@@ -300,7 +393,8 @@ def hour_observations(dt_utc, lat, lon, events=None, need_moon=False):
     # CL-DATA-31: hour_observations is exactly the any()/all() aggregation of
     # the per-sample window profiles over the same bucket and sampling grid,
     # so both functions share one code path and can never drift.
-    profiles = window_pass_profiles(dt_utc, lat, lon, events=events)
+    profiles = window_pass_profiles(dt_utc, lat, lon, events=events,
+                                    utc_offset_seconds=utc_offset_seconds)
     # CL-DATA-13: azimuth at the grid instant — same chain and same sampling
     # granularity as the altitude scalar (windows sample; scalars don't).
     out = {
