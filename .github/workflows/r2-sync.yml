@@ -45,25 +45,58 @@ jobs:
       - name: Install boto3
         run: python -m pip install --quiet 'boto3>=1.34'
 
+      # Runs on every trigger, including a docs-only touch of the sync script, so
+      # a missing or rotated secret surfaces as a red check immediately instead of
+      # the first time a tile refresh lands.
+      - name: Verify R2 credentials
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET: chaselights-data
+          R2_ENDPOINT: https://218303e56b40f3bc72f70bcc975fda64.r2.cloudflarestorage.com
+        run: |
+          python - <<'PY'
+          import os
+          import boto3
+          from botocore.config import Config
+          s3 = boto3.client(
+              "s3",
+              endpoint_url=os.environ["R2_ENDPOINT"],
+              aws_access_key_id=os.environ["R2_ACCESS_KEY_ID"],
+              aws_secret_access_key=os.environ["R2_SECRET_ACCESS_KEY"],
+              region_name="auto",
+              config=Config(signature_version="s3v4"),
+          )
+          head = s3.list_objects_v2(Bucket=os.environ["R2_BUCKET"], MaxKeys=1)
+          print("R2 reachable; objects present:", head.get("KeyCount", 0))
+          PY
+
       - name: Resolve changed paths
         id: changed
         run: |
           if [ "${{ inputs.full }}" = "true" ]; then
-            python ops/pages/r2_sync.py --dry-run > /dev/null
             echo "mode=full" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" \
-            -- weathergrid weather_details > /tmp/changed.txt || true
-          # a force-push or a missing parent gives an empty range: fall back to full
-          if [ ! -s /tmp/changed.txt ]; then
+          before="${{ github.event.before }}"
+          if [ -z "$before" ] || ! git cat-file -e "${before}^{commit}" 2>/dev/null; then
+            # force-push or unknown parent: the diff range is meaningless
             echo "mode=full" >> "$GITHUB_OUTPUT"
-          else
-            wc -l < /tmp/changed.txt | xargs echo "changed files:"
-            echo "mode=changed" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
+          git diff --name-only "$before" "${{ github.sha }}" > /tmp/all.txt || true
+          grep -E '^(weathergrid|weather_details)/' /tmp/all.txt > /tmp/changed.txt || true
+          # a non-data commit (this workflow, or the sync script) must not trigger
+          # a full 1.2 GiB re-upload
+          if [ ! -s /tmp/changed.txt ]; then
+            echo "mode=none" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          wc -l < /tmp/changed.txt | xargs echo "changed data files:"
+          echo "mode=changed" >> "$GITHUB_OUTPUT"
 
       - name: Upload to R2
+        if: steps.changed.outputs.mode != 'none'
         env:
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}

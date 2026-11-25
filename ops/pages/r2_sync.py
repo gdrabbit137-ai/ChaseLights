@@ -184,7 +184,16 @@ def main() -> int:
     only = tuple(args.only) if args.only else PREFIXES
     if args.files_from:
         wanted = [ln.strip() for ln in open(args.files_from, encoding="utf-8") if ln.strip()]
-        wanted = [w for w in wanted if w.startswith(PREFIXES)]
+        # CL-PAGES-05: hard isolation. Each writer repo owns one prefix; a path
+        # outside the --only scope is a configuration bug, not something to skip
+        # quietly (a silent drop would leave stale objects in the other tree).
+        outside = [w for w in wanted if not w.startswith(only)]
+        if outside:
+            raise SystemExit(
+                f"refusing {len(outside)} path(s) outside --only scope {only}: "
+                + ", ".join(outside[:3])
+            )
+        wanted = [w for w in wanted if w.startswith(only)]
         present = {rel: path for rel, path in iter_files(only)}
         rows = [{"key": w, "path": present[w], "size": os.path.getsize(present[w]),
                  "content_type": content_type(w), "cache_control": cache_control(w)}
