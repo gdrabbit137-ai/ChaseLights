@@ -69,9 +69,9 @@ test('CL-UI-114 C: 套用時機 — tint 在共用入口內、load/styledata 都
     'clui114ApplyLandTint must not apply a CSS filter');
 });
 
-test('CL-UI-114 C: cache-bust stamp bclwg49（css+vendor；js 已進 bclwg50）', () => {
+test('CL-UI-114 C: cache-bust stamp bclwg49（css+vendor；js 已進 bclwg51）', () => {
   const stamps = WG_HTML.match(/\?v=bclwg49/g) || [];
   assert.ok(stamps.length >= 2, `expected >=2 bclwg49 stamps in weather-map.html, got ${stamps.length}`);
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg50/, 'js stamp must be bclwg50 after CL-APP-09 nav rename');
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg51/, 'js stamp must be bclwg51 after CL-APP-09 nav rename');
   assert.ok(!WG_HTML.includes('bclwg47'), 'stale bclwg47 stamp left in weather-map.html');
 });

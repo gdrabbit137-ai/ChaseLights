@@ -50,7 +50,7 @@ test('CL-UI-103: weather-map.html carries the layer pill and the layer bottom sh
 });
 
 test('CL-UI-103: cache-bust stamps bumped to bclwg49 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg50/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg51/);
   assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg49/);
 });
 

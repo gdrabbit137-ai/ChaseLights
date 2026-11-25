@@ -12,8 +12,9 @@
 # locally) must never leak into a deployment.
 #
 # Usage:
-#   bash ops/pages/build_dist.sh                # full site (incl. weathergrid/ + weather_details/)
-#   bash ops/pages/build_dist.sh --light        # skip the heavy data dirs (fast local/CI contract runs)
+#   bash ops/pages/build_dist.sh                # default: HTML/assets/indexes only (data lives on R2)
+#   bash ops/pages/build_dist.sh --full         # also ship weathergrid/ + weather_details/ (rollback path)
+#   bash ops/pages/build_dist.sh --light        # alias of the default (kept for old callers)
 #   bash ops/pages/build_dist.sh --dry-run      # print the resolved file list, copy nothing
 #   bash ops/pages/build_dist.sh --out DIR      # alternative output dir (default: <repo>/dist)
 #
@@ -37,11 +38,12 @@ ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 ROOT_GIT="$(cygpath -m "$ROOT" 2>/dev/null || printf '%s' "$ROOT")"
 
 OUT=""
-LIGHT=0
+FULL=0
 DRY=0
 while [ $# -gt 0 ]; do
   case "$1" in
-    --light) LIGHT=1; shift ;;
+    --full) FULL=1; shift ;;
+    --light) FULL=0; shift ;;
     --dry-run) DRY=1; shift ;;
     --out) OUT="${2:-}"; shift 2 ;;
     -h|--help) sed -n '2,40p' "$0"; exit 0 ;;
@@ -125,7 +127,7 @@ entries() {
   for f in "$ROOT"/data/v2/evaluations/subject-cards-[0-9]*.json; do
     printf '%s\n' "${f#"$ROOT"/}"
   done
-  if [ "$LIGHT" -eq 0 ]; then
+  if [ "$FULL" -eq 1 ]; then
     for d in "${HEAVY_DIRS[@]}"; do
       [ -d "$ROOT/$d" ] && printf '%s/\n' "$d"
     done
@@ -212,8 +214,8 @@ if [ "$N_FILES" -gt "$MAX_FILES" ]; then
   exit 4
 fi
 
-printf 'build_dist: OK  files=%d size=%.1f MiB (%.2f GiB) warn_near_limit=%d light=%d\n' \
+printf 'build_dist: OK  files=%d size=%.1f MiB (%.2f GiB) warn_near_limit=%d mode=%s\n' \
   "$N_FILES" \
   "$(awk -v b="$TOTAL" 'BEGIN{printf "%.1f", b/1048576}')" \
   "$(awk -v b="$TOTAL" 'BEGIN{printf "%.2f", b/1073741824}')" \
-  "$WARNED" "$LIGHT"
+  "$WARNED" "$([ "$FULL" -eq 1 ] && echo full || echo light)"

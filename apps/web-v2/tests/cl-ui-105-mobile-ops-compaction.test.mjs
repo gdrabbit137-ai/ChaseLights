@@ -36,7 +36,7 @@ function grab(src, start, end) {
 // 1. Source pins: CSS compaction + JS inspector collapse + stamps
 // ---------------------------------------------------------------------------
 test('CL-UI-105 source: cache-bust stamps bumped to bclwg49 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg50/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg51/);
   assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg49/);
 });
 

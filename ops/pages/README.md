@@ -8,8 +8,9 @@ static site actually fetches at runtime reach `dist/`.
 ## Build
 
 ```bash
-bash ops/pages/build_dist.sh            # full site (weathergrid/ + weather_details/ included)
-bash ops/pages/build_dist.sh --light    # HTML/assets/locales/indexes only — fast local or CI run
+bash ops/pages/build_dist.sh            # default: HTML/assets/locales/indexes (data lives on R2)
+bash ops/pages/build_dist.sh --full     # also ship weathergrid/ + weather_details/ (rollback path)
+bash ops/pages/build_dist.sh --light    # alias of the default
 bash ops/pages/build_dist.sh --dry-run  # print the resolved manifest, copy nothing
 bash ops/pages/build_dist.sh --out DIR
 ```
@@ -22,8 +23,9 @@ carries ~2 GB of generated, uncommitted tiles under `weathergrid/` and
 `weather_details/`; a directory copy would ship them, so the script resolves the
 whitelist against the index instead and copies file by file.
 
-Measured sizes: `--light` = 533 files / 160.6 MiB (HTML + assets + locales +
-indexes + `evaluations-details/`); full = 2,054 files / ~1.35 GiB.
+Measured sizes: default (`--light`) = 533 files / 160.4 MiB; `--full` = 2,054 files /
+1,339.7 MiB. Since Step ② the heavy trees live in R2 (`data.chaselights.app`), so
+the default build no longer ships them.
 
 `_headers` (Cloudflare Pages header config) is copied to the output root.
 
@@ -41,8 +43,8 @@ indexes + `evaluations-details/`); full = 2,054 files / ~1.35 GiB.
 | `weathergrid/` | map tiles + per-region manifests |
 | `weather_details/` | per-spot hourly shards |
 
-Transitional: `weathergrid/` and `weather_details/` move to R2 in Step ②; until
-then `--light` is the fast path and the full build carries them.
+`weathergrid/` and `weather_details/` are served from Cloudflare R2 since Step ②;
+they stay available under `--full` only as a rollback path.
 
 Watch the size ceiling: `weathergrid/icon_tw_cloud_browser.json` is 24.9 MiB
 (26,105,418 B) — inside the 25 MiB limit with ~104 KiB of headroom, so the build

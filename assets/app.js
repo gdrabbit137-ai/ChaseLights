@@ -2417,7 +2417,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     }
 
     async function loadDetails(region,spotId){
-      const key=`${region}:${spotId}`,baseUrl=`./weather_details/${region}/${encodeURIComponent(spotId)}.json`;
+      const key=`${region}:${spotId}`,baseUrl=clUrl(`./weather_details/${region}/${encodeURIComponent(spotId)}.json`);
       let expectedVersion=currentData?.updated_at||null;
       const versionMatches=(x,version=expectedVersion)=>!version||x?.updated_at===version;
       const detailUrl=(version,retry=0)=>{
@@ -2565,7 +2565,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       await Promise.all(list.map(async([file])=>{
         let qc=provQcCache[file];
         if(qc===undefined){
-          try{qc=await fetch('./weathergrid/'+file,{cache:'no-cache'}).then(r=>r.ok?r.json():null);}
+          try{qc=await fetch(clUrl('./weathergrid/')+file,{cache:'no-cache'}).then(r=>r.ok?r.json():null);}
           catch(err){qc=null;}
           provQcCache[file]=qc;
         }

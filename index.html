@@ -171,7 +171,11 @@
   </div>
 
   <script src="./assets/site-nav.js?v=clui41"></script>
-  <script src="./assets/app.js?v=clui125"></script>
+  <!-- CL-PAGES-04: the heavy JSON lives on Cloudflare R2; data-base.js rewrites
+       ./weathergrid/ and ./weather_details/ onto this origin. Empty = same origin. -->
+  <script>window.CL_DATA_BASE='https://data.chaselights.app';</script>
+  <script src="./assets/data-base.js?v=clbase1"></script>
+  <script src="./assets/app.js?v=clui126"></script>
   <!-- CL-UI-100: rating chip / evaluation section / rate·report·comment flows. -->
   <script src="./assets/feedback-ui.js?v=clui102"></script>
   <!-- CL-UI-52: guest comment entry — footer-level, tertiary, never competes

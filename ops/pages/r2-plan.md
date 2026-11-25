@@ -1,6 +1,11 @@
 # Step ② — move the heavy data plane to R2
 
-> **Status (2026-11-25):** blocked on one dashboard action — the account has R2
+> **Status (2026-11-25): DONE.** Bucket `chaselights-data`, public domain
+> `data.chaselights.app` (CNAME → public.r2.dev, proxied), CORS applied and
+> verified; 1,521 objects / 1,179.5 MiB uploaded; the front end reads the data
+> plane through `window.CL_DATA_BASE` (`assets/data-base.js`).
+>
+> Historical note — this section was first blocked on one dashboard action — the account has R2
 > disabled, so every `/r2/buckets` call returns
 > `10042 Please enable R2 through the Cloudflare Dashboard`.
 > Once R2 is enabled, `bash`-free flow is:

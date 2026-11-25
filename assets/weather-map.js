@@ -1,19 +1,19 @@
 (() => {
-  const LIVE_DATA = './weathergrid/gfs_tw_weather_browser.json';
-  const LIVE_QC = './weathergrid/gfs_tw_weather_qc.json';
-  const LIVE_ICON_DATA = './weathergrid/icon_tw_cloud_browser.json';
-  const LIVE_ICON_QC = './weathergrid/icon_tw_cloud_qc.json';
-  const LIVE_CWA_DATA = './weathergrid/cwa_wrf3_tw_weather_browser.json';
-  const LIVE_CWA_QC = './weathergrid/cwa_wrf3_tw_weather_qc.json';
-  const LIVE_JMA_DATA = './weathergrid/jma_msm_tw_cloud_browser.json';
-  const LIVE_JMA_QC = './weathergrid/jma_msm_tw_cloud_qc.json';
-  const LIVE_HIMAWARI_DATA = './weathergrid/himawari9_tw_cloud_browser.json';
-  const LIVE_HIMAWARI_QC = './weathergrid/himawari9_tw_cloud_qc.json';
-  const LIVE_CAMS_DATA = './weathergrid/cams_global_tw_aod_browser.json';
-  const LIVE_CAMS_QC = './weathergrid/cams_global_tw_aod_qc.json';
-  const LIVE_VIIRS_DATA = './weathergrid/viirs_nightlights_tw_browser.json';
-  const LIVE_VIIRS_QC = './weathergrid/viirs_nightlights_tw_qc.json';
-  const LIVE_COVERAGE = './weathergrid/weathergrid_coverage_browser.json';
+  const LIVE_DATA = clUrl('./weathergrid/gfs_tw_weather_browser.json');
+  const LIVE_QC = clUrl('./weathergrid/gfs_tw_weather_qc.json');
+  const LIVE_ICON_DATA = clUrl('./weathergrid/icon_tw_cloud_browser.json');
+  const LIVE_ICON_QC = clUrl('./weathergrid/icon_tw_cloud_qc.json');
+  const LIVE_CWA_DATA = clUrl('./weathergrid/cwa_wrf3_tw_weather_browser.json');
+  const LIVE_CWA_QC = clUrl('./weathergrid/cwa_wrf3_tw_weather_qc.json');
+  const LIVE_JMA_DATA = clUrl('./weathergrid/jma_msm_tw_cloud_browser.json');
+  const LIVE_JMA_QC = clUrl('./weathergrid/jma_msm_tw_cloud_qc.json');
+  const LIVE_HIMAWARI_DATA = clUrl('./weathergrid/himawari9_tw_cloud_browser.json');
+  const LIVE_HIMAWARI_QC = clUrl('./weathergrid/himawari9_tw_cloud_qc.json');
+  const LIVE_CAMS_DATA = clUrl('./weathergrid/cams_global_tw_aod_browser.json');
+  const LIVE_CAMS_QC = clUrl('./weathergrid/cams_global_tw_aod_qc.json');
+  const LIVE_VIIRS_DATA = clUrl('./weathergrid/viirs_nightlights_tw_browser.json');
+  const LIVE_VIIRS_QC = clUrl('./weathergrid/viirs_nightlights_tw_qc.json');
+  const LIVE_COVERAGE = clUrl('./weathergrid/weathergrid_coverage_browser.json');
   const FALLBACK_DATA = './weathergrid_sample.json';
   const FALLBACK_COVERAGE = './weathergrid_coverage_sample.json';
   // CL-UI-109 (P2-3): unpkg CDN 依賴本地化 — maplibre-gl 6.11.2 vendor 進 repo
@@ -2222,9 +2222,9 @@
   async function fetchVersioned(path){
     const index = state.wgIndex;
     const entry = index && index.files ? index.files[path] : null;
-    if(!entry) return fetchJson(`./weathergrid/${path}`);
+    if(!entry) return fetchJson(clUrl(`./weathergrid/${path}`));
     const version = entry.sha256.slice(0, 12);
-    const url = `./weathergrid/${path}?v=${version}`;
+    const url = clUrl(`./weathergrid/${path}?v=${version}`);
     const cached = await cacheGet(url);
     if(cached){
       const body = await cached.text();
@@ -2239,7 +2239,7 @@
       // Versioned URL failed (e.g. CDN miss right after a publish):
       // fall back to the canonical path rather than failing the layer.
       console.warn(`versioned fetch failed for ${path}; retrying canonical`, err);
-      return fetchJson(`./weathergrid/${path}`);
+      return fetchJson(clUrl(`./weathergrid/${path}`));
     }
     await cachePut(url, body);
     return JSON.parse(body);
@@ -2247,7 +2247,7 @@
 
   async function loadWeatherGridIndex(){
       try{
-        state.wgIndex = await fetchJson('./weathergrid/index.json');
+        state.wgIndex = await fetchJson(clUrl('./weathergrid/index.json'));
       }catch(_){
         state.wgIndex = null;
       }
@@ -2268,7 +2268,7 @@
       // A/B escape hatch for measurement and incident triage.
       try{
         if(new URLSearchParams(window.location.search).has('nopng')) return null;
-        const r = await fetch(`./weathergrid/png/${regionId}/manifest.json`, {cache:'no-store'});
+        const r = await fetch(clUrl(`./weathergrid/png/${regionId}/manifest.json`), {cache:'no-store'});
         if(!r.ok) return null;
         const m = await r.json();
         return (m && m.schema_version===1) ? m : null;
@@ -2320,7 +2320,7 @@
         renderAll();
       };
       img.onerror = () => { entry.failed = true; };
-      img.src = `./weathergrid/png/${state.region}/${file}`;
+      img.src = clUrl(`./weathergrid/png/${state.region}/${file}`);
       state.pngImages.set(file, entry);
       return entry;
     }

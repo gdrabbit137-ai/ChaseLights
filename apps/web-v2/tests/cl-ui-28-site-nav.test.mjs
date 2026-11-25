@@ -148,7 +148,7 @@ test('CL-UI-28 (9): index.html stamps tracked (CL-UI-73: app.js/app.css at clui1
   assert.match(indexHtml, /assets\/site-nav\.css\?v=clui116/);
   assert.doesNotMatch(indexHtml, /site-nav\.css\?v=clui62/);
   assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui125/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui126/);
   assert.match(indexHtml, /assets\/app\.css\?v=clui121/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });
@@ -183,6 +183,6 @@ test('CL-UI-116: every shell-page header carries the CL-APP-05 brand SVG (emoji 
 });
 
 test('CL-UI-28 (10): weather-map.js stamp bumped in weather-map.html (same commit)', () => {
-  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg50/);
+  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg51/);
   assert.doesNotMatch(wgHtml, /bclwg23|bclwg24/);
 });

@@ -1,4 +1,9 @@
-export const V2_INDEX_URL = './weathergrid/v2/index.json';
+// CL-PAGES-04: the data plane may live on another origin; data-base.js supplies
+// window.clUrl, and this fallback keeps the module importable on its own.
+const clUrl = (url) => (typeof window !== 'undefined' && typeof window.clUrl === 'function')
+  ? window.clUrl(url) : url;
+
+export const V2_INDEX_URL = clUrl('./weathergrid/v2/index.json');
 
 export async function loadV2Index(fetchImpl = fetch) {
   const r = await fetchImpl(V2_INDEX_URL, { cache: 'no-store' });

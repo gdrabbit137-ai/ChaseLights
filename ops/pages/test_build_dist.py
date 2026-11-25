@@ -46,8 +46,6 @@ REQUIRED = [
     "apps/web-v2/browse-index.v2.json",
     "apps/web-v2/opportunity-contracts.json",
     "apps/web-v2/evaluations-details",
-    "weathergrid",
-    "weather_details",
     "_headers",
 ]
 
@@ -143,6 +141,14 @@ def test_manifest_has_runtime_surface():
     assert not missing, f"manifest is missing {missing}"
 
 
+def test_full_mode_carries_the_data_plane():
+    r = run(["--full", "--dry-run"])
+    assert r.returncode == 0, r.stderr
+    entries = [ln.strip() for ln in r.stdout.splitlines() if ln.strip()]
+    for want in ("weathergrid", "weather_details"):
+        assert has(entries, want), f"--full manifest is missing {want}"
+
+
 def test_manifest_has_no_engineering_paths():
     entries = manifest()
     leaks = [f for f in FORBIDDEN if has(entries, f)]
@@ -204,6 +210,7 @@ def test_file_count_ceiling_aborts():
 def main() -> int:
     check("script and headers are LF-only", test_script_is_lf_only)
     check("manifest carries the runtime surface", test_manifest_has_runtime_surface)
+    check("--full manifest carries the data plane", test_full_mode_carries_the_data_plane)
     check("manifest carries no engineering paths", test_manifest_has_no_engineering_paths)
     check("--light build lands on disk without leaks", test_light_build_on_disk)
     check("per-file ceiling aborts with exit 3", test_per_file_ceiling_aborts)
