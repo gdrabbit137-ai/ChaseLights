@@ -186,11 +186,6 @@ jobs:
       - name: Probe headless Chromium WebGL capability (informational)
         run: node ops/v2/webgl_probe.mjs
 
-      # CL-PAGES-01: whitelist publish contract. The static origin must carry
-      # only the runtime surface — this is the guard that keeps
-      # workers/api/src/*, specs/, AGENTS.md and data/v2/staging off the site.
-      - name: Contract — Cloudflare Pages whitelist publish
-        run: python ops/pages/test_build_dist.py
 
       - name: Require exact W1–W4 trees, real browse sources and all 444 checks
         run: |
@@ -344,6 +339,12 @@ jobs:
 
               step_summary.write_text('\n'.join(summary_lines) + '\n')
           PY
+      # CL-PAGES-01: whitelist publish contract. The static origin must carry
+      # only the runtime surface — this is the guard that keeps
+      # workers/api/src/*, specs/, AGENTS.md and data/v2/staging off the site.
+      - name: Contract — Cloudflare Pages whitelist publish
+        run: python ops/pages/test_build_dist.py
+
       - name: Preserve real git-source provenance and full test results
         if: always()
         uses: actions/upload-artifact@v4
