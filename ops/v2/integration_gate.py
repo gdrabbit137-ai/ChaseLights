@@ -8,7 +8,9 @@ from urllib.request import Request, urlopen
 
 V2_PATH = "/apps/web-v2/"
 PUBLIC_URL = "https://chaselights.app/apps/web-v2/"
-REQUIRED_LEGACY = ("index.html", "CNAME", "RESEARCH_EVIDENCE_SPEC_R4_2.md", "NAVIGATION_SPEC_R4_2.md")
+# CL-PAGES-02: CNAME left the repo with the GitHub Pages custom domain —
+# Cloudflare Pages stores the domain in its own project settings.
+REQUIRED_LEGACY = ("index.html", "RESEARCH_EVIDENCE_SPEC_R4_2.md", "NAVIGATION_SPEC_R4_2.md")
 
 
 class PageRefs(HTMLParser):
