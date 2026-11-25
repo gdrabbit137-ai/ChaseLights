@@ -1365,10 +1365,19 @@ def main():
             tz_display = {"iana": None, "utc_offset_hours": None,
                           "status": "UNKNOWN"}
             local_offset = 0
+            # CL-PHYS-GUARD: with no resolved offset the sunrise/sunset
+            # guards must NOT be run on a fake UTC clock (that would block
+            # every real window east of Greenwich). Pass None so the engine
+            # falls back to the longitude's mean-solar offset instead.
+            guard_offset_seconds = None
         else:
             tz_display = {"iana": zone, "utc_offset_hours": offset,
                           "status": "DISPLAY_APPROXIMATION"}
             local_offset = offset
+            # CL-PHYS-GUARD: the SAME offset that labels the hour rows feeds
+            # the hard local-clock guard on sunrise_time_window/sunset_window
+            # — label and verdict can never disagree about the spot's clock.
+            guard_offset_seconds = offset * 3600
         need_moon = any("moon" in c["metric"] or "galactic" in c["metric"]
                         or "spring_tide" in c["metric"]
                         for doc in group["opportunities"]
@@ -1484,7 +1493,8 @@ def main():
             for hour_row in hours:
                 at = datetime.fromisoformat(hour_row["valid_at_utc"].replace("Z", "+00:00"))
                 astro_row = hour_observations(at, lat, lon, events=events,
-                                              need_moon=need_moon)
+                                              need_moon=need_moon,
+                                              utc_offset_seconds=guard_offset_seconds)
                 states = {}
                 roles = {}
                 local_bucket_start = at + timedelta(hours=local_offset)
@@ -1534,7 +1544,8 @@ def main():
                                       if c["metric"] in TIME_WINDOW_METRICS]
                     if window_metrics:
                         profiles = window_pass_profiles(at, lat, lon,
-                                                        events=events)
+                                                        events=events,
+                                                        utc_offset_seconds=guard_offset_seconds)
                         for i, off in enumerate(WINDOW_SAMPLE_OFFSETS):
                             if all(profiles[m][i] for m in window_metrics):
                                 precise_off = off

@@ -63,10 +63,14 @@ class WindowProfileTests(unittest.TestCase):
         # Sun crosses the horizon 65 min AFTER the bucket start: the bucket
         # qualifies (a sample sits inside sunrise±40) but its earliest passing
         # sample is minute 25, not the bucket start.
-        t0 = _epoch(0)
+        # CL-PHYS-01: the crossing has to sit at a physically possible local
+        # sunrise. 01:05 UTC is 09:05 in Taipei, which the local-clock guard now
+        # (correctly) rejects; 21:00 UTC keeps the same 65-minute lag and lands
+        # at 06:05 local.
+        t0 = _epoch(21)
         pts = [(t0, -6.5), (t0 + 60 * 60, -0.5), (t0 + 70 * 60, 0.5),
                (t0 + 180 * 60, 5.0)]
-        profiles = self._profiles(pts, datetime(2026, 11, 1, 0, 0, tzinfo=timezone.utc))
+        profiles = self._profiles(pts, datetime(2026, 11, 1, 21, 0, tzinfo=timezone.utc))
         self.assertFalse(profiles["sunrise_time_window"][0])
         self.assertTrue(any(profiles["sunrise_time_window"]))
         first = ah.WINDOW_SAMPLE_OFFSETS[
@@ -154,15 +158,16 @@ class SubHourSamplingTests(unittest.TestCase):
                 f"bucket {hour} must not be contaminated")
 
     def test_sunrise_time_window_interval_overlap(self):
-        # Sunrise crossing at 10:30 -> 80-minute window [09:50, 11:10].
-        # The window overlaps buckets 09, 10, 11; bucket 12 is too far.
-        events = [(_epoch(10, 30), "sunrise")]
-        points = [(_epoch(9, 0), -15.0), (_epoch(12, 0), 15.0)]
-        for hour in (9, 10, 11):
+        # CL-PHYS-01: 10:30 UTC is 18:30 in Taipei — a sunset, not a sunrise —
+        # so the local-clock guard rejects it. Keep the same 80-minute window
+        # shape at a real sunrise: 22:30 UTC == 06:30 local.
+        events = [(_epoch(22, 30), "sunrise")]
+        points = [(_epoch(21, 0), -15.0), (_epoch(23, 59), 15.0)]
+        for hour in (21, 22, 23):
             self.assertTrue(
                 self._bucket(points, hour, events)["sunrise_time_window"],
                 f"bucket {hour} must overlap the sunrise window")
-        self.assertFalse(self._bucket(points, 12, events)["sunrise_time_window"])
+        self.assertFalse(self._bucket(points, 0, events)["sunrise_time_window"])
 
     def test_sunset_window_interval_overlap(self):
         # Sunset crossing at 10:30 -> 80-minute window [09:50, 11:10].
