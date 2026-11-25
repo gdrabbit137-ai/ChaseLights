@@ -30,9 +30,13 @@ function navBlock(html) {
   assert.ok(m, 'site-nav <nav> block present');
   return m[0];
 }
-// Normalize the shared DOM: strip the page-specific active marks.
+// Normalize the shared DOM: strip the page-specific active marks, and the
+// CL-UI-126 language slot (only the 我的 page carries it — asserted separately
+// below so every other nav node stays byte-identical).
 function normalized(html) {
-  return navBlock(html).replace(/ data-active="page"/g, '');
+  return navBlock(html)
+    .replace(/ data-active="page"/g, '')
+    .replace(/\s*<span class="site-nav-lang">[\s\S]*?<\/span>\s*/g, '\n        ');
 }
 
 test('CL-UI-28 (1): all six pages share ONE identical site-nav DOM', () => {
@@ -59,6 +63,15 @@ test('CL-UI-28 (1): all six pages share ONE identical site-nav DOM', () => {
   // The nav is included on every page.
   for (const html of pages) assert.match(html, /assets\/site-nav\.css/);
   for (const html of pages) assert.match(html, /assets\/site-nav\.js/);
+  // CL-UI-126 (owner ruling): the 我的 page's language switcher lives in the
+  // navbar. It is the ONLY page-specific nav node; every other nav byte stays
+  // identical (the comparison above ignores just this slot).
+  assert.match(navBlock(remHtml), /<span class="site-nav-lang">[\s\S]*?<select id="lang-select"/,
+    'reminders.html carries the language slot');
+  for (const [name, html] of [['index', indexHtml], ['weather-map', wgHtml], ['genre-eval', genreHtml], ['field-intake', fieldHtml], ['sources', sourcesHtml]]) {
+    assert.doesNotMatch(navBlock(html), /site-nav-lang|id="lang-select"/,
+      `${name}: no duplicate nav language slot`);
+  }
 });
 
 test('CL-UI-28 (2): active mark marks the CURRENT page (cards / weather / reminders)', () => {

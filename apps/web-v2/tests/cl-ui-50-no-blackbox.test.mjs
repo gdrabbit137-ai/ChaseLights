@@ -46,9 +46,12 @@ test('CL-UI-50: the 資料不足 label is never emitted twice on a NOT_EVALUABLE
   assert.ok(!appSource.includes('card-meta-row">${v2StatusRow}</div>'), 'status row retired (CL-UI-63)');
   assert.ok(!grab('function createSpotCard', 'function distanceToSpotKm').includes('v2NotEvalReason'),
     'no NOT_EVALUABLE status-row lookup remains on the card');
-  assert.ok(grab('function createSpotCard', 'function distanceToSpotKm')
-    .includes("v2Best.state==='NOT_EVALUABLE'?d().eval2_unk"),
+  // CL-UI-126: the single honest label is emitted by the shared none-line helper.
+  assert.ok(grab('function v2NoWindowLine', '// Place names are the one intentional')
+    .includes("best.state==='NOT_EVALUABLE'?t.eval2_unk"),
     'summary line keeps the single honest 資料不足 label');
+  assert.equal((grab('function v2NoWindowLine', '// Place names are the one intentional').match(/資料不足/g) || []).length, 0,
+    'the helper itself carries no hardcoded label (i18n key only)');
 });
 
 test('CL-UI-50: the unavailable-card line is not the bare generic sentence', () => {

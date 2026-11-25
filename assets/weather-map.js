@@ -1264,6 +1264,49 @@
   layerConfig['pm2_5_ug_m3']={label:'PM2.5',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['pm2_5_ug_m3']};
   layerConfig['nighttime_lights_radiance_nw_cm2_sr']={label:'夜間燈光',...window.WeatherMapPalette.LAYER_RENDER_CONFIG['nighttime_lights_radiance_nw_cm2_sr']};
 
+  // CL-UI-126 (owner report): ?region=tw opened the map zoomed out over all of
+  // East Asia. A region entry now lands on its own opening camera — Taiwan at
+  // 23.7N/120.96E zoom 7.5, Japan 36.2N/138.2E z6, US mainland 39N/-98W z3.5,
+  // Alaska 64N/-152W z3.5, Hawaii 20.7N/-156.3W z6.5 — applied ONLY while the
+  // URL carries no explicit camera (no ?focus=, no ?spot=), so deep links keep
+  // owning the camera exactly as before.
+  const REGION_CAMERA_DEFAULTS = {
+    tw: { center: [23.7, 120.96], zoom: 7.5 },
+    jp: { center: [36.2, 138.2], zoom: 6 },
+    us: { center: [39, -98], zoom: 3.5 },
+    ak: { center: [64, -152], zoom: 3.5 },
+    hi: { center: [20.7, -156.3], zoom: 6.5 }
+  };
+  function regionCameraDefault(regionId) {
+    return Object.prototype.hasOwnProperty.call(REGION_CAMERA_DEFAULTS, regionId)
+      ? REGION_CAMERA_DEFAULTS[regionId] : null;
+  }
+  function urlHasExplicitCamera() {
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      return sp.has('focus') || sp.has('spot');
+    } catch (_) { return false; }
+  }
+  // Land the opening camera on the region default (and mirror it into
+  // state.view so the canvas fallback draws the same area). No-op when the
+  // URL carries an explicit camera.
+  function applyRegionDefaultCamera() {
+    if (urlHasExplicitCamera()) return false;
+    const cam = regionCameraDefault(state.region);
+    if (!cam) return false;
+    try {
+      // REGION_CAMERA_DEFAULTS centres are [lat, lon]; focusBboxFromCamera
+      // takes (lat, lon, zoom) — order matters.
+      const bbox = window.WeatherMapDeepLink.focusBboxFromCamera(cam.center[0], cam.center[1], cam.zoom);
+      const view = bbox ? window.WeatherMapRegions.normalizeBbox(bbox) : null;
+      if (view) state.view = view;
+    } catch (_) { /* bbox mirror is best-effort */ }
+    if (state.mapReady && state.map) {
+      state.map.jumpTo({ center: cam.center.slice(), zoom: cam.zoom });
+    }
+    return true;
+  }
+
   const state = {
     data:null,
     qc:null,
@@ -2052,6 +2095,10 @@
     }catch(_){ return false; }
   }
   function showWebglFallback(){
+    // CL-UI-126: the canvas fallback draws from state.view — land it on the
+    // same per-region opening camera the MapLibre path uses (deep links keep
+    // their own camera; applyRegionDefaultCamera is a no-op for those).
+    applyRegionDefaultCamera();
     const wrap=document.querySelector('.map-wrap');
     if(!wrap||wrap.dataset.webgl==='unsupported')return;
     wrap.dataset.webgl='unsupported';
@@ -2134,6 +2181,9 @@
         // limits (maxBounds/minZoom) still derive from the region fit, so
         // CL-WG-06/07/10 region confinement is unchanged.
         applyCameraLimits({preserveCamera:true});
+        // CL-UI-126: a plain region entry (no ?focus= / ?spot=) now lands on
+        // the region's own opening camera instead of the whole regional bbox.
+        applyRegionDefaultCamera();
         hideBoundaryLineLayers(map);
         hideBasemapLabelNoise(map);
         clui114ApplyBasemapAB(map);   // CL-UI-117: 方案 C 預設（?wgBasemapLight=1 逃生口）

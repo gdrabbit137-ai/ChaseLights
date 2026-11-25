@@ -39,7 +39,8 @@
       login_note: '登入後可管理你的自訂題材',
       quota_fmt: '共 {t} 組（免費上限 {ft} 組）· 今日已新增 {d}/{da} 組',
       quota_paid: '共 {t} 組', quota_owner: '共 {t} 組 · 無上限',
-      pick_title: '選擇景點', pick_ph: '搜尋景點名稱…', pick_none: '沒有符合的景點',
+      pick_title: '選擇景點', pick_region: '地區', pick_ph: '搜尋景點名稱…', pick_none: '沒有符合的景點',
+      region_tw: '台灣', region_jp: '日本', region_us: '美國', region_ak: '阿拉斯加', region_hi: '夏威夷',
       pick_official: '官方景點', pick_private: '私人景點',
       ed_title: '建立自訂題材', ed_title_edit: '編輯自訂題材',
       ed_name: '題材名稱', ed_name_ph: '例如：晨光斜射反高潮位',
@@ -49,7 +50,7 @@
       p_window: '時間窗', p_months: '適用月份', p_months_hint: '不選＝全年適用；選取後只有該月份會判定',
       wt_fixed: '固定時段', wt_bs: '日出前（每日動態）', wt_as: '日出後（每日動態）', wt_bd: '日落前（每日動態）', wt_ads: '日落後（每日動態）',
       win_off: '錨點偏移（分鐘，可負）', win_add2: '＋ 加第二段', win_rm: '移除此段', win_hint: '錨點型以當日實際日出／日落動態展開，冬天夏天不同',
-      cc_prev: '摘要預覽：', cc_prev_none: '（未調任何參數）',
+      cc_prev: '摘要預覽：',
       ed_submit: '建立此題材組', ed_submit_edit: '儲存變更',
       done_saved: '✓ 已儲存', done_deleted: '✓ 已刪除', err_net: '連線失敗，請稍後再試',
       del_title: '刪除這組自訂題材？', close: '關閉',
@@ -64,7 +65,8 @@
       login_note: 'Sign in to manage your custom subjects',
       quota_fmt: '{t} sets (free cap {ft}) · {d}/{da} created today',
       quota_paid: '{t} sets', quota_owner: '{t} sets · unlimited',
-      pick_title: 'Pick a place', pick_ph: 'Search place names…', pick_none: 'No matching place',
+      pick_title: 'Pick a place', pick_region: 'Region', pick_ph: 'Search place names…', pick_none: 'No matching place',
+      region_tw: 'Taiwan', region_jp: 'Japan', region_us: 'United States', region_ak: 'Alaska', region_hi: 'Hawaii',
       pick_official: 'Official places', pick_private: 'Private places',
       ed_title: 'Create custom subject', ed_title_edit: 'Edit custom subject',
       ed_name: 'Subject name', ed_name_ph: 'e.g. first light on the reef',
@@ -74,7 +76,7 @@
       p_window: 'Time window', p_months: 'Applicable months', p_months_hint: 'None = all year; when set, only those months are judged',
       wt_fixed: 'Fixed span', wt_bs: 'Before sunrise (daily dynamic)', wt_as: 'After sunrise (daily dynamic)', wt_bd: 'Before sunset (daily dynamic)', wt_ads: 'After sunset (daily dynamic)',
       win_off: 'Anchor offset (minutes, may be negative)', win_add2: '＋ Add a second span', win_rm: 'Remove this span', win_hint: 'Anchor spans expand with each day\u2019s REAL sunrise/sunset — winter and summer differ',
-      cc_prev: 'Summary:', cc_prev_none: '(no parameters set)',
+      cc_prev: 'Summary:',
       ed_submit: 'Create this set', ed_submit_edit: 'Save changes',
       done_saved: '✓ Saved', done_deleted: '✓ Deleted', err_net: 'Network error — try again later',
       del_title: 'Delete this custom subject?', close: 'Close',
@@ -89,7 +91,8 @@
       login_note: 'ログインすると自作題材を管理できます',
       quota_fmt: '合計 {t} 件（無料上限 {ft} 件）· 本日 {d}/{da} 件作成',
       quota_paid: '合計 {t} 件', quota_owner: '合計 {t} 件 · 無制限',
-      pick_title: 'スポットを選択', pick_ph: 'スポット名を検索…', pick_none: '該当するスポットがありません',
+      pick_title: 'スポットを選択', pick_region: '地域', pick_ph: 'スポット名を検索…', pick_none: '該当するスポットがありません',
+      region_tw: '台湾', region_jp: '日本', region_us: 'アメリカ', region_ak: 'アラスカ', region_hi: 'ハワイ',
       pick_official: '公式スポット', pick_private: 'プライベート',
       ed_title: '自作題材を作成', ed_title_edit: '自作題材を編集',
       ed_name: '題材名', ed_name_ph: '例：朝焼けの反射',
@@ -99,7 +102,7 @@
       p_window: '時間帯', p_months: '適用月', p_months_hint: '未選択＝通年；選択するとその月のみ判定',
       wt_fixed: '固定時間帯', wt_bs: '日の出前（毎日動的）', wt_as: '日の出後（毎日動的）', wt_bd: '日の入前（毎日動的）', wt_ads: '日の入後（毎日動的）',
       win_off: 'アンカーオフセット（分・負可）', win_add2: '＋ 2つ目を追加', win_rm: 'この枠を削除', win_hint: 'アンカーは当日の実際の日の出入りから毎日展開（季節で変わる）',
-      cc_prev: 'サマリー：', cc_prev_none: '（未設定）',
+      cc_prev: 'サマリー：',
       ed_submit: 'この題材を作成', ed_submit_edit: '変更を保存',
       done_saved: '✓ 保存しました', done_deleted: '✓ 削除しました', err_net: '通信エラー — 後でお試しください',
       del_title: 'この自作題材を削除？', close: '閉じる',
@@ -108,7 +111,7 @@
     },
   };
 
-  var state = { member: null, sets: [], caps: null, counts: null, catalog: [], customPlaces: [], delArm: null };
+  var state = { member: null, sets: [], caps: null, counts: null, catalog: [], customPlaces: [], delArm: null, pickRegion: '' };
 
   function t() { return T[currentLang()] || T['zh-TW']; }
   function currentLang() {
@@ -198,10 +201,13 @@
     }
     return placeId || t().unknown_place;
   }
-  function pickerEntries(catalog, customPlaces, keyword, lg) {
+  function pickerEntries(catalog, customPlaces, keyword, lg, region) {
     var kw = String(keyword || '').trim().toLocaleLowerCase();
     var official = [], priv = [];
     (catalog || []).forEach(function (p) {
+      // CL-UI-126: the picker lists ONE region at a time (the switcher's
+      // current value); an unknown region id lists everything (fail-open).
+      if (region && PICK_REGIONS.indexOf(region) >= 0 && regionOfPlaceId(p.place_id) !== region) return;
       var nm = placeName(p.place_id, catalog, customPlaces);
       if (kw && (nm + ' ' + p.place_id).toLocaleLowerCase().indexOf(kw) < 0) return;
       official.push({ placeId: p.place_id, name: nm, isPrivate: false });
@@ -442,14 +448,48 @@
   }
 
   // ───────────────────────── place picker (新增：先選景點) ─────────────
+  // CL-UI-126 (owner report): the picker always opened on Hokkaido (the
+  // catalog's first entry is a Japanese place) even when the page was showing
+  // Taiwan. It now opens on the region of the current page context / the last
+  // used region (fallback 'tw') and carries a visible region switcher, so the
+  // member can jump between 台灣/日本/美國/阿拉斯加/夏威夷 without leaving it.
+  var PICK_REGIONS = ['tw', 'jp', 'us', 'ak', 'hi'];
+  function regionOfPlaceId(placeId) {
+    var p = String(placeId || '').split('-')[0];
+    return PICK_REGIONS.indexOf(p) >= 0 ? p : '';
+  }
+  function pickerRegionDefault() {
+    // 1. the region carried in this page's URL (a deep link is authoritative)
+    try {
+      var q = new URLSearchParams(location.search).get('region');
+      if (PICK_REGIONS.indexOf(q) >= 0) return q;
+    } catch (e) { /* no URLSearchParams: skip */ }
+    // 2. the last region used anywhere in the shell (cards / weather map / a
+    //    previous picker visit all write it)
+    try {
+      var ls = localStorage.getItem('chaselights_region');
+      if (PICK_REGIONS.indexOf(ls) >= 0) return ls;
+    } catch (e) { /* private mode */ }
+    // 3. the page's own region selector — it is default-filled with tw, so it
+    //    is the weakest signal and only breaks ties when nothing was used yet
+    var sel = document.getElementById('rem-region');
+    if (sel && sel.value && PICK_REGIONS.indexOf(sel.value) >= 0) return sel.value;
+    return 'tw';
+  }
   function openPicker() {
     return loadCatalog().then(function () {
       return loadCustomPlaces();
     }).then(function () {
-      var entries = pickerEntries(state.catalog, state.customPlaces, '', currentLang());
+      if (PICK_REGIONS.indexOf(state.pickRegion) < 0) state.pickRegion = pickerRegionDefault();
+      var regionBtns = PICK_REGIONS.map(function (r) {
+        var on = r === state.pickRegion;
+        return '<button type="button" class="sslib-region-btn' + (on ? ' on' : '') + '" data-sslib-region="' + r +
+          '" aria-pressed="' + (on ? 'true' : 'false') + '">' + esc(t()['region_' + r]) + '</button>';
+      }).join('');
       openOverlay(
         '<div class="sslib-m-head"><div class="name">' + esc(t().pick_title) + '</div>' +
         '<button type="button" class="sslib-close" data-sslib-close aria-label="' + esc(t().close) + '">✕</button></div>' +
+        '<div class="sslib-region" role="group" aria-label="' + esc(t().pick_region) + '">' + regionBtns + '</div>' +
         '<input id="sslib-pick-search" class="sslib-search" type="search" autocomplete="off" placeholder="' + esc(t().pick_ph) + '">' +
         '<div class="sslib-pick-sec">' + esc(t().pick_official) + '</div>' +
         '<div id="sslib-pick-official" class="sslib-pick-list"></div>' +
@@ -471,10 +511,24 @@
         if (a) a.innerHTML = mk(entriesNow.official);
         if (b) b.innerHTML = mk(entriesNow.private);
       }
-      paint(entries);
       var search = ov.querySelector('#sslib-pick-search');
-      if (search) search.addEventListener('input', function () {
-        paint(pickerEntries(state.catalog, state.customPlaces, search.value, currentLang()));
+      function repaint() {
+        paint(pickerEntries(state.catalog, state.customPlaces, search ? search.value : '', currentLang(), state.pickRegion));
+      }
+      paint(pickerEntries(state.catalog, state.customPlaces, '', currentLang(), state.pickRegion));
+      if (search) search.addEventListener('input', repaint);
+      ov.querySelectorAll('[data-sslib-region]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          state.pickRegion = b.getAttribute('data-sslib-region');
+          // remembered as "last used region" for every other surface too
+          try { localStorage.setItem('chaselights_region', state.pickRegion); } catch (e) { /* private mode */ }
+          ov.querySelectorAll('[data-sslib-region]').forEach(function (x) {
+            var on = x.getAttribute('data-sslib-region') === state.pickRegion;
+            x.classList.toggle('on', on);
+            x.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          repaint();
+        });
       });
       ov.addEventListener('click', function (e) {
         var item = e.target.closest('[data-sslib-place]');
@@ -490,7 +544,7 @@
     cloud: {
       key: 'cloud_low_max',
       options: {
-        'zh-TW': [['any', '不在乎', null], ['clear', '晴（低雲 ≤15%）', 15], ['partly', '少雲（低雲 ≤40%）', 40], ['cloudy', '多雲也可（低雲 ≤70%）', 70]],
+        'zh-TW': [['any', '不限', null], ['clear', '晴（低雲 ≤15%）', 15], ['partly', '少雲（低雲 ≤40%）', 40], ['cloudy', '多雲也可（低雲 ≤70%）', 70]],
         'en': [['any', "Don't care", null], ['clear', 'Clear (low ≤15%)', 15], ['partly', 'Partly cloudy (low ≤40%)', 40], ['cloudy', 'Cloudy OK (low ≤70%)', 70]],
         'ja': [['any', 'こだわらない', null], ['clear', '晴れ（下層雲 ≤15%）', 15], ['partly', '雲少なめ（下層雲 ≤40%）', 40], ['cloudy', '曇り可（下層雲 ≤70%）', 70]],
       },
@@ -685,9 +739,13 @@
     };
     function v(k) { return cc[k] == null ? '' : String(cc[k]); }
     var isEdit = !!set;
+    // CL-UI-126 (owner report): no 「（未調任何參數）」 engineering subtitle —
+    // the subtitle appears only once a summary exists, and the footer preview
+    // row stays hidden until then.
+    var headSub = summaryOf(cc, lg);
     openOverlay(
       '<div class="sslib-m-head"><div><div class="name">' + esc(isEdit ? t().ed_title_edit : t().ed_title) + '</div>' +
-      '<div class="sub">' + esc(summaryOf(cc, lg) || t().cc_prev_none) + '</div></div>' +
+      (headSub ? '<div class="sub">' + esc(headSub) + '</div>' : '') + '</div>' +
       '<button type="button" class="sslib-close" data-sslib-close aria-label="' + esc(t().close) + '">✕</button></div>' +
       '<div class="sslib-fld"><label>' + esc(t().ed_name) + '</label>' +
       '<input id="sslib-name" class="sslib-inp" maxlength="60" value="' + esc((set && set.name) || '') + '" placeholder="' + esc(t().ed_name_ph) + '"></div>' +
@@ -709,7 +767,7 @@
       '<div class="sslib-fld"><label>' + esc(t().p_vis) + '</label><input id="sslib-cc-vis" inputmode="decimal" value="' + esc(v('visibility_min_km')) + '"></div>' +
       '<div class="sslib-fld"><label>' + esc(t().p_wind) + '</label><input id="sslib-cc-wind" inputmode="decimal" value="' + esc(v('wind_max_ms')) + '"></div>' +
       '</div></details>' +
-      '<div class="sslib-preview"><span class="lbl">' + esc(t().cc_prev) + '</span><span class="k" id="sslib-cc-prev">' + esc(summaryOf(cc, lg) || t().cc_prev_none) + '</span></div>' +
+      '<div class="sslib-preview"' + (headSub ? '' : ' hidden') + '><span class="lbl">' + esc(t().cc_prev) + '</span><span class="k" id="sslib-cc-prev">' + esc(headSub) + '</span></div>' +
       '<button type="button" class="sslib-submit" id="sslib-submit">' + esc(isEdit ? t().ed_submit_edit : t().ed_submit) + '</button>'
     );
     var ov = document.getElementById('sslib-overlay');
@@ -719,8 +777,14 @@
     var nameInput = ov.querySelector('#sslib-name');
     if (nameInput) nameInput.focus({ preventScroll: true });
     function refreshPrev() {
+      // CL-UI-126: empty summary hides the preview row (no placeholder text).
+      var s = summaryOf(readCc(), currentLang());
       var el = ov.querySelector('#sslib-cc-prev');
-      if (el) el.textContent = summaryOf(readCc(), currentLang()) || t().cc_prev_none;
+      if (el) {
+        el.textContent = s;
+        var row = el.closest('.sslib-preview');
+        if (row) row.hidden = !s;
+      }
     }
     ['cloud', 'fog', 'rain'].forEach(function (axis) {
       var sel = ov.querySelector('#sslib-sem-' + axis);
@@ -823,6 +887,9 @@
     groupSets: groupSets,
     placeName: placeName,
     pickerEntries: pickerEntries,
+    // CL-UI-126: picker region resolution (pure-ish: reads the page context)
+    pickerRegionDefault: pickerRegionDefault,
+    regionOfPlaceId: regionOfPlaceId,
     quotaLine: quotaLine,
     summaryOf: summaryOf,
     monthsLine: monthsLine,

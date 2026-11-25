@@ -111,7 +111,10 @@ test('CL-UI-21 B2: v2 none-copy follows the day filter in all three languages',(
     assert.ok(appSource.includes(`v2_none_after:'${after}`),lang+' day-after key');
   }
   assert.ok(appSource.includes("const v2NoneSubjectKey=()=>currentDayFilter==='tomorrow'?'v2_none_tomorrow':currentDayFilter==='after_tomorrow'?'v2_none_after':isFarDay(currentDayFilter)?'v2_none_far':'v2_none_today';"));
-  assert.ok(appSource.includes("${esc(v2Best.state==='NOT_EVALUABLE'?d().eval2_unk:d()[v2NoneSubjectKey()])}"));
+  // CL-UI-126: the day-aware selection now happens inside the one shared
+  // helper both card surfaces call (it also owns the post-nightfall copy).
+  assert.ok(appSource.includes("best.state==='NOT_EVALUABLE'?t.eval2_unk:t[v2NoneSubjectKey()]"));
+  assert.ok(appSource.includes('${v2NoWindowLine(spot,v2Best)}'));
 });
 
 test('CL-UI-21 C3: no full-width separators remain in en rendering paths',()=>{
@@ -144,7 +147,10 @@ test('CL-UI-21 D4: place-modal now/next lines re-anchor to spot-local day vocabu
     'the standalone now row must stay removed');
   assert.ok(!appSource.includes('nextNote') && !appSource.includes('🎯'),
     'CL-UI-75: the strip badge is retired');
-  assert.match(appSource,/\$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(nextWindowStamp\(v2Best\.nextLocal,spot\.timezone\)\)\}<\/b>/);
+  // CL-UI-126: the stamp format survived the move into the shared helper —
+  // the next window is still re-anchored from the validated nextLocal.
+  assert.match(appSource,/` · \$\{esc\(t\.v2_next_window\)\}<b>\$\{esc\(stamp\)\}<\/b>`/);
+  assert.match(appSource,/const stamp=best\.nextLocal\?nextWindowStamp\(best\.nextLocal,spot&&spot\.timezone\):'';/);
 });
 
 test('CL-UI-21 F6: provisional map link title is localized and short',()=>{

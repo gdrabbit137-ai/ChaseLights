@@ -31,20 +31,29 @@ test("patch-2: cache-bust stamps bumped for every touched asset (per-file rule)"
   assert.match(subjectList, /追加2/);
 });
 
-// ---------------------------------------------------------------- item ③ 不在乎
-test("patch-2 ③: every 雲量下拉 carries the 不在乎/any option (= 不帶雲量條件) in three languages", () => {
+// ---------------------------------------------------------------- item ③ 雲量不限
+// CL-UI-126 (owner): the cloud dropdown's "no condition" option is 「不限」 —
+// the same word the fog/rain dropdowns already use (「不在乎」 read like an
+// engineering leftover). Fog/rain wording is untouched.
+test("patch-2 ③: every 雲量下拉 carries the 不限/any option (= 不帶雲量條件) in three languages", () => {
   for (const [name, src] of [["subject-sets.js", subjectSets], ["subject-sets-library.js", subjectLib]]) {
     const cloudBlock = src.slice(src.indexOf("cloud: {"), src.indexOf("fog: {"));
-    assert.match(cloudBlock, /\['any', '不在乎', null\]/, `${name} zh-TW`);
+    assert.match(cloudBlock, /\['any', '不限', null\]/, `${name} zh-TW`);
     assert.match(cloudBlock, /\['any', "Don't care", null\]/, `${name} en`);
     assert.match(cloudBlock, /\['any', 'こだわらない', null\]/, `${name} ja`);
-    assert.doesNotMatch(cloudBlock, /'any', '不限', null/, `${name}: the old 不限 label is gone`);
+    assert.doesNotMatch(cloudBlock, /'any', '不在乎', null/, `${name}: the old 不在乎 label is gone (cloud only)`);
   }
   const cpCloud = customPlaces.slice(customPlaces.indexOf("cloud: {"), customPlaces.indexOf("fog: {"));
-  assert.match(cpCloud, /\['any', '不在乎', '不帶雲量條件'\]/);
+  assert.match(cpCloud, /\['any', '不限', '不帶雲量條件'\]/);
   assert.match(cpCloud, /\['any', "Don't care", 'no cloud condition'\]/);
   assert.match(cpCloud, /\['any', 'こだわらない', '雲の条件なし'\]/);
+  assert.doesNotMatch(cpCloud, /\['any', '不在乎'/, "the 不在乎 cloud label is retired");
   assert.doesNotMatch(cpCloud, /多雲也行/, "the ambiguous 多雲也行 label is retired");
+  // fog/rain keep their own wording
+  for (const [name, src] of [["subject-sets.js", subjectSets], ["subject-sets-library.js", subjectLib]]) {
+    const fogBlock = src.slice(src.indexOf("fog: {"), src.indexOf("rain: {"));
+    assert.match(fogBlock, /\['any', '不限', null\]/, `${name} fog 不限 untouched`);
+  }
 });
 
 // ---------------------------------------------------------------- item ② 範例句

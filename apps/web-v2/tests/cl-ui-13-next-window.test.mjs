@@ -101,9 +101,13 @@ test('CL-UI-13 (g): wiring — v2BestForSpot validates nextLocal via the spot ti
   assert.match(v2VerdictBlock,/best\.nextLocal=v2NextWindowLocal\(best\.oppDays,v2LocalNow\(tz\),ng\?ng\.local:''\);/);
   // The best candidate carries its own day rows for the fallback scan.
   assert.match(v2VerdictBlock,/oppDays:o\.days\|\|\[\]/);
-  // The card renders the row only when a validated future value exists.
+  // The card renders the row only when a validated future value exists
+  // (CL-UI-126: the render moved into the shared v2NoWindowLine helper).
   const createSpotCardBlock=block('function createSpotCard','function distanceToSpotKm');
-  assert.match(createSpotCardBlock,/v2Best\.nextLocal\?` · \$\{esc\(d\(\)\.v2_next_window\)\}<b>\$\{esc\(nextWindowStamp\(v2Best\.nextLocal,spot\.timezone\)\)\}<\/b>`:''/);
+  assert.match(createSpotCardBlock,/\$\{v2NoWindowLine\(spot,v2Best\)\}/);
+  const noneLine=block('function v2NoWindowLine','// Place names are the one intentional');
+  assert.match(noneLine,/const stamp=best\.nextLocal\?nextWindowStamp\(best\.nextLocal,spot&&spot\.timezone\):'';/);
+  assert.match(noneLine,/\$\{stamp\?` · \$\{esc\(t\.v2_next_window\)\}<b>\$\{esc\(stamp\)\}<\/b>`:''\}/);
   // CL-UI-27: the none-copy and the next window merged into ONE line — the
   // old separate best-window-row for the none path no longer exists.
   const summaryMatches=[...createSpotCardBlock.matchAll(/best-window-row">\$\{esc\(d\(\)\.v2_next_window\)\}/g)].length;

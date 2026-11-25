@@ -37,8 +37,18 @@ function makeFns(lang) {
 }
 
 test('CL-UI-27 (1): none-copy and next window render as ONE merged line', () => {
+  // CL-UI-126: the merged line now lives in ONE helper (v2NoWindowLine) that
+  // both card surfaces call, so today's "day is over" copy and the ordinary
+  // none copy can never diverge. The anatomy is unchanged: 「📅 <copy>」 then
+  // 「 · 下一個符合時段：<stamp>」 on the same line.
+  const helper = grab('function v2NoWindowLine', '// Place names are the one intentional');
+  assert.match(helper, /\$\{esc\(none\)\}\$\{stamp\?` · \$\{esc\(t\.v2_next_window\)\}<b>\$\{esc\(stamp\)\}<\/b>`:''\}/,
+    'the none copy and the next window stay one merged line');
+  assert.match(helper, /best\.state==='NOT_EVALUABLE'\?t\.eval2_unk:t\[v2NoneSubjectKey\(\)\]/,
+    'the day-aware none copy is still the label source');
   const card = grab('function createSpotCard', 'function distanceToSpotKm');
-  assert.match(card, /theme-winner v2-none">📅 \$\{esc\(v2Best\.state==='NOT_EVALUABLE'\?d\(\)\.eval2_unk:d\(\)\[v2NoneSubjectKey\(\)\]\)\}\$\{v2Best\.nextLocal\?` · \$\{esc\(d\(\)\.v2_next_window\)\}/);
+  assert.match(card, /theme-winner v2-none">\$\{v2NoWindowLine\(spot,v2Best\)\}/,
+    'the card renders that one helper');
   // the old separate next-window row no longer exists on the none path
   assert.ok(!card.includes('best-window-row">${esc(d().v2_next_window)}'));
 });
