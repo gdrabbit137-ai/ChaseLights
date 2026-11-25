@@ -63,9 +63,9 @@ test('CL-UI-114: 應用時機 load + styledata，且 flag 關閉時 no-op 冪等
   assert.ok(MAP_JS.includes('if (CLUI114_FLAGS.light) return;'));
 });
 
-test('CL-UI-114: cache-bust stamp bclwg49（css+vendor；js 已進 bclwg51）', () => {
+test('CL-UI-114: cache-bust stamp bclwg49（css+vendor；js 已進 bclwg52）', () => {
   const stamps = WG_HTML.match(/\?v=bclwg49/g) || [];
   assert.ok(stamps.length >= 2, `expected >=2 bclwg49 stamps in weather-map.html, got ${stamps.length}`);
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg51/, 'js stamp must be bclwg51 after CL-APP-09 nav rename');
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg52/, 'js stamp must be bclwg52 after CL-APP-09 nav rename');
   assert.ok(!WG_HTML.includes('bclwg46'), 'stale bclwg46 stamp left in weather-map.html');
 });

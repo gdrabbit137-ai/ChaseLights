@@ -41,7 +41,7 @@ test('CL-UI-112 source: legend title row carries the ⓘ slot, wired to the same
   assert.ok(MAP_JS.includes("'資料說明':'Data info'"), 'en phrase present');
   assert.ok(MAP_JS.includes("'資料說明':'データ解説'"), 'ja phrase present');
   // stamp bump
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg51/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg52/);
   assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg49/);
 });
 

@@ -73,9 +73,9 @@ test('CL-APP-09b (1d): create/reset/sync/delete force an immediate panel list re
   assert.ok(dirtyCount >= 4, 'create + reset + sync + delete must all mark dirty, got ' + dirtyCount);
 });
 
-test('CL-APP-09b (1e): cache-bust stamp - css keeps clapp09c, js re-stamped clapp09d (anchor-window patch), list-loader unchanged', () => {
+test('CL-APP-09b (1e): cache-bust stamp - css keeps clapp09c, js re-stamped clapp09e (anchor-window patch), list-loader unchanged', () => {
   assert.match(htmlSrc, /assets\/subject-sets\.css\?v=clapp09c/);
-  assert.match(htmlSrc, /<script src="\.\/assets\/subject-sets\.js\?v=clapp09d"><\/script>/);
+  assert.match(htmlSrc, /<script src="\.\/assets\/subject-sets\.js\?v=clapp09e"><\/script>/);
   assert.doesNotMatch(htmlSrc, /assets\/subject-sets\.(js|css)\?v=clapp09b/);
 });
 

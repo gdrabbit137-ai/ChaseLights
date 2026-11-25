@@ -26,16 +26,16 @@ const cssSource = readFileSync(join(WEB, 'assets', 'custom-places.css'), 'utf8')
 // ------------------------------------------------------------- (1) source
 test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bust stamp', () => {
   // CL-INT-206 merge: clapp06g (patch-8) + clapp08a (shared-fetch tag) ->
-  // clapp08b on the merged tree; CL-APP-09-p3 (popup anatomy) -> clapp09d;
+  // clapp08b on the merged tree; CL-APP-09-p3 (popup anatomy) -> clapp09e;
   // CL-APP-09 patch-4 (popup rides the official renderers) -> clapp09g
   // (per-file cache-bust rule, monotonic)
   assert.match(htmlSource, /assets\/custom-places\.css\?v=clapp09g/);
-  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09l/); // CL-APP-09 patch-5/6 stamp advance (CL-INT-212 re-anchor)
+  assert.match(htmlSource, /assets\/custom-places\.js\?v=clapp09m/); // CL-APP-09 patch-5/6 stamp advance (CL-INT-212 re-anchor)
   assert.doesNotMatch(htmlSource, /custom-places\.(css|js)\?v=clapp08b/);
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
-  assert.match(htmlSource, /assets\/app\.js\?v=clui127/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui128/);
 });
 
 test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () => {

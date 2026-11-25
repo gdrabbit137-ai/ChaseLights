@@ -122,7 +122,7 @@ test('CL-UI-107: hide runs on load AND on styledata (late style mutations covere
 });
 
 test('CL-UI-107: weather-map.html stamps bumped to bclwg49 in weather-map.html', () => {
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg51/);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg52/);
   assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg49/);
   assert.ok(!/weather-map\.js\?v=bclwg42/.test(WG_HTML), 'old js stamp must not linger');
 });
