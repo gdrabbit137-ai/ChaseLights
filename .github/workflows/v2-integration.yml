@@ -65,6 +65,10 @@ jobs:
             /NAVIGATION_SPEC_R4_2.md
             /CNAME
             /index.html
+            # CL-PAGES-01: the publish contract (ops/pages/test_build_dist.py)
+            # builds dist/ from this checkout; without ops/pages the step dies
+            # with ENOENT instead of guarding the whitelist.
+            /ops/pages/
             /assets/
             /weather-map.html
             /genre-eval.html
