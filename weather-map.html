@@ -308,7 +308,10 @@
   <script src="./assets/site-nav.js"></script>
   <!-- CL-PAGES-04: the heavy JSON lives on Cloudflare R2; data-base.js rewrites
        ./weathergrid/ and ./weather_details/ onto this origin. Empty = same origin. -->
-  <script>window.CL_DATA_BASE='https://data.chaselights.app';</script>
+  <!-- Local dev and the browser harnesses serve the data plane themselves;
+       every deployed host (pages.dev preview included) reads R2. -->
+  <script>window.CL_DATA_BASE = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)
+    ? '' : 'https://data.chaselights.app';</script>
   <script src="./assets/data-base.js?v=clbase1"></script>
   <script src="./assets/member-auth.js?v=clui116"></script>
   <script src="./assets/favorites-client.js?v=clui82"></script>

@@ -1,9 +1,9 @@
-// CL-PAGES-04: the data plane may live on another origin; data-base.js supplies
-// window.clUrl, and this fallback keeps the module importable on its own.
-const clUrl = (url) => (typeof window !== 'undefined' && typeof window.clUrl === 'function')
-  ? window.clUrl(url) : url;
-
-export const V2_INDEX_URL = clUrl('./weathergrid/v2/index.json');
+// CL-PAGES-04: the data plane may live on another origin (Cloudflare R2).
+// Self-contained on purpose: this module is also loaded by tests that
+// evaluate it in a bare scope, so no external helper is referenced here.
+const CL_DATA_BASE = (typeof window !== 'undefined' && window.CL_DATA_BASE)
+  ? String(window.CL_DATA_BASE).replace(/\/+$/, '') + '/' : './';
+export const V2_INDEX_URL = CL_DATA_BASE + 'weathergrid/v2/index.json';
 
 export async function loadV2Index(fetchImpl = fetch) {
   const r = await fetchImpl(V2_INDEX_URL, { cache: 'no-store' });
