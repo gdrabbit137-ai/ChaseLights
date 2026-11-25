@@ -1,4 +1,16 @@
-# Step ② — move the heavy data plane to R2 (inventory)
+# Step ② — move the heavy data plane to R2
+
+> **Status (2026-11-25):** blocked on one dashboard action — the account has R2
+> disabled, so every `/r2/buckets` call returns
+> `10042 Please enable R2 through the Cloudflare Dashboard`.
+> Once R2 is enabled, `bash`-free flow is:
+>
+> ```bash
+> python ops/pages/r2_sync.py --dry-run     # 1,521 files / 1,179.5 MiB, cache policy applied
+> python ops/pages/r2_sync.py --apply       # needs R2 S3 creds (R2_ACCESS_KEY_ID/R2_SECRET_ACCESS_KEY)
+> ```
+>
+> Bucket name: `chaselights-data`; CORS rules: `ops/pages/r2-cors.json`.
 
 Goal: shrink the Cloudflare Pages deployment from **2,054 files / 1,339.7 MiB**
 to **~534 files / ~161 MiB** by moving the two heavy trees to R2, and remove the
