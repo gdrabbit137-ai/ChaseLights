@@ -125,9 +125,22 @@ def check(name: str, fn):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+def git_index_has(rel: str) -> bool:
+    """True when anything at or under `rel` is tracked, regardless of whether it
+    is present in the worktree (a sparse checkout can hide it)."""
+    r = subprocess.run(["git", "-C", REPO, "ls-files", "--", rel],
+                       capture_output=True, text=True)
+    return bool(r.stdout.strip())
+
+
 def test_manifest_has_runtime_surface():
     entries = manifest()
     missing = [w for w in REQUIRED if not has(entries, w)]
+    # Distinguish "not whitelisted" from "whitelisted but hidden by a partial
+    # checkout" — CI uses sparse-checkout and that is how 404.html slipped out
+    # of the dist while the manifest silently looked fine.
+    hidden = [w for w in missing if git_index_has(w.rstrip("/"))]
+    assert not hidden, f"tracked but not checked out (sparse-checkout?): {hidden}"
     assert not missing, f"manifest is missing {missing}"
 
 
