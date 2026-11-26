@@ -58,22 +58,44 @@ const BUNDLE_DAYS = (() => {
   }
   return [...set].sort();
 })();
-// The anchor must be the day a TAIWAN user calls today — the Taipei date of the
-// bundle's own generated_at — not the earliest local_date in the file. The
-// bundle spans timezones, so its first local_date can be yesterday in Alaska
-// while Taiwan is already on today; anchoring there would shim the clock to a
-// day the tw weather snapshots do not cover and the cards would render empty.
+// The anchor must be a day the TAIWAN user calls today AND that BOTH halves of
+// the render pipeline actually carry:
+//   · the V2 evaluation bundle (day-qualified verdicts), and
+//   · the weather snapshot the card list paints from (tw_weather.json `daily`
+//     rows, one 7-day window per spot).
+// Those two artifacts refresh on independent schedules. The bundle's generated_at
+// Taipei date can already be YESTERDAY for the card list (observed: bundle
+// generated_at 2026-11-26, weather snapshot's first daily row 2026-11-27).
+// Freezing the clock on that stale day makes `currentDayForSpot` miss every
+// spot's `daily` rows, `filterAndRender` renders the empty state, and the sweep
+// fails on "waitFor timed out: index cards" — a harness artifact, not a page
+// defect (the same page paints 161 cards against a live clock).
+const WEATHER = JSON.parse(readFileSync(join(WEB, 'tw_weather.json'), 'utf8'));
+const WEATHER_DAYS = (() => {
+  const set = new Set();
+  for (const spot of WEATHER.spots || []) {
+    for (const day of spot.daily || []) if (day && day.date) set.add(day.date);
+  }
+  return [...set].sort();
+})();
 const ANCHOR_DAY = (() => {
+  const bundleDays = new Set(BUNDLE_DAYS);
+  const weatherDays = new Set(WEATHER_DAYS);
+  const dayAfter = (d, n) => new Date(Date.parse(d + 'T00:00:00Z') + n * 86400000).toISOString().slice(0, 10);
+  // A candidate must have the FULL 7-day chain in the weather snapshot (the
+  // modal's daily list and the page's day tabs are 7 days wide) and be present
+  // in the bundle (the verdicts of cases 1/6 read it).
+  const candidates = WEATHER_DAYS.filter(d => bundleDays.has(d)
+    && Array.from({ length: 7 }, (_, i) => weatherDays.has(dayAfter(d, i))).every(Boolean));
+  if (!candidates.length) return null;
+  let taipei = null;
   const at = Date.parse(BUNDLE.generated_at || '');
   if (Number.isFinite(at)) {
-    const taipei = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(at));
-    if (BUNDLE_DAYS.includes(taipei)) return taipei;
-    const next = BUNDLE_DAYS.find((d) => d >= taipei);
-    if (next) return next;
+    taipei = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(at));
   }
-  return BUNDLE_DAYS[0];
+  return (taipei && candidates.find(d => d >= taipei)) || candidates[0];
 })();
-if (!ANCHOR_DAY) throw new Error('the committed bundle carries no local_date to anchor the sweep');
+if (!ANCHOR_DAY) throw new Error('no day is covered by both the evaluation bundle and the weather snapshot — cannot anchor the sweep');
 const [ANCHOR_Y, ANCHOR_M, ANCHOR_D] = ANCHOR_DAY.split('-').map(Number);
 const DAY_FIXED = Date.UTC(ANCHOR_Y, ANCHOR_M - 1, ANCHOR_D, 2, 0, 0);   // 10:00 Asia/Taipei
 const NIGHT_FIXED = Date.UTC(ANCHOR_Y, ANCHOR_M - 1, ANCHOR_D, 15, 30, 0); // 23:30 Asia/Taipei
@@ -111,14 +133,16 @@ const clockShim = (fixed) => `(() => {
 // seconds), not as a guess about copy.
 const netMonitor = `(() => {
   const of = window.fetch;
-  const st = { inflight: 0, total: 0, lastDoneAt: performance.now() };
+  const st = { inflight: 0, total: 0, lastDoneAt: performance.now(), failed: [] };
   window.__clNet = st;
   window.fetch = function (...a) {
     st.inflight++; st.total++;
+    const url = String(a[0]);
     const p = of.apply(this, a);
+    const note = (why) => { st.failed.push(url + ' → ' + why); if (st.failed.length > 12) st.failed.shift(); };
     try {
-      p.then(() => { st.inflight--; st.lastDoneAt = performance.now(); },
-             () => { st.inflight--; st.lastDoneAt = performance.now(); });
+      p.then((r) => { st.inflight--; st.lastDoneAt = performance.now(); if (r && r.ok === false) note(r.status); },
+             (e) => { st.inflight--; st.lastDoneAt = performance.now(); note((e && e.message) || 'network error'); });
     } catch (e) { st.inflight--; }
     return p;
   };
@@ -307,6 +331,12 @@ async function navigate(path, { waitFor, timeout = 45000, label = path } = {}) {
     await sleep(100);
   }
   if (waitFor) {
+    // pageErrors is a NODE-side array: it is read here and interpolated as a
+    // literal. Referencing it inside the in-page expression made the timeout
+    // branch throw `ReferenceError: pageErrors is not defined`, so a page that
+    // never became ready hung the awaited evaluate until the CDP deadline
+    // instead of reporting "waitFor timed out".
+    const pageErrNote = pageErrors.length ? ` | page errors: ${pageErrors.join(' ;; ')}` : '';
     await evaljs(`new Promise((resolve, reject) => {
       // performance.now() — NOT Date.now(): the clock shim freezes Date.now, so a
       // Date-based in-page timeout would never fire and the promise would hang.
@@ -318,7 +348,7 @@ async function navigate(path, { waitFor, timeout = 45000, label = path } = {}) {
         else if (performance.now() - t0 > ${timeout}) {
           clearInterval(iv);
           reject(new Error('waitFor timed out: ' + ${JSON.stringify(label)} + ' (' + ${JSON.stringify(waitFor)} + ')'
-            + (pageErrors.length ? ' | page errors: ' + pageErrors.join(' ;; ') : '')));
+            + ${JSON.stringify(pageErrNote)}));
         }
       }, 200);
     })`);
@@ -360,18 +390,27 @@ async function openFirstCardModal(index = 0, { requireRows = 7 } = {}) {
   assert.equal(opened.ok, true, `a card exists at index ${index} to open`);
   // The modal paints 「正在載入天氣預報…」 first; the daily list and the timeline
   // arrive with the detail payload.
-  await evaljs(`new Promise((resolve, reject) => {
-    const t0 = performance.now();
-    const iv = setInterval(() => {
-      const ov = document.getElementById('modal-overlay');
-      const rows = document.querySelectorAll('#modal-summary .modal-day-row').length;
-      if (ov && getComputedStyle(ov).display !== 'none' && rows >= ${requireRows}) { clearInterval(iv); resolve(true); }
-      else if (performance.now() - t0 > 45000) {
-        clearInterval(iv);
-        reject(new Error('modal daily summary never rendered (' + rows + ' rows)'));
-      }
-    }, 200);
-  })`);
+  try {
+    await evaljs(`new Promise((resolve, reject) => {
+      const t0 = performance.now();
+      const iv = setInterval(() => {
+        const ov = document.getElementById('modal-overlay');
+        const rows = document.querySelectorAll('#modal-summary .modal-day-row').length;
+        if (ov && getComputedStyle(ov).display !== 'none' && rows >= ${requireRows}) { clearInterval(iv); resolve(true); }
+        else if (performance.now() - t0 > 45000) {
+          clearInterval(iv);
+          reject(new Error('modal daily summary never rendered (' + rows + ' rows)'));
+        }
+      }, 200);
+    })`);
+  } catch (e) {
+    // The detail payload is a per-place shard (./weather_details/<region>/<spot>.json)
+    // that is NOT committed — CI hydrates it from R2. A missing tree used to fail
+    // here as a bare "0 rows" after 45s with nothing pointing at the cause.
+    const failed = await evaljs(`((window.__clNet && window.__clNet.failed) || [])
+      .filter((u) => /weather_details|evaluations|\\.json/.test(u)).slice(-4)`).catch(() => null);
+    throw new Error(e.message + (failed && failed.length ? ` | failed fetches: ${failed.join(', ')}` : ''));
+  }
   await sleep(600); // let the timeline/quicks view settle
   return opened.name;
 }
