@@ -51,8 +51,10 @@ test('CL-UI-86 (1): cards carry content-visibility:auto + contain-intrinsic-size
 test('CL-UI-86 (2): card head renders name 14/600 ellipsis + tier badge + bare star', () => {
   assert.match(createSpotCardBlock, /<span class="tier tier-\$\{clBadgeTier\}">\$\{esc\(clBadgeLabel\)\}<\/span>/);
   // The badge shares the tier adapter's three-level state + the honest 資料不足.
-  assert.match(createSpotCardBlock, /clBadgeTier=\(\(\)=>\{if\(!v2Evaluated\)return 'defer';if\(scTier\)return\(\{recommend:'rec',shootable:'shoot',not_recommended:'no'\}\)\[scTier\];if\(v2Best\.state==='GUIDANCE_SATISFIED'\)return 'rec';return v2Best\.state==='NOT_EVALUABLE'\?'defer':'no';\}\)\(\);/);
-  assert.match(createSpotCardBlock, /clBadgeLabel=\{rec:d\(\)\.tier_recommend,shoot:d\(\)\.tier_shootable,no:d\(\)\.tier_not_recommended,defer:d\(\)\.eval2_unk\}\[clBadgeTier\];/);
+  // CL-UI-132: a stale bundle short-circuits the badge to the honest
+  // 「資料更新延遲中」 state; the tier mapping is unchanged behind it.
+  assert.match(createSpotCardBlock, /clBadgeTier=staleInfo\.stale\?'stale':\(\(\)=>\{if\(!v2Evaluated\)return 'defer';if\(scTier\)return\(\{recommend:'rec',shootable:'shoot',not_recommended:'no'\}\)\[scTier\];if\(v2Best\.state==='GUIDANCE_SATISFIED'\)return 'rec';return v2Best\.state==='NOT_EVALUABLE'\?'defer':'no';\}\)\(\);/);
+  assert.match(createSpotCardBlock, /clBadgeLabel=staleInfo\.stale\?d\(\)\.v2_stale_badge\.replace\('\{t\}',staleInfo\.stamp\):\{rec:d\(\)\.tier_recommend,shoot:d\(\)\.tier_shootable,no:d\(\)\.tier_not_recommended,defer:d\(\)\.eval2_unk\}\[clBadgeTier\];/);
   // Badge classes map to the CL-UI-85 shared tier components (all three + grey).
   assert.match(cssSource, /\.tier-rec\{[^}]*var\(--cl-green-text\)/);
   assert.match(cssSource, /\.tier-shoot\{[^}]*var\(--cl-amber-text\)/);

@@ -40,7 +40,7 @@ function makeFallback() {
   // extracted test wrapper takes them as parameters instead (cl-ui-69 style).
   let fallback = grab('const clFallbackRows=', 'const v2Summary=');
   fallback = fallback.replace('const clFallbackRows=(()=>{',
-    'const evaluated=(v2Evaluated,v2Best,clSubjectRows,scTierReason,scRow)=>{');
+    'const evaluated=(v2Evaluated,v2Best,clSubjectRows,scTierReason,scRow,staleInfo={stale:false})=>{');
   fallback = fallback.replace(/\}\)\(\);\s*$/, '};');
   // the card-local clSubjectRowHtml wrapper is out of scope here — the
   // extracted fallback calls the shared builder directly (same args).
@@ -153,7 +153,7 @@ test('CL-UI-71 (5): the old 「本日最佳題材」 render path is retired from
 });
 
 test('CL-UI-71 (6): cache-bust stamp — app.js advanced to clui102 (app.css follows at clui102 per CL-UI-72)', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui128/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui121/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui129/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui122/);
   assert.ok(!indexSource.includes('app.js?v=clui75'), 'stale app.js stamp retired');
 });

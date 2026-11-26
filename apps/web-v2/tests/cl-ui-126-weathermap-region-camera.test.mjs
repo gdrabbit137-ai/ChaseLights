@@ -72,7 +72,11 @@ test('CL-UI-126 (2): region=tw centres Taiwan at zoom 7.5 instead of the whole E
   const { api, calls, state } = harness('?region=tw', 'tw');
   assert.equal(api.applyRegionDefaultCamera(), true);
   assert.equal(calls.length, 1, 'the camera is repositioned once');
-  assert.deepEqual(calls[0].center, [23.7, 120.96]);
+  // MapLibre's center is [lng, lat]; the defaults are [lat, lon]. The old
+  // implementation passed the defaults through unswapped, so MapLibre threw
+  // 'Invalid LngLat latitude value' and the camera never landed (the bug this
+  // test was supposed to catch). Assert the order MapLibre actually receives.
+  assert.deepEqual(calls[0].center, [120.96, 23.7]);
   assert.equal(calls[0].zoom, 7.5);
   assert.ok(state.view, 'state.view mirrors the camera so the canvas fallback agrees');
   assert.ok(state.view.bottomlat < 23.7 && state.view.toplat > 23.7, 'the mirrored view is around Taiwan');
@@ -82,7 +86,7 @@ test('CL-UI-126 (3): each region applies its own camera', () => {
   for (const [region, want] of Object.entries(EXPECTED)) {
     const { api, calls } = harness(`?region=${region}`, region);
     assert.equal(api.applyRegionDefaultCamera(), true, `${region} applied`);
-    assert.deepEqual(calls[0].center, want.center, `${region} centre`);
+    assert.deepEqual(calls[0].center, [want.center[1], want.center[0]], `${region} centre (lng, lat)`);
     assert.equal(calls[0].zoom, want.zoom, `${region} zoom`);
   }
 });

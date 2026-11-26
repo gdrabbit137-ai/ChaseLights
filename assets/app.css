@@ -2638,6 +2638,8 @@
 .tier-shoot{background:var(--cl-amber-bg);color:var(--cl-amber-text);box-shadow:inset 0 0 0 1px var(--cl-amber-border)}
 .tier-no{background:var(--cl-red-bg);color:var(--cl-red-text);box-shadow:inset 0 0 0 1px var(--cl-red-border)}
 .tier-defer{background:var(--cl-grey-bg);color:var(--cl-grey-text);box-shadow:inset 0 0 0 1px var(--cl-border-strong)}
+/* CL-UI-132: stale bundle — the badge states the truth instead of a verdict */
+.tier-stale{background:var(--cl-amber-bg);color:var(--cl-amber-text);box-shadow:inset 0 0 0 1px var(--cl-amber-border);white-space:nowrap}
 .tab{display:inline-flex;align-items:center;gap:6px;height:var(--cl-pill-h);padding:0 var(--cl-sp-3);
   border-radius:999px;border:1px solid var(--cl-border);background:var(--cl-bg-2);font-size:var(--cl-fs-13);color:var(--cl-text-2);flex:none}
 .tab .n{font-family:var(--cl-mono);font-size:var(--cl-fs-12);color:var(--cl-text-3)}

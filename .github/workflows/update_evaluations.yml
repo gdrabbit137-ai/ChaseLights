@@ -104,7 +104,15 @@ jobs:
           node-version: '26'
       - name: Run artifact-coupled tests
         run: |
-          coupled=$(grep -rlE "'data', *'v2', *'evaluations'|evaluations-latest|evaluations-details|subject-cards" apps/web-v2/tests --include='*.test.mjs' | sort | tr '\n' ' ')
+          # Browser/CDP gates are excluded here on purpose: this job has no
+          # Chromium install and no weathergrid/ hydrate, so every CDP file
+          # would ENOENT or render an empty card list (measured: spawn
+          # C:/Program Files/.../chrome.exe ENOENT on ubuntu). Those gates run
+          # in v2-integration, which hydrates both trees and installs Chromium —
+          # no assertion is relaxed, only the venue is corrected.
+          coupled=$(grep -rlE "'data', *'v2', *'evaluations|evaluations-latest|evaluations-details|subject-cards" apps/web-v2/tests --include='*.test.mjs' \
+            | grep -vE 'cl-app-06-custom-places|cl-ui-118b-na-rows-expand|cl-ui-90-reminders-mockup|cl-e2e-131-semantic-sweep' \
+            | sort | tr '\n' ' ')
           echo "coupled test files:"
           echo "$coupled" | tr ' ' '\n' | sed '/^$/d'
           # --test-isolation=none is the canonical suite mode (w4-node/postmerge_verify);

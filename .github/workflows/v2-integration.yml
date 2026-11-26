@@ -203,6 +203,15 @@ jobs:
       - name: Require exact W1–W4 trees, real browse sources and all 444 checks
         run: |
           python ops/v2/postmerge_verify.py --root . --logs-dir .ci/postmerge-logs
+      # CL-E2E-131: the semantic sweep gate. The 2,100-test suite asserts
+      # implementation shape; it still shipped 「15:00 日出」 and a modal listing
+      # 「昨天」 to a real phone. This gate replays a Taiwan user at 10:00 and
+      # 23:00 Asia/Taipei and asserts on the RENDERED DOM — 7 aligned daily
+      # rows, no impossible sunrise, no 「✓ 推薦」 on a dead day, the tw camera
+      # on mainland Taiwan, and zero engineering tokens in visible copy.
+      # Blocking on purpose: a red here means the product lies to a user.
+      - name: Gate — E2E semantic sweep (CL-E2E-131)
+        run: node --test --test-timeout=180000 apps/web-v2/tests/cl-e2e-131-semantic-sweep.test.mjs
       # CL-CI-17: make postmerge failures diagnosable without CI log access.
       # Emits one-line JSON for the overall result and per-group results, GitHub
       # error annotations for FAIL groups, and a full markdown step summary.
