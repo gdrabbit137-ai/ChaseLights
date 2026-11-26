@@ -1653,7 +1653,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       return `<span class="dg-chip ${cls}">${esc(label)}</span>`;
     }
     function modalDayRow(label,info,scRow,spot,dateKey){
-      const wx=dayWeatherFor(spot,dateKey);
+      const wx=(typeof dayWeatherFor==='function')?dayWeatherFor(spot,dateKey):null;
       const wxHtml=wx?`<span class="modal-day-wx">${wmoIcon(wx.code)} ${esc(formatTempRange(wx.tempMin,wx.tempMax))}</span>`:'';
       const tier=scRow&&scRow.tier;
       const tierChip=modalDayTierChip(tier);

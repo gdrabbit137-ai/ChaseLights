@@ -136,6 +136,25 @@ let scriptIds = [];
 const nextId = (() => { let id = 0; return () => ++id; })();
 const pending = new Map();
 
+// CL-E2E-131 (5): the weather map's basemap style is fetched from a third-party
+// CDN (tiles.openfreemap.org/styles/liberty | fiord). On a CI runner that
+// request can stall forever, MapLibre's 'load' event then never fires, and the
+// page drops into its 4s canvas fallback — so the gate failed on the CDN's
+// availability, not on our camera code. Intercept the style request over CDP
+// and fulfil it with a minimal, self-contained style (one background layer, no
+// sources/glyphs/sprite) so 'load' fires immediately and no third-party host is
+// on the critical path. Product code is untouched; the assertions below are not
+// weakened. Only the MAP case enables this — the other five never do.
+const STUB_STYLE_URL = /openfreemap\.org\/styles\/(liberty|fiord)(?:[?#]|$)/;
+const STUB_STYLE_JSON = JSON.stringify({
+  version: 8,
+  name: 'cl-test-stub',
+  sources: {},
+  layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#0b1220' } }],
+});
+const stubFulfilled = [];   // URLs actually fulfilled with the stub style
+
+
 const MIME = {
   '.html': 'text/html', '.mjs': 'text/javascript', '.js': 'text/javascript',
   '.css': 'text/css', '.json': 'application/json', '.png': 'image/png',
@@ -200,6 +219,38 @@ async function boot() {
         const text = d.exception?.description || d.text || 'page exception';
         pageErrors.push(String(text).split(String.fromCharCode(10))[0].slice(0, 400));
         if (pageErrors.length > 6) pageErrors.shift();
+      }
+      // CL-E2E-131 (5): answer the paused basemap style request locally. This is
+      // the only Fetch.* traffic the harness enables (MAP case only), so the
+      // other five tests never see a paused request.
+      if (m.method === 'Fetch.requestPaused') {
+        const p = m.params || {};
+        const id = p.requestId;
+        const url = String(p.request && p.request.url || '');
+        const reply = (method, params = {}) => {
+          // never let a dead page produce an unhandled rejection here
+          try { send(method, { requestId: id, ...params }, { timeoutMs: 10000 }).catch(() => {}); }
+          catch { /* socket gone */ }
+        };
+        if (STUB_STYLE_URL.test(url)) {
+          stubFulfilled.push(url);
+          reply('Fetch.fulfillRequest', {
+            responseCode: 200,
+            responsePhrase: 'OK',
+            responseHeaders: [
+              { name: 'Content-Type', value: 'application/json' },
+              { name: 'Access-Control-Allow-Origin', value: '*' },
+              { name: 'Cache-Control', value: 'no-store' },
+            ],
+            body: Buffer.from(STUB_STYLE_JSON, 'utf8').toString('base64'),
+          });
+        } else if (/openfreemap\.org/.test(url)) {
+          // glyph/sprite/tile sub-resources the stub style never references. Fail
+          // them fast instead of letting the CI network hang on a third party.
+          reply('Fetch.failRequest', { errorReason: 'Aborted' });
+        } else {
+          reply('Fetch.continueRequest');
+        }
       }
       if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); }
     };
@@ -769,6 +820,12 @@ test('CL-E2E-131 (5) MAP — /weather-map.html?region=tw opens on mainland Taiwa
   try {
     await boot();
     await installClock(DAY_FIXED);
+    // CL-E2E-131 (5): the basemap style comes from tiles.openfreemap.org. Detach
+    // the gate from that CDN: pause the style request and fulfil it locally with
+    // STUB_STYLE_JSON (handler in ws.onmessage). Scoped to this case — disabled
+    // in the finally below so (1)-(4) and (6) run against the real network.
+    stubFulfilled.length = 0;
+    await send('Fetch.enable', { patterns: [{ urlPattern: '*openfreemap.org*', requestStage: 'Request' }] });
     // No in-page waitFor here: the map instance is created inside MapLibre's
     // 'load' handler, so the wait must survive a slow style/tile fetch — which
     // is precisely the wait that used to hang. Poll it from the harness.
@@ -824,7 +881,24 @@ test('CL-E2E-131 (5) MAP — /weather-map.html?region=tw opens on mainland Taiwa
 
     const tokens = await readEngineeringTokens();
     assert.deepEqual(tokens.hits, [], `no engineering tokens on screen on the map page (${JSON.stringify(tokens.sample)})`);
+
+    // Prove the stub is what the map actually rendered: the live MapLibre style
+    // must be STUB_STYLE_JSON (name + background-only layers), and at least one
+    // openfreemap style request must have been fulfilled in-process. Without this
+    // a "pass" could still be the CDN answering.
+    const styleProof = await evaljs(`(() => {
+      const m = window.__weatherGridMap;
+      const s = (m && m.getStyle && m.getStyle()) || null;
+      return { name: s && s.name, layers: (s && Array.isArray(s.layers)) ? s.layers.map(l => l.id) : null };
+    })()`);
+    assert.equal(styleProof.name, 'cl-test-stub', `the map rendered the harness stub style (got ${JSON.stringify(styleProof)})`);
+    assert.ok(Array.isArray(styleProof.layers) && styleProof.layers.includes('bg'),
+      `the stub background layer is live in the rendered style (got ${JSON.stringify(styleProof.layers)})`);
+    assert.ok(stubFulfilled.length >= 1,
+      'the basemap style request was fulfilled locally over CDP (never fetched from tiles.openfreemap.org)');
+    console.log(`# CL-E2E-131 (5): stub style fulfilled ${stubFulfilled.length}x → ${stubFulfilled.join(', ')}`);
   } finally {
+    try { await send('Fetch.disable', { timeoutMs: 5000 }); } catch { /* page already gone */ }
     // always hand the map's tiles/timers back before the next case navigates
     console.log(`# CL-E2E-131 (5) map cleanup: ${await disposeMapPage()} (${Date.now() - t0}ms)`);
   }
