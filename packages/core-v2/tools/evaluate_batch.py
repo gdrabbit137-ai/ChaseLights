@@ -1365,7 +1365,8 @@ def demote_cloud_sea_lcl(conditions, contract):
     return out
 
 
-def demote_unresolvable_cloud_base(conditions, contract, viewpoint_elevation_m):
+def demote_unresolvable_cloud_base(conditions, contract, viewpoint_elevation_m,
+                                   grid_elevation_m=None):
     """CL-PHYS-02 §4b: a cloud-base window below the ground is advisory.
 
     Every `lt/lte` cloud-base window outside cloud_sea is the DEM−200 rule
@@ -1379,16 +1380,23 @@ def demote_unresolvable_cloud_base(conditions, contract, viewpoint_elevation_m):
     subject at 不宜 for every hour of every run.
 
     The feasibility test is mechanical, not a hardcoded id list: a window
-    whose threshold lies below the viewpoint elevation cannot be satisfied
-    by any base at or above the viewpoint's own ground. Demoted to QUALITY
-    so the resolvable part of the subject still produces a verdict and the
-    dead clause reads as advisory. Evaluation-layer only — the owner
-    contract (and its sha) is untouched.
+    whose threshold lies below the GRID GROUND — the datum the LCL is
+    measured from — can never be met, because base_asl = grid + lcl >= grid.
+    Keying on the grid ground rather than the viewpoint keeps a mountain
+    viewpoint whose ground sits well below it (vp 3055 / grid 2700 /
+    threshold 2855) resolvable and REQUIRED. Demoted to QUALITY so the
+    resolvable part of the subject still produces a verdict and the dead
+    clause reads as advisory. Evaluation-layer only — the owner contract
+    (and its sha) is untouched.
     """
     conditions = list(conditions)
     if (not isinstance(viewpoint_elevation_m, (int, float))
             or isinstance(viewpoint_elevation_m, bool)):
         return conditions
+    bound = (grid_elevation_m
+             if (isinstance(grid_elevation_m, (int, float))
+                 and not isinstance(grid_elevation_m, bool))
+             else viewpoint_elevation_m)
     out = []
     for condition in conditions:
         threshold = condition.get("threshold")
@@ -1397,7 +1405,7 @@ def demote_unresolvable_cloud_base(conditions, contract, viewpoint_elevation_m):
                 and condition.get("operator") in ("lt", "lte")
                 and isinstance(threshold, (int, float))
                 and not isinstance(threshold, bool)
-                and float(threshold) < float(viewpoint_elevation_m)):
+                and float(threshold) < float(bound)):
             condition = dict(
                 condition, role="QUALITY", condition_tier="MODIFIER",
                 cl_phys_02="cloud_base_window_below_grid_is_advisory")

@@ -812,3 +812,36 @@ class BaselineContrastTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DemotionBoundTests(unittest.TestCase):
+    """CL-PHYS-02 §4b: the demotion bound is the GRID GROUND, not the viewpoint.
+
+    Reviewer condition: a mountain viewpoint whose DEM sits well below it
+    (vp 3055 / grid 2700 / threshold 2855) has a satisfiable window — keying
+    the demotion on the viewpoint would silently downgrade a live REQUIRED
+    clause to advisory.
+    """
+
+    @staticmethod
+    def _cond(threshold):
+        return {"metric": "cloud_base_height", "role": "REQUIRED",
+                "operator": "lt", "threshold": threshold}
+
+    def test_threshold_above_grid_ground_stays_required(self):
+        out = eb.demote_unresolvable_cloud_base(
+            [self._cond(2855)], {}, 3055, 2700)
+        self.assertEqual(out[0]["role"], "REQUIRED")
+        self.assertNotIn("cl_phys_02", out[0])
+
+    def test_threshold_below_grid_ground_is_demoted(self):
+        out = eb.demote_unresolvable_cloud_base(
+            [self._cond(2655)], {}, 3055, 2700)
+        self.assertEqual(out[0]["role"], "QUALITY")
+        self.assertEqual(out[0]["cl_phys_02"],
+                         "cloud_base_window_below_grid_is_advisory")
+
+    def test_no_grid_ground_falls_back_to_viewpoint(self):
+        out = eb.demote_unresolvable_cloud_base(
+            [self._cond(2655)], {}, 2700, None)
+        self.assertEqual(out[0]["role"], "QUALITY")
