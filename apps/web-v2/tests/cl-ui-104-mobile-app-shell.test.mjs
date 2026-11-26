@@ -76,7 +76,8 @@ test('CL-UI-104 CSS (mobile): 100dvh shell — body overflow hidden, flex column
   assert.match(mobileBlock, /\.map-wrap \.maplibregl-canvas-container,\.map-wrap #weather-canvas\{touch-action:none\}/,
     'CL-UI-105: MapLibre canvas container + overlay canvas own the gestures (pan/zoom live, page cannot scroll)');
   // CL-UI-105 re-anchor: the tray is a compact grid — merged band+slider row,
-  // then a 44px single-row control strip (total ops height target ≤180px).
+  // then the control strip (CL-I18N-12B: a 2-column wrapping grid at 393px;
+  // the old 44px horizontally scrolling row put controls off-screen).
   assert.match(mobileBlock, /\.wm-ops\{order:1;flex:0 1 auto;min-height:0;max-height:47dvh;display:grid/);
   assert.match(mobileBlock, /grid-template-columns:auto minmax\(0,1fr\) auto;grid-auto-rows:min-content/,
     'the tray is a compact grid (merged row + control row)');
@@ -86,9 +87,10 @@ test('CL-UI-104 CSS (mobile): 100dvh shell — body overflow hidden, flex column
     'the timeline band is a flow row of the tray (not floating over the map)');
   assert.match(mobileBlock, /\.wm-ops \.time-navigator\{order:2;grid-row:1;grid-column:2\/-1;display:grid/,
     '細帶與滑桿 share the first merged row (band left / slider right)');
-  assert.match(mobileBlock, /\.wm-ops \.control-bar\{order:3;grid-row:2;grid-column:1\/-1;margin-bottom:2px;display:flex;flex-direction:row/,
-    '控制列 becomes a 44px single-row horizontally scrolling strip');
-  assert.match(mobileBlock, /height:44px;overflow-x:auto/, '控制列 row height is 44px');
+  assert.match(mobileBlock, /\.wm-ops \.control-bar\{order:3;grid-row:2;grid-column:1\/-1;margin-bottom:2px;\n\s+display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/,
+    '控制列 wraps as a 2-column grid inside the viewport');
+  assert.ok(!/\.wm-ops \.control-bar\{[^}]*overflow-x:auto/.test(mobileBlock),
+    '控制列 must not need horizontal scrolling at 393px');
   // CL-UI-105: 目前圖層 inspector collapsed by default on mobile; shown only via
   // the layer-change flash (.wm-insp-show) or the layer-sheet 詳細 sticky.
   assert.match(mobileBlock, /\.inspector\{display:none\}/,
@@ -370,7 +372,9 @@ for (const vp of [{name: 'mobile 390px', w: 390, h: 844, mobile: true, tag: '390
     assert.equal(p.insp.h, 0, 'inspector collapsed by default (no reserved slice)');
     assert.equal(p.footer.h, 0, 'CL-UI-106: site-footer retired on the mobile shell (sources.html covers it)');
     assert.ok(p.ops.b <= p.innerH + 1, 'tray sits above the bottom edge (no footer block below)');
-    assert.ok(p.ops.h <= 180, `operations tray stays within the 180px budget (${p.ops.h}px)`);
+    // CL-I18N-12B: 180 → 220px — the budget assumed one scrolling control row;
+    // the wrapped 4-row grid costs ~28px and keeps every control on-screen.
+    assert.ok(p.ops.h <= 220, `operations tray stays within the 220px budget (${p.ops.h}px)`);
     assert.equal(p.dockHost, 'ops', 'timeline band lives in the operations tray (not floating over the map)');
     assert.ok(p.slider.t >= p.map.b - 2 && p.slider.b <= p.innerH, '預報滑桿 is reachable in the fixed tray');
     // attempts to scroll the page must be no-ops (both directions)
@@ -422,25 +426,48 @@ test('CL-UI-104 (4b) 390px: a real touch drag on the map pans the map and never 
 });
 
 // ---- (4c) mobile 390: CL-UI-105 (owner) 景點列表入口 removed from the shell ----
-test('CL-UI-104 (4c) 390px: 景點列表 entry is removed from the ops shell (spot pins keep the mini card)', async () => {
+test('CL-UI-104 (4c) 390px: 景點列表 pill opens the spot sheet (CL-I18N-12B reachability)', async () => {
   await bootBrowser();
   await setViewport(390, 844, true);
   await loadPage();
   await send('Page.bringToFront');
   await waitDataReady();
   const p = await evaljs(LAYOUT_PROBE);
-  // the entry pill is gone (display:none), the layer pill stays
-  assert.ok(p.sheetBtn.h === 0, `景點列表 pill hidden (${p.sheetBtn.h}px)`);
+  // CL-I18N-12B: CL-UI-105 had retired this entry, which left the whole spot
+  // list unreachable on phones (audit V3). The pill is back, next to the layer
+  // pill, and must actually open the list sheet.
+  assert.ok(p.sheetBtn.h > 0, `景點列表 pill visible (${p.sheetBtn.h}px)`);
   assert.ok(p.layerPill.h > 0, '攝影圖層 pill stays reachable');
-  // the list sheet is therefore unreachable on the mobile shell: no sheet-open
-  // shell state and no dim on a fresh load
-  const s = await evaljs(SHEET_PROBE);
-  assert.equal(s.sheetOpen, false, 'no sheet-open shell state without an entry');
-  assert.equal(s.dimShown, false, 'no dim on a fresh load');
-  // the sheet DOM stays (desktop markup untouched); only the entry is removed
+  assert.ok(p.sheetBtn.l >= 0 && p.sheetBtn.r <= 390, 'spot pill sits inside the viewport');
+  assert.equal((await evaljs(SHEET_PROBE)).sheetOpen, false, 'no sheet-open shell state on a fresh load');
+  const opened = await evaljs(`(async () => {
+    document.getElementById('side-toggle').click();
+    await new Promise(r=>setTimeout(r,350));
+    const sh=document.querySelector('#wm-sheet');
+    const rows=sh.querySelectorAll('.wm-sheet-row');
+    const b=sh.getBoundingClientRect();
+    return {open:sh.classList.contains('open'), aria:sh.getAttribute('aria-hidden'),
+      rows:rows.length, inViewport:b.left>=-1 && b.right<=innerWidth+1,
+      dim:!document.querySelector('#wm-map-dim').hidden,
+      panelOpen:document.querySelector('.map-panel').classList.contains('sheet-open')};
+  })()`);
+  assert.equal(opened.open, true, '#wm-sheet opens from the pill');
+  assert.equal(opened.aria, 'false', 'sheet announces itself as open');
+  assert.ok(opened.rows > 0, `sheet lists the spots (${opened.rows} rows)`);
+  assert.equal(opened.inViewport, true, 'sheet stays inside the 390px viewport');
+  assert.equal(opened.dim, true, 'map dims to a preview strip behind the sheet');
+  assert.equal(opened.panelOpen, true, 'shell enters sheet-open state');
+  const closed = await evaljs(`(async () => {
+    document.querySelector('#wm-sheet [data-wm-act="sheet-close"]').click();
+    await new Promise(r=>setTimeout(r,300));
+    return {open:document.querySelector('#wm-sheet').classList.contains('open'),
+      panelOpen:document.querySelector('.map-panel').classList.contains('sheet-open')};
+  })()`);
+  assert.equal(closed.open, false, '✕ closes the sheet');
+  assert.equal(closed.panelOpen, false, 'shell leaves sheet-open state');
   const markup = await evaljs(`(() => ({sheet:!!document.querySelector('#wm-sheet'),
     mini:!!document.querySelector('#wm-mini')}))()`);
-  assert.equal(markup.sheet, true, '#wm-sheet markup retained (entry-only removal)');
+  assert.equal(markup.sheet, true, '#wm-sheet markup retained');
 });
 
 test('CL-UI-104 (4c2) 390px: layer sheet + timeline band expand stay below the map area', async () => {

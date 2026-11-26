@@ -680,22 +680,40 @@ body{padding:18px}
   .wm-ops .time-navigator{order:2;grid-row:1;grid-column:2/-1;display:grid;
     grid-template-columns:minmax(0,1fr) auto;align-items:center;min-height:44px;padding-top:0}
   .wm-ops.wm-dock-open .time-navigator{grid-row:2;grid-column:1/-1}
-  .wm-ops .control-bar{order:3;grid-row:2;grid-column:1/-1;margin-bottom:2px;display:flex;flex-direction:row;
-    align-items:center;gap:8px;height:44px;overflow-x:auto;padding-bottom:0}
+  /* ── CL-I18N-12B：393px 控制列改「兩欄換行格」，不再是一條橫向溢出、
+       被 html/body overflow:hidden 裁掉的可水平捲動列（審計 V3：圖層/強度/景點
+       控制落在 x=550…1170，永遠碰不到）。每個控件都在視窗寬度內、無水平捲動。 ── */
+  .wm-ops .control-bar{order:3;grid-row:2;grid-column:1/-1;margin-bottom:2px;
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:8px;row-gap:6px;
+    width:100%;max-width:100%;min-width:0;height:auto;overflow:visible;padding-bottom:0}
   .wm-ops.wm-dock-open .control-bar{grid-row:3}
-  .wm-ops .control-bar>label{flex:0 0 auto;display:flex;flex-direction:row;align-items:center;
-    gap:4px;margin:0}
-  .wm-ops .control-bar>label>span{font-size:.62rem;font-weight:700;color:var(--cl-text-3);
-    white-space:nowrap}
-  .wm-ops .control-bar select{width:auto;height:38px;min-height:38px;padding:4px 8px;font-size:.75rem}
-  .wm-ops .control-bar>.layer-control>select{min-width:104px}
-  .wm-ops .control-bar>.model-control>select{min-width:96px}
-  .wm-ops .control-bar>.spot-control>select{min-width:96px}
-  .wm-ops .control-bar>.opportunity-control>select{min-width:96px}
+  .wm-ops .control-bar>label{display:flex;flex-direction:row;flex:initial;align-items:center;
+    gap:6px;margin:0;min-width:0}
+  /* 標題不吃 select 的寬度：caption 不縮、select 吃剩餘空間（截字只在 cap>42% 時發生） */
+  .wm-ops .control-bar>label>span{flex:0 0 auto;max-width:42%;min-width:0;font-size:.62rem;font-weight:700;
+    color:var(--cl-text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wm-ops .control-bar select{width:auto;max-width:100%;min-width:0;flex:1 1 0;height:36px;min-height:36px;
+    padding:4px 8px;font-size:.75rem}
+  /* 每列顯式釘死（≤720 的舊階梯把 spot/opportunity 都放在 row 2，兩者會疊在同一格）：
+     圖層1 → 景點2 → 強度3 → [地區|模型]4（→ 題材6，有景點時才出現） */
+  .wm-ops .control-bar>.layer-control{grid-column:1/-1;grid-row:1}
+  .wm-ops .control-bar>.spot-control{grid-column:1/-1;grid-row:2}
+  .wm-ops .control-bar>.opacity-control{grid-column:1/-1;grid-row:3}
+  /* 模型與地區併在同一列（4 列總高）；兩者的 select 值本身可辨識，手機不佔一行 caption */
+  .wm-ops .control-bar>.model-control{grid-column:2;grid-row:4}
+  .wm-ops .control-bar>.model-control>span{display:none}
+  .wm-ops .control-bar>.model-control>select{flex:1 1 auto;min-width:0}
+  .wm-ops .control-bar>.opportunity-control{grid-column:1/-1;grid-row:6}
+  /* 沒選景點時不要花一整列在 disabled 的題材選單（JS 同步 mobile-inactive）；
+     這裡比 ≤720 的規則更明確，否則上面>label 的 display:flex 會蓋掉 display:none */
+  .wm-ops .control-bar>.opportunity-control.mobile-inactive{display:none}
+  .wm-ops .control-bar>.layer-control>select,
+  .wm-ops .control-bar>.spot-control>select{flex:1 1 auto;min-width:0}
   .wm-ops .control-bar>.opacity-control{display:flex!important;flex-direction:row;align-items:center;
-    gap:6px;width:auto;min-height:0}
-  .wm-ops .control-bar>.opacity-control input[type=range]{width:96px;flex:0 0 auto;margin:0}
-  .wm-ops .control-bar #locate-spot{width:auto;height:38px;margin-top:0}
+    gap:8px;width:auto;min-width:0;min-height:36px}
+  .wm-ops .control-bar>.opacity-control .opacity-caption{flex:0 1 auto;min-width:0}
+  .wm-ops .control-bar>.opacity-control input[type=range]{width:auto;flex:1 1 88px;min-width:88px;margin:0}
+  .wm-ops .control-bar #locate-spot{width:auto;height:36px;flex:none;margin-top:0;padding:0 10px}
   /* 合併行收納：時刻標籤/刻度帶由左側細帶承擔，左右進退鈕手機不佔位（滑桿即步進） */
   .wm-ops .time-navigator>#time-prev,.wm-ops .time-navigator>#time-next,
   .wm-ops .time-label,.wm-ops .time-navigator .timeline{display:none}
@@ -704,10 +722,17 @@ body{padding:18px}
   /* CL-UI-105（owner 追加裁決）：地區選擇五大卡 → 單行下拉；景點列表入口移除
      （地圖釘點照常可點開迷你卡）。下拉放控制列首位，卡片列行動版退場。 */
   .wm-ops .region-switch{display:none}
-  .wm-ops .region-select{display:block;width:118px;height:38px;font-size:.75rem}
-  .wm-ops .control-bar>.region-select{flex:0 0 auto;width:118px;min-width:118px;height:38px;
+  /* 地區 select 與模型 select 併在最後一列（地區占欄1、模型占欄2）；≤720 的舊階梯
+     把 region 丟到 auto 列，這裡明確釘住，順序固定為 圖層→景點→強度→[地區|模型] */
+  .wm-ops .region-select{display:block;width:100%;min-width:0;height:36px;font-size:.75rem}
+  .wm-ops .control-bar>.region-select{grid-row:4;grid-column:1;width:100%;min-width:0;height:36px;
     padding:4px 8px;font-size:.75rem}
-  .map-wrap #side-toggle{display:none}
+  /* ── CL-I18N-12B：景點列表入口回行動版。審計 V3 顯示側欄與 sheet 都在，但唯一
+       的開關 #side-toggle 被 display:none 藏掉，349 筆景點清單因此完全無法開啟。
+       收合成地圖左上第二顆 pill（圖層 pill 正下方），點擊開全寬 bottom sheet。 ── */
+  .map-wrap #side-toggle{display:inline-flex;align-items:center;justify-content:center;
+    left:var(--cl-sp-3);right:auto;top:calc(var(--cl-sp-3) + 44px);height:36px;padding:0 var(--cl-sp-3)}
+  .map-wrap #side-toggle::after{content:'';position:absolute;inset:-4px 0}
   /* CL-UI-105（owner）：OpenFreeMap/OpenMapTiles 圖資歸屬縮到地圖下緣小字
      （右下角、半透明小字、單行；MapLibre 6 compact 歸屬初始為展開白框 →
      一律小字化。ID 前綴壓過 MapLibre 自帶 compact 規則） */

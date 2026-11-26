@@ -73,14 +73,14 @@
              Stage 3b). Pure visual layer — chips/side/dock/mini/modal read
              the live WeatherGrid state and drive the existing select /
              locate / frame paths; camera behavior stays CL-UI-59. -->
-        <div class="wm-ctl" aria-label="攝影圖層快速切換">
+        <div class="wm-ctl" aria-label="攝影圖層快速切換" data-i18n-aria="wm_ctl_aria">
           <div id="layer-chips" class="layer-chips"></div>
         </div>
         <!-- CL-UI-103: 收合態僅存一顆圖層 pill（左上）；展開＝#wm-layer-sheet
              bottom sheet，與時間軸細帶／列表 sheet 三者互斥開啟。1280 隱藏。 -->
-        <button id="layer-sheet-btn" class="wm-sheet-btn" type="button" aria-expanded="false" aria-controls="wm-layer-sheet"><span id="layer-sheet-label">攝影圖層</span></button>
-        <button id="side-toggle" class="wm-sheet-btn" type="button" data-i18n="wm_side_title">景點列表</button>
-        <aside id="wm-side" class="wm-side" aria-label="景點列表">
+        <button id="layer-sheet-btn" class="wm-sheet-btn" type="button" aria-expanded="false" aria-controls="wm-layer-sheet"><span id="layer-sheet-label" data-i18n="wm_layer_caption">攝影圖層</span></button>
+        <button id="side-toggle" class="wm-sheet-btn" type="button" data-i18n="wm_side_title" aria-controls="wm-sheet" aria-expanded="false">景點列表</button>
+        <aside id="wm-side" class="wm-side" aria-label="景點列表" data-i18n-aria="wm_side_aria">
           <div class="wm-side-head">
             <span data-i18n="wm_side_title">景點列表</span>
             <span id="wm-offline-badge" class="wm-offline-badge" hidden></span>
@@ -112,8 +112,8 @@
       <!-- CL-UI-102 DESIGN-10: 390 景點列表＝全寬 bottom sheet（搜尋＋依可拍%
            排序＋grab 下拉收起＋✕/Esc；選列即選景點並收 sheet 回復地圖全幅）。
            1280 桌面維持右側 wm-side 側欄零改動，本 section 在 >=769px 隱藏。 -->
-      <section id="wm-sheet" class="wm-sheet" role="dialog" aria-modal="false" aria-hidden="true" aria-label="景點列表">
-        <div class="wm-sheet-grab" id="wm-sheet-grab" title="下拉收起"><span class="bar"></span></div>
+      <section id="wm-sheet" class="wm-sheet" role="dialog" aria-modal="false" aria-hidden="true" aria-label="景點列表" data-i18n-aria="wm_side_aria">
+        <div class="wm-sheet-grab" id="wm-sheet-grab" title="下拉收起" data-i18n-title="wm_grab_title"><span class="bar"></span></div>
         <div class="wm-sheet-head" id="wm-sheet-head">
           <span class="t" data-i18n="wm_side_title">景點列表</span>
           <span class="count" id="wm-sheet-count"></span>
@@ -131,7 +131,7 @@
            開啟時地圖壓暗收成上緣預覽條（同款），與時間軸細帶／列表 sheet 互斥。
            1280 桌面維持地圖左上 chips 列零改動，本 section 在 >=769px 隱藏。 -->
       <section id="wm-layer-sheet" class="wm-sheet" role="dialog" aria-modal="false" aria-hidden="true" aria-label="攝影圖層" data-i18n-aria="wm_layer_caption">
-        <div class="wm-sheet-grab" id="wm-layer-sheet-grab" title="下拉收起"><span class="bar"></span></div>
+        <div class="wm-sheet-grab" id="wm-layer-sheet-grab" title="下拉收起" data-i18n-title="wm_grab_title"><span class="bar"></span></div>
         <div class="wm-sheet-head" id="wm-layer-sheet-head">
           <span class="t" data-i18n="wm_layer_caption">攝影圖層</span>
           <button type="button" class="x" data-wm-act="layer-sheet-close" aria-label="關閉圖層選單" data-i18n-aria="wm_layer_sheet_close_aria">✕</button>
@@ -153,8 +153,8 @@
       <div class="wm-ops">
       <div class="control-bar">
         <!-- CL-UI-105（owner）：行動版地區選擇 = 單行下拉（五大卡行動版退場） -->
-        <select id="region-select" class="region-select" aria-label="地區切換"></select>
-        <div id="region-switch" class="region-switch" role="tablist" aria-label="地區切換"></div>
+        <select id="region-select" class="region-select" aria-label="地區切換" data-i18n-aria="wm_region_aria"></select>
+        <div id="region-switch" class="region-switch" role="tablist" aria-label="地區切換" data-i18n-aria="wm_region_aria"></div>
         <label class="model-control advanced-control">
           <span data-i18n="wm_model_caption">進階 · 資料來源</span>
           <select id="model-select">
@@ -173,7 +173,7 @@
         </label>
         <label class="opacity-control">
           <span class="opacity-caption"><span id="opacity-title" data-i18n="wm_opacity_caption">圖層顯示強度</span> · <strong id="opacity-label">62%</strong></span>
-          <input id="opacity-slider" type="range" min="0" max="100" value="62" step="1" aria-label="圖層顯示強度">
+          <input id="opacity-slider" type="range" min="0" max="100" value="62" step="1" aria-label="圖層顯示強度" data-i18n-aria="wm_opacity_aria">
         </label>
         <label class="spot-control">
           <span data-i18n="wm_spot_caption">景點</span>
@@ -190,7 +190,7 @@
         </label>
       </div>
 
-      <div class="time-navigator" aria-label="資料時間控制">
+      <div class="time-navigator" aria-label="資料時間控制" data-i18n-aria="wm_time_aria">
         <button id="time-prev" type="button" aria-label="前一個預報時間">◀</button>
         <div class="time-range">
           <div id="time-label" class="time-label" data-i18n="wm_time_label">預報時間</div>
@@ -259,7 +259,7 @@
   <!-- CL-UI-92: 詳情彈窗（mockup-3 骨架）— 迷你卡的「詳情」鈕開啟 -->
   <div id="wm-detail-overlay" class="wm-overlay" hidden>
     <div class="wm-modal" role="dialog" aria-modal="true" aria-labelledby="wm-modal-name">
-      <button class="wm-modal-close" type="button" data-wm-act="close" aria-label="關閉">✕</button>
+      <button class="wm-modal-close" type="button" data-wm-act="close" aria-label="關閉" data-i18n-aria="wm_modal_close_aria">✕</button>
       <div class="wm-modal-head">
         <h3 id="wm-modal-name"></h3>
         <span id="wm-modal-tier" class="wm-tier off"></span>
