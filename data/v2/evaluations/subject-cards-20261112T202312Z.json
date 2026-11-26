@@ -12,7 +12,7 @@
    "rule": "general-v0.1 per hour, weather metrics only; subjects_fitting = curated subject whose good_hours window covers the hour (sub-hour stamps fold to the covering :00 bucket); night hours without a covering window sit in the neutral na bucket",
    "same_run": "generated only from the bundle run the evaluations-details carry (asserted fail-fast, CHALLENGER-14/A)"
   },
-  "rule_version": "1.1",
+  "rule_version": "1.2",
   "source_bundle": "bundle-20261126T114548Z.json",
   "source_bundle_sha256": "d66d0d67fe8bb31905e01b2687aa43d2ad2cdfd8826c084da955eeaa76042c9c",
   "tier_semantics": {
@@ -559,11 +559,11 @@
      "dawn": "06:05",
      "dusk": "16:28"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "wind_speed_10m",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "strong wind",
+     "ja": "強風",
+     "zh-TW": "風強"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -23530,11 +23530,11 @@
      "dawn": "05:56",
      "dusk": "16:17"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "cloud_cover_low",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -23774,11 +23774,11 @@
      "dawn": "06:00",
      "dusk": "16:15"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "cloud_cover_mid_and_high",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -24507,11 +24507,11 @@
      "dawn": "06:06",
      "dusk": "16:28"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "wind_speed_10m",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "strong wind",
+     "ja": "強風",
+     "zh-TW": "風強"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -79274,11 +79274,11 @@
      "dawn": "05:52",
      "dusk": "17:32"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "in_cloud_fog",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "enveloped in cloud/fog",
+     "ja": "雲霧に包まれる",
+     "zh-TW": "雲霧籠罩"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -79331,11 +79331,11 @@
      "dawn": "05:52",
      "dusk": "17:32"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "cloud_sea_inversion",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "weak inversion moisture",
+     "ja": "逆転層の湿り不足",
+     "zh-TW": "逆溫濕層不足"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -82527,11 +82527,11 @@
      "dawn": "05:56",
      "dusk": "17:33"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "cloud_cover_mid",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -93374,11 +93374,11 @@
      "dawn": "05:54",
      "dusk": "17:33"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "fog_state",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "no fog",
+     "ja": "霧なし",
+     "zh-TW": "無霧"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -109839,11 +109839,11 @@
      "dawn": "05:53",
      "dusk": "17:30"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "cloud_sea_inversion",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "weak inversion moisture",
+     "ja": "逆転層の湿り不足",
+     "zh-TW": "逆溫濕層不足"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -110004,11 +110004,11 @@
      "dawn": "05:53",
      "dusk": "17:30"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "cloud_sea_inversion",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "weak inversion moisture",
+     "ja": "逆転層の湿り不足",
+     "zh-TW": "逆溫濕層不足"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -129684,11 +129684,11 @@
      "dawn": "05:54",
      "dusk": "17:30"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "snow_cover_state",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "no snow",
+     "ja": "雪なし",
+     "zh-TW": "無雪"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -159332,11 +159332,11 @@
      "dawn": "05:53",
      "dusk": "17:29"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "cloud_cover_low",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -169254,11 +169254,11 @@
      "dawn": "05:51",
      "dusk": "17:36"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "cloud_cover_mid_and_high",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "thick cloud",
+     "ja": "厚い雲",
+     "zh-TW": "厚雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -174856,11 +174856,11 @@
      "dawn": "05:57",
      "dusk": "17:32"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "temperature_delta_850_925_c",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "atmosphere not in range",
+     "ja": "大気条件外",
+     "zh-TW": "大氣不合"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -201689,11 +201689,11 @@
      "dawn": "06:53",
      "dusk": "16:56"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "in_cloud_fog",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "enveloped in cloud/fog",
+     "ja": "雲霧に包まれる",
+     "zh-TW": "雲霧籠罩"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -201865,11 +201865,11 @@
      "dawn": "06:56",
      "dusk": "16:54"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "in_cloud_fog",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "enveloped in cloud/fog",
+     "ja": "雲霧に包まれる",
+     "zh-TW": "雲霧籠罩"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -205568,11 +205568,11 @@
      "dawn": "07:09",
      "dusk": "17:03"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "precipitation",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "rain",
+     "ja": "雨",
+     "zh-TW": "雨"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -205801,11 +205801,11 @@
      "dawn": "07:12",
      "dusk": "17:02"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "cloud_cover_low",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "low cloud",
+     "ja": "低い雲",
+     "zh-TW": "低雲"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -205923,11 +205923,11 @@
      "dawn": "06:47",
      "dusk": "17:19"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "in_cloud_fog",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "enveloped in cloud/fog",
+     "ja": "雲霧に包まれる",
+     "zh-TW": "雲霧籠罩"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -233287,11 +233287,11 @@
      "dawn": "06:40",
      "dusk": "16:42"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "precipitation",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "rain",
+     "ja": "雨",
+     "zh-TW": "雨"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
@@ -262666,11 +262666,11 @@
      "dawn": "06:39",
      "dusk": "16:56"
     },
-    "dominant_metric": "data_contradiction",
+    "dominant_metric": "precipitation",
     "dominant_reason": {
-     "en": "conflicting data",
-     "ja": "データ矛盾",
-     "zh-TW": "資料矛盾"
+     "en": "rain",
+     "ja": "雨",
+     "zh-TW": "雨"
     },
     "dominant_source": "curated_votes",
     "general_baseline": {
