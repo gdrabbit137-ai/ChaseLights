@@ -175,7 +175,7 @@
       wm_dialog_p3:'Himawari-9 提供衛星雲遮罩與雲頂高度實況。這些是觀測／反演資料，不會標示成預報低／中／高雲百分比；雲頂高度缺值也不會被當成 0 m。',
       wm_dialog_p4:'JMA MSM 官方原生範圍從 22.4°N、120°E 起；目前 HTTP transport 為避開邊界座標拒絕，瀏覽資料從 22.45°N、120.0625°E 起。台灣最南端及西側離島因此不在目前 JMA 瀏覽圖層內；切換模型時地圖會使用 JMA 自己的實際資料邊界。',
       wm_dialog_p5:'台灣地區的顯示範圍對齊中央氣象署官方衛星雲圖（約 105–145°E、5–40°N，西太平洋）。GFS 0.25° 為主源時整個範圍用同一份預報全幅渲染，不會出現接合縫；ICON 與 CAMS 亦提供同範圍的全幅選項。切到區域高解析模型（CWA WRF 3 km、JMA MSM、Himawari-9）時，只在該模型自己的涵蓋範圍內繪製，範圍外誠實留白，不代表晴朗。',
-      wm_dialog_p6:'每個來源使用自己的資料邊界、網格解析度與時間語意；Himawari-9 為單張最新觀測，其餘模型為預報時間軸。衛星觀測採最近鄰呈現；預報的畫面內插只改善顯示連續性，不增加原始資料的真實解析度。',
+      wm_dialog_p6:'每個來源使用自己的資料邊界、網格解析度與時間語義；Himawari-9 為單張最新觀測，其餘模型為預報時間軸。衛星觀測採最近鄰呈現；預報的畫面內插只改善顯示連續性，不增加原始資料的真實解析度。',
       wm_dialog_p7:'底圖採 MapLibre + OpenFreeMap；若外部底圖無法載入，WeatherGrid 會自動退回既有 Canvas 經緯網格，不影響 GFS 圖層與景點取樣。',
       wm_cov_outline:'顯示目前資料來源範圍（預設關閉）',
       wm_side_title:'景點列表',
@@ -255,7 +255,7 @@
     },
     'ja':{
       nav_cards:'カード',nav_weathermap:'天気マップ',nav_more_tools:'その他のツール ▾',nav_genre_eval:'題材評価',nav_field_intake:'実写検証',nav_my:'マイライブラリ',
-      wm_subtitle:'Himawari-9 衛星観測、JMA MSM / CWA WRF / ICON / GFS 予報、CAMS 撮影環境レイヤーを切り替えられます · 各ソースは独自の語意・範囲・時間を保持します',
+      wm_subtitle:'Himawari-9 衛星観測、JMA MSM / CWA WRF / ICON / GFS 予報、CAMS 撮影環境レイヤーを切り替えられます · 各ソースは独自の語義・範囲・時間を保持します',
       wm_source_loading:'読み込み中…',wm_source_mobile_loading:'データを読み込み中…',
       wm_info_long:'データ説明',wm_info_short:'データ',
       wm_model_caption:'詳細 · データソース',wm_model_auto:'自動予報',wm_model_himawari:'観測 · Himawari-9 2 km',wm_model_cams:'CAMS Global · ヘイズ',

@@ -584,6 +584,24 @@
     <div class="rem-wrap sslib-wrap" id="ss-lib-root"></div>
   </div>
 
+  <!-- CL-I18N-12A: resolve the language BEFORE the shell scripts boot.
+       site-nav.js / member-auth.js read #lang-select at start-up, so a select
+       still showing the zh-TW markup default painted Chinese nav and login
+       buttons on ?lang=en until the next change event. -->
+  <script>
+  (function () {
+    try {
+      var q = new URLSearchParams(location.search).get('lang');
+      var stored = null; try { stored = localStorage.getItem('chaselights_lang'); } catch (e) {}
+      var nav = navigator.language || 'zh-TW';
+      var pick = q || stored || (/^ja/i.test(nav) ? 'ja' : (/^en/i.test(nav) ? 'en' : 'zh-TW'));
+      if (['zh-TW', 'en', 'ja'].indexOf(pick) < 0) pick = 'zh-TW';
+      var sel = document.getElementById('lang-select');
+      if (sel) sel.value = pick;
+      document.documentElement.lang = pick;
+    } catch (e) { /* keep the markup default */ }
+  })();
+  </script>
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui117"></script>
   <script src="./assets/reminders-client.js?v=clui126"></script>

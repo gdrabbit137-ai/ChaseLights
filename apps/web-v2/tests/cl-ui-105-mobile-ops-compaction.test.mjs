@@ -1,7 +1,7 @@
 // CL-UI-105: 手機天氣圖高度重分配（owner 實測：固定版面上線後地圖太小）。
 // Contract (mobile shell, <=768px only):
 //   (1) 地圖區目標 ≥60% 視高（實測斷言：.map-wrap 高 / innerHeight ≥ 0.60）。
-//   (2) 操作區壓扁（總高 ≤180px）：細帶＋預報滑桿合併成一行
+//   (2) 操作區壓扁（CL-I18N-12B: 預算 220px，實測 ~190px 的 2 欄換行 grid）：細帶＋預報滑桿合併成一行
 //       （左：目前所選細帶／中：滑桿／右：播放鈕）→ 控制列縮為 44px 單行；
 //       目前圖層 inspector 預設收合 — 換圖層短暫展開（2.6s flash）或
 //       圖層 sheet「詳細」持續展開（sticky）。操作區各項可達。
@@ -40,7 +40,7 @@ test('CL-UI-105 source: cache-bust stamps bumped to bclwg50 in weather-map.html'
   assert.match(WG_HTML, /assets\/weather-map\.css\?v=bclwg50/);
 });
 
-test('CL-UI-105 CSS: 細帶＋滑桿合併一行；控制列 44px 單行；inspector 預設收合（僅 ≤768）', () => {
+test('CL-UI-105 CSS: 細帶＋滑桿合併一行；控制列 2 欄換行 grid（CL-I18N-12B）；inspector 預設收合（僅 ≤768）', () => {
   const mobileBlock = MAP_CSS.slice(MAP_CSS.indexOf('@media (max-width:768px),(max-height:768px){'));
   // merged first row: band in column 1, the forecast slider row spans the rest
   assert.match(mobileBlock, /\.wm-ops \.wm-timeline-dock\{order:1;grid-row:1;grid-column:1;/,
