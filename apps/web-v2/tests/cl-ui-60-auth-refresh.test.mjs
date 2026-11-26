@@ -177,6 +177,6 @@ test('CL-UI-60 (6): V1 member-auth.js mirrors the silent-renewal flow', () => {
 test('CL-UI-60 (7): cache-bust — member-auth.js advanced to clui81 on every shell page', () => {
   for (const page of ['index.html', 'weather-map.html', 'genre-eval.html', 'field-intake.html', 'reminders.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    assert.match(src, /assets\/member-auth\.js\?v=clui116/, `${page} loads member-auth.js?v=clui116 (CL-UI-116)`);
+    assert.match(src, /assets\/member-auth\.js\?v=clui117/, `${page} loads member-auth.js?v=clui117 (CL-UI-116)`);
   }
 });

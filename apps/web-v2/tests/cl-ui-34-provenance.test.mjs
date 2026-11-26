@@ -111,17 +111,17 @@ test('CL-UI-34 (5): index.html carries the collapsed panel, cards untouched, sta
   assert.ok(modalStart>0&&panelAt>modalStart&&panelAt<modalEnd);
   assert.doesNotMatch(htmlSource.slice(0,modalStart),/modal-provenance/);
   assert.ok(!htmlSource.includes('?v=clui39'),'stamp must be bumped');
-  // CL-UI-116: site-nav.css + member-auth.js share the clui116 masthead generation
+  // CL-UI-116: site-nav.css + member-auth.js share the clui117 masthead generation
   // (two stamps of that generation on index.html; CL-API-05-era stamps retired).
-  assert.equal((htmlSource.match(/\?v=clui116/g)||[]).length,2,'site-nav.css + member-auth.js at clui116 (CL-UI-116)');
+  assert.equal((htmlSource.match(/\?v=clui117/g)||[]).length,2,'site-nav.css + member-auth.js at clui117 (CL-UI-116)');
   // CL-UI-73: app.js + app.css advanced to clui102; member-auth.js stays at clui81 (CL-UI-60 refresh).
   assert.equal((htmlSource.match(/\?v=clui103/g)||[]).length,0,'no stale clui103 member-auth stamp (CL-UI-116)');
   // CL-UI-61→CL-UI-69: reminders-client.js advanced past clui75 (CL-APP-03) to clui84 (CL-API-07).
   assert.match(htmlSource,/reminders-client\.js\?v=clui126/,'reminders-client stamp stays at clui126 (CL-UX-01)');
   // CL-UI-73: app.js + app.css advanced to clui102; reminders-client.js advanced to clui128 (CL-UX-01).
   assert.equal((htmlSource.match(/\?v=clui102/g)||[]).length,2,'feedback-ui.css + feedback-ui.js stay at clui102 (CL-UI-100); app.js + app.css advanced to clui118 (CL-UI-110)');
-  assert.equal((htmlSource.match(/\?v=clui133/g)||[]).length,2, 'app.css + app.js at clui133 (CL-CI-44)');
-  assert.match(htmlSource, /assets\/app\.js\?v=clui133/);
+  assert.equal((htmlSource.match(/\?v=clui135/g)||[]).length,2, 'app.css + app.js at clui135 (CL-CI-44)');
+  assert.match(htmlSource, /assets\/app\.js\?v=clui135/);
   assert.equal((htmlSource.match(/\?v=clui126/g)||[]).length,1,'reminders-client.js is the only clui126 stamp left');
   // CL-UI-57: favorites-client.js stays at clui82; member-auth.js advanced to clui81 (CL-UI-60 refresh).
   assert.equal((htmlSource.match(/\?v=clui82/g)||[]).length,1,'favorites-client stamp stays at clui82');

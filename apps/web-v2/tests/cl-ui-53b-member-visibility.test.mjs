@@ -30,7 +30,7 @@
 //          filter-shell: rect numbers alone stay "green" while nothing is
 //          visible);
 //        - Escape closes it again (display back to 'none').
-//  (3) Cache-bust stamps bumped to clui116 on all four shell pages (CL-UI-116).
+//  (3) Cache-bust stamps bumped to clui117 on all four shell pages (CL-UI-116).
 // Run: node --test apps/web-v2/tests/cl-ui-53b-member-visibility.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -77,11 +77,11 @@ test('CL-UI-53B (1c): member-auth.js switches visibility via inline style + .ma-
 });
 
 for (const page of PAGES) {
-  test(`CL-UI-53B (3): ${page} carries the cache-bust stamps (site-nav clui116, member-auth clui116)`, () => {
+  test(`CL-UI-53B (3): ${page} carries the cache-bust stamps (site-nav clui117, member-auth clui117)`, () => {
     const html = readFileSync(join(WEB, page), 'utf8');
-    assert.match(html, /site-nav\.css\?v=clui116/, 'site-nav.css stamp bumped (CL-UI-116)');
+    assert.match(html, /site-nav\.css\?v=clui117/, 'site-nav.css stamp bumped (CL-UI-116)');
     // CL-UI-60: member-auth.js advanced to clui81 (silent refresh session renewal).
-    assert.match(html, /member-auth\.js\?v=clui116/, 'member-auth.js stamp bumped (CL-UI-116)');
+    assert.match(html, /member-auth\.js\?v=clui117/, 'member-auth.js stamp bumped (CL-UI-116)');
   });
 }
 

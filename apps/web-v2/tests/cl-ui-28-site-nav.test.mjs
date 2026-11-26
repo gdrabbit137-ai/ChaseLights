@@ -157,12 +157,12 @@ test('CL-UI-28 (8): nav i18n keys exist in all three dictionaries', () => {
 });
 
 test('CL-UI-28 (9): index.html stamps tracked (CL-UI-73: app.js/app.css at clui102)', () => {
-  // CL-UI-116: site-nav.css advanced to clui116 (brand-logo swap).
-  assert.match(indexHtml, /assets\/site-nav\.css\?v=clui116/);
+  // CL-UI-116: site-nav.css advanced to clui117 (brand-logo swap).
+  assert.match(indexHtml, /assets\/site-nav\.css\?v=clui117/);
   assert.doesNotMatch(indexHtml, /site-nav\.css\?v=clui62/);
   assert.match(indexHtml, /assets\/site-nav\.js\?v=clui41/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui133/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui133/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui135/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui135/);
   assert.doesNotMatch(indexHtml, /clui29/);
 });
 
@@ -175,8 +175,8 @@ test('CL-UI-116: every shell-page header carries the CL-APP-05 brand SVG (emoji 
       `${page} brand link uses the brand SVG next to the wordmark`);
     assert.doesNotMatch(nav, /📸/, `${page} nav no longer carries the camera emoji`);
     // Cache-bust: the masthead assets ride the same generation on every page.
-    assert.match(html, /site-nav\.css\?v=clui116/, `${page} site-nav.css stamp bumped`);
-    assert.match(html, /member-auth\.js\?v=clui116/, `${page} member-auth.js stamp bumped`);
+    assert.match(html, /site-nav\.css\?v=clui117/, `${page} site-nav.css stamp bumped`);
+    assert.match(html, /member-auth\.js\?v=clui117/, `${page} member-auth.js stamp bumped`);
   }
   assert.ok(navCss.includes('.site-nav-logo {'), 'site-nav.css ships the logo sizing rule');
   assert.match(navCss, /\.site-nav-logo \{\s*\n\s*width: 24px;\s*\n\s*height: 24px;/,
@@ -188,7 +188,7 @@ test('CL-UI-116: every shell-page header carries the CL-APP-05 brand SVG (emoji 
   const shellCss = read('apps/web-v2/styles.css');
   assert.doesNotMatch(shellHtml, /brand-mark[^>]*>◉/, 'APP shell top drops the ◉ placeholder');
   assert.match(shellHtml, /<span class="brand-mark" aria-hidden="true"><\/span>/);
-  assert.match(shellHtml, /styles\.css\?v=clui116/, 'APP shell styles.css cache-busted');
+  assert.match(shellHtml, /styles\.css\?v=clui117/, 'APP shell styles.css cache-busted');
   assert.match(shellCss, /\.brand-mark\{width:34px;height:34px;display:block;border-radius:8px;background:url\("data:image\/svg\+xml,/,
     'APP shell brand mark paints the brand SVG at 34px');
   assert.match(shellCss, /\.brand-mark\{width:24px;height:24px\}/, 'mobile brand mark scales to 24px');
@@ -196,6 +196,6 @@ test('CL-UI-116: every shell-page header carries the CL-APP-05 brand SVG (emoji 
 });
 
 test('CL-UI-28 (10): weather-map.js stamp bumped in weather-map.html (same commit)', () => {
-  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg52/);
+  assert.match(wgHtml, /assets\/weather-map\.js\?v=bclwg53/);
   assert.doesNotMatch(wgHtml, /bclwg23|bclwg24/);
 });

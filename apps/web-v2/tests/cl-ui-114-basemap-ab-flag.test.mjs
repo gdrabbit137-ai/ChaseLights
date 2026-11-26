@@ -11,7 +11,7 @@
 //      brightness(0.55) saturate(0.75)，只作用於底圖容器（雲層 canvas 在
 //      容器之外，不受濾鏡影響——雲層可讀性由視覺 A/B 截圖評註）。
 //  (4) 應用時機：'load' 與 'styledata' 都呼叫（冪等；與 CL-UI-107 同點）。
-//  (5) cache-bust stamp 進到 bclwg49（本票改了 weather-map.js）。
+//  (5) cache-bust stamp 進到 bclwg50（本票改了 weather-map.js）。
 // Run: node --test apps/web-v2/tests/cl-ui-114-basemap-ab-flag.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -63,9 +63,9 @@ test('CL-UI-114: 應用時機 load + styledata，且 flag 關閉時 no-op 冪等
   assert.ok(MAP_JS.includes('if (CLUI114_FLAGS.light) return;'));
 });
 
-test('CL-UI-114: cache-bust stamp bclwg49（css+vendor；js 已進 bclwg52）', () => {
-  const stamps = WG_HTML.match(/\?v=bclwg49/g) || [];
-  assert.ok(stamps.length >= 2, `expected >=2 bclwg49 stamps in weather-map.html, got ${stamps.length}`);
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg52/, 'js stamp must be bclwg52 after CL-APP-09 nav rename');
+test('CL-UI-114: cache-bust stamp bclwg50（css+vendor；js 已進 bclwg53）', () => {
+  const stamps = WG_HTML.match(/\?v=bclwg50/g) || [];
+  assert.ok(stamps.length >= 2, `expected >=2 bclwg50 stamps in weather-map.html, got ${stamps.length}`);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg53/, 'js stamp must be bclwg53 after CL-APP-09 nav rename');
   assert.ok(!WG_HTML.includes('bclwg46'), 'stale bclwg46 stamp left in weather-map.html');
 });

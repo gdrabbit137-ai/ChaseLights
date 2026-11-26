@@ -10,7 +10,7 @@
 //  (4) 方案 C 不套 CSS 濾鏡 —— 雲層 canvas 在地圖容器內，濾鏡會連雲一起暗化；
 //      C 必須讓雲保持白灰最突出（clui114ApplyLandTint 內不得出現 filter）。
 //  (5) 應用時機：load + styledata 均呼叫（冪等；styledata 重入時 tint 已套用即跳過）。
-//  (6) cache-bust stamp 進到 bclwg49。
+//  (6) cache-bust stamp 進到 bclwg50。
 // Run: node --test apps/web-v2/tests/cl-ui-114-basemap-c-windy.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -69,9 +69,9 @@ test('CL-UI-114 C: 套用時機 — tint 在共用入口內、load/styledata 都
     'clui114ApplyLandTint must not apply a CSS filter');
 });
 
-test('CL-UI-114 C: cache-bust stamp bclwg49（css+vendor；js 已進 bclwg52）', () => {
-  const stamps = WG_HTML.match(/\?v=bclwg49/g) || [];
-  assert.ok(stamps.length >= 2, `expected >=2 bclwg49 stamps in weather-map.html, got ${stamps.length}`);
-  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg52/, 'js stamp must be bclwg52 after CL-APP-09 nav rename');
+test('CL-UI-114 C: cache-bust stamp bclwg50（css+vendor；js 已進 bclwg53）', () => {
+  const stamps = WG_HTML.match(/\?v=bclwg50/g) || [];
+  assert.ok(stamps.length >= 2, `expected >=2 bclwg50 stamps in weather-map.html, got ${stamps.length}`);
+  assert.match(WG_HTML, /assets\/weather-map\.js\?v=bclwg53/, 'js stamp must be bclwg53 after CL-APP-09 nav rename');
   assert.ok(!WG_HTML.includes('bclwg47'), 'stale bclwg47 stamp left in weather-map.html');
 });
