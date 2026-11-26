@@ -2731,3 +2731,126 @@ details.acc .acc-body{padding:0 var(--cl-sp-3) var(--cl-sp-3);font-size:var(--cl
 .skel-line{height:12px}
 .offline-badge{display:inline-flex;align-items:center;gap:var(--cl-sp-1);height:22px;padding:0 var(--cl-sp-2);border-radius:999px;
   background:var(--cl-grey-bg);color:var(--cl-grey-text);font-size:var(--cl-fs-12);font-weight:600}
+
+/* ============================================================
+   CL-I18N-12C — homepage cards, forecast modal, legend, filter row:
+   393px overflow + touch-target hardening (V4/V7/V9/V10).
+
+   Everything here is either width-agnostic (the separators / empty-state
+   guards) or scoped to ≤640px, so the desktop layout is unchanged.
+   ============================================================ */
+
+/* V10: an EMPTY quota chip must occupy no layout space. custom-places.js
+   creates span.cl-cp-quota-chip with [hidden] and only fills it once a
+   quota is known; custom-places.css's `display:inline-flex` (0,1,0) beat the
+   UA [hidden] rule (0,1,0 + attr → 0,2,0 would win, but the author rule came
+   later in the cascade), so a hidden chip still measured 20×26 and floated
+   left of 「＋新增私人景點」. */
+.cl-cp-quota-chip[hidden]{display:none}
+
+/* V7: legend separators are real spans now (app.js), so the row reads as a
+   list at any width instead of one glued sentence. Tighten the flex gap that
+   used to be the only separator. */
+.timeline-legend{padding:5px 2px;gap:3px 6px;line-height:1.5}
+.timeline-legend .legend-sep{color:var(--cl-text-3);opacity:.55;user-select:none}
+.timeline-legend .legend-item{white-space:nowrap}
+
+/* CL-I18N-12C: the 7-day row's first-half wrapper is layout-transparent on
+   desktop, so the row keeps its flat, single-line anatomy there. */
+.modal-day-head{display:contents}
+
+@media (max-width:640px){
+  /* V10: touch targets ≥44×44 CSS px. The glyphs keep their size — only the
+     hit box grows (icon buttons are centred), so the card face still reads
+     the same. */
+  .fav-btn{width:44px;height:44px;font-size:15px;margin:-7px}
+  /* the hourly ⋯ 詳情 toggle had no rule at all — UA default 32×32 */
+  .clui87-more{min-width:44px;min-height:44px;font-size:15px}
+  .modal-day-btn{min-height:44px}
+  .modal .close-btn{width:44px;height:44px;min-width:44px;min-height:44px}
+  .tier-tab{min-height:44px}
+  .subject-chip{min-height:44px;min-width:44px;justify-content:center}
+  /* hit boxes of the neighbouring components mounted on this page
+     (custom-places / guest-comment / site-footer own their own stylesheets,
+     which are outside this ticket's file whitelist): the box grows to the
+     44px phone contract, the painted result is unchanged. */
+  .cl-cp-add-btn,.cl-cp-view-tab{min-height:44px}
+  /* these two stylesheets load AFTER app.css, so the same-specificity rule
+     above loses the cascade — one element in the selector wins it back */
+  body .guest-comment-entry{min-height:44px;display:inline-flex;align-items:center}
+  body .site-footer-link{min-height:44px;display:inline-flex;align-items:center}
+  /* the reminder bell ships a 26px compact modifier in its own file — the
+     modifier wins on specificity, so it is restated at the phone breakpoint */
+  .cl-rem-btn,.cl-rem-btn.cl-rem-compact{min-height:44px;min-width:44px;justify-content:center}
+  .cl-subject-more{min-height:44px;align-items:center}
+  /* ⋯ affordances: app.css's own +N toggle and the subject-set ⋯ that
+     subject-sets.css paints at 32×32 (that file is outside this ticket's
+     whitelist; the size contract is restated here). */
+  .cl-ss-more{min-width:44px;min-height:44px}
+  /* the per-hour 「詳細氣象」 disclosure had no rule at all (UA 16px line) and
+     the day-group fold sat at 40px — both become real touch rows */
+  details.tm-details > summary{min-height:44px;display:flex;align-items:center;gap:4px}
+  #timeline-mobile details.day-group > summary{min-height:44px;gap:6px}
+  /* V4: the accordion header squeezed its own day word into a 1-character
+     column (「今 / 日」 stacked) because every flex child was allowed to
+     shrink. The day word and its date never shrink; the weather summary is
+     the only part that gives way. */
+  details.day-group > summary .dg-day{white-space:nowrap}
+  details.day-group > summary .dg-date{white-space:nowrap}
+  .sub-btn{min-height:44px}
+
+  /* V9: the tier row is four chips wide (en ≈500px inside 369) and the row
+     scrolled with a HIDDEN scrollbar, so 「✗ Not suitable」 sat half-cut and
+     「All 219」 was entirely off-screen with nothing hinting at a swipe.
+     On phones the chips wrap instead: every tier and its live count is
+     visible without a gesture, and no clipped half-word is left behind. */
+  .tier-tab-bar{flex-wrap:wrap;overflow-x:visible;row-gap:6px}
+  .tier-tab{flex:0 0 auto}
+  .tier-tab-label{white-space:nowrap}
+
+  /* V4a: the 7-day summary rows wrapped differently per locale (en pushed
+     「qualifying hours 8」 onto its own line, ja squeezed 「Day after」),
+     so the 7 days had three different heights. The row's first half
+     (label + verdict chip + qualifying hours) is one block and the subject
+     tail always starts its own line on phones → the same block shape in
+     every language. */
+  /* one fixed rhythm for the 7-day block: en's longest day label
+     (「Day after ✓ Recommended qualifying hours 1」) needs three lines, so every
+     row reserves that height instead of drifting 44/63/82px per locale. */
+  .modal-day-row{gap:2px 10px;align-items:baseline;min-height:63px;align-content:center}
+  .modal-day-head{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:2px 6px;align-items:baseline}
+  .modal-day-hours{white-space:nowrap}
+  .modal-day-subjects{flex:1 1 auto;line-height:1.35}
+  .modal-day-wx{margin-left:auto}
+
+  /* V4b: the quick-view pill was nowrap inside a 220px-min band, so en's
+     「○ Shootable · windows passed · still shootable today」 overran the
+     355px container and clipped mid-word. Both parts may wrap on phones. */
+  .place-quick-view .q-chip{white-space:normal;text-align:left}
+  .place-quick-view .quick-band{flex:1 1 100%;min-width:0}
+  .quick-view-body{gap:5px 8px}
+
+  /* V4c: the hourly card's plain-weather line was a single nowrap line that
+     ellipsised ~45% of the en sentence away (420px of text inside a 238px
+     card — 「…Visibility excellent」 never rendered). It wraps on phones; the
+     desktop single-line anatomy is untouched. */
+  .timeline-mobile-plain{
+    white-space:normal;
+    overflow:visible;
+    text-overflow:clip;
+    min-width:0;
+    overflow-wrap:anywhere;
+    line-height:1.3;
+  }
+
+  /* V7: the sticky bottom close bar painted a transparent→bg gradient, so
+     the legend (and hourly rows) scrolled underneath stayed half visible
+     and looked clipped. Opaque now, with the fade moved to a shadow above
+     the bar. */
+  #modal-close-mobile{
+    background:var(--cl-bg-0);
+    border-top:1px solid var(--cl-border);
+    box-shadow:0 -10px 12px -6px color-mix(in srgb, var(--cl-ink) 55%, transparent);
+    padding:8px 2px 2px;
+  }
+}

@@ -6,7 +6,7 @@
         last_updated:'最後更新：', click_detail:'查看詳細資訊', v2_subject_link:'🎞 題材', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', map_link_approx:'📍 地圖（概略座標）', nav_pending:'🗺️ 導航待確認', radar_link:'🗺️ 天氣圖', live_link:'🔴 LIVE', live_panel_title:'即時影像', live_source_label:'影像來源：交通部觀光署北觀處', live_open_youtube:'在 YouTube 開啟', close_live:'關閉即時影像', field_intake_link:'📷 實拍驗證', genre_eval_link:'🌗 題材評估', genre_eval_title:'開啟攝影題材條件評估',place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_selected_date:'📅 所選日期拍攝機會', guide_no_selected_date:'所選日期目前沒有明確的拍攝建議。', guide_more_subjects:'其他已查證拍攝題材（{n}）', guide_all_subjects:'查看這裡可以拍什麼（{n}）', guide_subjects_note:'以下是這個景點已查證的拍攝題材，不代表所選日期條件適合。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'所選日期最佳評分', guide_day_best:'最佳拍攝時段', guide_day_relative:'相對較佳時段', guide_confidence:'信心', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'拍攝指南', guide_score_why:'為什麼適合？', guide_score_status:'判定', guide_unresearched:'目前沒有可提供的拍攝指南。', research_pending_card:'所選日期目前無法提供可靠的拍攝建議',eval2_no_contract:'此景點的攝影題材條件尚未完成查證，無法提供評估',eval2_no_geometry:'拍攝座標尚未完成查證，無法評估此題材',eval2_no_template:'此題材的成立條件尚未定義，無法提供評估',eval2_unverified:'評估條件尚未查證，無法判定', no_viable_group:'暫無合適拍攝機會（{n}）', no_eval_group:'尚無本日評估的景點（{n}）', no_eval_group_named:'尚無本日評估：{names}（共 {n} 個）', no_eval_group_named_more:'尚無本日評估：{names} 等 {n} 個', late_night_banner_sparse:'今日接近尾聲，以下為剩餘的建議時段', late_night_banner:'今日拍攝時段已結束，以下顯示明天的建議', late_night_banner_both:'今日與明日目前均無符合時段', back_today:'回到今天', tomorrow_badge:'明天', eval2_past_hours:'今日已過時段不計', eval2_day_past:'此日已過，時段不計入符合', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型', admin_area_filter:'地區', admin_area_all:'全部地區', admin_area_selected:'已選 {n} 個地區', admin_area_clear:'清除地區', admin_area_search:'搜尋地區…', admin_area_no_match:'找不到符合的地區', admin_area_done:'完成', admin_area_close:'關閉地區選單', admin_area_show_empty:'顯示尚未收錄的地區', admin_area_hide_empty:'隱藏尚未收錄的地區', sort_label:'排序', sort_region:'地區順序', sort_hours:'符合時數：高到低', sort_score_desc:'評分：高到低', sort_score_asc:'評分：低到高', sort_distance_near:'距離：近到遠', sort_distance_far:'距離：遠到近', sort_location_requesting:'正在取得目前位置…', sort_location_using_current:'以目前位置排序', sort_location_unavailable:'無法取得位置，已改回地區順序', result_count_region:'依地區順序 · {n} 個景點', result_count_score_desc:'依評分高到低 · {n} 個景點', result_count_score_asc:'依評分低到高 · {n} 個景點', result_count_hours_desc:'依符合時數高到低 · {n} 個景點', result_count_distance_near:'依距離近到遠 · {n} 個景點', result_count_distance_far:'依距離遠到近 · {n} 個景點', region_group_count:'{n} 個景點',
         best_window:'⏱️ 最佳拍攝時段：', relative_window:'⏱️ 相對較佳時段：', forecast_status:'📍 預報狀態：', v2_fail_reason:'未符原因：', cloud_base_label:'估算雲底高度（海拔）', best_theme:'📸 所選日期較適合：', local_time:'當地時間', dark_sky:'暗空', clui45_listed:'列表 {n} 個', clui45_day_gated:'本日建議時段外', clui45_list_moving:'列表更新中，請再點一次', clui45_cb_floor:'資料下限',
         modal_subtitle:'⏱️ 逐時拍攝條件：過去 {p} 小時 + 未來 {f} 小時', th_lcl_short:'高度', th_temp_short:'溫度', th_wind_short:'風', th_clouds:'雲 L/M/H', wm_details:'⋯ 詳情', wm_weekdays:'週日,週一,週二,週三,週四,週五,週六', wm_months:'1 月,2 月,3 月,4 月,5 月,6 月,7 月,8 月,9 月,10 月,11 月,12 月',
-        th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_subjects:'適合題材', th_kp:'Kp指數', th_cloud_base:'雲底高度（海拔）', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_plain:'口語化氣象', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…', detail_sync_wait:'天氣資料正在同步更新，請幾秒後再試一次。', detail_error:'暫時無法載入天氣預報。', detail_retry:'重試', status_unavailable:'目前無法顯示狀態說明', favorite_label:'我的最愛', tag_past:'歷史', tag_best:'最佳', clui94_legend_fit:'綠底=題材符合 · ○ 可拍 · ✕ 不宜', clui94_legend_no:'✕ 短原因', guide_translation_limited:'部分拍攝指南尚未提供繁體中文版本。', score_excellent:'極佳', score_good:'良好', score_fair:'普通', score_low_label:'較弱', state_ok:'✅ 符合', state_chance:'🟡 有機會', state_bad:'⚠️ 未符', state_outside:'🕒 非建議時段', clui118b_na_expand:'（{n} 小時）——點擊展開', clui118b_na_collapse:'（{n} 小時）——點擊收合', verdict_suitable:'✅ 適合拍攝{subject}', verdict_chance:'🟡 有機會拍到{subject}', verdict_unfavorable:'⚠️ 目前不利於拍攝{subject}', verdict_outside:'🕒 目前不是拍攝{subject}的建議時段', modal_window_none:'{day}無建議時段', modal_window_relative:'⏱️ 相對較佳但仍未符：', astro_missing:'該時段無天文資料', astro_missing_sun:'缺太陽方位／仰角資料', temp_unavailable:'氣溫資料暫缺', vis_cap:'≥ 24 km（資料上限）', legend_title:'狀態圖例：', tip_cloud_base:'凝結高度：雲底離地高度，接近山頂高度時可能身處雲中', tip_low_cloud:'低雲：太陽方向的低雲會直接擋住日落／日出主體', tip_vis:'能見度：數值越高空氣越通透，越適合拍遠景；24 km 為資料上限', tip_wind:'風速：超過約 6 m/s 時腳架會晃，長曝需加強固定', prov_title:'資料來源', prov_hourly_label:'逐時預報', prov_hourly_value:'Open-Meteo · GFS Seamless（GFS＋GraphCast）', prov_issued_label:'資料時間',
+        th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_subjects:'適合題材', th_kp:'Kp指數', th_cloud_base:'雲底高度（海拔）', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_plain:'口語化氣象', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…', detail_sync_wait:'天氣資料正在同步更新，請幾秒後再試一次。', detail_error:'暫時無法載入天氣預報。', detail_retry:'重試', status_unavailable:'目前無法顯示狀態說明', favorite_label:'我的最愛', tag_past:'歷史', tag_best:'最佳', clui94_legend_fit:'綠底=題材符合', clui94_legend_no:'✕ 短原因', guide_translation_limited:'部分拍攝指南尚未提供繁體中文版本。', score_excellent:'極佳', score_good:'良好', score_fair:'普通', score_low_label:'較弱', state_ok:'✅ 符合', state_chance:'🟡 有機會', state_bad:'⚠️ 未符', state_outside:'🕒 非建議時段', clui118b_na_expand:'（{n} 小時）——點擊展開', clui118b_na_collapse:'（{n} 小時）——點擊收合', verdict_suitable:'✅ 適合拍攝{subject}', verdict_chance:'🟡 有機會拍到{subject}', verdict_unfavorable:'⚠️ 目前不利於拍攝{subject}', verdict_outside:'🕒 目前不是拍攝{subject}的建議時段', modal_window_none:'{day}無建議時段', modal_window_relative:'⏱️ 相對較佳但仍未符：', astro_missing:'該時段無天文資料', astro_missing_sun:'缺太陽方位／仰角資料', temp_unavailable:'氣溫資料暫缺', vis_cap:'≥ 24 km（資料上限）', legend_title:'狀態圖例：', tip_cloud_base:'凝結高度：雲底離地高度，接近山頂高度時可能身處雲中', tip_low_cloud:'低雲：太陽方向的低雲會直接擋住日落／日出主體', tip_vis:'能見度：數值越高空氣越通透，越適合拍遠景；24 km 為資料上限', tip_wind:'風速：超過約 6 m/s 時腳架會晃，長曝需加強固定', prov_title:'資料來源', prov_hourly_label:'逐時預報', prov_hourly_value:'Open-Meteo · GFS Seamless（GFS＋GraphCast）', prov_issued_label:'資料時間',
         prov_layers_label:'天氣圖（WeatherGrid）另用下列圖層', prov_cycle_label:'起報', prov_obs_label:'觀測', prov_layers_loading:'讀取中…', prov_layers_missing:'暫無此圖層資料',
         prov_elev_label:'海拔與座標', prov_elev_camera:'機位海拔（景點資料）', prov_elev_api:'預報格點海拔（Open-Meteo）', prov_elev_grid:'預報格點海拔（評估用）', prov_coord_label:'座標來源', prov_confidence_label:'信心', prov_conf_high:'高', prov_conf_medium:'中', prov_conf_low:'低', prov_coord_unknown:'座標來源資料暫缺',
         prov_threshold_label:'門檻性質', prov_threshold_fallback:'門檻為暫定值，尚未以實拍校準；結果僅供拍攝參考，不保證出景。',
@@ -535,7 +535,20 @@
     // name is unavailable, showing the local/original place name is useful and
     // explicitly allowed. Other user-facing semantic content must not fall
     // back to a different supported language.
-    const spotName=s=>s?.name_i18n?.[currentLang]||s?.name_local||s?.name_i18n?.['zh-TW']||s?.spot_id||'—';
+    // CL-I18N-12C (V6): the committed catalog renders 大屯山助航站 as
+    // 「大屯山助航駅」 in ja — 駅 is the RAILWAY station word, and the place is an
+    // aviation navaid (VOR/DME) on the summit. The catalog belongs to the data
+    // plane (outside this ticket's file whitelist), so the UI layer corrects the
+    // one mistranslated name. Keyed by the string the data plane ships, so a
+    // fixed catalog entry simply stops matching.
+    const NAME_LOCALE_FIX={
+      ja:{'大屯山助航駅':'大屯山航空無線標識所'}
+    };
+    const spotName=s=>{
+      const n=s?.name_i18n?.[currentLang]||s?.name_local||s?.name_i18n?.['zh-TW']||s?.spot_id||'—';
+      const fix=NAME_LOCALE_FIX[currentLang];
+      return (fix&&fix[n])||n;
+    };
     const categoryLabel=k=>(categoryLabels[currentLang]||categoryLabels['zh-TW'])[k]||k;
     const sceneLabel=k=>(sceneLabels[currentLang]||sceneLabels['zh-TW'])[k]||k;
     const themeLabel=k=>(themeLabels[currentLang]||themeLabels['zh-TW'])[k]||k;
@@ -585,6 +598,19 @@
       if(translated)return translated;
       if(currentLang==='zh-TW')return op?.name_zh||legacyName||themeLabel(op?.legacy_theme||theme||'mountain_view');
       return fallbackConnectors(op?.name_i18n?.['zh-TW'])||op?.name_zh||legacyName||themeLabel(op?.legacy_theme||theme||'mountain_view');
+    }
+    // CL-I18N-12C (V5): an opportunity name that has no reviewed en/ja
+    // translation is shown in zh-TW by reviewedLocaleName — correct for the
+    // data layer, but it leaks CJK into a translated sentence («Best for
+    // selected date：大屯山俯瞰台北盆地暮色 / 夜景»). The modal headline therefore
+    // substitutes the localised subject genre instead of printing Chinese
+    // inside an en/ja line.
+    const CJK_NAME_RE=/[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]/;
+    function localeSafeSubjectName(name,theme){
+      const genre=themeLabel(theme||'mountain_view');
+      if(currentLang==='zh-TW')return name||genre;
+      if(!name||CJK_NAME_RE.test(name))return genre||name;
+      return name;
     }
     const tempUnitLabel=()=>currentTempUnit==='F'?'°F':'°C';
     function formatTemp(c){
@@ -1945,13 +1971,13 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       if(tierChip){
         const hoursHtml=fitHours?`<span class="modal-day-hours">${esc(d().eval2_hours)} ${fitHours}</span>`:'';
         const shortsHtml=shorts.length?`<span class="modal-day-subjects">${esc(shorts.join(' · '))}</span>`:'';
-        return `<div class="modal-day-row"><span class="modal-day-label">${esc(label)}</span>${tierChip}${hoursHtml}${shortsHtml}${wxHtml}</div>`;
+        return `<div class="modal-day-row"><span class="modal-day-head"><span class="modal-day-label">${esc(label)}</span>${tierChip}${hoursHtml}</span>${shortsHtml}${wxHtml}</div>`;
       }
       // CL-UI-65: no committed row for this date → keep the general-baseline
       // fallback (○ 可拍 / ✗ 不宜 + short reason) rather than a bare none-line.
-      if(!info||!info.hours){const noneTxt=d().modal_window_none.replace('{day}',label);const gen=(typeof v2GeneralLineText==='function')?v2GeneralLineText(scRow,currentLang):'';return `<div class="modal-day-row"><span class="modal-day-label">${esc(label)}</span><span class="modal-day-none">${esc(noneTxt)}${gen?` · ${esc(gen)}`:''}</span>${wxHtml}</div>`;}
+      if(!info||!info.hours){const noneTxt=d().modal_window_none.replace('{day}',label);const gen=(typeof v2GeneralLineText==='function')?v2GeneralLineText(scRow,currentLang):'';return `<div class="modal-day-row"><span class="modal-day-head"><span class="modal-day-label">${esc(label)}</span><span class="modal-day-none">${esc(noneTxt)}${gen?` · ${esc(gen)}`:''}</span></span>${wxHtml}</div>`;}
       const key=d()[modalWindowKey(info.state)];
-      return `<div class="modal-day-row"><span class="modal-day-label">${esc(label)}</span><span class="modal-day-hours">${esc(d().eval2_hours)} ${info.hours}</span><span class="modal-day-window">${esc(key)}<b>${esc(modalWindowSegment(info))}</b></span>${wxHtml}</div>`;
+      return `<div class="modal-day-row"><span class="modal-day-head"><span class="modal-day-label">${esc(label)}</span><span class="modal-day-hours">${esc(d().eval2_hours)} ${info.hours}</span><span class="modal-day-window">${esc(key)}<b>${esc(modalWindowSegment(info))}</b></span></span>${wxHtml}</div>`;
     }
 
 
@@ -3131,7 +3157,20 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       return rows.join('');
     }
     function provLayerRow(file,label,qc){
-      return `<div class="prov-row prov-layer" data-prov-file="${esc(file)}"><span class="prov-k">${esc(label)}</span><span class="prov-v">${esc(provStampText(qc))}</span></div>`;
+      return `<div class="prov-row prov-layer" data-prov-file="${esc(file)}"><span class="prov-k">${esc(provLayerLabel(label))}</span><span class="prov-v">${esc(provStampText(qc))}</span></div>`;
+    }
+    // CL-I18N-12C (V5 family): two layer labels are committed as Chinese strings
+    // in the table above and used to render verbatim inside the en modal's data
+    // panel («CAMS 空氣霧霾（CAMS GLOBAL）»). Everything else in the table is a
+    // vendor name + Latin acronyms, so only the two Chinese labels need a
+    // locale copy; zh-TW keeps the original string.
+    const PROV_LAYER_LABELS={
+      'CAMS 空氣霧霾（CAMS GLOBAL）':{en:'CAMS aerosol haze (CAMS Global)',ja:'CAMS エアロゾル（CAMS Global）'},
+      'Himawari-9 雲圖':{en:'Himawari-9 cloud imagery',ja:'Himawari-9 雲画像'}
+    };
+    function provLayerLabel(label){
+      const loc=PROV_LAYER_LABELS[label];
+      return (loc&&loc[currentLang])||label;
     }
     async function loadProvLayers(region){
       const list=PROV_LAYER_FILES[region]||[];
@@ -3224,7 +3263,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // shows. The subject short name comes from the same committed row the
       // tier chip reads; with no row we keep the full name (honest fallback).
       const selRow=v2SubjectCardRow(summarySpot.spot_id,selectedDateForSpot(summarySpot));
-      const selSubject=(selRow&&v2SubjectCardShorts(selRow,currentLang)[0])||activeOpportunityName;
+      const selSubject=localeSafeSubjectName((selRow&&v2SubjectCardShorts(selRow,currentLang)[0])||activeOpportunityName,activeTheme);
       document.getElementById('modal-summary').innerHTML=`<div class="modal-day-switch" role="group">${daySwitch}</div><div class="modal-overview">${overviewRows}</div><div class="modal-summary-main">${esc(d().best_theme)}${esc(selSubject)}</div>${darkSky?`<div class="modal-summary-extra">${esc(darkSky)}</div>`:''}`;
       // CL-UI-14/U4: the modal's own prominent date switch. It reuses the page's
       // switchDay so the homepage cards and the modal always evaluate the same
@@ -3245,6 +3284,11 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       if(tableWrap){
         let legend=document.getElementById('timeline-legend');
         if(!legend){legend=document.createElement('div');legend.id='timeline-legend';tableWrap.parentNode.insertBefore(legend,tableWrap);}
+        // CL-I18N-12C (V7): the element was created with an id only, so the
+        // `.timeline-legend` rule (flex + 14px gaps + .74rem) never matched and
+        // the five spans stacked as one oversized glued sentence at every
+        // width. The class is what the stylesheet keys on.
+        legend.className='timeline-legend';
         legend.setAttribute('role','note');
         // CL-UI-43: the hourly statuses are V2-owned. CHALLENGER-14/C: the
         // 🕒 非建議時段 family is BACK — as the V2-owned neutral hour state
@@ -3255,7 +3299,20 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         // CL-CI-44: the legend lists the three verdicts in one separator
         // convention (「 · 」) and spells 「✕ 不宜」 out — the old chip order
         // jumped from ○ 可拍 straight to ✕ 短原因 and used a different glyph.
-        legend.innerHTML=`<span class="legend-title">${esc(d().legend_title)}</span><span class="legend-item legend-ok">${esc(d().clui94_legend_fit)}</span><span class="legend-item legend-bad">${esc(d().v2_hour_general_ok)}</span><span class="legend-item legend-bad">${esc(d().v2_tier_not_recommended)}</span><span class="legend-item legend-outside">${esc(d().clui94_legend_no)}</span><span class="legend-item">${esc(d().state_outside)}</span>`;
+        // CL-I18N-12C (V7): the five legend spans used to be plain siblings, so
+        // the row read as one glued sentence («Status legend:Green chip = a
+        // subject fits○ Shootable✗ Not recommended…») — the flex gap was the
+        // only separator and it disappeared in text-only rendering and at 393px.
+        // Each item now sits between real middle-dot separators (a span, not
+        // just CSS spacing), so the reading order survives any viewport or
+        // copy/paste.
+        legend.innerHTML=`<span class="legend-title">${esc(d().legend_title)}</span>`+[
+          ['legend-ok',d().clui94_legend_fit],
+          ['legend-bad',d().v2_hour_general_ok],
+          ['legend-bad',d().v2_tier_not_recommended],
+          ['legend-outside',d().clui94_legend_no],
+          ['',d().state_outside]
+        ].map(([cls,txt])=>`<span class="legend-item${cls?' '+cls:''}">${esc(txt)}</span>`).join('<span class="legend-sep" aria-hidden="true">·</span>');
       }
       const isAurora=activeTheme==='aurora';
       const mobileRoot=document.getElementById('timeline-mobile');

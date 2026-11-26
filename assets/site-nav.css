@@ -159,6 +159,48 @@
     flex: 1 1 auto;
     justify-content: center;
   }
+  /* CL-I18N-12C (V8): the ja bottom bar overflowed on weather-map.html —
+     マイライブラリ was cut mid-glyph and ログイン fell outside the viewport
+     entirely (inner scrollWidth 512 > 393). Root cause: this file is the only
+     stylesheet that page shares, so the compact CL-UI-38 label rule that
+     lives in app.css never applied there, and the bar neither shrank nor
+     scrolled. Two-part fix, both self-contained:
+       1. labels size themselves from px-free compact type here (the same
+          .8rem/4-6px rhythm app.css uses on the other pages), and
+       2. the link strip may shrink and, in the worst case, scroll — so an
+          item can never be pushed outside the bar or clipped mid-word.
+     Desktop (>640px) is untouched. */
+  .site-nav-links {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: 2px;
+    /* space-between, never flex-end: with flex-end the overflow is pinned to
+       the left and becomes unreachable when the strip has to scroll. */
+    justify-content: space-between;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .site-nav-links::-webkit-scrollbar { display: none; }
+  .site-nav-more { flex: 0 1 auto; min-width: 0; }
+  /* one-line labels: a nav item is a word, never a paragraph — wrapping
+     「マイライブラリ」 into two 13px lines was the first attempt's cosmetic
+     cost. Items keep their content width; the strip scrolls when the sum
+     genuinely exceeds the bar. */
+  .site-nav-item,
+  .site-nav-more-btn {
+    flex: 0 0 auto;
+    min-width: 44px;
+    padding: 0 5px;
+    /* px, not rem: the root font-size differs per page (app.css sets ~13.3px,
+       weather-map.html keeps 16px), and the bar must measure the same on
+       every page it is mounted on. */
+    font-size: 13px;
+    line-height: 1.15;
+    white-space: nowrap;
+    text-align: center;
+  }
   .site-nav-menu {
     position: fixed;
     left: 8px;
@@ -167,4 +209,14 @@
     top: auto;
     min-width: 0;
   }
+}
+
+/* CL-I18N-12C (V8): below 480px the wordmark gives way to the brand tile.
+   The logo IS the home link (the accessible name still reads "ChaseLights"
+   from the text node, which font-size:0 hides but does not remove), and
+   dropping ~80px is what lets the ja chain sit on ONE line at 393 instead of
+   pushing ログイン off the bar. 481-640px keeps the wordmark. */
+@media (max-width: 480px) {
+  .site-nav-brand { font-size: 0; }
+  .site-nav-brand .site-nav-logo { margin-right: 0; }
 }
