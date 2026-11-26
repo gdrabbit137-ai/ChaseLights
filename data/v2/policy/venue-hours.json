@@ -1,0 +1,32 @@
+{
+  "_meta": {
+    "schema": "chase-lights/venue-hours@1",
+    "purpose": "CL-PHYS-03 §4 evaluation-layer venue opening hours. The evaluation layer injects a REQUIRED `venue_hours_policy` gate for every opportunity_id present here: an hour bucket whose LOCAL start is outside [open, close) can never become a 推薦. The pinned canonical opportunity records under data/v2/opportunities/ are never edited for this.",
+    "policy": [
+      "A venue absent from this table is UNKNOWN, never assumed open: the gate is simply not injected (abstain). Hours are never invented to make a gate fire.",
+      "Every entry must carry source_kind + source + retrieved_at so the table can be audited.",
+      "Hours are the venue's LOCAL civil clock; [open, close) is half-open and the judged instant is the hour bucket START. Overnight windows (close <= open) are treated as malformed and abstain (UNKNOWN), never guessed.",
+      "confirmed_by is the owner ticket that asserted the window; a table row without confirmed_by is not authoritative."
+    ],
+    "owner_ticket": "CL-PHYS-03",
+    "asserted_at": "2026-11-26"
+  },
+  "venues": {
+    "jp-018-P01": {
+      "venue": "名古屋城天守",
+      "place_id": "jp-018",
+      "open": "09:00",
+      "close": "16:30",
+      "timezone": "Asia/Tokyo",
+      "source_kind": "owner_ticket",
+      "source": "CL-PHYS-03 (2026-11-26): venue opens 09:00-16:30 local. Cross-ref: Nagoya Castle official visitor page (nagoyajo.city.nagoya.jp) states 9:00-16:30, last admission 16:00; closed 12-29..01-01 (closure days not modelled here — the season/annual calendar owns those).",
+      "retrieved_at": "2026-11-26",
+      "confirmed_by": "CL-PHYS-03",
+      "notes_i18n": {
+        "zh-TW": "天守閣開放 09:00–16:30（16:00 停止入場）。凌晨時段的日出/藍調/夜景題材不得推薦。",
+        "en": "Keep open 09:00-16:30 (last admission 16:00). Pre-dawn / night subjects are never recommended outside it.",
+        "ja": "天守閣は09:00–16:30（16:00最終入場）。早朝・夜間の題材は推奨しない。"
+      }
+    }
+  }
+}
