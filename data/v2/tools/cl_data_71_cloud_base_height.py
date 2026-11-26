@@ -68,18 +68,21 @@ def build_condition(oid, mode, threshold, elev, elev_source, claim_refs):
         notes = {
             "zh-TW": (f"CL-DATA-71：帶值照 catalog 記載（data/v2/audits/subject-lists/"
                       f"liuli-cloudheights.json，owner-gemini-liuliglow-30 清單）；"
-                      f"觀點海拔＝{elev_source}。評估值＝既有 LCL 代理 "
-                      f"（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）。"),
+                      f"觀點海拔＝{elev_source}。評估值＝ASL 雲底高度（格點海拔＋LCL）："
+                      f"lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，"
+                      f"評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻。"),
             "en": (f"CL-DATA-71: band values as recorded in the catalog "
                    f"(data/v2/audits/subject-lists/liuli-cloudheights.json, "
                    f"owner-gemini-liuliglow-30 list); viewpoint elevation = {elev_source}. "
-                   f"Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m "
-                   f"temperature/dew-point parcel estimate at the viewpoint grid, metres "
-                   f"above the viewpoint grid ground)."),
+                   f"Observed value = the ASL cloud base (grid elevation + LCL): "
+                   f"lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the "
+                   f"viewpoint grid, expressed in metres above the grid GROUND, and is converted "
+                   f"to metres ASL (above mean sea level) before it meets any threshold."),
             "ja": (f"CL-DATA-71：帯値はカタログ記載どおり（data/v2/audits/subject-lists/"
                    f"liuli-cloudheights.json、owner-gemini-liuliglow-30 リスト）；"
-                   f"視点高度＝{elev_source}。評価値＝既存LCL代理（lcl_height_m_agl："
-                   f"視点グリッドの地上2m気温/露点から推算、視点グリッド地面上の高さ）。"),
+                   f"視点高度＝{elev_source}。評価値＝ASL の雲底高度（グリッド標高＋LCL）："
+                   f"lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」"
+                   f"からの高さで、評価前に海抜高度（metres ASL）へ換算する。"),
         }
     else:
         thr = round(elev - 200.0)

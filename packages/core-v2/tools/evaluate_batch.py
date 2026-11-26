@@ -997,10 +997,17 @@ def lcl_asl_m(values):
 
     Returns (value_m_asl, reason). A missing LCL cell or a missing grid
     elevation is never defaulted to zero — the caller propagates UNKNOWN.
+    A REFUSED LCL (supersaturated T2m − Td2m, adapter reason_code
+    SUPERSATURATED) is reported as LCL_SUPERSATURATED so the in-cloud gate
+    can distinguish "no observation" from "the air is at saturation".
     """
+    lcl_cell = values.get("lcl_height_m_agl")
     lcl = _cell_value(values, "lcl_height_m_agl")
     if lcl is None:
-        return None, "CELL_NOT_AVAILABLE"
+        reason_code = (lcl_cell.get("reason_code")
+                       if isinstance(lcl_cell, dict) else None)
+        return None, ("LCL_SUPERSATURATED" if reason_code == "SUPERSATURATED"
+                      else "CELL_NOT_AVAILABLE")
     grid = grid_elevation_m(values)
     if grid is None:
         return None, "GRID_ELEVATION_UNKNOWN"
@@ -1036,6 +1043,25 @@ def cloud_base_verdict(condition, values, require_viewpoint=True):
     base_asl, reason = lcl_asl_m(values)
     if base_asl is None:
         return "UNKNOWN", reason
+    grid = grid_elevation_m(values)
+    grid_m = float(grid) if grid is not None else 0.0
+    # CL-PHYS-02 §1 (datum, reviewer blocker 2): a `lt viewpoint − N` window
+    # whose threshold lies BELOW the grid ground is physically
+    # unimplementable on this datum. The parcel LCL is measured from the grid
+    # ground, so base_asl >= grid always; when threshold < grid the
+    # comparison can never pass and the condition would pin the subject at
+    # 不宜 for every hour of every run. The single summit grid point simply
+    # cannot resolve a base below its own ground, so the window is
+    # UNRESOLVABLE, not FAILED: UNKNOWN is the honest verdict (upstream it
+    # becomes an advisory / NOT_EVALUABLE hour, never a fabricated pass).
+    if (operator in ("lt", "lte")
+            and isinstance(threshold, (int, float))
+            and not isinstance(threshold, bool)
+            and grid is not None
+            and float(threshold) < grid_m - 1e-9):
+        return "UNKNOWN", (
+            f"CLOUD_BASE_WINDOW_UNRESOLVABLE(threshold={round(float(threshold))}m"
+            f"<grid={round(grid_m)}m: LCL is measured from the grid ground)")
     if operator == "between":
         judged = float(base_asl) - float(elevation)
         datum_label = "above_viewpoint"
@@ -1046,8 +1072,6 @@ def cloud_base_verdict(condition, values, require_viewpoint=True):
         passed = compare(judged, operator, threshold)
     except Exception:
         return "UNKNOWN", "INVALID_THRESHOLD"
-    grid = grid_elevation_m(values)
-    grid_m = float(grid) if grid is not None else 0.0
     detail = (f"CLOUD_BASE_HEIGHT(base_{datum_label}={round(judged)}m,"
               f"lcl_agl={round(float(base_asl) - grid_m)}m"
               f"+grid={round(grid_m)}m,"
@@ -1063,26 +1087,43 @@ def in_cloud_fog_state(values, viewpoint_elevation_m):
 
     `in_cloud` iff (cloud_base_asl <= viewpoint_elevation + 50 m) AND
     (cloud_cover_low >= 80 % OR RH850 >= 95 %). Both sides of the geometry
-    comparison are metres ASL. An unverifiable input yields state UNKNOWN and
-    the caller treats the veto as unverified (see phys_gate_verdict) — a veto
-    that cannot see is not a veto; the contract's own conditions still fail
-    closed.
+    comparison are metres ASL. Missing moisture evidence (both cells absent)
+    or missing grid geometry leaves the veto UNKNOWN and the caller treats it
+    as unverified — a veto that cannot see is not a veto. A REFUSED or absent
+    LCL next to a saturated deck, however, fails CLOSED (see below): the
+    refusal itself is the telephone-number fog signature.
     """
     if (not isinstance(viewpoint_elevation_m, (int, float))
             or isinstance(viewpoint_elevation_m, bool)):
         return {"state": "UNKNOWN", "value": None,
                 "reason_code": "VIEWPOINT_ELEVATION_UNKNOWN"}
-    base_asl, reason = lcl_asl_m(values)
-    if base_asl is None:
-        return {"state": "UNKNOWN", "value": None, "reason_code": reason}
     low_cloud = _cell_value(values, "cloud_cover_low")
     rh850 = _cell_value(values, "relative_humidity_850hpa")
     if low_cloud is None and rh850 is None:
         return {"state": "UNKNOWN", "value": None,
                 "reason_code": "MOISTURE_CELLS_UNAVAILABLE"}
-    ceiling_inside = base_asl <= float(viewpoint_elevation_m) + IN_CLOUD_MARGIN_M
     humid = ((low_cloud is not None and low_cloud >= IN_CLOUD_LOW_CLOUD_PCT)
              or (rh850 is not None and rh850 >= IN_CLOUD_RH850_PCT))
+    base_asl, reason = lcl_asl_m(values)
+    if base_asl is None:
+        if reason == "GRID_ELEVATION_UNKNOWN":
+            return {"state": "UNKNOWN", "value": None, "reason_code": reason}
+        # FAIL CLOSED. A refused or missing LCL is not "no evidence": a
+        # supersaturated parcel (T2m − Td2m < 0) is undefined precisely
+        # BECAUSE the air is at or beyond saturation — the LCL sits at the
+        # ground, i.e. the viewpoint is in the cloud. With a saturated deck
+        # (低雲 >= 80 % or RH850 >= 95 %) alongside, the fog signature is
+        # complete, so the veto fires instead of dissolving into UNKNOWN
+        # (which the gate would pass). Only "LCL present but grid geometry
+        # absent" stays UNKNOWN — there an ASL base exists to be computed and
+        # the missing elevation is the real gap.
+        if humid:
+            return {"state": "AVAILABLE", "value": "in_cloud",
+                    "reason_code": "LCL_UNAVAILABLE_SATURATED_DECK",
+                    "cloud_base_asl_m": None,
+                    "effective_visibility_km": IN_CLOUD_EFFECTIVE_VISIBILITY_KM}
+        return {"state": "UNKNOWN", "value": None, "reason_code": reason}
+    ceiling_inside = base_asl <= float(viewpoint_elevation_m) + IN_CLOUD_MARGIN_M
     inside = ceiling_inside and humid
     return {"state": "AVAILABLE", "value": "in_cloud" if inside else "clear",
             "reason_code": None,
@@ -1111,13 +1152,20 @@ def data_contradiction_state(values):
             "reason_code": None}
 
 
-def cloud_sea_inversion_state(values):
+def cloud_sea_inversion_state(values, viewpoint_elevation_m):
     """CL-PHYS-02 §4: 雲海 primary criterion (RH inversion + low cloud).
 
     The inversion moisture layer (RH850 or RH925 >= 90 %) plus a low-cloud
-    amount >= 60 % — the humid structure a cloud sea sits in. The
-    ASL-corrected cloud-base window stays a supporting REQUIRED constraint;
-    the valley dual-grid deck model is deferred to CL-DATA-85.
+    amount >= 60 % — the humid structure a cloud sea sits in — AND a deck
+    that actually lies BELOW the viewpoint. Without the third leg a high
+    deck overhead (base above the summit) satisfies the humidity pair and
+    the criterion blesses an hour that has no cloud sea at all: a ceiling
+    above the summit is a ceiling, not a sea. The deck ceiling is the ASL
+    cloud base computed by lcl_asl_m; when the LCL proxy REFUSED its input
+    the parcel is saturated at the grid ground, so the deck sits at the
+    grid elevation and that is the ceiling used. The valley dual-grid
+    model that would resolve the deck height directly is deferred to
+    CL-DATA-85.
     """
     rh850 = _cell_value(values, "relative_humidity_850hpa")
     rh925 = _cell_value(values, "relative_humidity_925hpa")
@@ -1126,11 +1174,28 @@ def cloud_sea_inversion_state(values):
     if low_cloud is None or not humidities:
         return {"state": "UNKNOWN", "value": None,
                 "reason_code": "INVERSION_CELLS_UNAVAILABLE"}
+    if (not isinstance(viewpoint_elevation_m, (int, float))
+            or isinstance(viewpoint_elevation_m, bool)):
+        return {"state": "UNKNOWN", "value": None,
+                "reason_code": "VIEWPOINT_ELEVATION_UNKNOWN"}
+    deck_asl, reason = lcl_asl_m(values)
+    if deck_asl is None:
+        if reason == "GRID_ELEVATION_UNKNOWN":
+            return {"state": "UNKNOWN", "value": None, "reason_code": reason}
+        # Refused/absent LCL: saturated at the grid ground, so the deck
+        # cannot be above the grid elevation.
+        deck_asl = grid_elevation_m(values)
+        if deck_asl is None:
+            return {"state": "UNKNOWN", "value": None,
+                    "reason_code": "GRID_ELEVATION_UNKNOWN"}
+    deck_below = float(deck_asl) <= float(viewpoint_elevation_m)
     inversion = (max(humidities) >= CLOUD_SEA_RH_PRIMARY_PCT
-                 and low_cloud >= CLOUD_SEA_LOW_CLOUD_PCT)
+                 and low_cloud >= CLOUD_SEA_LOW_CLOUD_PCT
+                 and deck_below)
     return {"state": "AVAILABLE",
             "value": "inversion" if inversion else "no_inversion",
-            "reason_code": None}
+            "reason_code": None if deck_below else "DECK_AT_OR_ABOVE_VIEWPOINT",
+            "deck_ceiling_asl_m": round(float(deck_asl), 1)}
 
 
 def phys_gate_state(condition, values):
@@ -1141,7 +1206,8 @@ def phys_gate_state(condition, values):
     if metric == DATA_CONTRADICTION_METRIC:
         return data_contradiction_state(values)
     if metric == CLOUD_SEA_INVERSION_METRIC:
-        return cloud_sea_inversion_state(values)
+        return cloud_sea_inversion_state(
+            values, condition.get("viewpoint_elevation_m"))
     return {"state": "UNKNOWN", "value": None, "reason_code": "UNKNOWN_GATE"}
 
 
@@ -1192,18 +1258,23 @@ IN_CLOUD_FOG_GATE = _phys_gate(
         "zh-TW": "CL-PHYS-02 評估層硬擋（全題材）：雲底（格點海拔＋LCL，皆 ASL）"
                  "不高於觀測點 +50 m，且低雲 ≥80% 或 RH850 ≥95%，代表觀測點"
                  "身處雲霧內；有效能見度視為濃霧，一般風景／日出／日落／雲海／"
-                 "夜景題材一律不宜。專拍霧的題材（misty_forest）不受此擋。",
+                 "夜景題材一律不宜。LCL 被拒絕（過飽和）或不可得且伴隨飽和雲層時"
+                 "一律關閉放行（fail closed）：拒絕本身即是霧的訊號。專拍霧的題材"
+                 "（misty_forest）不受此擋。",
         "en": "CL-PHYS-02 evaluation-layer hard block (all subjects): when the "
               "cloud base (grid elevation + LCL, both ASL) is at or below the "
               "viewpoint +50 m AND low cloud >= 80% or RH850 >= 95%, the "
               "viewpoint is inside cloud/fog. Effective visibility is 濃霧 and "
               "every general landscape/sunrise/sunset/cloud-sea/night subject "
-              "is not recommended. Dedicated fog subjects (misty_forest) are "
-              "exempt.",
+              "is not recommended. A refused (supersaturated) or unavailable "
+              "LCL together with a saturated deck FAILS CLOSED: the refusal is "
+              "itself the fog signature. Dedicated fog subjects (misty_forest) "
+              "are exempt.",
         "ja": "CL-PHYS-02 評価層のハードブロック（全題材）：雲底（グリッド標高＋"
               "LCL、いずれもASL）が視点+50m以下、かつ低雲≥80%またはRH850≥95%なら"
               "視点は雲霧内。有効視程は濃霧とし、一般風景／日の出／日の入り／雲海／"
-              "夜景は不適。霧専門題材（misty_forest）は対象外。",
+              "夜景は不適。LCLが拒否（過飽和）または取得不能で飽和した雲層を伴う"
+              "場合はフェイルクローズ。霧専門題材（misty_forest）は対象外。",
     })
 DATA_CONTRADICTION_GATE = _phys_gate(
     "EVALGATE-data-contradiction", DATA_CONTRADICTION_METRIC, {
@@ -1219,36 +1290,46 @@ DATA_CONTRADICTION_GATE = _phys_gate(
 CLOUD_SEA_INVERSION_GATE = _phys_gate(
     "EVALGATE-cloud-sea-inversion", CLOUD_SEA_INVERSION_METRIC, {
         "zh-TW": "CL-PHYS-02 雲海主判據：濕層逆溫（RH850 或 RH925 ≥90%）＋低雲量"
-                 "≥60%。單一山頂格點修正為 ASL 後，雲底窗只能表達「雲底在峰頂"
-                 "以上／同高」，谷地雙格點模型延後至 CL-DATA-85。",
+                 "≥60%＋雲頂／抬升層須低於觀測點（ASL 雲底 ≤ 觀測點海拔；"
+                 "單一山頂格點無法解析峰頂以下的雲頂時，以格點海拔為上限）。"
+                 "峰頂以上的高雲不是雲海。谷地雙格點模型延後至 CL-DATA-85。",
         "en": "CL-PHYS-02 cloud-sea primary criterion: humid inversion layer "
-              "(RH850 or RH925 >= 90%) plus low-cloud amount >= 60%. With the "
-              "single summit grid point on the ASL datum the cloud-base window "
-              "can only express 'base at/above the summit'; the valley "
-              "dual-grid model is deferred to CL-DATA-85.",
+              "(RH850 or RH925 >= 90%) plus low-cloud amount >= 60% plus a "
+              "deck/lifted layer that sits AT OR BELOW the viewpoint (ASL "
+              "cloud base <= viewpoint elevation; a refused LCL means the "
+              "parcel is saturated at the grid ground, so the deck is capped "
+              "at the grid elevation). A ceiling above the summit is not a "
+              "cloud sea. The valley dual-grid model is deferred to "
+              "CL-DATA-85.",
         "ja": "CL-PHYS-02 雲海の主判準：湿潤逆転層（RH850またはRH925≥90%）＋"
-              "低雲量≥60%。山頂単一格点をASL化すると雲底窓は「峰頂以上／同高」しか"
-              "表せない。谷のデュアルグリッドモデルはCL-DATA-85へ延期。",
+              "低雲量≥60%＋雲頂／上昇層が視点以下にあること（ASL雲底≤視点標高。"
+              "LCLが拒否された場合はグリッド地面で飽和＝雲頂はグリッド標高が上限）。"
+              "峰頂より上の雲は雲海ではない。谷のデュアルグリッドモデルは"
+              "CL-DATA-85へ延期。",
     })
 
 
 def demote_cloud_sea_lcl(conditions, contract):
     """CL-PHYS-02 §4: the 雲海 cloud-base window becomes advisory.
 
-    With the summit grid point on the ASL datum, `lcl_height_m_agl lt
-    viewpoint − 200` can only be satisfied by a negative AGL — a deck below
+    With the summit grid point on the ASL datum, `<base> lt viewpoint − 200`
+    can only be satisfied by a base below the grid ground — a deck below
     the summit is not resolvable from a single summit grid point (the LCL
-    proxy refuses the supersaturated input). The condition keeps its honest
-    ASL verdict as a QUALITY/MODIFIER signal instead of gating every
-    cloud-sea hour, and the inversion gate above becomes the primary
-    criterion. Evaluation-layer only: the owner contract and its sha are
-    untouched.
+    proxy refuses the supersaturated input, and base_asl >= grid by
+    construction). The condition keeps its honest verdict (UNRESOLVABLE /
+    QUALITY signal) instead of gating every cloud-sea hour, and the
+    inversion gate above becomes the primary criterion. Both cloud-base
+    metric keys are covered: the cloud_sea family carries the window as
+    `lcl_height_m_agl` in some contracts and as `cloud_base_height` in
+    others (tw-035-P06 / tw-047-P01 / tw-049-P03), and keying on the
+    metric name alone left the second spelling as a permanent 不宜.
+    Evaluation-layer only: the owner contract and its sha are untouched.
     """
     if contract.get("genre_template") != "cloud_sea":
         return conditions
     out = []
     for condition in conditions:
-        if (condition.get("metric") == "lcl_height_m_agl"
+        if (condition.get("metric") in ("lcl_height_m_agl", "cloud_base_height")
                 and condition.get("role") == "REQUIRED"):
             condition = dict(
                 condition, role="QUALITY", condition_tier="MODIFIER",
@@ -1271,7 +1352,8 @@ def phys_gates_for(contract, viewpoint_elevation_m):
                           viewpoint_elevation_m=viewpoint_elevation_m))
     gates.append(dict(DATA_CONTRADICTION_GATE))
     if genre == "cloud_sea":
-        gates.append(dict(CLOUD_SEA_INVERSION_GATE))
+        gates.append(dict(CLOUD_SEA_INVERSION_GATE,
+                          viewpoint_elevation_m=viewpoint_elevation_m))
     return gates
 
 # CL-DATA-74 — snow_scene family: derived ground-state enum per hour from the

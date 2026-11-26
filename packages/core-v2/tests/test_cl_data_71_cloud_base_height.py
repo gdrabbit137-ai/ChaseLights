@@ -144,7 +144,9 @@ class DerivedThresholdTests(unittest.TestCase):
 
     The threshold (888 m) is ASL. CL-PHYS-02 §1: with a summit grid point
     (grid elevation == viewpoint) any positive AGL LCL puts the cloud base AT
-    OR ABOVE the summit, so the window is honestly FAIL — a deck below the
+    OR ABOVE the summit — the threshold lies BELOW the ground, so the window
+    is physically unimplementable from this datum. Reviewer blocker 2: that
+    must read UNRESOLVABLE / UNKNOWN, never a permanent 不宜; a deck below the
     summit needs the deferred valley dual-grid model (CL-DATA-85).
     """
 
@@ -164,19 +166,25 @@ class DerivedThresholdTests(unittest.TestCase):
 
     def test_summit_grid_point_can_never_see_the_deck_below(self):
         # 500 m AGL over the 1088 m summit grid = 1588 m ASL — the old AGL
-        # comparison wrongly called this "below the sight line".
-        verdict, detail = eb.condition_verdict(
-            self.cond, {"lcl_height_m_agl": available(500), **grid(1088)}, {})
-        self.assertEqual(verdict, "FAIL")
-        self.assertIn("base_asl=1588m", detail)
+        # comparison wrongly called this "below the sight line". The window
+        # itself (888 m) is below the ground, so the honest verdict is
+        # UNKNOWN/UNRESOLVABLE, and the ASL base proves the datum.
+        values = {"lcl_height_m_agl": available(500), **grid(1088)}
+        verdict, detail = eb.condition_verdict(self.cond, values, {})
+        self.assertEqual(verdict, "UNKNOWN")
+        self.assertIn("CLOUD_BASE_WINDOW_UNRESOLVABLE", detail)
+        self.assertEqual(eb.condition_value(self.cond, values, {}), 1588.0)
 
     def test_clear_night_fails(self):
+        # A clear night lifts the base far past the threshold on a datum where
+        # the window IS resolvable (300 m grid, `lt 888`): 900 m AGL = 1200 m
+        # ASL → FAIL. On the summit grid the same input is UNRESOLVABLE.
+        self.assertEqual(eb.condition_verdict(
+            self.cond, {"lcl_height_m_agl": available(900), **grid(300)}, {})[0],
+            "FAIL")
         self.assertEqual(eb.condition_verdict(
             self.cond, {"lcl_height_m_agl": available(900), **grid(1088)}, {})[0],
-            "FAIL")
-        self.assertEqual(eb.condition_verdict(
-            self.cond, {"lcl_height_m_agl": available(888), **grid(1088)}, {})[0],
-            "FAIL")
+            "UNKNOWN")
 
     def test_threshold_is_viewpoint_minus_200(self):
         self.assertEqual(self.cond["threshold"], 1088 - 200)
