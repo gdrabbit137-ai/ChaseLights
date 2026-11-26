@@ -504,17 +504,23 @@
     // exists and today has no remaining qualifying hour while the next window
     // falls on a LATER local date, the line states the day is over and names
     // the next wave; otherwise the honest none / insufficient-data line stays.
-    function v2NoWindowLine(spot,best){
+    function v2NoWindowLine(spot,best,tier){
       if(!best)return '';
       const t=d();
       const tz=(spot&&spot.timezone)||'UTC';
       const stamp=best.nextLocal?nextWindowStamp(best.nextLocal,spot&&spot.timezone):'';
-      const md=/^(\d{4}-\d{2}-\d{2})/.exec(String(best.nextLocal||''));
       const todayKey=localDateString(tz,0);
+      // CL-E2E-131 (4): the day-over wording follows the card's OWN verdict, not
+      // the next-window stamp. A ✓推薦 card whose windows all ended at 23:30 has
+      // no nextLocal left in the bundle, so the old "next window is tomorrow"
+      // gate never fired and the card read 「✓ 推薦 · 本日無符合題材」 — the exact
+      // contradiction the owner reported. A positive tier on today's row is
+      // enough: the day peaked and its last window is gone.
+      const positive=tier==='recommend'||tier==='shootable'||(best.day&&best.day.state==='GUIDANCE_SATISFIED');
       const dayOver=selectedDayOffset()===0
         &&best.day&&best.day.local_date===todayKey
         &&best.day.state!=='NOT_EVALUABLE'
-        &&!!md&&md[1]>todayKey;
+        &&!!positive;
       if(dayOver){
         return `📅 ${esc(t.v2_day_over)}${stamp?` · ${esc(t.v2_day_next.replace('{t}',stamp))}`:''}`;
       }
@@ -1748,7 +1754,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // shootable or the layer is unavailable), the ✗不宜·短因 row when the
       // tier is not_recommended. The retired 「本日最佳題材」 line is gone:
       // every card in a list shows one format.
-      const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;const key=canon(tris);if(!seen.has(key))seen.set(key,{name:tris[currentLang]||tris['zh-TW']||'',window:[],cc:s.cc||null,cpTierCls:s.cpTierCls||null,cpMark:s.cpMark||null,cpTail:s.cpTail||null,cpRowName:!!s.cpRowName,stamp:s.stamp||null});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
+      const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;/* CL-E2E-131: a MODIFIER-window sunrise/sunset subject carries its own name so the row never claims a midday sunrise */const nm=s&&s.name;const key=canon(nm||tris);if(!seen.has(key))seen.set(key,{name:(nm&&(nm[currentLang]||nm['zh-TW']))||tris[currentLang]||tris['zh-TW']||'',window:[],cc:s.cc||null,cpTierCls:s.cpTierCls||null,cpMark:s.cpMark||null,cpTail:s.cpTail||null,cpRowName:!!s.cpRowName,stamp:s.stamp||null});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
       const clSubjectRowHtml=(entry,hidden)=>clSubjectRowLine(entry,spot.spot_id,hidden);
       // CL-UI-91 (owner): tier rows ride the SAME cl-subject-row anatomy —
       // tier + short note in the name slot, the next qualifying window stamp
@@ -1774,7 +1780,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // shootable/not_recommended cards — their tier row (clNoWinRow below)
       // carries the next window in the SAME anatomy. Rowless/NOT_EVALUABLE
       // days keep the honest 資料不足 line.
-      const clSummaryHtml=clSubjectRows?`${clSubjectRows}${(v2Best&&!v2Best.hours&&scTier!=='shootable'&&scTier!=='not_recommended')?`<div class="theme-winner v2-none">${v2NoWindowLine(spot,v2Best)}</div>`:''}`:'';
+      const clSummaryHtml=clSubjectRows?`${clSubjectRows}${(v2Best&&!v2Best.hours&&scTier!=='shootable'&&scTier!=='not_recommended')?`<div class="theme-winner v2-none">${v2NoWindowLine(spot,v2Best,scTier)}</div>`:''}`:'';
       const opportunityName=v2Evaluated?opportunityDisplayName(spot,metric.opportunity_id,theme,metric.opportunity_name):v2NoEvalReasonText(spot);
       const indicator=(!researchPending&&!noViable&&v2Evaluated&&v2Best.state==='GUIDANCE_SATISFIED')?trMessage(metric.indicator_key):'';
       // CL-UI-83 (owner實測): the card-face green status banner (indicator pill)
@@ -1808,7 +1814,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // rows use. A not_recommended tier keeps the ✗ line honest instead of
       // inventing a ✓ from the eval bundle's hours.
       const clFallbackRows=(()=>{if(staleInfo.stale||!v2Evaluated||!v2Best||!v2Best.hours||clSubjectRows)return '';if(scRow&&scRow.tier==='not_recommended')return `<div class="cl-subject-rows">${clSubjectRowHtml({name:d().v2_tier_not_recommended+(scTierReason?' · '+scTierReason:''),window:[]},false)}</div>`;return `<div class="cl-subject-rows">${clSubjectRowHtml({name:d().v2_tier_shootable,window:v2Best.hoursList},false)}</div>`;})();
-      const v2Summary=(v2Best&&!v2Best.hours)?`<div class="theme-winner v2-none">${v2NoWindowLine(spot,v2Best)}${remBtn}</div>${scSecondLine}`:'';
+      const v2Summary=(v2Best&&!v2Best.hours)?`<div class="theme-winner v2-none">${v2NoWindowLine(spot,v2Best,scTier)}${remBtn}</div>${scSecondLine}`:'';
       // CL-UI-91 (owner): the evaluated no-window cards — the deferred
       // population (○可拍 窗已過 / ✗不宜) — render ONE tier row through the
       // SAME cl-subject-row anatomy (clNoWinName + next window stamp +

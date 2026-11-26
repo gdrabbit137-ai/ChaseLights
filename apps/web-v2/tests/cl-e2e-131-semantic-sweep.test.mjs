@@ -523,6 +523,18 @@ test('CL-E2E-131 (2) DAY+NIGHT — no physically impossible sunrise/sunset windo
     await assertClock(fixed, hour, scenario);
     await waitForCardData(`the ${scenario} card list never received its evaluation data`);
 
+    // The default tier tab (✓推薦) can hide every card that carries an astro
+    // subject on a given day — the gate would then report "blind" while the
+    // impossible label is one tab away. Widen to the 🌐 全部 tab first: the
+    // rule stays strict (every 日出/日落 label found must be physically sane),
+    // but the sweep looks at the full list, not only the recommended slice.
+    await evaljs(`(() => {
+      const b = document.querySelector('#tier-tabs button[data-tier="all"]');
+      if (b && b.getAttribute('aria-selected') !== 'true') b.click();
+      return true;
+    })()`);
+    await sleep(800);
+
     // Pick the spot the sweep will inspect: the first rendered card that carries
     // an astro window label. A spot with no 日出/日落 subject has no label at all
     // — skipping it is honest (the sweep-wide rule below still fails if NOTHING

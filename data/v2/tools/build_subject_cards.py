@@ -525,7 +525,22 @@ def derive_place_days(bundle, genres, fails):
                     if genre_short is None:
                         unknown_metrics.add("genre:%s" % genre)
                         continue
-                    row["suitable"].append({
+                    # CL-E2E-131: an all-day panorama subject whose sunrise/
+                    # sunset window is only a MODIFIER (CL-DATA-12 audit) must
+                    # not be labelled with the astro genre name on the card —
+                    # 「日出: 11:00–16:00」 is physically impossible and the
+                    # semantic gate rightly rejects it. Keep the subject
+                    # (its daylight window is real) but label the row with the
+                    # opportunity's own name so the card never claims a
+                    # midday sunrise.
+                    win_metric = {"sunrise": "sunrise_time_window",
+                                  "sunset": "sunset_window"}.get(genre)
+                    win_cond = next((c for c in day.get("conditions", [])
+                                     if c.get("metric") == win_metric), None)
+                    label_override = bool(
+                        win_cond and not (win_cond.get("role") == "REQUIRED"
+                                          and win_cond.get("tier") == "MAIN"))
+                    entry = {
                         # CL-UI-73: the genre id rides along so the hourly
                         # buckets can reference the artifact-level dictionary
                         # instead of duplicating trilingual dicts per hour.
@@ -539,7 +554,10 @@ def derive_place_days(bundle, genres, fails):
                         "window_metrics": sorted({
                             c.get("metric") for c in day.get("conditions", [])
                             if c.get("metric") in WINDOW_METRICS}),
-                    })
+                    }
+                    if label_override:
+                        entry["name"] = dict(opp.get("name_i18n") or {})
+                    row["suitable"].append(entry)
                 elif state == "UNFAVORABLE":
                     row["failed"] = True
                     conds = list(day.get("conditions", []))
