@@ -23,7 +23,14 @@ metric_priority, then REQUIRED>QUALITY, MAIN>other tiers, then declaration
 order; fallback REQUIRED+MAIN UNKNOWN, then PARTIAL with pass_hours=0, then
 CL-UI-65: any PARTIAL condition, fewest pass_hours first — an UNFAVORABLE day
 whose conditions only PARTIAL (no FAIL hour) still owes the card a reason);
-highest vote count wins, ties break to earlier metric_priority then metric id.
+highest vote count wins, ties break to earlier metric_priority then metric id;
+CAVEAT_METRICS (data_contradiction 「資料矛盾」, a data-quality flag) only
+compete when every vote is a caveat — a caveat never hides the weather.
+CL-PHYS-02: a SKY veto (SKY_VETO_METRICS: in_cloud_fog 「雲霧籠罩」 /
+cloud_sea_inversion 「逆溫濕層不足」) that FAILED the subject-day is the
+subject's core violation by construction, and any vote for one is decisive at
+place-day level (see day_dominant_metric, the single rule both the generator
+and its tests call).
 CL-UI-70 (CHALLENGER-13): time-window metrics (WINDOW_METRICS below) never
 vote when the window occurred (pass_hours > 0) — the day reason is then a
 weather word; they vote only when the window did not occur (pass_hours == 0)
@@ -213,32 +220,43 @@ WINDOW_METRICS = frozenset((
 # place-day dominant vote.
 QUALIFICATION_METRICS = frozenset(
     ("seasonal_state", "landform_present", "light_direction"))
-# CL-PHYS-02 (stage 1): the evaluation-layer gates that can veto a day —
-# In-Cloud Fog (「雲霧籠罩」), the raw low-cloud/visibility contradiction
-# (「資料矛盾／山區易起霧」) and the cloud-sea inversion primary criterion.
-# A gate that FAILED the day SUPERSEDES the ordinary vote: it is the honest
-# reason the subject was blocked, not the weather field it happens to
-# coincide with (a white-out day also "fails visibility"). This precedence
-# lives here instead of the priority table so the shipped legacy head order
-# (precipitation, visibility, ...) stays byte-identical.
-PHYS_GATE_REASON_ORDER = ("in_cloud_fog", "data_contradiction",
-                          "cloud_sea_inversion")
+# CL-PHYS-02 (stage 1, owner rule 2026-11-27): the evaluation-layer gates
+# split into two classes that must NOT share precedence.
+#
+# SKY_VETO_METRICS describe the SKY and are decisive: In-Cloud Fog
+# (「雲霧籠罩」) is the honest reason a white-out day was blocked, not the
+# weather field it happens to trip alongside (a white-out also "fails
+# visibility"); the cloud-sea inversion moisture layer (「逆溫濕層不足」) is
+# the cloud sea's real primary criterion. Both SUPERSEDE the ordinary vote.
+#
+# CAVEAT_METRICS are data-quality flags: data_contradiction (「資料矛盾」) =
+# low cloud >= 90 % while raw visibility >= 10 km, i.e. the provider fields
+# disagree. That is a caveat about the data, never the weather itself, so it
+# may only name a day that has no concrete weather reason — it must never
+# hide the actual weather (tw-188 2026-11-26: thick cloud FAIL alongside a
+# 4-hour contradiction PARTIAL must read 「厚雲」, not 「資料矛盾」).
+# Precedence lives here instead of the priority table so the shipped legacy
+# head order (precipitation, visibility, ...) stays byte-identical.
+SKY_VETO_METRICS = ("in_cloud_fog", "cloud_sea_inversion")
+CAVEAT_METRICS = frozenset(("data_contradiction",))
 
 
 def _core_violation_metric(conds, priority_map):
     """One metric id (or None) = the subject's most core violated condition."""
-    # CL-PHYS-02: a CL-PHYS-02 gate that failed this day is the core
-    # violation by construction — the gate IS the reason the subject was
-    # blocked (In-Cloud Fog 「雲霧籠罩」 / contradiction 「資料矛盾」), not the
-    # weather field that happens to trip alongside it. Gate order decides
-    # ties (fewest passing hours first, then PHYS_GATE_REASON_ORDER).
+    # CL-PHYS-02: a SKY veto that failed this day is the core violation by
+    # construction — the gate IS the reason the subject was blocked (In-Cloud
+    # Fog 「雲霧籠罩」 / cloud-sea inversion 「逆溫濕層不足」), not the weather
+    # field that happens to trip alongside it. Gate order decides ties (fewest
+    # passing hours first, then SKY_VETO_METRICS order). A data-quality CAVEAT
+    # (data_contradiction 「資料矛盾」) is NOT in this branch: it competes like
+    # any other condition and is demoted below (see `pool`).
     gate_fails = [c for c in conds
-                  if c.get("metric") in PHYS_GATE_REASON_ORDER
+                  if c.get("metric") in SKY_VETO_METRICS
                   and c.get("day_verdict") == "FAIL"]
     if gate_fails:
         return min(gate_fails, key=lambda c: (
             c.get("pass_hours", 0),
-            PHYS_GATE_REASON_ORDER.index(c["metric"])))["metric"]
+            SKY_VETO_METRICS.index(c["metric"])))["metric"]
     # CL-UI-70: whether any weather-class condition shows a concrete problem.
     # Weather-class = neither a time window nor a per-subject qualification.
     weather_trouble = any(
@@ -271,9 +289,65 @@ def _core_violation_metric(conds, priority_map):
                     and _vote_eligible(c)]
     if not pool:
         return None
+    # The data-quality caveat never preempts a weather reason: when the pool
+    # holds any non-caveat condition, the caveat leaves it (owner rule — a
+    # caveat must not hide the actual weather). It still names the subject
+    # when it is the ONLY thing wrong (a contradiction with clear weather).
+    weather_pool = [c for c in pool if c.get("metric") not in CAVEAT_METRICS]
+    if weather_pool:
+        pool = weather_pool
     best = min(pool, key=lambda c: (c.get("pass_hours", 0),
                                     _condition_sort_key(c, priority_map)))
     return best.get("metric")
+
+
+def subject_core_vote(day, priority_map):
+    """The single metric one UNFAVORABLE subject-day votes for (None = abstain).
+
+    The builder's own entry point to the documented core-violation rule — the
+    tests call THIS instead of re-deriving the order, so the assertion can
+    never drift from the generator.
+    """
+    conds = list(day.get("conditions", []))
+    for i, c in enumerate(conds):
+        c["_order"] = i
+    return _core_violation_metric(conds, priority_map)
+
+
+def place_day_votes(place, date, priority_map):
+    """The per-metric vote tally for one place-day, exactly as the builder
+    derives it (the mounted `general` opportunity contributes no votes)."""
+    votes = {}
+    for opp in place.get("opportunities", []):
+        if opp.get("genre_template") == "general":
+            continue
+        for day in opp.get("days", []):
+            if day.get("local_date") != date or day.get("state") != "UNFAVORABLE":
+                continue
+            metric = subject_core_vote(day, priority_map)
+            if metric is not None:
+                votes[metric] = votes.get(metric, 0) + 1
+    return votes
+
+
+def day_dominant_metric(votes, priority_map):
+    """Place-day dominant metric from the vote tally (None = no vote).
+
+    Precedence (documented in fail_reason_short.json):
+      1. a SKY veto with any vote is decisive (most votes, then
+         SKY_VETO_METRICS order) — 「雲霧籠罩」 is the reason, not the field;
+      2. otherwise the most-voted metric, ties to the earlier metric_priority
+         entry, then metric id — but CAVEAT_METRICS only compete when every
+         vote is a caveat, so 「資料矛盾」 can never hide the weather.
+    """
+    if not votes:
+        return None
+    sky = [m for m in SKY_VETO_METRICS if votes.get(m)]
+    if sky:
+        return max(sky, key=lambda m: (votes[m], -SKY_VETO_METRICS.index(m)))
+    pool = {m: n for m, n in votes.items() if m not in CAVEAT_METRICS} or dict(votes)
+    return min(sorted(pool),
+               key=lambda m: (-pool[m], priority_map.get(m, len(priority_map)), m))
 
 
 def general_view_scale(genre_templates):
@@ -582,10 +656,7 @@ def derive_place_days(bundle, genres, fails):
                     row["suitable"].append(entry)
                 elif state == "UNFAVORABLE":
                     row["failed"] = True
-                    conds = list(day.get("conditions", []))
-                    for i, c in enumerate(conds):
-                        c["_order"] = i
-                    metric = _core_violation_metric(conds, priority)
+                    metric = subject_core_vote(day, priority)
                     if metric is not None:
                         row["votes"][metric] = row["votes"].get(metric, 0) + 1
 
@@ -611,16 +682,12 @@ def derive_place_days(bundle, genres, fails):
             best = None
             dominant_source = None
             if row["votes"]:
-                # CL-PHYS-02: a failed gate names the day reason ahead of the
-                # ordinary priority vote (see PHYS_GATE_REASON_ORDER).
-                gate_votes = [m for m in PHYS_GATE_REASON_ORDER
-                              if row["votes"].get(m)]
-                if gate_votes:
-                    best = max(gate_votes, key=lambda m: (
-                        row["votes"][m],
-                        -PHYS_GATE_REASON_ORDER.index(m)))
-                else:
-                    best = min(sorted(row["votes"]), key=lambda m: (-row["votes"][m], prio_index(m), m))
+                # CL-PHYS-02: the day-level rule (sky veto decisive, caveat
+                # demoted) lives in day_dominant_metric so the tests can
+                # exercise it instead of re-implementing the order.
+                best = day_dominant_metric(row["votes"], priority)
+                if best is not None:
+                    prio_index(best)  # records an unlisted metric id
                 dominant = short_word(best)
                 dominant_source = "curated_votes"
             elif baseline["reason_short"] is not None and (

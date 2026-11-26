@@ -76,7 +76,9 @@ class DictionaryCoverageTests(unittest.TestCase):
         rule = self.fails_doc["dominant_reason_rule"]
         # CL-UI-70: rule_version 1.1 — window metrics abstain when the window
         # occurred; qualification metrics never vote at place-day level.
-        self.assertEqual(rule["rule_version"], "1.1")
+        # CL-PHYS-02 rule_version 1.2 — sky vetoes are decisive, the
+        # data-quality caveat is demoted below every weather reason.
+        self.assertEqual(rule["rule_version"], "1.2")
         for lang in ("zh-TW", "en"):
             self.assertGreater(len(rule[lang]), 40)
 
@@ -107,7 +109,7 @@ class DerivedArtifactTests(unittest.TestCase):
     def test_provenance(self):
         d = self.artifact["derived_from"]
         self.assertEqual(d["generator"], "data/v2/tools/build_subject_cards.py")
-        self.assertEqual(d["rule_version"], "1.1")
+        self.assertEqual(d["rule_version"], "1.2")
         self.assertTrue((EVAL_DIR / d["source_bundle"]).exists())
 
     def test_generator_determinism_fresh_derivation_equals_artifact(self):
@@ -197,32 +199,36 @@ class DerivedArtifactTests(unittest.TestCase):
         self.assertGreater(rows, 3000)
 
     def test_dominant_metric_voted_by_failed_subjects(self):
-        """dominant_metric must be the highest-vote core violation per the rule."""
+        """dominant_metric must be the day rule applied to the failed-subject votes.
+
+        The expectation is computed with the BUILDER's own helpers
+        (place_day_votes -> day_dominant_metric), never a re-implementation:
+        the rules that decide a subject's core violation and the place-day
+        precedence (sky veto decisive, data-quality caveat demoted below any
+        weather reason) live in build_subject_cards and are asserted here by
+        calling them. A hardcoded order here previously drifted from the
+        generator (tw-188 2026-11-26 read 「資料矛盾」 over 「厚雲」).
+        """
         genres, fails = bsc.load_copy()
         priority = {m: i for i, m in enumerate(fails["metric_priority"])}
         for place in self.bundle["places"]:
             dates = {d["local_date"] for o in place["opportunities"] for d in o["days"]}
             for date in dates:
                 row = self.artifact["places"][place["place_id"]][date]
-                day_votes = {}
-                for opp in place["opportunities"]:
-                    # CL-UI-65 owner ruling: the mounted general opportunity is
-                    # superseded by the derived general_baseline — it contributes
-                    # no chips and no votes (build_subject_cards skips it).
-                    if opp.get("genre_template") == "general":
-                        continue
-                    for day in opp["days"]:
-                        if day["local_date"] != date or day["state"] != "UNFAVORABLE":
-                            continue
-                        conds = list(day["conditions"])
-                        for i, c in enumerate(conds):
-                            c["_order"] = i
-                        metric = bsc._core_violation_metric(conds, priority)
-                        if metric is not None:
-                            day_votes[metric] = day_votes.get(metric, 0) + 1
+                day_votes = bsc.place_day_votes(place, date, priority)
+                expected = bsc.day_dominant_metric(day_votes, priority)
                 if day_votes and row["dominant_reason"] is not None:
-                    expected = min(sorted(day_votes), key=lambda m: (-day_votes[m], priority.get(m, len(priority)), m))
-                    self.assertEqual(row["dominant_metric"], expected, f"{place['place_id']} {date}")
+                    self.assertEqual(row["dominant_metric"], expected,
+                                     f"{place['place_id']} {date} votes={day_votes}")
+                    self.assertEqual(row["dominant_source"], "curated_votes",
+                                     f"{place['place_id']} {date}")
+                    # The owner rule, stated as an invariant of the row
+                    # itself: a data-quality caveat may only name a day whose
+                    # every vote is a caveat — never one that has a weather
+                    # or sky reason to show.
+                    if row["dominant_metric"] in bsc.CAVEAT_METRICS:
+                        self.assertEqual(set(day_votes), bsc.CAVEAT_METRICS,
+                                         f"{place['place_id']} {date}: caveat hides {day_votes}")
                 elif not day_votes:
                     # CL-UI-65: without curated votes the reason may only come
                     # from the general-baseline fallback (or stay honestly null).
@@ -233,6 +239,41 @@ class DerivedArtifactTests(unittest.TestCase):
                                          row["general_baseline"]["reason_short"])
                     else:
                         self.assertEqual(row["dominant_source"], None)
+
+    def test_day_precedence_sky_veto_over_weather_over_caveat(self):
+        """CL-PHYS-02 precedence, as a rule (not an artifact expectation).
+
+        in_cloud_fog (hard sky veto) outranks any weather vote, which in turn
+        outranks data_contradiction (data-quality caveat); the caveat only
+        names a day when nothing else is wrong.
+        """
+        priority = {m: i for i, m in enumerate(
+            json.loads((COPY_DIR / "fail_reason_short.json").read_bytes().decode("utf-8"))["metric_priority"])}
+        self.assertEqual(bsc.day_dominant_metric(
+            {"data_contradiction": 2, "cloud_cover_mid_and_high": 1}, priority),
+            "cloud_cover_mid_and_high")
+        self.assertEqual(bsc.day_dominant_metric(
+            {"in_cloud_fog": 1, "cloud_cover_mid_and_high": 3}, priority),
+            "in_cloud_fog")
+        self.assertEqual(bsc.day_dominant_metric({"data_contradiction": 2}, priority),
+                         "data_contradiction")
+        # a contradiction condition never outranks the weather condition of
+        # the SAME failed subject either (tw-188-P02 shape)
+        conds = [
+            {"metric": "sunset_window", "role": "REQUIRED", "tier": "MAIN",
+             "day_verdict": "FAIL", "pass_hours": 0},
+            {"metric": "cloud_cover_mid_and_high", "role": "QUALITY",
+             "tier": "MODIFIER", "day_verdict": "FAIL", "pass_hours": 0},
+            {"metric": "data_contradiction", "role": "REQUIRED", "tier": "MAIN",
+             "day_verdict": "PARTIAL", "pass_hours": 4},
+        ]
+        self.assertEqual(bsc._core_violation_metric(conds, priority),
+                         "cloud_cover_mid_and_high")
+        # the sky veto still wins over that same weather condition
+        conds.append({"metric": "in_cloud_fog", "role": "REQUIRED",
+                      "tier": "MAIN", "day_verdict": "FAIL", "pass_hours": 3})
+        self.assertEqual(bsc._core_violation_metric(conds, priority),
+                         "in_cloud_fog")
 
     def test_lf_bytes_for_committed_data_files(self):
         for path in (ARTIFACT, COPY_DIR / "genre_short_names.json", COPY_DIR / "fail_reason_short.json"):

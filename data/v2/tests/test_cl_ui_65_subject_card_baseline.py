@@ -391,6 +391,7 @@ class ClUi70FullCatalogVoteTests(unittest.TestCase):
         bundle = json.loads((EVAL_DIR / self.artifact["derived_from"]["source_bundle"])
                             .read_bytes().decode("utf-8"))
         checked = 0
+        curated_rows = 0
         baseline_checked = 0
         for place in bundle["places"]:
             rows = self.artifact["places"].get(place["place_id"], {})
@@ -402,6 +403,8 @@ class ClUi70FullCatalogVoteTests(unittest.TestCase):
                     conds_by_date.setdefault(day["local_date"], []).extend(
                         day["conditions"])
             for date, row in rows.items():
+                if row.get("dominant_source") == "curated_votes":
+                    curated_rows += 1
                 if row.get("dominant_metric") not in bsc.WINDOW_METRICS:
                     continue
                 if row.get("dominant_source") == "general_baseline":
@@ -434,7 +437,23 @@ class ClUi70FullCatalogVoteTests(unittest.TestCase):
                                  "%s %s: window occurred but dominates (%s)"
                                  % (place["place_id"], date,
                                     row["dominant_metric"]))
-        self.assertLess(checked, 100)
+        # Sanity bound (the invariant above is the real assertion). A window
+        # may only name a day whose window never occurred (CL-UI-70), which is
+        # a genuinely rare day shape: the 2026-11-26 artifact has 102 such
+        # rows — one per affected place, 4.2 % of the 2408 curated-vote rows —
+        # so the old absolute `checked < 100` was a stale catalog-size literal,
+        # not a property of the rule. Proportion instead: if window metrics
+        # ever crown ordinary failed days again (the CHALLENGER-13 defect),
+        # they become a large share of the day reasons rather than a 4 % tail.
+        # 25 % leaves ~6x headroom over today's value while still failing that
+        # regression; `checked > 0` guards the scan itself going silently
+        # empty after an artifact/schema change.
+        self.assertGreater(checked, 0, "window-abstain invariant exercised no row")
+        self.assertLessEqual(checked, curated_rows * 0.25,
+                             "%d of %d curated-vote rows name a window metric"
+                             % (checked, curated_rows))
+        self.assertLess(checked, len(bundle["places"]) * 0.5,
+                        "window-dominant days must stay a minority of places")
 
     def test_no_qualification_metric_ever_dominates(self):
         for pid, rows in self.artifact["places"].items():

@@ -162,8 +162,9 @@ class DatunshanWhiteWallRegression(unittest.TestCase):
         # summit — but that is the SUMMIT CELL's base, not a valley deck, so
         # the inversion criterion ABSTAINS (UNKNOWN → 資料不足) instead of
         # failing on a geometry this model cannot see (CL-DATA-85). The
-        # in-cloud block is still the gate that names the hour, because
-        # PHYS_GATE_REASON_ORDER puts in_cloud_fog first.
+        # in-cloud block is still the gate that names the hour, because the
+        # evaluation-layer gate precedence puts in_cloud_fog first (see
+        # data/v2/tools/build_subject_cards.py SKY_VETO_METRICS).
         self.assertEqual(self.states["EVALGATE-data-contradiction"], "PASS")
         self.assertEqual(self.states["EVALGATE-cloud-sea-inversion"], "UNKNOWN")
         gate = eb.cloud_sea_inversion_state(datunshan_values(), 1092.0)
