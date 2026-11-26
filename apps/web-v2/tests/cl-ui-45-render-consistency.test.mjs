@@ -258,10 +258,17 @@ test('CL-UI-45 (2): the cloud base is ASL-only; the legacy 60 m floor is 資料�
   if (existsSync(shardPath)) {
     const shard = JSON.parse(readFileSync(shardPath, 'utf8'));
     const elev = shard.spot.elevation != null ? shard.spot.elevation : shard.spot.api_elevation;
+    // The shard is a bonus cross-check, not the contract: the formatter's
+    // behaviour is asserted above with synthetic values. Demand nothing about
+    // which rows a served shard happens to contain — the floor disappears once
+    // the shards are regenerated, and that must not red the gate.
     const floored = (shard.spot.hourly_forecast || []).find(h => h.cloud_base_agl === 60);
-    assert.ok(floored, 'the served shard carries legacy 60 m rows');
-    assert.equal(fn.clui45CloudBaseText(floored.cloud_base_asl, floored.cloud_base_agl, elev), '資料下限',
-      'a served 60 m row is labelled 資料下限, never shown as a measured ASL base');
+    if (floored) {
+      assert.equal(fn.clui45CloudBaseText(floored.cloud_base_asl, floored.cloud_base_agl, elev), '資料下限',
+        'a served 60 m row is labelled 資料下限, never shown as a measured ASL base');
+    } else {
+      console.log('# CL-UI-45 (2): served shard carries no legacy 60 m row (floor already gone)');
+    }
   }
   assert.match(appSource, /th_cloud_base:'雲底高度（海拔）'/);
   assert.match(appSource, /th_cloud_base:'Cloud base \(ASL\)'/);
