@@ -664,7 +664,15 @@ def prefix_cloud_base_verdict(condition, values, require_viewpoint=True):
     return ("PASS" if passed else "FAIL"), "PREFIX_AGL"
 
 
-BASELINE_ROOT = os.environ.get("CL_PHYS_02_BASELINE_ROOT")
+# The integration gate refuses a skipped case ("SKIP/expected failure cannot
+# satisfy integration"), and a floating `origin/main` stops being "before" as
+# soon as the fix merges — so the before leg is a COMMITTED transcript of the
+# same script run against 71b1299a2 (the last main before the datum fix). The
+# after leg runs the shipped tree in this process. Reproducible everywhere,
+# no worktree, no environment variable, nothing skipped.
+BEFORE_COMMIT = "71b1299a2"
+BEFORE_FIXTURE = (ROOT / "packages/core-v2/tests/fixtures"
+                  / f"cl_phys_02_before_{BEFORE_COMMIT}.txt")
 
 
 class RealPathMainTests(unittest.TestCase):
@@ -782,9 +790,6 @@ class RealPathMainTests(unittest.TestCase):
         self.assertIn("in_cloud_fog", named)
 
 
-@unittest.skipUnless(BASELINE_ROOT and Path(BASELINE_ROOT).exists(),
-                     "set CL_PHYS_02_BASELINE_ROOT to a pristine origin/main "
-                     "worktree to run the real before/after contrast")
 class BaselineContrastTests(unittest.TestCase):
     """The contrast is REAL: the same fixture, two checkouts, two processes.
 
@@ -796,24 +801,33 @@ class BaselineContrastTests(unittest.TestCase):
 
     SCRIPT = ROOT / "packages/core-v2/tests/cl_phys_02_contrast.py"
 
+
     def run_tree(self, root):
         out = subprocess.run([sys.executable, str(self.SCRIPT), str(root)],
                              capture_output=True, text=True, timeout=600)
         self.assertEqual(out.returncode, 0, out.stderr[-2000:])
         return out.stdout
 
-    def test_origin_main_recommends_the_white_wall_branch_blocks_it(self):
-        before = self.run_tree(BASELINE_ROOT)
+    def test_before_transcript_is_the_pre_fix_behaviour(self):
+        """The committed before-leg must still show the bug the fix removed.
+
+        If this fails, either the fixture was hand-edited or the contrast script
+        changed what it prints — regenerate it from 71b1299a2, never edit it.
+        """
+        self.assertTrue(BEFORE_FIXTURE.exists(), str(BEFORE_FIXTURE))
+        before = BEFORE_FIXTURE.read_text(encoding="utf-8")
+        self.assertIn("state=GUIDANCE_SATISFIED", before,
+                      "the pre-fix tree recommended the white-wall day")
+        self.assertIn("lcl_height_m_agl: PASS", before,
+                      "the pre-fix verdict came from the AGL comparison")
+        self.assertNotIn("in_cloud_fog", before,
+                         "the pre-fix tree had no in-cloud gate at all")
+
+    def test_branch_blocks_the_white_wall(self):
         after = self.run_tree(ROOT)
-        # origin/main: raw AGL 25 < 892 PASS, no evaluation-layer gate at all.
-        self.assertIn("state=GUIDANCE_SATISFIED", before)
-        self.assertIn("lcl_height_m_agl: PASS", before)
-        self.assertNotIn("in_cloud_fog", before)
-        # branch: every day UNFAVORABLE, named by the in-cloud gate.
         self.assertNotIn("state=GUIDANCE_SATISFIED", after)
         self.assertIn("state=UNFAVORABLE", after)
         self.assertIn("in_cloud_fog: FAIL", after)
-        self.assertIn("in_cloud_fog", after)
 
 
 if __name__ == "__main__":
