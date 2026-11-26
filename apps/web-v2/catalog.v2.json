@@ -35003,7 +35003,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "jp-037-P02",
       "place_id": "jp-037",
-      "revision": 3,
+      "revision": 4,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "トマム朝景（雲海ゴンドラ時間帯）",
@@ -35273,9 +35273,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 1088 m − 200 m = 888 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（camera_context web-verified altitude_m 1088 m）− 200 m = 888 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (camera_context web-verified altitude_m 1088 m) - 200 m = 888 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（camera_context web-verified altitude_m 1088 m）− 200 m = 888 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（camera_context web-verified altitude_m 1088 m）− 200 m = 888 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (camera_context web-verified altitude_m 1088 m) - 200 m = 888 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（camera_context web-verified altitude_m 1088 m）− 200 m = 888 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],
@@ -95153,7 +95153,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "tw-035-P06",
       "place_id": "tw-035",
-      "revision": 4,
+      "revision": 5,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "六十石山觀景點下方縱谷雲海",
@@ -95462,9 +95462,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 944 m − 200 m = 744 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 944 m）− 200 m = 744 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 944 m) - 200 m = 744 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 944 m）− 200 m = 744 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 944 m）− 200 m = 744 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 944 m) - 200 m = 744 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 944 m）− 200 m = 744 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],
@@ -106205,7 +106205,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "tw-043-P02",
       "place_id": "tw-043",
-      "revision": 3,
+      "revision": 4,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "奇萊主稜夕照雲海",
@@ -106479,9 +106479,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 3560 m − 200 m = 3360 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 3560 m）− 200 m = 3360 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 3560 m) - 200 m = 3360 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 3560 m）− 200 m = 3360 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 3560 m）− 200 m = 3360 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 3560 m) - 200 m = 3360 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 3560 m）− 200 m = 3360 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],
@@ -111977,7 +111977,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "tw-047-P01",
       "place_id": "tw-047",
-      "revision": 4,
+      "revision": 5,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "喜多麗秋冬雲海",
@@ -112231,9 +112231,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 3092 m − 200 m = 2892 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 3092 m）− 200 m = 2892 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 3092 m) - 200 m = 2892 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 3092 m）− 200 m = 2892 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 3092 m）− 200 m = 2892 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 3092 m) - 200 m = 2892 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 3092 m）− 200 m = 2892 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],
@@ -112303,7 +112303,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "tw-047-P02",
       "place_id": "tw-047",
-      "revision": 3,
+      "revision": 4,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "喜多麗夕照雲海",
@@ -112577,9 +112577,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 3092 m − 200 m = 2892 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 3092 m）− 200 m = 2892 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 3092 m) - 200 m = 2892 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 3092 m）− 200 m = 2892 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 3092 m）− 200 m = 2892 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 3092 m) - 200 m = 2892 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 3092 m）− 200 m = 2892 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],
@@ -114089,7 +114089,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "tw-049-P03",
       "place_id": "tw-049",
-      "revision": 4,
+      "revision": 5,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "桃山雲海",
@@ -114372,9 +114372,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 3325 m − 200 m = 3125 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 3325 m）− 200 m = 3125 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 3325 m) - 200 m = 3125 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 3325 m）− 200 m = 3125 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 3325 m）− 200 m = 3125 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 3325 m) - 200 m = 3125 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 3325 m）− 200 m = 3125 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],
@@ -154051,7 +154051,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "tw-128-P01",
       "place_id": "tw-128",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "墨硯山苗栗琉璃光",
@@ -154317,9 +154317,9 @@
               "ja": "琉璃光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は本地点の帯 50–120 m に収まること。雲が視点（157 m）の下・街灯の上に掛かり、光が薄雲で散って琉璃光になる。帯外（快晴や雲が高い）では街灯が鋭く、散乱層がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：帶值照 catalog 記載（data/v2/audits/subject-lists/liuli-cloudheights.json，owner-gemini-liuliglow-30 清單）；觀點海拔＝camera_context web-verified altitude_m 157 m。評估值＝既有 LCL 代理 （lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）。",
-              "en": "CL-DATA-71: band values as recorded in the catalog (data/v2/audits/subject-lists/liuli-cloudheights.json, owner-gemini-liuliglow-30 list); viewpoint elevation = camera_context web-verified altitude_m 157 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground).",
-              "ja": "CL-DATA-71：帯値はカタログ記載どおり（data/v2/audits/subject-lists/liuli-cloudheights.json、owner-gemini-liuliglow-30 リスト）；視点高度＝camera_context web-verified altitude_m 157 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点から推算、視点グリッド地面上の高さ）。"
+              "zh-TW": "CL-DATA-71：帶值照 catalog 記載（data/v2/audits/subject-lists/liuli-cloudheights.json，owner-gemini-liuliglow-30 清單）；觀點海拔＝camera_context web-verified altitude_m 157 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻。",
+              "en": "CL-DATA-71: band values as recorded in the catalog (data/v2/audits/subject-lists/liuli-cloudheights.json, owner-gemini-liuliglow-30 list); viewpoint elevation = camera_context web-verified altitude_m 157 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold.",
+              "ja": "CL-DATA-71：帯値はカタログ記載どおり（data/v2/audits/subject-lists/liuli-cloudheights.json、owner-gemini-liuliglow-30 リスト）；視点高度＝camera_context web-verified altitude_m 157 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。"
             }
           }
         ],
@@ -165955,7 +165955,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "tw-145-P01",
       "place_id": "tw-145",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "東華聖宮琉璃光夜景",
@@ -166218,9 +166218,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 305 m − 200 m = 105 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 305 m）− 200 m = 105 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 305 m) - 200 m = 105 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 305 m）− 200 m = 105 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 305 m）− 200 m = 105 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 305 m) - 200 m = 105 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 305 m）− 200 m = 105 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],
@@ -167404,7 +167404,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "tw-148-P01",
       "place_id": "tw-148",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "中寮山蓮花亭琉璃夜景",
@@ -167667,9 +167667,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 401 m − 200 m = 201 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 401 m）− 200 m = 201 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 401 m) - 200 m = 201 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 401 m）− 200 m = 201 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 401 m）− 200 m = 201 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 401 m) - 200 m = 201 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 401 m）− 200 m = 201 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],
@@ -174861,7 +174861,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "tw-163-P01",
       "place_id": "tw-163",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "半天岩嘉義市區琉璃夜景",
@@ -175124,9 +175124,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 418 m − 200 m = 218 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 418 m）− 200 m = 218 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 418 m) - 200 m = 218 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 418 m）− 200 m = 218 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 418 m）− 200 m = 218 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 418 m) - 200 m = 218 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 418 m）− 200 m = 218 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],
@@ -182094,7 +182094,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "tw-179-P01",
       "place_id": "tw-179",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "碧山巖台北盆地琉璃夜景",
@@ -182357,9 +182357,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 253 m − 200 m = 53 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 253 m）− 200 m = 53 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 253 m) - 200 m = 53 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 253 m）− 200 m = 53 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 253 m）− 200 m = 53 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 253 m) - 200 m = 53 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 253 m）− 200 m = 53 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],
@@ -237698,7 +237698,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "us-087-P01",
       "place_id": "us-087",
-      "revision": 5,
+      "revision": 6,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "Hurricane Ridge・Olympic Mountains 山岳層次／雲海",
@@ -237978,9 +237978,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 1590 m − 200 m = 1390 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 1590 m）− 200 m = 1390 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 1590 m) - 200 m = 1390 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 1590 m）− 200 m = 1390 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（catalog DEM (V1 spot catalog api_elevation) 1590 m）− 200 m = 1390 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (catalog DEM (V1 spot catalog api_elevation) 1590 m) - 200 m = 1390 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（catalog DEM (V1 spot catalog api_elevation) 1590 m）− 200 m = 1390 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           },
           {
@@ -248621,7 +248621,7 @@
       "schema_version": "2.2.0",
       "opportunity_id": "us-113-P01",
       "place_id": "us-113",
-      "revision": 2,
+      "revision": 3,
       "lifecycle_status": "draft",
       "name_i18n": {
         "zh-TW": "哈雷阿卡拉山頂雲海日出",
@@ -248866,9 +248866,9 @@
               "ja": "雲海/雲瀑/夜光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は視線マージンより低いこと（視点 3055 m − 200 m = 2855 m、雲海族 DEM−200 慣例）；快晴時は雲底が閾値を大きく超え、下方に雲がなく題材は成立しない。"
             },
             "notes_i18n": {
-              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（camera_context web-verified altitude_m 3055 m）− 200 m = 2855 m。評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。",
-              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (camera_context web-verified altitude_m 3055 m) - 200 m = 2855 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground); a missing viewpoint elevation propagates UNKNOWN honestly.",
-              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（camera_context web-verified altitude_m 3055 m）− 200 m = 2855 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；視点高度が欠落する場合は誠実に unknown 伝播。"
+              "zh-TW": "CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得：觀點海拔（camera_context web-verified altitude_m 3055 m）− 200 m = 2855 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 propagate_unknown。",
+              "en": "CL-DATA-71: no cloud-base band is recorded for this place in the catalog, so the threshold follows the derivation rule: viewpoint elevation (camera_context web-verified altitude_m 3055 m) - 200 m = 2855 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold; a missing viewpoint elevation propagates UNKNOWN honestly.",
+              "ja": "CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による：視点高度（camera_context web-verified altitude_m 3055 m）− 200 m = 2855 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。視点高度が欠落する場合は誠実に unknown 伝播。"
             }
           }
         ],

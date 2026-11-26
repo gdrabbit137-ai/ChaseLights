@@ -18,6 +18,8 @@ from __future__ import annotations
 import contextlib
 import importlib.util
 import json
+import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -71,6 +73,8 @@ def contract_doc(opportunity_id):
 def evaluated_conditions(contract, viewpoint_elevation_m):
     """The evaluation-layer condition set: demotion + bound viewpoint + gates."""
     conditions = eb.demote_cloud_sea_lcl(list(contract["conditions"]), contract)
+    conditions = eb.demote_unresolvable_cloud_base(
+        conditions, contract, viewpoint_elevation_m)
     for condition in conditions:
         if condition.get("metric") in ("cloud_base_height", "lcl_height_m_agl"):
             condition["viewpoint_elevation_m"] = viewpoint_elevation_m
@@ -155,13 +159,15 @@ class DatunshanWhiteWallRegression(unittest.TestCase):
     def test_several_gates_agree_on_the_same_hour(self):
         # 低雲 100 % with 2.84 km visibility is internally consistent (no
         # contradiction tag). The 1107 m ASL deck sits ABOVE the 1092 m
-        # summit, so it is a ceiling, not a cloud sea: the inversion gate
-        # FAILS on deck height (reviewer blocker 3). The in-cloud block is
-        # still the gate that names the hour, because PHYS_GATE_REASON_ORDER
-        # puts in_cloud_fog first.
+        # summit — but that is the SUMMIT CELL's base, not a valley deck, so
+        # the inversion criterion ABSTAINS (UNKNOWN → 資料不足) instead of
+        # failing on a geometry this model cannot see (CL-DATA-85). The
+        # in-cloud block is still the gate that names the hour, because
+        # PHYS_GATE_REASON_ORDER puts in_cloud_fog first.
         self.assertEqual(self.states["EVALGATE-data-contradiction"], "PASS")
-        self.assertEqual(self.states["EVALGATE-cloud-sea-inversion"], "FAIL")
+        self.assertEqual(self.states["EVALGATE-cloud-sea-inversion"], "UNKNOWN")
         gate = eb.cloud_sea_inversion_state(datunshan_values(), 1092.0)
+        self.assertEqual(gate["state"], "UNKNOWN")
         self.assertEqual(gate["reason_code"], "DECK_AT_OR_ABOVE_VIEWPOINT")
         self.assertEqual(gate["deck_ceiling_asl_m"], 1107.0)
         self.assertIn("EVALGATE-in-cloud-fog",
@@ -289,16 +295,51 @@ class CloudSeaInversionTests(unittest.TestCase):
         self.assertEqual(cell["value"], "inversion")
         self.assertEqual(cell["deck_ceiling_asl_m"], 1087.0)
 
-    def test_high_deck_above_the_summit_is_not_a_cloud_sea(self):
-        # Reviewer blocker 3: grid 1082 + LCL 1200 = 2282 m ASL — a ceiling
-        # well above the summit. The humidity pair alone must not bless it.
+    def test_high_deck_above_the_summit_abstains_never_fails(self):
+        # Reviewer COND 1: grid 1082 + LCL 1200 = 2282 m ASL — the SUMMIT
+        # cell's base is overhead. A valley deck is invisible to this model
+        # (CL-DATA-85), so the criterion must abstain (資料不足), not call
+        # 逆溫濕層不足 on humidity structure that actually passed.
         cell = self.state(self.values(rh850=95, low=80, lcl=1200))
-        self.assertEqual(cell["value"], "no_inversion")
+        self.assertEqual(cell["state"], "UNKNOWN")
+        self.assertIsNone(cell["value"])
         self.assertEqual(cell["reason_code"], "DECK_AT_OR_ABOVE_VIEWPOINT")
         self.assertEqual(cell["deck_ceiling_asl_m"], 2282.0)
+        self.assertFalse(cell["deck_below_viewpoint"])
+        self.assertTrue(cell["humid_structure"])
         gate = dict(eb.CLOUD_SEA_INVERSION_GATE, viewpoint_elevation_m=self.VIEW)
-        self.assertEqual(eb.phys_gate_verdict(
-            gate, self.values(rh850=95, low=80, lcl=1200))[0], "FAIL")
+        verdict, detail = eb.phys_gate_verdict(
+            gate, self.values(rh850=95, low=80, lcl=1200))
+        self.assertEqual(verdict, "UNKNOWN")
+        self.assertEqual(detail,
+                         "CLOUD_SEA_INVERSION_DECK_AT_OR_ABOVE_VIEWPOINT")
+        # and the hour is NOT_EVALUABLE, never UNFAVORABLE: 資料不足, not 不宜.
+        roles = {gate["id"]: gate["role"]}
+        self.assertEqual(eb.hour_status(roles, {gate["id"]: verdict})[0],
+                         "NOT_EVALUABLE")
+
+    def test_dry_summit_above_a_valley_sea_is_unknown(self):
+        # The reviewer's exact case: LCL 800 m AGL over the 1082 m grid =
+        # 1882 m ASL ceiling, RH850 96 %, 低雲 80 %. Humidity says "a sea
+        # exists", the summit-cell base says "overhead" — the model cannot
+        # place the valley deck, so the answer is 資料不足 (UNKNOWN).
+        values = self.values(rh850=96, low=80, lcl=800)
+        cell = self.state(values)
+        self.assertEqual((cell["state"], cell["reason_code"]),
+                         ("UNKNOWN", "DECK_AT_OR_ABOVE_VIEWPOINT"))
+        gate = dict(eb.CLOUD_SEA_INVERSION_GATE, viewpoint_elevation_m=self.VIEW)
+        verdict, _detail = eb.phys_gate_verdict(gate, values)
+        self.assertEqual(verdict, "UNKNOWN")
+
+    def test_the_twelve_equal_elevation_spots_survive_only_at_lcl_zero(self):
+        # Cond 1's scan: for a spot whose viewpoint equals its grid, the
+        # modelled deck is below the viewpoint ONLY at LCL == 0. Anything
+        # above abstains; the humidity pair still decides when it does not.
+        for lcl, expected in ((0, "AVAILABLE"), (1, "UNKNOWN"), (800, "UNKNOWN")):
+            cell = self.state(self.values(rh850=96, low=80, lcl=lcl, grid=1092.0))
+            self.assertEqual(cell["state"], expected, lcl)
+            if expected == "AVAILABLE":
+                self.assertEqual(cell["value"], "inversion")
 
     def test_refused_lcl_caps_the_deck_at_the_grid_ground(self):
         # Supersaturated along with a humid deck: the deck cannot be above the
@@ -324,7 +365,7 @@ class CloudSeaInversionTests(unittest.TestCase):
         gate = dict(eb.CLOUD_SEA_INVERSION_GATE)
         verdict, detail = eb.phys_gate_verdict(gate, self.values(rh850=92))
         self.assertEqual(verdict, "UNKNOWN")
-        self.assertEqual(detail, "CLOUD_SEA_INVERSION_UNAVAILABLE")
+        self.assertEqual(detail, "CLOUD_SEA_INVERSION_INVERSION_CELLS_UNAVAILABLE")
 
     def test_missing_viewpoint_is_unknown_not_a_guess(self):
         values = self.values(rh850=92, low=70, lcl=5)
@@ -406,9 +447,58 @@ class CloudSeaLclDemotionTests(unittest.TestCase):
                             if c["metric"] == "cloud_base_height")
             self.assertEqual(original["role"], "REQUIRED", oid)
 
-    def test_non_cloud_sea_genre_is_untouched(self):
+    def test_non_cloud_sea_genre_is_demoted_too(self):
+        # Reviewer COND 3: outside cloud_sea the DEM−200 window is REGARDED as
+        # advisory when it sits below the viewpoint ground — the nine dead
+        # subjects must not be pinned at 不宜 forever.
         contract = contract_doc("tw-145-P01")["condition_contract"]
-        conditions = eb.demote_cloud_sea_lcl(list(contract["conditions"]), contract)
+        conditions = eb.demote_unresolvable_cloud_base(
+            list(contract["conditions"]), contract, 305.0)
+        window = next(c for c in conditions
+                      if c["metric"] == "cloud_base_height")
+        self.assertEqual((window["role"], window["condition_tier"]),
+                         ("QUALITY", "MODIFIER"))
+        self.assertEqual(window["cl_phys_02"],
+                         "cloud_base_window_below_grid_is_advisory")
+        original = next(c for c in contract["conditions"]
+                        if c["metric"] == "cloud_base_height")
+        self.assertEqual(original["role"], "REQUIRED")
+
+    def test_the_nine_named_subjects_all_get_advisory_windows(self):
+        elevations = eb.v1_place_elevations()
+        for oid in ("tw-145-P01", "tw-148-P01", "tw-163-P01", "tw-179-P01",
+                    "jp-037-P02", "us-113-P01", "tw-043-P02", "tw-047-P02",
+                    "us-087-P01"):
+            doc = contract_doc(oid)
+            contract = doc["condition_contract"]
+            camera = next(
+                (c.get("altitude_m") for c in doc.get("camera_contexts", [])
+                 if isinstance(c.get("altitude_m"), (int, float))), None)
+            viewpoint = camera if camera is not None else elevations[doc["place_id"]]
+            conditions = eb.demote_unresolvable_cloud_base(
+                list(contract["conditions"]), contract, viewpoint)
+            window = next(c for c in conditions
+                          if c["metric"] in ("cloud_base_height", "lcl_height_m_agl"))
+            self.assertEqual(window["role"], "QUALITY", oid)
+            # and the hour no longer reads UNFAVORABLE on that clause alone
+            values = {"lcl_height_m_agl": available(100),
+                      "grid_elevation_m": available(viewpoint),
+                      "cloud_cover_low": available(30),
+                      "relative_humidity_850hpa": available(70),
+                      "visibility": available(20)}
+            bound = dict(window, viewpoint_elevation_m=viewpoint)
+            verdict = eb.condition_verdict(bound, values, ASTRO)[0]
+            self.assertEqual(verdict, "UNKNOWN", oid)
+            status = eb.hour_status({window["id"]: window["role"]},
+                                    {window["id"]: verdict})[0]
+            self.assertNotEqual(status, "UNFAVORABLE", oid)
+
+    def test_a_resolvable_band_window_keeps_its_required_role(self):
+        # tw-128-P01 (琉璃光) is a `between 50–120` band, not a DEM−200
+        # threshold below the ground: it must NOT be demoted.
+        contract = contract_doc("tw-128-P01")["condition_contract"]
+        conditions = eb.demote_unresolvable_cloud_base(
+            list(contract["conditions"]), contract, 157.0)
         window = next(c for c in conditions
                       if c["metric"] == "cloud_base_height")
         self.assertEqual(window["role"], "REQUIRED")
@@ -458,9 +548,24 @@ class SupersaturatedLclFailClosedTests(unittest.TestCase):
         self.assertEqual(eb.phys_gate_verdict(self.gate(), self.values()),
                          ("FAIL", "IN_CLOUD_FOG(in_cloud)"))
 
-    def test_absent_lcl_with_saturated_deck_also_fails_closed(self):
+    def test_absent_lcl_keeps_its_own_reason_and_does_not_close(self):
+        # Reviewer COND 2: a plainly absent LCL (NULL_OR_INVALID — the
+        # provider shipped no dew-point pair) is NOT a saturation claim. On an
+        # overcast day it must stay UNKNOWN (資料不足) with its own reason, not
+        # become a hard ✕. Only SUPERSATURATED fails closed.
+        cell = eb.in_cloud_fog_state(self.values(lcl_reason="NULL_OR_INVALID"),
+                                     1092.0)
+        self.assertEqual(cell["state"], "UNKNOWN")
+        self.assertEqual(cell["reason_code"], "CELL_NOT_AVAILABLE")
         self.assertEqual(eb.phys_gate_verdict(
-            self.gate(), self.values(lcl_reason="NULL_OR_INVALID"))[0], "FAIL")
+            self.gate(), self.values(lcl_reason="NULL_OR_INVALID")),
+            ("PASS", "IN_CLOUD_FOG_UNVERIFIED"))
+
+    def test_supersaturated_lcl_is_the_only_fail_closed_branch(self):
+        cell = eb.in_cloud_fog_state(self.values(lcl_reason="SUPERSATURATED"),
+                                     1092.0)
+        self.assertEqual(cell["state"], "AVAILABLE")
+        self.assertEqual(cell["reason_code"], "LCL_UNAVAILABLE_SATURATED_DECK")
 
     def test_rh850_branch_alone_closes_the_gate(self):
         verdict, _ = eb.phys_gate_verdict(self.gate(), self.values(low=10, rh850=96))
@@ -519,6 +624,8 @@ class BelowGridWindowTests(unittest.TestCase):
             self.assertIn("CLOUD_BASE_WINDOW_UNRESOLVABLE", detail, oid)
             # and the subject is no longer pinned at 不宜 by this window
             demoted = eb.demote_cloud_sea_lcl([bound], contract)
+            demoted = eb.demote_unresolvable_cloud_base(demoted, contract,
+                                                        viewpoint)
             roles = {c["id"]: c["role"] for c in demoted}
             status = eb.hour_status(roles, {bound["id"]: verdict})[0]
             self.assertNotEqual(status, "UNFAVORABLE", oid)
@@ -534,7 +641,12 @@ class BelowGridWindowTests(unittest.TestCase):
 
 
 def prefix_cloud_base_verdict(condition, values, require_viewpoint=True):
-    """origin/main semantics: judge the raw AGL number (no ASL conversion)."""
+    """origin/main semantics: judge the raw AGL number (no ASL conversion).
+
+    Kept only as documentation of the pre-fix comparison; the REAL
+    before/after contrast runs the whole fixture against a pristine
+    origin/main worktree (BaselineContrastTests below), never a monkeypatch.
+    """
     lcl = eb._cell_value(values, "lcl_height_m_agl")
     if lcl is None:
         return "UNKNOWN", "CELL_NOT_AVAILABLE"
@@ -546,6 +658,9 @@ def prefix_cloud_base_verdict(condition, values, require_viewpoint=True):
     return ("PASS" if passed else "FAIL"), "PREFIX_AGL"
 
 
+BASELINE_ROOT = os.environ.get("CL_PHYS_02_BASELINE_ROOT")
+
+
 class RealPathMainTests(unittest.TestCase):
     """Drive evaluate_batch.main() end to end (stubbed provider only).
 
@@ -554,7 +669,7 @@ class RealPathMainTests(unittest.TestCase):
     which the hand-built fixtures above can prove.
     """
 
-    HOURS = 48
+    HOURS = 168
     OID = "tw-001-P02"
 
     def artifact(self, lcl_cell):
@@ -594,30 +709,23 @@ class RealPathMainTests(unittest.TestCase):
             "hours": hours,
         }
 
-    def run_main(self, lcl_cell, prefix_semantics=False):
+    def run_main(self, lcl_cell):
         scratch = Path(tempfile.mkdtemp(prefix="cl-phys02-"))
         captured = {}
 
         def fake_fetch(lat, lon, forecast_hours):
+            self.assertEqual(forecast_hours, self.HOURS)
             captured["artifact"] = self.artifact(lcl_cell)
             captured["forecast_hours"] = forecast_hours
             return captured["artifact"]
 
         out = scratch / "bundle.json"
-        argv = ["evaluate_batch.py", "--forecast-hours", "168",
+        argv = ["evaluate_batch.py", "--forecast-hours", str(self.HOURS),
                 "--only-place-id", "tw-001", "--out", str(out),
                 "--archive", str(scratch / "archive"),
                 "--details-dir", str(scratch / "details")]
-        patches = [mock.patch.object(eb.adapter, "fetch_place", fake_fetch),
-                   mock.patch.object(sys, "argv", argv)]
-        if prefix_semantics:
-            patches.append(mock.patch.object(eb, "phys_gates_for",
-                                             lambda *a, **k: []))
-            patches.append(mock.patch.object(eb, "cloud_base_verdict",
-                                             prefix_cloud_base_verdict))
-        with contextlib.ExitStack() as stack:
-            for patcher in patches:
-                stack.enter_context(patcher)
+        with mock.patch.object(eb.adapter, "fetch_place", fake_fetch), \
+                mock.patch.object(sys, "argv", argv):
             eb.main()
         bundle = json.loads(out.read_text(encoding="utf-8"))
         opportunity = next(
@@ -631,7 +739,10 @@ class RealPathMainTests(unittest.TestCase):
 
     def test_grid_elevation_is_injected_on_every_hour_row(self):
         captured, _ = self.run_main(available(25))
-        self.assertEqual(captured["forecast_hours"], 168)
+        self.assertEqual(captured["forecast_hours"], self.HOURS)
+        # the fixture and the declared horizon agree: no 48 h of data behind a
+        # 168 h claim (reviewer COND 5).
+        self.assertEqual(len(captured["artifact"]["hours"]), self.HOURS)
         for hour_row in captured["artifact"]["hours"]:
             cell = hour_row["values"]["grid_elevation_m"]
             self.assertEqual(cell["state"], "AVAILABLE")
@@ -656,20 +767,47 @@ class RealPathMainTests(unittest.TestCase):
                         if c["metric"] == "in_cloud_fog")
             self.assertEqual(gate["day_verdict"], "FAIL")
 
-    def test_contrast_origin_main_semantics_satisfied_vs_branch_unfavorable(self):
-        # origin/main judged the raw AGL LCL (25 < 892 → PASS) and carried no
-        # evaluation-layer gate: the same hours came out GUIDANCE_SATISFIED.
-        _, before = self.run_main(available(25), prefix_semantics=True)
-        self.assertTrue(any(d["state"] == "GUIDANCE_SATISFIED"
-                            for d in before["days"]))
-        self.assertFalse(any(c["metric"] == "in_cloud_fog"
-                             for d in before["days"] for c in d["conditions"]))
+    def test_contrast_branch_blocks_the_hour(self):
         _, after = self.run_main(available(25))
         self.assertFalse(any(d["state"] == "GUIDANCE_SATISFIED"
                              for d in after["days"]))
         named = [c["metric"] for d in after["days"] for c in d["conditions"]
                  if c["day_verdict"] == "FAIL"]
         self.assertIn("in_cloud_fog", named)
+
+
+@unittest.skipUnless(BASELINE_ROOT and Path(BASELINE_ROOT).exists(),
+                     "set CL_PHYS_02_BASELINE_ROOT to a pristine origin/main "
+                     "worktree to run the real before/after contrast")
+class BaselineContrastTests(unittest.TestCase):
+    """The contrast is REAL: the same fixture, two checkouts, two processes.
+
+    `cl_phys_02_contrast.py` imports the evaluate_batch of the tree it is
+    pointed at and drives main() with the identical 168 h artifact. The
+    "before" leg is a pristine `git worktree add --detach ... origin/main`,
+    not this branch's code with old semantics monkeypatched back in.
+    """
+
+    SCRIPT = ROOT / "packages/core-v2/tests/cl_phys_02_contrast.py"
+
+    def run_tree(self, root):
+        out = subprocess.run([sys.executable, str(self.SCRIPT), str(root)],
+                             capture_output=True, text=True, timeout=600)
+        self.assertEqual(out.returncode, 0, out.stderr[-2000:])
+        return out.stdout
+
+    def test_origin_main_recommends_the_white_wall_branch_blocks_it(self):
+        before = self.run_tree(BASELINE_ROOT)
+        after = self.run_tree(ROOT)
+        # origin/main: raw AGL 25 < 892 PASS, no evaluation-layer gate at all.
+        self.assertIn("state=GUIDANCE_SATISFIED", before)
+        self.assertIn("lcl_height_m_agl: PASS", before)
+        self.assertNotIn("in_cloud_fog", before)
+        # branch: every day UNFAVORABLE, named by the in-cloud gate.
+        self.assertNotIn("state=GUIDANCE_SATISFIED", after)
+        self.assertIn("state=UNFAVORABLE", after)
+        self.assertIn("in_cloud_fog: FAIL", after)
+        self.assertIn("in_cloud_fog", after)
 
 
 if __name__ == "__main__":

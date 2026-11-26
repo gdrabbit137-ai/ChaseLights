@@ -103,18 +103,23 @@ def build_condition(oid, mode, threshold, elev, elev_source, claim_refs):
         notes = {
             "zh-TW": (f"CL-DATA-71：本點 catalog 無雲底帶記載，閾值以派生規則求得："
                       f"觀點海拔（{elev_source}）− 200 m = {thr} m。"
-                      f"評估值＝既有 LCL 代理（lcl_height_m_agl：觀點格點 2m 溫度/露點推算，"
-                      f"相對觀點格點地面）；觀點海拔缺落時誠實 propagate_unknown。"),
+                      f"評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 "
+                      f"2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度"
+                      f"（metres ASL），不以 AGL 直接比較門檻；觀點海拔缺落時誠實 "
+                      f"propagate_unknown。"),
             "en": (f"CL-DATA-71: no cloud-base band is recorded for this place in the "
                    f"catalog, so the threshold follows the derivation rule: viewpoint "
                    f"elevation ({elev_source}) - 200 m = {thr} m. Observed value = the "
-                   f"existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel "
-                   f"estimate at the viewpoint grid, metres above the viewpoint grid "
-                   f"ground); a missing viewpoint elevation propagates UNKNOWN honestly."),
+                   f"ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m "
+                   f"temperature/dew-point parcel estimate at the viewpoint grid, expressed "
+                   f"in metres above the grid GROUND, and is converted to metres ASL (above "
+                   f"mean sea level) before it meets any threshold; a missing viewpoint "
+                   f"elevation propagates UNKNOWN honestly."),
             "ja": (f"CL-DATA-71：本地点はカタログに雲底帯の記載がないため、閾値は派生規則による："
-                   f"視点高度（{elev_source}）− 200 m = {thr} m。評価値＝既存LCL代理"
-                   f"（lcl_height_m_agl：視点グリッドの地上2m気温/露点推算）；"
-                   f"視点高度が欠落する場合は誠実に unknown 伝播。"),
+                   f"視点高度（{elev_source}）− 200 m = {thr} m。評価値＝ASL の雲底高度"
+                   f"（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から"
+                   f"推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ"
+                   f"換算する。視点高度が欠落する場合は誠実に unknown 伝播。"),
         }
     return {
         "id": f"C-{oid}-CB1",
@@ -157,20 +162,36 @@ def detect(raw: str):
 
 def main():
     changed = []
+    refreshed = []
     for oid, (mode, threshold, elev, elev_source) in PLAN.items():
         path = OPP / f"{oid}.json"
         raw = path.read_bytes().decode("utf-8")
         d = json.loads(raw)
         cc = d["condition_contract"]
         conds = cc["conditions"]
-        if any(c.get("metric") == "cloud_base_height" for c in conds):
-            print(f"skip {oid} (already has cloud_base_height)")
-            continue
         indent, nl, trail = detect(raw)
         # sanity: round-trip must reproduce the file before we touch it
         assert serialize(d, indent, nl, trail) == raw, f"round-trip mismatch {oid}"
         claim_refs = next(iter(
             [c["claim_refs"] for c in conds if c.get("claim_refs")]), [])
+        existing = next((c for c in conds
+                         if c.get("metric") == "cloud_base_height"), None)
+        if existing is not None:
+            # Refresh path (CL-PHYS-02): the note text is the shipped contract
+            # wording. Re-running after a wording change must propagate it into
+            # the contracts instead of silently skipping them.
+            fresh = build_condition(oid, mode, threshold, elev, elev_source,
+                                    claim_refs)
+            if existing.get("notes_i18n") == fresh["notes_i18n"]:
+                print(f"skip {oid} (notes already current)")
+                continue
+            existing["notes_i18n"] = fresh["notes_i18n"]
+            d["revision"] = int(d["revision"]) + 1
+            path.write_text(serialize(d, indent, nl, trail), encoding="utf-8",
+                            newline="")
+            refreshed.append(oid)
+            print(f"refreshed {oid}: notes -> ASL datum, revision={d['revision']}")
+            continue
         conds.append(build_condition(oid, mode, threshold, elev, elev_source,
                                      claim_refs))
         d["revision"] = int(d["revision"]) + 1
@@ -179,7 +200,7 @@ def main():
         changed.append(oid)
         print(f"patched {oid}: mode={mode} threshold={conds[-1]['threshold']} "
               f"elev={elev:g} revision={d['revision']}")
-    print("total patched:", len(changed))
+    print("total patched:", len(changed), "refreshed:", len(refreshed))
 
 
 if __name__ == "__main__":
