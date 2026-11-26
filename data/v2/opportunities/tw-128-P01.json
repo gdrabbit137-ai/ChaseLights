@@ -2,7 +2,7 @@
  "schema_version": "2.2.0",
  "opportunity_id": "tw-128-P01",
  "place_id": "tw-128",
- "revision": 3,
+ "revision": 2,
  "lifecycle_status": "draft",
  "name_i18n": {
   "zh-TW": "墨硯山苗栗琉璃光",
@@ -268,9 +268,9 @@
      "ja": "琉璃光の雲底窓（CL-DATA-71）：雲底（既存LCL代理）は本地点の帯 50–120 m に収まること。雲が視点（157 m）の下・街灯の上に掛かり、光が薄雲で散って琉璃光になる。帯外（快晴や雲が高い）では街灯が鋭く、散乱層がなく題材は成立しない。"
     },
     "notes_i18n": {
-     "zh-TW": "CL-DATA-71：帶值照 catalog 記載（data/v2/audits/subject-lists/liuli-cloudheights.json，owner-gemini-liuliglow-30 清單）；觀點海拔＝camera_context web-verified altitude_m 157 m。評估值＝ASL 雲底高度（格點海拔＋LCL）：lcl_height_m_agl 為觀點格點 2m 溫度/露點推算、相對「格點地面」的高度，評估前一律換算為海拔高度（metres ASL），不以 AGL 直接比較門檻。",
-     "en": "CL-DATA-71: band values as recorded in the catalog (data/v2/audits/subject-lists/liuli-cloudheights.json, owner-gemini-liuliglow-30 list); viewpoint elevation = camera_context web-verified altitude_m 157 m. Observed value = the ASL cloud base (grid elevation + LCL): lcl_height_m_agl is the 2 m temperature/dew-point parcel estimate at the viewpoint grid, expressed in metres above the grid GROUND, and is converted to metres ASL (above mean sea level) before it meets any threshold.",
-     "ja": "CL-DATA-71：帯値はカタログ記載どおり（data/v2/audits/subject-lists/liuli-cloudheights.json、owner-gemini-liuliglow-30 リスト）；視点高度＝camera_context web-verified altitude_m 157 m。評価値＝ASL の雲底高度（グリッド標高＋LCL）：lcl_height_m_agl は視点グリッドの地上2m気温/露点から推算した「グリッド地面」からの高さで、評価前に海抜高度（metres ASL）へ換算する。"
+     "zh-TW": "CL-DATA-71：帶值照 catalog 記載（data/v2/audits/subject-lists/liuli-cloudheights.json，owner-gemini-liuliglow-30 清單）；觀點海拔＝camera_context web-verified altitude_m 157 m。評估值＝既有 LCL 代理 （lcl_height_m_agl：觀點格點 2m 溫度/露點推算，相對觀點格點地面）。",
+     "en": "CL-DATA-71: band values as recorded in the catalog (data/v2/audits/subject-lists/liuli-cloudheights.json, owner-gemini-liuliglow-30 list); viewpoint elevation = camera_context web-verified altitude_m 157 m. Observed value = the existing LCL proxy (lcl_height_m_agl: 2 m temperature/dew-point parcel estimate at the viewpoint grid, metres above the viewpoint grid ground).",
+     "ja": "CL-DATA-71：帯値はカタログ記載どおり（data/v2/audits/subject-lists/liuli-cloudheights.json、owner-gemini-liuliglow-30 リスト）；視点高度＝camera_context web-verified altitude_m 157 m。評価値＝既存LCL代理（lcl_height_m_agl：視点グリッドの地上2m気温/露点から推算、視点グリッド地面上の高さ）。"
     }
    }
   ],
