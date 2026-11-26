@@ -24,8 +24,10 @@ const applyDataBlock = block('function applyData(', 'function migrateFavorites')
 test('CL-UI-11 (a): a valid snapshot is restored without the loading splash', () => {
   // The restore branch must paint the snapshot HTML, hide #loading, and never
   // touch the splash copy in that path.
-  const restoreBranch = loadDataBlock.slice(loadDataBlock.indexOf('const snapshot='), loadDataBlock.indexOf('else{container.innerHTML=\'\''));
+  const restoreBranch = loadDataBlock.slice(loadDataBlock.indexOf('const snapshot='), loadDataBlock.indexOf('else{container.innerHTML=clui45SkeletonActive'));
   assert.ok(restoreBranch.length > 0, 'snapshot restore branch not found in loadData');
+  assert.ok(restoreBranch.indexOf('container.innerHTML=snapshot.html;') > 0,
+    'CL-UI-45: the slice is bounded (the no-content skeleton branch ends it)');
   assert.match(restoreBranch, /container\.innerHTML=snapshot\.html;/);
   assert.match(restoreBranch, /loading\.style\.display='none';/);
   assert.equal(/innerText=d\(\)\.loading/.test(restoreBranch), false,

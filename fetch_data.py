@@ -1925,7 +1925,13 @@ def fetch_weather_for_spot(spot, lang="zh-TW", kp_rows=None, snapshot_sink=None)
             local_dt = utc_dt.astimezone(tz)
             temp = float(hv("temperature_2m", i, 0))
             dew = float(hv("dew_point_2m", i, temp))
-            cloud_base_agl = max(60, int((temp - dew) * 125))
+            # CL-UI-45: the LCL is an above-ground height. The legacy floor of
+            # 60 m invented a cloud base that never existed (7,183 of 88,128
+            # rows sat at exactly 60 m and none below) and the modal showed it
+            # as if it were a real altitude. Keep the raw LCL (never negative)
+            # and publish the true above-sea-level base — grid elevation + LCL —
+            # as the value the UI displays.
+            cloud_base_agl = max(0, int((temp - dew) * 125))
             cloud_base_asl = int(round(api_elevation + cloud_base_agl))
             cloud_base_delta = int(round(camera_elevation - cloud_base_asl))
             kp_val, kp_source = _kp_for_time(utc_dt, kp_rows)

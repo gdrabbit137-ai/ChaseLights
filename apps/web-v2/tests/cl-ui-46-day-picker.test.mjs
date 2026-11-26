@@ -80,7 +80,9 @@ test('CL-UI-46 (4): a11y wiring — listbox semantics, Esc close, outside-click 
   assert.match(wiring,/if\(e\.key==='Escape'\)\{e\.stopPropagation\(\);closeDayPicker\(\);return;\}/);
   assert.match(wiring,/e\.key==='ArrowDown'\?Math\.min\(opts\.length-1,idx\+1\):Math\.max\(0,idx-1\)/);
   assert.match(wiring,/!trigger\.contains\(e\.target\)\)closeDayPicker\(\);/);
-  assert.match(block('function switchDay','// CL-UI-38'),/function switchDay\(k\)\{closeDayPicker\(\);currentDayFilter=k;/,'switching a day closes the picker first');
+  // CL-UI-45: the switch also opens the card-click transition lock (a click
+  // that lands while the list repaints may not open another spot's modal).
+  assert.match(block('function switchDay','// CL-UI-38'),/function switchDay\(k\)\{closeDayPicker\(\);clui45LockTransitions\(\);currentDayFilter=k;/,'switching a day closes the picker first, then locks the card list');
 });
 
 test('CL-UI-46 (5): day option labels — relative words for day 0-2, MM/DD beyond, honest summary',()=>{
@@ -125,6 +127,6 @@ test('CL-UI-46 (7): new i18n keys exist in all three dictionaries',()=>{
 });
 
 test('CL-UI-46 (8): index.html cache-bust stamps tracked (app.css bumped to clui54 by CL-UI-49)',()=>{
-  assert.match(htmlSource,/assets\/app\.js\?v=clui131/);
-  assert.match(htmlSource,/assets\/app\.css\?v=clui131/);
+  assert.match(htmlSource,/assets\/app\.js\?v=clui132/);
+  assert.match(htmlSource,/assets\/app\.css\?v=clui132/);
 });
