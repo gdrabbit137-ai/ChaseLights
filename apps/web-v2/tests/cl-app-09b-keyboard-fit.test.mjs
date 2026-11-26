@@ -355,11 +355,22 @@ async function openEditorFromPanel() {
     // body → weather modal): reclaim both overlays and retry from a clean state
     await dismissOverlays();
   }
-  const add = await evaljs(`(() => {
+  // CL-APP-09b: the place modal scrolls, and since the modal gained the
+  // day-weather row the section head can sit below the fold (measured y=1186
+  // on a 900px viewport, elementFromPoint null → the click silently missed).
+  // Scroll the control into view, let the layout settle, then measure — a real
+  // user scrolls too, so this preserves the assertion.
+  const add = await evaljs(`new Promise((resolve)=>{
     const b = document.getElementById('cl-ss-add');
-    const rr = b.getBoundingClientRect();
-    return {cx: Math.round(rr.x+rr.width/2), cy: Math.round(rr.y+rr.height/2)};
-  })()`);
+    b.scrollIntoView({block:'center', inline:'center', behavior:'instant'});
+    let n = 0;
+    const tick = () => {
+      if (++n < 3) { requestAnimationFrame(tick); return; }
+      const rr = b.getBoundingClientRect();
+      resolve({cx: Math.round(rr.x+rr.width/2), cy: Math.round(rr.y+rr.height/2)});
+    };
+    requestAnimationFrame(tick);
+  })`);
   await realClick(add.cx, add.cy);
   await evaljs(`new Promise((resolve,reject)=>{
     const t0=Date.now();
