@@ -49,12 +49,16 @@ test('CL-UI-105 CSS: 細帶＋滑桿合併一行；控制列 44px 單行；inspe
     '滑桿列 sits in the same grid row as the band, slider+play inside');
   assert.match(mobileBlock, /\.wm-ops \.time-navigator>#time-prev,\.wm-ops \.time-navigator>#time-next,\n\s+\.wm-ops \.time-label,\.wm-ops \.time-navigator \.timeline\{display:none\}/,
     'merged row keeps only 目前所選(細帶)／滑桿／播放 — 標籤刻度與左右步進鈕不佔位');
-  // 44px single-row control strip with inline captions
-  assert.match(mobileBlock, /\.wm-ops \.control-bar\{order:3;grid-row:2;grid-column:1\/-1;margin-bottom:2px;display:flex;flex-direction:row;\n\s+align-items:center;gap:8px;height:44px;overflow-x:auto;/,
-    '控制列 is a 44px single horizontally scrolling row');
-  assert.match(mobileBlock, /\.wm-ops \.control-bar>label\{flex:0 0 auto;display:flex;flex-direction:row;align-items:center;/,
-    'control captions move inline beside their control');
-  assert.match(mobileBlock, /\.wm-ops \.control-bar \#locate-spot\{width:auto;height:38px;margin-top:0\}/,
+  // CL-I18N-12B: the 44px single horizontally scrolling row is GONE — at 393px
+  // it overflowed the 100dvh shell and every control past the fold was dead.
+  // The strip is now a 2-column wrapping grid; every control is pinned to a row.
+  assert.match(mobileBlock, /\.wm-ops \.control-bar\{order:3;grid-row:2;grid-column:1\/-1;margin-bottom:2px;\n\s+display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\);/,
+    '控制列 is a 2-column wrapping grid');
+  assert.ok(!/\.wm-ops \.control-bar\{[^}]*overflow-x:auto/.test(mobileBlock),
+    '控制列 no longer scrolls horizontally (unreachable controls at 393px)');
+  assert.match(mobileBlock, /\.wm-ops \.control-bar>label\{display:flex;flex-direction:row;flex:initial;align-items:center;/,
+    'control captions stay inline beside their control');
+  assert.match(mobileBlock, /\.wm-ops \.control-bar \#locate-spot\{width:auto;height:36px;flex:none;margin-top:0;padding:0 10px\}/,
     '定位景點 stays an in-row control (no full-width hack)');
   // inspector collapsed by default; explicit show state for flash/sticky
   assert.match(mobileBlock, /\.inspector\{display:none\}/);
@@ -239,7 +243,10 @@ test('CL-UI-105 (2a) 390px: map ≥60% viewport; ops ≤180px; merged row + 44px
   await loadPage();
   const p = await evaljs(OPS_PROBE);
   assert.ok(p.mapPct >= 0.60, `地圖區 ≥60% 視高 (實測 ${(p.mapPct * 100).toFixed(1)}%, ${p.mapH}px / ${p.innerH}px)`);
-  assert.ok(p.opsH <= 180, `操作區總高 ≤180px (實測 ${p.opsH}px)`);
+  // CL-I18N-12B: the old 180px budget assumed a single horizontally scrolling
+  // control row, which is unreachable at 393px. Wrapping the five controls into
+  // four rows costs ~28px; the map still keeps ≥60% of the viewport.
+  assert.ok(p.opsH <= 220, `操作區總高 ≤220px (實測 ${p.opsH}px)`);
   assert.equal(p.inspDisp, 'none', '目前圖層 inspector 預設收合');
   assert.equal(p.dockHost, 'ops', '細帶 lives in the tray');
   // merged row: band left / slider middle / play right, one row
@@ -249,10 +256,11 @@ test('CL-UI-105 (2a) 390px: map ≥60% viewport; ops ≤180px; merged row + 44px
   assert.equal(p.prevDisp, 'none', '左右步進鈕不佔位（滑桿即步進）');
   assert.equal(p.nextDisp, 'none', '左右步進鈕不佔位（滑桿即步進）');
   assert.ok(p.slider.l >= p.tn.l && p.play.r <= p.tn.r, '滑桿與播放鈕都在滑桿列內');
-  // 44px single-row control strip, below the merged row, all controls reachable
-  assert.ok(p.cbH >= 42 && p.cbH <= 48, `控制列單行 44px (實測 ${p.cbH}px)`);
+  // CL-I18N-12B: four wrapped control rows below the merged row, all inside the
+  // viewport (no horizontal scroll needed to reach them).
+  assert.ok(p.cbH >= 150 && p.cbH <= 175, `控制列四列換行高度 (實測 ${p.cbH}px)`);
   assert.ok(p.cbBelowSliderRow, '控制列在合併行下方');
-  assert.equal(p.cbReachable, true, '控制列各項水平捲動可達（定位鈕完整在視窗內）');
+  assert.equal(p.cbReachable, true, '控制列各項都在視窗內（不需水平捲動）');
 });
 
 // ---- (2b) 390: 換圖層短暫展開 → 自動收回；詳細 → 持續展開；細帶展開重排 ----
@@ -317,7 +325,7 @@ test('CL-UI-105/109 (2b) 390px: layer change does NOT flash the collapsed inspec
   assert.equal(dock.dockFull, true, '展開細帶列跨全寬');
   assert.equal(dock.navRow2, '2', '滑桿退到第二列');
   assert.equal(dock.reclosed, true, '收合後 class 同步移除');
-  assert.ok(dock.opsH <= 180, `收合後操作區回到 ≤180px (實測 ${dock.opsH}px)`);
+  assert.ok(dock.opsH <= 220, `收合後操作區回到 ≤220px (實測 ${dock.opsH}px)`);
 });
 
 // ---- (2c) 1280 regression: desktop zero change --------------------------------

@@ -143,6 +143,9 @@
     return out;
   }
   window.__weatherGridLang=()=>WM_LANG;
+  // CL-I18N-12B: expose the resolver so the i18n test (and any host page) can
+  // prove a key resolves without re-implementing the table.
+  window.__weatherGridT=(s,vars)=>wmT(s,vars);
 
 
   const WM_STATIC={
@@ -193,7 +196,10 @@
       wm_dim_hint:'地圖已收成預覽 · 點此返回',
       wm_sheet_sort:'排序 依可拍%',
       wm_sheet_n:'{n} 筆',
-      wm_layer_sheet_close_aria:'關閉圖層選單'
+      wm_layer_sheet_close_aria:'關閉圖層選單',
+      wm_nav_aria:'全站導覽',wm_ctl_aria:'攝影圖層快速切換',wm_side_aria:'景點列表',
+      wm_region_aria:'地區切換',wm_opacity_aria:'圖層顯示強度',wm_time_aria:'資料時間控制',
+      wm_grab_title:'下拉收起',wm_modal_close_aria:'關閉'
     },
     'en':{
       nav_cards:'Cards',nav_weathermap:'Weather map',nav_more_tools:'More tools ▾',nav_genre_eval:'Genre assessment',nav_field_intake:'Field check',nav_my:'My Library',
@@ -242,7 +248,10 @@
       wm_dim_hint:'Map shrunk to preview · tap to restore',
       wm_sheet_sort:'Sort by shootable %',
       wm_sheet_n:'{n} places',
-      wm_layer_sheet_close_aria:'Close layer menu'
+      wm_layer_sheet_close_aria:'Close layer menu',
+      wm_nav_aria:'Site navigation',wm_ctl_aria:'Quick photography-layer switch',wm_side_aria:'Places list',
+      wm_region_aria:'Region switch',wm_opacity_aria:'Layer display strength',wm_time_aria:'Data time controls',
+      wm_grab_title:'Drag down to collapse',wm_modal_close_aria:'Close'
     },
     'ja':{
       nav_cards:'カード',nav_weathermap:'天気マップ',nav_more_tools:'その他のツール ▾',nav_genre_eval:'題材評価',nav_field_intake:'実写検証',nav_my:'マイライブラリ',
@@ -291,7 +300,10 @@
       wm_dim_hint:'地図はプレビュー中・タップで戻る',
       wm_sheet_sort:'撮影可能率で並び替え',
       wm_sheet_n:'{n} 件',
-      wm_layer_sheet_close_aria:'レイヤーメニューを閉じる'
+      wm_layer_sheet_close_aria:'レイヤーメニューを閉じる',
+      wm_nav_aria:'サイト内ナビゲーション',wm_ctl_aria:'撮影レイヤーのクイック切替',wm_side_aria:'スポット一覧',
+      wm_region_aria:'地域の切替',wm_opacity_aria:'レイヤー表示強度',wm_time_aria:'データ時刻の操作',
+      wm_grab_title:'下にドラッグして閉じる',wm_modal_close_aria:'閉じる'
     }
   };
 
@@ -682,6 +694,24 @@
     '載入失敗':'Load failed'
 ,
     '尚未選取':'Not selected'
+,
+    '☁️ 低雲':'☁️ Low cloud'
+,
+    '🌁 PM2.5':'🌁 PM2.5'
+,
+    '925 hPa 風向':'925 hPa wind direction'
+,
+    '850 hPa 風向':'850 hPa wind direction'
+,
+    '700 hPa 風向':'700 hPa wind direction'
+,
+    'AOD 550 nm':'AOD 550 nm'
+,
+    'PM2.5':'PM2.5'
+,
+    '未建立方位資料，僅顯示機位（不以全向環冒充主體扇）。':'No bearing geometry yet — only camera positions are shown (an omni ring is not passed off as a subject sector).'
+,
+    '全站導覽':'Site navigation'
     },
     'ja':{
     '底圖載入中…':'背景地図を読み込み中…'
@@ -1069,6 +1099,24 @@
     '載入失敗':'読み込み失敗'
 ,
     '尚未選取':'未選択'
+,
+    '☁️ 低雲':'☁️ 下層雲'
+,
+    '🌁 PM2.5':'🌁 PM2.5'
+,
+    '925 hPa 風向':'925 hPa 風向'
+,
+    '850 hPa 風向':'850 hPa 風向'
+,
+    '700 hPa 風向':'700 hPa 風向'
+,
+    'AOD 550 nm':'AOD 550 nm'
+,
+    'PM2.5':'PM2.5'
+,
+    '未建立方位資料，僅顯示機位（不以全向環冒充主體扇）。':'方位データが未登録のため、撮影ポジションのみ表示します（全周リングを被写体セクターの代用にはしません）。'
+,
+    '全站導覽':'サイト内ナビゲーション'
     }
   };
 
@@ -1077,14 +1125,33 @@
     document.querySelectorAll('[data-i18n]').forEach(el=>{
       const v=dict[el.dataset.i18n];
       if(typeof v==='string'&&v) el.textContent=v;
-      const aria=el.getAttribute('data-i18n-aria');
-      if(aria&&dict[aria]) el.setAttribute('aria-label',dict[aria]);
-      // CL-UI-102: placeholder i18n for the bottom-sheet search input.
-      const ph=el.getAttribute('data-i18n-ph');
-      if(ph&&dict[ph]) el.setAttribute('placeholder',dict[ph]);
+    });
+    // CL-I18N-12B: aria-label / title / placeholder are their own attributes —
+    // an element that carries ONLY data-i18n-aria (e.g. #reset-view, whose
+    // visible text lives in a child span) never matched the [data-i18n] loop
+    // above, so every such aria-label stayed zh-TW in en/ja.
+    document.querySelectorAll('[data-i18n-aria]').forEach(el=>{
+      const k=el.getAttribute('data-i18n-aria');
+      if(k&&dict[k]) el.setAttribute('aria-label',dict[k]);
+    });
+    document.querySelectorAll('[data-i18n-title]').forEach(el=>{
+      const k=el.getAttribute('data-i18n-title');
+      if(k&&dict[k]) el.setAttribute('title',dict[k]);
+    });
+    // CL-UI-102: placeholder i18n for the bottom-sheet search input.
+    document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+      const k=el.getAttribute('data-i18n-ph');
+      if(k&&dict[k]) el.setAttribute('placeholder',dict[k]);
     });
   }
   applyStaticI18n();
+  // CL-I18N-12B: the shared site-nav markup must stay byte-identical across all
+  // six pages (CL-UI-28 pins that), so its aria-label is localized here at
+  // runtime instead of with a data-i18n-aria attribute in weather-map.html.
+  (() => {
+    const nav=document.querySelector('.site-nav');
+    if(nav && WM_LANG!=='zh-TW') nav.setAttribute('aria-label', wmT('全站導覽'));
+  })();
 
 
   // CL-WG-04 region-scoped source manifest. Every region only lists sources
@@ -2807,15 +2874,20 @@
     if(!host) return;
     const labels = window.WeatherMapRegions.REGION_LABELS;
     const meta = window.WeatherMapRegions.REGION_CARD_META;
+    // CL-I18N-12B: the card title (and the mobile region <select>) printed the
+    // zh-TW name in every language; the dictionary already carries en/ja.
+    const nameFor = (label) => label[WM_LANG] || label['zh-TW'];
+    const subFor = (label) => ['en','ja'].filter(l=>l!==WM_LANG).map(l=>label[l]).filter(Boolean).join(' · ');
     host.innerHTML = window.WeatherMapRegions.REGION_ORDER.map(id => {
       const active = id === state.region;
       const label = labels[id];
-      const subtitle = [label.en, label.ja].join(' · ');
+      const title = nameFor(label);
+      const subtitle = subFor(label);
       return `<button type="button" class="region-card${active ? ' active' : ''}" ` +
         `data-region="${id}" aria-pressed="${active}" ` +
         `title="${escapeHtml(subtitle)}">` +
         `<span class="region-card-flag">${meta[id].flag}</span>` +
-        `<span class="region-card-name">${escapeHtml(label['zh-TW'])}</span>` +
+        `<span class="region-card-name">${escapeHtml(title)}</span>` +
         `<span class="region-card-sub">${escapeHtml(subtitle)}</span>` +
         `</button>`;
     }).join('');
@@ -2828,7 +2900,7 @@
     if(regionSelect){
       regionSelect.innerHTML = window.WeatherMapRegions.REGION_ORDER.map(id =>
         `<option value="${id}"${id===state.region?' selected':''}>`+
-        `${escapeHtml(labels[id]['zh-TW'])}</option>`).join('');
+        `${escapeHtml(nameFor(labels[id]))}</option>`).join('');
       regionSelect.value=state.region;
     }
   }
@@ -3544,7 +3616,7 @@
     const spots = state.data?.spots || [];
     spotSelect.innerHTML = '<option value="">'+wmT('全部景點')+'</option>' +
       spots.map(s =>
-        '<option value="'+escapeHtml(s.spot_id)+'">'+escapeHtml(s.name)+'</option>'
+        '<option value="'+escapeHtml(s.spot_id)+'">'+escapeHtml(wmSpotName(s))+'</option>'
       ).join('');
     spotSelect.value = state.spotId || '';
     updateLocateSpotButton();
@@ -5458,7 +5530,7 @@
 
     const spot=selectedSpot();
     const point=samplingPoint();
-    $('spot-name').textContent=spot?spot.name:wmT('尚未選取');
+    $('spot-name').textContent=spot?wmSpotName(spot):wmT('尚未選取');
     const sv=samplePointValue(point,state.layer);
     $('spot-value').textContent=point?formatValue(sv,state.layer):'—';
     const sampleMethod=isObservationMode()
@@ -5686,7 +5758,7 @@
     host.innerHTML=`
       <div>${statusBadge(op)} <strong>${escapeHtml(op.name_zh||op.opportunity_id)}</strong></div>
       <div>${wmT('機位 {a} · 主體 {b} · 環境 {c}',{a:(op.camera_zones||[]).length,b:(op.subject_geometries||[]).length,c:(op.environment_geometries||[]).length})}</div>
-      ${(!op.subject_geometries||op.subject_geometries.length===0)?'<div class="warn">未建立方位資料，僅顯示機位（不以全向環冒充主體扇）。</div>':''}
+      ${(!op.subject_geometries||op.subject_geometries.length===0)?'<div class="warn">'+wmT('未建立方位資料，僅顯示機位（不以全向環冒充主體扇）。')+'</div>':''}
       <div>${providerOk?wmT('✓ 當前氣象資料涵蓋題材 viewport。'):wmT('⚠ 題材 viewport 超出當前氣象資料範圍；空白區不可視為晴朗。')}</div>
       ${op.note?`<div>${escapeHtml(op.note)}</div>`:''}
       ${errors}${warnings}`;
@@ -5805,7 +5877,9 @@
     const flags=qc.flags.filter(x=>x.forecast_hour===fh && x.field===state.layer);
     if(!flags.length){
       setQcSummary('ok','資料正常');
-      host.innerHTML='<div class="ok">✓ 資料正常</div>'+regionalModelNoteHtml();
+      // CL-I18N-12B: the visible status footer was hard-coded zh-TW while the
+      // badge above it went through wmT — the two disagreed in en/ja.
+      host.innerHTML='<div class="ok">✓ '+escapeHtml(wmT('資料正常'))+'</div>'+regionalModelNoteHtml();
     }else{
       setQcSummary('warn','需注意');
       host.innerHTML=flags.map(x=>`<div class="warn">⚠ ${escapeHtml(qcMessage(x.flag))}<span class="qc-code" title="${escapeHtml(wmT('內部 QC 代碼'))}">${escapeHtml(x.flag)}</span></div>`).join('')+
@@ -5890,6 +5964,22 @@
     return label ? (label[WM_LANG] || label['zh-TW']) : state.region;
   }
 
+  // CL-I18N-12B: the demo fixture (weathergrid_sample.json) names its spots in
+  // zh-TW only; the ids are stable, so display names are localized here rather
+  // than by rewriting the fixture. Live spots keep their published name.
+  const WM_DEMO_SPOT_NAMES={
+    'demo-taipei':{en:'Taipei (sample spot)',ja:'台北（サンプル）'},
+    'demo-hualien':{en:'Hualien (sample spot)',ja:'花蓮（サンプル）'},
+    'demo-taitung':{en:'Taitung (sample spot)',ja:'台東（サンプル）'},
+    'demo-penghu':{en:'Penghu (sample spot)',ja:'澎湖（サンプル）'}
+  };
+  function wmSpotName(spot){
+    if(!spot) return '';
+    if(WM_LANG==='zh-TW') return spot.name || '';
+    const d=WM_DEMO_SPOT_NAMES[spot.spot_id];
+    return (d && d[WM_LANG]) || spot.name || '';
+  }
+
   // Honest status badge derived from the live subject-aware coverage bundle
   // (same semantics as updateCoverageStatus); never a fabricated tier.
   function wmSpotCoverage(spotId){
@@ -5953,9 +6043,9 @@
     body.innerHTML=spots.map(spot=>{
       const cov=wmSpotCoverage(spot.spot_id);
       const sel=state.spotId===spot.spot_id?' sel':'';
-      return `<button type="button" class="wm-spot-row${sel}" data-wm-spot="${escapeHtml(spot.spot_id)}" title="${escapeHtml(spot.name)}">`
+      return `<button type="button" class="wm-spot-row${sel}" data-wm-spot="${escapeHtml(spot.spot_id)}" title="${escapeHtml(wmSpotName(spot))}">`
         +`<span class="wm-dot ${cov.dot}" aria-hidden="true"></span>`
-        +`<span class="wm-grow"><span class="wm-s-name">${escapeHtml(spot.name)}</span><br><span class="wm-s-sub mono">${escapeHtml(spot.spot_id)}</span></span>`
+        +`<span class="wm-grow"><span class="wm-s-name">${escapeHtml(wmSpotName(spot))}</span><br><span class="wm-s-sub mono">${escapeHtml(spot.spot_id)}</span></span>`
         +`<span class="wm-s-time mono">${wmSampleText(spot,state.layer)}</span>`
         +`</button>`;
     }).join('');
@@ -6003,7 +6093,7 @@
     const f=frame();
     const fTime=f?.valid_time_utc?`${formatTaipeiTime(f.valid_time_utc)} TST`:'—';
     mini.innerHTML=`
-      <div class="wm-mini-head"><span class="wm-mini-name">${escapeHtml(spot.name)}</span>
+      <div class="wm-mini-head"><span class="wm-mini-name">${escapeHtml(wmSpotName(spot))}</span>
         <span class="wm-tier ${cov.badge}">${escapeHtml(wmCovBadgeText(cov.badge))}</span>
         <button type="button" class="wm-mini-x" data-wm-act="close" aria-label="${escapeHtml(D.wm_close_btn)}">✕</button></div>
       <div class="wm-mini-region">${escapeHtml(wmRegionName())}</div>
@@ -6044,7 +6134,7 @@
     wmDetailSpotId=spotId;
     const cov=wmSpotCoverage(spotId);
     const nameHost=$('wm-modal-name');
-    if(nameHost) nameHost.textContent=spot.name;
+    if(nameHost) nameHost.textContent=wmSpotName(spot);
     const tier=$('wm-modal-tier');
     if(tier){
       tier.className=`wm-tier ${cov.badge}`;
@@ -6699,14 +6789,14 @@
     const rows=spots.map(spot=>{
       const cov=wmSpotCoverage(spot.spot_id);
       return {spot,cov,pct:wmShootPct(spot)};
-    }).filter(r=>!query||`${r.spot.name} ${r.spot.spot_id} ${regionName}`.toLowerCase().includes(query));
+    }).filter(r=>!query||`${r.spot.name} ${wmSpotName(r.spot)} ${r.spot.spot_id} ${regionName}`.toLowerCase().includes(query));
     rows.sort((a,b)=>((b.pct??-1)-(a.pct??-1))||String(a.spot.name).localeCompare(String(b.spot.name),'zh-Hant'));
     // 列=狀態點＋名稱＋meta（地區；raw id 不出頁面，audit F12）＋可拍% mono；
     // % 色彩與列首狀態點同一 tier 來源（DESIGN-10 語義契約）。
     list.innerHTML=rows.map(({spot,cov,pct})=>
       `<button type="button" class="wm-sheet-row${state.spotId===spot.spot_id?' sel':''}" data-wm-sheet-spot="${escapeHtml(spot.spot_id)}">`
       +`<span class="wm-dot ${cov.dot}" aria-hidden="true"></span>`
-      +`<span class="grow"><span class="r-name">${escapeHtml(spot.name)}</span>`
+      +`<span class="grow"><span class="r-name">${escapeHtml(wmSpotName(spot))}</span>`
       +`<span class="r-meta">${escapeHtml(regionName)}</span></span>`
       +`<span class="r-pct mono ${cov.dot==='ok'?'wm-p-hi':(cov.dot==='soft'?'wm-p-mid':'wm-p-lo')}">${pct==null?'—':pct+'%'}</span>`
       +`</button>`).join('');
