@@ -36,7 +36,9 @@ test('CL-UX-01: reminders.html carries the 預設提醒規則 section below the 
   // CL-UX-02 reordered the page: the tracked list now comes first, the
   // defaults panel collapses underneath it.
   assert.ok(HTML.includes('id="rem-def-panel"'), 'defaults section anchor');
-  assert.match(HTML, /id="rem-def-title"[^>]*>預設提醒規則</, 'section title');
+  // CL-I18N-12A: the heading is a dict key (rem_def_title), not a Chinese literal.
+  assert.match(HTML, /id="rem-def-title"><\/h2>/, 'section title is dict-rendered');
+  assert.match(PAGE_JS, /setText\('rem-def-title', 'rem_def_title'\)/, 'section title comes from the dict');
   const defAt = HTML.indexOf('id="rem-def-panel"');
   const listAt = HTML.indexOf('id="rem-list-panel"');
   assert.ok(defAt > 0 && listAt > 0, 'both panels exist');
@@ -72,7 +74,11 @@ test('CL-UX-01: reminders.html carries the seven weekday boxes (0..6) on BOTH ax
   }
   // 0 = Sunday per the backend contract — the first box is 日 and the last 六
   assert.ok(HTML.indexOf('data-f="wd" value="0"') < HTML.indexOf('data-f="wd" value="1"'), '0 comes first (Sunday)');
-  assert.ok(HTML.includes('<span class="rem-wd-t">日</span>'), 'weekday labels live in the markup');
+  // CL-I18N-12A: the seven labels are rendered from WD_NAMES[lang] (en/ja get
+  // Sun..Sat / 日..土), so the markup carries the hooks, not Chinese glyphs.
+  assert.equal((HTML.match(/<span class="rem-wd-t"><\/span>/g) || []).length, 14,
+    'weekday label hooks live in the markup (7 per axis)');
+  assert.match(PAGE_JS, /var names = WD_NAMES\[state\.lang\]/, 'labels come from the language map');
 });
 
 // ---------------------------------------------------------------------------

@@ -152,7 +152,10 @@ test('CL-UI-69 (5): the reminder icon is 🔔 only (owner ruling) — compact to
   // now 「我的」/ My Library / マイライブラリ.
   assert.deepEqual([...remPage.matchAll(/page_title: '([^']*)'/g)].map(m => m[1]),
     ['我的', 'My Library', 'マイライブラリ']);
-  assert.match(remHtml, /<title>ChaseLights — 我的<\/title>/);
+  // CL-I18N-12A: the title is rendered from the trilingual dict (page_title),
+  // never a hard-coded Chinese literal in the markup.
+  assert.match(remHtml, /<title>ChaseLights<\/title>/);
+  assert.match(remPage, /document\.title = 'ChaseLights — ' \+ t\('page_title'\)/);
 });
 
 test('CL-UI-69 (6): 390px row rules ship and the page serves the bumped stamps', () => {
@@ -160,5 +163,5 @@ test('CL-UI-69 (6): 390px row rules ship and the page serves the bumped stamps',
   assert.match(indexSource, /assets\/app\.js\?v=clui133/);
   assert.match(indexSource, /assets\/app\.css\?v=clui133/);
   assert.match(indexSource, /assets\/reminders-client\.js\?v=clui126/);
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui129/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui134/);
 });

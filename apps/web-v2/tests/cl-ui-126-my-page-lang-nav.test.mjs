@@ -44,8 +44,14 @@ test('CL-UI-126 (4): navbar styling keeps the control usable (mobile included)',
 });
 
 test('CL-UI-126 (5): the page logic still binds the same control (no JS change needed)', () => {
-  assert.match(PAGE_JS, /function lang\(\) \{[\s\S]{0,200}getElementById\('lang-select'\)/,
-    'lang() reads #lang-select');
+  // CL-I18N-12A: the resolution moved from "read #lang-select" to the site's own
+  // precedence (?lang= → stored → navigator), and the select became an OUTPUT of
+  // that decision — reading its markup default was what pinned every visit to
+  // zh-TW. The control itself is still the one the page listens to and persists.
+  assert.match(PAGE_JS, /function resolveLang\(\) \{[\s\S]{0,400}return storedLang\(\) \|\| navigatorLang\(\) \|\| 'zh-TW'/,
+    'lang() resolves query param → stored → navigator (app.js precedence)');
+  assert.match(PAGE_JS, /function syncLangSelect\(\) \{[\s\S]{0,200}getElementById\('lang-select'\)/,
+    'the select is synced FROM the resolved language');
   assert.match(PAGE_JS, /getElementById\('lang-select'\)\.addEventListener\('change'/,
     'the change handler is still wired');
   assert.match(PAGE_JS, /localStorage\.setItem\('chaselights_lang', state\.lang\)/,

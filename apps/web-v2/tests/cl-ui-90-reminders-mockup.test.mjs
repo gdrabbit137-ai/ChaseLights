@@ -29,10 +29,10 @@ test('CL-UI-90 (1) reminders.html carries the mockup add-flow anatomy', () => {
   assert.match(remHtml, /id="rem-count"/);
   // three-tier flow with arrow indicators + parallel keyword search
   assert.match(remHtml, /class="rem-add-flow"/);
-  assert.match(remHtml, /<select id="rem-region" aria-label="地區"><\/select>/);
+  assert.match(remHtml, /<select id="rem-region" data-i18n-aria="rem_region_label"><\/select>/);
   assert.match(remHtml, /<span class="rem-arrow" aria-hidden="true">→<\/span>/);
-  assert.match(remHtml, /<select id="rem-place" aria-label="景點"><\/select>/);
-  assert.match(remHtml, /<select id="rem-subject" aria-label="題材"><\/select>/);
+  assert.match(remHtml, /<select id="rem-place" data-i18n-aria="rem_place_label"><\/select>/);
+  assert.match(remHtml, /<select id="rem-subject" data-i18n-aria="rem_subject_label"><\/select>/);
   assert.match(remHtml, /<input id="rem-search" class="rem-search" type="search"/);
   assert.match(remHtml, /<ul id="rem-results" class="rem-results"><\/ul>/);
   // add preview row (hidden until a place is picked) + flow hint
@@ -185,7 +185,7 @@ test('CL-UI-90 (7) token discipline — zero hardcoded colors in the page styles
     assert.ok(style.includes(`var(${tok})`), `page styles use ${tok}`);
   }
   // cache-bust bump is scoped to the reminders page
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui129/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui134/);
   assert.doesNotMatch(remHtml, /reminders-page\.js\?v=clui75/);
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui116/);
   assert.match(remHtml, /assets\/app\.css\?v=clui133/);

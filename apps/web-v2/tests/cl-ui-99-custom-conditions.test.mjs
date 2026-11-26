@@ -37,7 +37,7 @@ test('CL-UI-99 (1): custom-conditions form markup, stamps, worker contract wirin
   // Every hint slot is wired for the colloquial explanation.
   assert.equal((remHtml.match(/class="rem-cc-hint" id="rem-cc-hint-/g) || []).length, 8);
   // Stamp bump is scoped to the reminders page script only.
-  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui129/);
+  assert.match(remHtml, /assets\/reminders-page\.js\?v=clui134/);
   assert.doesNotMatch(remHtml, /reminders-page\.js\?v=clui90/);
   // Page CSS stays token-only (no hex outside :root).
   const style = remHtml.slice(remHtml.indexOf('<style>'), remHtml.indexOf('</style>'));

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ChaseLights — 我的</title>
+  <title>ChaseLights</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png">
@@ -357,7 +357,11 @@
         <a class="site-nav-item" data-nav-target="reminders" data-active="page" href="./reminders.html" data-i18n="nav_my">我的</a>
         <span class="site-nav-lang"><!-- CL-UI-126 (owner report): the language switcher
              lives in the top navbar — ONE instance of the same #lang-select control
-             (the page header no longer carries a second one). --><select id="lang-select" class="control-dropdown lang-dropdown" aria-label="語言">
+             (the page header no longer carries a second one).
+             CL-I18N-12A: its value is DRIVEN by reminders-page.js (lang resolver:
+             ?lang= → stored → navigator); the markup default is never read as the
+             language source any more. The nav DOM itself stays byte-identical to
+             the other five shell pages (CL-UI-28 pins it). --><select id="lang-select" class="control-dropdown lang-dropdown" aria-label="語言">
             <option value="zh-TW" selected>🌐 繁體中文</option>
             <option value="en">🌐 English</option>
             <option value="ja">🌐 日本語</option>
@@ -380,12 +384,12 @@
 
   <header class="rem-header">
     <div class="rem-title-row">
-      <h1>👤 <span id="page-title">我的</span></h1>
+      <h1>👤 <span id="page-title"></span></h1>
     </div>
     <!-- CL-APP-09 追加3: the 提醒 page is now the 我的 page — two sections:
          我的提醒 (the original reminder list, untouched) + 我的題材 (new
          management area rendered by subject-sets-library.js). -->
-    <div class="rem-tabs" role="tablist" aria-label="我的分區">
+    <div class="rem-tabs" role="tablist" data-i18n-aria="my_tabs_aria">
       <button type="button" class="rem-tab" id="tab-reminders" data-my-tab="reminders" role="tab"
               aria-selected="true" data-i18n="my_rem_tab">我的提醒</button>
       <button type="button" class="rem-tab" id="tab-subjects" data-my-tab="subjects" role="tab"
@@ -403,11 +407,11 @@
     <section class="rem-panel" id="rem-add-panel" hidden>
       <h2 id="rem-add-title"></h2>
       <div class="rem-add-flow">
-        <select id="rem-region" aria-label="地區"></select>
+        <select id="rem-region" data-i18n-aria="rem_region_label"></select>
         <span class="rem-arrow" aria-hidden="true">→</span>
-        <select id="rem-place" aria-label="景點"></select>
+        <select id="rem-place" data-i18n-aria="rem_place_label"></select>
         <span class="rem-arrow" aria-hidden="true">→</span>
-        <select id="rem-subject" aria-label="題材"></select>
+        <select id="rem-subject" data-i18n-aria="rem_subject_label"></select>
       </div>
       <!-- CL-UI-99: 自訂條件表單 — 第三層選「自訂條件…」時展開（五組參數、寬鬆預設、口語說明） -->
       <div class="rem-cc-panel" id="rem-custom-panel" hidden>
@@ -415,46 +419,46 @@
         <div class="rem-cc-grid">
           <label class="rem-cc-field" for="rem-cc-low">
             <span class="rem-cc-name"></span>
-            <input id="rem-cc-low" type="number" inputmode="decimal" min="0" max="100" step="1" aria-label="低雲門檻">
+            <input id="rem-cc-low" type="number" inputmode="decimal" min="0" max="100" step="1" data-i18n-aria="rem_cc_low">
             <small class="rem-cc-hint" id="rem-cc-hint-low"></small>
           </label>
           <label class="rem-cc-field" for="rem-cc-mid">
             <span class="rem-cc-name"></span>
-            <input id="rem-cc-mid" type="number" inputmode="decimal" min="0" max="100" step="1" aria-label="中雲門檻">
+            <input id="rem-cc-mid" type="number" inputmode="decimal" min="0" max="100" step="1" data-i18n-aria="rem_cc_mid">
             <small class="rem-cc-hint" id="rem-cc-hint-mid"></small>
           </label>
           <label class="rem-cc-field" for="rem-cc-high">
             <span class="rem-cc-name"></span>
-            <input id="rem-cc-high" type="number" inputmode="decimal" min="0" max="100" step="1" aria-label="高雲門檻">
+            <input id="rem-cc-high" type="number" inputmode="decimal" min="0" max="100" step="1" data-i18n-aria="rem_cc_high">
             <small class="rem-cc-hint" id="rem-cc-hint-high"></small>
           </label>
           <label class="rem-cc-field" for="rem-cc-precip">
             <span class="rem-cc-name"></span>
-            <input id="rem-cc-precip" type="number" inputmode="decimal" min="0" max="200" step="0.5" aria-label="降水上限">
+            <input id="rem-cc-precip" type="number" inputmode="decimal" min="0" max="200" step="0.5" data-i18n-aria="rem_cc_precip">
             <small class="rem-cc-hint" id="rem-cc-hint-precip"></small>
           </label>
           <label class="rem-cc-field" for="rem-cc-vis">
             <span class="rem-cc-name"></span>
-            <input id="rem-cc-vis" type="number" inputmode="decimal" min="0" max="50" step="0.5" aria-label="能見度下限">
+            <input id="rem-cc-vis" type="number" inputmode="decimal" min="0" max="50" step="0.5" data-i18n-aria="rem_cc_vis">
             <small class="rem-cc-hint" id="rem-cc-hint-vis"></small>
           </label>
           <label class="rem-cc-field" for="rem-cc-wind">
             <span class="rem-cc-name"></span>
-            <input id="rem-cc-wind" type="number" inputmode="decimal" min="0" max="75" step="0.5" aria-label="風速上限">
+            <input id="rem-cc-wind" type="number" inputmode="decimal" min="0" max="75" step="0.5" data-i18n-aria="rem_cc_wind">
             <small class="rem-cc-hint" id="rem-cc-hint-wind"></small>
           </label>
           <div class="rem-cc-field">
             <span class="rem-cc-name" id="rem-cc-window-label"></span>
             <div class="rem-cc-window">
-              <input id="rem-cc-start" type="time" aria-label="時間窗起">
+              <input id="rem-cc-start" type="time" data-i18n-aria="rem_cc_window_start">
               <span class="rem-cc-dash" aria-hidden="true">–</span>
-              <input id="rem-cc-end" type="time" aria-label="時間窗訖">
+              <input id="rem-cc-end" type="time" data-i18n-aria="rem_cc_window_end">
             </div>
             <small class="rem-cc-hint" id="rem-cc-hint-window"></small>
           </div>
           <label class="rem-cc-field" for="rem-cc-lead">
             <span class="rem-cc-name"></span>
-            <input id="rem-cc-lead" type="number" inputmode="numeric" min="0" max="4320" step="10" aria-label="提前量">
+            <input id="rem-cc-lead" type="number" inputmode="numeric" min="0" max="4320" step="10" data-i18n-aria="rem_cc_lead">
             <small class="rem-cc-hint" id="rem-cc-hint-lead"></small>
           </label>
         </div>
@@ -485,7 +489,7 @@
 
     <section class="rem-panel" id="rem-def-panel" aria-labelledby="rem-def-title">
       <div class="rem-def-head">
-        <h2 id="rem-def-title">預設提醒規則</h2>
+        <h2 id="rem-def-title"></h2>
         <button class="rem-def-toggle" id="rem-def-toggle" type="button"
           aria-expanded="false" aria-controls="rem-def-body" data-l="rem_def_modify"></button>
       </div>
@@ -498,7 +502,7 @@
           <label class="rem-def-opt">
             <input type="radio" name="rem-def-mode" data-f="mode" data-v="every_n" value="every_n" checked>
             <span id="rem-def-l-every"></span>
-            <select id="rem-def-every" data-f="every_n" aria-label="每隔幾天">
+            <select id="rem-def-every" data-f="every_n" data-i18n-aria="rem_def_every_aria">
               <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option>
               <option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option>
             </select>
@@ -508,13 +512,13 @@
             <span id="rem-def-l-weekdays"></span>
           </label>
           <div class="rem-def-wds" id="rem-def-wd-group" data-wd-group="wd" hidden>
-            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="0"><span class="rem-wd-t">日</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="1"><span class="rem-wd-t">一</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="2"><span class="rem-wd-t">二</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="3"><span class="rem-wd-t">三</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="4"><span class="rem-wd-t">四</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="5"><span class="rem-wd-t">五</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="6"><span class="rem-wd-t">六</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="0"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="1"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="2"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="3"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="4"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="5"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="wd" value="6"><span class="rem-wd-t"></span></label>
           </div>
         </div>
         <label class="rem-def-field" for="rem-def-time">
@@ -544,13 +548,13 @@
             <span id="rem-def-l-target-only"></span>
           </label>
           <div class="rem-def-wds" id="rem-def-twd-group" data-wd-group="twd" hidden>
-            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="0"><span class="rem-wd-t">日</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="1"><span class="rem-wd-t">一</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="2"><span class="rem-wd-t">二</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="3"><span class="rem-wd-t">三</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="4"><span class="rem-wd-t">四</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="5"><span class="rem-wd-t">五</span></label>
-            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="6"><span class="rem-wd-t">六</span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="0"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="1"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="2"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="3"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="4"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="5"><span class="rem-wd-t"></span></label>
+            <label class="rem-def-wd"><input type="checkbox" data-f="twd" value="6"><span class="rem-wd-t"></span></label>
           </div>
         </div>
         <div class="rem-def-field">
@@ -566,7 +570,7 @@
         </div>
       </div>
       <div class="rem-def-acts">
-        <button type="button" id="rem-def-save" class="rem-add-btn">儲存</button>
+        <button type="button" id="rem-def-save" class="rem-add-btn"></button>
       </div>
       </div><!-- /rem-def-body -->
     </section>
@@ -583,7 +587,7 @@
   <script src="./assets/site-nav.js"></script>
   <script src="./assets/member-auth.js?v=clui116"></script>
   <script src="./assets/reminders-client.js?v=clui126"></script>
-  <script src="./assets/reminders-page.js?v=clui129"></script>
+  <script src="./assets/reminders-page.js?v=clui134"></script>
   <script src="./assets/subject-sets-library.js?v=clapp09e"></script>
   <!-- CL-UI-101: site-wide footer — sources & licenses link + safety disclaimer. -->
   <footer class="site-footer">

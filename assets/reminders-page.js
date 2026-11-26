@@ -33,6 +33,11 @@
   var I18N = {
     'zh-TW': {
       page_title: '我的', nav_cards: '卡片', nav_weathermap: '天氣圖', nav_my: '我的', my_rem_tab: '我的提醒', my_subj_tab: '我的題材',
+      // CL-I18N-12A: accessibility labels (aria-label) live in the dict too.
+      // nav_aria / lang_label are the hooks for the shared shell nav; the nav
+      // DOM is pinned byte-identical across six pages (CL-UI-28), so wiring them
+      // site-wide is a separate ticket.
+      nav_aria: '全站導覽', lang_label: '語言', my_tabs_aria: '我的分區',
       rem_list_title: '我的提醒',
       rem_add_title: '＋ 新增提醒',
       rem_add_btn: '加入提醒',
@@ -69,6 +74,7 @@
       rem_cc_low: '低雲門檻（%）', rem_cc_mid: '中雲門檻（%）', rem_cc_high: '高雲門檻（%）',
       rem_cc_precip: '降水上限（mm/h）', rem_cc_vis: '能見度下限（km）',
       rem_cc_wind: '風速上限（m/s）', rem_cc_window: '時間窗', rem_cc_lead: '提前量（分鐘）',
+      rem_cc_window_start: '時間窗起', rem_cc_window_end: '時間窗訖',
       rem_cc_hint_low: '低空雲量低於此值才推播；100 代表不限',
       rem_cc_hint_mid: '中空雲量影響中景清晰度',
       rem_cc_hint_high: '高空雲量影響星空與長曝',
@@ -85,6 +91,7 @@
       rem_def_freq: '發送頻率',
       rem_def_mode_every: '每隔 N 天',
       rem_def_mode_weekdays: '指定每星期幾',
+      rem_def_every_aria: '每隔幾天',
       rem_def_days: '星期',
       rem_def_send_time: '發送時間',
       rem_def_lead: '預報展望天數',
@@ -114,8 +121,9 @@
     },
     'en': {
       page_title: 'My Library', nav_cards: 'Cards', nav_weathermap: 'Weather map', nav_my: 'My Library', my_rem_tab: 'My reminders', my_subj_tab: 'My subjects',
+      nav_aria: 'Site navigation', lang_label: 'Language', my_tabs_aria: 'My sections',
       rem_list_title: 'My reminders',
-      rem_add_title: '＋ New reminder',
+      rem_add_title: '+ New reminder',
       rem_add_btn: 'Add reminder',
       rem_added_btn: 'Added ✓',
       rem_search_placeholder: 'Search place or subject names…',
@@ -150,6 +158,7 @@
       rem_cc_low: 'Low cloud cap (%)', rem_cc_mid: 'Mid cloud cap (%)', rem_cc_high: 'High cloud cap (%)',
       rem_cc_precip: 'Precipitation cap (mm/h)', rem_cc_vis: 'Visibility floor (km)',
       rem_cc_wind: 'Wind cap (m/s)', rem_cc_window: 'Time window', rem_cc_lead: 'Lead time (minutes)',
+      rem_cc_window_start: 'Window start', rem_cc_window_end: 'Window end',
       rem_cc_hint_low: 'Notify only below this low-cloud value; 100 = no limit',
       rem_cc_hint_mid: 'Mid-level cloud affects midground clarity',
       rem_cc_hint_high: 'High cloud affects stars and long exposures',
@@ -166,6 +175,7 @@
       rem_def_freq: 'Frequency',
       rem_def_mode_every: 'Every N days',
       rem_def_mode_weekdays: 'On chosen weekdays',
+      rem_def_every_aria: 'Every how many days',
       rem_def_days: 'Weekdays',
       rem_def_send_time: 'Send time',
       rem_def_lead: 'Forecast look-ahead',
@@ -195,6 +205,7 @@
     },
     'ja': {
       page_title: 'マイライブラリ', nav_cards: 'カード', nav_weathermap: '天気マップ', nav_my: 'マイライブラリ', my_rem_tab: 'マイリマインダー', my_subj_tab: 'マイ題材',
+      nav_aria: 'サイト内ナビゲーション', lang_label: '言語', my_tabs_aria: 'マイセクション',
       rem_list_title: 'リマインダー一覧',
       rem_add_title: '＋ リマインド追加',
       rem_add_btn: 'リマインドに追加',
@@ -231,6 +242,7 @@
       rem_cc_low: '低雲しきい値（%）', rem_cc_mid: '中雲しきい値（%）', rem_cc_high: '高雲しきい値（%）',
       rem_cc_precip: '降水上限（mm/h）', rem_cc_vis: '視程下限（km）',
       rem_cc_wind: '風速上限（m/s）', rem_cc_window: '時間帯', rem_cc_lead: '通知の余裕（分）',
+      rem_cc_window_start: '時間帯の開始', rem_cc_window_end: '時間帯の終了',
       rem_cc_hint_low: '低雲がこの値未満のときだけ通知。100 は無制限',
       rem_cc_hint_mid: '中雲は中景の明瞭さに影響します',
       rem_cc_hint_high: '高雲は星空や長時間露光に影響します',
@@ -247,6 +259,7 @@
       rem_def_freq: '通知の頻度',
       rem_def_mode_every: 'N 日ごと',
       rem_def_mode_weekdays: '曜日を指定',
+      rem_def_every_aria: '何日ごとに通知するか',
       rem_def_days: '曜日',
       rem_def_send_time: '通知時刻',
       rem_def_lead: '予報の見通し日数',
@@ -278,12 +291,49 @@
 
   var state = { lang: 'zh-TW', catalog: [], rules: [], signedIn: null, defaults: null };
 
-  function lang() {
-    var sel = document.getElementById('lang-select');
-    var v = (sel && typeof sel.value === 'string' && sel.value) ||
-            (function () { try { return localStorage.getItem('chaselights_lang'); } catch (e) { return null; } }()) || 'zh-TW';
-    return I18N[v] ? v : 'zh-TW';
+  // CL-I18N-12A: language resolution mirrors assets/app.js — ?lang= wins (and
+  // is persisted to the shared chaselights_lang key, exactly like the
+  // homepage), then the stored preference, then the browser's own language,
+  // then zh-TW. #lang-select is an OUTPUT of that decision (syncLangSelect),
+  // never an input: the markup ships it preselected to zh-TW, so reading it
+  // first pinned every ?lang=en / stored-en visit back to Chinese.
+  var VALID_LANGS = ['zh-TW', 'en', 'ja'];
+  function isLang(v) { return typeof v === 'string' && VALID_LANGS.indexOf(v) >= 0; }
+  function queryLang() {
+    try { var v = new URLSearchParams(window.location.search).get('lang'); return isLang(v) ? v : null; }
+    catch (e) { return null; }
   }
+  function storedLang() {
+    try { var v = localStorage.getItem('chaselights_lang'); return isLang(v) ? v : null; }
+    catch (e) { return null; }
+  }
+  function navigatorLang() {
+    try {
+      var list = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || ''];
+      for (var i = 0; i < list.length; i++) {
+        var tag = String(list[i] || '').toLowerCase();
+        if (tag.indexOf('ja') === 0) return 'ja';
+        if (tag.indexOf('zh') === 0) return 'zh-TW';
+        if (tag.indexOf('en') === 0) return 'en';
+      }
+    } catch (e) { /* no navigator */ }
+    return null;
+  }
+  function resolveLang() {
+    var q = queryLang();
+    if (q) {
+      try { localStorage.setItem('chaselights_lang', q); } catch (e) { /* private mode */ }
+      return q;
+    }
+    return storedLang() || navigatorLang() || 'zh-TW';
+  }
+  function syncLangSelect() {
+    var sel = document.getElementById('lang-select');
+    if (sel) { try { sel.value = state.lang; } catch (e) { /* detached stub */ } }
+    var html = document.documentElement;
+    if (html && html.setAttribute) html.setAttribute('lang', state.lang);
+  }
+  function lang() { return resolveLang(); }
   function t(key) { var p = I18N[state.lang]; return (p && p[key]) || I18N['zh-TW'][key] || ''; }
 
   // Pure helpers (unit-tested via source extraction).
@@ -449,11 +499,14 @@
   // drops the 、 separator — the owner's target-day wording 「只看週六日」.
   var WD_DISPLAY_ORDER = [1, 2, 3, 4, 5, 6, 0];
   function dayNames(days, lg, compact) {
+    // List separator per language — the map rides inside the function so the
+    // extracted-function harnesses (cl-ux-01/02) keep a self-contained slice.
+    var seps = { 'zh-TW': '、', en: ', ', ja: '、' };
     var names = WD_NAMES[lg] || WD_NAMES['zh-TW'];
     var ordered = (days || []).slice().sort(function (a, b) {
       return WD_DISPLAY_ORDER.indexOf(a) - WD_DISPLAY_ORDER.indexOf(b);
     });
-    var sep = lg === 'en' ? ', ' : (compact ? '' : '、');
+    var sep = lg === 'en' ? seps.en : (compact ? '' : (seps[lg] || seps['zh-TW']));
     return ordered.map(function (d) { return names[d]; }).join(sep);
   }
   function clampInt(v, lo, hi, fallback) {
@@ -1270,12 +1323,19 @@
   function renderAll() {
     document.getElementById('page-title').textContent = t('page_title');
     document.documentElement.lang = state.lang;
+    syncLangSelect();
     document.title = 'ChaseLights — ' + t('page_title');
     if (!state.signedIn) document.getElementById('rem-count').textContent = '';
     // nav_* keys are mirrored in this page's dict (shared shell markup).
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var k = el.getAttribute('data-i18n');
       if (t(k)) el.textContent = t(k);
+    });
+    // CL-I18N-12A: accessibility labels (aria-label) carry their own key so a
+    // screen reader never announces Chinese on the en/ja page.
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+      var k = el.getAttribute('data-i18n-aria');
+      if (t(k)) el.setAttribute('aria-label', t(k));
     });
     var state0 = document.getElementById('rem-state');
     if (state0 && !notice) state0.textContent = state.signedIn === null ? t('rem_loading') : '';
@@ -1288,8 +1348,18 @@
   // ---- events ----
   function bindEvents() {
     document.getElementById('lang-select').addEventListener('change', function () {
-      state.lang = lang();
+      // CL-I18N-12A: the switcher is an explicit user choice — read it, persist
+      // it, then re-render (lang() itself never reads the select).
+      var v = document.getElementById('lang-select').value;
+      state.lang = isLang(v) ? v : resolveLang();
       try { localStorage.setItem('chaselights_lang', state.lang); } catch (e) { /* private mode */ }
+      // Keep the URL in step (assets/app.js does the same): otherwise a stale
+      // ?lang=en would win again on the next reload and undo this choice.
+      try {
+        var u = new URL(window.location.href);
+        u.searchParams.set('lang', state.lang);
+        history.replaceState(null, '', u.toString());
+      } catch (e) { /* file:// or blocked history */ }
       renderAll();
     });
     // CL-UX-01 Part B: defaults panel — live summary + mode exclusivity + save.
@@ -1485,6 +1555,7 @@
 
   function boot() {
     state.lang = lang();
+    syncLangSelect();
     bindEvents();
     renderAll();
     loadCatalog();
