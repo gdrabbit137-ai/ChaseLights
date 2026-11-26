@@ -2457,7 +2457,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       return `<details class="v2-cond-details"><summary class="v2-cond-summary">${esc(t.v2_cond_count).replace('{n}',String(v2CondCount))}<span class="v2-cond-caret" aria-hidden="true">▸</span></summary><div class="v2-conditions"><div class="research-label">${esc(t.v2_conditions_from)}</div>${v2Groups.required.length||extraHtml?reqGroup:''}${v2Groups.booster.length?`<div class="v2-cond-group"><span class="research-label">${esc(t.guide_boosters)}${colonSep()}</span></div>${v2Groups.booster.join('')}`:''}${v2Groups.penalty.length?`<div class="v2-cond-group"><span class="research-label">${esc(t.guide_penalties)}${colonSep()}</span></div>${v2Groups.penalty.join('')}`:''}</div></details>`;
     }
     function openPlaceModal(spot,summaryMetric){
-      window.__openPlaceCalls=(window.__openPlaceCalls||0)+1;
+      if(typeof window!=='undefined')window.__openPlaceCalls=(window.__openPlaceCalls||0)+1;
       activePlaceSpot=spot;activePlaceSummary=summaryMetric;
       const overlay=document.getElementById('place-modal-overlay');
       const body=document.getElementById('place-modal-body');
@@ -2696,7 +2696,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       }
     }
     async function openWeatherModal(spot,summaryMetric){
-      window.__openWeatherCalls=(window.__openWeatherCalls||0)+1;
+      if(typeof window!=='undefined')window.__openWeatherCalls=(window.__openWeatherCalls||0)+1;
       const seq=++modalLoadSeq;
       // CL-UI-100: the forecast modal carries the place id for the evaluation
       // section (assets/feedback-ui.js reads it when the overlay opens).

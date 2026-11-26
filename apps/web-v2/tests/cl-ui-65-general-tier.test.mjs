@@ -106,12 +106,14 @@ test('CL-UI-65 (2): three-tier second line renders per tier', () => {
 
 test('CL-UI-65 (3): the modal quick view shares the three-tier semantics', () => {
   const modalRow = grab('function modalDayRow', '// CL-UI-29');
-  assert.match(modalRow, /function modalDayRow\(label,info,scRow\)/);
+  // CL-CI-44: the row gained the spot + dateKey so it can render the day's
+  // WMO/temperature chip; the tier semantics are unchanged.
+  assert.match(modalRow, /function modalDayRow\(label,info,scRow,spot,dateKey\)/);
   assert.ok(modalRow.includes('v2GeneralLineText(scRow,currentLang)'),
     'none-branch appends the general tier line');
   // the overview rows feed the subject-card row for that place+date
   assert.match(appSource,
-    /modalDayRow\(dayLabels\[i\],info,v2SubjectCardRow\(summaryData\.place\.place_id,info&&info\.date\)\)/);
+    /modalDayRow\(dayLabels\[i\],info,v2SubjectCardRow\(summarySpot\.spot_id,dateKey\),summarySpot,dateKey\)/);
 });
 
 test('CL-UI-65 (4): chips never include the general subject', () => {
@@ -133,6 +135,6 @@ test('CL-UI-65 (4): chips never include the general subject', () => {
 test('CL-UI-65 (5): mid-verdict style exists and stamps advanced to clui75', () => {
   const css = readFileSync(join(ROOT, 'assets', 'app.css'), 'utf8');
   assert.match(css, /\.v2-verdict-mid\s*{\s*color:/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui129/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui122/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui131/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui131/);
 });
