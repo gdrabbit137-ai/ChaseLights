@@ -116,6 +116,23 @@ def _lcl_height_m(t_c, td_c):
     return 125.0 * spread
 
 
+def _lcl_cell(t_c, td_c):
+    """LCL cell, keeping a REFUSED (supersaturated) input distinguishable.
+
+    A negative T2m − Td2m spread means the air is at or beyond saturation:
+    the parcel LCL is undefined, but the condition is itself the fog
+    signature. Tagging the refusal (instead of the generic NULL_OR_INVALID)
+    lets the evaluation layer fail the In-Cloud gate CLOSED on it, rather
+    than mistaking the refusal for a merely absent observation.
+    """
+    if t_c is None or td_c is None:
+        return _cell(None, "m", minimum=0)
+    if t_c - td_c < 0:
+        return {"value": None, "unit": "m", "state": "UNAVAILABLE",
+                "reason_code": "SUPERSATURATED"}
+    return _cell(_lcl_height_m(t_c, td_c), "m", minimum=0)
+
+
 # CL-CI-21 fail-closed: no horizon default — every caller states the horizon
 # explicitly; a missing argument raises instead of silently regressing to 72h.
 def fetch_place(lat, lon, forecast_hours):
@@ -211,7 +228,7 @@ def fetch_place(lat, lon, forecast_hours):
             values["temperature_delta_700_600_c"] = _cell(None, "°C")
         t2m = _at(hourly, "temperature_2m", index)
         td2m = _at(hourly, "dew_point_2m", index)
-        values["lcl_height_m_agl"] = _cell(_lcl_height_m(t2m, td2m), "m", minimum=0)
+        values["lcl_height_m_agl"] = _lcl_cell(t2m, td2m)
         mid = _at(hourly, "cloudcover_mid", index)
         high = _at(hourly, "cloudcover_high", index)
         values["cloud_cover_mid_and_high"] = _cell(

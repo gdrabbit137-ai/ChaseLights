@@ -302,6 +302,21 @@
       "zh-TW": "非大潮帶",
       "en": "outside the spring-tide band",
       "ja": "大潮帯の外"
+    },
+    "in_cloud_fog": {
+      "zh-TW": "雲霧籠罩",
+      "en": "enveloped in cloud/fog",
+      "ja": "雲霧に包まれる"
+    },
+    "data_contradiction": {
+      "zh-TW": "資料矛盾／山區易起霧",
+      "en": "conflicting data / fog risk",
+      "ja": "データ矛盾／霧の危険"
+    },
+    "cloud_sea_inversion": {
+      "zh-TW": "逆溫濕層不足",
+      "en": "weak inversion moisture",
+      "ja": "逆転層の湿り不足"
     }
   },
   "metric_priority": [
@@ -363,12 +378,15 @@
     "fog_state",
     "soft_light_window",
     "morning_window",
-    "spring_tide_state"
+    "spring_tide_state",
+    "in_cloud_fog",
+    "data_contradiction",
+    "cloud_sea_inversion"
   ],
   "dominant_reason_rule": {
     "zh-TW": "同日同地多題材失敗時，主導原因＝各失敗題材「最核心被違反條件」的票數最高者。每個失敗題材（該日 state=UNFAVORABLE）先依此順序選出一個核心違反 metric：(1) day_verdict=FAIL 的條件中 metric_priority 最前者（同分時 REQUIRED 優於 QUALITY、MAIN 優於其他 tier、再取契約宣告順序）；(2) 無 FAIL 時取 REQUIRED+MAIN 的 UNKNOWN；(3) 再無則取 pass_hours=0 的 PARTIAL；都不是則該題材不投票。窗類條件（sunrise/sunset/golden/blue/city_night_window、light_window、astronomical_darkness、daylight_window）在窗有發生（pass_hours>0）時不投票——窗內失敗的主因是天氣，主導詞必為天氣短詞（卡片並以「下一個符合時段」帶出窗口導引）；僅當窗未發生（pass_hours=0）且無天氣類條件 FAIL/PARTIAL 時才投票，用中性詞「非拍攝時段」。資格類條件（seasonal_state/landform_present/light_direction）屬單題材資格，不參與日層投票，其原因只留在題材展開區。得票最高者為主導原因；同票取 metric_priority 較前者；再同取 metric id 字序。該日全數符合（suitable）或全數無法評估時 dominant_reason=null。",
     "en": "For a place-day with multiple failed subjects, the dominant reason is the metric most voted as each failed subject's MOST CORE violated condition. Each failed subject (day state=UNFAVORABLE) casts one vote for a single metric, chosen in order: (1) among day_verdict=FAIL conditions, the earliest in metric_priority (ties: REQUIRED before QUALITY, MAIN before other tiers, then contract declaration order); (2) else a REQUIRED+MAIN UNKNOWN; (3) else a PARTIAL with pass_hours=0; otherwise the subject abstains. Time-window metrics (sunrise/sunset/golden/blue/city_night_window, light_window, astronomical_darkness, daylight_window) abstain when the window occurred (pass_hours>0) — the real cause is then weather, so the dominant word is a weather word (the card adds the next qualifying window as guidance); they vote only when the window never happened (pass_hours=0) AND no weather-class condition shows a FAIL/PARTIAL, with the neutral wording 'outside shooting window'. Qualification metrics (seasonal_state/landform_present/light_direction) are per-subject eligibility: they never vote at place-day level and stay in the modal's per-subject expansion rows. Highest vote count wins; ties break to the earlier metric_priority entry, then metric id order. dominant_reason=null when every subject that day is suitable or not evaluable.",
-    "note": "metric_priority[0..32] reuses the shipped V2_FAIL_PRIORITY order from assets/app.js so the data layer can never contradict the live card UX; the remaining entries extend it for metrics that exist in contracts but not in that legacy list. CL-UI-70 (CHALLENGER-13): window-class metrics vote only for a genuinely absent window; qualification-class metrics are excluded from the day vote (rule_version 1.1). CL-DATA-73: fog_state (misty-forest decisive INVERTED condition, 無霧), soft_light_window and morning_window are extension-zone entries (not in the legacy V2_FAIL_PRIORITY list). CL-DATA-74: clear_streak_hours (star-trail continuous-clear decisive probe), snowfall/snow_depth/snow_cover_state (snow_scene family), alpenglow_window and relative_humidity_2m are extension-zone entries (not in the legacy V2_FAIL_PRIORITY list).",
+    "note": "metric_priority[0..32] reuses the shipped V2_FAIL_PRIORITY order from assets/app.js so the data layer can never contradict the live card UX; the remaining entries extend it for metrics that exist in contracts but not in that legacy list. CL-UI-70 (CHALLENGER-13): window-class metrics vote only for a genuinely absent window; qualification-class metrics are excluded from the day vote (rule_version 1.1). CL-DATA-73: fog_state (misty-forest decisive INVERTED condition, 無霧), soft_light_window and morning_window are extension-zone entries (not in the legacy V2_FAIL_PRIORITY list). CL-DATA-74: clear_streak_hours (star-trail continuous-clear decisive probe), snowfall/snow_depth/snow_cover_state (snow_scene family), alpenglow_window and relative_humidity_2m are extension-zone entries (not in the legacy V2_FAIL_PRIORITY list). CL-PHYS-02 (stage 1): in_cloud_fog / data_contradiction / cloud_sea_inversion are evaluation-layer gates APPENDED as extension-zone entries; the legacy head order (precipitation, visibility, ...) is unchanged. They outrank the ordinary vote through the documented hard-block precedence in build_subject_cards (a gate that vetoed the day names the day reason), not through the priority table.",
     "rule_version": "1.1"
   }
 }

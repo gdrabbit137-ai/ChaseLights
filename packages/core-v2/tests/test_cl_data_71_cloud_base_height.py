@@ -49,6 +49,12 @@ def available(m):
     return {"value": m, "state": "AVAILABLE"}
 
 
+def grid(elevation_m):
+    """CL-PHYS-02 §1: the grid cell's ground elevation (m ASL) the AGL LCL
+    is measured above — now required for every cloud-base comparison."""
+    return {"grid_elevation_m": {"value": elevation_m, "state": "AVAILABLE"}}
+
+
 class ContractAuditTests(unittest.TestCase):
     """Every audited contract carries exactly one CL-DATA-71 condition."""
 
@@ -90,7 +96,12 @@ class ContractAuditTests(unittest.TestCase):
 
 
 class MoyanshanOwnerCaseTests(unittest.TestCase):
-    """墨硯山琉璃光 (tw-128-P01, band 50–120 m): the owner's two cases."""
+    """墨硯山琉璃光 (tw-128-P01, band 50–120 m): the owner's two cases.
+
+    CL-PHYS-02 §1: the band is a cloud-base height RELATIVE TO THE VIEWPOINT
+    (157 m), so the fixture states the viewpoint grid elevation explicitly —
+    the observed LCL is AGL and is converted to ASL before the comparison.
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -102,29 +113,26 @@ class MoyanshanOwnerCaseTests(unittest.TestCase):
     def test_clear_night_fails(self):
         # Owner's discovery: a cloudless night (LCL proxy ~549 m from the
         # 2 m T/Td pipeline) used to judge ✓; the new condition FAILs it.
-        verdict, detail = eb.condition_verdict(self.cond,
-                                               {"lcl_height_m_agl": available(549)}, {})
+        verdict, detail = eb.condition_verdict(
+            self.cond, {"lcl_height_m_agl": available(549), **grid(157)}, {})
         self.assertEqual((verdict, detail.split("(")[0]), ("FAIL", "CLOUD_BASE_HEIGHT"))
 
     def test_typical_cloud_glow_night_passes(self):
         # A deck hanging inside the recorded band (LCL proxy 80 m) passes.
-        verdict, _ = eb.condition_verdict(self.cond,
-                                          {"lcl_height_m_agl": available(80)}, {})
+        verdict, _ = eb.condition_verdict(
+            self.cond, {"lcl_height_m_agl": available(80), **grid(157)}, {})
         self.assertEqual(verdict, "PASS")
 
     def test_band_edges(self):
-        self.assertEqual(eb.condition_verdict(
-            self.cond, {"lcl_height_m_agl": available(50)}, {})[0], "PASS")
-        self.assertEqual(eb.condition_verdict(
-            self.cond, {"lcl_height_m_agl": available(120)}, {})[0], "PASS")
-        self.assertEqual(eb.condition_verdict(
-            self.cond, {"lcl_height_m_agl": available(121)}, {})[0], "FAIL")
-        self.assertEqual(eb.condition_verdict(
-            self.cond, {"lcl_height_m_agl": available(49)}, {})[0], "FAIL")
+        for lcl, expected in ((50, "PASS"), (120, "PASS"), (121, "FAIL"), (49, "FAIL")):
+            with self.subTest(lcl=lcl):
+                self.assertEqual(eb.condition_verdict(
+                    self.cond, {"lcl_height_m_agl": available(lcl), **grid(157)}, {})[0],
+                    expected)
 
     def test_required_fail_makes_the_hour_unfavorable(self):
-        verdict, _ = eb.condition_verdict(self.cond,
-                                          {"lcl_height_m_agl": available(549)}, {})
+        verdict, _ = eb.condition_verdict(
+            self.cond, {"lcl_height_m_agl": available(549), **grid(157)}, {})
         roles = {self.cond["id"]: "REQUIRED"}
         status, fails, _ = eb.hour_status(roles, {self.cond["id"]: verdict})
         self.assertEqual(status, "UNFAVORABLE")
@@ -132,7 +140,15 @@ class MoyanshanOwnerCaseTests(unittest.TestCase):
 
 
 class DerivedThresholdTests(unittest.TestCase):
-    """DEM−200 fallback semantics (e.g. jp-037-P02, viewpoint 1088 m)."""
+    """DEM−200 fallback semantics (e.g. jp-037-P02, viewpoint 1088 m).
+
+    The threshold (888 m) is ASL. CL-PHYS-02 §1: with a summit grid point
+    (grid elevation == viewpoint) any positive AGL LCL puts the cloud base AT
+    OR ABOVE the summit — the threshold lies BELOW the ground, so the window
+    is physically unimplementable from this datum. Reviewer blocker 2: that
+    must read UNRESOLVABLE / UNKNOWN, never a permanent 不宜; a deck below the
+    summit needs the deferred valley dual-grid model (CL-DATA-85).
+    """
 
     @classmethod
     def setUpClass(cls):
@@ -141,15 +157,34 @@ class DerivedThresholdTests(unittest.TestCase):
                         if c["metric"] == "cloud_base_height")
         cls.cond = dict(cls.cond, viewpoint_elevation_m=1088.0)
 
-    def test_deck_below_sight_line_passes(self):
+    def test_low_level_deck_below_sight_line_passes(self):
+        # A 300 m grid point with a 200 m AGL base = 500 m ASL < 888 → the
+        # deck really is below the camera.
         self.assertEqual(eb.condition_verdict(
-            self.cond, {"lcl_height_m_agl": available(500)}, {})[0], "PASS")
+            self.cond, {"lcl_height_m_agl": available(200), **grid(300)}, {})[0],
+            "PASS")
+
+    def test_summit_grid_point_can_never_see_the_deck_below(self):
+        # 500 m AGL over the 1088 m summit grid = 1588 m ASL — the old AGL
+        # comparison wrongly called this "below the sight line". The window
+        # itself (888 m) is below the ground, so the honest verdict is
+        # UNKNOWN/UNRESOLVABLE, and the ASL base proves the datum.
+        values = {"lcl_height_m_agl": available(500), **grid(1088)}
+        verdict, detail = eb.condition_verdict(self.cond, values, {})
+        self.assertEqual(verdict, "UNKNOWN")
+        self.assertIn("CLOUD_BASE_WINDOW_UNRESOLVABLE", detail)
+        self.assertEqual(eb.condition_value(self.cond, values, {}), 1588.0)
 
     def test_clear_night_fails(self):
+        # A clear night lifts the base far past the threshold on a datum where
+        # the window IS resolvable (300 m grid, `lt 888`): 900 m AGL = 1200 m
+        # ASL → FAIL. On the summit grid the same input is UNRESOLVABLE.
         self.assertEqual(eb.condition_verdict(
-            self.cond, {"lcl_height_m_agl": available(900)}, {})[0], "FAIL")
+            self.cond, {"lcl_height_m_agl": available(900), **grid(300)}, {})[0],
+            "FAIL")
         self.assertEqual(eb.condition_verdict(
-            self.cond, {"lcl_height_m_agl": available(888)}, {})[0], "FAIL")
+            self.cond, {"lcl_height_m_agl": available(900), **grid(1088)}, {})[0],
+            "UNKNOWN")
 
     def test_threshold_is_viewpoint_minus_200(self):
         self.assertEqual(self.cond["threshold"], 1088 - 200)
@@ -189,12 +224,14 @@ class HonestyPathTests(unittest.TestCase):
             cond, {"lcl_height_m_agl": available(80)}, {}),
             ("UNKNOWN", "NON_NUMERIC_OPERATOR"))
 
-    def test_display_value_is_the_lcl_proxy(self):
+    def test_display_value_is_the_asl_cloud_base(self):
         cond = {"metric": "cloud_base_height", "operator": "lt",
                 "threshold": 105, "role": "REQUIRED",
                 "viewpoint_elevation_m": 305.0}
         self.assertEqual(eb.condition_value(
-            cond, {"lcl_height_m_agl": available(549)}, {}), 549)
+            cond, {"lcl_height_m_agl": available(549), **grid(300)}, {}), 849.0)
+        self.assertEqual(eb.condition_value(
+            cond, {"lcl_height_m_agl": available(549)}, {}), None)
         self.assertIsNone(eb.condition_value(cond, {}, {}))
 
 

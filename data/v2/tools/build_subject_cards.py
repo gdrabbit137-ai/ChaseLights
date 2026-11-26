@@ -213,10 +213,32 @@ WINDOW_METRICS = frozenset((
 # place-day dominant vote.
 QUALIFICATION_METRICS = frozenset(
     ("seasonal_state", "landform_present", "light_direction"))
+# CL-PHYS-02 (stage 1): the evaluation-layer gates that can veto a day —
+# In-Cloud Fog (「雲霧籠罩」), the raw low-cloud/visibility contradiction
+# (「資料矛盾／山區易起霧」) and the cloud-sea inversion primary criterion.
+# A gate that FAILED the day SUPERSEDES the ordinary vote: it is the honest
+# reason the subject was blocked, not the weather field it happens to
+# coincide with (a white-out day also "fails visibility"). This precedence
+# lives here instead of the priority table so the shipped legacy head order
+# (precipitation, visibility, ...) stays byte-identical.
+PHYS_GATE_REASON_ORDER = ("in_cloud_fog", "data_contradiction",
+                          "cloud_sea_inversion")
 
 
 def _core_violation_metric(conds, priority_map):
     """One metric id (or None) = the subject's most core violated condition."""
+    # CL-PHYS-02: a CL-PHYS-02 gate that failed this day is the core
+    # violation by construction — the gate IS the reason the subject was
+    # blocked (In-Cloud Fog 「雲霧籠罩」 / contradiction 「資料矛盾」), not the
+    # weather field that happens to trip alongside it. Gate order decides
+    # ties (fewest passing hours first, then PHYS_GATE_REASON_ORDER).
+    gate_fails = [c for c in conds
+                  if c.get("metric") in PHYS_GATE_REASON_ORDER
+                  and c.get("day_verdict") == "FAIL"]
+    if gate_fails:
+        return min(gate_fails, key=lambda c: (
+            c.get("pass_hours", 0),
+            PHYS_GATE_REASON_ORDER.index(c["metric"])))["metric"]
     # CL-UI-70: whether any weather-class condition shows a concrete problem.
     # Weather-class = neither a time window nor a per-subject qualification.
     weather_trouble = any(
@@ -589,7 +611,16 @@ def derive_place_days(bundle, genres, fails):
             best = None
             dominant_source = None
             if row["votes"]:
-                best = min(sorted(row["votes"]), key=lambda m: (-row["votes"][m], prio_index(m), m))
+                # CL-PHYS-02: a failed gate names the day reason ahead of the
+                # ordinary priority vote (see PHYS_GATE_REASON_ORDER).
+                gate_votes = [m for m in PHYS_GATE_REASON_ORDER
+                              if row["votes"].get(m)]
+                if gate_votes:
+                    best = max(gate_votes, key=lambda m: (
+                        row["votes"][m],
+                        -PHYS_GATE_REASON_ORDER.index(m)))
+                else:
+                    best = min(sorted(row["votes"]), key=lambda m: (-row["votes"][m], prio_index(m), m))
                 dominant = short_word(best)
                 dominant_source = "curated_votes"
             elif baseline["reason_short"] is not None and (
