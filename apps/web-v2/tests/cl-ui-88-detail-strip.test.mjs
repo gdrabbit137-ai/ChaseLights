@@ -75,7 +75,7 @@ test('CL-UI-88 (1): strip CSS — content-sized cells, no ellipsis, fade hints +
   // Cache-bust: the served homepage carries the new stamp.
   assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui stays at clui102 (app.js + app.css advanced to clui120) (app.js advanced to clui118, CL-UI-110)');
   assert.equal((indexSource.match(/\?v=clui121/g) || []).length,1, 'app.css at clui120 (CL-UI-118b); app.js advanced to clui128 (CL-UI-122)');
-  assert.match(indexSource, /assets\/app\.js\?v=clui128/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui129/);
 });
 
 test('CL-UI-88 (2): strip wiring — tooltip + .sel + per-block drag init in app.js', () => {

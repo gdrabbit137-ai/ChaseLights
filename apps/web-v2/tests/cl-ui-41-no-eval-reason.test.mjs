@@ -71,8 +71,8 @@ test('CL-UI-41: mapping helper executes with the bundle shape (extracted functio
 
 test('CL-UI-41: homepage cache-bust stamp bumped to clui41', () => {
   const index = readFileSync(new URL('../../../index.html', import.meta.url), 'utf8');
-  assert.match(index, /assets\/app\.js\?v=clui128/);
-  assert.match(index, /assets\/app\.css\?v=clui121/);
+  assert.match(index, /assets\/app\.js\?v=clui129/);
+  assert.match(index, /assets\/app\.css\?v=clui122/);
 });
 
 test('CL-UI-41: evaluator emits machine-derived skip reasons for unevaluated places', () => {

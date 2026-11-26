@@ -35,7 +35,7 @@ test('CL-APP-06 (1a): index.html carries the asset tags with their own cache-bus
   assert.match(htmlSource, /assets\/vendor\/maplibre-gl\.css\?v=clapp06f/);
   // untouched neighbors keep their stamps (per-file cache-bust rule)
   // CL-INT-190: clui101 -> clui102 re-anchored (CL-INT-187 favicon stamp bump on main during merge)
-  assert.match(htmlSource, /assets\/app\.js\?v=clui128/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui129/);
 });
 
 test('CL-APP-06 (1b): the asset is self-contained and owner-ruled-honest', () => {
@@ -1517,12 +1517,29 @@ test('CL-APP-06 (1h, patch-7→patch-4): private-card click → forecast popup r
   assert.match(appSrc, /window\.CLForecastRenderers=\{/);
 });
 
-test('CL-APP-06 (2t, patch-4): clicking a private card opens the forecast popup — OFFICIAL anatomy (quick view + 8-day strip + subject rows + condition fold); ⋯ still opens the menu', async () => {
+test('CL-APP-06 (2t, patch-4): clicking a private card opens the forecast popup — OFFICIAL anatomy (quick view + 7-day strip + subject rows + condition fold); ⋯ still opens the menu', async () => {
   await bootBrowser();
   await setViewport(1280, 900, false);
   await loadPage();
   const probe = await evaljs(`(async () => {
     const out = {};
+    // CL-CI-43: the selected day used to be an IMPLICIT assumption — after
+    // ~22:00 the page's own day picker rolls to 明天, so this test measured
+    // tomorrow's band/strip while asserting today's shape and red-ed every
+    // night (runs 45063562817, 45708924071). Pin the selection explicitly to
+    // 今天 and keep every assertion below unchanged in strength.
+    const dayTrigger = document.querySelector('#day-picker-trigger');
+    if (dayTrigger) {
+      dayTrigger.click();
+      await new Promise(r => setTimeout(r, 120));
+      const todayOpt = document.querySelector('#day-picker-panel .day-option[data-day="today"]');
+      if (todayOpt) {
+        todayOpt.click();
+        await new Promise(r => setTimeout(r, 350));
+      }
+    }
+    const dayTriggerAfter = document.querySelector('#day-picker-trigger');
+    out.selectedDay = dayTriggerAfter ? dayTriggerAfter.dataset.day : null;
     const card = document.querySelector('.cl-cp-card[data-cp-id="cp1"]');
     // ⋯ must NOT open the popup (menu parity from patch-3 is preserved)
     card.querySelector('.cl-cp-more').click();
@@ -1555,7 +1572,7 @@ test('CL-APP-06 (2t, patch-4): clicking a private card opens the forecast popup 
     out.cellCls = [...new Set(cells.map(c => c.className.replace(/ sel| dragging/g, '')))];
     out.day1 = cells[0] && (cells[0].className + ' | ' + cells[0].textContent);
     out.day2 = cells[1] && (cells[1].className + ' | ' + cells[1].textContent);
-    out.day8 = cells[7] && (cells[7].className + ' | ' + cells[7].textContent);
+    out.day7 = cells[6] && (cells[6].className + ' | ' + cells[6].textContent);
     // 今天題材判定 rides the official v2-day-sub anatomy
     out.daySub = ov.querySelector('#cl-cp-qv-days .v2-day-sub') && ov.querySelector('#cl-cp-qv-days .v2-day-sub').textContent;
     // ── 逐題材行 rides the OFFICIAL cl-subject-row anatomy (短名 + stamp + 🔔)
@@ -1602,12 +1619,14 @@ test('CL-APP-06 (2t, patch-4): clicking a private card opens the forecast popup 
   assert.match(probe.qvChip, /(✓|○)/, `the chip is the official time-aware tier (✓推薦 or ○可拍·窗已過); got ${JSON.stringify(probe.qvChip)} tier=${JSON.stringify(probe.qvChipTier)}`);
   assert.ok(['ok', 'mid'].includes(probe.qvChipTier), 'chip tier is a valid official level for a clean-air place');
   assert.equal(probe.bandCells, 24, 'the 24h mini band renders the selected day via the SHARED v2BandHtml');
-  // ── official 8-day strip anatomy: one strip, honest cells
-  assert.equal(probe.cellCount, 8, 'the strip is always 8 days');
+  // ── official 7-day strip anatomy: one strip, honest cells
+  assert.equal(probe.selectedDay, 'today', 'the page day selection is pinned to 今天 explicitly (CL-CI-43)');
+  assert.equal(probe.cellCount, 7,
+    `the strip is always 7 days (DAY_KEYS: today..day6); got ${probe.cellCount}`);
   assert.match(probe.day1, /v2-ok/, 'day 1: fit hours exist inside the group window → ✓ cell');
   assert.match(probe.day2, /v2-bad/, 'day 2: the group fails on low cloud → ✗ cell');
   assert.match(probe.day2, /低雲/, 'the ✗ word comes from the bundle fail dictionary (single truth)');
-  assert.match(probe.day8, /v2-unk/, 'day 8: honest 資料不足 — the ~48h feed does not cover it');
+  assert.match(probe.day7, /v2-unk/, 'day 7: honest 資料不足 — the ~48h feed does not cover it');
   assert.match(probe.daySub || '', /今天題材判定/, '今天題材判定 rides the official v2-day-sub row');
   // ── official subject-row anatomy: 短名 + next window stamp + 🔔
   assert.equal(probe.subjectRows.length, 1, 'ONE row per theme group');

@@ -188,11 +188,19 @@ test('CL-UI-90 (7) token discipline — zero hardcoded colors in the page styles
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui129/);
   assert.doesNotMatch(remHtml, /reminders-page\.js\?v=clui75/);
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui116/);
-  assert.match(remHtml, /assets\/app\.css\?v=clui121/);
+  assert.match(remHtml, /assets\/app\.css\?v=clui122/);
 });
 
 // ---- (8) headless 1280/390 screenshots vs mockup (raw CDP, no playwright) --
-const BROWSER = process.env.CHROMIUM_EXECUTABLE || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+// CL-CI-43: this file hardcoded the Windows Chrome path, so on the ubuntu
+// runner the headless screenshot test died with `spawn ... ENOENT` and the
+// update_evaluations artifact gate could never go green. Same resolution order
+// as the other browser tests in this suite.
+const BROWSER = process.env.CHROMIUM_EXECUTABLE
+  || process.env.CHROME_PATH
+  || (process.platform === 'win32'
+    ? 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+    : '/usr/bin/chromium');
 
 test('CL-UI-90 (8) headless 1280/390 — cards render the mockup anatomy live', { timeout: 120000 }, async () => {
   let http, path;
