@@ -86,7 +86,16 @@ TIME_WINDOW_METRICS = {"sunrise_time_window", "sunset_window",
 # a "good hour" for a night subject. Syncing these into the contracts remains
 # an owner decision; when a contract adds a real time-window condition, the
 # gate automatically stands down (condition already in TIME_WINDOW_METRICS).
-EVAL_TIME_WINDOW_GATES = {"city_night": "city_night_window"}
+EVAL_TIME_WINDOW_GATES = {
+    "city_night": "city_night_window",
+    # CL-PHYS-03 §5 (data half): the three moonlit_scene subjects carry no
+    # time-window condition at all, so their night hours were emitted with no
+    # window semantics. The evaluation layer supplies the deterministic
+    # astronomical-darkness window so deep-night hours (00:00–04:00) are
+    # legitimate windows with their own code, never a generic 非建議. The gate
+    # stands down automatically once a contract declares a real window metric.
+    "moonlit_scene": "astronomical_darkness",
+}
 GATE_CONDITION_ID = "EVALGATE-city_night-window"
 GATE_CONDITION = {
     "id": GATE_CONDITION_ID,
@@ -125,7 +134,13 @@ def eval_conditions_for(contract):
         return conditions
     if any(c.get("metric") in TIME_WINDOW_METRICS for c in conditions):
         return conditions
-    return conditions + [GATE_CONDITION]
+    if metric == GATE_CONDITION["metric"]:
+        return conditions + [GATE_CONDITION]
+    # CL-PHYS-03 §5: per-genre gate built from the same shape (one shared
+    # implementation, no per-subject ifs).
+    gate = dict(GATE_CONDITION, id=f"EVALGATE-{contract['genre_template']}-window",
+                metric=metric)
+    return conditions + [gate]
 DECLARED_PASS_METRICS = {"landform_present"}
 # CL-DATA-72 batch A: seasonal_state leaves NO_SOURCE_METRICS — the verdict is
 # now computed from data/v2/seasonal-calendar.json (CL-COND-A8, deterministic
@@ -301,10 +316,13 @@ def condition_verdict(condition, values, astro_row, month=None,
     operator = condition.get("operator")
     threshold = condition.get("threshold")
     if metric in PHYS_GATE_METRICS:
-        # CL-PHYS-02 evaluation-layer gates (in_cloud_fog /
-        # data_contradiction / cloud_sea_inversion) — derived cells, judged
-        # by their single predicate, never by the generic field mapping.
-        return phys_gate_verdict(condition, values)
+        # CL-PHYS-02/03 evaluation-layer gates (in_cloud_fog /
+        # data_contradiction / cloud_sea_inversion / fog_visibility /
+        # data_floor / season + venue policy) — derived cells, judged by their
+        # single predicate, never by the generic field mapping.
+        return phys_gate_verdict(condition, values,
+                                 local_start_min=local_start_min,
+                                 local_date=local_date)
     if metric in NO_SOURCE_METRICS:
         return "UNKNOWN", "NO_LIVE_OBSERVATION_SOURCE"
     if metric in DECLARED_PASS_METRICS:
@@ -585,7 +603,8 @@ def boolean_value_label(value):
     return value
 
 
-def condition_value(condition, values, astro_row, local_date=None):
+def condition_value(condition, values, astro_row, local_date=None,
+                    local_start_min=None):
     """Observation used for the verdict, for live display (not a score).
 
     Boolean observations are published as 'satisfied'/'unsatisfied' (never a
@@ -634,8 +653,9 @@ def condition_value(condition, values, astro_row, local_date=None):
         value, _reason = lcl_asl_m(values)
         return None if value is None else round(float(value), 1)
     if metric in PHYS_GATE_METRICS:
-        # CL-PHYS-02 gates: display the derived level the verdict judged on.
-        cell = phys_gate_state(condition, values)
+        # CL-PHYS-02/03 gates: display the derived level the verdict judged on.
+        cell = phys_gate_state(condition, values, local_date=local_date,
+                               local_start_min=local_start_min)
         return cell.get("value") if cell.get("state") == "AVAILABLE" else None
     if metric == "snow_cover_state":
         # CL-DATA-74: display the derived ground-state the verdict judged on.
@@ -960,6 +980,10 @@ IN_CLOUD_RH850_PCT = 95.0
 # An in-cloud hour is treated as 濃霧 for every general subject: below the
 # lowest published visibility band, i.e. scene readability ~0.
 IN_CLOUD_EFFECTIVE_VISIBILITY_KM = 0.2
+# CL-PHYS-03 §2 (over-block fix): raw visibility at/above this proves the air
+# is clear, so the in-cloud geometry may not close the veto (see
+# in_cloud_fog_state). 10 km is the same band the data-contradiction gate uses.
+IN_CLOUD_CLEAR_VISIBILITY_KM = 10.0
 # Dedicated fog subjects are the ONLY subjects an in-cloud hour serves — the
 # fog IS the picture (CL-DATA-73 misty_forest). Every other genre (landscape,
 # sunrise, sunset, cloud_sea, night, ...) is blocked.
@@ -1103,6 +1127,25 @@ def in_cloud_fog_state(values, viewpoint_elevation_m):
     if low_cloud is None and rh850 is None:
         return {"state": "UNKNOWN", "value": None,
                 "reason_code": "MOISTURE_CELLS_UNAVAILABLE"}
+    # CL-PHYS-03 §2 (over-block fix): the humidity side alone can fire on a
+    # genuinely clear hour. us-158-P01 2026-12-02 10:00 had low cloud 17 %,
+    # visibility 13.62 km — a clear sky — yet RH850 >= 95 % plus a near-ground
+    # LCL (a moist boundary layer under a mid/high overcast) satisfied
+    # "ceiling_inside AND humid" and vetoed it (the cluster spans many hours —
+    # how many is a property of the snapshot; see PHYS03_REPLAY_RECIPE below).
+    # Raw visibility IS the observation of whether the
+    # viewpoint is inside cloud, so when the provider reports 10 km or more
+    # the geometry cannot close the veto: the air is demonstrably clear and
+    # the gate returns "clear". Deliberate OPEN choice — do not veto a clear
+    # sky. (A saturated deck at 100 % LOW cloud with 10 km+ visibility is the
+    # separate data-contradiction gate's job, not this one's.)
+    raw_visibility = _cell_value(values, "visibility")
+    if (raw_visibility is not None
+            and raw_visibility >= IN_CLOUD_CLEAR_VISIBILITY_KM):
+        return {"state": "AVAILABLE", "value": "clear",
+                "reason_code": "VISIBILITY_DISPROVES_IN_CLOUD",
+                "cloud_base_asl_m": None,
+                "effective_visibility_km": raw_visibility}
     humid = ((low_cloud is not None and low_cloud >= IN_CLOUD_LOW_CLOUD_PCT)
              or (rh850 is not None and rh850 >= IN_CLOUD_RH850_PCT))
     base_asl, reason = lcl_asl_m(values)
@@ -1218,8 +1261,8 @@ def cloud_sea_inversion_state(values, viewpoint_elevation_m):
             "deck_below_viewpoint": True}
 
 
-def phys_gate_state(condition, values):
-    """Derived cell for one CL-PHYS-02 gate condition."""
+def phys_gate_state(condition, values, local_start_min=None, local_date=None):
+    """Derived cell for one CL-PHYS-02/03 gate condition."""
     metric = condition.get("metric")
     if metric == IN_CLOUD_FOG_METRIC:
         return in_cloud_fog_state(values, condition.get("viewpoint_elevation_m"))
@@ -1228,20 +1271,47 @@ def phys_gate_state(condition, values):
     if metric == CLOUD_SEA_INVERSION_METRIC:
         return cloud_sea_inversion_state(
             values, condition.get("viewpoint_elevation_m"))
+    if metric == FOG_VISIBILITY_METRIC:
+        return fog_visibility_state(values)
+    if metric == DATA_FLOOR_METRIC:
+        return data_floor_state(values,
+                                fog_subject=bool(condition.get("fog_subject")))
+    if metric == SEASON_POLICY_METRIC:
+        verdict, detail = season_policy_verdict(
+            condition.get("policy_entry"), local_date)
+        if verdict == "UNKNOWN":
+            return {"state": "UNKNOWN", "value": None, "reason_code": detail}
+        return {"state": "AVAILABLE",
+                "value": "window_open" if verdict == "PASS" else "window_closed",
+                "reason_code": None, "detail": detail}
+    if metric == VENUE_HOURS_METRIC:
+        verdict, detail = venue_hours_verdict(
+            condition.get("policy_entry"), local_start_min)
+        if verdict == "UNKNOWN":
+            return {"state": "UNKNOWN", "value": None, "reason_code": detail}
+        return {"state": "AVAILABLE",
+                "value": "open" if verdict == "PASS" else "closed",
+                "reason_code": None, "detail": detail}
     return {"state": "UNKNOWN", "value": None, "reason_code": "UNKNOWN_GATE"}
 
 
-def phys_gate_verdict(condition, values):
-    """PASS/FAIL/UNKNOWN for one CL-PHYS-02 gate condition.
+def phys_gate_verdict(condition, values, local_start_min=None, local_date=None):
+    """PASS/FAIL/UNKNOWN for one CL-PHYS-02/03 gate condition.
 
-    The two VETO gates (in_cloud_fog, data_contradiction) fail on their
-    detected level and pass when the evidence is merely unverifiable: they
-    remove a recommendation, they never manufacture a NOT_EVALUABLE hour.
+    The VETO gates (in_cloud_fog, data_contradiction, fog_visibility) fail on
+    their detected level and pass when the evidence is merely unverifiable:
+    they remove a recommendation, they never manufacture a NOT_EVALUABLE hour.
+    The data-completeness floor deliberately closes instead (CL-PHYS-03 §3):
+    a recommendation needs usable inputs, so missing/thin data FAILS.
     The cloud_sea inversion gate is a real PRIMARY criterion and propagates
-    UNKNOWN fail-closed when its cells are missing.
+    UNKNOWN fail-closed when its cells are missing. The policy gates
+    (season / venue hours) fail on a resolved closed state and abstain
+    (UNKNOWN) only when the clock or the entry itself is unreadable.
     """
     metric = condition.get("metric")
-    cell = phys_gate_state(condition, values)
+    cell = phys_gate_state(condition, values,
+                          local_start_min=local_start_min,
+                          local_date=local_date)
     value = cell.get("value")
     if metric in (IN_CLOUD_FOG_METRIC, DATA_CONTRADICTION_METRIC):
         if cell.get("state") != "AVAILABLE":
@@ -1249,6 +1319,29 @@ def phys_gate_verdict(condition, values):
         failing = "in_cloud" if metric == IN_CLOUD_FOG_METRIC else "contradiction"
         level = "FAIL" if value == failing else "PASS"
         return level, f"{metric.upper()}({value})"
+    if metric == FOG_VISIBILITY_METRIC:
+        return fog_visibility_verdict(condition, values)
+    if metric == DATA_FLOOR_METRIC:
+        # Deliberate CLOSED choice: "no usable weather input" is a refusal to
+        # recommend, never a silent pass. reason codes ride in the detail so
+        # the UI can say 資料不足 instead of a bare ✗.
+        if cell.get("state") != "AVAILABLE":
+            return "FAIL", "DATA_FLOOR_UNAVAILABLE"
+        if value == "ok":
+            if cell.get("visibility_exempt"):
+                return "PASS", (f"DATA_FLOOR(ok:fog_visibility_exempt,"
+                                f"vis={cell.get('visibility_km')}km)")
+            return "PASS", "DATA_FLOOR(ok)"
+        detail = cell.get("reason_code") or value
+        if value == "visibility_low":
+            detail = f"{detail}(vis={cell.get('visibility_km')}km)"
+        return "FAIL", f"DATA_FLOOR({value}:{detail})"
+    if metric in (SEASON_POLICY_METRIC, VENUE_HOURS_METRIC):
+        if cell.get("state") != "AVAILABLE":
+            reason = cell.get("reason_code") or "UNAVAILABLE"
+            return "UNKNOWN", f"{metric.upper()}_{reason}"
+        return (("PASS" if value in ("window_open", "open") else "FAIL"),
+                cell.get("detail") or f"{metric.upper()}({value})")
     if cell.get("state") != "AVAILABLE":
         reason = cell.get("reason_code") or "UNAVAILABLE"
         return "UNKNOWN", f"{metric.upper()}_{reason}"
@@ -1425,11 +1518,463 @@ def phys_gates_for(contract, viewpoint_elevation_m):
     if genre not in FOG_SUBJECT_GENRES:
         gates.append(dict(IN_CLOUD_FOG_GATE,
                           viewpoint_elevation_m=viewpoint_elevation_m))
+        # CL-PHYS-03 §1: the global raw-hour visibility gate. Same exemption as
+        # the in-cloud gate — for misty_forest the fog IS the picture.
+        gates.append(dict(FOG_VISIBILITY_GATE))
     gates.append(dict(DATA_CONTRADICTION_GATE))
+    # CL-PHYS-03 §3: the field-count floor applies to EVERY subject, fog genres
+    # included: no usable inputs, no recommendation. The VISIBILITY floor is a
+    # different claim, and it is the one the fog exemption touches: for a
+    # dedicated fog subject a 0.5 km hour is the picture, so the floor must not
+    # veto the very hour the fog gate deliberately lets through.
+    gates.append(dict(DATA_FLOOR_GATE, fog_subject=genre in FOG_SUBJECT_GENRES))
     if genre == "cloud_sea":
         gates.append(dict(CLOUD_SEA_INVERSION_GATE,
                           viewpoint_elevation_m=viewpoint_elevation_m))
     return gates
+
+# ---------------------------------------------------------------------------
+# PHYS03_REPLAY_RECIPE — how to reproduce a "before/after" count, and what the
+# tests do NOT prove.
+#
+# The CL-PHYS-03 ticket quoted before/after totals from a 168 h replay of the
+# 2026-11-26 live bundle. That replay is NOT in the repository: the provider
+# artifact behind it was fetched live and never archived, so no number from it
+# is checkable, and none is asserted anywhere in this file or its tests. A
+# comment that carries a count nobody can re-derive is a claim, not evidence.
+#
+# What the tests DO prove: each gate's verdict at the predicate boundary, and —
+# via evaluate_batch.main() driven with a stubbed provider (see
+# tests/test_cl_phys_03_visibility_gates.py RealPathCapTests and
+# tests/test_cl_phys_02_datum_in_cloud.py RealPathMainTests) — that the gates
+# are actually wired into the per-hour path and into good_hours / next_good /
+# details. That is a statement about the RULE, at one hour at a time.
+#
+# What only a full replay can prove: how many published hours on a given
+# snapshot move. To produce that, reproduce it this way (no live network needed
+# once the artifact is archived):
+#   1. Snapshot: archive the exact adapter output for every place —
+#        python -c "from tools import open_meteo_batch as b; ..."  (any harness
+#      that dumps adapter.fetch_place(lat, lon, 168) to JSON). Store the files
+#      under a path OUTSIDE data/ (e.g. /tmp/snapshot-<utc>/tw-001.json) — do
+#      not commit provider payloads into data/v2.
+#   2. Before: in a pristine `git worktree add --detach /tmp/base origin/main`,
+#      run evaluate_batch.main() with adapter.fetch_place patched to read that
+#      snapshot (the pattern is tests/cl_phys_02_contrast.py), e.g.
+#        python -m pytest -q packages/core-v2/tests/cl_phys_02_contrast.py  # shape
+#      then a small driver that calls main() with --forecast-hours 168 and
+#      --out/--archive/--details-dir redirected into /tmp.
+#   3. After: same snapshot, same flags, this branch.
+#   4. Recount both bundles with:
+#        python packages/core-v2/tools/phys03_recount.py \
+#            --before /tmp/base/bundle.json --after /tmp/branch/bundle.json \
+#            --after-details /tmp/branch/details
+#      It prints the counts it can derive from the artifacts and says which
+#      ones it cannot (it never invents a number).
+# ---------------------------------------------------------------------------
+# Observations are properties of a snapshot; rules are properties of the code.
+# Keep the two claims separate in review.
+
+# ---------------------------------------------------------------------------
+# CL-PHYS-03 — evaluation-layer gates (no contract edits, schema_version stays
+# 10, contract_sha256 stays over the owner contract).
+#
+# 1. FOG / VISIBILITY (global white-wall gate). The CL-PHYS-02 in-cloud gate
+#    only sees the grid's own moisture geometry (LCL ASL vs viewpoint). A
+#    contract without `cloud_cover_low`/`visibility` conditions (e.g.
+#    tw-112-P01 geological_landform, us-162-P01) therefore still read
+#    GUIDANCE_SATISFIED on an hour whose RAW visibility is 0.1 km and whose
+#    low cloud is 100 %. How many spots/hours that covers is a property of the
+#    snapshot, not of this rule: see PHYS03_REPLAY_RECIPE below (nothing here
+#    asserts a replay count, because the replay is not in the repo).
+#    The veto belongs to the evaluation layer, once, as a pure predicate over
+#    the raw hour cells — never to each owner contract:
+#      visibility <  2 km                                  -> ✕ 濃霧 (whiteout)
+#      visibility < 10 km AND low cloud >= 90 %             -> ✕ (solid deck,
+#                                                            白牆/雨幕)
+#      visibility <  5 km                                  -> cap below 推薦
+#                                                            (haze: shootable,
+#                                                             not recommendable)
+#      otherwise                                            -> clear
+#    Dedicated fog subjects (misty_forest) stay exempt: for them the fog IS
+#    the picture, exactly as with the CL-PHYS-02 in-cloud gate.
+# ---------------------------------------------------------------------------
+FOG_VISIBILITY_METRIC = "fog_visibility"
+# ✕ 濃霧: below the lowest published visibility band — scene readability ~0.
+FOG_WHITEOUT_KM = 2.0
+# ✕ 白牆: a solid low deck with visibility below 10 km is a white wall even
+# when the grid's LCL arithmetic happens to place the ceiling overhead.
+FOG_DECK_VISIBILITY_KM = 10.0
+FOG_DECK_LOW_CLOUD_PCT = 90.0
+# Cap (never a veto): haze keeps the hour shootable but never 推薦.
+FOG_HAZE_MAX_KM = 5.0
+
+FOG_LEVELS_03 = ("whiteout", "fogged", "hazy", "clear")
+
+
+def fog_visibility_state(values):
+    """CL-PHYS-03 §1: THE raw-hour fog predicate (single source of truth).
+
+    Pure function of the raw `visibility` / `cloud_cover_low` cells; it never
+    consults a contract, a viewpoint or a derived LCL. Returns a derived cell
+    with value in FOG_LEVELS_03 and state AVAILABLE|UNKNOWN.
+
+    Deliberate "abstain" choice: when the visibility cell is absent the
+    predicate cannot see its input, so it returns UNKNOWN and the gate stands
+    down (PASS/UNVERIFIED) — a veto that cannot see is not a veto. That is
+    NOT a licence to recommend blind: the data-completeness floor below
+    refuses 推薦 on an hour with no usable weather input at all.
+    """
+    vis = _cell_value(values, "visibility")
+    if vis is None or vis < 0:
+        return {"state": "UNKNOWN", "value": None,
+                "reason_code": "VISIBILITY_UNAVAILABLE"}
+    low_cloud = _cell_value(values, "cloud_cover_low")
+    if vis < FOG_WHITEOUT_KM:
+        level = "whiteout"
+    elif (vis < FOG_DECK_VISIBILITY_KM and low_cloud is not None
+          and low_cloud >= FOG_DECK_LOW_CLOUD_PCT):
+        level = "fogged"
+    elif vis < FOG_HAZE_MAX_KM:
+        level = "hazy"
+    else:
+        level = "clear"
+    return {"state": "AVAILABLE", "value": level, "reason_code": None,
+            "visibility_km": round(float(vis), 2),
+            "cloud_cover_low_pct": (round(float(low_cloud), 1)
+                                    if low_cloud is not None else None)}
+
+
+def fog_visibility_verdict(condition, values):
+    """PASS/FAIL/UNKNOWN for the fog gate: veto bands FAIL, else PASS.
+
+    `hazy` is deliberately NOT a veto — it rides the tier cap in the quality
+    pathway (hour stays GUIDANCE_SATISFIED but leaves good_hours), so a
+    4 km-haze sunset is still described honestly as 可拍, never as 濃霧.
+    """
+    cell = fog_visibility_state(values)
+    if cell.get("state") != "AVAILABLE":
+        return "PASS", "FOG_VISIBILITY_UNVERIFIED"
+    level = cell["value"]
+    detail = (f"FOG_VISIBILITY({level}, vis={cell['visibility_km']}km,"
+              f"low_cloud={cell['cloud_cover_low_pct']}%)")
+    return ("FAIL" if level in ("whiteout", "fogged") else "PASS"), detail
+
+
+def visibility_cap_applies(values):
+    """True when the hour is haze-capped below 推薦 (CL-PHYS-03 §1)."""
+    cell = fog_visibility_state(values)
+    return cell.get("state") == "AVAILABLE" and cell.get("value") == "hazy"
+
+
+# ---------------------------------------------------------------------------
+# CL-PHYS-03 §3 — DATA COMPLETENESS FLOOR.
+#
+# A card with NO weather data at all (內洞瀑布: only an elevation) and a card
+# with visibility 0.2 km (宇老觀景台) both carried ✓ 推薦. A recommendation is
+# a claim about an hour; without usable inputs there is nothing to claim.
+# Deliberate CLOSED choice (opposite of the fog gate): missing inputs FAIL —
+# "no evidence" must never be silently promoted to 推薦. The fog gate abstains
+# because it is a veto (a veto that cannot see is not a veto); this gate is a
+# production requirement (a recommendation that cannot see is not a
+# recommendation), so it closes.
+# ---------------------------------------------------------------------------
+DATA_FLOOR_METRIC = "data_floor"
+# The core weather inputs a recommendation is judged on.
+DATA_FLOOR_CORE_FIELDS = ("temperature_2m", "relative_humidity_2m",
+                          "cloud_cover_low", "cloud_cover_total",
+                          "wind_speed_10m", "precipitation", "visibility")
+# Fewer than this many available core cells = no usable weather judgement.
+DATA_FLOOR_MIN_CORE = 3
+# Visibility floor for a recommendation (independent of the fog veto): a
+# sub-2 km hour is never 推薦 under any contract.
+DATA_FLOOR_VISIBILITY_KM = 2.0
+
+
+def data_floor_state(values, fog_subject=False):
+    """CL-PHYS-03 §3: usable-input floor for one hour.
+
+    Levels: "ok" | "no_data" (zero core cells) | "thin" (< MIN_CORE) |
+    "visibility_low" (raw visibility under the floor) |
+    "visibility_missing" (visibility cell absent).
+
+    `fog_subject` (misty_forest and any future fog genre) exempts the hour from
+    the VISIBILITY clauses only: for a subject whose picture is fog, a 0.5 km
+    hour is the subject, not a defect — the fog gate already exempts it, and a
+    floor that vetoed the same hour would make the exemption unreachable. The
+    FIELD-COUNT floor still applies in full: no usable weather input still means
+    no recommendation, fog genre or not.
+    """
+    values = values or {}
+    available = [name for name in DATA_FLOOR_CORE_FIELDS
+                 if _cell_value(values, name) is not None]
+    if not available:
+        return {"state": "AVAILABLE", "value": "no_data",
+                "reason_code": "NO_CORE_WEATHER_FIELDS",
+                "available_fields": []}
+    if len(available) < DATA_FLOOR_MIN_CORE:
+        return {"state": "AVAILABLE", "value": "thin",
+                "reason_code": "INSUFFICIENT_CORE_WEATHER_FIELDS",
+                "available_fields": available}
+    vis = _cell_value(values, "visibility")
+    if fog_subject:
+        # Deliberate exemption (see docstring): the visibility clause is a
+        # white-wall guard, and a fog subject photographs the white wall.
+        return {"state": "AVAILABLE", "value": "ok", "reason_code": None,
+                "available_fields": available,
+                "visibility_exempt": "fog_subject",
+                "visibility_km": round(vis, 2) if vis is not None else None}
+    if vis is None:
+        return {"state": "AVAILABLE", "value": "visibility_missing",
+                "reason_code": "VISIBILITY_UNAVAILABLE",
+                "available_fields": available}
+    if vis < DATA_FLOOR_VISIBILITY_KM:
+        return {"state": "AVAILABLE", "value": "visibility_low",
+                "reason_code": "VISIBILITY_BELOW_RECOMMEND_FLOOR",
+                "available_fields": available, "visibility_km": round(vis, 2)}
+    return {"state": "AVAILABLE", "value": "ok", "reason_code": None,
+            "available_fields": available}
+
+
+# ---------------------------------------------------------------------------
+# CL-PHYS-03 §4 — SEASON + VENUE OPENING-HOURS POLICY GATES.
+#
+# Two owner tables live under data/v2/policy/ (NEW files; the pinned
+# opportunity records are never edited):
+#   subject-seasonal-windows.json  — the subject's own season window
+#   venue-hours.json               — the venue's local opening hours
+# Both gates are injected ONLY for subjects present in the table. A subject
+# with no entry is ABSTAINED on — the gate does not exist for it. That is the
+# deliberate "open" choice for unknown venue hours: we never invent a 09:00
+# close for a venue whose hours nobody verified, because a fabricated window
+# would veto real shoots.
+# ---------------------------------------------------------------------------
+SEASON_POLICY_METRIC = "season_window_policy"
+VENUE_HOURS_METRIC = "venue_hours_policy"
+POLICY_DIR = ROOT / "data/v2/policy"
+
+
+def _load_policy(path):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def load_subject_season_windows():
+    """opportunity_id -> season window entry (MM-DD, wrap-aware)."""
+    doc = _load_policy(POLICY_DIR / "subject-seasonal-windows.json")
+    windows = doc.get("windows") if isinstance(doc, dict) else None
+    return windows if isinstance(windows, dict) else {}
+
+
+def load_venue_hours():
+    """opportunity_id -> venue hours entry ({open, close} local HH:MM)."""
+    doc = _load_policy(POLICY_DIR / "venue-hours.json")
+    venues = doc.get("venues") if isinstance(doc, dict) else None
+    return venues if isinstance(venues, dict) else {}
+
+
+def season_policy_verdict(entry, local_date):
+    """PASS inside the subject's own season window, FAIL outside, else UNKNOWN.
+
+    Window endpoints are inclusive MM-DD pairs in the subject's LOCAL calendar
+    and wrap across New Year (start > end), matching the CL-COND-A8 rule.
+    """
+    if local_date is None:
+        return "UNKNOWN", "LOCAL_DATE_UNAVAILABLE"
+    if not isinstance(entry, dict):
+        return "UNKNOWN", "SEASON_POLICY_UNAVAILABLE"
+    window = {"start": entry.get("start"), "end": entry.get("end")}
+    if not (isinstance(window["start"], str) and isinstance(window["end"], str)
+            and len(window["start"]) == 5 and len(window["end"]) == 5):
+        return "UNKNOWN", "SEASON_POLICY_MALFORMED"
+    md = local_date.isoformat()[5:]
+    inside = _mmdd_inside(md, window)
+    return (("PASS", f"SEASON_WINDOW_OPEN({window['start']}~{window['end']})")
+            if inside else
+            ("FAIL", f"SEASON_WINDOW_CLOSED({md} outside "
+                     f"{window['start']}~{window['end']})"))
+
+
+def venue_hours_verdict(entry, local_start_min):
+    """PASS when the hour bucket starts inside [open, close); FAIL outside.
+
+    Unknown hours abstain at gate-injection time (no entry -> no gate), never
+    here. A malformed entry (missing token, overnight close <= open) is
+    UNKNOWN — an unreadable window must not veto a shoot.
+    """
+    if local_start_min is None:
+        return "UNKNOWN", "LOCAL_TIME_UNAVAILABLE"
+    if not isinstance(entry, dict):
+        return "UNKNOWN", "VENUE_HOURS_UNAVAILABLE"
+
+    def _minutes(token):
+        if not isinstance(token, str) or ":" not in token:
+            return None
+        hh, mm = token.split(":", 1)
+        try:
+            return int(hh) * 60 + int(mm)
+        except ValueError:
+            return None
+
+    open_min = _minutes(entry.get("open"))
+    close_min = _minutes(entry.get("close"))
+    if open_min is None or close_min is None:
+        return "UNKNOWN", "VENUE_HOURS_MALFORMED"
+    if not (0 <= open_min < close_min <= 1440):
+        return "UNKNOWN", "VENUE_HOURS_MALFORMED"
+    ok = open_min <= local_start_min < close_min
+    return (("PASS", f"VENUE_OPEN({entry['open']}-{entry['close']})")
+            if ok else
+            ("FAIL", f"VENUE_CLOSED({entry['open']}-{entry['close']})"))
+
+
+# CL-PHYS-03 gate metrics join the single phys-gate implementation so
+# condition_verdict/condition_value route them through one predicate each.
+PHYS_GATE_METRICS = PHYS_GATE_METRICS + (FOG_VISIBILITY_METRIC, DATA_FLOOR_METRIC,
+                                         SEASON_POLICY_METRIC, VENUE_HOURS_METRIC)
+
+FOG_VISIBILITY_GATE = _phys_gate(
+    "EVALGATE-fog-visibility", FOG_VISIBILITY_METRIC, {
+        "zh-TW": "CL-PHYS-03 評估層能見度硬擋（全題材，專拍霧的 misty_forest 除外）："
+                 "原始能見度 <2 km 即濃霧、不得推薦；能見度 <10 km 且低雲 ≥90% "
+                 "視為白牆（雲幕貼地）。能見度 <5 km 時時段降級為可拍、不得為推薦。"
+                 "此閘門對每個題材注入，不寫入業主契約。",
+        "en": "CL-PHYS-03 evaluation-layer visibility gate (all subjects except the "
+              "dedicated fog genre misty_forest): raw visibility < 2 km is 濃霧 and "
+              "can never be recommended; visibility < 10 km with low cloud >= 90% "
+              "is a white wall (deck at ground level); visibility < 5 km caps the "
+              "hour below recommend (shootable haze). Injected for every "
+              "opportunity, never written into the owner contract.",
+        "ja": "CL-PHYS-03 評価層の視程ゲート（霧専門の misty_forest を除く全題材）："
+              "生の視程<2kmは濃霧で推奨不可、視程<10kmかつ低雲≥90%は白壁、視程<5kmは"
+              "推奨未満に上限。契約には書き込まない。",
+    })
+DATA_FLOOR_GATE = _phys_gate(
+    "EVALGATE-data-floor", DATA_FLOOR_METRIC, {
+        "zh-TW": "CL-PHYS-03 資料底線：一小時若沒有可用天氣輸入（核心欄位少於 3 項）、"
+                 "或缺能見度、或能見度 <2 km，一律不得成為 ✓ 推薦（顯示資料不足）。"
+                 "刻意選擇關閉（fail closed）：推薦是對該小時的斷言，沒有輸入就沒有斷言。"
+                 "惟專拍霧的題材（misty_forest）不受能見度條款拘束：對它而言 0.5 km "
+                 "就是畫面本身；但核心欄位數底線仍完整適用。",
+        "en": "CL-PHYS-03 data floor: an hour with no usable weather input (fewer "
+              "than 3 core fields), no visibility cell, or visibility < 2 km is "
+              "never ✓ recommend. Deliberate CLOSED choice: a recommendation is a "
+              "claim about the hour, and a claim without inputs is not a claim. "
+              "Dedicated fog subjects (misty_forest) are exempt from the VISIBILITY "
+              "clauses only — for them 0.5 km is the subject, not a defect — while "
+              "the core-FIELD-COUNT floor applies in full.",
+        "ja": "CL-PHYS-03 データ下限：中核項目3未満・視程欠測・視程<2kmの時間は推奨不可。"
+              "霧専門の題材（misty_forest）は視程条項のみ免除（0.5kmが絵そのもの）。"
+              "中核項目数の下限は完全に適用する。",
+    })
+
+
+def policy_gates_for(opportunity_id, season_windows, venue_hours):
+    """CL-PHYS-03 §4: inject the season / venue gates the owner tables cover.
+
+    A subject absent from a table gets no gate at all (abstain) — an unknown
+    venue window is never invented, and a subject whose season nobody recorded
+    keeps its contract semantics unchanged.
+    """
+    gates = []
+    season = (season_windows or {}).get(opportunity_id)
+    if isinstance(season, dict) and season.get("start") and season.get("end"):
+        gate = _phys_gate("EVALGATE-season-window", SEASON_POLICY_METRIC, {
+            "zh-TW": ("CL-PHYS-03 季窗閘門：本題材自身季節窗為 "
+                      f"{season['start']}~{season['end']}，窗外時段一律不得推薦。"),
+            "en": ("CL-PHYS-03 season gate: this subject's own window is "
+                   f"{season['start']}~{season['end']}; hours outside it are "
+                   "never recommended."),
+            "ja": ("CL-PHYS-03 季節ゲート：本題材の窓は "
+                   f"{season['start']}~{season['end']}、窓外は推奨しない。"),
+        })
+        gate["policy_entry"] = dict(season)
+        gates.append(gate)
+    venue = (venue_hours or {}).get(opportunity_id)
+    if isinstance(venue, dict) and venue.get("open") and venue.get("close"):
+        gate = _phys_gate("EVALGATE-venue-hours", VENUE_HOURS_METRIC, {
+            "zh-TW": (f"CL-PHYS-03 開放時間閘門：場地開放 {venue['open']}–"
+                      f"{venue['close']}（當地時間），時段起點不在開放區間內一律"
+                      "不得推薦。未登錄開放時間的場地不注入此閘門（不臆測）。"),
+            "en": (f"CL-PHYS-03 venue-hours gate: the venue opens {venue['open']}–"
+                   f"{venue['close']} local; an hour bucket starting outside that "
+                   "window is never recommended. Venues with no verified hours "
+                   "get no gate at all (never invented)."),
+            "ja": (f"CL-PHYS-03 開館時間ゲート：{venue['open']}–{venue['close']}"
+                   "（現地時間）の外は推奨しない。未登録の施設には適用しない。"),
+        })
+        gate["policy_entry"] = dict(venue)
+        gates.append(gate)
+    return gates
+
+
+# CL-PHYS-03 §5 — NIGHT WINDOWS (data half only; the display collapse is
+# CL-UI-45 and lives outside this package).
+#
+# Night subjects were being flattened into one generic 非建議 bucket, so the
+# 00:00–04:00 deep-night window (Milky Way / deep sky), the 18:00 blue-hour
+# window and the 22:00–23:00 city-night window carried no reason code of their
+# own. The data side now names the window each night hour legitimately sits in
+# so the UI can label it instead of collapsing it. Presentation is NOT changed
+# here (assets/** is out of scope).
+NIGHT_WINDOW_GENRES = frozenset({
+    "night_sky", "city_night", "blue_hour_city", "moonlit_scene",
+    "star_trails", "blue_tears", "firefly", "snow_ice_night",
+})
+NIGHT_DEEP_HOURS = (0, 1, 2, 3)        # 00:00–04:00 deep night / Milky Way
+NIGHT_EVENING_HOURS = (18, 19, 20, 21)  # 18:00 blue hour → evening city night
+NIGHT_CITY_HOURS = (22, 23)             # 22:00–23:00 city night
+
+
+def night_window_code(genre, local_hour, astro_row):
+    """CL-PHYS-03 §5: reason code for a night subject's hour, or None.
+
+    Order matters and is deliberate:
+      1. blue_hour_window (sun -8..-4 deg) wins — it is the 18:00 window and
+         it is a narrow, physically defined band;
+      2. 00:00–03:59  -> NIGHT_DEEP_WINDOW     (Milky Way / deep night);
+      3. 22:00–23:59  -> NIGHT_CITY_WINDOW     (city night, artificial light);
+      4. 18:00–21:59  -> NIGHT_EVENING_WINDOW  (after blue hour, before 22:00);
+      daylight hours return None — a night subject has no night window there.
+    """
+    if genre not in NIGHT_WINDOW_GENRES:
+        return None
+    if isinstance(astro_row, dict) and astro_row.get("blue_hour_window"):
+        return "NIGHT_BLUE_HOUR_WINDOW"
+    if not isinstance(local_hour, int):
+        return None
+    if local_hour in NIGHT_DEEP_HOURS:
+        return "NIGHT_DEEP_WINDOW"
+    if local_hour in NIGHT_CITY_HOURS:
+        return "NIGHT_CITY_WINDOW"
+    if local_hour in NIGHT_EVENING_HOURS:
+        return "NIGHT_EVENING_WINDOW"
+    return None
+
+
+def night_window_reason(code):
+    """Trilingual label for one night-window reason code."""
+    return {
+        "NIGHT_DEEP_WINDOW": {
+            "zh-TW": "深夜窗（00:00–04:00，銀河／深空）",
+            "en": "Deep-night window (00:00–04:00, Milky Way / deep sky)",
+            "ja": "深夜窓（00:00–04:00、天の川／深宇宙）"},
+        "NIGHT_BLUE_HOUR_WINDOW": {
+            "zh-TW": "藍調窗（日落後藍調時刻）",
+            "en": "Blue-hour window (after sunset)",
+            "ja": "ブルーアワー窓（日没後）"},
+        "NIGHT_CITY_WINDOW": {
+            "zh-TW": "夜景窗（22:00–23:00，城市燈火）",
+            "en": "City-night window (22:00–23:00, city lights)",
+            "ja": "夜景窓（22:00–23:00、都市の灯）"},
+        "NIGHT_EVENING_WINDOW": {
+            "zh-TW": "夜間窗（18:00–22:00）",
+            "en": "Evening window (18:00–22:00)",
+            "ja": "夜間窓（18:00–22:00）"},
+    }.get(code)
+
 
 # CL-DATA-74 — snow_scene family: derived ground-state enum per hour from the
 # Open-Meteo snow fields. The ticket semantics (snowfall > 0 OR snow_depth > 0)
@@ -1543,7 +2088,7 @@ def conditions_day_rows(condition_by_id, counts_by_cid, total):
 
 def detail_hour_rows(hour_row, local_stamp, status, conditions_eval,
                      astro_row, states, precise_local, precise_off,
-                     local_date=None):
+                     local_date=None, local_start_min=None, night_code=None):
     """CL-INT-91: details rows for one hour bucket.
 
     Every good_hour stamp the summary emits must key a details row (the
@@ -1561,13 +2106,22 @@ def detail_hour_rows(hour_row, local_stamp, status, conditions_eval,
          "operator": c.get("operator") or "none",
          "threshold": c.get("threshold"),
          "value": condition_value(c, hour_row["values"], astro_row,
-                                  local_date=local_date),
+                                  local_date=local_date,
+                                  local_start_min=local_start_min),
          "verdict": states[c["id"]]}
         for c in conditions_eval]
+    # CL-PHYS-03 §5: name the night window the hour legitimately sits in so a
+    # night subject is not flattened into a generic 非建議. Additive and only
+    # for night genres; the published bundle schema is untouched (details are
+    # not schema-gated).
+    night = ({"night_window": {"code": night_code,
+                               "reason": night_window_reason(night_code)}}
+             if night_code else {})
     rows = [{
         "utc": hour_row["valid_at_utc"],
         "local": local_stamp.strftime("%H:%M"),
         "status": status,
+        **night,
         "conditions": conditions,
     }]
     if precise_local is not None and precise_off:
@@ -1580,6 +2134,7 @@ def detail_hour_rows(hour_row, local_stamp, status, conditions_eval,
             "sub_hour_of_bucket": local_stamp.strftime("%H:%M"),
             "sample_offset_min": precise_off,
             "status": status,
+            **night,
             "conditions": conditions,
         })
     return rows
@@ -1739,6 +2294,11 @@ def main():
     # CL-DATA-72 batch A / CL-COND-A8: seasonal-calendar windows for the
     # seasonal_state bridge.
     seasonal_by_spot = load_seasonal_calendar()
+    # CL-PHYS-03 §4: owner policy tables (season window + venue opening hours).
+    # Missing tables degrade to {} — no gate exists for a subject nobody has
+    # recorded hours/windows for (abstain, never invented).
+    season_windows = load_subject_season_windows()
+    venue_hours = load_venue_hours()
     # CL-DATA-80: place AGLI for S_rank = AGLI^0.35 * S_quality^0.65. The dual
     # board (AGLI-L landscape + AGLI-P photography) is averaged into the single
     # AGLI the engine spec formula uses; places with no AGLI (scoring paused)
@@ -1986,6 +2546,10 @@ def main():
             # into the owner contract — contract_sha256 stays over it.
             conditions_eval = conditions_eval + phys_gates_for(
                 contract, camera_alt)
+            # CL-PHYS-03 §4: season-window and venue-hours policy gates join
+            # the condition set ONLY for subjects the owner tables cover.
+            conditions_eval = conditions_eval + policy_gates_for(
+                oid, season_windows, venue_hours)
             # CL-DATA-72 batch A / CL-COND-A8: bind the opportunity's
             # seasonal-calendar entries onto every seasonal_state condition
             # (same binding pattern as light_direction/cloud_base_height).
@@ -2036,8 +2600,15 @@ def main():
                 apply_moon_alternation(states, alternation)
                 status, fails, unknowns = hour_status(roles, states)
                 local_stamp = at + timedelta(hours=local_offset)
+                # CL-PHYS-03 §1: a haze-capped hour (visibility < 5 km, not a
+                # white-out) stays GUIDANCE_SATISFIED — it is still shootable —
+                # but it leaves good_hours and its QUALITY tier is capped below
+                # 推薦, so no ✓ 推薦 can ever be built out of it.
+                capped = (status == "GUIDANCE_SATISFIED"
+                          and visibility_cap_applies(hour_row["values"]))
                 day_key = local_stamp.date().isoformat()
-                entry = days.setdefault(day_key, {"local_date": day_key, "hours": []})
+                entry = days.setdefault(day_key, {"local_date": day_key, "hours": [],
+                                                  "capped": set()})
                 # CL-DATA-31: a qualifying hour bucket is stamped at its
                 # EARLIEST passing sub-hour sample, never at the bucket start —
                 # any()-aggregated narrow windows (sunrise/sunset ±40 min,
@@ -2061,7 +2632,7 @@ def main():
                 # subject-cards layer never fabricates a hint from it.
                 precise_local = None
                 precise_off = None
-                if status == "GUIDANCE_SATISFIED":
+                if status == "GUIDANCE_SATISFIED" and not capped:
                     window_metrics = [c["metric"] for c in conditions_eval
                                       if c["metric"] in TIME_WINDOW_METRICS]
                     if window_metrics:
@@ -2081,9 +2652,19 @@ def main():
                         contract.get("conditions_v2"), states,
                         hour_row["values"], astro_row,
                         status == "GUIDANCE_SATISFIED")
-                    if qe["eligible"] and (best_s_quality is None
-                                           or qe["s_quality"] > best_s_quality):
+                    # CL-PHYS-03 §1 cap: haze never reaches 推薦; the honest
+                    # S_quality is kept, only the tier ceiling moves. (Read via
+                    # .get so the engine stays an ANNOTATION input — see
+                    # CL-DATA-79 engine-bypass: verdicts never read the engine.)
+                    engine_tier = qe.get("tier") if qe else None
+                    if capped and engine_tier == "recommend":
+                        qe = dict(qe, tier="good")
+                    if (qe["eligible"] and not capped
+                            and (best_s_quality is None
+                                 or qe["s_quality"] > best_s_quality)):
                         best_s_quality = qe["s_quality"]
+                if capped:
+                    entry["capped"].add(local_stamp.strftime("%H:%M"))
                 entry["hours"].append({
                     "utc": hour_row["valid_at_utc"],
                     "local": local_stamp.strftime("%H:%M"),
@@ -2099,11 +2680,15 @@ def main():
                 for cid, state in states.items():
                     day_verdict_counts.setdefault(day_key, {}).setdefault(
                         cid, {"PASS": 0, "FAIL": 0, "UNKNOWN": 0})[state] += 1
-                hour_ctxs.append((at, hour_row, astro_row, states, status))
+                hour_ctxs.append((at, hour_row, astro_row, states, status, capped))
                 for row in detail_hour_rows(
                         hour_row, local_stamp, status, conditions_eval,
                         astro_row, states, precise_local, precise_off,
-                        local_date=local_date):
+                        local_date=local_date,
+                        local_start_min=local_start_min,
+                        night_code=night_window_code(
+                            contract.get("genre_template"),
+                            local_stamp.hour, astro_row)):
                     entry.setdefault("detail_hours", []).append(row)
             day_out = []
             condition_by_id = {c["id"]: c for c in conditions_eval}
@@ -2124,6 +2709,13 @@ def main():
                 conditions_day = conditions_day_rows(
                     condition_by_id, day_verdict_counts.get(day_key, {}),
                     len(hours_out))
+                capped_hours = days[day_key].get("capped") or set()
+
+                def _recommendable(h):
+                    """GUIDANCE_SATISFIED and not haze-capped (CL-PHYS-03 §1)."""
+                    return (h["status"] == "GUIDANCE_SATISFIED"
+                            and h["local"] not in capped_hours)
+
                 day_out.append({
                     "local_date": day_key,
                     "state": state,
@@ -2132,7 +2724,7 @@ def main():
                     # never a bucket-start stamp earlier than the light window.
                     "good_hours": [h.get("local_precise") or h["local"]
                                    for h in hours_out
-                                   if h["status"] == "GUIDANCE_SATISFIED"],
+                                   if _recommendable(h)],
                     # CL-DATA-80: per-hour QUALITY-engine scores for the same
                     # eligible buckets (additive; legacy consumers read
                     # good_hours unchanged).
@@ -2140,7 +2732,7 @@ def main():
                         {"local": h.get("local_precise") or h["local"],
                          "s_quality": h["s_quality"], "tier_v2": h["tier_v2"]}
                         for h in hours_out
-                        if h["status"] == "GUIDANCE_SATISFIED"
+                        if _recommendable(h)
                         and "s_quality" in h]}
                        if engine_v2 else {}),
                     "hour_counts": counts,
@@ -2149,8 +2741,9 @@ def main():
             def _snapshot(ctx):
                 if ctx is None:
                     return None
-                snap_at, snap_row, snap_astro, snap_states, snap_status = ctx
+                snap_at, snap_row, snap_astro, snap_states, snap_status, *_rest = ctx
                 snap_local_date = (snap_at + timedelta(hours=local_offset)).date()
+                snap_local_start = ((snap_at + timedelta(hours=local_offset)).hour * 60)
                 return {
                     "utc": snap_row["valid_at_utc"],
                     "local": (snap_at + timedelta(hours=local_offset)).strftime("%Y-%m-%d %H:%M"),
@@ -2161,13 +2754,18 @@ def main():
                          "operator": c.get("operator") or "none",
                          "threshold": c.get("threshold"),
                          "value": condition_value(c, snap_row["values"], snap_astro,
-                                                  local_date=snap_local_date),
+                                                  local_date=snap_local_date,
+                                                  local_start_min=snap_local_start),
                          "verdict": snap_states[c["id"]]}
                         for c in conditions_eval],
                 }
 
             now_ctx = next((c for c in hour_ctxs if c[0] >= generated_at), None)
-            good_ctx = next((c for c in hour_ctxs if c[4] == "GUIDANCE_SATISFIED"), None)
+            # CL-PHYS-03 §1: the next recommendable hour is never a haze-capped
+            # hour (it stays shootable, it is not 推薦).
+            good_ctx = next((c for c in hour_ctxs
+                             if c[4] == "GUIDANCE_SATISFIED"
+                             and not (len(c) > 5 and c[5])), None)
             live = {"now": _snapshot(now_ctx), "next_good": _snapshot(good_ctx)}
             place_out["opportunities"].append({
                 "opportunity_id": oid,
@@ -2194,7 +2792,12 @@ def main():
                 "opportunity_id": oid,
                 "name_i18n": doc.get("name_i18n") or {},
                 "genre_template": contract.get("genre_template"),
-                "days": [{"local_date": key, "hours": days[key]["detail_hours"]}
+                # CL-PHYS-03 §1: which hour buckets were haze-capped (shootable
+                # but below 推薦). Exposed here — the details artifact is not
+                # schema-gated — so the cap is observable without re-deriving
+                # it, while the published bundle keeps its v0.1 shape.
+                "days": [{"local_date": key, "hours": days[key]["detail_hours"],
+                          "capped_hours": sorted(days[key].get("capped") or ())}
                          for key in sorted(days)],
                 "live": live,
             })

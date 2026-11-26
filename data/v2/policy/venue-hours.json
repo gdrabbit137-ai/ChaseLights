@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "schema": "chase-lights/venue-hours@1",
+    "purpose": "CL-PHYS-03 §4 evaluation-layer venue opening hours. The evaluation layer injects a REQUIRED `venue_hours_policy` gate for every opportunity_id present here: an hour bucket whose LOCAL start is outside [open, close) can never become a 推薦. The pinned canonical opportunity records under data/v2/opportunities/ are never edited for this.",
+    "policy": [
+      "A venue absent from this table is UNKNOWN, never assumed open: the gate is simply not injected (abstain). Hours are never invented to make a gate fire.",
+      "Every entry must carry source_kind + source + retrieved_at so the table can be audited.",
+      "Hours are the venue's LOCAL civil clock; [open, close) is half-open and the judged instant is the hour bucket START. Overnight windows (close <= open) are treated as malformed and abstain (UNKNOWN), never guessed.",
+      "confirmed_by is the owner ticket that asserted the window; a table row without confirmed_by is not authoritative."
+    ],
+    "provenance_rules": [
+      "Hours must name the page they were read from (URL + retrieved_at). 'Well-known' opening hours are not a source and must not be entered here.",
+      "The evaluation gate judges the hour on the PLACE's local clock, derived from the place coordinate's UTC offset. The `timezone` field on an entry is NOT read by the gate: it is kept for future use and labelled timezone_unused=true so the next reader does not trust it as the gate's clock."
+    ],
+    "owner_ticket": "CL-PHYS-03",
+    "asserted_at": "2026-11-26"
+  },
+  "venues": {
+    "jp-018-P01": {
+      "venue": "名古屋城天守",
+      "place_id": "jp-018",
+      "open": "09:00",
+      "close": "16:30",
+      "timezone": "Asia/Tokyo",
+      "timezone_unused": true,
+      "timezone_note": "UNUSED by the evaluation gate: EVALGATE-venue-hours judges the LOCAL HOUR START from the place coordinate's UTC offset, not from this field. Kept for future use only; do not read it as the gate's clock.",
+      "source_kind": "sourced_venue_page",
+      "source": "Verified against nagoya-info.jp (名古屋市公式観光情報, https://www.nagoya-info.jp/spot/detail/1/, retrieved 2026-11-26): 営業時間 9:00～16:30（本丸御殿への入場は16:00まで）, 休館日 12/29～1/1. Secondary cross-ref: Nagoya Castle official site (nagoyajo.city.nagoya.jp) carries the same 9:00-16:30 window.",
+      "retrieved_at": "2026-11-26",
+      "confirmed_by": "CL-PHYS-03",
+      "notes_i18n": {
+        "zh-TW": "天守閣開放 09:00–16:30（16:00 停止入場；nagoya-info.jp，2026-11-26 查核）。凌晨時段的日出/藍調/夜景題材不得推薦。休館日 12/29–1/1 未建模（由年度行事曆負責）。",
+        "en": "Keep open 09:00-16:30 (last admission 16:00; verified on nagoya-info.jp, retrieved 2026-11-26). Pre-dawn / night subjects are never recommended outside it. Closure days 12/29-1/1 are not modelled here (the annual calendar owns those).",
+        "ja": "天守閣は09:00–16:30（16:00最終入場、nagoya-info.jp で2026-11-26確認）。早朝・夜間の題材は推奨しない。休館日12/29–1/1は本表では扱わない（年間カレンダー管轄）。"
+      }
+    }
+  }
+}

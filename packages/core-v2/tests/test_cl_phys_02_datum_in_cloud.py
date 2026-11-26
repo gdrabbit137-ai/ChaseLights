@@ -183,7 +183,12 @@ class InCloudBoundaryTests(unittest.TestCase):
              "cloud_cover_low": available(low)}
         if rh850 is not None:
             v["relative_humidity_850hpa"] = available(rh850)
-        v["visibility"] = available(12)
+        # CL-PHYS-03 §2: raw visibility >= 10 km now DISPROVES in-cloud (a veto
+        # may not override the provider's own visibility observation). These
+        # boundary fixtures describe air you are inside of, so they carry a
+        # visibility consistent with that (3 km); the clear-sky override has its
+        # own cases in VisibilityDisprovesInCloudTests below.
+        v["visibility"] = available(3.0)
         return v
 
     def test_exactly_fifty_metres_above_the_viewpoint_is_in_cloud(self):
