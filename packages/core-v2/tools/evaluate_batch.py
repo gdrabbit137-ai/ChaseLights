@@ -1131,8 +1131,9 @@ def in_cloud_fog_state(values, viewpoint_elevation_m):
     # genuinely clear hour. us-158-P01 2026-12-02 10:00 had low cloud 17 %,
     # visibility 13.62 km — a clear sky — yet RH850 >= 95 % plus a near-ground
     # LCL (a moist boundary layer under a mid/high overcast) satisfied
-    # "ceiling_inside AND humid" and vetoed it. 53 such hours were made 不宜
-    # by this gate alone. Raw visibility IS the observation of whether the
+    # "ceiling_inside AND humid" and vetoed it (the cluster spans many hours —
+    # how many is a property of the snapshot; see PHYS03_REPLAY_RECIPE below).
+    # Raw visibility IS the observation of whether the
     # viewpoint is inside cloud, so when the provider reports 10 km or more
     # the geometry cannot close the veto: the air is demonstrably clear and
     # the gate returns "clear". Deliberate OPEN choice — do not veto a clear
@@ -1273,7 +1274,8 @@ def phys_gate_state(condition, values, local_start_min=None, local_date=None):
     if metric == FOG_VISIBILITY_METRIC:
         return fog_visibility_state(values)
     if metric == DATA_FLOOR_METRIC:
-        return data_floor_state(values)
+        return data_floor_state(values,
+                                fog_subject=bool(condition.get("fog_subject")))
     if metric == SEASON_POLICY_METRIC:
         verdict, detail = season_policy_verdict(
             condition.get("policy_entry"), local_date)
@@ -1326,6 +1328,9 @@ def phys_gate_verdict(condition, values, local_start_min=None, local_date=None):
         if cell.get("state") != "AVAILABLE":
             return "FAIL", "DATA_FLOOR_UNAVAILABLE"
         if value == "ok":
+            if cell.get("visibility_exempt"):
+                return "PASS", (f"DATA_FLOOR(ok:fog_visibility_exempt,"
+                                f"vis={cell.get('visibility_km')}km)")
             return "PASS", "DATA_FLOOR(ok)"
         detail = cell.get("reason_code") or value
         if value == "visibility_low":
@@ -1517,13 +1522,58 @@ def phys_gates_for(contract, viewpoint_elevation_m):
         # the in-cloud gate — for misty_forest the fog IS the picture.
         gates.append(dict(FOG_VISIBILITY_GATE))
     gates.append(dict(DATA_CONTRADICTION_GATE))
-    # CL-PHYS-03 §3: the data-completeness/visibility floor applies to EVERY
-    # subject, fog genres included: no usable inputs, no recommendation.
-    gates.append(dict(DATA_FLOOR_GATE))
+    # CL-PHYS-03 §3: the field-count floor applies to EVERY subject, fog genres
+    # included: no usable inputs, no recommendation. The VISIBILITY floor is a
+    # different claim, and it is the one the fog exemption touches: for a
+    # dedicated fog subject a 0.5 km hour is the picture, so the floor must not
+    # veto the very hour the fog gate deliberately lets through.
+    gates.append(dict(DATA_FLOOR_GATE, fog_subject=genre in FOG_SUBJECT_GENRES))
     if genre == "cloud_sea":
         gates.append(dict(CLOUD_SEA_INVERSION_GATE,
                           viewpoint_elevation_m=viewpoint_elevation_m))
     return gates
+
+# ---------------------------------------------------------------------------
+# PHYS03_REPLAY_RECIPE — how to reproduce a "before/after" count, and what the
+# tests do NOT prove.
+#
+# The CL-PHYS-03 ticket quoted before/after totals from a 168 h replay of the
+# 2026-11-26 live bundle. That replay is NOT in the repository: the provider
+# artifact behind it was fetched live and never archived, so no number from it
+# is checkable, and none is asserted anywhere in this file or its tests. A
+# comment that carries a count nobody can re-derive is a claim, not evidence.
+#
+# What the tests DO prove: each gate's verdict at the predicate boundary, and —
+# via evaluate_batch.main() driven with a stubbed provider (see
+# tests/test_cl_phys_03_visibility_gates.py RealPathCapTests and
+# tests/test_cl_phys_02_datum_in_cloud.py RealPathMainTests) — that the gates
+# are actually wired into the per-hour path and into good_hours / next_good /
+# details. That is a statement about the RULE, at one hour at a time.
+#
+# What only a full replay can prove: how many published hours on a given
+# snapshot move. To produce that, reproduce it this way (no live network needed
+# once the artifact is archived):
+#   1. Snapshot: archive the exact adapter output for every place —
+#        python -c "from tools import open_meteo_batch as b; ..."  (any harness
+#      that dumps adapter.fetch_place(lat, lon, 168) to JSON). Store the files
+#      under a path OUTSIDE data/ (e.g. /tmp/snapshot-<utc>/tw-001.json) — do
+#      not commit provider payloads into data/v2.
+#   2. Before: in a pristine `git worktree add --detach /tmp/base origin/main`,
+#      run evaluate_batch.main() with adapter.fetch_place patched to read that
+#      snapshot (the pattern is tests/cl_phys_02_contrast.py), e.g.
+#        python -m pytest -q packages/core-v2/tests/cl_phys_02_contrast.py  # shape
+#      then a small driver that calls main() with --forecast-hours 168 and
+#      --out/--archive/--details-dir redirected into /tmp.
+#   3. After: same snapshot, same flags, this branch.
+#   4. Recount both bundles with:
+#        python packages/core-v2/tools/phys03_recount.py \
+#            --before /tmp/base/bundle.json --after /tmp/branch/bundle.json \
+#            --after-details /tmp/branch/details
+#      It prints the counts it can derive from the artifacts and says which
+#      ones it cannot (it never invents a number).
+# ---------------------------------------------------------------------------
+# Observations are properties of a snapshot; rules are properties of the code.
+# Keep the two claims separate in review.
 
 # ---------------------------------------------------------------------------
 # CL-PHYS-03 — evaluation-layer gates (no contract edits, schema_version stays
@@ -1534,7 +1584,9 @@ def phys_gates_for(contract, viewpoint_elevation_m):
 #    contract without `cloud_cover_low`/`visibility` conditions (e.g.
 #    tw-112-P01 geological_landform, us-162-P01) therefore still read
 #    GUIDANCE_SATISFIED on an hour whose RAW visibility is 0.1 km and whose
-#    low cloud is 100 % — 25 spots / 155 hours on the 2026-11-26 live bundle.
+#    low cloud is 100 %. How many spots/hours that covers is a property of the
+#    snapshot, not of this rule: see PHYS03_REPLAY_RECIPE below (nothing here
+#    asserts a replay count, because the replay is not in the repo).
 #    The veto belongs to the evaluation layer, once, as a pure predicate over
 #    the raw hour cells — never to each owner contract:
 #      visibility <  2 km                                  -> ✕ 濃霧 (whiteout)
@@ -1639,12 +1691,19 @@ DATA_FLOOR_MIN_CORE = 3
 DATA_FLOOR_VISIBILITY_KM = 2.0
 
 
-def data_floor_state(values):
+def data_floor_state(values, fog_subject=False):
     """CL-PHYS-03 §3: usable-input floor for one hour.
 
     Levels: "ok" | "no_data" (zero core cells) | "thin" (< MIN_CORE) |
     "visibility_low" (raw visibility under the floor) |
     "visibility_missing" (visibility cell absent).
+
+    `fog_subject` (misty_forest and any future fog genre) exempts the hour from
+    the VISIBILITY clauses only: for a subject whose picture is fog, a 0.5 km
+    hour is the subject, not a defect — the fog gate already exempts it, and a
+    floor that vetoed the same hour would make the exemption unreachable. The
+    FIELD-COUNT floor still applies in full: no usable weather input still means
+    no recommendation, fog genre or not.
     """
     values = values or {}
     available = [name for name in DATA_FLOOR_CORE_FIELDS
@@ -1658,6 +1717,13 @@ def data_floor_state(values):
                 "reason_code": "INSUFFICIENT_CORE_WEATHER_FIELDS",
                 "available_fields": available}
     vis = _cell_value(values, "visibility")
+    if fog_subject:
+        # Deliberate exemption (see docstring): the visibility clause is a
+        # white-wall guard, and a fog subject photographs the white wall.
+        return {"state": "AVAILABLE", "value": "ok", "reason_code": None,
+                "available_fields": available,
+                "visibility_exempt": "fog_subject",
+                "visibility_km": round(vis, 2) if vis is not None else None}
     if vis is None:
         return {"state": "AVAILABLE", "value": "visibility_missing",
                 "reason_code": "VISIBILITY_UNAVAILABLE",
@@ -1789,12 +1855,19 @@ DATA_FLOOR_GATE = _phys_gate(
     "EVALGATE-data-floor", DATA_FLOOR_METRIC, {
         "zh-TW": "CL-PHYS-03 資料底線：一小時若沒有可用天氣輸入（核心欄位少於 3 項）、"
                  "或缺能見度、或能見度 <2 km，一律不得成為 ✓ 推薦（顯示資料不足）。"
-                 "刻意選擇關閉（fail closed）：推薦是對該小時的斷言，沒有輸入就沒有斷言。",
+                 "刻意選擇關閉（fail closed）：推薦是對該小時的斷言，沒有輸入就沒有斷言。"
+                 "惟專拍霧的題材（misty_forest）不受能見度條款拘束：對它而言 0.5 km "
+                 "就是畫面本身；但核心欄位數底線仍完整適用。",
         "en": "CL-PHYS-03 data floor: an hour with no usable weather input (fewer "
               "than 3 core fields), no visibility cell, or visibility < 2 km is "
               "never ✓ recommend. Deliberate CLOSED choice: a recommendation is a "
-              "claim about the hour, and a claim without inputs is not a claim.",
-        "ja": "CL-PHYS-03 データ下限：中核項目3未満・視程欠測・視程<2kmの時間は推奨不可。",
+              "claim about the hour, and a claim without inputs is not a claim. "
+              "Dedicated fog subjects (misty_forest) are exempt from the VISIBILITY "
+              "clauses only — for them 0.5 km is the subject, not a defect — while "
+              "the core-FIELD-COUNT floor applies in full.",
+        "ja": "CL-PHYS-03 データ下限：中核項目3未満・視程欠測・視程<2kmの時間は推奨不可。"
+              "霧専門の題材（misty_forest）は視程条項のみ免除（0.5kmが絵そのもの）。"
+              "中核項目数の下限は完全に適用する。",
     })
 
 
@@ -2719,7 +2792,12 @@ def main():
                 "opportunity_id": oid,
                 "name_i18n": doc.get("name_i18n") or {},
                 "genre_template": contract.get("genre_template"),
-                "days": [{"local_date": key, "hours": days[key]["detail_hours"]}
+                # CL-PHYS-03 §1: which hour buckets were haze-capped (shootable
+                # but below 推薦). Exposed here — the details artifact is not
+                # schema-gated — so the cap is observable without re-deriving
+                # it, while the published bundle keeps its v0.1 shape.
+                "days": [{"local_date": key, "hours": days[key]["detail_hours"],
+                          "capped_hours": sorted(days[key].get("capped") or ())}
                          for key in sorted(days)],
                 "live": live,
             })

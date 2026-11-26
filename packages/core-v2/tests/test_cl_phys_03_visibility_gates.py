@@ -18,10 +18,13 @@ threshold are asserted here.
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
+import tempfile
 import unittest
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[3]
 spec = importlib.util.spec_from_file_location(
@@ -158,8 +161,11 @@ class RegisteredFogHourTests(unittest.TestCase):
         metrics = [g["metric"] for g in
                    eb.phys_gates_for({"genre_template": "misty_forest"}, 100.0)]
         self.assertNotIn(eb.FOG_VISIBILITY_METRIC, metrics)
-        # ... but the data floor still applies to it.
-        self.assertIn(eb.DATA_FLOOR_METRIC, metrics)
+        # ... and the floor is still injected, armed with the fog exemption.
+        floor = next(g for g in eb.phys_gates_for(
+            {"genre_template": "misty_forest"}, 100.0)
+            if g["metric"] == eb.DATA_FLOOR_METRIC)
+        self.assertTrue(floor.get("fog_subject"))
 
 
 class InCloudClearSkyTests(unittest.TestCase):
@@ -239,6 +245,67 @@ class DataFloorTests(unittest.TestCase):
                       cloud_cover_total=available(20))
         self.assertEqual(eb.phys_gate_verdict(dict(eb.DATA_FLOOR_GATE), values),
                          ("PASS", "DATA_FLOOR(ok)"))
+
+    # -- reviewer COND 1: the fog exemption and the floor must not contradict --
+
+
+    def misty_hour(self, visibility=0.5):
+        """A misty_forest hour: fog is the picture, every field is present."""
+        return hour(visibility, 40, temperature_2m=available(14.0),
+                    relative_humidity_2m=available(99),
+                    cloud_cover_total=available(70),
+                    wind_speed_10m=available(1.5),
+                    precipitation=available(0.0))
+
+    def test_half_km_misty_forest_hour_is_not_failed_by_the_floor(self):
+        values = self.misty_hour()
+        # The floor's verdict alone, as it is armed for a fog subject: PASS,
+        # with the exemption named in the detail.
+        verdict, detail = eb.phys_gate_verdict(
+            dict(eb.DATA_FLOOR_GATE, fog_subject=True), values)
+        self.assertEqual(verdict, "PASS", detail)
+        self.assertIn("fog_visibility_exempt", detail)
+        # ... and through the gate the evaluation layer actually injects.
+        floor_gate = next(g for g in eb.phys_gates_for(
+            {"genre_template": "misty_forest"}, 100.0)
+            if g["metric"] == eb.DATA_FLOOR_METRIC)
+        self.assertTrue(floor_gate.get("fog_subject"))
+        self.assertEqual(eb.phys_gate_verdict(floor_gate, values)[0], "PASS")
+
+    def test_misty_forest_hour_survives_every_injected_gate(self):
+        # No gate in the fog subject's own set vetoes the 0.5 km hour: the
+        # visibility gate is absent, and the floor exempts visibility.
+        gates = eb.phys_gates_for({"genre_template": "misty_forest"}, 100.0)
+        self.assertNotIn(eb.FOG_VISIBILITY_METRIC,
+                         [g["metric"] for g in gates])
+        for gate in gates:
+            self.assertEqual(
+                eb.phys_gate_verdict(gate, self.misty_hour())[0], "PASS", gate["id"])
+
+    def test_misty_forest_is_still_held_to_the_field_count_floor(self):
+        # The exemption is about VISIBILITY only: a fog subject with too few
+        # usable inputs is still refused (fog genre is not a data licence).
+        thin = hour(0.5, None, temperature_2m=available(14.0))
+        self.assertEqual(eb.data_floor_state(thin, fog_subject=True)["value"],
+                         "thin")
+        empty = {"grid_elevation_m": available(230)}
+        self.assertEqual(eb.data_floor_state(empty, fog_subject=True)["value"],
+                         "no_data")
+        floor_gate = next(g for g in eb.phys_gates_for(
+            {"genre_template": "misty_forest"}, 100.0)
+            if g["metric"] == eb.DATA_FLOOR_METRIC)
+        self.assertEqual(eb.phys_gate_verdict(floor_gate, empty)[0], "FAIL")
+
+    def test_non_fog_subjects_keep_the_visibility_floor(self):
+        # Same 0.5 km hour, a general landscape subject: still refused.
+        self.assertEqual(eb.data_floor_state(self.misty_hour())["value"],
+                         "visibility_low")
+        floor_gate = next(g for g in eb.phys_gates_for(
+            {"genre_template": "geological_landform"}, 100.0)
+            if g["metric"] == eb.DATA_FLOOR_METRIC)
+        self.assertFalse(floor_gate.get("fog_subject"))
+        self.assertEqual(eb.phys_gate_verdict(floor_gate, self.misty_hour())[0],
+                         "FAIL")
 
 
 class SeasonPolicyTests(unittest.TestCase):
@@ -363,6 +430,179 @@ class NightWindowTests(unittest.TestCase):
         contract = {"genre_template": "city_night", "conditions": []}
         ids = [c["id"] for c in eb.eval_conditions_for(contract)]
         self.assertIn(eb.GATE_CONDITION_ID, ids)
+
+
+class RealPathCapTests(unittest.TestCase):
+    """Reviewer COND 2: drive evaluate_batch.main() for the haze cap.
+
+    Everything else in this file calls the predicates directly, which proves the
+    rule but not that the evaluation path USES it: the cap is computed in
+    main()'s per-hour loop, carried in a per-day `capped` set, consumed by
+    good_hours and by the next_good scan, and (details side) exposed as a
+    capped_hours list next to the hour rows. The stub provider is the same
+    pattern test_cl_phys_02_datum_in_cloud.py uses for the datum case.
+
+    Fixture: place tw-001, 168 h from 2026-11-26T00:00Z, visibility 3.0 km
+    (haze, shootable) for the first 48 h and 20 km after. tw-001-P03 is a
+    blue_hour_city contract whose weather conditions all pass on this fixture,
+    so its blue-hour bucket is GUIDANCE_SATISFIED every day — capped on the
+    first two days, uncapped afterwards.
+    """
+
+    HOURS = 168
+    CAPPED_HOURS = 48          # first 48 UTC hours are 3 km visibility
+    OID = "tw-001-P03"         # blue_hour_city
+    NIGHT_OID = "tw-001-P04"   # city_night (night_window data)
+
+    START = datetime(2026, 11, 26, 0, 0, tzinfo=timezone.utc)
+
+    def artifact(self):
+        hours = []
+        for index in range(self.HOURS):
+            visibility = 3.0 if index < self.CAPPED_HOURS else 20.0
+            values = {
+                "temperature_2m": available(20.0),
+                "dew_point_2m": available(12.0),
+                "relative_humidity_2m": available(60),
+                "cloud_cover_low": available(10),
+                "cloud_cover_mid": available(30),
+                "cloud_cover_high": available(30),
+                "cloud_cover_total": available(20),
+                "wind_speed_10m": available(3.0),
+                "visibility": available(visibility),
+                "precipitation": available(0.0),
+                "precipitation_probability": available(0),
+                "relative_humidity_925hpa": available(60),
+                "relative_humidity_850hpa": available(60),
+                "wind_speed_850hpa": available(3.0),
+                "aod_550nm": available(0.2),
+                "temperature_delta_850_925_c": available(0.5),
+                "cloud_cover_mid_and_high": available(30),
+                "lcl_height_m_agl": available(800),
+            }
+            hours.append({
+                "valid_at_utc": (self.START + timedelta(hours=index))
+                .strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "values": values})
+        return {
+            "adapter_version": "open-meteo-batch-0.1", "provider": "open-meteo",
+            "place_coordinate": {"latitude": 25.0330, "longitude": 121.5654},
+            "grid": {"latitude": 25.03, "longitude": 121.56, "elevation_m": 20.0},
+            "retrieved_at_utc": "2026-11-26T00:00:00Z",
+            "sources": [
+                {"source_url": "stub://forecast", "source_sha256": "0" * 64,
+                 "kind": "forecast", "fields": []},
+                {"source_url": "stub://air-quality", "source_sha256": "0" * 64,
+                 "kind": "air_quality", "fields": []}],
+            "freshness_policy": {}, "notes": {},
+            "hours": hours,
+        }
+
+    def run_main(self):
+        scratch = Path(tempfile.mkdtemp(prefix="cl-phys03-"))
+        captured = {}
+
+        def fake_fetch(lat, lon, forecast_hours):
+            self.assertEqual(forecast_hours, self.HOURS)
+            captured["artifact"] = self.artifact()
+            return captured["artifact"]
+
+        out = scratch / "bundle.json"
+        details_dir = scratch / "details"
+        argv = ["evaluate_batch.py", "--forecast-hours", str(self.HOURS),
+                "--only-place-id", "tw-001", "--out", str(out),
+                "--archive", str(scratch / "archive"),
+                "--details-dir", str(details_dir)]
+        with mock.patch.object(eb.adapter, "fetch_place", fake_fetch), \
+                mock.patch.object(sys, "argv", argv):
+            eb.main()
+        bundle = json.loads(out.read_text(encoding="utf-8"))
+        details = json.loads(
+            (details_dir / "tw-001.json").read_text(encoding="utf-8"))
+        return bundle, details
+
+    @staticmethod
+    def opportunity(bundle, oid):
+        return next(o for place in bundle["places"]
+                    for o in place["opportunities"] if o["opportunity_id"] == oid)
+
+    @staticmethod
+    def detail_opportunity(details, oid):
+        return next(o for o in details["opportunities"]
+                    if o["opportunity_id"] == oid)
+
+    def capped_day_date(self):
+        """The local date of the first capped bucket (the fixture starts 08:00)."""
+        return (self.START + timedelta(hours=8)).date().isoformat()
+
+    def test_the_fixture_really_caps_the_blue_hour(self):
+        # Guard for the assertions below: without this, a fixture that stopped
+        # passing the contract would make them vacuously true.
+        bundle, details = self.run_main()
+        opportunity = self.detail_opportunity(details, self.OID)
+        day = next(d for d in opportunity["days"]
+                   if d["local_date"] == self.capped_day_date())
+        self.assertTrue(day["capped_hours"],
+                        "fixture no longer produces a capped hour")
+        satisfied = [row for row in day["hours"]
+                     if row["status"] == "GUIDANCE_SATISFIED"]
+        self.assertTrue(satisfied)
+        self.assertEqual({row["local"] for row in satisfied},
+                         set(day["capped_hours"]))
+
+    def test_cap_removes_the_hour_from_good_hours_but_not_its_status(self):
+        bundle, _ = self.run_main()
+        opportunity = self.opportunity(bundle, self.OID)
+        day = next(d for d in opportunity["days"]
+                   if d["local_date"] == self.capped_day_date())
+        # (a) the hour is still a satisfied hour ...
+        self.assertEqual(day["state"], "GUIDANCE_SATISFIED")
+        self.assertGreaterEqual(day["hour_counts"]["GUIDANCE_SATISFIED"], 1)
+        # ... but the cap keeps it out of the published recommendation surface,
+        # so a capped-only day publishes state=GUIDANCE_SATISFIED with no
+        # good_hours at all.
+        self.assertEqual(day["good_hours"], [])
+
+    def test_the_capped_set_is_exposed_on_the_details_day(self):
+        # (b) the per-day capped set is observable without re-deriving it.
+        _, details = self.run_main()
+        opportunity = self.detail_opportunity(details, self.OID)
+        capped_days = {d["local_date"]: d["capped_hours"] for d in opportunity["days"]
+                       if d["capped_hours"]}
+        self.assertEqual(sorted(capped_days), ["2026-11-26", "2026-11-27"])
+        for labels in capped_days.values():
+            self.assertTrue(all(len(label) == 5 for label in labels))
+        # the clear days carry none
+        self.assertNotIn("2026-11-28", capped_days)
+
+    def test_next_good_skips_the_capped_hour(self):
+        # (c) next_good is the first satisfied NON-capped hour: on this fixture
+        # the capped blue hours of 11-26/11-27 must be skipped for 11-28's.
+        bundle, _ = self.run_main()
+        opportunity = self.opportunity(bundle, self.OID)
+        next_good = (opportunity.get("live") or {}).get("next_good")
+        self.assertIsNotNone(next_good)
+        assert next_good is not None
+        self.assertEqual(next_good["status"], "GUIDANCE_SATISFIED")
+        when = datetime.fromisoformat(
+            next_good["utc"].replace("Z", "+00:00"))
+        self.assertGreaterEqual((when - self.START).total_seconds() / 3600,
+                                self.CAPPED_HOURS)
+        self.assertTrue(next_good["local"].startswith("2026-11-28"),
+                        next_good["local"])
+
+    def test_detail_row_carries_the_night_window(self):
+        # (d) the details row of a night genre names the window it sits in.
+        _, details = self.run_main()
+        opportunity = self.detail_opportunity(details, self.NIGHT_OID)
+        rows = {row["local"]: row for day in opportunity["days"]
+                for row in day["hours"]}
+        self.assertEqual(rows["23:00"]["night_window"]["code"],
+                         "NIGHT_CITY_WINDOW")
+        self.assertEqual(rows["22:00"]["night_window"]["code"],
+                         "NIGHT_CITY_WINDOW")
+        self.assertTrue(rows["23:00"]["night_window"]["reason"]["zh-TW"])
+        self.assertNotIn("night_window", rows["12:00"])
 
 
 if __name__ == "__main__":

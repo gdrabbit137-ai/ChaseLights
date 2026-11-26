@@ -8,6 +8,11 @@
       "Every entry must carry source_kind + source + asserted_at so the window can be audited against the owner data it came from.",
       "This table never overrides a contract's own seasonal_state condition; it only covers subjects that have none."
     ],
+    "provenance_rules": [
+      "source_kind=opportunity_description means the window was ASSERTED from the subject's own record text, NOT read from a sourced calendar. Those windows are exactly as precise as the text is vague: the MM-DD endpoints are a defensible reading of the description, never an official date list.",
+      "A window taken from a published event calendar must say source_kind=sourced_calendar and carry the URL + retrieved_at. No entry in this table currently qualifies.",
+      "The evaluation gate judges the hour on the PLACE's local clock, derived from the place coordinate's UTC offset. The `timezone` field on an entry is NOT read by the gate: it is kept for future use and labelled timezone_unused=true so the next reader does not trust it as the gate's clock."
+    ],
     "owner_ticket": "CL-PHYS-03",
     "asserted_at": "2026-11-26"
   },
@@ -22,13 +27,17 @@
       "start": "01-15",
       "end": "02-28",
       "source_kind": "opportunity_description",
-      "source": "data/v2/opportunities/jp-072-P01.json description_i18n: 「官方點燈頁面，每年1月中–2月末，日期年度公佈」; CL-PHYS-03 (2026-11-26) asserts the window 01-15..02-28.",
+      "source": "data/v2/opportunities/jp-072-P01.json description_i18n: 「官方點燈頁面，每年1月中–2月末，日期年度公佈」. CL-PHYS-03 (2026-11-26) asserted the MM-DD window 01-15..02-28 from that sentence.",
+      "provenance": "ASSERTED FROM THE SUBJECT'S OWN DESCRIPTION, NOT FROM A SOURCED CALENDAR. The record says mid-January to end-February and that each year's exact dates are announced later; 01-15..02-28 is the widest reading of that sentence, not an official date list. If the owners ever publish the year's real light-up dates, they must replace this window (source_kind=sourced_calendar).",
       "asserted_at": "2026-11-26",
       "confirmed_by": "CL-PHYS-03",
+      "timezone": "Asia/Tokyo",
+      "timezone_unused": true,
+      "timezone_note": "UNUSED by the evaluation gate: EVALGATE-season-window judges the LOCAL DATE from the place coordinate's UTC offset, not from this field. Kept for future use only; do not read it as the gate's clock.",
       "notes_i18n": {
-        "zh-TW": "冬季點燈僅在 01-15–02-28 舉行：窗外（例如 11/27）不得推薦，即使天氣條件全部通過。",
-        "en": "The winter light-up runs 01-15..02-28 only; outside it (e.g. 11/27) the subject is never recommended even when every weather condition passes.",
-        "ja": "冬季ライトアップは01-15–02-28のみ。窓外（例: 11/27）は天気条件が全て成立しても推奨しない。"
+        "zh-TW": "冬季點燈僅在 01-15–02-28 舉行（由題材描述「1月中–2月末，日期年度公佈」推得，非官方行事曆）：窗外（例如 11/27）不得推薦，即使天氣條件全部通過。",
+        "en": "The winter light-up runs 01-15..02-28 only — asserted from the subject description (\"mid-January to end-February, dates announced yearly\"), not from a sourced calendar; outside it (e.g. 11/27) the subject is never recommended even when every weather condition passes.",
+        "ja": "冬季ライトアップは01-15–02-28のみ（題材説明「1月中旬〜2月末、日付は年度ごとに公表」からの推定であり、公式カレンダーではない）。窓外（例: 11/27）は天気条件が全て成立しても推奨しない。"
       }
     }
   }
