@@ -15,7 +15,9 @@ const createSpotCardBlock=cardBlock('function createSpotCard','function distance
 // Extract stripSpotNamePrefix with the spotName const it depends on.
 const grab=(start,end)=>{const i=appSource.indexOf(start);return appSource.slice(i,appSource.indexOf(end,i));};
 const stripFn=grab('function stripSpotNamePrefix','// CL-UI-05: single V2 day-state label mapping');
-const spotNameConst=grab('const spotName=s=>','\n');
+// CL-I18N-12C turned spotName into a block that closes over NAME_LOCALE_FIX;
+// slice from that table so the extracted function still compiles.
+const spotNameConst=grab('const NAME_LOCALE_FIX=','const categoryLabel=');
 const stripSpotNamePrefix=new Function(`${spotNameConst}\nlet currentLang='zh-TW';\n${stripFn}\nreturn stripSpotNamePrefix;`)();
 
 test('CL-UI-15 (1): summary line strips a leading spot-name prefix (display-level only)',()=>{
