@@ -114,7 +114,7 @@ test('CL-UI-21 B2: v2 none-copy follows the day filter in all three languages',(
   // CL-UI-126: the day-aware selection now happens inside the one shared
   // helper both card surfaces call (it also owns the post-nightfall copy).
   assert.ok(appSource.includes("best.state==='NOT_EVALUABLE'?t.eval2_unk:t[v2NoneSubjectKey()]"));
-  assert.ok(appSource.includes('${v2NoWindowLine(spot,v2Best)}'));
+  assert.ok(appSource.includes('${v2NoWindowLine(spot,v2Best,scTier)}'));
 });
 
 test('CL-UI-21 C3: no full-width separators remain in en rendering paths',()=>{

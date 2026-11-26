@@ -517,10 +517,14 @@
       // contradiction the owner reported. A positive tier on today's row is
       // enough: the day peaked and its last window is gone.
       const positive=tier==='recommend'||tier==='shootable'||(best.day&&best.day.state==='GUIDANCE_SATISFIED');
+      // CL-UI-126 (2): the day is over only when the next window is NOT later
+      // today — a stamp still inside today means the day is not over yet and
+      // the ordinary none line must stay.
+      const nextToday=!!(best.nextLocal&&String(best.nextLocal).slice(0,10)===todayKey);
       const dayOver=selectedDayOffset()===0
         &&best.day&&best.day.local_date===todayKey
         &&best.day.state!=='NOT_EVALUABLE'
-        &&!!positive;
+        &&!!positive&&!nextToday;
       if(dayOver){
         return `📅 ${esc(t.v2_day_over)}${stamp?` · ${esc(t.v2_day_next.replace('{t}',stamp))}`:''}`;
       }

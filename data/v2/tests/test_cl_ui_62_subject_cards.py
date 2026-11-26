@@ -206,6 +206,11 @@ class DerivedArtifactTests(unittest.TestCase):
                 row = self.artifact["places"][place["place_id"]][date]
                 day_votes = {}
                 for opp in place["opportunities"]:
+                    # CL-UI-65 owner ruling: the mounted general opportunity is
+                    # superseded by the derived general_baseline — it contributes
+                    # no chips and no votes (build_subject_cards skips it).
+                    if opp.get("genre_template") == "general":
+                        continue
                     for day in opp["days"]:
                         if day["local_date"] != date or day["state"] != "UNFAVORABLE":
                             continue

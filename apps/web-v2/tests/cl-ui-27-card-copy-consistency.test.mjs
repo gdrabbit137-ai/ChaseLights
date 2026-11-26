@@ -47,7 +47,7 @@ test('CL-UI-27 (1): none-copy and next window render as ONE merged line', () => 
   assert.match(helper, /best\.state==='NOT_EVALUABLE'\?t\.eval2_unk:t\[v2NoneSubjectKey\(\)\]/,
     'the day-aware none copy is still the label source');
   const card = grab('function createSpotCard', 'function distanceToSpotKm');
-  assert.match(card, /theme-winner v2-none">\$\{v2NoWindowLine\(spot,v2Best\)\}/,
+  assert.match(card, /theme-winner v2-none">\$\{v2NoWindowLine\(spot,v2Best(?:,scTier)?\)\}/,
     'the card renders that one helper');
   // the old separate next-window row no longer exists on the none path
   assert.ok(!card.includes('best-window-row">${esc(d().v2_next_window)}'));

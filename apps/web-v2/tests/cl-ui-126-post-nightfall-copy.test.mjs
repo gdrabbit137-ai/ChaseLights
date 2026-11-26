@@ -110,7 +110,7 @@ test('CL-UI-126 (5): a yesterday row can never be mistaken for today', () => {
 });
 
 test('CL-UI-126 (6): both card surfaces render through the one helper', () => {
-  assert.equal((appSource.match(/v2NoWindowLine\(spot,v2Best\)/g) || []).length, 2,
+  assert.equal((appSource.match(/v2NoWindowLine\(spot,v2Best(?:,scTier)?\)/g) || []).length, 2,
     'the summary line and the no-window line share the helper');
   assert.ok(!/📅 \$\{esc\(v2Best\.state==='NOT_EVALUABLE'/.test(appSource),
     'no surface still inlines the old none line');

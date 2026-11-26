@@ -89,7 +89,7 @@ test('CL-UI-05 (c): eval2_none (not generated) and eval2_unk (NOT_EVALUABLE) sta
   // day without qualifying hours shows the day-aware v2_none copy (v2NoneSubjectKey).
   // CL-UI-126: both card surfaces render it through the one shared helper.
   const summary=cardBlock('const v2Summary=(v2Best&&!v2Best.hours)?','const reasonHtml=');
-  assert.match(summary,/\$\{v2NoWindowLine\(spot,v2Best\)\}/);
+  assert.match(summary,/\$\{v2NoWindowLine\(spot,v2Best(?:,scTier)?\)\}/);
   const noneLine=cardBlock('function v2NoWindowLine','// Place names are the one intentional');
   assert.match(noneLine,/best\.state==='NOT_EVALUABLE'\?t\.eval2_unk:t\[v2NoneSubjectKey\(\)\]/);
   // i18n: the not-generated copy is date-scoped and distinct from the
@@ -111,7 +111,7 @@ test('CL-UI-05 (d): next qualifying window shows when live.next_good exists',()=
   // The card's no-qualifying-hours summary renders the wired next window and
   // falls back to pure copy when there is none.
   const summary=cardBlock('const v2Summary=(v2Best&&!v2Best.hours)?','const reasonHtml=');
-  assert.match(summary,/\$\{v2NoWindowLine\(spot,v2Best\)\}/);
+  assert.match(summary,/\$\{v2NoWindowLine\(spot,v2Best(?:,scTier)?\)\}/);
   const noneLine=cardBlock('function v2NoWindowLine','// Place names are the one intentional');
   assert.match(noneLine,/const stamp=best\.nextLocal\?nextWindowStamp\(best\.nextLocal,spot&&spot\.timezone\):'';/);
   assert.match(noneLine,/\$\{stamp\?` · \$\{esc\(t\.v2_next_window\)\}<b>\$\{esc\(stamp\)\}<\/b>`:''\}/);

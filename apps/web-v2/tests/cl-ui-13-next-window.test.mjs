@@ -104,7 +104,7 @@ test('CL-UI-13 (g): wiring — v2BestForSpot validates nextLocal via the spot ti
   // The card renders the row only when a validated future value exists
   // (CL-UI-126: the render moved into the shared v2NoWindowLine helper).
   const createSpotCardBlock=block('function createSpotCard','function distanceToSpotKm');
-  assert.match(createSpotCardBlock,/\$\{v2NoWindowLine\(spot,v2Best\)\}/);
+  assert.match(createSpotCardBlock,/\$\{v2NoWindowLine\(spot,v2Best(?:,scTier)?\)\}/);
   const noneLine=block('function v2NoWindowLine','// Place names are the one intentional');
   assert.match(noneLine,/const stamp=best\.nextLocal\?nextWindowStamp\(best\.nextLocal,spot&&spot\.timezone\):'';/);
   assert.match(noneLine,/\$\{stamp\?` · \$\{esc\(t\.v2_next_window\)\}<b>\$\{esc\(stamp\)\}<\/b>`:''\}/);

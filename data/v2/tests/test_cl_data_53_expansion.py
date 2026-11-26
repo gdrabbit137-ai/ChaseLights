@@ -192,7 +192,7 @@ class TestRuntime(unittest.TestCase):
         for pid in NEW_IDS:
             self.assertIn(pid, ids, pid)
         self.assertEqual(ev["place_count"], 459)  # CL-CI-36 re-anchor: 6 CL-DATA-62-retired + us-111 retired (CL-DATA-76, PRODUCT_RETIRED splice) -> 460 -> 459
-        self.assertEqual(ev["opportunity_count"], 720)  # CL-INT-212 re-anchor: 719 -> 720 (merged tree 75+76+77: jp-030-P01 evaluates with CL-DATA-77 verified geometry; us-111 dropped)
+        self.assertEqual(ev["opportunity_count"], 721)  # CL-DATA-84C re-anchor: 720 -> 721 (tw-001-P04 city_night spliced into the merged bundle; research_index already pins 459/721)
         self.assertEqual(ev["forecast_hours"], 168)
 
 
