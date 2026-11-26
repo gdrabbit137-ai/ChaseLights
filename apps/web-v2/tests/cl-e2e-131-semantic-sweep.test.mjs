@@ -126,6 +126,10 @@ const netMonitor = `(() => {
 
 // ------------------------------------------------------------------ harness
 let server, baseURL, chrome, ws, send, evaljs, ready;
+// Per-CDP-call reply deadline (see send()): generous enough that a page whose
+// own in-page poll times out still reports ITS error, tight enough that a
+// wedged main thread fails the test with a real message instead of a 300s kill.
+const CDP_TIMEOUT_MS = Number(process.env.CL131_CDP_TIMEOUT_MS || 90000);
 const pageErrors = [];
 let loadEvents = 0; // Page.loadEventFired counter — an evaluate can land on the STALE document mid-navigation
 let scriptIds = [];
@@ -199,13 +203,25 @@ async function boot() {
       }
       if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); }
     };
-    send = (method, params = {}) => new Promise((resolve, reject) => {
+    // CL-E2E-131: every CDP call carries its own reply deadline. Without one a
+    // Runtime.evaluate whose promise never settles (a busy main thread while the
+    // basemap/tiles churn) leaves the await hanging until the runner kills the
+    // whole test at 300s, which tells nobody what actually stalled.
+    send = (method, params = {}, { timeoutMs = CDP_TIMEOUT_MS } = {}) => new Promise((resolve, reject) => {
       const i = nextId();
-      pending.set(i, m => m.error ? reject(new Error(`${method}: ${m.error.message}`)) : resolve(m.result));
-      ws.send(JSON.stringify({ id: i, method, params }));
+      const timer = setTimeout(() => {
+        if (pending.delete(i)) reject(new Error(`${method}: no CDP reply within ${timeoutMs}ms (page main thread blocked?)`));
+      }, timeoutMs);
+      pending.set(i, m => {
+        clearTimeout(timer);
+        if (m.error) reject(new Error(`${method}: ${m.error.message}`));
+        else resolve(m.result);
+      });
+      try { ws.send(JSON.stringify({ id: i, method, params })); }
+      catch (e) { clearTimeout(timer); pending.delete(i); reject(e); }
     });
-    evaljs = async (expr) => {
-      const r = await send('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true });
+    evaljs = async (expr, opts = {}) => {
+      const r = await send('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true }, opts);
       if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception?.description || r.exceptionDetails.text || 'page error');
       return r.result?.value;
     };
@@ -241,6 +257,38 @@ async function installClock(fixed) {
 }
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+// CL-E2E-131: bounded, HARNESS-side polling. An in-page `awaitPromise` poll is a
+// single CDP request: if the page's main thread stalls (tile/style churn on a
+// cold CI runner) the request never answers and nothing inside the page can
+// recover — the whole test dies at the runner timeout with no diagnosis. This
+// helper keeps the budget in Node: every probe is a short-lived evaluate with
+// its own deadline, a failed/slow probe just counts as "not ready yet", and the
+// dead-line surfaces an explicit error naming what never settled.
+async function pollUntil(expr, { timeoutMs = 90000, intervalMs = 500, label = expr, probe = v => !!v, callTimeoutMs = 15000 } = {}) {
+  const t0 = Date.now();
+  let last, lastErr;
+  let probes = 0, failures = 0;
+  while (Date.now() - t0 < timeoutMs) {
+    probes++;
+    try {
+      const v = await evaljs(expr, { timeoutMs: Math.max(2000, Math.min(callTimeoutMs, timeoutMs - (Date.now() - t0))) });
+      last = v;
+      if (probe(v)) return { value: v, probes, failures, elapsedMs: Date.now() - t0 };
+    } catch (e) {
+      failures++;
+      lastErr = e;
+      if (/no CDP reply/.test(e.message) || /Execution context was destroyed|Cannot find context/.test(e.message)) {
+        // the document is mid-swap/hung — keep polling until the deadline
+      }
+    }
+    await sleep(intervalMs);
+  }
+  throw new Error(`${label}: not settled within ${timeoutMs}ms `
+    + `(${probes} probes, ${failures} failed; last=${JSON.stringify(last) ?? 'n/a'}`
+    + (lastErr ? `; last error: ${lastErr.message}` : '')
+    + (pageErrors.length ? ` | page errors: ${pageErrors.join(' ;; ')}` : '') + ')');
+}
 
 async function navigate(path, { waitFor, timeout = 45000, label = path } = {}) {
   const before = loadEvents;
@@ -687,40 +735,183 @@ test('CL-E2E-131 (4) NIGHT 23:30 — a 推薦 card with no window left says 「�
 });
 
 // ================================================== (5) weather map camera
+// CL-E2E-131: this case used exactly ONE in-page `awaitPromise` poll for the map
+// instance and another for the camera. On a cold CI runner the basemap style /
+// tile fetch can stall the page's main thread, and a single long-lived CDP
+// request then never answers: nothing inside the page can time out a request the
+// page never gets to run, so the case hung until the runner killed it at 300s
+// with no message. The budget now lives in Node (MAP_BUDGET_MS), every wait is a
+// bounded harness-side poll, and the semantic assertions are untouched.
+const MAP_BUDGET_MS = Number(process.env.CL131_MAP_BUDGET_MS || 90000);
+
+async function disposeMapPage() {
+  try {
+    await evaljs(`(() => {
+      try {
+        const m = window.__weatherGridMap;
+        if (m) {
+          try { if (m.stop) m.stop(); } catch (e) { /* not moving */ }
+          try { m.remove(); } catch (e) { /* already torn down */ }
+        }
+        window.__weatherGridMap = null;
+      } catch (e) { /* page is gone */ }
+      return true;
+    })()`, { timeoutMs: 5000 });
+    return 'released';
+  } catch (e) {
+    return 'map page not reachable (' + e.message + ')';
+  }
+}
+
 test('CL-E2E-131 (5) MAP — /weather-map.html?region=tw opens on mainland Taiwan at zoom ≥ 7', async () => {
+  const t0 = Date.now();
+  const budgetLeft = () => Math.max(3000, MAP_BUDGET_MS - (Date.now() - t0));
+  try {
+    await boot();
+    await installClock(DAY_FIXED);
+    // No in-page waitFor here: the map instance is created inside MapLibre's
+    // 'load' handler, so the wait must survive a slow style/tile fetch — which
+    // is precisely the wait that used to hang. Poll it from the harness.
+    await navigate('weather-map.html?region=tw', { label: 'weather map' });
+    const inst = await pollUntil(`(() => {
+      const m = window.__weatherGridMap;
+      const s = document.getElementById('basemap-status');
+      return {hasMap: !!(m && typeof m.getZoom === 'function'), status: s ? String(s.className) : 'absent'};
+    })()`, {
+      timeoutMs: budgetLeft(),
+      label: 'weather map never became interactive (MapLibre "load" never fired — basemap style/tiles stalled)',
+      probe: v => !!(v && v.hasMap),
+    });
+    if (inst.failures) console.log(`# CL-E2E-131 (5): ${inst.failures}/${inst.probes} probes had no CDP reply (slow main thread), recovered`);
+
+    // The region opening camera is applied on the basemap 'load' event
+    // (applyRegionDefaultCamera), which can land after the map object exists —
+    // so wait for the camera to SETTLE (status ready, not moving, two identical
+    // readings), not merely for the instance. The assertions below still read a
+    // fresh camera and fail if it is not on Taiwan.
+    let settleKey = '';
+    await pollUntil(`(() => {
+      const m = window.__weatherGridMap;
+      if (!m || typeof m.getZoom !== 'function') return null;
+      const c = m.getCenter();
+      const s = document.getElementById('basemap-status');
+      return {
+        zoom: Math.round(m.getZoom() * 1000) / 1000,
+        lat: Math.round(c.lat * 10000) / 10000,
+        lng: Math.round(c.lng * 10000) / 10000,
+        moving: !!(m.isMoving && m.isMoving()),
+        status: s ? String(s.className) : 'absent',
+      };
+    })()`, {
+      timeoutMs: budgetLeft(),
+      label: 'map camera never settled after load (basemap-status never reached "ready")',
+      probe: (v) => {
+        if (!v || v.moving || !/ready/.test(v.status)) { settleKey = ''; return false; }
+        const key = v.zoom + '|' + v.lat + '|' + v.lng;
+        if (key !== settleKey) { settleKey = key; return false; }
+        return true;
+      },
+    });
+    await sleep(800);
+    const cam = await evaljs(`(() => {
+      const m = window.__weatherGridMap;
+      const c = m.getCenter();
+      return { zoom: m.getZoom(), lat: c.lat, lng: c.lng };
+    })()`);
+    assert.ok(cam.zoom >= 7, `the map is zoomed into Taiwan, not the whole of East Asia (zoom=${cam.zoom})`);
+    assert.ok(cam.lat >= 21.5 && cam.lat <= 25.5, `center latitude is mainland Taiwan (lat=${cam.lat})`);
+    assert.ok(cam.lng >= 119.0 && cam.lng <= 122.5, `center longitude is mainland Taiwan (lng=${cam.lng})`);
+
+    const tokens = await readEngineeringTokens();
+    assert.deepEqual(tokens.hits, [], `no engineering tokens on screen on the map page (${JSON.stringify(tokens.sample)})`);
+  } finally {
+    // always hand the map's tiles/timers back before the next case navigates
+    console.log(`# CL-E2E-131 (5) map cleanup: ${await disposeMapPage()} (${Date.now() - t0}ms)`);
+  }
+});
+
+
+// ============================================ (6) card ↔ modal weather贯通
+// CL-CI-44: the card face and the forecast modal must tell ONE story per day.
+// The owner's screenshot showed 「今天無建議符合題材 · ○ 可拍」 in the modal's
+// top 7-day summary while the accordion below it said 「✓ 推薦 · ✓4 雲海」 for
+// the same date. Both surfaces now read the committed subject-cards row, and
+// both render the SAME day-weather block (WMO code + temperature range +
+// visibility), so this gate asserts equality instead of eyeballing it.
+test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO, temperature, visibility', async () => {
   await boot();
   await installClock(DAY_FIXED);
-  await navigate('weather-map.html?region=tw', {
-    waitFor: `window.__weatherGridMap && window.__weatherGridMap.getZoom`,
-    timeout: 60000,
-    label: 'weather map',
-  });
-  // The region opening camera is applied on the basemap 'load' event
-  // (applyRegionDefaultCamera), which can land after the map object exists —
-  // wait for the camera itself, not just the instance.
-  await evaljs(`new Promise((resolve, reject) => {
-    const t0 = performance.now();
-    const iv = setInterval(() => {
-      const m = window.__weatherGridMap;
-      const ready = document.querySelector('#basemap-status');
-      const loaded = (ready && /ready/.test(ready.className)) || (m && m.getZoom() >= 7);
-      if (loaded && m && m.getZoom() >= 7) { clearInterval(iv); resolve(true); }
-      else if (performance.now() - t0 > 60000) {
-        clearInterval(iv);
-        reject(new Error('map camera never landed on the region default (zoom=' + (m ? m.getZoom() : 'n/a') + ')'));
-      }
-    }, 250);
-  })`);
-  await sleep(800);
-  const cam = await evaljs(`(() => {
-    const m = window.__weatherGridMap;
-    const c = m.getCenter();
-    return { zoom: m.getZoom(), lat: c.lat, lng: c.lng };
-  })()`);
-  assert.ok(cam.zoom >= 7, `the map is zoomed into Taiwan, not the whole of East Asia (zoom=${cam.zoom})`);
-  assert.ok(cam.lat >= 21.5 && cam.lat <= 25.5, `center latitude is mainland Taiwan (lat=${cam.lat})`);
-  assert.ok(cam.lng >= 119.0 && cam.lng <= 122.5, `center longitude is mainland Taiwan (lng=${cam.lng})`);
+  await navigate('index.html', { waitFor: `document.querySelectorAll('#spots-container .card').length > 0`, label: 'index cards' });
+  await waitForCardData('the DAY card list never received its evaluation data');
 
-  const tokens = await readEngineeringTokens();
-  assert.deepEqual(tokens.hits, [], `no engineering tokens on screen on the map page (${JSON.stringify(tokens.sample)})`);
+  // (a) the card face carries a complete day-weather chip — icon, °C range and
+  //     visibility — and never leaks a placeholder.
+  const cardWx = await evaljs(`(() => {
+    const cards = [...document.querySelectorAll('#spots-container .card')];
+    const withWx = cards.map(c => {
+      const chip = c.querySelector('.card-metric-chips .day-wx');
+      return chip ? chip.innerText.replace(/\s+/g, ' ').trim() : null;
+    }).filter(Boolean);
+    return { total: cards.length, withWx: withWx.length, sample: withWx.slice(0, 4) };
+  })()`);
+  assert.ok(cardWx.withWx > 0, `at least one card face renders the day-weather chip (got ${cardWx.withWx}/${cardWx.total})`);
+  for (const txt of cardWx.sample) {
+    assert.ok(/[☀️🌤️⛅☁️🌫️🌧️🌨️⛈️]/.test(txt), `card weather chip carries a WMO icon: ${txt}`);
+    assert.match(txt, /-?\d+–-?\d+°C/, `card weather chip carries the full-day temperature range: ${txt}`);
+    assert.match(txt, /👁\s*(≥\s*)?\d/, `card weather chip carries visibility: ${txt}`);
+    assert.ok(!/undefined|NaN|null/.test(txt), `card weather chip has no placeholder value: ${txt}`);
+  }
+
+  await openFirstCardModal(0);
+
+  // (b) top 7-day summary vs the accordion below it — same tier word per date.
+  const surfaces = await evaljs(`(() => {
+    const top = [...document.querySelectorAll('#modal-summary .modal-overview .modal-day-row')].map(r => ({
+      label: ((r.querySelector('.modal-day-label') || {}).textContent || '').trim(),
+      tier: ((r.querySelector('.dg-chip') || {}).textContent || '').trim(),
+      wx: ((r.querySelector('.modal-day-wx') || {}).textContent || '').trim(),
+      text: (r.innerText || '').replace(/\s+/g, ' ').trim(),
+    }));
+    const acc = [...document.querySelectorAll('#timeline-groups details.day-group')].map(d => ({
+      date: d.dataset.date || '',
+      tier: ((d.querySelector('summary .dg-chip') || {}).textContent || '').trim(),
+      wx: ((d.querySelector('summary .dg-wx') || {}).textContent || '').trim(),
+      text: ((d.querySelector('summary') || {}).innerText || '').replace(/\s+/g, ' ').trim(),
+    }));
+    const base = new Date(new Intl.DateTimeFormat('en-CA', { timeZone: '${SPOT_TZ}', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()) + 'T12:00:00Z');
+    const dates = Array.from({ length: 7 }, (_, i) => new Date(base.getTime() + i * 86400000).toISOString().slice(0, 10));
+    return { top, acc, dates };
+  })()`);
+
+  assert.equal(surfaces.top.length, 7, `the top summary still lists 7 days (got ${surfaces.top.length})`);
+  assert.ok(surfaces.acc.length >= 1, 'the accordion renders at least one day group');
+
+  let compared = 0;
+  surfaces.top.forEach((row, i) => {
+    const day = surfaces.acc.find(a => a.date === surfaces.dates[i]);
+    if (!day) return;
+    compared++;
+    assert.equal(row.tier, day.tier,
+      `day ${i} (${row.label}) carries ONE tier on both surfaces — top 「${row.tier}」 vs accordion 「${day.tier}」`);
+    assert.equal(row.wx, day.wx,
+      `day ${i} (${row.label}) carries ONE weather chip on both surfaces — top 「${row.wx}」 vs accordion 「${day.wx}」`);
+    assert.ok(row.wx, `day ${i} (${row.label}) renders a WMO + temperature chip in the top summary`);
+    assert.match(row.wx, /[☀️🌤️⛅☁️🌫️🌧️🌨️⛈️]/, `day ${i} (${row.label}) WMO icon present: ${row.wx}`);
+    assert.match(row.wx, /-?\d+–-?\d+°C/, `day ${i} (${row.label}) temperature range present: ${row.wx}`);
+  });
+  assert.ok(compared >= 5, `at least 5 days were compared across both surfaces (got ${compared})`);
+
+  // (c) the hourly rows carry the WMO icon + that hour's temperature next to
+  //     the plain-language weather (owner: 「☁️ 18°C · 陰 · 低雲 · 能見度良好」).
+  const hourly = await evaljs(`(() => {
+    const rows = [...document.querySelectorAll('#timeline-groups details.day-group[open] tbody tr')];
+    const wx = rows.map(r => ((r.querySelector('.wx') || {}).textContent || '').trim()).filter(Boolean);
+    return { count: wx.length, sample: wx.slice(0, 6) };
+  })()`);
+  assert.ok(hourly.count > 0, 'the open day group renders hourly weather rows');
+  for (const txt of hourly.sample) {
+    assert.match(txt, /[☀️🌤️⛅☁️🌫️🌧️🌨️⛈️]/, `hourly plain weather carries a WMO icon: ${txt}`);
+    assert.match(txt, /-?\d+(\.\d+)?°C/, `hourly plain weather carries the hour temperature: ${txt}`);
+    assert.ok(!/undefined|NaN|null/.test(txt), `hourly plain weather has no placeholder value: ${txt}`);
+  }
 });

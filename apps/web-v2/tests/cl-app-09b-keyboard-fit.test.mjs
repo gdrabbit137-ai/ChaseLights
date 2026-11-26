@@ -187,6 +187,9 @@ const PAGE_STUB = `(function(){
   try { Object.defineProperty(window, 'visualViewport', { configurable: true, get: function(){ return vv; } }); } catch(e){}
   window.__vvKeyboard = function(h, off){ vv.height = h; vv.offsetTop = off||0;
     (vvListeners.resize||[]).concat(vvListeners.scroll||[]).forEach(function(f){ try { f(); } catch(e){} }); };
+  window.__errs = [];
+  window.addEventListener('error', function(e){ window.__errs.push(String(e.message||e.error)); });
+  window.addEventListener('unhandledrejection', function(e){ window.__errs.push('REJ:'+String(e.reason)); });
 })();`;
 
 async function setViewport(width, height, mobile) {
@@ -232,69 +235,125 @@ async function probeControl(selector) {
   })()`);
 }
 
+// CL-APP-09b: a probe and the click it authorizes are separated by a layout
+// beat. When the coordinates go stale the click lands on the CARD BODY, whose
+// onclick opens the WEATHER modal — and that modal's hourly table then covers
+// the 題材 button, so every later elementFromPoint reads a <td> and the retry
+// loop can never recover. Two rules fix it:
+//   1. reclaim BOTH overlays (#modal-overlay = weather, #place-modal-overlay)
+//      before every attempt, so a stray modal from the previous attempt is gone;
+//   2. measure only after the scroll/layout has settled, and measure in the
+//      same turn the click is dispatched from.
+async function dismissOverlays() {
+  const cleaned = await evaljs(`(() => {
+    const kill = (id) => {
+      const el = document.getElementById(id);
+      if (!el) return 'absent';
+      // let the page's own close path run first (clears activeSpot / scroll lock)
+      const wasOpen = getComputedStyle(el).display !== 'none';
+      if (wasOpen) {
+        const c = el.querySelector('[data-close], .close-btn, .modal-close, .close');
+        try { if (c) c.click(); } catch (e) { /* handler gone */ }
+      }
+      el.style.display = 'none';
+      el.classList.remove('open', 'show', 'visible');
+      return wasOpen ? 'closed' : 'hidden';
+    };
+    const weather = kill('modal-overlay');           // weather modal (table covers the cards)
+    const place = kill('place-modal-overlay');
+    const sheet = document.querySelector('.cl-ss-overlay.open');   // a half-open editor
+    if (sheet) {
+      const c = sheet.querySelector('[data-ss-close]');
+      try { if (c) c.click(); } catch (e) { /* handler gone */ }
+      sheet.classList.remove('open');
+      sheet.style.display = 'none';
+    }
+    if (document.body) document.body.style.removeProperty('overflow');
+    return {weather, place, sheet: !!sheet, scrollY: Math.round(window.scrollY)};
+  })()`);
+  await new Promise(r => setTimeout(r, 350));
+  return cleaned;
+}
+
+// Scroll the 題材 button into the band, wait until scroll + layout stop moving
+// (instant scroll only — an animated scroll keeps travelling between the probe
+// and the click), then read the coordinates and the hit test together.
+async function measureTopicButton() {
+  return evaljs(`new Promise((resolve) => {
+    const find = () => {
+      const card = document.querySelector('.card[data-place-id="tw-193"]') || document.querySelector('.card');
+      if (!card) return null;
+      return Array.from(card.querySelectorAll('button.tool-link, a.tool-link'))
+        .find(x => (x.textContent || '').indexOf('題材') >= 0) || null;
+    };
+    const b = find();
+    if (!b) { resolve({err: '題材 button not found'}); return; }
+    // the mobile site-nav is FIXED at the bottom — bring the button out from under it
+    const prevBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    try { b.scrollIntoView({block: 'center', behavior: 'instant'}); } catch (e) { b.scrollIntoView({block: 'center'}); }
+    document.documentElement.style.scrollBehavior = prevBehavior;
+    const t0 = performance.now();
+    let lastKey = '', stable = 0;
+    const step = () => {
+      const el = find();
+      if (!el) { resolve({err: '題材 button vanished'}); return; }
+      const rr = el.getBoundingClientRect();
+      const key = Math.round(rr.top) + ':' + Math.round(rr.left) + ':' + Math.round(window.scrollY) + ':' + Math.round(rr.width);
+      if (key === lastKey) stable++; else { stable = 0; lastKey = key; }
+      if (stable >= 2 || performance.now() - t0 > 3000) {
+        const cx = rr.x + rr.width / 2, cy = rr.y + rr.height / 2;
+        const hit = document.elementFromPoint(cx, cy);
+        resolve({cx: Math.round(cx), cy: Math.round(cy),
+          hitOk: el === hit || el.contains(hit),
+          hitDesc: hit ? (hit.tagName + '|' + (typeof hit.className === 'string' ? hit.className : '') + '|' + (hit.id || '')) : 'null',
+          scrollY: Math.round(window.scrollY),
+          vh: window.innerHeight, btnTop: Math.round(rr.top), btnBottom: Math.round(rr.bottom)});
+        return;
+      }
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  })`);
+}
+
 async function openEditorFromPanel() {
   // owner path: card 題材 button → place modal → 我的自訂題材 ＋
-  // hit-verify + retry (cl-ui-47 pattern: early clicks land while handlers wire)
   for (let attempt = 1; attempt <= 3; attempt++) {
-    const btn = await evaljs(`(() => {
-      const card = document.querySelector('.card[data-place-id="tw-193"]') || document.querySelector('.card');
-      const b = Array.from(card.querySelectorAll('button.tool-link, a.tool-link')).find(x => (x.textContent||'').indexOf('題材') >= 0);
-      if (!b) throw new Error('題材 button not found');
-      // the mobile site-nav is FIXED at the bottom — bring the button out from under it
-      b.scrollIntoView({block: 'center'});
-      const rr = b.getBoundingClientRect();
-      const cx = rr.x + rr.width/2, cy = rr.y + rr.height/2;
-      const hit = document.elementFromPoint(cx, cy);
-      return {cx: Math.round(cx), cy: Math.round(cy), hitOk: b === hit || b.contains(hit),
-        hitDesc: hit ? (hit.tagName + '|' + (hit.className||'') + '|' + (hit.id||'')) : 'null',
-        vh: window.innerHeight, btnTop: Math.round(rr.top), btnBottom: Math.round(rr.bottom)};
-    })()`);
-    console.log('DIAG09b attempt', attempt, JSON.stringify(btn));
-    // CL-CI-38: the patch-6 tier-tab pipeline rebuilds the card container when
-    // lazy data lands — a click that lands while the DOM is swapped is a no-op
-    // and the next probe can find the fresh button still under a closing
-    // overlay. Re-probe after a beat instead of asserting the first read;
-    // the hit assertion only fires when EVERY attempt was covered.
-    let probe = btn;
-    if (!probe.hitOk) {
-      await new Promise(r => setTimeout(r, 700));
-      probe = await evaljs(`(() => {
-        const card = document.querySelector('.card[data-place-id="tw-193"]') || document.querySelector('.card');
-        const b = Array.from(card.querySelectorAll('button.tool-link, a.tool-link')).find(x => (x.textContent||'').indexOf('題材') >= 0);
-        if (!b) return {hitOk:false, cx:0, cy:0};
-        b.scrollIntoView({block: 'center'});
-        const rr = b.getBoundingClientRect();
-        const cx = rr.x + rr.width/2, cy = rr.y + rr.height/2;
-        const hit = document.elementFromPoint(cx, cy);
-        return {cx: Math.round(cx), cy: Math.round(cy), hitOk: b === hit || b.contains(hit),
-          hitDesc: hit ? (hit.tagName + '|' + (hit.className||'') + '|' + (hit.id||'')) : 'null'};
-      })()`);
-      console.log('DIAG09b reprobe', attempt, JSON.stringify(probe));
-    }
+    // CL-APP-09b: always start from a clean surface — a weather modal left open
+    // by a previous mis-landed click covers the whole card grid.
+    const before = await dismissOverlays();
+    console.log('DIAG09b cleanup', attempt, JSON.stringify(before));
+    const probe = await measureTopicButton();
+    console.log('DIAG09b attempt', attempt, JSON.stringify(probe));
     if (attempt === 3) assert.equal(probe.hitOk, true, '題材 button must be hit-reachable (final attempt)');
+    if (!probe.hitOk) { await new Promise(r => setTimeout(r, 500)); continue; }
     await realClick(probe.cx, probe.cy);
     const ready = await evaljs(`new Promise((resolve)=>{
-      const t0=Date.now();
+      const t0=performance.now();
       const iv=setInterval(()=>{
         if(document.getElementById('cl-ss-add')){clearInterval(iv);resolve(true);}
-        else if(Date.now()-t0>12000){clearInterval(iv);resolve(false);}
+        else if(performance.now()-t0>12000){clearInterval(iv);resolve(false);}
       },100);
     })`);
     if (ready) break;
+    console.log('DIAG09b state', await evaljs(`(()=>{const pm=document.getElementById('place-modal-overlay');const b=document.getElementById('place-modal-body');const wo=document.getElementById('modal-overlay');return JSON.stringify({disp:pm&&pm.style.display,pid:pm&&pm.dataset.placeId,body:!!b,opp:!!(b&&b.querySelector('.opportunity-card')),sec:!!(b&&b.querySelector('.cl-ss-section')),add:!!document.getElementById('cl-ss-add'),wo:wo&&wo.style.display,wpid:wo&&wo.dataset.placeId,cl:document.querySelectorAll('.cl-ss-overlay').length,errs:(window.__errs||[]).slice(-4),pc:window.__openPlaceCalls||0,wc:window.__openWeatherCalls||0,pmId:pm&&pm.dataset.placeId});})()`));
     if (attempt === 3) {
       const diag = await evaljs(`(() => {
         const pm = document.getElementById('place-modal-overlay');
+        const wo = document.getElementById('modal-overlay');
+        const under = document.elementFromPoint(${probe.cx}, ${probe.cy});
         return JSON.stringify({pm: pm ? pm.style.display : 'absent', pid: pm ? pm.dataset.placeId : '',
-          cards: document.querySelectorAll('.card').length});
+          weather: wo ? wo.style.display : 'absent',
+          under: under ? under.tagName + '|' + (under.className || '') : 'null',
+          cards: document.querySelectorAll('.card').length,
+          errs: (window.__errs || []).slice(-4)});
       })()`);
       throw new Error('我的自訂題材 section never rendered — ' + diag);
     }
-    // close whatever opened and retry
-    await evaljs(`(() => {
-      const pm = document.getElementById('place-modal-overlay');
-      if (pm) { const c = pm.querySelector('[data-close], .modal-close, .close'); if (c) c.click(); pm.style.display = ''; }
-    })()`);
-    await new Promise(r => setTimeout(r, 500));
+    // the click landed somewhere that is NOT the place modal (usually the card
+    // body → weather modal): reclaim both overlays and retry from a clean state
+    await dismissOverlays();
   }
   const add = await evaljs(`(() => {
     const b = document.getElementById('cl-ss-add');
@@ -416,25 +475,67 @@ test('CL-APP-09b (2): 390 keyboard band — full create flow (點＋→名稱→
   assert.deepEqual(restore, {ovH: '(none)', minH: '(none)', maxH: '(none)'}, 'keyboard close must clear the inline fit');
 });
 
+
+// CL-APP-09b: the card face grew a weather chip (CL-CI-44), so a card's ⋯
+// button can move between the moment its coordinates are read and the moment
+// the click lands — the click then opens the menu for a DIFFERENT card and the
+// place-id assertion trips. Measure only after the rect has stopped moving,
+// verify the hit test at the exact click point, and retry once if the menu
+// resolved another place id.
+async function stableCardMorePoint() {
+  return evaljs(`new Promise((resolve) => {
+    const t0 = performance.now();
+    let lastKey = '', stable = 0;
+    const step = () => {
+      const b = document.querySelector('.cl-ss-more');
+      const card = b && b.closest('[data-place-id]');
+      if (!b || !card) { if (performance.now() - t0 > 15000) return resolve({err: 'no card ⋯ button'}); return setTimeout(step, 120); }
+      b.scrollIntoView({block: 'center', behavior: 'instant'});
+      const rr = b.getBoundingClientRect();
+      const cx = Math.round(rr.x + rr.width / 2), cy = Math.round(rr.y + rr.height / 2);
+      const key = [cx, cy, Math.round(rr.width), Math.round(rr.height)].join(',');
+      if (key === lastKey) stable++; else { stable = 0; lastKey = key; }
+      const hit = document.elementFromPoint(cx, cy);
+      const hitOk = !!hit && (hit === b || b.contains(hit) || hit.contains(b));
+      if (stable >= 2 && hitOk) return resolve({cx, cy, pid: String(card.dataset.placeId)});
+      if (performance.now() - t0 > 15000) return resolve({cx, cy, pid: String(card.dataset.placeId), hitOk});
+      setTimeout(step, 120);
+    };
+    step();
+  })`);
+}
+
+async function openCardMenuForCard() {
+  let last = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const more = await stableCardMorePoint();
+    if (more.err) return {err: more.err};
+    await realClick(more.cx, more.cy);
+    const item = await evaljs(`(() => {
+      const m = document.querySelector('.cl-ss-menu.open');
+      if (!m) return {err: 'menu did not open'};
+      const it = m.querySelector('[data-ss-menu-item="add"]');
+      if (!it) return {err: 'add item missing'};
+      const rr = it.getBoundingClientRect();
+      return {cx: Math.round(rr.x + rr.width/2), cy: Math.round(rr.y + rr.height/2), pid: String(m._placeId)};
+    })()`);
+    if (!item.err && item.pid === more.pid) return {more, item};
+    // wrong card (or no menu) — close whatever opened and retry from a settled layout
+    await evaljs(`(() => { const m = document.querySelector('.cl-ss-menu.open'); if (m) m.classList.remove('open'); })()`);
+    await new Promise(r => setTimeout(r, 400));
+    last = {more, item};
+  }
+  return last;
+}
+
 test('CL-APP-09b (3): 390 keyboard band — the card ⋯ menu ＋加自訂題材 is a WORKING entry (data-place-id cards)', async () => {
   await bootBrowser();
   // fresh page state — the previous test may leave modals open
   await loadPage(390, 844, true);
-  const more = await evaljs(`(() => {
-    const b = document.querySelector('.cl-ss-more');
-    const card = b && b.closest('[data-place-id]');
-    const rr = b.getBoundingClientRect();
-    return {cx: Math.round(rr.x+rr.width/2), cy: Math.round(rr.y+rr.height/2),
-      pid: card ? String(card.dataset.placeId) : null};
-  })()`);
-  await realClick(more.cx, more.cy);
-  const item = await evaljs(`(() => {
-    const m = document.querySelector('.cl-ss-menu.open');
-    if (!m) return {err: 'menu did not open'};
-    const it = m.querySelector('[data-ss-menu-item="add"]');
-    const rr = it.getBoundingClientRect();
-    return {cx: Math.round(rr.x+rr.width/2), cy: Math.round(rr.y+rr.height/2), pid: String(m._placeId)};
-  })()`);
+  const opened = await openCardMenuForCard();
+  assert.ok(!opened.err, `the ⋯ menu opens on a settled card (${opened.err || 'ok'})`);
+  const more = opened.more;
+  const item = opened.item;
   // derive the expectation from the DOM (data drifts daily — never hardcode a place id)
   assert.ok(more.pid, 'the ⋯ button must sit inside a data-place-id card');
   assert.equal(item.pid, more.pid, 'the menu must resolve the place id from a data-place-id card');

@@ -142,12 +142,12 @@ test('CL-UI-82 (8): height/scan tokens + raw cap kept OUT of the card face', () 
   // the cap string is allowed ONLY inside the details tooltip (tip_vis), and
   // the card-face plain line can never contain it
   const cardBlock = grab("const card=document.createElement('div');card.className=`timeline-mobile-card", 'mobile.appendChild(card);');
-  assert.ok(cardBlock.includes('clui82PlainWeather(item)'), 'card face uses the plain-language layer');
+  assert.ok(cardBlock.includes('hourWxText(item)'), 'card face uses the plain-language layer (CL-CI-44: WMO + temp + plain sentence)');
   assert.ok(!/class="timeline-mobile-quick/.test(cardBlock), 'old quick raw row retired');
   assert.ok(cardBlock.includes('${visCellHtml(item.visibility)}'), 'details vis uses the short cap cell (tooltip, never the full cap text)');
   assert.ok(!cardBlock.includes('visibilityText(item.visibility)'), 'full cap string never rendered on the card');
   // cache-bust advanced
   assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui at clui102 (app.js + app.css advanced to clui120) (app.js advanced to clui118, CL-UI-110)');
-  assert.equal((indexSource.match(/\?v=clui122/g) || []).length,1, 'app.css at clui122 (CL-UI-132); app.js advanced to clui129 (CL-UI-132)');
-  assert.match(indexSource, /assets\/app\.js\?v=clui129/);
+  assert.equal((indexSource.match(/\?v=clui131/g) || []).length,2, 'app.css + app.js at clui131 (CL-CI-44)');
+  assert.match(indexSource, /assets\/app\.js\?v=clui131/);
 });

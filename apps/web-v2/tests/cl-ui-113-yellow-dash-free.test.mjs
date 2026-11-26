@@ -98,9 +98,20 @@ const FIVE_MODES = ['gfs', 'icon', 'cwa', 'jma', 'himawari'];
 
 // Sea-region scan of #weather-canvas. The old contour stroke was
 // rgba(254,240,138) at .68 alpha — over the blue sea it lands in a
-// yellow-cream band (R about G, both far above B). Cloud fills are
-// blue-dominant and the pale overcast tail keeps B >= G, so nothing else in
-// the overlay matches this band.
+// yellow-cream band (R about G, both far above B) with BLUE WELL ABOVE ~100
+// (the pure stroke is B=138; blending it over sea keeps B around 120-160).
+// Cloud fills are blue-dominant and the pale overcast tail keeps B >= G.
+//
+// CL-UI-113 LIVE (cwa false positive, measured): the cwa model forces its
+// default field to wind_speed_10m_m_s (weather-map.js switchModel), whose
+// CL-WG-21 wind ramp is colorFor(...,{palette:'wind'}) = hsl((260-t*220) 78%
+// 52%). Around 18.4 m/s (t≈0.918) that hue passes through 58deg and resolves
+// to rgb(228,222,37) — a saturated yellow with B≈37, still R≈G, which the
+// old B<210-only band mistook for the contour (82 px at 752,543..807,636 in
+// two high-wind cells). That yellow is a legitimate field colour, not a
+// contour stroke, so the band now also requires B>=100: the removed contour
+// cream has B=138, the wind-ramp yellow has B=37. Keep the B<210 cap and the
+// R>=G guard (green-dominant UI dots at B~36 must stay excluded).
 const SCAN = `(() => {
   const cv = document.getElementById('weather-canvas');
   if (!cv) return { error: 'no canvas' };
@@ -118,7 +129,7 @@ const SCAN = `(() => {
     const r = img[i], gg = img[i + 1], b = img[i + 2], a = img[i + 3];
     if (a < 8) continue;
     total++;
-    if (b < 210 && r > 200 && gg > 195 && (r - b) > 35 && (gg - b) > 25 && Math.abs(r - gg) < 30 && r >= gg) {
+    if (b < 210 && b >= 100 && r > 200 && gg > 195 && (r - b) > 35 && (gg - b) > 25 && Math.abs(r - gg) < 30 && r >= gg) {
       // CL-CI-41 (E): red must not be below green — the contour was cream rgba(254,240,138)
       // (red ABOVE green). A lime-green UI dot at the bottom centre (measured
       // 204,228,36 at 626..640 x 790..796, reproducible locally on the cwa layer)

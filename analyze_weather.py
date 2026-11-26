@@ -175,6 +175,90 @@ def _compact_opportunity_snapshot(item, opportunity, window_start=None, window_e
 
 LEGACY_DAILY_DAYS = 7  # CL-DATA-06R: legacy daily now spans the 7-day forecast window
 
+# CL-CI-44: WMO weather-code severity order. Used only to break frequency ties
+# when one local day carries several codes at the same count — the more
+# "weathery" code wins so a card never advertises 晴 on a day that also had
+# rain at the same frequency.
+WMO_SEVERITY = {
+    0: 0, 1: 1, 2: 2, 3: 3, 45: 4, 48: 4, 51: 5, 53: 5, 55: 5, 56: 5, 57: 5,
+    61: 6, 63: 6, 65: 6, 66: 6, 67: 6, 71: 7, 73: 7, 75: 7, 77: 7,
+    80: 8, 81: 8, 82: 8, 85: 8, 86: 8, 95: 9, 96: 9, 99: 9,
+}
+DAYTIME_HOURS = ("06:00", "18:00")
+
+
+def _day_weather_block(items, winner=None):
+    """Per-day weather summary for the card face + forecast modal (CL-CI-44).
+
+    The card and the modal must show the SAME WMO code / temperature range /
+    visibility for a day, so the daily projection carries the raw aggregate
+    and every surface renders it. Two representative windows are published:
+
+    * ``window`` — the winner opportunity's best window (the "主推時段").
+      The frontend uses it while the window is still ahead and degrades to
+      ``daytime`` once the day's shooting window has ended.
+    * ``daytime`` — 06:00–18:00 dominant WMO code + median visibility, the
+      honest fallback for a day whose windows are all in the past.
+
+    ``temp_min``/``temp_max`` always span the whole local day (00:00–23:59),
+    so the temperature range never changes when the window degrades.
+    """
+    rows = [h for h in (items or []) if isinstance(h, dict)]
+    temps = []
+    for h in rows:
+        v = h.get("temp")
+        if isinstance(v, (int, float)):
+            temps.append(float(v))
+
+    def _dominant_code(subset):
+        freq = {}
+        for h in subset:
+            code = h.get("weather_code")
+            if isinstance(code, (int, float)):
+                code = int(code)
+                freq[code] = freq.get(code, 0) + 1
+        if not freq:
+            return None
+        return max(freq, key=lambda c: (freq[c], WMO_SEVERITY.get(c, 0)))
+
+    def _median_vis(subset):
+        vals = [float(h["visibility"]) for h in subset
+                if isinstance(h.get("visibility"), (int, float))]
+        if not vals:
+            return None
+        vals.sort()
+        mid = len(vals) // 2
+        if len(vals) % 2:
+            return round(vals[mid], 1)
+        return round((vals[mid - 1] + vals[mid]) / 2, 1)
+
+    def _hour(h):
+        return str(h.get("time", ""))[-5:]
+
+    daytime = [h for h in rows if DAYTIME_HOURS[0] <= _hour(h) <= DAYTIME_HOURS[1]]
+    block = {
+        "temp_min": round(min(temps), 1) if temps else None,
+        "temp_max": round(max(temps), 1) if temps else None,
+        "daytime": {
+            "weather_code": _dominant_code(daytime),
+            "visibility_km": _median_vis(daytime),
+        },
+        "window": None,
+    }
+    if isinstance(winner, dict):
+        ws = winner.get("window_start")
+        we = winner.get("window_end")
+        if ws and we:
+            win_items = [h for h in rows if ws <= str(h.get("time", "")) <= we]
+            if win_items:
+                block["window"] = {
+                    "start": ws,
+                    "end": we,
+                    "weather_code": _dominant_code(win_items),
+                    "visibility_km": _median_vis(win_items),
+                }
+    return block
+
 
 def _build_day_summaries(hourly, themes, opportunities=None, local_today=None):
     future = [h for h in hourly if not h.get("is_past")]
@@ -282,6 +366,10 @@ def _build_day_summaries(hourly, themes, opportunities=None, local_today=None):
             "all": winner,
             "opportunities": opportunity_summaries,
             "themes": theme_summaries,
+            # CL-CI-44: the card face and the forecast modal both read this
+            # block, so WMO / temperature range / visibility can never drift
+            # between the two surfaces.
+            "weather": _day_weather_block(items, winner),
         })
     return days
 
