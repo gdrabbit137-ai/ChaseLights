@@ -103,7 +103,14 @@ test('CL-UI-87/94 (3): 4-column group table, 40px rows, mono 時間 anchor, plai
   assert.ok(appSource.includes("th_plain:'口語化氣象'") && appSource.includes("th_plain:'Weather (plain)'") && appSource.includes("th_plain:'口語天気'"), 'th_plain trilingual');
   // row: mono 64px time cell + plain weather + ⋯ toggle button
   assert.match(hourLoop, /<td class="hr">\$\{esc\(hh\)\}/, 'hour-only mono time cell');
-  assert.match(hourLoop, /<td class="wx">\$\{esc\(clui82PlainWeather\(item\)\)\|\|'—'\}<\/td>/, 'plain-language weather cell (live mapping)');
+  // CL-CI-44: the cell now renders hourWxText(), which leads with the WMO icon
+  // + hour temperature and then appends the SAME live clui82PlainWeather()
+  // sentence — the mapping is still live, just wrapped.
+  assert.match(hourLoop, /<td class="wx">\$\{esc\(hourWxText\(item\)\)\|\|'—'\}<\/td>/, 'plain-language weather cell (live mapping)');
+  const hourWxStart = appSource.indexOf('function hourWxText(');
+  const hourWxBody = appSource.slice(hourWxStart, appSource.indexOf('function ', hourWxStart + 30));
+  assert.match(hourWxBody, /clui82PlainWeather\(item\)/, 'hourWxText still composes the live clui82PlainWeather mapping');
+  assert.match(hourWxBody, /wmoIcon\(item\.weather_code\)/, 'hourWxText leads with the WMO icon');
   assert.match(hourLoop, /class="clui87-more"/, '⋯ toggle button');
   // CSS: 40px rows, 64px mono anchor, anchor bolding reads the same bucket
   const td = cssSource.match(/#timeline-groups table\.hrs td \{[^}]*\}/);

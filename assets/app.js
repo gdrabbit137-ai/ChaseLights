@@ -1502,7 +1502,9 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const plain=clui82PlainWeather(item);
       if(plain)bits.push(plain);
       return bits.join(' · ');
-    }    // CL-UI-89: the ⚠️ 未符 mainline must not contradict the aux plain line —
+    }
+
+    // CL-UI-89: the ⚠️ 未符 mainline must not contradict the aux plain line —
     // when an hour fails while the weather is otherwise clean, the FIRST fully
     // blocked cloud layer (>70%) is the short reason (低雲滿/中雲滿/高雲滿,
     // priority low→mid→high: the low layer blocks the sun itself). Fail-closed:
