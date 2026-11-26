@@ -26,10 +26,20 @@ test('CL-UI-10 (a): reload/region-switch with existing content does not wipe the
   assert.ok(branch.length > 0, 'hasRendered branch not found in loadData');
   // The wipe + loading splash only happens when there is no existing content.
   assert.match(branch, /if\(hasRendered\)\{showUpdateIndicator\(\);loading\.style\.display='none';\}/);
-  assert.match(branch, /else\{container\.innerHTML='';currentSpots=\[\];currentData=null;renderSubNav\(\);loading\.innerText=d\(\)\.loading;loading\.style\.display='block';updateHeader\(\);\}/);
-  // No unconditional wipe remains anywhere in loadData.
-  const wipeCount = (loadDataBlock.match(/container\.innerHTML=''/g) || []).length;
-  assert.equal(wipeCount, 1, 'container.innerHTML=\'\' must appear exactly once (the no-content branch only)');
+  // CL-UI-45: the no-content branch paints the region-switch SKELETON instead
+  // of a blank container (owner: a country switch showed no loading state at
+  // all); the wipe + splash copy still live only in this branch.
+  assert.match(branch, /else\{container\.innerHTML=clui45SkeletonActive\?clui45SkeletonHtml\(6\):'';currentSpots=\[\];currentData=null;renderSubNav\(\);loading\.innerText=d\(\)\.loading;loading\.style\.display='block';updateHeader\(\);\}/,
+    'the no-content branch keeps the wipe + splash — and may paint the skeleton instead of a blank list');
+  assert.match(appSource, /function clui45BeginRegionSwitch\(\)\{[\s\S]*?container\.innerHTML=clui45SkeletonHtml\(6\);\n[\s\S]*?clui45LockTransitions\(\);/,
+    'CL-UI-45: a region switch clears the old country and paints the skeleton at once');
+  // No unconditional wipe remains anywhere in loadData: the only branch that
+  // touches the container on a no-content load is the one that paints the
+  // region-switch skeleton (CL-UI-45) — never a bare blank-out.
+  const bareWipe = (loadDataBlock.match(/container\.innerHTML=''/g) || []).length;
+  assert.equal(bareWipe, 0, 'loadData never blanks the container unconditionally');
+  const skeletonWipe = (loadDataBlock.match(/container\.innerHTML=clui45SkeletonActive\?clui45SkeletonHtml\(6\):''/g) || []).length;
+  assert.equal(skeletonWipe, 1, 'exactly one container reset, inside the no-content branch');
 });
 
 test('CL-UI-10 (a): no existing content keeps the loading splash', () => {

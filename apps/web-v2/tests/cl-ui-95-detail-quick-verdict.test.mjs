@@ -117,9 +117,13 @@ test('CL-UI-95 (2): the 24h mini band is the forecast page band (shared v2BandHt
   // Forecast modal call site rewired onto the shared builder.
   assert.match(appSource, /bandEl\.innerHTML=bandRows\.length\?v2BandHtml\(bandRows,spot,v2WmHours\):'';/,
     'forecast #timeline-band renders v2BandHtml');
-  // Quick view rides the same builder (place-level rows, no best-frame set).
-  assert.match(appSource, /v2BandHtml\(\(spot\.hourly_forecast\|\|\[\]\)\.filter\(it=>it&&it\.local_date===selDate\),spot,null\)/,
-    'quick band renders v2BandHtml over the same hourly rows');
+  // Quick view rides the same builder — CL-UI-45: with the SAME day gate the
+  // forecast table uses (v2GateForSpot), never with a null gate (an ungated
+  // quick band painted a green hour outside the day's good_hours).
+  assert.match(appSource, /const qGate=typeof v2GateForSpot==='function'\?v2GateForSpot\(spot,selDate,tz\):null;/,
+    'quick band resolves the day gate');
+  assert.match(appSource, /v2BandHtml\(\(spot\.hourly_forecast\|\|\[\]\)\.filter\(it=>it&&it\.local_date===selDate\),spot,qGate\)/,
+    'quick band renders v2BandHtml over the same hourly rows, gated');
   // The builder keeps the forecast band anatomy verbatim (n3b classes).
   const bandBlock = grab('function v2BandHtml', 'function v2QuickViewHtml');
   for (const piece of ['class="band"', "kind==='fit'?'rec'", "kind==='general'?'shoot'",

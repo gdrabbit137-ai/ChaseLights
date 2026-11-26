@@ -312,6 +312,21 @@
 
   // ───────────────────────────── render ─────────────────────────────
   function officialCardCount() {
+    // CL-UI-45 (counts): the 來源 (source) tabs counted DOM cards, so after a
+    // region switch they kept the PREVIOUS region's number (the owner read the
+    // TW total 126 on the Japan tab, whose real catalog is 94). Prefer app.js's
+    // single render publish — same rows, same pass as the list and the tier
+    // tabs — and fall back to the DOM only when no publish exists (standalone
+    // harness / script-only page).
+    var stats = (typeof window !== 'undefined') ? window.CLListStats : null;
+    var sel = document.getElementById('country-select');
+    var wantRegion = sel && sel.value ? sel.value : null;
+    if (stats && typeof stats.official === 'number' && (!wantRegion || stats.region === wantRegion)) {
+      // Same region as the selector: the publish is the truth — including the
+      // loading publish (a region switch in flight shows 0, never the previous
+      // country's cards).
+      return stats.loading ? 0 : stats.official;
+    }
     var c = document.getElementById('spots-container');
     return c ? c.querySelectorAll('.card:not(.cl-cp-card)').length : 0;
   }
@@ -1752,7 +1767,30 @@
   // honest counters must follow app.js re-renders (language switches, filter
   // changes) without touching app.js itself
   var mo = null;
+  // CL-UI-45: ONE counter painter, driven by app.js's render publish
+  // (chaselights:list-rendered) as well as by DOM mutations — so a region
+  // switch repaints the 來源 numbers from the NEW region's rows instead of
+  // leaving the previous country's card count on screen.
+  function syncCountLine() {
+    if (!state.data) return;
+    if (els.count && !els.count.hidden) {
+      var n = officialCardCount(), m = privatePlaces().length;
+      els.count.innerHTML = m ? esc(t().count_fmt.replace('{n}', n).replace('{m}', m)) : esc(t().count_fmt_zero.replace('{n}', n));
+    }
+    if (els.viewBar) {
+      var nNow = officialCardCount(), mNow = privatePlaces().length;
+      els.viewBar.querySelectorAll('.cl-cp-view-tab').forEach(function (b) {
+        var key = b.getAttribute('data-cp-view');
+        var cnt = key === 'official' ? nNow : key === 'private' ? mNow : nNow + mNow;
+        var slot = b.querySelector('.n'); if (slot) slot.textContent = cnt;
+      });
+    }
+  }
   function watchContainer() {
+    if (!watchContainer._wired) {
+      watchContainer._wired = true;
+      try { document.addEventListener('chaselights:list-rendered', function () { syncCountLine(); }); } catch (e) { /* no document */ }
+    }
     if (mo || typeof MutationObserver === 'undefined') return;
     mo = new MutationObserver(function (muts) {
       if (!state.data) return;
@@ -1765,18 +1803,7 @@
       });
       syncPrivateCards(privatePlaces());
       if (!relevant) return;
-      if (els.count && !els.count.hidden) {
-        var n = officialCardCount(), m = privatePlaces().length;
-        els.count.innerHTML = m ? esc(t().count_fmt.replace('{n}', n).replace('{m}', m)) : esc(t().count_fmt_zero.replace('{n}', n));
-      }
-      if (els.viewBar) {
-        var nNow = officialCardCount(), mNow = privatePlaces().length;
-        els.viewBar.querySelectorAll('.cl-cp-view-tab').forEach(function (b) {
-          var key = b.getAttribute('data-cp-view');
-          var cnt = key === 'official' ? nNow : key === 'private' ? mNow : nNow + mNow;
-          var slot = b.querySelector('.n'); if (slot) slot.textContent = cnt;
-        });
-      }
+      syncCountLine();
     });
     var c = document.getElementById('spots-container');
     if (c) mo.observe(c, { childList: true, subtree: true });

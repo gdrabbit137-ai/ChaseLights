@@ -819,6 +819,38 @@
     .subj-na { color:var(--cl-text-3); font-weight:700; font-size:.7rem; }
     .subj-no { color:var(--cl-text-3); font-weight:700; font-size:.7rem; }
     .subj-dash { color:var(--cl-grey); }
+    /* CL-UI-45: an hour OUTSIDE the day's recommended window (bundle
+       good_hours) may never paint a positive verdict — neutral, dimmed,
+       same weight as the artefact's own neutral words. */
+    .td-subjects.subj-gated-row { background: transparent; }
+    .subj-gated { color:var(--cl-text-3); font-size:.68rem; font-weight:600; }
+    .tm-mainline-subj.tm-subj-gated { color:var(--cl-text-3); font-weight:600; }
+
+    /* CL-UI-45 (loading state): region switch skeleton — the ONLY animated
+       decoration on the card list, and it disappears with the first real
+       render (owner: a switch must never show the old country's cards). */
+    .card-skeleton { pointer-events:none; }
+    .card-skeleton .sk-line { height:10px; border-radius:var(--cl-r-xs); background:var(--cl-bg-3); margin-bottom:var(--cl-sp-2); animation:clui45sk 1.2s ease-in-out infinite; }
+    .card-skeleton .sk-title { width:62%; height:14px; }
+    .card-skeleton .sk-sub { width:34%; }
+    .card-skeleton .sk-row { width:88%; }
+    .card-skeleton .sk-row.short { width:54%; margin-bottom:0; }
+    @keyframes clui45sk { 0%,100% { opacity:.45; } 50% { opacity:.95; } }
+    @media (prefers-reduced-motion: reduce) { .card-skeleton .sk-line { animation:none; } }
+    /* CL-UI-45: the transition status line. A tap that raced a list repaint and
+       whose pressed place is GONE gets a spoken answer instead of a dead tap. */
+    .clui45-transition-note {
+      position: fixed; left: 50%; bottom: calc(var(--cl-sp-6) + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%) translateY(var(--cl-sp-2));
+      max-width: min(88vw, 420px); padding: var(--cl-sp-2) var(--cl-sp-4);
+      background: var(--cl-bg-2); color: var(--cl-text-1);
+      border: 1px solid var(--cl-border-strong); border-radius: var(--cl-r-md);
+      box-shadow: var(--cl-shadow-2); font-size: var(--cl-fs-13); line-height: 1.4;
+      text-align: center; z-index: 90; opacity: 0; pointer-events: none;
+      transition: opacity .16s ease, transform .16s ease;
+    }
+    .clui45-transition-note.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .clui45-transition-note { transition: none; } }
     .timeline-mobile-subjects { margin: 4px 0 6px; }
 
     .timeline-mobile { display: none; }

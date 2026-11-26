@@ -52,7 +52,10 @@ test('CL-UI-94/43 i: the 適合題材 cell IS the hourly verdict — the status 
   // The legacy scores remain only as a row-presence/sorting reference.
   assert.match(rowBlock,/const metrics=\(activeOpportunityId&&item\.opportunity_scores\?\.\[activeOpportunityId\]\)\|\|item\.theme_scores\?\.\[activeTheme\]/);
   // The subject cell is the verdict source for every row.
-  assert.match(rowBlock,/const subjCell=v2HourSubjectCell\(spot,item\)/);
+  // CL-UI-45: the hourly cell is fed the day's ONE normalized qualifying set
+  // (the bundle day row), so a ✓ chip can never sit outside the card's window.
+  assert.match(rowBlock,/const subjCell=v2HourSubjectCell\(spot,item,wmGateOf\(wmDate\)\)/);
+  assert.doesNotMatch(rowBlock,/v2HourSubjectCell\(spot,item\)/,'no ungated hourly verdict survives');
   // Past hours are told by the past-row tint alone (CL-UI-96) — never a
   // 歷史 status tag, and no （已過） small text in the time cell.
   assert.match(rowBlock,/isPast\?'past-row'/);
