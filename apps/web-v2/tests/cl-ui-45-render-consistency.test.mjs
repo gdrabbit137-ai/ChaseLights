@@ -65,7 +65,8 @@ test('CL-UI-45 (1b): the hourly cell can never paint a positive verdict outside 
   const cell = grab('function v2HourSubjectCell', '// CL-UI-26:');
   assert.match(cell, /function v2HourSubjectCell\(spot,item,qualified\)/,
     'the winning hour set is an argument — no surface may derive its own');
-  assert.match(cell, /const gated=!!\(qualified&&qualified\.size!==undefined&&!qualified\.has\(hh\)\);/);
+  assert.match(cell, /const gated=!!\(qualified&&qualified\.size!==undefined&&!qualified\.has\(hh\)&&!naList\.includes\(hh\)&&!saysFail\);/,
+    'the gate covers every hour the artifact would call positive, while the 時段外/✗ buckets keep their own words');
   assert.match(cell, /if\(gated\)return \{cls:'subj-gated-row'/,
     'a gated hour returns the neutral cell BEFORE any ✓ chip / ○ pill');
   const gatedAt = cell.indexOf('if(gated)return');

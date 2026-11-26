@@ -3543,10 +3543,14 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       if(!hours)return {cls:'subj-unknown',html:dash()};
       // CL-UI-45 (語意鐵律 — see v2DayQualifiedSet): `qualified` is the winning
       // hour set for THIS day (the bundle day row's remaining good_hours). An
-      // hour outside it may never carry a positive verdict, however suitable a
+      // hour outside it may never carry a POSITIVE verdict, however suitable a
       // subject's own window says it is — that was the ✓ outside the card's
-      // window. Neutral wording, no fabricated ✗.
-      const gated=!!(qualified&&qualified.size!==undefined&&!qualified.has(hh));
+      // window. Neutral wording, never a fabricated ✗ — and the two buckets
+      // that already say "not now" (night 時段外 / a named failure) keep their
+      // own, more precise words.
+      const naList=(hours.na||[]);
+      const saysFail=!!(hours.no&&hours.no[hh]);
+      const gated=!!(qualified&&qualified.size!==undefined&&!qualified.has(hh)&&!naList.includes(hh)&&!saysFail);
       if(gated)return {cls:'subj-gated-row',html:`<span class="subj-gated">${esc(d().clui45_day_gated)}</span>`,kind:'gated'};
       const dicts=(v2SubjectCards&&v2SubjectCards.dictionaries)||{};
       const gdict=dicts.genre_short_names||{};
@@ -3566,7 +3570,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // CHALLENGER-14/B: a night hour with clean weather no curated window
       // covers is neutral (na bucket) — never a failure word, never a
       // general pass (night is not general daylight shooting).
-      if((hours.na||[]).includes(hh))return {cls:'subj-na-row',html:`<span class="subj-na">${esc(d().state_outside)}</span>`,kind:'outside'};
+      if(naList.includes(hh))return {cls:'subj-na-row',html:`<span class="subj-na">${esc(d().state_outside)}</span>`,kind:'outside'};
       const metric=hours.no&&hours.no[hh];
       if(metric){
         const words=dicts.fail_reason_short||{};
