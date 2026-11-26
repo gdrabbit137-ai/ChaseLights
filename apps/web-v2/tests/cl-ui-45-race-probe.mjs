@@ -84,10 +84,16 @@ out.switch = await evaljs(`(async () => {
 // separates "different card than the one pressed before the switch" (the old
 // bug) from "the card the user is now looking at" (correct behaviour).
 async function installClickProbe() {
-  await evaljs(`(()=>{ if(!window.__cl45ClickTarget){ window.__cl45ClickTarget=null;
-    document.getElementById('spots-container').addEventListener('click',function(e){
-      const c=e.target.closest&&e.target.closest('.card');
-      window.__cl45ClickTarget=c?(c.dataset.placeId||''):null; },true); } return 1; })()`);
+  await evaljs(`(()=>{ const cont=document.getElementById('spots-container');
+    if(!window.__cl45ClickTarget){ window.__cl45ClickTarget=null;
+      cont.addEventListener('click',function(e){
+        const c=e.target.closest&&e.target.closest('.card');
+        window.__cl45ClickTarget=c?(c.dataset.placeId||''):null; },true); }
+    if(!window.__cl45PressTarget){ window.__cl45PressTarget=null;
+      cont.addEventListener('pointerdown',function(e){
+        const c=e.target.closest&&e.target.closest('.card');
+        window.__cl45PressTarget=c?(c.dataset.placeId||''):null; },true); }
+    return 1; })()`);
 }
 async function raceOnce() {
   // reset to today with the full list
@@ -107,14 +113,21 @@ async function raceOnce() {
     const name=(document.getElementById('modal-spot-name')||{}).textContent||'';
     const id=ov?ov.dataset.placeId:'';
     const clicked=window.__cl45ClickTarget;
+    const pressed=window.__cl45PressTarget;
+    const note=document.getElementById('clui45-transition-note');
+    const noteShown=!!(note&&note.classList.contains('show'));
     if(open)closeModal();
-    return {open,name,id,clicked};})()`);
+    return {open,name,id,clicked,pressed,noteShown};})()`);
   // restore
   await evaljs(`(()=>{switchDay('today');return 1;})()`);
   await sleep(500);
   return {pressed: probe, opened,
-    wrong_than_pressed: !!(opened.open && opened.id !== probe.id),
-    wrong_than_clicked: !!(opened.open && opened.id !== opened.clicked)};
+    // The contract: whatever opens must be the card that was PRESSED, and a
+    // tap that cannot be honoured must be announced (never a dead tap).
+    wrong_than_pressed: !!(opened.open && opened.id !== opened.pressed),
+    wrong_than_clicked: !!(opened.open && opened.id !== opened.clicked),
+    honoured: !!(opened.open && opened.id === opened.pressed),
+    announced: !!(!opened.open && opened.noteShown)};
 }
 await installClickProbe();
 out.race = [];
@@ -122,6 +135,9 @@ for (let i=0;i<10;++i) { const r = await raceOnce(); if (r) out.race.push(r); }
 out.wrong_than_pressed = out.race.filter(r=>r.wrong_than_pressed).length;
 out.wrong_than_clicked = out.race.filter(r=>r.wrong_than_clicked).length;
 out.opened = out.race.filter(r=>r.opened.open).length;
+out.honoured = out.race.filter(r=>r.honoured).length;
+out.announced = out.race.filter(r=>r.announced).length;
+out.answered = out.honoured + out.announced;
 out.attempts = out.race.length;
 
 // ---- (C) profile: where does one switchDay spend its time? -------------------

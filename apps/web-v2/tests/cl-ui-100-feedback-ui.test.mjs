@@ -191,8 +191,8 @@ test('CL-UI-100 ⑤: nothing mounts unless GET /feedback/config answers {enabled
 
 // ---------------------------------------------------------------- surfaces + stamps
 test('CL-UI-100: index.html mounts the widget with the bumped clui102 stamps', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui132/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui132/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui133/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui133/);
   assert.match(indexSource, /assets\/feedback-ui\.js\?v=clui102/);
   assert.match(indexSource, /assets\/feedback-ui\.css\?v=clui102/);
   assert.ok(!indexSource.includes('clui100'), 'stale stamp must be gone');
@@ -202,11 +202,12 @@ test('CL-UI-100: app.js carries exactly the three additive place-id hooks', () =
   assert.ok(appSource.includes("card.dataset.placeId=cp?'':(spot.spot_id||'')"), 'place-id hook kept (CL-APP-09 patch-6 bridge form)');
   assert.ok(appSource.includes("document.getElementById('modal-overlay').dataset.placeId=spot.spot_id||'';"));
   assert.ok(appSource.includes("overlay.dataset.placeId=spot.spot_id||'';"));
-  // CL-UI-45: the card-click binding adds TWO more reads of the SAME hook (the
-  // pressed card's id and the click target's id) — no new hook surface, count
-  // 3 → 5, and both additions are named so the pin cannot drift silently.
-  assert.ok(appSource.includes("clui45LastPress=card?{placeId:card.dataset.placeId||''"), 'press-intent hook (CL-UI-45)');
-  assert.ok(appSource.includes('pressed.placeId!==card.dataset.placeId'), 'press/release mismatch guard (CL-UI-45)');
+  // CL-UI-45: the card-click binding adds reads of the SAME hook (the pressed
+  // card's id, the live card's id, and the private-point key fallback) — no new
+  // hook surface, and every addition is named so the pin cannot drift silently.
+  assert.ok(appSource.includes("clui45LastPress=card?{placeId:clui45CardKey(card)"), 'press-intent hook (CL-UI-45)');
+  assert.ok(appSource.includes("const diverged=!!(pressedId&&liveId&&pressedId!==liveId);"), 'press/release mismatch guard (CL-UI-45)');
+  assert.ok(appSource.includes("function clui45CardKey(card){"), 'one stable per-card key reader (CL-UI-45)');
   assert.equal((appSource.match(/dataset\.placeId/g) || []).length, 6, 'hook surface stays minimal (3 + 3 CL-UI-45 reads)');
 });
 

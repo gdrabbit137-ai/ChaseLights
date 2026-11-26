@@ -837,6 +837,20 @@
     .card-skeleton .sk-row.short { width:54%; margin-bottom:0; }
     @keyframes clui45sk { 0%,100% { opacity:.45; } 50% { opacity:.95; } }
     @media (prefers-reduced-motion: reduce) { .card-skeleton .sk-line { animation:none; } }
+    /* CL-UI-45: the transition status line. A tap that raced a list repaint and
+       whose pressed place is GONE gets a spoken answer instead of a dead tap. */
+    .clui45-transition-note {
+      position: fixed; left: 50%; bottom: calc(var(--cl-sp-6) + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%) translateY(var(--cl-sp-2));
+      max-width: min(88vw, 420px); padding: var(--cl-sp-2) var(--cl-sp-4);
+      background: var(--cl-bg-2); color: var(--cl-text-1);
+      border: 1px solid var(--cl-border-strong); border-radius: var(--cl-r-md);
+      box-shadow: var(--cl-shadow-2); font-size: var(--cl-fs-13); line-height: 1.4;
+      text-align: center; z-index: 90; opacity: 0; pointer-events: none;
+      transition: opacity .16s ease, transform .16s ease;
+    }
+    .clui45-transition-note.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .clui45-transition-note { transition: none; } }
     .timeline-mobile-subjects { margin: 4px 0 6px; }
 
     .timeline-mobile { display: none; }

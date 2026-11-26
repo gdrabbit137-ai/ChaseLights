@@ -4,7 +4,7 @@
         country_label:'📍 選擇國家/區域：', opt_tw:'🇹🇼 台灣', opt_jp:'🇯🇵 日本', opt_us:'🇺🇸 美國', lang_opt_zh:'🌐 繁體中文', lang_opt_en:'🌐 English', lang_opt_ja:'🌐 日語',
         btn_today:'📅 今天', btn_tomorrow:'📅 明天', btn_after_tomorrow:'📅 後天', eval2_title:'即時條件評估', eval2_d0:'今天', eval2_d1:'明天', eval2_d2:'後天', eval2_d_past:'昨天', eval2_ok:'符合', eval2_bad:'未符', eval2_unk:'資料不足', eval2_hours:'符合時數', eval2_fail_by:'未符條件', eval2_none:'此日期的評估尚未生成', eval2_load_fail:'評估資料暫時無法載入', v2_best_subject:'本日最佳題材：', v2_best_subject_tomorrow:'明日最佳題材：', v2_best_subject_after:'後日最佳題材：', v2_next_window:'下一個符合時段：',nw_rel_0:'今天',nw_rel_1:'明天',nw_rel_2:'後天',nw_rel_3:'大後天', v2_none_today:'本日無符合題材', v2_day_over:'今日可拍時段已結束', v2_day_next:'下一波推薦：{t}', v2_none_tomorrow:'明日無符合題材', v2_none_after:'後日無符合題材',v2_best_subject_far:'當日最佳題材：',v2_none_far:'當日無符合題材',where_far:'📍 當天去哪裡拍？',day_conf_note:'第4天起預報可信度逐日遞減',day_picker_label:'選擇日期', day_summary_viable:'{n} 個景點符合', day_summary_none:'無符合景點', v2_conditions_from:'拍攝條件', v2_quick_title:'現在去會怎樣', v2_quick_none:'尚無速覽資料', v2_quick_next:'下一個符合時刻：', v2_ds_label:'今天題材判定', v2_ds_none:'題材判定僅提供今天', v2_ds_next:'下一窗', v2_ds_nonext:'今日無下一窗', v2_ds_ok_today:'今天 {t} 符合', v2_win_partial_golden:'可拍（非黃金光線）', v2_win_partial:'可拍（非最佳光線）', v2_season_unknown:'季節窗待確認', v2_ds_overall:'今日整體', v2_cond_count:'條件 ×{n}', v2_hourly_link:'查看逐小時預報 →', v2_cond_now:'現況', v2_gap_ok:'已達門檻', v2_gap_short:'尚差 {n}', v2_gap_over:'超過 {n}', v2_pass_hours:'達成時段 {t}', v2_never_num:'全日未達 · 今日 {r}', v2_never:'全日未達', loading:'正在獲取攝影氣象數據...', updating:'背景更新中…',cache_last_data:'顯示上次資料', card_line_ok:'✓ 符合', card_line_bad:'✗ 未符', v2_tier_recommend:'✓ 推薦', v2_tier_shootable:'○ 可拍', v2_tier_not_recommended:'✗ 不宜', v2_stale_badge:'資料更新延遲中（更新於 {t}）', v2_general_shooting:'可拍', v2_hour_general_ok:'○ 可拍', tier_recommend:'✓ 推薦', tier_shootable:'○ 可拍', tier_not_recommended:'✗ 不宜', tier_all:'全部', subject_chip_all:'全部題材', sort_next_window:'最近可拍', result_count_next_window:'依最近可拍時段 · {n} 個景點', sort_srank:'綜合分：高到低', result_count_srank:'依綜合分高到低 · {n} 個景點', clui66_empty:'無符合條件的景點——試著放寬篩選', tier_bar_label:'狀態分頁', subject_chips_label:'題材篩選', clui69_more_subjects:'+{n} 題材',clui69_less:'收起',clui82_sky_clear:'晴',clui82_sky_partly:'多雲',clui82_sky_overcast:'陰',clui82_clow_full:'低雲滿',clui82_cmid_full:'中雲滿',clui82_chigh_full:'高雲滿',clui82_vis_excellent:'能見度極佳',clui82_vis_good:'能見度良好',clui82_vis_fair:'能見度普通',clui82_vis_poor:'能見度差',clui82_wind_calm:'無風',clui82_wind_light:'微風',clui82_wind_strong:'風強',clui82_details:'詳細氣象',wmo_clear:'晴',wmo_mostly_clear:'晴時多雲',wmo_partly:'多雲',wmo_overcast:'陰',wmo_fog:'霧',wmo_drizzle:'毛毛雨',wmo_rain:'雨',wmo_showers:'陣雨',wmo_snow:'雪',wmo_snow_showers:'陣雪',wmo_thunder:'雷雨',wx_temp_range:'氣溫',wx_vis:'能見度',
         last_updated:'最後更新：', click_detail:'查看詳細資訊', v2_subject_link:'🎞 題材', weather_link:'🌦️ 天氣預報', nav_link:'🗺️ 導航', map_link:'📍 地圖', map_link_approx:'📍 地圖（概略座標）', nav_pending:'🗺️ 導航待確認', radar_link:'🗺️ 天氣圖', live_link:'🔴 LIVE', live_panel_title:'即時影像', live_source_label:'影像來源：交通部觀光署北觀處', live_open_youtube:'在 YouTube 開啟', close_live:'關閉即時影像', field_intake_link:'📷 實拍驗證', genre_eval_link:'🌗 題材評估', genre_eval_title:'開啟攝影題材條件評估',place_suitable:'📸 這裡適合拍什麼', researched_only:'只顯示已逐點查證的攝影題材；未查證內容不自動生成。', place_time_note:'拍攝時間皆以景點當地時區顯示。', guide_selected_date:'📅 所選日期拍攝機會', guide_no_selected_date:'所選日期目前沒有明確的拍攝建議。', guide_more_subjects:'其他已查證拍攝題材（{n}）', guide_all_subjects:'查看這裡可以拍什麼（{n}）', guide_subjects_note:'以下是這個景點已查證的拍攝題材，不代表所選日期條件適合。', guide_time:'適合時間（景點當地時間）', guide_season:'季節', guide_viewpoint:'拍攝位置', guide_required:'成立條件', guide_boosters:'加分條件', guide_penalties:'不利條件', guide_current:'所選日期最佳評分', guide_day_best:'最佳拍攝時段', guide_day_relative:'相對較佳時段', guide_confidence:'信心', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'拍攝指南', guide_score_why:'為什麼適合？', guide_score_status:'判定', guide_unresearched:'目前沒有可提供的拍攝指南。', research_pending_card:'所選日期目前無法提供可靠的拍攝建議',eval2_no_contract:'此景點的攝影題材條件尚未完成查證，無法提供評估',eval2_no_geometry:'拍攝座標尚未完成查證，無法評估此題材',eval2_no_template:'此題材的成立條件尚未定義，無法提供評估',eval2_unverified:'評估條件尚未查證，無法判定', no_viable_group:'暫無合適拍攝機會（{n}）', no_eval_group:'尚無本日評估的景點（{n}）', no_eval_group_named:'尚無本日評估：{names}（共 {n} 個）', no_eval_group_named_more:'尚無本日評估：{names} 等 {n} 個', late_night_banner_sparse:'今日接近尾聲，以下為剩餘的建議時段', late_night_banner:'今日拍攝時段已結束，以下顯示明天的建議', late_night_banner_both:'今日與明日目前均無符合時段', back_today:'回到今天', tomorrow_badge:'明天', eval2_past_hours:'今日已過時段不計', eval2_day_past:'此日已過，時段不計入符合', scene_label:'🖼️ 景觀類型：', theme_label:'📸 題材：', advanced_filters:'🔎 更多篩選', result_count:'依所選日期最佳拍攝機會排序 · {n} 個景點', search_result:'找到 {n} 個景點', search_placeholder:'搜尋景點名稱…', where_today:'📍 今天去哪裡拍？', where_tomorrow:'📍 明天去哪裡拍？', where_after:'📍 後天去哪裡拍？', recommendation_reasons:'推薦理由', narrow_result:'目前僅 {n} 個景點，範圍較窄', clear_scene:'清除景觀類型', admin_area_filter:'地區', admin_area_all:'全部地區', admin_area_selected:'已選 {n} 個地區', admin_area_clear:'清除地區', admin_area_search:'搜尋地區…', admin_area_no_match:'找不到符合的地區', admin_area_done:'完成', admin_area_close:'關閉地區選單', admin_area_show_empty:'顯示尚未收錄的地區', admin_area_hide_empty:'隱藏尚未收錄的地區', sort_label:'排序', sort_region:'地區順序', sort_hours:'符合時數：高到低', sort_score_desc:'評分：高到低', sort_score_asc:'評分：低到高', sort_distance_near:'距離：近到遠', sort_distance_far:'距離：遠到近', sort_location_requesting:'正在取得目前位置…', sort_location_using_current:'以目前位置排序', sort_location_unavailable:'無法取得位置，已改回地區順序', result_count_region:'依地區順序 · {n} 個景點', result_count_score_desc:'依評分高到低 · {n} 個景點', result_count_score_asc:'依評分低到高 · {n} 個景點', result_count_hours_desc:'依符合時數高到低 · {n} 個景點', result_count_distance_near:'依距離近到遠 · {n} 個景點', result_count_distance_far:'依距離遠到近 · {n} 個景點', region_group_count:'{n} 個景點',
-        best_window:'⏱️ 最佳拍攝時段：', relative_window:'⏱️ 相對較佳時段：', forecast_status:'📍 預報狀態：', v2_fail_reason:'未符原因：', cloud_base_label:'估算雲底高度（海拔）', best_theme:'📸 所選日期較適合：', local_time:'當地時間', dark_sky:'暗空', clui45_listed:'列表 {n} 個', clui45_day_gated:'本日建議時段外',
+        best_window:'⏱️ 最佳拍攝時段：', relative_window:'⏱️ 相對較佳時段：', forecast_status:'📍 預報狀態：', v2_fail_reason:'未符原因：', cloud_base_label:'估算雲底高度（海拔）', best_theme:'📸 所選日期較適合：', local_time:'當地時間', dark_sky:'暗空', clui45_listed:'列表 {n} 個', clui45_day_gated:'本日建議時段外', clui45_list_moving:'列表更新中，請再點一次', clui45_cb_floor:'資料下限',
         modal_subtitle:'⏱️ 逐時拍攝條件：過去 {p} 小時 + 未來 {f} 小時', th_lcl_short:'高度', th_temp_short:'溫度', th_wind_short:'風', th_clouds:'雲 L/M/H', wm_details:'⋯ 詳情', wm_weekdays:'週日,週一,週二,週三,週四,週五,週六', wm_months:'1 月,2 月,3 月,4 月,5 月,6 月,7 月,8 月,9 月,10 月,11 月,12 月',
         th_time:'時間', th_theme:'題材', th_score:'評分', th_status:'狀態', th_subjects:'適合題材', th_kp:'Kp指數', th_cloud_base:'雲底高度（海拔）', th_temp:'氣溫', th_rh:'濕度', th_clow:'低雲', th_cmid:'中雲', th_chigh:'高雲', th_wind:'風速', th_vis:'能見度', th_plain:'口語化氣象', th_astro:'天文', no_spots:'此條件下沒有景點', detail_loading:'正在載入天氣預報…', detail_sync_wait:'天氣資料正在同步更新，請幾秒後再試一次。', detail_error:'暫時無法載入天氣預報。', detail_retry:'重試', status_unavailable:'目前無法顯示狀態說明', favorite_label:'我的最愛', tag_past:'歷史', tag_best:'最佳', clui94_legend_fit:'綠底=題材符合 · ○ 可拍 · ✕ 不宜', clui94_legend_no:'✕ 短原因', guide_translation_limited:'部分拍攝指南尚未提供繁體中文版本。', score_excellent:'極佳', score_good:'良好', score_fair:'普通', score_low_label:'較弱', state_ok:'✅ 符合', state_chance:'🟡 有機會', state_bad:'⚠️ 未符', state_outside:'🕒 非建議時段', clui118b_na_expand:'（{n} 小時）——點擊展開', clui118b_na_collapse:'（{n} 小時）——點擊收合', verdict_suitable:'✅ 適合拍攝{subject}', verdict_chance:'🟡 有機會拍到{subject}', verdict_unfavorable:'⚠️ 目前不利於拍攝{subject}', verdict_outside:'🕒 目前不是拍攝{subject}的建議時段', modal_window_none:'{day}無建議時段', modal_window_relative:'⏱️ 相對較佳但仍未符：', astro_missing:'該時段無天文資料', astro_missing_sun:'缺太陽方位／仰角資料', temp_unavailable:'氣溫資料暫缺', vis_cap:'≥ 24 km（資料上限）', legend_title:'狀態圖例：', tip_cloud_base:'凝結高度：雲底離地高度，接近山頂高度時可能身處雲中', tip_low_cloud:'低雲：太陽方向的低雲會直接擋住日落／日出主體', tip_vis:'能見度：數值越高空氣越通透，越適合拍遠景；24 km 為資料上限', tip_wind:'風速：超過約 6 m/s 時腳架會晃，長曝需加強固定', prov_title:'資料來源', prov_hourly_label:'逐時預報', prov_hourly_value:'Open-Meteo · GFS Seamless（GFS＋GraphCast）', prov_issued_label:'資料時間',
         prov_layers_label:'天氣圖（WeatherGrid）另用下列圖層', prov_cycle_label:'起報', prov_obs_label:'觀測', prov_layers_loading:'讀取中…', prov_layers_missing:'暫無此圖層資料',
@@ -18,7 +18,7 @@
         country_label:'📍 Select Region:', opt_tw:'🇹🇼 Taiwan', opt_jp:'🇯🇵 Japan', opt_us:'🇺🇸 United States', lang_opt_zh:'🌐 Traditional Chinese', lang_opt_en:'🌐 English', lang_opt_ja:'🌐 Japanese',
         btn_today:'📅 Today', btn_tomorrow:'📅 Tomorrow', btn_after_tomorrow:'📅 Day After', eval2_title:'Live condition assessment', eval2_d0:'Today', eval2_d1:'Tomorrow', eval2_d2:'Day after', eval2_d_past:'Yesterday', eval2_ok:'Met', eval2_bad:'Not met', eval2_unk:'Insufficient data', eval2_hours:'qualifying hours', eval2_fail_by:'Unmet conditions', eval2_none:'Evaluation for this date has not been generated yet', eval2_load_fail:'Evaluation data temporarily unavailable', v2_best_subject:'Best subject today: ', v2_best_subject_tomorrow:'Best subject tomorrow: ', v2_best_subject_after:'Best subject day after: ', v2_next_window:'Next qualifying window: ',nw_rel_0:'today',nw_rel_1:'tomorrow',nw_rel_2:'in 2 days',nw_rel_3:'in 3 days', v2_none_today:'No qualifying subject today', v2_day_over:"Today's shooting window is over", v2_day_next:'Next recommendation: {t}', v2_none_tomorrow:'No qualifying subject tomorrow', v2_none_after:'No qualifying subject day after',v2_best_subject_far:'Best subject that day: ',v2_none_far:'No qualifying subject that day',where_far:'📍 Where to shoot that day?',day_conf_note:'Forecast confidence decreases day by day from day 4',day_picker_label:'Pick a date', day_summary_viable:'{n} spots qualify', day_summary_none:'No qualifying spots', v2_conditions_from:'Shooting conditions', v2_quick_title:'If I go now', v2_quick_none:'No summary available yet', v2_quick_next:'Next matching moment: ', v2_ds_label:'Today by subject', v2_ds_none:'Subject verdicts cover today only', v2_ds_next:'next window', v2_ds_nonext:'none left today', v2_ds_ok_today:'Matches today {t}', v2_win_partial_golden:'Shootable (off-peak light)', v2_win_partial:'Shootable (suboptimal light)', v2_season_unknown:'Season window unconfirmed', v2_ds_overall:'overall today', v2_cond_count:'Conditions ×{n}', v2_hourly_link:'View hourly forecast →', v2_cond_now:'Now', v2_gap_ok:'meets threshold', v2_gap_short:'short by {n}', v2_gap_over:'over by {n}', v2_pass_hours:'Met at {t}', v2_never_num:'Not met all day · today {r}', v2_never:'Not met all day', loading:'Fetching photography weather data...', updating:'Updating in background…',cache_last_data:'Showing last saved data', card_line_ok:'✓ Met', card_line_bad:'✗ Not met', v2_tier_recommend:'✓ Recommended', v2_tier_shootable:'○ Shootable', v2_tier_not_recommended:'✗ Not recommended', v2_stale_badge:'Data refresh delayed (updated {t})', v2_general_shooting:'Shootable', v2_hour_general_ok:'○ Shootable', tier_recommend:'✓ Recommended', tier_shootable:'○ Shootable', tier_not_recommended:'✗ Not suitable', tier_all:'All', subject_chip_all:'All subjects', sort_next_window:'Next qualifying window', result_count_next_window:'By next qualifying window · {n} spots', sort_srank:'Composite score: high to low', result_count_srank:'By composite score, high to low · {n} spots', clui66_empty:'No spots match these filters — try relaxing the filters', tier_bar_label:'Status tabs', subject_chips_label:'Subject filters', clui69_more_subjects:'+{n} more',clui69_less:'Less',clui82_sky_clear:'Clear',clui82_sky_partly:'Partly cloudy',clui82_sky_overcast:'Overcast',clui82_clow_full:'Low cloud thick',clui82_cmid_full:'Mid cloud thick',clui82_chigh_full:'High cloud thick',clui82_vis_excellent:'Visibility excellent',clui82_vis_good:'Visibility good',clui82_vis_fair:'Visibility fair',clui82_vis_poor:'Visibility poor',clui82_wind_calm:'Calm',clui82_wind_light:'Light breeze',clui82_wind_strong:'Strong wind',clui82_details:'Detailed weather',wmo_clear:'Clear',wmo_mostly_clear:'Mostly clear',wmo_partly:'Partly cloudy',wmo_overcast:'Overcast',wmo_fog:'Fog',wmo_drizzle:'Drizzle',wmo_rain:'Rain',wmo_showers:'Showers',wmo_snow:'Snow',wmo_snow_showers:'Snow showers',wmo_thunder:'Thunderstorm',wx_temp_range:'Temp',wx_vis:'Visibility',
         last_updated:'Last Updated: ', click_detail:'View details', v2_subject_link:'🎞 Subjects', weather_link:'🌦️ Weather', nav_link:'🗺️ Nav', map_link:'📍 Map', map_link_approx:'📍 Map (approximate pin)', nav_pending:'🗺️ Nav pending', radar_link:'🗺️ Weather map', live_link:'🔴 LIVE', live_panel_title:'Live camera', live_source_label:'Live camera: North Coast & Guanyinshan National Scenic Area Administration, MOTC', live_open_youtube:'Open on YouTube', close_live:'Close live camera', field_intake_link:'📷 Field Check', genre_eval_link:'🌗 Genre Assessment', genre_eval_title:'Open genre condition assessment',place_suitable:'📸 What can you photograph here?', researched_only:'Only individually researched photography opportunities are shown; unverified ideas are not generated.', place_time_note:'Shooting times are shown in the place’s local time zone.', guide_selected_date:'📅 Selected-date shooting opportunities', guide_no_selected_date:'There is no clear shooting recommendation for the selected date.', guide_more_subjects:'Other verified subjects ({n})', guide_all_subjects:'What can you photograph here? ({n})', guide_subjects_note:'These are verified subjects for this place; they do not imply suitable conditions on the selected date.', guide_time:'Best time (place local time)', guide_season:'Season', guide_viewpoint:'Shooting area', guide_required:'Required conditions', guide_boosters:'Boosters', guide_penalties:'Penalties', guide_current:'Best score for selected date', guide_day_best:'Best shooting time', guide_day_relative:'Relatively better time', guide_confidence:'Confidence', confidence_high:'High', confidence_medium:'Medium', confidence_low:'Low', guide_details:'Shooting guide', guide_score_why:'Why is this suitable?', guide_score_status:'Assessment', guide_unresearched:'No shooting guide is currently available for this place.', research_pending_card:'A reliable shooting recommendation is not currently available for the selected date',eval2_no_contract:'Subject conditions for this spot are not yet verified, so no evaluation is available',eval2_no_geometry:'Shooting coordinates are not yet verified, so this subject cannot be evaluated',eval2_no_template:'Qualifying conditions for this subject are not yet defined, so no evaluation is available',eval2_unverified:'Assessment conditions are not yet verified, so no verdict is available', no_viable_group:'No viable shooting opportunity ({n})', no_eval_group:'No evaluation yet for this date ({n})', no_eval_group_named:'No evaluation yet for this date: {names} ({n})', no_eval_group_named_more:'No evaluation yet for this date: {names}, and {n} in total', late_night_banner_sparse:'Today is winding down — here are the remaining shooting suggestions', late_night_banner:"Today's shooting hours have ended — showing tomorrow's suggestions", late_night_banner_both:'No qualifying windows today or tomorrow yet', back_today:'Back to today', tomorrow_badge:'Tomorrow', eval2_past_hours:'Hours already past today are excluded', eval2_day_past:'This day has passed — its hours no longer count as qualifying', scene_label:'🖼️ Landscape type:', theme_label:'📸 Subject:', advanced_filters:'🔎 More filters', result_count:'Ranked by best opportunity for selected date · {n} spots', search_result:'Found {n} spots', search_placeholder:'Search places…', where_today:'📍 Where should I shoot today?', where_tomorrow:'📍 Where should I shoot tomorrow?', where_after:'📍 Where should I shoot the day after tomorrow?', recommendation_reasons:'Why it stands out', narrow_result:'Only {n} spots — narrow filter', clear_scene:'Clear landscape type', admin_area_filter:'Area', admin_area_all:'All areas', admin_area_selected:'{n} selected', admin_area_clear:'Clear areas', admin_area_search:'Search areas…', admin_area_no_match:'No matching area', admin_area_done:'Done', admin_area_close:'Close area picker', admin_area_show_empty:'Show areas not yet covered', admin_area_hide_empty:'Hide areas not yet covered', sort_label:'Sort', sort_region:'Geographic order', sort_hours:'Qualifying hours: high to low', sort_score_desc:'Score: high to low', sort_score_asc:'Score: low to high', sort_distance_near:'Distance: near to far', sort_distance_far:'Distance: far to near', sort_location_requesting:'Getting your current location…', sort_location_using_current:'Sorted from current location', sort_location_unavailable:'Location unavailable; switched to geographic order', result_count_region:'Geographic order · {n} spots', result_count_score_desc:'Score high to low · {n} spots', result_count_score_asc:'Score low to high · {n} spots', result_count_hours_desc:'By qualifying hours, high to low · {n} spots', result_count_distance_near:'Nearest first · {n} spots', result_count_distance_far:'Farthest first · {n} spots', region_group_count:'{n} spots',
-        best_window:'⏱️ Best shooting time: ', relative_window:'⏱️ Relatively better time: ', forecast_status:'📍 Status: ', v2_fail_reason:'Reason: ', cloud_base_label:'Est. LCL', best_theme:'📸 Best for selected date: ', clui45_listed:'{n} shown', clui45_day_gated:'Outside today’s window', local_time:'Local time', dark_sky:'Dark sky',
+        best_window:'⏱️ Best shooting time: ', relative_window:'⏱️ Relatively better time: ', forecast_status:'📍 Status: ', v2_fail_reason:'Reason: ', cloud_base_label:'Est. LCL', best_theme:'📸 Best for selected date: ', clui45_listed:'{n} shown', clui45_day_gated:'Outside today’s window', clui45_list_moving:'The list is updating — tap again', clui45_cb_floor:'data floor', local_time:'Local time', dark_sky:'Dark sky',
         modal_subtitle:'⏱️ Hourly shooting conditions: past {p} hours + next {f} hours', th_lcl_short:'Height', th_temp_short:'Temp', th_wind_short:'Wind', th_clouds:'Clouds L/M/H', wm_details:'⋯ Details', wm_weekdays:'Sun,Mon,Tue,Wed,Thu,Fri,Sat', wm_months:'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec',
         th_time:'Time', th_theme:'Theme', th_score:'Score', th_status:'Status', th_subjects:'Subjects', th_kp:'Kp', th_cloud_base:'Cloud base (ASL)', th_temp:'Temp', th_rh:'RH', th_clow:'Low', th_cmid:'Mid', th_chigh:'High', th_wind:'Wind', th_vis:'Visibility', th_plain:'Weather (plain)', th_astro:'Astronomy', no_spots:'No spots match these filters', detail_loading:'Loading weather forecast…', detail_sync_wait:'Weather data is synchronizing. Please try again in a few seconds.', detail_error:'Weather forecast is temporarily unavailable.', detail_retry:'Retry', status_unavailable:'Status details are temporarily unavailable', favorite_label:'Favorite', tag_past:'Past', tag_best:'BEST', clui94_legend_fit:'Green chip = a subject fits', clui94_legend_no:'✕ short reason', guide_translation_limited:'Some shooting-guide details are not yet available in English.', score_excellent:'Excellent', score_good:'Good', score_fair:'Fair', score_low_label:'Low', state_ok:'✅ Met', state_chance:'🟡 Chance', state_bad:'⚠️ Not met', state_outside:'🕒 Off-window', clui118b_na_expand:' ({n} h) — tap to expand', clui118b_na_collapse:' ({n} h) — tap to collapse', verdict_suitable:'✅ Suitable for photographing {subject}', verdict_chance:'🟡 A chance to capture {subject}', verdict_unfavorable:'⚠️ Currently unfavorable for photographing {subject}', verdict_outside:'🕒 This is not the recommended time for photographing {subject}', modal_window_none:'{day}: no suggested time', modal_window_relative:'⏱️ Relatively better, still not met: ', astro_missing:'No astronomy data for this hour', astro_missing_sun:'Missing sun azimuth/elevation data', temp_unavailable:'Temperature data unavailable', vis_cap:'≥ 24 km (data cap)', legend_title:'Status legend:', tip_cloud_base:'LCL: cloud-base height above ground; near ridge height you may be inside the cloud', tip_low_cloud:'Low cloud: clouds toward the sun will block the sunset/sunrise itself', tip_vis:'Visibility: higher means clearer air and better distant shots; 24 km is the data cap', tip_wind:'Wind: above about 6 m/s tripods shake — secure gear for long exposures', prov_title:'Data sources', prov_hourly_label:'Hourly forecast', prov_hourly_value:'Open-Meteo · GFS Seamless (GFS + GraphCast)', prov_issued_label:'Data time',
         prov_layers_label:'The weather map (WeatherGrid) additionally uses these layers', prov_cycle_label:'Cycle', prov_obs_label:'Observed', prov_layers_loading:'Loading…', prov_layers_missing:'No data for this layer',
@@ -32,7 +32,7 @@
         country_label:'📍 地域を選択：', opt_tw:'🇹🇼 台湾', opt_jp:'🇯🇵 日本', opt_us:'🇺🇸 アメリカ', lang_opt_zh:'🌐 中国語（繁体字）', lang_opt_en:'🌐 英語', lang_opt_ja:'🌐 日本語',
         btn_today:'📅 今日', btn_tomorrow:'📅 明日', btn_after_tomorrow:'📅 明後日', eval2_title:'リアルタイム条件評価', eval2_d0:'今日', eval2_d1:'明日', eval2_d2:'明後日', eval2_d_past:'昨日', eval2_ok:'達成', eval2_bad:'未達成', eval2_unk:'データ不足', eval2_hours:'撮影に適した時間数', eval2_fail_by:'未達成の条件', eval2_none:'この日付の評価はまだ生成されていません', eval2_load_fail:'評価データを読み込めません', v2_best_subject:'本日の最適な題材：', v2_best_subject_tomorrow:'明日の最適な題材：', v2_best_subject_after:'明後日の最適な題材：', v2_next_window:'次の撮影に適した時間帯：',nw_rel_0:'今日',nw_rel_1:'明日',nw_rel_2:'明後日',nw_rel_3:'3日後', v2_none_today:'本日に適したテーマなし', v2_day_over:'本日の撮影可能時間は終了しました', v2_day_next:'次のおすすめ：{t}', v2_none_tomorrow:'明日に適したテーマなし', v2_none_after:'明後日に適したテーマなし',v2_best_subject_far:'当日の最適な題材：',v2_none_far:'当日適したテーマがありません',where_far:'📍 その日はどこへ？',day_conf_note:'4日目以降は予報の信頼度が日ごとに低下します',day_picker_label:'日付を選択', day_summary_viable:'{n} 件が適合', day_summary_none:'適合する場所なし', v2_conditions_from:'撮影条件', v2_quick_title:'今すぐ行くと', v2_quick_none:'サマリーデータはまだありません', v2_quick_next:'次の適合時刻：', v2_ds_label:'今日の題材判定', v2_ds_none:'題材判定は本日のみ', v2_ds_next:'次は', v2_ds_nonext:'本日これ以上なし', v2_ds_ok_today:'本日 {t} が適合', v2_win_partial_golden:'撮影可（ゴールデン時間外）', v2_win_partial:'撮影可（光の条件外）', v2_season_unknown:'季節窓は未確認', v2_ds_overall:'本日全体', v2_cond_count:'条件 ×{n}', v2_hourly_link:'時間別予報を見る →', v2_cond_now:'現況', v2_gap_ok:'しきい値達成', v2_gap_short:'あと{n}', v2_gap_over:'{n} 超過', v2_pass_hours:'達成時間帯 {t}', v2_never_num:'終日未達成・本日 {r}', v2_never:'終日未達成', loading:'撮影気象データを取得中...', updating:'バックグラウンド更新中…',cache_last_data:'前回のデータを表示中', card_line_ok:'✓ 達成', card_line_bad:'✗ 未達成', v2_tier_recommend:'✓ 推薦', v2_tier_shootable:'○ 撮影可', v2_tier_not_recommended:'✗ 非推奨', v2_stale_badge:'データ更新が遅延しています（{t} 更新）', v2_general_shooting:'撮影可', v2_hour_general_ok:'○ 撮影可', tier_recommend:'✓ おすすめ', tier_shootable:'○ 撮影可', tier_not_recommended:'✗ 不適', tier_all:'すべて', subject_chip_all:'すべての題材', sort_next_window:'次の適した時間帯が近い順', result_count_next_window:'次の適した時間帯が近い順 · {n} スポット', sort_srank:'総合スコア：高い順', result_count_srank:'総合スコアが高い順 · {n} スポット', clui66_empty:'条件に合うスポットがありません——絞り込みを緩めてみてください', tier_bar_label:'ステータスタブ', subject_chips_label:'題材フィルタ', clui69_more_subjects:'+{n} 題材',clui69_less:'折りたたむ',clui82_sky_clear:'晴れ',clui82_sky_partly:'雲多め',clui82_sky_overcast:'曇り',clui82_clow_full:'下層雲多め',clui82_cmid_full:'中層雲多め',clui82_chigh_full:'上層雲多め',clui82_vis_excellent:'視程とても良い',clui82_vis_good:'視程良い',clui82_vis_fair:'視程普通',clui82_vis_poor:'視程悪い',clui82_wind_calm:'無風',clui82_wind_light:'弱風',clui82_wind_strong:'強風',clui82_details:'詳細気象',wmo_clear:'晴れ',wmo_mostly_clear:'晴れ時々曇り',wmo_partly:'曇りがち',wmo_overcast:'曇り',wmo_fog:'霧',wmo_drizzle:'霧雨',wmo_rain:'雨',wmo_showers:'にわか雨',wmo_snow:'雪',wmo_snow_showers:'にわか雪',wmo_thunder:'雷雨',wx_temp_range:'気温',wx_vis:'視程',
         last_updated:'最終更新：', click_detail:'詳細を見る', v2_subject_link:'🎞 題材', weather_link:'🌦️ 天気予報', nav_link:'🗺️ ナビ', map_link:'📍 地図', map_link_approx:'📍 地図（概略座標）', nav_pending:'🗺️ ナビ確認待ち', radar_link:'🗺️ 天気マップ', live_link:'🔴 LIVE', live_panel_title:'ライブカメラ', live_source_label:'映像提供：交通部観光署 北海岸及観音山国家風景区管理処', live_open_youtube:'YouTubeで開く', close_live:'ライブカメラを閉じる', field_intake_link:'📷 実写検証', genre_eval_link:'🌗 題材評価', genre_eval_title:'撮影題材の条件評価を開く',place_suitable:'📸 ここで何が撮れる？', researched_only:'個別調査済みの撮影機会のみ表示し、未確認の内容は自動生成しません。', place_time_note:'撮影時間はすべて現地のタイムゾーンで表示します。', guide_selected_date:'📅 選択日の撮影機会', guide_no_selected_date:'選択日には明確におすすめできる撮影時間がありません。', guide_more_subjects:'その他の確認済み撮影テーマ（{n}）', guide_all_subjects:'ここで撮影できるものを見る（{n}）', guide_subjects_note:'以下はこの場所で確認済みの撮影テーマです。選択日の条件が適していることを意味しません。', guide_time:'適した時間（現地時間）', guide_season:'季節', guide_viewpoint:'撮影位置', guide_required:'成立条件', guide_boosters:'加点条件', guide_penalties:'不利条件', guide_current:'選択日の最良スコア', guide_day_best:'最適な撮影時間', guide_day_relative:'比較的良い時間帯', guide_confidence:'信頼度', confidence_high:'高', confidence_medium:'中', confidence_low:'低', guide_details:'撮影ガイド', guide_score_why:'なぜ撮影に適している？', guide_score_status:'判定', guide_unresearched:'この場所では現在、撮影ガイドを提供できません。', research_pending_card:'選択日は信頼できる撮影提案を現在提供できません',eval2_no_contract:'このスポットの撮影題材の条件はまだ検証されておらず、評価を提供できません',eval2_no_geometry:'撮影座標の検証が未了のため、この題材は評価できません',eval2_no_template:'この題材の成立条件がまだ定義されておらず、評価を提供できません',eval2_unverified:'評価条件が未検証のため、判定できません', no_viable_group:'適した撮影機会なし（{n}）', no_eval_group:'この日の評価がまだないスポット（{n}）', no_eval_group_named:'この日の評価がまだないスポット：{names}（{n} 件）', no_eval_group_named_more:'この日の評価がまだないスポット：{names} など {n} 件', late_night_banner_sparse:'本日は終盤です。残りの撮影候補を表示します', late_night_banner:'本日の撮影時間帯は終了しました。明日の提案を表示します', late_night_banner_both:'本日も明日も現在適合する時間帯はありません', back_today:'今日に戻る', tomorrow_badge:'明日', eval2_past_hours:'本日すでに過ぎた時間帯は除外', eval2_day_past:'この日は終了済みのため、適した時間数には含めません', scene_label:'🖼️ 景観タイプ：', theme_label:'📸 テーマ：', advanced_filters:'🔎 その他の絞り込み', result_count:'選択日の最良撮影機会順 · {n} スポット', search_result:'{n} スポット見つかりました', search_placeholder:'スポット名を検索…', where_today:'📍 今日はどこへ撮りに行く？', where_tomorrow:'📍 明日はどこへ撮りに行く？', where_after:'📍 明後日はどこへ撮りに行く？', recommendation_reasons:'おすすめ理由', narrow_result:'{n} スポットのみ・絞り込みが狭いです', clear_scene:'景観タイプを解除', admin_area_filter:'地域', admin_area_all:'すべての地域', admin_area_selected:'{n} 件選択', admin_area_clear:'地域を解除', admin_area_search:'地域を検索…', admin_area_no_match:'該当する地域がありません', admin_area_done:'完了', admin_area_close:'地域選択を閉じる', admin_area_show_empty:'未収録の地域を表示', admin_area_hide_empty:'未収録の地域を隠す', sort_label:'並び順', sort_region:'地域順', sort_hours:'撮影に適した時間数が多い順', sort_score_desc:'評価：高い順', sort_score_asc:'評価：低い順', sort_distance_near:'距離：近い順', sort_distance_far:'距離：遠い順', sort_location_requesting:'現在地を取得中…', sort_location_using_current:'現在地からの距離順', sort_location_unavailable:'現在地を取得できないため地域順に戻しました', result_count_region:'地域順 · {n} スポット', result_count_score_desc:'評価の高い順 · {n} スポット', result_count_score_asc:'評価の低い順 · {n} スポット', result_count_hours_desc:'撮影に適した時間数の多い順 · {n} スポット', result_count_distance_near:'近い順 · {n} スポット', result_count_distance_far:'遠い順 · {n} スポット', region_group_count:'{n} スポット',
-        best_window:'⏱️ 最適時間：', relative_window:'⏱️ 比較的良い時間帯：', forecast_status:'📍 予報状況：', v2_fail_reason:'未達成の理由：', cloud_base_label:'推定LCL', best_theme:'📸 選択日に向く：', local_time:'現地時間', dark_sky:'暗空', clui45_listed:'一覧 {n} 件', clui45_day_gated:'本日の推奨時間外',
+        best_window:'⏱️ 最適時間：', relative_window:'⏱️ 比較的良い時間帯：', forecast_status:'📍 予報状況：', v2_fail_reason:'未達成の理由：', cloud_base_label:'推定LCL', best_theme:'📸 選択日に向く：', local_time:'現地時間', dark_sky:'暗空', clui45_listed:'一覧 {n} 件', clui45_day_gated:'本日の推奨時間外', clui45_list_moving:'一覧を更新中です。もう一度タップしてください', clui45_cb_floor:'データ下限',
         modal_subtitle:'⏱️ 時間別の撮影条件：過去{p}時間＋未来{f}時間', th_lcl_short:'高度', th_temp_short:'気温', th_wind_short:'風', th_clouds:'雲 L/M/H', wm_details:'⋯ 詳細', wm_weekdays:'日,月,火,水,木,金,土', wm_months:'1月,2月,3月,4月,5月,6月,7月,8月,9月,10月,11月,12月',
         th_time:'時間', th_theme:'テーマ', th_score:'評価', th_status:'状態', th_subjects:'適合テーマ', th_kp:'Kp', th_cloud_base:'雲底高度（海抜）', th_temp:'気温', th_rh:'湿度', th_clow:'下層雲', th_cmid:'中層雲', th_chigh:'上層雲', th_wind:'風速', th_vis:'視程', th_plain:'口語天気', th_astro:'天文', no_spots:'該当する撮影スポットはありません', detail_loading:'天気予報を読み込み中…', detail_sync_wait:'天気データを同期更新中です。数秒後にもう一度お試しください。', detail_error:'天気予報を一時的に読み込めません。', detail_retry:'再試行', status_unavailable:'状態の説明を一時的に表示できません', favorite_label:'お気に入り', tag_past:'過去', tag_best:'最適', clui94_legend_fit:'緑chip＝題材が適合', clui94_legend_no:'✕ 短い理由', guide_translation_limited:'撮影ガイドの一部はまだ日本語に対応していません。', score_excellent:'非常に良い', score_good:'良好', score_fair:'普通', score_low_label:'弱め', state_ok:'✅ 達成', state_chance:'🟡 チャンス', state_bad:'⚠️ 未達成', state_outside:'🕒 推奨時間帯外', clui118b_na_expand:'（{n} 時間）——クリックで展開', clui118b_na_collapse:'（{n} 時間）——クリックで折りたたみ', verdict_suitable:'✅ {subject}の撮影に適しています', verdict_chance:'🟡 {subject}を撮影できる可能性があります', verdict_unfavorable:'⚠️ 現在は{subject}の撮影に不利です', verdict_outside:'🕒 現在は{subject}の推奨撮影時間帯ではありません', modal_window_none:'{day}の撮影推奨時間帯なし', modal_window_relative:'⏱️ 相対的に良いが未達成：', astro_missing:'この時間帯の天文データなし', astro_missing_sun:'太陽の方位角・高度データなし', temp_unavailable:'気温データなし', vis_cap:'≥ 24 km（データ上限）', legend_title:'状態の凡例：', tip_cloud_base:'LCL：雲底の地上高。尾根の高さに近いと雲の中になる可能性があります', tip_low_cloud:'下層雲：太陽方向の下層雲は夕日／朝日を直接遮ります', tip_vis:'視程：数値が高いほど空気が澄んでいて遠景の撮影に適します。24 km はデータ上限です', tip_wind:'風速：約6 m/s を超えると三脚が揺れるため、長秒露光は固定を強化してください', prov_title:'データソース', prov_hourly_label:'時間別予報', prov_hourly_value:'Open-Meteo · GFS Seamless（GFS＋GraphCast）', prov_issued_label:'データ時刻',
         prov_layers_label:'天気マップ（WeatherGrid）は追加で次のレイヤーを使用', prov_cycle_label:'起報', prov_obs_label:'観測', prov_layers_loading:'読み込み中…', prov_layers_missing:'このレイヤーのデータなし',
@@ -1136,10 +1136,11 @@
     // day pill quoted an unrelated "符合" total next to a much longer list.
     // Every count on the page now comes from THIS one publish, at the end of
     // one render pass, over the SAME filtered rows the list renders.
-    function clui45PublishListStats(rows,tierCounts){
+    function clui45PublishListStats(rows,tierCounts,allTierCounts){
       const list=rows||[];
       const official=list.filter(r=>!(r&&r.cp)).length;
       const priv=list.length-official;
+      const recom=(tierCounts&&tierCounts.recommend)||0;
       window.CLListStats={
         region:currentRegion,
         day:currentDayFilter,
@@ -1147,7 +1148,11 @@
         listed:list.length,
         official,
         private:priv,
-        recommend:(tierCounts&&tierCounts.recommend)||0,
+        recommend:recom,
+        // The ✓推薦 tab counts over the UNFILTERED rows (renderTierTabs(rowsAll)),
+        // so the day pill must quote that same number — otherwise a tier/subject
+        // filter makes the pill and the tab disagree on the same screen.
+        recommendAll:(allTierCounts&&allTierCounts.recommend)||0,
         renderedAt:Date.now()
       };
       try{document.dispatchEvent(new CustomEvent('chaselights:list-rendered'));}catch(e){/* no DOM listener */ }
@@ -1159,14 +1164,67 @@
     //   (1) every card click is bound to the place_id captured when that card
     //       was rendered (see clui45InstallCardGuards) — a stale node can never
     //       open "its" spot after a re-render;
-    //   (2) card clicks are ignored for CLUI45_TRANSITION_LOCK_MS after a
-    //       date/tier/region switch, so the click that was mid-flight during
-    //       the transition is dropped instead of opening the wrong forecast.
+    //   (2) for CLUI45_TRANSITION_LOCK_MS after a date/tier/region switch the
+    //       click is resolved against the PRESSED card (captured before the
+    //       repaint): the pressed place is opened if it is still in the new
+    //       list, and when that place is gone the user is told the list is
+    //       transitioning instead of getting a dead tap. A tap is never
+    //       silently swallowed and never redirected to another mountain.
     const CLUI45_TRANSITION_LOCK_MS=350;
     let clui45TransitionUntil=0;
     let clui45LastPress=null;
+    let clui45AnnounceTimer=null;
+    let clui45HandledAt=0;
+    // A gesture resolved at pointerup must not ALSO open a modal through the
+    // click that follows (or through the card under the pointer).
+    function clui45PressHandled(){return performance.now()-(clui45HandledAt||0)<800;}
+    function clui45MarkPressHandled(){clui45HandledAt=performance.now();}
     function clui45LockTransitions(){clui45TransitionUntil=performance.now()+CLUI45_TRANSITION_LOCK_MS;}
     function clui45TransitionLocked(){return performance.now()<clui45TransitionUntil;}
+    // The live card for a pressed place_id in the CURRENT list (null when the
+    // repaint dropped it — a place that no longer qualifies for the new date).
+    // Private points carry their id in data-cp-id instead of data-place-id;
+    // both keys are pressed-time stable.
+    function clui45CardKey(card){
+      if(!card||!card.dataset)return '';
+      if(card.dataset.placeId)return card.dataset.placeId;
+      if(card.dataset.cpId)return 'cp:'+card.dataset.cpId;
+      return '';
+    }
+    function clui45LiveCard(placeId){
+      if(!placeId)return null;
+      const container=document.getElementById('spots-container');
+      if(!container)return null;
+      const cards=container.querySelectorAll('.card');
+      for(const c of cards){if(clui45CardKey(c)===placeId)return c;}
+      return null;
+    }
+    // Honour the pressed card: run its OWN opener (stored by createSpotCard),
+    // never a synthetic click — that would re-enter this capture listener.
+    function clui45OpenPressed(placeId){
+      const live=clui45LiveCard(placeId);
+      if(!live||typeof live.__clui45Open!=='function')return false;
+      clui45LastPress=null;
+      try{live.__clui45Open();}catch(e){return false;}
+      return true;
+    }
+    // The pressed place is gone from the new list: say so (one short status
+    // line), never a silent dead tap.
+    function clui45AnnounceListMoving(){
+      let el=document.getElementById('clui45-transition-note');
+      if(!el){
+        el=document.createElement('div');
+        el.id='clui45-transition-note';
+        el.className='clui45-transition-note';
+        el.setAttribute('role','status');
+        el.setAttribute('aria-live','polite');
+        document.body.appendChild(el);
+      }
+      el.textContent=d().clui45_list_moving;
+      el.classList.add('show');
+      clearTimeout(clui45AnnounceTimer);
+      clui45AnnounceTimer=setTimeout(()=>el.classList.remove('show'),2000);
+    }
     // Container-level intent tracking: the press position/place is captured in
     // the capture phase, so a click whose target was replaced between press
     // and release can be resolved to the card the user actually pressed.
@@ -1176,27 +1234,87 @@
       container.dataset.clui45Guards='1';
       container.addEventListener('pointerdown',e=>{
         const card=e.target.closest&&e.target.closest('.card');
-        clui45LastPress=card?{placeId:card.dataset.placeId||'',x:e.clientX,y:e.clientY,at:performance.now()}:null;
+        clui45LastPress=card?{placeId:clui45CardKey(card),el:card,x:e.clientX,y:e.clientY,at:performance.now()}:null;
       },true);
       container.addEventListener('click',e=>{
-        if(!e.target.closest||!e.target.closest('.card'))return;
-        if(clui45TransitionLocked()){
-          // The list was re-rendered less than CLUI45_TRANSITION_LOCK_MS ago:
-          // the pointer may have been over the PREVIOUS list. Never open a
-          // forecast for a card the user did not see.
+        // Already resolved at pointerup (the click is only a duplicate then).
+        if(clui45PressHandled()){
           e.preventDefault();e.stopImmediatePropagation();
           return;
         }
-        const card=e.target.closest('.card');
+        const card=e.target.closest&&e.target.closest('.card');
         const pressed=clui45LastPress;
-        if(pressed&&pressed.placeId&&card.dataset.placeId&&pressed.placeId!==card.dataset.placeId){
-          // Press and release landed on different cards (the list re-rendered
-          // between them). The pressed card is the user's intent.
+        const pressedId=pressed&&pressed.placeId;
+        const timing=clui45TransitionLocked();
+        if(!card){
+          // The press landed on a card but the release landed on empty space
+          // (the repaint moved/removed what was under the pointer). The pressed
+          // place is still the intent: open it if it survived, and say the list
+          // is moving if it did not. An ordinary click on empty space does
+          // nothing.
+          if(pressedId&&timing){
+            e.preventDefault();
+            clui45LastPress=null;
+            if(!clui45OpenPressed(pressedId))clui45AnnounceListMoving();
+          }
+          return;
+        }
+        const liveId=card.dataset.placeId||'';
+        const diverged=!!(pressedId&&liveId&&pressedId!==liveId);
+        if(diverged||timing){
+          // The list repainted between the press and the click (or is still
+          // inside the transition window). Open what the user actually
+          // PRESSED — if that place is still in the new list — instead of the
+          // card that replaced it under the pointer. Only a place the repaint
+          // dropped is not opened, and then the status line says the list is
+          // moving rather than leaving the tap without any feedback.
           e.preventDefault();e.stopImmediatePropagation();
+          if(!pressedId){clui45LastPress=null;return;} // no press seen: nothing to honour
+          if(clui45OpenPressed(pressedId))return;
           clui45LastPress=null;
+          clui45AnnounceListMoving();
         }
       },true);
       container.addEventListener('click',()=>{clui45LastPress=null;},false);
+      // A press on a card whose card is REMOVED by the repaint delivers its
+      // click to the nearest surviving ancestor (body), i.e. OUTSIDE the list —
+      // the container listener never sees it and the tap would vanish. Route
+      // those clicks through the same resolution: open the pressed place if it
+      // survived, otherwise say the list is moving.
+      document.addEventListener('click',e=>{
+        if(container.contains(e.target))return; // the container listener owns this one
+        const pressed=clui45LastPress;
+        if(!pressed||!pressed.placeId)return;
+        clui45LastPress=null;
+        if(clui45TransitionLocked()){
+          e.preventDefault();
+          if(!clui45OpenPressed(pressed.placeId))clui45AnnounceListMoving();
+        }
+      },true);
+      // The browser dispatches NO click at all when the element that took the
+      // press was removed before the release — the tap would vanish silently
+      // (measured: a press on a card, a date switch, then the release produces
+      // only pointerdown). Catch that gesture at pointerup: honour the pressed
+      // place, or say the list is moving.
+      document.addEventListener('pointerup',e=>{
+        const pressed=clui45LastPress;
+        if(!pressed||!pressed.placeId)return;
+        // A tap, not a drag/flick: a scroll gesture that starts on a card must
+        // never open a modal.
+        if(pressed.x!=null&&(Math.abs(e.clientX-pressed.x)>10||Math.abs(e.clientY-pressed.y)>10))return;
+        // The SAME DOM node under the pointer = an ordinary click, which the
+        // browser delivers and the click handler owns. A NEW node for the same
+        // place (the repaint replaced the list) is exactly the gesture whose
+        // click never arrives — resolve it here.
+        const card=(container.contains(e.target)&&e.target.closest)?e.target.closest('.card'):null;
+        if(card&&pressed.el&&card===pressed.el)return;
+        // The press and the release no longer agree (the repaint replaced the
+        // card under the pointer, or removed it). The PRESSED place is the
+        // intent: open it if it survived, otherwise say the list is moving.
+        clui45LastPress=null;
+        clui45MarkPressHandled();
+        if(!clui45OpenPressed(pressed.placeId))clui45AnnounceListMoving();
+      },true);
     }
     // CL-UI-45 (loading state): a region switch must never leave the previous
     // country's cards on screen as if they were the new country's — the list is
@@ -1327,10 +1445,22 @@
       dayPickerViableCount._c={stamp,counts};
       return counts[dayKey];
     }
+    // CL-UI-45 (defect 4): the pill quoted a THIRD count pipeline
+    // (dayPickerViableCount: places with any qualifying hour), so 「今天 · 5 個
+    // 景點符合」 sat next to 「✓推薦 7」. The pill and the ✓推薦 tab now read the
+    // SAME render publish (recommendAll — counted over the unfiltered rows the
+    // tab counts). The old walk still answers for days the publish does not
+    // cover and before the first render pass.
+    function clui45PillCount(dayKey){
+      const st=(typeof window!=='undefined')?window.CLListStats:null;
+      if(!st||st.loading||st.day!==dayKey||!Number.isFinite(st.recommendAll))return null;
+      return st.recommendAll;
+    }
     function dayPickerOption(k){
       const i=DAY_KEYS.indexOf(k);
       const label=i===0?d().eval2_d0:i===1?d().eval2_d1:i===2?d().eval2_d2:(shortDateStamp(localDateString(null,i))||String(i+1));
-      const n=dayPickerViableCount(k);
+      const pub=clui45PillCount(k);
+      const n=pub===null?dayPickerViableCount(k):pub;
       const summary=n===null?d().eval2_load_fail:n>0?d().day_summary_viable.replace('{n}',n):d().day_summary_none;
       return {key:k,label,summary,conf:i>=4?d().day_conf_note:''};
     }
@@ -1354,7 +1484,7 @@
       if(!trigger)return;
       trigger.dataset.day=currentDayFilter;
       const o=dayPickerOption(currentDayFilter);
-      const n=dayPickerViableCount(currentDayFilter);
+      const n=clui45PillCount(currentDayFilter)===null?dayPickerViableCount(currentDayFilter):clui45PillCount(currentDayFilter);
       const summary=n===null?'':` · ${n>0?d().day_summary_viable.replace('{n}',n):d().day_summary_none}`;
       // CL-UI-81 (P1-4): two-segment trigger — line 1 carries the day label and
       // honest count, line 2 the region summary (12px #8B98A9). Both nowrap so
@@ -1803,7 +1933,15 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const tier=scRow&&scRow.tier;
       const tierChip=modalDayTierChip(tier);
       const shorts=scRow?v2SubjectCardShorts(scRow,currentLang).slice(0,3):[];
-      const fitHours=scRow&&scRow.hours&&scRow.hours.fit?Object.keys(scRow.hours.fit).length:0;
+      // CL-UI-45: 符合時數 counts the GATED hours — the SAME v2DayQualifiedSet
+      // the card's 符合時數 and the hourly table read — never every fit key the
+      // artifact carries (tw-188 2026-11-29 printed 「符合時數 12」 while the day
+      // qualified only 16:30 and 17:00). v2GateForSpot resolves that set for
+      // this row's date; a date no opportunity covers has no count at all.
+      const fitHours=(()=>{
+        const gate=(typeof v2GateForSpot==='function')?v2GateForSpot(spot,dateKey,spot&&spot.timezone):null;
+        return gate?gate.size:0;
+      })();
       if(tierChip){
         const hoursHtml=fitHours?`<span class="modal-day-hours">${esc(d().eval2_hours)} ${fitHours}</span>`:'';
         const shortsHtml=shorts.length?`<span class="modal-day-subjects">${esc(shorts.join(' · '))}</span>`:'';
@@ -1980,6 +2118,31 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       }
       return list;
     }
+    // CL-UI-45 (cloud-base honesty): ONE formatter for every surface that shows
+    // a cloud base. Two rules, both about the datum:
+    //   (a) the ASL value is the only one that may be printed under the 海拔
+    //       label — an AGL number is never presented as ASL, so a row carrying
+    //       only cloud_base_agl renders nothing (the caller's dash), never the
+    //       AGL figure;
+    //   (b) the SERVED shards predate the generator's AGL-floor fix: a row
+    //       whose AGL is exactly the 60 m floor (its ASL is then elevation+60)
+    //       is not a measured base — it is 「資料下限」, the bottom of the
+    //       estimate's range. 7,945 of 72,768 hourly rows in weather_details/**
+    //       are that floor. weather_details/** is NOT rewritten here.
+    const CLUI45_CB_FLOOR_M=60;
+    function clui45CloudBaseIsFloor(asl,agl,elev){
+      if(agl!==null&&agl!==undefined&&agl!==''&&Number(agl)<=CLUI45_CB_FLOOR_M)return true;
+      if(asl!==null&&asl!==undefined&&asl!==''&&elev!==null&&elev!==undefined&&elev!==''){
+        return Math.abs(Number(asl)-(Number(elev)+CLUI45_CB_FLOOR_M))<1;
+      }
+      return false;
+    }
+    function clui45CloudBaseText(asl,agl,elev){
+      // '' means "no honest ASL base" — the caller renders its own dash.
+      if(asl===null||asl===undefined||asl==='')return '';
+      if(clui45CloudBaseIsFloor(asl,agl,elev))return d().clui45_cb_floor;
+      return `${asl} m`;
+    }
     function createSpotCard(spot,metric,opts){
       // CL-APP-09 patch-6: private points render through THIS renderer too —
       // opts.private swaps only the interaction targets (private forecast
@@ -1997,6 +2160,10 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // from the live /api/v1/feedback aggregate, gray-gated). Private points
       // are outside the rating catalog — no placeId, no rating chip mount.
       card.dataset.placeId=cp?'':(spot.spot_id||'');
+      // CL-UI-45: the card's OWN opener, so a click that raced a repaint can
+      // open the pressed place (clui45OpenPressed) without dispatching a
+      // synthetic click into the same capture listener.
+      card.__clui45Open=()=>cpOpenCard(spot,metric);
       if(cp){card.classList.add('cl-cp-card');card.setAttribute('data-cp-id',spot.spot_id);}
       const noViable=!!metric.no_viable_opportunity;const researchPending=!!metric.research_pending||!spot.opportunities?.length;
       const fav=favorites.includes(spot.spot_id);const scenes=spot.scenes||[];const visibleScenes=scenes.slice(0,4);// CL-UI-77: env-type line is plain non-interactive text (城市 · 山岳) —
@@ -2141,11 +2308,13 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         // no user-visible reason; a missing value degrades the whole row.
         // CL-UI-45: the cloud base is shown as a height ABOVE SEA LEVEL, the same
         // datum as 機位海拔/⛰ on the same card. The AGL value (LCL above the
-        // grid cell, floored at 60 m by the legacy generator) is NOT a place a
-        // photographer can reason about: tw-043 2026-11-28 06:00 read 「雲底 60 m」
-        // next to 能見度 24.1 km. ASL is the true base (grid elevation + LCL).
-        const clBase=metric.cloud_base_asl!=null?metric.cloud_base_asl:(metric.cloud_base_agl!=null?metric.cloud_base_agl:null);
-        const cloudChip=clBase!=null?`<span class="metric-chip">☁️ ${clBase}m</span>`:'';
+        // grid cell) is NOT a place a photographer can reason about, and it is
+        // NEVER printed under this label: no ASL value → no chip (clui45CloudBaseText
+        // returns '' and never falls back to cloud_base_agl). A legacy floored
+        // row (AGL 60 m ⇒ ASL elevation+60) renders 「資料下限」, not a number.
+        const clElevForCb=(spot.elevation!=null)?spot.elevation:(spot.api_elevation!=null?spot.api_elevation:null);
+        const clBaseTxt=clui45CloudBaseText(metric.cloud_base_asl,metric.cloud_base_agl,clElevForCb);
+        const cloudChip=clBaseTxt?`<span class="metric-chip">☁️ ${esc(clBaseTxt)}</span>`:'';
         // CL-CI-44: the card face now carries the TARGET DAY's weather — WMO
         // icon + spoken word, the all-day temperature range and the
         // representative visibility. The value comes from the same
@@ -2497,7 +2666,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       updateFilterResultSummary(tierRows.length,effSort);
       // CL-UI-45: the ONE count source for the tier tabs, the 來源 tabs, the
       // day pill and the result line — same pass, same rows, same data version.
-      clui45PublishListStats(tierRows,clui66TierCounts(tierRows));
+      clui45PublishListStats(tierRows,clui66TierCounts(tierRows),clui66TierCounts(rowsAll));
       syncDayButtons();
       const filterActive=currentTier!=='all'||currentSubject!=='all';
       if(!tierRows.length){
@@ -3016,6 +3185,10 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // opportunity so the modal summary and subject name exist in every
       // language instead of the "no shooting summary" headline.
       if(!activeOpportunityId){const v2place=v2PlaceForSpot(summarySpot);const v2best=v2place?v2BestForSpot(v2place,summarySpot?.timezone):null;if(v2best&&v2best.oppId)activeOpportunityId=v2best.oppId;}
+      // CL-UI-45: publish the modal's active opportunity so the surfaces that
+      // render outside this pass (quick view band, 3-day rows) gate on the SAME
+      // day row instead of the raw subject-cards buckets.
+      v2SetActiveModalOpp(activeOpportunityId);
       const activeOpportunityName=opportunityDisplayName(summarySpot,activeOpportunityId,activeTheme,summaryMetric?.opportunity_name);const selectedDate=selectedDateForSpot(summarySpot);
       const darkSky=darkSkyText(spot,activeTheme);
       // CL-UI-14/F1+F2+U1: the summary is rebuilt on the same V2 source as the
@@ -3039,6 +3212,9 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // "tz is not defined", aborting the whole hourly render (regression made
       // visible by the CL-CI-13 retry path catching the throw as a load error).
       const tz=summaryData?summaryData.tz:(summarySpot?.timezone||'UTC');
+      // CL-UI-45: the hourly cloud base is compared against the spot's own
+      // elevation to recognise the legacy 60 m AGL floor (see clui45CloudBaseText).
+      const clui45HourElev=(summarySpot&&summarySpot.elevation!=null)?summarySpot.elevation:((summarySpot&&summarySpot.api_elevation!=null)?summarySpot.api_elevation:null);
       // CL-DATA-06: seven day tabs, same day keys as the homepage strip; the
       // labels follow the spot's own wall clock via the eval-day label chain.
       const dayLabelChain=evalDayLabels(tz,DAY_KEYS.length);
@@ -3146,7 +3322,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const summaryInner=(date,list)=>{let ok=0,gen=0;const gate=wmGateOf(date);list.forEach(item=>{const b=v2HourSubjectCell(spot,item,gate);if(b.kind==='fit')ok++;else if(b.kind==='general')gen++;});const shorts=v2SubjectCardShorts(v2SubjectCardRow(spot.spot_id,date),currentLang).slice(0,3);const wx=dayWeatherFor(summarySpot||spot,date);const wxHtml=wx?`<span class="dg-wx">${wmoIcon(wx.code)} ${esc(formatTempRange(wx.tempMin,wx.tempMax))}</span>`:'';return `<span class="chev">▶</span><span class="dg-day">${esc(dayLabelOf(date))}</span><span class="dg-date">${esc(shortDateStamp(date))}</span>${tierChipOf(date)}${wxHtml}<span class="mini">${ok?`<b>✓${ok}</b>`:''}${gen?`<b>○${gen}</b>`:''}${shorts.length?`<span>${esc(shorts.join(' · '))}</span>`:''}</span>`;};
       // mockup n2c: the raw values live in the expandable kv row behind the ⋯
       // button; astronomy keeps the honest per-hour missing reason (CL-UI-14).
-      const kvHtml=(item,astro)=>`<div class="kv"><span><span class="cap">${esc(d().th_temp)}</span> <b>${esc(formatTemp(item.temp))}</b></span><span><span class="cap">${esc(d().th_wind)}</span> <b>${item.wind??'—'} m/s</b></span><span><span class="cap">${esc(d().th_rh)}</span> <b>${item.rh??'—'}%</b></span><span><span class="cap">${esc(d().th_clow)}</span> <b>${item.c_low??'—'}%</b></span><span><span class="cap">${esc(d().th_cmid)}</span> <b>${item.c_mid??'—'}%</b></span><span><span class="cap">${esc(d().th_chigh)}</span> <b>${item.c_high??'—'}%</b></span><span><span class="cap">${esc(d().th_cloud_base)}</span> <b>${item.cloud_base_asl??'—'} m</b></span><span><span class="cap">${esc(d().th_vis)}</span> <b class="key-metric td-vis">${visCellHtml(item.visibility)}</b></span>${isAurora?`<span><span class="cap">${esc(d().th_kp)}</span> <b>${item.kp??'—'}</b></span>`:''}<span><span class="cap">${esc(d().th_astro)}</span> <b>${astro||astroMissingHtml(item,true)}</b></span></div>`;
+      const kvHtml=(item,astro)=>`<div class="kv"><span><span class="cap">${esc(d().th_temp)}</span> <b>${esc(formatTemp(item.temp))}</b></span><span><span class="cap">${esc(d().th_wind)}</span> <b>${item.wind??'—'} m/s</b></span><span><span class="cap">${esc(d().th_rh)}</span> <b>${item.rh??'—'}%</b></span><span><span class="cap">${esc(d().th_clow)}</span> <b>${item.c_low??'—'}%</b></span><span><span class="cap">${esc(d().th_cmid)}</span> <b>${item.c_mid??'—'}%</b></span><span><span class="cap">${esc(d().th_chigh)}</span> <b>${item.c_high??'—'}%</b></span><span><span class="cap">${esc(d().th_cloud_base)}</span> <b>${clui45CloudBaseText(item.cloud_base_asl,item.cloud_base_agl,clui45HourElev)||'—'}</b></span><span><span class="cap">${esc(d().th_vis)}</span> <b class="key-metric td-vis">${visCellHtml(item.visibility)}</b></span>${isAurora?`<span><span class="cap">${esc(d().th_kp)}</span> <b>${item.kp??'—'}</b></span>`:''}<span><span class="cap">${esc(d().th_astro)}</span> <b>${astro||astroMissingHtml(item,true)}</b></span></div>`;
       let nowAnchorAssigned=false;let astroMissingRows=0;const wxByT={};
       // CL-UI-118b: the plain-language reason for an expanded na hour. The na
       // bucket is built ONLY from night hours with clean weather and no
@@ -3213,7 +3389,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         else if(subjCell.kind==='fail')tmSubj=`<span class="tm-mainline-subj tm-subj-fail">${esc(subjCell.word||'')}</span>`;
         else if(subjCell.kind==='gated')tmSubj=`<span class="tm-mainline-subj tm-subj-gated">${esc(d().clui45_day_gated)}</span>`;
         const tmDetailsOpen=tmRestoreOpen.has(card.dataset.v2t)?' open':'';
-        card.innerHTML=`<div class="tm-row"><div class="timeline-mobile-time">${esc(item.time.slice(-5))}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</div>${isNa?`<span class="tm-subj-na">${esc(d().state_outside)}</span>`:`<div class="tm-maincol"><div class="tm-mainline">${tmSubj}</div><div class="timeline-mobile-plain">${esc(hourWxText(item))}</div></div>`}</div>${isNa?'':`<details class="tm-details"${tmDetailsOpen}><summary>${esc(d().clui82_details)}</summary><div class="timeline-mobile-metrics"><div class="timeline-mobile-metric primary"><b>${d().th_vis}</b> ${visCellHtml(item.visibility)}</div><div class="timeline-mobile-metric"><b>${d().th_temp}</b> ${formatTemp(item.temp)}</div><div class="timeline-mobile-metric"><b>${d().th_wind}</b> ${item.wind??'—'} m/s</div><div class="timeline-mobile-metric"><b>${d().th_rh}</b> ${item.rh??'—'}%</div><div class="timeline-mobile-metric primary"><b>${d().th_cloud_base}</b> ${item.cloud_base_asl??'—'} m</div><div class="timeline-mobile-metric"><b>${d().th_clow}</b> ${item.c_low??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_cmid}</b> ${item.c_mid??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_chigh}</b> ${item.c_high??'—'}%</div>${isAurora?`<div class="timeline-mobile-metric"><b>${d().th_kp}</b> ${item.kp??'—'}</div>`:''}</div>${astro?`<div class="timeline-mobile-astro">${esc(astro)}</div>`:`<div class="timeline-mobile-astro astro-missing" title="${esc(astroMissingTitle(item,true))}">※</div>`}</details>`}`;mobile.appendChild(card);
+        card.innerHTML=`<div class="tm-row"><div class="timeline-mobile-time">${esc(item.time.slice(-5))}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</div>${isNa?`<span class="tm-subj-na">${esc(d().state_outside)}</span>`:`<div class="tm-maincol"><div class="tm-mainline">${tmSubj}</div><div class="timeline-mobile-plain">${esc(hourWxText(item))}</div></div>`}</div>${isNa?'':`<details class="tm-details"${tmDetailsOpen}><summary>${esc(d().clui82_details)}</summary><div class="timeline-mobile-metrics"><div class="timeline-mobile-metric primary"><b>${d().th_vis}</b> ${visCellHtml(item.visibility)}</div><div class="timeline-mobile-metric"><b>${d().th_temp}</b> ${formatTemp(item.temp)}</div><div class="timeline-mobile-metric"><b>${d().th_wind}</b> ${item.wind??'—'} m/s</div><div class="timeline-mobile-metric"><b>${d().th_rh}</b> ${item.rh??'—'}%</div><div class="timeline-mobile-metric primary"><b>${d().th_cloud_base}</b> ${clui45CloudBaseText(item.cloud_base_asl,item.cloud_base_agl,clui45HourElev)||'—'}</div><div class="timeline-mobile-metric"><b>${d().th_clow}</b> ${item.c_low??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_cmid}</b> ${item.c_mid??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_chigh}</b> ${item.c_high??'—'}%</div>${isAurora?`<div class="timeline-mobile-metric"><b>${d().th_kp}</b> ${item.kp??'—'}</div>`:''}</div>${astro?`<div class="timeline-mobile-astro">${esc(astro)}</div>`:`<div class="timeline-mobile-astro astro-missing" title="${esc(astroMissingTitle(item,true))}">※</div>`}</details>`}`;mobile.appendChild(card);
         }
         // CL-UI-118b: the collapsed line is a REAL toggle now (owner: 「無展開鈕」
         // bug) — the exact collapsed copy is 「非建議時段 · <segments>（N 小時）
@@ -3742,7 +3918,16 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     //       day's recommendation window.
     // (b) used to paint the hourly table and the 24h band alone, so tw-188-P02
     // 2026-11-29 showed a green ✓ at 16:00 outside the card's 16:30–17:00
-    // window (1,211 spot-days / 1,241 hourly rows in the current artifacts).
+    // window. How big the class is, and how to re-measure it: cross the
+    // subject-cards layer's `hours.fit` keys with v2DayQualifiedSet(best opp,
+    // that date) over every place-day —
+    //   data/v2/evaluations/subject-cards-<stamp>.json  (fit buckets)
+    //   apps/web-v2/evaluations-latest.json             (day rows / good_hours)
+    // On the artifacts shipped with this branch (subject-cards-20261112T202312Z,
+    // evaluations-latest 2026-11-26T11:02:09Z) that scan gives 1,053 place-days
+    // / 1,499 hourly cells whose green ✓ the gate withdraws. The figure moves
+    // with every artifact refresh, so re-run the scan instead of quoting this
+    // line; no other count is asserted anywhere in the code.
     // RESOLUTION (one rule, all three surfaces): the bundle day row WINS —
     // `good_hours`, remaining-hours filtered, is the ONLY set that may carry a
     // positive hourly verdict. Subject-cards buckets may only NAME a subject
@@ -3755,6 +3940,25 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const day=(opp.days||[]).find(x=>x&&x.local_date===localDate)||null;
       if(!day)return null;
       return new Set(v2EffectiveHours(day,tz));
+    }
+    // CL-UI-45: the surfaces that render OUTSIDE renderWeatherModal's pass (the
+    // 現在去會怎樣 quick view, the modal's 3-day rows) resolve the SAME set
+    // through this one helper: the ACTIVE opportunity's bundle day row for that
+    // date, else the first opportunity that carries a row for it. A date no
+    // opportunity covers returns null (no gate — the artifact stands alone).
+    // The active opportunity id lives ON the resolver (harness-safe: extracted
+    // slices carry the function, never a module-level binding they would
+    // duplicate).
+    function v2SetActiveModalOpp(id){v2GateForSpot._opp=id||null;}
+    function v2GateForSpot(spot,localDate,tz){
+      if(!spot||!localDate)return null;
+      const place=typeof v2PlaceForSpot==='function'?v2PlaceForSpot(spot):null;
+      const opps=(place&&place.opportunities)||[];
+      const hasDay=o=>!!(o.days||[]).some(x=>x&&x.local_date===localDate);
+      const wanted=v2GateForSpot._opp;
+      const opp=(wanted&&opps.find(o=>o.opportunity_id===wanted&&hasDay(o)))
+        ||opps.find(hasDay)||null;
+      return v2DayQualifiedSet(opp,localDate,tz||(spot&&spot.timezone));
     }
     // CL-UI-13: "next qualifying window" helpers. The bundle's live.next_good
     // is relative to the bundle generation time — after the spot-local day's
@@ -4123,8 +4327,11 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       }
       // CL-UI-95: the 24h mini band rides the SAME v2BandHtml as the forecast
       // page; it renders only when the derived row carries hourly buckets —
-      // else omitted honestly (no invented band).
-      const band=(row&&(row.hours))?v2BandHtml((spot.hourly_forecast||[]).filter(it=>it&&it.local_date===selDate),spot,null):'';
+      // else omitted honestly (no invented band). CL-UI-45: the band gets the
+      // SAME day gate as the forecast table (v2GateForSpot → v2DayQualifiedSet),
+      // so it can never paint a green `fit` hour outside the day's good_hours.
+      const qGate=typeof v2GateForSpot==='function'?v2GateForSpot(spot,selDate,tz):null;
+      const band=(row&&(row.hours))?v2BandHtml((spot.hourly_forecast||[]).filter(it=>it&&it.local_date===selDate),spot,qGate):'';
       const bandWrap=band?`<div class="timeline-band quick-band">${band}</div>`:'';
       // 下一個符合時刻：the row's own suitable windows (same source as the
       // card's subject rows); for today only still-future stamps count
