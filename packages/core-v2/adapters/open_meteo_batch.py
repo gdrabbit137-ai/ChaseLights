@@ -18,6 +18,7 @@ Missing cells become state=UNAVAILABLE cells; never zero-filled.
 from __future__ import annotations
 
 import hashlib
+import os
 import json
 import math
 import time
@@ -50,7 +51,17 @@ AQ_MAX_FORECAST_HOURS = 168
 FORECAST_MAX_HOURS = 384  # Open-Meteo forecast API ceiling (16 days)
 FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
 AQ_URL = "https://air-quality-api.open-meteo.com/v1/air-quality"
-TIMEOUT_S = 30
+# A per-request wall clock. urllib applies it to every blocking socket
+# operation (connect and read alike), so a black-holed peer costs at most this
+# much per attempt instead of the OS default. 30 s was too generous: with the
+# three transport attempts a single dead place could burn ~96 s, and 459 of
+# them silently stalled a whole workflow for hours (the 2026-11-27 run sat in
+# "Run batch evaluation" for 55 min with no progress). A 168 h payload is a few
+# hundred KB, so 12 s is ample.
+TIMEOUT_S = 12
+# Belt and braces: a whole-run budget. When the provider degrades globally,
+# failing fast with a named error beats a silent hour-long stall.
+RUN_BUDGET_S = int(os.environ.get("CL_EVAL_RUN_BUDGET_S", "1500"))
 MAX_BODY_BYTES = 3 * 1024 * 1024
 RETRIEVAL_FRESHNESS_S = 21600  # same operational cache-age bound as the pilot
 

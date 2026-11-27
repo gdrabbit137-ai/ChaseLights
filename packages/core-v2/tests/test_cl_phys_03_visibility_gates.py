@@ -555,13 +555,17 @@ class RealPathCapTests(unittest.TestCase):
         opportunity = self.opportunity(bundle, self.OID)
         day = next(d for d in opportunity["days"]
                    if d["local_date"] == self.capped_day_date())
-        # (a) the hour is still a satisfied hour ...
-        self.assertEqual(day["state"], "GUIDANCE_SATISFIED")
+        # (a) the HOUR is still a satisfied hour ...
         self.assertGreaterEqual(day["hour_counts"]["GUIDANCE_SATISFIED"], 1)
         # ... but the cap keeps it out of the published recommendation surface,
-        # so a capped-only day publishes state=GUIDANCE_SATISFIED with no
-        # good_hours at all.
+        # so there is no window at all.
         self.assertEqual(day["good_hours"], [])
+        # A day with no publishable window must not claim a recommendation: the
+        # day-cell cannot print a window for it and the card would promise
+        # something the user cannot act on (tw-205-P01 2026-12-04 in the
+        # 2026-11-27 refresh). The day is UNFAVORABLE and says why.
+        self.assertEqual(day["state"], "UNFAVORABLE")
+        self.assertIs(day.get("capped_only"), True)
 
     def test_the_capped_set_is_exposed_on_the_details_day(self):
         # (b) the per-day capped set is observable without re-deriving it.

@@ -2389,7 +2389,20 @@ def main():
     # coordinate_groups manifest so the single file stays honest about which
     # evaluation came from which viewpoint.
     detail_docs = {}
+    # CL-PHYS-03 follow-up: a whole-run budget. When the provider degrades
+    # globally (429 storms, black-holed sockets) a per-request timeout alone
+    # still lets 459 places march on for hours; the 2026-11-27 refresh sat in
+    # this loop for 55 minutes with nothing to show. Abort with a named error
+    # that says how far we got, so the workflow fails fast and visibly.
+    _run_started = time.monotonic()
+    _run_budget = getattr(adapter, "RUN_BUDGET_S", 1500)
     for index, (key, group) in enumerate(sorted(by_coordinate.items())):
+        _elapsed = time.monotonic() - _run_started
+        if _elapsed >= _run_budget:
+            raise RuntimeError(
+                "EVALUATION_RUN_BUDGET_EXCEEDED: %.0fs > %ss after %d/%d places "
+                "(%d fetch failures so far)"
+                % (_elapsed, _run_budget, index, len(by_coordinate), len(failures)))
         lat, lon = group["lat"], group["lon"]
         try:
             artifact = adapter.fetch_place(lat, lon, arguments.forecast_hours)
@@ -2716,15 +2729,25 @@ def main():
                     return (h["status"] == "GUIDANCE_SATISFIED"
                             and h["local"] not in capped_hours)
 
+                # CL-PHYS-03 §1 follow-up: a day whose every passing hour was
+                # haze-capped has NO publishable window. Leaving it
+                # GUIDANCE_SATISFIED made the card claim a recommendation with
+                # nothing to show, and the day-cell could not print a window
+                # (tw-205-P01 2026-12-04 in the 2026-11-27 refresh). Say the
+                # truth: no window, not recommendable.
+                _good_hours = [h.get("local_precise") or h["local"]
+                               for h in hours_out if _recommendable(h)]
+                _capped_only = state == "GUIDANCE_SATISFIED" and not _good_hours
+                if _capped_only:
+                    state = "UNFAVORABLE"
                 day_out.append({
                     "local_date": day_key,
                     "state": state,
+                    "capped_only": True if _capped_only else None,
                     # CL-DATA-31: good_hours carry the EARLIEST passing
                     # sub-hour instant (local_precise) when one was computed —
                     # never a bucket-start stamp earlier than the light window.
-                    "good_hours": [h.get("local_precise") or h["local"]
-                                   for h in hours_out
-                                   if _recommendable(h)],
+                    "good_hours": _good_hours,
                     # CL-DATA-80: per-hour QUALITY-engine scores for the same
                     # eligible buckets (additive; legacy consumers read
                     # good_hours unchanged).
