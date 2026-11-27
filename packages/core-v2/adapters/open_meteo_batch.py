@@ -61,7 +61,11 @@ AQ_URL = "https://air-quality-api.open-meteo.com/v1/air-quality"
 TIMEOUT_S = 12
 # Belt and braces: a whole-run budget. When the provider degrades globally,
 # failing fast with a named error beats a silent hour-long stall.
-RUN_BUDGET_S = int(os.environ.get("CL_EVAL_RUN_BUDGET_S", "1500"))
+# Wall-clock ceiling for a whole batch. Measured: 464 places at 168h cost ~3.0 s of
+# CPU each on a 2-core GitHub runner (1.0 s locally), so a full run needs ~1450 s.
+# 2400 s leaves ~65% headroom for a slower runner while still failing loudly instead
+# of hanging. Override with CL_EVAL_RUN_BUDGET_S when running a smaller slice.
+RUN_BUDGET_S = int(os.environ.get("CL_EVAL_RUN_BUDGET_S", "2400"))
 MAX_BODY_BYTES = 3 * 1024 * 1024
 RETRIEVAL_FRESHNESS_S = 21600  # same operational cache-age bound as the pilot
 
