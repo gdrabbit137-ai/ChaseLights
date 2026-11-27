@@ -145,3 +145,83 @@ jobs:
             echo "Failed to publish evaluation bundle after fetch-first retries."
             exit 1
           fi
+      - name: Build now sidecar (CL-DATA-115)
+        # CL-DATA-115: the homepage card's `now` row no longer needs the per-place
+        # weather_details shard (~2.3 MB each; hundreds of MB on a 124-card page).
+        # This step reduces the SAME hydrated shards this run already pulled to
+        # ONE small artifact — apps/web-v2/now-latest.json — stamped with the
+        # bundle's own generated_at + filename, so a stale sidecar is detectable.
+        # It derives no verdict and re-runs no evaluation: it only picks the
+        # current hour per place in the place's own timezone, and it judges
+        # freshness PER SHARD (`updated_at` / `data_stale`), omitting places whose
+        # own shard is stale instead of stamping them with the bundle's hour.
+        #
+        # Refusal semantics (exit 3 stale / 5 coverage / 6 unknown zone): the tool
+        # deletes the artifact, this step publishes THAT DELETION and then fails,
+        # so the site 404s and the card falls back to the day chip. Leaving the
+        # previous now block standing would show an older run as "now".
+        run: |
+          # Deterministic bundle pick: sort | tail is filename order, and the
+          # filename IS the UTC stamp. `ls -t` (mtime) picked the wrong bundle
+          # whenever several commits shared an mtime in a fresh checkout.
+          newest_bundle=$(ls data/v2/evaluations/bundle-*.json | sort | tail -n 1)
+          echo "now sidecar source bundle: $newest_bundle"
+          # CL-DATA-115 review: a host without an IANA database (Windows runners,
+          # slim images) made ZoneInfo silently fall back to UTC and mislabel the
+          # hour. Install tzdata and fail here if a zone still does not resolve.
+          python -m pip install --quiet 'tzdata>=2024.1'
+          python -c 'import zoneinfo; [zoneinfo.ZoneInfo(z) for z in ("Asia/Taipei", "Pacific/Honolulu", "Europe/London")]'
+          set +e
+          python data/v2/tools/build_now_sidecar.py --bundle "$newest_bundle" \
+            --weather-dir weather_details \
+            --out apps/web-v2/now-latest.json
+          sidecar_status=$?
+          set -e
+          git config user.name "chaselights-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if [[ "$sidecar_status" -ne 0 ]]; then
+            # The tool removed apps/web-v2/now-latest.json on refusal. Publish the
+            # removal (same fetch-first retry protocol) and then fail the run.
+            echo "::error::now sidecar refused (exit $sidecar_status); withdrawing the artifact so the client falls back to the day chip"
+            git add -A apps/web-v2/now-latest.json
+            if git diff --cached --quiet; then
+              echo "no previous now-latest.json to withdraw"
+              exit "$sidecar_status"
+            fi
+            git commit -m "data(v2): withdraw stale now sidecar ($(date -u +%FT%TZ))"
+            pushed=false
+            for i in 1 2 3; do
+              if git fetch origin main --no-tags \
+                && git rebase origin/main \
+                && git push origin HEAD:main; then
+                pushed=true
+                break
+              fi
+              sleep $((2 ** (i - 1) * 5))  # 5s, 10s, 20s
+            done
+            if [[ "$pushed" != "true" ]]; then
+              echo "Failed to publish the now sidecar withdrawal after fetch-first retries."
+            fi
+            exit "$sidecar_status"
+          fi
+          sidecar_bytes=$(stat -c%s apps/web-v2/now-latest.json)
+          echo "now-latest.json bytes: $sidecar_bytes"
+          test "$sidecar_bytes" -lt 409600  # CL-DATA-115 budget: < 400 KB
+          git add apps/web-v2/now-latest.json
+          git diff --cached --quiet || git commit -m "data(v2): compact now sidecar refresh ($(date -u +%FT%TZ))"
+          # Same fetch-first retry protocol as the bundle commit above (CL-CI-09):
+          # a concurrent publisher must never cost this run its sidecar.
+          pushed=false
+          for i in 1 2 3; do
+            if git fetch origin main --no-tags \
+              && git rebase origin/main \
+              && git push origin HEAD:main; then
+              pushed=true
+              break
+            fi
+            sleep $((2 ** (i - 1) * 5))  # 5s, 10s, 20s
+          done
+          if [[ "$pushed" != "true" ]]; then
+            echo "Failed to publish the now sidecar after fetch-first retries."
+            exit 1
+          fi
