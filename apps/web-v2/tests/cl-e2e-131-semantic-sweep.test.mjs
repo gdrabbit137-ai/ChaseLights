@@ -902,21 +902,39 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
   await navigate('index.html', { waitFor: `document.querySelectorAll('#spots-container .card').length > 0`, label: 'index cards' });
   await waitForCardData('the DAY card list never received its evaluation data');
 
-  // (a) the card face carries a complete day-weather chip — icon, °C range and
+  // (a) the card face carries a complete weather chip — icon, temperature and
   //     visibility — and never leaks a placeholder.
+  // CL-UI-115 §2: the card row reads NOW (the current hour) when the place's
+  // hourly shard is loaded, otherwise the day block. Both shapes carry the same
+  // SVG icon set, so the assertion requires an icon ELEMENT (stricter than the
+  // old emoji regex) plus either a now-hour single temperature or a day range.
   const cardWx = await evaljs(`(() => {
     const cards = [...document.querySelectorAll('#spots-container .card')];
     const withWx = cards.map(c => {
       const chip = c.querySelector('.card-metric-chips .day-wx');
-      return chip ? chip.innerText.replace(/\s+/g, ' ').trim() : null;
+      if (!chip) return null;
+      return {
+        text: chip.innerText.replace(/\s+/g, ' ').trim(),
+        icons: [...chip.querySelectorAll('svg[data-cl-icon]')].map(s => s.getAttribute('data-cl-icon')),
+        nowHour: chip.getAttribute('data-now-hour') || '',
+      };
     }).filter(Boolean);
-    return { total: cards.length, withWx: withWx.length, sample: withWx.slice(0, 4) };
+    return { total: cards.length, withWx: withWx.length, sample: withWx.slice(0, 6) };
   })()`);
-  assert.ok(cardWx.withWx > 0, `at least one card face renders the day-weather chip (got ${cardWx.withWx}/${cardWx.total})`);
-  for (const txt of cardWx.sample) {
-    assert.ok(/[☀️🌤️⛅☁️🌫️🌧️🌨️⛈️]/.test(txt), `card weather chip carries a WMO icon: ${txt}`);
-    assert.match(txt, /-?\d+–-?\d+°C/, `card weather chip carries the full-day temperature range: ${txt}`);
-    assert.match(txt, /👁\s*(≥\s*)?\d/, `card weather chip carries visibility: ${txt}`);
+  assert.ok(cardWx.withWx > 0, `at least one card face renders the weather chip (got ${cardWx.withWx}/${cardWx.total})`);
+  for (const chip of cardWx.sample) {
+    const txt = chip.text;
+    const wmoKeys = chip.icons.filter(k => /^\d+$/.test(k));
+    assert.ok(wmoKeys.length > 0, `card weather chip carries an SVG WMO icon: ${txt}`);
+    assert.ok(chip.icons.includes('visibility'), `card weather chip carries the visibility icon: ${txt}`);
+    const isNow = !!chip.nowHour;
+    if (isNow) {
+      assert.match(txt, /-?\d+(\.\d+)?°C/, `now_hour chip carries the current-hour temperature: ${txt}`);
+      assert.match(txt, /\d{2}:\d{2}|\d{2}\/\d{2} \d{2}:\d{2}/, `now_hour chip labels its hour: ${txt}`);
+    } else {
+      assert.match(txt, /-?\d+–-?\d+°C/, `day chip carries the full-day temperature range: ${txt}`);
+    }
+    assert.match(txt, /(≥\s*)?\d/, `card weather chip carries visibility: ${txt}`);
     assert.ok(!/undefined|NaN|null/.test(txt), `card weather chip has no placeholder value: ${txt}`);
   }
 
@@ -928,12 +946,14 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
       label: ((r.querySelector('.modal-day-label') || {}).textContent || '').trim(),
       tier: ((r.querySelector('.dg-chip') || {}).textContent || '').trim(),
       wx: ((r.querySelector('.modal-day-wx') || {}).textContent || '').trim(),
+      wxIcon: !!(r.querySelector('.modal-day-wx svg[data-cl-icon]')),
       text: (r.innerText || '').replace(/\s+/g, ' ').trim(),
     }));
     const acc = [...document.querySelectorAll('#timeline-groups details.day-group')].map(d => ({
       date: d.dataset.date || '',
       tier: ((d.querySelector('summary .dg-chip') || {}).textContent || '').trim(),
       wx: ((d.querySelector('summary .dg-wx') || {}).textContent || '').trim(),
+      wxIcon: !!(d.querySelector('summary .dg-wx svg[data-cl-icon]')),
       text: ((d.querySelector('summary') || {}).innerText || '').replace(/\s+/g, ' ').trim(),
     }));
     const base = new Date(new Intl.DateTimeFormat('en-CA', { timeZone: '${SPOT_TZ}', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()) + 'T12:00:00Z');
@@ -954,7 +974,9 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
     assert.equal(row.wx, day.wx,
       `day ${i} (${row.label}) carries ONE weather chip on both surfaces — top 「${row.wx}」 vs accordion 「${day.wx}」`);
     assert.ok(row.wx, `day ${i} (${row.label}) renders a WMO + temperature chip in the top summary`);
-    assert.match(row.wx, /[☀️🌤️⛅☁️🌫️🌧️🌨️⛈️]/, `day ${i} (${row.label}) WMO icon present: ${row.wx}`);
+    // CL-UI-115 §1: the WMO glyph is now an inline SVG (emoji only as fallback).
+    assert.ok(row.wxIcon, `day ${i} (${row.label}) WMO SVG icon present: ${row.wx}`);
+    assert.ok(day.wxIcon, `day ${i} (${row.label}) accordion WMO SVG icon present: ${day.wx}`);
     assert.match(row.wx, /-?\d+–-?\d+°C/, `day ${i} (${row.label}) temperature range present: ${row.wx}`);
   });
   assert.ok(compared >= 5, `at least 5 days were compared across both surfaces (got ${compared})`);
@@ -963,12 +985,14 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
   //     the plain-language weather (owner: 「☁️ 18°C · 陰 · 低雲 · 能見度良好」).
   const hourly = await evaljs(`(() => {
     const rows = [...document.querySelectorAll('#timeline-groups details.day-group[open] tbody tr')];
-    const wx = rows.map(r => ((r.querySelector('.wx') || {}).textContent || '').trim()).filter(Boolean);
+    const wx = rows.map(r => ({ text: ((r.querySelector('.wx') || {}).textContent || '').trim(), icon: !!(r.querySelector('.wx svg[data-cl-icon]')) })).filter(x => x.text);
     return { count: wx.length, sample: wx.slice(0, 6) };
   })()`);
   assert.ok(hourly.count > 0, 'the open day group renders hourly weather rows');
-  for (const txt of hourly.sample) {
-    assert.match(txt, /[☀️🌤️⛅☁️🌫️🌧️🌨️⛈️]/, `hourly plain weather carries a WMO icon: ${txt}`);
+  for (const cell of hourly.sample) {
+    const txt = cell.text;
+    // CL-UI-115 §1: the WMO glyph is an inline SVG, not an emoji codepoint.
+    assert.ok(cell.icon, `hourly plain weather carries a WMO SVG icon: ${txt}`);
     assert.match(txt, /-?\d+(\.\d+)?°C/, `hourly plain weather carries the hour temperature: ${txt}`);
     assert.ok(!/undefined|NaN|null/.test(txt), `hourly plain weather has no placeholder value: ${txt}`);
   }

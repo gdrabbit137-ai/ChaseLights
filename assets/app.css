@@ -2875,3 +2875,27 @@ body:not([data-cp-has-private="1"]) .cl-cp-view-bar{display:none}
     padding:8px 2px 2px;
   }
 }
+
+/* ===== CL-UI-115 §2: now_hour chip + subject-window rows =====
+   The weather row now states the CURRENT hour at the place. A foggy now tints
+   the chip with the amber token set (a class, not an inline colour, so the
+   computed style is the contract). */
+.now-wx{gap:6px}
+.now-wx .now-hour{color:var(--cl-text-3);font-variant-numeric:tabular-nums}
+.now-wx.cl-now-fog{
+  border:1px solid var(--cl-amber-border);
+  background:var(--cl-amber-bg);
+  color:var(--cl-amber-text);
+}
+.now-fog-reason{color:var(--cl-amber-text);font-weight:600}
+/* Subject-window panel: one row per subject, one cell per day. A cell always
+   carries a window or an explicit 「no qualifying window」 string. */
+.sw-windows{display:flex;flex-direction:column;gap:var(--cl-sp-2);margin-bottom:var(--cl-sp-4)}
+.sw-row{display:flex;gap:var(--cl-sp-3);align-items:flex-start;padding:var(--cl-sp-2) 0;border-bottom:1px solid var(--cl-border)}
+.sw-name{display:inline-flex;align-items:center;gap:var(--cl-sp-1);min-width:84px;color:var(--cl-text-1);font-size:var(--cl-fs-13)}
+.sw-days{display:grid;grid-template-columns:repeat(auto-fit,minmax(56px,1fr));gap:var(--cl-sp-1);flex:1;min-width:0}
+.sw-day{display:flex;flex-direction:column;min-width:0;font-size:var(--cl-fs-12);color:var(--cl-text-2);word-break:break-word}
+.sw-day b{color:var(--cl-text-3);font-weight:600}
+.sw-win{font-variant-numeric:tabular-nums;line-height:1.5}
+.sw-day-has .sw-win{color:var(--cl-green-text)}
+.sw-day-none .sw-win{color:var(--cl-text-3)}
