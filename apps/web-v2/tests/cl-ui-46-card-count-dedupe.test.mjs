@@ -95,7 +95,9 @@ test('CL-UI-46 (2b): the list header is the ONE visible place count',()=>{
   assert.match(appSource,/function updateFilterResultSummary\(count,effSort\)\{[\s\S]*?el\.textContent=template\.replace\('\{n\}',count\);/,
     'the list header still states the honest list length');
   assert.match(indexSource,/<div class="rank-summary" id="filter-result-summary"><\/div>/,'the header host survives');
-  assert.match(cssSource,/\.filter-shell \{[^}]*position:\s*sticky/,'the header lives in the sticky shell (visible on a long list)');
+  assert.match(cssSource,/\.filter-shell \{[^}]*position:\s*sticky/,'desktop: the header lives in the sticky shell');
+  // …and the mobile rule really is static (the comment must not claim more).
+  assert.match(cssSource,/\.filter-shell \{\s*position:\s*static;/,'mobile ≤640px: .filter-shell is static, so the header scrolls away — the comment says so');
   // No other first-screen surface re-derives a 「個景點」 count of its own.
   assert.doesNotMatch(grab('function syncDayButtons','function openDayPicker').replace(/\/\/[^\n]*/g,''),/個景點/,
     'the day pill prints no place count');
@@ -112,18 +114,30 @@ test('CL-UI-46 (2a): the source-filter row is hidden unless the member owns a pr
   assert.match(rule,/display:none/);
   assert.ok(rule.indexOf('body')===0,'the body-scoped selector wins the cascade');
   assert.doesNotMatch(cssSource,/\.cl-cp-view-bar\{display:flex/,'app.css does not force the bar visible');
-  // app.js publishes the flag from the REAL private-place count …
-  assert.match(appSource,/const cpAllRows=\(function\(\)\{try\{return \(window\.ChaseLightsCustomPlaces&&window\.ChaseLightsCustomPlaces\.cardRows\)\?window\.ChaseLightsCustomPlaces\.cardRows\(\):\[\];\}catch\(e\)\{return \[\];\}\}\)\(\);/,
-    'the count comes from the same cardRows() the list renders, fail-closed');
-  assert.match(appSource,/document\.body\.setAttribute\('data-cp-has-private',cpAllRows\.length>0\?'1':'0'\)/,
+  // app.js publishes the flag from the member's REAL private-place list …
+  const sync=grab('function clui46SyncPrivateFlag','function filterAndRender');
+  assert.match(sync,/const st=\(api&&typeof api\.state==='function'\)\?api\.state\(\):null;/,
+    'the count reads the module state that the bar label itself counts');
+  assert.match(sync,/n=\(st&&st\.data&&Array\.isArray\(st\.data\.places\)\)\?st\.data\.places\.length:0;/,
+    'it counts state.data.places (custom-places privatePlaces()), never rendered rows');
+  assert.doesNotMatch(sync,/cardRows/,
+    'CONDITION 1: cardRows() drops trial-expired / pending / theme-less places — it must not drive the flag');
+  assert.match(sync,/catch\(e\)\{n=0;\}/,'fail-closed: a broken state read keeps the bar hidden');
+  assert.match(sync,/document\.body\.setAttribute\('data-cp-has-private',n>0\?'1':'0'\)/,
     'exactly one private place flips the flag on');
   // … and does it BEFORE the data guard, so a member who adds his first place
   // while the summary bundle is still loading still gets the row back.
   const pass=grab('function filterAndRender','const cpView=document.body.getAttribute');
-  assert.ok(pass.indexOf('data-cp-has-private')<pass.indexOf("if(!currentData)return;"),
+  assert.ok(pass.indexOf('clui46SyncPrivateFlag()')<pass.indexOf("if(!currentData)return;"),
     'the flag is published before the currentData early return');
+  // CONDITION 2: every cp-data event re-reads it, even with no summary data; a
+  // sign-out clears it at once.
+  assert.match(appSource,/document\.addEventListener\('chaselights:cp-data',function\(\)\{clui46SyncPrivateFlag\(\);if\(currentData\)filterAndRender\(\);\}\);/,
+    'the cp-data handler syncs the flag unconditionally (no currentData gate)');
+  assert.match(appSource,/document\.addEventListener\('chaselights:auth',function\(e\)\{[\s\S]{0,340}?if\(!member\)\{try\{document\.body\.setAttribute\('data-cp-has-private','0'\);/,
+    'sign-out clears the flag immediately');
   // A member WITH private places keeps today's bar behaviour verbatim.
-  assert.match(appSource,/let cpRows=cpAllRows;/,'the private rows still flow into the one filter pipeline');
+  assert.match(appSource,/let cpRows=\(window\.ChaseLightsCustomPlaces&&window\.ChaseLightsCustomPlaces\.cardRows\)\?window\.ChaseLightsCustomPlaces\.cardRows\(\):\[\];/,'the private rows still flow into the one filter pipeline');
   assert.match(appSource,/if\(cpView==='official'\)cpRows=\[\];/,'view tabs still compose (官方)');
   assert.match(appSource,/if\(cpView==='private'\)rowsAll\.length=0;/,'view tabs still compose (私人)');
 });

@@ -1515,12 +1515,16 @@
       // THREE times on the first screen — this pill's 「今天 · N 個景點符合」,
       // its own second line 「列表 N 個」, and the list header
       // (#filter-result-summary 「依…排序 · N 個景點」). The list header keeps the
-      // ONE visible occurrence (it sits with the 地區/排序 controls and stays on
-      // screen inside the sticky filter shell while the list scrolls). The two
-      // numbers that describe THIS control (how many qualify today, how many the
-      // list is showing) are not dropped: they move into the trigger's tooltip
-      // and its screen-reader label, so no information is lost — only the
-      // duplicated visible text.
+      // ONE visible occurrence: it sits with the 地區/排序 controls, and on
+      // desktop (≥641px) it lives inside the sticky .filter-shell, so it stays
+      // on screen while the list scrolls. (Mobile ≤640px sets .filter-shell to
+      // position:static deliberately — the bar is a plain in-flow block there —
+      // so on a phone the header scrolls away with the rest of the filters;
+      // it is still the first thing above the list.) The two numbers that
+      // describe THIS control (how many qualify today, how many the list is
+      // showing) are not dropped: they move into the trigger's tooltip and its
+      // screen-reader label, so no information is lost — only the duplicated
+      // visible text.
       const summary=n===null?'':`${n>0?d().day_summary_viable.replace('{n}',n):d().day_summary_none}`;
       // CL-UI-81 (P1-4): two-segment trigger — line 1 carries the day label, line 2 the region summary (12px #8B98A9). Both nowrap so the pill never folds mid-word (三語 ja 最長亦不破格).
       const regionSummary=currentAdminAreas.size?d().admin_area_selected.replace('{n}',currentAdminAreas.size):d().admin_area_all;
@@ -2631,24 +2635,43 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       return hit.concat(rest);
     }
 
+    // CL-UI-46 (owner-reported defect 2a): the source-filter row
+    // (不限來源 / 官方 / 私人) only means something when the member actually
+    // owns at least one private place — at 「私人 0」 it is a row of dead
+    // controls that eats vertical space on every phone screen. app.css hides
+    // the bar unless body[data-cp-has-private] is '1', so the default (signed
+    // out / not yet rendered) is hidden with no flash and the row appears by
+    // itself the moment a private place exists.
+    //
+    // The count is the member's PRIVATE PLACES — `state.data.places`, the same
+    // list the bar's own 「私人 N」 label counts (custom-places.js
+    // privatePlaces()). It is deliberately NOT cardRows().length: cardRows()
+    // drops isSpecialCard places (trial_expired / evaluation.tier 'pending' /
+    // no subject groups) and places cpCardInfo() cannot map, so a member whose
+    // only private point is pending or trial-expired rendered 「私人 1」 on a
+    // HIDDEN bar (reviewer, CL-UI-46 condition 1). Fail-closed: any error
+    // reads 0, which keeps the bar hidden.
+    function clui46SyncPrivateFlag(){
+      let n=0;
+      try{
+        const api=window.ChaseLightsCustomPlaces;
+        const st=(api&&typeof api.state==='function')?api.state():null;
+        n=(st&&st.data&&Array.isArray(st.data.places))?st.data.places.length:0;
+      }catch(e){n=0;}
+      try{document.body.setAttribute('data-cp-has-private',n>0?'1':'0');}catch(e){/* no body yet */}
+      return n;
+    }
     function filterAndRender(){
       // CL-UI-45: a new render pass invalidates the per-place verdict memo
       // (see v2BestForSpot) — same pass = same data version, next pass = fresh.
       window.__clV2Epoch=(window.__clV2Epoch||0)+1;
       syncFilterHighlights();
       const container=document.getElementById('spots-container');
-      // CL-UI-46 (owner-reported defect 2a): the source-filter row
-      // (不限來源 / 官方 / 私人) only means something when the member actually
-      // owns at least one private place — at 「私人 0」 it is a row of dead
-      // controls that eats vertical space on every phone screen. Publish the
-      // honest count as a body flag; app.css hides the bar unless it is '1', so
-      // the default (signed out / not yet rendered) is hidden with no flash and
-      // the row appears by itself the moment a private place exists. The flag is
-      // set BEFORE the data guard below: a cp-data event can arrive while the
-      // summary bundle is still loading, and the bar must not stay hidden after
-      // the member adds his first place.
-      const cpAllRows=(function(){try{return (window.ChaseLightsCustomPlaces&&window.ChaseLightsCustomPlaces.cardRows)?window.ChaseLightsCustomPlaces.cardRows():[];}catch(e){return [];}})();
-      try{document.body.setAttribute('data-cp-has-private',cpAllRows.length>0?'1':'0');}catch(e){/* fail-closed: the bar stays hidden */}
+      // CL-UI-46: re-publish the private-place flag on every render pass, BEFORE
+      // the data guard below (a cp-data event can arrive while the summary
+      // bundle is still loading). The cp-data handler also calls this directly
+      // for the passes that never reach here.
+      clui46SyncPrivateFlag();
       // CL-UI-121: the guard must run BEFORE the wipe — a private-place event
       // (chaselights:cp-data) can reach this function while the summary data is
       // still null, and wiping first left an empty list under a loading splash.
@@ -2674,7 +2697,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // be computed from different data versions). View tabs compose:
       // 官方 = officials only, 私人 = private only, 全部 = both.
       const cpView=document.body.getAttribute('data-cp-view')||'all';
-      let cpRows=cpAllRows;
+      let cpRows=(window.ChaseLightsCustomPlaces&&window.ChaseLightsCustomPlaces.cardRows)?window.ChaseLightsCustomPlaces.cardRows():[];
       if(currentSearch)cpRows=cpRows.filter(r=>String(r.spot&&r.spot.name_local||'').toLocaleLowerCase().includes(currentSearch));
       if(currentAdminAreas.size)cpRows=[];
       if(cpView==='official')cpRows=[];
@@ -4786,7 +4809,22 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // CL-APP-09 patch-6: private data/view changes re-run the SAME filter
       // pass — tier-tab counts, tier filters and private cards re-derive from
       // one data version (custom-places.js dispatches after every refresh).
-      document.addEventListener('chaselights:cp-data',function(){if(currentData)filterAndRender();});
+      // CL-UI-46 (condition 2): the private-place flag is re-read on EVERY
+      // cp-data event, including the ones filterAndRender() would skip — the
+      // event also fires with `currentData` still null (summary bundle loading
+      // or failed) and after a sign-out (custom-places.js nulls state.data and
+      // re-renders). Reading it only inside filterAndRender() let a stale '1'
+      // survive, leaving the 來源 row on screen with 「私人 0」.
+      document.addEventListener('chaselights:cp-data',function(){clui46SyncPrivateFlag();if(currentData)filterAndRender();});
+      // CL-UI-46 (condition 2): a sign-out must clear the flag immediately, even
+      // before custom-places.js finishes its 401 refresh — the member's places
+      // are gone the moment the auth state says so. A sign-in keeps whatever
+      // the last data said and is corrected by the cp-data event that follows.
+      document.addEventListener('chaselights:auth',function(e){
+        const member=(e&&e.detail&&e.detail.member)||null;
+        if(!member){try{document.body.setAttribute('data-cp-has-private','0');}catch(err){/* no body yet */}}
+        else clui46SyncPrivateFlag();
+      });
       // CL-UI-46: picker wiring — trigger toggles, overlay/Esc/outside-click
       // close, arrow keys walk the option list. Replaces the CL-UI-45 strip
       // scroll/resize listeners.
