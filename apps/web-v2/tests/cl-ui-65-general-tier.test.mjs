@@ -135,6 +135,6 @@ test('CL-UI-65 (4): chips never include the general subject', () => {
 test('CL-UI-65 (5): mid-verdict style exists and stamps advanced to clui75', () => {
   const css = readFileSync(join(ROOT, 'assets', 'app.css'), 'utf8');
   assert.match(css, /\.v2-verdict-mid\s*{\s*color:/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui143/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui143/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui144/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui144/);
 });

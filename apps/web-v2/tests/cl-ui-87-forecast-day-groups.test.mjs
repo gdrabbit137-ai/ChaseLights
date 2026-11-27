@@ -106,7 +106,15 @@ test('CL-UI-87/94 (3): 4-column group table, 40px rows, mono 時間 anchor, plai
   // CL-CI-44: the cell now renders hourWxText(), which leads with the WMO icon
   // + hour temperature and then appends the SAME live clui82PlainWeather()
   // sentence — the mapping is still live, just wrapped.
-  assert.match(hourLoop, /<td class="wx">\$\{esc\(hourWxText\(item\)\)\|\|'—'\}<\/td>/, 'plain-language weather cell (live mapping)');
+  assert.match(hourLoop, /<td class="wx">\$\{hourWxText\(item\)\|\|'—'\}<\/td>/, 'plain-language weather cell (live mapping)');
+  // CL-UI-118: hourWxText returns HTML (its WMO icon is SVG markup), so the cell
+  // must NOT re-escape it — doing so printed the raw <svg …> tag in the table.
+  assert.ok(!/esc\(hourWxText\(/.test(appSource), 'the hourly weather line is never escaped a second time');
+  const wxFnStart = appSource.indexOf('function hourWxText(');
+  const wxFnBody = appSource.slice(wxFnStart, appSource.indexOf('\n    }', wxFnStart));
+  assert.match(wxFnBody, /bits\.push\(esc\(t\)\)/, 'the temperature text is escaped inside hourWxText');
+  assert.match(wxFnBody, /bits\.push\(esc\(plain\)\)/, 'the plain sentence is escaped inside hourWxText');
+  assert.match(wxFnBody, /bits\.push\(wmoIcon\(/, 'the icon is pushed as markup, not text');
   const hourWxStart = appSource.indexOf('function hourWxText(');
   const hourWxBody = appSource.slice(hourWxStart, appSource.indexOf('function ', hourWxStart + 30));
   assert.match(hourWxBody, /clui82PlainWeather\(item\)/, 'hourWxText still composes the live clui82PlainWeather mapping');

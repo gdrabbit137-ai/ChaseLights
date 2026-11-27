@@ -2436,12 +2436,15 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // follows already carries the spoken sky word, so repeating it here would
       // read 「🌧️ 陣雨 · 15.7°C · 陰・低雲 100%」 (word twice).
       if(item&&Number.isFinite(Number(item.weather_code))){
+        // CL-UI-118: the icon is SVG MARKUP, not text — it must reach the DOM
+        // unescaped. Only the text parts are escaped here, so callers never
+        // wrap the whole line in esc() (that printed the raw <svg …> tag).
         bits.push(wmoIcon(item.weather_code));
       }
       const t=formatTemp(item&&item.temp);
-      if(t&&t!=='—')bits.push(t);
+      if(t&&t!=='—')bits.push(esc(t));
       const plain=clui82PlainWeather(item);
-      if(plain)bits.push(plain);
+      if(plain)bits.push(esc(plain));
       return bits.join(' · ');
     }
 
@@ -4198,7 +4201,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
           // hourly verdict (v2HourSubjectCell = subject-cards hours, single
           // source: green ✓chip / ○ 可拍 / ✗短原因). Past hours are told by
           // the past-row tint alone (CL-UI-96), never a （已過） label.
-          rowsHtml.push(`<tr class="${rowClass}" data-v2t="${esc(detKey)}"${isNowAnchor?' data-now-anchor="true"':''}><td class="hr">${esc(hh)}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</td><td class="subj td-subjects ${subjCell.cls}">${subjCell.html}</td><td class="wx">${esc(hourWxText(item))||'—'}</td><td class="more"><button type="button" class="clui87-more" aria-expanded="${detOpen?'true':'false'}" title="${esc(d().clui82_details)}">⋯</button></td></tr><tr class="detail" data-h="${esc(detKey)}"${detOpen?'':' hidden'}><td colspan="4">${kvHtml(item,astro)}</td></tr>`);
+          rowsHtml.push(`<tr class="${rowClass}" data-v2t="${esc(detKey)}"${isNowAnchor?' data-now-anchor="true"':''}><td class="hr">${esc(hh)}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</td><td class="subj td-subjects ${subjCell.cls}">${subjCell.html}</td><td class="wx">${hourWxText(item)||'—'}</td><td class="more"><button type="button" class="clui87-more" aria-expanded="${detOpen?'true':'false'}" title="${esc(d().clui82_details)}">⋯</button></td></tr><tr class="detail" data-h="${esc(detKey)}"${detOpen?'':' hidden'}><td colspan="4">${kvHtml(item,astro)}</td></tr>`);
         }else{
           // CL-UI-118b (owner實測 CL-UI-118): 時段外 hours keep the ONE
           // collapsed line, but the per-hour rows are no longer discarded —
@@ -4226,7 +4229,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         else if(subjCell.kind==='fail')tmSubj=`<span class="tm-mainline-subj tm-subj-fail">${esc(subjCell.word||'')}</span>`;
         else if(subjCell.kind==='gated')tmSubj=`<span class="tm-mainline-subj tm-subj-gated">${esc(d().clui45_day_gated)}</span>`;
         const tmDetailsOpen=tmRestoreOpen.has(card.dataset.v2t)?' open':'';
-        card.innerHTML=`<div class="tm-row"><div class="timeline-mobile-time">${esc(item.time.slice(-5))}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</div>${isNa?`<span class="tm-subj-na">${esc(d().state_outside)}</span>`:`<div class="tm-maincol"><div class="tm-mainline">${tmSubj}</div><div class="timeline-mobile-plain">${esc(hourWxText(item))}</div></div>`}</div>${isNa?'':`<details class="tm-details"${tmDetailsOpen}><summary>${esc(d().clui82_details)}</summary><div class="timeline-mobile-metrics"><div class="timeline-mobile-metric primary"><b>${d().th_vis}</b> ${visCellHtml(item.visibility)}</div><div class="timeline-mobile-metric"><b>${d().th_temp}</b> ${formatTemp(item.temp)}</div><div class="timeline-mobile-metric"><b>${d().th_wind}</b> ${item.wind??'—'} m/s</div><div class="timeline-mobile-metric"><b>${d().th_rh}</b> ${item.rh??'—'}%</div><div class="timeline-mobile-metric primary"><b>${d().th_cloud_base}</b> ${clui45CloudBaseText(item.cloud_base_asl,item.cloud_base_agl,clui45HourElev)||'—'}</div><div class="timeline-mobile-metric"><b>${d().th_clow}</b> ${item.c_low??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_cmid}</b> ${item.c_mid??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_chigh}</b> ${item.c_high??'—'}%</div>${isAurora?`<div class="timeline-mobile-metric"><b>${d().th_kp}</b> ${item.kp??'—'}</div>`:''}</div>${astro?`<div class="timeline-mobile-astro">${esc(astro)}</div>`:`<div class="timeline-mobile-astro astro-missing" title="${esc(astroMissingTitle(item,true))}">※</div>`}</details>`}`;mobile.appendChild(card);
+        card.innerHTML=`<div class="tm-row"><div class="timeline-mobile-time">${esc(item.time.slice(-5))}${isBest?` <span class="tag-best">${esc(d().tag_best)}</span>`:''}</div>${isNa?`<span class="tm-subj-na">${esc(d().state_outside)}</span>`:`<div class="tm-maincol"><div class="tm-mainline">${tmSubj}</div><div class="timeline-mobile-plain">${hourWxText(item)}</div></div>`}</div>${isNa?'':`<details class="tm-details"${tmDetailsOpen}><summary>${esc(d().clui82_details)}</summary><div class="timeline-mobile-metrics"><div class="timeline-mobile-metric primary"><b>${d().th_vis}</b> ${visCellHtml(item.visibility)}</div><div class="timeline-mobile-metric"><b>${d().th_temp}</b> ${formatTemp(item.temp)}</div><div class="timeline-mobile-metric"><b>${d().th_wind}</b> ${item.wind??'—'} m/s</div><div class="timeline-mobile-metric"><b>${d().th_rh}</b> ${item.rh??'—'}%</div><div class="timeline-mobile-metric primary"><b>${d().th_cloud_base}</b> ${clui45CloudBaseText(item.cloud_base_asl,item.cloud_base_agl,clui45HourElev)||'—'}</div><div class="timeline-mobile-metric"><b>${d().th_clow}</b> ${item.c_low??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_cmid}</b> ${item.c_mid??'—'}%</div><div class="timeline-mobile-metric"><b>${d().th_chigh}</b> ${item.c_high??'—'}%</div>${isAurora?`<div class="timeline-mobile-metric"><b>${d().th_kp}</b> ${item.kp??'—'}</div>`:''}</div>${astro?`<div class="timeline-mobile-astro">${esc(astro)}</div>`:`<div class="timeline-mobile-astro astro-missing" title="${esc(astroMissingTitle(item,true))}">※</div>`}</details>`}`;mobile.appendChild(card);
         }
         // CL-UI-118b: the collapsed line is a REAL toggle now (owner: 「無展開鈕」
         // bug) — the exact collapsed copy is 「非建議時段 · <segments>（N 小時）
@@ -5217,7 +5220,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       let qwx='';
       if(off===0&&spot&&Array.isArray(spot.hourly_forecast)){
         const nowm=localNowMinutes(tz);
-        if(nowm!=null){const hh=String(Math.floor(nowm/60)).padStart(2,'0')+':00';const it=spot.hourly_forecast.find(it=>it&&it.local_date===selDate&&String(it.time||'').slice(-5)===hh);if(it){const w=hourWxText(it);if(w)qwx=`<span class="q-wx">${esc(w)}</span>`;}}
+        if(nowm!=null){const hh=String(Math.floor(nowm/60)).padStart(2,'0')+':00';const it=spot.hourly_forecast.find(it=>it&&it.local_date===selDate&&String(it.time||'').slice(-5)===hh);if(it){const w=hourWxText(it);if(w)qwx=`<span class="q-wx">${w}</span>`;}}
       }
       const body=[chip,bandWrap,qnext,qwx].filter(Boolean).join('');
       if(!body)return `<span class="quick-none">${esc(t.v2_quick_none)}</span>`;
