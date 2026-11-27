@@ -34,15 +34,18 @@ test('CL-UI-98 (1): card body untouched — click opens the FORECAST modal', () 
 
 test('CL-UI-98 (2): bottom-left button 「題材」 opens the subject panel', () => {
   // Trilingual new key (never internal/provisional wording).
-  assert.match(appSource, /v2_subject_link:'🎞 題材'/);
-  assert.match(appSource, /v2_subject_link:'🎞 Subjects'/);
-  assert.match(appSource, /v2_subject_link:'🎞 題材'/);
+  // CL-UI-116: the label is now pure text — the 🎞 prefix became the SVG glyph
+  // `subject` (assets/icons.js) and is passed by key at the render site.
+  assert.match(appSource, /v2_subject_link:'題材'/);
+  assert.match(appSource, /v2_subject_link:'Subjects'/);
+  assert.doesNotMatch(appSource, /v2_subject_link:'[^'\n]*\p{Extended_Pictographic}/u,
+    'no emoji left in the subject-link label');
   // The card footer button renders the new copy and opens the subject panel (CL-APP-09 patch-6 bridge).
   assert.match(appSource, /toolButtonAttrs\(d\(\)\.v2_subject_link\)/);
-  assert.match(appSource, /toolButtonInner\(d\(\)\.v2_subject_link\)/);
+  assert.match(appSource, /toolButtonInner\(d\(\)\.v2_subject_link,'subject'\)/);
   assert.match(appSource, /card\.querySelector\('\[data-weather\]'\)\.onclick=e=>\{e\.preventDefault\(\);e\.stopPropagation\(\);cpOpenPlace\(spot,metric\);\};/);
   // The weather modal title still reads the (retained) forecast label.
-  assert.match(appSource, /weather_link:'🌦️ 天氣預報'/);
+  assert.match(appSource, /weather_link:'天氣預報'/);
 });
 
 test('CL-UI-98 (3): subject panel = 560px / 390 fullscreen; quick view moved out', () => {
@@ -64,6 +67,6 @@ test('CL-UI-98 (4): component single-source — one v2BandHtml, one quick-view p
   assert.equal((appSource.match(/function mountQuickView\(/g) || []).length, 1);
   assert.ok(!appSource.includes('quickHost'));
   // Cache-bust bumped in the same ticket.
-  assert.match(indexSource, /assets\/app\.js\?v=clui139/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui139/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui140/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui140/);
 });

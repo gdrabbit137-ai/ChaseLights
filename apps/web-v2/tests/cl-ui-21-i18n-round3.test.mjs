@@ -154,9 +154,9 @@ test('CL-UI-21 D4: place-modal now/next lines re-anchor to spot-local day vocabu
 });
 
 test('CL-UI-21 F6: provisional map link title is localized and short',()=>{
-  assert.ok(appSource.includes("map_link_approx:'📍 Map (approximate pin)'"));
-  assert.ok(appSource.includes("map_link_approx:'📍 地圖（概略座標）'"));
-  assert.ok(appSource.includes("map_link_approx:'📍 地図（概略座標）'"));
+  assert.ok(appSource.includes("map_link_approx:'Map (approximate pin)'"));
+  assert.ok(appSource.includes("map_link_approx:'地圖（概略座標）'"));
+  assert.ok(appSource.includes("map_link_approx:'地図（概略座標）'"));
   assert.ok(appSource.includes('${toolButtonAttrs(d().map_link_approx)}'));
   assert.ok(!appSource.includes('provisional-map-pin"${toolButtonAttrs(d().map_link,note)}'));
   assert.ok(!appSource.includes('toolButtonAttrs(d().map_link,note)'));

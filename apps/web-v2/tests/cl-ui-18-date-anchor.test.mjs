@@ -256,7 +256,7 @@ test('CL-UI-18 C5: navigation tool unified; bare-coords destination carries the 
   const navBlock=grab('function navigationToolHtml','function createSpotCard');
   assert.match(navBlock,/data-navigation-mode="verified"/);
   assert.match(navBlock,/labelNote=`\$\{note\?note\+' · ':''\}\$\{spotName\(spot\)\}/);
-  assert.match(navBlock,/toolButtonInner\(d\(\)\.map_link\)/);
+  assert.match(navBlock,/toolButtonInner\(d\(\)\.map_link,'map_pin'\)/);
 });
 
 test('CL-UI-18 C6: astro missing is a compact marker + one legend note; badge column widened',()=>{

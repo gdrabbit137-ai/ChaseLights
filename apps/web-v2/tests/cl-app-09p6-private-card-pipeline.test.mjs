@@ -62,7 +62,7 @@ test('CL-APP-09p6 (1a): app.js — the official renderer + pipeline accept priva
     'the currentData guard runs before the container wipe');
   assert.match(appSource, /if\(clui121Loading&&clui121Loading\.style\.display!=='none'\)clui121Loading\.style\.display='none';/);
   // cache-bust: this ticket's stamps
-  assert.match(htmlSource, /assets\/app\.js\?v=clui139/); // CL-UI-110/111 stamp advance (CL-INT-212 re-anchor)
+  assert.match(htmlSource, /assets\/app\.js\?v=clui140/); // CL-UI-110/111 stamp advance (CL-INT-212 re-anchor)
 });
 
 test('CL-APP-09p6 (1b): custom-places.js — cards render via the bridge; patch-9 coord line rides the card, homegrown ✗ row stays retired', () => {

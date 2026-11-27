@@ -125,7 +125,7 @@ test('CL-UI-111 (S2): loader rides the single gated render; fail-soft to 3 butto
 
 test('CL-UI-111 (S3): 4th card button — thumbnail bg + red dot, mounted after 天氣圖', () => {
   assert.match(appSource,
-    /\$\{toolButtonInner\(d\(\)\.radar_link\)\}<\/a>\$\{liveCamBtnHtml\(spot\)\}<\/div><\/div>`;/,
+    /\$\{toolButtonInner\(d\(\)\.radar_link,'map'\)\}<\/a>\$\{liveCamBtnHtml\(spot\)\}<\/div><\/div>`;/,
     'LIVE mounts as the 4th button in the 題材/地圖/天氣圖 row');
   assert.match(appSource, /class="tool-link tool-live" data-live-btn data-live-place="\$\{esc\(spot\.spot_id\)\}"/);
   assert.match(appSource, /<img src="\$\{esc\(cam\.thumb_url\)\}" alt="" loading="lazy" decoding="async">/,
@@ -184,7 +184,7 @@ test('CL-UI-111 (S6): css — dot uses the contract red token, lazy-player shell
 });
 
 test('CL-UI-111 (S7): cache-bust stamp bumped to clui118', () => {
-  assert.match(htmlSource, /assets\/app\.js\?v=clui139/);
+  assert.match(htmlSource, /assets\/app\.js\?v=clui140/);
   assert.doesNotMatch(htmlSource, /clui110/);
 });
 

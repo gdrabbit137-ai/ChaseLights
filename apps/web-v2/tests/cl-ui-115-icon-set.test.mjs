@@ -236,3 +236,155 @@ test('CL-UI-115 §1: the three dictionary genres that rendered text-only draw re
   assert.ok((lava.match(/<path /g)||[]).length>=3,'volcanic_glow draws a cone, a crater and a glow');
 });
 
+// ---------------------------------------------------------------------------
+// CL-UI-116 — the LAST four emoji. §1 left them alone because they are
+// navigational (the footer's 題材 / 地圖 / 天氣圖 entries and the weather panel
+// title) rather than metric symbols. §1's premise still holds for them: an emoji
+// codepoint is drawn by the platform's emoji font, so the same toolbar looked
+// sharp on Windows and soft on the phone. This closes the set and pins it in
+// the RENDERED DOM — a source grep cannot see that a label still renders emoji.
+const NEW_KEYS=['subject','map_pin','map','weather_overview'];
+// Pictographic + the arrow/dingbat/misc-symbol ranges an emoji glyph can come
+// from, plus the variation selector that makes some of them render as emoji.
+const EMOJI_RE=/[\u{1F000}-\u{1FAFF}\u{2190}-\u{21FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}]/u;
+
+test('CL-UI-116: subject / map_pin / map / weather_overview draw real glyphs',()=>{
+  for(const key of NEW_KEYS){
+    const svg=G.clIcon(key);
+    assert.match(svg,/^<svg /,`${key} resolves to the inline SVG`);
+    assert.match(svg,new RegExp(`data-cl-icon="${key}"`),`${key} rides its own key`);
+    assert.match(svg,/stroke="currentColor"/,`${key} strokes currentColor`);
+    assert.match(svg,/aria-hidden="true"/,`${key} is decorative in markup`);
+    assert.doesNotMatch(svg,/\swidth="|\sheight="/,`${key} carries no inline size — .cl-icon owns it`);
+    assert.doesNotMatch(svg,/fill="(?!none")/,`${key} has no hard-coded fill`);
+    const body=svg.slice(svg.indexOf('>')+1,svg.lastIndexOf('</svg>'));
+    assert.ok(body.length>=40,`${key} draws a body of real length (got ${body.length} chars)`);
+    assert.match(body,/[MmLlHhVvCcSsQqTtAaZz]\s*-?\d/,`${key} draws at least one SVG path command`);
+  }
+  const bodyOf=k=>{const s=G.clIcon(k);return s.slice(s.indexOf('>')+1,s.lastIndexOf('</svg>'));};
+  // `subject` is a stack of framed subjects, never a re-run of the camera or a peak.
+  const subjectBody=bodyOf('subject');
+  for(const other of ['general','mountain_view','landscape','geology','all'])
+    assert.notEqual(subjectBody,bodyOf(other),`subject must not reuse the ${other} shape`);
+  // The map sheet and its pin are two marks, not one drawing twice.
+  assert.notEqual(bodyOf('map'),bodyOf('map_pin'),'map and map_pin are distinct drawings');
+});
+
+test('CL-UI-116: the toolbar labels are pure text and every call site passes its key',()=>{
+  for(const [key,zh,en] of [['v2_subject_link','題材','Subjects'],['map_link','地圖','Map'],
+    ['radar_link','天氣圖','Weather map'],['weather_link','天氣預報','Weather'],
+    ['nav_pending','導航待確認','Nav pending'],['map_link_approx','地圖（概略座標）','Map (approximate pin)']]){
+    const zhLabel=(appSource.match(new RegExp(`${key}:'([^']*)'`))||[])[1];
+    assert.equal(zhLabel,zh,`${key} zh-TW label is the bare text ${zh}`);
+    assert.ok(appSource.includes(`${key}:'${en}'`),`${key} en label is the bare text ${en}`);
+    assert.doesNotMatch(zhLabel||'',EMOJI_RE,`${key} carries no emoji codepoint`);
+  }
+  // The icon arrives as a key, not as a prefix string to be split apart again.
+  assert.match(appSource,/function toolButtonInner\(label,iconKey\)/,'toolButtonInner takes an explicit icon key');
+  assert.match(appSource,/clIconSvg\(iconKey\)/,'the key goes through the shared icon lookup');
+  assert.match(appSource,/toolButtonInner\(d\(\)\.v2_subject_link,'subject'\)/,'題材 uses the subject glyph');
+  assert.match(appSource,/toolButtonInner\(d\(\)\.map_link,'map_pin'\)/,'地圖 uses the map_pin glyph');
+  assert.match(appSource,/toolButtonInner\(d\(\)\.radar_link,'map'\)/,'天氣圖 uses the map glyph');
+  // The <span class="tool-ico"> box is kept (hit area / flex slot / focus ring).
+  assert.match(appSource,/<span class="tool-ico" aria-hidden="true">\$\{icon\}<\/span><span class="tool-txt">\$\{esc\(label\)\}<\/span>/,
+    'the icon keeps its own box and the label keeps its own text span');
+  // The weather panel title: SVG glyph + text, never an emoji prefix.
+  assert.equal((appSource.match(/clIconSvg\('weather_overview'\)/g)||[]).length,2,
+    'both weather-modal title render sites use the weather_overview glyph');
+  assert.doesNotMatch(appSource,/innerText=`🌦️/,'the emoji title prefix is gone');
+});
+
+test('CL-UI-116: rendered zh-TW and en pages carry no emoji in the card footer or the weather title',async()=>{
+  const {createServer}=await import('node:http');
+  const {readFileSync,statSync}=await import('node:fs');
+  const {dirname,join,normalize}=await import('node:path');
+  const {fileURLToPath,pathToFileURL}=await import('node:url');
+  const HERE=dirname(fileURLToPath(import.meta.url));
+  const ROOT=normalize(join(HERE,'..','..','..'));
+  const PW=process.env.PLAYWRIGHT_MODULE||join(ROOT,'.ci','tooling','node_modules','playwright','index.js');
+  const CHROME=process.env.CHROMIUM_EXECUTABLE||process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe';
+  const MIME={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
+  const server=createServer((req,res)=>{
+    const url=new URL(req.url,'http://127.0.0.1');
+    let p=normalize(join(ROOT,decodeURIComponent(url.pathname)));
+    if(!p.startsWith(ROOT)){res.writeHead(403);res.end();return;}
+    try{if(statSync(p).isDirectory())p=join(p,'index.html');}catch(e){res.writeHead(404);res.end('not found');return;}
+    let body;try{body=readFileSync(p);}catch(e){res.writeHead(404);res.end('not found');return;}
+    const ext=/\.([a-z0-9]+)$/i.exec(p);
+    res.writeHead(200,{'content-type':MIME[ext?'.'+ext[1].toLowerCase():'']||'application/octet-stream'});
+    res.end(body);
+  });
+  await new Promise(r=>server.listen(0,'127.0.0.1',r));
+  const base=`http://127.0.0.1:${server.address().port}`;
+  const pw=await import(pathToFileURL(PW).href);
+  const chromium=pw.chromium||(pw.default&&pw.default.chromium);
+  const browser=await chromium.launch({executablePath:CHROME,args:['--no-sandbox','--disable-dev-shm-usage']});
+  try{
+    for(const [lang,expect] of [
+      ['zh-TW',{subject:'題材',map:['地圖','地圖（概略座標）','導航待確認'],radar:'天氣圖',title:'天氣預報'}],
+      ['en',{subject:'Subjects',map:['Map','Map (approximate pin)','Nav pending'],radar:'Weather map',title:'Weather'}],
+    ]){
+      const page=await browser.newPage({viewport:{width:1440,height:900},locale:lang});
+      await page.goto(`${base}/index.html?region=tw&lang=${lang}`,{waitUntil:'domcontentloaded'});
+      await page.waitForFunction(()=>document.querySelectorAll('#spots-container .card').length>0,null,{timeout:60000});
+      await page.waitForFunction(()=>{const t=document.querySelector('#spots-container .card .tier');return t&&t.textContent.trim().length>0;},null,{timeout:60000});
+      const footer=await page.evaluate(()=>{
+        const out=[];
+        // The 4th button (CL-UI-111 LIVE) is a thumbnail + red-dot badge by design,
+        // not a navigational glyph — it keeps its own mark and is excluded here.
+        for(const link of document.querySelectorAll('#spots-container .card .card-footer-tools .tool-link:not(.tool-live)')){
+          const svgs=[...link.querySelectorAll('.tool-ico svg[data-cl-icon]')];
+          const s=svgs[0];
+          const iconBox=s?s.parentElement:null;
+          const cs=s?getComputedStyle(s):null;
+          out.push({
+            text:link.textContent.replace(/\s+/g,' ').trim(),
+            keys:svgs.map(x=>x.getAttribute('data-cl-icon')),
+            w:cs?parseFloat(cs.width):null,
+            h:cs?parseFloat(cs.height):null,
+            fs:iconBox?parseFloat(getComputedStyle(iconBox).fontSize):null,
+            stroke:cs?cs.stroke:null,
+            color:cs?getComputedStyle(link).color:null,
+            attrSize:s?(s.getAttribute('width')||s.getAttribute('height')):null,
+          });
+        }
+        return out;
+      });
+      assert.ok(footer.length>=6,`${lang}: the cards render a toolbar row (got ${footer.length} links)`);
+      for(const link of footer){
+        assert.doesNotMatch(link.text,EMOJI_RE,`${lang}: footer link "${link.text}" carries no emoji`);
+        assert.equal(link.keys.length,1,`${lang}: "${link.text}" holds exactly one SVG glyph (got ${JSON.stringify(link.keys)})`);
+        assert.equal(link.attrSize,null,`${lang}: ${link.keys[0]} carries no inline width/height`);
+        assert.ok(Math.abs(link.w-link.fs)<0.75&&link.w>6,`${lang}: ${link.keys[0]} renders at 1em (${link.w}px vs ${link.fs}px)`);
+        assert.ok(Math.abs(link.w-link.h)<0.5,`${lang}: ${link.keys[0]} is square`);
+        assert.equal(link.stroke,link.color,`${lang}: ${link.keys[0]} inherits currentColor (hover/active tint)`);
+      }
+      const texts=footer.map(l=>l.text);
+      const live=await page.evaluate(()=>document.querySelectorAll('#spots-container .card .card-footer-tools .tool-link.tool-live').length);
+      assert.ok(live>=1,`${lang}: the LIVE button is still in the row (it owns the red dot, not a glyph)`);
+      assert.ok(texts.includes(expect.subject),`${lang}: the subject entry keeps its text label ${expect.subject}`);
+      assert.ok(expect.map.some(m=>texts.includes(m)),`${lang}: the map entry keeps its text label`);
+      assert.ok(texts.includes(expect.radar),`${lang}: the weather-map entry keeps its text label ${expect.radar}`);
+      assert.ok(footer.some(l=>l.text===expect.subject&&l.keys[0]==='subject'),`${lang}: 題材 rides the subject key`);
+      assert.ok(footer.some(l=>expect.map.includes(l.text)&&l.keys[0]==='map_pin'),`${lang}: 地圖 rides the map_pin key`);
+      assert.ok(footer.some(l=>l.text===expect.radar&&l.keys[0]==='map'),`${lang}: 天氣圖 rides the map key`);
+      // …and the weather panel title.
+      await page.locator('#spots-container .card').first().click({position:{x:20,y:20}});
+      await page.waitForFunction(()=>document.getElementById('modal-overlay').style.display==='flex',null,{timeout:15000});
+      const title=await page.evaluate(()=>{
+        const el=document.getElementById('modal-spot-name');
+        const s=el.querySelector('svg[data-cl-icon]');
+        return {text:el.textContent.replace(/\s+/g,' ').trim(),key:s?s.getAttribute('data-cl-icon'):null,
+          html:el.innerHTML.slice(0,160)};
+      });
+      assert.doesNotMatch(title.text,EMOJI_RE,`${lang}: the weather title "${title.text}" carries no emoji`);
+      assert.equal(title.key,'weather_overview',`${lang}: the title leads with the weather_overview glyph (${title.html})`);
+      assert.ok(title.text.includes('—'),`${lang}: the place — forecast separator survives`);
+      assert.ok(title.text.endsWith(expect.title),`${lang}: the title keeps its text label ${expect.title} (got "${title.text}")`);
+      await page.close();
+    }
+  }finally{
+    try{await browser.close();}catch(e){/* noop */}
+    await new Promise(r=>server.close(r));
+  }
+});

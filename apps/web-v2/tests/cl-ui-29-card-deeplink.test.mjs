@@ -111,16 +111,19 @@ test('CL-UI-29: 天氣預報 stays the in-page modal (not a duplicate deep link)
 });
 
 test('CL-UI-29: radar_link label reads 天氣圖 in all three languages', () => {
-  for (const [lang, label] of [['zh-TW', '🗺️ 天氣圖'], ['en', '🗺️ Weather map'], ['ja', '🗺️ 天気マップ']]) {
+  // CL-UI-116: the 🗺️ prefix is now the SVG `map` glyph — the label is text.
+  for (const [lang, label] of [['zh-TW', '天氣圖'], ['en', 'Weather map'], ['ja', '天気マップ']]) {
     const re = new RegExp(`radar_link:'${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'`);
     assert.ok(re.test(appSource), `${lang} radar_link must be ${label}`);
   }
+  assert.doesNotMatch(appSource, /radar_link:'[^'\n]*\p{Extended_Pictographic}/u,
+    'no emoji left in the radar label');
   // no leftover radar wording anywhere in the dictionaries
   assert.ok(!appSource.includes('雷達'), 'zh-TW 雷達 wording must be gone');
   assert.ok(!appSource.includes('レーダー'), 'ja レーダー wording must be gone');
 });
 
 test('CL-UI-29: homepage cache-bust stamp bumped to clui41', () => {
-  assert.ok(indexSource.includes('app.js?v=clui139'), 'index.html must carry the current app.js stamp');
+  assert.ok(indexSource.includes('app.js?v=clui140'), 'index.html must carry the current app.js stamp');
   assert.ok(!indexSource.includes('?v=clui30'), 'stale clui30 stamp must be gone');
 });

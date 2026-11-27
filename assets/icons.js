@@ -61,6 +61,17 @@
     snow_scene: '<path d="M12 3v18M4.2 7.4l15.6 9.2M19.8 7.4 4.2 16.6"/><path d="m9.6 4.4 2.4 2 2.4-2M9.6 19.6l2.4-2 2.4 2"/>',
     aurora: '<path d="M3 13.4c2.4-6.4 4.8-6.4 7.2 0s4.8 6.4 7.2 0 2.4-5.4 3.6-7.4"/><path d="M3 18.6c2.4-4.6 4.8-4.6 7.2 0s4.8 4.6 7.2 0 2.4-4 3.6-5.2"/><path d="M2.4 21.4h19.2"/>',
 
+    // ------------------------------------------------- navigation & panels
+    // CL-UI-116: the four navigational glyphs that stayed emoji because they
+    // point somewhere instead of measuring something. Each is its own drawing —
+    // `subject` is a stack of framed stills (the subject LIST), never the camera
+    // (`general`) or a peak (`mountain_view`); `map` is the folded sheet, its
+    // pin is the point.
+    subject: '<path d="M4.6 3.4h11.2a1.6 1.6 0 0 1 1.6 1.6v8.6a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 13.6V5a1.6 1.6 0 0 1 1.6-1.6Z"/><path d="M3.6 9 6.6 6.2l3.4 3.2"/><path d="M6.6 17.6h11a1.6 1.6 0 0 0 1.6-1.6V8"/><path d="M9.6 21.2h9.4a1.6 1.6 0 0 0 1.6-1.6v-8"/>',
+    map_pin: '<path d="M12 21.2c4.4-4.8 6.8-8 6.8-11a6.8 6.8 0 1 0-13.6 0c0 3 2.4 6.2 6.8 11Z"/><circle cx="12" cy="9.8" r="2.4"/>',
+    map: '<path d="M9 4.4 3.6 6.8v13L9 17.4l6 2.4 5.4-2.4v-13L15 6.8Z"/><path d="M9 4.4v13M15 6.8v13"/>',
+    weather_overview: '<circle cx="8.8" cy="8.2" r="3"/><path d="M8.8 2.8v1.6M3.6 8.2H5M4.9 4.3l1.2 1.2M12.7 4.3l-1.2 1.2M2.8 13.2h1.8"/><path d="M8.6 20.4h9.2a3.2 3.2 0 0 0 .2-6.4 4.6 4.6 0 0 0-8.6-1.2 3.8 3.8 0 0 0-.8 7.6Z"/>',
+
     // ---------------------------------------------------------------- metrics
     visibility: '<path d="M2.2 12s3.6-5.6 9.8-5.6S21.8 12 21.8 12 18.2 17.6 12 17.6 2.2 12 2.2 12Z"/><circle cx="12" cy="12" r="2.9"/>',
     cloud: '<path d="M6.8 18.6h10.4a3.4 3.4 0 0 0 .2-6.8 4.8 4.8 0 0 0-9.1-1.2 4 4 0 0 0-1.5 8Z"/>',
@@ -93,7 +104,8 @@
     star_trails: '⭐', moonlit_scene: '🌙', tidal: '🌊', general: '📷',
     drift_ice: '🧊', blue_tears: '⭐', firefly: '⭐', astro: '🔭',
     astrophotography: '📷', snow_ice: '❄️', snow_ice_night: '❄️', misty_forest: '🌫️',
-    volcanic_glow: '🌋', city: '🏙️', architecture: '🏛️'
+    volcanic_glow: '🌋', city: '🏙️', architecture: '🏛️',
+    subject: '🎞', map_pin: '📍', map: '🗺️', weather_overview: '🌦️'
   };
 
   // WMO weather code → glyph key (Open-Meteo WMO set, exactly the codes the

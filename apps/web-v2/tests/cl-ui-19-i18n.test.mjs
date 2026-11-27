@@ -89,7 +89,8 @@ test('CL-UI-19 B5: re-rendering an open modal retranslates the modal header',()=
   // The header line lives inside renderWeatherModal (it previously only ran in
   // the async openWeatherModal), so a language switch re-renders it.
   const fn=grab('function renderWeatherModal(spot,summaryMetric){','function closeModal()');
-  assert.ok(fn.includes("document.getElementById('modal-spot-name').innerText=`🌦️ ${spotName(spot)} — ${d().weather_link.replace(/^🌦️\\s*/, '')}`;"));
+  // CL-UI-116: the title is an SVG glyph + text (innerHTML), no 🌦️ prefix.
+  assert.ok(fn.includes("document.getElementById('modal-spot-name').innerHTML=`${clIconSvg('weather_overview')} ${esc(spotName(spot))} — ${esc(d().weather_link)}`;"));
   const sw=grab('function switchLanguage(k){','function switchTempUnit');
   assert.ok(sw.includes("renderWeatherModal(activeModalSpot,activeModalSummary)"));
 });

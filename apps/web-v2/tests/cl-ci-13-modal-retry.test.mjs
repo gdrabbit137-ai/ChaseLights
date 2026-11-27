@@ -42,7 +42,7 @@ test('CL-CI-13 A2: modal_subtitle is a {p}/{f} template — the stale 72h copy i
 });
 
 test('CL-CI-13 A3: index.html bumps the app.js cache-bust stamp to clui49',()=>{
-  assert.match(indexSource,/assets\/app\.js\?v=clui139/);
+  assert.match(indexSource,/assets\/app\.js\?v=clui140/);
   assert.ok(!indexSource.includes('assets/app.js?v=clui33'));
 });
 
@@ -63,7 +63,7 @@ function makeHarness(stubs){
     querySelector:sel=>sel==='[data-i18n="modal_subtitle"]'?getElementById('subtitle'):null,
   };
   const factory=new Function('document','esc','d','currentRegion','currentSpots','getMetric',
-    'renderWeatherModal','loadDetails','spotName','syncModalScrollLock','setTimeout',`
+    'renderWeatherModal','loadDetails','spotName','syncModalScrollLock','setTimeout','clIconSvg',`
     ${retryBlock}
     return {openWeatherModal,loadWeatherModal,showModalLoadError,getSeq:()=>modalLoadSeq};
   `);
@@ -77,7 +77,11 @@ function makeHarness(stubs){
     stubs.loadDetails,
     stubs.spotName||(s=>s.spot_id),
     ()=>{},
-    (f,ms)=>timeouts.push({f,ms}));
+    (f,ms)=>timeouts.push({f,ms}),
+    // CL-UI-116: the weather title asks the icon set for its glyph. The real
+    // page loads assets/icons.js first; this harness only exercises retry
+    // state, so the stub keeps the title text and drops the decorative SVG.
+    stubs.clIconSvg||(()=>''));
   return {...api,elements,timeouts};
 }
 
