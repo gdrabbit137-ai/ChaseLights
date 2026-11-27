@@ -380,6 +380,13 @@
                           "pattern": "^\\d{2}:\\d{2}$"
                         }
                       },
+                      "capped_only": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ],
+                        "description": "CL-PHYS-03: true when a day reached GUIDANCE_SATISFIED only because a visibility cap was applied and every qualifying hour was capped away. Such a day is published as UNFAVORABLE with an empty good_hours, so a satisfied day always carries a real window."
+                      },
                       "hour_counts": {
                         "type": "object",
                         "required": [
