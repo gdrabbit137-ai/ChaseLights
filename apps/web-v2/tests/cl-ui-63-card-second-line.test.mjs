@@ -202,7 +202,7 @@ test('CL-UI-63 (8): artifact rows join back to the artifact dictionary (zh/en/ja
 });
 
 test('CL-UI-63 (9): cache-bust stamps advanced to clui75', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui141/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui141/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui142/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui142/);
   assert.ok(!indexSource.includes('clui69'), 'stale stamps fully retired');
 });

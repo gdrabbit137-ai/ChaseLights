@@ -106,6 +106,6 @@ test('CL-UI-67 (4): compact strip cells — no 🎯 next-window badge anywhere (
 
 test('CL-UI-67 (5): cache-bust stamp bumped for the edited app.js/app.css',()=>{
   const index=readFileSync(new URL('../../../index.html',import.meta.url),'utf8');
-  assert.match(index,/assets\/app\.js\?v=clui141/);
-  assert.match(index,/assets\/app\.css\?v=clui141/);
+  assert.match(index,/assets\/app\.js\?v=clui142/);
+  assert.match(index,/assets\/app\.css\?v=clui142/);
 });

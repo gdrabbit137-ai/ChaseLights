@@ -824,6 +824,7 @@
     function clui115NowChipHtml(rows,tz,nowMs){
       const pick=clui115NowHourRow(rows,tz,nowMs);
       if(!pick)return '';
+      if(!clui115NowPickFresh(pick,tz,nowMs))return '';
       const r=pick.row;
       const bits=[];
       const code=Number(r.weather_code);
@@ -837,6 +838,27 @@
       const hour=clui115NowHourLabel(pick);
       const reason=fog?`<span class="now-fog-reason">${esc(d().clui115_fog_now)}</span>`:'';
       return `<span class="metric-chip day-wx now-wx${fog?' cl-now-fog':''}" data-now-hour="${esc(hour)}"${fog?' data-now-fog="1"':''} title="${esc(hour)}">${bits.join(' · ')}${reason}<span class="now-hour">${esc(hour)}</span></span>`;
+    }
+    // CL-UI-117 §5: an hour is only "now" when it is CLOSE to the place's clock.
+    // A same-day 06:00 row painted at 20:00 is not a present tense even though the
+    // date matches — the picker clamps the current hour to the nearest served hour
+    // of TODAY, which can be 14 h away (the bug the reviewer found: a 06:00 row
+    // painted as `.now-wx` at 20:00). A row within 2 h of the place-local clock
+    // still carries the current conditions (the useful half of a day, and it
+    // absorbs the publish lag of an hourly refresh); anything further is dropped
+    // and the card keeps its honest day-weather chip, which labels the day it
+    // describes. Implemented as a gate INSIDE the one renderer, so the sidecar and
+    // the shard path can never disagree about what counts as now.
+    const CLUI115_NOW_MAX_HOUR_SKEW_MIN=120;
+    function clui115NowPickFresh(pick,tz,nowMs){
+      if(!pick||!pick.hhmm)return false;
+      const now=clui115LocalParts(tz,nowMs);
+      if(!now.date||now.minutes==null)return false;
+      if(pick.date!==now.date)return false;
+      const m=/^(\d{2}):(\d{2})$/.exec(String(pick.hhmm));
+      if(!m)return false;
+      const served=Number(m[1])*60+Number(m[2]);
+      return Math.abs(served-now.minutes)<=CLUI115_NOW_MAX_HOUR_SKEW_MIN;
     }
     // ===== CL-UI-115 §2: subject-window rows (today + the following days) =====
     // ONE source of truth: the committed subject-cards layer, read through the
@@ -925,26 +947,45 @@
     // row / stale shard): the card keeps its day-weather chip and NO shard is
     // requested. Nothing here ever invents a now row.
     const CLUI117_SIDECAR_PATH='./apps/web-v2/now-latest.json';
-    const CLUI117_MAX_LAG_MS=24*60*60*1000;
+    // Freshness is measured against the WALL CLOCK, never against the loaded
+    // bundle: the generator copies the bundle's own `generated_at` into the
+    // artifact, so comparing the two stamps compares a value with itself and the
+    // guard can never fire (reviewer, CL-UI-117). 26 h covers one full 6 h
+    // evaluation refresh cycle with room for a delayed publish, plus the slack a
+    // browser left open overnight needs; older than that and the artifact's
+    // "now" rows are yesterday's, so the shards are the honest source again.
+    const CLUI117_MAX_AGE_MS=26*60*60*1000;
+    // A transient failure (network error, a 404 on a half-published artifact, a
+    // 5xx from the CDN) must never lock the 2.3 MB shard path in for the whole
+    // page lifetime: the promise is DROPPED on failure (the v2EvalBundlePromise
+    // pattern) so a later render can retry, and a bounded backoff retries once
+    // the page is otherwise idle.
+    const CLUI117_RETRY_MS=4000;
+    const CLUI117_MAX_ATTEMPTS=3;
     let clui117Sidecar=null;            // the usable payload, else null
     let clui117SidecarState='pending';  // 'pending' | 'ready' | 'unusable'
     let clui117SidecarPromise=null;
     let clui117SidecarWaiters=[];
+    let clui117SidecarAttempts=0;       // transport attempts this page load
+    let clui117SidecarNextAt=0;         // earliest allowed retry (backoff gate)
+    let clui117SidecarTimer=null;
+    let clui117SidecarRefreshes=0;      // day-rollover re-fetches (capped)
     function clui117BundleStamp(){
       const at=v2EvalBundle&&v2EvalBundle.generated_at;
       return typeof at==='string'&&at?at:'';
     }
-    // Usable = a places MAP, and not older than the loaded bundle by > 1 day.
-    // The sidecar carries the bundle's own stamp, so a sidecar that lags its
-    // bundle means the two publish steps drifted: the shards are the source of
-    // truth again until the next publish catches up.
-    function clui117SidecarUsable(payload){
+    // Usable = a places MAP, and a `generated_at` within CLUI117_MAX_AGE_MS of
+    // NOW. An unparseable/absent stamp is not freshness evidence: unusable.
+    function clui117SidecarUsable(payload,nowMs){
       if(!payload||typeof payload!=='object')return false;
       const places=payload.places;
       if(!places||typeof places!=='object'||Array.isArray(places))return false;
       const side=Date.parse(String(payload.generated_at||''));
-      const bundle=Date.parse(clui117BundleStamp());
-      if(Number.isFinite(side)&&Number.isFinite(bundle)&&(bundle-side)>CLUI117_MAX_LAG_MS)return false;
+      if(!Number.isFinite(side))return false;
+      const now=Number.isFinite(Number(nowMs))?Number(nowMs):Date.now();
+      // Both sides of the bound: a stamp from the future is as untrustworthy as
+      // an old one.
+      if(Math.abs(now-side)>CLUI117_MAX_AGE_MS)return false;
       return true;
     }
     // Cards attach before the artifact lands (it is fetched in parallel with the
@@ -953,24 +994,78 @@
       if(clui117SidecarState!=='pending'){try{fn();}catch(e){}return;}
       clui117SidecarWaiters.push(fn);
     }
-    function clui117EnsureSidecar(){
+    function clui117DrainWaiters(){
+      const waiters=clui117SidecarWaiters;clui117SidecarWaiters=[];
+      waiters.forEach(fn=>{try{fn();}catch(e){}});
+    }
+    function clui117ScheduleRetry(){
+      if(clui117SidecarTimer||clui117SidecarState==='ready')return;
+      if(clui117SidecarAttempts>=CLUI117_MAX_ATTEMPTS)return;
+      clui117SidecarTimer=setTimeout(()=>{
+        clui117SidecarTimer=null;
+        if(clui117SidecarState!=='ready')clui117EnsureSidecar();
+      },CLUI117_RETRY_MS);
+    }
+    function clui117EnsureSidecar(opts){
+      const force=!!(opts&&opts.force);
+      if(clui117SidecarState==='ready'&&!force)return Promise.resolve(clui117Sidecar);
       if(clui117SidecarPromise)return clui117SidecarPromise;
+      if(force)clui117SidecarAttempts=0;
+      else if(clui117SidecarAttempts>=CLUI117_MAX_ATTEMPTS||Date.now()<clui117SidecarNextAt)return Promise.resolve(null);
+      clui117SidecarAttempts++;
+      clui117SidecarState='pending';
+      clui117SidecarNextAt=0;
       const stamp=clui117BundleStamp();
       // Cache-buster from the bundle's generated_at: a republished artifact is a
       // new URL, an unchanged one is served from cache.
       const url=stamp?`${CLUI117_SIDECAR_PATH}?v=${encodeURIComponent(stamp)}`:CLUI117_SIDECAR_PATH;
       clui117SidecarPromise=fetch(url,{cache:'no-cache',signal:AbortSignal.timeout(15000)})
-        .then(r=>r.ok?r.json():null)
+        .then(r=>{if(!r.ok)throw new Error(`now-sidecar http ${r.status}`);return r.json();})
         .then(payload=>{
-          if(clui117SidecarUsable(payload)){clui117Sidecar=payload;clui117SidecarState='ready';}
-          else clui117SidecarState='unusable';
+          // A served but stale/foreign artifact is a DEFINITIVE answer (the
+          // publish is behind); re-fetching it would only repeat it.
+          if(clui117SidecarUsable(payload,Date.now())){clui117Sidecar=payload;clui117SidecarState='ready';}
+          else {clui117Sidecar=null;clui117SidecarState='unusable';}
+          // The settled promise must not be reused as a "still in flight" guard:
+          // `ready` short-circuits on the state, and a FORCED re-fetch (date
+          // rollover) has to be able to start a new one.
+          clui117SidecarPromise=null;
+        },()=>{
+          // TRANSIENT. Drop the promise so the next render (or the backoff
+          // timer) can try again — a single 404/5xx must never sentence the
+          // page to the shard path for its whole lifetime.
+          clui117Sidecar=null;
+          clui117SidecarState='unusable';
+          clui117SidecarPromise=null;
+          clui117SidecarNextAt=Date.now()+CLUI117_RETRY_MS;
+          clui117ScheduleRetry();
         })
-        .catch(()=>{clui117SidecarState='unusable';})
         .then(()=>{
-          const waiters=clui117SidecarWaiters;clui117SidecarWaiters=[];
-          waiters.forEach(fn=>{try{fn();}catch(e){}});
+          clui117DrainWaiters();
+          // A ready artifact that lands after the last list pass (or after a
+          // shard-painted fallback) must not leave the cards that were built in
+          // that pass unpainted: repaint the WHOLE current card set.
+          if(clui117SidecarState==='ready')clui117PaintCurrentCards();
         });
       return clui117SidecarPromise;
+    }
+    function clui117SidecarEntry(spotId){
+      if(!clui117Sidecar||!clui117Sidecar.places)return null;
+      const e=clui117Sidecar.places[String(spotId)];
+      return (e&&typeof e==='object')?e:null;
+    }
+    // CL-UI-117 date rollover: the artifact's stamp belongs to an EARLIER local
+    // day at this place, so every row it carries is yesterday's. A re-fetch is
+    // the honest move (the pipeline may already have republished today's rows);
+    // if the stamp is today's, the generator itself had no today row and the
+    // shard is the source of truth.
+    function clui117StampBeforeLocalDay(timezone,nowMs){
+      const at=Date.parse(String((clui117Sidecar&&clui117Sidecar.generated_at)||''));
+      if(!Number.isFinite(at))return false;
+      const stamp=clui115LocalParts(timezone,at);
+      const now=clui115LocalParts(timezone,nowMs);
+      if(!stamp.date||!now.date)return false;
+      return stamp.date<now.date;
     }
     // The place's sidecar entry as the SAME row shape the CL-UI-115 renderer
     // reads, so the chip's wording/icons/labels cannot diverge between the two
@@ -1030,13 +1125,15 @@
       clui115NowQueue.push({region,spotId,onReady});
       clui115NowPump();
     }
-    // Paint the now chip into a live card. Used by BOTH the first paint (cached
-    // rows) and the lazy arrival; the markup comes from clui115NowChipHtml.
-    function clui115PaintNowChip(card,spot){
+    // Paint the now chip into a live card. Used by the first paint (sidecar /
+    // cached rows), the lazy shard arrival and the render hook; the markup comes
+    // from clui115NowChipHtml.
+    function clui115PaintNowChip(card,spot,nowMs){
       if(!card||!spot)return false;
-      const rows=clui117NowRows(spot.spot_id,spot.timezone,Date.now());
+      const at=Number.isFinite(Number(nowMs))?Number(nowMs):Date.now();
+      const rows=clui117NowRows(spot.spot_id,spot.timezone,at);
       if(!rows||!rows.length)return false;
-      const html=clui115NowChipHtml(rows,spot.timezone,Date.now());
+      const html=clui115NowChipHtml(rows,spot.timezone,at);
       if(!html)return false;
       const host=card.querySelector('.card-metric-chips');
       if(!host)return false;
@@ -1045,26 +1142,42 @@
       host.insertAdjacentHTML('beforeend',html);
       return true;
     }
+    // CL-UI-117 fix (reviewer): repaint the now row on every card currently in
+    // the DOM. This is the RENDER HOOK that closes the race — the one-shot paint
+    // used to run when the artifact settled, so a card created in a later list
+    // pass (or a card that was still detached at that instant) kept an empty row
+    // for the life of the page. Called at the end of every list render and again
+    // whenever the artifact becomes ready.
+    function clui117PaintCurrentCards(root){
+      const host=(root&&typeof root.querySelectorAll==='function')?root:document;
+      let painted=0;
+      const cards=host.querySelectorAll('.card[data-place-id]');
+      for(const card of cards){
+        const id=card.getAttribute('data-place-id');
+        if(!id)continue;
+        const spot=(currentSpots||[]).find(s=>s&&String(s.spot_id)===id);
+        if(!spot)continue;
+        // Never invent a row for a place the artifact omits, and never reach for
+        // a shard here (that stays lazy, viewport-driven, at attach time).
+        if(clui117SidecarState==='ready'&&!clui117SidecarEntry(spot.spot_id)&&!clui115NowRows(spot.spot_id))continue;
+        if(clui115PaintNowChip(card,spot))painted++;
+      }
+      return painted;
+    }
     function clui115AttachNowChip(card,spot){
       if(!card||!spot||!spot.spot_id)return;
       const region=provRegionOf(spot)||currentRegion;
-      if(!region)return;
       const paint=rows=>{
-        if(!rows||!card.isConnected)return;
+        if(!rows)return;
         clui115NowCache.set(spot.spot_id,rows);
-        clui115PaintNowChip(card,spot);
+        if(card.isConnected){clui115PaintNowChip(card,spot);return;}
+        // The card was replaced by a render pass while this shard was in flight:
+        // the row must land on whatever card NOW carries this place, not be
+        // dropped with the detached element.
+        clui117PaintCurrentCards();
       };
-      // CL-UI-117: the sidecar is fetched once; cards wait on that promise and
-      // then obey its answer. In the sidecar path this function does NO network
-      // work — no observer, no shard — for any card.
-      clui117EnsureSidecar();
-      clui117SidecarSettled(()=>{
-        if(!card.isConnected)return;
-        if(clui117SidecarState==='ready'){
-          if(clui117SidecarRows(spot.spot_id,spot.timezone,Date.now()))clui115PaintNowChip(card,spot);
-          return;
-        }
-        // Fallback (artifact unusable): the shipped CL-UI-115 lazy shard path.
+      const engageShard=()=>{
+        if(!region)return;
         if(clui115NowRows(spot.spot_id)){paint(clui115NowRows(spot.spot_id));return;}
         const kick=()=>clui115NowSchedule(region,spot.spot_id,paint);
         if(typeof IntersectionObserver==='function'){
@@ -1075,6 +1188,32 @@
         }else{
           kick();
         }
+      };
+      // CL-UI-117: the sidecar is fetched once; cards wait on that promise and
+      // then obey its answer. In the sidecar path this function does NO network
+      // work — no observer, no shard — for any card.
+      clui117EnsureSidecar();
+      clui117SidecarSettled(()=>{
+        if(!card.isConnected)return;
+        if(clui117SidecarState==='pending')return;   // an attempt is in flight; its settle repaints
+        if(clui117SidecarState==='ready'){
+          if(clui117SidecarRows(spot.spot_id,spot.timezone,Date.now())){clui115PaintNowChip(card,spot);return;}
+          // Absent from the artifact = the generator's honest "no row today".
+          if(!clui117SidecarEntry(spot.spot_id))return;
+          // Present but dated yesterday (midnight rollover). Re-fetch once when
+          // the artifact predates this place's local day; otherwise the shard is
+          // the honest source — either way the row is not silently lost.
+          if(clui117StampBeforeLocalDay(spot.timezone,Date.now())&&clui117SidecarRefreshes<1){
+            clui117SidecarRefreshes++;
+            clui117EnsureSidecar({force:true});
+            return;
+          }
+          engageShard();
+          return;
+        }
+        // Fallback (artifact unusable / transiently failed): the shipped
+        // CL-UI-115 lazy shard path.
+        engageShard();
       });
     }
     function trMessage(key){ const t=currentData?.translations?.messages?.[key]; return localeText(t)||d().status_unavailable; }
@@ -1094,8 +1233,13 @@
       // CL-UI-117 probe: which path the page took and whether a place has a row.
       window.__clui117={
         state(){return clui117SidecarState;},
-        hasPlace(spotId){return !!(clui117Sidecar&&clui117Sidecar.places&&clui117Sidecar.places[String(spotId)]);},
-        generatedAt(){return (clui117Sidecar&&clui117Sidecar.generated_at)||null;}
+        hasPlace(spotId){return !!clui117SidecarEntry(spotId);},
+        generatedAt(){return (clui117Sidecar&&clui117Sidecar.generated_at)||null;},
+        ageMs(){const at=Date.parse(String((clui117Sidecar&&clui117Sidecar.generated_at)||''));return Number.isFinite(at)?Date.now()-at:null;},
+        maxAgeMs:CLUI117_MAX_AGE_MS,
+        hourSkewMin:CLUI115_NOW_MAX_HOUR_SKEW_MIN,
+        attempts(){return clui117SidecarAttempts;},
+        repaint(){return clui117PaintCurrentCards();}
       };
     }
     /* CL-UI-83: trFactor retired with the card factor chips — no remaining caller. */
@@ -3211,6 +3355,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // and the late-night rescue are 'all'-tab behaviors on the full set).
       if(currentTier!=='all'){
         appendSpotRows(container,tierRows,effSort);
+        clui117PaintCurrentCards(container);
         saveRenderSnapshot();
         return;
       }
@@ -3296,6 +3441,10 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
           details.append(summary,grid);container.appendChild(details);
         }
       }
+      // CL-UI-117: paint the now row on the WHOLE card set the pass just built —
+      // the settle-time paint is one-shot, so a pass that runs after it (or a
+      // card skipped while detached) would otherwise stay empty forever.
+      clui117PaintCurrentCards(container);
       // CL-UI-11: persist the settled gated render so the next full reload can
       // boot instantly from it (see loadRenderSnapshot).
       saveRenderSnapshot();

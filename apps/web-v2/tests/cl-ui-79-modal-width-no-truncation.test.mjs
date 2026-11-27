@@ -59,8 +59,8 @@ test('CL-UI-79 (1): source contract — 560px subject-panel modal, max-content g
   assert.doesNotMatch(appSource, /<a class="place-hourly-link"/);
   assert.match(appSource, /id="place-hourly-btn"/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui141/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui141/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui142/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui142/);
 });
 
 // ---- (2) real-browser probe: 1280 / 1024 / 768 / 390 ------------------------

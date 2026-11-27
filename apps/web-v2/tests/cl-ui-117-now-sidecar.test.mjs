@@ -8,18 +8,30 @@
 //   (1) with the sidecar served, the page issues exactly ONE `now-latest.json`
 //       request and ZERO `weather_details/` requests, and every card whose place
 //       is in the artifact paints a `.now-wx` row;
-//   (2) with the sidecar 404ing, the shipped lazy shard path still runs and
-//       cards get their now rows from the shards;
+//   (2) a re-render AFTER the artifact settled repaints every card (the
+//       settle-time paint is one-shot — cards built in a later pass, or still
+//       detached at that instant, used to stay empty for the page lifetime);
 //   (3) a place absent from the artifact keeps the day chip and triggers no
 //       shard download (absence is the generator's honest signal);
-//   (4) an artifact whose `generated_at` predates the bundle by more than a day
-//       is ignored in favour of the shard path.
+//   (4) with the sidecar 404ing, the shipped lazy shard path still runs;
+//   (5) an artifact older than the wall-clock freshness bound (26 h) is ignored
+//       in favour of the shards — asserted on the DOM, not on source text — and
+//       one just INSIDE the bound is still used (both sides of the bound);
+//   (6) a TRANSIENT failure (503) does not poison the promise for the page
+//       lifetime: a later attempt succeeds and the cards switch to sidecar rows;
+//   (7) date rollover: a yesterday-stamped artifact is re-fetched, and one
+//       stamped today but carrying yesterday's rows falls back to the shards.
 //
 // Harness: headless Chrome over CDP against a static server rooted at the repo.
 // The shards are served as SMALL synthetic files (today's 24 local rows at the
 // place's own hours): the committed shards are stale by design (they end days
 // before "today"), so a real file would prove only the day-chip fallback, and
 // 2.3 MB per card is pointless IO for a request-count assertion.
+//
+// The sidecar rows are re-stamped per request (local date = today, hour = the
+// place's current hour, a distinctive 41.5 °C) so the suite is independent of
+// the time of day and the assertions can tell a SIDECAR row from a SHARD row in
+// the DOM by its temperature alone.
 //
 // Run: CHROMIUM_EXECUTABLE="C:/Program Files/Google/Chrome/Application/chrome.exe" \
 //      node --test apps/web-v2/tests/cl-ui-117-now-sidecar.test.mjs
@@ -37,6 +49,10 @@ const APP = join(HERE, '..', '..', '..');
 const INDEX = readFileSync(join(APP, 'index.html'), 'utf8');
 const BUNDLE = JSON.parse(readFileSync(join(APP, 'apps', 'web-v2', 'evaluations-latest.json'), 'utf8'));
 const FIXTURE = JSON.parse(readFileSync(join(HERE, 'fixtures', 'now-latest.clui117.json'), 'utf8'));
+// The client's freshness bound (assets/app.js CLUI117_MAX_AGE_MS), mirrored as a
+// literal so a change to the product constant shows up as a red test instead of
+// silently re-basing the fixture ages.
+const MAX_AGE_MS = 26 * 60 * 60 * 1000;
 
 const BROWSER = process.env.CHROMIUM_EXECUTABLE
   || process.env.CHROME_PATH
@@ -48,11 +64,21 @@ const MIME = {'.html':'text/html','.mjs':'text/javascript','.js':'text/javascrip
 // one from the log on the second page load.
 const NO_STORE = {'cache-control':'no-store'};
 const TPE = 'Asia/Taipei';
+const SIDECAR_TEMP = '41.5';    // marks a row that came from the artifact
 const tpeDate = () => new Intl.DateTimeFormat('en-CA', {timeZone: TPE, year:'numeric', month:'2-digit', day:'2-digit'}).format(new Date());
 const tpeHour = () => Number(new Intl.DateTimeFormat('en-GB', {timeZone: TPE, hour:'2-digit', hour12:false}).format(new Date())) % 24;
+const tpeDateOffset = days => new Intl.DateTimeFormat('en-CA', {timeZone: TPE, year:'numeric', month:'2-digit', day:'2-digit'}).format(new Date(Date.now() + days * 86400000));
+// Epoch of a place-local (Asia/Taipei, fixed UTC+8) date+time — builds stamps
+// that sit deterministically on a given side of place-local midnight.
+const tpeStamp = (date, hhmm) => {
+  const [y, m, d] = date.split('-').map(Number);
+  const [H, M] = hhmm.split(':').map(Number);
+  return new Date(Date.UTC(y, m - 1, d, H - 8, M)).toISOString();
+};
 
 // ------------------------------------------------ static page + request log
-let scenario = 'ok';            // 'ok' | '404' | 'stale'
+let scenario = 'ok';            // ok | 404 | stale | fresh-edge | flaky | rollover | datedmiss
+let sidecarHits = 0;            // now-latest.json requests in THIS page load
 const requests = [];            // every URL the page asked for, query string included
 let server, baseURL, chrome, ws, send, evaljs, ready;
 const pendingCalls = new Map();
@@ -71,12 +97,33 @@ function shardBody(placeId) {
   return JSON.stringify({spot:{spot_id:placeId, timezone:TPE, hourly_forecast:rows}});
 }
 
-function sidecarBody() {
+// `hit` is 1-based within the page load.
+function sidecarBody(hit) {
   const copy = JSON.parse(JSON.stringify(FIXTURE));
-  copy.generated_at = BUNDLE.generated_at;           // published with THIS bundle
   const today = tpeDate();
-  for (const p of Object.values(copy.places)) p.local_date = today;
-  if (scenario === 'stale') copy.generated_at = new Date(Date.parse(BUNDLE.generated_at) - 5 * 86400000).toISOString();
+  const hour = String(tpeHour()).padStart(2, '0') + ':00';
+  for (const p of Object.values(copy.places)) {
+    p.local_date = today;
+    p.hour = hour;
+    p.temp_c = Number(SIDECAR_TEMP);
+  }
+  copy.generated_at = new Date().toISOString();
+  if (scenario === 'stale') copy.generated_at = new Date(Date.now() - (MAX_AGE_MS + 3600000)).toISOString();      // 27 h
+  if (scenario === 'fresh-edge') copy.generated_at = new Date(Date.now() - (MAX_AGE_MS - 3600000)).toISOString();  // 25 h
+  if (scenario === 'rollover' && hit === 1) {
+    // Published on the PREVIOUS local day: every row it carries is yesterday's.
+    // The re-fetch (hit 2) is a fresh, today's artifact.
+    const yesterday = tpeDateOffset(-1);
+    for (const p of Object.values(copy.places)) p.local_date = yesterday;
+    copy.generated_at = tpeStamp(yesterday, '23:00');
+  }
+  if (scenario === 'datedmiss') {
+    // Stamped TODAY but carrying yesterday's rows: the generator itself had no
+    // today row, so a re-fetch cannot help — the shards are the honest source.
+    const yesterday = tpeDateOffset(-1);
+    for (const p of Object.values(copy.places)) p.local_date = yesterday;
+    copy.generated_at = tpeStamp(today, '00:05');
+  }
   return JSON.stringify(copy);
 }
 
@@ -88,8 +135,10 @@ async function boot() {
       requests.push(req.url);
       const raw = req.url.split('?')[0];
       if (raw === '/apps/web-v2/now-latest.json') {
+        sidecarHits += 1;
         if (scenario === '404') { res.writeHead(404, NO_STORE); res.end('not found'); return; }
-        const body = sidecarBody();
+        if (scenario === 'flaky' && sidecarHits === 1) { res.writeHead(503, NO_STORE); res.end('busy'); return; }
+        const body = sidecarBody(sidecarHits);
         res.writeHead(200, {...NO_STORE, 'content-type':'application/json', 'content-length':Buffer.byteLength(body)});
         res.end(body); return;
       }
@@ -154,10 +203,18 @@ async function boot() {
   return ready;
 }
 
+const PROBE = `(() => ({
+  state: (window.__clui117 && window.__clui117.state && window.__clui117.state()) || '',
+  now: document.querySelectorAll('#spots-container .card .now-wx').length,
+}))()`;
+
 // Fresh page load per scenario; returns the DOM snapshot the assertions use.
-async function load(sidecarScenario) {
+// `want` is the terminal sidecar state; `extra` is an extra page-side condition
+// that must also hold before the page counts as settled.
+async function load(sidecarScenario, {want = 'ready', extra = null} = {}) {
   scenario = sidecarScenario;
   requests.length = 0;
+  sidecarHits = 0;
   await send('Page.navigate', {url: baseURL + 'index.html'});
   let cards = 0;
   for (let i = 0; i < 60 && cards === 0; ++i) {
@@ -170,15 +227,15 @@ async function load(sidecarScenario) {
   // 4-8 s, so a snapshot taken on a timer reads a half-painted page.
   // Poll the probe until the scenario reaches its terminal state AND the number
   // of painted now rows has stopped moving for three consecutive samples.
-  const wantState = sidecarScenario === 'ok' ? 'ready' : 'unusable';
   const settleDeadline = Date.now() + 45000;
   let last = null, stable = 0;
   while (Date.now() < settleDeadline) {
-    const probe = await evaljs(`(() => ({
-      state: (window.__clui117 && window.__clui117.state && window.__clui117.state()) || '',
-      now: document.querySelectorAll('#spots-container .card .now-wx').length,
-    }))()`).catch(() => ({state: '', now: -1}));
-    if (probe.state === wantState && probe.now > 0 && probe.now === last) {
+    const probe = await evaljs(`(() => {
+      const p = ${PROBE};
+      p.extra = ${extra ? `(${extra})` : 'true'};
+      return p;
+    })()`).catch(() => ({state: '', now: -1, extra: false}));
+    if (probe.state === want && probe.now > 0 && probe.now === last && probe.extra) {
       if (++stable >= 3) break;
     } else {
       stable = 0;
@@ -189,13 +246,18 @@ async function load(sidecarScenario) {
 
   const snapshot = await evaljs(`(() => {
     const cards = [...document.querySelectorAll('#spots-container .card')];
+    const host = document.querySelector('#spots-container') || {textContent:''};
     return {
       cards: cards.length,
+      epoch: window.__clV2Epoch || 0,
       ids: cards.map(c => c.getAttribute('data-place-id')),
       nowIds: cards.filter(c => c.querySelector('.now-wx')).map(c => c.getAttribute('data-place-id')),
       nowHours: cards.filter(c => c.querySelector('.now-wx')).map(c => c.querySelector('.now-wx').getAttribute('data-now-hour')),
       dayChipOnly: cards.filter(c => !c.querySelector('.now-wx') && c.querySelector('.day-wx')).map(c => c.getAttribute('data-place-id')),
+      sidecarTemp: host.textContent.includes('${SIDECAR_TEMP}'),
       state: window.__clui117 && window.__clui117.state(),
+      generatedAt: (window.__clui117 && window.__clui117.generatedAt && window.__clui117.generatedAt()) || null,
+      attempts: (window.__clui117 && window.__clui117.attempts && window.__clui117.attempts()) || 0,
     };
   })()`);
   snapshot.sidecar = requests.filter(u => /now-latest\.json/.test(u));
@@ -204,7 +266,8 @@ async function load(sidecarScenario) {
   // ticket quotes come from here — sidecar path vs fallback path).
   console.log('CL-UI-117 [' + sidecarScenario + '] cards=' + snapshot.cards
     + ' sidecarRequests=' + snapshot.sidecar.length + ' shardRequests=' + snapshot.shards.length
-    + ' nowRows=' + snapshot.nowIds.length + ' state=' + snapshot.state);
+    + ' nowRows=' + snapshot.nowIds.length + ' state=' + snapshot.state
+    + ' sidecarTemp=' + snapshot.sidecarTemp);
   return snapshot;
 }
 
@@ -227,6 +290,44 @@ test('CL-UI-117: the sidecar is fetched ONCE per page load and feeds every card'
     'every card whose place is in the artifact renders a now row');
   assert.ok(s.nowHours.every(h => /^\d{2}:\d{2}$/.test(String(h))),
     `each now row labels a served hour (got ${JSON.stringify(s.nowHours.slice(0, 4))})`);
+  // The rows really came from the artifact, not from a shard: the artifact's
+  // distinctive temperature is on screen.
+  assert.equal(s.sidecarTemp, true, 'the painted rows carry the artifact\'s values');
+});
+
+test('CL-UI-117: a re-render after the artifact settled repaints EVERY card', {timeout: 240000}, async t => {
+  // Reviewer finding: the settle-time paint was one-shot, so a card built in a
+  // render pass that ran AFTER the artifact landed kept an empty row for the
+  // life of the page (15 of 18 painted, tw-010 / tw-025 / tw-111 stayed blank).
+  // Force a real list pass (a sort change wipes and rebuilds the container) and
+  // prove the NEWLY BUILT cards are painted too.
+  await boot();
+  const before = await load('ok');
+  assert.equal(before.state, 'ready');
+  const epochBefore = before.epoch;
+  const requestsBefore = requests.length;
+  const expectedIds = before.ids.filter(id => FIXTURE_IDS.includes(id)).sort();
+  await evaljs(`(() => { setSortMode('hours_desc'); })()`);
+  const deadline = Date.now() + 30000;
+  let after = null;
+  while (Date.now() < deadline) {
+    after = await evaljs(`(() => {
+      const cards = [...document.querySelectorAll('#spots-container .card')];
+      return {
+        epoch: window.__clV2Epoch || 0,
+        cards: cards.length,
+        nowIds: cards.filter(c => c.querySelector('.now-wx')).map(c => c.getAttribute('data-place-id')),
+      };
+    })()`);
+    const paintedNow = after.nowIds.filter(id => FIXTURE_IDS.includes(id)).sort();
+    if (after.epoch > epochBefore && after.cards > 0 && paintedNow.join() === expectedIds.join()) break;
+    await sleep(250);
+  }
+  assert.ok(after.epoch > epochBefore, `a real render pass ran (epoch ${epochBefore} → ${after.epoch})`);
+  const painted = after.nowIds.filter(id => FIXTURE_IDS.includes(id)).sort();
+  assert.deepEqual(painted, expectedIds, 'the rebuilt cards all carry a now row');
+  assert.equal(requests.slice(requestsBefore).filter(u => /now-latest\.json/.test(u)).length, 0,
+    'the re-render does not re-fetch the artifact (it is already ready)');
 });
 
 test('CL-UI-117: a place absent from the sidecar keeps the day chip and downloads no shard', {timeout: 240000}, async t => {
@@ -244,32 +345,92 @@ test('CL-UI-117: a place absent from the sidecar keeps the day chip and download
 
 test('CL-UI-117: a 404ing sidecar falls back to the lazily fetched shards', {timeout: 300000}, async t => {
   await boot();
-  const s = await load('404');
+  const s = await load('404', {want: 'unusable'});
   assert.equal(s.state, 'unusable', 'a 404 marks the artifact unusable');
-  assert.equal(s.sidecar.length, 1, 'the artifact is still attempted exactly once');
+  // The promise is dropped on failure (a retry is allowed), so the artifact may
+  // be attempted more than once — but never unboundedly.
+  assert.ok(s.sidecar.length >= 1 && s.sidecar.length <= 3,
+    `the artifact is attempted a bounded number of times (got ${s.sidecar.length})`);
   assert.ok(s.shards.length > 0, `the shipped shard path runs (got ${s.shards.length} shard requests)`);
   assert.ok(s.nowIds.length > 0,
     `cards still get a now row from the shards (got ${s.nowIds.length} of ${s.cards} cards)`);
+  assert.equal(s.sidecarTemp, false, 'no row is painted from the failing artifact');
   // The fallback stays lazy: only cards near the viewport were fetched, never all 124.
   assert.ok(s.shards.length < s.cards, `lazy (IntersectionObserver) fetching, not a bulk download (${s.shards.length} < ${s.cards})`);
 });
 
-test('CL-UI-117: a sidecar lagging the bundle by more than a day is ignored', {timeout: 300000}, async t => {
+test('CL-UI-117: an artifact past the 26 h wall-clock bound is unusable (DOM-level)', {timeout: 300000}, async t => {
   await boot();
-  const s = await load('stale');
-  assert.equal(s.state, 'unusable', 'the stale artifact must not paint a now row');
+  const s = await load('stale', {want: 'unusable'});
+  assert.equal(s.state, 'unusable', 'an artifact past the freshness bound must not paint a now row');
+  assert.equal(s.generatedAt, null, 'the stale artifact is not kept as the row source');
+  assert.equal(s.sidecarTemp, false, 'no card shows the stale artifact\'s values (DOM, not source text)');
   assert.ok(s.shards.length > 0, `the shard path takes over (got ${s.shards.length} shard requests)`);
   assert.ok(s.nowIds.length > 0, `cards still get rows from the shards (got ${s.nowIds.length})`);
+  // Same upper bound as case 3: the fallback is lazy, never a bulk download.
+  assert.ok(s.shards.length < s.cards, `lazy fallback, not a bulk download (${s.shards.length} < ${s.cards})`);
 });
 
-test('CL-UI-117: cache stamps bump clui140 → clui141 on all five root pages', () => {
-  assert.match(INDEX, /assets\/app\.js\?v=clui141/, 'index.html loads app.js with the new stamp');
-  assert.match(INDEX, /assets\/icons\.js\?v=clui141/, 'index.html loads icons.js with the new stamp');
-  assert.match(INDEX, /assets\/app\.css\?v=clui141/, 'index.html loads app.css with the new stamp');
+test('CL-UI-117: an artifact just INSIDE the 26 h bound is still used (both sides proven)', {timeout: 300000}, async t => {
+  await boot();
+  const s = await load('fresh-edge');
+  assert.equal(s.state, 'ready', '25 h old is within the bound');
+  assert.equal(s.shards.length, 0, 'no shard backup for a usable artifact');
+  assert.equal(s.sidecarTemp, true, 'the artifact\'s own values are on screen');
+  const expected = s.ids.filter(id => FIXTURE_IDS.includes(id));
+  assert.deepEqual(s.nowIds.filter(id => FIXTURE_IDS.includes(id)).sort(), expected.slice().sort(),
+    'every covered card paints from the artifact');
+});
+
+test('CL-UI-117: a TRANSIENT sidecar failure is retried — the shard path is not permanent', {timeout: 300000}, async t => {
+  await boot();
+  // First attempt 503, second succeeds. The reviewer's bug: the promise was never
+  // nulled, so one transient 5xx locked the page into the shard path forever.
+  const s = await load('flaky', {want: 'ready', extra: '(window.__clui117.attempts() >= 2)'});
+  assert.equal(s.state, 'ready', 'the retry recovers the artifact path');
+  assert.ok(s.sidecar.length >= 2, `the artifact is re-attempted after the failure (got ${s.sidecar.length})`);
+  assert.equal(s.sidecarTemp, true, 'the recovered artifact supplies the painted rows');
+  const expected = s.ids.filter(id => FIXTURE_IDS.includes(id));
+  assert.deepEqual(s.nowIds.filter(id => FIXTURE_IDS.includes(id)).sort(), expected.slice().sort(),
+    'every covered card is repainted from the recovered artifact');
+  // The fallback engaged while the artifact was failing, but stayed lazy.
+  assert.ok(s.shards.length <= s.cards, `shard usage stays bounded (${s.shards.length} ≤ ${s.cards})`);
+});
+
+test('CL-UI-117: date rollover — a yesterday-stamped artifact is re-fetched', {timeout: 300000}, async t => {
+  await boot();
+  // The first response carries yesterday's stamp and yesterday's rows; the
+  // client must notice the rollover, re-fetch, and use the fresh second answer.
+  const s = await load('rollover', {want: 'ready', extra: 'document.querySelectorAll("#spots-container .card .now-wx").length > 0'});
+  assert.equal(s.state, 'ready', 'the refreshed artifact is usable');
+  assert.ok(s.sidecar.length >= 2, `the artifact is re-fetched across local midnight (got ${s.sidecar.length})`);
+  assert.equal(s.sidecarTemp, true, 'the fresh artifact supplies the rows (yesterday\'s did not)');
+  const expected = s.ids.filter(id => FIXTURE_IDS.includes(id));
+  assert.deepEqual(s.nowIds.filter(id => FIXTURE_IDS.includes(id)).sort(), expected.slice().sort(),
+    'every covered card gets a row again after midnight');
+});
+
+test('CL-UI-117: date rollover — a today-stamped artifact with yesterday\'s rows falls back to shards', {timeout: 300000}, async t => {
+  await boot();
+  // Re-fetching cannot help (the generator itself published no today row), so the
+  // honest answer is the lazy shard — never a silently empty row.
+  const s = await load('datedmiss', {want: 'ready'});
+  assert.equal(s.state, 'ready', 'the artifact itself is valid');
+  assert.equal(s.sidecarTemp, false, 'its yesterday rows are not painted as now');
+  assert.ok(s.shards.length > 0, `the shard path supplies today's rows (got ${s.shards.length})`);
+  assert.ok(s.nowIds.length > 0, `cards still get a now row (got ${s.nowIds.length})`);
+  assert.ok(s.shards.length < s.cards, `and it stays lazy (${s.shards.length} < ${s.cards})`);
+});
+
+test('CL-UI-117: the freshness bound and the cache-bust stamps are pinned', () => {
+  assert.equal(MAX_AGE_MS, 26 * 60 * 60 * 1000, 'the fixture ages assume the 26 h bound');
+  assert.match(INDEX, /assets\/app\.js\?v=clui142/, 'index.html loads app.js with the new stamp');
+  assert.match(INDEX, /assets\/icons\.js\?v=clui142/, 'index.html loads icons.js with the new stamp');
+  assert.match(INDEX, /assets\/app\.css\?v=clui142/, 'index.html loads app.css with the new stamp');
   for (const page of ['404.html', 'genre-eval.html', 'reminders.html', 'sources.html']) {
     const src = readFileSync(join(APP, page), 'utf8');
-    assert.match(src, /assets\/app\.css\?v=clui141/, `${page} loads app.css with the new stamp`);
-    assert.ok(!/clui140/.test(src), `${page} carries no stale clui140 stamp`);
+    assert.match(src, /assets\/app\.css\?v=clui142/, `${page} loads app.css with the new stamp`);
+    assert.ok(!/clui141/.test(src), `${page} carries no stale clui141 stamp`);
   }
 });
 

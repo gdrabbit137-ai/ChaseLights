@@ -104,6 +104,24 @@ test('CL-UI-115 §2 (now_hour): an hour outside the served range clamps, and the
   assert.equal(pick2.date,'2026-11-27');
 });
 
+test('CL-UI-117 §5: an hour far from the place clock is NOT painted as now',()=>{
+  // Reviewer finding: a same-day 06:00 row painted as `.now-wx` at 20:00 — the
+  // date matched, the hour was 14 h away, and the chip still claimed "now".
+  // Decision: DROP such rows (never relabel them) and keep the day chip, which
+  // says which day it describes. The bound is 2 h, in the ONE renderer, so the
+  // sidecar path and the shard path cannot disagree.
+  const morning=rowsFor('2026-11-27',['06','07','08']);
+  assert.equal(api.clui115NowHourRow(morning,TPE,AT_2340).hhmm,'08:00','the picker still clamps…');
+  assert.equal(api.clui115NowChipHtml(morning,TPE,AT_2340),'','…but a 15 h gap is never labelled now');
+  // The near edge of the bound still paints (an hour of publish lag is honest).
+  // 09:40 Taipei: 08:00 is 100 min behind (inside), 07:00 is 160 min behind (out).
+  const AT_0940=Date.UTC(2026,10,27,1,40);
+  const twoHoursBack=rowsFor('2026-11-27',['08']);
+  assert.match(api.clui115NowChipHtml(twoHoursBack,TPE,AT_0940),/data-now-hour="08:00"/,'100 min behind still paints');
+  const nearlyThree=rowsFor('2026-11-27',['07']);
+  assert.equal(api.clui115NowChipHtml(nearlyThree,TPE,AT_0940),'','160 min behind is dropped');
+});
+
 test('CL-UI-115 §2 (now_hour): a row from another local date is NEVER a now row',()=>{
   // Reviewer condition 3. A stale shard (its newest row 11/15 while the clock
   // reads 11/27) used to paint a `now-wx` chip built from 11/15 with a

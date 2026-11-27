@@ -56,8 +56,8 @@ test('CL-UI-76 (1): desktop tier CSS — content-sized cells, mobile content-siz
   assert.match(mobile, /\.v2-strip-cell\{font-size:\.62rem;padding:3px 5px;gap:2px\}/);
   assert.doesNotMatch(mobile, /min-width:90/);
   // Cache-bust: served HTML carries the new stamp.
-  assert.match(indexSource, /assets\/app\.js\?v=clui141/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui141/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui142/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui142/);
 });
 
 // ---- (2) real-browser probe: desktop 1280px and mobile 390px ----------------
