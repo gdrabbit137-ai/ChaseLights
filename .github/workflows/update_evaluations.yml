@@ -145,3 +145,42 @@ jobs:
             echo "Failed to publish evaluation bundle after fetch-first retries."
             exit 1
           fi
+      - name: Build now sidecar (CL-DATA-115)
+        # CL-DATA-115: the homepage card's `now` row no longer needs the per-place
+        # weather_details shard (~2.3 MB each; hundreds of MB on a 124-card page).
+        # This step reduces the SAME hydrated shards this run already pulled to
+        # ONE small artifact — apps/web-v2/now-latest.json — stamped with the
+        # bundle's own generated_at + filename, so a stale sidecar is detectable.
+        # It derives no verdict and re-runs no evaluation: it only picks the
+        # current hour per place in the place's own timezone. A shard set whose
+        # newest row predates the bundle's day aborts the step (exit 3) rather
+        # than publishing a stale present tense.
+        run: |
+          newest_bundle=$(ls -t data/v2/evaluations/bundle-*.json | head -n 1)
+          echo "now sidecar source bundle: $newest_bundle"
+          python data/v2/tools/build_now_sidecar.py --bundle "$newest_bundle" \
+            --weather-dir weather_details \
+            --out apps/web-v2/now-latest.json
+          sidecar_bytes=$(stat -c%s apps/web-v2/now-latest.json)
+          echo "now-latest.json bytes: $sidecar_bytes"
+          test "$sidecar_bytes" -lt 409600  # CL-DATA-115 budget: < 400 KB
+          git config user.name "chaselights-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add apps/web-v2/now-latest.json
+          git diff --cached --quiet || git commit -m "data(v2): compact now sidecar refresh ($(date -u +%FT%TZ))"
+          # Same fetch-first retry protocol as the bundle commit above (CL-CI-09):
+          # a concurrent publisher must never cost this run its sidecar.
+          pushed=false
+          for i in 1 2 3; do
+            if git fetch origin main --no-tags \
+              && git rebase origin/main \
+              && git push origin HEAD:main; then
+              pushed=true
+              break
+            fi
+            sleep $((2 ** (i - 1) * 5))  # 5s, 10s, 20s
+          done
+          if [[ "$pushed" != "true" ]]; then
+            echo "Failed to publish the now sidecar after fetch-first retries."
+            exit 1
+          fi
