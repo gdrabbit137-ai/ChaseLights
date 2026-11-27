@@ -74,8 +74,8 @@ test('CL-UI-88 (1): strip CSS — content-sized cells, no ellipsis, fade hints +
   assert.match(cssSource, /\.place-quick-view\.quick-ok\{background:color-mix\(in srgb, var\(--cl-green\) 10%, transparent\);border-color:color-mix\(in srgb, var\(--cl-green\) 55%, transparent\)\}/);
   // Cache-bust: the served homepage carries the new stamp.
   assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui stays at clui102 (app.js + app.css advanced to clui120) (app.js advanced to clui118, CL-UI-110)');
-  assert.equal((indexSource.match(/\?v=clui142/g) || []).length,3, 'app.css + app.js + icons.js at clui142 (CL-UI-115 added the icon set)');
-  assert.match(indexSource, /assets\/app\.js\?v=clui142/);
+  assert.equal((indexSource.match(/\?v=clui143/g) || []).length,3, 'app.css + app.js + icons.js at clui143 (CL-UI-115 added the icon set)');
+  assert.match(indexSource, /assets\/app\.js\?v=clui143/);
 });
 
 test('CL-UI-88 (2): strip wiring — tooltip + .sel + per-block drag init in app.js', () => {

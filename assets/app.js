@@ -824,7 +824,11 @@
     function clui115NowChipHtml(rows,tz,nowMs){
       const pick=clui115NowHourRow(rows,tz,nowMs);
       if(!pick)return '';
-      if(!clui115NowPickFresh(pick,tz,nowMs))return '';
+      // CL-UI-117 §5: the ONE place the hour-skew policy is applied. A null tier
+      // means the picked hour is too far from the place's clock to be a present
+      // tense at all; the card then keeps its honest day-weather chip.
+      const tier=clui115NowSkewTier(pick,tz,nowMs);
+      if(!tier)return '';
       const r=pick.row;
       const bits=[];
       const code=Number(r.weather_code);
@@ -837,28 +841,45 @@
       const fog=clui115NowFog(r);
       const hour=clui115NowHourLabel(pick);
       const reason=fog?`<span class="now-fog-reason">${esc(d().clui115_fog_now)}</span>`:'';
-      return `<span class="metric-chip day-wx now-wx${fog?' cl-now-fog':''}" data-now-hour="${esc(hour)}"${fog?' data-now-fog="1"':''} title="${esc(hour)}">${bits.join(' · ')}${reason}<span class="now-hour">${esc(hour)}</span></span>`;
+      const stale=tier.tier==='stale';
+      // A stale row leads with its OWN hour (`06:00 · 多雲 22.3°C`) so the first
+      // thing the reader sees is when the observation is from — it must never be
+      // labelled as a current row. A fresh row keeps the shipped anatomy (values,
+      // then the hour span), so its wording cannot drift.
+      const bodyText=stale
+        ? `<span class="now-hour">${esc(hour)}</span> · ${bits.join(' · ')}`
+        : `${bits.join(' · ')}<span class="now-hour">${esc(hour)}</span>`;
+      return `<span class="metric-chip day-wx now-wx${stale?' now-stale':''}${fog?' cl-now-fog':''}" data-now-hour="${esc(hour)}"${stale?' data-now-stale="1"':''}${fog?' data-now-fog="1"':''} title="${esc(hour)}">${bodyText}${reason}</span>`;
     }
-    // CL-UI-117 §5: an hour is only "now" when it is CLOSE to the place's clock.
-    // A same-day 06:00 row painted at 20:00 is not a present tense even though the
-    // date matches — the picker clamps the current hour to the nearest served hour
-    // of TODAY, which can be 14 h away (the bug the reviewer found: a 06:00 row
-    // painted as `.now-wx` at 20:00). A row within 2 h of the place-local clock
-    // still carries the current conditions (the useful half of a day, and it
-    // absorbs the publish lag of an hourly refresh); anything further is dropped
-    // and the card keeps its honest day-weather chip, which labels the day it
-    // describes. Implemented as a gate INSIDE the one renderer, so the sidecar and
-    // the shard path can never disagree about what counts as now.
-    const CLUI115_NOW_MAX_HOUR_SKEW_MIN=120;
-    function clui115NowPickFresh(pick,tz,nowMs){
-      if(!pick||!pick.hhmm)return false;
+    // CL-UI-117 §5: THREE-TIER hour-skew policy (owner decision, replaces the
+    // earlier "drop anything past 2 h" rule).
+    //   skew <= 1 h          -> a current row: `.now-wx`, read as NOW.
+    //   1 h < skew <= 6 h    -> still a real observation, but not now: the row is
+    //                           rendered with the `.now-stale` modifier and its own
+    //                           hour in the label, NEVER as a present tense.
+    //   skew > 6 h           -> dropped; the card keeps the honest day chip.
+    // WHY 6 h and not 2 h: the now artifact is republished every 6 h, so an
+    // artifact generated at 02:44 is already 2 h 16 m old at 05:00 — a 2 h bound
+    // would blank the now row for most of every refresh cycle, i.e. it would
+    // delete current conditions for two thirds of the day to protect against a
+    // skew the reader can see in the label. 6 h is one whole cycle: past it the
+    // next publish has certainly been missed and the row is no longer evidence.
+    // The gate lives INSIDE the one chip renderer, so the sidecar path and the
+    // shard path cannot disagree about what counts as now.
+    const CLUI115_NOW_FRESH_SKEW_MIN=60;
+    const CLUI115_NOW_MAX_HOUR_SKEW_MIN=360;
+    function clui115NowSkewTier(pick,tz,nowMs){
+      if(!pick||!pick.hhmm)return null;
       const now=clui115LocalParts(tz,nowMs);
-      if(!now.date||now.minutes==null)return false;
-      if(pick.date!==now.date)return false;
+      if(!now.date||now.minutes==null)return null;
+      if(pick.date!==now.date)return null;
       const m=/^(\d{2}):(\d{2})$/.exec(String(pick.hhmm));
-      if(!m)return false;
+      if(!m)return null;
       const served=Number(m[1])*60+Number(m[2]);
-      return Math.abs(served-now.minutes)<=CLUI115_NOW_MAX_HOUR_SKEW_MIN;
+      const skew=Math.abs(served-now.minutes);
+      if(skew<=CLUI115_NOW_FRESH_SKEW_MIN)return {tier:'now',skew};
+      if(skew<=CLUI115_NOW_MAX_HOUR_SKEW_MIN)return {tier:'stale',skew};
+      return null;
     }
     // ===== CL-UI-115 §2: subject-window rows (today + the following days) =====
     // ONE source of truth: the committed subject-cards layer, read through the
@@ -954,6 +975,15 @@
     // evaluation refresh cycle with room for a delayed publish, plus the slack a
     // browser left open overnight needs; older than that and the artifact's
     // "now" rows are yesterday's, so the shards are the honest source again.
+    // INTENDED DEGRADATION — a device whose clock is wrong is not trusted.
+    // Both freshness gates read the DEVICE clock: this 26 h artifact bound and the
+    // hour-skew tier above. A device more than the bound away from the artifact's
+    // stamp therefore gets NO now row at all and keeps the honest day chip. That
+    // is deliberate, not a gap: the artifact is stamped by the publisher, so a
+    // disagreement means one of the two clocks is unusable and we cannot tell
+    // which. Presenting a row as "now" from an untrusted clock would be a
+    // fabricated present tense; showing the servable day weather instead is the
+    // only honest answer. No behaviour change is wanted here.
     const CLUI117_MAX_AGE_MS=26*60*60*1000;
     // A transient failure (network error, a 404 on a half-published artifact, a
     // 5xx from the CDN) must never lock the 2.3 MB shard path in for the whole
@@ -1045,7 +1075,7 @@
           // A ready artifact that lands after the last list pass (or after a
           // shard-painted fallback) must not leave the cards that were built in
           // that pass unpainted: repaint the WHOLE current card set.
-          if(clui117SidecarState==='ready')clui117PaintCurrentCards();
+          if(clui117SidecarState==='ready')clui117SchedulePaint();
         });
       return clui117SidecarPromise;
     }
@@ -1164,6 +1194,31 @@
       }
       return painted;
     }
+    // CL-UI-117 (reviewer, repaint cost): the hook above walks EVERY card in the
+    // DOM, and a single tick can run several list renders (boot snapshot, bundle
+    // arrival, auth, sort). Repainting on each of them is the same work N times
+    // over the same final DOM, so the hook is COALESCED: at most one paint pass
+    // per animation frame (0 ms timeout fallback) however many renders scheduled
+    // it. N renders in one tick ⇒ exactly one pass. The paint itself is unchanged,
+    // so CL-UI-45's date-switch budget is unaffected — this only removes repeats.
+    let clui117PaintQueued=false;
+    let clui117PaintPasses=0;
+    function clui117RunQueuedPaint(){
+      clui117PaintQueued=false;
+      clui117PaintPasses++;
+      // Always the DOCUMENT: a queued pass must paint whatever list exists when
+      // the frame runs, not the container captured when it was scheduled (a later
+      // render may have rebuilt the list). This is the same class of bug the
+      // render hook was added to fix, so it must not come back through the queue.
+      return clui117PaintCurrentCards(document);
+    }
+    function clui117SchedulePaint(){
+      if(clui117PaintQueued)return false;
+      clui117PaintQueued=true;
+      if(typeof requestAnimationFrame==='function')requestAnimationFrame(()=>clui117RunQueuedPaint());
+      else setTimeout(()=>clui117RunQueuedPaint(),0);
+      return true;
+    }
     function clui115AttachNowChip(card,spot){
       if(!card||!spot||!spot.spot_id)return;
       const region=provRegionOf(spot)||currentRegion;
@@ -1174,7 +1229,7 @@
         // The card was replaced by a render pass while this shard was in flight:
         // the row must land on whatever card NOW carries this place, not be
         // dropped with the detached element.
-        clui117PaintCurrentCards();
+        clui117SchedulePaint();
       };
       const engageShard=()=>{
         if(!region)return;
@@ -1193,19 +1248,32 @@
       // then obey its answer. In the sidecar path this function does NO network
       // work — no observer, no shard — for any card.
       clui117EnsureSidecar();
-      clui117SidecarSettled(()=>{
+      // One settle handler, re-entrant: the date-rollover branch re-fetches and
+      // runs it AGAIN when the refresh lands, so a refreshed-but-still-yesterday
+      // artifact cannot leave this card without a row (reviewer, CL-UI-117).
+      const onSettled=()=>{
         if(!card.isConnected)return;
-        if(clui117SidecarState==='pending')return;   // an attempt is in flight; its settle repaints
+        // An attempt is in flight (a rollover re-fetch, a retry). Re-queue rather
+        // than drop: this card still needs an answer when that attempt settles,
+        // otherwise it is the same silent loss in a different branch.
+        if(clui117SidecarState==='pending'){clui117SidecarSettled(onSettled);return;}
         if(clui117SidecarState==='ready'){
           if(clui117SidecarRows(spot.spot_id,spot.timezone,Date.now())){clui115PaintNowChip(card,spot);return;}
           // Absent from the artifact = the generator's honest "no row today".
           if(!clui117SidecarEntry(spot.spot_id))return;
           // Present but dated yesterday (midnight rollover). Re-fetch once when
-          // the artifact predates this place's local day; otherwise the shard is
-          // the honest source — either way the row is not silently lost.
+          // the artifact predates this place's local day; the shard path is then
+          // the honest source for whatever the refresh still cannot supply.
           if(clui117StampBeforeLocalDay(spot.timezone,Date.now())&&clui117SidecarRefreshes<1){
             clui117SidecarRefreshes++;
             clui117EnsureSidecar({force:true});
+            // The forced fetch sets the state to 'pending' synchronously, so this
+            // handler is queued as a waiter and RUNS AGAIN when the refresh
+            // settles: a fresh answer paints, anything else falls through to the
+            // shard. Returning here without that queueing is exactly the gap that
+            // left the triggering card with no row at all — the old comment
+            // claiming "either way the row is not silently lost" was false.
+            clui117SidecarSettled(onSettled);
             return;
           }
           engageShard();
@@ -1214,7 +1282,8 @@
         // Fallback (artifact unusable / transiently failed): the shipped
         // CL-UI-115 lazy shard path.
         engageShard();
-      });
+      };
+      clui117SidecarSettled(onSettled);
     }
     function trMessage(key){ const t=currentData?.translations?.messages?.[key]; return localeText(t)||d().status_unavailable; }
     // CL-UI-115 §2 test seam (same pattern as window.__openWeatherCalls): lets a
@@ -1238,6 +1307,9 @@
         ageMs(){const at=Date.parse(String((clui117Sidecar&&clui117Sidecar.generated_at)||''));return Number.isFinite(at)?Date.now()-at:null;},
         maxAgeMs:CLUI117_MAX_AGE_MS,
         hourSkewMin:CLUI115_NOW_MAX_HOUR_SKEW_MIN,
+        freshSkewMin:CLUI115_NOW_FRESH_SKEW_MIN,
+        paintPasses(){return clui117PaintPasses;},
+        schedulePaint(){return clui117SchedulePaint();},
         attempts(){return clui117SidecarAttempts;},
         repaint(){return clui117PaintCurrentCards();}
       };
@@ -3443,8 +3515,9 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       }
       // CL-UI-117: paint the now row on the WHOLE card set the pass just built —
       // the settle-time paint is one-shot, so a pass that runs after it (or a
-      // card skipped while detached) would otherwise stay empty forever.
-      clui117PaintCurrentCards(container);
+      // card skipped while detached) would otherwise stay empty forever. COALESCED
+      // (clui117SchedulePaint): several renders inside one tick share one pass.
+      clui117SchedulePaint();
       // CL-UI-11: persist the settled gated render so the next full reload can
       // boot instantly from it (see loadRenderSnapshot).
       saveRenderSnapshot();

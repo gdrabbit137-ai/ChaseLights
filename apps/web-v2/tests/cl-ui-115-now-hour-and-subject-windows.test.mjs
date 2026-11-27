@@ -58,7 +58,7 @@ function build(cards){
   const rowFn=slice('function v2SubjectCardRow','// CL-UI-63: dedup short subject names');
   const factory=new Function('v2SubjectCards','currentLang','DICT',[
     PRELUDE,rowFn,body,
-    'return {clui115LocalParts,clui115HourRows,clui115NowHourRow,clui115NowFog,clui115NowChipHtml,clui115SubjectWindowDates,clui115SubjectWindowRows,clui115SubjectWindowsHtml,clui115NowHourLabel};'
+    'return {clui115LocalParts,clui115HourRows,clui115NowHourRow,clui115NowFog,clui115NowChipHtml,clui115NowSkewTier,clui115SubjectWindowDates,clui115SubjectWindowRows,clui115SubjectWindowsHtml,clui115NowHourLabel};'
   ].join('\n'));
   return factory({places:cards.places,dictionaries:cards.dictionaries},'zh-TW',DICT);
 }
@@ -104,22 +104,48 @@ test('CL-UI-115 §2 (now_hour): an hour outside the served range clamps, and the
   assert.equal(pick2.date,'2026-11-27');
 });
 
-test('CL-UI-117 §5: an hour far from the place clock is NOT painted as now',()=>{
+test('CL-UI-117 §5: the THREE-TIER hour policy — now / stale / dropped',()=>{
   // Reviewer finding: a same-day 06:00 row painted as `.now-wx` at 20:00 — the
   // date matched, the hour was 14 h away, and the chip still claimed "now".
-  // Decision: DROP such rows (never relabel them) and keep the day chip, which
-  // says which day it describes. The bound is 2 h, in the ONE renderer, so the
-  // sidecar path and the shard path cannot disagree.
+  // Owner ruling (replaces the earlier "drop past 2 h"): the artifact is
+  // republished every 6 h, so a 2 h bound blanks the row for most of a cycle.
+  //   skew <= 1 h        -> current row, `.now-wx`
+  //   1 h < skew <= 6 h  -> `.now-wx.now-stale`, its OWN hour in the label
+  //   skew > 6 h         -> dropped, the honest day chip stays
+  const AT_1000=Date.UTC(2026,10,27,2,0);
+  const AT_1001=Date.UTC(2026,10,27,2,1);
+
+  // --- tier 1: current row
+  const fresh=api.clui115NowChipHtml(rowsFor('2026-11-27',['10']),TPE,AT_1020);
+  assert.match(fresh,/class="metric-chip day-wx now-wx"/,'20 min away is a current row');
+  assert.doesNotMatch(fresh,/now-stale/);
+  // Both sides of the 1 h boundary: 60 min is still current, 61 min is not.
+  assert.match(api.clui115NowChipHtml(rowsFor('2026-11-27',['09']),TPE,AT_1000),/now-wx"/,
+    'exactly 60 min behind is a current row (boundary inside)');
+  assert.match(api.clui115NowChipHtml(rowsFor('2026-11-27',['09']),TPE,AT_1001),/now-stale/,
+    '61 min behind is stale, not current (boundary outside)');
+
+  // --- tier 2: rendered, but explicitly NOT now
+  const stale=api.clui115NowChipHtml(rowsFor('2026-11-27',['06']),TPE,AT_1020);
+  assert.match(stale,/now-wx now-stale/,'a 260 min old row is still rendered');
+  assert.match(stale,/data-now-stale="1"/);
+  assert.match(stale,/<span class="now-hour">06:00<\/span> · /,'its own hour LEADS the label');
+  assert.match(stale,/18\.4°C/,'the observation itself is still shown');
+  assert.doesNotMatch(stale,/現在|now"|>now</,'a stale row is never labelled as a present tense');
+  // Both sides of the 6 h boundary: 360 min renders stale, 361 min is dropped.
+  const atEdge=api.clui115NowChipHtml(rowsFor('2026-11-27',['04']),TPE,AT_1000);
+  assert.match(atEdge,/now-stale/,'exactly 6 h behind still renders (labelled stale)');
+  assert.equal(api.clui115NowChipHtml(rowsFor('2026-11-27',['04']),TPE,AT_1001),'',
+    '6 h 01 min behind is dropped');
+
+  // --- tier 3: dropped (the 14 h case the reviewer found)
   const morning=rowsFor('2026-11-27',['06','07','08']);
   assert.equal(api.clui115NowHourRow(morning,TPE,AT_2340).hhmm,'08:00','the picker still clamps…');
-  assert.equal(api.clui115NowChipHtml(morning,TPE,AT_2340),'','…but a 15 h gap is never labelled now');
-  // The near edge of the bound still paints (an hour of publish lag is honest).
-  // 09:40 Taipei: 08:00 is 100 min behind (inside), 07:00 is 160 min behind (out).
-  const AT_0940=Date.UTC(2026,10,27,1,40);
-  const twoHoursBack=rowsFor('2026-11-27',['08']);
-  assert.match(api.clui115NowChipHtml(twoHoursBack,TPE,AT_0940),/data-now-hour="08:00"/,'100 min behind still paints');
-  const nearlyThree=rowsFor('2026-11-27',['07']);
-  assert.equal(api.clui115NowChipHtml(nearlyThree,TPE,AT_0940),'','160 min behind is dropped');
+  assert.equal(api.clui115NowChipHtml(morning,TPE,AT_2340),'','…but a 15 h gap is never rendered');
+  // The boundary constants are the documented ones.
+  assert.equal(api.clui115NowSkewTier({date:'2026-11-27',hhmm:'09:00'},TPE,AT_1000).tier,'now');
+  assert.equal(api.clui115NowSkewTier({date:'2026-11-27',hhmm:'09:00'},TPE,AT_1001).tier,'stale');
+  assert.equal(api.clui115NowSkewTier({date:'2026-11-27',hhmm:'03:00'},TPE,AT_1001),null);
 });
 
 test('CL-UI-115 §2 (now_hour): a row from another local date is NEVER a now row',()=>{
@@ -250,6 +276,25 @@ test('CL-UI-115 §2 (subject windows): a day the layer cannot cover says 資料�
   assert.equal((html.match(/<span class="sw-win">([^<]*)<\/span>/g)||[]).every(m=>!/<span class="sw-win"><\/span>/.test(m)),true,'no hollow window cell');
 });
 
+test('CL-UI-117 §5: `.now-stale` is visibly muted — it must not look like a current row',()=>{
+  const CSS=readFileSync(new URL('../../../assets/app.css',import.meta.url),'utf8');
+  const rule=(CSS.match(/\.now-wx\.now-stale\{([^}]*)\}/)||[])[1];
+  assert.ok(rule,'a .now-stale modifier rule exists');
+  assert.match(rule,/opacity:\.\d+/,'the row is faded…');
+  assert.match(rule,/color:var\(--cl-text-2\)/,'…and carries the secondary tone');
+  assert.match(CSS,/\.now-wx\.now-stale svg\{[^}]*stroke:/,'the icon stroke is muted too');
+  // It must be a DIFFERENT rendering than a current row, not an alias.
+  const freshRule=(CSS.match(/\.now-wx\{([^}]*)\}/)||[])[1]||'';
+  assert.doesNotMatch(freshRule,/opacity/,'a current row is not faded');
+});
+
+// NOTE — WRONG DEVICE CLOCK is INTENDED degradation (CL-UI-117 §6): a device
+// whose clock is off by more than the 26 h artifact bound gets NO now row at all
+// (both the artifact bound and the hour-tier gate read the device clock), and
+// keeps the honest day chip. There is deliberately no test asserting a row in
+// that case: presenting one would be a fabricated present tense. This note is
+// the record so a later reader does not "fix" the blank row by trusting the
+// device clock.
 test('CL-UI-115 §2 (single source): the panel reads v2SubjectCardRow — no re-derived verdict',()=>{
   const body=slice('function clui115SubjectWindowRows','function clui115SubjectWindowsHtml');
   assert.match(body,/v2SubjectCardRow\(spotId,date\)/,'the subject rows come from the card\'s own lookup');

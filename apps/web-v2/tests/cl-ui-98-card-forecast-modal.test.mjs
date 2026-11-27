@@ -67,6 +67,6 @@ test('CL-UI-98 (4): component single-source — one v2BandHtml, one quick-view p
   assert.equal((appSource.match(/function mountQuickView\(/g) || []).length, 1);
   assert.ok(!appSource.includes('quickHost'));
   // Cache-bust bumped in the same ticket.
-  assert.match(indexSource, /assets\/app\.js\?v=clui142/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui142/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui143/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui143/);
 });

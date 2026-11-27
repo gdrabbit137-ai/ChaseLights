@@ -20,7 +20,17 @@
 //   (6) a TRANSIENT failure (503) does not poison the promise for the page
 //       lifetime: a later attempt succeeds and the cards switch to sidecar rows;
 //   (7) date rollover: a yesterday-stamped artifact is re-fetched, and one
-//       stamped today but carrying yesterday's rows falls back to the shards.
+//       stamped today but carrying yesterday's rows falls back to the shards;
+//       a re-fetch that is STILL yesterday-stamped leaves no card without a row.
+//   (8) the full-set repaint is coalesced (one pass per tick) and costs a small
+//       fraction of the CL-UI-45 date-switch budget over the real 124-card list.
+//
+// NOTE — WRONG DEVICE CLOCK (intended degradation): both freshness gates (the
+// 26 h artifact bound and the 1 h/6 h hour tiers) read the DEVICE clock, so a
+// device whose clock is off by more than the bound gets NO now row and keeps the
+// honest day chip. That is deliberate — the artifact is stamped by the publisher
+// and an untrusted clock cannot produce a present tense — so there is no test
+// here asserting a row for a skewed clock. Do not "fix" that blank row.
 //
 // Harness: headless Chrome over CDP against a static server rooted at the repo.
 // The shards are served as SMALL synthetic files (today's 24 local rows at the
@@ -77,7 +87,7 @@ const tpeStamp = (date, hhmm) => {
 };
 
 // ------------------------------------------------ static page + request log
-let scenario = 'ok';            // ok | 404 | stale | fresh-edge | flaky | rollover | datedmiss
+let scenario = 'ok';            // ok | 404 | stale | fresh-edge | flaky | rollover | rolloverstuck | datedmiss
 let sidecarHits = 0;            // now-latest.json requests in THIS page load
 const requests = [];            // every URL the page asked for, query string included
 let server, baseURL, chrome, ws, send, evaljs, ready;
@@ -113,6 +123,14 @@ function sidecarBody(hit) {
   if (scenario === 'rollover' && hit === 1) {
     // Published on the PREVIOUS local day: every row it carries is yesterday's.
     // The re-fetch (hit 2) is a fresh, today's artifact.
+    const yesterday = tpeDateOffset(-1);
+    for (const p of Object.values(copy.places)) p.local_date = yesterday;
+    copy.generated_at = tpeStamp(yesterday, '23:00');
+  }
+  if (scenario === 'rolloverstuck') {
+    // Published yesterday AND the re-fetch is still yesterday's (the pipeline has
+    // not republished): the client cannot get a row from the artifact at all, so
+    // the card must fall through to the shard / day chip — never an empty slot.
     const yesterday = tpeDateOffset(-1);
     for (const p of Object.values(copy.places)) p.local_date = yesterday;
     copy.generated_at = tpeStamp(yesterday, '23:00');
@@ -422,14 +440,118 @@ test('CL-UI-117: date rollover — a today-stamped artifact with yesterday\'s ro
   assert.ok(s.shards.length < s.cards, `and it stays lazy (${s.shards.length} < ${s.cards})`);
 });
 
+test('CL-UI-117: a re-fetch that is STILL yesterday-stamped never leaves an empty weather slot', {timeout: 300000}, async t => {
+  await boot();
+  // Reviewer condition 1. The card that triggers the forced refresh used to
+  // `return` without engaging the shard path; when the refetched artifact was
+  // still yesterday-stamped that card ended with NO row at all (and the comment
+  // claiming "either way the row is not silently lost" was false). The branch now
+  // re-queues its settle handler, so the card falls through to the shard path.
+  const s = await load('rolloverstuck', {
+    want: 'ready',
+    // Covered cards that sit near the viewport must end with a now row from the
+    // shard (the shipped CL-UI-115 loader is viewport-driven: an off-screen card
+    // legitimately has not fetched yet).
+    extra: `(() => {
+      const ids = ${JSON.stringify(FIXTURE_IDS)};
+      return [...document.querySelectorAll('#spots-container .card')].filter(c => {
+        const r = c.getBoundingClientRect();
+        return r.bottom > -300 && r.top < innerHeight + 300 && ids.includes(c.getAttribute('data-place-id'));
+      }).every(c => !!c.querySelector('.now-wx'));
+    })()`,
+  });
+  assert.equal(s.state, 'ready', 'the artifact is fresh enough to be used');
+  assert.ok(s.sidecar.length >= 2, `the rollover triggers exactly one re-fetch (got ${s.sidecar.length})`);
+  assert.equal(s.sidecarTemp, false, "yesterday's rows are never painted as now");
+  assert.ok(s.shards.length > 0, `the fall-through engages the shard path (got ${s.shards.length} shard requests)`);
+  assert.ok(s.nowIds.length > 0, `cards still get rows from the shards (got ${s.nowIds.length})`);
+  // The bug was a card with NO row at all. Proof, scoped to the cards the shard
+  // path actually reached (the shipped CL-UI-115 loader is viewport-driven, so an
+  // off-screen card is not expected to have fetched yet): every covered card near
+  // the viewport must end with a now row, and no visible card may be an empty
+  // weather slot (no now row AND no labelled day chip).
+  const visible = await evaljs(`(() => {
+    const ids = ${JSON.stringify(FIXTURE_IDS)};
+    const out = {covered:[], painted:[], empty:[]};
+    for (const c of document.querySelectorAll('#spots-container .card')) {
+      const id = c.getAttribute('data-place-id');
+      if (!ids.includes(id)) continue;
+      const r = c.getBoundingClientRect();
+      if (r.bottom < -300 || r.top > innerHeight + 300) continue;
+      const now = !!c.querySelector('.now-wx');
+      const day = !!c.querySelector('.day-wx');
+      if (!now && !day) out.empty.push(id);
+      out.covered.push(id);
+      if (now) out.painted.push(id);
+    }
+    return out;
+  })()`);
+  assert.ok(visible.covered.length > 0, 'non-vacuous: covered cards sit near the viewport');
+  assert.deepEqual(visible.painted.sort(), visible.covered.slice().sort(),
+    'every covered card the shard path reached ends with a now row — the triggering card is not lost');
+  assert.deepEqual(visible.empty, [],
+    'no visible card is left with an empty weather slot after a stuck rollover');
+  const covered = s.ids.filter(id => FIXTURE_IDS.includes(id));
+  assert.ok(covered.length > 0, 'non-vacuous: the list contains places the artifact covers');
+});
+
+test('CL-UI-117: the repaint hook is COALESCED — N schedules in one tick ⇒ one paint pass', {timeout: 240000}, async t => {
+  await boot();
+  const s = await load('ok');
+  // Flush any paint already queued by the settle path, then count.
+  const r = await evaljs(`(async () => {
+    const raf = () => new Promise(res => requestAnimationFrame(() => requestAnimationFrame(res)));
+    await raf();
+    const before = window.__clui117.paintPasses();
+    for (let i = 0; i < 124; ++i) window.__clui117.schedulePaint();
+    await raf();
+    return {before, after: window.__clui117.paintPasses()};
+  })()`);
+  assert.equal(r.after - r.before, 1,
+    `124 renders inside one tick must produce ONE paint pass (got ${r.after - r.before})`);
+  // Coalescing must not LOSE the paint: the rows the pass paints are still there,
+  // and no card that had a row lost it.
+  const after = await evaljs(`[...document.querySelectorAll('#spots-container .card')].filter(c => c.querySelector('.now-wx')).length`);
+  assert.equal(after, s.nowIds.length, 'the coalesced pass leaves the same rows painted as before it');
+  assert.ok(s.cards >= 100, `the measurement runs over the real list (${s.cards} cards)`);
+});
+
+test('CL-UI-117: a full 124-card repaint pass stays well inside the CL-UI-45 budget', {timeout: 240000}, async t => {
+  await boot();
+  const s = await load('ok');
+  // CL-UI-45 (3a) budgets a whole date switch at < 600 ms and 11 switches at
+  // < 4000 ms. The now-row repaint is ONE pass inside such a switch, so it must
+  // cost a small fraction of 600 ms. Measured on the real list at 1280.
+  const timing = await evaljs(`(() => {
+    const runs = [];
+    let painted = 0;
+    for (let i = 0; i < 7; ++i) {
+      const t0 = performance.now();
+      painted = window.__clui117.repaint();
+      runs.push(performance.now() - t0);
+    }
+    runs.sort((a, b) => a - b);
+    return {cards: document.querySelectorAll('#spots-container .card').length, painted,
+      median: Math.round(runs[3] * 10) / 10, max: Math.round(runs[6] * 10) / 10};
+  })()`);
+  console.log('CL-UI-117 repaint: cards=' + timing.cards + ' painted=' + timing.painted
+    + ' median=' + timing.median + 'ms max=' + timing.max + 'ms (CL-UI-45 switch budget 600ms)');
+  assert.ok(timing.cards >= 100, `measured on the real list (${timing.cards} cards)`);
+  assert.equal(timing.painted, s.nowIds.length,
+    'one pass repaints every card that carries a now row (nothing is skipped)');
+  assert.ok(timing.median < 150,
+    `a ${timing.cards}-card repaint must be well inside the 600 ms switch budget (median ${timing.median}ms)`);
+  assert.ok(timing.max < 300, `no single repaint may approach the budget (max ${timing.max}ms)`);
+});
+
 test('CL-UI-117: the freshness bound and the cache-bust stamps are pinned', () => {
   assert.equal(MAX_AGE_MS, 26 * 60 * 60 * 1000, 'the fixture ages assume the 26 h bound');
-  assert.match(INDEX, /assets\/app\.js\?v=clui142/, 'index.html loads app.js with the new stamp');
-  assert.match(INDEX, /assets\/icons\.js\?v=clui142/, 'index.html loads icons.js with the new stamp');
-  assert.match(INDEX, /assets\/app\.css\?v=clui142/, 'index.html loads app.css with the new stamp');
+  assert.match(INDEX, /assets\/app\.js\?v=clui143/, 'index.html loads app.js with the new stamp');
+  assert.match(INDEX, /assets\/icons\.js\?v=clui143/, 'index.html loads icons.js with the new stamp');
+  assert.match(INDEX, /assets\/app\.css\?v=clui143/, 'index.html loads app.css with the new stamp');
   for (const page of ['404.html', 'genre-eval.html', 'reminders.html', 'sources.html']) {
     const src = readFileSync(join(APP, page), 'utf8');
-    assert.match(src, /assets\/app\.css\?v=clui142/, `${page} loads app.css with the new stamp`);
+    assert.match(src, /assets\/app\.css\?v=clui143/, `${page} loads app.css with the new stamp`);
     assert.ok(!/clui141/.test(src), `${page} carries no stale clui141 stamp`);
   }
 });

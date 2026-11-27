@@ -2887,6 +2887,14 @@ body:not([data-cp-has-private="1"]) .cl-cp-view-bar{display:none}
    computed style is the contract). */
 .now-wx{gap:6px}
 .now-wx .now-hour{color:var(--cl-text-3);font-variant-numeric:tabular-nums}
+/* CL-UI-117 §5: 1 h < skew <= 6 h. The row is a REAL observation from an earlier
+   hour of today, rendered muted so it can never be mistaken for a current
+   condition: the icon loses its full-strength stroke, the text drops to the
+   secondary tone, and the whole chip is slightly faded. It must not look
+   identical to a `.now-wx` row. */
+.now-wx.now-stale{opacity:.72;color:var(--cl-text-2)}
+.now-wx.now-stale .now-hour{color:var(--cl-text-2);font-weight:600}
+.now-wx.now-stale svg{stroke:var(--cl-text-3);opacity:.8}
 .now-wx.cl-now-fog{
   border:1px solid var(--cl-amber-border);
   background:var(--cl-amber-bg);
