@@ -236,7 +236,9 @@ test('CL-UI-115 §2 (single source): the panel reads v2SubjectCardRow — no re-
   const body=slice('function clui115SubjectWindowRows','function clui115SubjectWindowsHtml');
   assert.match(body,/v2SubjectCardRow\(spotId,date\)/,'the subject rows come from the card\'s own lookup');
   assert.doesNotMatch(body,/hour_counts|good_hours|state===/,'the panel never re-derives a verdict from the bundle');
-  // The card and the panel share the NOW renderer.
+  // The card and the panel share the NOW renderer. CL-UI-117 changed only the
+  // SOURCE of the rows (the precomputed sidecar first, the shard cache second) —
+  // the renderer is still the one function, so the chip's wording cannot drift.
   const card=slice('const dayWx=dayWeatherFor','const tempChip=tempChipHtml(metric.temp);');
-  assert.match(card,/clui115NowChipHtml\(clui115NowRows\(spot\.spot_id\)/,'the card paints the now chip through the SAME renderer');
+  assert.match(card,/clui115NowChipHtml\(clui117NowRows\(spot\.spot_id,spot\.timezone/,'the card paints the now chip through the SAME renderer');
 });

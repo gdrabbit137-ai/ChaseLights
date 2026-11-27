@@ -908,6 +908,92 @@
       }).join('');
       return `<section class="sw-windows" data-subject-windows="1"><div class="place-guide-section-title">${esc(d().clui115_sw_title)}</div>${rowsHtml}</section>`;
     }
+    // ===== CL-UI-117: the precomputed now-row sidecar =====
+    // CL-DATA-115 publishes ONE compact artifact (`apps/web-v2/now-latest.json`,
+    // ~50 KB) that already contains, per place, the row the CL-UI-115 picker
+    // would choose at publish time:
+    //   {"artifact_version","generated_at","source_bundle","hours",
+    //    "places":{place_id:{local_date,hour,wmo,temp_c,vis_km,is_today}}}
+    // The page fetches it ONCE (single promise per page load) and paints every
+    // card from the same map — no per-card network traffic at all. The shard
+    // fetcher below stays intact and is reached only when this artifact is
+    // unusable (404 / unparseable / no places map / lagging the bundle by more
+    // than a day), so a publish-pipeline failure degrades to the CL-UI-115
+    // behaviour instead of to a blank row.
+    //
+    // A place ABSENT from `places` is the generator's honest signal (no today
+    // row / stale shard): the card keeps its day-weather chip and NO shard is
+    // requested. Nothing here ever invents a now row.
+    const CLUI117_SIDECAR_PATH='./apps/web-v2/now-latest.json';
+    const CLUI117_MAX_LAG_MS=24*60*60*1000;
+    let clui117Sidecar=null;            // the usable payload, else null
+    let clui117SidecarState='pending';  // 'pending' | 'ready' | 'unusable'
+    let clui117SidecarPromise=null;
+    let clui117SidecarWaiters=[];
+    function clui117BundleStamp(){
+      const at=v2EvalBundle&&v2EvalBundle.generated_at;
+      return typeof at==='string'&&at?at:'';
+    }
+    // Usable = a places MAP, and not older than the loaded bundle by > 1 day.
+    // The sidecar carries the bundle's own stamp, so a sidecar that lags its
+    // bundle means the two publish steps drifted: the shards are the source of
+    // truth again until the next publish catches up.
+    function clui117SidecarUsable(payload){
+      if(!payload||typeof payload!=='object')return false;
+      const places=payload.places;
+      if(!places||typeof places!=='object'||Array.isArray(places))return false;
+      const side=Date.parse(String(payload.generated_at||''));
+      const bundle=Date.parse(clui117BundleStamp());
+      if(Number.isFinite(side)&&Number.isFinite(bundle)&&(bundle-side)>CLUI117_MAX_LAG_MS)return false;
+      return true;
+    }
+    // Cards attach before the artifact lands (it is fetched in parallel with the
+    // list); every one of them waits on this ONE promise, never on its own fetch.
+    function clui117SidecarSettled(fn){
+      if(clui117SidecarState!=='pending'){try{fn();}catch(e){}return;}
+      clui117SidecarWaiters.push(fn);
+    }
+    function clui117EnsureSidecar(){
+      if(clui117SidecarPromise)return clui117SidecarPromise;
+      const stamp=clui117BundleStamp();
+      // Cache-buster from the bundle's generated_at: a republished artifact is a
+      // new URL, an unchanged one is served from cache.
+      const url=stamp?`${CLUI117_SIDECAR_PATH}?v=${encodeURIComponent(stamp)}`:CLUI117_SIDECAR_PATH;
+      clui117SidecarPromise=fetch(url,{cache:'no-cache',signal:AbortSignal.timeout(15000)})
+        .then(r=>r.ok?r.json():null)
+        .then(payload=>{
+          if(clui117SidecarUsable(payload)){clui117Sidecar=payload;clui117SidecarState='ready';}
+          else clui117SidecarState='unusable';
+        })
+        .catch(()=>{clui117SidecarState='unusable';})
+        .then(()=>{
+          const waiters=clui117SidecarWaiters;clui117SidecarWaiters=[];
+          waiters.forEach(fn=>{try{fn();}catch(e){}});
+        });
+      return clui117SidecarPromise;
+    }
+    // The place's sidecar entry as the SAME row shape the CL-UI-115 renderer
+    // reads, so the chip's wording/icons/labels cannot diverge between the two
+    // paths. Returns null when the entry cannot stand for "now":
+    //   * the place is absent (generator omitted it), or is_today is false;
+    //   * the row's local_date is not the place's local today (the artifact was
+    //     published before the place crossed midnight) — a `23:00` from
+    //     yesterday is not a present tense, exactly as in the shard path.
+    function clui117SidecarRows(spotId,timezone,nowMs){
+      if(clui117SidecarState!=='ready'||!clui117Sidecar)return null;
+      const e=clui117Sidecar.places[String(spotId)];
+      if(!e||typeof e!=='object')return null;
+      if(e.is_today===false)return null;
+      const date=typeof e.local_date==='string'?e.local_date:'';
+      const hour=typeof e.hour==='string'?e.hour:'';
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^\d{2}:\d{2}$/.test(hour))return null;
+      const now=clui115LocalParts(timezone,nowMs);
+      if(!now.date||now.date!==date)return null;
+      return [{time:`${date} ${hour}`,local_date:date,weather_code:e.wmo,temp:e.temp_c,visibility:e.vis_km}];
+    }
+    function clui117NowRows(spotId,timezone,nowMs){
+      return clui117SidecarRows(spotId,timezone,nowMs)||clui115NowRows(spotId);
+    }
     // The now-hour chip arrives lazily: one shard per VISIBLE card, cached, at
     // most 4 in flight. CL-UI-115 §3: there is NO per-page card cap. The old
     // hard budget (24 places per page load) made a 219-card list a visibly
@@ -948,7 +1034,7 @@
     // rows) and the lazy arrival; the markup comes from clui115NowChipHtml.
     function clui115PaintNowChip(card,spot){
       if(!card||!spot)return false;
-      const rows=clui115NowRows(spot.spot_id);
+      const rows=clui117NowRows(spot.spot_id,spot.timezone,Date.now());
       if(!rows||!rows.length)return false;
       const html=clui115NowChipHtml(rows,spot.timezone,Date.now());
       if(!html)return false;
@@ -968,16 +1054,28 @@
         clui115NowCache.set(spot.spot_id,rows);
         clui115PaintNowChip(card,spot);
       };
-      if(clui115NowRows(spot.spot_id)){paint(clui115NowRows(spot.spot_id));return;}
-      const kick=()=>clui115NowSchedule(region,spot.spot_id,paint);
-      if(typeof IntersectionObserver==='function'){
-        const io=new IntersectionObserver(entries=>{
-          if(entries.some(e=>e.isIntersecting)){io.disconnect();kick();}
-        },{rootMargin:'300px 0px'});
-        io.observe(card);
-      }else{
-        kick();
-      }
+      // CL-UI-117: the sidecar is fetched once; cards wait on that promise and
+      // then obey its answer. In the sidecar path this function does NO network
+      // work — no observer, no shard — for any card.
+      clui117EnsureSidecar();
+      clui117SidecarSettled(()=>{
+        if(!card.isConnected)return;
+        if(clui117SidecarState==='ready'){
+          if(clui117SidecarRows(spot.spot_id,spot.timezone,Date.now()))clui115PaintNowChip(card,spot);
+          return;
+        }
+        // Fallback (artifact unusable): the shipped CL-UI-115 lazy shard path.
+        if(clui115NowRows(spot.spot_id)){paint(clui115NowRows(spot.spot_id));return;}
+        const kick=()=>clui115NowSchedule(region,spot.spot_id,paint);
+        if(typeof IntersectionObserver==='function'){
+          const io=new IntersectionObserver(entries=>{
+            if(entries.some(e=>e.isIntersecting)){io.disconnect();kick();}
+          },{rootMargin:'300px 0px'});
+          io.observe(card);
+        }else{
+          kick();
+        }
+      });
     }
     function trMessage(key){ const t=currentData?.translations?.messages?.[key]; return localeText(t)||d().status_unavailable; }
     // CL-UI-115 §2 test seam (same pattern as window.__openWeatherCalls): lets a
@@ -992,6 +1090,12 @@
           if(spot&&card)return clui115PaintNowChip(card,spot);
           return false;
         }
+      };
+      // CL-UI-117 probe: which path the page took and whether a place has a row.
+      window.__clui117={
+        state(){return clui117SidecarState;},
+        hasPlace(spotId){return !!(clui117Sidecar&&clui117Sidecar.places&&clui117Sidecar.places[String(spotId)]);},
+        generatedAt(){return (clui117Sidecar&&clui117Sidecar.generated_at)||null;}
       };
     }
     /* CL-UI-83: trFactor retired with the card factor chips — no remaining caller. */
@@ -2687,7 +2791,9 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         // CL-UI-115 §2: the row reads NOW (the current hour at the place) whenever
         // the place's hourly forecast is already cached; the day-weather chip stays
         // the honest fallback while the shard is still in flight / unavailable.
-        const nowChip=clui115NowChipHtml(clui115NowRows(spot.spot_id),spot.timezone,Date.now());
+        // CL-UI-117: the precomputed sidecar row wins over the shard cache.
+        const clui117NowAt=Date.now();
+        const nowChip=clui115NowChipHtml(clui117NowRows(spot.spot_id,spot.timezone,clui117NowAt),spot.timezone,clui117NowAt);
         if(nowChip)return cloudChip+nowChip;
         if(dayWx)return cloudChip+dayWeatherChipHtml(dayWx);
         const tempChip=tempChipHtml(metric.temp);

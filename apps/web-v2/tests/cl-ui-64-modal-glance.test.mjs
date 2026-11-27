@@ -281,6 +281,6 @@ test('CL-UI-64 (7): shell styles + 390px mobile rules + cache-bust stamp bumped'
     assert.ok(!rule.includes('text-overflow:ellipsis') && !rule.includes('overflow:hidden'),
       'CL-UI-88: the slot string is never ellipsis-truncated: ' + rule);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui140/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui140/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui141/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui141/);
 });

@@ -147,19 +147,19 @@ test('CL-UI-46 (2a): the source-filter row is hidden unless the member owns a pr
 
 // ----------------------------------------------------------- cache-bust stamp
 
-test('CL-UI-46: app.js/app.css generation bumped to clui140 on every page that loads them',()=>{
+test('CL-UI-46: app.js/app.css generation bumped to clui141 on every page that loads them',()=>{
   // CL-UI-115: the icon set joins the generation — three stamped assets now.
-  assert.equal((indexSource.match(/\?v=clui140/g)||[]).length,3,'app.css + app.js + icons.js all at clui140');
-  assert.match(indexSource,/assets\/app\.js\?v=clui140/);
-  assert.match(indexSource,/assets\/app\.css\?v=clui140/);
+  assert.equal((indexSource.match(/\?v=clui141/g)||[]).length,3,'app.css + app.js + icons.js all at clui141');
+  assert.match(indexSource,/assets\/app\.js\?v=clui141/);
+  assert.match(indexSource,/assets\/app\.css\?v=clui141/);
   // CL-UI-115 §1: the icon set is a first-class stamped asset, loaded BEFORE app.js.
-  assert.match(indexSource,/assets\/icons\.js\?v=clui140/);
+  assert.match(indexSource,/assets\/icons\.js\?v=clui141/);
   assert.ok(indexSource.indexOf('assets/icons.js')<indexSource.indexOf('assets/app.js'),
     'icons.js must load before app.js so its label tables can resolve glyphs');
   const pages={index:'index.html','genre-eval':'genre-eval.html',reminders:'reminders.html',sources:'sources.html'};
   for(const [name,file] of Object.entries(pages)){
     const html=readFileSync(new URL('../../../'+file,import.meta.url),'utf8');
-    assert.match(html,/assets\/app\.css\?v=clui140/,`${name}: app.css carries the bumped stamp`);
+    assert.match(html,/assets\/app\.css\?v=clui141/,`${name}: app.css carries the bumped stamp`);
   }
   // No page and no shipped asset may still quote the old generation.
   assert.ok(!indexSource.includes('clui135'),'index.html: no stale stamp');
