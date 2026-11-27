@@ -734,8 +734,10 @@
     //      current local hour;
     //   2. if that hour is outside the served range but today IS covered, the
     //      nearest edge row of today (and the hour label shows which one);
-    //   3. if today is not covered at all, the FIRST forecast row, labelled with
-    //      its own date+hour — never another day's weather presented as today's.
+    //   3. if today is not covered at all there is NO now row — return null and
+    //      let the card keep the day-weather chip. A stale shard (newest row
+    //      11/15 while the clock reads 11/27) must never wear a `now` chip,
+    //      because a `11/15 02:00` suffix still reads as "right now".
     // Returns null when there is no hourly forecast at all (the caller then keeps
     // the day-weather chip instead of inventing a value).
     function clui115LocalParts(tz, nowMs){
@@ -773,20 +775,24 @@
       const todays=list.filter(x=>x.date===now.date);
       if(todays.length){
         const exact=todays.find(x=>x.minutes===today);
-        if(exact)return {row:exact.row,date:exact.date,hhmm:exact.hhmm,exact:true,today:true};
+        if(exact)return {row:exact.row,date:exact.date,hhmm:exact.hhmm,exact:true};
         // The current hour is outside the served range for today: clamp to the
         // nearest edge of TODAY (its hour label says which one it is).
         if(now.minutes!=null){
           const before=todays.filter(x=>x.minutes<today).pop();
           const after=todays.find(x=>x.minutes>today);
           const edge=before||after||todays[0];
-          return {row:edge.row,date:edge.date,hhmm:edge.hhmm,exact:false,today:true};
+          return {row:edge.row,date:edge.date,hhmm:edge.hhmm,exact:false};
         }
-        return {row:todays[0].row,date:todays[0].date,hhmm:todays[0].hhmm,exact:false,today:true};
+        return {row:todays[0].row,date:todays[0].date,hhmm:todays[0].hhmm,exact:false};
       }
-      // Today is not covered by the served forecast: fall back to the FIRST
-      // forecast row and label it — never silently claim it is today's weather.
-      return {row:list[0].row,date:list[0].date,hhmm:list[0].hhmm,exact:false,today:false};
+      // Today is not covered by the served forecast. There is NO "now" row to
+      // show: the newest served row may be weeks old (a stale shard: rows on
+      // 11/15 while the clock reads 11/27), and presenting that as now — even
+      // with a `11/15 02:00` suffix — is a fabricated present tense. Returning
+      // the row anyway is exactly how the fake now row shipped before. The
+      // caller keeps the day-weather chip, which labels its own date honestly.
+      return null;
     }
     // Fog right now. The place's hourly rows (weather_details/<region>/<spot>.json
     // → spot.hourly_forecast) carry RAW values only — measured over all 42,048
@@ -806,15 +812,12 @@
       const code=Number(row.weather_code);
       return Number.isFinite(code)&&(code===45||code===48);
     }
-    function clui115NowHourLabel(pick,tz,nowMs){
-      if(!pick)return '';
-      // CL-UI-115 §5: use the caller's instant, never a fresh Date.now() — the
-      // pick and its "is this today?" test must read the SAME clock, or a test
-      // (and a page mid-render) can label a today row with a date prefix.
-      const now=clui115LocalParts(tz,nowMs);
-      if(pick.date===now.date)return pick.hhmm;
-      const m=/^\d{4}-(\d{2})-(\d{2})$/.exec(pick.date);
-      return m?`${m[1]}/${m[2]} ${pick.hhmm}`:pick.hhmm;
+    function clui115NowHourLabel(pick){
+      // The pick is restricted to the place's LOCAL TODAY (clui115NowHourRow
+      // returns null otherwise), so a now row always labels a served hour of
+      // today. No clock is read here: the caller passes the same instant it
+      // picked with, so the pick and its label can never disagree.
+      return (pick&&pick.hhmm)?pick.hhmm:'';
     }
     // ONE renderer for the now chip, used by the first paint (cached rows) and by
     // the lazy shard arrival, so the two can never disagree.
@@ -831,7 +834,7 @@
       if(vt)bits.push(`${clIconSvg('visibility')} ${esc(vt)}`);
       if(!bits.length)return '';
       const fog=clui115NowFog(r);
-      const hour=clui115NowHourLabel(pick,tz,nowMs);
+      const hour=clui115NowHourLabel(pick);
       const reason=fog?`<span class="now-fog-reason">${esc(d().clui115_fog_now)}</span>`:'';
       return `<span class="metric-chip day-wx now-wx${fog?' cl-now-fog':''}" data-now-hour="${esc(hour)}"${fog?' data-now-fog="1"':''} title="${esc(hour)}">${bits.join(' · ')}${reason}<span class="now-hour">${esc(hour)}</span></span>`;
     }

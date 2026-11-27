@@ -29,7 +29,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:http';
-import { readFileSync, mkdtempSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, mkdtempSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -96,6 +96,28 @@ const ANCHOR_DAY = (() => {
   return (taipei && candidates.find(d => d >= taipei)) || candidates[0];
 })();
 if (!ANCHOR_DAY) throw new Error('no day is covered by both the evaluation bundle and the weather snapshot — cannot anchor the sweep');
+// Does the served HOURLY shard (weather_details/, gitignored) actually reach the
+// anchor day? The modal's day accordion groups the shard's rows from the
+// place-local today, so a shard whose newest row is 11/15 while the anchor is
+// 11/27 legitimately renders zero groups — a data-freshness fact, not a UI
+// defect. The same probe decides whether an empty accordion is a REAL regression
+// (the shard does cover the anchor) or an environment limit (it does not).
+const SHARD_REACHES_ANCHOR = (() => {
+  const dir = join(WEB, 'weather_details', 'tw');
+  if (!existsSync(dir)) return false;
+  try {
+    for (const f of readdirSync(dir)) {
+      if (!f.endsWith('.json')) continue;
+      try {
+        const payload = JSON.parse(readFileSync(join(dir, f), 'utf8'));
+        for (const r of (payload.spot && payload.spot.hourly_forecast) || []) {
+          if (r && String(r.local_date || '') >= ANCHOR_DAY) return true;
+        }
+      } catch { /* a half-written shard is not evidence either way */ }
+    }
+  } catch { return false; }
+  return false;
+})();
 const [ANCHOR_Y, ANCHOR_M, ANCHOR_D] = ANCHOR_DAY.split('-').map(Number);
 const DAY_FIXED = Date.UTC(ANCHOR_Y, ANCHOR_M - 1, ANCHOR_D, 2, 0, 0);   // 10:00 Asia/Taipei
 const NIGHT_FIXED = Date.UTC(ANCHOR_Y, ANCHOR_M - 1, ANCHOR_D, 15, 30, 0); // 23:30 Asia/Taipei
@@ -896,7 +918,7 @@ test('CL-E2E-131 (5) MAP — /weather-map.html?region=tw opens on mainland Taiwa
 // the same date. Both surfaces now read the committed subject-cards row, and
 // both render the SAME day-weather block (WMO code + temperature range +
 // visibility), so this gate asserts equality instead of eyeballing it.
-test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO, temperature, visibility', async () => {
+test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO, temperature, visibility', async (t) => {
   await boot();
   await installClock(DAY_FIXED);
   await navigate('index.html', { waitFor: `document.querySelectorAll('#spots-container .card').length > 0`, label: 'index cards' });
@@ -905,14 +927,19 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
   // (a) the card face carries a complete weather chip — icon, temperature and
   //     visibility — and never leaks a placeholder.
   // CL-UI-115 §2: the card row reads NOW (the current hour) when the place's
-  // hourly shard is loaded, otherwise the day block. Every VISIBLE card earns its
-  // now row (viewport-driven lazy load, no per-page card cap), so the gate waits
-  // for the first now chip and then validates BOTH shapes explicitly — a now chip
-  // may not skip the day-range branch, and a day chip may not skip the visibility
-  // one.
-  await pollUntil(`document.querySelectorAll('#spots-container .card .card-metric-chips .now-wx').length > 0`,
-    { timeoutMs: 60000, label: 'no card earned its now_hour row within 60s' });
-  const cardWx = await evaljs(`(() => {
+  // hourly shard covers the place-local TODAY, and otherwise keeps the day
+  // block. A stale shard — its newest row 11/15 while the clock reads 11/27, the
+  // normal state of a committed weather_details copy — earns NO now row: the
+  // card keeps the day chip instead of a fabricated present tense. So the gate
+  // validates both shapes where they exist and outlaws the fake one.
+  await pollUntil(`document.querySelectorAll('#spots-container .card .card-metric-chips .day-wx').length > 0`,
+    { timeoutMs: 60000, label: 'no card rendered its weather chip within 60s' });
+  // The page-side probe is a TEMPLATE string: every backslash the page must see
+  // is written twice here (`\\s` → `\s`). Reviewer condition 4 — the normalizer
+  // must be `/\s+/g` ON THE PAGE, not `/\\s+/g` (a literal backslash followed by
+  // `s`), which would silently never collapse whitespace. Comparing the evaluated
+  // VALUE below proves the escaping instead of eyeballing backslash counts.
+  const CARD_WX_PROBE = `(() => {
     const cards = [...document.querySelectorAll('#spots-container .card')];
     const withWx = cards.map(c => {
       const chip = c.querySelector('.card-metric-chips .day-wx');
@@ -926,8 +953,19 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
       };
     }).filter(Boolean);
     return { total: cards.length, withWx: withWx.length, sample: withWx.slice(0, 6) };
-  })()`);
+  })()`;
+  // The string handed to the page must carry the real `\s` class …
+  assert.ok(CARD_WX_PROBE.includes('replace(/\\s+/g'),
+    'the page-side normalizer is /\\s+/g (a four-backslash form would arrive as /\\\\s+/g and never collapse)');
+  // … and must not carry the escaped-by-accident form.
+  assert.ok(!CARD_WX_PROBE.includes('replace(/' + String.fromCharCode(92, 92) + 's+/g'),
+    'the probe does not double-escape the whitespace class');
+  const cardWx = await evaljs(CARD_WX_PROBE);
   assert.ok(cardWx.withWx > 0, `at least one card face renders the weather chip (got ${cardWx.withWx}/${cardWx.total})`);
+  // Proof the collapse RAN on real chip text: no run of whitespace survives.
+  for (const chip of cardWx.sample) {
+    assert.doesNotMatch(chip.text, /\s\s/, `the normalized chip text has no double space: ${chip.text}`);
+  }
 
   // Strict visibility (was `/(≥\s*)?\d/` — any digit satisfied it): the eye
   // icon ELEMENT must be followed by the numeric km value in the SAME markup, and
@@ -936,13 +974,17 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
   const nowChips = cardWx.sample.filter(c => c.isNow);
   const dayChips = cardWx.sample.filter(c => !c.isNow);
   assert.equal(nowChips.length + dayChips.length, cardWx.sample.length, 'every sampled chip is exactly one shape');
-  assert.ok(nowChips.length > 0, `the now_hour row is rendered for visible cards (got ${nowChips.length}/${cardWx.sample.length})`);
 
   for (const chip of nowChips) {
     const txt = chip.text;
     assert.ok(chip.nowHour, `now chip labels its hour via data-now-hour: ${txt}`);
+    // Reviewer condition 3: a now row is only ever a row of the place-local
+    // TODAY, so its label is a bare hour. A `11/15 02:00` suffix on a `now-wx`
+    // chip is the fake-present-tense regression this gate exists to catch.
+    assert.doesNotMatch(chip.nowHour, /\d{1,2}\/\d{1,2}/, `a now chip never labels another date: ${chip.nowHour}`);
+    assert.match(chip.nowHour, /^\d{2}:\d{2}$/, `now chip labels a served hour of today: ${chip.nowHour}`);
     assert.match(txt, /-?\d+(\.\d+)?°C/, `now_hour chip carries the current-hour temperature: ${txt}`);
-    assert.match(txt, /\d{2}:\d{2}|\d{2}\/\d{2} \d{2}:\d{2}/, `now_hour chip labels its hour: ${txt}`);
+    assert.match(txt, /\d{2}:\d{2}/, `now_hour chip labels its hour: ${txt}`);
     assert.doesNotMatch(txt, /-?\d+–-?\d+°C/, `the now chip shows ONE hour, never a fabricated day range: ${txt}`);
     assert.match(chip.html, VIS_ICON_THEN_VALUE, `the visibility ICON is followed by its numeric km value: ${chip.html}`);
     assert.ok(!/undefined|NaN|null/.test(txt), `now chip has no placeholder value: ${txt}`);
@@ -984,7 +1026,17 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
   })()`);
 
   assert.equal(surfaces.top.length, 7, `the top summary still lists 7 days (got ${surfaces.top.length})`);
-  assert.ok(surfaces.acc.length >= 1, 'the accordion renders at least one day group');
+  if (surfaces.acc.length < 1) {
+    // The accordion is built from the HOURLY shard, grouped from the place-local
+    // today. If the served shard has no row on/after the anchor day, zero groups
+    // is the honest render (the state reviewer condition 3 describes) and the
+    // parity it guards is unmeasurable here — skip with the reason. If the shard
+    // DOES reach the anchor, an empty accordion is a real defect and must fail.
+    assert.equal(SHARD_REACHES_ANCHOR, false,
+      `the accordion renders at least one day group — the served hourly shard DOES carry rows on/after ${ANCHOR_DAY}, so an empty accordion is a defect, not missing data`);
+    t.skip(`no hourly shard row on/after the anchor day ${ANCHOR_DAY} (weather_details is a committed copy whose newest row predates it) — the day accordion is legitimately empty, so card↔accordion parity cannot be measured here`);
+    return;
+  }
 
   let compared = 0;
   surfaces.top.forEach((row, i) => {

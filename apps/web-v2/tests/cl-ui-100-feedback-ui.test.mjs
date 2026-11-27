@@ -191,8 +191,8 @@ test('CL-UI-100 ⑤: nothing mounts unless GET /feedback/config answers {enabled
 
 // ---------------------------------------------------------------- surfaces + stamps
 test('CL-UI-100: index.html mounts the widget with the bumped clui102 stamps', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui138/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui138/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui139/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui139/);
   assert.match(indexSource, /assets\/feedback-ui\.js\?v=clui102/);
   assert.match(indexSource, /assets\/feedback-ui\.css\?v=clui102/);
   assert.ok(!indexSource.includes('clui100'), 'stale stamp must be gone');

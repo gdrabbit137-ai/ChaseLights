@@ -95,44 +95,59 @@ test('CL-UI-115 §2 (now_hour): an hour outside the served range clamps, and the
   const pick=api.clui115NowHourRow(late,TPE,AT_1020);
   assert.equal(pick.hhmm,'12:00','clamped to the first served hour of today');
   assert.equal(pick.exact,false,'the chip is honest that it is not the exact current hour');
-  assert.equal(pick.today,true,'still today — never another day presented as now');
+  assert.equal(pick.date,'2026-11-27','still the place-local today — never another day presented as now');
   assert.match(api.clui115NowChipHtml(late,TPE,AT_1020),/data-now-hour="12:00"/);
   // …and the other edge (all hours passed): clamp to the last served hour today.
   const early=rowsFor('2026-11-27',['06','07','08']);
   const pick2=api.clui115NowHourRow(early,TPE,AT_2340);
   assert.equal(pick2.hhmm,'08:00');
-  assert.equal(pick2.today,true);
+  assert.equal(pick2.date,'2026-11-27');
 });
 
-test('CL-UI-115 §2 (now_hour): a forecast that does not cover today is labelled with its own date',()=>{
+test('CL-UI-115 §2 (now_hour): a row from another local date is NEVER a now row',()=>{
+  // Reviewer condition 3. A stale shard (its newest row 11/15 while the clock
+  // reads 11/27) used to paint a `now-wx` chip built from 11/15 with a
+  // `11/15 02:00` suffix. A date suffix does not make it honest: the chip still
+  // says "right now". So no row for the place-local today ⇒ no now row at all,
+  // and the card keeps the day-weather chip, which labels its own date.
+  const stale=rowsFor('2026-11-15',['02','03','04']);
+  assert.equal(api.clui115NowHourRow(stale,TPE,AT_1020),null,'no row for the place-local today → no pick');
+  assert.equal(api.clui115NowChipHtml(stale,TPE,AT_1020),'','…and therefore no now chip (the day chip stays)');
+  // BRANCH 2 — the SAME shard on its own day really is now, and keeps its row.
+  const onItsDay=Date.UTC(2026,10,14,18,20); // 2026-11-15 02:20 Asia/Taipei
+  const pick=api.clui115NowHourRow(stale,TPE,onItsDay);
+  assert.ok(pick,'a today row still yields a now row');
+  assert.equal(pick.date,'2026-11-15','and the pick is a row of the place-local today');
+  assert.match(api.clui115NowChipHtml(stale,TPE,onItsDay),/data-now-hour="02:00"/,'the real now row is rendered, hour label and all');
+  // A future-dated shard follows the same rule (never presented as now).
   const future=rowsFor('2026-11-28',['00','01','02']);
-  const pick=api.clui115NowHourRow(future,TPE,AT_1020);
-  assert.equal(pick.today,false,'today is not covered — the row is NOT claimed as today');
-  const chip=api.clui115NowChipHtml(future,TPE,AT_1020);
-  assert.match(chip,/data-now-hour="11\/28 00:00"/,'the label carries the date of the row actually shown');
-  // No hourly forecast at all → no chip (the caller keeps the day-weather chip).
+  assert.equal(api.clui115NowChipHtml(future,TPE,AT_1020),'');
+  // No hourly forecast at all → no chip either.
   assert.equal(api.clui115NowChipHtml([],TPE,AT_1020),'');
   assert.equal(api.clui115NowHourRow(null,TPE,AT_1020),null);
+  // A today row never carries a date prefix in its label.
+  const chip=api.clui115NowChipHtml(rowsFor('2026-11-27',['10']),TPE,AT_1020);
+  assert.doesNotMatch(chip,/data-now-hour="\d{1,2}\/\d{1,2} /,'a now row labels an hour of today, never another date');
 });
 
-test('CL-UI-115 §5: the hour label reads the PASSED instant, never a fresh Date.now()',()=>{
-  // A pick from the passed nowMs must be labelled as "today" by that same
-  // instant. Recomputing Date.now() (the old bug) makes the label depend on
-  // wall-clock time, so a test and the page disagree and a today row can grow a
-  // date prefix for no reason.
+test('CL-UI-115 §5: the hour is picked from the PASSED instant, never a fresh Date.now()',()=>{
+  // Recomputing Date.now() inside the helpers (the old bug) makes the pick
+  // depend on wall-clock time, so a test and the page disagree.
   const rows=rowsFor('2026-11-27',['08','09','10','11']);
+  assert.equal(api.clui115NowHourRow(rows,TPE,AT_1020).hhmm,'10:00','the passed instant selects the 10:00 row');
+  assert.equal(api.clui115NowHourRow(rows,TPE,Date.UTC(2026,10,27,0,5)).hhmm,'08:00','a different instant selects a different hour');
   const pick=api.clui115NowHourRow(rows,TPE,AT_1020);
-  assert.equal(api.clui115NowHourLabel(pick,TPE,AT_1020),'10:00','same instant → bare hour label');
-  // Move the instant to the NEXT day: the same pick now carries its date.
-  const nextDay=Date.UTC(2026,10,28,2,20);
-  assert.equal(api.clui115NowHourLabel(pick,TPE,nextDay),'11/27 10:00','the label follows the passed instant');
-  // The source no longer closes over the wall clock inside the label helper
-  // (comments are stripped: the explanatory note mentions the old call).
+  assert.equal(api.clui115NowHourLabel(pick),'10:00','the label is the picked hour');
+  assert.equal(api.clui115NowHourLabel(null),'','no pick → no label');
+  // The label helper reads no clock at all (and carries no date prefix branch:
+  // a non-today row is not a now row in the first place, condition 3).
   const labelFn=slice('function clui115NowHourLabel','// ONE renderer for the now chip')
     .split('\n').filter(l=>!l.trim().startsWith('//')).join('\n');
-  assert.doesNotMatch(labelFn,/Date\.now\(\)/,'the label helper never recomputes the clock');
-  assert.match(labelFn,/clui115LocalParts\(tz,nowMs\)/,'it reads the caller-supplied nowMs');
+  assert.doesNotMatch(labelFn,/Date\.now\(\)/,'the label helper never reads the clock');
+  assert.doesNotMatch(labelFn,/pick\.date/,'no cross-day labelling survives — that row would have been suppressed');
+  assert.match(labelFn,/pick\.hhmm/,'it returns the picked hour');
 });
+
 
 test('CL-UI-115 §2 (fog): a foggy now tints the chip and states the reason',()=>{
   const foggy=rowsFor('2026-11-27',['10']);foggy[0].visibility=0.4;

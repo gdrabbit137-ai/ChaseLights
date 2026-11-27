@@ -155,15 +155,74 @@ test('CL-UI-115 §1: card row, hourly chip, filter row and summary all render th
 
 test('CL-UI-115 §1: every subject genre the artifact can emit resolves to a glyph',()=>{
   // The committed subject-cards artifact names subjects with its own genre
-  // vocabulary; each one must draw something (aliases live in icons.js).
+  // vocabulary, so EVERY key of its `genre_short_names` dictionary is part of
+  // the contract — not only the genres that happen to appear in today's pinned
+  // rows. A genre the dictionary knows but the rows do not yet use (misty_forest,
+  // snow_ice_night, volcanic_glow were exactly that) rendered text-only on the
+  // card row, filter row, summary and modal, and a row-only enumeration could
+  // never catch it. The dictionary is the authority: one glyph per key, no ''.
   const cardsFile=(appSource.match(/V2_SUBJECT_CARDS_FILE='([^']+)'/)||[])[1];
   assert.ok(cardsFile,'app.js pins the subject-cards artifact filename');
   const cards=JSON.parse(readFileSync(new URL('../../../data/v2/evaluations/'+cardsFile,import.meta.url),'utf8'));
-  const genres=new Set();
+  const dictGenres=Object.keys((cards.dictionaries||{}).genre_short_names||{});
+  assert.ok(dictGenres.length>=25,`the dictionary carries the genre vocabulary (got ${dictGenres.length})`);
+  for(const g of dictGenres){
+    const svg=G.clIcon(g);
+    assert.match(svg,/^<svg /,`dictionary genre ${g} resolves to a glyph, never ''`);
+    assert.match(svg,new RegExp(`data-cl-icon="${g}"`),`${g}: the artifact's own key rides the SVG`);
+  }
+  // …and the genres that DO appear in the pinned rows are a subset of it.
+  const rowGenres=new Set();
   for(const tree of Object.values(cards.places||{}))
     for(const row of Object.values(tree||{}))
-      for(const s of (row&&row.suitable)||[]) if(s&&s.genre) genres.add(s.genre);
-  assert.ok(genres.size>=15,`the artifact carries a broad genre vocabulary (got ${genres.size})`);
-  for(const g of genres) assert.match(G.clIcon(g),/^<svg /,`artifact genre ${g} has an icon (alias ok)`);
-  for(const g of genres) assert.match(G.clIcon(g),new RegExp(`data-cl-icon="${g}"`),`${g}: the artifact's own key rides the SVG`);
+      for(const s of (row&&row.suitable)||[]) if(s&&s.genre) rowGenres.add(s.genre);
+  assert.ok(rowGenres.size>=15,`the artifact rows carry a broad genre vocabulary (got ${rowGenres.size})`);
+  for(const g of rowGenres) assert.ok(dictGenres.includes(g),`row genre ${g} is a dictionary key`);
+  for(const g of rowGenres) assert.match(G.clIcon(g),/^<svg /,`artifact genre ${g} has an icon`);
 });
+
+test('CL-UI-115 §1: every subject key draws DISTINCT path data (no shared alias)',()=>{
+  // A shared shape is not a style choice: `overlook` used to alias `mountain_view`,
+  // so 山景 and 眺望 drew the identical 99-byte mountain in the same subject list —
+  // two rows, one picture, reading as one repeated subject. 金山 (alpenglow) and
+  // 夕陽 (sunset) were one alias away from the same collision. The rule: a shape
+  // may be shared ONLY when the user-visible label is the same subject; no such
+  // pair exists in this dictionary, so every key must hash differently.
+  const cardsFile=(appSource.match(/V2_SUBJECT_CARDS_FILE='([^']+)'/)||[])[1];
+  const cards=JSON.parse(readFileSync(new URL('../../../data/v2/evaluations/'+cardsFile,import.meta.url),'utf8'));
+  const dictGenres=Object.keys((cards.dictionaries||{}).genre_short_names||{});
+  const keys=[...new Set([...SUBJECT_KEYS,...dictGenres,...G.CL_SUBJECT_GENRES])];
+  assert.equal(SUBJECT_KEYS.length,23,'the 23 theme keys are all in the set');
+  assert.ok(G.CL_SUBJECT_GENRES.length>=20,`icons.js publishes its artifact-genre key list (got ${G.CL_SUBJECT_GENRES.length})`);
+  assert.ok(keys.length>=44,`the subject vocabulary is the 23 keys plus the artifact genres (got ${keys.length})`);
+  const bodyOf=key=>{
+    const svg=G.clIcon(key);
+    assert.match(svg,/^<svg /,`${key}: resolves to an SVG before it can be compared`);
+    return svg.slice(svg.indexOf('>')+1,svg.lastIndexOf('</svg>'));
+  };
+  const seen=new Map();
+  for(const key of keys){
+    const body=bodyOf(key);
+    assert.ok(body.length>20,`${key}: draws something`);
+    assert.equal(seen.has(body),false,`${key} draws the same path data as ${seen.get(body)} — distinct subjects need distinct glyphs`);
+    seen.set(body,key);
+  }
+  assert.equal(seen.size,keys.length,`one distinct glyph per subject key (${seen.size} of ${keys.length})`);
+});
+
+test('CL-UI-115 §1: the three dictionary genres that rendered text-only draw real shapes',()=>{
+  // Reviewer condition 1: misty_forest / snow_ice_night / volcanic_glow were in
+  // the artifact's dictionary but resolved to '' — text-only on the card row,
+  // filter row, summary and modal. Each needs a real drawing: trees + mist,
+  // moon/snowflake, mountain with glow.
+  const forest=G.clIcon('misty_forest');
+  assert.match(forest,/^<svg /,'misty_forest draws');
+  assert.ok((forest.match(/<path /g)||[]).length>=2,'misty_forest draws trees AND mist bands');
+  const snow=G.clIcon('snow_ice_night');
+  assert.match(snow,/^<svg /,'snow_ice_night draws');
+  assert.ok((snow.match(/<path /g)||[]).length>=2,'snow_ice_night draws a moon figure and snow/ground');
+  const lava=G.clIcon('volcanic_glow');
+  assert.match(lava,/^<svg /,'volcanic_glow draws');
+  assert.ok((lava.match(/<path /g)||[]).length>=3,'volcanic_glow draws a cone, a crater and a glow');
+});
+

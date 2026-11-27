@@ -1,0 +1,42 @@
+{
+  "schema_version": 10,
+  "updated_at": "2026-11-27T01:37:04.803480Z",
+  "region": "tw",
+  "latest_kp": null,
+  "latest_kp_source": "noaa_swpc",
+  "total_spots": 1,
+  "stale_spot_count": 0,
+  "stale_spot_ids": [],
+  "spot_id": "tw-fixture-fog",
+  "data_stale": false,
+  "spot": {
+    "spot_id": "tw-fixture-fog",
+    "name_i18n": {"zh-TW": "霧中測試點", "en": "Fog fixture", "ja": "霧テスト地点"},
+    "name_local": "霧中測試點",
+    "category": "mountain",
+    "timezone": "Asia/Taipei",
+    "timezone_abbr": "CST",
+    "utc_offset_seconds": 28800,
+    "lat": 24.15,
+    "lon": 121.28,
+    "elevation": 3200,
+    "hourly_forecast": [
+      {
+        "time": "2026-11-15 02:00",
+        "time_utc": "2026-11-14T18:00:00Z",
+        "local_date": "2026-11-15",
+        "timezone": "Asia/Taipei",
+        "timezone_abbr": "CST",
+        "visibility": 0.1,
+        "weather_code": 45,
+        "temp": 14.2,
+        "relative_humidity_2m": 99,
+        "precipitation": 0,
+        "cloud_cover_low": 100,
+        "cloud_cover_mid": 88,
+        "cloud_cover_high": 40,
+        "wind_speed_10m": 3.2
+      }
+    ]
+  }
+}

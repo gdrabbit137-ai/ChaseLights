@@ -86,7 +86,14 @@
     fog_mist: '🌫️', reflection: '🪞', sunbeam: '🌤️', milky_way: '🌌',
     long_exposure: '💧', city_night: '🌃', city_view: '🏙️', coast: '🌊',
     forest: '🌲', geology: '🪨', lake: '🏞️', landscape: '📷',
-    waterfall: '💦', snow_scene: '❄️', aurora: '🌌'
+    waterfall: '💦', snow_scene: '❄️', aurora: '🌌',
+    // the artifact's own genre vocabulary (same emoji the old alias produced)
+    geological_landform: '🪨', overlook: '🏔️', blue_hour_city: '🔵', overcast_soft: '☁️',
+    night_sky: '🌌', golden_hour: '🌈', alpenglow: '🌇', seasonal_plant: '🌸',
+    star_trails: '⭐', moonlit_scene: '🌙', tidal: '🌊', general: '📷',
+    drift_ice: '🧊', blue_tears: '⭐', firefly: '⭐', astro: '🔭',
+    astrophotography: '📷', snow_ice: '❄️', snow_ice_night: '❄️', misty_forest: '🌫️',
+    volcanic_glow: '🌋', city: '🏙️', architecture: '🏛️'
   };
 
   // WMO weather code → glyph key (Open-Meteo WMO set, exactly the codes the
@@ -118,34 +125,85 @@
       'stroke-linecap="round" stroke-linejoin="round" fill="none">' + body + '</svg>';
   }
 
+  // The subject LABEL table (app.js) names 23 themes, but the committed
+  // subject-cards artifact speaks its own genre vocabulary
+  // (`genre_short_names`: geological_landform, overlook, misty_forest,
+  // snow_ice_night, volcanic_glow, …). CL-UI-115 §1 covers EVERY subject a
+  // card / filter row / summary / modal can render, so each of those genres
+  // gets a drawing here.
+  //
+  // They are their OWN shapes, never an alias onto a neighbouring key. An alias
+  // made 山景 (mountain_view) and 眺望 (overlook) draw the identical 99-byte
+  // mountain, and 金山 (alpenglow) / 夕陽 (sunset) were one edit away from the
+  // same collision: two rows of a subject list showing the same picture read as
+  // one repeated subject, not two. Two keys may share a shape ONLY when the
+  // user-visible LABEL is the same subject; no such pair exists in this
+  // dictionary, so every key below is unique path data (guarded by
+  // cl-ui-115-icon-set.test.mjs, which hashes the glyph of every subject key).
+  var ALIAS = {
+    // landform: horizontal strata + a fault line (a cut face, not a peak)
+    geological_landform: '<path d="M2.6 8.6c3.4-2 6.6 1.4 9.6 0s6-2.6 9.2-.6"/><path d="M2.6 13.4c3.4-2 6.6 1.4 9.6 0s6-2.6 9.2-.6"/><path d="M2.6 18.2c3.4-2 6.6 1.4 9.6 0s6-2.6 9.2-.6"/><path d="M8.4 5.4 15 21.6"/>',
+    // overlook: a railed platform on a cliff, sightlines running out to the view
+    overlook: '<path d="M3 19.6h9.4"/><path d="M3 19.6 4.4 11.4h7l1.2 8.2"/><path d="M4.4 8.4h7M7.9 8.4v3"/><path d="M15.8 6.6h5.6M15.8 10.2h4.4M15.8 13.8h3.2"/>',
+    // blue hour over a city: towers + a crescent (blue_hour is peaks + a disc)
+    blue_hour_city: '<path d="M3 20.4h18"/><path d="M4.6 20.4v-8l4-2.4v10.4"/><path d="M8.6 20.4v-6l4.4 2.2v3.8"/><path d="M13 20.4V9.6l4.6 2.2v8.6"/><path d="M20.4 4.4a2.6 2.6 0 1 0 2 4.4 3.2 3.2 0 0 1-2-4.4Z"/>',
+    // soft overcast: a stacked cloud deck (the plain overcast is one cloud)
+    overcast_soft: '<path d="M4.2 15.2h9.4a3 3 0 0 0 .2-6 4.3 4.3 0 0 0-8.1-1.1 3.6 3.6 0 0 0-1.5 7.1Z"/><path d="M13.2 20.2h6.2a2.4 2.4 0 0 0 0-4.8 3.4 3.4 0 0 0-6.4-.9"/>',
+    // night sky: a constellation (milky_way is a band with dust specks)
+    night_sky: '<path d="M4 6.6 7 9.4 10.4 8 13.6 11.2 17 10.2 20 13"/><circle cx="4" cy="6.6" r="1"/><circle cx="7" cy="9.4" r="1"/><circle cx="10.4" cy="8" r="1"/><circle cx="13.6" cy="11.2" r="1"/><circle cx="17" cy="10.2" r="1"/><circle cx="20" cy="13" r="1"/><path d="M5.6 19.2h.02M9 21h.02M15.4 19.6h.02"/>',
+    // golden hour: a low sun disc with long rays over a ground line (sky_glow is a dome)
+    golden_hour: '<path d="M2.8 19.6h18.4"/><circle cx="12" cy="13.4" r="3.2"/><path d="M12 3.2v4.2M4.6 6.4l2.6 2.6M19.4 6.4l-2.6 2.6M2.6 13.4h2.6M18.8 13.4h2.6"/>',
+    // alpenglow: a peak lit from behind by a glow arc with rays (sunset is a dome on a flat line)
+    alpenglow: '<path d="M2.4 20.4 8.8 8.6l3.4 5.6 2.2-2.8 6.4 9Z"/><path d="M6.4 8a6.4 6.4 0 0 1 10.2 1.4"/><path d="M4.6 5.2 6.2 6.6M17.6 3.6l-.6 2.2M11 3.2v2.2"/>',
+    // seasonal flora: a flower on a stem (forest is conifers)
+    seasonal_plant: '<circle cx="12" cy="8.6" r="1.8"/><path d="M12 6.8a2.8 2.8 0 1 1 2.6-1.2M12 10.4a2.8 2.8 0 1 0 2.6 1.2M9.6 8.6a2.8 2.8 0 1 0-1.4 2.6M14.4 8.6a2.8 2.8 0 1 1 1.4 2.6"/><path d="M12 12.4v8.2"/><path d="M12 16.4c-2.2 0-3.4-1.4-3.6-3.2 2.2-.2 3.4 1.2 3.6 3.2Z"/>',
+    // star trails: concentric arcs around the pole (a bare star is one polygon)
+    star_trails: '<circle cx="12" cy="20.2" r="1.2"/><path d="M9.8 20.2a2.2 2.2 0 0 1 4.4 0"/><path d="M6.6 20.2a5.4 5.4 0 0 1 10.8 0"/><path d="M3.2 20.2a8.8 8.8 0 0 1 17.6 0"/>',
+    // moonlit scene: a crescent over two water lines (moon alone is just the crescent)
+    moonlit_scene: '<path d="M14.6 3.4a6.6 6.6 0 1 0 4.4 10.6 6.6 6.6 0 0 1-4.4-10.6Z"/><path d="M2.8 17.4c1.6-1.2 3.2-1.2 4.8 0s3.2 1.2 4.8 0 3.2-1.2 4.8 0 3.2 1.2 4.8 0"/><path d="M2.8 20.6c1.6-1.2 3.2-1.2 4.8 0s3.2 1.2 4.8 0 3.2-1.2 4.8 0 3.2 1.2 4.8 0"/>',
+    // tide: a water line with rising/falling level arrows (coast is surf + a headland)
+    tidal: '<path d="M2.6 16.4c1.8-1.4 3.6-1.4 5.4 0s3.6 1.4 5.4 0 3.6-1.4 5.4 0"/><path d="M2.6 20.2c1.8-1.4 3.6-1.4 5.4 0s3.6 1.4 5.4 0 3.6-1.4 5.4 0"/><path d="M18.6 3.4v7.8M16.8 5.2l1.8-1.8 1.8 1.8M16.8 9.4l1.8 1.8 1.8-1.8"/>',
+    // general ("shootable"): a camera (the `all` filter keeps the globe)
+    general: '<path d="M3 8.4h3.4L8 6h8l1.6 2.4H21v10.2H3Z"/><circle cx="12" cy="13.4" r="3.4"/>',
+    // drift ice: floes riding a wave (snow_scene is a bare snowflake)
+    drift_ice: '<path d="M3.4 18.2c1.4-1.2 2.8-1.2 4.2 0s2.8 1.2 4.2 0 2.8-1.2 4.2 0 2.8 1.2 4.2 0"/><path d="M4.6 14.4 6.4 9.8h3.6l1.4 4.6Z"/><path d="M13.4 14.4l1.2-3.4h3.4l1 3.4Z"/>',
+    // blue tears: glowing specks in the surf + a sparkle (reflection is an arrow into water)
+    blue_tears: '<path d="M2.6 12.4c1.8-1.4 3.6-1.4 5.4 0s3.6 1.4 5.4 0 3.6-1.4 5.4 0"/><path d="M2.6 17.4c1.8-1.4 3.6-1.4 5.4 0s3.6 1.4 5.4 0 3.6-1.4 5.4 0"/><circle cx="7" cy="20.4" r=".9"/><circle cx="13" cy="20.8" r=".9"/><circle cx="18.4" cy="20.2" r=".9"/><path d="M16.6 4.4v4M14.6 6.4h4M15.2 5l2.8 2.8M18 5l-2.8 2.8"/>',
+    // firefly: a winged insect with a glow (a star is a polygon)
+    firefly: '<path d="M12 8.6v7.8"/><path d="M12 10.4C9.4 8 6.6 7.4 4.8 9.2s1 4.6 4.2 4.4"/><path d="M12 10.4c2.6-2.4 5.4-3 7.2-1.2s-1 4.6-4.2 4.4"/><circle cx="12" cy="5.4" r="1.6"/><path d="M10.8 17.6 9.4 21M13.2 17.6l1.4 3.4"/>',
+    // astronomy: a telescope on a tripod
+    astro: '<path d="M3.6 9.4 15.4 3.6l2.4 4.6L6 14Z"/><path d="M8.6 13.2 12 20.4M12 20.4l3.4-7.2M8.6 20.4h6.8"/><path d="M17.8 3.2l2.2-1"/>',
+    // astrophotography: a camera aimed at stars (a tripod alone is `astro`)
+    astrophotography: '<path d="M5.4 11.6h13.2a1.6 1.6 0 0 1 1.6 1.6v6a1.6 1.6 0 0 1-1.6 1.6H5.4a1.6 1.6 0 0 1-1.6-1.6v-6a1.6 1.6 0 0 1 1.6-1.6Z"/><circle cx="12" cy="16.2" r="2.4"/><path d="M9.6 11.6 10.8 9.8h2.4l1.2 1.8"/><path d="M4 6.6 5.2 5.4M17.6 4.4V2.6M20.4 7.4l1.4-.8"/>',
+    // snow & ice: an ice block with a crack and a snow cap (snow_scene is a snowflake)
+    snow_ice: '<path d="M4 13.2h16v6.6H4Z"/><path d="M8.4 13.2 10.6 19.8M15.6 13.2l-1.6 6.6"/><path d="M7.6 6.2 12 2.2l4.4 4M9.8 8.4l2.2 1.8 2.2-1.8"/>',
+    // night snow & ice: the same ice ground under a crescent (a daylight scene)
+    snow_ice_night: '<path d="M14.6 3.2a4.6 4.6 0 1 0 3.2 7.4 4.6 4.6 0 0 1-3.2-7.4Z"/><path d="M6.4 12.6v6.4M3.8 14.2l5.2 3.2M9 14.2l-5.2 3.2"/><path d="M2.4 21h19.2"/>',
+    // misty forest: conifers behind mist bands (fog_mist has no trees, forest has no mist)
+    misty_forest: '<path d="M7.6 3.6 3.4 10.4h2.2l-2 4.4h8l-2-4.4h2.2Z"/><path d="M7.6 14.8v2.4"/><path d="M16.8 7 13.8 12h1.8l-1.6 3.2h5.6L18 12h1.8Z"/><path d="M16.8 15.2v2"/><path d="M2.4 19h11.2M7.4 21.4h14.2"/>',
+    // volcanic glow: a cratered cone with a lava channel and glow rays
+    volcanic_glow: '<path d="M2.6 20.4 8.6 8.4h6.8l5.6 12Z"/><path d="M8.6 8.4c1.2-1.2 2.4-1.2 3.4 0 1.2 1.2 2.2 1.2 3.4 0"/><path d="M11 20.4l1.2-6 1.4 6"/><path d="M3.4 12.6l-1.6-1M20.6 12.6l1.6-1M12 2.6v2.4"/>',
+    // city: a dense skyline, no windows (city_view is three detailed towers)
+    city: '<path d="M2.6 20.6h18.8"/><path d="M4 20.6v-6.4h3.2v6.4M7.2 20.6V8.4h3.4v12.2M10.6 20.6v-9.2h3.2v9.2M13.8 20.6V5.6h3.6v15M17.4 20.6v-7.4h3v7.4"/>',
+    // architecture: a portico with columns (a skyline is `city`)
+    architecture: '<path d="M3.4 9.6 12 3.4l8.6 6.2"/><path d="M5.6 9.6h12.8"/><path d="M7.4 11.4v6.4M12 11.4v6.4M16.6 11.4v6.4"/><path d="M4.4 20.6h15.2M6.4 17.8h11.2"/>'
+  };
   var CL_ICONS = {};
   Object.keys(SHAPES).forEach(function (key) { CL_ICONS[key] = svg(key, SHAPES[key]); });
   Object.keys(WMO_SHAPE).forEach(function (code) {
     CL_ICONS[code] = svg(code, SHAPES[WMO_SHAPE[code]]);
   });
-  Object.freeze(CL_ICONS);
 
-  // Update: the subject LABEL table (app.js) uses the 23 theme keys above, but
-  // the committed subject-cards artifact names a subset with its own genre
-  // vocabulary (geological_landform, overlook, blue_hour_city, …). CL-UI-115 §1
-  // covers EVERY subject a card/filter/summary can render, so the artifact's
-  // extra genres alias onto the closest drawn shape rather than falling back to
-  // plain text. The alias key still rides the SVG as data-cl-icon, so a chip can
-  // be asserted against the artifact's own genre name.
-  var ALIAS = {
-    geological_landform: 'geology', overlook: 'mountain_view', blue_hour_city: 'blue_hour',
-    overcast_soft: 'overcast', night_sky: 'milky_way', golden_hour: 'sky_glow',
-    alpenglow: 'sunset', seasonal_plant: 'forest', star_trails: 'star',
-    moonlit_scene: 'moon', tidal: 'coast', general: 'all', drift_ice: 'snow_scene',
-    blue_tears: 'star', firefly: 'star', astro: 'star', astrophotography: 'star',
-    snow_ice: 'snow_scene', city: 'city_view', architecture: 'city_view'
-  };
+  // The artifact's genre vocabulary is a first-class part of the same map, so a
+  // look-up by either name (theme key or artifact genre) hits the frozen table.
+  Object.keys(ALIAS).forEach(function (k) { SHAPES[k] = ALIAS[k]; });
+  Object.keys(ALIAS).forEach(function (k) { CL_ICONS[k] = svg(k, ALIAS[k]); });
+  Object.freeze(CL_ICONS);
 
   function shapeKey(key) {
     var k = String(key == null ? '' : key);
     if (SHAPES[k]) return k;
     if (WMO_SHAPE[k]) return WMO_SHAPE[k];
-    if (ALIAS[k] && SHAPES[ALIAS[k]]) return ALIAS[k];
     return null;
   }
 
@@ -159,6 +217,9 @@
   }
 
   root.CL_ICONS = CL_ICONS;
+  // The artifact-genre key list, so a test can enumerate the full subject
+  // vocabulary without re-parsing this file.
+  root.CL_SUBJECT_GENRES = Object.freeze(Object.keys(ALIAS));
   root.CL_ICON_EMOJI = Object.freeze(FALLBACK);
   root.CL_WMO_ICON_EMOJI = Object.freeze({0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️', 45: '🌫️', 48: '🌫️', 51: '🌦️', 53: '🌦️', 55: '🌦️', 56: '🌧️', 57: '🌧️', 61: '🌧️', 63: '🌧️', 65: '🌧️', 66: '🌧️', 67: '🌧️', 71: '🌨️', 73: '🌨️', 75: '❄️', 77: '❄️', 80: '🌦️', 81: '🌧️', 82: '⛈️', 85: '🌨️', 86: '🌨️', 95: '⛈️', 96: '⛈️', 99: '⛈️'});
   root.clIcon = clIcon;
