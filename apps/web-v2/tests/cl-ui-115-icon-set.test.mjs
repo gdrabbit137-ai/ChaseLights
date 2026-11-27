@@ -244,9 +244,20 @@ test('CL-UI-115 §1: the three dictionary genres that rendered text-only draw re
 // sharp on Windows and soft on the phone. This closes the set and pins it in
 // the RENDERED DOM — a source grep cannot see that a label still renders emoji.
 const NEW_KEYS=['subject','map_pin','map','weather_overview'];
-// Pictographic + the arrow/dingbat/misc-symbol ranges an emoji glyph can come
-// from, plus the variation selector that makes some of them render as emoji.
-const EMOJI_RE=/[\u{1F000}-\u{1FAFF}\u{2190}-\u{21FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}]/u;
+// Emoji detection = Extended_Pictographic (the Unicode property that covers
+// 🔴 ⏰ ⏱ ⌚ 🌦️ 🗺️ and every other pictograph an emoji font would draw) plus
+// U+FE0F, the variation selector that forces emoji presentation on an otherwise
+// text-shaped codepoint. Named ranges were too narrow: ⏰ U+23F0 / ⏱ U+23F1 /
+// ⌚ U+231A sat outside them, so a re-introduced ⏰ passed this very check.
+//
+// Marks that are intentionally NOT emoji and must keep passing this regex:
+//   ✓ U+2713 / ○ U+25CB / ✗ U+2717 — the tier verdict marks, plain glyphs from
+//     the paragraph-symbol block (drawn by the UI font, not the emoji font;
+//     none of them is Extended_Pictographic);
+//   ★ U+2605 — the favourite toggle, likewise a plain star, not ⭐ U+2B50;
+//   the LIVE badge — a CSS-painted .tool-live-dot (a border-radius div), so no
+//     codepoint is involved at all and the label is bare text.
+const EMOJI_RE=/[\p{Extended_Pictographic}\uFE0F]/u;
 
 test('CL-UI-116: subject / map_pin / map / weather_overview draw real glyphs',()=>{
   for(const key of NEW_KEYS){
@@ -268,6 +279,17 @@ test('CL-UI-116: subject / map_pin / map / weather_overview draw real glyphs',()
     assert.notEqual(subjectBody,bodyOf(other),`subject must not reuse the ${other} shape`);
   // The map sheet and its pin are two marks, not one drawing twice.
   assert.notEqual(bodyOf('map'),bodyOf('map_pin'),'map and map_pin are distinct drawings');
+  // The weather-panel title glyph and the two cloud verdict glyphs share a
+  // silhouette at 1em (a sun/cloud pair on the same baseline), so the gate has
+  // to compare them explicitly — a family split is not proof of distinctness.
+  for(const other of ['partly','overcast','mostly_clear','clear','fog'])
+    assert.notEqual(bodyOf('weather_overview'),bodyOf(other),
+      `weather_overview must not re-run the ${other} drawing — the panel title would read as that verdict`);
+  // partly = sun + cloud, overcast = one cloud, weather_overview = disc + cloud:
+  // three separate drawings, and the title glyph always carries more than a cloud.
+  assert.notEqual(bodyOf('partly'),bodyOf('overcast'),'partly and overcast are distinct verdicts');
+  assert.ok(bodyOf('weather_overview').length>bodyOf('overcast').length,
+    'weather_overview adds its disc on top of the cloud instead of being the bare overcast cloud');
 });
 
 test('CL-UI-116: the toolbar labels are pure text and every call site passes its key',()=>{
@@ -292,6 +314,29 @@ test('CL-UI-116: the toolbar labels are pure text and every call site passes its
   assert.equal((appSource.match(/clIconSvg\('weather_overview'\)/g)||[]).length,2,
     'both weather-modal title render sites use the weather_overview glyph');
   assert.doesNotMatch(appSource,/innerText=`🌦️/,'the emoji title prefix is gone');
+});
+
+test('CL-UI-116: the emoji gate itself catches ⏰/⏱/⌚ and the dead nav_link key is gone',()=>{
+  // Reviewer condition 2: the old named ranges missed U+231A/U+23F0/U+23F1, so a
+  // re-introduced ⏰ passed. The property-based regex must now flag them…
+  for(const cp of ['\u231A','\u23F0','\u23F1','\u{1F534}','\u{1F5FA}\uFE0F','\u{1F326}\uFE0F'])
+    assert.match(cp,EMOJI_RE,`U+${cp.codePointAt(0).toString(16).toUpperCase()} is caught as emoji`);
+  // …while the legitimate non-emoji marks stay clean (named in the EMOJI_RE comment).
+  for(const mark of ['✓','○','✗','★','·','—','：'])
+    assert.doesNotMatch(mark,EMOJI_RE,`${mark} is a UI-font mark, not emoji`);
+  // No toolbar label in ANY language may carry a pictograph (live_link included).
+  // The scan is per-key on purpose: the same dictionaries still hold other
+  // surfaces' emoji (scene_label 🖼️, theme_label 📸 …) that CL-UI-116 does not own.
+  const TOOLBAR_KEYS=['v2_subject_link','weather_link','nav_link','map_link','map_link_approx','nav_pending','radar_link','live_link'];
+  const toolbarLabels=[...appSource.matchAll(new RegExp(`(?:${TOOLBAR_KEYS.join('|')}):'([^']*)'`,'g'))].map(m=>m[1]);
+  assert.ok(toolbarLabels.length>=18,`the three tables expose ${TOOLBAR_KEYS.length} toolbar labels each (got ${toolbarLabels.length})`);
+  for(const label of toolbarLabels) assert.doesNotMatch(label,EMOJI_RE,`toolbar label "${label}" carries no pictograph or U+FE0F`);
+  for(const live of toolbarLabels.filter(l=>/LIVE/.test(l))) assert.equal(live,'LIVE','the LIVE label is bare text in every language');
+  // Reviewer condition 3: nav_link had no call site (`d().nav_link` is never
+  // read) but carried a 🗺️ emoji — a future trap. Deleted, not icon-swapped,
+  // because the toolbar's 地圖/nav entries already ride map_pin.
+  assert.doesNotMatch(appSource,/nav_link/,'the dead nav_link key is gone from all three tables (no call site exists)');
+  assert.match(appSource,/map_link:'地圖',/,'the surviving map label is bare text');
 });
 
 test('CL-UI-116: rendered zh-TW and en pages carry no emoji in the card footer or the weather title',async()=>{
@@ -362,6 +407,14 @@ test('CL-UI-116: rendered zh-TW and en pages carry no emoji in the card footer o
       const texts=footer.map(l=>l.text);
       const live=await page.evaluate(()=>document.querySelectorAll('#spots-container .card .card-footer-tools .tool-link.tool-live').length);
       assert.ok(live>=1,`${lang}: the LIVE button is still in the row (it owns the red dot, not a glyph)`);
+      // CL-UI-116 reviewer condition 1: .tool-live is INSIDE the no-emoji gate
+      // now. It used to be exempt here, which is exactly how 🔴 survived next to
+      // the CSS .tool-live-dot and painted two red dots in the live row.
+      const allFooterTexts=await page.evaluate(()=>[...document.querySelectorAll('#spots-container .card .card-footer-tools .tool-link')]
+        .map(l=>l.textContent.replace(/\s+/g,' ').trim()));
+      assert.ok(allFooterTexts.length>footer.length,`${lang}: the gate covers the LIVE button too (${allFooterTexts.length} links, ${footer.length} glyph links)`);
+      for(const t of allFooterTexts) assert.doesNotMatch(t,EMOJI_RE,`${lang}: footer link "${t}" carries no emoji — including .tool-live`);
+      assert.ok(allFooterTexts.includes('LIVE'),`${lang}: the LIVE button's bare text label survives (got ${JSON.stringify(allFooterTexts)})`);
       assert.ok(texts.includes(expect.subject),`${lang}: the subject entry keeps its text label ${expect.subject}`);
       assert.ok(expect.map.some(m=>texts.includes(m)),`${lang}: the map entry keeps its text label`);
       assert.ok(texts.includes(expect.radar),`${lang}: the weather-map entry keeps its text label ${expect.radar}`);
@@ -382,6 +435,45 @@ test('CL-UI-116: rendered zh-TW and en pages carry no emoji in the card footer o
       assert.ok(title.text.includes('—'),`${lang}: the place — forecast separator survives`);
       assert.ok(title.text.endsWith(expect.title),`${lang}: the title keeps its text label ${expect.title} (got "${title.text}")`);
       await page.close();
+    }
+    // CL-UI-116 reviewer condition 4: the 44px icon-only toolbar. At
+    // <=640px .tool-txt is display:none and the whole button is the glyph, so
+    // this is the state where an emoji fallback would be most visible (and
+    // where a text-less button would be most invisible). Assert the SAME
+    // data-cl-icon SVG renders at 1em inside a >=44px square — not a codepoint.
+    const mobile=await browser.newPage({viewport:{width:390,height:844},locale:'zh-TW'});
+    try{
+      await mobile.goto(`${base}/index.html?region=tw&lang=zh-TW`,{waitUntil:'domcontentloaded'});
+      await mobile.waitForFunction(()=>document.querySelectorAll('#spots-container .card').length>0,null,{timeout:60000});
+      await mobile.waitForFunction(()=>document.querySelectorAll('#spots-container .card .card-footer-tools .tool-ico svg[data-cl-icon]').length>0,null,{timeout:60000});
+      const mobileLinks=await mobile.evaluate(()=>[...document.querySelectorAll('#spots-container .card .card-footer-tools .tool-link:not(.tool-live)')].map(l=>{
+        const svg=l.querySelector('.tool-ico svg[data-cl-icon]');
+        const ico=l.querySelector('.tool-ico');
+        const txt=l.querySelector('.tool-txt');
+        const box=l.getBoundingClientRect();
+        const cs=svg?getComputedStyle(svg):null;
+        return {
+          text:l.textContent.replace(/\s+/g,' ').trim(),
+          key:svg?svg.getAttribute('data-cl-icon'):null,
+          isSvg:!!svg&&svg.outerHTML.startsWith('<svg '),
+          icoText:ico?ico.textContent.trim():null,
+          txtDisplay:txt?getComputedStyle(txt).display:null,
+          w:box.width,h:box.height,
+          svgW:cs?parseFloat(cs.width):null,svgH:cs?parseFloat(cs.height):null,
+        };
+      }));
+      assert.ok(mobileLinks.length>=6,`mobile: the toolbar renders on the 390px contract (got ${mobileLinks.length} glyph links)`);
+      for(const l of mobileLinks){
+        assert.ok(l.isSvg,`mobile: "${l.text}" renders the inline SVG, not an emoji fallback`);
+        assert.doesNotMatch(l.icoText,EMOJI_RE,`mobile: the icon box of "${l.text}" holds no emoji codepoint (got ${JSON.stringify(l.icoText)})`);
+        assert.equal(l.txtDisplay,'none',`mobile: "${l.text}" is icon-only — the text label is hidden, not squeezed out`);
+        assert.ok(l.w>=43.5&&l.h>=43.5,`mobile: "${l.text}" keeps the 44px touch target (${l.w}x${l.h})`);
+        assert.ok(l.svgW>6&&Math.abs(l.svgW-l.svgH)<0.5,`mobile: ${l.key} stays a square 1em glyph (${l.svgW}x${l.svgH})`);
+      }
+      assert.deepEqual([...new Set(mobileLinks.map(l=>l.key))].sort(),['map','map_pin','subject'],
+        'mobile: the same three keys as desktop — the icon-only state never substitutes a different mark');
+    }finally{
+      try{await mobile.close();}catch(e){/* noop */}
     }
   }finally{
     try{await browser.close();}catch(e){/* noop */}

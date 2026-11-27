@@ -97,7 +97,9 @@ test('CL-UI-111/119 (D): live_cam.json — verified mapping, per-entry attributi
 
 test('CL-UI-111 (S1): i18n keys exist in all three dictionaries', () => {
   const checks = [
-    ['live_link', '🔴 LIVE'],
+    // CL-UI-116: the label is pure text — the CSS .tool-live-dot already draws
+    // the red mark, so a 🔴 codepoint here painted a second red dot.
+    ['live_link', 'LIVE'],
     ['live_panel_title', '即時影像'],
     ['live_source_label', '交通部觀光署北觀處'],
     ['live_open_youtube', '在 YouTube 開啟'],
@@ -107,8 +109,8 @@ test('CL-UI-111 (S1): i18n keys exist in all three dictionaries', () => {
     const re = new RegExp(`${k}:'[^']*${v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}[^']*'`);
     assert.match(appSource, re, `zh-TW ${k}`);
   }
-  assert.match(appSource, /live_link:'🔴 LIVE', live_panel_title:'Live camera', live_source_label:'Live camera: North Coast & Guanyinshan National Scenic Area Administration, MOTC', live_open_youtube:'Open on YouTube', close_live:'Close live camera'/);
-  assert.match(appSource, /live_link:'🔴 LIVE', live_panel_title:'ライブカメラ', live_source_label:'映像提供：交通部観光署 北海岸及観音山国家風景区管理処', live_open_youtube:'YouTubeで開く', close_live:'ライブカメラを閉じる'/);
+  assert.match(appSource, /live_link:'LIVE', live_panel_title:'Live camera', live_source_label:'Live camera: North Coast & Guanyinshan National Scenic Area Administration, MOTC', live_open_youtube:'Open on YouTube', close_live:'Close live camera'/);
+  assert.match(appSource, /live_link:'LIVE', live_panel_title:'ライブカメラ', live_source_label:'映像提供：交通部観光署 北海岸及観音山国家風景区管理処', live_open_youtube:'YouTubeで開く', close_live:'ライブカメラを閉じる'/);
 });
 
 test('CL-UI-111 (S2): loader rides the single gated render; fail-soft to 3 buttons', () => {
@@ -200,7 +202,7 @@ function buildFns(withCam) {
   const src = `${prelude}
     const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     const d=()=>({
-      live_link:'🔴 LIVE',
+      live_link:'LIVE',
       live_panel_title:'即時影像'
     });
     function toolButtonAttrs(label,extraTitle){const title=extraTitle?\`\${extraTitle} · \${label}\`:label;return \` title="\${esc(title)}" aria-label="\${esc(label)}"\`;}
@@ -222,10 +224,11 @@ test('CL-UI-111 (F2): with mapping → 4th button anatomy (thumb lazy img + dot 
   assert.equal(fns.liveCamFor('tw-074').video_id, 'ZjuY4qKaj40');
   const btn = fns.liveCamBtnHtml({ spot_id: 'tw-074' });
   assert.match(btn, /^<a href="#" class="tool-link tool-live" data-live-btn data-live-place="tw-074"/);
-  assert.match(btn, /title="🔴 LIVE" aria-label="🔴 LIVE"/);
+  assert.match(btn, /title="LIVE" aria-label="LIVE"/);
   assert.match(btn, /<img src="https:\/\/i\.ytimg\.com\/vi\/ZjuY4qKaj40\/hqdefault\.jpg" alt="" loading="lazy" decoding="async">/);
   assert.match(btn, /<span class="tool-live-dot" aria-hidden="true"><\/span>/);
-  assert.match(btn, /<span class="tool-ico" aria-hidden="true">🔴<\/span><span class="tool-txt">LIVE<\/span>/);
+  // CL-UI-116: no emoji prefix — the CSS dot is the only red mark, the label is text.
+  assert.match(btn, /<span class="tool-live-dot" aria-hidden="true"><\/span><span class="tool-txt">LIVE<\/span><\/a>/);
   // XSS hardening: a hostile spot_id must be escaped, never emitted raw.
   assert.doesNotMatch(fns.liveCamBtnHtml({ spot_id: '"><script>' }), /<script>/);
   const entry = fns.liveCamThumbEntryHtml({ spot_id: 'tw-008' });
