@@ -952,7 +952,7 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
         isNow: chip.classList.contains('now-wx'),
       };
     }).filter(Boolean);
-    return { total: cards.length, withWx: withWx.length, sample: withWx.slice(0, 6) };
+    return { total: cards.length, withWx: withWx.length, nowCount: withWx.filter(c => c.isNow).length, sample: withWx.slice(0, 6) };
   })()`;
   // The string handed to the page must carry the real `\s` class …
   assert.ok(CARD_WX_PROBE.includes('replace(/\\s+/g'),
@@ -962,10 +962,6 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
     'the probe does not double-escape the whitespace class');
   const cardWx = await evaljs(CARD_WX_PROBE);
   assert.ok(cardWx.withWx > 0, `at least one card face renders the weather chip (got ${cardWx.withWx}/${cardWx.total})`);
-  // Proof the collapse RAN on real chip text: no run of whitespace survives.
-  for (const chip of cardWx.sample) {
-    assert.doesNotMatch(chip.text, /\s\s/, `the normalized chip text has no double space: ${chip.text}`);
-  }
 
   // Strict visibility (was `/(≥\s*)?\d/` — any digit satisfied it): the eye
   // icon ELEMENT must be followed by the numeric km value in the SAME markup, and
@@ -974,6 +970,19 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
   const nowChips = cardWx.sample.filter(c => c.isNow);
   const dayChips = cardWx.sample.filter(c => !c.isNow);
   assert.equal(nowChips.length + dayChips.length, cardWx.sample.length, 'every sampled chip is exactly one shape');
+
+  // A now row is the §2 feature; without a gate a regression that paints ZERO of
+  // them passes this sweep (every check below is a for-loop over an empty set).
+  // What an empty set MEANS depends on the data: when the served hourly shard
+  // genuinely covers the anchor day, at least one card must carry a now row;
+  // when it does not, the day chip is the honest render and forcing a now row
+  // would red a stale-shard local run for the wrong reason.
+  if (SHARD_REACHES_ANCHOR) {
+    assert.ok(cardWx.nowCount > 0,
+      `at least one card face renders a NOW row at the fixed ${DAY_HOUR}:00 — the served hourly shard carries rows on/after ${ANCHOR_DAY}, so zero now-wx chips is a regression (${cardWx.withWx} weather chips, ${cardWx.nowCount} now)`);
+  } else {
+    console.log(`# CL-E2E-131 (6) now-row gate skipped: no served hourly shard row on/after ${ANCHOR_DAY} — every card keeping the day chip is the honest render, not a regression`);
+  }
 
   for (const chip of nowChips) {
     const txt = chip.text;

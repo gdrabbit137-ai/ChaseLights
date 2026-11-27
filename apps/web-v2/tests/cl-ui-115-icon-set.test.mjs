@@ -170,6 +170,16 @@ test('CL-UI-115 §1: every subject genre the artifact can emit resolves to a gly
     const svg=G.clIcon(g);
     assert.match(svg,/^<svg /,`dictionary genre ${g} resolves to a glyph, never ''`);
     assert.match(svg,new RegExp(`data-cl-icon="${g}"`),`${g}: the artifact's own key rides the SVG`);
+    // The wrapper proves nothing on its own: `<svg …></svg>` (an EMPTY body)
+    // matches /^<svg / too, so this gate reads the DRAWING. A real glyph has a
+    // body well past the wrapper's overhead (the smallest is 82 chars) and at
+    // least one SVG path command — an empty or placeholder body fails here
+    // directly, instead of only in the distinct-data test further down.
+    const body=svg.slice(svg.indexOf('>')+1,svg.lastIndexOf('</svg>'));
+    assert.ok(body.length>=40,
+      `dictionary genre ${g} draws a body of real length (got ${body.length} chars: ${JSON.stringify(svg)}) — an empty body is not a glyph`);
+    assert.match(body,/[MmLlHhVvCcSsQqTtAaZz]\s*-?\d/,
+      `dictionary genre ${g} draws at least one SVG path command (body: ${JSON.stringify(body)})`);
   }
   // …and the genres that DO appear in the pinned rows are a subset of it.
   const rowGenres=new Set();

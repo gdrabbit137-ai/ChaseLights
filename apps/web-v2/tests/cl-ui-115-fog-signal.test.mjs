@@ -85,7 +85,7 @@ test('CL-UI-115 §2 (fog): the committed fixture is a valid shard and its foggy 
   const maxSchema = Number((APP.match(/MAX_SCHEMA_VERSION=(\d+)/) || [])[1]);
   assert.ok(Number.isFinite(minSchema) && Number.isFinite(maxSchema), 'app.js declares its schema range');
   assert.ok(FIXTURE.schema_version >= minSchema && FIXTURE.schema_version <= maxSchema,
-    `fixture schema_version ${FIXTURE.schema_version} is inside ${minSchema}-${maxSchema} (the loader rejects anything else)`);
+    `fixture schema_version ${FIXTURE.schema_version} is inside ${minSchema}-${maxSchema} (the documented shard contract). NOTE: nothing enforces it on this path — clui115NowPump fetches the shard as RAW JSON and only reads spot.hourly_forecast; the schema range is checked by fetchAndCache alone, so this assertion pins the fixture to the range the app still declares for its validated payloads, it is not a loader rejection the fixture survived`);
   assert.ok(typeof FIXTURE.updated_at === 'string' && FIXTURE.updated_at, 'fixture carries updated_at (loadDetails version match)');
   assert.equal(FIXTURE.region, 'tw', 'fixture names its region (weather_details/<region>/<spot>.json)');
   const rows = FIXTURE.spot && FIXTURE.spot.hourly_forecast;
