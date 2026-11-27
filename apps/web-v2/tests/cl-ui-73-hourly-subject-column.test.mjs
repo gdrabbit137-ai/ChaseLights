@@ -167,6 +167,6 @@ test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui102 stamps', (
   for (const cls of ['.td-subjects.subj-has', '.td-subjects.subj-ok-row', '.td-subjects.subj-na-row', '.td-subjects.subj-no-row', '.subj-chip', '.subj-na', '.timeline-mobile-subjects']) {
     assert.ok(cssSource.includes(cls), `css has ${cls}`);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui136/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui136/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui137/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui137/);
 });

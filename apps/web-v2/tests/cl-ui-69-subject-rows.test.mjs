@@ -127,12 +127,14 @@ test('CL-UI-69 (3): no-suitable days stay honest — tier lines, never sentences
 });
 
 test('CL-UI-69 (4): summary pills — elevation + current temp + sun azimuth/elevation', () => {
-  assert.match(createSpotCardBlock, /const clElevPill=clElev!=null\?`<span class="metric-chip">⛰ \$\{clElev\} m<\/span>`:''/);
+  // CL-UI-115 §1: the pill glyph is the inline SVG icon set (⛰/☀ emoji survive
+  // only as fallback data), the metric text and the honesty rules are unchanged.
+  assert.match(createSpotCardBlock, /const clElevPill=clElev!=null\?`<span class="metric-chip">\$\{clIconSvg\('elevation'\)\} \$\{clElev\} m<\/span>`:''/);
   assert.match(createSpotCardBlock, /clElev=\(spot\.elevation!=null\)\?spot\.elevation:\(spot\.api_elevation!=null\?spot\.api_elevation:null\)/);
-  assert.match(createSpotCardBlock, /<span class="metric-chip">⛰ \$\{clElev\} m<\/span>/);
+  assert.match(createSpotCardBlock, /<span class="metric-chip">\$\{clIconSvg\('elevation'\)\} \$\{clElev\} m<\/span>/);
   // Sun pill is field-driven: rendered only when BOTH angles exist, omitted
   // honestly otherwise (the daily snapshot carries the per-hour fields).
-  assert.match(createSpotCardBlock, /clSunPill=\(metric&&metric\.sun_azimuth!=null&&metric\.sun_elevation!=null\)\?`<span class="metric-chip">☀ \$\{Math\.round\(metric\.sun_azimuth\)\}°\/\$\{Math\.round\(metric\.sun_elevation\)\}°<\/span>`:''/);
+  assert.match(createSpotCardBlock, /clSunPill=\(metric&&metric\.sun_azimuth!=null&&metric\.sun_elevation!=null\)\?`<span class="metric-chip">\$\{clIconSvg\('azimuth'\)\} \$\{Math\.round\(metric\.sun_azimuth\)\}°\/\$\{Math\.round\(metric\.sun_elevation\)\}°<\/span>`:''/);
   // Pills lead the chip row, before the existing cloud/temp chips.
   assert.match(createSpotCardBlock, /card-metric-chips">\$\{clElevPill\}\$\{clSunPill\}\$\{compactMetrics\}\$\{distanceChip\}/);
 });
@@ -160,8 +162,8 @@ test('CL-UI-69 (5): the reminder icon is 🔔 only (owner ruling) — compact to
 
 test('CL-UI-69 (6): 390px row rules ship and the page serves the bumped stamps', () => {
   assert.match(appCss, /@media \(max-width:390px\)\{\n  \.cl-subject-row\{font-size:\.74rem\}/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui136/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui136/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui137/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui137/);
   assert.match(indexSource, /assets\/reminders-client\.js\?v=clui126/);
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui134/);
 });

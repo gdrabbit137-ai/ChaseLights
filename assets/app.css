@@ -1471,6 +1471,18 @@
   gap:5px;
   flex-wrap:wrap;
 }
+/* CL-UI-115 §1: ONE icon box for every metric/weather glyph. The em-box size and
+   the fixed baseline offset are what keep the desktop (1440) and phone (393)
+   renderings byte-identical — the glyph no longer depends on the platform's
+   emoji font. Colour is inherited, so a tinted chip tints its icon. */
+.cl-icon {
+  width:1em;
+  height:1em;
+  vertical-align:-0.125em;
+  stroke:currentColor;
+  fill:none;
+  flex:none;
+}
 .metric-chip {
   /* CL-UI-86 (mockup-cards .pill): 22px env pills — bg-2 surface, r-xs, 12px. */
   display:inline-flex;

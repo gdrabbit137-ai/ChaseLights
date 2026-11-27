@@ -56,8 +56,11 @@ test('CL-UI-46 (1c): the card renders the reduced text on the lower line and kee
   assert.doesNotMatch(appSource,/const astro=\(researchPending\|\|noViable\)\?'':astroText\(metric,theme\);/,
     'the duplicated call is gone from the card');
   // The top row is untouched: elevation + the sun pill still sit in the chips.
-  assert.match(appSource,/const clSunPill=\(metric&&metric\.sun_azimuth!=null&&metric\.sun_elevation!=null\)\?`<span class="metric-chip">☀ \$\{Math\.round\(metric\.sun_azimuth\)\}°\/\$\{Math\.round\(metric\.sun_elevation\)\}°<\/span>`:'';/,
+  // CL-UI-115 §1: the pill's glyph is the inline SVG azimuth icon (emoji only
+  // survives as fallback data), and the degrees text is unchanged.
+  assert.match(appSource,/const clSunPill=\(metric&&metric\.sun_azimuth!=null&&metric\.sun_elevation!=null\)\?`<span class="metric-chip">\$\{clIconSvg\('azimuth'\)\} \$\{Math\.round\(metric\.sun_azimuth\)\}°\/\$\{Math\.round\(metric\.sun_elevation\)\}°<\/span>`:'';/,
     'the ☀ azimuth/elevation pill is the single place the card states the angles');
+  assert.doesNotMatch(appSource,/const clSunPill=[^;]*'☀ \$/, 'no emoji sun glyph in the pill any more');
   assert.match(appSource,/<span class="card-metric-chips">\$\{clElevPill\}\$\{clSunPill\}/,
     'the pill still renders in the top chip row');
   // The lower line renders only when it has something to say.
@@ -144,14 +147,19 @@ test('CL-UI-46 (2a): the source-filter row is hidden unless the member owns a pr
 
 // ----------------------------------------------------------- cache-bust stamp
 
-test('CL-UI-46: app.js/app.css generation bumped to clui136 on every page that loads them',()=>{
-  assert.equal((indexSource.match(/\?v=clui136/g)||[]).length,2,'app.css + app.js both at clui136');
-  assert.match(indexSource,/assets\/app\.js\?v=clui136/);
-  assert.match(indexSource,/assets\/app\.css\?v=clui136/);
+test('CL-UI-46: app.js/app.css generation bumped to clui137 on every page that loads them',()=>{
+  // CL-UI-115: the icon set joins the generation — three stamped assets now.
+  assert.equal((indexSource.match(/\?v=clui137/g)||[]).length,3,'app.css + app.js + icons.js all at clui137');
+  assert.match(indexSource,/assets\/app\.js\?v=clui137/);
+  assert.match(indexSource,/assets\/app\.css\?v=clui137/);
+  // CL-UI-115 §1: the icon set is a first-class stamped asset, loaded BEFORE app.js.
+  assert.match(indexSource,/assets\/icons\.js\?v=clui137/);
+  assert.ok(indexSource.indexOf('assets/icons.js')<indexSource.indexOf('assets/app.js'),
+    'icons.js must load before app.js so its label tables can resolve glyphs');
   const pages={index:'index.html','genre-eval':'genre-eval.html',reminders:'reminders.html',sources:'sources.html'};
   for(const [name,file] of Object.entries(pages)){
     const html=readFileSync(new URL('../../../'+file,import.meta.url),'utf8');
-    assert.match(html,/assets\/app\.css\?v=clui136/,`${name}: app.css carries the bumped stamp`);
+    assert.match(html,/assets\/app\.css\?v=clui137/,`${name}: app.css carries the bumped stamp`);
   }
   // No page and no shipped asset may still quote the old generation.
   assert.ok(!indexSource.includes('clui135'),'index.html: no stale stamp');

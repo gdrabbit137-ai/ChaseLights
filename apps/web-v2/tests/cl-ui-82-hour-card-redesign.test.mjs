@@ -148,6 +148,6 @@ test('CL-UI-82 (8): height/scan tokens + raw cap kept OUT of the card face', () 
   assert.ok(!cardBlock.includes('visibilityText(item.visibility)'), 'full cap string never rendered on the card');
   // cache-bust advanced
   assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui at clui102 (app.js + app.css advanced to clui120) (app.js advanced to clui118, CL-UI-110)');
-  assert.equal((indexSource.match(/\?v=clui136/g) || []).length,2, 'app.css + app.js at clui136 (CL-CI-44)');
-  assert.match(indexSource, /assets\/app\.js\?v=clui136/);
+  assert.equal((indexSource.match(/\?v=clui137/g) || []).length,3, 'app.css + app.js + icons.js at clui137 (CL-UI-115 added the icon set)');
+  assert.match(indexSource, /assets\/app\.js\?v=clui137/);
 });

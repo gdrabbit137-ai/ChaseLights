@@ -94,9 +94,9 @@
       ja:{all:'🌐 全シーン',mountain:'🏔️ 山岳',coast:'🌊 海岸',lake:'🏞️ 湖',river:'🏞️ 河川',waterfall:'💦 滝',forest:'🌲 森林',wetland:'🦆 湿地',geology:'🪨 地質景観',desert:'🏜️ 砂漠',grassland:'🌾 草原',rural:'🌾 田園',snow_ice:'❄️ 雪・氷河',city:'🏙️ 都市',architecture:'🏛️ 建築'}
     };
     const themeLabels = {
-      'zh-TW':{all:'🌐 全部題材',mountain_view:'🏔️ 山景展望',alpine_lake:'🏔️ 高山湖',sunrise:'🌅 日出',sunset:'🌇 日落',blue_hour:'🔵 藍調時刻',sky_glow:'🌈 彩霞',cloud_sea:'☁️ 雲海',fog_mist:'🌫️ 霧景',reflection:'🪞 倒影',sunbeam:'🌤️ 光束',milky_way:'🌌 銀河星空',long_exposure:'💧 長曝水景',city_night:'🌃 夜景',city_view:'🏙️ 城市景觀',coast:'🌊 海岸景觀',forest:'🌲 森林',geology:'🪨 地質景觀',lake:'🏞️ 湖景',landscape:'📷 風景',waterfall:'💦 瀑布',snow_scene:'❄️ 冰雪景觀',aurora:'🌌 極光'},
-      en:{all:'🌐 All subjects',mountain_view:'🏔️ Mountain View',alpine_lake:'🏔️ Alpine Lake',sunrise:'🌅 Sunrise',sunset:'🌇 Sunset',blue_hour:'🔵 Blue Hour',sky_glow:'🌈 Sky Glow',cloud_sea:'☁️ Sea of Clouds',fog_mist:'🌫️ Mist/Fog',reflection:'🪞 Reflection',sunbeam:'🌤️ Sunbeams',milky_way:'🌌 Milky Way',long_exposure:'💧 Long Exposure',city_night:'🌃 Night Scene',city_view:'🏙️ City View',coast:'🌊 Coast',forest:'🌲 Forest',geology:'🪨 Geology',lake:'🏞️ Lake',landscape:'📷 Landscape',waterfall:'💦 Waterfall',snow_scene:'❄️ Snow/Ice',aurora:'🌌 Aurora'},
-      ja:{all:'🌐 全テーマ',mountain_view:'🏔️ 山岳展望',alpine_lake:'🏔️ 高山湖',sunrise:'🌅 日の出',sunset:'🌇 日没',blue_hour:'🔵 ブルーアワー',sky_glow:'🌈 朝夕焼け',cloud_sea:'☁️ 雲海',fog_mist:'🌫️ 霧景',reflection:'🪞 水面反射',sunbeam:'🌤️ 光芒',milky_way:'🌌 天の川',long_exposure:'💧 長秒露光',city_night:'🌃 夜景',city_view:'🏙️ 都市景観',coast:'🌊 海岸景観',forest:'🌲 森林',geology:'🪨 地質景観',lake:'🏞️ 湖景',landscape:'📷 風景',waterfall:'💦 滝',snow_scene:'❄️ 雪氷景観',aurora:'🌌 オーロラ'}
+      'zh-TW':{all:'全部題材',mountain_view:'山景展望',alpine_lake:'高山湖',sunrise:'日出',sunset:'日落',blue_hour:'藍調時刻',sky_glow:'彩霞',cloud_sea:'雲海',fog_mist:'霧景',reflection:'倒影',sunbeam:'光束',milky_way:'銀河星空',long_exposure:'長曝水景',city_night:'夜景',city_view:'城市景觀',coast:'海岸景觀',forest:'森林',geology:'地質景觀',lake:'湖景',landscape:'風景',waterfall:'瀑布',snow_scene:'冰雪景觀',aurora:'極光'},
+      en:{all:'All subjects',mountain_view:'Mountain View',alpine_lake:'Alpine Lake',sunrise:'Sunrise',sunset:'Sunset',blue_hour:'Blue Hour',sky_glow:'Sky Glow',cloud_sea:'Sea of Clouds',fog_mist:'Mist/Fog',reflection:'Reflection',sunbeam:'Sunbeams',milky_way:'Milky Way',long_exposure:'Long Exposure',city_night:'Night Scene',city_view:'City View',coast:'Coast',forest:'Forest',geology:'Geology',lake:'Lake',landscape:'Landscape',waterfall:'Waterfall',snow_scene:'Snow/Ice',aurora:'Aurora'},
+      ja:{all:'全テーマ',mountain_view:'山岳展望',alpine_lake:'高山湖',sunrise:'日の出',sunset:'日没',blue_hour:'ブルーアワー',sky_glow:'朝夕焼け',cloud_sea:'雲海',fog_mist:'霧景',reflection:'水面反射',sunbeam:'光芒',milky_way:'天の川',long_exposure:'長秒露光',city_night:'夜景',city_view:'都市景観',coast:'海岸景観',forest:'森林',geology:'地質景観',lake:'湖景',landscape:'風景',waterfall:'滝',snow_scene:'雪氷景観',aurora:'オーロラ'}
     };
 
     const TW_ADMIN_AREA_ORDER=[
@@ -631,11 +631,26 @@
     // CL-CI-44: WMO weather-code → icon + spoken word. One table owns both
     // surfaces (card face + modal) so a day's weather can never be 「晴」 on the
     // card and 「多雲」 in the popup. Codes follow the Open-Meteo WMO set.
-    const WMO_ICONS={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌦️',56:'🌧️',57:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',66:'🌧️',67:'🌧️',71:'🌨️',73:'🌨️',75:'❄️',77:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',85:'🌨️',86:'🌨️',95:'⛈️',96:'⛈️',99:'⛈️'};
+    // CL-UI-115 §1: every metric/weather glyph comes from ONE inline SVG set
+    // (assets/icons.js, loaded before this file). Emoji survive only as
+    // FALLBACK DATA for a key the icon set does not know yet, so an unmapped
+    // WMO code still renders something instead of a blank cell. The helper is a
+    // hoisted function declaration and typeof-guarded because several test
+    // harnesses slice single functions out of this file and re-run them.
+    const WMO_ICON_FALLBACK={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌦️',56:'🌧️',57:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',66:'🌧️',67:'🌧️',71:'🌨️',73:'🌨️',75:'❄️',77:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',85:'🌨️',86:'🌨️',95:'⛈️',96:'⛈️',99:'⛈️'};
+    function clIconSvg(key){
+      // Decorative inline SVG (aria-hidden in the sprite); the caller keeps its
+      // text label, so no metric name is lost.
+      if(typeof clIcon==='function'){const s=clIcon(String(key));if(s)return s;}
+      if(typeof CL_ICON_EMOJI!=='undefined'&&CL_ICON_EMOJI&&CL_ICON_EMOJI[key])return CL_ICON_EMOJI[key];
+      return '';
+    }
     function wmoIcon(code){
       const c=Number(code);
       if(!Number.isFinite(c))return '';
-      return WMO_ICONS[c]||(c>=95?'⛈️':(c>=80?'🌧️':(c>=50?'🌦️':'☁️')));
+      const svg=clIconSvg(String(c));
+      if(svg&&svg.charAt(0)==='<')return svg;
+      return WMO_ICON_FALLBACK[c]||(c>=95?'⛈️':(c>=80?'🌧️':(c>=50?'🌦️':'☁️')));
     }
     function wmoWord(code){
       const c=Number(code);
@@ -687,7 +702,7 @@
       const tr=formatTempRange(wx.tempMin,wx.tempMax);
       if(tr)bits.push(esc(tr));
       const vt=visibilityText(wx.vis);
-      if(vt)bits.push(`👁 ${esc(vt)}`);
+      if(vt)bits.push(`${clIconSvg('visibility')} ${esc(vt)}`);
       if(!bits.length)return '';
       const title=wx.source==='window'?d().v2_win_partial:''; // tooltip only; no hour label on the face
       return `<span class="metric-chip day-wx"${title?` title="${esc(title)}"`:''}>${bits.join(' · ')}</span>`;
@@ -1831,7 +1846,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     // no fully blocked layer → '' → the mainline stays bare ⚠️ 未符.
     function clui82CloudFullReason(item){if(!item||item.c_low==null||item.c_mid==null||item.c_high==null)return '';const l=Number(item.c_low),m=Number(item.c_mid),h=Number(item.c_high);if(![l,m,h].every(Number.isFinite))return '';if(l>70)return d().clui82_clow_full;if(m>70)return d().clui82_cmid_full;if(h>70)return d().clui82_chigh_full;return '';}
     function clui82BadReasonLabel(label,wx){const reason=wx?clui82CloudFullReason(wx):'';return reason?label+'・'+reason:label;}
-    function tempChipHtml(temp){const t=formatTemp(temp);const title=t==='—'?` title="${esc(d().temp_unavailable)}"`:'';return `<span class="metric-chip"${title}>🌡 ${esc(t)}</span>`;}
+    function tempChipHtml(temp){const t=formatTemp(temp);const title=t==='—'?` title="${esc(d().temp_unavailable)}"`:'';return `<span class="metric-chip"${title}>${clIconSvg('temperature')} ${esc(t)}</span>`;}
     // CL-UI-18: the per-row marker is a compact symbol (the full reason lives in
     // the tooltip and the one-time legend note) so 24+ history rows don't each
     // repeat the full sentence.
@@ -2359,7 +2374,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         // row (AGL 60 m ⇒ ASL elevation+60) renders 「資料下限」, not a number.
         const clElevForCb=(spot.elevation!=null)?spot.elevation:(spot.api_elevation!=null?spot.api_elevation:null);
         const clBaseTxt=clui45CloudBaseText(metric.cloud_base_asl,metric.cloud_base_agl,clElevForCb);
-        const cloudChip=clBaseTxt?`<span class="metric-chip">☁️ ${esc(clBaseTxt)}</span>`:'';
+        const cloudChip=clBaseTxt?`<span class="metric-chip">${clIconSvg('cloud')} ${esc(clBaseTxt)}</span>`:'';
         // CL-CI-44: the card face now carries the TARGET DAY's weather — WMO
         // icon + spoken word, the all-day temperature range and the
         // representative visibility. The value comes from the same
@@ -2377,8 +2392,8 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // (sourced from the per-hour forecast), and a genuinely missing field
       // omits the pill honestly — no invented dash, no placeholder.
       const clElev=(spot.elevation!=null)?spot.elevation:(spot.api_elevation!=null?spot.api_elevation:null);
-      const clElevPill=clElev!=null?`<span class="metric-chip">⛰ ${clElev} m</span>`:'';
-      const clSunPill=(metric&&metric.sun_azimuth!=null&&metric.sun_elevation!=null)?`<span class="metric-chip">☀ ${Math.round(metric.sun_azimuth)}°/${Math.round(metric.sun_elevation)}°</span>`:'';
+      const clElevPill=clElev!=null?`<span class="metric-chip">${clIconSvg('elevation')} ${clElev} m</span>`:'';
+      const clSunPill=(metric&&metric.sun_azimuth!=null&&metric.sun_elevation!=null)?`<span class="metric-chip">${clIconSvg('azimuth')} ${Math.round(metric.sun_azimuth)}°/${Math.round(metric.sun_elevation)}°</span>`:'';
       // CL-UI-15: the per-card timezone row (card-timezone) was removed — the
       // page header already carries the unified GMT clock, so the row only
       // repeated on every card. If a multi-timezone card list is ever needed,
