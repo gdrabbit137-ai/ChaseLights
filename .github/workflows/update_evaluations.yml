@@ -112,6 +112,7 @@ jobs:
           # no assertion is relaxed, only the venue is corrected.
           coupled=$(grep -rlE "'data', *'v2', *'evaluations|evaluations-latest|evaluations-details|subject-cards" apps/web-v2/tests --include='*.test.mjs' \
             | grep -vE 'cl-app-06-custom-places|cl-ui-118b-na-rows-expand|cl-ui-90-reminders-mockup|cl-e2e-131-semantic-sweep' \
+            | grep -vE 'cl-ui-115-icon-set|cl-ui-117-now-sidecar|cl-ui-45-render-consistency|cl-ui-46-cp-flag-visibility' \
             | sort | tr '\n' ' ')
           echo "coupled test files:"
           echo "$coupled" | tr ' ' '\n' | sed '/^$/d'
