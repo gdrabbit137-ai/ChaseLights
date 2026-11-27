@@ -165,9 +165,28 @@ async function load(sidecarScenario) {
     cards = await evaljs(`document.querySelectorAll('#spots-container .card').length`).catch(() => 0);
   }
   assert.ok(cards > 0, `${sidecarScenario}: cards must render`);
-  // Give the now-row layer time to settle: the sidecar paints after its single
-  // fetch; the fallback path paints as shards land (concurrency 4).
-  await sleep(sidecarScenario === 'ok' ? 4000 : 8000);
+  // Deterministic settle. Fixed sleeps made this suite flaky: under load the
+  // sidecar paint (ok) or the lazy shard paint (404/stale) can land later than
+  // 4-8 s, so a snapshot taken on a timer reads a half-painted page.
+  // Poll the probe until the scenario reaches its terminal state AND the number
+  // of painted now rows has stopped moving for three consecutive samples.
+  const wantState = sidecarScenario === 'ok' ? 'ready' : 'unusable';
+  const settleDeadline = Date.now() + 45000;
+  let last = null, stable = 0;
+  while (Date.now() < settleDeadline) {
+    const probe = await evaljs(`(() => ({
+      state: (window.__clui117 && window.__clui117.state && window.__clui117.state()) || '',
+      now: document.querySelectorAll('#spots-container .card .now-wx').length,
+    }))()`).catch(() => ({state: '', now: -1}));
+    if (probe.state === wantState && probe.now > 0 && probe.now === last) {
+      if (++stable >= 3) break;
+    } else {
+      stable = 0;
+    }
+    last = probe.now;
+    await sleep(250);
+  }
+
   const snapshot = await evaljs(`(() => {
     const cards = [...document.querySelectorAll('#spots-container .card')];
     return {
