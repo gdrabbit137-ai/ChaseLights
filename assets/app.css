@@ -1483,6 +1483,11 @@
   fill:none;
   flex:none;
 }
+/* CL-UI-115 §1: the subject glyph slots. The card row keeps its glyph in its own
+   span before the name (the pinned name/colon/window anatomy stays untouched),
+   and a summary chip holds glyph + text on one line. */
+.cl-subject-icon{display:inline-flex;align-items:center;color:var(--cl-text-2);margin-right:2px}
+.cl-summary-subject{display:inline-flex;align-items:center;gap:2px}
 .metric-chip {
   /* CL-UI-86 (mockup-cards .pill): 22px env pills — bg-2 surface, r-xs, 12px. */
   display:inline-flex;

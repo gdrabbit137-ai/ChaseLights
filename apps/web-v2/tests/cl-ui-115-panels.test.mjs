@@ -157,6 +157,14 @@ test('CL-UI-115 §2 (CL-UI-115 §1 acceptance): the same metric chip is byte-ide
     const hh=String(Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',hour12:false}).format(now))%24).padStart(2,'0');
     window.__clui115.setNowRows(placeId,[{time:`${date} ${hh}:00`,local_date:date,weather_code:3,temp:18.4,visibility:12.5}]);
   },id);
+  // §3 made the now row viewport-lazy: wait for this card's shard fetch to
+  // SETTLE before injecting, or a late arrival repaints one viewport with the
+  // real shard after the injection and the two sides legitimately differ.
+  const settle=async()=>{
+    await page.waitForFunction(()=>!!document.querySelector('#spots-container .card .now-wx'),null,{timeout:25000}).catch(()=>{});
+    await page.waitForTimeout(800);
+  };
+  await settle();
   await inject();
   const readChip=async(placeId)=>{
     await page.waitForFunction(pid=>{
@@ -170,11 +178,17 @@ test('CL-UI-115 §2 (CL-UI-115 §1 acceptance): the same metric chip is byte-ide
   // The list re-renders on the breakpoint switch; the chip is rebuilt from the
   // same cache + renderer, so wait for it instead of racing the repaint.
   await page.waitForTimeout(600);
+  await settle();
   await inject();
   const narrow=await readChip(id);
   assert.equal(narrow,wide,`the metric chip markup is viewport-independent (no emoji font dependency)
   1440: ${wide}
    393: ${narrow}`);
+  // Both sides must carry the INJECTED hour, not a shard snapshot: that is what
+  // makes the byte comparison meaningful.
+  const hour=await page.evaluate(()=>{const n=new Date();return String(Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',hour12:false}).format(n))%24).padStart(2,'0')+':00';});
+  assert.match(wide,new RegExp(`data-now-hour="${hour}"`),'1440 shows the injected hour');
+  assert.match(narrow,new RegExp(`data-now-hour="${hour}"`),'393 shows the injected hour');
   assert.match(wide,/<svg class="cl-icon" data-cl-icon="visibility"/,'the chip carries the SVG eye, not 👁');
   assert.doesNotMatch(wide,/👁/,'no emoji glyph remains in the metric chip');
 });

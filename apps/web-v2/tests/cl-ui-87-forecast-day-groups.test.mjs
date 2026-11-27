@@ -166,7 +166,9 @@ test('CL-UI-87 (6): summary = day label · date + tier chip + ✓/○ counts + s
   assert.match(sum, /not_recommended:`<span class="dg-chip dg-chip-no">\$\{esc\(d\(\)\.v2_tier_not_recommended\)\}<\/span>`/, '✗ 不宜 chip');
   assert.match(sum, /if\(!row\)return ''/, 'honest: no artifact row → no chip');
   assert.match(sum, /b\.kind==='fit'\)ok\+\+/, '✓ count from the same hourly buckets as the chips');
-  assert.match(sum, /v2SubjectCardShorts\(/, 'subject shorts on the summary (mockup mini)');
+  // CL-UI-115 §1: the summary now renders the GLYPH-AWARE shorts (icon + text);
+  // the pure-text accessor stayed for the surfaces/tests that read strings.
+  assert.match(sum, /v2SubjectCardShortHtml\(/, 'subject shorts on the summary (mockup mini), glyph-aware');
   for (const cls of ['.dg-chip-rec', '.dg-chip-shoot', '.dg-chip-no']) {
     assert.ok(cssSource.includes(cls), `css has ${cls}`);
   }

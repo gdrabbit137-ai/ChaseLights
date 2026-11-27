@@ -18,7 +18,10 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const APP=readFileSync(new URL('../../../assets/app.js',import.meta.url),'utf8');
-const CARDS_FILE='subject-cards-20261112T202312Z.json';
+// CL-CI-36: the artifact filename is a refreshable pointer — read it from app.js
+// (never copy a timestamp into a test; a six-hourly refresh would rot the pin).
+const CARDS_FILE=(APP.match(/V2_SUBJECT_CARDS_FILE='([^']+)'/)||[])[1];
+assert.ok(CARDS_FILE,'app.js pins the subject-cards artifact filename');
 const CARDS=JSON.parse(readFileSync(new URL('../../../data/v2/evaluations/'+CARDS_FILE,import.meta.url),'utf8'));
 const BUNDLE=JSON.parse(readFileSync(new URL('../../web-v2/evaluations-latest.json',import.meta.url),'utf8'));
 
@@ -112,6 +115,25 @@ test('CL-UI-115 §2 (now_hour): a forecast that does not cover today is labelled
   assert.equal(api.clui115NowHourRow(null,TPE,AT_1020),null);
 });
 
+test('CL-UI-115 §5: the hour label reads the PASSED instant, never a fresh Date.now()',()=>{
+  // A pick from the passed nowMs must be labelled as "today" by that same
+  // instant. Recomputing Date.now() (the old bug) makes the label depend on
+  // wall-clock time, so a test and the page disagree and a today row can grow a
+  // date prefix for no reason.
+  const rows=rowsFor('2026-11-27',['08','09','10','11']);
+  const pick=api.clui115NowHourRow(rows,TPE,AT_1020);
+  assert.equal(api.clui115NowHourLabel(pick,TPE,AT_1020),'10:00','same instant → bare hour label');
+  // Move the instant to the NEXT day: the same pick now carries its date.
+  const nextDay=Date.UTC(2026,10,28,2,20);
+  assert.equal(api.clui115NowHourLabel(pick,TPE,nextDay),'11/27 10:00','the label follows the passed instant');
+  // The source no longer closes over the wall clock inside the label helper
+  // (comments are stripped: the explanatory note mentions the old call).
+  const labelFn=slice('function clui115NowHourLabel','// ONE renderer for the now chip')
+    .split('\n').filter(l=>!l.trim().startsWith('//')).join('\n');
+  assert.doesNotMatch(labelFn,/Date\.now\(\)/,'the label helper never recomputes the clock');
+  assert.match(labelFn,/clui115LocalParts\(tz,nowMs\)/,'it reads the caller-supplied nowMs');
+});
+
 test('CL-UI-115 §2 (fog): a foggy now tints the chip and states the reason',()=>{
   const foggy=rowsFor('2026-11-27',['10']);foggy[0].visibility=0.4;
   const html=api.clui115NowChipHtml(foggy,TPE,AT_1020);
@@ -122,14 +144,21 @@ test('CL-UI-115 §2 (fog): a foggy now tints the chip and states the reason',()=
   // a fog WMO code counts too
   const code=rowsFor('2026-11-27',['10']);code[0].weather_code=45;
   assert.equal(api.clui115NowFog(code[0]),true,'WMO 45 (fog) is fog right now');
-  // an explicit metric verdict counts too (fog_visibility / in_cloud_fog FAIL)
+  // an explicit metric verdict list is NOT a signal: the shards carry raw values
+  // only (measured: 0 of 42,048 rows have `conditions[]`), so the dead branch was
+  // deleted rather than left claiming a verdict path that never runs.
   const verdict=rowsFor('2026-11-27',['10']);
   verdict[0].conditions=[{metric:'fog_visibility',verdict:'FAIL'}];
-  assert.equal(api.clui115NowFog(verdict[0]),true,'fog_visibility FAIL at now_hour');
+  assert.equal(api.clui115NowFog(verdict[0]),false,'a fog_visibility FAIL row is not a source — no shard carries conditions[]');
   verdict[0].conditions=[{metric:'in_cloud_fog',verdict:'FAIL'}];
-  assert.equal(api.clui115NowFog(verdict[0]),true,'in_cloud_fog FAIL at now_hour');
-  verdict[0].conditions=[{metric:'in_cloud_fog',verdict:'PASS'}];
-  assert.equal(api.clui115NowFog(verdict[0]),false,'a PASS verdict is not fog');
+  assert.equal(api.clui115NowFog(verdict[0]),false,'an in_cloud_fog FAIL row is not a source either');
+  // the documented signals are visibility < 1 km and WMO 45/48 — nothing else.
+  const justUnder=rowsFor('2026-11-27',['10']);justUnder[0].visibility=0.9;
+  assert.equal(api.clui115NowFog(justUnder[0]),true,'visibility under 1 km is fog');
+  const atOne=rowsFor('2026-11-27',['10']);atOne[0].visibility=1;
+  assert.equal(api.clui115NowFog(atOne[0]),false,'1.0 km is the boundary, not fog');
+  const code48=rowsFor('2026-11-27',['10']);code48[0].weather_code=48;
+  assert.equal(api.clui115NowFog(code48[0]),true,'WMO 48 (depositing rime fog) is fog');
   // clean weather keeps the plain chip
   const clean=rowsFor('2026-11-27',['10']);
   const cleanHtml=api.clui115NowChipHtml(clean,TPE,AT_1020);

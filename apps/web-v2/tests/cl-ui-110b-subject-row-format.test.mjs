@@ -140,7 +140,7 @@ test('CL-UI-110b (4): the word is never concatenated with hours in any visible s
 });
 
 test('CL-UI-110b (5): cache-bust stamp advanced for app.js', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui137/);
-  assert.equal((indexSource.match(/\?v=clui137/g) || []).length,3, 'app.css + app.js + icons.js at clui137 (CL-UI-115 added the icon set)');
-  assert.match(indexSource, /assets\/app\.js\?v=clui137/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui138/);
+  assert.equal((indexSource.match(/\?v=clui138/g) || []).length,3, 'app.css + app.js + icons.js at clui138 (CL-UI-115 added the icon set)');
+  assert.match(indexSource, /assets\/app\.js\?v=clui138/);
 });

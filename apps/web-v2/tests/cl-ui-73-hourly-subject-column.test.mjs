@@ -54,7 +54,8 @@ const cellCode = grab('function v2HourSubjectCell', '// CL-UI-26: every 不符 v
 const makeCell = ({currentLang = 'zh-TW', dict = artifact} = {}) => new Function(
   `${cellCode}\nv2SubjectCards=${JSON.stringify(dict)};currentLang=${JSON.stringify(currentLang)};` +
   'const d=()=>({eval2_unk:"資料不足",v2_hour_general_ok:"○ 可拍",state_outside:"🕒 非建議時段"});' +
-  'const esc=(s)=>String(s);const listSep=()=>" · ";;' +
+  'const esc=(s)=>String(s);const listSep=()=>" · ";' +
+  'const clIconSvg=k=>"<svg class=\\"cl-icon\\" data-cl-icon=\\""+k+"\\" aria-hidden=\\"true\\"></svg>";' +
   'const v2SubjectCardRow=(spotId,localDate)=>((v2SubjectCards.places||{})[spotId]||{})[localDate]||null;' +
   'return {v2HourSubjectCell};')();
 
@@ -167,6 +168,6 @@ test('CL-UI-73 (5): visual rhythm — cell tint classes + the clui102 stamps', (
   for (const cls of ['.td-subjects.subj-has', '.td-subjects.subj-ok-row', '.td-subjects.subj-na-row', '.td-subjects.subj-no-row', '.subj-chip', '.subj-na', '.timeline-mobile-subjects']) {
     assert.ok(cssSource.includes(cls), `css has ${cls}`);
   }
-  assert.match(indexSource, /assets\/app\.js\?v=clui137/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui137/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui138/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui138/);
 });

@@ -905,39 +905,61 @@ test('CL-E2E-131 (6) DAY 10:00 — card and modal agree on every day: tier, WMO,
   // (a) the card face carries a complete weather chip — icon, temperature and
   //     visibility — and never leaks a placeholder.
   // CL-UI-115 §2: the card row reads NOW (the current hour) when the place's
-  // hourly shard is loaded, otherwise the day block. Both shapes carry the same
-  // SVG icon set, so the assertion requires an icon ELEMENT (stricter than the
-  // old emoji regex) plus either a now-hour single temperature or a day range.
+  // hourly shard is loaded, otherwise the day block. Every VISIBLE card earns its
+  // now row (viewport-driven lazy load, no per-page card cap), so the gate waits
+  // for the first now chip and then validates BOTH shapes explicitly — a now chip
+  // may not skip the day-range branch, and a day chip may not skip the visibility
+  // one.
+  await pollUntil(`document.querySelectorAll('#spots-container .card .card-metric-chips .now-wx').length > 0`,
+    { timeoutMs: 60000, label: 'no card earned its now_hour row within 60s' });
   const cardWx = await evaljs(`(() => {
     const cards = [...document.querySelectorAll('#spots-container .card')];
     const withWx = cards.map(c => {
       const chip = c.querySelector('.card-metric-chips .day-wx');
       if (!chip) return null;
       return {
-        text: chip.innerText.replace(/\s+/g, ' ').trim(),
+        text: chip.innerText.replace(/\\s+/g, ' ').trim(),
+        html: chip.outerHTML,
         icons: [...chip.querySelectorAll('svg[data-cl-icon]')].map(s => s.getAttribute('data-cl-icon')),
         nowHour: chip.getAttribute('data-now-hour') || '',
+        isNow: chip.classList.contains('now-wx'),
       };
     }).filter(Boolean);
     return { total: cards.length, withWx: withWx.length, sample: withWx.slice(0, 6) };
   })()`);
   assert.ok(cardWx.withWx > 0, `at least one card face renders the weather chip (got ${cardWx.withWx}/${cardWx.total})`);
-  for (const chip of cardWx.sample) {
+
+  // Strict visibility (was `/(≥\s*)?\d/` — any digit satisfied it): the eye
+  // icon ELEMENT must be followed by the numeric km value in the SAME markup, and
+  // the visible text must carry that number with its unit.
+  const VIS_ICON_THEN_VALUE = /data-cl-icon="visibility"[\s\S]*?<\/svg>\s*(≥\s*)?\d+(\.\d+)?\s*km/;
+  const nowChips = cardWx.sample.filter(c => c.isNow);
+  const dayChips = cardWx.sample.filter(c => !c.isNow);
+  assert.equal(nowChips.length + dayChips.length, cardWx.sample.length, 'every sampled chip is exactly one shape');
+  assert.ok(nowChips.length > 0, `the now_hour row is rendered for visible cards (got ${nowChips.length}/${cardWx.sample.length})`);
+
+  for (const chip of nowChips) {
     const txt = chip.text;
-    const wmoKeys = chip.icons.filter(k => /^\d+$/.test(k));
-    assert.ok(wmoKeys.length > 0, `card weather chip carries an SVG WMO icon: ${txt}`);
-    assert.ok(chip.icons.includes('visibility'), `card weather chip carries the visibility icon: ${txt}`);
-    const isNow = !!chip.nowHour;
-    if (isNow) {
-      assert.match(txt, /-?\d+(\.\d+)?°C/, `now_hour chip carries the current-hour temperature: ${txt}`);
-      assert.match(txt, /\d{2}:\d{2}|\d{2}\/\d{2} \d{2}:\d{2}/, `now_hour chip labels its hour: ${txt}`);
-    } else {
-      assert.match(txt, /-?\d+–-?\d+°C/, `day chip carries the full-day temperature range: ${txt}`);
-    }
-    assert.match(txt, /(≥\s*)?\d/, `card weather chip carries visibility: ${txt}`);
-    assert.ok(!/undefined|NaN|null/.test(txt), `card weather chip has no placeholder value: ${txt}`);
+    assert.ok(chip.nowHour, `now chip labels its hour via data-now-hour: ${txt}`);
+    assert.match(txt, /-?\d+(\.\d+)?°C/, `now_hour chip carries the current-hour temperature: ${txt}`);
+    assert.match(txt, /\d{2}:\d{2}|\d{2}\/\d{2} \d{2}:\d{2}/, `now_hour chip labels its hour: ${txt}`);
+    assert.doesNotMatch(txt, /-?\d+–-?\d+°C/, `the now chip shows ONE hour, never a fabricated day range: ${txt}`);
+    assert.match(chip.html, VIS_ICON_THEN_VALUE, `the visibility ICON is followed by its numeric km value: ${chip.html}`);
+    assert.ok(!/undefined|NaN|null/.test(txt), `now chip has no placeholder value: ${txt}`);
   }
 
+  for (const chip of dayChips) {
+    const txt = chip.text;
+    assert.equal(chip.nowHour, '', 'a day chip carries no now-hour label');
+    assert.match(txt, /-?\d+–-?\d+°C/, `day chip carries the full-day temperature range: ${txt}`);
+    assert.match(chip.html, VIS_ICON_THEN_VALUE, `the visibility ICON is followed by its numeric km value: ${chip.html}`);
+    assert.ok(!/undefined|NaN|null/.test(txt), `day chip has no placeholder value: ${txt}`);
+  }
+  // Both shapes share the same glyph set: the WMO SVG and the eye icon.
+  for (const chip of cardWx.sample) {
+    assert.ok(chip.icons.filter(k => /^\d+$/.test(k)).length > 0, `card weather chip carries an SVG WMO icon: ${chip.text}`);
+    assert.ok(chip.icons.includes('visibility'), `card weather chip carries the visibility icon: ${chip.text}`);
+  }
   await openFirstCardModal(0);
 
   // (b) top 7-day summary vs the accordion below it — same tier word per date.

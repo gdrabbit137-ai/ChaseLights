@@ -114,6 +114,9 @@ test('CL-UI-45 (1d): the gate changes the real verdict — tw-188-P02 2026-11-29
     const d=()=>i18nDict[currentLang];
     const esc=s=>String(s);
     const listSep=()=>'、';
+    // CL-UI-115 §1: the subject chip now carries the icon set's glyph; the
+    // extracted slice has no icons.js, so it gets the same markup shape.
+    const clIconSvg=k=>'<svg class="cl-icon" data-cl-icon="'+k+'" aria-hidden="true"></svg>';
     const v2SubjectCards={
       places:{'tw-188':{'2026-11-29':{hours:{fit:{'06:00':['geological_landform'],'15:00':['geological_landform'],'16:00':['geological_landform','sunset'],'16:30':['sunset'],'17:00':['sunset']}}}}},
       dictionaries:{genre_short_names:{geological_landform:{'zh-TW':'地景'},sunset:{'zh-TW':'夕陽'}},fail_reason_short:{}}
@@ -131,6 +134,12 @@ test('CL-UI-45 (1d): the gate changes the real verdict — tw-188-P02 2026-11-29
   const inside = api.v2HourSubjectCell(spot, at('16:30'), gate);
   assert.equal(inside.kind, 'fit', 'an hour inside the window keeps its subject chip');
   assert.match(inside.html, /夕陽/);
+  // CL-UI-115 §1: the chip's subject glyph (SVG) sits next to the text label.
+  assert.match(inside.html, /<span class="subj-chip"><svg class="cl-icon" data-cl-icon="sunset"[^>]*><\/svg> 夕陽<\/span>/,
+    'the sunset chip renders its SVG glyph and keeps the text label');
+  const ungated = api.v2HourSubjectCell(spot, at('16:00'));
+  assert.match(ungated.html, /data-cl-icon="geological_landform"[^>]*><\/svg> 地景/,
+    'the landform chip renders its own glyph too');
   const dayWithoutRow = api.v2HourSubjectCell({spot_id: 'tw-999'}, at('16:00'), null);
   assert.equal(dayWithoutRow.cls, 'subj-unknown', 'no artifact row → honest dash (fail-closed)');
   assert.match(dayWithoutRow.html, /—/);
@@ -182,6 +191,8 @@ test('CL-UI-45 (1e): the quick-view band and 符合時數 agree with good_hours 
       dictionaries:{genre_short_names:{geological_landform:{'zh-TW':'地景'},sunset:{'zh-TW':'夕陽'}},fail_reason_short:{}}};
     const v2SubjectCardRow=(id,date)=>((v2SubjectCards.places[id]||{})[date])||null;
     const v2SubjectCardShorts=(r,lang)=>((r&&r.suitable)||[]).map(s=>s.subject_short&&(s.subject_short[lang]||s.subject_short['zh-TW'])).filter(Boolean);
+    const clIconSvg=k=>'<svg class="cl-icon" data-cl-icon="'+k+'" aria-hidden="true"></svg>';
+    const v2SubjectCardShortHtml=(r,lang,n)=>((r&&r.suitable)||[]).map(s=>s.subject_short&&(s.subject_short[lang]||s.subject_short['zh-TW'])).filter(Boolean).slice(0,n||99).map(l=>'<span class="cl-summary-subject">'+l+'</span>').join('、');
     const v2PlaceForSpot=()=>(${JSON.stringify(place)});
     const v2DayRel=()=>'future';
     const v2IsToday=()=>false;
@@ -417,9 +428,9 @@ test('CL-UI-45 (6): a 日出/日落 row carries a range or is not rendered', () 
 test('CL-UI-45 (7): every touched asset is re-stamped on every page that serves it', () => {
   for (const page of ['index.html', 'genre-eval.html', 'sources.html', '404.html', 'reminders.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    if (/app\.css\?v=/.test(src)) assert.match(src, /app\.css\?v=clui137/, `${page}: app.css stamp`);
+    if (/app\.css\?v=/.test(src)) assert.match(src, /app\.css\?v=clui138/, `${page}: app.css stamp`);
   }
-  assert.match(indexSource, /app\.js\?v=clui137/);
+  assert.match(indexSource, /app\.js\?v=clui138/);
   assert.match(indexSource, /custom-places\.js\?v=clapp09n/);
 });
 

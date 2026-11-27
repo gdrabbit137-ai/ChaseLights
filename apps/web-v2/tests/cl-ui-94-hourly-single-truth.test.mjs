@@ -57,6 +57,7 @@ const makeCell = ({currentLang = 'zh-TW'} = {}) => new Function(
   `${cellCode}\nv2SubjectCards=${JSON.stringify(artifact)};currentLang=${JSON.stringify(currentLang)};` +
   'const d=()=>({eval2_unk:"資料不足",v2_hour_general_ok:"○ 可拍",state_outside:"🕒 非建議時段"});' +
   'const esc=(s)=>String(s);const listSep=()=>" · ";' +
+  'const clIconSvg=k=>"<svg class=\\"cl-icon\\" data-cl-icon=\\""+k+"\\" aria-hidden=\\"true\\"></svg>";' +
   'const v2SubjectCardRow=(spotId,localDate)=>((v2SubjectCards.places||{})[spotId]||{})[localDate]||null;' +
   'return {v2HourSubjectCell};')();
 const cellOf = ([pid, date, hh], lang) => makeCell({currentLang: lang})

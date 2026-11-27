@@ -108,3 +108,62 @@ test('CL-UI-115 §1: icons.js loads before app.js with a cache stamp',()=>{
   assert.match(indexSource,/assets\/icons\.js\?v=clui\d+/,'index.html stamps the icon set');
   assert.ok(indexSource.indexOf('assets/icons.js')<indexSource.indexOf('assets/app.js'),'icons.js loads first');
 });
+
+// REGRESSION GUARD (reviewer condition 1). The icon commit stripped the emoji
+// prefix out of the 23-row subject label table (`☁️ 雲海` → `雲海`) and never
+// re-attached a glyph, so every subject surface — card subject row, hourly
+// subject chip, filter row, summary line — silently went plain-text. A table
+// with no emoji is only correct if a SUBJECT ICON lookup replaces it, so these
+// assertions pin both halves: no emoji in the table AND an SVG in every
+// subject render position.
+test('CL-UI-115 §1: the 23 subject keys carry no emoji but DO carry an SVG glyph',()=>{
+  const start=appSource.indexOf('const themeLabels = {');
+  const block=appSource.slice(start,appSource.indexOf('\n    };',start));
+  assert.equal(SUBJECT_KEYS.length,23);
+  for(const key of SUBJECT_KEYS){
+    assert.ok(G.clIcon(key),`subject key ${key} resolves to a glyph`);
+    assert.match(G.clIcon(key),/^<svg /,`subject key ${key} resolves to the SVG, not a codepoint`);
+  }
+  // No emoji left in the label table itself (the historical form was `🌅 日出`).
+  assert.doesNotMatch(block,/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u,'the subject label table carries no emoji');
+  // …but the text label is still there, per §1.4 (an icon is never the only carrier).
+  assert.match(block,/'zh-TW':\{[^}]*cloud_sea:'雲海'/,'the zh-TW text label survives');
+});
+
+test('CL-UI-115 §1: card row, hourly chip, filter row and summary all render the subject glyph',()=>{
+  // themeLabelHtml: the text-label table's render form (icon + escaped text).
+  assert.match(appSource,/function themeLabelHtml\(k\)\{[\s\S]*?clIconSvg\(k\)[\s\S]*?esc\(text\)/,'themeLabelHtml prefixes the same text with the icon');
+  // card subject row — its own span so the pinned name/colon/window anatomy is untouched
+  assert.match(appSource,/const iconHtml=icon\?`<span class="cl-subject-icon">\$\{icon\}<\/span>`:''/,'the card subject row wraps its glyph in its own span');
+  assert.match(appSource,/\$\{iconHtml\}<span class="cl-subject-name/,'the row inserts the glyph before the subject name');
+  assert.match(appSource,/const icon=\(entry&&entry\.genre\)\?clIconSvg\(entry\.genre\):''/,'the row resolves the glyph from the artifact genre');
+  // hourly subject chip
+  assert.match(appSource,/<span class="subj-chip">\$\{clIconSvg\(c\.genre\)\} \$\{esc\(c\.label\)\}<\/span>/,'the hourly subject chip carries its glyph plus the text label');
+  // filter row
+  assert.match(appSource,/const icon=clIconSvg\(iconKey\|\|key\);b\.innerHTML=`\$\{icon\?icon\+' ':''\}\$\{esc\(label\)\}`/,'the filter chip renders glyph + text');
+  assert.match(appSource,/clui66SubjectCatalogKeys\.forEach\(k=>mk\(k,clui66SubjectCatalogNames\[k\]\?clui66SubjectDisplayName\(k\):null,clui66SubjectCatalogGenres\[k\]\|\|k\)\)/,'the filter row passes the artifact genre as the icon key');
+  // A catalog key without a localized name still renders glyph + text (the
+  // shipped theme label table is the fallback), so no chip is ever bare text.
+  assert.match(appSource,/if\(label==null\)\{b\.innerHTML=themeLabelHtml\(iconKey\|\|key\);\}/,'the no-name fallback still goes through themeLabelHtml');
+  // summary (7-day summary + modal day rows)
+  assert.match(appSource,/function v2SubjectCardShortHtml\(row,lang,limit\)[\s\S]*?<span class="cl-summary-subject">\$\{icon\?icon\+' ':''\}\$\{esc\(label\)\}<\/span>/,'the summary renders glyph + text per subject');
+  assert.match(appSource,/const shorts=scRow\?v2SubjectCardShortHtml\(scRow,currentLang,3\)/,'the modal day summary uses the glyph-aware shorts');
+  assert.match(appSource,/const shorts=v2SubjectCardShortHtml\(v2SubjectCardRow\(spot\.spot_id,date\),currentLang,3\)/,'the 7-day summary uses the glyph-aware shorts');
+  // the pure-text accessor stays text (other surfaces/tests depend on it)
+  assert.match(appSource,/function v2SubjectCardShorts\(row,lang\)\{\n\s+const canon=/,'v2SubjectCardShorts remains a pure text accessor');
+});
+
+test('CL-UI-115 §1: every subject genre the artifact can emit resolves to a glyph',()=>{
+  // The committed subject-cards artifact names subjects with its own genre
+  // vocabulary; each one must draw something (aliases live in icons.js).
+  const cardsFile=(appSource.match(/V2_SUBJECT_CARDS_FILE='([^']+)'/)||[])[1];
+  assert.ok(cardsFile,'app.js pins the subject-cards artifact filename');
+  const cards=JSON.parse(readFileSync(new URL('../../../data/v2/evaluations/'+cardsFile,import.meta.url),'utf8'));
+  const genres=new Set();
+  for(const tree of Object.values(cards.places||{}))
+    for(const row of Object.values(tree||{}))
+      for(const s of (row&&row.suitable)||[]) if(s&&s.genre) genres.add(s.genre);
+  assert.ok(genres.size>=15,`the artifact carries a broad genre vocabulary (got ${genres.size})`);
+  for(const g of genres) assert.match(G.clIcon(g),/^<svg /,`artifact genre ${g} has an icon (alias ok)`);
+  for(const g of genres) assert.match(G.clIcon(g),new RegExp(`data-cl-icon="${g}"`),`${g}: the artifact's own key rides the SVG`);
+});

@@ -155,8 +155,8 @@ test('CL-UI-101 (6): site-footer.js — self-contained trilingual pack, no app.j
   assert.match(footerJs, /chaselights_lang/);
   assert.match(footerJs, /'@media \(max-width:390px\)/, '390px rhythm in the injected style');
   // Never edits app.js — no stamp bump needed for app assets this ticket.
-  assert.match(indexHtml, /assets\/app\.js\?v=clui137/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui137/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui138/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui138/);
 });
 
 test('CL-UI-101 (7): sources page shell — tokens via app.css, 390 media query', () => {

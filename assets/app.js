@@ -321,6 +321,10 @@
     if(sortTouched)currentSortMode=urlSortMode;
     let clui66SubjectCatalogKeys=[];
     let clui66SubjectCatalogNames={};
+    // CL-UI-115 §1: the chip's genre key (what the artifact calls the subject)
+    // rides alongside the localized name so the filter row can draw the SVG glyph
+    // without re-deriving the subject from a translated string.
+    let clui66SubjectCatalogGenres={};
     let userLocation=null;
     let sortLocationStatus='';
     let locationRequestSequence=0;
@@ -480,6 +484,7 @@
       clui84CacheStale=!(Number.isFinite(c.saved_at)&&Date.now()-c.saved_at<=FILTER_CACHE_MAX_AGE_MS);
       clui66SubjectCatalogKeys=c.subject_keys.slice();
       clui66SubjectCatalogNames=c.subject_names||{};
+      clui66SubjectCatalogGenres=clui66GenresFromNames(clui66SubjectCatalogNames);
       clui84RenderTabsFromCounts(c.tier_counts);
       renderSubjectChips();
       syncDayButtons();
@@ -552,6 +557,19 @@
     const categoryLabel=k=>(categoryLabels[currentLang]||categoryLabels['zh-TW'])[k]||k;
     const sceneLabel=k=>(sceneLabels[currentLang]||sceneLabels['zh-TW'])[k]||k;
     const themeLabel=k=>(themeLabels[currentLang]||themeLabels['zh-TW'])[k]||k;
+    // CL-UI-115 §1 (regression repair): the subject label table used to carry an
+    // emoji prefix (☁️ 雲海). Stripping the emoji left every subject surface with
+    // plain text — the emoji is NOT duplicated by the metric icon path, so the
+    // subject glyph has to be re-attached explicitly. `themeLabel` stays a pure
+    // TEXT label (verdicts, tooltips, title attributes feed it through esc()),
+    // and `themeLabelHtml` is the render-position form: the SVG glyph from
+    // assets/icons.js in front of the same text. Unknown keys degrade to text
+    // only — never to an empty label.
+    function themeLabelHtml(k){
+      const text=themeLabel(k);
+      const icon=clIconSvg(k);
+      return icon?`${icon} ${esc(text)}`:esc(text);
+    }
     const localeText=values=>{
       const value=values?.[currentLang];
       return typeof value==='string'?value.trim():'';
@@ -770,22 +788,30 @@
       // forecast row and label it — never silently claim it is today's weather.
       return {row:list[0].row,date:list[0].date,hhmm:list[0].hhmm,exact:false,today:false};
     }
-    // Fog right now: a low visibility, a fog WMO code, or an explicit
-    // fog_visibility / in_cloud_fog FAIL carried on the hour row. (`conditions` is
-    // an optional per-hour verdict list; the shard's own rows carry raw values,
-    // so the visibility/WMO test is the operative one there.)
+    // Fog right now. The place's hourly rows (weather_details/<region>/<spot>.json
+    // → spot.hourly_forecast) carry RAW values only — measured over all 42,048
+    // rows of the committed shards: visibility, weather_code, temp, c_low/mid/high,
+    // rh, precipitation… and ZERO rows with a `conditions[]` verdict list. So the
+    // operative signals are exactly these two:
+    //   (a) visibility below 1 km, (b) a fog WMO code (45 / 48).
+    // There is deliberately NO fog_visibility / in_cloud_fog FAIL branch: no shard
+    // can carry it, so it would be dead code claiming a verdict path that never
+    // runs. If the data layer ever ships per-hour verdicts, that is a data ticket
+    // plus a new reader — not a branch kept alive on hope. Pinned by
+    // cl-ui-115-now-hour-and-subject-windows (fog) and cl-ui-115-fog-signal.test.mjs.
     function clui115NowFog(row){
       if(!row)return false;
       const vis=Number(row.visibility);
       if(Number.isFinite(vis)&&vis<1)return true;
       const code=Number(row.weather_code);
-      if(Number.isFinite(code)&&(code===45||code===48))return true;
-      const conditions=Array.isArray(row.conditions)?row.conditions:[];
-      return conditions.some(c=>c&&(c.metric==='fog_visibility'||c.metric==='in_cloud_fog')&&String(c.verdict||'').toUpperCase()==='FAIL');
+      return Number.isFinite(code)&&(code===45||code===48);
     }
-    function clui115NowHourLabel(pick,tz){
+    function clui115NowHourLabel(pick,tz,nowMs){
       if(!pick)return '';
-      const now=clui115LocalParts(tz,Date.now());
+      // CL-UI-115 §5: use the caller's instant, never a fresh Date.now() — the
+      // pick and its "is this today?" test must read the SAME clock, or a test
+      // (and a page mid-render) can label a today row with a date prefix.
+      const now=clui115LocalParts(tz,nowMs);
       if(pick.date===now.date)return pick.hhmm;
       const m=/^\d{4}-(\d{2})-(\d{2})$/.exec(pick.date);
       return m?`${m[1]}/${m[2]} ${pick.hhmm}`:pick.hhmm;
@@ -805,7 +831,7 @@
       if(vt)bits.push(`${clIconSvg('visibility')} ${esc(vt)}`);
       if(!bits.length)return '';
       const fog=clui115NowFog(r);
-      const hour=clui115NowHourLabel(pick,tz);
+      const hour=clui115NowHourLabel(pick,tz,nowMs);
       const reason=fog?`<span class="now-fog-reason">${esc(d().clui115_fog_now)}</span>`:'';
       return `<span class="metric-chip day-wx now-wx${fog?' cl-now-fog':''}" data-now-hour="${esc(hour)}"${fog?' data-now-fog="1"':''} title="${esc(hour)}">${bits.join(' · ')}${reason}<span class="now-hour">${esc(hour)}</span></span>`;
     }
@@ -879,24 +905,24 @@
       }).join('');
       return `<section class="sw-windows" data-subject-windows="1"><div class="place-guide-section-title">${esc(d().clui115_sw_title)}</div>${rowsHtml}</section>`;
     }
-    // The now-hour chip arrives lazily: one shard per visible card, cached, at
-    // most 4 in flight, so a 219-card list never fires 219 parallel requests.
+    // The now-hour chip arrives lazily: one shard per VISIBLE card, cached, at
+    // most 4 in flight. CL-UI-115 §3: there is NO per-page card cap. The old
+    // hard budget (24 places per page load) made a 219-card list a visibly
+    // inconsistent surface — the first ~24 cards showed a now row and every
+    // later card silently fell back to the day chip, whatever the user was
+    // actually looking at. Loading is driven by an IntersectionObserver on each
+    // card instead: the shard is requested when the card approaches the
+    // viewport (rootMargin 300px), concurrency 4, so every card that has been
+    // visible ends up with its own now row. A shard that 404s / fails stays
+    // cached as null and the card keeps the honest day-weather chip.
     const clui115NowCache=new Map();
     let clui115NowActive=0;
-    // A weather_details shard is ~2.3 MB (192 hourly rows x every field), so the
-    // card row is enriched for a BUDGET of places per page load — never one
-    // download per card in a 219-card list. The budget is served in viewport
-    // order (IntersectionObserver), so the cards the user is actually looking at
-    // win. A compact 「now」 block in the region summary would remove the need
-    // entirely; until then this keeps the cost bounded.
-    const clui115NowBudget=24;
-    let clui115NowFetched=0;
     const clui115NowQueue=[];
     function clui115NowRows(spotId){return clui115NowCache.get(spotId)||null;}
     function clui115NowPump(){
       while(clui115NowActive<4&&clui115NowQueue.length){
         const job=clui115NowQueue.shift();
-        clui115NowActive++;clui115NowFetched++;
+        clui115NowActive++;
         Promise.resolve()
           .then(()=>fetch(clUrl(`./weather_details/${job.region}/${encodeURIComponent(job.spotId)}.json`),{cache:'force-cache'}))
           .then(r=>r.ok?r.json():null)
@@ -912,7 +938,6 @@
     function clui115NowSchedule(region,spotId,onReady){
       if(clui115NowCache.has(spotId)){const rows=clui115NowRows(spotId);if(rows&&rows.length)onReady(rows);return;}
       if(clui115NowQueue.some(j=>j.spotId===spotId))return;
-      if(clui115NowFetched>=clui115NowBudget)return;
       clui115NowQueue.push({region,spotId,onReady});
       clui115NowPump();
     }
@@ -2250,7 +2275,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const wxHtml=wx?`<span class="modal-day-wx">${wmoIcon(wx.code)} ${esc(formatTempRange(wx.tempMin,wx.tempMax))}</span>`:'';
       const tier=scRow&&scRow.tier;
       const tierChip=modalDayTierChip(tier);
-      const shorts=scRow?v2SubjectCardShorts(scRow,currentLang).slice(0,3):[];
+      const shorts=scRow?v2SubjectCardShortHtml(scRow,currentLang,3):[];
       // CL-UI-45: 符合時數 counts the GATED hours — the SAME v2DayQualifiedSet
       // the card's 符合時數 and the hourly table read — never every fit key the
       // artifact carries (tw-188 2026-11-29 printed 「符合時數 12」 while the day
@@ -2262,7 +2287,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       })();
       if(tierChip){
         const hoursHtml=fitHours?`<span class="modal-day-hours">${esc(d().eval2_hours)} ${fitHours}</span>`:'';
-        const shortsHtml=shorts.length?`<span class="modal-day-subjects">${esc(shorts.join(' · '))}</span>`:'';
+        const shortsHtml=shorts?`<span class="modal-day-subjects">${shorts}</span>`:'';
         return `<div class="modal-day-row"><span class="modal-day-head"><span class="modal-day-label">${esc(label)}</span>${tierChip}${hoursHtml}</span>${shortsHtml}${wxHtml}</div>`;
       }
       // CL-UI-65: no committed row for this date → keep the general-baseline
@@ -2391,7 +2416,12 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const cpTier=(entry&&entry.cpTierCls)?`<span class="cl-cp-tier ${esc(entry.cpTierCls)}">${esc(entry.cpMark||'')}</span>`:'';
       const cpName=(entry&&entry.cpRowName)?' cl-cp-row-name':'';
       const cpTail=(entry&&entry.cpTail)?`<span class="cl-cp-row-tail">${esc(entry.cpTail)}</span>`:'';
-      return `<div class="cl-subject-row${hidden?' cl-subject-extra':''}"${hidden?' hidden':''}>${cpTier}<span class="cl-subject-name${cpName}">${esc(entry&&entry.name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window${cpName?' cl-cp-window':''}">${win}</span>${cpTail}${bell}</div>`;
+      // CL-UI-115 §1: the row's subject glyph (SVG from the icon set) sits in its
+      // own span BEFORE the name span, so every pinned "cl-subject-name + colon +
+      // window" anatomy stays byte-identical and the glyph is never lost again.
+      const icon=(entry&&entry.genre)?clIconSvg(entry.genre):'';
+      const iconHtml=icon?`<span class="cl-subject-icon">${icon}</span>`:'';
+      return `<div class="cl-subject-row${hidden?' cl-subject-extra':''}"${hidden?' hidden':''}>${cpTier}${iconHtml}<span class="cl-subject-name${cpName}">${esc(entry&&entry.name)}</span><span class="cl-subject-colon">${colonSep()}</span><span class="cl-subject-window${cpName?' cl-cp-window':''}">${win}</span>${cpTail}${bell}</div>`;
     }
     // CL-UI-91: the tier identity row — tier (+ short note) in the name slot,
     // the next qualifying window stamp in the window slot, ONE row anatomy.
@@ -2547,7 +2577,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // shootable or the layer is unavailable), the ✗不宜·短因 row when the
       // tier is not_recommended. The retired 「本日最佳題材」 line is gone:
       // every card in a list shows one format.
-      const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;/* CL-E2E-131: a MODIFIER-window sunrise/sunset subject carries its own name so the row never claims a midday sunrise */const nm=s&&s.name;const key=canon(nm||tris);if(!seen.has(key))seen.set(key,{name:(nm&&(nm[currentLang]||nm['zh-TW']))||tris[currentLang]||tris['zh-TW']||'',window:[],cc:s.cc||null,cpTierCls:s.cpTierCls||null,cpMark:s.cpMark||null,cpTail:s.cpTail||null,cpRowName:!!s.cpRowName,stamp:s.stamp||null});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
+      const scEntries=(()=>{const canon=o=>JSON.stringify([o&&o['en'],o&&o['ja'],o&&o['zh-TW']]);const seen=new Map();for(const s of (scRow&&scRow.suitable)||[]){const tris=s&&s.subject_short;if(!tris)continue;/* CL-E2E-131: a MODIFIER-window sunrise/sunset subject carries its own name so the row never claims a midday sunrise */const nm=s&&s.name;const key=canon(nm||tris);if(!seen.has(key))seen.set(key,{genre:s.genre||null,name:(nm&&(nm[currentLang]||nm['zh-TW']))||tris[currentLang]||tris['zh-TW']||'',window:[],cc:s.cc||null,cpTierCls:s.cpTierCls||null,cpMark:s.cpMark||null,cpTail:s.cpTail||null,cpRowName:!!s.cpRowName,stamp:s.stamp||null});const entry=seen.get(key);for(const w of (s&&s.window)||[])if(!entry.window.includes(w))entry.window.push(w);}return [...seen.values()];})();
       const clSubjectRowHtml=(entry,hidden)=>clSubjectRowLine(entry,spot.spot_id,hidden);
       // CL-E2E-131 (2): normalize/drop 日出·日落 rows BEFORE the render slices
       // below pick the first three — the pinned slice lines stay untouched.
@@ -2806,7 +2836,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
     // changed). An active subject that no longer exists in the catalog resets
     // to 全部 instead of silently filtering everything out.
     function clui66BuildSubjectCatalog(){
-      const order=[],names={};
+      const order=[],names={},genres={};
       (currentSpots||[]).forEach(spot=>{
         const date=clui66SpotLocalDate(spot);
         if(!date)return;
@@ -2817,12 +2847,32 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
           if(!t)continue;
           const k=t['zh-TW']||t.en||t.ja;
           if(!k)continue;
-          if(!(k in names)){names[k]=t;order.push(k);}
+          if(!(k in names)){names[k]=t;order.push(k);genres[k]=s.genre||clui66GenreForLabel(k)||'';}
         }
       });
       clui66SubjectCatalogKeys=order;
       clui66SubjectCatalogNames=names;
+      clui66SubjectCatalogGenres=genres;
       if(currentSubject!=='all'&&!order.includes(currentSubject))currentSubject='all';
+    }
+    // The artifact's genre vocabulary is the icon key; a hydrated cache carries
+    // only localized names, so recover the genre by matching the dictionary entry
+    // (same three languages the chip label came from).
+    function clui66GenreForLabel(label){
+      // typeof-guarded: several test harnesses slice this block out of app.js and
+      // re-run it without the module-level v2SubjectCards binding.
+      const cards=(typeof v2SubjectCards!=='undefined'&&v2SubjectCards)?v2SubjectCards:null;
+      const dict=((cards&&cards.dictionaries)||{}).genre_short_names||{};
+      for(const g of Object.keys(dict)){
+        const t=dict[g]||{};
+        if(t['zh-TW']===label||t.en===label||t.ja===label)return g;
+      }
+      return '';
+    }
+    function clui66GenresFromNames(names){
+      const out={};
+      for(const k of Object.keys(names||{}))out[k]=clui66GenreForLabel(k);
+      return out;
     }
     function clui66SubjectDisplayName(key){
       const t=clui66SubjectCatalogNames[key];
@@ -2852,14 +2902,20 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const host=document.getElementById('subject-chips');if(!host)return;
       host.innerHTML='';
       const strip=document.createElement('div');strip.className='subject-chip-strip';strip.setAttribute('role','listbox');strip.setAttribute('aria-label',d().subject_chips_label);
-      const mk=(key,label)=>{
+      const mk=(key,label,iconKey)=>{
         const b=document.createElement('button');b.type='button';b.className='subject-chip'+(currentSubject===key?' active':'');b.dataset.subject=key;
-        b.textContent=label;b.setAttribute('aria-pressed',currentSubject===key?'true':'false');
+        // CL-UI-115 §1: glyph + text (the text label always stays; the SVG is
+        // decorative and aria-hidden in the sprite). A catalog key with no
+        // localized name (cache hydrated without the name map) falls back to the
+        // shipped theme label table through themeLabelHtml — still glyph + text.
+        if(label==null){b.innerHTML=themeLabelHtml(iconKey||key);}
+        else{const icon=clIconSvg(iconKey||key);b.innerHTML=`${icon?icon+' ':''}${esc(label)}`;if(!icon)b.textContent=label;}
+        b.setAttribute('aria-pressed',currentSubject===key?'true':'false');
         b.onclick=()=>setSubjectFilter(key);
         strip.appendChild(b);
       };
-      mk('all',d().subject_chip_all);
-      clui66SubjectCatalogKeys.forEach(k=>mk(k,clui66SubjectDisplayName(k)));
+      mk('all',d().subject_chip_all,'all');
+      clui66SubjectCatalogKeys.forEach(k=>mk(k,clui66SubjectCatalogNames[k]?clui66SubjectDisplayName(k):null,clui66SubjectCatalogGenres[k]||k));
       host.appendChild(strip);
     }
     function switchTier(tier){
@@ -3758,7 +3814,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // no row → no chip), the ✓/○ counts read the same hourly buckets.
       const dayLabelOf=date=>{if(v2DayRel(date,tz)==='today')return d().eval2_d0;if(date===localDateString(tz||'UTC',1))return d().eval2_d1;if(date===localDateString(tz||'UTC',2))return d().eval2_d2;return wmDayBanner(date);};
       const tierChipOf=date=>{const row=v2SubjectCardRow(spot.spot_id,date);if(!row)return '';return {recommend:`<span class="dg-chip dg-chip-rec">${esc(d().v2_tier_recommend)}</span>`,shootable:`<span class="dg-chip dg-chip-shoot">${esc(d().v2_tier_shootable)}</span>`,not_recommended:`<span class="dg-chip dg-chip-no">${esc(d().v2_tier_not_recommended)}</span>`}[row.tier]||'';};
-      const summaryInner=(date,list)=>{let ok=0,gen=0;const gate=wmGateOf(date);list.forEach(item=>{const b=v2HourSubjectCell(spot,item,gate);if(b.kind==='fit')ok++;else if(b.kind==='general')gen++;});const shorts=v2SubjectCardShorts(v2SubjectCardRow(spot.spot_id,date),currentLang).slice(0,3);const wx=dayWeatherFor(summarySpot||spot,date);const wxHtml=wx?`<span class="dg-wx">${wmoIcon(wx.code)} ${esc(formatTempRange(wx.tempMin,wx.tempMax))}</span>`:'';return `<span class="chev">▶</span><span class="dg-day">${esc(dayLabelOf(date))}</span><span class="dg-date">${esc(shortDateStamp(date))}</span>${tierChipOf(date)}${wxHtml}<span class="mini">${ok?`<b>✓${ok}</b>`:''}${gen?`<b>○${gen}</b>`:''}${shorts.length?`<span>${esc(shorts.join(' · '))}</span>`:''}</span>`;};
+      const summaryInner=(date,list)=>{let ok=0,gen=0;const gate=wmGateOf(date);list.forEach(item=>{const b=v2HourSubjectCell(spot,item,gate);if(b.kind==='fit')ok++;else if(b.kind==='general')gen++;});const shorts=v2SubjectCardShortHtml(v2SubjectCardRow(spot.spot_id,date),currentLang,3);const wx=dayWeatherFor(summarySpot||spot,date);const wxHtml=wx?`<span class="dg-wx">${wmoIcon(wx.code)} ${esc(formatTempRange(wx.tempMin,wx.tempMax))}</span>`:'';return `<span class="chev">▶</span><span class="dg-day">${esc(dayLabelOf(date))}</span><span class="dg-date">${esc(shortDateStamp(date))}</span>${tierChipOf(date)}${wxHtml}<span class="mini">${ok?`<b>✓${ok}</b>`:''}${gen?`<b>○${gen}</b>`:''}${shorts?`<span>${shorts}</span>`:''}</span>`;};
       // mockup n2c: the raw values live in the expandable kv row behind the ⋯
       // button; astronomy keeps the honest per-hour missing reason (CL-UI-14).
       const kvHtml=(item,astro)=>`<div class="kv"><span><span class="cap">${esc(d().th_temp)}</span> <b>${esc(formatTemp(item.temp))}</b></span><span><span class="cap">${esc(d().th_wind)}</span> <b>${item.wind??'—'} m/s</b></span><span><span class="cap">${esc(d().th_rh)}</span> <b>${item.rh??'—'}%</b></span><span><span class="cap">${esc(d().th_clow)}</span> <b>${item.c_low??'—'}%</b></span><span><span class="cap">${esc(d().th_cmid)}</span> <b>${item.c_mid??'—'}%</b></span><span><span class="cap">${esc(d().th_chigh)}</span> <b>${item.c_high??'—'}%</b></span><span><span class="cap">${esc(d().th_cloud_base)}</span> <b>${clui45CloudBaseText(item.cloud_base_asl,item.cloud_base_agl,clui45HourElev)||'—'}</b></span><span><span class="cap">${esc(d().th_vis)}</span> <b class="key-metric td-vis">${visCellHtml(item.visibility)}</b></span>${isAurora?`<span><span class="cap">${esc(d().th_kp)}</span> <b>${item.kp??'—'}</b></span>`:''}<span><span class="cap">${esc(d().th_astro)}</span> <b>${astro||astroMissingHtml(item,true)}</b></span></div>`;
@@ -4126,6 +4182,26 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       if(!tris)return '';
       return tris[lang]||tris['zh-TW']||'';
     }
+    // CL-UI-115 §1: the SUMMARY render form of the same short names — each subject
+    // keeps its text label and gains the SVG glyph of its artifact genre. Deduped
+    // exactly like v2SubjectCardShorts (which stays the pure-text accessor other
+    // surfaces and tests read).
+    function v2SubjectCardShortHtml(row,lang,limit){
+      const canon=o=>JSON.stringify([o['en'],o['ja'],o['zh-TW']]);
+      const seen=new Set(),out=[];
+      for(const s of (row&&row.suitable)||[]){
+        const tris=s&&s.subject_short;
+        if(!tris)continue;
+        const key=canon(tris);
+        if(seen.has(key))continue;
+        seen.add(key);
+        const label=tris[lang]||tris['zh-TW'];
+        if(!label)continue;
+        const icon=clIconSvg(s.genre||'');
+        out.push(`<span class="cl-summary-subject">${icon?icon+' ':''}${esc(label)}</span>`);
+      }
+      return (limit?out.slice(0,limit):out).join(listSep());
+    }
     // CL-UI-65: general-v0.1 baseline (owner ruling, full catalog) — the
     // derived row's shootability floor computed from the committed hourly
     // weather data. Rendered ONLY as the separate 「可拍」 line: the
@@ -4170,13 +4246,15 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       const dicts=(v2SubjectCards&&v2SubjectCards.dictionaries)||{};
       const gdict=dicts.genre_short_names||{};
       const fit=(hours.fit&&hours.fit[hh])||[];
-      const shorts=fit.map(g=>{const t=gdict[g];return t?(t[currentLang]||t['zh-TW']||null):null;}).filter(Boolean);
-      if(shorts.length){
-        const shown=shorts.slice(0,3).map(s=>`<span class="subj-chip">${esc(s)}</span>`).join('');
-        const more=shorts.length>3?`<span class="subj-chip subj-chip-more" title="${esc(shorts.join(listSep()))}">+${shorts.length-3}</span>`:'';
+      // CL-UI-115 §1: each subject chip carries its SVG glyph (the genre key the
+      // artifact uses), then the localized short name — text labels stay.
+      const chips=fit.map(g=>{const t=gdict[g];const label=t?(t[currentLang]||t['zh-TW']||null):null;return label?{genre:g,label}:null;}).filter(Boolean);
+      if(chips.length){
+        const shown=chips.slice(0,3).map(c=>`<span class="subj-chip">${clIconSvg(c.genre)} ${esc(c.label)}</span>`).join('');
+        const more=chips.length>3?`<span class="subj-chip subj-chip-more" title="${esc(chips.map(c=>c.label).join(listSep()))}">+${chips.length-3}</span>`:'';
         // CL-UI-82: kind/first/extra metadata feeds the mobile card mainline
         // (「能拍：<題材名>」 one-line status) without duplicating bucket logic.
-        return {cls:'subj-has',html:shown+more,kind:'fit',first:shorts[0]||'',extra:shorts.length-1};
+        return {cls:'subj-has',html:shown+more,kind:'fit',first:(chips[0]&&chips[0].label)||'',extra:chips.length-1};
       }
       // CL-UI-82: kind:'general' feeds the mobile mainline. 
       // CL-UI-94: ○ 可拍 is the verdict itself now (grey pill) — always

@@ -125,10 +125,27 @@
   });
   Object.freeze(CL_ICONS);
 
+  // Update: the subject LABEL table (app.js) uses the 23 theme keys above, but
+  // the committed subject-cards artifact names a subset with its own genre
+  // vocabulary (geological_landform, overlook, blue_hour_city, …). CL-UI-115 §1
+  // covers EVERY subject a card/filter/summary can render, so the artifact's
+  // extra genres alias onto the closest drawn shape rather than falling back to
+  // plain text. The alias key still rides the SVG as data-cl-icon, so a chip can
+  // be asserted against the artifact's own genre name.
+  var ALIAS = {
+    geological_landform: 'geology', overlook: 'mountain_view', blue_hour_city: 'blue_hour',
+    overcast_soft: 'overcast', night_sky: 'milky_way', golden_hour: 'sky_glow',
+    alpenglow: 'sunset', seasonal_plant: 'forest', star_trails: 'star',
+    moonlit_scene: 'moon', tidal: 'coast', general: 'all', drift_ice: 'snow_scene',
+    blue_tears: 'star', firefly: 'star', astro: 'star', astrophotography: 'star',
+    snow_ice: 'snow_scene', city: 'city_view', architecture: 'city_view'
+  };
+
   function shapeKey(key) {
     var k = String(key == null ? '' : key);
     if (SHAPES[k]) return k;
     if (WMO_SHAPE[k]) return WMO_SHAPE[k];
+    if (ALIAS[k] && SHAPES[ALIAS[k]]) return ALIAS[k];
     return null;
   }
 
