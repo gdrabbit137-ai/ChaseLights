@@ -1528,7 +1528,12 @@ def test_adapter_integrity():
     # openWeatherModal via the default)
     assert "closest('a,button,input,select,summary'))return;cpOpenCard(spot,metric);}" in frontend_source
     assert "data-weather" in frontend_source
-    assert "🌦️ 天氣預報" in frontend_source
+    # CL-UI-116: the weather panel title dropped its 🌦️ emoji and now leads with
+    # the shared line-icon (assets/icons.js) followed by the localised label, so
+    # the pin asserts the icon key and the label interpolation instead of the
+    # retired emoji literal.
+    assert "clIconSvg('weather_overview')" in frontend_source
+    assert "— ${esc(d().weather_link)}" in frontend_source
     assert "點擊看 96H 明細" not in frontend_source
     assert "op.condition_variants" in frontend_source
     assert "day?.opportunities||{}" in frontend_source
