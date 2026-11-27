@@ -2748,6 +2748,15 @@ details.acc .acc-body{padding:0 var(--cl-sp-3) var(--cl-sp-3);font-size:var(--cl
    left of 「＋新增私人景點」. */
 .cl-cp-quota-chip[hidden]{display:none}
 
+/* CL-UI-46: the source-filter row (不限來源 / 官方 / 私人) is a filter only when
+   the member owns at least one private place — with 「私人 0」 it offers nothing
+   to choose. app.js publishes the count on <body>; anything but '1' (signed
+   out, still loading, or a creation-free account) hides the row, so it appears
+   by itself the moment a private place exists and needs no reload. The :not()
+   form keeps the hidden state the DEFAULT (no flash before the first render)
+   and out-specifies custom-places.css's later author display:flex rule. */
+body:not([data-cp-has-private="1"]) .cl-cp-view-bar{display:none}
+
 /* V7: legend separators are real spans now (app.js), so the row reads as a
    list at any width instead of one glued sentence. Tighten the flex gap that
    used to be the only separator. */
