@@ -12,6 +12,12 @@ criteria, so a future ticket can be written without re-running the audit.
 | [Cross-region shortlist / compare](cross-region-shortlist.md) | new UI surface, needs design | comparing 3 spots means opening 3 modals and remembering |
 | [Hourly plane ↔ bundle sync](hourly-plane-bundle-sync.md) | data-pipeline change (single fetch per run) | hourly detail can be up to 16 h older than the verdict |
 
+## Owner-spec items (added 2026-11-27)
+
+| Item | Why it is not in the current wave | Owner-visible impact |
+|---|---|---|
+| [CL-UI-115 — experience and visual unification](cl-ui-115-experience-and-visual-unification.md) | changes the card state machine (two triggers, two panels) and needs a new icon library; must wait for CL-UI-46 to merge first because both edit `assets/app.js` | metric icons differ between desktop and phone; card weather row shows the day's representative hour instead of *now*; card body and subject button open the same panel |
+
 ## Where the evidence lives
 
 - Audit findings jsonl: `D:/tmp/audit/findings.jsonl` (27 rows, P0/P1/P2, per reviewer)
