@@ -42,9 +42,70 @@ for (const [pid, days] of Object.entries(artifact.places)) {
   }
   if (cloudAnchor && okAnchor && failAnchor) break;
 }
-assert.ok(cloudAnchor, 'artifact carries a curated cloud_sea fit hour');
-assert.ok(okAnchor, 'artifact carries a general-ok-only hour');
-assert.ok(failAnchor, 'artifact carries a weather-fail hour');
+
+// CL-CI-140: an ABSENT exemplar must not fail this file. The three anchors
+// exist for the RENDERER contract — which bucket wins the 適合題材 cell
+// (fit → ✓chip, ok → ○ 可拍, no → ✗ short reason) — not for weather semantics,
+// and the artifact is regenerated daily: the fog/visibility gates now correctly
+// zero out cloud_sea, so "today's data has a cloud_sea hour" is not something a
+// renderer test may assert. When an exemplar is missing we SYNTHESISE it from a
+// real place-day of the SAME artifact — a real hour's fit/ok/no bucket is
+// re-stamped on an in-memory copy, never on disk — and the single-truth
+// assertions below then read that same row, exactly as the renderer does. No
+// weather truth is asserted anywhere in this file.
+if (!cloudAnchor || !okAnchor || !failAnchor) {
+  // the day with the widest hour universe, so every synthesised bucket has a
+  // real hour to land on
+  const days = [];
+  for (const [pid, d] of Object.entries(artifact.places)) {
+    for (const [date, row] of Object.entries(d)) {
+      if (!row.hours) continue;
+      const h = row.hours;
+      const universe = [...new Set([...Object.keys(h.fit || {}), ...(h.ok || []),
+        ...Object.keys(h.no || {}), ...(h.na || [])])];
+      if (universe.length) days.push({pid, date, hours: h, universe});
+    }
+  }
+  days.sort((a, b) => b.universe.length - a.universe.length);
+  assert.ok(days.length, 'artifact carries at least one place-day with hourly rows');
+  const {pid, date, hours, universe} = days[0];
+  const fit = (hours.fit = hours.fit || {});
+  const ok = (hours.ok = hours.ok || []);
+  const no = (hours.no = hours.no || {});
+  const na = (hours.na = hours.na || []);
+  const taken = new Set();
+  // hrs already owned by a REAL anchor on this same place-day stay untouched
+  for (const a of [cloudAnchor, okAnchor, failAnchor]) {
+    if (a && a[0] === pid && a[1] === date) taken.add(a[2]);
+  }
+  // a real hour of this day that no other anchor owns and that the renderer's
+  // bucket order cannot shadow (na / no win only after fit, so keep them apart)
+  const freeHour = pred => universe.find(hh => !taken.has(hh) && !no[hh] && !na.includes(hh) && pred(hh));
+  if (!cloudAnchor) {
+    const hh = freeHour(h => ok.includes(h)) || freeHour(() => true);
+    assert.ok(hh, 'artifact carries a real hour to carry the cloud_sea exemplar');
+    fit[hh] = [...new Set([...(fit[hh] || []), 'cloud_sea'])];
+    taken.add(hh); cloudAnchor = [pid, date, hh];
+  }
+  if (!okAnchor) {
+    const hh = freeHour(h => !fit[h]) || freeHour(() => true);
+    assert.ok(hh, 'artifact carries a real hour to carry the general-ok exemplar');
+    fit[hh] = [];
+    if (!ok.includes(hh)) ok.push(hh);
+    taken.add(hh); okAnchor = [pid, date, hh];
+  }
+  if (!failAnchor) {
+    const metric = Object.keys(artifact.dictionaries.fail_reason_short || {})
+      .find(m => !['light_window','astronomical_darkness'].includes(m));
+    assert.ok(metric, 'artifact carries a short fail reason to name');
+    const hh = freeHour(() => true);
+    assert.ok(hh, 'artifact carries a real hour to carry the fail exemplar');
+    delete fit[hh];
+    const at = ok.indexOf(hh); if (at >= 0) ok.splice(at, 1);
+    no[hh] = metric;
+    taken.add(hh); failAnchor = [pid, date, hh, metric];
+  }
+}
 
 const grab = (start, end) => {
   const i = appSource.indexOf(start);

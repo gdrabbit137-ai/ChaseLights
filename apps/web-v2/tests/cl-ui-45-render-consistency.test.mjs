@@ -435,8 +435,23 @@ test('CL-UI-45 (7): every touched asset is re-stamped on every page that serves 
 });
 
 // --------------------------------------------------------------- browser race
-const BROWSER = process.env.CHROMIUM_EXECUTABLE || process.env.CHROME_PATH
-  || (process.platform === 'win32' ? 'C:/Program Files/Google/Chrome/Application/chrome.exe' : '/usr/bin/chromium');
+const BROWSER = [
+  process.env.CHROMIUM_EXECUTABLE,
+  process.env.CHROME_PATH,
+  ...(process.platform === 'win32'
+    ? ['C:/Program Files/Google/Chrome/Application/chrome.exe',
+       'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe']
+    : ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser']),
+].filter(Boolean).find(p => existsSync(p)) || null;
+// CL-CI-140: resolve ONCE at module load and skip-fast when nothing exists. The
+// hard-coded Windows path threw ENOENT on the Chromium-less ubuntu job and the
+// devtools waiter then sat on its 60 s timeout per case. The static (1)–(7)
+// assertions are pure source/artifact checks and keep running everywhere; only
+// the three browser-driven cases are gated here, and where a browser exists
+// browserTest IS test — no assertion is relaxed.
+const NO_BROWSER = 'no browser binary available in this environment; this suite runs in the Chromium job';
+const browserTest = BROWSER ? test : () => {};
+if (!BROWSER) test('CL-UI-45 browser race cases', {skip: NO_BROWSER}, () => {});
 const FLAGS = (process.env.CL_CHROME_FLAGS || '--enable-unsafe-swiftshader --use-angle=swiftshader').split(' ').filter(Boolean);
 
 let ready = null;
@@ -497,7 +512,7 @@ function boot() {
   return ready;
 }
 
-test('CL-UI-45 (3d): rapid date switch + a click during the transition never opens another spot', async () => {
+browserTest('CL-UI-45 (3d): rapid date switch + a click during the transition never opens another spot', async () => {
   const base = await boot();
   await send('Page.navigate', {url: base + '?region=tw&date=today&tier=all'});
   await evaljs(`new Promise((res,rej)=>{const t0=Date.now();const iv=setInterval(()=>{
@@ -623,7 +638,7 @@ test('CL-UI-45 (3d): rapid date switch + a click during the transition never ope
   assert.equal(after.id, target.id, 'the modal belongs to the pressed card');
 });
 
-test('CL-UI-45 (5b): a region switch clears the list, shows the skeleton and repaints the counts', async () => {
+browserTest('CL-UI-45 (5b): a region switch clears the list, shows the skeleton and repaints the counts', async () => {
   const base = await boot();
   await send('Page.navigate', {url: base + '?region=tw&date=today&tier=all'});
   await evaljs(`new Promise((res,rej)=>{const t0=Date.now();const iv=setInterval(()=>{
@@ -698,7 +713,7 @@ test('CL-UI-45 (5b): a region switch clears the list, shows the skeleton and rep
   }
 });
 
-test('CL-UI-45 teardown', async () => {
+browserTest('CL-UI-45 teardown', async () => {
   try { ws?.close(); } catch {}
   try { chrome?.kill(); } catch {}
   if (server) await new Promise(r => server.close(r));

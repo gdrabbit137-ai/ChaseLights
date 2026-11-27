@@ -49,7 +49,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
 import {spawn} from 'node:child_process';
-import {readFileSync, mkdtempSync} from 'node:fs';
+import {readFileSync, mkdtempSync, existsSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {dirname, join} from 'node:path';
 import {tmpdir} from 'node:os';
@@ -64,9 +64,23 @@ const FIXTURE = JSON.parse(readFileSync(join(HERE, 'fixtures', 'now-latest.clui1
 // silently re-basing the fixture ages.
 const MAX_AGE_MS = 26 * 60 * 60 * 1000;
 
-const BROWSER = process.env.CHROMIUM_EXECUTABLE
-  || process.env.CHROME_PATH
-  || (process.platform === 'win32' ? 'C:/Program Files/Google/Chrome/Application/chrome.exe' : '/usr/bin/chromium');
+const BROWSER = [
+  process.env.CHROMIUM_EXECUTABLE,
+  process.env.CHROME_PATH,
+  ...(process.platform === 'win32'
+    ? ['C:/Program Files/Google/Chrome/Application/chrome.exe',
+       'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe']
+    : ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser']),
+].filter(Boolean).find(p => existsSync(p)) || null;
+// CL-CI-140: resolve ONCE at module load — the hard-coded Windows path threw
+// ENOENT on the Chromium-less ubuntu job and each of the twelve spawn cases then
+// burned its 60 s boot timeout (13 min for this file alone). With no binary we
+// register ONE skipped case and never register the browser-driven bodies; the
+// freshness-bound pin at the bottom is pure source text and still runs. Where a
+// browser exists browserTest IS test, so every assertion is unchanged.
+const NO_BROWSER = 'no browser binary available in this environment; this suite runs in the Chromium job';
+const browserTest = BROWSER ? test : () => {};
+if (!BROWSER) test('CL-UI-117 sidecar render cases (browser)', {skip: NO_BROWSER}, () => {});
 
 const MIME = {'.html':'text/html','.mjs':'text/javascript','.js':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.svg':'image/svg+xml','.ico':'image/x-icon','.woff2':'font/woff2','.jpg':'image/jpeg'};
 // Every response is no-store: the assertions count SERVER-SIDE requests, and a
@@ -292,7 +306,7 @@ async function load(sidecarScenario, {want = 'ready', extra = null} = {}) {
 // ------------------------------------------------------------------ fixtures
 const FIXTURE_IDS = Object.keys(FIXTURE.places);
 
-test('CL-UI-117: the sidecar is fetched ONCE per page load and feeds every card', {timeout: 240000}, async t => {
+browserTest('CL-UI-117: the sidecar is fetched ONCE per page load and feeds every card', {timeout: 240000}, async t => {
   await boot();
   const s = await load('ok');
   assert.equal(s.state, 'ready', 'a served, fresh artifact is used');
@@ -313,7 +327,7 @@ test('CL-UI-117: the sidecar is fetched ONCE per page load and feeds every card'
   assert.equal(s.sidecarTemp, true, 'the painted rows carry the artifact\'s values');
 });
 
-test('CL-UI-117: a re-render after the artifact settled repaints EVERY card', {timeout: 240000}, async t => {
+browserTest('CL-UI-117: a re-render after the artifact settled repaints EVERY card', {timeout: 240000}, async t => {
   // Reviewer finding: the settle-time paint was one-shot, so a card built in a
   // render pass that ran AFTER the artifact landed kept an empty row for the
   // life of the page (15 of 18 painted, tw-010 / tw-025 / tw-111 stayed blank).
@@ -348,7 +362,7 @@ test('CL-UI-117: a re-render after the artifact settled repaints EVERY card', {t
     'the re-render does not re-fetch the artifact (it is already ready)');
 });
 
-test('CL-UI-117: a place absent from the sidecar keeps the day chip and downloads no shard', {timeout: 240000}, async t => {
+browserTest('CL-UI-117: a place absent from the sidecar keeps the day chip and downloads no shard', {timeout: 240000}, async t => {
   await boot();
   const s = await load('ok');
   assert.equal(s.state, 'ready', 'artifact used, so absence is meaningful');
@@ -361,7 +375,7 @@ test('CL-UI-117: a place absent from the sidecar keeps the day chip and download
   assert.ok(s.dayChipOnly.length > 0, 'omitted places keep an honest day chip');
 });
 
-test('CL-UI-117: a 404ing sidecar falls back to the lazily fetched shards', {timeout: 300000}, async t => {
+browserTest('CL-UI-117: a 404ing sidecar falls back to the lazily fetched shards', {timeout: 300000}, async t => {
   await boot();
   const s = await load('404', {want: 'unusable'});
   assert.equal(s.state, 'unusable', 'a 404 marks the artifact unusable');
@@ -377,7 +391,7 @@ test('CL-UI-117: a 404ing sidecar falls back to the lazily fetched shards', {tim
   assert.ok(s.shards.length < s.cards, `lazy (IntersectionObserver) fetching, not a bulk download (${s.shards.length} < ${s.cards})`);
 });
 
-test('CL-UI-117: an artifact past the 26 h wall-clock bound is unusable (DOM-level)', {timeout: 300000}, async t => {
+browserTest('CL-UI-117: an artifact past the 26 h wall-clock bound is unusable (DOM-level)', {timeout: 300000}, async t => {
   await boot();
   const s = await load('stale', {want: 'unusable'});
   assert.equal(s.state, 'unusable', 'an artifact past the freshness bound must not paint a now row');
@@ -389,7 +403,7 @@ test('CL-UI-117: an artifact past the 26 h wall-clock bound is unusable (DOM-lev
   assert.ok(s.shards.length < s.cards, `lazy fallback, not a bulk download (${s.shards.length} < ${s.cards})`);
 });
 
-test('CL-UI-117: an artifact just INSIDE the 26 h bound is still used (both sides proven)', {timeout: 300000}, async t => {
+browserTest('CL-UI-117: an artifact just INSIDE the 26 h bound is still used (both sides proven)', {timeout: 300000}, async t => {
   await boot();
   const s = await load('fresh-edge');
   assert.equal(s.state, 'ready', '25 h old is within the bound');
@@ -400,7 +414,7 @@ test('CL-UI-117: an artifact just INSIDE the 26 h bound is still used (both side
     'every covered card paints from the artifact');
 });
 
-test('CL-UI-117: a TRANSIENT sidecar failure is retried — the shard path is not permanent', {timeout: 300000}, async t => {
+browserTest('CL-UI-117: a TRANSIENT sidecar failure is retried — the shard path is not permanent', {timeout: 300000}, async t => {
   await boot();
   // First attempt 503, second succeeds. The reviewer's bug: the promise was never
   // nulled, so one transient 5xx locked the page into the shard path forever.
@@ -415,7 +429,7 @@ test('CL-UI-117: a TRANSIENT sidecar failure is retried — the shard path is no
   assert.ok(s.shards.length <= s.cards, `shard usage stays bounded (${s.shards.length} ≤ ${s.cards})`);
 });
 
-test('CL-UI-117: date rollover — a yesterday-stamped artifact is re-fetched', {timeout: 300000}, async t => {
+browserTest('CL-UI-117: date rollover — a yesterday-stamped artifact is re-fetched', {timeout: 300000}, async t => {
   await boot();
   // The first response carries yesterday's stamp and yesterday's rows; the
   // client must notice the rollover, re-fetch, and use the fresh second answer.
@@ -428,7 +442,7 @@ test('CL-UI-117: date rollover — a yesterday-stamped artifact is re-fetched', 
     'every covered card gets a row again after midnight');
 });
 
-test('CL-UI-117: date rollover — a today-stamped artifact with yesterday\'s rows falls back to shards', {timeout: 300000}, async t => {
+browserTest('CL-UI-117: date rollover — a today-stamped artifact with yesterday\'s rows falls back to shards', {timeout: 300000}, async t => {
   await boot();
   // Re-fetching cannot help (the generator itself published no today row), so the
   // honest answer is the lazy shard — never a silently empty row.
@@ -440,7 +454,7 @@ test('CL-UI-117: date rollover — a today-stamped artifact with yesterday\'s ro
   assert.ok(s.shards.length < s.cards, `and it stays lazy (${s.shards.length} < ${s.cards})`);
 });
 
-test('CL-UI-117: a re-fetch that is STILL yesterday-stamped never leaves an empty weather slot', {timeout: 300000}, async t => {
+browserTest('CL-UI-117: a re-fetch that is STILL yesterday-stamped never leaves an empty weather slot', {timeout: 300000}, async t => {
   await boot();
   // Reviewer condition 1. The card that triggers the forced refresh used to
   // `return` without engaging the shard path; when the refetched artifact was
@@ -495,7 +509,7 @@ test('CL-UI-117: a re-fetch that is STILL yesterday-stamped never leaves an empt
   assert.ok(covered.length > 0, 'non-vacuous: the list contains places the artifact covers');
 });
 
-test('CL-UI-117: the repaint hook is COALESCED — N schedules in one tick ⇒ one paint pass', {timeout: 240000}, async t => {
+browserTest('CL-UI-117: the repaint hook is COALESCED — N schedules in one tick ⇒ one paint pass', {timeout: 240000}, async t => {
   await boot();
   const s = await load('ok');
   // Flush any paint already queued by the settle path, then count.
@@ -516,7 +530,7 @@ test('CL-UI-117: the repaint hook is COALESCED — N schedules in one tick ⇒ o
   assert.ok(s.cards >= 100, `the measurement runs over the real list (${s.cards} cards)`);
 });
 
-test('CL-UI-117: a full 124-card repaint pass stays well inside the CL-UI-45 budget', {timeout: 240000}, async t => {
+browserTest('CL-UI-117: a full 124-card repaint pass stays well inside the CL-UI-45 budget', {timeout: 240000}, async t => {
   await boot();
   const s = await load('ok');
   // CL-UI-45 (3a) budgets a whole date switch at < 600 ms and 11 switches at

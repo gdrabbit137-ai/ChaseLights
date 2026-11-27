@@ -15,8 +15,26 @@
 //   - no emoji left in a metric/weather render position in app.js
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync, existsSync} from 'node:fs';
 import vm from 'node:vm';
+
+// CL-CI-140: resolve the browser ONCE at module load. Hard-coding the Windows
+// Chrome path made the ubuntu coupled job (no Chromium installed) spend its
+// whole budget on ENOENT/boot timeouts instead of reporting a skip. Probe the
+// documented candidates in order and take the first that exists; when none does,
+// ONE skipped case states why and the browser-driven body is never registered —
+// it still runs in full wherever a browser exists (v2-integration installs one).
+const BROWSER = [
+  process.env.CHROMIUM_EXECUTABLE,
+  process.env.CHROME_PATH,
+  ...(process.platform === 'win32'
+    ? ['C:/Program Files/Google/Chrome/Application/chrome.exe',
+       'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe']
+    : ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser']),
+].filter(Boolean).find(p => existsSync(p)) || null;
+const NO_BROWSER = 'no browser binary available in this environment; this suite runs in the Chromium job';
+const browserTest = BROWSER ? test : () => {};
+if (!BROWSER) test('CL-UI-116: rendered pages (browser)', {skip: NO_BROWSER}, () => {});
 
 const appSource=readFileSync(new URL('../../../assets/app.js',import.meta.url),'utf8');
 const iconSource=readFileSync(new URL('../../../assets/icons.js',import.meta.url),'utf8');
@@ -339,7 +357,7 @@ test('CL-UI-116: the emoji gate itself catches ⏰/⏱/⌚ and the dead nav_link
   assert.match(appSource,/map_link:'地圖',/,'the surviving map label is bare text');
 });
 
-test('CL-UI-116: rendered zh-TW and en pages carry no emoji in the card footer or the weather title',async()=>{
+browserTest('CL-UI-116: rendered zh-TW and en pages carry no emoji in the card footer or the weather title',async()=>{
   const {createServer}=await import('node:http');
   const {readFileSync,statSync}=await import('node:fs');
   const {dirname,join,normalize}=await import('node:path');
@@ -347,7 +365,7 @@ test('CL-UI-116: rendered zh-TW and en pages carry no emoji in the card footer o
   const HERE=dirname(fileURLToPath(import.meta.url));
   const ROOT=normalize(join(HERE,'..','..','..'));
   const PW=process.env.PLAYWRIGHT_MODULE||join(ROOT,'.ci','tooling','node_modules','playwright','index.js');
-  const CHROME=process.env.CHROMIUM_EXECUTABLE||process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe';
+  const CHROME=BROWSER;
   const MIME={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.woff2':'font/woff2'};
   const server=createServer((req,res)=>{
     const url=new URL(req.url,'http://127.0.0.1');
