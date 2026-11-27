@@ -417,9 +417,9 @@ test('CL-UI-45 (6): a 日出/日落 row carries a range or is not rendered', () 
 test('CL-UI-45 (7): every touched asset is re-stamped on every page that serves it', () => {
   for (const page of ['index.html', 'genre-eval.html', 'sources.html', '404.html', 'reminders.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    if (/app\.css\?v=/.test(src)) assert.match(src, /app\.css\?v=clui135/, `${page}: app.css stamp`);
+    if (/app\.css\?v=/.test(src)) assert.match(src, /app\.css\?v=clui136/, `${page}: app.css stamp`);
   }
-  assert.match(indexSource, /app\.js\?v=clui135/);
+  assert.match(indexSource, /app\.js\?v=clui136/);
   assert.match(indexSource, /custom-places\.js\?v=clapp09n/);
 });
 
@@ -664,10 +664,17 @@ test('CL-UI-45 (5b): a region switch clears the list, shows the skeleton and rep
       const st=window.CLListStats||{};
       const cards=[...document.querySelectorAll('#spots-container .card:not(.card-skeleton)')];
       const tabs=[...document.querySelectorAll('#tier-tabs .tier-tab')].map(b=>b.textContent.replace(/\\s+/g,' ').trim());
-      const pill=document.getElementById('day-picker-trigger').textContent.replace(/\\s+/g,' ').trim();
+      // CL-UI-46 (2b): the pill's own count moved OFF the visible face (it was
+      // printed three times on the first screen) and into the trigger's tooltip
+      // and screen-reader label. The CL-UI-45 (counts) invariant is unchanged —
+      // the pill, the ✓推薦 tab and the CLListStats publish still quote ONE
+      // number; it is now read from the accessible text, not the painted text.
+      const trig=document.getElementById('day-picker-trigger');
+      const pillFace=trig.textContent.replace(/\\s+/g,' ').trim();
+      const pill=(pillFace+' · '+(trig.getAttribute('title')||'')).replace(/\\s+/g,' ').trim();
       return {region:st.region, loading:!!st.loading, listed:st.listed, recommendAll:st.recommendAll,
         todayCards:cards.filter(x=>!x.querySelector('.tomorrow-badge')).length,
-        recTab:tabs.find(t=>/推薦/.test(t))||'', pill};})()`);
+        recTab:tabs.find(t=>/推薦/.test(t))||'', pill, pillFace};})()`);
     assert.equal(c.region, region);
     assert.equal(c.loading, false);
     const pillN = (c.pill.match(/·\s*(\d+)\s*個景點符合/) || [])[1];
@@ -675,6 +682,7 @@ test('CL-UI-45 (5b): a region switch clears the list, shows the skeleton and rep
     assert.ok(pillN !== undefined, `${region}: the pill states its count (${c.pill})`);
     assert.equal(pillN, recN, `${region}: pill 「${c.pill}」 must equal the ✓推薦 tab 「${c.recTab}」`);
     assert.equal(Number(pillN), c.recommendAll, `${region}: the pill reads the CLListStats publish`);
+    assert.doesNotMatch(c.pillFace, /個景點|spots/, `${region}: the pill FACE prints no place count (CL-UI-46 2b)`);
     assert.equal(c.listed, c.todayCards, `${region}: published list length = rendered cards`);
   }
 });
