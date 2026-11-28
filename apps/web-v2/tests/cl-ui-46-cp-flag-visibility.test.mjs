@@ -16,16 +16,28 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
 import {createServer} from 'node:http';
-import {readFileSync, mkdtempSync} from 'node:fs';
+import {readFileSync, mkdtempSync, existsSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {dirname, join} from 'node:path';
 import {tmpdir} from 'node:os';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const WEB = join(HERE, '..', '..', '..');
-const BROWSER = process.env.CHROMIUM_EXECUTABLE
-  || process.env.CHROME_PATH
-  || (process.platform === 'win32' ? 'C:/Program Files/Google/Chrome/Application/chrome.exe' : '/usr/bin/chromium');
+const BROWSER = [
+  process.env.CHROMIUM_EXECUTABLE,
+  process.env.CHROME_PATH,
+  ...(process.platform === 'win32'
+    ? ['C:/Program Files/Google/Chrome/Application/chrome.exe',
+       'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe']
+    : ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser']),
+].filter(Boolean).find(p => existsSync(p)) || null;
+// CL-CI-140: a missing binary must cost ZERO seconds. Register ONE skipped case
+// with the reason and never register the browser-driven bodies (the spawn retry
+// loop used to burn its 60 s boot timeout per case on the Chromium-less job).
+// Where a browser exists browserTest IS test, so every assertion still runs.
+const NO_BROWSER = 'no browser binary available in this environment; this suite runs in the Chromium job';
+const browserTest = BROWSER ? test : () => {};
+if (!BROWSER) test('CL-UI-46 (3): source-filter row (browser)', {skip: NO_BROWSER}, () => {});
 
 let server, baseURL, chrome, ws, send, evaljs, ready;
 const nextId = (() => { let id = 0; return () => ++id; })();
@@ -147,7 +159,7 @@ const NORMAL = {id:'cp-normal', name:'測試私人點', lat:25.1, lon:121.5, sta
 // bar's own 「私人 N」 label reads 1.
 const SPECIAL = {id:'cp-special', name:'待審核私人點', lat:25.2, lon:121.6, status:'trial_expired', theme_groups:[]};
 
-test('CL-UI-46 (3): the source-filter row follows the member\'s private-place count (DOM)', async () => {
+browserTest('CL-UI-46 (3): the source-filter row follows the member\'s private-place count (DOM)', async () => {
   await bootBrowser();
   await loadPage();
 
@@ -194,6 +206,6 @@ test('CL-UI-46 (3): the source-filter row follows the member\'s private-place co
   assert.equal(e.display, 'none', '(e) chaselights:auth sign-out clears the flag immediately');
 });
 
-test('CL-UI-46 teardown', async () => {
+browserTest('CL-UI-46 teardown', async () => {
   await teardownBrowser();
 });

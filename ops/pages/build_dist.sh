@@ -76,6 +76,9 @@ SITE_DIRS=(
 )
 SITE_JSON=(
   apps/web-v2/evaluations-latest.json
+  # CL-DATA-115: the compact per-place "current hour" sidecar the card reads
+  # instead of fetching a 2.3 MB weather_details shard per card (~47 KB total).
+  apps/web-v2/now-latest.json
   apps/web-v2/catalog.v2.json
   apps/web-v2/browse-index.v2.json
   apps/web-v2/opportunity-contracts.json

@@ -112,12 +112,34 @@ jobs:
           # no assertion is relaxed, only the venue is corrected.
           coupled=$(grep -rlE "'data', *'v2', *'evaluations|evaluations-latest|evaluations-details|subject-cards" apps/web-v2/tests --include='*.test.mjs' \
             | grep -vE 'cl-app-06-custom-places|cl-ui-118b-na-rows-expand|cl-ui-90-reminders-mockup|cl-e2e-131-semantic-sweep' \
+            | grep -vE 'cl-ui-115-icon-set|cl-ui-117-now-sidecar|cl-ui-45-render-consistency|cl-ui-46-cp-flag-visibility' \
             | sort | tr '\n' ' ')
           echo "coupled test files:"
           echo "$coupled" | tr ' ' '\n' | sed '/^$/d'
           # --test-isolation=none is the canonical suite mode (w4-node/postmerge_verify);
           # default per-file isolation reds unrelated isolation-sensitive files.
-          node --test --test-isolation=none $coupled
+          #
+          # CL-CI-139 (2026-11-27): this step hung for ~2 h on two consecutive runs
+          # (#69 at 08:59Z, #70 at 11:38Z) without ever reaching the commit step, and
+          # the job log is not readable until the job ends, so the culprit could not
+          # be named. Three bounds, each answering a different failure mode:
+          #   --test-timeout   a single test that never settles fails BY NAME;
+          #   --test-force-exit  the process exits when the run finishes even if a
+          #                      test left a server/socket/child handle open (the
+          #                      classic "runner prints everything then never exits");
+          #   timeout 1500     catches a file whose MODULE hangs (no test started), and
+          #                      leaves the partial TAP in the log so the last file
+          #                      printed is the one to look at.
+          # No assertion is relaxed: a hang becomes a named failure instead of silence.
+          set -o pipefail
+          timeout 1500 node --test --test-isolation=none \
+            --test-timeout=180000 --test-force-exit $coupled || {
+              rc=$?
+              if [ "$rc" = "124" ]; then
+                echo "::error::artifact-coupled tests exceeded 1500 s — the last file printed above never finished"
+              fi
+              exit "$rc"
+            }
       - name: Commit evaluation bundle
         run: |
           ls -t data/v2/evaluations/bundle-*.json 2>/dev/null | tail -n +8 | xargs -r rm -f

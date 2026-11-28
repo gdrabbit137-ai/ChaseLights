@@ -237,7 +237,19 @@ test('CL-UI-115 §2 (subject windows): today + the following six days, per subje
   const row=model.rows.find(r=>r.genre==='overlook');
   assert.ok(row,'the supported subject is present');
   assert.equal(row.cols.length,7);
-  assert.match(row.cols[0].text,/16:00/,'today\'s window is the artifact\'s window');
+  // CL-CI-140: do not pin a weather-dependent hour. The window moves whenever
+  // the artifact is regenerated, so derive the expectation from the artifact
+  // itself: the cell must state the artifact's own first window stamp, or say
+  // 資料不足 when that place-day has no suitable row at all.
+  const dayRow=(CARDS.places['jp-003']||{})['2026-11-27']||{};
+  const suit=(dayRow.suitable||[]).find(s=>s&&s.genre==='overlook');
+  if(suit&&Array.isArray(suit.window)&&suit.window.length){
+    assert.ok(row.cols[0].text.includes(suit.window[0]),
+      `today's window is the artifact's window (expected ${suit.window[0]}, got ${row.cols[0].text})`);
+  }else{
+    assert.match(row.cols[0].text,/資料不足/,
+      `no suitable window in the artifact ⇒ the cell says 資料不足 (got ${row.cols[0].text})`);
+  }
 });
 
 test('CL-UI-115 §2 (subject windows): ZERO empty cells across all 459 places',()=>{
