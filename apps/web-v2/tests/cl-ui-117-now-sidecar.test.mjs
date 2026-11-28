@@ -560,12 +560,12 @@ browserTest('CL-UI-117: a full 124-card repaint pass stays well inside the CL-UI
 
 test('CL-UI-117: the freshness bound and the cache-bust stamps are pinned', () => {
   assert.equal(MAX_AGE_MS, 26 * 60 * 60 * 1000, 'the fixture ages assume the 26 h bound');
-  assert.match(INDEX, /assets\/app\.js\?v=clui146/, 'index.html loads app.js with the new stamp');
-  assert.match(INDEX, /assets\/icons\.js\?v=clui146/, 'index.html loads icons.js with the new stamp');
-  assert.match(INDEX, /assets\/app\.css\?v=clui146/, 'index.html loads app.css with the new stamp');
+  assert.match(INDEX, /assets\/app\.js\?v=clui147/, 'index.html loads app.js with the new stamp');
+  assert.match(INDEX, /assets\/icons\.js\?v=clui147/, 'index.html loads icons.js with the new stamp');
+  assert.match(INDEX, /assets\/app\.css\?v=clui147/, 'index.html loads app.css with the new stamp');
   for (const page of ['404.html', 'genre-eval.html', 'reminders.html', 'sources.html']) {
     const src = readFileSync(join(APP, page), 'utf8');
-    assert.match(src, /assets\/app\.css\?v=clui146/, `${page} loads app.css with the new stamp`);
+    assert.match(src, /assets\/app\.css\?v=clui147/, `${page} loads app.css with the new stamp`);
     assert.ok(!/clui141/.test(src), `${page} carries no stale clui141 stamp`);
   }
 });

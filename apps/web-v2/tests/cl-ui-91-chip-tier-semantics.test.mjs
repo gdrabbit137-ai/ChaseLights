@@ -196,9 +196,28 @@ test('CL-UI-91 (5): the no-window cards render ONE tier row through the same ana
   assert.ok(html.includes('cl-subject-window">明天 04:00</span>'), 'next window rides the SAME row');
   assert.ok(!html.includes('data-rem-place') && !html.includes('data-rem-opp'),
     'CL-UI-118 L1: the tier row carries no bell — the card has ONE spot-level bell');
-  // …and the opportunity mount is not lost: the spot-level bell's menu keeps it.
-  assert.match(appSource, /\[opt\(d\(\)\.clui118_bell_all,\(v2Best&&v2Best\.oppId\)\?` data-rem-opp="\$\{esc\(v2Best\.oppId\)\}"`:\x27\x27\)\]/,
-    'the one bell menu still offers the place + opportunity reminder');
+  // …and the opportunity mount is not lost: the ONE bell's menu must carry it.
+  // This is EXECUTED, not a source regex — the previous pin matched a single
+  // source expression (the fallback branch) and would stay green while a card
+  // mounted no opportunity choice at all.
+  const bellSrc = (() => {
+    const i = appSource.indexOf('const clBellHtml=(()=>{');
+    assert.ok(i >= 0, 'the card builds ONE bell with a menu');
+    const j = appSource.indexOf('})();', i);
+    assert.ok(j > i, 'the bell builder closes');
+    return appSource.slice(i, j) + '})();';
+  })();
+  const menuHtmlOf = (entries, best) => new Function('DICT', 'spot', 'scEntries', 'v2Best',
+    `const d=()=>DICT;const esc=s=>String(s);${bellSrc};return clBellHtml;`)(
+      {clui118_bell_menu:'提醒設定', clui118_bell_all:'整個景點', clui118_bell_opp:'最佳時段'},
+      {spot_id:'tw-001'}, entries, best);
+  const passedMenu = menuHtmlOf([{name:'夜景', window:['22:00','23:00']}], {oppId:'tw-001-P01'});
+  assert.ok(passedMenu.includes('data-rem-opp="tw-001-P01"'),
+    'the ONE bell menu mounts the opportunity choice this tier row carried at base bfa313cea (place + opp)');
+  assert.ok(passedMenu.includes('data-rem-place="tw-001"'), 'and the place payload with it');
+  const bareMenu = menuHtmlOf([], null);
+  assert.ok(bareMenu.includes('data-rem-place="tw-001"'),
+    'a card with no subject and no opportunity keeps the spot-wide reminder');
   // empty window stays honest (no invented stamp)
   const html2 = fn.clTierRowHtml('✗ 不宜', '', null);
   assert.ok(html2.includes('cl-subject-window"></span>'), html2);
@@ -234,7 +253,7 @@ test('CL-UI-91 (8): the empty state keys off the actual result count only', () =
 });
 
 test('CL-UI-91 (9): cache-bust stamp — app.js + app.css advanced to clui102', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui146/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui146/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui147/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui147/);
   assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui stamps (app.js + app.css advanced to clui120); app.js alone advanced to clui118 (CL-UI-110)');
 });

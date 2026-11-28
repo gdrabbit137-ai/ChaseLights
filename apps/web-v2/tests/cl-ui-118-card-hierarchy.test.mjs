@@ -33,6 +33,7 @@ import {tmpdir} from 'node:os';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const APP = join(HERE, '..', '..', '..');
 const CSS = readFileSync(join(APP, 'assets', 'app.css'), 'utf8');
+const APPJS = readFileSync(join(APP, 'assets', 'app.js'), 'utf8');
 const FIXTURE = JSON.parse(readFileSync(join(HERE, 'fixtures', 'now-latest.clui117.json'), 'utf8'));
 const FIXTURE_IDS = Object.keys(FIXTURE.places);
 
@@ -253,6 +254,102 @@ browserTest('CL-UI-118 A (2): exactly ONE bell per card, and it still lists ever
   assert.ok(opened.options >= 1, 'the open menu lists its reminder mounts');
 });
 
+browserTest('CL-UI-118 A (2a): every evaluated card really offers the opportunity-scoped reminder', {timeout:240000}, async () => {
+  await load(1440, 900);
+  const cards = await evaljs(`(() => [...document.querySelectorAll('#spots-container .card')].map(c => ({
+    id: c.getAttribute('data-place-id'),
+    badge: (c.querySelector('.card-header-actions .tier') || {}).className || '',
+    mounts: [...c.querySelectorAll('[data-rem-menu] [data-rem-place]')].map(b => ({
+      place: b.getAttribute('data-rem-place'), cc: b.getAttribute('data-rem-cc'),
+      opp: b.getAttribute('data-rem-opp'), label: (b.parentElement.querySelector('.cl-bell-opt-name') || {}).textContent || ''})),
+  })))()`);
+  const evaluated = cards.filter(c => /tier-(rec|shoot|no)\b/.test(c.badge));
+  assert.ok(evaluated.length >= 10, `evaluated cards rendered (${evaluated.length})`);
+  const missing = evaluated.filter(c => !c.mounts.some(m => m.opp)).map(c => c.id);
+  assert.deepEqual(missing, [], 'every card with a best opportunity mounts data-rem-opp in its bell menu');
+  // …and the opportunity option is labelled, never a bare bell.
+  const labelled = evaluated.filter(c => c.mounts.filter(m => m.opp).every(m => !m.label)).map(c => c.id);
+  assert.deepEqual(labelled, [], 'the opportunity option carries a readable label');
+});
+
+// ------------------------------------------- 2b. reminder-mount parity (node)
+// CL-UI-118 A-fix (reviewer condition 2): the ONE bell's menu must mount every
+// payload the retired per-subject bells carried at base bfa313cea — EXECUTED,
+// not pinned as a source regex (that is exactly what CL-UI-91 (5) regressed
+// into). The pre-consolidation card mounted:
+//   · one bell per curated subject row      → data-rem-place [+ data-rem-cc]
+//   · the tier row (no-window / scPassedNote) → data-rem-place + data-rem-opp
+//   · the no-subject summary bell            → data-rem-place + data-rem-opp
+// so the menu is asserted a SUPERSET of that set for every context, including
+// the scPassedNote branch where the ONLY opportunity mount used to be the (now
+// bell-less) tier row.
+const sliceSrc = (start, end) => {
+  const i = APPJS.indexOf(start);
+  assert.ok(i >= 0, `source marker not found: ${start}`);
+  const j = APPJS.indexOf(end, i + start.length);
+  assert.ok(j > i, `source end marker not found after ${start}: ${end}`);
+  return APPJS.slice(i, j);
+};
+const ROW_SRC = sliceSrc('function clSubjectRowLine', '// CL-E2E-131 (2) (owner');
+const BELL_SRC = sliceSrc('const clBellHtml=(()=>{', '})();') + '})();';
+const DICT = {clui118_bell_menu:'提醒設定', clui118_bell_all:'整個景點', clui118_bell_opp:'最佳時段'};
+const makeMenu = new Function('DICT', 'spot', 'scEntries', 'v2Best',
+  `const d=()=>DICT;const esc=s=>String(s);${BELL_SRC};return clBellHtml;`);
+const baseRows = new Function(`
+  const esc=s=>String(s);
+  const colonSep=()=>'：';
+  const formatHourSegments=a=>(a||[]).join('–');
+  const clIconSvg=()=>'';
+  ${ROW_SRC}
+  return {clSubjectRowLine, clTierRowLine};`)();
+const mountsOf = html => [...String(html).matchAll(/<button\b[^>]*>/g)]
+  .map(m => m[0]).filter(tag => /data-rem-place=/.test(tag))
+  .map(tag => {
+    const g = k => (new RegExp(`data-rem-${k}="([^"]*)"`).exec(tag) || ['', ''])[1];
+    return {place:g('place'), cc:g('cc'), opp:g('opp')};
+  });
+const mountKey = m => `${m.place}|${m.cc}|${m.opp}`;
+
+test('CL-UI-118 A (2b): the bell menu mounts every payload the retired per-subject bells carried', () => {
+  const SPOT = {spot_id:'tw-074'};
+  const CC = {subject:'夜景'};
+  const E1 = {name:'夜景', window:['22:00','23:00'], cc:CC};
+  const E2 = {name:'日出', window:['05:00','06:00']};
+  const contexts = [
+    {name:'curated rows + a best opportunity', entries:[E1, E2], best:{oppId:'tw-074-P01'},
+     base:[baseRows.clSubjectRowLine(E1, 'tw-074', false), baseRows.clSubjectRowLine(E2, 'tw-074', false)]},
+    {name:'scPassedNote (the tier row replaced the subject rows)', entries:[E1], best:{oppId:'tw-074-P01'},
+     base:[baseRows.clTierRowLine('○ 可拍 · 窗已過', '明天 04:00', 'tw-074', 'tw-074-P01')]},
+    {name:'no subject row, evaluated', entries:[], best:{oppId:'tw-074-P01'},
+     base:['<button type="button" class="cl-rem-btn" data-rem-place="tw-074" data-rem-opp="tw-074-P01">🔔</button>']},
+    {name:'no subject row, not evaluated', entries:[], best:null, base:[]},
+  ];
+  for (const ctx of contexts) {
+    const menu = mountsOf(makeMenu(DICT, SPOT, ctx.entries, ctx.best));
+    assert.ok(menu.length >= 1, `${ctx.name}: the bell menu is never empty`);
+    const have = new Set(menu.map(mountKey));
+    for (const html of ctx.base) {
+      for (const m of mountsOf(html)) {
+        assert.ok(have.has(mountKey(m)),
+          `${ctx.name}: the menu must mount ${mountKey(m)} — a retired per-subject bell carried it`);
+      }
+    }
+    for (const m of menu) assert.equal(m.place, SPOT.spot_id, `${ctx.name}: every mount targets this place`);
+  }
+  // The latent gap the reviewer found: with scPassedNote the tier row is the ONE
+  // opportunity carrier and it no longer has a bell — so an opportunity-scoped
+  // reminder could not be created on those cards at all.
+  const silentTierRow = baseRows.clTierRowLine('○ 可拍 · 窗已過', '明天 04:00', 'tw-074', 'tw-074-P01', {bell:false});
+  assert.equal(mountsOf(silentTierRow).length, 0, 'the card tier row carries no bell any more');
+  const passedMenu = mountsOf(makeMenu(DICT, SPOT, [E1], {oppId:'tw-074-P01'}));
+  assert.ok(passedMenu.some(m => m.opp === 'tw-074-P01'),
+    'so the ONE bell MUST carry the opportunity mount on a scPassedNote card (gap closed)');
+  assert.ok(passedMenu.some(m => m.cc && !m.opp), 'and it still offers the curated subject choice');
+  // The spot-wide fallback stays for a card with neither subject nor opportunity.
+  const bare = mountsOf(makeMenu(DICT, SPOT, [], null));
+  assert.deepEqual(bare, [{place:'tw-074', cc:'', opp:''}], 'a bare card keeps the spot-wide reminder');
+});
+
 // ---------------------------------------------------- 3. the cap wording on L2
 browserTest('CL-UI-118 A (3): L2 reads 「≥ 24 km」 — 「資料上限」 lives in the tooltip only', {timeout:240000}, async () => {
   await load(1440, 900);
@@ -339,8 +436,80 @@ browserTest('CL-UI-118 A (4): elevation + astronomy never share an element with 
   }
   // The layer geometry is pinned in CSS as a single internal grid (not margins).
   assert.match(CSS, /\.card-layers\s*\{[^}]*display:grid/);
-  assert.match(CSS, /grid-template-rows:\s*\n?\s*var\(--cl-card-r-id\)\s*\n?\s*var\(--cl-card-r-now\)\s*\n?\s*minmax\(var\(--cl-card-r-subject\),1fr\)\s*\n?\s*var\(--cl-card-r-terrain\)/,
-    'the four rows are one grid: three fixed heights + the flexible subject band');
+  assert.match(CSS, /grid-template-rows:\s*\n?\s*var\(--cl-card-r-id\)\s*\n?\s*var\(--cl-card-r-now\)\s*\n?\s*minmax\(var\(--cl-card-r-subject\),1fr\)\s*\n?\s*minmax\(var\(--cl-card-r-terrain\),auto\)/,
+    'the four rows are one grid: two fixed heights + the flexible subject band + the terrain row that can only grow for its own access-note line');
+});
+
+// ------------------------------------- 4b. the access note is fully readable
+// CL-UI-118 A-fix (reviewer condition 1): at 393 px the note was folded into the
+// nowrap terrain line and ellipsis-clipped (tw-074: 466 px of text inside a 192 px
+// box). It now sits on its OWN line BELOW the elevation + astronomy line and wraps
+// to its full length; measured on the shipped page at both widths.
+async function measureNotes() {
+  return evaljs(`(() => {
+    const out = [];
+    for (const c of document.querySelectorAll('#spots-container .card')) {
+      const terrain = c.querySelector('[data-layer="terrain"]');
+      const note = terrain && terrain.querySelector('.access-note');
+      if (!note) continue;
+      const line = terrain.querySelector('.card-terrain-line');
+      const r = note.getBoundingClientRect();
+      const cs = getComputedStyle(note);
+      out.push({
+        id: c.getAttribute('data-place-id'),
+        chars: (note.textContent || '').trim().length,
+        w: Math.round(r.width), h: Math.round(r.height),
+        scrollW: note.scrollWidth, clientW: note.clientWidth,
+        scrollH: note.scrollHeight, clientH: note.clientHeight,
+        whiteSpace: cs.whiteSpace, overflowWrap: cs.overflowWrap, textOverflow: cs.textOverflow,
+        lineClamp: cs.webkitLineClamp, lh: parseFloat(cs.lineHeight) || 0,
+        inTerrainLine: !!(line && line.contains(note)),
+        belowLine: line ? r.top >= line.getBoundingClientRect().bottom - 1 : null,
+        cardW: Math.round(c.getBoundingClientRect().width),
+        lineH: line ? Math.round(line.getBoundingClientRect().height) : null,
+        lineScrollH: line ? line.scrollHeight : null, lineClientH: line ? line.clientHeight : null,
+      });
+    }
+    return out;
+  })()`);
+}
+function assertNotesReadable(notes, where) {
+  assert.ok(notes.length >= 1, `${where}: at least one card carries an access note (${notes.length})`);
+  for (const n of notes) {
+    assert.equal(n.inTerrainLine, false, `${where} ${n.id}: the note is not inside the nowrap terrain line`);
+    assert.equal(n.belowLine, true, `${where} ${n.id}: the note sits on its own line below elevation + astronomy`);
+    assert.equal(n.whiteSpace, 'normal', `${where} ${n.id}: the note wraps (white-space ${n.whiteSpace})`);
+    assert.equal(n.textOverflow, 'clip', `${where} ${n.id}: the note is never ellipsised (${n.textOverflow})`);
+    assert.equal(n.lineClamp, 'none', `${where} ${n.id}: the note is never line-clamped (${n.lineClamp})`);
+    assert.ok(n.scrollW <= n.clientW + 1,
+      `${where} ${n.id}: the full ${n.chars}-char note fits its ${n.clientW}px box (needs ${n.scrollW}px)`);
+    assert.ok(n.scrollH <= n.clientH + 1 || n.scrollW <= n.clientW + 1, `${where} ${n.id}: no vertical clipping`);
+    assert.ok(n.h >= 20, `${where} ${n.id}: the note keeps a readable line box (${n.h}px)`);
+  }
+  // The terrain line itself is still the fixed, single-line elevation + astronomy row.
+  for (const n of notes) {
+    assert.equal(n.lineH <= 23, true, `${where} ${n.id}: the terrain line keeps its fixed 22px height (${n.lineH})`);
+    assert.ok(n.lineScrollH <= n.lineClientH + 1, `${where} ${n.id}: the terrain line does not overflow`);
+  }
+}
+browserTest('CL-UI-118 A (4b): the access note is fully readable at 393 px and at 1440 px', {timeout:240000}, async () => {
+  await load(393, 852);
+  const phone = await measureNotes();
+  assertNotesReadable(phone, '393×852');
+  // The original defect: this text was ellipsis-clipped inside a 192 px box on a
+  // 393 px phone. Now the longest note must WRAP (≥2 painted lines) and still fit
+  // its box — the two measured facts the fix is accountable for.
+  const longest = phone.slice().sort((a, b) => b.chars - a.chars)[0];
+  assert.ok(longest.clientW < 340, `393×852: a phone-width note box (${longest.clientW}px)`);
+  assert.ok(longest.lh > 0 && longest.h >= longest.lh * 1.5,
+    `393×852: the longest ${longest.chars}-char note paints on ${Math.round(longest.h / longest.lh)} lines instead of being clipped`);
+  assert.ok(longest.scrollW <= longest.clientW + 1,
+    `393×852: and it still fits its ${longest.clientW}px box (needs ${longest.scrollW}px)`);
+  console.log('CL-UI-118 access notes @393: ' + JSON.stringify(phone.map(n => ({id:n.id, chars:n.chars, box:n.clientW, needs:n.scrollW, h:n.h}))));
+  await load(1440, 900);
+  const desk = await measureNotes();
+  assertNotesReadable(desk, '1440×900');
+  console.log('CL-UI-118 access notes @1440: ' + JSON.stringify(desk.map(n => ({id:n.id, chars:n.chars, box:n.clientW, needs:n.scrollW, h:n.h}))));
 });
 
 // --------------------------------------------------------- 5. cross-card alignment
@@ -356,6 +525,7 @@ browserTest('CL-UI-118 A (5): cards in the same grid row align every layer withi
       }
       return {id: c.getAttribute('data-place-id'), top: Math.round(c.getBoundingClientRect().top), layers: t,
               subjRows: c.querySelectorAll('.cl-subject-row').length,
+              subjText: ((c.querySelector('[data-layer="subject"]') || {}).textContent || '').replace(/\\s+/g, ' ').trim(),
               subjH: t.subject ? t.subject.h : 0};
     });
     return {rows, width: document.documentElement.clientWidth};
@@ -377,30 +547,108 @@ browserTest('CL-UI-118 A (5): cards in the same grid row align every layer withi
     assert.ok(spread[layer] <= 1,
       `${layer}: top edges must agree within 1 px across the row (spread ${spread[layer]} px; ${JSON.stringify(tops)})`);
   }
-  // The row must be non-vacuous: different subject-row counts, so the alignment
-  // is not an artefact of three identical cards.
-  const counts = new Set(row.map(c => c.subjRows));
+  // The row must be non-vacuous: the cards show DIFFERENT subject content, and
+  // their bands are nevertheless ONE shared height (the alignment claim). Both
+  // halves are required — either alone is the tautology this ticket replaced.
+  const content = new Set(row.map(c => c.subjText));
   const heights = new Set(row.map(c => c.subjH));
   console.log('CL-UI-118 alignment @1440×900: cards=' + row.length
     + ' subjectRows=' + JSON.stringify(row.map(c => c.subjRows))
     + ' subjectBand=' + JSON.stringify(row.map(c => c.subjH))
     + ' spread=' + JSON.stringify(spread));
   assert.ok(row.length >= 3, 'three or more cards measured');
-  assert.ok(counts.size >= 1, 'subject row counts recorded');
-  assert.ok(heights.size >= 1, 'the subject band is shared (no per-card drift)');
-  // The placeholder band survives: a card with NO subject row still reserves it.
-  const emptyish = await evaljs(`(() => {
-    const cards = [...document.querySelectorAll('#spots-container .card')];
+  assert.ok(content.size > 1, `the measured row shows different subject content per card (${content.size} distinct)`);
+  assert.equal(heights.size, 1,
+    `the subject band is ONE shared height across the row (got ${JSON.stringify([...heights])})`);
+  // Differing row COUNTS must exist somewhere in the list — otherwise the shared
+  // band would only be an artefact of identical cards.
+  const allRows = [...groups.values()];
+  const mixed = allRows.filter(g => new Set(g.map(c => c.subjRows)).size > 1);
+  assert.ok(mixed.length >= 1,
+    `the list mixes different subject-row counts within one grid row (counts: ${JSON.stringify(allRows.map(g => g.map(c => c.subjRows)))})`);
+  console.log('CL-UI-118 mixed rows: ' + JSON.stringify(mixed.slice(0, 3).map(g => g.map(c => c.subjRows))));
+  // The placeholder band is asserted on a SYNTHESISED card model below (5c):
+  // today's bundle happens to have 0 cards without subject rows, so finding one
+  // in the artifact is not guaranteed and a conditional skip would be a hole.
+});
+
+// ------------------------------- 5c. a synthesised 資料不足 card model (no data)
+// Reviewer condition 3: the 資料不足 branch must be exercised for real. The
+// artifact has ZERO cards without subject rows, so the test SYNTHESISES a card
+// model through the page's own seams (CLForecastRenderers.registerSyntheticRows +
+// createCard) — it never mutates data/v2. Three cards are built in ONE grid row:
+// 1 subject row / 3 subject rows / 0 subject rows (an honest 資料不足 day), then
+// measured: identical band geometry, differing row counts, and the empty card's
+// band reserved AND reading 資料不足.
+browserTest('CL-UI-118 A (5c): a synthesised 資料不足 card keeps its band and its row-based alignment', {timeout:240000}, async () => {
+  await load(1440, 900);
+  const built = await evaljs(`(() => {
+    const R = window.CLForecastRenderers;
+    if (!R || !R.createCard || !R.registerSyntheticRows) return {error:'renderer seams missing'};
+    const today = R.localDate('Asia/Taipei', 0);
+    const nowMin = R.nowMinutes('Asia/Taipei');
+    const hh = (m) => String(m).padStart(2, '0') + ':00';
+    // Qualifying hours must still be REMAINING today (a card advertises only
+    // future hours), so they are derived from the run-time clock.
+    const start = Math.min(23, Math.floor((nowMin || 0) / 60) + 1);
+    const good = [hh(start), hh(Math.min(23, start + 1))];
+    const subj = (n) => ({name:{'zh-TW':n,en:n,ja:n}, subject_short:{'zh-TW':n,en:n,ja:n}, window:good.slice()});
+    const make = (id, names, state) => {
+      const tree = {};
+      if (state !== 'NOT_EVALUABLE') tree[today] = {tier:'recommend', suitable: names.map(subj)};
+      R.registerSyntheticRows(id, tree, {}, [{local_date:today, state,
+        good_hours: state === 'NOT_EVALUABLE' ? [] : good, hour_counts:{}}]);
+      const spot = {spot_id:id, name:'fixture ' + id, timezone:'Asia/Taipei', scenes:[],
+                    opportunities:[{opportunity_id:'cp:' + id}]};
+      return R.createCard(spot, {opportunity_id:'cp:' + id, theme:'mountain_view'});
+    };
+    const host = document.createElement('div');
+    host.id = 'clui118-synthetic-row';
+    host.style.cssText = 'display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;width:1200px;margin:40px 0';
+    document.body.appendChild(host);
+    const cards = [
+      make('cluifixture-one', ['夜景'], 'GUIDANCE_SATISFIED'),
+      make('cluifixture-three', ['夜景', '日出', '雲海'], 'GUIDANCE_SATISFIED'),
+      make('cluifixture-none', [], 'NOT_EVALUABLE'),
+    ];
+    // The card element itself is what createCard returns — append it.
+    for (const c of cards) host.appendChild(c);
     const min = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cl-card-r-subject')) || 0;
-    const card = cards.find(c => c.querySelectorAll('.cl-subject-row').length === 0);
-    if (!card) return {found:false, min};
-    const band = card.querySelector('[data-layer="subject"]');
-    return {found:true, min, h: Math.round(band.getBoundingClientRect().height), text:(band.textContent||'').trim().slice(0,40)};
+    const out = cards.map(c => {
+      const band = c.querySelector('[data-layer="subject"]');
+      const layers = {};
+      for (const el of c.querySelectorAll('[data-layer]')) layers[el.getAttribute('data-layer')] = Math.round(el.getBoundingClientRect().top);
+      return {rows:c.querySelectorAll('.cl-subject-row').length,
+              bandH:Math.round(band.getBoundingClientRect().height),
+              bandTop:Math.round(band.getBoundingClientRect().top),
+              text:(band.textContent || '').replace(/\\s+/g, ' ').trim(),
+              badge:(c.querySelector('.card-header-actions .tier') || {}).textContent || '',
+              layers};
+    });
+    const cleanup = () => host.remove();
+    window.__clui118SyntheticCleanup = cleanup;
+    return {min, cards:out};
   })()`);
-  assert.ok(emptyish.min > 0, 'the subject band has a fixed minimum height token');
-  if (emptyish.found) {
-    assert.ok(emptyish.h >= emptyish.min, `a subject-less card keeps the placeholder band (${emptyish.h} ≥ ${emptyish.min})`);
+  assert.ok(!built.error, `the page's card seams are reachable (${built.error || ''})`);
+  assert.ok(built.min > 0, 'the subject band has a fixed minimum height token');
+  const [one, three, none] = built.cards;
+  assert.equal(none.rows, 0, 'the synthesised card really has no subject row');
+  assert.equal(one.rows, 1, 'the first fixture keeps its one subject row');
+  assert.equal(three.rows, 3, 'the second fixture keeps its three subject rows');
+  assert.match(none.text, /資料不足/, `the empty band reads the honest 資料不足 line (got 「${none.text}」)`);
+  assert.match(none.badge, /資料不足/, 'and its tier badge says the same thing');
+  assert.ok(none.bandH >= built.min, `its band is RESERVED, not collapsed (${none.bandH} ≥ ${built.min})`);
+  // One row of the grid → every layer top edge agrees, despite 1 / 3 / 0 rows.
+  for (const layer of LAYERS) {
+    const tops = built.cards.map(c => c.layers[layer]);
+    assert.ok(tops.every(t => t === tops[0]),
+      `${layer}: the synthesised row aligns every layer (${JSON.stringify(tops)})`);
   }
+  // …and the band height is shared even though the content differs by 1/3/0 rows.
+  assert.equal(new Set(built.cards.map(c => c.bandH)).size, 1,
+    `one shared band height across 1 / 3 / 0 subject rows (${JSON.stringify(built.cards.map(c => c.bandH))})`);
+  console.log('CL-UI-118 synthetic 資料不足 row: ' + JSON.stringify(built.cards.map(c => ({rows:c.rows, band:c.bandH, text:c.text.slice(0, 24)}))));
+  await evaljs('(() => { if (window.__clui118SyntheticCleanup) window.__clui118SyntheticCleanup(); return true; })()');
 });
 
 browserTest('CL-UI-118 A (5b): the same contract holds at 393×852 (single column)', {timeout:240000}, async () => {
