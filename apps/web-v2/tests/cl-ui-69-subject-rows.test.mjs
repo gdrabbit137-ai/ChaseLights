@@ -135,8 +135,15 @@ test('CL-UI-69 (4): summary pills — elevation + current temp + sun azimuth/ele
   // Sun pill is field-driven: rendered only when BOTH angles exist, omitted
   // honestly otherwise (the daily snapshot carries the per-hour fields).
   assert.match(createSpotCardBlock, /clSunPill=\(metric&&metric\.sun_azimuth!=null&&metric\.sun_elevation!=null\)\?`<span class="metric-chip">\$\{clIconSvg\('azimuth'\)\} \$\{Math\.round\(metric\.sun_azimuth\)\}°\/\$\{Math\.round\(metric\.sun_elevation\)\}°<\/span>`:''/);
-  // Pills lead the chip row, before the existing cloud/temp chips.
-  assert.match(createSpotCardBlock, /card-metric-chips">\$\{clElevPill\}\$\{clSunPill\}\$\{compactMetrics\}\$\{distanceChip\}/);
+  // CL-UI-118 L4: the pills moved OFF the now row onto the card's own terrain
+  // line (elevation + astronomy, one fixed never-wrapping line). The now row is
+  // the weather line only — the two concerns never share an element again.
+  assert.match(createSpotCardBlock, /class="card-terrain-line">[\s\S]{0,80}?card-metric-chips">\$\{clElevPill\}\$\{clSunPill\}/,
+    'the elevation + sun pills lead the terrain line');
+  assert.match(createSpotCardBlock, /class="card-metric-chips now-chips">\$\{compactMetrics\}\$\{distanceChip\}/,
+    'the now row is the weather chip line alone');
+  assert.doesNotMatch(createSpotCardBlock, /now-chips">\$\{[^}]*clElevPill/,
+    'elevation never rides the now row');
 });
 
 test('CL-UI-69 (5): the reminder icon is 🔔 only (owner ruling) — compact toggle in the client', () => {
@@ -162,8 +169,8 @@ test('CL-UI-69 (5): the reminder icon is 🔔 only (owner ruling) — compact to
 
 test('CL-UI-69 (6): 390px row rules ship and the page serves the bumped stamps', () => {
   assert.match(appCss, /@media \(max-width:390px\)\{\n  \.cl-subject-row\{font-size:\.74rem\}/);
-  assert.match(indexSource, /assets\/app\.js\?v=clui145/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui145/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui146/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui146/);
   assert.match(indexSource, /assets\/reminders-client\.js\?v=clui126/);
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui134/);
 });

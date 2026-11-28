@@ -428,9 +428,9 @@ test('CL-UI-45 (6): a 日出/日落 row carries a range or is not rendered', () 
 test('CL-UI-45 (7): every touched asset is re-stamped on every page that serves it', () => {
   for (const page of ['index.html', 'genre-eval.html', 'sources.html', '404.html', 'reminders.html']) {
     const src = readFileSync(join(WEB, page), 'utf8');
-    if (/app\.css\?v=/.test(src)) assert.match(src, /app\.css\?v=clui145/, `${page}: app.css stamp`);
+    if (/app\.css\?v=/.test(src)) assert.match(src, /app\.css\?v=clui146/, `${page}: app.css stamp`);
   }
-  assert.match(indexSource, /app\.js\?v=clui145/);
+  assert.match(indexSource, /app\.js\?v=clui146/);
   assert.match(indexSource, /custom-places\.js\?v=clapp09n/);
 });
 

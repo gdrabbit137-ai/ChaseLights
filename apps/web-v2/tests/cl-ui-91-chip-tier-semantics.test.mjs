@@ -194,8 +194,11 @@ test('CL-UI-91 (5): the no-window cards render ONE tier row through the same ana
   assert.ok(html.includes('cl-subject-rows') && html.includes('cl-subject-row'), html);
   assert.ok(html.includes('cl-subject-name">✗ 不宜 · 夜間雲量過高</span>'), html);
   assert.ok(html.includes('cl-subject-window">明天 04:00</span>'), 'next window rides the SAME row');
-  assert.ok(html.includes('data-rem-place="tw-001"') && html.includes('data-rem-opp="tw-001-P01"'),
-    'the reminder bell keeps its mount (place + opportunity)');
+  assert.ok(!html.includes('data-rem-place') && !html.includes('data-rem-opp'),
+    'CL-UI-118 L1: the tier row carries no bell — the card has ONE spot-level bell');
+  // …and the opportunity mount is not lost: the spot-level bell's menu keeps it.
+  assert.match(appSource, /\[opt\(d\(\)\.clui118_bell_all,\(v2Best&&v2Best\.oppId\)\?` data-rem-opp="\$\{esc\(v2Best\.oppId\)\}"`:\x27\x27\)\]/,
+    'the one bell menu still offers the place + opportunity reminder');
   // empty window stays honest (no invented stamp)
   const html2 = fn.clTierRowHtml('✗ 不宜', '', null);
   assert.ok(html2.includes('cl-subject-window"></span>'), html2);
@@ -231,7 +234,7 @@ test('CL-UI-91 (8): the empty state keys off the actual result count only', () =
 });
 
 test('CL-UI-91 (9): cache-bust stamp — app.js + app.css advanced to clui102', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui145/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui145/);
+  assert.match(indexSource, /assets\/app\.js\?v=clui146/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui146/);
   assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui stamps (app.js + app.css advanced to clui120); app.js alone advanced to clui118 (CL-UI-110)');
 });

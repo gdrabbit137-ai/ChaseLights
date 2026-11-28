@@ -62,7 +62,7 @@ test('CL-APP-09p6 (1a): app.js — the official renderer + pipeline accept priva
     'the currentData guard runs before the container wipe');
   assert.match(appSource, /if\(clui121Loading&&clui121Loading\.style\.display!=='none'\)clui121Loading\.style\.display='none';/);
   // cache-bust: this ticket's stamps
-  assert.match(htmlSource, /assets\/app\.js\?v=clui145/); // CL-UI-110/111 stamp advance (CL-INT-212 re-anchor)
+  assert.match(htmlSource, /assets\/app\.js\?v=clui146/); // CL-UI-110/111 stamp advance (CL-INT-212 re-anchor)
 });
 
 test('CL-APP-09p6 (1b): custom-places.js — cards render via the bridge; patch-9 coord line rides the card, homegrown ✗ row stays retired', () => {
@@ -343,6 +343,8 @@ test('CL-APP-09p6 (2d): the private card carries the OFFICIAL anatomy — patch-
       row:!!card.querySelector('.cl-subject-row'),
       rowText:(card.querySelector('.cl-subject-row')?.textContent||'').trim(),
       rowBell:!!card.querySelector('.cl-subject-row .cl-rem-btn'),
+      bellTrigger:card.querySelectorAll('[data-rem-menu-trigger]').length,
+      bellOpts:[...card.querySelectorAll('[data-rem-menu] .cl-rem-btn')].map(b=>b.getAttribute('data-rem-cc')?'cc':(b.getAttribute('data-rem-opp')?'opp':'place')),
       pills:[...card.querySelectorAll('.card-metric-chips .metric-chip')].map(x=>x.textContent.trim()),
       tools:[...card.querySelectorAll('.card-footer-tools .tool-link')].map(x=>(x.textContent||'').trim()),
       coord:!!card.querySelector('.cl-cp-coord')||/25\\.0\\d\\d,\\s*121/.test(card.textContent),
@@ -352,7 +354,13 @@ test('CL-APP-09p6 (2d): the private card carries the OFFICIAL anatomy — patch-
   })()`);
   assert.ok(probe.a.head && probe.a.badge, 'official card head + ◉私人 badge');
   assert.match(probe.a.tier, /✓/, 'tier badge reads the SAME synthetic row truth');
-  assert.ok(probe.a.row && probe.a.rowBell, 'official subject-row anatomy (短名 + window + 🔔)');
+  // CL-UI-118 L1: the card carries ONE spot-level bell; the subject row keeps the
+  // official name/colon/window anatomy but no longer repeats a bell per row.
+  assert.ok(probe.a.row, 'official subject-row anatomy (短名 + window)');
+  assert.equal(probe.a.rowBell, false, 'the per-row bell is retired (one bell per card)');
+  assert.equal(probe.a.bellTrigger, 1, 'exactly one spot-level bell in the card head');
+  assert.ok(probe.a.bellOpts.length >= 1, 'the bell menu still offers the reminder choices');
+  assert.ok(probe.a.bellOpts.includes('cc'), 'a private per-group row keeps its cc-scoped reminder choice');
   assert.ok(probe.a.rowText.includes('城市景觀'), 'subject short name rides the row');
   assert.ok(probe.a.pills.some(p => /13 m/.test(p)), 'elevation pill like official cards');
   assert.equal(probe.a.tools.length, 3, 'three tool buttons (題材/地圖/天氣圖)');

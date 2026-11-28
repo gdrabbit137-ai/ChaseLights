@@ -146,14 +146,15 @@ test('CL-UI-71 (5): the old 「本日最佳題材」 render path is retired from
   assert.match(createSpotCardBlock, /class="shooting-summary">\$\{clSummaryHtml\|\|clFallbackRows\|\|clNoWinRow\|\|v2Summary\|\|/);
   // the fallback uses the SAME row builder (one anatomy everywhere)
   assert.match(createSpotCardBlock, /clSubjectRowHtml\(\{name:d\(\)\.v2_tier_shootable,window:v2Best\.hoursList\},false\)/);
-  // the reminder mount (data-rem-opp) survives on the honest none line
-  assert.match(createSpotCardBlock, /data-rem-opp="\$\{esc\(v2Best\.oppId\|\|''\)\}"/);
+  // CL-UI-118 L1: the reminder mount (data-rem-opp) survives — it moved into the
+  // card's ONE spot-level bell menu, which still offers every subject choice.
+  assert.match(createSpotCardBlock, /data-rem-opp="\$\{esc\(v2Best\.oppId\)\}"/);
   // the CL-UI-69 row anatomy is untouched
   assert.match(createSpotCardBlock, /class="cl-subject-rows"/);
 });
 
-test('CL-UI-71 (6): cache-bust stamp — app.js advanced to clui145 (CL-CI-44 day-weather layer)', () => {
-  assert.match(indexSource, /assets\/app\.js\?v=clui145/);
-  assert.match(indexSource, /assets\/app\.css\?v=clui145/);
+test('CL-UI-71 (6): cache-bust stamp — app.js advanced to clui146 (CL-CI-44 day-weather layer)', () => {
+  assert.match(indexSource, /assets\/app\.js\?v=clui146/);
+  assert.match(indexSource, /assets\/app\.css\?v=clui146/);
   assert.ok(!indexSource.includes('app.js?v=clui75'), 'stale app.js stamp retired');
 });

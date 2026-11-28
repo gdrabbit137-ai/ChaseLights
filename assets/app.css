@@ -43,6 +43,13 @@
       --hour-card-status-fs: 14px;
       --hour-card-sub-fs: 12px;
       --hour-card-status-gap: 4px;
+      /* CL-UI-118 (owner card hierarchy): the four stacked card layers are one
+         internal grid — these are that grid's fixed row heights. Cards in the
+         same grid row therefore put every layer's top edge on the same y. */
+      --cl-card-r-id: 76px;
+      --cl-card-r-now: 24px;
+      --cl-card-r-subject: 30px;
+      --cl-card-r-terrain: 32px;
     }
     body {
       margin: 0;
@@ -415,6 +422,55 @@
       outline-offset:3px;
       border-color:var(--cl-blue);
     }
+    /* CL-UI-118 (owner card hierarchy): the card body is ONE internal grid —
+       identification → now → subject → terrain, with the action row last. The
+       three fixed rows are the alignment contract: the subject row is the only
+       flexible one, so a card with one subject row, a card with three and a
+       「資料不足」 card (no qualifying subject — the row keeps its placeholder
+       band) all put each layer's top edge on the same y. No ad-hoc margins. */
+    .card-layers {
+      display:grid;
+      grid-template-rows:
+        var(--cl-card-r-id)
+        var(--cl-card-r-now)
+        minmax(var(--cl-card-r-subject),1fr)
+        var(--cl-card-r-terrain);
+      flex:1 1 auto;
+      min-width:0;
+      min-height:0;
+    }
+    .card-layer { min-width:0; }
+    /* L1: the header keeps no bottom margin of its own — the row height owns
+       the spacing, so the name/sub-label/category block can never shift the
+       row below it. Sub-label and env line are single-line with ellipsis. */
+    .card-layer-id .card-header { margin-bottom:0; }
+    .card-layer-id .tags-wrapper { margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .card-layer-id .spot-local-name { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .card-layer-id .spot-cat-row { margin-top:4px; }
+    /* L2: the now row is its own full-width line. */
+    .card-layer-now .card-quick-meta { min-height:var(--cl-card-r-now); justify-content:flex-start; }
+    /* L3: the subject block; the flexible band, kept from collapsing. */
+    .card-layer-subject { min-height:var(--cl-card-r-subject); }
+    .card-layer-subject .shooting-summary{margin:0;}
+    /* L4: elevation + the astronomical numbers on ONE fixed line — never mixed
+       into the now row, never wrapping. */
+    .card-layer-terrain .card-secondary-meta {
+      margin:0;
+      padding-top:var(--cl-sp-2);
+      border-top:1px solid color-mix(in srgb, var(--cl-border) 55%, transparent);
+      display:block;
+    }
+    .card-terrain-line {
+      display:flex;
+      align-items:center;
+      gap:var(--cl-sp-2);
+      height:22px;
+      overflow:hidden;
+      white-space:nowrap;
+    }
+    .card-terrain-line .card-metric-chips { flex-wrap:nowrap; justify-content:flex-start; flex:0 0 auto; }
+    .card-terrain-line .info-row { margin:0; flex:0 0 auto; }
+    .card-terrain-line .access-note { flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; -webkit-line-clamp:none; display:block; }
     .card-header { display:flex; justify-content:space-between; align-items:center; gap:var(--cl-sp-3); margin-bottom:var(--cl-sp-2); }
     .card-header-actions { display:flex; align-items:center; gap:7px; flex:0 0 auto; }
 
@@ -597,6 +653,8 @@
     }
     .access-note { color:var(--cl-amber-text); }
     @media (max-width: 640px) {
+      /* CL-UI-118: the same four-row contract at phone type sizes. */
+      :root { --cl-card-r-id: 68px; --cl-card-r-terrain: 30px; }
       .card { padding: var(--cl-sp-3); border-radius: var(--cl-r-sm); }
       .card-header { margin-bottom: 6px; }
       .tags-wrapper { margin-bottom: 6px; }
@@ -2671,6 +2729,32 @@
 .cl-rem-btn.cl-rem-compact{margin-left:auto;gap:0;padding:3px 7px;min-height:26px;font-size:.95rem;line-height:1;border-radius:999px}
 .cl-rem-btn.cl-rem-compact:not(.cl-rem-on){filter:grayscale(1);opacity:.5}
 .cl-rem-btn.cl-rem-compact.cl-rem-on{background:color-mix(in srgb, var(--cl-green) 16%, transparent)}
+/* CL-UI-118 L1: ONE spot-level bell in the card head, with the per-subject
+   reminder menu it opens. The menu rows are the same .cl-rem-btn.cl-rem-compact
+   mounts the uppermost rows used to carry, so only the bell's POSITION moved. */
+.cl-bell-wrap{position:relative;display:inline-flex;align-items:center;flex:none}
+.cl-bell-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;padding:0;font-size:.9rem;line-height:1;
+  background:transparent;border:1px solid transparent;border-radius:999px;
+  color:var(--cl-text-3);cursor:pointer;transition:border-color .18s ease,color .18s ease;
+}
+.cl-bell-btn:hover{border-color:color-mix(in srgb, var(--cl-text-1) 30%, transparent);color:var(--cl-text-1)}
+.cl-bell-btn[aria-expanded="true"]{border-color:var(--cl-border-strong);color:var(--cl-text-1)}
+.cl-bell-menu{
+  position:absolute;top:calc(100% + 4px);right:0;z-index:6;
+  display:flex;flex-direction:column;gap:var(--cl-sp-1);
+  min-width:180px;max-width:280px;max-height:240px;overflow:auto;
+  padding:var(--cl-sp-2);background:var(--cl-bg-2);
+  border:1px solid var(--cl-border-strong);border-radius:var(--cl-r-sm);
+  box-shadow:var(--cl-shadow-2);
+}
+/* An author display:flex rule would restore a closed menu over the card — the
+   [hidden] guard is explicit (CL-UI-47 pitfall). */
+.cl-bell-menu[hidden]{display:none}
+.cl-bell-opt{display:flex;align-items:center;justify-content:space-between;gap:var(--cl-sp-2);min-width:0}
+.cl-bell-opt-name{font-size:var(--cl-fs-12);color:var(--cl-text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl-bell-opt .cl-rem-btn.cl-rem-compact{margin-left:0;flex:none}
 @media (max-width:390px){
   .cl-subject-row{font-size:.74rem}
   .cl-rem-btn.cl-rem-compact{padding:3px 5px}

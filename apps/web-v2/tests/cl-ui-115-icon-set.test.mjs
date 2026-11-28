@@ -104,7 +104,12 @@ test('CL-UI-115 §1: app.js routes every metric/weather position through the ico
   assert.match(appSource,/function wmoIcon\(code\)\{[\s\S]*?clIconSvg\(String\(c\)\)/, 'wmoIcon reads the icon set');
   assert.match(appSource,/const cloudChip=clBaseTxt\?`<span class="metric-chip">\$\{clIconSvg\('cloud'\)\}/, 'the cloud-base chip uses the cloud icon');
   assert.match(appSource,/const clElevPill=clElev!=null\?`<span class="metric-chip">\$\{clIconSvg\('elevation'\)\}/, 'the elevation pill uses the elevation icon');
-  assert.match(appSource,/\$\{clIconSvg\('visibility'\)\} \$\{esc\(vt\)\}/, 'the visibility value carries the eye icon');
+  // CL-UI-118 L2: the value still carries the eye icon; the cap case now routes
+  // through the short 「≥ 24 km」 span (words in the tooltip), so the pin anchors
+  // on the icon prefix that both branches share.
+  assert.match(appSource,/\$\{clIconSvg\('visibility'\)\} \$\{vt===d\(\)\.vis_cap\?/, 'the visibility value carries the eye icon');
+  const eyeSites=[...appSource.matchAll(/clIconSvg\('visibility'\)/g)].length;
+  assert.ok(eyeSites>=2, `both weather chip builders prefix the visibility value with the eye (${eyeSites})`);
   assert.match(appSource,/function tempChipHtml\(temp\)[\s\S]*?clIconSvg\('temperature'\)/, 'the temperature chip uses the temperature icon');
   // Emoji survive ONLY as fallback data: the render positions may not carry one.
   for(const literal of ['`👁 ','>☁️ ${esc(clBaseTxt)', '>⛰ ${clElev}', '>🌡 ${esc(t)}', "'☀ ${Math.round(metric.sun_azimuth)}"]){

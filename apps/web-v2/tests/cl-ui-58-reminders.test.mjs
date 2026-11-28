@@ -46,17 +46,29 @@ function loadClient(fetchImpl) {
   return sandbox.ChaseLightsReminders;
 }
 
-test('CL-UI-58 (1): card renders the reminder mount point on the best-subject line', () => {
-  assert.match(appJs, /class="cl-rem-btn" data-rem-place="\$\{esc\(spot\.spot_id\)\}" data-rem-opp="\$\{esc\(v2Best\.oppId\|\|''\)\}"/);
-  // It lives inside the theme-winner summary line (both the qualifying-hours
-  // branch and the no-subject branch), and app.js never calls the notify
-  // rules API itself — the client owns the contract.
+test('CL-UI-58 (1): card renders the reminder mount point in its one spot-level bell', () => {
+  // CL-UI-118 L1: the card carries ONE bell (in the identification row) and its
+  // menu mounts the per-subject reminder choices. The mount keeps the same
+  // notify contract (data-rem-place + data-rem-opp, client-owned label) — the
+  // retired per-row bells are gone, the payloads are not.
+  assert.match(appJs, /class="cl-bell-btn" data-rem-menu-trigger aria-haspopup="true" aria-expanded="false"/);
+  assert.match(appJs, /class="cl-bell-menu" data-rem-menu role="menu" hidden/);
+  assert.match(appJs, /class="cl-rem-btn cl-rem-compact" data-rem-place="\$\{esc\(spot\.spot_id\)\}"\$\{extra\} data-rem-compact="1"/);
+  assert.match(appJs, /data-rem-opp="\$\{esc\(v2Best\.oppId\)\}"/);
+  assert.match(appJs, /data-rem-cc="\$\{esc\(encodeURIComponent\(JSON\.stringify\(e\.cc\)\)\)\}"/);
+  // Exactly one bell per card: no subject row and no tier row carries one.
+  assert.match(appJs, /const clSubjectRowHtml=\(entry,hidden\)=>clSubjectRowLine\(entry,spot\.spot_id,hidden,\{bell:false\}\);/);
+  assert.match(appJs, /const clTierRowHtml=\(name,stamp,opp\)=>clTierRowLine\(name,stamp,spot\.spot_id,opp,\{bell:false\}\);/);
+  // It lives in the card head and app.js never calls the notify rules API
+  // itself — the client owns the contract.
   assert.match(appJs, /assets\/reminders-client\.js owns its label/);
   assert.doesNotMatch(appJs, /\/api\/v1\/notify/);
   // Button styling exists (44px-class touch target, busy + on states).
   assert.match(appCss, /\.cl-rem-btn\{/);
   assert.match(appCss, /\.cl-rem-btn\.cl-rem-on\{/);
   assert.match(appCss, /\.cl-rem-btn\[data-rem-busy\]\{/);
+  assert.match(appCss, /\.cl-bell-menu\[hidden\]\{display:none\}/,
+    'a closed menu never floats over the card (the [hidden] guard outranks display:flex)');
 });
 
 test('CL-UI-58 (2): client wires the real notify_rules contract (POST/PATCH/DELETE)', async () => {
@@ -249,7 +261,7 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /<nav class="site-nav"/);
   assert.match(remHtml, /data-nav-target="reminders" data-active="page"/);
   assert.match(remHtml, /assets\/site-nav\.css\?v=clui117/);
-  assert.match(remHtml, /assets\/app\.css\?v=clui145/);
+  assert.match(remHtml, /assets\/app\.css\?v=clui146/);
   assert.match(remHtml, /assets\/member-auth\.js\?v=clui117/);
   assert.match(remHtml, /assets\/reminders-client\.js\?v=clui126/);
   assert.match(remHtml, /assets\/reminders-page\.js\?v=clui134/);
@@ -262,8 +274,8 @@ test('CL-UI-58 (8): page shell — nav item, script tags, stamps, mobile-first C
   assert.match(remHtml, /min-height:44px|min-height: 44px/);
   // The homepage loads the card-side client and carries the bumped stamps.
   assert.match(indexHtml, /assets\/reminders-client\.js\?v=clui126/);
-  assert.match(indexHtml, /assets\/app\.js\?v=clui145/);
-  assert.match(indexHtml, /assets\/app\.css\?v=clui145/);
+  assert.match(indexHtml, /assets\/app\.js\?v=clui146/);
+  assert.match(indexHtml, /assets\/app\.css\?v=clui146/);
 });
 
 test('CL-UI-58 (9): worker PATCH route — enabled toggle is wired and scoped', () => {
