@@ -474,6 +474,11 @@ browserTest('CL-UI-118 A (4): elevation + astronomy never share an element with 
 async function measureNotes() {
   return evaljs(`(() => {
     const out = [];
+    // CL-UI-118 A-fix (reviewer condition 1): the strip assertion compares the
+    // RENDERED strip against the RESOLVED --cl-card-r-note of the CURRENT
+    // viewport band — not against the note's own height (min-height + auto-grow
+    // made \`stripH >= note.h\` unfalsifiable: it measured 123.22 >= 123.22).
+    const reserve = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cl-card-r-note')) || 0;
     for (const c of document.querySelectorAll('#spots-container .card')) {
       const note = c.querySelector('.access-note');
       if (!note) continue;
@@ -498,6 +503,7 @@ async function measureNotes() {
         stripH: strip ? Math.round(strip.getBoundingClientRect().height) : null,
         stripMinH: strip ? parseFloat(getComputedStyle(strip).minHeight) || 0 : null,
         cardW: Math.round(c.getBoundingClientRect().width),
+        reserve,
         lineH: line ? Math.round(line.getBoundingClientRect().height) : null,
         lineScrollH: line ? line.scrollHeight : null, lineClientH: line ? line.clientHeight : null,
       });
@@ -518,9 +524,32 @@ function assertNotesReadable(notes, where) {
       `${where} ${n.id}: the full ${n.chars}-char note fits its ${n.clientW}px box (needs ${n.scrollW}px)`);
     assert.ok(n.scrollH <= n.clientH + 1 || n.scrollW <= n.clientW + 1, `${where} ${n.id}: no vertical clipping`);
     assert.ok(n.h >= 20, `${where} ${n.id}: the note keeps a readable line box (${n.h}px)`);
-    // Where a strip is reserved (multi-column grid) the note must FIT it — a
-    // note taller than the reserve would push its own card's layers up again.
-    assert.ok(n.stripH >= n.h, `${where} ${n.id}: the note box (${n.h}px) fits its reserved strip (${n.stripH}px)`);
+    // CL-UI-118 A-fix (reviewer condition 1): where a strip is reserved, the
+    // rendered strip must BE the resolved --cl-card-r-note of this viewport band
+    // (within 1 px) — not the note's own height. The old `stripH >= n.h` was
+    // vacuous: min-height + auto-grow made it compare 123.22 against 123.22, so a
+    // note long enough to grow its strip (and pull that card's terrain/actions up
+    // out of the row) always passed. Comparing upwards against the token makes
+    // exactly that failure fatal.
+    if (n.reserve > 0) {
+      assert.equal(n.stripMinH, n.reserve,
+        `${where} ${n.id}: the strip's min-height is the resolved --cl-card-r-note (${n.stripMinH} vs ${n.reserve})`);
+      assert.ok(n.stripH <= n.reserve + 1,
+        `${where} ${n.id}: the note strip never outgrows its ${n.reserve}px reserve (strip ${n.stripH}px, note ${n.h}px) — an overlong note must bump the token, not the layout`);
+      assert.ok(n.stripH >= n.reserve - 1,
+        `${where} ${n.id}: the ${n.reserve}px reserve is actually applied (strip ${n.stripH}px)`);
+      assert.ok(n.h <= n.reserve + 1,
+        `${where} ${n.id}: the ${n.h}px note fits the ${n.reserve}px reserve`);
+      assert.ok(n.reserve - n.h >= 6,
+        `${where} ${n.id}: ≥6px headroom in the band (note ${n.h}px, reserve ${n.reserve}px)`);
+    } else {
+      // Single column (≤768 px): no reserve is claimed, so the strip is exactly
+      // the note's own painted box — it must neither clip nor pad the note.
+      assert.ok(n.stripH <= n.h + 1,
+        `${where} ${n.id}: with no reserve the strip is the note's own ${n.h}px box (strip ${n.stripH}px)`);
+      assert.ok(n.stripH >= n.h - 1,
+        `${where} ${n.id}: the single-column strip is not shorter than its note (${n.stripH} vs ${n.h})`);
+    }
   }
   // The terrain line itself is still the fixed, single-line elevation + astronomy row.
   for (const n of notes) {
@@ -582,21 +611,48 @@ browserTest('CL-UI-118 A (5): a row that CARRIES an access note aligns every lay
   }
   const allRows = [...groups.values()];
   assert.ok(geo.width >= 1000, `desktop grid expected, got ${geo.width}px`);
-  // The row under test: a full grid row that contains an access-note card.
-  const noteRows = allRows.filter(g => g.length >= 3 && g.some(c => c.note > 0));
-  assert.ok(noteRows.length >= 1,
-    `the artifact must contain a grid row with an access-note card — the alignment regression only shows up there `
-    + `(rows with notes: ${allRows.filter(g => g.some(c => c.note > 0)).length}; note cards: ${geo.rows.filter(c => c.note > 0).map(c => c.id).join(',') || 'none'})`);
-  const row = noteRows[0];
+  const ids = g => g.map(c => c.id).join(', ');
   const spreadOf = g => {
     const out = {};
     for (const layer of LAYERS) {
       const tops = g.map(c => c.layers[layer] && c.layers[layer].top).filter(v => typeof v === 'number');
-      assert.equal(tops.length, g.length, `${layer}: every card in the row carries the layer`);
+      assert.equal(tops.length, g.length, `${layer}: every card in the row carries the layer [${ids(g)}]`);
       out[layer] = Math.round((Math.max(...tops) - Math.min(...tops)) * 100) / 100;
     }
     return out;
   };
+  // CL-UI-118 A-fix (reviewer condition 2): EVERY note-bearing row is swept, not
+  // just the first one. A long note in an unsampled row misaligned terrain +
+  // actions by 77 px and nothing caught it — the old test sampled one note row
+  // and a clean row. Offenders are collected with their place ids so a failure
+  // names the row that broke, not just "some row".
+  const noteRows = allRows.filter(g => g.some(c => c.note > 0));
+  const noteCardIds = geo.rows.filter(c => c.note > 0).map(c => c.id);
+  assert.ok(noteRows.length >= 1,
+    `the artifact must contain grid rows with an access-note card — the alignment regression only shows up there ` +
+    `(rows with notes: ${noteRows.length}; note cards: ${noteCardIds.join(',') || 'none'})`);
+  assert.ok(noteRows.some(g => g.length >= 3),
+    `at least one note-bearing row is a FULL grid row (row sizes: ${JSON.stringify(noteRows.map(g => g.length))}; ids: ${noteRows.map(ids).join(' | ')})`);
+  const offenders = [];
+  for (const g of noteRows) {
+    if (g.length < 2) continue; // a one-card row has no neighbour to misalign against
+    const spread = spreadOf(g);
+    for (const layer of LAYERS) {
+      if (spread[layer] > 1) offenders.push(`${layer} spread ${spread[layer]}px in the note row holding [${ids(g)}]`);
+    }
+    // …and the MECHANISM that keeps that row aligned: one shared subject band and
+    // one shared strip height across the row.
+    const bands = new Set(g.map(c => c.subjH));
+    if (bands.size !== 1) offenders.push(`subject band ${JSON.stringify([...bands])} not shared in the note row holding [${ids(g)}]`);
+    const strips = new Set(g.map(c => c.stripH));
+    if (strips.size !== 1) offenders.push(`note strip ${JSON.stringify([...strips])} not shared in the note row holding [${ids(g)}]`);
+  }
+  assert.deepEqual(offenders, [],
+    `every note-bearing grid row must keep the 1px layer contract; offenders: ${offenders.join(' | ')}`);
+  console.log('CL-UI-118 alignment sweep @1440×900: ' + noteRows.length + ' note row(s) '
+    + JSON.stringify(noteRows.map(g => ({ids: g.map(c => c.id), rows: g.map(c => c.subjRows), spread: g.length > 1 ? spreadOf(g) : null}))));
+  // The primary (fullest) note row carries the non-vacuity claims below.
+  const row = noteRows.filter(g => g.length >= 3).sort((a, b) => b.length - a.length)[0];
   const spread = spreadOf(row);
   for (const layer of LAYERS) {
     assert.ok(spread[layer] <= 1,
@@ -628,7 +684,7 @@ browserTest('CL-UI-118 A (5): a row that CARRIES an access note aligns every lay
   assert.ok(mixed.length >= 1,
     `the list mixes different subject-row counts within one grid row (counts: ${JSON.stringify(allRows.map(g => g.map(c => c.subjRows)))})`);
   // …and a clean row (no note anywhere in it) still aligns, and so does a row
-  // that mixes 1/2/3 subject rows: the note strip must not have bought the note
+  // that mixes 1/2/1 subject rows: the note strip must not have bought the note
   // row's alignment with a different row's.
   const cleanRow = allRows.filter(g => g.length >= 3 && g.every(c => c.note === 0))[0];
   assert.ok(cleanRow, 'a note-free grid row exists to compare against');
@@ -636,19 +692,94 @@ browserTest('CL-UI-118 A (5): a row that CARRIES an access note aligns every lay
   for (const layer of LAYERS) {
     assert.ok(cleanSpread[layer] <= 1, `${layer}: a CLEAN row keeps the 1 px contract (spread ${cleanSpread[layer]} px)`);
   }
-  const mixedRow = mixed.filter(g => g.length >= 3)[0];
-  const mixedSpread = mixedRow ? spreadOf(mixedRow) : null;
-  if (mixedRow) {
-    for (const layer of LAYERS) {
-      assert.ok(mixedSpread[layer] <= 1, `${layer}: a row MIXING subject-row counts keeps the 1 px contract (spread ${mixedSpread[layer]} px)`);
-    }
+  // Prefer the 1/2/1 shape by name; fall back to any full row with two distinct
+  // counts only if the bundle carries no such row (and say so in the log).
+  const is121 = g => g.some(c => c.subjRows === 1) && g.some(c => c.subjRows === 2);
+  const mixedRow = mixed.filter(g => g.length >= 3 && is121(g))[0] || mixed.filter(g => g.length >= 3)[0];
+  assert.ok(mixedRow, `a full grid row mixing subject-row counts exists (counts: ${JSON.stringify(allRows.map(g => g.map(c => c.subjRows)))})`);
+  const mixedSpread = spreadOf(mixedRow);
+  for (const layer of LAYERS) {
+    assert.ok(mixedSpread[layer] <= 1, `${layer}: a row MIXING subject-row counts keeps the 1 px contract (spread ${mixedSpread[layer]} px)`);
   }
   console.log('CL-UI-118 alignment @1440×900 CLEAN row: subjectRows=' + JSON.stringify(cleanRow.map(c => c.subjRows)) + ' spread=' + JSON.stringify(cleanSpread));
-  console.log('CL-UI-118 alignment @1440×900 MIXED row: subjectRows=' + JSON.stringify(mixedRow ? mixedRow.map(c => c.subjRows) : []) + ' spread=' + JSON.stringify(mixedSpread));
+  console.log('CL-UI-118 alignment @1440×900 MIXED row: subjectRows=' + JSON.stringify(mixedRow.map(c => c.subjRows)) + ' spread=' + JSON.stringify(mixedSpread));
   console.log('CL-UI-118 mixed rows: ' + JSON.stringify(mixed.slice(0, 3).map(g => g.map(c => c.subjRows))));
   // The placeholder band is asserted on a SYNTHESISED card model below (5c):
   // today's bundle happens to have 0 cards without subject rows, so finding one
   // in the artifact is not guaranteed and a conditional skip would be a hole.
+});
+
+// ---------------------------------------------- 6. the reserve vs the band edges
+// CL-UI-118 A-fix (reviewer condition 3): the reserve must be sized from the
+// longest note the band actually paints, with real headroom AT the boundary
+// widths — the old 46px base left 1.6 px at a 1280 shell while the comment
+// claimed 66 px for that same width, and the 66 px band claimed to cover 1024
+// where the card is only 307 px wide.
+const RESERVE_PROBES = [
+  {w: 1440, band: '≥1280'},
+  {w: 1280, band: '≥1280 (first px of the band)'},
+  {w: 1279, band: '769–1279 (last px of the band)'},
+  {w: 1024, band: '769–1279'},
+  {w: 770,  band: '769–1279 (narrowest multi-column card)'},
+  {w: 769,  band: '769–1279 (last px of the band)'},
+  {w: 768,  band: '≤768 (single column)'},
+];
+browserTest('CL-UI-118 A (6): the note reserve covers the longest note with ≥6 px headroom at every band edge', {timeout:300000}, async () => {
+  const measured = [];
+  for (const {w, band} of RESERVE_PROBES) {
+    await load(w, 900);
+    const m = await evaljs(`(() => {
+      const reserve = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cl-card-r-note')) || 0;
+      const notes = [];
+      for (const c of document.querySelectorAll('#spots-container .card')) {
+        const n = c.querySelector('.access-note'); if (!n) continue;
+        const s = c.querySelector('.card-access-note');
+        notes.push({id:c.dataset.placeId, chars:(n.textContent||'').trim().length,
+          h: Math.round(n.getBoundingClientRect().height*100)/100,
+          stripH: Math.round(s.getBoundingClientRect().height*100)/100,
+          cardW: Math.round(c.getBoundingClientRect().width)});
+      }
+      return {reserve, cw: document.documentElement.clientWidth, notes};
+    })()`);
+    assert.ok(m.notes.length >= 1, `${band} @${w}: the bundle still paints its access note (${m.notes.length})`);
+    const longest = m.notes.slice().sort((a, b) => b.h - a.h)[0];
+    measured.push({w, band, reserve: m.reserve, longest: longest.h, chars: longest.chars, cardW: longest.cardW});
+    if (m.reserve > 0) {
+      assert.ok(m.reserve - longest.h >= 6,
+        `${band} @${w}: reserve ${m.reserve}px must clear the longest ${longest.chars}-char note (${longest.h}px on a ${longest.cardW}px card) by ≥6px — got ${Math.round((m.reserve - longest.h) * 100) / 100}px`);
+      for (const n of m.notes) {
+        assert.ok(n.stripH <= m.reserve + 1,
+          `${band} @${w} ${n.id}: the strip stays at its ${m.reserve}px reserve (got ${n.stripH}px for a ${n.h}px note)`);
+      }
+    } else {
+      // ≤768 px: one column, no reserve — the strip is the note's own box.
+      for (const n of m.notes) {
+        assert.ok(n.stripH <= n.h + 1,
+          `${band} @${w} ${n.id}: single-column strip is the note's own box (strip ${n.stripH}px, note ${n.h}px)`);
+      }
+    }
+  }
+  console.log('CL-UI-118 reserve bands: ' + JSON.stringify(measured));
+  // A LARGER reserve is not automatically better: the token must track the note
+  // it protects, so a band may not over-reserve by more than one line either.
+  for (const m of measured.filter(x => x.reserve > 0)) {
+    assert.ok(m.reserve - m.longest <= 30,
+      `${m.band} @${m.w}: the reserve tracks the measured note (${m.longest}px) instead of reserving dead space (${m.reserve}px)`);
+  }
+});
+
+test('CL-UI-118 A (6a): the reserve token, its media bands and the documented bands agree', () => {
+  const bare = CSS.replace(/\/\*[\s\S]*?\*\//g, '');
+  const decls = [...bare.matchAll(/--cl-card-r-note:\s*(\d+)px/g)].map(m => Number(m[1]));
+  assert.deepEqual(decls, [52, 72, 0],
+    `three declarations only — base (≥1280), 769–1279, ≤768 (got ${JSON.stringify(decls)})`);
+  assert.match(bare, /@media \(min-width: 769px\) and \(max-width: 1279px\) \{\s*:root \{ --cl-card-r-note: 72px; \}/,
+    'the narrow multi-column band is 769–1279 px and reserves 72px');
+  assert.match(bare, /@media \(max-width: 768px\) \{\s*:root \{ --cl-card-r-note: 0px; \}/,
+    'the single-column band starts at 768 px and reserves nothing');
+  // The comment that documents the reserve names the SAME boundaries and values.
+  assert.match(CSS, /769–1279 px[\s\S]{0,120}72px/, 'the comment documents 72px for 769–1279');
+  assert.match(CSS, /≥1280 px[\s\S]{0,120}52px/, 'and 52px for ≥1280 (it used to claim 66px there)');
 });
 
 // ------------------------------- 5c. a synthesised 資料不足 card model (no data)
@@ -919,6 +1050,110 @@ test('CL-UI-118 B (2): L3 is typography + paint only — no copy, no i18n key, n
   assert.match(css, /\[data-state="chance"\]\{background:var\(--cl-amber-bg\);box-shadow:inset 3px 0 0 var\(--cl-amber\)\}/);
   assert.match(css, /\[data-state="no"\]\{background:var\(--cl-grey-bg\);box-shadow:inset 3px 0 0 var\(--cl-grey\)\}/);
   assert.equal(/#[0-9a-fA-F]{3,6}/.test(css), false, 'no hex is introduced outside :root (CL-UI-85)');
+});
+
+// Real CDP input, re-measured at click time (CL-UI-102 rule: an off-viewport or
+// stale coordinate is a harness bug, so the caller always passes a fresh point).
+async function clickAt(x, y) {
+  for (const type of ['mousePressed', 'mouseReleased'])
+    await send('Input.dispatchMouseEvent', {type, x, y, button:'left', clickCount:1});
+  await sleep(400);
+}
+async function pressKey(key, code, vk) {
+  const base = {key, code, windowsVirtualKeyCode: vk, nativeVirtualKeyCode: vk};
+  const down = {...base};
+  if (key === 'Enter') { down.text = '\r'; down.unmodifiedText = '\r'; }
+  else if (key === ' ') { down.text = ' '; down.unmodifiedText = ' '; }
+  await send('Input.dispatchKeyEvent', {type:'rawKeyDown', ...down});
+  await send('Input.dispatchKeyEvent', {type:'keyUp', ...base});
+  await sleep(400);
+}
+// Both panels report display AND a painted box, so "the panel is up" can never be
+// satisfied by a display flag over a zero-width element.
+const PANEL_STATE = `(() => {
+  const vis = el => !!el && el.style.display === 'flex' && el.getBoundingClientRect().width > 0;
+  const w = document.getElementById('modal-overlay'), p = document.getElementById('place-modal-overlay');
+  return {weather: vis(w), weatherPanel: w && w.dataset.panel, place: vis(p), placePanel: p && p.dataset.panel};
+})()`;
+
+browserTest('CL-UI-118 B (3): the headline row opens the SUBJECT-WINDOW panel, the card body opens the WEATHER panel', {timeout:240000}, async () => {
+  await load(1440, 900);
+  const before = await evaljs(PANEL_STATE);
+  assert.equal(before.weather, false, 'no panel is open before the click');
+  assert.equal(before.place, false, 'and no subject panel either');
+  // Owner ruling: the headline subject row is the SUBJECT-WINDOW trigger (the same
+  // panel the bottom 題材 tool button opens); every other card area stays the card's
+  // weather modal. A dead click is forbidden — both halves are asserted below.
+  const probe = sel => evaljs(`(async () => {
+    const frame = () => new Promise(r => requestAnimationFrame(() => r()));
+    const card = document.querySelector('#spots-container .card');
+    card.scrollIntoView({block:'center'});
+    const r0 = card.getBoundingClientRect();
+    const dy = (window.innerHeight/2) - (r0.top + r0.height/2);
+    if (Math.abs(dy) > 1) window.scrollBy(0, dy);
+    await frame(); await frame();
+    const el = card.querySelector(${JSON.stringify(sel)});
+    if (!el) return {error: 'missing ' + ${JSON.stringify(sel)}};
+    const r = el.getBoundingClientRect();
+    const x = r.left + r.width/2, y = r.top + r.height/2;
+    const hit = document.elementFromPoint(x, y);
+    // Nothing between the hit and the target may be pointer-events:none — that is
+    // how a "hit target" silently becomes an interception.
+    const blocked = [];
+    let e = hit;
+    while (e && e !== el) { if (getComputedStyle(e).pointerEvents === 'none') blocked.push(e.tagName + '.' + String(e.className||'')); e = e.parentElement; }
+    return {x, y, painted: r.width > 0 && r.height > 0,
+      hit: hit ? hit.tagName + '.' + String(hit.className||'').slice(0, 44) : null,
+      hitInside: !!(hit && (hit === el || el.contains(hit))), blocked,
+      pointerEvents: getComputedStyle(el).pointerEvents,
+      tabindex: el.getAttribute('tabindex'), role: el.getAttribute('role')};
+  })()`);
+
+  // (a) the headline row → subject-window
+  const head = await probe('.cl-subject-row.cl-headline');
+  assert.ok(!head.error, String(head.error));
+  assert.equal(head.painted, true, 'the headline row has a painted box');
+  assert.equal(head.hitInside, true, `the headline row is the hit target at its own centre (hit ${head.hit})`);
+  assert.deepEqual(head.blocked, [], 'no ancestor intercepts the headline click with pointer-events:none');
+  assert.notEqual(head.pointerEvents, 'none', 'the headline itself accepts pointer events');
+  assert.equal(head.tabindex, '0', 'the headline is keyboard reachable');
+  assert.equal(head.role, 'button', 'and announces itself as a trigger');
+  await clickAt(head.x, head.y);
+  const afterHead = await evaljs(PANEL_STATE);
+  assert.equal(afterHead.place, true, 'a real click on the headline OPENS the subject-window panel (#place-modal-overlay)');
+  assert.equal(afterHead.placePanel, 'subject-window', 'and it is the subject-window panel');
+  assert.equal(afterHead.weather, false, 'the weather panel does not open from the headline');
+  // Keyboard + focus contract on the SAME row: Escape closes, focus returns here,
+  // then Enter and Space each re-open the subject window.
+  await pressKey('Escape', 'Escape', 27);
+  const closed = await evaljs(`(() => { const p = document.getElementById('place-modal-overlay'), a = document.activeElement;
+    return {place: p.style.display, focusHeadline: !!(a && a.hasAttribute && a.hasAttribute('data-headline'))}; })()`);
+  assert.equal(closed.place, 'none', 'Escape closes the subject-window panel');
+  assert.equal(closed.focusHeadline, true, 'and focus returns to the headline row it was opened from');
+  for (const [key, code, vk, name] of [['Enter','Enter',13,'Enter'], [' ','Space',32,'Space']]) {
+    const focused = await evaljs(`(() => { const h = document.querySelector('#spots-container .card .cl-subject-row.cl-headline'); h.focus(); return document.activeElement === h; })()`);
+    assert.equal(focused, true, `the headline can take focus before ${name}`);
+    await pressKey(key, code, vk);
+    const st = await evaljs(PANEL_STATE);
+    assert.equal(st.place, true, `${name} on the focused headline opens the subject-window panel`);
+    assert.equal(st.placePanel, 'subject-window', `${name} opens the subject-window panel, not another one`);
+    assert.equal(st.weather, false, `${name} never opens the weather panel`);
+    await pressKey('Escape', 'Escape', 27);
+    const back = await evaljs(`document.activeElement && document.activeElement.hasAttribute && document.activeElement.hasAttribute('data-headline')`);
+    assert.equal(back, true, `focus returns to the headline after closing the ${name}-opened panel`);
+  }
+
+  // (b) the card BODY (spot title, identification layer) → weather panel
+  const name = await probe('.spot-name');
+  assert.ok(!name.error, String(name.error));
+  assert.equal(name.hitInside, true, `the spot title is the hit target at its centre (hit ${name.hit})`);
+  assert.deepEqual(name.blocked, [], 'no ancestor intercepts the card-body click');
+  await clickAt(name.x, name.y);
+  const afterName = await evaljs(PANEL_STATE);
+  assert.equal(afterName.weather, true, 'a real click on the spot title OPENS the weather panel (#modal-overlay)');
+  assert.equal(afterName.weatherPanel, 'weather', 'and it is the weather panel');
+  assert.equal(afterName.place, false, 'the subject-window panel does not open from the card body');
+  console.log('CL-UI-118 B (3): headline→' + JSON.stringify(afterHead) + ' body→' + JSON.stringify(afterName));
 });
 
 test.after(async () => {

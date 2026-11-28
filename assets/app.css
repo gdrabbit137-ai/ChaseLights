@@ -55,9 +55,18 @@
          multi-column widths, so a card carrying a note hands .card-layers the
          same height as its note-free neighbours in the row (the note can never
          steal the flexible subject band and pull terrain/actions upward).
+         The reserve is sized from the LONGEST note in the shipped bundle at the
+         width that band actually gives a card (measured in headless Chrome,
+         cl-ui-118 A (6)):
+           769–1279 px  card 222–363 px  tw-074 (49 chars) 64.11 px = 3 lines
+                        → --cl-card-r-note: 72px  (7.89 px headroom)
+           ≥1280 px     card 389–411 px  tw-074          44.41 px = 2 lines
+                        → --cl-card-r-note: 52px  (7.59 px headroom)
          Zero below 769 px: one column, no row alignment to protect, and a phone
-         note is allowed to wrap to as many lines as it needs. */
-      --cl-card-r-note: 46px;
+         note is allowed to wrap to as many lines as it needs.
+         The media boundaries below ARE those bands: ≥1280 keeps this base value,
+         769–1279 switches to 72px, ≤768 drops the reserve. */
+      --cl-card-r-note: 52px;
     }
     body {
       margin: 0;
@@ -516,13 +525,15 @@
       line-height: 1.4;
     }
     /* The reserve has to cover the whole note at the width it is reserved for:
-       tw-074's 49-character note is two lines at a 1280 shell (378 px card) and
-       three lines once the column narrows (~350 px). A note that outgrows its
-       reserve would push its own card's layers up again, so the reserve is
-       sized per column width and the suite asserts the note fits it
-       (cl-ui-118 A (5)) — a longer note must bump the token, not the layout. */
+       tw-074's 49-character note is two lines (44.41 px) at a ≥1280 shell (389 px
+       card) and three lines (64.11 px) once the column narrows to 222–307 px in
+       the 769–1279 band. A note that outgrows its reserve would push its own
+       card's layers up again, so the reserve is sized per column width at ~8 px
+       above the measured note (never 1.6 px) and the suite asserts the note fits
+       it (cl-ui-118 A (5)/(6)) — a longer note must bump the token, not the
+       layout. */
     @media (min-width: 769px) and (max-width: 1279px) {
-      :root { --cl-card-r-note: 66px; }
+      :root { --cl-card-r-note: 72px; }
     }
     @media (max-width: 768px) {
       /* one column: no row to align, so the note simply takes its own height */

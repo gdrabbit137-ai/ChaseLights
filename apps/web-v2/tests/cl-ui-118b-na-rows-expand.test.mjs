@@ -276,6 +276,11 @@ async function printRenderDiagnostics(label) {
         firstCard: r0 ? {x: Math.round(r0.left), y: Math.round(r0.top), w: Math.round(r0.width), h: Math.round(r0.height)} : null,
         hitAtFirstCardCentre: hit0 ? (hit0.tagName + '.' + (hit0.className || '').toString().slice(0, 60)) : null,
         hitIsCard: !!(hit0 && hit0.classList && hit0.classList.contains('card')),
+        // CL-UI-118B: the centre is a BODY point unless it resolves to the L3
+        // headline row (subject-window trigger by design) or to an interactive
+        // control (a designed no-op for the weather modal). Reported, not asserted.
+        hitInHeadline: !!(hit0 && hit0.closest && hit0.closest('[data-headline]')),
+        hitInteractive: !!(hit0 && hit0.closest && hit0.closest('a,button,input,select,summary')),
         cardCursor: c0 ? getComputedStyle(c0).cursor : null,
         cardPointerEvents: c0 ? getComputedStyle(c0).pointerEvents : null,
       };
@@ -305,25 +310,65 @@ async function printRenderDiagnostics(label) {
   return info;
 }
 
+// CL-UI-118B: which part of the card opens the WEATHER modal. Owner ruling — the
+// headline subject row is the SUBJECT-WINDOW trigger, every other card area is the
+// card body (weather modal). These three are body points: none of them has an
+// `a|button|input|select|summary` ancestor and none is inside [data-headline], so
+// the card's own click handler must run. Ordered widest-first.
+const BODY_SELS = ['.spot-name', '[data-layer="now"] .card-quick-meta', '[data-layer="terrain"] .card-terrain-line'];
+
+// One provably valid BODY point on card [i]: scroll it in, settle two frames,
+// then hit-test the target's own centre and reject a point that resolves to an
+// interactive control (a bell / tool link is a designed no-op for the modal) or to
+// the headline row (which opens the OTHER panel by design).
+async function cardBodyPoint(i, sel) {
+  return evaljs(`(() => {
+    const card = document.querySelectorAll('.card')[${i}];
+    if (!card) return null;
+    const target = card.querySelector(${JSON.stringify(sel)});
+    if (!target) return {ok: false, why: 'absent'};
+    const r = target.getBoundingClientRect();
+    const top = Math.max(r.top, 0), bot = Math.min(r.bottom, window.innerHeight);
+    if (bot - top < 4) return {ok: false, why: 'offscreen'};
+    const x = Math.min(Math.max(r.left + r.width / 2, 0), Math.max(window.innerWidth - 1, 0));
+    const y = top + (bot - top) / 2;
+    const hit = document.elementFromPoint(x, y);
+    const inside = !!(hit && (hit === card || card.contains(hit)));
+    const guard = hit && hit.closest ? hit.closest('a,button,input,select,summary') : null;
+    const headline = !!(hit && hit.closest && hit.closest('[data-headline]'));
+    return {ok: inside && !guard && !headline, x, y,
+      hit: hit ? hit.tagName + '.' + String(hit.className || '').slice(0, 40) : null,
+      inside, guard: guard ? guard.tagName : null, headline, sel: ${JSON.stringify(sel)}};
+  })()`);
+}
+
+function openWait() {
+  return evaljs(`new Promise((resolve)=>{
+    const t0=Date.now();
+    const iv=setInterval(()=>{
+      const m=document.getElementById('modal-overlay');
+      if(m&&m.style.display==='flex'){clearInterval(iv);resolve(true);}
+      else if(Date.now()-t0>4000){clearInterval(iv);resolve(false);}
+    },100);
+  })`);
+}
+
 async function findNaRow(maxCards = 8) {
-  // CL-CI-41 (A): the CI DIAG proved the data is fully loaded (three bundles,
-  // HTTP 200, full byte counts) while `modalOpen` stayed false — the real-click
-  // landed before the card's handlers were wired, so the modal never opened and
-  // the timeline stayed empty. Re-measure and re-click the SAME card (CL-CI-37
-  // pattern, already used by 5a) instead of walking on after a missed click.
-  //
-  // CL-CI-41 (C): a fresh, PROVABLY VALID point on EVERY attempt. `scrollIntoView`
-  // alone can leave the card ABOVE the viewport, so the rect centre is off-screen,
-  // elementFromPoint returns null and the click lands nowhere. So: scroll, correct
-  // against the window, let two frames settle, then work only inside the VISIBLE
-  // intersection.
-  //
-  // CL-CI-41 (D): the CENTRE can be a valid hit inside the card and still not open
-  // the modal — it resolves to a `.cl-subject-row` child that swallows the click
-  // (cards 141, timelineGroupsChildren 0). A missed click therefore retries other
-  // y-offsets INSIDE the same card instead of repeating the same centre.
+  // CL-UI-118B rationale (settled from the DIAG it used to explain away):
+  // CL-CI-41 (A) claimed the modal stayed shut because "the click landed before
+  // the card's handlers were wired". The DIAG contradicts that: `modalOpen:false`
+  // while the payloads answered 200 with 11-27/11-28 stamps, and the hit at the
+  // card centre was `DIV.cl-subject-row.cl-headline`. Measured on this bundle
+  // (pinned by cl-ui-118 B (3)): the card body is one hit surface and card.onclick
+  // DOES fire there — but the HEADLINE ROW now opens the subject-window panel
+  // (#place-modal-overlay) by design, which is not the weather modal this helper
+  // waits for. A point that resolves to a button/anchor (bell, 題材/radar tool
+  // links) is a designed no-op for the modal, and a point outside the visible
+  // intersection lands nowhere. So the helper never clicks "the card somewhere":
+  // it targets the card BODY explicitly (spot title → now row → terrain line).
+  // CL-CI-41 (C) still applies: scroll, correct against the window, settle, and
+  // work only inside the VISIBLE intersection.
   const n = await evaljs(`document.querySelectorAll('.card').length`);
-  const FRACS = [0.25, 0.5, 0.72]; // top-to-bottom across the VISIBLE height
   const tStart = Date.now();
   for (let i = 0; i < Math.min(n, maxCards); i++) {
     if (Date.now() - tStart > 270000) break; // keep the whole run inside its budget
@@ -343,43 +388,19 @@ async function findNaRow(maxCards = 8) {
         return true;
       })()`);
       if (!ready) { cardGone = true; break; }
-      for (const frac of FRACS) {
+      for (const sel of BODY_SELS) {
         if (Date.now() - tCard > 150000) { cardGone = true; break; }
-        const pt = await evaljs(`(() => {
-          const card = document.querySelectorAll('.card')[${i}];
-          if (!card) return null;
-          const r = card.getBoundingClientRect();
-          const top = Math.max(r.top, 0);
-          const bot = Math.min(r.bottom, window.innerHeight);
-          if (bot - top < 4) return {ok: false, why: 'offscreen', x: 0, y: 0};
-          const cx = Math.min(Math.max(r.left + r.width / 2, 0), Math.max(window.innerWidth - 1, 0));
-          const cy = top + (bot - top) * ${frac};
-          const hit = document.elementFromPoint(cx, cy);
-          return {
-            x: cx, y: cy,
-            ok: !!(hit && (hit === card || card.contains(hit))),
-            hitTag: hit ? hit.tagName + '.' + String(hit.className || '').slice(0, 40) : null,
-            frac: ${frac}
-          };
-        })()`);
+        const pt = await cardBodyPoint(i, sel);
         if (!pt) { cardGone = true; break; }
-        if (!pt.ok) continue; // this offset is covered/off-screen — next point
+        if (!pt.ok) continue; // absent / off-screen / an interactive control — next body point
         await realClick(pt.x, pt.y);
-        const opened = await evaljs(`new Promise((resolve)=>{
-          const t0=Date.now();
-          const iv=setInterval(()=>{
-            const m=document.getElementById('modal-overlay');
-            if(m&&m.style.display==='flex'){clearInterval(iv);resolve(true);}
-            else if(Date.now()-t0>4000){clearInterval(iv);resolve(false);}
-          },100);
-        })`);
+        const opened = await openWait();
         if (!opened) {
-          // CL-CI-41 (D): last resort for this card. The real-click path above has
-          // already proven the point lands ON the card (elementFromPoint hit) and a
-          // manual 390px CDP tap opens this same modal, so a swallowed click is a
-          // headless input-timing artefact, not a product defect. Dispatch a
-          // synthetic click on the card element itself and keep every assertion.
-          if (frac !== FRACS[FRACS.length - 1]) continue; // try the next point first
+          // Last resort for this card: the body points above have already been
+          // hit-tested, so a still-shut modal is an input-timing artefact rather
+          // than a product defect. Dispatch the card's own click and keep every
+          // assertion — but only after the real body clicks were tried.
+          if (sel !== BODY_SELS[BODY_SELS.length - 1]) continue;
           const openedByEvent = await evaljs(`(async () => {
             const card = document.querySelectorAll('.card')[${i}];
             if (!card) return false;
@@ -427,9 +448,10 @@ async function findNaRow(maxCards = 8) {
 // every modal it opened, leaving the assertion looking at an empty timeline. This
 // helper opens the FIRST card's modal with the same measured, hit-tested click and
 // only requires the modal to open; 5b's own assertions then run unchanged.
+// CL-UI-118B: it targets the card BODY (cardBodyPoint) for the same reason as
+// findNaRow — the headline row is the subject-window trigger by design.
 async function openAnyCardModal(maxCards = 8) {
   const n = await evaljs(`document.querySelectorAll('.card').length`);
-  const FRACS = [0.25, 0.5, 0.72];
   for (let i = 0; i < Math.min(n, maxCards); i++) {
     for (let attempt = 1; attempt <= 3; attempt++) {
       const ready = await evaljs(`(async () => {
@@ -444,33 +466,15 @@ async function openAnyCardModal(maxCards = 8) {
         return true;
       })()`);
       if (!ready) return null;
-      for (const frac of FRACS) {
-        const pt = await evaljs(`(() => {
-          const card = document.querySelectorAll('.card')[${i}];
-          if (!card) return null;
-          const r = card.getBoundingClientRect();
-          const top = Math.max(r.top, 0);
-          const bot = Math.min(r.bottom, window.innerHeight);
-          if (bot - top < 4) return {ok: false, x: 0, y: 0};
-          const cx = Math.min(Math.max(r.left + r.width / 2, 0), Math.max(window.innerWidth - 1, 0));
-          const cy = top + (bot - top) * ${frac};
-          const hit = document.elementFromPoint(cx, cy);
-          return {x: cx, y: cy, ok: !!(hit && (hit === card || card.contains(hit)))};
-        })()`);
+      for (const sel of BODY_SELS) {
+        const pt = await cardBodyPoint(i, sel);
         if (!pt) return null;
         if (!pt.ok) continue;
         await realClick(pt.x, pt.y);
-        const opened = await evaljs(`new Promise((resolve)=>{
-          const t0=Date.now();
-          const iv=setInterval(()=>{
-            const m=document.getElementById('modal-overlay');
-            if(m&&m.style.display==='flex'){clearInterval(iv);resolve(true);}
-            else if(Date.now()-t0>4000){clearInterval(iv);resolve(false);}
-          },100);
-        })`);
+        const opened = await openWait();
         if (!opened) {
-          // same last-resort as findNaRow: a synthetic click on the card element
-          if (frac !== FRACS[FRACS.length - 1]) continue;
+          // same last resort as findNaRow: a synthetic click on the card element
+          if (sel !== BODY_SELS[BODY_SELS.length - 1]) continue;
           const openedByEvent = await evaljs(`(async () => {
             const card = document.querySelectorAll('.card')[${i}];
             if (!card) return false;

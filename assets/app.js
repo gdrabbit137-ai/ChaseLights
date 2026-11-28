@@ -3077,7 +3077,22 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       // badge reads, so the bar can never contradict the badge.
       const clSubjLayer=card.querySelector('[data-layer="subject"]');
       const clHeadline=clSubjLayer?(clSubjLayer.querySelector('.cl-subject-row')||clSubjLayer.querySelector('.theme-winner')):null;
-      if(clHeadline){clHeadline.classList.add('cl-headline');clHeadline.setAttribute('data-headline','1');clHeadline.setAttribute('data-state',({rec:'ok',shoot:'chance'})[clBadgeTier]||'no');}
+      if(clHeadline){
+        clHeadline.classList.add('cl-headline');clHeadline.setAttribute('data-headline','1');clHeadline.setAttribute('data-state',({rec:'ok',shoot:'chance'})[clBadgeTier]||'no');
+        // CL-UI-118B (owner ruling): the headline subject row IS the subject-window
+        // trigger — it opens the SAME #place-modal-overlay (data-panel
+        // "subject-window") the bottom 題材 tool button opens. Every other card
+        // area (spot title, now row, terrain) keeps the card's own weather modal
+        // (#modal-overlay), so the two surfaces never fight: the headline stops
+        // propagation and the card-level click never sees it. The row is
+        // focusable and Enter/Space open it; openPlaceModal captures the focused
+        // trigger, so closing the panel returns focus HERE (clui115ReturnFocus).
+        clHeadline.setAttribute('role','button');
+        clHeadline.setAttribute('tabindex','0');
+        clHeadline.setAttribute('aria-haspopup','dialog');
+        clHeadline.onclick=e=>{e.preventDefault();e.stopPropagation();try{clHeadline.focus({preventScroll:true});}catch(_){clHeadline.focus();}cpOpenPlace(spot,metric);};
+        clHeadline.onkeydown=e=>{if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault();e.stopPropagation();cpOpenPlace(spot,metric);}};
+      }
       // CL-UI-118 L1: the ONE spot-level bell opens its reminder menu. The menu
       // rows are real .cl-rem-btn mounts, so reminders-client.js still owns the
       // rule write — this handler only toggles visibility and never swallows the
