@@ -3068,6 +3068,16 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
       card.querySelector('.spot-name').textContent=spotName(spot);const local=card.querySelector('.spot-local-name');const showLocal=!(currentRegion==='tw'&&currentLang==='zh-TW');local.textContent=showLocal&&spot.name_local&&spot.name_local!==spotName(spot)?spot.name_local:'';const favBtnEl=card.querySelector('[data-fav]');if(favBtnEl)favBtnEl.onclick=e=>toggleFavorite(spot.spot_id,e);card.querySelector('[data-tools]').onclick=e=>e.stopPropagation();card.querySelector('[data-weather]').onclick=e=>{e.preventDefault();e.stopPropagation();cpOpenPlace(spot,metric);};const clSubjectBtn=card.querySelector('[data-weather]');if(clSubjectBtn)clSubjectBtn.addEventListener('keydown',e=>{/* CL-UI-115 §2: the subject button opens the subject-window panel with Enter OR Space */if(e.key===' '||e.key==='Spacebar'){e.preventDefault();e.stopPropagation();cpOpenPlace(spot,metric);}});
       const clLiveBtn=card.querySelector('[data-live-btn]');
       if(clLiveBtn)clLiveBtn.onclick=e=>{e.preventDefault();e.stopPropagation();openLiveModal(spot);};
+      // CL-UI-118 L3: the headline subject + window line is the card's visual
+      // focus. The FIRST subject line (or the honest no-subject line) takes one
+      // step up in type size and the card's OWN state colour — a faint tint plus
+      // a left bar, both paint-only (an inset shadow, never a border/margin), so
+      // the band's shared height cannot change per row. No copy, no i18n key and
+      // no verdict is touched here: the state is the SAME clBadgeTier the tier
+      // badge reads, so the bar can never contradict the badge.
+      const clSubjLayer=card.querySelector('[data-layer="subject"]');
+      const clHeadline=clSubjLayer?(clSubjLayer.querySelector('.cl-subject-row')||clSubjLayer.querySelector('.theme-winner')):null;
+      if(clHeadline){clHeadline.classList.add('cl-headline');clHeadline.setAttribute('data-headline','1');clHeadline.setAttribute('data-state',({rec:'ok',shoot:'chance'})[clBadgeTier]||'no');}
       // CL-UI-118 L1: the ONE spot-level bell opens its reminder menu. The menu
       // rows are real .cl-rem-btn mounts, so reminders-client.js still owns the
       // rule write — this handler only toggles visibility and never swallows the

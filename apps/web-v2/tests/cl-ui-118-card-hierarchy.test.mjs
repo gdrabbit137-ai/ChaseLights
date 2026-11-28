@@ -671,6 +671,168 @@ browserTest('CL-UI-118 A (5b): the same contract holds at 393×852 (single colum
   assert.ok(shape.overflowX <= 1, `phone: the fixed rows introduce no horizontal overflow (${shape.overflowX}px)`);
 });
 
+// ============================ L3 (sub-commit B): the headline subject line
+// The headline subject + window line is the card's visual protagonist: one type
+// step LARGER than the now row (16px vs the 12px now chip), a faint tint and a
+// 3px LEFT bar in the card's own state colour (green ✓推薦 / amber ○可拍 /
+// grey ✗不宜·no verdict). It must sit between the now row and the action row,
+// change no copy/i18n key/verdict, and leave the band's shared height untouched.
+// Switch the tier tab with a REAL click (synthetic dispatch cannot be trusted
+// for the tier bar — CL-UI-47 pitfall) and let the list repaint.
+async function switchTier(tier) {
+  const pt = await evaljs(`(() => { const b = document.querySelector('#tier-tabs [data-tier="${tier}"]'); if (!b) return null; b.scrollIntoView({block:'center'}); const r = b.getBoundingClientRect(); return {x: r.left + r.width / 2, y: r.top + r.height / 2}; })()`);
+  if (!pt) return false;
+  await send('Input.dispatchMouseEvent', {type:'mousePressed', x:pt.x, y:pt.y, button:'left', clickCount:1});
+  await send('Input.dispatchMouseEvent', {type:'mouseReleased', x:pt.x, y:pt.y, button:'left', clickCount:1});
+  await sleep(1400);
+  return true;
+}
+const MEASURE_HEADLINE = `(() => {
+    const probe = (() => {
+      const el = document.createElement('span');
+      document.body.appendChild(el);
+      return (v) => { el.style.color = ''; el.style.color = v; return getComputedStyle(el).color; };
+    })();
+    const bgProbe = (() => {
+      const el = document.createElement('span');
+      document.body.appendChild(el);
+      return (v) => { el.style.backgroundColor = 'transparent'; el.style.backgroundColor = v; return getComputedStyle(el).backgroundColor; };
+    })();
+    const root = getComputedStyle(document.documentElement);
+    const tok = k => root.getPropertyValue(k).trim();
+    const colour = {ok:probe(tok('--cl-green')), chance:probe(tok('--cl-amber')), no:probe(tok('--cl-grey'))};
+    const tint = {ok:bgProbe(tok('--cl-green-bg')), chance:bgProbe(tok('--cl-amber-bg')), no:bgProbe(tok('--cl-grey-bg'))};
+    const out = [];
+    for (const c of document.querySelectorAll('#spots-container .card, #spot-region-grid .card, .deferred-grid .card')) {
+      const now = c.querySelector('[data-layer="now"] .metric-chip');
+      const head = c.querySelector('[data-layer="subject"] [data-headline]');
+      if (!now || !head) continue;
+      const hs = getComputedStyle(head), ns = getComputedStyle(now);
+      const band = c.querySelector('[data-layer="subject"]');
+      out.push({
+        id: c.getAttribute('data-place-id'),
+        cardTop: Math.round(c.getBoundingClientRect().top),
+        state: head.getAttribute('data-state'),
+        headFont: parseFloat(hs.fontSize), nowFont: parseFloat(ns.fontSize),
+        headH: Math.round(head.getBoundingClientRect().height),
+        shadow: hs.boxShadow, bg: hs.backgroundColor, bgToken: tint[head.getAttribute('data-state')],
+        stateColour: colour[head.getAttribute('data-state')],
+        headClass: head.className,
+        nowTop: Math.round(c.querySelector('[data-layer="now"]').getBoundingClientRect().top),
+        headTop: Math.round(head.getBoundingClientRect().top),
+        actionsTop: Math.round(c.querySelector('[data-layer="actions"]').getBoundingClientRect().top),
+        bandTop: Math.round(band.getBoundingClientRect().top),
+        bandH: Math.round(band.getBoundingClientRect().height),
+        text: (head.textContent || '').replace(/\\s+/g, ' ').trim(),
+      });
+    }
+    return out;
+  })()`;
+
+function assertHeadline(cards, where) {
+  assert.ok(cards.length >= 3, `${where}: cards with a headline line (${cards.length})`);
+  for (const c of cards) {
+    assert.ok(c.headFont > c.nowFont,
+      `${where} ${c.id}: the headline subject is strictly larger than the now row (${c.headFont}px vs ${c.nowFont}px)`);
+    assert.ok(c.headFont - c.nowFont >= 2, `${where} ${c.id}: and the step is visible (${(c.headFont - c.nowFont).toFixed(1)}px)`);
+    assert.ok(['ok', 'chance', 'no'].includes(c.state), `${where} ${c.id}: the headline carries a state (${c.state})`);
+    // The left bar is an INSET shadow in the STATE token colour…
+    assert.match(c.shadow, /3px 0px 0px( 0px)? inset$/, `${where} ${c.id}: a 3px inset left bar (${c.shadow})`);
+    assert.ok(c.shadow.includes(c.stateColour),
+      `${where} ${c.id}: the bar uses the ${c.state} token colour (${c.stateColour}; got ${c.shadow})`);
+    // …and the tint is the matching state background token.
+    assert.ok(c.bg && c.bg !== 'rgba(0, 0, 0, 0)', `${where} ${c.id}: the headline carries a faint tint (${c.bg})`);
+    assert.equal(c.bg, c.bgToken, `${where} ${c.id}: the tint is the ${c.state} background token`);
+    // It sits between the now row and the action row.
+    assert.ok(c.headTop > c.nowTop, `${where} ${c.id}: the headline sits below the now row`);
+    assert.ok(c.headTop < c.actionsTop, `${where} ${c.id}: and above the action row`);
+    // The row keeps its own 26px line box — the styling cannot stretch the band.
+    assert.ok(c.headH <= 27, `${where} ${c.id}: the headline keeps its 26px row height (${c.headH})`);
+    // The class is the ONLY markup change: the row's own class list survives.
+    assert.ok(c.headClass.split(/\s+/).includes('cl-subject-row') || c.headClass.split(/\s+/).includes('theme-winner'),
+      `${where} ${c.id}: the headline keeps its original row class (${c.headClass})`);
+  }
+  // The band's TOP edge is still shared across a grid row — L3 moves no layer.
+  // (Band HEIGHT is content-driven — a card carrying a long access note trades
+  //  flexible-band space for its own extra terrain line — so the "the styling
+  //  adds no height" claim is proven on the SAME card, class on vs class off,
+  //  in case B (1b).)
+  const rows = new Map();
+  for (const c of cards) { if (!rows.has(c.cardTop)) rows.set(c.cardTop, []); rows.get(c.cardTop).push(c); }
+  for (const [top, g] of rows) {
+    if (g.length < 2) continue;
+    assert.equal(new Set(g.map(c => c.bandTop)).size, 1, `${where} row ${top}: one band top (${JSON.stringify(g.map(c => c.bandTop))})`);
+  }
+}
+browserTest('CL-UI-118 B (1): the headline subject line is larger than the now row, tinted and barred by state', {timeout:240000}, async () => {
+  await load(1440, 900);
+  const rec = await evaljs(MEASURE_HEADLINE);
+  assertHeadline(rec, '1440/rec');
+  const states = new Set(rec.map(c => c.state));
+  // The other two states live on the 全部 tab — switch to it for real so the
+  // amber ○可拍 and grey ✗不宜 bars are exercised against live cards, not just
+  // pinned in CSS. (Tier keys are recommend / shootable / not_recommended / all;
+  // 全部 re-groups the list into region grids, hence the broadened selector.)
+  if (await switchTier('all')) {
+    const set = await evaljs(MEASURE_HEADLINE);
+    assert.ok(set.length >= 10, `the 全部 tab renders cards (${set.length})`);
+    assertHeadline(set, '1440/all');
+    for (const c of set) states.add(c.state);
+    console.log('CL-UI-118 L3 全部: ' + JSON.stringify([...new Set(set.map(c => c.state))]));
+  }
+  assert.ok(states.size >= 2, `more than one state is exercised (${[...states].join(',')})`);
+  console.log('CL-UI-118 L3 @1440: ' + JSON.stringify(rec.slice(0, 4).map(c => ({id:c.id, state:c.state, font:c.headFont + '/' + c.nowFont, band:c.bandH, text:c.text.slice(0, 18)}))));
+  console.log('CL-UI-118 L3 states: ' + JSON.stringify([...states]));
+  // B (1b): the tint + bar are PAINT ONLY — toggling the class on the same card
+  // must leave the band (and the whole card) exactly as tall as before.
+  const toggled = await evaljs(`(() => {
+    const out = [];
+    for (const c of [...document.querySelectorAll('#spots-container .card, #spot-region-grid .card')].slice(0, 40)) {
+      const band = c.querySelector('[data-layer="subject"]');
+      const head = band && band.querySelector('[data-headline]');
+      if (!head) continue;
+      const withCls = Math.round(band.getBoundingClientRect().height);
+      const cardWith = Math.round(c.getBoundingClientRect().height);
+      head.classList.remove('cl-headline');
+      const without = Math.round(band.getBoundingClientRect().height);
+      const cardWithout = Math.round(c.getBoundingClientRect().height);
+      head.classList.add('cl-headline');
+      out.push({id:c.getAttribute('data-place-id'), withCls, without, cardWith, cardWithout});
+    }
+    return out;
+  })()`);
+  assert.ok(toggled.length >= 10, `cards measured with and without the headline class (${toggled.length})`);
+  for (const t of toggled) {
+    assert.equal(t.withCls, t.without,
+      `${t.id}: the tint + left bar add NO height to the subject band (${t.without}px without the class, ${t.withCls}px with)`);
+    assert.equal(t.cardWith, t.cardWithout, `${t.id}: and no height to the card (${t.cardWithout} → ${t.cardWith})`);
+  }
+  console.log('CL-UI-118 L3 toggle: ' + JSON.stringify(toggled.slice(0, 4)));
+  await switchTier('recommend');
+});
+// The styling introduces NO copy: it is classes only — no new i18n key, no
+// verdict word and no text node added to the headline line.
+test('CL-UI-118 B (2): L3 is typography + paint only — no copy, no i18n key, no verdict change', () => {
+  const i = APPJS.indexOf('// CL-UI-118 L3: the headline subject');
+  assert.ok(i >= 0, 'the L3 headline wiring exists');
+  const j = APPJS.indexOf('// CL-UI-118 L1: the ONE spot-level bell opens its reminder menu.', i);
+  assert.ok(j > i, 'the L3 block is delimited');
+  const block = APPJS.slice(i, j);
+  assert.match(block, /classList\.add\('cl-headline'\)/, 'the focus is a class on the existing line');
+  assert.match(block, /setAttribute\('data-state',\(\{rec:'ok',shoot:'chance'\}\)\[clBadgeTier\]\|\|'no'\)/,
+    'the state colour comes from the SAME clBadgeTier the badge reads (never a second verdict)');
+  assert.equal(/d\(\)\./.test(block), false, 'L3 adds no dictionary key');
+  assert.equal(/textContent\s*=/.test(block), false, 'L3 rewrites no text');
+  assert.equal(/innerHTML/.test(block), false, 'L3 rewrites no markup');
+  // The three state colours are the existing semantic tokens, never a new hex.
+  const css = CSS.slice(CSS.indexOf('CL-UI-118 L3: the headline subject'), CSS.length);
+  assert.match(css, /\.cl-headline\{[\s\S]*?font-size:var\(--cl-fs-16\)/, 'the headline step is a type token');
+  assert.match(css, /\[data-state="ok"\]\{background:var\(--cl-green-bg\);box-shadow:inset 3px 0 0 var\(--cl-green\)\}/);
+  assert.match(css, /\[data-state="chance"\]\{background:var\(--cl-amber-bg\);box-shadow:inset 3px 0 0 var\(--cl-amber\)\}/);
+  assert.match(css, /\[data-state="no"\]\{background:var\(--cl-grey-bg\);box-shadow:inset 3px 0 0 var\(--cl-grey\)\}/);
+  assert.equal(/#[0-9a-fA-F]{3,6}/.test(css), false, 'no hex is introduced outside :root (CL-UI-85)');
+});
+
 test.after(async () => {
   try { if (ws) ws.close(); } catch {}
   try { if (chrome) chrome.kill(); } catch {}

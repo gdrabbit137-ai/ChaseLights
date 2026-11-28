@@ -3013,3 +3013,25 @@ body:not([data-cp-has-private="1"]) .cl-cp-view-bar{display:none}
 .sw-win{font-variant-numeric:tabular-nums;line-height:1.5}
 .sw-day-has .sw-win{color:var(--cl-green-text)}
 .sw-day-none .sw-win{color:var(--cl-text-3)}
+
+/* ===== CL-UI-118 L3: the headline subject + window line is the card's focus =====
+   One step up in type size from the now row (16px vs the 12px now chip), plus the
+   card's OWN state colour: a faint tint and a 3px left bar, both from the token
+   set (green = ✓推薦, amber = ○可拍, grey = ✗不宜 / no verdict). The tint is a
+   background and the bar is an INSET SHADOW — neither takes layout, so the
+   subject band keeps its shared height on every card in a row. The line's text,
+   order and i18n keys are untouched: this is typography + paint only. */
+.card-layer-subject .cl-headline{
+  font-size:var(--cl-fs-16);
+  line-height:1.35;
+  padding-left:var(--cl-sp-2);
+  padding-right:var(--cl-sp-2);
+  border-radius:var(--cl-r-xs);
+  background:var(--cl-grey-bg);
+  box-shadow:inset 3px 0 0 var(--cl-grey);
+}
+.card-layer-subject .cl-headline .cl-subject-name{font-size:inherit;font-weight:700;color:var(--cl-text-1)}
+.card-layer-subject .cl-headline .cl-subject-window{font-size:var(--cl-fs-14);color:var(--cl-text-1)}
+.card-layer-subject .cl-headline[data-state="ok"]{background:var(--cl-green-bg);box-shadow:inset 3px 0 0 var(--cl-green)}
+.card-layer-subject .cl-headline[data-state="chance"]{background:var(--cl-amber-bg);box-shadow:inset 3px 0 0 var(--cl-amber)}
+.card-layer-subject .cl-headline[data-state="no"]{background:var(--cl-grey-bg);box-shadow:inset 3px 0 0 var(--cl-grey)}
