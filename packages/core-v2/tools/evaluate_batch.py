@@ -50,6 +50,9 @@ from adapters.threshold_observations import METRIC_FIELDS, compare  # noqa: E402
 from astro_hourly import (  # noqa: E402
     ASTRO_SAMPLING_PROVENANCE, WINDOW_SAMPLE_OFFSETS, hour_observations,
     sun_events_span, window_pass_profiles)
+# CL-PHYS-04: the SAME solar-altitude contract astro_hourly samples with —
+# the daylight gate never re-implements solar geometry.
+from solar_window import _solar_altitude_deg  # noqa: E402
 import quality_engine  # noqa: E402  CL-DATA-80 QUALITY scoring engine (v2)
 
 BUNDLE_VERSION = "0.2.0"  # CL-DATA-80: quality-engine fields (engine/s_rank/good_hours_v2)
@@ -1292,6 +1295,14 @@ def phys_gate_state(condition, values, local_start_min=None, local_date=None):
         return {"state": "AVAILABLE",
                 "value": "open" if verdict == "PASS" else "closed",
                 "reason_code": None, "detail": detail}
+    if metric == DAYLIGHT_GATE_METRIC:
+        # CL-PHYS-04: the derived per-hour daylight cell the batch runner
+        # computed from solar geometry. Absent cell -> UNKNOWN (never daylight).
+        cell = (values or {}).get("daylight_state")
+        if not isinstance(cell, dict):
+            return {"state": "UNKNOWN", "value": None,
+                    "reason_code": "SOLAR_ALTITUDE_UNAVAILABLE"}
+        return cell
     return {"state": "UNKNOWN", "value": None, "reason_code": "UNKNOWN_GATE"}
 
 
@@ -1342,6 +1353,16 @@ def phys_gate_verdict(condition, values, local_start_min=None, local_date=None):
             return "UNKNOWN", f"{metric.upper()}_{reason}"
         return (("PASS" if value in ("window_open", "open") else "FAIL"),
                 cell.get("detail") or f"{metric.upper()}({value})")
+    if metric == DAYLIGHT_GATE_METRIC:
+        # CL-PHYS-04: pure solar geometry. Below the horizon FAILS; an
+        # uncomputable altitude is UNKNOWN (NOT_EVALUABLE), never a pass.
+        if cell.get("state") != "AVAILABLE":
+            reason = cell.get("reason_code") or "UNAVAILABLE"
+            return "UNKNOWN", f"DAYLIGHT_{reason}"
+        if value == "dark":
+            return "FAIL", (f"DAYLIGHT_SUN_BELOW_HORIZON(alt="
+                            f"{cell.get('sun_altitude_deg')}deg)")
+        return "PASS", (f"DAYLIGHT_SUN_UP(alt={cell.get('sun_altitude_deg')}deg)")
     if cell.get("state") != "AVAILABLE":
         reason = cell.get("reason_code") or "UNAVAILABLE"
         return "UNKNOWN", f"{metric.upper()}_{reason}"
@@ -1910,6 +1931,183 @@ def policy_gates_for(opportunity_id, season_windows, venue_hours):
     return gates
 
 
+# ---------------------------------------------------------------------------
+# CL-PHYS-04 — DAYLIGHT GATE FOR DAYTIME-ONLY SUBJECTS.
+#
+# Defect: a subject whose subject-matter is only readable in daylight was
+# recommended straight through the night. tw-151-P01 (內洞三層瀑布, waterfall)
+# published good_hours 16:35–23:00 on 2026-11-28 and 00:00–06:00 on 11-29 —
+# sunset at that latitude/date is ~17:05 local, so every one of those hours
+# after 17:00 is pitch black. The cause is structural, not local: the
+# waterfall template deliberately says "light is not gated" (soft overcast is
+# fine for a waterfall) and no evaluation-layer gate asked whether the sun was
+# UP. Weather-only thresholds cannot answer that question, so the gate lives
+# here, once, as a pure solar-geometry predicate over the judged hour bucket.
+#
+# THE PREDICATE (single source): `solar_altitude_deg` reads the existing
+# models-v2 solar contract (`_solar_altitude_deg`) for the place coordinate and
+# the hour bucket's UTC instant; `daylight_hour_state` turns that into a
+# derived cell. Owner ruling (CL-PHYS-04, 2026-11-28): the floor is CIVIL
+# TWILIGHT, altitude >= -6 deg — right after sunset the sky still carries
+# usable soft light, so a hard 0 deg cut would kill the last usable minutes.
+# Only altitude < -6 deg ("dark") fails; altitude >= -6 deg leaves the hour to
+# the weather conditions exactly as today. Nothing about weather, thresholds
+# or scores changes: the gate adds a REQUIRED verdict beside them.
+#
+# WHERE THE HOUR IS JUDGED: at the hour bucket's START instant, exactly like
+# the venue-hours gate ([open, close) judges the bucket start). This is the
+# ticket's stated instant ("place lat/lon + the hour's UTC instant") and it
+# keeps the two clock gates consistent; a bucket whose start is above the
+# horizon but whose end is not (e.g. 17:00 with a 17:05 sunset) is still
+# daylight at the judged instant. Sub-hour sampling (astro_hourly's
+# `daylight_window`, all samples > 0) is a DIFFERENT, stricter reading used by
+# access-closing contracts; it is not duplicated here.
+#
+# MISSING GEOMETRY: a coordinate-less opportunity never reaches this gate at
+# all (the batch runner skips it as NO_VERIFIED_GEOMETRY, so it publishes no
+# hours). If the altitude cannot be computed for an hour that DOES have
+# coordinates, the gate returns UNKNOWN — under REQUIRED semantics that makes
+# the hour NOT_EVALUABLE, i.e. it is never published as a good hour. Fail-open
+# (treating an uncomputable altitude as daylight) would re-open exactly the
+# defect this ticket closes, so the choice is deliberately the conservative
+# one and it is named in the reason code (SOLAR_ALTITUDE_UNAVAILABLE).
+#
+# GENRE SET. The subject must be photographable only in daylight. Daytime-only
+# (gated):
+#   waterfall          — the flow/soft-light subject; the picture is water and
+#                        rock, unreadable at night (the ticket's own case).
+#   seasonal_plant     — flowers/foliage colour; colour is a daylight signal.
+#   mountain_view      — the mountain is the subject; a silhouette at 23:00 is
+#                        not the subject the genre claims.
+#   geological_landform— rock strata/form; needs surface light to be legible.
+#   misty_forest       — the fog and the trees are the picture; the genre's own
+#                        soft_light_window already requires civil light, and
+#                        the daylight gate states the stronger baseline.
+#   reflection         — the reflected scene must itself be lit; a dark mirror
+#                        of a dark sky is not a reflection subject.
+#   overlook           — panoramic view from height; the view must be visible.
+#   overcast_soft      — "a continuous deck diffusing direct sun into one
+#                        giant softbox": the genre IS diffuse daylight; at
+#                        night there is no sun to diffuse.
+#   snow_scene         — ground snow + form; readable only with light on it.
+# NOT gated (night / dusk subjects, or already light-windowed):
+#   night_sky, star_trails, moonlit_scene, city_night, blue_hour_city,
+#   aurora, sunset, sunrise, golden_hour, alpenglow, firefly, blue_tears,
+#   snow_ice_night, volcanic_glow, cloud_sea, general.
+#   cloud_sea and general already carry a REQUIRED light_window condition
+#   (civil light, sun > -6 deg), so a second gate would duplicate an owner
+#   window; alpenglow/sunset/sunrise/golden_hour/blue_hour_city are themselves
+#   light-window genres; the rest are night subjects by definition.
+# Genres with no template in data/v2/templates (snow_ice, tidal, drift_ice)
+# are NOT gated: their semantics are unmodelled here and inventing a daylight
+# claim for them would exceed this ticket.
+# ---------------------------------------------------------------------------
+DAYLIGHT_GATE_METRIC = "daylight_subject_window"
+
+DAYLIGHT_ONLY_GENRES = frozenset({
+    "waterfall", "seasonal_plant", "mountain_view", "geological_landform",
+    "misty_forest", "reflection", "overlook", "overcast_soft", "snow_scene",
+})
+
+# Documented only: genres whose subject IS the night/dusk light. They must
+# never be gated, and daylight_gates_for cannot reach them because the two
+# sets are disjoint (asserted by the regression test).
+NIGHT_OR_LIGHT_WINDOW_GENRES = frozenset({
+    "night_sky", "star_trails", "moonlit_scene", "city_night", "blue_hour_city",
+    "aurora", "sunset", "sunrise", "golden_hour", "alpenglow", "firefly",
+    "blue_tears", "snow_ice_night", "volcanic_glow", "cloud_sea", "general",
+})
+
+DAYLIGHT_MIN_ALTITUDE_DEG = -6.0  # civil twilight floor (owner ruling, CL-PHYS-04)
+
+
+def solar_altitude_deg(dt_utc, lat, lon):
+    """CL-PHYS-04: THE solar-altitude read of the daylight gate.
+
+    Returns degrees (float) or None when it cannot be computed (missing /
+    non-numeric coordinate, non-datetime instant, or a solver error). None is
+    reported as UNKNOWN by daylight_hour_state — never as daylight.
+    """
+    if (not isinstance(lat, (int, float)) or isinstance(lat, bool)
+            or not isinstance(lon, (int, float)) or isinstance(lon, bool)
+            or not isinstance(dt_utc, datetime)):
+        return None
+    try:
+        altitude = float(_solar_altitude_deg(dt_utc, lat, lon))
+    except (TypeError, ValueError, OverflowError):
+        return None
+    if altitude != altitude or altitude in (float("inf"), float("-inf")):
+        return None
+    return altitude
+
+
+def daylight_hour_state(dt_utc, lat, lon):
+    """CL-PHYS-04: derived daylight cell for one hour bucket.
+
+    value "daylight" (altitude >= -6 deg, civil twilight or brighter) or
+    "dark" (altitude < -6 deg); state UNKNOWN when the altitude cannot be
+    computed. ONE implementation for every daytime-only genre — no per-genre
+    branches.
+    """
+    altitude = solar_altitude_deg(dt_utc, lat, lon)
+    if altitude is None:
+        return {"state": "UNKNOWN", "value": None,
+                "reason_code": "SOLAR_ALTITUDE_UNAVAILABLE"}
+    return {"state": "AVAILABLE",
+            "value": ("dark" if altitude < DAYLIGHT_MIN_ALTITUDE_DEG
+                      else "daylight"),
+            "sun_altitude_deg": round(altitude, 2)}
+
+
+DAYLIGHT_GATE = dict(_phys_gate(
+    "EVALGATE-daylight-only", DAYLIGHT_GATE_METRIC, {
+        "zh-TW": "CL-PHYS-04 評估層日照閘門（僅白天題材）：以地點座標與該小時桶的"
+                 "UTC 時刻計算太陽仰角；仰角 < -6°（民用暮光結束、畫面已不可讀）即"
+                 "不合格，仰角 ≥ -6°（民用暮光或更亮）則由天氣條件決定，"
+                 "與現行完全相同。瀑布、花卉、山景、地質地形、霧林、倒影、展望、"
+                 "陰天柔光、雪景等題材在夜間沒有可讀畫面，因此不得成為推薦時段。"
+                 "不改變任何天氣門檻或分數；座標缺失的地點不會進入評估，仰角無法"
+                 "計算的小時標記為資料不足（不推薦），不因此放行。",
+        "en": "CL-PHYS-04 evaluation-layer daylight gate (daytime-only subjects): "
+              "the solar altitude is computed from the place coordinate and the "
+              "hour bucket's UTC instant; altitude < -6 deg (past civil "
+              "twilight, when the picture is no longer readable) fails the "
+              "hour, while altitude >= -6 deg (civil twilight or brighter) "
+              "leaves the hour to the weather conditions exactly as before. "
+              "Waterfall, seasonal plant, mountain view, geological landform, "
+              "misty forest, reflection, overlook, overcast soft light and "
+              "snow-scene subjects have no readable picture at night, so they "
+              "can never be a recommended hour. No weather threshold or score "
+              "changes; a place without verified geometry is never evaluated, "
+              "and an hour whose altitude cannot be computed is UNKNOWN (not "
+              "recommended), never passed open.",
+        "ja": "CL-PHYS-04 評価層の日照ゲート（昼間専用題材）：地点座標と時間バケツ"
+              "のUTC時刻から太陽高度を計算し、高度<-6°（市民薄明を過ぎ画面が"
+              "読めない）は不合格、高度≥-6°（市民薄明以上）は天気条件が従来どおり"
+              "判定する。滝・花・山景・地質地形・霧林・反射・展望・曇天柔光・雪景"
+              "は夜間に読める画面がないため推奨时段にならない。天気閾値とスコアは"
+              "不変。座標のない地点は評価されず、高度を計算できない時間はUNKNOWN"
+              "（推奨しない）で、開いたままにはしない。",
+    }), domain="ASTRONOMY")
+
+
+def daylight_gates_for(contract):
+    """CL-PHYS-04: inject the daylight gate for a daytime-only genre.
+
+    Nothing else changes: the gate is evaluation-layer only and is never
+    written into the owner contract (contract_sha256 stays over the owner
+    contract, exactly like the CL-PHYS-02/03 gates).
+    """
+    if contract.get("genre_template") not in DAYLIGHT_ONLY_GENRES:
+        return []
+    return [dict(DAYLIGHT_GATE)]
+
+
+# The daylight metric joins the single phys-gate implementation so
+# condition_verdict / condition_value route it through one predicate.
+PHYS_GATE_METRICS = PHYS_GATE_METRICS + (DAYLIGHT_GATE_METRIC,)
+
+
 # CL-PHYS-03 §5 — NIGHT WINDOWS (data half only; the display collapse is
 # CL-UI-45 and lives outside this package).
 #
@@ -2472,6 +2670,18 @@ def main():
         fog_levels = fog_states(hours)
         for hour_row, fstate in zip(hours, fog_levels):
             hour_row["values"]["fog_state"] = fstate
+        # CL-PHYS-04: derive the daylight cell once per coordinate group for
+        # daytime-only subjects (idempotent — every such opportunity of the
+        # group reads the same cells). Only computed when the group actually
+        # carries one of those genres, and always from the SAME
+        # daylight_hour_state predicate that unit tests exercise.
+        if any(doc["condition_contract"].get("genre_template")
+               in DAYLIGHT_ONLY_GENRES for doc in group["opportunities"]):
+            for hour_row in hours:
+                at = datetime.fromisoformat(
+                    hour_row["valid_at_utc"].replace("Z", "+00:00"))
+                hour_row["values"]["daylight_state"] = daylight_hour_state(
+                    at, lat, lon)
 
         # CL-DATA-74: derive the snow_scene ground-state and the star_trails
         # continuous-clear streak once per coordinate group and attach them to
@@ -2563,6 +2773,10 @@ def main():
             # the condition set ONLY for subjects the owner tables cover.
             conditions_eval = conditions_eval + policy_gates_for(
                 oid, season_windows, venue_hours)
+            # CL-PHYS-04: the daylight gate joins daytime-only subjects only.
+            # It reads the per-hour `daylight_state` cell derived above; no
+            # weather threshold, score or owner contract is touched.
+            conditions_eval = conditions_eval + daylight_gates_for(contract)
             # CL-DATA-72 batch A / CL-COND-A8: bind the opportunity's
             # seasonal-calendar entries onto every seasonal_state condition
             # (same binding pattern as light_direction/cloud_base_height).

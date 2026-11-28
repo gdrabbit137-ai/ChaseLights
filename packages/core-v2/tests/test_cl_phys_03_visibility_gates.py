@@ -379,7 +379,8 @@ class VenueHoursTests(unittest.TestCase):
 
     def test_shipped_table_covers_nagoya_castle_only(self):
         venues = eb.load_venue_hours()
-        self.assertEqual(list(venues), ["jp-018-P01"])
+        # CL-PHYS-04 added the owner-asserted 內洞 (tw-151-P01) window.
+        self.assertEqual(sorted(venues), ["jp-018-P01", "tw-151-P01"])
         gate = eb.policy_gates_for("jp-018-P01", {}, venues)[0]
         self.assertEqual(
             eb.phys_gate_verdict(gate, {}, local_start_min=3 * 60)[0], "FAIL")

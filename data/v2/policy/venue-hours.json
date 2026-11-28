@@ -33,6 +33,25 @@
         "en": "Keep open 09:00-16:30 (last admission 16:00; verified on nagoya-info.jp, retrieved 2026-11-26). Pre-dawn / night subjects are never recommended outside it. Closure days 12/29-1/1 are not modelled here (the annual calendar owns those).",
         "ja": "天守閣は09:00–16:30（16:00最終入場、nagoya-info.jp で2026-11-26確認）。早朝・夜間の題材は推奨しない。休館日12/29–1/1は本表では扱わない（年間カレンダー管轄）。"
       }
+    },
+    "tw-151-P01": {
+      "venue": "內洞國家森林遊樂區",
+      "place_id": "tw-151",
+      "open": "08:00",
+      "close": "17:00",
+      "timezone": "Asia/Taipei",
+      "timezone_unused": true,
+      "timezone_note": "UNUSED by the evaluation gate: EVALGATE-venue-hours judges the LOCAL HOUR START from the place coordinate's UTC offset, not from this field. Kept for future use only; do not read it as the gate's clock.",
+      "source_kind": "owner_asserted",
+      "source": "Owner-supplied in the CL-PHYS-04 ticket (2026-11-28): the venue is open 08:00-17:00 local. No page URL was supplied for this window and NONE IS INVENTED here: this row is an owner assertion (source_kind owner_asserted), not a sourced venue page. Replace it with a sourced_venue_page row if/when an official page is read.",
+      "retrieved_at": "2026-11-28",
+      "confirmed_by": "CL-PHYS-04",
+      "owner_assertion_note": "Hours came from the owner in the CL-PHYS-04 ticket, not from a fetched page. Do not treat this row as URL-verified provenance.",
+      "notes_i18n": {
+        "zh-TW": "內洞國家森林遊樂區開放 08:00–17:00（當地時間；由業主於 CL-PHYS-04 工單提供，未附網址、未臆造來源）。17:00 起（含 17:00 小時桶，本表採 [open, close) 半開區間）即不得推薦；瀑布題材另有 CL-PHYS-04 日照閘門擋掉日落後時段。",
+        "en": "Neidong National Forest Recreation Area is open 08:00-17:00 local (supplied by the owner in the CL-PHYS-04 ticket; no URL was provided and none is invented). From 17:00 on — including the 17:00 hour bucket, because this table is half-open [open, close) — no hour is recommended. The waterfall subject is additionally covered by the CL-PHYS-04 daylight gate after sunset.",
+        "ja": "内洞国家森林遊楽区は08:00–17:00（現地時間、CL-PHYS-04 チケットでオーナー提供。URLは無く、出典を捏造しない）。17:00以降（17:00の時間バケツを含む。本表は[open, close)の半開区間）は推奨しない。滝題材はCL-PHYS-04の日照ゲートも適用される。"
+      }
     }
   }
 }
