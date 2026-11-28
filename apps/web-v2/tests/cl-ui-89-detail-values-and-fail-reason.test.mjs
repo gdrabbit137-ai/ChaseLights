@@ -149,9 +149,13 @@ test('CL-UI-89 (7): 詳細氣象 strip never truncates — content-sized flex ce
   assert.doesNotMatch(cell[0], /text-overflow/, 'no ellipsis — the full value stays visible in the DOM');
   // raw values still ride the details block (full value in DOM, CL-UI-82 (7))
   const cardBlock = grab("const card=document.createElement('div');card.className=`timeline-mobile-card", 'mobile.appendChild(card);');
-  for (const raw of ['th_vis', 'th_wind', 'th_cloud_base']) {
+  for (const raw of ['th_vis', 'th_wind']) {
     assert.ok(cardBlock.includes(`<b>\${d().${raw}}</b>`), `raw metric inside details: ${raw}`);
   }
+  // CL-UI-119: the cloud-base label keeps its value inside the same <b> and only
+  // gains the shared glyph prefix.
+  assert.ok(cardBlock.includes('<b>${clIconSvg(\'cloud_base\')} ${d().th_cloud_base}</b>'),
+    'raw metric inside details: th_cloud_base (cloud_base glyph + i18n label)');
   assert.ok(cardBlock.includes('${visCellHtml(item.visibility)}'), 'vis value in the details block');
 });
 

@@ -75,6 +75,12 @@
     // ---------------------------------------------------------------- metrics
     visibility: '<path d="M2.2 12s3.6-5.6 9.8-5.6S21.8 12 21.8 12 18.2 17.6 12 17.6 2.2 12 2.2 12Z"/><circle cx="12" cy="12" r="2.9"/>',
     cloud: '<path d="M6.8 18.6h10.4a3.4 3.4 0 0 0 .2-6.8 4.8 4.8 0 0 0-9.1-1.2 4 4 0 0 0-1.5 8Z"/>',
+    // CL-UI-119: the cloud BASE — the cloud deck sits high with a short arrow
+    // rising toward it (how high the deck is above this place), never the
+    // `cloud` dome, the `fog` bands, the `elevation` peak+arrow or the
+    // `weather_overview` sun+cloud. The owner read the old shared mountain as
+    // 「the same quantity twice」 next to the terrain elevation.
+    cloud_base: '<path d="M8.2 10.4h7.6a2.9 2.9 0 0 0 .1-5.8 4.1 4.1 0 0 0-7.9-1 3.4 3.4 0 0 0 .2 6.8Z"/><path d="M12 21.6V14.4"/><path d="M9.2 17.2 12 14.4l2.8 2.8"/>',
     wind: '<path d="M3 8.4h11.4a2.6 2.6 0 1 0-2.6-2.6"/><path d="M3 12.6h15.6a2.6 2.6 0 1 1-2.6 2.6"/><path d="M3 16.8h8"/>',
     humidity: '<path d="M12 3.2s5.6 6 5.6 9.8A5.6 5.6 0 0 1 6.4 13c0-3.8 5.6-9.8 5.6-9.8Z"/><path d="M9.6 13.6a2.6 2.6 0 0 0 2.6 2.6"/>',
     temperature: '<path d="M10 14.2V5.4a2 2 0 1 1 4 0v8.8a3.8 3.8 0 1 1-4 0Z"/><path d="M12 8.6v7.8"/>',
@@ -90,7 +96,7 @@
   var FALLBACK = {
     clear: '☀️', mostly_clear: '🌤️', partly: '⛅', overcast: '☁️', fog: '🌫️',
     drizzle: '🌦️', rain: '🌧️', showers: '🌦️', snow: '❄️', snow_showers: '🌨️',
-    thunder: '⛈️', visibility: '👁', cloud: '☁️', wind: '💨', humidity: '💧',
+    thunder: '⛈️', visibility: '👁', cloud: '☁️', cloud_base: '☁️', wind: '💨', humidity: '💧',
     temperature: '🌡️', elevation: '⛰', azimuth: '☀', moon: '🌙', star: '⭐',
     all: '🌐', mountain_view: '🏔️', alpine_lake: '🏔️', sunrise: '🌅',
     sunset: '🌇', blue_hour: '🔵', sky_glow: '🌈', cloud_sea: '☁️',

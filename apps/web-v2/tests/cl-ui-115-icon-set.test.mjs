@@ -59,7 +59,7 @@ const SUBJECT_KEYS=(()=>{
   const zh=block.slice(block.indexOf("'zh-TW':{")+9,block.indexOf('},',block.indexOf("'zh-TW':{")));
   return [...zh.matchAll(/(?:^|,)([a-z_]+):'/g)].map(m=>m[1]);
 })();
-const METRIC_KEYS=['visibility','cloud','fog','wind','humidity','temperature','elevation','azimuth','sunrise','sunset','moon','star'];
+const METRIC_KEYS=['visibility','cloud','cloud_base','fog','wind','humidity','temperature','elevation','azimuth','sunrise','sunset','moon','star'];
 
 test('CL-UI-115 §1: CL_ICONS is a frozen map of currentColor-stroke SVGs',()=>{
   assert.ok(Object.isFrozen(G.CL_ICONS),'CL_ICONS is frozen');
@@ -102,7 +102,10 @@ test('CL-UI-115 §1: app.js routes every metric/weather position through the ico
   // The lookup helper is typeof-guarded so extracted test slices stay self-contained.
   assert.match(appSource,/function clIconSvg\(key\)\{[\s\S]*?typeof clIcon==='function'/, 'the helper guards the global lookup');
   assert.match(appSource,/function wmoIcon\(code\)\{[\s\S]*?clIconSvg\(String\(c\)\)/, 'wmoIcon reads the icon set');
-  assert.match(appSource,/const cloudChip=clBaseTxt\?`<span class="metric-chip">\$\{clIconSvg\('cloud'\)\}/, 'the cloud-base chip uses the cloud icon');
+  // CL-UI-119: the cloud-base chip carries its own `cloud_base` glyph — the same
+  // `cloud` dome next to the terrain `elevation` peak made 雲底 and 海拔 read as
+  // one quantity printed twice.
+  assert.match(appSource,/const cloudChip=clBaseTxt\?`<span class="metric-chip">\$\{clIconSvg\('cloud_base'\)\}/, 'the cloud-base chip uses the cloud_base icon');
   assert.match(appSource,/const clElevPill=clElev!=null\?`<span class="metric-chip">\$\{clIconSvg\('elevation'\)\}/, 'the elevation pill uses the elevation icon');
   // CL-UI-118 L2: the value still carries the eye icon; the cap case now routes
   // through the short 「≥ 24 km」 span (words in the tooltip), so the pin anchors
@@ -241,6 +244,34 @@ test('CL-UI-115 §1: every subject key draws DISTINCT path data (no shared alias
     seen.set(body,key);
   }
   assert.equal(seen.size,keys.length,`one distinct glyph per subject key (${seen.size} of ${keys.length})`);
+});
+
+test('CL-UI-119: cloud_base is its own drawing — the named set carries no duplicate body',()=>{
+  // The owner read the old cloud chip (which rode `cloud`) and the terrain
+  // `elevation` peak as 「the same quantity printed twice」 on one card. The new
+  // glyph must be a REAL drawing, not a copy of a neighbour with a transform —
+  // a transform leaves the path data identical, so the body hash sees it.
+  const bodyOf=k=>{const s=G.clIcon(k);assert.match(s,/^<svg /,`${k}: resolves to an SVG`);return s.slice(s.indexOf('>')+1,s.lastIndexOf('</svg>'));};
+  const cb=bodyOf('cloud_base');
+  assert.ok(cb.length>=40,`cloud_base draws a body of real length (got ${cb.length})`);
+  assert.match(cb,/[MmLlHhVvCcSsQqTtAaZz]\s*-?\d/,'cloud_base draws at least one path command');
+  assert.doesNotMatch(G.clIcon('cloud_base'),/transform=/,'cloud_base is not an existing path plus a transform');
+  for(const other of ['cloud','fog','elevation','weather_overview'])
+    assert.notEqual(cb,bodyOf(other),`cloud_base must not reuse the ${other} drawing`);
+  // A deck ABOVE with a rising arrow BELOW: both halves present.
+  assert.ok((cb.match(/<path /g)||[]).length>=2,'cloud_base draws a cloud outline AND the short upward arrow');
+  assert.ok(!/<line |<polyline /.test(cb),'cloud_base uses the same <path> vocabulary as the rest of the set');
+  // Whole named set: every key draws unique path data. Numeric WMO code keys are
+  // deliberate aliases onto the weather shapes, so they are excluded by name.
+  const named=Object.keys(G.CL_ICONS).filter(k=>!/^\d+$/.test(k));
+  assert.ok(named.length>=70,`the named set is the full vocabulary (got ${named.length})`);
+  const seen=new Map();
+  for(const key of named){
+    const body=bodyOf(key);
+    assert.equal(seen.has(body),false,`${key} draws the same path data as ${seen.get(body)}`);
+    seen.set(body,key);
+  }
+  assert.equal(seen.size,named.length,`one distinct glyph per named key (${seen.size} of ${named.length})`);
 });
 
 test('CL-UI-115 §1: the three dictionary genres that rendered text-only draw real shapes',()=>{

@@ -109,9 +109,13 @@ test('CL-UI-87/94 re-anchor (4): mockup hourly columns — 時間|適合題材|�
   // low+mid+high cloud/LCL/vis each as a labeled kv item
   const kvIdx = appSource.indexOf('const kvHtml=');
   const kv = appSource.slice(kvIdx, appSource.indexOf('let nowAnchorAssigned', kvIdx));
-  for (const key of ['th_temp', 'th_wind', 'th_rh', 'th_clow', 'th_cmid', 'th_chigh', 'th_cloud_base', 'th_vis', 'th_astro']) {
+  for (const key of ['th_temp', 'th_wind', 'th_rh', 'th_clow', 'th_cmid', 'th_chigh', 'th_vis', 'th_astro']) {
     assert.ok(kv.includes('${esc(d().' + key + ')}'), `kv item: ${key}`);
   }
+  // CL-UI-119: cloud base keeps its own kv item and its own glyph prefix — the
+  // label text itself is still the i18n macro, never a hard-coded string.
+  assert.ok(kv.includes('<span class="cap">${clIconSvg(\'cloud_base\')} ${esc(d().th_cloud_base)}</span>'),
+    'kv item: th_cloud_base (cloud_base glyph + i18n label)');
   // CL-UI-94: the retired status cell is gone from the row build entirely
   const rowIdx = appSource.indexOf('rowsHtml.push(`<tr class=');
   const row = appSource.slice(rowIdx, rowIdx + 1400);

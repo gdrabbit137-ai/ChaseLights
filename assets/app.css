@@ -1610,6 +1610,12 @@
    span before the name (the pinned name/colon/window anatomy stays untouched),
    and a summary chip holds glyph + text on one line. */
 .cl-subject-icon{display:inline-flex;align-items:center;color:var(--cl-text-2);margin-right:2px}
+/* CL-UI-119: the cloud-base glyph rides inside a metric LABEL (the modal hourly
+   kv row and the mobile timeline). Same 1em box as everywhere else; the small
+   offset keeps it off the cap text's baseline (the space in the markup provides
+   the gap between glyph and label). */
+#timeline-groups .kv .cl-icon,
+.timeline-mobile-metric .cl-icon{vertical-align:-0.15em}
 .cl-summary-subject{display:inline-flex;align-items:center;gap:2px}
 .metric-chip {
   /* CL-UI-86 (mockup-cards .pill): 22px env pills — bg-2 surface, r-xs, 12px. */

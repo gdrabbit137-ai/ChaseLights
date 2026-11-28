@@ -120,9 +120,13 @@ test('CL-UI-82/94 (6): the ○ 可拍 token IS the verdict — always rendered, 
 
 test('CL-UI-82 (7): detailed-weather <details> — raw values inside, open state preserved', () => {
   const cardBlock = grab("const card=document.createElement('div');card.className=`timeline-mobile-card", 'mobile.appendChild(card);');
-  for (const raw of ['th_vis', 'th_temp', 'th_wind', 'th_rh', 'th_cloud_base', 'th_clow', 'th_cmid', 'th_chigh']) {
+  for (const raw of ['th_vis', 'th_temp', 'th_wind', 'th_rh', 'th_clow', 'th_cmid', 'th_chigh']) {
     assert.ok(cardBlock.includes(`<b>\${d().${raw}}</b>`), `raw metric inside details: ${raw}`);
   }
+  // CL-UI-119: the cloud-base label carries its own glyph INSIDE the same <b>,
+  // keeping the raw value in the details block (the glyph is the only addition).
+  assert.ok(cardBlock.includes('<b>${clIconSvg(\'cloud_base\')} ${d().th_cloud_base}</b>'),
+    'raw metric inside details: th_cloud_base (with the cloud_base glyph)');
   assert.ok(cardBlock.includes('details class="tm-details"'), 'native details element');
   assert.ok(cardBlock.includes('tmDetailsOpen'), 'open attribute restored');
   assert.ok(appSource.includes('const tmRestoreOpen='), 'open-state capture exists');
@@ -148,6 +152,6 @@ test('CL-UI-82 (8): height/scan tokens + raw cap kept OUT of the card face', () 
   assert.ok(!cardBlock.includes('visibilityText(item.visibility)'), 'full cap string never rendered on the card');
   // cache-bust advanced
   assert.equal((indexSource.match(/\?v=clui102/g) || []).length,2, 'feedback-ui at clui102 (app.js + app.css advanced to clui120) (app.js advanced to clui118, CL-UI-110)');
-  assert.equal((indexSource.match(/\?v=clui147/g) || []).length,3, 'app.css + app.js + icons.js at clui147 (CL-UI-115 added the icon set)');
-  assert.match(indexSource, /assets\/app\.js\?v=clui147/);
+  assert.equal((indexSource.match(/\?v=clui148/g) || []).length,3, 'app.css + app.js + icons.js at clui148 (CL-UI-115 added the icon set)');
+  assert.match(indexSource, /assets\/app\.js\?v=clui148/);
 });
