@@ -110,6 +110,8 @@ test('CL-UI-87/94 (3): 4-column group table, 40px rows, mono 時間 anchor, plai
   // CL-UI-118: hourWxText returns HTML (its WMO icon is SVG markup), so the cell
   // must NOT re-escape it — doing so printed the raw <svg …> tag in the table.
   assert.ok(!/esc\(hourWxText\(/.test(appSource), 'the hourly weather line is never escaped a second time');
+  assert.ok(!/esc\(qwxTxt\)/.test(appSource), 'the quick-view weather line is never escaped a second time either');
+  assert.match(appSource, /const qwxTxt=qit\?\[wmoIcon\(qit\.weather_code\),esc\(formatTemp\(qit\.temp\)\)\]/, 'quick view escapes only its text part');
   const wxFnStart = appSource.indexOf('function hourWxText(');
   const wxFnBody = appSource.slice(wxFnStart, appSource.indexOf('\n    }', wxFnStart));
   assert.match(wxFnBody, /bits\.push\(esc\(t\)\)/, 'the temperature text is escaped inside hourWxText');

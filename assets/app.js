@@ -5208,7 +5208,7 @@ const ad2=ad?.slice(5).replace('-', '/'),bd2=bd?.slice(5).replace('-', '/');cons
         });
         let list=entries;
         if(off===0)list=v2RemainingHoursList(entries.map(e=>e.w),localNowMinutes(tz)).map(w=>entries.find(e=>e.w===w));
-        if(list.length){const f=list[0];const qit=(spot.hourly_forecast||[]).find(it=>it&&it.local_date===selDate&&String(it.time||'').slice(-5)===f.w);const qwxTxt=qit?[wmoIcon(qit.weather_code),formatTemp(qit.temp)].filter(Boolean).join(' '):'';qnext=`<span class="q-next">${esc(t.v2_quick_next)}<span class="q-w">${esc(f.w)}</span>${f.nm?' '+esc(f.nm):''}${qwxTxt?` <span class="q-wx">${esc(qwxTxt)}</span>`:''}</span>`;}
+        if(list.length){const f=list[0];const qit=(spot.hourly_forecast||[]).find(it=>it&&it.local_date===selDate&&String(it.time||'').slice(-5)===f.w);const qwxTxt=qit?[wmoIcon(qit.weather_code),esc(formatTemp(qit.temp))].filter(Boolean).join(' '):'';qnext=`<span class="q-next">${esc(t.v2_quick_next)}<span class="q-w">${esc(f.w)}</span>${f.nm?' '+esc(f.nm):''}${qwxTxt?` <span class="q-wx">${qwxTxt}</span>`:''}</span>`;}
       }
       if(!qnext&&place){
         const best=v2BestForSpot(place,spot.timezone);
