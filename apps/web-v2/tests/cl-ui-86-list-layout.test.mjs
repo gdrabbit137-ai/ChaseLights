@@ -37,7 +37,12 @@ const createSpotCardBlock = grab('function createSpotCard', 'function distanceTo
 test('CL-UI-86 (1): cards carry content-visibility:auto + contain-intrinsic-size (mockup 460-card scheme)', () => {
   const card = cssBlock('.card {');
   assert.match(card, /content-visibility:\s*auto/);
-  assert.match(card, /contain-intrinsic-size:\s*auto\s*190px/);
+  // CL-UI-118 A-fix: the placeholder grew from the mockup's 190 px body to 236 px
+  // because every card now carries the reserved access-note strip (+46 px) under
+  // its action row; a shorter placeholder would make a skipped card's box smaller
+  // than its own layers. Same contract, same virtualisation — the estimate tracks
+  // the card's real minimum height.
+  assert.match(card, /contain-intrinsic-size:\s*auto\s*236px/);
   // Grid: 3 columns at the mockup's 1280 shell; ≤768px collapses to one
   // column with the compact 8px gutter.
   const container = cssBlock('.container {');

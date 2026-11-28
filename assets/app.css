@@ -50,6 +50,14 @@
       --cl-card-r-now: 24px;
       --cl-card-r-subject: 30px;
       --cl-card-r-terrain: 32px;
+      /* CL-UI-118 A-fix: the access-note FOOTNOTE strip lives below the action
+         row, outside the layer grid. Its height is RESERVED on every card at
+         multi-column widths, so a card carrying a note hands .card-layers the
+         same height as its note-free neighbours in the row (the note can never
+         steal the flexible subject band and pull terrain/actions upward).
+         Zero below 769 px: one column, no row alignment to protect, and a phone
+         note is allowed to wrap to as many lines as it needs. */
+      --cl-card-r-note: 46px;
     }
     body {
       margin: 0;
@@ -410,7 +418,12 @@
          layout entirely — content-visibility virtualization, copied verbatim
          from the mockup's .card rule. */
       content-visibility:auto;
-      contain-intrinsic-size:auto 190px;
+      /* CL-UI-118 A-fix: the offscreen placeholder grew with the note strip
+         (the five layers + the action row + the reserved strip), so a skipped
+         card is estimated at the real minimum card height instead of the old
+         190 px body — otherwise a skipped card's box is shorter than its own
+         layers and the placeholder geometry the tests sample is nonsense. */
+      contain-intrinsic-size:auto 236px;
     }
     @media (hover:hover) and (pointer:fine) {
       .card:hover {
@@ -470,23 +483,50 @@
     }
     .card-terrain-line .card-metric-chips { flex-wrap:nowrap; justify-content:flex-start; flex:0 0 auto; }
     .card-terrain-line .info-row { margin:0; flex:0 0 auto; }
-    /* CL-UI-118 A-fix (reviewer condition 1): the access note is NOT part of the
-       nowrap terrain line any more — folded in, it was ellipsis-clipped on a
-       phone (tw-074's note needs 466 px inside a 192 px box at 393 px). It now
-       takes its own line BELOW the elevation + astronomy line and wraps to its
-       full length at every width; the terrain row is minmax(…,auto) so only this
-       note's own line grows, never the layer tops the alignment contract pins. */
-    .card-layer-terrain .access-note {
-      margin:var(--cl-sp-1) 0 0;
-      padding:0;
-      display:block;
-      overflow:visible;
-      white-space:normal;
-      overflow-wrap:anywhere;
-      text-overflow:clip;
-      -webkit-line-clamp:none;
-      -webkit-box-orient:initial;
-      line-height:1.45;
+    /* CL-UI-118 A-fix (reviewer condition 1 + the note-row alignment
+       regression): the access note is a FOOTNOTE STRIP after the action row —
+       not a row of the layer grid, not a line of the nowrap terrain line. Two
+       consequences:
+       1. it wraps to its whole length at every width — no clamp, no ellipsis,
+          no `-webkit-line-clamp:2` phone truncation (tw-074 needs 466 px of
+          text inside a 192 px box at 393 px);
+       2. it can never move a layer top. The strip's height is RESERVED on every
+          card (--cl-card-r-note) so a note card and its note-free neighbours in
+          the same grid row hand .card-layers the SAME height. Inside the grid
+          the note's height used to come out of the flexible subject band
+          (minmax(…,1fr)), which dragged that card's terrain + action rows 34 px
+          up out of line with the row. */
+    .card-access-note {
+      flex: 0 0 auto;
+      min-height: var(--cl-card-r-note);
+      color: var(--cl-amber-text);
+      font-size: .79rem;
+    }
+    .card-access-note .access-note {
+      margin: 0;
+      padding: var(--cl-sp-1) 0 0;
+      border-top: 1px dashed color-mix(in srgb, var(--cl-border-strong) 45%, transparent);
+      display: block;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      overflow: visible;
+      text-overflow: clip;
+      -webkit-line-clamp: none;
+      -webkit-box-orient: initial;
+      line-height: 1.4;
+    }
+    /* The reserve has to cover the whole note at the width it is reserved for:
+       tw-074's 49-character note is two lines at a 1280 shell (378 px card) and
+       three lines once the column narrows (~350 px). A note that outgrows its
+       reserve would push its own card's layers up again, so the reserve is
+       sized per column width and the suite asserts the note fits it
+       (cl-ui-118 A (5)) — a longer note must bump the token, not the layout. */
+    @media (min-width: 769px) and (max-width: 1279px) {
+      :root { --cl-card-r-note: 66px; }
+    }
+    @media (max-width: 768px) {
+      /* one column: no row to align, so the note simply takes its own height */
+      :root { --cl-card-r-note: 0px; }
     }
     .card-header { display:flex; justify-content:space-between; align-items:center; gap:var(--cl-sp-3); margin-bottom:var(--cl-sp-2); }
     .card-header-actions { display:flex; align-items:center; gap:7px; flex:0 0 auto; }
@@ -635,11 +675,6 @@
     .card-meta-row + .forecast-meta-row { margin-top:-1px; }
     .card-meta-astro,
     .card-meta-dark { color:var(--cl-blue); }
-    .card-meta-access {
-      margin-top:2px !important;
-      padding-top:5px;
-      border-top:1px dashed color-mix(in srgb, var(--cl-border-strong) 45%, transparent);
-    }
     @media (min-width:641px) {
       .card-secondary-meta .info-row {
         font-size:.79rem;
@@ -653,7 +688,6 @@
       .card-secondary-meta { gap:3px; padding-top:6px; }
       .local-time-row { font-size:.76rem; color:var(--cl-text-3); }
       .card-meta-row { font-size:.76rem; }
-      .card-meta-access { padding-top:4px; }
       .local-time-label { display:none; }
       .cloud-base-unit-long { display:none; }
       .cloud-base-unit-short { display:inline; }
@@ -677,11 +711,14 @@
       .tags-wrapper { margin-bottom: 6px; }
       .theme-winner { margin-bottom: 3px; }
       .info-row { margin: 3px 0; }
-      .access-note {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
+      /* CL-UI-118 A-fix: the note is NEVER clamped on a phone either — it wraps
+         to its whole length (the 2-line clamp is what clipped tw-074). */
+      .card-access-note { font-size: .76rem; }
+      .card-access-note .access-note {
+        display: block;
+        -webkit-line-clamp: none;
+        overflow: visible;
+        white-space: normal;
         line-height: 1.45;
       }
       .card-footer-tools { margin-top: auto; }

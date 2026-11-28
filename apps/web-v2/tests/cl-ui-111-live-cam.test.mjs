@@ -126,8 +126,11 @@ test('CL-UI-111 (S2): loader rides the single gated render; fail-soft to 3 butto
 });
 
 test('CL-UI-111 (S3): 4th card button — thumbnail bg + red dot, mounted after 天氣圖', () => {
+  // CL-UI-118 A-fix: the action row is followed by the access-note strip; the LIVE
+  // button still closes the 題材/地圖/天氣圖 row (and the strip follows the row,
+  // never precedes it).
   assert.match(appSource,
-    /\$\{toolButtonInner\(d\(\)\.radar_link,'map'\)\}<\/a>\$\{liveCamBtnHtml\(spot\)\}<\/div><\/div>`;/,
+    /\$\{toolButtonInner\(d\(\)\.radar_link,'map'\)\}<\/a>\$\{liveCamBtnHtml\(spot\)\}<\/div><\/div><div class="card-access-note" data-note-strip>/,
     'LIVE mounts as the 4th button in the 題材/地圖/天氣圖 row');
   assert.match(appSource, /class="tool-link tool-live" data-live-btn data-live-place="\$\{esc\(spot\.spot_id\)\}"/);
   assert.match(appSource, /<img src="\$\{esc\(cam\.thumb_url\)\}" alt="" loading="lazy" decoding="async">/,

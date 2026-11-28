@@ -188,6 +188,29 @@ browserTest('CL-UI-118 A (1): card DOM order is identification → now → subje
   })()`);
   assert.equal(nesting.ownLayer, true, 'the now row is not a descendant of the subject block');
   assert.equal(nesting.nowFirst, true, 'the now row precedes the subject block in document order');
+  // CL-UI-118 A-fix: the access-note strip is the card's LAST block — after the
+  // action row and outside .card-layers, so it cannot push a layer top around.
+  const strip = await evaljs(`(() => {
+    const cards = [...document.querySelectorAll('#spots-container .card')];
+    const out = [];
+    for (const c of cards) {
+      const s = c.querySelector('.card-access-note');
+      const layers = c.querySelector('.card-layers');
+      const actions = c.querySelector('[data-layer="actions"]');
+      out.push({id: c.getAttribute('data-place-id'), hasStrip: !!s,
+        outsideGrid: !!(s && layers && !layers.contains(s)),
+        afterActions: !!(s && actions && (actions.compareDocumentPosition(s) & Node.DOCUMENT_POSITION_FOLLOWING)),
+        lastChild: !!(s && c.lastElementChild === s)});
+    }
+    return out;
+  })()`);
+  assert.ok(strip.length > 0, 'cards measured for the note strip');
+  for (const s of strip) {
+    assert.equal(s.hasStrip, true, `${s.id}: every card carries the note strip block`);
+    assert.equal(s.outsideGrid, true, `${s.id}: the strip is outside .card-layers (the aligned grid)`);
+    assert.equal(s.afterActions, true, `${s.id}: the strip follows the action row`);
+    assert.equal(s.lastChild, true, `${s.id}: the strip is the card's last block`);
+  }
 });
 
 // ------------------------------------------------------------- 2. one bell only
@@ -437,22 +460,27 @@ browserTest('CL-UI-118 A (4): elevation + astronomy never share an element with 
   // The layer geometry is pinned in CSS as a single internal grid (not margins).
   assert.match(CSS, /\.card-layers\s*\{[^}]*display:grid/);
   assert.match(CSS, /grid-template-rows:\s*\n?\s*var\(--cl-card-r-id\)\s*\n?\s*var\(--cl-card-r-now\)\s*\n?\s*minmax\(var\(--cl-card-r-subject\),1fr\)\s*\n?\s*minmax\(var\(--cl-card-r-terrain\),auto\)/,
-    'the four rows are one grid: two fixed heights + the flexible subject band + the terrain row that can only grow for its own access-note line');
+    'the four rows are one grid: two fixed heights + the flexible subject band + the terrain row that can only grow for its own terrain line');
 });
 
 // ------------------------------------- 4b. the access note is fully readable
-// CL-UI-118 A-fix (reviewer condition 1): at 393 px the note was folded into the
-// nowrap terrain line and ellipsis-clipped (tw-074: 466 px of text inside a 192 px
-// box). It now sits on its OWN line BELOW the elevation + astronomy line and wraps
-// to its full length; measured on the shipped page at both widths.
+// CL-UI-118 A-fix (reviewer condition 1, second pass): at 393 px the note was
+// folded into the nowrap terrain line and ellipsis-clipped (tw-074: 466 px of
+// text inside a 192 px box); the first fix moved it onto its own line INSIDE the
+// terrain layer, and that line's `minmax(…,auto)` growth pulled the whole layer
+// upward (a 34 px terrain-top spread on every row holding a note). It is now a
+// FOOTNOTE STRIP after the action row, outside the layer grid entirely, and it
+// still wraps to its full length at both widths.
 async function measureNotes() {
   return evaljs(`(() => {
     const out = [];
     for (const c of document.querySelectorAll('#spots-container .card')) {
-      const terrain = c.querySelector('[data-layer="terrain"]');
-      const note = terrain && terrain.querySelector('.access-note');
+      const note = c.querySelector('.access-note');
       if (!note) continue;
-      const line = terrain.querySelector('.card-terrain-line');
+      const strip = c.querySelector('.card-access-note');
+      const actions = c.querySelector('[data-layer="actions"]');
+      const terrain = c.querySelector('[data-layer="terrain"]');
+      const line = terrain && terrain.querySelector('.card-terrain-line');
       const r = note.getBoundingClientRect();
       const cs = getComputedStyle(note);
       out.push({
@@ -463,8 +491,12 @@ async function measureNotes() {
         scrollH: note.scrollHeight, clientH: note.clientHeight,
         whiteSpace: cs.whiteSpace, overflowWrap: cs.overflowWrap, textOverflow: cs.textOverflow,
         lineClamp: cs.webkitLineClamp, lh: parseFloat(cs.lineHeight) || 0,
-        inTerrainLine: !!(line && line.contains(note)),
-        belowLine: line ? r.top >= line.getBoundingClientRect().bottom - 1 : null,
+        // Outside EVERY aligned layer — the strip is a sibling of .card-layers.
+        inAnyLayer: [...c.querySelectorAll('[data-layer]')].some(el => el.contains(note)),
+        insideLayerGrid: !!(c.querySelector('.card-layers') || {contains: () => false}).contains(note),
+        afterActions: actions ? r.top >= actions.getBoundingClientRect().bottom - 1 : null,
+        stripH: strip ? Math.round(strip.getBoundingClientRect().height) : null,
+        stripMinH: strip ? parseFloat(getComputedStyle(strip).minHeight) || 0 : null,
         cardW: Math.round(c.getBoundingClientRect().width),
         lineH: line ? Math.round(line.getBoundingClientRect().height) : null,
         lineScrollH: line ? line.scrollHeight : null, lineClientH: line ? line.clientHeight : null,
@@ -476,8 +508,9 @@ async function measureNotes() {
 function assertNotesReadable(notes, where) {
   assert.ok(notes.length >= 1, `${where}: at least one card carries an access note (${notes.length})`);
   for (const n of notes) {
-    assert.equal(n.inTerrainLine, false, `${where} ${n.id}: the note is not inside the nowrap terrain line`);
-    assert.equal(n.belowLine, true, `${where} ${n.id}: the note sits on its own line below elevation + astronomy`);
+    assert.equal(n.inAnyLayer, false, `${where} ${n.id}: the note lives outside every aligned layer (identification/now/subject/terrain/actions)`);
+    assert.equal(n.insideLayerGrid, false, `${where} ${n.id}: and outside the layer grid itself — it cannot move a layer top`);
+    assert.equal(n.afterActions, true, `${where} ${n.id}: the note sits after the action row it follows in the DOM`);
     assert.equal(n.whiteSpace, 'normal', `${where} ${n.id}: the note wraps (white-space ${n.whiteSpace})`);
     assert.equal(n.textOverflow, 'clip', `${where} ${n.id}: the note is never ellipsised (${n.textOverflow})`);
     assert.equal(n.lineClamp, 'none', `${where} ${n.id}: the note is never line-clamped (${n.lineClamp})`);
@@ -485,6 +518,9 @@ function assertNotesReadable(notes, where) {
       `${where} ${n.id}: the full ${n.chars}-char note fits its ${n.clientW}px box (needs ${n.scrollW}px)`);
     assert.ok(n.scrollH <= n.clientH + 1 || n.scrollW <= n.clientW + 1, `${where} ${n.id}: no vertical clipping`);
     assert.ok(n.h >= 20, `${where} ${n.id}: the note keeps a readable line box (${n.h}px)`);
+    // Where a strip is reserved (multi-column grid) the note must FIT it — a
+    // note taller than the reserve would push its own card's layers up again.
+    assert.ok(n.stripH >= n.h, `${where} ${n.id}: the note box (${n.h}px) fits its reserved strip (${n.stripH}px)`);
   }
   // The terrain line itself is still the fixed, single-line elevation + astronomy row.
   for (const n of notes) {
@@ -513,7 +549,12 @@ browserTest('CL-UI-118 A (4b): the access note is fully readable at 393 px and a
 });
 
 // --------------------------------------------------------- 5. cross-card alignment
-browserTest('CL-UI-118 A (5): cards in the same grid row align every layer within 1 px (1440×900)', {timeout:240000}, async () => {
+// CL-UI-118 A-fix (reviewer condition 1, second pass): the sampled row MUST be a
+// row that actually carries an access note — that is where the regression lived,
+// and the old test sampled the first row of the list, which has none, so it
+// passed on a clean row while note rows were 34 px out. A list with no note at
+// all now fails loudly instead of silently sampling a clean row.
+browserTest('CL-UI-118 A (5): a row that CARRIES an access note aligns every layer within 1 px (1440×900)', {timeout:240000}, async () => {
   await load(1440, 900);
   const geo = await evaljs(`(() => {
     const cards = [...document.querySelectorAll('#spots-container .card')];
@@ -523,10 +564,13 @@ browserTest('CL-UI-118 A (5): cards in the same grid row align every layer withi
         const r = el.getBoundingClientRect();
         t[el.getAttribute('data-layer')] = {top: Math.round(r.top * 100) / 100, h: Math.round(r.height)};
       }
+      const strip = c.querySelector('.card-access-note');
       return {id: c.getAttribute('data-place-id'), top: Math.round(c.getBoundingClientRect().top), layers: t,
               subjRows: c.querySelectorAll('.cl-subject-row').length,
               subjText: ((c.querySelector('[data-layer="subject"]') || {}).textContent || '').replace(/\\s+/g, ' ').trim(),
-              subjH: t.subject ? t.subject.h : 0};
+              subjH: t.subject ? t.subject.h : 0,
+              note: (() => { const n = c.querySelector('.access-note'); return n ? (n.textContent || '').trim().length : 0; })(),
+              stripH: strip ? Math.round(strip.getBoundingClientRect().height) : null};
     });
     return {rows, width: document.documentElement.clientWidth};
   })()`);
@@ -536,36 +580,71 @@ browserTest('CL-UI-118 A (5): cards in the same grid row align every layer withi
     if (!groups.has(r.top)) groups.set(r.top, []);
     groups.get(r.top).push(r);
   }
-  const row = [...groups.values()].filter(g => g.length >= 3).sort((a, b) => b.length - a.length)[0];
-  assert.ok(row, `a grid row of ≥3 cards must exist (groups: ${[...groups.values()].map(g => g.length).join(',')})`);
+  const allRows = [...groups.values()];
   assert.ok(geo.width >= 1000, `desktop grid expected, got ${geo.width}px`);
-  const spread = {};
+  // The row under test: a full grid row that contains an access-note card.
+  const noteRows = allRows.filter(g => g.length >= 3 && g.some(c => c.note > 0));
+  assert.ok(noteRows.length >= 1,
+    `the artifact must contain a grid row with an access-note card — the alignment regression only shows up there `
+    + `(rows with notes: ${allRows.filter(g => g.some(c => c.note > 0)).length}; note cards: ${geo.rows.filter(c => c.note > 0).map(c => c.id).join(',') || 'none'})`);
+  const row = noteRows[0];
+  const spreadOf = g => {
+    const out = {};
+    for (const layer of LAYERS) {
+      const tops = g.map(c => c.layers[layer] && c.layers[layer].top).filter(v => typeof v === 'number');
+      assert.equal(tops.length, g.length, `${layer}: every card in the row carries the layer`);
+      out[layer] = Math.round((Math.max(...tops) - Math.min(...tops)) * 100) / 100;
+    }
+    return out;
+  };
+  const spread = spreadOf(row);
   for (const layer of LAYERS) {
-    const tops = row.map(c => c.layers[layer] && c.layers[layer].top).filter(v => typeof v === 'number');
-    assert.equal(tops.length, row.length, `${layer}: every card in the row carries the layer`);
-    spread[layer] = Math.round((Math.max(...tops) - Math.min(...tops)) * 100) / 100;
     assert.ok(spread[layer] <= 1,
-      `${layer}: top edges must agree within 1 px across the row (spread ${spread[layer]} px; ${JSON.stringify(tops)})`);
+      `${layer}: top edges must agree within 1 px across a NOTE row (spread ${spread[layer]} px; ${JSON.stringify(row.map(c => c.layers[layer] && c.layers[layer].top))})`);
   }
   // The row must be non-vacuous: the cards show DIFFERENT subject content, and
   // their bands are nevertheless ONE shared height (the alignment claim). Both
   // halves are required — either alone is the tautology this ticket replaced.
   const content = new Set(row.map(c => c.subjText));
   const heights = new Set(row.map(c => c.subjH));
-  console.log('CL-UI-118 alignment @1440×900: cards=' + row.length
+  // The note strip is the same height on every card of the row — that is the
+  // mechanism that keeps the layers aligned, so it is asserted, not assumed.
+  const strips = new Set(row.map(c => c.stripH));
+  console.log('CL-UI-118 alignment @1440×900 NOTE row: cards=' + row.length
+    + ' notes=' + JSON.stringify(row.map(c => c.note))
     + ' subjectRows=' + JSON.stringify(row.map(c => c.subjRows))
     + ' subjectBand=' + JSON.stringify(row.map(c => c.subjH))
+    + ' strips=' + JSON.stringify(row.map(c => c.stripH))
     + ' spread=' + JSON.stringify(spread));
   assert.ok(row.length >= 3, 'three or more cards measured');
   assert.ok(content.size > 1, `the measured row shows different subject content per card (${content.size} distinct)`);
   assert.equal(heights.size, 1,
     `the subject band is ONE shared height across the row (got ${JSON.stringify([...heights])})`);
+  assert.equal(strips.size, 1,
+    `the note strip is ONE shared height across the row (got ${JSON.stringify([...strips])})`);
   // Differing row COUNTS must exist somewhere in the list — otherwise the shared
   // band would only be an artefact of identical cards.
-  const allRows = [...groups.values()];
   const mixed = allRows.filter(g => new Set(g.map(c => c.subjRows)).size > 1);
   assert.ok(mixed.length >= 1,
     `the list mixes different subject-row counts within one grid row (counts: ${JSON.stringify(allRows.map(g => g.map(c => c.subjRows)))})`);
+  // …and a clean row (no note anywhere in it) still aligns, and so does a row
+  // that mixes 1/2/3 subject rows: the note strip must not have bought the note
+  // row's alignment with a different row's.
+  const cleanRow = allRows.filter(g => g.length >= 3 && g.every(c => c.note === 0))[0];
+  assert.ok(cleanRow, 'a note-free grid row exists to compare against');
+  const cleanSpread = spreadOf(cleanRow);
+  for (const layer of LAYERS) {
+    assert.ok(cleanSpread[layer] <= 1, `${layer}: a CLEAN row keeps the 1 px contract (spread ${cleanSpread[layer]} px)`);
+  }
+  const mixedRow = mixed.filter(g => g.length >= 3)[0];
+  const mixedSpread = mixedRow ? spreadOf(mixedRow) : null;
+  if (mixedRow) {
+    for (const layer of LAYERS) {
+      assert.ok(mixedSpread[layer] <= 1, `${layer}: a row MIXING subject-row counts keeps the 1 px contract (spread ${mixedSpread[layer]} px)`);
+    }
+  }
+  console.log('CL-UI-118 alignment @1440×900 CLEAN row: subjectRows=' + JSON.stringify(cleanRow.map(c => c.subjRows)) + ' spread=' + JSON.stringify(cleanSpread));
+  console.log('CL-UI-118 alignment @1440×900 MIXED row: subjectRows=' + JSON.stringify(mixedRow ? mixedRow.map(c => c.subjRows) : []) + ' spread=' + JSON.stringify(mixedSpread));
   console.log('CL-UI-118 mixed rows: ' + JSON.stringify(mixed.slice(0, 3).map(g => g.map(c => c.subjRows))));
   // The placeholder band is asserted on a SYNTHESISED card model below (5c):
   // today's bundle happens to have 0 cards without subject rows, so finding one
@@ -659,16 +738,25 @@ browserTest('CL-UI-118 A (5b): the same contract holds at 393×852 (single colum
     const layers = [...c.querySelectorAll('[data-layer]')].map(e => e.getAttribute('data-layer'));
     const line = c.querySelector('.card-terrain-line');
     const now = c.querySelector('[data-layer="now"]');
+    const strips = cards.map(x => { const s = x.querySelector('.card-access-note');
+      return {id: x.getAttribute('data-place-id'), has: !!s, outside: !!(s && !x.querySelector('.card-layers').contains(s))}; });
     return {layers, nowrap: getComputedStyle(line).whiteSpace,
             terrainBelowNow: line.getBoundingClientRect().top > now.getBoundingClientRect().top,
             cardWidth: Math.round(c.getBoundingClientRect().width),
             viewport: document.documentElement.clientWidth,
+            strips,
             overflowX: document.documentElement.scrollWidth - document.documentElement.clientWidth};
   })()`);
   assert.deepEqual(shape.layers, LAYERS, 'phone: the same four layers + action row');
   assert.equal(shape.nowrap, 'nowrap', 'phone: the terrain line still never wraps');
   assert.equal(shape.terrainBelowNow, true, 'phone: terrain sits below the now row');
   assert.ok(shape.overflowX <= 1, `phone: the fixed rows introduce no horizontal overflow (${shape.overflowX}px)`);
+  // CL-UI-118 A-fix: the note strip is not a phone-only corner case — it is the
+  // card's last block at 393 px too, and it is never clamped there.
+  for (const s of shape.strips) {
+    assert.equal(s.has, true, `phone ${s.id}: the note strip block exists`);
+    assert.equal(s.outside, true, `phone ${s.id}: the strip stays outside the layer grid`);
+  }
 });
 
 // ============================ L3 (sub-commit B): the headline subject line
