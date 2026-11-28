@@ -9,7 +9,10 @@
       "confirmed_by is the owner ticket that asserted the window; a table row without confirmed_by is not authoritative."
     ],
     "provenance_rules": [
-      "Hours must name the page they were read from (URL + retrieved_at). 'Well-known' opening hours are not a source and must not be entered here.",
+      "Two provenance shapes are accepted and every row must say which one it is via source_kind. There is no third shape, and 'well-known' opening hours are never one of them.",
+      "sourced_venue_page: the hours were READ from a page and the row names it — URL + retrieved_at. A row may not claim this kind without a URL.",
+      "owner_asserted: the owner asserted the window in a ticket and no page was read for it. Accepted as a source ONLY when the row carries BOTH confirmed_by (the asserting ticket id) and asserted_at (the date the owner asserted it); source_kind MUST then be exactly owner_asserted, and source must state plainly that no URL was supplied and none is invented. Such a row is a ticket assertion, not URL-verified provenance: do not cite it as one, and convert it to sourced_venue_page if/when an official page is read.",
+      "A row that claims sourced_venue_page without a URL, or owner_asserted without confirmed_by + asserted_at, is a policy violation — not a judgement call.",
       "The evaluation gate judges the hour on the PLACE's local clock, derived from the place coordinate's UTC offset. The `timezone` field on an entry is NOT read by the gate: it is kept for future use and labelled timezone_unused=true so the next reader does not trust it as the gate's clock."
     ],
     "owner_ticket": "CL-PHYS-03",
@@ -45,12 +48,55 @@
       "source_kind": "owner_asserted",
       "source": "Owner-supplied in the CL-PHYS-04 ticket (2026-11-28): the venue is open 08:00-17:00 local. No page URL was supplied for this window and NONE IS INVENTED here: this row is an owner assertion (source_kind owner_asserted), not a sourced venue page. Replace it with a sourced_venue_page row if/when an official page is read.",
       "retrieved_at": "2026-11-28",
+      "asserted_at": "2026-11-28",
       "confirmed_by": "CL-PHYS-04",
       "owner_assertion_note": "Hours came from the owner in the CL-PHYS-04 ticket, not from a fetched page. Do not treat this row as URL-verified provenance.",
       "notes_i18n": {
         "zh-TW": "內洞國家森林遊樂區開放 08:00–17:00（當地時間；由業主於 CL-PHYS-04 工單提供，未附網址、未臆造來源）。17:00 起（含 17:00 小時桶，本表採 [open, close) 半開區間）即不得推薦；瀑布題材另有 CL-PHYS-04 日照閘門擋掉日落後時段。",
         "en": "Neidong National Forest Recreation Area is open 08:00-17:00 local (supplied by the owner in the CL-PHYS-04 ticket; no URL was provided and none is invented). From 17:00 on — including the 17:00 hour bucket, because this table is half-open [open, close) — no hour is recommended. The waterfall subject is additionally covered by the CL-PHYS-04 daylight gate after sunset.",
         "ja": "内洞国家森林遊楽区は08:00–17:00（現地時間、CL-PHYS-04 チケットでオーナー提供。URLは無く、出典を捏造しない）。17:00以降（17:00の時間バケツを含む。本表は[open, close)の半開区間）は推奨しない。滝題材はCL-PHYS-04の日照ゲートも適用される。"
+      }
+    },
+    "tw-151-P02": {
+      "venue": "內洞國家森林遊樂區（螢火蟲）",
+      "place_id": "tw-151",
+      "open": "08:00",
+      "close": "17:00",
+      "timezone": "Asia/Taipei",
+      "timezone_unused": true,
+      "timezone_note": "UNUSED by the evaluation gate: EVALGATE-venue-hours judges the LOCAL HOUR START from the place coordinate's UTC offset, not from this field. Kept for future use only; do not read it as the gate's clock.",
+      "source_kind": "owner_asserted",
+      "source": "Same CL-PHYS-04 owner-asserted park window as tw-151-P01 (open 08:00-17:00 local, 2026-11-28). No page URL was supplied and NONE IS INVENTED here: owner assertion (source_kind owner_asserted), not a sourced venue page.",
+      "retrieved_at": "2026-11-28",
+      "asserted_at": "2026-11-28",
+      "confirmed_by": "CL-PHYS-04",
+      "owner_assertion_note": "Hours came from the owner in the CL-PHYS-04 ticket, not from a fetched page. Do not treat this row as URL-verified provenance.",
+      "gate_consequence_note": "The venue window gates EVERY opportunity at this place, including this one, whose genre is firefly — a night subject. Under the asserted 08:00-17:00 window no hour of a firefly (dusk/night) subject can pass the venue gate, so this opportunity is currently suppressed rather than recommended. That is the honest consequence of the owner's assertion and is deliberately NOT worked around here (no genre exemption, no invented dusk window): if the firefly subject should publish, the owner must supply the actual dusk entry hours or the venue's night-access policy.",
+      "notes_i18n": {
+        "zh-TW": "內洞（螢火蟲題材）同樣受 08:00–17:00 開放時間限制（CL-PHYS-04 工單業主提供，未附網址）。螢火蟲屬夜間題材，在 17:00 關園的條件下目前不會被推薦；此為業主主張時間的直接結果，未以例外方式繞過。",
+        "en": "Neidong firefly subject is under the same 08:00-17:00 window (owner-supplied in CL-PHYS-04; no URL). Firefly is a night subject, so with a 17:00 close it is currently not recommended — the direct consequence of the owner's assertion, not worked around.",
+        "ja": "内洞（ホタル題材）も同じ08:00–17:00の開園時間（CL-PHYS-04 でオーナー提供、URLなし）。ホタルは夜間題材のため、17:00閉園では現状推奨されない。これはオーナー主張の直接の結果であり、例外扱いしていない。"
+      }
+    },
+    "tw-151-P03": {
+      "venue": "內洞國家森林遊樂區（霧林）",
+      "place_id": "tw-151",
+      "open": "08:00",
+      "close": "17:00",
+      "timezone": "Asia/Taipei",
+      "timezone_unused": true,
+      "timezone_note": "UNUSED by the evaluation gate: EVALGATE-venue-hours judges the LOCAL HOUR START from the place coordinate's UTC offset, not from this field. Kept for future use only; do not read it as the gate's clock.",
+      "source_kind": "owner_asserted",
+      "source": "Same CL-PHYS-04 owner-asserted park window as tw-151-P01 (open 08:00-17:00 local, 2026-11-28). No page URL was supplied and NONE IS INVENTED here: owner assertion (source_kind owner_asserted), not a sourced venue page.",
+      "retrieved_at": "2026-11-28",
+      "asserted_at": "2026-11-28",
+      "confirmed_by": "CL-PHYS-04",
+      "owner_assertion_note": "Hours came from the owner in the CL-PHYS-04 ticket, not from a fetched page. Do not treat this row as URL-verified provenance.",
+      "gate_consequence_note": "Without this row the misty_forest subject was ungated by venue hours and could publish a 06:00-07:00 hour before the park opens. The 08:00 open now closes those buckets.",
+      "notes_i18n": {
+        "zh-TW": "內洞（霧林題材）同受 08:00–17:00 開放時間限制（CL-PHYS-04 工單業主提供，未附網址）。08:00 之前（如 06:00–07:00）與 17:00 起的小時桶皆不得推薦。",
+        "en": "Neidong misty-forest subject is under the same 08:00-17:00 window (owner-supplied in CL-PHYS-04; no URL). Hour buckets before 08:00 (e.g. 06:00-07:00) and from 17:00 on are never recommended.",
+        "ja": "内洞（霧林題材）も同じ08:00–17:00の開園時間（CL-PHYS-04 でオーナー提供、URLなし）。08:00より前（例：06:00–07:00）と17:00以降の時間バケツは推奨しない。"
       }
     }
   }

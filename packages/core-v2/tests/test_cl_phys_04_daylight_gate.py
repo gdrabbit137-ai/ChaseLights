@@ -159,10 +159,16 @@ class GenreScopeTests(unittest.TestCase):
     """The gate is injected for daytime-only genres and for nothing else."""
 
     DAYTIME = ("waterfall", "seasonal_plant", "mountain_view",
-               "geological_landform", "misty_forest", "reflection", "overlook")
+               "geological_landform", "misty_forest", "reflection", "overlook",
+               "overcast_soft", "snow_scene")
     NIGHT = ("night_sky", "star_trails", "moonlit_scene", "city_night",
              "blue_hour_city", "aurora", "sunset", "sunrise", "golden_hour",
              "alpenglow", "firefly", "blue_tears")
+
+    # Genres present in the shipped catalogue with no template document:
+    # deliberately NOT gated (residual documented next to the frozenset in
+    # evaluate_batch.py). Listed so an accidental addition is caught too.
+    NO_TEMPLATE_UNGATED = ("drift_ice", "snow_ice", "tidal")
 
     def test_mandated_daytime_genres_are_gated(self):
         for genre in self.DAYTIME:
@@ -170,6 +176,53 @@ class GenreScopeTests(unittest.TestCase):
             gates = eb.daylight_gates_for({"genre_template": genre})
             self.assertEqual([g["metric"] for g in gates],
                              [eb.DAYLIGHT_GATE_METRIC], genre)
+
+    def test_genre_set_is_exactly_the_nine_daytime_genres(self):
+        # Pins the whole set, so BOTH a silent deletion and a silent addition of
+        # a tenth genre fail here rather than shipping ungated/over-gated.
+        self.assertEqual(len(self.DAYTIME), 9)
+        self.assertEqual(eb.DAYLIGHT_ONLY_GENRES, frozenset(self.DAYTIME))
+
+    def test_overcast_soft_and_snow_scene_are_gated(self):
+        # These two have no dedicated fixture elsewhere: deleting them from the
+        # frozenset was previously invisible to the suite.
+        for genre in ("overcast_soft", "snow_scene"):
+            self.assertIn(genre, eb.DAYLIGHT_ONLY_GENRES, genre)
+            gates = eb.daylight_gates_for({"genre_template": genre})
+            self.assertEqual([g["metric"] for g in gates],
+                             [eb.DAYLIGHT_GATE_METRIC], genre)
+            # And the gate is load-bearing, not merely present: the dark verdict
+            # is what stops the hour, on the same predicate as the waterfall.
+            verdict, detail = eb.phys_gate_verdict(
+                gates[0],
+                {"daylight_state": {"state": "AVAILABLE", "value": "dark",
+                                    "sun_altitude_deg": -20.0}},
+                local_start_min=21 * 60)
+            self.assertEqual(verdict, "FAIL", genre)
+            self.assertIn("DAYLIGHT_SUN_BELOW_HORIZON", detail)
+
+    def test_removing_any_daytime_genre_from_the_set_fails(self):
+        # Mutation guard: every one of the nine is individually load-bearing.
+        # Removing a genre from the frozenset must strip its gate, which is
+        # exactly what the assertions above forbid.
+        for genre in self.DAYTIME:
+            mutated = eb.DAYLIGHT_ONLY_GENRES - {genre}
+            with mock.patch.object(eb, "DAYLIGHT_ONLY_GENRES", mutated):
+                self.assertEqual(
+                    eb.daylight_gates_for({"genre_template": genre}), [],
+                    f"{genre} survived its own removal from the set")
+                self.assertNotIn(genre, eb.DAYLIGHT_ONLY_GENRES)
+            # Unpatched: the gate is back.
+            self.assertEqual(
+                [g["metric"] for g in
+                 eb.daylight_gates_for({"genre_template": genre})],
+                [eb.DAYLIGHT_GATE_METRIC], genre)
+
+    def test_genres_without_a_template_are_ungated_by_design(self):
+        for genre in self.NO_TEMPLATE_UNGATED:
+            self.assertNotIn(genre, eb.DAYLIGHT_ONLY_GENRES, genre)
+            self.assertEqual(eb.daylight_gates_for({"genre_template": genre}),
+                             [], genre)
 
     def test_night_and_dusk_genres_are_never_gated(self):
         for genre in self.NIGHT:
@@ -199,6 +252,11 @@ class RealPathWaterfallTests(unittest.TestCase):
     OID = "tw-151-P01"
 
     def run_main(self):
+        bundle = self.run_bundle()
+        return next(o for place in bundle["places"]
+                    for o in place["opportunities"] if o["opportunity_id"] == self.OID)
+
+    def run_bundle(self):
         scratch = Path(tempfile.mkdtemp(prefix="cl-phys04-"))
         artifact = daylight_artifact(self.START, self.HOURS, clear_weather)
 
@@ -220,8 +278,7 @@ class RealPathWaterfallTests(unittest.TestCase):
                 mock.patch.object(sys, "argv", argv):
             eb.main()
         bundle = json.loads(out.read_text(encoding="utf-8"))
-        return next(o for place in bundle["places"]
-                    for o in place["opportunities"] if o["opportunity_id"] == self.OID)
+        return bundle
 
     def day(self, opportunity, iso_date):
         return next(d for d in opportunity["days"] if d["local_date"] == iso_date)
@@ -274,6 +331,27 @@ class RealPathWaterfallTests(unittest.TestCase):
         metrics = [c["metric"] for c in day["conditions"]]
         self.assertIn(eb.DAYLIGHT_GATE_METRIC, metrics)
 
+    def test_no_tw151_opportunity_publishes_before_0800(self):
+        # P03 (misty_forest) is NOT covered by the daylight gate's night hours
+        # in the way the waterfall is — its risk is the 06:00-07:00 hour being
+        # bright but BEFORE the park opens. All three rows share the window, so
+        # all three must be free of pre-08:00 and post-17:00 good hours.
+        bundle = self.run_bundle()
+        opportunities = [o for place in bundle["places"]
+                         if place["place_id"] == "tw-151"
+                         for o in place["opportunities"]]
+        self.assertEqual(sorted(o["opportunity_id"] for o in opportunities),
+                         ["tw-151-P01", "tw-151-P02", "tw-151-P03"])
+        for opportunity in opportunities:
+            oid = opportunity["opportunity_id"]
+            for day in opportunity["days"]:
+                good = set(day["good_hours"])
+                self.assertFalse(
+                    {h for h in good if h < "08:00" or h[:2] >= "17"}, (oid, day))
+                self.assertNotIn("17:00", good, oid)
+                metrics = [c["metric"] for c in day["conditions"]]
+                self.assertIn(eb.VENUE_HOURS_METRIC, metrics, oid)
+
 
 class RealPathNightGenreTests(unittest.TestCase):
     """star_trails at 大雪山 still has satisfied hours well after dark."""
@@ -319,6 +397,11 @@ class RealPathNightGenreTests(unittest.TestCase):
 class VenueHoursEntryTests(unittest.TestCase):
     """The owner-asserted 內洞 window, read from the shipped table."""
 
+    # Every opportunity at the place shares the one park window: P01 (waterfall),
+    # P02 (firefly) and P03 (misty_forest). P03 is the one that used to publish
+    # 06:00-07:00 before the park opens.
+    IDS = ("tw-151-P01", "tw-151-P02", "tw-151-P03")
+
     def setUp(self):
         self.venues = eb.load_venue_hours()
         self.entry = self.venues["tw-151-P01"]
@@ -332,6 +415,44 @@ class VenueHoursEntryTests(unittest.TestCase):
         # The owner supplied the hours in the ticket: no URL is invented.
         self.assertNotIn("http", self.entry["source"].lower())
         self.assertIn("CL-PHYS-04", self.entry["source"])
+
+    def test_every_tw151_opportunity_shares_the_one_window(self):
+        windows = set()
+        for oid in self.IDS:
+            self.assertIn(oid, self.venues, oid)
+            row = self.venues[oid]
+            self.assertEqual((row["open"], row["close"]), ("08:00", "17:00"), oid)
+            self.assertEqual(row["source_kind"], "owner_asserted", oid)
+            self.assertEqual(row["confirmed_by"], "CL-PHYS-04", oid)
+            self.assertEqual(row["asserted_at"], "2026-11-28", oid)
+            self.assertEqual(row["place_id"], "tw-151", oid)
+            self.assertNotIn("http", row["source"].lower(), oid)
+            windows.add((row["open"], row["close"]))
+        self.assertEqual(windows, {("08:00", "17:00")})
+        self.assertEqual(
+            sorted(o for o, r in self.venues.items() if r["place_id"] == "tw-151"),
+            sorted(self.IDS))
+
+    def test_each_tw151_row_gates_the_same_hours(self):
+        # Same verdict table for all three ids: the gate is per opportunity_id,
+        # so an entry present for P01 but missing for P03 leaves P03 ungated.
+        for oid in self.IDS:
+            gates = eb.policy_gates_for(oid, {}, self.venues)
+            self.assertEqual([g["metric"] for g in gates],
+                             [eb.VENUE_HOURS_METRIC], oid)
+            gate = gates[0]
+            for hour in (6, 7):
+                self.assertEqual(
+                    eb.phys_gate_verdict(gate, {}, local_start_min=hour * 60)[0],
+                    "FAIL", (oid, hour))
+            for hour in (8, 12, 16):
+                self.assertEqual(
+                    eb.phys_gate_verdict(gate, {}, local_start_min=hour * 60)[0],
+                    "PASS", (oid, hour))
+            for hour in (17, 23):
+                self.assertEqual(
+                    eb.phys_gate_verdict(gate, {}, local_start_min=hour * 60)[0],
+                    "FAIL", (oid, hour))
 
     def test_gate_opens_12_to_17_and_closes_from_18(self):
         gate = eb.policy_gates_for("tw-151-P01", {}, self.venues)[0]

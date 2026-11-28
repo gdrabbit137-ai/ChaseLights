@@ -1998,9 +1998,17 @@ def policy_gates_for(opportunity_id, season_windows, venue_hours):
 #   (civil light, sun > -6 deg), so a second gate would duplicate an owner
 #   window; alpenglow/sunset/sunrise/golden_hour/blue_hour_city are themselves
 #   light-window genres; the rest are night subjects by definition.
-# Genres with no template in data/v2/templates (snow_ice, tidal, drift_ice)
-# are NOT gated: their semantics are unmodelled here and inventing a daylight
-# claim for them would exceed this ticket.
+# RESIDUAL — THIS LIST IS NOT EXHAUSTIVE OF THE CATALOGUE. Three genre values
+# appear in the shipped opportunity set but have NO template document under
+# data/v2/templates: `drift_ice`, `snow_ice` and `tidal` (11 opportunities
+# across them at the time of writing: 1 drift_ice, 6 snow_ice, 4 tidal). They
+# are UNGATED by design, not by oversight: their subjects are not modelled
+# here, and asserting "this subject is only photographable in daylight" for an
+# unmodelled genre would invent a physics claim beyond this ticket. A future
+# reader must therefore NOT read DAYLIGHT_ONLY_GENRES as "every genre whose
+# subject needs light" — it is exactly the nine genres enumerated above.
+# Adding one of the three later is a template + ticket decision, and it must
+# come with the corresponding DAYLIGHT_ONLY_GENRES edit and test.
 # ---------------------------------------------------------------------------
 DAYLIGHT_GATE_METRIC = "daylight_subject_window"
 
